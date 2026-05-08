@@ -107,6 +107,86 @@ theorem NuclearRankOnePrefixLedger_tail_readback
     (And.intro tailUnary
       (And.intro ledger.right.right.right.left ledger.right.right.right.right))
 
+theorem NuclearCompactOperator_banach_transport_surface
+    {source source' target target' compactRow transportedEndpoint : BHist} :
+    BanachSingletonCarrier source -> BanachSingletonCarrier target ->
+      OperatorIdealTraceClassCarrier compactRow -> hsame source source' -> hsame target target' ->
+        Cont (append source' target') compactRow transportedEndpoint ->
+          UnaryHistory transportedEndpoint ∧ OperatorIdealTraceClassCarrier compactRow ∧
+            hsame transportedEndpoint (append (append source target) compactRow) := by
+  intro sourceCarrier targetCarrier compactCarrier sameSource sameTarget endpointCont
+  have sourceUnary : UnaryHistory source :=
+    unary_transport unary_empty (hsame_symm sourceCarrier.left)
+  have targetUnary : UnaryHistory target :=
+    unary_transport unary_empty (hsame_symm targetCarrier.left)
+  have sourceUnary' : UnaryHistory source' := unary_transport sourceUnary sameSource
+  have targetUnary' : UnaryHistory target' := unary_transport targetUnary sameTarget
+  have sourceTargetUnary : UnaryHistory (append source' target') :=
+    unary_cont_closed sourceUnary' targetUnary' (cont_intro rfl)
+  have compactUnary : UnaryHistory compactRow :=
+    (OperatorIdealTraceClass_downstream_boundary_readback compactCarrier).left
+  have endpointUnary : UnaryHistory transportedEndpoint :=
+    unary_cont_closed sourceTargetUnary compactUnary endpointCont
+  have endpointSame : hsame transportedEndpoint (append (append source target) compactRow) := by
+    cases sameSource
+    cases sameTarget
+    exact endpointCont
+  exact And.intro endpointUnary (And.intro compactCarrier endpointSame)
+
+theorem NuclearLedgerExactness_obligation
+    {index coefficient vector partialSum tail operator endpoint : BHist} :
+    NuclearRankOnePrefixLedger index coefficient vector partialSum tail ->
+      OperatorIdealTraceClassCarrier operator -> Cont operator tail endpoint ->
+        UnaryHistory operator ∧ UnaryHistory tail ∧ UnaryHistory endpoint ∧
+          (exists support : BHist,
+            UnaryHistory support ∧ Cont support BHist.Empty operator ∧
+              hsame operator support) ∧
+            Cont coefficient vector partialSum ∧ Cont index partialSum tail ∧
+              Cont operator tail endpoint := by
+  intro ledger operatorCarrier endpointCont
+  have ledgerRows := NuclearRankOnePrefixLedger_tail_readback ledger
+  have operatorRows := OperatorIdealTraceClass_downstream_boundary_readback operatorCarrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed operatorRows.left ledgerRows.right.left endpointCont
+  exact And.intro operatorRows.left
+    (And.intro ledgerRows.right.left
+      (And.intro endpointUnary
+        (And.intro operatorRows.right
+          (And.intro ledgerRows.right.right.left
+            (And.intro ledgerRows.right.right.right endpointCont)))))
+
+theorem NuclearDependencyBoundary_obligation
+    {source target operator prefixHist index coefficient vector partialSum tail endpoint : BHist} :
+    BanachSingletonCarrier source -> BanachSingletonCarrier target ->
+      OperatorIdealTraceClassCarrier operator ->
+        NuclearRankOnePrefixLedger index coefficient vector partialSum tail ->
+          Cont source operator prefixHist -> Cont prefixHist tail endpoint ->
+            UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory operator ∧
+              UnaryHistory prefixHist ∧ UnaryHistory tail ∧ UnaryHistory endpoint ∧
+                MetricDistanceWitness source BHist.Empty BHist.Empty ∧
+                  MetricDistanceWitness target BHist.Empty BHist.Empty ∧
+                    Cont source operator prefixHist ∧ Cont prefixHist tail endpoint := by
+  intro sourceCarrier targetCarrier operatorCarrier ledger prefixCont endpointCont
+  have sourceUnary : UnaryHistory source :=
+    unary_transport unary_empty (hsame_symm sourceCarrier.left)
+  have targetUnary : UnaryHistory target :=
+    unary_transport unary_empty (hsame_symm targetCarrier.left)
+  have operatorRows := OperatorIdealTraceClass_downstream_boundary_readback operatorCarrier
+  have prefixUnary : UnaryHistory prefixHist :=
+    unary_cont_closed sourceUnary operatorRows.left prefixCont
+  have ledgerRows := NuclearRankOnePrefixLedger_tail_readback ledger
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed prefixUnary ledgerRows.right.left endpointCont
+  exact And.intro sourceUnary
+    (And.intro targetUnary
+      (And.intro operatorRows.left
+        (And.intro prefixUnary
+          (And.intro ledgerRows.right.left
+            (And.intro endpointUnary
+                (And.intro sourceCarrier.right
+                  (And.intro targetCarrier.right
+                    (And.intro prefixCont endpointCont))))))))
+
 theorem NuclearRankOnePrefixLedger_semantic_name_certificate
     {index coefficient vector partialSum tail : BHist} :
     NuclearRankOnePrefixLedger index coefficient vector partialSum tail ->
