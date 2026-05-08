@@ -53,3 +53,48 @@ The shared endpoint condition is part of the admission rule in \autoref{def:atiy
 
 It remains to identify the public classifier row. The definition assigns $\eta$ to the predicate $\mathsf{ASIndexPair}_{m,D,\sigma_D}(\alpha,\theta,\tau)$, whose three clauses are exactly the spectral analytic-index read, the Chern-Weil topological-index read, and the comparison $\hsame(\alpha,\tau)$. Coverage follows by projecting $\eta$ from the accepted packet. Soundness follows because any public index-pairing comparison must unpack this displayed $\eta$ and hence must supply those two dependency reads and that endpoint comparison. Exactness follows from the tuple inventory: after the listed projections and the provenance row $\rho$, the packet contains no field from which an additional analytic, topological, or host-theoretic equality could be read.
 \end{proof}
+
+\begin{theorem}[Atiyah-Singer index-pairing provenance exactness]
+\label{thm:atiyahsinger-index-pairing-provenance-exactness}
+Let $\mathcal{A}$ be an accepted packet of
+\autoref{def:atiyahsinger-index-pairing-carrier-packet}. Every public read of
+the analytic-index endpoint $\alpha$, the Chern-Weil topological endpoint
+$\tau$, the symbol row $\sigma_D$, the shared closed-manifold endpoint $m$, and
+the comparison row $\eta$ factors through the displayed provenance row $\rho$,
+the dependency packets $\mathcal{S}$ and $\mathcal{W}$, and the endpoint
+comparison $\hsame(\alpha,\tau)$.
+
+Equivalently, the exact public inventory of the packet is the spectral
+analytic-index read
+$\mathsf{SpecAnalyticIndex}_{m,D}(\mathcal{S},\alpha)$, the Chern-Weil
+topological-index read
+$\mathsf{CWTopologicalIndex}_{m,\sigma_D}(\mathcal{W},\theta,\tau)$, the shared
+symbol and closed-manifold rows, the displayed comparison $\hsame(\alpha,\tau)$,
+and the $\Pkg$ provenance recorded by $\rho$. The packet exports no host
+Fredholm index equality, coordinate characteristic form equality, ambient
+cohomology quotient, or uncarried equality between analytic and topological
+models.
+\end{theorem}
+\begin{proof}
+Project the accepted tuple. Its fields give exactly $m$, $D$, $\sigma_D$,
+$\mathcal{S}$, $\alpha$, $\mathcal{W}$, $\theta$, $\tau$, $\eta$, and $\rho$,
+with the shared endpoint condition imposed before the classifier row is read.
+
+Apply \autoref{thm:atiyahsinger-index-pairing-carrier-surface}. It identifies
+the classifier row $\eta$ with
+$\mathsf{ASIndexPair}_{m,D,\sigma_D}(\alpha,\theta,\tau)$, so every public
+comparison read must pass through the spectral analytic-index read, the
+Chern-Weil topological-index read, and $\hsame(\alpha,\tau)$.
+
+The endpoint and symbol reads are then covered by the same tuple inventory.
+The analytic endpoint $\alpha$ is read only through the dependency packet
+$\mathcal{S}$, the topological endpoint $\tau$ only through $\mathcal{W}$, and
+the shared rows $m$ and $\sigma_D$ are the displayed coordinates used by both
+dependency clauses.
+
+Finally, the provenance row $\rho$ records precisely the $\Pkg$ source of these
+dependency, endpoint, symbol, and comparison rows. Since the packet has no
+field beyond the projected inventory, no host Fredholm equality, coordinate
+form equality, ambient cohomology quotient, or uncarried analytic-topological
+identity can be exported by a public read of $\mathcal{A}$.
+\end{proof}
