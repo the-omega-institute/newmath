@@ -67,6 +67,76 @@ theorem QuantumStateBHistCarrier_hilbert_source_boundary [AskSetup] [PackageSetu
           (And.intro phaseRow
             (And.intro endpointRow pkgSig)))))
 
+theorem QuantumStateBHistCarrier_global_phase_stability [AskSetup] [PackageSetup]
+    {hilbert projective vector vector' norm norm' phase phase' projectiveEndpoint
+      projectiveEndpoint' hilbertLedger hilbertLedger' projectiveLedger projectiveLedger'
+      provenance endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuantumStateBHistCarrier hilbert projective vector norm phase projectiveEndpoint
+        hilbertLedger projectiveLedger provenance endpoint bundle pkg ->
+      hsame vector vector' ->
+        hsame norm norm' ->
+          hsame projectiveEndpoint projectiveEndpoint' ->
+            Cont hilbert vector' hilbertLedger' ->
+              Cont projective projectiveEndpoint' projectiveLedger' ->
+                Cont vector' norm' phase' ->
+                  Cont provenance (append hilbertLedger' projectiveLedger') endpoint' ->
+                    PkgSig bundle endpoint' pkg ->
+                      QuantumStateBHistCarrier hilbert projective vector' norm' phase'
+                          projectiveEndpoint' hilbertLedger' projectiveLedger' provenance
+                          endpoint' bundle pkg ∧
+                        hsame phase phase' ∧ hsame hilbertLedger hilbertLedger' ∧
+                          hsame projectiveLedger projectiveLedger' ∧
+                            hsame endpoint endpoint' := by
+  intro carrier sameVector sameNorm sameProjectiveEndpoint hilbertLedgerRow'
+    projectiveLedgerRow' phaseRow' endpointRow' pkgSig'
+  have vectorUnary' : UnaryHistory vector' :=
+    unary_transport carrier.right.right.left sameVector
+  have normUnary' : UnaryHistory norm' :=
+    unary_transport carrier.right.right.right.left sameNorm
+  have phaseUnary' : UnaryHistory phase' :=
+    unary_cont_closed vectorUnary' normUnary' phaseRow'
+  have projectiveEndpointUnary' : UnaryHistory projectiveEndpoint' :=
+    unary_transport carrier.right.right.right.right.right.left sameProjectiveEndpoint
+  have hilbertLedgerUnary' : UnaryHistory hilbertLedger' :=
+    unary_cont_closed carrier.left vectorUnary' hilbertLedgerRow'
+  have projectiveLedgerUnary' : UnaryHistory projectiveLedger' :=
+    unary_cont_closed carrier.right.left projectiveEndpointUnary' projectiveLedgerRow'
+  have samePhase : hsame phase phase' :=
+    cont_respects_hsame sameVector sameNorm
+      carrier.right.right.right.right.right.right.right.right.right.left phaseRow'
+  have sameHilbertLedger : hsame hilbertLedger hilbertLedger' :=
+    cont_respects_hsame (hsame_refl hilbert) sameVector
+      carrier.right.right.right.right.right.right.right.left hilbertLedgerRow'
+  have sameProjectiveLedger : hsame projectiveLedger projectiveLedger' :=
+    cont_respects_hsame (hsame_refl projective) sameProjectiveEndpoint
+      carrier.right.right.right.right.right.right.right.right.left projectiveLedgerRow'
+  have sameCombinedLedger :
+      hsame (append hilbertLedger projectiveLedger) (append hilbertLedger' projectiveLedger') :=
+    congrArg (fun row : BHist => append row projectiveLedger) sameHilbertLedger |>.trans
+      (congrArg (fun row : BHist => append hilbertLedger' row) sameProjectiveLedger)
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameCombinedLedger
+      carrier.right.right.right.right.right.right.right.right.right.right.left endpointRow'
+  have carrier' :
+      QuantumStateBHistCarrier hilbert projective vector' norm' phase' projectiveEndpoint'
+        hilbertLedger' projectiveLedger' provenance endpoint' bundle pkg :=
+    And.intro carrier.left
+      (And.intro carrier.right.left
+        (And.intro vectorUnary'
+          (And.intro normUnary'
+            (And.intro phaseUnary'
+              (And.intro projectiveEndpointUnary'
+                (And.intro carrier.right.right.right.right.right.right.left
+                  (And.intro hilbertLedgerRow'
+                    (And.intro projectiveLedgerRow'
+                      (And.intro phaseRow'
+                        (And.intro endpointRow' pkgSig'))))))))))
+  exact And.intro carrier'
+    (And.intro samePhase
+      (And.intro sameHilbertLedger
+        (And.intro sameProjectiveLedger sameEndpoint)))
+
 theorem QuantumStateBHistCarrier_projective_phase_classifier [AskSetup] [PackageSetup]
     {hilbert projective vector norm phase projectiveEndpoint hilbertLedger projectiveLedger
       provenance endpoint : BHist}
