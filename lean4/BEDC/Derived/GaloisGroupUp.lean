@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -12,6 +13,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -101,5 +103,55 @@ theorem GaloisGroupAutomorphismActionPacket_composition_closure
               (And.intro packet.right.right.right.right.right.left
                 (And.intro actionRow (And.intro classifierRow ledgerRow))))))))
     (And.intro sameComposition (And.intro sameClassifier sameLedger))
+
+theorem GaloisGroupAutomorphismActionCompositionPacket_group_law_semantic_name_certificate
+    {extension group fixed action composition inverse classifier provenance ledger : BHist} :
+    GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition inverse
+        classifier provenance ledger ->
+      SemanticNameCert
+        (fun l : BHist => exists c : BHist,
+          GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition
+            inverse c provenance l)
+        (fun l : BHist => exists c : BHist,
+          GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition
+            inverse c provenance l)
+        (fun l : BHist => exists c : BHist,
+          GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition
+            inverse c provenance l)
+        (fun left right : BHist =>
+          (exists lc : BHist,
+            GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition
+              inverse lc provenance left) /\
+            (exists rc : BHist,
+              GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition
+                inverse rc provenance right) /\
+              hsame left right) := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro ledger (Exists.intro classifier packet)
+      equiv_refl := by
+        intro h source
+        exact And.intro source (And.intro source (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified _source
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
 
 end BEDC.Derived.GaloisGroupUp
