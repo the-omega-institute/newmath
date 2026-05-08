@@ -51,6 +51,8 @@ Completeness is the reverse reading. Any visible row accepted by the unitary car
 \begin{theorem}[UnitaryGroup carrier and classifier obligation]\label{thm:unitarygroup-carrier-classifier-obligation}
 The carrier for $\UnitaryGroupUp$ is the $\HilbertUp$ carrier together with the $\LieGroupUp$ automorphism rows whose source and target Hilbert carriers are classifier-compatible. Its classifier is inherited componentwise from the $\HilbertUp$ carrier classifier and the $\LieGroupUp$ automorphism classifier, restricted to histories that preserve the displayed Hilbert source and target rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.UnitaryGroupUp.UnitaryGroupCarrier\_classifier\_obligation}
+\leanvariant{BEDC.Derived.UnitaryGroupUp.UnitaryGroupCarrierClassifier\_obligation}
 \begin{proof}
 Unpack the carrier, classifier, source, and dependency fields of the ten-field roadmap template. The introduction supplies exactly the two certificate dependencies: $\NameCert_{\HilbertUp}$ for Hilbert carriers and classifiers, and $\NameCert_{\LieGroupUp}$ for automorphism rows and their group surface.
 
@@ -62,6 +64,7 @@ The classifier field is then the restricted componentwise classifier. The Hilber
 \begin{theorem}[UnitaryGroup operation stability obligation]\label{thm:unitarygroup-operation-stability-obligation}
 The product, inverse, and identity rows of $\UnitaryGroupUp$ are the $\LieGroupUp$ operation rows restricted to the carrier of \autoref{thm:unitarygroup-carrier-classifier-obligation}. Product, inverse, and identity witnesses are stable under the displayed classifier because their source, target, and result rows remain Hilbert-carrier-preserving automorphisms.
 \end{theorem}
+\leanchecked{BEDC.Derived.UnitaryGroupUp.UnitaryGroupOperation\_stability\_obligation}
 \begin{proof}
 Project the operation fields of the ten-field roadmap template after the carrier has been fixed. The only available product, inverse, and identity operations are the rows exposed by $\NameCert_{\LieGroupUp}$.
 
