@@ -126,4 +126,37 @@ theorem ProbSpaceMonotoneEvent_bounds {event gap middle rest omega one : BHist} 
     (And.intro middleOneLE
       (And.intro eventOneLE (And.intro middleUnary omegaUnary)))
 
+theorem ProbSpacePublicEventPacket_public_certificate_export
+    {omega one event complement sum omega' one' event' complement' sum' : BHist} :
+    ProbSpacePublicEventPacket omega one event complement sum ->
+    hsame omega omega' ->
+    hsame one one' ->
+    hsame event event' ->
+    hsame complement complement' ->
+    hsame sum sum' ->
+      hsame sum one ∧ PreorderPrefixLE event one ∧
+        ProbSpacePublicEventPacket omega' one' event' complement' sum' ∧ hsame sum' one' ∧
+          PreorderPrefixLE event' one' := by
+  intro packet sameOmega sameOne sameEvent sameComplement sameSum
+  have bounds :
+      hsame sum one ∧ UnaryHistory sum ∧ Cont event complement sum ∧
+        PreorderPrefixLE event one :=
+    ProbSpacePublicEventPacket_normalization_bounds packet
+  have transported :
+      ProbSpacePublicEventPacket omega' one' event' complement' sum' ∧
+        UnaryHistory event' ∧ UnaryHistory complement' ∧ Cont event' complement' sum' ∧
+          hsame omega' one' ∧ hsame omega' sum' :=
+    ProbSpacePublicEventPacket_transport_rows sameOmega sameOne sameEvent sameComplement sameSum
+      packet
+  have transportedBounds :
+      hsame sum' one' ∧ UnaryHistory sum' ∧ Cont event' complement' sum' ∧
+        PreorderPrefixLE event' one' :=
+    ProbSpacePublicEventPacket_normalization_bounds transported.left
+  exact
+    ⟨bounds.left,
+      bounds.right.right.right,
+      transported.left,
+      transportedBounds.left,
+      transportedBounds.right.right.right⟩
+
 end BEDC.Derived.ProbSpaceUp
