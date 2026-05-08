@@ -84,4 +84,27 @@ theorem EllipticCurveCarrierPacket_basepoint_stability_obligation
               (And.intro packet.right.right.right.right.right.left provenanceCont)))))
   · exact sameProvenance
 
+theorem EllipticCurveCarrierPacket_projective_genus_one_obligation
+    {field projective coeffs cubic smooth basePoint fieldLedger projectiveLedger provenance :
+      BHist} :
+    EllipticCurveCarrierPacket field projective coeffs cubic smooth basePoint fieldLedger
+        projectiveLedger provenance ->
+      UnaryHistory cubic ->
+        UnaryHistory smooth ->
+          UnaryHistory projective ∧ UnaryHistory projectiveLedger ∧
+            UnaryHistory provenance ∧ Cont coeffs cubic projectiveLedger ∧
+              Cont smooth basePoint provenance := by
+  intro packet cubicUnary smoothUnary
+  have projectiveLedgerUnary : UnaryHistory projectiveLedger :=
+    unary_cont_closed packet.right.right.left cubicUnary
+      packet.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed smoothUnary packet.right.right.right.left
+      packet.right.right.right.right.right.right
+  exact And.intro packet.right.left
+    (And.intro projectiveLedgerUnary
+      (And.intro provenanceUnary
+        (And.intro packet.right.right.right.right.right.left
+          packet.right.right.right.right.right.right)))
+
 end BEDC.Derived.EllipticCurveUp

@@ -249,6 +249,38 @@ theorem ChernWeilCarrierEnvelope_derham_class_exactness_obligation
   exact And.intro classRowUnary
     (And.intro classRowCont classRowProvenanceReadback)
 
+theorem ChernWeilCarrierEnvelope_closed_form_derham_class_obligation
+    {curvature derham polynomial connectionLedger characteristic provenance endpoint representative
+      classRow : BHist} :
+    ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic provenance
+        endpoint ->
+      UnaryHistory representative ->
+        Cont endpoint representative classRow ->
+          UnaryHistory characteristic ∧ UnaryHistory provenance ∧ UnaryHistory endpoint ∧
+            UnaryHistory classRow ∧ hsame characteristic (append curvature polynomial) ∧
+              hsame provenance (append characteristic derham) ∧
+                hsame endpoint (append provenance connectionLedger) ∧
+                  hsame classRow (append endpoint representative) ∧
+                    hsame classRow (append (append provenance connectionLedger) representative) := by
+  intro envelope representativeUnary classRowCont
+  have sourceRows :=
+    ChernWeilSourceEnvelope_carrier_obligation envelope
+  have classRowUnary : UnaryHistory classRow :=
+    unary_cont_closed sourceRows.right.right.left representativeUnary classRowCont
+  have classRowSourceReadback :
+      hsame classRow (append (append provenance connectionLedger) representative) :=
+    hsame_trans classRowCont
+      (congrArg (fun row : BHist => append row representative)
+        sourceRows.right.right.right.right.right)
+  exact And.intro sourceRows.left
+    (And.intro sourceRows.right.left
+      (And.intro sourceRows.right.right.left
+        (And.intro classRowUnary
+          (And.intro sourceRows.right.right.right.left
+            (And.intro sourceRows.right.right.right.right.left
+              (And.intro sourceRows.right.right.right.right.right
+                (And.intro classRowCont classRowSourceReadback)))))))
+
 theorem ChernWeilCarrierPacket_curvature_polynomial_stability_obligation
     {curvature curvature' polynomial endpoint endpoint' : BHist} :
     UnaryHistory curvature -> UnaryHistory polynomial -> hsame curvature curvature' ->
@@ -497,5 +529,24 @@ theorem ChernWeilSourceEnvelope_characteristic_ledger_exactness
   exact And.intro transported
     (And.intro provenanceOriginal
       (And.intro classRowOriginal classRowTransported))
+
+def ChernWeilCharacteristicClassClassifier
+    (curvature curvature' derham derham' provenance provenance' connectionLedger
+      connectionLedger' classRow classRow' : BHist) : Prop :=
+  ChernWeilSourceEnvelope curvature derham provenance connectionLedger classRow ∧
+    ChernWeilSourceEnvelope curvature' derham' provenance' connectionLedger' classRow' ∧
+      hsame curvature curvature' ∧ hsame derham derham' ∧ hsame classRow classRow'
+
+theorem ChernWeilCharacteristicClassClassifier_provenance_transport
+    {curvature curvature' derham derham' provenance provenance' connectionLedger
+      connectionLedger' classRow classRow' : BHist} :
+    ChernWeilCharacteristicClassClassifier curvature curvature' derham derham' provenance
+        provenance' connectionLedger connectionLedger' classRow classRow' ->
+      hsame provenance provenance' ∧ hsame classRow classRow' := by
+  intro classifier
+  have provenanceSame : hsame provenance provenance' :=
+    cont_respects_hsame classifier.right.right.left classifier.right.right.right.left
+      classifier.left.right.right.right.left classifier.right.left.right.right.right.left
+  exact And.intro provenanceSame classifier.right.right.right.right
 
 end BEDC.Derived.ChernWeilUp
