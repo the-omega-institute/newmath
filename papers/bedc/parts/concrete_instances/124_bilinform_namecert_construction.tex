@@ -83,17 +83,75 @@ The bilinearity, exchange, and nondegeneracy rows then give the algebraic obliga
 Finally, ledger exactness says that every public pairing output arises from the finite pairing ledger and every ledger row has a public scalar-output classifier. This is the precise boundary exported to Clifford, symplectic, and inner-product certificates.
 \end{proof}
 
+\begin{definition}[BilinForm BHist obligation surface]
+\label{def:bilinform-bhist-obligation-surface}
+A $\BilinFormUp$ $\mathsf{BHist}$ obligation surface is a package
+$$
+\mathcal{B}=(\mathcal{M},\mathcal{V},\ell,r,s,a,\nu,\eta_{\mathcal{M}},\eta_{\mathcal{V}},\lambda)
+$$
+where $\mathcal{M}$ is the $\ModuleUp$ source certificate, $\mathcal{V}$ is the $\VecSpaceUp$ vector-source certificate, $\ell:\mathsf{BHist}$ and $r:\mathsf{BHist}$ are the hidden left and right vector-source rows, $s:\mathsf{BHist}$ is the scalar-action provenance row, $a:\mathsf{BHist}$ is the additive provenance row, $\nu:\mathsf{BHist}$ is the pairing endpoint row, $\eta_{\mathcal{M}}$ and $\eta_{\mathcal{V}}$ are the displayed $\NameCert$ witnesses for the two sources, and $\lambda$ is the exact ledger binding the left source, right source, scalar actions, additive actions, and pairing endpoint to those two source certificates.
+
+The bilinear pairing row is the $\mathsf{BHist}$-indexed predicate $\mathsf{BilinPair}_{\mathcal{B}}(\ell,r,\nu)$ saying that the endpoint $\nu$ is generated from the two carried vector-source rows by the displayed scalar-action and additive ledgers. The classifier on two packages is hsame-stable endpoint agreement:
+$$
+\mathsf{BilinCls}(\mathcal{B},\mathcal{B}') :=
+\hsame(\ell,\ell')\land\hsame(r,r')\land\hsame(\nu,\nu')
+$$
+together with the requirement that the transported endpoint comparison remains within the same $\mathsf{BilinPair}$ row under the $\ModuleUp$ and $\VecSpaceUp$ source classifiers. The exported ledger is exactly the hidden left vector-source provenance, hidden right vector-source provenance, scalar-action provenance, additive provenance, and pairing-endpoint provenance; it exports no host bilinear map, quotient representative, matrix coordinate system, standard bridge, or Lean target.
+\end{definition}
+
 \section{The certificate}
 \label{sec:bilinform-certificate}
+
+\begin{theorem}[BilinForm carrier and classifier obligations]
+\label{thm:bilinform-carrier-classifier-obligations}
+For the surface of \autoref{def:bilinform-bhist-obligation-surface}, carrier transport, bilinearity provenance, and classifier reflexivity, symmetry, and transitivity are explicit certificate obligations. Carrier transport must send accepted $\mathsf{BilinPair}_{\mathcal{B}}(\ell,r,\nu)$ rows to accepted rows whenever the $\ModuleUp$ and $\VecSpaceUp$ source certificates transport the two vector-source rows and the $\Cont$ scope transports the scalar-action and additive provenance. Bilinearity must be recorded by four $\mathsf{BHist}$ rows: left scalar action, right scalar action, left additive composition, and right additive composition, each transporting its pairing endpoint through the same classifier. The classifier must be reflexive, symmetric, and transitive by the componentwise $\hsame$ rows on $\ell$, $r$, and $\nu$, with the transported endpoint still scoped by the same source $\NameCert$ witnesses.
+\end{theorem}
+\begin{proof}
+Project the two source certificates from the carrier package. The $\VecSpaceUp$ row licenses the left and right vector-source histories, while the $\ModuleUp$ row licenses scalar action and addition on those histories.
+
+Carrier transport is then componentwise. Use the source $\NameCert$ rows to keep the transported vector histories inside the accepted sources, and use $\Cont$ scope to keep the scalar-action and additive ledgers attached to the transported endpoint row. The pairing predicate is defined only from those displayed rows, so the transported package remains an accepted $\mathsf{BilinPair}$ row.
+
+Bilinearity is read from the same provenance. Left scalar action, right scalar action, left additive composition, and right additive composition are all finite $\Cont$ ledgers over the module source, and the endpoint of each ledger is classified by the displayed $\mathsf{BilinCls}$ relation.
+
+Reflexivity, symmetry, and transitivity of the classifier are the corresponding $\hsame$ operations on the left source, right source, and endpoint components. Repacking these three comparisons with the transported source certificates gives the required classifier rows without any ambient bilinear-map equality.
+\end{proof}
+
+\begin{theorem}[BilinForm symmetry and antisymmetry obligations]
+\label{thm:bilinform-symmetry-antisymmetry-obligations}
+The same $\mathsf{BHist}$ pairing carrier supports two alternative certificate rows. A symmetric $\BilinFormUp$ row must carry, for every accepted pair $(\ell,r)$, a transported endpoint comparison between $\mathsf{BilinPair}_{\mathcal{B}}(\ell,r,\nu)$ and the swapped row $\mathsf{BilinPair}_{\mathcal{B}}(r,\ell,\nu')$ with $\hsame(\nu,\nu')$. An antisymmetric $\BilinFormUp$ row must carry the same swapped comparison together with the $\ModuleUp$ additive inverse provenance certifying that $\nu'$ is the inverse endpoint of $\nu$ under the module-addition classifier.
+
+These rows are alternatives over the same carrier and classifier; the certificate may expose either symmetry, antisymmetry, both when the inverse row is classified with the endpoint row, or neither when only bare bilinearity is being recorded.
+\end{theorem}
+\begin{proof}
+For the symmetric row, swap the two vector-source histories and use the $\VecSpaceUp$ source certificate to keep both endpoints accepted. The pairing endpoint comparison is exactly the displayed $\hsame(\nu,\nu')$ row, transported through the same $\Cont$ scope that generated the original scalar-action and additive ledgers.
+
+For the antisymmetric row, perform the same swap, then read the inverse endpoint through the additive structure supplied by $\ModuleUp$. The ledger records the original endpoint, the swapped endpoint, and the additive inverse provenance; classifier transport turns this provenance into the displayed endpoint comparison.
+
+Both rows use the carrier of \autoref{def:bilinform-bhist-obligation-surface}. The distinction is only which certificate row is required at the swapped endpoint, so no second pairing carrier or host coordinate presentation is introduced.
+\end{proof}
+
+\begin{theorem}[BilinForm nondegeneracy ledger and exactness obligations]
+\label{thm:bilinform-nondegeneracy-ledger-exactness-obligations}
+The nondegeneracy readback obligation says that a carried left vector-source row $\ell$ is classified with the zero vector row of $\VecSpaceUp$ whenever every accepted right vector-source row $r$ has pairing endpoint classified with the zero scalar endpoint through $\mathsf{BilinPair}_{\mathcal{B}}(\ell,r,\nu)$. The right readback obligation is the symmetric statement with left and right exchanged.
+
+The ledger-boundary obligation says that every exported witness used by carrier transport, bilinearity, symmetry, antisymmetry, or nondegeneracy is one of the two source $\NameCert$ rows, the left vector-source row, the right vector-source row, the scalar-action provenance, the additive provenance, the endpoint row, or the $\Cont$ scope connecting those rows. The exactness obligation says conversely that every row in that boundary repacks as part of the public $\BilinFormUp$ obligation surface and that no host bilinear map, basis, matrix, quotient representative, Clifford relation, or standard bridge row is exported.
+\end{theorem}
+\begin{proof}
+For left nondegeneracy, assume the displayed zero-endpoint comparison for every accepted right source row. Apply the $\VecSpaceUp$ zero classifier to the right argument chosen by the nondegeneracy readback row and use the $\ModuleUp$ scalar-action and additive provenance to read the pairing endpoint as a finite $\Cont$ ledger. The readback row then classifies $\ell$ with the zero vector row of the vector source. The right readback repeats the same construction with the left and right source rows exchanged.
+
+The ledger boundary is obtained by projection from the package of \autoref{def:bilinform-bhist-obligation-surface}. Each carrier, classifier, symmetry, antisymmetry, bilinearity, and nondegeneracy witness consumes only one of the projected rows or one $\Cont$ scope step connecting them.
+
+Exactness is the reverse packaging. Any boundary row listed above is already a field of the obligation surface or a source-certificate row named by that field, so it repacks into the public $\BilinFormUp$ certificate ledger. Rows outside the boundary are not exported, which leaves Clifford construction, coordinate matrices, and standard bridges to their own certificates.
+\end{proof}
 
 \closureat{BilinFormUp}{obligationStr}
 
 \begin{closurestatus}{\BilinFormUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The chapter binds the $\BilinFormUp$ carrier, classifier, bilinearity, symmetry-or-antisymmetry, nondegeneracy, stability, ledger, exactness, and dependency rows as explicit paper obligations.}
+  \scopeclosed{The obligation surface binds the $\mathsf{BHist}$ pairing carrier, hsame-stable classifier, bilinearity provenance, symmetry and antisymmetry alternatives, nondegeneracy readback, ledger boundary, exactness, and dependency rows over $\NameCert_{\ModuleUp}$ and $\NameCert_{\VecSpaceUp}$.}
   \formalstatus{\unformalizedV}
   \leantarget{}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close scoped paper proof, a public bilinear-form object, a standard bridge, or a Lean verification target.}
-  \upgradepath{Scoped closure requires proofs that the displayed $\BilinFormUp$ obligations are jointly sufficient for every geometry consumer named in this chapter.}
+  \notclaimed{This chapter does not close a public bilinear-form object, coordinate-matrix presentation, Clifford relation, standard bridge, or Lean verification target.}
+  \upgradepath{Scoped closure requires paper proofs that discharge the displayed carrier, classifier, bilinearity, symmetry or antisymmetry, nondegeneracy, stability, ledger, exactness, and ledger-boundary rows.}
 \end{closurestatus}
