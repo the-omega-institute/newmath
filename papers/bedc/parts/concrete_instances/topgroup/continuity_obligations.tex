@@ -1,0 +1,150 @@
+\begin{theorem}[TopGroupUp inverse Cont ledger soundness]
+\label{thm:topgroup-inverse-cont-ledger-soundness}
+For an accepted $\TopGroupUp$ packet, the inverse-neighbourhood continuity row
+is sound exactly when its input endpoint, inverse endpoint, target
+neighbourhood row, componentwise $\hsame$ transports, and finite $\Cont$ ledger
+entry are all projected from the shared packet of
+\autoref{def:topgroup-bhist-carrier}. The row has no additional topology carrier,
+group inverse source, or external continuity predicate.
+\end{theorem}
+\begin{proof}
+For soundness, unpack the shared packet using
+\autoref{thm:topgroup-source-fiber-product-carrier}. The projected rows include
+the group source, topology source, inverse graph, target neighbourhood row,
+endpoint $\hsame$ transports, and the finite $\Cont$ ledger.
+
+Apply \autoref{thm:topgroup-inverse-neighbourhood-transport}. The input endpoint
+and inverse endpoint move componentwise along the displayed $\hsame$ rows, while
+the topology source carries the target neighbourhood and the ledger records the
+continuity step.
+
+For the converse direction, start from an accepted public inverse-continuity
+row. By \autoref{thm:topgroup-continuity-ledger-coverage}, every such row is one
+of the inverse-neighbourhood entries in the same finite $\Cont$ ledger.
+
+Apply \autoref{thm:topgroup-public-consumer-minimality}. Since the consumer
+surface exposes only the displayed source certificates, inverse graph, endpoint
+transports, finite ledger, and provenance row, the inverse-continuity row is
+sound exactly through those packet projections and no outside datum is present.
+\end{proof}
+
+\begin{theorem}[TopGroupUp source compatibility obligation]
+\label{thm:topgroup-source-compatibility-obligation}
+Every accepted $\TopGroupUp$ root surface reads its displayed $\GroupUp$ and
+$\TopologyUp$ source rows from the same $\mathsf{BHist}$ carrier, the same
+carrier-aware $\hsame$ endpoint classifier, and the same $\Pkg$ provenance
+packet of \autoref{def:topgroup-bhist-carrier}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:topgroup-source-fiber-product-carrier}. It projects the
+group source, topology source, product graph, inverse graph, neighbourhood row,
+endpoint transports, finite continuity ledger, and provenance row from one
+shared carrier packet.
+
+Use \autoref{thm:topgroup-public-consumer-minimality} to read this packet from
+the public side. A downstream consumer sees only the displayed source
+certificates, $\hsame$ transports, finite $\Cont$ ledger, and $\Pkg$ provenance,
+so the two source rows cannot be separated into different carriers.
+\end{proof}
+
+\begin{theorem}[TopGroupUp operation continuity obligation]
+\label{thm:topgroup-operation-continuity-obligation}
+For an accepted $\TopGroupUp$ root surface, the operation-continuity obligations
+exported by the carrier are exactly multiplication continuity and inversion
+continuity. They are the rows covered by the product and inverse
+neighbourhood-transport theorems, and no further operation-continuity row is
+exported by \autoref{def:topgroup-bhist-carrier}.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:topgroup-product-cont-ledger-soundness}. It identifies
+the multiplication-continuity row with the product graph, target neighbourhood,
+endpoint $\hsame$ transports, and finite $\Cont$ ledger entry projected from
+the shared carrier.
+
+Next apply \autoref{thm:topgroup-inverse-cont-ledger-soundness}. It identifies
+the inversion-continuity row with the inverse graph, target neighbourhood,
+endpoint $\hsame$ transports, and its own finite $\Cont$ ledger entry.
+
+Finally use \autoref{thm:topgroup-public-consumer-minimality}. Since the public
+surface exposes only these operation rows together with the source
+certificates, classifier transports, ledger, and provenance packet, there is no
+third operation-continuity obligation available to a consumer.
+\end{proof}
+
+\begin{theorem}[TopGroupUp continuity ledger exactness obligation]
+\label{thm:topgroup-ledger-exactness-obligation}
+The finite $\Cont$ ledger of an accepted $\TopGroupUp$ root surface exhausts the
+continuity obligations for product and inverse rows: every accepted
+product-neighbourhood or inverse-neighbourhood continuity read is one of those
+two ledger families, and each listed ledger entry is sound through the shared
+$\mathsf{BHist}$ packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:topgroup-continuity-ledger-coverage}. It states that
+the public continuity surface is covered by the finite ledger entries for
+product and inverse neighbourhood rows.
+
+For soundness of the product entries, apply
+\autoref{thm:topgroup-product-cont-ledger-soundness}; for soundness of the
+inverse entries, apply \autoref{thm:topgroup-inverse-cont-ledger-soundness}.
+Both proofs project the relevant endpoints, neighbourhoods, $\hsame$ transports,
+and ledger rows from the same carrier packet.
+
+Then use \autoref{thm:topgroup-public-consumer-minimality} to exclude ambient
+continuity predicates or unstated operation rows. The finite $\Cont$ ledger is
+therefore exact for the product and inverse continuity obligations exported by
+$\TopGroupUp$.
+\end{proof}
+
+\begin{theorem}[TopGroupUp source-pair carrier obligation]
+\label{thm:topgroup-source-pair-carrier-obligation}
+Every accepted $\TopGroupUp$ root surface binds its $\GroupUp$ source row and
+its $\TopologyUp$ source row to the same $\mathsf{BHist}$ carrier of
+\autoref{def:topgroup-bhist-carrier}. The root obligation is therefore a
+source-pair obligation over one carried packet, not a pair of unrelated carrier
+certificates.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:topgroup-source-fiber-product-carrier}. It identifies the
+group and topology certificates as projections from the shared packet of
+\autoref{def:topgroup-bhist-carrier}.
+
+The same theorem also records that product, inverse, neighbourhood, ledger, and
+provenance rows are packet projections. Hence a root consumer can read both
+source rows only through the common $\mathsf{BHist}$ carrier.
+\end{proof}
+
+\begin{theorem}[TopGroupUp product continuity obligation]
+\label{thm:topgroup-product-continuity-obligation}
+For an accepted $\TopGroupUp$ root surface, product continuity is exactly the
+endpoint transport supplied by the packet's $\hsame$ rows together with the
+finite $\Cont$ ledger entry for multiplication. No extra product-continuity
+predicate is present outside the carrier of \autoref{def:topgroup-bhist-carrier}.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:topgroup-source-fiber-product-carrier} to place the
+product graph, neighbourhood row, endpoint transports, and finite ledger over
+the shared source-pair carrier.
+
+Then apply \autoref{thm:topgroup-product-cont-ledger-soundness}. Its two
+directions say that a product-continuity row is sound exactly when it is this
+packet projection through the $\hsame$ endpoints and the finite $\Cont$ ledger.
+\end{proof}
+
+\begin{theorem}[TopGroupUp inverse continuity obligation]
+\label{thm:topgroup-inverse-continuity-obligation}
+For an accepted $\TopGroupUp$ root surface, inverse continuity is the unary
+endpoint-transport row carried by the packet's $\hsame$ data and the finite
+$\Cont$ ledger entry for inversion. The obligation has no separate inverse
+carrier, topology source, or ambient continuity witness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:topgroup-source-pair-carrier-obligation} to bind the unary
+inverse row to the same $\mathsf{BHist}$ carrier as the group and topology source
+certificates.
+
+Now use \autoref{thm:topgroup-inverse-cont-ledger-soundness}. It states that the
+accepted inverse-continuity row is sound precisely through the input endpoint,
+inverse endpoint, target neighbourhood, $\hsame$ transports, and finite
+$\Cont$ ledger entry projected from that packet.
+\end{proof}
