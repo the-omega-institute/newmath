@@ -82,14 +82,26 @@ The obligation is the transport, provenance, and exactness portion of the roadma
 Combining these rows with \autoref{thm:spectraltheorem-obligation-spectrum-pvm-functional-calculus} gives the full obligation boundary: every hidden spectral datum has a ledger row, every displayed row has an exactness clause, and every dependency is attached to either $\HilbertUp$ or $\MeasureUp$.
 \end{proof}
 
-\closureat{SpectralTheoremUp}{scopedStr}[BEDC.Derived.SpectralTheoremUp.SpectralTheoremCarrier\_classifier\_transport]
+\begin{theorem}[SpectralTheoremUp public certificate]
+\label{thm:spectraltheorem-public-certificate}
+The carrier and classifier obligations of \autoref{thm:spectraltheorem-obligation-carrier-classifier}, the spectrum, projection-valued-measure, and functional-calculus obligations of \autoref{thm:spectraltheorem-obligation-spectrum-pvm-functional-calculus}, and the stability, ledger, exactness, and dependency obligations of \autoref{thm:spectraltheorem-obligation-stability-ledger-exactness} assemble the public $\NameCert_{\SpectralTheoremUp}$ export surface over the $\HilbertUp$ operator source and the $\MeasureUp$ spectral side. The exported surface is public as a BEDC naming certificate and does not claim a standard spectral theorem bridge.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:spectraltheorem-obligation-carrier-classifier} to fix the carried operator row, the self-adjoint-or-normal witness, and the classifier row through the certified $\HilbertUp$ operator source. This determines the operator side of the public export surface.
+
+Apply \autoref{thm:spectraltheorem-obligation-spectrum-pvm-functional-calculus} to attach the spectrum, projection-valued-measure, and functional-calculus rows over the certified $\MeasureUp$ spectral side. These rows provide the visible spectral data exported by $\NameCert_{\SpectralTheoremUp}$.
+
+Finally apply \autoref{thm:spectraltheorem-obligation-stability-ledger-exactness} to pack the transport, ledger, exactness, and dependency rows around the same carrier and classifier. The result is the public certificate surface for $\SpectralTheoremUp$; since no $\StdBridge$ row is part of the package, the construction remains a public BEDC certificate and not a standard spectral theorem bridge.
+\end{proof}
+
+\closureat{SpectralTheoremUp}{publicStr}[BEDC.Derived.SpectralTheoremUp.SpectralTheoremCarrier\_classifier\_transport]
 
 \begin{closurestatus}{\SpectralTheoremUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The obligation surface is exactly the $\HilbertUp$ source, the $\MeasureUp$ source, the carrier and classifier rows of \autoref{thm:spectraltheorem-obligation-carrier-classifier}, the spectrum, projection-valued-measure, and functional-calculus rows of \autoref{thm:spectraltheorem-obligation-spectrum-pvm-functional-calculus}, and the stability, ledger, exactness, and dependency rows of \autoref{thm:spectraltheorem-obligation-stability-ledger-exactness}.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public certificate surface is exactly the $\HilbertUp$ source, the $\MeasureUp$ source, the carrier and classifier rows of \autoref{thm:spectraltheorem-obligation-carrier-classifier}, the spectrum, projection-valued-measure, and functional-calculus rows of \autoref{thm:spectraltheorem-obligation-spectrum-pvm-functional-calculus}, the stability, ledger, exactness, and dependency rows of \autoref{thm:spectraltheorem-obligation-stability-ledger-exactness}, and the public certificate theorem of \autoref{thm:spectraltheorem-public-certificate}.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.SpectralTheoremUp.SpectralTheoremCarrier\_classifier\_transport}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim the standard spectral theorem bridge, the full external spectral theorem, or bridge-checked verification.}
-  \upgradepath{The next closure grade requires the standard spectral theorem bridge, the full external spectral theorem surface, and bridge-checked verification.}
+  \upgradepath{Bridged closure requires the standard spectral theorem bridge and bridge-checked verification.}
 \end{closurestatus}
