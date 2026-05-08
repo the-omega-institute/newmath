@@ -41,6 +41,26 @@ The two predicates use the same evaluation row; the digest-classifier orientatio
 \end{definition}
 \leandef{BEDC.Derived.HashUp.HashEvalTranscript}
 
+\begin{theorem}[Hash evaluation transcript determinacy]
+\label{thm:hash-evaluation-transcript-determinacy}
+Let $\mathcal H$ be a $\HashUp$ certificate whose hash row is the deterministic $\FuncUp$ row carried by the certificate and whose digest endpoint classifier is the finite-output classifier $\rho_{\mathcal H}$ supplied by the $\FinSetUp$ dependency. For any message history $m$ and digest histories $d$ and $d'$, two carried evaluations over the same hash row determine the same digest class:
+$$
+\mathsf{HashEval}_{\mathcal H}(m,d)\land
+\mathsf{HashEval}_{\mathcal H}(m,d')
+\Longrightarrow
+\rho_{\mathcal H}(d,d').
+$$
+\end{theorem}
+\begin{proof}
+Unfold the evaluation row of \autoref{def:hash-evaluation-success-transcripts}. The two hypotheses expose the same carried message row $m$, the same deterministic $\FuncUp$ function row, and two digest endpoint rows $d$ and $d'$ produced by that row.
+
+Project determinacy from the $\FuncUp$ certificate. Since both evaluations read the same input history through the same finite $\Cont$ ledger and the same $\Pkg$ provenance, the function-row determinacy comparison identifies the two produced endpoint histories at the digest boundary.
+
+Now transport that endpoint comparison through the finite-output $\FinSetUp$ classifier. The digest carrier row of $\mathcal H$ is exactly the finite-output row named in \autoref{def:hash-evaluation-success-transcripts}, so classifier transport yields $\rho_{\mathcal H}(d,d')$.
+
+Repack the evidence without changing the transcript: the message row, digest endpoint rows, $\mathsf{BHist}$ witnesses, $\Cont$ readback, and $\Pkg$ provenance are the rows already carried by the two $\mathsf{HashEval}_{\mathcal H}$ hypotheses.
+\end{proof}
+
 \begin{theorem}[Hash second-preimage success induces collision]
 \label{thm:hash-second-preimage-success-induces-collision}
 Let $\mathcal H$ be a $\HashUp$ certificate whose finite-output digest classifier is supplied by its $\NameCert_{\FinSetUp}$ component. For message histories $x$ and $x'$, every successful second-preimage transcript for base message $x$ and returned message $x'$ induces a successful collision transcript for the ordered pair $(x,x')$ over the same hash row:
