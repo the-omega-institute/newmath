@@ -29,6 +29,7 @@ Thus the derivative row is a carried $\mathsf{BHist}$ endpoint, not a host-level
 \label{thm:connection-section-linearity-obligation}
 For the carrier of \autoref{def:connection-carrier-packet}, the derivative row is stable under the section-addition and scalar-action rows supplied by the $\BundleUp$ and $\ManifoldUp$ dependency sources. If $s_1$, $s_2$, and $a$ are certified section and scalar rows over the same base and tangent packet, then the derivative endpoints for $s_1+s_2$ and $a\cdot s_1$ are classified by the same $\mathsf{ConnCls}$ rows obtained by applying the corresponding carried addition and scalar-action ledgers to the derivative endpoints of $s_1$ and $s_2$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ConnectionUp.ConnectionCarrierPacket\_section\_linearity\_obligation}
 \begin{proof}
 Read the two section rows, their sum row, and the scalar-action row through the $\BundleUp$ certificate. The $\ManifoldUp$ source keeps the base point and tangent-direction rows fixed under the displayed classifier.
 
@@ -78,14 +79,14 @@ Exactness is the reverse reading. The section-linearity, parallel-transport, and
 
 \section{The certificate}
 \label{sec:connection-certificate}
-\closureat{ConnectionUp}{seedStr}
+\closureat{ConnectionUp}{obligationStr}[BEDC.Derived.ConnectionUp.ConnectionCarrierPacket\_stability\_ledger\_exactness\_obligation]
 
 \begin{closurestatus}{\ConnectionUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope names the covariant-derivative carrier over the $\BundleUp$ and $\ManifoldUp$ dependency certificates, together with the linearity, Leibniz, parallel-transport, and curvature obligation surface.}
-  \formalstatus{\unformalizedV}
-  \leantarget{}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation boundary is the displayed carrier packet, the $\mathsf{ConnCls}$ classifier, the section-linearity row, the parallel-transport row, the curvature-boundary row, and the stability-ledger exactness row over $\BundleUp$, $\ManifoldUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ConnectionUp.ConnectionCarrierPacket\_stability\_ledger\_exactness\_obligation}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close linearity, the Leibniz law, parallel-transport laws, curvature compatibility, or a standard bridge.}
-  \upgradepath{Obligation closure requires explicit carrier, classifier, stability, ledger, and exactness theorem blocks for the connection certificate.}
+  \notclaimed{This chapter does not close Leibniz, coordinate-chart semantics, curvature compatibility, a public bridge, or a standard bridge.}
+  \upgradepath{Scoped closure requires binding each obligation row to its exact BEDC dependency scope and downstream $\CurvatureUp$ consumption boundary.}
 \end{closurestatus}

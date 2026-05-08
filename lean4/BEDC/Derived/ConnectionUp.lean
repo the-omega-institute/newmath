@@ -93,6 +93,42 @@ theorem ConnectionCarrierPacket_curvature_boundary_obligation
       (And.intro boundaryReadback
         (And.intro curvatureReadback curvatureWithTangents)))
 
+theorem ConnectionCarrierPacket_section_linearity_obligation
+    {base fibre sec tangent derivative provenance ledger sectionAdd scalarAction derivativeAdd
+      derivativeScalar : BHist} :
+    ConnectionCarrierPacket base fibre sec tangent derivative provenance ledger ->
+      UnaryHistory sectionAdd ->
+        UnaryHistory scalarAction ->
+          Cont sec sectionAdd derivativeAdd ->
+            Cont sec scalarAction derivativeScalar ->
+              UnaryHistory derivativeAdd ∧ UnaryHistory derivativeScalar ∧
+                hsame derivativeAdd (append (append base fibre) sectionAdd) ∧
+                  hsame derivativeScalar (append (append base fibre) scalarAction) ∧
+                    Cont sec sectionAdd derivativeAdd ∧
+                      Cont sec scalarAction derivativeScalar := by
+  intro packet sectionAddUnary scalarActionUnary derivativeAddCont derivativeScalarCont
+  have secUnary : UnaryHistory sec :=
+    unary_cont_closed packet.left packet.right.left packet.right.right.right.right.left
+  have derivativeAddUnary : UnaryHistory derivativeAdd :=
+    unary_cont_closed secUnary sectionAddUnary derivativeAddCont
+  have derivativeScalarUnary : UnaryHistory derivativeScalar :=
+    unary_cont_closed secUnary scalarActionUnary derivativeScalarCont
+  have derivativeAddReadback :
+      hsame derivativeAdd (append (append base fibre) sectionAdd) :=
+    hsame_trans derivativeAddCont
+      (congrArg (fun h : BHist => append h sectionAdd)
+        packet.right.right.right.right.left)
+  have derivativeScalarReadback :
+      hsame derivativeScalar (append (append base fibre) scalarAction) :=
+    hsame_trans derivativeScalarCont
+      (congrArg (fun h : BHist => append h scalarAction)
+        packet.right.right.right.right.left)
+  exact And.intro derivativeAddUnary
+    (And.intro derivativeScalarUnary
+      (And.intro derivativeAddReadback
+        (And.intro derivativeScalarReadback
+          (And.intro derivativeAddCont derivativeScalarCont))))
+
 def ConnectionTransportSteps : List BHist → Prop
   | [] => hsame BHist.Empty BHist.Empty
   | step :: rest => UnaryHistory step ∧ ConnectionTransportSteps rest
