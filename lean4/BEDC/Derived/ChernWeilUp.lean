@@ -428,4 +428,23 @@ theorem ChernWeilSourceEnvelope_characteristic_ledger_exactness
     (And.intro provenanceOriginal
       (And.intro classRowOriginal classRowTransported))
 
+def ChernWeilCharacteristicClassClassifier
+    (curvature curvature' derham derham' provenance provenance' connectionLedger
+      connectionLedger' classRow classRow' : BHist) : Prop :=
+  ChernWeilSourceEnvelope curvature derham provenance connectionLedger classRow ∧
+    ChernWeilSourceEnvelope curvature' derham' provenance' connectionLedger' classRow' ∧
+      hsame curvature curvature' ∧ hsame derham derham' ∧ hsame classRow classRow'
+
+theorem ChernWeilCharacteristicClassClassifier_provenance_transport
+    {curvature curvature' derham derham' provenance provenance' connectionLedger
+      connectionLedger' classRow classRow' : BHist} :
+    ChernWeilCharacteristicClassClassifier curvature curvature' derham derham' provenance
+        provenance' connectionLedger connectionLedger' classRow classRow' ->
+      hsame provenance provenance' ∧ hsame classRow classRow' := by
+  intro classifier
+  have provenanceSame : hsame provenance provenance' :=
+    cont_respects_hsame classifier.right.right.left classifier.right.right.right.left
+      classifier.left.right.right.right.left classifier.right.left.right.right.right.left
+  exact And.intro provenanceSame classifier.right.right.right.right
+
 end BEDC.Derived.ChernWeilUp
