@@ -43,4 +43,27 @@ theorem ModelTheoryBHistStructurePacket_firstorder_dependency_surface [AskSetup]
             (And.intro packet.right.right.right.right.right.right.left
               packet.right.right.right.right.right.right.right))))
 
+theorem ModelTheoryBHistStructurePacket_satisfaction_exactness_scope [AskSetup]
+    [PackageSetup]
+    {firstOrder structureRow valuation satisfaction elementary provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelTheoryBHistStructurePacket firstOrder structureRow valuation satisfaction elementary
+      provenance endpoint bundle pkg ->
+        UnaryHistory valuation ∧ UnaryHistory provenance ∧
+          hsame valuation (append firstOrder structureRow) ∧
+            hsame provenance (append valuation satisfaction) ∧
+              hsame endpoint (append provenance elementary) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have valuationUnary : UnaryHistory valuation :=
+    unary_cont_closed packet.left packet.right.left packet.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed valuationUnary packet.right.right.left
+      packet.right.right.right.right.right.left
+  exact And.intro valuationUnary
+    (And.intro provenanceUnary
+      (And.intro packet.right.right.right.right.left
+        (And.intro packet.right.right.right.right.right.left
+          (And.intro packet.right.right.right.right.right.right.left
+            packet.right.right.right.right.right.right.right))))
+
 end BEDC.Derived.ModelTheoryUp
