@@ -1,69 +1,63 @@
 #!/usr/bin/env bash
-# Pre-build gate: rewrite forbidden math environments inline.
+# Pre-build gate: forbidden math envs at top level.
 #
 # CLAUDE.md and the paper style require:
 #   inline math:  $...$
 #   display math: $$...$$  (each $$ on its own line)
-#   no top-level: \[ ... \],
-#                 \begin{equation},  \begin{equation*},
-#                 \begin{align},     \begin{align*},
-#                 \begin{eqnarray},  \begin{eqnarray*}
-# Multi-line displays use \begin{aligned}/\begin{gathered} INSIDE $$...$$.
+#   multi-line displays: \begin{aligned}/\begin{gathered} INSIDE $$...$$
 #
-# This script REWRITES violations in-place rather than failing the build:
-#   \begin{align*?}    -> $$\begin{aligned}
-#   \end{align*?}      -> \end{aligned}$$
-#   \begin{eqnarray*?} -> $$\begin{aligned}
-#   \end{eqnarray*?}   -> \end{aligned}$$
-#   \begin{equation*?} -> $$
-#   \end{equation*?}   -> $$
-# Existing $$..\begin{aligned}..\end{aligned}..$$ blocks are unchanged.
-# Codex sees no error; the replacement is invisible to phase REVISE.
+# Forbidden at top level:
+#   \[ ... \]
+#   \begin{equation}, \begin{equation*},
+#   \begin{align},    \begin{align*},
+#   \begin{eqnarray}, \begin{eqnarray*}
+#
+# This script is fail-fast: any violation prints file:line and exits 1.
 set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$HERE/.." && pwd)"
 cd "$ROOT"
 
-python3 - <<'PY'
+exec python3 - <<'PY'
 import re, sys
 from pathlib import Path
 
 DIRS = ["parts", "frontmatter", "appendices"]
-SUBS = [
-    (re.compile(r"\\begin\{align\*?\}"),   r"$$\\begin{aligned}"),
-    (re.compile(r"\\end\{align\*?\}"),     r"\\end{aligned}$$"),
-    (re.compile(r"\\begin\{eqnarray\*?\}"), r"$$\\begin{aligned}"),
-    (re.compile(r"\\end\{eqnarray\*?\}"),   r"\\end{aligned}$$"),
-    (re.compile(r"\\begin\{equation\*?\}"), r"$$"),
-    (re.compile(r"\\end\{equation\*?\}"),   r"$$"),
+PATTERNS = [
+    re.compile(r"\\begin\{align\*?\}"),
+    re.compile(r"\\end\{align\*?\}"),
+    re.compile(r"\\begin\{eqnarray\*?\}"),
+    re.compile(r"\\end\{eqnarray\*?\}"),
+    re.compile(r"\\begin\{equation\*?\}"),
+    re.compile(r"\\end\{equation\*?\}"),
+    re.compile(r"(?<!\\)\\\["),
+    re.compile(r"(?<!\\)\\\]"),
 ]
 
-n_files = 0
-n_subs  = 0
+hits = []
 for d in DIRS:
     p = Path(d)
     if not p.is_dir():
         continue
     for tex in p.rglob("*.tex"):
         try:
-            text = tex.read_text(encoding="utf-8")
+            for i, line in enumerate(tex.read_text(encoding="utf-8").splitlines(), 1):
+                if line.lstrip().startswith("%"):
+                    continue
+                for pat in PATTERNS:
+                    if pat.search(line):
+                        hits.append(f"{tex}:{i}: {line.strip()[:120]}")
+                        break
         except Exception:
             continue
-        new = text
-        local = 0
-        for pat, repl in SUBS:
-            new, k = pat.subn(repl, new)
-            local += k
-        if local:
-            tex.write_text(new, encoding="utf-8")
-            n_files += 1
-            n_subs += local
-            print(f"[forbidden-math-env] rewrote {tex} ({local} substitution(s))",
-                  file=sys.stderr)
 
-if n_subs:
-    print(f"[forbidden-math-env] rewrote {n_subs} occurrence(s) "
-          f"across {n_files} file(s)", file=sys.stderr)
+if hits:
+    print("FORBIDDEN math env at top level (CLAUDE.md):", file=sys.stderr)
+    for h in hits:
+        print(f"  {h}", file=sys.stderr)
+    print("", file=sys.stderr)
+    print("Fix: use $$\\begin{aligned}...\\end{aligned}$$ or $$\\begin{gathered}...\\end{gathered}$$", file=sys.stderr)
+    print("inside $$...$$ display blocks. See CLAUDE.md '数学符号写法'.", file=sys.stderr)
+    sys.exit(1)
 PY
-exit 0

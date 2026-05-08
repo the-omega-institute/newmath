@@ -27,9 +27,9 @@ precheck:
 	@python3 scripts/check_naming.py
 ```
 
-### 1.1 `scripts/check_tex_size.sh` (改一行)
+### 1.1 `scripts/check_tex_size.sh` (不动)
 
-`-gt` → `-ge`. ≥800 行即 fail. 修复 5 个触顶文件后这条就立即生效.
+cap 维持 800 行, `-gt`. 正好 800 行通过, ≥801 fail. (5 个触顶文件依然 split, 给后续写入留余量, 不靠 cap 严格化兜底.)
 
 ### 1.2 `scripts/check_math_env.sh` (改行为)
 
