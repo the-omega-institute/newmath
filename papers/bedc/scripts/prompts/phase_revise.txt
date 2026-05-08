@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.5 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.6 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Dedup partial drop handling
 
@@ -50,7 +50,7 @@ The Phase Verify step will reject the round if any of these is broken.
    `新增`, `新版`, `修订`, `修复了上一版本`, `patch`, `migration`, `frozen`, `supersede`, `superseded`, `deprecated`, `legacy`, `increment`, `增量`, `修改记录`, `变更记录`, `变更原因`, `rectification`, `amendment`, `v1.5.X`, `v1.4.X`, `v14-…`, `v15-…` (or any `vNN-` prefix in labels).
    The paper is a CURRENT-STATE document. To replace old text with new text: delete the old, write the new, do not annotate the change.
 2. **Single .tex file ≤ 800 lines after your edits.** If a substantive theorem/definition/proof/certificate edit would make a file exceed 800 lines, you MUST split: extract content into a focused child file in the same `parts/<theme>/` directory or a thematic subdirectory below it, then leave the parent as a pure index containing only ordered `\input` lines. Splitting by itself is not a valid round.
-3. **Math notation.** Use only `$…$` for inline math and `$$…$$` (each `$$` on its own line) for display. Do NOT introduce `\[…\]`, `\begin{equation}`, `\begin{align}`, `\begin{equation*}`, `\begin{eqnarray}`, etc.
+3. **Math notation.** Any standard LaTeX math environment is fine: `$…$`, `$$…$$`, `\[…\]`, `\begin{equation}`, `\begin{align*}`, `\begin{aligned}`, `\begin{gather}`, etc. No style restriction.
 4. **No inline file comments.** Do not add `% TODO …` style notes, do not insert "see git log for history" lines, do not add change-tracking comments. The paper is the artifact; the diff is the audit trail.
 5. **Marker discipline.**
    - At most one `\leanchecked{X}` per paper site; multiple variants use `\leanvariant{Y}`.
