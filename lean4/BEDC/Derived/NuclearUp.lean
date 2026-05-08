@@ -32,6 +32,29 @@ theorem NuclearCarrier_obligation
     (unary_cont_closed sourceTargetUnary compactUnary endpointCont)
     (And.intro compactUnary rankUnary)
 
+theorem NuclearCompactOperator_banach_classifier_transport
+    {source target source' target' operator rankLedger endpoint endpoint' : BHist} :
+    BanachSingletonClassifier source source' -> BanachSingletonClassifier target target' ->
+      OperatorIdealTraceClassCarrier operator -> UnaryHistory rankLedger ->
+        Cont (append source target) operator endpoint ->
+          Cont (append source' target') operator endpoint' ->
+            UnaryHistory endpoint ∧ UnaryHistory endpoint' ∧ UnaryHistory operator ∧
+              UnaryHistory rankLedger ∧ hsame source source' ∧ hsame target target' := by
+  intro sourceClassified targetClassified operatorCarrier rankUnary endpointCont endpointCont'
+  have originalRows :
+      UnaryHistory endpoint ∧ UnaryHistory operator ∧ UnaryHistory rankLedger :=
+    NuclearCarrier_obligation sourceClassified.left targetClassified.left operatorCarrier rankUnary
+      endpointCont
+  have transportedRows :
+      UnaryHistory endpoint' ∧ UnaryHistory operator ∧ UnaryHistory rankLedger :=
+    NuclearCarrier_obligation sourceClassified.right.left targetClassified.right.left
+      operatorCarrier rankUnary endpointCont'
+  exact And.intro originalRows.left
+    (And.intro transportedRows.left
+      (And.intro originalRows.right.left
+        (And.intro originalRows.right.right
+          (And.intro sourceClassified.right.right targetClassified.right.right))))
+
 theorem NuclearCompactPrefixCarrier_banach_operator_rows
     {source target operator prefixHist : BHist} :
     BanachSingletonCarrier source -> BanachSingletonCarrier target ->
