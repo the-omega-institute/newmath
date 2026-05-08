@@ -213,4 +213,37 @@ theorem ClassFieldLedgerExactnessRows_transport
       classifierExtension,
       sameLedger⟩
 
+theorem ClassFieldScopedLedger_exactness
+    {base idele extension classifier ledger artin frob ideleRep localPrime frobRep
+      extensionPresentation : BHist} :
+    ClassFieldSourceCarrier base idele extension classifier ledger ->
+    ClassFieldArtinFrobeniusRows base idele extension artin frob ->
+    Cont idele frob ideleRep ->
+    Cont base ideleRep localPrime ->
+    Cont localPrime frobRep extensionPresentation ->
+    hsame frobRep frob ->
+      UnaryHistory ideleRep ∧ UnaryHistory localPrime ∧
+        UnaryHistory extensionPresentation ∧ hsame (append idele artin) frob ∧
+          hsame (append base frob) extension := by
+  intro source rows ideleRepRoute localPrimeRoute presentationRoute sameFrob
+  have transported :
+      ClassFieldSourceCarrier base idele extension classifier ledger ∧
+        ClassFieldArtinFrobeniusRows base idele extension artin frob ∧
+          UnaryHistory ideleRep ∧ UnaryHistory localPrime ∧
+            UnaryHistory extensionPresentation ∧ hsame classifier extension ∧
+              hsame ledger ledger :=
+    ClassFieldLedgerExactnessRows_transport source rows ideleRepRoute localPrimeRoute
+      presentationRoute sameFrob (hsame_refl classifier) (hsame_refl ledger)
+  have exactRows :
+      UnaryHistory base ∧ UnaryHistory idele ∧ UnaryHistory artin ∧
+        Cont idele artin frob ∧ Cont base frob extension ∧
+          hsame (append idele artin) frob ∧ hsame (append base frob) extension :=
+    ClassFieldArtinFrobeniusRows_ledger_exactness rows
+  exact
+    ⟨transported.right.right.left,
+      transported.right.right.right.left,
+      transported.right.right.right.right.left,
+      exactRows.right.right.right.right.right.left,
+      exactRows.right.right.right.right.right.right⟩
+
 end BEDC.Derived.ClassFieldUp
