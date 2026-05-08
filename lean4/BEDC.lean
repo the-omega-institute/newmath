@@ -65,6 +65,7 @@ import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.IntUp.ZeroRepresentative
 import BEDC.Derived.IntUp.StdBridge
 import BEDC.Derived.EmptyUp
+import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.UnitaryGroupUp
@@ -74,6 +75,7 @@ import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.BilinFormUp
 import BEDC.Derived.ChernWeilUp
+import BEDC.Derived.CurvatureUp
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.OptionUp
@@ -177,7 +179,6 @@ import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
-import BEDC.Derived.CurvatureUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.RealAlgOrderUp
 import BEDC.Derived.SymplecticUp
@@ -509,6 +510,7 @@ import BEDC.Derived.LieGroupUp.AdjointRep
 import BEDC.Derived.ManifoldUp
 import BEDC.Derived.ManifoldUp.SemanticNameCert
 import BEDC.Derived.DerivedCatUp
+import BEDC.Derived.DerivedFunctorUp
 import BEDC.Derived.ManifoldUp.ChartDomainCarrierTransport
 import BEDC.Derived.ManifoldUp.TransitionCoherenceLedger
 import BEDC.Derived.ManifoldUp.IdentityTransitionBoundary
