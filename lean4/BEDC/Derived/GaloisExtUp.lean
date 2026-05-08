@@ -193,6 +193,33 @@ theorem GaloisExtSourcePacket_public_obligation_boundary [AskSetup] [PackageSetu
                    (And.intro packet.right.right.right.right.right.left
                      packet.right.right.right.right.right.right))))))))
 
+theorem GaloisExtSourcePacket_automorphism_action_source [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint action actionLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      Cont endpoint normality action ->
+        Cont action separability actionLedger ->
+          UnaryHistory action ∧ UnaryHistory actionLedger ∧
+            hsame action (append endpoint normality) ∧
+              hsame actionLedger (append (append endpoint normality) separability) ∧
+                PkgSig bundle endpoint pkg := by
+  intro packet actionCont actionLedgerCont
+  have boundary := GaloisExtSourcePacket_public_obligation_boundary packet
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed boundary.right.right.right.right.right.left boundary.right.left actionCont
+  have actionLedgerUnary : UnaryHistory actionLedger :=
+    unary_cont_closed actionUnary boundary.right.right.left actionLedgerCont
+  have actionLedgerReadback : hsame actionLedger (append (append endpoint normality) separability) :=
+    hsame_trans actionLedgerCont
+      (congrArg (fun h : BHist => append h separability) actionCont)
+  exact And.intro actionUnary
+    (And.intro actionLedgerUnary
+      (And.intro actionCont
+        (And.intro actionLedgerReadback
+          boundary.right.right.right.right.right.right.right.right.right)))
+
 theorem GaloisExtSourcePacket_classifier_transport
     {field field' separable separable' normal normal' simple simple' classifier classifier'
       provenance provenance' ledger ledger' : BHist} :
@@ -498,5 +525,36 @@ theorem GaloisExtSourcePacket_normal_root_orbit_closure [AskSetup] [PackageSetup
       (And.intro orbitLedgerRow
         (And.intro orbitEndpointReadback
           boundary.right.right.right.right.right.right.right.right.right)))
+
+theorem GaloisExtAutomorphismSourceRow_base_fixed_readback [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint automorphism fixedBase action
+      automorphismLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance
+        separable normality separability classifier provenance endpoint bundle pkg ->
+      UnaryHistory automorphism ->
+        Cont fieldExt automorphism fixedBase ->
+          Cont fixedBase normality action ->
+            Cont action provenance automorphismLedger ->
+              UnaryHistory fixedBase ∧ UnaryHistory action ∧ UnaryHistory automorphismLedger ∧
+                hsame fixedBase (append fieldExt automorphism) ∧
+                  hsame action (append fixedBase normality) ∧
+                    hsame automorphismLedger (append action provenance) ∧
+                      PkgSig bundle endpoint pkg := by
+  intro packet automorphismUnary fixedBaseCont actionCont ledgerCont
+  have provenanceRows := GaloisExtSourcePacket_dependency_exactness_ledger packet
+  have fixedBaseUnary : UnaryHistory fixedBase :=
+    unary_cont_closed packet.left.left automorphismUnary fixedBaseCont
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed fixedBaseUnary packet.right.left actionCont
+  have automorphismLedgerUnary : UnaryHistory automorphismLedger :=
+    unary_cont_closed actionUnary provenanceRows.left ledgerCont
+  exact And.intro fixedBaseUnary
+    (And.intro actionUnary
+      (And.intro automorphismLedgerUnary
+        (And.intro fixedBaseCont
+          (And.intro actionCont
+            (And.intro ledgerCont provenanceRows.right.right.right.right.right.right)))))
 
 end BEDC.Derived.GaloisExtUp
