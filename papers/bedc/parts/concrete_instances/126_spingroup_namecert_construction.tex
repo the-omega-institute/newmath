@@ -6,5 +6,67 @@ The Spin-group interface $\SpinGroupUp$ packages the connected double cover of t
 \section{Carrier definition}
 \label{sec:spingroup-carrier}
 
+\begin{definition}[SpinGroup root BHist carrier]
+\label{def:spingroup-root-bhist-carrier}
+The concrete $\SpinGroupUp$ root carrier is the finite $\mathsf{BHist}$ packet whose visible rows are all of the following:
+\begin{enumerate}
+  \item a carried $\CliffordUp$ endpoint row supplied by $\NameCert_{\CliffordUp}$;
+  \item a singleton-history $\GroupUp$ law row supplied by $\NameCert_{\GroupUp}$ for the same visible endpoint shape;
+  \item a unit-like Clifford endpoint row, namely a Clifford carrier row classified with the Clifford unit endpoint;
+  \item $\Cont$ and $\hsame$ witnesses recording that the displayed multiplication and inverse rows are transported through the Clifford endpoint classifier.
+\end{enumerate}
+The packet contains no host orthogonal group, no quotient algebra, and no ambient matrix representation; its carrier evidence is exactly the listed $\mathsf{BHist}$, $\Cont$, $\hsame$, $\NameCert$, and $\mathsf{UnaryHistory}$ data.
+\end{definition}
+
+\begin{theorem}[SpinGroup source scope]
+\label{thm:spingroup-root-carrier-source-scope}
+Every row of \autoref{def:spingroup-root-bhist-carrier} is sourced through $\NameCert_{\CliffordUp}$ or $\NameCert_{\GroupUp}$. The Clifford endpoint, unit-like endpoint, product transport, and inverse transport rows are read from the Clifford certificate; the singleton-history associativity, unit, and inverse law rows are read from the group certificate over $\mathsf{UnaryHistory}$. No additional source row is admitted by the $\SpinGroupUp$ root carrier.
+\end{theorem}
+\begin{proof}
+Unpack the root carrier packet. Each constructor in the packet names either a Clifford carrier row, a Clifford classifier row, a group singleton-history law row, or a transport witness connecting these rows.
+
+The Clifford rows are discharged by the carrier, unit, product, and classifier clauses of $\NameCert_{\CliffordUp}$. The group law rows are discharged by the singleton-history law surface of $\NameCert_{\GroupUp}$, with the visible endpoint supplied by the same $\mathsf{UnaryHistory}$ spine.
+
+It remains only to account for the transport witnesses. These are ordinary $\Cont$ and $\hsame$ rows whose endpoints are already present in the two certificates, so repacking them adds no third source.
+\end{proof}
+
+\begin{theorem}[Clifford unit lift for SpinGroup]
+\label{thm:spingroup-root-clifford-unit-lift}
+If a $\CliffordUp$ carrier row is classified with the Clifford unit endpoint, then the same row lifts to the $\SpinGroupUp$ root carrier by pairing it with the singleton $\GroupUp$ identity law row and the reflexive $\Cont$ and $\hsame$ transport witnesses. The lift preserves the visible Clifford endpoint classifier and records the row as unit-like inside the SpinGroup packet.
+\end{theorem}
+\begin{proof}
+Start with the displayed Clifford carrier row and its classifier witness to the unit endpoint. The carrier clause of $\NameCert_{\CliffordUp}$ supplies the endpoint row, while classifier reflexivity supplies the stable unit comparison needed by the packet.
+
+Next choose the singleton-history identity row from $\NameCert_{\GroupUp}$. Since the endpoint spine is the same unary history, the group row and the Clifford unit row share the visible boundary required by the root carrier.
+
+Finally repack the Clifford row, the singleton identity law, and the reflexive $\Cont$ and $\hsame$ witnesses into \autoref{def:spingroup-root-bhist-carrier}. No multiplication or inverse row is consumed in this special case.
+\end{proof}
+
+\begin{theorem}[SpinGroup group-law transport]
+\label{thm:spingroup-root-group-law-transport}
+Let $a$, $b$, $a'$, and $b'$ be $\SpinGroupUp$ root-carrier rows whose Clifford endpoints are classified by the $\CliffordUp$ endpoint classifier and whose group-law rows are singleton-history $\GroupUp$ rows. If $\hsame(a,a')$ and $\hsame(b,b')$ hold through the Clifford classifier, then multiplication and inverse rows transported by $\Cont$ remain inside the $\SpinGroupUp$ root carrier and carry the corresponding $\GroupUp$ multiplication and inverse laws.
+\end{theorem}
+\begin{proof}
+Unpack the two root-carrier rows. The Clifford parts expose carried endpoints and classifier witnesses, while the group parts expose the singleton-history multiplication and inverse law rows.
+
+For multiplication, compose the two Clifford endpoint transports with the Clifford product transport supplied by $\NameCert_{\CliffordUp}$. The group singleton-history multiplication row is then read through $\NameCert_{\GroupUp}$ and placed over the transported endpoint.
+
+For inverse, use the same endpoint classifier transport with the Clifford inverse endpoint row. The singleton-history inverse law supplies the group side, and the $\Cont$ witness repacks the result as a root-carrier inverse row.
+
+The final packet is again of the form in \autoref{def:spingroup-root-bhist-carrier}: the visible Clifford endpoint has moved only by $\hsame$, and every group-law row remains a $\GroupUp$ row over the same unary history.
+\end{proof}
+
+\begin{theorem}[SpinGroup NameCert obligation surface]
+\label{thm:spingroup-root-namecert-obligation-surface}
+The rows in \autoref{def:spingroup-root-bhist-carrier}, together with \autoref{thm:spingroup-root-carrier-source-scope}, \autoref{thm:spingroup-root-clifford-unit-lift}, and \autoref{thm:spingroup-root-group-law-transport}, form the $\SpinGroupUp$ root $\NameCert$ obligation surface. The surface consists precisely of Clifford source scope, unit lift, multiplication transport, inverse transport, singleton-history group laws, and finite ledger exactness for these rows.
+\end{theorem}
+\begin{proof}
+Read the obligation surface row by row. Source scope is supplied by \autoref{thm:spingroup-root-carrier-source-scope}; the unit face is supplied by \autoref{thm:spingroup-root-clifford-unit-lift}; multiplication and inverse transport are supplied by \autoref{thm:spingroup-root-group-law-transport}.
+
+The classifier side is finite because every row is a named component of the carrier packet. Inverting a proposed $\SpinGroupUp$ root obligation therefore yields either a Clifford carrier/classifier row, a singleton-history $\GroupUp$ law row, or a displayed $\Cont$ or $\hsame$ witness between those endpoints.
+
+Repacking these cases gives the stated root $\NameCert$ surface. No Spin or Pin global presentation, orthogonal action, matrix model, or host quotient algebra is used by this obligation surface.
+\end{proof}
+
 \section{The certificate}
 \label{sec:spingroup-certificate}
