@@ -177,6 +177,7 @@ import BEDC.Derived.CliffordUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
 import BEDC.Derived.DerivativeUp
+import BEDC.Derived.CliffordUp
 import BEDC.Derived.RealAlgOrderUp
 import BEDC.Derived.SymplecticUp
 import BEDC.Derived.SymplecticUp.LedgerExactnessObligation

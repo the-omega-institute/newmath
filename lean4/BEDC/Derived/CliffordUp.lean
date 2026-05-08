@@ -58,4 +58,21 @@ theorem CliffordCarrierPackage_product_relation_stability
             (And.intro productCont endpointCont)))
   · exact And.intro sameProduct sameEndpoint
 
+theorem CliffordCarrierPackage_product_relation_stability_obligations
+    {unit left right leftSquare rightSquare boundary leftEndpoint rightEndpoint context
+      leftProduct rightProduct : BHist} :
+    CliffordCarrierPackage unit left leftSquare boundary leftEndpoint ->
+      CliffordCarrierPackage unit right rightSquare boundary rightEndpoint ->
+        hsame left right ->
+          UnaryHistory context ->
+            Cont left context leftProduct ->
+              Cont right context rightProduct ->
+                UnaryHistory leftProduct ∧ UnaryHistory rightProduct ∧
+                  hsame leftProduct rightProduct := by
+  intro leftPackage rightPackage sameLeftRight contextCarrier leftContext rightContext
+  exact
+    CliffordCarrierPackage_product_stability_obligation
+      leftPackage.right.left contextCarrier sameLeftRight (hsame_refl context)
+      leftContext rightContext
+
 end BEDC.Derived.CliffordUp
