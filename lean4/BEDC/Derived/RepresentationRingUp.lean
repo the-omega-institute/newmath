@@ -25,6 +25,15 @@ def RepresentationRingBHistRepresentationPacket [AskSetup] [PackageSetup]
         Cont provenance classifier ledger ∧ Cont ledger tensor endpoint ∧
           PkgSig bundle endpoint pkg
 
+def RepresentationRingGrothendieckClassifier
+    (group ring reps directSum tensor provenance classifier ledger endpoint
+      group' ring' reps' directSum' tensor' provenance' classifier' ledger' endpoint' : BHist) :
+    Prop :=
+  hsame group group' ∧ hsame ring ring' ∧ hsame reps reps' ∧
+    hsame directSum directSum' ∧ hsame tensor tensor' ∧
+      hsame provenance provenance' ∧ hsame classifier classifier' ∧
+        hsame ledger ledger' ∧ hsame endpoint endpoint'
+
 theorem RepresentationRingBHistRepresentationPacket_carrier_boundary [AskSetup] [PackageSetup]
     {group ring reps directSum tensor provenance classifier ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -114,6 +123,32 @@ theorem RepresentationRingBHistRepresentationPacket_direct_sum_tensor_ledger_sta
                       (And.intro ledgerRow'
                         (And.intro endpointRow' pkgSig'))))))))))
   exact And.intro packet' (And.intro sameLedger sameEndpoint)
+
+theorem RepresentationRingBHistRepresentationPacket_grothendieck_classifier_symmetric
+    [AskSetup] [PackageSetup]
+    {group ring reps directSum tensor provenance classifier ledger endpoint group' ring' reps'
+      directSum' tensor' provenance' classifier' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RepresentationRingBHistRepresentationPacket group ring reps directSum tensor provenance
+        classifier ledger endpoint bundle pkg ->
+      RepresentationRingBHistRepresentationPacket group' ring' reps' directSum' tensor'
+        provenance' classifier' ledger' endpoint' bundle pkg ->
+        RepresentationRingGrothendieckClassifier group ring reps directSum tensor provenance
+          classifier ledger endpoint group' ring' reps' directSum' tensor' provenance'
+          classifier' ledger' endpoint' ->
+          RepresentationRingGrothendieckClassifier group' ring' reps' directSum' tensor'
+            provenance' classifier' ledger' endpoint' group ring reps directSum tensor
+            provenance classifier ledger endpoint := by
+  intro _packet _packet' classified
+  exact And.intro (hsame_symm classified.left)
+    (And.intro (hsame_symm classified.right.left)
+      (And.intro (hsame_symm classified.right.right.left)
+        (And.intro (hsame_symm classified.right.right.right.left)
+          (And.intro (hsame_symm classified.right.right.right.right.left)
+            (And.intro (hsame_symm classified.right.right.right.right.right.left)
+              (And.intro (hsame_symm classified.right.right.right.right.right.right.left)
+                (And.intro (hsame_symm classified.right.right.right.right.right.right.right.left)
+                  (hsame_symm classified.right.right.right.right.right.right.right.right))))))))
 
 theorem RepresentationRingBHistRepresentationPacket_semantic_name_certificate [AskSetup]
     [PackageSetup]
