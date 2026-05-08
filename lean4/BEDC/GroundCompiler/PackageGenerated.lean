@@ -60,6 +60,28 @@ theorem package_seal_is_source_subflow
   intro hSeal
   exact hSeal.right
 
+theorem no_package_without_ledger {S : PackageCandidateFlow} :
+    PkgFlow S ->
+      exists R : GeneratedPackageRecognizer,
+        exists L : PackageCandidateFlow,
+          PackageRecognitionRelation R S /\ PackageLedgerSubflow R S L := by
+  intro hPkg
+  cases hPkg with
+  | intro R hRecognizes =>
+      have hLedger : PackageLedgerSubflow R S S := by
+        change PackageRecognitionRelation R S /\ NonemptyEventFlow S
+        exact ⟨hRecognizes, hRecognizes.right⟩
+      exact ⟨R, S, hRecognizes, hLedger⟩
+
+theorem visible_code_insufficient {S : PackageCandidateFlow} :
+    Not
+      (exists R : GeneratedPackageRecognizer,
+        exists L : PackageCandidateFlow,
+          PackageRecognitionRelation R S /\ PackageLedgerSubflow R S L) ->
+      Not (PkgFlow S) := by
+  intro hNoLedger hPkg
+  exact hNoLedger (no_package_without_ledger hPkg)
+
 theorem no_external_package_input :
     Not (FormalCompilerInput CompilerDatum.hostPkg) :=
   structural_hidden_not_formal StructuralHiddenInput.hostPkg

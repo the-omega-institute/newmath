@@ -202,28 +202,39 @@ Thus if $\mathsf{RecognizesPkg}(R,S)$ and $L$ is recognized as the ledger-role s
 
 \begin{principle}[No package without ledger]
 \label{prin:package-generated-no-package-without-ledger}
+\leanchecked{BEDC.GroundCompiler.PackageGenerated.no\_package\_without\_ledger}
 A nontrivial recognized package flow must carry a recognized ledger subflow:
 $$
   \mathsf{PkgFlow}(S)
   \;\Longrightarrow\;
   \exists R,L,\ \mathsf{RecognizesPkg}(R,S) \wedge \mathsf{PkgLedger}_{R}(S,L),
 $$
-unless the recognizer explicitly identifies the flow as a trivial no-compression flow. This is the package-level form of the gap policy: visible package tokens are not admissible for nontrivial compression unless their ledgers record the histories entering the token.
+where the ledger witness is an event subflow identified by the same generated recognizer that recognizes $S$ as package-shaped. This is the package-level form of the gap policy: visible package tokens are not admissible for compression unless their ledgers record the histories entering the token.
 \end{principle}
 
 \begin{theorem}[Visible package code alone is insufficient]
 \label{thm:package-generated-visible-code-insufficient}
-If an event flow $S$ is claimed as a nontrivial package flow but there are no $R$ and $L$ such that
+\leanchecked{BEDC.GroundCompiler.PackageGenerated.visible\_code\_insufficient}
+If there are no $R$ and $L$ such that
 $$
   \mathsf{RecognizesPkg}(R,S)
   \wedge
   \mathsf{PkgLedger}_{R}(S,L),
 $$
-then $S$ is not admissible as a recognized package flow.
+then $S$ is not a recognized package flow:
+$$
+  \neg\,\mathsf{PkgFlow}(S).
+$$
 \end{theorem}
 
 \begin{proof}
-A nontrivial package compresses or hides source material behind a visible interface. Without a recognized ledger subflow, the hidden source material is not internally recoverable from the recognized package flow. That violates \autoref{prin:package-generated-no-package-without-ledger}. Hence the flow is not admissible as a recognized nontrivial package flow.
+By \autoref{prin:package-generated-no-package-without-ledger}, any recognized package flow supplies a generated recognizer $R$ and a ledger subflow $L$ with
+$$
+  \mathsf{RecognizesPkg}(R,S)
+  \wedge
+  \mathsf{PkgLedger}_{R}(S,L).
+$$
+If no such pair exists, the assumption $\mathsf{PkgFlow}(S)$ is impossible.
 \end{proof}
 
 \begin{corollary}[A package code is not merely a visible token]
