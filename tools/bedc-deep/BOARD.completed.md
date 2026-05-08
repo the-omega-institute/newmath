@@ -13873,3 +13873,55 @@ Rationale:
 This is a concrete single-implication target that fills the explicit DeRhamUp gap: the DeRham chapter advertises d^2 = 0 but has no carrier or certificate theorem, while the DiffForm exterior-derivative surface deliberately stops short of nilpotence and CohomologyUp already supplies nearby cycle/boundary machinery. It is not a BOARD duplicate, not already a labelled paper theorem, and the landing path is safe because the DeRham chapter is a short non-input stub with relevant dependency files below the line cap.
 
 ---
+
+### B-545 - StoneDuality clopen-ultrafilter bridge surface
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | StoneDuality clopen-ultrafilter bridge surface |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a StoneDualityUp packet supplies a Boolean LatticeUp source row, a TopologyUp clopen-basis row, and an ultrafilter-to-point ledger whose clopen membership rows agree with the lattice classifier, then it yields the first order-to-topology bridge carrier/classifier surface for StoneDualityUp.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/239_stoneduality_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/66_topology_namecert_construction.tex`
+
+Rationale:
+The claim is scoped as a bridge surface over displayed Boolean-lattice, clopen-basis, and ultrafilter ledger rows, rather than the full Stone duality theorem. It belongs directly in the StoneDualityUp chapter named by the roadmap and avoids relying on BoolUp to close a full Boolean-algebra certificate by requiring the Boolean lattice row as input. There is no close BOARD or paper-label duplicate, and the short StoneDuality landing file gives a safe place for a bounded carrier/classifier theorem.
+
+---
+
+### B-546 - DeformQuantization first-order bracket ledger
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | DeformQuantization first-order bracket ledger |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a DeformQuantizationUp packet over a SymplecticUp boundary and a HopfAlgUp formal-product row contains a star-product ledger with degree-zero product and degree-one commutator endpoint, then the degree-one endpoint is the displayed Poisson-bracket obligation row for the formal-deformation classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/249_deformquantization_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/116_symplectic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/158_hopfalg_namecert_construction.tex`
+
+Rationale:
+This is a bounded first-order deformation obligation and not a claim that SymplecticUp alone produces a Poisson bracket; the SymplecticUp chapter explicitly marks that as a consumer frontier. The proposed target supplies the missing DeformQuantizationUp-side ledger that connects the formal product row to a displayed bracket endpoint under stated hypotheses. No current BOARD item or paper theorem covers DeformQuantizationUp, and the short chapter file is a safe landing point with relevant SymplecticUp and HopfAlgUp dependencies.
+
+---
