@@ -223,4 +223,13 @@ theorem MartingaleAdaptedSequencePacket_namecert_obligation_surface
     }
   · exact And.intro packet.right.right.right.left packet.right.right.right.right
 
+theorem MartingaleAdaptedSequencePacket_tower_law_ledger_surface
+    {targetTotal sourceTotal chosenPreimage integrable projected residual previous filtration
+      stepEndpoint ledger : BHist} :
+    MartingaleAdaptedSequencePacket targetTotal sourceTotal chosenPreimage integrable projected
+        residual previous filtration stepEndpoint ledger ->
+      Cont stepEndpoint previous ledger ∧ hsame ledger (append stepEndpoint previous) := by
+  intro packet
+  exact And.intro packet.right.right.right.right packet.right.right.right.right
+
 end BEDC.Derived.MartingaleUp

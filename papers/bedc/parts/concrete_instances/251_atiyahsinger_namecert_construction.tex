@@ -8,3 +8,48 @@ The Atiyah-Singer-index interface $\AtiyahSingerUp$ packages the equality betwee
 
 \section{The certificate}
 \label{sec:atiyahsinger-certificate}
+
+\begin{definition}[Atiyah-Singer index-pairing carrier packet]
+\label{def:atiyahsinger-index-pairing-carrier-packet}
+An $\AtiyahSingerUp$ index-pairing carrier packet is a finite $\mathsf{BHist}$ tuple
+$$
+\mathcal{A}=(m,D,\sigma_D,\mathcal{S},\alpha,\mathcal{W},\theta,\tau,\eta,\rho)
+$$
+with the following rows. The row $m:\mathsf{BHist}$ is the closed-manifold endpoint. The row $D:\mathsf{BHist}$ is the elliptic-operator endpoint over $m$, and $\sigma_D:\mathsf{BHist}$ is its symbol row. The packet $\mathcal{S}$ is a $\NameCert_{\SpectralTheoremUp}$ source whose operator row is $D$ and whose spectral-data ledger is read over the same endpoint $m$. The row $\alpha:\mathsf{BHist}$ is the analytic-index endpoint projected from that spectral source. The packet $\mathcal{W}$ is a $\ChernWeilUp$ source packet over the same endpoint $m$. The row $\theta:\mathsf{BHist}$ is the Chern-character and Todd characteristic-class row projected from $\mathcal{W}$, and $\tau:\mathsf{BHist}$ is the topological-index endpoint obtained by the displayed characteristic-class pairing with $\sigma_D$ over $m$. The row $\eta:\mathsf{BHist}$ is the index-pairing equality obligation, and $\rho$ records the $\Pkg$ provenance of the spectral, Chern-Weil, symbol, endpoint, and pairing rows.
+
+The packet is admitted only when the analytic side and the topological side are displayed over the identical closed-manifold endpoint row $m$. Its public classifier row is the index-pairing predicate
+$$
+\mathsf{ASIndexPair}_{m,D,\sigma_D}(\alpha,\theta,\tau)
+:\Longleftrightarrow
+\mathsf{SpecAnalyticIndex}_{m,D}(\mathcal{S},\alpha)\land
+\mathsf{CWTopologicalIndex}_{m,\sigma_D}(\mathcal{W},\theta,\tau)\land
+\hsame(\alpha,\tau).
+$$
+Here $\mathsf{SpecAnalyticIndex}_{m,D}(\mathcal{S},\alpha)$ names the analytic-index projection from the $\SpectralTheoremUp$ dependency surface, while $\mathsf{CWTopologicalIndex}_{m,\sigma_D}(\mathcal{W},\theta,\tau)$ names the Chern-Weil characteristic-class projection and its displayed pairing endpoint. Thus the packet carries an equality obligation between two named index endpoints, not a host-level Fredholm theorem or an ambient equality of characteristic forms.
+\end{definition}
+
+\begin{theorem}[Atiyah-Singer index-pairing carrier surface]
+\label{thm:atiyahsinger-index-pairing-carrier-surface}
+Let $\mathcal{A}$ be an accepted packet of \autoref{def:atiyahsinger-index-pairing-carrier-packet}. If its $\SpectralTheoremUp$ component supplies the analytic-index row $\alpha$ for the elliptic-operator row $D$ over the closed-manifold endpoint $m$, and its $\ChernWeilUp$ component supplies the characteristic-class row $\theta$ and topological-index endpoint $\tau$ for the symbol row $\sigma_D$ over the same endpoint $m$, then $\mathcal{A}$ exposes the public index-pairing classifier row $\eta$ exactly as
+$$
+\eta=\mathsf{ASIndexPair}_{m,D,\sigma_D}(\alpha,\theta,\tau).
+$$
+The equality obligation in this row is scoped exactly to the two dependency reads
+$$
+\mathsf{SpecAnalyticIndex}_{m,D}(\mathcal{S},\alpha)
+\quad\text{and}\quad
+\mathsf{CWTopologicalIndex}_{m,\sigma_D}(\mathcal{W},\theta,\tau),
+$$
+together with the endpoint comparison $\hsame(\alpha,\tau)$. No further analytic spectrum row, coordinate connection form, ambient cohomology quotient, external symbol class, or completed Atiyah-Singer theorem is exported by this carrier surface.
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet of \autoref{def:atiyahsinger-index-pairing-carrier-packet}. Projection gives the closed-manifold endpoint row $m$, the elliptic-operator row $D$, the symbol row $\sigma_D$, the spectral packet $\mathcal{S}$, the analytic-index endpoint $\alpha$, the Chern-Weil packet $\mathcal{W}$, the characteristic-class row $\theta$, the topological-index endpoint $\tau$, the equality-obligation row $\eta$, and the provenance row $\rho$.
+
+The spectral component is bounded by the $\SpectralTheoremUp$ surface. By \autoref{thm:spectraltheorem-obligation-carrier-classifier}, the carried operator row and its classifier are read through the certified operator side rather than through host equality. By \autoref{thm:spectraltheorem-obligation-spectrum-pvm-functional-calculus}, the spectrum, projection-valued-measure, and functional-calculus rows are the visible spectral-data rows. By \autoref{thm:spectraltheorem-obligation-stability-ledger-exactness} and \autoref{thm:spectraltheorem-public-certificate}, a downstream consumer of $\mathcal{S}$ may use only the displayed carrier, classifier, spectral-data, stability, ledger, exactness, and dependency rows. The Atiyah-Singer packet consumes this surface only through the analytic-index projection named by $\mathsf{SpecAnalyticIndex}_{m,D}(\mathcal{S},\alpha)$.
+
+The topological component is bounded by the $\ChernWeilUp$ surface. The source packet of \autoref{def:chernweil-curvature-derham-source} supplies the curvature-to-de~Rham rows, invariant-polynomial row, evaluated characteristic row, endpoint row, exact-boundary row, ledger, and provenance. The classifier of \autoref{def:chernweil-characteristic-class-classifier} compares characteristic classes only after the displayed de~Rham transport. The carrier and exactness theorems \autoref{thm:chernweil-invariant-polynomial-carrier-obligation}, \autoref{thm:chernweil-closed-form-derham-class-obligation}, and \autoref{thm:chernweil-root-namecert-obligation-surface} exclude coordinate connection forms, ambient polynomial algebras, and uncarried cohomology quotients from the public surface. The Atiyah-Singer packet consumes this surface only through the characteristic-class row $\theta$ and the topological-index endpoint $\tau$ named by $\mathsf{CWTopologicalIndex}_{m,\sigma_D}(\mathcal{W},\theta,\tau)$.
+
+The shared endpoint condition is part of the admission rule in \autoref{def:atiyahsinger-index-pairing-carrier-packet}. Both dependency reads cite the identical row $m$ before the equality obligation is formed. Therefore there is no hidden transport from one manifold endpoint to another inside $\eta$; any such transport would have to appear as an additional displayed ledger before a packet of this definition could be admitted.
+
+It remains to identify the public classifier row. The definition assigns $\eta$ to the predicate $\mathsf{ASIndexPair}_{m,D,\sigma_D}(\alpha,\theta,\tau)$, whose three clauses are exactly the spectral analytic-index read, the Chern-Weil topological-index read, and the comparison $\hsame(\alpha,\tau)$. Coverage follows by projecting $\eta$ from the accepted packet. Soundness follows because any public index-pairing comparison must unpack this displayed $\eta$ and hence must supply those two dependency reads and that endpoint comparison. Exactness follows from the tuple inventory: after the listed projections and the provenance row $\rho$, the packet contains no field from which an additional analytic, topological, or host-theoretic equality could be read.
+\end{proof}

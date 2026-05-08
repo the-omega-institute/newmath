@@ -215,4 +215,30 @@ theorem HopfAlgAntipodeClassifier_convolution_inverse_unique
     (And.intro sameTensor
       (And.intro sameAntipode (And.intro sameUnit sameCounit)))
 
+theorem HopfAlgAntipodeClassifier_transport
+    {bialg tensor mul comul unit counit bialg' tensor' mul' comul' unit' counit'
+      antipode antipode' left left' endpoint endpoint' : BHist} :
+    hsame bialg bialg' ->
+      hsame tensor tensor' ->
+        hsame unit unit' ->
+          hsame counit counit' ->
+            hsame comul comul' ->
+              hsame mul mul' ->
+                Cont comul antipode left ->
+                  Cont left mul endpoint ->
+                    Cont comul' antipode' left' ->
+                      Cont left' mul' endpoint' ->
+                        hsame endpoint endpoint' ->
+                          HopfAlgAntipodeClassifier bialg tensor antipode unit counit bialg'
+                            tensor' antipode' unit' counit' := by
+  intro sameBialg sameTensor sameUnit sameCounit sameComul sameMul leftConv leftEndpoint
+    rightConv rightEndpoint sameEndpoint
+  have sameLeft : hsame left left' :=
+    cont_cancel_hsame_right_context leftEndpoint rightEndpoint sameMul sameEndpoint
+  have sameAntipode : hsame antipode antipode' :=
+    cont_cancel_hsame_left_context leftConv rightConv sameComul sameLeft
+  exact And.intro sameBialg
+    (And.intro sameTensor
+      (And.intro sameAntipode (And.intro sameUnit sameCounit)))
+
 end BEDC.Derived.HopfAlgUp

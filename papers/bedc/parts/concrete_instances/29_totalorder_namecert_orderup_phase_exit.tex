@@ -483,12 +483,41 @@ ledger projections therefore repack into one public $\OrderUp$ export surface,
 with no host order row and no classical trichotomy row.
 \end{proof}
 
+\begin{theorem}[TotalOrderUp unary-prefix OrderUp consumer coverage boundary]
+\label{thm:totalorder-orderup-consumer-coverage-boundary}
+Any downstream $\OrderUp$ or $\TotalOrderUp$ consumer of the unary-prefix public
+export receives exactly the rows named by
+\autoref{thm:unary-prefix-orderup-phase-exit-package} and
+\autoref{thm:orderup-unary-prefix-public-export}: $\mathsf{UnaryHistory}$,
+$\rho_{\mathsf{u}}$, $\le_{\mathsf{u}}$, the preorder and antisymmetry rows,
+constructive comparison branches, finite interval coverage, endpoint uniqueness,
+exactness, and finite ledger rows. It receives no host $\mathsf{Nat}$ order, no
+quotient equality, and no classical trichotomy.
+\end{theorem}
+\begin{proof}
+Read the public surface from
+\autoref{thm:orderup-unary-prefix-public-export}. Its carrier, classifier, and
+relation rows are $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and
+$\le_{\mathsf{u}} := \mathsf{PreorderPrefixLE}$.
+
+Apply the phase-exit package
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. The obligation-row
+theorems in this section project the preorder law rows, antisymmetry row,
+constructive comparison branches, finite interval coverage, endpoint uniqueness,
+and exactness row from the same unary-prefix package.
+
+Finally apply \autoref{thm:unary-prefix-orderup-ledger-obligation} together with
+\autoref{thm:orderup-exactness-ledger-scope}. These identify the finite
+$\Cont$ ledger rows and show that no additional host order, quotient equality,
+or classical trichotomy row is available to a downstream consumer.
+\end{proof}
+
 \begin{closurestatus}{\OrderUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The obligation frontier is bound to the unary-prefix package over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, with \autoref{thm:unary-prefix-orderup-carrier-obligation}, \autoref{thm:unary-prefix-orderup-classifier-obligation}, \autoref{thm:unary-prefix-orderup-relation-obligation}, \autoref{thm:unary-prefix-orderup-preorder-obligation}, \autoref{thm:unary-prefix-orderup-antisymmetry-obligation}, \autoref{thm:unary-prefix-orderup-constructive-comparison-obligation}, \autoref{thm:unary-prefix-orderup-finite-interval-coverage-obligation}, \autoref{thm:unary-prefix-orderup-endpoint-uniqueness-obligation}, \autoref{thm:unary-prefix-orderup-exactness-obligation}, \autoref{thm:unary-prefix-orderup-ledger-obligation}, \autoref{thm:orderup-carrier-classifier-obligation}, \autoref{thm:orderup-preorder-antisymmetry-obligation}, \autoref{thm:orderup-constructive-comparison-obligation}, and \autoref{thm:orderup-finite-interval-endpoint-obligation} spelling out the carrier, classifier, relation, preorder, antisymmetry, constructive comparison, finite interval coverage, endpoint uniqueness, exactness, and ledger rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:orderup-unary-prefix-public-export} gives the public $\OrderUp$ surface over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, with exactness and finite $\Cont$ ledger rows inherited from the unary-prefix package.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.PreorderUp.preorder\_prefix\_stability\_certificate\_fields}
   \bridgestatus{none}
   \notclaimed{The chapter does not claim a checked Lean OrderUp namespace, an audit-clean formal target, classical trichotomy, or full traditional order theory.}
-  \upgradepath{$\publicClosure$ requires a public-facing $\OrderUp$ export theorem that packages the scoped unary-prefix carrier, classifier, relation, exactness, and ledger rows as the cited phase object.}
+  \upgradepath{$\bridgedClosure$ requires a paper standard bridge for the public unary-prefix $\OrderUp$ surface.}
 \end{closurestatus}
