@@ -361,4 +361,38 @@ theorem BilinFormModulePairingPackageRow_carrier_obligation [AskSetup] [PackageS
         (And.intro row.right.right.right.right.right.right.left
           row.right.right.right.right.right.right.right)))
 
+theorem BilinFormModulePairingPackageRow_exactness_dependency_row [AskSetup] [PackageSetup]
+    {moduleSource vectorSource left right scalar endpoint ledger ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BilinFormModulePairingPackageRow moduleSource vectorSource left right scalar endpoint ledger
+        bundle pkg ->
+      hsame ledger ledger' ->
+        PkgSig bundle ledger' pkg ->
+          BilinFormModulePairingPackageRow moduleSource vectorSource left right scalar endpoint
+              ledger' bundle pkg ∧
+            UnaryHistory endpoint ∧ UnaryHistory ledger' ∧ Cont left right endpoint ∧
+              Cont endpoint scalar ledger' ∧ PkgSig bundle ledger' pkg := by
+  intro row sameLedger pkgSig'
+  have ledgerCont' : Cont endpoint scalar ledger' :=
+    cont_result_hsame_transport row.right.right.right.right.right.right.left sameLedger
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed
+      (unary_cont_closed row.right.right.left row.right.right.right.left
+        row.right.right.right.right.right.left)
+      row.right.right.right.right.left ledgerCont'
+  exact And.intro
+    (And.intro row.left
+      (And.intro row.right.left
+        (And.intro row.right.right.left
+          (And.intro row.right.right.right.left
+            (And.intro row.right.right.right.right.left
+              (And.intro row.right.right.right.right.right.left
+                (And.intro ledgerCont' pkgSig')))))))
+    (And.intro
+      (unary_cont_closed row.right.right.left row.right.right.right.left
+        row.right.right.right.right.right.left)
+      (And.intro ledgerUnary'
+        (And.intro row.right.right.right.right.right.left
+          (And.intro ledgerCont' pkgSig'))))
+
 end BEDC.Derived.BilinFormUp
