@@ -79,6 +79,28 @@ theorem BilinFormRootPairingSurface_ledger_exactness_boundary
         (And.intro ledgerReadback
           (And.intro surface.right.right.right.left surface.right.right.right.right))))
 
+theorem BilinFormRootPairingSurface_symmetry_rows
+    {left right scalar endpoint ledger swappedEndpoint swappedLedger : BHist} :
+    BilinFormRootPairingSurface left right scalar endpoint ledger ->
+      Cont right left swappedEndpoint ->
+        Cont swappedEndpoint scalar swappedLedger ->
+          BilinFormRootPairingSurface right left scalar swappedEndpoint swappedLedger ∧
+            hsame endpoint swappedEndpoint ∧ hsame ledger swappedLedger := by
+  intro surface swappedEndpointCont swappedLedgerCont
+  have sameEndpoint : hsame endpoint swappedEndpoint :=
+    unary_cont_comm surface.left surface.right.left surface.right.right.right.left
+      swappedEndpointCont
+  have sameLedger : hsame ledger swappedLedger :=
+    cont_respects_hsame sameEndpoint (hsame_refl scalar)
+      surface.right.right.right.right swappedLedgerCont
+  constructor
+  · exact
+      And.intro surface.right.left
+        (And.intro surface.left
+          (And.intro surface.right.right.left
+            (And.intro swappedEndpointCont swappedLedgerCont)))
+  · exact And.intro sameEndpoint sameLedger
+
 theorem BilinFormRootPairingSurface_bilinearity_rows
     {left right scalar endpoint ledger additive additiveEndpoint finalLedger : BHist} :
     BilinFormRootPairingSurface left right scalar endpoint ledger ->
