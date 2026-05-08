@@ -189,6 +189,7 @@ The $\NameCert$ seal is a source-level subflow, not the channel-level terminator
 
 \begin{proposition}[NameCert seal is not the channel terminator]
 \label{prop:namecert-generated-seal-not-channel-terminator}
+\leanchecked{BEDC.GroundCompiler.NameCertGenerated.namecert\_seal\_is\_source\_subflow}
 If $\mathsf{NameCertSeal}_{R}(S,\sigma)$, then $\sigma$ is a source-level subflow, not the channel-level terminator $11$.
 \end{proposition}
 
@@ -297,6 +298,7 @@ and $L$ records the source material hidden, compressed, named, or stabilized by 
 
 \begin{principle}[Certified derived interfaces carry ledger]
 \label{prin:namecert-generated-certified-derived-carry-ledger}
+\leanchecked{BEDC.GroundCompiler.NameCertGenerated.certified\_derived\_carry\_ledger}
 Every licensed derived interface is supported by a ledger-complete $\NameCert$ flow. This is the event-flow reading of \autoref{prin:limit-like-interfaces-derived}: every certified derived interface carries a ledger policy witness.
 \end{principle}
 
@@ -316,7 +318,8 @@ The five-field $\NameCert$ template includes $\LedgerPolicy$ as a required field
 
 \begin{corollary}[Four fields without ledger are not enough]
 \label{cor:namecert-generated-four-fields-without-ledger-not-enough}
-Even if source, pattern, classifier, and stability subflows are recognized, the $\NameCert$ remains incomplete when the ledger subflow is missing.
+\leanchecked{BEDC.GroundCompiler.NameCertGenerated.four\_fields\_without\_ledger\_not\_enough}
+For a fixed generated recognizer $R$, even if source, pattern, classifier, and stability subflows are recognized inside $S$, the recognition is not complete five-field recognition when no ledger subflow is recognized by $R$.
 \end{corollary}
 
 \section{NameCert code and channel recognition}

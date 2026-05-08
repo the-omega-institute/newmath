@@ -99,6 +99,13 @@ theorem incomplete_namecert_does_not_license
   | intro R hRecognizes =>
       exact hIncomplete R hRecognizes hRecognizes.right.right
 
+theorem namecert_seal_is_source_subflow
+    {R : GeneratedNameCertRecognizer} {S : NameCertCandidateFlow}
+    {sealFlow : EventFlow} :
+    NameCertSealSubflow R S sealFlow -> SourceSubflow sealFlow S := by
+  intro hSeal
+  exact hSeal.right
+
 theorem namecert_without_ledger_not_admissible
     {S : NameCertCandidateFlow} {N : NameCandidateFlow} :
     (forall R : GeneratedNameCertRecognizer,
@@ -123,6 +130,54 @@ theorem namecert_without_ledger_not_admissible
                           | intro sealFlow hFields =>
                               exact hNoLedger R ledger hRecognizes
                                 hFields.right.right.right.right.left
+
+theorem certified_derived_carry_ledger
+    {S : NameCertCandidateFlow} {N : NameCandidateFlow} :
+    NameCertFlow S N -> LedgerCompleteNameCertFlow S N := by
+  intro hFlow
+  cases hFlow with
+  | intro R hRecognizes =>
+      cases hRecognizes.right.right with
+      | intro source hComplete =>
+          cases hComplete with
+          | intro pattern hComplete =>
+              cases hComplete with
+              | intro classifier hComplete =>
+                  cases hComplete with
+                  | intro stability hComplete =>
+                      cases hComplete with
+                      | intro ledger hComplete =>
+                          cases hComplete with
+                          | intro sealFlow hFields =>
+                              exact
+                                ⟨R, ledger, hRecognizes,
+                                  hFields.right.right.right.right.left⟩
+
+theorem four_fields_without_ledger_not_enough
+    {R : GeneratedNameCertRecognizer} {S : NameCertCandidateFlow}
+    {source pattern classifier stability : EventFlow} :
+    NameCertFieldSubflow R S NameCertFieldRole.source source ->
+      NameCertFieldSubflow R S NameCertFieldRole.pattern pattern ->
+        NameCertFieldSubflow R S NameCertFieldRole.classifier classifier ->
+          NameCertFieldSubflow R S NameCertFieldRole.stability stability ->
+            (forall ledger : EventFlow,
+              Not (NameCertFieldSubflow R S NameCertFieldRole.ledger ledger)) ->
+              Not (CompleteFiveFieldRecognition R S) := by
+  intro _ _ _ _ hNoLedger hComplete
+  cases hComplete with
+  | intro completeSource hComplete =>
+      cases hComplete with
+      | intro completePattern hComplete =>
+          cases hComplete with
+          | intro completeClassifier hComplete =>
+              cases hComplete with
+              | intro completeStability hComplete =>
+                  cases hComplete with
+                  | intro ledger hComplete =>
+                      cases hComplete with
+                      | intro sealFlow hFields =>
+                          exact hNoLedger ledger
+                            hFields.right.right.right.right.left
 
 theorem namecert_recognition_preserves_code
     {R : GeneratedNameCertRecognizer} {S : NameCertCandidateFlow}
