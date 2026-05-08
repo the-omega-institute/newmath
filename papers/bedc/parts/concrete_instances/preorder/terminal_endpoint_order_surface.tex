@@ -1,0 +1,85 @@
+\begin{definition}[Preorder terminal endpoint-order surface]
+\label{def:preorder-terminal-endpoint-order-surface}
+For histories $h,k:\mathsf{BHist}$, define the terminal endpoint order over
+the singleton carrier $A_{\emp}$ by
+$$
+h\preceq_{\emp} k:=A_{\emp}(h)\land A_{\emp}(k).
+$$
+The public surface is the concrete tuple
+$(A_{\emp},\rho_{\emp},\preceq_{\emp})$, where $\rho_{\emp}$ is the
+restricted singleton classifier of
+\autoref{def:concrete-singleton-empty-preorder-instance}. Thus both the
+carrier and the comparison relation are pinned to $\mathsf{BHist}$ endpoints,
+and the relation records exactly the two endpoint carrier witnesses.
+\end{definition}
+
+\begin{theorem}[Preorder terminal endpoint-order laws]
+\label{thm:preorder-terminal-endpoint-order-laws}
+For the endpoint order of
+\autoref{def:preorder-terminal-endpoint-order-surface}, the following laws
+hold for histories $h,k,\ell:\mathsf{BHist}$.
+\begin{enumerate}
+\item If $A_{\emp}(h)$, then $h\preceq_{\emp} h$.
+\item If $h\preceq_{\emp} k$ and $k\preceq_{\emp}\ell$, then
+$h\preceq_{\emp}\ell$.
+\item If $\rho_{\emp}(h,h')$, $\rho_{\emp}(k,k')$, and
+$h\preceq_{\emp}k$, then $h'\preceq_{\emp}k'$.
+\item For all endpoints,
+$$
+h\preceq_{\emp}k
+\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the definition of $\preceq_{\emp}$. Reflexivity on a carried endpoint
+uses the same witness twice, so $A_{\emp}(h)$ gives
+$A_{\emp}(h)\land A_{\emp}(h)$.
+
+For transitivity, project $A_{\emp}(h)$ from the first comparison and
+$A_{\emp}(\ell)$ from the second comparison. Pairing those witnesses gives
+$h\preceq_{\emp}\ell$ after unfolding the terminal relation.
+
+For classifier congruence, unfold $\rho_{\emp}$ at both endpoint pairs. The
+classifier witnesses contain $A_{\emp}(h')$ and $A_{\emp}(k')$ directly, while
+the given comparison supplies the source endpoint witnesses. Pair the target
+carrier witnesses to obtain $h'\preceq_{\emp}k'$.
+
+The exact readback is definitional: the forward direction projects the two
+fields of the relation, and the reverse direction repacks the two endpoint
+carrier witnesses. The singleton endpoint transport already recorded for
+$A_{\emp}$ is the only transport needed by the classifier row.
+\end{proof}
+
+\begin{theorem}[Preorder terminal endpoint-order public certificate]
+\label{thm:preorder-terminal-endpoint-order-public-certificate}
+The tuple $(A_{\emp},\rho_{\emp},\preceq_{\emp})$ determines a concrete
+$\PreorderUp$ public surface over $\mathsf{BHist}$. Its source is the
+singleton endpoint carrier $A_{\emp}$, its carrier is exactly the histories
+accepted by $A_{\emp}$, its classifier is $\rho_{\emp}$, its relation is
+$\preceq_{\emp}$, its ledger records the two endpoint carrier witnesses, and
+its exactness row is
+$$
+h\preceq_{\emp}k
+\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k).
+$$
+The resulting status is a concrete terminal endpoint-order surface for
+$\PreorderUp$ with no abstract order parameter and no quotient layer.
+\end{theorem}
+\begin{proof}
+The source, carrier, and classifier rows are the singleton rows fixed in
+\autoref{def:concrete-singleton-empty-preorder-instance}. The relation row is
+\autoref{def:preorder-terminal-endpoint-order-surface}, so every comparison
+witness is already a pair of endpoint carrier witnesses.
+
+Apply \autoref{thm:preorder-terminal-endpoint-order-laws}. Its reflexivity,
+transitivity, classifier-congruence, and exact-readback clauses supply the
+order-law and exactness rows required by the preorder public surface.
+
+The ledger is forced by the definition of $\preceq_{\emp}$: a public
+comparison stores no data beyond $A_{\emp}(h)$ and $A_{\emp}(k)$. Repacking
+these rows into the roadmap source, carrier, classifier, relation, ledger,
+exactness, and status fields gives the stated concrete $\PreorderUp$ surface.
+\end{proof}
