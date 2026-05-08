@@ -63,4 +63,19 @@ theorem HomotopyBHistSourcePacket_interval_parameter_transport [AskSetup] [Packa
                   (And.intro endpointCont' pkgSig'))))))))
     (And.intro sameEndpointRead sameEndpoint)
 
+theorem HomotopyBHistSourcePacket_interval_endpoint_determinacy [AskSetup] [PackageSetup]
+    {source target deformation interval interval' provenance endpointRead endpointRead' ledger
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HomotopyBHistSourcePacket source target deformation interval provenance endpointRead ledger
+        endpoint bundle pkg ->
+      HomotopyBHistSourcePacket source target deformation interval' provenance endpointRead' ledger
+        endpoint bundle pkg ->
+        hsame endpointRead endpointRead' -> hsame interval interval' := by
+  intro leftPacket rightPacket sameEndpointRead
+  have rightEndpointReadCont : Cont deformation interval' endpointRead :=
+    cont_result_hsame_transport rightPacket.right.right.right.right.right.left
+      (hsame_symm sameEndpointRead)
+  exact cont_left_cancel leftPacket.right.right.right.right.right.left rightEndpointReadCont
+
 end BEDC.Derived.HomotopyUp
