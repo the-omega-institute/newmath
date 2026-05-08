@@ -83,6 +83,35 @@ theorem MatchingEdgeSet_compatible_union_closed
                 | inr inNE' =>
                     exact incidentN inNE inNE' vertV incVE incVE'
 
+theorem MatchingEdgeSet_singleton_classifier_closed
+    {Vert Edge : BHist -> Prop} {Inc EdgeRel : BHist -> BHist -> Prop}
+    (edgeCert : NameCert Edge EdgeRel) {edgeStar : BHist} :
+    Edge edgeStar ->
+      MatchingEdgeSet Vert Edge Inc EdgeRel (fun edge : BHist => EdgeRel edge edgeStar) := by
+  intro edgeCarrier
+  constructor
+  · intro edge selected
+    have selectedBack : EdgeRel edgeStar edge :=
+      NameCert.equiv_symm edgeCert selected
+    exact NameCert.carrier_respects_equiv edgeCert selectedBack edgeCarrier
+  · intro edge edge' _vertex selected selected' _vert _inc _inc'
+    have selectedBack : EdgeRel edgeStar edge' :=
+      NameCert.equiv_symm edgeCert selected'
+    exact NameCert.equiv_trans edgeCert selected selectedBack
+
+theorem MatchingEdgeSet_toggle_singleton_compatible_union_closed
+    {Vert Edge : BHist -> Prop} {Inc EdgeRel : BHist -> BHist -> Prop}
+    (edgeCert : NameCert Edge EdgeRel) {M : BHist -> Prop} {edgeStar : BHist} :
+    MatchingEdgeSet Vert Edge Inc EdgeRel M ->
+      Edge edgeStar ->
+        (forall {e e' v : BHist}, ((M e ∧ EdgeRel e' edgeStar) ∨
+          (EdgeRel e edgeStar ∧ M e')) -> Vert v -> Inc v e -> Inc v e' -> EdgeRel e e') ->
+          MatchingEdgeSet Vert Edge Inc EdgeRel
+            (fun edge : BHist => M edge ∨ EdgeRel edge edgeStar) := by
+  intro matching edgeCarrier crossCompatible
+  exact MatchingEdgeSet_compatible_union_closed matching
+    (MatchingEdgeSet_singleton_classifier_closed edgeCert edgeCarrier) crossCompatible
+
 theorem MatchingEdgeSet_e0_empty_absurd_predicate
     {Vert Edge : BHist -> Prop} {Inc : BHist -> BHist -> Prop}
     {EdgeRel : BHist -> BHist -> Prop} :
