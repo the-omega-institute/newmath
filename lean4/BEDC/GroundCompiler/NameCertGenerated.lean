@@ -22,6 +22,36 @@ def NameCertRecognitionRelation
 def NameCertFlow (S : NameCertCandidateFlow) (N : NameCandidateFlow) : Prop :=
   exists R : GeneratedNameCertRecognizer, NameCertRecognitionRelation R S N
 
+def SourceSubflow (part whole : EventFlow) : Prop :=
+  exists before after : EventFlow, whole = List.append before (List.append part after)
+
+inductive NameCertFieldRole : Type where
+  | source
+  | pattern
+  | classifier
+  | stability
+  | ledger
+
+def NameCertFieldSubflow
+    (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
+    (_role : NameCertFieldRole) (part : EventFlow) : Prop :=
+  RecognizesNameCert R S /\ SourceSubflow part S
+
+def NameCertSealSubflow
+    (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
+    (sealFlow : EventFlow) : Prop :=
+  RecognizesNameCert R S /\ SourceSubflow sealFlow S
+
+def CompleteFiveFieldRecognition
+    (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow) : Prop :=
+  exists source pattern classifier stability ledger sealFlow : EventFlow,
+    NameCertFieldSubflow R S NameCertFieldRole.source source /\
+      NameCertFieldSubflow R S NameCertFieldRole.pattern pattern /\
+      NameCertFieldSubflow R S NameCertFieldRole.classifier classifier /\
+      NameCertFieldSubflow R S NameCertFieldRole.stability stability /\
+      NameCertFieldSubflow R S NameCertFieldRole.ledger ledger /\
+      NameCertSealSubflow R S sealFlow
+
 def NameCertCode (S : NameCertCandidateFlow) (_N : NameCandidateFlow) :
     List DisplayAlphabet :=
   FlowEncoding S
