@@ -78,6 +78,7 @@ import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
+import BEDC.Derived.DynSystemUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier

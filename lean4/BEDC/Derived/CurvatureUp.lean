@@ -142,6 +142,120 @@ theorem CurvatureBracketCarrier_boundary_source_obligation
     (And.intro boundaryProjection.right.left
       (And.intro boundaryProjection.right.right.left boundaryProjection.right.right.right.left))
 
+theorem CurvatureBracketCarrier_classifier_transport_row
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
+      curvatureLedger boundary' curvatureLedger' : BHist} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA
+        ledgerB boundary curvatureLedger ->
+      hsame boundary boundary' ->
+        Cont boundary' provenance curvatureLedger' ->
+          CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance
+              ledgerA ledgerB boundary' curvatureLedger' ∧
+            hsame curvatureLedger curvatureLedger' := by
+  intro carrier sameBoundary curvatureCont'
+  have boundaryCont' : Cont derivativeA derivativeB boundary' :=
+    cont_result_hsame_transport carrier.right.right.left sameBoundary
+  have sameCurvature : hsame curvatureLedger curvatureLedger' :=
+    cont_respects_hsame sameBoundary (hsame_refl provenance) carrier.right.right.right
+      curvatureCont'
+  exact And.intro
+    (And.intro carrier.left
+      (And.intro carrier.right.left
+        (And.intro boundaryCont' curvatureCont')))
+    sameCurvature
+
+def CurvatureChernWeilSourceEnvelope [AskSetup] [PackageSetup]
+    (curvatureLedger derham provenance connectionLedger classifier : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory curvatureLedger ∧ UnaryHistory derham ∧ UnaryHistory provenance ∧
+    UnaryHistory connectionLedger ∧ UnaryHistory classifier ∧
+      Cont curvatureLedger derham provenance ∧ Cont provenance connectionLedger classifier ∧
+        hsame classifier (append (append curvatureLedger derham) connectionLedger) ∧
+          PkgSig bundle classifier pkg
+
+theorem CurvatureChernWeilSourceEnvelope_coverage [AskSetup] [PackageSetup]
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance0 ledgerA ledgerB boundary
+      curvatureLedger derham provenance connectionLedger classifier : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance0
+        ledgerA ledgerB boundary curvatureLedger ->
+      UnaryHistory derham ->
+        UnaryHistory connectionLedger ->
+          Cont curvatureLedger derham provenance ->
+            Cont provenance connectionLedger classifier ->
+              PkgSig bundle classifier pkg ->
+                CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance
+                    connectionLedger classifier bundle pkg ∧
+                  hsame classifier (append (append curvatureLedger derham) connectionLedger) := by
+  intro carrier derhamUnary connectionLedgerUnary provenanceCont classifierCont pkgSig
+  have curvatureRows :=
+    CurvatureBracketCarrier_boundary_source_obligation carrier
+  have curvatureUnary : UnaryHistory curvatureLedger :=
+    curvatureRows.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed curvatureUnary derhamUnary provenanceCont
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed provenanceUnary connectionLedgerUnary classifierCont
+  have classifierReadback :
+      hsame classifier (append (append curvatureLedger derham) connectionLedger) :=
+    hsame_trans classifierCont
+      (congrArg (fun row : BHist => append row connectionLedger) provenanceCont)
+  have envelope :
+      CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance connectionLedger
+        classifier bundle pkg :=
+    And.intro curvatureUnary
+      (And.intro derhamUnary
+        (And.intro provenanceUnary
+          (And.intro connectionLedgerUnary
+            (And.intro classifierUnary
+              (And.intro provenanceCont
+                (And.intro classifierCont
+                  (And.intro classifierReadback pkgSig)))))))
+  exact And.intro envelope classifierReadback
+
+theorem CurvatureChernWeilSourceEnvelope_consumer_stability [AskSetup] [PackageSetup]
+    {curvature curvature' derham provenance connectionLedger classifier classifier' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CurvatureChernWeilSourceEnvelope curvature derham provenance connectionLedger classifier
+        bundle pkg ->
+      hsame curvature curvature' ->
+        Cont curvature' derham provenance ->
+          Cont provenance connectionLedger classifier' ->
+            PkgSig bundle classifier' pkg ->
+              CurvatureChernWeilSourceEnvelope curvature' derham provenance connectionLedger
+                  classifier' bundle pkg ∧
+                hsame classifier classifier' := by
+  intro envelope sameCurvature provenanceCont' classifierCont' pkgSig'
+  have curvatureUnary' : UnaryHistory curvature' :=
+    unary_transport envelope.left sameCurvature
+  have derhamUnary : UnaryHistory derham :=
+    envelope.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    envelope.right.right.left
+  have connectionLedgerUnary : UnaryHistory connectionLedger :=
+    envelope.right.right.right.left
+  have classifierUnary' : UnaryHistory classifier' :=
+    unary_cont_closed provenanceUnary connectionLedgerUnary classifierCont'
+  have sameClassifier : hsame classifier classifier' :=
+    cont_respects_hsame (hsame_refl provenance) (hsame_refl connectionLedger)
+      envelope.right.right.right.right.right.right.left classifierCont'
+  have classifierReadback' :
+      hsame classifier' (append (append curvature' derham) connectionLedger) :=
+    hsame_trans classifierCont'
+      (congrArg (fun row : BHist => append row connectionLedger) provenanceCont')
+  have envelope' :
+      CurvatureChernWeilSourceEnvelope curvature' derham provenance connectionLedger
+        classifier' bundle pkg :=
+    And.intro curvatureUnary'
+      (And.intro derhamUnary
+        (And.intro provenanceUnary
+          (And.intro connectionLedgerUnary
+            (And.intro classifierUnary'
+              (And.intro provenanceCont'
+                (And.intro classifierCont'
+                  (And.intro classifierReadback' pkgSig')))))))
+  exact And.intro envelope' sameClassifier
+
 theorem CurvatureBracketCarrier_connection_classifier_stability
     {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
       curvatureLedger base' fibre' sec' tangentA' tangentB' derivativeA' derivativeB'

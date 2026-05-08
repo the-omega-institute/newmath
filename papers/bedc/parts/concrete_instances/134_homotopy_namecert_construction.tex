@@ -6,5 +6,57 @@ The homotopy interface $\HomotopyUp$ packages the equivalence-of-paths relation 
 \section{Carrier definition}
 \label{sec:homotopy-carrier}
 
+\begin{definition}[Homotopy source envelope]
+\label{def:homotopy-source-envelope}
+A $\HomotopyUp$ source envelope is a finite $\mathsf{BHist}$ packet
+$$
+\mathcal{H}=(F,G,I,H,p_0,p_1,\eta,\rho)
+$$
+where $F$ and $G$ are source $\NameCert_{\ContinuousMapUp}$ rows for the displayed endpoint maps, $I$ is a $\NameCert_{\IntervalUp}$ parameter row, $H$ is the continuous-map row for the deformation family, $p_0$ and $p_1$ are endpoint ledgers selecting the interval endpoints, $\eta$ is the finite $\Cont$ readback ledger from the deformation row to the two endpoint maps, and $\rho$ records the $\mathsf{Pkg}$ provenance binding the continuous-map and interval sources.
+
+The envelope is admitted only when $F$, $G$, $I$, $H$, $p_0$, $p_1$, $\eta$, and $\rho$ occur as displayed rows of the same finite BEDC packet. Thus $\HomotopyUp$ carries a deformation certificate assembled from named continuous-map and interval rows, not a host path space of maps.
+\end{definition}
+
+\begin{definition}[Homotopy classifier surface]
+\label{def:homotopy-classifier-surface}
+Two $\HomotopyUp$ source envelopes $\mathcal{H}$ and $\mathcal{H}'$ classify the same homotopy object exactly when $\hsame$ transports the two endpoint $\NameCert_{\ContinuousMapUp}$ rows, the $\NameCert_{\IntervalUp}$ parameter row, and the finite $\Cont$ ledgers reading the deformation endpoint rows. The classifier compares only the displayed endpoint maps, interval parameter, deformation readback, and $\mathsf{Pkg}$ provenance; it does not quantify over an ambient space of paths between maps.
+\end{definition}
+
+\begin{theorem}[Homotopy ContinuousMap dependency surface]
+\label{thm:homotopy-continuousmap-dependency-surface}
+For every admitted $\HomotopyUp$ source envelope of \autoref{def:homotopy-source-envelope}, every deformation slice and both endpoint maps project through $\NameCert_{\ContinuousMapUp}$. The only continuous-map data exposed to a downstream consumer are the endpoint rows $F$ and $G$, the deformation row $H$, the finite $\Cont$ readback ledger $\eta$, and the shared $\mathsf{Pkg}$ provenance $\rho$.
+\end{theorem}
+\begin{proof}
+Unpack the source envelope. Its first, second, and fourth coordinates are declared $\NameCert_{\ContinuousMapUp}$ rows, so the endpoint maps and the deformation carrier are already projected through the continuous-map certificate surface.
+
+The slice information is not a separate host function space. It is read from $H$ using the interval parameter row $I$ and the finite $\Cont$ ledger $\eta$, so each admitted slice has the same continuous-map dependency row as the displayed deformation packet.
+
+Repacking these projections gives exactly the dependency surface stated above. No projection of the envelope returns an uncarried map, topology, or path object outside $\NameCert_{\ContinuousMapUp}$.
+\end{proof}
+
+\begin{theorem}[Homotopy interval endpoint obligation surface]
+\label{thm:homotopy-interval-endpoint-obligation-surface}
+For every admitted $\HomotopyUp$ source envelope of \autoref{def:homotopy-source-envelope}, the two interval endpoint rows $p_0$ and $p_1$ select the displayed source and target maps by finite $\Cont$ readback from the deformation row $H$. The source endpoint readback returns $F$, and the target endpoint readback returns $G$, both under the interval classifier inherited from $\NameCert_{\IntervalUp}$.
+\end{theorem}
+\begin{proof}
+Project the interval coordinate $I$ and the endpoint ledgers $p_0$ and $p_1$ from the finite packet. By admission, these rows are part of the same $\mathsf{BHist}$ envelope as the deformation row $H$ and the endpoint continuous-map rows $F$ and $G$.
+
+Read the deformation row along $p_0$. The ledger $\eta$ records this readback as a finite $\Cont$ row whose endpoint is the displayed source map row $F$, with interval transport supplied by the $\NameCert_{\IntervalUp}$ classifier.
+
+Read the deformation row along $p_1$ in the same way. The corresponding endpoint of the same finite ledger is $G$, so the target map is selected without introducing an external endpoint-evaluation operation.
+\end{proof}
+
+\begin{theorem}[Homotopy certificate obligation surface]
+\label{thm:homotopy-certificate-obligation-surface}
+The $\HomotopyUp$ certificate obligation surface consists exactly of the source envelope of \autoref{def:homotopy-source-envelope}, the classifier surface of \autoref{def:homotopy-classifier-surface}, the continuous-map dependency surface of \autoref{thm:homotopy-continuousmap-dependency-surface}, the interval endpoint obligation surface of \autoref{thm:homotopy-interval-endpoint-obligation-surface}, the classifier-stability transport by $\hsame$, the finite $\Cont$ ledgers, and the $\mathsf{Pkg}$ provenance over $\NameCert_{\ContinuousMapUp}$ and $\NameCert_{\IntervalUp}$.
+\end{theorem}
+\begin{proof}
+Collect the carrier and classifier definitions. They expose the endpoint continuous-map rows, the interval parameter row, the deformation row, the endpoint ledgers, the finite readback ledger, and the provenance row as the complete carrier-classifier surface.
+
+Use \autoref{thm:homotopy-continuousmap-dependency-surface} to account for every continuous-map consumer. Use \autoref{thm:homotopy-interval-endpoint-obligation-surface} to account for the two interval endpoint consumers. These two projection theorems cover the dependency and exactness rows used by downstream homotopy and knot certificates.
+
+Classifier stability is the stated $\hsame$ transport of the endpoint rows, interval row, and finite $\Cont$ ledgers. Since all admitted comparisons are generated by those transported rows and the retained $\mathsf{Pkg}$ provenance, there is no remaining public field through which a consumer could demand a stronger host-level homotopy object.
+\end{proof}
+
 \section{The certificate}
 \label{sec:homotopy-certificate}
