@@ -2,6 +2,7 @@
 all: main.pdf
 precheck:
 	@bash scripts/check_tex_size.sh
+	@bash scripts/check_math_env.sh
 main.pdf: precheck main.tex preamble.tex $(wildcard frontmatter/*.tex parts/**/*.tex appendices/*.tex)
 	pdflatex -interaction=nonstopmode main.tex
 	pdflatex -interaction=nonstopmode main.tex
