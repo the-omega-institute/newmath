@@ -138,3 +138,27 @@ dependency data.
 \section{The certificate}
 \label{sec:dirichletunit-certificate}
 \closureat{DirichletUnitUp}{seedStr}
+
+\begin{theorem}[DirichletUnit inherited unit-product closure]
+\label{thm:dirichletunit-inherited-unit-product-closure}
+Let
+$$
+\mathcal{D}_0=(\mathcal{O},\mathcal{A},u_0,\iota_0,\nu,\beta,\rho)
+\qquad\text{and}\qquad
+\mathcal{D}_1=(\mathcal{O},\mathcal{A},u_1,\iota_1,\nu,\beta,\rho)
+$$
+be accepted $\DirichletUnitUp$ carrier packets with the same $\NameCert_{\RingOfIntegersUp}$ dependency row $\mathcal{O}$, the same $\NameCert_{\AbGroupUp}$ dependency row $\mathcal{A}$, and the same $\Pkg$ provenance row $\rho$. Let $u_0$ and $u_1$ be their visible unit rows, and let $\iota_0$ and $\iota_1$ be the inverse/unit-product witness rows supplied by the carrier packets. If $u_0\star_{\mathcal{A}}u_1$ denotes the endpoint of the inherited $\AbGroupUp$ operation row projected from $\mathcal{A}$, then $u_0\star_{\mathcal{A}}u_1$ is again a visible $\DirichletUnitUp$ unit row over $\mathcal{O}$. Its inverse/unit-product witness is the displayed row obtained by applying the same inherited operation to the two inverse endpoints in $\iota_0$ and $\iota_1$, and its public provenance is exactly the shared $\Cont$ and $\Pkg$ provenance of $\mathcal{D}_0$ and $\mathcal{D}_1$.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through \autoref{def:dirichletunit-carrier-packet}. The two projections expose the same dependency rows $\mathcal{O}$ and $\mathcal{A}$, the same structural rows $\nu$ and $\beta$, and the same provenance row $\rho$. By \autoref{thm:dirichletunit-visible-unit-row-obligation}, the rows $u_0,u_1$ and their witness rows $\iota_0,\iota_1$ are visible unit-facing history rows over $\mathcal{O}$, read only through finite $\Cont$ entries and the shared $\Pkg$ provenance.
+
+Project the abelian-group operation from $\mathcal{A}$ using \autoref{thm:dirichletunit-unit-abgroup-projection}. The restriction clause in \autoref{thm:dirichletunit-abgroup-dependency-obligation} says that this operation is available precisely on unit rows accepted by the $\RingOfIntegersUp$ dependency. Since $u_0$ and $u_1$ are accepted unit rows over the same $\mathcal{O}$, the inherited operation has a displayed endpoint $u_0\star_{\mathcal{A}}u_1$ inside the same dependency boundary.
+
+It remains to read this endpoint as a $\DirichletUnitUp$ unit row rather than as a detached abelian-group product. The witness rows $\iota_0$ and $\iota_1$ give inverse endpoints $u_0^{-1}$ and $u_1^{-1}$ together with the unit-product comparisons for $u_0$ and $u_1$. Apply the inherited operation row of $\mathcal{A}$ to these inverse endpoints. The $\AbGroupUp$ stability certificate contains multiplication congruence, associativity, inverse laws, and commutativity, and \autoref{thm:abgroup-mul-inverse-pair-collapse} packages exactly the resulting comparison
+$$
+(u_0\star_{\mathcal{A}}u_1)\star_{\mathcal{A}}(u_0^{-1}\star_{\mathcal{A}}u_1^{-1})\hsame e_{\mathcal{A}}.
+$$
+Thus the product endpoint carries its own inverse/unit-product witness row, built only from $\iota_0$, $\iota_1$, and the operation rows already projected from $\mathcal{A}$.
+
+Repack the endpoint $u_0\star_{\mathcal{A}}u_1$ with this inverse/unit-product witness, the unchanged dependency rows $\mathcal{O}$ and $\mathcal{A}$, the unchanged structural rows $\nu$ and $\beta$, and the same provenance row $\rho$. This is exactly the visible unit-row slot described in \autoref{def:dirichletunit-carrier-packet}: the ring-of-integers readback still points to $\mathcal{O}$, the group-law readback still points to $\mathcal{A}$, and the exported row is still tied to the same $\Cont$ and $\Pkg$ ledgers. No host-level multiplication, analytic logarithm equality, determinant row, or standard bridge is introduced.
+\end{proof}
