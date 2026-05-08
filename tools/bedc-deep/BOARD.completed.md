@@ -13508,3 +13508,52 @@ Rationale:
 Symmetric companion to in-progress B-518 (left-absorbing 0∘f). Not a duplicate: opposite composition slot, separate theorem statement. The two together complete the 'two-sided absorbing' shape that any reader expects together. Proof mirrors B-518 via biproduct hom additivity (line 211) and zero morphism uniqueness (B-423). File safe at 433 lines. Codex_close in 1-2 rounds once B-518 lands.
 
 ---
+
+### B-532 - Banach bounded-linear-operator pointwise sum closure with norm subadditivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Banach bounded-linear-operator pointwise sum closure with norm subadditivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For two displayed bounded-linear-operator naming certificates T, S over the same Banach source, the pointwise sum T + S (defined by the addition row of the target Banach AbGroupUp on each input endpoint) is itself a bounded linear operator, and its operator-bound row is classified ≤_R the scalar sum of the displayed bounds for T and S under the RealAlgOrder additive order row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex`
+
+Rationale:
+Frontier first closure: chapter has identity (B-481), zero (B-480), composition (B-375), and Lipschitz constant composition, but no additive closure on bounded-linear operators. Without it the bounded-operator class is not stated as a Banach-AbGroupUp object and downstream OperatorIdealUp / FunctionalAnalysisUp consumers must reconstruct ad-hoc. Companion-of-canon to the operator-norm composition Lipschitz row at line 24. File safe at 451 lines. Likely oracle for the bound transport.
+
+---
+
+### B-533 - Measure ternary-union subadditivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Measure ternary-union subadditivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+For a MeasureUp carrier with R-valued measure mu and three measurable events A, B, C, if U_BC is the displayed binary union of B and C and U is the displayed binary union of A and U_BC, and if the certificate supplies binary-union subadditivity, finite disjoint-union additivity, the nonnegative measure-value row, and the RealAlgOrder addition-monotonicity row, then mu(U) le_R mu(A) + mu(B) + mu(C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+
+Rationale:
+The binary case (B-433) is proved at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:199 thm:measure-binary-union-subadditivity (mu(A cup B) le_R mu(A) + mu(B)). Grep across papers/bedc/parts for `measure-ternary|measure-three-union|measure-finite-union-subadditivity` returned zero matches; only the existing binary form and the unrelated `measure-finite-disjoint-union-additivity` (which requires disjointness) appear. The proof composes binary subadditivity twice -- once on (B, C) yielding mu(U_BC) le mu(B) + mu(C), then on (A, U_BC) yielding mu(U) le mu(A) + mu(U_BC) -- and chains by addition monotonicity. Concrete inequality on existing measure values, not a parameter echo. File currently 248 lines, fits append. Lands in the `measure/` child directory, not a hub.
+
+---
