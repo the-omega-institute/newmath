@@ -60,6 +60,37 @@ theorem BrownianStepContinuityClassifier_step_ledger_transport
               (And.intro stepRow (And.intro provenanceRow ledgerRow)))))))
     (And.intro sameProvenance sameLedger)
 
+theorem BrownianStepContinuityClassifier_joint_classifier_transport
+    {martingale continuous time path step normal provenance ledger martingale' continuous' time'
+      path' step' normal' provenance' ledger' : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      hsame martingale martingale' ->
+        hsame continuous continuous' ->
+          hsame time time' ->
+            hsame path path' ->
+              hsame normal normal' ->
+                Cont continuous' path' step' ->
+                  Cont martingale' step' provenance' ->
+                    Cont provenance' normal' ledger' ->
+                      BrownianStepContinuityClassifier martingale' continuous' time' path' step'
+                          normal' provenance' ledger' ∧
+                        UnaryHistory martingale' ∧ UnaryHistory continuous' ∧
+                          UnaryHistory time' ∧ UnaryHistory normal' ∧
+                            hsame provenance provenance' ∧ hsame ledger ledger' := by
+  intro classified sameMartingale sameContinuous sameTime samePath sameNormal stepRow provenanceRow
+    ledgerRow
+  have transported :
+      BrownianStepContinuityClassifier martingale' continuous' time' path' step' normal'
+          provenance' ledger' ∧ hsame provenance provenance' ∧ hsame ledger ledger' :=
+    BrownianStepContinuityClassifier_step_ledger_transport classified sameMartingale sameContinuous
+      sameTime samePath sameNormal stepRow provenanceRow ledgerRow
+  exact And.intro transported.left
+    (And.intro transported.left.left
+      (And.intro transported.left.right.left
+        (And.intro transported.left.right.right.left
+          (And.intro transported.left.right.right.right.right.left
+            (And.intro transported.right.left transported.right.right)))))
+
 theorem BrownianStepContinuityClassifier_dependency_surface
     {martingale continuous time path step normal provenance ledger : BHist} :
     BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
