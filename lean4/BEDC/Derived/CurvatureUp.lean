@@ -142,6 +142,34 @@ theorem CurvatureBracketCarrier_boundary_source_obligation
     (And.intro boundaryProjection.right.left
       (And.intro boundaryProjection.right.right.left boundaryProjection.right.right.right.left))
 
+theorem CurvatureBracketCarrier_antisymmetric_bracket_obligation
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
+      swappedBoundary curvatureLedger swappedCurvatureLedger : BHist} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance
+        ledgerA ledgerB boundary curvatureLedger ->
+      Cont derivativeB derivativeA swappedBoundary ->
+        Cont swappedBoundary provenance swappedCurvatureLedger ->
+          CurvatureBracketCarrier base fibre sec tangentB tangentA derivativeB derivativeA
+              provenance ledgerB ledgerA swappedBoundary swappedCurvatureLedger ∧
+            hsame boundary swappedBoundary ∧ hsame curvatureLedger swappedCurvatureLedger := by
+  intro carrier swappedBoundaryCont swappedCurvatureCont
+  have exactA :=
+    ConnectionCarrierPacket_stability_ledger_exactness_obligation carrier.left
+  have exactB :=
+    ConnectionCarrierPacket_stability_ledger_exactness_obligation carrier.right.left
+  have sameBoundary : hsame boundary swappedBoundary :=
+    unary_cont_comm exactA.right.left exactB.right.left carrier.right.right.left
+      swappedBoundaryCont
+  have sameCurvatureLedger : hsame curvatureLedger swappedCurvatureLedger :=
+    cont_respects_hsame sameBoundary (hsame_refl provenance) carrier.right.right.right
+      swappedCurvatureCont
+  have swappedCarrier :
+      CurvatureBracketCarrier base fibre sec tangentB tangentA derivativeB derivativeA
+        provenance ledgerB ledgerA swappedBoundary swappedCurvatureLedger :=
+    And.intro carrier.right.left
+      (And.intro carrier.left (And.intro swappedBoundaryCont swappedCurvatureCont))
+  exact And.intro swappedCarrier (And.intro sameBoundary sameCurvatureLedger)
+
 def CurvatureChernWeilSourceEnvelope [AskSetup] [PackageSetup]
     (curvatureLedger derham provenance connectionLedger classifier : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=

@@ -179,6 +179,38 @@ theorem ChernWeilCarrierEnvelope_derham_class_exactness_obligation
   exact And.intro classRowUnary
     (And.intro classRowCont classRowProvenanceReadback)
 
+theorem ChernWeilCarrierEnvelope_closed_form_derham_class_obligation
+    {curvature derham polynomial connectionLedger characteristic provenance endpoint representative
+      classRow : BHist} :
+    ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic provenance
+        endpoint ->
+      UnaryHistory representative ->
+        Cont endpoint representative classRow ->
+          UnaryHistory characteristic ∧ UnaryHistory provenance ∧ UnaryHistory endpoint ∧
+            UnaryHistory classRow ∧ hsame characteristic (append curvature polynomial) ∧
+              hsame provenance (append characteristic derham) ∧
+                hsame endpoint (append provenance connectionLedger) ∧
+                  hsame classRow (append endpoint representative) ∧
+                    hsame classRow (append (append provenance connectionLedger) representative) := by
+  intro envelope representativeUnary classRowCont
+  have sourceRows :=
+    ChernWeilSourceEnvelope_carrier_obligation envelope
+  have classRowUnary : UnaryHistory classRow :=
+    unary_cont_closed sourceRows.right.right.left representativeUnary classRowCont
+  have classRowSourceReadback :
+      hsame classRow (append (append provenance connectionLedger) representative) :=
+    hsame_trans classRowCont
+      (congrArg (fun row : BHist => append row representative)
+        sourceRows.right.right.right.right.right)
+  exact And.intro sourceRows.left
+    (And.intro sourceRows.right.left
+      (And.intro sourceRows.right.right.left
+        (And.intro classRowUnary
+          (And.intro sourceRows.right.right.right.left
+            (And.intro sourceRows.right.right.right.right.left
+              (And.intro sourceRows.right.right.right.right.right
+                (And.intro classRowCont classRowSourceReadback)))))))
+
 theorem ChernWeilCarrierPacket_curvature_polynomial_stability_obligation
     {curvature curvature' polynomial endpoint endpoint' : BHist} :
     UnaryHistory curvature -> UnaryHistory polynomial -> hsame curvature curvature' ->
