@@ -122,6 +122,7 @@ does not lift to a glyph-level transducer $\Sigma^{*} \to \Sigma^{*}$ obtained b
 
 \begin{definition}[Decode-normalize-compile pipeline]
 \label{def:source-channel-decode-normalize-compile}
+\leandef{BEDC.GroundCompiler.SourceChannel.NormalizeChannel}
 Given a source-level normalizer $N \colon \mathsf{EventFlow} \to \mathsf{EventFlow}$, the \emph{decode-normalize-compile pipeline} is the composition
 $$
   \mathsf{NormalizeChannel}_{N}
@@ -138,11 +139,12 @@ read as
   $\xrightarrow{\mathsf{Compile}}$ channel stream.
 \end{tabular}
 \end{center}
-By construction the pipeline forbids any direct rewrite on channel glyphs.
+On an arbitrary channel glyph string the same operation is partial: it rejects malformed input when $\mathsf{Decode}$ rejects, and otherwise returns $\mathsf{Compile}(N(S))$ for the decoded event flow $S$. Restricted to $\mathsf{LegalZStream}$, it is the displayed map above. By construction the pipeline forbids any direct rewrite on channel glyphs.
 \end{definition}
 
 \begin{theorem}[The pipeline preserves channel legality]
 \label{thm:source-channel-pipeline-preserves-legality}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.normalize\_channel\_preserves\_legality}
 For every channel stream $c \in \mathsf{LegalZStream}$ and every total source-level normalizer $N \colon \mathsf{EventFlow} \to \mathsf{EventFlow}$,
 $$
   \mathsf{NormalizeChannel}_{N}(c) \;\in\; \mathsf{LegalZStream}.
@@ -273,6 +275,7 @@ The first arrow is well-defined by \autoref{cor:channel-encoding-bijection}; the
 
 \begin{proposition}[Channel terminator is not the source event $11$]
 \label{prop:source-channel-terminator-not-source-event-11}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.channel\_terminator\_not\_source\_event\_11}
 The channel-layer terminator $11$ of \autoref{def:channel-encoding-event-terminator} is not the source raw event $11 \in \mathsf{RawEvent}$.
 \end{proposition}
 
