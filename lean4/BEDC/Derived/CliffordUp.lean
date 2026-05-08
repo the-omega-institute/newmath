@@ -32,6 +32,11 @@ def CliffordCarrierPackage (unit vector product boundary endpoint : BHist) : Pro
   UnaryHistory unit ∧ UnaryHistory vector ∧ UnaryHistory boundary ∧
     Cont vector vector product ∧ Cont product boundary endpoint
 
+def CliffordClassifierPackage
+    (unit vector product boundary endpoint scalar scalarUnit : BHist) : Prop :=
+  CliffordCarrierPackage unit vector product boundary endpoint ∧ UnaryHistory scalar ∧
+    Cont scalar unit scalarUnit ∧ hsame endpoint scalarUnit
+
 theorem CliffordCarrierPackage_product_relation_stability
     {unit vector vector' product product' boundary endpoint endpoint' : BHist} :
     CliffordCarrierPackage unit vector product boundary endpoint ->
