@@ -66,4 +66,23 @@ theorem ObservableBHistOperatorCarrier_quantumstate_expectation_boundary [AskSet
       (And.intro operatorCarrier.right.right.right.right.right.right.right.left
         operatorCarrier.right.right.right.right.right.right.right.right))
 
+theorem ObservableBHistOperatorCarrier_hilbert_source_readback [AskSetup] [PackageSetup]
+    {hilbert operator spectrum expectation witness provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance
+        ledger endpoint bundle pkg ->
+      UnaryHistory hilbert ∧ UnaryHistory operator ∧ UnaryHistory witness ∧
+        Cont hilbert witness ledger ∧ Cont operator spectrum expectation ∧
+          hsame ledger (append hilbert witness) ∧
+            hsame expectation (append operator spectrum) ∧ PkgSig bundle endpoint pkg := by
+  intro operatorCarrier
+  exact And.intro operatorCarrier.left
+    (And.intro operatorCarrier.right.left
+      (And.intro operatorCarrier.right.right.right.right.left
+        (And.intro operatorCarrier.right.right.right.right.right.right.left
+          (And.intro operatorCarrier.right.right.right.right.right.left
+            (And.intro operatorCarrier.right.right.right.right.right.right.left
+              (And.intro operatorCarrier.right.right.right.right.right.left
+                operatorCarrier.right.right.right.right.right.right.right.right))))))
+
 end BEDC.Derived.ObservableUp
