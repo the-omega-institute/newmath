@@ -218,6 +218,62 @@ gives the public composite $\StreamNameUp$ readback interface, while the middle
 map and transport chain stay in the certificate ledger.
 \end{proof}
 
+\begin{theorem}[StreamNameUp transported window common-refinement public readback]
+\label{thm:streamname-transported-window-common-refinement-public-readback}
+For certified rational stream observations $s_1,t_1,s_1',t_1',
+s_2,t_2,s_2',u_2':\Hist\to\Hist$, let $\mathcal{P}$ be a common probe bundle
+and let $\mathcal{Q}_1,\mathcal{Q}_2:\mathsf{ProbeBundle}$ be two transported
+finite windows displayed as subwindows of $\mathcal{P}$. Suppose
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s_1',t_1',\mathcal{P})$ and
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s_2',u_2',\mathcal{P})$ hold, and
+suppose each certified unary observation of $\mathcal{Q}_i$ is carried by
+$\mathcal{P}$. If selected observations $n_1$ and $n_2$ belong to
+$\mathcal{Q}_1$ and $\mathcal{Q}_2$ with unary endpoint rows and displayed
+one-tail witnesses, then the two selected public readback surfaces are
+projections of the same common-refinement finite-window classifier over
+$\mathcal{P}$. Each projection exposes exactly the public rows
+\begin{enumerate}
+  \item the appropriate $\mathsf{RatHistoryClassifier}$ row;
+  \item positive denominators for the two selected endpoint histories;
+  \item unary endpoint rows for the selected histories;
+  \item empty-endpoint exclusions;
+  \item zero-headed endpoint exclusions;
+  \item one-tail agreement for the displayed endpoint tails.
+\end{enumerate}
+The common bundle, the subwindow inclusion rows, and the transport rows remain
+ledger data, not additional public endpoints.
+\end{theorem}
+\begin{proof}
+First restrict the common classifiers to the two displayed subwindows. Apply
+\autoref{thm:rat-stream-name-finite-window-subwindow-restriction} to the
+classifier over $\mathcal{P}$ and the inclusion row
+$\mathcal{Q}_1\subseteq\mathcal{P}$ to obtain the finite-window classifier on
+$\mathcal{Q}_1$. Apply the same theorem to
+$\mathcal{Q}_2\subseteq\mathcal{P}$ for the second window.
+
+Next read the selected observations. For the single transported window, apply
+\autoref{thm:streamname-transported-window-public-readback} at $n_1$. For the
+composite transported window, apply
+\autoref{thm:streamname-transported-window-composite-public-readback} at $n_2$.
+These two readbacks expose the RatHistoryClassifier rows, positive
+denominators, unary endpoint rows, empty and zero-headed exclusions, and
+one-tail agreement.
+
+The common-refinement claim is exactly the fact that both selected readbacks
+were obtained after projecting finite-window classifiers from the same bundle
+$\mathcal{P}$. The inclusions $\mathcal{Q}_i\subseteq\mathcal{P}$ and all
+transport rows are used to choose and compare projections; they are retained in
+the ledger and do not become public endpoints.
+\end{proof}
+
+The compact ten-field fit is: traditional target common refinement of
+transported rational observation windows; BEDC source
+$\RatUp+\StreamNameUp+\mathsf{ProbeBundle}$; carrier certified observation
+maps; classifier common-refinement finite-window restriction; stability
+subwindow restriction plus endpoint transport; ledger bundle inclusions and
+selected observations; exactness public endpoint readback; standard bridge
+finite RegSeqRat and RealUp observation windows; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[StreamNameUp successor-reindexed selected endpoint package]
 \label{thm:streamname-successor-reindexed-selected-endpoint-package}
 Let $s,t:\Hist\to\Hist$ be certified rational stream-name observations. Suppose
