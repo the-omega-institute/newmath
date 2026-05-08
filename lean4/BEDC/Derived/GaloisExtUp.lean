@@ -78,6 +78,42 @@ theorem GaloisExtSourcePacket_normality_obligation_row [AskSetup] [PackageSetup]
           (And.intro packet.right.right.right.right.right.left
             packet.right.right.right.right.right.right))))
 
+theorem GaloisExtSourcePacket_public_obligation_boundary [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot sepProvenance
+          separable bundle pkg ∧
+        UnaryHistory normality ∧ UnaryHistory separability ∧ UnaryHistory classifier ∧
+          UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont fieldExt separable provenance ∧
+            Cont normality separability classifier ∧ Cont provenance classifier endpoint ∧
+              PkgSig bundle endpoint pkg := by
+  intro packet
+  have separableClosure :=
+    SeparableExtSourceSurface_dependency_ledger_closure packet.left
+  have separableUnary : UnaryHistory separable :=
+    separableClosure.right.left
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed packet.right.left packet.right.right.left
+      packet.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed packet.left.left separableUnary packet.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary classifierUnary
+      packet.right.right.right.right.right.left
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.left
+        (And.intro classifierUnary
+          (And.intro provenanceUnary
+            (And.intro endpointUnary
+              (And.intro packet.right.right.right.left
+                (And.intro packet.right.right.right.right.left
+                  (And.intro packet.right.right.right.right.right.left
+                    packet.right.right.right.right.right.right))))))))
+
 theorem GaloisExtSourcePacket_classifier_transport
     {field field' separable separable' normal normal' simple simple' classifier classifier'
       provenance provenance' ledger ledger' : BHist} :
@@ -126,6 +162,42 @@ theorem GaloisExtSourcePacket_classifier_transport
       (And.intro ledgerUnary'
         (And.intro sameClassifier
           (And.intro sameProvenance sameLedger))))
+
+theorem GaloisExtSourcePacket_normal_separable_stability [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint normality' separability' classifier'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      hsame normality normality' ->
+        hsame separability separability' ->
+          Cont normality' separability' classifier' ->
+            Cont provenance classifier' endpoint' ->
+              GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance
+                  separable normality' separability' classifier' provenance endpoint' bundle pkg ∧
+                hsame classifier classifier' ∧ hsame endpoint endpoint' := by
+  intro packet sameNormality sameSeparability classifierRow endpointRow
+  have normalityUnary : UnaryHistory normality' :=
+    unary_transport packet.right.left sameNormality
+  have separabilityUnary : UnaryHistory separability' :=
+    unary_transport packet.right.right.left sameSeparability
+  have sameClassifier : hsame classifier classifier' :=
+    cont_respects_hsame sameNormality sameSeparability packet.right.right.right.right.left
+      classifierRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameClassifier
+      packet.right.right.right.right.right.left endpointRow
+  have pkgSig : PkgSig bundle endpoint' pkg := by
+    cases sameEndpoint
+    exact packet.right.right.right.right.right.right
+  exact And.intro
+    (And.intro packet.left
+      (And.intro normalityUnary
+        (And.intro separabilityUnary
+          (And.intro packet.right.right.right.left
+            (And.intro classifierRow (And.intro endpointRow pkgSig))))))
+    (And.intro sameClassifier sameEndpoint)
 
 theorem GaloisExtSourcePacket_endpoint_empty_inversion [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality

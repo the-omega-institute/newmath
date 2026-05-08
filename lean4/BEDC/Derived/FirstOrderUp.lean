@@ -43,6 +43,31 @@ theorem FirstOrderBHistSyntaxCarrier_endpoint_unary [AskSetup] [PackageSetup]
       carrier.right.right.right.right.right.right.left
   exact And.intro treeEndpointUnary formulaEndpointUnary
 
+theorem FirstOrderBHistSyntaxCarrier_classifier_transport_obligation [AskSetup] [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint provenance relationSymbol' functionSymbol' formulaEndpoint' provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol functionSymbol
+      treeEndpoint formulaEndpoint provenance bundle pkg ->
+        hsame relationSymbol relationSymbol' ->
+          hsame functionSymbol functionSymbol' ->
+            hsame formulaEndpoint formulaEndpoint' ->
+              Cont treeEndpoint relationSymbol' formulaEndpoint' ->
+                SigRel bundle formulaEndpoint' provenance' ->
+                  PkgSig bundle provenance' pkg ->
+                    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger
+                      relationSymbol' functionSymbol' treeEndpoint formulaEndpoint' provenance'
+                      bundle pkg := by
+  intro carrier sameRelation sameFunction _ targetCont targetSig targetPkg
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro (unary_transport carrier.right.right.right.left sameRelation)
+          (And.intro (unary_transport carrier.right.right.right.right.left sameFunction)
+            (And.intro carrier.right.right.right.right.right.left
+              (And.intro targetCont
+                (And.intro targetSig targetPkg)))))))
+
 theorem FirstOrderBHistSyntaxCarrier_formula_carrier_obligation [AskSetup] [PackageSetup]
     {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
       formulaEndpoint provenance : BHist}
@@ -68,8 +93,8 @@ theorem FirstOrderBHistSyntaxCarrier_formula_carrier_obligation [AskSetup] [Pack
       (And.intro carrier.right.left
         (And.intro carrier.right.right.right.left
           (And.intro carrier.right.right.right.right.left
-            (And.intro endpointUnary.right
-              (And.intro carrier.right.right.right.right.right.right.right.left
-                carrier.right.right.right.right.right.right.right.right)))))
+             (And.intro endpointUnary.right
+               (And.intro carrier.right.right.right.right.right.right.right.left
+                 carrier.right.right.right.right.right.right.right.right)))))
 
 end BEDC.Derived.FirstOrderUp
