@@ -566,6 +566,39 @@ those rows as the concrete $\POSetUp$ naming certificate. Hence the ledger is
 fully exhausted by the displayed comparison and endpoint rows.
 \end{proof}
 
+\begin{theorem}[POSet unary prefix standard bridge boundary]
+\label{thm:poset-unary-prefix-standard-bridge-boundary}
+The concrete unary-prefix and singleton-empty $\POSetUp$ packages bridge to the
+finite unary-prefix partial order by reading $A_{\emp}$ and
+$\mathsf{UnaryHistory}$ as the carried finite-word endpoints,
+$\rho_{\emp}$ and $\hsame$ as classifier equality, and
+$\le_{\emp}$ together with $\mathsf{PreorderPrefixLE}$ as initial-segment
+comparison. The bridge exports exactly the concrete carrier, classifier,
+antisymmetry, exactness, and ledger rows named in
+\autoref{thm:concrete-unary-prefix-poset-laws},
+\autoref{thm:singleton-empty-poset-laws},
+\autoref{thm:concrete-singleton-empty-poset-namecert}, and
+\autoref{thm:poset-singleton-ledger-exhaustion}; it exports no total-order,
+lattice, quotient, or host-order row.
+\end{theorem}
+\begin{proof}
+First read the unary-prefix carrier and comparison from
+\autoref{thm:concrete-unary-prefix-poset-laws}. This identifies
+$\mathsf{UnaryHistory}$ with finite unary-word endpoints and reads
+$\mathsf{PreorderPrefixLE}$ as initial-segment comparison.
+
+Next read the singleton-empty endpoint package through
+\autoref{thm:singleton-empty-poset-laws}. The singleton carrier $A_{\emp}$,
+classifier $\rho_{\emp}$, and $\hsame$ transport give the classifier-equality
+boundary for the carried endpoint.
+
+Finally apply \autoref{thm:concrete-singleton-empty-poset-namecert} and
+\autoref{thm:poset-singleton-ledger-exhaustion}. They package exactly the
+carrier, classifier, antisymmetry, exactness, and finite ledger rows available
+to the concrete $\POSetUp$ surface, and they rule out total-order, lattice,
+quotient, and host-order data.
+\end{proof}
+
 \begin{theorem}[POSet finite-chain endpoint classifier coverage]
 \label{thm:poset-prefix-finite-chain-endpoint-classifier-coverage}
 For the concrete singleton $\POSetUp$ package of
