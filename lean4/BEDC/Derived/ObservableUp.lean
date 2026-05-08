@@ -230,6 +230,31 @@ theorem ObservableBHistOperatorCarrier_spectral_transport_stability [AskSetup]
                      (And.intro endpointRow' pkgSig'))))))))
   exact And.intro carrier' (And.intro sameExpectation sameEndpoint)
 
+theorem ObservableBHistOperatorCarrier_expectation_ledger_exactness [AskSetup] [PackageSetup]
+    {hilbert operator spectrum expectation witness provenance ledger endpoint expectationEndpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance ledger
+        endpoint bundle pkg ->
+      Cont operator expectation expectationEndpoint ->
+        UnaryHistory expectationEndpoint ∧ hsame expectationEndpoint (append operator expectation) ∧
+          UnaryHistory ledger ∧ hsame ledger (append hilbert witness) ∧
+            hsame endpoint (append provenance ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier expectationEndpointRow
+  have ledgerRows :=
+    ObservableBHistOperatorCarrier_spectral_data_ledger
+      (hilbert := hilbert) (operator := operator) (spectrum := spectrum)
+      (expectation := expectation) (witness := witness) (provenance := provenance)
+      (ledger := ledger) (endpoint := endpoint) (bundle := bundle) (pkg := pkg) carrier
+  have expectationEndpointUnary : UnaryHistory expectationEndpoint :=
+    unary_cont_closed carrier.right.left carrier.right.right.right.left expectationEndpointRow
+  exact And.intro expectationEndpointUnary
+    (And.intro expectationEndpointRow
+      (And.intro ledgerRows.right.right.left
+        (And.intro ledgerRows.right.right.right.left
+          (And.intro ledgerRows.right.right.right.right.right.left
+            ledgerRows.right.right.right.right.right.right))))
+
 theorem ObservableBHistOperatorCarrier_expectation_transport_exactness [AskSetup]
     [PackageSetup]
     {hilbert operator operator' spectrum spectrum' expectation expectation' witness provenance
