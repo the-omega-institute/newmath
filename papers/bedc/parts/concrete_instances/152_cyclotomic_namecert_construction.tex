@@ -408,6 +408,54 @@ Use \autoref{thm:cyclotomic-polynomial-ledger-exactness} and \autoref{thm:cyclot
 Finally combine \autoref{thm:cyclotomic-iwasawa-source-boundary} with \autoref{thm:cyclotomic-padic-completion-input-boundary}. These boundary statements identify the reusable cyclotomic source package while excluding rows that must come from other certificates, so a ClassFieldUp consumer may cite this package as source data but receives no class-field operations from $\NameCert_{\CyclotomicUp}$ alone.
 \end{proof}
 
+\begin{theorem}[Cyclotomic class-field reciprocity input boundary]
+\label{thm:cyclotomic-classfield-reciprocity-input-boundary}
+For an accepted $\CyclotomicUp$ carrier
+$$
+\mathcal{C}_{\zeta}=(\mathcal{N},n,p,\mathcal{S},\zeta,\alpha,\lambda,\rho)
+$$
+of \autoref{def:cyclotomic-root-carrier}, a $\ClassFieldUp$ consumer that requires a reciprocity map may read from $\NameCert_{\CyclotomicUp}$ only the displayed rows $\mathcal{N}$, $n$, $p$, $\mathcal{S}$, $\zeta$, $\alpha$, $\lambda$, and $\rho$ together with their $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance. Any reciprocity map, Artin pairing, or class-field operation used by that consumer must be supplied by a separate $\NameCert_{\ClassFieldUp}$ certificate and cannot be inferred from the cyclotomic certificate alone.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only visible components are the NumFieldUp source, the positive exponent row, the polynomial ledger for $X^n-1$, the SplittingFieldUp source, the primitive endpoint, the acceptance row, the base comparison, and the provenance row.
+
+Apply \autoref{thm:cyclotomic-classfield-source-interface} to repack those rows as the class-field source interface. Apply \autoref{thm:cyclotomic-root-of-unity-ledger-coverage} to identify the root-of-unity rows covered by the same exponent, polynomial, splitting-field, endpoint, and acceptance data.
+
+Finally use \autoref{thm:cyclotomic-minimal-polynomial-nonexport}. It excludes reciprocity and class-group data from the cyclotomic export surface, so a consumer that needs an actual reciprocity map must obtain it from its own $\ClassFieldUp$ certificate.
+\end{proof}
+
+\begin{theorem}[Cyclotomic local-symbol exclusion]
+\label{thm:cyclotomic-local-symbol-exclusion}
+For an accepted $\CyclotomicUp$ carrier
+$$
+\mathcal{C}_{\zeta}=(\mathcal{N},n,p,\mathcal{S},\zeta,\alpha,\lambda,\rho)
+$$
+of \autoref{def:cyclotomic-root-carrier}, $\NameCert_{\CyclotomicUp}$ exports no local symbol, valuation row, completion row, or residue-field row. A downstream local consumer may use the displayed carrier rows and their $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance as input, but every local symbol, valuation, completion, or residue-field datum must enter through a separate $\PadicUp$, $\IwasawaUp$, or local certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cyclotomic-root-carrier}. Its components are exactly $\mathcal{N}$, $n$, $p$, $\mathcal{S}$, $\zeta$, $\alpha$, $\lambda$, and $\rho$, and none of those coordinates is a valuation, completion, residue field, or local-symbol operation.
+
+Use \autoref{thm:cyclotomic-padic-completion-input-boundary} to identify what a completion-facing consumer may read from the cyclotomic source. Use \autoref{thm:cyclotomic-padic-tower-consumer-exactness} to keep the tower input at the same projected source package.
+
+The absence of local-symbol coordinates in \autoref{def:cyclotomic-root-carrier} then gives the exclusion. Any such datum must be carried by a certificate whose own rows name the local object.
+\end{proof}
+
+\begin{theorem}[Cyclotomic norm-residue boundary]
+\label{thm:cyclotomic-norm-residue-boundary}
+For an accepted $\CyclotomicUp$ carrier
+$$
+\mathcal{C}_{\zeta}=(\mathcal{N},n,p,\mathcal{S},\zeta,\alpha,\lambda,\rho)
+$$
+of \autoref{def:cyclotomic-root-carrier}, a norm-residue consumer may read the $\NameCert_{\NumFieldUp}$ source row $\mathcal{N}$, the $\NameCert_{\SplittingFieldUp}$ source row $\mathcal{S}$, the positive exponent row $n$, the polynomial ledger $p$, the primitive endpoint $\zeta$, the factorization rows covered by $\mathcal{S}$, and the provenance rows $\alpha$, $\lambda$, and $\rho$. It may not read a norm-residue map, Artin symbol, class group, or ambient-field quotient from $\NameCert_{\CyclotomicUp}$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cyclotomic-classfield-source-interface}. It gives the NumFieldUp source, exponent, polynomial ledger, SplittingFieldUp source, endpoint, acceptance, comparison, and provenance rows as the whole class-field source package exposed by the cyclotomic certificate.
+
+Apply \autoref{thm:cyclotomic-galois-action-namecert-boundary} to keep Galois-facing reads inside endpoint and factorization transport. This accounts for the splitting-field factorization surface without introducing an Artin symbol or an ambient-field quotient.
+
+Finally use \autoref{thm:cyclotomic-minimal-polynomial-nonexport}. Since norm-residue maps, class groups, and reciprocity data are outside the exported carrier, any norm-residue consumer must obtain those objects from a separate certificate while using $\NameCert_{\CyclotomicUp}$ only for the displayed source and provenance rows.
+\end{proof}
+
 \begin{theorem}[Cyclotomic positive exponent row coverage]
 \label{thm:cyclotomic-positive-exponent-row-coverage}
 For an accepted $\CyclotomicUp$ carrier
