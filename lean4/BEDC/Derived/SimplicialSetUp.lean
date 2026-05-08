@@ -84,6 +84,21 @@ theorem SimplicialSetBHistSimplexRowCarrier_namecert_obligation_surface
     }
   · exact And.intro carrier.left (And.intro carrier.right.left carrier.right.right.left)
 
+theorem SimplicialSetBHistSimplexRowCarrier_functor_source_boundary
+    [AskSetup] [PackageSetup]
+    {functor simplex face degeneracy package provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SimplicialSetBHistSimplexRowCarrier functor simplex face degeneracy package provenance
+        ledger bundle pkg ->
+      Cont functor simplex face ∧ Cont simplex functor degeneracy ∧
+        PkgSig bundle provenance pkg ∧ hsame face (append functor simplex) ∧
+          hsame degeneracy (append simplex functor) := by
+  intro carrier
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.left carrier.right.left)))
+
 def SimplicialSetSimplexRowCarrier
     (functor finite endpoint package route : BHist) : Prop :=
   UnaryHistory functor ∧ UnaryHistory finite ∧ UnaryHistory package ∧
