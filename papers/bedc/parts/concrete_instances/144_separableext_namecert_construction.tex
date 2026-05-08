@@ -13,6 +13,7 @@ The separable-extension interface $\SeparableExtUp$ packages a field extension w
 \label{thm:separableext-fieldext-polynomial-source}
 A $\SeparableExtUp$ source row is the joint BEDC source consisting of a $\FieldExtUp$ extension packet, a $\PolynomialUp$ minimal-polynomial packet over that extension, and shared provenance rows in $\mathsf{BHist}$ and $\mathsf{Pkg}$. The two dependency witnesses are scoped by $\NameCert_{\FieldExtUp}$ and $\NameCert_{\PolynomialUp}$, and the shared provenance requires the displayed base-field, extension-field, generator, and minimal-polynomial histories to be compared by $\hsame$ inside the same package ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceRow\_fieldext\_polynomial\_source}
 \begin{proof}
 Project the $\FieldExtUp$ dependency certificate to obtain the base row, extension row, extension classifier, and package provenance. Project the $\PolynomialUp$ dependency certificate to obtain the polynomial carrier, coefficient ledger, and polynomial classifier over the displayed extension row.
 
@@ -60,6 +61,8 @@ Next transport the polynomial part. The $\PolynomialUp$ equality classifier carr
 \label{thm:separableext-ledger-exactness}
 The $\SeparableExtUp$ ledger has coverage, soundness, and completeness for exactly the carried extension row, minimal-polynomial row, simple-root row, classifier-stability row, ledger row, and dependency rows supplied by $\FieldExtUp$, $\PolynomialUp$, $\NameCert$, $\mathsf{BHist}$, $\Cont$, $\hsame$, and $\mathsf{Pkg}$. No additional host-field algebra, root set, splitting-field data, or Galois action is part of this certificate surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_ledger\_exactness}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_semantic\_name\_certificate}
 \leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceRow\_semantic\_name\_certificate}
 \begin{proof}
 Coverage follows by reading the roadmap ten-field template. The traditional target is separability of a field extension; the BEDC sources are the $\FieldExtUp$ and $\PolynomialUp$ certificates; the carrier, classifier, stability, ledger, theorem-list, exactness, bridge, and status slots are the rows named in the four preceding theorems, with the bridge slot empty.

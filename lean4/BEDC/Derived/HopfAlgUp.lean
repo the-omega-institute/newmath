@@ -73,4 +73,41 @@ theorem HopfBialgCarrier_tensor_product_row_stability
   exact And.intro tensorCarrier'
     (And.intro sameMultiplication sameComultiplication)
 
+theorem HopfBialgCarrier_antipode_convolution_inverse_obligation
+    {tensor tensor' algebra algebra' multiplication multiplication' comultiplication comultiplication'
+      antipode antipode' convLeft convLeft' endpoint endpoint' : BHist} :
+    TensorProductSingletonCarrier tensor ->
+      RingSingletonCarrier algebra ->
+        hsame tensor tensor' ->
+          hsame algebra algebra' ->
+            hsame antipode antipode' ->
+              Cont tensor algebra multiplication ->
+                Cont tensor' algebra' multiplication' ->
+                  Cont tensor algebra comultiplication ->
+                    Cont tensor' algebra' comultiplication' ->
+                      Cont comultiplication antipode convLeft ->
+                        Cont comultiplication' antipode' convLeft' ->
+                          Cont convLeft multiplication endpoint ->
+                            Cont convLeft' multiplication' endpoint' ->
+                              hsame multiplication multiplication' ∧
+                                hsame comultiplication comultiplication' ∧
+                                  hsame convLeft convLeft' ∧ hsame endpoint endpoint' := by
+  intro tensorCarrier algebraCarrier sameTensor sameAlgebra sameAntipode multiplicationCont
+    multiplicationCont' comultiplicationCont comultiplicationCont' convLeftCont convLeftCont'
+    endpointCont endpointCont'
+  have rowStability :=
+    HopfBialgCarrier_tensor_product_row_stability tensorCarrier algebraCarrier sameTensor
+      sameAlgebra multiplicationCont multiplicationCont' comultiplicationCont comultiplicationCont'
+  have sameMultiplication : hsame multiplication multiplication' :=
+    rowStability.right.left
+  have sameComultiplication : hsame comultiplication comultiplication' :=
+    rowStability.right.right
+  have sameConvLeft : hsame convLeft convLeft' :=
+    cont_respects_hsame sameComultiplication sameAntipode convLeftCont convLeftCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameConvLeft sameMultiplication endpointCont endpointCont'
+  exact And.intro sameMultiplication
+    (And.intro sameComultiplication
+      (And.intro sameConvLeft sameEndpoint))
+
 end BEDC.Derived.HopfAlgUp
