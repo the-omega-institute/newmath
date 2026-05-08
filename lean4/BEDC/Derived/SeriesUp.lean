@@ -34,4 +34,20 @@ theorem SeriesPartialSumLedger_step_transport {PointCarrier : BHist -> Prop}
     (And.intro stepCarrier'
       (And.intro row.right.right (NameCert.equiv_symm cert row.right.right)))
 
+theorem SeriesSourceCarrierBoundary_obligation {PointCarrier : BHist -> Prop}
+    {PointClassifier : BHist -> BHist -> Prop} (cert : NameCert PointCarrier PointClassifier)
+    {summand partialSum modulus : BHist -> BHist} :
+    SeqRootSource PointCarrier summand -> SeqRootSource PointCarrier partialSum ->
+      (forall {n : BHist}, UnaryHistory n -> UnaryHistory (modulus n)) ->
+        forall {n : BHist}, UnaryHistory n ->
+          PointCarrier (summand n) ∧ PointCarrier (partialSum n) ∧
+            UnaryHistory (modulus n) ∧ PointClassifier (summand n) (summand n) := by
+  intro summandSource partialSource modulusUnary n unaryN
+  have summandCarrier : PointCarrier (summand n) := summandSource unaryN
+  have partialCarrier : PointCarrier (partialSum n) := partialSource unaryN
+  have modulusCarrier : UnaryHistory (modulus n) := modulusUnary unaryN
+  exact And.intro summandCarrier
+    (And.intro partialCarrier
+      (And.intro modulusCarrier (NameCert.equiv_refl cert summandCarrier)))
+
 end BEDC.Derived.SeriesUp
