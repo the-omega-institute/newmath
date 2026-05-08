@@ -33,7 +33,42 @@ theorem MartingaleAdaptedSequencePacket_condexp_step_law
   exact And.intro carrierRows.left
     (And.intro preimageRows.right
       (And.intro carrierRows.right.right.left
-        (And.intro carrierRows.right.right.right
-          (And.intro packet.right.right.right.left packet.right.right.right.right))))
+          (And.intro carrierRows.right.right.right
+            (And.intro packet.right.right.right.left packet.right.right.right.right))))
+
+theorem MartingaleAdaptedSequencePacket_condexp_ledger_stability
+    {targetTotal sourceTotal chosenPreimage integrable projected residual previous filtration
+      stepEndpoint ledger targetTotal' sourceTotal' chosenPreimage' integrable' projected'
+      residual' previous' filtration' stepEndpoint' ledger' : BHist} :
+    MartingaleAdaptedSequencePacket targetTotal sourceTotal chosenPreimage integrable projected
+        residual previous filtration stepEndpoint ledger ->
+      MartingaleAdaptedSequencePacket targetTotal' sourceTotal' chosenPreimage' integrable'
+        projected' residual' previous' filtration' stepEndpoint' ledger' ->
+        hsame projected projected' ->
+          hsame residual residual' ->
+            hsame filtration filtration' ->
+              hsame previous previous' ->
+                Cont integrable filtration stepEndpoint ∧ Cont stepEndpoint previous ledger ∧
+                  Cont integrable' filtration' stepEndpoint' ∧
+                    Cont stepEndpoint' previous' ledger' ∧ hsame integrable integrable' ∧
+                      hsame stepEndpoint stepEndpoint' ∧ hsame ledger ledger' := by
+  intro packet packet' sameProjected sameResidual sameFiltration samePrevious
+  have rows := MartingaleAdaptedSequencePacket_condexp_step_law packet
+  have rows' := MartingaleAdaptedSequencePacket_condexp_step_law packet'
+  have sameIntegrable : hsame integrable integrable' :=
+    cont_respects_hsame sameProjected sameResidual rows.right.right.right.left
+      rows'.right.right.right.left
+  have sameStepEndpoint : hsame stepEndpoint stepEndpoint' :=
+    cont_respects_hsame sameIntegrable sameFiltration rows.right.right.right.right.left
+      rows'.right.right.right.right.left
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameStepEndpoint samePrevious rows.right.right.right.right.right
+      rows'.right.right.right.right.right
+  exact And.intro rows.right.right.right.right.left
+    (And.intro rows.right.right.right.right.right
+      (And.intro rows'.right.right.right.right.left
+        (And.intro rows'.right.right.right.right.right
+          (And.intro sameIntegrable
+            (And.intro sameStepEndpoint sameLedger)))))
 
 end BEDC.Derived.MartingaleUp
