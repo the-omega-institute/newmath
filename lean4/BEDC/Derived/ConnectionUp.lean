@@ -14,6 +14,17 @@ def ConnectionCarrierPacket
   UnaryHistory base ∧ UnaryHistory fibre ∧ UnaryHistory tangent ∧ UnaryHistory provenance ∧
     Cont base fibre sec ∧ Cont sec tangent derivative ∧ Cont derivative provenance ledger
 
+def ConnectionClassifierDerivativeRow
+    (base fibre sec tangent derivative provenance ledger base' fibre' sec' tangent' derivative'
+      provenance' ledger' : BHist) : Prop :=
+  UnaryHistory base ∧ UnaryHistory fibre ∧ UnaryHistory tangent ∧ UnaryHistory provenance ∧
+    UnaryHistory base' ∧ UnaryHistory fibre' ∧ UnaryHistory tangent' ∧ UnaryHistory provenance' ∧
+      Cont base fibre sec ∧ Cont sec tangent derivative ∧ Cont derivative provenance ledger ∧
+        Cont base' fibre' sec' ∧ Cont sec' tangent' derivative' ∧
+          Cont derivative' provenance' ledger' ∧ hsame base base' ∧ hsame fibre fibre' ∧
+            hsame sec sec' ∧ hsame tangent tangent' ∧ hsame derivative derivative' ∧
+              hsame provenance provenance' ∧ hsame ledger ledger'
+
 theorem ConnectionCarrierPacket_stability_ledger_exactness_obligation
     {base fibre sec tangent derivative provenance ledger : BHist} :
     ConnectionCarrierPacket base fibre sec tangent derivative provenance ledger ->
