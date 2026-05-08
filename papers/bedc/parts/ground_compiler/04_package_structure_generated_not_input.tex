@@ -107,6 +107,7 @@ If an event flow $S$ is recognized as a package flow, its package code is just $
 
 \begin{proposition}[Package recognition does not change channel code]
 \label{prop:package-generated-recognition-preserves-code}
+\leanchecked{BEDC.GroundCompiler.PackageGenerated.package\_recognition\_preserves\_code}
 If $\mathsf{RecognizesPkg}(R,S)$, then the channel encoding of $S$ is still $\mathsf{Compile}(S)$. Package recognition does not add, delete, or rewrite channel bits.
 \end{proposition}
 
@@ -116,6 +117,7 @@ The judgment $\mathsf{RecognizesPkg}(R,S)$ is a source-level recognition relatio
 
 \begin{corollary}[Recognized package code is not a separate code]
 \label{cor:package-generated-code-not-separate}
+\leanchecked{BEDC.GroundCompiler.PackageGenerated.package\_code\_not\_separate}
 If $S$ is a recognized package flow, then
 $$
   \mathsf{PackageCode}(S) \;:=\; \mathsf{Compile}(S)
@@ -188,11 +190,14 @@ The channel-level terminator $11$ belongs to the encoding mechanism of $\mathsf{
 
 \begin{definition}[Package ledger subflow]
 \label{def:package-generated-ledger-subflow}
-If $\mathsf{RecognizesPkg}(R,S)$ and $R$ recognizes a subflow $L$ of $S$ as recording the source material hidden or compressed by $S$, then $L$ is a \emph{package ledger subflow}, written
+\leandef{BEDC.GroundCompiler.PackageGenerated.PackageLedgerSubflow}
+The \emph{package ledger subflow} predicate is
 $$
-  \mathsf{PkgLedger}_{R}(S,L).
+  \mathsf{PkgLedger}_{R}(S,L)
+  \;:\Longleftrightarrow\;
+  \mathsf{PkgRole}_{R}(S,L,\mathrm{ledger}).
 $$
-The ledger subflow is part of the decoded source event flow, not an external provenance table.
+Thus if $\mathsf{RecognizesPkg}(R,S)$ and $L$ is recognized as the ledger-role subflow of $S$, then $L$ records the source material hidden or compressed by $S$. The ledger subflow is part of the decoded source event flow, not an external provenance table.
 \end{definition}
 
 \begin{principle}[No package without ledger]

@@ -19,6 +19,20 @@ def PackageRecognitionRelation
 def PkgFlow (S : PackageCandidateFlow) : Prop :=
   exists R : GeneratedPackageRecognizer, PackageRecognitionRelation R S
 
+def PackageCode (S : PackageCandidateFlow) : List DisplayAlphabet :=
+  FlowEncoding S
+
+theorem package_recognition_preserves_code
+    {R : GeneratedPackageRecognizer} {S : PackageCandidateFlow} :
+    PackageRecognitionRelation R S -> PackageCode S = FlowEncoding S := by
+  intro _
+  rfl
+
+theorem package_code_not_separate {S : PackageCandidateFlow} :
+    PkgFlow S -> PackageCode S = FlowEncoding S := by
+  intro _
+  rfl
+
 inductive PackageRole : Type where
   | source
   | pattern
@@ -35,6 +49,10 @@ def PackageRoleEmergence
 def PackageSealSubflow
     (R : GeneratedPackageRecognizer) (S sigma : PackageCandidateFlow) : Prop :=
   PackageRoleEmergence R S sigma PackageRole.seal
+
+def PackageLedgerSubflow
+    (R : GeneratedPackageRecognizer) (S L : PackageCandidateFlow) : Prop :=
+  PackageRoleEmergence R S L PackageRole.ledger
 
 theorem package_seal_is_source_subflow
     {R : GeneratedPackageRecognizer} {S sigma : PackageCandidateFlow} :
