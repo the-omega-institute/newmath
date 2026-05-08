@@ -82,6 +82,30 @@ theorem GaloisExtSourcePacket_normality_obligation_row [AskSetup] [PackageSetup]
           (And.intro packet.right.right.right.right.right.left
             packet.right.right.right.right.right.right))))
 
+theorem GaloisExtSourcePacket_fixed_base_automorphism_source [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint baseFixed actionLedger automorphismLedger :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      UnaryHistory baseFixed ->
+        Cont fieldExt baseFixed actionLedger ->
+          Cont actionLedger normality automorphismLedger ->
+            UnaryHistory actionLedger ∧ UnaryHistory automorphismLedger ∧
+              hsame actionLedger (append fieldExt baseFixed) ∧
+                hsame automorphismLedger (append actionLedger normality) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro packet baseFixedUnary actionRow automorphismRow
+  have actionUnary : UnaryHistory actionLedger :=
+    unary_cont_closed packet.left.left baseFixedUnary actionRow
+  have automorphismUnary : UnaryHistory automorphismLedger :=
+    unary_cont_closed actionUnary packet.right.left automorphismRow
+  exact And.intro actionUnary
+    (And.intro automorphismUnary
+      (And.intro actionRow
+        (And.intro automorphismRow packet.right.right.right.right.right.right)))
+
 theorem GaloisExtSourcePacket_semantic_name_certificate [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
       separability classifier provenance endpoint : BHist}
