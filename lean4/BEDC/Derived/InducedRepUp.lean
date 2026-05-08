@@ -133,4 +133,41 @@ theorem InducedRepCarrierPacket_namecert_obligation_surface
       (And.intro boundary.right.right.right.right.right.right.right
         boundary.right.right.right.right.right.left)
 
+theorem InducedRepBHistCarrier_namecert_obligation_surface
+    {subgroup representation induction restriction frobenius unit counit provenance ledger surface :
+      BHist} :
+    UnaryHistory subgroup ->
+      UnaryHistory representation ->
+        UnaryHistory induction ->
+          UnaryHistory restriction ->
+            UnaryHistory unit ->
+              Cont subgroup representation provenance ->
+                Cont induction restriction frobenius ->
+                  Cont frobenius unit counit ->
+                    Cont provenance counit ledger ->
+                      Cont ledger frobenius surface ->
+                        UnaryHistory provenance ∧ UnaryHistory frobenius ∧ UnaryHistory counit ∧
+                          UnaryHistory ledger ∧ UnaryHistory surface ∧
+                            hsame provenance (append subgroup representation) ∧
+                              hsame frobenius (append induction restriction) ∧
+                                hsame counit (append frobenius unit) ∧
+                                  hsame ledger (append provenance counit) ∧
+                                    hsame surface (append ledger frobenius) := by
+  intro subgroupUnary representationUnary inductionUnary restrictionUnary unitUnary provenanceCont
+    frobeniusCont counitCont ledgerCont surfaceCont
+  have boundary :=
+    InducedRepFrobeniusLedger_boundary subgroupUnary representationUnary inductionUnary
+      restrictionUnary unitUnary provenanceCont frobeniusCont counitCont ledgerCont
+  have surfaceUnary : UnaryHistory surface :=
+    unary_cont_closed boundary.right.right.right.left boundary.right.left surfaceCont
+  exact And.intro boundary.left
+    (And.intro boundary.right.left
+      (And.intro boundary.right.right.left
+        (And.intro boundary.right.right.right.left
+          (And.intro surfaceUnary
+            (And.intro boundary.right.right.right.right.left
+              (And.intro boundary.right.right.right.right.right.left
+                (And.intro boundary.right.right.right.right.right.right.left
+                  (And.intro boundary.right.right.right.right.right.right.right surfaceCont))))))))
+
 end BEDC.Derived.InducedRepUp

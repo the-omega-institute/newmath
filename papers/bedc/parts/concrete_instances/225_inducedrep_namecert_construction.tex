@@ -290,6 +290,7 @@ The surface exports no row outside the carrier, classifier, and provenance
 ledger.
 \end{theorem}
 \leanchecked{BEDC.Derived.InducedRepUp.InducedRepCarrierPacket\_namecert\_obligation\_surface}
+\leanchecked{BEDC.Derived.InducedRepUp.InducedRepBHistCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 Start with the carrier and classifier. The carrier supplies the finite row
 family $S,R,i,r,F,\eta,\epsilon,\rho,\lambda$, while the classifier supplies
@@ -470,4 +471,42 @@ $\InducedRepUp$ public provenance surface, and the consumer boundary of
 \autoref{thm:inducedrep-subgroup-representationring-consumer-boundary}
 excludes every row not so recorded. Hence no host category, equality of
 induction or restriction functors, or Frobenius adjunction row is exported.
+\end{proof}
+
+\begin{theorem}[InducedRepUp source-Frobenius exact consumption]
+\label{thm:inducedrep-source-frobenius-exact-consumption}
+A downstream row consumed from an $\InducedRepUp$ packet is visible exactly
+when it is one of the following finite public rows: a SubgroupUp source row
+exposed through $S$, a RepresentationRingUp source row exposed through $R$,
+an induction or restriction endpoint row, one of the Frobenius rows
+$F,\eta,\epsilon$, or a provenance and continuation row recorded by $\rho$ or
+$\lambda$. No host subgroup object, host representation category, host
+functor equality, or Frobenius adjunction object is visible outside this
+finite source--Frobenius ledger.
+\end{theorem}
+\begin{proof}
+Project a consumed row through the carrier packet
+$\mathcal{I}=(S,R,i,r,F,\eta,\epsilon,\rho,\lambda)$. The source rows are
+exactly the SubgroupUp and RepresentationRingUp rows allowed by
+\autoref{thm:inducedrep-subgroup-representationring-consumer-boundary}; the
+endpoint rows are the displayed induction and restriction rows $i$ and $r$.
+
+Project the Frobenius part next. By
+\autoref{thm:inducedrep-frobenius-ledger-boundary}, every Frobenius read is
+one of $F,\eta,\epsilon$ and has endpoints in the displayed induction and
+restriction rows. By \autoref{thm:inducedrep-cont-ledger-closure}, any finite
+continuation needed to consume those rows remains inside $\lambda$.
+
+The provenance projection is fixed by
+\autoref{thm:inducedrep-pkg-provenance-exactness}: every public provenance
+row is recorded by $\rho$ or by the corresponding public continuation row in
+$\lambda$. Therefore any downstream row consumed from the packet is on the
+listed source, endpoint, Frobenius, provenance, or continuation surface.
+
+Conversely, take any row on that finite list. The source rows repack through
+the consumer boundary, the endpoint and Frobenius rows repack through the
+Frobenius ledger boundary, and the provenance and continuation rows repack
+through $\rho$ and $\lambda$. The four cited boundaries together reconstruct
+the same $\InducedRepUp$ public packet, so every listed row is visible to the
+consumer and no outside host-level datum is added.
 \end{proof}

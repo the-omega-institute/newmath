@@ -301,3 +301,44 @@ Stability is supplied by \autoref{thm:martingale-conditional-expectation-ledger-
 
 The Brownian-motion consumer uses only the resulting $\NameCert_{\MartingaleUp}$ row. Since that row is assembled from the finite carrier, classifier, stability, ledger, and exactness clauses just listed, the downstream dependency is a concrete BEDC certificate surface rather than an unstated martingale carrier assumption.
 \end{proof}
+
+\begin{theorem}[Martingale finite-prefix restriction]
+\label{thm:martingale-finite-prefix-restriction}
+Let
+$$
+\mathcal{M}=(R,C,F,X,E,T,\rho,\lambda)
+$$
+be an accepted $\MartingaleUp$ adapted-sequence packet in the sense of
+\autoref{def:martingale-bhist-adapted-sequence-packet}.  Restrict
+$\mathcal M$ to an initial finite unary-history prefix of its displayed time
+spine, keeping the same consumed $\NameCert_{\RandomVarUp}$ row $R$ and
+$\NameCert_{\CondExpUp}$ row $C$, the prefix-indexed rows of $X$, $E$, $T$,
+$\rho$, and $\lambda$, and the corresponding restricted $\Cont$ ledger.  The
+resulting truncated tuple is again an accepted $\MartingaleUp$
+adapted-sequence packet.
+\end{theorem}
+\begin{proof}
+Project the rows named in
+\autoref{def:martingale-bhist-adapted-sequence-packet}.  The accepted packet
+contains exactly the consumed $R$ and $C$ certificates, the displayed
+filtration row $F$, the endpoint sequence $X$, the adjacent
+conditional-expectation rows $E$, the tower boundary $T$, the provenance row
+$\rho$, and the finite continuation ledger $\lambda$.
+
+Restrict those displayed finite rows to the chosen initial time prefix.  The
+consumed $R$ and $C$ rows are unchanged, while the retained $X$, $E$, $T$,
+$\rho$, and $\lambda$ entries are precisely the rows whose indices remain in
+the prefix.  The restricted $\Cont$ ledger is the subledger carried by those
+retained adjacent faces.
+
+For each transported adjacent face, use
+\autoref{thm:martingale-conditional-expectation-ledger-stability}.  It keeps
+the conditional-expectation row compatible with the consumed $\CondExpUp$
+classifier and with the finite $\Cont$ ledger after the prefix restriction.
+
+Finally repack the retained carrier, classifier, stability, ledger, and
+exactness rows through
+\autoref{thm:martingale-namecert-obligation-surface}.  The truncated tuple
+therefore satisfies the same $\NameCert_{\MartingaleUp}$ obligation surface as
+the original finite packet, with no row outside the displayed prefix added.
+\end{proof}
