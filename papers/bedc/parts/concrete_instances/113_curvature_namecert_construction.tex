@@ -177,6 +177,51 @@ Package those projections as the input side of $\NameCert_{\ChernWeilUp}$. The p
 The exclusions follow from ledger coverage. Since no de Rham row, characteristic-class comparison, standard bridge, or Lean target is part of the exported $\CurvatureUp$ ledger, none is available to $\ChernWeilUp$ without an independent certificate.
 \end{proof}
 
+\begin{definition}[Curvature Chern-Weil handoff packet]
+\label{def:curvature-chernweil-handoff-packet}
+A Curvature-to-Chern-Weil handoff packet is a displayed $\mathsf{BHist}$ tuple
+$$
+\mathcal{H}=(\mathcal{R},\mathcal{W},\kappa,\beta,\tau,\lambda,\rho)
+$$
+where $\mathcal{R}$ is an accepted $\CurvatureUp$ carrier row, $\mathcal{W}$ is the $\ChernWeilUp$ source-envelope row fed by $\mathcal{R}$, $\kappa:\mathsf{BHist}$ is the curvature boundary row, $\beta$ is the cyclic Bianchi ledger, $\tau$ is the tensorial transport row for section and tangent replacement, $\lambda$ is the finite $\Cont$ projection from the curvature rows into the Chern-Weil envelope, and $\rho$ is the shared $\mathsf{Pkg}$ provenance row. The packet is accepted exactly when these fields project from the carrier of \autoref{def:curvature-bhist-bracket-carrier}, the public export of \autoref{thm:curvature-namecert-scope-obligation}, and the source-envelope interface of \autoref{def:chernweil-source-envelope}.
+\end{definition}
+
+\begin{theorem}[Curvature handoff Bianchi transport]
+\label{thm:curvature-handoff-bianchi-transport}
+For any handoff packet of \autoref{def:curvature-chernweil-handoff-packet}, classifier-preserving replacement of the $\CurvatureUp$ section row and tangent-direction rows transports both the Bianchi ledger $\beta$ and the closed-endpoint input consumed by $\ChernWeilUp$. The transported handoff has the same $\mathsf{Pkg}$ provenance and reaches the Chern-Weil source envelope by the transported $\hsame$ comparisons and the same finite $\Cont$ projection.
+\end{theorem}
+\begin{proof}
+Project the handoff packet to its curvature carrier row. The Bianchi component is the cyclic ledger supplied by \autoref{thm:curvature-bianchi-ledger-obligation}, and the section and tangent replacements are governed by the tensorial row of \autoref{thm:curvature-tensorial-transport-obligation}.
+
+Transport the curvature boundary, Bianchi ledger, and endpoint rows through the inherited $\hsame$ comparisons. The tensorial transport keeps the base, fibre, connection source, and $\mathsf{Pkg}$ provenance fixed, so the transported packet still has the same dependency surface.
+
+Apply the Chern-Weil closed-form endpoint obligation to the transported curvature input. Since the projection $\lambda$ is a finite $\Cont$ row from the handoff packet into the Chern-Weil source envelope, the closed-endpoint input is transported with the envelope rather than recomputed as an external form.
+\end{proof}
+
+\begin{theorem}[Curvature handoff provenance exactness]
+\label{thm:curvature-handoff-provenance-exactness}
+Every field of a Curvature-to-Chern-Weil handoff packet is either a public $\CurvatureUp$ row or a $\ChernWeilUp$ envelope row reached by the displayed $\Cont$ projection. The handoff exports no de~Rham class, no characteristic-class equality, no coordinate curvature form, and no standard bridge.
+\end{theorem}
+\begin{proof}
+Project the handoff fields from \autoref{def:curvature-chernweil-handoff-packet}. The curvature carrier, boundary row, Bianchi ledger, tensorial transport row, and provenance row are exactly the public rows covered by \autoref{thm:curvature-namecert-scope-obligation}.
+
+Use the ledger exactness obligation of \autoref{thm:curvature-ledger-exactness-obligation} to rule out unlisted curvature data. The only consumer-facing row beyond those projections is the finite $\Cont$ projection into the Chern-Weil source envelope.
+
+The Chern-Weil side is therefore an envelope readback, not an added bridge theorem. De~Rham classes, characteristic-class equalities, coordinate curvature forms, and standard bridges are absent because no field of the handoff packet has such a source or constructor role.
+\end{proof}
+
+\begin{theorem}[Curvature handoff consumer coverage]
+\label{thm:curvature-handoff-consumer-coverage}
+Every $\ChernWeilUp$ source envelope whose curvature component is supplied by an accepted $\CurvatureUp$ row admits a handoff packet of \autoref{def:curvature-chernweil-handoff-packet}. Conversely, each accepted handoff exports exactly the invariant-polynomial input rows that $\ChernWeilUp$ may consume from $\CurvatureUp$: the boundary row, Bianchi ledger, tensorial transport row, finite projection, and shared $\mathsf{Pkg}$ provenance.
+\end{theorem}
+\begin{proof}
+For coverage, begin with a Chern-Weil source envelope whose curvature component is supplied by an accepted curvature row. Apply \autoref{thm:curvature-chernweil-consumer-boundary} to project the boundary row, transported endpoint ledger, visible Bianchi and classifier rows, and provenance row.
+
+Repack those rows with the source envelope as the tuple of \autoref{def:curvature-chernweil-handoff-packet}. The source-envelope definition supplies the finite $\Cont$ projection into $\ChernWeilUp$, while the curvature carrier supplies the accepted boundary, Bianchi, transport, and provenance fields.
+
+For the converse, project an accepted handoff packet. Its consumer-facing fields are precisely the curvature rows listed in the tuple and the finite projection into the envelope; by provenance exactness, there is no additional de~Rham endpoint, characteristic-class equality, coordinate form, or bridge row available for consumption.
+\end{proof}
+
 \begin{theorem}[Curvature connection-carrier scope]
 \label{thm:curvature-connection-carrier-scope}
 Every $\CurvatureUp$ carrier packet of \autoref{def:curvature-bhist-bracket-carrier} has a visible $\NameCert_{\ConnectionUp}$ packet as its dependency source. The base row, fibre row, section row, tangent-pair rows, iterated derivative rows, commutator boundary row, ledger row, and provenance row are obtained by projection from that packet together with the boundary row of \autoref{thm:connection-curvature-boundary-obligation}.
