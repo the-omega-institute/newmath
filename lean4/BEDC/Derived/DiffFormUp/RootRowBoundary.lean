@@ -1,4 +1,4 @@
-import BEDC.Derived.DiffFormUp
+import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
 
 namespace BEDC.Derived.DiffFormUp
 
@@ -91,5 +91,49 @@ theorem DiffFormRootBHistNameCert_semantic_name_certificate
     exact source
   · intro _candidate source
     exact source
+
+theorem DiffFormRootRow_wedge_scope
+    {left right : ProbeBundle BHist}
+    {leftLedger rightLedger tensorLedger leftDegree rightDegree outDegree : BHist} :
+    DiffFormWedgeProbeConcatenationLedger left right leftLedger rightLedger tensorLedger ->
+      DiffFormWedgeDegreeLedger leftDegree rightDegree outDegree leftLedger rightLedger
+        tensorLedger ->
+        bundleLength (bundleAppend left right) = bundleLength left + bundleLength right ∧
+          (forall probe : BHist,
+            InBundle probe (bundleAppend left right) <-> InBundle probe left ∨
+              InBundle probe right) ∧
+            Cont leftDegree rightDegree outDegree ∧ UnaryHistory outDegree ∧
+              hsame tensorLedger (append leftLedger rightLedger) ∧
+                hsame leftLedger rightLedger := by
+  intro probeLedger degreeLedger
+  have coverage := DiffFormWedgeProbeConcatenationLedger_coverage probeLedger
+  exact And.intro coverage.left
+    (And.intro coverage.right.left
+      (And.intro degreeLedger.right.right.left
+        (And.intro degreeLedger.right.right.right.left
+          (And.intro coverage.right.right.right
+            degreeLedger.right.right.right.right.right))))
+
+theorem DiffFormRootRow_derivative_scope
+    {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor'
+      scalar scalar' antisym source ->
+      UnaryHistory omega ∧ UnaryHistory domega ∧ UnaryHistory d ∧ UnaryHistory dplus ∧
+        Cont d (BHist.e1 BHist.Empty) dplus ∧ hsame probe probe' ∧
+          hsame tensor tensor' ∧ hsame scalar scalar' ∧ UnaryHistory antisym ∧
+            UnaryHistory source ∧ (hsame dplus BHist.Empty -> False) := by
+  intro ledger
+  have successorRows := DiffFormExteriorDerivativeLedger_degree_successor_nonempty ledger
+  exact And.intro ledger.left
+    (And.intro ledger.right.left
+      (And.intro ledger.right.right.left
+        (And.intro ledger.right.right.right.left
+          (And.intro ledger.right.right.right.right.left
+            (And.intro ledger.right.right.right.right.right.left
+              (And.intro ledger.right.right.right.right.right.right.left
+                (And.intro ledger.right.right.right.right.right.right.right.left
+                  (And.intro ledger.right.right.right.right.right.right.right.right.left
+                    (And.intro ledger.right.right.right.right.right.right.right.right.right
+                      successorRows.right.right.right)))))))))
 
 end BEDC.Derived.DiffFormUp
