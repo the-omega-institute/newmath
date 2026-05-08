@@ -237,17 +237,39 @@ theorem BilinFormRootPairingSurface_input_transport
               (And.intro endpointCont ledgerCont)))
   · exact And.intro sameEndpoint sameLedger
 
-def BilinFormModulePairingSourceRow [AskSetup] [PackageSetup]
+def BilinFormModulePairingSourceRow
+    (moduleSource vecSource left right scalar endpoint probes ledger : BHist)
+    (bundle : ProbeBundle BHist) : Prop :=
+  UnaryHistory moduleSource ∧ UnaryHistory vecSource ∧
+    BilinFormRootPairingSurface left right scalar endpoint ledger ∧ InBundle probes bundle
+
+theorem BilinFormModulePairingSourceRow_pairing_classifier_row
+    {moduleSource vecSource left right scalar endpoint probes ledger endpoint' ledger' : BHist}
+    {bundle : ProbeBundle BHist} :
+    BilinFormModulePairingSourceRow moduleSource vecSource left right scalar endpoint probes ledger
+        bundle ->
+      hsame endpoint endpoint' ->
+        Cont left right endpoint' ->
+          Cont endpoint' scalar ledger' ->
+            BilinFormRootPairingSurface left right scalar endpoint' ledger' ∧
+              hsame ledger ledger' ∧ InBundle probes bundle := by
+  intro row sameEndpoint endpointCont ledgerCont
+  have transported :=
+    BilinFormRootPairingSurface_input_transport row.right.right.left (hsame_refl left)
+      (hsame_refl right) (hsame_refl scalar) endpointCont ledgerCont
+  exact And.intro transported.left (And.intro transported.right.right row.right.right.right)
+
+def BilinFormModulePairingPackageRow [AskSetup] [PackageSetup]
     (moduleSource vectorSource left right scalar endpoint ledger : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory moduleSource ∧ UnaryHistory vectorSource ∧ UnaryHistory left ∧
     UnaryHistory right ∧ UnaryHistory scalar ∧ Cont left right endpoint ∧
       Cont endpoint scalar ledger ∧ PkgSig bundle ledger pkg
 
-theorem BilinFormModulePairingSourceRow_carrier_obligation [AskSetup] [PackageSetup]
+theorem BilinFormModulePairingPackageRow_carrier_obligation [AskSetup] [PackageSetup]
     {moduleSource vectorSource left right scalar endpoint ledger : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    BilinFormModulePairingSourceRow moduleSource vectorSource left right scalar endpoint ledger
+    BilinFormModulePairingPackageRow moduleSource vectorSource left right scalar endpoint ledger
         bundle pkg ->
       UnaryHistory endpoint ∧ UnaryHistory ledger ∧ Cont left right endpoint ∧
         Cont endpoint scalar ledger ∧ PkgSig bundle ledger pkg := by
