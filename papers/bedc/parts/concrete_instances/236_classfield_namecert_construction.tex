@@ -36,6 +36,7 @@ The Artin relation and the Frobenius endpoints are then listed as stability obli
 \begin{theorem}[ClassField ledger and exactness obligations]\label{thm:classfield-obligation-ledger-exactness}
 The $\ClassFieldUp$ ledger records the hidden idele representative, the local-prime and Frobenius representative, and the extension presentation. Exactness consists of coverage, soundness, and completeness for the Artin-Frobenius classifier, without claiming reciprocity.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClassFieldUp.ClassFieldLedgerExactnessRows\_transport}
 
 \begin{proof}
 Separate visible classifier data from hidden representative data. The visible side contains the classifier row and the Artin-Frobenius comparison; the hidden side records the idele representative, local-prime representative, Frobenius representative, and extension presentation.
@@ -79,14 +80,24 @@ Coverage says that each accepted visible Artin-Frobenius row has one such hidden
 These are exactly the three ExactGlobalize rows used here: coverage, soundness, and completeness. They bind the ledger to the named source certificates and $\mathsf{BHist}$ representatives without asserting reciprocity or maximal abelian exactness beyond the displayed classifier surface.
 \end{proof}
 
-\closureat{ClassFieldUp}{scopedStr}
+\begin{theorem}[ClassField reciprocity boundary]\label{thm:classfield-reciprocity-boundary}
+Coverage, soundness, and completeness for the Artin-Frobenius classifier do not assert class-field reciprocity, uniqueness of the maximal abelian extension, or a standard bridge for $\ClassFieldUp$.
+\end{theorem}
+
+\begin{proof}
+Read the ledger exactness statement in \autoref{thm:classfield-obligation-ledger-exactness} as an ExactGlobalize-style certificate. It names the visible rows covered by the classifier and the hidden representatives used to witness those rows.
+
+Coverage, soundness, and completeness only relate accepted classifier rows to the recorded representatives. They do not identify the classifier with the classical reciprocity map, prove uniqueness of the maximal abelian extension, or supply the bridge object required for a standard bridge.
+\end{proof}
+
+\closureat{ClassFieldUp}{scopedStr}[BEDC.Derived.ClassFieldUp.ClassFieldSourceCarrier\_semantic\_name\_certificate]
 
 \begin{closurestatus}{\ClassFieldUp}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{The paper scope consists exactly of the displayed carrier, stability, and exactness obligations bound to $\NameCert_{\NumFieldUp}$, $\NameCert_{\AdeleUp}$, $\mathsf{BHist}$, $\hsame$, and the ExactGlobalize coverage, soundness, and completeness rows.}
-  \formalstatus{\unformalizedV}
-  \leantarget{}
+  \scopeclosed{The paper scope consists exactly of the displayed carrier, stability, exactness, and boundary obligations bound to $\NameCert_{\NumFieldUp}$, $\NameCert_{\AdeleUp}$, $\mathsf{BHist}$, $\hsame$, the chosen extension classifier, and the ExactGlobalize coverage, soundness, and completeness rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ClassFieldUp.ClassFieldSourceCarrier\_semantic\_name\_certificate}
   \bridgestatus{none}
   \notclaimed{This chapter does not close the Artin map laws, maximal abelian extension exactness, reciprocity, or a standard bridge.}
-  \upgradepath{The next closure step requires a public object surface or checked bridge over the scoped $\ClassFieldUp$ certificate rows.}
+  \upgradepath{Public closure requires a single exported $\ClassFieldUp$ public interface theorem or a checked bridge over the scoped certificate rows.}
 \end{closurestatus}
