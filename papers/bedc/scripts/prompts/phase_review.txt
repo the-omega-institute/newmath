@@ -354,7 +354,7 @@ top_transitions:
 
 Without rotation, paper rounds dogpile `to_seed` (first-time register) because that's where unattacked chapters dominate. Result: 50+ chapters parked at `scopedClosure` with no further upgrade, the `publicClosure → bridgedClosure → matureClosure` upgrade chain stays cold.
 
-**HARD GATE — round-number rotation**: At LEAST 1 of your N proposed targets MUST be `kind = "closure_mark"` drawn from the round-rotation transition. Use:
+**HARD GATE — round-number rotation (weighted by backlog)**: At LEAST 1 of your N proposed targets MUST be `kind = "closure_mark"` drawn from the round-rotation transition. Use:
 
 ```
 primary_transition_index = ROUND_NUM % 6
@@ -362,9 +362,15 @@ primary_transition_index = ROUND_NUM % 6
 
 with the mapping `0→to_seed, 1→to_obligation, 2→to_scoped, 3→to_public, 4→to_bridged, 5→to_mature`. Pick `top_transitions[primary][0]` (the highest fan-out candidate at that transition) as the closure_mark target.
 
+**Backlog-weighted reinforcement**: `to_seed` chapters dominate the open horizon (typically 100+ chapters with `theory_grade=null`). To prevent the upgrade chain from being permanently dominated by the `to_seed` backlog, use this rule:
+
+- If `len(top_transitions['to_seed']) >= 50`, emit **2 to_seed targets per round** (regardless of `ROUND_NUM % 6`). This doubles the rate of new chapter registration and clears the backlog ~2x faster.
+- If `len(top_transitions['to_seed']) >= 20`, emit **1 extra to_seed target** in addition to the round-rotation primary. So a round that's already on `ROUND_NUM % 6 == 0` (to_seed primary) emits 2 to_seed; a round on any other primary emits 1 primary + 1 extra to_seed.
+- Otherwise, follow the standard `ROUND_NUM % 6` rotation only.
+
 If the primary transition list is empty (e.g. round 5 looking for `to_mature` but no chapter is at `bridgedClosure` yet), fall back to `(primary + 1) % 6`, repeat until a non-empty transition is found. Skip the rotation gate ONLY when ALL 6 transitions are empty — extremely rare.
 
-This guarantees over a 6-round window each transition gets at least 1 paper attempt. Existing HARD GATEs (`top[0..2]` critical-path + `top_root_unblocks[0..2]` root-unblock) still apply for the OTHER N-1 targets in the round.
+This guarantees over a 6-round window each transition gets at least 1 paper attempt, AND lets the to_seed backlog drain faster when it's the bottleneck. Existing HARD GATEs (`top[0..2]` critical-path + `top_root_unblocks[0..2]` root-unblock) still apply for the OTHER N-1 targets in the round.
 
 `closure_mark` from rotation can co-exist with the existing closure_mark proposals on top-3 retired-eligible chapters; both are valid `closure_mark` instances. Difference: rotation forces breadth across grades; existing closure_mark logic forces depth on critical-path top.
 
