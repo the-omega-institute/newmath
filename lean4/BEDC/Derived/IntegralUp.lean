@@ -235,4 +235,29 @@ theorem IntegralPublicNameCert_surface [AskSetup] [PackageSetup]
         (And.intro readback.right.right.left
           (And.intro readback.right.right.right.left readback.right.right.right.right.left))))
 
+theorem IntegralUp_conservative_standard_bridge [AskSetup] [PackageSetup]
+    {measure contour integrand value measureContour integrandValue row row' measure' contour'
+      integrand' value' measureContour' integrandValue' row'' : BHist} :
+    IntegralVisibleCarrierRow measure contour integrand value measureContour integrandValue row ->
+      IntegralVisibleCarrierRow measure' contour' integrand' value' measureContour'
+        integrandValue' row'' ->
+        hsame row row' -> hsame measure measure' -> hsame contour contour' ->
+          hsame integrand integrand' -> hsame value value' ->
+            UnaryHistory row' ∧ MeasureZeroBHistCarrier measure ∧ PLContour contour ∧
+              UnaryHistory integrand ∧ RealConstantHistoryCarrier value ∧
+                Cont measureContour integrandValue row ∧
+                  MeasureZeroBHistClassifier measure measure' ∧ hsame row row'' := by
+  intro carrier carrier' sameRow sameMeasure sameContour sameIntegrand sameValue
+  have surface := IntegralPublicNameCert_surface carrier sameRow
+  have classifierRows :=
+    IntegralVisibleCarrierRow_measure_respecting_classifier carrier carrier' sameMeasure
+      sameContour sameIntegrand sameValue
+  exact And.intro surface.left
+    (And.intro surface.right.left
+      (And.intro surface.right.right.left
+        (And.intro surface.right.right.right.left
+          (And.intro surface.right.right.right.right.left
+            (And.intro surface.right.right.right.right.right
+              (And.intro classifierRows.left classifierRows.right.right.right.right.right))))))
+
 end BEDC.Derived.IntegralUp

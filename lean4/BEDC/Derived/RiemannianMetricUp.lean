@@ -143,4 +143,31 @@ theorem RiemannianMetricSingletonFibreSurface_fibrewise_compatibility_scope
           (And.intro domainCoordRows.right
             (And.intro sourceCoordUnary targetCoordUnary)))))
 
+theorem RiemannianMetricPublicSourceFibre_name_certificate
+    {point point' tangent tangent' metric metric' sourceDomain targetDomain sourceCoord
+      targetCoord : BHist} :
+    RiemannianMetricSingletonFibreSurface point tangent metric ->
+      RiemannianMetricSingletonFibreSurface point' tangent' metric' ->
+        hsame point point' ->
+          Cont BHist.Empty point sourceDomain ->
+            Cont BHist.Empty point' targetDomain ->
+              Cont BHist.Empty point sourceCoord ->
+                Cont BHist.Empty point' targetCoord ->
+                  ManifoldSingletonCarrier point ∧ VecSpaceSingletonCarrier tangent ∧
+                    InnerProductSingletonOrthogonal tangent tangent ∧ hsame metric metric' ∧
+                      hsame sourceDomain targetDomain ∧ UnaryHistory sourceCoord ∧
+                        UnaryHistory targetCoord := by
+  intro surface surface' samePoints sourceDomainRow targetDomainRow sourceCoordRow targetCoordRow
+  have carrierRows := RiemannianMetricSingletonFibreSurface_carrier_rows surface
+  have compatibilityRows :=
+    RiemannianMetricSingletonFibreSurface_fibrewise_compatibility_scope surface surface'
+      samePoints sourceDomainRow targetDomainRow sourceCoordRow targetCoordRow
+  exact And.intro carrierRows.left
+    (And.intro carrierRows.right.left
+      (And.intro carrierRows.right.right.left
+        (And.intro compatibilityRows.right.right.left
+          (And.intro compatibilityRows.right.right.right.left
+            (And.intro compatibilityRows.right.right.right.right.right.left
+              compatibilityRows.right.right.right.right.right.right)))))
+
 end BEDC.Derived.RiemannianMetricUp

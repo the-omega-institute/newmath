@@ -1044,6 +1044,71 @@ def compute_root_unblocks(horizons: dict[str, dict],
     return candidates
 
 
+def compute_empty_roots(horizons: dict[str, dict],
+                        downstream: dict[str, int],
+                        *, recent_attack_threshold: int = 1) -> list[dict]:
+    """Identify open chapters whose paper schema is fully empty
+    (`max(thms, labels) == 0`) — i.e. root-of-tree stubs that no paper
+    round has ever populated. These are the chapters that block the
+    largest TRANSITIVE fan-outs from ever becoming `deps_ready`, and
+    `compute_root_unblocks` cannot surface them when the dep tree has
+    mutual-blocker structure (each root has multiple `thms=0` peers, so
+    no root is a SINGLE-blocker for any downstream).
+
+    Empirically (2026-05-08): when `top` collapses to 0, all 10 entries
+    in `top_root_unblocks` have `unblock_count=1` because the bottom
+    layer (affinespace, bilinform, chernweil, …) is mutually-blocking.
+    The existing `unblock_count >= 3` GATE in phase_review.txt then
+    skips, so paper rounds never attack these stubs and the pipeline
+    stalls on closure-axis bookkeeping.
+
+    `top_empty_roots` ranks by transitive_downstream (how many chapters
+    transitively depend on this one) — directly measures "writing a
+    schema here unblocks N downstream paths."
+
+    Filters: open + not SCHEMA_ONLY + `max(thms, labels) == 0` + not
+    in-flight + `recent_attacks < threshold` (30-min window, default 1).
+    Sort: descending by `transitive_downstream`, then `direct_downstream`,
+    then name.
+    """
+    recent = _recent_paper_attack_chapter_counts(window_minutes=30)
+    inflight = _inflight_paper_attack_chapters()
+    candidates: list[dict] = []
+    # Compute direct downstream count (one hop) for tie-breaking.
+    direct: dict[str, int] = {n: 0 for n in horizons}
+    for n, info in horizons.items():
+        for d in info.get("deps", []):
+            if d in direct:
+                direct[d] += 1
+    for n, info in horizons.items():
+        if info.get("closed"):
+            continue
+        if n in SCHEMA_ONLY_HORIZONS:
+            continue
+        thms = info.get("thms", 0) or 0
+        labels = info.get("labels", 0) or 0
+        if max(thms, labels) > 0:
+            continue
+        if n in inflight:
+            continue
+        recent_count = recent.get(n, 0)
+        if recent_count >= recent_attack_threshold:
+            continue
+        candidates.append({
+            "name": n,
+            "thms": thms,
+            "labels": labels,
+            "deps": info.get("deps", []),
+            "transitive_downstream": downstream.get(n, 0),
+            "direct_downstream": direct.get(n, 0),
+            "recent_attacks": recent_count,
+            "file_paper": info.get("file_paper"),
+        })
+    candidates.sort(key=lambda r: (-r["transitive_downstream"],
+                                    -r["direct_downstream"], r["name"]))
+    return candidates
+
+
 # `theory_closure` upgrade chain. Each entry is a `(from_grade, to_grade)`
 # transition that paper P-rounds drive via `closure_mark` targets. The
 # upgrade chain has historically stalled past `scopedClosure` because
@@ -1156,6 +1221,7 @@ def main() -> int:
     # actually filtered against.
     effective_threshold = relaxed_at if relaxed_at is not None else strict
     root_unblocks = compute_root_unblocks(horizons, effective_threshold)
+    empty_roots = compute_empty_roots(horizons, downstream)
 
     # Theory-closure transition chain: 6 transitions from (none) →
     # seedClosure all the way to bridgedClosure → matureClosure. Each
@@ -1372,6 +1438,8 @@ def main() -> int:
         "granularity": "sibling",
         "top": rolled[:25],
         "top_root_unblocks": root_unblocks[:10],
+        "top_empty_roots_total": len(empty_roots),
+        "top_empty_roots": empty_roots[:10],
         "top_transitions": top_transitions,
         "drift_chapters": drift_chapters,
         "bridge_candidates": bridge_candidates,
