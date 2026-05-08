@@ -498,6 +498,78 @@ boundaries, the resulting $\SpinGroupUp$ surface is a BEDC certificate surface
 only and carries no Lie-topological or analytic covering assertion.
 \end{proof}
 
+\begin{theorem}[SpinGroup spin-boundary inclusion transport]
+\label{thm:spingroup-spin-boundary-inclusion-transport}
+Let a $\SpinGroupUp$ root carrier row be admitted by
+\autoref{thm:spingroup-root-carrier-source-scope}. Transport it by $\hsame$
+along the Clifford endpoint and by $\Cont$ along the shared unary group-law
+spine. The transported row is still an admitted Spin boundary row: its Clifford
+unit component, even-word component, and singleton group-law component remain
+inside the $\mathsf{BHist}$ surface named by the SpinGroup certificate.
+\end{theorem}
+\begin{proof}
+Start with the root source scope of
+\autoref{thm:spingroup-root-carrier-source-scope}. It exposes the accepted row
+only as a Clifford source row together with the displayed group-law spine.
+
+Apply \autoref{thm:spingroup-root-transport-closure}. The $\hsame$ Clifford
+endpoint transport preserves the unit and even-word witnesses, and the
+$\Cont$ group-law transport preserves the singleton group interface.
+
+Finally apply \autoref{thm:spingroup-group-interface-boundary}. It identifies
+the transported unary group-law spine with the same boundary read by the
+SpinGroup carrier. Repacking these transported rows gives an admitted Spin
+boundary row and adds no host orthogonal group or quotient row.
+\end{proof}
+
+\begin{theorem}[SpinGroup Clifford-unit ledger coverage]
+\label{thm:spingroup-clifford-unit-ledger-coverage}
+Every ledger row visible at the $\SpinGroupUp$ spin boundary is one of the
+following finite $\mathsf{BHist}$ rows: a Clifford unit row, a singleton Group
+law row, a $\Cont$ transport row, an $\hsame$ transport row, or a $\Pkg$
+provenance row. No spin-boundary ledger row is supplied by an ambient
+orthogonal group, matrix model, quotient algebra, or analytic covering datum.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:spingroup-root-ledger-exhaustion}. It exhausts the root
+ledger by the visible Clifford endpoint, even-product witness, group-law
+transport, $\Cont$ readback, $\hsame$ comparison, and $\Pkg$ provenance rows.
+
+Then apply \autoref{thm:spingroup-clifford-unit-carrier-obligation}. This
+identifies the Clifford side of the ledger with unit rows already accepted by
+the consumed $\CliffordUp$ certificate.
+
+The remaining ledger entries are the singleton group-law row and the transport
+or provenance rows listed by the root exhaustion theorem. Hence every visible
+row has one of the five forms in the statement, and there is no further
+external ledger source to inspect.
+\end{proof}
+
+\begin{theorem}[SpinGroup PinGroup consumer source exactness]
+\label{thm:spingroup-pin-consumer-source-exactness}
+The $\PinGroupUp$ spin-inclusion consumer reads exactly the $\SpinGroupUp$
+boundary rows: the Clifford unit rows, singleton group-law rows, $\Cont$
+transport rows, $\hsame$ transport rows, and $\Pkg$ provenance rows exposed by
+the SpinGroup certificate. It reads no host orthogonal group, matrix model,
+quotient algebra, analytic covering datum, or separate source outside that
+boundary.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:spingroup-spin-boundary-inclusion-transport}. It shows
+that the rows transported into the consumer remain Spin boundary rows rather
+than host-level Clifford or group equalities.
+
+Next use \autoref{thm:spingroup-clifford-unit-ledger-coverage}. The ledger
+visible to the consumer is exhausted by Clifford unit, singleton group-law,
+$\Cont$, $\hsame$, and $\Pkg$ rows.
+
+Finally apply \autoref{thm:spingroup-namecert-obligation-surface} and
+\autoref{thm:pingroup-spingroup-inclusion-surface}. The SpinGroup obligation
+surface is the exported boundary, and the PinGroup inclusion surface consumes
+that boundary as its source. Therefore the consumer source is exact and admits
+none of the excluded host, model, quotient, analytic, or covering data.
+\end{proof}
+
 \begin{theorem}[SpinGroup root threshold obligation triple]
 \label{thm:spingroup-root-threshold-obligation-triple}
 An accepted $\SpinGroupUp$ root packet exposes exactly three threshold rows:
