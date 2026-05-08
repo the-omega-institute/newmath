@@ -1,6 +1,7 @@
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.MetricUp
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.CompactMetricUp
 
@@ -12,6 +13,7 @@ open BEDC.Derived.CompleteMetricUp
 open BEDC.Derived.TotallyBoundedUp
 open BEDC.Derived.MetricUp
 open BEDC.Derived.RatUp
+open BEDC.FKernel.NameCert
 
 def CompactMetricCertificate (X : BHist -> Prop) (eps : BHist)
     (bundle : ProbeBundle BHist) (s M : BHist -> BHist) (limit : BHist) : Prop :=
@@ -207,5 +209,103 @@ theorem CompactMetricDownstreamConsumer_boundary {X : BHist -> Prop} {eps x n : 
   have publicPackage := CompactMetricPublicConstructor_package certificate source
   have consumerBridge := CompactMetricHeineCantor_consumer_bridge certificate nUnary streamSource
   exact And.intro publicPackage.right.right consumerBridge.right
+
+theorem CompactMetricCompleteLimit_obligation {X : BHist -> Prop} {eps n : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> UnaryHistory n -> X (s n) ->
+      CompleteMetricLimitWitness X s M limit ∧ X limit ∧
+        exists d : BHist,
+          MetricDistanceWitness (s n) limit d ∧ Cont (s n) limit d ∧
+            RatHistoryClassifier d (M n) ∧ PositiveUnaryDenominator d ∧
+              PositiveUnaryDenominator (M n) := by
+  intro certificate nUnary source
+  have positiveRows :=
+    CompleteMetricLimitWitness_distance_modulus_positive_denominators certificate.right nUnary source
+  exact And.intro certificate.right
+    (And.intro certificate.right.left
+      (Exists.elim positiveRows
+        (fun d distanceData =>
+          Exists.intro d
+            (And.intro distanceData.left
+              (And.intro distanceData.right.left
+                (And.intro distanceData.right.right.right.right
+                  (And.intro distanceData.right.right.left distanceData.right.right.right.left)))))))
+
+theorem CompactMetricCertificate_public_export_surface {X : BHist -> Prop} {eps x : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> X x ->
+      SemanticNameCert
+          (fun row : BHist =>
+            X row ∨ (exists center : BHist, InBundle center bundle ∧ hsame row center) ∨
+              hsame row limit)
+          (fun row : BHist =>
+            X row ∨ (exists center : BHist, InBundle center bundle ∧ hsame row center) ∨
+              hsame row limit)
+          (fun row : BHist =>
+            X row ∨ (exists center : BHist, InBundle center bundle ∧ hsame row center) ∨
+              hsame row limit)
+          (fun left right : BHist =>
+            (X left ∨ (exists center : BHist, InBundle center bundle ∧ hsame left center) ∨
+                hsame left limit) ∧
+              (X right ∨
+                  (exists center : BHist, InBundle center bundle ∧ hsame right center) ∨
+                    hsame right limit) ∧
+                hsame left right) ∧
+        TotallyBoundedProbeBundleNet X eps bundle ∧ CompleteMetricLimitWitness X s M limit := by
+  intro certificate source
+  let publicSurface : BHist -> Prop :=
+    fun row : BHist =>
+      X row ∨ (exists center : BHist, InBundle center bundle ∧ hsame row center) ∨
+        hsame row limit
+  have sourcePublic : publicSurface x :=
+    Or.inl source
+  have publicSelf : forall {row : BHist}, publicSurface row ->
+      (publicSurface row ∧ publicSurface row ∧ hsame row row) := by
+    intro row rowPublic
+    exact And.intro rowPublic (And.intro rowPublic (hsame_refl row))
+  have publicSymm : forall {left right : BHist},
+      (publicSurface left ∧ publicSurface right ∧ hsame left right) ->
+        publicSurface right ∧ publicSurface left ∧ hsame right left := by
+    intro left right classified
+    exact And.intro classified.right.left
+      (And.intro classified.left (hsame_symm classified.right.right))
+  have publicTrans : forall {left middle right : BHist},
+      (publicSurface left ∧ publicSurface middle ∧ hsame left middle) ->
+        (publicSurface middle ∧ publicSurface right ∧ hsame middle right) ->
+          publicSurface left ∧ publicSurface right ∧ hsame left right := by
+    intro left middle right leftClass rightClass
+    exact And.intro leftClass.left
+      (And.intro rightClass.right.left
+        (hsame_trans leftClass.right.right rightClass.right.right))
+  have publicTransport : forall {left right : BHist},
+      (publicSurface left ∧ publicSurface right ∧ hsame left right) ->
+        publicSurface left -> publicSurface right := by
+    intro left right classified _leftPublic
+    exact classified.right.left
+  exact And.intro
+    {
+      core := {
+        carrier_inhabited := Exists.intro x sourcePublic
+        equiv_refl := by
+          intro row rowPublic
+          exact publicSelf rowPublic
+        equiv_symm := by
+          intro left right classified
+          exact publicSymm classified
+        equiv_trans := by
+          intro left middle right leftClass rightClass
+          exact publicTrans leftClass rightClass
+        carrier_respects_equiv := by
+          intro left right classified leftPublic
+          exact publicTransport classified leftPublic
+      }
+      pattern_sound := by
+        intro _row rowPublic
+        exact rowPublic
+      ledger_sound := by
+        intro _row rowPublic
+        exact rowPublic
+    }
+    (And.intro certificate.left certificate.right)
 
 end BEDC.Derived.CompactMetricUp
