@@ -486,11 +486,56 @@ datum, external metric primitive, $\RealUp$ completeness claim, or standard
 bridge.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore public observation standard bridge boundary]
+\label{thm:dyadicratcore-public-observation-standard-bridge-boundary}
+The public DyadicRatCore observation package of
+\autoref{thm:dyadicratcore-public-observation-package}, together with
+$\hsame$ transport, subwindow stability, $\StreamNameUp$ finite-window rows, and
+the $\RealUp$ finite-window feed, supplies a conservative standard bridge from
+concrete $\mathsf{BHist}$ and $\RatUp$ dyadic observation rows to the finite
+dyadic observation interface consumed by $\RegSeqRat$ and $\RealUp$. The bridge
+uses only the displayed observation-row carrier, classifier, stability rows,
+finite dyadic ledger, stream-name finite-window interface, and RealUp
+finite-window consumer. It excludes quotient carriers, completion objects,
+external metric primitives, $\RealUp$ completeness, full DyadicRatCore
+arithmetic, and any machine-checked bridge status.
+\end{theorem}
+\begin{proof}
+First read the public surface from
+\autoref{thm:dyadicratcore-public-observation-package}. The exported rows are
+the concrete observation-row carrier, classifier, stability faces, finite
+dyadic ledger, and $\RegSeqRat$ seal interface over $\mathsf{BHist}$,
+$\hsame$, and the $\RatUp$ endpoint histories.
+
+Next apply
+\autoref{thm:dyadicratcore-public-observation-hsame-transport}. The
+transport clause shows that replacing a dyadic observation row by an
+$\hsame$-equivalent row preserves the same finite ledger and the same public
+observation interface. Apply
+\autoref{thm:dyadicratcore-public-observation-subwindow-stability} to restrict
+the interface to any certified finite subwindow without changing the exposed
+row vocabulary.
+
+Then use \autoref{thm:regseqrat-nested-subwindow-source-coverage}. Its nested
+window coverage identifies the $\RegSeqRat$ seal input with the same finite
+dyadic source package after repeated subwindow selection, and it reads the
+needed $\StreamNameUp$ rows through the public finite-window interface.
+
+Finally apply
+\autoref{thm:dyadicratcore-public-observation-realup-window-feed}. The
+finite-window package delivered by the preceding steps is exactly the
+observation interface consumed by the RealUp finite-window exhaustion row.
+Since every step factors through the public DyadicRatCore package and its
+finite-window consumers, the bridge is conservative: it introduces no quotient
+carrier, completion object, external metric primitive, $\RealUp$ completeness,
+full DyadicRatCore arithmetic, or machine-checked bridge status.
+\end{proof}
+
 \begin{closurestatus}{\DyadicRatCore}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:dyadicratcore-public-observation-package} witnesses the public DyadicRatCore observation package over $\mathsf{BHist}$, $\hsame$, RatUp endpoint histories, StreamNameUp request names, the DyadicRatCore observation row, and the finite dyadic ledger consumed by $\RegSeqRat$ and $\RealUp$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:dyadicratcore-public-observation-standard-bridge-boundary} witnesses the conservative paper bridge from public DyadicRatCore observation rows over $\mathsf{BHist}$, $\hsame$, RatUp endpoint histories, StreamNameUp finite-window rows, and the finite dyadic ledger to the interface consumed by $\RegSeqRat$ and $\RealUp$.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \notclaimed{This boundary does not close RealUp completeness, full DyadicRatCore arithmetic, metric completeness, standard bridges, or a checked Lean implementation.}
-  \upgradepath{A stronger grade requires a Lean formalization target for the public observation package and bridge rows relating it to a standard interface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This boundary does not close Lean verification, full DyadicRatCore arithmetic, metric completeness, RealUp completeness, quotient carriers, completion objects, or machine-checked bridge status.}
+  \upgradepath{A stronger grade requires Lean verification of the bridge boundary together with full arithmetic, metric-completeness, and RealUp-completeness packages where those claims are made.}
 \end{closurestatus}
