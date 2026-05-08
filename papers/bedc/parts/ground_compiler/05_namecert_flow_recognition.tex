@@ -46,6 +46,7 @@ It has not yet been recognized as a $\NameCert$. Thus $S \in \mathsf{EventFlow}$
 
 \begin{definition}[Generated NameCert recognizer]
 \label{def:namecert-generated-recognizer}
+\leandef{BEDC.GroundCompiler.NameCertGenerated.GeneratedNameCertRecognizer}
 A \emph{generated NameCert recognizer} is an event flow
 $$
   R \in \mathsf{EventFlow}.
@@ -116,6 +117,7 @@ If $S$ is a recognized $\NameCert$ flow, its $\NameCert$ code is just $\mathsf{C
 
 \begin{proposition}[NameCert recognition does not change channel code]
 \label{prop:namecert-generated-recognition-preserves-code}
+\leanchecked{BEDC.GroundCompiler.NameCertGenerated.namecert\_recognition\_preserves\_code}
 If $\mathsf{RecognizesNameCert}(R,S,N)$, then the channel encoding of $S$ is still $\mathsf{Compile}(S)$. $\NameCert$ recognition does not add, delete, or rewrite channel bits.
 \end{proposition}
 
@@ -125,6 +127,7 @@ The judgment $\mathsf{RecognizesNameCert}(R,S,N)$ is a source-level recognition 
 
 \begin{corollary}[Recognized NameCert code is not a separate code]
 \label{cor:namecert-generated-code-not-separate}
+\leanchecked{BEDC.GroundCompiler.NameCertGenerated.namecert\_code\_not\_separate}
 If $S$ is a recognized $\NameCert$ flow, then
 $$
   \mathsf{NameCertCode}(S) := \mathsf{Compile}(S)
