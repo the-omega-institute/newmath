@@ -349,4 +349,26 @@ theorem GaloisGroupAutomorphismActionPacket_unit_action_laws [AskSetup] [Package
           (And.intro packet.right.right.right.right.right.right.right.right.right.left
             packet.right.right.right.right.right.right.right.right.right.right))))
 
+theorem GaloisGroupAutomorphismActionPacket_inverse_cancellation_rows
+    {extension group fixed action composition inverse classifier provenance ledger leftCancel
+      rightCancel : BHist} :
+    GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition inverse
+        classifier provenance ledger ->
+      hsame inverse BHist.Empty ->
+        Cont inverse action leftCancel ->
+          Cont action inverse rightCancel ->
+            hsame leftCancel action ∧ hsame rightCancel action ∧ UnaryHistory leftCancel ∧
+              UnaryHistory rightCancel := by
+  intro packet inverseEmpty leftCancelCont rightCancelCont
+  have leftSame : hsame leftCancel action :=
+    cont_respects_hsame inverseEmpty (hsame_refl action) leftCancelCont (cont_left_unit action)
+  have rightSame : hsame rightCancel action :=
+    cont_respects_hsame (hsame_refl action) inverseEmpty rightCancelCont (cont_right_unit action)
+  have leftUnary : UnaryHistory leftCancel :=
+    unary_cont_closed packet.right.right.right.right.left packet.right.right.right.left leftCancelCont
+  have rightUnary : UnaryHistory rightCancel :=
+    unary_cont_closed packet.right.right.right.left packet.right.right.right.right.left
+      rightCancelCont
+  exact And.intro leftSame (And.intro rightSame (And.intro leftUnary rightUnary))
+
 end BEDC.Derived.GaloisGroupUp

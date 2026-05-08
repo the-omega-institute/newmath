@@ -82,6 +82,21 @@ theorem GaloisExtSourcePacket_normality_obligation_row [AskSetup] [PackageSetup]
           (And.intro packet.right.right.right.right.right.left
             packet.right.right.right.right.right.right))))
 
+theorem GaloisExtSourcePacket_base_fixed_automorphism_readback [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint automorphism : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      Cont fieldExt normality automorphism ->
+        UnaryHistory automorphism ∧ hsame automorphism (append fieldExt normality) ∧
+          PkgSig bundle endpoint pkg := by
+  intro packet automorphismCont
+  have automorphismUnary : UnaryHistory automorphism :=
+    unary_cont_closed packet.left.left packet.right.left automorphismCont
+  exact And.intro automorphismUnary
+    (And.intro automorphismCont packet.right.right.right.right.right.right)
+
 theorem GaloisExtSourcePacket_semantic_name_certificate [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
       separability classifier provenance endpoint : BHist}

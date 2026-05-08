@@ -43,4 +43,43 @@ theorem ModelTheoryBHistStructurePacket_firstorder_dependency_surface [AskSetup]
             (And.intro packet.right.right.right.right.right.right.left
               packet.right.right.right.right.right.right.right))))
 
+theorem ModelTheoryBHistStructurePacket_elementary_transport [AskSetup] [PackageSetup]
+    {firstOrder structureRow valuation satisfaction elementary provenance endpoint valuation'
+      satisfaction' elementary' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelTheoryBHistStructurePacket firstOrder structureRow valuation satisfaction elementary
+        provenance endpoint bundle pkg ->
+      hsame satisfaction satisfaction' ->
+        hsame elementary elementary' ->
+          Cont firstOrder structureRow valuation' ->
+            Cont valuation' satisfaction' provenance' ->
+              Cont provenance' elementary' endpoint' ->
+                ModelTheoryBHistStructurePacket firstOrder structureRow valuation' satisfaction'
+                    elementary' provenance' endpoint' bundle pkg ∧ hsame endpoint endpoint' := by
+  intro packet sameSatisfaction sameElementary valuationCont' provenanceCont' endpointCont'
+  have satisfactionUnary' : UnaryHistory satisfaction' :=
+    unary_transport packet.right.right.left sameSatisfaction
+  have elementaryUnary' : UnaryHistory elementary' :=
+    unary_transport packet.right.right.right.left sameElementary
+  have sameValuation : hsame valuation valuation' :=
+    cont_respects_hsame (hsame_refl firstOrder) (hsame_refl structureRow)
+      packet.right.right.right.right.left valuationCont'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameValuation sameSatisfaction
+      packet.right.right.right.right.right.left provenanceCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameElementary
+      packet.right.right.right.right.right.right.left endpointCont'
+  have pkgSig : PkgSig bundle endpoint' pkg := by
+    cases sameEndpoint
+    exact packet.right.right.right.right.right.right.right
+  exact And.intro
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro satisfactionUnary'
+          (And.intro elementaryUnary'
+            (And.intro valuationCont'
+              (And.intro provenanceCont' (And.intro endpointCont' pkgSig)))))))
+    sameEndpoint
+
 end BEDC.Derived.ModelTheoryUp
