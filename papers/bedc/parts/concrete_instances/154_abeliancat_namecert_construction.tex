@@ -431,3 +431,127 @@ classifier.
   \notclaimed{This chapter does not identify standard abelian categories, modules, sheaves, complexes, or a checked external bridge.}
   \upgradepath{Public closure requires a public AbelianCatUp export theorem that packages the zero-biproduct, kernel-cokernel, exactness, NameCert surface, and hom-zero uniqueness rows as the chapter's exported interface.}
 \end{closurestatus}
+
+\begin{theorem}[AbelianCatUp zero morphism right composition absorption]
+\label{thm:abeliancat-zero-morphism-right-composition-absorption}
+Let $\mathcal A$ be an $\AbelianCatUp$ additive kernel-cokernel carrier and
+view its zero-biproduct-kernel surface as in
+\autoref{def:abeliancat-zero-biproduct-kernel-surface}. Fix displayed objects
+$X$, $A$, and $B$. Write $\mathcal H(Y,Z)$ for the displayed hom carrier,
+$\sim_{Y,Z}$ for its hom classifier, $+_{Y,Z}$ for hom addition, and
+$0_{Y,Z}$ for the displayed zero morphism. If $g\in\mathcal H(A,B)$ is carried,
+then the displayed composite with the zero morphism in the right composition
+slot is classified with the displayed zero morphism in the target hom row:
+$$
+g\circ 0_{X,A}\sim_{X,B}0_{X,B}.
+$$
+\end{theorem}
+\begin{proof}
+The hom rows $\mathcal H(X,A)$ and $\mathcal H(X,B)$ are part of the carrier of
+\autoref{def:abeliancat-additive-kernel-cokernel-carrier}. By
+\autoref{thm:abeliancat-additive-zero-biproduct-obligation}, their displayed
+additions and zero morphisms are the additions and units of the corresponding
+hom-wise $\AbGroupUp$ enrichment rows. In particular,
+$$
+0_{X,A}+_{X,A}0_{X,A}\sim_{X,A}0_{X,A}.
+$$
+The $\CategoryUp$ composition row types the composite
+$u:=g\circ 0_{X,A}$ as a carried element of $\mathcal H(X,B)$.
+
+Project the right-slot additivity of composition from the additive
+$\AbelianCatUp$ carrier, read through the biproduct additive hom obligation of
+\autoref{thm:abeliancat-biproduct-additive-hom-obligation}. For the fixed
+carried morphism $g:A\to B$, postcomposition sends hom addition in
+$\mathcal H(X,A)$ to hom addition in $\mathcal H(X,B)$, so at the zero pair it
+supplies
+$$
+g\circ(0_{X,A}+_{X,A}0_{X,A})
+\sim_{X,B}
+(g\circ 0_{X,A})+_{X,B}(g\circ 0_{X,A}).
+$$
+Composition classifier stability transports the source zero-unit comparison
+through the same right slot, giving
+$$
+g\circ(0_{X,A}+_{X,A}0_{X,A})\sim_{X,B}g\circ 0_{X,A}.
+$$
+By symmetry and transitivity of $\sim_{X,B}$, these two comparisons classify
+$u$ as additively idempotent:
+$$
+u+_{X,B}u\sim_{X,B}u.
+$$
+
+Now read the hom-wise $\AbGroupUp$ enrichment of $\mathcal H(X,B)$ through
+\autoref{prop:abgroup-forgets-group-certificate}. The group reduct has the
+same carrier, the same classifier $\sim_{X,B}$, the same operation
+$+_{X,B}$, and the same unit $0_{X,B}$. Applying
+\autoref{thm:group-left-absorb-right-factor-unit} in additive notation, with
+$a=u$ and $b=u$, forces the right repeated summand to be the additive unit:
+$$
+u\sim_{X,B}0_{X,B}.
+$$
+Substituting $u=g\circ 0_{X,A}$ gives the asserted classification.
+\end{proof}
+
+\begin{theorem}[AbelianCatUp hom additive inverse uniqueness]
+\label{thm:abeliancat-hom-additive-inverse-uniqueness}
+Let $\mathcal A$ be an $\AbelianCatUp$ additive kernel-cokernel carrier and
+view its zero-biproduct-kernel surface as in
+\autoref{def:abeliancat-zero-biproduct-kernel-surface}. Fix displayed objects
+$A$ and $B$. Write $\mathcal H(A,B)$ for the displayed hom carrier,
+$\sim_{A,B}$ for its inherited hom classifier, $+_{A,B}$ for its displayed hom
+addition, and $0_{A,B}$ for its displayed zero morphism. If carried morphisms
+$f,u,v\in\mathcal H(A,B)$ satisfy
+$$
+u+_{A,B}f\sim_{A,B}0_{A,B}
+\qquad\text{and}\qquad
+f+_{A,B}u\sim_{A,B}0_{A,B}
+$$
+with $\nu=u$, and also satisfy
+$$
+v+_{A,B}f\sim_{A,B}0_{A,B}
+\qquad\text{and}\qquad
+f+_{A,B}v\sim_{A,B}0_{A,B},
+$$
+then
+$$
+u\sim_{A,B}v
+$$
+with $\nu=u$. Equivalently, any two carried two-sided additive inverse
+presentations of the same carried hom morphism are identified by the inherited
+hom classifier.
+\end{theorem}
+\begin{proof}
+Unpack the hom row selected by
+\autoref{def:abeliancat-additive-kernel-cokernel-carrier}. The row
+$\mathcal H(A,B)$ carries the $\AbGroupUp$ enrichment $\mathcal G(A,B)$. By
+\autoref{thm:abeliancat-additive-zero-biproduct-obligation}, the operation of
+this enrichment is the displayed hom addition $+_{A,B}$ and its identity is the
+displayed zero morphism $0_{A,B}$.
+
+Apply \autoref{prop:abgroup-forgets-group-certificate} to this enrichment. The
+retained $\GroupUp$ package has the same carried hom elements, the same
+classifier $\sim_{A,B}$, the same operation $+_{A,B}$, the same identity
+$0_{A,B}$, and the inverse laws and multiplication congruence required for the
+group inverse-uniqueness argument.
+
+Now read \autoref{thm:group-left-right-inverse-uniqueness} in this retained
+additive group package, with middle element $f$, left inverse candidate $u$,
+and right inverse candidate $v$. The hypothesis
+$$
+u+_{A,B}f\sim_{A,B}0_{A,B}
+$$
+with $\nu=u$ is exactly the left-inverse comparison $u+_{A,B}f\sim_{A,B}0_{A,B}$,
+and the hypothesis
+$$
+f+_{A,B}v\sim_{A,B}0_{A,B}
+$$
+is exactly the right-inverse comparison for $v$. The theorem therefore gives
+$$
+u\sim_{A,B}v
+$$
+with $\nu=u$, because the group reduct did not change the hom classifier. The
+remaining two displayed comparisons record that both candidates are two-sided
+inverse presentations, but the uniqueness comparison itself needs only one
+left-inverse presentation and one right-inverse presentation against the same
+carried middle morphism.
+\end{proof}

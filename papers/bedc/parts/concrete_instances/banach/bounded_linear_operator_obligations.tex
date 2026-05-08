@@ -193,3 +193,191 @@ $$
 $$
 \end{proof}
 \leanchecked{BEDC.Derived.BanachUp.BanachSingletonZeroBoundedLinearOperator\_carrier}
+
+\begin{definition}[Banach bounded linear operator pointwise sum carrier]
+\label{def:banach-bounded-linear-operator-pointwise-sum-carrier}
+Let $C,D$ be $\BanachUp$ candidates with vector carriers $C_V,D_V$,
+classifiers $\sim_C,\sim_D$, target addition $+_D$, norms $\nu_C,\nu_D$,
+and norm-induced distances $d_C,d_D$. Given carried rows
+$$
+\mathsf{BanachBLOp}(C,D,T,K,\Lambda)
+$$
+and
+$$
+\mathsf{BanachBLOp}(C,D,S,L,\Gamma),
+$$
+their pointwise sum endpoint map is
+$$
+(T\boxplus_D S)(x):=T(x)+_D S(x).
+$$
+The displayed sum-bound endpoint is the RealUp addition endpoint $K+L$. The
+sum ledger $\Lambda\boxplus\Gamma$ is the ordered record containing the two
+operator ledgers, the target $\AbGroupUp$ addition, associativity,
+commutativity, congruence, and zero-carry rows, the target vector-space scalar
+distributivity row, the target $\NormUp$ triangle row, and the $\RealAlgOrder$
+addition, multiplication, distributivity, non-negativity, transitivity, and
+additive order-transport rows used to compare the constructed bound with
+$K+L$.
+\end{definition}
+
+\begin{theorem}[Banach bounded linear operator pointwise sum closure]
+\label{thm:banach-bounded-linear-operator-pointwise-sum-closure}
+Let $C,D$ be $\BanachUp$ candidates as in
+\autoref{def:banach-complete-normed-carrier}, with vector carriers $C_V,D_V$,
+classifiers $\sim_C,\sim_D$, target addition $+_D$, scalar action
+$\cdot_D$, norms $\nu_C,\nu_D$, and norm-induced distances $d_C,d_D$. If
+$$
+\mathsf{BanachBLOp}(C,D,T,K,\Lambda)
+$$
+and
+$$
+\mathsf{BanachBLOp}(C,D,S,L,\Gamma)
+$$
+are carried, then the pointwise sum map of
+\autoref{def:banach-bounded-linear-operator-pointwise-sum-carrier} is carried
+by
+$$
+\mathsf{BanachBLOp}(C,D,T\boxplus_D S,K+L,\Lambda\boxplus\Gamma).
+$$
+For every carried source endpoint $x:C_V$, its bound row is the
+$\RealAlgOrder$ additive-order composite
+$$
+\nu_D((T\boxplus_D S)(x))\le (K+L)\cdot\nu_C(x),
+$$
+and the displayed operator-bound endpoint is classified by the RealUp order
+with the scalar sum of the two input bounds:
+$$
+K+L\le K+L.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the operator carrier of
+\autoref{def:banach-bounded-linear-operator-carrier}. For a carried source
+endpoint $x:C_V$, the target endpoint rows of $\Lambda$ and $\Gamma$ carry
+$T(x)$ and $S(x)$ in $D_V$. The target additive carrier row from the
+$\AbGroupUp$ reduct of the target vector space carries
+$$
+(T\boxplus_D S)(x)=T(x)+_D S(x),
+$$
+so the endpoint row required for the sum map is present.
+
+For classifier-respect, suppose $x\sim_Cx'$ with all source endpoints carried.
+The classifier rows in $\Lambda$ and $\Gamma$ give
+$$
+T(x)\sim_D T(x')
+\qquad\text{and}\qquad
+S(x)\sim_D S(x').
+$$
+Target additive congruence transports these two comparisons to
+$$
+T(x)+_D S(x)\sim_D T(x')+_D S(x'),
+$$
+which is exactly
+$$
+(T\boxplus_D S)(x)\sim_D(T\boxplus_D S)(x').
+$$
+
+For additivity, let $x,y:C_V$ be carried. The additive rows of the two input
+operator ledgers give
+$$
+T(x+_C y)\sim_D T(x)+_D T(y)
+$$
+and
+$$
+S(x+_C y)\sim_D S(x)+_D S(y).
+$$
+Applying target additive congruence to these two comparisons gives
+$$
+T(x+_C y)+_D S(x+_C y)
+\sim_D
+(T(x)+_D T(y))+_D(S(x)+_D S(y)).
+$$
+The target $\AbGroupUp$ associativity and commutativity rows reorder the four
+carried summands as
+$$
+(T(x)+_D T(y))+_D(S(x)+_D S(y))
+\sim_D
+(T(x)+_D S(x))+_D(T(y)+_D S(y)).
+$$
+Transitivity of $\sim_D$ yields
+$$
+(T\boxplus_D S)(x+_C y)
+\sim_D
+(T\boxplus_D S)(x)+_D(T\boxplus_D S)(y).
+$$
+
+For homogeneity, let $a$ be a carried RealUp scalar endpoint and let
+$x:C_V$ be carried. The homogeneous rows of $\Lambda$ and $\Gamma$ give
+$$
+T(a\cdot_C x)\sim_D a\cdot_D T(x)
+$$
+and
+$$
+S(a\cdot_C x)\sim_D a\cdot_D S(x).
+$$
+Target additive congruence combines them as
+$$
+T(a\cdot_C x)+_D S(a\cdot_C x)
+\sim_D
+(a\cdot_D T(x))+_D(a\cdot_D S(x)).
+$$
+The scalar-distributivity row of the target vector-space structure classifies
+the right endpoint with
+$$
+a\cdot_D(T(x)+_D S(x)).
+$$
+Composing these comparisons gives
+$$
+(T\boxplus_D S)(a\cdot_C x)
+\sim_D
+ a\cdot_D(T\boxplus_D S)(x).
+$$
+
+It remains to verify the bound row. The non-negativity rows in the two
+operator carriers give $K\ge0$ and $L\ge0$. The $\RealAlgOrder$ additive
+order row carries $K+L\ge0$, so the proposed sum bound is non-negative.
+For a carried source endpoint $x:C_V$, the target $\NormUp$ triangle row gives
+$$
+\nu_D(T(x)+_D S(x))\le \nu_D(T(x))+\nu_D(S(x)).
+$$
+The two input bound rows give
+$$
+\nu_D(T(x))\le K\cdot\nu_C(x)
+$$
+and
+$$
+\nu_D(S(x))\le L\cdot\nu_C(x).
+$$
+The additive order-transport row of $\RealAlgOrder$ adds these two comparisons:
+$$
+\nu_D(T(x))+\nu_D(S(x))
+\le
+(K\cdot\nu_C(x))+(L\cdot\nu_C(x)).
+$$
+The RealUp distributivity row rewrites the right endpoint as
+$$
+(K\cdot\nu_C(x))+(L\cdot\nu_C(x))
+\sim_{\RealUp}
+(K+L)\cdot\nu_C(x).
+$$
+Order transport across this RealUp classifier comparison and transitivity with
+the triangle inequality give
+$$
+\nu_D((T\boxplus_D S)(x))\le (K+L)\cdot\nu_C(x).
+$$
+
+The bound-classification statement is the RealUp order reflexivity row at the
+same addition endpoint $K+L$, after the $\RealAlgOrder$ addition row has
+carried that endpoint from the displayed input bounds $K$ and $L$:
+$$
+K+L\le K+L.
+$$
+The endpoint, classifier, additive, homogeneous, non-negative, bound, and
+ledger rows just assembled are precisely the rows required by
+\autoref{def:banach-bounded-linear-operator-carrier}. Repacking them with the
+pointwise sum endpoint map, the bound endpoint $K+L$, and the visible ledger
+$\Lambda\boxplus\Gamma$ yields the carried row
+$$
+\mathsf{BanachBLOp}(C,D,T\boxplus_D S,K+L,\Lambda\boxplus\Gamma).
+$$
+\end{proof}
