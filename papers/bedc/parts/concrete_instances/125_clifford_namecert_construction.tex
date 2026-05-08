@@ -24,6 +24,84 @@ whenever the vector endpoint $v$ is accepted by the $\VecSpaceUp$ source and the
 Classifier transport is NameCert-level transport: replacing a tensor row by a $\TensorProductUp$-classified row, a vector row by a source-classified row, or a diagonal scalar row by a $\BilinFormUp$-classified row preserves the Clifford classifier through the displayed $\hsame$ and $\Cont$ witnesses.
 \end{definition}
 
+\begin{theorem}[Clifford carrier and classifier obligations]\label{thm:clifford-carrier-classifier-obligations}
+The Clifford word carrier has visible $\mathsf{BHist}$ endpoints for every accepted
+finite vector-letter history, and the quadratic-relation classifier of
+\autoref{def:clifford-classifier-package} is an equivalence
+relation on these endpoints. Its constructors are exactly tensor-word
+congruence, bilinear-form transport, local quadratic rows, and the three
+equivalence closures.
+\end{theorem}
+\begin{proof}
+Carrier coverage is read from \autoref{def:clifford-carrier-package}. Each
+letter is already a $\VecSpaceUp$-carried endpoint, and each finite word carries its
+$\TensorProductUp$ bracketing witness, so the endpoint is a concrete $\mathsf{BHist}$
+history rather than an external algebra element.
+
+For the classifier, induct on the generated relation. The generator cases are
+the three displayed rows in
+\autoref{def:clifford-classifier-package}. Tensor congruence keeps
+the same vector-letter ledger up to the $\TensorProductUp$ classifier, bilinear-form
+transport keeps the $\BilinFormUp$ row, and the local quadratic row supplies the single
+visible reduction $v \cdot v \sim q(v) \cdot 1$.
+
+The reflexive, symmetric, and transitive cases are the closure constructors
+of the least relation. Because every constructor targets the same Clifford
+word carrier, the induction also proves that no classifier endpoint leaves
+the accepted $\mathsf{BHist}$ carrier.
+\end{proof}
+
+\begin{theorem}[Clifford product relation stability obligations]\label{thm:clifford-product-relation-stability-obligations}
+If two Clifford word endpoints are related by the quadratic-relation
+classifier, then their products with any accepted left or right Clifford word
+context are again related. In particular, tensor-word concatenation preserves
+carrier membership and the classifier is stable under the two context
+operations induced by $\TensorProductUp$.
+\end{theorem}
+\begin{proof}
+First build the product carrier. Concatenating an accepted context word with
+an accepted endpoint concatenates two finite vector-letter ledgers and uses
+the $\TensorProductUp$ row to record the new bracketing witness. Hence both
+left and right products remain Clifford word endpoints.
+
+Now induct on the given classifier derivation. Tensor congruence is stable
+because the context is another tensor word read by the same $\TensorProductUp$ source.
+Bilinear-form transport is stable because the transported row remains a
+$\BilinFormUp$-classified scalar row after the context is attached outside the local
+letter pair.
+
+For a local quadratic row, the context constructors record exactly the same
+replacement inside a larger finite word: the subword $v \cdot v$ is replaced
+by $q(v)$, while the surrounding left and right word ledgers are retained.
+The equivalence closure steps are preserved by applying the same context
+operation to each premise in the induction.
+\end{proof}
+
+\begin{theorem}[Clifford universal ledger exactness obligations]\label{thm:clifford-universal-ledger-exactness-obligations}
+The Clifford obligation ledger records exactly four kinds of witnesses:
+vector-letter membership in the $\VecSpaceUp$ source, tensor bracketing rows
+from $\TensorProductUp$, bilinear and quadratic rows from $\BilinFormUp$, and
+relation-generation steps for the quadratic classifier. Therefore the
+Clifford certificate imports no host quotient, no external associative
+algebra, and no equality principle outside the displayed $\mathsf{BHist}$ ledger.
+\end{theorem}
+\begin{proof}
+Coverage follows by unpacking an accepted Clifford word. Its data are a
+finite vector-letter ledger, the tensor bracketing row for that ledger, and
+the endpoint $\mathsf{BHist}$. These are the first two witness kinds in the stated
+ledger.
+
+Soundness of scalar and quadratic information is supplied by the
+$\NameCert_{\BilinFormUp}$ source. The bilinear transport row and the local
+quadratic row $v \cdot v \sim q(v)$ are recorded as rows of the generated
+classifier, so the scalar endpoint is never read from a host quotient.
+
+Exactness is the induction principle for the least classifier relation. Every
+accepted relation step is either one of the listed generators or one of the
+equivalence and context closures already recorded by the relation-generation
+ledger. Thus any purported Clifford equality must expose one of these rows,
+which rules out imported algebraic equality as a hidden source.
+\end{proof}
 \section{The certificate}
 \label{sec:clifford-certificate}
 
