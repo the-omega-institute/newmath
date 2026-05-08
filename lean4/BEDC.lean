@@ -201,6 +201,7 @@ import BEDC.Derived.ComputableUp
 import BEDC.Derived.CondExpUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
+import BEDC.Derived.SeriesUp
 import BEDC.Derived.SheafUp
 import BEDC.Derived.SheafUp.ConsumerAccessTraceSource
 import BEDC.Derived.SheafUp.ConsumerAccessTrace
