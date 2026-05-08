@@ -136,4 +136,29 @@ theorem CliffordCarrierPackage_ledger_exactness_obligation
             hsame endpoint (append (append vector vector) boundary) :=
   CliffordCarrierPackage_universal_ledger_exactness
 
+theorem CliffordClassifierPackage_quadratic_relation_obligation
+    {unit vector product boundary endpoint scalar scalarEndpoint : BHist} :
+    CliffordClassifierPackage unit vector product boundary endpoint scalar scalarEndpoint ->
+      UnaryHistory unit ∧ UnaryHistory vector ∧ UnaryHistory product ∧ UnaryHistory boundary ∧
+        UnaryHistory scalar ∧ UnaryHistory scalarEndpoint ∧ Cont vector vector product ∧
+          Cont product boundary endpoint ∧ Cont scalar unit scalarEndpoint ∧
+            hsame endpoint scalarEndpoint := by
+  intro classifier
+  have carrier : CliffordCarrierPackage unit vector product boundary endpoint :=
+    classifier.left
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed carrier.right.left carrier.right.left carrier.right.right.right.left
+  have scalarEndpointUnary : UnaryHistory scalarEndpoint :=
+    unary_cont_closed classifier.right.left carrier.left classifier.right.right.left
+  exact
+    And.intro carrier.left
+      (And.intro carrier.right.left
+        (And.intro productUnary
+          (And.intro carrier.right.right.left
+            (And.intro classifier.right.left
+              (And.intro scalarEndpointUnary
+                (And.intro carrier.right.right.right.left
+                  (And.intro carrier.right.right.right.right
+                    (And.intro classifier.right.right.left classifier.right.right.right))))))))
+
 end BEDC.Derived.CliffordUp

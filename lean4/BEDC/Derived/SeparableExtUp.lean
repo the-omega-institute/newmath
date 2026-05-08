@@ -342,6 +342,29 @@ theorem SeparableExtSourceRow_semantic_name_certificate [AskSetup] [PackageSetup
       exact source
   }
 
+theorem SeparableExtSourceRow_carrier_classifier_surface [AskSetup] [PackageSetup]
+    {field polynomial simple provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SeparableExtSourceRow field polynomial simple provenance endpoint bundle pkg ->
+      UnaryHistory field ∧ UnaryHistory polynomial ∧ UnaryHistory simple ∧
+        UnaryHistory provenance ∧ UnaryHistory endpoint ∧
+          hsame provenance (append field polynomial) ∧
+            hsame endpoint (append (append field polynomial) simple) ∧
+              PkgSig bundle endpoint pkg := by
+  intro row
+  have endpointReadback : hsame endpoint (append (append field polynomial) simple) :=
+    hsame_trans row.right.right.right.right.right.right.left
+      (congrArg (fun route : BHist => append route simple)
+        row.right.right.right.right.right.left)
+  exact And.intro row.left
+    (And.intro row.right.left
+      (And.intro row.right.right.left
+        (And.intro row.right.right.right.left
+          (And.intro row.right.right.right.right.left
+            (And.intro row.right.right.right.right.right.left
+              (And.intro endpointReadback
+                row.right.right.right.right.right.right.right))))))
+
 theorem SeparableExtSourceSurface_carrier_classifier_surface [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot provenance endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -430,5 +453,44 @@ theorem SeparableExtSourceSurface_simple_root_obligation [AskSetup] [PackageSetu
               (And.intro surface.right.right.right.right.right.left
                  (And.intro endpointCont' pkgSig')))))))
     sameEndpoint
+
+theorem SeparableExtJointSource_carrier_classifier_surface
+    {field field' polynomial polynomial' generator generator' minpoly minpoly' derivative
+      derivative' provenance provenance' endpoint endpoint' : BHist} :
+    SeparableExtJointSource field polynomial generator minpoly derivative provenance endpoint ->
+      SeparableExtJointSource field' polynomial' generator' minpoly' derivative' provenance'
+          endpoint' ->
+        hsame field field' ->
+          hsame polynomial polynomial' ->
+            hsame generator generator' ->
+              hsame minpoly minpoly' ->
+                hsame derivative derivative' ->
+                  hsame provenance provenance' ∧ hsame endpoint endpoint' ∧
+                    UnaryHistory endpoint ∧ UnaryHistory endpoint' := by
+  intro source source' _sameField samePolynomial sameGenerator _sameMinpoly sameDerivative
+  have polynomialUnary : UnaryHistory polynomial :=
+    unary_transport unary_empty (hsame_symm source.right.left)
+  have polynomialUnary' : UnaryHistory polynomial' :=
+    unary_transport unary_empty (hsame_symm source'.right.left)
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed polynomialUnary source.right.right.right.left
+      source.right.right.right.right.right.left
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_cont_closed polynomialUnary' source'.right.right.right.left
+      source'.right.right.right.right.right.left
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame samePolynomial sameDerivative
+      source.right.right.right.right.right.left source'.right.right.right.right.right.left
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameGenerator
+      source.right.right.right.right.right.right source'.right.right.right.right.right.right
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary source.right.right.left
+      source.right.right.right.right.right.right
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed provenanceUnary' source'.right.right.left
+      source'.right.right.right.right.right.right
+  exact And.intro sameProvenance
+    (And.intro sameEndpoint (And.intro endpointUnary endpointUnary'))
 
 end BEDC.Derived.SeparableExtUp
