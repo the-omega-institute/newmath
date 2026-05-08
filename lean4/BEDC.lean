@@ -413,6 +413,7 @@ import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.GaloisExtUp
+import BEDC.Derived.GaloisGroupUp
 import BEDC.Derived.NumFieldUp
 import BEDC.Derived.NumFieldUp.DegreeOneBasisEndpoint
 import BEDC.Derived.NumFieldUp.DegreeOneBasis
@@ -663,6 +664,7 @@ import BEDC.Derived.QuotientGroupUp.AbelianTerminalProjectionUniqueness
 import BEDC.Derived.QuotientGroupUp.IdentityFiberSaturation
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
+import BEDC.Derived.HomotopyUp
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.RingUp.SingletonAppend
