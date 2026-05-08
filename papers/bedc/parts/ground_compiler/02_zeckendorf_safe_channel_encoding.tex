@@ -357,6 +357,7 @@ The local rules of \autoref{def:channel-encoding-body-encoding} are $0 \mapsto 0
 
 \begin{proposition}[Channel decoder is streaming with one-glyph lookahead]
 \label{prop:channel-encoding-decoder-streaming}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.decoder\_streaming\_one\_glyph\_lookahead}
 The map $\mathsf{Decode}$ is streaming on its input with at most one-glyph lookahead.
 \end{proposition}
 
@@ -401,7 +402,8 @@ In particular, the empty channel stream is legal because it is the encoding of t
 
 \begin{theorem}[Channel conservativity]
 \label{thm:channel-encoding-conservativity}
-Adjoining the channel-level encoder $\mathsf{Compile}$, the decoder $\mathsf{Decode}$, the legal event language $\mathsf{LegalEvent}$, and the legal-stream language $\mathsf{LegalZStream}$ to the BEDC compiler discipline does not add new BEDC kernel objects, new mark-sameness rules, new history-sameness rules, new $\ExtR$ or $\ContR$ rules, new derived interfaces, or new recognizer relations.
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.channel\_conservativity}
+Every displayed mark occurring in $\mathsf{Compile}(S)$ for an event flow $S$ is one of the two existing kernel marks $\bzero$ and $\bone$. Adjoining the channel-level encoder $\mathsf{Compile}$, the decoder $\mathsf{Decode}$, the legal event language $\mathsf{LegalEvent}$, and the legal-stream language $\mathsf{LegalZStream}$ to the BEDC compiler discipline therefore introduces no third channel glyph and does not add new BEDC kernel objects, new mark-sameness rules, new history-sameness rules, new $\ExtR$ or $\ContR$ rules, new derived interfaces, or new recognizer relations.
 \end{theorem}
 
 \begin{proof}

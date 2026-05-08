@@ -153,6 +153,34 @@ theorem encoder_streaming (w : RawEvent) (rest : EventFlow) :
     FlowEncoding (w :: rest) = EventEncoding w ++ FlowEncoding rest := by
   rfl
 
+theorem decoder_streaming_one_glyph_lookahead :
+    DecEvent [] = none /\
+      (forall rest : List DisplayAlphabet,
+        DecEvent (BMark.b0 :: rest) =
+          match DecEvent rest with
+          | some (w, remaining) => some (BMark.b0 :: w, remaining)
+          | none => none) /\
+      DecEvent [BMark.b1] = none /\
+      (forall rest : List DisplayAlphabet,
+        DecEvent (BMark.b1 :: BMark.b0 :: rest) =
+          match DecEvent rest with
+          | some (w, remaining) => some (BMark.b1 :: w, remaining)
+          | none => none) /\
+      (forall rest : List DisplayAlphabet,
+        DecEvent (BMark.b1 :: BMark.b1 :: rest) = some ([], rest)) := by
+  constructor
+  · rfl
+  · constructor
+    · intro rest
+      rfl
+    · constructor
+      · rfl
+      · constructor
+        · intro rest
+          rfl
+        · intro rest
+          rfl
+
 theorem no_tree_no_manifest_no_table {d : CompilerDatum} :
     StructuralHiddenInput d -> Not (FormalCompilerInput d) := by
   exact structural_hidden_not_formal
@@ -186,5 +214,12 @@ theorem legal_stream_not_theoremhood :
             have hNil : S = [] := flow_encoding_eq_nil hEq.symm
             cases hNil
             exact empty_not_recognized_theorem_flow hTheo
+
+theorem channel_conservativity {S : EventFlow} {m : DisplayAlphabet} :
+    List.Mem m (FlowEncoding S) -> m = BMark.b0 \/ m = BMark.b1 := by
+  intro _
+  cases m with
+  | b0 => exact Or.inl rfl
+  | b1 => exact Or.inr rfl
 
 end BEDC.GroundCompiler.ChannelEncoding
