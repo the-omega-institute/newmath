@@ -595,6 +595,33 @@ Project the chapter surface from \autoref{thm:orderup-unary-prefix-namespace-tar
 Therefore a namespace theorem for $\mathsf{BEDC.Derived.OrderUp}$ must repack all listed rows as its conclusion. Reusing the $\PreorderUp$ dependency as the canonical theorem would omit the displayed $\OrderUp$ rows and would not match the chapter surface.
 \end{proof}
 
+\begin{theorem}[TotalOrder source boundary for the OrderUp phase exit]
+\label{thm:totalorder-orderup-phase-exit-totalorder-source-boundary}
+The $\OrderUp$ phase-exit surface in this file is a consumer projection of the
+unary-prefix $\TotalOrderUp$ package through $\mathsf{BHist}$,
+$\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, $\le_{\mathsf{u}}$, finite
+$\mathsf{ListCarrier}$ spines, and $\Cont$ ledger rows. It does not by itself
+certify a canonical theorem in the namespace $\mathsf{BEDC.Derived.OrderUp}$.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}. It supplies
+the total-order source package whose unary carrier, classifier, comparison, and
+finite spine data feed the displayed $\OrderUp$ projection.
+
+Apply \autoref{thm:orderup-unary-prefix-public-export} to read that source
+package as the public $\OrderUp$ carrier, classifier, and relation. Then use
+\autoref{thm:orderup-unary-prefix-standard-bridge-boundary} to identify the
+finite $\mathsf{ListCarrier}$ spine reading without adding a separate host-order
+source.
+
+Finally apply \autoref{thm:orderup-unary-prefix-formalization-handshake}. The
+handshake names the remaining formal boundary: the chapter surface is a
+paper-side consumer projection of the unary-prefix $\TotalOrderUp$ package, so
+the closure block below cannot be read as a canonical
+$\mathsf{BEDC.Derived.OrderUp}$ namespace certificate.
+\end{proof}
+
 \begin{closurestatus}{\OrderUp}
   \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{thm:orderup-unary-prefix-public-export} gives the public $\OrderUp$ surface over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, while \autoref{thm:orderup-unary-prefix-standard-bridge-boundary} identifies its finite unary-word standard bridge.}
