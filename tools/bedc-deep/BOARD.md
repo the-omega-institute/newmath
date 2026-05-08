@@ -18,31 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-511 - Independence finite subfamily projection
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Independence finite subfamily projection |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 8/10 |
-
-Problem:
-If a finite-family carrier (X_i)_{i in I} carries the IndependenceUp finite factorisation row of def:independence-finite-factorisation-row, then for every FinSetUp-certified subset J ⊆ I the restricted family (X_i)_{i in J} also carries the finite factorisation row.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/165_independence_namecert_construction.tex`
-- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
-
-Rationale:
-165_independence_namecert_construction.tex builds finite-family independence around def:independence-finite-factorisation-row (lines 49-75) and proves stability under reindexing permutations (thm:independence-finite-reindexing-invariance, line 203) and binary measurable-image transport (thm:independence-measurable-image-bridge, line 270). The fundamental subfamily projection — independence of the full family implies independence of any sub-index family — is missing: grep 'subfamily\|sub-index\|index.*restriction\|restrict.*independence\|partial.*independence' on the file returns 0 matches. BOARD already covers Distribution↑ pushforward sigma-additivity / inclusion-exclusion (B-475, B-503/506) and B-499 finite-family measurable-image independence — none addresses index-restriction. The proof: take an arbitrary cylinder over J, complete it to a cylinder over I by inserting the total-event B_i = T_i for i ∉ J (using ProbSpaceUp normalization mu(Omega) ~ 1_R from thm:probspace-total-event-normalization-row at 162_probspace line 130), apply the full-family factorisation, and absorb the unit-marginals via finite RealUp product fold. Lands in 362-line file, well below cap; concrete prerequisite for downstream CondExp/Markov chain reasoning.
-
----
-
 ### B-516 - LPDuality primal feasibility binary convex closure
 
 | field | value |
@@ -114,3 +89,155 @@ Rationale:
 Strict dual companion to B-474 (countable preimage UNION exactness), the only sigma-algebra closure case missing from the RandomVar preimage exactness suite (B-474 union, B-419 preimage union, B-456 empty preimage, B-455 total preimage, B-439 complement, B-434 relative-difference, plus binary intersection in countable_and_intersection.tex). The scoped-closure package thm:randomvar-scoped-closure-package currently only mentions countable union; a probability-theory referee would call this out. Concrete sigma-algebra closure, not a parameter transport — proof mirrors the union proof with exists -> forall. File 171 lines, safe landing.
 
 ---
+
+### B-528 - InnerProduct ternary mutually-orthogonal Pythagoras
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | InnerProduct ternary mutually-orthogonal Pythagoras |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For an InnerProductUp BHist carrier with carried vector endpoints x,y,z:C_V satisfying x⊥_I y, x⊥_I z, and y⊥_I z, the displayed sum x+_V y+_V z is carried and the norm-squared endpoint ‖x+y+z‖²_I is classified by the scalar sum ‖x‖²_I +_scal ‖y‖²_I +_scal ‖z‖²_I under the retained scalar classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/parallelogram_norm_seed.tex`
+- `papers/bedc/parts/concrete_instances/innerproduct/orthogonality_closure.tex`
+
+Rationale:
+Genuine generalization of binary Pythagoras (B-508, completed). Proof factors through binary Pythagoras applied twice via the existing thm:innerproduct-orthogonal-additivity-row to produce (x+y) ⊥ z from pairwise hypotheses. Lands cleanly at parallelogram_norm_seed.tex (331 lines) where the binary row was added — same proof skeleton, distinct theorem with three-input closure scope. Not a parameter-echo: the ternary statement carries a new sum-of-three norm-squared classifier, not a renaming of binary.
+
+---
+
+
+### B-529 - HopfAlgUp antipode uniqueness from convolution-inverse witnesses
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | HopfAlgUp antipode uniqueness from convolution-inverse witnesses |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+For a HopfAlgUp BHist bialgebra carrier and two antipode rows s, s' that both witness the convolution-inverse obligation (both ConvLeft and ConvRight ledgers compose to the unit-counit endpoint with each), the two antipode rows are classifier-equivalent: hsame(s, s').
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/158_hopfalg_namecert_construction.tex`
+
+Rationale:
+Frontier first closure on a 92-line chapter that currently has only carrier definition, classifier, tensor-product stability, antipode obligation, and namecert obligation — no closure theorem at all. Antipode uniqueness is the canonical first theorem any reader expects in a HopfAlg surface and is the principal property that distinguishes Hopf algebras from bialgebras. Concrete uniqueness target (not parameter-echo). Large landing headroom. Likely oracle route because convolution-associativity needs careful BHist-level statement.
+
+---
+
+
+### B-530 - MeasureUp triple-union subadditivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MeasureUp triple-union subadditivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+For a MeasureUp carrier and three displayed measurable events A, B, C in one carried fiber with the binary unions A∪B and (A∪B)∪C carried by the σ-algebra row, the measure of the triple union satisfies μ((A∪B)∪C) ≤_R μ(A) +_R μ(B) +_R μ(C) under the RealUp algebraic order.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/finite_additivity_readback.tex`
+
+Rationale:
+Closes a referee-visible asymmetry: chapter currently has triple disjoint-union ADDITIVITY (finite_additivity_readback.tex:143) but only binary union SUBADDITIVITY (B-433). Two-application composition through binary subadditivity to (A, B∪C) and (B, C) with RealAlgOrder additive monotonicity. Novelty sits exactly at threshold but the asymmetry-of-coverage rationale is real and the existing infrastructure (head-tail readback, three-support countable readback) is already in place. File safe at 248 lines. Codex_close in 1-2 rounds.
+
+---
+
+
+### B-531 - AbelianCatUp zero-morphism right-absorbing under composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AbelianCatUp zero-morphism right-absorbing under composition |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For carried homs g ∈ H(A, B) and the displayed zero morphism 0_{X,A} ∈ H(X, A) in an AbelianCatUp additive kernel-cokernel carrier, the displayed composite g ∘ 0_{X,A} is classified by ~_{X,B} with the displayed zero morphism 0_{X,B}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex`
+
+Rationale:
+Symmetric companion to in-progress B-518 (left-absorbing 0∘f). Not a duplicate: opposite composition slot, separate theorem statement. The two together complete the 'two-sided absorbing' shape that any reader expects together. Proof mirrors B-518 via biproduct hom additivity (line 211) and zero morphism uniqueness (B-423). File safe at 433 lines. Codex_close in 1-2 rounds once B-518 lands.
+
+---
+
+
+### B-532 - Banach bounded-linear-operator pointwise sum closure with norm subadditivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Banach bounded-linear-operator pointwise sum closure with norm subadditivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For two displayed bounded-linear-operator naming certificates T, S over the same Banach source, the pointwise sum T + S (defined by the addition row of the target Banach AbGroupUp on each input endpoint) is itself a bounded linear operator, and its operator-bound row is classified ≤_R the scalar sum of the displayed bounds for T and S under the RealAlgOrder additive order row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex`
+
+Rationale:
+Frontier first closure: chapter has identity (B-481), zero (B-480), composition (B-375), and Lipschitz constant composition, but no additive closure on bounded-linear operators. Without it the bounded-operator class is not stated as a Banach-AbGroupUp object and downstream OperatorIdealUp / FunctionalAnalysisUp consumers must reconstruct ad-hoc. Companion-of-canon to the operator-norm composition Lipschitz row at line 24. File safe at 451 lines. Likely oracle for the bound transport.
+
+---
+
+### B-533 - Measure ternary-union subadditivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Measure ternary-union subadditivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+For a MeasureUp carrier with R-valued measure mu and three measurable events A, B, C, if U_BC is the displayed binary union of B and C and U is the displayed binary union of A and U_BC, and if the certificate supplies binary-union subadditivity, finite disjoint-union additivity, the nonnegative measure-value row, and the RealAlgOrder addition-monotonicity row, then mu(U) le_R mu(A) + mu(B) + mu(C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+
+Rationale:
+The binary case (B-433) is proved at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:199 thm:measure-binary-union-subadditivity (mu(A cup B) le_R mu(A) + mu(B)). Grep across papers/bedc/parts for `measure-ternary|measure-three-union|measure-finite-union-subadditivity` returned zero matches; only the existing binary form and the unrelated `measure-finite-disjoint-union-additivity` (which requires disjointness) appear. The proof composes binary subadditivity twice -- once on (B, C) yielding mu(U_BC) le mu(B) + mu(C), then on (A, U_BC) yielding mu(U) le mu(A) + mu(U_BC) -- and chains by addition monotonicity. Concrete inequality on existing measure values, not a parameter echo. File currently 248 lines, fits append. Lands in the `measure/` child directory, not a hub.
+
+---
+
