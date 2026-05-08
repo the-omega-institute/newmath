@@ -3,6 +3,7 @@ import BEDC.Derived.LinearMapUp
 namespace BEDC.Derived.LinearMapUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 theorem LinearMapSingleton_pointwise_classifier_equivalence {f g : BHist} :
     (LinearMapSingletonClassifier f g <->
@@ -30,5 +31,36 @@ theorem LinearMapSingleton_pointwise_classifier_equivalence {f g : BHist} :
       exact And.intro pointwise.left (And.intro pointwise.right.left sameFG)
   · intro _classified
     exact And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+
+theorem LinearMapSingleton_terminal_standard_bridge {f g x : BHist} :
+    LinearMapSingletonCarrier f ->
+      LinearMapSingletonCarrier g ->
+        LinearMapSingletonCarrier x ->
+          SemanticNameCert LinearMapSingletonCarrier LinearMapSingletonCarrier
+              LinearMapSingletonCarrier LinearMapSingletonClassifier ∧
+            LinearMapSingletonClassifier f BHist.Empty ∧
+            LinearMapSingletonClassifier BHist.Empty BHist.Empty ∧
+            LinearMapSingletonClassifier (LinearMapSingletonComp g f) BHist.Empty ∧
+            LinearMapSingletonClassifier (LinearMapSingletonEval f x) x ∧
+            LinearMapSingletonCarrier (LinearMapSingletonEval f x) ∧
+            hsame (LinearMapSingletonEval f x) BHist.Empty := by
+  intro carrierF carrierG carrierX
+  have laws := LinearMapSingleton_empty_history_laws
+  have publicRows :
+      LinearMapSingletonClassifier f BHist.Empty ∧
+        LinearMapSingletonClassifier BHist.Empty BHist.Empty ∧
+          LinearMapSingletonClassifier (LinearMapSingletonComp g f) BHist.Empty ∧
+            LinearMapSingletonClassifier (LinearMapSingletonEval f x) x :=
+    LinearMapSingleton_public_empty_code_exactness carrierF carrierG carrierX
+  have evalRows :
+      LinearMapSingletonCarrier (LinearMapSingletonEval f x) ∧
+        LinearMapSingletonClassifier (LinearMapSingletonEval f x) BHist.Empty :=
+    laws.right.right.left carrierF carrierX
+  exact And.intro laws.left
+    (And.intro publicRows.left
+      (And.intro publicRows.right.left
+        (And.intro publicRows.right.right.left
+          (And.intro publicRows.right.right.right
+            (And.intro evalRows.left evalRows.right.right.right)))))
 
 end BEDC.Derived.LinearMapUp
