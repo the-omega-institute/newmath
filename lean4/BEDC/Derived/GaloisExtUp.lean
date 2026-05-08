@@ -384,4 +384,35 @@ theorem GaloisExtSourcePacket_dependency_exactness_ledger [AskSetup] [PackageSet
             (And.intro packet.right.right.right.right.right.left
               packet.right.right.right.right.right.right)))))
 
+theorem GaloisExtAutomorphismSourceRow_base_fixed_readback [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint automorphism fixedBase action
+      automorphismLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance
+        separable normality separability classifier provenance endpoint bundle pkg ->
+      UnaryHistory automorphism ->
+        Cont fieldExt automorphism fixedBase ->
+          Cont fixedBase normality action ->
+            Cont action provenance automorphismLedger ->
+              UnaryHistory fixedBase ∧ UnaryHistory action ∧ UnaryHistory automorphismLedger ∧
+                hsame fixedBase (append fieldExt automorphism) ∧
+                  hsame action (append fixedBase normality) ∧
+                    hsame automorphismLedger (append action provenance) ∧
+                      PkgSig bundle endpoint pkg := by
+  intro packet automorphismUnary fixedBaseCont actionCont ledgerCont
+  have provenanceRows := GaloisExtSourcePacket_dependency_exactness_ledger packet
+  have fixedBaseUnary : UnaryHistory fixedBase :=
+    unary_cont_closed packet.left.left automorphismUnary fixedBaseCont
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed fixedBaseUnary packet.right.left actionCont
+  have automorphismLedgerUnary : UnaryHistory automorphismLedger :=
+    unary_cont_closed actionUnary provenanceRows.left ledgerCont
+  exact And.intro fixedBaseUnary
+    (And.intro actionUnary
+      (And.intro automorphismLedgerUnary
+        (And.intro fixedBaseCont
+          (And.intro actionCont
+            (And.intro ledgerCont provenanceRows.right.right.right.right.right.right)))))
+
 end BEDC.Derived.GaloisExtUp
