@@ -52,6 +52,7 @@ It is read as: the generated compiler recognizer flow $R_C$ recognizes the event
 
 \begin{definition}[Compiler behavior relation]
 \label{def:self-hosting-compiler-behavior-relation}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerBehaviorRelation}
 The compiler behavior relation is written
 $$
   \mathsf{Compiles}_C(S,T),
@@ -134,6 +135,7 @@ These are not external field labels. They are subflow roles recognized by $R_K$ 
 
 \begin{definition}[Certified compiler flow]
 \label{def:self-hosting-compiler-certified-compiler}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.CertifiedCompiler}
 A compiler candidate $C$ is a \emph{certified compiler flow}, written
 $$
   \mathsf{CertifiedCompiler}(C),
@@ -160,15 +162,22 @@ Otherwise $C$ remains only a compiler candidate flow.
 
 \begin{theorem}[Uncertified compiler cannot be used as compiler]
 \label{thm:self-hosting-compiler-uncertified-cannot-compile}
-If $\neg\mathsf{CertifiedCompiler}(C)$, then the system cannot use
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.uncertified\_cannot\_compile}
+If $\neg\mathsf{CertifiedCompiler}(C)$, then for every compiler behavior relation
 $$
   \mathsf{Compiles}_C(S,T)
 $$
-as formal evidence that $C$ compiles $S$ into $T$.
+the pair
+$$
+  \mathsf{CertifiedCompiler}(C)
+  \;\wedge\;
+  \mathsf{Compiles}_C(S,T)
+$$
+cannot hold. Thus the system cannot use $\mathsf{Compiles}_C(S,T)$ as formal evidence that $C$ compiles $S$ into $T$ unless the certificate component of the formal compiler judgment is present.
 \end{theorem}
 
 \begin{proof}
-By \autoref{prin:self-hosting-compiler-no-compiler-without-cert}, formal compiler behavior requires a certified compiler flow. If $C$ is not certified, its encoding rule, decoding rule, round-trip theorem, failure behavior, ledger behavior, and kernel conservativity are not supported by a recognized compiler certificate. Hence $\mathsf{Compiles}_C(S,T)$ cannot be used as a formal compilation judgment.
+By \autoref{prin:self-hosting-compiler-no-compiler-without-cert}, a formal compiler judgment contains the certified-compiler component together with the behavior component. If $\neg\mathsf{CertifiedCompiler}(C)$, then the certified-compiler component is impossible, so the conjunction $\mathsf{CertifiedCompiler}(C)\wedge\mathsf{Compiles}_C(S,T)$ is impossible. Hence $\mathsf{Compiles}_C(S,T)$ cannot be used as a formal compilation judgment by itself.
 \end{proof}
 
 \begin{corollary}[Host compiler output is inadmissible without event-flow certificate]

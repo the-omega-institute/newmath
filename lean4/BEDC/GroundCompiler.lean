@@ -5,3 +5,4 @@ import BEDC.GroundCompiler.PackageGenerated
 import BEDC.GroundCompiler.NameCertGenerated
 import BEDC.GroundCompiler.TheoremGenerated
 import BEDC.GroundCompiler.ChapterFlow
+import BEDC.GroundCompiler.SelfHostingCompilerFlow
