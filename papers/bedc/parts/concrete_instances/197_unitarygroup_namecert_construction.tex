@@ -6,6 +6,45 @@ The unitary-group interface $\UnitaryGroupUp$ packages the Lie group of inner-pr
 \section{Carrier definition}
 \label{sec:unitarygroup-carrier}
 
+\begin{theorem}[UnitaryGroup source classifier obligation]
+\label{thm:unitarygroup-source-classifier-obligation}
+The source carrier for $\UnitaryGroupUp$ is a $\HilbertUp$ endpoint equipped with a $\LieGroupUp$ operation row and a displayed inner-product-preservation witness. Its classifier is the combined row obtained from the $\HilbertUp$ endpoint classifier, the $\LieGroupUp$ operation classifier, and transport of the preservation row along the accepted histories.
+\end{theorem}
+
+\begin{proof}
+Unpack the two dependency certificates named in the introduction. The $\HilbertUp$ source supplies the carried endpoint row and the Hilbert classifier, while the $\LieGroupUp$ source supplies the multiplication, inverse, and unit operation rows over the same visible history surface.
+
+The unitary carrier is then the $\mathsf{BHist}$ package that stores those two source projections together with a preservation witness for the Hilbert inner product. A comparison is accepted only when the Hilbert endpoint classifier, the Lie-group operation classifier, and the preservation witness are all transported through the same $\hsame$ evidence.
+
+Repacking these rows through $\Cont$ and $\NameCert$ gives the required classifier surface. No host equality of operators is consumed; the accepted comparison is exactly the displayed BEDC row transport.
+\end{proof}
+
+\begin{theorem}[UnitaryGroup operation preservation obligation]
+\label{thm:unitarygroup-operation-preservation-obligation}
+The multiplication, inverse, and unit rows of $\UnitaryGroupUp$ are inherited from the $\LieGroupUp$ source certificate, and each inherited row preserves the $\HilbertUp$ inner-product classifier on every carried endpoint. In particular, a product, inverse, or unit endpoint is admitted by the unitary carrier only when the corresponding $\LieGroupUp$ operation row repacks with the displayed Hilbert inner-product-preservation witness.
+\end{theorem}
+
+\begin{proof}
+Project the operation rows from $\NameCert_{\LieGroupUp}$. The product row supplies a carried composite endpoint, the inverse row supplies a carried inverse endpoint, and the unit row supplies the identity endpoint of the same source group package.
+
+Next project the Hilbert classifier and inner-product rows from $\NameCert_{\HilbertUp}$. For each Lie-group operation, transport the input endpoint histories through $\hsame$, apply the operation row through $\Cont$, and carry the inner-product-preservation witness along the resulting endpoint comparison.
+
+The resulting endpoint is repacked as a $\UnitaryGroupUp$ row precisely because it contains both pieces: the inherited Lie-group operation evidence and the Hilbert preservation witness. Thus operation closure does not extend the source group structure; it restricts it to the inner-product-preserving subcarrier.
+\end{proof}
+
+\begin{theorem}[UnitaryGroup stability ledger exactness obligation]
+\label{thm:unitarygroup-stability-ledger-exactness-obligation}
+The $\UnitaryGroupUp$ certificate has coverage, soundness, and completeness for exactly the Hilbert carrier row, the $\LieGroupUp$ operation rows, the inner-product preservation rows, the classifier transport rows, and the dependency ledger naming $\NameCert_{\HilbertUp}$ and $\NameCert_{\LieGroupUp}$. No additional operator, spectral, measure, or channel row is part of this ledger.
+\end{theorem}
+
+\begin{proof}
+Coverage reads any carried unitary endpoint back into its visible components: the $\HilbertUp$ carrier row, the $\LieGroupUp$ operation rows, the preservation witness, the classifier transport evidence, and the two source $\NameCert$ dependencies.
+
+Soundness is the forward projection. Given those ledger entries, the $\mathsf{BHist}$ carrier repacks the endpoint, $\hsame$ supplies the classifier transport, and $\Cont$ supplies the operation-composition rows needed by multiplication, inverse, and unit.
+
+Completeness is the reverse reading. Any visible row accepted by the unitary carrier must be one of the listed Hilbert, Lie-group, preservation, transport, or dependency rows, because the certificate exposes no other ledger field. Hence the exactness boundary is precisely the displayed ledger and not a larger analytic operator surface.
+\end{proof}
+
 \section{The certificate}
 \label{sec:unitarygroup-certificate}
 
