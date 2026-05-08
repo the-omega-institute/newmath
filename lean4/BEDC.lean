@@ -405,6 +405,7 @@ import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.QuantumChannelUp
+import BEDC.Derived.NuclearUp
 import BEDC.Derived.IdealUp
 import BEDC.Derived.IdealClassUp
 import BEDC.Derived.IdealUp.AbsorptionClosure
