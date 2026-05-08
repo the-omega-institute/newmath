@@ -601,6 +601,86 @@ composed substitution route, endpoint alignment, and $\Pkg$ provenance gives
 the claimed LambdaCalc carrier closure.
 \end{proof}
 
+\begin{theorem}[LambdaCalc NameCert carrier obligation]
+\label{thm:lambdacalc-namecert-carrier-obligation}
+The public $\NameCert_{\LambdaCalcUp}$ carrier is exactly the
+$\mathsf{LambdaCalcBHistTermCarrier}$ packet over $\TreeUp$ syntax,
+$\NatUp$ unary binder rows, displayed $\Cont$ substitution provenance, and
+finite $\Pkg$ rows. It contains no host syntax equality, quotient
+alpha-class, or ambient variable-set carrier.
+\end{theorem}
+\begin{proof}
+Read the constructor rows through
+\autoref{thm:lambdacalc-variable-constructor-carrier} and
+\autoref{thm:lambdacalc-abstraction-application-carrier-closure}. These give
+the variable, abstraction, and application packets over $\TreeUp$ syntax and
+$\NatUp$ binder rows.
+
+Read the substitution part through
+\autoref{thm:lambdacalc-substitution-carrier-preservation} and
+\autoref{thm:lambdacalc-substitution-composition-carrier-closure}. Their
+$\Cont$ rows keep every admitted substitution endpoint inside the same
+displayed $\mathsf{BHist}$ packet.
+
+Finally attach the $\Pkg$ provenance from the constructor and substitution
+rows. The resulting packet is precisely
+$\mathsf{LambdaCalcBHistTermCarrier}$, so the public carrier has no extra
+host-side syntax or alpha-equivalence field.
+\end{proof}
+
+\begin{theorem}[LambdaCalc NameCert classifier stability]
+\label{thm:lambdacalc-namecert-classifier-stability}
+Componentwise $\hsame$ on the $\TreeUp$ spine, unary binder indices,
+free-variable ledger, alpha ledger, beta-redex ledger, and provenance
+transports accepted LambdaCalc packets to accepted LambdaCalc packets.
+\end{theorem}
+\begin{proof}
+First transport the syntax and binder rows by
+\autoref{thm:lambdacalc-alpha-beta-carrier-transport}. This preserves the
+accepted constructor packet and aligns the visible $\TreeUp$ and $\NatUp$
+faces.
+
+Next use
+\autoref{thm:lambdacalc-free-variable-ledger-exactness} for the
+free-variable rows and
+\autoref{thm:lambdacalc-alpha-renaming-freshness-transport} for the alpha
+ledger. The displayed transports keep the free-variable and freshness packets
+inside the LambdaCalc carrier.
+
+For beta and substitution rows, apply
+\autoref{thm:lambdacalc-alpha-beta-constructor-transport} and
+\autoref{thm:lambdacalc-substitution-composition-carrier-closure}. Repacking
+the transported rows with the shared $\Pkg$ provenance gives an accepted
+LambdaCalc packet at the target endpoint.
+\end{proof}
+
+\begin{theorem}[LambdaCalc NameCert substitution ledger]
+\label{thm:lambdacalc-namecert-substitution-ledger}
+Every admitted LambdaCalc substitution endpoint is read from the displayed
+$\mathsf{BHist}$ traversal and capture-avoidance $\Cont$ ledger, together with
+the listed $\TreeUp$, $\NatUp$, $\hsame$, and $\Pkg$ rows. No host syntax
+equality, ambient variable set, or quotient alpha-class is used to identify
+the endpoint.
+\end{theorem}
+\begin{proof}
+Start from
+\autoref{thm:lambdacalc-substitution-ledger-scope}. It localizes the
+substitution endpoint to the displayed traversal, the binder rows, and the
+capture-avoidance continuation.
+
+Then apply
+\autoref{thm:lambdacalc-free-variable-ledger-exactness} and
+\autoref{thm:lambdacalc-capture-avoidance-cont-closure}. These identify
+the free-variable rows that may pass through the ledger and show that the
+capture-avoidance route remains a LambdaCalc carrier route.
+
+Finally use
+\autoref{thm:lambdacalc-alpha-beta-carrier-transport} and
+\autoref{thm:lambdacalc-substitution-composition-carrier-closure} to align
+successive endpoint transports. The endpoint is therefore read only from the
+displayed traversal and its $\Cont$ provenance.
+\end{proof}
+
 \begin{theorem}[LambdaCalc constructor source disjointness]
 \label{thm:lambdacalc-constructor-source-disjointness}
 Let a carried $\mathsf{BHist}$ term row satisfy
