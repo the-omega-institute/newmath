@@ -82,6 +82,13 @@ theorem visible_code_insufficient {S : PackageCandidateFlow} :
   intro hNoLedger hPkg
   exact hNoLedger (no_package_without_ledger hPkg)
 
+theorem package_not_merely_visible_token {S : PackageCandidateFlow} :
+    PkgFlow S ->
+      exists R : GeneratedPackageRecognizer,
+        exists L : PackageCandidateFlow,
+          PackageRecognitionRelation R S /\ PackageLedgerSubflow R S L :=
+  no_package_without_ledger
+
 theorem no_external_package_input :
     Not (FormalCompilerInput CompilerDatum.hostPkg) :=
   structural_hidden_not_formal StructuralHiddenInput.hostPkg
@@ -173,5 +180,13 @@ theorem package_code_recognition_has_decoded_flow
         Decode c = some S /\ PackageRecognitionRelation R S := by
   intro h
   exact h
+
+theorem package_recognition_conservativity
+    {R : GeneratedPackageRecognizer} {S : PackageCandidateFlow}
+    {w : RawEvent} {m : DisplayAlphabet} :
+    PackageRecognitionRelation R S ->
+      List.Mem w S -> List.Mem m w -> m = BMark.b0 \/ m = BMark.b1 := by
+  intro _ hEvent hMark
+  exact event_flow_conservativity hEvent hMark
 
 end BEDC.GroundCompiler.PackageGenerated
