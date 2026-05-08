@@ -22,6 +22,9 @@ def NameCertRecognitionRelation
 def NameCertFlow (S : NameCertCandidateFlow) (N : NameCandidateFlow) : Prop :=
   exists R : GeneratedNameCertRecognizer, NameCertRecognitionRelation R S N
 
+def LicensedName (N : NameCandidateFlow) : Prop :=
+  exists S : NameCertCandidateFlow, NameCertFlow S N
+
 def SourceSubflow (part whole : EventFlow) : Prop :=
   exists before after : EventFlow, whole = List.append before (List.append part after)
 
@@ -83,6 +86,24 @@ theorem namecert_code_not_separate
       LegalZStream (NameCertCode S N) /\ Decode (NameCertCode S N) = some S := by
   intro _
   exact ⟨flow_encoding_legal_zstream S, flow_level_round_trip S⟩
+
+theorem licensing_event_flow_based {N : NameCandidateFlow} :
+    LicensedName N -> exists S : EventFlow, NameCertFlow S N := by
+  intro h
+  exact h
+
+theorem namecert_code_injective
+    {S T : NameCertCandidateFlow} {N M : NameCandidateFlow} :
+    NameCertFlow S N ->
+      NameCertFlow T M ->
+        NameCertCode S N = NameCertCode T M -> S = T := by
+  intro _ _ hCode
+  have hDecode : Decode (NameCertCode S N) = Decode (NameCertCode T M) := by
+    rw [hCode]
+  rw [NameCertCode, NameCertCode, flow_level_round_trip S,
+    flow_level_round_trip T] at hDecode
+  cases hDecode
+  rfl
 
 theorem channel_compilation_preserves_namecert_recognition :
     NameCertRecognitionPreservingCompilation := by
