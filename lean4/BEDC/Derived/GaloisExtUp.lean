@@ -1,4 +1,5 @@
 import BEDC.Derived.SeparableExtUp
+import BEDC.Derived.GaloisGroupUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
@@ -22,6 +23,7 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 open BEDC.Derived.FieldExtUp
+open BEDC.Derived.GaloisGroupUp
 open BEDC.Derived.PolynomialUp
 open BEDC.Derived.SeparableExtUp
 
@@ -103,6 +105,30 @@ theorem GaloisExtSourcePacket_normality_obligation_row [AskSetup] [PackageSetup]
         (And.intro packet.right.right.right.right.left
           (And.intro packet.right.right.right.right.right.left
             packet.right.right.right.right.right.right))))
+
+theorem GaloisExtSourcePacket_fixed_base_automorphism_source [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint baseFixed actionLedger automorphismLedger :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      UnaryHistory baseFixed ->
+        Cont fieldExt baseFixed actionLedger ->
+          Cont actionLedger normality automorphismLedger ->
+            UnaryHistory actionLedger ∧ UnaryHistory automorphismLedger ∧
+              hsame actionLedger (append fieldExt baseFixed) ∧
+                hsame automorphismLedger (append actionLedger normality) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro packet baseFixedUnary actionRow automorphismRow
+  have actionUnary : UnaryHistory actionLedger :=
+    unary_cont_closed packet.left.left baseFixedUnary actionRow
+  have automorphismUnary : UnaryHistory automorphismLedger :=
+    unary_cont_closed actionUnary packet.right.left automorphismRow
+  exact And.intro actionUnary
+    (And.intro automorphismUnary
+      (And.intro actionRow
+        (And.intro automorphismRow packet.right.right.right.right.right.right)))
 
 theorem GaloisExtSourcePacket_semantic_name_certificate [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
@@ -190,6 +216,33 @@ theorem GaloisExtSourcePacket_public_obligation_boundary [AskSetup] [PackageSetu
                  (And.intro packet.right.right.right.right.left
                    (And.intro packet.right.right.right.right.right.left
                      packet.right.right.right.right.right.right))))))))
+
+theorem GaloisExtSourcePacket_automorphism_action_source [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint action actionLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      Cont endpoint normality action ->
+        Cont action separability actionLedger ->
+          UnaryHistory action ∧ UnaryHistory actionLedger ∧
+            hsame action (append endpoint normality) ∧
+              hsame actionLedger (append (append endpoint normality) separability) ∧
+                PkgSig bundle endpoint pkg := by
+  intro packet actionCont actionLedgerCont
+  have boundary := GaloisExtSourcePacket_public_obligation_boundary packet
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed boundary.right.right.right.right.right.left boundary.right.left actionCont
+  have actionLedgerUnary : UnaryHistory actionLedger :=
+    unary_cont_closed actionUnary boundary.right.right.left actionLedgerCont
+  have actionLedgerReadback : hsame actionLedger (append (append endpoint normality) separability) :=
+    hsame_trans actionLedgerCont
+      (congrArg (fun h : BHist => append h separability) actionCont)
+  exact And.intro actionUnary
+    (And.intro actionLedgerUnary
+      (And.intro actionCont
+        (And.intro actionLedgerReadback
+          boundary.right.right.right.right.right.right.right.right.right)))
 
 theorem GaloisExtSourcePacket_classifier_transport
     {field field' separable separable' normal normal' simple simple' classifier classifier'
@@ -304,6 +357,68 @@ theorem GaloisExtSourceClassifier_transitive [AskSetup]
           (And.intro classifierSame
             (And.intro provenanceSame ledgerSame)))))
 
+theorem GaloisExtSourceClassifier_symmetric [AskSetup]
+    {bundle : ProbeBundle ProbeName}
+    {field separable normal automorphism classifier provenance ledger field' separable' normal'
+      automorphism' classifier' provenance' ledger' : BHist} :
+    (SameSig bundle field field' ∧ SameSig bundle separable separable' ∧
+      SameSig bundle normal normal' ∧ SameSig bundle automorphism automorphism' ∧
+        SameSig bundle classifier classifier' ∧ hsame provenance provenance' ∧
+          hsame ledger ledger') ->
+      SameSig bundle field' field ∧ SameSig bundle separable' separable ∧
+        SameSig bundle normal' normal ∧ SameSig bundle automorphism' automorphism ∧
+          SameSig bundle classifier' classifier ∧ hsame provenance' provenance ∧
+            hsame ledger' ledger := by
+  intro source
+  exact And.intro (sameSig_symm source.left)
+    (And.intro (sameSig_symm source.right.left)
+      (And.intro (sameSig_symm source.right.right.left)
+          (And.intro (sameSig_symm source.right.right.right.left)
+            (And.intro (sameSig_symm source.right.right.right.right.left)
+              (And.intro (hsame_symm source.right.right.right.right.right.left)
+                (hsame_symm source.right.right.right.right.right.right))))))
+
+theorem GaloisExtSourceClassifier_reflexive [AskSetup]
+    {bundle : ProbeBundle ProbeName}
+    {field separable normal automorphism classifier provenance ledger : BHist}
+    (policy : AskPolicy (fun h : BHist => UnaryHistory h)) :
+    UnaryHistory field ->
+      UnaryHistory separable ->
+        UnaryHistory normal ->
+          UnaryHistory automorphism ->
+            UnaryHistory classifier ->
+              SameSig bundle field field ∧ SameSig bundle separable separable ∧
+                SameSig bundle normal normal ∧ SameSig bundle automorphism automorphism ∧
+                  SameSig bundle classifier classifier ∧ hsame provenance provenance ∧
+                    hsame ledger ledger := by
+  intro fieldUnary separableUnary normalUnary automorphismUnary classifierUnary
+  have fieldSame : SameSig bundle field field :=
+    sameSig_refl_under_policy
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      policy fieldUnary
+  have separableSame : SameSig bundle separable separable :=
+    sameSig_refl_under_policy
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      policy separableUnary
+  have normalSame : SameSig bundle normal normal :=
+    sameSig_refl_under_policy
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      policy normalUnary
+  have automorphismSame : SameSig bundle automorphism automorphism :=
+    sameSig_refl_under_policy
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      policy automorphismUnary
+  have classifierSame : SameSig bundle classifier classifier :=
+    sameSig_refl_under_policy
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      policy classifierUnary
+  exact And.intro fieldSame
+      (And.intro separableSame
+        (And.intro normalSame
+          (And.intro automorphismSame
+            (And.intro classifierSame
+              (And.intro (hsame_refl provenance) (hsame_refl ledger))))))
+
 theorem GaloisExtSourcePacket_normal_separable_stability [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
       separability classifier provenance endpoint normality' separability' classifier'
@@ -402,8 +517,89 @@ theorem GaloisExtSourcePacket_dependency_exactness_ledger [AskSetup] [PackageSet
     (And.intro classifierUnary
       (And.intro endpointUnary
         (And.intro packet.right.right.right.left
-          (And.intro packet.right.right.right.right.left
-            (And.intro packet.right.right.right.right.right.left
-              packet.right.right.right.right.right.right)))))
+            (And.intro packet.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.left
+                packet.right.right.right.right.right.right)))))
+
+theorem GaloisExtSourcePacket_normal_root_orbit_closure [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint orbitLedger orbitEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      Cont normality provenance orbitLedger ->
+        Cont orbitLedger separability orbitEndpoint ->
+          UnaryHistory orbitLedger ∧ UnaryHistory orbitEndpoint ∧
+            hsame orbitLedger (append normality provenance) ∧
+              hsame orbitEndpoint (append (append normality provenance) separability) ∧
+                PkgSig bundle endpoint pkg := by
+  intro packet orbitLedgerRow orbitEndpointRow
+  have boundary :=
+    GaloisExtSourcePacket_public_obligation_boundary packet
+  have orbitLedgerUnary : UnaryHistory orbitLedger :=
+    unary_cont_closed boundary.right.left boundary.right.right.right.right.left orbitLedgerRow
+  have orbitEndpointUnary : UnaryHistory orbitEndpoint :=
+    unary_cont_closed orbitLedgerUnary boundary.right.right.left orbitEndpointRow
+  have orbitEndpointReadback :
+      hsame orbitEndpoint (append (append normality provenance) separability) :=
+    hsame_trans orbitEndpointRow
+      (congrArg (fun h : BHist => append h separability) orbitLedgerRow)
+  exact And.intro orbitLedgerUnary
+    (And.intro orbitEndpointUnary
+      (And.intro orbitLedgerRow
+        (And.intro orbitEndpointReadback
+          boundary.right.right.right.right.right.right.right.right.right)))
+
+theorem GaloisExtAutomorphismSourceRow_base_fixed_readback [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint automorphism fixedBase action
+      automorphismLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance
+        separable normality separability classifier provenance endpoint bundle pkg ->
+      UnaryHistory automorphism ->
+        Cont fieldExt automorphism fixedBase ->
+          Cont fixedBase normality action ->
+            Cont action provenance automorphismLedger ->
+              UnaryHistory fixedBase ∧ UnaryHistory action ∧ UnaryHistory automorphismLedger ∧
+                hsame fixedBase (append fieldExt automorphism) ∧
+                  hsame action (append fixedBase normality) ∧
+                    hsame automorphismLedger (append action provenance) ∧
+                      PkgSig bundle endpoint pkg := by
+  intro packet automorphismUnary fixedBaseCont actionCont ledgerCont
+  have provenanceRows := GaloisExtSourcePacket_dependency_exactness_ledger packet
+  have fixedBaseUnary : UnaryHistory fixedBase :=
+    unary_cont_closed packet.left.left automorphismUnary fixedBaseCont
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed fixedBaseUnary packet.right.left actionCont
+  have automorphismLedgerUnary : UnaryHistory automorphismLedger :=
+    unary_cont_closed actionUnary provenanceRows.left ledgerCont
+  exact And.intro fixedBaseUnary
+    (And.intro actionUnary
+      (And.intro automorphismLedgerUnary
+        (And.intro fixedBaseCont
+          (And.intro actionCont
+            (And.intro ledgerCont provenanceRows.right.right.right.right.right.right)))))
+
+theorem GaloisExtSourcePacket_galoisgroup_consumer_automorphism_surface
+    [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint automorphism action inverse automorphismLedger :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      GaloisGroupAutomorphismActionPacket fieldExt automorphism normality action separability
+          inverse classifier provenance automorphismLedger endpoint bundle pkg ->
+        SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot sepProvenance
+            separable bundle pkg ∧
+          UnaryHistory automorphism ∧ Cont fieldExt automorphism provenance ∧
+            Cont provenance automorphismLedger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro sourcePacket actionPacket
+  exact And.intro sourcePacket.left
+    (And.intro actionPacket.right.left
+      (And.intro actionPacket.right.right.right.right.right.right.left
+        (And.intro actionPacket.right.right.right.right.right.right.right.right.right.left
+          actionPacket.right.right.right.right.right.right.right.right.right.right)))
 
 end BEDC.Derived.GaloisExtUp
