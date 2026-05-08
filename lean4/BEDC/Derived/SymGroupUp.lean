@@ -265,3 +265,36 @@ theorem SymGroupPermutationCarrier_composition_inverse_action_obligations [AskSe
                   obligation.right.right.right.right.right.right.right.right.right.left)))))))
 
 end BEDC.Derived.SymGroupUp
+
+namespace BEDC.Derived.PermutationUp
+
+open BEDC.Derived.GroupUp
+open BEDC.Derived.SymGroupUp
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+
+theorem PermutationSymGroupComposition_bridge [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle
+        tgtBundle srcPkg tgtPkg ->
+      hsame src BHist.Empty ->
+        hsame tgt BHist.Empty ->
+          SymGroupPermutationCarrier src tgt graph invGraph comp action ledger srcBundle
+              tgtBundle srcPkg tgtPkg ∧
+            GroupSingletonCarrier graph ∧ GroupSingletonCarrier invGraph ∧
+              GroupSingletonCarrier comp ∧ GroupSingletonCarrier action ∧
+                GroupSingletonCarrier ledger := by
+  intro row sameSrc sameTgt
+  have groupRows :=
+    SymGroupCarrier_obligation
+      (src := src) (tgt := tgt) (graph := graph) (invGraph := invGraph)
+      (comp := comp) (action := action) (ledger := ledger)
+      (srcBundle := srcBundle) (tgtBundle := tgtBundle) (srcPkg := srcPkg)
+      (tgtPkg := tgtPkg) row sameSrc sameTgt
+  exact And.intro (And.intro row (And.intro groupRows.right.right.left
+    groupRows.right.right.right.left)) groupRows
+
+end BEDC.Derived.PermutationUp
