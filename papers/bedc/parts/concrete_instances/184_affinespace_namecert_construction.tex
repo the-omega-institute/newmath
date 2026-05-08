@@ -183,3 +183,24 @@ For exactness, read any accepted ledger row in reverse. It must be either a poin
   \notclaimed{No scoped closure, public affine object, coordinate-chart surface, host torsor equality, chosen origin, standard bridge, or Lean verification target is claimed.}
   \upgradepath{Public closure requires a named public $\NameCert_{\AffineSpaceUp}$ certificate surface, complete paper proofs for the recorded carrier, classifier, vector-action, identity-action, free-transitive, stability, ledger, and exactness rows, and a dedicated Lean namespace for these obligation rows.}
 \end{closurestatus}
+
+\begin{theorem}[AffineSpaceUp action additivity]
+\label{thm:affinespace-action-additivity}
+Let $\mathcal{V}:\NameCert_{\VecSpaceUp}$ and $\mathcal{G}:\NameCert_{\GroupUp}$ be the dependency certificates of \autoref{def:affinespace-history-torsor-carrier}. Let $p:\mathsf{BHist}$ be a carried point row, and let $v,w:\mathsf{BHist}$ be vector rows accepted by $\mathcal{V}$ whose translation readings are accepted by $\mathcal{G}$. Write $v+_V w$ for the vector-addition row supplied by $\mathcal{V}$. Then the one-step action endpoint $\mathsf{act}(p,v+_V w)$ and the iterated action endpoint $\mathsf{act}(\mathsf{act}(p,v),w)$ admit carried affine repackings over the same source certificates and the same cumulative translation row $v+_V w$, and those repackings are classified by $\mathsf{AffCls}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:affinespace-action-closure-obligation} to the carried point row $p$ and the accepted vector row $v+_V w$. This produces a carried affine endpoint whose point component is $\mathsf{act}(p,v+_V w)$.
+
+Apply the same closure theorem first to $(p,v)$ and then to the carried endpoint obtained from that first action together with $w$. This produces a carried affine endpoint whose point component is $\mathsf{act}(\mathsf{act}(p,v),w)$.
+
+Unfold the action definition from \autoref{def:affinespace-history-torsor-carrier}. The one-step endpoint is obtained by appending to $p$ the translation packet read from $v+_V w$. The iterated endpoint is obtained by first appending the packet read from $v$ and then appending the packet read from $w$.
+
+Now unpack the field $\lambda$ from \autoref{def:affinespace-history-torsor-carrier}. It records that the translation row attached to the vector-sum $v+_V w$ is read through the vector carrier of $\mathcal{V}$ and the additive translation operation exposed by $\mathcal{G}$. Therefore the tail used by the one-step action and the composite tail used by the iterated action are two certified readbacks of the same cumulative translation row.
+
+Apply \autoref{thm:continuation-associativity-up-to-hsame-proof-standing} to the continuation ledger starting at $p$ with these two bracketings. It yields
+$$
+\hsame\bigl(\mathsf{act}(p,v+_V w),\mathsf{act}(\mathsf{act}(p,v),w)\bigr).
+$$
+
+Finally repack both endpoints as affine rows over the same two source certificates and the common cumulative translation row $v+_V w$. The point components are related by the displayed $\hsame$ row, and the translation components are the same vector-sum row, hence are classified by the $\VecSpaceUp$ classifier. By the definition of $\mathsf{AffCls}$ in \autoref{def:affinespace-history-torsor-carrier}, the two repackings are classified together.
+\end{proof}
