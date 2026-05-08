@@ -678,6 +678,7 @@ import BEDC.Derived.FunctorUp.IdentityFunctor
 import BEDC.Derived.FunctorUp.OppositeCertificate
 import BEDC.Derived.FunctorUp.StdBridge
 import BEDC.Derived.NatTransUp.NaturalIso
+import BEDC.Derived.NatTransUp.StdBridge
 import BEDC.Derived.CategoryUp.StdBridge
 import BEDC.Derived.CategoryUp.MatureHostInterfaceInventory
 import BEDC.Derived.CategoryFunctorIndex
