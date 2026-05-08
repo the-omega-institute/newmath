@@ -82,6 +82,20 @@ def RecognizesCompiler (C : EventFlow) : Prop :=
 def RecognizedCompilerFlow (C : EventFlow) : Prop :=
   RecognizesCompiler C
 
+def CompilerBehavior : Type :=
+  EventFlow -> EventFlow -> Prop
+
+def BehaviorallyEquivalentCompilerFlow
+    (behavior : CompilerBehavior) (C D : EventFlow) : Prop :=
+  RecognizedCompilerFlow C /\
+    RecognizedCompilerFlow D /\
+    behavior C D /\
+    behavior D C
+
+def SelfHostingTarget (C : EventFlow) : Prop :=
+  exists behavior : CompilerBehavior,
+    BehaviorallyEquivalentCompilerFlow behavior C C
+
 def AcceptedObjectFlow (S : EventFlow) : Prop :=
   FormalCompilerInput (CompilerDatum.certifiedExport S) /\
     NonemptyEventFlow S /\
@@ -172,6 +186,13 @@ theorem yaml_not_input :
 theorem ast_not_input :
     Not (FormalCompilerInput CompilerDatum.hostAST) :=
   structural_hidden_not_formal StructuralHiddenInput.hostAST
+
+theorem self_hosting_target_recognized_compiler {C : EventFlow} :
+    SelfHostingTarget C -> RecognizedCompilerFlow C := by
+  intro h
+  cases h with
+  | intro _ heq =>
+      exact heq.left
 
 theorem accepted_export_requires_cert {S : EventFlow} :
     AcceptedObjectFlow S ->

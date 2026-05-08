@@ -104,6 +104,7 @@ If the formal input to the compiler were a bare bitstream $b \in \Sigma^{*}$, th
 
 \begin{principle}[No hidden structural input]
 \label{prin:ground-event-flow-no-hidden-input}
+\leanchecked{BEDC.GroundCompiler.EventFlow.structural\_hidden\_not\_formal}
 The compiler admits no formal input other than event flows. In particular, none of the following is a formal compiler input:
 $$
   \Pkg, \quad
@@ -203,7 +204,8 @@ The compiler is therefore not a host-level object in the formal surface; it is e
 
 \begin{principle}[Self-hosting target]
 \label{prin:ground-event-flow-self-hosting-target}
-The long-term self-hosting target of the compilation discipline is the existence of a recognized compiler flow $C$ such that the compilation behavior represented by $C$ compiles compiler flows into behaviorally equivalent compiler flows. Behavioral equivalence is read through the compiler-behavior classifier of the recognized $\NameCert$ flow attached to $C$, never as host-level kernel equality. The self-hosting target is consistent with the abstract algebraic reading of \autoref{thm:compilation-as-namecert-morphism}: a self-hosting compiler is a $\NameCert$ endomorphism whose $\hsame$-preservation witness is itself a recognized event-flow datum.
+\leanchecked{BEDC.GroundCompiler.EventFlow.self\_hosting\_target\_recognized\_compiler}
+The self-hosting target of the compilation discipline is represented by an event flow $C$ equipped with a compiler-behavior relation $B$ on event flows such that $C$ is behaviorally equivalent to itself under $B$. This target datum necessarily includes the judgment that $C$ is a recognized compiler flow. Behavioral equivalence is read through the compiler-behavior classifier of the recognized $\NameCert$ flow attached to $C$, never as host-level kernel equality. The self-hosting target is consistent with the abstract algebraic reading of \autoref{thm:compilation-as-namecert-morphism}: a self-hosting compiler is a $\NameCert$ endomorphism whose $\hsame$-preservation witness is itself a recognized event-flow datum.
 \end{principle}
 
 \section{Accepted object flows and the ground theorem}
