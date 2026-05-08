@@ -1,0 +1,609 @@
+\chapter{DerivCert and AcceptGate Recognition Prototype}
+\label{ch:ground-compiler-derivcert-acceptgate-recognition-prototype}
+
+\autoref{ch:ground-compiler-package-namecert-recognition-prototype} defines $P_5$, the package and \NameCert\ recognition prototype. It can recognize package flows, \NameCert\ flows, source-specification flows, pattern-specification flows, classifier-specification flows, stability-certificate flows, ledger-policy flows, and $P_5$-level licensed names. It still cannot export mature objects.
+
+This chapter defines the next prototype level:
+$$
+  \boxed{P_6=P_5+\text{derivation-certificate recognition}+\text{strength recognition}+\text{acceptance-gate recognition}.}
+$$
+This is the first layer where accepted object code may be reported. The rule is strict:
+$$
+  \boxed{\text{accepted object code is not bare code; it is code of a recognized acceptance flow}.}
+$$
+The prototype does not accept derivation-certificate structures, acceptance-gate structures, strength enums, accepted objects, object names, theorem identifiers, proof-status tables, or bridge-status tables as formal inputs. It accepts only channel streams or decoded event flows and then recognizes derivation-certificate, strength, and acceptance-gate flows inside them.
+
+\section{$P_6$ prototype interface}
+\label{sec:deriv-accept-p6-interface}
+
+\begin{definition}[DerivCert and AcceptGate recognition prototype]
+\label{def:deriv-accept-p6-prototype}
+A \emph{DerivCert and AcceptGate recognition prototype} is an executable prototype $P_6$ satisfying:
+\begin{enumerate}
+\item $P_6$ includes all $P_5$ functions;
+\item $P_6$ recognizes strength flows;
+\item $P_6$ recognizes derivation-certificate flows;
+\item $P_6$ recognizes acceptance-gate flows;
+\item when matching recognized \NameCert\ and derivation-certificate flows are present, $P_6$ can report accepted object code;
+\item $P_6$ does not accept accepted objects as input;
+\item $P_6$ does not treat code existence as acceptance;
+\item $P_6$ does not treat acceptance as object equality;
+\item $P_6$ does not treat accepted object code as proof of all later properties.
+\end{enumerate}
+Write
+$$
+  \mathsf{DerivAcceptPrototype}(P_6).
+$$
+\end{definition}
+
+\begin{principle}[Accepted object is not input]
+\label{prin:deriv-accept-accepted-object-not-input}
+There is no formal input
+$$
+  \mathsf{AcceptedObject}\to\mathsf{Code},
+  \qquad
+  \mathsf{DerivCertStruct}\to\mathsf{Code},
+  \qquad
+  \mathsf{AcceptGateStruct}\to\mathsf{Code}.
+$$
+The only formal inputs remain event flows and legal channel streams. If the input is channel stream $c$, $P_6$ first forms $S=\mathsf{Decode}(c)$ and then recognizes derivation-certificate and acceptance-gate flows in $S$.
+\end{principle}
+
+\begin{definition}[$P_6$ input]
+\label{def:deriv-accept-p6-input}
+The input to $P_6$ is displayed as a channel stream $c$ or event flow $S$. If the input is $c$, then $S=\mathsf{Decode}(c)$. If $c\notin\mathsf{LegalZStream}$, $P_6$ rejects and produces neither derivation-certificate report nor acceptance-gate report.
+\end{definition}
+
+\begin{definition}[$P_6$ output]
+\label{def:deriv-accept-p6-output}
+The output of $P_6$ is a report flow or human-readable report containing the decoded event flow, recognized \NameCert\ flows inherited from $P_5$, derivation-certificate candidates, recognized derivation-certificate flows, strength candidates, recognized strength flows, acceptance-gate candidates, recognized acceptance-gate flows, accepted object codes, missing fields, missing exactness, missing ledger, missing strength, failure cases, warnings, and cannot-claim annotations.
+\end{definition}
+
+\section{Strength-flow recognition}
+\label{sec:deriv-accept-strength-recognition}
+
+\begin{definition}[Strength candidate flow]
+\label{def:deriv-accept-strength-candidate}
+A \emph{strength candidate flow} is an event subflow
+$$
+  s\subseteq S.
+$$
+It is not yet recognized as a strength flow. Explanatory strength levels include seed, paper certificate, checked certificate, and bridge certificate, but these names are not host enums. They must be recognized in event-flow form.
+\end{definition}
+
+\begin{definition}[Generated strength recognizer]
+\label{def:deriv-accept-generated-strength-recognizer}
+A \emph{generated strength recognizer} is an event flow
+$$
+  R_s\in\mathsf{EventFlow}
+$$
+supporting
+$$
+  \mathsf{RecognizesStrength}(R_s,S,s,\sigma),
+$$
+where $s$ is a subflow of $S$ and $\sigma$ is a strength role flow.
+\end{definition}
+
+\begin{definition}[Recognized strength flow]
+\label{def:deriv-accept-recognized-strength-flow}
+If
+$$
+  \mathsf{RecognizesStrength}(R_s,S,s,\sigma),
+$$
+then $s$ is a \emph{recognized strength flow} in $S$. Write
+$$
+  \mathsf{StrengthFlow}_{R_s}(S,s,\sigma).
+$$
+\end{definition}
+
+\begin{definition}[Strength order witness]
+\label{def:deriv-accept-strength-order-witness}
+A \emph{strength order witness} is an event subflow $o$ recognizing the hierarchy
+$$
+  \mathrm{seed}<\mathrm{paperCert}<\mathrm{checkedCert}<\mathrm{bridgeCert}.
+$$
+Write
+$$
+  \mathsf{StrengthOrder}_{R_s}(S,o).
+$$
+The witness is not an external comparison function.
+\end{definition}
+
+\begin{principle}[No strength enum input]
+\label{prin:deriv-accept-no-strength-enum}
+Strength labels such as seed, paper certificate, checked certificate, and bridge certificate are not host enum inputs. They appear only as recognized strength flows.
+\end{principle}
+
+\begin{theorem}[Strength candidate alone is insufficient]
+\label{thm:deriv-accept-strength-candidate-insufficient}
+If $s$ is only a strength candidate and no judgment
+$$
+  \mathsf{RecognizesStrength}(R_s,S,s,\sigma)
+$$
+is supplied, then $s$ cannot be used as the strength field of a derivation-certificate flow.
+\end{theorem}
+
+\begin{proof}
+The strength field of a derivation certificate must be recognized. If $s$ is not recognized, its strength role has no event-flow support. Using it would introduce hidden input.
+\end{proof}
+
+\section{DerivCert-flow recognition}
+\label{sec:deriv-accept-derivcert-recognition}
+
+\begin{definition}[DerivCert candidate]
+\label{def:deriv-accept-derivcert-candidate}
+A \emph{DerivCert candidate} is an event subflow
+$$
+  D\subseteq S
+$$
+not yet recognized as a derivation-certificate flow. Write
+$$
+  \mathsf{DerivCertCand}(S,D,N,s),
+$$
+where $N$ is a name candidate or licensed name flow and $s$ is a strength candidate or strength flow.
+\end{definition}
+
+\begin{definition}[Generated DerivCert recognizer]
+\label{def:deriv-accept-generated-derivcert-recognizer}
+A \emph{generated DerivCert recognizer} is an event flow
+$$
+  R_D\in\mathsf{EventFlow}
+$$
+supporting
+$$
+  \mathsf{RecognizesDerivCert}(R_D,S,D,N,s).
+$$
+This says that $R_D$ recognizes subflow $D$ of $S$ as a derivation-certificate flow for $N$ at strength $s$.
+\end{definition}
+
+\begin{definition}[Recognized DerivCert flow]
+\label{def:deriv-accept-recognized-derivcert-flow}
+If
+$$
+  \mathsf{RecognizesDerivCert}(R_D,S,D,N,s),
+$$
+then $D$ is a recognized derivation-certificate flow for $N$ and $s$ in $S$. Write
+$$
+  \mathsf{DerivCertFlow}_{R_D}(S,D,N,s).
+$$
+\end{definition}
+
+\begin{definition}[DerivCert field subflows]
+\label{def:deriv-accept-derivcert-fields}
+If
+$$
+  \mathsf{RecognizesDerivCert}(R_D,S,D,N,s),
+$$
+then $R_D$ may recognize six fields and a seal:
+$$
+  \mathsf{DerivSource}_{R_D}(D,D_0),\quad
+  \mathsf{DerivClassifier}_{R_D}(D,D_1),\quad
+  \mathsf{DerivExactness}_{R_D}(D,D_2),
+$$
+$$
+  \mathsf{DerivLedger}_{R_D}(D,D_3),\quad
+  \mathsf{DerivStability}_{R_D}(D,D_4),\quad
+  \mathsf{DerivStrength}_{R_D}(D,D_5),\quad
+  \mathsf{DerivSeal}_{R_D}(D,\sigma_D).
+$$
+\end{definition}
+
+\begin{definition}[Complete DerivCert recognition]
+\label{def:deriv-accept-complete-derivcert}
+The judgment
+$$
+  \mathsf{RecognizesDerivCert}(R_D,S,D,N,s)
+$$
+is \emph{complete DerivCert recognition} when there exist
+$$
+  D_0,D_1,D_2,D_3,D_4,D_5,\sigma_D
+$$
+satisfying all field and seal judgments in \autoref{def:deriv-accept-derivcert-fields}.
+\end{definition}
+
+\begin{principle}[No DerivCert without six fields]
+\label{prin:deriv-accept-no-derivcert-without-six}
+A derivation-certificate flow must have recognized source, classifier, exactness, ledger, stability, strength, and seal. If any is missing, the flow remains a candidate.
+\end{principle}
+
+\begin{theorem}[Incomplete DerivCert candidate cannot support export]
+\label{thm:deriv-accept-incomplete-derivcert-no-export}
+If $D$ lacks any recognized source, classifier, exactness, ledger, stability, strength, or seal subflow, then $D$ cannot support export of $N$ at $s$.
+\end{theorem}
+
+\begin{proof}
+Derivation-certificate recognition requires complete six-field recognition. Export requires recognized derivation-certificate flow. If any required field is missing, complete recognition fails.
+\end{proof}
+
+\begin{corollary}[Strength alone cannot support export]
+\label{cor:deriv-accept-strength-alone-no-export}
+Even a recognized high-strength flow cannot form a derivation certificate if source, classifier, exactness, ledger, or stability fields are missing.
+\end{corollary}
+
+\section{Field soundness}
+\label{sec:deriv-accept-field-soundness}
+
+\begin{definition}[DerivCert field soundness]
+\label{def:deriv-accept-field-soundness}
+The six field soundness judgments are:
+$$
+  \mathsf{DerivSourceSound}_{R_D}(D,D_0,N),
+  \quad
+  \mathsf{DerivClassifierSound}_{R_D}(D,D_1,N),
+$$
+$$
+  \mathsf{DerivExactnessSound}_{R_D}(D,D_2,N),
+  \quad
+  \mathsf{DerivLedgerSound}_{R_D}(D,D_3,N),
+$$
+$$
+  \mathsf{DerivStabilitySound}_{R_D}(D,D_4,N),
+  \quad
+  \mathsf{DerivStrengthSound}_{R_D}(D,D_5,s).
+$$
+They require the source field to carry $N$, the classifier field to organize carriers or representatives of $N$, the exactness field to show that the classifier respects the relevant sameness, the ledger field to retain hidden material and citations, the stability field to cite or supply the relevant stability certificate, and the strength field to match the claimed recognized strength $s$.
+\end{definition}
+
+\begin{definition}[Sound DerivCert flow]
+\label{def:deriv-accept-sound-derivcert}
+A recognized derivation-certificate flow
+$$
+  \mathsf{RecognizesDerivCert}(R_D,S,D,N,s)
+$$
+is \emph{sound} when it is complete and all six field soundness judgments of \autoref{def:deriv-accept-field-soundness} hold.
+\end{definition}
+
+\begin{theorem}[Sound DerivCert flow establishes derivation certificate]
+\label{thm:deriv-accept-sound-derivcert-establishes}
+If $D$ is a sound recognized derivation-certificate flow for $N$ at strength $s$, then
+$$
+  \mathsf{DerivCertFlow}_{R_D}(S,D,N,s)
+$$
+may serve as the derivation-certificate flow for $N$ at $s$.
+\end{theorem}
+
+\begin{proof}
+Soundness supplies complete six-field recognition and the soundness condition for each field. This is precisely the flow-level structure required of a derivation certificate.
+\end{proof}
+
+\section{AcceptGate-flow recognition}
+\label{sec:deriv-accept-acceptgate-recognition}
+
+\begin{definition}[AcceptGate candidate]
+\label{def:deriv-accept-acceptgate-candidate}
+An \emph{AcceptGate candidate} is an event subflow
+$$
+  A\subseteq S
+$$
+claiming to combine a \NameCert\ flow and a derivation-certificate flow into an acceptance gate, but not yet recognized. Write
+$$
+  \mathsf{AcceptGateCand}(S,A,N,s).
+$$
+\end{definition}
+
+\begin{definition}[Generated AcceptGate recognizer]
+\label{def:deriv-accept-generated-acceptgate-recognizer}
+A \emph{generated AcceptGate recognizer} is an event flow
+$$
+  R_A\in\mathsf{EventFlow}
+$$
+supporting
+$$
+  \mathsf{RecognizesAcceptGate}(R_A,S,A,N,s).
+$$
+\end{definition}
+
+\begin{definition}[Recognized AcceptGate flow]
+\label{def:deriv-accept-recognized-acceptgate-flow}
+If
+$$
+  \mathsf{RecognizesAcceptGate}(R_A,S,A,N,s),
+$$
+then $A$ is a recognized acceptance-gate flow for $N$ at $s$ in $S$. Write
+$$
+  \mathsf{AcceptGateFlow}_{R_A}(S,A,N,s).
+$$
+\end{definition}
+
+\begin{definition}[AcceptGate components]
+\label{def:deriv-accept-acceptgate-components}
+If
+$$
+  \mathsf{RecognizesAcceptGate}(R_A,S,A,N,s),
+$$
+then $R_A$ identifies
+$$
+  \mathsf{GateNameCert}_{R_A}(A,C_N),
+  \qquad
+  \mathsf{GateDerivCert}_{R_A}(A,D_N),
+$$
+$$
+  \mathsf{GateStrength}_{R_A}(A,s),
+  \qquad
+  \mathsf{GateSeal}_{R_A}(A,\sigma_A).
+$$
+\end{definition}
+
+\begin{principle}[No AcceptGate without NameCert and DerivCert]
+\label{prin:deriv-accept-no-gate-without-namecert-derivcert}
+An acceptance-gate flow must contain a recognized \NameCert\ flow and a sound recognized derivation-certificate flow. If either is missing, the flow is only an acceptance-gate candidate.
+\end{principle}
+
+\begin{theorem}[AcceptGate recognition requires NameCert and DerivCert]
+\label{thm:deriv-accept-gate-requires-namecert-derivcert}
+If
+$$
+  \mathsf{AcceptGateFlow}_{R_A}(S,A,N,s),
+$$
+then there exist $C_N$ and $D_N$ such that
+$$
+  \mathsf{NameCertFlow}(C_N,N)
+  \qquad\text{and}\qquad
+  \mathsf{DerivCertFlow}(D_N,N,s).
+$$
+\end{theorem}
+
+\begin{proof}
+By the component definition, recognized acceptance-gate flow identifies \NameCert\ and derivation-certificate components. By the acceptance-gate principle, these components must be recognized flows.
+\end{proof}
+
+\begin{corollary}[NameCert alone does not imply AcceptGate]
+\label{cor:deriv-accept-namecert-alone-no-gate}
+Even if $N$ is licensed at $P_5$, an acceptance gate requires sound derivation-certificate flow and gate recognition.
+\end{corollary}
+
+\begin{corollary}[DerivCert alone does not imply AcceptGate]
+\label{cor:deriv-accept-derivcert-alone-no-gate}
+A derivation-certificate flow alone does not imply an acceptance gate if a matching \NameCert\ flow or gate-seal flow is missing.
+\end{corollary}
+
+\section{Accepted object code}
+\label{sec:deriv-accept-accepted-code}
+
+\begin{definition}[Accepted object flow]
+\label{def:deriv-accept-accepted-object-flow}
+If
+$$
+  \mathsf{RecognizesAcceptGate}(R_A,S,A,N,s)
+$$
+and $A$ is a sound recognized acceptance-gate flow, then $A$ is an \emph{accepted object flow} for $N$ at $s$. Write
+$$
+  \mathsf{AcceptedObjectFlow}(A,N,s).
+$$
+\end{definition}
+
+\begin{definition}[Accepted object code]
+\label{def:deriv-accept-accepted-object-code}
+If
+$$
+  \mathsf{AcceptedObjectFlow}(A,N,s),
+$$
+define
+$$
+  \mathsf{AcceptedObjectCode}(A,N,s):=\mathsf{Compile}(A).
+$$
+This is the channel code of the acceptance flow. It is not bare object code, object equality, theorem proof, or bridge certificate.
+\end{definition}
+
+\begin{theorem}[Accepted object code is injective on raw acceptance flows]
+\label{thm:deriv-accept-code-injective-raw-flows}
+If
+$$
+  \mathsf{AcceptedObjectCode}(A,N,s)
+  =
+  \mathsf{AcceptedObjectCode}(B,M,t),
+$$
+then $A=B$.
+\end{theorem}
+
+\begin{proof}
+By definition both sides are compiled channel codes:
+$$
+  \mathsf{Compile}(A)=\mathsf{Compile}(B).
+$$
+The channel compiler is injective on event flows, so $A=B$.
+\end{proof}
+
+\begin{remark}[Accepted object code is not classified-object identity]
+\label{rem:deriv-accept-code-not-object-identity}
+The injectivity theorem concerns raw acceptance flows and their codes. If a later classifier or bridge identifies two accepted flows as the same mature object, the mature-object layer is a quotient and may be many-to-one.
+\end{remark}
+
+\begin{corollary}[Accepted code equality is stronger than object equivalence]
+\label{cor:deriv-accept-code-stronger-than-equivalence}
+Equal accepted object codes imply equal raw acceptance flows. Equivalent mature objects under classifier or bridge need not have equal accepted object codes.
+\end{corollary}
+
+\section{Strength monotonicity and promotion}
+\label{sec:deriv-accept-strength-promotion}
+
+\begin{definition}[Flow-level strength monotonicity]
+\label{def:deriv-accept-strength-monotonicity}
+If strength recognition supplies $s'\le s$, $P_6$ may report
+$$
+  \mathsf{AcceptGateFlow}(N,s)
+  \Rightarrow
+  \mathsf{AcceptGateFlow}(N,s')
+$$
+provided that the higher-strength derivation-certificate flow contains a recognized lower-strength derivation-certificate subflow supporting $s'$.
+\end{definition}
+
+\begin{theorem}[Strength monotonicity]
+\label{thm:deriv-accept-strength-monotonicity}
+If $\mathsf{AcceptGateFlow}(N,s)$ holds, $s'\le s$, and the derivation-certificate flow at $s$ contains a recognized lower-strength subflow supporting $s'$, then $\mathsf{AcceptGateFlow}(N,s')$ holds.
+\end{theorem}
+
+\begin{proof}
+The acceptance gate at $s$ contains a \NameCert\ flow and a derivation-certificate flow at $s$. The lower-strength subflow supplies the derivation-certificate component at $s'$. Together with the same \NameCert\ flow, it forms an acceptance gate at $s'$.
+\end{proof}
+
+\begin{definition}[Upgrade flow]
+\label{def:deriv-accept-upgrade-flow}
+An \emph{upgrade flow} is an event flow $U$ that upgrades object $N$ from strength $s$ to $s'>s$. It contains prior acceptance-gate flow at $s$, new obligations for $s'$, new proof, exactness, bridge, or checked-target flow, new ledger, and upgrade seal. Write
+$$
+  \mathsf{UpgradeFlow}(U,N,s,s').
+$$
+\end{definition}
+
+\begin{principle}[No retroactive promotion]
+\label{prin:deriv-accept-no-retroactive-promotion}
+An object accepted at $s$ does not become accepted at $s'>s$ merely because a dependency is later upgraded. A recognized upgrade flow is required.
+\end{principle}
+
+\begin{theorem}[Upgrade requires upgrade flow]
+\label{thm:deriv-accept-upgrade-requires-flow}
+If $s'>s$, one cannot infer $\mathsf{AcceptGateFlow}(N,s')$ merely from $\mathsf{AcceptGateFlow}(N,s)$. New recognized derivation-certificate flow or upgrade flow supporting $s'$ is required.
+\end{theorem}
+
+\begin{proof}
+Higher strength requires additional evidence such as paper proof, checked target, bridge certificate, or other strength-specific obligations. A lower-strength acceptance gate does not contain these fields.
+\end{proof}
+
+\section{Reports and soundness}
+\label{sec:deriv-accept-reports-soundness}
+
+\begin{definition}[$P_6$ report]
+\label{def:deriv-accept-p6-report}
+A \emph{$P_6$ report} is an output view containing decoded event flow, recognized \NameCert\ flows, derivation-certificate candidates, recognized derivation-certificate flows, derivation-certificate field status, strength-flow status, acceptance-gate candidates, recognized acceptance-gate flows, accepted object flows, accepted object codes, missing fields, upgrade status, warnings, and cannot-claim annotations.
+\end{definition}
+
+\begin{definition}[DerivCert and AcceptGate field status]
+\label{def:deriv-accept-field-status}
+For each derivation-certificate candidate $D$, the report records source, classifier, exactness, ledger, stability, strength, and seal status as present, missing, or candidate-only. For each acceptance-gate candidate $A$, it records \NameCert-flow, derivation-certificate flow, strength flow, and gate-seal status as present, missing, or candidate-only.
+\end{definition}
+
+\begin{definition}[$P_6$ cannot-claim annotations]
+\label{def:deriv-accept-p6-cannot-claims}
+A $P_6$ report must state that \NameCert\ flow alone does not imply accepted export, derivation-certificate flow alone does not imply accepted export, strength flow alone does not imply derivation certificate, accepted flow code is not object equality, accepted object code is not proof of later theorems, accepted object code is not bridge certificate, retroactive promotion is not allowed, classifier equivalence may identify distinct accepted flows, and report is not proof unless theorem-flow recognition is supplied separately.
+\end{definition}
+
+\begin{definition}[Sound $P_6$ report]
+\label{def:deriv-accept-sound-p6-report}
+A $P_6$ report is \emph{sound} when:
+\begin{enumerate}
+\item every recognized derivation-certificate flow is backed by generated derivation-certificate recognizer;
+\item every recognized derivation-certificate flow has six fields and seal;
+\item every recognized derivation-certificate flow satisfies field soundness;
+\item every recognized strength flow is backed by generated strength recognizer;
+\item every recognized acceptance-gate flow contains matching \NameCert\ and derivation-certificate flows;
+\item every accepted object code comes from recognized acceptance-gate flow;
+\item missing fields are explicitly reported;
+\item candidate-only entries are not reported as recognized;
+\item cannot-claim annotations are complete.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Sound $P_6$ report theorem]
+\label{thm:deriv-accept-sound-p6-report}
+If $P_6$ outputs a sound report, then every accepted object code in the report corresponds to a recognized acceptance-gate flow containing sound \NameCert\ and derivation-certificate flows.
+\end{theorem}
+
+\begin{proof}
+By report soundness, accepted object code can come only from recognized acceptance-gate flow. Such a gate contains matching \NameCert\ and derivation-certificate flows, and the derivation-certificate flow has all six fields and field soundness.
+\end{proof}
+
+\begin{corollary}[Sound accepted code is certificate-mediated]
+\label{cor:deriv-accept-code-certificate-mediated}
+Every sound $P_6$ accepted object code is certificate-mediated, not bare-code export.
+\end{corollary}
+
+\begin{theorem}[$P_6$ code existence still does not imply theoremhood]
+\label{thm:deriv-accept-code-not-theoremhood}
+Even if $P_6$ reports an accepted object code, no theorem about the object follows unless a recognized theorem flow and proof flow are supplied.
+\end{theorem}
+
+\begin{proof}
+Accepted object code records that an acceptance gate has been recognized for an object candidate at a strength. Theoremhood requires theorem-flow recognition with statement, proof, dependencies, certificates, ledger, status, and canonical site. The accepted object code does not provide those data.
+\end{proof}
+
+\section{Adequacy and examples}
+\label{sec:deriv-accept-adequacy-examples}
+
+\begin{definition}[$P_6$ audit checklist]
+\label{def:deriv-accept-p6-audit}
+A $P_6$ prototype must satisfy:
+\begin{enumerate}
+\item all $P_5$ audit requirements;
+\item derivation-certificate candidates are distinguished from recognized derivation-certificate flows;
+\item recognized derivation-certificate flows require generated recognizers;
+\item six derivation-certificate fields and seal are required;
+\item field soundness is required;
+\item strength candidates are distinguished from recognized strength flows;
+\item strength recognition requires generated recognizer;
+\item acceptance-gate candidates are distinguished from recognized acceptance-gate flows;
+\item matching \NameCert\ and derivation-certificate flows are required for acceptance gates;
+\item accepted object code comes only from recognized acceptance-gate flow;
+\item missing fields are reported explicitly;
+\item accepted code is distinguished from object equality;
+\item no retroactive promotion is recorded;
+\item theoremhood is not inferred from accepted object code;
+\item cannot-claim annotations are included.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[$P_6$ adequacy theorem]
+\label{thm:deriv-accept-p6-adequacy}
+If a prototype satisfies the $P_6$ audit checklist, uses sound $P_5$ reports, and every recognized derivation-certificate or acceptance-gate flow is backed by generated recognizers and field soundness, then it is adequate as a DerivCert and AcceptGate recognition prototype.
+\end{theorem}
+
+\begin{proof}
+The checklist enforces separation between candidates and recognized flows, six-field derivation-certificate recognition, strength recognition, matching \NameCert\ and derivation-certificate components for acceptance gates, and cannot-claim discipline. Sound $P_5$ reports supply \NameCert\ correctness. Generated recognizers and field soundness supply the certificate support.
+\end{proof}
+
+\begin{corollary}[$P_6$ adequacy does not imply higher adequacy]
+\label{cor:deriv-accept-p6-not-higher}
+A $P_6$ prototype can report accepted object codes, but it is not yet a theorem-flow recognizer, chapter-flow recognizer, bridge certifier, full proof checker, or self-hosting compiler.
+\end{corollary}
+
+\begin{example}[NameCert without DerivCert]
+\label{ex:deriv-accept-namecert-without-derivcert}
+If a report has a recognized and sound \NameCert\ flow, but missing derivation-certificate and acceptance-gate flows, it may say that the name is licensed at $P_5$ but that there is no accepted object at $P_6$.
+\end{example}
+
+\begin{example}[DerivCert candidate missing exactness]
+\label{ex:deriv-accept-derivcert-missing-exactness}
+If a derivation-certificate candidate has source, classifier, ledger, stability, strength, and seal fields, but exactness is missing, the report says that derivation-certificate recognition fails, acceptance-gate recognition fails, and no accepted object code is produced.
+\end{example}
+
+\begin{example}[Accepted Axis-like object at seed strength]
+\label{ex:deriv-accept-axis-seed}
+Suppose the report recognizes a sound Axis-like \NameCert\ flow, a sound derivation-certificate flow with source, classifier, exactness, ledger, stability, seed strength, and seal, and an acceptance-gate flow combining them. Then $P_6$ may report
+$$
+  \mathsf{AcceptedObjectCode}(\mathrm{Axis},\mathrm{seed})
+  =
+  \mathsf{Compile}(\text{acceptance-gate flow}).
+$$
+Cannot-claims state that seed strength does not imply checked certificate or bridge certificate, and accepted code is not equality with another Axis presentation.
+\end{example}
+
+\begin{example}[FullAxis candidate still not accepted]
+\label{ex:deriv-accept-fullaxis-not-accepted}
+For the completion skeleton $0\mid 00\mid 000\mid 01\mid 011\mid 100$, suppose the \NameCert\ candidate has source and pattern present, classifier candidate, stability missing, and ledger present, while derivation certificate and acceptance gate are missing. The report must say that $\FullAxisUp$ is not accepted: missing stability blocks \NameCert\ recognition, and missing derivation certificate blocks acceptance.
+\end{example}
+
+\begin{example}[No retroactive promotion]
+\label{ex:deriv-accept-no-retroactive-promotion}
+If an object $N$ is accepted at seed strength and a dependency is later upgraded to checked-certificate strength, $P_6$ must still report $N$ as accepted only at seed unless there is a recognized upgrade flow for $N$ from seed to checked-certificate strength.
+\end{example}
+
+\section{Conservativity}
+\label{sec:deriv-accept-conservativity}
+
+\begin{theorem}[$P_6$ is conservative over the finite kernel]
+\label{thm:deriv-accept-p6-conservative}
+Adding derivation-certificate recognition, strength recognition, acceptance-gate recognition, accepted object code reports, and upgrade-flow reports adds no raw marks, history constructors, sameness rules, continuation rules, theorem rules, bridge rules, or object-equality rules.
+\end{theorem}
+
+\begin{proof}
+$P_6$ operates on decoded event flows and generated recognition relations. It generates no new $\bzero,\bone$, adds no $\msame$, $\hsame$, or $\psame$, does not alter $\ExtR$ or $\ContR$, and does not create kernel equality. Accepted object code is mediated by \NameCert\ and derivation-certificate flows; it does not introduce mature objects as primitives.
+\end{proof}
+
+\begin{corollary}[$P_6$ is accepted-object reporting, not proof engine]
+\label{cor:deriv-accept-p6-not-proof-engine}
+$P_6$ can report accepted object codes, but it does not prove arbitrary theorems about those objects. Proofs require theorem-flow and proof-flow recognition.
+\end{corollary}
+
+\begin{remark}[Summary]
+\label{rem:deriv-accept-summary}
+This chapter defines $P_6$, the DerivCert and AcceptGate recognition prototype. It adds strength candidates, generated strength recognizers, recognized strength flows, derivation-certificate candidates, generated derivation-certificate recognizers, recognized derivation-certificate flows, six derivation-certificate fields, field soundness, acceptance-gate candidates, generated acceptance-gate recognizers, accepted object flows, accepted object codes, strength monotonicity, upgrade flows, no-retroactive-promotion discipline, $P_6$ reports, and the $P_6$ audit checklist. It proves that strength candidates and incomplete derivation certificates cannot support export, sound derivation certificates establish derivation-certificate flows, acceptance gates require \NameCert\ and derivation-certificate flows, accepted object code is injective only on raw acceptance flows, accepted code is not object identity or theoremhood, upgrade requires upgrade flow, sound $P_6$ reports are certificate-mediated, and $P_6$ is conservative over the finite kernel.
+\end{remark}

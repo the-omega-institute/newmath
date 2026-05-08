@@ -1,0 +1,518 @@
+\chapter{Main Theorems and Cannot-Claim Registry}
+\label{ch:ground-compiler-main-theorems-cannot-claims}
+
+The preceding chapters establish the components of the no-hidden-input compiler discipline: ground event flows, Zeckendorf-safe channel encoding, source/channel separation, package recognition, certificate recognition, theorem and chapter recognition, recognizer flows, self-hosting compiler flows, motif analysis, theory metrics, higher-layer case studies, and the compiler analysis pipeline.
+
+This chapter collects the main theorems and records the cannot-claim registry for this part. The governing assertion is:
+$$
+  \boxed{\text{the only formal ground input is a finite event flow generated from }\bzero,\bone.}
+$$
+All higher structures are recognized structures inside event flows:
+\[
+\text{package, certificate, acceptance gate, theorem, chapter, recognizer, compiler, motif, metric, and report}.
+\]
+None of these may enter as an external object.
+
+\section{Compiler state and hidden input}
+\label{sec:main-theorems-compiler-state-hidden-input}
+
+\begin{definition}[No-hidden-input compiler state]
+\label{def:main-theorems-no-hidden-input-state}
+A \emph{no-hidden-input compiler state} is a tuple
+$$
+  \mathcal C =
+  (\mathsf{EventFlow},
+   \mathsf{LegalZStream},
+   \mathsf{Compile},
+   \mathsf{Decode},
+   \mathsf{RecognizerHierarchy},
+   \mathsf{CertificateFlows},
+   \mathsf{LedgerFlows},
+   \mathsf{BootstrapObligations})
+$$
+satisfying:
+\begin{enumerate}
+\item $\mathsf{EventFlow}=(\{0,1\}^{\ast})^{\ast}$;
+\item $\mathsf{LegalZStream}=((0\mid 10)^{\ast}11)^{\ast}$;
+\item $\mathsf{Compile}$ is the Zeckendorf-safe channel compiler;
+\item $\mathsf{Decode}$ is its streaming inverse decoder;
+\item package, certificate, theorem, chapter, and compiler structures are recognized by the recognizer hierarchy;
+\item every nontrivial recognition carries ledger data;
+\item every not-yet-self-hosted component is recorded as a bootstrap obligation.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Hidden input]
+\label{def:main-theorems-hidden-input}
+A datum $X$ is a \emph{hidden input} when it is used for compilation, recognition, proof, analysis, or reporting, but $X$ is not any of:
+\begin{enumerate}
+\item a raw event;
+\item an event flow;
+\item a recognized event-flow structure;
+\item a recognized certificate flow;
+\item a recognized ledger flow;
+\item a recognized bootstrap obligation;
+\item a recognized analysis protocol flow;
+\item a self-hosted compiler flow, or an explicitly recorded bootstrap boundary.
+\end{enumerate}
+Typical hidden inputs include external atom tables, external enums, YAML, manifests, host ASTs, external package structures, theorem identifiers, external proof objects, host parsers, host proof checkers, external metric tables, motif tables, type tags, mode tags, unrecorded package boundaries, and unrecorded classifier oracles.
+\end{definition}
+
+\begin{principle}[No hidden input]
+\label{prin:main-theorems-no-hidden-input}
+The formal compiler discipline may not use hidden input. If a component is not yet generated and recognized as event-flow structure, it must be explicitly recorded as a bootstrap obligation. Otherwise it may not support a formal claim.
+\end{principle}
+
+\section{Channel and layer separation}
+\label{sec:main-theorems-channel-separation}
+
+\begin{theorem}[Channel bijection theorem]
+\label{thm:main-theorems-channel-bijection}
+The channel compiler gives a bijection
+$$
+  \boxed{\mathsf{EventFlow}\cong\mathsf{LegalZStream}}
+$$
+where
+$$
+  \mathsf{EventFlow}=(\{0,1\}^{\ast})^{\ast},
+  \qquad
+  \mathsf{LegalZStream}=((0\mid 10)^{\ast}11)^{\ast}.
+$$
+The event encoding is
+$$
+  \zeta(0)=0,
+  \qquad
+  \zeta(1)=10,
+  \qquad
+  \mathsf{Ev}(w)=\zeta(w)11,
+$$
+and
+$$
+  \mathsf{Compile}(w_0,\ldots,w_{n-1})
+  =
+  \mathsf{Ev}(w_0)\cdots\mathsf{Ev}(w_{n-1}).
+$$
+\end{theorem}
+
+\begin{proof}
+The channel-encoding chapter proves that event bodies lie in $(0\mid 10)^{\ast}$ and contain no internal adjacent $11$. Hence the first $11$ after an event body is the event terminator. The streaming decoder therefore uniquely recovers each raw event and then the whole event flow. Thus
+$$
+  \mathsf{Decode}(\mathsf{Compile}(S))=S
+$$
+and, for every legal stream $c$,
+$$
+  \mathsf{Compile}(\mathsf{Decode}(c))=c.
+$$
+So $\mathsf{Compile}$ and $\mathsf{Decode}$ are inverse maps.
+\end{proof}
+
+\begin{corollary}[Channel code is lossless]
+\label{cor:main-theorems-channel-code-lossless}
+If
+$$
+  \mathsf{Compile}(S)=\mathsf{Compile}(T),
+$$
+then $S=T$.
+\end{corollary}
+
+\begin{proof}
+Apply $\mathsf{Decode}$ to both sides and use the round-trip law.
+\end{proof}
+
+\begin{corollary}[Channel code is not proof]
+\label{cor:main-theorems-code-not-proof}
+The judgment $c\in\mathsf{LegalZStream}$ only says that $c$ decodes to an event flow. It does not say that the flow is a theorem, proof, name certificate, derivation certificate, accepted object, or mature interface.
+\end{corollary}
+
+\begin{theorem}[Source/channel layer separation theorem]
+\label{thm:main-theorems-source-channel-separation}
+Source events and channel streams are strictly separated:
+\begin{enumerate}
+\item source events belong to $\mathsf{RawEvent}=\{0,1\}^{\ast}$;
+\item channel streams belong to $\mathsf{LegalZStream}$;
+\item channel-level $11$ is an event terminator;
+\item source-level $11$ may be part of a raw event;
+\item source-level normalization acts only on decoded event flows;
+\item channel substrings cannot be used directly as source events.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The first two clauses are definitions. The third follows from $\mathsf{Ev}(w)=\zeta(w)11$. The fourth follows because raw events are arbitrary finite binary words; the source event $11$ has channel code $\mathsf{Ev}(11)=101011$, not $11$. The fifth follows because source-level normalization is defined over $\mathsf{EventFlow}$. For the sixth, the channel code $1011$ contains the substring $011$, but decodes to the source event $1$, not the source event $011$.
+\end{proof}
+
+\begin{corollary}[Source carry is not channel rewrite]
+\label{cor:main-theorems-carry-not-channel-rewrite}
+A source-level relation such as $011\leadsto 100$ cannot be applied as a string rewrite on compiled channel bits. The valid order is decode, source-level normalization, and compile.
+\end{corollary}
+
+\section{Recognized structures and exports}
+\label{sec:main-theorems-recognized-structures-exports}
+
+\begin{definition}[Generated structure]
+\label{def:main-theorems-generated-structure}
+A structure $K$ is a \emph{generated structure} when there are an event flow $S$ and a generated recognizer flow $R$ such that
+$$
+  \mathsf{Recognizes}_K(R,S).
+$$
+Here $\mathsf{Recognizes}_K$ may be package recognition, $\NameCert$ recognition, derivation-certificate recognition, theorem recognition, chapter recognition, compiler recognition, motif recognition, or analysis-protocol recognition.
+\end{definition}
+
+\begin{theorem}[Structure emergence theorem]
+\label{thm:main-theorems-structure-emergence}
+Packages, name certificates, derivation certificates, acceptance gates, theorems, chapters, recognizers, compilers, motifs, metrics, and reports are not first-layer inputs. They may appear only as generated structures.
+\end{theorem}
+
+\begin{proof}
+If any of these structures were first-layer inputs, their fields, boundaries, roles, order, nesting, or intended reading would be externally supplied. That is hidden input. By \autoref{prin:main-theorems-no-hidden-input}, such input is not admissible. Therefore these structures must be supplied by event flows and generated recognizer flows.
+\end{proof}
+
+\begin{corollary}[YAML and AST are output views only]
+\label{cor:main-theorems-yaml-ast-output-only}
+YAML, ASTs, Markdown outlines, JSON reports, theorem tables, and dependency graphs may be human-readable output views of decoded event flows. They are not formal inputs.
+\end{corollary}
+
+\begin{corollary}[Recognizer generatedness]
+\label{cor:main-theorems-recognizer-generatedness}
+A recognizer cannot be a host parser or external function. A recognizer used in a formal recognition judgment must itself be an event flow and must carry a recognizer certificate flow.
+\end{corollary}
+
+\begin{definition}[Certificate-mediated export]
+\label{def:main-theorems-certificate-mediated-export}
+An object candidate $N$ is a \emph{certificate-mediated export} at strength $s$ when there are recognized name-certificate, derivation-certificate, and acceptance-gate flows such that
+$$
+  \mathsf{AcceptGateFlow}(N,s)
+$$
+holds.
+\end{definition}
+
+\begin{theorem}[Accepted export theorem]
+\label{thm:main-theorems-accepted-export}
+A mature object $N$ may be exported at strength $s$ exactly when its decoded event flow supplies the recognized name-certificate, derivation-certificate, and acceptance-gate structure:
+$$
+  \boxed{
+  \mathsf{AcceptedExport}(N,s)
+  \Longleftrightarrow
+  \mathsf{AcceptGateFlow}(N,s).
+  }
+$$
+\end{theorem}
+
+\begin{proof}
+By definition, $\mathsf{AcceptGateFlow}(N,s)$ holds exactly when there is an acceptance flow containing a sound name-certificate flow and a sound derivation-certificate flow. The original acceptance discipline requires $\mathrm{NameCert}(N)\wedge\mathrm{DerivCert}(N,s)$. The compiler discipline reads those two components as recognized event-flow certificates. If either certificate is missing, export is not licensed; if both are soundly recognized and accepted, export is licensed.
+\end{proof}
+
+\begin{corollary}[Code existence does not imply export]
+\label{cor:main-theorems-code-existence-not-export}
+From $c\in\mathsf{LegalZStream}$ one cannot infer $\mathsf{AcceptedExport}(N,s)$. The stream must first be decoded, and the required certificate and acceptance flows must be recognized.
+\end{corollary}
+
+\begin{corollary}[Motif existence does not imply export]
+\label{cor:main-theorems-motif-existence-not-export}
+Completion, carry, circle, complex, or homology motifs do not export mature objects. Mature export remains certificate-mediated.
+\end{corollary}
+
+\section{Theorem, chapter, and quotient layers}
+\label{sec:main-theorems-theorem-chapter-quotient}
+
+\begin{definition}[Canonical theorem flow]
+\label{def:main-theorems-canonical-theorem-flow}
+A \emph{canonical theorem flow} is a sound recognized theorem flow with a recognized canonical-site subflow. Write
+$$
+  \mathsf{CanonicalTheoremFlow}(T).
+$$
+\end{definition}
+
+\begin{definition}[Theorem code]
+\label{def:main-theorems-theorem-code}
+If $\mathsf{CanonicalTheoremFlow}(T)$, define
+$$
+  \mathsf{ThmCode}(T):=\mathsf{Compile}(T).
+$$
+\end{definition}
+
+\begin{theorem}[Theorem flow / theorem code bijection]
+\label{thm:main-theorems-theorem-code-bijection}
+There is a bijection
+$$
+  \boxed{
+  \mathsf{CanonicalTheoremFlow}
+  \cong
+  \mathsf{LegalTheoremCode}_{01}.
+  }
+$$
+\end{theorem}
+
+\begin{proof}
+If $T$ is a canonical theorem flow, then $\mathsf{Compile}(T)$ is a legal channel code. If canonical theorem flows $T$ and $U$ have the same code, then
+$$
+  \mathsf{Compile}(T)=\mathsf{Compile}(U)
+$$
+implies $T=U$ by the channel bijection. Conversely, a legal theorem code is by definition the compiled code of a canonical theorem flow, and decoding recovers that flow.
+\end{proof}
+
+\begin{corollary}[Proposition is not theorem code]
+\label{cor:main-theorems-proposition-not-theorem-code}
+An abstract proposition is generally not in bijection with theorem code. One proposition may have multiple theorem flows, with different proofs, dependency expansions, certificate strengths, ledgers, canonical sites, and bridge statuses.
+\end{corollary}
+
+\begin{corollary}[Theorem code is not proof]
+\label{cor:main-theorems-theorem-code-not-proof}
+Theorem code records the full theorem flow. Proof is a recognized subflow of that theorem flow and requires generated proof-checker flow. Code does not replace proof checking.
+\end{corollary}
+
+\begin{definition}[Canonical chapter flow]
+\label{def:main-theorems-canonical-chapter-flow}
+A \emph{canonical chapter flow} is a sound recognized chapter flow with recognized chapter seal, status, ledger, and cannot-claim subflows. Write
+$$
+  \mathsf{CanonicalChapterFlow}(C).
+$$
+\end{definition}
+
+\begin{definition}[Chapter code]
+\label{def:main-theorems-chapter-code}
+If $\mathsf{CanonicalChapterFlow}(C)$, define
+$$
+  \mathsf{ChapCode}(C):=\mathsf{Compile}(C).
+$$
+\end{definition}
+
+\begin{theorem}[Chapter flow / chapter code bijection]
+\label{thm:main-theorems-chapter-code-bijection}
+There is a bijection
+$$
+  \boxed{
+  \mathsf{CanonicalChapterFlow}
+  \cong
+  \mathsf{LegalChapterCode}_{01}.
+  }
+$$
+\end{theorem}
+
+\begin{proof}
+The proof is the same as for theorem codes. The channel compiler is injective on event flows, and every legal chapter code is the compiled code of a canonical chapter flow.
+\end{proof}
+
+\begin{corollary}[Chapter topic is not chapter code]
+\label{cor:main-theorems-topic-not-chapter-code}
+An abstract chapter topic is not in bijection with chapter code. Chapter code corresponds to a complete canonical chapter flow, including definitions, lemmas, theorems, proofs, certificates, ledgers, cannot-claims, status, and chapter seal.
+\end{corollary}
+
+\begin{definition}[Raw-flow code layer]
+\label{def:main-theorems-raw-flow-code-layer}
+The \emph{raw-flow code layer} is the bijection
+$$
+  \mathsf{EventFlow}\cong\mathsf{LegalZStream}.
+$$
+\end{definition}
+
+\begin{definition}[Classified object layer]
+\label{def:main-theorems-classified-object-layer}
+Given a classifier $\sim$ on event flows, a classified object is an equivalence class
+$$
+  [S]_{\sim}.
+$$
+\end{definition}
+
+\begin{theorem}[Classifier quotient is generally many-to-one]
+\label{thm:main-theorems-classifier-quotient-many-to-one}
+The projection
+$$
+  S\longmapsto [S]_{\sim}
+$$
+is generally not injective. Hence the classified object layer is generally not in bijection with the raw code layer.
+\end{theorem}
+
+\begin{proof}
+If $S\ne T$ but $S\sim T$, then $[S]_{\sim}=[T]_{\sim}$. Thus distinct raw flows map to the same classified object. For example, a source-level Zeckendorf carry may classify $011$ and $100$ together while keeping them distinct as raw events.
+\end{proof}
+
+\begin{corollary}[Normal address requires ledger]
+\label{cor:main-theorems-normal-address-requires-ledger}
+If a normal representative is used as an object address, the raw ledger must be retained; otherwise the pre-normal flow is lost.
+\end{corollary}
+
+\section{Recognizers, compilers, motifs, and metrics}
+\label{sec:main-theorems-recognizers-compilers-motifs-metrics}
+
+\begin{theorem}[Recognizer generatedness theorem]
+\label{thm:main-theorems-recognizer-generatedness}
+Every formal recognizer must be a certified event flow. Outputs of host parsers, external grammars, YAML schemas, AST constructors, or meta-level elaborators are not formal recognition judgments unless supported by event-flow recognizer certificates.
+\end{theorem}
+
+\begin{proof}
+If a recognizer is not an event flow, its recognition power comes from outside the system and is hidden input. If it is an event flow but has no certificate, then soundness, completeness, ledger behavior, failure behavior, and conservativity are not established. Therefore a formal recognizer must be a certified event flow.
+\end{proof}
+
+\begin{definition}[Self-hosted compiler]
+\label{def:main-theorems-self-hosted-compiler}
+A compiler flow $C$ is \emph{self-hosted} when:
+\begin{enumerate}
+\item $C$ is a certified compiler flow;
+\item $C$ is recognized by a compiler recognizer;
+\item $C$ compiles itself to a flow $C'$;
+\item $C'\equiv_{\mathrm{comp}}C$;
+\item a self-hosting ledger records raw $C$, compiled code, decoded $C'$, a behavior-classifier witness, and remaining bootstrap obligations.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Self-hosting removes compiler-as-hidden-input]
+\label{thm:main-theorems-self-hosting-removes-hidden-compiler}
+If there is a self-hosted compiler flow $C$, and if the package, name-certificate, derivation-certificate, theorem, chapter, and analysis recognizers are supported by the recognizer hierarchy of $C$, then the compiler is no longer a host-level hidden input.
+\end{theorem}
+
+\begin{proof}
+Self-hosting states that the compiler itself is an event flow and that compiling it yields a behavior-equivalent flow. The recognizer hierarchy supplies structure recognition without host parsers. The self-hosting ledger records the raw compiler, compiled code, decoded output, behavior equivalence, and bootstrap obligations. Thus formal compiler behavior is supplied by event-flow structure rather than by an external program.
+\end{proof}
+
+\begin{corollary}[Declared bootstrap boundary]
+\label{cor:main-theorems-declared-bootstrap-boundary}
+Without self-hosting, every component not discharged by the event-flow compiler must be recorded as a bootstrap obligation. Otherwise full no-hidden-input status cannot be claimed.
+\end{corollary}
+
+\begin{theorem}[Motif analysis theorem]
+\label{thm:main-theorems-motif-analysis}
+Motif analysis is admissible only when motifs are recognized by generated motif recognizers and every nontrivial motif carries ledger data.
+\end{theorem}
+
+\begin{proof}
+A motif is a source-level structure. If it is obtained from an external pattern table or a channel substring search, then it is hidden input or wrong-layer analysis. If it has no ledger, its raw support, normalization, classifier use, or compression is not traceable. Therefore admissible motif analysis requires generated recognizer flow and ledger flow.
+\end{proof}
+
+\begin{theorem}[Metric conservativity theorem]
+\label{thm:main-theorems-metric-conservativity}
+Admissible metrics, motif reports, distance matrices, analysis reports, and bridge-obligation reports add no finite-kernel rules and license no mature objects.
+\end{theorem}
+
+\begin{proof}
+These structures analyze decoded event flows and recognized motifs. They generate no raw marks, add no sameness or continuation rules, provide no name certificate or derivation certificate, and do not trigger an acceptance gate. Hence they are conservative analysis structures.
+\end{proof}
+
+\begin{corollary}[Similarity is not identity]
+\label{cor:main-theorems-similarity-not-identity}
+Motif similarity, equal signatures, zero distance, and shared prefixes do not imply theorem equivalence, object equality, bridge correctness, or accepted export without separate classifier, bridge, proof, or certificate flow.
+\end{corollary}
+
+\section{Cannot-claim registry}
+\label{sec:main-theorems-cannot-claim-registry}
+
+\begin{definition}[Compiler cannot-claim entry]
+\label{def:main-theorems-compiler-cannot-claim-entry}
+A \emph{compiler cannot-claim entry} contains at least:
+\begin{center}
+\begin{tabular}{ll}
+\textbf{ClaimText} & the blocked claim;\\
+\textbf{Status} & the present recognition status;\\
+\textbf{WhyNotDischarged} & the missing certificate or ledger;\\
+\textbf{RequiredUpgrade} & the flow needed to discharge the block;\\
+\textbf{Ledger} & the event-flow record of the block.
+\end{tabular}
+\end{center}
+\end{definition}
+
+\begin{definition}[Required cannot-claim entries]
+\label{def:main-theorems-required-cannot-claims}
+The no-hidden-input compiler part requires at least the following cannot-claim entries.
+
+\begin{description}
+\item[C1. Arbitrary binary strings have BEDC meaning.]
+One may not claim that every binary string has BEDC meaning. Only legal channel streams decode to event flows, and only recognized event flows carry structures.
+
+\item[C2. A channel substring is a source event.]
+One may not read substrings of channel code as source events. Source events are obtained only after decoding.
+
+\item[C3. Source-level carry is channel rewrite.]
+One may not apply $011\leadsto 100$ directly to compiled channel bits. The valid order is decode, normalize source events, and compile.
+
+\item[C4. Code existence implies proof.]
+One may not infer proof from the existence of code. Theorem code records theorem flow; proof-flow and proof-checker flow are required.
+
+\item[C5. Code existence implies accepted object.]
+One may not infer accepted export from code existence. Accepted export requires name-certificate flow, derivation-certificate flow, and acceptance-gate flow.
+
+\item[C6. Package, certificate, theorem, and chapter structures are inputs.]
+One may not use package objects, certificate objects, theorem packages, or chapter packages as compiler inputs. They are recognized structures inside event flows.
+
+\item[C7. A recognizer may be a host parser.]
+An external parser or YAML schema does not count as a formal recognizer. A recognizer must be a certified event flow or an explicit bootstrap obligation.
+
+\item[C8. Classifier quotient preserves raw-code bijection.]
+Raw flows biject with codes. Classified objects are quotients and are generally many-to-one over raw flows.
+
+\item[C9. Motif similarity implies object equality.]
+Motifs explain structural similarity. Equality requires classifier, proof, bridge, or certificate flow.
+
+\item[C10. Carry motif implies dimension.]
+Carry motif is a normalization or lift witness. Geometric, topological, linear, or manifold dimension requires additional certificate flow.
+
+\item[C11. Seal motif implies completion object.]
+A seal-like event does not automatically produce a completion object. Completion requires compatible-thread source, classifier, seal certificate, and ledger.
+
+\item[C12. Report is proof.]
+Metric and motif reports are output views. Proof and certificate flows are separate.
+
+\item[C13. Self-hosting implies raw compiler equality.]
+Self-hosting gives behavior-classifier equivalence $C'\equiv_{\mathrm{comp}}C$, not raw event-flow equality $C'=C$.
+
+\item[C14. Full no-hidden-input claim without self-hosting.]
+One may not claim a fully no-hidden-input compiler unless a self-hosting compiler flow exists, or all remaining bootstrap obligations are explicit.
+\end{description}
+\end{definition}
+
+\begin{theorem}[Cannot-claim registry is mandatory]
+\label{thm:main-theorems-cannot-claim-registry-mandatory}
+Any use of the no-hidden-input compiler must include a cannot-claim registry containing at least C1--C14, unless each entry is discharged by a recognized certificate flow.
+\end{theorem}
+
+\begin{proof}
+Each entry blocks a known failure mode: invalid channel analysis, hidden structure input, code-as-proof confusion, classifier/equality collapse, motif-as-object confusion, or hidden bootstrap. If the registry omits such entries, the system may silently make unsupported claims. Therefore the registry is mandatory unless the corresponding block is discharged by certificate flow.
+\end{proof}
+
+\section{Global conservativity and final theorem}
+\label{sec:main-theorems-global-conservativity-final}
+
+\begin{theorem}[Global conservativity theorem]
+\label{thm:main-theorems-global-conservativity}
+The no-hidden-input streaming compiler layer is conservative over the BEDC finite kernel. It adds no raw marks, history constructors, $\msame$ rules, $\hsame$ rules, $\psame$ rules, $\ExtR/\ContR$ rules, kernel equalities, derived-interface formation rules, or mature-object primitives.
+\end{theorem}
+
+\begin{proof}
+Every construction in this part is one of: an event flow over the existing display alphabet, a channel encoding or decoding relation, a recognition relation over event flows, a certificate recognition relation, an analysis relation over decoded event flows, a report output view, a bootstrap obligation, or a behavior classifier over compiler flows. None introduces BEDC kernel constructors or equality rules. Derived interfaces still require recognized name-certificate flows. Mature exports still require recognized derivation-certificate flows and acceptance gates. Classifier relations remain classifier-level, not kernel equality.
+\end{proof}
+
+\begin{corollary}[Compiler layer is an address-and-analysis layer]
+\label{cor:main-theorems-address-analysis-layer}
+The compiler layer provides lossless event-flow coding, recognizer-mediated structure extraction, certificate-flow tracking, theorem and chapter coding, motif and metric analysis, cannot-claim auditing, and bootstrap accounting. It provides no new mathematical primitives.
+\end{corollary}
+
+\begin{theorem}[No-Hidden-Input Streaming Compiler Theorem]
+\label{thm:main-theorems-no-hidden-input-streaming-compiler}
+There is a formal compiler architecture satisfying all of the following:
+\begin{enumerate}
+\item The only ground input is a finite $\bzero,\bone$-generated event flow.
+\item The channel compiler gives a bijection
+$$
+  \mathsf{EventFlow}\cong((0\mid 10)^{\ast}11)^{\ast}.
+$$
+\item Package, name-certificate, derivation-certificate, acceptance-gate, theorem, chapter, recognizer, compiler, motif, metric, and report structures are not inputs; they are recognized event-flow structures.
+\item Recognizers themselves are certified event flows or explicitly recorded bootstrap obligations.
+\item Mature-object export is mediated only by recognized name-certificate, derivation-certificate, and acceptance-gate flows.
+\item Theorem codes are bijective with canonical theorem flows, not with abstract propositions.
+\item Chapter codes are bijective with canonical chapter flows, not with abstract chapter topics.
+\item Classifier quotient generally destroys raw-code bijection at the object layer; raw ledger must be retained.
+\item Source-level normalization never acts directly on channel bits.
+\item Motif and metric analyses are explanatory and conservative; they do not replace proof or certificate.
+\item Self-hosting compiler flow, if achieved, removes compiler-as-hidden-input up to compiler-behavior classification.
+\item Until self-hosting is achieved, bootstrap boundaries must be explicitly recorded.
+\item The compiler layer is conservative over the BEDC finite kernel.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The first clause follows from the ground event-flow definition. The second follows from \autoref{thm:main-theorems-channel-bijection}. The third follows from \autoref{thm:main-theorems-structure-emergence} and the recognition chapters. The fourth follows from \autoref{thm:main-theorems-recognizer-generatedness}. The fifth follows from \autoref{thm:main-theorems-accepted-export}. The sixth and seventh follow from the theorem-code and chapter-code bijections. The eighth follows from \autoref{thm:main-theorems-classifier-quotient-many-to-one}. The ninth follows from \autoref{thm:main-theorems-source-channel-separation}. The tenth follows from \autoref{thm:main-theorems-motif-analysis} and \autoref{thm:main-theorems-metric-conservativity}. The eleventh follows from \autoref{thm:main-theorems-self-hosting-removes-hidden-compiler}. The twelfth follows from \autoref{cor:main-theorems-declared-bootstrap-boundary}. The final clause follows from \autoref{thm:main-theorems-global-conservativity}.
+\end{proof}
+
+\begin{remark}[Summary]
+\label{rem:main-theorems-summary}
+The only ground input is a $\bzero,\bone$ event flow. Event flows and legal channel streams are in bijection. Higher structures are recognized event-flow structures, not inputs. Theorem codes biject with canonical theorem flows; chapter codes biject with canonical chapter flows. Mature export still requires name-certificate, derivation-certificate, and acceptance-gate flows. Classifier quotients, motif similarity, and metric reports do not replace proof or certificate. The compiler layer is conservative over the BEDC finite kernel.
+\end{remark}
