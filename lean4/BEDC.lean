@@ -105,6 +105,8 @@ import BEDC.Derived.CurvatureUp.ManifoldBaseDependencyRow
 import BEDC.Derived.CurvatureUp.ExportDeterminacy
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
+import BEDC.Derived.DeformQuantizationUp
+import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.KnotUp
@@ -453,6 +455,7 @@ import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
+import BEDC.Derived.FullAxisSealUp
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.SeparabilityObligationRow
