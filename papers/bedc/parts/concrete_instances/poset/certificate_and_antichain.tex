@@ -302,3 +302,37 @@ Since every field is read from $\mathsf{BHist}$, $\hsame$, the comparison
 ledger, and $\NameCert$ provenance, the consumer boundary has no access to a
 host subset quotient or an unrecorded ambient relation.
 \end{proof}
+
+\begin{theorem}[POSet antichain interval consumer exactness]
+\label{thm:poset-antichain-interval-consumer-exactness}
+For a concrete unary-prefix $\POSetUp$ packet, restrict any finite-order or
+functor consumer to the antichain subcarrier $A_C$ and to an interval boundary
+$a\le_C b\le_C c$ with $a,c\in A_C$. The consumer reads exactly the
+prefix-classifier comparison rows of
+\autoref{thm:poset-prefix-classifier-exactness}, transported to the interval
+subcarrier by \autoref{thm:poset-antichain-interval-heredity}, and no further
+order row beyond the public boundary of
+\autoref{thm:poset-antichain-functor-consumer-boundary}.
+\end{theorem}
+\begin{proof}
+Unpack the concrete $\POSetUp$ naming certificate. The visible carrier,
+classifier, comparison ledger, and $\NameCert$ provenance are precisely the
+rows exposed by the unary-prefix packet, so every displayed comparison in the
+interval is a prefix row before any antichain restriction is applied.
+
+Apply \autoref{thm:poset-prefix-classifier-exactness}. It identifies the
+visible comparison rows with the prefix-classifier data carried by the concrete
+$\mathsf{BHist}$ package. Thus the consumer's comparison information is already
+the prefix-classifier surface.
+
+Next apply \autoref{thm:poset-antichain-interval-heredity} to the interval
+$a\le_C b\le_C c$ with antichain endpoints. The middle endpoint is transported
+into the antichain subcarrier, and both endpoint comparisons collapse to the
+same classifier rows.
+
+Finally use \autoref{thm:poset-antichain-functor-consumer-boundary}. It
+exhausts the public readback for finite-order and functor consumers by the
+antichain carrier, inherited classifier, comparison ledger, and $\NameCert$
+provenance. Hence no additional order row remains outside the transported
+prefix-classifier rows.
+\end{proof}
