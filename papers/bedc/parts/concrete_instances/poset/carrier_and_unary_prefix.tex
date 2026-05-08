@@ -565,3 +565,59 @@ The certificate theorem
 those rows as the concrete $\POSetUp$ naming certificate. Hence the ledger is
 fully exhausted by the displayed comparison and endpoint rows.
 \end{proof}
+
+\begin{theorem}[POSet finite-chain endpoint classifier coverage]
+\label{thm:poset-prefix-finite-chain-endpoint-classifier-coverage}
+For the concrete singleton $\POSetUp$ package of
+\autoref{def:concrete-singleton-empty-poset-instance}, let
+$h_0,\ldots,h_n:\mathsf{BHist}$ be a finite guarded chain whose entries are
+carried by $A_{\emp}$ and whose adjacent rows supply
+$h_j\le_{\emp}h_{j+1}$. Then every endpoint pair $h_i,h_j$ with
+$0\le i\le j\le n$ is classified by $\rho_{\emp}$, and every public
+chain-ledger row repacks from carried $\mathsf{BHist}$ endpoints, adjacent
+guarded comparisons, transitive prefix witnesses, and the classifier rows of
+\autoref{thm:singleton-empty-poset-laws}.
+
+The ten-field fit is: downstream target $\OrderUp$ finite interval coverage
+for chains read through the singleton $\POSetUp$ boundary; BEDC source
+$\mathsf{BHist}$; carrier $A_{\emp}$; classifier $\rho_{\emp}$; relation
+$\le_{\emp}$; stability from singleton carrier transport, guarded-prefix
+transitivity, and antisymmetry exactness; ledger adjacent comparisons plus
+endpoint classifiers; core theorem this finite-chain endpoint coverage
+statement; exactness classifier repacking from
+\autoref{thm:singleton-empty-poset-laws}; standard bridge the singleton
+finite interval seen by $\TotalOrderUp$ and $\OrderUp$ consumers; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on the finite guarded chain. In the one-endpoint case, the carried row
+$A_{\emp}(h_0)$ is a singleton carrier row. Apply
+\autoref{thm:singleton-empty-poset-laws} to obtain the reflexive guarded
+comparison, the endpoint classifier $\rho_{\emp}(h_0,h_0)$, and the exactness
+row that reads this classifier as the public singleton ledger entry.
+
+For the step, suppose the prefix ending at $h_m$ already has endpoint
+classifier coverage and append the adjacent guarded comparison
+$h_m\le_{\emp}h_{m+1}$. The singleton laws keep $h_{m+1}$ inside $A_{\emp}$ and
+classify the adjacent endpoint pair through $\rho_{\emp}$.
+
+Now take any earlier endpoint $h_i$. The induction hypothesis supplies the
+endpoint comparison from $h_i$ to $h_m$ and the classifier row for that pair.
+Compose this comparison with $h_m\le_{\emp}h_{m+1}$ by transitivity in
+\autoref{thm:singleton-empty-poset-laws}. Apply
+\autoref{thm:poset-singleton-empty-terminal-interval-collapse} to the triple
+$h_i,h_m,h_{m+1}$, and use
+\autoref{thm:poset-prefix-chain-collapse} to read the resulting endpoint
+comparison as the singleton classifier $\rho_{\emp}(h_i,h_{m+1})$.
+
+It remains to identify the public ledger row. The induction data provide the
+carried $\mathsf{BHist}$ endpoints and all adjacent guarded comparisons, while
+the preceding paragraph supplies the transitive endpoint witnesses and
+classifier rows for the newly exposed endpoint pairs. Repack the pairwise rows
+by \autoref{thm:poset-prefix-ledger-row-exhaustion}, and then apply
+\autoref{thm:poset-singleton-ledger-exhaustion} to rule out any additional
+total-order, lattice, quotient, host-order, or non-singleton carrier field.
+Thus the whole finite chain is covered by the concrete singleton endpoint
+classifier package that downstream $\TotalOrderUp$ and $\OrderUp$ consumers
+cite.
+\end{proof}
