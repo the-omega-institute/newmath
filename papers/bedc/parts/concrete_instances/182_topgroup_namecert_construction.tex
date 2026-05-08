@@ -6,5 +6,114 @@ The topological-group interface $\TopGroupUp$ packages a group carrier with a to
 \section{Carrier definition}
 \label{sec:topgroup-carrier}
 
+\begin{definition}[Topological group BHist carrier]
+\label{def:topgroup-bhist-carrier}
+A $\mathsf{TopGroupBHistCarrier}$ is a $\mathsf{BHist}$ package with the
+following displayed rows:
+\begin{enumerate}
+  \item a $\GroupUp$ carrier row $G$ with classifier $\sim_G$, unit $e_G$,
+  multiplication $\cdot_G$, and inverse $(-)^{-1}_G$;
+  \item a $\TopologyUp$ open-neighbourhood row $\mathcal{O}_G$ on the same
+  carried endpoints and the same classifier;
+  \item a continuity ledger
+  $\mathsf{Cont}_{\mathcal{O}_G\times\mathcal{O}_G,\mathcal{O}_G}(\cdot_G)$
+  for multiplication;
+  \item a continuity ledger
+  $\mathsf{Cont}_{\mathcal{O}_G,\mathcal{O}_G}((-)^{-1}_G)$ for inversion.
+\end{enumerate}
+The package carries no host quotient, external equality, or topology outside the
+displayed $\mathsf{BHist}$ rows.
+\end{definition}
+
+\begin{definition}[Topological group BHist classifier]
+\label{def:topgroup-bhist-classifier}
+For $\mathsf{TopGroupBHistCarrier}$ packages $X$ and $Y$, the classifier
+$\mathsf{TopGroupBHistClassifier}(X,Y)$ holds when the underlying carried
+endpoints are matched by $\hsame$, the $\GroupUp$ rows are matched by the group
+classifier, the $\TopologyUp$ open-neighbourhood rows are matched by the topology
+classifier, and the multiplication and inversion continuity ledgers are
+transported across those same endpoint and row classifiers.
+\end{definition}
+
 \section{The certificate}
 \label{sec:topgroup-certificate}
+
+\begin{theorem}[Topological group obligation surface]
+\label{thm:topgroup-obligation-surface}
+For a $\mathsf{TopGroupBHistCarrier}$ package, the $\TopGroupUp$ obligation
+surface consists exactly of the displayed $\GroupUp$ carrier and operation rows,
+the displayed $\TopologyUp$ open-neighbourhood row, the shared carrier
+classifier, the multiplication continuity ledger, the inversion continuity
+ledger, and the $\NameCert$ provenance for the group and topology source
+certificates. No additional host-level carrier, host topology, or equality
+relation is exposed to downstream consumers.
+\end{theorem}
+\begin{proof}
+Unpack Definition~\ref{def:topgroup-bhist-carrier}. Its first row is precisely
+the $\GroupUp$ source surface, including carried endpoints, classifier, unit,
+multiplication, inverse, and the group laws already certified by
+$\NameCert_{\GroupUp}$.
+
+Its second row is the $\TopologyUp$ source surface on the same carried endpoints
+and classifier. This identifies the open-neighbourhood reads used by
+$\mathsf{Cont}$ with the carrier reads used by the group operations.
+
+The remaining two rows are the only operation-topology compatibility clauses:
+continuity of multiplication and continuity of inversion. Repacking these rows
+with the two source certificates gives the listed $\TopGroupUp$ obligation
+surface, and every listed field is read from the displayed $\mathsf{BHist}$
+package.
+\end{proof}
+
+\begin{theorem}[Topological group multiplication continuity stability]
+\label{thm:topgroup-continuous-multiplication-stability}
+If $\mathsf{TopGroupBHistClassifier}(X,Y)$ holds for two
+$\mathsf{TopGroupBHistCarrier}$ packages and $X$ carries the multiplication
+continuity ledger
+$\mathsf{Cont}_{\mathcal{O}_X\times\mathcal{O}_X,\mathcal{O}_X}(\cdot_X)$,
+then $Y$ carries
+$\mathsf{Cont}_{\mathcal{O}_Y\times\mathcal{O}_Y,\mathcal{O}_Y}(\cdot_Y)$.
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:topgroup-bhist-classifier}. The classifier supplies
+the $\hsame$ transport between carried endpoints, the $\GroupUp$ classifier
+between multiplication rows, and the $\TopologyUp$ classifier between the
+open-neighbourhood rows.
+
+Read the source continuity ledger in $X$ at a displayed pair of neighbourhood
+inputs. Transport the two input neighbourhood rows and the output neighbourhood
+row along the topology classifier, and transport the multiplication output along
+the group-operation classifier.
+
+The $\mathsf{Cont}$ stability row is formulated only in terms of these carried
+endpoint, neighbourhood, and operation reads. After the transports, the same
+ledger witnesses continuity for $\cdot_Y$, so it repacks as the multiplication
+continuity row of $Y$.
+\end{proof}
+
+\begin{theorem}[Topological group inversion continuity boundary]
+\label{thm:topgroup-inversion-continuity-boundary}
+If $\mathsf{TopGroupBHistClassifier}(X,Y)$ holds for two
+$\mathsf{TopGroupBHistCarrier}$ packages and $X$ carries the inversion
+continuity ledger
+$\mathsf{Cont}_{\mathcal{O}_X,\mathcal{O}_X}((-)^{-1}_X)$, then $Y$ carries
+$\mathsf{Cont}_{\mathcal{O}_Y,\mathcal{O}_Y}((-)^{-1}_Y)$. The boundary uses
+only the displayed $\mathsf{Cont}$, $\hsame$, $\NameCert_{\GroupUp}$, and
+$\NameCert_{\TopologyUp}$ rows.
+\end{theorem}
+\begin{proof}
+Unfold the classifier. It identifies the endpoint carrier rows by $\hsame$,
+matches the inverse operation rows through the $\GroupUp$ classifier, and matches
+the open-neighbourhood rows through the $\TopologyUp$ classifier.
+
+Fix an input neighbourhood read for $Y$. Transport it back across the topology
+classifier to the corresponding read for $X$, apply the inversion continuity
+ledger of $X$, and transport the resulting output neighbourhood read forward to
+$Y$.
+
+The inverse-output endpoint is transported by the group classifier and the
+surrounding neighbourhood read is transported by the topology classifier. These
+are exactly the inputs required by the displayed $\mathsf{Cont}$ row, so the
+inversion continuity ledger is stable under the
+$\mathsf{TopGroupBHistClassifier}$.
+\end{proof}
