@@ -1,11 +1,26 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.4 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.5 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
-## Multi-target round emission
+## Multi-target round emission (HARD GATE — minimum 5 candidates)
 
-This phase now emits up to **5 distinct targets per round** (not just `targets[0]`). Phase Revise loops over `targets[*]` and applies each independently. To take advantage of this, populate the `targets` array with the top 5 valid candidates from `candidate_pool` (`selection_rank` 1..5). Drop any rank ≥ 2 candidate that fails the feasibility / dedup / dogpile filters; emit only the survivors.
+This phase emits **between min(5, available) and 5 targets per round**, NEVER just 1. Phase Revise loops over `targets[*]` and applies each independently.
+
+**HARD GATE — minimum candidate enumeration**: Before emitting, you MUST construct a `candidate_pool` of size **at least 5** (covering distinct kinds: drift sync, bridge sync, closure_mark rotation, theory_extension, missing_companion, etc). Sources to enumerate:
+
+1. `critical_path.bridge_sync_pending[*]` — every entry is a valid candidate (1-3 line edits).
+2. `critical_path.drift_chapters[0..9]` — every entry with non-empty `objective_formal_grade > formal_grade_token` is a candidate.
+3. `critical_path.top_transitions.*` — each rotation transition has 5+ candidates.
+4. `critical_path.top_root_unblocks[0..4]` — root chapters needing theorems.
+5. `critical_path.top[0..9]` — open horizon chapters.
+6. Theory_extension on any chapter file — paper labels without companion theorems.
+
+If after enumerating sources 1-6 the candidate_pool is **still < 5**, then the repo has genuinely run dry on paper-side work and emitting fewer is OK — but you MUST justify in `notes` (e.g. "only 3 candidates: bridge_sync_pending=2 ContinuousUp/PdeUp, drift=1 banach; transitions all empty; theory_extension exhausted").
+
+**HARD GATE — emit ≥ 2 targets when candidate_pool ≥ 5**: do NOT emit just `targets[0]` if the pool has 5+ candidates. Emit `targets[0..4]` (top 5 by selection_rank). The Phase Revise loop will skip dedup-dropped targets but apply the rest.
+
+**HARD GATE — never empty-skip on partial dedup**: if Phase Revise's dedup drops some targets but ≥ 1 survives, the round MUST still run revise on the surviving targets. Current behavior of "1 target dropped → review reports empty round → skip revise entirely" wastes the round; fix by always emitting 5 candidates so dedup can never empty the queue.
 
 Constraints when emitting >1 target:
 
