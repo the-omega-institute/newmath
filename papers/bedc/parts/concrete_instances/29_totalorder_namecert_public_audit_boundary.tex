@@ -1,0 +1,148 @@
+\section{Public audit boundary}
+\label{sec:totalorder-orderup-public-audit-boundary}
+
+\begin{definition}[TotalOrder OrderUp public audit carrier]
+\label{def:totalorder-orderup-public-audit-carrier}
+The public audit carrier for the unary-prefix $\TotalOrderUp$ to $\OrderUp$
+surface is the carried endpoint predicate on $\mathsf{BHist}$ supplied by
+$\mathsf{Carrier}_{\mathsf{u}}$. Its classifier is the unary classifier
+$\rho_{\mathsf{u}}$, and its comparison relation is
+$\le_{\mathsf{u}} := \mathsf{PreorderPrefixLE}$. Thus every public audit row is
+anchored in carried $\mathsf{BHist}$ endpoints, not in a host order on natural
+numbers.
+\end{definition}
+
+\begin{theorem}[TotalOrder OrderUp public audit classifier]
+\label{thm:totalorder-orderup-public-audit-classifier}
+For carried unary endpoints $h,k:\mathsf{BHist}$ in
+$\mathsf{Carrier}_{\mathsf{u}}$, classifier transport for the public audit
+surface is read from
+\autoref{thm:concrete-unary-prefix-totalorder-branch-transport}, and
+antisymmetry is read from
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}. Hence the
+public classifier row is exactly $\rho_{\mathsf{u}}(h,k)$ together with its
+transport through the three constructive comparison branches.
+
+The ten-field fit is: downstream target the public $\OrderUp$ audit surface;
+BEDC source $\mathsf{BHist}$; carrier $\mathsf{Carrier}_{\mathsf{u}}$;
+classifier $\rho_{\mathsf{u}}$; relation $\le_{\mathsf{u}}$; stability branch
+transport; ledger selected comparison branch; core theorem this classifier
+audit row; exactness opposing-prefix antisymmetry from the comparison
+partition; standard bridge finite unary words; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Fix carried endpoints $h,k$ and a classifier replacement along
+$\rho_{\mathsf{u}}$. Apply
+\autoref{thm:concrete-unary-prefix-totalorder-branch-transport}. It transports
+the strict-left, same, and strict-right branch rows across the replacement,
+so the public comparison branch remains a row over the carried endpoints.
+
+Now read antisymmetry from
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}. The same
+branch is $\rho_{\mathsf{u}}(h,k)$, while opposing prefix comparisons exclude
+the two strict branches and recover the middle classifier row.
+
+Combining these two cited rows gives the audit classifier boundary. The
+transport datum is branch transport, and the exactness datum is precisely the
+middle branch selected by the comparison partition.
+\end{proof}
+
+\begin{theorem}[TotalOrder OrderUp public constructive comparison]
+\label{thm:totalorder-orderup-public-audit-constructive-comparison}
+Every carried pair $h,k:\mathsf{BHist}$ in
+$\mathsf{Carrier}_{\mathsf{u}}$ exposes exactly one constructive comparison
+branch for the public $\OrderUp$ export: a strict unary prefix from $h$ to $k$,
+the classifier row $\rho_{\mathsf{u}}(h,k)$, or a strict unary prefix from $k$
+to $h$. This is the comparison datum consumed by
+\autoref{thm:orderup-unary-prefix-public-export}.
+
+The ten-field fit is: downstream target constructive $\OrderUp$ comparison;
+BEDC source $\mathsf{BHist}$; carrier $\mathsf{Carrier}_{\mathsf{u}}$;
+classifier $\rho_{\mathsf{u}}$; relation $\le_{\mathsf{u}}$; stability branch
+transport; ledger selected branch; core theorem this constructive comparison
+row; exactness the unique active branch; standard bridge finite unary-word
+comparison; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} to
+the carried pair $h,k$. The theorem supplies the three branch rows directly
+over unary $\mathsf{BHist}$ endpoints and states their incompatibility.
+
+The public export of \autoref{thm:orderup-unary-prefix-public-export} reads
+the same carrier, classifier, and relation. Therefore the selected branch from
+the comparison partition is already the branch consumed by the public
+$\OrderUp$ surface.
+
+It remains to identify uniqueness at the audit boundary. Since the partition
+excludes every second branch and does not mention a host order, the public row
+is constructive branch data rather than classical trichotomy.
+\end{proof}
+
+\begin{theorem}[TotalOrder OrderUp public ledger exactness]
+\label{thm:totalorder-orderup-public-audit-ledger-exactness}
+The public $\OrderUp$ audit ledger is exhausted by carried
+$\mathsf{BHist}$ endpoints, the selected constructive branch witness,
+classifier transport, and finite interval rows. Its finite rows are the rows
+named by \autoref{thm:unary-prefix-orderup-ledger-obligation} and
+\autoref{thm:orderup-exactness-ledger-scope}; no host order, quotient row, or
+classical trichotomy row is part of the public ledger.
+
+The ten-field fit is: downstream target public $\OrderUp$ ledger exactness;
+BEDC source $\mathsf{BHist}$; carrier $\mathsf{Carrier}_{\mathsf{u}}$;
+classifier $\rho_{\mathsf{u}}$; relation $\le_{\mathsf{u}}$; stability finite
+branch transport; ledger carried endpoints, branch witness, classifier row,
+and interval rows; core theorem this ledger exactness boundary; exactness
+finite $\Cont$ exhaustion; standard bridge finite unary-word intervals; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Start with the public carrier and comparison branch from
+\autoref{thm:orderup-unary-prefix-public-export}. The export supplies
+$\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and
+$\le_{\mathsf{u}}$, and the preceding theorem identifies the selected
+comparison branch as constructive unary-prefix data.
+
+Next apply \autoref{thm:unary-prefix-orderup-ledger-obligation}. It records
+the finite $\Cont$ rows attached to carried endpoints and the selected branch.
+Apply \autoref{thm:orderup-exactness-ledger-scope} to confine exactness to
+those finite rows.
+
+The cited rows account for every exported ledger component: endpoints, branch
+witness, classifier transport, and interval data. Since none of the cited
+rows introduces host order, quotient equality, or classical trichotomy, no
+such row is available at the audit boundary.
+\end{proof}
+
+\begin{theorem}[TotalOrder public bridge boundary]
+\label{thm:totalorder-public-bridge-boundary}
+The public $\TotalOrderUp$ surface supplies the $\OrderUp$ phase boundary
+through the unary-prefix package of
+\autoref{thm:unary-prefix-orderup-phase-exit-package} and the public export of
+\autoref{thm:orderup-unary-prefix-public-export}. It does not claim
+$\RealUp$ completeness, classical trichotomy, host equality, or any bridge
+beyond the finite unary-word surface stated in
+\autoref{thm:orderup-unary-prefix-standard-bridge-boundary}.
+
+The ten-field fit is: downstream target $\OrderUp$ phase boundary; BEDC source
+$\mathsf{BHist}$; carrier $\mathsf{Carrier}_{\mathsf{u}}$; classifier
+$\rho_{\mathsf{u}}$; relation $\le_{\mathsf{u}}$; stability branch transport
+and endpoint exactness; ledger finite unary rows; core theorem this public
+bridge boundary; exactness public ledger exhaustion; standard bridge finite
+unary words only; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Read the phase package from
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. It supplies the
+carrier, classifier, relation, comparison, interval, endpoint, and exactness
+rows required for the $\OrderUp$ phase boundary.
+
+Read the public export from \autoref{thm:orderup-unary-prefix-public-export}.
+It repacks the same rows as the public $\OrderUp$ surface, and
+\autoref{thm:totalorder-orderup-public-audit-ledger-exactness} identifies the
+available ledger data.
+
+Finally apply \autoref{thm:orderup-unary-prefix-standard-bridge-boundary}. The
+standard reading is finite unary-word data only. Thus the public boundary
+does not add $\RealUp$ completeness, classical trichotomy, host equality, or a
+larger bridge claim.
+\end{proof}
