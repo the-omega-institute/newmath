@@ -6,5 +6,76 @@ The Dirichlet-unit interface $\DirichletUnitUp$ packages the structure of the un
 \section{Carrier definition}
 \label{sec:dirichletunit-carrier}
 
+\begin{definition}[DirichletUnit unit-row carrier packet]
+\label{def:dirichletunit-unit-row-carrier}
+A $\DirichletUnitUp$ carrier packet is a displayed $\mathsf{BHist}$ tuple
+$$
+\mathcal{U}=(\mathcal{O},\mathcal{A},u,v,uv,vu,r_1,r_2,r,\pi)
+$$
+where $\mathcal{O}$ is a $\NameCert_{\RingOfIntegersUp}$ dependency certificate, $\mathcal{A}$ is a $\NameCert_{\AbGroupUp}$ dependency certificate, $u:\mathsf{BHist}$ is the visible unit row, $v:\mathsf{BHist}$ is the inverse row, $uv:\mathsf{BHist}$ and $vu:\mathsf{BHist}$ are the displayed product endpoint rows, $r_1,r_2,r:\mathsf{BHist}$ are rank ledger rows, and $\pi$ records the $\mathsf{Pkg}$ provenance for the dependency and unit rows.
+
+The packet is accepted only when the $\RingOfIntegersUp$ classifier admits the ring-of-integers source, the $\AbGroupUp$ classifier admits the visible unit-group row, and the displayed $\Cont$ ledgers witness $u \cdot v$ and $v \cdot u$ as the two multiplicative unit endpoints read inside the same dependency package.
+\end{definition}
+
+\begin{theorem}[DirichletUnit AbGroup dependency scope]
+\label{thm:dirichletunit-abgroup-dependency-scope}
+Every accepted carrier packet of \autoref{def:dirichletunit-unit-row-carrier} projects to the $\AbGroupUp$ carrier, classifier, inverse, identity, and finite-generation rows consumed by the visible unit group. These projections are transported through the inherited $\NameCert_{\AbGroupUp}$ classifier and remain tied to the same $\mathsf{Pkg}$ provenance row.
+\end{theorem}
+\begin{proof}
+Unpack the carrier packet. The second component $\mathcal{A}$ is the displayed $\NameCert_{\AbGroupUp}$ dependency certificate, so its tuple projections give the carrier, classifier, inverse, identity, and finite-generation rows used by the visible unit-group row.
+
+The rows $u$, $v$, $uv$, and $vu$ are not external witnesses: they are accepted only under the $\AbGroupUp$ classifier carried by $\mathcal{A}$. Transport along that classifier and along the package provenance $\pi$ preserves the same source scope.
+
+Repacking the projected rows gives exactly the dependency surface consumed by $\DirichletUnitUp$. No additional group operation or host-level abelian group is introduced beyond the dependency certificate already displayed in the packet.
+\end{proof}
+
+\begin{theorem}[DirichletUnit ring-of-integers unit ledger]
+\label{thm:dirichletunit-ringofintegers-unit-ledger}
+Every accepted unit row in a packet of \autoref{def:dirichletunit-unit-row-carrier} carries both a left-inverse and a right-inverse product ledger inside the $\RingOfIntegersUp$ source. The endpoint rows $uv$ and $vu$ are stable under $\hsame$ transport and under $\Cont$ reassociation because the same dependency certificate transports the source rows, inverse row, and multiplicative unit endpoints together.
+\end{theorem}
+\begin{proof}
+Project the first dependency component $\mathcal{O}$. It supplies the ring-of-integers source classifier and the multiplication rows in which the visible unit row $u$ and inverse row $v$ are read.
+
+The carrier definition requires two displayed product endpoint rows. The row $uv$ records the finite $\Cont$ ledger for $u \cdot v$, and the row $vu$ records the finite $\Cont$ ledger for $v \cdot u$; both endpoints are read as multiplicative units in the same $\RingOfIntegersUp$ source.
+
+If $u$, $v$, or an endpoint row is replaced by an $\hsame$-classified row, the dependency certificate transports the source classifier and the product ledger together. Reassociation of the finite continuation changes only the ledger presentation, so the accepted unit row still carries both inverse endpoints inside the same source.
+\end{proof}
+
 \section{The certificate}
 \label{sec:dirichletunit-certificate}
+
+\begin{theorem}[DirichletUnit rank ledger obligation]
+\label{thm:dirichletunit-rank-ledger-obligation}
+In a packet of \autoref{def:dirichletunit-unit-row-carrier}, the displayed rows $r_1$, $r_2$, and $r$ are ledger data only. The row $r$ is read as the certified rank row $r_1+r_2-1$ consumed by $\AbGroupUp$, with no host-level integer rank, archimedean place count, or analytic embedding assumed by the $\DirichletUnitUp$ carrier.
+\end{theorem}
+\begin{proof}
+Project the three rank rows from the packet. They are listed beside the unit and inverse rows as $\mathsf{BHist}$ ledger entries, so the carrier reads them only through the same $\NameCert$ and $\mathsf{Pkg}$ provenance discipline.
+
+The $\AbGroupUp$ dependency consumes $r$ as the finite-generation rank row for the visible unit group. The relation to $r_1$ and $r_2$ is the displayed ledger readback $r_1+r_2-1$, not an assertion about external integer arithmetic or embeddings of a number field.
+
+Classifier transport preserves this reading because it transports the ledger rows and the dependency certificate together. Thus rank readback is part of the visible certificate surface, while analytic rank content remains outside the carrier.
+\end{proof}
+
+\begin{theorem}[DirichletUnit visible unit coverage]
+\label{thm:dirichletunit-visible-unit-coverage}
+Every exported $\DirichletUnitUp$ witness is one of the dependency certificates, the visible unit and inverse rows, the product endpoint rows, the rank ledger rows, the classifier transport rows, or the $\mathsf{Pkg}$ provenance rows of \autoref{def:dirichletunit-unit-row-carrier}. Conversely, exactly those rows repack as the visible certificate surface over $\NameCert_{\RingOfIntegersUp}$ and $\NameCert_{\AbGroupUp}$.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier packet. Tuple projection exposes precisely the two dependency certificates, $u$, $v$, $uv$, $vu$, the three rank rows, and the provenance row $\pi$.
+
+The transport rows are generated by the accepted classifiers of the two dependency certificates together with $\hsame$ and finite $\Cont$ ledgers. Therefore every exported witness has one of the displayed roles in the packet or is a classifier transport of such a row.
+
+Conversely, given exactly these rows with the stated dependency admissions and continuation ledgers, the tuple $\mathcal{U}$ can be repacked and accepted by \autoref{def:dirichletunit-unit-row-carrier}. This repacking is the visible $\DirichletUnitUp$ certificate surface.
+\end{proof}
+
+\begin{theorem}[DirichletUnit certificate exactness boundary]
+\label{thm:dirichletunit-certificate-exactness-boundary}
+The $\NameCert_{\DirichletUnitUp}$ obligation surface is exactly the carrier, classifier, stability, ledger, coverage, and rank-readback surface over $\NameCert_{\RingOfIntegersUp}$ and $\NameCert_{\AbGroupUp}$ described in \autoref{def:dirichletunit-unit-row-carrier}, \autoref{thm:dirichletunit-abgroup-dependency-scope}, \autoref{thm:dirichletunit-ringofintegers-unit-ledger}, \autoref{thm:dirichletunit-rank-ledger-obligation}, and \autoref{thm:dirichletunit-visible-unit-coverage}. It does not claim a standard bridge, analytic logarithmic embedding, regulator theorem, or classical Dirichlet unit theorem.
+\end{theorem}
+\begin{proof}
+Assemble the carrier definition with the four displayed obligation rows. The carrier packet fixes the source dependencies and visible unit rows; the dependency-scope theorem gives the consumed $\AbGroupUp$ surface; the unit-ledger theorem gives the two inverse product ledgers inside $\RingOfIntegersUp$.
+
+The rank obligation identifies the only rank data available to the certificate, and the coverage theorem shows that all exported witnesses are generated by those displayed rows. Together these clauses supply the carrier, classifier, stability, ledger, coverage, and rank-readback fields of the naming certificate.
+
+Nothing in the assembled surface exports an analytic logarithmic embedding, a regulator determinant, a standard bridge, or the classical Dirichlet unit theorem. Those objects therefore cannot be projected from $\NameCert_{\DirichletUnitUp}$ without an additional certificate.
+\end{proof}
