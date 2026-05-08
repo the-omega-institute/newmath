@@ -176,6 +176,48 @@ exactness preservation of pointwise RatUp classification; standard bridge
 finite-window tail observation for RegSeqRat and RealUp; status paper theorem
 awaiting formal target.
 
+\begin{theorem}[Rational stream-name finite-window subwindow restriction]
+\label{thm:rat-stream-name-finite-window-subwindow-restriction}
+For certified observation maps $s,t:\Hist\to\Hist$ and probe bundles
+$\mathcal{P},\mathcal{Q}:\mathsf{ProbeBundle}$, suppose that
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$ holds and that
+every certified unary observation displayed by $\mathcal{Q}$ is also displayed
+by $\mathcal{P}$:
+$$
+\forall n,\ \mathsf{InBundle}(\mathcal{Q},n)\land\mathsf{UnaryHistory}(n)
+\to
+\mathsf{InBundle}(\mathcal{P},n)\land\mathsf{UnaryHistory}(n).
+$$
+Then $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{Q})$ holds.
+\end{theorem}
+\begin{proof}
+Unfold the finite-window classifier. To certify the $\mathcal{Q}$ window, fix a
+bundled observation $n$ together with its $\mathsf{InBundle}(\mathcal{Q},n)$ row
+and its $\mathsf{UnaryHistory}(n)$ witness.
+
+The displayed inclusion row sends this same certified unary observation into the
+$\mathcal{P}$ window. The original
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$ can therefore be
+read at $n$.
+
+Projecting that read gives the pointwise RatUp classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$. Since the choice of the
+$\mathcal{Q}$ observation was arbitrary, these projected point classifiers
+repack into $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{Q})$.
+\end{proof}
+
+Ten-field fit: traditional target finite rational stream observation windows
+for RegSeqRat and RealUp; BEDC source RatUp, StreamNameUp, $\mathsf{BHist}$,
+$\mathsf{UnaryHistory}$, and $\mathsf{ProbeBundle}$; carrier the endpoint
+$\mathsf{RatStreamNameCarrier}$ rows already read by the finite window;
+classifier $\mathsf{RatStreamNameFiniteWindowClassifier}$; stability subwindow
+restriction along the displayed probe inclusion; ledger the two bundle
+membership rows and the unary observation certificate; core theorem
+\autoref{thm:rat-stream-name-finite-window-subwindow-restriction}; exactness
+pointwise projection to $\mathsf{RatHistoryClassifier}$; standard bridge finite
+prefix consumers in RegSeqRat and RealUp; status paper theorem awaiting formal
+target.
+
 \begin{theorem}[Rational stream-name classifier unary context one-tail pair readback]
 \label{thm:rat-streamname-classifier-unary-context-e1-pair-readback}
 If $\mathsf{RatStreamNameClassifier}(s,t)$ holds at a unary observation $n$,
