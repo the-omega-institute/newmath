@@ -120,3 +120,47 @@ and norm ledger, and \autoref{thm:quantumstate-provenance-row-exactness}
 preserves the finite package boundary. Therefore the consumer readback is
 unchanged under certified global-phase transport.
 \end{proof}
+
+\begin{theorem}[QuantumStateUp phase-provenance scoped readback]
+\label{thm:quantumstate-phase-provenance-scoped-readback}
+Every $\ObservableUp$, $\DensityMatrixUp$, or $\QuantumChannelUp$ consumer
+row reading $\NameCert_{\QuantumStateUp}$ has a unique scoped
+$\mathsf{BHist}$ read surface. This surface consists exactly of the Hilbert
+source row $\mathcal{H}$, projective endpoint row $p$, global-phase
+classifier $\phi$, norm ledger $n$, package provenance $\rho$, and the
+inherited Hilbert and projective classifier witnesses $\lambda_H,\lambda_P$
+from the carrier
+$$
+\mathcal{Q}=(\mathcal{H},\mathcal{P},v,n,\phi,p,\lambda_H,\lambda_P,\rho)
+$$
+of \autoref{def:quantumstate-bhist-carrier}. Conversely, these rows
+reconstruct the same consumer-visible projective phase classifier and
+exclude observable, density-matrix, channel, spectral,
+host-vector-equality, and quotient rows from the scoped readback surface.
+\end{theorem}
+\begin{proof}
+Begin with the provenance boundary. By
+\autoref{thm:quantumstate-provenance-row-exactness}, the BEDC source
+$\mathsf{BHist}$ packet carried by $\rho$ is exactly the finite package
+surface of $\mathcal{Q}$: the carrier is
+$\mathsf{QuantumStateBHistCarrier}$, the classifier and projective phase row
+are $\phi$ together with $\lambda_P$, stability is read through $\hsame$,
+and the ledger is packaged by $\mathsf{Pkg}$.
+
+Next apply \autoref{thm:quantumstate-phase-ledger-exhaustion}. It identifies
+all phase and hidden-classifier rows available to a consumer with the
+displayed rows $\phi,n,\lambda_H,\lambda_P$ and the endpoint transport
+governed by $\hsame$. Thus the Hilbert and projective classifier witnesses
+are not extra public objects; they are the inherited witnesses needed to
+read the projective phase classifier.
+
+Finally use \autoref{thm:quantumstate-consumer-readback-completeness}. For
+each downstream consumer, the per-object template is the same: the source
+is the $\mathsf{BHist}$ packet above, the carrier is
+$\mathsf{QuantumStateBHistCarrier}$, the classifier is the projective phase
+row, stability is by $\hsame$, the ledger is by $\mathsf{Pkg}$ provenance,
+and the downstream readers are $\ObservableUp$, $\DensityMatrixUp$, and
+$\QuantumChannelUp$. These three consumers therefore see exactly the same
+projective phase classifier and no observable, density-matrix, channel,
+spectral, host-vector-equality, or quotient row outside the scoped surface.
+\end{proof}
