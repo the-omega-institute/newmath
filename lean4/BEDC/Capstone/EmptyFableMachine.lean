@@ -354,4 +354,20 @@ theorem fable_ledger_unique_up_to_hsame :
   intro h k xs lh lk
   exact trace_same_marks_hsame lh lk
 
+/-- Capstone synthesis: every Hist is exactly its finite fable ledger. The
+three pieces of data are equivalent — Hist value, trace, and ledger — with
+selector witnesses exposed at every multi-branch step. No global chooser,
+no observer-substance, no truth oracle. -/
+theorem empty_fable_synthesis :
+    ∀ h : BHist, ∃ xs : List BMark, FableLedger h xs := by
+  intro h
+  exact trace_exists h
+
+theorem empty_fable_synthesis_unique :
+    ∀ {h k : BHist}, (∀ xs : List BMark, FableLedger h xs → FableLedger k xs) →
+      ∀ xs : List BMark, FableLedger h xs → hsame h k := by
+  intro h k forward xs lh
+  have lk : FableLedger k xs := forward xs lh
+  exact fable_ledger_unique_up_to_hsame lh lk
+
 end BEDC.Capstone.EmptyFableMachine
