@@ -151,6 +151,7 @@ import BEDC.Derived.SymGroupUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.ProjectiveSpaceUp
 import BEDC.Derived.ProjectiveVarUp
+import BEDC.Derived.AffineSpaceUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
 import BEDC.Derived.ProdUp.SourceMonotonicity
@@ -171,6 +172,7 @@ import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.ContactUp
+import BEDC.Derived.ConnectionUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.RealAlgOrderUp
 import BEDC.Derived.SymplecticUp

@@ -6,6 +6,165 @@ The bilinear-form interface $\BilinFormUp$ packages a bilinear pairing on a modu
 \section{Carrier definition}
 \label{sec:bilinform-carrier}
 
+\begin{definition}[BilinForm module-pairing source row]
+\label{def:bilinform-module-pairing-source-row}
+The $\BilinFormUp$ BEDC source row is the paired source
+$\NameCert_{\ModuleUp}\times\NameCert_{\VecSpaceUp}$ together with a displayed
+pairing endpoint row. Its module side supplies the additive carrier, zero
+row, additive inverse row, and scalar-action rows. Its vector-space side
+supplies the scalar-field carrier and the vector classifier used to read
+linear endpoints. The pairing endpoint is a $\mathsf{BHist}$ row
+$\beta(x,y)$ packaged by $\Pkg$ with provenance from the two input carrier
+rows, the scalar endpoint row, a $\mathsf{ProbeBundle}$ recording the visible
+input probes, and the ledger entry that names the pairing operation.
+
+The public BilinForm carrier is therefore not a host function type. It is the
+visible package of two source histories, one scalar-valued endpoint history,
+and the $\mathsf{BHist}$ ledger that records how the endpoint was obtained
+from the certified module and vector-space sources.
+\end{definition}
+
+\begin{theorem}[BilinForm pairing classifier row]
+\label{thm:bilinform-pairing-classifier-row}
+For two $\BilinFormUp$ pairing rows over the source of
+\autoref{def:bilinform-module-pairing-source-row}, equality of public pairing
+classifiers is displayed as $\hsame$ on the two endpoint histories together
+with common package provenance. Concretely, the classifier compares the
+source module row, the source vector-space row, the two input carrier rows,
+the scalar endpoint row, and the $\Pkg$ token that records the pairing
+ledger. No host-level equality of bilinear maps is part of the classifier.
+\end{theorem}
+\begin{proof}
+Unpack the source row. Each public pairing entry consists of two input
+histories, one scalar endpoint history, one $\mathsf{ProbeBundle}$ of visible
+input probes, and a package token whose provenance names the module and
+vector-space sources.
+
+The forward comparison is the displayed $\hsame$ comparison on these
+histories. The common package provenance fixes the source certificates and the
+pairing ledger, so the two endpoint rows are compared inside the same BEDC
+surface rather than by an external function equality.
+
+Conversely, given the $\hsame$ endpoint comparison and the common package
+provenance, repack the two source histories, the probe bundle, and the
+endpoint row into the public classifier. The resulting witness is exactly the
+classifier equality claimed in the statement.
+\end{proof}
+
+\begin{theorem}[BilinForm bilinearity transport row]
+\label{thm:bilinform-bilinearity-transport-row}
+For a carried $\BilinFormUp$ pairing row, additive transport in each input and
+scalar-action transport in each input are inherited from the
+$\NameCert_{\ModuleUp}$ and $\NameCert_{\VecSpaceUp}$ sources. If the module
+source transports $x_0,x_1,y_0,y_1$ through its additive rows and the
+vector-space source transports scalar actions through its scalar rows, then
+the pairing endpoint rows transport through the scalar endpoint classifier by
+the corresponding $\hsame$ package route.
+\end{theorem}
+\begin{proof}
+Project the additive rows from the module source. They give the displayed
+histories for addition, zero, and inverse on each input row, with carrier
+transport stated in the module classifier.
+
+Project the scalar-action rows from the vector-space source. These rows state
+how a scalar history acts on a vector history and how that action transports
+through the source classifier.
+
+Now apply the pairing ledger to the transported input rows. The ledger names
+the same pairing operation and the same scalar endpoint package, so the
+transported endpoint is related to the original endpoint by $\hsame$. Repack
+that endpoint comparison as the BilinForm pairing classifier of
+\autoref{thm:bilinform-pairing-classifier-row}.
+\end{proof}
+
+\begin{theorem}[BilinForm dual symmetry row]
+\label{thm:bilinform-dual-symmetry-row}
+The $\BilinFormUp$ duality row records the certificate choice between
+symmetry and antisymmetry as visible $\mathsf{SigRel}$ data. A symmetric
+choice displays a $\mathsf{SigRel}$ row comparing $\beta(x,y)$ with
+$\beta(y,x)$, while an antisymmetric choice displays a $\mathsf{SigRel}$ row
+comparing $\beta(y,x)$ with the additive inverse of $\beta(x,y)$ in the
+scalar endpoint source. The certificate exposes the chosen row and does not
+silently infer the other choice.
+\end{theorem}
+\begin{proof}
+Read the duality field of the BilinForm source as a tagged displayed row. The
+tag names either the symmetric classifier or the antisymmetric classifier, and
+the payload is a $\mathsf{SigRel}$ witness over the two swapped pairing
+endpoints.
+
+In the symmetric case, the witness is repacked directly as the comparison
+between $\beta(x,y)$ and $\beta(y,x)$. All source provenance remains the same,
+only the order of the two carried input rows changes.
+
+In the antisymmetric case, first project the scalar additive inverse row from
+the module and vector-space scalar source. The displayed inverse endpoint is
+then compared with $\beta(y,x)$ by the recorded $\mathsf{SigRel}$ witness.
+Repacking this witness preserves the visible certificate choice and adds no
+unstated symmetry claim.
+\end{proof}
+
+\begin{theorem}[BilinForm nondegeneracy witness ledger row]
+\label{thm:bilinform-nondegeneracy-witness-ledger-row}
+Nondegeneracy for $\BilinFormUp$ is witnessed by displayed partner rows and an
+output-separation package. For every carried input row not classified with
+the zero row, the ledger records a carried partner row and a scalar endpoint
+package whose classifier separates the output from the scalar zero row. The
+claim is a BEDC ledger witness, not host-level extensionality of the pairing.
+\end{theorem}
+\begin{proof}
+Start with a carried input row and its displayed failure to be classified as
+zero. This is data in the module and vector-space sources, so it can be
+transported only through the public source classifiers.
+
+The nondegeneracy ledger then supplies a partner history and a scalar endpoint
+history obtained by the pairing row. It also supplies the output-separation
+package, which records that this scalar endpoint is not classified with the
+scalar zero row.
+
+Repack these three witnesses as the public nondegeneracy row: the original
+input, the partner input, and the separated scalar endpoint. Since every
+piece is a displayed history or package token, the proof never appeals to
+extensional equality of maps outside BEDC.
+\end{proof}
+
+\begin{theorem}[BilinForm exactness dependency row]
+\label{thm:bilinform-exactness-dependency-row}
+The source row of \autoref{def:bilinform-module-pairing-source-row}, the
+classifier row of \autoref{thm:bilinform-pairing-classifier-row}, the
+bilinearity transport row of
+\autoref{thm:bilinform-bilinearity-transport-row}, the duality row of
+\autoref{thm:bilinform-dual-symmetry-row}, and the nondegeneracy ledger row
+of \autoref{thm:bilinform-nondegeneracy-witness-ledger-row} form the
+obligation surface needed for the $\BilinFormUp$ certificate over
+$\NameCert_{\ModuleUp}$ and $\NameCert_{\VecSpaceUp}$. The exactness boundary
+says that every public BilinForm row is obtained from these five rows and
+that every consumer-facing dependency descends to one of the two named source
+certificates.
+\end{theorem}
+\begin{proof}
+First collect the carrier data from
+\autoref{def:bilinform-module-pairing-source-row}. This gives the two source
+certificates, the input histories, the scalar endpoint history, and the
+probe bundle with its package token recording the pairing ledger.
+
+Next add classifier and stability. The classifier theorem supplies $\hsame$
+and common $\Pkg$ provenance for endpoint comparison, while the bilinearity
+transport theorem supplies additive and scalar-action stability inherited
+from the two source certificates.
+
+Finally, add the visible duality and nondegeneracy rows. The duality theorem
+records the chosen $\mathsf{SigRel}$ row, and the nondegeneracy theorem
+records partner histories with output separation packages.
+
+These projections exhaust the public BilinForm certificate surface: carrier,
+classifier, bilinearity, duality, nondegeneracy, ledger, exactness, and source
+dependencies. Repacking the $\mathsf{BHist}$ rows, $\Pkg$ tokens, $\hsame$
+comparisons, $\mathsf{ProbeBundle}$ data, and $\mathsf{SigRel}$ witnesses
+gives the stated obligation surface over $\NameCert_{\ModuleUp}$ and
+$\NameCert_{\VecSpaceUp}$.
+\end{proof}
+
 \begin{definition}[BilinForm root pairing surface]
 \label{def:bilinform-root-pairing-surface}
 A $\BilinFormUp$ root datum is read from two source certificates, a module certificate $\mathcal{M}:\NameCert_{\ModuleUp}$ and a vector-space certificate $\mathcal{V}:\NameCert_{\VecSpaceUp}$, together with a scalar endpoint row supplied by the shared scalar source. Its visible pairing surface is a ternary $\mathsf{BHist}$ relation
@@ -101,6 +260,8 @@ together with the requirement that the transported endpoint comparison remains w
 
 \section{The certificate}
 \label{sec:bilinform-certificate}
+
+\closureat{BilinFormUp}{seedStr}
 
 \begin{theorem}[BilinForm carrier and classifier obligations]
 \label{thm:bilinform-carrier-classifier-obligations}
