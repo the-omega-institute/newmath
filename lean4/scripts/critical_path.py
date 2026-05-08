@@ -1161,6 +1161,161 @@ def compute_transition_candidates(horizons: dict[str, dict],
     return candidates[:max_results]
 
 
+def compute_capstone_overlap_map() -> dict:
+    """Build a discovery board of capstone-to-capstone shared coverage.
+
+    For each pair (and triple) of capstone chapters in
+    `papers/bedc/parts/capstones/`, compute the intersection of the
+    Lean targets they cite via \\leanchecked, \\leanvariant,
+    \\leandef, \\leanstmt, \\leansorryd, \\leantarget markers — and
+    the kernel-object namespace prefixes those targets fall under.
+
+    A pair (or triple) whose intersection is non-empty is an open
+    META-CAPSTONE SLOT unless a fourth capstone already \\autorefs
+    both/all sources and overlaps the shared targets — in which case
+    the slot is marked unified_by that fourth capstone.
+
+    This is a SOFT signal for paper P-rounds, not a HARD GATE.
+    Discovery of non-trivial unifying structure is not mechanizable.
+    """
+    from itertools import combinations
+
+    capstone_dir = ROOT / "papers/bedc/parts/capstones"
+    marker_re = re.compile(
+        r"\\(?:leanchecked|leanvariant|leandef|leanstmt|leansorryd|leantarget)\{([^}]+)\}"
+    )
+    autoref_re = re.compile(
+        r"\\autoref\{(?:ch|sec|thm|def|cor|rem|lem):capstones-([a-zA-Z0-9_-]+)"
+    )
+    kernel_object_patterns = [
+        (re.compile(r"(?:\\mathsf\{BHist\}|\\Hist\b|\bBHist\b|\\hsame\b|\bhsame\b)"),
+         "BEDC.FKernel.Hist"),
+        (re.compile(r"(?:\\mathsf\{BMark\}|\\Mark\b|\bBMark\b|\\msame\b|\bmsame\b)"),
+         "BEDC.FKernel.Mark"),
+        (re.compile(r"(?:\\Cont\b|\bCont\b)"), "BEDC.FKernel.Cont"),
+        (re.compile(r"(?:\\Ext\b|\bExt\b)"), "BEDC.FKernel.Ext"),
+        (re.compile(r"(?:\\NameCert\b|\bNameCert\b)"), "BEDC.FKernel.NameCert"),
+    ]
+
+    paths = [
+        path for path in capstone_dir.glob("*.tex")
+        if path.name not in {"index.tex", "_index_files.tex"}
+    ]
+    stems = sorted(path.stem for path in paths)
+    stem_set = set(stems)
+    records = {}
+
+    for path in paths:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        targets = {
+            match.group(1).replace("\\_", "_")
+            for match in marker_re.finditer(text)
+        }
+        prefixes = set()
+        for target in targets:
+            parts = target.split(".")
+            if len(parts) >= 3 and target.startswith("BEDC."):
+                prefixes.add(".".join(parts[:3]))
+        for pattern, prefix in kernel_object_patterns:
+            if pattern.search(text):
+                prefixes.add(prefix)
+        autorefs = {
+            match.group(1).replace("-", "_")
+            for match in autoref_re.finditer(text)
+        }
+        records[path.stem] = {
+            "targets": targets,
+            "prefixes": prefixes,
+            "autorefs": autorefs & stem_set,
+        }
+
+    pairs_list = []
+    for a, b in combinations(stems, 2):
+        shared_targets = records[a]["targets"] & records[b]["targets"]
+        shared_kernel_objects = records[a]["prefixes"] & records[b]["prefixes"]
+        if not shared_kernel_objects:
+            continue
+        unified_by = None
+        for c in stems:
+            if c in {a, b}:
+                continue
+            if a not in records[c]["autorefs"] or b not in records[c]["autorefs"]:
+                continue
+            if shared_targets:
+                coverage = len(records[c]["targets"] & shared_targets)
+                if coverage < 0.5 * len(shared_targets):
+                    continue
+            unified_by = c
+            break
+        pairs_list.append({
+            "a": a,
+            "b": b,
+            "shared_kernel_objects": sorted(shared_kernel_objects),
+            "shared_lean_targets": sorted(shared_targets),
+            "unified_by": unified_by,
+            "a_autorefs_b": b in records[a]["autorefs"],
+            "b_autorefs_a": a in records[b]["autorefs"],
+        })
+
+    triples_list = []
+    for a, b, c in combinations(stems, 3):
+        kernel_isect = (
+            records[a]["prefixes"] & records[b]["prefixes"] & records[c]["prefixes"]
+        )
+        if not kernel_isect:
+            continue
+        target_isect = (
+            records[a]["targets"] & records[b]["targets"] & records[c]["targets"]
+        )
+        unified_by = None
+        for d in stems:
+            if d in {a, b, c}:
+                continue
+            if (
+                a in records[d]["autorefs"]
+                and b in records[d]["autorefs"]
+                and c in records[d]["autorefs"]
+            ):
+                unified_by = d
+                break
+        triples_list.append({
+            "a": a,
+            "b": b,
+            "c": c,
+            "shared_kernel_objects": sorted(kernel_isect),
+            "shared_lean_targets": sorted(target_isect),
+            "unified_by": unified_by,
+        })
+
+    pairs_list.sort(
+        key=lambda item: (
+            item["unified_by"] is not None,
+            -len(item["shared_kernel_objects"]),
+            -len(item["shared_lean_targets"]),
+            item["a"],
+            item["b"],
+        )
+    )
+    triples_list.sort(
+        key=lambda item: (
+            item["unified_by"] is not None,
+            -len(item["shared_kernel_objects"]),
+            -len(item["shared_lean_targets"]),
+            item["a"],
+            item["b"],
+            item["c"],
+        )
+    )
+
+    return {
+        "pairs": pairs_list,
+        "triples": triples_list,
+        "capstone_count": len(stems),
+        "open_pairs_total": sum(1 for item in pairs_list if item["unified_by"] is None),
+        "open_triples_total": sum(1 for item in triples_list if item["unified_by"] is None),
+    }
+
+
 def main() -> int:
     horizons = extract_horizons()
     downstream = transitive_downstream(horizons)
@@ -1444,6 +1599,7 @@ def main() -> int:
         "drift_chapters": drift_chapters,
         "bridge_candidates": bridge_candidates,
         "formal_axis_top": formal_axis_top,
+        "capstone_overlap_map": compute_capstone_overlap_map(),
     }
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
