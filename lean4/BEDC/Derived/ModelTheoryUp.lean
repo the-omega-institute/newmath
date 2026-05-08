@@ -74,6 +74,46 @@ theorem ModelTheoryBHistStructurePacket_satisfaction_exactness_ledger [AskSetup]
             (And.intro packet.right.right.right.right.right.right.left
               packet.right.right.right.right.right.right.right)))))
 
+theorem ModelTheoryBHistStructurePacket_satisfaction_exactness_row [AskSetup] [PackageSetup]
+    {firstOrder structureRow valuation satisfaction elementary provenance endpoint formula formulaRead
+      assignmentRead satisfactionRecord : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelTheoryBHistStructurePacket firstOrder structureRow valuation satisfaction elementary
+        provenance endpoint bundle pkg ->
+      UnaryHistory formula ->
+        Cont firstOrder formula formulaRead ->
+          Cont valuation formulaRead assignmentRead ->
+            Cont assignmentRead satisfaction satisfactionRecord ->
+              UnaryHistory formulaRead ∧ UnaryHistory assignmentRead ∧
+                UnaryHistory satisfactionRecord ∧
+                  hsame formulaRead (append firstOrder formula) ∧
+                    hsame assignmentRead (append valuation (append firstOrder formula)) ∧
+                      hsame satisfactionRecord
+                        (append (append valuation (append firstOrder formula)) satisfaction) ∧
+                        PkgSig bundle endpoint pkg := by
+  intro packet formulaUnary formulaRow assignmentRow satisfactionRow
+  have valuationUnary : UnaryHistory valuation :=
+    unary_cont_closed packet.left packet.right.left packet.right.right.right.right.left
+  have formulaReadUnary : UnaryHistory formulaRead :=
+    unary_cont_closed packet.left formulaUnary formulaRow
+  have assignmentReadUnary : UnaryHistory assignmentRead :=
+    unary_cont_closed valuationUnary formulaReadUnary assignmentRow
+  have satisfactionRecordUnary : UnaryHistory satisfactionRecord :=
+    unary_cont_closed assignmentReadUnary packet.right.right.left satisfactionRow
+  have assignmentReadback : hsame assignmentRead (append valuation (append firstOrder formula)) :=
+    hsame_trans assignmentRow (congrArg (fun row : BHist => append valuation row) formulaRow)
+  have satisfactionReadback :
+      hsame satisfactionRecord (append (append valuation (append firstOrder formula)) satisfaction) :=
+    hsame_trans satisfactionRow
+      (congrArg (fun row : BHist => append row satisfaction) assignmentReadback)
+  exact And.intro formulaReadUnary
+    (And.intro assignmentReadUnary
+      (And.intro satisfactionRecordUnary
+        (And.intro formulaRow
+          (And.intro assignmentReadback
+            (And.intro satisfactionReadback
+              packet.right.right.right.right.right.right.right)))))
+
 theorem ModelTheoryBHistStructurePacket_elementary_transport [AskSetup] [PackageSetup]
     {firstOrder structureRow valuation satisfaction elementary provenance endpoint valuation'
       satisfaction' elementary' provenance' endpoint' : BHist}
@@ -135,5 +175,39 @@ theorem ModelTheoryBHistStructurePacket_satisfaction_exactness_scope [AskSetup]
         (And.intro packet.right.right.right.right.right.left
           (And.intro packet.right.right.right.right.right.right.left
             packet.right.right.right.right.right.right.right))))
+
+theorem ModelTheoryBHistStructurePacket_carrier_classifier_stability [AskSetup] [PackageSetup]
+    {firstOrder structureRow valuation satisfaction elementary provenance endpoint valuation'
+      provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelTheoryBHistStructurePacket firstOrder structureRow valuation satisfaction elementary
+        provenance endpoint bundle pkg ->
+      Cont firstOrder structureRow valuation' ->
+        Cont valuation' satisfaction provenance' ->
+          Cont provenance' elementary endpoint' ->
+            ModelTheoryBHistStructurePacket firstOrder structureRow valuation' satisfaction
+                elementary provenance' endpoint' bundle pkg ∧
+              hsame valuation valuation' ∧ hsame provenance provenance' ∧ hsame endpoint endpoint' := by
+  intro packet valuationCont' provenanceCont' endpointCont'
+  have sameValuation : hsame valuation valuation' :=
+    cont_respects_hsame (hsame_refl firstOrder) (hsame_refl structureRow)
+      packet.right.right.right.right.left valuationCont'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameValuation (hsame_refl satisfaction)
+      packet.right.right.right.right.right.left provenanceCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance (hsame_refl elementary)
+      packet.right.right.right.right.right.right.left endpointCont'
+  have pkgSig' : PkgSig bundle endpoint' pkg := by
+    cases sameEndpoint
+    exact packet.right.right.right.right.right.right.right
+  exact And.intro
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro valuationCont'
+              (And.intro provenanceCont' (And.intro endpointCont' pkgSig')))))))
+    (And.intro sameValuation (And.intro sameProvenance sameEndpoint))
 
 end BEDC.Derived.ModelTheoryUp
