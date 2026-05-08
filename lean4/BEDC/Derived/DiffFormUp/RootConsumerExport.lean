@@ -26,4 +26,23 @@ theorem DiffFormRootConsumerExport_no_extra_laws
     unary_transport targetUnary (hsame_symm ledgerRoute)
   exact unary_no_zero_extension (unary_transport ledgerUnary zeroRoute)
 
+theorem DiffFormRootConsumerExport_coverage
+    {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source
+      rootLedger exportLedger : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor'
+        scalar scalar' antisym source ->
+      UnaryHistory rootLedger ->
+        Cont source rootLedger exportLedger ->
+          UnaryHistory exportLedger ∧ hsame exportLedger (append source rootLedger) ∧
+            UnaryHistory omega ∧ UnaryHistory domega ∧ UnaryHistory source := by
+  intro ledger rootUnary exportRow
+  have sourceUnary : UnaryHistory source :=
+    ledger.right.right.right.right.right.right.right.right.right
+  have exportUnary : UnaryHistory exportLedger :=
+    unary_cont_closed sourceUnary rootUnary exportRow
+  exact And.intro exportUnary
+    (And.intro exportRow
+      (And.intro ledger.left
+        (And.intro ledger.right.left sourceUnary)))
+
 end BEDC.Derived.DiffFormUp
