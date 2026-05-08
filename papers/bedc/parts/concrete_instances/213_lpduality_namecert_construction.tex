@@ -654,3 +654,110 @@ $$
 $$
 The final sentence is the specialization of the same statement to a scalar endpoint already certified as optimal for the row.
 \end{proof}
+
+\begin{lemma}[LPDuality dual objective binary affine readback]
+\label{lem:lpduality-dual-objective-binary-affine-readback}
+Let an $\LPDualityUp$ row over an ordered field be given as in \autoref{def:lpduality-finite-ordered-field-feasibility-row}. Let $y,y':I\to F$ be dual vectors, let $\alpha,\beta:F$ be scalar coefficients, and define $\mu:I\to F$ componentwise by
+$$
+\mu_i:=\alpha\cdot_F y_i+_F\beta\cdot_F y'_i
+\qquad (i\in I).
+$$
+Then the dual objective is affine over this binary mixture:
+$$
+\mathsf{DuObj}_{b}(\mu)
+\sim_F
+\alpha\cdot_F\mathsf{DuObj}_{b}(y)+_F
+\beta\cdot_F\mathsf{DuObj}_{b}(y').
+$$
+\end{lemma}
+\begin{proof}
+Expand the dual objective endpoint from \autoref{def:lpduality-finite-ordered-field-feasibility-row}. By the definition of $\mu$, distributivity in the carried $\FieldUp$ row, associativity and commutativity of multiplication, and finite-sum compatibility with the scalar classifier, one has
+$$
+\begin{aligned}
+\mathsf{DuObj}_{b}(\mu)
+&=\sum_{i\in I}(\alpha\cdot_F y_i+_F\beta\cdot_F y'_i)\cdot_F b_i\\
+&\sim_F
+\sum_{i\in I}\bigl(\alpha\cdot_F(y_i\cdot_F b_i)+_F
+\beta\cdot_F(y'_i\cdot_F b_i)\bigr)\\
+&\sim_F
+\alpha\cdot_F\sum_{i\in I}y_i\cdot_F b_i
++_F
+\beta\cdot_F\sum_{i\in I}y'_i\cdot_F b_i\\
+&=
+\alpha\cdot_F\mathsf{DuObj}_{b}(y)+_F
+\beta\cdot_F\mathsf{DuObj}_{b}(y').
+\end{aligned}
+$$
+This is the asserted classifier equality.
+\end{proof}
+
+\begin{theorem}[LPDuality optimal dual face binary convex closure]
+\label{thm:lpduality-optimal-dual-face-binary-convex-closure}
+Let an $\LPDualityUp$ row over an ordered field be given as in \autoref{def:lpduality-finite-ordered-field-feasibility-row}. Let $y,y':I\to F$ be dual feasible witnesses, let $\tau:F$ be a scalar endpoint, and suppose both witnesses lie in the same dual objective fiber:
+$$
+\mathsf{DuFeas}_{A,b,c}(y),
+\qquad
+\mathsf{DuFeas}_{A,b,c}(y'),
+$$
+$$
+\mathsf{DuObj}_{b}(y)\sim_F\tau,
+\qquad
+\mathsf{DuObj}_{b}(y')\sim_F\tau.
+$$
+Let $\alpha,\beta:F$ satisfy
+$$
+\mathsf{NonNeg}_F(\alpha),
+\qquad
+\mathsf{NonNeg}_F(\beta),
+\qquad
+\alpha+_F\beta\sim_F1_F,
+$$
+and define the componentwise binary affine mixture
+$$
+\mu_i:=\alpha\cdot_F y_i+_F\beta\cdot_F y'_i
+\qquad (i\in I).
+$$
+Then $\mu$ is dual feasible and remains in the same dual objective fiber:
+$$
+\mathsf{DuFeas}_{A,b,c}(\mu),
+\qquad
+\mathsf{DuObj}_{b}(\mu)\sim_F\tau.
+$$
+Consequently, when $\tau$ is the scalar endpoint certified as the dual optimum of the row, the certified dual optimal face at $\tau$ is closed under binary affine combinations with nonnegative coefficients whose sum is classifier-equal to $1_F$.
+\end{theorem}
+\begin{proof}
+The feasibility statement is exactly the dual-feasibility binary convex closure of \autoref{thm:lpduality-dual-feasibility-binary-convex-closure}, applied to the two feasible witnesses $y,y'$ and to the coefficients $\alpha,\beta$. Hence
+$$
+\mathsf{DuFeas}_{A,b,c}(\mu).
+$$
+
+It remains to read back the objective endpoint. By \autoref{lem:lpduality-dual-objective-binary-affine-readback},
+$$
+\mathsf{DuObj}_{b}(\mu)
+\sim_F
+\alpha\cdot_F\mathsf{DuObj}_{b}(y)+_F
+\beta\cdot_F\mathsf{DuObj}_{b}(y').
+$$
+Scalar classifier congruence transports the two objective-fiber hypotheses through multiplication and addition, giving
+$$
+\alpha\cdot_F\mathsf{DuObj}_{b}(y)+_F
+\beta\cdot_F\mathsf{DuObj}_{b}(y')
+\sim_F
+\alpha\cdot_F\tau+_F\beta\cdot_F\tau.
+$$
+Distributivity, the coefficient-sum classifier equality, and the multiplicative unit law give
+$$
+\alpha\cdot_F\tau+_F\beta\cdot_F\tau
+\sim_F
+(\alpha+_F\beta)\cdot_F\tau
+\sim_F
+1_F\cdot_F\tau
+\sim_F
+\tau.
+$$
+Transitivity of the scalar classifier composes the displayed classifier equalities into
+$$
+\mathsf{DuObj}_{b}(\mu)\sim_F\tau.
+$$
+The final sentence is the specialization of the same statement to a scalar endpoint already certified as optimal for the dual row.
+\end{proof}
