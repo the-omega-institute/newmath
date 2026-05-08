@@ -406,6 +406,48 @@ receives no quotient, completion object, Classical datum, external metric
 primitive, $\RealUp$ completeness claim, or standard bridge.
 \end{proof}
 
+\begin{theorem}[RegSeqRat nested subwindow source coverage]
+\label{thm:regseqrat-nested-subwindow-source-coverage}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a certified source
+window
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m),
+$$
+and indices $j,r,j',r'$ with $j+r\le m$ and $j'+r'\le r$, the nested selected
+window
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n+j+j',r')
+$$
+feeds the $\RegSeqRat$ seal with the same finite-window source package as the
+original source window. In particular, it exposes the same DyadicRatCore
+observation-row carrier, classifier, stability rows, finite dyadic ledger,
+$\StreamNameUp$ finite-window interface rows, and $\RealUp$ finite-window
+exhaustion rows. This nested coverage introduces no quotient, completion
+object, Classical datum, external metric primitive, $\RealUp$ completeness
+claim, or standard bridge.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadicratcore-public-observation-subwindow-stability} to the
+source certificate with the bound $j+r\le m$. This gives the selected package at
+anchor $n+j$ and radius $r$ with the same DyadicRatCore observation-row carrier,
+classifier, stability rows, and finite dyadic ledger rows as the source window.
+
+Apply the same theorem again to the shifted package, now using the bound
+$j'+r'\le r$. The second extraction selects the window at anchor
+$n+j+j'$ and radius $r'$, and it preserves exactly the same observation-row
+carrier, classifier, stability, and ledger rows because the first selected
+package already carries those public DyadicRatCore rows.
+
+Finally apply \autoref{thm:regseqrat-seal-finite-window-source-coverage} and
+\autoref{thm:streamname-public-finite-window-interface}. These repack the nested
+certificate as the same $\RegSeqRat$ finite-window source package consumed by
+the seal and by
+\autoref{thm:realup-finite-window-exhaustion-obligation}, with only the finite
+anchor changed to $n+j+j'$ and with no quotient, completion object, Classical
+datum, external metric primitive, $\RealUp$ completeness claim, or standard
+bridge.
+\end{proof}
+
 \begin{closurestatus}{\DyadicRatCore}
   \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{thm:dyadicratcore-public-observation-package} witnesses the public DyadicRatCore observation package over $\mathsf{BHist}$, $\hsame$, RatUp endpoint histories, StreamNameUp request names, the DyadicRatCore observation row, and the finite dyadic ledger consumed by $\RegSeqRat$ and $\RealUp$.}
