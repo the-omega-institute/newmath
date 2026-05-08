@@ -1,13 +1,17 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.BilinFormUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def BilinFormBHistObligationSurface
@@ -230,5 +234,59 @@ theorem BilinFormRootPairingSurface_input_transport
             (And.intro scalarUnary
               (And.intro endpointCont ledgerCont)))
   · exact And.intro sameEndpoint sameLedger
+
+def BilinFormModulePairingSourceRow [AskSetup] [PackageSetup]
+    (left right scalar endpoint ledger : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory scalar ∧
+    Cont left right endpoint ∧ Cont endpoint scalar ledger ∧ PkgSig bundle ledger pkg
+
+def BilinFormPairingClassifierRow [AskSetup] [PackageSetup]
+    (left right scalar endpoint ledger left' right' scalar' endpoint' ledger' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg pkg' : Pkg) : Prop :=
+  BilinFormModulePairingSourceRow left right scalar endpoint ledger bundle pkg ∧
+    BilinFormModulePairingSourceRow left' right' scalar' endpoint' ledger' bundle pkg' ∧
+      hsame left left' ∧ hsame right right' ∧ hsame scalar scalar' ∧
+        hsame endpoint endpoint' ∧ hsame ledger ledger' ∧ psame bundle pkg pkg'
+
+theorem BilinFormPairingClassifierRow_endpoint_transport [AskSetup] [PackageSetup]
+    {left right scalar endpoint ledger left' right' scalar' endpoint' ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg pkg' : Pkg} :
+    BilinFormModulePairingSourceRow left right scalar endpoint ledger bundle pkg ->
+      PkgSig bundle ledger' pkg' ->
+        hsame left left' -> hsame right right' -> hsame scalar scalar' ->
+          Cont left' right' endpoint' -> Cont endpoint' scalar' ledger' ->
+            BilinFormPairingClassifierRow left right scalar endpoint ledger left' right' scalar'
+                endpoint' ledger' bundle pkg pkg' ∧
+              hsame endpoint endpoint' ∧ hsame ledger ledger' ∧ psame bundle pkg pkg' := by
+  intro source targetPkg sameLeft sameRight sameScalar endpointCont ledgerCont
+  have leftUnary : UnaryHistory left' :=
+    unary_transport source.left sameLeft
+  have rightUnary : UnaryHistory right' :=
+    unary_transport source.right.left sameRight
+  have scalarUnary : UnaryHistory scalar' :=
+    unary_transport source.right.right.left sameScalar
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLeft sameRight source.right.right.right.left endpointCont
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameEndpoint sameScalar source.right.right.right.right.left ledgerCont
+  have targetSource :
+      BilinFormModulePairingSourceRow left' right' scalar' endpoint' ledger' bundle pkg' :=
+    And.intro leftUnary
+      (And.intro rightUnary
+        (And.intro scalarUnary
+          (And.intro endpointCont
+            (And.intro ledgerCont targetPkg))))
+  have samePkg : psame bundle pkg pkg' :=
+    PkgSig_psame_intro source.right.right.right.right.right targetPkg sameLedger
+  constructor
+  · exact And.intro source
+      (And.intro targetSource
+        (And.intro sameLeft
+          (And.intro sameRight
+            (And.intro sameScalar
+              (And.intro sameEndpoint
+                (And.intro sameLedger samePkg))))))
+  · exact And.intro sameEndpoint (And.intro sameLedger samePkg)
 
 end BEDC.Derived.BilinFormUp
