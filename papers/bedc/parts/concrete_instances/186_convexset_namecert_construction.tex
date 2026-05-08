@@ -355,3 +355,77 @@ which is exactly the endpoint named by the binary-extension clause. Therefore ev
   \notclaimed{This chapter does not close a public ConvexSetUp NameCert, finite-dimensional convexity theory, separation theorem, compactness theorem, or standard bridge.}
   \upgradepath{Obligation closure requires an explicit carrier, classifier, stability-field, finite affine-spine, ledger, exactness, and dependency inventory for the ConvexSetUp certificate.}
 \end{closurestatus}
+
+\begin{definition}[ConvexSet linear preimage carrier]
+\label{def:convexset-linear-preimage-carrier}
+Let $F$ carry a $\FieldUp(F)$ certificate, let $V$ and $W$ carry $\VecSpaceUp(F,V)$ and $\VecSpaceUp(F,W)$ certificates over the same scalar source, and let $D:W\to\mathsf{Prop}$ be the convex carrier of a $\ConvexSetUp$ certificate on $W$. Let $f:V\to W$ be a carried $\LinearMapUp(V,W)$ map. The source-side preimage of $D$ along $f$ is the predicate $f^{-1}[D]:V\to\mathsf{Prop}$ on carried source points defined by
+$$
+f^{-1}[D](x)\Longleftrightarrow D(f(x)).
+$$
+Thus membership in the preimage carrier is read by evaluating the carried linear map and testing the codomain convex carrier at the displayed output.
+\end{definition}
+
+\begin{theorem}[ConvexSet linear preimage affine-combination closure]
+\label{thm:convexset-linear-preimage-affine-combination-closure}
+Let the data be as in \autoref{def:convexset-linear-preimage-carrier}. Write $\sim_F$, $+_F$, $1_F$, and $\mathsf{NonNeg}_F$ for the scalar classifier, scalar addition, scalar unit, and nonnegative predicate. Write $+_V$ and $\odot_V$ for the source vector addition and scalar action, and write $+_W$, $\odot_W$, and $\sim_W$ for the codomain vector addition, scalar action, and classifier. Assume the codomain $\ConvexSetUp$ certificate supplies the binary affine-combination row of \autoref{def:convexset-binary-affine-combination-row}. For carried scalars $a,b:F$ and carried source points $x,y:V$, if
+$$
+f^{-1}[D](x)\land f^{-1}[D](y)\land
+\mathsf{NonNeg}_F(a)\land\mathsf{NonNeg}_F(b)\land
+(a+_F b)\sim_F1_F,
+$$
+then
+$$
+f^{-1}[D]\bigl((a\odot_V x)+_V(b\odot_V y)\bigr).
+$$
+Thus the source-side preimage carrier satisfies the same binary nonnegative unit-sum affine-combination closure row over the source vector-space carrier.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:convexset-linear-preimage-carrier} for the two preimage hypotheses. They are exactly
+$$
+D(f(x)),
+\qquad
+D(f(y)).
+$$
+Since the codomain convex carrier is a subset of the codomain $\VecSpaceUp$ carrier, these hypotheses make $f(x)$ and $f(y)$ carried codomain inputs. Applying the codomain binary affine-combination row of \autoref{def:convexset-binary-affine-combination-row} to the points $f(x),f(y)$ and the coefficients $a,b$ gives
+$$
+D\bigl((a\odot_W f(x))+_W(b\odot_W f(y))\bigr).
+$$
+
+Set
+$$
+s:=(a\odot_V x)+_V(b\odot_V y).
+$$
+Because $x$ and $y$ are carried source inputs, source scalar-action closure and source additive closure make the two summands of $s$ and the endpoint $s$ itself carried in $V$. The carried $\LinearMapUp(V,W)$ map supplies additive preservation and scalar compatibility through \autoref{def:linearmap-carrier} and \autoref{def:module-linearmap-certificate-package}. Therefore
+$$
+f(s)\sim_W f(a\odot_V x)+_W f(b\odot_V y)
+$$
+and
+$$
+f(a\odot_V x)\sim_W a\odot_W f(x),
+\qquad
+f(b\odot_V y)\sim_W b\odot_W f(y).
+$$
+The target additive congruence row from \autoref{def:module-stability-certificate} transports these two comparisons to
+$$
+f(a\odot_V x)+_W f(b\odot_V y)
+\sim_W
+(a\odot_W f(x))+_W(b\odot_W f(y)).
+$$
+Classifier transitivity, as packaged by \autoref{thm:namecert-equivalence-transitivity}, composes this with the additive-preservation comparison and yields
+$$
+f(s)\sim_W(a\odot_W f(x))+_W(b\odot_W f(y)).
+$$
+Classifier symmetry from \autoref{def:lean-carrier-naming-certificate} reverses this comparison, so
+$$
+(a\odot_W f(x))+_W(b\odot_W f(y))\sim_W f(s).
+$$
+The codomain convex carrier inherits carrier transport along its classifier from the naming-certificate core in \autoref{def:lean-carrier-naming-certificate}. Transporting the codomain carrier witness above across this reversed comparison gives
+$$
+D(f(s)).
+$$
+Substituting the definition of $s$ and folding \autoref{def:convexset-linear-preimage-carrier} gives
+$$
+f^{-1}[D]\bigl((a\odot_V x)+_V(b\odot_V y)\bigr),
+$$
+which is the claimed source-side affine-combination closure.
+\end{proof}

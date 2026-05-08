@@ -187,6 +187,44 @@ For the classifier field, accept a row exactly when such a finite ledger connect
 The ledger field records the tagged move list. The core theorem list consists of the empty-ledger row, the reverse-ledger row, and the concatenation row, giving reflexivity, symmetry, and transitivity of the classifier. Exactness states that every accepted classifier row has one of these finite ledger presentations; the standard bridge field is none, and the status field is a paper obligation.
 \end{proof}
 
+\begin{theorem}[KnotUp empty Reidemeister ledger reflexivity]\label{thm:knot-reidemeister-empty-ledger-reflexivity}
+For every $\KnotUp$ diagram packet, the empty finite $\mathsf{ProbeBundle}$ Reidemeister ledger over its displayed $\SOneUp$ endpoints and ambient $\HomotopyUp$ row supplies the $\KnotUp$ classifier row from the packet to itself.
+\end{theorem}
+
+\begin{proof}
+Project the packet to its visible boundary: the two $\SOneUp$ endpoint rows, the ambient $\HomotopyUp$ row, the packet provenance in $\Pkg$, and the hidden diagram data carried by $\Cont$. These are exactly the endpoint fields read by the classifier obligation of \autoref{thm:knot-reidemeister-move-classifier-obligation}.
+
+Choose the empty $\mathsf{ProbeBundle}$ ledger. It has the same starting and ending endpoint boundary, so the endpoint $\hsame$ transport is the identity row and no hidden move witness is introduced.
+
+Applying \autoref{thm:knot-reidemeister-move-classifier-obligation} to this boundary and empty ledger gives the accepted classifier row from the displayed packet back to itself. The ledger exactness surface is the empty presentation named in \autoref{thm:knot-ambient-isotopy-ledger-exactness}.
+\end{proof}
+
+\begin{theorem}[KnotUp reversed Reidemeister ledger symmetry]\label{thm:knot-reidemeister-reversal-ledger-symmetry}
+If a finite $\mathsf{ProbeBundle}$ Reidemeister ledger over the displayed $\SOneUp$ endpoints and ambient $\HomotopyUp$ row supplies an accepted $\KnotUp$ classifier row from one diagram packet to another, then the reversed finite ledger supplies the opposite classifier row over the same visible endpoint data and the same $\Pkg$ scope.
+\end{theorem}
+
+\begin{proof}
+Start with the accepted classifier row and read it through \autoref{thm:knot-reidemeister-move-classifier-obligation}. The row exposes a finite tagged Reidemeister ledger, endpoint $\hsame$ transport, the shared $\SOneUp$ endpoint source rows, and the ambient $\HomotopyUp$ row.
+
+Reverse the finite ledger by reversing the order of its $\mathsf{ProbeBundle}$ entries and replacing each Reidemeister probe with the same move read in the opposite direction. The endpoints are unchanged as visible BEDC rows: the former target boundary becomes the source boundary, the former source boundary becomes the target boundary, and the $\Pkg$ provenance remains the same package scope.
+
+The reversed ledger is therefore a finite presentation over the same visible endpoints. Applying \autoref{thm:knot-reidemeister-move-classifier-obligation} again gives the opposite classifier row, and \autoref{thm:knot-ambient-isotopy-ledger-exactness} records that no extra ambient-isotopy witness is admitted beyond that finite reversal.
+\end{proof}
+
+\begin{theorem}[KnotUp concatenated Reidemeister ledger transitivity]\label{thm:knot-reidemeister-concat-ledger-transitivity}
+If one accepted $\KnotUp$ classifier row is carried by a finite Reidemeister ledger from a first diagram packet to a middle packet, and a second accepted row is carried by a finite Reidemeister ledger from that middle packet to a third packet, then the concatenated $\mathsf{ProbeBundle}$ ledger supplies a classifier row from the first packet to the third.
+\end{theorem}
+
+\begin{proof}
+Read the two accepted rows through \autoref{thm:knot-reidemeister-move-classifier-obligation}. The first row supplies a finite ledger from the first boundary to the middle boundary, and the second supplies a finite ledger from the middle boundary to the third boundary.
+
+Use the $\Cont$ and $\Pkg$ provenance of the middle packet to identify the two displayed middle boundaries as the same BEDC boundary data. The shared $\SOneUp$ endpoint rows and the shared ambient $\HomotopyUp$ row give the endpoint compatibility needed before the ledgers can be joined.
+
+Append the two finite $\mathsf{ProbeBundle}$ ledgers. The appended ledger starts at the first packet boundary, passes through the shared middle boundary, and ends at the third packet boundary, while preserving every tagged Reidemeister probe already accepted in the two input rows.
+
+Applying \autoref{thm:knot-reidemeister-move-classifier-obligation} to the appended ledger gives the composite classifier row. Exactness is inherited from \autoref{thm:knot-ambient-isotopy-ledger-exactness}: the accepted composite row is represented precisely by the concatenated finite Reidemeister ledger over the displayed endpoints.
+\end{proof}
+
 \begin{theorem}[KnotUp Homotopy source obligation]\label{thm:knot-homotopy-source-obligation}
 Every ambient-isotopy row consumed by the $\KnotUp$ certificate factors through the displayed $\NameCert_{\HomotopyUp}$ source, and it consumes only endpoints supplied by the $\SOneUp$ carrier boundary.
 \end{theorem}
@@ -221,4 +259,156 @@ The BEDC source field is the pair of endpoint sources from $\NameCert_{\SOneUp}$
 Project the accepted classifier row to its endpoint boundary. The $\SOneUp$ projection gives compatible circle endpoints, and the $\HomotopyUp$ projection gives compatible ambient endpoints; both projections use the same visible endpoints as the finite Reidemeister ledger.
 
 The stability field is endpoint $\hsame$ transport, and the ledger field is the shared finite Reidemeister ledger. The core theorem list is projection stability, the Reidemeister classifier, homotopy source factorization, and the $\SOneUp$ boundary ledger. Exactness says that the accepted classifier row contains exactly those visible endpoints and that ledger; the standard bridge field is none, and the status field is a paper obligation.
+\end{proof}
+
+\begin{theorem}[KnotUp endpoint source exhaustion]\label{thm:knot-endpoint-source-exhaustion}
+For every $\KnotUp$ diagram packet $\mathcal{K}$ of
+\autoref{def:knot-diagram-bhist-carrier}, every endpoint row appearing as a
+diagram endpoint, arc endpoint, crossing endpoint, or Reidemeister-move
+endpoint factors through the displayed $\SOneUp$ source row and the ambient
+$\HomotopyUp$ row. The public packet has no host embedding endpoint source
+and no undecomposed ambient-isotopy endpoint source outside those two rows.
+\end{theorem}
+
+\begin{proof}
+Project $\mathcal{K}$ to its source field $\mathcal{S}$, ambient field
+$\mathcal{A}$, endpoint rows $e_0,e_1$, Reidemeister trace $r$, HomotopyUp
+row $h$, provenance row $\rho$, and finite ledger $\lambda$ as displayed in
+\autoref{def:knot-diagram-bhist-carrier}. These projections are the only
+places where endpoint data enter the packet.
+
+For diagram endpoints, arc endpoints, and crossing endpoints, apply
+\autoref{thm:knot-sone-boundary-ledger}. It supplies an $\SOneUp$ boundary
+source for each endpoint kind and leaves hidden projection or crossing data
+inside the finite ledger rather than in a separate source object.
+
+For endpoints consumed by Reidemeister moves, first read the finite
+$\mathsf{ProbeBundle}$ move ledger from
+\autoref{thm:knot-reidemeister-move-classifier-obligation}. Then apply
+\autoref{thm:knot-homotopy-source-obligation} to the ambient row used by that
+ledger. The ambient row factors through $\NameCert_{\HomotopyUp}$ and consumes
+only endpoints already supplied by the $\SOneUp$ carrier boundary.
+
+Thus each endpoint row factors through the displayed $\SOneUp$ and
+$\HomotopyUp$ sources, with package provenance recorded by $\rho$ and with
+all remaining witnesses carried by $\lambda$. No host embedding source or
+primitive ambient-isotopy source remains available to the public packet.
+\end{proof}
+
+\begin{theorem}[KnotUp Reidemeister ledger composition closure]\label{thm:knot-reidemeister-ledger-composition-closure}
+Let two accepted finite $\mathsf{ProbeBundle}$ Reidemeister ledgers over
+$\KnotUp$ packets have matching visible endpoint rows after the endpoint
+$\hsame$ transports required by
+\autoref{def:knot-reidemeister-ledger-classifier}. Their
+$\mathsf{Cont}$ concatenation is again an accepted $\KnotUp$ classifier
+ledger over the same public source and ambient rows, and the empty ledger is
+the unit accepted classifier row.
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{thm:knot-reidemeister-move-classifier-obligation} to the first
+accepted ledger. It presents the classifier row as a finite
+$\mathsf{ProbeBundle}$ list whose entries are Reidemeister I, II, or III moves
+together with endpoint $\hsame$ transport.
+
+Apply the same theorem to the second accepted ledger. The hypothesis that the
+visible endpoints match supplies the endpoint transport needed to place the
+second list after the first one without changing the displayed $\SOneUp$ and
+$\HomotopyUp$ boundary rows.
+
+Concatenate the two finite lists by the $\mathsf{Cont}$ ledger operation.
+Each entry is still one of the accepted Reidemeister probe rows, and the
+middle endpoint is discharged by the supplied $\hsame$ transport. Therefore
+\autoref{def:knot-reidemeister-ledger-classifier} accepts the concatenated
+ledger as a classifier row.
+
+For the unit, take the empty finite $\mathsf{ProbeBundle}$ list. The empty
+ledger has the same visible endpoints on both sides and is the reflexive row
+named by \autoref{thm:knot-reidemeister-move-classifier-obligation}, so it is
+accepted and acts as the $\mathsf{Cont}$ unit.
+\end{proof}
+
+\begin{theorem}[KnotUp classifier ledger completeness]\label{thm:knot-classifier-ledger-completeness}
+Every accepted $\KnotUp$ classifier row is exactly a finite ledger generated
+by endpoint $\hsame$ transport and Reidemeister I, II, and III
+$\mathsf{ProbeBundle}$ rows. Its source and ambient endpoints are the visible
+endpoints of \autoref{thm:knot-ambient-isotopy-ledger-exactness}, and every
+finite ledger with those generators repacks as an accepted classifier row of
+\autoref{def:knot-reidemeister-ledger-classifier}.
+\end{theorem}
+
+\begin{proof}
+For the forward direction, start from an accepted classifier row. Project it
+through \autoref{thm:knot-ambient-isotopy-ledger-exactness}; the result has
+compatible visible $\SOneUp$ endpoints, compatible visible $\HomotopyUp$
+endpoints, and a finite Reidemeister ledger over those same endpoints.
+
+Next apply \autoref{thm:knot-reidemeister-move-classifier-obligation}. The
+accepted ledger is generated by endpoint $\hsame$ transport and
+Reidemeister I, II, and III $\mathsf{ProbeBundle}$ rows. The exhaustion result
+\autoref{thm:knot-endpoint-source-exhaustion} identifies the endpoint sources
+with the displayed $\SOneUp$ and $\HomotopyUp$ rows.
+
+For the reverse direction, assume such a finite generated ledger over the
+visible source and ambient endpoints. Place the endpoint transports, move
+probes, provenance row, and continuation ledger into the clauses of
+\autoref{def:knot-reidemeister-ledger-classifier}.
+
+The classifier definition accepts exactly those component rows, so the
+repacked finite ledger is an accepted $\KnotUp$ classifier row. This gives
+both directions and leaves no additional quotient or ambient-isotopy
+primitive in the classifier surface.
+\end{proof}
+
+\begin{theorem}[KnotUp NameCert field coverage]\label{thm:knot-namecert-field-coverage}
+The public $\NameCert_{\KnotUp}$ carrier, classifier, stability, ledger, and
+exactness fields are covered by
+\autoref{def:knot-diagram-bhist-carrier},
+\autoref{def:knot-reidemeister-ledger-classifier},
+\autoref{thm:knot-sone-source-boundary},
+\autoref{thm:knot-homotopy-ledger-boundary},
+\autoref{thm:knot-namecert-obligation-surface},
+\autoref{thm:knot-projection-stability-obligation},
+\autoref{thm:knot-reidemeister-move-classifier-obligation},
+\autoref{thm:knot-homotopy-source-obligation},
+\autoref{thm:knot-sone-boundary-ledger},
+\autoref{thm:knot-ambient-isotopy-ledger-exactness},
+\autoref{thm:knot-endpoint-source-exhaustion},
+\autoref{thm:knot-reidemeister-ledger-composition-closure}, and
+\autoref{thm:knot-classifier-ledger-completeness}. Downstream consumers may
+cite these rows without assuming a knot quotient, host embedding equality, or
+external ambient-isotopy primitive.
+\end{theorem}
+
+\begin{proof}
+Enumerate the public certificate surface in the ten-field roadmap form. The
+BEDC source field is the pair of consumed $\NameCert_{\SOneUp}$ and
+$\NameCert_{\HomotopyUp}$ packets; the carrier field is
+\autoref{def:knot-diagram-bhist-carrier}; and the classifier field is
+\autoref{def:knot-reidemeister-ledger-classifier}.
+
+The stability field is supplied by
+\autoref{thm:knot-projection-stability-obligation} and by the endpoint
+$\hsame$ transport in
+\autoref{thm:knot-reidemeister-move-classifier-obligation}. The ledger field
+is the finite $\mathsf{Cont}$ and $\mathsf{ProbeBundle}$ surface identified by
+\autoref{thm:knot-homotopy-ledger-boundary},
+\autoref{thm:knot-reidemeister-ledger-composition-closure}, and
+\autoref{thm:knot-classifier-ledger-completeness}.
+
+The source-boundary and endpoint-coverage fields are
+\autoref{thm:knot-sone-source-boundary},
+\autoref{thm:knot-homotopy-source-obligation},
+\autoref{thm:knot-sone-boundary-ledger}, and
+\autoref{thm:knot-endpoint-source-exhaustion}. The exactness field is
+\autoref{thm:knot-ambient-isotopy-ledger-exactness} together with the
+classifier completeness theorem. The standard bridge field is none, and the
+status field is the public paper surface described by
+\autoref{thm:knot-namecert-obligation-surface}.
+
+Every item in the roadmap is therefore a displayed BEDC row or a theorem
+about those displayed rows. Repacking those rows gives the public
+$\NameCert_{\KnotUp}$ coverage surface and supplies downstream knot-facing
+work with citations that do not import a knot quotient, host embedding
+equality, or external ambient-isotopy primitive.
 \end{proof}

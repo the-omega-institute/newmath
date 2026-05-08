@@ -160,6 +160,7 @@ import BEDC.Derived.PreSheafUp
 import BEDC.Derived.ProjectiveSpaceUp
 import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.AffineSpaceUp
+import BEDC.Derived.ModelTheoryUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
 import BEDC.Derived.ProdUp.SourceMonotonicity
@@ -535,6 +536,8 @@ import BEDC.Derived.ManifoldUp.StdBridge
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.PolynomialUp.StdBridge
+import BEDC.Derived.SeparableExtUp
+import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
@@ -731,3 +734,5 @@ import BEDC.Derived.FieldUp.RatDenominatorExternalUnitNormalForm
 import BEDC.Derived.FieldUp.ContextualActionThreefold
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Reflection
+/- Capstone formalizations. -/
+import BEDC.Capstone

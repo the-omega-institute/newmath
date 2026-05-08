@@ -1,0 +1,76 @@
+\begin{theorem}[GaloisGroupUp action ledger exactness]
+\label{thm:galoisgroup-action-ledger-exactness}
+For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the public action
+ledger is exactly the fixed-base row, identity row, composition row, inverse
+row, classifier row, dependency projections to $E$ and $G$, finite
+$\mathsf{Cont}$ readbacks, and shared $\mathsf{Pkg}$ provenance. No host
+automorphism function space, quotient of automorphisms, or uncarried equality
+of field presentations is exported.
+\end{theorem}
+\begin{proof}
+Project the packet along
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}. The projection
+exposes only $E$, $G$, $b$, $a$, $m$, $i$, $c$, $\rho$, and $\lambda$ together
+with the dependency rows recorded inside the two consumed NameCert packets.
+
+The Galois-extension public boundary
+\autoref{thm:galoisext-public-obligation-boundary} accounts for all extension
+carrier, classifier, exactness, and ledger rows from $E$. The fixed-base carrier
+obligation \autoref{thm:galoisgroup-fixed-base-carrier-obligation} accounts for
+the base-fixing face of the action ledger.
+
+The identity row is the unit action row supplied above. The composition and
+inverse faces are exactly the rows controlled by
+\autoref{thm:galoisgroup-composition-closure},
+\autoref{thm:galoisgroup-inverse-closure}, and
+\autoref{thm:galoisgroup-composition-and-inverse-obligation}. These references
+exhaust the accepted action, association, and reversal data available in the
+finite packet.
+
+Conversely, every listed row is a displayed packet row or a dependency
+projection already carried by $\lambda$ and tagged by $\rho$. Repacking those
+rows gives the same public $\GaloisGroupUp$ automorphism-action packet, so the
+ledger is exact and has no additional ambient automorphism object behind it.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp public NameCert obligation boundary]
+\label{thm:galoisgroup-public-namecert-obligation-boundary}
+For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the public
+$\NameCert_{\GaloisGroupUp}$ obligation surface is exactly the following
+finite row family: the Galois-extension dependency packet $E$, the group
+dependency packet $G$, the fixed-base row $b$, the automorphism-action row
+$a$, the identity row read from the unit of $G$, the composition row $m$, the
+inverse row $i$, the classifier row $c$, the $\mathsf{Pkg}$ provenance row
+$\rho$, the finite $\mathsf{Cont}$ ledger $\lambda$, and the exactness rows
+named by those packets. This is the public
+obligation boundary consumed by downstream Galois and representation-facing
+chapters.
+\end{theorem}
+\begin{proof}
+Project the packet to its dependency surfaces. The Galois-extension side is
+the public boundary of
+\autoref{thm:galoisext-public-obligation-boundary}; the group side is the
+operation and inverse surface named by the $\GroupUp$ certificate. These two
+dependency projections account for the extension carrier, group operation,
+classifier, stability, ledger, and exactness rows available to the
+Galois-group packet.
+
+The fixed-base carrier obligation is supplied by
+\autoref{thm:galoisgroup-fixed-base-carrier-obligation}. The identity row is
+supplied by \autoref{thm:galoisgroup-identity-row-closure}; classifier-stable
+composition is supplied by
+\autoref{thm:galoisgroup-composition-classifier-congruence}; and the
+composition and inverse obligation is supplied by
+\autoref{thm:galoisgroup-composition-and-inverse-obligation}. Therefore every
+public row is a projection of $E$, $G$, $b$, $a$, the identity row, $m$, $i$,
+$c$, $\rho$, or $\lambda$.
+
+Conversely, each listed row is either a coordinate of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet} or a projected row
+read from those coordinates. Repacking those rows gives the carrier, identity,
+operation, inverse, classifier, provenance, ledger, and exactness surface needed
+by downstream Galois and representation-facing uses, so no hidden host
+automorphism datum is part of the public boundary.
+\end{proof}
