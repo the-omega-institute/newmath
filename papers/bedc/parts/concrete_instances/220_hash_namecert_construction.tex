@@ -267,3 +267,37 @@ $$
 This contradicts the displayed witness $\neg\sigma_{\mathcal H}(x,x)$. Hence no diagonal collision-success transcript can exist, and the assumption implies $\bot$.
 \end{proof}
 \leanchecked{BEDC.Derived.HashUp.HashCollisionSuccess\_irreflexive\_on\_message}
+
+\begin{theorem}[Hash collision success induces same-direction second-preimage]
+\label{thm:hash-collision-success-induces-same-direction-second-preimage}
+Let $\mathcal H$ be a $\HashUp$ certificate whose finite-output digest classifier $\rho_{\mathcal H}$ carries the classifier-symmetry field supplied by its $\NameCert_{\FinSetUp}$ component. For message histories $x$ and $x'$, every successful collision transcript for the ordered pair $(x,x')$ induces a successful second-preimage transcript with base message $x$ and returned message $x'$ over the same two hash-evaluation rows:
+$$
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')
+\Longrightarrow
+\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x').
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:hash-evaluation-success-transcripts}. A collision transcript for $(x,x')$ gives digest histories $d$ and $d'$ with evaluation row witnesses
+$$
+\mathsf{HashEval}_{\mathcal H}(x,d)
+\qquad\text{and}\qquad
+\mathsf{HashEval}_{\mathcal H}(x',d'),
+$$
+the message distinction witness
+$$
+\neg\sigma_{\mathcal H}(x,x'),
+$$
+and the digest comparison
+$$
+\rho_{\mathcal H}(d,d').
+$$
+The digest classifier is the classifier of the finite-output naming certificate from \autoref{ch:concrete-instances-finset-namecert}. Its classifier-symmetry field, as recorded in \autoref{def:lean-carrier-naming-certificate}, reverses the displayed digest comparison and gives
+$$
+\rho_{\mathcal H}(d',d).
+$$
+Keep the same digest witnesses $d$ and $d'$. The two hash-evaluation rows and the message distinction witness already occur in the order required for a second-preimage transcript with base message $x$ and returned message $x'$, and the reversed digest comparison is exactly the second-preimage digest condition in \autoref{def:hash-evaluation-success-transcripts}. Repacking these witnesses gives
+$$
+\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x').
+$$
+\end{proof}

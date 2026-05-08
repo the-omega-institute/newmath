@@ -1,0 +1,512 @@
+\chapter{Motif-Report Prototype}
+\label{ch:ground-compiler-motif-report-prototype}
+
+\autoref{ch:ground-compiler-source-normalizer-ledger-prototype} defines $P_2$, the source-level normalizer ledger prototype. It adds adjacent-pair listings, candidate normalizer pairs, recognized normalizer ledgers, pre-normal and normal-address roles, candidate-only warnings, and normalizer cannot-claims to the $P_1$ source-event report.
+
+This chapter defines the next prototype level:
+$$
+  \boxed{P_3=P_2+\text{generated motif recognizers}+\text{motif reports}.}
+$$
+The task of $P_3$ is to recognize and report stable generative motifs on decoded source event flows: finite repetition, continuation, seal, carry, ledger compression, classifier quotient, reuse, and bridge-candidate motifs. It still does not export mature objects. A motif report cannot turn a support flow into $\NatUp$, $\AddUp$, $\MulUp$, $\FullAxisUp$, $\RealUp$, $\CircleUp$, $\ComplexUp$, topology, or homology without later name-certificate, derivation-certificate, acceptance-gate, and proof flows.
+
+The governing rule is:
+$$
+  \boxed{\text{a motif is not an external pattern; it is a stable subflow recognized by a generated recognizer}.}
+$$
+
+\section{Motif candidates and recognition}
+\label{sec:motif-report-candidates-recognition}
+
+\begin{definition}[Motif-report prototype]
+\label{def:motif-report-prototype}
+A \emph{motif-report prototype} is an executable prototype $P_3$ satisfying:
+\begin{enumerate}
+\item $P_3$ includes all $P_2$ functions;
+\item $P_3$ accepts a decoded event flow $S=\mathsf{Decode}(c)$;
+\item $P_3$ may use generated motif recognizer flows $R_M$;
+\item $P_3$ may recognize motif occurrences
+$$
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu);
+$$
+\item $P_3$ may output motif reports;
+\item $P_3$ does not treat motif reports as proofs, certificates, name-certificate flows, derivation-certificate flows, or acceptance gates.
+\end{enumerate}
+Write
+$$
+  \mathsf{MotifReportPrototype}(P_3).
+$$
+\end{definition}
+
+\begin{definition}[Motif candidate]
+\label{def:motif-report-candidate}
+Given an event flow
+$$
+  S=(w_0,\ldots,w_{n-1}),
+$$
+a \emph{motif candidate} is a source-level subflow $M\subseteq S$. The subflow may be contiguous or indexed. For
+$$
+  S=0\mid 00\mid 000\mid 01\mid 011\mid 100,
+$$
+the subflow $0\mid 00\mid 000$ is a finite-repetition candidate, $011\mid 100$ is a carry candidate, and the whole flow is a completion-skeleton candidate. The inclusion $M\subseteq S$ does not imply recognized motif status.
+\end{definition}
+
+\begin{definition}[Generated motif recognizer]
+\label{def:motif-report-generated-recognizer}
+A \emph{generated motif recognizer} is an event flow
+$$
+  R_M\in\mathsf{EventFlow}.
+$$
+It is not a host-level pattern matcher, regular expression, YAML motif table, hand-written tag table, or external semantic classifier. It supports a relation
+$$
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu),
+$$
+where $S$ is the ambient source event flow, $M$ is the support subflow, and $\mu$ is a motif role flow.
+\end{definition}
+
+\begin{definition}[Motif role flow]
+\label{def:motif-report-role-flow}
+A \emph{motif role flow} is an event flow
+$$
+  \mu\in\mathsf{EventFlow}
+$$
+representing a motif role, such as finite repetition, continuation, seal, carry, classifier quotient, ledger compression, reuse, or bridge candidate. These names are explanatory; formally $\mu$ is not an external enum and must be represented in event-flow form.
+\end{definition}
+
+\begin{definition}[Recognized motif occurrence]
+\label{def:motif-report-recognized-occurrence}
+If
+$$
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu),
+$$
+then $M$ is a \emph{recognized motif occurrence} in $S$ under $R_M$ and role $\mu$. Write
+$$
+  M\preceq_{\mu,R_M}S.
+$$
+\end{definition}
+
+\begin{remark}[Candidate motif is weaker than recognized motif]
+\label{rem:motif-report-candidate-weaker}
+The inclusion $M\subseteq S$ only supplies a candidate subflow. The judgment
+$$
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu)
+$$
+is the recognized motif judgment. Thus $0\mid 00\mid 000$ may look like finite repetition and $011\mid 100$ may look like carry, but neither becomes recognized motif without generated recognizer flow.
+\end{remark}
+
+\begin{definition}[Motif ledger]
+\label{def:motif-report-ledger}
+If
+$$
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu),
+$$
+a \emph{motif ledger} is an event subflow $L_M$ recording the ambient flow $S$, support subflow $M$, motif role $\mu$, recognizer $R_M$, support positions, raw events, normal forms if any, classifier context if any, failure cases, and cannot-claim annotations. Write
+$$
+  \mathsf{MotifLedger}_{R_M}(S,M,\mu,L_M).
+$$
+\end{definition}
+
+\begin{principle}[No recognized motif without ledger]
+\label{prin:motif-report-no-recognized-without-ledger}
+Every nontrivial motif recognition carries a motif ledger:
+$$
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu)
+  \Rightarrow
+  \exists L_M,\ \mathsf{MotifLedger}_{R_M}(S,M,\mu,L_M).
+$$
+Without such a ledger, the subflow may be reported only as a candidate motif.
+\end{principle}
+
+\begin{theorem}[Motif recognition requires generated recognizer]
+\label{thm:motif-report-requires-generated-recognizer}
+If no generated motif recognizer $R_M$ is available, one cannot formally assert
+$$
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu).
+$$
+\end{theorem}
+
+\begin{proof}
+Motif recognition is a source-level recognition judgment. By the no-hidden-input discipline, the recognizer cannot be supplied by an external pattern table, host regular expression, or human semantic tag. If no generated recognizer flow $R_M$ exists, the source of the recognition is not present inside the event-flow system.
+\end{proof}
+
+\begin{corollary}[Host regular expressions are not motif recognizers]
+\label{cor:motif-report-host-regex-not-recognizer}
+A host regular expression may locate a displayed substring or subflow for implementation convenience, but it is not formal motif recognition. Formal motif recognition requires generated motif recognizer flow and ledger.
+\end{corollary}
+
+\section{Basic motifs}
+\label{sec:motif-report-basic-motifs}
+
+\begin{definition}[Finite repetition motif]
+\label{def:motif-report-finite-repetition}
+A \emph{finite repetition motif} is a recognized event structure
+$$
+  (x,xx,xxx,\ldots,x^k),
+$$
+where $x\in\mathsf{RawEvent}$ and each successor event is obtained by source-level homogeneous extension of the preceding event. The displayed subflow $0\mid 00\mid 000$ is a candidate for $x=0$. It is recognized only when a judgment
+$$
+  \mathsf{RecognizesMotif}(R_{\mathrm{rep}},S,M,\mu_{\mathrm{rep}})
+$$
+is supplied.
+\end{definition}
+
+\begin{definition}[Continuation motif]
+\label{def:motif-report-continuation}
+A \emph{continuation motif} is a recognized event structure indicating that source events combine into a continuation result. Explanatory shapes include
+$$
+  x\mid y\mid xy
+$$
+or an input-flow, input-flow, continuation-result-flow, continuation-witness-flow pattern. A subflow such as $00\mid 000\mid 00000$ is only a candidate until recognized.
+\end{definition}
+
+\begin{definition}[Seal motif]
+\label{def:motif-report-seal}
+A \emph{seal motif} is a recognized event structure indicating completion or closure of a repeat, thread, or process. Explanatory shapes include
+$$
+  x\mid xx\mid xxx\mid x1\mid x11
+$$
+or finite stages, repeat-boundary witness, seal witness, and tail ledger. The subflow $0\mid 00\mid 000\mid 01\mid 011$ is only a completion-like candidate until recognized.
+\end{definition}
+
+\begin{definition}[Carry motif]
+\label{def:motif-report-carry}
+A \emph{carry motif} is a recognized source-level normalizer ledger consisting of a pre-normal event and a normal-address event. Explanatory shapes include
+$$
+  011\mid 100
+  \qquad\text{and}\qquad
+  0011\mid 0100.
+$$
+The motif must retain both pre-normal and normal-address events.
+\end{definition}
+
+\begin{definition}[Ledger compression motif]
+\label{def:motif-report-ledger-compression}
+A \emph{ledger compression motif} is a recognized structure in which a visible event or package-like token hides source material while a ledger subflow retains provenance. It contains visible flow, hidden source flow, ledger flow, source-map or pullback flow, and compression seal flow.
+\end{definition}
+
+\begin{definition}[Classifier quotient motif]
+\label{def:motif-report-classifier-quotient}
+A \emph{classifier quotient motif} is a recognized structure in which distinct raw flows are assigned to one classifier class. It contains raw support flows, classifier witness, exactness witness, and a ledger preserving all raw supports. The raw events $011$ and $100$ together with a carry-classifier witness form only a candidate until recognized.
+\end{definition}
+
+\begin{definition}[Reuse motif]
+\label{def:motif-report-reuse}
+A \emph{reuse motif} is a recognized structure in which a flow reuses recognized or accepted input flows and creates its own source, classifier, ledger, or certificate obligations. It contains input recognized flows, transport or reuse witness, new local source, new classifier, new ledger, strength bound, and reuse seal.
+\end{definition}
+
+\begin{definition}[Bridge-candidate motif]
+\label{def:motif-report-bridge-candidate}
+A \emph{bridge-candidate motif} is a recognized structure suggesting that two flows may support a bridge, without supplying the bridge certificate. It contains source flow, target-like flow, motif overlap, translation candidate, missing soundness flow, missing reflection or completeness flow, and missing no-host-leak ledger. A bridge-candidate motif is not a bridge.
+\end{definition}
+
+\section{Motif reports}
+\label{sec:motif-report-reports}
+
+\begin{definition}[Motif report]
+\label{def:motif-report-report}
+Given a decoded event flow $S$ and a family of generated motif recognizers $\mathcal R$, a \emph{motif report} is an output view containing the ambient event flow, recognized motif occurrences, candidate motifs, motif roles, support subflows, motif ledgers, failure cases, warnings, and cannot-claim annotations. Write
+$$
+  \mathsf{MotifReport}_{\mathcal R}(S).
+$$
+\end{definition}
+
+\begin{principle}[Motif report is output, not input]
+\label{prin:motif-report-output-not-input}
+A motif report is not formal input. It cannot replace recognizer flow, certificate flow, proof flow, name-certificate flow, derivation-certificate flow, or acceptance-gate flow.
+\end{principle}
+
+\begin{definition}[Candidate motif section]
+\label{def:motif-report-candidate-section}
+A motif report may contain a candidate motif section listing candidate finite repetition, continuation, seal, carry, reuse, and bridge structures. Every entry in that section must be marked candidate-only and requiring recognizer flow for recognition.
+\end{definition}
+
+\begin{definition}[Recognized motif section]
+\label{def:motif-report-recognized-section}
+The recognized motif section may list only motif occurrences satisfying both
+$$
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu)
+$$
+and
+$$
+  \mathsf{MotifLedger}_{R_M}(S,M,\mu,L_M).
+$$
+\end{definition}
+
+\begin{principle}[Candidate and recognized sections are separate]
+\label{prin:motif-report-candidate-recognized-separate}
+A motif report must clearly separate candidate motifs from recognized motifs. It must not display a candidate motif as a recognized motif.
+\end{principle}
+
+\begin{theorem}[Motif report soundness]
+\label{thm:motif-report-soundness}
+If a motif report claims that $M$ is a recognized motif in $S$, then there exist $R_M$, $\mu$, and $L_M$ such that
+$$
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu)
+$$
+and
+$$
+  \mathsf{MotifLedger}_{R_M}(S,M,\mu,L_M).
+$$
+\end{theorem}
+
+\begin{proof}
+By definition, the recognized motif section may list only entries with a recognizer judgment and ledger. Therefore every reported recognized motif has both.
+\end{proof}
+
+\begin{corollary}[Motif report cannot invent motifs]
+\label{cor:motif-report-cannot-invent}
+If recognizer or ledger is missing, a report may not promote a candidate motif to recognized motif.
+\end{corollary}
+
+\section{$P_3$ pipeline}
+\label{sec:motif-report-pipeline}
+
+\begin{definition}[$P_3$ pipeline]
+\label{def:motif-report-p3-pipeline}
+Given channel code $c$, the $P_3$ pipeline has stages:
+\begin{enumerate}
+\item legality check;
+\item decode to source event flow $S$;
+\item source-event report;
+\item adjacent-pair listing;
+\item candidate normalizer ledger report;
+\item motif recognizer selection;
+\item motif recognition;
+\item motif ledger extraction;
+\item motif report generation;
+\item cannot-claim annotation.
+\end{enumerate}
+Recognizer selection cannot come from an external table. It must come from a recognized recognizer-family flow or be recorded as bootstrap obligation.
+\end{definition}
+
+\begin{definition}[Recognizer family flow]
+\label{def:motif-report-recognizer-family-flow}
+A \emph{recognizer family flow} is an event flow
+$$
+  F_R\in\mathsf{EventFlow}
+$$
+recognized as a family of motif recognizer flows $R_1,\ldots,R_k$. Write
+$$
+  \mathsf{RecognizesRecognizerFamily}(R_F,F_R,(R_1,\ldots,R_k)).
+$$
+Without a recognized recognizer-family flow, $P_3$ can generate only candidate motif reports, not recognized motif reports.
+\end{definition}
+
+\begin{principle}[No hardcoded motif family]
+\label{prin:motif-report-no-hardcoded-family}
+The finite-repetition, carry, seal, and reuse recognizers may not be hardcoded as a formal recognizer family. They must come from recognized recognizer-family flow or be recorded as bootstrap obligations.
+\end{principle}
+
+\begin{theorem}[Without recognizer family, $P_3$ is candidate-only]
+\label{thm:motif-report-without-family-candidate-only}
+If $P_3$ has no recognized recognizer-family flow, then it can output only a candidate motif section, not a recognized motif section.
+\end{theorem}
+
+\begin{proof}
+Recognized motifs require a judgment $\mathsf{RecognizesMotif}(R_M,S,M,\mu)$ and a motif ledger. Without a recognizer family, there is no available $R_M$. Thus no recognized motif judgment can be produced.
+\end{proof}
+
+\section{Examples}
+\label{sec:motif-report-examples}
+
+\begin{example}[Candidate motif report for completion skeleton]
+\label{ex:motif-report-candidate-completion}
+For input
+$$
+  011001100011010110101011100011,
+$$
+the decoded event flow is
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100.
+$$
+A candidate motif report may list finite repetition candidate $0\mid 00\mid 000$, repeat-boundary candidate $01$, seal candidate $011$, carry candidate $011\mid 100$, and completion-skeleton candidate equal to the whole flow. Warnings state that the report is candidate-only, no motif recognizer family is supplied, no name-certificate flow is supplied, and no acceptance-gate flow is supplied. Cannot-claims state that finite repetition does not imply $\NatUp$, seal does not imply completion, carry does not imply Zeckendorf-carry, and completion skeleton does not imply $\FullAxisUp$.
+\end{example}
+
+\begin{example}[Recognized motif report for completion skeleton]
+\label{ex:motif-report-recognized-completion}
+Assume a recognizer family contains certified finite-repetition, seal, and carry recognizers. A report may then list recognized finite repetition with support $0\mid 00\mid 000$, recognized seal with support $011$, and recognized carry with support $011\mid 100$, pre-normal event $011$, normal-address event $100$, and retained ledger. It still cannot claim that $\FullAxisUp$ is licensed, completion is exported, dimension-lift is established, or $011=\!100$ as $\hsame$ without further certificate flows.
+\end{example}
+
+\begin{example}[Candidate motif report for fold skeleton]
+\label{ex:motif-report-candidate-fold}
+For input
+$$
+  0110011001011001010110100011,
+$$
+the decoded flow is
+$$
+  0\mid 00\mid 001\mid 0011\mid 0100.
+$$
+A candidate report may list finite source candidate $0\mid 00$, additive-recursion candidate $001$, fold-completion candidate $0011\mid 0100$, and the whole fold skeleton candidate. Cannot-claims state that $001$ does not imply $\AddUp$, $0011\mid 0100$ does not imply $\MulUp$, and $0100$ is not an accepted fold object.
+\end{example}
+
+\begin{example}[Nat-like and List-like motif comparison]
+\label{ex:motif-report-nat-list-comparison}
+For flows
+$$
+  0\mid 00\mid 000\mid 01
+  \qquad\text{and}\qquad
+  0\mid 00\mid 000,
+$$
+a candidate report may show the shared finite spine $0\mid 00\mid 000$, the extra event $01$ in the Nat-like flow, and the missing payload classifier, constructor-shape ledger, and length ledger for a List-like reading. Cannot-claims state that shared spine does not imply same object, and neither flow licenses $\NatUp$ or list structure without the corresponding name-certificate flow.
+\end{example}
+
+\section{Motif counts}
+\label{sec:motif-report-counts}
+
+\begin{definition}[$P_3$ motif count]
+\label{def:motif-report-motif-count}
+Given a recognized motif report, define
+$$
+  \mathsf{MotifCount}_{P_3}(S,\mu)
+$$
+as the number of recognized motif occurrences of role $\mu$ in the report. If the report has only a candidate section and no recognized motifs, the motif count is undefined, not zero.
+\end{definition}
+
+\begin{definition}[$P_3$ carry count]
+\label{def:motif-report-carry-count}
+The $P_3$ carry count is the number of recognized carry motif occurrences. If only candidate carry pairs are present, the recognized carry count is undefined; a separate candidate-carry count may be reported.
+\end{definition}
+
+\begin{definition}[$P_3$ seal count]
+\label{def:motif-report-seal-count}
+The $P_3$ seal count is the number of recognized seal motif occurrences. Candidate seal events appear only in the candidate section.
+\end{definition}
+
+\begin{proposition}[Candidate count and recognized count differ]
+\label{prop:motif-report-candidate-recognized-count-differ}
+Candidate motif count cannot replace recognized motif count.
+\end{proposition}
+
+\begin{proof}
+Candidate count depends on shape or candidate policy. Recognized count depends on generated recognizers and motif ledgers. These are different evidence levels. Substituting candidate count for recognized count treats unrecognized patterns as recognized motifs.
+\end{proof}
+
+\begin{corollary}[Missing recognizer does not imply zero motif]
+\label{cor:motif-report-missing-not-zero}
+If a motif recognizer is missing, the recognized count for that motif is undefined or recognizer-missing, not zero. Otherwise absence of recognition would be mistaken for absence of structure.
+\end{corollary}
+
+\section{Soundness, adequacy, and conservativity}
+\label{sec:motif-report-soundness-adequacy-conservativity}
+
+\begin{definition}[Sound motif report]
+\label{def:motif-report-sound}
+A motif report is \emph{sound} when:
+\begin{enumerate}
+\item the candidate section lists only candidates;
+\item the recognized section lists only motifs with recognizer and ledger;
+\item every recognized motif has support subflow in the decoded event flow;
+\item every motif ledger records support and role;
+\item cannot-claim annotations cover all high-risk motifs;
+\item missing recognizers are reported as missing, not as negative evidence.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Sound motif report theorem]
+\label{thm:motif-report-sound-report}
+If $P_3$ outputs a sound motif report, then every recognized motif occurrence in the report has a source-level recognition judgment and motif ledger.
+\end{theorem}
+
+\begin{proof}
+By soundness, the recognized section contains only entries with recognizer and ledger. Hence each recognized motif has $\mathsf{RecognizesMotif}(R_M,S,M,\mu)$ and $\mathsf{MotifLedger}_{R_M}(S,M,\mu,L_M)$.
+\end{proof}
+
+\begin{theorem}[Motif report does not license objects]
+\label{thm:motif-report-does-not-license-objects}
+Even a sound motif report does not imply any derived interface or accepted object.
+\end{theorem}
+
+\begin{proof}
+Motif reports supply motif recognition and ledger information. Derived interfaces require name-certificate flows. Accepted objects require derivation-certificate flows and acceptance gates. A motif report does not provide these certificates.
+\end{proof}
+
+\begin{corollary}[Recognized carry motif does not imply dimension-lift]
+\label{cor:motif-report-carry-not-dimlift}
+A recognized carry motif such as $011\mid 100$ does not imply dimension-lift structure. That requires its own certificates and ledger.
+\end{corollary}
+
+\begin{corollary}[Recognized seal motif does not imply completion]
+\label{cor:motif-report-seal-not-completion}
+A recognized seal motif does not imply completion. Completion requires compatible-thread source, classifier, seal certificate, and tail ledger.
+\end{corollary}
+
+\begin{definition}[$P_3$ audit checklist]
+\label{def:motif-report-p3-audit}
+A $P_3$ prototype must satisfy:
+\begin{enumerate}
+\item all $P_2$ audit requirements;
+\item candidate motifs are distinguished from recognized motifs;
+\item recognized motifs require generated motif recognizers;
+\item nontrivial recognized motifs require motif ledgers;
+\item missing recognizers are reported as undefined, not zero;
+\item source-level motifs are separated from channel substrings;
+\item every high-risk motif has cannot-claim annotations;
+\item no derived interface is licensed;
+\item no object equality is asserted;
+\item no theoremhood is asserted;
+\item no hardcoded motif table is used as formal input;
+\item implementation-level recognizers have bootstrap obligations unless certified.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[$P_3$ adequacy theorem]
+\label{thm:motif-report-p3-adequacy}
+If a prototype satisfies the $P_3$ audit checklist, has sound $P_2$ reports, and every recognized motif is backed by generated motif recognizer and motif ledger, then it is adequate as a motif-report prototype.
+\end{theorem}
+
+\begin{proof}
+The audit checklist separates candidates, recognized motifs, recognizers, ledgers, missing recognizers, and cannot-claims. Sound $P_2$ reports supply the decoded source event flow. Generated recognizers and ledgers prevent host-level or hardcoded pattern matches from becoming formal motif recognition.
+\end{proof}
+
+\begin{corollary}[$P_3$ adequacy does not imply higher adequacy]
+\label{cor:motif-report-p3-not-higher}
+A $P_3$ prototype is not yet a package recognizer, name-certificate recognizer, theorem recognizer, chapter recognizer, metric analyzer, accepted-object compiler, or self-hosting compiler.
+\end{corollary}
+
+\begin{theorem}[$P_3$ is conservative over the finite kernel]
+\label{thm:motif-report-p3-conservative}
+Adding motif candidate reports, recognized motif reports, motif ledgers, motif counts, and $P_3$ cannot-claim annotations adds no raw marks, history constructors, sameness rules, continuation rules, derived-interface formation rules, theorem rules, or accepted-object export rules.
+\end{theorem}
+
+\begin{proof}
+$P_3$ operates on decoded event flows and recognized subflows. It generates no new $\bzero,\bone$, adds no $\msame$, $\hsame$, or $\psame$ rules, does not alter $\ExtR$ or $\ContR$, and does not license derived interfaces or accepted objects.
+\end{proof}
+
+\begin{corollary}[$P_3$ remains an analysis layer]
+\label{cor:motif-report-p3-analysis-layer}
+$P_3$ provides motif-level analysis and reporting. It is not a mathematical object generator.
+\end{corollary}
+
+\section{Full report examples}
+\label{sec:motif-report-full-examples}
+
+\begin{example}[$P_3$ report for completion skeleton]
+\label{ex:motif-report-full-completion}
+For input
+$$
+  011001100011010110101011100011,
+$$
+the decoded flow is
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100.
+$$
+The candidate section lists finite repetition $0\mid 00\mid 000$, repeat-boundary $01$, seal $011$, carry $011\mid 100$, and completion skeleton equal to the whole flow. Suppose the recognizer family has recognized finite-repetition and carry recognizers, but missing seal and completion recognizers. The recognized section lists finite repetition with retained ledger and carry with pre-normal $011$, normal-address $100$, and retained ledger. Seal and completion counts are undefined because their recognizers are missing. Cannot-claims say that there is no completion export, no $\FullAxisUp$, no dimension-lift, no object equality, no $\hsame(011,100)$, and no theoremhood.
+\end{example}
+
+\begin{example}[$P_3$ report for fold skeleton]
+\label{ex:motif-report-full-fold}
+For input
+$$
+  0110011001011001010110100011,
+$$
+the decoded flow is
+$$
+  0\mid 00\mid 001\mid 0011\mid 0100.
+$$
+If additive and fold recognizers are missing, the report is candidate-only: finite source $0\mid 00$, additive-recursion candidate $001$, and fold-completion candidate $0011\mid 0100$. Recognized motifs are none. Cannot-claims state that $001$ is not $\AddUp$, $0011$ is not $\MulUp$, $0100$ is not an accepted fold object, and no fold relation is present without recognizer.
+\end{example}
+
+\begin{remark}[Summary]
+\label{rem:motif-report-summary}
+This chapter defines $P_3$, the motif-report prototype. It extends $P_2$ with motif candidates, generated motif recognizers, motif role flows, recognized motif occurrences, motif ledgers, candidate and recognized sections, motif counts, and $P_3$ audit rules. It proves that motif recognition requires generated recognizers, host regular expressions are not motif recognizers, nontrivial recognized motifs require ledger, candidate and recognized report sections must be separated, reports cannot invent motifs, missing recognizer families make $P_3$ candidate-only, candidate and recognized counts differ, missing recognizers do not mean zero motif, sound motif reports provide recognition judgments and ledgers, motif reports do not license objects, and $P_3$ is conservative over the finite kernel.
+\end{remark}
