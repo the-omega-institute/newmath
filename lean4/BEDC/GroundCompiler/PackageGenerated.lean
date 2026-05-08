@@ -168,6 +168,20 @@ theorem classified_not_code_bijective {rel : PackageClassifierRelation} :
             (raw_flows_code_bijective (S := S) (T := T)).mp hCode
           exact hT.right.right.left hEq
 
+theorem raw_code_vs_classified_object_layers {rel : PackageClassifierRelation} :
+    (forall S T : PackageCandidateFlow, PackageCode S = PackageCode T -> S = T) /\
+      ((exists S T : PackageCandidateFlow,
+        PkgFlow S /\
+          PkgFlow T /\
+          Not (S = T) /\
+          PackageClassifierQuotient rel S T) ->
+        ClassifierCollapsesDistinctCode rel) := by
+  constructor
+  · intro S T hCode
+    exact (raw_flows_code_bijective (S := S) (T := T)).mp hCode
+  · intro h
+    exact classified_not_code_bijective h
+
 def RecognizesPkgCode
     (R : GeneratedPackageRecognizer) (c : List DisplayAlphabet) : Prop :=
   exists S : PackageCandidateFlow,
@@ -188,5 +202,24 @@ theorem package_recognition_conservativity
       List.Mem w S -> List.Mem m w -> m = BMark.b0 \/ m = BMark.b1 := by
   intro _ hEvent hMark
   exact event_flow_conservativity hEvent hMark
+
+def DerivedInterfaceLicense (S : PackageCandidateFlow) : Prop :=
+  exists R : GeneratedPackageRecognizer,
+    exists N C : EventFlow,
+      PackageRecognitionRelation R S /\
+        RecognizedNameCertFlow N /\
+        RecognizedClosureCertFlow C /\
+        AcceptedObjectFlow S
+
+theorem recognized_package_weaker_than_derived_interface {S : PackageCandidateFlow} :
+    DerivedInterfaceLicense S -> PkgFlow S := by
+  intro h
+  cases h with
+  | intro R hR =>
+      cases hR with
+      | intro _ hN =>
+          cases hN with
+          | intro _ hC =>
+              exact ⟨R, hC.left⟩
 
 end BEDC.GroundCompiler.PackageGenerated

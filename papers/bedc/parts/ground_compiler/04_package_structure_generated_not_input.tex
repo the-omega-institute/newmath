@@ -368,6 +368,7 @@ Thus two distinct codes decode to raw flows identified by the classifier quotien
 
 \begin{corollary}[Raw package code and classified package object are different layers]
 \label{cor:package-generated-raw-code-vs-classified-object}
+\leanchecked{BEDC.GroundCompiler.PackageGenerated.raw\_code\_vs\_classified\_object\_layers}
 Package codes are bijective with recognized raw package flows. Classified package objects are quotients of those flows:
 \begin{center}
 \begin{tabular}{rcl}
@@ -481,11 +482,18 @@ The relation $\mathsf{RecognizesPkg}(R,S)$ is defined over event flows $R,S \in 
 
 \begin{corollary}[Recognized package flow is weaker than derived interface]
 \label{cor:package-generated-weaker-than-derived-interface}
-If $S$ is recognized as a package flow, this alone does not license an upward-arrow interface. Licensing still requires the appropriate $\NameCert$ and, for export, derived-certificate and acceptance-gate support.
+\leanchecked{BEDC.GroundCompiler.PackageGenerated.recognized\_package\_weaker\_than\_derived\_interface}
+A derived-interface license for a package flow consists of package recognition together with recognized $\NameCert$ flow, recognized $\ClosureCert$ flow, and accepted-object support. Such a license projects to package recognition:
+$$
+  \mathsf{DerivedInterfaceLicense}(S)
+  \Longrightarrow
+  \mathsf{PkgFlow}(S).
+$$
+Package recognition alone is only this projected component; it is not the whole derived-interface license.
 \end{corollary}
 
 \begin{proof}
-A recognized package flow supplies only source-level structural recognition. The typed naming discipline of \autoref{ch:core-typed-naming-certificates} requires a $\NameCert$ before an upward-arrow derived interface is licensed. Hence package recognition alone is weaker than derived-interface licensing.
+By definition, $\mathsf{DerivedInterfaceLicense}(S)$ contains a generated package recognizer $R$ with $\mathsf{RecognizesPkg}(R,S)$, together with the certificate and acceptance witnesses. Projecting the package-recognition component gives $\mathsf{PkgFlow}(S)$.
 \end{proof}
 
 \begin{remark}[Outlook]
