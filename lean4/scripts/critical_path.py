@@ -1331,6 +1331,39 @@ LABEL_INSIDE_RE = re.compile(r"\\label\{((?:thm|def|lem|prop|cor):[^}]+)\}")
 ALL_MARKERS_RE = re.compile(
     r"\\(leanchecked|leanvariant|leandef|leanstmt|leansorryd|leantarget)\{([^}]+)\}"
 )
+# Kernel objects already implemented in BEDC.FKernel.* — appearance in a
+# theorem body marks it as "directly formalisable now", no new namespace needed.
+KERNEL_OBJECT_RE = re.compile(
+    r"\\(?:BHist|BMark|Cont|Ext|Mark|hsame|msame|Hist|Pkg|NameCert|Sig|Bundle|"
+    r"Gap|Ask|InGap|InBundle|sameSig|psame|Settled|Unary|"
+    r"DerivCert|ClosureCert|TheoryGate|FormalStatus)\b"
+)
+# Paper-wide cross-reference patterns. Both \autoref and \ref count toward
+# downstream_refs (a label cited by N other places is N times more impactful
+# to formalise — its anchor will be re-used).
+AUTOREF_OR_REF_RE = re.compile(
+    r"\\(?:autoref|ref|cref|Cref)\{((?:thm|def|lem|prop|cor):[^}]+)\}"
+)
+
+# Per-zone weight in unformalized_top score. Capstones get a >1 boost because
+# each capstone bridge unifies ≥3 horizons, so its formalisation has supra-
+# linear leverage; ground_compiler is < 1 to prevent its 995 unwritten from
+# crowding the top 50 out, but kernel-grounded entries inside ground_compiler
+# get their weight ×2 (handled in score formula). Zones not listed default to
+# 0.4 (neither boosted nor crushed).
+ZONE_WEIGHTS: dict[str, float] = {
+    "horizon":                       1.0,
+    "narrative.capstones":           1.2,
+    "narrative.core":                0.8,
+    "narrative.proof_obligations":   0.7,
+    "narrative.proof_sprint":        0.6,
+    "narrative.proof_standing":      0.6,
+    "narrative.ground_compiler":     0.5,
+    "narrative.formalization":       0.5,
+    "narrative.hardening":           0.5,
+    "narrative.concrete_hardening":  0.5,
+    "narrative.acceptance":          0.3,
+}
 
 # Per-zone default Lean namespace prefix. None means the zone is intentionally
 # never formalised (governance / frontmatter / appendices). Suggestions are a
@@ -1467,6 +1500,23 @@ def _build_declared_set() -> set[str]:
         return set()
 
 
+def _count_paper_wide_autorefs(files: list[Path]) -> dict[str, int]:
+    """Count how many times each \\label is cited via \\autoref / \\ref / \\cref
+    across all .tex files reachable from main.tex. Returns {label: count}.
+    Used to compute downstream_refs for the unformalized_top score: a theorem
+    cited by N other places is N× more impactful to formalise."""
+    counts: dict[str, int] = {}
+    for f in files:
+        try:
+            text = f.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            continue
+        for m in AUTOREF_OR_REF_RE.finditer(text):
+            label = m.group(1)
+            counts[label] = counts.get(label, 0) + 1
+    return counts
+
+
 def discover_all_theorems() -> list[dict]:
     """Scan paper-wide tree (from main.tex) for every theorem environment.
 
@@ -1476,10 +1526,20 @@ def discover_all_theorems() -> list[dict]:
       - one of objective FORMAL_GRADE_ORDER tokens if marker target exists
       - 'stale'      if marker target exists in source but not declared in build
       - 'unwritten'  if no marker present
+
+    Each row also carries:
+      - statement_preview (first 200 chars of body, newlines collapsed)
+      - has_kernel_object (body mentions \\BHist / \\NameCert / etc — already
+                           formalised, can attack now without new namespace)
+      - downstream_refs   (paper-wide \\autoref / \\ref / \\cref count)
+      - zone_weight       (per-zone multiplier in score)
+      - score             (downstream_refs * zone_weight; ground_compiler
+                           kernel-grounded gets weight ×2)
     """
     files = _discover_paper_files()
     objective_grades = load_objective_formal_grades()
     declared_set = _build_declared_set()
+    autoref_counts = _count_paper_wide_autorefs(files)
 
     rows: list[dict] = []
     for f in files:
@@ -1530,7 +1590,13 @@ def discover_all_theorems() -> list[dict]:
             marker_kind = marker_m.group(1) if marker_m else None
 
             if actual_anchor:
-                if actual_anchor in declared_set:
+                # Skip placeholder targets like `BEDC.<...>.<theorem>` —
+                # paper uses `<...>` as template syntax in didactic
+                # examples (e.g. acceptance/01_derivation_acceptance_gate),
+                # not as a real Lean target. They're not drift.
+                if "<" in actual_anchor and ">" in actual_anchor:
+                    anchor_status = "placeholder"
+                elif actual_anchor in declared_set:
                     grade = objective_grades.get(actual_anchor, "encodedDefV")
                     anchor_status = grade
                 else:
@@ -1539,6 +1605,25 @@ def discover_all_theorems() -> list[dict]:
             else:
                 anchor_status = "unwritten"
                 suggested = _infer_lean_anchor(f, label, zone)
+
+            # statement_preview: first 200 chars of the env body, newlines
+            # collapsed. Used by workers to decide if the statement is
+            # actually formalisable without opening the file.
+            body_window = window[:1200]
+            statement_preview = re.sub(r"\s+", " ", body_window).strip()[:200]
+            has_kernel = bool(KERNEL_OBJECT_RE.search(body_window))
+
+            # Score formula: paper-wide cross-reference count, weighted by
+            # zone. ground_compiler kernel-grounded entries get a ×2 boost so
+            # the ~101 "attackable now" theorems can rise above the ~894
+            # "needs new namespace" peers within the same zone.
+            base_weight = ZONE_WEIGHTS.get(zone, 0.4)
+            if zone == "narrative.ground_compiler" and has_kernel:
+                weight = base_weight * 2.0
+            else:
+                weight = base_weight
+            downstream = autoref_counts.get(label or "", 0)
+            score = downstream * weight
 
             rows.append({
                 "id": label or f"unlabeled:{f.name}:{line_start}",
@@ -1552,8 +1637,65 @@ def discover_all_theorems() -> list[dict]:
                 "anchor_suggested": suggested,
                 "marker_kind": marker_kind,
                 "anchor_status": anchor_status,
+                "statement_preview": statement_preview,
+                "has_kernel_object": has_kernel,
+                "downstream_refs": downstream,
+                "zone_weight": round(weight, 2),
+                "score": round(score, 2),
             })
     return rows
+
+
+def compute_unformalized_top(rows: list[dict], max_n: int = 50) -> list[dict]:
+    """Rank unwritten theorems paper-wide by score desc, return top max_n.
+    Strips per-row fields not useful at the top level (chapter / id stay)."""
+    candidates = [r for r in rows if r["anchor_status"] == "unwritten"]
+    candidates.sort(key=lambda r: (
+        -r["score"], -r["downstream_refs"], r["zone"], r["file"], r["line"]
+    ))
+    out = []
+    for r in candidates[:max_n]:
+        out.append({
+            "id": r["id"],
+            "kind": r["kind"],
+            "file": r["file"],
+            "line": r["line"],
+            "zone": r["zone"],
+            "chapter": r["chapter"],
+            "label": r["label"],
+            "anchor_suggested": r["anchor_suggested"],
+            "statement_preview": r["statement_preview"],
+            "has_kernel_object": r["has_kernel_object"],
+            "downstream_refs": r["downstream_refs"],
+            "zone_weight": r["zone_weight"],
+            "score": r["score"],
+        })
+    return out
+
+
+def compute_drift_top(rows: list[dict], max_n: int = 50) -> list[dict]:
+    """Theorems whose paper-side \\leanchecked/\\leandef target does not
+    resolve to a declared Lean identifier (rename / move / typo). Each is a
+    1-line fix: edit the marker to point at the current canonical name. Sort
+    by downstream_refs desc — fix the most-cited drift first."""
+    candidates = [r for r in rows if r["anchor_status"] == "stale"]
+    candidates.sort(key=lambda r: (-r["downstream_refs"], r["file"], r["line"]))
+    out = []
+    for r in candidates[:max_n]:
+        out.append({
+            "id": r["id"],
+            "kind": r["kind"],
+            "file": r["file"],
+            "line": r["line"],
+            "zone": r["zone"],
+            "chapter": r["chapter"],
+            "label": r["label"],
+            "anchor_actual": r["anchor_actual"],   # what paper currently writes
+            "marker_kind": r["marker_kind"],
+            "statement_preview": r["statement_preview"],
+            "downstream_refs": r["downstream_refs"],
+        })
+    return out
 
 
 def summarize_theorem_inventory(rows: list[dict]) -> dict:
@@ -1865,8 +2007,14 @@ def main() -> int:
         "bridge_candidates": bridge_candidates,
         "formal_axis_top": formal_axis_top,
         "capstone_overlap_map": compute_capstone_overlap_map(),
-        "theorem_inventory": summarize_theorem_inventory(discover_all_theorems()),
     }
+    # Theorem-level surfaces (D-1 inventory + D-2 unformalized_top / drift_top).
+    # Compute discover_all_theorems() once and reuse — the scan is the heaviest
+    # call in the whole script (touches ~1100 .tex files paper-wide).
+    theorem_rows = discover_all_theorems()
+    payload["theorem_inventory"] = summarize_theorem_inventory(theorem_rows)
+    payload["unformalized_top"] = compute_unformalized_top(theorem_rows, max_n=50)
+    payload["drift_top"] = compute_drift_top(theorem_rows, max_n=50)
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
 
