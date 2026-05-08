@@ -6,5 +6,345 @@ The induced-representation interface $\InducedRepUp$ packages, for a subgroup in
 \section{Carrier definition}
 \label{sec:inducedrep-carrier}
 
+\begin{definition}[InducedRepUp BHist carrier packet]
+\label{def:inducedrep-bhist-carrier}
+An $\InducedRepUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+\mathcal{I}=(S,R,i,r,F,\eta,\epsilon,\rho,\lambda).
+$$
+The row $S$ is the consumed $\NameCert_{\SubgroupUp}$ packet naming the
+subgroup inclusion. The row $R$ is the consumed
+$\NameCert_{\RepresentationRingUp}$ packet naming the source and target
+representation-ring rows. The rows $i$ and $r$ are the displayed induction
+and restriction endpoints, each scoped by $S$ for the subgroup inclusion and
+by $R$ for the representation-ring source and target rows. The row $F$ is the
+finite Frobenius reciprocity ledger whose entries compare the displayed
+induction and restriction endpoints without exporting a host adjunction.
+
+The rows $\eta$ and $\epsilon$ are the Frobenius unit and counit rows in the
+same finite ledger. The row $\rho$ is the $\mathsf{Pkg}$ provenance packet
+recording exactly the consumed package rows from $S$ and $R$ together with
+the package rows attached to $i$, $r$, $F$, $\eta$, and $\epsilon$. The finite
+row $\lambda$ is the $\Cont$ ledger containing exactly the consumed SubgroupUp
+rows, consumed RepresentationRingUp rows, induction and restriction endpoint
+rows, Frobenius rows, provenance rows, and public continuation rows exposed
+by the packet.
+\end{definition}
+
+\begin{definition}[InducedRepUp induction--restriction packet]
+\label{def:inducedrep-induction-restriction-packet}
+An $\InducedRepUp$ induction--restriction packet is a finite
+$\mathsf{BHist}$ packet
+$$
+\mathcal{P}_{\InducedRepUp}=(S_{\leq},R_{\mathrm{rep}},I_{\uparrow},
+R_{\downarrow},\Phi,H_{\leq},H_{\mathrm{rep}},H_{\uparrow},H_{\downarrow},
+C_{\mathrm{src}},C_{\mathrm{fr}},\Pi).
+$$
+The row $S_{\leq}$ is the consumed subgroup-inclusion row supplied by
+$\NameCert_{\SubgroupUp}$. The row $R_{\mathrm{rep}}$ is the consumed
+representation-ring row supplied by $\NameCert_{\RepresentationRingUp}$.
+The rows $I_{\uparrow}$ and $R_{\downarrow}$ are the displayed induction and
+restriction rows over that same subgroup source and representation-ring
+source.
+
+The row $\Phi$ is the finite Frobenius comparison row. It compares the
+displayed $I_{\uparrow}$ and $R_{\downarrow}$ rows as BEDC data and does not
+export a host adjunction. The classifier rows
+$H_{\leq},H_{\mathrm{rep}},H_{\uparrow},H_{\downarrow}$ are the corresponding
+$\hsame$ rows for subgroup inclusion, representation-ring transport,
+induction transport, and restriction transport. The ledgers
+$C_{\mathrm{src}}$ and $C_{\mathrm{fr}}$ are finite $\Cont$ ledgers for the
+source-certificate rows and the Frobenius comparison rows. The row $\Pi$ is
+the $\mathsf{Pkg}$ provenance row recording exactly the consumed
+$\NameCert_{\SubgroupUp}$ package, the consumed
+$\NameCert_{\RepresentationRingUp}$ package, and the displayed induction,
+restriction, classifier, Frobenius, and continuation rows.
+\end{definition}
+
+\begin{definition}[InducedRepUp restriction-induction classifier]
+\label{def:inducedrep-restriction-induction-classifier}
+For two carrier packets
+$$
+\mathcal{I}=(S,R,i,r,F,\eta,\epsilon,\rho,\lambda)
+\qquad\text{and}\qquad
+\mathcal{I}'=(S',R',i',r',F',\eta',\epsilon',\rho',\lambda'),
+$$
+the restriction-induction classifier
+$\mathcal{I}\sim_{\InducedRepUp}^{\mathrm{ri}}\mathcal{I}'$ is the finite
+componentwise transport datum consisting of:
+\begin{enumerate}
+  \item an $\hsame$ transport row between the consumed
+  $\NameCert_{\SubgroupUp}$ packets $S$ and $S'$;
+  \item an $\hsame$ transport row between the consumed
+  $\NameCert_{\RepresentationRingUp}$ packets $R$ and $R'$;
+  \item entrywise $\hsame$ transport of the subgroup-inclusion rows read from
+  $S$ and the representation-ring rows read from $R$;
+  \item $\hsame$ transport rows between the induction endpoints $i$ and $i'$
+  and between the restriction endpoints $r$ and $r'$;
+  \item entrywise $\hsame$ transport of the Frobenius ledger rows
+  $F,\eta,\epsilon$ to $F',\eta',\epsilon'$;
+  \item an $\hsame$ transport row between the provenance packets $\rho$ and
+  $\rho'$;
+  \item a finite $\Cont$ ledger comparison between $\lambda$ and $\lambda'$,
+  entry by entry.
+\end{enumerate}
+This classifier transports only displayed BEDC rows: subgroup inclusion rows,
+representation-ring rows, induction and restriction endpoints, Frobenius
+unit and counit rows, provenance, and continuation entries. It explicitly
+does not require equality of host induction functors, host restriction
+functors, representation categories, or adjunction data outside the finite
+packet.
+\end{definition}
+
 \section{The certificate}
 \label{sec:inducedrep-certificate}
+
+\begin{theorem}[InducedRepUp subgroup source boundary]
+\label{thm:inducedrep-subgroup-source-boundary}
+For every $\InducedRepUp$ packet of
+\autoref{def:inducedrep-induction-restriction-packet}, the subgroup source
+visible to downstream consumers is exactly the finite $\mathsf{BHist}$ row
+$S_{\leq}$ consumed from $\NameCert_{\SubgroupUp}$, together with its
+$\hsame$ classifier row $H_{\leq}$, its $\Cont$ entries inside
+$C_{\mathrm{src}}$, and its $\mathsf{Pkg}$ provenance inside $\Pi$. No
+additional subgroup object, ambient group, inclusion witness, or host
+restriction datum is part of the public source boundary.
+\end{theorem}
+\begin{proof}
+The traditional target is the subgroup inclusion along which induction and
+restriction are displayed. The BEDC source is not an ambient group object but
+the consumed $\NameCert_{\SubgroupUp}$ row $S_{\leq}$ in the packet.
+
+Project the carrier. The only subgroup-source row in
+$\mathcal{P}_{\InducedRepUp}$ is $S_{\leq}$, and the matching classifier
+entry is $H_{\leq}$. Stability is therefore componentwise $\hsame$ transport
+through $H_{\leq}$ together with the source continuation entries recorded in
+$C_{\mathrm{src}}$.
+
+The ledger and exactness clauses are read from $\Pi$ and $C_{\mathrm{src}}$.
+Every exported subgroup-source entry occurs in those rows, and every such
+entry is named by the packet. Since no $\StdBridge$ row is carried, the
+standard bridge is absent at this boundary.
+\end{proof}
+
+\begin{theorem}[InducedRepUp representation-ring action boundary]
+\label{thm:inducedrep-representation-ring-action-boundary}
+For every $\InducedRepUp$ packet of
+\autoref{def:inducedrep-induction-restriction-packet}, the
+representation-ring action visible at the induction and restriction
+interface is exactly the finite $\mathsf{BHist}$ row $R_{\mathrm{rep}}$
+consumed from $\NameCert_{\RepresentationRingUp}$, the displayed rows
+$I_{\uparrow}$ and $R_{\downarrow}$, the $\hsame$ classifier rows
+$H_{\mathrm{rep}},H_{\uparrow},H_{\downarrow}$, the continuation rows in
+$C_{\mathrm{src}}$ and $C_{\mathrm{fr}}$, and the $\mathsf{Pkg}$ provenance
+row $\Pi$.
+\end{theorem}
+\begin{proof}
+The traditional target is an action of representation rings on induction and
+restriction. The BEDC source is the consumed
+$\NameCert_{\RepresentationRingUp}$ row $R_{\mathrm{rep}}$, and the carrier
+exposes only the two displayed action endpoints $I_{\uparrow}$ and
+$R_{\downarrow}$.
+
+Classifier stability is componentwise. The row $H_{\mathrm{rep}}$ transports
+the representation-ring source, while $H_{\uparrow}$ and $H_{\downarrow}$
+transport the displayed induction and restriction rows. The $\Cont$ ledgers
+record the public continuation entries attached to those rows and to the
+Frobenius comparison.
+
+Exactness is obtained by checking the provenance row $\Pi$. Any action row
+available to a consumer must be one of
+$R_{\mathrm{rep}},I_{\uparrow},R_{\downarrow}$ or a continuation entry named
+by the displayed ledgers. No host representation category, functor equality,
+or standard bridge is exported.
+\end{proof}
+
+\begin{theorem}[InducedRepUp Frobenius reciprocity classifier]
+\label{thm:inducedrep-frobenius-reciprocity-classifier}
+The Frobenius reciprocity data of an $\InducedRepUp$ packet is classified by
+the finite comparison row $\Phi$, the endpoint classifier rows
+$H_{\uparrow}$ and $H_{\downarrow}$, the source classifier rows $H_{\leq}$
+and $H_{\mathrm{rep}}$, the $\Cont$ ledger $C_{\mathrm{fr}}$, and the
+$\mathsf{Pkg}$ provenance row $\Pi$. Thus $\hsame$ equivalence of Frobenius
+rows is a BEDC comparison between displayed induction and restriction rows,
+not equality of a host adjunction.
+\end{theorem}
+\begin{proof}
+The traditional target is Frobenius reciprocity for induction and
+restriction. The BEDC carrier names this target by the row $\Phi$, whose
+endpoints are the displayed rows $I_{\uparrow}$ and $R_{\downarrow}$ over the
+source rows $S_{\leq}$ and $R_{\mathrm{rep}}$.
+
+The classifier is the tuple of $\hsame$ rows. Source transport uses
+$H_{\leq}$ and $H_{\mathrm{rep}}$; endpoint transport uses $H_{\uparrow}$ and
+$H_{\downarrow}$. Stability of the Frobenius comparison is the finite
+$\Cont$ transport recorded in $C_{\mathrm{fr}}$.
+
+The ledger clause is exactly the combination of $C_{\mathrm{fr}}$ and
+$\Pi$. Exactness follows because every Frobenius entry consumed by the public
+interface is named by $\Phi$ or by that ledger. The packet carries no
+$\StdBridge$ row, so the standard bridge is absent and the classifier remains
+inside $\mathsf{BHist}$.
+\end{proof}
+
+\begin{theorem}[InducedRepUp public obligation surface]
+\label{thm:inducedrep-public-obligation-surface}
+The public $\NameCert_{\InducedRepUp}$ obligation surface consists of the
+$\mathsf{BHist}$ packet of
+\autoref{def:inducedrep-induction-restriction-packet}, the consumed
+$\NameCert_{\SubgroupUp}$ and $\NameCert_{\RepresentationRingUp}$ rows, the
+displayed induction and restriction rows, the Frobenius comparison row, all
+listed $\hsame$ classifier rows, the $\Cont$ ledgers
+$C_{\mathrm{src}}$ and $C_{\mathrm{fr}}$, and the $\mathsf{Pkg}$ provenance
+row $\Pi$. No obligation outside those displayed rows is public.
+\end{theorem}
+\begin{proof}
+The traditional target is the public certificate for an induced
+representation interface. The BEDC source is the pair of consumed
+certificates $\NameCert_{\SubgroupUp}$ and
+$\NameCert_{\RepresentationRingUp}$, read through $S_{\leq}$ and
+$R_{\mathrm{rep}}$.
+
+The carrier is the finite packet
+$\mathcal{P}_{\InducedRepUp}$. Its classifier rows are
+$H_{\leq},H_{\mathrm{rep}},H_{\uparrow},H_{\downarrow}$, and stability is the
+corresponding componentwise $\hsame$ transport together with the two finite
+$\Cont$ ledgers.
+
+The ledger and exactness conditions are public precisely because they are
+recorded in $C_{\mathrm{src}}$, $C_{\mathrm{fr}}$, and $\Pi$. Every row in the
+surface is a projection of the packet, and every projection repacks into the
+same surface. With no $\StdBridge$ row present, the standard bridge is absent.
+\end{proof}
+
+\begin{theorem}[InducedRepUp consumer boundary]
+\label{thm:inducedrep-consumer-boundary}
+An $\InducedRepUp$ consumer may inspect exactly the source rows
+$S_{\leq}$ and $R_{\mathrm{rep}}$, the displayed induction and restriction
+rows $I_{\uparrow}$ and $R_{\downarrow}$, the Frobenius row $\Phi$, the
+$\hsame$ classifier rows $H_{\leq},H_{\mathrm{rep}},H_{\uparrow},
+H_{\downarrow}$, the $\Cont$ ledgers $C_{\mathrm{src}}$ and
+$C_{\mathrm{fr}}$, and the $\mathsf{Pkg}$ row $\Pi$. Any use of
+$\NameCert_{\SubgroupUp}$ or $\NameCert_{\RepresentationRingUp}$ by that
+consumer factors through those rows.
+\end{theorem}
+\begin{proof}
+The traditional target is a downstream use of induction, restriction, and
+Frobenius reciprocity. The BEDC source data are the two consumed
+certificates, and the carrier presents them only through $S_{\leq}$ and
+$R_{\mathrm{rep}}$.
+
+For classifier stability, the consumer must use the displayed $\hsame$ rows.
+Subgroup and representation-ring requests pass through $H_{\leq}$ and
+$H_{\mathrm{rep}}$; induction and restriction requests pass through
+$H_{\uparrow}$ and $H_{\downarrow}$; Frobenius requests pass through
+$\Phi$ and $C_{\mathrm{fr}}$.
+
+The ledger is finite and explicit: $C_{\mathrm{src}}$, $C_{\mathrm{fr}}$,
+and $\Pi$ list exactly what the consumer may read. Exactness is the converse
+projection from those listed rows back to the carrier. No host carrier,
+external representation category, adjunction object, or standard bridge is
+available beyond that boundary.
+\end{proof}
+
+\begin{theorem}[InducedRepUp Frobenius ledger boundary]
+\label{thm:inducedrep-frobenius-ledger-boundary}
+Every Frobenius row exported by an $\InducedRepUp$ carrier of
+\autoref{def:inducedrep-bhist-carrier} is one of the displayed finite rows
+$F,\eta,\epsilon,\lambda$. Its endpoints are the displayed induction row $i$
+and restriction row $r$, scoped through the consumed
+$\NameCert_{\SubgroupUp}$ and $\NameCert_{\RepresentationRingUp}$ packets.
+No host adjunction, host functor equality, naturality square, or external
+representation category is exported at the Frobenius boundary.
+\end{theorem}
+\begin{proof}
+Project an accepted packet to
+$\mathcal{I}=(S,R,i,r,F,\eta,\epsilon,\rho,\lambda)$. The carrier definition
+lists the Frobenius part as the finite ledger $F$ together with the unit row
+$\eta$, the counit row $\epsilon$, and the public continuation entries in
+$\lambda$.
+
+The displayed endpoints of those rows are $i$ and $r$. Their subgroup source
+is read through $S$, and their representation-ring source and target rows are
+read through $R$. The source certificates are precisely the SubgroupUp and
+RepresentationRingUp $\NameCert$ rows cited in the packet.
+
+Exactness is the reverse projection. A row outside
+$F,\eta,\epsilon,\lambda$ is not a Frobenius row of the carrier, and a row
+outside $S,R,i,r,\rho$ supplies no public endpoint or provenance for that
+Frobenius display. Thus the Frobenius boundary is exactly the finite ledger
+shown in the packet.
+\end{proof}
+
+\begin{theorem}[InducedRepUp NameCert obligation surface]
+\label{thm:inducedrep-namecert-obligation-surface}
+The $\NameCert_{\InducedRepUp}$ obligation surface is the package consisting
+of the carrier packet of \autoref{def:inducedrep-bhist-carrier}, the
+restriction-induction classifier of
+\autoref{def:inducedrep-restriction-induction-classifier}, the Frobenius
+ledger boundary of \autoref{thm:inducedrep-frobenius-ledger-boundary},
+componentwise $\hsame$ and $\Cont$ stability for each displayed row, exactness
+of the finite provenance and continuation ledgers, and no standard bridge.
+The surface exports no row outside the carrier, classifier, and provenance
+ledger.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier. The carrier supplies the finite row
+family $S,R,i,r,F,\eta,\epsilon,\rho,\lambda$, while the classifier supplies
+componentwise $\hsame$ transport for the consumed certificates, subgroup
+inclusion rows, representation-ring rows, induction and restriction endpoints,
+Frobenius rows, provenance packet, and continuation ledger.
+
+The ten-field reading is therefore fixed. The traditional target is the
+restriction-induction interface with Frobenius reciprocity; the BEDC sources
+are $\NameCert_{\SubgroupUp}$ and $\NameCert_{\RepresentationRingUp}$; the
+carrier is the displayed finite $\mathsf{BHist}$ packet; the classifier is
+the restricted componentwise relation; stability is the listed $\hsame$ and
+$\Cont$ transport; the ledger is $\lambda$ together with the Frobenius rows;
+the core theorem list is this surface and the Frobenius ledger boundary;
+exactness is projection from the displayed rows; the standard bridge is none;
+and the status is a paper-side obligation surface for
+$\NameCert_{\InducedRepUp}$.
+
+For stability, transport each component of a packet along the corresponding
+classifier row. The SubgroupUp source certificate transports the subgroup
+inclusion rows, the RepresentationRingUp source certificate transports the
+representation-ring rows, and the endpoint and Frobenius rows are transported
+by their displayed $\hsame$ comparisons and the finite $\Cont$ comparison.
+
+Exactness follows because every exported row is named in the carrier,
+classifier, or provenance ledger. Conversely, each named row repacks into the
+obligation surface by the displayed packet, so no additional host functor,
+host category, adjunction, character table, or bridge row is part of the
+certificate.
+\end{proof}
+
+\begin{theorem}[InducedRepUp Subgroup and RepresentationRing consumer boundary]
+\label{thm:inducedrep-subgroup-representationring-consumer-boundary}
+An $\InducedRepUp$ consumer of the source certificates may read exactly the
+SubgroupUp rows exposed by $\NameCert_{\SubgroupUp}$ and the
+representation-ring rows exposed by $\NameCert_{\RepresentationRingUp}$,
+together with the induction, restriction, Frobenius, provenance, and
+continuation rows displayed in \autoref{def:inducedrep-bhist-carrier}. It may
+not read a subgroup carrier, representation ring, functor, category, or
+Frobenius adjunction row unless that row is present in the carrier,
+classifier, or provenance ledger of the $\InducedRepUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the consumer request through the carrier packet. A SubgroupUp request
+lands in $S$, and a RepresentationRingUp request lands in $R$. The source
+certificates named by those two rows supply their own public carrier,
+classifier, stability, exactness, and ledger boundaries.
+
+Next project the $\InducedRepUp$-specific request. The induction endpoint is
+$i$, the restriction endpoint is $r$, the Frobenius rows are
+$F,\eta,\epsilon$, the provenance packet is $\rho$, and the continuation
+ledger is $\lambda$. Transport between two such consumer surfaces is exactly
+the componentwise $\hsame$ and $\Cont$ transport listed in the
+restriction-induction classifier.
+
+There are no remaining exported rows. Any row not found in the two source
+certificates or in $i,r,F,\eta,\epsilon,\rho,\lambda$ is outside the consumer
+boundary, so the downstream interface receives a concrete BEDC packet rather
+than equality of host-level induction and restriction constructions.
+\end{proof}
