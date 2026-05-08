@@ -6,5 +6,84 @@ The Hopf-algebra interface $\HopfAlgUp$ packages a bialgebra carrier together wi
 \section{Carrier definition}
 \label{sec:hopfalg-carrier}
 
+\begin{definition}[HopfAlgUp BHist bialgebra carrier]\label{def:hopfalg-bhist-bialgebra-carrier}
+Fix a $\NameCert_{\RingUp}$ row $R$ with multiplication ledger $\mu_R$ and unit ledger $\eta_R$, and fix a $\NameCert_{\TensorProductUp}$ row $T$ with tensor ledger $\otimes_T$. A concrete $\HopfAlgUp$ bialgebra carrier over $\mathsf{BHist}$ is the predicate
+$$
+\mathsf{HopfBialgCarrier}_{R,T}(h)
+\Longleftrightarrow
+\exists a,t,m,c,u,e:\mathsf{BHist}.\;
+\hsame(h,a)\land
+\mathsf{RingCarrier}_R(a)\land
+\mathsf{TensorCarrier}_T(t)\land
+\Cont(\otimes_T,\mu_R,m)\land
+\Cont(t,c,a)\land
+\Cont(u,\eta_R,a)\land
+\Cont(c,e,a).
+$$
+Here $a$ is the bialgebra row, $t$ is the tensor-product row, $m$ is the multiplication provenance row, $c$ is the comultiplication provenance row, $u$ is the unit ledger, and $e$ is the counit ledger. The carrier is therefore anchored in $\mathsf{BHist}$ rows, with multiplication read through $\NameCert_{\RingUp}$ and tensor/comultiplication provenance read through $\NameCert_{\TensorProductUp}$.
+\end{definition}
+
+\begin{definition}[HopfAlgUp antipode ledger classifier]\label{def:hopfalg-antipode-ledger-classifier}
+For two concrete Hopf-algebra rows
+$$
+H=(a,t,s,u,e)
+\qquad\text{and}\qquad
+H'=(a',t',s',u',e')
+$$
+over the same $\NameCert_{\RingUp}$ and $\NameCert_{\TensorProductUp}$ sources, define
+$$
+H\sim_{\HopfAlgUp}H'
+\Longleftrightarrow
+\hsame(a,a')\land
+\hsame(t,t')\land
+\hsame(s,s')\land
+\hsame(u,u')\land
+\hsame(e,e').
+$$
+Thus the classifier compares the bialgebra row, the tensor-product row, the antipode row, the unit ledger, and the counit ledger by $\hsame$.
+\end{definition}
+
 \section{The certificate}
 \label{sec:hopfalg-certificate}
+
+\begin{theorem}[HopfAlgUp tensor-product row stability]
+\label{thm:hopfalg-tensor-product-row-stability}
+Let $H=(a,t,s,u,e)$ be a concrete Hopf-algebra row satisfying \autoref{def:hopfalg-bhist-bialgebra-carrier}. If $H\sim_{\HopfAlgUp}H'$ with $H'=(a',t',s',u',e')$, then the tensor-product row of $H'$ is again a valid $\NameCert_{\TensorProductUp}$ row for the transported bialgebra carrier. In particular, the multiplication and comultiplication provenance rows read by $\Cont$ from $t$ transport to corresponding rows read from $t'$.
+\end{theorem}
+\begin{proof}
+Unpack the concrete carrier. The witness exposes the bialgebra row, the tensor-product row, and the two $\Cont$ ledgers that read multiplication and comultiplication provenance from the tensor source.
+
+The classifier hypothesis supplies $t\hsame t'$ and $a\hsame a'$. Transport the tensor carrier and the two continuation ledgers along these $\hsame$ comparisons, using the $\hsame$ stability field of $\NameCert_{\TensorProductUp}$ for the tensor row and continuation transport for the displayed $\Cont$ rows.
+
+The resulting rows have the same ring and tensor sources as the original package, with endpoints replaced by their transported representatives. Hence $t'$ remains the tensor-product row for the transported bialgebra carrier.
+\end{proof}
+
+\begin{theorem}[HopfAlgUp antipode convolution-inverse obligation]
+\label{thm:hopfalg-antipode-convolution-inverse-obligation}
+Let $H=(a,t,s,u,e)$ satisfy the concrete carrier and classifier of \autoref{def:hopfalg-bhist-bialgebra-carrier} and \autoref{def:hopfalg-antipode-ledger-classifier}. The antipode row $s$ is admissible for $\HopfAlgUp$ exactly when there are two $\mathsf{BHist}$ ledger rows
+$$
+\mathsf{ConvLeft}(a,t,s,u,e)
+\qquad\text{and}\qquad
+\mathsf{ConvRight}(a,t,s,u,e)
+$$
+whose $\Cont$ provenance composes the comultiplication row, the antipode row, the multiplication row, the unit ledger, and the counit ledger so that the two convolution composites land on the unit--counit endpoint.
+\end{theorem}
+\begin{proof}
+Start from the carrier witness. It gives the bialgebra row $a$, the tensor row $t$, the multiplication provenance read through $\NameCert_{\RingUp}$, the comultiplication provenance read through $\NameCert_{\TensorProductUp}$, and the unit and counit ledgers.
+
+For the left convolution row, compose the comultiplication continuation with the tensor row that applies $s$ on the first component and the identity ledger on the second component. Then compose with the multiplication continuation and compare the result with the unit--counit ledger endpoint.
+
+For the right convolution row, use the same continuation spine with $s$ placed on the second component. The two displayed rows are the two constructive obligations; no extra carrier is required beyond the $\mathsf{BHist}$ ledgers already unpacked from the concrete package.
+\end{proof}
+
+\begin{theorem}[HopfAlgUp NameCert obligation surface]
+\label{thm:hopfalg-namecert-obligation-surface}
+The data of \autoref{def:hopfalg-bhist-bialgebra-carrier}, \autoref{def:hopfalg-antipode-ledger-classifier}, \autoref{thm:hopfalg-tensor-product-row-stability}, and \autoref{thm:hopfalg-antipode-convolution-inverse-obligation} form the concrete obligation surface for a $\NameCert_{\HopfAlgUp}$ over $\mathsf{BHist}$. The surface consists of the carrier, the $\hsame$ classifier, tensor-row stability, multiplication and comultiplication provenance through $\Cont$, and the two antipode convolution-inverse ledger rows.
+\end{theorem}
+\begin{proof}
+The carrier and classifier provide the object rows and equality policy. Reflexivity, symmetry, and transitivity are inherited componentwise from $\hsame$ over the bialgebra row, tensor row, antipode row, unit ledger, and counit ledger.
+
+Tensor-row stability supplies the transport rule needed by the certificate: replacing a representative by an $\hsame$ representative preserves the tensor source and the multiplication/comultiplication provenance read from it. The ring multiplication row is retained from $\NameCert_{\RingUp}$, and the tensor row is retained from $\NameCert_{\TensorProductUp}$.
+
+Finally, the antipode theorem packages the two convolution-inverse rows. These rows are exactly the Hopf-algebra-specific obligations beyond the bialgebra carrier, so the listed data are the $\NameCert_{\HopfAlgUp}$ obligation surface.
+\end{proof}

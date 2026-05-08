@@ -4,6 +4,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
+import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 
@@ -14,6 +15,7 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
+open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 
 def BilinFormBHistObligationSurface
@@ -132,6 +134,32 @@ theorem BilinFormBHistObligationSurface_nondegeneracy_ledger_exactness_obligatio
               (And.intro endpointCont
                 (And.intro scalarLedgerCont ledgerCont)))))))
 
+theorem BilinFormBHistObligationSurface_nondegeneracy_witness_transport
+    {left right scalar additive endpoint scalarLedger ledger witness witnessEndpoint witnessLedger :
+      BHist} :
+    BilinFormBHistObligationSurface left right scalar additive endpoint scalarLedger ledger ->
+      UnaryHistory witness ->
+        Cont right witness witnessEndpoint ->
+          Cont witnessEndpoint scalar witnessLedger ->
+            UnaryHistory witnessEndpoint ∧ UnaryHistory witnessLedger ∧
+              hsame witnessEndpoint (append right witness) ∧
+                hsame witnessLedger (append (append right witness) scalar) ∧
+                  Cont right witness witnessEndpoint ∧
+                    Cont witnessEndpoint scalar witnessLedger := by
+  intro surface witnessUnary witnessCont witnessLedgerCont
+  have witnessEndpointUnary : UnaryHistory witnessEndpoint :=
+    unary_cont_closed surface.right.left witnessUnary witnessCont
+  have witnessLedgerUnary : UnaryHistory witnessLedger :=
+    unary_cont_closed witnessEndpointUnary surface.right.right.left witnessLedgerCont
+  have witnessLedgerReadback : hsame witnessLedger (append (append right witness) scalar) :=
+    hsame_trans witnessLedgerCont
+      (congrArg (fun h : BHist => append h scalar) witnessCont)
+  exact And.intro witnessEndpointUnary
+    (And.intro witnessLedgerUnary
+      (And.intro witnessCont
+        (And.intro witnessLedgerReadback
+          (And.intro witnessCont witnessLedgerCont))))
+
 theorem BilinFormBHistObligationSurface_right_unit_separation_rows
     {left right scalar additive endpoint scalarLedger ledger leftZero rightZero separation : BHist} :
     BilinFormBHistObligationSurface left right scalar additive endpoint scalarLedger ledger ->
@@ -167,6 +195,50 @@ theorem BilinFormBHistObligationSurface_right_unit_separation_rows
                 (And.intro surface.right.right.right.right.left
                   (And.intro surface.right.right.right.right.right.left
                     surface.right.right.right.right.right.right)))))))
+
+theorem BilinFormBHistObligationSurface_bilinearity_transport_row
+    {left left' right right' scalar scalar' additive additive' endpoint endpoint'
+      scalarLedger scalarLedger' ledger ledger' : BHist} :
+    BilinFormBHistObligationSurface left right scalar additive endpoint scalarLedger ledger ->
+      hsame left left' ->
+        hsame right right' ->
+          hsame scalar scalar' ->
+            hsame additive additive' ->
+              Cont left' right' endpoint' ->
+                Cont endpoint' scalar' scalarLedger' ->
+                  Cont scalarLedger' additive' ledger' ->
+                    BilinFormBHistObligationSurface left' right' scalar' additive' endpoint'
+                        scalarLedger' ledger' ∧
+                      hsame endpoint endpoint' ∧ hsame scalarLedger scalarLedger' ∧
+                        hsame ledger ledger' := by
+  intro surface sameLeft sameRight sameScalar sameAdditive endpointCont scalarLedgerCont
+    ledgerCont
+  have leftUnary : UnaryHistory left' :=
+    unary_transport surface.left sameLeft
+  have rightUnary : UnaryHistory right' :=
+    unary_transport surface.right.left sameRight
+  have scalarUnary : UnaryHistory scalar' :=
+    unary_transport surface.right.right.left sameScalar
+  have additiveUnary : UnaryHistory additive' :=
+    unary_transport surface.right.right.right.left sameAdditive
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLeft sameRight surface.right.right.right.right.left endpointCont
+  have sameScalarLedger : hsame scalarLedger scalarLedger' :=
+    cont_respects_hsame sameEndpoint sameScalar
+      surface.right.right.right.right.right.left scalarLedgerCont
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameScalarLedger sameAdditive
+      surface.right.right.right.right.right.right ledgerCont
+  constructor
+  · exact
+      And.intro leftUnary
+        (And.intro rightUnary
+          (And.intro scalarUnary
+            (And.intro additiveUnary
+              (And.intro endpointCont
+                (And.intro scalarLedgerCont ledgerCont)))))
+  · exact And.intro sameEndpoint
+      (And.intro sameScalarLedger sameLedger)
 
 def BilinFormRootPairingSurface
     (left right scalar endpoint ledger : BHist) : Prop :=
@@ -334,6 +406,32 @@ theorem BilinFormModulePairingSourceRow_pairing_classifier_row
       (hsame_refl right) (hsame_refl scalar) endpointCont ledgerCont
   exact And.intro transported.left (And.intro transported.right.right row.right.right.right)
 
+theorem BilinFormModulePairingSourceRow_dual_symmetry_row [AskSetup]
+    {moduleSource vecSource left right scalar endpoint probes ledger swappedEndpoint swappedLedger
+      observed swappedObserved : BHist}
+    {bundle : ProbeBundle BHist} {sigBundle : ProbeBundle ProbeName} :
+    BilinFormModulePairingSourceRow moduleSource vecSource left right scalar endpoint probes ledger
+        bundle ->
+      Cont right left swappedEndpoint ->
+        Cont swappedEndpoint scalar swappedLedger ->
+          SigRel sigBundle endpoint observed ->
+            SigRel sigBundle swappedEndpoint swappedObserved ->
+              hsame observed swappedObserved ->
+                BilinFormRootPairingSurface right left scalar swappedEndpoint swappedLedger ∧
+                  hsame endpoint swappedEndpoint ∧
+                    hsame ledger swappedLedger ∧
+                      SameSig sigBundle endpoint swappedEndpoint ∧ InBundle probes bundle := by
+  intro row swappedEndpointCont swappedLedgerCont endpointSig swappedEndpointSig sameObserved
+  have symmetryRows :=
+    BilinFormRootPairingSurface_symmetry_rows row.right.right.left swappedEndpointCont
+      swappedLedgerCont
+  have sameEndpointSig : SameSig sigBundle endpoint swappedEndpoint :=
+    sameSig_intro_from_witnesses endpointSig swappedEndpointSig sameObserved
+  exact And.intro symmetryRows.left
+    (And.intro symmetryRows.right.left
+      (And.intro symmetryRows.right.right
+        (And.intro sameEndpointSig row.right.right.right)))
+
 def BilinFormModulePairingPackageRow [AskSetup] [PackageSetup]
     (moduleSource vectorSource left right scalar endpoint ledger : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -360,6 +458,40 @@ theorem BilinFormModulePairingPackageRow_carrier_obligation [AskSetup] [PackageS
       (And.intro row.right.right.right.right.right.left
         (And.intro row.right.right.right.right.right.right.left
           row.right.right.right.right.right.right.right)))
+
+theorem BilinFormModulePairingPackageRow_exactness_dependency_row [AskSetup] [PackageSetup]
+    {moduleSource vectorSource left right scalar endpoint ledger ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BilinFormModulePairingPackageRow moduleSource vectorSource left right scalar endpoint ledger
+        bundle pkg ->
+      hsame ledger ledger' ->
+        PkgSig bundle ledger' pkg ->
+          BilinFormModulePairingPackageRow moduleSource vectorSource left right scalar endpoint
+              ledger' bundle pkg ∧
+            UnaryHistory endpoint ∧ UnaryHistory ledger' ∧ Cont left right endpoint ∧
+              Cont endpoint scalar ledger' ∧ PkgSig bundle ledger' pkg := by
+  intro row sameLedger pkgSig'
+  have ledgerCont' : Cont endpoint scalar ledger' :=
+    cont_result_hsame_transport row.right.right.right.right.right.right.left sameLedger
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed
+      (unary_cont_closed row.right.right.left row.right.right.right.left
+        row.right.right.right.right.right.left)
+      row.right.right.right.right.left ledgerCont'
+  exact And.intro
+    (And.intro row.left
+      (And.intro row.right.left
+        (And.intro row.right.right.left
+          (And.intro row.right.right.right.left
+            (And.intro row.right.right.right.right.left
+              (And.intro row.right.right.right.right.right.left
+                (And.intro ledgerCont' pkgSig')))))))
+    (And.intro
+      (unary_cont_closed row.right.right.left row.right.right.right.left
+        row.right.right.right.right.right.left)
+      (And.intro ledgerUnary'
+        (And.intro row.right.right.right.right.right.left
+          (And.intro ledgerCont' pkgSig'))))
 
 theorem BilinFormModulePairingPackageRow_bilinearity_transport_row [AskSetup] [PackageSetup]
     {moduleSource vectorSource left right scalar endpoint ledger additive additiveEndpoint
