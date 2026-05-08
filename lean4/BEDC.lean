@@ -87,6 +87,7 @@ import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.PublicObligation
+import BEDC.Derived.CurvatureUp.SourceEnvelopeExactness
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DynSystemUp
@@ -227,6 +228,7 @@ import BEDC.Derived.ComputableUp
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.CondExpUp
 import BEDC.Derived.MartingaleUp
+import BEDC.Derived.RepresentationRingUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeqUp
