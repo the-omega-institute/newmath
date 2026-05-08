@@ -1,4 +1,5 @@
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.Derived.GroupUp
 import BEDC.Derived.PreorderUp
 
@@ -39,6 +40,35 @@ theorem ProbSpacePublicEventPacket_normalization_bounds {omega one event complem
   exact And.intro readback.left
     (And.intro readback.right
       (And.intro packet.right.right.left (PreorderPrefixLE_trans eventSum sumOne)))
+
+theorem ProbSpacePublicEventPacket_transport_rows
+    {omega one omega' one' event event' complement complement' sum sum' : BHist} :
+    hsame omega omega' -> hsame one one' -> hsame event event' ->
+      hsame complement complement' -> hsame sum sum' ->
+        ProbSpacePublicEventPacket omega one event complement sum ->
+          ProbSpacePublicEventPacket omega' one' event' complement' sum' ∧
+            UnaryHistory event' ∧ UnaryHistory complement' ∧ Cont event' complement' sum' ∧
+              hsame omega' one' ∧ hsame omega' sum' := by
+  intro sameOmega sameOne sameEvent sameComplement sameSum packet
+  have eventUnary : UnaryHistory event' :=
+    unary_transport packet.left sameEvent
+  have complementUnary : UnaryHistory complement' :=
+    unary_transport packet.right.left sameComplement
+  have transportedCont : Cont event' complement' sum' :=
+    cont_hsame_transport sameEvent sameComplement sameSum packet.right.right.left
+  have omegaOne : hsame omega' one' :=
+    hsame_trans (hsame_symm sameOmega)
+      (hsame_trans packet.right.right.right.left sameOne)
+  have omegaSum : hsame omega' sum' :=
+    hsame_trans (hsame_symm sameOmega)
+      (hsame_trans packet.right.right.right.right sameSum)
+  have transportedPacket :
+      ProbSpacePublicEventPacket omega' one' event' complement' sum' :=
+    And.intro eventUnary
+      (And.intro complementUnary (And.intro transportedCont (And.intro omegaOne omegaSum)))
+  exact And.intro transportedPacket
+    (And.intro eventUnary
+      (And.intro complementUnary (And.intro transportedCont (And.intro omegaOne omegaSum))))
 
 theorem ProbSpaceComplementMass_right_solution
     {omega one event complement sum inverseEvent target : BHist} :
