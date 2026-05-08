@@ -1,12 +1,14 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Bundle
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.IndependenceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.NameCert
 
 def IndependenceProductFold : ProbeBundle BHist -> BHist
   | ProbeBundle.Bnil => BHist.Empty
@@ -201,5 +203,53 @@ theorem IndependenceFiniteFactorizationRow_carrier_obligation
     (And.intro row.right.left
       (And.intro row.right.right
         (And.intro productEmpty jointEmpty)))
+
+theorem IndependenceFiniteFactorizationRow_obligation_certificate_packet
+    {joint product : BHist} {marginals : ProbeBundle BHist} :
+    IndependenceFiniteFactorizationRow joint product marginals ->
+      SemanticNameCert
+          (fun endpoint : BHist =>
+            exists product : BHist, IndependenceFiniteFactorizationRow endpoint product marginals)
+          (fun endpoint : BHist =>
+            exists product : BHist, IndependenceFiniteFactorizationRow endpoint product marginals)
+          (fun endpoint : BHist =>
+            exists product : BHist, IndependenceFiniteFactorizationRow endpoint product marginals)
+          (fun left right : BHist =>
+            (exists lp : BHist, IndependenceFiniteFactorizationRow left lp marginals) ∧
+              (exists rp : BHist, IndependenceFiniteFactorizationRow right rp marginals) ∧
+                hsame left right) ∧
+        hsame (IndependenceProductFold marginals) BHist.Empty ∧
+          IndependenceBinaryFactorization joint
+            (IndependenceProductFold marginals) BHist.Empty product := by
+  intro row
+  have exactness := IndependenceFiniteFactorizationRow_ledger_exactness row
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro joint (Exists.intro product row)
+        equiv_refl := by
+          intro endpoint source
+          exact And.intro source (And.intro source (hsame_refl endpoint))
+        equiv_symm := by
+          intro left right classified
+          exact And.intro classified.right.left
+            (And.intro classified.left (hsame_symm classified.right.right))
+        equiv_trans := by
+          intro left middle right classifiedLeftMiddle classifiedMiddleRight
+          exact And.intro classifiedLeftMiddle.left
+            (And.intro classifiedMiddleRight.right.left
+              (hsame_trans classifiedLeftMiddle.right.right classifiedMiddleRight.right.right))
+        carrier_respects_equiv := by
+          intro left right classified _source
+          exact classified.right.left
+      }
+      pattern_sound := by
+        intro _endpoint source
+        exact source
+      ledger_sound := by
+        intro _endpoint source
+        exact source
+    }
+  · exact And.intro exactness.left exactness.right.right.right
 
 end BEDC.Derived.IndependenceUp
