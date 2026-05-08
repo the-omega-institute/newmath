@@ -30,6 +30,48 @@ theorem SeriesPartialSum_transport {zero : BHist} {summand : BHist -> BHist}
     cont_result_hsame_transport nextCont sameNext
   exact And.intro (SeriesPartialSum.step sumRow transportedCont) transportedCont
 
+theorem SeriesPartialSum_pointwise_hsame_deterministic {zero zero' : BHist}
+    {summand summand' : BHist -> BHist} (sameZero : hsame zero zero')
+    (summandSame : forall {n : BHist}, UnaryHistory n -> hsame (summand n) (summand' n))
+    {n left right : BHist} :
+    UnaryHistory n -> SeriesPartialSum zero summand n left ->
+      SeriesPartialSum zero' summand' n right -> hsame left right := by
+  intro unaryN leftRow rightRow
+  exact unary_history_induction
+    (P := fun n => forall {left right : BHist}, SeriesPartialSum zero summand n left ->
+      SeriesPartialSum zero' summand' n right -> hsame left right)
+    (by
+      intro left right leftRow rightRow
+      cases leftRow
+      cases rightRow
+      exact sameZero)
+    (by
+      intro n unaryN ih left right leftRow rightRow
+      cases leftRow with
+      | step leftPrev leftCont =>
+          cases rightRow with
+          | step rightPrev rightCont =>
+              exact cont_respects_hsame (ih leftPrev rightPrev) (summandSame unaryN)
+                leftCont rightCont)
+    n unaryN leftRow rightRow
+
+theorem SeriesPartialSum_result_unary {zero : BHist} {summand : BHist -> BHist}
+    (zeroUnary : UnaryHistory zero)
+    (summandUnary : forall {n : BHist}, UnaryHistory n -> UnaryHistory (summand n))
+    {n partialSum : BHist} :
+    SeriesPartialSum zero summand n partialSum -> UnaryHistory n -> UnaryHistory partialSum := by
+  intro row
+  induction row with
+  | zero =>
+      intro _unaryN
+      exact zeroUnary
+  | step priorRow stepCont ih =>
+      intro unaryStep
+      have unaryN : UnaryHistory _ := unary_e1_inversion unaryStep
+      have partialUnary : UnaryHistory _ := ih unaryN
+      have summandNUnary : UnaryHistory _ := summandUnary unaryN
+      exact unary_cont_closed partialUnary summandNUnary stepCont
+
 theorem SeriesPartialSumLedger_step_transport {PointCarrier : BHist -> Prop}
     {PointClassifier : BHist -> BHist -> Prop}
     (cert : NameCert PointCarrier PointClassifier)
@@ -53,6 +95,24 @@ theorem SeriesPartialSumLedger_step_transport {PointCarrier : BHist -> Prop}
   exact And.intro stepCarrier
     (And.intro stepCarrier'
       (And.intro row.right.right (NameCert.equiv_symm cert row.right.right)))
+
+theorem SeriesModulusStability_transport {PointCarrier : BHist -> Prop}
+    {PointClassifier : BHist -> BHist -> Prop}
+    (cert : NameCert PointCarrier PointClassifier)
+    {partialSum partialSum' : BHist -> BHist} :
+    SeqPointwiseClassifier PointCarrier PointClassifier partialSum partialSum' ->
+      (forall {k n m : BHist}, UnaryHistory k -> UnaryHistory n -> UnaryHistory m ->
+        PointClassifier (partialSum n) (partialSum m)) ->
+        forall {k n m : BHist}, UnaryHistory k -> UnaryHistory n -> UnaryHistory m ->
+          PointClassifier (partialSum' n) (partialSum' m) := by
+  intro pointwise modulus k n m unaryK unaryN unaryM
+  have rowN := pointwise unaryN
+  have rowM := pointwise unaryM
+  have sameN : PointClassifier (partialSum' n) (partialSum n) :=
+    NameCert.equiv_symm cert rowN.right.right
+  have sameNM : PointClassifier (partialSum' n) (partialSum m) :=
+    NameCert.equiv_trans cert sameN (modulus unaryK unaryN unaryM)
+  exact NameCert.equiv_trans cert sameNM rowM.right.right
 
 theorem SeriesSourceCarrierBoundary_obligation {PointCarrier : BHist -> Prop}
     {PointClassifier : BHist -> BHist -> Prop} (cert : NameCert PointCarrier PointClassifier)
