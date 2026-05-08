@@ -55,6 +55,11 @@ theorem ConvexSetSingletonAffineSpine_order_symmetric {x y endpoint endpoint' : 
 def ConvexSetPointwiseIntersection (C D : BHist -> Prop) (z : BHist) : Prop :=
   C z ∧ D z
 
+def ConvexSetBinaryAffineCombinationRow (C NonNeg : BHist -> Prop)
+    (add scalarAdd scalarAction : BHist -> BHist -> BHist) (one : BHist) : Prop :=
+  forall {a b x y : BHist}, C x -> C y -> NonNeg a -> NonNeg b ->
+    hsame (scalarAdd a b) one -> C (add (scalarAction a x) (scalarAction b y))
+
 def ConvexSetLinearImageCarrier (C : BHist -> Prop)
     (ClassifierW : BHist -> BHist -> Prop) (f : BHist -> BHist -> BHist)
     (target : BHist) : Prop :=
@@ -115,6 +120,20 @@ theorem ConvexSetPointwiseIntersection_affine_combination_closure
   exact And.intro
     (closedC xData.left yData.left nonnegA nonnegB unitSum)
     (closedD xData.right yData.right nonnegA nonnegB unitSum)
+
+theorem ConvexSetBinaryAffineCombinationRow_pointwise_intersection
+    {C D NonNeg : BHist -> Prop}
+    {add scalarAdd scalarAction : BHist -> BHist -> BHist}
+    {one : BHist} :
+    ConvexSetBinaryAffineCombinationRow C NonNeg add scalarAdd scalarAction one ->
+      ConvexSetBinaryAffineCombinationRow D NonNeg add scalarAdd scalarAction one ->
+        ConvexSetBinaryAffineCombinationRow (ConvexSetPointwiseIntersection C D) NonNeg add
+          scalarAdd scalarAction one := by
+  intro closedC closedD
+  intro a b x y xData yData nonnegA nonnegB unitSum
+  exact
+    ConvexSetPointwiseIntersection_affine_combination_closure closedC closedD xData yData
+      nonnegA nonnegB unitSum
 
 theorem ConvexSetLinearImage_affine_combination_closure
     {C Image NonNeg : BHist -> Prop}
