@@ -188,25 +188,7 @@ python3 lean4/scripts/bedc_ci.py axiom-purity     # 传递依赖审计 (禁 Clas
 
 ---
 
-# 本机管线 (我们的 pipeline)
-
-本机只跑 `tools/bedc-deep/supervisor.py` (外圈 supervisor + 内圈 `oracle_client.py --loop` + `bedc_oracle_server.py` HTTP :8767), 做 BOARD-driven 论文深度推理 + theorem-site 补全. 跟下面那条 codex-auto-dev 上的 codex_revise.py / codex_formalize.py 闭合追踪管线**完全无关**, 互补但物理隔离.
-
-- 永远不要在本机起 `codex_revise.py` 或 `codex_formalize.py` —— 那是 loning 在 cloud 跑的, 不是我们的
-- Lean 一侧本机不跑, 任何"启 lean 提速"的建议都是错的
-- 停 supervisor: 写 `tools/bedc-deep/.stop` (sentinel)
-- 进程标识: `ps aux | grep -E 'supervisor\.py|oracle_client\.py|bedc_oracle_server'`
-- 日志: `tools/bedc-deep/state/supervisor_logs/{supervisor.log,inner.log,...}`
-- 状态/产出: BOARD targets 在 `tools/bedc-deep/state/b-NNN_*` 各自 dir, 主板见 `tools/bedc-deep/BOARD.md`
-- 模块栈: `auto_discovery.py` (BOARD 补水), `paper_gap_scanner.py`, `prior_art.py`, `paper_index.py`, `dispatch_bedc_target.py`, `board_archive.py`, `pi_agent_v1.py` (PI 周期 review), `dashboard.py`, `loning_watch.py` — 都属 supervisor stack
-- 并行: `--codex-parallel N --oracle-parallel M` 双池, default 3+3, oracle 池受 active ChatGPT tab 数 clamp
-- "Pipeline 暂停 / 卡了" 一般指 supervisor 进程活着但 (a) BEDC ChatGPT tab 关了 → oracle 队列 `queue_waiting_for_browser_agent` 空转, 或 (b) Stage 2 paper writeback validators (`item_8` / `line_cap` 之类) 反复拒. 看 `state/supervisor_logs/supervisor.log` 模式定位
-- loning 改 `papers/bedc/scripts/` / `lean4/scripts/` 的脚本会随 git merge 落地到本仓, 但 supervisor 不消费这些脚本; "整合 loning 的优化" 对我们而言只是 prompt-level 选择性借鉴, 不是 git-level 自动 import
-- ~/.claude/projects/.../memory/ 不要再单独建文件保存这些事实, 写到本节即可
-
----
-
-# Codex pipeline 协作纪律 (loning 的 cloud 管线, 不是我们)
+# Codex pipeline 协作纪律
 
 `codex-auto-dev` 分支上常驻并行 codex worker (`lean4/scripts/codex_formalize.py` + `papers/bedc/scripts/codex_revise.py`), 每个 worker 周期性 fetch / rebase 远端然后 push 自己的小 commit.
 
