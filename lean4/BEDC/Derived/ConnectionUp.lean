@@ -42,6 +42,57 @@ theorem ConnectionCarrierPacket_stability_ledger_exactness_obligation
         (And.intro packet.right.right.right.right.left
           (And.intro derivativeReadback ledgerReadback))))
 
+theorem ConnectionCarrierPacket_curvature_boundary_obligation
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB
+      boundary curvatureLedger : BHist} :
+    ConnectionCarrierPacket base fibre sec tangentA derivativeA provenance ledgerA ->
+      ConnectionCarrierPacket base fibre sec tangentB derivativeB provenance ledgerB ->
+        Cont derivativeA derivativeB boundary ->
+          Cont boundary provenance curvatureLedger ->
+            UnaryHistory boundary ∧ UnaryHistory curvatureLedger ∧
+              hsame boundary (append derivativeA derivativeB) ∧
+                hsame curvatureLedger (append boundary provenance) ∧
+                  hsame curvatureLedger
+                    (append (append (append base fibre) tangentA)
+                      (append (append (append base fibre) tangentB) provenance)) := by
+  intro packetA packetB boundaryLedger curvatureLedgerRead
+  have exactA :=
+    ConnectionCarrierPacket_stability_ledger_exactness_obligation packetA
+  have exactB :=
+    ConnectionCarrierPacket_stability_ledger_exactness_obligation packetB
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed exactA.right.left exactB.right.left boundaryLedger
+  have curvatureUnary : UnaryHistory curvatureLedger :=
+    unary_cont_closed boundaryUnary packetA.right.right.right.left curvatureLedgerRead
+  have boundaryReadback : hsame boundary (append derivativeA derivativeB) :=
+    boundaryLedger
+  have curvatureReadback : hsame curvatureLedger (append boundary provenance) :=
+    curvatureLedgerRead
+  have curvatureWithDerivatives :
+      hsame curvatureLedger (append derivativeA (append derivativeB provenance)) :=
+    hsame_trans
+      (hsame_trans curvatureReadback
+        (congrArg (fun h : BHist => append h provenance) boundaryReadback))
+      (append_assoc derivativeA derivativeB provenance)
+  have curvatureWithFirstTangent :
+      hsame curvatureLedger
+        (append (append (append base fibre) tangentA) (append derivativeB provenance)) :=
+    hsame_trans curvatureWithDerivatives
+      (congrArg (fun h : BHist => append h (append derivativeB provenance))
+        exactA.right.right.right.right.left)
+  have curvatureWithTangents :
+      hsame curvatureLedger
+        (append (append (append base fibre) tangentA)
+          (append (append (append base fibre) tangentB) provenance)) :=
+    hsame_trans curvatureWithFirstTangent
+      (congrArg
+        (fun h : BHist => append (append (append base fibre) tangentA) (append h provenance))
+        exactB.right.right.right.right.left)
+  exact And.intro boundaryUnary
+    (And.intro curvatureUnary
+      (And.intro boundaryReadback
+        (And.intro curvatureReadback curvatureWithTangents)))
+
 def ConnectionTransportSteps : List BHist → Prop
   | [] => hsame BHist.Empty BHist.Empty
   | step :: rest => UnaryHistory step ∧ ConnectionTransportSteps rest
