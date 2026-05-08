@@ -55,6 +55,33 @@ theorem ClassFieldArtinFrobenius_stability_obligation
     cont_respects_hsame sameExtension baseClassified.right.right leftFrob rightFrob
   exact And.intro sameExtension (And.intro sameArtin sameFrob)
 
+theorem ClassFieldArtinFrobenius_scope
+    {base base' idele idele' extension extension' artin artin' frob frob' : BHist} :
+    NumFieldReflexiveRationalCarrier base -> RatHistoryClassifier base base' ->
+      AdeleHistoryCarrier idele -> hsame idele idele' -> Cont base idele extension ->
+        Cont base' idele' extension' -> Cont idele extension artin ->
+          Cont idele' extension' artin' -> Cont extension base frob ->
+            Cont extension' base' frob' ->
+              NumFieldReflexiveRationalCarrier base' ∧ AdeleHistoryCarrier idele' ∧
+                hsame extension extension' ∧ hsame artin artin' ∧ hsame frob frob' := by
+  intro baseCarrier baseClassified ideleCarrier sameIdele leftExtension rightExtension
+    leftArtin rightArtin leftFrob rightFrob
+  have carrierRows :
+      NumFieldReflexiveRationalCarrier base' ∧ AdeleHistoryCarrier idele' ∧
+        hsame extension extension' :=
+    ClassFieldCarrierClassifier_obligation baseCarrier baseClassified ideleCarrier sameIdele
+      leftExtension rightExtension
+  have stabilityRows :
+      hsame extension extension' ∧ hsame artin artin' ∧ hsame frob frob' :=
+    ClassFieldArtinFrobenius_stability_obligation baseCarrier baseClassified ideleCarrier
+      sameIdele leftExtension rightExtension leftArtin rightArtin leftFrob rightFrob
+  exact
+    ⟨carrierRows.left,
+      carrierRows.right.left,
+      stabilityRows.left,
+      stabilityRows.right.left,
+      stabilityRows.right.right⟩
+
 def ClassFieldSourceCarrier
     (numField adele extension classifier ledger : BHist) : Prop :=
   UnaryHistory numField ∧ UnaryHistory adele ∧ Cont numField adele extension ∧
@@ -102,6 +129,26 @@ def ClassFieldArtinFrobeniusRows
     (base idele extension artin frob : BHist) : Prop :=
   UnaryHistory base ∧ UnaryHistory idele ∧ UnaryHistory artin ∧
     Cont idele artin frob ∧ Cont base frob extension
+
+theorem ClassFieldArtinFrobeniusRows_ledger_exactness
+    {base idele extension artin frob : BHist} :
+    ClassFieldArtinFrobeniusRows base idele extension artin frob ->
+      UnaryHistory base ∧ UnaryHistory idele ∧ UnaryHistory artin ∧
+        Cont idele artin frob ∧ Cont base frob extension ∧
+          hsame (append idele artin) frob ∧ hsame (append base frob) extension := by
+  intro rows
+  have frobReadback : hsame (append idele artin) frob := by
+    cases rows.right.right.right.left
+    exact hsame_refl (append idele artin)
+  have extensionReadback : hsame (append base frob) extension := by
+    cases rows.right.right.right.right
+    exact hsame_refl (append base frob)
+  exact And.intro rows.left
+    (And.intro rows.right.left
+      (And.intro rows.right.right.left
+        (And.intro rows.right.right.right.left
+          (And.intro rows.right.right.right.right
+            (And.intro frobReadback extensionReadback)))))
 
 theorem ClassFieldArtinFrobeniusRows_stability
     {base idele extension artin frob idele' artin' frob' extension' : BHist} :
