@@ -205,3 +205,127 @@ $$
 \|x\|_{I}^{2}+_{\mathbb{K}}\|y\|_{I}^{2}.
 $$
 \end{proof}
+
+\begin{theorem}[InnerProduct polarization difference row]
+\label{thm:innerproduct-polarization-difference-row}
+For carried vector endpoints $x,y:C_V$ in the
+\autoref{def:innerproduct-parallelogram-norm-seed-source}, the retained scalar
+classifier compares the polarization-difference endpoints
+$$
+\|x+_V y\|_{I}^{2}
++_{\mathbb{K}}
+(-_{\mathbb{K}}\|x-_V y\|_{I}^{2})
+\sim_{\mathbb{K}}
+2_{\mathbb{K}}\cdot_{\mathbb{K}}
+\bigl(
+\langle x,y\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,x\rangle_{\InnerProductUp}
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:innerproduct-parallelogram-norm-seed-source}. The
+embedded $\VecSpaceUp$ rows carry $x+_V y$ and $x-_V y$, and
+\autoref{thm:innerproduct-norm-squared-carrier-row} repacks each displayed norm
+square as the corresponding diagonal form endpoint.
+
+Apply \autoref{thm:innerproduct-vecspace-linearity-row} to expand
+$\langle x+_V y,x+_V y\rangle_{\InnerProductUp}$. The resulting scalar
+classifier row compares $\|x+_V y\|_{I}^{2}$ with
+$$
+\langle x,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle x,y\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,y\rangle_{\InnerProductUp}.
+$$
+
+Apply the same linearity row to
+$\langle x-_V y,x-_V y\rangle_{\InnerProductUp}$. The additive inverse and
+scalar-action rows retained in the seed transport the two mixed terms to their
+scalar additive inverses, so $\|x-_V y\|_{I}^{2}$ is classified with
+$$
+\langle x,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+(-_{\mathbb{K}}\langle x,y\rangle_{\InnerProductUp})
++_{\mathbb{K}}
+(-_{\mathbb{K}}\langle y,x\rangle_{\InnerProductUp})
++_{\mathbb{K}}
+\langle y,y\rangle_{\InnerProductUp}.
+$$
+
+Now transport this second comparison through scalar additive inverse. The
+retained scalar source is the $\FieldUp$ scalar coordinate of
+\autoref{def:innerproduct-bhist-source}. By
+\autoref{def:field-source-specification},
+\autoref{prop:commring-forgets-ring-certificate}, and
+\autoref{def:ring-stability-certificate}, its unchanged scalar classifier has
+additive inverse congruence. Therefore
+$$
+-_{\mathbb{K}}\|x-_V y\|_{I}^{2}
+\sim_{\mathbb{K}}
+-_{\mathbb{K}}\bigl(
+\langle x,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+(-_{\mathbb{K}}\langle x,y\rangle_{\InnerProductUp})
++_{\mathbb{K}}
+(-_{\mathbb{K}}\langle y,x\rangle_{\InnerProductUp})
++_{\mathbb{K}}
+\langle y,y\rangle_{\InnerProductUp}
+\bigr).
+$$
+Apply \autoref{thm:ring-neg-add} repeatedly in the retained scalar ring, and
+read its additive reduct through \autoref{prop:ring-forgets-abgroup-certificate}.
+The two double negatives collapse by
+\autoref{thm:abgroup-additive-negation-involutive}, so the right-hand scalar
+endpoint is further classified with
+$$
+(-_{\mathbb{K}}\langle x,x\rangle_{\InnerProductUp})
++_{\mathbb{K}}
+\langle x,y\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+(-_{\mathbb{K}}\langle y,y\rangle_{\InnerProductUp}).
+$$
+
+Add the expansion of $\|x+_V y\|_{I}^{2}$ and this negated expansion inside the
+retained scalar classifier. Addition congruence and
+\autoref{thm:namecert-equivalence-transitivity} compose the two comparisons.
+The diagonal terms $\langle x,x\rangle_{\InnerProductUp}$ and
+$\langle y,y\rangle_{\InnerProductUp}$ cancel against their displayed additive
+inverses by the additive inverse laws in
+\autoref{def:ring-stability-certificate}. The remaining scalar endpoint is two
+copies of the mixed sum:
+$$
+\bigl(
+\langle x,y\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,x\rangle_{\InnerProductUp}
+\bigr)
++_{\mathbb{K}}
+\bigl(
+\langle x,y\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,x\rangle_{\InnerProductUp}
+\bigr).
+$$
+
+Finally, the scalar doubling row retained in
+\autoref{def:innerproduct-parallelogram-norm-seed-source} identifies this
+paired sum with
+$$
+2_{\mathbb{K}}\cdot_{\mathbb{K}}
+\bigl(
+\langle x,y\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,x\rangle_{\InnerProductUp}
+\bigr).
+$$
+A final application of \autoref{thm:namecert-equivalence-transitivity}
+composes the expansion, negation, cancellation, and doubling witnesses into
+the displayed classifier row.
+\end{proof}
