@@ -488,4 +488,22 @@ theorem ProjectiveVarVisibleCarrier_public_namecert_export [AskSetup] [PackageSe
       exact outCarrier
   }
 
+theorem ProjectiveVarVisibleCarrier_downstream_zero_locus_bridge [AskSetup] [PackageSetup]
+    {chart homogeneous projective evaluation endpoint endpoint' p : BHist}
+    {polyBundle : ProbeBundle BHist} {tokenBundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProjectiveVarVisibleCarrier chart homogeneous projective evaluation endpoint polyBundle
+        tokenBundle pkg ->
+      InBundle p polyBundle ->
+        hsame endpoint endpoint' ->
+          ProjectiveVarVisibleCarrier chart homogeneous projective evaluation endpoint' polyBundle
+              tokenBundle pkg ∧
+            hsame (append p chart) BHist.Empty ∧ Cont chart homogeneous evaluation ∧
+              TokIntro tokenBundle evaluation pkg ∧ Cont evaluation projective endpoint' := by
+  intro carrier member sameEndpoint
+  have transportedCarrier :=
+    ProjectiveVarVisibleCarrier_classifier_stability carrier sameEndpoint
+  have exactRows :=
+    ProjectiveVarVisibleCarrier_zero_locus_exactness transportedCarrier member
+  exact And.intro transportedCarrier exactRows
+
 end BEDC.Derived.ProjectiveVarUp
