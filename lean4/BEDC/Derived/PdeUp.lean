@@ -345,6 +345,22 @@ theorem PdeConservativeStandardBridge_rows [AskSetup] [PackageSetup]
         (And.intro publicRows.right.right.left
           (And.intro publicRows.right.right.right.left summarizedReadback))))
 
+theorem PdeConservativeStandardBridge_endpoint_readback [AskSetup] [PackageSetup]
+    {manifold derivative relation boundary endpoint relationBoundary summarizedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PdeCarriedSourceRow manifold derivative relation boundary endpoint bundle pkg ->
+      Cont relation boundary relationBoundary ->
+        Cont (append manifold derivative) relationBoundary summarizedEndpoint ->
+          hsame summarizedEndpoint (append (append manifold derivative) endpoint) := by
+  intro row relationBoundaryCont summarizedEndpointCont
+  have bridgeRows :=
+    PdeConservativeStandardBridge_rows row relationBoundaryCont summarizedEndpointCont
+  have sameBoundaryEndpoint : hsame relationBoundary endpoint :=
+    bridgeRows.right.right.right.right.left
+  exact
+    cont_respects_hsame (hsame_refl (append manifold derivative)) sameBoundaryEndpoint
+      summarizedEndpointCont (cont_intro rfl)
+
 theorem PdePublicInterface_export_semantic_name_certificate [AskSetup] [PackageSetup]
     {manifold derivative relation boundary endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
