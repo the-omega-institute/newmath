@@ -641,6 +641,18 @@ pattern and ledger fields are the source witness itself.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologySingletonCycle\_semanticNameCert}
 
+\begin{theorem}[Homology singleton cycle standard bridge boundary]
+\label{thm:homology-singleton-cycle-standard-bridge-boundary}
+The singleton-cycle semantic certificate of \autoref{thm:homology-singleton-cycle-semantic-namecert} supplies the paper-side standard bridge boundary for the exported $\HomologyUp$ cycle interface. The BEDC source is $\mathsf{BHist}$ with $\hsame$, the carrier is the singleton cycle carrier, the classifier is endpoint carriage together with $\hsame$, the ledger is the source witness, and the standard readback is the one-cycle trivial homology object.
+\end{theorem}
+\begin{proof}
+Project the semantic certificate of \autoref{thm:homology-singleton-cycle-semantic-namecert}. Its source, pattern, and ledger policy are all the singleton cycle carrier, and its classifier stores the two endpoint-carrier witnesses together with the $\hsame$ comparison.
+
+Read the source as $\mathsf{BHist}$ equipped with $\hsame$. The carrier is inhabited by $\mathsf{BHist.Empty}$, so the standard readback is the one-cycle object whose only accepted cycle endpoint is the singleton empty-history class.
+
+The ledger field is the source witness itself, and transport along the classifier uses the right endpoint-carrier witness. Repacking these rows gives the standard bridge boundary for the exported singleton-cycle $\HomologyUp$ interface.
+\end{proof}
+
 \closureat{HomologyUp}{bridgedStr}[BEDC.Derived.HomologyUp.HomologySingletonCycle\_semanticNameCert]
 
 \begin{closurestatus}{\HomologyUp}
