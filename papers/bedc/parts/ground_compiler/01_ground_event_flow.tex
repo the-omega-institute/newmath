@@ -10,6 +10,7 @@ The chapter sits between \autoref{ch:closure-and-verification-discipline}, which
 
 \begin{definition}[Display alphabet]
 \label{def:ground-event-flow-display-alphabet}
+\leandef{BEDC.GroundCompiler.EventFlow.DisplayAlphabet}
 The \emph{display alphabet} is
 $$
   \Sigma \;:=\; \{\, 0, \, 1 \,\}.
@@ -140,6 +141,7 @@ A generated recognizer is not a host parser, host function, schema, or AST const
 
 \begin{definition}[Recognized package flow]
 \label{def:ground-event-flow-recognized-package-flow}
+\leandef{BEDC.GroundCompiler.EventFlow.RecognizedPackageFlow}
 A \emph{recognized package flow} is an event flow $S \in \mathsf{EventFlow}$ for which there exists a generated recognizer $R$ such that
 $$
   \mathsf{RecognizesPkg}(R, S)
@@ -343,6 +345,7 @@ The flow does not assert equality of the underlying histories, nor does it asser
 
 \begin{theorem}[Event-flow conservativity]
 \label{thm:ground-event-flow-conservativity}
+\leanchecked{BEDC.GroundCompiler.EventFlow.event\_flow\_conservativity}
 Adding the ground event-flow input layer does not add new BEDC kernel objects, new mark-sameness rules, new history-sameness rules, new $\ExtR$ or $\ContR$ rules, or new derived interfaces.
 \end{theorem}
 

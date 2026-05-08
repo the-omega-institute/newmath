@@ -4,7 +4,9 @@ namespace BEDC.GroundCompiler.EventFlow
 
 open BEDC.FKernel.Mark
 
-def RawEvent : Type := List BMark
+def DisplayAlphabet : Type := BMark
+
+def RawEvent : Type := List DisplayAlphabet
 
 def EventFlow : Type := List RawEvent
 
@@ -44,6 +46,12 @@ inductive FormalCompilerInput : CompilerDatum -> Prop where
       FormalCompilerInput (CompilerDatum.recognizedFlow R S)
   | certifiedExport (S : EventFlow) :
       FormalCompilerInput (CompilerDatum.certifiedExport S)
+
+def RecognizesPkg (R S : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R S)
+
+def RecognizedPackageFlow (S : EventFlow) : Prop :=
+  exists R : GeneratedRecognizer, RecognizesPkg R S
 
 def RecognizesNameCert (R S : EventFlow) : Prop :=
   FormalCompilerInput (CompilerDatum.recognizedFlow R S)
@@ -152,5 +160,13 @@ theorem accepted_export_requires_cert {S : EventFlow} :
       exists N C : EventFlow, RecognizedNameCertFlow N /\ RecognizedClosureCertFlow C := by
   intro h
   exact h.right
+
+theorem event_flow_conservativity {S : EventFlow} {w : RawEvent}
+    {m : DisplayAlphabet} :
+    List.Mem w S -> List.Mem m w -> m = BMark.b0 \/ m = BMark.b1 := by
+  intro _ _
+  cases m with
+  | b0 => exact Or.inl rfl
+  | b1 => exact Or.inr rfl
 
 end BEDC.GroundCompiler.EventFlow
