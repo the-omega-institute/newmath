@@ -171,4 +171,16 @@ theorem DynSystemFlowPacket_classifier_flow_transport [AskSetup] [PackageSetup]
                     (And.intro routeCont' routePkg'))))))))
       (And.intro sameFlowWitness (And.intro sameEndpoint sameRoute))
 
+theorem DynSystemFlowPacket_endpoint_determinacy_surface [AskSetup] [PackageSetup]
+    {phase ode time source target target' flowWitness endpoint endpoint' route route' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemFlowPacket phase ode time source target flowWitness endpoint route bundle pkg ->
+      DynSystemFlowPacket phase ode time source target' flowWitness endpoint' route' bundle pkg ->
+        hsame target target' -> hsame route route' -> hsame endpoint endpoint' := by
+  intro leftPacket rightPacket sameTarget sameRoute
+  cases sameTarget
+  exact
+    cont_common_suffix_cancellation leftPacket.right.right.right.right.right.right.right.left
+      rightPacket.right.right.right.right.right.right.right.left sameRoute
+
 end BEDC.Derived.DynSystemUp

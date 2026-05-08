@@ -160,6 +160,7 @@ import BEDC.Derived.PreSheafUp
 import BEDC.Derived.ProjectiveSpaceUp
 import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.AffineSpaceUp
+import BEDC.Derived.ModelTheoryUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
 import BEDC.Derived.ProdUp.SourceMonotonicity
