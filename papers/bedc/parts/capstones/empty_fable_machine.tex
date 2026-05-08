@@ -1,0 +1,237 @@
+\chapter{Empty as the Fable Machine: Observer-Sequence Growth and Selector Ledgers}
+\label{ch:capstones-empty-fable-machine}
+
+The preceding capstone (\autoref{ch:capstones-observer-hist-identity}) identifies the observer with the history of its distinctions: $\mathit{observer} = \Hist$, $\mathit{observation} = \Cont$, time = Hist growth. That identification fixes what an observer is, but does not yet spell out how the observer sequence grows. The present chapter fills that gap. The empty history $\emp$ carries no information; nevertheless every non-empty history is generated from $\emp$ by a finite sequence of distinction acts. When more than one branch is locally admissible, the realized history contains the selector witness for the branch that was enacted. Empty is therefore not an observer-substance and not a truth oracle. It is the zero-information boundary at which distinction becomes generative: the fable machine. This chapter falls under the project's axiom-purity gate; no $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$ is required for any cited target.
+
+\section{Empty as zero-information boundary}
+\label{sec:efm-empty-vs-e}
+
+The kernel value $\emp$ and the boundary at which distinction enters above any history must be distinguished at the reading level: $\emp$ is the unique $\Hist$ whose distinction record is empty; the empty boundary above any $\Hist$ is the zero-information slot at which the next $\Ezero$ or $\Eone$ application has not yet been enacted. Both are read as ``Empty,'' but each non-trivial observation is generated at the empty boundary above the current Hist, not by resetting the history to $\emp$.
+
+\begin{definition}[Empty boundary]
+\label{def:efm-empty-boundary}
+For a $\Hist$ value $h$, the \emph{empty boundary above $h$} is the zero-information slot at which a singleton extension may apply: the unique slot at which $\Ext(\,h,\,m,\,r\,)$ becomes admissible for some mark $m$, with the resulting $r$ recording $m$ as a fresh distinction above $h$. This is a reading-level locator; the formal target is the kernel relation $\Ext$ on $\Hist$.
+\end{definition}
+
+\begin{lemma}[Empty carries no selector]
+\label{thm:efm-empty-no-selector}
+The Hist value $\emp$ exposes no $b_0$/$b_1$ selector. The information content of $\emp$ is the empty sequence, and any reading that recovers a mark from a Hist value must recurse on a non-empty constructor, never on $\emp$ alone.
+\end{lemma}
+\begin{proof}
+The information content recursion (\autoref{def:hist-information-content}) returns the empty sequence at $\emp$. Every $\Eone$ or $\Ezero$ application records its tag in the constructor of $\Hist$; the no-confusion lemmas separating $\emp$ from $\Eone(h)$ and from $\Ezero(h)$ rule out the existence of a Hist that records a mark while remaining $\hsame$-equivalent to $\emp$.
+\end{proof}
+
+\begin{remark}[Empty is not a hidden subject]
+\label{rem:efm-no-hidden-subject}
+Empty is not an information reservoir, nor a substance behind the trace, nor a global chooser. Its role is structural: the zero-information boundary at which the first visible distinction is enacted. Every claim made later in this chapter about ``selecting'' a branch will be redeemed by a constructive witness on the kernel surface, not by an unwitnessed appeal to Empty.
+\end{remark}
+
+\section{One-step birth: from empty boundary to singleton continuation}
+\label{sec:efm-one-step-birth}
+
+\begin{definition}[Singleton tail]
+\label{def:efm-singleton-tail}
+For a mark $m \in \{b_0, b_1\}$, the \emph{singleton tail} of $m$ is the $\Hist$ value $\Ezero(\emp)$ when $m = b_0$ and $\Eone(\emp)$ when $m = b_1$. The singleton tail records exactly one distinction above $\emp$ and nothing else.
+\leandef{BEDC.Capstone.EmptyFableMachine.singletonTail}
+\end{definition}
+
+\begin{definition}[Empty-boundary step]
+\label{def:efm-empty-step}
+An \emph{empty-boundary step} from $h$ enacted by mark $m$ with result $r$ is the relation $\Ext(\,h,\,m,\,r\,)$, read at the chapter level as filling the empty boundary above $h$ with the mark $m$. The relation is definitionally identical to the kernel-level extension; the wrapper name carries the reading.
+\leandef{BEDC.Capstone.EmptyFableMachine.EmptyStep}
+\end{definition}
+
+\begin{theorem}[Empty-boundary step is the kernel extension]
+\label{thm:efm-empty-step-iff-ext}
+For every $h$, $m$, $r$: an empty-boundary step from $h$ enacting $m$ to $r$ holds if and only if $\Ext(\,h,\,m,\,r\,)$ holds.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.emptyStep\_iff\_ext}
+\end{theorem}
+
+\begin{theorem}[Singleton-tail constructors]
+\label{thm:efm-singleton-tail-construct}
+$b_0$-stepping above $\emp$ produces the $b_0$ singleton tail, and $b_1$-stepping above $\emp$ produces the $b_1$ singleton tail.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.emptyStep\_singletonTail\_b0}
+\leanvariant{BEDC.Capstone.EmptyFableMachine.emptyStep\_singletonTail\_b1}
+\end{theorem}
+
+\begin{theorem}[Empty-step result is non-empty]
+\label{thm:efm-empty-step-result-nonempty}
+For any empty-boundary step from $h$ enacting $m$ with result $r$, the result $r$ is not $\hsame$-equivalent to $\emp$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.emptyStep\_result\_ne\_empty}
+\end{theorem}
+
+\begin{theorem}[Cross-mark step no-confusion]
+\label{thm:efm-empty-step-cross-mark-noconf}
+A $b_0$-empty-step and a $b_1$-empty-step from the same source $h$ never share a result up to $\hsame$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.emptyStep\_cross\_mark\_no\_confusion}
+\end{theorem}
+
+\begin{theorem}[Empty-step totality]
+\label{thm:efm-empty-step-total}
+For every $h$ and every $m$, an empty-boundary step from $h$ enacting $m$ exists.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.emptyStep\_total}
+\end{theorem}
+
+\begin{theorem}[Empty-step determinism]
+\label{thm:efm-empty-step-det}
+For every $h$ and every $m$, the result of an empty-boundary step is unique up to $\hsame$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.emptyStep\_deterministic}
+\end{theorem}
+
+\begin{remark}[Each step is local; no reset to $\emp$]
+\label{rem:efm-no-reset}
+The reading ``each observation is born from Empty'' refers to the empty boundary above the current Hist, not to a reset of the history to $\emp$. The accumulated sequence $h_0, h_1, \dots, h_n$ has $h_{i+1}$ obtained from $h_i$ by an empty-boundary step, with $h_i$ retaining its full distinction record; the singleton tail $\Ezero(\emp)$ or $\Eone(\emp)$ is the local shape of that step, not the global state.
+\end{remark}
+
+\section{Observer sequence as finite selector ledger}
+\label{sec:efm-observer-sequence}
+
+\begin{definition}[Trace]
+\label{def:efm-trace}
+A \emph{trace} of a $\Hist$ value $h$ is the finite sequence $\langle s_0, s_1, \dots, s_{n-1}\rangle$ of marks read off the constructor spine of $h$ in chronological order: at each $\Ezero$ application the mark $b_0$ is recorded, at each $\Eone$ application the mark $b_1$ is recorded, and at $\emp$ the sequence is empty.
+\leandef{BEDC.Capstone.EmptyFableMachine.Trace}
+\end{definition}
+
+\begin{theorem}[Every Hist has a trace]
+\label{thm:efm-trace-exists}
+For every $\Hist$ value $h$, there exists a finite mark sequence $xs$ such that $h$ has trace $xs$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.trace\_exists}
+\end{theorem}
+
+\begin{theorem}[Empty trace iff empty Hist]
+\label{thm:efm-trace-empty-iff}
+A $\Hist$ value $h$ has the empty trace if and only if $h$ is $\emp$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.trace\_empty\_iff}
+\end{theorem}
+
+\begin{theorem}[Trace transports along $\hsame$]
+\label{thm:efm-trace-hsame-transport}
+If $h$ and $k$ are $\hsame$-equivalent and $h$ has trace $xs$, then $k$ has trace $xs$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.trace\_hsame\_transport}
+\end{theorem}
+
+\begin{theorem}[Trace determines Hist up to $\hsame$]
+\label{thm:efm-trace-determines-hist}
+If $h$ and $k$ both have trace $xs$, then $h$ and $k$ are $\hsame$-equivalent.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.trace\_same\_marks\_hsame}
+\end{theorem}
+
+\begin{corollary}[Observer identity is sequence identity]
+\label{cor:efm-observer-as-sequence}
+Under the identification $\mathit{observer} = \Hist$ (\autoref{cor:observer-is-hist}), two observers are the same observer (modulo $\hsame$) precisely when their selector ledgers are the same finite sequence of marks. The observer sequence is not a label attached from outside; it is the constructor spine of the Hist read as a list of distinctions.
+\end{corollary}
+
+\section{Multi-solution branch space and realized selector}
+\label{sec:efm-multi-branch}
+
+\begin{definition}[Local branch admissibility]
+\label{def:efm-adnext}
+For a local branch predicate $\Gamma : \Hist \to \mathit{Mark} \to \Hist \to \mathsf{Prop}$, the predicate $\mathsf{AdNext}_\Gamma(h, m)$ holds when there exists a Hist $r$ such that the empty-boundary step from $h$ enacting $m$ produces $r$ and $\Gamma(h, m, r)$ holds. The predicate $\Gamma$ is read at the chapter level as ``the branch is locally licensed''; no global selection is built.
+\leandef{BEDC.Capstone.EmptyFableMachine.AdNext}
+\end{definition}
+
+\begin{definition}[Multi-solution boundary]
+\label{def:efm-multinext}
+The branch space at $h$ under $\Gamma$ is \emph{multi-solution}, written $\mathsf{MultiNext}_\Gamma(h)$, when both $\mathsf{AdNext}_\Gamma(h, b_0)$ and $\mathsf{AdNext}_\Gamma(h, b_1)$ hold.
+\leandef{BEDC.Capstone.EmptyFableMachine.MultiNext}
+\end{definition}
+
+\begin{definition}[Selector step]
+\label{def:efm-selstep}
+A \emph{selector step} from $h$ to $r$ under $\Gamma$ is a witness $(m, \mathit{step}, \mathit{cert})$ where $m$ is a mark, $\mathit{step}$ is an empty-boundary step from $h$ enacting $m$ to $r$, and $\mathit{cert}$ is a $\Gamma(h, m, r)$ certificate. The mark $m$ is exposed by the witness; no hidden chooser is invoked.
+\leandef{BEDC.Capstone.EmptyFableMachine.SelStep}
+\end{definition}
+
+\begin{theorem}[Selector step exposes a mark]
+\label{thm:efm-selstep-exposes}
+Every selector step from $h$ to $r$ under $\Gamma$ exposes a mark $m$ such that an empty-boundary step from $h$ enacts $m$ to $r$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.selStep\_exposes\_mark}
+\end{theorem}
+
+\begin{theorem}[Selector step from step + certificate]
+\label{thm:efm-selstep-from-step}
+Given an empty-boundary step from $h$ enacting $m$ to $r$ and a $\Gamma(h, m, r)$ certificate, a selector step from $h$ to $r$ under $\Gamma$ exists.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.selStep\_from\_step}
+\end{theorem}
+
+\begin{theorem}[Distinct realized branches stay separated]
+\label{thm:efm-distinct-branches-separated}
+If two selector steps from the same source $h$ recover distinct marks $m_0 \neq m_1$, their targets are not $\hsame$-equivalent.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.selStep\_distinct\_branches\_separated}
+\end{theorem}
+
+\begin{remark}[Specific sequence implies accumulated ledger]
+\label{rem:efm-specific-sequence-ledger}
+When the local branch space is multi-solution but the realized observer sequence is specific, the specificity is not an unexplained miracle. Each step records the mark of the branch that was enacted as a constructor in $\Hist$; the trace of that Hist (\autoref{def:efm-trace}) is the accumulated selector ledger. There is no global choice function in the kernel and none is needed: each step's selector is a local witness on the Hist surface itself, and the entire ledger is recovered by reading the constructor spine.
+\end{remark}
+
+\section{Empty as the fable machine}
+\label{sec:efm-fable-machine}
+
+\begin{definition}[Fable ledger]
+\label{def:efm-fable-ledger}
+The \emph{fable ledger} of a Hist $h$ is its trace, read as a story-generation relation: $h$ is the Hist generated from $\emp$ by the finite sequence of selectors recorded in the ledger. The relation is identical to $\mathsf{Trace}$ at the kernel level; the chapter-level name records the generative reading.
+\leandef{BEDC.Capstone.EmptyFableMachine.FableLedger}
+\leanvariant{BEDC.Capstone.EmptyFableMachine.fable\_ledger\_iff\_trace}
+\end{definition}
+
+\begin{theorem}[Fable soundness]
+\label{thm:efm-fable-sound}
+Every fable ledger is a trace: if $h$ has fable ledger $xs$ then $h$ has trace $xs$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.fable\_ledger\_sound}
+\end{theorem}
+
+\begin{theorem}[Fable completeness]
+\label{thm:efm-fable-complete}
+Every finite mark sequence is the fable ledger of some Hist: for every $xs$ there exists $h$ with fable ledger $xs$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.fable\_ledger\_complete}
+\end{theorem}
+
+\begin{theorem}[Fable uniqueness up to $\hsame$]
+\label{thm:efm-fable-unique}
+The Hist generated by a fable ledger is unique up to $\hsame$: if $h$ and $k$ both have fable ledger $xs$, then $h$ and $k$ are $\hsame$-equivalent.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.fable\_ledger\_unique\_up\_to\_hsame}
+\end{theorem}
+
+\begin{remark}[Fable machine, not oracle machine]
+\label{rem:efm-fable-not-oracle}
+The fable machine is the schema that maps a finite selector ledger to the Hist it generates and back. It generates story ledgers, not truth values: no construction in this chapter supplies a $\NameCert$-level decision procedure for arbitrary predicates. Empty is therefore the fable machine, not the oracle machine; story ledgers live in the closed ground loop, while truth-as-such, halting-as-such, and global selection live in the open meta loop and are not closable inside the kernel.
+\end{remark}
+
+\section{No hidden chooser: selector witness vs.\ classical choice}
+\label{sec:efm-no-hidden-chooser}
+
+The chapter's central commitment is that ``Empty has selection capacity'' is read entirely as: every realized branch records its enacted mark as a constructor in the resulting $\Hist$, and the selector step is the explicit witness $(m, \mathit{step}, \mathit{cert})$ on the kernel surface. No global selection function, no $\mathsf{Classical.choice}$ instance, no doubly-negated existential, and no truth-as-such oracle is invoked.
+
+This restraint is what keeps the chapter inside the project's axiom-purity gate. Each construction in this chapter factors through $\Hist$, $\Mark$, $\Ext$, the $\hsame$ relation, finite induction over $\mathsf{Trace}$, and explicit $\mathsf{SelStep}$ witnesses. None of these objects requires $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, or $\mathsf{propext}$, and the project's strict transitive-dependency audit confirms it.
+
+\begin{remark}[Two-loops alignment]
+\label{rem:efm-two-loops-alignment}
+The fable machine is the generative face of the closed ground loop (\autoref{def:ground-loop-closed}): every Hist is reachable from $\emp$ by finitely many distinction acts, and the selector ledger is the explicit constructor record of that reachability. The unclosability of the meta loop (\autoref{def:meta-loop-unclosable}) is the dual statement: no internal predicate ``what observation is, as such'' lives on the Hist surface, because doing so would require either an observer-substance type (forbidden by \autoref{thm:no-subject-parameter}) or a global truth oracle (forbidden by axiom-purity). The fable machine occupies exactly the space the two-loops architecture leaves open: generative, accountable, and Empty-anchored, with no hidden chooser.
+\end{remark}
+
+\section{Synthesis: observer-Hist as fable ledger}
+\label{sec:efm-synthesis}
+
+\begin{theorem}[Empty-fable synthesis]
+\label{thm:efm-synthesis}
+At the kernel level, the following three data are equivalent up to $\hsame$:
+\begin{enumerate}
+  \item a generated observer Hist $h$,
+  \item a finite selector ledger $xs$ beginning at $\emp$,
+  \item a finite chain of empty-boundary singleton continuations $\emp = h_0, h_1, \dots, h_n = h$ where each step is witnessed by a selected mark $s_i \in \{b_0, b_1\}$.
+\end{enumerate}
+Moreover, if a local branch predicate $\Gamma$ admits multiple next branches at some $h_i$, the realized branch $h_{i+1}$ carries its selector as an explicit selector-step witness.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.empty\_fable\_synthesis}
+\leanvariant{BEDC.Capstone.EmptyFableMachine.empty\_fable\_synthesis\_unique}
+\end{theorem}
+
+\begin{corollary}[Observer-Hist is the fable ledger]
+\label{cor:efm-observer-as-ledger}
+Combining \autoref{cor:observer-is-hist} (observer is identical to Hist) with the synthesis above, the observer is the finite selector ledger of the empty-boundary distinctions enacted from $\emp$ onward. The observer sequence is not external memory; it is the constructor spine read as a list. There is no observer-substance, no global chooser, no truth oracle — only the generative ledger.
+\end{corollary}
+
+\begin{remark}[Closing: fable machine, not oracle machine]
+\label{rem:efm-closing}
+This capstone introduced no new kernel objects. It read the existing $\Hist$, $\Mark$, $\Ext$ surface under one identification: Empty is the zero-information generative boundary, and every Hist is the finite selector ledger of the marks enacted at that boundary. Under that identification, the answer to ``where does the observer sequence come from'' is fully constructive: it is the constructor spine of the Hist itself, with each step's selector exposed as an explicit witness. No appeal to classical choice, no observer-substance, no oracle; only the fable, told finitely, accountably, and from Empty.
+\end{remark}

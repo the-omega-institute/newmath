@@ -364,3 +364,88 @@ K\cdot1_{\RealUp}\sim_{\RealUp}K,
 $$
 The ledger component is exactly the unit-ledger hypothesis: $\Lambda\star\mathcal{I}_C$ and $\mathcal{I}_D\star\Lambda$ transport componentwise to $\Lambda$ after the identity endpoint rows and the RealUp unit rows are collapsed. These three components are precisely the fields of the Banach bounded-operator classifier, so both unit composites are classified with $(T,K,\Lambda)$.
 \end{proof}
+
+\begin{theorem}[Banach bounded linear operator left zero annihilation]
+\label{thm:banach-bounded-linear-operator-left-zero-annihilation}
+Let $H_0,H_1,H_2$ be $\BanachUp$ candidates with vector carriers $H_{0,V},H_{1,V},H_{2,V}$, classifiers $\sim_{H_0},\sim_{H_1},\sim_{H_2}$, and zero endpoints $0_{H_0},0_{H_1},0_{H_2}$. Let
+$$
+\mathsf{BanachBLOp}(H_1,H_2,T,L,\Gamma)
+$$
+be a carried bounded linear operator row, and let
+$$
+\mathsf{BanachBLOp}(H_0,H_1,0_{H_0,H_1},0_{\RealUp},\Lambda_{01})
+$$
+and
+$$
+\mathsf{BanachBLOp}(H_0,H_2,0_{H_0,H_2},0_{\RealUp},\Lambda_{02})
+$$
+be the carried zero rows furnished by \autoref{thm:banach-zero-bounded-linear-operator-carrier}, so that
+$$
+0_{H_0,H_1}(x)=0_{H_1},
+\qquad
+0_{H_0,H_2}(x)=0_{H_2}
+$$
+for every carried source endpoint $x:H_{0,V}$. Assume also that the RealUp multiplication rows classify $L\cdot 0_{\RealUp}$ with $0_{\RealUp}$, and that the concatenated ledger $\Gamma\star\Lambda_{01}$ componentwise transports to $\Lambda_{02}$ after rewriting only the displayed endpoint rows along the target classifier comparison $T(0_{H_1})\sim_{H_2}0_{H_2}$ and the bound row along $L\cdot 0_{\RealUp}\sim_{\RealUp}0_{\RealUp}$. Then
+$$
+\mathsf{BanachBLOp}(H_0,H_2,T\circ 0_{H_0,H_1},L\cdot 0_{\RealUp},\Gamma\star\Lambda_{01})
+$$
+is carried, and its operator representative is classified with the zero representative on $(H_0,H_2)$:
+$$
+(T\circ 0_{H_0,H_1},L\cdot 0_{\RealUp},\Gamma\star\Lambda_{01})
+\sim_{\mathrm{op}(H_0,H_2)}
+(0_{H_0,H_2},0_{\RealUp},\Lambda_{02}).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:banach-bounded-linear-operator-composition-closure} to the carried zero row from $H_0$ to $H_1$ and the carried row for $T$. With middle object $H_1$, the composite endpoint map is $T\circ 0_{H_0,H_1}$, the product bound is $L\cdot 0_{\RealUp}$, and the concatenated ledger is $\Gamma\star\Lambda_{01}$. This yields the carried row
+$$
+\mathsf{BanachBLOp}(H_0,H_2,T\circ 0_{H_0,H_1},L\cdot 0_{\RealUp},\Gamma\star\Lambda_{01}).
+$$
+
+It remains to compare this composite representative with the carried zero representative on $(H_0,H_2)$. Unfold the operator classifier specified in \autoref{def:banach-bounded-linear-operator-carrier}. As in the unit proof, its comparison has three visible fields: endpoint-map comparison, RealUp bound comparison, and componentwise ledger transport.
+
+For the endpoint-map component, fix a carried source endpoint $x:H_{0,V}$. By definition of the source zero map,
+$$
+(T\circ 0_{H_0,H_1})(x)=T(0_{H_1}),
+$$
+while by definition of the target zero map,
+$$
+0_{H_0,H_2}(x)=0_{H_2}.
+$$
+It therefore suffices to prove $T(0_{H_1})\sim_{H_2}0_{H_2}$.
+
+Because $\Lambda_{01}$ is a carried zero ledger, the endpoint $0_{H_1}$ is carried in $H_{1,V}$. The source scalar-zero row in $H_1$ gives
+$$
+0_{\RealUp}\cdot_{H_1}0_{H_1}\sim_{H_1}0_{H_1}.
+$$
+Apply the classifier-respect row of $\Gamma$ to transport this comparison through $T$:
+$$
+T(0_{\RealUp}\cdot_{H_1}0_{H_1})\sim_{H_2}T(0_{H_1}).
+$$
+By symmetry of the target vector classifier,
+$$
+T(0_{H_1})\sim_{H_2}T(0_{\RealUp}\cdot_{H_1}0_{H_1}).
+$$
+Now apply the homogeneity row of $\Gamma$ at the carried scalar endpoint $0_{\RealUp}$ and the carried source endpoint $0_{H_1}$:
+$$
+T(0_{\RealUp}\cdot_{H_1}0_{H_1})\sim_{H_2}0_{\RealUp}\cdot_{H_2}T(0_{H_1}).
+$$
+Finally, the target scalar-zero row in $H_2$ gives
+$$
+0_{\RealUp}\cdot_{H_2}T(0_{H_1})\sim_{H_2}0_{H_2}.
+$$
+Transitivity of $\sim_{H_2}$ combines the last three displayed comparisons into
+$$
+T(0_{H_1})\sim_{H_2}0_{H_2}.
+$$
+Since this comparison is independent of $x$, it supplies the endpoint-map component of the operator-classifier comparison between $T\circ 0_{H_0,H_1}$ and $0_{H_0,H_2}$.
+
+The RealUp bound component is exactly the assumed right-zero multiplication comparison
+$$
+L\cdot 0_{\RealUp}\sim_{\RealUp}0_{\RealUp}.
+$$
+
+The ledger component is the remaining hypothesis: after rewriting the endpoint rows along the just-proved target comparison $T(0_{H_1})\sim_{H_2}0_{H_2}$ and rewriting the bound row along $L\cdot 0_{\RealUp}\sim_{\RealUp}0_{\RealUp}$, the concatenated ledger $\Gamma\star\Lambda_{01}$ transports componentwise to the zero ledger $\Lambda_{02}$.
+
+These three components are precisely the fields of the Banach bounded-operator classifier. Hence the composite representative $(T\circ 0_{H_0,H_1},L\cdot 0_{\RealUp},\Gamma\star\Lambda_{01})$ is classified with the zero representative $(0_{H_0,H_2},0_{\RealUp},\Lambda_{02})$ on $(H_0,H_2)$.
+\end{proof}
