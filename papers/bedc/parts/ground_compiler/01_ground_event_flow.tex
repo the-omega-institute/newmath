@@ -171,6 +171,7 @@ The discipline above is a strict instance of the typed naming certificate admiss
 
 \begin{definition}[Recognized $\NameCert$ flow]
 \label{def:ground-event-flow-recognized-namecert-flow}
+\leandef{BEDC.GroundCompiler.EventFlow.RecognizedNameCertFlow}
 A \emph{recognized $\NameCert$ flow} is an event flow $S$ for which a generated recognizer $R$ witnesses
 $$
   \mathsf{RecognizesNameCert}(R, S).
@@ -206,6 +207,7 @@ The long-term self-hosting target of the compilation discipline is the existence
 
 \begin{definition}[Accepted object flow]
 \label{def:ground-event-flow-accepted-object-flow}
+\leandef{BEDC.GroundCompiler.EventFlow.AcceptedObjectFlow}
 An \emph{accepted object flow} is not merely an event flow that the channel layer can encode and decode. It is an event flow whose recognized structure contains a recognized $\NameCert$ flow and a recognized $\ClosureCert$ flow that together witness $\TheoryGate(N, c)$ at some grade $c \in \TheoryClosure$, accompanied by an audited verification record that witnesses $\FormalStatus(N, v)$ at some grade $v$. The composite reading is the verification gate
 $$
   \VerifiedGate(N, c, v) \;:=\; \TheoryGate(N, c) \,\wedge\, \FormalStatus(N, v),
@@ -224,6 +226,7 @@ Membership $S \in \mathsf{EventFlow}$ asserts only that $S$ is a finite ordered 
 
 \begin{corollary}[Accepted export requires recognized certificates]
 \label{cor:ground-event-flow-export-requires-cert}
+\leanchecked{BEDC.GroundCompiler.EventFlow.accepted\_export\_requires\_cert}
 If a compiled event flow is claimed to export a mature object $N$ at grades $(c, v)$, its recognized structure must include $\NameCert$ and $\ClosureCert$ flows sufficient for $\VerifiedGate(N, c, v)$. Without such recognition the compiled flow is only a raw event-flow display.
 \end{corollary}
 

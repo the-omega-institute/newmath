@@ -45,6 +45,22 @@ inductive FormalCompilerInput : CompilerDatum -> Prop where
   | certifiedExport (S : EventFlow) :
       FormalCompilerInput (CompilerDatum.certifiedExport S)
 
+def RecognizesNameCert (R S : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R S)
+
+def RecognizedNameCertFlow (S : EventFlow) : Prop :=
+  exists R : GeneratedRecognizer, RecognizesNameCert R S
+
+def RecognizesClosureCert (R S : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R S)
+
+def RecognizedClosureCertFlow (S : EventFlow) : Prop :=
+  exists R : GeneratedRecognizer, RecognizesClosureCert R S
+
+def AcceptedObjectFlow (S : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.certifiedExport S) /\
+    exists N C : EventFlow, RecognizedNameCertFlow N /\ RecognizedClosureCertFlow C
+
 inductive StructuralHiddenInput : CompilerDatum -> Prop where
   | hostAST : StructuralHiddenInput CompilerDatum.hostAST
   | hostYAML : StructuralHiddenInput CompilerDatum.hostYAML
@@ -130,5 +146,11 @@ theorem yaml_not_input :
 theorem ast_not_input :
     Not (FormalCompilerInput CompilerDatum.hostAST) :=
   structural_hidden_not_formal StructuralHiddenInput.hostAST
+
+theorem accepted_export_requires_cert {S : EventFlow} :
+    AcceptedObjectFlow S ->
+      exists N C : EventFlow, RecognizedNameCertFlow N /\ RecognizedClosureCertFlow C := by
+  intro h
+  exact h.right
 
 end BEDC.GroundCompiler.EventFlow
