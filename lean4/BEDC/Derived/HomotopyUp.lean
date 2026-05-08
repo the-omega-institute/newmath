@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -116,6 +117,31 @@ theorem HomotopyBHistSourcePacket_interval_endpoint_determinacy [AskSetup] [Pack
       (hsame_symm sameEndpointRead)
   exact cont_left_cancel leftPacket.right.right.right.right.right.left rightEndpointReadCont
 
+theorem HomotopyBHistSourcePacket_reversal_symmetry_row [AskSetup] [PackageSetup]
+    {source target deformation interval provenance endpointRead ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HomotopyBHistSourcePacket source target deformation interval provenance endpointRead ledger
+        endpoint bundle pkg ->
+      hsame source target ->
+        HomotopyBHistSourcePacket target source deformation interval provenance endpointRead ledger
+            endpoint bundle pkg ∧
+          hsame target source := by
+  intro packet sameSourceTarget
+  have endpointCont : Cont ledger source endpoint :=
+    cont_hsame_transport (hsame_refl ledger) (hsame_symm sameSourceTarget) (hsame_refl endpoint)
+      packet.right.right.right.right.right.right.right.left
+  exact And.intro
+    (And.intro packet.right.left
+      (And.intro packet.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro packet.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.left
+                  (And.intro endpointCont
+                    packet.right.right.right.right.right.right.right.right))))))))
+    (hsame_symm sameSourceTarget)
+
 theorem HomotopyBHistSourcePacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {source target deformation interval provenance endpointRead ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -214,8 +240,8 @@ theorem HomotopyBHistSourcePacket_endpoint_classifier_row [AskSetup] [PackageSet
               (And.intro endpointUnary
                 (And.intro endpointReadCont
                   (And.intro ledgerCont
-                    (And.intro endpointCont
-                      packet.right.right.right.right.right.right.right.right)))))))))
+                (And.intro endpointCont
+                  packet.right.right.right.right.right.right.right.right)))))))))
 
 theorem HomotopyBHistSourcePacket_identity_deformation_row [AskSetup] [PackageSetup]
     {endpoint interval provenance endpointRead ledger endpoint' : BHist}
