@@ -6,5 +6,145 @@ The Brownian-motion interface $\BrownianUp$ packages a continuous-time stochasti
 \section{Carrier definition}
 \label{sec:brownian-carrier}
 
+\begin{definition}[Brownian BHist process packet]
+\label{def:brownian-bhist-process-packet}
+A $\BrownianUp$ process packet is a finite displayed $\mathsf{BHist}$ tuple
+$$
+\mathcal{B}=(M,C,T,I,N,P,\rho,\lambda).
+$$
+The row $M$ is the consumed $\NameCert_{\MartingaleUp}$ dependency row for
+the adapted value process. The row $C$ is the consumed
+$\NameCert_{\ContinuousMapUp}$ path row. The row $T$ is a finite
+$\UnaryHistory$ time-index row. The row $I$ is the step ledger recording the
+visible adjacent-time step faces over $T$. The row $N$ is the normal-step
+display attached to those adjacent faces. The row $P$ is the path-continuity
+display attached to the path row $C$. The row $\rho$ is the shared $\Pkg$
+provenance tying $M$, $C$, $T$, $I$, $N$, and $P$ into one displayed packet,
+and $\lambda$ is the finite $\Cont/\hsame$ transport ledger for every row
+read by the classifier.
+
+The packet is admitted as a $\BrownianUp$ carrier exactly when $M$ supplies
+all adaptedness and martingale rows through $\NameCert_{\MartingaleUp}$, $C$
+supplies all path-continuity rows through $\NameCert_{\ContinuousMapUp}$, and
+the Gaussian-step, time-index, provenance, and transport rows are displayed
+inside this finite tuple. No host probability space, host stochastic-process
+object, or host path equality is part of the carrier.
+\end{definition}
+
+\begin{definition}[Brownian step-continuity classifier]
+\label{def:brownian-step-continuity-classifier}
+Let
+$$
+\mathcal{B}=(M,C,T,I,N,P,\rho,\lambda)
+\quad\hbox{and}\quad
+\mathcal{B}'=(M',C',T',I',N',P',\rho',\lambda')
+$$
+be two $\BrownianUp$ process packets. The $\BrownianUp$ classifier holds
+exactly when the six displayed rows $M$, $C$, $T$, $I$, $N$, and $P$ are
+compared rowwise by $\hsame$, with the $M$ comparison read through
+$\NameCert_{\MartingaleUp}$ and the $C$ comparison read through
+$\NameCert_{\ContinuousMapUp}$:
+$$
+\begin{array}{l}
+M\hsame M'\land C\hsame C'\land T\hsame T'\land I\hsame I'\\
+\qquad{}\land N\hsame N'\land P\hsame P'\land \rho\hsame\rho'\land
+\lambda\hsame\lambda'.
+\end{array}
+$$
+The $\Pkg$ provenance and $\Cont$ ledger are shared under this comparison, so
+the classifier transports only the displayed martingale, continuous-path,
+time-index, Gaussian-step, and continuity rows. It explicitly excludes
+comparison of ambient probability spaces, host-level sample paths, and host
+path equality.
+\end{definition}
+
 \section{The certificate}
 \label{sec:brownian-certificate}
+
+\begin{theorem}[Brownian dependency surface]
+\label{thm:brownian-martingale-continuousmap-dependency-surface}
+For every admitted $\BrownianUp$ process packet of
+\autoref{def:brownian-bhist-process-packet}, every adaptedness and martingale
+row projects through $\NameCert_{\MartingaleUp}$, and every path-continuity
+row projects through $\NameCert_{\ContinuousMapUp}$. The only dependency data
+exported to a downstream consumer are the displayed rows $M$, $C$, the
+$\UnaryHistory$ time row $T$, the Gaussian-step and continuity displays
+$I,N,P$, the shared $\Pkg$ provenance $\rho$, and the finite
+$\Cont/\hsame$ ledger $\lambda$.
+\end{theorem}
+\begin{proof}
+Unpack the carrier tuple. Its first coordinate $M$ is declared to be the
+consumed $\NameCert_{\MartingaleUp}$ row, so all adaptedness, filtration, and
+martingale-step faces are obtained by projecting that dependency certificate.
+
+The second coordinate $C$ is declared to be the consumed
+$\NameCert_{\ContinuousMapUp}$ row. Thus the path-continuity display $P$ is
+read through the continuous-map certificate surface, together with the
+transport rows recorded by $\lambda$.
+
+The remaining coordinates do not create another dependency. The time row $T$,
+the adjacent-step ledger $I$, the normal-step display $N$, the provenance
+$\rho$, and the transport ledger $\lambda$ only bind the two dependency
+certificates into one finite packet. Repacking these projections gives the
+stated dependency surface and no uncarried probability-space or path object.
+\end{proof}
+
+\begin{theorem}[Brownian step-ledger transport]
+\label{thm:brownian-step-ledger-transport}
+If two admitted $\BrownianUp$ process packets are related by the classifier of
+\autoref{def:brownian-step-continuity-classifier}, then $\hsame$ transport of
+the classifier transports the independent-step ledger, the normal-step
+display, and the continuity ledger while leaving the visible
+$\UnaryHistory$ time-index row unchanged up to the displayed comparison
+$T\hsame T'$.
+\end{theorem}
+\begin{proof}
+Start with the time-index clause of the classifier. It supplies the displayed
+comparison $T\hsame T'$, so every adjacent-time face read by the source
+packet has a matched adjacent-time face in the target packet without
+introducing a host time set.
+
+Next project the three ledger comparisons. The clauses $I\hsame I'$ and
+$N\hsame N'$ transport the independent-step and normal-step displays along
+the same time row, while $P\hsame P'$ transports the continuity display
+through the consumed $\NameCert_{\ContinuousMapUp}$ classifier.
+
+Finally retain the shared provenance and transport boundary. The comparison
+$\rho\hsame\rho'$ keeps the dependency certificates in the same packet scope,
+and $\lambda\hsame\lambda'$ carries the finite $\Cont$ rows used by each
+display. Repacking these transported rows gives the target packet with the
+same visible time-index boundary.
+\end{proof}
+
+\begin{theorem}[Brownian NameCert obligation surface]
+\label{thm:brownian-namecert-obligation-surface}
+The public $\NameCert_{\BrownianUp}$ obligation surface consists exactly of
+the carrier of \autoref{def:brownian-bhist-process-packet}, the classifier of
+\autoref{def:brownian-step-continuity-classifier}, the two dependency
+certificates $\NameCert_{\MartingaleUp}$ and $\NameCert_{\ContinuousMapUp}$,
+step-ledger transport, continuity transport, classifier stability, and ledger
+exactness for the displayed rows $M,C,T,I,N,P,\rho,\lambda$. It exports no
+host stochastic process, host probability space, or host path equality.
+\end{theorem}
+\begin{proof}
+Collect the carrier and classifier rows. They list the finite tuple
+$(M,C,T,I,N,P,\rho,\lambda)$ and compare it componentwise by $\hsame$, with
+the martingale and continuous-map faces delegated to their two named
+dependency certificates.
+
+Use \autoref{thm:brownian-martingale-continuousmap-dependency-surface} to
+account for the dependency projections. This covers all adaptedness,
+martingale, and path-continuity rows through the public surfaces of
+$\NameCert_{\MartingaleUp}$ and $\NameCert_{\ContinuousMapUp}$.
+
+Use \autoref{thm:brownian-step-ledger-transport} for the transport
+surface. It preserves the independent-step, normal-step, and continuity
+ledgers by $\hsame$ and finite $\Cont$ transport, while the visible time row
+is kept as the same displayed $\UnaryHistory$ boundary.
+
+Ledger exactness is the reverse reading of the packet: every public Brownian
+row must be one of $M,C,T,I,N,P,\rho,\lambda$ or a row already scoped by $M$
+or $C$. Since the carrier and classifier contain no additional host
+probability-space, stochastic-process, or path-equality coordinate, the
+public obligation surface is exactly the one stated.
+\end{proof}
