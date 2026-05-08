@@ -237,6 +237,96 @@ are precisely the advertised certificate obligations and no additional bridge
 or quotient surface is used.
 \end{proof}
 
+\begin{definition}[De Rham boundary source packet]
+\label{def:derham-boundary-source-packet}
+Fix a $\NameCert_{\CohomologyUp}$ cochain differential
+$d_{\mathrm{dR}}:\mathsf{BHist}\to\mathsf{BHist}$ and a zero endpoint
+$z_{\mathrm{dR}}:\mathsf{BHist}$. A De Rham boundary source packet consists of
+the following $\mathsf{BHist}$ rows:
+\begin{enumerate}
+  \item the cochain differential row $d_{\mathrm{dR}}$ and its zero endpoint
+  comparison $\hsame(z_{\mathrm{dR}},\emp)$;
+  \item carried $\DiffFormUp$ input rows $\omega$, $\eta$, and $\theta$ with
+  the two exterior-input rows of
+  \autoref{def:derham-double-exterior-derivative-packet};
+  \item the $\CohomologyUp$ cocycle row $C_{d_{\mathrm{dR}}}(\eta)$ read from
+  the intermediate carried row;
+  \item the boundary predicate
+  $\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}(\theta)$ of
+  \autoref{def:derham-chain-complex-boundary-row};
+  \item the finite ledger containing the cochain graph rows
+  $\eta\hsame d_{\mathrm{dR}}(\omega)$ and
+  $\theta\hsame d_{\mathrm{dR}}(\eta)$, the square-zero row for
+  $d_{\mathrm{dR}}$, and the displayed $\DiffFormUp$ and $\CohomologyUp$
+  source rows.
+\end{enumerate}
+The packet exports only these boundary-source rows. It does not add a quotient
+cohomology carrier, a de Rham isomorphism row, or an ambient manifold-level
+equality witness.
+\end{definition}
+
+\begin{theorem}[De Rham boundary source stability]
+\label{thm:derham-boundary-source-stability}
+Let $P$ be a De Rham boundary source packet as in
+\autoref{def:derham-boundary-source-packet}. If the visible boundary endpoint
+$\theta$ is transported to $\theta'$ by $\hsame(\theta',\theta)$, then the same
+packet data transport to a boundary source packet with boundary endpoint
+$\theta'$. The cochain differential, zero endpoint row, $\DiffFormUp$ input
+rows, $\CohomologyUp$ cocycle row, and finite ledger rows are unchanged except
+for replacing the displayed boundary endpoint by $\theta'$.
+\end{theorem}
+\begin{proof}
+Unpack the packet. Its boundary component is
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}(\theta)$, witnessed by the cochain
+preimage row named in \autoref{def:derham-chain-complex-boundary-row}.
+
+Apply \autoref{thm:derham-boundary-zero-endpoint-transport} to the displayed
+comparison $\hsame(\theta',\theta)$. The theorem keeps the same preimage
+witness and gives
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}(\theta')$.
+
+All other packet rows are source or ledger rows that do not mention the new
+endpoint except through the boundary predicate just transported. Repacking the
+unchanged cochain differential, zero endpoint row, $\DiffFormUp$ inputs,
+cocycle row, and finite ledger with the transported boundary predicate gives
+the claimed packet.
+\end{proof}
+
+\begin{theorem}[De Rham boundary consumer exactness]
+\label{thm:derham-boundary-consumer-exactness}
+Every downstream consumer of a De Rham boundary source packet reads exactly the
+boundary row of \autoref{def:derham-chain-complex-boundary-row}, the zero
+endpoint row of \autoref{def:derham-double-exterior-derivative-packet}, the
+cocycle row supplied by \autoref{thm:derham-cocycle-readback}, and the finite
+ledger rows displayed in \autoref{def:derham-boundary-source-packet}. The packet
+therefore supplies no additional cohomology quotient, no de Rham isomorphism
+row, and no hidden differential-form operation beyond the accepted
+$\mathsf{BHist}$ boundary-source data.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet. Its boundary row is part of the data in
+\autoref{def:derham-boundary-source-packet}, and
+\autoref{thm:derham-double-exterior-derivative-boundary} identifies the
+accepted double exterior packet as the source of that boundary predicate.
+
+The zero endpoint row is also explicit: it is the comparison
+$\hsame(z_{\mathrm{dR}},\emp)$ carried by
+\autoref{def:derham-double-exterior-derivative-packet}. A consumer can read it
+only through that packet field and through endpoint transport by
+\autoref{thm:derham-boundary-zero-endpoint-transport}.
+
+The cocycle component is fixed by \autoref{thm:derham-cocycle-readback}. It
+reads the intermediate row $\eta$ as $C_{d_{\mathrm{dR}}}(\eta)$ from the
+cochain graph row and the square-zero row, so the consumer receives exactly the
+displayed $\CohomologyUp$ cocycle row.
+
+Finally, inspect the finite ledger in
+\autoref{def:derham-boundary-source-packet}. It lists the two cochain graph
+rows, the square-zero row, and the visible $\DiffFormUp$ and $\CohomologyUp$
+source rows. Since the definition lists no quotient, isomorphism, or additional
+operation row, every downstream readback is exhausted by those rows.
+\end{proof}
+
 \begin{theorem}[De Rham root carrier obligation]
 \label{thm:derham-root-carrier-obligation}
 The root carrier obligation exposed by $\DeRhamUp$ is exactly the displayed
