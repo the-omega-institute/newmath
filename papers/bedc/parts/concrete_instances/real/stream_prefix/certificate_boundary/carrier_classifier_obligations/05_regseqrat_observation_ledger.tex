@@ -163,3 +163,51 @@ package exposes the stated public rational-stream interface without quotient,
 completion, metric-completeness, arithmetic/order, Classical, or standard
 bridge data.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-window seal exactness]
+\label{thm:regseqrat-finite-window-seal-exactness}
+Let $s:\Hist\to\Hist$ carry a $\RegSeqRat$ rational-observation stream
+certificate spine, and let $\mathcal{P}:\mathsf{ProbeBundle}$ be a certified
+finite bundle of unary observation requests. The finite observation rows
+accepted by the $\RegSeqRat$-to-$\RealUp$ seal over $\mathcal{P}$ are exactly
+the union of the DyadicRatCore endpoint observation-row family extracted by
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction} and the
+$\StreamNameUp$ finite-window rows exposed by
+\autoref{thm:streamname-public-finite-window-interface}.
+
+Equivalently, a finite window feeds the seal precisely when its carrier,
+classifier, pointwise stability, dyadic-ledger, and stream-name finite-window
+rows are present in the public rational-stream interface of
+\autoref{thm:regseqrat-public-rational-stream-interface}. This exactness claim
+does not introduce quotient carriers, completion objects, $\RealUp$
+completeness, metric completeness, Classical data, or standard bridge status.
+\end{theorem}
+\begin{proof}
+Expose the public rational-stream package by
+\autoref{thm:regseqrat-public-rational-stream-interface}. Its carrier,
+classifier, stability, ledger, and stream-name fields are the only rows made
+available to the downstream seal.
+
+For the forward direction, take a row accepted by the seal over
+$\mathcal{P}$. Apply
+\autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation} to read it as a
+finite unary observation request with the recorded dyadic-tolerance token and
+endpoint $\RatUp$ data. Then apply
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction}
+endpointwise to place the endpoint datum in the DyadicRatCore observation-row
+family, and use \autoref{thm:streamname-public-finite-window-interface} to read
+the same request as a stream-name finite-window classifier row.
+
+For the reverse direction, suppose the finite window carries the displayed
+DyadicRatCore endpoint family together with the $\StreamNameUp$ finite-window
+interface rows. The public package supplies the corresponding carrier,
+classifier, pointwise stability, and dyadic-ledger fields, so
+\autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation} gives the seal
+consumer for those rows.
+
+Finally apply \autoref{thm:regseqrat-seal-finite-window-source-coverage}. It
+identifies the finite-window source package consumed by the seal with exactly
+the same DyadicRatCore, dyadic-ledger, and $\StreamNameUp$ rows, so no further
+quotient, completion, metric, Classical, $\RealUp$ completeness, or bridge data
+can enter the seal interface.
+\end{proof}
