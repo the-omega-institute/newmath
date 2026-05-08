@@ -251,3 +251,49 @@ completion, metric-completeness, host-function, Classical, arithmetic or order
 primitive, and standard-bridge data, so there is no remaining row from which a
 different public endpoint package could be exposed.
 \end{proof}
+
+\begin{theorem}[RealUp finite-window common-refinement determinacy]
+\label{thm:realup-finite-window-common-refinement-determinacy}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor $n$, and
+a finite width $w$, suppose two certified finite-window packages expose
+read surfaces for the same classifier
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,w).
+$$
+Assume that the two packages admit a common certified partition refinement of
+that classifier, and that both refined packages read the same $\StreamNameUp$
+request rows, $\RegSeqRat$ spine rows, DyadicRatCore endpoint rows,
+$\mathsf{UnaryHistory}$ witnesses, $\Cont$ ledger entries, and $\hsame$
+transports.
+
+Then the two refined read surfaces expose classifier-equivalent endpoint rows,
+positive denominator rows, dyadic source rows, and $\RealUp$ seal rows.
+Equivalently, refining the finite window through a shared certified partition
+does not create a second public endpoint surface for the same observation
+request.
+\end{theorem}
+\begin{proof}
+Bind the common scoped source package with
+\autoref{thm:realup-stream-prefix-scoped-obligation-package}. This fixes the
+visible $\RegSeqRat$, $\StreamNameUp$, $\RatUp$, $\mathsf{BHist}$,
+$\mathsf{UnaryHistory}$, $\Cont$, dyadic, and $\hsame$ rows available to both
+finite-window packages.
+
+Use \autoref{thm:realup-window-partition-read-surface} on the common
+certified refinement. The theorem identifies the total classifier with its
+partition read surface, so both packages are read through the same finite
+ledger, request rows, unary witnesses, endpoint transports, and dyadic source
+rows.
+
+On each refined segment, apply
+\autoref{thm:realup-scoped-window-tail-transport-package}. The shared segment
+classifier and endpoint transports expose the same endpoint classifier rows,
+positive denominator rows, common-tail rows, finite-ledger rows, and dyadic
+source rows for the two packages.
+
+Finally repack the segmentwise $\hsame$ rows through
+\autoref{thm:realup-partitioned-window-tail-transport-package}. The repacked
+public finite-window surfaces are built from the same partition ledger and the
+same transported endpoint data, hence their endpoint, denominator, dyadic
+source, and $\RealUp$ seal rows classify together by $\hsame$.
+\end{proof}
