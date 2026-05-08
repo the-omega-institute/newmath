@@ -202,4 +202,32 @@ theorem SeparableExtSourceRow_classifier_stability [AskSetup] [PackageSetup]
                 (And.intro endpointCont' pkgSig')))))))
     (And.intro sameProvenance sameEndpoint)
 
+theorem SeparableExtSourceSurface_simple_root_obligation [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot simpleRoot' provenance endpoint
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot provenance endpoint
+        bundle pkg ->
+      hsame simpleRoot simpleRoot' ->
+        Cont provenance simpleRoot' endpoint' ->
+          PkgSig bundle endpoint' pkg ->
+            SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot' provenance
+                endpoint' bundle pkg ∧
+              hsame endpoint endpoint' := by
+  intro surface sameSimpleRoot endpointCont' pkgSig'
+  have simpleRootUnary' : UnaryHistory simpleRoot' :=
+    unary_transport surface.right.right.right.right.left sameSimpleRoot
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameSimpleRoot
+      surface.right.right.right.right.right.right.left endpointCont'
+  exact And.intro
+    (And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro surface.right.right.left
+          (And.intro surface.right.right.right.left
+            (And.intro simpleRootUnary'
+              (And.intro surface.right.right.right.right.right.left
+                (And.intro endpointCont' pkgSig')))))))
+    sameEndpoint
+
 end BEDC.Derived.SeparableExtUp
