@@ -240,6 +240,43 @@ representative, metric structure, or $\RealUp$ completeness claim is used in
 either direction.
 \end{proof}
 
+\begin{theorem}[StreamNameUp finite-window appended refinement chain]
+\label{thm:streamname-finite-window-refinement-chain}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, and let $B_L$,
+$B_R$, and $B_0$ be $\mathsf{ProbeBundle}$ windows. Suppose every certified
+unary observation carried by $B_0$ is an $\mathsf{InBundle}$ member of
+$\mathsf{BAppend}(B_L,B_R)$. Then
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_L)
+\ \wedge\
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_R)
+\quad\Longrightarrow\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_0).
+$$
+The row uses only $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\mathsf{BAppend}$, $\UnaryHistory$, and the pointwise $\RatUp$ classifier
+rows carried by certified unary observations. It introduces no $\RealUp$
+completion datum, quotient representative, regularity predicate, or metric
+row.
+\end{theorem}
+
+\begin{proof}
+First assemble the classifier over the appended display. Apply
+\autoref{thm:streamname-finite-window-union-composition} to the two component
+classifiers over $B_L$ and $B_R$. The assembly direction supplies the
+finite-window classifier over $\mathsf{BAppend}(B_L,B_R)$.
+
+Next restrict that appended classifier to the displayed subwindow. The
+assumed inclusion sends every certified unary observation of $B_0$ to an
+$\mathsf{InBundle}$ member of $\mathsf{BAppend}(B_L,B_R)$, so
+\autoref{thm:streamname-finite-window-restriction-export} applies directly.
+
+The resulting classifier over $B_0$ is obtained by retaining pointwise
+$\RatUp$ rows along the displayed finite bundle membership. No completion
+object, quotient datum, regularity row, or metric structure enters the
+construction.
+\end{proof}
+
 \begin{theorem}[StreamNameUp finite-window common refinement export]
 \label{thm:streamname-finite-window-common-refinement-export}
 Let $s,t$ be certified $\StreamNameUp$ observation maps, and let $B_L$,
