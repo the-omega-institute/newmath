@@ -74,6 +74,58 @@ theorem ModelTheoryBHistStructurePacket_satisfaction_exactness_ledger [AskSetup]
             (And.intro packet.right.right.right.right.right.right.left
               packet.right.right.right.right.right.right.right)))))
 
+theorem ModelTheoryBHistStructurePacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {firstOrder structureRow valuation satisfaction elementary provenance endpoint
+      elementaryLedger exactnessLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelTheoryBHistStructurePacket firstOrder structureRow valuation satisfaction elementary
+        provenance endpoint bundle pkg ->
+      Cont satisfaction elementary elementaryLedger ->
+        Cont valuation elementaryLedger exactnessLedger ->
+          UnaryHistory firstOrder ∧ UnaryHistory structureRow ∧ UnaryHistory valuation ∧
+            UnaryHistory satisfaction ∧ UnaryHistory elementary ∧ UnaryHistory provenance ∧
+              UnaryHistory elementaryLedger ∧ UnaryHistory exactnessLedger ∧
+                hsame valuation (append firstOrder structureRow) ∧
+                  hsame provenance (append valuation satisfaction) ∧
+                    hsame elementaryLedger (append satisfaction elementary) ∧
+                      hsame exactnessLedger
+                        (append valuation (append satisfaction elementary)) ∧
+                        hsame endpoint (append provenance elementary) ∧
+                          PkgSig bundle endpoint pkg := by
+  intro packet elementaryLedgerRow exactnessLedgerRow
+  have valuationRow : Cont firstOrder structureRow valuation :=
+    packet.right.right.right.right.left
+  have provenanceRow : Cont valuation satisfaction provenance :=
+    packet.right.right.right.right.right.left
+  have endpointRow : Cont provenance elementary endpoint :=
+    packet.right.right.right.right.right.right.left
+  have valuationUnary : UnaryHistory valuation :=
+    unary_cont_closed packet.left packet.right.left valuationRow
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed valuationUnary packet.right.right.left provenanceRow
+  have elementaryLedgerUnary : UnaryHistory elementaryLedger :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left elementaryLedgerRow
+  have exactnessLedgerUnary : UnaryHistory exactnessLedger :=
+    unary_cont_closed valuationUnary elementaryLedgerUnary exactnessLedgerRow
+  have exactnessReadback :
+      hsame exactnessLedger (append valuation (append satisfaction elementary)) :=
+    hsame_trans exactnessLedgerRow
+      (congrArg (fun h : BHist => append valuation h) elementaryLedgerRow)
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro valuationUnary
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro provenanceUnary
+              (And.intro elementaryLedgerUnary
+                (And.intro exactnessLedgerUnary
+                  (And.intro valuationRow
+                    (And.intro provenanceRow
+                      (And.intro elementaryLedgerRow
+                        (And.intro exactnessReadback
+                          (And.intro endpointRow
+                            packet.right.right.right.right.right.right.right))))))))))))
+
 theorem ModelTheoryBHistStructurePacket_satisfaction_exactness_row [AskSetup] [PackageSetup]
     {firstOrder structureRow valuation satisfaction elementary provenance endpoint formula formulaRead
       assignmentRead satisfactionRecord : BHist}

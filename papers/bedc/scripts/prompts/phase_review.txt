@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.6 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.5 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Multi-target round emission (HARD GATE — minimum 5 candidates)
 
@@ -609,7 +609,7 @@ The next phase will be REJECTED if its diff violates any of these, so do not pro
 1. **No iteration narrative.** The paper is a current-state document. Do NOT suggest text containing "新增", "修订", "新版", "patch", "增量", "modification", "migration", "increment", "legacy", "supersede", "deprecated", "frozen", "rectification", "amendment", "v1.5.X" or similar. Replacements should be silent: delete the old, write the new, no version annotations.
 2. **No version-prefixed labels.** Do NOT propose labels like `thm:vN-…`, `sec:v14-…`. Use semantic labels (`thm:<concept>`, `sec:<theme>-<concept>`).
 3. **Every `.tex` file stays ≤ 800 lines.** If implementing a target would push a file over the cap, the target must include a split plan (extract a focused sub-chapter file).
-4. **Math notation.** Any standard LaTeX math environment is allowed; no style restriction.
+4. **Math notation.** Inline math via `$…$`; display math via `$$…$$` on its own line. Do NOT propose introducing `\[…\]`, `\begin{equation}`, `align`, etc.
 5. **Marker discipline.** Each paper site has at most ONE `\leanchecked`. New paper-side markers must reference Lean targets that ALREADY exist under `lean4/BEDC/` (run a quick grep before committing the suggestion). Avoid proposing targets whose ONLY effect is to add `\leanvariant` lines (the register-only gate rejects pure-marker rounds), but `\leanvariant` is allowed when it accompanies real revision (e.g. splitting one paper block into two propositions, each pointing to a different Lean target). Prefer collapsing a duplicate paper block by deleting it entirely and letting the dropped Lean name become an orphan, since the drift audit accepts orphan Lean targets.
 6. **Underscore escape.** Inside `\leanchecked{…}` and friends, an underscore in a Lean name MUST be `\_` (not bare `_`).
 7. **Mathlib-free / 0-axiom Lean.** If the target touches Lean code, do not propose patterns that would require `Mathlib.X.Y` imports or new `axiom`/`sorry` declarations.
