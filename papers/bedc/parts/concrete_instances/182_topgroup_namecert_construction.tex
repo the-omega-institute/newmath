@@ -708,3 +708,56 @@ surface exposes only the displayed source certificates, inverse graph, endpoint
 transports, finite ledger, and provenance row, the inverse-continuity row is
 sound exactly through those packet projections and no outside datum is present.
 \end{proof}
+
+\begin{theorem}[TopGroupUp source-pair carrier obligation]
+\label{thm:topgroup-source-pair-carrier-obligation}
+Every accepted $\TopGroupUp$ root surface binds its $\GroupUp$ source row and
+its $\TopologyUp$ source row to the same $\mathsf{BHist}$ carrier of
+\autoref{def:topgroup-bhist-carrier}. The root obligation is therefore a
+source-pair obligation over one carried packet, not a pair of unrelated carrier
+certificates.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:topgroup-source-fiber-product-carrier}. It identifies the
+group and topology certificates as projections from the shared packet of
+\autoref{def:topgroup-bhist-carrier}.
+
+The same theorem also records that product, inverse, neighbourhood, ledger, and
+provenance rows are packet projections. Hence a root consumer can read both
+source rows only through the common $\mathsf{BHist}$ carrier.
+\end{proof}
+
+\begin{theorem}[TopGroupUp product continuity obligation]
+\label{thm:topgroup-product-continuity-obligation}
+For an accepted $\TopGroupUp$ root surface, product continuity is exactly the
+endpoint transport supplied by the packet's $\hsame$ rows together with the
+finite $\Cont$ ledger entry for multiplication. No extra product-continuity
+predicate is present outside the carrier of \autoref{def:topgroup-bhist-carrier}.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:topgroup-source-fiber-product-carrier} to place the
+product graph, neighbourhood row, endpoint transports, and finite ledger over
+the shared source-pair carrier.
+
+Then apply \autoref{thm:topgroup-product-cont-ledger-soundness}. Its two
+directions say that a product-continuity row is sound exactly when it is this
+packet projection through the $\hsame$ endpoints and the finite $\Cont$ ledger.
+\end{proof}
+
+\begin{theorem}[TopGroupUp inverse continuity obligation]
+\label{thm:topgroup-inverse-continuity-obligation}
+For an accepted $\TopGroupUp$ root surface, inverse continuity is the unary
+endpoint-transport row carried by the packet's $\hsame$ data and the finite
+$\Cont$ ledger entry for inversion. The obligation has no separate inverse
+carrier, topology source, or ambient continuity witness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:topgroup-source-pair-carrier-obligation} to bind the unary
+inverse row to the same $\mathsf{BHist}$ carrier as the group and topology source
+certificates.
+
+Now use \autoref{thm:topgroup-inverse-cont-ledger-soundness}. It states that the
+accepted inverse-continuity row is sound precisely through the input endpoint,
+inverse endpoint, target neighbourhood, $\hsame$ transports, and finite
+$\Cont$ ledger entry projected from that packet.
+\end{proof}
