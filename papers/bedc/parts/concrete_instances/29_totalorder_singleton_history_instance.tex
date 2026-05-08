@@ -155,3 +155,52 @@ same-branch witness, and
 witness as the $\TotalOrderUp$ naming certificate. Hence both concrete
 presentations sit in the same singleton $\mathsf{BHist}$ order tower.
 \end{proof}
+
+\begin{theorem}[TotalOrder singleton comparison determinacy]
+\label{thm:totalorder-singleton-comparison-determinacy}
+On carried endpoints of $A_{\emp}$, any two singleton total-order comparison
+witnesses collapse to the same $\rho_{\emp}$ branch. In symbols, if
+$A_{\emp}(h)$ and $A_{\emp}(k)$ and two witnesses choose comparison rows for
+$h$ and $k$ in the singleton $\TotalOrderUp$ instance, then both witnesses
+identify $h$ and $k$ with $\emp$, unfold $\le_{\bot}$ to the same carried
+endpoint facts, and select the same classifier row $\rho_{\emp}(h,k)$.
+\end{theorem}
+\begin{proof}
+Unfold $\le_{\bot}$ on the carried endpoints. The hypotheses
+$A_{\emp}(h)$ and $A_{\emp}(k)$ already provide the two carrier facts required
+by either comparison witness.
+
+Apply \autoref{thm:totalorder-singleton-history-laws} to read the singleton
+total-order comparison law. Apply
+\autoref{thm:singleton-empty-poset-laws} to identify the opposing singleton
+partial-order comparisons with the same classifier row.
+
+Finally use \autoref{thm:singleton-history-totalorder-laws}. In the singleton
+history instance the strict branches are empty, so every total comparison on
+carried endpoints is the displayed same branch. Hence the two witnesses
+determine the same $\rho_{\emp}$ row.
+\end{proof}
+
+\begin{theorem}[TotalOrder singleton classifier coverage]
+\label{thm:totalorder-singleton-classifier-coverage}
+Every carried endpoint pair in $A_{\emp}$ admits the classifier row induced by
+opposing singleton comparisons. More precisely, if $A_{\emp}(h)$ and
+$A_{\emp}(k)$, then the carrier facts unfold $\le_{\bot}$ in both directions,
+the singleton $\POSetUp$ comparisons $h\le_{\emp}k$ and $k\le_{\emp}h$ are
+available, and their exactness row induces $\rho_{\emp}(h,k)$ for the
+singleton $\TotalOrderUp$ classifier surface.
+\end{theorem}
+\begin{proof}
+Assume $A_{\emp}(h)$ and $A_{\emp}(k)$. Unfolding $\le_{\bot}$ gives the
+endpoint-carrier comparison rows in both directions, because the singleton
+relation is built from those two carrier witnesses.
+
+The carrier facts identify both endpoints with $\emp$. Apply
+\autoref{thm:singleton-empty-poset-laws} to obtain the opposing singleton
+partial-order comparisons and their exactness row for $\rho_{\emp}$.
+
+Apply \autoref{thm:totalorder-singleton-history-laws} and
+\autoref{thm:singleton-history-totalorder-laws} to place that same row inside
+the singleton total-order classifier. Thus every carried pair is covered by
+the classifier induced by the opposing singleton comparisons.
+\end{proof}

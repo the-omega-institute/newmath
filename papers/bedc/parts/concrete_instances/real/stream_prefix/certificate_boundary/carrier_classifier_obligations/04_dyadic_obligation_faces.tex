@@ -230,6 +230,51 @@ the carrier and denominator fields, while the refined dyadic token remains in
 the same finite ledger family.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore radius-token refinement stability]
+\label{thm:dyadic-rat-core-radius-token-refinement-stability}
+Let $d:\Hist$ be an endpoint carrying
+$\mathsf{DyadicRatCoreObservationRow}(d)$. If a stronger certified dyadic-radius
+request refines the ledger token already attached to this row, then the refined
+request repacks as a $\mathsf{DyadicRatCoreObservationRow}(d)$ with the same
+$\mathsf{RatHistoryCarrier}(d)$, the same
+$\mathsf{PositiveUnaryDenominator}(d)$, and the same classifier transport
+behavior under $\hsame$. The construction reads no quotient, completion,
+metric-completeness, or standard-bridge datum.
+\end{theorem}
+\begin{proof}
+Project the carrier, positive-denominator, and dyadic-radius token fields from
+\autoref{def:dyadic-rat-core-observation-row}. The first two fields are endpoint
+data of the original row, while the third field is the finite ledger token that
+the stronger certified dyadic-radius request refines.
+
+Use \autoref{thm:dyadic-rat-core-radius-distance-obligations} for radius
+monotonicity. It changes only the dyadic-radius ledger token: the endpoint
+$\RatUp$ carrier and the positive-denominator row remain the source row already
+projected from $\mathsf{DyadicRatCoreObservationRow}(d)$.
+
+For endpoint transport, apply
+\autoref{thm:dyadic-rat-core-observation-row-hsame-transport} to the whole row
+and \autoref{thm:rat-positive-unary-denominator-hsame-transport} to the
+denominator component. These two transport facts keep the classifier behavior
+under $\hsame$ aligned with the original source row.
+
+Repack the refined dyadic-radius token with the unchanged carrier and
+denominator fields. The resulting package is again a
+$\mathsf{DyadicRatCoreObservationRow}(d)$ because its three defining fields are
+exactly the fields required by
+\autoref{def:dyadic-rat-core-observation-row}.
+\end{proof}
+
+This fit is the local ten-field boundary for dyadic-radius strengthening:
+DyadicRatCore is the certificate surface, $\RatUp$ supplies the endpoint carrier,
+$\RegSeqRat$ supplies the finite dyadic ledger, $\mathsf{BHist}$ is the endpoint
+history carrier, $\hsame$ is the only endpoint transport relation, the request
+name remains in the same unary context, the denominator witness is the same
+positive-unary row, the classifier face is the transported Rat history
+comparison, the exactness clause forbids quotient or completion data, and the
+downstream $\RealUp$ finite-window seal consumes the refined row without
+rebuilding carrier evidence.
+
 \begin{theorem}[DyadicRatCore distance and absolute-value obligation]
 \label{thm:dyadic-rat-core-distance-absolute-obligation}
 The distance and absolute-value obligation for DyadicRatCore is the ten-field
