@@ -387,6 +387,59 @@ transport rows are used to choose and compare projections; they are retained in
 the ledger and do not become public endpoints.
 \end{proof}
 
+\begin{theorem}[StreamNameUp common-refinement denominator and shape agreement]
+\label{thm:streamname-common-refinement-denominator-shape-agreement}
+For certified rational stream observations $s,t,u,s',t',u':\Hist\to\Hist$,
+a common probe bundle $\mathcal{P}:\mathsf{ProbeBundle}$, selected bundled
+unary observations $n_1,n_2$, and displayed one-extension endpoint tails
+$a,b,c:\Hist$, suppose two finite-window public readback surfaces are obtained
+from the same common refinement over $\mathcal{P}$. Suppose the first surface
+exposes the transported endpoints $s'(n_1)$ and $t'(n_1)$ through
+$$
+\hsame(s'(n_1),\Eone(a))\quad\text{and}\quad
+\hsame(t'(n_1),\Eone(b)),
+$$
+and the second surface exposes the same transported observation endpoint and
+right endpoint through
+$$
+\hsame(s'(n_2),\Eone(a))\quad\text{and}\quad
+\hsame(u'(n_2),\Eone(c)).
+$$
+If the two selected observations name the same transported observation
+endpoint under $\hsame$, then the selected public rows agree: their
+$\mathsf{RatHistoryClassifier}$ rows are the two projections of the same
+common-refinement classifier, their positive-denominator rows name
+$\hsame$-equal endpoint histories, their unary endpoint-shape rows name
+$\hsame$-equal endpoint histories, their empty and zero-headed exclusions are
+the corresponding exclusion rows for those same histories, and their displayed
+one-tail agreement rows have $\hsame$-equal right tails. In particular the
+finite-window denominator data and endpoint-shape data exported to
+$\RealUp$ or $\RegSeqRat$ consumers do not depend on which selected public
+readback surface of the common refinement is used.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-transported-window-common-refinement-public-readback}
+to the two selected surfaces. This identifies both readbacks as public
+projections of the same finite-window classifier over $\mathcal{P}$, with the
+subwindow inclusions and transport rows kept in the ledger.
+
+Next apply
+\autoref{thm:streamname-transported-window-public-readback} to each selected
+surface. For each projection it supplies exactly the six exported rows:
+RatHistoryClassifier, positive denominators, unary endpoint shape, empty
+exclusion, zero-headed exclusion, and one-tail agreement for the displayed
+tails.
+
+Finally use
+\autoref{thm:streamname-two-route-selected-endpoint-agreement} on the two
+routes that share the transported observation endpoint. The theorem gives
+$\hsame(b,c)$ for the two displayed right tails. Repack the two readback
+packages along this tail agreement and along the shared endpoint
+$\hsame$-row; the classifier, denominator, shape, exclusion, and one-tail rows
+are therefore the same public rows up to $\hsame$.
+\end{proof}
+
 The compact ten-field fit is: traditional target common refinement of
 transported rational observation windows; BEDC source
 $\RatUp+\StreamNameUp+\mathsf{ProbeBundle}$; carrier certified observation
