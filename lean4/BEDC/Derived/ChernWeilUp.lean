@@ -191,4 +191,74 @@ theorem ChernWeilSourceEnvelope_connection_choice_stability
             (And.intro ledgerClass' classRowReadback))))
   exact And.intro envelope' (And.intro classRowUnary classRowReadback)
 
+theorem ChernWeilCarrierEnvelope_characteristic_ledger_exactness
+    {curvature derham polynomial connectionLedger characteristic provenance endpoint connectionLedger'
+      endpoint' : BHist} :
+    ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic provenance
+        endpoint ->
+      hsame connectionLedger connectionLedger' ->
+        Cont provenance connectionLedger' endpoint' ->
+          ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger' characteristic
+              provenance endpoint' ∧
+            hsame endpoint endpoint' ∧ UnaryHistory endpoint' := by
+  intro envelope sameConnectionLedger endpointCont'
+  have obligation :=
+    ChernWeilSourceEnvelope_carrier_obligation envelope
+  have connectionLedgerUnary' : UnaryHistory connectionLedger' :=
+    unary_transport envelope.right.right.right.left sameConnectionLedger
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed obligation.right.left connectionLedgerUnary' endpointCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameConnectionLedger
+      envelope.right.right.right.right.right.right endpointCont'
+  have envelope' :
+      ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger' characteristic
+        provenance endpoint' :=
+    And.intro envelope.left
+      (And.intro envelope.right.left
+        (And.intro envelope.right.right.left
+          (And.intro connectionLedgerUnary'
+            (And.intro envelope.right.right.right.right.left
+              (And.intro envelope.right.right.right.right.right.left endpointCont')))))
+  exact And.intro envelope' (And.intro sameEndpoint endpointUnary')
+
+theorem ChernWeilSourceEnvelope_characteristic_ledger_exactness
+    {curvature curvature' derham provenance connectionLedger connectionLedger' classRow classRow' :
+      BHist} :
+    ChernWeilSourceEnvelope curvature derham provenance connectionLedger classRow ->
+      hsame curvature curvature' ->
+        UnaryHistory connectionLedger' ->
+          Cont curvature' derham provenance ->
+            Cont provenance connectionLedger' classRow' ->
+              hsame classRow classRow' ->
+                ChernWeilSourceEnvelope curvature' derham provenance connectionLedger' classRow' ∧
+                  hsame provenance (append curvature derham) ∧
+                    hsame classRow (append provenance connectionLedger) ∧
+                      hsame classRow' (append provenance connectionLedger') := by
+  intro envelope sameCurvature connectionLedgerUnary' curvatureDerham' ledgerClass'
+    sameClassRow
+  unfold ChernWeilSourceEnvelope at envelope
+  have curvatureUnary' : UnaryHistory curvature' :=
+    unary_transport envelope.left sameCurvature
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed curvatureUnary' envelope.right.left curvatureDerham'
+  have classRowUnary' : UnaryHistory classRow' :=
+    unary_cont_closed provenanceUnary connectionLedgerUnary' ledgerClass'
+  have provenanceOriginal : hsame provenance (append curvature derham) :=
+    envelope.right.right.right.left
+  have classRowOriginal : hsame classRow (append provenance connectionLedger) :=
+    envelope.right.right.right.right.right
+  have classRowTransported : hsame classRow' (append provenance connectionLedger') :=
+    ledgerClass'
+  have transported :
+      ChernWeilSourceEnvelope curvature' derham provenance connectionLedger' classRow' :=
+    And.intro curvatureUnary'
+      (And.intro envelope.right.left
+        (And.intro provenanceUnary
+          (And.intro curvatureDerham'
+            (And.intro ledgerClass' classRowTransported))))
+  exact And.intro transported
+    (And.intro provenanceOriginal
+      (And.intro classRowOriginal classRowTransported))
+
 end BEDC.Derived.ChernWeilUp
