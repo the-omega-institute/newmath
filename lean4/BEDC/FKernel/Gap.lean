@@ -10,5 +10,6 @@ import BEDC.FKernel.Gap.Globalize.Classification
 import BEDC.FKernel.Gap.Globalize.Completeness
 import BEDC.FKernel.Gap.DomainTransport
 import BEDC.FKernel.Gap.CompCoverage
+import BEDC.FKernel.Gap.Pullback
 import BEDC.FKernel.Gap.Assoc
 import BEDC.FKernel.Gap.Separation
