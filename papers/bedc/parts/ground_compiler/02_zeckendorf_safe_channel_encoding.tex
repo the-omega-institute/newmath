@@ -51,6 +51,7 @@ On individual glyphs, $\zeta$ acts by the substitution $0 \mapsto 0$ and $1 \map
 
 \begin{definition}[Event terminator]
 \label{def:channel-encoding-event-terminator}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.EventTerminator}
 The \emph{event terminator} is the glyph pair
 $$
   \mathrm{End} \;:=\; 11.
@@ -132,6 +133,7 @@ producing the local strings $00$, $010$, $100$, and $1010$ respectively, none of
 
 \begin{corollary}[The first $11$ is the event terminator]
 \label{cor:channel-encoding-first-11-is-terminator}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.first\_11\_is\_terminator}
 For every raw event $w$, the leftmost adjacent pair $11$ in $\mathsf{Ev}(w) = \zeta(w)\,11$ is the appended terminator.
 \end{corollary}
 
@@ -144,6 +146,7 @@ By \autoref{prop:channel-encoding-no-adjacent-11-in-body}, the body $\zeta(w)$ c
 
 \begin{definition}[Legal event code language]
 \label{def:channel-encoding-legal-event}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.LegalEvent}
 The \emph{legal event code language} is
 $$
   \mathsf{LegalEvent} \;:=\; (0 \mid 10)^{*}\,11 \;\subseteq\; \Sigma^{*}.

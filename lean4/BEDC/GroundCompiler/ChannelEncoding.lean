@@ -10,8 +10,14 @@ def BodyEncoding : RawEvent -> List DisplayAlphabet
   | BMark.b0 :: rest => BMark.b0 :: BodyEncoding rest
   | BMark.b1 :: rest => BMark.b1 :: BMark.b0 :: BodyEncoding rest
 
+def EventTerminator : List DisplayAlphabet :=
+  [BMark.b1, BMark.b1]
+
 def EventEncoding (w : RawEvent) : List DisplayAlphabet :=
-  BodyEncoding w ++ ([BMark.b1, BMark.b1] : List DisplayAlphabet)
+  BodyEncoding w ++ EventTerminator
+
+def LegalEvent (c : List DisplayAlphabet) : Prop :=
+  exists w : RawEvent, c = EventEncoding w
 
 inductive NoAdjacentOneOne : List DisplayAlphabet -> Prop where
   | nil : NoAdjacentOneOne []
@@ -34,5 +40,12 @@ theorem body_encoding_no_adjacent_11 (w : RawEvent) :
       | b1 =>
           exact NoAdjacentOneOne.consOneZero
             (NoAdjacentOneOne.consZero ih)
+
+theorem first_11_is_terminator (w : RawEvent) :
+    NoAdjacentOneOne (BodyEncoding w) /\
+      EventEncoding w = BodyEncoding w ++ EventTerminator := by
+  constructor
+  · exact body_encoding_no_adjacent_11 w
+  · rfl
 
 end BEDC.GroundCompiler.ChannelEncoding
