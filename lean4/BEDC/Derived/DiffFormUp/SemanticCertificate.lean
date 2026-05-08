@@ -4,7 +4,23 @@ import BEDC.FKernel.NameCert
 namespace BEDC.Derived.DiffFormUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.NameCert
+
+theorem DiffFormBHistClassifier_obligation
+    {ScalarClassifier : BHist -> BHist -> Prop} {probes : ProbeBundle BHist}
+    {d p t s a l d' p' t' s' a' l' : BHist} :
+    DiffFormBHistClassifier ScalarClassifier probes d p t s a l d' p' t' s' a' l' ->
+      hsame d d' ∧ hsame p p' ∧ hsame t t' ∧ ScalarClassifier s s' ∧
+        hsame a a' ∧ hsame l l' ∧ InBundle p probes ∧ InBundle p' probes := by
+  intro rows
+  exact And.intro rows.right.right.left
+    (And.intro rows.right.right.right.left
+      (And.intro rows.right.right.right.right.left
+        (And.intro rows.right.right.right.right.right.left
+          (And.intro rows.right.right.right.right.right.right.left
+            (And.intro rows.right.right.right.right.right.right.right
+              (And.intro rows.left rows.right.left))))))
 
 theorem DiffFormExteriorDerivativeLedger_semantic_name_certificate
     {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source : BHist} :
