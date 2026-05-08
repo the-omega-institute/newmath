@@ -13925,3 +13925,55 @@ Rationale:
 This is a bounded first-order deformation obligation and not a claim that SymplecticUp alone produces a Poisson bracket; the SymplecticUp chapter explicitly marks that as a consumer frontier. The proposed target supplies the missing DeformQuantizationUp-side ledger that connects the formal product row to a displayed bracket endpoint under stated hypotheses. No current BOARD item or paper theorem covers DeformQuantizationUp, and the short chapter file is a safe landing point with relevant SymplecticUp and HopfAlgUp dependencies.
 
 ---
+
+### B-544 - JonesPolynomial skein ledger obligation surface
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | JonesPolynomial skein ledger obligation surface |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a JonesPolynomialUp packet supplies a KnotUp diagram row, three skein-related KnotUp boundary rows, a PolynomialUp Laurent-polynomial endpoint, and a finite skein ledger compatible with Reidemeister transport, then it exposes an accepted JonesPolynomial carrier/classifier surface over those rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/233_jonespolynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/232_knot_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+
+Rationale:
+This lands in the empty JonesPolynomialUp certificate chapter as the first conservative skein-ledger obligation, not as a proof of the full Jones polynomial invariant. KnotUp already has Reidemeister ledger composition and classifier completeness, and PolynomialUp supplies the polynomial-side carrier surface, so the proposed theorem is a bounded bridge/coverage target over supplied rows. No existing BOARD title or paper label covers the JonesPolynomial skein surface, and the short JonesPolynomial landing file avoids hub-only and line-cap risks.
+
+---
+
+### B-547 - AtiyahSinger index-pairing carrier surface
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AtiyahSinger index-pairing carrier surface |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an AtiyahSingerUp packet supplies a SpectralTheoremUp analytic-index row and a ChernWeilUp topological characteristic-class row over the same closed-manifold endpoint, then it exposes an index-pairing classifier row whose equality obligation is scoped exactly to those two dependency surfaces.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/251_atiyahsinger_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/192_spectraltheorem_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/250_chernweil_namecert_construction.tex`
+
+Rationale:
+The target is the first AtiyahSingerUp carrier/classifier obligation surface, not the full Atiyah-Singer theorem. SpectralTheoremUp already has public spectral-data certificate rows and ChernWeilUp has characteristic-class exactness rows, so the proposed bridge can be stated as a scoped index-pairing surface over existing dependency rows. It is distinct from all BOARD titles and paper labels, and the short AtiyahSingerUp chapter is a safe landing file.
+
+---
