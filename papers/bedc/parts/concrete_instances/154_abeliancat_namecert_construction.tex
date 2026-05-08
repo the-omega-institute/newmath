@@ -491,3 +491,67 @@ u\sim_{X,B}0_{X,B}.
 $$
 Substituting $u=g\circ 0_{X,A}$ gives the asserted classification.
 \end{proof}
+
+\begin{theorem}[AbelianCatUp hom additive inverse uniqueness]
+\label{thm:abeliancat-hom-additive-inverse-uniqueness}
+Let $\mathcal A$ be an $\AbelianCatUp$ additive kernel-cokernel carrier and
+view its zero-biproduct-kernel surface as in
+\autoref{def:abeliancat-zero-biproduct-kernel-surface}. Fix displayed objects
+$A$ and $B$. Write $\mathcal H(A,B)$ for the displayed hom carrier,
+$\sim_{A,B}$ for its inherited hom classifier, $+_{A,B}$ for its displayed hom
+addition, and $0_{A,B}$ for its displayed zero morphism. If carried morphisms
+$f,u,v\in\mathcal H(A,B)$ satisfy
+$$
+u+_{A,B}f\sim_{A,B}0_{A,B}
+\qquad\text{and}\qquad
+f+_{A,B}u\sim_{A,B}0_{A,B}
+$$
+with $\nu=u$, and also satisfy
+$$
+v+_{A,B}f\sim_{A,B}0_{A,B}
+\qquad\text{and}\qquad
+f+_{A,B}v\sim_{A,B}0_{A,B},
+$$
+then
+$$
+u\sim_{A,B}v
+$$
+with $\nu=u$. Equivalently, any two carried two-sided additive inverse
+presentations of the same carried hom morphism are identified by the inherited
+hom classifier.
+\end{theorem}
+\begin{proof}
+Unpack the hom row selected by
+\autoref{def:abeliancat-additive-kernel-cokernel-carrier}. The row
+$\mathcal H(A,B)$ carries the $\AbGroupUp$ enrichment $\mathcal G(A,B)$. By
+\autoref{thm:abeliancat-additive-zero-biproduct-obligation}, the operation of
+this enrichment is the displayed hom addition $+_{A,B}$ and its identity is the
+displayed zero morphism $0_{A,B}$.
+
+Apply \autoref{prop:abgroup-forgets-group-certificate} to this enrichment. The
+retained $\GroupUp$ package has the same carried hom elements, the same
+classifier $\sim_{A,B}$, the same operation $+_{A,B}$, the same identity
+$0_{A,B}$, and the inverse laws and multiplication congruence required for the
+group inverse-uniqueness argument.
+
+Now read \autoref{thm:group-left-right-inverse-uniqueness} in this retained
+additive group package, with middle element $f$, left inverse candidate $u$,
+and right inverse candidate $v$. The hypothesis
+$$
+u+_{A,B}f\sim_{A,B}0_{A,B}
+$$
+with $\nu=u$ is exactly the left-inverse comparison $u+_{A,B}f\sim_{A,B}0_{A,B}$,
+and the hypothesis
+$$
+f+_{A,B}v\sim_{A,B}0_{A,B}
+$$
+is exactly the right-inverse comparison for $v$. The theorem therefore gives
+$$
+u\sim_{A,B}v
+$$
+with $\nu=u$, because the group reduct did not change the hom classifier. The
+remaining two displayed comparisons record that both candidates are two-sided
+inverse presentations, but the uniqueness comparison itself needs only one
+left-inverse presentation and one right-inverse presentation against the same
+carried middle morphism.
+\end{proof}
