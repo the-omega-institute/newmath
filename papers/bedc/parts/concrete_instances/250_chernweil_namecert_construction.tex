@@ -86,6 +86,65 @@ Each field has a consumer: the carrier exposes the source histories, the classif
 Therefore the surface is exact. A downstream $\NameCert_{\ChernWeilUp}$ consumer may project the listed CurvatureUp-to-DeRhamUp rows, but it may not assume a stronger equality of forms, a coordinate curvature model, or a standard bridge absent from the packet.
 \end{proof}
 
+\begin{definition}[Chern-Weil carrier packet]
+\label{def:chernweil-carrier-packet}
+A $\ChernWeilUp$ carrier packet is a displayed $\mathsf{BHist}$ tuple
+$$
+\mathcal{W}=(\mathcal{R},\mathcal{D},b,E,\kappa,p,\pi,\omega,[\omega],\rho,\lambda)
+$$
+where $\mathcal{R}$ is a source $\NameCert_{\CurvatureUp}$ packet, $\mathcal{D}$ is a source $\NameCert_{\DeRhamUp}$ packet, $b:\mathsf{BHist}$ is the shared base row, $E:\mathsf{BHist}$ is the bundle row, $\kappa:\mathsf{BHist}$ is the curvature-boundary row projected from $\mathcal{R}$, $p:\mathsf{BHist}$ is the invariant-polynomial row, $\pi:\mathsf{BHist}$ is the polynomial endpoint row obtained by applying $p$ to $\kappa$, $\omega:\mathsf{BHist}$ is the closed differential-form representative row read by $\mathcal{D}$, $[\omega]:\mathsf{BHist}$ is the de~Rham class row, $\rho$ records the $\mathsf{Pkg}$ provenance of the curvature and de~Rham dependency packets, and $\lambda$ is the finite $\Cont$ ledger from the boundary and polynomial rows to the endpoint, representative, and class rows.
+
+The packet is accepted only when the curvature source row comes from $\NameCert_{\CurvatureUp}$, the cohomology representative row comes from $\NameCert_{\DeRhamUp}$, and the displayed $\mathsf{Pkg}$ provenance binds both sources to the same characteristic-class classifier. Thus the carrier is the finite BEDC history packet for a Chern-Weil class, not an equality between host-level connections, polynomials, forms, or cohomology classes.
+\end{definition}
+
+\begin{theorem}[Chern-Weil curvature polynomial stability obligation]
+\label{thm:chernweil-curvature-polynomial-stability-obligation}
+For packets of \autoref{def:chernweil-carrier-packet}, transporting the $\NameCert_{\CurvatureUp}$ boundary row $\kappa$ by inherited $\hsame$ and by the finite $\Cont$ ledger transports the polynomial endpoint row $\pi$ under the same characteristic-class classifier. The invariant-polynomial row $p$, the dependency $\mathsf{Pkg}$ provenance $\rho$, and the de~Rham source packet $\mathcal{D}$ are retained as ledger data rather than recomputed.
+\end{theorem}
+\begin{proof}
+Read the carrier through the roadmap ten-field template of \autoref{sec:roadmap-per-object-template}: the source fields are $\mathcal{R}$ and $\mathcal{D}$, the carrier field is the displayed $\mathsf{BHist}$ tuple, the classifier field is the characteristic-class classifier, and the ledger field is $\lambda$.
+
+Apply \autoref{thm:curvature-namecert-scope-obligation} to project the curvature-boundary row from $\NameCert_{\CurvatureUp}$. The allowed transport of that row is exactly the inherited $\hsame$ comparison together with the finite $\Cont$ readback exposed by the curvature certificate.
+
+Append the polynomial row $p$ to that transported boundary inside the same finite ledger. Since $\pi$ is the endpoint row of the displayed ledger, transporting $\kappa$ transports $\pi$ with no appeal to host equality of forms or connections. The $\mathsf{Pkg}$ provenance and the $\NameCert_{\DeRhamUp}$ dependency row remain fixed inputs to the same classifier surface.
+\end{proof}
+
+\begin{theorem}[Chern-Weil de Rham class exactness obligation]
+\label{thm:chernweil-derham-class-exactness-obligation}
+For packets of \autoref{def:chernweil-carrier-packet}, the de~Rham class row $[\omega]$ is accepted exactly when the $\NameCert_{\DeRhamUp}$ dependency row reads the polynomial endpoint $\pi$ as a closed cohomology representative $\omega$. No additional Chern-Weil class row is available unless it is reached by the displayed $\Cont$ ledger and classified by the same $\NameCert$ dependency surface.
+\end{theorem}
+\begin{proof}
+Use the exactness field of the roadmap ten-field template in \autoref{sec:roadmap-per-object-template}. Exactness asks that every public row be generated from the listed source, carrier, classifier, stability, and ledger data.
+
+The source row for closed cohomology representatives is the $\NameCert_{\DeRhamUp}$ dependency chapter \autoref{ch:concrete-instances-deRham-namecert}. Feed it the polynomial endpoint row $\pi$ carried by the Chern-Weil packet. Its accepted output is the representative row $\omega$ together with the class row $[\omega]$.
+
+Conversely, if $[\omega]$ is displayed as a Chern-Weil class row, the packet definition lists no source other than $\mathcal{D}$ and no path other than $\lambda$ from $\pi$ to $\omega$ and then to $[\omega]$. Therefore class acceptance is precisely de~Rham acceptance of the polynomial endpoint as a closed representative, mediated by $\mathsf{BHist}$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+\end{proof}
+
+\begin{theorem}[Chern-Weil characteristic-class ledger obligation]
+\label{thm:chernweil-characteristic-class-ledger-obligation}
+In a $\ChernWeilUp$ carrier packet, the choice of connection, invariant-polynomial presentation, representative differential form, and class representative is ledger data. Carrier equality is controlled only by the shared $\mathsf{BHist}$ source rows, inherited $\hsame$ transport, the finite $\Cont$ ledger, and the characteristic-class classifier; it is not equality of the chosen connection, polynomial syntax, form representative, or cohomology representative in an external theory.
+\end{theorem}
+\begin{proof}
+Project the connection-dependent curvature boundary from $\NameCert_{\CurvatureUp}$ using \autoref{thm:curvature-namecert-scope-obligation}. That theorem exposes the boundary row, cyclic ledger, tensorial transport row, and provenance rows, but it does not export a host-level curvature form or connection equality.
+
+Project the cohomology representative side from the $\NameCert_{\DeRhamUp}$ dependency chapter \autoref{ch:concrete-instances-deRham-namecert}. The representative and class rows enter the Chern-Weil packet as $\mathsf{BHist}$ rows reached by $\lambda$, with their source provenance recorded in $\rho$.
+
+Thus changing a connection, a polynomial presentation, a representative form, or a representative class can affect the packet only by changing ledger entries. The classifier compares the carried rows through $\hsame$ and finite $\Cont$ transport, so the choices are part of the certificate ledger rather than part of carrier equality.
+\end{proof}
+
+\begin{theorem}[Chern-Weil root NameCert obligation surface]
+\label{thm:chernweil-root-namecert-obligation-surface}
+The minimum $\NameCert_{\ChernWeilUp}$ obligation surface consists of the carrier packet of \autoref{def:chernweil-carrier-packet}, the curvature-polynomial stability row of \autoref{thm:chernweil-curvature-polynomial-stability-obligation}, the de~Rham class exactness row of \autoref{thm:chernweil-derham-class-exactness-obligation}, and the characteristic-class ledger row of \autoref{thm:chernweil-characteristic-class-ledger-obligation}. Downstream bridge chapters may consume the curvature boundary, invariant-polynomial endpoint, de~Rham representative, class row, provenance row, and finite ledger, but may not assume a standard bridge or a stronger analytic Chern-Weil object from this root surface alone.
+\end{theorem}
+\begin{proof}
+Assemble the four rows by the roadmap ten-field template of \autoref{sec:roadmap-per-object-template}. The traditional target is a Chern-Weil characteristic class; the BEDC sources are $\NameCert_{\CurvatureUp}$ and $\NameCert_{\DeRhamUp}$; the carrier is the displayed $\mathsf{BHist}$ packet; the classifier is the characteristic-class classifier; the stability, ledger, and exactness fields are the three theorem rows above.
+
+The curvature component is licensed by \autoref{thm:curvature-namecert-scope-obligation}. The cohomology component is licensed by the dependency chapter \autoref{ch:concrete-instances-deRham-namecert}. The shared primitives are exactly $\mathsf{BHist}$ for rows, $\hsame$ for transported endpoint comparison, $\Cont$ for finite readback, $\mathsf{Pkg}$ for provenance, and $\NameCert$ for dependency admission.
+
+Therefore every downstream consumer receives a finite obligation surface with visible carrier, classifier, stability, ledger, and exactness rows. Anything beyond those rows, including a standard bridge or an analytic equality of characteristic classes, must be supplied by a later bridge certificate rather than read from $\ChernWeilUp$ itself.
+\end{proof}
+
 \section{The certificate}
 \label{sec:chernweil-certificate}
 \closureat{ChernWeilUp}{seedStr}
