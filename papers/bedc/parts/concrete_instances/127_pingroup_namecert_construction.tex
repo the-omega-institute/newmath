@@ -6,5 +6,96 @@ The Pin-group interface $\PinGroupUp$ packages the double cover of the full orth
 \section{Carrier definition}
 \label{sec:pingroup-carrier}
 
+\begin{definition}[PinGroupUp reflection-extension carrier]
+\label{def:pingroup-reflection-extension-carrier}
+The $\PinGroupUp$ reflection-extension carrier is the finite $\mathsf{BHist}$
+carrier obtained from the $\SpinGroupUp$ carrier of
+\autoref{ch:concrete-instances-spingroup-namecert} by adjoining one displayed
+reflection-generator row inside the $\CliffordUp$ carrier of
+\autoref{ch:concrete-instances-clifford-namecert}.  Its classifier is inherited
+from $\hsame$-compatible Clifford transport: two displayed pin rows are
+classified exactly when the underlying Clifford carrier rows are connected by
+the finite $\Cont$ ledger accepted by the source $\NameCert_{\CliffordUp}$ and
+their spin subrows are classified by the inherited $\NameCert_{\SpinGroupUp}$
+surface.
+\end{definition}
+
 \section{The certificate}
 \label{sec:pingroup-certificate}
+
+\begin{theorem}[PinGroupUp reflection-generator admission]
+\label{thm:pingroup-reflection-generator-carrier}
+The reflection-generator row displayed in
+\autoref{def:pingroup-reflection-extension-carrier} is admitted by the
+$\PinGroupUp$ carrier precisely as a $\mathsf{BHist}$ row already carried by the
+source $\NameCert_{\CliffordUp}$, together with the finite $\Cont$ provenance
+ledger identifying it as the non-spin generator row of the pin surface.
+\end{theorem}
+\begin{proof}
+Project the generator from the Clifford carrier in
+\autoref{ch:concrete-instances-clifford-namecert}.  The row is a displayed
+$\mathsf{BHist}$ carrier entry, so it is available to the pin carrier without
+forming any host orthogonal-group element.
+
+The $\hsame$ classifier and finite $\Cont$ ledger carried by the Clifford
+certificate provide the admissibility certificate for transporting the
+generator row.  Repacking those rows with the source $\NameCert_{\CliffordUp}$
+provenance gives the reflection-generator field of
+\autoref{def:pingroup-reflection-extension-carrier}.
+
+No quotient of Clifford units and no equality in a host orthogonal group is
+used; the admitted object is only the displayed $\mathsf{BHist}$ generator row
+and its $\NameCert$ provenance.
+\end{proof}
+
+\begin{theorem}[SpinGroupUp inclusion surface for PinGroupUp]
+\label{thm:pingroup-spingroup-inclusion-surface}
+Every $\mathsf{BHist}$ carrier row supplied by
+$\NameCert_{\SpinGroupUp}$ embeds into the
+\autoref{def:pingroup-reflection-extension-carrier} as the spin subrow of the
+$\PinGroupUp$ carrier.  Its classifier, $\Cont$ transport ledger, and
+$\NameCert$ provenance are the inherited $\SpinGroupUp$ rows, read inside the
+ambient Clifford carrier.
+\end{theorem}
+\begin{proof}
+Start with a carried spin row from
+\autoref{ch:concrete-instances-spingroup-namecert}.  By the construction of
+\autoref{def:pingroup-reflection-extension-carrier}, the pin carrier keeps the
+whole spin carrier and adds only the displayed reflection-generator row.
+
+The spin classifier is not recomputed.  It is copied as the inherited
+$\hsame$-compatible classifier row and transported by the same finite $\Cont$
+ledger already accepted by $\NameCert_{\SpinGroupUp}$.
+
+The Clifford dependency supplies the ambient carrier in which both the spin
+subrow and the reflection-generator row live.  Therefore the inclusion surface
+is a kernel-level $\mathsf{BHist}$ inclusion with $\NameCert$ provenance, not an
+identification with a host orthogonal subgroup.
+\end{proof}
+
+\begin{theorem}[PinGroupUp Clifford conjugation ledger]
+\label{thm:pingroup-clifford-conjugation-ledger}
+The Clifford conjugation data visible to $\PinGroupUp$ is exactly the finite
+ledger consisting of the spin subrow, the reflection-generator row, the
+$\hsame$ classifier transports between their Clifford carrier representatives,
+and the $\Cont$ provenance rows supplied by
+$\NameCert_{\CliffordUp}$.  This ledger records provenance for pin conjugation
+without exporting a quotient action or host orthogonal-group equality.
+\end{theorem}
+\begin{proof}
+Read the two source rows from
+\autoref{def:pingroup-reflection-extension-carrier}: the inherited
+$\SpinGroupUp$ carrier row and the displayed Clifford reflection-generator row.
+Both are already $\mathsf{BHist}$ rows in the Clifford carrier.
+
+Apply the $\hsame$-compatible transport surface of
+\autoref{ch:concrete-instances-clifford-namecert}.  Its finite $\Cont$ ledger
+records how the Clifford representatives are transported under the displayed
+conjugation rows, and its $\NameCert$ provenance records the source of each
+projection.
+
+Combining these projections gives the exact conjugation ledger exposed by
+$\PinGroupUp$.  Since the ledger consists only of $\mathsf{BHist}$,
+$\hsame$, $\Cont$, and $\NameCert$ rows, it exports no quotient of Clifford
+representatives and no equality in a host orthogonal group.
+\end{proof}
