@@ -54,6 +54,84 @@ transporting the displayed rows themselves, not by importing a host exact
 couple or an ambient equality of abelian categories.
 \end{definition}
 
+\begin{theorem}[SpectralSeqUp zero-page carrier]
+\label{thm:spectralseq-zero-page-carrier}
+Fix an $\AbelianCatUp$ object row $A_0$ and a $\Pkg$ provenance row $\rho_0$.
+The finite packet with one page object row $E_0=A_0$, empty differential
+ledger, identity $\HomologyUp$ readback for $E_0$, empty convergence row, empty
+$\Cont$ transition ledger, and provenance $\rho_0$ is a valid
+$\SpectralSeqUp$ $\mathsf{BHist}$ page carrier.
+\end{theorem}
+\begin{proof}
+Project the selected $\AbelianCatUp$ object row as the source surface $A$ and
+as the sole page-object entry $E_0$. The empty differential ledger supplies no
+morphism obligation, so the homology readback is the identity row on the same
+displayed object.
+
+The convergence and transition components are the empty finite ledgers. Repack
+the object row, identity readback, empty $\Cont$ ledger, and $\Pkg$ provenance
+as the seven components of
+\autoref{def:spectralseq-bhist-page-carrier}. No exact-couple or quotient row
+is introduced.
+\end{proof}
+
+\begin{theorem}[SpectralSeqUp identity transition ledger]
+\label{thm:spectralseq-identity-transition-ledger}
+Let $\mathcal S=(A,E,d,h,c,\lambda,\rho)$ be a $\SpectralSeqUp$
+$\mathsf{BHist}$ page carrier. If $\lambda^{\mathrm{id}}$ is obtained from
+$\lambda$ by adjoining a displayed identity $\Cont$ row from a carried page row
+to itself, and $\rho^{\mathrm{id}}$ records the same provenance entry, then
+$$
+\mathcal S^{\mathrm{id}}=(A,E,d,h,c,\lambda^{\mathrm{id}},\rho^{\mathrm{id}})
+$$
+is again a $\SpectralSeqUp$ page carrier, and the page-classifier rows between
+$\mathcal S$ and $\mathcal S^{\mathrm{id}}$ are the original component rows
+together with the identity transition row.
+\end{theorem}
+\begin{proof}
+Project the carrier components of $\mathcal S$. The source surface, page
+objects, differentials, homology readbacks, and convergence rows are unchanged,
+so their classifier transports are the original $\hsame$ rows.
+
+The only new coordinate is the displayed identity $\Cont$ row in the finite
+transition ledger. Append that row to $\lambda$ and append its provenance entry
+to $\rho$. Since the endpoint page is the same carried page row on both sides,
+the classifier clause for transitions is the identity continuation entry.
+
+Repack the unchanged five carrier coordinates with
+$\lambda^{\mathrm{id}}$ and $\rho^{\mathrm{id}}$. The seven clauses of
+\autoref{def:spectralseq-page-classifier} are therefore preserved exactly by
+projection and the new identity transition row.
+\end{proof}
+
+\begin{theorem}[SpectralSeqUp page classifier no-confusion]
+\label{thm:spectralseq-page-classifier-no-confusion}
+Every witness of the page classifier between
+$\mathcal S=(A,E,d,h,c,\lambda,\rho)$ and
+$\mathcal S'=(A',E',d',h',c',\lambda',\rho')$ decomposes into exactly the
+seven component transports listed in
+\autoref{def:spectralseq-page-classifier}: the $\AbelianCatUp$ source
+transport, page-object transports, differential transports, $\HomologyUp$
+readback transports, convergence transport, finite $\Cont$ ledger transport,
+and $\Pkg$ provenance transport. It contains no host exact-couple row and no
+ambient quotient row.
+\end{theorem}
+\begin{proof}
+Unfold the page classifier. A witness is a finite tuple whose coordinates are
+the seven displayed component transports, so projection gives the
+$\AbelianCatUp$ source row, page rows, differential rows, homology readbacks,
+convergence row, continuation ledger, and provenance row.
+
+Conversely, repack those seven projected rows in the order of
+\autoref{def:spectralseq-page-classifier}. This rebuilds the original
+classifier witness without adding any coordinate.
+
+No further row can be projected from the witness. In particular, neither a
+host exact couple nor an ambient quotient object appears in the classifier
+definition, so constructor inspection of the displayed tuple leaves exactly
+the seven transported components.
+\end{proof}
+
 \section{The certificate}
 \label{sec:spectralseq-certificate}
 
