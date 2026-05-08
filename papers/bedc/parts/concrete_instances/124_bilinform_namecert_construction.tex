@@ -175,6 +175,7 @@ where $x$ and $y$ are carried vector endpoints accepted by the module and vector
 
 The carrier-aware classifier on pairing outputs declares two displayed rows $\mathsf{Pair}_{B}(x,y,z)$ and $\mathsf{Pair}_{B}(x',y',z')$ equivalent exactly when the two input endpoints are transported by the $\ModuleUp$ and $\VecSpaceUp$ classifiers and the scalar endpoints are transported by the scalar classifier exposed by those source certificates. Thus the public $\BilinFormUp$ object is the pairing relation together with its source certificates and scalar-output classifier, not a host-level function on an external carrier.
 \end{definition}
+\leandef{BEDC.Derived.BilinFormUp.BilinFormRootPairingSurface}
 
 \begin{theorem}[BilinForm root bilinearity rows]
 \label{thm:bilinform-root-bilinearity-rows}
@@ -234,6 +235,7 @@ Thus nondegeneracy is a classifier statement at the $\mathsf{BHist}$ boundary: a
 \label{thm:bilinform-root-ledger-exactness-boundary}
 The $\BilinFormUp$ obligation boundary consists exactly of the carrier rows of \autoref{def:bilinform-root-pairing-surface}, the pairing-output classifier, the three bilinearity rows of \autoref{thm:bilinform-root-bilinearity-rows}, the selected symmetry-or-antisymmetry row of \autoref{thm:bilinform-root-symmetry-rows}, the two nondegeneracy rows of \autoref{thm:bilinform-root-nondegeneracy-row}, stability under $\mathsf{hsame}$ and source-classifier transport, the finite pairing ledger, exactness of visible scalar outputs against that ledger, and the dependency rows for $\NameCert_{\ModuleUp}$ and $\NameCert_{\VecSpaceUp}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.BilinFormUp.BilinFormRootPairingSurface\_ledger\_exactness\_boundary}
 \begin{proof}
 Collect the visible rows in the order displayed by the boundary statement. Carrier and classifier rows determine which $\mathsf{BHist}$ endpoints may be paired and how scalar outputs are compared.
 
@@ -276,6 +278,7 @@ Bilinearity is read from the same provenance. Left scalar action, right scalar a
 
 Reflexivity, symmetry, and transitivity of the classifier are the corresponding $\hsame$ operations on the left source, right source, and endpoint components. Repacking these three comparisons with the transported source certificates gives the required classifier rows without any ambient bilinear-map equality.
 \end{proof}
+\leanchecked{BEDC.Derived.BilinFormUp.BilinFormBHistObligationSurface\_carrier\_classifier\_obligations}
 
 \begin{theorem}[BilinForm symmetry and antisymmetry obligations]
 \label{thm:bilinform-symmetry-antisymmetry-obligations}
