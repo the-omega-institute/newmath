@@ -3,6 +3,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
+import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 
@@ -13,6 +14,7 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
+open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 
 def GaloisGroupAutomorphismActionPacket [AskSetup] [PackageSetup]
@@ -101,5 +103,34 @@ theorem GaloisGroupAutomorphismActionPacket_composition_closure
               (And.intro packet.right.right.right.right.right.left
                 (And.intro actionRow (And.intro classifierRow ledgerRow))))))))
     (And.intro sameComposition (And.intro sameClassifier sameLedger))
+
+theorem GaloisGroupAutomorphismActionPacket_associative_composition_ledger [AskSetup]
+    {sigBundle : ProbeBundle ProbeName} {x y z xy yz left right : BHist}
+    (policy : AskPolicy (fun h : BHist => UnaryHistory h))
+    (total : SigTotalOn sigBundle (fun h : BHist => UnaryHistory h)) :
+    UnaryHistory x ->
+      UnaryHistory y ->
+        UnaryHistory z ->
+          Cont x y xy ->
+            Cont xy z left ->
+              Cont y z yz ->
+                Cont x yz right -> SameSig sigBundle left right ∧ hsame left right := by
+  intro xUnary yUnary zUnary xyCont leftCont yzCont rightCont
+  have xyUnary : UnaryHistory xy :=
+    unary_cont_closed xUnary yUnary xyCont
+  have yzUnary : UnaryHistory yz :=
+    unary_cont_closed yUnary zUnary yzCont
+  have leftUnary : UnaryHistory left :=
+    unary_cont_closed xyUnary zUnary leftCont
+  have rightUnary : UnaryHistory right :=
+    unary_cont_closed xUnary yzUnary rightCont
+  have sameLedger : hsame left right :=
+    cont_assoc_hsame xyCont leftCont yzCont rightCont
+  have sameSigLedger : SameSig sigBundle left right :=
+    sameSig_of_hsame_under_policy
+      (bundle := sigBundle) (D := fun h : BHist => UnaryHistory h)
+      (h := left) (k := right)
+      policy total leftUnary rightUnary sameLedger
+  exact And.intro sameSigLedger sameLedger
 
 end BEDC.Derived.GaloisGroupUp
