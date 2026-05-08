@@ -133,6 +133,35 @@ The carrier and source faces are supplied by constructor projection from \autore
 The transport faces are supplied by \autoref{thm:spingroup-root-group-law-transport} and \autoref{thm:spingroup-root-transport-closure}. Finally, \autoref{thm:spingroup-root-ledger-exhaustion} shows that the ledger has exactly the displayed BEDC rows, so the package has no hidden orthogonal-group, matrix, or quotient-algebra obligation.
 \end{proof}
 
+\begin{definition}[SpinGroup double-cover interface row]
+\label{def:spingroup-double-cover-interface-row}
+A $\SpinGroupUp$ double-cover interface row is the finite $\mathsf{BHist}$ packet over \autoref{def:spingroup-root-bhist-carrier} whose visible coordinates are the Clifford endpoint row, the singleton $\GroupUp$ law row, the unit-like Clifford endpoint, the $\Cont$ and $\hsame$ transport witnesses between those endpoints, the $\mathsf{UnaryHistory}$ group-law spine, and the $\Pkg$ provenance rows used by the root carrier. The interface exports only these rows to the public double-cover boundary. It does not export a host Clifford quotient, a matrix realization, or an orthogonal-group primitive as an independent source.
+\end{definition}
+
+\begin{theorem}[SpinGroup double-cover source exhaustion]
+\label{thm:spingroup-double-cover-source-exhaustion}
+Every public double-cover row admitted by \autoref{def:spingroup-double-cover-interface-row} projects through the $\NameCert_{\CliffordUp}$, $\NameCert_{\GroupUp}$, $\Cont$, $\hsame$, $\mathsf{UnaryHistory}$, and $\Pkg$ rows already named by \autoref{thm:spingroup-root-carrier-source-scope}, \autoref{thm:spingroup-root-group-law-transport}, and \autoref{thm:spingroup-root-ledger-exhaustion}. Conversely, any row obtained from those named sources and repacked into the finite interface packet is accepted as a public double-cover row.
+\end{theorem}
+\begin{proof}
+Project the public row from \autoref{def:spingroup-double-cover-interface-row}. Constructor inversion leaves the same displayed coordinates as the root carrier: the Clifford endpoint, the singleton group-law row, the unit-like endpoint, the transport witnesses, the unary history spine, and the provenance row.
+
+The source classification is then inherited without a new case split. Apply \autoref{thm:spingroup-root-carrier-source-scope} to the Clifford and group-facing coordinates, and apply \autoref{thm:spingroup-root-group-law-transport} to the product and inverse transport coordinates.
+
+It remains to account for ledger visibility. Apply \autoref{thm:spingroup-root-ledger-exhaustion}; it says that the displayed $\mathsf{BHist}$ rows, $\Cont$ rows, $\hsame$ rows, $\mathsf{UnaryHistory}$ rows, and $\Pkg$ provenance rows exhaust the root ledger. Repacking those rows into the double-cover interface gives the converse inclusion and leaves no host quotient, matrix, or orthogonal primitive outside the named BEDC sources.
+\end{proof}
+
+\begin{theorem}[SpinGroup NameCert root obligation package]
+\label{thm:spingroup-namecert-root-obligation-package}
+The interface of \autoref{def:spingroup-double-cover-interface-row} forms a root $\NameCert_{\SpinGroupUp}$ obligation package with the ten visible fields: carrier $\mathsf{BHist}$ row, Clifford source classifier, singleton $\GroupUp$ source classifier, $\hsame$ stability, $\Cont$ stability, unit endpoint, multiplication endpoint, inverse endpoint, exact finite ledger, and absence of a standard bridge claim. Each field is read from \autoref{def:spingroup-root-bhist-carrier}, \autoref{thm:spingroup-root-namecert-threshold-package}, and \autoref{thm:spingroup-double-cover-source-exhaustion}.
+\end{theorem}
+\begin{proof}
+Start from the threshold package of \autoref{thm:spingroup-root-namecert-threshold-package}. It supplies the carrier, classifier movement, transport rows, singleton-history group-law evidence, and finite ledger exactness required of the root certificate.
+
+Now refine the package into the ten visible fields. The carrier field is the finite $\mathsf{BHist}$ row of \autoref{def:spingroup-root-bhist-carrier}. The two source classifiers are supplied by \autoref{thm:spingroup-root-carrier-source-scope}. The $\hsame$ and $\Cont$ stability fields, together with unit, multiplication, and inverse endpoints, are supplied by \autoref{thm:spingroup-root-group-law-transport} and \autoref{thm:spingroup-root-transport-closure}.
+
+The ledger and boundary fields are final projections. The ledger is exact by \autoref{thm:spingroup-root-ledger-exhaustion}, while \autoref{thm:spingroup-double-cover-source-exhaustion} shows that the public double-cover interface has no additional source row. Thus the obligation package contains the root certificate surface but does not assert a standard bridge.
+\end{proof}
+
 \begin{theorem}[SpinGroup Clifford even-unit carrier obligation]
 \label{thm:spingroup-clifford-even-unit-carrier-obligation}
 The $\SpinGroupUp$ carrier is the $\mathsf{BHist}$-coded row of Clifford unit
