@@ -42,30 +42,6 @@ Genuinely missing companion in 162_probspace_namecert_construction.tex. BOARD ha
 
 ---
 
-### B-504 - Composite gap policy n-fold pullback preserves coverage and separation
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | Composite gap policy n-fold pullback preserves coverage and separation |
-| Layer | proof_obligations |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-If \GapPol(\Pi,D) and \tau_1:D_1\to D, \tau_2:D_2\to D_1, \ldots, \tau_k:D_k\to D_{k-1} each carry a classifier-preserving pullback ledger over \Pi, then the k-fold composite \tau_1\circ\cdots\circ\tau_k carries a classifier-preserving pullback ledger satisfying coverage and separation over D_k.
-
-Local inputs:
-- `papers/bedc/parts/proof_obligations/gap_policy.tex`
-
-Rationale:
-Strict generalization, not a paraphrase. gap_policy.tex packages the single-step (line 152) and binary composite (line 196) cases, but the n-fold version is the form invoked downstream by proof_standing/04 and core/07's 'finite chain of compressions' arguments. Direct induction on chain length using the binary theorem closes it; lands in a 266-line chapter with no cap risk. No BOARD entry covers iterated pullback of gap policies, and the proof discharges as a clean inductive packaging — exactly the 'why only the binary case?' senior-referee gap that earns its own slot.
-
----
-
 ### B-506 - Distribution pushforward inclusion-exclusion identity
 
 | field | value |
