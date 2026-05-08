@@ -312,6 +312,39 @@ Package those projections as the input side of $\NameCert_{\ChernWeilUp}$. The p
 The exclusions follow from ledger coverage. Since no de Rham row, characteristic-class comparison, standard bridge, or Lean target is part of the exported $\CurvatureUp$ ledger, none is available to $\ChernWeilUp$ without an independent certificate.
 \end{proof}
 
+\begin{definition}[Curvature Chern-Weil consumer row]
+\label{def:curvature-chernweil-consumer-row}
+A curvature Chern-Weil consumer row is a concrete $\mathsf{BHist}$ packet
+$$
+\mathsf{CurvatureChernWeilConsumerRow}(\kappa,d,p,\gamma,\lambda)
+$$
+whose coordinates are the exported curvature boundary row $\kappa$, the displayed de~Rham row $d$, the shared provenance row $p$, the connection ledger row $\gamma$, and the characteristic-class endpoint row $\lambda$. The packet is accepted exactly when these five rows form the source envelope consumed by \autoref{def:chernweil-source-envelope}: $\kappa$, $d$, and $\gamma$ are unary source rows, $p$ is the shared $\Cont$ provenance over the curvature and de~Rham inputs, and $\lambda$ is the final $\Cont$ endpoint with its carried $\hsame$ readback against the appended curvature, de~Rham, and connection ledger.
+\end{definition}
+
+\begin{theorem}[Curvature Chern-Weil consumer stability]
+\label{thm:curvature-chernweil-consumer-stability}
+Let $\mathsf{CurvatureChernWeilConsumerRow}(\kappa,d,p,\gamma,\lambda)$ be accepted. If an exported curvature boundary $\kappa'$ is related to $\kappa$ by the $\hsame$ transport supplied by $\NameCert_{\CurvatureUp}$, and the invariant-polynomial row, provenance row $p$, de~Rham row $d$, and connection ledger row $\gamma$ are kept in the same carrier classifier, then the Chern-Weil endpoint transported through that classifier is again the endpoint row $\lambda$ of an accepted consumer packet.
+\end{theorem}
+\begin{proof}
+Project the accepted consumer packet to its curvature source. By \autoref{thm:curvature-namecert-scope-obligation}, the boundary row, classifier rows, finite ledgers, and provenance row are all public rows of the same $\CurvatureUp$ certificate.
+
+Transport the boundary along the displayed $\hsame$ comparison while keeping the invariant-polynomial, de~Rham, provenance, and connection ledger rows fixed in the carrier classifier. The projected rows therefore still occupy the same source-envelope positions.
+
+Apply \autoref{thm:chernweil-curvature-polynomial-stability-obligation}. Its classifier stability clause transports the invariant-polynomial endpoint across the curvature boundary comparison, so the final class row is read as the same $\lambda$ through the carrier classifier.
+\end{proof}
+
+\begin{theorem}[Curvature Chern-Weil consumer envelope projection]
+\label{thm:curvature-chernweil-consumer-envelope-projection}
+Every accepted packet of \autoref{def:curvature-chernweil-consumer-row} projects to the exact rows of the Chern-Weil source envelope: the unary curvature row $\kappa$, the unary de~Rham row $d$, the unary connection ledger row $\gamma$, the shared $\Cont$ provenance row $p$, the final $\Cont$ class row $\lambda$, and the readback $\hsame$ of $\lambda$ against the appended curvature, de~Rham, and connection ledger.
+\end{theorem}
+\begin{proof}
+Unpack the consumer packet. Its five coordinates are concrete $\mathsf{BHist}$ rows, and acceptance says that they occupy the curvature, de~Rham, provenance, connection ledger, and endpoint positions of the source envelope of \autoref{def:chernweil-source-envelope}.
+
+Project the unary row obligations for $\kappa$, $d$, and $\gamma$, then project the two finite $\Cont$ ledgers. The first ledger supplies the shared provenance row $p$ from the curvature and de~Rham inputs, and the second supplies the endpoint row $\lambda$ from that provenance row and the connection ledger.
+
+Apply \autoref{thm:chernweil-curvature-derham-obligation-surface} to identify the consumer-facing curvature and de~Rham rows as the Chern-Weil input surface. The checked source-envelope projection cited in the Chern-Weil chapter then reads back the same rows and the displayed $\hsame$ comparison of $\lambda$ with the appended curvature, de~Rham, and connection ledger.
+\end{proof}
+
 \begin{theorem}[Curvature Chern-Weil source-envelope row]
 \label{thm:curvature-chernweil-source-envelope-row}
 Let a $\CurvatureUp$ row be accepted from the $\NameCert_{\ConnectionUp}$ packet in \autoref{def:curvature-bhist-bracket-carrier}. Its export to the $\ChernWeilUp$ source envelope supplies exactly the five source-envelope rows consumed by the Chern-Weil projection theorem: the curvature boundary row, the de~Rham target row slot, the shared $\Cont$ provenance row, the selected-connection ledger face, and the characteristic-class endpoint row slot. The visible curvature-side fields are projected only as $\mathsf{BHist}$ rows, $\hsame$ endpoint comparisons, and finite $\Cont$ ledgers, with the $\mathsf{Pkg}$ provenance retained from the source connection packet.
