@@ -140,16 +140,46 @@ single exported source-fibre surface, and the absence of length, geodesic,
 curvature, and bridge rows is preserved by the same repacking.
 \end{proof}
 
+\begin{theorem}[RiemannianMetricUp standard source-fibre bridge]
+\label{thm:riemannianmetric-standard-source-fibre-bridge}
+The public source-fibre surface of
+\autoref{thm:riemannianmetric-public-source-fibre-namecert-surface}
+interprets as the standard Riemannian-metric source data: a manifold point
+carrier, tangent fibres over carried points, and an inner-product row on each
+tangent fibre. Conversely, any such standard source-fibre rows repackage as the
+public $\NameCert_{\RiemannianMetricUp}$ surface without adding length,
+geodesic, or curvature data.
+\end{theorem}
+\begin{proof}
+For the forward direction, project the public surface through the three rows
+identified by \autoref{thm:riemannianmetric-public-source-fibre-namecert-surface}.
+The carrier projection is exactly the manifold point carrier, tangent-fibre row,
+and fibre inner-product row of
+\autoref{thm:riemannianmetric-source-fibre-carrier-row}.
+
+The classifier and metric-obligation projections are the standard transport
+requirements for those rows. They are supplied by
+\autoref{thm:riemannianmetric-classifier-stability-obligation} and
+\autoref{thm:riemannianmetric-fibrewise-positive-compatibility-obligation}, so
+the projected data is a standard Riemannian-metric source-fibre surface.
+
+For the reverse direction, repack the manifold point carrier, tangent-fibre row,
+and fibre inner-product row under the ten-field $\NameCert$ template. The same
+classifier-stability and fibrewise compatibility rows fill the public
+$\NameCert_{\RiemannianMetricUp}$ surface, and the template has no additional
+row for length, geodesic, or curvature data.
+\end{proof}
+
 \section{The certificate}
 \label{sec:riemannianmetric-certificate}
 
-\closureat{RiemannianMetricUp}{publicStr}[BEDC.Derived.RiemannianMetricUp.RiemannianMetricSingletonFibreSurface\_fibrewise\_compatibility\_scope]
+\closureat{RiemannianMetricUp}{bridgedStr}[BEDC.Derived.RiemannianMetricUp.RiemannianMetricSingleton\_source\_fibre\_carrier\_row]
 \begin{closurestatus}{\RiemannianMetricUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public paper-side surface is \autoref{thm:riemannianmetric-public-source-fibre-namecert-surface}, which packages the source-fibre carrier row of \autoref{thm:riemannianmetric-source-fibre-carrier-row}, the classifier-stability row of \autoref{thm:riemannianmetric-classifier-stability-obligation}, and the positivity and chart-compatibility row of \autoref{thm:riemannianmetric-fibrewise-positive-compatibility-obligation}.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The public paper-side surface is \autoref{thm:riemannianmetric-public-source-fibre-namecert-surface}, which packages the source-fibre carrier row of \autoref{thm:riemannianmetric-source-fibre-carrier-row}, the classifier-stability row of \autoref{thm:riemannianmetric-classifier-stability-obligation}, the positivity and chart-compatibility row of \autoref{thm:riemannianmetric-fibrewise-positive-compatibility-obligation}, and the standard source-fibre bridge of \autoref{thm:riemannianmetric-standard-source-fibre-bridge}.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.RiemannianMetricUp.RiemannianMetricSingleton\_source\_fibre\_carrier\_row}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close an exactness theorem, length/geodesic/curvature interface, or standard bridge.}
-  \upgradepath{Bridged closure requires a standard bridge for the exported $\NameCert_{\RiemannianMetricUp}$ source-fibre surface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close an exactness theorem, length/geodesic/curvature interface, or machine-checked bridge.}
+  \upgradepath{Mature closure requires downstream examples or completeness-style consumers together with bridge-checked verification on the formal axis.}
 \end{closurestatus}
