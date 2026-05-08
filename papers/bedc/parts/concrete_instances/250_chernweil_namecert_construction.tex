@@ -16,6 +16,7 @@ where $\mathcal{R}$ is a public $\NameCert_{\CurvatureUp}$ packet carrying the c
 
 The envelope is admitted only when the curvature boundary, the de~Rham cohomology row, the shared $\Cont$ provenance, the chosen-connection ledger face, and the characteristic-class row all occur as rows of the same finite history packet. Thus $\ChernWeilUp$ carries the concrete curvature-to-cohomology passage rather than an ambient characteristic-class operation.
 \end{definition}
+\leandef{BEDC.Derived.ChernWeilUp.ChernWeilSourceEnvelope}
 
 \begin{definition}[Chern-Weil characteristic classifier]
 \label{def:chernweil-characteristic-classifier}
@@ -42,6 +43,7 @@ Two packets of \autoref{def:chernweil-curvature-derham-source} have the same Che
 \label{thm:chernweil-invariant-polynomial-carrier-obligation}
 Every accepted Chern-Weil row exposes only the source curvature packet, the invariant-polynomial evaluation history, the de~Rham class endpoint, the finite transport ledgers, the $\mathsf{ProbeBundle}$ observations, and the $\mathsf{Pkg}$ provenance. In particular, the public carrier does not expose a coordinate connection form, an ambient polynomial algebra, or an external cohomology quotient beyond the displayed $\NameCert_{\CurvatureUp}$ and $\NameCert_{\DeRhamUp}$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ChernWeilUp.ChernWeilSourceEnvelope\_carrier\_obligation}
 \begin{proof}
 Unpack an accepted packet of \autoref{def:chernweil-curvature-derham-source}. The tuple projections give exactly the source curvature certificate, the source de~Rham certificate, the polynomial row, the evaluated curvature-polynomial row, the class endpoint, the exact-boundary row, the finite ledger, and the provenance row.
 
@@ -101,6 +103,7 @@ The packet is accepted only when the curvature source row comes from $\NameCert_
 \label{thm:chernweil-curvature-polynomial-stability-obligation}
 For packets of \autoref{def:chernweil-carrier-packet}, transporting the $\NameCert_{\CurvatureUp}$ boundary row $\kappa$ by inherited $\hsame$ and by the finite $\Cont$ ledger transports the polynomial endpoint row $\pi$ under the same characteristic-class classifier. The invariant-polynomial row $p$, the dependency $\mathsf{Pkg}$ provenance $\rho$, and the de~Rham source packet $\mathcal{D}$ are retained as ledger data rather than recomputed.
 \end{theorem}
+\leanchecked{BEDC.Derived.ChernWeilUp.ChernWeilCarrierPacket\_curvature\_polynomial\_stability\_obligation}
 \begin{proof}
 Read the carrier through the roadmap ten-field template of \autoref{sec:roadmap-per-object-template}: the source fields are $\mathcal{R}$ and $\mathcal{D}$, the carrier field is the displayed $\mathsf{BHist}$ tuple, the classifier field is the characteristic-class classifier, and the ledger field is $\lambda$.
 
@@ -160,6 +163,7 @@ Project the de~Rham component next. The de~Rham packet supplies the cohomology r
 
 The remaining row is the connection ledger face $\gamma$. It is listed as a hidden face because the envelope needs it to witness the chosen connection, but the classifier of \autoref{def:chernweil-characteristic-classifier} never exports it as part of the public characteristic class.
 \end{proof}
+\leanchecked{BEDC.Derived.ChernWeilUp.ChernWeilSourceEnvelope\_public\_rows}
 \leanchecked{BEDC.Derived.ChernWeilUp.ChernWeilSourceEnvelope\_projection\_rows}
 
 \begin{theorem}[Chern-Weil connection-choice stability]

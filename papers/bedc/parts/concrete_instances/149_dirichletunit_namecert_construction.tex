@@ -6,21 +6,87 @@ The Dirichlet-unit interface $\DirichletUnitUp$ packages the structure of the un
 \section{Carrier definition}
 \label{sec:dirichletunit-carrier}
 
-\begin{definition}[Dirichlet-unit history carrier]
-\label{def:dirichletunit-bhist-carrier}
-A $\DirichletUnitUp$ carrier is a displayed $\mathsf{BHist}$ row
+\begin{definition}[DirichletUnit carrier packet]
+\label{def:dirichletunit-carrier-packet}
+A $\DirichletUnitUp$ carrier packet is a displayed $\mathsf{BHist}$ tuple
 $$
-\mathcal{D}=(\mathcal{O},u,u^{-1},\mathcal{A},\lambda,\mu,\rho)
+\mathcal{D}=(\mathcal{O},\mathcal{A},u,\iota,\nu,\beta,\rho)
 $$
-where $\mathcal{O}$ is a source $\NameCert_{\RingOfIntegersUp}$ row, $u:\mathsf{BHist}$ is the visible unit row in the ring of integers, $u^{-1}:\mathsf{BHist}$ is the displayed inverse row, $\mathcal{A}$ is the source $\NameCert_{\AbGroupUp}$ row recording the additive presentation and the multiplicative unit-group law surface, $\lambda$ is the finite $\Cont$ ledger reading the unit and inverse rows from $\mathcal{O}$, $\mu$ is the finite $\Cont$ ledger reading the abelian-group law row from $\mathcal{A}$, and $\rho$ records the paired $\mathsf{Pkg}$ provenance.
+whose entries are read as follows. The row $\mathcal{O}$ is the dependency $\NameCert_{\RingOfIntegersUp}$, the row $\mathcal{A}$ is the dependency $\NameCert_{\AbGroupUp}$, the row $u$ is a visible unit row over $\mathcal{O}$, the row $\iota$ records the inverse and unit-product witnesses for $u$, the row $\nu$ is a unary free-rank witness, the row $\beta$ is the finite basis and logarithmic ledger row, and the row $\rho$ is the $\mathsf{Pkg}$ provenance tying these entries to the two dependency certificates. The packet also carries the finite $\Cont$ readbacks from $\mathcal{O}$ to $u$ and $\iota$, from $\mathcal{A}$ to the public abelian-group law rows, and from $\rho$ to every exported dependency slot.
 
-The accepted carrier is exactly this history row. It does not assert an ambient equality of rings, a quotient of units, or an analytic logarithm map; the public endpoint is the carried unit together with its inverse, abelian-group law row, finite readbacks, and provenance.
+The packet is a history-facing carrier. It exposes no host-level unit type, no analytic logarithm equality, no determinant, and no standard bridge; it exposes only the named rows, their readback ledgers, and their package provenance.
 \end{definition}
+\leandef{BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier}
 
-\begin{definition}[Dirichlet-unit row classifier]
-\label{def:dirichletunit-unit-classifier}
-Two $\DirichletUnitUp$ carriers $\mathcal{D}$ and $\mathcal{D}'$ are classified when their visible unit rows, inverse rows, abelian-group law rows, and $\mathsf{Pkg}$ provenance projections are related by $\hsame$ after finite $\Cont$ readback from the same four projection slots of \autoref{def:dirichletunit-bhist-carrier}. The classifier therefore compares the ring-of-integers unit projection, the inverse projection, the abelian-group projection, and the provenance projection as carried $\mathsf{BHist}$ data, not as equality of host unit groups.
-\end{definition}
+\begin{theorem}[DirichletUnit visible unit row obligation]
+\label{thm:dirichletunit-visible-unit-row-obligation}
+Every accepted $\DirichletUnitUp$ carrier packet exposes the visible unit row $u$ and the inverse/unit-product row $\iota$ as carried $\mathsf{BHist}$ rows over the dependency certificate $\NameCert_{\RingOfIntegersUp}$. These rows are exported only through the finite $\Cont$ readback and $\mathsf{Pkg}$ provenance of \autoref{def:dirichletunit-carrier-packet}; they are not host units and do not assert host-level multiplication outside the displayed history.
+\end{theorem}
+\begin{proof}
+Project an accepted packet to its tuple entries. The rows $\mathcal{O}$, $u$, and $\iota$ are named components of the same displayed $\mathsf{BHist}$ packet, and the carrier definition includes the $\Cont$ readback from $\mathcal{O}$ to the two unit-facing rows.
+
+The provenance row $\rho$ records that the readback is part of the same package. Repacking these projections gives exactly the exported unit and inverse surface, with no additional host carrier available to inspect.
+\end{proof}
+
+\begin{theorem}[DirichletUnit classifier obligation]
+\label{thm:dirichletunit-classifier-obligation}
+Classifier transport for $\DirichletUnitUp$ carrier packets is componentwise $\hsame$ together with dependency provenance transport. If packets $\mathcal{D}$ and $\mathcal{D}'$ are classified, then $\hsame$ transports the visible unit rows, inverse/unit-product rows, rank witness rows, finite basis/log-ledger rows, and package provenance rows, while the dependency slots remain tied to $\NameCert_{\RingOfIntegersUp}$ and $\NameCert_{\AbGroupUp}$ by their displayed $\mathsf{Pkg}$ rows.
+\end{theorem}
+\begin{proof}
+Unpack the classifier as comparisons between the corresponding displayed rows of $\mathcal{D}$ and $\mathcal{D}'$. Each comparison is an $\hsame$ witness at a named projection of the carrier packet.
+
+Transport the unit and inverse rows through the $\RingOfIntegersUp$ readback, then transport the rank and basis/log-ledger rows through their own packet projections. The package row transports the dependency provenance at the same time.
+
+Repack the transported rows with the target packet's readback ledgers. The result is componentwise classifier transport for the whole Dirichlet-unit surface.
+\end{proof}
+
+\begin{theorem}[DirichletUnit free-rank witness ledger]
+\label{thm:dirichletunit-free-rank-witness-ledger}
+The free-rank witness $\nu$ and the finite basis/logarithmic ledger row $\beta$ of a $\DirichletUnitUp$ carrier packet are visible ledger rows. Their stability under accepted carrier comparison is carried by $\Cont$, $\hsame$, and $\mathsf{Pkg}$ provenance, and does not assert equality of analytic logarithms or equality of regulator values.
+\end{theorem}
+\begin{proof}
+Project the rank and basis/log-ledger entries from the carrier packet. They are listed as displayed $\mathsf{BHist}$ rows, so their visibility is part of the packet rather than a theorem about an external analytic object.
+
+For a classified pair, apply componentwise $\hsame$ to the rank row and to the ledger row. The $\Cont$ entries preserve the finite readback pattern, and $\rho$ supplies the package provenance tying those rows to the same dependency boundary.
+
+The proof stops at the ledger boundary. Since no analytic logarithm map or determinant row is a component of the packet, no such equality can be projected from this obligation.
+\end{proof}
+
+\begin{theorem}[DirichletUnit abelian-group dependency obligation]
+\label{thm:dirichletunit-abgroup-dependency-obligation}
+The public abelian-group laws used by $\DirichletUnitUp$ are inherited through the dependency certificate $\NameCert_{\AbGroupUp}$ and are restricted to unit rows accepted by the $\NameCert_{\RingOfIntegersUp}$ dependency. Thus the group-law surface is available only where the ring-of-integers certificate supplies the visible unit and inverse rows of \autoref{def:dirichletunit-carrier-packet}.
+\end{theorem}
+\begin{proof}
+Project the dependency row $\mathcal{A}$ and its $\Cont$ readback from the carrier packet. This is the only source of the public abelian-group law rows.
+
+Project the ring-of-integers row $\mathcal{O}$ together with $u$ and $\iota$. The law rows from $\mathcal{A}$ are paired with these unit-facing rows by the same package provenance row $\rho$.
+
+Repack the dependency projections. The inherited law surface is therefore confined to accepted unit rows over $\mathcal{O}$, rather than a free-standing group law on an ambient host type.
+\end{proof}
+
+\begin{theorem}[DirichletUnit NameCert surface obligation]
+\label{thm:dirichletunit-namecert-surface-obligation}
+The public $\NameCert_{\DirichletUnitUp}$ surface is assembled from the carrier packet of \autoref{def:dirichletunit-carrier-packet}, the componentwise classifier of \autoref{thm:dirichletunit-classifier-obligation}, the dependency certificates $\NameCert_{\RingOfIntegersUp}$ and $\NameCert_{\AbGroupUp}$, the visible unit and inverse rows, the rank and finite basis/log-ledger rows, the $\Cont$ stability rows, the $\mathsf{Pkg}$ provenance rows, and the exactness claim that every exported Dirichlet-unit row is one of these displayed packet entries.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier packet. Its displayed entries give the carrier, dependency, unit, inverse, rank, ledger, and provenance rows.
+
+Use the classifier obligation to supply transport for comparisons between accepted packets. Use the visible-unit obligation and the abelian-group dependency obligation to bind the unit-facing rows to $\NameCert_{\RingOfIntegersUp}$ and the law-facing rows to $\NameCert_{\AbGroupUp}$.
+
+The exactness statement is obtained by projection and repacking. Any exported certificate row must be one of the packet entries or one of the finite readbacks named in the packet, and those entries repack as the public $\NameCert_{\DirichletUnitUp}$ surface.
+\end{proof}
+
+\begin{theorem}[DirichletUnit Regulator consumer boundary]
+\label{thm:dirichletunit-regulator-consumer-boundary}
+A downstream $\RegulatorUp$ certificate may consume from $\DirichletUnitUp$ only the visible unit rows, inverse/unit-product rows, unary rank witness, finite basis/logarithmic ledger rows, dependency rows, $\Cont$ readbacks, and $\mathsf{Pkg}$ provenance rows described above. It may not read a determinant, an analytic regulator value, or a standard bridge from $\DirichletUnitUp$ alone.
+\end{theorem}
+\begin{proof}
+Project the public $\NameCert_{\DirichletUnitUp}$ surface from \autoref{thm:dirichletunit-namecert-surface-obligation}. The listed consumer inputs are exactly the rows present in that surface.
+
+Inspect the carrier packet: determinant rows, analytic regulator values, and standard bridge rows are not entries of $\mathcal{D}$, nor are they reachable by the finite $\Cont$ readbacks named by the packet.
+
+Therefore a $\RegulatorUp$ construction can cite the unit, inverse, rank, ledger, dependency, readback, and provenance rows. Any determinant or analytic regulator row must come from a separate regulator-side construction.
+\end{proof}
 
 \begin{theorem}[Dirichlet-unit rank ledger]
 \label{thm:dirichletunit-unit-rank-ledger}
@@ -72,51 +138,3 @@ dependency data.
 \section{The certificate}
 \label{sec:dirichletunit-certificate}
 \closureat{DirichletUnitUp}{seedStr}
-
-\begin{theorem}[Dirichlet-unit carrier transport]
-\label{thm:dirichletunit-carrier-hsame-transport}
-If two $\DirichletUnitUp$ carriers are classified by \autoref{def:dirichletunit-unit-classifier}, then $\hsame$ transports each visible carrier projection: the $\RingOfIntegersUp$ unit row, the inverse row, the $\AbGroupUp$ law row, and the paired $\mathsf{Pkg}$ provenance row. The transported packet is again a carrier of \autoref{def:dirichletunit-bhist-carrier} with the same finite $\Cont$ readback pattern.
-\end{theorem}
-\begin{proof}
-Unpack the two carrier packets. The classifier definition supplies exactly four displayed comparisons: unit row, inverse row, abelian-group law row, and provenance row, each read through the corresponding finite $\Cont$ projection.
-
-Transport the unit and inverse projections first. Since both are $\mathsf{BHist}$ rows read from the same $\RingOfIntegersUp$ source slot, $\hsame$ carries the accepted unit endpoint and its inverse endpoint to the second carrier without changing the source ledger.
-
-Next transport the $\AbGroupUp$ law projection and the paired provenance row. Repack the four transported projections with the original readback ledgers, giving a new Dirichlet-unit carrier whose public surface is componentwise the transported one.
-\end{proof}
-
-\begin{theorem}[Dirichlet-unit boundary continuation stability]
-\label{thm:dirichletunit-boundary-continuation-stability}
-For a classified pair of $\DirichletUnitUp$ carriers, the finite $\Cont$ ledgers reading the unit row from $\NameCert_{\RingOfIntegersUp}$ and the abelian-group law row from $\NameCert_{\AbGroupUp}$ remain stable under the classifier. The source, inverse, law, and provenance endpoints are preserved by $\hsame$ through those ledgers, so boundary readback exposes the same Dirichlet-unit certificate surface after transport.
-\end{theorem}
-\begin{proof}
-Read the ring-of-integers side through the ledger $\lambda$. It lists the source certificate, the unit row, and the inverse row, so the classifier transport from \autoref{thm:dirichletunit-carrier-hsame-transport} gives endpoint comparisons for every boundary component on that side.
-
-Read the abelian-group side through the ledger $\mu$. The law row is transported by the same classifier, and its source certificate remains the $\AbGroupUp$ projection of the carrier packet.
-
-Finally compose the two finite readbacks inside the displayed provenance row. The boundary after transport is therefore the same finite list of source, unit, inverse, law, and provenance projections, with $\hsame$ witnesses attached componentwise.
-\end{proof}
-
-\begin{theorem}[Dirichlet-unit ledger exactness]
-\label{thm:dirichletunit-ledger-exactness}
-Every public row exported by $\NameCert_{\DirichletUnitUp}$ is one of the rows displayed in \autoref{def:dirichletunit-bhist-carrier}: the source $\RingOfIntegersUp$ row, the unit row, the inverse row, the source $\AbGroupUp$ law row, one of the two finite $\Cont$ readbacks, or the paired $\mathsf{Pkg}$ provenance row. Conversely, those displayed rows repack as the visible Dirichlet-unit ledger.
-\end{theorem}
-\begin{proof}
-For the forward direction, project an accepted Dirichlet-unit packet to its carrier tuple. The definition names the complete list of visible entries, so any exported row must be the ring-of-integers source, unit, inverse, abelian-group source, readback ledger, or provenance entry.
-
-For the reverse direction, start with the displayed entries over matching dependency certificates. The two finite readbacks witness that the unit and inverse rows come from the ring-of-integers source and that the abelian-group law row comes from the group source.
-
-Repack those entries as the carrier tuple and apply the classifier definition when comparisons are required. Exactness follows because the certificate has no further exported slot beyond these displayed rows.
-\end{proof}
-
-\begin{theorem}[Dirichlet-unit NameCert obligation surface]
-\label{thm:dirichletunit-namecert-obligation-surface}
-The paper-side $\NameCert_{\DirichletUnitUp}$ surface consists of the $\mathsf{BHist}$ carrier of \autoref{def:dirichletunit-bhist-carrier}, the row classifier of \autoref{def:dirichletunit-unit-classifier}, carrier $\hsame$ transport, boundary continuation stability, ledger exactness, the two dependency certificates $\NameCert_{\RingOfIntegersUp}$ and $\NameCert_{\AbGroupUp}$, the finite $\Cont$ readbacks, and the paired $\mathsf{Pkg}$ provenance. A downstream $\RegulatorUp$ certificate may cite exactly this surface as its Dirichlet-unit input.
-\end{theorem}
-\begin{proof}
-Collect the ten certificate roles from the displayed rows. The traditional target is the unit group of the ring of integers, the BEDC sources are the two dependency certificates, the carrier is the tuple $\mathcal{D}$, the classifier is componentwise $\hsame$, stability is supplied by carrier transport and boundary continuation, the ledger is the pair of finite readbacks, and exactness is \autoref{thm:dirichletunit-ledger-exactness}.
-
-The core theorem list is precisely the three preceding transport, stability, and exactness obligations together with the carrier and classifier definitions. The standard bridge slot is absent, and the status is a paper-side proof target for the displayed $\NameCert_{\DirichletUnitUp}$ surface.
-
-Thus a consumer receives a concrete BHist-facing certificate boundary. It may read the unit, inverse, law, provenance, and dependency rows, but it may not assume a logarithmic regulator formula, finite-rank basis choice, or host-level equality of unit groups from this certificate alone.
-\end{proof}
