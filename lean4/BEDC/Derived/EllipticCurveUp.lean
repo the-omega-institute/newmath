@@ -109,6 +109,37 @@ theorem EllipticCurveCarrierPacket_projective_genus_one_obligation
         (And.intro packet.right.right.right.right.right.left
           packet.right.right.right.right.right.right)))
 
+theorem EllipticCurveCarrierPacket_smooth_projective_carrier_obligation
+    {field projective coeffs cubic smooth basePoint fieldLedger projectiveLedger provenance :
+      BHist} :
+    EllipticCurveCarrierPacket field projective coeffs cubic smooth basePoint fieldLedger
+        projectiveLedger provenance ->
+      UnaryHistory cubic ->
+        UnaryHistory smooth ->
+          UnaryHistory field ∧ UnaryHistory projective ∧ UnaryHistory coeffs ∧
+            UnaryHistory cubic ∧ UnaryHistory smooth ∧ UnaryHistory basePoint ∧
+              Cont field projective fieldLedger ∧ Cont coeffs cubic projectiveLedger ∧
+                Cont smooth basePoint provenance ∧ hsame fieldLedger (append field projective) ∧
+                  hsame projectiveLedger (append coeffs cubic) ∧
+                    hsame provenance (append smooth basePoint) := by
+  intro packet cubicUnary smoothUnary
+  have sourceRows :=
+    EllipticCurveCarrierPacket_field_projective_source_rows packet
+  have genusRows :=
+    EllipticCurveCarrierPacket_projective_genus_one_obligation packet cubicUnary smoothUnary
+  exact And.intro sourceRows.left
+    (And.intro sourceRows.right.left
+      (And.intro sourceRows.right.right.left
+        (And.intro cubicUnary
+          (And.intro smoothUnary
+            (And.intro sourceRows.right.right.right.left
+              (And.intro packet.right.right.right.right.left
+                (And.intro genusRows.right.right.right.left
+                  (And.intro genusRows.right.right.right.right
+                    (And.intro sourceRows.right.right.right.right.left
+                      (And.intro sourceRows.right.right.right.right.right.left
+                        sourceRows.right.right.right.right.right.right))))))))))
+
 theorem EllipticCurveCarrierPacket_classifier_transport_obligation
     {field field' projective projective' coeffs coeffs' cubic cubic' smooth smooth'
       basePoint basePoint' fieldLedger fieldLedger' projectiveLedger projectiveLedger'

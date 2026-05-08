@@ -220,6 +220,33 @@ Consequently the inherited fibre surface reads the same $\mathsf{BHist}$ row
 that the expectation source row produces.
 \end{proof}
 
+\begin{theorem}[FisherInfoUp score expectation metric confluence]
+\label{thm:fisherinfo-score-expectation-metric-confluence}
+For every accepted $\FisherInfoUp$ score packet
+$(\mathcal{D},\mathcal{G},\theta,s,\eta,g,\rho,\lambda)$, the
+$\DistributionUp$ pushforward row, the score row, the expectation row, and
+the $\RiemannianMetricUp$ metric row share one $\Pkg$ provenance row $\rho$
+and one finite $\Cont$ ledger $\lambda$. Under that shared ledger, the public
+metric component $g$ is exactly the displayed expected squared-score endpoint
+$\eta$ consumed through $\mathcal{G}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:fisherinfo-distribution-source-obligation}. It projects the
+packet to the $\DistributionUp$ source row, the parameter row $\theta$, the
+score row $s$, and the expectation endpoint $\eta$.
+
+Apply \autoref{thm:fisherinfo-expectation-ledger-exactness}. The expectation
+endpoint is read only through the displayed pushforward and the finite
+$\Cont$ route $\lambda$, with provenance recorded by the same row $\rho$.
+
+Apply \autoref{thm:fisherinfo-riemannianmetric-comparison-obligation} to read
+the metric dependency $\mathcal{G}$, and then
+\autoref{thm:fisherinfo-riemannian-metric-component-row} to identify the
+metric component $g$ with the expected squared-score endpoint. Repacking these
+four rows gives the confluence statement: the probability face and metric face
+consume the same displayed endpoint under the same ledger.
+\end{proof}
+
 \begin{theorem}[FisherInfoUp classifier transport obligation]
 \label{thm:fisherinfo-classifier-transport-obligation}
 Let $\mathcal{I}$ and $\mathcal{I}'$ be accepted $\FisherInfoUp$ score packets
@@ -331,6 +358,7 @@ $\NameCert_{\DistributionUp}$ and $\NameCert_{\RiemannianMetricUp}$. It
 exports no host density, analytic integration primitive, external probability
 law, or host Riemannian metric object.
 \end{theorem}
+\leanchecked{BEDC.Derived.FisherInfoUp.FisherInfoBHistScoreCarrier\_semantic\_name\_certificate}
 \begin{proof}
 The carrier component is exactly the eight-coordinate packet of
 \autoref{def:fisherinfo-bhist-score-carrier}. Its accepted coordinates expose
