@@ -183,4 +183,43 @@ theorem DynSystemFlowPacket_endpoint_determinacy_surface [AskSetup] [PackageSetu
     cont_common_suffix_cancellation leftPacket.right.right.right.right.right.right.right.left
       rightPacket.right.right.right.right.right.right.right.left sameRoute
 
+theorem DynSystemFlowPacket_composition_flow_obligation [AskSetup] [PackageSetup]
+    {phase ode timeA timeB timeAB source middle target flowA endpointA routeA flowB endpointB
+      routeB joinedEndpoint joinedRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemFlowPacket phase ode timeA source middle flowA endpointA routeA bundle pkg ->
+      DynSystemFlowPacket phase ode timeB middle target flowB endpointB routeB bundle pkg ->
+        Cont timeA timeB timeAB ->
+          Cont endpointA endpointB joinedEndpoint ->
+            Cont joinedEndpoint target joinedRoute ->
+              PkgSig bundle joinedRoute pkg ->
+                UnaryHistory timeAB ∧ UnaryHistory joinedEndpoint ∧ UnaryHistory joinedRoute ∧
+                  hsame timeAB (append timeA timeB) ∧
+                    hsame joinedEndpoint (append endpointA endpointB) ∧
+                      hsame joinedRoute (append joinedEndpoint target) ∧
+                        PkgSig bundle joinedRoute pkg := by
+  intro packetA packetB timeABCont joinedEndpointCont joinedRouteCont joinedRoutePkg
+  have timeAUnary : UnaryHistory timeA :=
+    packetA.right.right.left
+  have timeBUnary : UnaryHistory timeB :=
+    packetB.right.right.left
+  have endpointARows :=
+    DynSystemFlowPacket_endpoint_coverage packetA
+  have endpointBRows :=
+    DynSystemFlowPacket_endpoint_coverage packetB
+  have targetUnary : UnaryHistory target :=
+    packetB.right.right.right.right.left
+  have timeABUnary : UnaryHistory timeAB :=
+    unary_cont_closed timeAUnary timeBUnary timeABCont
+  have joinedEndpointUnary : UnaryHistory joinedEndpoint :=
+    unary_cont_closed endpointARows.right.left endpointBRows.right.left joinedEndpointCont
+  have joinedRouteUnary : UnaryHistory joinedRoute :=
+    unary_cont_closed joinedEndpointUnary targetUnary joinedRouteCont
+  exact And.intro timeABUnary
+    (And.intro joinedEndpointUnary
+      (And.intro joinedRouteUnary
+        (And.intro timeABCont
+          (And.intro joinedEndpointCont
+            (And.intro joinedRouteCont joinedRoutePkg)))))
+
 end BEDC.Derived.DynSystemUp

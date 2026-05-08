@@ -1,0 +1,525 @@
+\chapter{Theorem Flow Recognition}
+\label{ch:ground-compiler-theorem-flow-recognition}
+
+\autoref{ch:ground-compiler-derivcert-acceptance-flow} records the no-hidden-input reading of derivation certificates and acceptance gates: a $\mathrm{DerivCert}$ is recognized as a six-field export-certificate flow, and an acceptance gate is the simultaneous recognition of naming and derivation-certificate flows. This chapter applies the same rule to theorems themselves.
+
+The governing rule is
+$$
+  \boxed{\text{a theorem is recognized event-flow structure, not an external label}.}
+$$
+The compiler therefore has no formal entry point for theorem objects, theorem labels, proposition objects, proof trees, Lean theorem names, external theorem identifiers, external statement strings, or host proof checkers. A theorem enters this layer only as an event flow recognized by a generated theorem recognizer.
+
+\section{Theorem recognition}
+\label{sec:theorem-generated-recognition}
+
+\begin{definition}[Theorem candidate flow]
+\label{def:theorem-generated-candidate-flow}
+A \emph{theorem candidate flow} is an event flow
+$$
+  T \in \mathsf{EventFlow}.
+$$
+It has not yet been recognized as a theorem. Thus $T \in \mathsf{EventFlow}$ does not imply that $T$ is a theorem, has a proof, carries a status, or satisfies any certificate or acceptance condition.
+\end{definition}
+
+\begin{definition}[Generated theorem recognizer]
+\label{def:theorem-generated-recognizer}
+A \emph{generated theorem recognizer} is an event flow
+$$
+  R_T \in \mathsf{EventFlow}.
+$$
+It is not a host-level proof checker, theorem table, external parser, proof-object constructor, or theorem manifest. Its public formal carrier is itself generated from the two raw marks and acts on decoded event flows.
+\end{definition}
+
+\begin{definition}[Theorem recognition relation]
+\label{def:theorem-generated-recognition-relation}
+The theorem recognition relation is written
+$$
+  \mathsf{RecognizesTheorem}(R_T,T),
+  \qquad
+  R_T,T \in \mathsf{EventFlow}.
+$$
+It is read as: the generated theorem recognizer flow $R_T$ recognizes the event flow $T$ as a theorem flow.
+\end{definition}
+
+\begin{remark}[Recognition is not theorem input]
+\label{rem:theorem-generated-recognition-not-input}
+The judgment $\mathsf{RecognizesTheorem}(R_T,T)$ does not say that an external theorem object has been supplied. It says that, in the decoded source event layer, $R_T$ recognizes $T$ as having theorem-flow structure. The direction is
+$$
+  \mathsf{EventFlow}
+  \longrightarrow
+  \mathsf{RecognizedTheoremFlow},
+$$
+not
+$$
+  \mathsf{TheoremObject}
+  \longrightarrow
+  \mathsf{EventFlow}.
+$$
+\end{remark}
+
+\begin{definition}[Recognized theorem flow]
+\label{def:theorem-generated-recognized-theorem-flow}
+Define
+$$
+  \mathsf{TheoremFlow}(T)
+  \;:\Longleftrightarrow\;
+  \exists R_T,\ \mathsf{RecognizesTheorem}(R_T,T).
+$$
+Thus $T$ is a recognized theorem flow exactly when some generated recognizer recognizes it in that role.
+\end{definition}
+
+\begin{principle}[No external theorem input]
+\label{prin:theorem-generated-no-external-input}
+There is no formal compiler entry point
+$$
+  \mathsf{CompileTheorem}:\mathsf{TheoremObject}\to\mathsf{LegalZStream}.
+$$
+The only formal compiler entry point remains
+$$
+  \mathsf{Compile}:\mathsf{EventFlow}\to\mathsf{LegalZStream}.
+$$
+If $T$ is recognized as a theorem flow, its theorem code is just $\mathsf{Compile}(T)$.
+\end{principle}
+
+\begin{proposition}[Recognition preserves channel code]
+\label{prop:theorem-generated-recognition-preserves-code}
+If $\mathsf{RecognizesTheorem}(R_T,T)$, then the channel encoding of $T$ is still
+$$
+  \mathsf{Compile}(T).
+$$
+Theorem recognition does not add, delete, or rewrite channel bits.
+\end{proposition}
+
+\begin{proof}
+The judgment $\mathsf{RecognizesTheorem}(R_T,T)$ is a source-level recognition relation. It says only that $T$ is recognized by $R_T$ as a theorem flow. The channel encoding is supplied by $\mathsf{Compile}$ and depends only on the event flow $T$. Since recognition does not alter $T$, it does not alter $\mathsf{Compile}(T)$.
+\end{proof}
+
+\begin{corollary}[Recognized theorem code is not a new code]
+\label{cor:theorem-generated-code-not-new-code}
+If $T$ is a recognized theorem flow, then
+$$
+  \mathsf{TheoremCode}(T):=\mathsf{Compile}(T)
+$$
+is the channel code of the same event flow $T$, not the output of a separate theorem compiler.
+\end{corollary}
+
+\section{Theorem roles}
+\label{sec:theorem-generated-roles}
+
+\begin{definition}[Recognized theorem subflows]
+\label{def:theorem-generated-subflows}
+If $\mathsf{RecognizesTheorem}(R_T,T)$, then $R_T$ may recognize subflows of $T$ as theorem roles:
+$$
+\begin{array}{ll}
+  \mathsf{ThmStatement}_{R_T}(T,T_0),&
+  \mathsf{ThmDependencies}_{R_T}(T,T_1),\\
+  \mathsf{ThmProof}_{R_T}(T,T_2),&
+  \mathsf{ThmCertificates}_{R_T}(T,T_3),\\
+  \mathsf{ThmLedger}_{R_T}(T,T_4),&
+  \mathsf{ThmStatus}_{R_T}(T,T_5),\\
+  \mathsf{ThmCanonicalSite}_{R_T}(T,T_6),&
+  \mathsf{ThmSeal}_{R_T}(T,\sigma_T).
+\end{array}
+$$
+These are not external field labels. They are source-level subflow roles recognized inside $T$ by $R_T$.
+\end{definition}
+
+\begin{remark}[Theorem field names are explanatory metalanguage]
+\label{rem:theorem-generated-field-names-metalanguage}
+The words statement, dependency, proof, certificate, ledger, status, canonical site, and seal are explanatory metalanguage. Formally, the roles must be recognized in event flows by relations such as
+$$
+\begin{gathered}
+  \mathsf{ThmStatement}_{R_T},\quad
+  \mathsf{ThmDependencies}_{R_T},\quad
+  \mathsf{ThmProof}_{R_T},\quad
+  \mathsf{ThmCertificates}_{R_T},\\
+  \mathsf{ThmLedger}_{R_T},\quad
+  \mathsf{ThmStatus}_{R_T},\quad
+  \mathsf{ThmCanonicalSite}_{R_T},\quad
+  \mathsf{ThmSeal}_{R_T}.
+\end{gathered}
+$$
+This preserves the no-hidden-input rule: theorem fields are not first-layer inputs, and theorem structure is not an external record supplied to the compiler.
+\end{remark}
+
+\begin{definition}[Complete theorem-flow recognition]
+\label{def:theorem-generated-complete-recognition}
+The judgment $\mathsf{RecognizesTheorem}(R_T,T)$ has \emph{complete theorem-flow recognition} when there exist subflows
+$$
+  T_0,T_1,T_2,T_3,T_4,T_5,T_6,\sigma_T
+$$
+such that
+$$
+\begin{gathered}
+  \mathsf{ThmStatement}_{R_T}(T,T_0),\qquad
+  \mathsf{ThmDependencies}_{R_T}(T,T_1),\qquad
+  \mathsf{ThmProof}_{R_T}(T,T_2),\\
+  \mathsf{ThmCertificates}_{R_T}(T,T_3),\qquad
+  \mathsf{ThmLedger}_{R_T}(T,T_4),\qquad
+  \mathsf{ThmStatus}_{R_T}(T,T_5),\\
+  \mathsf{ThmCanonicalSite}_{R_T}(T,T_6),\qquad
+  \mathsf{ThmSeal}_{R_T}(T,\sigma_T).
+\end{gathered}
+$$
+Intuitively, $T_0$ is the statement flow, $T_1$ the dependency flow, $T_2$ the proof flow, $T_3$ the certificate flow, $T_4$ the ledger flow, $T_5$ the status flow, $T_6$ the canonical-site flow, and $\sigma_T$ the theorem-seal flow. These roles are recognized by $R_T$, not supplied by an external theorem package.
+\end{definition}
+
+\begin{principle}[No theorem without complete recognized flow]
+\label{prin:theorem-generated-no-incomplete-theorem}
+A recognized theorem flow must have complete theorem-flow recognition. Thus
+$$
+  \mathsf{TheoremFlow}(T)
+  \Longrightarrow
+  \exists R_T,\ \mathsf{RecognizesTheorem}(R_T,T),
+$$
+with recognized statement, dependency, proof, certificate, ledger, status, canonical-site, and seal subflows.
+\end{principle}
+
+\begin{theorem}[Incomplete theorem flow is not a theorem flow]
+\label{thm:theorem-generated-incomplete-not-theorem}
+If an event flow $T$ lacks any one of the recognized statement, dependency, proof, certificate, ledger, status, canonical-site, or theorem-seal subflows, then $T$ cannot be used as a recognized theorem flow.
+\end{theorem}
+
+\begin{proof}
+By \autoref{prin:theorem-generated-no-incomplete-theorem}, a recognized theorem flow must have complete theorem-flow recognition. If any required subflow is absent, complete recognition fails. Therefore $\mathsf{TheoremFlow}(T)$ cannot be used for that incomplete flow.
+\end{proof}
+
+\begin{corollary}[Statement alone is not a theorem]
+\label{cor:theorem-generated-statement-alone-not-theorem}
+A recognized statement flow does not by itself constitute a theorem flow. It still needs proof, dependency, certificate, ledger, status, canonical-site, and theorem-seal subflows.
+\end{corollary}
+
+\begin{corollary}[Proof alone is not a theorem]
+\label{cor:theorem-generated-proof-alone-not-theorem}
+A recognized proof flow does not by itself constitute a theorem flow. It must be recognized as proving a statement flow under dependency, certificate, ledger, status, and canonical-site structure.
+\end{corollary}
+
+\section{Proof, certificate, ledger, status, and site soundness}
+\label{sec:theorem-generated-soundness}
+
+\begin{definition}[Generated proof checker flow]
+\label{def:theorem-generated-proof-checker-flow}
+A \emph{generated proof checker flow} is an event flow
+$$
+  R_P \in \mathsf{EventFlow}.
+$$
+It is not a host proof checker, Lean kernel, or external verifier. It is itself generated as an event flow.
+\end{definition}
+
+\begin{definition}[Proof checking relation]
+\label{def:theorem-generated-proof-checking-relation}
+The proof checking relation is written
+$$
+  \mathsf{ChecksProof}(R_P,T_0,T_1,T_2).
+$$
+It is read as: the generated proof checker flow $R_P$ checks that proof-flow $T_2$ proves statement-flow $T_0$ using dependency-flow $T_1$. This is a source-level recognition or verification judgment, not host-level proof checking supplied as compiler input.
+\end{definition}
+
+\begin{definition}[Proof-sound theorem recognition]
+\label{def:theorem-generated-proof-sound}
+The judgment $\mathsf{RecognizesTheorem}(R_T,T)$ is \emph{proof-sound} when there exist $T_0,T_1,T_2$ and a generated proof checker flow $R_P$ such that
+$$
+\begin{gathered}
+  \mathsf{ThmStatement}_{R_T}(T,T_0),\qquad
+  \mathsf{ThmDependencies}_{R_T}(T,T_1),\qquad
+  \mathsf{ThmProof}_{R_T}(T,T_2),\\
+  \mathsf{ChecksProof}(R_P,T_0,T_1,T_2).
+\end{gathered}
+$$
+\end{definition}
+
+\begin{definition}[Certificate soundness]
+\label{def:theorem-generated-certificate-sound}
+The judgment $\mathsf{RecognizesTheorem}(R_T,T)$ is \emph{certificate-sound} when its certificate subflow is recognized as containing the required $\NameCert$ flows, derivation-certificate flows, proof-certificate flows, or other certificate flows, and those certificate flows are sound recognized flows in the appropriate sense.
+\end{definition}
+
+\begin{definition}[Ledger-sound theorem recognition]
+\label{def:theorem-generated-ledger-sound}
+The judgment $\mathsf{RecognizesTheorem}(R_T,T)$ is \emph{ledger-sound} when
+$$
+  \mathsf{ThmLedger}_{R_T}(T,T_4)
+$$
+and $T_4$ records the source material hidden or cited by the statement, dependencies, proof, certificates, status, and canonical-site subflows.
+\end{definition}
+
+\begin{definition}[Status-sound theorem recognition]
+\label{def:theorem-generated-status-sound}
+The judgment $\mathsf{RecognizesTheorem}(R_T,T)$ is \emph{status-sound} when
+$$
+  \mathsf{ThmStatus}_{R_T}(T,T_5)
+$$
+and $T_5$ is recognized by a generated status recognizer as the theorem's derivation status, strength, or proof status. The status is not a host enum; it is an event-flow role.
+\end{definition}
+
+\begin{definition}[Site-sound theorem recognition]
+\label{def:theorem-generated-site-sound}
+The judgment $\mathsf{RecognizesTheorem}(R_T,T)$ is \emph{site-sound} when
+$$
+  \mathsf{ThmCanonicalSite}_{R_T}(T,T_6)
+$$
+and $T_6$ records the theorem flow's canonical site, namely the recognized place where the theorem package occurs in the theory-dependency flow. This prevents the same statement, wrapper, or proof from being confused with the same raw theorem flow merely because their statement readings coincide.
+\end{definition}
+
+\begin{definition}[Sound theorem flow]
+\label{def:theorem-generated-sound-recognized-flow}
+A recognized theorem judgment
+$$
+  \mathsf{RecognizesTheorem}(R_T,T)
+$$
+is \emph{sound} when it has complete theorem-flow recognition and is proof-sound, certificate-sound, ledger-sound, status-sound, and site-sound.
+\end{definition}
+
+\begin{theorem}[Sound flow establishes theoremhood]
+\label{thm:theorem-generated-sound-establishes-theoremhood}
+If $\mathsf{RecognizesTheorem}(R_T,T)$ and this recognition is sound, then
+$$
+  \mathsf{TheoremFlow}(T),
+$$
+and $T$ is available as a source-level event flow for theorem package code.
+\end{theorem}
+
+\begin{proof}
+Complete theorem-flow recognition supplies statement, dependency, proof, certificate, ledger, status, canonical-site, and theorem-seal subflows. Proof-soundness recognizes the proof flow as proving the statement flow using the dependency flow. Certificate-soundness recognizes the required certificate flows and their own soundness. Ledger-soundness records hidden and cited source material. Status-soundness and site-soundness record the theorem's strength and canonical occurrence. Hence $T$ satisfies the flow-level conditions for theoremhood, and its theorem package code is obtained from the ordinary channel compiler.
+\end{proof}
+
+\section{Theorem code and quotients}
+\label{sec:theorem-generated-code-and-quotients}
+
+\begin{definition}[Theorem code]
+\label{def:theorem-generated-theorem-code}
+If $T$ is a sound recognized theorem flow, define
+$$
+  \mathsf{TheoremCode}(T):=\mathsf{Compile}(T).
+$$
+This code is the channel compilation of $T$. It is not a proof, theorem object, theorem label, or separate theorem compiler output.
+\end{definition}
+
+\begin{proposition}[Theorem code is injective on raw theorem flows]
+\label{prop:theorem-generated-code-injective}
+If $T$ and $U$ are sound recognized theorem flows and
+$$
+  \mathsf{TheoremCode}(T)=\mathsf{TheoremCode}(U),
+$$
+then $T=U$.
+\end{proposition}
+
+\begin{proof}
+By definition, $\mathsf{TheoremCode}(T)=\mathsf{Compile}(T)$ and $\mathsf{TheoremCode}(U)=\mathsf{Compile}(U)$. Equality of theorem codes gives
+$$
+  \mathsf{Compile}(T)=\mathsf{Compile}(U).
+$$
+By the channel bijection of \autoref{cor:channel-encoding-bijection}, $\mathsf{Compile}$ is injective on event flows. Hence $T=U$.
+\end{proof}
+
+\begin{corollary}[Raw theorem flows and theorem codes are bijective]
+\label{cor:theorem-generated-flow-code-bijective}
+Sound recognized theorem flows, considered as raw event flows, are in bijection with their theorem codes:
+$$
+  \mathsf{SoundTheoremFlow}
+  \cong
+  \mathsf{LegalTheoremCode}_{01}.
+$$
+\end{corollary}
+
+\begin{remark}[Abstract propositions are not theorem flows]
+\label{rem:theorem-generated-proposition-not-flow}
+An abstract proposition is not the same thing as a theorem flow. The same proposition can have multiple statement presentations, proofs, dependency unfoldings, certificate strengths, ledgers, canonical sites, bridge statuses, and wrapper theorem flows. Thus
+$$
+  \text{proposition}
+  \not\cong
+  \text{raw theorem code}
+$$
+in general. The bijection is between canonical raw theorem flows and their theorem codes.
+\end{remark}
+
+\begin{proposition}[The same statement can have multiple theorem flows]
+\label{prop:theorem-generated-same-statement-multiple-flows}
+There may be theorem flows $T$ and $U$ whose statement subflows are identified by the same statement classifier, while $T\neq U$.
+\end{proposition}
+
+\begin{proof}
+Take two theorem flows with classifier-equivalent statement flows but different proof, dependency, ledger, status, or canonical-site subflows. As complete event flows, they are distinct. Their statements may nevertheless be equivalent under the statement classifier. Hence one classified statement can be carried by multiple raw theorem flows.
+\end{proof}
+
+\begin{corollary}[Code equality refines statement equivalence]
+\label{cor:theorem-generated-code-stronger-than-statement-equivalence}
+If
+$$
+  \mathsf{TheoremCode}(T)=\mathsf{TheoremCode}(U),
+$$
+then $T=U$, so the full statement, proof, dependencies, certificates, ledger, status, and canonical-site structure agree at the raw-flow layer. Statement-flow equivalence alone does not imply theorem-code equality.
+\end{corollary}
+
+\begin{definition}[Theorem classifier quotient]
+\label{def:theorem-generated-classifier-quotient}
+If a theorem classifier $\sim_{\mathrm{thm}}$ identifies theorem flows, the classified theorem object is an equivalence class
+$$
+  [T]_{\sim_{\mathrm{thm}}}.
+$$
+The projection
+$$
+  T \longmapsto [T]_{\sim_{\mathrm{thm}}}
+$$
+need not be injective.
+\end{definition}
+
+\begin{proposition}[Classified theorem objects need not be code-bijective]
+\label{prop:theorem-generated-classified-not-code-bijective}
+If there are sound theorem flows $T\neq U$ with
+$$
+  T\sim_{\mathrm{thm}} U,
+$$
+then the map from theorem codes to classified theorem objects is not injective.
+\end{proposition}
+
+\begin{proof}
+By \autoref{prop:theorem-generated-code-injective}, $T\neq U$ implies
+$$
+  \mathsf{TheoremCode}(T)\neq\mathsf{TheoremCode}(U).
+$$
+But $T\sim_{\mathrm{thm}} U$ implies
+$$
+  [T]_{\sim_{\mathrm{thm}}}=[U]_{\sim_{\mathrm{thm}}}.
+$$
+Thus two distinct theorem codes map to one classified theorem object.
+\end{proof}
+
+\begin{corollary}[The theorem-flow layer and theorem-object layer differ]
+\label{cor:theorem-generated-flow-object-layer-differ}
+The raw-flow layer and classified-object layer have different maps:
+$$
+  \text{theorem flow}
+  \leftrightarrow
+  \text{theorem code},
+  \qquad
+  \text{theorem flow}
+  \longrightarrow
+  \text{classified theorem object}.
+$$
+The first is bijective; the second is generally a quotient.
+\end{corollary}
+
+\section{Recognition from code}
+\label{sec:theorem-generated-recognition-from-code}
+
+\begin{definition}[Theorem recognition from channel code]
+\label{def:theorem-generated-recognition-from-code}
+For a legal channel stream $c\in\mathsf{LegalZStream}$, define
+$$
+  \mathsf{RecognizesTheoremCode}(R_T,c)
+  \;:\Longleftrightarrow\;
+  \mathsf{RecognizesTheorem}(R_T,\mathsf{Decode}(c)).
+$$
+Recognition from channel code therefore proceeds through decoding.
+\end{definition}
+
+\begin{proposition}[No theorem recognition by channel substring]
+\label{prop:theorem-generated-no-channel-substring-recognition}
+There is no valid rule that recognizes a theorem by inspecting arbitrary channel substrings without first decoding the channel stream into an event flow.
+\end{proposition}
+
+\begin{proof}
+\autoref{thm:source-channel-layer-separation} proves that channel substrings are not source events. Theorem recognition is a source-level relation over event flows. Any theorem recognition rule acting directly on channel substrings would therefore operate on the wrong layer. Valid recognition must first apply $\mathsf{Decode}$.
+\end{proof}
+
+\begin{theorem}[Compile-decode preserves recognition]
+\label{thm:theorem-generated-compile-decode-preserves-recognition}
+If $\mathsf{RecognizesTheorem}(R_T,T)$, then
+$$
+  \mathsf{RecognizesTheorem}(R_T,\mathsf{Decode}(\mathsf{Compile}(T))).
+$$
+\end{theorem}
+
+\begin{proof}
+By the flow-level round trip \autoref{thm:channel-encoding-flow-round-trip},
+$$
+  \mathsf{Decode}(\mathsf{Compile}(T))=T.
+$$
+Substituting this equality into $\mathsf{RecognizesTheorem}(R_T,T)$ gives the claim.
+\end{proof}
+
+\begin{corollary}[Theorem recognition is invariant under compile-decode]
+\label{cor:theorem-generated-recognition-invariant}
+For every recognized theorem flow, compiling to a channel stream and decoding back to an event flow preserves its theorem-recognition status.
+\end{corollary}
+
+\section{Acceptance and seals}
+\label{sec:theorem-generated-acceptance-seals}
+
+\begin{definition}[Accepted theorem flow]
+\label{def:theorem-generated-accepted-theorem-flow}
+A theorem flow $T$ is an \emph{accepted theorem flow} when:
+\begin{enumerate}
+\item $T$ is a sound recognized theorem flow;
+\item the required $\NameCert$, derivation-certificate, or proof-certificate flows in its certificate subflow are soundly recognized;
+\item whenever the theorem claims mature-object export, the corresponding acceptance-gate flow of \autoref{def:derivcert-generated-accept-gate-flow} is recognized.
+\end{enumerate}
+This is written $\mathsf{AcceptedTheoremFlow}(T)$.
+\end{definition}
+
+\begin{proposition}[Theorem code existence does not imply accepted theorem]
+\label{prop:theorem-generated-code-existence-not-accepted}
+A legal channel stream $c\in\mathsf{LegalZStream}$ does not imply
+$$
+  \mathsf{AcceptedTheoremFlow}(\mathsf{Decode}(c)).
+$$
+\end{proposition}
+
+\begin{proof}
+Legal channel membership says only that $c$ decodes to an event flow. Accepted theoremhood requires theorem recognition, proof-soundness, certificate-soundness, ledger-soundness, status-soundness, and, where export is claimed, an acceptance-gate flow. Channel legality supplies none of those recognition judgments.
+\end{proof}
+
+\begin{corollary}[Code is not proof]
+\label{cor:theorem-generated-code-is-not-proof}
+Theorem code records a theorem flow. It does not replace the proof-flow, generated proof checker, or proof-soundness judgment.
+\end{corollary}
+
+\begin{definition}[Theorem seal subflow]
+\label{def:theorem-generated-seal-subflow}
+If $\mathsf{RecognizesTheorem}(R_T,T)$ and $R_T$ recognizes a terminal subflow $\sigma_T$ of $T$ as expressing theorem-package completion, then $\sigma_T$ is a \emph{theorem-seal subflow}, written
+$$
+  \mathsf{ThmSeal}_{R_T}(T,\sigma_T).
+$$
+The theorem seal is a source-level subflow, not the channel-level terminator $11$.
+\end{definition}
+
+\begin{proposition}[Theorem seal is not the channel terminator]
+\label{prop:theorem-generated-seal-not-channel-terminator}
+If $\mathsf{ThmSeal}_{R_T}(T,\sigma_T)$, then $\sigma_T$ is a source-level subflow, not the channel-level terminator $11$.
+\end{proposition}
+
+\begin{proof}
+The channel-level $11$ is the event terminator of \autoref{def:channel-encoding-event-terminator}; it belongs to the $\mathsf{LegalZStream}$ encoding mechanism. A theorem seal is recognized inside a decoded event flow. By the layer-separation theorem \autoref{thm:source-channel-layer-separation}, a channel substring cannot be used directly as a source subflow. Hence the theorem seal is not the channel terminator.
+\end{proof}
+
+\section{Conservativity and examples}
+\label{sec:theorem-generated-conservativity-examples}
+
+\begin{theorem}[Theorem-flow recognition is conservative over the finite kernel]
+\label{thm:theorem-generated-conservativity}
+Adding $\mathsf{RecognizesTheorem}$, $\mathsf{ChecksProof}$, $\mathsf{AcceptedTheoremFlow}$, and the associated role-recognition relations does not add new raw marks, history constructors, sameness rules, continuation rules, or kernel-level equalities.
+\end{theorem}
+
+\begin{proof}
+These relations assert theorem recognition, proof checking, certificate recognition, ledger discipline, status recognition, site recognition, and acceptance bookkeeping over event flows. They do not generate new $\bzero$ or $\bone$ marks, add $\msame$, $\hsame$, or $\psame$ rules, change $\ExtR$ or $\ContR$, or turn theorem objects into kernel primitives. Theorem acceptance still depends on recognized proof, certificate, ledger, status, and acceptance flows. Hence the recognition layer is conservative over the finite kernel.
+\end{proof}
+
+\begin{example}[Channel round-trip theorem as theorem flow]
+\label{ex:theorem-generated-channel-round-trip-flow}
+The channel round-trip theorem can be represented by a theorem flow whose statement subflow reads $\mathsf{Decode}(\mathsf{Compile}(S))=S$, whose dependencies include event encoding, decoding, the no-internal-$11$ lemma, and event-level round trip, and whose proof flow is an induction over the event flow. Its certificate subflow records the compiler definitions and decoder-correctness evidence; its ledger records both $S$ and $\mathsf{Compile}(S)$; its status subflow records the recognized strength; and its canonical site points to the channel-encoding theorem site. The theorem code is $\mathsf{Compile}$ of that whole theorem flow, not the channel code of the displayed statement alone.
+\end{example}
+
+\begin{example}[Zeckendorf carry theorem as theorem flow]
+\label{ex:theorem-generated-zeckendorf-carry-flow}
+A source-level carry theorem may have a statement subflow saying that $011$ and $100$ are related by a Zeckendorf carry relation. Its dependencies include source-event definitions, a normal-form recognizer, the no-adjacent-boundary pattern, and the carry classifier. Its proof flow supplies the classifier witness, and its ledger records both the pre-normal event $011$ and the normal event $100$. This theorem flow does not assert $011=100$ or $\hsame(011,100)$; it asserts a classifier-level carry relation with ledger support.
+\end{example}
+
+\begin{example}[$\FullAxisUp$ theorem as theorem flow]
+\label{ex:theorem-generated-fullaxis-flow}
+A $\FullAxisUp$ theorem flow can state that $\FullAxisUp$ is licensed by finite-prefix source, compatible-thread pattern, prefix-compatible classifier, seal stability, and tail ledger. Its dependencies include $\AxisNatUp$ flow, finite-prefix flow, thread flow, seal-certificate flow, and $\NameCert$ flow. Its proof flow verifies the five-field certificate structure, while its ledger retains $0$, $00$, $000$, the repeat-boundary witness, the seal witness, and all finite prefixes. Such a theorem flow is not the bare event $011$; that event can only be a local witness inside the flow.
+\end{example}
+
+\begin{remark}[Outlook]
+\label{rem:theorem-generated-outlook}
+This chapter establishes that a theorem is not an external label or proof object, but a recognized theorem flow. The core judgments are $\mathsf{RecognizesTheorem}(R_T,T)$ and $\mathsf{ChecksProof}(R_P,T_0,T_1,T_2)$. Theorem recognition preserves channel code, theorem code is just $\mathsf{Compile}(T)$, complete theorem flow requires statement, dependencies, proof, certificates, ledger, status, canonical site, and seal, statement alone and proof alone are insufficient, sound theorem flow establishes theoremhood at the flow level, theorem code is injective only on raw theorem flows, classified theorem objects are quotients, recognition from code must pass through $\mathsf{Decode}$, code existence does not imply accepted theoremhood, code is not proof, theorem seals are not channel terminators, and theorem-flow recognition is conservative over the finite kernel. The next ground-compiler chapter applies the same rule to chapter flow recognition.
+\end{remark}
