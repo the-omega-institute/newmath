@@ -109,6 +109,72 @@ forms a valid naming certificate for the derived interface \(\ZNormalUp\).
 The five fields are supplied by the preceding definitions. The stability field is justified by closed generation of the \(\mathsf{ZNormal}\) judgment together with the no-one-on-one exclusion.
 \end{proof}
 
+\begin{theorem}[ZNormal adjacent-one inversion]
+\label{thm:znormal-adjacent-one-inversion}
+If a derivation of $\mathsf{ZNormal}(\Eone(h))$ is displayed, then either
+$h=\emp$, or there is a history $k$ such that
+$h=\Ezero(k)$ and $\mathsf{ZNormal}(\Ezero(k))$. In particular, no closed
+derivation of $\mathsf{ZNormal}(\Eone(h))$ has an $\Eone$-headed tail.
+\end{theorem}
+\begin{proof}
+Proceed by cases on the displayed derivation of
+$\mathsf{ZNormal}(\Eone(h))$. The $\Eone$-after-empty constructor gives the
+left alternative with $h=\emp$.
+
+The $\Eone$-above-zero constructor has input
+$\mathsf{ZNormal}(\Ezero(k))$ and conclusion
+$\mathsf{ZNormal}(\Eone(\Ezero(k)))$. This is exactly the right alternative,
+with $h=\Ezero(k)$.
+
+The empty constructor and the $\Ezero$-extension constructor have conclusions
+whose top constructor is not $\Eone$. They cannot match the displayed target.
+Thus the two alternatives exhaust all closed generators, with no arithmetic
+interpretation used.
+\end{proof}
+
+\begin{theorem}[ZNormal zero-extension inversion]
+\label{thm:znormal-zero-extension-inversion}
+Every zero-headed normal form descends to a normal tail: if
+$\mathsf{ZNormal}(\Ezero(h))$ is derived, then $\mathsf{ZNormal}(h)$ is
+derived.
+\end{theorem}
+\begin{proof}
+Proceed by cases on the derivation of $\mathsf{ZNormal}(\Ezero(h))$. The only
+closed generator whose conclusion has top constructor $\Ezero$ is the
+$\Ezero$-extension rule.
+
+That rule is applied to a predecessor derivation of $\mathsf{ZNormal}(h)$.
+Project this predecessor derivation as the desired normal tail. The remaining
+constructors conclude at $\emp$ or at an $\Eone$-headed history, so they do
+not match the zero-headed target.
+\end{proof}
+
+\begin{theorem}[ZNormal normal-form coverage]
+\label{thm:znormal-normal-form-coverage}
+The $\NameCert_{\ZNormalUp}$ source, pattern, classifier, stability, and ledger
+rows exhaust exactly the closed constructors of $\mathsf{ZNormal}$: the empty
+row, the $\Ezero$-extension row, the $\Eone$-after-empty row, and the
+$\Eone$-above-zero row. No arithmetic value row, Fibonacci interpretation, or
+extra classifier constructor is part of the covered surface.
+\end{theorem}
+\begin{proof}
+Unpack the certificate of \autoref{thm:concrete-znormal-namecert}. Its source is
+the normal-form carrier of \autoref{def:znormal-source-specification}, and its
+pattern row is the closed structural generation of
+\autoref{def:znormal-pattern-specification}.
+
+The stability row of \autoref{def:znormal-stability-certificate} lists the four
+generators: empty, zero extension, one after empty, and one above a zero-headed
+normal form. The ledger row of \autoref{def:znormal-ledger-policy} records the
+source normal-form history behind each visible class.
+
+Apply \autoref{thm:znormal-adjacent-one-inversion} to exclude any hidden
+$\Eone$-on-$\Eone$ constructor, and apply
+\autoref{thm:znormal-zero-extension-inversion} to read zero-headed judgments
+back to their normal tails. Hence the displayed certificate covers exactly the
+closed constructors and nothing from an arithmetic interpretation.
+\end{proof}
+
 \begin{corollary}[\(\ZNormalUp\) is licensed, not primitive]
 \label{cor:znormal-licensed-not-primitive}
 The interface \(\ZNormalUp\) is licensed by \(\mathsf{NameCert}_{\ZNormalUp}\). It is not a primitive object of the finite kernel.
