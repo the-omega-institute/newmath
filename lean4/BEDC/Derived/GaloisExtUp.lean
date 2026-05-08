@@ -380,8 +380,37 @@ theorem GaloisExtSourcePacket_dependency_exactness_ledger [AskSetup] [PackageSet
     (And.intro classifierUnary
       (And.intro endpointUnary
         (And.intro packet.right.right.right.left
-          (And.intro packet.right.right.right.right.left
-            (And.intro packet.right.right.right.right.right.left
-              packet.right.right.right.right.right.right)))))
+            (And.intro packet.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.left
+                packet.right.right.right.right.right.right)))))
+
+theorem GaloisExtSourcePacket_normal_root_orbit_closure [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint orbitLedger orbitEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      Cont normality provenance orbitLedger ->
+        Cont orbitLedger separability orbitEndpoint ->
+          UnaryHistory orbitLedger ∧ UnaryHistory orbitEndpoint ∧
+            hsame orbitLedger (append normality provenance) ∧
+              hsame orbitEndpoint (append (append normality provenance) separability) ∧
+                PkgSig bundle endpoint pkg := by
+  intro packet orbitLedgerRow orbitEndpointRow
+  have boundary :=
+    GaloisExtSourcePacket_public_obligation_boundary packet
+  have orbitLedgerUnary : UnaryHistory orbitLedger :=
+    unary_cont_closed boundary.right.left boundary.right.right.right.right.left orbitLedgerRow
+  have orbitEndpointUnary : UnaryHistory orbitEndpoint :=
+    unary_cont_closed orbitLedgerUnary boundary.right.right.left orbitEndpointRow
+  have orbitEndpointReadback :
+      hsame orbitEndpoint (append (append normality provenance) separability) :=
+    hsame_trans orbitEndpointRow
+      (congrArg (fun h : BHist => append h separability) orbitLedgerRow)
+  exact And.intro orbitLedgerUnary
+    (And.intro orbitEndpointUnary
+      (And.intro orbitLedgerRow
+        (And.intro orbitEndpointReadback
+          boundary.right.right.right.right.right.right.right.right.right)))
 
 end BEDC.Derived.GaloisExtUp
