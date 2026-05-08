@@ -86,11 +86,18 @@ import BEDC.Derived.BilinFormUp.SemanticNameCertificate
 import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.CurvatureUp
+import BEDC.Derived.CurvatureUp.ConsumerRowCoverage
+import BEDC.Derived.CurvatureUp.ConsumerBoundary
+import BEDC.Derived.CurvatureUp.LedgerExactnessObligation
 import BEDC.Derived.CurvatureUp.Handoff
 import BEDC.Derived.CurvatureUp.ConnectionCarrierScope
 import BEDC.Derived.CurvatureUp.ChernWeilSourceEnvelope
 import BEDC.Derived.CurvatureUp.PublicObligation
+import BEDC.Derived.CurvatureUp.TensorialSectionTransport
+import BEDC.Derived.CurvatureUp.SourceEnvelopeReadback
+import BEDC.Derived.CurvatureUp.SourceEnvelopeExactness
 import BEDC.Derived.CurvatureUp.SemanticNameCertificate
+import BEDC.Derived.CurvatureUp.SourceEnvelopeProjection
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DynSystemUp
@@ -232,6 +239,7 @@ import BEDC.Derived.ComputableUp
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.CondExpUp
 import BEDC.Derived.MartingaleUp
+import BEDC.Derived.RepresentationRingUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeqUp
@@ -419,6 +427,7 @@ import BEDC.Derived.LinearMapUp.Image
 import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.SimplicialSetUp
 import BEDC.Derived.SimplicialComplexUp
+import BEDC.Derived.SimplicialSetUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
 import BEDC.Derived.FieldExtUp.RatReflexive
@@ -440,6 +449,7 @@ import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.SharedCarrierCoverage
 import BEDC.Derived.GaloisGroupUp
+import BEDC.Derived.GaloisGroupUp.AssociativeActionRow
 import BEDC.Derived.GaloisGroupUp.FixedBasePublicSurface
 import BEDC.Derived.GaloisGroupUp.ActionRows
 import BEDC.Derived.NumFieldUp

@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.NameCert
 import BEDC.Derived.RingUp
 import BEDC.Derived.TensorProductUp
@@ -16,6 +17,12 @@ def HopfAlgBialgCarrier
   RingSingletonCarrier bialg ∧ TensorProductSingletonCarrier tensor ∧
     Cont tensor mul bialg ∧ Cont tensor comul bialg ∧
       Cont unit RingSingletonOne bialg ∧ Cont counit RingSingletonOne bialg
+
+def HopfAlgAntipodeClassifier
+    (bialg tensor antipode unit counit bialg' tensor' antipode' unit' counit' : BHist) :
+    Prop :=
+  hsame bialg bialg' ∧ hsame tensor tensor' ∧ hsame antipode antipode' ∧
+    hsame unit unit' ∧ hsame counit counit'
 
 theorem HopfAlgBialgCarrier_tensor_product_row_stability
     {bialg tensor mul comul unit counit tensor' mul' comul' : BHist} :
@@ -177,5 +184,35 @@ theorem HopfAlgBialgCarrier_antipode_convolution_inverse_unique
   have sameEndpoint : hsame endpoint endpoint' :=
     cont_deterministic unitEndpoint unitEndpoint'
   exact cont_cancel_common_context leftRow endpointRow leftRow' endpointRow' sameEndpoint
+
+theorem HopfAlgAntipodeClassifier_convolution_inverse_unique
+    {bialg tensor mul comul unit counit antipode antipode' left left' endpoint endpoint' :
+      BHist} :
+    HopfAlgBialgCarrier bialg tensor mul comul unit counit ->
+      Cont comul antipode left ->
+        Cont left mul endpoint ->
+          Cont comul antipode' left' ->
+            Cont left' mul endpoint' ->
+              hsame endpoint endpoint' ->
+                HopfAlgAntipodeClassifier bialg tensor antipode unit counit bialg tensor
+                  antipode' unit counit := by
+  intro carrier leftConv leftEndpoint rightConv rightEndpoint sameEndpoint
+  have sameAntipode : hsame antipode antipode' :=
+    cont_cancel_common_context leftConv leftEndpoint rightConv rightEndpoint sameEndpoint
+  have sameBialg : hsame bialg bialg :=
+    hsame_trans carrier.left (hsame_symm carrier.left)
+  have tensorEmpty : hsame tensor BHist.Empty :=
+    TensorProductSingletonCarrier_empty_iff.mp carrier.right.left
+  have sameTensor : hsame tensor tensor :=
+    hsame_trans tensorEmpty (hsame_symm tensorEmpty)
+  have sameUnit : hsame unit unit :=
+    cont_right_cancel carrier.right.right.right.right.left
+      carrier.right.right.right.right.left
+  have sameCounit : hsame counit counit :=
+    cont_right_cancel carrier.right.right.right.right.right
+      carrier.right.right.right.right.right
+  exact And.intro sameBialg
+    (And.intro sameTensor
+      (And.intro sameAntipode (And.intro sameUnit sameCounit)))
 
 end BEDC.Derived.HopfAlgUp
