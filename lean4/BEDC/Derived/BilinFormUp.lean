@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
@@ -91,6 +92,42 @@ theorem BilinFormBHistObligationSurface_symmetry_antisymmetry_obligations
                 (And.intro swappedScalarLedgerCont swappedLedgerCont)))))
   · exact And.intro sameEndpoint
       (And.intro sameScalarLedger sameLedger)
+
+theorem BilinFormBHistObligationSurface_nondegeneracy_ledger_exactness_obligations
+    {left right scalar additive endpoint scalarLedger ledger leftZero rightZero separation : BHist} :
+    BilinFormBHistObligationSurface left right scalar additive endpoint scalarLedger ledger ->
+      Cont left BHist.Empty leftZero ->
+        Cont right BHist.Empty rightZero ->
+          Cont endpoint BHist.Empty separation ->
+            UnaryHistory leftZero ∧ UnaryHistory rightZero ∧ UnaryHistory separation ∧
+              hsame leftZero left ∧ hsame rightZero right ∧ hsame separation endpoint ∧
+                Cont left right endpoint ∧ Cont endpoint scalar scalarLedger ∧
+                  Cont scalarLedger additive ledger := by
+  intro surface leftZeroRow rightZeroRow separationRow
+  have leftZeroUnary : UnaryHistory leftZero :=
+    unary_cont_closed surface.left unary_empty leftZeroRow
+  have rightZeroUnary : UnaryHistory rightZero :=
+    unary_cont_closed surface.right.left unary_empty rightZeroRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed surface.left surface.right.left surface.right.right.right.right.left
+  have separationUnary : UnaryHistory separation :=
+    unary_cont_closed endpointUnary unary_empty separationRow
+  have sameLeftZero : hsame leftZero left :=
+    cont_right_unit_result leftZeroRow
+  have sameRightZero : hsame rightZero right :=
+    cont_right_unit_result rightZeroRow
+  have sameSeparation : hsame separation endpoint :=
+    cont_right_unit_result separationRow
+  exact
+    And.intro leftZeroUnary
+      (And.intro rightZeroUnary
+        (And.intro separationUnary
+          (And.intro sameLeftZero
+            (And.intro sameRightZero
+              (And.intro sameSeparation
+                (And.intro surface.right.right.right.right.left
+                  (And.intro surface.right.right.right.right.right.left
+                    surface.right.right.right.right.right.right)))))))
 
 def BilinFormRootPairingSurface
     (left right scalar endpoint ledger : BHist) : Prop :=
