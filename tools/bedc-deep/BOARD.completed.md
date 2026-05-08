@@ -13654,3 +13654,75 @@ Rationale:
 SpectralSeqUp is a thin homological interface with only a carrier, classifier, obligation surface, differential-ledger stability, and convergence boundary; its carrier says h identifies each successor page with the HomologyUp cycle row of d_r modulo the displayed boundary row at papers/bedc/parts/concrete_instances/156_spectralseq_namecert_construction.tex:24-26, and the obligation surface lists differential-square rows plus homology-page readback rows at papers/bedc/parts/concrete_instances/156_spectralseq_namecert_construction.tex:60-68. The existing stability theorem preserves readback under classifier transport at papers/bedc/parts/concrete_instances/156_spectralseq_namecert_construction.tex:86-110, but it does not instantiate the concrete HomologyUp theorem that square-zero differentials send boundary carriers into cycle carriers. That substrate theorem is already present at papers/bedc/parts/concrete_instances/76_homology_namecert_construction.tex:53-67, so this candidate is a missing middle step between the spectral-sequence page surface and the homology boundary-cycle row rather than a new general theory of spectral sequences.
 
 ---
+
+### B-524 - RandomVar countable preimage intersection exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | RandomVar countable preimage intersection exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 7/10 |
+
+Problem:
+If X:S->T is a carried RandomVarUp map and B_n in A_T is a target measurable-event sequence with intersection event I_T, then each preimage A_n := X^{-1}(B_n) and A_I := X^{-1}(I_T) lies in A_S, and A_I is source-classifier-equal to the source measurable countable intersection of A_bullet.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/randomvar/terminal_and_countable_preimage.tex`
+
+Rationale:
+Strict dual companion to B-474 (countable preimage UNION exactness), the only sigma-algebra closure case missing from the RandomVar preimage exactness suite (B-474 union, B-419 preimage union, B-456 empty preimage, B-455 total preimage, B-439 complement, B-434 relative-difference, plus binary intersection in countable_and_intersection.tex). The scoped-closure package thm:randomvar-scoped-closure-package currently only mentions countable union; a probability-theory referee would call this out. Concrete sigma-algebra closure, not a parameter transport — proof mirrors the union proof with exists -> forall. File 171 lines, safe landing.
+
+---
+
+### B-537 - DirichletUnit inherited unit-product closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | DirichletUnit inherited unit-product closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If two accepted DirichletUnitUp unit rows over the same RingOfIntegersUp and AbGroupUp dependency packets carry their inverse/unit-product witnesses, then the inherited AbGroupUp operation endpoint is again a visible DirichletUnitUp unit row with the shared Pkg and Cont provenance.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex`
+
+Rationale:
+DirichletUnitUp is a number-theoretic surface with no active or completed BOARD target found in the target/state scans, while the body file is small and concrete. The carrier explicitly lists a visible unit row u and an inverse/unit-product witness row iota at papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex:11-15, and the public abelian-group dependency is restricted to unit rows accepted by the RingOfIntegersUp dependency at papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex:55-64. The later AbGroup projection exposes operation, inverse, identity, and classifier rows at papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex:114-135, but there is no theorem in the file asserting that the inherited product of two visible unit rows is again a DirichletUnitUp visible unit row. This is a concrete missing closure law, not a marker/status update or abstract classifier transport.
+
+---
+
+### B-516 - LPDuality primal feasibility binary convex closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | LPDuality primal feasibility binary convex closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+In a finite LPDualityUp ordered-field row, if x and x_prime are PrFeas_{A,b}, and a,b are scalar coefficients with NonNeg_F(a), NonNeg_F(b), and (a +_F b) sim_F 1_F, then the componentwise sum lambda_j := a cdot_F x_j +_F b cdot_F x_prime_j satisfies PrFeas_{A,b}(lambda).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex`
+
+Rationale:
+Structural shape result for LPDualityUp's feasible set — convex combination closure. Existing chapter theorems (B-444 weak duality, B-447 complementary slackness, B-429 feasible weak duality) all operate on point feasible witnesses; none records that the primal feasible set is closed under convex combinations, which is the property that gives LPDualityUp its convex-polytope identity downstream. Proof reduces to nonneg-scalar monotonicity + finite-sum monotonicity + finite distributivity, all already exposed in def:lpduality-finite-ordered-field-feasibility-row. Distinct closure target, not parameter echo of existing duality results.
+
+---
