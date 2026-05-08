@@ -240,6 +240,48 @@ representative, metric structure, or $\RealUp$ completeness claim is used in
 either direction.
 \end{proof}
 
+\begin{theorem}[StreamNameUp finite-window common refinement export]
+\label{thm:streamname-finite-window-common-refinement-export}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, and let $B_L$,
+$B_R$, and $B$ be $\mathsf{ProbeBundle}$ windows. Suppose every certified
+unary observation carried by $B_L$ is an $\mathsf{InBundle}$ member of $B$,
+and every certified unary observation carried by $B_R$ is an
+$\mathsf{InBundle}$ member of $B$. Then
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B)
+\quad\Longrightarrow\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_L)
+\ \wedge\
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_R)
+\ \wedge\
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathsf{BAppend}(B_L,B_R)).
+$$
+Thus a displayed common finite observation window restricts to both component
+windows and assembles the appended window consumed by finite-partition
+arguments.
+\end{theorem}
+
+\begin{proof}
+Start with the classifier over the displayed common window $B$. Apply
+\autoref{thm:streamname-finite-window-restriction-export} to the inclusion of
+$B_L$ in $B$ to obtain the left component classifier.
+
+Apply the same restriction export to the inclusion of $B_R$ in $B$. This gives
+the right component classifier over the same certified observation maps
+$s,t$.
+
+Now apply
+\autoref{thm:streamname-finite-window-union-composition} to the two component
+classifiers. The assembly direction gives the classifier over
+$\mathsf{BAppend}(B_L,B_R)$.
+
+Every row used in the construction remains a finite-window row:
+$\mathsf{ProbeBundle}$ membership, $\mathsf{InBundle}$ inclusions, pointwise
+$\RatUp$ classifiers, $\hsame$ transport, and finite ledger rows. No
+completion object, metric row, quotient representative, regularity condition,
+or $\RealUp$ completeness datum is introduced.
+\end{proof}
+
 \begin{theorem}[StreamNameUp empty finite-window vacuity]
 \label{thm:streamname-public-empty-window-vacuity}
 For certified observation maps $s,t:\Hist\to\Hist$,
@@ -487,6 +529,36 @@ no $\RealUp$ completion or completeness, no metric completeness, no arithmetic
 or order closure, and no machine-checked bridge data.  Repacking exactly those
 rows establishes the scoped $\StreamNameUp$ interface and no stronger bridge
 or completion claim.
+\end{proof}
+
+\begin{theorem}[StreamNameUp RealUp finite-window seal boundary]
+\label{thm:streamname-realup-finite-window-seal-boundary}
+A public $\StreamNameUp$ package, together with finite-window classifier rows,
+constant and reindexing laws, and RatUp endpoint observations, supplies exactly
+the finite observation interface consumed by later $\RealUp$ and $\RegSeqRat$
+seal rows.  The interface consists of the $\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ rows over $\mathsf{BHist}$, the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows over certified finite
+bundles, the empty-window boundary, endpoint readbacks in $\RatUp$, and the
+constant/reindexing stability rows.
+
+This boundary supplies no RegSeqRat regularity, RealUp completion, metric
+completeness, quotient carrier, arithmetic or order closure, or trichotomy.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-public-finite-window-interface}.  It provides the
+finite-window classifier rows, endpoint package, coverage/exhaustion,
+reindexing stability, and finite-window structural laws.
+
+Apply \autoref{thm:streamname-finite-window-reindexing-stability} for certified
+transport of those windows, and apply
+\autoref{thm:streamname-public-interface-export-package} to repack the
+countable-name and finite-window rows as the public export.
+
+Finally apply \autoref{thm:streamname-scoped-interface-package}.  Its negative
+boundary is inherited unchanged, so the exported rows can be read by
+$\RealUp$ and $\RegSeqRat$ seal sites only as finite observations, not as
+regularity, completion, metric, quotient, or trichotomy data.
 \end{proof}
 
 \closureat{StreamNameUp}{matureStr}[BEDC.Derived.StreamNameUp.RatStreamName\_certificate\_fields]
