@@ -6,5 +6,58 @@ The Chern-Weil interface $\ChernWeilUp$ packages the cohomology-class invariants
 \section{Carrier definition}
 \label{sec:chernweil-carrier}
 
+\begin{definition}[Chern-Weil source envelope]
+\label{def:chernweil-source-envelope}
+A $\ChernWeilUp$ source envelope is a finite $\mathsf{BHist}$ packet
+$$
+\mathcal{W}=(\mathcal{R},\mathcal{D},p,\gamma,\lambda)
+$$
+where $\mathcal{R}$ is a public $\NameCert_{\CurvatureUp}$ packet carrying the curvature boundary row and provenance exported by \autoref{thm:curvature-namecert-scope-obligation}, $\mathcal{D}$ is a $\NameCert_{\DeRhamUp}$ packet carrying the cohomology row into which the characteristic class is read, $p:\mathsf{BHist}$ is the shared $\Cont$ provenance row connecting the curvature source to the de~Rham projection, $\gamma:\mathsf{BHist}$ is the ledger face recording the chosen connection used to read the curvature polynomial, and $\lambda:\mathsf{BHist}$ is the characteristic-class row returned by the de~Rham classifier after the $\Cont$ projection.
+
+The envelope is admitted only when the curvature boundary, the de~Rham cohomology row, the shared $\Cont$ provenance, the chosen-connection ledger face, and the characteristic-class row all occur as rows of the same finite history packet. Thus $\ChernWeilUp$ carries the concrete curvature-to-cohomology passage rather than an ambient characteristic-class operation.
+\end{definition}
+
+\begin{definition}[Chern-Weil characteristic classifier]
+\label{def:chernweil-characteristic-classifier}
+Two $\ChernWeilUp$ source envelopes $\mathcal{W}$ and $\mathcal{W}'$ classify the same Chern-Weil object exactly when $\hsame$ preserves their $\NameCert_{\CurvatureUp}$ source rows and the $\NameCert_{\DeRhamUp}$ classifier returns the same characteristic-class row after projecting both packets through their carried $\Cont$ provenance rows. Equivalently, the classifier ignores only the hidden connection ledger face $\gamma$ and compares the exported curvature source row together with the de~Rham row $\lambda$ read from it.
+\end{definition}
+
 \section{The certificate}
 \label{sec:chernweil-certificate}
+\closureat{ChernWeilUp}{seedStr}
+
+\begin{theorem}[Chern-Weil curvature-de Rham obligation surface]
+\label{thm:chernweil-curvature-derham-obligation-surface}
+The public obligation surface of a $\ChernWeilUp$ source envelope consists of the $\NameCert_{\CurvatureUp}$ export row of \autoref{thm:curvature-namecert-scope-obligation}, the $\NameCert_{\DeRhamUp}$ cohomology row carried by the de~Rham certificate, the shared $\Cont$ provenance row, the chosen-connection ledger face, and the characteristic-class row returned by the de~Rham classifier. No connection-dependent differential form is exported except through the curvature source row and the hidden ledger face.
+\end{theorem}
+\begin{proof}
+Project the envelope of \autoref{def:chernweil-source-envelope}. Its curvature component exposes the public boundary, Bianchi, transport, and provenance rows supplied by $\NameCert_{\CurvatureUp}$, and \autoref{thm:curvature-namecert-scope-obligation} is the export rule for those rows.
+
+Project the de~Rham component next. The de~Rham packet supplies the cohomology row into which the characteristic-class row $\lambda$ is read, while the carried $\Cont$ provenance row records that this readout is made from the same finite history packet as the curvature source.
+
+The remaining row is the connection ledger face $\gamma$. It is listed as a hidden face because the envelope needs it to witness the chosen connection, but the classifier of \autoref{def:chernweil-characteristic-classifier} never exports it as part of the public characteristic class.
+\end{proof}
+
+\begin{theorem}[Chern-Weil connection-choice stability]
+\label{thm:chernweil-connection-choice-stability}
+Changing the selected connection in a $\ChernWeilUp$ source envelope changes only the hidden ledger face $\gamma$ when the transported curvature source rows are related by $\hsame$ and the de~Rham classifier returns the same characteristic-class row after $\Cont$ projection. Under those hypotheses the two envelopes classify the same $\ChernWeilUp$ object.
+\end{theorem}
+\begin{proof}
+Begin with two envelopes whose visible curvature source rows are related by $\hsame$. The public curvature certificate transports the boundary and provenance rows through the same $\NameCert_{\CurvatureUp}$ export surface used in \autoref{thm:chernweil-curvature-derham-obligation-surface}.
+
+Apply the shared $\Cont$ projections to the transported rows. By hypothesis the de~Rham classifier returns the same characteristic-class row after those projections, so the visible cohomology row $\lambda$ is unchanged.
+
+The chosen connection can therefore differ only in the ledger face $\gamma$. Since \autoref{def:chernweil-characteristic-classifier} compares the curvature source and the de~Rham class while ignoring that hidden face, the two envelopes have the same classifier value.
+\end{proof}
+
+\begin{theorem}[Chern-Weil characteristic ledger exactness]
+\label{thm:chernweil-characteristic-ledger-exactness}
+The $\ChernWeilUp$ ledger is exact: every admitted source envelope is covered by a curvature source row, a de~Rham cohomology row, a shared $\Cont$ provenance row, a selected-connection ledger face, and a characteristic-class row; and every public classifier comparison is sound exactly when it is generated by $\hsame$ on the curvature source and equality of the de~Rham characteristic-class row after $\Cont$ projection.
+\end{theorem}
+\begin{proof}
+Coverage is by projection from the displayed envelope. Each admitted packet contains the curvature certificate row, the de~Rham certificate row, the shared provenance row, the connection ledger face, and the characteristic-class row as finite $\mathsf{BHist}$ data.
+
+For soundness, take a public classifier comparison. The definition requires $\hsame$ on the curvature source row and agreement of the de~Rham characteristic-class row after the carried $\Cont$ projections, so every accepted comparison is generated by listed envelope data.
+
+Conversely, if those listed rows are present and the two classifier conditions hold, repack them as the comparison of \autoref{def:chernweil-characteristic-classifier}. No unlisted host connection, differential-form representative, or external characteristic-class operator is needed.
+\end{proof}
