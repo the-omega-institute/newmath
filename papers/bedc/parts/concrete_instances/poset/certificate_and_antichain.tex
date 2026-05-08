@@ -1,0 +1,304 @@
+\section{The certificate}
+
+\begin{definition}[POSet source specification]
+\label{def:poset-source-specification}
+The source is a certified preorder carrier plus an antisymmetry field.
+\end{definition}
+
+\begin{definition}[POSet pattern specification]
+\label{def:poset-pattern-specification}
+The pattern is preorder relation formation with classifier collapse from bidirectional comparison.
+\end{definition}
+
+\begin{definition}[POSet classifier specification]
+\label{def:poset-classifier-specification}
+The classifier is the preorder carrier classifier.
+\end{definition}
+
+\begin{theorem}[Prefix antisymmetry]
+\label{thm:poset-prefix-antisymmetry}
+For the concrete unary history prefix preorder, if $h\le k$ and $k\le h$,
+then $h$ and $k$ are classified the same by the preorder classifier.
+\end{theorem}
+\leanvariant{BEDC.Derived.PreorderUp.PreorderPrefixLE\_antisymm\_hsame}
+\begin{proof}
+Unpack the two prefix witnesses. Substituting the first continuation into the
+second gives a loop from $h$ through the appended forward and backward tails.
+Right-unit uniqueness and append-empty inversion force the forward tail to be
+$\emp$, so the first continuation reduces to $\hsame(h,k)$, which is the
+classifier specification.
+\end{proof}
+
+\begin{theorem}[Prefix classifier exactness for concrete POSet]
+\label{thm:poset-prefix-classifier-exactness}
+For carrier histories $h,k$ in $\mathsf{PreorderCarrier}$, the carrier-aware
+classifier relation
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$ holds
+exactly when $\mathsf{PreorderPrefixLE}(h,k)$ and
+$\mathsf{PreorderPrefixLE}(k,h)$ both hold.
+\end{theorem}
+\begin{proof}
+Assume first that the carrier-aware classifier holds. Its equality content is
+$\hsame(h,k)$, and symmetry gives $\hsame(k,h)$. Applying
+\autoref{thm:preorder-prefix-le-of-hsame} in the two orientations gives
+$\mathsf{PreorderPrefixLE}(h,k)$ and $\mathsf{PreorderPrefixLE}(k,h)$.
+
+Conversely, assume both prefix comparisons and keep the carrier hypotheses for
+$h$ and $k$. By \autoref{thm:poset-prefix-antisymmetry}, the opposing
+comparisons collapse to $\hsame(h,k)$. Combining this equality content with the
+two carrier witnesses reassembles
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$.
+\end{proof}
+
+\begin{theorem}[Prefix interval classifier collapse for concrete POSet]
+\label{thm:poset-prefix-interval-classifier-collapse}
+For carrier histories $h,k,r$ in $\mathsf{PreorderCarrier}$, if
+$\mathsf{PreorderPrefixLE}(h,k)$, $\mathsf{PreorderPrefixLE}(k,r)$, and
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,r)$ hold,
+then both
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$ and
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(k,r)$ hold.
+
+The per-object fields are as follows: the traditional target is interval
+collapse for order-convex consumers; the BEDC source is the unary
+$\mathsf{BHist}$ prefix order; the carrier is $\mathsf{PreorderCarrier}$; the
+classifier is $\mathsf{PreorderCarrierClassifierSpec}$; stability comes from
+prefix transitivity and antisymmetry; the ledger records the chains
+$h\le k\le r$ and $r\le h\le k$; the core theorem is this interval classifier
+collapse; exactness is inherited from
+\autoref{thm:poset-prefix-classifier-exactness}; the standard bridge is the
+finite unary prefix order; and the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the endpoint classifier
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,r)$. It
+provides carrier data for $h$ and $r$ together with $\hsame(h,r)$. The displayed
+comparison $\mathsf{PreorderPrefixLE}(h,k)$ and
+\autoref{thm:preorder-prefix-preserves-carrier} give the carrier witness for
+$k$.
+
+Symmetry of $\hsame(h,r)$ and \autoref{thm:preorder-prefix-le-of-hsame} give
+$\mathsf{PreorderPrefixLE}(r,h)$. Compose this with
+$\mathsf{PreorderPrefixLE}(k,r)$ by
+\autoref{thm:preorder-prefix-transitivity} to obtain
+$\mathsf{PreorderPrefixLE}(k,h)$. Now
+\autoref{thm:poset-prefix-antisymmetry} applies to
+$\mathsf{PreorderPrefixLE}(h,k)$ and $\mathsf{PreorderPrefixLE}(k,h)$, yielding
+$\hsame(h,k)$.
+
+For the right subinterval, compose
+$\mathsf{PreorderPrefixLE}(r,h)$ with the displayed comparison
+$\mathsf{PreorderPrefixLE}(h,k)$ to get $\mathsf{PreorderPrefixLE}(r,k)$.
+$\mathsf{PreorderPrefixLE}(k,r)$ is already available, so
+\autoref{thm:poset-prefix-antisymmetry} gives $\hsame(k,r)$.
+
+Finally repackage the two classifier witnesses. Combine the carrier witnesses
+for $h$ and $k$ with $\hsame(h,k)$ to obtain
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$, and
+combine the carrier witnesses for $k$ and $r$ with $\hsame(k,r)$ to obtain
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(k,r)$.
+\end{proof}
+
+Thus \autoref{thm:poset-prefix-classifier-exactness} supplies the exactness
+predicate named in item 9 of
+\autoref{def:concrete-unary-prefix-poset-instance}.
+
+\begin{theorem}[Concrete $\POSetUp$ naming certificate]
+\label{thm:concrete-unary-prefix-poset-namecert}
+The tuple of \autoref{def:concrete-unary-prefix-poset-instance} supplies the
+source, pattern, classifier, stability, and ledger data of a concrete
+$\NameCert$ licensing $\POSetUp$ over
+$\mathsf{PreorderCarrier}=\mathsf{UnaryHistory}$, classifier
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})$, and
+relation $\mathsf{PreorderPrefixLE}$.
+\end{theorem}
+\begin{proof}
+The carrier, preorder, relation-congruence, and antisymmetry fields are exactly
+the fields certified in \autoref{thm:concrete-unary-prefix-poset-laws}. They
+identify the carrier with unary histories, use the carrier-aware preorder
+classifier, and close the partial-order law by prefix antisymmetry.
+
+The classifier exactness field is
+\autoref{thm:poset-prefix-classifier-exactness}. It identifies the carrier
+classifier with the two opposing prefix comparisons required by the concrete
+partial-order presentation.
+
+The ledger component records the two comparison witnesses, as specified by
+\autoref{def:poset-ledger-policy}. Repacking these source, pattern,
+classifier, stability, and ledger components gives the displayed concrete
+$\NameCert$ for $\POSetUp$.
+\end{proof}
+
+This theorem fits the per-object template as follows: the traditional target is
+the finite unary-word prefix partial order; the BEDC source is $\mathsf{BHist}$
+restricted to unary histories; the carrier is
+$\mathsf{PreorderCarrier}=\mathsf{UnaryHistory}$; the classifier is
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})$; the
+stability obligations are the concrete preorder laws, classifier congruence,
+and prefix antisymmetry; the ledger records the two comparison-tail witnesses;
+the core theorem is \autoref{thm:concrete-unary-prefix-poset-laws}; the
+exactness predicate is \autoref{thm:poset-prefix-classifier-exactness}; the
+standard bridge is the finite unary-word initial-segment order; and the status
+is $\mathsf{ProofTarget}$. This concrete tuple is the schema instance consumed
+by the POSet certificate, so Lean can target the BHist prefix construction
+rather than an abstract relation schema.
+
+\begin{theorem}[POSet public prefix closure boundary]
+\label{thm:poset-public-prefix-closure-boundary}
+For the concrete unary-prefix POSet tuple of
+\autoref{def:concrete-unary-prefix-poset-instance}, the public surface is
+exactly the following $\mathsf{BHist}$-anchored data:
+\begin{enumerate}
+  \item carrier $\mathsf{PreorderCarrier}=\mathsf{UnaryHistory}$;
+  \item classifier
+  $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})$;
+  \item relation $\mathsf{PreorderPrefixLE}$.
+\end{enumerate}
+Its preorder laws, endpoint congruence, antisymmetry, exactness, and ledger
+rows are supplied by
+\autoref{thm:concrete-unary-prefix-poset-laws},
+\autoref{thm:poset-prefix-classifier-exactness}, and
+\autoref{thm:concrete-unary-prefix-poset-namecert}. The package introduces no
+abstract carrier, abstract classifier, quotient, host equality, or
+parameterized order relation.
+\end{theorem}
+\begin{proof}
+Unfold the tuple of
+\autoref{def:concrete-unary-prefix-poset-instance}. Its carrier coordinate is
+$\mathsf{PreorderCarrier}$, which is identified there with
+$\mathsf{UnaryHistory}$ inside $\mathsf{BHist}$; its classifier coordinate is
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})$; and its
+relation coordinate is $\mathsf{PreorderPrefixLE}$.
+
+The stability rows come from
+\autoref{thm:concrete-unary-prefix-poset-laws}. That theorem supplies the
+preorder fields for $\mathsf{PreorderPrefixLE}$, endpoint congruence for the
+carrier-aware classifier, and the antisymmetry collapse under that classifier.
+
+The bidirectional-collapse row is
+\autoref{thm:poset-prefix-classifier-exactness}. It states that the
+carrier-aware classifier is exact for the two opposing prefix comparisons, so
+the public exactness field uses no quotient or external equality relation.
+
+Finally, \autoref{thm:concrete-unary-prefix-poset-namecert} repacks the source,
+pattern, classifier, stability, and ledger rows into the concrete $\NameCert$.
+Since each repacked row names the same carrier, classifier, and prefix
+relation, the public $\POSetUp$ surface is anchored in $\mathsf{BHist}$ rather
+than in an abstract carrier or parameterized order schema.
+\end{proof}
+
+\begin{theorem}[POSet antichain subcarrier certificate]
+\label{thm:poset-antichain-subcarrier-certificate}
+For a concrete $\POSetUp$ carrier $(C,\sim_C,\le_C)$ over $\mathsf{BHist}$,
+define the antichain subcarrier $A_C$ to consist of carried endpoints
+$a:\mathsf{BHist}$ such that every carried endpoint $b:\mathsf{BHist}$ with
+$a\le_C b$ or $b\le_C a$ collapses to classifier equality $a\sim_C b$. Then
+$A_C$ is a displayed BEDC subcarrier: its carrier row is inherited from $C$,
+its comparison reads are the two stored $\le_C$ ledger rows, and membership in
+$A_C$ is stable under $\hsame$ transport and the classifier-congruence fields
+of \autoref{thm:poset-public-prefix-closure-boundary}.
+\end{theorem}
+\begin{proof}
+Start from the public prefix closure boundary. It exposes the carrier
+$\mathsf{PreorderCarrier}$, the carrier classifier, the prefix relation, the
+preorder laws, relation congruence, antisymmetry, exactness, and the ledger
+rows for comparison witnesses.
+
+To build $A_C$, keep only carried endpoints of the same $\mathsf{BHist}$
+carrier and attach the displayed antichain clause. No subset quotient is
+formed: the subcarrier membership row is a package field whose inputs are the
+carried endpoint, the comparison ledger rows, and the classifier conclusion.
+
+For stability, transport the carried endpoint along $\hsame$ and use the
+relation-congruence rows from the $\POSetUp$ certificate to transport any
+comparison with a carried target. The antichain clause then returns the
+classifier equality at the source, and classifier transport repacks it at the
+target endpoint.
+\end{proof}
+
+\begin{theorem}[POSet antichain discrete NameCert]
+\label{thm:poset-antichain-discrete-namecert}
+The relation induced by $\le_C$ on the antichain subcarrier
+$A_C$ of \autoref{thm:poset-antichain-subcarrier-certificate} is the discrete
+$\POSetUp$ relation. More precisely, for $a,b\in A_C$, a displayed comparison
+$a\le_C b$ holds in the induced relation exactly when the carrier classifier
+collapses the two endpoints, and the resulting $\NameCert$ has reflexivity
+from the inherited preorder row and antisymmetry from the antichain clause.
+\end{theorem}
+\begin{proof}
+Unpack the induced relation on $A_C$. Its comparison ledger is the same
+$\le_C$ ledger stored by the ambient $\POSetUp$ package, but both endpoints now
+carry the antichain membership row.
+
+Reflexivity is inherited directly from the preorder component of
+\autoref{thm:concrete-unary-prefix-poset-laws}. Thus every endpoint of $A_C$
+has the displayed comparison to itself required by the discrete relation.
+
+For antisymmetry, suppose $a,b\in A_C$ and $a\le_C b$. The antichain clause for
+$a$ applies to the carried endpoint $b$ and collapses the comparison to
+$a\sim_C b$. Conversely, classifier equality transports the reflexive
+comparison on $a$ to a comparison with $b$ by the relation-congruence fields,
+so the induced order has no non-discrete comparison content.
+\end{proof}
+
+\begin{theorem}[POSet antichain interval heredity]
+\label{thm:poset-antichain-interval-heredity}
+For $a,b,c$ in the concrete unary-prefix $\POSetUp$ carrier, suppose that
+$a,c\in A_C$, that the comparison ledger records $a\le_C b$ and $b\le_C c$, and
+that all three endpoints carry the concrete $\mathsf{BHist}$ carrier rows. Then
+$b\in A_C$, and the two endpoint comparisons collapse to the carrier classifier:
+$$
+a\sim_C b
+\quad\hbox{and}\quad
+b\sim_C c.
+$$
+\end{theorem}
+\begin{proof}
+Compose the displayed comparisons $a\le_C b$ and $b\le_C c$ by the transitivity
+row of the concrete prefix preorder. This gives $a\le_C c$ inside the same
+comparison ledger.
+
+Apply the antichain clause for $a\in A_C$ to the carried endpoint $c$. Since
+$a\le_C c$ is available, the clause collapses the endpoints to the carrier
+classifier $a\sim_C c$.
+
+Use \autoref{thm:poset-prefix-classifier-exactness} to read this classifier
+collapse as opposing prefix comparisons between $a$ and $c$. Relation congruence
+transports the displayed comparisons $a\le_C b$ and $b\le_C c$ through the
+classifier collapse, yielding the reverse comparisons needed to apply
+\autoref{thm:poset-prefix-antisymmetry} on the two subintervals.
+
+Antisymmetry collapses $a$ with $b$ and $b$ with $c$, giving the two displayed
+classifier conclusions. To repackage $b\in A_C$, take any carried endpoint $d$
+comparable with $b$; relation congruence transports that comparison across
+$a\sim_C b$ to a comparison with $a$, the antichain clause for $a$ collapses
+$a$ with $d$, and classifier transitivity transports the collapse back to
+$b\sim_C d$.
+\end{proof}
+
+\begin{theorem}[POSet antichain functor consumer boundary]
+\label{thm:poset-antichain-functor-consumer-boundary}
+Any downstream finite-set or functor consumer of the antichain construction may
+read only the antichain carrier row of
+\autoref{thm:poset-antichain-subcarrier-certificate}, the inherited classifier,
+the comparison ledger rows, and the $\NameCert$ provenance of
+\autoref{thm:poset-antichain-discrete-namecert}. It may not read a host-level
+subset quotient, an external equality relation, or a parameterized order
+schema beyond the displayed $\mathsf{BHist}$ package rows.
+\end{theorem}
+\begin{proof}
+The construction of $A_C$ is package-local. Its carrier, classifier, relation,
+and comparison ledger are inherited rows from the concrete $\POSetUp$
+certificate, while the antichain clause is an additional displayed membership
+field over carried endpoints.
+
+The discrete $\NameCert$ of
+\autoref{thm:poset-antichain-discrete-namecert} repacks those rows into the
+consumer-facing order surface. Finite-set consumers therefore see a finite
+list of carried endpoints and comparison witnesses; functor consumers see the
+same classifier and relation-congruence provenance.
+
+Since every field is read from $\mathsf{BHist}$, $\hsame$, the comparison
+ledger, and $\NameCert$ provenance, the consumer boundary has no access to a
+host subset quotient or an unrecorded ambient relation.
+\end{proof}

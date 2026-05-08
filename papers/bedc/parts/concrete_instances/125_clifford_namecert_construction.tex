@@ -121,7 +121,43 @@ Start with the vector-injection constructor of \autoref{def:clifford-carrier-pac
 
 Use the $\BilinFormUp$ dependency to read the diagonal scalar row $q(v)$. The scalar endpoint is inserted into the Clifford carrier by the unit constructor and the scalar-row classifier supplied by the source certificate.
 
-The quadratic boundary constructor then contributes the displayed classifier row. Transport of the vector representative uses $\hsame$ and the $\TensorProductUp$ classifier; transport of the scalar endpoint uses the $\BilinFormUp$ classifier. Induction on the generated boundary witness has the unit and vector cases empty, the product case closed by congruence, and the boundary case exactly the relation above.
+	The quadratic boundary constructor then contributes the displayed classifier row. Transport of the vector representative uses $\hsame$ and the $\TensorProductUp$ classifier; transport of the scalar endpoint uses the $\BilinFormUp$ classifier. Induction on the generated boundary witness has the unit and vector cases empty, the product case closed by congruence, and the boundary case exactly the relation above.
+	\end{proof}
+
+\begin{theorem}[Clifford quadratic boundary confluence]
+\label{thm:clifford-quadratic-boundary-confluence}
+Suppose two accepted Clifford word histories are obtained from the same accepted
+tensor-word context by applying quadratic-boundary rows to two visible
+vector-square subwords, possibly in different orders, with accepted left and
+right tensor contexts around each local square. Then the two resulting endpoints
+are related by the generated $\CliffordUp$ classifier. The comparison uses only
+the local quadratic rows, tensor-context stability, and transitivity of the
+generated classifier; it does not use host quotient-algebra equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.CliffordUp.CliffordClassifierPackage\_quadratic\_boundary\_confluence}
+\begin{proof}
+First isolate the two local visible squares inside the accepted tensor word. For
+each square, \autoref{thm:clifford-quadratic-relation-obligation} supplies the
+classifier row from $v \cdot v$ to the corresponding scalar-unit endpoint
+$q(v) \cdot 1$.
+
+Next place each local classifier row back inside its accepted left and right
+tensor contexts. Apply
+\autoref{thm:clifford-product-relation-stability-obligations} to close the row
+under the surrounding product contexts, so each local reduction becomes a
+classifier row between accepted whole-word histories.
+
+If the two reductions are disjoint, perform them in either order by applying the
+same context-stability step to the remaining visible square. If one context is
+nested in the other, first regard the inner reduction as a classifier row inside
+the outer tensor context, and then apply the outer quadratic row with the inner
+endpoint already transported.
+
+In both cases the generated classifier contains the two contextualized local
+steps. Transitivity of the generated relation composes the first-order path with
+the reverse of the second-order path, yielding a classifier witness between the
+two endpoints. Since every step is generated inside the Clifford
+$\mathsf{BHist}$ carrier, no host quotient equality is read.
 \end{proof}
 
 \begin{theorem}[Clifford product stability obligation]

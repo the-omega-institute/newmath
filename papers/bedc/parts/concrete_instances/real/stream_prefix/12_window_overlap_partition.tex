@@ -44,6 +44,58 @@ $k=m$ shared by both windows. Hence the collected endpoint classifiers repack
 as $\mathsf{RealStreamWindowClassifier}(x,y,n,m+r)$.
 \end{proof}
 
+\begin{theorem}[Real stream window concatenation exactness]
+\label{thm:real-stream-window-overlap-concatenation-exactness}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor $n$, a
+wide bound $w$, and a certified finite concatenation spine $P$ over $(n,w)$
+whose segment windows are $(n_i,r_i)$, the wide classifier
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,w)
+$$
+is equivalent to any certified finite concatenation of the segment classifiers
+named by $P$:
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,w)
+\Longleftrightarrow
+\mathsf{ConcatSpine}_{P}
+\bigl(\mathsf{RealStreamWindowClassifier}(x,y,n_i,r_i)\bigr).
+$$
+The equivalence preserves exactly the scoped $\RealUp$ read surface: endpoint
+$\RatUp$ classifiers, $\mathsf{DyadicRatCore}$ observation rows, $\RegSeqRat$
+spine rows, $\StreamNameUp$ request names, $\mathsf{UnaryHistory}$ witnesses,
+$\hsame$ transports, and finite ledger rows. It does not use a completion
+object, metric-completeness data, arithmetic or order closure, quotient data,
+Classical data, or a bridge row.
+\end{theorem}
+\begin{proof}
+First convert the concatenation spine to the partition fold. The certified
+spine rows record exactly the same finite list of anchors, radii, unary
+$\mathsf{append}$ displays, and $\mathsf{Cont}$ transitions as the partition
+spine in \autoref{thm:real-stream-window-finite-partition-fold}. Repacking
+these rows changes only the bracketing of the finite segment list, not the
+displayed observations.
+
+Apply \autoref{thm:real-stream-window-finite-partition-fold}. It identifies the
+wide classifier at $(n,w)$ with the finite conjunction of the segment windows
+named by the spine. The certified concatenation spine is a finite bracketing of
+the same conjunction, so associating the displayed rows along the spine gives
+the stated equivalence.
+
+We now identify the public boundary carried by the equivalence. Apply
+\autoref{thm:realup-window-partition-read-surface}; both the wide window and
+the segment presentation expose exactly the endpoint $\RatUp$ rows, dyadic
+observation rows, $\RegSeqRat$ rows, $\StreamNameUp$ names, unary witnesses,
+$\hsame$ transports, and finite ledger rows listed in the statement.
+
+Finally apply \autoref{thm:realup-window-partition-stability-package}. Its
+transport rows show that changing from the partition fold to the concatenation
+spine preserves the same reflexivity, symmetry, transitivity, and pointwise
+$\hsame$ stability package. Since the three cited surfaces already exclude
+completion, metric-completeness, arithmetic and order closure, quotient,
+Classical, and bridge data, the concatenation equivalence introduces none of
+those rows.
+\end{proof}
+
 The ten-field fit is: traditional target overlapping finite rational
 observation intervals; BEDC source $\mathsf{RealStreamWindowClassifier}$ over
 RatUp endpoint classifiers; carrier rational-observation streams; classifier
