@@ -142,4 +142,41 @@ theorem CurvatureBracketCarrier_boundary_source_obligation
     (And.intro boundaryProjection.right.left
       (And.intro boundaryProjection.right.right.left boundaryProjection.right.right.right.left))
 
+theorem CurvatureBracketCarrier_connection_classifier_stability
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
+      curvatureLedger base' fibre' sec' tangentA' tangentB' derivativeA' derivativeB'
+      provenance' ledgerA' ledgerB' boundary' curvatureLedger' : BHist} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance
+        ledgerA ledgerB boundary curvatureLedger ->
+      hsame base base' ->
+        hsame fibre fibre' ->
+          hsame sec sec' ->
+            hsame tangentA tangentA' ->
+              hsame tangentB tangentB' ->
+                hsame derivativeA derivativeA' ->
+                  hsame derivativeB derivativeB' ->
+                    hsame provenance provenance' ->
+                      ConnectionCarrierPacket base' fibre' sec' tangentA' derivativeA'
+                          provenance' ledgerA' ->
+                        ConnectionCarrierPacket base' fibre' sec' tangentB' derivativeB'
+                            provenance' ledgerB' ->
+                          Cont derivativeA' derivativeB' boundary' ->
+                            Cont boundary' provenance' curvatureLedger' ->
+                              CurvatureBracketCarrier base' fibre' sec' tangentA' tangentB'
+                                  derivativeA' derivativeB' provenance' ledgerA' ledgerB'
+                                  boundary' curvatureLedger' ∧
+                                hsame boundary boundary' ∧
+                                  hsame curvatureLedger curvatureLedger' := by
+  intro carrier _sameBase _sameFibre _sameSec _sameTangentA _sameTangentB sameDerivativeA
+    sameDerivativeB sameProvenance packetA' packetB' boundaryCont' curvatureCont'
+  have carrier' :
+      CurvatureBracketCarrier base' fibre' sec' tangentA' tangentB' derivativeA' derivativeB'
+        provenance' ledgerA' ledgerB' boundary' curvatureLedger' :=
+    And.intro packetA' (And.intro packetB' (And.intro boundaryCont' curvatureCont'))
+  have sameBoundary : hsame boundary boundary' :=
+    cont_respects_hsame sameDerivativeA sameDerivativeB carrier.right.right.left boundaryCont'
+  have sameCurvature : hsame curvatureLedger curvatureLedger' :=
+    cont_respects_hsame sameBoundary sameProvenance carrier.right.right.right curvatureCont'
+  exact And.intro carrier' (And.intro sameBoundary sameCurvature)
+
 end BEDC.Derived.CurvatureUp

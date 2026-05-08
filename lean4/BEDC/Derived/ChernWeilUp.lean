@@ -191,4 +191,35 @@ theorem ChernWeilSourceEnvelope_connection_choice_stability
             (And.intro ledgerClass' classRowReadback))))
   exact And.intro envelope' (And.intro classRowUnary classRowReadback)
 
+theorem ChernWeilCarrierEnvelope_characteristic_ledger_exactness
+    {curvature derham polynomial connectionLedger characteristic provenance endpoint connectionLedger'
+      endpoint' : BHist} :
+    ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic provenance
+        endpoint ->
+      hsame connectionLedger connectionLedger' ->
+        Cont provenance connectionLedger' endpoint' ->
+          ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger' characteristic
+              provenance endpoint' ∧
+            hsame endpoint endpoint' ∧ UnaryHistory endpoint' := by
+  intro envelope sameConnectionLedger endpointCont'
+  have obligation :=
+    ChernWeilSourceEnvelope_carrier_obligation envelope
+  have connectionLedgerUnary' : UnaryHistory connectionLedger' :=
+    unary_transport envelope.right.right.right.left sameConnectionLedger
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed obligation.right.left connectionLedgerUnary' endpointCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameConnectionLedger
+      envelope.right.right.right.right.right.right endpointCont'
+  have envelope' :
+      ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger' characteristic
+        provenance endpoint' :=
+    And.intro envelope.left
+      (And.intro envelope.right.left
+        (And.intro envelope.right.right.left
+          (And.intro connectionLedgerUnary'
+            (And.intro envelope.right.right.right.right.left
+              (And.intro envelope.right.right.right.right.right.left endpointCont')))))
+  exact And.intro envelope' (And.intro sameEndpoint endpointUnary')
+
 end BEDC.Derived.ChernWeilUp
