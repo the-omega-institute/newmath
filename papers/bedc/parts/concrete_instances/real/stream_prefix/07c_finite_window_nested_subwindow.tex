@@ -30,6 +30,52 @@ places $j+(q+k)$ inside the original window. Thus the displayed classifier is
 exactly the repeated finite-window extraction.
 \end{proof}
 
+\begin{theorem}[Real stream nested finite-window endpoint package]
+\label{thm:real-stream-window-nested-endpoint-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, indices
+$n,j,q,r,s,m$, and histories $a,b,z_X,z_Y:\Hist$, assume
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m),
+$$
+$j+r\le m$, $q+s\le r$,
+$\hsame(x((n+j)+q),\Eone(a))$, and
+$\hsame(y((n+j)+q),\Eone(b))$. Then the nested endpoint carries the following
+package:
+\begin{enumerate}
+\item $\mathsf{RealStreamWindowClassifier}(x,y,(n+j)+q,s)$;
+\item $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$;
+\item $\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land
+\hsame(a,b)$;
+\item $\mathsf{PositiveUnaryDenominator}(x((n+j)+q))\land
+\mathsf{PositiveUnaryDenominator}(y((n+j)+q))$;
+\item $\mathsf{UnaryHistory}(x((n+j)+q))\land
+\mathsf{UnaryHistory}(y((n+j)+q))\land
+(\hsame(x((n+j)+q),\emp)\to\mathsf{False})\land
+(\hsame(y((n+j)+q),\emp)\to\mathsf{False})$;
+\item $(\hsame(x((n+j)+q),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(y((n+j)+q),\Ezero(z_Y))\to\mathsf{False})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-window-nested-subwindow-extraction} to the source
+window with the displayed bounds. This produces the nested finite-window row
+$\mathsf{RealStreamWindowClassifier}(x,y,(n+j)+q,s)$.
+
+Next read the selected endpoint of that nested window at offset $0$. The
+bound $0\le s$ lets
+\autoref{thm:real-stream-window-selected-full-shape-readback-package} apply
+to the nested window, with anchor $(n+j)+q$ and displayed one-extension rows
+for $x((n+j)+q)$ and $y((n+j)+q)$.
+
+The selected full-shape readback package supplies the endpoint
+$\RatUp$ classifier, the positive unary denominator rows, the unary endpoint
+rows, the two nonempty exclusions, the two zero-headed exclusions for
+$z_X$ and $z_Y$, and the tail readback
+$\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b)$.
+Repack these rows together with the nested window obtained in the first step.
+\end{proof}
+
 The ten-field fit is: traditional target nested finite RealUp observation
 windows; BEDC source $\mathsf{RealStreamWindowClassifier}$ over
 rational-observation streams; carrier rational-observation streams; classifier

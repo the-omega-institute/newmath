@@ -13629,3 +13629,28 @@ Rationale:
 Belongs to ch:concrete-instances-matching-namecert. Diestel Graph Theory §1.1 / Bondy-Murty Graph Theory §16.1 (every subgraph of a matching that consists of edges and shares no vertex with the matching's edges is itself a matching — the textbook statement does not assume finite enumeration). The chapter (200 lines) currently has only the strictly stronger-hypothesis version thm:matching-finite-subset-closure at line 38 (B-510), which requires FinSetEdgeSubset (i.e. a HistSpine enumeration witness) on N; reading its proof (lines 53-75) shows the spine witness is never actually used — only the inclusion row \forall e. N(e)\to M(e) is consumed. Dropping the finite-enumeration hypothesis is a genuine textbook generalization. Closes in 1-3 rounds: the proof of the stronger theorem is identical to the existing finite-subset proof with the spine witness removed, reading directly from def:matching-carrier-and-finite-edge-subset at line 14.
 
 ---
+
+### B-539 - SpectralSeq boundary rows enter successor cycles
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | SpectralSeq boundary rows enter successor cycles |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a SpectralSeqUp page carrier whose differential ledger includes the displayed square-zero row for d_r, any boundary representative read through the homology-page readback h is classified as a cycle row on the successor-page surface.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/156_spectralseq_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/76_homology_namecert_construction.tex`
+
+Rationale:
+SpectralSeqUp is a thin homological interface with only a carrier, classifier, obligation surface, differential-ledger stability, and convergence boundary; its carrier says h identifies each successor page with the HomologyUp cycle row of d_r modulo the displayed boundary row at papers/bedc/parts/concrete_instances/156_spectralseq_namecert_construction.tex:24-26, and the obligation surface lists differential-square rows plus homology-page readback rows at papers/bedc/parts/concrete_instances/156_spectralseq_namecert_construction.tex:60-68. The existing stability theorem preserves readback under classifier transport at papers/bedc/parts/concrete_instances/156_spectralseq_namecert_construction.tex:86-110, but it does not instantiate the concrete HomologyUp theorem that square-zero differentials send boundary carriers into cycle carriers. That substrate theorem is already present at papers/bedc/parts/concrete_instances/76_homology_namecert_construction.tex:53-67, so this candidate is a missing middle step between the spectral-sequence page surface and the homology boundary-cycle row rather than a new general theory of spectral sequences.
+
+---
