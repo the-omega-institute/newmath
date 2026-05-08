@@ -58,13 +58,26 @@ The public $\NameCert_{\SchemeUp}$ export is the SemanticNameCert surface whose 
 \end{theorem}
 \leanchecked{BEDC.Derived.SchemeUp.SchemeAffineCoverRow\_semantic\_name\_certificate}
 
-\closureat{SchemeUp}{publicStr}[BEDC.Derived.SchemeUp.SchemeAffineCoverRow\_semantic\_name\_certificate]
+\begin{theorem}[Scheme public standard bridge]\label{thm:scheme-public-standard-bridge}
+The public $\SchemeUp$ surface of \autoref{thm:scheme-public-namecert-surface} admits a standard bridge to the displayed affine-cover presentation. Forward interpretation reads BEDC $\RingedSpaceUp$ rows as locally ringed-space rows, certified $\CommRingUp$ chart rows as affine chart rings, and the affine-cover ledger as the standard affine cover. Conversely, any displayed standard affine-cover row whose point, restriction, chart, and overlap data are presented by the same BEDC carriers repacks as the public $\SchemeUp$ surface. The bridge adds no host spectrum object, quotient cover, or external sheafification row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:scheme-carrier-obligation}. It fixes the bridge domain as a $\mathsf{BHist}$ carrier assembled from the $\RingedSpaceUp$ source row, the certified $\CommRingUp$ chart rows, and the affine-cover ledger, so the forward interpretation has no additional scheme carrier to read.
+
+Apply \autoref{thm:scheme-classifier-obligation}. The locally ringed-space comparisons and the affine chart-ring comparisons are therefore exactly the displayed classifier transports across restrictions, refinements, and overlaps.
+
+Apply \autoref{thm:scheme-affine-cover-obligation}. Coverage, restriction compatibility, locality, and gluing are the ledger rows that the standard affine cover reads, and the same theorem excludes any host spectrum object, quotient cover, or external sheafification row from the public surface.
+
+For the reverse direction, start with a displayed standard affine-cover row whose point, restriction, chart, and overlap data are already carried by those BEDC rows. Repack its locally ringed-space source, chart-ring certificates, cover ledger, classifier transports, and exactness boundary through \autoref{thm:scheme-public-namecert-surface}. The resulting package is precisely the public $\SchemeUp$ surface, with no extra row beyond the carriers and ledgers already listed.
+\end{proof}
+
+\closureat{SchemeUp}{bridgedStr}[BEDC.Derived.SchemeUp.SchemeAffineCoverRow\_semantic\_name\_certificate]
 \begin{closurestatus}{\SchemeUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public surface binds the carrier predicate to $\mathsf{BHist}$, transports it by $\hsame$, records $\mathsf{Cont}$ restriction rows and $\mathsf{Pkg}$ affine-cover ledger rows, and fixes the $\RingedSpaceUp$ source rows, $\CommRingUp$ chart classifier rows, and the $\AffineVarUp$/$\ProjectiveVarUp$ consumer boundary.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The public surface is \autoref{thm:scheme-public-namecert-surface}, and the standard bridge is \autoref{thm:scheme-public-standard-bridge}, binding the carrier predicate to $\mathsf{BHist}$, transporting it by $\hsame$, recording $\mathsf{Cont}$ restriction rows and $\mathsf{Pkg}$ affine-cover ledger rows, and fixing the $\RingedSpaceUp$ source rows, $\CommRingUp$ chart classifier rows, and the $\AffineVarUp$/$\ProjectiveVarUp$ consumer boundary.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.SchemeUp.SchemeAffineCoverRow\_semantic\_name\_certificate}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close the standard bridge, full affine or projective variety certificates, or bridgeChecked verification.}
-  \upgradepath{The bridgedClosure grade requires an explicit standard bridge for the public $\SchemeUp$ surface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close full affine or projective variety certificates or bridgeChecked verification.}
+  \upgradepath{Mature closure requires downstream affine/projective examples or a machine-checked bridge target.}
 \end{closurestatus}
