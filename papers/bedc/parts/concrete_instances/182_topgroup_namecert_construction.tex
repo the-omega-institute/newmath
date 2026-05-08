@@ -428,3 +428,86 @@ consumer surface. Since every available row is either one of those transport
 families or its $\mathsf{BHist}$ provenance, the consumer has no access to an
 unlisted ambient continuity datum.
 \end{proof}
+
+\begin{theorem}[TopGroupUp root source compatibility]
+\label{thm:topgroup-root-source-compatibility}
+For every accepted $\TopGroupUp$ source-coupled continuity packet, the displayed
+$\NameCert_{\GroupUp}$ row and displayed $\NameCert_{\TopologyUp}$ row share the
+same $\mathsf{BHist}$ carrier endpoints of
+\autoref{def:topgroup-bhist-carrier}. Classifier transport between the two
+source rows is supplied by the componentwise $\hsame$ endpoint rows together
+with the finite $\Cont$ continuity ledger.
+\end{theorem}
+\begin{proof}
+Unpack the carrier by \autoref{def:topgroup-bhist-carrier}. The group source
+certificate and topology source certificate are projections of the same
+$\mathsf{BHist}$ packet, so their carrier endpoints are not independent
+objects; they are the shared endpoints carried by
+$\mathcal G=(G,T,m,i,n,\lambda,\rho)$.
+
+The componentwise $\hsame$ rows are the classifier transports attached to those
+shared endpoints. The product and inverse transport theorems,
+\autoref{thm:topgroup-product-neighbourhood-transport} and
+\autoref{thm:topgroup-inverse-neighbourhood-transport}, use those rows as the
+source and target classifiers for their continuity statements.
+
+Apply \autoref{thm:topgroup-continuity-ledger-coverage}. The finite $\Cont$
+ledger records exactly the product and inverse continuity rows over the shared
+carrier endpoints. Repack these rows to get the stated source compatibility.
+\end{proof}
+
+\begin{theorem}[TopGroupUp product-inverse obligation triad]
+\label{thm:topgroup-product-inverse-obligation-triad}
+The public $\TopGroupUp$ operation surface consists exactly of three
+obligations: carrier compatibility between $\NameCert_{\GroupUp}$ and
+$\NameCert_{\TopologyUp}$, product-neighbourhood transport, and
+inverse-neighbourhood transport. These are the rows supplied by
+\autoref{thm:topgroup-root-source-compatibility},
+\autoref{thm:topgroup-product-neighbourhood-transport},
+\autoref{thm:topgroup-inverse-neighbourhood-transport}, and
+\autoref{thm:topgroup-continuity-ledger-coverage}.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:topgroup-bhist-carrier}. The
+carrier row gives the common source surface for the group and topology
+certificates, while the operation graph rows expose only multiplication and
+inversion.
+
+\autoref{thm:topgroup-root-source-compatibility} identifies the carrier
+compatibility obligation. The product-neighbourhood transport obligation is
+exactly \autoref{thm:topgroup-product-neighbourhood-transport}, and the
+inverse-neighbourhood transport obligation is exactly
+\autoref{thm:topgroup-inverse-neighbourhood-transport}.
+
+It remains to show that the list is exhaustive. Apply
+\autoref{thm:topgroup-continuity-ledger-coverage}; the $\Cont$ ledger contains
+only the product and inverse continuity rows. Together with the shared source
+carrier row, these three obligations are the whole public operation surface.
+\end{proof}
+
+\begin{theorem}[TopGroupUp public consumer minimality]
+\label{thm:topgroup-public-consumer-minimality}
+Every downstream consumer of a $\TopGroupUp$ packet receives only the displayed
+source certificate rows, the product and inverse operation rows, the finite
+$\Cont$ rows, and the $\mathsf{Pkg}$ provenance. It receives no ambient
+topological-group object and no order, topology, or operation row outside the
+rows listed by \autoref{thm:topgroup-product-inverse-obligation-triad}.
+\end{theorem}
+\begin{proof}
+Start from the source-coupled packet of
+\autoref{def:topgroup-source-coupled-continuity-packet} and unpack its carrier
+by \autoref{def:topgroup-bhist-carrier}. Its projections are the two source
+certificates, the product and inverse graph rows, the finite $\Cont$ ledger,
+and the $\mathsf{Pkg}$ provenance row.
+
+\autoref{thm:topgroup-product-inverse-obligation-triad} repacks the operation
+rows as carrier compatibility, product-neighbourhood transport, and
+inverse-neighbourhood transport. No fourth operation row is present in the
+finite ledger.
+
+Finally apply \autoref{thm:topgroup-continuity-consumer-exhaustion}. It states
+that downstream readback is exhausted by the same transport families, their
+$\mathsf{BHist}$ provenance, $\hsame$ endpoint rows, $\Cont$ rows, and source
+$\NameCert$ rows. Thus the public consumer receives exactly the listed data and
+no ambient topological-group object.
+\end{proof}
