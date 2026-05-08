@@ -111,6 +111,40 @@ feed an endpoint classifier row.  Completion, regularity, metric, and bridge
 claims are left outside the package.
 \end{proof}
 
+\begin{theorem}[StreamNameUp finite-window restriction functoriality]
+\label{thm:streamname-finite-window-restriction-functoriality}
+Let $s,t:\Hist\to\Hist$ be certified observation maps, and let $B$ and $B'$
+be certified $\mathsf{ProbeBundle}$ windows. If
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B)$ holds and every unary
+observation row of $B'$ is also a row of $B$, in the sense that
+$$
+\mathsf{InBundle}(n,B') \to \mathsf{UnaryHistory}(n) \to
+\mathsf{InBundle}(n,B),
+$$
+then $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B')$ holds. Thus
+finite-window classification is contravariantly stable under certified
+sub-bundles of probe observations.
+\end{theorem}
+
+\begin{proof}
+Unfold
+Definition~\ref{def:rat-stream-name-finite-window-classifier}.  The classifier
+over $B'$ asks for a $\mathsf{RatHistoryClassifier}$ row at each bundled unary
+observation $n$.
+
+Fix such an $n$ with $\mathsf{InBundle}(n,B')$ and
+$\mathsf{UnaryHistory}(n)$. The displayed sub-bundle inclusion transports the
+membership witness to $\mathsf{InBundle}(n,B)$ without changing the unary
+history row.
+
+Apply the finite-window classifier over $B$ to this transported membership
+witness. It returns exactly the pointwise $\mathsf{RatHistoryClassifier}$
+row required for $B'$. Since the proof only projects from
+$\mathsf{ProbeBundle}$ membership, $\mathsf{InBundle}$, and
+$\mathsf{UnaryHistory}$ into the already certified pointwise classifier, no
+quotient, choice, RealUp completion, or regular-sequence structure is used.
+\end{proof}
+
 \begin{theorem}[StreamNameUp empty finite-window vacuity]
 \label{thm:streamname-public-empty-window-vacuity}
 For certified observation maps $s,t:\Hist\to\Hist$,
