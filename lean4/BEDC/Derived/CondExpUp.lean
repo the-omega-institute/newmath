@@ -148,4 +148,23 @@ theorem CondExpLedgerExactness_obligation
   exact ⟨preimageRows.left, preimageRows.right, carrierRows.right.left,
     carrierRows.right.right.left, carrierRows.right.right.right, orthogonalRow⟩
 
+theorem CondExpSingleton_standard_bridge_boundary
+    {targetTotal sourceTotal chosenPreimage integrable projected residual n : BHist} :
+    UnaryHistory sourceTotal ->
+      CondExpCarrierPacket targetTotal sourceTotal chosenPreimage integrable projected residual ->
+        VecSpaceSingletonCarrier n ->
+          hsame chosenPreimage sourceTotal ∧ VecSpaceSingletonCarrier projected ∧
+            VecSpaceSingletonClassifier projected BHist.Empty ∧
+              RealConstantHistoryClassifier
+                (HilbertSingletonInnerProduct (VecSpaceSingletonSmul integrable projected) n)
+                (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+                Cont projected residual integrable := by
+  intro sourceUnary packet carrierN
+  have carrierRows := CondExpCarrier_packet sourceUnary packet
+  have ledgerRows := CondExpCarrierPacket_ledger_exactness sourceUnary packet carrierN
+  exact And.intro ledgerRows.left
+    (And.intro carrierRows.right.left
+      (And.intro ledgerRows.right.left
+        (And.intro ledgerRows.right.right.left ledgerRows.right.right.right)))
+
 end BEDC.Derived.CondExpUp
