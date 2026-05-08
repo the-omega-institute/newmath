@@ -314,4 +314,34 @@ theorem ObservableBHistOperatorCarrier_operator_row_classifier_determinacy [AskS
       carrier'.right.right.right.right.right.right.right.right.left
   exact And.intro sameExpectation (And.intro sameLedger sameEndpoint)
 
+theorem ObservableBHistOperatorCarrier_hilbert_spectral_ledger_exactness [AskSetup]
+    [PackageSetup]
+    {hilbert operator spectrum expectation witness provenance ledger endpoint spectralEndpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance ledger
+        endpoint bundle pkg ->
+      Cont spectrum witness spectralEndpoint ->
+        UnaryHistory hilbert ∧ UnaryHistory operator ∧ UnaryHistory spectrum ∧
+          UnaryHistory expectation ∧ UnaryHistory witness ∧ UnaryHistory spectralEndpoint ∧
+            hsame expectation (append operator spectrum) ∧
+              hsame spectralEndpoint (append spectrum witness) ∧
+                hsame endpoint (append provenance ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier spectralEndpointRow
+  have endpointRow : Cont provenance ledger endpoint :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have spectralEndpointUnary : UnaryHistory spectralEndpoint :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.right.left
+      spectralEndpointRow
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro carrier.right.right.right.right.left
+            (And.intro spectralEndpointUnary
+              (And.intro carrier.right.right.right.right.right.right.left
+                (And.intro spectralEndpointRow
+                  (And.intro endpointRow
+                    carrier.right.right.right.right.right.right.right.right.right))))))))
+
 end BEDC.Derived.ObservableUp

@@ -291,4 +291,36 @@ theorem ModelTheoryBHistStructurePacket_carrier_classifier_stability [AskSetup] 
               (And.intro provenanceCont' (And.intro endpointCont' pkgSig')))))))
     (And.intro sameValuation (And.intro sameProvenance sameEndpoint))
 
+theorem ModelTheoryBHistStructurePacket_elementary_readback_boundary [AskSetup]
+    [PackageSetup]
+    {firstOrder structureRow valuation satisfaction elementary provenance endpoint elementaryRead
+      elementaryEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelTheoryBHistStructurePacket firstOrder structureRow valuation satisfaction elementary
+        provenance endpoint bundle pkg ->
+      Cont satisfaction elementary elementaryRead ->
+        Cont elementaryRead provenance elementaryEndpoint ->
+          UnaryHistory firstOrder ∧ UnaryHistory valuation ∧ UnaryHistory elementaryRead ∧
+            UnaryHistory elementaryEndpoint ∧ hsame elementaryRead (append satisfaction elementary) ∧
+              hsame elementaryEndpoint (append elementaryRead provenance) ∧
+                hsame endpoint (append provenance elementary) ∧ PkgSig bundle endpoint pkg := by
+  intro packet elementaryReadRow elementaryEndpointRow
+  have valuationUnary : UnaryHistory valuation :=
+    unary_cont_closed packet.left packet.right.left packet.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed valuationUnary packet.right.right.left
+      packet.right.right.right.right.right.left
+  have elementaryReadUnary : UnaryHistory elementaryRead :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left elementaryReadRow
+  have elementaryEndpointUnary : UnaryHistory elementaryEndpoint :=
+    unary_cont_closed elementaryReadUnary provenanceUnary elementaryEndpointRow
+  exact And.intro packet.left
+    (And.intro valuationUnary
+      (And.intro elementaryReadUnary
+        (And.intro elementaryEndpointUnary
+          (And.intro elementaryReadRow
+            (And.intro elementaryEndpointRow
+              (And.intro packet.right.right.right.right.right.right.left
+                packet.right.right.right.right.right.right.right))))))
+
 end BEDC.Derived.ModelTheoryUp
