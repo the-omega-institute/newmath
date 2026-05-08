@@ -103,3 +103,33 @@ exactly the root $\NameCert$ input available to downstream order surfaces;
 later selector or public export rows extend this package without replacing
 its carrier, classifier, comparison, antisymmetry, exactness, or ledger rows.
 \end{proof}
+
+\begin{theorem}[POSet root public handoff boundary]\label{thm:poset-root-public-handoff-boundary}
+Any downstream $\OrderUp$ or $\TotalOrderUp$ consumer of the $\POSetUp$ root may
+read exactly the $\mathsf{UnaryHistory}$ carrier row, the $\hsame$ classifier
+row, the inherited prefix-comparison row, the antisymmetry collapse row, the
+classifier exactness row, and the finite $\Cont$ and $\mathsf{Pkg}$ ledger rows
+assembled by \autoref{thm:poset-root-threshold-unblock-surface}. No host order
+relation, quotient equality, or representative equality is exported by this
+root handoff.
+\end{theorem}
+\begin{proof}
+First collect the transported carrier and classifier surface from
+\autoref{thm:poset-root-hsame-transport-surface}. It keeps every downstream
+endpoint inside the carried $\mathsf{UnaryHistory}$ row and transports
+comparison data only through displayed $\hsame$ rows.
+
+Next add the comparison and collapse rows. The inherited prefix relation is the
+comparison row of \autoref{def:poset-root-comparison-surface};
+\autoref{thm:poset-root-antisymmetry-surface} supplies the antisymmetry
+collapse, and \autoref{thm:poset-prefix-classifier-exactness} identifies that
+collapse with the root classifier row.
+
+Finally attach the finite ledger and threshold rows. Use
+\autoref{thm:poset-root-ledger-exhaustion-surface} for the $\Cont$ ledger and
+\autoref{thm:poset-root-threshold-unblock-surface} for the complete root input
+package. Repacking these rows gives the public handoff to $\OrderUp$ and
+$\TotalOrderUp$, and the absence clauses follow because none of the cited root
+rows exports a host order relation, quotient equality, or representative
+equality.
+\end{proof}
