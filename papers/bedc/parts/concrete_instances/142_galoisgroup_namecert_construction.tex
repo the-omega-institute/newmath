@@ -75,6 +75,7 @@ and retain the same $\mathsf{Pkg}$ row $\rho$ and $\mathsf{Cont}$ ledger
 $\lambda$. This constructs the carrier face of
 $\NameCert_{\GaloisGroupUp}$ without adding any host-field equality clause.
 \end{proof}
+\leanchecked{BEDC.Derived.GaloisGroupUp.GaloisGroupAutomorphismActionPacket\_fixed\_base\_carrier\_obligation}
 
 \begin{theorem}[GaloisGroupUp fixed-base classifier]
 \label{thm:galoisgroup-fixed-base-classifier}
@@ -761,4 +762,47 @@ By \autoref{thm:galoisgroup-identity-closure}, the unit-classified action row
 is the accepted identity row of the packet. Thus both left and right
 cancellation composites classify to the public identity boundary without
 adding any host automorphism equality.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp public group-law package]
+\label{thm:galoisgroup-public-group-law-package}
+For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the public
+$\GaloisGroupUp$ group-law package consists exactly of the identity row, the
+composition-closure row, the associative composition ledger, the inverse
+closure row, the inverse cancellation boundary, the action-ledger exactness
+row, and the public NameCert obligation boundary. Each row is read only
+through the displayed $\mathsf{BHist}$, $\mathsf{Cont}$, $\hsame$,
+$\mathsf{Pkg}$, $\NameCert_{\GaloisExtUp}$, and $\NameCert_{\GroupUp}$
+surfaces of the packet, with no host automorphism equality and no quotient of
+automorphisms.
+\end{theorem}
+\begin{proof}
+Start by projecting the packet to its displayed dependency rows. The
+$\GaloisExtUp$ side supplies the extension endpoints, classifier rows, and
+exactness ledgers, while the $\GroupUp$ side supplies the unit, multiplication,
+inverse, associativity, congruence, and inverse-law rows that can be read by
+the automorphism-action packet.
+
+The unit part of the package is exactly
+\autoref{thm:galoisgroup-identity-closure}. The multiplication part is exactly
+\autoref{thm:galoisgroup-composition-closure}, and its associativity control is
+the finite reassociation ledger of
+\autoref{thm:galoisgroup-associative-composition-ledger}.
+
+For inverses, use \autoref{thm:galoisgroup-inverse-closure} to expose the
+inverse row and \autoref{thm:galoisgroup-inverse-cancellation-boundary} to
+classify the two cancellation composites back to the identity row. These two
+rows give all inverse laws visible at the $\GaloisGroupUp$ surface.
+
+It remains to identify the boundary of the package. The action face is the
+exact action-ledger surface of
+\autoref{thm:galoisgroup-action-ledger-exactness}, and the certificate face is
+the public obligation boundary of
+\autoref{thm:galoisgroup-public-namecert-obligation-boundary}. Projecting
+those two rows shows that the package exposes precisely the listed
+$\mathsf{BHist}$, $\mathsf{Cont}$, $\hsame$, $\mathsf{Pkg}$,
+$\NameCert_{\GaloisExtUp}$, and $\NameCert_{\GroupUp}$ data. No additional
+ambient equality or quotient carrier is present in the packet shape, so the
+listed rows are exactly the consumable public group-law package.
 \end{proof}
