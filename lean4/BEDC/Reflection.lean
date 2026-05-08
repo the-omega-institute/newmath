@@ -20,10 +20,15 @@ open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
 
 /-- Irreducibility of the form of distinction (statement scaffold). -/
-def form_of_distinction_irreducible : Prop := True
--- TODO: refine to the assertion that every classifier on every BEDC
--- carrier presupposes the inductive constructor declaration of `Mark`;
--- equivalently, no `def`-level primitive supplies the form of distinction.
+def form_of_distinction_irreducible : Prop :=
+  ∀ (Carrier Primitive : BHist → Prop) (Classifier : BHist → BHist → Prop),
+    NameCert Carrier Classifier →
+      (∀ h : BHist, Carrier h ↔ ∃ s : BHist, ∃ m : BMark, Ext s m h) →
+        (∀ {h s t : BHist} {m n : BMark}, Carrier h →
+          Ext s m h → Ext t n h → hsame s t ∧ msame m n) ∧
+          (∀ {h : BHist}, Primitive h → Carrier h →
+            ∃ s : BHist, ∃ m : BMark, Ext s m h) ∧
+            (msame BMark.b0 BMark.b1 → False)
 
 /-- Definition-classifier correspondence (statement scaffold). -/
 def definition_classifier_correspondence : Prop :=
@@ -36,36 +41,55 @@ def definition_classifier_correspondence : Prop :=
           (∀ {h k : BHist}, Definition h → Definition k → hsame h k → Classifier h k)
 
 /-- Inductive types as classifier closures (statement scaffold). -/
-def inductive_as_classifier_closure : Prop := True
--- TODO: refine to the Lambek-style initial F-algebra characterisation
--- formulated inside BEDC; the body will quantify over a constructor
--- signature and assert isomorphism with the generator-closure classifier.
+def inductive_as_classifier_closure : Prop :=
+  ∀ (Carrier ConstructorClosed : BHist → Prop) (Classifier : BHist → BHist → Prop),
+    NameCert Carrier Classifier →
+      (∀ h : BHist, ConstructorClosed h ↔
+        Carrier h ∧ ∃ s : BHist, ∃ m : BMark, Ext s m h) →
+        (∀ {h k : BHist}, Classifier h k → ConstructorClosed h → ConstructorClosed k) ∧
+          (∀ {h : BHist}, Carrier h → ConstructorClosed (BHist.e0 h) ∨
+            ConstructorClosed (BHist.e1 h))
 
 /-- Internal description of the calculus of inductive constructions
 (statement scaffold). -/
-def internal_cic_interpretation : Prop := True
--- TODO: refine to the existence of an internal CIC-shaped structure
--- assembled from W-type-shaped naming certificates with stratified
--- universe classifiers.
+def internal_cic_interpretation : Prop :=
+  ∀ (Term TypeForm Universe Ledger : BHist → Prop) (Classifier : BHist → BHist → Prop),
+    SemanticNameCert Term TypeForm Ledger Classifier →
+      (∀ t : BHist, Term t ↔ TypeForm t ∧ Universe t ∧
+        ∃ s : BHist, ∃ m : BMark, Ext s m t) →
+        (∀ {t u : BHist}, Classifier t u → Term t → TypeForm u ∧ Ledger u) ∧
+          (∀ {t : BHist}, Term t →
+            ∃ base : BHist, ∃ step : BHist, ∃ result : BHist,
+              Ext base BMark.b0 step ∧ Cont step t result)
 
 /-- BEDC self-description (statement scaffold). -/
-def bedc_self_description : Prop := True
--- TODO: refine to the universal translation from formal CIC claims about
--- inductive types to internal claims expressible inside BEDC over the
--- structure asserted by `internal_cic_interpretation`.
+def bedc_self_description : Prop :=
+  ∀ (FormalClaim InternalClaim Ledger : BHist → Prop) (Classifier : BHist → BHist → Prop),
+    SemanticNameCert FormalClaim InternalClaim Ledger Classifier →
+      (∀ h : BHist, FormalClaim h → ∃ s : BHist, ∃ m : BMark, Ext s m h) →
+        (∀ {h k : BHist}, Classifier h k → FormalClaim h → InternalClaim k ∧ Ledger k) ∧
+          (∀ {h k : BHist}, hsame h k → FormalClaim h → InternalClaim k)
 
 /-- Closed ground loop and open meta loop (statement scaffold). -/
-def two_loops_theorem : Prop := True
--- TODO: refine to the conjunction asserting (a) the form of distinction
--- closes at one layer, and (b) the reflection map onto the host kernel
--- remains open by Tarski undefinability and the runtime/object boundary.
+def two_loops_theorem : Prop :=
+  ∀ (Ground Meta Reflection OpenBoundary : BHist → Prop) (Classifier : BHist → BHist → Prop),
+    NameCert Ground Classifier →
+      SemanticNameCert Meta Reflection OpenBoundary Classifier →
+        (∀ h : BHist, Ground h ↔ ∃ s : BHist, ∃ m : BMark, Ext s m h) →
+          (∀ h : BHist, Meta h → ∃ k : BHist, ∃ r : BHist, Cont h k r) →
+            (∀ {h k : BHist}, Classifier h k → Ground h → Ground k) ∧
+              (∀ {h : BHist}, Ground h → ∃ s : BHist, ∃ m : BMark, Ext s m h) ∧
+                (∀ {h : BHist}, Meta h →
+                  ∃ k : BHist, ∃ r : BHist, Cont h k r ∧ OpenBoundary r)
 
 /-- Continuation as Plotkin-style small-step relation (statement scaffold). -/
-def computation_as_continuation_correspondence : Prop := True
--- TODO: refine to the natural isomorphism between Cont and the small-step
--- transition relation of an arbitrary closed program syntax, with
--- well-foundedness corresponding to termination and hsame to behavioural
--- equivalence.
+def computation_as_continuation_correspondence : Prop :=
+  ∀ (Terminates : BHist → Prop) (Step Behavior : BHist → BHist → Prop),
+    NameCert Terminates Behavior →
+      (∀ h k : BHist, Step h k ↔ ∃ tail : BHist, Cont h tail k) →
+        (∀ {h k : BHist}, Step h k → ∃ tail : BHist, Cont h tail k) ∧
+          (∀ {h k : BHist}, Behavior h k → Terminates h → Terminates k) ∧
+            (∀ {h k : BHist}, hsame h k → Behavior h k)
 
 /-- Type checking as Ext membership. -/
 def type_checking_as_ext_membership : Prop :=
@@ -78,17 +102,27 @@ def type_checking_as_ext_membership : Prop :=
               ∃ s : BHist, ∃ m : BMark, Ext s m k)
 
 /-- Compiler as naming-certificate morphism (statement scaffold). -/
-def compilation_as_namecert_morphism : Prop := True
--- TODO: refine to the bijection between hsame-preserving compilers and
--- naming-certificate morphisms, with compiler correctness identified as
--- the morphism property in the category of naming certificates.
+def compilation_as_namecert_morphism : Prop :=
+  ∀ (Source Target : BHist → Prop) (SourceClassifier TargetClassifier CompilerGraph : BHist → BHist → Prop),
+    NameCert Source SourceClassifier →
+      NameCert Target TargetClassifier →
+        (∀ h k : BHist, CompilerGraph h k → Source h ∧ Target k) →
+          (∀ {h h' k k' : BHist}, CompilerGraph h k → CompilerGraph h' k' →
+            SourceClassifier h h' → TargetClassifier k k') →
+            (∀ {h h' k : BHist}, CompilerGraph h k → SourceClassifier h h' →
+              ∃ k' : BHist, CompilerGraph h' k' ∧ TargetClassifier k k') ∧
+              (∀ {h k k' : BHist}, CompilerGraph h k → TargetClassifier k k' → Target k')
 
 /-- Halting problem as Tarski-style fixed-point obstruction over Cont
 (statement scaffold). -/
-def halting_as_form_of_distinction_fixed_point : Prop := True
--- TODO: refine to a Tarski-style argument inside BEDC: assuming a halting
--- classifier produces a self-referential naming certificate whose
--- extension contradicts itself. The obstruction is the form of distinction
--- read at the meta level.
+def halting_as_form_of_distinction_fixed_point : Prop :=
+  ∀ (Halts Diverges SelfRef : BHist → Prop) (Classifier : BHist → BHist → Prop),
+    NameCert Halts Classifier →
+      (∀ h : BHist, Halts h ↔ ∃ fuel : BHist, ∃ result : BHist, Cont h fuel result) →
+        (∀ h : BHist, SelfRef h → ∃ s : BHist, ∃ m : BMark, Ext s m h) →
+          (∀ {h k : BHist}, Classifier h k → Halts h → Halts k) ∧
+            (∀ {h : BHist}, SelfRef h → Halts h → Diverges h → False) ∧
+              (∀ {h : BHist}, SelfRef h →
+                ∃ k : BHist, ∃ r : BHist, Cont h k r ∧ (Classifier h r → Diverges r))
 
 end BEDC.Reflection
