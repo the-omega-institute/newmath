@@ -1,12 +1,19 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.BilinFormUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def BilinFormBHistObligationSurface
@@ -85,6 +92,42 @@ theorem BilinFormBHistObligationSurface_symmetry_antisymmetry_obligations
                 (And.intro swappedScalarLedgerCont swappedLedgerCont)))))
   · exact And.intro sameEndpoint
       (And.intro sameScalarLedger sameLedger)
+
+theorem BilinFormBHistObligationSurface_nondegeneracy_ledger_exactness_obligations
+    {left right scalar additive endpoint scalarLedger ledger leftZero rightZero separation : BHist} :
+    BilinFormBHistObligationSurface left right scalar additive endpoint scalarLedger ledger ->
+      Cont left BHist.Empty leftZero ->
+        Cont right BHist.Empty rightZero ->
+          Cont endpoint BHist.Empty separation ->
+            UnaryHistory leftZero ∧ UnaryHistory rightZero ∧ UnaryHistory separation ∧
+              hsame leftZero left ∧ hsame rightZero right ∧ hsame separation endpoint ∧
+                Cont left right endpoint ∧ Cont endpoint scalar scalarLedger ∧
+                  Cont scalarLedger additive ledger := by
+  intro surface leftZeroRow rightZeroRow separationRow
+  have leftZeroUnary : UnaryHistory leftZero :=
+    unary_cont_closed surface.left unary_empty leftZeroRow
+  have rightZeroUnary : UnaryHistory rightZero :=
+    unary_cont_closed surface.right.left unary_empty rightZeroRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed surface.left surface.right.left surface.right.right.right.right.left
+  have separationUnary : UnaryHistory separation :=
+    unary_cont_closed endpointUnary unary_empty separationRow
+  have sameLeftZero : hsame leftZero left :=
+    cont_right_unit_result leftZeroRow
+  have sameRightZero : hsame rightZero right :=
+    cont_right_unit_result rightZeroRow
+  have sameSeparation : hsame separation endpoint :=
+    cont_right_unit_result separationRow
+  exact
+    And.intro leftZeroUnary
+      (And.intro rightZeroUnary
+        (And.intro separationUnary
+          (And.intro sameLeftZero
+            (And.intro sameRightZero
+              (And.intro sameSeparation
+                (And.intro surface.right.right.right.right.left
+                  (And.intro surface.right.right.right.right.right.left
+                    surface.right.right.right.right.right.right)))))))
 
 def BilinFormRootPairingSurface
     (left right scalar endpoint ledger : BHist) : Prop :=
@@ -193,5 +236,32 @@ theorem BilinFormRootPairingSurface_input_transport
             (And.intro scalarUnary
               (And.intro endpointCont ledgerCont)))
   · exact And.intro sameEndpoint sameLedger
+
+def BilinFormModulePairingSourceRow [AskSetup] [PackageSetup]
+    (moduleSource vectorSource left right scalar endpoint ledger : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory moduleSource ∧ UnaryHistory vectorSource ∧ UnaryHistory left ∧
+    UnaryHistory right ∧ UnaryHistory scalar ∧ Cont left right endpoint ∧
+      Cont endpoint scalar ledger ∧ PkgSig bundle ledger pkg
+
+theorem BilinFormModulePairingSourceRow_carrier_obligation [AskSetup] [PackageSetup]
+    {moduleSource vectorSource left right scalar endpoint ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BilinFormModulePairingSourceRow moduleSource vectorSource left right scalar endpoint ledger
+        bundle pkg ->
+      UnaryHistory endpoint ∧ UnaryHistory ledger ∧ Cont left right endpoint ∧
+        Cont endpoint scalar ledger ∧ PkgSig bundle ledger pkg := by
+  intro row
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed row.right.right.left row.right.right.right.left
+      row.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed endpointUnary row.right.right.right.right.left
+      row.right.right.right.right.right.right.left
+  exact And.intro endpointUnary
+    (And.intro ledgerUnary
+      (And.intro row.right.right.right.right.right.left
+        (And.intro row.right.right.right.right.right.right.left
+          row.right.right.right.right.right.right.right)))
 
 end BEDC.Derived.BilinFormUp

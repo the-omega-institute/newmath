@@ -6,5 +6,108 @@ The elliptic-curve interface $\EllipticCurveUp$ packages a smooth projective gen
 \section{Carrier definition}
 \label{sec:ellipticcurve-carrier}
 
+\begin{definition}[Elliptic-curve BHist carrier packet]
+\label{def:ellipticcurve-bhist-carrier-packet}
+An $\EllipticCurveUp$ carrier is a $\mathsf{BHist}$ packet
+$$
+\mathcal{E}=(\mathcal{F},\mathcal{P},a_1,a_2,a_3,a_4,a_6,\gamma,\sigma,o,\lambda_F,\lambda_P,\rho)
+$$
+where $\mathcal{F}$ is a source $\NameCert_{\FieldUp}$ row, $\mathcal{P}$ is a source $\NameCert_{\ProjectiveVarUp}$ row over the same field row, $a_1,a_2,a_3,a_4,a_6:\mathsf{BHist}$ are field-coefficient rows, $\gamma:\mathsf{BHist}$ is the homogeneous cubic and projective-incidence row, $\sigma:\mathsf{BHist}$ is the smooth genus-one boundary row, $o:\mathsf{BHist}$ is the chosen base-point row, $\lambda_F$ and $\lambda_P$ are the field and projective classifier rows witnessed through $\hsame$, and $\rho$ records the $\mathsf{Pkg}$ provenance of the two source certificates and the displayed rows.
+
+The accepted endpoint is exactly the displayed history packet. It contains no ambient curve equality, no external point set, and no host discriminant predicate; all coefficient, incidence, smoothness, base-point, classifier, continuation, and provenance data are rows of $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.
+\end{definition}
+
 \section{The certificate}
 \label{sec:ellipticcurve-certificate}
+
+\begin{theorem}[Elliptic-curve field source obligation]
+\label{thm:ellipticcurve-field-source-obligation}
+In every carrier packet of \autoref{def:ellipticcurve-bhist-carrier-packet}, the coefficient rows $a_1,a_2,a_3,a_4,a_6$, the field operation rows used to form the Weierstrass cubic, and the nonzero-discriminant row are projected from the $\NameCert_{\FieldUp}$ dependency. The $\EllipticCurveUp$ boundary may read these rows only as $\mathsf{BHist}$ data with the $\mathsf{Pkg}$ provenance inherited from $\mathcal{F}$.
+\end{theorem}
+\begin{proof}
+Project the carrier packet to its $\mathcal{F}$ component and to the five displayed coefficient rows. The FieldUp certificate supplies the addition, multiplication, negation, unit, and nonzero rows needed to interpret the coefficients and the discriminant expression.
+
+The Weierstrass cubic row is then formed by reading those operations through the same $\mathsf{BHist}$ ledger. The discriminant row is not a host-side assertion about a curve; it is the nonzero field row reached through the projected FieldUp source.
+
+Repack the coefficient rows, operation rows, and nonzero-discriminant row with the original $\mathsf{Pkg}$ provenance. This gives the exact field-source part of the elliptic-curve certificate surface.
+\end{proof}
+
+\begin{theorem}[Elliptic-curve projective genus-one obligation]
+\label{thm:ellipticcurve-projective-genus-one-obligation}
+In every carrier packet of \autoref{def:ellipticcurve-bhist-carrier-packet}, the projective equation row, projective-incidence row, smoothness row, and genus-one boundary row are carried by the $\NameCert_{\ProjectiveVarUp}$ dependency as BEDC rows. They are not imported as host curves, external schemes, or ambient geometric equalities.
+\end{theorem}
+\begin{proof}
+Project the packet to its $\mathcal{P}$ component and to the homogeneous cubic row $\gamma$. The ProjectiveVarUp source supplies the projective carrier, homogeneous zero-locus, incidence, classifier, and ledger rows needed to read $\gamma$ as a projective BEDC row.
+
+Next project the smooth genus-one boundary row $\sigma$. Its smoothness and genus-one readings are attached to the same projective package, so the row is routed through the ProjectiveVarUp carrier and exactness surface rather than through an external curve object.
+
+Repacking $\mathcal{P}$, $\gamma$, and $\sigma$ records the projective equation, incidence, smoothness, and genus-one data as the projective dependency portion of the $\EllipticCurveUp$ carrier.
+\end{proof}
+
+\begin{theorem}[Elliptic-curve base-point stability obligation]
+\label{thm:ellipticcurve-basepoint-stability-obligation}
+The chosen base-point row $o$ in \autoref{def:ellipticcurve-bhist-carrier-packet} is stable under the inherited projective classifier and the inherited field classifier. If the field source is transported by $\lambda_F$ and the projective source is transported by $\lambda_P$, the transported packet carries a base-point row connected to $o$ by $\hsame$ and accepted by the same $\Cont$ provenance surface.
+\end{theorem}
+\begin{proof}
+Start with the base-point row $o$ and the projective classifier row $\lambda_P$. Projective transport preserves the projective incidence row, so the image of $o$ remains accepted by the transported projective carrier.
+
+Use the field classifier row $\lambda_F$ to transport the coordinate and coefficient readings used by the base-point incidence test. The same FieldUp source rows supply the operation and nonzero data needed after transport.
+
+The continuation row records that the transported endpoint is read through the same base-point provenance route. Repack the transported field source, projective source, incidence row, and base-point row to obtain the stable $\EllipticCurveUp$ packet.
+\end{proof}
+
+\begin{theorem}[Elliptic-curve classifier transport obligation]
+\label{thm:ellipticcurve-classifier-transport-obligation}
+Classified replacement of the field source and the projective source transports the whole carrier packet of \autoref{def:ellipticcurve-bhist-carrier-packet}. Componentwise $\hsame$ transports the coefficient, cubic, smoothness, genus-one, and base-point rows, while the displayed $\Cont$ rows preserve their acceptance and the $\mathsf{Pkg}$ row preserves their provenance.
+\end{theorem}
+\begin{proof}
+Project a classifier witness into its field part $\lambda_F$ and projective part $\lambda_P$. The field part transports the coefficient and operation rows; the projective part transports the homogeneous cubic, incidence, smoothness, and genus-one rows.
+
+Apply componentwise $\hsame$ to the displayed $\mathsf{BHist}$ entries. Each transported entry is accepted through its original $\Cont$ row after replacing the source endpoint by the classified endpoint.
+
+Finally carry the provenance row $\rho$ along the same componentwise route. Repacking the transported entries gives the full replacement carrier packet, with no additional quotient or host equality inserted at the boundary.
+\end{proof}
+
+\begin{theorem}[Base-point readback obligation]\label{thm:ellipticcurve-basepoint-readback-obligation}
+For every $\EllipticCurveUp$ carrier packet of \autoref{def:ellipticcurve-bhist-carrier-packet}, the base-point row $o$ is readable as a point row of the carried $\ProjectiveVarUp$ surface. If $o\hsame o'$ and the $\ProjectiveVarUp$ classifier transports the point row from $o$ to $o'$, then replacing $o$ by $o'$ gives a carrier packet with the same coefficient, cubic, smooth genus-one, field, classifier, and $\mathsf{Pkg}$ provenance rows.
+\end{theorem}
+\begin{proof}
+Project the $\ProjectiveVarUp$ source certificate $\mathcal{P}$ from the carrier packet. Its point readback clause supplies the carrier row containing $o$, and the incidence ledger records that $o$ lies on the displayed cubic row $\gamma$.
+
+Apply the $\hsame$ transport hypothesis to the point row. The $\ProjectiveVarUp$ classifier transports incidence along this row, so the replacement point $o'$ remains attached to the same projective carrier and the same cubic row.
+
+The remaining rows are unchanged projections of the original packet. Repacking them with $o'$ yields the transported $\EllipticCurveUp$ packet, and no field coefficient, smooth genus-one boundary, classifier, or provenance row is altered.
+\end{proof}
+
+\begin{theorem}[Smooth projective carrier obligation]\label{thm:ellipticcurve-smooth-projective-carrier-obligation}
+An accepted $\EllipticCurveUp$ carrier is accepted only through the $\ProjectiveVarUp$ projective-carrier, incidence, smoothness, genus-one, and point rows together with the $\FieldUp$ scalar rows for the displayed equation coefficients. In particular, smoothness and genus-one status are certificate rows over the carried projective variety and field source, not host-level assertions about an unrecorded curve.
+\end{theorem}
+\begin{proof}
+Unpack an accepted carrier packet. The projective carrier and incidence rows are projections of $\mathcal{P}$, while the coefficient and scalar rows used by $\gamma$ are projections of $\mathcal{F}$.
+
+The smooth genus-one boundary row $\sigma$ is then checked against those same projections. Its scope is the displayed projective carrier over the displayed field coefficients, so there is no separate ambient curve object to validate.
+
+Finally attach the base-point row by \autoref{thm:ellipticcurve-basepoint-readback-obligation}. The accepted carrier is therefore exactly the smooth genus-one projective carrier with the named base point and the named field dependency rows.
+\end{proof}
+
+\begin{theorem}[Field dependency ledger obligation]\label{thm:ellipticcurve-field-dependency-ledger-obligation}
+All coefficient and scalar comparisons in an $\EllipticCurveUp$ carrier packet descend through the $\FieldUp$ classifier and the $\mathsf{Pkg}$ provenance ledger. If two packets have $\hsame$-transported equation rows and the $\FieldUp$ source certificate classifies their coefficient rows as the same scalar data, then every scalar comparison used by the projective incidence, smoothness, genus-one, and base-point clauses is transported by the same finite ledger.
+\end{theorem}
+\begin{proof}
+Read the coefficient rows $a_1,a_2,a_3,a_4,a_6$ from the carrier packet of \autoref{def:ellipticcurve-bhist-carrier-packet}. Those rows are not interpreted directly; they are projected through the $\NameCert_{\FieldUp}$ source certificate $\mathcal{F}$.
+
+Use the $\FieldUp$ classifier to transport each scalar comparison along the displayed $\hsame$ relation on coefficient and cubic rows. The finite $\mathsf{Pkg}$ provenance row records the order in which these transported scalar rows feed the projective incidence, smooth genus-one, and base-point checks.
+
+Repack the transported scalar rows with the unchanged projective certificate rows. The result is the same dependency ledger for the elliptic-curve packet, now read over the transported coefficient and cubic rows.
+\end{proof}
+
+\begin{theorem}[EllipticCurveUp NameCert exactness obligation]\label{thm:ellipticcurve-namecert-exactness-obligation}
+The public $\NameCert_{\EllipticCurveUp}$ obligation surface consists exactly of the carrier packet of \autoref{def:ellipticcurve-bhist-carrier-packet}, the field-source rows of \autoref{thm:ellipticcurve-field-source-obligation}, the projective genus-one rows of \autoref{thm:ellipticcurve-projective-genus-one-obligation}, the base-point stability row of \autoref{thm:ellipticcurve-basepoint-stability-obligation}, the classifier transport row of \autoref{thm:ellipticcurve-classifier-transport-obligation}, the base-point readback of \autoref{thm:ellipticcurve-basepoint-readback-obligation}, the smooth projective validation of \autoref{thm:ellipticcurve-smooth-projective-carrier-obligation}, the field dependency transport of \autoref{thm:ellipticcurve-field-dependency-ledger-obligation}, and the ledger exactness asserting that no row outside $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert_{\FieldUp}$, and $\NameCert_{\ProjectiveVarUp}$ is exported.
+\end{theorem}
+\begin{proof}
+Soundness is obtained by projecting a public elliptic-curve certificate to its listed packet rows. The carrier definition supplies the field source, projective-variety source, equation, smoothness, genus-one, base-point, and provenance rows.
+
+Completeness goes in the reverse direction. Given exactly those rows with the field-source, projective genus-one, base-point, classifier, readback, smooth projective, and field dependency clauses, assemble the tuple of \autoref{def:ellipticcurve-bhist-carrier-packet} and read it as the public $\EllipticCurveUp$ surface.
+
+The exclusion clause follows from the same projection list. Since every accepted row is one of the displayed $\mathsf{BHist}$ rows or one of the two source $\NameCert$ projections, the certificate exports no unrecorded host curve, no external equation equality, and no standard bridge row.
+\end{proof}
