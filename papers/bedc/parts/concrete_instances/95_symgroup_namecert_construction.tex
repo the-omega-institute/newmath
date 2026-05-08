@@ -118,14 +118,45 @@ certificate surface is constructive and introduces no quotient of permutation
 presentations.
 \end{proof}
 
-\closureat{SymGroupUp}{scopedStr}
+\begin{theorem}[SymGroupUp public certificate surface]
+\label{thm:symgroup-public-certificate-surface}
+The carrier theorem of \autoref{thm:symgroup-carrier-obligation}, the classifier
+theorem of \autoref{thm:symgroup-classifier-obligation}, and the composition,
+inverse, and action theorem of
+\autoref{thm:symgroup-composition-inverse-action-obligations} assemble the
+public $\NameCert_{\SymGroupUp}$ surface. The exported surface consists of the
+certified permutation carrier, the group-facing classifier, composition, inverse,
+unit and action compatibility, exactness, and ledger boundary. It exposes no
+host function equality and forms no quotient of presentations.
+\end{theorem}
+\begin{proof}
+Project the carrier surface from
+\autoref{thm:symgroup-carrier-obligation}. This supplies the certified
+permutation rows, the $\GroupUp$ source boundary, the displayed unit, the
+displayed inverse, and the visible graph, action, package, and ledger rows.
+
+Project the classifier surface from
+\autoref{thm:symgroup-classifier-obligation}. Its reflexivity, symmetry,
+transitivity, and carrier-transport rows are exactly the permutation classifier
+rows read through the group-facing carrier.
+
+Project the operation rows from
+\autoref{thm:symgroup-composition-inverse-action-obligations}. These give
+composition closure, inverse closure, unit laws, associativity, action
+compatibility, exactness, and the ledger boundary. Repacking these three
+projected surfaces gives the exported $\NameCert_{\SymGroupUp}$ certificate,
+with every comparison still recorded through $\hsame$, classifier transport, and
+$\Pkg$ provenance rather than host function equality or quotienting.
+\end{proof}
+
+\closureat{SymGroupUp}{publicStr}[BEDC.Derived.SymGroupUp.SymGroupCarrier\_semantic\_name\_certificate]
 
 \begin{closurestatus}{\SymGroupUp}
   \theoryclosure{\publicClosure}
-  \scopeclosed{The public surface is the exported $\SymGroupUp$ carrier certificate together with the permutation carrier, classifier, composition, inverse, action, exactness, and ledger rows, read through the $\PermutationUp$, $\GroupUp$, $\mathsf{BHist}$, $\Pkg$, ledger, and $\hsame$ transport boundaries.}
+  \scopeclosed{The public surface is exactly the exported certificate of \autoref{thm:symgroup-public-certificate-surface}, assembling the carrier theorem of \autoref{thm:symgroup-carrier-obligation}, the classifier theorem of \autoref{thm:symgroup-classifier-obligation}, and the composition, inverse, action, exactness, and ledger theorem of \autoref{thm:symgroup-composition-inverse-action-obligations}.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.SymGroupUp.SymGroupCarrier\_semantic\_name\_certificate}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim a standard bridge or a mature treatment for $\SymGroupUp$.}
-  \upgradepath{Bridge closure requires a standard bridge theorem connecting the public $\SymGroupUp$ certificate to the external symmetric-group interface.}
+  \notclaimed{This chapter does not claim a standard bridge for the exported $\SymGroupUp$ certificate surface.}
+  \upgradepath{Bridged closure requires a standard bridge for the exported symmetric-group certificate surface.}
 \end{closurestatus}
