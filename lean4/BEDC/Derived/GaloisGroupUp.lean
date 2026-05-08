@@ -66,6 +66,47 @@ theorem GaloisGroupAutomorphismActionPacket_fixed_base_carrier_obligation
                 (And.intro packet.right.right.right.right.right.right.right.right.right.left
                   packet.right.right.right.right.right.right.right.right.right.right)))))))
 
+theorem GaloisGroupAutomorphismActionPacket_automorphism_ledger_exactness
+    [AskSetup] [PackageSetup]
+    {galoisExt group fixedBase action composition inverse classifier provenance ledger
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisGroupAutomorphismActionPacket galoisExt group fixedBase action composition inverse
+        classifier provenance ledger endpoint bundle pkg ->
+      UnaryHistory fixedBase ∧ UnaryHistory action ∧ UnaryHistory composition ∧
+        UnaryHistory inverse ∧ UnaryHistory classifier ∧ UnaryHistory provenance ∧
+          UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont galoisExt group provenance ∧
+            Cont fixedBase action classifier ∧ Cont composition inverse ledger ∧
+              Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have generated :=
+    GaloisGroupAutomorphismActionPacket_fixed_base_carrier_obligation packet
+  constructor
+  · exact packet.right.right.left
+  constructor
+  · exact packet.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.right.left
+  constructor
+  · exact generated.right.left
+  constructor
+  · exact generated.left
+  constructor
+  · exact generated.right.right.left
+  constructor
+  · exact generated.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.right.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.right.right.right.right.right.left
+  exact generated.right.right.right.right.right.right.right.right
+
 theorem GaloisGroupAutomorphismActionPacket_fixed_base_classifier
     [AskSetup] [PackageSetup]
     {galoisExt group fixedBase fixedBase' action action' composition inverse classifier
@@ -91,6 +132,43 @@ theorem GaloisGroupAutomorphismActionPacket_fixed_base_classifier
   exact And.intro fixedBaseUnary'
     (And.intro actionUnary'
       (And.intro classifierUnary' sameClassifier))
+
+theorem GaloisGroupAutomorphismActionPacket_composition_inverse_obligation
+    [AskSetup] [PackageSetup]
+    {galoisExt group fixedBase action composition inverse classifier provenance ledger endpoint
+      composition' inverse' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisGroupAutomorphismActionPacket galoisExt group fixedBase action composition inverse
+        classifier provenance ledger endpoint bundle pkg ->
+      hsame composition composition' ->
+        hsame inverse inverse' ->
+          Cont composition' inverse' ledger' ->
+            Cont provenance ledger' endpoint' ->
+              UnaryHistory ledger' ∧ UnaryHistory endpoint' ∧ hsame ledger ledger' ∧
+                hsame endpoint endpoint' ∧ PkgSig bundle endpoint pkg := by
+  intro packet sameComposition sameInverse ledgerCont endpointCont
+  have compositionUnary' : UnaryHistory composition' :=
+    unary_transport packet.right.right.right.right.left sameComposition
+  have inverseUnary' : UnaryHistory inverse' :=
+    unary_transport packet.right.right.right.right.right.left sameInverse
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed compositionUnary' inverseUnary' ledgerCont
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed packet.left packet.right.left
+      packet.right.right.right.right.right.right.left
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed provenanceUnary ledgerUnary' endpointCont
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameComposition sameInverse
+      packet.right.right.right.right.right.right.right.right.left ledgerCont
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameLedger
+      packet.right.right.right.right.right.right.right.right.right.left endpointCont
+  exact And.intro ledgerUnary'
+    (And.intro endpointUnary'
+      (And.intro sameLedger
+        (And.intro sameEndpoint
+          packet.right.right.right.right.right.right.right.right.right.right)))
 
 def GaloisGroupAutomorphismActionCompositionPacket
     (extension group fixed action composition inverse classifier provenance ledger : BHist) : Prop :=
@@ -129,6 +207,87 @@ theorem GaloisGroupAutomorphismActionPacket_composition_closure
         (And.intro packet.right.right.left
           (And.intro actionUnary
             (And.intro packet.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.left
+                (And.intro actionRow (And.intro classifierRow ledgerRow))))))))
+    (And.intro sameComposition (And.intro sameClassifier sameLedger))
+
+theorem GaloisGroupAutomorphismActionPacket_composition_classifier_congruence
+    {extension group fixed action action' action'' composition composition' composition''
+      inverse classifier classifier' classifier'' provenance ledger ledger' ledger'' : BHist} :
+    GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition
+        inverse classifier provenance ledger ->
+      hsame action action' ->
+        hsame action action'' ->
+          Cont fixed action' composition' ->
+            Cont composition' inverse classifier' ->
+              Cont classifier' provenance ledger' ->
+                Cont fixed action'' composition'' ->
+                  Cont composition'' inverse classifier'' ->
+                    Cont classifier'' provenance ledger'' ->
+                      hsame composition' composition'' ∧ hsame classifier' classifier'' ∧
+                        hsame ledger' ledger'' := by
+  intro packet sameAction' sameAction'' actionRow' classifierRow' ledgerRow' actionRow''
+    classifierRow'' ledgerRow''
+  have sameCompositionBase' : hsame composition composition' :=
+    cont_respects_hsame (hsame_refl fixed) sameAction'
+      packet.right.right.right.right.right.right.left actionRow'
+  have sameCompositionBase'' : hsame composition composition'' :=
+    cont_respects_hsame (hsame_refl fixed) sameAction''
+      packet.right.right.right.right.right.right.left actionRow''
+  have sameComposition : hsame composition' composition'' :=
+    hsame_trans (hsame_symm sameCompositionBase') sameCompositionBase''
+  have sameClassifierBase' : hsame classifier classifier' :=
+    cont_respects_hsame sameCompositionBase' (hsame_refl inverse)
+      packet.right.right.right.right.right.right.right.left classifierRow'
+  have sameClassifierBase'' : hsame classifier classifier'' :=
+    cont_respects_hsame sameCompositionBase'' (hsame_refl inverse)
+      packet.right.right.right.right.right.right.right.left classifierRow''
+  have sameClassifier : hsame classifier' classifier'' :=
+    hsame_trans (hsame_symm sameClassifierBase') sameClassifierBase''
+  have sameLedgerBase' : hsame ledger ledger' :=
+    cont_respects_hsame sameClassifierBase' (hsame_refl provenance)
+      packet.right.right.right.right.right.right.right.right ledgerRow'
+  have sameLedgerBase'' : hsame ledger ledger'' :=
+    cont_respects_hsame sameClassifierBase'' (hsame_refl provenance)
+      packet.right.right.right.right.right.right.right.right ledgerRow''
+  have sameLedger : hsame ledger' ledger'' :=
+    hsame_trans (hsame_symm sameLedgerBase') sameLedgerBase''
+  exact And.intro sameComposition (And.intro sameClassifier sameLedger)
+
+theorem GaloisGroupAutomorphismActionCompositionPacket_classifier_congruence
+    {extension group fixed action action' composition composition' inverse inverse' classifier
+      classifier' provenance ledger ledger' : BHist} :
+    GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition inverse
+        classifier provenance ledger ->
+      hsame action action' ->
+        hsame inverse inverse' ->
+          Cont fixed action' composition' ->
+            Cont composition' inverse' classifier' ->
+              Cont classifier' provenance ledger' ->
+                GaloisGroupAutomorphismActionCompositionPacket extension group fixed action'
+                    composition' inverse' classifier' provenance ledger' ∧
+                  hsame composition composition' ∧ hsame classifier classifier' ∧
+                    hsame ledger ledger' := by
+  intro packet sameAction sameInverse actionRow classifierRow ledgerRow
+  have actionUnary : UnaryHistory action' :=
+    unary_transport packet.right.right.right.left sameAction
+  have inverseUnary : UnaryHistory inverse' :=
+    unary_transport packet.right.right.right.right.left sameInverse
+  have sameComposition : hsame composition composition' :=
+    cont_respects_hsame (hsame_refl fixed) sameAction
+      packet.right.right.right.right.right.right.left actionRow
+  have sameClassifier : hsame classifier classifier' :=
+    cont_respects_hsame sameComposition sameInverse
+      packet.right.right.right.right.right.right.right.left classifierRow
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameClassifier (hsame_refl provenance)
+      packet.right.right.right.right.right.right.right.right ledgerRow
+  exact And.intro
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro actionUnary
+            (And.intro inverseUnary
               (And.intro packet.right.right.right.right.right.left
                 (And.intro actionRow (And.intro classifierRow ledgerRow))))))))
     (And.intro sameComposition (And.intro sameClassifier sameLedger))
@@ -349,26 +508,65 @@ theorem GaloisGroupAutomorphismActionPacket_unit_action_laws [AskSetup] [Package
           (And.intro packet.right.right.right.right.right.right.right.right.right.left
             packet.right.right.right.right.right.right.right.right.right.right))))
 
-theorem GaloisGroupAutomorphismActionPacket_inverse_cancellation_rows
+theorem GaloisGroupAutomorphismActionPacket_action_ledger_exactness [AskSetup] [PackageSetup]
+    {galoisExt group fixedBase action composition inverse classifier provenance ledger endpoint
+      identityLeft identityRight : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisGroupAutomorphismActionPacket galoisExt group fixedBase action composition inverse
+        classifier provenance ledger endpoint bundle pkg ->
+      Cont action BHist.Empty identityLeft ->
+        Cont BHist.Empty action identityRight ->
+          UnaryHistory provenance ∧ UnaryHistory classifier ∧ UnaryHistory ledger ∧
+            UnaryHistory endpoint ∧ hsame endpoint (append provenance ledger) ∧
+              hsame identityLeft action ∧ hsame identityRight action ∧
+                PkgSig bundle endpoint pkg := by
+  intro packet leftUnit rightUnit
+  have rows :=
+    GaloisGroupAutomorphismActionPacket_fixed_base_carrier_obligation packet
+  have unitRows :=
+    GaloisGroupAutomorphismActionPacket_unit_action_laws packet leftUnit rightUnit
+  exact And.intro rows.left
+    (And.intro rows.right.left
+      (And.intro rows.right.right.left
+        (And.intro rows.right.right.right.left
+          (And.intro rows.right.right.right.right.right.right.right.left
+            (And.intro unitRows.left
+              (And.intro unitRows.right.left
+                rows.right.right.right.right.right.right.right.right))))))
+
+theorem GaloisGroupAutomorphismActionCompositionPacket_inverse_cancellation_rows
     {extension group fixed action composition inverse classifier provenance ledger leftCancel
-      rightCancel : BHist} :
+      rightCancel leftUnit rightUnit : BHist} :
     GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition inverse
         classifier provenance ledger ->
-      hsame inverse BHist.Empty ->
-        Cont inverse action leftCancel ->
-          Cont action inverse rightCancel ->
-            hsame leftCancel action ∧ hsame rightCancel action ∧ UnaryHistory leftCancel ∧
-              UnaryHistory rightCancel := by
-  intro packet inverseEmpty leftCancelCont rightCancelCont
-  have leftSame : hsame leftCancel action :=
-    cont_respects_hsame inverseEmpty (hsame_refl action) leftCancelCont (cont_left_unit action)
-  have rightSame : hsame rightCancel action :=
-    cont_respects_hsame (hsame_refl action) inverseEmpty rightCancelCont (cont_right_unit action)
-  have leftUnary : UnaryHistory leftCancel :=
-    unary_cont_closed packet.right.right.right.right.left packet.right.right.right.left leftCancelCont
-  have rightUnary : UnaryHistory rightCancel :=
+      Cont action inverse leftCancel ->
+        Cont inverse action rightCancel ->
+          Cont leftCancel BHist.Empty leftUnit ->
+            Cont rightCancel BHist.Empty rightUnit ->
+              UnaryHistory leftCancel ∧ UnaryHistory rightCancel ∧ UnaryHistory leftUnit ∧
+                UnaryHistory rightUnit ∧ hsame leftUnit leftCancel ∧ hsame rightUnit rightCancel ∧
+                  Cont action inverse leftCancel ∧ Cont inverse action rightCancel := by
+  intro packet leftCancelRow rightCancelRow leftUnitRow rightUnitRow
+  have leftCancelUnary : UnaryHistory leftCancel :=
     unary_cont_closed packet.right.right.right.left packet.right.right.right.right.left
-      rightCancelCont
-  exact And.intro leftSame (And.intro rightSame (And.intro leftUnary rightUnary))
+      leftCancelRow
+  have rightCancelUnary : UnaryHistory rightCancel :=
+    unary_cont_closed packet.right.right.right.right.left packet.right.right.right.left
+      rightCancelRow
+  have leftUnitUnary : UnaryHistory leftUnit :=
+    unary_cont_closed leftCancelUnary unary_empty leftUnitRow
+  have rightUnitUnary : UnaryHistory rightUnit :=
+    unary_cont_closed rightCancelUnary unary_empty rightUnitRow
+  have sameLeftUnit : hsame leftUnit leftCancel :=
+    cont_right_unit_result leftUnitRow
+  have sameRightUnit : hsame rightUnit rightCancel :=
+    cont_right_unit_result rightUnitRow
+  exact And.intro leftCancelUnary
+    (And.intro rightCancelUnary
+          (And.intro leftUnitUnary
+            (And.intro rightUnitUnary
+              (And.intro sameLeftUnit
+                (And.intro sameRightUnit
+                  (And.intro leftCancelRow rightCancelRow))))))
 
 end BEDC.Derived.GaloisGroupUp
