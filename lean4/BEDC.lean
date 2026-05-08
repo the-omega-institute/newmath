@@ -338,6 +338,7 @@ import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
+import BEDC.Derived.NuclearUp
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.ClassFieldUp
 import BEDC.Derived.DiffFormUp
