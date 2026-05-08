@@ -156,6 +156,7 @@ Equivalently, a glyph string $c \in \Sigma^{*}$ is a legal event code iff there 
 
 \begin{definition}[Flow encoding]
 \label{def:channel-encoding-flow-encoding}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.FlowEncoding}
 The \emph{flow encoding} is the function
 $$
   \mathsf{Compile} \colon \mathsf{EventFlow} \longrightarrow \Sigma^{*}
@@ -171,6 +172,7 @@ On the empty event flow, $\mathsf{Compile}(\,) = \epsilon$.
 
 \begin{definition}[Legal channel-stream language]
 \label{def:channel-encoding-legal-zstream}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.LegalZStream}
 The \emph{legal channel-stream language} is
 $$
   \mathsf{LegalZStream}
@@ -256,6 +258,7 @@ applies $\mathsf{DecEv}$ repeatedly: on input $c \in \mathsf{LegalZStream}$, sca
 
 \begin{proposition}[The string $0111$ is illegal]
 \label{prop:channel-encoding-0111-illegal}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.channel\_encoding\_0111\_illegal}
 The glyph string $0111$ is not a legal channel stream.
 \end{proposition}
 
