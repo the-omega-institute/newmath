@@ -1,12 +1,14 @@
 import BEDC.Derived.BanachUp
 import BEDC.Derived.MetricUp
 import BEDC.Derived.OperatorIdealUp
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.NuclearUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
+open BEDC.FKernel.NameCert
 open BEDC.Derived.BanachUp
 open BEDC.Derived.MetricUp
 open BEDC.Derived.OperatorIdealUp
@@ -132,8 +134,49 @@ theorem NuclearDependencyBoundary_obligation
         (And.intro prefixUnary
           (And.intro ledgerRows.right.left
             (And.intro endpointUnary
-              (And.intro sourceCarrier.right
-                (And.intro targetCarrier.right
-                  (And.intro prefixCont endpointCont))))))))
+                (And.intro sourceCarrier.right
+                  (And.intro targetCarrier.right
+                    (And.intro prefixCont endpointCont))))))))
+
+theorem NuclearRankOnePrefixLedger_semantic_name_certificate
+    {index coefficient vector partialSum tail : BHist} :
+    NuclearRankOnePrefixLedger index coefficient vector partialSum tail ->
+      SemanticNameCert
+        (fun endpoint : BHist =>
+          NuclearRankOnePrefixLedger index coefficient vector partialSum endpoint)
+        (fun endpoint : BHist =>
+          NuclearRankOnePrefixLedger index coefficient vector partialSum endpoint)
+        (fun endpoint : BHist =>
+          NuclearRankOnePrefixLedger index coefficient vector partialSum endpoint)
+        hsame := by
+  intro ledger
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro tail ledger
+      equiv_refl := by
+        intro endpoint _source
+        exact hsame_refl endpoint
+      equiv_symm := by
+        intro _endpoint _endpoint' sameEndpoint
+        exact hsame_symm sameEndpoint
+      equiv_trans := by
+        intro _endpoint _endpoint' _endpoint'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro endpoint endpoint' sameEndpoint sourceLedger
+        exact And.intro sourceLedger.left
+          (And.intro sourceLedger.right.left
+            (And.intro sourceLedger.right.right.left
+              (And.intro sourceLedger.right.right.right.left
+                (cont_result_hsame_transport sourceLedger.right.right.right.right
+                  sameEndpoint))))
+    }
+    pattern_sound := by
+      intro _endpoint source
+      exact source
+    ledger_sound := by
+      intro _endpoint source
+      exact source
+  }
 
 end BEDC.Derived.NuclearUp
