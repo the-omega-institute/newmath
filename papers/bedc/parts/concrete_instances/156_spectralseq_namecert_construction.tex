@@ -6,77 +6,132 @@ The spectral-sequence interface $\SpectralSeqUp$ packages a sequence of bigraded
 \section{Carrier definition}
 \label{sec:spectralseq-carrier}
 
-\begin{definition}[SpectralSeqUp bigraded BHist carrier]
-\label{def:spectralseq-bigraded-bhist-carrier}
-A $\SpectralSeqUp$ carrier is a finite BEDC packet
+\begin{definition}[SpectralSeqUp BHist page carrier]
+\label{def:spectralseq-bhist-page-carrier}
+A $\SpectralSeqUp$ $\mathsf{BHist}$ page carrier is a finite page packet
 $$
-\mathcal{S}=(H,A,E,d,\zeta,\rho,\lambda)
+\mathcal S=(A,E,d,h,c,\lambda,\rho)
 $$
-whose row $H$ is the consumed $\NameCert_{\HomologyUp}$ source row, whose row $A$ is the consumed $\NameCert_{\AbelianCatUp}$ source row, whose row $E$ is the finite bigraded page ledger, whose row $d$ is the finite differential ledger, whose row $\zeta$ is the convergence target row, whose row $\rho$ is the displayed $\mathsf{Pkg}$ provenance for the two consumed source certificates and the page ledger, and whose row $\lambda$ is the displayed finite $\Cont$ ledger recording the source, target, and compatibility faces read by the public certificate.
-
-The accepted carrier is exactly this tuple of $\mathsf{BHist}$ rows. The packet exports no ambient abelian category, no host equality of pages, and no limiting object outside the displayed convergence row; every public readback is mediated by $H$, $A$, $E$, $d$, $\zeta$, $\rho$, and $\lambda$.
+over the source rows $\NameCert_{\AbelianCatUp}$ and
+$\NameCert_{\HomologyUp}$. The row $A$ is the displayed abelian-category
+surface in which the page objects and differential arrows live. The finite
+family $E=(E_r^{p,q})$ is the page-object ledger; each $E_r^{p,q}$ is an
+$A$-classified object row. The finite family $d=(d_r^{p,q})$ is the
+differential ledger, with
+$$
+d_r^{p,q}:E_r^{p,q}\to E_r^{p+r,q-r+1}
+$$
+recorded as an $A$-classified morphism row. The row $h$ records the homology
+readback identifying each successor page with the $\HomologyUp$ cycle row of
+$d_r$ modulo its displayed boundary row. The row $c$ records the finite
+convergence and filtration rows selected for the target object. The row
+$\lambda$ is the $\Cont$ ledger ordering the finite page-to-page transitions,
+and $\rho$ is the $\Pkg$ provenance row for the displayed source certificates,
+page rows, differential rows, homology readbacks, convergence rows, and
+continuation entries.
 \end{definition}
 
-\begin{definition}[SpectralSeqUp differential page classifier]
-\label{def:spectralseq-differential-page-classifier}
-For two $\SpectralSeqUp$ carriers
-$$
-\mathcal{S}=(H,A,E,d,\zeta,\rho,\lambda)
-\qquad\text{and}\qquad
-\mathcal{S}'=(H',A',E',d',\zeta',\rho',\lambda'),
-$$
-the differential page classifier relates $\mathcal{S}$ and $\mathcal{S}'$ when the $\NameCert_{\HomologyUp}$ source rows $H$ and $H'$ are connected by $\hsame$ transport, the $\NameCert_{\AbelianCatUp}$ source rows $A$ and $A'$ are connected by $\hsame$ transport, each page row of $E$ is matched componentwise with the corresponding page row of $E'$, and the differential and convergence rows $d,\zeta$ are transported by the displayed $\Cont$ ledgers $\lambda,\lambda'$ with the same $\mathsf{Pkg}$ provenance surface.
-
-The classifier is a transport relation on the finite packet rows. It does not identify pages by external equality and does not compare convergence by a limiting object external to the $\mathsf{BHist}$ tuple.
+\begin{definition}[SpectralSeqUp page classifier]
+\label{def:spectralseq-page-classifier}
+For two $\SpectralSeqUp$ page carriers
+$\mathcal S=(A,E,d,h,c,\lambda,\rho)$ and
+$\mathcal S'=(A',E',d',h',c',\lambda',\rho')$, the page classifier holds when
+the following componentwise transport rows are displayed.
+\begin{enumerate}
+  \item $A\hsame A'$ as $\NameCert_{\AbelianCatUp}$ source surfaces.
+  \item $E_r^{p,q}\hsame E_r'^{p,q}$ for every carried page object.
+  \item $d_r^{p,q}\hsame d_r'^{p,q}$ for every differential row, with source
+  and target read through the transported page rows.
+  \item $h_r^{p,q}\hsame h_r'^{p,q}$ for every $\HomologyUp$ cycle-boundary
+  readback row relating a differential to the successor page.
+  \item $c\hsame c'$ for the displayed filtration and convergence rows.
+  \item $\Cont(\lambda,\lambda')$ for the finite page-transition ledger.
+  \item $\rho\hsame\rho'$ as $\Pkg$ provenance rows for exactly the listed
+  page, differential, homology, convergence, and continuation entries.
+\end{enumerate}
+Thus the public classifier compares the finite spectral-sequence packet by
+transporting the displayed rows themselves, not by importing a host exact
+couple or an ambient equality of abelian categories.
 \end{definition}
 
 \section{The certificate}
 \label{sec:spectralseq-certificate}
 
-\begin{theorem}[SpectralSeqUp page stability obligation]
-\label{thm:spectralseq-page-stability-obligation}
-For any two $\SpectralSeqUp$ carriers related by the differential page classifier of \autoref{def:spectralseq-differential-page-classifier}, every page row in the bigraded ledger $E$ is transported to the corresponding page row in $E'$ by the componentwise $\hsame$ and $\Cont$ data carried by the two packets. The page readback remains a row of the displayed $\mathsf{BHist}$ ledger and retains the same $\NameCert_{\HomologyUp}$, $\NameCert_{\AbelianCatUp}$, and $\mathsf{Pkg}$ provenance faces.
+\begin{theorem}[SpectralSeqUp obligation surface]
+\label{thm:spectralseq-obligation-surface}
+Every $\SpectralSeqUp$ page carrier exposes exactly the source abelian-category
+surface, the source homology surface, the finite page-object ledger, the page
+classifier, the differential-square rows, the homology-page readback rows, the
+finite convergence rows, the $\Cont$ transition ledger, and the $\Pkg$
+provenance row. These rows form the public $\NameCert_{\SpectralSeqUp}$
+obligation surface available to downstream $\HomologyUp$,
+$\AbelianCatUp$, and derived-category consumers.
 \end{theorem}
 \begin{proof}
-Project the two carrier packets of \autoref{def:spectralseq-bigraded-bhist-carrier} to their source rows $H,A$ and $H',A'$, and then to their page ledgers $E$ and $E'$. The classifier supplies $\hsame$ transport for the HomologyUp and AbelianCatUp source rows and componentwise page-row transport for the displayed ledger.
+Project the carrier of \autoref{def:spectralseq-bhist-page-carrier}. The
+projections give the abelian-category source row, the homology source row, the
+finite page ledger, the differential ledger, the homology readback row, the
+convergence row, the continuation ledger, and the provenance row.
 
-For a chosen page row, read the source and target faces through the same $\Cont$ ledger that records the differential and compatibility data. The transported row is still a page row of the finite ledger because the classifier matches ledger entries rather than replacing them by host equality.
+The classifier of \autoref{def:spectralseq-page-classifier} is then read
+component by component. It transports page objects, differential rows,
+homology readbacks, convergence rows, continuation entries, and provenance
+without adding any unlisted carrier.
 
-The $\mathsf{Pkg}$ provenance row is projected unchanged from the carrier comparison. Repacking the transported page row with the source transports and the provenance row gives exactly the advertised stable page face.
+Repack these projections as the named obligation surface. Since every exposed
+entry is a projection of the displayed packet or the classifier attached to
+that packet, the public certificate is exhausted by the listed rows.
 \end{proof}
 
-\begin{theorem}[SpectralSeqUp differential ledger obligation]
-\label{thm:spectralseq-differential-ledger-obligation}
-For an accepted $\SpectralSeqUp$ carrier $\mathcal{S}=(H,A,E,d,\zeta,\rho,\lambda)$, each differential row $d^r$ and each of its source and target page faces are exactly the rows listed in the carried $\Cont$ ledger $\lambda$. No differential face is available outside the page ledger $E$, the differential ledger $d$, the consumed $\NameCert_{\HomologyUp}$ and $\NameCert_{\AbelianCatUp}$ rows, and the $\mathsf{Pkg}$ provenance row $\rho$.
+\begin{theorem}[SpectralSeqUp differential ledger stability]
+\label{thm:spectralseq-differential-ledger}
+If two $\SpectralSeqUp$ page carriers are related by the page classifier, then
+each transported differential row $d_r^{p,q}$ remains an admissible
+$\AbelianCatUp$ morphism row with the transported source and target pages, and
+the corresponding successor-page homology readback remains classified by the
+$\HomologyUp$ source surface. Finite $\Cont$ extension of the page-transition
+ledger preserves the same property for the extended carried ledger.
 \end{theorem}
 \begin{proof}
-Start with the displayed carrier tuple and project its finite differential ledger $d$. By definition, the source page face and target page face of each listed $d^r$ are recorded in the same $\Cont$ ledger $\lambda$ that belongs to the carrier.
+Start with one differential row
+$d_r^{p,q}:E_r^{p,q}\to E_r^{p+r,q-r+1}$ from the carrier. The page
+classifier supplies $\hsame$ transport for the source page, target page, and
+the differential row itself, so the transported row is again typed by the
+transported $\AbelianCatUp$ source surface.
 
-Use the page-stability obligation to keep those source and target faces inside the transported page ledger. The HomologyUp and AbelianCatUp rows provide the only consumed source certificates, so the differential row cannot read an additional categorical or homological source.
+Project the homology readback row attached to this differential. The
+classifier also transports the corresponding $\HomologyUp$ cycle-boundary
+entry, so the successor page continues to be read as the displayed homology
+page of the transported differential.
 
-Exactness follows by projection from $\lambda$. Since every public differential entry is listed there and every listed entry is tied to $E$, $d$, $H$, $A$, and $\rho$, the carried ledger is both sound and complete for differential readback.
+For a finite $\Cont$ extension, append the displayed transition row to
+$\lambda$ and extend the provenance row by the same entry. The page packet is
+then repacked with all previous differential and homology rows unchanged and
+with the new transition recorded in the finite ledger.
 \end{proof}
 
-\begin{theorem}[SpectralSeqUp convergence boundary obligation]
-\label{thm:spectralseq-convergence-boundary-obligation}
-The convergence boundary of an accepted $\SpectralSeqUp$ carrier exposes only the target filtration row $\zeta$ carried in the tuple of \autoref{def:spectralseq-bigraded-bhist-carrier}. It records how the finite page and differential ledgers point to that target row through the displayed $\Cont$ ledger, but it does not export an external limiting object, an ambient equality of filtrations, or any convergence datum outside $\zeta$, $\lambda$, and $\rho$.
+\begin{theorem}[SpectralSeqUp convergence boundary]
+\label{thm:spectralseq-convergence-boundary}
+The $\SpectralSeqUp$ certificate exports only the displayed page, differential,
+homology-readback, filtration, convergence, $\Cont$, and $\Pkg$ rows of
+\autoref{def:spectralseq-bhist-page-carrier}. It does not export a host exact
+couple, a quotient object outside the displayed $\HomologyUp$ boundary rows,
+or an ambient equality of abelian categories beyond the transported
+$\NameCert_{\AbelianCatUp}$ source surface.
 \end{theorem}
 \begin{proof}
-Project the carrier to its convergence row $\zeta$. This row is a $\mathsf{BHist}$ endpoint of the same finite packet as the page ledger, differential ledger, provenance row, and displayed $\Cont$ ledger.
+Unpack the carrier and inspect the convergence component $c$. Its public
+content is the finite filtration and convergence ledger selected in the
+$\mathsf{BHist}$ packet, together with the page and homology rows needed to
+name its source.
 
-The $\Cont$ ledger records the boundary faces by which the page and differential rows point to $\zeta$. Transport through the classifier preserves those boundary faces as ledger entries, not as equality with an external limit.
+The quotient information used by a successor page appears only through the
+$\HomologyUp$ cycle-boundary readback row $h$. The theorem therefore reads no
+separate quotient object: it uses the displayed boundary classifier already
+carried by the homology source surface.
 
-Inspecting the carrier shows that no other convergence field exists. Therefore a downstream consumer of $\NameCert_{\SpectralSeqUp}$ may read the target filtration row and its displayed ledger support only.
-\end{proof}
-
-\begin{theorem}[SpectralSeqUp NameCert obligation surface]
-\label{thm:spectralseq-namecert-obligation-surface}
-The paper-side $\NameCert_{\SpectralSeqUp}$ obligation surface consists of the carrier of \autoref{def:spectralseq-bigraded-bhist-carrier}, the classifier of \autoref{def:spectralseq-differential-page-classifier}, the page-stability obligation, the differential ledger obligation, and the convergence-boundary obligation. Thus the certificate fields are the consumed $\NameCert_{\HomologyUp}$ row, the consumed $\NameCert_{\AbelianCatUp}$ row, the finite bigraded page ledger, the finite differential ledger, the target filtration row, the $\mathsf{Pkg}$ provenance row, and the displayed $\Cont$ exactness ledger.
-\end{theorem}
-\begin{proof}
-Collect the carrier tuple and its classifier. These two objects provide the HomologyUp source row, the AbelianCatUp source row, page rows, differential rows, convergence row, provenance row, and ledger transport rows.
-
-Add the page-stability obligation to make the page ledger stable under classifier transport. Add the differential ledger obligation to identify each $d^r$ row with the source and target page faces listed in the carried $\Cont$ ledger. Add the convergence-boundary obligation to restrict convergence readback to the displayed target filtration row.
-
-The certificate is complete because every listed public field is projected from the finite $\mathsf{BHist}$ packet and every transport or exactness claim is mediated by $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows. It is exact because no additional host equality, limiting object, or unstated source certificate is present in the obligation surface.
+Finally, the abelian-category comparison is exactly the source-surface
+transport in the page classifier. Since the carrier has no row naming a host
+exact couple or an ambient category equality, those data cannot be exported by
+the public $\NameCert_{\SpectralSeqUp}$ boundary.
 \end{proof}

@@ -27,6 +27,28 @@ open BEDC.Derived.GaloisGroupUp
 open BEDC.Derived.PolynomialUp
 open BEDC.Derived.SeparableExtUp
 
+def GaloisExtAutomorphismSourceRow
+    (fieldExt normality automorphism baseFix action provenance : BHist) : Prop :=
+  UnaryHistory fieldExt ∧ UnaryHistory normality ∧ UnaryHistory automorphism ∧
+    UnaryHistory baseFix ∧ Cont fieldExt automorphism action ∧
+      Cont normality baseFix provenance
+
+theorem GaloisExtAutomorphismSourceRow_normal_root_orbit_closure
+    {fieldExt normality automorphism baseFix action provenance orbit : BHist} :
+    GaloisExtAutomorphismSourceRow fieldExt normality automorphism baseFix action provenance ->
+      Cont action normality orbit ->
+        UnaryHistory orbit ∧ hsame orbit (append action normality) ∧
+          hsame action (append fieldExt automorphism) ∧
+            hsame provenance (append normality baseFix) := by
+  intro row orbitCont
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed row.left row.right.right.left row.right.right.right.right.left
+  have orbitUnary : UnaryHistory orbit :=
+    unary_cont_closed actionUnary row.right.left orbitCont
+  exact And.intro orbitUnary
+    (And.intro orbitCont
+      (And.intro row.right.right.right.right.left row.right.right.right.right.right))
+
 theorem GaloisExtClassifier_transport_row
     {field field' separable separable' normal normal' sepFace sepFace' classifier classifier'
       ledger ledger' : BHist} :
@@ -159,6 +181,68 @@ theorem GaloisExtSourcePacket_semantic_name_certificate [AskSetup] [PackageSetup
       exact source
   }
 
+theorem GaloisExtAutomorphismConsumerSurface_galoisgroup_boundary [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint orbitLedger orbitEndpoint fixedBase
+      automorphismSurface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      Cont normality provenance orbitLedger ->
+        Cont orbitLedger separability orbitEndpoint ->
+          Cont fieldExt orbitEndpoint fixedBase ->
+            Cont fixedBase classifier automorphismSurface ->
+              SemanticNameCert
+                (fun target : BHist => exists fixed : BHist,
+                  Cont fieldExt orbitEndpoint fixed ∧ Cont fixed classifier target ∧
+                    PkgSig bundle endpoint pkg)
+                (fun target : BHist => exists fixed : BHist,
+                  Cont fieldExt orbitEndpoint fixed ∧ Cont fixed classifier target ∧
+                    PkgSig bundle endpoint pkg)
+                (fun target : BHist => exists fixed : BHist,
+                  Cont fieldExt orbitEndpoint fixed ∧ Cont fixed classifier target ∧
+                    PkgSig bundle endpoint pkg)
+                (fun left right : BHist =>
+                  (exists lf : BHist,
+                    Cont fieldExt orbitEndpoint lf ∧ Cont lf classifier left ∧
+                      PkgSig bundle endpoint pkg) ∧
+                    (exists rf : BHist,
+                      Cont fieldExt orbitEndpoint rf ∧ Cont rf classifier right ∧
+                        PkgSig bundle endpoint pkg) ∧
+                      hsame left right) := by
+  intro packet _orbitLedgerRow _orbitEndpointRow fixedBaseRow automorphismSurfaceRow
+  have endpointPkg : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro automorphismSurface
+          (Exists.intro fixedBase
+            (And.intro fixedBaseRow (And.intro automorphismSurfaceRow endpointPkg)))
+      equiv_refl := by
+        intro target source
+        exact And.intro source (And.intro source (hsame_refl target))
+      equiv_symm := by
+        intro left right classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro left middle right leftMiddle middleRight
+        exact And.intro leftMiddle.left
+          (And.intro middleRight.right.left
+            (hsame_trans leftMiddle.right.right middleRight.right.right))
+      carrier_respects_equiv := by
+        intro left right classified _source
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro target source
+      exact source
+    ledger_sound := by
+      intro target source
+      exact source
+  }
+
 theorem GaloisExtSourcePacket_public_obligation_boundary [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
       separability classifier provenance endpoint : BHist}
@@ -221,6 +305,31 @@ theorem GaloisExtSourcePacket_automorphism_action_source [AskSetup] [PackageSetu
       (And.intro actionCont
         (And.intro actionLedgerReadback
           boundary.right.right.right.right.right.right.right.right.right)))
+
+theorem GaloisExtSourcePacket_galoisgroup_consumer_source_surface [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint action actionLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      Cont endpoint normality action ->
+        Cont action separability actionLedger ->
+          SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot sepProvenance
+              separable bundle pkg ∧
+            UnaryHistory normality ∧ UnaryHistory separability ∧ UnaryHistory action ∧
+              UnaryHistory actionLedger ∧ hsame action (append endpoint normality) ∧
+                hsame actionLedger (append action separability) ∧ PkgSig bundle endpoint pkg := by
+  intro packet actionCont actionLedgerCont
+  have boundary := GaloisExtSourcePacket_public_obligation_boundary packet
+  have actionRows :=
+    GaloisExtSourcePacket_automorphism_action_source packet actionCont actionLedgerCont
+  exact And.intro boundary.left
+    (And.intro boundary.right.left
+      (And.intro boundary.right.right.left
+        (And.intro actionRows.left
+          (And.intro actionRows.right.left
+            (And.intro actionRows.right.right.left
+              (And.intro actionLedgerCont actionRows.right.right.right.right))))))
 
 theorem GaloisExtSourcePacket_classifier_transport
     {field field' separable separable' normal normal' simple simple' classifier classifier'
@@ -520,8 +629,9 @@ theorem GaloisExtSourcePacket_normal_root_orbit_closure [AskSetup] [PackageSetup
     unary_cont_closed orbitLedgerUnary boundary.right.right.left orbitEndpointRow
   have orbitEndpointReadback :
       hsame orbitEndpoint (append (append normality provenance) separability) :=
-    hsame_trans orbitEndpointRow
-      (congrArg (fun h : BHist => append h separability) orbitLedgerRow)
+    by
+      exact hsame_trans orbitEndpointRow
+        (congrArg (fun h : BHist => append h separability) orbitLedgerRow)
   exact And.intro orbitLedgerUnary
     (And.intro orbitEndpointUnary
       (And.intro orbitLedgerRow
