@@ -238,6 +238,95 @@ $\RealUp$ completeness claim, or standard bridge.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.DyadicRatCoreObservationRow\_public\_hsame\_transport}
 
+\begin{theorem}[Dyadic common-exponent radius monotone]
+\label{thm:dyadic-common-exponent-radius-monotone}
+Let $d_0,d_1:\Hist$ be two public DyadicRatCore observation rows whose
+endpoints are RatUp rows over positive unary denominators. Then there is a
+shared finite $\mathsf{BHist}$ denominator and radius ledger for the pair. Its
+endpoint reads are obtained by RatUp transport, $\hsame$ comparison, and
+$\Cont$ computation rows, and its common radius is no larger than either
+displayed input radius in the monotone-radius face of
+\autoref{thm:dyadic-rat-core-obligation-boundary-package}. The construction
+uses only the scoped DyadicRatCore source package of
+\autoref{thm:dyadic-rat-core-scoped-primitive-dependency-package} and the
+finite-ledger extraction face already exported there.
+\end{theorem}
+\begin{proof}
+Read the two observation rows through
+\autoref{thm:dyadic-rat-core-obligation-boundary-package}. Each row supplies a
+RatUp endpoint, a positive unary denominator, the monotone-radius face, and a
+finite dyadic ledger entry.
+
+Use the scoped primitive package of
+\autoref{thm:dyadic-rat-core-scoped-primitive-dependency-package} to compare
+the two denominator histories in $\mathsf{BHist}$. The $\hsame$ and $\Cont$
+rows give the finite denominator readback needed to place both endpoints over a
+single displayed exponent ledger.
+
+Finally apply the monotone-radius obligation and the finite-ledger extraction
+face. They select the common displayed radius inside the existing DyadicRatCore
+ledger and certify that this radius is bounded by the two input radii, with no
+quotient, completion object, Classical datum, or external metric primitive.
+\end{proof}
+
+\begin{theorem}[Dyadic window denominator common refinement]
+\label{thm:dyadic-window-denominator-common-refinement}
+For any finite RealUp observation window whose entries are public DyadicRatCore
+observation rows, every displayed dyadic row can be replaced by the
+shared-denominator refinement of
+\autoref{thm:dyadic-common-exponent-radius-monotone}. The resulting finite
+window has the same public observation package: the RatUp endpoint rows,
+positive-denominator witnesses, $\hsame$ transports, $\Cont$ computations,
+monotone-radius rows, finite dyadic ledger entries, and scoped boundary from
+\autoref{thm:dyadic-rat-core-scoped-closure-boundary} are all retained as
+displayed $\mathsf{BHist}$ data.
+\end{theorem}
+\begin{proof}
+Proceed through the finite RealUp window ledger entry by entry. For a singleton
+entry, the displayed denominator is already a common denominator for that
+entry, and the public observation package is unchanged.
+
+For the next displayed row, apply
+\autoref{thm:dyadic-common-exponent-radius-monotone} to the current common
+ledger and the incoming row. This produces a refined common denominator and a
+radius bounded by the two displayed radii, while transporting the RatUp
+endpoint rows and positive-denominator witnesses through the same $\hsame$ and
+$\Cont$ rows.
+
+The finite-ledger extraction face then repacks the refined rows into the same
+public DyadicRatCore observation package. Since the package fields are the
+carrier, classifier, stability, monotone-radius, and finite-ledger rows already
+listed in \autoref{thm:dyadic-rat-core-obligation-boundary-package}, replacing
+each row by its refinement changes no public observation boundary.
+\end{proof}
+
+\begin{theorem}[RegSeqRat dyadic common-radius seal]
+\label{thm:regseqrat-dyadic-common-radius-seal}
+The $\RegSeqRat$ seal consumes exactly the refined finite dyadic ledger of
+\autoref{thm:dyadic-window-denominator-common-refinement}. From that ledger it
+exports the same RealUp finite-window input as
+\autoref{thm:dyadicratcore-public-observation-realup-window-feed}: carried
+RatUp endpoints, positive unary denominators, common-radius rows, $\hsame$ and
+$\Cont$ provenance, and the scoped DyadicRatCore boundary fixed by
+\autoref{thm:dyadic-rat-core-scoped-primitive-dependency-package}.
+\end{theorem}
+\begin{proof}
+First build the common finite ledger by
+\autoref{thm:dyadic-window-denominator-common-refinement}. The ledger already
+contains the displayed endpoints, denominator histories, radius comparisons,
+and transport rows over $\mathsf{BHist}$.
+
+Next apply the $\RegSeqRat$ dyadic ledger seal face named in
+\autoref{thm:dyadic-rat-core-obligation-boundary-package}. Its input is the
+finite dyadic ledger, not an ambient completion object, so the refined common
+denominator and common-radius rows are exactly the rows it reads.
+
+Finally use \autoref{thm:dyadicratcore-public-observation-realup-window-feed}
+to expose the sealed ledger as the RealUp finite-window input. The primitive
+and closure boundaries ensure that the export adds no quotient, no Classical
+datum, no external metric primitive, and no RealUp completeness claim.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore transported public observations feed RealUp windows]
 \label{thm:dyadicratcore-public-observation-hsame-transport-bridge}
 Let $d,d':\Hist$. Suppose $\hsame(d,d')$ holds and the public DyadicRatCore

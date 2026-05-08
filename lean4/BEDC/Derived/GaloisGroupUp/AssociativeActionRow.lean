@@ -6,6 +6,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 
@@ -41,5 +42,36 @@ theorem GaloisGroupAutomorphismActionPacket_associative_action_row [AskSetup]
   exact And.intro ledgerRows.left
     (And.intro ledgerRows.right
       (And.intro witnessUnary witnessCont))
+
+theorem GaloisGroupAutomorphismActionPacket_composition_associativity_public_surface
+    [AskSetup] [PackageSetup]
+    {sigBundle : ProbeBundle ProbeName}
+    {galoisExt group fixedBase action composition inverse classifier provenance ledger endpoint
+      x y z xy yz left right : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (policy : AskPolicy (fun h : BHist => UnaryHistory h))
+    (total : SigTotalOn sigBundle (fun h : BHist => UnaryHistory h)) :
+    GaloisGroupAutomorphismActionPacket galoisExt group fixedBase action composition inverse
+        classifier provenance ledger endpoint bundle pkg ->
+      UnaryHistory x ->
+        UnaryHistory y ->
+          UnaryHistory z ->
+            Cont x y xy ->
+              Cont xy z left ->
+                Cont y z yz ->
+                  Cont x yz right ->
+                    SameSig sigBundle left right ∧ hsame left right ∧
+                      hsame endpoint (append provenance ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro packet xUnary yUnary zUnary xyCont leftCont yzCont rightCont
+  have ledgerRows :=
+    GaloisGroupAutomorphismActionPacket_associative_composition_ledger
+      (sigBundle := sigBundle) policy total xUnary yUnary zUnary xyCont leftCont yzCont
+      rightCont
+  have packetRows :=
+    GaloisGroupAutomorphismActionPacket_fixed_base_carrier_obligation packet
+  exact And.intro ledgerRows.left
+    (And.intro ledgerRows.right
+      (And.intro packetRows.right.right.right.right.right.right.right.left
+        packetRows.right.right.right.right.right.right.right.right))
 
 end BEDC.Derived.GaloisGroupUp
