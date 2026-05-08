@@ -178,3 +178,104 @@ It remains to make these rows stable under the event and endpoint classifiers re
   \notclaimed{This obligation packet does not close random variables, distributions, independence, conditional expectation, martingales, standard probability spaces, or any standard bridge.}
   \upgradepath{No further theory-axis upgrade remains; standard bridge checking remains a separate formal-axis matter.}
 \end{closurestatus}
+
+\noindent\textbf{Obligation binders invoked by the following definition.}
+\begin{enumerate}
+\item \textbf{closure: RESOLVED.} The displayed binary-union, intersection, and relative-difference event rows are the finite-event closure rows of the $\mathrm{Measure}^{\uparrow}$ surface, specifically the finite disjoint event envelope of Chapter 94.15 and the event-value closure surface of Chapter 94.16.
+\item \textbf{coverage: RESOLVED.} The outside-piece decomposition is the public relative-difference coverage row of Theorem 94.100, read through the same event classifier rather than through host event equality.
+\item \textbf{bridge: RESOLVED.} The $\mathrm{ProbSpace}^{\uparrow}$ consumer inherits the finite $\mathrm{Measure}^{\uparrow}$ event surface by the probability-substrate row of Theorem 94.70.
+\end{enumerate}
+
+\begin{definition}[Binary cover-difference ledger]
+\label{def:probspace-binary-cover-difference-ledger}
+Let $P$ be a $\mathrm{ProbSpace}^{\uparrow}$ carrier obtained from the probability substrate of a $\mathrm{Measure}^{\uparrow}$ carrier. Write $\mathcal A$ for the displayed measurable-event family inherited from the underlying $\mathrm{Measure}^{\uparrow}$ carrier, write $\mu$ for the $\RealUp$-valued measure map, and write $E \sim_{\mathcal A} F$ for the public measurable-event classifier. For displayed events $A,B \in \mathcal A$, a binary cover-difference ledger for $(A,B)$ consists of displayed events
+$$
+U,I,D \in \mathcal A
+$$
+and public rows saying that $U$ is the displayed binary union of $A$ and $B$, $I$ is the displayed binary intersection of $A$ and $B$, and $D$ is the displayed outside-$A$ part of $B$, together with the two disjoint cover readbacks
+$$
+A \perp D,\qquad A \cup D \sim_{\mathcal A} U,
+$$
+and
+$$
+I \perp D,\qquad I \cup D \sim_{\mathcal A} B.
+$$
+The ledger is a $\BEDC$ event-surface object: it records measurable closure, disjointness, and classifier readback rows, and it does not add host set subtraction or quotient equality of events.
+\end{definition}
+
+\noindent\textbf{Obligation binders invoked by the following theorem.}
+\begin{enumerate}
+\item \textbf{closure: RESOLVED.} The measurable union and value-transport steps are supplied by the $\mathrm{Measure}^{\uparrow}$ finite disjoint event envelope of Chapter 94.15, the event-value closure surface of Chapter 94.16, and the finite disjoint-union additivity row of Theorem 94.26.
+\item \textbf{coverage: RESOLVED.} The two cover decompositions consumed in the proof are exactly the two cover rows packaged in \autoref{def:probspace-binary-cover-difference-ledger}, whose outside-piece source is the relative-difference disjoint decomposition of Theorem 94.100.
+\item \textbf{bridge: RESOLVED.} The use of these $\mathrm{Measure}^{\uparrow}$ rows inside a $\mathrm{ProbSpace}^{\uparrow}$ carrier is discharged by Theorem 94.70, which states that the probability consumer adds only the total-event and unit-mass rows on top of the inherited measure substrate.
+\end{enumerate}
+
+\begin{theorem}[ProbSpace binary inclusion-exclusion identity]
+\label{thm:probspace-binary-inclusion-exclusion-identity}
+Let $P$ be a $\mathrm{ProbSpace}^{\uparrow}$ carrier obtained from the probability substrate of a $\mathrm{Measure}^{\uparrow}$ carrier. Write $\mathcal A$ for its displayed measurable-event family, write $\mu$ for its $\RealUp$-valued measure map, and write $x \sim_R y$ for the $\RealUp$ classifier. Let $A,B \in \mathcal A$ be displayed events in one carried fiber. Suppose that $(A,B)$ has a binary cover-difference ledger with displayed events $U,I,D$ in the sense of \autoref{def:probspace-binary-cover-difference-ledger}. Suppose also that the finite disjoint-union additivity row applies to the disjoint pairs $(A,D)$ and $(I,D)$, and that the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row. Then
+$$
+\mu(U)+\mu(I)\sim_R\mu(A)+\mu(B).
+$$
+Consequently, when the public notation $A\cup B$ names the displayed event $U$ and the public notation $A\cap B$ names the displayed event $I$, one obtains
+$$
+\mu(A\cup B)+\mu(A\cap B)\sim_R\mu(A)+\mu(B).
+$$
+\end{theorem}
+\begin{proof}
+The first disjoint cover row in the ledger gives $A \perp D$ and
+$$
+A\cup D \sim_{\mathcal A} U.
+$$
+Apply the finite disjoint-union additivity row to the displayed disjoint pair $(A,D)$. This gives
+$$
+\mu(A\cup D)\sim_R\mu(A)+\mu(D).
+$$
+The event-value transport row carries the event classifier comparison $A\cup D \sim_{\mathcal A} U$ to the $\RealUp$ endpoint classifier. Composing that transport with the displayed finite-additivity comparison gives
+$$
+\mu(U)\sim_R\mu(A)+\mu(D).
+$$
+The second disjoint cover row in the ledger gives $I \perp D$ and
+$$
+I\cup D \sim_{\mathcal A} B.
+$$
+Apply the same finite disjoint-union additivity row to the displayed disjoint pair $(I,D)$. This gives
+$$
+\mu(I\cup D)\sim_R\mu(I)+\mu(D).
+$$
+Transporting the left endpoint through $I\cup D \sim_{\mathcal A} B$ and composing in the $\RealUp$ classifier gives
+$$
+\mu(B)\sim_R\mu(I)+\mu(D).
+$$
+Now compute in the additive $\AbGroupUp$ row carried by the target $\RealUp$ endpoint surface. Addition congruence applied to the comparison
+$$
+\mu(U)\sim_R\mu(A)+\mu(D)
+$$
+gives
+$$
+\mu(U)+\mu(I)\sim_R(\mu(A)+\mu(D))+\mu(I).
+$$
+Associativity gives
+$$
+(\mu(A)+\mu(D))+\mu(I)\sim_R\mu(A)+(\mu(D)+\mu(I)).
+$$
+Commutativity gives
+$$
+\mu(D)+\mu(I)\sim_R\mu(I)+\mu(D).
+$$
+The earlier comparison
+$$
+\mu(B)\sim_R\mu(I)+\mu(D)
+$$
+therefore gives, by symmetry, transitivity, and addition congruence with the fixed left summand $\mu(A)$,
+$$
+\mu(A)+(\mu(D)+\mu(I))\sim_R\mu(A)+\mu(B).
+$$
+Transitivity of the $\RealUp$ classifier composes the displayed chain:
+$$
+\mu(U)+\mu(I)\sim_R\mu(A)+\mu(B).
+$$
+Substituting the public displayed representatives $U=A\cup B$ and $I=A\cap B$ gives
+$$
+\mu(A\cup B)+\mu(A\cap B)\sim_R\mu(A)+\mu(B).
+$$
+\end{proof}
