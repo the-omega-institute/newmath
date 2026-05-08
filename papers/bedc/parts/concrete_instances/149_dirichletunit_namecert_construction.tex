@@ -164,3 +164,41 @@ Thus the product endpoint carries its own inverse/unit-product witness row, buil
 
 Repack the endpoint $u_0\star_{\mathcal{A}}u_1$ with this inverse/unit-product witness, the unchanged dependency rows $\mathcal{O}$ and $\mathcal{A}$, the unchanged structural rows $\nu$ and $\beta$, and the same provenance row $\rho$. This is exactly the visible unit-row slot described in \autoref{def:dirichletunit-carrier-packet}: the ring-of-integers readback still points to $\mathcal{O}$, the group-law readback still points to $\mathcal{A}$, and the exported row is still tied to the same $\Cont$ and $\Pkg$ ledgers. No host-level multiplication, analytic logarithm equality, determinant row, or standard bridge is introduced.
 \end{proof}
+
+\begin{theorem}[DirichletUnit root inverse-row inversion]
+\label{thm:dirichletunit-root-inverse-row-inversion}
+Let $\mathcal{D}=(\mathcal{O},\mathcal{A},u,\iota,\nu,\beta,\rho)$ be an accepted $\DirichletUnitUp$ carrier packet. Any accepted inverse row read from $\mathcal{D}$ is uniquely projected to the visible unit row $u$, the $\NameCert_{\RingOfIntegersUp}$ dependency row $\mathcal{O}$, the inherited $\AbGroupUp$ inverse row carried by $\mathcal{A}$, the finite $\Cont$ readback tying these rows together, and the $\Pkg$ provenance row $\rho$. No other inverse source is available at the root boundary.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:dirichletunit-carrier-packet}. The tuple exposes exactly one visible unit row $u$, exactly one inverse/unit-product witness row $\iota$, and the dependency rows $\mathcal{O}$ and $\mathcal{A}$ to which they are attached.
+
+Read $\mathcal{A}$ through \autoref{thm:dirichletunit-unit-abgroup-projection}. The inherited inverse row is the only abelian-group inverse row exported to $\DirichletUnitUp$, and \autoref{thm:dirichletunit-abgroup-dependency-obligation} restricts it to unit rows accepted by $\mathcal{O}$.
+
+The $\Cont$ readback and $\Pkg$ provenance are the remaining packet entries that bind the inverse witness to the visible unit row. Repacking these projections gives the stated inversion surface, and the carrier packet contains no second inverse row, host unit carrier, or analytic witness from which a competing root inverse source could be read.
+\end{proof}
+
+\begin{theorem}[DirichletUnit root product-witness inversion]
+\label{thm:dirichletunit-root-product-witness-inversion}
+Let $\mathcal{D}_0=(\mathcal{O},\mathcal{A},u_0,\iota_0,\nu,\beta,\rho)$ and $\mathcal{D}_1=(\mathcal{O},\mathcal{A},u_1,\iota_1,\nu,\beta,\rho)$ be accepted $\DirichletUnitUp$ carrier packets over the same $\NameCert_{\RingOfIntegersUp}$ and $\NameCert_{\AbGroupUp}$ dependency rows. A product witness in the inherited $\AbGroupUp$ row is a valid $\DirichletUnitUp$ product witness exactly at the packet boundary where both visible unit rows $u_0,u_1$, both inverse/unit-product witnesses $\iota_0,\iota_1$, the inherited operation row, the shared $\Cont$ readbacks, and the shared $\Pkg$ provenance are present over $\mathcal{O}$.
+\end{theorem}
+\begin{proof}
+For the forward reading, start from a product witness accepted as a $\DirichletUnitUp$ product row. Inverting the packet definition exposes the two visible unit rows and their inverse/unit-product witness rows, and \autoref{thm:dirichletunit-root-inverse-row-inversion} identifies their inverse evidence with the inherited inverse row of $\mathcal{A}$ over the same $\mathcal{O}$.
+
+Project the inherited operation row from $\mathcal{A}$ using \autoref{thm:dirichletunit-unit-abgroup-projection}. Its availability is restricted by \autoref{thm:dirichletunit-abgroup-dependency-obligation}, so a product witness cannot be detached from the two visible unit rows accepted by the ring-of-integers dependency.
+
+Conversely, assume the two visible unit rows, their inverse/unit-product witnesses, the inherited operation row, the shared $\Cont$ readbacks, and the shared $\Pkg$ provenance are all present over the same $\mathcal{O}$. Apply \autoref{thm:dirichletunit-inherited-unit-product-closure} to repack the inherited product endpoint as a visible $\DirichletUnitUp$ unit row with its own inverse/unit-product witness.
+
+These two readings use the same rows and the same dependency boundary. Hence validity of the inherited product witness for $\DirichletUnitUp$ is exactly the presence of the listed packet data over the shared $\RingOfIntegersUp$ dependency.
+\end{proof}
+
+\begin{theorem}[DirichletUnit root Regulator input exhaustion]
+\label{thm:dirichletunit-root-regulator-input-exhaustion}
+Every $\RegulatorUp$ consumer reading from a $\DirichletUnitUp$ root packet can read only the unary rank witness $\nu$, the finite basis and logarithmic ledger row $\beta$, visible unit rows, inverse rows, inherited product rows, the $\NameCert_{\RingOfIntegersUp}$ and $\NameCert_{\AbGroupUp}$ dependency rows, finite $\Cont$ readbacks, and $\Pkg$ provenance. It cannot read a determinant, analytic regulator value, host logarithm equality, or standard bridge from $\DirichletUnitUp$ alone.
+\end{theorem}
+\begin{proof}
+Project the consumer surface from \autoref{thm:dirichletunit-regulator-consumer-boundary}. The only rank-facing input is the unary rank witness $\nu$, and the only basis or logarithm-facing input is the finite ledger row $\beta$ carried by \autoref{def:dirichletunit-carrier-packet}.
+
+Next project the unit-facing rows. The visible unit rows and inverse rows are supplied by \autoref{thm:dirichletunit-visible-unit-row-obligation} and inverted by \autoref{thm:dirichletunit-root-inverse-row-inversion}; inherited product rows are available exactly under \autoref{thm:dirichletunit-root-product-witness-inversion}.
+
+Finally inspect the dependency and provenance boundary. The packet exposes $\mathcal{O}$, $\mathcal{A}$, finite $\Cont$ readbacks, and $\rho$ as $\Pkg$ provenance, and no other rows. A determinant, analytic regulator value, host logarithm equality, or standard bridge is therefore outside the $\DirichletUnitUp$ root input surface and must be supplied by a regulator-side certificate.
+\end{proof}

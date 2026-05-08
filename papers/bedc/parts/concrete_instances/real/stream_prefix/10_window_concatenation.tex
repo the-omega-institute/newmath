@@ -91,6 +91,75 @@ endpoint classifiers repack as the joined
 $\mathsf{RealUnaryStreamWindowClassifier}$.
 \end{proof}
 
+\begin{theorem}[Real unary window concatenation left projection]
+\label{thm:real-unary-window-concat-left-projection}
+For observation maps $s,t:\Hist\to\Hist$ and unary anchor histories
+$a,w,r:\Hist$, if
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,a,\mathsf{append}(w,\mathsf{BHist.e1}(r))),
+$$
+then
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:real-unary-stream-window-classifier} in the joined
+window. Its $\mathsf{UnaryHistory}$ rows include the anchor and joined bound,
+and its endpoint clause gives a $\mathsf{RatHistoryClassifier}$ for each
+offset below $\mathsf{append}(w,\mathsf{BHist.e1}(r))$.
+
+Fix an offset $k$ with $\mathsf{UnaryOffsetLe}(k,w)$. The left inclusion of
+the finite append ledger extends this $\mathsf{Cont}$ row to a displayed
+ledger
+$$
+\mathsf{UnaryOffsetLe}(k,\mathsf{append}(w,\mathsf{BHist.e1}(r))).
+$$
+Apply the joined classifier to this extended offset.
+
+The endpoint remains anchored at $a$, so no endpoint transport is needed:
+the resulting $\mathsf{RatHistoryClassifier}$ is already the one required for
+the left window. Repacking these endpoint rows with the inherited
+$\mathsf{UnaryHistory}$ data gives
+$\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)$.
+\end{proof}
+
+\begin{theorem}[Real unary window concatenation right projection]
+\label{thm:real-unary-window-concat-right-projection}
+For observation maps $s,t:\Hist\to\Hist$ and unary anchor histories
+$a,w,r:\Hist$, if
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,a,\mathsf{append}(w,\mathsf{BHist.e1}(r))),
+$$
+then
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(a,\mathsf{BHist.e1}(w)),r).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:real-unary-stream-window-classifier} in the joined
+window and fix an offset $j$ with $\mathsf{UnaryOffsetLe}(j,r)$. The successor
+shift of this ledger gives a joined offset below
+$\mathsf{append}(w,\mathsf{BHist.e1}(r))$ by first crossing the visible
+$\mathsf{BHist.e1}(w)$ row and then following the displayed $\mathsf{Cont}$
+row for $j$.
+
+Apply the joined classifier to that shifted offset. Its endpoint is based at
+$a$ and the shifted ledger, while the right window endpoint is based at
+$\mathsf{append}(a,\mathsf{BHist.e1}(w))$ and the offset $j$.
+
+The displayed append associativity row supplies the required $\hsame$ and
+$\mathsf{Cont}$ transport between these two endpoint descriptions. Transport
+the $\mathsf{RatHistoryClassifier}$ along that row, and repack the transported
+endpoint classifiers with the inherited $\mathsf{UnaryHistory}$ data. This is
+exactly
+$\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(a,\mathsf{BHist.e1}(w)),r)$.
+\end{proof}
+
 The ten-field fit is: traditional target finite observation-window
 concatenation over unary histories; BEDC source
 $\mathsf{RealUnaryStreamWindowClassifier}$; carrier RealUp finite windows over
