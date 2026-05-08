@@ -135,7 +135,7 @@ CATALOG = [
      "The curvature interface $\\CurvatureUp$ packages the antisymmetric bracket of a connection, certifying the Bianchi identities and the tensorial behaviour under section change. It depends on $\\NameCert_{\\ConnectionUp}$ (\\autoref{ch:concrete-instances-connection-namecert}) and supplies the local invariants on which Riemannian and gauge-field certificates rest."),
     (114, "diffform", "DiffFormUp",
      "The differential-form interface $\\DiffFormUp$ packages the carrier of antisymmetric multilinear maps on the tangent bundle of a manifold, together with the wedge product. It depends on $\\NameCert_{\\ManifoldUp}$ (\\autoref{ch:concrete-instances-manifold-namecert}) and $\\NameCert_{\\TensorProductUp}$ (\\autoref{ch:concrete-instances-tensorproduct-namecert}), and is the substrate for the de~Rham complex."),
-    (115, "deRham", "DeRhamUp",
+    (115, "derham", "DeRhamUp",
      "The de~Rham interface $\\DeRhamUp$ packages the exterior-derivative chain complex on differential forms, certifying $d^2 = 0$ and $\\hsame$-stability. It depends on $\\NameCert_{\\DiffFormUp}$ (\\autoref{ch:concrete-instances-diffform-namecert}) and $\\NameCert_{\\CohomologyUp}$ (\\autoref{ch:concrete-instances-cohomology-namecert}), and supplies the de~Rham cohomology of a manifold."),
     (116, "symplectic", "SymplecticUp",
      "The symplectic-structure interface $\\SymplecticUp$ packages a closed nondegenerate $2$-form on an even-dimensional manifold carrier. It depends on $\\NameCert_{\\DiffFormUp}$ (\\autoref{ch:concrete-instances-diffform-namecert}) and $\\NameCert_{\\ManifoldUp}$ (\\autoref{ch:concrete-instances-manifold-namecert}), and is the substrate for Hamiltonian dynamics and Poisson-bracket certificates."),

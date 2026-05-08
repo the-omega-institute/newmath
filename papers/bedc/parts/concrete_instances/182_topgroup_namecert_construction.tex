@@ -188,6 +188,86 @@ projected from the displayed packet, no host topological-group structure is
 available to the certificate.
 \end{proof}
 
+\begin{theorem}[TopGroupUp source-coupled carrier scope]
+\label{thm:topgroup-source-coupled-carrier-scope}
+Every accepted $\TopGroupUp$ packet projects one shared $\mathsf{BHist}$ group
+source row, topology source row, multiplication row, inversion row, $\Cont$
+ledger, and $\Pkg$ provenance row. These rows are the source of the public
+carrier and classifier scope; no independent host topological-group object is
+available outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet by \autoref{def:topgroup-bhist-carrier}. The
+projection exposes the single group source $G$, topology source $T$,
+multiplication row $m$, inversion row $i$, neighbourhood row $n$, ledger
+$\lambda$, and provenance row $\rho$.
+
+Apply \autoref{thm:topgroup-multiplication-continuity-carrier} and
+\autoref{thm:topgroup-inversion-continuity-carrier} to read the operation
+rows over those same sources. Apply
+\autoref{thm:topgroup-cont-ledger-continuity-exhaustion} to read the finite
+$\Cont$ scope and
+\autoref{thm:topgroup-classifier-continuity-transport} for the carried
+classifier transport.
+
+Finally use \autoref{thm:topgroup-public-certificate-boundary}. Since that
+boundary is exhausted by the projected rows and their provenance, there is no
+second carrier from which an external topological group could be read.
+\end{proof}
+
+\begin{theorem}[TopGroupUp operation-continuity ledger scope]
+\label{thm:topgroup-operation-continuity-ledger-scope}
+For every accepted $\TopGroupUp$ packet, the product and inverse continuity
+rows are exactly the two operation-neighbourhood transport families carried
+by the same finite $\Cont$ ledger. Under endpoint $\hsame$ transport, both
+families remain in that ledger and no additional continuity family is
+introduced.
+\end{theorem}
+\begin{proof}
+Project the packet using \autoref{def:topgroup-bhist-carrier}. The
+continuity coordinate is the single finite ledger $\lambda$, and its
+operation entries are attached to the displayed multiplication and inversion
+rows.
+
+Apply \autoref{thm:topgroup-cont-ledger-continuity-exhaustion}. It identifies
+the public continuity obligations with the product rows of
+\autoref{thm:topgroup-multiplication-continuity-carrier} and the inverse rows
+of \autoref{thm:topgroup-inversion-continuity-carrier}.
+
+For transport, apply
+\autoref{thm:topgroup-classifier-continuity-transport}. The endpoint
+$\hsame$ witnesses move the operation and neighbourhood endpoints
+componentwise, while the product and inverse continuity entries remain the
+same two ledger families.
+\end{proof}
+
+\begin{theorem}[TopGroupUp public NameCert readback exactness]
+\label{thm:topgroup-public-namecert-readback-exactness}
+The public $\NameCert_{\TopGroupUp}$ readback is exhausted by the carrier,
+classifier, product continuity rows, inverse continuity rows, finite $\Cont$
+ledger, and $\Pkg$ provenance. Reading a public certificate therefore returns
+exactly those displayed BEDC rows and no further topological-group datum.
+\end{theorem}
+\begin{proof}
+Start from the public boundary theorem
+\autoref{thm:topgroup-public-certificate-boundary}. Its listed sources are
+the carrier definition, the product and inverse continuity carrier rows, the
+ledger exhaustion row, and the classifier transport row.
+
+Use \autoref{def:topgroup-bhist-carrier} to identify the carrier,
+classifier, finite $\Cont$ ledger, and $\Pkg$ provenance coordinates. Use
+\autoref{thm:topgroup-multiplication-continuity-carrier} and
+\autoref{thm:topgroup-inversion-continuity-carrier} for the two operation
+continuity families, and
+\autoref{thm:topgroup-cont-ledger-continuity-exhaustion} to see that the
+ledger contains no further public continuity obligations.
+
+Thus every public readback component is one of the named coordinates or one
+of the two operation-continuity families. The classifier transport theorem
+\autoref{thm:topgroup-classifier-continuity-transport} gives stability of
+exactly those rows under $\hsame$, so the readback has no additional datum.
+\end{proof}
+
 \begin{theorem}[TopGroupUp product neighbourhood transport]
 \label{thm:topgroup-product-neighbourhood-transport}
 Let $\mathcal G=(G,T,m,i,n,\lambda,\rho)$ be a $\TopGroupUp$ packet with
