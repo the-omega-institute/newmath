@@ -8,3 +8,172 @@ The Jones-polynomial interface $\JonesPolynomialUp$ packages the Laurent polynom
 
 \section{The certificate}
 \label{sec:jonespolynomial-certificate}
+
+\begin{definition}[JonesPolynomial skein ledger packet]
+\label{def:jonespolynomial-skein-ledger-packet}
+A $\JonesPolynomialUp$ skein ledger packet is a finite BEDC row family
+$$
+\mathcal{J}=(\mathcal{K},\mathcal{K}_+,\mathcal{K}_-,\mathcal{K}_0,J,\sigma,\rho,\lambda)
+$$
+with the following visible fields.
+\begin{enumerate}
+  \item $\mathcal{K}$ is an accepted $\KnotUp$ diagram packet of
+  \autoref{def:knot-diagram-bhist-carrier}; it is the diagram row whose
+  polynomial endpoint is being named.
+  \item $\mathcal{K}_+$, $\mathcal{K}_-$, and $\mathcal{K}_0$ are accepted
+  $\KnotUp$ diagram packets over the same displayed $\SOneUp$ source,
+  ambient $\HomotopyUp$ row, endpoint family, and $\Pkg$ scope, except for
+  one local skein window tagged respectively as the positive crossing,
+  negative crossing, and oriented smoothing boundary row.
+  \item $J$ is a Laurent-polynomial endpoint row whose underlying normalized
+  finite coefficient row is accepted by $\NameCert_{\PolynomialUp}$ through
+  \autoref{def:polynomial-carrier},
+  \autoref{def:polynomial-classifier-specification}, and
+  \autoref{def:polynomial-certificate-obligations}. The Laurent bookkeeping is
+  carried as displayed endpoint data and is not read as host polynomial
+  equality.
+  \item $\sigma$ is a finite $\Bundle$-indexed skein ledger. Each entry names
+  one local skein face, the three $\KnotUp$ boundary rows
+  $\mathcal{K}_+,\mathcal{K}_-,\mathcal{K}_0$, the endpoint row $J$, the
+  polynomial classifier rows consumed at that face, and the $\KnotUp$
+  classifier rows showing that Reidemeister transport of the surrounding
+  diagram commutes with reading the same local face.
+  \item $\rho$ records the shared $\Pkg$ provenance of the four knot packets,
+  the polynomial endpoint, and the finite skein ledger. The continuation
+  ledger $\lambda$ lists exactly the $\Cont$, $\hsame$, $\Bundle$,
+  polynomial-classifier, knot-classifier, and exactness rows accepted by the
+  public $\JonesPolynomialUp$ surface.
+\end{enumerate}
+The packet exports only these rows. It does not export a host knot quotient,
+external diagram equality, or a complete Jones-polynomial invariant beyond the
+supplied finite skein ledger.
+\end{definition}
+
+\begin{definition}[JonesPolynomial skein ledger classifier]
+\label{def:jonespolynomial-skein-ledger-classifier}
+Two packets
+$\mathcal{J}=(\mathcal{K},\mathcal{K}_+,\mathcal{K}_-,\mathcal{K}_0,J,\sigma,\rho,\lambda)$
+and
+$\mathcal{J}'=(\mathcal{K}',\mathcal{K}'_+,\mathcal{K}'_-,\mathcal{K}'_0,J',\sigma',\rho',\lambda')$
+of \autoref{def:jonespolynomial-skein-ledger-packet} are related by
+$\mathsf{JonesSkeinCls}$ when the following finite rows are supplied.
+\begin{enumerate}
+  \item The main diagram rows $\mathcal{K}$ and $\mathcal{K}'$ are related by
+  the $\KnotUp$ Reidemeister ledger classifier of
+  \autoref{def:knot-reidemeister-ledger-classifier}.
+  \item The three skein boundary pairs
+  $(\mathcal{K}_+,\mathcal{K}'_+)$, $(\mathcal{K}_-,\mathcal{K}'_-)$, and
+  $(\mathcal{K}_0,\mathcal{K}'_0)$ are related by the same $\KnotUp$
+  classifier surface, with matching local-window tags and the same transported
+  endpoint rows.
+  \item The polynomial endpoints $J$ and $J'$ are related by the normalized
+  structural classifier of $\NameCert_{\PolynomialUp}$ from
+  \autoref{def:polynomial-classifier-specification}, with stability read
+  through \autoref{def:polynomial-stability-certificate}.
+  \item The ledgers $\sigma$ and $\sigma'$ are matched by finite $\Bundle$
+  induction: empty skein ledgers compare, and a cons step compares the
+  displayed local skein face after applying the four $\KnotUp$ transports and
+  the $\PolynomialUp$ endpoint classifier row.
+  \item The provenance rows $\rho,\rho'$ and continuation ledgers
+  $\lambda,\lambda'$ list exactly the transported rows above and no further
+  host-level witness.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}[JonesPolynomial skein ledger Reidemeister transport]
+\label{lem:jonespolynomial-skein-ledger-reidemeister-transport}
+Let $\mathcal{J}$ be a $\JonesPolynomialUp$ skein ledger packet. Transport
+$\mathcal{K}$ and the three boundary rows
+$\mathcal{K}_+,\mathcal{K}_-,\mathcal{K}_0$ by accepted finite $\KnotUp$
+Reidemeister ledgers whose displayed endpoint transports preserve the local
+skein window. Transport the endpoint $J$ by an accepted $\PolynomialUp$
+classifier row. Then the transported rows repack as a $\JonesPolynomialUp$
+skein ledger packet $\mathcal{J}'$, and
+$\mathsf{JonesSkeinCls}(\mathcal{J},\mathcal{J}')$ holds.
+\end{lemma}
+\begin{proof}
+Project the four knot rows of $\mathcal{J}$ to downstream consumer boundary
+packets by \autoref{thm:knot-consumer-boundary-extraction}. Each projection
+contains exactly the displayed $\SOneUp$ source rows, ambient $\HomotopyUp$
+rows, finite Reidemeister $\Bundle$ ledger, finite $\Cont$ ledger, and
+$\Pkg$ provenance.
+
+Apply \autoref{thm:knot-reidemeister-ledger-composition-closure} to compose
+any Reidemeister transport already present in the packet with the supplied
+transport ledgers. Then apply \autoref{thm:knot-classifier-ledger-completeness}
+to read the result again as a finite ledger generated by endpoint $\hsame$
+transport and Reidemeister move rows. The hypothesis that the local skein
+window is preserved identifies the positive, negative, and smoothing tags after
+transport, so every skein face in $\sigma$ has a transported face over the
+same displayed boundary pattern.
+
+The polynomial endpoint transport is accepted by the normalized structural
+classifier of \autoref{def:polynomial-classifier-specification}; the stability
+rows of \autoref{def:polynomial-stability-certificate} keep the endpoint
+inside the $\PolynomialUp$ carrier. Induct over the finite $\Bundle$ ledger
+$\sigma$. The empty ledger transports to the empty ledger. In the cons case,
+the head face is transported by the four knot classifier rows and the
+polynomial endpoint classifier row, while the induction hypothesis transports
+the remaining finite ledger.
+
+Collecting the transported skein faces gives a finite ledger $\sigma'$. The
+transported provenance and continuation rows give $\rho'$ and $\lambda'$.
+These fields satisfy the clauses of
+\autoref{def:jonespolynomial-skein-ledger-packet}, and the same construction
+is exactly the classifier relation of
+\autoref{def:jonespolynomial-skein-ledger-classifier}.
+\end{proof}
+
+\begin{theorem}[JonesPolynomial skein ledger obligation surface]
+\label{thm:jonespolynomial-skein-ledger-obligation-surface}
+Let $\mathcal{J}$ be a $\JonesPolynomialUp$ skein ledger packet of
+\autoref{def:jonespolynomial-skein-ledger-packet}. Assume its finite skein
+ledger is compatible with Reidemeister transport in the sense of
+\autoref{lem:jonespolynomial-skein-ledger-reidemeister-transport}. Then the
+finite row family consisting of the main $\KnotUp$ diagram row, the three
+skein-related $\KnotUp$ boundary rows, the $\PolynomialUp$ Laurent-polynomial
+endpoint row, the finite $\Bundle$ skein ledger, the shared $\Pkg$ provenance,
+the finite $\Cont$ continuation ledger, and the classifier
+$\mathsf{JonesSkeinCls}$ forms an accepted carrier/classifier surface for
+$\NameCert_{\JonesPolynomialUp}$ over those rows.
+
+The exactness boundary of this surface is the displayed packet itself: every
+accepted $\JonesPolynomialUp$ row projects to those listed fields, and every
+listed field repacks into the same packet. No full Jones-polynomial invariant,
+unknot normalization, global skein recursion, host polynomial quotient, or
+external ambient-isotopy primitive is part of this obligation surface.
+\end{theorem}
+\begin{proof}
+Start with the packet fields displayed in
+\autoref{def:jonespolynomial-skein-ledger-packet}. The main diagram row and
+the three skein boundary rows are accepted $\KnotUp$ packets, so
+\autoref{thm:knot-consumer-boundary-extraction} exposes their public boundary
+packets and \autoref{thm:knot-consumer-classifier-determinacy} fixes the
+classifier surface read by any downstream consumer.
+
+The endpoint $J$ is accepted by the polynomial carrier and classifier rows of
+\autoref{def:polynomial-carrier},
+\autoref{def:polynomial-classifier-specification}, and
+\autoref{def:polynomial-certificate-obligations}. Thus the polynomial side of
+the surface is a normalized finite coefficient endpoint carried by
+$\NameCert_{\PolynomialUp}$, with the Laurent tags retained only as displayed
+endpoint data.
+
+The finite skein ledger $\sigma$ ties these two sides together. Each ledger
+entry reads the same three $\KnotUp$ boundary rows, the same polynomial
+endpoint row, and the same package provenance. By the Reidemeister transport
+lemma, transporting the diagram and boundary rows through accepted $\KnotUp$
+classifier ledgers transports the corresponding skein face and keeps the
+polynomial endpoint inside the $\PolynomialUp$ classifier. Hence the surface
+has a stable classifier, namely
+\autoref{def:jonespolynomial-skein-ledger-classifier}.
+
+For exactness, project an accepted surface row to its knot fields, polynomial
+endpoint field, skein ledger, provenance row, and continuation ledger. These
+are precisely the fields of
+\autoref{def:jonespolynomial-skein-ledger-packet}. Conversely, given those
+fields, the definition repacks them as a $\JonesPolynomialUp$ skein ledger
+packet, and the classifier definition supplies the accepted comparison rows.
+The public carrier/classifier surface is therefore exactly the supplied finite
+skein-ledger row family and contains no additional invariant or bridge row.
+\end{proof}
