@@ -67,6 +67,46 @@ theorem QuantumStateBHistCarrier_hilbert_source_boundary [AskSetup] [PackageSetu
           (And.intro phaseRow
             (And.intro endpointRow pkgSig)))))
 
+theorem QuantumStateBHistCarrier_provenance_row_exactness [AskSetup] [PackageSetup]
+    {hilbert projective vector norm phase projectiveEndpoint hilbertLedger projectiveLedger
+      provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuantumStateBHistCarrier hilbert projective vector norm phase projectiveEndpoint
+        hilbertLedger projectiveLedger provenance endpoint bundle pkg ->
+      UnaryHistory provenance ∧ UnaryHistory hilbertLedger ∧ UnaryHistory projectiveLedger ∧
+        UnaryHistory endpoint ∧ Cont hilbert vector hilbertLedger ∧
+          Cont projective projectiveEndpoint projectiveLedger ∧
+            Cont provenance (append hilbertLedger projectiveLedger) endpoint ∧
+              hsame endpoint (append provenance (append hilbertLedger projectiveLedger)) ∧
+                PkgSig bundle endpoint pkg := by
+  intro carrier
+  have provenanceUnary : UnaryHistory provenance :=
+    carrier.right.right.right.right.right.right.left
+  have hilbertLedgerRow : Cont hilbert vector hilbertLedger :=
+    carrier.right.right.right.right.right.right.right.left
+  have projectiveLedgerRow : Cont projective projectiveEndpoint projectiveLedger :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have endpointRow : Cont provenance (append hilbertLedger projectiveLedger) endpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.left
+  have hilbertLedgerUnary : UnaryHistory hilbertLedger :=
+    unary_cont_closed carrier.left carrier.right.right.left hilbertLedgerRow
+  have projectiveLedgerUnary : UnaryHistory projectiveLedger :=
+    unary_cont_closed carrier.right.left carrier.right.right.right.right.right.left
+      projectiveLedgerRow
+  have combinedLedgerUnary : UnaryHistory (append hilbertLedger projectiveLedger) :=
+    unary_append_closed hilbertLedgerUnary projectiveLedgerUnary
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary combinedLedgerUnary endpointRow
+  exact And.intro provenanceUnary
+    (And.intro hilbertLedgerUnary
+      (And.intro projectiveLedgerUnary
+        (And.intro endpointUnary
+          (And.intro hilbertLedgerRow
+            (And.intro projectiveLedgerRow
+              (And.intro endpointRow
+                (And.intro endpointRow
+                  carrier.right.right.right.right.right.right.right.right.right.right.right)))))))
+
 theorem QuantumStateBHistCarrier_global_phase_stability [AskSetup] [PackageSetup]
     {hilbert projective vector vector' norm norm' phase phase' projectiveEndpoint
       projectiveEndpoint' hilbertLedger hilbertLedger' projectiveLedger projectiveLedger'
@@ -164,5 +204,68 @@ theorem QuantumStateBHistCarrier_projective_phase_classifier [AskSetup] [Package
         (And.intro projectiveLedgerRow
           (And.intro endpointRow
             carrier.right.right.right.right.right.right.right.right.right.right.right))))
+
+theorem QuantumStateBHistCarrier_observable_expectation_input_exactness [AskSetup] [PackageSetup]
+    {hilbert projective vector norm phase projectiveEndpoint hilbertLedger projectiveLedger
+      provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuantumStateBHistCarrier hilbert projective vector norm phase projectiveEndpoint
+        hilbertLedger projectiveLedger provenance endpoint bundle pkg ->
+      UnaryHistory hilbert ∧ UnaryHistory vector ∧ UnaryHistory norm ∧ UnaryHistory phase ∧
+        UnaryHistory projectiveEndpoint ∧ UnaryHistory hilbertLedger ∧
+          UnaryHistory projectiveLedger ∧ hsame phase (append vector norm) ∧
+            hsame projectiveLedger (append projective projectiveEndpoint) ∧
+              hsame endpoint (append provenance (append hilbertLedger projectiveLedger)) ∧
+                PkgSig bundle endpoint pkg := by
+  intro carrier
+  have hilbertBoundary :=
+    QuantumStateBHistCarrier_hilbert_source_boundary carrier
+  have projectiveClassifier :=
+    QuantumStateBHistCarrier_projective_phase_classifier carrier
+  exact And.intro carrier.left
+    (And.intro hilbertBoundary.left
+      (And.intro hilbertBoundary.right.left
+        (And.intro projectiveClassifier.left
+          (And.intro carrier.right.right.right.right.right.left
+            (And.intro hilbertBoundary.right.right.left
+              (And.intro projectiveClassifier.right.right.left
+                (And.intro projectiveClassifier.right.left
+                  (And.intro projectiveClassifier.right.right.right.left
+                    (And.intro projectiveClassifier.right.right.right.right.left
+                      projectiveClassifier.right.right.right.right.right)))))))))
+
+theorem QuantumStateBHistCarrier_phase_ledger_exhaustion [AskSetup] [PackageSetup]
+    {hilbert projective vector norm phase projectiveEndpoint hilbertLedger projectiveLedger
+      provenance endpoint phaseLedger consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuantumStateBHistCarrier hilbert projective vector norm phase projectiveEndpoint hilbertLedger
+        projectiveLedger provenance endpoint bundle pkg ->
+      Cont phase (append hilbertLedger projectiveLedger) phaseLedger ->
+        Cont phaseLedger provenance consumerRead ->
+          UnaryHistory phase ∧ UnaryHistory phaseLedger ∧ UnaryHistory consumerRead ∧
+            hsame phase (append vector norm) ∧
+              hsame phaseLedger (append phase (append hilbertLedger projectiveLedger)) ∧
+                hsame consumerRead (append phaseLedger provenance) ∧
+                  hsame endpoint (append provenance (append hilbertLedger projectiveLedger)) ∧
+                    PkgSig bundle endpoint pkg := by
+  intro carrier phaseLedgerCont consumerReadCont
+  have projectiveClassifier :=
+    QuantumStateBHistCarrier_projective_phase_classifier carrier
+  have provenanceExact :=
+    QuantumStateBHistCarrier_provenance_row_exactness carrier
+  have combinedLedgerUnary : UnaryHistory (append hilbertLedger projectiveLedger) :=
+    unary_append_closed provenanceExact.right.left provenanceExact.right.right.left
+  have phaseLedgerUnary : UnaryHistory phaseLedger :=
+    unary_cont_closed projectiveClassifier.left combinedLedgerUnary phaseLedgerCont
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed phaseLedgerUnary provenanceExact.left consumerReadCont
+  exact And.intro projectiveClassifier.left
+    (And.intro phaseLedgerUnary
+      (And.intro consumerReadUnary
+        (And.intro projectiveClassifier.right.left
+          (And.intro phaseLedgerCont
+            (And.intro consumerReadCont
+              (And.intro projectiveClassifier.right.right.right.right.left
+                projectiveClassifier.right.right.right.right.right))))))
 
 end BEDC.Derived.QuantumStateUp
