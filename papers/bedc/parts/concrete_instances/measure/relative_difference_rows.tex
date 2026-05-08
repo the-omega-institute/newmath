@@ -246,3 +246,63 @@ $$
 \mu(U)\le_R\mu(A)+\mu(B).
 $$
 \end{proof}
+
+\begin{theorem}[Measure triple-union subadditivity]
+\label{thm:measure-triple-union-subadditivity}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let
+$\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its
+$\RealUp$-valued measure map, and write $x\sim_R y$ and $x\le_R y$ for the
+$\RealUp$ classifier of \autoref{def:real-classifier-specification} and the
+order relation exposed by the shared $\RealAlgOrder$ row. Let
+$A,B,C\in\mathcal{A}$ be displayed measurable events in one carried fiber.
+Let $U\in\mathcal{A}$ be the displayed binary union $A\cup B$, and let
+$T\in\mathcal{A}$ be the displayed binary union $U\cup C$. Suppose the public
+binary-union readback data required by
+\autoref{thm:measure-binary-union-subadditivity} are available for the pair
+$A,B$ with union $U$ and for the pair $U,C$ with union $T$: the readbacks
+display $A\subseteq U$ and $U\subseteq T$, and the relative-difference events
+$U\setminus A$ and $T\setminus U$ supplied by
+\autoref{def:measure-complement-difference-row} are displayed as subevents of
+$B$ and $C$, respectively. If the certificate supplies the finite
+disjoint-union additivity row, the nonnegative measure-value row, and the
+$\RealAlgOrder$ additive order row with classifier-stable addition
+monotonicity and transitivity, then
+$$
+\mu(T)\le_R(\mu(A)+\mu(B))+\mu(C).
+$$
+Equivalently, for the displayed nesting $T=(A\cup B)\cup C$,
+$$
+\mu((A\cup B)\cup C)\le_R(\mu(A)+\mu(B))+\mu(C).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:measure-binary-union-subadditivity} to the displayed pair
+$U,C$ with binary union $T$. The hypotheses for this application are exactly
+the measurable union row $T\in\mathcal{A}$, the readback $U\subseteq T$, and
+the relative-difference inclusion $T\setminus U\subseteq C$, together with the
+finite-additivity, nonnegative-value, and additive-order rows. This gives
+$$
+\mu(T)\le_R\mu(U)+\mu(C).
+$$
+
+Apply \autoref{thm:measure-binary-union-subadditivity} again to the displayed
+pair $A,B$ with binary union $U$. The readback $A\subseteq U$ and the
+relative-difference inclusion $U\setminus A\subseteq B$ give
+$$
+\mu(U)\le_R\mu(A)+\mu(B).
+$$
+
+Use the addition-monotonicity component of the same $\RealAlgOrder$ row with
+the fixed right summand $\mu(C)$. It transports the last comparison through
+addition and yields
+$$
+\mu(U)+\mu(C)\le_R(\mu(A)+\mu(B))+\mu(C).
+$$
+
+Finally compose the two order comparisons by transitivity of the
+$\RealAlgOrder$ order row. Since the displayed event $T$ is the carried binary
+union $(A\cup B)\cup C$, the composite comparison is
+$$
+\mu((A\cup B)\cup C)\le_R(\mu(A)+\mu(B))+\mu(C).
+$$
+\end{proof}
