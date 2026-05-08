@@ -1,0 +1,84 @@
+\chapter{Empty as the Fable Machine: Observer-Sequence Growth and Selector Ledgers}
+\label{ch:capstones-empty-fable-machine}
+
+The preceding capstone (\autoref{ch:capstones-observer-hist-identity}) identifies the observer with the history of its distinctions: $\mathit{observer} = \Hist$, $\mathit{observation} = \Cont$, time = Hist growth. That identification fixes what an observer is, but does not yet spell out how the observer sequence grows. The present chapter fills that gap. The empty history $\emp$ carries no information; nevertheless every non-empty history is generated from $\emp$ by a finite sequence of distinction acts. When more than one branch is locally admissible, the realized history contains the selector witness for the branch that was enacted. Empty is therefore not an observer-substance and not a truth oracle. It is the zero-information boundary at which distinction becomes generative: the fable machine. This chapter falls under the project's axiom-purity gate; no $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$ is required for any cited target.
+
+\section{Empty as zero-information boundary}
+\label{sec:efm-empty-vs-e}
+
+The kernel value $\emp$ and the boundary at which distinction enters above any history must be distinguished at the reading level: $\emp$ is the unique $\Hist$ whose distinction record is empty; the empty boundary above any $\Hist$ is the zero-information slot at which the next $\Ezero$ or $\Eone$ application has not yet been enacted. Both are read as ``Empty,'' but each non-trivial observation is generated at the empty boundary above the current Hist, not by resetting the history to $\emp$.
+
+\begin{definition}[Empty boundary]
+\label{def:efm-empty-boundary}
+For a $\Hist$ value $h$, the \emph{empty boundary above $h$} is the zero-information slot at which a singleton extension may apply: the unique slot at which $\Ext(\,h,\,m,\,r\,)$ becomes admissible for some mark $m$, with the resulting $r$ recording $m$ as a fresh distinction above $h$. This is a reading-level locator; the formal target is the kernel relation $\Ext$ on $\Hist$.
+\end{definition}
+
+\begin{lemma}[Empty carries no selector]
+\label{thm:efm-empty-no-selector}
+The Hist value $\emp$ exposes no $b_0$/$b_1$ selector. The information content of $\emp$ is the empty sequence, and any reading that recovers a mark from a Hist value must recurse on a non-empty constructor, never on $\emp$ alone.
+\end{lemma}
+\begin{proof}
+The information content recursion (\autoref{def:hist-information-content}) returns the empty sequence at $\emp$. Every $\Eone$ or $\Ezero$ application records its tag in the constructor of $\Hist$; the no-confusion lemmas separating $\emp$ from $\Eone(h)$ and from $\Ezero(h)$ rule out the existence of a Hist that records a mark while remaining $\hsame$-equivalent to $\emp$.
+\end{proof}
+
+\begin{remark}[Empty is not a hidden subject]
+\label{rem:efm-no-hidden-subject}
+Empty is not an information reservoir, nor a substance behind the trace, nor a global chooser. Its role is structural: the zero-information boundary at which the first visible distinction is enacted. Every claim made later in this chapter about ``selecting'' a branch will be redeemed by a constructive witness on the kernel surface, not by an unwitnessed appeal to Empty.
+\end{remark}
+
+\section{One-step birth: from empty boundary to singleton continuation}
+\label{sec:efm-one-step-birth}
+
+\begin{definition}[Singleton tail]
+\label{def:efm-singleton-tail}
+For a mark $m \in \{b_0, b_1\}$, the \emph{singleton tail} of $m$ is the $\Hist$ value $\Ezero(\emp)$ when $m = b_0$ and $\Eone(\emp)$ when $m = b_1$. The singleton tail records exactly one distinction above $\emp$ and nothing else.
+\leandef{BEDC.Capstone.EmptyFableMachine.singletonTail}
+\end{definition}
+
+\begin{definition}[Empty-boundary step]
+\label{def:efm-empty-step}
+An \emph{empty-boundary step} from $h$ enacted by mark $m$ with result $r$ is the relation $\Ext(\,h,\,m,\,r\,)$, read at the chapter level as filling the empty boundary above $h$ with the mark $m$. The relation is definitionally identical to the kernel-level extension; the wrapper name carries the reading.
+\leandef{BEDC.Capstone.EmptyFableMachine.EmptyStep}
+\end{definition}
+
+\begin{theorem}[Empty-boundary step is the kernel extension]
+\label{thm:efm-empty-step-iff-ext}
+For every $h$, $m$, $r$: an empty-boundary step from $h$ enacting $m$ to $r$ holds if and only if $\Ext(\,h,\,m,\,r\,)$ holds.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.emptyStep\_iff\_ext}
+\end{theorem}
+
+\begin{theorem}[Singleton-tail constructors]
+\label{thm:efm-singleton-tail-construct}
+$b_0$-stepping above $\emp$ produces the $b_0$ singleton tail, and $b_1$-stepping above $\emp$ produces the $b_1$ singleton tail.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.emptyStep\_singletonTail\_b0}
+\leanvariant{BEDC.Capstone.EmptyFableMachine.emptyStep\_singletonTail\_b1}
+\end{theorem}
+
+\begin{theorem}[Empty-step result is non-empty]
+\label{thm:efm-empty-step-result-nonempty}
+For any empty-boundary step from $h$ enacting $m$ with result $r$, the result $r$ is not $\hsame$-equivalent to $\emp$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.emptyStep\_result\_ne\_empty}
+\end{theorem}
+
+\begin{theorem}[Cross-mark step no-confusion]
+\label{thm:efm-empty-step-cross-mark-noconf}
+A $b_0$-empty-step and a $b_1$-empty-step from the same source $h$ never share a result up to $\hsame$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.emptyStep\_cross\_mark\_no\_confusion}
+\end{theorem}
+
+\begin{theorem}[Empty-step totality]
+\label{thm:efm-empty-step-total}
+For every $h$ and every $m$, an empty-boundary step from $h$ enacting $m$ exists.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.emptyStep\_total}
+\end{theorem}
+
+\begin{theorem}[Empty-step determinism]
+\label{thm:efm-empty-step-det}
+For every $h$ and every $m$, the result of an empty-boundary step is unique up to $\hsame$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.emptyStep\_deterministic}
+\end{theorem}
+
+\begin{remark}[Each step is local; no reset to $\emp$]
+\label{rem:efm-no-reset}
+The reading ``each observation is born from Empty'' refers to the empty boundary above the current Hist, not to a reset of the history to $\emp$. The accumulated sequence $h_0, h_1, \dots, h_n$ has $h_{i+1}$ obtained from $h_i$ by an empty-boundary step, with $h_i$ retaining its full distinction record; the singleton tail $\Ezero(\emp)$ or $\Eone(\emp)$ is the local shape of that step, not the global state.
+\end{remark}

@@ -721,3 +721,5 @@ import BEDC.Derived.FieldUp.RatDenominatorExternalUnitNormalForm
 import BEDC.Derived.FieldUp.ContextualActionThreefold
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Reflection
+/- Capstone formalizations. -/
+import BEDC.Capstone
