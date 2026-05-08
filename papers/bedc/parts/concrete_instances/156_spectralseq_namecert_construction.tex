@@ -135,3 +135,148 @@ transport in the page classifier. Since the carrier has no row naming a host
 exact couple or an ambient category equality, those data cannot be exported by
 the public $\NameCert_{\SpectralSeqUp}$ boundary.
 \end{proof}
+
+\begin{theorem}[SpectralSeqUp page-transition bridge]
+\label{thm:spectralseq-page-transition-bridge}
+For a $\SpectralSeqUp$ page carrier
+$$
+\mathcal S=(A,E,d,h,c,\lambda,\rho),
+$$
+the finite $\Cont$ ledger $\lambda$ of
+\autoref{def:spectralseq-bhist-page-carrier}, transported through the page
+classifier of \autoref{def:spectralseq-page-classifier}, gives a
+$\mathsf{BHist}$-stable bridge between each successive page row
+$E_r^{p,q}$ and the corresponding $\HomologyUp$ readback row carried by $h$.
+The bridge exposes exactly the transported page-object rows, differential
+rows, successor homology rows, $\Cont$ transition entries, and $\Pkg$
+provenance rows already listed in the spectral-sequence packet.
+\end{theorem}
+\begin{proof}
+Project the carrier to obtain the page ledger $E$, the differential ledger
+$d$, the homology readback ledger $h$, the transition ledger $\lambda$, and
+the provenance row $\rho$.
+
+For each carried transition, apply the classifier clauses for the source page,
+target page, differential row, and homology readback row. These clauses
+transport the page endpoint and its successor readback componentwise through
+$\hsame$ while the same finite $\Cont$ entry records the page-to-page step.
+
+Finally repack the transported page endpoint, its differential, its
+$\HomologyUp$ readback, the relevant continuation entry, and the provenance
+row. Because every coordinate is projected from the original packet or from
+the classifier transport, the resulting bridge is stable as a
+$\mathsf{BHist}$ row and exports no extra exact-couple data.
+\end{proof}
+
+\begin{theorem}[SpectralSeqUp convergence-filtration bridge]
+\label{thm:spectralseq-convergence-filtration-bridge}
+For $\SpectralSeqUp$ page carriers related by the classifier of
+\autoref{def:spectralseq-page-classifier}, the convergence row $c$ is stable
+under $\hsame$ of the page packet and exposes exactly the finite filtration
+boundary needed by a derived-functor consumer. The exposed boundary consists of
+the transported convergence row, the page rows named by the finite filtration,
+the endpoint readbacks supplied by $h$, the $\Cont$ ledger $\lambda$, and the
+$\Pkg$ provenance row $\rho$.
+\end{theorem}
+\begin{proof}
+Start with the classifier clause $c\hsame c'$. It transports the displayed
+convergence and filtration rows as rows of the same page packet rather than as
+ambient host objects.
+
+Next combine that clause with the classifier clauses for $\lambda$ and $\rho$.
+The continuation ledger records which finite page transitions support the
+filtration boundary, while the provenance row keeps those transitions tied to
+the same page, differential, homology, and convergence entries.
+
+Apply \autoref{thm:spectralseq-convergence-boundary}. It excludes host exact
+couples and quotient objects outside the displayed $\HomologyUp$ boundary
+rows. The remaining exported data are precisely the finite filtration boundary
+rows and their $\Cont$ and $\Pkg$ witnesses.
+\end{proof}
+
+\begin{theorem}[SpectralSeqUp DerivedFunctorUp consumer surface]
+\label{thm:spectralseq-derivedfunctor-consumer-surface}
+A downstream $\DerivedFunctorUp$ row consuming a $\SpectralSeqUp$ certificate
+may use only the $\AbelianCatUp$ source row, the $\HomologyUp$ source row, the
+page-object rows, the differential rows, the homology readbacks, the
+convergence-filtration rows, the $\Cont$ transition ledger, and the $\Pkg$
+provenance listed in this chapter. It consumes no host exact couple, ambient
+quotient category, or equality of abelian categories outside the displayed
+$\NameCert_{\AbelianCatUp}$ source transport.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:spectralseq-obligation-surface} to enumerate the rows exported
+by the spectral-sequence certificate. These are the source certificates, page
+objects, differentials, homology readbacks, convergence rows, continuation
+ledger, and provenance row.
+
+Apply \autoref{thm:spectralseq-page-transition-bridge} for the page-to-page
+bridge surface and \autoref{thm:spectralseq-convergence-filtration-bridge} for
+the convergence-facing boundary. Together they provide the transition and
+filtration rows needed by a derived-functor consumer.
+
+Finally apply \autoref{thm:spectralseq-convergence-boundary}. Since the
+certificate exports neither a host exact couple nor an ambient quotient
+category, the downstream row can consume only the displayed BEDC rows and their
+listed $\Cont$ and $\Pkg$ witnesses.
+\end{proof}
+
+\begin{theorem}[SpectralSeq boundary rows enter successor cycles]
+\label{thm:spectralseq-boundary-row-successor-cycle-readback}
+Let $\mathcal S=(A,E,d,h,c,\lambda,\rho)$ be a $\SpectralSeqUp$ $\mathsf{BHist}$ page carrier. Fix a carried differential row $d_r^{p,q}$, and write its $\HomologyUp$ readback on the BEDC history surface again as
+$$
+d_r^{p,q}:\mathsf{BHist}\to\mathsf{BHist}.
+$$
+Assume that the displayed differential-square row for this differential is
+$$
+\forall u:\mathsf{BHist},\ \hsame(d_r^{p,q}(d_r^{p,q}(u)),\mathsf{Empty}).
+$$
+If a representative $b$ lies in the displayed boundary row for this differential,
+$$
+B_{d_r^{p,q}}(b),
+$$
+then the successor-page readback row $h_r^{p,q}$ classifies the same representative through the cycle row:
+$$
+Z_{d_r^{p,q}}(b).
+$$
+Equivalently, every representative read by $h_r^{p,q}$ from the displayed boundary subrow of $d_r^{p,q}$ enters the successor surface $E_{r+1}^{p,q}$ only through the cycle row used by the homology-page quotient.
+\end{theorem}
+\begin{proof}
+The carrier description in \autoref{def:spectralseq-bhist-page-carrier} gives, for the fixed differential row, a homology readback row identifying the successor page with the $\HomologyUp$ cycle row of $d_r^{p,q}$ modulo its displayed boundary row. The obligation surface in \autoref{thm:spectralseq-obligation-surface} exposes the differential-square row for the same displayed differential together with the matching homology-page readback row $h_r^{p,q}$.
+
+Apply \autoref{thm:homology-boundary-carrier-cycle-closed} to the $\HomologyUp$ differential read back from $d_r^{p,q}$ and to the representative $b$. The boundary hypothesis supplies the boundary-carrier premise, while the displayed differential-square row supplies the universal square-zero premise. The conclusion is exactly $Z_{d_r^{p,q}}(b)$ before taking the boundary quotient. Since $h_r^{p,q}$ reads the successor page from that cycle row modulo the displayed boundary row, the boundary representative is admitted to the successor-page surface as a cycle representative.
+\end{proof}
+
+\begin{theorem}[SpectralSeqUp successor-page closure]
+\label{thm:spectralseq-successor-page-closure}
+Suppose a $\SpectralSeqUp$ page carrier supplies a differential row
+$d_r^{p,q}$, its transported source and target page rows
+$E_r^{p,q}$ and $E_r^{p+r,q-r+1}$, and the displayed $\HomologyUp$
+cycle-boundary readback row identifying the successor page. Then the successor
+page is repacked as a $\SpectralSeqUp$ page carrier over the same
+$\NameCert_{\AbelianCatUp}$ source, with the $\Cont$ page-transition ledger
+extended by the successor entry and the $\Pkg$ provenance retained for the
+displayed page, differential, homology-readback, convergence, and transition
+rows. No host quotient, host exact couple, or ambient category equality is
+introduced by the page transition.
+\end{theorem}
+\begin{proof}
+Project the differential row, its source and target page rows, and the
+homology readback row from the carrier of
+\autoref{def:spectralseq-bhist-page-carrier}. These projections give the
+only data used to name the successor page.
+
+Use the page classifier of \autoref{def:spectralseq-page-classifier} to
+transport the source page, target page, differential, and homology readback
+componentwise. By \autoref{thm:spectralseq-differential-ledger}, the
+transported differential remains an admissible $\AbelianCatUp$ morphism row,
+and the transported readback remains classified by the displayed
+$\HomologyUp$ source surface.
+
+Repack the successor page by extending the finite $\Cont$ ledger with the
+displayed page-transition entry and retaining the same $\Pkg$ provenance rows.
+The boundary restriction of \autoref{thm:spectralseq-convergence-boundary}
+excludes any host quotient or exact-couple object outside the carried
+$\HomologyUp$ cycle-boundary row, so the repacked object is again a
+$\SpectralSeqUp$ page carrier.
+\end{proof}
