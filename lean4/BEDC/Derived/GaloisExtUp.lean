@@ -470,12 +470,84 @@ theorem GaloisExtSourcePacket_normal_root_orbit_closure [AskSetup] [PackageSetup
     unary_cont_closed orbitLedgerUnary boundary.right.right.left orbitEndpointRow
   have orbitEndpointReadback :
       hsame orbitEndpoint (append (append normality provenance) separability) :=
-    hsame_trans orbitEndpointRow
-      (congrArg (fun h : BHist => append h separability) orbitLedgerRow)
+    by
+      exact hsame_trans orbitEndpointRow
+        (congrArg (fun h : BHist => append h separability) orbitLedgerRow)
   exact And.intro orbitLedgerUnary
     (And.intro orbitEndpointUnary
       (And.intro orbitLedgerRow
         (And.intro orbitEndpointReadback
           boundary.right.right.right.right.right.right.right.right.right)))
+
+def GaloisExtAutomorphismConsumerSurface [AskSetup] [PackageSetup]
+    (fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint baseFixed actionLedger automorphismLedger
+      orbitLedger orbitEndpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+      normality separability classifier provenance endpoint bundle pkg ∧
+    UnaryHistory baseFixed ∧ Cont fieldExt baseFixed actionLedger ∧
+      Cont actionLedger normality automorphismLedger ∧ Cont normality provenance orbitLedger ∧
+        Cont orbitLedger separability orbitEndpoint
+
+theorem GaloisExtAutomorphismConsumerSurface_galoisgroup_consumer_automorphism_surface
+    [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint baseFixed actionLedger automorphismLedger
+      orbitLedger orbitEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtAutomorphismConsumerSurface fieldExt polynomial generator minimal simpleRoot
+        sepProvenance separable normality separability classifier provenance endpoint baseFixed
+        actionLedger automorphismLedger orbitLedger orbitEndpoint bundle pkg ->
+      SemanticNameCert
+        (fun target : BHist => exists carriedAction carriedOrbit : BHist,
+          GaloisExtAutomorphismConsumerSurface fieldExt polynomial generator minimal simpleRoot
+            sepProvenance separable normality separability classifier provenance endpoint baseFixed
+            carriedAction automorphismLedger carriedOrbit target bundle pkg)
+        (fun target : BHist => exists carriedAction carriedOrbit : BHist,
+          GaloisExtAutomorphismConsumerSurface fieldExt polynomial generator minimal simpleRoot
+            sepProvenance separable normality separability classifier provenance endpoint baseFixed
+            carriedAction automorphismLedger carriedOrbit target bundle pkg)
+        (fun target : BHist => exists carriedAction carriedOrbit : BHist,
+          GaloisExtAutomorphismConsumerSurface fieldExt polynomial generator minimal simpleRoot
+            sepProvenance separable normality separability classifier provenance endpoint baseFixed
+            carriedAction automorphismLedger carriedOrbit target bundle pkg)
+        (fun left right : BHist =>
+          (exists leftAction leftOrbit : BHist,
+            GaloisExtAutomorphismConsumerSurface fieldExt polynomial generator minimal simpleRoot
+              sepProvenance separable normality separability classifier provenance endpoint baseFixed
+              leftAction automorphismLedger leftOrbit left bundle pkg) /\
+          (exists rightAction rightOrbit : BHist,
+            GaloisExtAutomorphismConsumerSurface fieldExt polynomial generator minimal simpleRoot
+              sepProvenance separable normality separability classifier provenance endpoint baseFixed
+              rightAction automorphismLedger rightOrbit right bundle pkg) /\ hsame left right) := by
+  intro surface
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro orbitEndpoint (Exists.intro actionLedger (Exists.intro orbitLedger surface))
+      equiv_refl := by
+        intro target source
+        exact And.intro source (And.intro source (hsame_refl target))
+      equiv_symm := by
+        intro left right classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro left middle right classifiedLM classifiedMR
+        exact And.intro classifiedLM.left
+          (And.intro classifiedMR.right.left
+            (hsame_trans classifiedLM.right.right classifiedMR.right.right))
+      carrier_respects_equiv := by
+        intro left right classified _source
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro target source
+      exact source
+    ledger_sound := by
+      intro target source
+      exact source
+  }
 
 end BEDC.Derived.GaloisExtUp
