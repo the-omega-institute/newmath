@@ -101,6 +101,7 @@ import BEDC.Derived.CurvatureUp.SemanticNameCertificate
 import BEDC.Derived.CurvatureUp.SourceEnvelopeProjection
 import BEDC.Derived.CurvatureUp.CarrierBoundaryRow
 import BEDC.Derived.CurvatureUp.ManifoldBaseDependencyRow
+import BEDC.Derived.CurvatureUp.ExportDeterminacy
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DynSystemUp
@@ -451,12 +452,14 @@ import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.GaloisExtUp
+import BEDC.Derived.GaloisExtUp.SeparabilityObligationRow
 import BEDC.Derived.GaloisExtUp.SharedCarrierCoverage
 import BEDC.Derived.GaloisGroupUp
 import BEDC.Derived.GaloisGroupUp.AssociativeActionRow
 import BEDC.Derived.GaloisGroupUp.FixedBasePublicSurface
 import BEDC.Derived.GaloisGroupUp.ActionRows
 import BEDC.Derived.GaloisGroupUp.IdentityRowClosure
+import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.NumFieldUp
 import BEDC.Derived.NumFieldUp.DegreeOneBasisEndpoint
 import BEDC.Derived.NumFieldUp.DegreeOneBasis
@@ -479,6 +482,7 @@ import BEDC.Derived.IdealUp.QuotientKernelScope
 import BEDC.Derived.IdealUp.PrincipalGenerated
 import BEDC.Derived.IdealUp.PredicateRows
 import BEDC.Derived.IdealUp.RingMapZeroFiber
+import BEDC.Derived.IdealUp.StdBridge
 import BEDC.Derived.DedekindUp
 import BEDC.Derived.FourierUp
 import BEDC.Derived.ModNUp
@@ -492,6 +496,7 @@ import BEDC.Derived.ContinuousMapUp.PublicExport
 import BEDC.Derived.SumUp
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SumUp.Branch
+import BEDC.Derived.SumUp.CarrierAwareSameTagExactness
 import BEDC.Derived.SumUp.CarrierExactness
 import BEDC.Derived.SumUp.Classifier
 import BEDC.Derived.SumUp.Ledger
