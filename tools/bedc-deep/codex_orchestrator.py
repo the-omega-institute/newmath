@@ -38,8 +38,12 @@ CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 DEFAULT_TIMEOUT = 600
 HISTORY_EXCERPT_LIMIT = 320
 PAPER_CONTEXT_TAIL_LINES = 80
-DEFAULT_CODEX_MODELS = "gpt-5.5,gpt-5.4,gpt-5.2,gpt-5.4-mini"
-DEFAULT_CODEX_REASONING_EFFORT = "high"
+# By default we don't pass --model or -c model_reasoning_effort to codex
+# exec, so the CLI inherits whatever ~/.codex/config.toml has. User config
+# is the single source of truth. To force a fallback chain or override the
+# effort for testing, set BEDC_CODEX_MODELS / BEDC_CODEX_REASONING_EFFORT.
+DEFAULT_CODEX_MODELS = ""
+DEFAULT_CODEX_REASONING_EFFORT = ""
 
 
 @dataclass(frozen=True)
@@ -143,7 +147,9 @@ def _codex_models() -> list[str]:
         if model and model not in seen:
             models.append(model)
             seen.add(model)
-    return models or [DEFAULT_CODEX_MODELS.split(",", 1)[0]]
+    # Empty list = single attempt with no --model override, codex inherits
+    # ~/.codex/config.toml. List of names = fallback chain.
+    return models or [""]
 
 
 def _is_model_limit_error(text: str) -> bool:
@@ -173,12 +179,9 @@ def codex_exec(prompt: str, *, timeout: int = DEFAULT_TIMEOUT, log_tag: str = ""
     rc: int = -1
 
     for model in _codex_models():
-        cmd = [
-            CODEX_PATH,
-            "exec",
-            "--model",
-            model,
-        ]
+        cmd = [CODEX_PATH, "exec"]
+        if model:
+            cmd += ["--model", model]
         if effort:
             cmd += ["-c", f"model_reasoning_effort={json.dumps(effort)}"]
         cmd += [

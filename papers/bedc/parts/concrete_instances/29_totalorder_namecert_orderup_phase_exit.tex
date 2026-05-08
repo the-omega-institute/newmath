@@ -512,6 +512,18 @@ $\Cont$ ledger rows and show that no additional host order, quotient equality,
 or classical trichotomy row is available to a downstream consumer.
 \end{proof}
 
+\begin{theorem}[OrderUp public export formal boundary]
+\label{thm:orderup-public-export-formal-boundary}
+The public $\OrderUp$ export in this chapter is the unary-prefix package of \autoref{thm:orderup-unary-prefix-public-export}. The displayed Lean target in the closure block supplies only the inherited $\PreorderUp$ stability field, so the chapter may claim the paper public surface but not an audit-clean $\OrderUp$ namespace target.
+\end{theorem}
+\begin{proof}
+Project the public export of \autoref{thm:orderup-unary-prefix-public-export}. It exposes the carrier $\mathsf{UnaryHistory}$, classifier $\rho_{\mathsf{u}}$, and relation $\le_{\mathsf{u}} := \mathsf{PreorderPrefixLE}$ from the unary-prefix package.
+
+Project the remaining paper rows through \autoref{thm:unary-prefix-orderup-phase-exit-package}. The exactness row and finite $\Cont$ ledger rows are part of the same public package, so the manuscript has a public $\OrderUp$ surface over the listed carrier, classifier, relation, exactness, and ledger data.
+
+The Lean target recorded below remains a dependency boundary: it certifies the inherited $\PreorderUp$ stability field rather than a checked $\OrderUp$ namespace theorem. Therefore the theory axis can report the public paper surface, while the verification axis stays below an audit-clean $\OrderUp$ target.
+\end{proof}
+
 \begin{closurestatus}{\OrderUp}
   \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{thm:orderup-unary-prefix-public-export} gives the public $\OrderUp$ surface over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, with exactness and finite $\Cont$ ledger rows inherited from the unary-prefix package.}
