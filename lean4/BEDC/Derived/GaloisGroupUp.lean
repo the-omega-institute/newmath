@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -267,5 +268,32 @@ theorem GaloisGroupAutomorphismActionPacket_semantic_name_certificate [AskSetup]
       intro _target source
       exact source
   }
+
+theorem GaloisGroupAutomorphismActionPacket_unit_action_laws [AskSetup] [PackageSetup]
+    {galoisExt group fixedBase action composition inverse classifier provenance ledger endpoint
+      identityLeft identityRight : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisGroupAutomorphismActionPacket galoisExt group fixedBase action composition inverse
+        classifier provenance ledger endpoint bundle pkg ->
+      Cont action BHist.Empty identityLeft ->
+        Cont BHist.Empty action identityRight ->
+          hsame identityLeft action ∧ hsame identityRight action ∧ UnaryHistory identityLeft ∧
+            UnaryHistory identityRight ∧ hsame endpoint (append provenance ledger) ∧
+              PkgSig bundle endpoint pkg := by
+  intro packet leftUnit rightUnit
+  have sameIdentityLeft : hsame identityLeft action :=
+    cont_right_unit_result leftUnit
+  have sameIdentityRight : hsame identityRight action :=
+    cont_left_unit_result rightUnit
+  have identityLeftUnary : UnaryHistory identityLeft :=
+    unary_cont_closed packet.right.right.right.left unary_empty leftUnit
+  have identityRightUnary : UnaryHistory identityRight :=
+    unary_cont_closed unary_empty packet.right.right.right.left rightUnit
+  exact And.intro sameIdentityLeft
+    (And.intro sameIdentityRight
+      (And.intro identityLeftUnary
+        (And.intro identityRightUnary
+          (And.intro packet.right.right.right.right.right.right.right.right.right.left
+            packet.right.right.right.right.right.right.right.right.right.right))))
 
 end BEDC.Derived.GaloisGroupUp
