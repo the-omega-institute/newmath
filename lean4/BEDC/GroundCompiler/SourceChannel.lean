@@ -67,6 +67,12 @@ theorem ledger_records_distinguish_ordered_pairs
   · rfl
   · rfl
 
+theorem normal_address_does_not_erase_raw_event
+    (w v : RawEvent) :
+    Not (SourceCarryLedger w v = [v]) := by
+  intro h
+  cases h
+
 theorem normalize_channel_preserves_legality
     (N : EventFlow -> EventFlow) {c : List DisplayAlphabet} :
     LegalZStream c ->
@@ -165,6 +171,18 @@ theorem classified_object_map_not_injective :
     ⟨CarryClassifier, CarryPreNormal, CarryNormal,
       carry_events_distinct, rfl⟩
 
+theorem quotient_may_be_many_to_one_ledger_lossless :
+    exists C : SourceLevelClassifier,
+      exists w v : RawEvent,
+        Not (w = v) /\
+          C.classify w = C.classify v /\
+          SourceCarryLedger w v = [w, v] /\
+          Not (SourceCarryLedger w v = [v]) := by
+  exact
+    ⟨CarryClassifier, CarryPreNormal, CarryNormal,
+      carry_events_distinct, rfl, rfl,
+      normal_address_does_not_erase_raw_event CarryPreNormal CarryNormal⟩
+
 theorem bijection_only_at_raw_layer :
     (forall S : EventFlow, Decode (FlowEncoding S) = some S) /\
       exists C : SourceLevelClassifier,
@@ -189,5 +207,18 @@ theorem layer_separation :
     · constructor
       · exact channel_terminator_not_source_event_11
       · exact channel_substring_not_source_event
+
+theorem source_analysis_after_decoding :
+    (exists c u : List DisplayAlphabet,
+      LegalZStream c /\
+        ContiguousSubstring u c /\
+        Not (OccursAsDecodedEvent u c)) /\
+      (forall u c : List DisplayAlphabet,
+        OccursAsDecodedEvent u c ->
+          exists S : EventFlow, Decode c = some S /\ List.Mem u S) := by
+  constructor
+  · exact channel_substring_not_source_event
+  · intro u c hOccurs
+    exact hOccurs
 
 end BEDC.GroundCompiler.SourceChannel

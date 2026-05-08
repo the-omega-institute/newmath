@@ -178,6 +178,7 @@ The ledger-preserving form of $w \leadsto v$ is the event flow $w \mid v$ of \au
 
 \begin{principle}[Normal address does not erase the raw event]
 \label{prin:source-channel-no-raw-erasure}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.normal\_address\_does\_not\_erase\_raw\_event}
 For any source-level relation $w \leadsto v$, the right-hand event $v$ may be displayed as a normal address, but the left-hand event $w$ must remain present in the recorded ledger flow. The flow $w \mid v$ is admissible; deleting $w$ in favor of the singleton flow $v$ is not. This discipline is the source-layer specialization of \autoref{prin:compression-requires-memory}: any compression of generated material requires a ledger that tracks the hidden material; composite ledgers must keep the source map rather than only the visible interface.
 \end{principle}
 
@@ -193,6 +194,7 @@ Equality of ordered pairs is componentwise. The conclusion is immediate.
 
 \begin{corollary}[Quotient may be many-to-one; ledger flow is lossless]
 \label{cor:source-channel-quotient-vs-ledger}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.quotient\_may\_be\_many\_to\_one\_ledger\_lossless}
 A source-level classifier may identify multiple raw events as one classified object, but the ledger flow recording the carry events remains lossless. In particular, even when a classifier asserts $w \sim v$, the ledger flow $w \mid v$ continues to distinguish the pre-normal event $w$ from the normal event $v$.
 \end{corollary}
 
@@ -332,6 +334,7 @@ Take $c = \mathsf{Ev}(1) = 1011$. The displayed substring $u = 011$ occurs at po
 
 \begin{corollary}[Source analysis must begin after decoding]
 \label{cor:source-channel-analysis-after-decoding}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.source\_analysis\_after\_decoding}
 Any source-level analysis---finite repetition, completion witness, Zeckendorf carry, $\NameCert$ source pattern, theorem event, ledger event---is admissible only after $\mathsf{Decode}$ has been applied to the channel stream. Source-level analyses applied directly to channel glyphs are not admissible.
 \end{corollary}
 
