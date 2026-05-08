@@ -65,6 +65,18 @@ def RecognizesClosureCert (R S : EventFlow) : Prop :=
 def RecognizedClosureCertFlow (S : EventFlow) : Prop :=
   exists R : GeneratedRecognizer, RecognizesClosureCert R S
 
+def RecognizesTheorem (R S : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R S)
+
+def RecognizedTheoremFlow (S : EventFlow) : Prop :=
+  exists R : GeneratedRecognizer, RecognizesTheorem R S
+
+def RecognizesCompiler (C : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow C)
+
+def RecognizedCompilerFlow (C : EventFlow) : Prop :=
+  RecognizesCompiler C
+
 def AcceptedObjectFlow (S : EventFlow) : Prop :=
   FormalCompilerInput (CompilerDatum.certifiedExport S) /\
     exists N C : EventFlow, RecognizedNameCertFlow N /\ RecognizedClosureCertFlow C
