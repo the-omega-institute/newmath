@@ -173,6 +173,7 @@ import BEDC.Derived.ComplexUp.RawLedgerE0
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
+import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
