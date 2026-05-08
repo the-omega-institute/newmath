@@ -91,6 +91,25 @@ theorem MartingaleAdaptedSequencePacket_condexp_ledger_stability
           (And.intro sameIntegrable
             (And.intro sameStepEndpoint sameLedger)))))
 
+theorem MartingaleAdaptedSequencePacket_adapted_sequence_carrier_boundary
+    {targetTotal sourceTotal chosenPreimage integrable projected residual previous filtration
+      stepEndpoint ledger : BHist} :
+    MartingaleAdaptedSequencePacket targetTotal sourceTotal chosenPreimage integrable projected
+        residual previous filtration stepEndpoint ledger ->
+      UnaryHistory sourceTotal ∧ UnaryHistory chosenPreimage ∧
+        hsame chosenPreimage sourceTotal ∧ VecSpaceSingletonClassifier projected BHist.Empty ∧
+          Cont projected residual integrable ∧ Cont integrable filtration stepEndpoint ∧
+            Cont stepEndpoint previous ledger := by
+  intro packet
+  have rows := MartingaleAdaptedSequencePacket_condexp_step_law packet
+  exact And.intro packet.left
+    (And.intro rows.left
+      (And.intro rows.right.left
+        (And.intro rows.right.right.left
+          (And.intro rows.right.right.right.left
+            (And.intro rows.right.right.right.right.left
+              rows.right.right.right.right.right)))))
+
 theorem MartingaleAdaptedSequencePacket_public_certificate_row_family
     {targetTotal sourceTotal chosenPreimage integrable projected residual previous filtration
       stepEndpoint ledger : BHist} :
