@@ -111,4 +111,33 @@ theorem BilinFormRootPairingSurface_bilinearity_rows
         (And.intro finalReadback
           (And.intro additiveCont finalCont))))
 
+theorem BilinFormRootPairingSurface_input_transport
+    {left left' right right' scalar scalar' endpoint endpoint' ledger ledger' : BHist} :
+    BilinFormRootPairingSurface left right scalar endpoint ledger ->
+      hsame left left' ->
+        hsame right right' ->
+          hsame scalar scalar' ->
+            Cont left' right' endpoint' ->
+              Cont endpoint' scalar' ledger' ->
+                BilinFormRootPairingSurface left' right' scalar' endpoint' ledger' ∧
+                  hsame endpoint endpoint' ∧ hsame ledger ledger' := by
+  intro surface sameLeft sameRight sameScalar endpointCont ledgerCont
+  have leftUnary : UnaryHistory left' :=
+    unary_transport surface.left sameLeft
+  have rightUnary : UnaryHistory right' :=
+    unary_transport surface.right.left sameRight
+  have scalarUnary : UnaryHistory scalar' :=
+    unary_transport surface.right.right.left sameScalar
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLeft sameRight surface.right.right.right.left endpointCont
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameEndpoint sameScalar surface.right.right.right.right ledgerCont
+  constructor
+  · exact
+      And.intro leftUnary
+        (And.intro rightUnary
+            (And.intro scalarUnary
+              (And.intro endpointCont ledgerCont)))
+  · exact And.intro sameEndpoint sameLedger
+
 end BEDC.Derived.BilinFormUp
