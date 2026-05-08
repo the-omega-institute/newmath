@@ -398,6 +398,87 @@ relation, the public $\POSetUp$ surface is anchored in $\mathsf{BHist}$ rather
 than in an abstract carrier or parameterized order schema.
 \end{proof}
 
+\begin{theorem}[POSet antichain subcarrier certificate]
+\label{thm:poset-antichain-subcarrier-certificate}
+For a concrete $\POSetUp$ carrier $(C,\sim_C,\le_C)$ over $\mathsf{BHist}$,
+define the antichain subcarrier $A_C$ to consist of carried endpoints
+$a:\mathsf{BHist}$ such that every carried endpoint $b:\mathsf{BHist}$ with
+$a\le_C b$ or $b\le_C a$ collapses to classifier equality $a\sim_C b$. Then
+$A_C$ is a displayed BEDC subcarrier: its carrier row is inherited from $C$,
+its comparison reads are the two stored $\le_C$ ledger rows, and membership in
+$A_C$ is stable under $\hsame$ transport and the classifier-congruence fields
+of \autoref{thm:poset-public-prefix-closure-boundary}.
+\end{theorem}
+\begin{proof}
+Start from the public prefix closure boundary. It exposes the carrier
+$\mathsf{PreorderCarrier}$, the carrier classifier, the prefix relation, the
+preorder laws, relation congruence, antisymmetry, exactness, and the ledger
+rows for comparison witnesses.
+
+To build $A_C$, keep only carried endpoints of the same $\mathsf{BHist}$
+carrier and attach the displayed antichain clause. No subset quotient is
+formed: the subcarrier membership row is a package field whose inputs are the
+carried endpoint, the comparison ledger rows, and the classifier conclusion.
+
+For stability, transport the carried endpoint along $\hsame$ and use the
+relation-congruence rows from the $\POSetUp$ certificate to transport any
+comparison with a carried target. The antichain clause then returns the
+classifier equality at the source, and classifier transport repacks it at the
+target endpoint.
+\end{proof}
+
+\begin{theorem}[POSet antichain discrete NameCert]
+\label{thm:poset-antichain-discrete-namecert}
+The relation induced by $\le_C$ on the antichain subcarrier
+$A_C$ of \autoref{thm:poset-antichain-subcarrier-certificate} is the discrete
+$\POSetUp$ relation. More precisely, for $a,b\in A_C$, a displayed comparison
+$a\le_C b$ holds in the induced relation exactly when the carrier classifier
+collapses the two endpoints, and the resulting $\NameCert$ has reflexivity
+from the inherited preorder row and antisymmetry from the antichain clause.
+\end{theorem}
+\begin{proof}
+Unpack the induced relation on $A_C$. Its comparison ledger is the same
+$\le_C$ ledger stored by the ambient $\POSetUp$ package, but both endpoints now
+carry the antichain membership row.
+
+Reflexivity is inherited directly from the preorder component of
+\autoref{thm:concrete-unary-prefix-poset-laws}. Thus every endpoint of $A_C$
+has the displayed comparison to itself required by the discrete relation.
+
+For antisymmetry, suppose $a,b\in A_C$ and $a\le_C b$. The antichain clause for
+$a$ applies to the carried endpoint $b$ and collapses the comparison to
+$a\sim_C b$. Conversely, classifier equality transports the reflexive
+comparison on $a$ to a comparison with $b$ by the relation-congruence fields,
+so the induced order has no non-discrete comparison content.
+\end{proof}
+
+\begin{theorem}[POSet antichain functor consumer boundary]
+\label{thm:poset-antichain-functor-consumer-boundary}
+Any downstream finite-set or functor consumer of the antichain construction may
+read only the antichain carrier row of
+\autoref{thm:poset-antichain-subcarrier-certificate}, the inherited classifier,
+the comparison ledger rows, and the $\NameCert$ provenance of
+\autoref{thm:poset-antichain-discrete-namecert}. It may not read a host-level
+subset quotient, an external equality relation, or a parameterized order
+schema beyond the displayed $\mathsf{BHist}$ package rows.
+\end{theorem}
+\begin{proof}
+The construction of $A_C$ is package-local. Its carrier, classifier, relation,
+and comparison ledger are inherited rows from the concrete $\POSetUp$
+certificate, while the antichain clause is an additional displayed membership
+field over carried endpoints.
+
+The discrete $\NameCert$ of
+\autoref{thm:poset-antichain-discrete-namecert} repacks those rows into the
+consumer-facing order surface. Finite-set consumers therefore see a finite
+list of carried endpoints and comparison witnesses; functor consumers see the
+same classifier and relation-congruence provenance.
+
+Since every field is read from $\mathsf{BHist}$, $\hsame$, the comparison
+ledger, and $\NameCert$ provenance, the consumer boundary has no access to a
+host subset quotient or an unrecorded ambient relation.
+\end{proof}
+
 \begin{definition}[POSet stability certificate]
 \label{def:poset-stability-certificate}
 The stability certificate consists of:
