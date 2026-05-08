@@ -64,6 +64,66 @@ theorem CyclotomicRootCarrier_source_triad_obligation [AskSetup] [PackageSetup]
                   (And.intro ledgerCont
                     carrier.right.right.right.right.right.right.right.right.right))))))))
 
+theorem CyclotomicRootCarrier_root_layer_classifier_transport [AskSetup] [PackageSetup]
+    {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
+      ledger numField' exponent' polynomial' splittingField' primitiveRoot' acceptance'
+      provenance' ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CyclotomicRootCarrier numField exponent polynomial splittingField primitiveRoot acceptance
+        comparison provenance ledger bundle pkg ->
+      hsame numField numField' ->
+        hsame exponent exponent' ->
+          hsame polynomial polynomial' ->
+            hsame splittingField splittingField' ->
+              hsame primitiveRoot primitiveRoot' ->
+                Cont numField' splittingField' provenance' ->
+                  Cont exponent' polynomial' acceptance' ->
+                    Cont acceptance' primitiveRoot' ledger' ->
+                      PkgSig bundle ledger' pkg ->
+                        CyclotomicRootCarrier numField' exponent' polynomial' splittingField'
+                            primitiveRoot' acceptance' comparison provenance' ledger' bundle pkg ∧
+                          hsame provenance provenance' ∧ hsame acceptance acceptance' ∧
+                            hsame ledger ledger' := by
+  intro carrier sameNumField sameExponent samePolynomial sameSplittingField samePrimitiveRoot
+    provenanceCont' acceptanceCont' ledgerCont' pkgSig'
+  have numFieldUnary' : UnaryHistory numField' :=
+    unary_transport carrier.left sameNumField
+  have exponentUnary' : UnaryHistory exponent' :=
+    unary_transport carrier.right.left sameExponent
+  have polynomialUnary' : UnaryHistory polynomial' :=
+    unary_transport carrier.right.right.left samePolynomial
+  have splittingFieldUnary' : UnaryHistory splittingField' :=
+    unary_transport carrier.right.right.right.left sameSplittingField
+  have primitiveRootUnary' : UnaryHistory primitiveRoot' :=
+    unary_transport carrier.right.right.right.right.left samePrimitiveRoot
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameNumField sameSplittingField
+      carrier.right.right.right.right.right.left provenanceCont'
+  have sameAcceptance : hsame acceptance acceptance' :=
+    cont_respects_hsame sameExponent samePolynomial
+      carrier.right.right.right.right.right.right.left acceptanceCont'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameAcceptance samePrimitiveRoot
+      carrier.right.right.right.right.right.right.right.left ledgerCont'
+  have sameComparison' :
+      hsame comparison (append provenance' acceptance') := by
+    cases sameProvenance
+    cases sameAcceptance
+    exact carrier.right.right.right.right.right.right.right.right.left
+  have carrier' :
+      CyclotomicRootCarrier numField' exponent' polynomial' splittingField' primitiveRoot'
+        acceptance' comparison provenance' ledger' bundle pkg :=
+    And.intro numFieldUnary'
+      (And.intro exponentUnary'
+        (And.intro polynomialUnary'
+          (And.intro splittingFieldUnary'
+            (And.intro primitiveRootUnary'
+              (And.intro provenanceCont'
+                (And.intro acceptanceCont'
+                  (And.intro ledgerCont'
+                    (And.intro sameComparison' pkgSig'))))))))
+  exact And.intro carrier' (And.intro sameProvenance (And.intro sameAcceptance sameLedger))
+
 def CyclotomicRootClassifier [AskSetup] [PackageSetup]
     (numField0 exponent0 polynomial0 splittingField0 primitiveRoot0 acceptance0 comparison0
       provenance0 ledger0 numField1 exponent1 polynomial1 splittingField1 primitiveRoot1
