@@ -169,3 +169,39 @@ Use \autoref{thm:cyclotomic-primitive-root-endpoint-determinacy} to restrict end
 
 After these projections, the remaining rows visible to an IwasawaUp packet are exactly the NumFieldUp source row, the positive exponent row, the primitive-root endpoint, the accepted factorization ledger, and the shared $\mathsf{Pkg}$ provenance package. The negative clauses follow because none of the projected rows contains a quotient principle, a host-field equality, or an additional factorization oracle.
 \end{proof}
+
+\begin{theorem}[Cyclotomic Iwasawa tower source readback]
+\label{thm:cyclotomic-iwasawa-tower-source-readback}
+An $\IwasawaUp$ tower consuming $\NameCert_{\CyclotomicUp}$ may read exactly the $\NameCert_{\NumFieldUp}$ source row, the positive exponent row, the primitive-root endpoint, the $\NameCert_{\SplittingFieldUp}$ factorization ledger for $X^n-1$, the $\Cont$ acceptance row, and the shared $\mathsf{Pkg}$ provenance. These rows repack as the cyclotomic layer of the tower, and the readback carries no $p$-adic measure row, class-group row, or host-field equality datum.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cyclotomic-root-carrier}. Its displayed tuple supplies the NumFieldUp source, exponent, polynomial row, SplittingFieldUp source, primitive-root endpoint, $\Cont$ acceptance row, $\hsame$ base comparison, and shared provenance.
+
+Apply \autoref{thm:cyclotomic-namecert-obligation-surface} and \autoref{thm:cyclotomic-polynomial-ledger-exactness}. These identify the public cyclotomic source rows as the $\mathsf{BHist}$ and $\Cont$ entries already present in the carrier, with the factorization data read through the SplittingFieldUp ledger for $X^n-1$.
+
+Finally use \autoref{thm:cyclotomic-iwasawa-source-boundary} to restrict the downstream tower surface. Repacking the projected rows gives the cyclotomic layer because every entry is mediated by $\mathsf{BHist}$, $\hsame$, $\Cont$, or $\mathsf{Pkg}$; the omitted analytic and class-group data are not entries of the cyclotomic certificate.
+\end{proof}
+
+\begin{theorem}[Cyclotomic Galois-action boundary]
+\label{thm:cyclotomic-galois-action-boundary}
+Any Galois-action data visible from $\NameCert_{\CyclotomicUp}$ is limited to $\mathsf{BHist}$ endpoint transport of the primitive-root and factorization rows through the existing $\NameCert_{\SplittingFieldUp}$ and $\NameCert_{\NumFieldUp}$ provenance. The certificate exports no automorphism group, no quotient of roots, and no ambient field equality.
+\end{theorem}
+\begin{proof}
+Start with the classifier of \autoref{def:cyclotomic-rational-polynomial-classifier}. It transports the NumFieldUp source, exponent, polynomial ledger, SplittingFieldUp source, and primitive-root endpoint by carried $\hsame$ rows supported by the displayed $\Cont$ and $\mathsf{Pkg}$ ledgers.
+
+Use \autoref{thm:cyclotomic-polynomial-ledger-exactness} to read factorization evidence only from the SplittingFieldUp packet for $X^n-1$. Use \autoref{thm:cyclotomic-iwasawa-source-boundary} to keep downstream readback inside those projected source rows.
+
+Thus the only action-like information exposed by the cyclotomic certificate is endpoint and factorization transport through existing $\mathsf{BHist}$ provenance. Since \autoref{thm:cyclotomic-namecert-obligation-surface} lists no automorphism group, quotient-root object, or host-field equality, none is exported.
+\end{proof}
+
+\begin{theorem}[Cyclotomic p-adic completion input boundary]
+\label{thm:cyclotomic-padic-completion-input-boundary}
+Any $p$-adic or $\IwasawaUp$ completion consumer of $\NameCert_{\CyclotomicUp}$ receives only the displayed cyclotomic source rows as input data: the $\NameCert_{\NumFieldUp}$ source row, positive exponent row, primitive-root endpoint, SplittingFieldUp factorization ledger for $X^n-1$, $\Cont$ acceptance row, and shared $\mathsf{Pkg}$ provenance. Valuation rows, completion rows, and measure rows must be supplied by separate $\PadicUp$ or $\IwasawaUp$ certificates.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier in \autoref{def:cyclotomic-root-carrier}. The projected $\mathsf{BHist}$ entries and the $\Cont$ row are exactly the cyclotomic source data described by \autoref{thm:cyclotomic-namecert-obligation-surface}.
+
+Apply \autoref{thm:cyclotomic-polynomial-ledger-exactness} to identify the polynomial and factorization entries with the SplittingFieldUp ledger for $X^n-1$. The classifier of \autoref{def:cyclotomic-rational-polynomial-classifier} transports these entries only by $\hsame$ comparisons, while the provenance remains the carried $\mathsf{Pkg}$ row.
+
+The boundary theorem \autoref{thm:cyclotomic-iwasawa-source-boundary} then excludes every row not displayed in that source surface. Therefore a completion consumer starts from the cyclotomic source rows alone and obtains valuation, completion, and measure data only from separate PadicUp or IwasawaUp certificates.
+\end{proof}
