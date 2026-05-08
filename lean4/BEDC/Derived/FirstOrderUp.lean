@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Package
 import BEDC.FKernel.Sig
+import BEDC.FKernel.Unary.Commutativity
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.FirstOrderUp
@@ -26,6 +27,13 @@ def FirstOrderBHistSyntaxCarrier [AskSetup] [PackageSetup]
               Cont treeEndpoint relationSymbol formulaEndpoint ∧
                 SigRel bundle formulaEndpoint provenance ∧
                   PkgSig bundle provenance pkg
+
+def FirstOrderBHistSatisfactionCarrier [AskSetup] [PackageSetup]
+    (formulaEndpoint modelSource result provenance : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory formulaEndpoint ∧ UnaryHistory modelSource ∧ UnaryHistory result ∧
+    Cont formulaEndpoint modelSource result ∧ SigRel bundle result provenance ∧
+      PkgSig bundle provenance pkg
 
 theorem FirstOrderBHistSyntaxCarrier_endpoint_unary [AskSetup] [PackageSetup]
     {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
@@ -300,5 +308,74 @@ theorem FirstOrderBHistSyntaxCarrier_endpoint_exactness_obligation [AskSetup] [P
                 (And.intro conclusionSig
                   (And.intro carrier.right.right.right.right.right.right.right.right
                     conclusionPkg))))))))
+
+theorem FirstOrderBHistSatisfactionCarrier_soundness_transport_row [AskSetup] [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint provenance modelSource premiseResult premiseProvenance deductionStep
+      conclusion conclusionResult conclusionProvenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol functionSymbol
+        treeEndpoint formulaEndpoint provenance bundle pkg ->
+      FirstOrderBHistSatisfactionCarrier formulaEndpoint modelSource premiseResult
+        premiseProvenance bundle pkg ->
+        UnaryHistory deductionStep ->
+          Cont formulaEndpoint deductionStep conclusion ->
+            Cont premiseResult deductionStep conclusionResult ->
+              SigRel bundle conclusionResult conclusionProvenance ->
+                PkgSig bundle conclusionProvenance pkg ->
+                  FirstOrderBHistSatisfactionCarrier conclusion modelSource conclusionResult
+                      conclusionProvenance bundle pkg ∧
+                    hsame conclusion (append formulaEndpoint deductionStep) ∧
+                      hsame conclusionResult (append premiseResult deductionStep) ∧
+                        PkgSig bundle provenance pkg := by
+  intro syntaxCarrier satisfactionCarrier deductionUnary conclusionRow resultRow conclusionSig
+    conclusionPkg
+  have endpointUnary :=
+    FirstOrderBHistSyntaxCarrier_endpoint_unary
+      (symbolSource := symbolSource) (treeSource := treeSource)
+      (variableLedger := variableLedger) (relationSymbol := relationSymbol)
+      (functionSymbol := functionSymbol) (treeEndpoint := treeEndpoint)
+      (formulaEndpoint := formulaEndpoint) (provenance := provenance)
+      (bundle := bundle) (pkg := pkg) syntaxCarrier
+  have formulaUnary : UnaryHistory formulaEndpoint := endpointUnary.right
+  have modelUnary : UnaryHistory modelSource := satisfactionCarrier.right.left
+  have premiseResultUnary : UnaryHistory premiseResult := satisfactionCarrier.right.right.left
+  have premiseRow : Cont formulaEndpoint modelSource premiseResult :=
+    satisfactionCarrier.right.right.right.left
+  have conclusionUnary : UnaryHistory conclusion :=
+    unary_cont_closed formulaUnary deductionUnary conclusionRow
+  have conclusionResultUnary : UnaryHistory conclusionResult :=
+    unary_cont_closed premiseResultUnary deductionUnary resultRow
+  have resultAsFormulaModelDeduction :
+      conclusionResult = append (append formulaEndpoint modelSource) deductionStep :=
+    resultRow.trans (congrArg (fun h => append h deductionStep) premiseRow)
+  have reassociateLeft :
+      append (append formulaEndpoint modelSource) deductionStep =
+        append formulaEndpoint (append modelSource deductionStep) :=
+    append_assoc formulaEndpoint modelSource deductionStep
+  have commuteModelDeduction :
+      append modelSource deductionStep = append deductionStep modelSource :=
+    unary_append_comm modelUnary deductionUnary
+  have reassociateRight :
+      append formulaEndpoint (append deductionStep modelSource) =
+        append (append formulaEndpoint deductionStep) modelSource :=
+    (append_assoc formulaEndpoint deductionStep modelSource).symm
+  have conclusionSubst :
+      append (append formulaEndpoint deductionStep) modelSource =
+        append conclusion modelSource :=
+    congrArg (fun h => append h modelSource) conclusionRow.symm
+  have conclusionModelRow : Cont conclusion modelSource conclusionResult :=
+    resultAsFormulaModelDeduction.trans
+      (reassociateLeft.trans
+        ((congrArg (fun h => append formulaEndpoint h) commuteModelDeduction).trans
+          (reassociateRight.trans conclusionSubst)))
+  exact And.intro
+    (And.intro conclusionUnary
+      (And.intro modelUnary
+        (And.intro conclusionResultUnary
+          (And.intro conclusionModelRow
+            (And.intro conclusionSig conclusionPkg)))))
+    (And.intro conclusionRow
+      (And.intro resultRow syntaxCarrier.right.right.right.right.right.right.right.right))
 
 end BEDC.Derived.FirstOrderUp
