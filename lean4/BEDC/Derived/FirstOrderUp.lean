@@ -255,4 +255,50 @@ theorem FirstOrderBHistSyntaxCarrier_hsame_stability_obligation [AskSetup] [Pack
                  (And.intro formulaEndpointCont' (And.intro formulaSig' pkgSig'))))))))
     (And.intro sameTreeEndpoint sameFormulaEndpoint)
 
+theorem FirstOrderBHistSyntaxCarrier_endpoint_exactness_obligation [AskSetup] [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint provenance deductionStep conclusion conclusionProvenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol
+        functionSymbol treeEndpoint formulaEndpoint provenance bundle pkg ->
+      UnaryHistory deductionStep ->
+        Cont formulaEndpoint deductionStep conclusion ->
+          SigRel bundle conclusion conclusionProvenance ->
+            PkgSig bundle conclusionProvenance pkg ->
+              UnaryHistory treeEndpoint ∧ UnaryHistory formulaEndpoint ∧
+                UnaryHistory conclusion ∧ Cont treeSource variableLedger treeEndpoint ∧
+                  Cont treeEndpoint relationSymbol formulaEndpoint ∧
+                    Cont formulaEndpoint deductionStep conclusion ∧
+                      SigRel bundle formulaEndpoint provenance ∧
+                        SigRel bundle conclusion conclusionProvenance ∧
+                          PkgSig bundle provenance pkg ∧
+                            PkgSig bundle conclusionProvenance pkg := by
+  intro carrier deductionStepUnary conclusionRow conclusionSig conclusionPkg
+  have endpointUnary :=
+    FirstOrderBHistSyntaxCarrier_endpoint_unary
+      (symbolSource := symbolSource) (treeSource := treeSource)
+      (variableLedger := variableLedger) (relationSymbol := relationSymbol)
+      (functionSymbol := functionSymbol) (treeEndpoint := treeEndpoint)
+      (formulaEndpoint := formulaEndpoint) (provenance := provenance)
+      (bundle := bundle) (pkg := pkg) carrier
+  have exactness :=
+    FirstOrderBHistSyntaxCarrier_deduction_endpoint_exactness
+      (symbolSource := symbolSource) (treeSource := treeSource)
+      (variableLedger := variableLedger) (relationSymbol := relationSymbol)
+      (functionSymbol := functionSymbol) (treeEndpoint := treeEndpoint)
+      (formulaEndpoint := formulaEndpoint) (provenance := provenance)
+      (deductionStep := deductionStep) (conclusion := conclusion)
+      (conclusionProvenance := conclusionProvenance) (bundle := bundle) (pkg := pkg)
+      carrier deductionStepUnary conclusionRow conclusionSig conclusionPkg
+  exact And.intro endpointUnary.left
+    (And.intro endpointUnary.right
+      (And.intro exactness.right.left
+        (And.intro carrier.right.right.right.right.right.left
+          (And.intro carrier.right.right.right.right.right.right.left
+            (And.intro conclusionRow
+              (And.intro carrier.right.right.right.right.right.right.right.left
+                (And.intro conclusionSig
+                  (And.intro carrier.right.right.right.right.right.right.right.right
+                    conclusionPkg))))))))
+
 end BEDC.Derived.FirstOrderUp
