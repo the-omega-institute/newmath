@@ -78,6 +78,7 @@ import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.BilinFormUp
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.CurvatureUp
+import BEDC.Derived.CurvatureUp.PublicObligation
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DynSystemUp
