@@ -52,3 +52,279 @@ $$
 A_I\sim_{\mathcal{A}_S}I_S.
 $$
 \end{proof}
+
+\begin{theorem}[B\text{-}524; closure/bridge: RandomVar countable preimage intersection exactness]
+\label{thm:randomvar-countable-preimage-intersection-exactness}
+Let $S,T$ be BEDC measurable-event certificates whose event carriers are
+$\mathcal A_S,\mathcal A_T$, whose event classifiers are $\equiv_S,\equiv_T$, and whose
+membership readbacks are written
+$$
+s\Vdash_S A,\qquad t\Vdash_T B.
+$$
+Assume that the source event classifier is readback-exact in the following minimal sense:
+$$
+\bigl(\forall s,\ s\Vdash_S E \Longleftrightarrow s\Vdash_S F\bigr)\Longrightarrow E\equiv_S F.
+$$
+Let $X:S\to T$ be a carried $\RandomVarUp$ map with preimage constructor
+$$
+X^{-1}:\mathcal A_T\longrightarrow \mathcal A_S
+$$
+satisfying the RandomVar readback bridge
+$$
+s\Vdash_S X^{-1}(B)\Longleftrightarrow X(s)\Vdash_T B
+$$
+for every $B\in\mathcal A_T$. Let $(B_n)_{n\in\mathbb N}$ be a target measurable-event sequence,
+$B_n\in\mathcal A_T$, and let $I_T\in\mathcal A_T$ be an exact target intersection event:
+$$
+t\Vdash_T I_T \Longleftrightarrow \forall n,\ t\Vdash_T B_n.
+$$
+Define
+$$
+A_n:=X^{-1}(B_n),\qquad A_I:=X^{-1}(I_T).
+$$
+Let
+$$
+\bigcap\nolimits_S A_\bullet
+$$
+be any displayed source measurable event whose readback is exact for the preimage family:
+$$
+s\Vdash_S \bigcap\nolimits_S A_\bullet
+\Longleftrightarrow
+\forall n,\ s\Vdash_S A_n.
+$$
+The displayed source witness is an explicit hypothesis here; no primitive source countable-intersection row is read from the $\MeasureUp$ surface.
+Then each $A_n$ and $A_I$ lies in $\mathcal A_S$, and
+$$
+A_I\equiv_S \bigcap\nolimits_S A_\bullet.
+$$
+\end{theorem}
+\begin{proof}
+For every $n$, $B_n\in\mathcal A_T$; hence $A_n=X^{-1}(B_n)\in\mathcal A_S$ by the carried
+RandomVar preimage-closure field. Likewise $I_T\in\mathcal A_T$, so
+$A_I=X^{-1}(I_T)\in\mathcal A_S$.
+It remains to identify $A_I$ with the displayed source countable intersection. Fix a source endpoint $s$.
+The RandomVar readback bridge gives
+$$
+s\Vdash_S A_I
+\Longleftrightarrow
+X(s)\Vdash_T I_T.
+$$
+The target intersection certificate gives
+$$
+X(s)\Vdash_T I_T
+\Longleftrightarrow
+\forall n,\ X(s)\Vdash_T B_n.
+$$
+Applying the RandomVar readback bridge to each $B_n$ gives
+$$
+\forall n,\ X(s)\Vdash_T B_n
+\Longleftrightarrow
+\forall n,\ s\Vdash_S A_n.
+$$
+Finally, the displayed source intersection witness gives
+$$
+\forall n,\ s\Vdash_S A_n
+\Longleftrightarrow
+s\Vdash_S \bigcap\nolimits_S A_\bullet.
+$$
+Thus, for all source endpoints $s$,
+$$
+s\Vdash_S A_I
+\Longleftrightarrow
+s\Vdash_S \bigcap\nolimits_S A_\bullet.
+$$
+Source readback-extensionality therefore yields
+$$
+A_I\equiv_S \bigcap\nolimits_S A_\bullet.
+$$
+No probability-value, integration, or conditional-expectation field is used; the proof consumes only the explicit source intersection witness and RandomVar preimage-readback certificates, in accordance with the BEDC certificate posture for derived Measure-type structure.
+\end{proof}
+
+\begin{corollary}[B\text{-}525; determinacy: independence of the target intersection witness]
+\label{cor:randomvar-countable-preimage-intersection-witness-determinacy}
+Under the hypotheses of \autoref{thm:randomvar-countable-preimage-intersection-exactness}, suppose $I_T,I_T'\in\mathcal A_T$ are two exact
+target intersection events for the same sequence $(B_n)$:
+$$
+t\Vdash_T I_T\Longleftrightarrow \forall n,\ t\Vdash_T B_n,
+\qquad
+t\Vdash_T I_T'\Longleftrightarrow \forall n,\ t\Vdash_T B_n.
+$$
+Then
+$$
+X^{-1}(I_T)\equiv_S X^{-1}(I_T').
+$$
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:randomvar-countable-preimage-intersection-exactness} to $I_T$. It gives
+$$
+X^{-1}(I_T)\equiv_S \bigcap\nolimits_S X^{-1}(B_\bullet).
+$$
+Apply the same theorem to $I_T'$. It gives
+$$
+X^{-1}(I_T')\equiv_S \bigcap\nolimits_S X^{-1}(B_\bullet).
+$$
+Symmetry and transitivity of the source event classifier yield
+$$
+X^{-1}(I_T)\equiv_S X^{-1}(I_T').
+$$
+\end{proof}
+
+\begin{proposition}[B\text{-}526; uniqueness: source greatest-lower-bound exactness]
+\label{prop:randomvar-countable-preimage-intersection-glb-exactness}
+Keep the hypotheses of \autoref{thm:randomvar-countable-preimage-intersection-exactness}. Define the source event preorder by
+$$
+E\preceq_S F
+\quad:\Longleftrightarrow\quad
+\forall s,\ s\Vdash_S E\Rightarrow s\Vdash_S F.
+$$
+Then $A_I=X^{-1}(I_T)$ is the greatest lower bound of the preimage family $(A_n)$ up to
+$\equiv_S$. Explicitly:
+$$
+A_I\preceq_S A_n\quad\text{for every }n,
+$$
+and whenever $C\in\mathcal A_S$ satisfies $C\preceq_S A_n$ for every $n$, one has
+$$
+C\preceq_S A_I.
+$$
+Consequently, if $K\in\mathcal A_S$ is any other event satisfying the same two lower-bound
+clauses, then
+$$
+K\equiv_S A_I.
+$$
+\end{proposition}
+\begin{proof}
+For $A_I\preceq_S A_n$, assume $s\Vdash_S A_I$. By the readback chain in \autoref{thm:randomvar-countable-preimage-intersection-exactness},
+$$
+s\Vdash_S A_I
+\Longleftrightarrow
+\forall m,\ s\Vdash_S A_m.
+$$
+Taking $m=n$ gives $s\Vdash_S A_n$.
+Now let $C\in\mathcal A_S$ and assume $C\preceq_S A_n$ for every $n$. If $s\Vdash_S C$, then
+$s\Vdash_S A_n$ for every $n$. The same readback chain gives $s\Vdash_S A_I$. Hence
+$C\preceq_S A_I$.
+Finally, let $K$ satisfy the same lower-bound clauses. Since $K\preceq_S A_n$ for every $n$,
+the previous paragraph gives $K\preceq_S A_I$. Since $A_I\preceq_S A_n$ for every $n$, the
+greatest-lower-bound clause for $K$ gives $A_I\preceq_S K$. Thus, for every $s$,
+$$
+s\Vdash_S K\Longleftrightarrow s\Vdash_S A_I.
+$$
+Source readback-extensionality yields $K\equiv_S A_I$.
+\end{proof}
+
+\begin{proposition}[B\text{-}527; composition bridge: two-stage RandomVar countable intersections]
+\label{prop:randomvar-composition-countable-preimage-intersections}
+Let
+$$
+S\xrightarrow{X}T\xrightarrow{Y}U
+$$
+be carried $\RandomVarUp$ maps with exact preimage readback bridges. Let
+$(C_n)$ be a $U$-measurable event sequence and $I_U$ an exact $U$-intersection event:
+$$
+u\Vdash_U I_U\Longleftrightarrow \forall n,\ u\Vdash_U C_n.
+$$
+Put
+$$
+B_n:=Y^{-1}(C_n),\qquad B_I:=Y^{-1}(I_U),
+$$
+and
+$$
+A_n:=X^{-1}(B_n)=X^{-1}\bigl(Y^{-1}(C_n)\bigr).
+$$
+Assume the source event classifier on $S$ is readback-exact, and let
+$$
+\bigcap\nolimits_S A_\bullet
+$$
+be a displayed source measurable event with exact readback
+$$
+s\Vdash_S \bigcap\nolimits_S A_\bullet
+\Longleftrightarrow
+\forall n,\ s\Vdash_S A_n.
+$$
+Then $B_I$ is an exact $T$-intersection event for the sequence $(B_n)$, and
+$$
+X^{-1}(B_I)\equiv_S \bigcap\nolimits_S A_\bullet.
+$$
+Equivalently, for the composite RandomVar $Y\circ X$,
+$$
+(Y\circ X)^{-1}(I_U)\equiv_S
+\bigcap\nolimits_S (Y\circ X)^{-1}(C_\bullet).
+$$
+\end{proposition}
+\begin{proof}
+First show that $B_I$ is the exact $T$-intersection of the $B_n$. For every $t$,
+$$
+t\Vdash_T B_I
+\Longleftrightarrow
+Y(t)\Vdash_U I_U
+\Longleftrightarrow
+\forall n,\ Y(t)\Vdash_U C_n
+\Longleftrightarrow
+\forall n,\ t\Vdash_T B_n.
+$$
+Thus $B_I$ satisfies the target-intersection hypothesis of \autoref{thm:randomvar-countable-preimage-intersection-exactness} for the
+RandomVar $X:S\to T$. Applying that theorem gives
+$$
+X^{-1}(B_I)\equiv_S \bigcap\nolimits_S X^{-1}(B_\bullet)
+=
+\bigcap\nolimits_S A_\bullet.
+$$
+The composite-preimage identity is not an additional axiom: its readback is
+$$
+s\Vdash_S X^{-1}(Y^{-1}(C))
+\Longleftrightarrow
+X(s)\Vdash_T Y^{-1}(C)
+\Longleftrightarrow
+Y(X(s))\Vdash_U C,
+$$
+which is exactly the RandomVar readback bridge for $Y\circ X$. Substituting $C=I_U$ and
+$C=C_n$ gives the displayed composite form.
+\end{proof}
+
+\begin{proposition}[B\text{-}528; obstruction: closure and classifier-respect alone do not imply B\text{-}524]
+\label{prop:randomvar-countable-preimage-intersection-readback-obstruction}
+The RandomVar readback bridge in \autoref{thm:randomvar-countable-preimage-intersection-exactness} cannot be replaced by mere event-carrier
+closure and event-classifier respect of a preimage-like transformer.
+\end{proposition}
+\begin{proof}
+Consider a finite source event skeleton with two source events
+$$
+0_S,\ 1_S
+$$
+distinguished by the source classifier. Let the displayed source intersection witness of the constant sequence
+$(0_S,0_S,\ldots)$ be $0_S$.
+Let the target event skeleton contain pairwise classifier-distinct events
+$$
+I_T,\ B_0,\ B_1,\ldots
+$$
+with $I_T$ certified as the exact countable intersection of the $B_n$. Define a preimage-like
+transformer $P$ on this displayed fragment by
+$$
+P(I_T):=1_S,\qquad P(B_n):=0_S\quad\text{for every }n.
+$$
+This transformer preserves event-carrier membership on the displayed fragment. It also respects
+the target classifier on that fragment, because the only classifier identifications are reflexive.
+However,
+$$
+P(I_T)=1_S,
+$$
+whereas
+$$
+\bigcap\nolimits_S P(B_\bullet)
+=
+\bigcap\nolimits_S (0_S,0_S,\ldots)
+=
+0_S.
+$$
+Since $0_S$ and $1_S$ are classifier-distinct, the desired conclusion
+$$
+P(I_T)\equiv_S\bigcap\nolimits_S P(B_\bullet)
+$$
+fails.
+Thus the missing obligation is not a closure obligation and not a classifier-respect obligation. It is precisely the bridge obligation
+$$
+s\Vdash_S X^{-1}(B)\Longleftrightarrow X(s)\Vdash_T B,
+$$
+or an equivalent countable-meet preimage bridge. Without that bridge, the countable preimage
+intersection exactness theorem is not derivable.
+\end{proof}
