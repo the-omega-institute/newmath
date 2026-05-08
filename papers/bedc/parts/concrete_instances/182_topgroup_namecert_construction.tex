@@ -360,3 +360,71 @@ Repack the two transport families with the provenance rows of $\mathcal G$.
 Since the ledger contains only those product and inverse continuity rows, its
 coverage is exactly the displayed $\TopGroupUp$ continuity surface.
 \end{proof}
+
+\begin{definition}[TopGroupUp source-coupled continuity packet]
+\label{def:topgroup-source-coupled-continuity-packet}
+The public source-coupled continuity packet for $\TopGroupUp$ is the finite
+$\mathsf{BHist}$ packet consisting of the displayed
+$\NameCert_{\GroupUp}$ row, the displayed $\NameCert_{\TopologyUp}$ row, the
+product graph row, the inverse graph row, the source and target neighbourhood
+rows, the finite $\Cont$ continuity ledger, and the $\mathsf{Pkg}$ provenance
+row connecting those displayed sources. A packet is accepted only when these
+rows are the rows projected by the $\TopGroupUp$ carrier
+$\mathcal G=(G,T,m,i,n,\lambda,\rho)$.
+\end{definition}
+
+\begin{theorem}[TopGroupUp source-coupled continuity boundary]
+\label{thm:topgroup-source-coupled-continuity-boundary}
+Every accepted source-coupled continuity packet projects exactly its
+$\NameCert_{\GroupUp}$ source row, its $\NameCert_{\TopologyUp}$ source row,
+the product and inverse graph rows, the componentwise $\hsame$ endpoint
+transport rows, the finite $\Cont$ continuity rows, and the $\mathsf{Pkg}$
+provenance row. It exports no ambient topological-group object, no external
+topology carrier equality, and no group operation beyond the carried graph
+rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet of
+\autoref{def:topgroup-source-coupled-continuity-packet}. Its displayed
+coordinates are precisely the two source certificates, the product and inverse
+graph rows, the neighbourhood rows, the finite continuity ledger, and the
+provenance row.
+
+The componentwise $\hsame$ rows are the endpoint transports used by those
+coordinates. They are already accounted for by the product transport theorem
+\autoref{thm:topgroup-product-neighbourhood-transport} and the inverse
+transport theorem \autoref{thm:topgroup-inverse-neighbourhood-transport}.
+
+Completeness is the reverse packaging. Given exactly the projected rows, repack
+them as the finite $\mathsf{BHist}$ packet of the definition and attach the
+same $\Cont$ and $\mathsf{Pkg}$ ledgers. No extra ambient object is available,
+because every public projection is one of the listed rows.
+\end{proof}
+
+\begin{theorem}[TopGroupUp continuity consumer exhaustion]
+\label{thm:topgroup-continuity-consumer-exhaustion}
+A downstream consumer of a $\TopGroupUp$ source-coupled continuity packet
+receives only the product-neighbourhood transport family of
+\autoref{thm:topgroup-product-neighbourhood-transport}, the inverse-neighbourhood
+transport family of \autoref{thm:topgroup-inverse-neighbourhood-transport}, and
+their finite ledger coverage in \autoref{thm:topgroup-continuity-ledger-coverage}.
+The consumer cannot read a topological-group object, an external continuity
+predicate, or any row outside the displayed $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, $\NameCert_{\GroupUp}$, and
+$\NameCert_{\TopologyUp}$ packet.
+\end{theorem}
+\begin{proof}
+Start with the boundary theorem
+\autoref{thm:topgroup-source-coupled-continuity-boundary}. It restricts the
+consumer input to the displayed source certificates, endpoint transports,
+finite continuity rows, and provenance row.
+
+Apply \autoref{thm:topgroup-continuity-ledger-coverage}. The finite $\Cont$
+ledger is exhausted by the product-neighbourhood and inverse-neighbourhood
+transport rows, with provenance supplied by the same source certificates.
+
+Finally use the two transport theorems named in the statement to repack the
+consumer surface. Since every available row is either one of those transport
+families or its $\mathsf{BHist}$ provenance, the consumer has no access to an
+unlisted ambient continuity datum.
+\end{proof}

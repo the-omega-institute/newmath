@@ -512,6 +512,41 @@ $\Cont$ ledger rows and show that no additional host order, quotient equality,
 or classical trichotomy row is available to a downstream consumer.
 \end{proof}
 
+\begin{theorem}[Unary prefix OrderUp standard bridge boundary]
+\label{thm:orderup-unary-prefix-standard-bridge-boundary}
+The public surface of \autoref{thm:orderup-unary-prefix-public-export}
+bridges to finite unary words by reading $\mathsf{UnaryHistory}$ as the
+carried finite unary-word endpoints, $\rho_{\mathsf{u}}$ as the finite-word
+classifier, and
+$\le_{\mathsf{u}} := \mathsf{PreorderPrefixLE}$ as initial-segment order. Its
+finite interval rows are exactly the rows of
+\autoref{thm:unary-prefix-orderup-bounded-interval-collapse}, and its endpoint
+rows are exactly the rows of
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique}. The bridge
+therefore exposes the unary-prefix $\OrderUp$ package as a finite-word
+standard surface, with no host $\mathsf{Nat}$ order row and no classical
+trichotomy row.
+\end{theorem}
+\begin{proof}
+Start with the public export of
+\autoref{thm:orderup-unary-prefix-public-export}. It fixes the carrier,
+classifier, and comparison as
+$(\mathsf{UnaryHistory},\rho_{\mathsf{u}},\mathsf{PreorderPrefixLE})$, so each
+public row already has the finite unary-word reading required by the standard
+surface.
+
+Apply \autoref{thm:unary-prefix-orderup-bounded-interval-collapse} to read the
+finite interval rows as carried initial-segment intervals. Apply
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique} to read the
+lower and upper endpoint rows as the unique finite-word endpoints selected by
+the same prefix comparison.
+
+It remains to identify what is absent from the bridge. The public export and
+the two cited rows use only $\mathsf{BHist}$, $\mathsf{UnaryHistory}$,
+$\rho_{\mathsf{u}}$, $\mathsf{PreorderPrefixLE}$, and finite $\Cont$ transport.
+Thus no host $\mathsf{Nat}$ order and no classical trichotomy are exported.
+\end{proof}
+
 \begin{theorem}[OrderUp public export formal boundary]
 \label{thm:orderup-public-export-formal-boundary}
 The public $\OrderUp$ export in this chapter is the unary-prefix package of \autoref{thm:orderup-unary-prefix-public-export}. The displayed Lean target in the closure block supplies only the inherited $\PreorderUp$ stability field, so the chapter may claim the paper public surface but not an audit-clean $\OrderUp$ namespace target.
@@ -525,11 +560,11 @@ The Lean target recorded below remains a dependency boundary: it certifies the i
 \end{proof}
 
 \begin{closurestatus}{\OrderUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:orderup-unary-prefix-public-export} gives the public $\OrderUp$ surface over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, with exactness and finite $\Cont$ ledger rows inherited from the unary-prefix package.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:orderup-unary-prefix-public-export} gives the public $\OrderUp$ surface over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, while \autoref{thm:orderup-unary-prefix-standard-bridge-boundary} identifies its finite unary-word standard bridge.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.PreorderUp.preorder\_prefix\_stability\_certificate\_fields}
   \bridgestatus{none}
   \notclaimed{The chapter does not claim a checked Lean OrderUp namespace, an audit-clean formal target, classical trichotomy, or full traditional order theory.}
-  \upgradepath{$\bridgedClosure$ requires a paper standard bridge for the public unary-prefix $\OrderUp$ surface.}
+  \upgradepath{$\matureClosure$ requires a checked bridge target and an audit-clean $\OrderUp$ namespace theorem for the public unary-prefix surface.}
 \end{closurestatus}

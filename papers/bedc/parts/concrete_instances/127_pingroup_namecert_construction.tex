@@ -486,3 +486,74 @@ The reflection side is closed under the finite product ledger by
 \autoref{thm:pingroup-clifford-reflection-product-closure}. Repacking the two
 cases gives source exhaustion for the whole public surface.
 \end{proof}
+
+\begin{theorem}[PinGroup reflection ledger closure]
+\label{thm:pingroup-reflection-ledger-closure}
+Every reflection-generator row of the public $\PinGroupUp$ surface is a finite
+$\mathsf{Cont}$ ledger over carried $\CliffordUp$ rows, and this ledger remains
+stable under $\hsame$ transport. Thus the reflection branch is anchored in
+$\mathsf{BHist}$ rows supplied by the Clifford source certificate, with no
+external reflection object.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:pingroup-reflection-generator-obligation}. It reads the
+reflection-generator row as a finite $\mathsf{Cont}$ witness whose endpoints
+are carried by the consumed $\CliffordUp$ certificate.
+
+Use the Clifford source certificate recorded in
+\autoref{ch:concrete-instances-clifford-namecert}. Its carrier and classifier
+rows are $\mathsf{BHist}$ rows stable under $\hsame$ and certificate-level
+transport, so the Pin reflection ledger inherits the same stability.
+
+Repack the transported rows through the public packet of
+\autoref{thm:pingroup-namecert-obligation-surface}. The result is exactly the
+finite reflection ledger visible to $\PinGroupUp$ consumers.
+\end{proof}
+
+\begin{theorem}[PinGroup Spin boundary exhaustion]
+\label{thm:pingroup-spin-boundary-exhaustion}
+The $\PinGroupUp$ carrier reads the Spin subcarrier exactly through the
+consumed $\SpinGroupUp$ row together with the even-grade Clifford rows already
+carried by the source certificate. No additional Spin boundary is available
+outside the displayed $\mathsf{BHist}$ carrier, classifier, and $\Cont$
+transport rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:pingroup-spin-extension-obligation}. It embeds the consumed
+$\SpinGroupUp$ carrier as the Spin branch of the Pin reflection-extension
+carrier.
+
+Next apply \autoref{thm:pingroup-namecert-obligation-surface}. The public
+certificate surface exposes the Spin branch only through its source
+certificate, the Clifford even-grade rows used by that source, and the finite
+$\Cont$ ledger that transports those rows into the Pin carrier.
+
+Since the surface lists no separate Spin object, every Spin-boundary row of
+$\PinGroupUp$ is exhausted by those consumed $\mathsf{BHist}$ rows and their
+$\hsame$ transports.
+\end{proof}
+
+\begin{theorem}[PinGroup Clifford action consumer surface]
+\label{thm:pingroup-clifford-action-consumer-surface}
+Downstream consumers of the public $\PinGroupUp$ Clifford action may read only
+the reflection ledger, Clifford action row, Spin boundary, $\Pkg$ provenance,
+$\Cont$ transport, and $\hsame$ witnesses displayed by the
+$\NameCert_{\PinGroupUp}$ surface. They receive no host orthogonal group and no
+external Pin object beyond these $\mathsf{BHist}$-anchored rows.
+\end{theorem}
+\begin{proof}
+Read the public action data from
+\autoref{thm:pingroup-namecert-obligation-surface}. Its exported fields are the
+carrier, classifier, source certificates, finite $\Cont$ ledger, $\hsame$
+transport witnesses, and $\Pkg$ provenance rows.
+
+Apply \autoref{thm:pingroup-reflection-ledger-closure} for the reflection
+ledger and \autoref{thm:pingroup-spin-boundary-exhaustion} for the Spin
+boundary. The Clifford action row is the same carried source row used in
+\autoref{thm:pingroup-clifford-conjugation-ledger}.
+
+The source exhaustion theorem
+\autoref{thm:pingroup-source-exhaustion} leaves no further public source.
+Therefore a downstream consumer cannot read a host orthogonal group or an
+external Pin object from the public $\PinGroupUp$ action surface.
+\end{proof}
