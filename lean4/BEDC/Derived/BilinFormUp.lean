@@ -405,4 +405,42 @@ theorem BilinFormModulePairingPackageRow_carrier_obligation [AskSetup] [PackageS
         (And.intro row.right.right.right.right.right.right.left
           row.right.right.right.right.right.right.right)))
 
+theorem BilinFormModulePairingPackageRow_bilinearity_transport_row [AskSetup] [PackageSetup]
+    {moduleSource vectorSource left right scalar endpoint ledger additive additiveEndpoint
+      additiveLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BilinFormModulePairingPackageRow moduleSource vectorSource left right scalar endpoint ledger
+        bundle pkg ->
+      UnaryHistory additive ->
+        Cont endpoint additive additiveEndpoint ->
+          Cont additiveEndpoint scalar additiveLedger ->
+            UnaryHistory additiveEndpoint ∧
+              UnaryHistory additiveLedger ∧
+                hsame additiveEndpoint (append (append left right) additive) ∧
+                  hsame additiveLedger (append (append (append left right) additive) scalar) ∧
+                    Cont endpoint additive additiveEndpoint ∧
+                      Cont additiveEndpoint scalar additiveLedger ∧ PkgSig bundle ledger pkg := by
+  intro row additiveUnary additiveEndpointCont additiveLedgerCont
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed row.right.right.left row.right.right.right.left
+      row.right.right.right.right.right.left
+  have additiveEndpointUnary : UnaryHistory additiveEndpoint :=
+    unary_cont_closed endpointUnary additiveUnary additiveEndpointCont
+  have additiveLedgerUnary : UnaryHistory additiveLedger :=
+    unary_cont_closed additiveEndpointUnary row.right.right.right.right.left additiveLedgerCont
+  have additiveEndpointReadback :
+      hsame additiveEndpoint (append (append left right) additive) :=
+    hsame_trans additiveEndpointCont
+      (congrArg (fun h : BHist => append h additive) row.right.right.right.right.right.left)
+  have additiveLedgerReadback :
+      hsame additiveLedger (append (append (append left right) additive) scalar) :=
+    hsame_trans additiveLedgerCont
+      (congrArg (fun h : BHist => append h scalar) additiveEndpointReadback)
+  exact And.intro additiveEndpointUnary
+    (And.intro additiveLedgerUnary
+      (And.intro additiveEndpointReadback
+        (And.intro additiveLedgerReadback
+          (And.intro additiveEndpointCont
+            (And.intro additiveLedgerCont row.right.right.right.right.right.right.right)))))
+
 end BEDC.Derived.BilinFormUp
