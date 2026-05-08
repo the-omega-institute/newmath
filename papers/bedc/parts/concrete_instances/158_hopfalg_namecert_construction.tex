@@ -184,6 +184,70 @@ $(a',t',s',u',e')$, so these comparisons give $H\sim_{\HopfAlgUp}H'$.
 
 \leanchecked{BEDC.Derived.HopfAlgUp.HopfAlgAntipodeClassifier\_transport}
 
+\begin{theorem}[HopfAlgUp bialgebra obligation inventory]
+\label{thm:hopfalg-bialgebra-obligation-inventory}
+The carrier obligations for the displayed $\HopfAlgUp$ certificate are exactly
+the $\RingUp$ source row, the $\TensorProductUp$ source row, the bialgebra row,
+the multiplication and comultiplication $\Cont$ rows, and the unit and counit
+rows carried by \autoref{def:hopfalg-bhist-bialgebra-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier witness of \autoref{def:hopfalg-bhist-bialgebra-carrier}.
+It names the bialgebra row $a$, the tensor-product row $t$, the multiplication
+provenance $m$, the comultiplication provenance $c$, the unit ledger $u$, and
+the counit ledger $e$.
+
+The source certificates are exactly the two rows cited by the definition:
+$\NameCert_{\RingUp}$ supplies the ring source for multiplication and unit, and
+$\NameCert_{\TensorProductUp}$ supplies the tensor source for tensor and
+comultiplication provenance. The stability theorem
+\autoref{thm:hopfalg-tensor-product-row-stability} shows that these are the
+rows transported by the classifier, so no additional carrier obligation is
+present.
+\end{proof}
+
+\begin{theorem}[HopfAlgUp antipode ledger obligation]
+\label{thm:hopfalg-antipode-ledger-obligation}
+The antipode obligations for the displayed $\HopfAlgUp$ certificate are exactly
+the two convolution-inverse ledger rows
+$\mathsf{ConvLeft}(a,t,s,u,e)$ and $\mathsf{ConvRight}(a,t,s,u,e)$ together
+with their unit-counit endpoint comparisons.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:hopfalg-antipode-ledger-classifier}. The classifier
+places the antipode row $s$ in the same five-coordinate ledger as the
+bialgebra, tensor, unit, and counit rows.
+
+Apply \autoref{thm:hopfalg-antipode-convolution-inverse-obligation}. It
+exposes precisely the left and right convolution packets and identifies their
+endpoint comparisons with the unit-counit ledger. The transport theorem
+\autoref{thm:hopfalg-antipode-classifier-transport} then shows that classified
+antipode rows preserve those two packets, leaving no further antipode ledger
+obligation outside the two convolution faces.
+\end{proof}
+
+\begin{theorem}[HopfAlgUp consumer boundary obligation]
+\label{thm:hopfalg-consumer-boundary-obligation}
+Any downstream consumer of the displayed $\HopfAlgUp$ certificate may project
+only the carrier row, the classifier row, tensor-row stability, antipode
+uniqueness and transport, and the $\NameCert_{\RingUp}$ and
+$\NameCert_{\TensorProductUp}$ provenance rows.
+\end{theorem}
+\begin{proof}
+The carrier and provenance rows are those of
+\autoref{def:hopfalg-bhist-bialgebra-carrier}. The classifier row is
+\autoref{def:hopfalg-antipode-ledger-classifier}, and tensor stability is
+\autoref{thm:hopfalg-tensor-product-row-stability}.
+
+For antipode information, a consumer can use only the two convolution-inverse
+rows of \autoref{thm:hopfalg-antipode-convolution-inverse-obligation}, the
+uniqueness theorem \autoref{thm:hopfalg-antipode-convolution-inverse-unique},
+and the transport theorem \autoref{thm:hopfalg-antipode-classifier-transport}.
+These rows exhaust the public boundary: bialgebra carrier data, classifier
+data, tensor-row transport, antipode uniqueness and transport, and the two
+source-certificate provenance rows.
+\end{proof}
+
 \closureat{HopfAlgUp}{seedStr}[BEDC.Derived.HopfAlgUp.HopfAlgBialgCarrier\_namecert\_obligation\_surface]
 \begin{closurestatus}{\HopfAlgUp}
   \theoryclosure{\seedClosure}
