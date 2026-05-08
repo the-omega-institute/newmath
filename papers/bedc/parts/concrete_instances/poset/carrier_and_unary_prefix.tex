@@ -705,3 +705,28 @@ rules out total-order data, quotient representatives, lattice operations, and
 host-order rows. Therefore the selector boundary is exactly the carried chain
 data listed in the statement.
 \end{proof}
+
+\begin{theorem}[POSet prefix selector classifier determinacy]
+\label{thm:poset-prefix-selector-classifier-determinacy}
+For a finite guarded $\POSetUp$ chain over carried $\mathsf{BHist}$ endpoints,
+any two $\TotalOrderUp$ or $\OrderUp$ selectors that use the same chain ledger,
+the same adjacent comparison rows, and the same endpoint classifier coverage
+select endpoints related by the classifier rows supplied by the chain package.
+The conclusion is a classifier-equivalent endpoint boundary inside the finite
+chain, not a host order comparison or quotient representative.
+\end{theorem}
+\begin{proof}
+Project endpoint coverage by
+\autoref{thm:poset-prefix-finite-chain-endpoint-classifier-coverage}. It gives
+classifier rows for every endpoint pair named by the shared guarded chain.
+
+Next apply \autoref{thm:poset-prefix-chain-collapse}. The adjacent comparison
+rows collapse to the same finite-chain boundary rows for both selectors,
+because the chain ledger and adjacent comparisons are shared.
+
+Finally use \autoref{thm:poset-singleton-ledger-exhaustion}. It excludes any
+selector data outside the carried endpoints, adjacent comparisons, transitive
+witnesses, and endpoint classifiers. Hence both selectors read the same
+finite-chain classifier boundary, so their selected endpoints are related by
+the chain package classifier rows.
+\end{proof}
