@@ -166,4 +166,24 @@ theorem IndependenceFiniteFactorizationRow_ledger_exactness
     And.intro row.right.left row.right.right
   exact And.intro row.left (And.intro row.right.left (And.intro row.right.right binary))
 
+theorem IndependenceFiniteFactorizationRow_public_namecert_export
+    {joint product : BHist} {marginals : ProbeBundle BHist} :
+    IndependenceFiniteFactorizationRow joint product marginals ->
+      hsame (IndependenceProductFold marginals) BHist.Empty ∧
+        IndependenceBinaryFactorization joint (IndependenceProductFold marginals)
+          BHist.Empty product ∧
+        (∀ {joint' product' : BHist} {marginals' : ProbeBundle BHist},
+          (∀ z : BHist, InBundle z marginals <-> InBundle z marginals') ->
+            hsame joint' joint ->
+              Cont (IndependenceProductFold marginals') BHist.Empty product' ->
+                IndependenceFiniteFactorizationRow joint' product' marginals') := by
+  intro row
+  have exactness := IndependenceFiniteFactorizationRow_ledger_exactness row
+  exact And.intro exactness.left
+    (And.intro exactness.right.right.right
+      (by
+        intro joint' product' marginals' sameMembers sameJoint productCont
+        exact IndependenceFiniteFactorizationRow_reindexing_closure
+          sameMembers row sameJoint productCont))
+
 end BEDC.Derived.IndependenceUp
