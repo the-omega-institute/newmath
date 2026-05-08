@@ -354,33 +354,37 @@ theorem RepresentationRingBHistRepresentationPacket_semantic_name_certificate [A
       exact source
   }
 
-def RepresentationRingGrothendieckClassifier
-    (group ring reps directSum tensor provenance classifier ledger group' ring' reps' directSum'
-      tensor' provenance' classifier' ledger' : BHist) : Prop :=
-  hsame group group' ∧ hsame ring ring' ∧ hsame reps reps' ∧ hsame directSum directSum' ∧
-    hsame tensor tensor' ∧ hsame provenance provenance' ∧ hsame classifier classifier' ∧
-      hsame ledger ledger'
-
 theorem RepresentationRingGrothendieckClassifier_symmetric
-    {group ring reps directSum tensor provenance classifier ledger group' ring' reps' directSum'
-      tensor' provenance' classifier' ledger' : BHist} :
+    {group ring reps directSum tensor provenance classifier ledger endpoint group' ring' reps'
+      directSum' tensor' provenance' classifier' ledger' endpoint' : BHist} :
     RepresentationRingGrothendieckClassifier group ring reps directSum tensor provenance classifier
-        ledger group' ring' reps' directSum' tensor' provenance' classifier' ledger' ->
+        ledger endpoint group' ring' reps' directSum' tensor' provenance' classifier' ledger'
+        endpoint' ->
       RepresentationRingGrothendieckClassifier group' ring' reps' directSum' tensor' provenance'
-          classifier' ledger' group ring reps directSum tensor provenance classifier ledger ∧
+          classifier' ledger' endpoint' group ring reps directSum tensor provenance classifier ledger
+          endpoint ∧
         hsame ledger' ledger := by
   intro classified
   have ledgerSame : hsame ledger' ledger :=
-    hsame_symm classified.right.right.right.right.right.right.right
-  exact And.intro
-    (And.intro (hsame_symm classified.left)
-      (And.intro (hsame_symm classified.right.left)
-        (And.intro (hsame_symm classified.right.right.left)
-          (And.intro (hsame_symm classified.right.right.right.left)
-            (And.intro (hsame_symm classified.right.right.right.right.left)
-              (And.intro (hsame_symm classified.right.right.right.right.right.left)
-                (And.intro (hsame_symm classified.right.right.right.right.right.right.left)
-                  ledgerSame)))))))
-    ledgerSame
+    hsame_symm classified.right.right.right.right.right.right.right.left
+  constructor
+  · constructor
+    · exact hsame_symm classified.left
+    · constructor
+      · exact hsame_symm classified.right.left
+      · constructor
+        · exact hsame_symm classified.right.right.left
+        · constructor
+          · exact hsame_symm classified.right.right.right.left
+          · constructor
+            · exact hsame_symm classified.right.right.right.right.left
+            · constructor
+              · exact hsame_symm classified.right.right.right.right.right.left
+              · constructor
+                · exact hsame_symm classified.right.right.right.right.right.right.left
+                · constructor
+                  · exact ledgerSame
+                  · exact hsame_symm classified.right.right.right.right.right.right.right.right
+  · exact ledgerSame
 
 end BEDC.Derived.RepresentationRingUp
