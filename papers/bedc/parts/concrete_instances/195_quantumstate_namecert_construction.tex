@@ -6,75 +6,194 @@ The quantum-state interface $\QuantumStateUp$ packages a unit vector in a Hilber
 \section{Carrier definition}
 \label{sec:quantumstate-carrier}
 
-\begin{definition}[QuantumState BHist ray packet]
-\label{def:quantumstate-bhist-ray-packet}
-A $\QuantumStateUp$ carried row is a finite $\mathsf{BHist}$ packet
+\begin{definition}[QuantumStateUp BHist carrier]
+\label{def:quantumstate-bhist-carrier}
+A $\QuantumStateUp$ carrier is a finite $\mathsf{BHist}$ packet
 $$
-Q=(H,P,u,r,\phi,\rho,\lambda)
+\mathcal{Q}=(\mathcal{H},\mathcal{P},v,n,\phi,p,\lambda_H,\lambda_P,\rho).
 $$
-whose entries are read as follows. The row $H$ is a $\HilbertUp$ dependency row from $\NameCert_{\HilbertUp}$. The row $P$ is a $\ProjectiveSpaceUp$ dependency row over the same displayed vector surface. The endpoint $u$ is a unit-vector row in the Hilbert carrier of $H$. The row $r$ records the projective ray projection sending $u$ to the carried projective endpoint in $P$. The ledger $\phi$ records the finite global-phase orbit witnesses consumed by the projective classifier. The provenance row $\rho$ is the $\Pkg$ row naming the Hilbert and projective dependency packages, and $\lambda$ is the $\Cont$ and $\hsame$ transport ledger tying the Hilbert carrier, unit-vector endpoint, ray projection, and projective endpoint to the same displayed vector surface.
+The row $\mathcal{H}$ is a consumed $\NameCert_{\HilbertUp}$ row. The row
+$\mathcal{P}$ is a consumed $\NameCert_{\ProjectiveSpaceUp}$ row over the
+displayed projective line determined by $\mathcal{H}$. The endpoint $v$ is the
+unit-vector row projected from $\mathcal{H}$, $n$ is the norm-one ledger row,
+$\phi$ is the global-phase row, and $p$ is the projective-line endpoint row
+projected from $\mathcal{P}$.
 
-Thus $\QuantumStateUp$ carries no host quotient object. It carries only the finite $\mathsf{BHist}$ packet whose public endpoints are the Hilbert unit-vector row and the projective ray row, together with the ledgers needed to transport them through the consumed $\NameCert_{\HilbertUp}$ and $\NameCert_{\ProjectiveSpaceUp}$ surfaces.
-\end{definition}
-
-\begin{definition}[QuantumState phase-orbit classifier]
-\label{def:quantumstate-phase-orbit-classifier}
-For $\QuantumStateUp$ packets
-$$
-Q=(H,P,u,r,\phi,\rho,\lambda)
-\qquad\text{and}\qquad
-Q'=(H',P',u',r',\phi',\rho',\lambda'),
-$$
-the classifier $Q\sim_{\QuantumStateUp}Q'$ holds exactly when the following componentwise rows are present:
-\begin{enumerate}
-  \item $H$ and $H'$ are related by the consumed $\HilbertUp$ classifier;
-  \item $P$ and $P'$ are related by the consumed $\ProjectiveSpaceUp$ scaling-orbit classifier over the transported vector surface;
-  \item $u$ and $u'$ are related as unit-vector endpoint rows over the related Hilbert carriers;
-  \item $r$ and $r'$ are related as ray-projection rows landing in the related projective endpoints;
-  \item $\phi$ and $\phi'$ record the same finite global-phase orbit ledger after the projective classifier witnesses are consumed;
-  \item $\rho$ and $\rho'$ are related by $\msame$ as $\Pkg$ provenance rows;
-  \item $\lambda$ and $\lambda'$ are related by $\hsame$ as $\Cont$ transport ledgers.
-\end{enumerate}
-Equivalently, the quantum-state classifier is the componentwise classifier induced by the Hilbert row, projective row, unit-vector endpoint, ray projection, phase-orbit ledger, package provenance, and transport ledger; it does not identify density matrices, measurement records, spectral rows, or channel data.
+The rows $\lambda_H$ and $\lambda_P$ are the inherited Hilbert and projective
+classifier rows, respectively. The row $\rho$ is the $\mathsf{Pkg}$ provenance
+record witnessing that the two consumed certificates and all displayed endpoint
+rows belong to the same finite packet. No carrier datum outside
+$\mathcal{H}$, $\mathcal{P}$, $v$, $n$, $\phi$, $p$, $\lambda_H$, $\lambda_P$,
+and $\rho$ is part of the public $\QuantumStateUp$ row.
 \end{definition}
 
 \section{The certificate}
 \label{sec:quantumstate-certificate}
 
-\begin{theorem}[QuantumState Hilbert unit-vector surface]
-\label{thm:quantumstate-hilbert-unit-vector-surface}
-Every carried $\QuantumStateUp$ packet of \autoref{def:quantumstate-bhist-ray-packet} projects to a public $\HilbertUp$ endpoint together with a unit-vector row over that endpoint. Conversely, any $\HilbertUp$ dependency row $H$, unit-vector endpoint $u$ over $H$, projective row $P$ over the same displayed vector surface, ray-projection row $r$, phase-orbit ledger $\phi$, $\Pkg$ provenance $\rho$, and $\Cont/\hsame$ ledger $\lambda$ repack as a carried $\QuantumStateUp$ packet when they satisfy the component requirements of \autoref{def:quantumstate-bhist-ray-packet}.
+\begin{theorem}[QuantumStateUp Hilbert source boundary]
+\label{thm:quantumstate-hilbert-source-boundary}
+For every carrier packet $\mathcal{Q}$ of
+\autoref{def:quantumstate-bhist-carrier}, all vector, norm, and inner-product
+rows used by the $\QuantumStateUp$ interface are projected from the consumed
+$\NameCert_{\HilbertUp}$ row $\mathcal{H}$. In particular, the visible vector
+endpoint $v$, the norm-one ledger $n$, and every inner-product row used to test
+unit length are read through $\mathcal{H}$ and the inherited classifier
+$\lambda_H$, not through an ambient Hilbert-space carrier.
 \end{theorem}
 \begin{proof}
-Project the finite packet $Q=(H,P,u,r,\phi,\rho,\lambda)$ onto its first and third coordinates. The first coordinate is already a $\HilbertUp$ dependency row, and the third coordinate is required by the packet definition to be a unit-vector endpoint over that Hilbert carrier.
+The traditional target is a Hilbert-space unit vector carrying the usual norm
+and inner-product data. The BEDC source is the consumed
+$\NameCert_{\HilbertUp}$ row $\mathcal{H}$, and the carrier choice is the finite
+packet $\mathcal{Q}$ of \autoref{def:quantumstate-bhist-carrier}.
 
-For the converse direction, place the displayed data back into the seven-coordinate $\mathsf{BHist}$ packet in the order fixed by \autoref{def:quantumstate-bhist-ray-packet}. The Hilbert surface is supplied by $\NameCert_{\HilbertUp}$, and the unit-vector endpoint remains attached to the same Hilbert carrier through the $\Cont/\hsame$ ledger.
+Unpack the definition of $\mathcal{Q}$. The only fields naming Hilbert-side
+data are $\mathcal{H}$, $v$, $n$, and $\lambda_H$, together with the provenance
+row $\rho$. Thus the classifier choice is the inherited Hilbert classifier
+$\lambda_H$, stability is $\hsame$ transport through that classifier, and the
+ledger is the norm-one row $n$.
 
-The construction does not pass through equality of a host quotient. It exposes only the Hilbert row and unit-vector row, while density matrices, measurement rows, spectral data, and channel structure remain outside this certificate.
+The core theorem list for this boundary consists of the visible endpoint
+projection, the norm-one ledger projection, and the inner-product projection.
+Exactness says that every Hilbert-side row visible to $\QuantumStateUp$ is one
+of those projected rows. There is no standard bridge supplied here, and the
+status is a paper obligation for the $\NameCert_{\QuantumStateUp}$ Hilbert
+source boundary.
 \end{proof}
 
-\begin{theorem}[QuantumState projective phase surface]
-\label{thm:quantumstate-projectivespace-phase-surface}
-Every carried $\QuantumStateUp$ packet projects to a public $\ProjectiveSpaceUp$ endpoint and a finite global-phase orbit ledger. The projective endpoint is the ray row $r$ landing in the dependency row $P$, and the visible comparison of two such endpoints is exactly the scaling-orbit comparison consumed from \autoref{thm:projectivespace-scaling-orbit-classifier-obligation} together with the phase ledger component of \autoref{def:quantumstate-phase-orbit-classifier}.
+\begin{theorem}[QuantumStateUp projective phase classifier]
+\label{thm:quantumstate-projective-phase-classifier}
+The classified $\QuantumStateUp$ rows are exactly the Hilbert unit-vector rows
+$v$ whose projective endpoints $p$ are related by the global-phase row $\phi$
+and the $\ProjectiveSpaceUp$ classifier $\lambda_P$. Equivalently, two carrier
+packets
+$$
+\mathcal{Q}=(\mathcal{H},\mathcal{P},v,n,\phi,p,\lambda_H,\lambda_P,\rho)
+$$
+and
+$$
+\mathcal{Q}'=(\mathcal{H}',\mathcal{P}',v',n',\phi',p',\lambda'_H,\lambda'_P,\rho')
+$$
+classify the same quantum state precisely when the Hilbert endpoint rows are
+unit-vector rows and the projective endpoints are identified by the displayed
+global-phase/projective-space classifier rows.
 \end{theorem}
 \begin{proof}
-Project a carried packet onto the projective dependency row $P$, the ray-projection row $r$, and the phase ledger $\phi$. The packet definition requires $P$ to be a $\ProjectiveSpaceUp$ row over the same displayed vector surface as the Hilbert row, and $r$ records the image of the unit-vector endpoint in that projective row.
+The traditional target is equality of pure quantum states modulo global phase.
+The BEDC source is the pair of consumed certificates
+$\NameCert_{\HilbertUp}$ and $\NameCert_{\ProjectiveSpaceUp}$. The carrier
+choice is the packet $\mathcal{Q}$, while the classifier choice is the pair
+formed by the global-phase row $\phi$ and the projective classifier
+$\lambda_P$.
 
-Apply the $\ProjectiveSpaceUp$ public surface of \autoref{thm:projectivespace-punctured-carrier-obligation}, \autoref{thm:projectivespace-scaling-orbit-classifier-obligation}, and \autoref{thm:projectivespace-ledger-and-exactness-obligation}. These theorems make the scaling-orbit comparison public while keeping representative choices and scaling chains as ledger data.
+For the forward reading, a classified $\QuantumStateUp$ row first exposes a
+Hilbert endpoint $v$ and its norm-one ledger $n$ through
+\autoref{thm:quantumstate-hilbert-source-boundary}. It then exposes the
+projective endpoint $p$ through $\mathcal{P}$. The row $\phi$ records the
+allowed phase change, and $\lambda_P$ records the projective classifier that
+accepts the resulting endpoint comparison.
 
-The $\QuantumStateUp$ phase ledger is the specialization of that scaling ledger to unit scalar phase witnesses. No density operator, spectral decomposition, measurement outcome, or channel action is added to the projective surface.
+For the reverse reading, a Hilbert unit-vector endpoint with a norm-one ledger
+and a projective endpoint accepted by $\phi$ and $\lambda_P$ supplies all fields
+of \autoref{def:quantumstate-bhist-carrier}. Stability is componentwise
+$\hsame$ transport through $\lambda_H$ and $\lambda_P$, the ledger is $n$
+together with the phase row $\phi$, and exactness says that no host quotient is
+read. The core theorem list is this classifier row together with the Hilbert
+source boundary. The standard bridge is absent, and the status is a paper
+obligation for the $\NameCert_{\QuantumStateUp}$ classifier.
 \end{proof}
 
-\begin{theorem}[QuantumState public ray certificate surface]
-\label{thm:quantumstate-public-ray-certificate-surface}
-The public $\QuantumStateUp$ certificate surface consists exactly of the $\HilbertUp$ unit-vector projection of \autoref{thm:quantumstate-hilbert-unit-vector-surface}, the $\ProjectiveSpaceUp$ ray and phase projection of \autoref{thm:quantumstate-projectivespace-phase-surface}, the $\Pkg$ provenance row, and the $\Cont/\hsame$ transport ledger. Its classifier is the componentwise classifier of \autoref{def:quantumstate-phase-orbit-classifier}. Therefore two public quantum-state packets classify together exactly when the Hilbert dependency rows, projective dependency rows, unit-vector rows, ray rows, phase ledgers, package provenance rows, and transport ledgers classify componentwise.
+\begin{theorem}[QuantumStateUp global phase stability]
+\label{thm:quantumstate-global-phase-stability}
+Let $\mathcal{Q}$ and $\mathcal{Q}'$ be two carrier packets of
+\autoref{def:quantumstate-bhist-carrier}. If the Hilbert rows
+$\mathcal{H},v,n,\lambda_H$ and the projective rows
+$\mathcal{P},p,\lambda_P$ are transported componentwise by $\hsame$, then the
+global-phase classifier row is preserved and the norm-one ledger remains a
+valid $\QuantumStateUp$ ledger row. Thus $\hsame$ transport of the consumed
+Hilbert and projective certificates preserves the phase classifier and the
+norm-one condition.
 \end{theorem}
 \begin{proof}
-Start with a carried packet and project its seven coordinates. The previous two theorems identify the Hilbert unit-vector surface and the projective phase surface. The remaining coordinates are precisely the $\Pkg$ provenance row and the $\Cont/\hsame$ transport ledger.
+The traditional target is invariance of a pure state under change of certified
+presentation. The BEDC source is the pair of source certificates
+$\mathcal{H}$ and $\mathcal{P}$, the carrier choice is the packet
+$\mathcal{Q}$, and the classifier choice is $\lambda_H$, $\lambda_P$, and the
+phase row $\phi$.
 
-For soundness of the public classifier, unfold \autoref{def:quantumstate-phase-orbit-classifier}. Each visible comparison is one of the consumed component comparisons, and the hidden phase data are used only as the ledger certifying the projective scaling-orbit comparison.
+Transport the Hilbert side first. The $\hsame$ witnesses for
+$\mathcal{H}$, $v$, $n$, and $\lambda_H$ move the unit-vector endpoint and the
+norm-one ledger through the Hilbert classifier without opening any host vector
+equality.
 
-For completeness, assume the seven component comparisons listed in \autoref{def:quantumstate-phase-orbit-classifier}. Repack them in the displayed packet order and fold the classifier definition. The result is the public ray certificate comparison for $\QuantumStateUp$.
+Transport the projective side next. The $\hsame$ witnesses for
+$\mathcal{P}$, $p$, and $\lambda_P$ move the projective endpoint and its
+classifier row. The phase row $\phi$ is preserved because its source and target
+endpoints are exactly the transported Hilbert and projective endpoints.
 
-The certificate surface is restricted to pure ray data. It does not claim host quotient equality, density-matrix structure, measurement rows, spectral data, or quantum-channel structure.
+The ledger consists of the norm-one row, the phase row, and the provenance
+row. The core theorem list is the Hilbert source boundary, the projective phase
+classifier, and this transport row. Exactness says that every preserved row is
+one of the displayed packet fields. No standard bridge is supplied, and the
+status is a paper obligation for $\NameCert_{\QuantumStateUp}$ stability.
+\end{proof}
+
+\begin{theorem}[QuantumStateUp public obligation surface]
+\label{thm:quantumstate-namecert-obligation-surface}
+The public $\NameCert_{\QuantumStateUp}$ surface consists exactly of the
+carrier packet of \autoref{def:quantumstate-bhist-carrier}, the projective
+phase classifier of \autoref{thm:quantumstate-projective-phase-classifier}, the
+stability row of \autoref{thm:quantumstate-global-phase-stability}, the
+norm-one ledger, the projective exactness predicate, and the hidden
+global-phase rows needed to witness the endpoint comparison. These rows form
+the carrier, classifier, stability, ledger, exactness, and hidden
+global-phase obligations exported by $\QuantumStateUp$.
+\end{theorem}
+\begin{proof}
+The traditional target is the pure-state naming certificate. The BEDC source
+is the pair $\NameCert_{\HilbertUp}$ and $\NameCert_{\ProjectiveSpaceUp}$, and
+the carrier choice is the displayed packet $\mathcal{Q}$. The classifier choice
+is the global-phase/projective classifier, while stability is
+\autoref{thm:quantumstate-global-phase-stability}.
+
+The ledger is finite: it contains the norm-one row $n$, the phase row $\phi$,
+the two inherited classifier rows $\lambda_H$ and $\lambda_P$, and the
+provenance row $\rho$. The core theorem list is the Hilbert source boundary,
+the projective phase classifier, and the global-phase stability row.
+
+Exactness says that every public $\QuantumStateUp$ row is assembled from those
+fields and that every hidden phase row is used only to classify projective
+endpoints. The standard bridge field is empty. The status is a paper obligation
+for the $\NameCert_{\QuantumStateUp}$ public surface.
+\end{proof}
+
+\begin{theorem}[QuantumStateUp projective consumer boundary]
+\label{thm:quantumstate-projective-consumer-boundary}
+Downstream $\ObservableUp$, $\DensityMatrixUp$, and $\QuantumChannelUp$
+consumers of $\NameCert_{\QuantumStateUp}$ may read only the Hilbert source row
+$\mathcal{H}$, the projective endpoint row $p$, the global-phase classifier
+$\phi$, the norm ledger $n$, and the package provenance $\rho$. They may not
+read a host Hilbert-vector equality, a quotient object, or any equality outside
+the Hilbert and projective classifiers exported by
+\autoref{thm:quantumstate-namecert-obligation-surface}.
+\end{theorem}
+\begin{proof}
+The traditional target is the pure-state input boundary for observable,
+density-matrix, and quantum-channel constructions. The BEDC source is the
+public $\NameCert_{\QuantumStateUp}$ surface, the carrier choice is the packet
+$\mathcal{Q}$, and the classifier choice is the pair of inherited classifiers
+plus the phase row.
+
+Read the exported rows of
+\autoref{thm:quantumstate-namecert-obligation-surface}. A consumer receives the
+Hilbert source row, the projective endpoint row, the phase classifier, the
+norm-one ledger, and the provenance row. These are the only fields that carry
+forward from the certificate.
+
+It remains to exclude stronger inputs. Host vector equality is not a field of
+\autoref{def:quantumstate-bhist-carrier}; quotient equality is replaced by the
+projective classifier; and hidden phase witnesses are readable only through
+the classifier row that uses them. Thus stability, ledger, exactness, and the
+core theorem list are inherited from the public surface. No standard bridge is
+present, and the status is a paper obligation for the downstream consumer
+boundary.
 \end{proof}
