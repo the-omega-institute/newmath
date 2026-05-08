@@ -480,6 +480,44 @@ theorem PdeConservativeStandardBridge_semantic_name_certificate [AskSetup] [Pack
       exact source
   }
 
+theorem PdeUp_StdBridge [AskSetup] [PackageSetup]
+    {manifold derivative relation boundary endpoint relationBoundary summarizedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PdeCarriedSourceRow manifold derivative relation boundary endpoint bundle pkg ->
+      Cont relation boundary relationBoundary ->
+        Cont (append manifold derivative) relationBoundary summarizedEndpoint ->
+          SemanticNameCert
+            (fun h : BHist => exists rb se : BHist,
+              hsame h endpoint ∧ Cont relation boundary rb ∧
+                Cont (append manifold derivative) rb se)
+            (fun h : BHist => exists rb se : BHist,
+              hsame h endpoint ∧ Cont relation boundary rb ∧
+                Cont (append manifold derivative) rb se)
+            (fun h : BHist => exists rb se : BHist,
+              hsame h endpoint ∧ Cont relation boundary rb ∧
+                Cont (append manifold derivative) rb se)
+            (fun left right : BHist =>
+              (exists lrb lse : BHist,
+                hsame left endpoint ∧ Cont relation boundary lrb ∧
+                  Cont (append manifold derivative) lrb lse) ∧
+              (exists rrb rse : BHist,
+                hsame right endpoint ∧ Cont relation boundary rrb ∧
+                  Cont (append manifold derivative) rrb rse) ∧
+              hsame left right) ∧
+            hsame summarizedEndpoint (append (append manifold derivative) endpoint) := by
+  intro row relationBoundaryCont summarizedEndpointCont
+  have cert :=
+    PdeConservativeStandardBridge_semantic_name_certificate
+      (manifold := manifold) (derivative := derivative) (relation := relation)
+      (boundary := boundary) (endpoint := endpoint) (bundle := bundle) (pkg := pkg) row
+  have endpointReadback :=
+    PdeConservativeStandardBridge_endpoint_readback
+      (manifold := manifold) (derivative := derivative) (relation := relation)
+      (boundary := boundary) (endpoint := endpoint) (relationBoundary := relationBoundary)
+      (summarizedEndpoint := summarizedEndpoint) (bundle := bundle) (pkg := pkg) row
+      relationBoundaryCont summarizedEndpointCont
+  exact And.intro cert endpointReadback
+
 theorem PdeCarriedSourceRow_source_scope [AskSetup] [PackageSetup]
     {manifold derivative relation boundary endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
