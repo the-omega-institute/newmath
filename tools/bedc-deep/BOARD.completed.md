@@ -13335,3 +13335,53 @@ Rationale:
 Symmetric dual-side companion to the in-progress B-516 (LPDuality PRIMAL feasibility binary convex closure). LP duality theory is incomplete without symmetric closure on both feasibility cones; the chapter already has weak duality (thm 72), weak-duality-equality optimality (cor 139), and complementary slackness (thm 191), but no convex closure on either side. The dual case is not redundant with the primal — different inequality direction (c_j preceq_F beta_j(y)) and uses NonNeg multiplicative monotonicity in the opposite orientation. Concrete closure target, not parameter echo. File 276 lines, safe.
 
 ---
+
+### B-526 - ConvexSet linear preimage carries the binary affine-combination row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ConvexSet linear preimage carries the binary affine-combination row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If f: V→W is a carried LinearMapUp and D is a convex carrier in W satisfying the binary affine-combination row of def:convexset-binary-affine-combination-row, then the source-side preimage carrier f^{-1}(D)(x) := D(f(x)) on the source vector carrier C_V satisfies the same binary nonneg unit-sum affine-combination closure row over the same FieldUp scalar source.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+
+Rationale:
+186_convexset already proves the IMAGE direction in thm:convexset-linear-image-affine-combination-closure (186:249-312) and thm:convexset-linear-image-finite-affine-spine-closure (186:314-346) via def:convexset-linear-image-carrier (186:238). The dual PREIMAGE direction is structurally simpler (no codomain-classifier transport needed; just push the f-output condition through linearity) and is genuinely missing. `Grep -rn 'preimage|f^{-1}.*convex|convex.*preimage' papers/bedc/parts/` returns 0 hits across the entire parts/ tree, and there is no `BEDC.Derived.ConvexSetUp.*Preimage` Lean target. File is 357 lines, well below the 760 cap, and follows the same chapter as the image case so the local style cues already exist.
+
+---
+
+### B-527 - Independence empty index family carries the finite factorisation row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Independence empty index family carries the finite factorisation row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a finite-family carrier R for IndependenceUp in the sense of def:independence-finite-family-carrier has empty FinSetUp index carrier I = ∅, then R satisfies the finite factorisation row of def:independence-finite-factorisation-row: for the unique empty event-family B, μ_X^J(Cyl_X(B)) ~_R Π_R(MargSp_X(B)) holds, both endpoints being the empty-product unit 1_R.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/165_independence_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+
+Rationale:
+165_independence has 11 theorems including B-477 (finite reindexing invariance), B-499 (measurable-image bridge), and B-511 (subfamily projection), but `grep -rn 'empty.*independence|empty.*indep.*finite|empty.*family.*independent' papers/bedc/parts/` returns 0 hits about IndependenceUp empty-family. (180 hits for matroid-empty are different concept.) The empty-index degenerate case is conceptually distinct from B-511 because it does not require an ambient-family hypothesis: it is structural—the joint pushforward of an empty-tuple map onto the singleton empty-product target is the total mass 1_R by ProbSpace total-mass row (thm:probspace-total-event-normalization-row, 162:130), and the empty real-product fold is 1_R by the finite-fold definitions. Closes the foundational degenerate case that the existing theorems all assume to be discharged. File at 362 lines.
+
+---
