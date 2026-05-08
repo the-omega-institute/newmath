@@ -395,3 +395,120 @@ $$
 \mathsf{DuFeas}_{A,b,c}(\eta).
 $$
 \end{proof}
+
+\begin{theorem}[B-516: $\LPDualityUp$ primal feasibility binary convex closure]
+\label{thm:lpduality-primal-feasibility-binary-convex-closure}
+Let $F$ be the ordered-field scalar interface carried by a finite $\LPDualityUp$ row certificate as in \autoref{def:lpduality-finite-ordered-field-feasibility-row}. Let $J$ be the finite column index object, let $I_0$ be any finite family of certified primal rows, let
+$$
+A:I_0\times J\to F,
+\qquad
+b:I_0\to F
+$$
+be the row-coefficient and right-hand-side data, and let
+$$
+x,x':J\to F
+$$
+be two primal vectors. Write
+$$
+\mathsf{Row}_{i}(z):=\sum_{j\in J} A_{ij}\cdot_F z_j
+$$
+for the finite row evaluation, and define
+$$
+\mathsf{PrFeas}_{A,b}^{I_0}(z)
+\quad:\Longleftrightarrow\quad
+\forall i\in I_0,\; \mathsf{Row}_{i}(z)\preceq_F b_i .
+$$
+Assume
+$$
+\mathsf{PrFeas}_{A,b}^{I_0}(x),
+\qquad
+\mathsf{PrFeas}_{A,b}^{I_0}(x'),
+$$
+and let $\alpha,\beta:F$ satisfy
+$$
+\mathsf{NonNeg}_F(\alpha),
+\qquad
+\mathsf{NonNeg}_F(\beta),
+\qquad
+\alpha+_F\beta\sim_F 1_F .
+$$
+Define the componentwise binary affine mixture
+$$
+\lambda_j:=\alpha\cdot_F x_j+_F\beta\cdot_F x'_j,
+\qquad
+j\in J .
+$$
+The finite row certificate records the row-affine-linearity comparison for this mixture:
+$$
+\mathsf{Row}_{i}(\lambda)
+\sim_F
+\alpha\cdot_F \mathsf{Row}_{i}(x)+_F\beta\cdot_F \mathsf{Row}_{i}(x')
+\qquad
+(i\in I_0).
+$$
+The scalar order portion of the same certificate records binary order-addition monotonicity, the two-point finite-sum monotonicity instance of \autoref{def:lpduality-finite-ordered-field-feasibility-row}:
+$$
+p\preceq_F q
+\land
+r\preceq_F s
+\Longrightarrow
+p+_F r\preceq_F q+_F s .
+$$
+Then
+$$
+\mathsf{PrFeas}_{A,b}^{I_0}(\lambda).
+$$
+Moreover, the closure is row-local and coefficient-sign-free: no hypothesis of the form $\mathsf{NonNeg}_F(A_{ij})$ is required for any row coefficient.
+\end{theorem}
+\begin{proof}
+Fix a row $i\in I_0$. By the definition of $\lambda$, field distributivity, commutativity of scalar multiplication, and the finite-sum linearity certificate over the finite column object $J$ recorded by the row-affine-linearity field displayed in the theorem statement,
+$$
+\begin{aligned}
+\mathsf{Row}_{i}(\lambda)
+&=\sum_{j\in J} A_{ij}\cdot_F(\alpha\cdot_F x_j+_F\beta\cdot_F x'_j)\\
+&\sim_F
+\sum_{j\in J}\bigl(\alpha\cdot_F(A_{ij}\cdot_F x_j)+_F
+\beta\cdot_F(A_{ij}\cdot_F x'_j)\bigr)\\
+&\sim_F
+\alpha\cdot_F\sum_{j\in J}A_{ij}\cdot_F x_j
++_F
+\beta\cdot_F\sum_{j\in J}A_{ij}\cdot_F x'_j\\
+&=
+\alpha\cdot_F \mathsf{Row}_{i}(x)+_F\beta\cdot_F \mathsf{Row}_{i}(x').
+\end{aligned}
+$$
+The two feasibility assumptions give
+$$
+\mathsf{Row}_{i}(x)\preceq_F b_i,
+\qquad
+\mathsf{Row}_{i}(x')\preceq_F b_i .
+$$
+Since $\alpha$ and $\beta$ are nonnegative, the multiplication-monotonicity row of \autoref{def:lpduality-finite-ordered-field-feasibility-row} yields
+$$
+\alpha\cdot_F\mathsf{Row}_{i}(x)\preceq_F \alpha\cdot_F b_i,
+\qquad
+\beta\cdot_F\mathsf{Row}_{i}(x')\preceq_F \beta\cdot_F b_i .
+$$
+The binary order-addition monotonicity row displayed in the theorem statement gives
+$$
+\alpha\cdot_F\mathsf{Row}_{i}(x)+_F\beta\cdot_F\mathsf{Row}_{i}(x')
+\preceq_F
+\alpha\cdot_F b_i+_F\beta\cdot_F b_i .
+$$
+By right distributivity and the convex-weight certificate,
+$$
+\alpha\cdot_F b_i+_F\beta\cdot_F b_i
+\sim_F
+(\alpha+_F\beta)\cdot_F b_i
+\sim_F
+1_F\cdot_F b_i
+\sim_F
+b_i .
+$$
+The classifier-stability row for $\preceq_F$ recorded in \autoref{def:lpduality-finite-ordered-field-feasibility-row}, applied to the row-evaluation classifier comparison above and to the final scalar classifier comparison, yields
+$$
+\mathsf{Row}_{i}(\lambda)\preceq_F b_i .
+$$
+Because $i\in I_0$ was arbitrary, $\mathsf{PrFeas}_{A,b}^{I_0}(\lambda)$ follows.
+The proof used only finite-sum linearity, commutative-field distributivity, ordered-field monotonicity under nonnegative scalar multiplication, additive monotonicity of the order through the displayed two-point finite-sum row, and classifier stability for $\preceq_F$ from \autoref{def:lpduality-finite-ordered-field-feasibility-row}. The entries $A_{ij}$ were never compared with $0_F$. Hence the closure is local in the chosen row ledger $I_0$ and does not require any coefficient-sign side condition.
+\end{proof}
