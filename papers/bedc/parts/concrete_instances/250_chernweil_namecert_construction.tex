@@ -22,6 +22,70 @@ The envelope is admitted only when the curvature boundary, the de~Rham cohomolog
 Two $\ChernWeilUp$ source envelopes $\mathcal{W}$ and $\mathcal{W}'$ classify the same Chern-Weil object exactly when $\hsame$ preserves their $\NameCert_{\CurvatureUp}$ source rows and the $\NameCert_{\DeRhamUp}$ classifier returns the same characteristic-class row after projecting both packets through their carried $\Cont$ provenance rows. Equivalently, the classifier ignores only the hidden connection ledger face $\gamma$ and compares the exported curvature source row together with the de~Rham row $\lambda$ read from it.
 \end{definition}
 
+\begin{definition}[Chern-Weil curvature-to-de~Rham source packet]
+\label{def:chernweil-curvature-derham-source}
+A $\ChernWeilUp$ source packet is a finite BEDC package
+$$
+\mathcal{W}=(\mathcal{R},\mathcal{D},p,\chi,c,\epsilon,\lambda,\pi)
+$$
+where $\mathcal{R}$ is a $\NameCert_{\CurvatureUp}$ carrier packet, $\mathcal{D}$ is a $\NameCert_{\DeRhamUp}$ carrier packet, $p:\mathsf{BHist}$ is the invariant-polynomial row, $\chi:\mathsf{BHist}$ is the evaluated curvature-polynomial row, $c:\mathsf{BHist}$ is the de~Rham cohomology-class endpoint, $\epsilon$ is the exact-boundary row witnessing connection replacement, $\lambda$ is the finite $\Cont$ ledger from the curvature Bianchi row to the closed de~Rham row, and $\pi$ records the $\mathsf{Pkg}$ provenance of the curvature, de~Rham, and polynomial rows.
+
+The packet is accepted only when the source curvature rows, the de~Rham endpoint rows, the $\hsame$ comparisons, the $\Cont$ ledgers, the $\mathsf{ProbeBundle}$ observations, and the $\mathsf{Pkg}$ provenance all project from the same displayed history package. Thus the Chern-Weil source is a CurvatureUp-to-DeRhamUp row package, not a host equality between differential forms.
+\end{definition}
+
+\begin{definition}[Chern-Weil characteristic-class classifier]
+\label{def:chernweil-characteristic-class-classifier}
+Two packets of \autoref{def:chernweil-curvature-derham-source} have the same Chern-Weil characteristic class when their invariant-polynomial rows classify together, their evaluated curvature rows transport by the carried $\hsame$ and $\Cont$ ledgers, and the transported endpoints determine the same de~Rham cohomology-class row in the $\NameCert_{\DeRhamUp}$ classifier. The classifier is therefore agreement of invariant-polynomial curvature rows after de~Rham cohomology-class transport; it is not equality of ambient forms in a host calculus.
+\end{definition}
+
+\begin{theorem}[Chern-Weil invariant-polynomial carrier obligation]
+\label{thm:chernweil-invariant-polynomial-carrier-obligation}
+Every accepted Chern-Weil row exposes only the source curvature packet, the invariant-polynomial evaluation history, the de~Rham class endpoint, the finite transport ledgers, the $\mathsf{ProbeBundle}$ observations, and the $\mathsf{Pkg}$ provenance. In particular, the public carrier does not expose a coordinate connection form, an ambient polynomial algebra, or an external cohomology quotient beyond the displayed $\NameCert_{\CurvatureUp}$ and $\NameCert_{\DeRhamUp}$ rows.
+\end{theorem}
+\begin{proof}
+Unpack an accepted packet of \autoref{def:chernweil-curvature-derham-source}. The tuple projections give exactly the source curvature certificate, the source de~Rham certificate, the polynomial row, the evaluated curvature-polynomial row, the class endpoint, the exact-boundary row, the finite ledger, and the provenance row.
+
+The classifier of \autoref{def:chernweil-characteristic-class-classifier} consumes only these projections. It compares the polynomial and evaluated rows by $\hsame$, transports them through the finite $\Cont$ ledger, and then reads the resulting endpoint through the de~Rham classifier row.
+
+Repacking those projections gives the stated public carrier surface. Since no projection returns a host connection form, an external polynomial algebra, or an uncarried quotient, no accepted Chern-Weil row can expose such data.
+\end{proof}
+
+\begin{theorem}[Chern-Weil connection-change cocycle obligation]
+\label{thm:chernweil-connection-change-cocycle-obligation}
+If two packets of \autoref{def:chernweil-curvature-derham-source} differ only by replacing the $\NameCert_{\ConnectionUp}$ representative inside their $\NameCert_{\CurvatureUp}$ source while preserving the carried base, fibre, section, invariant-polynomial, and provenance rows, then the two evaluated curvature-polynomial endpoints are related in $\NameCert_{\DeRhamUp}$ by the exact-boundary row $\epsilon$. Consequently the characteristic-class classifier transports across the connection change.
+\end{theorem}
+\begin{proof}
+Project the two Chern-Weil packets to their curvature sources. The curvature tensorial transport row carries the section and tangent replacement data through $\hsame$, while preserving the shared base, fibre, invariant-polynomial, and provenance projections.
+
+Evaluate the invariant-polynomial row against the transported curvature boundary row. The evaluation history is part of the Chern-Weil packet, so the two evaluated endpoints are connected by the displayed finite $\Cont$ ledger rather than by an unstated analytic homotopy.
+
+The exact-boundary row $\epsilon$ is then projected as a de~Rham boundary witness from the first endpoint to the second. Reading this witness through the de~Rham classifier gives the same cohomology-class endpoint, and repacking the transported rows proves classifier stability under the connection change.
+\end{proof}
+
+\begin{theorem}[Chern-Weil closed-form de~Rham class obligation]
+\label{thm:chernweil-closed-form-derham-class-obligation}
+For every accepted Chern-Weil packet, the Bianchi-style curvature ledger supplies a closed de~Rham class endpoint consumable by the $\NameCert_{\DeRhamUp}$ classifier. The closedness row is the finite $\Cont$ consequence of the curvature cyclic ledger, the invariant-polynomial evaluation row, and the transported de~Rham endpoint row.
+\end{theorem}
+\begin{proof}
+Start from the curvature component of the source packet. Its Bianchi ledger is a finite cyclic $\Cont$ row among displayed curvature boundaries, and the Chern-Weil packet records the invariant-polynomial evaluation of those boundaries.
+
+Transport the evaluated row along the carried $\hsame$ comparisons into the de~Rham source packet. The ledger $\lambda$ records this transport as a BEDC continuation from the Bianchi row to the closed de~Rham endpoint.
+
+The de~Rham classifier consumes the transported endpoint as a closed class row. Thus closedness is not asserted as an external differential identity; it is the class endpoint projected from the finite curvature ledger and repacked inside $\NameCert_{\DeRhamUp}$.
+\end{proof}
+
+\begin{theorem}[Chern-Weil NameCert obligation surface]
+\label{thm:chernweil-namecert-obligation-surface}
+The $\ChernWeilUp$ obligation surface consists exactly of the source packet of \autoref{def:chernweil-curvature-derham-source}, the characteristic-class classifier of \autoref{def:chernweil-characteristic-class-classifier}, the invariant-polynomial carrier row of \autoref{thm:chernweil-invariant-polynomial-carrier-obligation}, the connection-change exact-boundary row of \autoref{thm:chernweil-connection-change-cocycle-obligation}, the closed de~Rham endpoint row of \autoref{thm:chernweil-closed-form-derham-class-obligation}, the finite ledgers, and the dependency provenance over $\NameCert_{\CurvatureUp}$ and $\NameCert_{\DeRhamUp}$.
+\end{theorem}
+\begin{proof}
+Collect the two definitions and the three obligation rows above. They provide the carrier packet, classifier, exposed public fields, connection-change transport, closedness endpoint, ledgers, exact-boundary row, and dependency provenance.
+
+Each field has a consumer: the carrier exposes the source histories, the classifier reads the transported de~Rham endpoint, the connection-change row supplies exact-boundary transport, and the closedness row supplies the de~Rham class endpoint. Conversely, every consumer reads one of these displayed fields.
+
+Therefore the surface is exact. A downstream $\NameCert_{\ChernWeilUp}$ consumer may project the listed CurvatureUp-to-DeRhamUp rows, but it may not assume a stronger equality of forms, a coordinate curvature model, or a standard bridge absent from the packet.
+\end{proof}
+
 \section{The certificate}
 \label{sec:chernweil-certificate}
 \closureat{ChernWeilUp}{seedStr}
