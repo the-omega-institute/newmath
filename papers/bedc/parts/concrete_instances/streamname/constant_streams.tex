@@ -350,6 +350,95 @@ finite-window classifier follows.
 \end{proof}
 \leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameFiniteWindowClassifier\_constant\_exactness}
 
+\begin{theorem}[Rational constant-stream finite-window coverage]
+\label{thm:rat-const-stream-prefix-window-coverage}
+For histories $h,k:\Hist$ and a probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$, suppose the finite window is inhabited by
+a certified unary observation:
+$$
+\exists n:\Hist,\ \mathsf{InBundle}(n,\mathcal{P})\land
+\mathsf{UnaryHistory}(n).
+$$
+Then the window classifier for the two constant rational streams is covered
+by the hidden RatUp endpoint classifier. More precisely,
+$\mathsf{RatStreamNameFiniteWindowClassifier}(\mathsf{RatConstStream}_h,
+\mathsf{RatConstStream}_k,\mathcal{P})$ determines
+$\mathsf{RatHistoryClassifier}(h,k)$, and conversely any
+$\mathsf{RatHistoryClassifier}(h,k)$ supplies the classifier row for every
+selected unary observation of $\mathcal{P}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-stream-name-constant-finite-window-exactness} to the
+inhabited $\mathsf{ProbeBundle}$ window. The forward implication reads the
+hidden endpoint classifier from any bundled unary probe.
+
+For the converse, unfold $\mathsf{RatConstStream}$. At each selected
+$n:\Hist$ with $\mathsf{InBundle}(n,\mathcal{P})$ and
+$\mathsf{UnaryHistory}(n)$, both stream observations reduce to $h$ and $k$.
+The supplied RatUp endpoint classifier is therefore exactly the point row
+required by $\mathsf{RatStreamNameFiniteWindowClassifier}$; if the selected
+endpoint is displayed through $\hsame$, use
+\autoref{thm:rat-history-classifier-hsame-transport} before repacking.
+\end{proof}
+
+\begin{theorem}[Rational constant-stream finite-window soundness]
+\label{thm:rat-const-stream-prefix-window-soundness}
+For histories $h,k:\Hist$, a probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$, and a certified selected observation
+$n:\Hist$, if $\mathsf{InBundle}(n,\mathcal{P})$,
+$\mathsf{UnaryHistory}(n)$, and
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(\mathsf{RatConstStream}_h,
+\mathsf{RatConstStream}_k,\mathcal{P})
+$$
+hold, then the selected unary observation transports to the RatUp endpoint
+row
+$$
+\mathsf{RatHistoryClassifier}(\mathsf{RatConstStream}_h(n),
+\mathsf{RatConstStream}_k(n)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{RatStreamNameFiniteWindowClassifier}$. Its soundness clause is
+a universal row over the selected unary observations of the
+$\mathsf{ProbeBundle}$.
+
+Apply that row to the displayed $n$, the membership witness
+$\mathsf{InBundle}(n,\mathcal{P})$, and the certificate
+$\mathsf{UnaryHistory}(n)$. Unfolding $\mathsf{RatConstStream}$ identifies
+the two observed endpoints with $h$ and $k$, so the returned point classifier
+is the desired RatUp endpoint row; the reflexive endpoint case is the RatUp
+classifier row of \autoref{thm:rat-classifier-reflexivity}.
+\end{proof}
+
+\begin{theorem}[Rational constant-stream finite-window completeness]
+\label{thm:rat-const-stream-prefix-window-completeness}
+For histories $h,k:\Hist$ and a probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$, suppose the finite window is inhabited by
+a certified unary observation and
+$\mathsf{RatHistoryClassifier}(h,k)$ holds. Then
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(\mathsf{RatConstStream}_h,
+\mathsf{RatConstStream}_k,\mathcal{P})
+$$
+holds for every such certified finite window.
+\end{theorem}
+\begin{proof}
+Apply the reverse direction of
+\autoref{thm:rat-stream-name-constant-finite-window-exactness}. The inhabited
+window supplies the nonempty $\mathsf{ProbeBundle}$ premise, and the given
+RatUp endpoint classifier supplies the hidden row.
+
+Equivalently, fix any selected unary observation. By
+\autoref{thm:rat-stream-name-constant-witness}, each constant stream is the
+stream-name witness obtained from its hidden rational endpoint. Unfold
+$\mathsf{RatConstStream}$; the selected observation again reads $h$ and $k$,
+so the same endpoint classifier repacks the finite-window classifier, with
+component transport handled by
+\autoref{thm:rat-history-classifier-hsame-transport}.
+\end{proof}
+
 \begin{theorem}[Rational stream-name constant bridge package]
 \label{thm:rat-stream-name-constant-bridge-package}
 For histories $d,e:\Hist$ and an arbitrary observation reindexer
