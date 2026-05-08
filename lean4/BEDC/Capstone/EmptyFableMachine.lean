@@ -123,28 +123,28 @@ private theorem appendSingletonEq {α : Type u} :
       intro ys a b h
       cases ys with
       | nil =>
-          simp at h
+          injection h with hab _
           constructor
           · rfl
-          · exact h
+          · exact hab
       | cons y ys =>
-          simp at h
+          injection h with _ htail
+          cases ys <;> cases htail
   | cons x xs ih =>
       intro ys a b h
       cases ys with
       | nil =>
-          simp at h
+          injection h with _ htail
+          cases xs <;> cases htail
       | cons y ys =>
-          simp at h
-          cases h with
-          | intro hxy htail =>
-              cases hxy
-              cases htail with
-              | intro init last =>
-                  constructor
-                  · cases init
-                    rfl
-                  · exact last
+          injection h with hxy htail
+          cases hxy
+          cases ih htail with
+          | intro init last =>
+              constructor
+              · cases init
+                rfl
+              · exact last
 
 private theorem trace_snoc_inversion :
     ∀ {h : BHist} {xs : List BMark} {m : BMark},
@@ -156,7 +156,7 @@ private theorem trace_snoc_inversion :
   cases tr with
   | nil =>
       have impossible : xs ++ [m] = [] := hseq
-      cases xs <;> simp at impossible
+      cases xs <;> cases impossible
   | zero k ys hk =>
       have heq : ys ++ [BMark.b0] = xs ++ [m] := hseq.symm
       have hpair := appendSingletonEq heq
