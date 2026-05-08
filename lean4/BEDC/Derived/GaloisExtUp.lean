@@ -5,6 +5,7 @@ import BEDC.FKernel.Cont
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.PolynomialUp
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -15,6 +16,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.FieldExtUp
@@ -78,6 +80,93 @@ theorem GaloisExtSourcePacket_normality_obligation_row [AskSetup] [PackageSetup]
           (And.intro packet.right.right.right.right.right.left
             packet.right.right.right.right.right.right))))
 
+theorem GaloisExtSourcePacket_semantic_name_certificate [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      SemanticNameCert
+        (fun e : BHist => exists p c : BHist, GaloisExtSourcePacket fieldExt polynomial
+          generator minimal simpleRoot sepProvenance separable normality separability c p e
+          bundle pkg)
+        (fun e : BHist => exists p c : BHist, GaloisExtSourcePacket fieldExt polynomial
+          generator minimal simpleRoot sepProvenance separable normality separability c p e
+          bundle pkg)
+        (fun e : BHist => exists p c : BHist, GaloisExtSourcePacket fieldExt polynomial
+          generator minimal simpleRoot sepProvenance separable normality separability c p e
+          bundle pkg)
+        (fun left right : BHist =>
+          (exists lp lc : BHist, GaloisExtSourcePacket fieldExt polynomial generator minimal
+            simpleRoot sepProvenance separable normality separability lc lp left bundle pkg) /\
+            (exists rp rc : BHist, GaloisExtSourcePacket fieldExt polynomial generator minimal
+              simpleRoot sepProvenance separable normality separability rc rp right bundle pkg) /\
+              hsame left right) := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro endpoint (Exists.intro provenance (Exists.intro classifier packet))
+      equiv_refl := by
+        intro h source
+        exact And.intro source (And.intro source (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified _source
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+
+theorem GaloisExtSourcePacket_public_obligation_boundary [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot sepProvenance
+          separable bundle pkg ∧
+        UnaryHistory normality ∧ UnaryHistory separability ∧ UnaryHistory classifier ∧
+          UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont fieldExt separable provenance ∧
+            Cont normality separability classifier ∧ Cont provenance classifier endpoint ∧
+              PkgSig bundle endpoint pkg := by
+  intro packet
+  have separableClosure :=
+    SeparableExtSourceSurface_dependency_ledger_closure packet.left
+  have separableUnary : UnaryHistory separable :=
+    separableClosure.right.left
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed packet.right.left packet.right.right.left
+      packet.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed packet.left.left separableUnary packet.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary classifierUnary
+      packet.right.right.right.right.right.left
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.left
+        (And.intro classifierUnary
+          (And.intro provenanceUnary
+            (And.intro endpointUnary
+               (And.intro packet.right.right.right.left
+                 (And.intro packet.right.right.right.right.left
+                   (And.intro packet.right.right.right.right.right.left
+                     packet.right.right.right.right.right.right))))))))
+
 theorem GaloisExtSourcePacket_classifier_transport
     {field field' separable separable' normal normal' simple simple' classifier classifier'
       provenance provenance' ledger ledger' : BHist} :
@@ -126,6 +215,42 @@ theorem GaloisExtSourcePacket_classifier_transport
       (And.intro ledgerUnary'
         (And.intro sameClassifier
           (And.intro sameProvenance sameLedger))))
+
+theorem GaloisExtSourcePacket_normal_separable_stability [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint normality' separability' classifier'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      hsame normality normality' ->
+        hsame separability separability' ->
+          Cont normality' separability' classifier' ->
+            Cont provenance classifier' endpoint' ->
+              GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance
+                  separable normality' separability' classifier' provenance endpoint' bundle pkg ∧
+                hsame classifier classifier' ∧ hsame endpoint endpoint' := by
+  intro packet sameNormality sameSeparability classifierRow endpointRow
+  have normalityUnary : UnaryHistory normality' :=
+    unary_transport packet.right.left sameNormality
+  have separabilityUnary : UnaryHistory separability' :=
+    unary_transport packet.right.right.left sameSeparability
+  have sameClassifier : hsame classifier classifier' :=
+    cont_respects_hsame sameNormality sameSeparability packet.right.right.right.right.left
+      classifierRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameClassifier
+      packet.right.right.right.right.right.left endpointRow
+  have pkgSig : PkgSig bundle endpoint' pkg := by
+    cases sameEndpoint
+    exact packet.right.right.right.right.right.right
+  exact And.intro
+    (And.intro packet.left
+      (And.intro normalityUnary
+        (And.intro separabilityUnary
+          (And.intro packet.right.right.right.left
+            (And.intro classifierRow (And.intro endpointRow pkgSig))))))
+    (And.intro sameClassifier sameEndpoint)
 
 theorem GaloisExtSourcePacket_endpoint_empty_inversion [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality

@@ -113,4 +113,74 @@ theorem DynSystemFlowPacket_flow_route_readback [AskSetup] [PackageSetup]
       (And.intro endpointReadback
         (And.intro routeReadback routePkg))
 
+theorem DynSystemFlowPacket_classifier_flow_transport [AskSetup] [PackageSetup]
+    {phase phase' ode ode' time time' source source' target target' flowWitness flowWitness'
+      endpoint endpoint' route route' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemFlowPacket phase ode time source target flowWitness endpoint route bundle pkg ->
+      hsame phase phase' -> hsame ode ode' -> hsame time time' -> hsame source source' ->
+        hsame target target' ->
+          Cont (append phase' time') source' flowWitness' ->
+            Cont flowWitness' ode' endpoint' ->
+              Cont endpoint' target' route' ->
+                PkgSig bundle route' pkg ->
+                  DynSystemFlowPacket phase' ode' time' source' target' flowWitness' endpoint'
+                    route' bundle pkg ∧ hsame flowWitness flowWitness' ∧
+                    hsame endpoint endpoint' ∧ hsame route route' := by
+  intro packet samePhase sameOde sameTime sameSource sameTarget flowWitnessCont'
+    endpointCont' routeCont' routePkg'
+  have phaseUnary' : UnaryHistory phase' :=
+    unary_transport packet.left samePhase
+  have odeUnary' : UnaryHistory ode' :=
+    unary_transport packet.right.left sameOde
+  have timeUnary' : UnaryHistory time' :=
+    unary_transport packet.right.right.left sameTime
+  have sourceUnary' : UnaryHistory source' :=
+    unary_transport packet.right.right.right.left sameSource
+  have targetUnary' : UnaryHistory target' :=
+    unary_transport packet.right.right.right.right.left sameTarget
+  have phaseTimeUnary' : UnaryHistory (append phase' time') :=
+    unary_append_closed phaseUnary' timeUnary'
+  have flowWitnessUnary' : UnaryHistory flowWitness' :=
+    unary_cont_closed phaseTimeUnary' sourceUnary' flowWitnessCont'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed flowWitnessUnary' odeUnary' endpointCont'
+  have routeUnary' : UnaryHistory route' :=
+    unary_cont_closed endpointUnary' targetUnary' routeCont'
+  have samePhaseTime : hsame (append phase time) (append phase' time') :=
+    cont_respects_hsame samePhase sameTime (rfl : Cont phase time (append phase time))
+      (rfl : Cont phase' time' (append phase' time'))
+  have sameFlowWitness : hsame flowWitness flowWitness' :=
+    cont_respects_hsame samePhaseTime sameSource packet.right.right.right.right.right.left
+      flowWitnessCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameFlowWitness sameOde
+      packet.right.right.right.right.right.right.left endpointCont'
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameEndpoint sameTarget
+      packet.right.right.right.right.right.right.right.left routeCont'
+  exact
+    And.intro
+      (And.intro phaseUnary'
+        (And.intro odeUnary'
+          (And.intro timeUnary'
+            (And.intro sourceUnary'
+              (And.intro targetUnary'
+                (And.intro flowWitnessCont'
+                  (And.intro endpointCont'
+                    (And.intro routeCont' routePkg'))))))))
+      (And.intro sameFlowWitness (And.intro sameEndpoint sameRoute))
+
+theorem DynSystemFlowPacket_endpoint_determinacy_surface [AskSetup] [PackageSetup]
+    {phase ode time source target target' flowWitness endpoint endpoint' route route' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemFlowPacket phase ode time source target flowWitness endpoint route bundle pkg ->
+      DynSystemFlowPacket phase ode time source target' flowWitness endpoint' route' bundle pkg ->
+        hsame target target' -> hsame route route' -> hsame endpoint endpoint' := by
+  intro leftPacket rightPacket sameTarget sameRoute
+  cases sameTarget
+  exact
+    cont_common_suffix_cancellation leftPacket.right.right.right.right.right.right.right.left
+      rightPacket.right.right.right.right.right.right.right.left sameRoute
+
 end BEDC.Derived.DynSystemUp
