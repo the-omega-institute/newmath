@@ -127,3 +127,39 @@ consumes exactly the dyadic ledger rows and the scoped stream-name interface,
 so the visible RealUp seal follows without quotient representatives, metric
 completion data, or any carrier outside the $\RegSeqRat$ spine.
 \end{proof}
+
+\begin{theorem}[RealUp finite-window tail determinacy]
+\label{thm:realup-finite-window-tail-determinacy}
+Let $W$ and $W'$ be selected finite $\RealUp$ observation windows over the
+same rational-observation streams. Suppose that both windows carry the same
+certified unary endpoint row and both expose the common e-one tail readback
+used by \autoref{thm:realup-finite-window-exhaustion-obligation}. Then the
+$\mathsf{RatHistoryCarrier}$ endpoint rows, unary denominator witnesses,
+dyadic source rows, and $\mathsf{RealLedgerPolicy}$ tail rows selected by $W$
+and $W'$ classify to the same finite-window surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-prefix-classifier-obligation} to the shared
+certified unary endpoint. The classifier obligation identifies the selected
+finite endpoint classifier with the RatUp endpoint rows read from the
+$\RegSeqRat$ spine, so $W$ and $W'$ begin with the same carried
+$\mathsf{RatHistoryCarrier}$ face.
+
+Next apply \autoref{thm:real-stream-prefix-stability-obligation}. The common
+e-one tail readback is a selected continuation package over the same unary
+endpoint row, and stability transports the endpoint classifier through the
+unary denominator, tail, and $\hsame$ rows without creating a second endpoint
+surface.
+
+Apply \autoref{thm:real-stream-prefix-ledger-seal-obligation} to the finite
+dyadic and ledger rows exposed by the two windows. Since the seal consumes
+only the displayed dyadic source rows, the scoped $\RegSeqRat$ interface, and
+the $\mathsf{RealLedgerPolicy}$ tail rows, both windows feed the same visible
+seal data into the RealUp boundary.
+
+Finally use \autoref{thm:realup-finite-window-exhaustion-obligation}. Its
+finite-window correspondence repacks exactly those endpoint, denominator,
+dyadic, and tail rows as the public finite-window surface. The two selected
+windows therefore determine classifier-equivalent finite-window readbacks at
+the shared e-one tail endpoint.
+\end{proof}
