@@ -98,6 +98,7 @@ import BEDC.Derived.CurvatureUp.SourceEnvelopeReadback
 import BEDC.Derived.CurvatureUp.SourceEnvelopeExactness
 import BEDC.Derived.CurvatureUp.SemanticNameCertificate
 import BEDC.Derived.CurvatureUp.SourceEnvelopeProjection
+import BEDC.Derived.CurvatureUp.ManifoldBaseDependencyRow
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DynSystemUp
