@@ -306,6 +306,68 @@ theorem GaloisExtSourceClassifier_transitive [AskSetup]
           (And.intro classifierSame
             (And.intro provenanceSame ledgerSame)))))
 
+theorem GaloisExtSourceClassifier_symmetric [AskSetup]
+    {bundle : ProbeBundle ProbeName}
+    {field separable normal automorphism classifier provenance ledger field' separable' normal'
+      automorphism' classifier' provenance' ledger' : BHist} :
+    (SameSig bundle field field' ∧ SameSig bundle separable separable' ∧
+      SameSig bundle normal normal' ∧ SameSig bundle automorphism automorphism' ∧
+        SameSig bundle classifier classifier' ∧ hsame provenance provenance' ∧
+          hsame ledger ledger') ->
+      SameSig bundle field' field ∧ SameSig bundle separable' separable ∧
+        SameSig bundle normal' normal ∧ SameSig bundle automorphism' automorphism ∧
+          SameSig bundle classifier' classifier ∧ hsame provenance' provenance ∧
+            hsame ledger' ledger := by
+  intro source
+  exact And.intro (sameSig_symm source.left)
+    (And.intro (sameSig_symm source.right.left)
+      (And.intro (sameSig_symm source.right.right.left)
+          (And.intro (sameSig_symm source.right.right.right.left)
+            (And.intro (sameSig_symm source.right.right.right.right.left)
+              (And.intro (hsame_symm source.right.right.right.right.right.left)
+                (hsame_symm source.right.right.right.right.right.right))))))
+
+theorem GaloisExtSourceClassifier_reflexive [AskSetup]
+    {bundle : ProbeBundle ProbeName}
+    {field separable normal automorphism classifier provenance ledger : BHist}
+    (policy : AskPolicy (fun h : BHist => UnaryHistory h)) :
+    UnaryHistory field ->
+      UnaryHistory separable ->
+        UnaryHistory normal ->
+          UnaryHistory automorphism ->
+            UnaryHistory classifier ->
+              SameSig bundle field field ∧ SameSig bundle separable separable ∧
+                SameSig bundle normal normal ∧ SameSig bundle automorphism automorphism ∧
+                  SameSig bundle classifier classifier ∧ hsame provenance provenance ∧
+                    hsame ledger ledger := by
+  intro fieldUnary separableUnary normalUnary automorphismUnary classifierUnary
+  have fieldSame : SameSig bundle field field :=
+    sameSig_refl_under_policy
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      policy fieldUnary
+  have separableSame : SameSig bundle separable separable :=
+    sameSig_refl_under_policy
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      policy separableUnary
+  have normalSame : SameSig bundle normal normal :=
+    sameSig_refl_under_policy
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      policy normalUnary
+  have automorphismSame : SameSig bundle automorphism automorphism :=
+    sameSig_refl_under_policy
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      policy automorphismUnary
+  have classifierSame : SameSig bundle classifier classifier :=
+    sameSig_refl_under_policy
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      policy classifierUnary
+  exact And.intro fieldSame
+      (And.intro separableSame
+        (And.intro normalSame
+          (And.intro automorphismSame
+            (And.intro classifierSame
+              (And.intro (hsame_refl provenance) (hsame_refl ledger))))))
+
 theorem GaloisExtSourcePacket_normal_separable_stability [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
       separability classifier provenance endpoint normality' separability' classifier'
