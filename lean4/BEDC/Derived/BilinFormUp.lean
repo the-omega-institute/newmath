@@ -168,6 +168,50 @@ theorem BilinFormBHistObligationSurface_right_unit_separation_rows
                   (And.intro surface.right.right.right.right.right.left
                     surface.right.right.right.right.right.right)))))))
 
+theorem BilinFormBHistObligationSurface_bilinearity_transport_row
+    {left left' right right' scalar scalar' additive additive' endpoint endpoint'
+      scalarLedger scalarLedger' ledger ledger' : BHist} :
+    BilinFormBHistObligationSurface left right scalar additive endpoint scalarLedger ledger ->
+      hsame left left' ->
+        hsame right right' ->
+          hsame scalar scalar' ->
+            hsame additive additive' ->
+              Cont left' right' endpoint' ->
+                Cont endpoint' scalar' scalarLedger' ->
+                  Cont scalarLedger' additive' ledger' ->
+                    BilinFormBHistObligationSurface left' right' scalar' additive' endpoint'
+                        scalarLedger' ledger' ∧
+                      hsame endpoint endpoint' ∧ hsame scalarLedger scalarLedger' ∧
+                        hsame ledger ledger' := by
+  intro surface sameLeft sameRight sameScalar sameAdditive endpointCont scalarLedgerCont
+    ledgerCont
+  have leftUnary : UnaryHistory left' :=
+    unary_transport surface.left sameLeft
+  have rightUnary : UnaryHistory right' :=
+    unary_transport surface.right.left sameRight
+  have scalarUnary : UnaryHistory scalar' :=
+    unary_transport surface.right.right.left sameScalar
+  have additiveUnary : UnaryHistory additive' :=
+    unary_transport surface.right.right.right.left sameAdditive
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLeft sameRight surface.right.right.right.right.left endpointCont
+  have sameScalarLedger : hsame scalarLedger scalarLedger' :=
+    cont_respects_hsame sameEndpoint sameScalar
+      surface.right.right.right.right.right.left scalarLedgerCont
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameScalarLedger sameAdditive
+      surface.right.right.right.right.right.right ledgerCont
+  constructor
+  · exact
+      And.intro leftUnary
+        (And.intro rightUnary
+          (And.intro scalarUnary
+            (And.intro additiveUnary
+              (And.intro endpointCont
+                (And.intro scalarLedgerCont ledgerCont)))))
+  · exact And.intro sameEndpoint
+      (And.intro sameScalarLedger sameLedger)
+
 def BilinFormRootPairingSurface
     (left right scalar endpoint ledger : BHist) : Prop :=
   UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory scalar ∧

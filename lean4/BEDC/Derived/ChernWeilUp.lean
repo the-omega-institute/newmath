@@ -125,6 +125,48 @@ theorem ChernWeilCarrierPacket_curvature_polynomial_stability_obligation
       (And.intro sameEndpoint
         (And.intro endpointCont endpointCont')))
 
+theorem ChernWeilCarrierPacket_connection_change_cocycle_obligation
+    {curvature curvature' derham polynomial connectionLedger characteristic characteristic'
+      provenance endpoint endpoint' : BHist} :
+    ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic provenance
+        endpoint ->
+      hsame curvature curvature' ->
+        Cont curvature' polynomial characteristic' ->
+          Cont characteristic' derham provenance ->
+            Cont provenance connectionLedger endpoint' ->
+              UnaryHistory characteristic' ∧ UnaryHistory endpoint' ∧
+                hsame characteristic characteristic' ∧ hsame endpoint endpoint' ∧
+                  ChernWeilCarrierEnvelope curvature' derham polynomial connectionLedger
+                    characteristic' provenance endpoint' := by
+  intro envelope sameCurvature characteristicCont provenanceCont endpointCont
+  have curvatureUnary' : UnaryHistory curvature' :=
+    unary_transport envelope.left sameCurvature
+  have characteristicUnary' : UnaryHistory characteristic' :=
+    unary_cont_closed curvatureUnary' envelope.right.right.left characteristicCont
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed characteristicUnary' envelope.right.left provenanceCont
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed provenanceUnary envelope.right.right.right.left endpointCont
+  have sameCharacteristic : hsame characteristic characteristic' :=
+    cont_respects_hsame sameCurvature (hsame_refl polynomial)
+      envelope.right.right.right.right.left characteristicCont
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) (hsame_refl connectionLedger)
+      envelope.right.right.right.right.right.right endpointCont
+  have envelope' :
+      ChernWeilCarrierEnvelope curvature' derham polynomial connectionLedger characteristic'
+        provenance endpoint' :=
+    And.intro curvatureUnary'
+      (And.intro envelope.right.left
+        (And.intro envelope.right.right.left
+          (And.intro envelope.right.right.right.left
+            (And.intro characteristicCont
+              (And.intro provenanceCont endpointCont)))))
+  exact And.intro characteristicUnary'
+    (And.intro endpointUnary'
+      (And.intro sameCharacteristic
+        (And.intro sameEndpoint envelope')))
+
 def ChernWeilSourceProjectionEnvelope
     (curvature derham provenance connectionLedger classRow : BHist) : Prop :=
   UnaryHistory curvature ∧
