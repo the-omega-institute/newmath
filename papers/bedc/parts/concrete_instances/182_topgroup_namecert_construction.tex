@@ -6,5 +6,96 @@ The topological-group interface $\TopGroupUp$ packages a group carrier with a to
 \section{Carrier definition}
 \label{sec:topgroup-carrier}
 
+\begin{definition}[TopGroup BHist continuous operation packet]
+\label{def:topgroup-bhist-continuous-operation-packet}
+A $\TopGroupUp$ continuous operation packet is a finite $\mathsf{BHist}$ tuple
+$$
+\mathcal G=(G,T,m,i,\rho,\lambda)
+$$
+over the dependency rows $\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$.
+The row $G$ is the GroupUp carrier packet for the underlying group object, and
+$T$ is the TopologyUp carrier packet on the same visible endpoint. The row $m$
+is the displayed multiplication graph, and $i$ is the displayed inverse graph.
+The row $\rho$ records the shared $\hsame$ classifier and $\Pkg$ provenance
+identifying the GroupUp and TopologyUp endpoints as the same public
+$\mathsf{BHist}$ carrier. The row $\lambda$ is the finite $\Cont$ ledger whose
+faces are the multiplication-continuity and inverse-continuity witnesses.
+\end{definition}
+
 \section{The certificate}
 \label{sec:topgroup-certificate}
+
+\begin{theorem}[TopGroup continuous multiplication carrier]
+\label{thm:topgroup-continuous-multiplication-carrier}
+For a packet $\mathcal G=(G,T,m,i,\rho,\lambda)$ of
+\autoref{def:topgroup-bhist-continuous-operation-packet}, the multiplication
+row $m$ is accepted as a $\TopGroupUp$ carrier operation exactly through the
+shared $\mathsf{BHist}$ endpoint of $G$ and $T$. Its source and target rows are
+the GroupUp multiplication graph, the TopologyUp product-open rows, the
+$\Cont$ continuity face in $\lambda$, and the common $\hsame$,
+$\NameCert$, and $\Pkg$ provenance in $\rho$.
+\end{theorem}
+\begin{proof}
+Project the GroupUp dependency row $G$. It supplies the carried multiplication
+graph and the algebraic source and target endpoints for the operation.
+
+Project the TopologyUp dependency row $T$ on the same visible carrier endpoint.
+The product-neighbourhood and image-neighbourhood rows are read only through
+the topology certificate and are connected to the multiplication graph by the
+displayed $\Cont$ face of $\lambda$.
+
+The shared $\rho$ row supplies the $\hsame$ comparison and $\Pkg$ provenance
+identifying the two dependency endpoints. Repacking these projections gives
+the continuous multiplication carrier surface without adding a host
+topological group operation.
+\end{proof}
+
+\begin{theorem}[TopGroup continuous inverse ledger]
+\label{thm:topgroup-continuous-inverse-ledger}
+For a packet $\mathcal G=(G,T,m,i,\rho,\lambda)$ of
+\autoref{def:topgroup-bhist-continuous-operation-packet}, the inverse row $i$
+is continuous only when the inverse graph from $\NameCert_{\GroupUp}$ is
+threaded through the inverse-continuity $\Cont$ face of $\lambda$ and read by
+the same $\NameCert_{\TopologyUp}$ endpoint classifier. The ledger mentions no
+inverse map outside the displayed $\mathsf{BHist}$ graph, the common $\hsame$
+row, and the $\Pkg$ provenance $\rho$.
+\end{theorem}
+\begin{proof}
+Read the inverse graph from the GroupUp packet. The graph endpoint, its source
+row, and its target row are all finite $\mathsf{BHist}$ entries, not an
+external function.
+
+Use the inverse-continuity face of $\lambda$ to transport neighbourhood rows in
+the TopologyUp packet. The topology classifier consumes the transported source
+and target endpoints through its own $\NameCert$ rows.
+
+The $\hsame$ and $\Pkg$ components of $\rho$ identify this topology endpoint
+with the group carrier endpoint. Thus the inverse graph remains continuous
+inside the displayed ledger and no separate host inverse operation is exported.
+\end{proof}
+
+\begin{theorem}[TopGroup topology-group classifier compatibility]
+\label{thm:topgroup-topology-group-classifier}
+If two packets of
+\autoref{def:topgroup-bhist-continuous-operation-packet} have GroupUp rows
+related by the group classifier and TopologyUp rows related by the topology
+classifier, and if their shared $\rho$ rows give the same $\mathsf{BHist}$,
+$\hsame$, $\NameCert$, and $\Pkg$ provenance, then the multiplication and
+inverse $\Cont$ ledgers transport together. Consequently the two packets
+classify as the same $\TopGroupUp$ object exactly at the shared
+GroupUp--TopologyUp carrier boundary.
+\end{theorem}
+\begin{proof}
+First transport the GroupUp carrier rows. The group classifier preserves the
+underlying carrier endpoint, multiplication graph, inverse graph, identity row,
+and algebraic ledger through its displayed $\hsame$ comparisons.
+
+Next transport the TopologyUp carrier rows. The topology classifier preserves
+the open-row endpoint and the continuity consumers that read the operation
+graphs.
+
+Finally compare the two transported dependency rows through the shared
+provenance $\rho$. Since the multiplication and inverse witnesses are faces of
+the same finite $\Cont$ ledger $\lambda$, their transports agree at the common
+$\mathsf{BHist}$ endpoint and repack as a single $\TopGroupUp$ classifier row.
+\end{proof}
