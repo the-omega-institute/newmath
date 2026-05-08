@@ -1,10 +1,12 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.BrownianUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def BrownianStepContinuityClassifier
@@ -78,5 +80,51 @@ theorem BrownianStepContinuityClassifier_dependency_surface
                   (And.intro classified.right.right.right.right.right.left
                     (And.intro classified.right.right.right.right.right.right.left
                       classified.right.right.right.right.right.right.right)))))))))
+
+theorem BrownianStepContinuityClassifier_namecert_obligation_surface
+    {martingale continuous time path step normal provenance ledger : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      SemanticNameCert
+        (fun e : BHist =>
+          exists p n : BHist,
+            BrownianStepContinuityClassifier martingale continuous time path step n p e)
+        (fun e : BHist =>
+          exists p n : BHist,
+            BrownianStepContinuityClassifier martingale continuous time path step n p e)
+        (fun e : BHist =>
+          exists p n : BHist,
+            BrownianStepContinuityClassifier martingale continuous time path step n p e)
+        (fun left right : BHist =>
+          (exists lp ln : BHist,
+            BrownianStepContinuityClassifier martingale continuous time path step ln lp left) /\
+          (exists rp rn : BHist,
+            BrownianStepContinuityClassifier martingale continuous time path step rn rp right) /\
+          hsame left right) := by
+  intro classified
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro ledger (Exists.intro provenance (Exists.intro normal classified))
+      equiv_refl := by
+        intro h source
+        exact And.intro source (And.intro source (hsame_refl h))
+      equiv_symm := by
+        intro h k row
+        exact And.intro row.right.left (And.intro row.left (hsame_symm row.right.right))
+      equiv_trans := by
+        intro h k r rowHK rowKR
+        exact And.intro rowHK.left
+          (And.intro rowKR.right.left (hsame_trans rowHK.right.right rowKR.right.right))
+      carrier_respects_equiv := by
+        intro h k row _source
+        exact row.right.left
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
 
 end BEDC.Derived.BrownianUp
