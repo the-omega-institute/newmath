@@ -27,6 +27,28 @@ open BEDC.Derived.GaloisGroupUp
 open BEDC.Derived.PolynomialUp
 open BEDC.Derived.SeparableExtUp
 
+def GaloisExtAutomorphismSourceRow
+    (fieldExt normality automorphism baseFix action provenance : BHist) : Prop :=
+  UnaryHistory fieldExt ∧ UnaryHistory normality ∧ UnaryHistory automorphism ∧
+    UnaryHistory baseFix ∧ Cont fieldExt automorphism action ∧
+      Cont normality baseFix provenance
+
+theorem GaloisExtAutomorphismSourceRow_normal_root_orbit_closure
+    {fieldExt normality automorphism baseFix action provenance orbit : BHist} :
+    GaloisExtAutomorphismSourceRow fieldExt normality automorphism baseFix action provenance ->
+      Cont action normality orbit ->
+        UnaryHistory orbit ∧ hsame orbit (append action normality) ∧
+          hsame action (append fieldExt automorphism) ∧
+            hsame provenance (append normality baseFix) := by
+  intro row orbitCont
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed row.left row.right.right.left row.right.right.right.right.left
+  have orbitUnary : UnaryHistory orbit :=
+    unary_cont_closed actionUnary row.right.left orbitCont
+  exact And.intro orbitUnary
+    (And.intro orbitCont
+      (And.intro row.right.right.right.right.left row.right.right.right.right.right))
+
 theorem GaloisExtClassifier_transport_row
     {field field' separable separable' normal normal' sepFace sepFace' classifier classifier'
       ledger ledger' : BHist} :
