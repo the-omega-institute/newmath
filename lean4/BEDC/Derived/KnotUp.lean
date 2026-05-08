@@ -100,4 +100,45 @@ theorem KnotDiagramPacket_homotopy_ledger_boundary [AskSetup] [PackageSetup]
                 (And.intro endpointCont
                   packet.right.right.right.right.right.right.right.right.right.right)))))))
 
+theorem KnotDiagramPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KnotDiagramPacket sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger
+        endpoint bundle pkg ->
+      UnaryHistory sone ∧ UnaryHistory ambient ∧ UnaryHistory diagram ∧ UnaryHistory trace ∧
+        UnaryHistory homotopy ∧ UnaryHistory endpoint0 ∧ UnaryHistory endpoint1 ∧
+          UnaryHistory provenance ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+            Cont sone ambient provenance ∧ Cont endpoint0 endpoint1 ledger ∧
+              Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have sourceRows :=
+    KnotDiagramPacket_sone_source_boundary packet
+  constructor
+  · exact packet.left
+  · constructor
+    · exact packet.right.left
+    · constructor
+      · exact packet.right.right.left
+      · constructor
+        · exact packet.right.right.right.left
+        · constructor
+          · exact packet.right.right.right.right.left
+          · constructor
+            · exact packet.right.right.right.right.right.left
+            · constructor
+              · exact packet.right.right.right.right.right.right.left
+              · constructor
+                · exact sourceRows.left
+                · constructor
+                  · exact sourceRows.right.left
+                  · constructor
+                    · exact sourceRows.right.right.left
+                    · constructor
+                      · exact packet.right.right.right.right.right.right.right.left
+                      · constructor
+                        · exact packet.right.right.right.right.right.right.right.right.left
+                        · constructor
+                          · exact packet.right.right.right.right.right.right.right.right.right.left
+                          · exact packet.right.right.right.right.right.right.right.right.right.right
+
 end BEDC.Derived.KnotUp
