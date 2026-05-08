@@ -97,6 +97,42 @@ The classifier side is finite because every row is a named component of the carr
 Repacking these cases gives the stated root $\NameCert$ surface. No Spin or Pin global presentation, orthogonal action, matrix model, or host quotient algebra is used by this obligation surface.
 \end{proof}
 
+\begin{theorem}[SpinGroup root ledger exhaustion]
+\label{thm:spingroup-root-ledger-exhaustion}
+Every finite ledger row exposed by \autoref{def:spingroup-root-bhist-carrier} is one of the displayed $\mathsf{BHist}$ rows, $\Cont$ witnesses, $\hsame$ witnesses, $\NameCert_{\CliffordUp}$ source rows, $\NameCert_{\GroupUp}$ source rows, or singleton $\mathsf{UnaryHistory}$ group-law rows. Conversely, each displayed row of these forms is accepted by the root carrier ledger.
+\end{theorem}
+\begin{proof}
+Project an arbitrary ledger row from the root carrier packet. Constructor inversion leaves only the four packet coordinates listed in \autoref{def:spingroup-root-bhist-carrier}: the Clifford endpoint row, the singleton-history group-law row, the unit-like Clifford endpoint row, and the displayed $\Cont/\hsame$ transport witnesses.
+
+Apply \autoref{thm:spingroup-root-carrier-source-scope} to the source rows. It confines the Clifford side to $\NameCert_{\CliffordUp}$ and the group-law side to $\NameCert_{\GroupUp}$ over the same $\mathsf{UnaryHistory}$ spine.
+
+For the converse direction, repack each displayed row through the same constructor projections. The unit-like case uses \autoref{thm:spingroup-root-clifford-unit-lift}, while product and inverse ledger rows use \autoref{thm:spingroup-root-group-law-transport}. Thus no ledger row lies outside the concrete BEDC packet, and no displayed packet row is omitted.
+\end{proof}
+
+\begin{theorem}[SpinGroup root transport closure]
+\label{thm:spingroup-root-transport-closure}
+Let $x$ and $y$ be rows of the concrete $\SpinGroupUp$ root carrier of \autoref{def:spingroup-root-bhist-carrier}. If $x\hsame y$ through the Clifford endpoint classifier and the connecting row is carried by $\Cont$ over the same $\mathsf{UnaryHistory}$ group-law spine, then every unit, multiplication, and inverse row admitted from $x$ transports to an admitted root-carrier row over $y$.
+\end{theorem}
+\begin{proof}
+Unpack $x$ and $y$ as root carrier packets. Their Clifford endpoint rows are sourced by $\NameCert_{\CliffordUp}$, and their singleton-history group laws are sourced by $\NameCert_{\GroupUp}$ by \autoref{thm:spingroup-root-carrier-source-scope}.
+
+The unit row transports first. If the row is the unit-like Clifford endpoint, \autoref{thm:spingroup-root-clifford-unit-lift} supplies the accepted target packet after the $\hsame$ comparison has moved the visible endpoint.
+
+For multiplication and inverse, apply \autoref{thm:spingroup-root-group-law-transport}. The theorem composes the Clifford endpoint transport with the product or inverse $\Cont$ row and then reads the matching singleton-history group law from $\NameCert_{\GroupUp}$. The transported row is therefore again a row of \autoref{def:spingroup-root-bhist-carrier}.
+\end{proof}
+
+\begin{theorem}[SpinGroup root NameCert threshold package]
+\label{thm:spingroup-root-namecert-threshold-package}
+The concrete root packet of \autoref{def:spingroup-root-bhist-carrier} reaches the $\NameCert_{\SpinGroupUp}$ threshold determined by $\NameCert_{\CliffordUp}$ and $\NameCert_{\GroupUp}$: its carrier rows are $\mathsf{BHist}$ rows, its classifier movement is by $\hsame$, its transport rows are by $\Cont$, its group-law evidence is singleton $\mathsf{UnaryHistory}$ evidence, and its ledger is exhausted by \autoref{thm:spingroup-root-ledger-exhaustion}.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:spingroup-root-namecert-obligation-surface}. It identifies the required source, unit, multiplication, inverse, singleton-history group-law, and ledger faces of the root certificate.
+
+The carrier and source faces are supplied by constructor projection from \autoref{def:spingroup-root-bhist-carrier} together with \autoref{thm:spingroup-root-carrier-source-scope}. The unit face is supplied by \autoref{thm:spingroup-root-clifford-unit-lift}.
+
+The transport faces are supplied by \autoref{thm:spingroup-root-group-law-transport} and \autoref{thm:spingroup-root-transport-closure}. Finally, \autoref{thm:spingroup-root-ledger-exhaustion} shows that the ledger has exactly the displayed BEDC rows, so the package has no hidden orthogonal-group, matrix, or quotient-algebra obligation.
+\end{proof}
+
 \begin{theorem}[SpinGroup Clifford even-unit carrier obligation]
 \label{thm:spingroup-clifford-even-unit-carrier-obligation}
 The $\SpinGroupUp$ carrier is the $\mathsf{BHist}$-coded row of Clifford unit
