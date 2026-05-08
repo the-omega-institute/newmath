@@ -45,130 +45,130 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{lem:lattice-meet-idempotence-from-bounds}
 Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\).
 For every \(x\in A\),
-\[
+$$
   x\wedge x \sim_C x .
-\]
+$$
 \end{lemma}
 \begin{proof}
 The meet lower-left field gives
-\[
+$$
   x\wedge x \le x .
-\]
+$$
 The inherited preorder reflexivity field gives \(x\le x\). Applying meet greatestness with \(z=x\), \(a=x\), and \(b=x\), using the two reflexivity witnesses \(x\le x\) and \(x\le x\), gives
-\[
+$$
   x\le x\wedge x .
-\]
+$$
 The inherited poset antisymmetry field applied to
-\[
+$$
   x\wedge x\le x  \qquad\text{and}\qquad  x\le x\wedge x
-\]
+$$
 yields
-\[
+$$
   x\wedge x\sim_C x .
-\]
+$$
 \end{proof}
 
 \begin{lemma}[Join idempotence from bound characterization]
 \label{lem:lattice-join-idempotence-from-bounds}
 Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\).
 For every \(x\in A\),
-\[
+$$
   x\vee x \sim_C x .
-\]
+$$
 \end{lemma}
 \begin{proof}
 The join upper-left field gives
-\[
+$$
   x\le x\vee x .
-\]
+$$
 The inherited preorder reflexivity field gives \(x\le x\). Applying join leastness with \(z=x\), \(a=x\), and \(b=x\), using the two reflexivity witnesses \(x\le x\) and \(x\le x\), gives
-\[
+$$
   x\vee x\le x .
-\]
+$$
 The inherited poset antisymmetry field applied to
-\[
+$$
   x\vee x\le x  \qquad\text{and}\qquad  x\le x\vee x
-\]
+$$
 yields
-\[
+$$
   x\vee x\sim_C x .
-\]
+$$
 \end{proof}
 
 \begin{lemma}[Meet absorption from bound characterization]
 \label{lem:lattice-meet-absorption-from-bounds}
 Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\).
 For all \(x,y\in A\),
-\[
+$$
   x\wedge(x\vee y)\sim_C x .
-\]
+$$
 \end{lemma}
 \begin{proof}
 The meet lower-left field gives
-\[
+$$
   x\wedge(x\vee y)\le x .
-\]
+$$
 For the reverse comparison, the inherited preorder reflexivity field gives
-\[
+$$
   x\le x .
-\]
+$$
 The join upper-left field gives
-\[
+$$
   x\le x\vee y .
-\]
+$$
 Applying meet greatestness with \(z=x\), \(a=x\), and \(b=x\vee y\), using the two comparisons above, gives
-\[
+$$
   x\le x\wedge(x\vee y).
-\]
+$$
 The inherited poset antisymmetry field applied to
-\[
+$$
   x\wedge(x\vee y)\le x  \qquad\text{and}\qquad  x\le x\wedge(x\vee y)
-\]
+$$
 yields
-\[
+$$
   x\wedge(x\vee y)\sim_C x .
-\]
+$$
 \end{proof}
 
 \begin{lemma}[Join absorption from bound characterization]
 \label{lem:lattice-join-absorption-from-bounds}
 Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\).
 For all \(x,y\in A\),
-\[
+$$
   x\vee(x\wedge y)\sim_C x .
-\]
+$$
 \end{lemma}
 \begin{proof}
 The join upper-left field gives
-\[
+$$
   x\le x\vee(x\wedge y).
-\]
+$$
 For the reverse comparison, the inherited preorder reflexivity field gives
-\[
+$$
   x\le x .
-\]
+$$
 The meet lower-left field gives
-\[
+$$
   x\wedge y\le x .
-\]
+$$
 Applying join leastness with \(z=x\), \(a=x\), and \(b=x\wedge y\), using the two comparisons above, gives
-\[
+$$
   x\vee(x\wedge y)\le x .
-\]
+$$
 The inherited poset antisymmetry field applied to
-\[
+$$
   x\vee(x\wedge y)\le x  \qquad\text{and}\qquad  x\le x\vee(x\wedge y)
-\]
+$$
 yields
-\[
+$$
   x\vee(x\wedge y)\sim_C x .
-\]
+$$
 \end{proof}
 
 \begin{theorem}[Lattice idempotence and absorption from bound characterization]
 \label{thm:lattice-idempotence-absorption-from-bound-characterization}
 Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\). Assume the inherited \(\POSetUp\) reflexivity and antisymmetry fields, and assume the directional meet and join bound-characterization fields:
-\[
+$$
 \begin{gathered}
   \forall a\,b,\ a\wedge b\le a,\qquad
   \forall a\,b,\ a\wedge b\le b,\\
@@ -177,14 +177,14 @@ Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\). Assume the inh
   \forall a\,b,\ b\le a\vee b,\\
   \forall z\,a\,b,\ a\le z\to b\le z\to a\vee b\le z.
 \end{gathered}
-\]
+$$
 Then for all \(x,y\in A\),
-\[
+$$
   x\wedge x\sim_C x,\qquad
   x\vee x\sim_C x,\qquad
   x\wedge(x\vee y)\sim_C x,\qquad
   x\vee(x\wedge y)\sim_C x .
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeDirected\_idempotence\_absorption\_from\_bounds}
 \begin{proof}
@@ -194,185 +194,185 @@ The first assertion is Lemma~\ref{lem:lattice-meet-idempotence-from-bounds}. The
 \begin{theorem}[Lattice commutativity from directional bounds]
 \label{thm:lattice-commutativity-from-directional-bounds}
 Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\). Assume the inherited \(\POSetUp\) antisymmetry field and the directional meet and join bound-characterization fields from \autoref{def:lattice-stability-certificate}. Then for all \(x,y\in A\),
-\[
+$$
   x\wedge y\sim_C y\wedge x,
   \qquad
   x\vee y\sim_C y\vee x .
-\]
+$$
 \end{theorem}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeDirected\_commutativity\_from\_bounds}
 \begin{proof}
 For the meet comparison, the meet lower-bound laws in \autoref{def:lattice-stability-certificate} give
-\[
+$$
   x\wedge y\le x
   \qquad\text{and}\qquad
   x\wedge y\le y .
-\]
+$$
 Applying meet greatestness with \(z=x\wedge y\), \(a=y\), and \(b=x\) gives
-\[
+$$
   x\wedge y\le y\wedge x .
-\]
+$$
 The same lower-bound laws applied to \(y\wedge x\) give
-\[
+$$
   y\wedge x\le y
   \qquad\text{and}\qquad
   y\wedge x\le x .
-\]
+$$
 Applying meet greatestness with \(z=y\wedge x\), \(a=x\), and \(b=y\) gives
-\[
+$$
   y\wedge x\le x\wedge y .
-\]
+$$
 Since \(\LatticeUp\) extends the \(\POSetUp\) layer, the antisymmetry field recorded in \autoref{def:poset-stability-certificate} applies to these two comparisons and yields
-\[
+$$
   x\wedge y\sim_C y\wedge x .
-\]
+$$
 
 For the join comparison, the join upper-bound laws in \autoref{def:lattice-stability-certificate} give
-\[
+$$
   y\le x\vee y
   \qquad\text{and}\qquad
   x\le x\vee y .
-\]
+$$
 Applying join leastness with \(z=x\vee y\), \(a=y\), and \(b=x\) gives
-\[
+$$
   y\vee x\le x\vee y .
-\]
+$$
 The same upper-bound laws applied to \(y\vee x\) give
-\[
+$$
   x\le y\vee x
   \qquad\text{and}\qquad
   y\le y\vee x .
-\]
+$$
 Applying join leastness with \(z=y\vee x\), \(a=x\), and \(b=y\) gives
-\[
+$$
   x\vee y\le y\vee x .
-\]
+$$
 The inherited antisymmetry field from \autoref{def:poset-stability-certificate} applied to these two comparisons yields
-\[
+$$
   x\vee y\sim_C y\vee x .
-\]
+$$
 \end{proof}
 
 \begin{theorem}[Lattice opposite absorption from directional bounds]
 \label{thm:lattice-opposite-absorption-from-directional-bounds}
 Let \(A\) be a \(\LatticeUp\) carrier with classifier \(\sim_C\). Assume the inherited preorder reflexivity field, the inherited \(\POSetUp\) antisymmetry field, and the directional meet and join bound-characterization fields from \autoref{def:lattice-stability-certificate}. Then for all \(x,y\in A\),
-\[
+$$
   x\wedge(y\vee x)\sim_C x,\qquad
   (x\vee y)\wedge x\sim_C x,\qquad
   x\vee(y\wedge x)\sim_C x,\qquad
   (x\wedge y)\vee x\sim_C x .
-\]
+$$
 \end{theorem}
 \begin{proof}
 The inherited reflexivity field is the preorder reflexivity component of \autoref{def:preorder-stability-certificate}; the inherited classifier collapse is the antisymmetry component of \autoref{def:poset-stability-certificate}. The meet and join directional fields are those listed in \autoref{def:lattice-stability-certificate}.
 
 For \(x\wedge(y\vee x)\), the meet lower-left field gives
-\[
+$$
   x\wedge(y\vee x)\le x .
-\]
+$$
 The inherited preorder reflexivity field gives
-\[
+$$
   x\le x .
-\]
+$$
 The join upper-right field applied to \(y\vee x\) gives
-\[
+$$
   x\le y\vee x .
-\]
+$$
 Applying meet greatestness with \(z=x\), \(a=x\), and \(b=y\vee x\), using the two comparisons above, gives
-\[
+$$
   x\le x\wedge(y\vee x) .
-\]
+$$
 Antisymmetry from \autoref{def:poset-stability-certificate} applied to
-\[
+$$
   x\wedge(y\vee x)\le x
   \qquad\text{and}\qquad
   x\le x\wedge(y\vee x)
-\]
+$$
 yields
-\[
+$$
   x\wedge(y\vee x)\sim_C x .
-\]
+$$
 
 For \((x\vee y)\wedge x\), the meet lower-right field gives
-\[
+$$
   (x\vee y)\wedge x\le x .
-\]
+$$
 The join upper-left field gives
-\[
+$$
   x\le x\vee y .
-\]
+$$
 The inherited preorder reflexivity field gives
-\[
+$$
   x\le x .
-\]
+$$
 Applying meet greatestness with \(z=x\), \(a=x\vee y\), and \(b=x\), using these two comparisons, gives
-\[
+$$
   x\le (x\vee y)\wedge x .
-\]
+$$
 Antisymmetry applied to
-\[
+$$
   (x\vee y)\wedge x\le x
   \qquad\text{and}\qquad
   x\le (x\vee y)\wedge x
-\]
+$$
 yields
-\[
+$$
   (x\vee y)\wedge x\sim_C x .
-\]
+$$
 
 For \(x\vee(y\wedge x)\), the join upper-left field gives
-\[
+$$
   x\le x\vee(y\wedge x) .
-\]
+$$
 The inherited preorder reflexivity field gives
-\[
+$$
   x\le x .
-\]
+$$
 The meet lower-right field applied to \(y\wedge x\) gives
-\[
+$$
   y\wedge x\le x .
-\]
+$$
 Applying join leastness with \(z=x\), \(a=x\), and \(b=y\wedge x\), using the two comparisons above, gives
-\[
+$$
   x\vee(y\wedge x)\le x .
-\]
+$$
 Antisymmetry applied to
-\[
+$$
   x\vee(y\wedge x)\le x
   \qquad\text{and}\qquad
   x\le x\vee(y\wedge x)
-\]
+$$
 yields
-\[
+$$
   x\vee(y\wedge x)\sim_C x .
-\]
+$$
 
 For \((x\wedge y)\vee x\), the join upper-right field gives
-\[
+$$
   x\le (x\wedge y)\vee x .
-\]
+$$
 The meet lower-left field gives
-\[
+$$
   x\wedge y\le x .
-\]
+$$
 The inherited preorder reflexivity field gives
-\[
+$$
   x\le x .
-\]
+$$
 Applying join leastness with \(z=x\), \(a=x\wedge y\), and \(b=x\), using these two comparisons, gives
-\[
+$$
   (x\wedge y)\vee x\le x .
-\]
+$$
 Antisymmetry applied to
-\[
+$$
   (x\wedge y)\vee x\le x
   \qquad\text{and}\qquad
   x\le (x\wedge y)\vee x
-\]
+$$
 yields
-\[
+$$
   (x\wedge y)\vee x\sim_C x .
-\]
+$$
 \end{proof}
 
 \begin{theorem}[Lattice bound uniqueness from directional certificates]
