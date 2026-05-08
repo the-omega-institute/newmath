@@ -3,6 +3,8 @@ all: main.pdf
 precheck:
 	@bash scripts/check_tex_size.sh
 	@bash scripts/check_math_env.sh
+	@python3 scripts/check_marker_uniqueness.py
+	@python3 scripts/check_naming.py
 main.pdf: precheck main.tex preamble.tex $(wildcard frontmatter/*.tex parts/**/*.tex appendices/*.tex)
 	pdflatex -interaction=nonstopmode main.tex
 	pdflatex -interaction=nonstopmode main.tex

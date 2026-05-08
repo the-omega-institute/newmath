@@ -300,28 +300,11 @@ Expected: 通过.
 
 ---
 
-### Task 4: 升级 check_tex_size.sh (`-gt` → `-ge`)
+### Task 4: check_tex_size.sh 不动
 
-**Files:** Modify `papers/bedc/scripts/check_tex_size.sh:18`
+cap 维持 `-gt 800` (正好 800 行通过). 用户偏好: 一行不算违规. 5 个触顶 split 已让文件远离 cap, 给后续写入留余量, 不靠严格化兜底.
 
-- [ ] **Step 1: Edit 脚本**
-
-```bash
-# 改 line 18 从
-#   if [ "$n" -gt "$MAX" ]; then
-# 改成
-#   if [ "$n" -ge "$MAX" ]; then
-```
-
-- [ ] **Step 2: 跑 size gate, 确认所有文件 < 800**
-
-```bash
-cd /Users/auric/newmath/papers/bedc
-bash scripts/check_tex_size.sh
-echo "exit=$?"
-```
-
-Expected: 没有输出, exit=0. 如果有输出, 说明 Task 2 的 split 没切干净, 回去补.
+无操作.
 
 ---
 
