@@ -170,6 +170,21 @@ theorem HopfAlgBialgCarrier_namecert_obligation_surface
     }
   · exact And.intro carrier.right.right.left carrier.right.right.right.left
 
+theorem HopfAlgBialgCarrier_antipode_convolution_inverse_unique
+    {bialg tensor mul comul unit counit antipode antipode' left left' endpoint endpoint' :
+      BHist} :
+    HopfAlgBialgCarrier bialg tensor mul comul unit counit ->
+      Cont comul antipode left ->
+        Cont left mul endpoint ->
+          Cont comul antipode' left' ->
+            Cont left' mul endpoint' ->
+              Cont unit counit endpoint ->
+                Cont unit counit endpoint' -> hsame antipode antipode' := by
+  intro _carrier leftRow endpointRow leftRow' endpointRow' unitEndpoint unitEndpoint'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_deterministic unitEndpoint unitEndpoint'
+  exact cont_cancel_common_context leftRow endpointRow leftRow' endpointRow' sameEndpoint
+
 theorem HopfAlgAntipodeClassifier_convolution_inverse_unique
     {bialg tensor mul comul unit counit antipode antipode' left left' endpoint endpoint' :
       BHist} :

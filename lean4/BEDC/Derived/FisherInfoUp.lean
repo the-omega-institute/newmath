@@ -95,10 +95,58 @@ theorem FisherInfoBHistScoreCarrier_expectation_ledger_exactness [AskSetup] [Pac
           UnaryHistory score ∧ PkgSig bundle provenance pkg := by
   intro carrier
   exact And.intro carrier.right.right.right.right.left
-    (And.intro carrier.right.right.right.right.right.left
-      (And.intro carrier.right.right.right.right.right.right.right
-        (And.intro carrier.right.right.right.left
-          carrier.right.right.right.right.right.right.left)))
+      (And.intro carrier.right.right.right.right.right.left
+        (And.intro carrier.right.right.right.right.right.right.right
+          (And.intro carrier.right.right.right.left
+            carrier.right.right.right.right.right.right.left)))
+
+theorem FisherInfoBHistScoreCarrier_score_row_carrier_obligation [AskSetup] [PackageSetup]
+    {distribution metric parameter score expectation component provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FisherInfoBHistScoreCarrier distribution metric parameter score expectation component
+        provenance ledger bundle pkg ->
+      UnaryHistory parameter ∧ UnaryHistory score ∧ Cont distribution score expectation ∧
+        UnaryHistory expectation ∧ Cont expectation metric component ∧ UnaryHistory component ∧
+          Cont component provenance ledger := by
+  intro carrier
+  have distributionSource : DistributionPushforwardSourceSpec distribution := carrier.left
+  have surface : RiemannianMetricSingletonFibreSurface parameter score metric :=
+    carrier.right.left
+  have parameterUnary : UnaryHistory parameter := carrier.right.right.left
+  have scoreUnary : UnaryHistory score := carrier.right.right.right.left
+  have expectationRow : Cont distribution score expectation :=
+    carrier.right.right.right.right.left
+  have componentRow : Cont expectation metric component :=
+    carrier.right.right.right.right.right.left
+  have ledgerRow : Cont component provenance ledger :=
+    carrier.right.right.right.right.right.right.right
+  have distributionUnary : UnaryHistory distribution := by
+    cases distributionSource with
+    | intro sourcePreimage source =>
+        cases source with
+        | intro sourceMeasure source =>
+            cases source with
+            | intro targetEvent source =>
+                have rows :=
+                  DistributionPushforwardCarrier_row source.left source.right
+                exact unary_transport rows.right.left (hsame_symm rows.right.right)
+  have expectationUnary : UnaryHistory expectation :=
+    unary_cont_closed distributionUnary scoreUnary expectationRow
+  have metricUnary : UnaryHistory metric := by
+    have metricDisplay : hsame metric
+        (BEDC.Derived.InnerProductUp.InnerProductSingletonForm score score) :=
+      surface.right.right.right
+    unfold BEDC.Derived.InnerProductUp.InnerProductSingletonForm at metricDisplay
+    exact unary_transport (unary_e1_closed (unary_e1_closed unary_empty))
+      (hsame_symm metricDisplay)
+  have componentUnary : UnaryHistory component :=
+    unary_cont_closed expectationUnary metricUnary componentRow
+  exact And.intro parameterUnary
+    (And.intro scoreUnary
+      (And.intro expectationRow
+        (And.intro expectationUnary
+          (And.intro componentRow
+            (And.intro componentUnary ledgerRow)))))
 
 theorem FisherInfoBHistScoreCarrier_classifier_transport_obligation [AskSetup] [PackageSetup]
     {distribution distribution' metric metric' parameter parameter' score score' expectation

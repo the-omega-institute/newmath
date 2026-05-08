@@ -89,3 +89,79 @@ Rationale:
 Strict dual companion to B-474 (countable preimage UNION exactness), the only sigma-algebra closure case missing from the RandomVar preimage exactness suite (B-474 union, B-419 preimage union, B-456 empty preimage, B-455 total preimage, B-439 complement, B-434 relative-difference, plus binary intersection in countable_and_intersection.tex). The scoped-closure package thm:randomvar-scoped-closure-package currently only mentions countable union; a probability-theory referee would call this out. Concrete sigma-algebra closure, not a parameter transport — proof mirrors the union proof with exists -> forall. File 171 lines, safe landing.
 
 ---
+
+### B-537 - DirichletUnit inherited unit-product closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | DirichletUnit inherited unit-product closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If two accepted DirichletUnitUp unit rows over the same RingOfIntegersUp and AbGroupUp dependency packets carry their inverse/unit-product witnesses, then the inherited AbGroupUp operation endpoint is again a visible DirichletUnitUp unit row with the shared Pkg and Cont provenance.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex`
+
+Rationale:
+DirichletUnitUp is a number-theoretic surface with no active or completed BOARD target found in the target/state scans, while the body file is small and concrete. The carrier explicitly lists a visible unit row u and an inverse/unit-product witness row iota at papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex:11-15, and the public abelian-group dependency is restricted to unit rows accepted by the RingOfIntegersUp dependency at papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex:55-64. The later AbGroup projection exposes operation, inverse, identity, and classifier rows at papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex:114-135, but there is no theorem in the file asserting that the inherited product of two visible unit rows is again a DirichletUnitUp visible unit row. This is a concrete missing closure law, not a marker/status update or abstract classifier transport.
+
+---
+
+
+### B-538 - Quadrature empty-node sum is zero
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Quadrature empty-node sum is zero |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For a finite weighted QuadratureUp rule Q=(xs,alpha,omega,I_Q), if the FinSetUp node spine xs is empty, then for every finite polynomial-code spine p the quadrature fold QSum_Q(p) is scalar-classifier-equal to 0_R.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
+
+Rationale:
+QuadratureUp has completed coverage for the exactness-degree classifier, but that coverage is concentrated on degree weakening, reflexivity, transitivity, and preorder rows: see the definitions of QSum_Q and DegBoundLe at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:21-66 and the completed theorem suite at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:105-240. The concrete rule-level fold itself is defined as a finite additive fold over Pos(xs) at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:27-31, while the existing ledger theorem only states that this is the carried exactness surface at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:90-103. The empty-node boundary is not one of B-428, B-451, or B-465 and is a small concrete implication about the actual quadrature sum rather than another degree-classifier law.
+
+---
+
+
+### B-539 - SpectralSeq boundary rows enter successor cycles
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | SpectralSeq boundary rows enter successor cycles |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a SpectralSeqUp page carrier whose differential ledger includes the displayed square-zero row for d_r, any boundary representative read through the homology-page readback h is classified as a cycle row on the successor-page surface.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/156_spectralseq_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/76_homology_namecert_construction.tex`
+
+Rationale:
+SpectralSeqUp is a thin homological interface with only a carrier, classifier, obligation surface, differential-ledger stability, and convergence boundary; its carrier says h identifies each successor page with the HomologyUp cycle row of d_r modulo the displayed boundary row at papers/bedc/parts/concrete_instances/156_spectralseq_namecert_construction.tex:24-26, and the obligation surface lists differential-square rows plus homology-page readback rows at papers/bedc/parts/concrete_instances/156_spectralseq_namecert_construction.tex:60-68. The existing stability theorem preserves readback under classifier transport at papers/bedc/parts/concrete_instances/156_spectralseq_namecert_construction.tex:86-110, but it does not instantiate the concrete HomologyUp theorem that square-zero differentials send boundary carriers into cycle carriers. That substrate theorem is already present at papers/bedc/parts/concrete_instances/76_homology_namecert_construction.tex:53-67, so this candidate is a missing middle step between the spectral-sequence page surface and the homology boundary-cycle row rather than a new general theory of spectral sequences.
+
+---
+
