@@ -6,5 +6,139 @@ The dynamical-system interface $\DynSystemUp$ packages a one-parameter family of
 \section{Carrier definition}
 \label{sec:dynsystem-carrier}
 
+\begin{theorem}[DynSystemUp carrier flow surface]
+\label{thm:dynsystem-carrier-flow-surface}
+Fix a $\NameCert_{\ManifoldUp}$ phase carrier and an $\OdeUp$ BHist
+local-flow source over that carrier. A $\DynSystemUp$ carrier cell is a
+$\mathsf{BHist}$ history whose displayed rows consist of the phase-carrier
+cell, the starting time cell, the starting state cell, the endpoint time cell,
+the endpoint state cell, the vector-field evaluation ledger, the Picard
+ledger, and the endpoint ledger of the corresponding $\OdeUp$ local-flow row.
+Thus every visible cell of the dynamical-system surface is read from
+$\mathsf{BHist}$ data already carried by $\NameCert_{\ManifoldUp}$ and
+$\NameCert_{\OdeUp}$.
+\end{theorem}
+\begin{proof}
+Read the phase row through the $\ManifoldUp$ carrier. The source may be the
+singleton carrier of $\mathsf{BEDC.Derived.ManifoldUp.ManifoldSingletonCarrier}$
+or any atlas row exposed by
+$\mathsf{BEDC.Derived.ManifoldUp.ManifoldAtlasPackage}$; in either case the
+displayed phase cell is a $\mathsf{BHist}$ cell with a certificate classifier.
+
+Read the flow row through the $\OdeUp$ local-flow source of
+\autoref{def:ode-bhist-local-flow-source}. Its time, state, vector-field,
+Picard, limit, and endpoint entries are already arranged as BHist histories
+linked by $\Cont$ ledgers. Repacking these entries with the phase row gives
+the $\DynSystemUp$ carrier surface without introducing a host-level carrier of
+maps or trajectories.
+\end{proof}
+
+\begin{theorem}[DynSystemUp classifier flow transport]
+\label{thm:dynsystem-classifier-flow-transport}
+Let two $\DynSystemUp$ carrier cells be displayed from two $\OdeUp$
+local-flow rows over the same $\NameCert_{\ManifoldUp}$ phase carrier. If the
+displayed time cells, state cells, Picard histories, vector-field ledgers, and
+endpoint ledgers are related componentwise by the $\hsame$ transports supplied
+by $\NameCert_{\ManifoldUp}$ and $\NameCert_{\OdeUp}$, then the two
+dynamical-system flow cells are classified as the same $\DynSystemUp$ flow.
+\end{theorem}
+\begin{proof}
+Unpack each $\DynSystemUp$ cell into its phase row and its $\OdeUp$ local-flow
+row. The phase components are transported by the $\ManifoldUp$ classifier, so
+the chart carrier visible to the flow row is unchanged up to $\hsame$.
+
+Transport the ODE row component by component: first the displayed time cells,
+then the state cells, then the vector-field ledger, the Picard history, the
+limit witness, and the endpoint ledger. The $\OdeUp$ classifier treats these
+as BHist rows and compares them by $\hsame$ rather than by equality of
+external functions.
+
+After transport, both carrier cells expose the same ordered ledger surface.
+Repacking that transported surface is exactly the $\DynSystemUp$ classifier,
+so the two flow cells are classified together.
+\end{proof}
+
+\begin{theorem}[DynSystemUp identity flow obligation]
+\label{thm:dynsystem-identity-flow-obligation}
+For every $\DynSystemUp$ phase-state cell $x$ carried by
+$\NameCert_{\ManifoldUp}$, the identity flow at empty time is represented by
+the $\Cont$ unit row
+$$
+\Cont(\mathsf{BHist.Empty},x,x).
+$$
+Its $\DynSystemUp$ carrier ledger has empty displayed time, unchanged
+displayed state, the trivial Picard route, and endpoint row $x$; this row is
+classified by the same phase carrier and by the endpoint classifier inherited
+from $\OdeUp$.
+\end{theorem}
+\begin{proof}
+Start with the carried phase-state cell $x$. The empty time cell is the
+distinguished BHist unit, and the identity route is the empty-time
+continuation from $x$ back to $x$.
+
+The Picard part of the ledger is the unit continuation route. Since no
+nonempty vector-field evaluation is read, the vector-field component is only
+the displayed empty ledger accepted by the $\OdeUp$ local-flow source.
+
+The endpoint row is again $x$. The $\ManifoldUp$ classifier keeps the phase
+cell fixed, and the $\OdeUp$ endpoint classifier reads the unit continuation
+as an endpoint-preserving row. Repacking these rows gives the identity
+$\DynSystemUp$ flow obligation.
+\end{proof}
+
+\begin{theorem}[DynSystemUp composition flow obligation]
+\label{thm:dynsystem-composition-flow-obligation}
+Let $R_{01}$ and $R_{12}$ be adjacent $\OdeUp$ local-flow source rows over the
+same $\NameCert_{\ManifoldUp}$ phase carrier, with the endpoint time-state
+cell of $R_{01}$ classified with the initial time-state cell of $R_{12}$.
+Then $\DynSystemUp$ represents the composite flow by concatenating the two
+source rows. The concatenated route is formed by $\Cont$ associativity on the
+adjacent Picard and endpoint ledgers, and its endpoint classifier is the
+$\OdeUp$ endpoint classifier transported through the shared phase carrier.
+\end{theorem}
+\begin{proof}
+Read $R_{01}$ as a local-flow row from $(t_0,x_0)$ to $(t_1,x_1)$, and read
+$R_{12}$ as a local-flow row from $(t_1,x_1)$ to $(t_2,x_2)$. The adjacency
+hypothesis says that the middle time-state cell is shared in the
+$\NameCert_{\ManifoldUp}$ and $\NameCert_{\OdeUp}$ classifiers.
+
+Use the Picard continuation scope of
+\autoref{thm:ode-root-picard-continuation-scope} to concatenate the two
+Picard routes. The reassociation step is a $\Cont$ associativity move, with
+any syntactic mismatch at the middle cell handled by $\hsame$ transport.
+
+The resulting source row has initial cell $(t_0,x_0)$ and endpoint cell
+$(t_2,x_2)$. Repacking it as a $\DynSystemUp$ flow row gives the composition
+obligation, and the endpoint determinacy is the classifier inherited from the
+concatenated $\OdeUp$ row.
+\end{proof}
+
+\begin{theorem}[DynSystemUp Ode generator ledger]
+\label{thm:dynsystem-ode-generator-ledger}
+The $\DynSystemUp$ generator is hidden only through the $\OdeUp$ vector-field
+row and the $\ManifoldUp$ chart carrier. Concretely, a $\DynSystemUp$ flow
+ledger records the displayed time cell, phase-state cell, Picard history,
+endpoint history, the $\OdeUp$ vector-field evaluation row, and the
+$\ManifoldUp$ chart or singleton carrier row. It contains no additional
+generator oracle, no external trajectory equality, and no unclassified
+function-space comparison.
+\end{theorem}
+\begin{proof}
+Inspect the carrier surface of
+\autoref{thm:dynsystem-carrier-flow-surface}. Every time and state entry is a
+BHist row supplied by the $\OdeUp$ local-flow source, while the phase carrier
+is supplied by $\NameCert_{\ManifoldUp}$.
+
+The only place where the generator is read is the vector-field evaluation row
+of the $\OdeUp$ source. Its inputs are the displayed time cell and phase-state
+cell, and its output is transported by the endpoint classifier described in
+\autoref{thm:dynsystem-classifier-flow-transport}.
+
+The only place where coordinates or phase charts are read is the
+$\ManifoldUp$ chart carrier. Therefore the $\DynSystemUp$ ledger hides the
+generator exactly behind those two certified rows and exposes only BHist,
+$\Cont$, and $\hsame$ obligations to downstream flow-system consumers.
+\end{proof}
+
 \section{The certificate}
 \label{sec:dynsystem-certificate}
