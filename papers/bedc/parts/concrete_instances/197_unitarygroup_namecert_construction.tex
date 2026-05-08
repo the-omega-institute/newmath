@@ -78,6 +78,7 @@ Stability follows by transporting every source, target, and result row along the
 \begin{theorem}[UnitaryGroup inner-product preservation obligation]\label{thm:unitarygroup-inner-product-preservation-obligation}
 Every automorphism carried by $\UnitaryGroupUp$ transports the $\HilbertUp$ inner-product classifier to itself. The preservation row is stable under classifier replacement: if the carried automorphism is replaced by an equivalent restricted $\LieGroupUp$ automorphism and the Hilbert carrier is replaced by an equivalent $\HilbertUp$ carrier, the transported inner-product row is the same $\HilbertUp$ classifier row.
 \end{theorem}
+\leanchecked{BEDC.Derived.UnitaryGroupUp.UnitaryGroupInnerProduct\_preservation\_obligation}
 \begin{proof}
 Read the inner-product field of the ten-field roadmap template through the $\HilbertUp$ dependency. The Hilbert certificate supplies the inner-product classifier row, while the restricted automorphism carrier supplies the source and target histories on which that classifier is evaluated.
 
@@ -89,6 +90,7 @@ For classifier replacement, first transport the Hilbert carrier by the $\Hilbert
 \begin{theorem}[UnitaryGroup ledger exactness obligation]\label{thm:unitarygroup-ledger-exactness-obligation}
 The $\UnitaryGroupUp$ ledger consists exactly of the $\HilbertUp$ carrier and classifier rows, the $\LieGroupUp$ operation rows, inverse, product, and identity witnesses, inner-product-preservation witnesses, classifier-transport rows, and dependency rows. Coverage, soundness, and completeness hold for precisely that package: every accepted unitary-group row exposes those entries, every such entry projects to a valid carried row, and every package with exactly those entries is accepted. No spectral theorem, operator-algebra theorem, or standard bridge claim is part of this ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.UnitaryGroupUp.UnitaryGroupLedger\_exactness\_obligation}
 \begin{proof}
 Unpack the ledger, exactness, and dependency fields of the ten-field roadmap template. The dependency rows are exactly $\NameCert_{\HilbertUp}$ and $\NameCert_{\LieGroupUp}$, and the visible ledger entries are the carrier, classifier, operation, preservation, and transport rows specified in \autoref{thm:unitarygroup-carrier-classifier-obligation}, \autoref{thm:unitarygroup-operation-stability-obligation}, and \autoref{thm:unitarygroup-inner-product-preservation-obligation}.
 
@@ -104,8 +106,8 @@ Completeness repacks a package with exactly these entries as the public obligati
 \begin{closurestatus}{\UnitaryGroupUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation scope binds exactly the carrier and classifier, operation stability, inner-product preservation, and ledger exactness rows in \autoref{thm:unitarygroup-carrier-classifier-obligation}, \autoref{thm:unitarygroup-operation-stability-obligation}, \autoref{thm:unitarygroup-inner-product-preservation-obligation}, and \autoref{thm:unitarygroup-ledger-exactness-obligation}.}
-  \formalstatus{\unformalizedV}
-  \leantarget{}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.UnitaryGroupUp.UnitaryGroupCarrier\_classifier\_obligation}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a Lean verification target, a public certificate theorem, group-law completion, or a standard bridge.}
   \upgradepath{Public closure requires one exported $\UnitaryGroupUp$ certificate theorem consuming the four scoped obligation rows displayed in this chapter.}
