@@ -642,3 +642,90 @@ boundary forbids a separate quotient or host equality. Repacking the
 displayed rows therefore gives the whole channel state-input boundary in
 $\mathsf{BHist}/\hsame/\mathsf{Pkg}/\NameCert$ terms.
 \end{proof}
+
+\begin{theorem}[QuantumStateUp observable state boundary]
+\label{thm:quantumstate-observable-state-boundary}
+An $\ObservableUp$ expectation row may read a $\QuantumStateUp$ $\mathsf{BHist}$
+packet only through the Hilbert source row $\mathcal{H}$, the projective
+endpoint row $p$, the global-phase classifier $\phi$, the norm ledger $n$, and
+the package provenance $\rho$ exposed by
+\autoref{thm:quantumstate-projective-consumer-boundary}, together with the
+observable endpoint, self-adjoint witness, spectral-data row, and expectation
+row displayed by $\ObservableUp$. It may not replace the certified state input
+by host vector equality, a raw quotient representative, or an expectation row
+whose Hilbert source is not the shared $\mathcal{H}$ endpoint.
+\end{theorem}
+\begin{proof}
+Project the accepted quantum-state packet through
+\autoref{thm:quantumstate-projective-consumer-boundary}. The only state-side
+rows visible to a downstream consumer are $\mathcal{H}$, $p$, $\phi$, $n$, and
+$\rho$.
+
+Now apply the expectation boundary of
+\autoref{thm:observable-quantumstate-expectation-boundary}. The observable
+packet contributes its operator endpoint, self-adjoint witness, spectral-data
+row, and expectation row, and that theorem requires the expectation input to be
+compatible with the same Hilbert source.
+
+Combining the two projections gives the displayed boundary. Any host vector
+equality, quotient representative, or Hilbert-mismatched expectation row would
+have to enter through a field not present in one of the two cited packet
+surfaces, so it is not readable by the consumer.
+\end{proof}
+
+\begin{theorem}[QuantumStateUp density-matrix boundary]
+\label{thm:quantumstate-densitymatrix-boundary}
+A $\QuantumStateUp$ $\mathsf{BHist}$ packet does not itself supply a
+$\DensityMatrixUp$ row. A density-matrix consumer of a pure projective state
+must add, as separate displayed rows, trace-class membership, positivity,
+trace-one evidence, and any rank-one projection bridge that turns the
+projective endpoint into a positive trace-class trace-one operator. These rows
+are not part of the Hilbert source, projective endpoint, phase classifier, norm
+ledger, or provenance exposed by
+\autoref{thm:quantumstate-projective-consumer-boundary}.
+\end{theorem}
+\begin{proof}
+Read the quantum-state packet fields from
+\autoref{thm:quantumstate-projective-consumer-boundary}. They certify the
+Hilbert source, projective endpoint, phase classifier, norm ledger, and package
+provenance, but no field has the form of a trace-class operator on the Hilbert
+carrier.
+
+Compare this with the density carrier obligation of
+\autoref{thm:densitymatrix-carrier-obligation}. A $\DensityMatrixUp$ endpoint is
+accepted only when trace-class membership, positivity, and trace-one evidence
+are all displayed over the Hilbert carrier.
+
+Therefore a pure-state-to-density-matrix use must introduce the trace-class,
+positivity, trace-one, and rank-one projection bridge rows at the consumer site.
+The quantum-state packet can supply the named source and projective endpoint
+for such a bridge, but it does not supply the density row itself.
+\end{proof}
+
+\begin{theorem}[QuantumStateUp quantum-channel input boundary]
+\label{thm:quantumstate-channel-input-boundary}
+A $\QuantumChannelUp$ consumer may use a $\QuantumStateUp$ packet as an input
+only after a displayed $\DensityMatrixUp$-compatible input row has been supplied
+for the same Hilbert source. Channel image closure can then read the
+$\DensityMatrixUp$ row and the CPTP carrier of the channel, but it cannot read
+host vector equality, a raw pure-state quotient, or a direct channel action on
+the projective endpoint.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:quantumstate-densitymatrix-boundary}. The
+quantum-state packet alone has no density-matrix row, so a channel input must
+pass through a separately displayed trace-class, positivity, trace-one, and
+rank-one projection bridge package.
+
+Next use the CPTP carrier of \autoref{def:quantumchannel-cptp-carrier}. Its
+source type is the trace-class carrier over the input Hilbert space, and its
+density-state action is stated over $\DensityMatrixUp$ inputs rather than over
+projective representatives.
+
+Finally apply the density-matrix image lemma
+\autoref{lem:quantumchannel-densitymatrix-image}. Once the compatible density
+row is present, the channel image closure reads exactly that row and the CPTP
+channel rows. The excluded host equality, quotient representative, and direct
+projective action are outside the displayed density and channel carrier
+surfaces.
+\end{proof}
