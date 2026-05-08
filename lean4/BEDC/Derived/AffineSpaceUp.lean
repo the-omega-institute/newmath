@@ -221,4 +221,23 @@ theorem AffineSpaceHistoryTorsorCarrier_action_coverage_obligation
                     (And.intro actionCont
                       (And.intro sameActionTarget sameActionTarget)))))))))
 
+theorem AffineSpaceTranslationClassifier_ledger_exactness
+    {point target left right leftAction rightAction : BHist} :
+    AffineSpaceTranslationClassifier point target left right leftAction rightAction ->
+      AffineSpaceHistoryTorsorCarrier point left ∧
+        AffineSpaceHistoryTorsorCarrier point right ∧
+          Cont point left leftAction ∧ Cont point right rightAction ∧
+            hsame leftAction target ∧ hsame rightAction target ∧ hsame left right ∧
+              hsame leftAction rightAction := by
+  intro classifier
+  have witnesses :=
+    AffineSpaceTranslationClassifier_witnesses_identified classifier
+  exact And.intro classifier.left
+    (And.intro classifier.right.left
+      (And.intro classifier.right.right.left
+        (And.intro classifier.right.right.right.left
+          (And.intro classifier.right.right.right.right.left
+            (And.intro classifier.right.right.right.right.right
+              (And.intro witnesses.left witnesses.right.right.right.right.right))))))
+
 end BEDC.Derived.AffineSpaceUp
