@@ -19,6 +19,21 @@ def AffineSpaceTranslationClassifier
       Cont point left leftAction ∧ Cont point right rightAction ∧
         hsame leftAction target ∧ hsame rightAction target
 
+theorem AffineSpaceTranslationClassifier_separation_obligation
+    {point target identityAction : BHist} :
+    UnaryHistory point ->
+      Cont point BHist.Empty identityAction ->
+        hsame identityAction target ->
+          AffineSpaceTranslationClassifier point target BHist.Empty BHist.Empty identityAction
+            identityAction := by
+  intro pointUnary identityCont sameTarget
+  exact
+    And.intro (And.intro pointUnary unary_empty)
+      (And.intro (And.intro pointUnary unary_empty)
+        (And.intro identityCont
+          (And.intro identityCont
+            (And.intro sameTarget sameTarget))))
+
 theorem AffineSpaceHistoryTorsorCarrier_append_translation
     {point translation action : BHist} :
     AffineSpaceHistoryTorsorCarrier point translation ->
