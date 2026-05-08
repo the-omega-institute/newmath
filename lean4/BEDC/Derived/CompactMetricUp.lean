@@ -178,4 +178,16 @@ theorem CompactMetricLedger_exactness_obligation {X : BHist -> Prop} {eps x n : 
                           (Exists.intro d distanceData)))
           · exact complete.right nUnary streamSource
 
+theorem CompactMetricDownstreamConsumer_boundary {X : BHist -> Prop} {eps x n : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> X x -> UnaryHistory n -> X (s n) ->
+      (exists center : BHist, InBundle center bundle ∧ X center ∧
+        exists d : BHist, MetricDistanceWitness x center d ∧ RatHistoryClassifier d eps) ∧
+        (exists limitDist : BHist, MetricDistanceWitness (s n) limit limitDist ∧
+          Cont (s n) limit limitDist ∧ RatHistoryClassifier limitDist (M n)) := by
+  intro certificate source nUnary streamSource
+  have publicPackage := CompactMetricPublicConstructor_package certificate source
+  have consumerBridge := CompactMetricHeineCantor_consumer_bridge certificate nUnary streamSource
+  exact And.intro publicPackage.right.right consumerBridge.right
+
 end BEDC.Derived.CompactMetricUp
