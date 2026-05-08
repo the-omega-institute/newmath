@@ -150,3 +150,70 @@ core theorems \autoref{thm:rat-stream-name-finite-window-structural-laws},
 exactness transported RatUp point classification with positive denominators,
 shape exclusions, and one-tail agreement; standard bridge ordinary finite
 rational RegSeqRat stream endpoint transport; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[StreamNameUp transported window public readback]
+\label{thm:streamname-transported-window-public-readback}
+For certified observation maps $s,t,s',t':\Hist\to\Hist$, a probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$, a selected bundled unary observation $n$,
+and histories $a,b,z_s,z_t:\Hist$, suppose the hypotheses of
+\autoref{thm:rat-stream-name-finite-window-transported-selected-full-endpoint-package}
+hold. Then the selected transported finite-window endpoint package is exactly
+the public finite-window $\StreamNameUp$ readback surface for $s'$ and $t'$ at
+the bundled unary observation $n$. Its public rows are
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(s'(n),t'(n))$;
+  \item positive unary denominators for $s'(n)$ and $t'(n)$;
+  \item unary-history rows for $s'(n)$ and $t'(n)$;
+  \item empty-endpoint exclusions for $s'(n)$ and $t'(n)$;
+  \item zero-headed endpoint exclusions for $s'(n)$ and $t'(n)$;
+  \item unary one-tail agreement for the displayed tails $a$ and $b$.
+\end{enumerate}
+No additional host stream, quotient endpoint, or RegSeqRat-internal witness is
+part of this readback surface.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-stream-name-finite-window-transported-selected-full-endpoint-package}
+to the displayed transport hypotheses, bundle membership, unary witness, and
+one-extension endpoints.
+
+The cited theorem already returns the six endpoint rows listed above:
+RatHistoryClassifier, positive denominators, unary endpoint shape, empty
+exclusion, zero-headed exclusion, and one-tail agreement. Repack these rows as
+the public finite-window $\StreamNameUp$ readback interface, leaving the
+transport proofs and selected-bundle witness in the ledger.
+\end{proof}
+
+\begin{theorem}[StreamNameUp transported composite window public readback]
+\label{thm:streamname-transported-window-composite-public-readback}
+For certified observation maps $s,t,u,s',u':\Hist\to\Hist$, a probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$, a selected bundled unary observation $n$,
+and histories $a,b,z_s,z_u:\Hist$, suppose the hypotheses of
+\autoref{thm:rat-stream-name-finite-window-transported-composite-endpoint-package}
+hold. Then the composed classifier path from $s$ through $t$ to $u$, with
+transported endpoints $s'$ and $u'$, exposes exactly the same public
+finite-window $\StreamNameUp$ readback surface at $n$. Its public rows are
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(s'(n),u'(n))$;
+  \item positive unary denominators for $s'(n)$ and $u'(n)$;
+  \item unary-history rows for $s'(n)$ and $u'(n)$;
+  \item empty-endpoint exclusions for $s'(n)$ and $u'(n)$;
+  \item zero-headed endpoint exclusions for $s'(n)$ and $u'(n)$;
+  \item unary one-tail agreement for the displayed tails $a$ and $b$.
+\end{enumerate}
+The intermediate classifier map $t$ remains ledger data and is not exported as
+an extra public endpoint.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-stream-name-finite-window-transported-composite-endpoint-package}.
+Its proof composes the structural finite-window classifier laws, transports
+the composed endpoint classifier, and then invokes the selected endpoint
+package.
+
+The resulting six rows are RatHistoryClassifier, positive denominators, unary
+endpoint shape, empty exclusion, zero-headed exclusion, and one-tail agreement
+for the transported endpoints $s'(n)$ and $u'(n)$. Exposing exactly these rows
+gives the public composite $\StreamNameUp$ readback interface, while the middle
+map and transport chain stay in the certificate ledger.
+\end{proof}
