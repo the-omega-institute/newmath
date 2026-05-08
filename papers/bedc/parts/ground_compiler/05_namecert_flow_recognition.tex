@@ -1,0 +1,558 @@
+\chapter{NameCert Flow Recognition}
+\label{ch:ground-compiler-namecert-flow-recognition}
+
+\autoref{ch:ground-compiler-package-structure-generated} records that package structure is not a compiler input: it is recognized inside an event flow by a generated recognizer. This chapter applies the same no-hidden-input rule to $\NameCert$.
+
+The central rule is
+$$
+  \boxed{\text{$\NameCert$ is a recognized five-field certificate flow, not an input object}.}
+$$
+The paper-side $\NameCert(N)$ template of \autoref{def:typed-naming-certificate} is already a five-field certificate:
+$$
+  \NameCert(N)
+  =
+  (\SourceSpec_N,\PatternSpec_N,\ClassifierSpec_N,\StabCert_N,\LedgerPolicy_N).
+$$
+The proposed name $N$ is licensed only when all required fields are supplied, upward-arrow derived interfaces are not licensed without a $\NameCert$, and limit-like interfaces carry ledger policy witnesses.
+
+This chapter does not change the mathematical content of the $\NameCert$ discipline. It changes the input reading: the compiler does not receive a host object of the form
+$$
+  \NameCert(\SourceSpec,\PatternSpec,\ClassifierSpec,\StabCert,\LedgerPolicy).
+$$
+It receives an event flow. A generated recognizer then recognizes source, pattern, classifier, stability, and ledger subflows inside the decoded source layer.
+
+\section{NameCert recognition on event flows}
+\label{sec:namecert-generated-recognition}
+
+\begin{definition}[Name candidate flow]
+\label{def:namecert-generated-name-candidate-flow}
+A \emph{name candidate flow} is an event flow
+$$
+  N \in \mathsf{EventFlow}.
+$$
+It represents the visible generated trace of a proposed name. It is not an external string label, host-level object name, theorem label, or registry entry.
+\end{definition}
+
+\begin{definition}[NameCert candidate flow]
+\label{def:namecert-generated-candidate-flow}
+A \emph{NameCert candidate flow} is an event flow
+$$
+  S \in \mathsf{EventFlow}.
+$$
+It has not yet been recognized as a $\NameCert$. Thus $S \in \mathsf{EventFlow}$ does not imply $S=\NameCert(N)$.
+\end{definition}
+
+\begin{definition}[Generated NameCert recognizer]
+\label{def:namecert-generated-recognizer}
+A \emph{generated NameCert recognizer} is an event flow
+$$
+  R \in \mathsf{EventFlow}.
+$$
+It is not a host parser, YAML schema, external grammar, Lean structure input, or human field table. Its public formal carrier is generated from the two raw marks and works on the source event layer.
+\end{definition}
+
+\begin{definition}[NameCert recognition relation]
+\label{def:namecert-generated-recognition-relation}
+The name-indexed $\NameCert$ recognition relation is written
+$$
+  \mathsf{RecognizesNameCert}(R,S,N),
+  \qquad
+  R,S,N \in \mathsf{EventFlow}.
+$$
+It is read as: the generated recognizer flow $R$ recognizes the event flow $S$ as a $\NameCert$ flow for the candidate name flow $N$.
+\end{definition}
+
+\begin{remark}[Relation to the unindexed recognition judgment]
+\label{rem:namecert-generated-relation-to-unindexed-judgment}
+\autoref{def:ground-event-flow-recognized-namecert-flow} used the unindexed judgment $\mathsf{RecognizesNameCert}(R,S)$ to record that $S$ is recognized as a $\NameCert$ flow. The ternary notation of this chapter is the same source-layer recognition with the associated candidate name flow displayed explicitly. When the name parameter is irrelevant, the unindexed notation remains a harmless abbreviation.
+\end{remark}
+
+\begin{remark}[NameCert recognition is not NameCert input]
+\label{rem:namecert-generated-recognition-not-input}
+The judgment $\mathsf{RecognizesNameCert}(R,S,N)$ does not mean that an external $\NameCert$ object has been supplied. It means that, in the decoded source event layer, $R$ recognizes $S$ as having the five-field certificate structure for the candidate name $N$. The direction is
+$$
+  \mathsf{EventFlow}
+  \longrightarrow
+  \mathsf{RecognizedNameCertFlow},
+$$
+not
+$$
+  \mathsf{NameCertObject}
+  \longrightarrow
+  \mathsf{EventFlow}.
+$$
+\end{remark}
+
+\begin{definition}[Recognized NameCert flow]
+\label{def:namecert-generated-recognized-namecert-flow}
+Define
+$$
+  \mathsf{NameCertFlow}(S,N)
+  \;:\Longleftrightarrow\;
+  \exists R,\ \mathsf{RecognizesNameCert}(R,S,N).
+$$
+Thus $S$ is a recognized $\NameCert$ flow for the candidate name $N$ exactly when some generated recognizer flow recognizes it as the certificate flow for $N$.
+\end{definition}
+
+\begin{principle}[No external NameCert input]
+\label{prin:namecert-generated-no-external-namecert-input}
+There is no formal compiler entry point
+$$
+  \mathsf{CompileNameCert} \colon \mathsf{NameCertObject}
+  \longrightarrow \mathsf{LegalZStream}.
+$$
+The only formal channel compiler remains
+$$
+  \mathsf{Compile} \colon \mathsf{EventFlow}
+  \longrightarrow \mathsf{LegalZStream}.
+$$
+If $S$ is a recognized $\NameCert$ flow, its $\NameCert$ code is just $\mathsf{Compile}(S)$.
+\end{principle}
+
+\begin{proposition}[NameCert recognition does not change channel code]
+\label{prop:namecert-generated-recognition-preserves-code}
+If $\mathsf{RecognizesNameCert}(R,S,N)$, then the channel encoding of $S$ is still $\mathsf{Compile}(S)$. $\NameCert$ recognition does not add, delete, or rewrite channel bits.
+\end{proposition}
+
+\begin{proof}
+The judgment $\mathsf{RecognizesNameCert}(R,S,N)$ is a source-level recognition relation. It says only that $S$ is recognized by $R$ as the $\NameCert$ flow for $N$. The channel encoding is supplied by $\mathsf{Compile}$ and depends only on the event flow $S$. Since the recognition relation does not alter $S$, it does not alter $\mathsf{Compile}(S)$.
+\end{proof}
+
+\begin{corollary}[Recognized NameCert code is not a separate code]
+\label{cor:namecert-generated-code-not-separate}
+If $S$ is a recognized $\NameCert$ flow, then
+$$
+  \mathsf{NameCertCode}(S) := \mathsf{Compile}(S)
+$$
+is the ordinary channel code of the same event flow, not the output of a separate $\NameCert$ encoder.
+\end{corollary}
+
+\section{Field subflows and seals}
+\label{sec:namecert-generated-fields-and-seals}
+
+\begin{definition}[Recognized NameCert field subflows]
+\label{def:namecert-generated-field-subflows}
+If $\mathsf{RecognizesNameCert}(R,S,N)$, then $R$ may recognize subflows of $S$ as the five certificate roles:
+\begin{center}
+\begin{tabular}{l}
+  source flow, \\
+  pattern flow, \\
+  classifier flow, \\
+  stability flow, \\
+  ledger flow.
+\end{tabular}
+\end{center}
+Formally, this chapter uses the relations
+$$
+  \mathsf{NameCertSource}_{R}(S,S_{0}), \qquad
+  \mathsf{NameCertPattern}_{R}(S,S_{1}), \qquad
+  \mathsf{NameCertClassifier}_{R}(S,S_{2}),
+$$
+$$
+  \mathsf{NameCertStability}_{R}(S,S_{3}), \qquad
+  \mathsf{NameCertLedger}_{R}(S,S_{4}).
+$$
+These are not external field labels. They are subflow roles recognized by $R$ inside $S$.
+\end{definition}
+
+\begin{remark}[Field names are explanatory metalanguage]
+\label{rem:namecert-generated-field-names-metalanguage}
+The names $\SourceSpec$, $\PatternSpec$, $\ClassifierSpec$, $\StabCert$, and $\LedgerPolicy$ are explanatory labels for the five paper-side roles. Formally, the roles must be recognized by the relations
+$$
+  \mathsf{NameCertSource}_{R},\quad
+  \mathsf{NameCertPattern}_{R},\quad
+  \mathsf{NameCertClassifier}_{R},\quad
+  \mathsf{NameCertStability}_{R},\quad
+  \mathsf{NameCertLedger}_{R}
+$$
+on event flows. Field names are not first-layer compiler inputs, and the five-field structure is not received as an external record.
+\end{remark}
+
+\begin{definition}[NameCert-seal subflow]
+\label{def:namecert-generated-seal-subflow}
+If $\mathsf{RecognizesNameCert}(R,S,N)$ and $R$ recognizes a terminal subflow $\sigma$ of $S$ as expressing $\NameCert$ completion, then $\sigma$ is a \emph{NameCert-seal subflow}, written
+$$
+  \mathsf{NameCertSeal}_{R}(S,\sigma).
+$$
+The $\NameCert$ seal is a source-level subflow, not the channel-level terminator $11$.
+\end{definition}
+
+\begin{proposition}[NameCert seal is not the channel terminator]
+\label{prop:namecert-generated-seal-not-channel-terminator}
+If $\mathsf{NameCertSeal}_{R}(S,\sigma)$, then $\sigma$ is a source-level subflow, not the channel-level terminator $11$.
+\end{proposition}
+
+\begin{proof}
+The channel-level $11$ is the event terminator of \autoref{def:channel-encoding-event-terminator}; it belongs to the $\mathsf{LegalZStream}$ encoding mechanism. A $\NameCert$ seal is a source-level subflow of an event flow recognized by $R$. By the layer-separation theorem \autoref{thm:source-channel-layer-separation}, a channel substring cannot be used directly as a source event or source subflow. Hence the $\NameCert$ seal is not the channel terminator.
+\end{proof}
+
+\begin{definition}[Complete five-field recognition]
+\label{def:namecert-generated-complete-five-field-recognition}
+The judgment $\mathsf{RecognizesNameCert}(R,S,N)$ has \emph{complete five-field recognition} when there exist subflows $S_{0},S_{1},S_{2},S_{3},S_{4}$ and $\sigma$ such that
+$$
+  \mathsf{NameCertSource}_{R}(S,S_{0}),\qquad
+  \mathsf{NameCertPattern}_{R}(S,S_{1}),\qquad
+  \mathsf{NameCertClassifier}_{R}(S,S_{2}),
+$$
+$$
+  \mathsf{NameCertStability}_{R}(S,S_{3}),\qquad
+  \mathsf{NameCertLedger}_{R}(S,S_{4}),\qquad
+  \mathsf{NameCertSeal}_{R}(S,\sigma).
+$$
+The displayed roles are recognized by $R$, not supplied by external field tags.
+\end{definition}
+
+\begin{principle}[No NameCert without five recognized fields]
+\label{prin:namecert-generated-no-namecert-without-five-fields}
+A recognized $\NameCert$ flow must have complete five-field recognition. In particular, a recognized certificate for a proposed name supplies source, pattern, classifier, stability, ledger, and seal subflows recognized inside the event flow. This is the event-flow form of the paper template of \autoref{def:typed-naming-certificate}: a proposed name is licensed only after all required fields are supplied.
+\end{principle}
+
+\begin{theorem}[Incomplete NameCert flow does not license a name]
+\label{thm:namecert-generated-incomplete-does-not-license}
+If an event flow $S$ lacks any one of the recognized source, pattern, classifier, stability, or ledger field subflows for a candidate name $N$, then $S$ is not an admissible $\NameCert$ flow licensing $N$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{prin:namecert-generated-no-namecert-without-five-fields}, a recognized $\NameCert$ flow must have complete five-field recognition. If any required field subflow is missing, complete five-field recognition fails. Therefore $S$ cannot serve as an admissible $\NameCert$ flow licensing $N$.
+\end{proof}
+
+\begin{corollary}[Visible name event is insufficient]
+\label{cor:namecert-generated-visible-name-insufficient}
+A visible candidate name event $N$ does not by itself license a derived interface. A recognized $\NameCert$ flow must supply the five certificate fields for $N$.
+\end{corollary}
+
+\section{Name licensing}
+\label{sec:namecert-generated-licensing}
+
+\begin{definition}[Name licensing by recognized flow]
+\label{def:namecert-generated-licensed-name}
+Define
+$$
+  \mathsf{LicensedName}(N)
+  \;:\Longleftrightarrow\;
+  \exists S,\ \mathsf{NameCertFlow}(S,N).
+$$
+Thus the candidate name $N$ is licensed exactly when some event flow is recognized as its $\NameCert$ flow.
+\end{definition}
+
+\begin{proposition}[Licensing is event-flow based]
+\label{prop:namecert-generated-licensing-event-flow-based}
+If $\mathsf{LicensedName}(N)$, then there exists $S \in \mathsf{EventFlow}$ such that $\mathsf{NameCertFlow}(S,N)$.
+\end{proposition}
+
+\begin{proof}
+This is the content of \autoref{def:namecert-generated-licensed-name}, with the ambient event-flow condition supplied by \autoref{def:namecert-generated-recognized-namecert-flow}.
+\end{proof}
+
+\begin{theorem}[Derived interfaces require recognized NameCert flow]
+\label{thm:namecert-generated-derived-interfaces-require-flow}
+If an upward-arrow derived interface $N^{\uparrow}$ is licensed, then there exists a recognized $\NameCert$ flow $S$ for $N$:
+$$
+  N^{\uparrow}\ \mathrm{licensed}
+  \;\Longrightarrow\;
+  \exists S,\ \mathsf{NameCertFlow}(S,N).
+$$
+\end{theorem}
+
+\begin{proof}
+The formation rule of \autoref{thm:derived-interfaces-require-certificates} says that upward-arrow interfaces are not licensed without a $\NameCert$. In the present compiler discipline, a $\NameCert$ object is not an external input; it must appear as a recognized event-flow certificate. Hence a licensed $N^{\uparrow}$ requires some $S$ with $\mathsf{NameCertFlow}(S,N)$.
+\end{proof}
+
+\begin{corollary}[No upward-arrow interface from raw code alone]
+\label{cor:namecert-generated-no-upward-from-raw-code}
+A legal channel stream $c \in \mathsf{LegalZStream}$, even though it decodes to an event flow, does not by itself license any $N^{\uparrow}$. Licensing requires a recognized $\NameCert$ flow for $N$, either on $\mathsf{Decode}(c)$ itself or on a recognized subflow of it.
+\end{corollary}
+
+\section{Ledger completeness}
+\label{sec:namecert-generated-ledger-completeness}
+
+\begin{definition}[Ledger-complete NameCert flow]
+\label{def:namecert-generated-ledger-complete}
+A recognized $\NameCert$ flow is \emph{ledger-complete} when it has a recognized ledger subflow
+$$
+  \mathsf{NameCertLedger}_{R}(S,L)
+$$
+and $L$ records the source material hidden, compressed, named, or stabilized by that $\NameCert$.
+\end{definition}
+
+\begin{principle}[Certified derived interfaces carry ledger]
+\label{prin:namecert-generated-certified-derived-carry-ledger}
+Every licensed derived interface is supported by a ledger-complete $\NameCert$ flow. This is the event-flow reading of \autoref{prin:limit-like-interfaces-derived}: every certified derived interface carries a ledger policy witness.
+\end{principle}
+
+\begin{theorem}[NameCert without ledger is not admissible]
+\label{thm:namecert-generated-without-ledger-not-admissible}
+If $\mathsf{RecognizesNameCert}(R,S,N)$ but there is no $L$ such that
+$$
+  \mathsf{NameCertLedger}_{R}(S,L),
+$$
+then $S$ is not an admissible $\NameCert$ flow licensing $N$.
+\end{theorem}
+
+\begin{proof}
+The five-field $\NameCert$ template includes $\LedgerPolicy$ as a required field. By \autoref{prin:namecert-generated-certified-derived-carry-ledger}, a licensed derived interface must be supported by a ledger-complete $\NameCert$ flow. If no recognized ledger subflow exists, the recognition is incomplete and cannot license $N$.
+\end{proof}
+
+\begin{corollary}[Four fields without ledger are not enough]
+\label{cor:namecert-generated-four-fields-without-ledger-not-enough}
+Even if source, pattern, classifier, and stability subflows are recognized, the $\NameCert$ remains incomplete when the ledger subflow is missing.
+\end{corollary}
+
+\section{NameCert code and channel recognition}
+\label{sec:namecert-generated-code-and-channel}
+
+\begin{definition}[NameCert code]
+\label{def:namecert-generated-code}
+If $S$ is a recognized $\NameCert$ flow for $N$, define
+$$
+  \mathsf{NameCertCode}(S,N) := \mathsf{Compile}(S).
+$$
+This is not a new channel compiler. It is the existing $\mathsf{Compile}$ applied to $S$.
+\end{definition}
+
+\begin{proposition}[NameCert code is injective on raw NameCert flows]
+\label{prop:namecert-generated-code-injective}
+If $S$ and $T$ are recognized $\NameCert$ flows and
+$$
+  \mathsf{NameCertCode}(S,N)
+  =
+  \mathsf{NameCertCode}(T,M),
+$$
+then $S=T$.
+\end{proposition}
+
+\begin{proof}
+By \autoref{def:namecert-generated-code},
+$$
+  \mathsf{NameCertCode}(S,N)=\mathsf{Compile}(S),
+  \qquad
+  \mathsf{NameCertCode}(T,M)=\mathsf{Compile}(T).
+$$
+Equality of the displayed codes therefore gives $\mathsf{Compile}(S)=\mathsf{Compile}(T)$. By the channel bijection \autoref{cor:channel-encoding-bijection}, $\mathsf{Compile}$ is injective on $\mathsf{EventFlow}$. Hence $S=T$.
+\end{proof}
+
+\begin{remark}[Names may still classify together]
+\label{rem:namecert-generated-names-may-classify-together}
+\autoref{prop:namecert-generated-code-injective} says only that raw $\NameCert$ flows and their codes correspond one-to-one. A later classifier may still identify different candidate names or different certificate flows as equivalent; that is a classifier quotient and does not affect the raw-flow bijection.
+\end{remark}
+
+\begin{definition}[NameCert recognition from channel code]
+\label{def:namecert-generated-recognition-from-code}
+For $c \in \mathsf{LegalZStream}$, define
+$$
+  \mathsf{RecognizesNameCertCode}(R,c,N)
+  \;:\Longleftrightarrow\;
+  \mathsf{RecognizesNameCert}(R,\mathsf{Decode}(c),N).
+$$
+Thus $\NameCert$ recognition from channel code first decodes to an event flow.
+\end{definition}
+
+\begin{proposition}[No NameCert recognition by channel substring]
+\label{prop:namecert-generated-no-recognition-by-channel-substring}
+There is no valid rule that recognizes a $\NameCert$ by inspecting channel substrings without first applying
+$$
+  \mathsf{Decode}\colon \mathsf{LegalZStream}\to\mathsf{EventFlow}.
+$$
+\end{proposition}
+
+\begin{proof}
+\autoref{thm:source-channel-layer-separation} proves that channel substrings are not source events. $\NameCert$ recognition is a source-level relation over event flows. Direct $\NameCert$ recognition on channel substrings would therefore operate on the wrong layer. Recognition must first decode.
+\end{proof}
+
+\begin{theorem}[Channel compilation preserves NameCert recognition]
+\label{thm:namecert-generated-compilation-preserves-recognition}
+If $\mathsf{RecognizesNameCert}(R,S,N)$, then
+$$
+  \mathsf{RecognizesNameCert}(R,\mathsf{Decode}(\mathsf{Compile}(S)),N).
+$$
+\end{theorem}
+
+\begin{proof}
+By the flow-level round trip \autoref{thm:channel-encoding-flow-round-trip},
+$$
+  \mathsf{Decode}(\mathsf{Compile}(S))=S.
+$$
+Substitution in the recognition judgment gives the conclusion.
+\end{proof}
+
+\begin{corollary}[NameCert recognition is invariant under compile-decode]
+\label{cor:namecert-generated-recognition-invariant}
+For every recognized $\NameCert$ flow, compiling to a channel stream and decoding back to an event flow preserves its $\NameCert$ recognition status.
+\end{corollary}
+
+\section{Field soundness events}
+\label{sec:namecert-generated-field-soundness}
+
+\begin{definition}[NameCert-source soundness event]
+\label{def:namecert-generated-source-soundness}
+If $\mathsf{RecognizesNameCert}(R,S,N)$ and $R$ recognizes source subflow $S_{0}$, then a \emph{NameCert-source soundness event} is a subflow of $S$ witnessing that $S_{0}$ supplies the generated material from which $N$ is named. The relation is written
+$$
+  \mathsf{NameCertSourceSound}_{R}(S,S_{0}).
+$$
+\end{definition}
+
+\begin{definition}[NameCert-pattern soundness event]
+\label{def:namecert-generated-pattern-soundness}
+If $R$ recognizes pattern subflow $S_{1}$, then a \emph{NameCert-pattern soundness event} is a subflow of $S$ witnessing that $S_{1}$ is stable behavior observed in the source:
+$$
+  \mathsf{NameCertPatternSound}_{R}(S,S_{1}).
+$$
+\end{definition}
+
+\begin{definition}[NameCert-classifier soundness event]
+\label{def:namecert-generated-classifier-soundness}
+If $R$ recognizes classifier subflow $S_{2}$, then a \emph{NameCert-classifier soundness event} is a subflow of $S$ witnessing that $S_{2}$ organizes source material into the intended groups:
+$$
+  \mathsf{NameCertClassifierSound}_{R}(S,S_{2}).
+$$
+This is the event-flow reading of the role played by $\ClassifierSpec$ in the paper template.
+\end{definition}
+
+\begin{definition}[NameCert-stability soundness event]
+\label{def:namecert-generated-stability-soundness}
+If $R$ recognizes stability subflow $S_{3}$, then a \emph{NameCert-stability soundness event} is a subflow of $S$ witnessing that the source satisfies the relevant closure, reuse, descent, composition, or seal stability under the named behavior:
+$$
+  \mathsf{NameCertStabilitySound}_{R}(S,S_{3}).
+$$
+\end{definition}
+
+\begin{definition}[NameCert-ledger soundness event]
+\label{def:namecert-generated-ledger-soundness}
+If $R$ recognizes ledger subflow $S_{4}$, then a \emph{NameCert-ledger soundness event} is a subflow of $S$ witnessing that $S_{4}$ records what the name hides and how the hidden material is tracked:
+$$
+  \mathsf{NameCertLedgerSound}_{R}(S,S_{4}).
+$$
+\end{definition}
+
+\begin{definition}[Sound recognized NameCert flow]
+\label{def:namecert-generated-sound-recognized-flow}
+A recognized $\NameCert$ judgment $\mathsf{RecognizesNameCert}(R,S,N)$ is \emph{sound} when there exist subflows $S_{0},S_{1},S_{2},S_{3},S_{4}$ such that
+$$
+  \mathsf{NameCertSource}_{R}(S,S_{0})
+  \wedge
+  \mathsf{NameCertSourceSound}_{R}(S,S_{0}),
+$$
+$$
+  \mathsf{NameCertPattern}_{R}(S,S_{1})
+  \wedge
+  \mathsf{NameCertPatternSound}_{R}(S,S_{1}),
+$$
+$$
+  \mathsf{NameCertClassifier}_{R}(S,S_{2})
+  \wedge
+  \mathsf{NameCertClassifierSound}_{R}(S,S_{2}),
+$$
+$$
+  \mathsf{NameCertStability}_{R}(S,S_{3})
+  \wedge
+  \mathsf{NameCertStabilitySound}_{R}(S,S_{3}),
+$$
+$$
+  \mathsf{NameCertLedger}_{R}(S,S_{4})
+  \wedge
+  \mathsf{NameCertLedgerSound}_{R}(S,S_{4}).
+$$
+\end{definition}
+
+\begin{theorem}[Sound NameCert flow licenses candidate name]
+\label{thm:namecert-generated-sound-flow-licenses-name}
+If $\mathsf{RecognizesNameCert}(R,S,N)$ and this recognition is sound, then
+$$
+  \mathsf{LicensedName}(N).
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:namecert-generated-sound-recognized-flow}, $S$ contains recognized and sound source, pattern, classifier, stability, and ledger subflows. These are the event-flow presentations of the five required fields in \autoref{def:typed-naming-certificate}. Therefore the candidate name $N$ is supported by a recognized $\NameCert$ flow, so $\mathsf{LicensedName}(N)$ by \autoref{def:namecert-generated-licensed-name}.
+\end{proof}
+
+\begin{corollary}[Derived interface licensing is event-flow mediated]
+\label{cor:namecert-generated-derived-licensing-mediated}
+If $N^{\uparrow}$ is licensed, the licensing can be traced to a sound recognized $\NameCert$ flow. It is not produced by an external $\NameCert$ object.
+\end{corollary}
+
+\section{Conservativity and examples}
+\label{sec:namecert-generated-conservativity-examples}
+
+\begin{theorem}[NameCert flow recognition is conservative over the finite kernel]
+\label{thm:namecert-generated-conservativity}
+Adding relations of the form
+$$
+  \mathsf{RecognizesNameCert}(R,S,N)
+$$
+and the associated field-recognition relations does not add new raw marks, history constructors, sameness rules, continuation rules, or kernel-level equalities.
+\end{theorem}
+
+\begin{proof}
+These recognition relations assert structure over event flows. They do not generate new $\bzero$ or $\bone$ marks, add $\msame$ or $\hsame$ rules, change $\ExtR$ or $\ContR$, or turn a candidate name into a kernel object by itself. Derived-interface licensing still requires a recognized and sound $\NameCert$ flow. Hence this recognition layer is conservative over the finite kernel.
+\end{proof}
+
+\begin{corollary}[Recognized NameCert flow does not change source events]
+\label{cor:namecert-generated-recognition-does-not-change-source}
+If $S$ is recognized as a $\NameCert$ flow, the raw events in $S$ do not change. Recognition is a relation over an existing event flow, not a rewrite operation.
+\end{corollary}
+
+\begin{example}[$\AxisNatUp$-style NameCert flow]
+\label{ex:namecert-generated-axis-namecert-flow}
+An axis-style $\NameCert$ flow may have recognized subflows
+\begin{center}
+\begin{tabular}{ll}
+  source flow & $\bzero$-emission events, \\
+  pattern flow & repeated $\bzero$-extension events, \\
+  classifier flow & $\hsame$ restricted to the $\bzero$-spine, \\
+  stability flow & closure under $\Ezero$ and continuation events, \\
+  ledger flow & each visible axis token records source-history events.
+\end{tabular}
+\end{center}
+These are not external fields. They must be recognized inside an event flow.
+\end{example}
+
+\begin{example}[$\FullAxisUp$ NameCert flow]
+\label{ex:namecert-generated-fullaxis-namecert-flow}
+A $\FullAxisUp$ $\NameCert$ flow may have recognized subflows
+\begin{center}
+\begin{tabular}{ll}
+  source flow & finite $\bzero$-spine prefixes, \\
+  pattern flow & every prefix continues to a later prefix, \\
+  classifier flow & prefix-compatible and tail-compatible classification, \\
+  stability flow & directedness, monotonicity, and prefix closure, \\
+  ledger flow & all finite prefixes retained as ledger.
+\end{tabular}
+\end{center}
+The reading is not ``$\bzero\bone$ is an infinite object.'' The reading is that a full-axis certificate over generated finite prefixes licenses $\FullAxisUp$ while retaining the finite-prefix ledger.
+\end{example}
+
+\begin{example}[$\ZNormalUp$ NameCert flow]
+\label{ex:namecert-generated-znormal-namecert-flow}
+A $\ZNormalUp$ $\NameCert$ flow may have recognized subflows
+\begin{center}
+\begin{tabular}{ll}
+  source flow & observation histories with boundary marks, \\
+  pattern flow & no adjacent full-boundary marks, \\
+  classifier flow & histories related by Zeckendorf carry classify together, \\
+  stability flow & carry preserves represented observation content, \\
+  ledger flow & the carry ledger records the pre-normal form.
+\end{tabular}
+\end{center}
+The source-level display $011 \leadsto 100$ is therefore a carry classifier with ledger support, not ordinary equality and not a channel substring rewrite.
+\end{example}
+
+\begin{example}[$\DimLiftUp$ NameCert flow]
+\label{ex:namecert-generated-dimlift-namecert-flow}
+A $\DimLiftUp$ $\NameCert$ flow may have recognized subflows
+\begin{center}
+\begin{tabular}{ll}
+  source flow & overflow traces, including the event $011$, \\
+  pattern flow & Zeckendorf overflow and carry behavior, \\
+  classifier flow & overflow trace classified with the lifted normal form, \\
+  stability flow & lift preserves finite-prefix observations, \\
+  ledger flow & old axis, full-axis seal, and overflow witness.
+\end{tabular}
+\end{center}
+The lifted name is licensed by the recognized certificate flow and its ledger, not by the overflow event alone.
+\end{example}
+
+\begin{remark}[Outlook]
+\label{rem:namecert-generated-outlook}
+This chapter establishes the no-hidden-input reading of $\NameCert$: a $\NameCert$ is not received as a five-field object, but recognized as a five-field certificate flow inside $\mathsf{EventFlow}$. The core judgment is $\mathsf{RecognizesNameCert}(R,S,N)$, where $R$ is a generated recognizer flow, $S$ is the candidate certificate event flow, and $N$ is the candidate name flow. The judgment preserves channel code, separates certificate seals from channel terminators, requires five recognized fields and a ledger, keeps raw $\NameCert$ flows code-injective, forces channel-code recognition through $\mathsf{Decode}$, licenses names only through sound recognized certificate structure, and remains conservative over the finite kernel. The same discipline applies next to derived certificates and acceptance gates: mature object code is accepted only through recognized certificate and gate flows, not as a primitive input object.
+\end{remark}
