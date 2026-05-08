@@ -44,4 +44,29 @@ theorem ChernWeilSourceEnvelope_projection_rows
           (And.intro unaryClassRow
             (And.intro curvatureDerham (And.intro ledgerClass readback))))))
 
+theorem ChernWeilSourceEnvelope_connection_choice_stability
+    {curvature curvature' derham provenance connectionLedger connectionLedger' classRow : BHist} :
+    ChernWeilSourceEnvelope curvature derham provenance connectionLedger classRow ->
+      hsame curvature curvature' ->
+        UnaryHistory connectionLedger' ->
+          Cont curvature' derham provenance ->
+            Cont provenance connectionLedger' classRow ->
+              ChernWeilSourceEnvelope curvature' derham provenance connectionLedger' classRow ∧
+                UnaryHistory classRow ∧ hsame classRow (append provenance connectionLedger') := by
+  intro envelope sameCurvature connectionLedgerUnary' curvatureDerham' ledgerClass'
+  unfold ChernWeilSourceEnvelope at envelope
+  have curvatureUnary' : UnaryHistory curvature' :=
+    unary_transport envelope.left sameCurvature
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed curvatureUnary' envelope.right.left curvatureDerham'
+  have classRowUnary : UnaryHistory classRow :=
+    unary_cont_closed provenanceUnary connectionLedgerUnary' ledgerClass'
+  have envelope' :
+      ChernWeilSourceEnvelope curvature' derham provenance connectionLedger' classRow :=
+    And.intro curvatureUnary'
+      (And.intro envelope.right.left
+        (And.intro connectionLedgerUnary'
+          (And.intro curvatureDerham' ledgerClass')))
+  exact And.intro envelope' (And.intro classRowUnary ledgerClass')
+
 end BEDC.Derived.ChernWeilUp

@@ -231,4 +231,40 @@ theorem BilinFormRootPairingSurface_input_transport
               (And.intro endpointCont ledgerCont)))
   · exact And.intro sameEndpoint sameLedger
 
+theorem BilinFormRootPairingSurface_nondegeneracy_row
+    {left right scalar endpoint ledger leftZero rightZero endpointZero : BHist} :
+    BilinFormRootPairingSurface left right scalar endpoint ledger ->
+      Cont left BHist.Empty leftZero ->
+        Cont right BHist.Empty rightZero ->
+          Cont endpoint BHist.Empty endpointZero ->
+            UnaryHistory leftZero ∧
+              UnaryHistory rightZero ∧
+                UnaryHistory endpointZero ∧
+                  hsame leftZero left ∧
+                    hsame rightZero right ∧
+                      hsame endpointZero endpoint ∧
+                        Cont left right endpoint ∧ Cont endpoint scalar ledger := by
+  intro surface leftZeroRow rightZeroRow endpointZeroRow
+  have leftZeroUnary : UnaryHistory leftZero :=
+    unary_cont_closed surface.left unary_empty leftZeroRow
+  have rightZeroUnary : UnaryHistory rightZero :=
+    unary_cont_closed surface.right.left unary_empty rightZeroRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed surface.left surface.right.left surface.right.right.right.left
+  have endpointZeroUnary : UnaryHistory endpointZero :=
+    unary_cont_closed endpointUnary unary_empty endpointZeroRow
+  have sameLeftZero : hsame leftZero left :=
+    cont_right_unit_result leftZeroRow
+  have sameRightZero : hsame rightZero right :=
+    cont_right_unit_result rightZeroRow
+  have sameEndpointZero : hsame endpointZero endpoint :=
+    cont_right_unit_result endpointZeroRow
+  exact And.intro leftZeroUnary
+    (And.intro rightZeroUnary
+      (And.intro endpointZeroUnary
+        (And.intro sameLeftZero
+          (And.intro sameRightZero
+            (And.intro sameEndpointZero
+              (And.intro surface.right.right.right.left surface.right.right.right.right))))))
+
 end BEDC.Derived.BilinFormUp
