@@ -219,4 +219,52 @@ theorem trace_same_marks_hsame :
                       cases htail
                       rfl
 
+/-- `AdNext Γ h m` says: there exists a target `r` such that an empty-step
+from `h` enacting `m` is admissible under the local branch predicate `Γ`. -/
+def AdNext (Γ : BHist → BMark → BHist → Prop) (h : BHist) (m : BMark) : Prop :=
+  ∃ r : BHist, EmptyStep h m r ∧ Γ h m r
+
+/-- `MultiNext Γ h` says both branches `b0` and `b1` are admissible from `h`
+under `Γ`. -/
+def MultiNext (Γ : BHist → BMark → BHist → Prop) (h : BHist) : Prop :=
+  AdNext Γ h BMark.b0 ∧ AdNext Γ h BMark.b1
+
+/-- `SelStep Γ h r` is the selector witness for a realized step from `h` to `r`:
+the mark that was enacted, together with the empty-step and `Γ`-admissibility
+witnesses. Lives in `Prop`. -/
+def SelStep (Γ : BHist → BMark → BHist → Prop) (h r : BHist) : Prop :=
+  ∃ m : BMark, EmptyStep h m r ∧ Γ h m r
+
+theorem selStep_exposes_mark
+    {Γ : BHist → BMark → BHist → Prop} {h r : BHist} :
+    SelStep Γ h r → ∃ m : BMark, EmptyStep h m r := by
+  intro hs
+  cases hs with
+  | intro m data => exact ⟨m, data.left⟩
+
+theorem selStep_from_step
+    {Γ : BHist → BMark → BHist → Prop}
+    {h r : BHist} {m : BMark} :
+    EmptyStep h m r → Γ h m r → SelStep Γ h r := by
+  intro hstep hcert
+  exact ⟨m, hstep, hcert⟩
+
+theorem selStep_distinct_branches_separated
+    {Γ : BHist → BMark → BHist → Prop}
+    {h r0 r1 : BHist} :
+    SelStep Γ h r0 → SelStep Γ h r1 →
+    -- if the two selectors recovered are distinct marks, the targets diverge
+    (∀ m0 m1 : BMark, EmptyStep h m0 r0 → EmptyStep h m1 r1 →
+      ¬ msame m0 m1 → ¬ hsame r0 r1) := by
+  intro _ _ m0 m1 step0 step1 mneq same
+  cases step0 <;> cases step1 <;>
+    first
+    | exact mneq rfl
+    | exact not_hsame_e0_e1 same
+    | exact not_hsame_e1_e0 same
+
+theorem multiNext_iff
+    {Γ : BHist → BMark → BHist → Prop} {h : BHist} :
+    MultiNext Γ h ↔ AdNext Γ h BMark.b0 ∧ AdNext Γ h BMark.b1 := Iff.rfl
+
 end BEDC.Capstone.EmptyFableMachine

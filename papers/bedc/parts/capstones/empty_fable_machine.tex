@@ -120,3 +120,47 @@ If $h$ and $k$ both have trace $xs$, then $h$ and $k$ are $\hsame$-equivalent.
 \label{cor:efm-observer-as-sequence}
 Under the identification $\mathit{observer} = \Hist$ (\autoref{cor:observer-is-hist}), two observers are the same observer (modulo $\hsame$) precisely when their selector ledgers are the same finite sequence of marks. The observer sequence is not a label attached from outside; it is the constructor spine of the Hist read as a list of distinctions.
 \end{corollary}
+
+\section{Multi-solution branch space and realized selector}
+\label{sec:efm-multi-branch}
+
+\begin{definition}[Local branch admissibility]
+\label{def:efm-adnext}
+For a local branch predicate $\Gamma : \Hist \to \mathit{Mark} \to \Hist \to \mathsf{Prop}$, the predicate $\mathsf{AdNext}_\Gamma(h, m)$ holds when there exists a Hist $r$ such that the empty-boundary step from $h$ enacting $m$ produces $r$ and $\Gamma(h, m, r)$ holds. The predicate $\Gamma$ is read at the chapter level as ``the branch is locally licensed''; no global selection is built.
+\leandef{BEDC.Capstone.EmptyFableMachine.AdNext}
+\end{definition}
+
+\begin{definition}[Multi-solution boundary]
+\label{def:efm-multinext}
+The branch space at $h$ under $\Gamma$ is \emph{multi-solution}, written $\mathsf{MultiNext}_\Gamma(h)$, when both $\mathsf{AdNext}_\Gamma(h, b_0)$ and $\mathsf{AdNext}_\Gamma(h, b_1)$ hold.
+\leandef{BEDC.Capstone.EmptyFableMachine.MultiNext}
+\end{definition}
+
+\begin{definition}[Selector step]
+\label{def:efm-selstep}
+A \emph{selector step} from $h$ to $r$ under $\Gamma$ is a witness $(m, \mathit{step}, \mathit{cert})$ where $m$ is a mark, $\mathit{step}$ is an empty-boundary step from $h$ enacting $m$ to $r$, and $\mathit{cert}$ is a $\Gamma(h, m, r)$ certificate. The mark $m$ is exposed by the witness; no hidden chooser is invoked.
+\leandef{BEDC.Capstone.EmptyFableMachine.SelStep}
+\end{definition}
+
+\begin{theorem}[Selector step exposes a mark]
+\label{thm:efm-selstep-exposes}
+Every selector step from $h$ to $r$ under $\Gamma$ exposes a mark $m$ such that an empty-boundary step from $h$ enacts $m$ to $r$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.selStep\_exposes\_mark}
+\end{theorem}
+
+\begin{theorem}[Selector step from step + certificate]
+\label{thm:efm-selstep-from-step}
+Given an empty-boundary step from $h$ enacting $m$ to $r$ and a $\Gamma(h, m, r)$ certificate, a selector step from $h$ to $r$ under $\Gamma$ exists.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.selStep\_from\_step}
+\end{theorem}
+
+\begin{theorem}[Distinct realized branches stay separated]
+\label{thm:efm-distinct-branches-separated}
+If two selector steps from the same source $h$ recover distinct marks $m_0 \neq m_1$, their targets are not $\hsame$-equivalent.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.selStep\_distinct\_branches\_separated}
+\end{theorem}
+
+\begin{remark}[Specific sequence implies accumulated ledger]
+\label{rem:efm-specific-sequence-ledger}
+When the local branch space is multi-solution but the realized observer sequence is specific, the specificity is not an unexplained miracle. Each step records the mark of the branch that was enacted as a constructor in $\Hist$; the trace of that Hist (\autoref{def:efm-trace}) is the accumulated selector ledger. There is no global choice function in the kernel and none is needed: each step's selector is a local witness on the Hist surface itself, and the entire ledger is recovered by reading the constructor spine.
+\end{remark}
