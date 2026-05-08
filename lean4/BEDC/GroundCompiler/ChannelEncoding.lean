@@ -26,6 +26,34 @@ def FlowEncoding : EventFlow -> List DisplayAlphabet
 def LegalZStream (c : List DisplayAlphabet) : Prop :=
   exists S : EventFlow, c = FlowEncoding S
 
+def DecEvent : List DisplayAlphabet -> Option (RawEvent × List DisplayAlphabet)
+  | [] => none
+  | BMark.b0 :: rest =>
+      match DecEvent rest with
+      | some (w, remaining) => some (BMark.b0 :: w, remaining)
+      | none => none
+  | BMark.b1 :: [] => none
+  | BMark.b1 :: BMark.b0 :: rest =>
+      match DecEvent rest with
+      | some (w, remaining) => some (BMark.b1 :: w, remaining)
+      | none => none
+  | BMark.b1 :: BMark.b1 :: rest => some ([], rest)
+
+def DecodeFuel : Nat -> List DisplayAlphabet -> Option EventFlow
+  | 0, [] => some []
+  | 0, _ :: _ => none
+  | _ + 1, [] => some []
+  | fuel + 1, c =>
+      match DecEvent c with
+      | some (w, remaining) =>
+          match DecodeFuel fuel remaining with
+          | some S => some (w :: S)
+          | none => none
+      | none => none
+
+def Decode (c : List DisplayAlphabet) : Option EventFlow :=
+  DecodeFuel c.length c
+
 inductive NoAdjacentOneOne : List DisplayAlphabet -> Prop where
   | nil : NoAdjacentOneOne []
   | single (m : DisplayAlphabet) : NoAdjacentOneOne [m]
@@ -100,5 +128,25 @@ theorem channel_encoding_0111_illegal :
                           EventTerminator] at hS
               | b1 =>
                   simp [FlowEncoding, EventEncoding, BodyEncoding, EventTerminator] at hS
+
+theorem event_level_round_trip (w : RawEvent) :
+    DecEvent (EventEncoding w) = some (w, []) := by
+  induction w with
+  | nil =>
+      rfl
+  | cons m rest ih =>
+      cases m with
+      | b0 =>
+          have h :
+              DecEvent (BodyEncoding rest ++ EventTerminator) =
+                some (rest, []) := by
+            simpa [EventEncoding] using ih
+          simp [EventEncoding, BodyEncoding, DecEvent, h]
+      | b1 =>
+          have h :
+              DecEvent (BodyEncoding rest ++ EventTerminator) =
+                some (rest, []) := by
+            simpa [EventEncoding] using ih
+          simp [EventEncoding, BodyEncoding, DecEvent, h]
 
 end BEDC.GroundCompiler.ChannelEncoding

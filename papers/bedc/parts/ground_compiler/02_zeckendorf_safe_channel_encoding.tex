@@ -235,25 +235,28 @@ again with one terminator per event code. As recorded in \autoref{ex:ground-even
 
 \begin{definition}[Channel-level decoder for one event]
 \label{def:channel-encoding-decoder-event}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.DecEvent}
 The \emph{single-event decoder}
 $$
-  \mathsf{DecEv} \colon \mathsf{LegalEvent} \longrightarrow \mathsf{RawEvent}
+  \mathsf{DecEv} \colon \Sigma^{*} \longrightarrow
+  \mathsf{Option}(\mathsf{RawEvent} \times \Sigma^{*})
 $$
-is defined by left-to-right scan: starting with empty raw output,
+is defined by left-to-right scan. On success it returns the decoded raw event together with the unconsumed suffix immediately after the terminator; on malformed input it rejects. Starting with empty raw output,
 \begin{enumerate}
   \item if the next glyph is $0$, emit raw $0$ and advance one glyph;
   \item if the next glyph is $1$, inspect the following glyph. If it is $0$, emit raw $1$ and advance two glyphs; if it is $1$, the event is complete; if no further glyph exists, the input is rejected.
 \end{enumerate}
-The procedure terminates with success on every $c \in \mathsf{LegalEvent}$ and yields a raw event in $\mathsf{RawEvent}$.
+The procedure terminates with success on every generated event code $\mathsf{Ev}(w)$ and consumes exactly that event code.
 \end{definition}
 
 \begin{definition}[Channel-level decoder for streams]
 \label{def:channel-encoding-decoder-stream}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.Decode}
 The \emph{stream decoder}
 $$
-  \mathsf{Decode} \colon \mathsf{LegalZStream} \longrightarrow \mathsf{EventFlow}
+  \mathsf{Decode} \colon \Sigma^{*} \longrightarrow \mathsf{Option}(\mathsf{EventFlow})
 $$
-applies $\mathsf{DecEv}$ repeatedly: on input $c \in \mathsf{LegalZStream}$, scan glyphs left-to-right and run $\mathsf{DecEv}$ until its terminator is reached, recording the resulting raw event; then begin a fresh single-event scan from the position immediately after the terminator. The output is the sequence of raw events produced by successive single-event scans, in order. If the scan produces an isolated $1$ with no following glyph, or any local prefix outside $(0 \mid 10)^{*}\,11$, the input is rejected.
+applies $\mathsf{DecEv}$ repeatedly: on input $c$, scan glyphs left-to-right and run $\mathsf{DecEv}$ until its terminator is reached, recording the resulting raw event; then begin a fresh single-event scan from the position immediately after the terminator. The output is the sequence of raw events produced by successive single-event scans, in order. If the scan produces an isolated $1$ with no following glyph, or any local prefix outside $(0 \mid 10)^{*}\,11$, the input is rejected.
 \end{definition}
 
 \begin{proposition}[The string $0111$ is illegal]
@@ -268,9 +271,10 @@ Scanning left-to-right, the leading $0$ is consumed as raw $0$. The remaining gl
 
 \begin{theorem}[Event-level round trip]
 \label{thm:channel-encoding-event-round-trip}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.event\_level\_round\_trip}
 For every raw event $w \in \mathsf{RawEvent}$,
 $$
-  \mathsf{DecEv}(\mathsf{Ev}(w)) \;=\; w.
+  \mathsf{DecEv}(\mathsf{Ev}(w)) \;=\; \mathsf{some}(w,\epsilon).
 $$
 \end{theorem}
 
