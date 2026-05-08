@@ -152,6 +152,63 @@ ledger provenance supplied above, so the RealUp feed has no additional host
 index, quotient, or hidden stream datum.
 \end{proof}
 
+\begin{theorem}[StreamName-RegSeqRat-RealUp finite-window feed]
+\label{thm:streamname-regseqrat-realup-finite-window-feed}
+Let $d,e:\Hist$ be seed histories, let $r,q:\Hist\to\Hist$ be observation
+schedules, and let $u:\Hist\to\Hist$ be a unary reindexing row whose finite
+request bundle $\mathcal{P}:\mathsf{ProbeBundle}$ is accepted by the public
+finite-window interface of
+\autoref{thm:streamname-public-finite-window-interface}. Then the transported
+scheduled constant package
+$$
+\mathsf{SchedConstObs}(d,e,r\circ u,q\circ u)
+$$
+supplies one concrete finite-window boundary feed for the three consumers
+\autoref{thm:regseqrat-finite-window-seal-exactness},
+\autoref{thm:realup-finite-window-exhaustion-obligation}, and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. The supplied
+rows are exactly the two scheduled StreamName carriers, their RatUp seed
+classifier, the finite-window classifier row selected by $\mathcal{P}$, the
+endpoint denominator rows, and the RegSeqRat dyadic source rows.
+
+Equivalently, the construction uses only $\mathsf{BHist}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+$\mathsf{hsame}$, RatUp classifiers, StreamName finite-window rows, and
+RegSeqRat dyadic ledger rows. It does not add a host $\mathsf{Nat}$ index,
+quotient representative, completion object, host stream function, or
+$\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:streamname-constant-scheduled-observation-package}. The
+transported package has seed histories $d,e$, scheduled streams
+$\mathsf{RatConstStream}_d\circ r\circ u$ and
+$\mathsf{RatConstStream}_e\circ q\circ u$, the RatUp carrier rows for the two
+seeds, and the RatUp seed classifier row for $(d,e)$.
+
+Apply \autoref{thm:streamname-scheduled-window-reindex-stability}. Since
+$\mathcal{P}$ is accepted by the public finite-window interface, the unary row
+$u$ gives a finite StreamName window rather than a host index family. The two
+scheduled carriers and the selected finite-window classifier are therefore
+the same rows read by
+\autoref{thm:streamname-scheduled-window-realup-feed}.
+
+Next apply
+\autoref{thm:streamname-constant-scheduled-observation-exactness}. The two
+scheduled streams remain constant over the same RatUp seed histories after
+the reindexing, so the StreamName classifier reduces to the RatUp seed
+classifier and the endpoint denominator rows remain the finite RatUp endpoint
+rows attached to $d$ and $e$.
+
+Finally pass the resulting finite-window classifier through
+\autoref{thm:regseqrat-finite-window-seal-exactness}. The RegSeqRat seal reads
+the same finite StreamName window together with the dyadic source rows. Then
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary} repack those
+rows as the RealUp finite-window ledger boundary. Every displayed component is
+therefore supplied by the scheduled package plus the RegSeqRat dyadic ledger,
+with no additional analytic or completion-side input.
+\end{proof}
+
 \begin{theorem}[Scheduled constant observation RealUp feed]
 \label{thm:streamname-constant-scheduled-real-feed}
 For histories $d,e:\Hist$ and schedules $r,q:\Hist\to\Hist$, the scheduled
