@@ -131,6 +131,112 @@ $d_{\mathrm{dR}}(\eta)\hsame\emp$. By
 $C_{d_{\mathrm{dR}}}(\eta)$.
 \end{proof}
 
+\begin{theorem}[De Rham zero-endpoint boundary transport]
+\label{thm:derham-boundary-zero-endpoint-transport}
+Fix a $\NameCert_{\CohomologyUp}$ cochain differential
+$d_{\mathrm{dR}}:\mathsf{BHist}\to\mathsf{BHist}$. If a displayed row
+$b:\mathsf{BHist}$ is accepted by
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$ through a cochain preimage
+$a:\mathsf{BHist}$ and a transported endpoint $b':\mathsf{BHist}$ satisfies
+$\hsame(b',b)$, then the transported row is again an accepted de Rham
+boundary row:
+$$
+\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}(b')
+$$
+with the same preimage witness $a$. In particular, if $b$ is compared by
+$\hsame$ to the zero endpoint $z_{\mathrm{dR}}$, any displayed endpoint
+transported to that zero endpoint remains in the same boundary predicate.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:derham-chain-complex-boundary-row}. The accepted boundary
+row supplies a witness $a$ and a comparison
+$\hsame(b,d_{\mathrm{dR}}(a))$.
+
+The transported endpoint supplies $\hsame(b',b)$. By transitivity of
+$\hsame$, the row $b'$ compares with $d_{\mathrm{dR}}(a)$:
+$$
+\hsame(b',d_{\mathrm{dR}}(a)).
+$$
+
+Repack the same cochain preimage $a$ in
+\autoref{def:derham-chain-complex-boundary-row}. No new differential-form row,
+quotient row, or cohomology carrier is introduced; only the displayed endpoint
+has been transported along $\hsame$.
+\end{proof}
+
+\begin{theorem}[De Rham cocycle readback from square-zero packets]
+\label{thm:derham-cocycle-readback}
+Every accepted packet
+$$
+\mathsf{DeRhamDoubleExterior}_{M,T,d_{\mathrm{dR}}}
+(\omega,\eta,\theta,z_{\mathrm{dR}})
+$$
+reads its intermediate carried row $\eta$ as a $\CohomologyUp$ cocycle:
+$$
+C_{d_{\mathrm{dR}}}(\eta).
+$$
+The readback uses only the packet's cochain graph row
+$\eta\hsame d_{\mathrm{dR}}(\omega)$, the square-zero row for
+$d_{\mathrm{dR}}$, and the zero endpoint comparison
+$\hsame(z_{\mathrm{dR}},\emp)$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:derham-double-exterior-derivative-packet}. The graph row
+identifies the intermediate carried row with the first cochain differential:
+$\eta\hsame d_{\mathrm{dR}}(\omega)$.
+
+Apply the $\hsame$-respect field of the cochain differential to this graph
+row. It gives a comparison from $d_{\mathrm{dR}}(\eta)$ to
+$d_{\mathrm{dR}}(d_{\mathrm{dR}}(\omega))$.
+
+The square-zero row at $\omega$ compares
+$d_{\mathrm{dR}}(d_{\mathrm{dR}}(\omega))$ with $z_{\mathrm{dR}}$, and the
+zero endpoint comparison identifies $z_{\mathrm{dR}}$ with $\emp$. Chaining
+these $\hsame$ comparisons yields $d_{\mathrm{dR}}(\eta)\hsame\emp$.
+
+By \autoref{def:cohomology-cocycle-predicate}, this is exactly the
+$\CohomologyUp$ cocycle predicate $C_{d_{\mathrm{dR}}}(\eta)$.
+\end{proof}
+
+\begin{theorem}[De Rham NameCert obligation surface]
+\label{thm:derham-namecert-obligation-surface}
+The de Rham rows in this chapter expose the
+$\NameCert_{\DeRhamUp}$ obligation surface over $\DiffFormUp$ and
+$\CohomologyUp$. The carrier is the differential-form carried row supplied by
+\autoref{def:diffform-bhist-form-carrier}; the classifier is the boundary
+predicate of \autoref{def:derham-chain-complex-boundary-row}; the stability
+field is the endpoint transport of
+\autoref{thm:derham-boundary-zero-endpoint-transport}; the exactness row is
+the square-zero boundary theorem
+\autoref{thm:derham-double-exterior-derivative-boundary}; and the ledger row
+is the cocycle readback of \autoref{thm:derham-cocycle-readback}. Together
+these rows supply the carrier, classifier, stability, exactness, and ledger
+entries required by the named de Rham certificate surface, without asserting a
+de Rham isomorphism or any quotient-level cohomology presentation.
+\end{theorem}
+\begin{proof}
+The carrier component is inherited from the visible $\DiffFormUp$ form
+carrier cited in the statement. The De Rham boundary row then classifies the
+second exterior derivative by a concrete cochain preimage in
+\autoref{def:derham-chain-complex-boundary-row}.
+
+Stability is supplied by
+\autoref{thm:derham-boundary-zero-endpoint-transport}: once a boundary row is
+witnessed by a preimage, endpoint transport along $\hsame$ preserves the same
+predicate using that witness.
+
+Exactness is supplied by
+\autoref{thm:derham-double-exterior-derivative-boundary}. It turns an accepted
+double exterior packet into both the zero endpoint comparison for the second
+row and the boundary predicate for that row.
+
+The ledger is the readback
+\autoref{thm:derham-cocycle-readback}. It records that the intermediate row
+seen by the square-zero packet is a $\CohomologyUp$ cocycle. These named rows
+are precisely the advertised certificate obligations and no additional bridge
+or quotient surface is used.
+\end{proof}
+
 \closureat{DeRhamUp}{seedStr}
 
 \begin{closurestatus}{\DeRhamUp}
