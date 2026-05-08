@@ -105,6 +105,37 @@ theorem ChernWeilSourceEnvelope_carrier_obligation
         (And.intro characteristicReadback
           (And.intro provenanceReadback endpointReadback))))
 
+theorem ChernWeilCarrierEnvelope_derham_class_exactness_obligation
+    {curvature derham polynomial connectionLedger characteristic provenance endpoint representative
+      classRow : BHist} :
+    ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic provenance
+        endpoint ->
+      UnaryHistory representative ->
+        Cont endpoint representative classRow ->
+          UnaryHistory classRow ∧ hsame classRow (append endpoint representative) ∧
+            hsame classRow (append (append provenance connectionLedger) representative) := by
+  intro envelope representativeUnary classRowCont
+  have provenanceUnary : UnaryHistory provenance := by
+    have characteristicUnary : UnaryHistory characteristic :=
+      unary_cont_closed envelope.left envelope.right.right.left
+        envelope.right.right.right.right.left
+    exact
+      unary_cont_closed characteristicUnary envelope.right.left
+        envelope.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary envelope.right.right.right.left
+      envelope.right.right.right.right.right.right
+  have classRowUnary : UnaryHistory classRow :=
+    unary_cont_closed endpointUnary representativeUnary classRowCont
+  have endpointReadback : hsame endpoint (append provenance connectionLedger) :=
+    envelope.right.right.right.right.right.right
+  have classRowProvenanceReadback :
+      hsame classRow (append (append provenance connectionLedger) representative) :=
+    hsame_trans classRowCont
+      (congrArg (fun h : BHist => append h representative) endpointReadback)
+  exact And.intro classRowUnary
+    (And.intro classRowCont classRowProvenanceReadback)
+
 theorem ChernWeilCarrierPacket_curvature_polynomial_stability_obligation
     {curvature curvature' polynomial endpoint endpoint' : BHist} :
     UnaryHistory curvature -> UnaryHistory polynomial -> hsame curvature curvature' ->
