@@ -14,17 +14,6 @@ def NameCertCandidateFlow : Type :=
 def GeneratedNameCertRecognizer : Type :=
   GeneratedRecognizer
 
-def NameCertRecognitionRelation
-    (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
-    (N : NameCandidateFlow) : Prop :=
-  RecognizesNameCert R S /\ FormalCompilerInput (CompilerDatum.eventFlow N)
-
-def NameCertFlow (S : NameCertCandidateFlow) (N : NameCandidateFlow) : Prop :=
-  exists R : GeneratedNameCertRecognizer, NameCertRecognitionRelation R S N
-
-def LicensedName (N : NameCandidateFlow) : Prop :=
-  exists S : NameCertCandidateFlow, NameCertFlow S N
-
 def SourceSubflow (part whole : EventFlow) : Prop :=
   exists before after : EventFlow, whole = List.append before (List.append part after)
 
@@ -55,6 +44,26 @@ def CompleteFiveFieldRecognition
       NameCertFieldSubflow R S NameCertFieldRole.ledger ledger /\
       NameCertSealSubflow R S sealFlow
 
+def NameCertRecognitionRelation
+    (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
+    (N : NameCandidateFlow) : Prop :=
+  RecognizesNameCert R S /\
+    FormalCompilerInput (CompilerDatum.eventFlow N) /\
+    CompleteFiveFieldRecognition R S
+
+def NameCertFlow (S : NameCertCandidateFlow) (N : NameCandidateFlow) : Prop :=
+  exists R : GeneratedNameCertRecognizer, NameCertRecognitionRelation R S N
+
+def LicensedName (N : NameCandidateFlow) : Prop :=
+  exists S : NameCertCandidateFlow, NameCertFlow S N
+
+def LedgerCompleteNameCertFlow
+    (S : NameCertCandidateFlow) (N : NameCandidateFlow) : Prop :=
+  exists R : GeneratedNameCertRecognizer,
+    exists ledger : EventFlow,
+      NameCertRecognitionRelation R S N /\
+        NameCertFieldSubflow R S NameCertFieldRole.ledger ledger
+
 def NameCertCode (S : NameCertCandidateFlow) (_N : NameCandidateFlow) :
     List DisplayAlphabet :=
   FlowEncoding S
@@ -71,6 +80,49 @@ def NameCertRecognitionPreservingCompilation : Prop :=
 theorem no_external_namecert_input :
     Not (FormalCompilerInput CompilerDatum.hostNameCert) :=
   structural_hidden_not_formal StructuralHiddenInput.hostNameCert
+
+theorem no_namecert_without_five_fields
+    {R : GeneratedNameCertRecognizer} {S : NameCertCandidateFlow}
+    {N : NameCandidateFlow} :
+    NameCertRecognitionRelation R S N -> CompleteFiveFieldRecognition R S := by
+  intro h
+  exact h.right.right
+
+theorem incomplete_namecert_does_not_license
+    {S : NameCertCandidateFlow} {N : NameCandidateFlow} :
+    (forall R : GeneratedNameCertRecognizer,
+      NameCertRecognitionRelation R S N ->
+        Not (CompleteFiveFieldRecognition R S)) ->
+      Not (NameCertFlow S N) := by
+  intro hIncomplete hFlow
+  cases hFlow with
+  | intro R hRecognizes =>
+      exact hIncomplete R hRecognizes hRecognizes.right.right
+
+theorem namecert_without_ledger_not_admissible
+    {S : NameCertCandidateFlow} {N : NameCandidateFlow} :
+    (forall R : GeneratedNameCertRecognizer,
+      forall ledger : EventFlow,
+        NameCertRecognitionRelation R S N ->
+          Not (NameCertFieldSubflow R S NameCertFieldRole.ledger ledger)) ->
+      Not (NameCertFlow S N) := by
+  intro hNoLedger hFlow
+  cases hFlow with
+  | intro R hRecognizes =>
+      cases hRecognizes.right.right with
+      | intro source hComplete =>
+          cases hComplete with
+          | intro pattern hComplete =>
+              cases hComplete with
+              | intro classifier hComplete =>
+                  cases hComplete with
+                  | intro stability hComplete =>
+                      cases hComplete with
+                      | intro ledger hComplete =>
+                          cases hComplete with
+                          | intro sealFlow hFields =>
+                              exact hNoLedger R ledger hRecognizes
+                                hFields.right.right.right.right.left
 
 theorem namecert_recognition_preserves_code
     {R : GeneratedNameCertRecognizer} {S : NameCertCandidateFlow}

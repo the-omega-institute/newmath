@@ -215,12 +215,18 @@ The displayed roles are recognized by $R$, not supplied by external field tags.
 
 \begin{principle}[No NameCert without five recognized fields]
 \label{prin:namecert-generated-no-namecert-without-five-fields}
-A recognized $\NameCert$ flow must have complete five-field recognition. In particular, a recognized certificate for a proposed name supplies source, pattern, classifier, stability, ledger, and seal subflows recognized inside the event flow. This is the event-flow form of the paper template of \autoref{def:typed-naming-certificate}: a proposed name is licensed only after all required fields are supplied.
+\leanchecked{BEDC.GroundCompiler.NameCertGenerated.no\_namecert\_without\_five\_fields}
+The name-indexed recognition relation
+$$
+  \mathsf{RecognizesNameCert}(R,S,N)
+$$
+includes complete five-field recognition. In particular, a recognized certificate for a proposed name supplies source, pattern, classifier, stability, ledger, and seal subflows recognized inside the event flow. This is the event-flow form of the paper template of \autoref{def:typed-naming-certificate}: a proposed name is licensed only after all required fields are supplied.
 \end{principle}
 
 \begin{theorem}[Incomplete NameCert flow does not license a name]
 \label{thm:namecert-generated-incomplete-does-not-license}
-If an event flow $S$ lacks any one of the recognized source, pattern, classifier, stability, or ledger field subflows for a candidate name $N$, then $S$ is not an admissible $\NameCert$ flow licensing $N$.
+\leanchecked{BEDC.GroundCompiler.NameCertGenerated.incomplete\_namecert\_does\_not\_license}
+If every generated recognizer relation for $(S,N)$ fails complete five-field recognition, then $S$ is not a $\NameCert$ flow licensing $N$.
 \end{theorem}
 
 \begin{proof}
@@ -281,6 +287,7 @@ A legal channel stream $c \in \mathsf{LegalZStream}$, even though it decodes to 
 
 \begin{definition}[Ledger-complete NameCert flow]
 \label{def:namecert-generated-ledger-complete}
+\leandef{BEDC.GroundCompiler.NameCertGenerated.LedgerCompleteNameCertFlow}
 A recognized $\NameCert$ flow is \emph{ledger-complete} when it has a recognized ledger subflow
 $$
   \mathsf{NameCertLedger}_{R}(S,L)
@@ -295,7 +302,8 @@ Every licensed derived interface is supported by a ledger-complete $\NameCert$ f
 
 \begin{theorem}[NameCert without ledger is not admissible]
 \label{thm:namecert-generated-without-ledger-not-admissible}
-If $\mathsf{RecognizesNameCert}(R,S,N)$ but there is no $L$ such that
+\leanchecked{BEDC.GroundCompiler.NameCertGenerated.namecert\_without\_ledger\_not\_admissible}
+If no generated recognizer relation for $(S,N)$ admits a ledger subflow $L$ such that
 $$
   \mathsf{NameCertLedger}_{R}(S,L),
 $$
