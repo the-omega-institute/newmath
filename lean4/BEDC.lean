@@ -104,6 +104,7 @@ import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.KnotUp
+import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
