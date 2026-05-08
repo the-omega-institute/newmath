@@ -250,3 +250,42 @@ The reflexive row is \autoref{thm:quadrature-degree-bound-comparison-reflexive}.
   \notclaimed{This chapter does not close convergence of numerical schemes, analytic error estimates, host real equality, host function equality, or a standard bridge for quadrature rules.}
   \upgradepath{Public closure requires a single exported QuadratureUp certificate theorem packaging the finite-rule carrier, classifier, stability, ledger, and exactness-degree preorder rows for downstream numerical-analysis chapters.}
 \end{closurestatus}
+
+\begin{lemma}[Quadrature empty position fold]
+\label{lem:quadrature-empty-position-fold-zero}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, and addition $+$ whose finite additive scalar fold is the fold of \autoref{def:finite-additive-scalar-fold}. Let $xs$ be a finite $\FinSetUp$ node spine. If the position carrier $\mathsf{Pos}(xs)$ has no positions, then every scalar summand family $s:\mathsf{Pos}(xs)\to R$ satisfies
+$$
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}(i\mapsto s(i))\sim_R0_R.
+$$
+\end{lemma}
+\begin{proof}
+The finite-position ledger of \autoref{def:finset-namecert-obligation-packet} reads a fold over $\mathsf{Pos}(xs)$ as the finite additive scalar fold over the scalar spine obtained by enumerating those positions. If $\mathsf{Pos}(xs)$ has no positions, that scalar spine is $\mathsf{nil}$; no value of $s$ is read into the ledger.
+
+By the nil clause of \autoref{def:finite-additive-scalar-fold}, equivalently by \autoref{lem:finite-additive-fold-empty-identity}, the fold over this empty scalar spine is classified with $0_R$. This gives the displayed classifier comparison.
+\end{proof}
+
+\begin{theorem}[Quadrature empty-node sum is zero]
+\label{thm:quadrature-empty-node-sum-zero}
+Let $Q=(xs,\alpha,\omega,\mathcal I_Q)$ be a finite weighted $\QuadratureUp$ rule over the scalar carrier $R$ in the sense of \autoref{def:quadrature-finite-weighted-exactness-degree}. Assume the $\FinSetUp$ node spine is empty, equivalently $\mathsf{Pos}(xs)$ has no positions. Then for every finite polynomial-code spine $p:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{QSum}_Q(p)\sim_R0_R.
+$$
+\end{theorem}
+\begin{proof}
+Fix a finite coefficient spine $p:\mathsf{ListCarrier}(R)$. Unfolding \autoref{def:quadrature-finite-weighted-exactness-degree} gives
+$$
+\mathsf{QSum}_Q(p):=
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}
+\bigl(i\mapsto \omega_i\cdot\mathsf{Eval}_{\alpha_i,R}(p)\bigr).
+$$
+The empty-node hypothesis says that the indexing carrier of this fold has no positions. Apply \autoref{lem:quadrature-empty-position-fold-zero} to the summand family
+$$
+s(i):=\omega_i\cdot\mathsf{Eval}_{\alpha_i,R}(p).
+$$
+The result is
+$$
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}
+\bigl(i\mapsto \omega_i\cdot\mathsf{Eval}_{\alpha_i,R}(p)\bigr)\sim_R0_R.
+$$
+Substituting the displayed definition of $\mathsf{QSum}_Q(p)$ gives $\mathsf{QSum}_Q(p)\sim_R0_R$. The endpoint map $\mathcal I_Q$ and the pointwise exactness predicate do not enter this boundary calculation, because the claim concerns only the actual quadrature fold.
+\end{proof}

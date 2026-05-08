@@ -7,18 +7,42 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 open BEDC.Derived.TreeUp
 
-def LambdaCalcBHistTermCarrier
+def LambdaCalcBHistTermCarrier (h : BHist) : Prop :=
+  ∃ tag index connected acyclic root endpoint : BHist,
+    UnaryHistory index ∧ TreeBHistCarrier tag index connected acyclic root endpoint ∧
+      hsame h (append (BHist.e1 BHist.Empty) index)
+
+def LambdaCalcBHistTermPacketCarrier
     (graph edge connected acyclic tag payload endpoint : BHist) : Prop :=
   TreeBHistCarrier graph edge connected acyclic tag endpoint ∧ UnaryHistory payload ∧
     UnaryHistory endpoint ∧ Cont tag payload endpoint
+
+theorem LambdaCalcBHistTermCarrier_variable_constructor_carrier
+    {i h tag endpoint connected acyclic root : BHist} :
+    UnaryHistory i -> TreeBHistCarrier tag i connected acyclic root endpoint ->
+      hsame h (append (BHist.e1 BHist.Empty) i) ->
+        LambdaCalcBHistTermCarrier h ∧ UnaryHistory i := by
+  intro indexUnary treeCarrier visibleEndpoint
+  have rows := TreeBHistCarrier_exactness_rows treeCarrier
+  have transportedVisible : hsame h (append (BHist.e1 BHist.Empty) i) :=
+    hsame_trans visibleEndpoint (hsame_refl (append (BHist.e1 BHist.Empty) i))
+  have termCarrier : LambdaCalcBHistTermCarrier h :=
+    Exists.intro tag
+      (Exists.intro i
+        (Exists.intro connected
+          (Exists.intro acyclic
+            (Exists.intro root
+              (Exists.intro endpoint
+                (And.intro indexUnary (And.intro treeCarrier transportedVisible)))))))
+  exact And.intro termCarrier rows.left.right.left
 
 theorem LambdaCalcBHistTermCarrier_abstraction_application_closure
     {graph edge connected acyclic bodyTag bodyPayload bodyEndpoint binder absPayload absTag
       absEndpoint funTag funPayload funEndpoint argTag argPayload argEndpoint appPayload appTag
       appEndpoint : BHist} :
-    LambdaCalcBHistTermCarrier graph edge connected acyclic bodyTag bodyPayload bodyEndpoint ->
-      LambdaCalcBHistTermCarrier graph edge connected acyclic funTag funPayload funEndpoint ->
-        LambdaCalcBHistTermCarrier graph edge connected acyclic argTag argPayload argEndpoint ->
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic bodyTag bodyPayload bodyEndpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic funTag funPayload funEndpoint ->
+        LambdaCalcBHistTermPacketCarrier graph edge connected acyclic argTag argPayload argEndpoint ->
           UnaryHistory binder ->
             Cont binder bodyEndpoint absPayload ->
               TreeBHistCarrier graph edge connected acyclic absTag absEndpoint ->
@@ -26,10 +50,10 @@ theorem LambdaCalcBHistTermCarrier_abstraction_application_closure
                   Cont funEndpoint argEndpoint appPayload ->
                     TreeBHistCarrier graph edge connected acyclic appTag appEndpoint ->
                       Cont appTag appPayload appEndpoint ->
-                        LambdaCalcBHistTermCarrier graph edge connected acyclic absTag absPayload
-                            absEndpoint ∧
-                          LambdaCalcBHistTermCarrier graph edge connected acyclic appTag appPayload
-                              appEndpoint ∧
+                        LambdaCalcBHistTermPacketCarrier graph edge connected acyclic absTag
+                            absPayload absEndpoint ∧
+                          LambdaCalcBHistTermPacketCarrier graph edge connected acyclic appTag
+                              appPayload appEndpoint ∧
                             UnaryHistory absPayload ∧ UnaryHistory appPayload := by
   intro bodyCarrier funCarrier argCarrier binderUnary absPayloadRow absTree absEndpointRow
     appPayloadRow appTree appEndpointRow
@@ -42,12 +66,12 @@ theorem LambdaCalcBHistTermCarrier_abstraction_application_closure
   have appEndpointUnary : UnaryHistory appEndpoint :=
     appTree.right.right.left.left
   have absCarrier :
-      LambdaCalcBHistTermCarrier graph edge connected acyclic absTag absPayload absEndpoint :=
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic absTag absPayload absEndpoint :=
     And.intro absTree
       (And.intro absPayloadUnary
         (And.intro absEndpointUnary absEndpointRow))
   have appCarrier :
-      LambdaCalcBHistTermCarrier graph edge connected acyclic appTag appPayload appEndpoint :=
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic appTag appPayload appEndpoint :=
     And.intro appTree
       (And.intro appPayloadUnary
         (And.intro appEndpointUnary appEndpointRow))
