@@ -345,6 +345,60 @@ theorem PdeConservativeStandardBridge_rows [AskSetup] [PackageSetup]
         (And.intro publicRows.right.right.left
           (And.intro publicRows.right.right.right.left summarizedReadback))))
 
+theorem PdePublicInterface_export_semantic_name_certificate [AskSetup] [PackageSetup]
+    {manifold derivative relation boundary endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PdeCarriedSourceRow manifold derivative relation boundary endpoint bundle pkg ->
+      PdeRelationClassifier manifold derivative relation boundary endpoint ∧
+        SemanticNameCert
+          (fun h : BHist =>
+            PdeCarriedSourceRow manifold derivative relation boundary h bundle pkg)
+          (fun h : BHist =>
+            PdeCarriedSourceRow manifold derivative relation boundary h bundle pkg)
+          (fun h : BHist =>
+            PdeCarriedSourceRow manifold derivative relation boundary h bundle pkg)
+          (fun left right : BHist =>
+            PdeCarriedSourceRow manifold derivative relation boundary left bundle pkg ∧
+              PdeCarriedSourceRow manifold derivative relation boundary right bundle pkg ∧
+                hsame left right) := by
+  intro row
+  have classifier : PdeRelationClassifier manifold derivative relation boundary endpoint :=
+    And.intro row.left
+      (And.intro row.right.left
+        (And.intro row.right.right.left
+          (And.intro row.right.right.right.left row.right.right.right.right.left)))
+  let SourceSpec : BHist -> Prop := fun h : BHist =>
+    PdeCarriedSourceRow manifold derivative relation boundary h bundle pkg
+  let ClassifierSpec : BHist -> BHist -> Prop := fun left right : BHist =>
+    SourceSpec left ∧ SourceSpec right ∧ hsame left right
+  have core : NameCert SourceSpec ClassifierSpec := {
+    carrier_inhabited := Exists.intro endpoint row
+    equiv_refl := by
+      intro h source
+      exact And.intro source (And.intro source (hsame_refl h))
+    equiv_symm := by
+      intro h k classified
+      exact And.intro classified.right.left
+        (And.intro classified.left (hsame_symm classified.right.right))
+    equiv_trans := by
+      intro h k r classifiedHK classifiedKR
+      exact And.intro classifiedHK.left
+        (And.intro classifiedKR.right.left
+          (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+    carrier_respects_equiv := by
+      intro h k classified _source
+      exact classified.right.left
+  }
+  exact And.intro classifier {
+    core := core
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+
 theorem PdeConservativeStandardBridge_semantic_name_certificate [AskSetup] [PackageSetup]
     {manifold derivative relation boundary endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

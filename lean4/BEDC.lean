@@ -411,6 +411,7 @@ import BEDC.Derived.FieldExtUp.RatReflexiveSourcePattern
 import BEDC.Derived.FieldExtUp.RatReflexiveCertificateObligations
 import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
+import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.NumFieldUp
@@ -532,6 +533,7 @@ import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
 import BEDC.Derived.HilbertUp.ProjectionBridge
+import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.FpsUp.CauchyProductSemigroup
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy
