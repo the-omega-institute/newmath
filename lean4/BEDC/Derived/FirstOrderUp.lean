@@ -68,4 +68,33 @@ theorem FirstOrderBHistSyntaxCarrier_classifier_transport_obligation [AskSetup] 
               (And.intro targetCont
                 (And.intro targetSig targetPkg)))))))
 
+theorem FirstOrderBHistSyntaxCarrier_formula_carrier_obligation [AskSetup] [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol
+      functionSymbol treeEndpoint formulaEndpoint provenance bundle pkg ->
+        UnaryHistory symbolSource ∧
+          UnaryHistory treeSource ∧
+            UnaryHistory relationSymbol ∧
+              UnaryHistory functionSymbol ∧
+                UnaryHistory formulaEndpoint ∧
+                  SigRel bundle formulaEndpoint provenance ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  have endpointUnary :=
+    FirstOrderBHistSyntaxCarrier_endpoint_unary
+      (symbolSource := symbolSource) (treeSource := treeSource)
+      (variableLedger := variableLedger) (relationSymbol := relationSymbol)
+      (functionSymbol := functionSymbol) (treeEndpoint := treeEndpoint)
+      (formulaEndpoint := formulaEndpoint) (provenance := provenance)
+      (bundle := bundle) (pkg := pkg) carrier
+  exact
+    And.intro carrier.left
+      (And.intro carrier.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro carrier.right.right.right.right.left
+             (And.intro endpointUnary.right
+               (And.intro carrier.right.right.right.right.right.right.right.left
+                 carrier.right.right.right.right.right.right.right.right)))))
+
 end BEDC.Derived.FirstOrderUp

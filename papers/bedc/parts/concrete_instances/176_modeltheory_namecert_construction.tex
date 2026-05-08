@@ -31,6 +31,96 @@ source, assignments move through $\mathsf{Val}$, truth records move through
 $\mathsf{Sat}$, and elementary faces move through $\mathsf{Elem}$.
 \end{definition}
 
+\begin{definition}[ModelTheoryUp satisfaction exactness row]\label{def:modeltheory-satisfaction-exactness-row}
+The satisfaction exactness row of a $\ModelTheoryUp$ packet is the finite
+$\mathsf{BHist}$ readback row whose entries are triples consisting of a
+formula endpoint, an assignment endpoint, and a truth ledger face. Such an
+entry is accepted exactly when the formula endpoint is read through the
+$\FirstOrderUp$ row $S$, the assignment endpoint is read through
+$\mathsf{Val}$, and the truth ledger is one of the displayed
+$\mathsf{Sat}$ faces carried by the same packet.
+
+The row is exported only with its packet provenance $\rho$ and its comparison
+ledger $\lambda$. It does not contain a host satisfaction predicate, a
+semantic evaluation function, or an equality of ambient structures.
+\end{definition}
+
+\begin{theorem}[ModelTheoryUp satisfaction exactness scope]\label{thm:modeltheory-satisfaction-exactness-scope}
+Every readback accepted by
+\autoref{def:modeltheory-satisfaction-exactness-row} is scoped by the displayed
+rows $S$, $\mathsf{Val}$, $\mathsf{Sat}$, the packet provenance $\rho$, the
+transport ledger $\lambda$, and the available $\hsame$ comparisons. No
+accepted satisfaction readback requires a host satisfaction relation.
+\end{theorem}
+\begin{proof}
+Project an accepted readback from the exactness row. Its first coordinate is a
+formula endpoint, so the packet carrier and
+\autoref{thm:modeltheory-firstorder-dependency-surface} place it in the
+$\FirstOrderUp$ row $S$ rather than in an independent syntax source.
+
+Project the second coordinate. By the defining acceptance clause it is a
+displayed assignment read from $\mathsf{Val}$, with the same packet provenance
+$\rho$ and the same comparison ledger $\lambda$.
+
+Project the third coordinate. It is one of the displayed $\mathsf{Sat}$ faces,
+and any comparison of that face is supplied by the rowwise $\hsame$ data of
+\autoref{def:modeltheory-satisfaction-ledger-classifier}. Repacking these
+three projections gives the stated scope and leaves no place for a host
+satisfaction relation.
+\end{proof}
+
+\begin{theorem}[ModelTheoryUp elementary ledger coverage]\label{thm:modeltheory-elementary-ledger-coverage}
+The elementary-equivalence and elementary-substructure requests admitted by a
+$\ModelTheoryUp$ packet are covered exactly by the displayed $\mathsf{Elem}$
+faces whose formula endpoints are read through $S$ and whose satisfaction
+references pass through \autoref{def:modeltheory-satisfaction-exactness-row}.
+No elementary request is accepted outside those faces.
+\end{theorem}
+\begin{proof}
+For an admitted elementary request, project the packet carrier of
+\autoref{def:modeltheory-bhist-structure-packet}. The request must be one of
+the finite $\mathsf{Elem}$ faces, because elementary-equivalence and
+elementary-substructure data are exported only by that row.
+
+Inside that face, each formula endpoint is a read through the first-order row
+$S$. Apply \autoref{thm:modeltheory-firstorder-dependency-surface} to identify
+that endpoint with the $\FirstOrderUp$ syntax surface, and apply
+\autoref{def:modeltheory-satisfaction-exactness-row} to the corresponding
+satisfaction record.
+
+Conversely, a displayed $\mathsf{Elem}$ face whose formula endpoints lie in
+$S$ and whose satisfaction references are accepted by the exactness row is
+already one of the exported elementary ledger entries of the carrier packet.
+Repacking the face gives the elementary request, and no further row is
+available from the carrier.
+\end{proof}
+
+\begin{theorem}[ModelTheoryUp carrier classifier stability]\label{thm:modeltheory-carrier-classifier-stability}
+Classifier transport preserves both the satisfaction exactness row and the
+elementary ledger. The preservation is rowwise: formula endpoints, assignment
+endpoints, satisfaction faces, elementary faces, provenance, and comparison
+ledgers are transported by $\hsame$, and entrywise $\Cont$ comparison
+identifies the transported ledger entries with the displayed target entries.
+\end{theorem}
+\begin{proof}
+Start from the classifier relation of
+\autoref{def:modeltheory-satisfaction-ledger-classifier}. It gives rowwise
+$\hsame$ transport for $S$, $A$, $\mathsf{Val}$, $\mathsf{Sat}$,
+$\mathsf{Elem}$, $\rho$, and the $\Cont$ ledger $\lambda$.
+
+For a satisfaction exactness entry, transport its formula endpoint along the
+$S$ comparison, its assignment endpoint along the $\mathsf{Val}$ comparison,
+and its truth face along the $\mathsf{Sat}$ comparison. Entrywise $\Cont$
+comparison identifies the transported provenance with the target packet, so
+the transported triple is accepted by the target exactness row.
+
+For an elementary ledger entry, transport the displayed $\mathsf{Elem}$ face
+and then apply the previous paragraph to every satisfaction reference inside
+that face. The resulting face has the same formula scope and the same
+entrywise ledger comparison in the target packet, so the classifier preserves
+the elementary ledger as well.
+\end{proof}
+
 \section{The certificate}
 \label{sec:modeltheory-certificate}
 
@@ -57,6 +147,7 @@ occurrences are read through the same $S$ row, and their provenance is the
 same $\Pkg$ row $\rho$. Repacking these projections gives the admitted
 $\ModelTheoryUp$ packet with the first-order dependency surface unchanged.
 \end{proof}
+\leanchecked{BEDC.Derived.ModelTheoryUp.ModelTheoryBHistStructurePacket\_firstorder\_dependency\_surface}
 
 \begin{theorem}[ModelTheoryUp elementary transport]\label{thm:modeltheory-elementary-equivalence-transport}
 If two admitted $\ModelTheoryUp$ packets are related by $\hsame$ transport of
@@ -112,4 +203,117 @@ stability under $\hsame$, exact readback of satisfaction records, or the
 elementary ledger. Each request is one of the collected rows, and none exposes
 a host satisfaction predicate, an ambient model equality, or another public
 field outside the displayed packet.
+\end{proof}
+
+\begin{definition}[ModelTheoryUp elementary readback ledger]\label{def:modeltheory-elementary-readback-ledger}
+The elementary readback ledger of an admitted $\ModelTheoryUp$ packet is the
+finite displayed $\mathsf{Elem}$ row of
+\autoref{def:modeltheory-bhist-structure-packet}. Its entries record only
+elementary-equivalence and elementary-substructure observations whose formula
+endpoints are read through the transported $\FirstOrderUp$ source row, whose
+truth witnesses are entries of the displayed $\mathsf{Sat}$ row, and whose
+provenance is the same $\Pkg$ row $\rho$ carried by the packet.
+\end{definition}
+
+\begin{theorem}[ModelTheoryUp satisfaction exactness ledger]\label{thm:modeltheory-satisfaction-exactness-ledger}
+For any admitted $\ModelTheoryUp$ packet, every satisfaction record in
+$\mathsf{Sat}$ reads back exactly through the displayed $\FirstOrderUp$
+formula row and the displayed valuation row $\mathsf{Val}$. The readback
+exports the transported formula endpoint, the transported valuation endpoint,
+the recorded truth entry, and the $\Pkg$ provenance, and it exports no host
+satisfaction predicate.
+\end{theorem}
+\begin{proof}
+Begin with the packet of
+\autoref{def:modeltheory-bhist-structure-packet}. Its displayed rows include
+the first-order source $S$, the valuation ledger $\mathsf{Val}$, the
+satisfaction ledger $\mathsf{Sat}$, and the provenance row $\rho$.
+
+Apply the classifier of
+\autoref{def:modeltheory-satisfaction-ledger-classifier}. A satisfaction
+entry is classified rowwise, so its formula endpoint is transported along
+the $\FirstOrderUp$ row and its assignment endpoint is transported along
+$\mathsf{Val}$.
+
+Use \autoref{thm:modeltheory-firstorder-dependency-surface} to identify the
+formula endpoint as a projection through $\NameCert_{\FirstOrderUp}$. The
+truth entry is then the displayed $\mathsf{Sat}$ record itself, and its source
+provenance is the carried $\Pkg$ row.
+
+Finally apply
+\autoref{thm:modeltheory-elementary-equivalence-transport} and
+\autoref{thm:modeltheory-namecert-obligation-surface} only to check that this
+projection lies on the public obligation surface. Those theorems add no host
+satisfaction predicate, so the readback is exactly the displayed row data.
+\end{proof}
+
+\begin{theorem}[ModelTheoryUp elementary readback boundary]\label{thm:modeltheory-elementary-readback-boundary}
+For any admitted $\ModelTheoryUp$ packet, elementary-equivalence and
+elementary-substructure readback is exhausted by the elementary readback
+ledger of \autoref{def:modeltheory-elementary-readback-ledger}. In
+particular, the boundary of the readback consists of the transported
+$\FirstOrderUp$ formula endpoints, $\mathsf{Val}$ assignment endpoints,
+$\mathsf{Sat}$ truth entries, $\mathsf{Elem}$ elementary faces, and $\Pkg$
+provenance, and it uses no host model equality.
+\end{theorem}
+\begin{proof}
+Project the elementary row from the carrier of
+\autoref{def:modeltheory-bhist-structure-packet}. By definition
+\autoref{def:modeltheory-elementary-readback-ledger}, this row is the finite
+displayed $\mathsf{Elem}$ ledger attached to the packet.
+
+The classifier of
+\autoref{def:modeltheory-satisfaction-ledger-classifier} supplies the only
+allowed transport data: $S$, $A$, $\mathsf{Val}$, $\mathsf{Sat}$,
+$\mathsf{Elem}$, and $\rho$. Hence every formula occurrence is read through
+the $\FirstOrderUp$ source row, every assignment occurrence through
+$\mathsf{Val}$, and every truth occurrence through $\mathsf{Sat}$.
+
+Apply
+\autoref{thm:modeltheory-firstorder-dependency-surface} for the first-order
+projection and
+\autoref{thm:modeltheory-elementary-equivalence-transport} for repacking the
+elementary-equivalence and elementary-substructure faces. The public surface
+theorem \autoref{thm:modeltheory-namecert-obligation-surface} then rules out
+any additional exported comparison field.
+
+Thus the elementary readback boundary is exactly the displayed
+$\mathsf{Elem}$ ledger together with its named source rows, and no step
+requires an equality of ambient host models.
+\end{proof}
+
+\begin{theorem}[ModelTheoryUp downstream consumer interface]\label{thm:modeltheory-downstream-consumer-interface}
+Any downstream consumer of $\NameCert_{\ModelTheoryUp}$ can consume only the
+first-order source row, the displayed structure row, the valuation row, the
+satisfaction exactness row of
+\autoref{thm:modeltheory-satisfaction-exactness-ledger}, the elementary
+readback row of \autoref{def:modeltheory-elementary-readback-ledger}, and the
+$\Pkg$ provenance. No downstream interface can demand a host satisfaction
+predicate, host model equality, or an extra carrier outside those rows.
+\end{theorem}
+\begin{proof}
+Start from the public obligation surface of
+\autoref{thm:modeltheory-namecert-obligation-surface}. It lists the carrier,
+classifier, first-order dependency surface, elementary transport, stability,
+satisfaction exactness, elementary ledger, and no additional exported field.
+
+Unpack the carrier using
+\autoref{def:modeltheory-bhist-structure-packet}. The consumable rows are
+$S$, $A$, $\mathsf{Val}$, $\mathsf{Sat}$, $\mathsf{Elem}$, $\rho$, and the
+transport ledger. The first-order theorem
+\autoref{thm:modeltheory-firstorder-dependency-surface} identifies $S$ as the
+only source of formula and substitution reads.
+
+Use the classifier of
+\autoref{def:modeltheory-satisfaction-ledger-classifier} to restrict
+transport to the displayed rows. The satisfaction exactness theorem gives the
+allowed truth-record readback, while
+\autoref{thm:modeltheory-elementary-equivalence-transport} and
+\autoref{def:modeltheory-elementary-readback-ledger} give the allowed
+elementary readback.
+
+Therefore every downstream request factors through one of the listed rows or
+through $\Pkg$ provenance. Since the obligation surface has no remaining
+field, no consumer can obtain a host satisfaction predicate, host model
+equality, or another carrier from $\NameCert_{\ModelTheoryUp}$.
 \end{proof}
