@@ -73,6 +73,34 @@ object to consume $\mathsf{MulUp}$ as a single semantic package.
   \upgradepath{$\matureClosure$ requires the multiplication package to be connected with $\AddUp$ and $\OrderUp$ through distributivity, cancellation or order-side laws where appropriate, and a standard-model bridge.}
 \end{closurestatus}
 
+\begin{theorem}[Unary multiplication preserves unary-prefix order]
+\label{thm:natmul-unary-prefix-order-monotone}
+Let $d,q,q',n,n':\Hist$ be unary histories. If
+$\mathsf{PreorderPrefixLE}(q,q')$, $\mathsf{NatMul}(d,q,n)$, and
+$\mathsf{NatMul}(d,q',n')$, then $\mathsf{PreorderPrefixLE}(n,n')$. The
+displayed prefix witness from $n$ to $n'$ is built from the $\mathsf{Cont}$
+ledger for the extra unary tail of $q'$ over $q$.
+\end{theorem}
+\begin{proof}
+Invert the $\mathsf{PreorderPrefixLE}(q,q')$ witness through the
+$\OrderUp$ unary-prefix export. It presents a unary tail $t$ and a continuation
+ledger with $q'$ read as the unary append of $q$ and $t$.
+
+Apply \autoref{thm:natmul-append-continuation-closure} to the multiplication
+row $\mathsf{NatMul}(d,q,n)$ and to that extra tail ledger. This constructs a
+product row for $d$ against the displayed append presentation of $q'$.
+
+Use $\mathsf{NatMul}$ functionality to compare the constructed product with
+the given result $n'$. The comparison transports the appended-product endpoint
+through $\hsame$ without changing the consumed unary tail.
+
+Finally apply the unary-prefix append-tail classifier for
+$\mathsf{PreorderPrefixLE}$. The prefix from $n$ to the constructed appended
+product is the continuation ledger supplied by multiplication; transporting it
+through the final $\hsame$ comparison gives the required
+$\mathsf{PreorderPrefixLE}(n,n')$ witness.
+\end{proof}
+
 \begin{lemma}[Unit left multiplication reads back the multiplier]
 \label{lem:nat-mul-unit-left-hsame}
 For every unary history $q$, if $\mathsf{NatMul}(\Eone(\emp), q, n)$, then $\hsame(n,q)$.

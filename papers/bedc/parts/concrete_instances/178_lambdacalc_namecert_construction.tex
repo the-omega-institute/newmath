@@ -137,6 +137,66 @@ capture-avoidance, and continuation entries.
 \section{The certificate}
 \label{sec:lambdacalc-certificate}
 
+\begin{theorem}[LambdaCalc carrier reflexivity]
+\label{thm:lambdacalc-carrier-reflexive}
+Every accepted $\LambdaCalcUp$ term packet over a $\TreeUp$ syntax row and a
+$\NatUp$ binder ledger classifies with itself. The reflexive classifier is the
+componentwise $\hsame$ row on the syntax tree, binder indices, free-variable
+ledger, and package provenance.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+\item Traditional target: reflexivity of the lambda-term equality classifier.
+BEDC source: an accepted $\mathsf{LambdaCalcBHistTermCarrier}$ packet whose
+visible syntax row is supplied by $\TreeUp$ and whose binder indices are
+supplied by $\NatUp$.
+
+\item Carrier: keep the same $\mathsf{BHist}$ term packet and the same
+$\Pkg$ provenance row. Classifier: use reflexive $\hsame$ on the visible
+TreeUp skeleton, each unary binder index, the free-variable ledger, and the
+package provenance.
+
+\item Stability and ledger: the identity $\mathsf{Cont}$ ledger transports no
+constructor payload and no binder row. The carried rows are therefore read back
+through the same visible spine.
+
+\item Core theorem and exactness: the accepted packet classifies with itself,
+and no endpoint outside the displayed syntax, binder, free-variable, and
+provenance rows is read. Standard bridge: absent. Status: paper obligation for
+the future $\BEDC$ namespace $\mathsf{Derived.LambdaCalcUp}$.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[LambdaCalc alpha classifier symmetry]
+\label{thm:lambdacalc-alpha-classifier-symmetric}
+If an accepted alpha-classifier row relates two accepted $\LambdaCalcUp$ term
+packets, then the reverse alpha-classifier row is accepted. The reversed row is
+obtained by reversing the carried $\hsame$ rows on the $\TreeUp$ skeletons and
+the $\NatUp$ binder indices.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+\item Traditional target: symmetry of alpha equivalence. BEDC source: an
+accepted alpha-classifier row between two $\mathsf{BHist}$ lambda-term packets,
+with TreeUp skeleton certificates and NatUp binder-index certificates exposed
+as visible rows.
+
+\item Carrier: both endpoints remain the original accepted LambdaCalc packets.
+Classifier: reverse each carried $\hsame$ comparison on the TreeUp skeleton,
+the unary binder indices, and the provenance rows that identify the two
+packets as LambdaCalc terms.
+
+\item Stability and ledger: the alpha row already carries a constructorwise
+ledger for the binder-renaming route. Reading that ledger in reverse preserves
+the same constructor tags and consumes the same NatUp unary index rows.
+
+\item Core theorem and exactness: the reversed row is an accepted alpha
+classifier and exports no quotient of alpha classes. Standard bridge: absent.
+Status: paper obligation for the future $\BEDC$ namespace
+$\mathsf{Derived.LambdaCalcUp}$.
+\end{enumerate}
+\end{proof}
+
 \begin{theorem}[LambdaCalcUp substitution ledger obligation]
 \label{thm:lambdacalc-substitution-ledger-obligation}
 Substitution in $\LambdaCalcUp$ is admitted only from a carried

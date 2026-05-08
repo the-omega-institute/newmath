@@ -205,4 +205,33 @@ theorem QuantumStateBHistCarrier_projective_phase_classifier [AskSetup] [Package
           (And.intro endpointRow
             carrier.right.right.right.right.right.right.right.right.right.right.right))))
 
+theorem QuantumStateBHistCarrier_observable_expectation_input_exactness [AskSetup] [PackageSetup]
+    {hilbert projective vector norm phase projectiveEndpoint hilbertLedger projectiveLedger
+      provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuantumStateBHistCarrier hilbert projective vector norm phase projectiveEndpoint
+        hilbertLedger projectiveLedger provenance endpoint bundle pkg ->
+      UnaryHistory hilbert ∧ UnaryHistory vector ∧ UnaryHistory norm ∧ UnaryHistory phase ∧
+        UnaryHistory projectiveEndpoint ∧ UnaryHistory hilbertLedger ∧
+          UnaryHistory projectiveLedger ∧ hsame phase (append vector norm) ∧
+            hsame projectiveLedger (append projective projectiveEndpoint) ∧
+              hsame endpoint (append provenance (append hilbertLedger projectiveLedger)) ∧
+                PkgSig bundle endpoint pkg := by
+  intro carrier
+  have hilbertBoundary :=
+    QuantumStateBHistCarrier_hilbert_source_boundary carrier
+  have projectiveClassifier :=
+    QuantumStateBHistCarrier_projective_phase_classifier carrier
+  exact And.intro carrier.left
+    (And.intro hilbertBoundary.left
+      (And.intro hilbertBoundary.right.left
+        (And.intro projectiveClassifier.left
+          (And.intro carrier.right.right.right.right.right.left
+            (And.intro hilbertBoundary.right.right.left
+              (And.intro projectiveClassifier.right.right.left
+                (And.intro projectiveClassifier.right.left
+                  (And.intro projectiveClassifier.right.right.right.left
+                    (And.intro projectiveClassifier.right.right.right.right.left
+                      projectiveClassifier.right.right.right.right.right)))))))))
+
 end BEDC.Derived.QuantumStateUp

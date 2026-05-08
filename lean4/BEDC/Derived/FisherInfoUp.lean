@@ -2,6 +2,7 @@ import BEDC.Derived.DistributionUp
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -12,6 +13,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.DistributionUp
@@ -191,5 +193,71 @@ theorem FisherInfoBHistScoreCarrier_classifier_transport_obligation [AskSetup] [
               (And.intro componentRow'
                 (And.intro carrier.right.right.right.right.right.right.left ledgerRow')))))))
     (And.intro sameExpectation (And.intro sameComponent sameLedger))
+
+theorem FisherInfoBHistScoreCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {distribution metric parameter score expectation component provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FisherInfoBHistScoreCarrier distribution metric parameter score expectation component
+        provenance ledger bundle pkg ->
+      SemanticNameCert
+          (fun endpoint : BHist =>
+            exists score' expectation' component' ledger' : BHist,
+              FisherInfoBHistScoreCarrier distribution metric parameter score' expectation'
+                component' provenance ledger' bundle pkg ∧ hsame endpoint component')
+          (fun endpoint : BHist =>
+            exists score' expectation' component' ledger' : BHist,
+              FisherInfoBHistScoreCarrier distribution metric parameter score' expectation'
+                component' provenance ledger' bundle pkg ∧ hsame endpoint component')
+          (fun endpoint : BHist =>
+            exists score' expectation' component' ledger' : BHist,
+              FisherInfoBHistScoreCarrier distribution metric parameter score' expectation'
+                component' provenance ledger' bundle pkg ∧ hsame endpoint component')
+          (fun left right : BHist =>
+            (exists ls le lc ll : BHist,
+              FisherInfoBHistScoreCarrier distribution metric parameter ls le lc provenance ll
+                bundle pkg ∧ hsame left lc) ∧
+            (exists rs re rc rl : BHist,
+              FisherInfoBHistScoreCarrier distribution metric parameter rs re rc provenance rl
+                bundle pkg ∧ hsame right rc) ∧
+              hsame left right) ∧
+        Cont distribution score expectation ∧ Cont expectation metric component ∧
+          PkgSig bundle provenance pkg := by
+  intro carrier
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := by
+          refine Exists.intro component ?_
+          refine Exists.intro score ?_
+          refine Exists.intro expectation ?_
+          refine Exists.intro component ?_
+          refine Exists.intro ledger ?_
+          exact And.intro carrier (hsame_refl component)
+        equiv_refl := by
+          intro endpoint source
+          exact And.intro source (And.intro source (hsame_refl endpoint))
+        equiv_symm := by
+          intro left right same
+          exact And.intro same.right.left
+            (And.intro same.left (hsame_symm same.right.right))
+        equiv_trans := by
+          intro left middle right sameLeftMiddle sameMiddleRight
+          exact And.intro sameLeftMiddle.left
+            (And.intro sameMiddleRight.right.left
+              (hsame_trans sameLeftMiddle.right.right sameMiddleRight.right.right))
+        carrier_respects_equiv := by
+          intro left right same _source
+          exact same.right.left
+      }
+      pattern_sound := by
+        intro endpoint source
+        exact source
+      ledger_sound := by
+        intro endpoint source
+        exact source
+    }
+  · exact And.intro carrier.right.right.right.right.left
+      (And.intro carrier.right.right.right.right.right.left
+        carrier.right.right.right.right.right.right.left)
 
 end BEDC.Derived.FisherInfoUp
