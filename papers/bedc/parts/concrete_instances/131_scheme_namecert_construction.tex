@@ -9,7 +9,6 @@ The scheme interface $\SchemeUp$ packages a locally ringed space that admits an 
 \begin{theorem}[Scheme carrier obligation]\label{thm:scheme-carrier-obligation}
 Every $\NameCert_{\SchemeUp}$ certificate must supply a carrier $C_{\SchemeUp}:\mathsf{BHist}\to\mathsf{Prop}$ whose witnesses consist only of a $\RingedSpaceUp$ source row, certified $\CommRingUp$ affine-chart rows, and the affine-cover ledger. The carrier has no host-level scheme object, host spectrum object, host topological-space primitive, host open-set equality, or external sheafification row.
 \end{theorem}
-\leanchecked{BEDC.Derived.SchemeUp.SchemeAffineCoverRow\_semantic\_name\_certificate}
 \begin{proof}
 Unpack the ten-field $\NameCert$ template. Its source field supplies the locally ringed-space row already named by \autoref{ch:concrete-instances-ringedspace-namecert}, so the base carrier is read as a BEDC history predicate over $\mathsf{BHist}$.
 
@@ -54,13 +53,18 @@ Gluing is then a ledger exactness statement: compatible local chart rows repack 
 \section{The certificate}
 \label{sec:scheme-certificate}
 
-\closureat{SchemeUp}{scopedStr}[BEDC.Derived.SchemeUp.SchemeAffineCoverLedger\_restriction\_exactness]
+\begin{theorem}[Scheme public NameCert surface]\label{thm:scheme-public-namecert-surface}
+The public $\NameCert_{\SchemeUp}$ export is the SemanticNameCert surface whose source is the $\RingedSpaceUp$ row together with certified $\CommRingUp$ affine-chart rows and the affine-cover ledger. Its classifier is the ringed-space classifier together with chart agreement under restriction and refinement. Its exactness and consumer boundary are exactly the carrier, classifier, and affine-cover obligations proved in \autoref{thm:scheme-carrier-obligation}, \autoref{thm:scheme-classifier-obligation}, and \autoref{thm:scheme-affine-cover-obligation}.
+\end{theorem}
+\leanchecked{BEDC.Derived.SchemeUp.SchemeAffineCoverRow\_semantic\_name\_certificate}
+
+\closureat{SchemeUp}{publicStr}[BEDC.Derived.SchemeUp.SchemeAffineCoverRow\_semantic\_name\_certificate]
 \begin{closurestatus}{\SchemeUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface binds the carrier predicate to $\mathsf{BHist}$, transports it by $\hsame$, records $\mathsf{Cont}$ restriction rows and $\mathsf{Pkg}$ affine-cover ledger rows, and fixes the $\RingedSpaceUp$ source rows, $\CommRingUp$ chart classifier rows, and the $\AffineVarUp$/$\ProjectiveVarUp$ consumer boundary.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public surface binds the carrier predicate to $\mathsf{BHist}$, transports it by $\hsame$, records $\mathsf{Cont}$ restriction rows and $\mathsf{Pkg}$ affine-cover ledger rows, and fixes the $\RingedSpaceUp$ source rows, $\CommRingUp$ chart classifier rows, and the $\AffineVarUp$/$\ProjectiveVarUp$ consumer boundary.}
   \formalstatus{\auditCleanV}
-  \leantarget{BEDC.Derived.SchemeUp.SchemeAffineCoverLedger\_restriction\_exactness}
+  \leantarget{BEDC.Derived.SchemeUp.SchemeAffineCoverRow\_semantic\_name\_certificate}
   \bridgestatus{none}
   \notclaimed{This chapter does not close the standard bridge, full affine or projective variety certificates, or bridgeChecked verification.}
-  \upgradepath{The publicClosure grade requires a single exported $\SchemeUp$ $\NameCert$ surface consumed by $\AffineVarUp$ and $\ProjectiveVarUp$.}
+  \upgradepath{The bridgedClosure grade requires an explicit standard bridge for the public $\SchemeUp$ surface.}
 \end{closurestatus}
