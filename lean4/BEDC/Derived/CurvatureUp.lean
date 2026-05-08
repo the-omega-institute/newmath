@@ -392,4 +392,30 @@ theorem CurvatureBracketCarrier_tensorial_endpoint_transport
     And.intro packetA' (And.intro packetB' (And.intro boundaryCont' curvatureCont'))
   exact And.intro transported (And.intro sameBoundary sameCurvatureLedger)
 
+theorem CurvatureBracketCarrier_bianchi_ledger_row
+    {base fibre sec tangentA tangentB tangentC derivativeAB derivativeBC derivativeCA provenance
+      ledgerAB ledgerBC ledgerCA boundaryAB boundaryBC boundaryCA curvatureAB curvatureBC
+      curvatureCA pair cyclic : BHist} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeAB derivativeBC provenance
+        ledgerAB ledgerBC boundaryAB curvatureAB ->
+      CurvatureBracketCarrier base fibre sec tangentB tangentC derivativeBC derivativeCA provenance
+          ledgerBC ledgerCA boundaryBC curvatureBC ->
+        CurvatureBracketCarrier base fibre sec tangentC tangentA derivativeCA derivativeAB provenance
+            ledgerCA ledgerAB boundaryCA curvatureCA ->
+          Cont boundaryAB boundaryBC pair ->
+            Cont pair boundaryCA cyclic ->
+              UnaryHistory boundaryAB ∧ UnaryHistory boundaryBC ∧ UnaryHistory boundaryCA ∧
+                hsame pair (append boundaryAB boundaryBC) ∧
+                  hsame cyclic (append (append boundaryAB boundaryBC) boundaryCA) := by
+  intro carrierAB carrierBC carrierCA pairCont cyclicCont
+  have rowsAB := CurvatureBracketCarrier_boundary_source_obligation carrierAB
+  have rowsBC := CurvatureBracketCarrier_boundary_source_obligation carrierBC
+  have rowsCA := CurvatureBracketCarrier_boundary_source_obligation carrierCA
+  have cyclicReadback : hsame cyclic (append (append boundaryAB boundaryBC) boundaryCA) :=
+    cyclicCont.trans (congrArg (fun row : BHist => append row boundaryCA) pairCont)
+  exact And.intro rowsAB.left
+    (And.intro rowsBC.left
+      (And.intro rowsCA.left
+        (And.intro pairCont cyclicReadback)))
+
 end BEDC.Derived.CurvatureUp
