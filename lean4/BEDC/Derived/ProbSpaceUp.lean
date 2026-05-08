@@ -24,6 +24,22 @@ theorem ProbSpaceComplementMass_additive_readback {omega one event complement su
   exact And.intro (hsame_trans (hsame_symm sameOmegaSum) sameOmegaOne)
     (unary_cont_closed eventCarrier complementCarrier sumRel)
 
+theorem ProbSpacePublicEventPacket_normalization_bounds {omega one event complement sum : BHist} :
+    ProbSpacePublicEventPacket omega one event complement sum ->
+      hsame sum one ∧ UnaryHistory sum ∧ Cont event complement sum ∧
+        PreorderPrefixLE event one := by
+  intro packet
+  have readback : hsame sum one ∧ UnaryHistory sum :=
+    ProbSpaceComplementMass_additive_readback packet.left packet.right.left
+      packet.right.right.left packet.right.right.right.right packet.right.right.right.left
+  have eventSum : PreorderPrefixLE event sum :=
+    Exists.intro complement (And.intro packet.right.left packet.right.right.left)
+  have sumOne : PreorderPrefixLE sum one :=
+    PreorderPrefixLE_of_hsame readback.left
+  exact And.intro readback.left
+    (And.intro readback.right
+      (And.intro packet.right.right.left (PreorderPrefixLE_trans eventSum sumOne)))
+
 theorem ProbSpaceComplementMass_right_solution
     {omega one event complement sum inverseEvent target : BHist} :
     UnaryHistory event -> UnaryHistory complement -> Cont event complement sum ->
