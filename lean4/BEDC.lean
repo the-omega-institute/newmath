@@ -86,10 +86,15 @@ import BEDC.Derived.BilinFormUp.SemanticNameCertificate
 import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.CurvatureUp
+import BEDC.Derived.CurvatureUp.Handoff
+import BEDC.Derived.CurvatureUp.ConnectionCarrierScope
+import BEDC.Derived.CurvatureUp.ChernWeilSourceEnvelope
 import BEDC.Derived.CurvatureUp.PublicObligation
+import BEDC.Derived.CurvatureUp.SemanticNameCertificate
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DynSystemUp
+import BEDC.Derived.KnotUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
