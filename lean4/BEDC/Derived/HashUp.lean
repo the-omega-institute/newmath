@@ -93,6 +93,19 @@ theorem HashCollisionSuccess_symmetric
               (And.intro transcript.left
                 (And.intro msgDistinct digestSymm))))
 
+theorem HashCollisionFree_symmetric
+    {HashEval : BHist -> BHist -> Prop}
+    {MsgCarrier DigCarrier : BHist -> Prop}
+    {MsgClassifier DigClassifier : BHist -> BHist -> Prop}
+    (msgCert : SemanticNameCert MsgCarrier MsgCarrier MsgCarrier MsgClassifier)
+    (digestCert : SemanticNameCert DigCarrier DigCarrier DigCarrier DigClassifier)
+    {x x' : BHist} :
+    HashCollisionFree HashEval MsgClassifier DigClassifier x x' ->
+      HashCollisionFree HashEval MsgClassifier DigClassifier x' x := by
+  intro collisionFree reversedSuccess
+  exact collisionFree
+    (HashCollisionSuccess_symmetric msgCert digestCert reversedSuccess)
+
 theorem HashCollisionSuccess_induces_reversed_second_preimage
     {HashEval : BHist -> BHist -> Prop}
     {MsgCarrier : BHist -> Prop}
