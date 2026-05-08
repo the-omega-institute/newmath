@@ -497,3 +497,98 @@ $\hsame$, $\Cont$, or $\Pkg$ row inherited from the Clifford and group
 boundaries, the resulting $\SpinGroupUp$ surface is a BEDC certificate surface
 only and carries no Lie-topological or analytic covering assertion.
 \end{proof}
+
+\begin{theorem}[SpinGroup root threshold obligation triple]
+\label{thm:spingroup-root-threshold-obligation-triple}
+An accepted $\SpinGroupUp$ root packet exposes exactly three threshold rows:
+the $\mathsf{BHist}$ Clifford unit carrier row, the even-word parity row, and
+the group-law transport row. These rows are visible only through $\Cont$,
+$\hsame$, and $\NameCert$ provenance from
+\autoref{def:spingroup-bhist-carrier-packet} and
+\autoref{def:spingroup-root-bhist-carrier}. No additional root row is available
+outside the threshold package of
+\autoref{thm:spingroup-root-namecert-threshold-package} and the obligation
+surface of \autoref{thm:spingroup-namecert-obligation-surface}.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:spingroup-root-bhist-carrier}. Its constructors expose only the
+Clifford endpoint row, the singleton group-law row, the unit-like Clifford row,
+and the displayed $\Cont/\hsame$ transport witnesses.
+
+Next compare this projection with the wider packet of
+\autoref{def:spingroup-bhist-carrier-packet}. The wider packet contributes the
+finite Clifford product rows and the parity ledger, while
+\autoref{thm:spingroup-root-namecert-threshold-package} confines them to the
+same $\NameCert_{\CliffordUp}$ and $\NameCert_{\GroupUp}$ provenance.
+
+Finally use \autoref{thm:spingroup-namecert-obligation-surface}. It repacks
+the carrier, classifier, stability, exactness, and ledger faces and leaves only
+the Clifford unit carrier, even-word parity, and group-law transport as the
+root threshold rows. Thus the packet has no host quotient, ambient orthogonal
+group equality, or matrix-model row.
+\end{proof}
+
+\begin{theorem}[SpinGroup root even-word classifier inversion]
+\label{thm:spingroup-root-even-word-classifier-inversion}
+Any accepted classifier comparison between $\SpinGroupUp$ root packets projects
+to the even Clifford word row, the inherited group carrier row, and the
+double-cover fiber row. The inversion is internal to the displayed
+$\mathsf{BHist}$ packet: it reads the even-word component from
+\autoref{def:spingroup-bhist-carrier-packet}, the group carrier component from
+\autoref{def:spingroup-root-bhist-carrier}, and the fiber component from
+\autoref{thm:spingroup-double-cover-fiber-classifier}. It does not use a host
+quotient or an ambient orthogonal group equality.
+\end{theorem}
+\begin{proof}
+Start with the accepted classifier comparison and project it through
+\autoref{thm:spingroup-namecert-obligation-surface}. The classifier face is a
+BEDC row assembled from $\hsame$, $\Cont$, $\Pkg$, and the displayed Clifford
+and group certificate rows.
+
+The even component is obtained by projecting the Clifford product part of
+\autoref{def:spingroup-bhist-carrier-packet}. Because
+\autoref{thm:spingroup-root-namecert-threshold-package} fixes the root source
+surface, this projection is the even Clifford word row rather than an ambient
+parity predicate.
+
+The inherited group carrier row is the singleton-history group-law component
+of \autoref{def:spingroup-root-bhist-carrier}. The remaining projection is the
+double-cover fiber classifier supplied by
+\autoref{thm:spingroup-double-cover-fiber-classifier}. These three projected
+rows exhaust the accepted comparison, so no host quotient or external
+orthogonal equality is read.
+\end{proof}
+
+\begin{theorem}[SpinGroup root double-cover consumer exhaustion]
+\label{thm:spingroup-root-double-cover-consumer-exhaustion}
+A downstream $\PinGroupUp$ or $\CliffordUp$ consumer of the $\SpinGroupUp$ root
+double-cover boundary can read only the visible Clifford unit source, the
+parity classifier, inverse and product witnesses, the double-cover fiber
+classifier, finite $\Cont$ readbacks, and $\mathsf{Pkg}$ provenance. These are
+exactly the rows exposed by
+\autoref{def:spingroup-bhist-carrier-packet},
+\autoref{def:spingroup-root-bhist-carrier},
+\autoref{thm:spingroup-root-namecert-threshold-package},
+\autoref{thm:spingroup-double-cover-fiber-classifier}, and
+\autoref{thm:spingroup-namecert-obligation-surface}.
+\end{theorem}
+\begin{proof}
+Project a consumer read through
+\autoref{thm:spingroup-namecert-obligation-surface}. The obligation surface
+lists the carrier, classifier, stability, exactness, and ledger rows available
+to any downstream consumer.
+
+Apply \autoref{thm:spingroup-root-namecert-threshold-package} to the root part.
+It confines carrier reads to the visible Clifford unit source, parity ledger,
+inverse and product witnesses, finite $\Cont$ transport, $\hsame$ comparison,
+and $\mathsf{Pkg}$ provenance. The concrete packet definitions provide no
+other constructor to inspect.
+
+Finally apply \autoref{thm:spingroup-double-cover-fiber-classifier} to the
+projection boundary. The only extra classifier available there is the
+double-cover fiber classifier, and it is again a displayed finite
+$\mathsf{BHist}$ row. Repacking the projected rows gives exactly the consumer
+surface named in the statement, with no host quotient, ambient orthogonal group
+equality, analytic covering datum, or standard-bridge datum.
+\end{proof}

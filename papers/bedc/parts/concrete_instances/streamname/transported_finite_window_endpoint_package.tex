@@ -218,6 +218,61 @@ gives the public composite $\StreamNameUp$ readback interface, while the middle
 map and transport chain stay in the certificate ledger.
 \end{proof}
 
+\begin{theorem}[StreamName two-route selected endpoint agreement]
+\label{thm:streamname-two-route-selected-endpoint-agreement}
+For certified observation maps $s,t,u,s',t',u':\Hist\to\Hist$, a common probe
+bundle $\mathcal{P}:\mathsf{ProbeBundle}$, a selected bundled unary
+observation $n$, and displayed one-extension endpoint tails
+$a,b,c,z_s,z_t,z_u:\Hist$, suppose the hypotheses of
+\autoref{thm:rat-stream-name-finite-window-transported-selected-full-endpoint-package}
+hold for the route from $s$ to $t$ with transported endpoints $s'$ and $t'$:
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P}),
+\quad
+\mathsf{InBundle}(n,\mathcal{P}),
+\quad
+\mathsf{UnaryHistory}(n),
+$$
+the bundled pointwise transport rows for $s$ to $s'$ and $t$ to $t'$, and the
+displayed endpoint rows
+$$
+\hsame(s'(n),\Eone(a))\quad\text{and}\quad
+\hsame(t'(n),\Eone(b)).
+$$
+Suppose also that the same selected unary observation and common bundle satisfy
+the hypotheses of
+\autoref{thm:rat-stream-name-finite-window-transported-selected-full-endpoint-package}
+for the route from $s$ to $u$ with transported endpoints $s'$ and $u'$:
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,u,\mathcal{P}),
+$$
+the bundled pointwise transport rows for $s$ to $s'$ and $u$ to $u'$, and the
+displayed endpoint rows
+$$
+\hsame(s'(n),\Eone(a))\quad\text{and}\quad
+\hsame(u'(n),\Eone(c)).
+$$
+Then the two exported right tails of the selected transported readbacks agree:
+$$
+\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-stream-name-finite-window-transported-selected-full-endpoint-package}
+to the $s$ to $t$ route. Its selected endpoint package includes the
+one-tail agreement row $\hsame(a,b)$ for the displayed endpoints of $s'(n)$
+and $t'(n)$.
+
+Apply the same theorem to the $s$ to $u$ route over the same bundle and
+selected unary observation. The selected endpoint package for this route
+includes the one-tail agreement row $\hsame(a,c)$ for $s'(n)$ and $u'(n)$.
+
+Use symmetry of $\hsame$ on $\hsame(a,b)$ to obtain $\hsame(b,a)$, and then
+compose it by transitivity with $\hsame(a,c)$. The resulting relation is
+$\hsame(b,c)$, which is exactly the agreement of the two exported right tails.
+\end{proof}
+
 \begin{theorem}[StreamNameUp transported window common-refinement public readback]
 \label{thm:streamname-transported-window-common-refinement-public-readback}
 For certified rational stream observations $s_1,t_1,s_1',t_1',
