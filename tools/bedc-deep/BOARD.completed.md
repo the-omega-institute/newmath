@@ -14027,3 +14027,27 @@ Rationale:
 File 213_lpduality_namecert_construction.tex (656 lines) carries DuFeas (line 59) and DuObj (line 68), thm:lpduality-dual-feasibility-binary-convex-closure (line 279), and the symmetric thm:lpduality-primal-feasibility-binary-convex-closure (line 400). At line 552 it proves thm:lpduality-optimal-primal-face-binary-convex-closure: a binary mixture of two primal-feasible vectors with the same primal objective tau stays primal-feasible AND keeps the same primal objective tau. The dual-side analog (B-540 'LPDuality optimal face convex closure' was a closely-related but DIFFERENT claim about optimal-face primal closure under fixed coefficient sums; the optimal DUAL face closure is not in the BOARD title index). Required ingredients all already present: lem:lpduality-primal-objective-binary-affine-readback (line 517) is the primal-side affine readback used in the primal-face proof; the dual proof needs an analogous DuObj binary-affine readback, which the chapter sketches but does not state. Concrete clean implication; proof mirrors lines 552-655 with primal-dual swap. File at 656 lines — adding ~80 lines of theorem+proof keeps it under 800.
 
 ---
+
+### B-550 - Identity pullback gap policy unit law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Identity pullback gap policy unit law |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+If GapPol(Pi, D), then id_D: D -> D carries a classifier-preserving pullback ledger over Pi and {InGapSig}^{id_D}(Pi, D, D, p, h) <=> InGapSig(Pi, D, p, h) on every admitted history.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/gap_policy.tex`
+
+Rationale:
+Pairs naturally with B-504 (n-fold composite pullback) by supplying the unit element of the same composition operation, completing the monoid structure of classifier-preserving pullback ledgers in proof_obligations/gap_policy.tex. The file already states the binary composite (thm:composite-pullback-gap-policy at lines 197-267) but no identity/unit theorem exists in the file (grep found no 'id_D' / 'unit' / 'identity' occurrences). BOARD precedent supports identity-unit companion theorems in the same lane (B-481 Banach identity units, B-484 QuantumChannel identity composition units, B-520 Sheaf identity refinement, B-391 Quantum channel identity closure), so this is consistent with existing granularity. Proof is largely definitional (source preservation by reflexivity; classifier-preservation iff collapses), which is why fit/novelty are at threshold rather than higher. File is 267 lines, well under the 800-line cap, safe to land.
+
+---
