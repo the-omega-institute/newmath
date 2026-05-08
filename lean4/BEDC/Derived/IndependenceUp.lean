@@ -152,4 +152,18 @@ theorem IndependenceFiniteFactorizationRow_reindexing_closure
     (And.intro reindexedProduct
       (hsame_trans reindexedJointEmpty (hsame_symm reindexedProductEmpty)))
 
+theorem IndependenceFiniteFactorizationRow_ledger_exactness
+    {joint product : BHist} {marginals : ProbeBundle BHist} :
+    IndependenceFiniteFactorizationRow joint product marginals ->
+      hsame (IndependenceProductFold marginals) BHist.Empty ∧
+        Cont (IndependenceProductFold marginals) BHist.Empty product ∧ hsame joint product ∧
+          IndependenceBinaryFactorization joint
+            (IndependenceProductFold marginals) BHist.Empty product := by
+  intro row
+  have binary :
+      IndependenceBinaryFactorization joint
+        (IndependenceProductFold marginals) BHist.Empty product :=
+    And.intro row.right.left row.right.right
+  exact And.intro row.left (And.intro row.right.left (And.intro row.right.right binary))
+
 end BEDC.Derived.IndependenceUp
