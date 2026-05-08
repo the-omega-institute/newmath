@@ -108,6 +108,58 @@ The interface \(\FullAxisUp\) is licensed by \(\mathsf{NameCert}_{\FullAxisUp}\)
 \end{corollary}
 \leanchecked{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxis\_semantic\_name\_certificate}
 
+\begin{theorem}[FullAxis prefix-thread boundary disjointness]
+\label{thm:fullaxis-prefix-thread-boundary-disjointness}
+For the zero-spine prefix thread of \autoref{def:zero-spine-prefix-thread}, the
+finite boundary marker $\mathtt{boundary\_01}$ is outside the thread carrier.
+Consequently it cannot serve as a thread-member witness, a prefix-thread
+membership row, or a limit witness for the structural seal.
+\end{theorem}
+\begin{proof}
+Unfold the zero-spine prefix thread of \autoref{def:zero-spine-prefix-thread}.
+Its membership predicate is exactly $\mathsf{ZeroSpine}$, closed from $\emp$ by
+repeated $\Ezero$-extension.
+
+Apply \autoref{thm:boundary-01-not-zero-spine}. The finite marker
+$\mathtt{boundary\_01}$ has an $\Eone$ head and therefore is not a member of the
+zero-spine carrier.
+
+Since \autoref{def:fullaxis-source-specification} reads source rows only from
+thread membership, the boundary marker cannot be repacked as a source member.
+The seal certificate therefore treats it only as a finite excluded boundary
+token, not as a completion point or infinity.
+\end{proof}
+
+\begin{theorem}[FullAxis seal source exhaustion]
+\label{thm:fullaxis-seal-source-exhaustion}
+The $\FullAxisUp$ source, pattern, classifier, stability, and ledger rows are
+exhausted by zero-spine prefix-thread membership together with the finite
+boundary exclusion of
+\autoref{thm:fullaxis-prefix-thread-boundary-disjointness}. They contain no
+completion witness, no metric limit, and no thread-member row for
+$\mathtt{boundary\_01}$.
+\end{theorem}
+\begin{proof}
+Start with the zero-spine source. By
+\autoref{def:fullaxis-source-specification}, the source rows are exactly the
+members of the chosen prefix thread, and by
+\autoref{def:zero-spine-prefix-thread} those members are precisely the
+$\mathsf{ZeroSpine}$ histories.
+
+The pattern and classifier rows add no outside carrier. The pattern row of
+\autoref{def:fullaxis-pattern-specification} is repeated $\Ezero$-extension
+inside the same thread, and the classifier row of
+\autoref{def:fullaxis-classifier-specification} classifies only pairs already
+present by joint thread membership.
+
+Apply \autoref{thm:fullaxis-prefix-thread-boundary-disjointness}. The finite
+marker $\mathtt{boundary\_01}$ is outside that carrier, so it cannot be read as a
+thread member or as a limit witness. The licensing corollary
+\autoref{cor:fullaxis-licensed-not-primitive} then repacks the displayed source,
+pattern, classifier, stability, and ledger rows as the whole structural seal
+surface.
+\end{proof}
+
 \section{Horizon obligations}
 
 \begin{theorem}[Boundary-finite witness, horizon]
