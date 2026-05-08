@@ -101,12 +101,12 @@ import BEDC.Derived.CurvatureUp.SemanticNameCertificate
 import BEDC.Derived.CurvatureUp.SourceEnvelopeProjection
 import BEDC.Derived.CurvatureUp.CarrierBoundaryRow
 import BEDC.Derived.CurvatureUp.ManifoldBaseDependencyRow
+import BEDC.Derived.CurvatureUp.ExportDeterminacy
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.KnotUp
-import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
@@ -459,6 +459,7 @@ import BEDC.Derived.GaloisGroupUp.AssociativeActionRow
 import BEDC.Derived.GaloisGroupUp.FixedBasePublicSurface
 import BEDC.Derived.GaloisGroupUp.ActionRows
 import BEDC.Derived.GaloisGroupUp.IdentityRowClosure
+import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.NumFieldUp
 import BEDC.Derived.NumFieldUp.DegreeOneBasisEndpoint
 import BEDC.Derived.NumFieldUp.DegreeOneBasis
@@ -481,6 +482,7 @@ import BEDC.Derived.IdealUp.QuotientKernelScope
 import BEDC.Derived.IdealUp.PrincipalGenerated
 import BEDC.Derived.IdealUp.PredicateRows
 import BEDC.Derived.IdealUp.RingMapZeroFiber
+import BEDC.Derived.IdealUp.StdBridge
 import BEDC.Derived.DedekindUp
 import BEDC.Derived.FourierUp
 import BEDC.Derived.ModNUp
