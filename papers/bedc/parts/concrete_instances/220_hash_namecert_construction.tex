@@ -302,3 +302,27 @@ $$
 \mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x').
 $$
 \end{proof}
+
+\begin{theorem}[Hash resistance success boundary]
+\label{thm:hash-resistance-success-boundary}
+Let $\mathcal H$ be a $\HashUp$ certificate whose finite-output digest classifier $\rho_{\mathcal H}$ and message classifier $\sigma_{\mathcal H}$ are symmetric classifier fields supplied by the naming-certificate components of the certificate. Assume the digest classifier has the symmetry field used by \autoref{thm:hash-collision-success-induces-same-direction-second-preimage}. For message histories $x$ and $x'$, the two transcript predicates over the same two evaluation rows are equivalent:
+$$
+\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x')
+\Longrightarrow
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')
+$$
+and
+$$
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')
+\Longrightarrow
+\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x').
+$$
+Thus collision-freeness and second-preimage resistance share the same transcript boundary under the BEDC classifiers.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume $\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x')$. Apply \autoref{thm:hash-second-preimage-success-induces-collision}. It uses the same two $\mathsf{HashEval}_{\mathcal H}$ rows, the same message-classifier distinction, and the digest comparison already carried by the second-preimage transcript, so it returns $\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')$ without changing the transcript boundary.
+
+For the reverse direction, assume $\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')$. Apply \autoref{thm:hash-collision-success-induces-same-direction-second-preimage}. The only transport it needs is the finite-output digest-classifier symmetry field from the $\NameCert_{\FinSetUp}$ component, while the message classifier and the two evaluation rows remain the same ordered pair. This returns $\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x')$.
+
+The two implications identify the successful transcript boundary. Negating the collision side or the second-preimage side therefore excludes the same successful pair of BEDC evaluation rows under the certificate classifiers.
+\end{proof}

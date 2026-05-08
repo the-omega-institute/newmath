@@ -288,6 +288,41 @@ $\rho_{\emp}(h,r)$, then read off $r\le_{\emp}h$ from the opposing comparison.
 The five displayed conjuncts therefore repack the terminal interval collapse.
 \end{proof}
 
+\begin{theorem}[POSet singleton prefix-chain collapse]
+\label{thm:poset-prefix-chain-collapse}
+For the concrete package of
+\autoref{def:concrete-singleton-empty-poset-instance}, let
+$h_0,\ldots,h_n:\mathsf{BHist}$ be carried by $A_{\emp}$ and suppose the
+finite guarded chain supplies $h_j\le_{\emp}h_{j+1}$ for each adjacent pair.
+Then every adjacent comparison, every endpoint comparison obtained by
+transitivity, and every reverse endpoint comparison needed by the singleton
+interval collapses to the restricted classifier $\rho_{\emp}$. Equivalently,
+the finite chain is recorded entirely by $\mathsf{BHist}$ endpoints, $\hsame$
+transport, and guarded prefix witnesses, with no host order or quotient row.
+\end{theorem}
+\begin{proof}
+Induct over the displayed finite guarded chain. The base case is the
+one-point chain: the carried endpoint lies in $A_{\emp}$, so
+\autoref{thm:singleton-empty-poset-laws} supplies reflexivity and the
+classifier exactness row for the endpoint against itself.
+
+For the step, assume the prefix chain has already collapsed through the
+current endpoint and append one guarded comparison. Transitivity from
+\autoref{thm:singleton-empty-poset-laws} gives the forward endpoint
+comparison across the longer chain, while its antisymmetry and exactness rows
+collapse the adjacent comparison to $\rho_{\emp}$.
+
+For any three consecutive endpoints, apply
+\autoref{thm:poset-singleton-empty-terminal-interval-collapse}. This supplies
+the reverse endpoint comparison required by the singleton interval and
+identifies each endpoint pair by the same restricted classifier.
+
+Repack the induction data as a finite ledger of carried $\mathsf{BHist}$
+endpoints, $\hsame$ transports, and guarded prefix witnesses. Since each
+collapse row comes from $\rho_{\emp}$ and the singleton laws, no additional
+order structure is used.
+\end{proof}
+
 This concrete $\mathsf{BHist}$ tuple is the $\POSetUp$ schema instance used by
 machine checking.
 

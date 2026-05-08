@@ -70,6 +70,59 @@ visible histories, but only within $\rho_{\mathsf{u}}$ at the lower endpoint
 and within $\rho_{\mathsf{u}}$ at the upper endpoint.
 \end{proof}
 
+\begin{theorem}[Concrete unary prefix finite extrema interval endpoint exactness]
+\label{thm:totalorder-finite-extrema-interval-endpoint-exactness}
+Let $L:\mathsf{ListCarrier}(\mathsf{BHist})$ be a nonempty finite BEDC-history
+spine in the helper of \autoref{def:list-carrier}, and assume every entry of
+$L$ is carried by $\mathsf{Carrier}_{\mathsf{u}}$ for the concrete
+$\TotalOrderUp$ certificate. If $(m,M)$ and $(m',M')$ are interval witnesses
+over the same spine,
+$$
+\mathsf{FiniteExtremaIntervalWitness}_{\mathsf{u}}(L,m,M)
+\quad\text{and}\quad
+\mathsf{FiniteExtremaIntervalWitness}_{\mathsf{u}}(L,m',M'),
+$$
+then their lower and upper endpoints agree exactly at the classifier boundary:
+$$
+\rho_{\mathsf{u}}(m,m')
+\land
+\rho_{\mathsf{u}}(M,M').
+$$
+Conversely, if $\mathsf{FiniteExtremaIntervalWitness}_{\mathsf{u}}(L,m,M)$ and
+the endpoint classifiers satisfy
+$$
+\rho_{\mathsf{u}}(m,m')
+\land
+\rho_{\mathsf{u}}(M,M'),
+$$
+then TotalOrder classifier transport carries the selected interval witness to
+an equivalent interval witness over the same finite spine with endpoints
+$(m',M')$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique} to the two
+interval witnesses over the same nonempty carried spine. The theorem already
+splits the interval witness definition into finite minimum and maximum rows and
+uses their uniqueness, so it returns exactly the paired classifier conclusions
+for the lower and upper endpoints.
+
+For the converse direction, unpack
+\autoref{def:totalorder-prefix-finite-extrema-interval-witness} for the selected
+pair $(m,M)$. The lower row is a finite minimum witness for $m$, and the upper
+row is a finite maximum witness for $M$.
+
+Transport the lower witness along $\rho_{\mathsf{u}}(m,m')$ by the
+TotalOrder classifier-transport clause for finite minima. Transport the upper
+witness along $\rho_{\mathsf{u}}(M,M')$ by the corresponding finite maximum
+transport clause.
+
+Repack the transported minimum and maximum rows through the interval witness
+definition. The finite spine $L$ and its carrier hypotheses have not changed,
+so the transported endpoints form an equivalent interval witness over the same
+spine.
+\end{proof}
+
 \begin{theorem}[Concrete unary prefix finite extrema interval certificate]
 \label{thm:totalorder-prefix-finite-extrema-interval-certificate}
 Let $L:\mathsf{ListCarrier}(\mathsf{BHist})$ be a nonempty finite BEDC-history
