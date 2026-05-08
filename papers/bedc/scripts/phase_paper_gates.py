@@ -50,12 +50,10 @@ _DEFAULT_FORBIDDEN_VOCAB = [
 _DEFAULT_FORBIDDEN_VERSION_PATTERN = (
     r"\bv\d+\.\d+\.[Xx0-9]+\b|\bv\d+-[A-Za-z0-9_-]+"
 )
-_DEFAULT_FORBIDDEN_MATH_PATTERNS: list[str] = [
-    # Forbidden math env list intentionally empty: align*/equation*/eqnarray*
-    # are valid LaTeX, only style preference. Style guidance lives in
-    # phase_review/revise prompts; the gate is advisory only (codex_revise
-    # logs warnings but does not fail the round). Keep the list as a
-    # placeholder so config-overridden test fixtures still see the field.
+_DEFAULT_FORBIDDEN_MATH_PATTERNS = [
+    r"\\begin\{equation\*?\}",
+    r"\\begin\{align\*?\}",
+    r"\\begin\{eqnarray\*?\}",
 ]
 
 LEAN_MARKER_RE = re.compile(
@@ -155,29 +153,51 @@ def _changed_tex_files(*, worktree: Path, base_sha: str) -> list[str]:
 
 def _added_lines_per_file(*, worktree: Path, base_sha: str,
                           rel_path: str) -> list[tuple[int, str]]:
+    """Return (line_no, content) tuples for lines this round added.
+
+    A round's own additions are the union of added lines across the
+    round's NON-MERGE commits between `base_sha` and `HEAD`. Merge
+    commits (which import sibling P-rounds' work and the BASE branch
+    sync) are excluded; lines they bring in are NOT this round's
+    responsibility — they belong to the round that originally wrote
+    them and were already gated at that round's verify step.
+
+    Also filters by `--diff-filter=AM`: only files added or modified
+    in the round's own commit set are scanned.
+    """
     if not base_sha:
         return []
-    out = _git(
-        ["diff", "--unified=0", f"{base_sha}..HEAD", "--", rel_path],
+    # List the round's own (non-merge) commits oldest-first.
+    log_out = _git(
+        ["log", "--no-merges", "--reverse", "--pretty=%H",
+         f"{base_sha}..HEAD"],
         cwd=worktree,
     )
+    own_commits = [c.strip() for c in log_out.splitlines() if c.strip()]
+    if not own_commits:
+        return []
     rows: list[tuple[int, str]] = []
     hunk_re = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
-    current_new: int | None = None
-    for line in out.splitlines():
-        m = hunk_re.match(line)
-        if m:
-            current_new = int(m.group(1))
-            continue
-        if current_new is None:
-            continue
-        if line.startswith("+") and not line.startswith("+++"):
-            rows.append((current_new, line[1:]))
-            current_new += 1
-        elif line.startswith("-") and not line.startswith("---"):
-            pass
-        else:
-            current_new += 1
+    for sha in own_commits:
+        out = _git(
+            ["diff", "--unified=0", f"{sha}^!", "--", rel_path],
+            cwd=worktree,
+        )
+        current_new: int | None = None
+        for line in out.splitlines():
+            m = hunk_re.match(line)
+            if m:
+                current_new = int(m.group(1))
+                continue
+            if current_new is None:
+                continue
+            if line.startswith("+") and not line.startswith("+++"):
+                rows.append((current_new, line[1:]))
+                current_new += 1
+            elif line.startswith("-") and not line.startswith("---"):
+                pass
+            else:
+                current_new += 1
     return rows
 
 
