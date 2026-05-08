@@ -76,6 +76,11 @@ import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.BilinFormUp
+import BEDC.Derived.BilinFormUp.EmptyInversion
+import BEDC.Derived.BilinFormUp.EndpointEmptyInversion
+import BEDC.Derived.BilinFormUp.ObligationSurfaceEmptyLedger
+import BEDC.Derived.BilinFormUp.EmptyLedgerInversion
+import BEDC.Derived.BilinFormUp.SemanticNameCertificate
 import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.CurvatureUp
