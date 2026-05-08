@@ -13702,3 +13702,27 @@ Rationale:
 DirichletUnitUp is a number-theoretic surface with no active or completed BOARD target found in the target/state scans, while the body file is small and concrete. The carrier explicitly lists a visible unit row u and an inverse/unit-product witness row iota at papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex:11-15, and the public abelian-group dependency is restricted to unit rows accepted by the RingOfIntegersUp dependency at papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex:55-64. The later AbGroup projection exposes operation, inverse, identity, and classifier rows at papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex:114-135, but there is no theorem in the file asserting that the inherited product of two visible unit rows is again a DirichletUnitUp visible unit row. This is a concrete missing closure law, not a marker/status update or abstract classifier transport.
 
 ---
+
+### B-516 - LPDuality primal feasibility binary convex closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | LPDuality primal feasibility binary convex closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+In a finite LPDualityUp ordered-field row, if x and x_prime are PrFeas_{A,b}, and a,b are scalar coefficients with NonNeg_F(a), NonNeg_F(b), and (a +_F b) sim_F 1_F, then the componentwise sum lambda_j := a cdot_F x_j +_F b cdot_F x_prime_j satisfies PrFeas_{A,b}(lambda).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex`
+
+Rationale:
+Structural shape result for LPDualityUp's feasible set — convex combination closure. Existing chapter theorems (B-444 weak duality, B-447 complementary slackness, B-429 feasible weak duality) all operate on point feasible witnesses; none records that the primal feasible set is closed under convex combinations, which is the property that gives LPDualityUp its convex-polytope identity downstream. Proof reduces to nonneg-scalar monotonicity + finite-sum monotonicity + finite distributivity, all already exposed in def:lpduality-finite-ordered-field-feasibility-row. Distinct closure target, not parameter echo of existing duality results.
+
+---
