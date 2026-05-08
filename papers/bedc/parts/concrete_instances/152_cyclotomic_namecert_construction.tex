@@ -495,3 +495,45 @@ Use \autoref{thm:cyclotomic-galois-action-namecert-boundary} to exclude an expor
 
 Finally apply \autoref{thm:cyclotomic-classfield-source-interface}. It permits a class-field consumer to cite the cyclotomic source package, but it supplies no reciprocity map, local symbol, or class-group operation. Since none of the carrier rows named above is a minimal-polynomial, totient-degree, automorphism, reciprocity, or class-group field, those data must come from the corresponding separate certificates.
 \end{proof}
+
+\begin{theorem}[Cyclotomic splitting-field provenance conservation]
+\label{thm:cyclotomic-splittingfield-provenance-conservation}
+For accepted $\CyclotomicUp$ carriers related by the classifier of \autoref{def:cyclotomic-rational-polynomial-classifier}, every splitting-field consumer receives exactly the rational polynomial row $p$ for $X^n-1$, the primitive endpoint row $\zeta$, the factorization rows carried by $\mathcal{S}$, the $\Cont$ acceptance row $\alpha$, the transported $\hsame$ comparisons, and the displayed $\mathsf{Pkg}$ provenance row $\rho$. The transported surface is the same $\NameCert_{\SplittingFieldUp}$ source package described by \autoref{thm:cyclotomic-splitting-polynomial-classifier-transport}; no host-field equality, additional factorization ledger, or independent root carrier is exported by $\NameCert_{\CyclotomicUp}$.
+\end{theorem}
+\begin{proof}
+Start from the classifier projections in \autoref{def:cyclotomic-rational-polynomial-classifier}. They expose the source, exponent, polynomial, splitting-field, endpoint, acceptance, comparison, and provenance rows attached to the two accepted carriers.
+
+Apply \autoref{thm:cyclotomic-splitting-polynomial-classifier-transport}. It transports the rational polynomial row, the primitive endpoint, and the $\NameCert_{\SplittingFieldUp}$ source through the available $\mathsf{BHist}$ and $\hsame$ comparisons.
+
+Use \autoref{thm:cyclotomic-factorization-ledger-exactness} to identify the factorization rows as exactly the rows projected from $\mathcal{S}$ over the transported polynomial ledger. Use \autoref{thm:cyclotomic-polynomial-ledger-exactness} to keep that ledger tied to $X^n-1$ and to the same $\Cont$ and $\mathsf{Pkg}$ rows.
+
+The carrier of \autoref{def:cyclotomic-root-carrier} has no coordinate for a host-field equality, a second factorization ledger, or a separate root carrier. Thus the splitting-field consumer surface is precisely the conserved polynomial, root, factorization, $\Cont$, $\hsame$, and $\mathsf{Pkg}$ family.
+\end{proof}
+
+\begin{theorem}[Cyclotomic root-source provenance confluence]
+\label{thm:cyclotomic-root-source-provenance-confluence}
+For an accepted $\CyclotomicUp$ carrier, the source package obtained by root-of-unity coverage and the package obtained by splitting-polynomial transport are the same displayed row family: the positive exponent row $n$, the rational polynomial row $p$ for $X^n-1$, the $\NameCert_{\SplittingFieldUp}$ source $\mathcal{S}$, the primitive endpoint $\zeta$, the acceptance row $\alpha$, the $\mathsf{BHist}$ provenance, the $\Cont$ rows, and the $\mathsf{Pkg}$ row $\rho$. This confluence is internal to the cyclotomic certificate and supplies no additional minimal-order proof object or ambient field equality.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cyclotomic-root-of-unity-ledger-coverage} to read the root-of-unity surface from the displayed exponent, polynomial ledger, splitting-field source, primitive endpoint, and acceptance row. This gives the source package seen by a root consumer.
+
+Use \autoref{thm:cyclotomic-primitive-order-witness-boundary} to keep the primitive witness at the endpoint-and-ledger level. The theorem excludes a separate minimal-order proof object and keeps the visible witness attached to $n$, $p$, $\mathcal{S}$, $\zeta$, and $\alpha$.
+
+Apply \autoref{thm:cyclotomic-splittingfield-provenance-conservation}. The splitting-polynomial route conserves exactly the same polynomial, endpoint, factorization, $\Cont$, $\hsame$, and $\mathsf{Pkg}$ rows.
+
+Both routes are projections of the single carrier of \autoref{def:cyclotomic-root-carrier}. Therefore the root-source package and the splitting-polynomial package are the same displayed $\mathsf{BHist}$, $\Cont$, and $\mathsf{Pkg}$ row family, with no further ambient equality claim.
+\end{proof}
+
+\begin{theorem}[Cyclotomic class-field repack exactness]
+\label{thm:cyclotomic-classfield-repack-exactness}
+For an accepted $\CyclotomicUp$ carrier, a $\ClassFieldUp$ consumer repacks exactly the confluence family of \autoref{thm:cyclotomic-root-source-provenance-confluence} together with the positive exponent row and the displayed provenance rows. The repacked interface consists of the $\NameCert_{\NumFieldUp}$ source row $\mathcal{N}$, the positive exponent row $n$, the polynomial row $p$, the $\NameCert_{\SplittingFieldUp}$ source $\mathcal{S}$, the primitive endpoint $\zeta$, the acceptance row $\alpha$, the base comparison $\lambda$, and the provenance row $\rho$; it receives no class group, reciprocity map, minimal polynomial, totient degree, or host-field equality from $\NameCert_{\CyclotomicUp}$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cyclotomic-classfield-source-interface}. It displays the rows that a class-field source interface may cite from an accepted cyclotomic carrier: $\mathcal{N}$, $n$, $p$, $\mathcal{S}$, $\zeta$, $\alpha$, $\lambda$, and $\rho$.
+
+Use \autoref{thm:cyclotomic-root-source-provenance-confluence} to identify the root-of-unity route and the splitting-polynomial route with the same $\mathsf{BHist}$, $\Cont$, and $\mathsf{Pkg}$ row family. Use \autoref{thm:cyclotomic-positive-exponent-row-coverage} to make the exponent row $n$ the sole exponent datum in that family.
+
+Finally apply \autoref{thm:cyclotomic-minimal-polynomial-nonexport}. It excludes minimal polynomials, totient degrees, host-field equalities, class groups, and reciprocity maps from the cyclotomic export surface.
+
+Thus the $\ClassFieldUp$ consumer receives exactly the displayed source, exponent, polynomial, splitting-field, endpoint, acceptance, comparison, and provenance rows, and every class-field operation must enter through a separate class-field certificate.
+\end{proof}
