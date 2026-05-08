@@ -197,32 +197,37 @@ A source-level classifier may identify multiple raw events as one classified obj
 
 \begin{definition}[Source-level classified object]
 \label{def:source-channel-classified-object}
-For a source-level equivalence relation $\sim$ on raw events or event flows, a \emph{classified object} is an equivalence class $[w]_{\sim}$. For the Zeckendorf carry classifier $\sim_{Z}$ of \autoref{ch:concrete-instances-zeckendorf-carry-classifier}, $011 \sim_{Z} 100$ identifies $[011]_{\sim_{Z}} = [100]_{\sim_{Z}}$, while at the raw-event layer $011 \neq 100$ remains.
+\leandef{BEDC.GroundCompiler.SourceChannel.SourceLevelClassifier}
+A \emph{source-level classifier} consists of a carrier of classified objects and a classification map
+$$
+  q \colon \mathsf{RawEvent} \longrightarrow \mathsf{ClassifiedObject}.
+$$
+A classified object is an element of this carrier. For the Zeckendorf carry reading of \autoref{ch:concrete-instances-zeckendorf-carry-classifier}, the pre-normal event $011$ and the normal event $100$ may be sent to the same classified object, while at the raw-event layer the two raw events remain distinct.
 \end{definition}
 
 \begin{proposition}[Classified-object map is generally not injective]
 \label{prop:source-channel-classified-not-injective}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.classified\_object\_map\_not\_injective}
 The natural map
 $$
-  q_{\sim} \colon \mathsf{RawEvent} \longrightarrow \mathsf{RawEvent}/\!\sim,
-  \qquad
-  q_{\sim}(w) = [w]_{\sim},
+  q \colon \mathsf{RawEvent} \longrightarrow \mathsf{ClassifiedObject}
 $$
 is generally not injective.
 \end{proposition}
 
 \begin{proof}
-If there exist distinct raw events $w \neq v$ with $w \sim v$, then $q_{\sim}(w) = [w]_{\sim} = [v]_{\sim} = q_{\sim}(v)$, so $q_{\sim}$ identifies $w$ and $v$. The Zeckendorf instance is $011 \neq 100$ but $011 \sim_{Z} 100$, hence $q_{\sim_{Z}}(011) = q_{\sim_{Z}}(100)$.
+It suffices to exhibit one source-level classifier that identifies two distinct raw events. Let the classifier carrier have a carry class, and send both $011$ and $100$ to that class. The raw events $011$ and $100$ are different finite sequences of raw marks, but their classified images coincide. Hence a classified-object map need not be injective.
 \end{proof}
 
 \begin{corollary}[Bijection is unconditional only at the raw-flow layer]
 \label{cor:source-channel-bijection-only-at-raw-layer}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.bijection\_only\_at\_raw\_layer}
 The unconditional bijection supplied by channel encoding is between raw event flows and legal channel streams,
 $$
   \mathsf{EventFlow} \;\cong\; \mathsf{LegalZStream}
   \quad\text{(\autoref{cor:channel-encoding-bijection}).}
 $$
-The composite map $\mathsf{EventFlow} \to \mathsf{EventFlow}/\!\sim$ to a classifier quotient is generally not injective. Therefore, when a downstream argument speaks of a bijection between ``theory'' and ``code,'' the theory side must be the canonical raw-event flow, not an abstract classified proposition.
+The composite map from raw event data to classified objects is generally not injective. Therefore, when a downstream argument speaks of a bijection between ``theory'' and ``code,'' the theory side must be the canonical raw-event flow, not an abstract classified proposition.
 \end{corollary}
 
 \section{Encoding and decoding examples for ledger flows}

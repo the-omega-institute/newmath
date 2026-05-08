@@ -38,6 +38,26 @@ def OccursAsDecodedEvent
     (u c : List DisplayAlphabet) : Prop :=
   exists S : EventFlow, Decode c = some S /\ List.Mem u S
 
+structure SourceLevelClassifier where
+  Object : Type
+  classify : RawEvent -> Object
+
+def SourceLevelClassifiedObject (C : SourceLevelClassifier) : Type :=
+  C.Object
+
+def CarryPreNormal : RawEvent :=
+  [BMark.b0, BMark.b1, BMark.b1]
+
+def CarryNormal : RawEvent :=
+  [BMark.b1, BMark.b0, BMark.b0]
+
+inductive CarryClassifiedObject : Type where
+  | carryClass
+
+def CarryClassifier : SourceLevelClassifier :=
+  { Object := CarryClassifiedObject,
+    classify := fun _ => CarryClassifiedObject.carryClass }
+
 theorem ledger_records_distinguish_ordered_pairs
     {w v w' v' : RawEvent} :
     SourceCarryLedger w v = SourceCarryLedger w' v' -> w = w' /\ v = v' := by
@@ -107,5 +127,27 @@ theorem channel_substring_not_source_event :
             cases hMem with
             | tail _ hTail =>
                 cases hTail
+
+theorem carry_events_distinct :
+    Not (CarryPreNormal = CarryNormal) := by
+  intro h
+  cases h
+
+theorem classified_object_map_not_injective :
+    exists C : SourceLevelClassifier,
+      exists w v : RawEvent,
+        Not (w = v) /\ C.classify w = C.classify v := by
+  exact
+    ⟨CarryClassifier, CarryPreNormal, CarryNormal,
+      carry_events_distinct, rfl⟩
+
+theorem bijection_only_at_raw_layer :
+    (forall S : EventFlow, Decode (FlowEncoding S) = some S) /\
+      exists C : SourceLevelClassifier,
+        exists w v : RawEvent,
+          Not (w = v) /\ C.classify w = C.classify v := by
+  constructor
+  · exact flow_level_round_trip
+  · exact classified_object_map_not_injective
 
 end BEDC.GroundCompiler.SourceChannel
