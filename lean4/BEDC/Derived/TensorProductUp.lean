@@ -160,6 +160,23 @@ theorem TensorProductSingletonCarrier_factor_witness {tensor : BHist} :
                               (cont_left_unit BHist.Empty))))
                         (cont_left_unit BHist.Empty)))
 
+theorem TensorProductSingletonCarrier_source_pattern_iff {tensor : BHist} :
+    TensorProductSingletonCarrier tensor ↔
+      exists left right : BHist,
+        TensorProductSingletonFactor left right tensor ∧ Cont left right tensor := by
+  constructor
+  · intro carrier
+    exact TensorProductSingletonCarrier_factor_witness carrier
+  · intro witness
+    cases witness with
+    | intro left rest =>
+        cases rest with
+        | intro right data =>
+            exact Exists.intro left
+              (Exists.intro right
+                (And.intro data.left.left
+                  (And.intro data.left.right.left data.right)))
+
 theorem TensorProductSingletonFactor_hsame_transport
     {left left' right right' tensor tensor' : BHist} :
     TensorProductSingletonFactor left right tensor ->
