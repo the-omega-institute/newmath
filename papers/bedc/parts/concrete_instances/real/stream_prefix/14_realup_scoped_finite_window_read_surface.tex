@@ -32,6 +32,49 @@ completion, arithmetic, order, metric-completeness, Classical, and
 standard-bridge data.
 \end{proof}
 
+\begin{theorem}[RealUp StreamName-RegSeqRat finite-window correspondence]
+\label{thm:realup-streamname-regseqrat-window-correspondence}
+A selected finite $\RealUp$ observation-window surface is equivalent, as BEDC
+public data, to the pair consisting of the public $\StreamNameUp$ finite-window
+interface of \autoref{thm:streamname-public-finite-window-interface} and the
+$\RegSeqRat$ dyadic source exhaustion rows consumed in
+\autoref{thm:realup-finite-window-exhaustion-obligation}. The pair records
+exactly the finite-window stream classifier, endpoint $\RatUp$ classifiers,
+unary denominator witnesses, common e-one tail readback, DyadicRatCore source
+rows, $\mathsf{UnaryHistory}$ endpoints, $\hsame$ transport, and finite
+$\mathsf{RealLedgerPolicy}$ ledger rows, and it records no quotient,
+completion, arithmetic, order, metric-completeness, Classical, or
+standard-bridge datum.
+\end{theorem}
+\begin{proof}
+For the projection direction, first apply
+\autoref{thm:realup-scoped-finite-window-read-surface}. It identifies the
+selected finite $\RealUp$ read surface with the DyadicRatCore, $\RegSeqRat$,
+$\StreamNameUp$, $\RatUp$, unary-history, $\hsame$, and finite ledger rows that
+the scoped certificate exposes.
+
+Then apply
+\autoref{thm:realup-finite-window-export-through-streamname-interface}. The
+$\StreamNameUp$ component factors through the public finite-window interface of
+\autoref{thm:streamname-public-finite-window-interface}, and the remaining rows
+are exactly the dyadic source, regular sequence, endpoint, unary, transport,
+and ledger rows read by
+\autoref{thm:realup-finite-window-exhaustion-obligation}.
+
+For the reconstruction direction, start with the displayed pair. Repack the
+$\StreamNameUp$ finite-window classifier rows through the public interface, and
+repack the endpoint $\RatUp$ classifiers, unary denominator witnesses, common
+e-one tail readback, and DyadicRatCore source rows through the exhaustion
+obligation.
+
+The two packets share the same finite $\mathsf{UnaryHistory}$ endpoints,
+$\hsame$ transport, and $\mathsf{RealLedgerPolicy}$ readback. Combining those
+shared rows gives precisely the scoped boundary named in
+\autoref{thm:realup-scoped-finite-window-read-surface}, so the reconstructed
+surface is the original selected finite $\RealUp$ observation-window surface
+and contains no excluded datum.
+\end{proof}
+
 \begin{theorem}[RealUp finite-window export through StreamNameUp interface]
 \label{thm:realup-finite-window-export-through-streamname-interface}
 Every selected finite $\RealUp$ observation-window read surface of
