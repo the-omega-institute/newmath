@@ -64,6 +64,28 @@ theorem CyclotomicRootCarrier_source_triad_obligation [AskSetup] [PackageSetup]
                   (And.intro ledgerCont
                     carrier.right.right.right.right.right.right.right.right.right))))))))
 
+theorem CyclotomicRootCarrier_root_action_pkg_provenance [AskSetup] [PackageSetup]
+    {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
+      ledger action : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CyclotomicRootCarrier numField exponent polynomial splittingField primitiveRoot acceptance
+        comparison provenance ledger bundle pkg ->
+      Cont ledger provenance action ->
+        UnaryHistory action ∧ PkgSig bundle ledger pkg ∧
+          hsame comparison (append provenance acceptance) := by
+  intro carrier actionCont
+  have sourceRows :=
+    CyclotomicRootCarrier_source_triad_obligation (bundle := bundle) (pkg := pkg) carrier
+  have provenanceUnary : UnaryHistory provenance :=
+    sourceRows.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    sourceRows.right.right.right.right.right.left
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed ledgerUnary provenanceUnary actionCont
+  exact And.intro actionUnary
+    (And.intro sourceRows.right.right.right.right.right.right.right.right.right
+      carrier.right.right.right.right.right.right.right.right.left)
+
 theorem CyclotomicRootCarrier_root_layer_classifier_transport [AskSetup] [PackageSetup]
     {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
       ledger numField' exponent' polynomial' splittingField' primitiveRoot' acceptance'
