@@ -249,6 +249,67 @@ theorem SeparableExtSourceRow_semantic_name_certificate [AskSetup] [PackageSetup
       exact source
   }
 
+theorem SeparableExtSourceSurface_carrier_classifier_surface [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot provenance
+        endpoint bundle pkg ->
+      SemanticNameCert
+        (fun e : BHist => ∃ p : BHist,
+          SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot p e
+            bundle pkg)
+        (fun e : BHist => ∃ p : BHist,
+          SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot p e
+            bundle pkg)
+        (fun e : BHist => ∃ p : BHist,
+          SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot p e
+            bundle pkg)
+        (fun left right : BHist =>
+          (∃ leftProv : BHist,
+            SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot
+              leftProv left bundle pkg) ∧
+            (∃ rightProv : BHist,
+              SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot
+                rightProv right bundle pkg) ∧
+              hsame left right) := by
+  intro surface
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (Exists.intro provenance surface)
+      equiv_refl := by
+        intro h source
+        exact And.intro source (And.intro source (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified source
+        cases source with
+        | intro sourceProv sourceSurface =>
+            cases classified.right.left with
+            | intro targetProv targetSurface =>
+                exact Exists.intro targetProv
+                  (SeparableExtSourceSurface_classifier_stability sourceSurface
+                    (hsame_refl fieldExt) (hsame_refl polynomial) (hsame_refl generator)
+                    (hsame_refl minimal) (hsame_refl simpleRoot)
+                    targetSurface.right.right.right.right.right.left
+                    targetSurface.right.right.right.right.right.right.left
+                    targetSurface.right.right.right.right.right.right.right).left
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+
 theorem SeparableExtSourceSurface_simple_root_obligation [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot simpleRoot' provenance endpoint
       endpoint' : BHist}

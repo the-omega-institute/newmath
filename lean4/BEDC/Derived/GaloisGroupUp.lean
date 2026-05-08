@@ -102,4 +102,43 @@ theorem GaloisGroupAutomorphismActionPacket_composition_closure
                 (And.intro actionRow (And.intro classifierRow ledgerRow))))))))
     (And.intro sameComposition (And.intro sameClassifier sameLedger))
 
+theorem GaloisGroupAutomorphismActionPacket_inverse_closure
+    {extension group fixed action composition inverse classifier provenance ledger inverseAction
+      inverseClassifier inverseLedger : BHist} :
+    GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition
+        inverse classifier provenance ledger ->
+      Cont fixed inverse inverseAction ->
+        Cont inverseAction action inverseClassifier ->
+          Cont inverseClassifier provenance inverseLedger ->
+            GaloisGroupAutomorphismActionCompositionPacket extension group fixed inverse
+                inverseAction action inverseClassifier provenance inverseLedger ∧
+              hsame inverseAction (append fixed inverse) ∧
+                hsame inverseClassifier (append (append fixed inverse) action) ∧
+                  hsame inverseLedger
+                    (append (append (append fixed inverse) action) provenance) := by
+  intro packet inverseActionCont inverseClassifierCont inverseLedgerCont
+  have inverseActionUnary : UnaryHistory inverseAction :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.right.left
+      inverseActionCont
+  have inverseClassifierUnary : UnaryHistory inverseClassifier :=
+    unary_cont_closed inverseActionUnary packet.right.right.right.left inverseClassifierCont
+  have inverseClassifierSame : hsame inverseClassifier (append (append fixed inverse) action) := by
+    exact hsame_trans inverseClassifierCont
+      (congrArg (fun row : BHist => append row action) inverseActionCont)
+  have inverseLedgerSame :
+      hsame inverseLedger (append (append (append fixed inverse) action) provenance) := by
+    exact hsame_trans inverseLedgerCont
+      (congrArg (fun row : BHist => append row provenance) inverseClassifierSame)
+  exact And.intro
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.right.left
+            (And.intro packet.right.right.right.left
+              (And.intro packet.right.right.right.right.right.left
+                (And.intro inverseActionCont
+                  (And.intro inverseClassifierCont inverseLedgerCont))))))))
+    (And.intro inverseActionCont
+      (And.intro inverseClassifierSame inverseLedgerSame))
+
 end BEDC.Derived.GaloisGroupUp

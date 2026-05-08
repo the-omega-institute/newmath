@@ -127,4 +127,43 @@ theorem GaloisExtSourcePacket_classifier_transport
         (And.intro sameClassifier
           (And.intro sameProvenance sameLedger))))
 
+def GaloisExtSourceClassifier
+    (field separable normality automorphism classifier provenance ledger endpoint
+      field' separable' normality' automorphism' classifier' provenance' ledger'
+      endpoint' : BHist) : Prop :=
+  hsame field field' ∧ hsame separable separable' ∧
+    hsame normality normality' ∧ hsame automorphism automorphism' ∧
+      hsame classifier classifier' ∧ hsame provenance provenance' ∧
+        hsame ledger ledger' ∧ hsame endpoint endpoint'
+
+theorem GaloisExtSourceClassifier_trans
+    {field field' field'' separable separable' separable'' normality normality'
+      normality'' automorphism automorphism' automorphism'' classifier classifier'
+      classifier'' provenance provenance' provenance'' ledger ledger' ledger'' endpoint
+      endpoint' endpoint'' : BHist} :
+    GaloisExtSourceClassifier field separable normality automorphism classifier provenance
+        ledger endpoint field' separable' normality' automorphism' classifier' provenance'
+        ledger' endpoint' ->
+      GaloisExtSourceClassifier field' separable' normality' automorphism' classifier'
+          provenance' ledger' endpoint' field'' separable'' normality'' automorphism''
+          classifier'' provenance'' ledger'' endpoint'' ->
+        GaloisExtSourceClassifier field separable normality automorphism classifier provenance
+          ledger endpoint field'' separable'' normality'' automorphism'' classifier''
+          provenance'' ledger'' endpoint'' := by
+  intro left right
+  exact And.intro (hsame_trans left.left right.left)
+    (And.intro (hsame_trans left.right.left right.right.left)
+      (And.intro (hsame_trans left.right.right.left right.right.right.left)
+        (And.intro (hsame_trans left.right.right.right.left right.right.right.right.left)
+          (And.intro
+            (hsame_trans left.right.right.right.right.left right.right.right.right.right.left)
+            (And.intro
+              (hsame_trans left.right.right.right.right.right.left
+                right.right.right.right.right.right.left)
+              (And.intro
+                (hsame_trans left.right.right.right.right.right.right.left
+                  right.right.right.right.right.right.right.left)
+                (hsame_trans left.right.right.right.right.right.right.right
+                  right.right.right.right.right.right.right.right)))))))
+
 end BEDC.Derived.GaloisExtUp
