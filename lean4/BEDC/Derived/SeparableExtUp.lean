@@ -82,6 +82,18 @@ theorem SeparableExtJointSource_fieldext_polynomial_source
               (And.intro source.right.right.right.right.right.right
                 (And.intro endpointUnary endpointReadback)))))))
 
+theorem SeparableExtSourceRow_fieldext_polynomial_source
+    {field polynomial generator minpoly derivative provenance endpoint : BHist} :
+    SeparableExtJointSource field polynomial generator minpoly derivative provenance endpoint ->
+      FieldExtSingletonCarrier field ∧ PolynomialSingletonCarrier polynomial ∧
+        PolynomialSingletonClassifier minpoly polynomial ∧
+          Cont polynomial derivative provenance := by
+  intro source
+  exact And.intro source.left
+    (And.intro source.right.left
+      (And.intro source.right.right.right.right.left
+        source.right.right.right.right.right.left))
+
 def SeparableExtSourceSurface [AskSetup] [PackageSetup]
     (fieldExt polynomial generator minimal simpleRoot provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -230,6 +242,60 @@ theorem SeparableExtSourceRow_classifier_stability [AskSetup] [PackageSetup]
               (And.intro provenanceCont'
                 (And.intro endpointCont' pkgSig')))))))
     (And.intro sameProvenance sameEndpoint)
+
+theorem SeparableExtSourceSurface_semantic_name_certificate [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot provenance endpoint
+        bundle pkg ->
+      SemanticNameCert
+        (fun target : BHist =>
+          exists carriedProvenance : BHist,
+            SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot
+              carriedProvenance target bundle pkg)
+        (fun target : BHist =>
+          exists carriedProvenance : BHist,
+            SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot
+              carriedProvenance target bundle pkg)
+        (fun target : BHist =>
+          exists carriedProvenance : BHist,
+            SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot
+              carriedProvenance target bundle pkg)
+        (fun left right : BHist =>
+          (exists leftProvenance : BHist,
+            SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot
+              leftProvenance left bundle pkg) /\
+            (exists rightProvenance : BHist,
+              SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot
+                rightProvenance right bundle pkg) /\
+              hsame left right) := by
+  intro surface
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (Exists.intro provenance surface)
+      equiv_refl := by
+        intro target targetSurface
+        exact And.intro targetSurface (And.intro targetSurface (hsame_refl target))
+      equiv_symm := by
+        intro left right classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro left middle right leftMiddle middleRight
+        exact And.intro leftMiddle.left
+          (And.intro middleRight.right.left
+            (hsame_trans leftMiddle.right.right middleRight.right.right))
+      carrier_respects_equiv := by
+        intro left right classified _leftSurface
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _target source
+      exact source
+    ledger_sound := by
+      intro _target source
+      exact source
+  }
 
 theorem SeparableExtSourceRow_semantic_name_certificate [AskSetup] [PackageSetup]
     {field polynomial simple provenance endpoint : BHist}
