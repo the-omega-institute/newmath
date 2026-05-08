@@ -113,3 +113,30 @@ $\TreeUp$, transport under $\hsame$, or exact readback of a visible formula or
 deduction row. Each request is one of the rows just collected, so the public
 surface contains no additional carrier, classifier, or proof-system field.
 \end{proof}
+
+\begin{definition}[FirstOrderUp deduction ledger concatenation source]\label{def:firstorder-deduction-ledger-concatenation-source}
+Fix one carried $\FirstOrderUp$ syntax packet as in \autoref{def:firstorder-bhist-syntax-carrier}. Let $D_1$ and $D_2$ be accepted finite $\FirstOrderUp$ deduction ledgers read through the same $\SetUp$ and $\TreeUp$ certificates. They are composable when the final conclusion endpoint row displayed by $D_1$ is the same formula endpoint row that appears as the initial premise row of $D_2$, with that shared row compared only by the $\hsame$ transport already admitted by \autoref{def:firstorder-deduction-ledger-classifier}.
+
+In that situation, the concatenation $D_1 \mathbin{+\!\!+} D_2$ is the finite ledger obtained by listing all rule rows of $D_1$ followed by all rule rows of $D_2$, while reading the join through the shared formula endpoint row rather than through any extra host-level formula token or external proof-tree node.
+\end{definition}
+
+\begin{theorem}[FirstOrderUp deduction ledger concatenation closure]\label{thm:firstorder-deduction-ledger-concatenation-closure}
+Let $D_1$ and $D_2$ be accepted finite $\FirstOrderUp$ deduction ledgers over one carried syntax packet from \autoref{def:firstorder-bhist-syntax-carrier}, and suppose that $D_1$ and $D_2$ are composable in the sense of \autoref{def:firstorder-deduction-ledger-concatenation-source}. Then the concatenated ledger $D_1 \mathbin{+\!\!+} D_2$ is again an accepted $\FirstOrderUp$ deduction ledger over the same $\SetUp$ and $\TreeUp$ dependency certificates.
+
+Moreover, every premise row, conclusion row, and transport row appearing in $D_1 \mathbin{+\!\!+} D_2$ is already one of the visible rows carried by $D_1$, by $D_2$, or by their shared endpoint formula row. No extra deduction rule, external cut formula, or ambient proof-system datum enters at the join.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the second ledger $D_2$, read as the finite displayed deduction ledger from \autoref{thm:firstorder-deduction-soundness-ledger-obligation}.
+
+If $D_2$ is empty, then $D_1 \mathbin{+\!\!+} D_2$ is just $D_1$, so acceptance is the given acceptance of $D_1$.
+
+For the step case, write $D_2$ as a shorter accepted prefix $E$ followed by one final rule row $r$. By the induction hypothesis, $D_1 \mathbin{+\!\!+} E$ is an accepted deduction ledger over the same $\SetUp$ and $\TreeUp$ certificates.
+
+It remains to append $r$. Because $E$ followed by $r$ is accepted, \autoref{thm:firstorder-deduction-soundness-ledger-obligation} says that $r$ consumes only formula endpoints already carried by the displayed ledger before it, and that its premise/conclusion transport is recorded by visible $\Cont$ and $\hsame$ rows inside the same provenance. Every premise of $r$ that lies wholly inside $E$ is therefore already present in the accepted prefix $D_1 \mathbin{+\!\!+} E$.
+
+The only additional possibility is a premise of $r$ that traces back to the initial premise row of $D_2$. By composability from \autoref{def:firstorder-deduction-ledger-concatenation-source}, that initial premise row is the shared endpoint formula row at the join with $D_1$. By \autoref{thm:firstorder-formula-carrier-obligation}, this shared endpoint is already a carried $\FirstOrderUp$ formula row inside the same syntax packet, so the join introduces no extra carrier data. By \autoref{def:firstorder-deduction-ledger-classifier}, any comparison needed at the join is exactly the admitted $\hsame$ transport through the same $\SetUp$ and $\TreeUp$ certificates.
+
+Thus all inputs required by $r$ are available in the accepted prefix $D_1 \mathbin{+\!\!+} E$, and the output row of $r$ is recorded by the same visible conclusion and transport data it had inside $D_2$. Appending $r$ therefore preserves acceptance by the same step-case criterion used in \autoref{thm:firstorder-deduction-soundness-ledger-obligation}.
+
+The induction closes, so $D_1 \mathbin{+\!\!+} D_2$ is an accepted finite $\FirstOrderUp$ deduction ledger over the original $\SetUp$ and $\TreeUp$ certificates. The final claim follows because concatenation only reorders the already displayed rows by placing the rows of $D_2$ after those of $D_1$, with the join read through the shared endpoint formula row and no further datum.
+\end{proof}
