@@ -277,6 +277,42 @@ object, quotient datum, regularity row, or metric structure enters the
 construction.
 \end{proof}
 
+\begin{theorem}[StreamNameUp finite-window refinement transitivity]
+\label{thm:streamname-finite-window-refinement-transitivity}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, and let $B_2$,
+$B_1$, and $B_0$ be $\mathsf{ProbeBundle}$ windows. Suppose every certified
+unary observation carried by $B_0$ is an $\mathsf{InBundle}$ member of
+$B_1$, and every certified unary observation carried by $B_1$ is an
+$\mathsf{InBundle}$ member of $B_2$. Then
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_2)
+\quad\Longrightarrow\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_0).
+$$
+The row uses only $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\UnaryHistory$, and the pointwise $\RatUp$ classifier rows carried by
+certified unary observations. It introduces no $\RealUp$ completion datum,
+quotient representative, regularity predicate, or metric row.
+\end{theorem}
+
+\begin{proof}
+First restrict the classifier over $B_2$ to the intermediate finite window
+$B_1$. The displayed inclusion from $B_1$ into $B_2$ supplies exactly the
+witness required by
+\autoref{thm:streamname-finite-window-restriction-export}, so the result is
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_1)$.
+
+Next restrict the intermediate classifier over $B_1$ to $B_0$. The displayed
+inclusion from $B_0$ into $B_1$ again matches the premise of
+\autoref{thm:streamname-finite-window-restriction-export}.
+
+Equivalently, for any certified unary observation in $B_0$, compose its
+$\mathsf{InBundle}$ witness into $B_1$ with the witness from $B_1$ into
+$B_2$, and retain the same pointwise $\RatUp$ row. This construction never
+reads a $\RealUp$ completion, a quotient datum, or any host analytic
+structure.
+\end{proof}
+
 \begin{theorem}[StreamNameUp finite-window common refinement export]
 \label{thm:streamname-finite-window-common-refinement-export}
 Let $s,t$ be certified $\StreamNameUp$ observation maps, and let $B_L$,
