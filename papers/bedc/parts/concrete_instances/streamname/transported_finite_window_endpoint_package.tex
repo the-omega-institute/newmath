@@ -564,3 +564,58 @@ positive denominators, the unary endpoint rows, the empty and zero-headed
 exclusions, and the one-tail agreement. The transport rows and the successor
 reindexing proof remain ledger data; they are not RealUp completion data.
 \end{proof}
+
+\begin{theorem}[StreamNameUp transported successor common-refinement readback]
+\label{thm:streamname-successor-transported-common-refinement-readback}
+Let $s_1,t_1,s_1',t_1',s_2,t_2,s_2',u_2':\Hist\to\Hist$ be certified
+rational stream-name observation maps. Let $\mathcal{P}:\mathsf{ProbeBundle}$
+be a common transported finite-window classifier, and let
+$\mathcal{Q}_1,\mathcal{Q}_2:\mathsf{ProbeBundle}$ be successor windows
+projected from $\mathcal{P}$. Suppose the two transported successor
+observations are selected at unary histories $n_1,n_2$ and expose displayed
+endpoint tails $a_1,b_1,a_2,c_2:\Hist$ by
+$$
+\hsame((s_1')^{+}(n_1),\Eone(a_1)),
+\qquad
+\hsame((t_1')^{+}(n_1),\Eone(b_1)),
+$$
+and
+$$
+\hsame((s_2')^{+}(n_2),\Eone(a_2)),
+\qquad
+\hsame((u_2')^{+}(n_2),\Eone(c_2)).
+$$
+If both successor windows are projected from the same common finite-window
+classifier over $\mathcal{P}$, the transported successor readbacks have the
+same public finite-window surface up to $\hsame$: their public denominator
+rows, unary endpoint-shape rows, empty and zero-headed exclusion rows, and
+one-tail agreement rows are the two projections of the same
+common-refinement classifier. The common bundle and the pointwise transport
+rows remain ledger data over
+$\RatUp+\StreamNameUp+\mathsf{ProbeBundle}$, $\mathsf{UnaryHistory}$,
+$\hsame$, and transported finite-window classifiers.
+\end{theorem}
+\begin{proof}
+First read the common refinement before taking the successor-selected public
+surface. Apply
+\autoref{thm:streamname-transported-window-common-refinement-public-readback}
+to the two successor subwindows $\mathcal{Q}_1,\mathcal{Q}_2$ inside the common
+bundle $\mathcal{P}$. This identifies both selected windows as projections of
+one transported finite-window classifier, with bundle inclusions and transport
+rows retained in the ledger.
+
+Next build the successor endpoint packages. Apply
+\autoref{thm:streamname-successor-reindexed-selected-endpoint-package} to the
+underlying successor schedules for each selected observation. The result is the
+finite-window endpoint package at the visible unary successor, carrying the
+classifier, denominator, endpoint-shape, exclusion, and one-tail rows.
+
+Finally transport the selected packages. Apply
+\autoref{thm:streamname-transported-successor-selected-endpoint-readback} to
+replace the source successor schedules by the pointwise transported schedules.
+Because both transported successor packages were already projected from the
+same common finite-window classifier, the public denominator, endpoint-shape,
+exclusion, and one-tail rows are identified by the same $\hsame$ rows that
+identify the selected transported endpoints. No completion object, metric
+witness, regularity datum, or standard bridge row is exported.
+\end{proof}

@@ -90,6 +90,85 @@ Inspect the carrier packet: determinant rows, analytic regulator values, and sta
 Therefore a $\RegulatorUp$ construction can cite the unit, inverse, rank, ledger, dependency, readback, and provenance rows. Any determinant or analytic regulator row must come from a separate regulator-side construction.
 \end{proof}
 
+\begin{theorem}[DirichletUnit Regulator unit-row source exhaustion]
+\label{thm:dirichletunit-regulator-unit-row-source-exhaustion}
+Every $\RegulatorUp$ consumer read of a $\DirichletUnitUp$ unit row or inverse
+row factors through the visible unit row $u$, the inverse/unit-product row
+$\iota$, the ring-of-integers dependency row $\mathcal{O}$, the finite
+$\Cont$ readback, and the $\Pkg$ provenance of
+\autoref{def:dirichletunit-carrier-packet}. No other unit-facing source is
+exported by the carrier packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:dirichletunit-carrier-packet}. The only unit-facing entries are
+$u$ and $\iota$, and their source dependency is the displayed row
+$\mathcal{O}$.
+
+Apply \autoref{thm:dirichletunit-namecert-surface-obligation} to pass from
+packet entries to public certificate rows. Then apply
+\autoref{thm:dirichletunit-unit-abgroup-projection} where the read asks for
+the inherited inverse or product law row.
+
+The finite $\Cont$ readback and the provenance row $\rho$ are the remaining
+packet entries tying these unit-facing rows to the exported surface. Repacking
+these projections gives the stated source exhaustion for every
+$\RegulatorUp$ unit-row read.
+\end{proof}
+
+\begin{theorem}[DirichletUnit Regulator rank-ledger source]
+\label{thm:dirichletunit-regulator-rank-ledger-source}
+Every $\RegulatorUp$ read of a $\DirichletUnitUp$ rank row, basis row, or
+logarithmic-ledger row factors through the unary rank witness $\nu$ and the
+finite ledger row $\beta$ of \autoref{def:dirichletunit-carrier-packet}. The
+factorization asserts no determinant, analytic logarithm equality, or
+regulator value.
+\end{theorem}
+\begin{proof}
+Project the carrier packet. Its rank-facing component is the unary witness
+$\nu$, and its basis or logarithm-facing component is the finite ledger row
+$\beta$.
+
+Apply \autoref{thm:dirichletunit-unit-rank-ledger}. This identifies the rank
+row as a $\mathsf{UnaryHistory}$ ledger and keeps the visible expression inside
+finite readback.
+
+Finally apply \autoref{thm:dirichletunit-namecert-surface-obligation} to read
+these two rows as public $\NameCert_{\DirichletUnitUp}$ entries. Since
+\autoref{def:dirichletunit-carrier-packet} contains no determinant or analytic
+logarithm equality row, the consumer read cannot project either one from
+$\DirichletUnitUp$ alone.
+\end{proof}
+
+\begin{theorem}[DirichletUnit Regulator consumer threshold package]
+\label{thm:dirichletunit-regulator-consumer-threshold-package}
+The exact $\DirichletUnitUp$ threshold package available to
+$\RegulatorUp$ consists of the unit-row source surface of
+\autoref{thm:dirichletunit-regulator-unit-row-source-exhaustion}, the
+rank-ledger source surface of
+\autoref{thm:dirichletunit-regulator-rank-ledger-source}, and the exclusion
+boundary of \autoref{thm:dirichletunit-regulator-consumer-boundary}. Thus a
+$\RegulatorUp$ construction may consume visible unit and inverse rows, the
+unary rank witness, finite basis/logarithmic ledger rows, dependency rows,
+$\Cont$ readbacks, and $\Pkg$ provenance, but not determinant, analytic
+regulator, or standard-bridge rows from $\DirichletUnitUp$ alone.
+\end{theorem}
+\begin{proof}
+First project the unit-facing surface. Apply
+\autoref{thm:dirichletunit-regulator-unit-row-source-exhaustion}; this gives
+the rows $u$, $\iota$, $\mathcal{O}$, their finite readback, and their package
+provenance.
+
+Next project the rank-facing surface. Apply
+\autoref{thm:dirichletunit-regulator-rank-ledger-source}; this gives the
+unary witness $\nu$ and the finite ledger row $\beta$, without analytic
+determinant or logarithm equality.
+
+Finally apply \autoref{thm:dirichletunit-regulator-consumer-boundary}. It
+excludes every regulator-facing row not listed by the two source projections.
+Repacking the surviving rows gives exactly the threshold package stated above.
+\end{proof}
+
 \begin{theorem}[Dirichlet-unit rank ledger]
 \label{thm:dirichletunit-unit-rank-ledger}
 Every accepted carrier of \autoref{def:dirichletunit-carrier-packet} contains a
