@@ -94,6 +94,45 @@ theorem BilinFormBHistObligationSurface_symmetry_antisymmetry_obligations
       (And.intro sameScalarLedger sameLedger)
 
 theorem BilinFormBHistObligationSurface_nondegeneracy_ledger_exactness_obligations
+    {left right scalar additive endpoint scalarLedger ledger : BHist} :
+    BilinFormBHistObligationSurface left right scalar additive endpoint scalarLedger ledger ->
+      UnaryHistory endpoint ∧ UnaryHistory scalarLedger ∧ UnaryHistory ledger ∧
+        hsame endpoint (append left right) ∧
+          hsame scalarLedger (append (append left right) scalar) ∧
+            hsame ledger (append (append (append left right) scalar) additive) ∧
+              Cont left right endpoint ∧ Cont endpoint scalar scalarLedger ∧
+                Cont scalarLedger additive ledger := by
+  intro surface
+  have endpointCont : Cont left right endpoint :=
+    surface.right.right.right.right.left
+  have scalarLedgerCont : Cont endpoint scalar scalarLedger :=
+    surface.right.right.right.right.right.left
+  have ledgerCont : Cont scalarLedger additive ledger :=
+    surface.right.right.right.right.right.right
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed surface.left surface.right.left endpointCont
+  have scalarLedgerUnary : UnaryHistory scalarLedger :=
+    unary_cont_closed endpointUnary surface.right.right.left scalarLedgerCont
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scalarLedgerUnary surface.right.right.right.left ledgerCont
+  have scalarLedgerReadback :
+      hsame scalarLedger (append (append left right) scalar) :=
+    hsame_trans scalarLedgerCont
+      (congrArg (fun h : BHist => append h scalar) endpointCont)
+  have ledgerReadback :
+      hsame ledger (append (append (append left right) scalar) additive) :=
+    hsame_trans ledgerCont
+      (congrArg (fun h : BHist => append h additive) scalarLedgerReadback)
+  exact And.intro endpointUnary
+    (And.intro scalarLedgerUnary
+      (And.intro ledgerUnary
+        (And.intro endpointCont
+          (And.intro scalarLedgerReadback
+            (And.intro ledgerReadback
+              (And.intro endpointCont
+                (And.intro scalarLedgerCont ledgerCont)))))))
+
+theorem BilinFormBHistObligationSurface_right_unit_separation_rows
     {left right scalar additive endpoint scalarLedger ledger leftZero rightZero separation : BHist} :
     BilinFormBHistObligationSurface left right scalar additive endpoint scalarLedger ledger ->
       Cont left BHist.Empty leftZero ->
@@ -236,6 +275,42 @@ theorem BilinFormRootPairingSurface_input_transport
             (And.intro scalarUnary
               (And.intro endpointCont ledgerCont)))
   · exact And.intro sameEndpoint sameLedger
+
+theorem BilinFormRootPairingSurface_nondegeneracy_row
+    {left right scalar endpoint ledger leftZero rightZero endpointZero : BHist} :
+    BilinFormRootPairingSurface left right scalar endpoint ledger ->
+      Cont left BHist.Empty leftZero ->
+        Cont right BHist.Empty rightZero ->
+          Cont endpoint BHist.Empty endpointZero ->
+            UnaryHistory leftZero ∧
+              UnaryHistory rightZero ∧
+                UnaryHistory endpointZero ∧
+                  hsame leftZero left ∧
+                    hsame rightZero right ∧
+                      hsame endpointZero endpoint ∧
+                        Cont left right endpoint ∧ Cont endpoint scalar ledger := by
+  intro surface leftZeroRow rightZeroRow endpointZeroRow
+  have leftZeroUnary : UnaryHistory leftZero :=
+    unary_cont_closed surface.left unary_empty leftZeroRow
+  have rightZeroUnary : UnaryHistory rightZero :=
+    unary_cont_closed surface.right.left unary_empty rightZeroRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed surface.left surface.right.left surface.right.right.right.left
+  have endpointZeroUnary : UnaryHistory endpointZero :=
+    unary_cont_closed endpointUnary unary_empty endpointZeroRow
+  have sameLeftZero : hsame leftZero left :=
+    cont_right_unit_result leftZeroRow
+  have sameRightZero : hsame rightZero right :=
+    cont_right_unit_result rightZeroRow
+  have sameEndpointZero : hsame endpointZero endpoint :=
+    cont_right_unit_result endpointZeroRow
+  exact And.intro leftZeroUnary
+    (And.intro rightZeroUnary
+      (And.intro endpointZeroUnary
+        (And.intro sameLeftZero
+          (And.intro sameRightZero
+            (And.intro sameEndpointZero
+              (And.intro surface.right.right.right.left surface.right.right.right.right))))))
 
 def BilinFormModulePairingSourceRow
     (moduleSource vecSource left right scalar endpoint probes ledger : BHist)
