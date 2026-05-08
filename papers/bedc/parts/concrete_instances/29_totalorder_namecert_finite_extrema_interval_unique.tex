@@ -123,6 +123,42 @@ so the transported endpoints form an equivalent interval witness over the same
 spine.
 \end{proof}
 
+\begin{theorem}[Concrete unary prefix finite extrema interval roundtrip stability]
+\label{thm:totalorder-finite-extrema-interval-roundtrip-stability}
+Let $L:\mathsf{ListCarrier}(\mathsf{BHist})$ be a nonempty finite BEDC-history
+spine, and assume every entry of $L$ is carried by
+$\mathsf{Carrier}_{\mathsf{u}}$ for the concrete $\TotalOrderUp$ certificate. If
+$(m,M)$ is an interval witness over $L$ and the endpoint classifier rows
+$$
+\rho_{\mathsf{u}}(m,m')
+\land
+\rho_{\mathsf{u}}(M,M')
+$$
+hold, then transport of the witness to $(m',M')$ and comparison back against the
+original witness recover the same lower and upper endpoint classifier rows:
+$$
+\rho_{\mathsf{u}}(m,m')
+\land
+\rho_{\mathsf{u}}(M,M').
+$$
+\end{theorem}
+\begin{proof}
+Use the converse direction of
+\autoref{thm:totalorder-finite-extrema-interval-endpoint-exactness} on the
+selected witness $(m,M)$ and the two endpoint classifier rows. This transports
+the finite minimum and maximum parts of the interval witness to an equivalent
+interval witness over the same spine with endpoints $(m',M')$.
+
+Now compare the original witness and the transported witness. Apply
+\autoref{thm:totalorder-prefix-finite-extrema-interval-unique} to the two
+interval witnesses over the same nonempty carried finite spine. Its lower
+endpoint conclusion is $\rho_{\mathsf{u}}(m,m')$, and its upper endpoint
+conclusion is $\rho_{\mathsf{u}}(M,M')$.
+
+These are exactly the classifier rows used for the transport, so the
+there-and-back comparison is stable at both interval endpoints.
+\end{proof}
+
 \begin{theorem}[Concrete unary prefix finite extrema interval certificate]
 \label{thm:totalorder-prefix-finite-extrema-interval-certificate}
 Let $L:\mathsf{ListCarrier}(\mathsf{BHist})$ be a nonempty finite BEDC-history

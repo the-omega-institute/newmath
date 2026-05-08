@@ -588,6 +588,61 @@ the finite ledger is the unary selected index together with the dyadic-radius
 tokens stored by the RegSeqRat spines.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window dyadic closure package]
+\label{thm:regseqrat-finite-window-dyadic-closure-package}
+For observation maps $s,t,s',t',s'',t'':\Hist\to\Hist$ and histories
+$a,w,k:\Hist$, assume RegSeqRat stream certificate spines for
+$s,t,s',t',s'',t''$, the source classifier
+$\mathsf{RatStreamNameClassifier}(s,t)$, and
+$$
+\mathsf{UnaryHistory}(a),\quad
+\mathsf{UnaryHistory}(w),\quad
+\mathsf{UnaryOffsetLe}(k,w).
+$$
+Let $n=\mathsf{append}(a,k)$, and assume two-step selected endpoint transports
+$$
+\hsame(s(n),s'(n)),\quad
+\hsame(t(n),t'(n)),\quad
+\hsame(s'(n),s''(n)),\quad
+\hsame(t'(n),t''(n)).
+$$
+Then the selected finite-window surface at the final endpoints simultaneously
+contains the $\RealUp$ window
+$\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)$, the final selected
+classifier $\mathsf{RatHistoryClassifier}(s''(n),t''(n))$, the two endpoint
+observation rows
+$\mathsf{DyadicRatCoreObservationRow}(s''(n))$ and
+$\mathsf{DyadicRatCoreObservationRow}(t''(n))$, and the four stability faces
+needed by the $\RealUp$ finite-window seal: source endpoint classifier
+stability, target endpoint classifier stability, transported source
+observation stability, and transported target observation stability.
+\end{theorem}
+\begin{proof}
+First read the finite observation rows. Apply
+\autoref{thm:regseqrat-finite-window-dyadic-observation-coverage}. The
+RegSeqRat spines provide the stream-side rational histories, while
+$\StreamNameUp$ supplies the finite unary window selected by $a,w,k$.
+
+Next read the classifier faces. Apply
+\autoref{thm:regseqrat-finite-window-dyadic-classifier-stability-package}.
+The source $\mathsf{RatStreamNameClassifier}(s,t)$ and the first selected
+$\hsame$ endpoint transports give the RatUp classifier stability rows at the
+intermediate endpoints.
+
+Now assemble the endpoint rows. Apply
+\autoref{thm:regseqrat-finite-window-dyadic-transport-package} to the first
+selected transport step, and then apply
+\autoref{thm:regseqrat-finite-window-dyadic-transport-composition} to compose
+the second selected transport step. These theorems supply the final selected
+$\mathsf{RatHistoryClassifier}(s''(n),t''(n))$ and the two
+$\mathsf{DyadicRatCoreObservationRow}$ witnesses.
+
+Thus $\StreamNameUp$ contributes the finite window, $\RatUp$ contributes the
+classifier faces, $\DyadicRatCore$ contributes the endpoint observation rows,
+and RegSeqRat contributes the four stream spines. Repacking these rows gives a
+single $\mathsf{BHist}$-anchored package for the finite-window seal.
+\end{proof}
+
 Fit. Traditional target: composed finite-window dyadic endpoint transport for
 RegSeqRat. BEDC source:
 $\StreamNameUp+\RatUp+\RealUp+\DyadicRatCore$. Carrier/classifier: six

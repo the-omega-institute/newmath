@@ -156,6 +156,36 @@ witness as the $\TotalOrderUp$ naming certificate. Hence both concrete
 presentations sit in the same singleton $\mathsf{BHist}$ order tower.
 \end{proof}
 
+\begin{theorem}[TotalOrder singleton strict branch exclusion]
+\label{thm:totalorder-singleton-strict-branch-exclusion}
+On carried endpoints of $A_{\emp}$, a singleton $\TotalOrderUp$ comparison row
+for $h,k$ cannot select a strict-left or strict-right branch. More precisely,
+if $A_{\emp}(h)$ and $A_{\emp}(k)$, then every comparison row in
+\autoref{def:concrete-singleton-history-totalorder-instance} factors through
+the same classifier branch
+$$
+\rho_{\emp}(h,k)
+$$
+and through the endpoint-carrier relation $h\le_{\bot}k$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:concrete-singleton-history-totalorder-instance}. The
+carrier witnesses $A_{\emp}(h)$ and $A_{\emp}(k)$ identify both endpoints with
+$\emp$, so the endpoint-carrier relation $h\le_{\bot}k$ is the same pair of
+singleton carrier facts read in the order tower certificate.
+
+Apply \autoref{thm:singleton-empty-poset-laws}. Its opposing guarded prefix
+exactness clauses identify the two singleton $\POSetUp$ comparisons with the
+same endpoint carrier witnesses and hence with the same classifier row
+$\rho_{\emp}(h,k)$.
+
+Now apply \autoref{thm:singleton-history-totalorder-laws}. In the singleton
+history total-order package the strict-left and strict-right branches have no
+carried row once both endpoints have been identified with $\emp$. The only
+remaining comparison branch is the same branch, and its row is exactly
+$\rho_{\emp}(h,k)$.
+\end{proof}
+
 \begin{theorem}[TotalOrder singleton comparison determinacy]
 \label{thm:totalorder-singleton-comparison-determinacy}
 On carried endpoints of $A_{\emp}$, any two singleton total-order comparison
