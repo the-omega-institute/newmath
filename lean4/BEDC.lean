@@ -398,7 +398,6 @@ import BEDC.Derived.NumFieldUp.DegreeOneBasis
 import BEDC.Derived.NumFieldUp.EmbeddingCoordinateProductCompatibility
 import BEDC.Derived.NumFieldUp.SingletonBasisSupport
 import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
-import BEDC.Derived.ClassFieldUp
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
@@ -653,6 +652,7 @@ import BEDC.Derived.CommRingUp.Parallelogram
 import BEDC.Derived.CommRingUp.SignedProductBalance
 import BEDC.Derived.CommRingUp.CrossTerm
 import BEDC.Derived.CommRingUp.DiagonalExtractionPackage
+import BEDC.Derived.CommRingUp.StdBridge
 import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.CommRingUp.SingletonContinuation
 import BEDC.Derived.CommRingUp.SingletonStrictZeroDivisor
