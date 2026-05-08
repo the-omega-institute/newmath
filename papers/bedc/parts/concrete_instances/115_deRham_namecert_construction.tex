@@ -8,3 +8,121 @@ The de~Rham interface $\DeRhamUp$ packages the exterior-derivative chain complex
 
 \section{The certificate}
 \label{sec:deRham-certificate}
+
+\begin{definition}[De Rham chain-complex boundary row]
+\label{def:derham-chain-complex-boundary-row}
+Fix a $\NameCert_{\CohomologyUp}$ cochain differential
+$d_{\mathrm{dR}}:\mathsf{BHist}\to\mathsf{BHist}$. A row
+$b:\mathsf{BHist}$ is accepted by the $\DeRhamUp$ chain-complex boundary
+predicate when it is in the image of the same cochain differential:
+$$
+\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}(b)
+:\Longleftrightarrow
+\exists a:\mathsf{BHist},\ \hsame(b,d_{\mathrm{dR}}(a)).
+$$
+The witness $a$ is the cochain preimage row. The predicate adds no quotient
+row and no host-level differential-form operation beyond the displayed
+cochain differential.
+\end{definition}
+
+\begin{definition}[De Rham double exterior-derivative packet]
+\label{def:derham-double-exterior-derivative-packet}
+Fix a $\NameCert_{\ManifoldUp}$ source $M$ and a
+$\NameCert_{\TensorProductUp}$ source $T$ as in
+\autoref{def:diffform-bhist-form-carrier}. Fix a
+$\NameCert_{\CohomologyUp}$ cochain differential
+$d_{\mathrm{dR}}:\mathsf{BHist}\to\mathsf{BHist}$ and a zero cochain endpoint
+$z_{\mathrm{dR}}:\mathsf{BHist}$. For carried $\DiffFormUp$ rows
+$\omega$, $\eta$, and $\theta$, the packet
+$$
+\mathsf{DeRhamDoubleExterior}_{M,T,d_{\mathrm{dR}}}
+(\omega,\eta,\theta,z_{\mathrm{dR}})
+$$
+is accepted exactly when its visible fields are the following rows:
+\begin{enumerate}
+  \item $\omega$, $\eta$, and $\theta$ are carried by
+  $\mathsf{DiffFormBHistCarrier}_{M,T}$.
+  \item The two successive exterior-input rows
+  $\mathsf{DiffFormExteriorInput}_{M,T}(\omega,\eta)$ and
+  $\mathsf{DiffFormExteriorInput}_{M,T}(\eta,\theta)$ are accepted.
+  \item The cochain graph rows identify the carried exterior outputs with the
+  same cohomology differential:
+  $$
+  \eta\hsame d_{\mathrm{dR}}(\omega)
+  \quad\text{and}\quad
+  \theta\hsame d_{\mathrm{dR}}(\eta).
+  $$
+  \item The cohomology differential respects $\hsame$: for all
+  $a,b:\mathsf{BHist}$,
+  $$
+  \hsame(a,b)\Longrightarrow
+  \hsame(d_{\mathrm{dR}}(a),d_{\mathrm{dR}}(b)).
+  $$
+  \item The de Rham square-zero row and zero endpoint row are present:
+  $$
+  \forall a:\mathsf{BHist},\
+  \hsame(d_{\mathrm{dR}}(d_{\mathrm{dR}}(a)),z_{\mathrm{dR}})
+  \quad\text{and}\quad
+  \hsame(z_{\mathrm{dR}},\emp).
+  $$
+\end{enumerate}
+The two $\DiffFormUp$ exterior-input rows provide only the carried input-output
+surface of \autoref{def:diffform-exterior-derivative-visible-input-package};
+the square-zero row is a $\DeRhamUp$ field read through the
+$\CohomologyUp$ cochain differential.
+\end{definition}
+
+\begin{theorem}[De Rham double exterior derivative boundary]
+\label{thm:derham-double-exterior-derivative-boundary}
+If
+$\mathsf{DeRhamDoubleExterior}_{M,T,d_{\mathrm{dR}}}
+(\omega,\eta,\theta,z_{\mathrm{dR}})$ is accepted, then the carried second
+exterior derivative row $\theta$ is classified as the zero cochain endpoint
+and is an accepted $\DeRhamUp$ chain-complex boundary row:
+$$
+\hsame(\theta,z_{\mathrm{dR}})
+\quad\wedge\quad
+\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}(\theta).
+$$
+Moreover the intermediate carried row is a $\CohomologyUp$ cocycle:
+$$
+C_{d_{\mathrm{dR}}}(\eta).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet of
+\autoref{def:derham-double-exterior-derivative-packet}. The two accepted
+$\DiffFormUp$ exterior-input rows are successive by
+\autoref{def:diffform-exterior-derivative-visible-input-package}: the first
+has source $\omega$ and output $\eta$, while the second has source $\eta$ and
+output $\theta$. By \autoref{thm:diffform-exterior-derivative-degree-successor-ledger},
+these rows expose only the one-step exterior-input ledgers. The nilpotence row
+therefore comes from the de Rham packet, not from the $\DiffFormUp$ boundary
+exhaustion of \autoref{thm:diffform-downstream-boundary-exhaustion}.
+
+Let the graph comparisons be
+$\eta\hsame d_{\mathrm{dR}}(\omega)$ and
+$\theta\hsame d_{\mathrm{dR}}(\eta)$. Applying the $\hsame$-respect row of
+$d_{\mathrm{dR}}$ to the first comparison gives
+$$
+\hsame(d_{\mathrm{dR}}(\eta),d_{\mathrm{dR}}(d_{\mathrm{dR}}(\omega))).
+$$
+The square-zero row at $\omega$ gives
+$$
+\hsame(d_{\mathrm{dR}}(d_{\mathrm{dR}}(\omega)),z_{\mathrm{dR}}).
+$$
+Transitivity with the second graph comparison yields
+$\hsame(\theta,z_{\mathrm{dR}})$.
+
+For the boundary predicate, use the cochain preimage $\eta$. The second graph
+comparison is exactly the witness
+$\hsame(\theta,d_{\mathrm{dR}}(\eta))$ required by
+\autoref{def:derham-chain-complex-boundary-row}. Hence
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}(\theta)$ holds.
+
+Finally, the same differential comparison, the square-zero row at $\omega$,
+and the zero endpoint comparison $\hsame(z_{\mathrm{dR}},\emp)$ give
+$d_{\mathrm{dR}}(\eta)\hsame\emp$. By
+\autoref{def:cohomology-cocycle-predicate}, this is exactly
+$C_{d_{\mathrm{dR}}}(\eta)$.
+\end{proof}

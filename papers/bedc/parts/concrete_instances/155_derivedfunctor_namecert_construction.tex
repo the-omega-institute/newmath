@@ -266,3 +266,36 @@ For a downstream consumer, supply those projected rows as its input packet. The 
 
 If the consumer predicate is invariant under the projected rows, transport the input packet by the displayed $\hsame$ witnesses and repack the same $\Pkg$ provenance. The consumer output is unchanged because every visible row it can read is either one of the projections or a finite $\Cont$ composite of them.
 \end{proof}
+
+\begin{theorem}[Derived-functor triangle splice consumer boundary]\label{thm:derivedfunctor-triangle-splice-consumer-boundary}
+A downstream consumer of the $\DerivedFunctorUp$ triangle-splice surface receives exactly the $\AbelianCatUp$ short-exact source rows, the $\HomologyUp$ cycle-boundary rows, the connecting row, the finite $\Cont$ ledgers, the displayed $\hsame$ witnesses, and the $\Pkg$ provenance named by \autoref{def:derivedfunctor-delta-splice-surface}. No consumer projection exposes an additional complex equality, an ambient object equality, or a host quotient representative.
+\end{theorem}
+\begin{proof}
+Unpack the displayed delta-splice surface. Its source rows are precisely the short-exact row, the selected finite resolution rows, the cycle rows, and the boundary rows listed in \autoref{def:derivedfunctor-delta-splice-surface}.
+
+Use \autoref{thm:derivedfunctor-short-exact-source-scope} to identify the $\AbelianCatUp$ source part, and use \autoref{thm:derivedfunctor-connecting-row-ledger} to identify the connecting row as a finite $\Cont$ readback from HomologyUp boundary data and $\hsame$ transports.
+
+Now apply \autoref{thm:derivedfunctor-abeliancat-homology-consumer-surface}. It says that a consumer reads only these projections and their finite $\Cont$ consequences. Repacking those rows gives the stated boundary: $\mathsf{BHist}$ packet rows, $\hsame$ witnesses, finite $\Cont$ ledgers, and $\Pkg$ provenance, with no additional host equality or quotient representative.
+\end{proof}
+
+\begin{theorem}[Derived-functor triangle splice provenance exactness]\label{thm:derivedfunctor-triangle-splice-provenance-exactness}
+The $\Pkg$ provenance row of a $\DerivedFunctorUp$ delta-splice surface is complete for the displayed splice packet: it names exactly the $\NameCert_{\AbelianCatUp}$ and $\NameCert_{\HomologyUp}$ certificates needed to read the short-exact source, cycle-boundary, connecting, $\Cont$, and $\hsame$ rows. It carries no host quotient of complexes and no external representative for the homology notation.
+\end{theorem}
+\begin{proof}
+Project the $\Pkg$ row in \autoref{def:derivedfunctor-delta-splice-surface}. Its AbelianCatUp component accounts for the short-exact source row and the selected finite resolution rows, while its HomologyUp component accounts for the displayed cycle and boundary rows.
+
+The connecting row is not a separate provenance source. By \autoref{thm:derivedfunctor-connecting-row-ledger}, it is reached from the same boundary rows by finite $\Cont$ readback and transported by the listed $\hsame$ witnesses.
+
+The long-exact splice coverage theorem \autoref{thm:derivedfunctor-long-exact-splice-coverage} composes adjacent rows without adding a new source package. Therefore the same $\Pkg$ provenance is exact for the whole delta-splice surface and leaves host quotients of complexes outside the exported packet.
+\end{proof}
+
+\begin{theorem}[Derived-functor spectral-sequence input surface]\label{thm:derivedfunctor-spectral-sequence-input-surface}
+A $\SpectralSeqUp$ consumer of a $\DerivedFunctorUp$ delta-splice surface may read only adjacent long-exact splice rows produced by \autoref{thm:derivedfunctor-long-exact-splice-coverage}. Its input surface consists of the neighboring cycle-boundary rows, connecting row, finite $\Cont$ composites, $\hsame$ transport witnesses, and $\Pkg$ provenance of those adjacent rows.
+\end{theorem}
+\begin{proof}
+Fix a candidate $\SpectralSeqUp$ consumer and restrict attention to two neighboring displayed degrees in the delta-splice surface. Unpack \autoref{def:derivedfunctor-delta-splice-surface} at those degrees to obtain the local cycle rows, boundary rows, and connecting row.
+
+Apply \autoref{thm:derivedfunctor-long-exact-splice-coverage}. The theorem constructs the adjacent long-exact splice segment by $\Cont$ associativity and HomologyUp boundary transport, using only the carried short-exact source row, selected resolution rows, cycle-boundary rows, connecting row, and $\Pkg$ provenance.
+
+Finally apply \autoref{thm:derivedfunctor-abeliancat-homology-consumer-surface}. Since the consumer can read only projected rows and finite $\Cont$ consequences, the allowed $\SpectralSeqUp$ input is exactly the adjacent splice surface just constructed, with no parameter transport schema or host quotient row added.
+\end{proof}
