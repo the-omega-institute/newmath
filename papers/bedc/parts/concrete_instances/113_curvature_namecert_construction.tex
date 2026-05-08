@@ -260,3 +260,45 @@ The downstream projection to $\ChernWeilUp$ is by ordinary tuple projection. It 
 
 The final clause is exactness again: because the exported surface contains only those rows, no downstream consumer may read a coordinate curvature form, a de Rham class, or a standard bridge from $\NameCert_{\CurvatureUp}$ alone. Such data must be supplied by its own certificate.
 \end{proof}
+
+\begin{theorem}[Curvature NameCert finite basis]
+\label{thm:curvature-namecert-finite-basis}
+The public $\NameCert_{\CurvatureUp}$ basis is exactly the finite row family consisting of the carrier tuple of \autoref{def:curvature-bhist-bracket-carrier}, the connection-carrier scope row of \autoref{thm:curvature-connection-carrier-scope}, the bracket classifier obligation of \autoref{thm:curvature-bracket-classifier-obligation}, the antisymmetric bracket obligation of \autoref{thm:curvature-antisymmetric-bracket-obligation}, the Bianchi ledger obligation of \autoref{thm:curvature-bianchi-ledger-obligation}, the tensorial transport obligation of \autoref{thm:curvature-tensorial-transport-obligation}, the ledger exactness obligation of \autoref{thm:curvature-ledger-exactness-obligation}, and the scope obligation of \autoref{thm:curvature-namecert-scope-obligation}. Every public curvature certificate row is a projection from this family, and every row in the family is consumed by at least one public $\CurvatureUp$ certificate field.
+\end{theorem}
+\begin{proof}
+Project first from the carrier tuple in \autoref{def:curvature-bhist-bracket-carrier}. This gives the source connection certificate, base row, fibre row, section row, two tangent-direction rows, derivative endpoints, commutator boundary, cyclic ledger, classifier transports, and provenance row.
+
+The named obligation rows then identify how those projections are used. The connection-carrier scope row fixes the inherited source surface; the bracket classifier and antisymmetric bracket rows control boundary comparison; the Bianchi and tensorial transport rows control cyclic and replacement ledgers; and ledger exactness states that no additional public row is available.
+
+Conversely, each listed row has a named role in the public certificate fields. Therefore the displayed family is a finite basis for $\NameCert_{\CurvatureUp}$ rather than a sample of a larger analytic curvature interface.
+\end{proof}
+
+\begin{theorem}[Curvature consumer row coverage]
+\label{thm:curvature-consumer-row-coverage}
+Every downstream consumer of the finite basis in \autoref{thm:curvature-namecert-finite-basis} receives only $\mathsf{BHist}$, $\Cont$, $\hsame$, $\mathsf{Pkg}$, and $\mathsf{SigRel}$ rows. Moreover, each row visible to such a consumer has a source in one of the basis theorems: carrier and boundary rows come from the carrier tuple and connection-carrier scope row, classifier rows from the bracket classifier obligation, reversal rows from the antisymmetric bracket obligation, cyclic rows from the Bianchi ledger obligation, replacement rows from the tensorial transport obligation, provenance rows from ledger exactness, and export permission from the scope obligation.
+\end{theorem}
+\begin{proof}
+Case split over the finite basis named in \autoref{thm:curvature-namecert-finite-basis}.
+
+\begin{enumerate}
+\item The carrier tuple and connection-carrier scope cases expose $\mathsf{BHist}$ rows together with inherited $\mathsf{Pkg}$ provenance from $\NameCert_{\ConnectionUp}$.
+
+\item The bracket classifier, antisymmetric bracket, Bianchi ledger, and tensorial transport cases expose only $\Cont$, $\hsame$, and $\mathsf{SigRel}$ comparison rows between already carried histories.
+
+\item The ledger exactness and scope cases expose no new row sort. They identify which carried $\mathsf{BHist}$, $\Cont$, $\hsame$, $\mathsf{Pkg}$, and $\mathsf{SigRel}$ rows may be projected by a downstream certificate.
+\end{enumerate}
+
+These cases cover the whole basis. Hence a consumer cannot obtain a coordinate curvature form, host tensor operation, de Rham class, or standard bridge by projecting $\NameCert_{\CurvatureUp}$ alone.
+\end{proof}
+
+\begin{theorem}[Curvature Chern-Weil export determinacy]
+\label{thm:curvature-chernweil-export-determinacy}
+Let $\mathcal{R}$ and $\mathcal{R}'$ be two public $\NameCert_{\CurvatureUp}$ packets whose rows agree on the finite basis of \autoref{thm:curvature-namecert-finite-basis}. Then their projections to the $\ChernWeilUp$ source envelope determine the same curvature boundary $\kappa$, Bianchi ledger, tensorial transport row, and provenance packet. Consequently the curvature component of the $\ChernWeilUp$ source envelope is determined by the finite $\CurvatureUp$ basis and not by any uncarried connection form or host-level curvature object.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:curvature-namecert-finite-basis} to both packets. Agreement on the basis identifies the carrier projections, the boundary row, the cyclic ledger, the tensorial transport row, and the $\mathsf{Pkg}$ provenance row.
+
+Next use \autoref{thm:curvature-chernweil-consumer-boundary}. That theorem packages exactly those curvature projections as the input side consumed by $\ChernWeilUp$, while excluding any de Rham row, characteristic-class equality, standard bridge, or Lean verification target.
+
+Finally project the source envelope of \autoref{def:chernweil-source-envelope}. Its curvature component is the public $\NameCert_{\CurvatureUp}$ packet carrying the boundary and provenance exported by the scope rule, so the equal basis rows force the same curvature source component in both envelopes.
+\end{proof}
