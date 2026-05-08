@@ -66,54 +66,6 @@ AbelianCat is a 433-line chapter with 10 theorems but only B-423 (`AbelianCat ho
 
 ---
 
-### B-524 - RandomVar countable preimage intersection exactness
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | RandomVar countable preimage intersection exactness |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 10/10 |
-| Novelty | 7/10 |
-
-Problem:
-If X:S->T is a carried RandomVarUp map and B_n in A_T is a target measurable-event sequence with intersection event I_T, then each preimage A_n := X^{-1}(B_n) and A_I := X^{-1}(I_T) lies in A_S, and A_I is source-classifier-equal to the source measurable countable intersection of A_bullet.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/randomvar/terminal_and_countable_preimage.tex`
-
-Rationale:
-Strict dual companion to B-474 (countable preimage UNION exactness), the only sigma-algebra closure case missing from the RandomVar preimage exactness suite (B-474 union, B-419 preimage union, B-456 empty preimage, B-455 total preimage, B-439 complement, B-434 relative-difference, plus binary intersection in countable_and_intersection.tex). The scoped-closure package thm:randomvar-scoped-closure-package currently only mentions countable union; a probability-theory referee would call this out. Concrete sigma-algebra closure, not a parameter transport — proof mirrors the union proof with exists -> forall. File 171 lines, safe landing.
-
----
-
-### B-537 - DirichletUnit inherited unit-product closure
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | DirichletUnit inherited unit-product closure |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 9/10 |
-
-Problem:
-If two accepted DirichletUnitUp unit rows over the same RingOfIntegersUp and AbGroupUp dependency packets carry their inverse/unit-product witnesses, then the inherited AbGroupUp operation endpoint is again a visible DirichletUnitUp unit row with the shared Pkg and Cont provenance.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex`
-
-Rationale:
-DirichletUnitUp is a number-theoretic surface with no active or completed BOARD target found in the target/state scans, while the body file is small and concrete. The carrier explicitly lists a visible unit row u and an inverse/unit-product witness row iota at papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex:11-15, and the public abelian-group dependency is restricted to unit rows accepted by the RingOfIntegersUp dependency at papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex:55-64. The later AbGroup projection exposes operation, inverse, identity, and classifier rows at papers/bedc/parts/concrete_instances/149_dirichletunit_namecert_construction.tex:114-135, but there is no theorem in the file asserting that the inherited product of two visible unit rows is again a DirichletUnitUp visible unit row. This is a concrete missing closure law, not a marker/status update or abstract classifier transport.
-
----
-
 ### B-538 - Quadrature empty-node sum is zero
 
 | field | value |
