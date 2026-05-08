@@ -74,6 +74,7 @@ import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.BilinFormUp
 import BEDC.Derived.ChernWeilUp
+import BEDC.Derived.CurvatureUp
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.OptionUp
@@ -179,6 +180,7 @@ import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
+import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.RealAlgOrderUp
