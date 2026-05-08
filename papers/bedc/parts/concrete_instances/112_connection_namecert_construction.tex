@@ -6,6 +6,72 @@ The connection interface $\ConnectionUp$ packages a covariant derivative on a fi
 \section{Carrier definition}
 \label{sec:connection-carrier}
 
+\begin{definition}[Connection carrier packet]
+\label{def:connection-carrier-packet}
+A $\ConnectionUp$ carrier packet is a displayed $\mathsf{BHist}$ tuple
+$$
+\mathcal{C}=(\mathcal{B},\mathcal{M},b,f,s,t,\nabla,\eta_{\mathcal{B}},\eta_{\mathcal{M}},\rho)
+$$
+where $\mathcal{B}$ is the $\BundleUp$ source certificate, $\mathcal{M}$ is the $\ManifoldUp$ source certificate, $b:\mathsf{BHist}$ is a base-point row, $f:\mathsf{BHist}$ is the fibre row over $b$, $s:\mathsf{BHist}$ is a section row with endpoint in $f$, $t:\mathsf{BHist}$ is a tangent-direction row at $b$, and $\nabla:\mathsf{BHist}$ is the covariant-derivative endpoint row. The witnesses $\eta_{\mathcal{B}}$ and $\eta_{\mathcal{M}}$ retain the two dependency $\NameCert$ rows, while $\rho$ records that the visible source rows are compared only by the inherited $\hsame$ and classifier data supplied by $\BundleUp$ and $\ManifoldUp$.
+
+The packet carries no ambient manifold object beyond those rows. Its public surface is the base point, fibre, section, tangent direction, derivative endpoint, dependency witnesses, and finite $\Cont$ ledger connecting the derivative endpoint back to the displayed source rows.
+\end{definition}
+
+\begin{definition}[Connection classifier and derivative row]
+\label{def:connection-classifier-and-derivative-row}
+Two connection packets $\mathcal{C}$ and $\mathcal{C}'$ are classified by $\mathsf{ConnCls}$ when their base-point rows are related by the $\ManifoldUp$ point classifier, their fibre rows are related by the $\BundleUp$ fibre classifier, their section rows are related by the $\BundleUp$ section classifier, their tangent-direction rows are related by the $\ManifoldUp$ tangent classifier, and their derivative endpoint rows are related by $\hsame$. The $\mathsf{Pkg}$ provenance rows of the two dependency certificates remain part of the comparison, so a classifier witness also records the source packets from which the displayed derivative rows were read.
+
+Thus the derivative row is a carried $\mathsf{BHist}$ endpoint, not a host-level function value. It is accepted precisely when the source base, fibre, section, and tangent rows are accepted by the inherited certificates and the endpoint comparison is witnessed by $\hsame$ inside the same finite history ledger.
+\end{definition}
+
+\begin{theorem}[Connection section-linearity obligation]
+\label{thm:connection-section-linearity-obligation}
+For the carrier of \autoref{def:connection-carrier-packet}, the derivative row is stable under the section-addition and scalar-action rows supplied by the $\BundleUp$ and $\ManifoldUp$ dependency sources. If $s_1$, $s_2$, and $a$ are certified section and scalar rows over the same base and tangent packet, then the derivative endpoints for $s_1+s_2$ and $a\cdot s_1$ are classified by the same $\mathsf{ConnCls}$ rows obtained by applying the corresponding carried addition and scalar-action ledgers to the derivative endpoints of $s_1$ and $s_2$.
+\end{theorem}
+\begin{proof}
+Read the two section rows, their sum row, and the scalar-action row through the $\BundleUp$ certificate. The $\ManifoldUp$ source keeps the base point and tangent-direction rows fixed under the displayed classifier.
+
+Apply endpoint transport for $\hsame$ along the finite $\Cont$ ledgers representing section addition and scalar action. The derivative endpoint row is then compared componentwise with the transported endpoint rows, while the $\mathsf{Pkg}$ provenance remains the original pair of dependency certificates.
+
+Repack the transported base, fibre, section, tangent, and derivative comparisons into $\mathsf{ConnCls}$. No external vector-space equality is used, because all linearity data is read from the dependency rows carried by the packet.
+\end{proof}
+
+\begin{theorem}[Connection parallel-transport obligation]
+\label{thm:connection-parallel-transport-obligation}
+Let a displayed path spine be a finite $\mathsf{BHist}$ chain of base-point rows whose adjacent tangent-direction and derivative endpoint rows are compatible by $\mathsf{ConnCls}$. Then the chain determines a parallel-transport packet whose initial and terminal section endpoints remain in the carried fibre classifier of the $\BundleUp$ source.
+\end{theorem}
+\begin{proof}
+Induct on the displayed path spine. For the empty spine, the transport packet is the identity $\Cont$ row at the initial fibre, and the fibre classifier holds by reflexivity of the inherited $\BundleUp$ classifier.
+
+For a nonempty spine, use the head derivative row to append one certified transport step. The compatibility premise supplies the $\hsame$ endpoint comparison needed to move from the current fibre row to the next carried fibre row.
+
+Apply the induction hypothesis to the remaining spine and compose the two finite ledgers by $\Cont$ associativity. The terminal endpoint is therefore classified with the carried terminal fibre row by the same $\BundleUp$ classifier used at every visible step.
+\end{proof}
+
+\begin{theorem}[Connection curvature-boundary obligation]
+\label{thm:connection-curvature-boundary-obligation}
+Given two displayed tangent-direction rows for a connection packet, the commutator of the corresponding derivative rows is a visible $\mathsf{BHist}$ boundary row. This boundary row is consumable by $\CurvatureUp$ as the source row for the curvature packet, with base, fibre, section, tangent-pair, derivative-endpoint, and $\mathsf{Pkg}$ provenance data inherited from \autoref{def:connection-carrier-packet}.
+\end{theorem}
+\begin{proof}
+Build the two derivative composites by appending the first tangent direction and then the second, and by appending them in the reverse order. Each composite is a finite $\Cont$ ledger over the same base, fibre, and section rows.
+
+The commutator boundary is the displayed comparison between these two endpoint ledgers. Its source rows are exactly the two tangent-direction rows and the two derivative endpoint rows already accepted by $\mathsf{ConnCls}$.
+
+Package that comparison as a $\mathsf{BHist}$ boundary row. Since the packet exposes the dependency certificates and provenance rows, $\CurvatureUp$ can read the boundary without adding a new carrier object or quotienting the derivative endpoints.
+\end{proof}
+
+\begin{theorem}[Connection stability-ledger exactness obligation]
+\label{thm:connection-stability-ledger-exactness-obligation}
+The displayed connection surface has exactly the classifier reflexivity, symmetry, and transitivity rows inherited from $\hsame$, $\BundleUp$, and $\ManifoldUp$; the carrier transport rows generated by those classifiers; the ledger readback rows for base, fibre, section, tangent, derivative, and $\mathsf{Pkg}$ provenance; and the exactness rows for section-linearity, parallel transport, and curvature-boundary formation. No additional coordinate chart, host connection operator, or standard bridge row is part of the obligation surface.
+\end{theorem}
+\begin{proof}
+Classifier stability is componentwise. Reflexivity, symmetry, and transitivity for derivative endpoints come from $\hsame$, while the base, fibre, section, and tangent components are supplied by the two dependency certificates.
+
+Carrier transport follows by applying those componentwise classifier rows to the tuple of \autoref{def:connection-carrier-packet}. Ledger readback is by projection from the tuple: each accepted connection row exposes exactly its base, fibre, section, tangent, derivative endpoint, dependency certificate, and provenance fields.
+
+Exactness is the reverse reading. The section-linearity, parallel-transport, and curvature-boundary obligations use only the projected rows and finite $\Cont$ ledgers already listed above, so any accepted certificate step is one of the displayed connection rows and every displayed row is used by one of those certificate steps.
+\end{proof}
+
 \section{The certificate}
 \label{sec:connection-certificate}
 \closureat{ConnectionUp}{seedStr}
