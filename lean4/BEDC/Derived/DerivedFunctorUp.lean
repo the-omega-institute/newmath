@@ -44,4 +44,29 @@ theorem DerivedFunctorCarrier_boundary_over_transported_resolution
     (And.intro carrier.left (And.intro resolvedRow endpointRow))
     (And.intro sameResolved sameEndpoint)
 
+theorem DerivedFunctorCarrier_classifier_stability
+    {functor functor' resolution resolution' homology homology' degree degree'
+      resolved resolved' endpoint endpoint' : BHist} :
+    DerivedFunctorCarrier functor resolution homology degree resolved endpoint ->
+      UnaryHistory degree' ->
+        hsame functor functor' ->
+          hsame resolution resolution' ->
+            hsame homology homology' ->
+              hsame degree degree' ->
+                hsame endpoint endpoint' ->
+                  Cont functor' resolution' resolved' ->
+                    Cont resolved' homology' endpoint' ->
+                      DerivedFunctorCarrier functor' resolution' homology' degree'
+                          resolved' endpoint' ∧
+                        hsame resolved resolved' := by
+  intro carrier degreeUnary sameFunctor sameResolution sameHomology _sameDegree _sameEndpoint
+    resolvedRow endpointRow
+  have sameResolved : hsame resolved resolved' :=
+    cont_respects_hsame sameFunctor sameResolution carrier.right.left resolvedRow
+  have _endpointByRows : hsame endpoint endpoint' :=
+    cont_respects_hsame sameResolved sameHomology carrier.right.right endpointRow
+  exact And.intro
+    (And.intro degreeUnary (And.intro resolvedRow endpointRow))
+    sameResolved
+
 end BEDC.Derived.DerivedFunctorUp

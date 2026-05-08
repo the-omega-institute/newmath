@@ -199,6 +199,89 @@ The vertex and incidence witnesses are retained from the hypothesis but are not 
 The graph-edge row and the no-shared-vertex row are exactly the two clauses of $\mathsf{MatchingEdgeSet}_G(M_{e_\star})$ in \autoref{def:matching-carrier-and-finite-edge-subset}.
 \end{proof}
 
+\begin{theorem}[Matching augmentation symmetric-difference decomposition]
+\label{thm:matching-augmentation-symmetric-difference-decomposition}
+Let $G$ be a $\GraphUp$ carrier with vertex predicate $\mathsf{Vert}_G$, edge
+predicate $\mathsf{Edge}_G$, incidence predicate $\mathsf{Inc}_G$, and edge
+classifier $\sim_E$. For two finite $\MatchingUp$ edge predicates $M,N$ in
+$G$, the symmetric-difference ledger decomposes into carried edge rows:
+each displayed edge $e$ has $\mathsf{Edge}_G(e)$, an endpoint-incidence
+witness row through $\mathsf{Inc}_G$, and one of the two finite membership
+certificates $M(e)$ or $N(e)$ but not both. The ledger contains no unrecorded
+host edge set beyond these $\mathsf{BHist}$ rows.
+\end{theorem}
+\begin{proof}
+Read the finite edge-subset rows for $M$ and $N$ from
+\autoref{def:matching-carrier-and-finite-edge-subset}. Each selected edge is a
+carried $\GraphUp$ edge, and each pair of selected incident edges is governed
+by the no-shared-vertex row.
+
+Construct the symmetric-difference ledger by scanning the two finite
+membership ledgers. An edge in exactly one ledger is copied with its carried
+edge witness; an edge in both ledgers is omitted from the toggled surface and
+retained only as the classifier comparison explaining the cancellation.
+
+The endpoint-incidence witnesses are the incidence rows already stored by the
+$\GraphUp$ carrier. Because the decomposition stores membership side, carried
+edge status, incidence, and classifier comparisons explicitly, no external
+host edge set is introduced.
+\end{proof}
+
+\begin{theorem}[Matching augmenting edge toggle closure]
+\label{thm:matching-augmenting-edge-toggle-closure}
+Let $M$ be a $\MatchingUp$ edge predicate in a $\GraphUp$ carrier $G$, and let
+$e_\star:\mathsf{BHist}$ be a carried edge. Suppose the singleton predicate
+$M_{e_\star}(e)\Longleftrightarrow e\sim_E e_\star$ is incident-disjoint from
+$M$ except along the edge classifier $\sim_E$. Then toggling the singleton
+predicate into $M$ gives another $\mathsf{MatchingEdgeSet}_G$: the resulting predicate
+is the compatible union of $M$ with the singleton edge predicate, with
+classifier-equal overlap cancelled by the same finite toggle ledger.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:singleton-edge-predicate-is-matching} to the carried
+edge $e_\star$. This gives the singleton matching predicate whose selected
+edges are exactly the $\sim_E$-class of $e_\star$.
+
+Next use the incident-disjointness hypothesis to verify compatibility with
+$M$. Whenever a vertex is incident to one edge selected by $M$ and one edge
+selected by the singleton predicate, the hypothesis collapses the two edges by
+$\sim_E$, which is precisely the compatibility condition needed by
+\autoref{thm:matching-compatible-union-closure}.
+
+Finally apply the compatible-union closure theorem and read the finite toggle
+ledger from
+\autoref{thm:matching-augmentation-symmetric-difference-decomposition}. Edges
+in the classifier-equal overlap are cancelled by the toggle ledger, and all
+remaining selected edges keep their $\GraphUp$ carried-edge and incidence
+rows.
+\end{proof}
+
+\begin{theorem}[Matching bipartite cover consumer boundary]
+\label{thm:matching-bipartite-cover-consumer-boundary}
+A bipartite cover consumer of the finite augmenting surface may read only the
+finite edge subset, the no-shared-vertex row of
+\autoref{def:matching-carrier-and-finite-edge-subset}, the incidence
+$\mathsf{BHist}$ rows of $\GraphUp$, the carried graph rows, and the
+$\FinSetUp$ provenance of the finite ledger. It may not read an ambient host
+edge set, an uncarried vertex quotient, or any matching predicate not presented
+by the displayed finite $\mathsf{BHist}$ ledger.
+\end{theorem}
+\begin{proof}
+The symmetric-difference and toggle theorems expose the finite matching data as
+listed rows: carried edges, incidence witnesses, membership side, classifier
+comparisons, and no-shared-vertex certificates.
+
+A bipartite cover construction uses exactly those rows to decide which
+endpoints are covered by selected edges and which alternating steps are
+available. The $\FinSetUp$ provenance bounds the search to the displayed
+finite ledger, while the $\GraphUp$ incidence rows provide all endpoint reads.
+
+Thus the consumer boundary is the finite BEDC ledger itself. Since every edge
+and vertex access is mediated by $\mathsf{BHist}$ and the graph certificate,
+there is no permission to inspect an ambient host graph or an unrecorded edge
+collection.
+\end{proof}
+
 \begin{theorem}[Matching abstract sub-predicate closure]
 \label{thm:matching-abstract-subpredicate-closure}
 Let $G$ be a $\GraphUp$ carrier with edge classifier $\sim_E$. Let $M,N:\mathsf{BHist}\to\mathsf{Prop}$ be edge predicates. If
