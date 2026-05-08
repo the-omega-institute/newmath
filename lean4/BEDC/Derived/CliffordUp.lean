@@ -161,6 +161,37 @@ theorem CliffordClassifierPackage_quadratic_relation_obligation
                   (And.intro carrier.right.right.right.right
                     (And.intro classifier.right.right.left classifier.right.right.right))))))))
 
+theorem CliffordCarrierPackage_carrier_classifier_obligations
+    {unit vector product boundary endpoint scalar scalarUnit : BHist} :
+    CliffordClassifierPackage unit vector product boundary endpoint scalar scalarUnit ->
+      CliffordCarrierPackage unit vector product boundary endpoint ∧ UnaryHistory unit ∧
+        UnaryHistory vector ∧ UnaryHistory product ∧ UnaryHistory boundary ∧
+          UnaryHistory endpoint ∧ UnaryHistory scalar ∧ UnaryHistory scalarUnit ∧
+            Cont vector vector product ∧ Cont product boundary endpoint ∧
+              Cont scalar unit scalarUnit ∧ hsame endpoint scalarUnit := by
+  intro classifier
+  have carrier : CliffordCarrierPackage unit vector product boundary endpoint :=
+    classifier.left
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed carrier.right.left carrier.right.left carrier.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed productUnary carrier.right.right.left carrier.right.right.right.right
+  have scalarUnitUnary : UnaryHistory scalarUnit :=
+    unary_cont_closed classifier.right.left carrier.left classifier.right.right.left
+  exact
+    And.intro carrier
+      (And.intro carrier.left
+        (And.intro carrier.right.left
+          (And.intro productUnary
+            (And.intro carrier.right.right.left
+              (And.intro endpointUnary
+                (And.intro classifier.right.left
+                  (And.intro scalarUnitUnary
+                    (And.intro carrier.right.right.right.left
+                      (And.intro carrier.right.right.right.right
+                        (And.intro classifier.right.right.left
+                          classifier.right.right.right))))))))))
+
 theorem CliffordCarrierPackage_universal_factorization_obligation
     {unit vector product boundary endpoint scalar scalarEndpoint target targetProduct
       targetEndpoint : BHist} :
