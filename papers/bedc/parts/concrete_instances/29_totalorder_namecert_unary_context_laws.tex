@@ -756,3 +756,28 @@ For any competing maximum witness $M'$, apply
 maximum witness records for $M$ and $M'$. This gives
 $\rho_{\mathsf{u}}(M,M')$, completing the paired finite-extrema certificate.
 \end{proof}
+
+\begin{theorem}[Concrete unary total-order finite selector RealUp consumer boundary]
+\label{thm:totalorder-unary-selector-real-window-consumer-boundary}
+The unary finite minimum/maximum selector package of
+\autoref{thm:totalorder-prefix-finite-extrema-certificate} can be consumed by
+later $\RealUp$ finite-window comparison rows only as certified selector data
+and classifier-uniqueness data over $\mathsf{BHist}$, $\mathsf{UnaryHistory}$,
+$\hsame$, and $\Cont$.  It identifies finite extrema in carried unary spines
+and transports the selected readbacks through $\rho_{\mathsf{u}}$; it does not
+provide $\RealUp$ trichotomy, open-cover compactness, or quotient order.
+\end{theorem}
+\begin{proof}
+Project the selected minimum and maximum witnesses from
+\autoref{thm:totalorder-prefix-finite-extrema-certificate}.  Their existence
+comes from the finite carried spine and the unary total-order comparison rows.
+
+Project classifier uniqueness through
+\autoref{thm:totalorder-prefix-finite-minimum-classifier-unique} and
+\autoref{thm:totalorder-prefix-finite-maximum-classifier-unique}.  These rows
+are the only comparison facts exported to a $\RealUp$ finite-window consumer.
+
+Since the certificate is built over $\mathsf{BHist}$ and unary continuation
+transport, no RealUp quotient carrier, open-cover compactness principle, or
+constructive trichotomy is introduced.
+\end{proof}
