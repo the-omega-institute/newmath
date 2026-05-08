@@ -119,10 +119,10 @@ theorem ObservableBHistOperatorCarrier_spectral_transport_stability [AskSetup]
   have expectationUnary' : UnaryHistory expectation' :=
     unary_cont_closed operatorUnary' spectrumUnary' expectationRow'
   have sameExpectation : hsame expectation expectation' :=
-    cont_respects_hsame sameOperator sameSpectrum carrier.right.right.right.right.right.left
+    cont_respects_hsame sameOperator sameSpectrum carrier.right.right.right.right.right.right.left
       expectationRow'
   have sameEndpoint : hsame endpoint endpoint' :=
-    cont_deterministic carrier.right.right.right.right.right.right.right.left endpointRow'
+    cont_deterministic carrier.right.right.right.right.right.right.right.right.left endpointRow'
   have carrier' :
       ObservableBHistOperatorCarrier hilbert operator' spectrum' expectation' witness provenance
         ledger endpoint' bundle pkg :=
@@ -131,9 +131,10 @@ theorem ObservableBHistOperatorCarrier_spectral_transport_stability [AskSetup]
         (And.intro spectrumUnary'
           (And.intro expectationUnary'
             (And.intro carrier.right.right.right.right.left
-              (And.intro expectationRow'
-                (And.intro carrier.right.right.right.right.right.right.left
-                  (And.intro endpointRow' pkgSig')))))))
+              (And.intro carrier.right.right.right.right.right.left
+                (And.intro expectationRow'
+                  (And.intro carrier.right.right.right.right.right.right.right.left
+                    (And.intro endpointRow' pkgSig'))))))))
   exact And.intro carrier' (And.intro sameExpectation sameEndpoint)
 
 end BEDC.Derived.ObservableUp
