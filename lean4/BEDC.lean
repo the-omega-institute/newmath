@@ -215,7 +215,9 @@ import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
+import BEDC.Derived.BrownianUp
 import BEDC.Derived.CondExpUp
+import BEDC.Derived.MartingaleUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeqUp
