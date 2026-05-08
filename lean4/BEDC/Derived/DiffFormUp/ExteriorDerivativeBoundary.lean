@@ -82,6 +82,27 @@ theorem DiffFormExteriorDerivativeInputRow_classifier_transport
                         sameSource
   exact And.intro transported shifted
 
+theorem DiffFormExteriorDerivativeLedger_input_output_exactness
+    {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor' scalar
+      scalar' antisym source ->
+      UnaryHistory omega ∧ UnaryHistory domega ∧ UnaryHistory d ∧ UnaryHistory dplus ∧
+        Cont d (BHist.e1 BHist.Empty) dplus ∧ hsame probe probe' ∧
+          hsame tensor tensor' ∧ hsame scalar scalar' ∧ UnaryHistory antisym ∧
+            UnaryHistory source := by
+  intro ledger
+  exact
+    ⟨ledger.left,
+      ledger.right.left,
+      ledger.right.right.left,
+      ledger.right.right.right.left,
+      ledger.right.right.right.right.left,
+      ledger.right.right.right.right.right.left,
+      ledger.right.right.right.right.right.right.left,
+      ledger.right.right.right.right.right.right.right.left,
+      ledger.right.right.right.right.right.right.right.right.left,
+      ledger.right.right.right.right.right.right.right.right.right⟩
+
 theorem DiffFormExteriorDerivativeLedger_classifier_transport_nonempty_boundary
     {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source omega2 domega2
       d2 dplus2 probe2 probe2' tensor2 tensor2' scalar2 scalar2' antisym2 source2 : BHist}
@@ -107,6 +128,34 @@ theorem DiffFormExteriorDerivativeLedger_classifier_transport_nonempty_boundary
   exact And.intro transported
     (And.intro boundaryRows.right.right.right
       (And.intro boundaryRows.left transported.right.right.right.right.right.right.right.right.left))
+
+theorem DiffFormExteriorDerivativeLedger_candidate_classifier_transport
+    {probes : ProbeBundle BHist}
+    {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source omega2 domega2
+      d2 dplus2 probe2 probe2' tensor2 tensor2' scalar2 scalar2' antisym2 source2 : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor' scalar
+      scalar' antisym source ->
+    DiffFormBHistClassifier hsame probes d probe tensor scalar antisym source d2 probe2 tensor2
+      scalar2 antisym2 source2 ->
+    hsame omega omega2 -> hsame domega domega2 -> hsame d d2 -> hsame dplus dplus2 ->
+    hsame probe' probe2' -> hsame tensor' tensor2' -> hsame scalar' scalar2' ->
+      DiffFormExteriorDerivativeLedger omega2 domega2 d2 dplus2 probe2 probe2' tensor2 tensor2'
+          scalar2 scalar2' antisym2 source2 ∧
+        DiffFormBHistClassifier hsame probes d probe tensor scalar antisym source d2 probe2
+          tensor2 scalar2 antisym2 source2 ∧
+          UnaryHistory d2 ∧ Cont d2 (BHist.e1 BHist.Empty) dplus2 := by
+  intro ledger classified sameOmega sameDomega sameD sameDplus sameProbe' sameTensor'
+    sameScalar'
+  have transported :
+      DiffFormExteriorDerivativeLedger omega2 domega2 d2 dplus2 probe2 probe2' tensor2
+        tensor2' scalar2 scalar2' antisym2 source2 :=
+    DiffFormExteriorDerivativeLedger_classifier_transport ledger classified sameOmega sameDomega
+      sameD sameDplus sameProbe' sameTensor' sameScalar'
+  exact
+    ⟨transported,
+      classified,
+      transported.right.right.left,
+      transported.right.right.right.right.left⟩
 
 theorem DiffFormExteriorDerivative_downstream_scope {ScalarCarrier : BHist -> Prop}
     {ScalarClassifier : BHist -> BHist -> Prop}
