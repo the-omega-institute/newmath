@@ -23,6 +23,7 @@ oracle_client and supervisor use these fields to decide retry behaviour.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -210,6 +211,9 @@ def reset_retriable(max_total_attempts: int = 6) -> int:
         return 0
     reset = 0
     for state_file in STATE_DIR.glob("*.json"):
+        # Utility state files like loning_watch_state.json are not crashed BOARD targets.
+        if not re.match(r"^b-\d+_", state_file.stem):
+            continue
         try:
             data = json.loads(state_file.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
