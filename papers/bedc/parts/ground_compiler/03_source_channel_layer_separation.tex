@@ -45,6 +45,7 @@ A glyph string written on the page may be read at either layer, but never at bot
 
 \begin{definition}[Source-level relation]
 \label{def:source-channel-source-level-relation}
+\leandef{BEDC.GroundCompiler.SourceChannel.SourceLevelRelation}
 A \emph{source-level relation} is a binary relation
 $$
   (\leadsto) \;\subseteq\; \mathsf{RawEvent} \times \mathsf{RawEvent}
@@ -60,6 +61,7 @@ read as: ``$011$ is a pre-normal source event whose Zeckendorf-normal source eve
 
 \begin{definition}[Source carry ledger]
 \label{def:source-channel-carry-ledger}
+\leandef{BEDC.GroundCompiler.SourceChannel.SourceCarryLedger}
 Given a source-level relation $w \leadsto v$, the corresponding \emph{ledger flow} is the event flow
 $$
   (w, v) \;\in\; \mathsf{EventFlow}.
@@ -166,6 +168,7 @@ For any source-level relation $w \leadsto v$, the right-hand event $v$ may be di
 
 \begin{proposition}[Ledger records distinguish ordered pairs]
 \label{prop:source-channel-ledger-injective}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.ledger\_records\_distinguish\_ordered\_pairs}
 The ledger-record map $w, v \mapsto (w, v)$ is injective on its arguments: if $(w, v) = (w', v')$, then $w = w'$ and $v = v'$.
 \end{proposition}
 
