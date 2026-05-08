@@ -6,5 +6,82 @@ The simplicial-set interface $\SimplicialSetUp$ packages a contravariant functor
 \section{Carrier definition}
 \label{sec:simplicialset-carrier}
 
+\begin{definition}[SimplicialSet BHist simplex-row carrier]
+\label{def:simplicialset-bhist-simplex-row-carrier}
+Fix a certified simplex-category source supplied by $\NameCert_{\FunctorUp}$ and finite simplex-row sources supplied by $\NameCert_{\FinSetUp}$. A $\SimplicialSetUp$ BHist simplex-row carrier is a finite displayed packet
+$$
+(F,X,D,P,\rho,\lambda)
+$$
+with the following fields.
+\begin{enumerate}
+\item $F$ is the functor-source row: it consumes the $\NameCert_{\FunctorUp}$ presentation of the contravariant source from the simplex category and exposes only its object, morphism, identity, and composition boundary.
+\item $X$ is the finite family of simplex rows: for each displayed simplex degree, the row is consumed through the $\NameCert_{\FinSetUp}$ carrier and classifier, so simplex entries are finite BHist rows rather than host-side sets.
+\item $D$ is the face-and-degeneracy endpoint ledger: every displayed coface or codegeneracy arrow has named source and target simplex rows, with the endpoint read visible in $\mathsf{BHist}$.
+\item $P$ is the package row that records which functor, finite-row, and endpoint reads are public at the certificate boundary.
+\item $\rho$ is the $\Pkg$ provenance ledger for the reads in $F$, $X$, and $D$.
+\item $\lambda$ is the continuation ledger: its entries are $\Cont$ routes and $\hsame$ transports showing that functor-source reads, finite simplex rows, face endpoints, degeneracy endpoints, and package provenance remain in the same displayed packet after transport.
+\end{enumerate}
+The carrier exposes the finite packet and its displayed ledgers only. It does not expose a host presheaf, a host simplex category, or host equality of face and degeneracy maps.
+\end{definition}
+
+\begin{definition}[SimplicialSet face-degeneracy classifier]
+\label{def:simplicialset-face-degeneracy-classifier}
+For two $\SimplicialSetUp$ BHist simplex-row carriers
+$$
+(F,X,D,P,\rho,\lambda)
+$$
+and
+$$
+(F',X',D',P',\rho',\lambda'),
+$$
+the face-degeneracy classifier relates them when the following componentwise transports are displayed.
+\begin{enumerate}
+\item The functor-source rows $F$ and $F'$ are related by the $\hsame$ transport supplied by the $\NameCert_{\FunctorUp}$ source.
+\item The finite simplex-row families $X$ and $X'$ are related degreewise by the $\NameCert_{\FinSetUp}$ carrier and classifier rows.
+\item The face and degeneracy ledgers $D$ and $D'$ carry matching source and target endpoints after the functor-source and finite-row transports.
+\item The package rows $P$ and $P'$ have matching $\Pkg$ provenance entries through $\rho$ and $\rho'$.
+\item The continuation ledgers $\lambda$ and $\lambda'$ transport the same $\Cont$ routes and $\hsame$ witnesses for all functor, finite-row, endpoint, and provenance reads.
+\end{enumerate}
+Thus classification is componentwise $\hsame$ transport of the functor source, finite simplex rows, face and degeneracy ledgers, provenance ledger, and continuation ledger.
+\end{definition}
+
 \section{The certificate}
 \label{sec:simplicialset-certificate}
+
+\begin{theorem}[SimplicialSet functor-source boundary]
+\label{thm:simplicialset-functor-source-boundary}
+For a $\SimplicialSetUp$ BHist simplex-row carrier of \autoref{def:simplicialset-bhist-simplex-row-carrier}, the visible functor-source boundary is exactly the $F$ component together with the endpoint rows in $D$ that read its displayed face and degeneracy arrows. The $\NameCert_{\FunctorUp}$ source supplies the object, morphism, identity, and composition rows consumed by $F$, while the finite simplex rows and package provenance remain separate carrier fields.
+\end{theorem}
+\begin{proof}
+Unpack the packet $(F,X,D,P,\rho,\lambda)$ and project the first component. By definition, $F$ is the only field that consumes the $\NameCert_{\FunctorUp}$ source, so its public reads are the object, morphism, identity, and composition boundary of that source.
+
+Next project $D$. Its entries name the source and target simplex rows for each displayed face or degeneracy endpoint, so the endpoint boundary for the functor read is visible without merging it with the finite-row family $X$.
+
+The remaining fields are ledgers rather than functor-source data. The package row $P$, provenance row $\rho$, and continuation row $\lambda$ record how the same displayed reads remain inside the packet, while the finite simplex family $X$ is consumed through $\NameCert_{\FinSetUp}$. Repacking these projections gives precisely the stated boundary.
+\end{proof}
+
+\begin{theorem}[SimplicialSet face-degeneracy ledger stability]
+\label{thm:simplicialset-face-degeneracy-ledger-stability}
+Let $S=(F,X,D,P,\rho,\lambda)$ and $S'=(F',X',D',P',\rho',\lambda')$ be $\SimplicialSetUp$ BHist simplex-row carriers. If $S$ and $S'$ are related by the classifier of \autoref{def:simplicialset-face-degeneracy-classifier}, then every displayed face or degeneracy endpoint in $D$ transports to the corresponding endpoint in $D'$ through the functor-source $\hsame$ row, the degreewise $\FinSetUp$ classifier, and the continuation ledger. The transported endpoint remains recorded with matching $\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+Start from one displayed endpoint in $D$. The classifier supplies the comparison between $F$ and $F'$, so the functor-source read carrying the corresponding face or degeneracy arrow transports by $\hsame$.
+
+Use the degreewise finite-row comparison between $X$ and $X'$ to transport the named source and target simplex rows of that endpoint. This step consumes the $\NameCert_{\FinSetUp}$ carrier and classifier rows and does not choose a host-side representative of the simplex set.
+
+Finally read $\lambda$ and $\lambda'$. Their continuation entries identify the same $\Cont$ route after the functor and finite-row transports, while $\rho$ and $\rho'$ match the package provenance. The transported endpoint therefore repacks as the corresponding entry of $D'$ with the same public ledger boundary.
+\end{proof}
+
+\begin{theorem}[SimplicialSet NameCert obligation surface]
+\label{thm:simplicialset-namecert-obligation-surface}
+The carrier of \autoref{def:simplicialset-bhist-simplex-row-carrier}, the classifier of \autoref{def:simplicialset-face-degeneracy-classifier}, the functor-source boundary of \autoref{thm:simplicialset-functor-source-boundary}, and the ledger stability of \autoref{thm:simplicialset-face-degeneracy-ledger-stability} assemble the public obligation surface expected of $\NameCert_{\SimplicialSetUp}$. The surface exposes exactly the functor-source row $F$, the finite simplex-row family $X$, the face-and-degeneracy endpoint ledger $D$, the package row $P$, the provenance ledger $\rho$, and the continuation ledger $\lambda$.
+\end{theorem}
+\begin{proof}
+First take the carrier packet from \autoref{def:simplicialset-bhist-simplex-row-carrier}. It lists every visible field consumed by the simplicial-set certificate: functor source, finite simplex rows, endpoint ledger, package row, provenance ledger, and continuation ledger.
+
+Next apply the classifier of \autoref{def:simplicialset-face-degeneracy-classifier}. It supplies componentwise $\hsame$ transport for the functor source, degreewise finite-row transport, endpoint-ledger transport, provenance matching, and continuation matching.
+
+Apply \autoref{thm:simplicialset-functor-source-boundary} to separate the functor-source boundary from the finite-row and package ledgers. Apply \autoref{thm:simplicialset-face-degeneracy-ledger-stability} to keep every displayed face and degeneracy endpoint stable under the classifier.
+
+The four clauses repack as the public $\NameCert_{\SimplicialSetUp}$ obligation surface. No additional host presheaf, host simplex category, host function equality, or unrecorded simplicial-identity proof is exported outside the displayed packet.
+\end{proof}
