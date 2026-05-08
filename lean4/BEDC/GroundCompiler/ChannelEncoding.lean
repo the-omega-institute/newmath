@@ -149,4 +149,42 @@ theorem event_level_round_trip (w : RawEvent) :
             simpa [EventEncoding] using ih
           simp [EventEncoding, BodyEncoding, DecEvent, h]
 
+theorem encoder_streaming (w : RawEvent) (rest : EventFlow) :
+    FlowEncoding (w :: rest) = EventEncoding w ++ FlowEncoding rest := by
+  rfl
+
+theorem no_tree_no_manifest_no_table {d : CompilerDatum} :
+    StructuralHiddenInput d -> Not (FormalCompilerInput d) := by
+  exact structural_hidden_not_formal
+
+theorem flow_encoding_eq_nil {S : EventFlow} :
+    FlowEncoding S = [] -> S = [] := by
+  intro h
+  cases S with
+  | nil =>
+      rfl
+  | cons w rest =>
+      cases w with
+      | nil =>
+          simp [FlowEncoding, EventEncoding, BodyEncoding, EventTerminator] at h
+      | cons m tail =>
+          cases m <;>
+            simp [FlowEncoding, EventEncoding, BodyEncoding, EventTerminator] at h
+
+theorem legal_stream_not_theoremhood :
+    exists c : List DisplayAlphabet,
+      LegalZStream c /\
+        Not (exists S : EventFlow,
+          c = FlowEncoding S /\ RecognizedTheoremFlow S) := by
+  refine ⟨[], ?_, ?_⟩
+  · exact ⟨[], rfl⟩
+  · intro h
+    cases h with
+    | intro S hS =>
+        cases hS with
+        | intro hEq hTheo =>
+            have hNil : S = [] := flow_encoding_eq_nil hEq.symm
+            cases hNil
+            exact empty_not_recognized_theorem_flow hTheo
+
 end BEDC.GroundCompiler.ChannelEncoding

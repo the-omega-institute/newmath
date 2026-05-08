@@ -347,6 +347,7 @@ $$
 
 \begin{proposition}[Channel encoder is streaming]
 \label{prop:channel-encoding-encoder-streaming}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.encoder\_streaming}
 The map $\mathsf{Compile}$ is streaming on its input: while reading raw events left-to-right, the encoder emits the corresponding glyphs immediately upon seeing each raw glyph and emits the terminator $11$ immediately upon seeing each event boundary.
 \end{proposition}
 
@@ -365,6 +366,7 @@ By \autoref{def:channel-encoding-decoder-event}, the decoder advances on the cur
 
 \begin{corollary}[No tree, no manifest, no table]
 \label{cor:channel-encoding-no-tree-no-manifest}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.no\_tree\_no\_manifest\_no\_table}
 Channel-level encoding and decoding can be carried out without an AST, a $\Pkg$ object, a recognized $\NameCert$ flow, a recognized theorem flow, a YAML manifest, an external arity table, or any other structural hidden input.
 \end{corollary}
 
@@ -391,7 +393,10 @@ In short: source-level relations live on recognized history flows; channel-level
 
 \begin{principle}[Channel code does not imply theoremhood]
 \label{prin:channel-encoding-not-theoremhood}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.legal\_stream\_not\_theoremhood}
 Membership $c \in \mathsf{LegalZStream}$ asserts only that $c$ is a self-delimiting display of an event flow. It does not assert that $c$ encodes a theorem, a proof, a recognized $\NameCert$, a recognized $\ClosureCert$, an accepted object flow, or a derived interface. Mature object export is governed by the verification gate $\VerifiedGate(N, c, v)$ of \autoref{def:ground-event-flow-accepted-object-flow}, not by channel encodability.
+
+In particular, the empty channel stream is legal because it is the encoding of the empty event flow, but it does not carry a recognized theorem flow.
 \end{principle}
 
 \begin{theorem}[Channel conservativity]
