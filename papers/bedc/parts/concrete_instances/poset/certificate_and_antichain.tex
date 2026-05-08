@@ -241,6 +241,41 @@ comparison on $a$ to a comparison with $b$ by the relation-congruence fields,
 so the induced order has no non-discrete comparison content.
 \end{proof}
 
+\begin{theorem}[POSet antichain interval heredity]
+\label{thm:poset-antichain-interval-heredity}
+For $a,b,c$ in the concrete unary-prefix $\POSetUp$ carrier, suppose that
+$a,c\in A_C$, that the comparison ledger records $a\le_C b$ and $b\le_C c$, and
+that all three endpoints carry the concrete $\mathsf{BHist}$ carrier rows. Then
+$b\in A_C$, and the two endpoint comparisons collapse to the carrier classifier:
+$$
+a\sim_C b
+\quad\hbox{and}\quad
+b\sim_C c.
+$$
+\end{theorem}
+\begin{proof}
+Compose the displayed comparisons $a\le_C b$ and $b\le_C c$ by the transitivity
+row of the concrete prefix preorder. This gives $a\le_C c$ inside the same
+comparison ledger.
+
+Apply the antichain clause for $a\in A_C$ to the carried endpoint $c$. Since
+$a\le_C c$ is available, the clause collapses the endpoints to the carrier
+classifier $a\sim_C c$.
+
+Use \autoref{thm:poset-prefix-classifier-exactness} to read this classifier
+collapse as opposing prefix comparisons between $a$ and $c$. Relation congruence
+transports the displayed comparisons $a\le_C b$ and $b\le_C c$ through the
+classifier collapse, yielding the reverse comparisons needed to apply
+\autoref{thm:poset-prefix-antisymmetry} on the two subintervals.
+
+Antisymmetry collapses $a$ with $b$ and $b$ with $c$, giving the two displayed
+classifier conclusions. To repackage $b\in A_C$, take any carried endpoint $d$
+comparable with $b$; relation congruence transports that comparison across
+$a\sim_C b$ to a comparison with $a$, the antichain clause for $a$ collapses
+$a$ with $d$, and classifier transitivity transports the collapse back to
+$b\sim_C d$.
+\end{proof}
+
 \begin{theorem}[POSet antichain functor consumer boundary]
 \label{thm:poset-antichain-functor-consumer-boundary}
 Any downstream finite-set or functor consumer of the antichain construction may
