@@ -109,6 +109,49 @@ introduces no quotient, completion object, external metric primitive, or
 RealUp completeness datum.
 \end{proof}
 
+\begin{theorem}[Scheduled window RealUp feed]
+\label{thm:streamname-scheduled-window-realup-feed}
+Let $d,e:\Hist$ be seed histories, let $r,q:\Hist\to\Hist$ be observation
+schedules, and let $u:\Hist\to\Hist$ be a unary reindexing row accepted by the
+public finite-window interface of
+\autoref{thm:streamname-public-finite-window-interface}. Then the transported
+package
+$$
+\mathsf{SchedConstObs}(d,e,r\circ u,q\circ u)
+$$
+supplies exactly the StreamName finite-window rows consumed by
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. Its exported
+rows are the two reindexed constant stream carriers, their exact classifier,
+the RatUp seed rows for $d$ and $e$, and the package provenance already present
+in \autoref{def:streamname-constant-scheduled-observation-package}; it adds no
+host $\mathsf{Nat}$, quotient representative, completion object, or unrecorded
+stream object.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:streamname-constant-scheduled-observation-package}. The
+transported tuple has the same seed histories $d,e$ and only replaces the two
+observation schedules by $r\circ u$ and $q\circ u$.
+
+Apply \autoref{thm:streamname-scheduled-window-reindex-stability}. The public
+finite-window interface accepts the requested unary row $u$, so the transported
+scheduled package is still the finite StreamName window package exposed to
+downstream consumers.
+
+Now apply
+\autoref{thm:streamname-constant-scheduled-observation-exactness}. The two
+reindexed streams remain constant over the same RatUp seed histories, and the
+classifier row reduces to the displayed RatUp seed classifier. Thus every
+StreamName row read by the finite window is already one of the package rows.
+
+Finally repack the rows through
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. These boundary
+theorems consume only the finite StreamName carriers, classifier rows, and
+ledger provenance supplied above, so the RealUp feed has no additional host
+index, quotient, or hidden stream datum.
+\end{proof}
+
 \begin{theorem}[Scheduled constant observation RealUp feed]
 \label{thm:streamname-constant-scheduled-real-feed}
 For histories $d,e:\Hist$ and schedules $r,q:\Hist\to\Hist$, the scheduled
