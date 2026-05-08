@@ -18,30 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-540 - LPDuality optimal face convex closure
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (oracle) |
-| Object | LPDuality optimal face convex closure |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-In a finite LPDualityUp ordered-field row, if x and x_prime are primal feasible, both have primal objective classifier-equal to the same certified optimal scalar tau, and alpha,beta are nonnegative with alpha +_F beta sim_F 1_F, then the componentwise affine mixture lambda_j := alpha *_F x_j +_F beta *_F x_prime_j is primal feasible and has primal objective classifier-equal to tau.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex`
-
-Rationale:
-This is a distinct structural strengthening of the existing LPDuality surface: existing BOARD entries cover primal and dual feasibility convex closure, while the paper already has weak duality and equality-implies-optimality rows. The proposed target combines feasibility convexity with objective affine readback to close the optimal primal face under binary affine combinations, without introducing a new LP interface or an external assumption.
-
----
-
 ### B-542 - Quadrature degree-zero exactness iff weight sum
 
 | field | value |
