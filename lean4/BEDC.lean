@@ -346,6 +346,7 @@ import BEDC.Derived.DiffFormUp.BoundaryExhaustion
 import BEDC.Derived.DiffFormUp.ConsumerBoundary
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
 import BEDC.Derived.DiffFormUp.DegreeProbeSupport
+import BEDC.Derived.DiffFormUp.ManifoldTensorSource
 import BEDC.Derived.DiffFormUp.RootDegreeClassifierDownstreamConsumption
 import BEDC.Derived.DiffFormUp.RootRowCarrierScope
 import BEDC.Derived.DiffFormUp.ExteriorDerivativeBoundary
@@ -398,7 +399,6 @@ import BEDC.Derived.NumFieldUp.DegreeOneBasis
 import BEDC.Derived.NumFieldUp.EmbeddingCoordinateProductCompatibility
 import BEDC.Derived.NumFieldUp.SingletonBasisSupport
 import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
-import BEDC.Derived.ClassFieldUp
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
