@@ -22,6 +22,60 @@ The accepted carrier is exactly this displayed history tuple. It carries no quot
 The $\CyclotomicUp$ classifier relates two carriers of \autoref{def:cyclotomic-root-carrier} when their $\NameCert_{\NumFieldUp}$ source rows, positive unary exponent rows, rational polynomial ledgers for $X^n-1$, $\NameCert_{\SplittingFieldUp}$ source rows, and primitive-root endpoints are connected by $\hsame$ rows whose endpoints are supported by the displayed $\Cont$ and $\mathsf{Pkg}$ provenance ledgers. The classifier transports the NumFieldUp source, exponent, polynomial row, splitting-field row, and primitive-root endpoint as carried $\mathsf{BHist}$ data, not as equality of host fields or as a quotient of roots.
 \end{definition}
 
+\begin{theorem}[Cyclotomic classifier reflexivity]
+\label{thm:cyclotomic-classifier-reflexive}
+For every accepted $\CyclotomicUp$ carrier
+$$
+\mathcal{C}_{\zeta}=(\mathcal{N},n,p,\mathcal{S},\zeta,\alpha,\lambda,\rho)
+$$
+of \autoref{def:cyclotomic-root-carrier}, the classifier of \autoref{def:cyclotomic-rational-polynomial-classifier} relates $\mathcal{C}_{\zeta}$ to itself. The witnessing row is the componentwise reflexive $\hsame$ support on the $\NameCert_{\NumFieldUp}$ source $\mathcal{N}$, the exponent row $n$, the rational polynomial ledger $p$ for $X^n-1$, the $\NameCert_{\SplittingFieldUp}$ source $\mathcal{S}$, and the primitive-root endpoint $\zeta$, together with the unchanged $\Cont$ row $\alpha$, base comparison row $\lambda$, and $\mathsf{Pkg}$ provenance row $\rho$.
+\end{theorem}
+\begin{proof}
+Start from the displayed carrier. Each carried $\mathsf{BHist}$ component has the reflexive $\hsame$ row at its own endpoint: $\mathcal{N}$, $n$, $p$, $\mathcal{S}$, and $\zeta$ are therefore transported to themselves.
+
+The finite $\Cont$ row $\alpha$ already accepts $\zeta$ as a root and records the factorization rows inside $\mathcal{S}$. The comparison row $\lambda$ already ties the NumFieldUp source to the SplittingFieldUp base row, and $\rho$ is already the provenance package for the two source certificates.
+
+Repacking these five reflexive $\hsame$ rows with the displayed $\Cont$ and $\mathsf{Pkg}$ ledgers gives exactly the classifier row from $\mathcal{C}_{\zeta}$ to $\mathcal{C}_{\zeta}$.
+\end{proof}
+
+\begin{theorem}[Cyclotomic classifier symmetry]
+\label{thm:cyclotomic-classifier-symmetric}
+Let
+$$
+\mathcal{C}_{\zeta}=(\mathcal{N},n,p,\mathcal{S},\zeta,\alpha,\lambda,\rho)
+$$
+and
+$$
+\mathcal{C}'_{\eta}=(\mathcal{N}',n',p',\mathcal{S}',\eta,\alpha',\lambda',\rho')
+$$
+be accepted $\CyclotomicUp$ carriers. If the classifier of \autoref{def:cyclotomic-rational-polynomial-classifier} relates $\mathcal{C}_{\zeta}$ to $\mathcal{C}'_{\eta}$, then it also relates $\mathcal{C}'_{\eta}$ to $\mathcal{C}_{\zeta}$ by reversing the carried $\hsame$ rows for the NumFieldUp sources, exponent rows, polynomial ledgers, SplittingFieldUp sources, and primitive-root endpoints, while reading the same $\Cont$ acceptance rows and $\mathsf{Pkg}$ provenance rows from the opposite side.
+\end{theorem}
+\begin{proof}
+Project the given classifier row to its five $\hsame$ components. These components compare $\mathcal{N}$ with $\mathcal{N}'$, $n$ with $n'$, $p$ with $p'$, $\mathcal{S}$ with $\mathcal{S}'$, and $\zeta$ with $\eta$.
+
+Reverse each projected $\hsame$ row. The reversed rows compare the same carried histories in the order required for a classifier from $\mathcal{C}'_{\eta}$ to $\mathcal{C}_{\zeta}$.
+
+It remains to account for the ledgers. The acceptance rows $\alpha'$ and $\alpha$ still support the endpoint and factorization reads at their respective sides, while $\lambda'$, $\lambda$, $\rho'$, and $\rho$ provide the same base-comparison and provenance evidence with source and target interchanged. Repacking these rows gives the opposite classifier.
+\end{proof}
+
+\begin{theorem}[Cyclotomic classifier transitivity]
+\label{thm:cyclotomic-classifier-transitive}
+Let
+$$
+\mathcal{C}_{0}=(\mathcal{N}_{0},n_{0},p_{0},\mathcal{S}_{0},\zeta_{0},\alpha_{0},\lambda_{0},\rho_{0}),\quad
+\mathcal{C}_{1}=(\mathcal{N}_{1},n_{1},p_{1},\mathcal{S}_{1},\zeta_{1},\alpha_{1},\lambda_{1},\rho_{1}),\quad
+\mathcal{C}_{2}=(\mathcal{N}_{2},n_{2},p_{2},\mathcal{S}_{2},\zeta_{2},\alpha_{2},\lambda_{2},\rho_{2})
+$$
+be accepted $\CyclotomicUp$ carriers. If the classifier relates $\mathcal{C}_{0}$ to $\mathcal{C}_{1}$ and also relates $\mathcal{C}_{1}$ to $\mathcal{C}_{2}$, then it relates $\mathcal{C}_{0}$ to $\mathcal{C}_{2}$ by composing the $\hsame$ rows componentwise through the shared middle carrier for the NumFieldUp source, exponent, polynomial ledger, SplittingFieldUp source, and primitive-root endpoint, and by repacking the shared $\Cont$ acceptance rows and $\mathsf{Pkg}$ provenance rows.
+\end{theorem}
+\begin{proof}
+Project the first classifier row to the comparisons from $\mathcal{C}_{0}$ to $\mathcal{C}_{1}$, and project the second classifier row to the comparisons from $\mathcal{C}_{1}$ to $\mathcal{C}_{2}$. The middle carrier supplies the common endpoint for each pair of projected $\hsame$ rows.
+
+Compose the NumFieldUp source comparisons through $\mathcal{N}_{1}$, the exponent comparisons through $n_{1}$, the polynomial-ledger comparisons through $p_{1}$, the SplittingFieldUp source comparisons through $\mathcal{S}_{1}$, and the primitive-endpoint comparisons through $\zeta_{1}$.
+
+The $\Cont$ rows $\alpha_{0}$, $\alpha_{1}$, and $\alpha_{2}$ keep the endpoint and factorization reads attached to the three carriers, and the provenance rows $\rho_{0}$, $\rho_{1}$, and $\rho_{2}$ keep the source packages aligned. Repacking the composed $\hsame$ rows with these ledgers yields the classifier from $\mathcal{C}_{0}$ to $\mathcal{C}_{2}$.
+\end{proof}
+
 \section{The certificate}
 \label{sec:cyclotomic-certificate}
 \closureat{CyclotomicUp}{seedStr}
@@ -352,6 +406,54 @@ Start with the carrier projection from \autoref{def:cyclotomic-root-carrier}. Th
 Use \autoref{thm:cyclotomic-polynomial-ledger-exactness} and \autoref{thm:cyclotomic-factorization-ledger-exactness} to make the polynomial and factorization rows exact. Use \autoref{thm:cyclotomic-primitive-root-endpoint-determinacy} to keep the endpoint readback tied to the same displayed rows.
 
 Finally combine \autoref{thm:cyclotomic-iwasawa-source-boundary} with \autoref{thm:cyclotomic-padic-completion-input-boundary}. These boundary statements identify the reusable cyclotomic source package while excluding rows that must come from other certificates, so a ClassFieldUp consumer may cite this package as source data but receives no class-field operations from $\NameCert_{\CyclotomicUp}$ alone.
+\end{proof}
+
+\begin{theorem}[Cyclotomic class-field reciprocity input boundary]
+\label{thm:cyclotomic-classfield-reciprocity-input-boundary}
+For an accepted $\CyclotomicUp$ carrier
+$$
+\mathcal{C}_{\zeta}=(\mathcal{N},n,p,\mathcal{S},\zeta,\alpha,\lambda,\rho)
+$$
+of \autoref{def:cyclotomic-root-carrier}, a $\ClassFieldUp$ consumer that requires a reciprocity map may read from $\NameCert_{\CyclotomicUp}$ only the displayed rows $\mathcal{N}$, $n$, $p$, $\mathcal{S}$, $\zeta$, $\alpha$, $\lambda$, and $\rho$ together with their $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance. Any reciprocity map, Artin pairing, or class-field operation used by that consumer must be supplied by a separate $\NameCert_{\ClassFieldUp}$ certificate and cannot be inferred from the cyclotomic certificate alone.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only visible components are the NumFieldUp source, the positive exponent row, the polynomial ledger for $X^n-1$, the SplittingFieldUp source, the primitive endpoint, the acceptance row, the base comparison, and the provenance row.
+
+Apply \autoref{thm:cyclotomic-classfield-source-interface} to repack those rows as the class-field source interface. Apply \autoref{thm:cyclotomic-root-of-unity-ledger-coverage} to identify the root-of-unity rows covered by the same exponent, polynomial, splitting-field, endpoint, and acceptance data.
+
+Finally use \autoref{thm:cyclotomic-minimal-polynomial-nonexport}. It excludes reciprocity and class-group data from the cyclotomic export surface, so a consumer that needs an actual reciprocity map must obtain it from its own $\ClassFieldUp$ certificate.
+\end{proof}
+
+\begin{theorem}[Cyclotomic local-symbol exclusion]
+\label{thm:cyclotomic-local-symbol-exclusion}
+For an accepted $\CyclotomicUp$ carrier
+$$
+\mathcal{C}_{\zeta}=(\mathcal{N},n,p,\mathcal{S},\zeta,\alpha,\lambda,\rho)
+$$
+of \autoref{def:cyclotomic-root-carrier}, $\NameCert_{\CyclotomicUp}$ exports no local symbol, valuation row, completion row, or residue-field row. A downstream local consumer may use the displayed carrier rows and their $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance as input, but every local symbol, valuation, completion, or residue-field datum must enter through a separate $\PadicUp$, $\IwasawaUp$, or local certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cyclotomic-root-carrier}. Its components are exactly $\mathcal{N}$, $n$, $p$, $\mathcal{S}$, $\zeta$, $\alpha$, $\lambda$, and $\rho$, and none of those coordinates is a valuation, completion, residue field, or local-symbol operation.
+
+Use \autoref{thm:cyclotomic-padic-completion-input-boundary} to identify what a completion-facing consumer may read from the cyclotomic source. Use \autoref{thm:cyclotomic-padic-tower-consumer-exactness} to keep the tower input at the same projected source package.
+
+The absence of local-symbol coordinates in \autoref{def:cyclotomic-root-carrier} then gives the exclusion. Any such datum must be carried by a certificate whose own rows name the local object.
+\end{proof}
+
+\begin{theorem}[Cyclotomic norm-residue boundary]
+\label{thm:cyclotomic-norm-residue-boundary}
+For an accepted $\CyclotomicUp$ carrier
+$$
+\mathcal{C}_{\zeta}=(\mathcal{N},n,p,\mathcal{S},\zeta,\alpha,\lambda,\rho)
+$$
+of \autoref{def:cyclotomic-root-carrier}, a norm-residue consumer may read the $\NameCert_{\NumFieldUp}$ source row $\mathcal{N}$, the $\NameCert_{\SplittingFieldUp}$ source row $\mathcal{S}$, the positive exponent row $n$, the polynomial ledger $p$, the primitive endpoint $\zeta$, the factorization rows covered by $\mathcal{S}$, and the provenance rows $\alpha$, $\lambda$, and $\rho$. It may not read a norm-residue map, Artin symbol, class group, or ambient-field quotient from $\NameCert_{\CyclotomicUp}$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cyclotomic-classfield-source-interface}. It gives the NumFieldUp source, exponent, polynomial ledger, SplittingFieldUp source, endpoint, acceptance, comparison, and provenance rows as the whole class-field source package exposed by the cyclotomic certificate.
+
+Apply \autoref{thm:cyclotomic-galois-action-namecert-boundary} to keep Galois-facing reads inside endpoint and factorization transport. This accounts for the splitting-field factorization surface without introducing an Artin symbol or an ambient-field quotient.
+
+Finally use \autoref{thm:cyclotomic-minimal-polynomial-nonexport}. Since norm-residue maps, class groups, and reciprocity data are outside the exported carrier, any norm-residue consumer must obtain those objects from a separate certificate while using $\NameCert_{\CyclotomicUp}$ only for the displayed source and provenance rows.
 \end{proof}
 
 \begin{theorem}[Cyclotomic positive exponent row coverage]
