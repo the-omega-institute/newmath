@@ -19,6 +19,29 @@ def PackageRecognitionRelation
 def PkgFlow (S : PackageCandidateFlow) : Prop :=
   exists R : GeneratedPackageRecognizer, PackageRecognitionRelation R S
 
+inductive PackageRole : Type where
+  | source
+  | pattern
+  | classifier
+  | stability
+  | ledger
+  | seal
+
+def PackageRoleEmergence
+    (R : GeneratedPackageRecognizer) (S T : PackageCandidateFlow)
+    (_rho : PackageRole) : Prop :=
+  PackageRecognitionRelation R S /\ NonemptyEventFlow T
+
+def PackageSealSubflow
+    (R : GeneratedPackageRecognizer) (S sigma : PackageCandidateFlow) : Prop :=
+  PackageRoleEmergence R S sigma PackageRole.seal
+
+theorem package_seal_is_source_subflow
+    {R : GeneratedPackageRecognizer} {S sigma : PackageCandidateFlow} :
+    PackageSealSubflow R S sigma -> NonemptyEventFlow sigma := by
+  intro hSeal
+  exact hSeal.right
+
 theorem no_external_package_input :
     Not (FormalCompilerInput CompilerDatum.hostPkg) :=
   structural_hidden_not_formal StructuralHiddenInput.hostPkg

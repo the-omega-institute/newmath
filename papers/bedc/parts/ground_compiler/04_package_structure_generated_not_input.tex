@@ -128,7 +128,8 @@ is the ordinary channel code of the same event flow, not the output of a separat
 
 \begin{definition}[Package role emergence]
 \label{def:package-generated-role-emergence}
-If $\mathsf{RecognizesPkg}(R,S)$, then the recognizer $R$ may identify subflows of $S$ as package roles such as
+\leandef{BEDC.GroundCompiler.PackageGenerated.PackageRoleEmergence}
+Let $\rho$ range over the finite package-role list
 \begin{center}
 \begin{tabular}{l}
   source flow, \\
@@ -139,17 +140,15 @@ If $\mathsf{RecognizesPkg}(R,S)$, then the recognizer $R$ may identify subflows 
   package-seal flow.
 \end{tabular}
 \end{center}
-These role names are not ground inputs. They are recognition results. Accordingly, this chapter permits relations such as
+For a generated package recognizer $R$, a package candidate flow $S$, and a source-level event subflow $T$, define
 $$
-  \mathsf{PkgSource}_{R}(S,S_{0}), \qquad
-  \mathsf{PkgPattern}_{R}(S,S_{1}), \qquad
-  \mathsf{PkgClassifier}_{R}(S,S_{2}),
+  \mathsf{PkgRole}_{R}(S,T,\rho)
+  \;:\Longleftrightarrow\;
+  \mathsf{RecognizesPkg}(R,S)
+  \wedge
+  T\in\mathsf{EventFlow}_{\ne\emptyset}.
 $$
-$$
-  \mathsf{PkgStability}_{R}(S,S_{3}), \qquad
-  \mathsf{PkgLedger}_{R}(S,S_{4}),
-$$
-meaning that, under recognizer $R$, the indicated subflow has the corresponding role inside $S$. These relations are generated-role relations, not externally supplied field labels.
+The role name $\rho$ is not a ground input. It is a recognition result attached to an event-flow subflow after $\mathsf{RecognizesPkg}(R,S)$ has already been witnessed.
 \end{definition}
 
 \begin{remark}[Relation to the five fields of $\NameCert$]
@@ -167,16 +166,20 @@ are derived-interface certificate roles. $\PatternSpec$ records stable behavior 
 
 \begin{definition}[Package-seal subflow]
 \label{def:package-generated-seal-subflow}
-If $\mathsf{RecognizesPkg}(R,S)$ and $R$ recognizes a terminal subflow $\sigma$ of $S$ as expressing package completion, then $\sigma$ is a \emph{package-seal subflow} of $S$, written
+\leandef{BEDC.GroundCompiler.PackageGenerated.PackageSealSubflow}
+If $R$ recognizes a source-level event subflow $\sigma$ of $S$ as expressing package completion, then $\sigma$ is a \emph{package-seal subflow} of $S$, written
 $$
-  \mathsf{PkgSeal}_{R}(S,\sigma).
+  \mathsf{PkgSeal}_{R}(S,\sigma)
+  \;:\Longleftrightarrow\;
+  \mathsf{PkgRole}_{R}(S,\sigma,\mathrm{seal}).
 $$
 The package-seal subflow is not the channel terminator $11$. It is source-level event-flow structure, recovered through $\mathsf{Decode}$ and then recognized by $R$.
 \end{definition}
 
 \begin{proposition}[Package seal is not the channel terminator]
 \label{prop:package-generated-seal-not-channel-terminator}
-If $\mathsf{PkgSeal}_{R}(S,\sigma)$, then $\sigma$ is a source-level subflow and not the channel-level terminator $11$.
+\leanchecked{BEDC.GroundCompiler.PackageGenerated.package\_seal\_is\_source\_subflow}
+If $\mathsf{PkgSeal}_{R}(S,\sigma)$, then $\sigma$ is a source-level event subflow. In particular, its formal carrier is an element of $\mathsf{EventFlow}_{\ne\emptyset}$, whereas the channel-level terminator $11$ is a channel-code delimiter.
 \end{proposition}
 
 \begin{proof}
