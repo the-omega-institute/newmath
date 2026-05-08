@@ -1,4 +1,5 @@
 import BEDC.FKernel.Ext
+import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 
 /-
@@ -13,6 +14,7 @@ matching theorem proof, at which point the paper marker switches from
 namespace BEDC.Reflection
 
 open BEDC.FKernel.Ext
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
@@ -24,10 +26,14 @@ def form_of_distinction_irreducible : Prop := True
 -- equivalently, no `def`-level primitive supplies the form of distinction.
 
 /-- Definition-classifier correspondence (statement scaffold). -/
-def definition_classifier_correspondence : Prop := True
--- TODO: refine to the full statement once a Lean encoding of "definition over
--- a generator base" exists; the body will assert the natural isomorphism
--- between such definitions and naming-certificate classifiers.
+def definition_classifier_correspondence : Prop :=
+  ∀ (Carrier Definition : BHist → Prop) (Classifier : BHist → BHist → Prop),
+    NameCert Carrier Classifier →
+      (∀ h : BHist, Definition h ↔
+        Carrier h ∧ ∃ s : BHist, ∃ r : BHist, ∃ m : BMark,
+          Ext s m h ∧ Cont s h r) →
+        (∀ {h k : BHist}, Classifier h k → Definition h → Definition k) ∧
+          (∀ {h k : BHist}, Definition h → Definition k → hsame h k → Classifier h k)
 
 /-- Inductive types as classifier closures (statement scaffold). -/
 def inductive_as_classifier_closure : Prop := True
