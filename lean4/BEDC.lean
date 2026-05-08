@@ -151,6 +151,7 @@ import BEDC.Derived.SymGroupUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.ProjectiveSpaceUp
 import BEDC.Derived.ProjectiveVarUp
+import BEDC.Derived.AffineSpaceUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
 import BEDC.Derived.ProdUp.SourceMonotonicity
@@ -517,6 +518,7 @@ import BEDC.Derived.ManifoldUp.ScopedBoundary
 import BEDC.Derived.ManifoldUp.StdBridge
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
+import BEDC.Derived.PolynomialUp.StdBridge
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
@@ -660,6 +662,7 @@ import BEDC.Derived.RingUp.Cancellation
 import BEDC.Derived.RingUp.SubtractionDistributivity
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingUp.NegEndpoint
+import BEDC.Derived.RingUp.StdBridge
 import BEDC.Derived.MatrixUp.ZeroMatrixMultiplication
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.NegEndpoint
