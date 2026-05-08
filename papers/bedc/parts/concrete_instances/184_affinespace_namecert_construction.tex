@@ -35,6 +35,7 @@ p \sim_{\mathsf{Aff}} q
 $$
 exactly when there are translation witnesses $v,w:\mathsf{BHist}$ licensed by the $\VecSpaceUp$ dependency certificate and the $\GroupUp$ dependency certificate such that the displayed action routes from $p$ to $q$ are equal up to $\mathsf{hsame}$. Equivalently, the classifier is equality of translation witnesses after transport through the source classifiers of $\mathcal{V}$ and $\mathcal{G}$ and through the $\mathsf{hsame}$ comparison on the $\Cont$ action rows.
 \end{definition}
+\leandef{BEDC.Derived.AffineSpaceUp.AffineSpaceTranslationClassifier}
 
 \section{The certificate}
 \label{sec:affinespace-certificate}
@@ -67,6 +68,7 @@ Transporting the chosen witness along either dependency classifier gives an equi
 \label{thm:affinespace-vector-difference-obligation}
 For carried point rows $p,q:\mathsf{BHist}$ over $\mathcal{V}:\NameCert_{\VecSpaceUp}$ and $\mathcal{G}:\NameCert_{\GroupUp}$, any two certified vector-difference witnesses from $p$ to $q$ are identified by the $\AffineSpaceUp$ translation classifier. The comparison uses the $\VecSpaceUp$ classifier on vector histories, the $\GroupUp$ classifier on translation histories, and $\mathsf{hsame}$ transport along the two $\Cont$ action rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.AffineSpaceUp.AffineSpaceTranslationClassifier\_witnesses\_identified}
 \begin{proof}
 Take two displayed difference witnesses. Each witness consists of a vector row, its translation-group reading, and a $\Cont$ action row from $p$ to an endpoint classified with $q$.
 
@@ -95,6 +97,7 @@ $$
 $$
 implies that the action endpoints $\Cont(p,\mathsf{trans}(v))$ and $\Cont(p',\mathsf{trans}(v'))$ are classified by $\mathsf{AffCls}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.AffineSpaceUp.AffineSpaceHistoryTorsorCarrier\_vector\_action\_stability}
 \begin{proof}
 Use the $\VecSpaceUp$ certificate to transport $v$ to $v'$ through its vector classifier. The $\GroupUp$ dependency reads the transported vector row as the same certified additive-translation packet in the translation source.
 
@@ -136,7 +139,6 @@ For the translation component, apply the $\VecSpaceUp$ certificate transport fie
 
 Recombine the transported point comparison and transported vector comparison. Since the classifier contains no hidden field beyond those two components, the recombined pair is precisely the target affine classifier.
 \end{proof}
-
 \begin{theorem}[Affine ledger exactness]
 \label{thm:affinespace-ledger-exactness}
 The $\AffineSpaceUp$ obligation ledger contains exactly the $\GroupUp$ source row, the $\VecSpaceUp$ source row, the carried point $\mathsf{BHist}$ row, the vector-translation $\mathsf{BHist}$ row, the $\hsame$ point classifier component, the $\VecSpaceUp$ translation classifier component, the $\Cont$ action rows, and the two source $\NameCert$ witnesses. No coordinate chart, host torsor equality, quotient representative, or standard bridge row is part of this obligation surface.
