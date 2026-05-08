@@ -180,4 +180,42 @@ theorem FirstOrderDeductionLedgerConcatenation_closure [AskSetup] [PackageSetup]
     (And.intro joinedRow
       (And.intro formulaSig carrier.right.right.right.right.right.right.right.right))
 
+theorem FirstOrderBHistSyntaxCarrier_hsame_stability_obligation [AskSetup] [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint provenance relationSymbol' functionSymbol' treeEndpoint' formulaEndpoint'
+      provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol functionSymbol
+        treeEndpoint formulaEndpoint provenance bundle pkg ->
+      hsame relationSymbol relationSymbol' ->
+        hsame functionSymbol functionSymbol' ->
+          Cont treeSource variableLedger treeEndpoint' ->
+            Cont treeEndpoint' relationSymbol' formulaEndpoint' ->
+              SigRel bundle formulaEndpoint' provenance' ->
+                PkgSig bundle provenance' pkg ->
+                  FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger
+                      relationSymbol' functionSymbol' treeEndpoint' formulaEndpoint' provenance'
+                      bundle pkg ∧
+                    hsame treeEndpoint treeEndpoint' ∧ hsame formulaEndpoint formulaEndpoint' := by
+  intro carrier sameRelation sameFunction treeEndpointCont' formulaEndpointCont' formulaSig' pkgSig'
+  have sameTreeEndpoint : hsame treeEndpoint treeEndpoint' :=
+    cont_respects_hsame (hsame_refl treeSource) (hsame_refl variableLedger)
+      carrier.right.right.right.right.right.left treeEndpointCont'
+  have sameFormulaEndpoint : hsame formulaEndpoint formulaEndpoint' :=
+    cont_respects_hsame sameTreeEndpoint sameRelation
+      carrier.right.right.right.right.right.right.left formulaEndpointCont'
+  have relationUnary' : UnaryHistory relationSymbol' :=
+    unary_transport carrier.right.right.right.left sameRelation
+  have functionUnary' : UnaryHistory functionSymbol' :=
+    unary_transport carrier.right.right.right.right.left sameFunction
+  exact And.intro
+    (And.intro carrier.left
+      (And.intro carrier.right.left
+        (And.intro carrier.right.right.left
+          (And.intro relationUnary'
+            (And.intro functionUnary'
+              (And.intro treeEndpointCont'
+                (And.intro formulaEndpointCont' (And.intro formulaSig' pkgSig'))))))))
+    (And.intro sameTreeEndpoint sameFormulaEndpoint)
+
 end BEDC.Derived.FirstOrderUp

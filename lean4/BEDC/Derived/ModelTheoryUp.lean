@@ -176,4 +176,38 @@ theorem ModelTheoryBHistStructurePacket_satisfaction_exactness_scope [AskSetup]
           (And.intro packet.right.right.right.right.right.right.left
             packet.right.right.right.right.right.right.right))))
 
+theorem ModelTheoryBHistStructurePacket_carrier_classifier_stability [AskSetup] [PackageSetup]
+    {firstOrder structureRow valuation satisfaction elementary provenance endpoint valuation'
+      provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelTheoryBHistStructurePacket firstOrder structureRow valuation satisfaction elementary
+        provenance endpoint bundle pkg ->
+      Cont firstOrder structureRow valuation' ->
+        Cont valuation' satisfaction provenance' ->
+          Cont provenance' elementary endpoint' ->
+            ModelTheoryBHistStructurePacket firstOrder structureRow valuation' satisfaction
+                elementary provenance' endpoint' bundle pkg ∧
+              hsame valuation valuation' ∧ hsame provenance provenance' ∧ hsame endpoint endpoint' := by
+  intro packet valuationCont' provenanceCont' endpointCont'
+  have sameValuation : hsame valuation valuation' :=
+    cont_respects_hsame (hsame_refl firstOrder) (hsame_refl structureRow)
+      packet.right.right.right.right.left valuationCont'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameValuation (hsame_refl satisfaction)
+      packet.right.right.right.right.right.left provenanceCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance (hsame_refl elementary)
+      packet.right.right.right.right.right.right.left endpointCont'
+  have pkgSig' : PkgSig bundle endpoint' pkg := by
+    cases sameEndpoint
+    exact packet.right.right.right.right.right.right.right
+  exact And.intro
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro valuationCont'
+              (And.intro provenanceCont' (And.intro endpointCont' pkgSig')))))))
+    (And.intro sameValuation (And.intro sameProvenance sameEndpoint))
+
 end BEDC.Derived.ModelTheoryUp
