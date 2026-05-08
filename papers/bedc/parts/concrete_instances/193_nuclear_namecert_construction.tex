@@ -96,14 +96,27 @@ For ideal closure, project the compactness and ideal-law rows from $\NameCert_{\
 For exactness, unfold the nuclear classifier as equality of the visible rank-one ledger modulo the Banach and operator-ideal transports just named. The forward direction projects the ledger equivalence from the classifier witness. The reverse direction repacks the same ledger equivalence, together with the Banach transport and compact-prefix witnesses, as the nuclear classifier.
 \end{proof}
 
-\closureat{NuclearUp}{obligationStr}
+\begin{theorem}[NuclearUp scoped BEDC primitive package]
+\label{thm:nuclear-scoped-bedc-primitive-package}
+The $\NuclearUp$ carrier, compact-prefix row, rank-one ledger, stability row, exactness row, and dependency row are scoped exactly over $\mathsf{BHist}$, $\Pkg$, $\hsame$, $\Cont$, $\UnaryHistory$, the $\BanachUp$ classifier rows, the $\OperatorIdealUp$ compact-prefix rows, coefficient-bound witnesses, and tail-modulus ledger rows. No host Banach representative, host compactness predicate, trace-class principle, spectral principle, or choice principle is a primitive of this certificate package.
+\end{theorem}
+
+\begin{proof}
+The carrier side is fixed by \autoref{thm:nuclear-carrier-obligation}, \autoref{thm:nuclear-compact-operator-obligation}, and \autoref{thm:nuclear-carrier-compact-operator-obligation}. The checked row \texttt{BEDC.Derived.NuclearUp.NuclearCompactPrefixCarrier\_banach\_operator\_rows} projects only the $\mathsf{BHist}$ source and target, the $\OperatorIdealUp$ compact row, the displayed $\Cont$ prefix witness, and the $\UnaryHistory$ support read back through the Banach and operator-ideal certificates.
+
+The ledger side is fixed by \autoref{thm:nuclear-rank-one-sum-obligation} and \autoref{thm:nuclear-rank-one-sum-ledger-obligation}. The checked row \texttt{BEDC.Derived.NuclearUp.NuclearRankOnePrefixLedger\_tail\_readback} consumes only the unary rank index, coefficient row, vector row, partial-sum row, tail row, and the two $\Cont$ witnesses relating coefficient-to-vector and index-to-tail data, so rank-one projections, coefficient bounds, finite prefixes, and tail moduli are ledger-visible data rather than host sequences.
+
+Finally, \autoref{thm:nuclear-ledger-exactness-obligation} and \autoref{thm:nuclear-operatorideal-banach-dependency-obligation} supply the stability, exactness, and dependency boundary. Stability transports along $\hsame$ through the Banach classifiers, exactness reads and repacks the same visible rank-one ledger, and the dependency row names only $\NameCert_{\BanachUp}$, $\NameCert_{\OperatorIdealUp}$, and the unary rank ledger. These constructive projections account for every row of the certificate package over the stated BEDC primitives.
+\end{proof}
+
+\closureat{NuclearUp}{scopedStr}[BEDC.Derived.NuclearUp.NuclearCompactPrefixCarrier\_banach\_operator\_rows]
 
 \begin{closurestatus}{\NuclearUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation surface is exactly \autoref{thm:nuclear-carrier-obligation}, \autoref{thm:nuclear-compact-operator-obligation}, \autoref{thm:nuclear-rank-one-sum-obligation}, \autoref{thm:nuclear-ledger-exactness-obligation}, \autoref{thm:nuclear-dependency-boundary-obligation}, \autoref{thm:nuclear-carrier-compact-operator-obligation}, \autoref{thm:nuclear-rank-one-sum-ledger-obligation}, and \autoref{thm:nuclear-operatorideal-banach-dependency-obligation}.}
-  \formalstatus{\unformalizedV}
-  \leantarget{}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped package is exactly \autoref{thm:nuclear-carrier-obligation}, \autoref{thm:nuclear-compact-operator-obligation}, \autoref{thm:nuclear-rank-one-sum-obligation}, \autoref{thm:nuclear-ledger-exactness-obligation}, \autoref{thm:nuclear-dependency-boundary-obligation}, \autoref{thm:nuclear-carrier-compact-operator-obligation}, \autoref{thm:nuclear-rank-one-sum-ledger-obligation}, \autoref{thm:nuclear-operatorideal-banach-dependency-obligation}, and \autoref{thm:nuclear-scoped-bedc-primitive-package}.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.NuclearUp.NuclearCompactPrefixCarrier\_banach\_operator\_rows}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a nuclear carrier, classifier, absolute-summability proof, operator-ideal bridge, standard bridge, or Lean verification target.}
-  \upgradepath{Scoped closure requires binding these obligation rows to exact BEDC primitives for $\mathsf{BHist}$, $\Pkg$, $\hsame$, $\Cont$, $\NameCert_{\BanachUp}$, $\NameCert_{\OperatorIdealUp}$, unary rank indices, rank-one projections, compact-prefix witnesses, coefficient-bound witnesses, and tail moduli.}
+  \notclaimed{This chapter does not close a public nuclear certificate statement, absolute-summability proof, operator-ideal bridge, or standard bridge.}
+  \upgradepath{Public closure requires a single exported $\NuclearUp$ certificate statement over this scoped primitive package.}
 \end{closurestatus}
