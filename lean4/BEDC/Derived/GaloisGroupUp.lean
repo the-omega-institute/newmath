@@ -66,6 +66,47 @@ theorem GaloisGroupAutomorphismActionPacket_fixed_base_carrier_obligation
                 (And.intro packet.right.right.right.right.right.right.right.right.right.left
                   packet.right.right.right.right.right.right.right.right.right.right)))))))
 
+theorem GaloisGroupAutomorphismActionPacket_automorphism_ledger_exactness
+    [AskSetup] [PackageSetup]
+    {galoisExt group fixedBase action composition inverse classifier provenance ledger
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisGroupAutomorphismActionPacket galoisExt group fixedBase action composition inverse
+        classifier provenance ledger endpoint bundle pkg ->
+      UnaryHistory fixedBase ∧ UnaryHistory action ∧ UnaryHistory composition ∧
+        UnaryHistory inverse ∧ UnaryHistory classifier ∧ UnaryHistory provenance ∧
+          UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont galoisExt group provenance ∧
+            Cont fixedBase action classifier ∧ Cont composition inverse ledger ∧
+              Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have generated :=
+    GaloisGroupAutomorphismActionPacket_fixed_base_carrier_obligation packet
+  constructor
+  · exact packet.right.right.left
+  constructor
+  · exact packet.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.right.left
+  constructor
+  · exact generated.right.left
+  constructor
+  · exact generated.left
+  constructor
+  · exact generated.right.right.left
+  constructor
+  · exact generated.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.right.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.right.right.right.right.right.left
+  exact generated.right.right.right.right.right.right.right.right
+
 theorem GaloisGroupAutomorphismActionPacket_fixed_base_classifier
     [AskSetup] [PackageSetup]
     {galoisExt group fixedBase fixedBase' action action' composition inverse classifier
