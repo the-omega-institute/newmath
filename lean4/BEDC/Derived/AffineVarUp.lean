@@ -128,4 +128,19 @@ theorem AffineFiniteFamilyZeroLocus_mutual_inclusion_iff {AffPoint : BHist -> Pr
   · intro locusG
     exact AffineFiniteFamilyZeroLocus_inclusion_contravariant inclFG locusG
 
+theorem AffineFiniteFamilyZeroLocus_standard_zero_locus_bridge {AffPoint : BHist -> Prop}
+    {PolyEvalZero : BHist -> BHist -> Prop} {F G : ProbeBundle BHist} {x : BHist} :
+    AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero F x ->
+      AffineFiniteFamilyEquationInclusion F G ->
+        AffineFiniteFamilyEquationInclusion G F ->
+          AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero G x ∧
+            (AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero F x <->
+              AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero G x) := by
+  intro locusF inclFG inclGF
+  have sameLocus :
+      AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero F x <->
+        AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero G x :=
+    AffineFiniteFamilyZeroLocus_mutual_inclusion_iff inclFG inclGF
+  exact And.intro (Iff.mp sameLocus locusF) sameLocus
+
 end BEDC.Derived.AffineVarUp
