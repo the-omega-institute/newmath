@@ -83,4 +83,34 @@ theorem DynSystemFlowPacket_identity_flow_obligation [AskSetup] [PackageSetup]
                   (And.intro rightFlow statePkg)))))))
   exact And.intro packet (And.intro leftFlow rightFlow)
 
+theorem DynSystemFlowPacket_flow_route_readback [AskSetup] [PackageSetup]
+    {phase ode time source target flowWitness endpoint route : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemFlowPacket phase ode time source target flowWitness endpoint route bundle pkg ->
+      hsame flowWitness (append (append phase time) source) ∧
+        hsame endpoint (append (append (append phase time) source) ode) ∧
+          hsame route (append (append (append (append phase time) source) ode) target) ∧
+            PkgSig bundle route pkg := by
+  intro packet
+  have flowWitnessCont : Cont (append phase time) source flowWitness :=
+    packet.right.right.right.right.right.left
+  have endpointCont : Cont flowWitness ode endpoint :=
+    packet.right.right.right.right.right.right.left
+  have routeCont : Cont endpoint target route :=
+    packet.right.right.right.right.right.right.right.left
+  have routePkg : PkgSig bundle route pkg :=
+    packet.right.right.right.right.right.right.right.right
+  have endpointReadback : hsame endpoint (append (append (append phase time) source) ode) := by
+    cases flowWitnessCont
+    exact endpointCont
+  have routeReadback :
+      hsame route (append (append (append (append phase time) source) ode) target) := by
+    cases flowWitnessCont
+    cases endpointCont
+    exact routeCont
+  exact
+    And.intro flowWitnessCont
+      (And.intro endpointReadback
+        (And.intro routeReadback routePkg))
+
 end BEDC.Derived.DynSystemUp
