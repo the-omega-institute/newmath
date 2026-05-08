@@ -604,8 +604,9 @@ theorem GaloisExtSourcePacket_normal_root_orbit_closure [AskSetup] [PackageSetup
     unary_cont_closed orbitLedgerUnary boundary.right.right.left orbitEndpointRow
   have orbitEndpointReadback :
       hsame orbitEndpoint (append (append normality provenance) separability) :=
-    hsame_trans orbitEndpointRow
-      (congrArg (fun h : BHist => append h separability) orbitLedgerRow)
+    by
+      exact hsame_trans orbitEndpointRow
+        (congrArg (fun h : BHist => append h separability) orbitLedgerRow)
   exact And.intro orbitLedgerUnary
     (And.intro orbitEndpointUnary
       (And.intro orbitLedgerRow
