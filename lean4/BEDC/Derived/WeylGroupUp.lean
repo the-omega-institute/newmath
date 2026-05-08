@@ -560,4 +560,32 @@ theorem WeylGroupCoxeterWordLedger_relation_transport
     (And.intro relationLCarrier (And.intro relationRCarrier sameRelations))
     (And.intro ledger.left (And.intro sameRelationL sameRelationR))
 
+theorem WeylGroupUp_StdBridge {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {root word action next actionNext braid : BHist} :
+    WeylGroupBHistSourceRow support Vector Nonzero root word action ->
+      GroupSingletonCarrier next -> Cont action next actionNext -> Cont word next braid ->
+        SemanticNameCert
+            (fun endpoint : BHist =>
+              WeylGroupBHistSourceRow support Vector Nonzero root braid endpoint ∧
+                hsame endpoint actionNext)
+            (fun endpoint : BHist =>
+              WeylGroupBHistSourceRow support Vector Nonzero root braid endpoint ∧
+                hsame endpoint actionNext)
+            (fun endpoint : BHist =>
+              WeylGroupBHistSourceRow support Vector Nonzero root braid endpoint ∧
+                hsame endpoint actionNext)
+            hsame ∧
+          WeylGroupBHistSourceRow support Vector Nonzero root braid actionNext ∧
+            hsame actionNext root := by
+  intro source nextCarrier actionStep braidStep
+  have exported :
+      WeylGroupBHistSourceRow support Vector Nonzero root braid actionNext ∧
+        hsame actionNext root ∧ GroupSingletonClassifier braid BHist.Empty :=
+    WeylGroupPublicNameCert_export vector_unary source nextCarrier actionStep braidStep
+  exact And.intro
+    (WeylGroupStandardReflectionGroup_bridge vector_unary source nextCarrier actionStep
+      braidStep)
+    (And.intro exported.left exported.right.left)
+
 end BEDC.Derived.WeylGroupUp
