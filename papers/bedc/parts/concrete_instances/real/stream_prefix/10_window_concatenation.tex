@@ -39,6 +39,69 @@ cases, the collected endpoint classifiers repack as
 $\mathsf{RealStreamWindowClassifier}(x,y,n,m+1+r)$.
 \end{proof}
 
+\begin{theorem}[Real unary stream finite-window adjacent concatenation]
+\label{thm:real-unary-stream-window-adjacent-concatenation}
+For observation maps $s,t:\Hist\to\Hist$ and unary anchor histories
+$a,w,r:\Hist$, assume
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)
+$$
+and
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(a,\mathsf{BHist.e1}(w)),r).
+$$
+Then
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,a,\mathsf{append}(w,\mathsf{BHist.e1}(r))).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:real-unary-stream-window-classifier} in the two
+source windows. The left source supplies RatUp endpoint classifiers for every
+$k$ with $\mathsf{UnaryOffsetLe}(k,w)$, and the right source supplies them for
+every successor-shifted offset below $r$ from the anchor
+$\mathsf{append}(a,\mathsf{BHist.e1}(w))$.
+
+Fix an offset $k$ with
+$\mathsf{UnaryOffsetLe}(k,\mathsf{append}(w,\mathsf{BHist.e1}(r)))$. Unfold
+Definition~\ref{def:real-unary-offset-bound}; the offset ledger is a displayed
+$\Cont$ decomposition from $k$ to the joined bound. Constructor inspection of
+that finite append ledger separates the branch that reaches $w$ from the branch
+that crosses the visible $\mathsf{BHist.e1}(w)$ successor.
+
+In the left branch, repack the projected continuation as
+$\mathsf{UnaryOffsetLe}(k,w)$ and apply the left source window. This gives the
+RatUp classifier at
+$\mathsf{append}(a,k)$, which is the same endpoint selected by the joined
+window.
+
+In the right branch, the ledger gives a unary offset $j$ with
+$\mathsf{UnaryOffsetLe}(j,r)$ and an $\hsame$ row identifying
+$\mathsf{append}(a,k)$ with
+$\mathsf{append}(\mathsf{append}(a,\mathsf{BHist.e1}(w)),j)$. Apply the right
+source window at $j$ and transport the RatUp endpoint classifier along that
+$\hsame$ comparison.
+
+The unary rows for $a$, $w$, and $r$ come from the two source classifiers and
+unary successor and append closure. Since the two ledger branches cover exactly
+the offsets below $\mathsf{append}(w,\mathsf{BHist.e1}(r))$, the collected
+endpoint classifiers repack as the joined
+$\mathsf{RealUnaryStreamWindowClassifier}$.
+\end{proof}
+
+The ten-field fit is: traditional target finite observation-window
+concatenation over unary histories; BEDC source
+$\mathsf{RealUnaryStreamWindowClassifier}$; carrier RealUp finite windows over
+StreamNameUp observation schedules $s,t:\Hist\to\Hist$; classifier RatUp
+endpoint classifiers at displayed append endpoints; stability by unary offset
+splitting; ledger $\mathsf{UnaryHistory}$, $\Cont$, $\hsame$, and the finite
+append boundary; core theorem
+\autoref{thm:real-unary-stream-window-adjacent-concatenation}; exactness every
+joined endpoint is read from one source window; standard bridge finite
+stream-prefix concatenation; status $\mathsf{ProofTarget}$.
+
 The ten-field fit is: traditional target finite observation-window
 concatenation; BEDC source $\mathsf{RealStreamWindowClassifier}$ over RatUp
 endpoint classifiers; carrier rational-observation streams; classifier
