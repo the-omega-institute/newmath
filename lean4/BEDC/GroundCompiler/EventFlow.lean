@@ -40,6 +40,10 @@ def DerivCertCandidateFlow : Type := EventFlow
 
 def GeneratedRecognizer : Type := EventFlow
 
+def RecognizerCandidateFlow : Type := EventFlow
+
+def RecognitionRole : Type := EventFlow
+
 inductive CompilerDatum : Type where
   | rawEvent (w : RawEvent)
   | eventFlow (S : EventFlow)
@@ -68,6 +72,11 @@ inductive FormalCompilerInput : CompilerDatum -> Prop where
       FormalCompilerInput (CompilerDatum.recognizedFlow R S)
   | certifiedExport (S : EventFlow) :
       FormalCompilerInput (CompilerDatum.certifiedExport S)
+
+def Recognizes
+    (R : RecognizerCandidateFlow) (_rho : RecognitionRole) (S : EventFlow) :
+    Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R S)
 
 def RecognizesStrength
     (R : GeneratedStrengthRecognizer) (s : EventFlow) (_sigma : StrengthRole) :
