@@ -177,6 +177,7 @@ import BEDC.Derived.CliffordUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
 import BEDC.Derived.DerivativeUp
+import BEDC.Derived.CliffordUp
 import BEDC.Derived.RealAlgOrderUp
 import BEDC.Derived.SymplecticUp
 import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
@@ -351,6 +352,7 @@ import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.TensorProductUp
+import BEDC.Derived.CliffordUp
 import BEDC.Derived.ModuleUp.StdBridge
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.ClassFieldUp
