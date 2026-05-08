@@ -338,6 +338,7 @@ import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
+import BEDC.Derived.NuclearUp
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.ClassFieldUp
 import BEDC.Derived.DiffFormUp
@@ -405,6 +406,7 @@ import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.QuantumChannelUp
+import BEDC.Derived.NuclearUp
 import BEDC.Derived.IdealUp
 import BEDC.Derived.IdealClassUp
 import BEDC.Derived.IdealUp.AbsorptionClosure
