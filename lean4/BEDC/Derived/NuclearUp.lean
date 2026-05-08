@@ -164,6 +164,46 @@ theorem NuclearDependencyBoundary_obligation
                   (And.intro targetCarrier.right
                     (And.intro prefixCont endpointCont))))))))
 
+theorem NuclearOperatorIdealBanachDependency_rank_rows
+    {source target operator prefixHist index coefficient vector partialSum tail endpoint : BHist} :
+    BanachSingletonCarrier source -> BanachSingletonCarrier target ->
+      OperatorIdealTraceClassCarrier operator ->
+        NuclearRankOnePrefixLedger index coefficient vector partialSum tail ->
+          Cont source operator prefixHist -> Cont prefixHist tail endpoint ->
+            exists support : BHist,
+              UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory operator ∧
+                UnaryHistory prefixHist ∧ UnaryHistory tail ∧ UnaryHistory endpoint ∧
+                  MetricDistanceWitness source BHist.Empty BHist.Empty ∧
+                    MetricDistanceWitness target BHist.Empty BHist.Empty ∧
+                      UnaryHistory support ∧ Cont support BHist.Empty operator ∧
+                        hsame operator support ∧ Cont coefficient vector partialSum ∧
+                          Cont index partialSum tail ∧ Cont source operator prefixHist ∧
+                            Cont prefixHist tail endpoint := by
+  intro sourceCarrier targetCarrier operatorCarrier ledger prefixCont endpointCont
+  have boundaryRows :=
+    NuclearDependencyBoundary_obligation sourceCarrier targetCarrier operatorCarrier ledger
+      prefixCont endpointCont
+  have operatorRows :=
+    OperatorIdealTraceClass_downstream_boundary_readback operatorCarrier
+  have ledgerRows := NuclearRankOnePrefixLedger_tail_readback ledger
+  cases operatorRows.right with
+  | intro support supportRows =>
+      exact Exists.intro support
+        (And.intro boundaryRows.left
+          (And.intro boundaryRows.right.left
+            (And.intro boundaryRows.right.right.left
+              (And.intro boundaryRows.right.right.right.left
+                (And.intro boundaryRows.right.right.right.right.left
+                  (And.intro boundaryRows.right.right.right.right.right.left
+                    (And.intro boundaryRows.right.right.right.right.right.right.left
+                      (And.intro boundaryRows.right.right.right.right.right.right.right.left
+                        (And.intro supportRows.left
+                          (And.intro supportRows.right.left
+                            (And.intro supportRows.right.right
+                              (And.intro ledgerRows.right.right.left
+                                (And.intro ledgerRows.right.right.right
+                                  (And.intro prefixCont endpointCont))))))))))))))
+
 theorem NuclearRankOnePrefixLedger_semantic_name_certificate
     {index coefficient vector partialSum tail : BHist} :
     NuclearRankOnePrefixLedger index coefficient vector partialSum tail ->
