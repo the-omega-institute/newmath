@@ -6,5 +6,64 @@ The Fisher-information interface $\FisherInfoUp$ packages, for a parametric fami
 \section{Carrier definition}
 \label{sec:fisherinfo-carrier}
 
+\begin{definition}[FisherInfoUp score-family carrier]
+\label{def:fisherinfo-score-family-carrier}
+A $\FisherInfoUp$ score-family carrier is a finite $\mathsf{BHist}$ packet
+$$
+\mathcal{F}=(D,\theta,s,g,\rho,\lambda).
+$$
+Here $D$ is the $\DistributionUp$ pushforward source packet, $\theta$ is the parameter row, $s$ is the score-function observation row over the displayed distribution and parameter rows, $g$ is the candidate metric-component row, $\rho$ is the $\mathsf{Pkg}$ provenance tying the distribution source row to the parameter row, and $\lambda$ is the finite $\Cont$ ledger from the score observations to the metric row.
+
+The packet is accepted only when the probability data used by $s$ and $g$ are projected from $D$. Thus the carrier records score and metric rows as $\mathsf{BHist}$ entries over a displayed $\DistributionUp$ source, rather than adding a second probability primitive outside the distribution classifier.
+\end{definition}
+
 \section{The certificate}
 \label{sec:fisherinfo-certificate}
+
+\begin{theorem}[FisherInfoUp distribution dependency obligation]
+\label{thm:fisherinfo-distribution-dependency-obligation}
+Every accepted carrier of \autoref{def:fisherinfo-score-family-carrier} projects a $\DistributionUp$ source row $D$ and a parameter-indexed score row $s$ over $D$. The only probability primitive visible to the $\FisherInfoUp$ packet is the endpoint supplied by the $\DistributionUp$ classifier. In particular, the carrier may expose the parameter row $\theta$, the score row $s$, the metric row $g$, the $\mathsf{Pkg}$ provenance $\rho$, and the finite $\Cont$ ledger $\lambda$, but it exposes no probability measure, integration endpoint, or event classifier except through the displayed $\DistributionUp$ pushforward source.
+\end{theorem}
+\begin{proof}
+Project the tuple $\mathcal{F}=(D,\theta,s,g,\rho,\lambda)$ along its first three coordinates. The first coordinate is declared to be the $\DistributionUp$ pushforward source packet, and the score coordinate is declared only over that displayed source and the parameter row.
+
+Read the probability-facing entries through the $\NameCert_{\DistributionUp}$ dependency. Since the tuple contains no second probability coordinate, every event, measure, or probability endpoint used by the score row must be reached by projecting $D$ through the distribution classifier.
+
+The remaining coordinates are ledger data. The $\mathsf{Pkg}$ row records provenance for $D$ and $\theta$, while the $\Cont$ row records the finite continuation from score observations to the metric row. Repacking these projections gives the stated dependency boundary.
+\end{proof}
+
+\begin{theorem}[FisherInfoUp score transport obligation]
+\label{thm:fisherinfo-score-transport-obligation}
+Let $\mathcal{F}=(D,\theta,s,g,\rho,\lambda)$ and $\mathcal{F}'=(D',\theta',s',g',\rho',\lambda')$ be accepted $\FisherInfoUp$ score-family carriers. If $D$ transports to $D'$ by the inherited $\hsame$ comparison and the $\DistributionUp$ classifier, and if $\theta$ transports to $\theta'$ by the same carried history comparison, then the score row $s$ transports to $s'$ through the displayed finite $\Cont$ ledger. The transport uses the same provenance $\mathsf{Pkg}$ face that ties the distribution and parameter rows; it does not create a fresh score classifier detached from $D$.
+\end{theorem}
+\begin{proof}
+Start with the two source rows. The $\hsame$ comparison on $\mathsf{BHist}$ histories and the $\DistributionUp$ classifier transport the pushforward source packet from $D$ to $D'$, while the parameter row is transported along the same carried history comparison.
+
+Use the provenance row next. The $\mathsf{Pkg}$ face $\rho$ binds the score row to the transported distribution and parameter rows, so after replacing $D$ by $D'$ and $\theta$ by $\theta'$, the source of the score row is still the displayed pair rather than an external analytic parameter space.
+
+Finally apply the finite $\Cont$ ledger. The ledger records the continuation from score observations to their transported score observation row, so the endpoint is $s'$ under the same $\FisherInfoUp$ classifier surface. Repacking the transported rows proves the score transport obligation.
+\end{proof}
+
+\begin{theorem}[FisherInfoUp Riemannian metric row obligation]
+\label{thm:fisherinfo-riemannian-metric-row-obligation}
+For every accepted $\FisherInfoUp$ carrier, the transported score-pair row determined by \autoref{thm:fisherinfo-score-transport-obligation} is consumable as the metric-component row required by $\RiemannianMetricUp$. The dependency on $\RiemannianMetricUp$ is exactly the carrier surface of \autoref{thm:riemannianmetric-source-fibre-carrier-row} and the classifier-stability row of \autoref{thm:riemannianmetric-classifier-stability-obligation}: the score-pair endpoint supplies the fibrewise metric component, and the inherited $\hsame$ plus $\Cont$ transport supplies the row stability needed by the Riemannian metric certificate.
+\end{theorem}
+\begin{proof}
+Project the metric coordinate $g$ from the score-family packet. By definition it is reached from displayed score observations by the finite ledger $\lambda$, so its source is the transported score-pair row and not an independent metric primitive.
+
+Apply the carrier surface for $\RiemannianMetricUp$. That surface asks for a base row, a fibre row over the base, and an inner-product or metric-component row on the displayed fibre. The Fisher-information packet provides the parameter row as the base history, the score row as the transported fibre observation, and $g$ as the component row.
+
+It remains to check stability. The score transport theorem supplies the $\hsame$ and $\Cont$ transport of the score-pair row, while the $\RiemannianMetricUp$ classifier-stability row consumes that transported component as a fibrewise metric endpoint. Repacking the component inside the Riemannian metric carrier gives the required row.
+\end{proof}
+
+\begin{theorem}[FisherInfoUp NameCert obligation boundary]
+\label{thm:fisherinfo-certificate-obligation-boundary}
+The $\FisherInfoUp$ $\NameCert$ obligation boundary is the following finite packet. Its source is the $\DistributionUp$ pushforward packet $D$. Its carrier is the score-family packet $\mathcal{F}=(D,\theta,s,g,\rho,\lambda)$ of \autoref{def:fisherinfo-score-family-carrier}. Its classifier is the shared $\hsame$ transport of distribution, parameter, and score rows. Its stability field is the score transport of \autoref{thm:fisherinfo-score-transport-obligation} together with the $\RiemannianMetricUp$ metric-row stability of \autoref{thm:fisherinfo-riemannian-metric-row-obligation}. Its ledger is the provenance row $\rho$ and finite continuation $\lambda$. Its exactness claim is that all public metric components arise from the displayed score rows. Its standard bridge field is absent from this boundary.
+\end{theorem}
+\begin{proof}
+Collect the displayed rows from the previous clauses. The source row is projected by \autoref{thm:fisherinfo-distribution-dependency-obligation}; the carrier row is the finite $\mathsf{BHist}$ tuple of \autoref{def:fisherinfo-score-family-carrier}; and the classifier row is the inherited $\hsame$ comparison through the $\DistributionUp$ dependency and the parameter row.
+
+Next assemble stability. The score row transports by \autoref{thm:fisherinfo-score-transport-obligation}. The metric component is then read by the $\RiemannianMetricUp$ carrier and classifier-stability surface through \autoref{thm:fisherinfo-riemannian-metric-row-obligation}.
+
+The ledger and exactness fields are just the remaining tuple coordinates. The $\mathsf{Pkg}$ row $\rho$ records source provenance, and the finite $\Cont$ row $\lambda$ records the route from score observations to public metric components. Since the tuple contains no public metric coordinate outside $g$, every exported component is reached from the displayed score rows, and no standard bridge is part of the boundary.
+\end{proof}
