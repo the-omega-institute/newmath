@@ -6,5 +6,130 @@ The Dirichlet-unit interface $\DirichletUnitUp$ packages the structure of the un
 \section{Carrier definition}
 \label{sec:dirichletunit-carrier}
 
+\begin{definition}[Dirichlet unit BHist carrier packet]
+\label{def:dirichletunit-bhist-unit-carrier}
+A $\DirichletUnitUp$ carrier packet is a finite $\mathsf{BHist}$ tuple
+$$
+\mathcal{U}=(K,R,u,u^{-1},r,l)
+$$
+where $K$ is the source certificate row projected from
+$\NameCert_{\RingOfIntegersUp}$, $R$ is the inherited $\AbGroupUp$ carrier row,
+$u$ and $u^{-1}$ are $\mathsf{BHist}$ endpoints for a unit and its inverse, and
+$r,l$ are finite $\Cont$ ledgers witnessing the right and left unit products
+inside the ring-of-integers source row. The packet is accepted only when the
+unit endpoints, the two product ledgers, the inherited abelian-group row, and
+the $\RingOfIntegersUp$ source row are all readable from the same finite
+package.
+
+Two packets classify together precisely when the inherited $\hsame$ classifier
+preserves the displayed endpoints and the $\RingOfIntegersUp$ unit-row
+classifier identifies the two source rows. Thus the carrier is a BEDC history
+packet for a named unit row, not an ambient equality in a host number-field
+model.
+\end{definition}
+
+\begin{theorem}[Dirichlet unit carrier transport]
+\label{thm:dirichletunit-unit-carrier-transport}
+Let $\mathcal{U}=(K,R,u,u^{-1},r,l)$ be a packet of
+\autoref{def:dirichletunit-bhist-unit-carrier}. If a second displayed tuple
+$\mathcal{U}'=(K',R',v,v^{-1},r',l')$ is obtained by $\hsame$ transport of
+$u$, $u^{-1}$, $r$, and $l$, while the $\RingOfIntegersUp$ unit-row classifier
+identifies $K$ with $K'$ and the inherited $\AbGroupUp$ classifier identifies
+$R$ with $R'$, then $\mathcal{U}'$ is again an accepted
+$\DirichletUnitUp$ carrier packet.
+\end{theorem}
+\begin{proof}
+Unpack the carrier packet. The projections give the source
+$\RingOfIntegersUp$ row, the inherited $\AbGroupUp$ row, the two unit
+endpoints, and the two finite product ledgers.
+
+Transport the endpoint rows and the two ledgers along the displayed $\hsame$
+comparisons. The $\Cont$ readback is finite, so transporting a ledger preserves
+its source and target rows inside the same package.
+
+The dependency classifiers supply the remaining rows: the
+$\RingOfIntegersUp$ classifier transports the source certificate and the
+$\AbGroupUp$ classifier transports the inherited abelian-group carrier. Repack
+these transported projections in the tuple
+$(K',R',v,v^{-1},r',l')$ to obtain an accepted carrier packet.
+\end{proof}
+
+\begin{theorem}[Dirichlet unit rank ledger]
+\label{thm:dirichletunit-unit-rank-ledger}
+Every accepted packet of \autoref{def:dirichletunit-bhist-unit-carrier}
+contains a rank witness as a $\mathsf{UnaryHistory}$ row recording the visible
+ledger expression $r_1+r_2-1$. This row is stable under the same inherited
+$\hsame$ classifier and $\RingOfIntegersUp$ unit-row classifier used for the
+carrier packet, and it asserts no host arithmetic beyond finite ledger
+readback.
+\end{theorem}
+\begin{proof}
+Project the finite package underlying the carrier. The rank row is read as a
+unary history from the same source certificate that supplies the ring of
+integers and its real and complex place-count ledgers.
+
+The visible expression $r_1+r_2-1$ is therefore a ledger label: its content is
+the displayed finite readback row, not an assertion about an external
+arithmetic object. The $\mathsf{UnaryHistory}$ witness records exactly that
+visible row.
+
+Apply the carrier transport of
+\autoref{thm:dirichletunit-unit-carrier-transport} to the unit endpoints and
+the two product ledgers. The inherited classifier keeps the unary rank row in
+the transported source package, so the same rank ledger is available for every
+classified packet.
+\end{proof}
+
+\begin{theorem}[Dirichlet unit AbGroup projection]
+\label{thm:dirichletunit-unit-abgroup-projection}
+Every accepted $\DirichletUnitUp$ packet projects to the $\AbGroupUp$
+operation, inverse, identity, and classifier rows carried by its dependency
+certificate. The Dirichlet-unit carrier adds the ring-of-integers unit source
+and the two unit-product ledgers, but it does not replace the inherited
+abelian-group interface.
+\end{theorem}
+\begin{proof}
+Unpack the tuple of \autoref{def:dirichletunit-bhist-unit-carrier}. Its second
+projection is the dependency row $R$ from $\NameCert_{\AbGroupUp}$.
+
+Read $R$ through the abelian-group certificate. This exposes the operation
+row, inverse row, identity row, and classifier row for the inherited finitely
+generated abelian carrier.
+
+The remaining projections $K,u,u^{-1},r,l$ witness that the inherited row is
+being used as a unit group for the ring-of-integers source. Repacking with $R$
+therefore gives exactly the $\AbGroupUp$ projection fields, with the unit rows
+retained as additional dependency data.
+\end{proof}
+
+\begin{theorem}[Dirichlet unit certificate obligation surface]
+\label{thm:dirichletunit-certificate-obligation-surface}
+The public $\NameCert_{\DirichletUnitUp}$ obligation surface consists exactly
+of the carrier packet of \autoref{def:dirichletunit-bhist-unit-carrier}, the
+classifier transport of \autoref{thm:dirichletunit-unit-carrier-transport}, the
+rank ledger of \autoref{thm:dirichletunit-unit-rank-ledger}, the inherited
+$\AbGroupUp$ projection of
+\autoref{thm:dirichletunit-unit-abgroup-projection}, and the
+$\RingOfIntegersUp$ source rows for the unit, inverse, and two unit-product
+ledgers.
+\end{theorem}
+\begin{proof}
+The carrier definition supplies the finite tuple and its classifier. The
+transport theorem states the exact stability fields for the unit endpoints and
+for the two product ledgers.
+
+The rank theorem supplies the unary ledger row for the visible
+$r_1+r_2-1$ witness, while the abelian-group projection theorem supplies the
+operation, inverse, identity, and classifier rows inherited from
+$\NameCert_{\AbGroupUp}$.
+
+Conversely, every listed consumer reads one of these rows: unit membership and
+unit products read from $\NameCert_{\RingOfIntegersUp}$, group operations read
+from $\NameCert_{\AbGroupUp}$, and classifier stability reads from $\hsame$
+transport plus the dependency classifiers. Hence the displayed rows are
+exactly the NameCert surface and no stronger number-field arithmetic or
+standard bridge is included.
+\end{proof}
+
 \section{The certificate}
 \label{sec:dirichletunit-certificate}
