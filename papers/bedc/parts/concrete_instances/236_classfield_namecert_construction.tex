@@ -9,44 +9,44 @@ The class-field-theory interface $\ClassFieldUp$ packages the maximal abelian ex
 \section{The certificate}
 \label{sec:classfield-certificate}
 
-\begin{theorem}[ClassFieldUp carrier and classifier obligations]\label{thm:classfield-carrier-classifier-obligations}
-A $\ClassFieldUp$ source carries three visible naming obligations: a $\NumFieldUp$ endpoint supplied by $\NameCert_{\NumFieldUp}$, an $\AdeleUp$ idelic observation carrier supplied by $\NameCert_{\AdeleUp}$, and a classifier comparing finite Artin-symbol observation rows. The classifier is a comparison on visible rows of $\mathsf{BMark}$, $\mathsf{BHist}$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $Pkg$, and gap witnesses; it is not a quotient by hidden ideal, idele, or automorphism classes.
+\begin{theorem}[ClassField carrier and classifier obligations]\label{thm:classfield-obligation-carrier-classifier}
+A $\ClassFieldUp$ certificate must provide a $\mathsf{BHist}$ carrier packaging a $\NumFieldUp$ base source, an $\AdeleUp$ idele-class source, an abelian-extension history row, and a classifier stable under the source $\NameCert$ classifiers and $\hsame$.
 \end{theorem}
 
 \begin{proof}
-Unfold the two dependency certificates. The $\NumFieldUp$ certificate supplies the field endpoint and its observation classifier, while the $\AdeleUp$ certificate supplies the adeles, ideles, and idele-class observation carrier together with its classifier.
+Unpack the roadmap ten-field template for $\ClassFieldUp$. The visible carrier row names the base source, the idele-class source, and the abelian-extension history row.
 
-Transport the carrier names through those two classifiers and record the remaining classifier as a row comparison inside the $\ClassFieldUp$ interface. Since the construction only repackages visible $\mathsf{BMark}$, $\mathsf{BHist}$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $Pkg$, and gap data, no quotient class is introduced.
+Then read the $\NumFieldUp$ and $\AdeleUp$ certificates as the two named dependency certificates. Their classifiers supply source replacement, while the $\ClassFieldUp$ row records the remaining classifier as an obligation rather than as a closed field.
 \end{proof}
 
-\begin{theorem}[ClassFieldUp Artin and Frobenius obligations]\label{thm:classfield-artin-frobenius-obligations}
-Every admitted finite prime or probe row in a $\ClassFieldUp$ certificate exposes a Frobenius endpoint and an Artin-map image. These two rows are stable under the $\NumFieldUp$ and $\AdeleUp$ classifiers, so changing representatives inside either dependency certificate preserves the visible Frobenius row and the visible Artin-symbol row.
+\begin{theorem}[ClassField Artin and Frobenius stability obligations]\label{thm:classfield-obligation-artin-frobenius-stability}
+The Artin-map relation and Frobenius endpoint rows of a $\ClassFieldUp$ certificate must transport along the $\AdeleUp$ classifier, the $\NumFieldUp$ classifier, and $\mathsf{BHist}$ $\hsame$, and they must be compatible with the chosen extension classifier.
 \end{theorem}
 
 \begin{proof}
-Read a finite prime or probe row as finite $\mathsf{ProbeBundle}$ data with a named $\mathsf{SigRel}$ observation boundary. The Frobenius endpoint is the finite-row target, and the Artin image is the corresponding idelic observation row.
+Carrier transport in the dependency $\NameCert$ objects supplies source replacement for the $\NumFieldUp$ and $\AdeleUp$ rows. The $\mathsf{BHist}$ comparison supplies the remaining history replacement.
 
-Apply only classifier transport from $\NameCert_{\NumFieldUp}$ and $\NameCert_{\AdeleUp}$. The transport identifies the visible rows accepted by the dependencies and therefore preserves the two named endpoints without asserting a global reciprocity theorem.
+The Artin relation and the Frobenius endpoints are then listed as stability obligations for the class-field classifier. Compatibility with the extension classifier is part of that obligation surface, not a reciprocity theorem.
 \end{proof}
 
-\begin{theorem}[ClassFieldUp reciprocity ledger and exactness obligations]\label{thm:classfield-reciprocity-ledger-exactness-obligations}
-The $\ClassFieldUp$ ledger records hidden modulus rows, finite prime-probe rows, idele-class rows, and automorphism rows as separate visible obligations. Its exactness entry is the visible reciprocity comparison between the Artin image and the Frobenius rows; it is not a completed class-field theorem and does not assert maximal abelian extension exactness beyond the recorded rows.
+\begin{theorem}[ClassField ledger and exactness obligations]\label{thm:classfield-obligation-ledger-exactness}
+The $\ClassFieldUp$ ledger records the hidden idele representative, the local-prime and Frobenius representative, and the extension presentation. Exactness consists of coverage, soundness, and completeness for the Artin-Frobenius classifier, without claiming reciprocity.
 \end{theorem}
 
 \begin{proof}
-List the ledger rows by their source: modulus data from the hidden conductor boundary, prime-probe data from the finite $\mathsf{ProbeBundle}$ rows, idele-class data from the $\AdeleUp$ carrier, and automorphism data from the Frobenius endpoint.
+Separate visible classifier data from hidden representative data. The visible side contains the classifier row and the Artin-Frobenius comparison; the hidden side records the idele representative, local-prime representative, Frobenius representative, and extension presentation.
 
-The exactness entry is then a comparison relation between the Artin image row and the Frobenius row already present in the ledger. This records the public reciprocity obligation while leaving any global class-field theorem outside the certified content of this chapter.
+Identify the three ExactGlobalize-style rows that must be supplied: coverage of the classifier, soundness of accepted Artin-Frobenius rows, and completeness for the visible rows that the classifier is meant to cover. These rows state the obligation surface and do not assert reciprocity.
 \end{proof}
 
 \closureat{ClassFieldUp}{obligationStr}
 
 \begin{closurestatus}{\ClassFieldUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The seed binds the $\ClassFieldUp$ class-field interface exactly to the $\NumFieldUp$ and $\AdeleUp$ dependency chapters named above, with the carrier, classifier, Artin-map, Frobenius, stability, ledger, and exactness rows recorded as obligations rather than closed certificate fields.}
+  \scopeclosed{The paper scope consists exactly of the three displayed obligation blocks over the $\NumFieldUp$ and $\AdeleUp$ dependency certificates.}
   \formalstatus{\unformalizedV}
   \leantarget{}
   \bridgestatus{none}
   \notclaimed{This chapter does not close the Artin map laws, maximal abelian extension exactness, reciprocity, or a standard bridge.}
-  \upgradepath{Scoped closure requires binding these obligations to the exact $\NumFieldUp$, $\AdeleUp$, $\NameCert$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $Pkg$, and gap primitives used by the class-field interface.}
+  \upgradepath{Scoped closure requires proofs binding these obligations to the named BEDC primitives and dependency certificates.}
 \end{closurestatus}
