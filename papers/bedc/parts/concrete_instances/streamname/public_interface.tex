@@ -355,6 +355,59 @@ completion object, metric row, quotient representative, regularity condition,
 or $\RealUp$ completeness datum is introduced.
 \end{proof}
 
+\begin{theorem}[StreamNameUp common-refinement selected endpoint readback]
+\label{thm:streamname-window-common-refinement-readback}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, and let
+$B_L,B_R,B:\mathsf{ProbeBundle}$. Suppose every certified unary observation
+carried by $B_L$ is an $\mathsf{InBundle}$ member of $B$, and every certified
+unary observation carried by $B_R$ is an $\mathsf{InBundle}$ member of $B$.
+Assume
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B).
+$$
+Let $n:\Hist$ be a selected certified unary observation in either component
+window, so that $n$ is carried by $B_L$ or by $B_R$, and suppose
+$$
+\mathsf{UnaryHistory}(n),
+\quad
+\hsame(s(n),\Eone(a)),
+\quad
+\hsame(t(n),\Eone(b))
+$$
+for histories $a,b:\Hist$. Then the selected endpoint exposes exactly the six
+finite readback rows:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+  \item positive unary denominator rows for $s(n)$ and $t(n)$.
+  \item unary endpoint-shape rows for $s(n)$ and $t(n)$.
+  \item empty-endpoint exclusions for $s(n)$ and $t(n)$.
+  \item zero-headed endpoint exclusions for $s(n)$ and $t(n)$.
+  \item one-tail agreement for the displayed tails $a$ and $b$.
+\end{enumerate}
+No $\RegSeqRat$ regularity row, $\RealUp$ seal, metric row, quotient
+representative, or standard bridge is used.
+\end{theorem}
+
+\begin{proof}
+First restrict the common classifier over $B$ to the relevant component window.
+Apply \autoref{thm:streamname-finite-window-common-refinement-export}. If the
+selected observation is carried by $B_L$, take the left component classifier; if
+it is carried by $B_R$, take the right component classifier.
+
+Now apply
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package} to
+that component classifier, the displayed component membership of $n$, the unary
+witness for $n$, and the two one-extension endpoint displays. The theorem
+returns the selected $\mathsf{RatHistoryClassifier}$ row, positive unary
+denominators, unary endpoint shape, empty exclusion, zero-headed exclusion, and
+one-tail agreement for $a$ and $b$.
+
+The construction has only restricted a finite $\mathsf{ProbeBundle}$ classifier
+and then read the selected $\RatUp$ endpoint package. It therefore never invokes
+RegSeqRat regularity, a RealUp seal, metric data, quotient representatives, or
+standard-bridge structure.
+\end{proof}
+
 \begin{theorem}[StreamNameUp empty finite-window vacuity]
 \label{thm:streamname-public-empty-window-vacuity}
 For certified observation maps $s,t:\Hist\to\Hist$,

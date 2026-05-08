@@ -130,6 +130,46 @@ status, proof target.
 	standard-bridge data still absent.
 	\end{proof}
 
+\begin{theorem}[RealUp StreamName window stability consumption]
+\label{thm:realup-streamname-window-stability-consumption}
+Let $s,t,s',t'$ be rational observation maps carried by a finite
+$\mathsf{ProbeBundle}$ window, and let the selected unary observation rows be
+the endpoint rows read by the finite $\RealUp$ prefix surface. Suppose the
+$\StreamNameUp$ finite-window classifier accepts the window for $(s,t)$,
+suppose the packet carries bundled pointwise $\hsame$ transports from $(s,t)$
+to $(s',t')$, and suppose the selected transported endpoint package of
+\autoref{thm:rat-stream-name-finite-window-transported-selected-full-endpoint-package}
+is present.
+
+Then the transported selected $\RealUp$ prefix read surface has the same
+finite $\mathsf{RealLedgerPolicy}$ boundary as in
+\autoref{thm:realup-scoped-finite-window-read-surface}. It factors through
+\autoref{thm:realup-finite-window-export-through-streamname-interface} as a
+finite $\mathsf{BHist}$ read surface, with no quotient datum, completion datum,
+metric-completeness certificate, Classical datum, or standard-bridge datum.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:rat-stream-name-finite-window-stability-fields} to the accepted
+$\StreamNameUp$ classifier and the bundled pointwise $\hsame$ transports. This
+produces the transported finite-window classifier for $(s',t')$ over the same
+finite $\mathsf{ProbeBundle}$ boundary.
+
+Next apply
+\autoref{thm:rat-stream-name-finite-window-transported-selected-full-endpoint-package}
+to the selected endpoint rows. The transported package supplies the positive
+denominator rows, unary shape rows, zero-head exclusion rows, and one-tail
+agreement rows needed by the selected endpoint surface.
+
+Finally repack these transported rows through
+\autoref{thm:realup-finite-window-export-through-streamname-interface}. The
+scoped read surface of \autoref{thm:realup-scoped-finite-window-read-surface}
+then supplies the unchanged finite $\mathsf{RealLedgerPolicy}$ boundary, so
+the transported prefix surface is still a finite $\mathsf{BHist}$ interface
+and none of the excluded quotient, completion, metric, Classical, or bridge
+data is introduced.
+\end{proof}
+
 \begin{theorem}[RealUp StreamName source-exhaustion equivalence]
 \label{thm:realup-streamname-source-exhaustion-equivalence}
 For any selected finite $\RealUp$ observation window, the selected read surface
