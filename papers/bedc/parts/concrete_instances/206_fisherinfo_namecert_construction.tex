@@ -189,6 +189,33 @@ host density, or external probability object, those objects are not part of
 the public carrier.
 \end{proof}
 
+\begin{theorem}[FisherInfoUp Riemannian metric component row]
+\label{thm:fisherinfo-riemannian-metric-component-row}
+In every accepted packet of
+\autoref{def:fisherinfo-bhist-score-carrier}, the endpoint of the expected
+squared score $\eta$ is exactly the metric-component $\mathsf{BHist}$ row
+$g$ consumed by the inherited $\RiemannianMetricUp$ fibre surface
+$\mathcal{G}$. Thus the Fisher information component is not an external
+coordinate metric; it is the displayed expectation endpoint repacked as the
+metric fibre component.
+\end{theorem}
+\begin{proof}
+Project the accepted packet onto the expectation row $\eta$ and the
+metric-component row $g$. By the carrier definition, both are displayed
+$\mathsf{BHist}$ rows in the same finite $\Cont$ ledger and share the
+provenance row $\rho$.
+
+The distribution source obligation identifies $\eta$ as the expectation
+endpoint of $s^2$ through the carried $\DistributionUp$ probability row. The
+RiemannianMetricUp dependency $\mathcal{G}$ consumes a displayed metric fibre
+component rather than a host coordinate tensor.
+
+The accepted FisherInfoUp packet equates these two displayed endpoints inside
+the finite ledger: the expected squared score endpoint is repacked as $g$.
+Consequently the inherited fibre surface reads the same $\mathsf{BHist}$ row
+that the expectation source row produces.
+\end{proof}
+
 \begin{theorem}[FisherInfoUp classifier transport obligation]
 \label{thm:fisherinfo-classifier-transport-obligation}
 Let $\mathcal{I}$ and $\mathcal{I}'$ be accepted $\FisherInfoUp$ score packets
@@ -219,6 +246,70 @@ preserved.
 
 \section{The certificate}
 \label{sec:fisherinfo-certificate}
+
+\begin{theorem}[FisherInfoUp classifier transport row]
+\label{thm:fisherinfo-classifier-transport-row}
+Let $(\mathcal{D},\mathcal{G},\theta,s,\eta,g,\rho,\lambda)$ and
+$(\mathcal{D}',\mathcal{G}',\theta',s',\eta',g',\rho',\lambda')$ be accepted
+$\FisherInfoUp$ score packets. If $\hsame$ transport carries the distribution
+family row $\mathcal{D}$ to $\mathcal{D}'$, the parameter row $\theta$ to
+$\theta'$, the score row $s$ to $s'$, and the metric fibre row $\mathcal{G}$
+to $\mathcal{G}'$, then it transports the FisherInfoUp metric endpoint
+componentwise from $g$ to $g'$.
+\end{theorem}
+\begin{proof}
+Use the carried $\DistributionUp$ classifier first. It transports the
+pushforward and probability row that supplies the expectation source from
+$\mathcal{D}$ to $\mathcal{D}'$, while the parameter and score hypotheses
+transport the displayed score-function row from $s$ to $s'$ over
+$\theta'$.
+
+The expected squared score endpoint therefore transports from $\eta$ to
+$\eta'$ along the same finite $\Cont$ readback pattern. No analytic
+integration or derivative primitive enters this step because both endpoints
+are displayed $\mathsf{BHist}$ rows in accepted packets.
+
+Apply the metric component row theorem on both packets. It identifies $\eta$
+with $g$ and $\eta'$ with $g'$ as the metric fibre components consumed by
+$\mathcal{G}$ and $\mathcal{G}'$. The $\RiemannianMetricUp$ classifier then
+transports the component row, giving the stated componentwise FisherInfoUp
+metric endpoint transport.
+\end{proof}
+
+\begin{theorem}[FisherInfoUp public certificate surface]
+\label{thm:fisherinfo-public-certificate-surface}
+The public $\NameCert_{\FisherInfoUp}$ obligation surface consists exactly of
+the score packet carrier of
+\autoref{def:fisherinfo-bhist-score-carrier}, the distribution source row of
+\autoref{thm:fisherinfo-distribution-source-obligation}, the metric component
+row of \autoref{thm:fisherinfo-riemannian-metric-component-row}, the
+classifier transport row of
+\autoref{thm:fisherinfo-classifier-transport-row}, the finite $\Cont$ ledger
+$\lambda$, the shared $\mathsf{Pkg}$ ledger $\rho$, the exactness boundary
+excluding host density, integral, derivative, and coordinate metric
+primitives, and an absent bridge row. These data form the public
+$\NameCert_{\FisherInfoUp}$ surface over the dependency certificates
+$\NameCert_{\DistributionUp}$ and $\NameCert_{\RiemannianMetricUp}$.
+\end{theorem}
+\begin{proof}
+The carrier component is exactly the displayed eight-coordinate packet of
+\autoref{def:fisherinfo-bhist-score-carrier}. Its accepted coordinates expose
+the $\DistributionUp$ dependency, the $\RiemannianMetricUp$ dependency, the
+parameter history, the score-function history, the squared-score expectation
+history, the metric-component history, the shared $\mathsf{Pkg}$ provenance,
+and the finite $\Cont$ ledger.
+
+The distribution-side public rows are supplied by
+\autoref{thm:fisherinfo-distribution-source-obligation}. The metric endpoint
+identified from the expected squared score is supplied by
+\autoref{thm:fisherinfo-riemannian-metric-component-row}.
+
+The classifier transport row is supplied by
+\autoref{thm:fisherinfo-classifier-transport-row}. Repacking these rows with
+the finite $\Cont$ ledger, the $\mathsf{Pkg}$ provenance ledger, the explicit
+exactness boundary, and the absent bridge row gives the stated ten-field
+$\NameCert_{\FisherInfoUp}$ obligation surface.
+\end{proof}
 
 \begin{theorem}[FisherInfoUp NameCert obligation surface]
 \label{thm:fisherinfo-namecert-obligation-surface}
