@@ -445,6 +445,44 @@ endpoint uniqueness, exactness, and ledger obligations, so they form one
 scoped dependency package.
 \end{proof}
 
+\begin{theorem}[Unary prefix OrderUp public export]
+\label{thm:orderup-unary-prefix-public-export}
+The concrete L7 $\OrderUp$ phase object exports a single public surface whose
+carrier is $\mathsf{UnaryHistory}$, whose classifier is $\rho_{\mathsf{u}}$,
+and whose relation is
+$\le_{\mathsf{u}} := \mathsf{PreorderPrefixLE}$. This surface includes the
+constructive comparison data, finite interval coverage, endpoint uniqueness,
+exactness, and ledger scope supplied by the unary-prefix $\TotalOrderUp$
+package. Every exported row is sourced from that package boundary, so the
+public $\OrderUp$ object uses no host order and no classical trichotomy.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:unary-prefix-orderup-scoped-dependency-package} as the
+aggregate dependency package. It binds the concrete surface to
+$(\mathsf{BHist},\mathsf{UnaryHistory},\rho_{\mathsf{u}},\le_{\mathsf{u}})$
+and identifies the relevant rows as the unary-prefix $\OrderUp$ obligations.
+
+Project the carrier, classifier, and public relation rows from
+\autoref{thm:orderup-carrier-classifier-obligation} and
+\autoref{thm:unary-prefix-orderup-relation-obligation}. These projections fix
+the public carrier as $\mathsf{UnaryHistory}$, the classifier as
+$\rho_{\mathsf{u}}$, and the relation as
+$\le_{\mathsf{u}} := \mathsf{PreorderPrefixLE}$.
+
+Next project the constructive comparison row from
+\autoref{thm:orderup-constructive-comparison-obligation}. Project finite
+interval coverage and endpoint uniqueness from
+\autoref{thm:orderup-finite-interval-endpoint-obligation}. These rows give the
+comparison witnesses, the finite carried interval, and the selected endpoint
+readback for the same unary-prefix surface.
+
+Finally apply \autoref{thm:orderup-exactness-ledger-scope}. It identifies the
+exactness boundary and confines $\Cont$ to the finite-spine ledger rows. The
+carrier, classifier, relation, comparison, interval, endpoint, exactness, and
+ledger projections therefore repack into one public $\OrderUp$ export surface,
+with no host order row and no classical trichotomy row.
+\end{proof}
+
 \begin{closurestatus}{\OrderUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation frontier is bound to the unary-prefix package over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, with \autoref{thm:unary-prefix-orderup-carrier-obligation}, \autoref{thm:unary-prefix-orderup-classifier-obligation}, \autoref{thm:unary-prefix-orderup-relation-obligation}, \autoref{thm:unary-prefix-orderup-preorder-obligation}, \autoref{thm:unary-prefix-orderup-antisymmetry-obligation}, \autoref{thm:unary-prefix-orderup-constructive-comparison-obligation}, \autoref{thm:unary-prefix-orderup-finite-interval-coverage-obligation}, \autoref{thm:unary-prefix-orderup-endpoint-uniqueness-obligation}, \autoref{thm:unary-prefix-orderup-exactness-obligation}, \autoref{thm:unary-prefix-orderup-ledger-obligation}, \autoref{thm:orderup-carrier-classifier-obligation}, \autoref{thm:orderup-preorder-antisymmetry-obligation}, \autoref{thm:orderup-constructive-comparison-obligation}, and \autoref{thm:orderup-finite-interval-endpoint-obligation} spelling out the carrier, classifier, relation, preorder, antisymmetry, constructive comparison, finite interval coverage, endpoint uniqueness, exactness, and ledger rows.}
