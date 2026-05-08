@@ -1,4 +1,5 @@
 import BEDC.Derived.SeparableExtUp
+import BEDC.Derived.GaloisGroupUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
@@ -22,6 +23,7 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 open BEDC.Derived.FieldExtUp
+open BEDC.Derived.GaloisGroupUp
 open BEDC.Derived.PolynomialUp
 open BEDC.Derived.SeparableExtUp
 
@@ -556,5 +558,26 @@ theorem GaloisExtAutomorphismSourceRow_base_fixed_readback [AskSetup] [PackageSe
         (And.intro fixedBaseCont
           (And.intro actionCont
             (And.intro ledgerCont provenanceRows.right.right.right.right.right.right)))))
+
+theorem GaloisExtSourcePacket_galoisgroup_consumer_automorphism_surface
+    [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint automorphism action inverse automorphismLedger :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      GaloisGroupAutomorphismActionPacket fieldExt automorphism normality action separability
+          inverse classifier provenance automorphismLedger endpoint bundle pkg ->
+        SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot sepProvenance
+            separable bundle pkg ∧
+          UnaryHistory automorphism ∧ Cont fieldExt automorphism provenance ∧
+            Cont provenance automorphismLedger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro sourcePacket actionPacket
+  exact And.intro sourcePacket.left
+    (And.intro actionPacket.right.left
+      (And.intro actionPacket.right.right.right.right.right.right.left
+        (And.intro actionPacket.right.right.right.right.right.right.right.right.right.left
+          actionPacket.right.right.right.right.right.right.right.right.right.right)))
 
 end BEDC.Derived.GaloisExtUp
