@@ -19,6 +19,25 @@ def NonemptyEventFlow (S : EventFlow) : Prop :=
 def erase (S : EventFlow) : List BMark :=
   S.flatten
 
+inductive StrengthRole : Type where
+  | seed
+  | paperCert
+  | checkedCert
+  | bridgeCert
+
+def strengthRank : StrengthRole -> Nat
+  | StrengthRole.seed => 0
+  | StrengthRole.paperCert => 1
+  | StrengthRole.checkedCert => 2
+  | StrengthRole.bridgeCert => 3
+
+def StrengthRoleLT (a b : StrengthRole) : Prop :=
+  strengthRank a < strengthRank b
+
+def GeneratedStrengthRecognizer : Type := EventFlow
+
+def DerivCertCandidateFlow : Type := EventFlow
+
 def GeneratedRecognizer : Type := EventFlow
 
 inductive CompilerDatum : Type where
@@ -49,6 +68,15 @@ inductive FormalCompilerInput : CompilerDatum -> Prop where
       FormalCompilerInput (CompilerDatum.recognizedFlow R S)
   | certifiedExport (S : EventFlow) :
       FormalCompilerInput (CompilerDatum.certifiedExport S)
+
+def RecognizesStrength
+    (R : GeneratedStrengthRecognizer) (s : EventFlow) (_sigma : StrengthRole) :
+    Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R s)
+
+def StrengthEventFlow (s : EventFlow) : Prop :=
+  exists R : GeneratedStrengthRecognizer,
+    exists sigma : StrengthRole, RecognizesStrength R s sigma
 
 def RecognizesPkg (R S : EventFlow) : Prop :=
   FormalCompilerInput (CompilerDatum.recognizedFlow R S) /\
