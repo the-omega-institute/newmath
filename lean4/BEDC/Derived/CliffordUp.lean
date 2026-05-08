@@ -188,4 +188,36 @@ theorem CliffordCarrierPackage_universal_factorization_obligation
             (And.intro targetSquare targetBoundary))))
       (And.intro sameEndpointTarget targetEndpointUnary)
 
+theorem CliffordClassifierPackage_quadratic_boundary_confluence
+    {unit vector product boundary endpoint scalar scalarEndpoint endpoint' scalarEndpoint' :
+      BHist} :
+    CliffordClassifierPackage unit vector product boundary endpoint scalar scalarEndpoint ->
+      Cont product boundary endpoint' ->
+        Cont scalar unit scalarEndpoint' ->
+          hsame endpoint' scalarEndpoint' ∧
+            CliffordCarrierPackage unit vector product boundary endpoint' ∧
+              UnaryHistory scalarEndpoint' := by
+  intro classifier endpointCont' scalarCont'
+  have carrier : CliffordCarrierPackage unit vector product boundary endpoint :=
+    classifier.left
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl product) (hsame_refl boundary)
+      carrier.right.right.right.right endpointCont'
+  have sameScalarEndpoint : hsame scalarEndpoint scalarEndpoint' :=
+    cont_respects_hsame (hsame_refl scalar) (hsame_refl unit)
+      classifier.right.right.left scalarCont'
+  have sameEndpointScalar : hsame endpoint' scalarEndpoint' :=
+    hsame_trans (hsame_symm sameEndpoint)
+      (hsame_trans classifier.right.right.right sameScalarEndpoint)
+  have scalarEndpointUnary : UnaryHistory scalarEndpoint' :=
+    unary_cont_closed classifier.right.left carrier.left scalarCont'
+  exact
+    And.intro sameEndpointScalar
+      (And.intro
+        (And.intro carrier.left
+          (And.intro carrier.right.left
+            (And.intro carrier.right.right.left
+              (And.intro carrier.right.right.right.left endpointCont'))))
+        scalarEndpointUnary)
+
 end BEDC.Derived.CliffordUp
