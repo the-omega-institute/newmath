@@ -227,6 +227,7 @@ If a compiled event flow is claimed to export a mature object $N$ at grades $(c,
 
 \begin{definition}[Structural hidden input]
 \label{def:ground-event-flow-structural-hidden-input}
+\leandef{BEDC.GroundCompiler.EventFlow.StructuralHiddenInput}
 A \emph{structural hidden input} is any datum used by the compiler, or by a downstream analysis governed by the compilation discipline, that is not present as a raw event in some event flow and not recognized from such a flow by a generated recognizer. Examples include:
 \begin{enumerate}
   \item a host AST that supplies node, edge, arity, and category data before event-flow recognition;
@@ -255,6 +256,7 @@ By \autoref{def:ground-event-flow-raw-event} and \autoref{def:ground-event-flow-
 
 \begin{corollary}[YAML is not a formal compiler input]
 \label{cor:ground-event-flow-yaml-not-input}
+\leanchecked{BEDC.GroundCompiler.EventFlow.yaml\_not\_input}
 A YAML or manifest file may be generated as a human-readable report of a decoded event flow, but it cannot serve as formal input to the compiler.
 \end{corollary}
 
@@ -264,6 +266,7 @@ A YAML file supplies package boundaries, field names, and structural roles exter
 
 \begin{corollary}[AST is not a formal compiler input]
 \label{cor:ground-event-flow-ast-not-input}
+\leanchecked{BEDC.GroundCompiler.EventFlow.ast\_not\_input}
 An AST may be reconstructed from a decoded event flow by a generated recognizer, but an AST may not be supplied as initial compiler input.
 \end{corollary}
 
