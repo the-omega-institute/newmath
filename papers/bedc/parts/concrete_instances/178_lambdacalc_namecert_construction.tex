@@ -116,3 +116,128 @@ $\mathsf{Cont}$, $\hsame$, and $\mathsf{LambdaCalcBHistTermCarrier}$ rows.
 
 \section{The certificate}
 \label{sec:lambdacalc-certificate}
+
+\begin{theorem}[LambdaCalc carrier reflexivity]
+\label{thm:lambdacalc-carrier-reflexive}
+Every accepted $\LambdaCalcUp$ term packet over a $\TreeUp$ syntax row and a
+$\NatUp$ binder ledger classifies with itself. The reflexive classifier is the
+componentwise $\hsame$ row on the syntax tree, binder indices, free-variable
+ledger, and package provenance.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+\item Traditional target: reflexivity of the lambda-term equality classifier.
+BEDC source: an accepted $\mathsf{LambdaCalcBHistTermCarrier}$ packet whose
+visible syntax row is supplied by $\TreeUp$ and whose binder indices are
+supplied by $\NatUp$.
+
+\item Carrier: keep the same $\mathsf{BHist}$ term packet and the same
+$\Pkg$ provenance row. Classifier: use reflexive $\hsame$ on the visible
+TreeUp skeleton, each unary binder index, the free-variable ledger, and the
+package provenance.
+
+\item Stability and ledger: the identity $\mathsf{Cont}$ ledger transports no
+constructor payload and no binder row. The carried rows are therefore read back
+through the same visible spine.
+
+\item Core theorem and exactness: the accepted packet classifies with itself,
+and no endpoint outside the displayed syntax, binder, free-variable, and
+provenance rows is read. Standard bridge: absent. Status: paper obligation for
+the future $\BEDC$ namespace $\mathsf{Derived.LambdaCalcUp}$.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[LambdaCalc alpha classifier symmetry]
+\label{thm:lambdacalc-alpha-classifier-symmetric}
+If an accepted alpha-classifier row relates two accepted $\LambdaCalcUp$ term
+packets, then the reverse alpha-classifier row is accepted. The reversed row is
+obtained by reversing the carried $\hsame$ rows on the $\TreeUp$ skeletons and
+the $\NatUp$ binder indices.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+\item Traditional target: symmetry of alpha equivalence. BEDC source: an
+accepted alpha-classifier row between two $\mathsf{BHist}$ lambda-term packets,
+with TreeUp skeleton certificates and NatUp binder-index certificates exposed
+as visible rows.
+
+\item Carrier: both endpoints remain the original accepted LambdaCalc packets.
+Classifier: reverse each carried $\hsame$ comparison on the TreeUp skeleton,
+the unary binder indices, and the provenance rows that identify the two
+packets as LambdaCalc terms.
+
+\item Stability and ledger: the alpha row already carries a constructorwise
+ledger for the binder-renaming route. Reading that ledger in reverse preserves
+the same constructor tags and consumes the same NatUp unary index rows.
+
+\item Core theorem and exactness: the reversed row is an accepted alpha
+classifier and exports no quotient of alpha classes. Standard bridge: absent.
+Status: paper obligation for the future $\BEDC$ namespace
+$\mathsf{Derived.LambdaCalcUp}$.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[LambdaCalc substitution ledger stability]
+\label{thm:lambdacalc-substitution-ledger-stability}
+Let $s,s',r,r',b,b',u:\Hist$ be accepted LambdaCalc term and binder-ledger
+histories. A capture-avoiding substitution row for source $s$, replacement
+$r$, and binder ledger $b$, transported by $\hsame(s,s')$, $\hsame(r,r')$, and
+$\hsame(b,b')$, repacks as an accepted substitution output packet. The repack
+uses only $\mathsf{BHist}$, $\mathsf{Cont}$, $\hsame$, $\Pkg$, and the consumed
+$\TreeUp$ and $\NatUp$ certificates.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+\item Traditional target: stability of capture-avoiding substitution under
+alpha-compatible presentation changes. BEDC source: the visible
+$\mathsf{BHist}$ substitution traversal, the source and replacement term
+packets, and the NatUp binder ledger consumed by the row.
+
+\item Carrier: transport the source term, replacement term, and binder ledger
+through the displayed $\hsame$ rows, then reuse the TreeUp constructor closure
+and NatUp unary-index closure for every visited node.
+
+\item Classifier and stability: constructorwise $\hsame$ transport preserves
+variable, abstraction, and application tags. Binder rows are transported only
+through NatUp unary histories, so capture avoidance remains recorded as a
+ledger fact rather than a host substitution function.
+
+\item Ledger, core theorem, and exactness: concatenate the original traversal
+$\mathsf{Cont}$ witnesses with the three endpoint transports and repack the
+output as an accepted LambdaCalc substitution packet. No host evaluator,
+quotient, or unrecorded freshness primitive is exported. Standard bridge:
+absent. Status: paper obligation for the future $\BEDC$ namespace
+$\mathsf{Derived.LambdaCalcUp}$.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[LambdaCalc beta redex coverage]
+\label{thm:lambdacalc-beta-redex-coverage}
+Every beta-reduction row exported by $\LambdaCalcUp$ is covered by an
+application TreeUp source row whose function child is an abstraction TreeUp
+row, together with the substitution ledger for applying the abstraction body
+to the argument. No host evaluator, function value, or quotient of alpha
+classes is exported.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+\item Traditional target: beta-redex coverage for the lambda calculus. BEDC
+source: an exported $\LambdaCalcUp$ beta row over a visible $\mathsf{BHist}$
+syntax packet.
+
+\item Carrier: invert the TreeUp source row to expose an application
+constructor, then invert its function child as an abstraction constructor with
+a NatUp unary binder index and a carried body subtree.
+
+\item Classifier and stability: the beta endpoint is compared only through
+the LambdaCalc classifier assembled from TreeUp skeleton $\hsame$, NatUp
+binder-index $\hsame$, and package provenance. Transporting the displayed
+redex through $\hsame$ keeps the application and abstraction tags visible.
+
+\item Ledger, core theorem, and exactness: the consumed substitution ledger is
+the entire computation witness from body and argument to output. The theorem
+covers exactly those beta rows and reads no host evaluator, semantic function
+value, or alpha-quotient primitive. Standard bridge: absent. Status: paper
+obligation for the future $\BEDC$ namespace $\mathsf{Derived.LambdaCalcUp}$.
+\end{enumerate}
+\end{proof}
