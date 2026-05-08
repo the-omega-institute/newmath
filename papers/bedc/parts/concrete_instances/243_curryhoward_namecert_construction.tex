@@ -37,3 +37,31 @@ Apply \autoref{thm:lambdacalc-substitution-ledger-obligation} to the substitutio
 
 Finally apply \autoref{thm:lambdacalc-beta-reduction-classifier-obligation}. The redex row $r$, the substitution ledger $s$, the endpoint $u$, and the provenance row $\rho$ repack as an accepted beta-reduction classifier row, stable under the displayed $\hsame$ transport. The shared classifier $\chi$ identifies this endpoint $u$ with the proof-program endpoint carried by $D_{\mathsf{cut}}$, while its other two clauses identify the redex components with $D_1$ and $D_2$. Hence the displayed deduction-side cut-elimination step is carried to the displayed beta-reduction/substitution ledger under the shared $\CurryHowardUp$ classifier, and no host proof equality or host lambda-term equality enters the bridge.
 \end{proof}
+
+\begin{definition}[CurryHowardUp endpoint classifier]\label{def:curryhoward-endpoint-classifier}
+For accepted shared cut-beta packets $\mathcal H$ and $\mathcal H'$ as in \autoref{def:curryhoward-shared-cut-beta-packet}, the CurryHowardUp endpoint classifier relates $\mathcal H$ and $\mathcal H'$ when the following rows hold simultaneously. The $\FirstOrderUp$ deduction classifier relates the displayed deduction ledgers $D_1,D_2,D_{\mathsf{cut}}$ of $\mathcal H$ with the corresponding ledgers $D'_1,D'_2,D'_{\mathsf{cut}}$ of $\mathcal H'$. The $\LambdaCalcUp$ beta/substitution classifier relates the displayed term packets, beta-redex rows, substitution ledgers, and output endpoints $u,u'$. The shared endpoint rows satisfy the displayed $\hsame$ clauses for the proof-program endpoint $P$, the cut-formula/type endpoint $A$, and the conclusion-type endpoint $B$. The finite provenance row $\rho$ records the common dependence on $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$, with no host proof equality, host lambda equality, or quotient of alpha classes.
+\end{definition}
+
+\begin{theorem}[CurryHowardUp classifier endpoint transport]\label{thm:curryhoward-classifier-endpoint-transport}
+Let $\mathcal H$ and $\mathcal H'$ be accepted shared cut-beta packets for $\CurryHowardUp$. If the CurryHowardUp endpoint classifier of \autoref{def:curryhoward-endpoint-classifier} relates $\mathcal H$ and $\mathcal H'$, then the cut-eliminated deduction endpoint and the beta-substitution endpoint transport to the same proof-program endpoint under the shared $\hsame$ rows.
+\end{theorem}
+\begin{proof}
+Unpack the endpoint classifier. Its $\FirstOrderUp$ row gives deduction-classifier agreement for the two cut sources, the two cut targets, and the two cut-eliminated ledgers. Apply \autoref{thm:firstorder-deduction-endpoint-exactness} to read the displayed endpoints of $D_{\mathsf{cut}}$ and $D'_{\mathsf{cut}}$, and then apply \autoref{thm:firstorder-classifier-transport-obligation} to transport those endpoints through the deduction classifier.
+
+Next use the $\LambdaCalcUp$ row. Apply \autoref{thm:lambdacalc-substitution-carrier-preservation} to the two substitution ledgers, so both substitution outputs remain carried LambdaCalc term endpoints. Apply \autoref{thm:lambdacalc-beta-reduction-classifier-obligation} to the related beta-redex and substitution rows; the classifier transports $u$ and $u'$ through the same displayed beta/substitution endpoint relation.
+
+It remains to compare the two sides of the bridge. The shared $\hsame$ clauses in the endpoint classifier identify the proof-program endpoint, the cut-formula/type endpoint, and the conclusion-type endpoint on the two packets, while the finite $\Cont$ provenance row $\rho$ keeps both transports over $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$. Repacking these clauses gives one proof-program endpoint for the cut-eliminated deduction side and the beta-substitution side.
+\end{proof}
+
+\begin{theorem}[CurryHowardUp public NameCert boundary]\label{thm:curryhoward-public-namecert-boundary}
+The shared cut-beta packet of \autoref{def:curryhoward-shared-cut-beta-packet}, the endpoint classifier of \autoref{def:curryhoward-endpoint-classifier}, the endpoint transport theorem \autoref{thm:curryhoward-classifier-endpoint-transport}, and the no-host-equality ledger in the packet definition form the public CurryHowardUp certificate boundary over $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$.
+\end{theorem}
+\begin{proof}
+The carrier part of the boundary is the accepted shared cut-beta packet. It lists the $\FirstOrderUp$ deduction ledgers, the $\LambdaCalcUp$ term packet, the beta-redex row, the substitution ledger, the shared classifier row, and the provenance row as displayed $\mathsf{BHist}$ data.
+
+The classifier part is \autoref{def:curryhoward-endpoint-classifier}. It requires agreement on the deduction classifier, beta/substitution classifier, shared $\hsame$ endpoint rows, and the finite $\Cont$ provenance row. These clauses are all stated over the two source certificates $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$.
+
+The stability and endpoint-exactness part is \autoref{thm:curryhoward-classifier-endpoint-transport}. The theorem transports the cut-eliminated deduction endpoint and the beta-substitution endpoint to the same proof-program endpoint, so the public boundary has a certificate-level endpoint row rather than a host equality assertion.
+
+Finally, the packet definition explicitly excludes host proof trees, host lambda syntax equality, and quotients of alpha classes. This no-host-equality ledger is the remaining boundary clause, and the four clauses together give the stated public CurryHowardUp certificate boundary.
+\end{proof}
