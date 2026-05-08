@@ -72,6 +72,7 @@ import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
+import BEDC.Derived.BilinFormUp
 import BEDC.Derived.BundleUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
@@ -203,6 +204,7 @@ import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.CondExpUp
+import BEDC.Derived.ConnectionUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeriesUp
