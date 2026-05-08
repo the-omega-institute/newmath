@@ -37,6 +37,80 @@ Record the comparison certificate selected for each pair.
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\TotalOrderUp\).
 \end{definition}
 
+\begin{theorem}[TotalOrder carrier branch exhaustion]
+\label{thm:totalorder-carrier-branch-exhaustion}
+For carried singleton $\mathsf{BHist}$ endpoints $h,k:A_{\emp}$, the explicit
+comparison data in
+\autoref{def:concrete-singleton-history-totalorder-instance} exhausts exactly
+the three branches
+$\mathsf{lt}_{\emp}$, $\mathsf{same}_{\emp}$, and
+$\mathsf{gt}_{\emp}$. The singleton carrier forces the same branch:
+$\mathsf{same}_{\emp}(h,k)$ is $\rho_{\emp}(h,k)$, while the strict left and
+strict right branches are empty.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:singleton-history-totalorder-laws}. Its trichotomy row is
+stated for the displayed branches of the singleton history instance, and the
+instance defines the strict branches as $\bot$ and the middle branch as
+$\rho_{\emp}$.
+
+The carrier hypotheses say that $h$ and $k$ are the singleton $\mathsf{BHist}$
+endpoints. Hence no additional endpoint case exists outside the displayed
+three-way comparison data, and the only inhabited branch is the same branch.
+\end{proof}
+
+\begin{theorem}[TotalOrder classifier antisymmetry scope]
+\label{thm:totalorder-classifier-antisymmetry-scope}
+For carried singleton endpoints $h,k:A_{\emp}$, opposing prefix comparisons
+$h\le_{\emp}k$ and $k\le_{\emp}h$ recover $\rho_{\emp}(h,k)$. Therefore the
+classifier antisymmetry scope of the concrete $\TotalOrderUp$ certificate is
+exactly the singleton empty-poset scope and contains no comparison datum beyond
+the carried $\mathsf{BHist}$ endpoints.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:singleton-empty-poset-laws}. Its exactness row identifies
+the singleton classifier $\rho_{\emp}(h,k)$ with the pair of opposing prefix
+comparisons on carried endpoints.
+
+Now read the same row through the branch specification in this file. Since the
+strict branches are empty and the middle branch is $\rho_{\emp}$, antisymmetry
+is precisely the recovery of the middle classifier branch from the two prefix
+comparisons.
+\end{proof}
+
+\begin{theorem}[TotalOrder certificate boundary exactness]
+\label{thm:totalorder-certificate-boundary-exactness}
+The carrier branch exhaustion of
+\autoref{thm:totalorder-carrier-branch-exhaustion}, the classifier
+antisymmetry scope of
+\autoref{thm:totalorder-classifier-antisymmetry-scope}, the stability fields of
+\autoref{def:totalorder-stability-certificate}, and the ledger policy of
+\autoref{def:totalorder-ledger-policy} assemble the exact $\TotalOrderUp$
+boundary over the singleton $\mathsf{BHist}$ carrier. The boundary exports only
+the carrier, comparison branch, classifier, stability, exactness, and selected
+ledger rows listed in this file.
+\end{theorem}
+\begin{proof}
+First assemble the carrier and branch surface. Use
+\autoref{thm:totalorder-carrier-branch-exhaustion} to obtain the exhaustive
+three-way comparison data and the singleton same-branch reduction.
+
+Next assemble the classifier exactness surface. Use
+\autoref{thm:totalorder-classifier-antisymmetry-scope} to identify the
+classifier with opposing prefix comparisons, and use
+\autoref{thm:singleton-empty-poset-laws} for the underlying empty-poset
+exactness rows.
+
+Finally cite \autoref{thm:singleton-history-totalorder-laws} for total-order
+stability and comparison stability. Repacking these rows with
+\autoref{def:totalorder-source-specification},
+\autoref{def:totalorder-pattern-specification},
+\autoref{def:totalorder-classifier-specification},
+\autoref{def:totalorder-stability-certificate}, and
+\autoref{def:totalorder-ledger-policy} gives exactly the certificate boundary
+claimed by \autoref{def:totalorder-certificate-obligations}.
+\end{proof}
+
 \begin{theorem}[Concrete singleton history $\TotalOrderUp$ naming certificate]
 \label{thm:concrete-singleton-history-totalorder-namecert}
 The concrete tuple of
