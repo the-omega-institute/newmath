@@ -6,5 +6,204 @@ The Galois-extension interface $\GaloisExtUp$ packages a normal and separable fi
 \section{Carrier definition}
 \label{sec:galoisext-carrier}
 
+\begin{definition}[GaloisExtUp BHist source packet]
+\label{def:galoisext-bhist-source-packet}
+A $\GaloisExtUp$ source packet is a finite $\mathsf{BHist}$ tuple
+$(F,S,n,s,c,\rho,\lambda)$. The row $F$ is the consumed
+$\NameCert_{\FieldExtUp}$ dependency packet, and the row $S$ is the consumed
+$\NameCert_{\SeparableExtUp}$ dependency packet over the same displayed field
+extension carrier. The row $n$ is the normality and root-splitting row: each
+conjugate endpoint and each displayed root-splitting endpoint is a
+$\mathsf{BHist}$ endpoint read through the carrier, classifier, exactness, and
+ledger rows of $F$. The row $s$ is the separability row: it is the
+minimal-polynomial simple-root row of $S$ after transport into the carrier
+displayed by $F$.
+
+The row $c$ is the classifier row binding the FieldExtUp and SeparableExtUp
+dependency packets. It records that their endpoint comparisons are read by
+$\hsame$ on the same finite history endpoints, with no host-field equality and
+no quotient endpoint. The row $\rho$ is the $\mathsf{Pkg}$ provenance showing
+which dependency packet supplies each displayed face. The finite ledger
+$\lambda$ is the $\mathsf{Cont}$ list containing exactly the FieldExtUp
+dependency row, the SeparableExtUp dependency row, the normality row, the
+separability row, the classifier row, the stability rows, and the exactness
+rows consumed by the public $\NameCert_{\GaloisExtUp}$ interface.
+\end{definition}
+
 \section{The certificate}
 \label{sec:galoisext-certificate}
+
+\begin{theorem}[GaloisExtUp normality obligation row]
+\label{thm:galoisext-normality-obligation-row}
+For a source packet $(F,S,n,s,c,\rho,\lambda)$ of
+\autoref{def:galoisext-bhist-source-packet}, the normality face of
+$\NameCert_{\GaloisExtUp}$ is accepted exactly when every displayed conjugate
+witness and every displayed root-splitting witness in $n$ is read from the
+$\NameCert_{\FieldExtUp}$ packet $F$ through finite $\mathsf{BHist}$ endpoints,
+$\mathsf{Cont}$ ledger rows, $\mathsf{Pkg}$ provenance rows, and the classifier
+rows retained by $F$.
+\end{theorem}
+\begin{proof}
+First read the normality row $n$ from the source packet. By
+\autoref{def:galoisext-bhist-source-packet}, its endpoints are not independent
+field elements; they are displayed $\mathsf{BHist}$ endpoints whose carrier,
+classifier, exactness, and ledger provenance are supplied by $F$.
+
+For the forward direction, acceptance of the normality face exposes exactly the
+conjugate and root-splitting entries carried by $n$. Project each entry to its
+$\mathsf{Cont}$ row and then to its $\mathsf{Pkg}$ source. The definition of
+the packet sends those projections back to the FieldExtUp dependency row, so
+the accepted face contains only rows read from $F$.
+
+For the reverse direction, assume every displayed conjugate and root-splitting
+witness is read from $F$ with the stated history, ledger, and provenance
+support. Repack those rows as the tuple entry $n$, attach the classifier row
+$c$, and use the same finite ledger $\lambda$. This constructs the normality
+face required by $\NameCert_{\GaloisExtUp}$ without introducing any endpoint
+outside the FieldExtUp packet.
+\end{proof}
+
+\begin{theorem}[GaloisExtUp separability obligation row]
+\label{thm:galoisext-separability-obligation-row}
+For a source packet $(F,S,n,s,c,\rho,\lambda)$ of
+\autoref{def:galoisext-bhist-source-packet}, the separability face of
+$\NameCert_{\GaloisExtUp}$ is precisely the minimal-polynomial simple-root row
+of the consumed $\NameCert_{\SeparableExtUp}$ packet $S$, transported by the
+classifier row $c$ into the same FieldExtUp carrier displayed by $F$.
+\end{theorem}
+\begin{proof}
+Read the row $s$ from the source packet. The definition states that $s$ is the
+simple-root row of $S$ after it has been placed over the carrier displayed by
+$F$.
+
+The classifier row $c$ supplies the needed transport. It compares the
+FieldExtUp and SeparableExtUp endpoints by $\hsame$ on the common
+$\mathsf{BHist}$ source, so the minimal-polynomial endpoint, the root endpoint,
+and the simple-root witness remain the same finite history rows after
+transport.
+
+Thus the separability face has no independent certificate data. Projecting it
+recovers the simple-root row of $S$, and repacking that row with $c$, $\rho$,
+and $\lambda$ gives the separability face consumed by
+$\NameCert_{\GaloisExtUp}$.
+\end{proof}
+
+\begin{theorem}[GaloisExtUp classifier transport row]
+\label{thm:galoisext-classifier-transport-row}
+Let $(F,S,n,s,c,\rho,\lambda)$ and
+$(F',S',n',s',c',\rho',\lambda')$ be two $\GaloisExtUp$ source packets. If the
+FieldExtUp dependency rows of $F$ and $F'$ are transported by $\hsame$, and the
+SeparableExtUp dependency rows of $S$ and $S'$ are transported by $\hsame$ over
+the same finite $\mathsf{BHist}$ endpoints, then the normality and separability
+faces are transported from $(n,s)$ to $(n',s')$ by the classifier rows $c$ and
+$c'$ without host field equality or quotienting.
+\end{theorem}
+\begin{proof}
+Start with the FieldExtUp transport. The hypothesis identifies the carrier,
+classifier, exactness, and ledger endpoints of $F$ and $F'$ by $\hsame$.
+Therefore every conjugate and root-splitting witness read from $F$ has the
+corresponding displayed endpoint in $F'$.
+
+Next use the SeparableExtUp transport. It identifies the minimal-polynomial
+simple-root rows of $S$ and $S'$ over the same history endpoints. The
+classifier rows $c$ and $c'$ place those rows in the FieldExtUp carriers
+already matched in the previous paragraph.
+
+Combining the two transports sends $n$ to $n'$ and $s$ to $s'$. Since all
+comparisons are $\hsame$ comparisons on finite $\mathsf{BHist}$ endpoints, the
+argument never requires equality of ambient host fields, quotient
+representatives, or an external field carrier.
+\end{proof}
+
+\begin{theorem}[GaloisExtUp normal separable stability]
+\label{thm:galoisext-normal-separable-stability}
+Every $\NameCert_{\GaloisExtUp}$ source packet of
+\autoref{def:galoisext-bhist-source-packet} is stable under replacing its
+displayed rows by $\hsame$-classified $\mathsf{BHist}$ rows through the same
+$\mathsf{Pkg}$ provenance. The stable rows are exactly the
+$\NameCert_{\FieldExtUp}$ field-extension dependency, the
+$\NameCert_{\SeparableExtUp}$ separability dependency, the finite normality
+and root-splitting row, and the finite $\mathsf{Cont}$ ledgers belonging to the
+enclosing $\NameCert$ packet.
+\end{theorem}
+\begin{proof}
+Apply the classifier transport row of
+\autoref{thm:galoisext-classifier-transport-row} to the transported FieldExtUp
+and SeparableExtUp dependency rows. This handles the carrier, classifier,
+exactness, and ledger endpoints through the inherited classifiers of the two
+dependency packets.
+
+For the normality component, transport every conjugate and root-splitting row
+along the displayed $\hsame$ comparisons and retain the finite $\mathsf{Cont}$
+ledger that reads those rows from the field-extension source $F$.
+
+For the separability component, use the displayed
+$\NameCert_{\SeparableExtUp}$ dependency and its simple-root row. The shared
+$\mathsf{Pkg}$ provenance row $\rho$ is carried through the repacking, so the
+transported packet has the same certificate surface as the original packet.
+\end{proof}
+
+\begin{theorem}[GaloisExtUp public obligation boundary]
+\label{thm:galoisext-public-obligation-boundary}
+For a source packet $(F,S,n,s,c,\rho,\lambda)$ of
+\autoref{def:galoisext-bhist-source-packet}, the public
+$\NameCert_{\GaloisExtUp}$ obligation surface is exactly the following finite
+row family: the carrier row from $F$, the normality row $n$, the separability
+row $s$, the classifier row $c$, the stability rows inherited from the
+FieldExtUp and SeparableExtUp packets, the finite $\mathsf{Cont}$ ledger
+$\lambda$, and the exactness rows named by those packets. This is the complete
+surface consumed by $\GaloisGroupUp$ through
+$\NameCert_{\GaloisExtUp}$.
+\end{theorem}
+\begin{proof}
+Project the packet to its dependency rows. The FieldExtUp packet supplies the
+carrier, field-extension classifier, stability, exactness, and ledger rows.
+The SeparableExtUp packet supplies the minimal-polynomial simple-root row, and
+\autoref{thm:galoisext-separability-obligation-row} identifies that row with
+the separability face of the GaloisExtUp surface.
+
+The normality face is supplied by
+\autoref{thm:galoisext-normality-obligation-row}. The classifier compatibility
+needed to place both faces over one carrier is supplied by
+\autoref{thm:galoisext-classifier-transport-row}. Thus every public row is a
+projection of $F$, $S$, $n$, $s$, $c$, $\rho$, or $\lambda$.
+
+Conversely, each listed row is part of the source packet and is named by the
+public GaloisExtUp interface: carrier, normality, separability, classifier,
+stability, ledger, and exactness. Repacking these rows gives exactly the
+$\NameCert_{\GaloisExtUp}$ surface available to the downstream
+$\GaloisGroupUp$ carrier, so no additional obligation row remains hidden.
+\end{proof}
+
+\begin{theorem}[GaloisExtUp dependency exactness ledger]
+\label{thm:galoisext-dependency-exactness-ledger}
+For the source packet $(F,S,n,s,c,\rho,\lambda)$ of
+\autoref{def:galoisext-bhist-source-packet}, the dependency ledger for
+$\NameCert_{\GaloisExtUp}$ has coverage, soundness, and completeness for
+exactly these displayed rows: the carrier, classifier, stability, exactness,
+and ledger rows from $\NameCert_{\FieldExtUp}$; the simple-root row from
+$\NameCert_{\SeparableExtUp}$; the finite normality and root-splitting row;
+the $\hsame$ classifier rows; the finite $\mathsf{Cont}$ readback rows; and
+the shared $\mathsf{Pkg}$ provenance row. No other $\NameCert$ row is exported
+by the $\GaloisExtUp$ packet.
+\end{theorem}
+\begin{proof}
+Coverage follows by projecting the tuple in
+\autoref{def:galoisext-bhist-source-packet}. Each field listed in the ledger
+is one of the packet entries or one of the dependency rows displayed by
+$\NameCert_{\FieldExtUp}$ or $\NameCert_{\SeparableExtUp}$.
+
+Soundness follows from the preceding rows. The normality projection is
+\autoref{thm:galoisext-normality-obligation-row}, the separability consumption
+is \autoref{thm:galoisext-separability-obligation-row}, and the classifier and
+stability steps are \autoref{thm:galoisext-classifier-transport-row} and
+\autoref{thm:galoisext-normal-separable-stability}. Each step uses only
+$\mathsf{BHist}$ projection, $\hsame$ comparison, finite $\mathsf{Cont}$
+readback, and the recorded $\mathsf{Pkg}$ provenance.
+
+Completeness follows because a downstream consumer can project only those rows
+from the packet. The tuple contains no separate host field equality, ambient
+algebraic-closure object, or hidden separability witness. Therefore every
+accepted $\GaloisExtUp$ dependency read factors through exactly the displayed
+ledger rows.
+\end{proof}
