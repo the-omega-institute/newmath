@@ -48,14 +48,62 @@ Completeness is the reverse reading. Any visible row accepted by the unitary car
 \section{The certificate}
 \label{sec:unitarygroup-certificate}
 
+\begin{theorem}[UnitaryGroup carrier and classifier obligation]\label{thm:unitarygroup-carrier-classifier-obligation}
+The carrier for $\UnitaryGroupUp$ is the $\HilbertUp$ carrier together with the $\LieGroupUp$ automorphism rows whose source and target Hilbert carriers are classifier-compatible. Its classifier is inherited componentwise from the $\HilbertUp$ carrier classifier and the $\LieGroupUp$ automorphism classifier, restricted to histories that preserve the displayed Hilbert source and target rows.
+\end{theorem}
+\begin{proof}
+Unpack the carrier, classifier, source, and dependency fields of the ten-field roadmap template. The introduction supplies exactly the two certificate dependencies: $\NameCert_{\HilbertUp}$ for Hilbert carriers and classifiers, and $\NameCert_{\LieGroupUp}$ for automorphism rows and their group surface.
+
+The carrier is obtained by pairing a Hilbert carrier row with a Lie-group automorphism row whose source and target projections land back in the Hilbert carrier and are related by the Hilbert classifier. Repacking these projections gives the displayed $\mathsf{BHist}$ carrier predicate for $\UnitaryGroupUp$.
+
+The classifier field is then the restricted componentwise classifier. The Hilbert component is transported by $\NameCert_{\HilbertUp}$, the automorphism component by $\NameCert_{\LieGroupUp}$, and the restriction records that both transported endpoints remain classifier-compatible Hilbert carriers.
+\end{proof}
+
+\begin{theorem}[UnitaryGroup operation stability obligation]\label{thm:unitarygroup-operation-stability-obligation}
+The product, inverse, and identity rows of $\UnitaryGroupUp$ are the $\LieGroupUp$ operation rows restricted to the carrier of \autoref{thm:unitarygroup-carrier-classifier-obligation}. Product, inverse, and identity witnesses are stable under the displayed classifier because their source, target, and result rows remain Hilbert-carrier-preserving automorphisms.
+\end{theorem}
+\begin{proof}
+Project the operation fields of the ten-field roadmap template after the carrier has been fixed. The only available product, inverse, and identity operations are the rows exposed by $\NameCert_{\LieGroupUp}$.
+
+For product, compose two accepted automorphism rows through the $\LieGroupUp$ product row and then project the Hilbert source and target rows. Because each factor preserves the Hilbert carrier, the composite also lands in the same classifier-compatible Hilbert carrier rows.
+
+For inverse and identity, use the corresponding $\LieGroupUp$ rows and apply the same restriction. The inverse row swaps source and target while preserving classifier compatibility, and the identity row is the Hilbert-carrier-preserving automorphism already exposed by the restricted carrier.
+
+Stability follows by transporting every source, target, and result row along the classifier built in \autoref{thm:unitarygroup-carrier-classifier-obligation}. Repacking those transported rows gives the same product, inverse, and identity witnesses in the restricted $\UnitaryGroupUp$ package.
+\end{proof}
+
+\begin{theorem}[UnitaryGroup inner-product preservation obligation]\label{thm:unitarygroup-inner-product-preservation-obligation}
+Every automorphism carried by $\UnitaryGroupUp$ transports the $\HilbertUp$ inner-product classifier to itself. The preservation row is stable under classifier replacement: if the carried automorphism is replaced by an equivalent restricted $\LieGroupUp$ automorphism and the Hilbert carrier is replaced by an equivalent $\HilbertUp$ carrier, the transported inner-product row is the same $\HilbertUp$ classifier row.
+\end{theorem}
+\begin{proof}
+Read the inner-product field of the ten-field roadmap template through the $\HilbertUp$ dependency. The Hilbert certificate supplies the inner-product classifier row, while the restricted automorphism carrier supplies the source and target histories on which that classifier is evaluated.
+
+For a carried automorphism, apply its endpoint-preservation row to the Hilbert source and target projections. The result says that transporting an inner-product observation along the automorphism returns an observation classified by the same $\HilbertUp$ inner-product row.
+
+For classifier replacement, first transport the Hilbert carrier by the $\HilbertUp$ classifier and the automorphism by the restricted $\LieGroupUp$ classifier. Then apply the preservation row to the transported endpoints. Repacking gives the identical inner-product-preservation witness for the classified $\UnitaryGroupUp$ row.
+\end{proof}
+
+\begin{theorem}[UnitaryGroup ledger exactness obligation]\label{thm:unitarygroup-ledger-exactness-obligation}
+The $\UnitaryGroupUp$ ledger consists exactly of the $\HilbertUp$ carrier and classifier rows, the $\LieGroupUp$ operation rows, inverse, product, and identity witnesses, inner-product-preservation witnesses, classifier-transport rows, and dependency rows. Coverage, soundness, and completeness hold for precisely that package: every accepted unitary-group row exposes those entries, every such entry projects to a valid carried row, and every package with exactly those entries is accepted. No spectral theorem, operator-algebra theorem, or standard bridge claim is part of this ledger.
+\end{theorem}
+\begin{proof}
+Unpack the ledger, exactness, and dependency fields of the ten-field roadmap template. The dependency rows are exactly $\NameCert_{\HilbertUp}$ and $\NameCert_{\LieGroupUp}$, and the visible ledger entries are the carrier, classifier, operation, preservation, and transport rows specified in \autoref{thm:unitarygroup-carrier-classifier-obligation}, \autoref{thm:unitarygroup-operation-stability-obligation}, and \autoref{thm:unitarygroup-inner-product-preservation-obligation}.
+
+Coverage projects an accepted $\UnitaryGroupUp$ row into those entries: the Hilbert carrier and classifier, the restricted Lie-group automorphism row, the product, inverse, and identity witnesses, the inner-product-preservation witness, and the classifier-transport rows.
+
+Soundness reads any displayed ledger entry back through the corresponding BEDC primitive. Hilbert entries are justified by $\NameCert_{\HilbertUp}$, operation entries by $\NameCert_{\LieGroupUp}$, and the preservation and transport entries by the restrictions already carried in the unitary-group package.
+
+Completeness repacks a package with exactly these entries as the public obligation surface. Since spectral principles, operator-algebra theorems, and standard bridges are not among the dependency or ledger rows, they cannot be consumed by this certificate.
+\end{proof}
+
 \closureat{UnitaryGroupUp}{obligationStr}
 
 \begin{closurestatus}{\UnitaryGroupUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The closed obligation inventory is exactly \autoref{thm:unitarygroup-source-classifier-obligation}, \autoref{thm:unitarygroup-operation-preservation-obligation}, and \autoref{thm:unitarygroup-stability-ledger-exactness-obligation}.}
+  \scopeclosed{The obligation scope binds exactly the carrier and classifier, operation stability, inner-product preservation, and ledger exactness rows in \autoref{thm:unitarygroup-carrier-classifier-obligation}, \autoref{thm:unitarygroup-operation-stability-obligation}, \autoref{thm:unitarygroup-inner-product-preservation-obligation}, and \autoref{thm:unitarygroup-ledger-exactness-obligation}.}
   \formalstatus{\unformalizedV}
   \leantarget{}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim source-theorem discharge, a standard bridge, or Lean verification for $\UnitaryGroupUp$.}
-  \upgradepath{Scoped closure requires tying these obligation rows to the concrete $\HilbertUp$ and $\LieGroupUp$ source theorems.}
+  \notclaimed{This chapter does not close a unitary-group carrier, classifier, inner-product preservation proof, group law proof, standard bridge, or Lean verification target.}
+  \upgradepath{Scoped closure requires binding the displayed carrier, classifier, inverse, product, identity, inner-product preservation, stability, ledger, exactness, and dependency rows to exact BEDC primitives.}
 \end{closurestatus}

@@ -42,6 +42,7 @@ import BEDC.FKernel.ExternalBinary.Model
 import BEDC.FKernel.ExternalBinary.Cancellation
 import BEDC.FKernel.ExternalBinary.Congruence
 import BEDC.FKernel.Gap
+import BEDC.FKernel.Gap.Pullback
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.NameCert.Descent
 import BEDC.FKernel.NameCert.StabilityMode
@@ -340,6 +341,7 @@ import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.NuclearUp
+import BEDC.Derived.TensorProductUp
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.ClassFieldUp
 import BEDC.Derived.DiffFormUp

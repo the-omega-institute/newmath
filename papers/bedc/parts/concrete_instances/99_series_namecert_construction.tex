@@ -15,12 +15,14 @@ Project the $\SeqUp$ certificate to obtain the stream carrier, stream classifier
 
 The restriction of the classifier is componentwise: the sequence component is transported by the $\SeqUp$ source classifier, and the additive component is transported by $\hsame$. Repacking those two rows gives exactly the announced carrier boundary without importing a host-level series object.
 \end{proof}
+\leanchecked{BEDC.Derived.SeriesUp.SeriesSourceCarrierBoundary\_obligation}
 
 \begin{theorem}[Series partial-sum obligation]
 \label{thm:series-partial-sum-obligation}
 For every carried $\SeriesUp$ source row, the partial-sum row is a unary prefix family $s:\mathsf{BHist}\to\mathsf{BHist}$ generated from the summand stream by finite $\Cont$-compatible prefixes. The zero prefix is the additive zero row, the successor prefix is obtained by appending one summand observation through the additive operation row, and prefix comparison is transported by the $\SeqUp$ stream classifier and by $\hsame$ on the additive carrier. Thus partial sums are BEDC ledger rows, not hidden evaluations of an external infinite sum.
 \end{theorem}
 \leanchecked{BEDC.Derived.SeriesUp.SeriesPartialSumLedger\_step\_transport}
+\leanvariant{BEDC.Derived.SeriesUp.SeriesPartialSum\_transport}
 \begin{proof}
 Start from the unary index witness supplied by the $\SeqUp$ observation surface. The empty prefix is read as the additive zero row, and the successor case appends the next observed summand using the additive operation row.
 
@@ -52,14 +54,14 @@ Soundness reads each projected component back through the corresponding BEDC pri
 Completeness is the reverse packing. Given exactly those rows, assemble the carrier boundary, the partial-sum family, and the modulus stability witness, then record them as the public $\SeriesUp$ obligation surface. Since every accepted row is accounted for in this package, the dependency surface is exact.
 \end{proof}
 
-\closureat{SeriesUp}{scopedStr}
+\closureat{SeriesUp}{scopedStr}{BEDC.Derived.SeriesUp.SeriesPartialSumLedger\_step\_transport}
 
 \begin{closurestatus}{\SeriesUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation scope binds exactly the $\NameCert_{\SeqUp}$ source, additive-carrier rows, $\Cont$-compatible partial sums, explicit unary moduli, stream-classifier stability, and ledger exactness in \autoref{thm:series-source-carrier-boundary-obligation}, \autoref{thm:series-partial-sum-obligation}, \autoref{thm:series-modulus-stability-obligation}, and \autoref{thm:series-ledger-exactness-obligation}.}
-  \formalstatus{\unformalizedV}
-  \leantarget{}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.SeriesUp.SeriesPartialSumLedger\_step\_transport}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim a public $\SeriesUp$ certificate theorem, a standard bridge, or a Lean target.}
+  \notclaimed{This chapter does not claim a public $\SeriesUp$ certificate theorem or a standard bridge.}
   \upgradepath{Public closure requires a single exported $\SeriesUp$ certificate theorem consuming the four scoped obligation rows.}
 \end{closurestatus}
