@@ -160,6 +160,64 @@ $\mathsf{RealUnaryStreamWindowClassifier}
 (s,t,\mathsf{append}(a,\mathsf{BHist.e1}(w)),r)$.
 \end{proof}
 
+\begin{theorem}[Real unary window associative triple concatenation]
+\label{thm:real-unary-window-associative-triple-concatenation}
+For observation maps $s,t:\Hist\to\Hist$ and unary anchor and bound histories
+$a,w,r,q:\Hist$, assume
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w),
+$$
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(a,\mathsf{BHist.e1}(w)),r),
+$$
+and
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(\mathsf{append}(a,\mathsf{BHist.e1}(w)),
+\mathsf{BHist.e1}(r)),q).
+$$
+Then
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,a,\mathsf{append}(\mathsf{append}(w,\mathsf{BHist.e1}(r)),
+\mathsf{BHist.e1}(q))).
+$$
+\end{theorem}
+\begin{proof}
+First concatenate the $w$-window and the $r$-window by
+\autoref{thm:real-unary-stream-window-adjacent-concatenation}. This gives a
+window from $a$ with displayed bound
+$\mathsf{append}(w,\mathsf{BHist.e1}(r))$.
+
+Next apply the same adjacent-concatenation theorem to that joined window and
+the $q$-window. The third source window is anchored at
+$\mathsf{append}(\mathsf{append}(a,\mathsf{BHist.e1}(w)),
+\mathsf{BHist.e1}(r))$, while the second application expects the anchor
+obtained by appending the joined bound to $a$.
+
+The displayed associativity row for $\mathsf{append}$ supplies the needed
+$\hsame$ endpoint transport between these two anchor descriptions. Transport
+the RatUp endpoint classifiers along that $\hsame$ row, then repack the
+unary-history and $\Cont$ ledgers supplied by the two adjacent concatenations.
+
+The resulting bound is exactly
+$\mathsf{append}(\mathsf{append}(w,\mathsf{BHist.e1}(r)),
+\mathsf{BHist.e1}(q))$, so the repackaged endpoint rows prove the displayed
+triple-window classifier.
+\end{proof}
+
+The ten-field fit is: traditional target nested finite observation-window
+concatenation; BEDC source RealUp finite windows over StreamNameUp observation
+schedules $s,t:\Hist\to\Hist$; carrier unary $\mathsf{BHist}$ anchors and
+bounds; classifier RatUp endpoint classifiers at displayed append endpoints;
+stability by $\hsame$ endpoint transport; ledger $\Cont$, unary-history rows,
+and append-associativity readback; core theorem
+\autoref{thm:real-unary-window-associative-triple-concatenation}; exactness each
+endpoint in the nested bound is read from one of the three source windows;
+standard bridge finite-prefix consumption by RegSeqRat and RealUp surfaces;
+status $\mathsf{ProofTarget}$.
+
 The ten-field fit is: traditional target finite observation-window
 concatenation over unary histories; BEDC source
 $\mathsf{RealUnaryStreamWindowClassifier}$; carrier RealUp finite windows over
