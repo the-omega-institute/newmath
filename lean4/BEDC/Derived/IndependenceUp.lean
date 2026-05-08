@@ -186,4 +186,20 @@ theorem IndependenceFiniteFactorizationRow_public_namecert_export
         exact IndependenceFiniteFactorizationRow_reindexing_closure
           sameMembers row sameJoint productCont))
 
+theorem IndependenceFiniteFactorizationRow_carrier_obligation
+    {joint product : BHist} {marginals : ProbeBundle BHist} :
+    IndependenceFiniteFactorizationRow joint product marginals ->
+      hsame (IndependenceProductFold marginals) BHist.Empty ∧
+        Cont (IndependenceProductFold marginals) BHist.Empty product ∧
+          hsame joint product ∧ hsame product BHist.Empty ∧ hsame joint BHist.Empty := by
+  intro row
+  have productEmpty : hsame product BHist.Empty :=
+    hsame_trans (cont_right_unit_result row.right.left) row.left
+  have jointEmpty : hsame joint BHist.Empty :=
+    hsame_trans row.right.right productEmpty
+  exact And.intro row.left
+    (And.intro row.right.left
+      (And.intro row.right.right
+        (And.intro productEmpty jointEmpty)))
+
 end BEDC.Derived.IndependenceUp
