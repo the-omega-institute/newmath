@@ -653,6 +653,7 @@ import BEDC.Derived.CommRingUp.Parallelogram
 import BEDC.Derived.CommRingUp.SignedProductBalance
 import BEDC.Derived.CommRingUp.CrossTerm
 import BEDC.Derived.CommRingUp.DiagonalExtractionPackage
+import BEDC.Derived.CommRingUp.StdBridge
 import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.CommRingUp.SingletonContinuation
 import BEDC.Derived.CommRingUp.SingletonStrictZeroDivisor
