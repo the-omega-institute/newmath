@@ -90,6 +90,7 @@ import BEDC.Derived.CurvatureUp.ConsumerRowCoverage
 import BEDC.Derived.CurvatureUp.ConsumerBoundary
 import BEDC.Derived.CurvatureUp.LedgerExactnessObligation
 import BEDC.Derived.CurvatureUp.Handoff
+import BEDC.Derived.CurvatureUp.HandoffConsumerCoverage
 import BEDC.Derived.CurvatureUp.ConnectionCarrierScope
 import BEDC.Derived.CurvatureUp.ChernWeilSourceEnvelope
 import BEDC.Derived.CurvatureUp.PublicObligation
@@ -105,6 +106,7 @@ import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.KnotUp
+import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
@@ -450,6 +452,7 @@ import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.GaloisExtUp
+import BEDC.Derived.GaloisExtUp.SeparabilityObligationRow
 import BEDC.Derived.GaloisExtUp.SharedCarrierCoverage
 import BEDC.Derived.GaloisGroupUp
 import BEDC.Derived.GaloisGroupUp.AssociativeActionRow
@@ -491,6 +494,7 @@ import BEDC.Derived.ContinuousMapUp.PublicExport
 import BEDC.Derived.SumUp
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SumUp.Branch
+import BEDC.Derived.SumUp.CarrierAwareSameTagExactness
 import BEDC.Derived.SumUp.CarrierExactness
 import BEDC.Derived.SumUp.Classifier
 import BEDC.Derived.SumUp.Ledger

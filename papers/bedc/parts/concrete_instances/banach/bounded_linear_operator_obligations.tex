@@ -381,3 +381,132 @@ $$
 \mathsf{BanachBLOp}(C,D,T\boxplus_D S,K+L,\Lambda\boxplus\Gamma).
 $$
 \end{proof}
+
+\begin{definition}[Banach bounded linear operator scalar multiple carrier]
+\label{def:banach-bounded-linear-operator-scalar-multiple-carrier}
+Let $C,D$ be $\BanachUp$ candidates with vector carriers $C_V,D_V$, classifiers $\sim_C,\sim_D$, target scalar action $\cdot_D$, norms $\nu_C,\nu_D$, and norm-induced distances $d_C,d_D$. Given a carried row
+$$
+\mathsf{BanachBLOp}(C,D,T,M,\Lambda)
+$$
+and a carried RealUp scalar endpoint $a$, let $|a|_{\RealUp}$ be the carried absolute-value endpoint exposed by the shared $\RealAlgOrder$ row. The scalar-multiple endpoint map is
+$$
+(a\boxtimes_D T)(x):=a\cdot_D T(x).
+$$
+The displayed scalar-multiple bound endpoint is $|a|_{\RealUp}\cdot M$. The scalar-multiple ledger $\langle a\rangle\boxtimes\Lambda$ is the ordered record containing the input operator ledger, the carried scalar row for $a$, the RealAlgOrder absolute-value and non-negativity rows for $|a|_{\RealUp}$, the target vector-space scalar-action closure, congruence, distributivity, and scalar-associativity rows, the RealUp multiplication commutativity and associativity rows, the target $\NormUp$ absolute-homogeneity row, and the RealAlgOrder multiplication, monotonicity, order-transport, and product non-negativity rows used to compare the constructed norm bound with $|a|_{\RealUp}\cdot M$.
+\end{definition}
+
+\begin{theorem}[Banach bounded linear operator scalar multiple closure]
+\label{thm:banach-bounded-linear-operator-scalar-multiple-closure}
+Let $C,D$ be $\BanachUp$ candidates as in \autoref{def:banach-complete-normed-carrier}, with vector carriers $C_V,D_V$, classifiers $\sim_C,\sim_D$, target scalar action $\cdot_D$, norms $\nu_C,\nu_D$, and norm-induced distances $d_C,d_D$. If
+$$
+\mathsf{BanachBLOp}(C,D,T,M,\Lambda)
+$$
+is carried and $a$ is a carried RealUp scalar endpoint with carried absolute-value endpoint $|a|_{\RealUp}$, then the scalar-multiple endpoint map of \autoref{def:banach-bounded-linear-operator-scalar-multiple-carrier} is carried by
+$$
+\mathsf{BanachBLOp}(C,D,a\boxtimes_D T,|a|_{\RealUp}\cdot M,\langle a\rangle\boxtimes\Lambda).
+$$
+For every carried source endpoint $x:C_V$, its bound row is
+$$
+\nu_D((a\boxtimes_D T)(x))\le (|a|_{\RealUp}\cdot M)\cdot\nu_C(x).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the operator carrier of \autoref{def:banach-bounded-linear-operator-carrier}. For a carried source endpoint $x:C_V$, the target endpoint row of $\Lambda$ carries $T(x)$ in $D_V$. Since $a$ is a carried RealUp scalar endpoint, the target vector-space scalar-action closure row carries
+$$
+(a\boxtimes_D T)(x)=a\cdot_D T(x)
+$$
+in $D_V$.
+
+For classifier-respect, suppose $x\sim_Cx'$ with both source endpoints carried. The classifier row of $\Lambda$ gives
+$$
+T(x)\sim_D T(x').
+$$
+Target scalar-action congruence with the fixed carried scalar $a$ transports this comparison to
+$$
+a\cdot_DT(x)\sim_D a\cdot_DT(x'),
+$$
+which is exactly
+$$
+(a\boxtimes_D T)(x)\sim_D(a\boxtimes_D T)(x').
+$$
+
+For additivity, let $x,y:C_V$ be carried. The additive row of $\Lambda$ gives
+$$
+T(x+_C y)\sim_D T(x)+_D T(y).
+$$
+Scalar-action congruence with $a$ gives
+$$
+a\cdot_D T(x+_C y)\sim_D a\cdot_D(T(x)+_D T(y)).
+$$
+The target vector-space distributivity row classifies the right endpoint with
+$$
+a\cdot_D T(x)+_D a\cdot_D T(y).
+$$
+Composing these target classifier comparisons yields
+$$
+(a\boxtimes_D T)(x+_C y)
+\sim_D
+(a\boxtimes_D T)(x)+_D(a\boxtimes_D T)(y).
+$$
+
+For homogeneity, let $r$ be a carried RealUp scalar endpoint and let $x:C_V$ be carried. The homogeneous row of $\Lambda$ gives
+$$
+T(r\cdot_C x)\sim_D r\cdot_D T(x).
+$$
+Scalar-action congruence with $a$ transports it to
+$$
+a\cdot_D T(r\cdot_C x)\sim_D a\cdot_D(r\cdot_D T(x)).
+$$
+Target scalar associativity classifies the right endpoint with
+$$
+(a\cdot r)\cdot_D T(x).
+$$
+The RealUp multiplication commutativity row classifies $a\cdot r$ with $r\cdot a$, and target scalar-action congruence transports this scalar comparison to
+$$
+(a\cdot r)\cdot_D T(x)\sim_D(r\cdot a)\cdot_D T(x).
+$$
+Applying target scalar associativity in the reverse direction gives
+$$
+(r\cdot a)\cdot_D T(x)\sim_D r\cdot_D(a\cdot_D T(x)).
+$$
+Transitivity of $\sim_D$ gives
+$$
+(a\boxtimes_D T)(r\cdot_C x)
+\sim_D
+r\cdot_D(a\boxtimes_D T)(x).
+$$
+
+It remains to verify the bound row. The operator carrier supplies $M\ge0$. The RealAlgOrder absolute-value non-negativity row supplies $|a|_{\RealUp}\ge0$. Hence RealUp multiplication non-negativity carries
+$$
+|a|_{\RealUp}\cdot M\ge0,
+$$
+so the proposed bound endpoint is non-negative.
+
+For a carried source endpoint $x:C_V$, the target $\NormUp$ absolute-homogeneity row gives the RealUp classifier comparison
+$$
+\nu_D(a\cdot_D T(x))\sim_{\RealUp}|a|_{\RealUp}\cdot\nu_D(T(x)).
+$$
+The bound row of $\Lambda$ gives
+$$
+\nu_D(T(x))\le M\cdot\nu_C(x).
+$$
+Since $|a|_{\RealUp}\ge0$, RealUp multiplication monotonicity transports this comparison to
+$$
+|a|_{\RealUp}\cdot\nu_D(T(x))
+\le
+|a|_{\RealUp}\cdot(M\cdot\nu_C(x)).
+$$
+RealUp associativity classifies the right endpoint with
+$$
+(|a|_{\RealUp}\cdot M)\cdot\nu_C(x).
+$$
+Order transport across the absolute-homogeneity and associativity classifier comparisons, followed by order transitivity, gives
+$$
+\nu_D((a\boxtimes_D T)(x))\le (|a|_{\RealUp}\cdot M)\cdot\nu_C(x).
+$$
+
+The endpoint, classifier, additive, homogeneous, non-negative, bound, and ledger rows assembled above are precisely the rows demanded by \autoref{def:banach-bounded-linear-operator-carrier}. Repacking them with the scalar-multiple endpoint map, the bound endpoint $|a|_{\RealUp}\cdot M$, and the visible ledger $\langle a\rangle\boxtimes\Lambda$ yields the carried row
+$$
+\mathsf{BanachBLOp}(C,D,a\boxtimes_D T,|a|_{\RealUp}\cdot M,\langle a\rangle\boxtimes\Lambda).
+$$
+\end{proof}

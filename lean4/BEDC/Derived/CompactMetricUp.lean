@@ -210,6 +210,27 @@ theorem CompactMetricDownstreamConsumer_boundary {X : BHist -> Prop} {eps x n : 
   have consumerBridge := CompactMetricHeineCantor_consumer_bridge certificate nUnary streamSource
   exact And.intro publicPackage.right.right consumerBridge.right
 
+theorem CompactMetricCompleteLimit_obligation {X : BHist -> Prop} {eps n : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> UnaryHistory n -> X (s n) ->
+      CompleteMetricLimitWitness X s M limit ∧ X limit ∧
+        exists d : BHist,
+          MetricDistanceWitness (s n) limit d ∧ Cont (s n) limit d ∧
+            RatHistoryClassifier d (M n) ∧ PositiveUnaryDenominator d ∧
+              PositiveUnaryDenominator (M n) := by
+  intro certificate nUnary source
+  have positiveRows :=
+    CompleteMetricLimitWitness_distance_modulus_positive_denominators certificate.right nUnary source
+  exact And.intro certificate.right
+    (And.intro certificate.right.left
+      (Exists.elim positiveRows
+        (fun d distanceData =>
+          Exists.intro d
+            (And.intro distanceData.left
+              (And.intro distanceData.right.left
+                (And.intro distanceData.right.right.right.right
+                  (And.intro distanceData.right.right.left distanceData.right.right.right.left)))))))
+
 theorem CompactMetricCertificate_public_export_surface {X : BHist -> Prop} {eps x : BHist}
     {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
     CompactMetricCertificate X eps bundle s M limit -> X x ->
