@@ -134,6 +134,32 @@ theorem BilinFormBHistObligationSurface_nondegeneracy_ledger_exactness_obligatio
               (And.intro endpointCont
                 (And.intro scalarLedgerCont ledgerCont)))))))
 
+theorem BilinFormBHistObligationSurface_nondegeneracy_witness_transport
+    {left right scalar additive endpoint scalarLedger ledger witness witnessEndpoint witnessLedger :
+      BHist} :
+    BilinFormBHistObligationSurface left right scalar additive endpoint scalarLedger ledger ->
+      UnaryHistory witness ->
+        Cont right witness witnessEndpoint ->
+          Cont witnessEndpoint scalar witnessLedger ->
+            UnaryHistory witnessEndpoint ∧ UnaryHistory witnessLedger ∧
+              hsame witnessEndpoint (append right witness) ∧
+                hsame witnessLedger (append (append right witness) scalar) ∧
+                  Cont right witness witnessEndpoint ∧
+                    Cont witnessEndpoint scalar witnessLedger := by
+  intro surface witnessUnary witnessCont witnessLedgerCont
+  have witnessEndpointUnary : UnaryHistory witnessEndpoint :=
+    unary_cont_closed surface.right.left witnessUnary witnessCont
+  have witnessLedgerUnary : UnaryHistory witnessLedger :=
+    unary_cont_closed witnessEndpointUnary surface.right.right.left witnessLedgerCont
+  have witnessLedgerReadback : hsame witnessLedger (append (append right witness) scalar) :=
+    hsame_trans witnessLedgerCont
+      (congrArg (fun h : BHist => append h scalar) witnessCont)
+  exact And.intro witnessEndpointUnary
+    (And.intro witnessLedgerUnary
+      (And.intro witnessCont
+        (And.intro witnessLedgerReadback
+          (And.intro witnessCont witnessLedgerCont))))
+
 theorem BilinFormBHistObligationSurface_right_unit_separation_rows
     {left right scalar additive endpoint scalarLedger ledger leftZero rightZero separation : BHist} :
     BilinFormBHistObligationSurface left right scalar additive endpoint scalarLedger ledger ->
@@ -432,6 +458,40 @@ theorem BilinFormModulePairingPackageRow_carrier_obligation [AskSetup] [PackageS
       (And.intro row.right.right.right.right.right.left
         (And.intro row.right.right.right.right.right.right.left
           row.right.right.right.right.right.right.right)))
+
+theorem BilinFormModulePairingPackageRow_exactness_dependency_row [AskSetup] [PackageSetup]
+    {moduleSource vectorSource left right scalar endpoint ledger ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BilinFormModulePairingPackageRow moduleSource vectorSource left right scalar endpoint ledger
+        bundle pkg ->
+      hsame ledger ledger' ->
+        PkgSig bundle ledger' pkg ->
+          BilinFormModulePairingPackageRow moduleSource vectorSource left right scalar endpoint
+              ledger' bundle pkg ∧
+            UnaryHistory endpoint ∧ UnaryHistory ledger' ∧ Cont left right endpoint ∧
+              Cont endpoint scalar ledger' ∧ PkgSig bundle ledger' pkg := by
+  intro row sameLedger pkgSig'
+  have ledgerCont' : Cont endpoint scalar ledger' :=
+    cont_result_hsame_transport row.right.right.right.right.right.right.left sameLedger
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed
+      (unary_cont_closed row.right.right.left row.right.right.right.left
+        row.right.right.right.right.right.left)
+      row.right.right.right.right.left ledgerCont'
+  exact And.intro
+    (And.intro row.left
+      (And.intro row.right.left
+        (And.intro row.right.right.left
+          (And.intro row.right.right.right.left
+            (And.intro row.right.right.right.right.left
+              (And.intro row.right.right.right.right.right.left
+                (And.intro ledgerCont' pkgSig')))))))
+    (And.intro
+      (unary_cont_closed row.right.right.left row.right.right.right.left
+        row.right.right.right.right.right.left)
+      (And.intro ledgerUnary'
+        (And.intro row.right.right.right.right.right.left
+          (And.intro ledgerCont' pkgSig'))))
 
 theorem BilinFormModulePairingPackageRow_bilinearity_transport_row [AskSetup] [PackageSetup]
     {moduleSource vectorSource left right scalar endpoint ledger additive additiveEndpoint
