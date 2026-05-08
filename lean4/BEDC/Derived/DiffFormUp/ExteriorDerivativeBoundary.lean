@@ -40,6 +40,28 @@ theorem DiffFormExteriorDerivativeInputRow_degree_shift_boundary
           cases degreeRows.right.right
           exact not_hsame_e1_empty (append_eq_empty_iff.mp raisedEmpty).right)))
 
+theorem DiffFormExteriorDerivativeInputRow_ledger_exactness
+    {omega eta d dplus probe tensor scalar antisym source : BHist} :
+    DiffFormExteriorDerivativeInputRow omega eta d dplus probe tensor scalar antisym source ->
+      UnaryHistory omega ∧ UnaryHistory eta ∧ UnaryHistory d ∧ UnaryHistory dplus ∧
+        Cont d (BHist.e1 BHist.Empty) dplus ∧ UnaryHistory probe ∧ UnaryHistory tensor ∧
+          UnaryHistory scalar ∧ UnaryHistory antisym ∧ UnaryHistory source ∧
+            (hsame dplus BHist.Empty -> False) := by
+  intro row
+  have boundary :=
+    DiffFormExteriorDerivativeInputRow_degree_shift_boundary row
+  exact And.intro row.left
+    (And.intro row.right.left
+      (And.intro row.right.right.left
+        (And.intro row.right.right.right.left
+          (And.intro row.right.right.right.right.left
+            (And.intro row.right.right.right.right.right.left
+              (And.intro row.right.right.right.right.right.right.left
+                (And.intro row.right.right.right.right.right.right.right.left
+                  (And.intro row.right.right.right.right.right.right.right.right.left
+                    (And.intro row.right.right.right.right.right.right.right.right.right
+                      boundary.right.right.right)))))))))
+
 theorem DiffFormExteriorDerivativeInputRow_classifier_transport
     {omega eta d dplus probe tensor scalar antisym source omega' eta' d' dplus' probe'
       tensor' scalar' antisym' source' : BHist} :

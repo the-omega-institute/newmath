@@ -103,6 +103,26 @@ def ClassFieldArtinFrobeniusRows
   UnaryHistory base ∧ UnaryHistory idele ∧ UnaryHistory artin ∧
     Cont idele artin frob ∧ Cont base frob extension
 
+theorem ClassFieldArtinFrobeniusRows_ledger_exactness
+    {base idele extension artin frob : BHist} :
+    ClassFieldArtinFrobeniusRows base idele extension artin frob ->
+      UnaryHistory base ∧ UnaryHistory idele ∧ UnaryHistory artin ∧
+        Cont idele artin frob ∧ Cont base frob extension ∧
+          hsame (append idele artin) frob ∧ hsame (append base frob) extension := by
+  intro rows
+  have frobReadback : hsame (append idele artin) frob := by
+    cases rows.right.right.right.left
+    exact hsame_refl (append idele artin)
+  have extensionReadback : hsame (append base frob) extension := by
+    cases rows.right.right.right.right
+    exact hsame_refl (append base frob)
+  exact And.intro rows.left
+    (And.intro rows.right.left
+      (And.intro rows.right.right.left
+        (And.intro rows.right.right.right.left
+          (And.intro rows.right.right.right.right
+            (And.intro frobReadback extensionReadback)))))
+
 theorem ClassFieldArtinFrobeniusRows_stability
     {base idele extension artin frob idele' artin' frob' extension' : BHist} :
     ClassFieldArtinFrobeniusRows base idele extension artin frob ->
