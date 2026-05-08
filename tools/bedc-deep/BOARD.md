@@ -42,7 +42,6 @@ Genuinely missing companion in 162_probspace_namecert_construction.tex. BOARD ha
 
 ---
 
-
 ### B-504 - Composite gap policy n-fold pullback preserves coverage and separation
 
 | field | value |
@@ -67,32 +66,6 @@ Strict generalization, not a paraphrase. gap_policy.tex packages the single-step
 
 ---
 
-
-### B-505 - Sheaf refinement composition is classifier-associative on three-step towers
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | Sheaf refinement composition is classifier-associative on three-step towers |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-For displayed refinements (r,\epsilon):\mathcal V\to\mathcal U, (s,\eta):\mathcal W\to\mathcal V, (t,\zeta):\mathcal X\to\mathcal W of indexed sheaf covers, the composites ((r\circ s)\circ t) and (r\circ(s\circ t)) yield classifier-equal pulled-back compatible families on each indexed open of \mathcal X.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/sheaf/05_refinement_composition_and_presentation.tex`
-
-Rationale:
-Composite consequence of two binary theorems already proved in sheaf/05_refinement_composition_and_presentation.tex (binary refinement composition + binary refinement-pullback composition). Three-step composition is invoked downstream by sheaf/08_triple_overlap_route_ledger.tex and sheaf/06_restricted_common_refinement_exactness.tex but never packaged as a named theorem. Closure proof is a routine two-application argument plus carrier-section classifier transitivity. Lands as a sibling theorem in a 198-line file — well below cap. No BOARD entry on sheaf refinement associativity, no overlap with B-352 (sheaf gluing uniqueness) or B-365 (global restriction local-family compatibility).
-
----
-
-
 ### B-506 - Distribution pushforward inclusion-exclusion identity
 
 | field | value |
@@ -116,7 +89,6 @@ Rationale:
 Distinct companion to candidate 1. Existing BOARD coverage on Distribution↑ pushforward is sigma/finite/disjoint additive (B-475, B-438, B-390) and monotone events (B-462, B-466, B-458) — no entry handles the general two-event overlap case via X^{-1} commutation with union/intersection. The proof transports the source-side ProbSpace inclusion-exclusion (candidate 1) through the existing pushforward row (thm:distribution-pushforward-row) using preimage-commutation lemmas already in the chapter. Lands in 164_distribution_namecert_construction.tex — at 749 lines this is near cap, but the new theorem can land in an obvious sibling file under concrete_instances/distribution/ to honor the split-out discipline rather than landing in the hub.
 
 ---
-
 
 ### B-507 - Halting predicate exists iff meta-loop closes at certificate stratum
 
@@ -169,7 +141,6 @@ Halmos/Axler textbook chapter on inner-product spaces opens with three results: 
 
 ---
 
-
 ### B-509 - EnumPerm composition associativity
 
 | field | value |
@@ -195,4 +166,3 @@ Rationale:
 Hungerford ch.I.3 opens with the three group axioms applied to Sym(n): identity, inverse, associativity of permutation composition. The FinSet chapter has reflexivity (thm:enumperm-identity-reflexivity at 90_finset_namecert_construction.tex:528), symmetry (thm:enumperm-inverse-symmetry at 90_finset_namecert_construction.tex:487), and transitivity / composition closure (thm:enumperm-transitivity-by-bijection-composition at 90_finset_namecert_construction.tex:197), with the building-block lem:finset-enum-position-bijection-composition (90_finset_namecert_construction.tex:178). The fourth group axiom — composition associativity — is missing. Verified absent: grep for 'enumperm.assoc' / 'enumeration-permutation-association' returns nothing. SymGroup composition associativity is asserted in thm:symgroup-composition-inverse-action-obligations (95_symgroup_namecert_construction.tex:75) but routes through 'BHist graph reads + Pkg transport' rather than the underlying EnumPerm associativity, leaving the FinSet chapter's permutation algebra incomplete. Closes in 1-3 rounds: function composition over Pos(_) is associative by primitive Lean identity; the EnumPerm definition (forward + inverse + two inverse identities) carries through both bracketings to the same forward-and-inverse pair. Lands in 90_finset_namecert_construction.tex (621 lines, room).
 
 ---
-

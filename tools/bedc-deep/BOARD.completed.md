@@ -12873,3 +12873,27 @@ Rationale:
 Current proof-sprint text explicitly records only a seed-level guarantee and explicitly notes that full arithmetic reconstruction is not yet closed. This candidate turns the hinted constructive gap into a concrete existence+uniqueness closure target directly on the existing unary-prefix machinery, without duplicating known unary-tail or seed facts.
 
 ---
+
+### B-505 - Sheaf refinement composition is classifier-associative on three-step towers
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Sheaf refinement composition is classifier-associative on three-step towers |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For displayed refinements (r,\epsilon):\mathcal V\to\mathcal U, (s,\eta):\mathcal W\to\mathcal V, (t,\zeta):\mathcal X\to\mathcal W of indexed sheaf covers, the composites ((r\circ s)\circ t) and (r\circ(s\circ t)) yield classifier-equal pulled-back compatible families on each indexed open of \mathcal X.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/sheaf/05_refinement_composition_and_presentation.tex`
+
+Rationale:
+Composite consequence of two binary theorems already proved in sheaf/05_refinement_composition_and_presentation.tex (binary refinement composition + binary refinement-pullback composition). Three-step composition is invoked downstream by sheaf/08_triple_overlap_route_ledger.tex and sheaf/06_restricted_common_refinement_exactness.tex but never packaged as a named theorem. Closure proof is a routine two-application argument plus carrier-section classifier transitivity. Lands as a sibling theorem in a 198-line file — well below cap. No BOARD entry on sheaf refinement associativity, no overlap with B-352 (sheaf gluing uniqueness) or B-365 (global restriction local-family compatibility).
+
+---
