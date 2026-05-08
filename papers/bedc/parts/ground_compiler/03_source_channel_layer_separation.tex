@@ -20,6 +20,7 @@ This chapter records the discipline that follows from this difference. The centr
 
 \begin{definition}[Source layer]
 \label{def:source-channel-source-layer}
+\leandef{BEDC.GroundCompiler.SourceChannel.SourceLayer}
 The \emph{source layer} consists of raw events and event flows of \autoref{ch:ground-compiler-event-flow}:
 $$
   \mathsf{RawEvent} \;=\; \Sigma^{*},
@@ -31,6 +32,7 @@ A glyph string in the source layer, e.g.\ $011$, denotes the raw event $011 \in 
 
 \begin{definition}[Channel layer]
 \label{def:source-channel-channel-layer}
+\leandef{BEDC.GroundCompiler.SourceChannel.ChannelLayer}
 The \emph{channel layer} consists of compiled glyph strings:
 $$
   \mathsf{LegalZStream} \;=\; \big(\, (0 \mid 10)^{*}\,11 \,\big)^{*}.
@@ -101,6 +103,7 @@ Decoding the result of this rewrite glyph-by-glyph, per \autoref{def:channel-enc
 
 \begin{proposition}[Channel-level source rewrite may destroy legality]
 \label{prop:source-channel-rewrite-may-destroy-legality}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.channel\_level\_source\_rewrite\_may\_destroy\_legality}
 There exists a legal channel stream $c \in \mathsf{LegalZStream}$ and a displayed source-level rewrite $w \leadsto v$ such that the result of replacing the displayed substring $w$ in $c$ by $v$ is not a legal channel stream.
 \end{proposition}
 
