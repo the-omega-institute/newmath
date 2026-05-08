@@ -94,6 +94,45 @@ theorem BilinFormBHistObligationSurface_symmetry_antisymmetry_obligations
       (And.intro sameScalarLedger sameLedger)
 
 theorem BilinFormBHistObligationSurface_nondegeneracy_ledger_exactness_obligations
+    {left right scalar additive endpoint scalarLedger ledger : BHist} :
+    BilinFormBHistObligationSurface left right scalar additive endpoint scalarLedger ledger ->
+      UnaryHistory endpoint ∧ UnaryHistory scalarLedger ∧ UnaryHistory ledger ∧
+        hsame endpoint (append left right) ∧
+          hsame scalarLedger (append (append left right) scalar) ∧
+            hsame ledger (append (append (append left right) scalar) additive) ∧
+              Cont left right endpoint ∧ Cont endpoint scalar scalarLedger ∧
+                Cont scalarLedger additive ledger := by
+  intro surface
+  have endpointCont : Cont left right endpoint :=
+    surface.right.right.right.right.left
+  have scalarLedgerCont : Cont endpoint scalar scalarLedger :=
+    surface.right.right.right.right.right.left
+  have ledgerCont : Cont scalarLedger additive ledger :=
+    surface.right.right.right.right.right.right
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed surface.left surface.right.left endpointCont
+  have scalarLedgerUnary : UnaryHistory scalarLedger :=
+    unary_cont_closed endpointUnary surface.right.right.left scalarLedgerCont
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scalarLedgerUnary surface.right.right.right.left ledgerCont
+  have scalarLedgerReadback :
+      hsame scalarLedger (append (append left right) scalar) :=
+    hsame_trans scalarLedgerCont
+      (congrArg (fun h : BHist => append h scalar) endpointCont)
+  have ledgerReadback :
+      hsame ledger (append (append (append left right) scalar) additive) :=
+    hsame_trans ledgerCont
+      (congrArg (fun h : BHist => append h additive) scalarLedgerReadback)
+  exact And.intro endpointUnary
+    (And.intro scalarLedgerUnary
+      (And.intro ledgerUnary
+        (And.intro endpointCont
+          (And.intro scalarLedgerReadback
+            (And.intro ledgerReadback
+              (And.intro endpointCont
+                (And.intro scalarLedgerCont ledgerCont)))))))
+
+theorem BilinFormBHistObligationSurface_right_unit_separation_rows
     {left right scalar additive endpoint scalarLedger ledger leftZero rightZero separation : BHist} :
     BilinFormBHistObligationSurface left right scalar additive endpoint scalarLedger ledger ->
       Cont left BHist.Empty leftZero ->
