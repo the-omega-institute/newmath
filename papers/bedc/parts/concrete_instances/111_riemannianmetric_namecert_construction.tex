@@ -107,16 +107,49 @@ outside the stated obligation scope.
 \end{proof}
 \leanchecked{BEDC.Derived.RiemannianMetricUp.RiemannianMetricSingletonFibreSurface\_fibrewise\_compatibility\_scope}
 
+\begin{theorem}[RiemannianMetricUp public source-fibre NameCert surface]
+\label{thm:riemannianmetric-public-source-fibre-namecert-surface}
+The public exported $\NameCert_{\RiemannianMetricUp}$ source-fibre surface is
+exactly the conjunction of the source-fibre carrier row of
+\autoref{thm:riemannianmetric-source-fibre-carrier-row}, the classifier
+stability obligation of
+\autoref{thm:riemannianmetric-classifier-stability-obligation}, and the
+fibrewise positivity and chart-compatibility obligation of
+\autoref{thm:riemannianmetric-fibrewise-positive-compatibility-obligation}.
+Downstream length, geodesic, and curvature consumers may cite this theorem as
+the single $\RiemannianMetricUp$ surface, but the surface does not assert those
+downstream interfaces or a standard bridge.
+\end{theorem}
+\begin{proof}
+Project the public $\NameCert_{\RiemannianMetricUp}$ surface onto its
+source-fibre carrier component. This gives exactly the manifold point row, the
+tangent row over each displayed point, and the $\InnerProductUp$ metric row of
+\autoref{thm:riemannianmetric-source-fibre-carrier-row}.
+
+Project the same surface onto its classifier component. The ten-field roadmap
+template exposes precisely the point transport, tangent-row transport, and
+fibrewise metric endpoint transport recorded in
+\autoref{thm:riemannianmetric-classifier-stability-obligation}.
+
+Finally project the fibrewise metric obligation component. The resulting
+positive-definite, symmetric, bilinear, and chart-compatible fibre rows are
+exactly those of
+\autoref{thm:riemannianmetric-fibrewise-positive-compatibility-obligation}.
+Repacking these three projections under the roadmap ten-field template gives a
+single exported source-fibre surface, and the absence of length, geodesic,
+curvature, and bridge rows is preserved by the same repacking.
+\end{proof}
+
 \section{The certificate}
 \label{sec:riemannianmetric-certificate}
 
-\closureat{RiemannianMetricUp}{scopedStr}
+\closureat{RiemannianMetricUp}{publicStr}[BEDC.Derived.RiemannianMetricUp.RiemannianMetricSingletonFibreSurface\_fibrewise\_compatibility\_scope]
 \begin{closurestatus}{\RiemannianMetricUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The paper-side obligation scope is the source-fibre carrier row of \autoref{thm:riemannianmetric-source-fibre-carrier-row}, the classifier-stability row of \autoref{thm:riemannianmetric-classifier-stability-obligation}, and the positivity and chart-compatibility row of \autoref{thm:riemannianmetric-fibrewise-positive-compatibility-obligation}.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public paper-side surface is \autoref{thm:riemannianmetric-public-source-fibre-namecert-surface}, which packages the source-fibre carrier row of \autoref{thm:riemannianmetric-source-fibre-carrier-row}, the classifier-stability row of \autoref{thm:riemannianmetric-classifier-stability-obligation}, and the positivity and chart-compatibility row of \autoref{thm:riemannianmetric-fibrewise-positive-compatibility-obligation}.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.RiemannianMetricUp.RiemannianMetricSingleton\_source\_fibre\_carrier\_row}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a complete $\NameCert_{\RiemannianMetricUp}$ surface, exactness theorem, length/geodesic/curvature interface, standard bridge, or Lean verification target.}
-  \upgradepath{Public closure requires a single exported $\NameCert_{\RiemannianMetricUp}$ surface; independently, a Lean verification target remains outside this paper-side scope.}
+  \notclaimed{This chapter does not close an exactness theorem, length/geodesic/curvature interface, or standard bridge.}
+  \upgradepath{Bridged closure requires a standard bridge for the exported $\NameCert_{\RiemannianMetricUp}$ source-fibre surface.}
 \end{closurestatus}
