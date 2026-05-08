@@ -526,6 +526,8 @@ import BEDC.Derived.ManifoldUp.StdBridge
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.PolynomialUp.StdBridge
+import BEDC.Derived.SeparableExtUp
+import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
