@@ -1,0 +1,160 @@
+\section{Root obligation surface}
+\label{sec:totalorder-root-obligation-surface}
+
+\begin{theorem}[TotalOrder root carrier obligation]
+\label{thm:totalorder-root-carrier-obligation}
+The root $\TotalOrderUp$ obligation surface is carried by the concrete BEDC
+history rows
+$$
+\mathsf{BHist},\qquad \UnaryHistory(h),\qquad \UnaryHistory(k),
+$$
+together with the inherited $\POSetUp$ carrier used by the unary-prefix
+certificate. For every carried pair $h,k:\mathsf{BHist}$, the root carrier row
+is therefore the same $\UnaryHistory$ row consumed by the downstream
+$\OrderUp$ and $\LatticeUp$ order-front packages, not a separate host-order
+carrier.
+\end{theorem}
+\begin{proof}
+Start with the carrier named in
+\autoref{thm:unary-prefix-orderup-phase-exit-package}. It is the
+$\mathsf{BHist}$ predicate $\UnaryHistory$, and the phase package reads it
+through the inherited $\POSetUp$ surface of
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}.
+
+The same row is projected in
+\autoref{thm:unary-prefix-orderup-carrier-obligation}. Thus a root consumer
+sees carried histories $h$ and $k$ only through $\UnaryHistory(h)$ and
+$\UnaryHistory(k)$.
+
+Because the public audit boundary of
+\autoref{def:totalorder-orderup-public-audit-carrier} uses the same endpoint
+predicate, repacking the carrier for $\OrderUp$ or $\LatticeUp$ does not
+introduce a second carrier. The root obligation is exactly the displayed
+$\mathsf{BHist}$ carrier row.
+\end{proof}
+
+\begin{theorem}[TotalOrder root classifier obligation]
+\label{thm:totalorder-root-classifier-obligation}
+For carried unary histories $h,k:\mathsf{BHist}$, the root classifier row is
+the inherited $\POSetUp$ classifier $\rho_{\mathsf{u}}(h,k)$, read as
+$\hsame$-stable endpoint sameness on $\UnaryHistory$ rows. The explicit
+comparison branches at the root are
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k),
+\qquad
+\rho_{\mathsf{u}}(h,k),
+\qquad
+\mathsf{NatUnaryStrictPrefix}(k,h),
+$$
+and classifier transport preserves which of these three branch rows is
+recorded by the comparison ledger.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:concrete-unary-prefix-totalorder-branch-transport}. It states
+that the strict-left, same, and strict-right comparison rows are transported
+along the unary classifier without changing the concrete endpoint carrier.
+
+The middle branch is the inherited classifier row
+$\rho_{\mathsf{u}}(h,k)$. Read this through
+\autoref{thm:totalorder-orderup-public-audit-classifier}, which identifies
+public classifier transport with the same three constructive comparison
+branches.
+
+Finally, the $\hsame$ reading is only endpoint transport inside
+$\mathsf{BHist}$. Since the carrier remains $\UnaryHistory$, the root
+classifier obligation is the inherited $\POSetUp$ classifier and not an
+external equality predicate.
+\end{proof}
+
+\begin{theorem}[TotalOrder root exactness obligation]
+\label{thm:totalorder-root-exactness-obligation}
+On carried unary histories $h,k:\mathsf{BHist}$, the root exactness row says
+that two-sided comparison under the inherited $\POSetUp$ relation
+$\le_{\mathsf{u}}$ recovers the classifier branch
+$\rho_{\mathsf{u}}(h,k)$, while the two strict prefix branches are excluded.
+This exactness row is the $\mathsf{BHist}$ endpoint exactness consumed by the
+public $\OrderUp$ surface and by any $\LatticeUp$ consumer that only reads the
+displayed unary-prefix order front.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:unary-prefix-orderup-antisymmetry-obligation}. It identifies
+opposing $\le_{\mathsf{u}}$ comparisons on carried endpoints with the unary
+classifier $\rho_{\mathsf{u}}$.
+
+Next use
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}. The
+partition separates strict-left, same, and strict-right branch rows, so the
+two-sided comparison case selects the same branch and excludes the two strict
+prefix alternatives.
+
+The public exactness row of
+\autoref{thm:totalorder-orderup-public-audit-ledger-exactness} records this as
+endpoint exactness in the audit ledger. A downstream $\OrderUp$ or
+$\LatticeUp$ consumer therefore receives exactness for the unary-prefix branch
+surface and no quotient equality row.
+\end{proof}
+
+\begin{theorem}[TotalOrder root comparison ledger obligation]
+\label{thm:totalorder-root-ledger-obligation}
+The root comparison ledger for carried unary histories records exactly one of
+the three concrete $\mathsf{BHist}$ rows:
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k),
+\qquad
+\rho_{\mathsf{u}}(h,k),
+\qquad
+\mathsf{NatUnaryStrictPrefix}(k,h).
+$$
+Together with the carrier rows $\UnaryHistory(h)$ and $\UnaryHistory(k)$, this
+ledger is the comparison datum inherited by the $\OrderUp$ package and by the
+visible $\LatticeUp$ order-front obligations; it contains no host natural-order
+row and no classical trichotomy row.
+\end{theorem}
+\begin{proof}
+Read the selected branch from
+\autoref{thm:orderup-unary-prefix-constructive-trichotomy-readback}. The
+branch is already one of the two strict unary-prefix witnesses or the
+classifier row $\rho_{\mathsf{u}}(h,k)$.
+
+Now apply \autoref{thm:orderup-prefix-branch-ledger-exactness}. It states that
+the selected branch is the public comparison ledger and that no additional
+host-order or quotient row is present.
+
+The public audit boundary of
+\autoref{thm:totalorder-orderup-public-audit-constructive-comparison} uses the
+same branch row for the $\OrderUp$ export. Any $\LatticeUp$ consumer reading
+this front therefore inherits the displayed comparison ledger rather than a
+new comparison schema.
+\end{proof}
+
+\begin{theorem}[TotalOrder root scope obligation]
+\label{thm:totalorder-root-scope-obligation}
+The root $\TotalOrderUp$ obligation surface consists exactly of the
+$\mathsf{BHist}$ carrier $\UnaryHistory$, the inherited $\POSetUp$ classifier
+$\rho_{\mathsf{u}}$, the relation $\le_{\mathsf{u}}$, the three explicit
+comparison branches, their $\hsame$-stable transport, the comparison ledger,
+and the endpoint exactness row. These rows are sufficient for the displayed
+$\OrderUp$ and $\LatticeUp$ order-front consumers, and the root surface does
+not claim completeness, host equality, quotient completion, or a parameter
+transport principle.
+\end{theorem}
+\begin{proof}
+Assemble the carrier and classifier rows from
+\autoref{thm:totalorder-root-carrier-obligation} and
+\autoref{thm:totalorder-root-classifier-obligation}. These fix the
+$\mathsf{BHist}$ endpoints, $\UnaryHistory$, $\hsame$ transport, and
+$\rho_{\mathsf{u}}$ classifier.
+
+Add the exactness and ledger rows from
+\autoref{thm:totalorder-root-exactness-obligation} and
+\autoref{thm:totalorder-root-ledger-obligation}. They supply the selected
+comparison branch and the two-sided comparison recovery of the same branch.
+
+Finally, project the assembled rows through
+\autoref{thm:unary-prefix-orderup-phase-exit-package} and
+\autoref{thm:totalorder-public-bridge-boundary}. The downstream consumers read
+only this concrete unary-prefix order front, so the root scope is closed over
+the displayed BEDC rows and does not add a parameter-transport schema.
+\end{proof}
