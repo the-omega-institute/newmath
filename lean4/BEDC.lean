@@ -68,6 +68,8 @@ import BEDC.Derived.EmptyUp
 import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
+import BEDC.Derived.GaloisExtUp
+import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
@@ -212,6 +214,7 @@ import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.CondExpUp
 import BEDC.Derived.RealAnalyticUp
+import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeriesUp
 import BEDC.Derived.SheafUp
@@ -411,6 +414,8 @@ import BEDC.Derived.FieldExtUp.RatReflexiveSourcePattern
 import BEDC.Derived.FieldExtUp.RatReflexiveCertificateObligations
 import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
+import BEDC.Derived.FirstOrderUp
+import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisGroupUp
@@ -442,6 +447,7 @@ import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
+import BEDC.Derived.GaloisGroupUp
 import BEDC.Derived.FilterUp
 import BEDC.Derived.ContinuousMapUp.PublicExport
 import BEDC.Derived.SumUp
@@ -664,6 +670,7 @@ import BEDC.Derived.QuotientGroupUp.AbelianTerminalProjectionUniqueness
 import BEDC.Derived.QuotientGroupUp.IdentityFiberSaturation
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
+import BEDC.Derived.HomotopyUp
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.RingUp.SingletonAppend

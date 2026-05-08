@@ -18,6 +18,7 @@ Project the $\FieldExtUp$ dependency certificate to obtain the base row, extensi
 
 The source row for $\SeparableExtUp$ is then the common pullback of these two projections over $\mathsf{BHist}$ and $\mathsf{Pkg}$. The $\hsame$ rows identify the base and extension histories seen by the polynomial packet with the histories supplied by the field-extension packet, so the two dependencies describe one BEDC source rather than two unrelated presentations.
 \end{proof}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtJointSource\_fieldext\_polynomial\_source}
 \leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_dependency\_ledger\_closure}
 \leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceRow\_classifier\_stability}
 
@@ -35,16 +36,19 @@ For classification, compare the extension projections using the $\FieldExtUp$ cl
 \label{thm:separableext-simple-root-obligation}
 The separability row for $\SeparableExtUp$ is a displayed $\PolynomialUp$ witness that the minimal-polynomial row has only simple roots. Concretely, the row records a derivative or gcd-style witness in $\mathsf{BHist}$, continuation evidence in $\Cont$, classifier transports in $\hsame$, and package provenance in $\mathsf{Pkg}$; it does not assert an uncarried host-algebra separability predicate.
 \end{theorem}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSimpleRoot\_obligation}
 \begin{proof}
 Start from the minimal-polynomial packet supplied by \autoref{thm:separableext-fieldext-polynomial-source}. Its $\PolynomialUp$ ledger exposes the polynomial row, the derivative row or equivalent gcd-style comparison row, and the coefficient histories over the same extension packet.
 
 The simple-root obligation is the package row that stores these displayed histories together with the $\Cont$ evidence computing the derivative or gcd comparison. Soundness is only a BEDC soundness statement: every accepted separability row is one of these displayed polynomial ledgers, transported by $\hsame$ and scoped by the shared $\mathsf{Pkg}$ provenance.
 \end{proof}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_simple\_root\_obligation}
 
 \begin{theorem}[Separable-extension classifier stability]
 \label{thm:separableext-classifier-stability}
 The simple-root row is stable under the classifier of \autoref{thm:separableext-carrier-classifier-surface}. Transport along the inherited $\FieldExtUp$ classifier and the inherited $\PolynomialUp$ minimal-polynomial classifier carries the derivative or gcd-style witness, the $\Cont$ computation row, the $\hsame$ transports, and the $\mathsf{Pkg}$ provenance to the classified target carrier row.
 \end{theorem}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_classifier\_stability}
 \begin{proof}
 Transport the field-extension part first. The $\FieldExtUp$ classifier identifies the base, extension, and generator histories seen by the source row, so the minimal-polynomial packet remains over the transported extension packet.
 
@@ -56,6 +60,7 @@ Next transport the polynomial part. The $\PolynomialUp$ equality classifier carr
 The $\SeparableExtUp$ ledger has coverage, soundness, and completeness for exactly the carried extension row, minimal-polynomial row, simple-root row, classifier-stability row, ledger row, and dependency rows supplied by $\FieldExtUp$, $\PolynomialUp$, $\NameCert$, $\mathsf{BHist}$, $\Cont$, $\hsame$, and $\mathsf{Pkg}$. No additional host-field algebra, root set, splitting-field data, or Galois action is part of this certificate surface.
 \end{theorem}
 \leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_semantic\_name\_certificate}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceRow\_semantic\_name\_certificate}
 \begin{proof}
 Coverage follows by reading the roadmap ten-field template. The traditional target is separability of a field extension; the BEDC sources are the $\FieldExtUp$ and $\PolynomialUp$ certificates; the carrier, classifier, stability, ledger, theorem-list, exactness, bridge, and status slots are the rows named in the four preceding theorems, with the bridge slot empty.
 
