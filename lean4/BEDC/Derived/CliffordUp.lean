@@ -75,6 +75,28 @@ theorem CliffordCarrierPackage_product_relation_stability_obligations
       leftPackage.right.left contextCarrier sameLeftRight (hsame_refl context)
       leftContext rightContext
 
+theorem CliffordCarrierPackage_ledger_exactness_obligations
+    {unit vector product boundary endpoint endpoint' : BHist} :
+    CliffordCarrierPackage unit vector product boundary endpoint ->
+      hsame endpoint endpoint' ->
+        Cont product boundary endpoint' ->
+          CliffordCarrierPackage unit vector product boundary endpoint' ∧
+            UnaryHistory product ∧ UnaryHistory endpoint' := by
+  intro carrier sameEndpoint endpointCont
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed carrier.right.left carrier.right.left carrier.right.right.right.left
+  have endpointUnarySource : UnaryHistory endpoint :=
+    unary_cont_closed productUnary carrier.right.right.left carrier.right.right.right.right
+  have endpointUnary : UnaryHistory endpoint' :=
+    unary_transport endpointUnarySource sameEndpoint
+  constructor
+  · exact
+      And.intro carrier.left
+        (And.intro carrier.right.left
+          (And.intro carrier.right.right.left
+            (And.intro carrier.right.right.right.left endpointCont)))
+  · exact And.intro productUnary endpointUnary
+
 theorem CliffordCarrierPackage_universal_ledger_exactness
     {unit vector product boundary endpoint : BHist} :
     CliffordCarrierPackage unit vector product boundary endpoint ->
