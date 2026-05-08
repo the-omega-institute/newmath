@@ -101,6 +101,7 @@ import BEDC.Derived.CurvatureUp.SourceEnvelopeProjection
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DynSystemUp
+import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
