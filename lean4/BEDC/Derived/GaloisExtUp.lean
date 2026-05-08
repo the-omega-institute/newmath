@@ -2,6 +2,8 @@ import BEDC.Derived.SeparableExtUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.Derived.FieldExtUp
+import BEDC.Derived.PolynomialUp
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
@@ -15,6 +17,8 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.FieldExtUp
+open BEDC.Derived.PolynomialUp
 open BEDC.Derived.SeparableExtUp
 
 theorem GaloisExtClassifier_transport_row

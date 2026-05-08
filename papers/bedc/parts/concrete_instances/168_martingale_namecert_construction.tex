@@ -36,6 +36,96 @@ Let $M$ and $N$ be two $\MartingaleUp$ packets as in \autoref{def:martingale-ada
 The classifier holds exactly when these transported rows identify the displayed conditional-expectation comparison of $M$ with the displayed conditional-expectation comparison of $N$ at every matched successor display.
 \end{definition}
 
+\begin{definition}[MartingaleUp adapted BHist stream carrier]
+\label{def:martingale-adapted-bhist-stream-carrier}
+Fix a displayed finite horizon $N:\mathbb N$. A finite adapted
+$\MartingaleUp$ carrier packet is a BEDC row family indexed by unary histories
+$\nu_0,\ldots,\nu_N:\mathsf{BHist}$. For every $n\leq N$ the packet contains
+a visible value endpoint $X_n:\mathsf{BHist}$ and a
+$\NameCert_{\RandomVarUp}$ row witnessing that $X_n$ is a carried
+$\RandomVarUp$ endpoint over the displayed source and target carriers. It
+also contains a filtration/provenance ledger row
+$$
+\mathsf{Fil}_n(\nu_n,X_n,\Gamma_n)
+$$
+whose entries live only in $\mathsf{BHist}$ and $\mathsf{Pkg}$ and record the
+displayed observable history $\nu_n$, the value endpoint $X_n$, and the
+certificate package $\Gamma_n$ consumed at that time.
+
+For each successor index $n<N$ the packet contains displayed endpoints
+$$
+X_n,\quad X_{n+1},\quad E_{n+1|n},\quad R_{n+1|n}:\mathsf{BHist}
+$$
+together with the continuation row
+$\Cont(E_{n+1|n},R_{n+1|n},X_n)$. The endpoint $E_{n+1|n}$ is the named
+conditional-expectation endpoint supplied by the successor
+$\CondExpUp$ row, while $R_{n+1|n}$ is the residual history carried by that
+same row.
+\end{definition}
+
+\begin{definition}[MartingaleUp conditional expectation step classifier]
+\label{def:martingale-condexp-step-classifier}
+Two finite adapted $\MartingaleUp$ carrier packets over the same displayed
+horizon are classifier-equal when their components match by the BEDC rows
+visible in \autoref{def:martingale-adapted-bhist-stream-carrier}. For every
+index $n\leq N$ the observable histories, value endpoints, and provenance
+packages satisfy
+$$
+\hsame(\nu_n,\nu'_n),\qquad
+\hsame(X_n,X'_n),\qquad
+\hsame(\Gamma_n,\Gamma'_n).
+$$
+The value-endpoint comparison is transported through the corresponding
+$\NameCert_{\RandomVarUp}$ rows, so the classifier does not read a host-level
+sequence equality.
+
+For every successor $n<N$, the step endpoints satisfy
+$$
+\hsame(E_{n+1|n},E'_{n+1|n}),\qquad
+\hsame(R_{n+1|n},R'_{n+1|n}),
+$$
+and the displayed $\NameCert_{\CondExpUp}$ rows identify the transported
+conditional-expectation endpoint $E_{n+1|n}$ with the previous value endpoint
+$X_n$ through the continuation row $\Cont(E_{n+1|n},R_{n+1|n},X_n)$. These
+componentwise comparisons are the full $\MartingaleUp$ classifier.
+\end{definition}
+
+\begin{definition}[MartingaleUp BHist adapted-sequence packet]
+\label{def:martingale-bhist-adapted-sequence-packet}
+A $\MartingaleUp$ adapted-sequence packet is a finite BEDC tuple
+$$
+\mathcal{M}=(R,C,F,X,E,T,\rho,\lambda)
+$$
+whose entries have the following roles. The row $R$ is the consumed $\RandomVarUp$ packet and the row $C$ is the consumed $\CondExpUp$ packet. The row $F$ is the displayed filtration and adaptation row. The row $X$ is a finite sequence of $\mathsf{BHist}$ endpoint rows, each endpoint being a $\RandomVarUp$ row scoped by $R$ and adapted to the displayed filtration row $F$. The row $E$ is a finite sequence of $\CondExpUp$ rows, one for each adjacent time face, whose source is the later endpoint row and whose target is the previous endpoint row. The row $T$ is the tower-law boundary row recording compatibility of adjacent conditional-expectation faces. The row $\rho$ records package provenance through the two consumed source packets, and $\lambda$ is the finite $\Cont$ ledger that stores all displayed transport rows.
+
+The packet is accepted as a $\MartingaleUp$ carrier exactly when every row just named is present in this finite tuple, the $X$ rows are random-variable endpoint rows over $R$, the $E$ rows are conditional-expectation rows over $C$, and no carrier datum outside $R$, $C$, $F$, $X$, $E$, $T$, $\rho$, and $\lambda$ is used to state the martingale condition.
+\end{definition}
+
+\begin{definition}[MartingaleUp conditional-expectation ledger classifier]
+\label{def:martingale-conditional-expectation-ledger-classifier}
+For two adapted-sequence packets
+$$
+\mathcal{M}=(R,C,F,X,E,T,\rho,\lambda)
+\quad\hbox{and}\quad
+\mathcal{M}'=(R',C',F',X',E',T',\rho',\lambda'),
+$$
+the $\MartingaleUp$ ledger classifier holds when the consumed $\RandomVarUp$ packets $R$ and $R'$ are related by the $\RandomVarUp$ classifier, the consumed $\CondExpUp$ packets $C$ and $C'$ are related by the $\CondExpUp$ classifier, and the remaining displayed rows are related componentwise by $\mathsf{hsame}$:
+$$
+F\hsame F',
+\quad
+X\hsame X',
+\quad
+E\hsame E',
+\quad
+T\hsame T',
+\quad
+\rho\hsame \rho',
+\quad
+\lambda\hsame \lambda'.
+$$
+Thus the classifier transports only the visible filtration, endpoint-sequence, conditional-expectation, tower-boundary, provenance, and ledger rows, while the two consumed dependency packets supply their own internal carrier and classifier obligations.
+\end{definition}
+
 \section{The certificate}
 \label{sec:martingale-certificate}
 
@@ -73,4 +163,135 @@ Use the time-spine clause of the classifier to transport the successor display $
 Transport the random-variable rows componentwise by $\hsame$, sending $X_t$ to $Y_u$ and $X_{t^+}$ to $Y_{u^+}$. Transport the conditional-expectation row componentwise by $\hsame$, sending $E_t$ to $F_u$ over the matched source random variable and matched filtration row.
 
 Finally use the shared $\Pkg$ provenance comparison and the transported finite $\Cont$ ledger. These rows identify the displayed conditional-expectation comparison in $M$ with the displayed comparison in $N$, so the $\RealUp$ classifier row for $M$ transports to the corresponding row for $N$.
+\end{proof}
+
+\begin{theorem}[Martingale random-variable boundary]
+\label{thm:martingale-randomvar-boundary}
+In every finite adapted carrier packet of
+\autoref{def:martingale-adapted-bhist-stream-carrier}, each visible value row
+$X_n$ is supplied by the displayed $\NameCert_{\RandomVarUp}$ component
+$\Gamma_n$. The $\MartingaleUp$ packet never reads a host-level sequence or a
+host equality of values; all value comparisons are mediated by $\hsame$ and
+by the transported $\RandomVarUp$ classifier row recorded in $\Gamma_n$.
+\end{theorem}
+\begin{proof}
+Fix an index $n\leq N$. By definition of the carrier packet, the value
+endpoint $X_n$ appears only together with its package $\Gamma_n$ and the
+ledger row $\mathsf{Fil}_n(\nu_n,X_n,\Gamma_n)$.
+
+Unpack $\Gamma_n$ through the public $\NameCert_{\RandomVarUp}$ surface of
+\autoref{sec:randomvar-certificate}. The measurable-preimage and endpoint
+classifier data used by the value row are exactly the rows carried by that
+certificate.
+
+No other field of \autoref{def:martingale-adapted-bhist-stream-carrier}
+contains a function from natural numbers into host values. The only index is
+the displayed unary history label, and the only equality test is the
+componentwise $\hsame$ comparison of
+\autoref{def:martingale-condexp-step-classifier}. Thus every visible value
+row is supplied by $\NameCert_{\RandomVarUp}$ and no host sequence is read.
+\end{proof}
+
+\begin{theorem}[Martingale conditional expectation step law]
+\label{thm:martingale-condexp-step-law}
+For every successor index $n<N$ in a finite adapted
+$\MartingaleUp$ carrier packet, the row from $X_{n+1}$ to $X_n$ consumes a
+displayed $\NameCert_{\CondExpUp}$ component whose conditional-expectation
+endpoint $E_{n+1|n}$ is identified with the previous value endpoint $X_n$.
+The identification is recorded inside the BEDC packet by the continuation row
+$\Cont(E_{n+1|n},R_{n+1|n},X_n)$ and by the $\CondExpUp$ classifier, not by an
+ambient analytic equality.
+\end{theorem}
+\begin{proof}
+Fix a successor index $n<N$. The carrier packet supplies the displayed
+endpoints $X_n$, $X_{n+1}$, $E_{n+1|n}$, and $R_{n+1|n}$, together with the
+successor $\NameCert_{\CondExpUp}$ row.
+
+Read that row through \autoref{thm:condexp-carrier-obligation}. Its visible
+fields are the random-variable total-readback component, the projected
+conditional-expectation endpoint, and the continuation ledger. In the
+martingale packet these fields are instantiated by $X_{n+1}$,
+$E_{n+1|n}$, $R_{n+1|n}$, and $X_n$.
+
+Apply the classifier obligation of
+\autoref{thm:condexp-classifier-obligation}. It transports the displayed
+endpoint comparison through $\hsame$ and the continuation row. Therefore the
+successor row states exactly that the conditional expectation of the next
+value endpoint over the displayed filtration history is classified as the
+previous endpoint $X_n$.
+\end{proof}
+
+\begin{theorem}[Martingale public certificate row family]
+\label{thm:martingale-public-certificate-row-family}
+The finite adapted carrier packet of
+\autoref{def:martingale-adapted-bhist-stream-carrier}, the classifier of
+\autoref{def:martingale-condexp-step-classifier}, the random-variable boundary
+of \autoref{thm:martingale-randomvar-boundary}, and the successor law of
+\autoref{thm:martingale-condexp-step-law} form the public
+$\NameCert_{\MartingaleUp}$ obligation family. Its exported rows are precisely
+the carrier rows, componentwise classifier transport, stability under
+$\hsame$ replacement, filtration/provenance ledger rows, conditional
+expectation exactness rows, and status rows naming the finite displayed
+horizon.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows. They expose a finite family of displayed
+$\mathsf{BHist}$ endpoints, $\mathsf{Pkg}$ provenance entries, and
+$\NameCert_{\RandomVarUp}$ value packages, so the public object has a
+concrete BEDC carrier.
+
+Next attach the classifier. By
+\autoref{def:martingale-condexp-step-classifier}, equality is componentwise
+$\hsame$ plus the transported $\RandomVarUp$ and $\CondExpUp$ classifier
+rows. This gives stability under replacement by displayed classifier
+witnesses.
+
+The random-variable boundary theorem supplies the exact source of every
+visible value row. The successor law supplies the exact
+conditional-expectation row for every adjacent pair. Repacking these rows
+with the filtration/provenance ledger gives the public
+$\NameCert_{\MartingaleUp}$ family and leaves no unrecorded host sequence,
+ambient conditional expectation, or external status field.
+\end{proof}
+
+\begin{theorem}[Martingale adapted-sequence carrier boundary]
+\label{thm:martingale-adapted-sequence-carrier-boundary}
+Carrier acceptance for a $\MartingaleUp$ adapted-sequence packet exposes exactly the $\RandomVarUp$ endpoint sequence rows adapted to the displayed filtration. In particular, every public endpoint row of an accepted packet is one of the rows listed in $X$, is scoped through the consumed $\RandomVarUp$ packet $R$, and is connected to the displayed filtration row $F$ by the adaptation row already present in the packet.
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet of \autoref{def:martingale-bhist-adapted-sequence-packet}. The only endpoint component of the carrier is the finite row $X$, and the definition requires each entry of $X$ to be a $\RandomVarUp$ endpoint row scoped by $R$.
+
+The displayed filtration row is $F$. Since acceptance requires adaptation of the $X$ rows to $F$, projecting the carrier gives the desired boundary without adding a further classifier, external sigma-algebra carrier, or host-level stochastic-process field.
+\end{proof}
+
+\begin{theorem}[Martingale conditional-expectation ledger stability]
+\label{thm:martingale-conditional-expectation-ledger-stability}
+If two accepted $\MartingaleUp$ adapted-sequence packets are related by the classifier of \autoref{def:martingale-conditional-expectation-ledger-classifier}, then the displayed conditional-expectation rows are preserved through the consumed $\CondExpUp$ classifier and through the finite $\Cont$ ledger. Consequently each adjacent martingale face recorded in $E$ transports to the corresponding face in $E'$ with the same previous-endpoint boundary.
+\end{theorem}
+\begin{proof}
+First use the $\CondExpUp$ classifier clause to transport the conditional-expectation source and target rows. This supplies the stability of the expectation faces themselves, including the row whose target is the previous endpoint.
+
+Next use the $\mathsf{hsame}$ comparisons for $X$, $E$, and $\lambda$. The $X$ comparison transports endpoint names, the $E$ comparison identifies the displayed expectation rows, and the $\Cont$ ledger comparison records that the same finite transport boundary is being read in the two packets. Repacking these witnesses gives the stated adjacent-face stability.
+\end{proof}
+
+\begin{theorem}[Martingale tower-law ledger surface]
+\label{thm:martingale-tower-law-ledger-surface}
+The tower-law row $T$ of a $\MartingaleUp$ adapted-sequence packet is a finite ledger boundary over adjacent conditional-expectation faces. It records only that composing two neighboring rows of $E$ through the displayed $\Cont$ ledger has the same $\mathsf{hsame}$ boundary as the single conditional-expectation row supplied by the consumed $\CondExpUp$ packet.
+\end{theorem}
+\begin{proof}
+Read $T$ as a boundary row, not as an analytic identity outside the packet. Its source data are two adjacent expectation faces from $E$, their endpoint rows from $X$, and the corresponding finite transport rows from $\lambda$.
+
+The consumed $\CondExpUp$ packet supplies the conditional-expectation face classifier. The $\Cont$ ledger supplies composition of the two adjacent transports, and $\mathsf{hsame}$ records the equality of the composed boundary with the displayed single face. Therefore the tower-law surface is finite and ledger-scoped.
+\end{proof}
+
+\begin{theorem}[Martingale NameCert obligation surface]
+\label{thm:martingale-namecert-obligation-surface}
+The $\NameCert_{\MartingaleUp}$ obligation surface is the package consisting of the adapted-sequence carrier of \autoref{def:martingale-bhist-adapted-sequence-packet}, the ledger classifier of \autoref{def:martingale-conditional-expectation-ledger-classifier}, stability of the conditional-expectation rows, the tower-law ledger boundary, exactness of the displayed carrier rows, and the downstream consumer row used by $\BrownianUp$ through $\NameCert_{\MartingaleUp}$.
+\end{theorem}
+\begin{proof}
+The carrier and classifier clauses are exactly the two definitions in \autoref{sec:martingale-carrier}. They name the finite packet and the componentwise transport relation over $\RandomVarUp$, $\CondExpUp$, $\mathsf{BHist}$, $\mathsf{hsame}$, and $\Cont$.
+
+Stability is supplied by \autoref{thm:martingale-conditional-expectation-ledger-stability}, and the tower-law ledger is supplied by \autoref{thm:martingale-tower-law-ledger-surface}. Exactness follows by reading the accepted carrier backwards: every public martingale row must be one of $R$, $C$, $F$, $X$, $E$, $T$, $\rho$, or $\lambda$, or a row already scoped by the two consumed source certificates.
+
+The Brownian-motion consumer uses only the resulting $\NameCert_{\MartingaleUp}$ row. Since that row is assembled from the finite carrier, classifier, stability, ledger, and exactness clauses just listed, the downstream dependency is a concrete BEDC certificate surface rather than an unstated martingale carrier assumption.
 \end{proof}
