@@ -18,30 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-503 - ProbSpace binary inclusion-exclusion identity
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | ProbSpace binary inclusion-exclusion identity |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 8/10 |
-
-Problem:
-If A,B are measurable events in a ProbSpace, then \mu(A\cup B)+\mu(A\cap B)\sim_R\mu(A)+\mu(B).
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
-
-Rationale:
-Genuinely missing companion in 162_probspace_namecert_construction.tex. BOARD has B-358 (complement-mass additivity), B-400 (complement = 1 − event-mass), B-435 (monotone bounds), and B-433 (measure binary-union subadditivity), but none packages the equality form for non-disjoint two-event pairs. The relative-difference row + finite-disjoint-union additivity decompose A∪B and B into disjoint pairs that add up to μ(A)+μ(B), giving the identity directly. This is the prerequisite shape downstream Distribution↑/Independence↑/CondExp↑ joint-event reasoning will repeatedly want, and the file (~178 lines) lands it cleanly without needing a split. Concrete implication form, in scope, not a parameter echo.
-
----
-
 ### B-506 - Distribution pushforward inclusion-exclusion identity
 
 | field | value |
@@ -167,7 +143,6 @@ Rationale:
 
 ---
 
-
 ### B-511 - Independence finite subfamily projection
 
 | field | value |
@@ -193,7 +168,6 @@ Rationale:
 
 ---
 
-
 ### B-512 - FirstOrder deduction ledger concatenation closure
 
 | field | value |
@@ -218,7 +192,6 @@ Rationale:
 
 ---
 
-
 ### B-513 - ODE local-flow concatenation associativity
 
 | field | value |
@@ -242,4 +215,3 @@ Rationale:
 171_ode_namecert_construction.tex (204 lines, 4 thms) currently caps at the binary thm:ode-local-flow-concatenation-endpoint-determinacy (B-452, line 132). Three-step associativity is the natural next theorem: it requires applying the binary determinacy theorem to two distinct groupings of the three-step composite, then composing the two endpoint-classifier witnesses through ∼_BanachUp transitivity. grep 'three-step\|three.*step.*flow\|associativity.*flow' on the file returns 0 hits; the parallel result at the higher DynSystemUp layer (173_dynsystem line 262 thm:dynsystem-flow-composition-ledger) is binary, not three-step, and DynSystemUp is a different (higher-tower) chapter. BOARD entry B-452 is binary; B-453 sheaf point-germ comparison transitivity is sheaf-specific; no three-step ODE entry exists. Proof: instantiate thm:ode-local-flow-concatenation-endpoint-determinacy twice with appropriate Lipschitz vector-field ledger comparisons (already required to exist by Cont associativity, line 88), compose endpoint witnesses by Banach classifier transitivity. Concrete implication, fits 204-line file.
 
 ---
-
