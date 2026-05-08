@@ -133,6 +133,35 @@ $$
 The Hopf provenance and the symplectic frontier rule out the two possible escapes. By \autoref{thm:hopfalg-namecert-obligation-surface}, the formal product and its coefficient endpoints are read through the $\Pkg$ and $\Cont$ faces supplied by $H$. By \autoref{thm:symplecticup-hamiltonian-poisson-consumer-frontier}, $\Sigma$ supplies the consumer boundary but does not export an independent Poisson bracket. Therefore every accepted first-order readback is both covered by the displayed ledger row and sound for the checked bracket exactness statement.
 \end{proof}
 
+\begin{definition}[DeformQuantization formal-deformation obligation inventory]
+\label{def:deformquantization-formal-deformation-obligation-inventory}
+For a $\DeformQuantizationUp$ packet $Q$ over a $\SymplecticUp$ boundary $\Sigma$ and a $\HopfAlgUp$ row $H$, the formal-deformation obligation inventory is the finite list of public rows consisting of the carrier row of \autoref{thm:deformquantization-star-ledger-carrier-obligation}, the bracket classifier row of \autoref{thm:deformquantization-bracket-classifier-obligation}, the $\Cont$ and $\hsame$ stability rows for the coefficient and commutator endpoints, the first-order ledger row of \autoref{def:deformquantization-first-order-star-product-ledger}, the exactness row of \autoref{thm:deformquantization-first-order-ledger-exactness-obligation}, and the public certificate rows that expose these data through $\Pkg$ provenance. The inventory permits reads from $\NameCert_{\SymplecticUp}$, $\NameCert_{\HopfAlgUp}$, $\Cont$, $\hsame$, $\mathsf{BHist}$, and $\Pkg$ only.
+\end{definition}
+
+\begin{theorem}[DeformQuantization source-boundary obligation]
+\label{thm:deformquantization-source-boundary-obligation}
+Every source read accepted by the inventory of \autoref{def:deformquantization-formal-deformation-obligation-inventory} factors through the supplied $\SymplecticUp$ boundary $\Sigma$ and the supplied $\HopfAlgUp$ formal-product row $H$. In particular, a bracket-facing read reaches the public packet only through the symplectic consumer boundary, the Hopf formal-product provenance, the coefficient continuation rows, and the first-order exactness comparison of \autoref{thm:deformquantization-first-order-ledger-exactness-obligation}.
+\end{theorem}
+\begin{proof}
+Project the read into the finite inventory. The carrier case is exactly \autoref{thm:deformquantization-star-ledger-carrier-obligation}: it exposes the star-product carrier through the displayed $\mathsf{BHist}$ ledger, the Hopf $\Pkg$ provenance, the $\Cont$ face, and the packet $\hsame$ comparisons.
+
+The classifier and stability cases use \autoref{thm:deformquantization-bracket-classifier-obligation}. Transport of the degree-zero endpoint, first-order coefficient endpoints, commutator endpoint, and Poisson comparison is therefore controlled by the transported $\SymplecticUp$ and $\HopfAlgUp$ rows, not by an independent deformation source.
+
+For the bracket readback, apply \autoref{thm:deformquantization-first-order-ledger-exactness-obligation}. It factors the read through $\kappa$, $\pi$, and $\hsame(\kappa,\pi)$ after the Hopf formal-product row has supplied the coefficient spine and after the symplectic boundary has supplied only the Poisson consumer frontier. Thus every source read is bounded by the two supplied dependencies and the named BEDC transport rows.
+\end{proof}
+
+\begin{theorem}[DeformQuantization public certificate obligation surface]
+\label{thm:deformquantization-public-certificate-obligation-surface}
+The inventory of \autoref{def:deformquantization-formal-deformation-obligation-inventory}, together with the source-boundary factorization of \autoref{thm:deformquantization-source-boundary-obligation}, forms the public $\NameCert_{\DeformQuantizationUp}$ obligation surface at first order. The surface contains carrier, classifier, stability, ledger, exactness, and public certificate rows over $\SymplecticUp$, $\HopfAlgUp$, $\Cont$, $\hsame$, $\mathsf{BHist}$, and $\Pkg$, and it does not claim Kontsevich formality, analytic convergence, or a full star-product construction beyond the displayed first-order ledger.
+\end{theorem}
+\begin{proof}
+Assemble the carrier and classifier fields first. The carrier field is supplied by \autoref{thm:deformquantization-star-ledger-carrier-obligation}; the classifier and transported endpoint fields are supplied by \autoref{thm:deformquantization-bracket-classifier-obligation}.
+
+Next add stability and exactness. The stability rows are the displayed $\Cont$ and $\hsame$ fields in the ledger, and the exactness row is \autoref{thm:deformquantization-first-order-ledger-exactness-obligation}. These rows cover the first-order commutator endpoint and its comparison with the Poisson-bracket obligation row.
+
+Finally apply \autoref{thm:deformquantization-source-boundary-obligation}. It ensures that every public read is sourced by $\Sigma$, $H$, and the named BEDC rows in the inventory. Repacking those fields gives the stated public obligation surface while leaving full formality and convergence outside the certificate.
+\end{proof}
+
 \closureat{DeformQuantizationUp}{seedStr}[BEDC.Derived.DeformQuantizationUp.DeformQuantizationStarLedger\_first\_order\_bracket]
 
 \begin{closurestatus}{\DeformQuantizationUp}
