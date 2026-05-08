@@ -1,10 +1,164 @@
 \chapter{A Concrete Naming Certificate for $\KnotUp$}
 \label{ch:concrete-instances-knot-namecert}
 
-The knot interface $\KnotUp$ packages an embedding of $S^1$ into $S^3$ up to ambient isotopy, certified by diagrammatic Reidemeister-move equivalence. It depends on $\NameCert_{\SOneUp}$ (\autoref{ch:concrete-instances-s1-namecert}) and $\NameCert_{\HomotopyUp}$ (\autoref{ch:concrete-instances-homotopy-namecert}).
+The knot interface $\KnotUp$ packages a diagrammatic BEDC surface whose traditional reading is a closed one-dimensional source carried through an ambient deformation ledger. It depends on $\NameCert_{\SOneUp}$ (\autoref{ch:concrete-instances-s1-namecert}) and $\NameCert_{\HomotopyUp}$ (\autoref{ch:concrete-instances-homotopy-namecert}); those dependencies supply the endpoint rows and deformation rows, while the knot certificate records only finite $\mathsf{BHist}$, $\mathsf{Cont}$, $\hsame$, and $\mathsf{Pkg}$ data.
 
 \section{Carrier definition}
 \label{sec:knot-carrier}
 
+\begin{definition}[KnotUp diagram BHist carrier]
+\label{def:knot-diagram-bhist-carrier}
+A $\KnotUp$ diagram packet is a finite carried tuple
+$$
+\mathcal{K}=(\mathcal{S},\mathcal{A},d,r,h,e_0,e_1,\rho,\lambda)
+$$
+whose rows are all BEDC rows. The source row $\mathcal{S}$ is a consumed
+$\NameCert_{\SOneUp}$ packet, read only through its exposed source carrier,
+component classifier, endpoint readback, and ledger surface. The ambient row
+$\mathcal{A}$ is the target row in which the diagram lives; it is a
+$\mathsf{BHist}$ endpoint family classified by the same package provenance as
+the deformation rows and not by an external host embedding.
+
+The diagram row $d$ is a finite crossing ledger. Each crossing entry is a
+$\mathsf{BHist}$ face whose incident source endpoints are read from
+$\mathcal{S}$ and whose over-under comparison is a displayed $\hsame$ or
+$\mathsf{Cont}$ row. The row $r$ is the Reidemeister trace: a finite
+$\mathsf{Cont}$ list whose entries are exactly the local crossing changes,
+endpoint-preserving moves, and package-provenance updates used to pass from
+one diagram ledger to the next. The row $h$ is the consumed
+$\HomotopyUp$ deformation row, read as an ambient-deformation history
+compatible with the same endpoints and with the same finite trace.
+
+The endpoint rows $e_0$ and $e_1$ expose the initial and final embedded-source
+interfaces as $\mathsf{BHist}$ rows over $\mathcal{S}$ and $\mathcal{A}$. The
+row $\rho$ records the $\mathsf{Pkg}$ provenance of the source certificate,
+ambient target row, diagram ledger, Reidemeister trace, and HomotopyUp
+deformation row. The finite ledger $\lambda$ is the $\mathsf{Cont}$ display
+containing precisely those source, ambient, crossing, move-trace, deformation,
+endpoint, classifier, provenance, and exactness rows accepted by the public
+$\NameCert_{\KnotUp}$ carrier.
+\end{definition}
+
+\begin{definition}[KnotUp Reidemeister ledger classifier]
+\label{def:knot-reidemeister-ledger-classifier}
+Two $\KnotUp$ diagram packets
+$\mathcal{K}=(\mathcal{S},\mathcal{A},d,r,h,e_0,e_1,\rho,\lambda)$ and
+$\mathcal{K}'=(\mathcal{S}',\mathcal{A}',d',r',h',e'_0,e'_1,\rho',\lambda')$
+are related by the $\KnotUp$ Reidemeister ledger classifier when the following
+finite rows are supplied:
+\begin{enumerate}
+  \item the $\SOneUp$ source packets $\mathcal{S}$ and $\mathcal{S}'$ are
+  transported by the $\hsame$ classifier of $\NameCert_{\SOneUp}$;
+  \item the crossing ledgers $d$ and $d'$ are matched entrywise by $\hsame$
+  on their incident source endpoint rows and by $\mathsf{Cont}$ transport on
+  their over-under comparison rows;
+  \item the Reidemeister traces $r$ and $r'$ are related by a finite
+  $\mathsf{Cont}$ refinement whose entries are again Reidemeister trace rows,
+  not external diagram equivalences;
+  \item the HomotopyUp deformation rows $h$ and $h'$ are related by the
+  ambient-deformation classifier exposed by $\NameCert_{\HomotopyUp}$;
+  \item the endpoint rows $e_0,e_1,e'_0,e'_1$ and the provenance rows
+  $\rho,\rho'$ remain in the same $\mathsf{Pkg}$ scope, and the resulting
+  ledgers $\lambda,\lambda'$ list exactly the transported source, diagram,
+  deformation, endpoint, and provenance faces.
+\end{enumerate}
+This classifier is componentwise on the visible BEDC rows. It does not
+identify packets by equality of host embeddings, by a quotient of knots, or by
+treating ambient isotopy as an undecomposed primitive.
+\end{definition}
+
 \section{The certificate}
 \label{sec:knot-certificate}
+
+\begin{theorem}[KnotUp SOne source boundary]
+\label{thm:knot-sone-source-boundary}
+For a $\KnotUp$ diagram packet $\mathcal{K}$ of
+\autoref{def:knot-diagram-bhist-carrier}, the public source boundary exposed
+to $\NameCert_{\KnotUp}$ is exactly the $\SOneUp$ source carrier row
+$\mathcal{S}$, its component classifier rows, the endpoint rows $e_0$ and
+$e_1$, and the package-provenance row $\rho$ linking those endpoints to the
+ambient target row. No carrier clause may read an unclassified source point,
+an external circle object, or a host-level embedding in place of these rows.
+\end{theorem}
+\begin{proof}
+Project $\mathcal{K}$ to its source field $\mathcal{S}$. The source
+certificate is already a $\NameCert_{\SOneUp}$ packet, so its carrier,
+component classifier, endpoint readback, and ledger rows are exactly the rows
+available to the knot packet.
+
+Next project the endpoint fields $e_0$ and $e_1$. By
+\autoref{def:knot-diagram-bhist-carrier}, each endpoint row is a
+$\mathsf{BHist}$ interface over the source packet and ambient target row, and
+the provenance field $\rho$ records that these endpoints are part of the same
+$\mathsf{Pkg}$ package.
+
+Conversely, given precisely those source, endpoint, and provenance rows,
+place them in the displayed fields of $\mathcal{K}$ and leave the diagram,
+trace, deformation, and ledger rows to the remaining certificate clauses. This
+reconstructs the public source boundary without adding any host source object.
+\end{proof}
+
+\begin{theorem}[KnotUp Homotopy ledger boundary]
+\label{thm:knot-homotopy-ledger-boundary}
+For a $\KnotUp$ diagram packet $\mathcal{K}$ of
+\autoref{def:knot-diagram-bhist-carrier}, the HomotopyUp and Reidemeister
+rows exposed to $\NameCert_{\KnotUp}$ are exactly the crossing ledger $d$, the
+Reidemeister trace $r$, the HomotopyUp deformation row $h$, and the finite
+$\mathsf{Cont}$ ledger $\lambda$. If two packets are related by the classifier
+of \autoref{def:knot-reidemeister-ledger-classifier}, these four rows are
+stable under the displayed $\hsame$ and $\mathsf{Cont}$ transports.
+\end{theorem}
+\begin{proof}
+First read the crossing ledger $d$. Its entries name only incident
+$\SOneUp$ endpoint rows, over-under comparison rows, and finite
+$\mathsf{BHist}$ faces. Transporting the source endpoints by $\hsame$ therefore
+transports every crossing entry componentwise.
+
+Now read the Reidemeister trace $r$ and the deformation row $h$. The trace is
+a finite $\mathsf{Cont}$ list of local moves, while $h$ is the corresponding
+$\HomotopyUp$ deformation row. The classifier requires these rows to be
+matched by finite trace refinement and by the $\NameCert_{\HomotopyUp}$
+ambient-deformation classifier.
+
+Finally inspect $\lambda$. It contains exactly the source, crossing,
+Reidemeister, deformation, endpoint, provenance, and exactness faces. Since
+each listed face is transported by the classifier clauses above, the ledger is
+stable under the same $\hsame$ and $\mathsf{Cont}$ transports. Projecting a
+classifier witness gives no additional ambient relation beyond these rows.
+\end{proof}
+
+\begin{theorem}[KnotUp public NameCert obligation surface]
+\label{thm:knot-namecert-obligation-surface}
+For a $\KnotUp$ diagram packet $\mathcal{K}$ of
+\autoref{def:knot-diagram-bhist-carrier}, the public
+$\NameCert_{\KnotUp}$ obligation surface is exactly the following finite row
+family: the $\SOneUp$ source packet $\mathcal{S}$, the ambient target row
+$\mathcal{A}$, the crossing ledger $d$, the Reidemeister trace $r$, the
+$\HomotopyUp$ deformation row $h$, the endpoint rows $e_0$ and $e_1$, the
+$\mathsf{Pkg}$ provenance row $\rho$, the finite $\mathsf{Cont}$ ledger
+$\lambda$, the classifier of
+\autoref{def:knot-reidemeister-ledger-classifier}, the source boundary of
+\autoref{thm:knot-sone-source-boundary}, and the Homotopy ledger boundary of
+\autoref{thm:knot-homotopy-ledger-boundary}. These rows supply the carrier,
+classifier, stability, ledger, and exactness fields consumed by downstream
+knot-facing chapters.
+\end{theorem}
+\begin{proof}
+Project the packet to the fields listed in
+\autoref{def:knot-diagram-bhist-carrier}. The source boundary theorem supplies
+the exact $\SOneUp$ rows and endpoint package provenance. The Homotopy ledger
+boundary theorem supplies the exact crossing, Reidemeister, deformation, and
+continuation rows together with their classifier stability.
+
+The classifier field is the relation of
+\autoref{def:knot-reidemeister-ledger-classifier}. Its clauses transport the
+source, diagram, trace, deformation, endpoint, provenance, and ledger rows
+componentwise, so it is the stability surface required by the public
+$\NameCert_{\KnotUp}$ package.
+
+Conversely, every row named in the obligation surface is a field of
+$\mathcal{K}$ or a projection theorem for those fields. Repacking them gives
+the carrier, classifier, stability, ledger, and exactness surface visible to
+downstream consumers. No additional host embedding, external knot quotient, or
+undecomposed ambient-isotopy witness is part of the public interface.
+\end{proof}
