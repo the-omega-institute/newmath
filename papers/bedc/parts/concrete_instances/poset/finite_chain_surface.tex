@@ -1,0 +1,96 @@
+\begin{theorem}[POSet finite-chain carrier closure]
+\label{thm:poset-finite-chain-carrier-closure}
+Let
+$$
+h=h_0,\ h_1,\ldots,h_n=k
+$$
+be a finite chain of carried unary-prefix histories in the concrete
+$\POSetUp$ source of \autoref{def:concrete-unary-prefix-poset-instance}. If
+each adjacent comparison $h_i\leq h_{i+1}$ is recorded by
+$\mathsf{PreorderPrefixLE}$ in the finite $\Cont$ ledger, then every endpoint
+$h_i$ in the chain remains inside
+$\mathsf{PreorderCarrier}=\mathsf{UnaryHistory}$, and the composite comparison
+from $h$ to $k$ is again a carried unary-prefix comparison recorded by that
+finite ledger.
+\end{theorem}
+\begin{proof}
+Argue by induction on the finite chain. The base chain has only the carried
+endpoint $h$, so carrier closure is immediate from the displayed source row.
+
+For the step, assume the prefix subchain from $h$ to $h_i$ has already stayed
+inside $\mathsf{UnaryHistory}$ and has produced a carried composite comparison.
+The adjacent row $h_i\leq h_{i+1}$ is a displayed
+$\mathsf{PreorderPrefixLE}$ comparison between carried histories, so the
+prefix transitivity row cited in
+\autoref{thm:concrete-unary-prefix-poset-namecert} composes it with the
+subchain comparison.
+
+The same finite $\Cont$ ledger records the old subchain, the new adjacent
+comparison, and their composite. Thus the next endpoint remains in
+$\mathsf{PreorderCarrier}$ and the chain closes inside the concrete unary
+prefix carrier.
+\end{proof}
+
+\begin{theorem}[POSet finite-chain antisymmetry collapse]
+\label{thm:poset-finite-chain-antisymmetry-collapse}
+Let $h$ and $k$ be carried unary-prefix histories. If the finite $\Cont$ ledger
+records a finite $\mathsf{PreorderPrefixLE}$ chain from $h$ to $k$ and another
+finite $\mathsf{PreorderPrefixLE}$ chain from $k$ to $h$, then the two endpoints
+collapse to the carrier classifier:
+$$
+\mathsf{PreorderCarrier}(h)\wedge\mathsf{PreorderCarrier}(k)
+\wedge h\leq k\wedge k\leq h
+\Longrightarrow \hsame(h,k).
+$$
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:poset-finite-chain-carrier-closure} to the chain from
+$h$ to $k$. It gives a carried composite comparison $h\leq k$ recorded by the
+finite ledger.
+
+Apply the same closure theorem to the reverse chain from $k$ to $h$. This
+gives the carried composite comparison $k\leq h$ over the same unary-prefix
+carrier.
+
+Now apply \autoref{thm:poset-prefix-antisymmetry} to the opposing composite
+prefix comparisons. The result is $\hsame(h,k)$, and
+\autoref{thm:poset-prefix-classifier-exactness} identifies this history
+sameness with the carrier classifier on the displayed unary-prefix endpoints.
+\end{proof}
+
+\begin{theorem}[POSet finite-chain NameCert surface]
+\label{thm:poset-finite-chain-namecert-surface}
+The finite-chain carrier closure of
+\autoref{thm:poset-finite-chain-carrier-closure} and the finite-chain
+antisymmetry collapse of
+\autoref{thm:poset-finite-chain-antisymmetry-collapse} package as a
+$\POSetUp$ $\NameCert$ obligation surface. Its rows are exactly the concrete
+unary-prefix carrier, the $\hsame$ classifier, the
+$\mathsf{PreorderPrefixLE}$ relation, prefix stability under finite
+composition, the finite $\Cont$ ledger for adjacent and composite comparisons,
+and the exactness row of
+\autoref{thm:poset-prefix-classifier-exactness}. It adds no quotient carrier,
+opposite presentation, totality field, lattice operation, or standard bridge.
+\end{theorem}
+\begin{proof}
+Project the concrete unary-prefix certificate of
+\autoref{thm:concrete-unary-prefix-poset-namecert}. It supplies the carrier,
+classifier, relation, stability, ledger, and exactness rows for the
+$\POSetUp$ surface.
+
+The finite-chain carrier row is supplied by
+\autoref{thm:poset-finite-chain-carrier-closure}. Its induction uses only
+prefix transitivity and finite $\Cont$ composition already present in the
+certificate ledger.
+
+The finite-chain antisymmetry row is supplied by
+\autoref{thm:poset-finite-chain-antisymmetry-collapse}. It reduces two finite
+chains to opposing composite prefix comparisons, applies
+\autoref{thm:poset-prefix-antisymmetry}, and then reads the result through
+\autoref{thm:poset-prefix-classifier-exactness}.
+
+Repacking these rows with the source certificate gives a single
+$\POSetUp$ NameCert obligation surface. Since every row is drawn from the
+concrete unary-prefix packet and its finite ledger, no additional order
+structure or bridge datum is exported.
+\end{proof}

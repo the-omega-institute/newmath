@@ -8,3 +8,32 @@ The Curry-Howard interface $\CurryHowardUp$ packages the bijective correspondenc
 
 \section{The certificate}
 \label{sec:curryhoward-certificate}
+
+\begin{definition}[CurryHowardUp shared cut-beta packet]\label{def:curryhoward-shared-cut-beta-packet}
+A shared cut-beta packet for $\CurryHowardUp$ is a displayed $\mathsf{BHist}$ tuple
+$$
+\mathcal H=(P,A,B,D_1,D_2,D_{\mathsf{cut}},x,a,b,u,L,r,s,\chi,\rho)
+$$
+with the following rows. The histories $P,A,B$ are the shared proof-program, cut-formula/type, and conclusion-type endpoints. The rows $D_1$ and $D_2$ are accepted finite $\FirstOrderUp$ deduction ledgers over one carried syntax packet from \autoref{def:firstorder-bhist-syntax-carrier}; $D_1$ has final endpoint $A$, and $D_2$ has $A$ as the displayed initial premise row, so the pair is composable in the sense of \autoref{def:firstorder-deduction-ledger-concatenation-source}. The row $D_{\mathsf{cut}}$ is an accepted $\FirstOrderUp$ deduction ledger with the same open-premise rows as $D_1$ followed by $D_2$ and final endpoint $B$, and the comparison between $D_1 \mathbin{+\!\!+} D_2$ and $D_{\mathsf{cut}}$ is carried only by the $\FirstOrderUp$ deduction classifier of \autoref{def:firstorder-deduction-ledger-classifier}.
+
+The row $L$ is an accepted $\LambdaCalcUp$ term packet in the sense of \autoref{def:lambdacalc-term-packet-carrier}. The history $x$ is a displayed unary binder row, $a$ is the lambda-term endpoint classified with the proof ledger $D_1$, $\mathsf{lamAbs}(x,b)$ is the lambda-term endpoint classified with the proof ledger $D_2$, and $u$ is the lambda-term endpoint classified with $D_{\mathsf{cut}}$. The row $r$ is the displayed beta-redex source
+$$
+\mathsf{lamApp}(\mathsf{lamAbs}(x,b),a),
+$$
+and $s$ is the capture-avoiding substitution ledger that substitutes $a$ for the unary binder $x$ in $b$ with output endpoint $u$. The classifier row $\chi$ is shared by the two sides: it relates $D_1$ with $a$, $D_2$ with $\mathsf{lamAbs}(x,b)$, and $D_{\mathsf{cut}}$ with $u$ by the same displayed $\hsame$, $\Cont$, and provenance rows. The provenance row $\rho$ ties these rows to $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$. No host proof tree, host lambda syntax equality, or quotient of alpha classes is a field of the packet.
+\end{definition}
+
+\begin{theorem}[CurryHowardUp cut-beta bridge obligation]\label{thm:curryhoward-cut-beta-bridge-obligation}
+Let $\mathcal H$ be an accepted shared cut-beta packet for $\CurryHowardUp$ as in \autoref{def:curryhoward-shared-cut-beta-packet}. If the $\FirstOrderUp$ component displays the cut-elimination step from $D_1 \mathbin{+\!\!+} D_2$ to $D_{\mathsf{cut}}$, then the $\LambdaCalcUp$ component displays an accepted beta-reduction row whose source is $\mathsf{lamApp}(\mathsf{lamAbs}(x,b),a)$ and whose substitution endpoint is $u$. Under the shared classifier $\chi$, this beta/substitution endpoint is the same proof-program endpoint as the cut-eliminated deduction ledger $D_{\mathsf{cut}}$.
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet $\mathcal H$. The $\FirstOrderUp$ side supplies two accepted ledgers $D_1$ and $D_2$ over the same syntax carrier, with the final endpoint of $D_1$ displayed as the initial premise row of $D_2$. By \autoref{def:firstorder-deduction-ledger-concatenation-source}, this is exactly the composability datum for the concatenated ledger $D_1 \mathbin{+\!\!+} D_2$.
+
+Apply \autoref{thm:firstorder-deduction-ledger-concatenation-closure}. The concatenation is an accepted finite deduction ledger over the same $\SetUp$ and $\TreeUp$ dependency certificates, and the join reads no extra cut formula outside the shared endpoint row $A$. The displayed cut-elimination row in $\mathcal H$ then compares this concatenated ledger with $D_{\mathsf{cut}}$ through the deduction classifier. By \autoref{thm:firstorder-deduction-endpoint-exactness} and \autoref{thm:firstorder-classifier-transport-obligation}, every premise endpoint, conclusion endpoint, and transport row of $D_{\mathsf{cut}}$ is therefore a visible $\FirstOrderUp$ carrier or ledger row.
+
+Now read the $\LambdaCalcUp$ side. The term packet $L$ exposes the carried syntax row, binder-index row, beta-redex ledger, substitution ledger, continuation ledger, and provenance listed in \autoref{def:lambdacalc-term-packet-carrier}. The redex row $r$ has the displayed source $\mathsf{lamApp}(\mathsf{lamAbs}(x,b),a)$, where the shared classifier $\chi$ identifies $a$ with $D_1$ and $\mathsf{lamAbs}(x,b)$ with $D_2$.
+
+Apply \autoref{thm:lambdacalc-substitution-ledger-obligation} to the substitution row $s$. It may read only the displayed $\TreeUp$ syntax row, the $\NatUp$ binder-index row, and the capture-avoidance $\Cont$ ledger, so substituting $a$ for $x$ in $b$ produces the displayed endpoint $u$ without importing a host substitution function. By \autoref{thm:lambdacalc-substitution-carrier-preservation}, the output endpoint $u$ remains a carried LambdaCalc term endpoint.
+
+Finally apply \autoref{thm:lambdacalc-beta-reduction-classifier-obligation}. The redex row $r$, the substitution ledger $s$, the endpoint $u$, and the provenance row $\rho$ repack as an accepted beta-reduction classifier row, stable under the displayed $\hsame$ transport. The shared classifier $\chi$ identifies this endpoint $u$ with the proof-program endpoint carried by $D_{\mathsf{cut}}$, while its other two clauses identify the redex components with $D_1$ and $D_2$. Hence the displayed deduction-side cut-elimination step is carried to the displayed beta-reduction/substitution ledger under the shared $\CurryHowardUp$ classifier, and no host proof equality or host lambda-term equality enters the bridge.
+\end{proof}

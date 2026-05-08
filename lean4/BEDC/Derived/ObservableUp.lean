@@ -24,6 +24,18 @@ def ObservableBHistOperatorCarrier [AskSetup] [PackageSetup]
       Cont operator spectrum expectation ∧ Cont hilbert witness ledger ∧
         Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg
 
+def ObservableSpectralExpectationClassifier [AskSetup] [PackageSetup]
+    (hilbert operator spectrum expectation witness provenance ledger endpoint hilbert' operator'
+      spectrum' expectation' witness' provenance' ledger' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance ledger
+      endpoint bundle pkg ∧
+    ObservableBHistOperatorCarrier hilbert' operator' spectrum' expectation' witness'
+      provenance' ledger' endpoint' bundle pkg ∧
+      hsame hilbert hilbert' ∧ hsame operator operator' ∧ hsame spectrum spectrum' ∧
+        hsame expectation expectation' ∧ hsame witness witness' ∧
+          hsame provenance provenance' ∧ hsame ledger ledger' ∧ hsame endpoint endpoint'
+
 theorem ObservableBHistOperatorCarrier_quantumstate_expectation_boundary [AskSetup]
     [PackageSetup]
     {hilbert operator spectrum expectation witness provenance ledger endpoint stateHilbert
@@ -339,9 +351,35 @@ theorem ObservableBHistOperatorCarrier_hilbert_spectral_ledger_exactness [AskSet
         (And.intro carrier.right.right.right.left
           (And.intro carrier.right.right.right.right.left
             (And.intro spectralEndpointUnary
-              (And.intro carrier.right.right.right.right.right.right.left
-                (And.intro spectralEndpointRow
-                  (And.intro endpointRow
+                (And.intro carrier.right.right.right.right.right.right.left
+                  (And.intro spectralEndpointRow
+                    (And.intro endpointRow
+                      carrier.right.right.right.right.right.right.right.right.right))))))))
+
+theorem ObservableBHistOperatorCarrier_dependency_namecert_exactness [AskSetup] [PackageSetup]
+    {hilbert operator spectrum expectation witness provenance ledger endpoint
+      expectationEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance ledger
+        endpoint bundle pkg ->
+      Cont operator expectation expectationEndpoint ->
+        UnaryHistory hilbert ∧ UnaryHistory spectrum ∧ UnaryHistory expectation ∧
+          UnaryHistory expectationEndpoint ∧ Cont operator spectrum expectation ∧
+            Cont hilbert witness ledger ∧ Cont provenance ledger endpoint ∧
+              hsame expectationEndpoint (append operator expectation) ∧
+                hsame endpoint (append provenance ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier expectationEndpointRow
+  have expectationEndpointUnary : UnaryHistory expectationEndpoint :=
+    unary_cont_closed carrier.right.left carrier.right.right.right.left expectationEndpointRow
+  exact And.intro carrier.left
+    (And.intro carrier.right.right.left
+      (And.intro carrier.right.right.right.left
+        (And.intro expectationEndpointUnary
+          (And.intro carrier.right.right.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right.right.right.left
+              (And.intro carrier.right.right.right.right.right.right.right.right.left
+                (And.intro expectationEndpointRow
+                  (And.intro carrier.right.right.right.right.right.right.right.right.left
                     carrier.right.right.right.right.right.right.right.right.right))))))))
 
 end BEDC.Derived.ObservableUp

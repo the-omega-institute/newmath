@@ -323,4 +323,111 @@ theorem ModelTheoryBHistStructurePacket_elementary_readback_boundary [AskSetup]
               (And.intro packet.right.right.right.right.right.right.left
                 packet.right.right.right.right.right.right.right))))))
 
+theorem ModelTheoryBHistStructurePacket_downstream_consumer_row [AskSetup] [PackageSetup]
+    {firstOrder structureRow valuation satisfaction elementary provenance endpoint formula formulaRead
+      assignmentRead satisfactionRecord elementaryRead elementaryEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelTheoryBHistStructurePacket firstOrder structureRow valuation satisfaction elementary
+        provenance endpoint bundle pkg ->
+      UnaryHistory formula ->
+        Cont firstOrder formula formulaRead ->
+          Cont valuation formulaRead assignmentRead ->
+            Cont assignmentRead satisfaction satisfactionRecord ->
+              Cont satisfaction elementary elementaryRead ->
+                Cont elementaryRead provenance elementaryEndpoint ->
+                  UnaryHistory firstOrder ∧ UnaryHistory structureRow ∧ UnaryHistory valuation ∧
+                    UnaryHistory satisfaction ∧ UnaryHistory elementary ∧ UnaryHistory formulaRead ∧
+                      UnaryHistory assignmentRead ∧ UnaryHistory satisfactionRecord ∧
+                        UnaryHistory elementaryRead ∧ UnaryHistory elementaryEndpoint ∧
+                          hsame formulaRead (append firstOrder formula) ∧
+                            hsame assignmentRead (append valuation (append firstOrder formula)) ∧
+                              hsame satisfactionRecord
+                                (append (append valuation (append firstOrder formula))
+                                  satisfaction) ∧
+                                hsame elementaryRead (append satisfaction elementary) ∧
+                                  hsame elementaryEndpoint (append elementaryRead provenance) ∧
+                                    PkgSig bundle endpoint pkg := by
+  intro packet formulaUnary formulaRow assignmentRow satisfactionRow elementaryReadRow
+    elementaryEndpointRow
+  have satisfactionExact :=
+    ModelTheoryBHistStructurePacket_satisfaction_exactness_row
+      (firstOrder := firstOrder) (structureRow := structureRow) (valuation := valuation)
+      (satisfaction := satisfaction) (elementary := elementary) (provenance := provenance)
+      (endpoint := endpoint) (formula := formula) (formulaRead := formulaRead)
+      (assignmentRead := assignmentRead) (satisfactionRecord := satisfactionRecord)
+      (bundle := bundle) (pkg := pkg) packet formulaUnary formulaRow assignmentRow satisfactionRow
+  have elementaryCoverage :=
+    ModelTheoryBHistStructurePacket_elementary_ledger_coverage
+      (firstOrder := firstOrder) (structureRow := structureRow) (valuation := valuation)
+      (satisfaction := satisfaction) (elementary := elementary) (provenance := provenance)
+      (endpoint := endpoint) (elementaryRead := elementaryRead)
+      (elementaryEndpoint := elementaryEndpoint) (bundle := bundle) (pkg := pkg) packet
+      elementaryReadRow elementaryEndpointRow
+  have valuationUnary : UnaryHistory valuation :=
+    unary_cont_closed packet.left packet.right.left packet.right.right.right.right.left
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro valuationUnary
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro satisfactionExact.left
+              (And.intro satisfactionExact.right.left
+                (And.intro satisfactionExact.right.right.left
+                  (And.intro elementaryCoverage.left
+                    (And.intro elementaryCoverage.right.left
+                      (And.intro satisfactionExact.right.right.right.left
+                        (And.intro satisfactionExact.right.right.right.right.left
+                          (And.intro satisfactionExact.right.right.right.right.right.left
+                            (And.intro elementaryCoverage.right.right.left
+                              (And.intro elementaryCoverage.right.right.right.left
+                                satisfactionExact.right.right.right.right.right.right))))))))))))))
+
+def ModelTheoryElementaryReadbackLedgerSpine (start : BHist) : List BHist -> BHist -> Prop
+  | [], final => hsame final start
+  | row :: rows, final =>
+      UnaryHistory row ∧
+        exists next : BHist, Cont start row next ∧
+          ModelTheoryElementaryReadbackLedgerSpine next rows final
+
+private theorem ModelTheoryElementaryReadbackLedgerSpine_normalized_cont_aux
+    {start final : BHist} {rows : List BHist} :
+    ModelTheoryElementaryReadbackLedgerSpine start rows final ->
+      exists ledger : BHist, UnaryHistory ledger ∧ Cont start ledger final := by
+  intro spine
+  induction rows generalizing start final with
+  | nil =>
+      exact Exists.intro BHist.Empty (And.intro unary_empty spine)
+  | cons row rows ih =>
+      cases spine with
+      | intro rowUnary nextData =>
+          cases nextData with
+          | intro next nextRows =>
+              cases nextRows with
+              | intro rowCont tailSpine =>
+                  have tailPack := ih tailSpine
+                  cases tailPack with
+                  | intro tail tailRows =>
+                      have ledgerUnary : UnaryHistory (append row tail) :=
+                        unary_append_closed rowUnary tailRows.left
+                      have ledgerCont : Cont start (append row tail) final :=
+                        hsame_trans tailRows.right
+                          ((congrArg (fun h : BHist => append h tail) rowCont).trans
+                            (append_assoc start row tail))
+                      exact Exists.intro (append row tail) (And.intro ledgerUnary ledgerCont)
+
+theorem ModelTheoryElementaryReadbackLedgerSpine_normalized_cont [AskSetup] [PackageSetup]
+    {satisfaction elementary final : BHist} {rows : List BHist} :
+    ModelTheoryElementaryReadbackLedgerSpine elementary rows final ->
+      hsame elementary (append satisfaction elementary) ->
+        exists ledger : BHist, UnaryHistory ledger ∧
+          Cont (append satisfaction elementary) ledger final := by
+  intro spine elementaryNormalized
+  have ledgerPack := ModelTheoryElementaryReadbackLedgerSpine_normalized_cont_aux spine
+  cases ledgerPack with
+  | intro ledger ledgerRows =>
+      have ledgerCont : Cont (append satisfaction elementary) ledger final :=
+        hsame_trans ledgerRows.right
+          (congrArg (fun h : BHist => append h ledger) elementaryNormalized)
+      exact Exists.intro ledger (And.intro ledgerRows.left ledgerCont)
+
 end BEDC.Derived.ModelTheoryUp

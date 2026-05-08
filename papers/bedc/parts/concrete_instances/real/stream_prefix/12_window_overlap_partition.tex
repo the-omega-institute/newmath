@@ -44,6 +44,58 @@ $k=m$ shared by both windows. Hence the collected endpoint classifiers repack
 as $\mathsf{RealStreamWindowClassifier}(x,y,n,m+r)$.
 \end{proof}
 
+\begin{theorem}[Real stream window concatenation exactness]
+\label{thm:real-stream-window-overlap-concatenation-exactness}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor $n$, a
+wide bound $w$, and a certified finite concatenation spine $P$ over $(n,w)$
+whose segment windows are $(n_i,r_i)$, the wide classifier
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,w)
+$$
+is equivalent to any certified finite concatenation of the segment classifiers
+named by $P$:
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,w)
+\Longleftrightarrow
+\mathsf{ConcatSpine}_{P}
+\bigl(\mathsf{RealStreamWindowClassifier}(x,y,n_i,r_i)\bigr).
+$$
+The equivalence preserves exactly the scoped $\RealUp$ read surface: endpoint
+$\RatUp$ classifiers, $\mathsf{DyadicRatCore}$ observation rows, $\RegSeqRat$
+spine rows, $\StreamNameUp$ request names, $\mathsf{UnaryHistory}$ witnesses,
+$\hsame$ transports, and finite ledger rows. It does not use a completion
+object, metric-completeness data, arithmetic or order closure, quotient data,
+Classical data, or a bridge row.
+\end{theorem}
+\begin{proof}
+First convert the concatenation spine to the partition fold. The certified
+spine rows record exactly the same finite list of anchors, radii, unary
+$\mathsf{append}$ displays, and $\mathsf{Cont}$ transitions as the partition
+spine in \autoref{thm:real-stream-window-finite-partition-fold}. Repacking
+these rows changes only the bracketing of the finite segment list, not the
+displayed observations.
+
+Apply \autoref{thm:real-stream-window-finite-partition-fold}. It identifies the
+wide classifier at $(n,w)$ with the finite conjunction of the segment windows
+named by the spine. The certified concatenation spine is a finite bracketing of
+the same conjunction, so associating the displayed rows along the spine gives
+the stated equivalence.
+
+We now identify the public boundary carried by the equivalence. Apply
+\autoref{thm:realup-window-partition-read-surface}; both the wide window and
+the segment presentation expose exactly the endpoint $\RatUp$ rows, dyadic
+observation rows, $\RegSeqRat$ rows, $\StreamNameUp$ names, unary witnesses,
+$\hsame$ transports, and finite ledger rows listed in the statement.
+
+Finally apply \autoref{thm:realup-window-partition-stability-package}. Its
+transport rows show that changing from the partition fold to the concatenation
+spine preserves the same reflexivity, symmetry, transitivity, and pointwise
+$\hsame$ stability package. Since the three cited surfaces already exclude
+completion, metric-completeness, arithmetic and order closure, quotient,
+Classical, and bridge data, the concatenation equivalence introduces none of
+those rows.
+\end{proof}
+
 The ten-field fit is: traditional target overlapping finite rational
 observation intervals; BEDC source $\mathsf{RealStreamWindowClassifier}$ over
 RatUp endpoint classifiers; carrier rational-observation streams; classifier
@@ -346,4 +398,54 @@ $\RegSeqRat$, $\StreamNameUp$, $\mathsf{UnaryHistory}$, $\hsame$, and ledger
 rows. Therefore transporting any of the four stability rows across the fold
 does not expose additional data and does not lose any scoped row from the
 listed $\RealUp$ boundary.
+\end{proof}
+
+\begin{theorem}[Real stream finite-window partition refinement transitivity]
+\label{thm:real-stream-window-partition-refinement-transitivity}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a total anchor $n$,
+a total bound $w$, and certified finite partition spines $P,Q$ over $(n,w)$,
+suppose every segment of $Q$ is displayed in the ledger as a consecutive union
+of segments of $P$. If every $P$-segment $(n_i,r_i)$ carries
+$\mathsf{RealStreamWindowClassifier}(x,y,n_i,r_i)$, then every $Q$-segment
+$(m_j,s_j)$ carries $\mathsf{RealStreamWindowClassifier}(x,y,m_j,s_j)$.
+
+Equivalently, the finite ledger exposed by the fine partition $P$ refines the
+coarser partition ledger $Q$ without changing any endpoint $\RatUp$
+classifier, dyadic source row, stream-name row, unary witness, $\hsame$
+transport row, or continuation ledger entry at the visible boundary.
+
+The ten-field fit is: name $\mathsf{RealStreamWindow}$ refinement
+transitivity; BEDC source
+$\mathsf{BHist}+\RatUp+\StreamNameUp+\mathsf{RealStreamWindowClassifier}$;
+carrier the certified finite partition spine; classifier
+$\mathsf{RealStreamWindowClassifier}$; pattern consecutive-union refinement of
+window spines; stability the four classifier rows exposed by
+\autoref{thm:realup-window-partition-stability-package}; ledger the refinement
+witness from fine rows to coarse rows; exactness the unchanged $\RatUp$
+endpoint classifier surface; core theorem
+\autoref{thm:real-stream-window-partition-refinement-transitivity}; downstream
+consumer $\RealUp$ finite-window certificate closure.
+\end{theorem}
+\begin{proof}
+Induct on the coarser spine $Q$. The empty spine has no segment to certify, and
+the ledger refinement witness contributes no visible row.
+
+For a nonempty coarser spine, read the head segment $(m_j,s_j)$ as the
+consecutive subspine of $P$ selected by the refinement ledger. Apply
+\autoref{thm:real-stream-window-finite-partition-fold} to that subspine. The
+given classifiers on the fine $P$-segments fold into
+$\mathsf{RealStreamWindowClassifier}(x,y,m_j,s_j)$.
+
+Now repack the visible rows for this coarse segment. Apply
+\autoref{thm:realup-window-partition-read-surface} to identify the endpoint
+$\RatUp$ rows, dyadic source rows, stream-name rows, unary witnesses, $\hsame$
+transport rows, and finite ledger entries exposed by the fine subspine and by
+the coarse segment as the same scoped read surface.
+
+The stability fields are transported across this repacking by
+\autoref{thm:realup-window-partition-stability-package}. Removing the consumed
+fine subspine leaves the tail of $P$ refining the tail of $Q$, so the induction
+hypothesis certifies every remaining coarse segment. Combining the head
+certificate with the tail certificates gives the claimed refinement
+transitivity.
 \end{proof}

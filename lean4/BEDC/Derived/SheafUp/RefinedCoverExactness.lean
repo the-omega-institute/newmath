@@ -49,4 +49,12 @@ theorem SheafRefinedCover_exactness_obligation
   exact And.intro readbackA.left
     (And.intro readbackB.left (And.intro comparison sameGlobal))
 
+theorem SheafCover_self_refinement {ambient member route germ : BHist} :
+    SheafBHistCoverNerveLedger ambient member member route germ ->
+      Cont member route germ ∧ hsame member member ∧
+        SheafBHistCoverNerveLedger ambient member member route germ := by
+  intro ledger
+  exact And.intro ledger.right.right.right.right
+    (And.intro (hsame_refl member) ledger)
+
 end BEDC.Derived.SheafUp

@@ -93,6 +93,7 @@ import BEDC.Derived.CurvatureUp.Handoff
 import BEDC.Derived.CurvatureUp.HandoffConsumerCoverage
 import BEDC.Derived.CurvatureUp.ConnectionCarrierScope
 import BEDC.Derived.CurvatureUp.ChernWeilSourceEnvelope
+import BEDC.Derived.CurvatureUp.ConsumerExactness
 import BEDC.Derived.CurvatureUp.PublicObligation
 import BEDC.Derived.CurvatureUp.TensorialSectionTransport
 import BEDC.Derived.CurvatureUp.SourceEnvelopeReadback
@@ -107,7 +108,6 @@ import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.KnotUp
-import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
@@ -210,6 +210,7 @@ import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.CliffordUp
+import BEDC.Derived.SpinGroupUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
 import BEDC.Derived.DerivativeUp
@@ -233,6 +234,7 @@ import BEDC.Derived.ComplexLimitUp.SourceSpec
 import BEDC.Derived.MeasureUp
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralTheoremUp
+import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.IntegralUp
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
@@ -461,6 +463,7 @@ import BEDC.Derived.GaloisGroupUp.AssociativeActionRow
 import BEDC.Derived.GaloisGroupUp.FixedBasePublicSurface
 import BEDC.Derived.GaloisGroupUp.ActionRows
 import BEDC.Derived.GaloisGroupUp.IdentityRowClosure
+import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.NumFieldUp
 import BEDC.Derived.NumFieldUp.DegreeOneBasisEndpoint
 import BEDC.Derived.NumFieldUp.DegreeOneBasis
@@ -610,6 +613,8 @@ import BEDC.Derived.StreamNameUp.EmptyWindow
 import BEDC.Derived.StreamNameUp.FiniteWindowEndpoint
 import BEDC.Derived.StreamNameUp.FiniteWindowStructural
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
+import BEDC.Derived.StreamNameUp.ScheduledConstantObservation
+import BEDC.Derived.StreamNameUp.StdBridge
 import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.DividesClosure
