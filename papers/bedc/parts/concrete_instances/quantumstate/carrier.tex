@@ -1,0 +1,28 @@
+\chapter{A Concrete Naming Certificate for $\QuantumStateUp$}
+\label{ch:concrete-instances-quantumstate-namecert}
+
+The quantum-state interface $\QuantumStateUp$ packages a unit vector in a Hilbert space carrier together with the equivalence under global phase. It depends on $\NameCert_{\HilbertUp}$ (\autoref{ch:concrete-instances-hilbert-namecert}) and $\NameCert_{\ProjectiveSpaceUp}$ (\autoref{ch:concrete-instances-projectivespace-namecert}).
+
+\section{Carrier definition}
+\label{sec:quantumstate-carrier}
+
+\begin{definition}[QuantumStateUp BHist carrier]
+\label{def:quantumstate-bhist-carrier}
+A $\QuantumStateUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+\mathcal{Q}=(\mathcal{H},\mathcal{P},v,n,\phi,p,\lambda_H,\lambda_P,\rho).
+$$
+The row $\mathcal{H}$ is a consumed $\NameCert_{\HilbertUp}$ row. The row
+$\mathcal{P}$ is a consumed $\NameCert_{\ProjectiveSpaceUp}$ row over the
+displayed projective line determined by $\mathcal{H}$. The endpoint $v$ is the
+unit-vector row projected from $\mathcal{H}$, $n$ is the norm-one ledger row,
+$\phi$ is the global-phase row, and $p$ is the projective-line endpoint row
+projected from $\mathcal{P}$.
+
+The rows $\lambda_H$ and $\lambda_P$ are the inherited Hilbert and projective
+classifier rows, respectively. The row $\rho$ is the $\mathsf{Pkg}$ provenance
+record witnessing that the two consumed certificates and all displayed endpoint
+rows belong to the same finite packet. No carrier datum outside
+$\mathcal{H}$, $\mathcal{P}$, $v$, $n$, $\phi$, $p$, $\lambda_H$, $\lambda_P$,
+and $\rho$ is part of the public $\QuantumStateUp$ row.
+\end{definition}
