@@ -115,6 +115,42 @@ $$
 Using the swapped digest witnesses $d'$ and $d$, the two original evaluation row witnesses read in the opposite order, the reversed message distinction, and the reversed digest comparison, the definition repacks exactly as $\mathsf{HashCollisionSuccess}_{\mathcal H}(x',x)$ over the same $\mathsf{HashEval}_{\mathcal H}$ row.
 \end{proof}
 
+\begin{theorem}[Hash compression round carrier]
+\label{thm:hash-compression-round-carrier}
+Each hash evaluation transcript in \autoref{def:hash-evaluation-success-transcripts} is a $\mathsf{BHist}$ packet over the $\FuncUp$ deterministic row, the message carrier, the finite digest carrier, the $\Cont$ readback row, and the $\mathsf{Pkg}$ provenance row. The transcript exports no separate host bitstring computation.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:hash-evaluation-success-transcripts}. A row $\mathsf{HashEval}_{\mathcal H}(m,d)$ contains a carried message endpoint, a carried digest endpoint, and the hash-function row supplied by the $\FuncUp$ substrate.
+
+Project determinacy from \autoref{thm:hash-evaluation-transcript-determinacy}. The two digest rows produced by the same message and function row are compared only through the finite digest classifier inherited from $\FinSetUp$.
+
+Finally read the evaluation route through the displayed $\Cont$ readback and $\mathsf{Pkg}$ provenance. Repacking these rows gives the compression-round carrier as a BEDC transcript rather than as an external bitstring computation.
+\end{proof}
+
+\begin{theorem}[Hash digest classifier stability]
+\label{thm:hash-digest-classifier-stability}
+Transporting digest endpoints by the finite-output $\FinSetUp$ digest classifier preserves $\mathsf{HashEval}_{\mathcal H}$, $\mathsf{HashSecondPreimageSuccess}_{\mathcal H}$, and $\mathsf{HashCollisionSuccess}_{\mathcal H}$. The preservation is a classifier transport of digest rows, not an equality of host strings.
+\end{theorem}
+\begin{proof}
+Start with an evaluation transcript and a digest-classifier edge supplied by the finite-output $\FinSetUp$ certificate. The digest endpoint remains in the digest carrier, and the same $\FuncUp$ row and message carrier row still witness the evaluation.
+
+For second-preimage success, unfold \autoref{def:hash-evaluation-success-transcripts}. The transported digest row replaces the original digest witness while the two evaluation rows and the message-distinction witness remain the same.
+
+For collision success, use the same unpacking together with the digest-classifier symmetry used in \autoref{thm:hash-collision-success-symmetric}. Repacking the transported digest witnesses preserves the two success predicates through the classifier boundary.
+\end{proof}
+
+\begin{theorem}[Hash collision ledger boundary]
+\label{thm:hash-collision-ledger-boundary}
+The collision, second-preimage, and preimage-resistance ledgers of a $\HashUp$ certificate may read only message-carrier rows, digest-carrier rows, function determinacy rows, classifier comparisons, and bounded adversary transcripts. They may not read external probability spaces, host bitstring equality, or unrecorded randomness.
+\end{theorem}
+\begin{proof}
+Unfold the transcript definition of \autoref{def:hash-evaluation-success-transcripts}. Collision and second-preimage success are built from two evaluation rows, one message-classifier distinction, and one digest-classifier comparison.
+
+Apply \autoref{thm:hash-second-preimage-success-induces-collision} and \autoref{thm:hash-collision-success-symmetric}. These theorem blocks use only the evaluation rows, classifier symmetry, function determinacy, and the existing transcript witnesses.
+
+The bounded adversary surface therefore has no additional ledger row to consult. Repacking the available witnesses gives the stated boundary for collision, second-preimage, and preimage-resistance ledgers.
+\end{proof}
+
 \begin{theorem}[Hash collision transcript symmetry]
 \label{thm:hash-collision-transcript-symmetry}
 Let $\mathcal H$ be a $\HashUp$ certificate whose message classifier $\sigma_{\mathcal H}$ and finite-output digest classifier $\rho_{\mathcal H}$ have the classifier-symmetry fields supplied by their naming-certificate components. For message histories $x$ and $x'$, every successful collision transcript for the ordered pair $(x,x')$ induces a successful collision transcript for the ordered pair $(x',x)$ over the same two hash-evaluation rows:
