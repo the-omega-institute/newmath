@@ -133,6 +133,35 @@ theorem GaloisGroupAutomorphismActionPacket_composition_closure
                 (And.intro actionRow (And.intro classifierRow ledgerRow))))))))
     (And.intro sameComposition (And.intro sameClassifier sameLedger))
 
+theorem GaloisGroupAutomorphismActionCompositionPacket_classifier_congruence [AskSetup]
+    {bundle : ProbeBundle ProbeName}
+    {extension group fixed action composition inverse classifier provenance ledger extension' group'
+      fixed' action' composition' inverse' classifier' provenance' ledger' : BHist}
+    (policy : AskPolicy (fun h : BHist => UnaryHistory h)) :
+    GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition inverse
+        classifier provenance ledger ->
+      GaloisGroupAutomorphismActionCompositionPacket extension' group' fixed' action' composition'
+          inverse' classifier' provenance' ledger' ->
+        UnaryHistory ledger' ->
+          hsame fixed fixed' ->
+            hsame action action' ->
+              hsame composition composition' ->
+                hsame inverse inverse' ->
+                  hsame classifier classifier' ->
+                    hsame provenance provenance' ->
+                      SameSig bundle ledger ledger' ∧ hsame ledger ledger' := by
+  intro leftPacket rightPacket ledgerUnary' _sameFixed _sameAction _sameComposition _sameInverse
+    sameClassifier sameProvenance
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameClassifier sameProvenance
+      leftPacket.right.right.right.right.right.right.right.right
+      rightPacket.right.right.right.right.right.right.right.right
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_transport ledgerUnary' (hsame_symm sameLedger)
+  have sameLedgerSig : SameSig bundle ledger ledger' :=
+    sameSig_of_hsame_from_ask_policy policy ledgerUnary ledgerUnary' sameLedger
+  exact And.intro sameLedgerSig sameLedger
+
 theorem GaloisGroupAutomorphismActionPacket_associative_composition_ledger [AskSetup]
     {sigBundle : ProbeBundle ProbeName} {x y z xy yz left right : BHist}
     (policy : AskPolicy (fun h : BHist => UnaryHistory h))
