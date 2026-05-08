@@ -1,0 +1,88 @@
+import BEDC.Derived.DistributionUp
+import BEDC.Derived.RiemannianMetricUp
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+import BEDC.FKernel.Unary.History
+
+namespace BEDC.Derived.FisherInfoUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+open BEDC.Derived.DistributionUp
+open BEDC.Derived.RiemannianMetricUp
+
+def FisherInfoScorePacket
+    (distribution metric parameter score expectation component provenance ledger : BHist) : Prop :=
+  UnaryHistory distribution ∧ UnaryHistory metric ∧ UnaryHistory parameter ∧ UnaryHistory score ∧
+    Cont distribution score expectation ∧ Cont metric expectation component ∧
+      Cont component provenance ledger
+
+theorem FisherInfoScorePacket_metric_component_transport
+    {distribution distribution' metric metric' parameter score score' expectation expectation'
+      component component' provenance ledger ledger' : BHist} :
+    FisherInfoScorePacket distribution metric parameter score expectation component provenance ledger ->
+      hsame distribution distribution' ->
+        hsame metric metric' ->
+          hsame score score' ->
+            Cont distribution' score' expectation' ->
+              Cont metric' expectation' component' ->
+                Cont component' provenance ledger' ->
+                  FisherInfoScorePacket distribution' metric' parameter score' expectation'
+                      component' provenance ledger' ∧
+                    hsame expectation expectation' ∧ hsame component component' ∧
+                      hsame ledger ledger' := by
+  intro packet sameDistribution sameMetric sameScore expectationRow componentRow ledgerRow
+  have distributionUnary : UnaryHistory distribution' :=
+    unary_transport packet.left sameDistribution
+  have metricUnary : UnaryHistory metric' :=
+    unary_transport packet.right.left sameMetric
+  have scoreUnary : UnaryHistory score' :=
+    unary_transport packet.right.right.right.left sameScore
+  have sameExpectation : hsame expectation expectation' :=
+    cont_respects_hsame sameDistribution sameScore packet.right.right.right.right.left
+      expectationRow
+  have sameComponent : hsame component component' :=
+    cont_respects_hsame sameMetric sameExpectation packet.right.right.right.right.right.left
+      componentRow
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameComponent (hsame_refl provenance)
+      packet.right.right.right.right.right.right ledgerRow
+  exact And.intro
+    (And.intro distributionUnary
+      (And.intro metricUnary
+        (And.intro packet.right.right.left
+          (And.intro scoreUnary
+            (And.intro expectationRow (And.intro componentRow ledgerRow))))))
+    (And.intro sameExpectation (And.intro sameComponent sameLedger))
+
+def FisherInfoBHistScoreCarrier [AskSetup] [PackageSetup]
+    (distribution metric parameter score expectation component provenance ledger : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  DistributionPushforwardSourceSpec distribution ∧
+    RiemannianMetricSingletonFibreSurface parameter score metric ∧
+      UnaryHistory parameter ∧ UnaryHistory score ∧
+        Cont distribution score expectation ∧ Cont expectation metric component ∧
+          PkgSig bundle provenance pkg ∧ Cont component provenance ledger
+
+theorem FisherInfoBHistScoreCarrier_distribution_source_obligation [AskSetup] [PackageSetup]
+    {distribution metric parameter score expectation component provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FisherInfoBHistScoreCarrier distribution metric parameter score expectation component
+        provenance ledger bundle pkg ->
+      DistributionPushforwardSourceSpec distribution ∧ UnaryHistory parameter ∧
+        UnaryHistory score ∧ Cont distribution score expectation ∧
+          PkgSig bundle provenance pkg := by
+  intro carrier
+  exact And.intro carrier.left
+    (And.intro carrier.right.right.left
+      (And.intro carrier.right.right.right.left
+        (And.intro carrier.right.right.right.right.left
+          carrier.right.right.right.right.right.right.left)))
+
+end BEDC.Derived.FisherInfoUp
