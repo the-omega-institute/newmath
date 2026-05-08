@@ -67,6 +67,72 @@ $$
 The separation from the symplectic dependency is exactly the consumer frontier of \autoref{thm:symplecticup-hamiltonian-poisson-consumer-frontier}: the $\SymplecticUp$ boundary supplies carrier, two-form, closedness, nondegeneracy, pairing, and transport rows, but it does not by itself export a Poisson bracket. The bracket endpoint used here is supplied only after the $\DeformQuantizationUp$ packet adds the first-order star-product ledger over the Hopf formal-product row.
 \end{proof}
 
+\begin{theorem}[DeformQuantization star-ledger carrier obligation]
+\label{thm:deformquantization-star-ledger-carrier-obligation}
+Let $\Sigma$ be a $\SymplecticUp$ obligation boundary and let $H=(a,t,s,u,e)$ be a $\HopfAlgUp$ row satisfying \autoref{def:hopfalg-bhist-bialgebra-carrier} and \autoref{def:hopfalg-antipode-ledger-classifier}. A $\DeformQuantizationUp$ packet $Q$ over $(\Sigma,H)$ has its first-order carrier exactly when it exposes a displayed row
+$$
+\mathsf{DQStarLedger}_{\Sigma,H}(\mu_\hbar,\mu_0,\mu_1,\mu_1^{\mathrm{op}},\kappa,\pi,\Lambda_\star)
+$$
+of \autoref{def:deformquantization-first-order-star-product-ledger} whose formal product provenance is the $\Pkg$ row read from the multiplication and tensor faces of $H$, whose commutator face is the continuation row $\Cont(\mu_1,\mu_1^{\mathrm{op}},\kappa)$, and whose carrier comparisons are the displayed $\hsame$ rows of the packet. Thus no separate carrier for $Q$ is admitted beyond the $\mathsf{BHist}$ ledger row, the $\Cont$ face, the $\hsame$ comparisons, and the $\Pkg$ provenance supplied by $\Sigma$ and $H$.
+\end{theorem}
+\begin{proof}
+Project the $\HopfAlgUp$ side first. By \autoref{thm:hopfalg-namecert-obligation-surface}, the row $H$ supplies the carrier, classifier, tensor-row stability, multiplication and comultiplication provenance through $\Cont$, and the antipode ledger rows. The formal-product provenance of $\mu_\hbar$ is therefore the same $\Pkg$ row read from those multiplication and tensor faces.
+
+Next project the $\SymplecticUp$ boundary. The consumer frontier of \autoref{thm:symplecticup-hamiltonian-poisson-consumer-frontier} supplies the carrier boundary and transport surface needed by a Poisson consumer, while withholding any independent bracket export. Hence the deformation packet must attach its bracket-facing carrier through the displayed star ledger rather than through a hidden symplectic row.
+
+Finally repack the projections into \autoref{def:deformquantization-first-order-star-product-ledger}. The row $\mu_\hbar$ carries the formal product, $\mu_0,\mu_1,\mu_1^{\mathrm{op}}$ are its coefficient endpoints, $\kappa$ is displayed by $\Cont(\mu_1,\mu_1^{\mathrm{op}},\kappa)$, and the packet comparisons are the recorded $\hsame$ rows. These fields are exactly the advertised $\mathsf{BHist}$ carrier for $Q$, so any accepted first-order carrier read is covered by that row and by no additional carrier datum.
+\end{proof}
+
+\begin{theorem}[DeformQuantization bracket classifier obligation]
+\label{thm:deformquantization-bracket-classifier-obligation}
+Let $Q$ and $Q'$ be $\DeformQuantizationUp$ packets over transported rows $(\Sigma,H)$ and $(\Sigma',H')$, with displayed star-product ledger rows
+$$
+\mathsf{DQStarLedger}_{\Sigma,H}(\mu_\hbar,\mu_0,\mu_1,\mu_1^{\mathrm{op}},\kappa,\pi,\Lambda_\star)
+$$
+and
+$$
+\mathsf{DQStarLedger}_{\Sigma',H'}(\mu'_\hbar,\mu'_0,\mu'_1,(\mu'_1)^{\mathrm{op}},\kappa',\pi',\Lambda'_\star).
+$$
+If the $\SymplecticUp$ and $\HopfAlgUp$ carrier-classifier rows transport $\Sigma$ to $\Sigma'$ and $H$ to $H'$, then the $\DeformQuantizationUp$ classifier transports the degree-zero product endpoint, the two first-order coefficient endpoints, the commutator endpoint, and the Poisson-bracket comparison row:
+$$
+\hsame(\mu_0,\mu'_0)\land\hsame(\mu_1,\mu'_1)\land\hsame(\mu_1^{\mathrm{op}},(\mu'_1)^{\mathrm{op}})\land\hsame(\kappa,\kappa')\land\hsame(\pi,\pi').
+$$
+\end{theorem}
+\begin{proof}
+Begin with the transported $\HopfAlgUp$ row. The classifier surface in \autoref{thm:hopfalg-namecert-obligation-surface} carries the multiplication and tensor provenance rows through the transport from $H$ to $H'$, so the formal-product row $\mu_\hbar$ and the transported row $\mu'_\hbar$ have the same $\Pkg$ provenance for the product spine.
+
+The endpoint clauses are then read directly from the two displayed star ledgers. The degree-zero endpoint is transported as the ordinary product endpoint over the transported symplectic carrier. The two first-order coefficient endpoints are transported as coefficient faces of the same formal-product spine.
+
+It remains to transport the bracket-facing rows. The continuation faces
+$$
+\Cont(\mu_1,\mu_1^{\mathrm{op}},\kappa)
+$$
+and
+$$
+\Cont(\mu'_1,(\mu'_1)^{\mathrm{op}},\kappa')
+$$
+identify the commutator endpoints after the two coefficient endpoints have been transported. The consumer frontier of \autoref{thm:symplecticup-hamiltonian-poisson-consumer-frontier} supplies the transported Poisson consumer boundary, and the ledger exactness clause records the corresponding $\hsame(\pi,\pi')$ comparison. Repacking these five transported rows gives the displayed classifier obligation.
+\end{proof}
+
+\begin{theorem}[DeformQuantization first-order ledger exactness obligation]
+\label{thm:deformquantization-first-order-ledger-exactness-obligation}
+For every $\DeformQuantizationUp$ packet $Q$ over $(\Sigma,H)$ with displayed ledger
+$$
+\mathsf{DQStarLedger}_{\Sigma,H}(\mu_\hbar,\mu_0,\mu_1,\mu_1^{\mathrm{op}},\kappa,\pi,\Lambda_\star),
+$$
+every accepted first-order bracket readback of $Q$ is covered by the ledger row of \autoref{def:deformquantization-first-order-star-product-ledger} and is sound for the checked bracket statement of \autoref{thm:deformquantization-first-order-bracket-ledger}. Equivalently, an accepted readback factors through the degree-one commutator endpoint $\kappa$, the Poisson-bracket obligation row $\pi$, and the exactness comparison $\hsame(\kappa,\pi)$ before it is reported as a $\DeformQuantizationUp$ bracket endpoint.
+\end{theorem}
+\begin{proof}
+Coverage is the first projection. Unpack \autoref{def:deformquantization-first-order-star-product-ledger}: the formal-deformation classifier attached to $\Lambda_\star$ records that every bracket read factors through the displayed row $\pi$, and every accepted degree-one commutator endpoint factors through $\kappa$.
+
+Soundness is the second projection. The checked ledger theorem \autoref{thm:deformquantization-first-order-bracket-ledger} identifies the endpoint read from the degree-one commutator with the displayed Poisson-bracket obligation row by the comparison
+$$
+\mathsf{PoissonBracketOb}_{\Sigma,H}(\pi)\land\hsame(\kappa,\pi).
+$$
+
+The Hopf provenance and the symplectic frontier rule out the two possible escapes. By \autoref{thm:hopfalg-namecert-obligation-surface}, the formal product and its coefficient endpoints are read through the $\Pkg$ and $\Cont$ faces supplied by $H$. By \autoref{thm:symplecticup-hamiltonian-poisson-consumer-frontier}, $\Sigma$ supplies the consumer boundary but does not export an independent Poisson bracket. Therefore every accepted first-order readback is both covered by the displayed ledger row and sound for the checked bracket exactness statement.
+\end{proof}
+
 \closureat{DeformQuantizationUp}{seedStr}[BEDC.Derived.DeformQuantizationUp.DeformQuantizationStarLedger\_first\_order\_bracket]
 
 \begin{closurestatus}{\DeformQuantizationUp}
