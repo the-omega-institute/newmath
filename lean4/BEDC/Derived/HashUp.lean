@@ -128,6 +128,26 @@ theorem HashCollisionSuccess_induces_reversed_second_preimage
                 (And.intro transcript.left
                   (And.intro msgDistinct transcript.right.right.right))))
 
+theorem HashCollisionSuccess_induces_same_direction_second_preimage
+    {HashEval : BHist -> BHist -> Prop}
+    {DigCarrier : BHist -> Prop}
+    {MsgClassifier DigClassifier : BHist -> BHist -> Prop}
+    (digestCert : SemanticNameCert DigCarrier DigCarrier DigCarrier DigClassifier)
+    {x x' : BHist} :
+    HashCollisionSuccess HashEval MsgClassifier DigClassifier x x' ->
+      HashSecondPreimageSuccess HashEval MsgClassifier DigClassifier x x' := by
+  intro success
+  cases success with
+  | intro d successD =>
+      cases successD with
+      | intro d' transcript =>
+          exact Exists.intro d
+            (Exists.intro d'
+              (And.intro transcript.left
+                (And.intro transcript.right.left
+                  (And.intro transcript.right.right.left
+                    (digestCert.core.equiv_symm transcript.right.right.right)))))
+
 theorem HashCollisionTranscript_symmetric
     {HashEval : BHist -> BHist -> Prop}
     {MsgCarrier DigCarrier : BHist -> Prop}

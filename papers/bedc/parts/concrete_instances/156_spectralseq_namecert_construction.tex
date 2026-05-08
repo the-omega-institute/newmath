@@ -220,3 +220,63 @@ certificate exports neither a host exact couple nor an ambient quotient
 category, the downstream row can consume only the displayed BEDC rows and their
 listed $\Cont$ and $\Pkg$ witnesses.
 \end{proof}
+
+\begin{theorem}[SpectralSeq boundary rows enter successor cycles]
+\label{thm:spectralseq-boundary-row-successor-cycle-readback}
+Let $\mathcal S=(A,E,d,h,c,\lambda,\rho)$ be a $\SpectralSeqUp$ $\mathsf{BHist}$ page carrier. Fix a carried differential row $d_r^{p,q}$, and write its $\HomologyUp$ readback on the BEDC history surface again as
+$$
+d_r^{p,q}:\mathsf{BHist}\to\mathsf{BHist}.
+$$
+Assume that the displayed differential-square row for this differential is
+$$
+\forall u:\mathsf{BHist},\ \hsame(d_r^{p,q}(d_r^{p,q}(u)),\mathsf{Empty}).
+$$
+If a representative $b$ lies in the displayed boundary row for this differential,
+$$
+B_{d_r^{p,q}}(b),
+$$
+then the successor-page readback row $h_r^{p,q}$ classifies the same representative through the cycle row:
+$$
+Z_{d_r^{p,q}}(b).
+$$
+Equivalently, every representative read by $h_r^{p,q}$ from the displayed boundary subrow of $d_r^{p,q}$ enters the successor surface $E_{r+1}^{p,q}$ only through the cycle row used by the homology-page quotient.
+\end{theorem}
+\begin{proof}
+The carrier description in \autoref{def:spectralseq-bhist-page-carrier} gives, for the fixed differential row, a homology readback row identifying the successor page with the $\HomologyUp$ cycle row of $d_r^{p,q}$ modulo its displayed boundary row. The obligation surface in \autoref{thm:spectralseq-obligation-surface} exposes the differential-square row for the same displayed differential together with the matching homology-page readback row $h_r^{p,q}$.
+
+Apply \autoref{thm:homology-boundary-carrier-cycle-closed} to the $\HomologyUp$ differential read back from $d_r^{p,q}$ and to the representative $b$. The boundary hypothesis supplies the boundary-carrier premise, while the displayed differential-square row supplies the universal square-zero premise. The conclusion is exactly $Z_{d_r^{p,q}}(b)$ before taking the boundary quotient. Since $h_r^{p,q}$ reads the successor page from that cycle row modulo the displayed boundary row, the boundary representative is admitted to the successor-page surface as a cycle representative.
+\end{proof}
+
+\begin{theorem}[SpectralSeqUp successor-page closure]
+\label{thm:spectralseq-successor-page-closure}
+Suppose a $\SpectralSeqUp$ page carrier supplies a differential row
+$d_r^{p,q}$, its transported source and target page rows
+$E_r^{p,q}$ and $E_r^{p+r,q-r+1}$, and the displayed $\HomologyUp$
+cycle-boundary readback row identifying the successor page. Then the successor
+page is repacked as a $\SpectralSeqUp$ page carrier over the same
+$\NameCert_{\AbelianCatUp}$ source, with the $\Cont$ page-transition ledger
+extended by the successor entry and the $\Pkg$ provenance retained for the
+displayed page, differential, homology-readback, convergence, and transition
+rows. No host quotient, host exact couple, or ambient category equality is
+introduced by the page transition.
+\end{theorem}
+\begin{proof}
+Project the differential row, its source and target page rows, and the
+homology readback row from the carrier of
+\autoref{def:spectralseq-bhist-page-carrier}. These projections give the
+only data used to name the successor page.
+
+Use the page classifier of \autoref{def:spectralseq-page-classifier} to
+transport the source page, target page, differential, and homology readback
+componentwise. By \autoref{thm:spectralseq-differential-ledger}, the
+transported differential remains an admissible $\AbelianCatUp$ morphism row,
+and the transported readback remains classified by the displayed
+$\HomologyUp$ source surface.
+
+Repack the successor page by extending the finite $\Cont$ ledger with the
+displayed page-transition entry and retaining the same $\Pkg$ provenance rows.
+The boundary restriction of \autoref{thm:spectralseq-convergence-boundary}
+excludes any host quotient or exact-couple object outside the carried
+$\HomologyUp$ cycle-boundary row, so the repacked object is again a
+$\SpectralSeqUp$ page carrier.
+\end{proof}

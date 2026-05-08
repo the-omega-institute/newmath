@@ -6,5 +6,247 @@ The lambda-calculus interface $\LambdaCalcUp$ packages the inductive carrier of 
 \section{Carrier definition}
 \label{sec:lambdacalc-carrier}
 
+\begin{definition}[LambdaCalc BHist term carrier]
+\label{def:lambdacalc-bhist-term-carrier}
+The LambdaCalc BHist term carrier $\mathsf{LambdaCalcBHistTermCarrier}(h)$ is
+the $\TreeUp$-backed syntax row whose visible spine is a $\mathsf{BHist}$ tree with
+three constructor tags. A variable row has tag $\mathsf{lamVar}$ and a
+$\NatUp$ unary variable index $i$ with $\mathsf{UnaryHistory}(i)$. An
+abstraction row has tag $\mathsf{lamAbs}$, a unary binder index, and one body
+subtree. An application row has tag $\mathsf{lamApp}$ and two subtrees. In each
+case the spine is carried by a $\mathsf{TreeBHistCarrier}$ row, constructor
+readback is expressed by $\hsame$ between the visible tag-and-subtree endpoint
+and the displayed $\mathsf{BHist}$ syntax row, and the classifier compares carried
+terms only through the corresponding $\mathsf{Cont}$ witness on these visible
+spines.
+\end{definition}
+
+\begin{theorem}[LambdaCalc variable constructor carrier]
+\label{thm:lambdacalc-variable-constructor-carrier}
+For histories $i,h:\Hist$, if $\mathsf{UnaryHistory}(i)$, the visible variable
+constructor row for $h$ is a $\mathsf{TreeBHistCarrier}$ row, and the displayed
+constructor endpoint satisfies
+$$
+\hsame(h,\mathsf{lamVar}(i)),
+$$
+then $\mathsf{LambdaCalcBHistTermCarrier}(h)$. Moreover the carried row keeps
+the $\NatUp$ index visible: any $\mathsf{Cont}$ witness transporting $h$ to
+$h'$ along a constructor-preserving $\hsame(h,h')$ transports the same unary
+index row and yields $\mathsf{LambdaCalcBHistTermCarrier}(h')$.
+\end{theorem}
+\begin{proof}
+Read the variable row through the visible spine supplied by
+$\mathsf{TreeBHistCarrier}$. The tag readback identifies the root as
+$\mathsf{lamVar}$, and the sole payload is the unary history $i$.
+
+NatUp unary index closure keeps $i$ in the unary fragment under the displayed
+$\hsame$ transport. TreeUp visible-spine transport then carries the tagged
+endpoint from $h$ to $h'$, so the transported row is again a LambdaCalc carrier
+row of the variable form.
+\end{proof}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermCarrier\_variable\_constructor\_carrier}
+
+\begin{theorem}[LambdaCalc abstraction and application carrier closure]
+\label{thm:lambdacalc-abstraction-application-carrier-closure}
+For histories $x,b,f,g,h:\Hist$, suppose the displayed syntax spines for $b$,
+$f$, and $g$ are $\mathsf{TreeBHistCarrier}$ rows and
+$$
+\mathsf{LambdaCalcBHistTermCarrier}(b),\quad
+\mathsf{LambdaCalcBHistTermCarrier}(f),\quad
+\mathsf{LambdaCalcBHistTermCarrier}(g).
+$$
+If $\mathsf{UnaryHistory}(x)$ and
+$$
+\hsame(h,\mathsf{lamAbs}(x,b)),
+$$
+then $\mathsf{LambdaCalcBHistTermCarrier}(h)$. If instead
+$$
+\hsame(h,\mathsf{lamApp}(f,g)),
+$$
+then $\mathsf{LambdaCalcBHistTermCarrier}(h)$. Both conclusions are stable
+under any constructor-preserving $\mathsf{Cont}$ transport of the displayed
+$\mathsf{BHist}$ spine.
+\end{theorem}
+\begin{proof}
+For abstraction, use the TreeUp visible-spine row to expose the
+$\mathsf{lamAbs}$ root, the unary binder payload, and the single body subtree.
+The body is already a LambdaCalc carrier row, and NatUp unary index closure
+keeps the binder inside the admitted index surface.
+
+For application, use the same TreeUp spine readback with root
+$\mathsf{lamApp}$ and the two carried subtrees $f$ and $g$. No host syntax
+operation is used: the two arguments are exactly the displayed $\mathsf{BHist}$
+subtrees, and the carrier conclusion repacks them through the LambdaCalc
+definition.
+
+Constructor-preserving $\mathsf{Cont}$ transport acts componentwise on the
+visible spine. It preserves the root tag and transports each carried subtree by
+$\hsame$, so both constructor clauses remain inside
+$\mathsf{LambdaCalcBHistTermCarrier}$.
+\end{proof}
+
+\begin{theorem}[LambdaCalc substitution ledger scope]
+\label{thm:lambdacalc-substitution-ledger-scope}
+Let $x,s,t,u:\Hist$ be histories with $\mathsf{UnaryHistory}(x)$,
+$\mathsf{LambdaCalcBHistTermCarrier}(s)$, and
+$\mathsf{LambdaCalcBHistTermCarrier}(t)$. A LambdaCalc substitution ledger row
+for substituting $s$ for the unary variable $x$ in $t$ is in scope only when it
+is presented by a $\mathsf{BHist}$ visible-spine traversal whose nodes are carried by
+$\mathsf{TreeBHistCarrier}$, whose recursive calls are connected by
+$\mathsf{Cont}$ witnesses, and whose output endpoint $u$ satisfies
+$\mathsf{LambdaCalcBHistTermCarrier}(u)$ together with constructorwise
+$\hsame$ readback. The row exports no host substitution function and no
+unmentioned capture-avoidance primitive.
+\end{theorem}
+\begin{proof}
+Traverse the displayed TreeUp spine of $t$. In the variable case, compare the
+visible NatUp unary index with $x$ and choose either the carried substituent
+$s$ or the original variable row, with the choice recorded as a BEDC ledger
+branch rather than a host-language function.
+
+In the abstraction and application cases, use the constructor closure theorem
+above after recursively transporting the displayed child rows. The
+$\mathsf{Cont}$ witnesses record the recursive route through the visible
+$\mathsf{BHist}$ spine, and every endpoint comparison is an $\hsame$ comparison
+between displayed constructor rows.
+
+Thus the substitution ledger remains a scoped LambdaCalc carrier obligation:
+it names only $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\mathsf{TreeBHistCarrier}$,
+$\mathsf{Cont}$, $\hsame$, and $\mathsf{LambdaCalcBHistTermCarrier}$ rows.
+\end{proof}
+
+\begin{definition}[LambdaCalcUp term packet carrier]
+\label{def:lambdacalc-term-packet-carrier}
+A $\LambdaCalcUp$ term packet carrier is a finite $\mathsf{BHist}$ packet
+$$
+\mathcal L=(T,I,a,b,s,\lambda,\rho)
+$$
+over the source rows $\NameCert_{\TreeUp}$ and $\NameCert_{\NatUp}$. The row
+$T$ is the displayed $\TreeUp$ syntax row for variables, abstraction nodes,
+and application nodes. The row $I$ is the displayed $\NatUp$ binder-index row
+used to name de Bruijn levels, binder depth, and free-variable positions.
+The row $a$ is the alpha-equivalence ledger comparing syntax only through the
+carried tree and index rows. The row $b$ is the beta-redex ledger naming
+application-abstraction pairs together with their substitution endpoint. The
+row $s$ is the capture-avoidance $\Cont$ ledger recording renaming, binder
+shift, and substitution continuations. The row $\lambda$ orders the finite
+term-construction and reduction steps, and $\rho$ is the $\Pkg$ provenance row
+for the displayed syntax, index, alpha-equivalence, beta-redex,
+capture-avoidance, and continuation entries.
+\end{definition}
+
 \section{The certificate}
 \label{sec:lambdacalc-certificate}
+
+\begin{theorem}[LambdaCalc carrier reflexivity]
+\label{thm:lambdacalc-carrier-reflexive}
+Every accepted $\LambdaCalcUp$ term packet over a $\TreeUp$ syntax row and a
+$\NatUp$ binder ledger classifies with itself. The reflexive classifier is the
+componentwise $\hsame$ row on the syntax tree, binder indices, free-variable
+ledger, and package provenance.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+\item Traditional target: reflexivity of the lambda-term equality classifier.
+BEDC source: an accepted $\mathsf{LambdaCalcBHistTermCarrier}$ packet whose
+visible syntax row is supplied by $\TreeUp$ and whose binder indices are
+supplied by $\NatUp$.
+
+\item Carrier: keep the same $\mathsf{BHist}$ term packet and the same
+$\Pkg$ provenance row. Classifier: use reflexive $\hsame$ on the visible
+TreeUp skeleton, each unary binder index, the free-variable ledger, and the
+package provenance.
+
+\item Stability and ledger: the identity $\mathsf{Cont}$ ledger transports no
+constructor payload and no binder row. The carried rows are therefore read back
+through the same visible spine.
+
+\item Core theorem and exactness: the accepted packet classifies with itself,
+and no endpoint outside the displayed syntax, binder, free-variable, and
+provenance rows is read. Standard bridge: absent. Status: paper obligation for
+the future $\BEDC$ namespace $\mathsf{Derived.LambdaCalcUp}$.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[LambdaCalc alpha classifier symmetry]
+\label{thm:lambdacalc-alpha-classifier-symmetric}
+If an accepted alpha-classifier row relates two accepted $\LambdaCalcUp$ term
+packets, then the reverse alpha-classifier row is accepted. The reversed row is
+obtained by reversing the carried $\hsame$ rows on the $\TreeUp$ skeletons and
+the $\NatUp$ binder indices.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+\item Traditional target: symmetry of alpha equivalence. BEDC source: an
+accepted alpha-classifier row between two $\mathsf{BHist}$ lambda-term packets,
+with TreeUp skeleton certificates and NatUp binder-index certificates exposed
+as visible rows.
+
+\item Carrier: both endpoints remain the original accepted LambdaCalc packets.
+Classifier: reverse each carried $\hsame$ comparison on the TreeUp skeleton,
+the unary binder indices, and the provenance rows that identify the two
+packets as LambdaCalc terms.
+
+\item Stability and ledger: the alpha row already carries a constructorwise
+ledger for the binder-renaming route. Reading that ledger in reverse preserves
+the same constructor tags and consumes the same NatUp unary index rows.
+
+\item Core theorem and exactness: the reversed row is an accepted alpha
+classifier and exports no quotient of alpha classes. Standard bridge: absent.
+Status: paper obligation for the future $\BEDC$ namespace
+$\mathsf{Derived.LambdaCalcUp}$.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[LambdaCalcUp substitution ledger obligation]
+\label{thm:lambdacalc-substitution-ledger-obligation}
+Substitution in $\LambdaCalcUp$ is admitted only from a carried
+\autoref{def:lambdacalc-term-packet-carrier}: the $\TreeUp$ syntax row names
+the term spine, the $\NatUp$ binder-index row names the binder depth and free
+positions, and the capture-avoidance $\Cont$ ledger supplies the renaming,
+shift, and substitution continuations. No host syntax equality, ambient
+variable set, or quotient alpha-class is part of the substitution admission
+surface.
+\end{theorem}
+\begin{proof}
+Project the syntax row $T$ and binder-index row $I$ from
+\autoref{def:lambdacalc-term-packet-carrier}. These rows give the only term
+spine and binder positions that the substitution endpoint may read.
+
+Project the capture-avoidance ledger $s$ and the finite continuation ledger
+$\lambda$. Their entries record the renaming and binder-shift steps needed to
+thread substitution through abstraction and application nodes.
+
+Repack the substitution endpoint using exactly these projected rows and the
+$\Pkg$ provenance row $\rho$. Because the carrier contains no row for host
+syntax equality, ambient variable sets, or quotient alpha-classes, those data
+cannot be exported by the substitution obligation.
+\end{proof}
+
+\begin{theorem}[LambdaCalcUp beta-reduction classifier obligation]
+\label{thm:lambdacalc-beta-reduction-classifier-obligation}
+Beta reduction in $\LambdaCalcUp$ is classifier-stable under $\hsame$
+transport of the carried $\TreeUp$ syntax row, the carried $\NatUp$
+binder-index row, and the substitution ledger of
+\autoref{thm:lambdacalc-substitution-ledger-obligation}. A transported
+beta-redex row therefore repacks as a beta-reduction row with the transported
+syntax, binder index, capture-avoidance ledger, and $\Pkg$ provenance; it does
+not identify terms by host syntax equality or by quotient alpha-classes.
+\end{theorem}
+\begin{proof}
+Start from the beta-redex ledger $b$ in
+\autoref{def:lambdacalc-term-packet-carrier}. Its source application,
+abstraction body, argument, and endpoint are named through the carried syntax
+row and binder-index row.
+
+Transport the syntax and binder-index rows by $\hsame$, then transport the
+substitution ledger supplied by
+\autoref{thm:lambdacalc-substitution-ledger-obligation}. The transported
+ledger still records renaming, shift, and capture-avoidance continuations
+inside the displayed $\mathsf{BHist}$ packet.
+
+Repack the transported redex, substitution endpoint, continuation ledger, and
+provenance as the beta-reduction classifier row. Since each field came from a
+displayed carrier component or its $\hsame$ transport, no host equality of
+terms and no quotient alpha-class enters the classifier.
+\end{proof}
