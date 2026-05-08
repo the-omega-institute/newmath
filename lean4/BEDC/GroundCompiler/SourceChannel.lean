@@ -125,6 +125,13 @@ theorem channel_level_source_rewrite_may_destroy_legality :
         | intro hDecode _ =>
             simp [Decode, DecodeFuel, DecEvent] at hDecode
 
+theorem no_channel_level_source_rewrite :
+    LegalZStream (EventEncoding CarryPreNormal) /\
+      Not (LegalZStream
+        [BMark.b0, BMark.b1, BMark.b0, BMark.b1,
+          BMark.b1, BMark.b0, BMark.b0]) := by
+  simpa [CarryPreNormal] using channel_level_source_rewrite_may_destroy_legality
+
 theorem channel_terminator_not_source_event_11 :
     Not (EventTerminator = EventEncoding [BMark.b1, BMark.b1]) := by
   intro h
@@ -220,5 +227,15 @@ theorem source_analysis_after_decoding :
   · exact channel_substring_not_source_event
   · intro u c hOccurs
     exact hOccurs
+
+theorem no_channel_proof_by_substring :
+    (exists c u : List DisplayAlphabet,
+      LegalZStream c /\
+        ContiguousSubstring u c /\
+        Not (OccursAsDecodedEvent u c)) /\
+      (forall u c : List DisplayAlphabet,
+        OccursAsDecodedEvent u c ->
+          exists S : EventFlow, Decode c = some S /\ List.Mem u S) := by
+  exact source_analysis_after_decoding
 
 end BEDC.GroundCompiler.SourceChannel

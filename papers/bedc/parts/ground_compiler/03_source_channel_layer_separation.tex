@@ -82,6 +82,7 @@ The compiled stream records both events; it does not erase the pre-normal event 
 
 \begin{principle}[No channel-level source rewrite]
 \label{prin:source-channel-no-channel-rewrite}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.no\_channel\_level\_source\_rewrite}
 For every source-level relation $w \leadsto v$, it is not admissible to rewrite the displayed substring $w$ to $v$ inside the channel string $\mathsf{Ev}(w)$ or inside the compiled stream $\mathsf{Compile}(S)$. In particular, the source-level pair $011 \leadsto_{Z} 100$ is not a channel-layer string-rewriting rule.
 \end{principle}
 
@@ -319,6 +320,7 @@ The source raw event $11$ encodes as the channel string $\mathsf{Ev}(11) = 10101
 
 \begin{principle}[No channel proof by substring]
 \label{prin:source-channel-no-proof-by-substring}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.no\_channel\_proof\_by\_substring}
 The appearance of a displayed substring $u$ inside a channel stream $c \in \mathsf{LegalZStream}$ does not entail that the source event $u$ appears in $\mathsf{Decode}(c)$. Source-event analysis is admissible only on the output of $\mathsf{Decode}$.
 \end{principle}
 
