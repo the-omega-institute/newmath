@@ -329,24 +329,28 @@ Recognized package flows, considered as raw event flows, are in bijection with t
 
 \begin{definition}[Package classifier quotient]
 \label{def:package-generated-classifier-quotient}
-If a package recognizer supplies a classifier relation $\sim_{\mathrm{pkg}}$ on recognized package flows, then the classified package object associated to $S$ is the equivalence class
+\leandef{BEDC.GroundCompiler.PackageGenerated.PackageClassifierQuotient}
+If a package recognizer supplies a classifier relation $\sim_{\mathrm{pkg}}$ on recognized package flows, then the package classifier quotient relation records when two recognized package flows are assigned to the same classified package object:
 $$
-  [S]_{\sim_{\mathrm{pkg}}}.
+  \mathsf{PackageClassifierQuotient}(\sim_{\mathrm{pkg}},S,T)
+  \;:\Longleftrightarrow\;
+  S \sim_{\mathrm{pkg}} T.
 $$
 The projection
 $$
-  S \longmapsto [S]_{\sim_{\mathrm{pkg}}}
+  S \longmapsto \text{the classified package object represented by } S
 $$
-may identify distinct raw flows.
+may therefore identify distinct raw package flows whenever $S\sim_{\mathrm{pkg}}T$ holds with $S\neq T$.
 \end{definition}
 
 \begin{proposition}[Classified packages need not be code-bijective]
 \label{prop:package-generated-classified-not-code-bijective}
+\leanchecked{BEDC.GroundCompiler.PackageGenerated.classified\_not\_code\_bijective}
 If there exist recognized package flows $S \neq T$ with
 $$
   S \sim_{\mathrm{pkg}} T,
 $$
-then the map from recognized package codes to classified package objects is not injective.
+then there exist two distinct recognized package codes whose decoded event flows are identified by the package classifier quotient. Thus the code-to-classified-package reading is not injective at the classified-object layer.
 \end{proposition}
 
 \begin{proof}
@@ -356,9 +360,9 @@ $$
 $$
 But $S \sim_{\mathrm{pkg}} T$ implies
 $$
-  [S]_{\sim_{\mathrm{pkg}}} = [T]_{\sim_{\mathrm{pkg}}}.
+  \mathsf{PackageClassifierQuotient}(\sim_{\mathrm{pkg}},S,T).
 $$
-Thus two distinct codes map to one classified package object. The map is therefore not injective.
+Thus two distinct codes decode to raw flows identified by the classifier quotient. The code-to-classified-package reading is therefore not injective.
 \end{proof}
 
 \begin{corollary}[Raw package code and classified package object are different layers]
@@ -393,11 +397,20 @@ Thus package recognition from channel code always proceeds through decoding.
 
 \begin{proposition}[No package recognition by channel substring]
 \label{prop:package-generated-no-recognition-by-channel-substring}
-There is no valid package recognition rule that inspects arbitrary channel substrings without first decoding the channel stream into an event flow.
+\leanchecked{BEDC.GroundCompiler.PackageGenerated.package\_code\_recognition\_has\_decoded\_flow}
+Every valid package-recognition judgment from channel code first supplies a decoded event flow:
+$$
+  \mathsf{RecognizesPkgCode}(R,c)
+  \;\Longrightarrow\;
+  \exists S,\ \mathsf{Decode}(c)=\mathsf{some}(S)
+  \wedge
+  \mathsf{RecognizesPkg}(R,S).
+$$
+Thus there is no valid package recognition rule that inspects arbitrary channel substrings without first decoding the channel stream into an event flow.
 \end{proposition}
 
 \begin{proof}
-By \autoref{thm:source-channel-layer-separation}, channel substrings are not source events. Package recognition is defined on event flows by \autoref{def:package-generated-recognition-relation}. A rule that recognizes package structure directly from channel substrings would therefore operate on the wrong layer. Valid package recognition must proceed through $\mathsf{Decode}$.
+By \autoref{def:package-generated-recognition-from-code}, $\mathsf{RecognizesPkgCode}(R,c)$ is defined by the existence of a decoded event flow $S$ with $\mathsf{Decode}(c)=\mathsf{some}(S)$ and $\mathsf{RecognizesPkg}(R,S)$. By \autoref{thm:source-channel-layer-separation}, channel substrings are not source events. Package recognition is defined on event flows by \autoref{def:package-generated-recognition-relation}; therefore valid package recognition from channel code must proceed through $\mathsf{Decode}$.
 \end{proof}
 
 \begin{example}[Package recognition over a completion skeleton]

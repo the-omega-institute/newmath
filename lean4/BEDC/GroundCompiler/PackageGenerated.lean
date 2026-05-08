@@ -129,9 +129,49 @@ theorem raw_flows_code_bijective {S T : PackageCandidateFlow} :
   simpa [PackageCode, PackageCodeEquiv] using
     (package_code_equivalence_is_equality : PackageCodeEquiv S T <-> S = T)
 
+def PackageClassifierRelation : Type :=
+  PackageCandidateFlow -> PackageCandidateFlow -> Prop
+
+def PackageClassifierQuotient
+    (rel : PackageClassifierRelation) (S T : PackageCandidateFlow) : Prop :=
+  rel S T
+
+def ClassifierCollapsesDistinctCode (rel : PackageClassifierRelation) : Prop :=
+  exists S T : PackageCandidateFlow,
+    PkgFlow S /\
+      PkgFlow T /\
+      Not (PackageCode S = PackageCode T) /\
+      PackageClassifierQuotient rel S T
+
+theorem classified_not_code_bijective {rel : PackageClassifierRelation} :
+    (exists S T : PackageCandidateFlow,
+      PkgFlow S /\
+        PkgFlow T /\
+        Not (S = T) /\
+        PackageClassifierQuotient rel S T) ->
+      ClassifierCollapsesDistinctCode rel := by
+  intro h
+  cases h with
+  | intro S hS =>
+      cases hS with
+      | intro T hT =>
+          refine ⟨S, T, hT.left, hT.right.left, ?_, hT.right.right.right⟩
+          intro hCode
+          have hEq : S = T :=
+            (raw_flows_code_bijective (S := S) (T := T)).mp hCode
+          exact hT.right.right.left hEq
+
 def RecognizesPkgCode
     (R : GeneratedPackageRecognizer) (c : List DisplayAlphabet) : Prop :=
   exists S : PackageCandidateFlow,
     Decode c = some S /\ PackageRecognitionRelation R S
+
+theorem package_code_recognition_has_decoded_flow
+    {R : GeneratedPackageRecognizer} {c : List DisplayAlphabet} :
+    RecognizesPkgCode R c ->
+      exists S : PackageCandidateFlow,
+        Decode c = some S /\ PackageRecognitionRelation R S := by
+  intro h
+  exact h
 
 end BEDC.GroundCompiler.PackageGenerated
