@@ -160,6 +160,37 @@ $\mathsf{RealUnaryStreamWindowClassifier}
 (s,t,\mathsf{append}(a,\mathsf{BHist.e1}(w)),r)$.
 \end{proof}
 
+\begin{theorem}[Real unary adjacent window concatenation equivalence]
+\label{thm:real-unary-window-adjacent-concat-iff}
+For observation maps $s,t:\Hist\to\Hist$ and unary anchor and bound histories
+$a,w,r:\Hist$,
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,a,\mathsf{append}(w,\mathsf{BHist.e1}(r)))
+\Longleftrightarrow
+\Bigl(
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)
+\land
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(a,\mathsf{BHist.e1}(w)),r)
+\Bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the joined finite-window classifier. Apply
+\autoref{thm:real-unary-window-concat-left-projection} to obtain the left
+window over the original anchor $a$. Apply
+\autoref{thm:real-unary-window-concat-right-projection} to obtain the right
+window over the shifted anchor $\mathsf{append}(a,\mathsf{BHist.e1}(w))$.
+Pairing these two projections gives the displayed conjunction.
+
+For the reverse direction, assume the two displayed window classifiers. Apply
+\autoref{thm:real-unary-stream-window-adjacent-concatenation} to concatenate
+the left window and the adjacent right window. The resulting classifier has
+anchor $a$ and bound $\mathsf{append}(w,\mathsf{BHist.e1}(r))$, which is
+exactly the joined finite-window classifier.
+\end{proof}
+
 \begin{theorem}[Real unary window associative triple concatenation]
 \label{thm:real-unary-window-associative-triple-concatenation}
 For observation maps $s,t:\Hist\to\Hist$ and unary anchor and bound histories
