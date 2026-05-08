@@ -451,6 +451,7 @@ import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.GaloisExtUp
+import BEDC.Derived.GaloisExtUp.SeparabilityObligationRow
 import BEDC.Derived.GaloisExtUp.SharedCarrierCoverage
 import BEDC.Derived.GaloisGroupUp
 import BEDC.Derived.GaloisGroupUp.AssociativeActionRow
@@ -492,6 +493,7 @@ import BEDC.Derived.ContinuousMapUp.PublicExport
 import BEDC.Derived.SumUp
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SumUp.Branch
+import BEDC.Derived.SumUp.CarrierAwareSameTagExactness
 import BEDC.Derived.SumUp.CarrierExactness
 import BEDC.Derived.SumUp.Classifier
 import BEDC.Derived.SumUp.Ledger

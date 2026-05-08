@@ -113,6 +113,23 @@ theorem DynSystemFlowPacket_flow_route_readback [AskSetup] [PackageSetup]
       (And.intro endpointReadback
         (And.intro routeReadback routePkg))
 
+theorem DynSystemFlowPacket_ode_generator_ledger [AskSetup] [PackageSetup]
+    {phase ode time source target flowWitness endpoint route : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemFlowPacket phase ode time source target flowWitness endpoint route bundle pkg ->
+      UnaryHistory ode ∧ UnaryHistory flowWitness ∧ UnaryHistory endpoint ∧
+        Cont flowWitness ode endpoint ∧ hsame endpoint (append flowWitness ode) ∧
+          PkgSig bundle route pkg := by
+  intro packet
+  have endpointRows :=
+    DynSystemFlowPacket_endpoint_coverage packet
+  exact And.intro packet.right.left
+    (And.intro endpointRows.left
+      (And.intro endpointRows.right.left
+        (And.intro packet.right.right.right.right.right.right.left
+          (And.intro endpointRows.right.right.right.right.left
+            packet.right.right.right.right.right.right.right.right))))
+
 theorem DynSystemFlowPacket_segment_route_exhaustion [AskSetup] [PackageSetup]
     {phase ode time source target flowWitness endpoint route tail finalRoute : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
