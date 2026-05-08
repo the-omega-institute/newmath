@@ -455,3 +455,59 @@ window. Therefore the classifier, positivity, endpoint-shape, exclusion, and
 tail-agreement rows are exported, while completion, regularity, metric, and
 bridge data remain outside this certificate.
 \end{proof}
+
+\begin{theorem}[StreamNameUp transported successor selected endpoint readback]
+\label{thm:streamname-transported-successor-selected-endpoint-readback}
+Let $s,t,s',t':\Hist\to\Hist$ be certified observation maps. Suppose
+$\mathsf{RatStreamNameClassifier}(s,t)$ and suppose the pointwise transported
+unary rows
+$$
+\forall m,\ \mathsf{UnaryHistory}(m)\to\hsame(s(m),s'(m))
+$$
+and
+$$
+\forall m,\ \mathsf{UnaryHistory}(m)\to\hsame(t(m),t'(m))
+$$
+hold. For a unary observation $n$ with $\mathsf{UnaryHistory}(n)$ and histories
+$a,b,z_s,z_t:\Hist$, suppose the transported selected endpoints are displayed
+as
+$$
+\hsame(s'(\Eone(n)),\Eone(a))
+\quad\text{and}\quad
+\hsame(t'(\Eone(n)),\Eone(b)).
+$$
+For the transported successor schedules $(s')^{+}(m)=s'(\Eone(m))$ and
+$(t')^{+}(m)=t'(\Eone(m))$, the selected successor observation at $n$ exposes
+the following finite-window endpoint rows:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}((s')^{+}(n),(t')^{+}(n))$;
+  \item positive unary denominators for $(s')^{+}(n)$ and $(t')^{+}(n)$;
+  \item unary endpoint rows for $(s')^{+}(n)$ and $(t')^{+}(n)$;
+  \item empty-endpoint exclusions for $(s')^{+}(n)$ and $(t')^{+}(n)$;
+  \item zero-headed endpoint exclusions for $(s')^{+}(n)$ and $(t')^{+}(n)$;
+  \item unary one-tail agreement for the displayed endpoint tails $a$ and $b$.
+\end{enumerate}
+The readback is a finite transported successor window. It exports no
+$\RealUp$ completion object, $\RegSeqRat$ regularity datum, metric witness, or
+standard bridge claim.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:rat-stream-name-transported-successor-reindexing-stability} to
+the classifier row $\mathsf{RatStreamNameClassifier}(s,t)$ and to the two
+pointwise $\hsame$ transport rows. This gives the successor classifier and,
+for each probe bundle, the finite-window classifier for the transported
+successor schedules $(s')^{+}$ and $(t')^{+}$.
+
+Next view $n$ as the selected successor observation. Apply
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package} to
+that transported finite-window classifier, the unary row for $n$, and the
+displayed endpoint rows
+$\hsame((s')^{+}(n),\Eone(a))$ and
+$\hsame((t')^{+}(n),\Eone(b))$.
+
+The selected endpoint package supplies the RatHistoryClassifier row, the
+positive denominators, the unary endpoint rows, the empty and zero-headed
+exclusions, and the one-tail agreement. The transport rows and the successor
+reindexing proof remain ledger data; they are not RealUp completion data.
+\end{proof}

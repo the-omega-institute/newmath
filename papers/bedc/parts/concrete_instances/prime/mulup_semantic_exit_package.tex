@@ -516,6 +516,45 @@ $\rho_{\mathsf{u}}$ as the endpoint boundary used whenever two-sided
 $\le_{\mathsf{u}}$ comparison collapses the endpoints.
 \end{proof}
 
+\begin{theorem}[MulUp AddUp OrderUp phase interaction package]
+\label{thm:mulup-add-order-phase-interaction-package}
+For unary histories $d,w,q,n,e,r$, the concrete unary $\MulUp$ package exports
+a single consumer package combining the following rows:
+\begin{enumerate}
+\item the right additive distribution row over the $\AddUp$ continuation
+presentation, sending $\mathsf{NatMul}(d,w,n)$, $\mathsf{NatMul}(d,q,e)$,
+and $\Cont(n,e,r)$ to $\mathsf{NatMul}(d,\mathsf{append}(w,q),r)$;
+\item the left additive distribution row over the same $\AddUp$ continuation
+presentation, sending $\mathsf{NatMul}(w,d,n)$, $\mathsf{NatMul}(q,d,e)$,
+and $\Cont(n,e,r)$ to $\mathsf{NatMul}(\mathsf{append}(w,q),d,r)$;
+\item the unary-prefix $\OrderUp$ lower-bound row for successor products,
+which reads $\mathsf{NatMul}(d,\Eone(q),n)$ as the boundary
+$\mathsf{PreorderPrefixLE}(d,n)$ together with the endpoint classifier row.
+\end{enumerate}
+The shared consumer objects are $\mathsf{BHist}$, $\mathsf{UnaryHistory}$,
+$\hsame$, $\Cont$, $\mathsf{NatMul}$, and $\mathsf{PreorderPrefixLE}$.
+\end{theorem}
+\begin{proof}
+The right additive row is exactly
+\autoref{thm:natmul-additive-right-distributivity-surface}. It uses the
+$\AddUp$ continuation presentation through the same $\Cont(n,e,r)$ ledger and
+keeps the product predicate inside $\mathsf{NatMul}$.
+
+The left additive row is
+\autoref{thm:natmul-additive-left-distributivity-surface}. Its proof transports
+through commutativity of $\mathsf{NatMul}$ and returns to the left-hand
+presentation without changing the underlying $\mathsf{BHist}$ carrier,
+$\mathsf{UnaryHistory}$ predicate, $\hsame$ classifier, or continuation row.
+
+The order row is supplied by
+\autoref{thm:mulup-unary-product-order-lower-bound-package}. It repacks the
+successor-product multiplication witness into the unary-prefix relation
+$\mathsf{PreorderPrefixLE}$ and the $\OrderUp$ endpoint classifier. Since all
+three rows consume the displayed $\mathsf{NatMul}$ and $\Cont$ ledgers over the
+same unary histories, the package combines them without introducing another
+carrier or classifier.
+\end{proof}
+
 \begin{definition}[Divisibility relation]
 \label{def:nat-divides}
 For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.

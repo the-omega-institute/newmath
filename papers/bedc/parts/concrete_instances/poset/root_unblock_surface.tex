@@ -1,0 +1,105 @@
+\section{Poset root comparison surface}
+\label{sec:poset-root-comparison-surface}
+
+\begin{definition}[POSet root comparison surface]\label{def:poset-root-comparison-surface}
+The root comparison surface for $\POSetUp$ is the carried $\mathsf{BHist}$
+surface whose carrier row is the unary $\mathsf{BHist}$ carrier
+$\mathsf{UnaryHistory}$ of \autoref{def:poset-carrier}, whose classifier row
+is the carrier $\hsame$ row on carried unary histories, and whose relation row
+is the inherited prefix comparison on $\mathsf{BHist}$. Its $\NameCert$
+payload consists of the inherited carrier and classifier rows, the two
+directed comparison rows, the antisymmetry collapse row, and the finite
+$\Cont$ ledger governed by \autoref{def:poset-ledger-policy}.
+\end{definition}
+
+\begin{theorem}[POSet root hsame transport surface]\label{thm:poset-root-hsame-transport-surface}
+For carried unary $\mathsf{BHist}$ endpoints $h$ and $k$ in
+\autoref{def:poset-root-comparison-surface}, an $\hsame(h,k)$ classifier row
+transports the root carrier, classifier, and prefix-comparison rows without
+changing the $\mathsf{UnaryHistory}$ carrier or replacing the $\NameCert$
+object by a quotient representative.
+\end{theorem}
+\begin{proof}
+Read the carrier and classifier rows from \autoref{def:poset-carrier}. The
+root endpoints are already carried $\mathsf{BHist}$ histories in
+$\mathsf{UnaryHistory}$, so the transport target remains inside the same
+displayed carrier.
+
+Apply the prefix stability rows of
+\autoref{thm:preorder-prefix-order-laws-hsame}. They transport comparison
+endpoints along $\hsame$ while preserving the inherited prefix relation on
+the carried histories.
+
+Finally repack the transported carrier, classifier, and comparison rows into
+the root surface of \autoref{def:poset-root-comparison-surface}. The
+$\NameCert$ object still names the same $\mathsf{BHist}$ rows and the same
+finite $\Cont$ ledger.
+\end{proof}
+
+\begin{theorem}[POSet root antisymmetry surface]\label{thm:poset-root-antisymmetry-surface}
+For endpoints $h,k:\mathsf{BHist}$ carried by $\mathsf{UnaryHistory}$, the two
+root comparison rows $h\le_{\mathsf{pref}}k$ and
+$k\le_{\mathsf{pref}}h$ determine the root classifier row $\hsame(h,k)$, and
+this classifier is the one recorded by the $\POSetUp$ $\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Project the two directed relation rows from
+\autoref{def:poset-root-comparison-surface}. They are precisely the inherited
+prefix-comparison rows on carried unary $\mathsf{BHist}$ endpoints.
+
+Apply \autoref{thm:poset-prefix-antisymmetry}. The theorem collapses the
+opposite prefix witnesses to the classifier conclusion $\hsame(h,k)$.
+
+Use \autoref{thm:poset-prefix-classifier-exactness} to identify this
+classifier conclusion with the carrier classifier row recorded by the root
+$\NameCert$ surface. Thus antisymmetry produces no host equality or quotient
+object beyond the displayed $\hsame$ row.
+\end{proof}
+
+\begin{theorem}[POSet root ledger exhaustion surface]\label{thm:poset-root-ledger-exhaustion-surface}
+Every root $\POSetUp$ ledger entry used by the comparison surface is one of
+the finite $\Cont$ rows named by \autoref{def:poset-ledger-policy}: the
+carried $\mathsf{BHist}$ endpoints, the two directed prefix witnesses, and
+the resulting $\hsame$ classifier row. No additional comparison, endpoint, or
+external equality row is part of the root $\NameCert$ ledger.
+\end{theorem}
+\begin{proof}
+Start from the ledger policy of \autoref{def:poset-ledger-policy}. It names
+the finite continuation data attached to a $\POSetUp$ comparison use: carried
+endpoints, directed prefix witnesses, and classifier readback.
+
+The root surface of \autoref{def:poset-root-comparison-surface} has no other
+carrier or relation coordinate. Its only relation rows are the inherited
+prefix comparisons on $\mathsf{UnaryHistory}$ endpoints.
+
+Apply \autoref{thm:poset-root-antisymmetry-surface} to any opposing pair in
+the ledger. The only possible collapse row is $\hsame$, so the displayed
+$\Cont$ ledger exhausts the root $\NameCert$ comparison data.
+\end{proof}
+
+\begin{theorem}[POSet root threshold unblock surface]\label{thm:poset-root-threshold-unblock-surface}
+The root $\POSetUp$ surface supplies the dependency-ready rows needed by
+downstream order constructions: a $\mathsf{BHist}$ carrier restricted to
+$\mathsf{UnaryHistory}$, an $\hsame$ classifier, inherited prefix comparison
+rows, antisymmetry, classifier exactness, and the finite $\Cont$ ledger. Any
+downstream $\TotalOrderUp$ or $\OrderUp$ construction may add selector or
+public-order rows, but it inherits these root rows as fixed $\NameCert$
+inputs.
+\end{theorem}
+\begin{proof}
+Collect the carrier and classifier rows from
+\autoref{def:poset-root-comparison-surface}. Collect the inherited prefix
+comparison and transport behavior from
+\autoref{thm:poset-root-hsame-transport-surface}.
+
+Next add the antisymmetry collapse of
+\autoref{thm:poset-root-antisymmetry-surface} and the classifier exactness
+row of \autoref{thm:poset-prefix-classifier-exactness}. These rows give the
+partial-order boundary over the same carried $\mathsf{BHist}$ endpoints.
+
+Finally attach the finite ledger exhaustion statement of
+\autoref{thm:poset-root-ledger-exhaustion-surface}. The resulting package is
+exactly the root $\NameCert$ input available to downstream order surfaces;
+later selector or public export rows extend this package without replacing
+its carrier, classifier, comparison, antisymmetry, exactness, or ledger rows.
+\end{proof}
