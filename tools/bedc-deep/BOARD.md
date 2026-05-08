@@ -42,57 +42,6 @@ Genuinely missing companion in 162_probspace_namecert_construction.tex. BOARD ha
 
 ---
 
-
-### B-504 - Composite gap policy n-fold pullback preserves coverage and separation
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | Composite gap policy n-fold pullback preserves coverage and separation |
-| Layer | proof_obligations |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-If \GapPol(\Pi,D) and \tau_1:D_1\to D, \tau_2:D_2\to D_1, \ldots, \tau_k:D_k\to D_{k-1} each carry a classifier-preserving pullback ledger over \Pi, then the k-fold composite \tau_1\circ\cdots\circ\tau_k carries a classifier-preserving pullback ledger satisfying coverage and separation over D_k.
-
-Local inputs:
-- `papers/bedc/parts/proof_obligations/gap_policy.tex`
-
-Rationale:
-Strict generalization, not a paraphrase. gap_policy.tex packages the single-step (line 152) and binary composite (line 196) cases, but the n-fold version is the form invoked downstream by proof_standing/04 and core/07's 'finite chain of compressions' arguments. Direct induction on chain length using the binary theorem closes it; lands in a 266-line chapter with no cap risk. No BOARD entry covers iterated pullback of gap policies, and the proof discharges as a clean inductive packaging — exactly the 'why only the binary case?' senior-referee gap that earns its own slot.
-
----
-
-
-### B-505 - Sheaf refinement composition is classifier-associative on three-step towers
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | Sheaf refinement composition is classifier-associative on three-step towers |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-For displayed refinements (r,\epsilon):\mathcal V\to\mathcal U, (s,\eta):\mathcal W\to\mathcal V, (t,\zeta):\mathcal X\to\mathcal W of indexed sheaf covers, the composites ((r\circ s)\circ t) and (r\circ(s\circ t)) yield classifier-equal pulled-back compatible families on each indexed open of \mathcal X.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/sheaf/05_refinement_composition_and_presentation.tex`
-
-Rationale:
-Composite consequence of two binary theorems already proved in sheaf/05_refinement_composition_and_presentation.tex (binary refinement composition + binary refinement-pullback composition). Three-step composition is invoked downstream by sheaf/08_triple_overlap_route_ledger.tex and sheaf/06_restricted_common_refinement_exactness.tex but never packaged as a named theorem. Closure proof is a routine two-application argument plus carrier-section classifier transitivity. Lands as a sibling theorem in a 198-line file — well below cap. No BOARD entry on sheaf refinement associativity, no overlap with B-352 (sheaf gluing uniqueness) or B-365 (global restriction local-family compatibility).
-
----
-
-
 ### B-506 - Distribution pushforward inclusion-exclusion identity
 
 | field | value |
@@ -116,7 +65,6 @@ Rationale:
 Distinct companion to candidate 1. Existing BOARD coverage on Distribution↑ pushforward is sigma/finite/disjoint additive (B-475, B-438, B-390) and monotone events (B-462, B-466, B-458) — no entry handles the general two-event overlap case via X^{-1} commutation with union/intersection. The proof transports the source-side ProbSpace inclusion-exclusion (candidate 1) through the existing pushforward row (thm:distribution-pushforward-row) using preimage-commutation lemmas already in the chapter. Lands in 164_distribution_namecert_construction.tex — at 749 lines this is near cap, but the new theorem can land in an obvious sibling file under concrete_instances/distribution/ to honor the split-out discipline rather than landing in the hub.
 
 ---
-
 
 ### B-507 - Halting predicate exists iff meta-loop closes at certificate stratum
 
@@ -169,7 +117,6 @@ Halmos/Axler textbook chapter on inner-product spaces opens with three results: 
 
 ---
 
-
 ### B-509 - EnumPerm composition associativity
 
 | field | value |
@@ -193,6 +140,106 @@ Local inputs:
 
 Rationale:
 Hungerford ch.I.3 opens with the three group axioms applied to Sym(n): identity, inverse, associativity of permutation composition. The FinSet chapter has reflexivity (thm:enumperm-identity-reflexivity at 90_finset_namecert_construction.tex:528), symmetry (thm:enumperm-inverse-symmetry at 90_finset_namecert_construction.tex:487), and transitivity / composition closure (thm:enumperm-transitivity-by-bijection-composition at 90_finset_namecert_construction.tex:197), with the building-block lem:finset-enum-position-bijection-composition (90_finset_namecert_construction.tex:178). The fourth group axiom — composition associativity — is missing. Verified absent: grep for 'enumperm.assoc' / 'enumeration-permutation-association' returns nothing. SymGroup composition associativity is asserted in thm:symgroup-composition-inverse-action-obligations (95_symgroup_namecert_construction.tex:75) but routes through 'BHist graph reads + Pkg transport' rather than the underlying EnumPerm associativity, leaving the FinSet chapter's permutation algebra incomplete. Closes in 1-3 rounds: function composition over Pos(_) is associative by primitive Lean identity; the EnumPerm definition (forward + inverse + two inverse identities) carries through both bracketings to the same forward-and-inverse pair. Lands in 90_finset_namecert_construction.tex (621 lines, room).
+
+---
+
+### B-510 - AffineSpace action additivity (vector-translation cocycle)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | AffineSpace action additivity (vector-translation cocycle) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If p is a carried point row in an AffineSpaceUp carrier and v,w are carried VecSpaceUp vector translation rows, then act(p, v +_V w) is classified by AffCls with act(act(p,v), w).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/184_affinespace_namecert_construction.tex`
+
+Rationale:
+184_affinespace_namecert_construction.tex defines `act(p,v) := Cont(p, trans(v))` (line 22-25 of def:affinespace-history-torsor-carrier) and lists ten torsor obligations as theorems (action_closure, action_coverage, vector_difference, separation, vector_action_stability, free_action, transitive_action, classifier_transport, ledger_exactness, namecert_obligation_surface — all in lines 43-172). The cocycle/homomorphism identity `act(p, v+w) ~ act(act(p,v), w)` is conspicuously absent: grep '\label{thm:affinespace' returns 12 labels, none for action additivity, and grep 'cocycle\|action.*additive\|action.*compose' returns 0 inside the chapter. This is the missing torsor structural identity. Proof builds on Cont associativity (already cited at line 108, 155), the VecSpaceUp addition row supplied by NameCert_VecSpaceUp dependency (line 4), and the trans-as-group-hom field implicit in the lambda packing of the carrier (line 22-25). Not in BOARD title index — closest is B-409 graph three-step path reassociation, structurally different. Concrete single-implication form, lands cleanly in a 184-line file far from the 800-line cap.
+
+---
+
+
+### B-511 - Independence finite subfamily projection
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Independence finite subfamily projection |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a finite-family carrier (X_i)_{i in I} carries the IndependenceUp finite factorisation row of def:independence-finite-factorisation-row, then for every FinSetUp-certified subset J ⊆ I the restricted family (X_i)_{i in J} also carries the finite factorisation row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/165_independence_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+165_independence_namecert_construction.tex builds finite-family independence around def:independence-finite-factorisation-row (lines 49-75) and proves stability under reindexing permutations (thm:independence-finite-reindexing-invariance, line 203) and binary measurable-image transport (thm:independence-measurable-image-bridge, line 270). The fundamental subfamily projection — independence of the full family implies independence of any sub-index family — is missing: grep 'subfamily\|sub-index\|index.*restriction\|restrict.*independence\|partial.*independence' on the file returns 0 matches. BOARD already covers Distribution↑ pushforward sigma-additivity / inclusion-exclusion (B-475, B-503/506) and B-499 finite-family measurable-image independence — none addresses index-restriction. The proof: take an arbitrary cylinder over J, complete it to a cylinder over I by inserting the total-event B_i = T_i for i ∉ J (using ProbSpaceUp normalization mu(Omega) ~ 1_R from thm:probspace-total-event-normalization-row at 162_probspace line 130), apply the full-family factorisation, and absorb the unit-marginals via finite RealUp product fold. Lands in 362-line file, well below cap; concrete prerequisite for downstream CondExp/Markov chain reasoning.
+
+---
+
+
+### B-512 - FirstOrder deduction ledger concatenation closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FirstOrder deduction ledger concatenation closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If two accepted FirstOrderUp deduction ledgers D1 and D2 share an endpoint formula row, then their concatenation D1 ⧺ D2 is also an accepted FirstOrderUp deduction ledger over the same SetUp and TreeUp dependency certificates.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/175_firstorder_namecert_construction.tex`
+
+Rationale:
+175_firstorder_namecert_construction.tex (115 lines) has only 3 theorems (grep '\\begin{theorem}' = 3): formula_carrier_obligation, deduction_soundness_ledger_obligation, namecert_obligation_surface. The ledger soundness theorem (line 62-87) inducts on the finite displayed deduction ledger and verifies acceptance for empty and step cases, but does NOT package the natural concatenation closure. grep for 'concat\|append.*ledger\|join.*deduction' in the file: 0 matches. This is the standard cut-rule shape for proof systems and is the prerequisite for any future soundness/completeness theorem that builds longer derivations from named lemmas. The proof induct-on-D2 / step-case reuses the existing acceptance condition at the join point; no new carrier datum needed. Not in BOARD title index — ranges over deduction concatenation, distinct from B-447 LP complementary slackness or the 'category' associativity entries. Concrete implication, fits cleanly in the 115-line file (well below cap).
+
+---
+
+
+### B-513 - ODE local-flow concatenation associativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ODE local-flow concatenation associativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+If R_{01}, R_{12}, R_{23} are three OdeUp BHist local-flow rows with matching shared endpoints (terminal of R_{ij} classified with initial of R_{jk} in the derivative-time and Banach-state classifiers), then the two grouped composites (R_{01}∘R_{12})∘R_{23} and R_{01}∘(R_{12}∘R_{23}) — built by iterated thm:ode-root-picard-continuation-scope — have endpoint state histories related by the BanachUp classifier ∼_BanachUp.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/171_ode_namecert_construction.tex`
+
+Rationale:
+171_ode_namecert_construction.tex (204 lines, 4 thms) currently caps at the binary thm:ode-local-flow-concatenation-endpoint-determinacy (B-452, line 132). Three-step associativity is the natural next theorem: it requires applying the binary determinacy theorem to two distinct groupings of the three-step composite, then composing the two endpoint-classifier witnesses through ∼_BanachUp transitivity. grep 'three-step\|three.*step.*flow\|associativity.*flow' on the file returns 0 hits; the parallel result at the higher DynSystemUp layer (173_dynsystem line 262 thm:dynsystem-flow-composition-ledger) is binary, not three-step, and DynSystemUp is a different (higher-tower) chapter. BOARD entry B-452 is binary; B-453 sheaf point-germ comparison transitivity is sheaf-specific; no three-step ODE entry exists. Proof: instantiate thm:ode-local-flow-concatenation-endpoint-determinacy twice with appropriate Lipschitz vector-field ledger comparisons (already required to exist by Cont associativity, line 88), compose endpoint witnesses by Banach classifier transitivity. Concrete implication, fits 204-line file.
 
 ---
 
