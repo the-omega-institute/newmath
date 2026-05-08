@@ -54,6 +54,24 @@ theorem SeriesPartialSumLedger_step_transport {PointCarrier : BHist -> Prop}
     (And.intro stepCarrier'
       (And.intro row.right.right (NameCert.equiv_symm cert row.right.right)))
 
+theorem SeriesModulusStability_transport {PointCarrier : BHist -> Prop}
+    {PointClassifier : BHist -> BHist -> Prop}
+    (cert : NameCert PointCarrier PointClassifier)
+    {partialSum partialSum' : BHist -> BHist} :
+    SeqPointwiseClassifier PointCarrier PointClassifier partialSum partialSum' ->
+      (forall {k n m : BHist}, UnaryHistory k -> UnaryHistory n -> UnaryHistory m ->
+        PointClassifier (partialSum n) (partialSum m)) ->
+        forall {k n m : BHist}, UnaryHistory k -> UnaryHistory n -> UnaryHistory m ->
+          PointClassifier (partialSum' n) (partialSum' m) := by
+  intro pointwise modulus k n m unaryK unaryN unaryM
+  have rowN := pointwise unaryN
+  have rowM := pointwise unaryM
+  have sameN : PointClassifier (partialSum' n) (partialSum n) :=
+    NameCert.equiv_symm cert rowN.right.right
+  have sameNM : PointClassifier (partialSum' n) (partialSum m) :=
+    NameCert.equiv_trans cert sameN (modulus unaryK unaryN unaryM)
+  exact NameCert.equiv_trans cert sameNM rowM.right.right
+
 theorem SeriesSourceCarrierBoundary_obligation {PointCarrier : BHist -> Prop}
     {PointClassifier : BHist -> BHist -> Prop} (cert : NameCert PointCarrier PointClassifier)
     {summand partialSum modulus : BHist -> BHist} :

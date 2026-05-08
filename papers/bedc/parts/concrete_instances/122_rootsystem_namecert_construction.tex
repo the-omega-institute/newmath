@@ -173,14 +173,44 @@ they are not packaged into this $\RootSystemUp$ surface.
 \end{proof}
 \leanchecked{BEDC.Derived.RootSystemUp.RootSystemFiniteSupport\_semanticNameCert}
 
-\closureat{RootSystemUp}{bridgedStr}[BEDC.Derived.WeylGroupUp.WeylGroupStandardReflectionGroup\_bridge]
+\begin{theorem}[RootSystem mature bridge consumption]
+\label{thm:rootsystem-mature-bridge-consumption}
+The $\RootSystemUp$ finite-support carrier, public classifier transport,
+reflection closure, and Cartan ledger rows of
+\autoref{thm:rootsystem-namecert-obligation-surface} are exactly the
+$\RootSystemUp$-side data consumed by the $\WeylGroupUp$ terminal standard
+bridge of \autoref{thm:weylgroup-standard-reflection-group-bridge} and
+\autoref{thm:weylgroup-root-system-terminal-standard-bridge}. This gives the
+chapter's mature paper surface without claiming Lie-algebra classification or
+crystallographic classification.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rootsystem-namecert-obligation-surface}. Its four displayed
+rows give the finite root carrier, public root classifier transport, reflection
+closure, and integer Cartan ledger boundary for the $\RootSystemUp$ source.
+
+The $\WeylGroupUp$ standard bridge proof rows then consume those same rows:
+\autoref{thm:weylgroup-rootsystem-group-carrier-row} reads the carrier and
+classifier, \autoref{thm:weylgroup-simple-reflection-word-closure-row} reads
+reflection closure, and \autoref{thm:weylgroup-coxeter-word-ledger-row} with
+\autoref{thm:weylgroup-action-classifier-stability-row} reads the Cartan and
+action-stability ledgers.
+
+Finally, \autoref{thm:weylgroup-standard-reflection-group-bridge} and
+\autoref{thm:weylgroup-root-system-terminal-standard-bridge} package exactly
+those consumed rows as the terminal standard bridge surface. The two excluded
+classification claims are not fields of those bridge rows, so they remain
+outside the $\RootSystemUp$ closure claim.
+\end{proof}
+
+\closureat{RootSystemUp}{matureStr}[BEDC.Derived.WeylGroupUp.WeylGroupStandardReflectionGroup\_bridge]
 
 \begin{closurestatus}{\RootSystemUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{thm:rootsystem-namecert-obligation-surface} is consumed by the existing WeylGroupUp terminal bridge over the RootSystem finite-support carrier, classifier transport, reflection closure, and Cartan ledger rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:rootsystem-mature-bridge-consumption} is the mature RootSystem-side bridge-consumption surface for the finite-support carrier, public classifier transport, reflection closure, and Cartan ledger rows consumed by the WeylGroup terminal standard bridge.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.WeylGroupUp.WeylGroupStandardReflectionGroup\_bridge}
   \bridgestatus{paperBridge}
   \notclaimed{The chapter does not close Lie-algebra classification or crystallographic classification.}
-  \upgradepath{Mature closure requires a RootSystem-side mature treatment and bridgeChecked verification.}
+  \upgradepath{No further theory step; bridgeChecked verification requires a RootSystemUp standard-bridge target.}
 \end{closurestatus}
