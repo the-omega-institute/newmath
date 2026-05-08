@@ -142,6 +142,30 @@ theorem CurvatureBracketCarrier_boundary_source_obligation
     (And.intro boundaryProjection.right.left
       (And.intro boundaryProjection.right.right.left boundaryProjection.right.right.right.left))
 
+theorem CurvatureBracketCarrier_source_row_coverage
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
+      curvatureLedger : BHist} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance
+        ledgerA ledgerB boundary curvatureLedger ->
+      ConnectionCarrierPacket base fibre sec tangentA derivativeA provenance ledgerA ∧
+        ConnectionCarrierPacket base fibre sec tangentB derivativeB provenance ledgerB ∧
+          Cont derivativeA derivativeB boundary ∧
+            Cont boundary provenance curvatureLedger ∧
+              UnaryHistory boundary ∧
+                UnaryHistory curvatureLedger ∧
+                  hsame boundary (append derivativeA derivativeB) ∧
+                    hsame curvatureLedger (append boundary provenance) := by
+  intro carrier
+  have boundaryRows :=
+    CurvatureBracketCarrier_boundary_source_obligation carrier
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right
+          (And.intro boundaryRows.left
+            (And.intro boundaryRows.right.left
+              (And.intro boundaryRows.right.right.left boundaryRows.right.right.right))))))
+
 def CurvatureChernWeilSourceEnvelope [AskSetup] [PackageSetup]
     (curvatureLedger derham provenance connectionLedger classifier : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
