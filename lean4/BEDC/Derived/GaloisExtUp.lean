@@ -127,4 +127,76 @@ theorem GaloisExtSourcePacket_classifier_transport
         (And.intro sameClassifier
           (And.intro sameProvenance sameLedger))))
 
+theorem GaloisExtSourcePacket_normal_separable_stability [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint normality' separability' classifier'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      hsame normality normality' ->
+        hsame separability separability' ->
+          Cont normality' separability' classifier' ->
+            Cont provenance classifier' endpoint' ->
+              GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance
+                  separable normality' separability' classifier' provenance endpoint' bundle pkg ∧
+                hsame classifier classifier' ∧ hsame endpoint endpoint' := by
+  intro packet sameNormality sameSeparability classifierRow endpointRow
+  have normalityUnary : UnaryHistory normality' :=
+    unary_transport packet.right.left sameNormality
+  have separabilityUnary : UnaryHistory separability' :=
+    unary_transport packet.right.right.left sameSeparability
+  have sameClassifier : hsame classifier classifier' :=
+    cont_respects_hsame sameNormality sameSeparability packet.right.right.right.right.left
+      classifierRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameClassifier
+      packet.right.right.right.right.right.left endpointRow
+  have pkgSig : PkgSig bundle endpoint' pkg := by
+    cases sameEndpoint
+    exact packet.right.right.right.right.right.right
+  exact And.intro
+    (And.intro packet.left
+      (And.intro normalityUnary
+        (And.intro separabilityUnary
+          (And.intro packet.right.right.right.left
+            (And.intro classifierRow (And.intro endpointRow pkgSig))))))
+    (And.intro sameClassifier sameEndpoint)
+
+theorem GaloisExtSourcePacket_endpoint_empty_inversion [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      hsame endpoint BHist.Empty ->
+        hsame fieldExt BHist.Empty /\ hsame separable BHist.Empty /\
+          hsame normality BHist.Empty /\ hsame separability BHist.Empty := by
+  intro packet endpointEmpty
+  have endpointCont : Cont provenance classifier endpoint :=
+    packet.right.right.right.right.right.left
+  have provenanceClassifierEmpty :
+      Cont provenance classifier BHist.Empty :=
+    cont_result_hsame_transport endpointCont endpointEmpty
+  have provenanceClassifierParts := cont_empty_result_inversion provenanceClassifierEmpty
+  have provenanceEmpty : hsame provenance BHist.Empty :=
+    provenanceClassifierParts.left
+  have classifierEmpty : hsame classifier BHist.Empty :=
+    provenanceClassifierParts.right
+  have fieldSeparableCont : Cont fieldExt separable provenance :=
+    packet.right.right.right.left
+  have fieldSeparableEmpty :
+      Cont fieldExt separable BHist.Empty :=
+    cont_result_hsame_transport fieldSeparableCont provenanceEmpty
+  have fieldSeparableParts := cont_empty_result_inversion fieldSeparableEmpty
+  have normalitySeparabilityCont : Cont normality separability classifier :=
+    packet.right.right.right.right.left
+  have normalitySeparabilityEmpty :
+      Cont normality separability BHist.Empty :=
+    cont_result_hsame_transport normalitySeparabilityCont classifierEmpty
+  have normalitySeparabilityParts := cont_empty_result_inversion normalitySeparabilityEmpty
+  exact And.intro fieldSeparableParts.left
+    (And.intro fieldSeparableParts.right
+      (And.intro normalitySeparabilityParts.left normalitySeparabilityParts.right))
+
 end BEDC.Derived.GaloisExtUp
