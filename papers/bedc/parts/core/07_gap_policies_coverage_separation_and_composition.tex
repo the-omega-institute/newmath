@@ -222,3 +222,15 @@ These two displayed witness pairs exhibit $\CompGap(\mathsf{firstGap},\mathsf{se
 \begin{proof}
 The first displayed witness pair gives $\mathsf{firstGap}(y_1,h)$, and the second gives $\mathsf{firstGap}(y_2,h)$. Applying the first-layer separation hypothesis to the admitted-source certificate for $h$ and to these two first-layer memberships gives $\mathsf{interSame}(y_1,y_2)$.
 \end{proof}
+
+\begin{theorem}[Composite-gap witness inversion is conservative over final representatives]
+\label{thm:composite-gap-witness-inversion-conservative}
+Under the same layered coverage and separation hypotheses as \autoref{thm:composite-exactness-from-layers}, if $\mathsf{SourceOk}(x)$, $\CompGap(\mathsf{firstGap},\mathsf{secondGap},z,x)$, and
+$$
+\exists y,\ \mathsf{firstGap}(y,x) \wedge \mathsf{secondGap}(w,y),
+$$
+then $\mathsf{finalSame}(z,w)$.
+\end{theorem}
+\begin{proof}
+Choose $y$ witnessing the displayed existential. By \autoref{def:composite-gap-ledger}, the relations $\mathsf{firstGap}(y,x)$ and $\mathsf{secondGap}(w,y)$ exhibit $\CompGap(\mathsf{firstGap},\mathsf{secondGap},w,x)$. Applying \autoref{thm:composite-gap-separation} to the admitted-source certificate for $x$, to the given composite membership of $z$, and to this exhibited composite membership of $w$ gives $\mathsf{finalSame}(z,w)$.
+\end{proof}
