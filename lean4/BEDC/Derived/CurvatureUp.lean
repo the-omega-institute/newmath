@@ -142,6 +142,65 @@ theorem CurvatureBracketCarrier_boundary_source_obligation
     (And.intro boundaryProjection.right.left
       (And.intro boundaryProjection.right.right.left boundaryProjection.right.right.right.left))
 
+theorem CurvatureBracketCarrier_boundary_row_determinacy
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
+      boundaryPrime curvatureLedger curvatureLedgerPrime : BHist} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA
+        ledgerB boundary curvatureLedger ->
+      CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA
+          ledgerB boundaryPrime curvatureLedgerPrime ->
+        Cont derivativeA derivativeB boundary ∧
+          Cont derivativeA derivativeB boundaryPrime ∧
+            Cont boundary provenance curvatureLedger ∧
+              Cont boundaryPrime provenance curvatureLedgerPrime ∧
+                hsame boundary boundaryPrime ∧ hsame curvatureLedger curvatureLedgerPrime := by
+  intro carrier carrierPrime
+  have boundaryCont : Cont derivativeA derivativeB boundary :=
+    carrier.right.right.left
+  have boundaryContPrime : Cont derivativeA derivativeB boundaryPrime :=
+    carrierPrime.right.right.left
+  have curvatureCont : Cont boundary provenance curvatureLedger :=
+    carrier.right.right.right
+  have curvatureContPrime : Cont boundaryPrime provenance curvatureLedgerPrime :=
+    carrierPrime.right.right.right
+  have sameBoundary : hsame boundary boundaryPrime :=
+    cont_deterministic boundaryCont boundaryContPrime
+  have sameCurvatureLedger : hsame curvatureLedger curvatureLedgerPrime :=
+    cont_respects_hsame sameBoundary (hsame_refl provenance) curvatureCont curvatureContPrime
+  exact And.intro boundaryCont
+    (And.intro boundaryContPrime
+      (And.intro curvatureCont
+        (And.intro curvatureContPrime
+          (And.intro sameBoundary sameCurvatureLedger))))
+
+theorem CurvatureBracketCarrier_antisymmetric_bracket_obligation
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
+      swappedBoundary curvatureLedger swappedCurvatureLedger : BHist} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance
+        ledgerA ledgerB boundary curvatureLedger ->
+      Cont derivativeB derivativeA swappedBoundary ->
+        Cont swappedBoundary provenance swappedCurvatureLedger ->
+          CurvatureBracketCarrier base fibre sec tangentB tangentA derivativeB derivativeA
+              provenance ledgerB ledgerA swappedBoundary swappedCurvatureLedger ∧
+            hsame boundary swappedBoundary ∧ hsame curvatureLedger swappedCurvatureLedger := by
+  intro carrier swappedBoundaryCont swappedCurvatureCont
+  have exactA :=
+    ConnectionCarrierPacket_stability_ledger_exactness_obligation carrier.left
+  have exactB :=
+    ConnectionCarrierPacket_stability_ledger_exactness_obligation carrier.right.left
+  have sameBoundary : hsame boundary swappedBoundary :=
+    unary_cont_comm exactA.right.left exactB.right.left carrier.right.right.left
+      swappedBoundaryCont
+  have sameCurvatureLedger : hsame curvatureLedger swappedCurvatureLedger :=
+    cont_respects_hsame sameBoundary (hsame_refl provenance) carrier.right.right.right
+      swappedCurvatureCont
+  have swappedCarrier :
+      CurvatureBracketCarrier base fibre sec tangentB tangentA derivativeB derivativeA
+        provenance ledgerB ledgerA swappedBoundary swappedCurvatureLedger :=
+    And.intro carrier.right.left
+      (And.intro carrier.left (And.intro swappedBoundaryCont swappedCurvatureCont))
+  exact And.intro swappedCarrier (And.intro sameBoundary sameCurvatureLedger)
+
 theorem CurvatureBracketCarrier_source_row_coverage
     {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
       curvatureLedger : BHist} :

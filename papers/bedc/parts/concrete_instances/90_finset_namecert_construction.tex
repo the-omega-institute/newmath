@@ -619,3 +619,134 @@ Finally, the ledger obligation is the finite position carrier $\mathsf{Pos}(xs)$
   \notclaimed{Cardinality, decidable membership, power set, graph finiteness, and Lean-side bridge verification remain outside this finite-spine bridge.}
   \upgradepath{There is no stronger paper-side closure grade for this finite-spine bridge; remaining work is verification-axis bridge checking and optional APIs outside the stated surface.}
 \end{closurestatus}
+
+\begin{theorem}[EnumPerm composition associativity]
+\label{thm:enumperm-composition-associativity}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a fixed $\SetUp$ certificate, let $\sim_A$ be its classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. For finite BEDC-history spines $xs$, $ys$, $zs$, and $ws$, assume
+$$
+\mathsf{EnumPerm}_{A,\sim_A}(xs,ys)
+\qquad\text{and}\qquad
+\mathsf{EnumPerm}_{A,\sim_A}(ys,zs)
+\qquad\text{and}\qquad
+\mathsf{EnumPerm}_{A,\sim_A}(zs,ws).
+$$
+After choosing certified bijections from these three rows, the two parenthesized composite witnesses from $xs$ to $ws$ obtained from
+$$
+(\sigma\circ\rho)\circ\pi
+$$
+and from
+$$
+\sigma\circ(\rho\circ\pi)
+$$
+coincide at the level of the $\mathsf{EnumPerm}$ witness data: their forward position maps agree pointwise, their inverse position maps agree pointwise, and one and the same pointwise carrier-classifier clause certifies both bracketings. In particular,
+$$
+((\sigma\circ\rho)\circ\pi)(i)=\bigl(\sigma\circ(\rho\circ\pi)\bigr)(i)
+$$
+for every $i:\mathsf{Pos}(xs)$, and
+$$
+\bigl(\pi^{-1}\circ(\rho^{-1}\circ\sigma^{-1})\bigr)(k)=\bigl((\pi^{-1}\circ\rho^{-1})\circ\sigma^{-1}\bigr)(k)
+$$
+for every $k:\mathsf{Pos}(ws)$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:finset-classifier-preserving-enumeration-permutation}. Choose a certified bijection
+$$
+\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(ys)
+$$
+with pointwise preservation field
+$$
+P_\pi(i):
+A(\mathsf{entry}_{xs}(i))\land
+A(\mathsf{entry}_{ys}(\pi(i)))\land
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ys}(\pi(i)).
+$$
+Choose a certified bijection
+$$
+\rho:\mathsf{Pos}(ys)\cong\mathsf{Pos}(zs)
+$$
+with pointwise preservation field
+$$
+P_\rho(j):
+A(\mathsf{entry}_{ys}(j))\land
+A(\mathsf{entry}_{zs}(\rho(j)))\land
+\mathsf{entry}_{ys}(j)\sim_A\mathsf{entry}_{zs}(\rho(j)).
+$$
+Choose a certified bijection
+$$
+\sigma:\mathsf{Pos}(zs)\cong\mathsf{Pos}(ws)
+$$
+with pointwise preservation field
+$$
+P_\sigma(k):
+A(\mathsf{entry}_{zs}(k))\land
+A(\mathsf{entry}_{ws}(\sigma(k)))\land
+\mathsf{entry}_{zs}(k)\sim_A\mathsf{entry}_{ws}(\sigma(k)).
+$$
+
+By two applications of \autoref{lem:finset-enum-position-bijection-composition}, the left bracketing first gives the certified bijection
+$$
+\sigma\circ\rho:\mathsf{Pos}(ys)\cong\mathsf{Pos}(ws)
+$$
+with inverse position map $\rho^{-1}\circ\sigma^{-1}$, and then gives the certified bijection
+$$
+(\sigma\circ\rho)\circ\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(ws)
+$$
+with inverse position map $\pi^{-1}\circ(\rho^{-1}\circ\sigma^{-1})$. The right bracketing first gives the certified bijection
+$$
+\rho\circ\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(zs)
+$$
+with inverse position map $\pi^{-1}\circ\rho^{-1}$, and then gives the certified bijection
+$$
+\sigma\circ(\rho\circ\pi):\mathsf{Pos}(xs)\cong\mathsf{Pos}(ws)
+$$
+with inverse position map $(\pi^{-1}\circ\rho^{-1})\circ\sigma^{-1}$.
+
+For every $i:\mathsf{Pos}(xs)$,
+$$
+((\sigma\circ\rho)\circ\pi)(i)
+=(\sigma\circ\rho)(\pi(i))
+=\sigma(\rho(\pi(i)))
+=\sigma((\rho\circ\pi)(i))
+=\bigl(\sigma\circ(\rho\circ\pi)\bigr)(i).
+$$
+Thus the two forward position maps agree pointwise. Likewise, for every $k:\mathsf{Pos}(ws)$,
+$$
+\bigl(\pi^{-1}\circ(\rho^{-1}\circ\sigma^{-1})\bigr)(k)
+=\pi^{-1}(\rho^{-1}(\sigma^{-1}(k)))
+=(\pi^{-1}\circ\rho^{-1})(\sigma^{-1}(k))
+=\bigl((\pi^{-1}\circ\rho^{-1})\circ\sigma^{-1}\bigr)(k).
+$$
+Thus the two inverse position maps also agree pointwise.
+
+It remains to verify a common pointwise carrier-classifier clause for the two bracketings. Fix $i:\mathsf{Pos}(xs)$. From $P_\pi(i)$ we obtain
+$$
+A(\mathsf{entry}_{xs}(i))
+\qquad\text{and}\qquad
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ys}(\pi(i)).
+$$
+From $P_\rho(\pi(i))$ we obtain
+$$
+A(\mathsf{entry}_{zs}(\rho(\pi(i))))
+\qquad\text{and}\qquad
+\mathsf{entry}_{ys}(\pi(i))\sim_A\mathsf{entry}_{zs}(\rho(\pi(i))).
+$$
+From $P_\sigma(\rho(\pi(i)))$ we obtain
+$$
+A(\mathsf{entry}_{ws}(\sigma(\rho(\pi(i)))))
+\qquad\text{and}\qquad
+\mathsf{entry}_{zs}(\rho(\pi(i)))\sim_A\mathsf{entry}_{ws}(\sigma(\rho(\pi(i)))).
+$$
+Applying the classifier transitivity of $\mathsf{cert}$, equivalently \autoref{thm:namecert-equivalence-transitivity}, first to the comparisons from $xs$ to $ys$ and from $ys$ to $zs$, and then to the resulting comparison from $xs$ to $zs$ and the comparison from $zs$ to $ws$, yields
+$$
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ws}(\sigma(\rho(\pi(i)))).
+$$
+Therefore
+$$
+A(\mathsf{entry}_{xs}(i))\land
+A(\mathsf{entry}_{ws}(\sigma(\rho(\pi(i)))))\land
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ws}(\sigma(\rho(\pi(i)))).
+$$
+By the forward-map equality already proved, this is exactly the pointwise preservation clause required for both $((\sigma\circ\rho)\circ\pi)(i)$ and $\bigl(\sigma\circ(\rho\circ\pi)\bigr)(i)$.
+
+Hence the two bracketings have the same forward position map, the same inverse position map, and the same pointwise carrier-classifier certification. They therefore present the same $\mathsf{EnumPerm}_{A,\sim_A}(xs,ws)$ witness data required by \autoref{def:finset-classifier-preserving-enumeration-permutation}.
+\end{proof}
