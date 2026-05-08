@@ -78,6 +78,42 @@ theorem GaloisExtSourcePacket_normality_obligation_row [AskSetup] [PackageSetup]
           (And.intro packet.right.right.right.right.right.left
             packet.right.right.right.right.right.right))))
 
+theorem GaloisExtSourcePacket_public_obligation_boundary [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot sepProvenance
+          separable bundle pkg ∧
+        UnaryHistory normality ∧ UnaryHistory separability ∧ UnaryHistory classifier ∧
+          UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont fieldExt separable provenance ∧
+            Cont normality separability classifier ∧ Cont provenance classifier endpoint ∧
+              PkgSig bundle endpoint pkg := by
+  intro packet
+  have separableClosure :=
+    SeparableExtSourceSurface_dependency_ledger_closure packet.left
+  have separableUnary : UnaryHistory separable :=
+    separableClosure.right.left
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed packet.right.left packet.right.right.left
+      packet.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed packet.left.left separableUnary packet.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary classifierUnary
+      packet.right.right.right.right.right.left
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.left
+        (And.intro classifierUnary
+          (And.intro provenanceUnary
+            (And.intro endpointUnary
+              (And.intro packet.right.right.right.left
+                (And.intro packet.right.right.right.right.left
+                  (And.intro packet.right.right.right.right.right.left
+                    packet.right.right.right.right.right.right))))))))
+
 theorem GaloisExtSourcePacket_classifier_transport
     {field field' separable separable' normal normal' simple simple' classifier classifier'
       provenance provenance' ledger ledger' : BHist} :

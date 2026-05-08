@@ -61,6 +61,32 @@ theorem GaloisGroupAutomorphismActionPacket_fixed_base_carrier_obligation
                 (And.intro packet.right.right.right.right.right.right.right.right.right.left
                   packet.right.right.right.right.right.right.right.right.right.right)))))))
 
+theorem GaloisGroupAutomorphismActionPacket_fixed_base_classifier
+    [AskSetup] [PackageSetup]
+    {galoisExt group fixedBase fixedBase' action action' composition inverse classifier
+      classifier' provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisGroupAutomorphismActionPacket galoisExt group fixedBase action composition inverse
+        classifier provenance ledger endpoint bundle pkg ->
+      hsame fixedBase fixedBase' ->
+        hsame action action' ->
+          Cont fixedBase' action' classifier' ->
+            UnaryHistory fixedBase' ∧ UnaryHistory action' ∧ UnaryHistory classifier' ∧
+              hsame classifier classifier' := by
+  intro packet sameFixedBase sameAction classifierCont'
+  have fixedBaseUnary' : UnaryHistory fixedBase' :=
+    unary_transport packet.right.right.left sameFixedBase
+  have actionUnary' : UnaryHistory action' :=
+    unary_transport packet.right.right.right.left sameAction
+  have classifierUnary' : UnaryHistory classifier' :=
+    unary_cont_closed fixedBaseUnary' actionUnary' classifierCont'
+  have sameClassifier : hsame classifier classifier' :=
+    cont_respects_hsame sameFixedBase sameAction
+      packet.right.right.right.right.right.right.right.left classifierCont'
+  exact And.intro fixedBaseUnary'
+    (And.intro actionUnary'
+      (And.intro classifierUnary' sameClassifier))
+
 def GaloisGroupAutomorphismActionCompositionPacket
     (extension group fixed action composition inverse classifier provenance ledger : BHist) : Prop :=
   UnaryHistory extension ∧ UnaryHistory group ∧ UnaryHistory fixed ∧ UnaryHistory action ∧

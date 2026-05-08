@@ -103,6 +103,28 @@ theorem AffineSpaceHistoryTorsorCarrier_vector_action_stability
   exact And.intro (And.intro actionUnary carrier.right)
     (And.intro (And.intro actionUnary' carrier'.right) sameAction)
 
+theorem AffineSpaceHistoryTorsorCarrier_action_additivity
+    {point left right sum first iter direct : BHist} :
+    AffineSpaceHistoryTorsorCarrier point left ->
+      AffineSpaceHistoryTorsorCarrier first right ->
+        Cont point left first ->
+          Cont first right iter ->
+            Cont left right sum ->
+              Cont point sum direct ->
+                AffineSpaceHistoryTorsorCarrier direct sum ∧
+                  AffineSpaceHistoryTorsorCarrier iter sum ∧ hsame iter direct := by
+  intro pointCarrier firstCarrier pointAction iterAction sumAction directAction
+  have sumUnary : UnaryHistory sum :=
+    unary_cont_closed pointCarrier.right firstCarrier.right sumAction
+  have directUnary : UnaryHistory direct :=
+    unary_cont_closed pointCarrier.left sumUnary directAction
+  have iterUnary : UnaryHistory iter :=
+    unary_cont_closed firstCarrier.left firstCarrier.right iterAction
+  have sameActions : hsame iter direct :=
+    cont_assoc_hsame pointAction iterAction sumAction directAction
+  exact And.intro (And.intro directUnary sumUnary)
+    (And.intro (And.intro iterUnary sumUnary) sameActions)
+
 theorem AffineSpaceTranslationClassifier_witnesses_identified
     {point target left right leftAction rightAction : BHist} :
     AffineSpaceTranslationClassifier point target left right leftAction rightAction ->
