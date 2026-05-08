@@ -47,4 +47,20 @@ theorem RealAlgOrderConstant_algebra_row_obligations {d e o d' e' o' : BHist} :
           (And.intro (RealConstantHistoryClassifier_e1_iff_rat.mpr classifiedE)
             (RealConstantHistoryClassifier_e1_iff_rat.mpr classifiedO)))))
 
+theorem RealAlgOrderConstant_order_apartness_obligations {d e d' e' : BHist} :
+    RatHistoryClassifier d d' -> RatHistoryClassifier e e' ->
+      RealConstantHistoryCarrier (BHist.e1 d) ∧
+        RealConstantHistoryCarrier (BHist.e1 d') ∧
+          RealConstantHistoryCarrier (BHist.e1 e) ∧
+            RealConstantHistoryCarrier (BHist.e1 e') ∧
+              RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 d') ∧
+                RealConstantHistoryClassifier (BHist.e1 e) (BHist.e1 e') := by
+  intro classifiedD classifiedE
+  exact And.intro (RealConstantHistoryCarrier_e1_iff_rat.mpr classifiedD.left)
+    (And.intro (RealConstantHistoryCarrier_e1_iff_rat.mpr classifiedD.right.left)
+      (And.intro (RealConstantHistoryCarrier_e1_iff_rat.mpr classifiedE.left)
+        (And.intro (RealConstantHistoryCarrier_e1_iff_rat.mpr classifiedE.right.left)
+          (And.intro (RealConstantHistoryClassifier_e1_iff_rat.mpr classifiedD)
+            (RealConstantHistoryClassifier_e1_iff_rat.mpr classifiedE)))))
+
 end BEDC.Derived.RealAlgOrderUp
