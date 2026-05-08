@@ -202,3 +202,102 @@ Next project the unit-facing rows. The visible unit rows and inverse rows are su
 
 Finally inspect the dependency and provenance boundary. The packet exposes $\mathcal{O}$, $\mathcal{A}$, finite $\Cont$ readbacks, and $\rho$ as $\Pkg$ provenance, and no other rows. A determinant, analytic regulator value, host logarithm equality, or standard bridge is therefore outside the $\DirichletUnitUp$ root input surface and must be supplied by a regulator-side certificate.
 \end{proof}
+
+\begin{theorem}[DirichletUnit Regulator row exclusion]
+\label{thm:dirichletunit-regulator-row-exclusion}
+Let $\mathcal{D}=(\mathcal{O},\mathcal{A},u,\iota,\nu,\beta,\rho)$ be an
+accepted $\DirichletUnitUp$ carrier packet. A $\RegulatorUp$ consumer whose
+input is read from $\mathcal{D}$ cannot project a determinant row, an analytic
+regulator value row, a host logarithm equality row, or a standard bridge row
+from that packet. The only regulator-facing rows available at the packet
+boundary are the visible unit rows, inverse/unit-product rows, unary rank row,
+finite basis/log ledger row, dependency rows, finite $\Cont$ readbacks, and
+$\Pkg$ provenance named in
+\autoref{thm:dirichletunit-root-regulator-input-exhaustion}.
+\end{theorem}
+\begin{proof}
+Project $\mathcal{D}$ through
+\autoref{def:dirichletunit-carrier-packet}. Its named entries are
+$\mathcal{O}$, $\mathcal{A}$, $u$, $\iota$, $\nu$, $\beta$, and $\rho$, together
+with the finite $\Cont$ readbacks attached to those entries.
+
+Use \autoref{thm:dirichletunit-root-product-witness-inversion} to identify the
+product-facing part of the packet. The inherited product witness is available
+only where the two dependency certificates, visible unit rows, inverse rows,
+finite readbacks, and package provenance are simultaneously present.
+
+Finally apply
+\autoref{thm:dirichletunit-root-regulator-input-exhaustion}. That theorem
+lists the complete root input surface for a $\RegulatorUp$ consumer. Since
+determinants, analytic regulator values, host logarithm equalities, and
+standard bridge rows are absent from both the carrier packet and the exhausted
+consumer surface, no such row can be projected from $\mathcal{D}$.
+\end{proof}
+
+\begin{theorem}[DirichletUnit visible rank-ledger projection]
+\label{thm:dirichletunit-visible-rank-ledger-projection}
+For an accepted $\DirichletUnitUp$ carrier packet
+$\mathcal{D}=(\mathcal{O},\mathcal{A},u,\iota,\nu,\beta,\rho)$, the unary rank
+witness $\nu$ and the finite basis/log ledger $\beta$ are the only
+rank-facing rows exposed to $\RegulatorUp$. Every rank-side readback factors
+through these two rows, the finite $\Cont$ ledgers of the packet, and the
+shared $\Pkg$ provenance $\rho$.
+\end{theorem}
+\begin{proof}
+Project the rank-facing entries from
+\autoref{def:dirichletunit-carrier-packet}. The packet has exactly one unary
+rank witness slot $\nu$ and exactly one finite basis/log ledger slot $\beta$;
+the dependency rows and provenance rows scope these slots but do not create a
+second rank source.
+
+The visibility theorem
+\autoref{thm:dirichletunit-free-rank-witness-ledger} identifies $\nu$ and
+$\beta$ as displayed $\mathsf{BHist}$ rows stable under componentwise
+$\hsame$, finite $\Cont$ readback, and package provenance. Thus the rank-side
+consumer reads a finite ledger surface rather than a host rank computation.
+
+Apply \autoref{thm:dirichletunit-root-regulator-input-exhaustion} to the same
+packet. Its exhausted $\RegulatorUp$ surface includes no rank-facing row
+besides $\nu$ and $\beta$, so every accepted rank readback factors through
+those two displayed rows and the shared provenance $\rho$.
+\end{proof}
+
+\begin{theorem}[DirichletUnit unit-product consumer scope]
+\label{thm:dirichletunit-unit-product-consumer-scope}
+Let
+$$
+\mathcal{D}_0=(\mathcal{O},\mathcal{A},u_0,\iota_0,\nu,\beta,\rho)
+\qquad\text{and}\qquad
+\mathcal{D}_1=(\mathcal{O},\mathcal{A},u_1,\iota_1,\nu,\beta,\rho)
+$$
+be accepted $\DirichletUnitUp$ carrier packets over the same dependency and
+provenance rows. The inherited product and inverse witnesses are consumable by
+a $\RegulatorUp$ reader only at the packet boundary carrying the shared
+$\NameCert_{\RingOfIntegersUp}$ row $\mathcal{O}$, the shared
+$\NameCert_{\AbGroupUp}$ row $\mathcal{A}$, the finite $\Cont$ readbacks, and
+the shared $\Pkg$ row $\rho$.
+\end{theorem}
+\begin{proof}
+Project the two packets through
+\autoref{def:dirichletunit-carrier-packet}. The visible unit rows $u_0,u_1$,
+their inverse/unit-product rows $\iota_0,\iota_1$, and the dependency rows
+$\mathcal{O},\mathcal{A}$ are all components of the same displayed boundary.
+
+Apply \autoref{thm:dirichletunit-root-product-witness-inversion}. It states
+that a product witness in the inherited $\AbGroupUp$ row is valid for
+$\DirichletUnitUp$ exactly where both visible unit rows, both inverse rows, the
+inherited operation row, the shared finite readbacks, and the shared package
+provenance are present over $\mathcal{O}$.
+
+The inverse side is controlled by
+\autoref{thm:dirichletunit-root-inverse-row-inversion}. It projects every
+accepted inverse row back to the visible unit, the
+$\NameCert_{\RingOfIntegersUp}$ dependency, the inherited $\AbGroupUp$ inverse
+row, the finite readback, and $\rho$.
+
+Combining these projections with
+\autoref{thm:dirichletunit-root-regulator-input-exhaustion} gives the stated
+consumer scope. A $\RegulatorUp$ reader can consume product and inverse
+evidence only as packet-boundary evidence tied to the two shared dependency
+certificates, $\Cont$, and $\Pkg$.
+\end{proof}
