@@ -63,6 +63,32 @@ theorem GaloisGroupAutomorphismActionPacket_fixed_base_carrier_obligation
                 (And.intro packet.right.right.right.right.right.right.right.right.right.left
                   packet.right.right.right.right.right.right.right.right.right.right)))))))
 
+theorem GaloisGroupAutomorphismActionPacket_fixed_base_classifier
+    [AskSetup] [PackageSetup]
+    {galoisExt group fixedBase fixedBase' action action' composition inverse classifier
+      classifier' provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisGroupAutomorphismActionPacket galoisExt group fixedBase action composition inverse
+        classifier provenance ledger endpoint bundle pkg ->
+      hsame fixedBase fixedBase' ->
+        hsame action action' ->
+          Cont fixedBase' action' classifier' ->
+            UnaryHistory fixedBase' ∧ UnaryHistory action' ∧ UnaryHistory classifier' ∧
+              hsame classifier classifier' := by
+  intro packet sameFixedBase sameAction classifierCont'
+  have fixedBaseUnary' : UnaryHistory fixedBase' :=
+    unary_transport packet.right.right.left sameFixedBase
+  have actionUnary' : UnaryHistory action' :=
+    unary_transport packet.right.right.right.left sameAction
+  have classifierUnary' : UnaryHistory classifier' :=
+    unary_cont_closed fixedBaseUnary' actionUnary' classifierCont'
+  have sameClassifier : hsame classifier classifier' :=
+    cont_respects_hsame sameFixedBase sameAction
+      packet.right.right.right.right.right.right.right.left classifierCont'
+  exact And.intro fixedBaseUnary'
+    (And.intro actionUnary'
+      (And.intro classifierUnary' sameClassifier))
+
 def GaloisGroupAutomorphismActionCompositionPacket
     (extension group fixed action composition inverse classifier provenance ledger : BHist) : Prop :=
   UnaryHistory extension ∧ UnaryHistory group ∧ UnaryHistory fixed ∧ UnaryHistory action ∧
@@ -103,6 +129,56 @@ theorem GaloisGroupAutomorphismActionPacket_composition_closure
               (And.intro packet.right.right.right.right.right.left
                 (And.intro actionRow (And.intro classifierRow ledgerRow))))))))
     (And.intro sameComposition (And.intro sameClassifier sameLedger))
+
+theorem GaloisGroupAutomorphismActionCompositionPacket_group_law_semantic_name_certificate
+    {extension group fixed action composition inverse classifier provenance ledger : BHist} :
+    GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition inverse
+        classifier provenance ledger ->
+      SemanticNameCert
+        (fun l : BHist => exists c : BHist,
+          GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition
+            inverse c provenance l)
+        (fun l : BHist => exists c : BHist,
+          GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition
+            inverse c provenance l)
+        (fun l : BHist => exists c : BHist,
+          GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition
+            inverse c provenance l)
+        (fun left right : BHist =>
+          (exists lc : BHist,
+            GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition
+              inverse lc provenance left) /\
+            (exists rc : BHist,
+              GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition
+                inverse rc provenance right) /\
+              hsame left right) := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro ledger (Exists.intro classifier packet)
+      equiv_refl := by
+        intro h source
+        exact And.intro source (And.intro source (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified _source
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
 
 theorem GaloisGroupAutomorphismActionPacket_inverse_closure
     {extension group fixed action composition inverse inverse' classifier classifier' provenance ledger

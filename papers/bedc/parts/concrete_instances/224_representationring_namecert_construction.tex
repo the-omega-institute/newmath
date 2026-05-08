@@ -6,163 +6,177 @@ The representation-ring interface $\RepresentationRingUp$ packages the Grothendi
 \section{Carrier definition}
 \label{sec:representationring-carrier}
 
-\begin{definition}[RepresentationRingUp BHist carrier]\label{def:representationring-bhist-carrier}
-The $\RepresentationRingUp$ carrier is the finite $\mathsf{BHist}$ packet
-$(G,R,V,S,T,\chi,\rho,\lambda)$. The row $G$ is the consumed
-$\NameCert_{\GroupUp}$ source from \autoref{ch:concrete-instances-group-namecert},
-and $R$ is the consumed $\NameCert_{\RingUp}$ source from
-\autoref{ch:concrete-instances-ring-namecert}. The row $V$ is the finite
-representation-endpoint row: for each displayed endpoint $v$ it carries a
-finite action ledger
+\begin{definition}[RepresentationRingUp BHist representation packet]
+\label{def:representationring-bhist-representation-packet}
+A $\RepresentationRingUp$ representation packet is a finite $\mathsf{BHist}$
+tuple
 $$
-\alpha_g(v):\mathsf{BHist}
+\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda).
 $$
-for every carried group-history row $g$ projected from $G$, together with the
-unit and product compatibility rows for that action. The row $S$ records the
-direct-sum endpoint, and $T$ records the tensor-product endpoint. The row
-$\chi$ is the ring-normalization classifier row that reads $S$ as addition and
-$T$ as multiplication in the consumed ring source $R$. The row $\rho$ is the
-$\mathsf{Pkg}$ provenance naming the two consumed dependencies and the visible
-representation endpoints. The finite ledger $\lambda$ contains exactly the
-$\Cont$ rows for the group action, direct sum, tensor product, classifier
-normalization, and dependency projections.
+The row $G$ is the consumed $\NameCert_{\GroupUp}$ packet, and $R$ is the
+consumed $\NameCert_{\RingUp}$ packet. The row $V$ is the finite list of
+representation endpoints carried as $\mathsf{BHist}$ rows: each endpoint has
+its group action source read through $G$ and its additive and multiplicative
+target rows read through $R$. The row $S$ records the displayed direct-sum
+faces, and $T$ records the displayed tensor-product faces. Both are finite
+$\Cont$ ledgers whose endpoints are members of $V$.
 
-No host Grothendieck quotient, host equality of representations, or standard
-representation-ring bridge is part of this carrier. Equality inside the carrier
-means only transport through the displayed $\mathsf{BHist}$, $\Cont$, $\hsame$,
-$\mathsf{Pkg}$, and consumed $\NameCert$ rows.
+The row $P$ is the provenance packet listing the $\mathsf{Pkg}$ rows consumed
+from $G$ and $R$ and the package rows attached to $S$ and $T$. The row $\rho$
+is the Grothendieck classifier row naming formal direct-sum balance among the
+displayed representation endpoints. The finite ledger $\lambda$ is the
+$\Cont$ list containing exactly the consumed GroupUp rows, consumed RingUp
+rows, representation rows, direct-sum rows, tensor rows, classifier row, and
+provenance rows exposed by the public packet.
 \end{definition}
 
-\begin{definition}[RepresentationRingUp classifier]\label{def:representationring-classifier}
-For two $\RepresentationRingUp$ packets
-$(G,R,V,S,T,\chi,\rho,\lambda)$ and
-$(G',R',V',S',T',\chi',\rho',\lambda')$, the classifier requires
-componentwise $\hsame$ transport of $G,R,V,S,T,\chi,\rho,\lambda$ to the
-primed rows. The transported package must preserve the group-action rows
-projected from $G$, the direct-sum row $S$, the tensor-product row $T$, and the
-ring-normalization row $\chi$ projected through $R$.
-
-Thus a comparison is accepted exactly when the same finite action ledger,
-sum ledger, tensor ledger, ring ledger, dependency provenance, and
-$\Cont$ ledger reappear after $\hsame$ transport. The classifier does not
-identify host representation objects; it identifies only the BEDC rows visible
-in \autoref{def:representationring-bhist-carrier}.
+\begin{definition}[RepresentationRingUp Grothendieck ledger classifier]
+\label{def:representationring-grothendieck-ledger-classifier}
+For two representation packets
+$$
+\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)
+\qquad\text{and}\qquad
+\mathcal{K}'=(G',R',V',S',T',P',\rho',\lambda'),
+$$
+the Grothendieck ledger classifier
+$\mathcal{K}\sim_{\RepresentationRingUp}^{\mathrm{gr}}\mathcal{K}'$
+is the finite componentwise transport datum consisting of:
+\begin{enumerate}
+  \item an $\hsame$ transport row between the consumed $\NameCert_{\GroupUp}$
+  packets $G$ and $G'$;
+  \item an $\hsame$ transport row between the consumed $\NameCert_{\RingUp}$
+  packets $R$ and $R'$;
+  \item an entrywise $\hsame$ transport row between the displayed
+  representation endpoint lists $V$ and $V'$;
+  \item entrywise $\hsame$ transport rows between the direct-sum ledgers $S$
+  and $S'$ and between the tensor-product ledgers $T$ and $T'$;
+  \item an $\hsame$ transport row between the provenance packets $P$ and
+  $P'$;
+  \item an $\hsame$ transport row between the Grothendieck classifier rows
+  $\rho$ and $\rho'$;
+  \item a finite $\Cont$ ledger comparison between $\lambda$ and $\lambda'$,
+  entry by entry.
+\end{enumerate}
+Thus equality in the public representation-ring carrier is not host equality
+of representation categories. It is the displayed $\hsame$ transport of the
+consumed GroupUp packet, consumed RingUp packet, representation rows,
+direct-sum rows, tensor rows, provenance, and finite continuation ledger.
 \end{definition}
 
 \section{The certificate}
 \label{sec:representationring-certificate}
 
-\begin{theorem}[RepresentationRingUp group-action boundary]\label{thm:representationring-group-action-boundary}
-Every representation action row exposed by $\RepresentationRingUp$ is projected
-from the $\NameCert_{\GroupUp}$ dependency of
-\autoref{ch:concrete-instances-group-namecert} together with the finite
-$\mathsf{BHist}$ action ledger in
-\autoref{def:representationring-bhist-carrier}. In particular, the certificate
-has no independent source for group multiplication, unit action, or action
-composition beyond $G$ and the corresponding $\Cont$ entries of $\lambda$.
+\begin{theorem}[RepresentationRingUp carrier BHist boundary]
+\label{thm:representationring-carrier-bhist-boundary}
+Every public endpoint of a $\RepresentationRingUp$ carrier packet of
+\autoref{def:representationring-bhist-representation-packet} is one of the
+displayed $\mathsf{BHist}$ rows in
+$G,R,V,S,T,P,\rho,\lambda$. In particular, every representation endpoint is
+scoped through the consumed $\NameCert_{\GroupUp}$ and
+$\NameCert_{\RingUp}$ certificates, and no additional group carrier, ring
+carrier, module carrier, or host representation object is exported at the
+boundary.
 \end{theorem}
-
 \begin{proof}
-Unpack the source, carrier, dependency, and ledger fields of the ten-field
-roadmap template. The only group source named by the carrier is $G$, the
-consumed $\NameCert_{\GroupUp}$ row from
-\autoref{ch:concrete-instances-group-namecert}.
+Project an accepted packet to the tuple
+$\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)$. The carrier definition lists all
+public rows in that tuple, so a public endpoint can only be the consumed
+GroupUp row, the consumed RingUp row, a representation endpoint from $V$, a
+direct-sum row from $S$, a tensor row from $T$, a provenance row from $P$, the
+Grothendieck classifier row $\rho$, or an entry of the finite ledger
+$\lambda$.
 
-Project a displayed action row through $G$. The endpoint $V$ supplies the
-acted-on history, and the ledger $\lambda$ supplies the finite $\Cont$ rows
-recording unit action and product compatibility for the action endpoints.
+For a representation endpoint in $V$, the same projection reads its action
+source through $G$ and its target algebra rows through $R$. The direct-sum
+and tensor rows are ledger faces whose endpoints are members of $V$, so they
+also remain scoped by those two consumed certificates.
 
-It remains to rule out extra action sources. The carrier of
-\autoref{def:representationring-bhist-carrier} contains no additional group
-field, and the classifier of \autoref{def:representationring-classifier}
-transports only the listed rows. Hence every visible action row is bounded by
-$G$ and the BHist action ledger.
+Conversely, any row from the displayed tuple repacks into the public carrier
+surface by the constructor pattern of
+\autoref{def:representationring-bhist-representation-packet}. No external
+representation object is needed, because the boundary is exactly the
+finite $\mathsf{BHist}$ packet.
 \end{proof}
 
-\begin{theorem}[RepresentationRingUp sum-tensor ledger exactness]\label{thm:representationring-sum-tensor-ledger-exactness}
-The direct-sum row $S$ and tensor-product row $T$ of
-$\RepresentationRingUp$ are exactly the additive and multiplicative ledger
-entries consumed from the $\NameCert_{\RingUp}$ dependency of
-\autoref{ch:concrete-instances-ring-namecert}. The certificate exposes no
-additional additive, multiplicative, quotient, or host-equality row for the
-representation ring.
+\begin{theorem}[RepresentationRingUp direct-sum tensor ledger stability]
+\label{thm:representationring-direct-sum-tensor-ledger-stability}
+If two packets of
+\autoref{def:representationring-bhist-representation-packet} are related by
+the classifier of
+\autoref{def:representationring-grothendieck-ledger-classifier}, then the
+direct-sum faces and tensor-product faces of the first packet transport to
+the corresponding faces of the second packet through $\hsame$ and the finite
+$\Cont$ ledger comparison. The transported packet preserves the consumed
+$\NameCert_{\GroupUp}$ and $\NameCert_{\RingUp}$ sources and the
+Grothendieck classifier row.
 \end{theorem}
-
 \begin{proof}
-Read the operation fields of the ten-field roadmap template after the carrier
-has been fixed. The only ring source named by the carrier is $R$, the consumed
-$\NameCert_{\RingUp}$ row from
-\autoref{ch:concrete-instances-ring-namecert}.
+Unpack the classifier between
+$\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)$ and
+$\mathcal{K}'=(G',R',V',S',T',P',\rho',\lambda')$. It supplies transported
+GroupUp and RingUp dependency rows, entrywise endpoint transport between
+$V$ and $V'$, entrywise ledger transport between $S$ and $S'$ and between
+$T$ and $T'$, provenance transport, classifier-row transport, and a finite
+comparison between $\lambda$ and $\lambda'$.
 
-The direct-sum endpoint $S$ is therefore read as the additive row of $R$ after
-transport through the finite representation endpoint row $V$. The tensor
-endpoint $T$ is read as the multiplicative row of $R$ after the same
-dependency and endpoint transport.
+Read a direct-sum face from $S$. Its endpoints are displayed members of
+$V$, so the endpoint comparison in the classifier carries them to the
+matching members of $V'$. The ledger comparison then carries the $\Cont$
+row witnessing the direct-sum face to the corresponding entry of $S'$.
 
-The normalization row $\chi$ records that these two rows are the additive and
-multiplicative rows consumed by the ring dependency. Since the carrier has no
-host quotient field and no independent operation field, ledger coverage and
-soundness coincide exactly with $S$, $T$, $R$, $\chi$, and the relevant
-$\Cont$ entries of $\lambda$.
+The tensor-product case is identical except that the ledger entry is read
+from $T$. The transported endpoints still read their action source through
+$G'$ and their target rows through $R'$, because the classifier transported
+the consumed GroupUp and RingUp packets at the same time.
+
+Finally transport $\rho$ to $\rho'$ and $P$ to $P'$. Repacking these rows
+gives a representation-ring packet with stable direct-sum and tensor faces
+over the transported finite ledger.
 \end{proof}
 
-\begin{theorem}[RepresentationRingUp classifier stability]\label{thm:representationring-classifier-stability}
-Componentwise $\hsame$ transport, together with the dependency classifiers of
-$\NameCert_{\GroupUp}$ and $\NameCert_{\RingUp}$, preserves the
-$\RepresentationRingUp$ carrier rows $G,R,V,S,T,\chi,\rho,\lambda$. The
-transported packet again satisfies the group-action, direct-sum,
-tensor-product, ring-normalization, provenance, and finite ledger clauses of
-\autoref{def:representationring-bhist-carrier}.
+\begin{theorem}[RepresentationRingUp NameCert obligation surface]
+\label{thm:representationring-namecert-obligation-surface}
+The $\NameCert_{\RepresentationRingUp}$ obligation surface is the package
+consisting of the carrier packet of
+\autoref{def:representationring-bhist-representation-packet}, the
+Grothendieck ledger classifier of
+\autoref{def:representationring-grothendieck-ledger-classifier}, the carrier
+boundary of \autoref{thm:representationring-carrier-bhist-boundary}, the
+direct-sum and tensor stability row of
+\autoref{thm:representationring-direct-sum-tensor-ledger-stability}, exactness
+of the finite $\Cont$ and $\mathsf{Pkg}$ ledger rows, and the consumer
+boundary used by $\InducedRepUp$ through $\NameCert_{\RepresentationRingUp}$.
+The consumer may read the consumed GroupUp packet, consumed RingUp packet,
+representation endpoints, direct-sum faces, tensor faces, Grothendieck
+classifier row, provenance rows, and finite ledger rows, but it receives no
+additional induction functor, restriction functor, character row, or
+host-level representation category.
 \end{theorem}
-
 \begin{proof}
-Start with the classifier field of the ten-field roadmap template. The
-definition of \autoref{def:representationring-classifier} requires $\hsame$
-transport on each of the eight carrier rows.
+Start with the carrier and classifier definitions. The carrier supplies the
+finite row family, while the classifier specifies componentwise $\hsame$
+transport for each dependency, endpoint list, operation face, provenance
+packet, classifier row, and ledger entry.
 
-For the group-action rows, apply the $\NameCert_{\GroupUp}$ classifier from
-\autoref{ch:concrete-instances-group-namecert} to transport the source group
-row and then transport the action endpoints through the corresponding entries
-of $\lambda$.
+Apply the carrier boundary theorem to identify the public endpoints. This
+shows that every exported representation-ring row is already one of the
+displayed $\mathsf{BHist}$ rows and that the representation endpoints remain
+scoped by the consumed GroupUp and RingUp certificates.
 
-For direct sum, tensor product, and ring normalization, apply the
-$\NameCert_{\RingUp}$ classifier from
-\autoref{ch:concrete-instances-ring-namecert}. The rows $S$, $T$, and $\chi$
-therefore remain the additive, multiplicative, and normalization rows of the
-transported ring source.
+Next apply the direct-sum and tensor stability theorem. It transports the two
+operation faces through the same endpoint comparisons and the same finite
+$\Cont$ ledger comparison, so the Grothendieck classifier row remains attached
+to the transported packet.
 
-Finally transport $\rho$ and $\lambda$ componentwise. Repacking the transported
-dependencies, operation rows, classifier row, provenance row, and ledger row
-gives the primed carrier packet with no appeal to host equality.
-\end{proof}
+Exactness follows by inspecting the displayed rows. The only provenance rows
+are the $\mathsf{Pkg}$ rows in $P$, and the only continuation rows are the
+entries of $\lambda$ together with the displayed direct-sum and tensor faces.
+Thus every public row is accounted for by projection from the packet.
 
-\begin{theorem}[RepresentationRingUp dependency boundary]\label{thm:representationring-dependency-boundary}
-The dependency surface of $\RepresentationRingUp$ consists exactly of the
-$\GroupUp$ source of \autoref{ch:concrete-instances-group-namecert}, the
-$\RingUp$ source of \autoref{ch:concrete-instances-ring-namecert}, the carrier
-and classifier rows of \autoref{def:representationring-bhist-carrier} and
-\autoref{def:representationring-classifier}, the classifier-stability rows,
-and the finite ledger and exactness rows of
-\autoref{thm:representationring-group-action-boundary},
-\autoref{thm:representationring-sum-tensor-ledger-exactness}, and
-\autoref{thm:representationring-classifier-stability}. It does not claim a
-standard Grothendieck-ring bridge.
-\end{theorem}
-
-\begin{proof}
-Unpack the dependency field of the ten-field roadmap template. The
-introduction names exactly two consumed certificate sources:
-$\NameCert_{\GroupUp}$ and $\NameCert_{\RingUp}$, cited through
-\autoref{ch:concrete-instances-group-namecert} and
-\autoref{ch:concrete-instances-ring-namecert}.
-
-The carrier and classifier fields contribute the eight-row packet and its
-componentwise $\hsame$ transport. The ledger and exactness fields contribute
-only the group-action rows, the direct-sum and tensor-product rows, the
-ring-normalization row, the provenance row, and the finite $\Cont$ ledger.
-
-Coverage projects any accepted $\RepresentationRingUp$ packet into exactly
-those entries. Soundness repacks exactly those entries into the carrier and
-classifier. Completeness follows because no standard Grothendieck quotient,
-host representation equality, or bridge row occurs in the displayed package.
+For the downstream boundary, an $\InducedRepUp$ consumer reads precisely this
+public surface: representation endpoints together with direct-sum, tensor,
+classifier, provenance, and dependency rows. Induction, restriction,
+Frobenius reciprocity, and character-theoretic data are not fields of
+$\NameCert_{\RepresentationRingUp}$ and must be supplied by their own
+certificates.
 \end{proof}
