@@ -354,6 +354,50 @@ is $\mathsf{ProofTarget}$. This concrete tuple is the schema instance consumed
 by the POSet certificate, so Lean can target the BHist prefix construction
 rather than an abstract relation schema.
 
+\begin{theorem}[POSet public prefix closure boundary]
+\label{thm:poset-public-prefix-closure-boundary}
+For the concrete unary-prefix POSet tuple of
+\autoref{def:concrete-unary-prefix-poset-instance}, the public surface is
+exactly the following $\mathsf{BHist}$-anchored data:
+\begin{enumerate}
+  \item carrier $\mathsf{PreorderCarrier}=\mathsf{UnaryHistory}$;
+  \item classifier
+  $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})$;
+  \item relation $\mathsf{PreorderPrefixLE}$.
+\end{enumerate}
+Its preorder laws, endpoint congruence, antisymmetry, exactness, and ledger
+rows are supplied by
+\autoref{thm:concrete-unary-prefix-poset-laws},
+\autoref{thm:poset-prefix-classifier-exactness}, and
+\autoref{thm:concrete-unary-prefix-poset-namecert}. The package introduces no
+abstract carrier, abstract classifier, quotient, host equality, or
+parameterized order relation.
+\end{theorem}
+\begin{proof}
+Unfold the tuple of
+\autoref{def:concrete-unary-prefix-poset-instance}. Its carrier coordinate is
+$\mathsf{PreorderCarrier}$, which is identified there with
+$\mathsf{UnaryHistory}$ inside $\mathsf{BHist}$; its classifier coordinate is
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})$; and its
+relation coordinate is $\mathsf{PreorderPrefixLE}$.
+
+The stability rows come from
+\autoref{thm:concrete-unary-prefix-poset-laws}. That theorem supplies the
+preorder fields for $\mathsf{PreorderPrefixLE}$, endpoint congruence for the
+carrier-aware classifier, and the antisymmetry collapse under that classifier.
+
+The bidirectional-collapse row is
+\autoref{thm:poset-prefix-classifier-exactness}. It states that the
+carrier-aware classifier is exact for the two opposing prefix comparisons, so
+the public exactness field uses no quotient or external equality relation.
+
+Finally, \autoref{thm:concrete-unary-prefix-poset-namecert} repacks the source,
+pattern, classifier, stability, and ledger rows into the concrete $\NameCert$.
+Since each repacked row names the same carrier, classifier, and prefix
+relation, the public $\POSetUp$ surface is anchored in $\mathsf{BHist}$ rather
+than in an abstract carrier or parameterized order schema.
+\end{proof}
+
 \begin{definition}[POSet stability certificate]
 \label{def:poset-stability-certificate}
 The stability certificate consists of:
