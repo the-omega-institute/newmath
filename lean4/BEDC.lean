@@ -439,6 +439,7 @@ import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
+import BEDC.Derived.GaloisGroupUp
 import BEDC.Derived.FilterUp
 import BEDC.Derived.ContinuousMapUp.PublicExport
 import BEDC.Derived.SumUp
@@ -487,6 +488,7 @@ import BEDC.Derived.FinsetUp
 import BEDC.Derived.MatroidUp
 import BEDC.Derived.AffineVarUp
 import BEDC.Derived.MagmaUp
+import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.LatticeUp.BoundUniqueness
 import BEDC.Derived.LatticeUp.Commutativity
@@ -504,6 +506,7 @@ import BEDC.Derived.MatchingUp
 import BEDC.Derived.LPDualityUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
+import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
