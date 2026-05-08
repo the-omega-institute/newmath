@@ -105,12 +105,12 @@ theorem GaloisGroupAutomorphismActionPacket_composition_closure
 theorem GaloisGroupAutomorphismActionPacket_inverse_closure
     {extension group fixed action composition inverse inverse' classifier classifier' provenance ledger
       ledger' : BHist} :
-    GaloisGroupAutomorphismActionPacket extension group fixed action composition inverse classifier
+    GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition inverse classifier
         provenance ledger ->
       hsame inverse inverse' ->
         Cont composition inverse' classifier' ->
           Cont classifier' provenance ledger' ->
-            GaloisGroupAutomorphismActionPacket extension group fixed action composition inverse'
+            GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition inverse'
                 classifier' provenance ledger' ∧
               hsame classifier classifier' ∧ hsame ledger ledger' := by
   intro packet sameInverse classifierRow ledgerRow
