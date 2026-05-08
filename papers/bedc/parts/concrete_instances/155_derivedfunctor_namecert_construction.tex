@@ -172,3 +172,59 @@ Apply \autoref{thm:derivedfunctor-resolution-source} to identify which source ce
 
 Finally apply \autoref{thm:derivedfunctor-namecert-obligation-surface}. Its exactness clause says that accepted rows are exhausted by this carrier tuple. Since neither the carrier nor the exactness repacking contains quotient representatives, choice data, or an ambient host presentation, the ledger cannot expose any such row.
 \end{proof}
+
+\begin{definition}[Derived-functor delta-splice surface]\label{def:derivedfunctor-delta-splice-surface}
+A $\DerivedFunctorUp$ delta-splice surface is a displayed $\mathsf{BHist}$ packet over $\NameCert_{\AbelianCatUp}$ and $\NameCert_{\HomologyUp}$ whose public rows consist of short-exact source rows
+$$
+0\to A\to B\to C\to 0,
+$$
+selected finite resolution rows for $A$, $B$, and $C$, cycle rows $Z_i(A)$, $Z_i(B)$, $Z_i(C)$, boundary rows $B_i(A)$, $B_i(B)$, $B_i(C)$, and a connecting row
+$$
+\delta_i: Z_i(C)/B_i(C)\to Z_{i-1}(A)/B_{i-1}(A).
+$$
+The packet also carries finite $\Cont$ projection ledgers from the displayed boundary rows to $\delta_i$, $\hsame$ transport witnesses comparing the chosen resolution and homology rows across the short-exact source row, and a $\Pkg$ provenance row naming the AbelianCatUp and HomologyUp certificates used to read the packet.
+\end{definition}
+
+\begin{theorem}[Derived-functor short-exact source scope]\label{thm:derivedfunctor-short-exact-source-scope}
+The packet scope of a $\DerivedFunctorUp$ delta-splice surface is exactly the $\AbelianCatUp$ short-exact source-row data together with the $\HomologyUp$ cycle and boundary data named in \autoref{def:derivedfunctor-delta-splice-surface}. It exports no additional complex equality, no ambient abelian-category object equality, and no host quotient representative for the displayed homology rows.
+\end{theorem}
+\begin{proof}
+Project the delta-splice packet into its named rows. The short-exact source row, the three selected resolution rows, and the admissible arrows between them are read through $\NameCert_{\AbelianCatUp}$.
+
+The cycle rows and boundary rows are read through $\NameCert_{\HomologyUp}$ at the displayed degrees. These rows supply the only homology data used by the packet; the notation $Z_i(-)/B_i(-)$ is the public readback of those rows, not an extra host quotient.
+
+Conversely, given exactly these AbelianCatUp source rows and HomologyUp cycle and boundary rows, the packet is recovered by repacking the displayed $\Cont$ ledgers, $\hsame$ witnesses, and $\Pkg$ provenance. No row remains available for an ambient equality of complexes or for an external object equality, so the scope is precisely the listed source data.
+\end{proof}
+
+\begin{theorem}[Derived-functor connecting row ledger]\label{thm:derivedfunctor-connecting-row-ledger}
+In every $\DerivedFunctorUp$ delta-splice surface, the connecting row $\delta_i$ is reached by finite $\Cont$ readback from the displayed HomologyUp boundary rows and transports along the listed $\hsame$ witnesses. Thus replacing the selected resolutions or cycle-boundary representatives by $\hsame$-related rows preserves the same public connecting row.
+\end{theorem}
+\begin{proof}
+Unpack the packet and isolate the boundary rows for $C$ and $A$ in adjacent degrees. The finite projection ledger contains a chain of $\Cont$ rows from these displayed boundary rows to the row named $\delta_i$.
+
+Use $\Cont$ associativity to compose the projection rows into a single readback ledger. This produces the connecting row from the same visible boundary data and does not require a chosen host representative of a quotient class.
+
+Now apply the listed $\hsame$ transport witnesses to the selected resolutions and to the cycle-boundary rows. The HomologyUp classifier transports boundary readback along these witnesses, and the composed $\Cont$ ledger transports with it. Repacking the transported rows gives the same public $\delta_i$ row in the delta-splice surface.
+\end{proof}
+
+\begin{theorem}[Derived-functor long exact splice coverage]\label{thm:derivedfunctor-long-exact-splice-coverage}
+Adjacent degree rows in a $\DerivedFunctorUp$ delta-splice surface splice into the visible long exact row by $\Cont$ associativity and HomologyUp boundary transport. Each neighboring pair uses only the carried short-exact source row, the selected resolution rows, the displayed cycle and boundary rows, the connecting row $\delta_i$, and their $\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+Fix two adjacent displayed degree rows in the packet. Project their cycle rows, boundary rows, and connecting row from \autoref{def:derivedfunctor-delta-splice-surface}.
+
+The HomologyUp boundary classifier supplies the transport from cycles modulo boundaries at degree $i$ to the boundary data read at degree $i-1$. The connecting row ledger of \autoref{thm:derivedfunctor-connecting-row-ledger} identifies this transport with the finite $\Cont$ readback named $\delta_i$.
+
+Compose the degree-$i$ readback, the connecting-row readback, and the degree-$(i-1)$ readback by $\Cont$ associativity. The resulting finite ledger is exactly the adjacent segment of the long exact row, and repeating the same projection for each neighboring pair covers the displayed long exact splice without adding any row beyond the packet.
+\end{proof}
+
+\begin{theorem}[Derived-functor AbelianCat-Homology consumer surface]\label{thm:derivedfunctor-abeliancat-homology-consumer-surface}
+Every downstream consumer of a $\DerivedFunctorUp$ delta-splice surface receives only the AbelianCatUp short-exact source rows, the HomologyUp cycle and boundary rows, the connecting row $\delta_i$, the finite $\Cont$ ledgers, the $\hsame$ witnesses, and the $\Pkg$ provenance. Any consumer row that is invariant under these projections is therefore invariant under the whole delta-splice packet.
+\end{theorem}
+\begin{proof}
+Project the packet to the rows listed in \autoref{def:derivedfunctor-delta-splice-surface}. These are exactly the source rows identified by \autoref{thm:derivedfunctor-short-exact-source-scope} together with the connecting ledger identified by \autoref{thm:derivedfunctor-connecting-row-ledger}.
+
+For a downstream consumer, supply those projected rows as its input packet. The long exact coverage theorem then provides every adjacent splice row as a finite $\Cont$ consequence of the same input, so no consumer has access to a hidden equality of complexes, an unlisted representative, or an external abelian-category presentation.
+
+If the consumer predicate is invariant under the projected rows, transport the input packet by the displayed $\hsame$ witnesses and repack the same $\Pkg$ provenance. The consumer output is unchanged because every visible row it can read is either one of the projections or a finite $\Cont$ composite of them.
+\end{proof}
