@@ -114,3 +114,100 @@ elementary ledger. Each request is one of the collected rows, and none exposes
 a host satisfaction predicate, an ambient model equality, or another public
 field outside the displayed packet.
 \end{proof}
+
+\begin{definition}[ModelTheoryUp assignment observation row]\label{def:modeltheory-assignment-observation-row}
+A $\ModelTheoryUp$ assignment observation row is the displayed
+$\mathsf{BHist}$ entry
+
+$$
+(S,\varphi,x,\mathsf{Val}_{x,\varphi},\rho_{\mathsf{Val}},
+\lambda_{\mathsf{Val}})
+$$
+
+whose variable endpoint $x$ and formula endpoint $\varphi$ are read only
+through $\NameCert_{\FirstOrderUp}$. The valuation component
+$\mathsf{Val}_{x,\varphi}$ is the visible assignment row for that endpoint
+pair, $\lambda_{\mathsf{Val}}$ records the $\Cont$ and $\hsame$ transport
+available for the observation, and $\rho_{\mathsf{Val}}$ is the $\Pkg$
+provenance tying the row back to the admitted packet of
+\autoref{def:modeltheory-bhist-structure-packet}.
+\end{definition}
+
+\begin{theorem}[ModelTheoryUp satisfaction exactness row]\label{thm:modeltheory-satisfaction-exactness-row}
+Every accepted $\ModelTheoryUp$ satisfaction record is exactly the visible
+$\mathsf{Sat}$ row for a formula endpoint read through
+$\NameCert_{\FirstOrderUp}$ and an assignment observation of
+\autoref{def:modeltheory-assignment-observation-row}. Conversely, every such
+visible $\mathsf{Sat}$ row repacks as the satisfaction record for the same
+admitted packet. No host satisfaction predicate is exported.
+\end{theorem}
+\begin{proof}
+Unpack the finite packet of
+\autoref{def:modeltheory-bhist-structure-packet}. The projections expose the
+first-order row $S$, the valuation ledger $\mathsf{Val}$, the satisfaction
+ledger $\mathsf{Sat}$, and the provenance row $\rho$.
+
+The formula endpoint is read from $S$ through
+$\NameCert_{\FirstOrderUp}$, while the assignment endpoint is read from the
+displayed valuation row described in
+\autoref{def:modeltheory-assignment-observation-row}. Thus the satisfaction
+record has no data source other than the visible pair of endpoints and the
+packet provenance.
+
+Repack those projections as the same $\mathsf{Sat}$ row with its $\Pkg$,
+$\Cont$, and $\hsame$ witnesses. This gives the exact readback direction, and
+the converse is the same repacking step starting from the displayed row. At
+no point is a semantic satisfaction relation outside the $\mathsf{BHist}$
+packet introduced.
+\end{proof}
+
+\begin{theorem}[ModelTheoryUp elementary substructure boundary]\label{thm:modeltheory-elementary-substructure-boundary}
+The elementary-equivalence and elementary-substructure faces of an admitted
+$\ModelTheoryUp$ packet are finite displayed $\mathsf{Elem}$ rows transported
+through the satisfaction exactness row and $\hsame$. Every formula occurrence
+in those faces is a $\NameCert_{\FirstOrderUp}$ endpoint, and every assignment
+occurrence is a transported valuation row.
+\end{theorem}
+\begin{proof}
+Begin with the classifier of
+\autoref{def:modeltheory-satisfaction-ledger-classifier}. It supplies the
+rowwise $\hsame$ transports for the first-order source, valuation ledger,
+satisfaction ledger, elementary ledger, and $\Pkg$ provenance.
+
+Apply \autoref{thm:modeltheory-satisfaction-exactness-row} to each
+satisfaction record referenced by an elementary face. This replaces the
+record by the visible $\mathsf{Sat}$ row for a named formula endpoint and a
+named assignment observation.
+
+It remains to move the elementary face itself. Replace every formula
+reference by the transported first-order row and every assignment reference
+by the transported $\mathsf{Val}$ row, then repack the finite face as the
+target $\mathsf{Elem}$ row. The boundary is therefore a displayed ledger
+boundary, not an ambient elementary-substructure predicate.
+\end{proof}
+
+\begin{theorem}[ModelTheoryUp downstream consumer row]\label{thm:modeltheory-downstream-consumer-row}
+A downstream consumer of $\NameCert_{\ModelTheoryUp}$ can ask only for the
+carrier packet, the satisfaction-ledger classifier, the assignment
+observation row, the satisfaction exactness row, the elementary substructure
+boundary, stability transport, and $\Pkg$ provenance. Any request for a host
+truth predicate, an ambient model equality, or an external elementary
+comparison lies outside the public obligation surface.
+\end{theorem}
+\begin{proof}
+Project the public surface of
+\autoref{thm:modeltheory-namecert-obligation-surface}. The visible rows are
+the carrier packet, the classifier, first-order dependency rows, elementary
+transport rows, stability transport, satisfaction readback, and provenance.
+
+Refine the satisfaction readback by
+\autoref{thm:modeltheory-satisfaction-exactness-row}. Refine the assignment
+input by \autoref{def:modeltheory-assignment-observation-row}, and refine the
+elementary request by
+\autoref{thm:modeltheory-elementary-substructure-boundary}.
+
+These refinements exhaust the consumer-facing rows. Since each row is a
+projection from the displayed packet or a repacking through $\Cont$,
+$\hsame$, and $\Pkg$, no consumer receives an operation beyond the listed
+certificate surface.
+\end{proof}
