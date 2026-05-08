@@ -1,50 +1,82 @@
+import BEDC.Derived.SeparableExtUp
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.PolynomialUp
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.GaloisExtUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.FieldExtUp
 open BEDC.Derived.PolynomialUp
+open BEDC.Derived.SeparableExtUp
 
-def GaloisExtSourcePacket
-    (field minimalRoot simpleRoot sepLedger normality ledger : BHist) : Prop :=
-  FieldExtSingletonCarrier field ∧ PolynomialSingletonCarrier normality ∧
-    PolynomialSingletonCarrier minimalRoot ∧ PolynomialSingletonCarrier simpleRoot ∧
-      Cont minimalRoot simpleRoot sepLedger ∧ Cont field normality ledger
+theorem GaloisExtClassifier_transport_row
+    {field field' separable separable' normal normal' sepFace sepFace' classifier classifier'
+      ledger ledger' : BHist} :
+    UnaryHistory field' ->
+      UnaryHistory separable' ->
+        UnaryHistory normal' ->
+          UnaryHistory sepFace' ->
+            hsame field field' ->
+              hsame separable separable' ->
+                hsame normal normal' ->
+                  hsame sepFace sepFace' ->
+                    Cont field separable classifier ->
+                      Cont field' separable' classifier' ->
+                        Cont normal sepFace ledger ->
+                          Cont normal' sepFace' ledger' ->
+                            UnaryHistory classifier' ∧
+                              UnaryHistory ledger' ∧
+                                hsame classifier classifier' ∧ hsame ledger ledger' := by
+  intro fieldUnary separableUnary normalUnary sepFaceUnary fieldSame separableSame normalSame
+    sepFaceSame classifierCont classifierCont' ledgerCont ledgerCont'
+  constructor
+  · exact unary_cont_closed fieldUnary separableUnary classifierCont'
+  · constructor
+    · exact unary_cont_closed normalUnary sepFaceUnary ledgerCont'
+    · constructor
+      · exact cont_respects_hsame fieldSame separableSame classifierCont classifierCont'
+      · exact cont_respects_hsame normalSame sepFaceSame ledgerCont ledgerCont'
 
-theorem GaloisExtSourcePacket_classifier_transport_row
-    {field minimalRoot simpleRoot sepLedger normality ledger field' minimalRoot'
-      simpleRoot' sepLedger' normality' ledger' : BHist} :
-    GaloisExtSourcePacket field minimalRoot simpleRoot sepLedger normality ledger ->
-      FieldExtSingletonClassifier field field' ->
-      PolynomialSingletonClassifier minimalRoot minimalRoot' ->
-      PolynomialSingletonClassifier simpleRoot simpleRoot' ->
-      hsame normality normality' ->
-      Cont minimalRoot' simpleRoot' sepLedger' ->
-      Cont field' normality' ledger' ->
-        GaloisExtSourcePacket field' minimalRoot' simpleRoot' sepLedger' normality' ledger' ∧
-          hsame ledger ledger' := by
-  intro packet fieldClassified minimalClassified simpleClassified sameNormality sepRow' ledgerRow'
-  have fieldCarrier' : FieldExtSingletonCarrier field' :=
-    And.intro fieldClassified.left.right.left fieldClassified.right.right.left
-  have normalityCarrier' : PolynomialSingletonCarrier normality' :=
-    hsame_trans (hsame_symm sameNormality) packet.right.left
-  have ledgerSame : hsame ledger ledger' :=
-    cont_respects_hsame fieldClassified.left.right.right sameNormality
-      packet.right.right.right.right.right ledgerRow'
-  exact And.intro
-    (And.intro fieldCarrier'
-      (And.intro normalityCarrier'
-        (And.intro minimalClassified.right.left
-          (And.intro simpleClassified.right.left
-            (And.intro sepRow' ledgerRow')))))
-    ledgerSame
+def GaloisExtSourcePacket [AskSetup] [PackageSetup]
+    (fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot sepProvenance
+      separable bundle pkg ∧
+    UnaryHistory normality ∧ UnaryHistory separability ∧
+      Cont fieldExt separable provenance ∧ Cont normality separability classifier ∧
+        Cont provenance classifier endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem GaloisExtSourcePacket_normality_obligation_row [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot sepProvenance
+          separable bundle pkg ∧
+        UnaryHistory normality ∧ hsame provenance (append fieldExt separable) ∧
+          hsame classifier (append normality separability) ∧
+            hsame endpoint (append provenance classifier) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.right.left
+        (And.intro packet.right.right.right.right.left
+          (And.intro packet.right.right.right.right.right.left
+            packet.right.right.right.right.right.right))))
 
 theorem GaloisExtSourcePacket_classifier_transport
     {field field' separable separable' normal normal' simple simple' classifier classifier'
