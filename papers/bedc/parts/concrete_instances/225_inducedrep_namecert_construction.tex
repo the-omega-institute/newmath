@@ -349,3 +349,124 @@ certificates or in $i,r,F,\eta,\epsilon,\rho,\lambda$ is outside the consumer
 boundary, so the downstream interface receives a concrete BEDC packet rather
 than equality of host-level induction and restriction constructions.
 \end{proof}
+
+\begin{definition}[InducedRepUp stability obligation packet]
+\label{def:inducedrep-stability-obligation-packet}
+For carrier packets
+$$
+\mathcal{I}=(S,R,i,r,F,\eta,\epsilon,\rho,\lambda)
+\qquad\text{and}\qquad
+\mathcal{I}'=(S',R',i',r',F',\eta',\epsilon',\rho',\lambda'),
+$$
+the $\InducedRepUp$ stability obligation packet is the finite datum
+consisting of the two displayed carriers, the componentwise $\hsame$ rows
+from the restriction-induction classifier of
+\autoref{def:inducedrep-restriction-induction-classifier}, and the finite
+$\Cont$ comparison ledger from $\lambda$ to $\lambda'$. Its fields are:
+\begin{enumerate}
+  \item $\hsame$ rows for the consumed certificate rows $S$ and $R$;
+  \item $\hsame$ rows for the induction and restriction endpoints $i$ and
+  $r$;
+  \item entrywise $\hsame$ rows for the Frobenius display
+  $F,\eta,\epsilon$;
+  \item an $\hsame$ row for the provenance packet $\rho$;
+  \item the finite $\Cont$ comparison ledger relating the source,
+  endpoint, Frobenius, provenance, and public continuation entries recorded
+  by $\lambda$.
+\end{enumerate}
+The packet has no field for equality of host categories, host induction
+functors, host restriction functors, functorial naturality, or adjunction
+objects outside the displayed $\mathsf{BHist}$ rows.
+\end{definition}
+
+\begin{theorem}[InducedRepUp classifier stability]
+\label{thm:inducedrep-classifier-stability}
+The restriction-induction classifier of
+\autoref{def:inducedrep-restriction-induction-classifier} transports every
+carrier component of \autoref{def:inducedrep-bhist-carrier}. For any two
+packets $\mathcal{I}$ and $\mathcal{I}'$ related by that classifier, the
+transport repacks as the stability obligation packet of
+\autoref{def:inducedrep-stability-obligation-packet} and preserves the
+public $\NameCert_{\InducedRepUp}$ obligation surface of
+\autoref{thm:inducedrep-namecert-obligation-surface}.
+\end{theorem}
+\begin{proof}
+Project the two carriers as
+$\mathcal{I}=(S,R,i,r,F,\eta,\epsilon,\rho,\lambda)$ and
+$\mathcal{I}'=(S',R',i',r',F',\eta',\epsilon',\rho',\lambda')$. The
+classifier is already componentwise: it gives the $\hsame$ rows for the
+consumed SubgroupUp and RepresentationRingUp packets, the displayed
+subgroup and representation-ring rows read from them, the induction and
+restriction endpoints, the Frobenius rows, and the provenance packet.
+
+It remains to repack the continuation part. The same classifier includes
+the finite $\Cont$ comparison between $\lambda$ and $\lambda'$, entry by
+entry, so the source, endpoint, Frobenius, provenance, and public
+continuation reads are transported inside the displayed ledger.
+
+The obligation surface in
+\autoref{thm:inducedrep-namecert-obligation-surface} asks for no more data
+than those projected rows. Repacking the projected $\hsame$ rows and the
+finite $\Cont$ comparison gives the stability obligation packet, and the
+surface is preserved because no host category, functor equality, adjunction
+row, or bridge row is part of the transported data.
+\end{proof}
+
+\begin{theorem}[InducedRepUp continuation ledger closure]
+\label{thm:inducedrep-cont-ledger-closure}
+The source reads, induction and restriction endpoint reads, Frobenius reads,
+provenance reads, and public continuation reads of an $\InducedRepUp$
+carrier close under finite $\Cont$ composition inside the ledger
+$\lambda$ of \autoref{def:inducedrep-bhist-carrier}. Consequently every
+finite continuation needed by the obligation surface is again a row recorded
+by $\lambda$.
+\end{theorem}
+\begin{proof}
+Project the carrier to the finite packet
+$\mathcal{I}=(S,R,i,r,F,\eta,\epsilon,\rho,\lambda)$. By definition,
+$\lambda$ contains the consumed SubgroupUp rows, consumed
+RepresentationRingUp rows, induction and restriction endpoint rows,
+Frobenius rows, provenance rows, and public continuation rows exposed by the
+packet.
+
+Now compose only rows already listed in $\lambda$. A source read followed by
+an endpoint read, an endpoint read followed by a Frobenius read, or a
+Frobenius read followed by a public continuation read is still a finite
+read through the same displayed ledger, because the ledger is the complete
+$\Cont$ record for the carrier.
+
+Thus the closure statement is a projection-and-repacking argument. The
+projection chooses the listed rows of $\lambda$, and the repacking records
+their finite composite as another continuation row of the same public
+ledger. Nothing in the argument introduces a host functor, host category,
+or adjunction object outside the carrier.
+\end{proof}
+
+\begin{theorem}[InducedRepUp package provenance exactness]
+\label{thm:inducedrep-pkg-provenance-exactness}
+Every row exported by the $\InducedRepUp$ package provenance surface is
+exactly one of the rows recorded by $\rho$ or $\lambda$ in
+\autoref{def:inducedrep-bhist-carrier}: the consumed SubgroupUp rows, the
+consumed RepresentationRingUp rows, the induction row, the restriction row,
+and the Frobenius rows $F,\eta,\epsilon$. No host category, host functor
+equality, or adjunction row is exported by the provenance surface.
+\end{theorem}
+\begin{proof}
+Project the package row $\rho$. Its definition records precisely the
+consumed package rows from $S$ and $R$ together with the package rows
+attached to $i$, $r$, $F$, $\eta$, and $\epsilon$. These are exactly the
+SubgroupUp, RepresentationRingUp, induction, restriction, and Frobenius
+rows named in the theorem.
+
+Project the continuation ledger $\lambda$ next. It records the corresponding
+public reads: source rows, endpoint rows, Frobenius rows, provenance rows,
+and public continuation rows. Therefore every public continuation witness
+for a provenance row is already present in the same finite carrier.
+
+For the converse, take any row recorded by $\rho$ or $\lambda$ with one of
+the listed roles. The carrier definition repacks it as part of the
+$\InducedRepUp$ public provenance surface, and the consumer boundary of
+\autoref{thm:inducedrep-subgroup-representationring-consumer-boundary}
+excludes every row not so recorded. Hence no host category, equality of
+induction or restriction functors, or Frobenius adjunction row is exported.
+\end{proof}
