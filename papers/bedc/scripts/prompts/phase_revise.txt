@@ -1,7 +1,16 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.3 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.4 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## Multi-target round support
+
+Phase Review may emit up to 5 targets in `targets[]` (not just `targets[0]`). Step 1 (Apply each target) below already loops over all targets — process them in array order. Between targets:
+
+- Re-run `make check` after applying each substantive target to confirm intermediate state compiles. Quick `closure_mark` targets (1-3 line edits) can be batched without intermediate compile.
+- If target `i` fails to apply (e.g. file already at desired state, prerequisite missing), skip it with a note in commit body and continue to target `i+1`. Do NOT abort the whole round.
+- The single round commit accumulates ALL applied target changes. Commit subject prefers the highest-impact target's wording; the body lists each applied target as a bullet.
+- If 0 targets apply (all skipped), emit empty commit OK — do not force-add changes.
 
 ## Round P<ROUND_NUM>
 

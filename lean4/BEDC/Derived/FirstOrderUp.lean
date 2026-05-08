@@ -126,4 +126,23 @@ theorem FirstOrderBHistSyntaxCarrier_deduction_endpoint_exactness [AskSetup] [Pa
       (And.intro conclusionRow
         (And.intro conclusionSig conclusionPkg)))
 
+theorem FirstOrderDeductionLedgerConcatenation_closure [AskSetup] [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint provenance d1 d2 joined : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol
+        functionSymbol treeEndpoint formulaEndpoint provenance bundle pkg ->
+      UnaryHistory d1 ->
+        UnaryHistory d2 ->
+          Cont d1 d2 joined ->
+            SigRel bundle formulaEndpoint provenance ->
+              UnaryHistory joined ∧ Cont d1 d2 joined ∧
+                SigRel bundle formulaEndpoint provenance ∧ PkgSig bundle provenance pkg := by
+  intro carrier d1Unary d2Unary joinedRow formulaSig
+  have joinedUnary : UnaryHistory joined :=
+    unary_cont_closed d1Unary d2Unary joinedRow
+  exact And.intro joinedUnary
+    (And.intro joinedRow
+      (And.intro formulaSig carrier.right.right.right.right.right.right.right.right))
+
 end BEDC.Derived.FirstOrderUp
