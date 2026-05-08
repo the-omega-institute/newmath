@@ -173,9 +173,11 @@ import BEDC.Derived.ComplexUp.RawLedgerE0
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
+import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
+import BEDC.Derived.CurvatureUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.RealAlgOrderUp
