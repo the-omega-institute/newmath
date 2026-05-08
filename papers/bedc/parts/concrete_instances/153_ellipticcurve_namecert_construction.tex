@@ -16,6 +16,7 @@ where $\mathcal{F}$ is a source $\NameCert_{\FieldUp}$ row, $\mathcal{P}$ is a s
 
 The accepted endpoint is exactly the displayed history packet. It contains no ambient curve equality, no external point set, and no host discriminant predicate; all coefficient, incidence, smoothness, base-point, classifier, continuation, and provenance data are rows of $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.
 \end{definition}
+\leandef{BEDC.Derived.EllipticCurveUp.EllipticCurveCarrierPacket}
 
 \section{The certificate}
 \label{sec:ellipticcurve-certificate}
@@ -24,6 +25,7 @@ The accepted endpoint is exactly the displayed history packet. It contains no am
 \label{thm:ellipticcurve-field-source-obligation}
 In every carrier packet of \autoref{def:ellipticcurve-bhist-carrier-packet}, the coefficient rows $a_1,a_2,a_3,a_4,a_6$, the field operation rows used to form the Weierstrass cubic, and the nonzero-discriminant row are projected from the $\NameCert_{\FieldUp}$ dependency. The $\EllipticCurveUp$ boundary may read these rows only as $\mathsf{BHist}$ data with the $\mathsf{Pkg}$ provenance inherited from $\mathcal{F}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.EllipticCurveUp.EllipticCurveCarrierPacket\_field\_source\_obligation}
 \begin{proof}
 Project the carrier packet to its $\mathcal{F}$ component and to the five displayed coefficient rows. The FieldUp certificate supplies the addition, multiplication, negation, unit, and nonzero rows needed to interpret the coefficients and the discriminant expression.
 
