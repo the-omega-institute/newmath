@@ -66,4 +66,34 @@ theorem GaloisGroupAutomorphismActionPacket_identity_action_row
           (And.intro rows.right.right.right.right.right.right.right.left
             rows.right.right.right.right.right.right.right.right))))
 
+theorem GaloisGroupAutomorphismActionPacket_inverse_action_boundary
+    [AskSetup] [PackageSetup]
+    {galoisExt group fixedBase action composition inverse classifier provenance ledger endpoint
+      inverseRow inverseEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisGroupAutomorphismActionPacket galoisExt group fixedBase action composition inverse
+        classifier provenance ledger endpoint bundle pkg ->
+      Cont inverse BHist.Empty inverseRow ->
+        Cont inverseRow provenance inverseEndpoint ->
+          UnaryHistory inverseRow ∧ UnaryHistory inverseEndpoint ∧ hsame inverseRow inverse ∧
+            hsame inverseEndpoint (append inverse provenance) ∧ PkgSig bundle endpoint pkg := by
+  intro packet inverseRowCont inverseEndpointCont
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed packet.left packet.right.left
+      packet.right.right.right.right.right.right.left
+  have sameInverseRow : hsame inverseRow inverse :=
+    cont_right_unit_result inverseRowCont
+  have inverseRowUnary : UnaryHistory inverseRow :=
+    unary_transport packet.right.right.right.right.right.left (hsame_symm sameInverseRow)
+  have inverseEndpointUnary : UnaryHistory inverseEndpoint :=
+    unary_cont_closed inverseRowUnary provenanceUnary inverseEndpointCont
+  have sameInverseEndpoint : hsame inverseEndpoint (append inverse provenance) := by
+    cases sameInverseRow
+    exact inverseEndpointCont
+  exact And.intro inverseRowUnary
+    (And.intro inverseEndpointUnary
+      (And.intro sameInverseRow
+        (And.intro sameInverseEndpoint
+          packet.right.right.right.right.right.right.right.right.right.right)))
+
 end BEDC.Derived.GaloisGroupUp
