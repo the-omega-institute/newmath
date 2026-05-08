@@ -4,6 +4,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -14,6 +15,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.FieldExtUp
@@ -202,6 +204,51 @@ theorem SeparableExtSourceRow_classifier_stability [AskSetup] [PackageSetup]
                 (And.intro endpointCont' pkgSig')))))))
     (And.intro sameProvenance sameEndpoint)
 
+theorem SeparableExtSourceRow_semantic_name_certificate [AskSetup] [PackageSetup]
+    {field polynomial simple provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SeparableExtSourceRow field polynomial simple provenance endpoint bundle pkg ->
+      SemanticNameCert
+        (fun e : BHist => ∃ p : BHist,
+          SeparableExtSourceRow field polynomial simple p e bundle pkg)
+        (fun e : BHist => ∃ p : BHist,
+          SeparableExtSourceRow field polynomial simple p e bundle pkg)
+        (fun e : BHist => ∃ p : BHist,
+          SeparableExtSourceRow field polynomial simple p e bundle pkg)
+        (fun left right : BHist =>
+          (∃ leftProv : BHist,
+            SeparableExtSourceRow field polynomial simple leftProv left bundle pkg) ∧
+            (∃ rightProv : BHist,
+              SeparableExtSourceRow field polynomial simple rightProv right bundle pkg) ∧
+              hsame left right) := by
+  intro row
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (Exists.intro provenance row)
+      equiv_refl := by
+        intro h source
+        exact And.intro source (And.intro source (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified _source
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+
 theorem SeparableExtSourceSurface_simple_root_obligation [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot simpleRoot' provenance endpoint
       endpoint' : BHist}
@@ -227,7 +274,7 @@ theorem SeparableExtSourceSurface_simple_root_obligation [AskSetup] [PackageSetu
           (And.intro surface.right.right.right.left
             (And.intro simpleRootUnary'
               (And.intro surface.right.right.right.right.right.left
-                (And.intro endpointCont' pkgSig')))))))
+                 (And.intro endpointCont' pkgSig')))))))
     sameEndpoint
 
 end BEDC.Derived.SeparableExtUp
