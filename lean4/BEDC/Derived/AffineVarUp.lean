@@ -1,3 +1,4 @@
+import BEDC.Derived.PolynomialUp
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Hist
 
@@ -5,6 +6,7 @@ namespace BEDC.Derived.AffineVarUp
 
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
+open BEDC.Derived.PolynomialUp
 
 def AffineFiniteFamilyZeroLocus (AffPoint : BHist -> Prop)
     (PolyEvalZero : BHist -> BHist -> Prop) (family : ProbeBundle BHist) (x : BHist) :
@@ -102,6 +104,22 @@ theorem AffineFiniteFamilyZeroLocus_duplicate_head_insert {AffPoint : BHist -> P
             exact locus.right memberP
         | inr memberTail =>
             exact locus.right memberTail)
+
+theorem AffineFiniteFamilyZeroLocus_head_insert_equation_rows {F : ProbeBundle BHist}
+    {p x : BHist} :
+    InBundle p F ->
+      AffineFiniteFamilyZeroLocus PolynomialSingletonCarrier PolynomialSingletonClassifier F x ->
+        AffineFiniteFamilyZeroLocus PolynomialSingletonCarrier PolynomialSingletonClassifier
+          (AffineEquationHeadInsertion p F) x ∧
+            PolynomialSingletonClassifier p x ∧ PolynomialSingletonCarrier x := by
+  intro memberP locus
+  have inserted :
+      AffineFiniteFamilyZeroLocus PolynomialSingletonCarrier PolynomialSingletonClassifier
+        (AffineEquationHeadInsertion p F) x :=
+    Iff.mpr (AffineFiniteFamilyZeroLocus_duplicate_head_insert memberP) locus
+  have row : PolynomialSingletonClassifier p x :=
+    AffineFiniteFamilyZeroLocus_occurred_equation_row memberP locus
+  exact And.intro inserted (And.intro row row.right.left)
 
 theorem AffineFiniteFamilyZeroLocus_empty_family_iff {AffPoint : BHist -> Prop}
     {PolyEvalZero : BHist -> BHist -> Prop} {x : BHist} :
