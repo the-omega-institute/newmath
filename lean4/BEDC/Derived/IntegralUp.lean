@@ -218,4 +218,21 @@ theorem IntegralVisibleCarrierRow_classifier_boundary_transport
     (And.intro leftReadback.right.right.right.right.right
       rightReadback.right.right.right.right.right)
 
+theorem IntegralPublicNameCert_surface [AskSetup] [PackageSetup]
+    {measure contour integrand value measureContour integrandValue row row' : BHist} :
+    IntegralVisibleCarrierRow measure contour integrand value measureContour integrandValue row ->
+      hsame row row' ->
+        UnaryHistory row' ∧ MeasureZeroBHistCarrier measure ∧ PLContour contour ∧
+          UnaryHistory integrand ∧ RealConstantHistoryCarrier value ∧
+            Cont measureContour integrandValue row := by
+  intro carrier sameRow
+  have readback := IntegralVisibleCarrierRow_readback carrier
+  have rowUnary' : UnaryHistory row' :=
+    unary_transport readback.right.right.right.right.right sameRow
+  exact And.intro rowUnary'
+    (And.intro readback.left
+      (And.intro readback.right.left
+        (And.intro readback.right.right.left
+          (And.intro readback.right.right.right.left readback.right.right.right.right.left))))
+
 end BEDC.Derived.IntegralUp
