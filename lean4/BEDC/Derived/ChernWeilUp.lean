@@ -67,6 +67,28 @@ theorem ChernWeilSourceEnvelope_rows
           (And.intro envelope.right.right.right.right.left
             envelope.right.right.right.right.right)))
 
+theorem ChernWeilSourceEnvelope_closed_form_derham_class_obligation
+    {curvature derham provenance connectionFace characteristic representative classRow : BHist} :
+    ChernWeilSourceEnvelope curvature derham provenance connectionFace characteristic ->
+      UnaryHistory connectionFace ->
+        UnaryHistory representative ->
+          Cont characteristic representative classRow ->
+            UnaryHistory classRow ∧ hsame classRow (append (append provenance connectionFace)
+              representative) ∧ hsame characteristic (append provenance connectionFace) ∧
+              Cont characteristic representative classRow := by
+  intro envelope connectionFaceUnary representativeUnary classRowCont
+  have rows := ChernWeilSourceEnvelope_rows envelope
+  have characteristicUnary : UnaryHistory characteristic :=
+    unary_cont_closed envelope.right.right.left connectionFaceUnary rows.right.right.right.left
+  have classRowUnary : UnaryHistory classRow :=
+    unary_cont_closed characteristicUnary representativeUnary classRowCont
+  have classRowReadback :
+      hsame classRow (append (append provenance connectionFace) representative) :=
+    classRowCont.trans (congrArg (fun row : BHist => append row representative)
+      rows.right.right.right.right)
+  exact And.intro classRowUnary
+    (And.intro classRowReadback (And.intro rows.right.right.right.right classRowCont))
+
 def ChernWeilCarrierEnvelope
     (curvature derham polynomial connectionLedger characteristic provenance endpoint : BHist) :
     Prop :=
