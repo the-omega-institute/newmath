@@ -432,6 +432,33 @@ theorem BilinFormModulePairingSourceRow_dual_symmetry_row [AskSetup]
       (And.intro symmetryRows.right.right
         (And.intro sameEndpointSig row.right.right.right)))
 
+theorem BilinFormModulePairingSourceRow_nondegeneracy_witness_ledger_row [AskSetup]
+    {moduleSource vecSource left right scalar endpoint probes ledger leftZero rightZero endpointZero :
+      BHist}
+    {bundle : ProbeBundle BHist} :
+    BilinFormModulePairingSourceRow moduleSource vecSource left right scalar endpoint probes ledger
+        bundle ->
+      Cont left BHist.Empty leftZero ->
+        Cont right BHist.Empty rightZero ->
+          Cont endpoint BHist.Empty endpointZero ->
+            UnaryHistory leftZero ∧
+              UnaryHistory rightZero ∧
+                UnaryHistory endpointZero ∧
+                  hsame leftZero left ∧
+                    hsame rightZero right ∧
+                      hsame endpointZero endpoint ∧ InBundle probes bundle := by
+  intro row leftZeroRow rightZeroRow endpointZeroRow
+  have nondegeneracyRows :=
+    BilinFormRootPairingSurface_nondegeneracy_row row.right.right.left leftZeroRow rightZeroRow
+      endpointZeroRow
+  exact And.intro nondegeneracyRows.left
+    (And.intro nondegeneracyRows.right.left
+      (And.intro nondegeneracyRows.right.right.left
+        (And.intro nondegeneracyRows.right.right.right.left
+          (And.intro nondegeneracyRows.right.right.right.right.left
+            (And.intro nondegeneracyRows.right.right.right.right.right.left
+              row.right.right.right)))))
+
 def BilinFormModulePairingPackageRow [AskSetup] [PackageSetup]
     (moduleSource vectorSource left right scalar endpoint ledger : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
