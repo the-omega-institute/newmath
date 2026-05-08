@@ -247,6 +247,22 @@ theorem CurvatureBracketCarrier_classifier_transport_row
         (And.intro boundaryCont' curvatureCont')))
     sameCurvature
 
+theorem CurvatureBracketCarrier_boundary_determinacy
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
+      boundary' curvatureLedger curvatureLedger' : BHist} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA
+        ledgerB boundary curvatureLedger ->
+      Cont derivativeA derivativeB boundary' ->
+        Cont boundary' provenance curvatureLedger' ->
+          hsame boundary boundary' ∧ hsame curvatureLedger curvatureLedger' := by
+  intro carrier boundaryCont' curvatureCont'
+  have sameBoundary : hsame boundary boundary' :=
+    cont_deterministic carrier.right.right.left boundaryCont'
+  have sameCurvature : hsame curvatureLedger curvatureLedger' :=
+    cont_respects_hsame sameBoundary (hsame_refl provenance) carrier.right.right.right
+      curvatureCont'
+  exact And.intro sameBoundary sameCurvature
+
 def CurvatureChernWeilSourceEnvelope [AskSetup] [PackageSetup]
     (curvatureLedger derham provenance connectionLedger classifier : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
