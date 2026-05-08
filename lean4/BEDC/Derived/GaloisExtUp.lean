@@ -638,6 +638,38 @@ theorem GaloisExtSourcePacket_normal_root_orbit_closure [AskSetup] [PackageSetup
         (And.intro orbitEndpointReadback
           boundary.right.right.right.right.right.right.right.right.right)))
 
+theorem GaloisExtSourcePacket_galoisgroup_consumer_boundary [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint orbitLedger orbitEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      Cont normality provenance orbitLedger ->
+        Cont orbitLedger separability orbitEndpoint ->
+          SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot sepProvenance
+              separable bundle pkg ∧
+            UnaryHistory normality ∧ UnaryHistory separability ∧ UnaryHistory classifier ∧
+              UnaryHistory provenance ∧ UnaryHistory endpoint ∧ UnaryHistory orbitLedger ∧
+                UnaryHistory orbitEndpoint ∧ hsame endpoint (append provenance classifier) ∧
+                  hsame orbitEndpoint (append (append normality provenance) separability) ∧
+                    PkgSig bundle endpoint pkg := by
+  intro packet orbitLedgerRow orbitEndpointRow
+  have boundary :=
+    GaloisExtSourcePacket_public_obligation_boundary packet
+  have orbit :=
+    GaloisExtSourcePacket_normal_root_orbit_closure packet orbitLedgerRow orbitEndpointRow
+  exact And.intro boundary.left
+    (And.intro boundary.right.left
+      (And.intro boundary.right.right.left
+        (And.intro boundary.right.right.right.left
+          (And.intro boundary.right.right.right.right.left
+            (And.intro boundary.right.right.right.right.right.left
+              (And.intro orbit.left
+                (And.intro orbit.right.left
+                  (And.intro boundary.right.right.right.right.right.right.right.right.left
+                    (And.intro orbit.right.right.right.left
+                      boundary.right.right.right.right.right.right.right.right.right)))))))))
+
 theorem GaloisExtAutomorphismSourceRow_base_fixed_readback [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
       separability classifier provenance endpoint automorphism fixedBase action
