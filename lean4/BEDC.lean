@@ -109,6 +109,7 @@ import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
+import BEDC.Derived.DeRhamUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
@@ -212,6 +213,7 @@ import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.CliffordUp
+import BEDC.Derived.PinGroupUp
 import BEDC.Derived.SpinGroupUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
