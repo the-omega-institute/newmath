@@ -124,6 +124,45 @@ theorem ObservableBHistOperatorCarrier_hilbert_source_boundary [AskSetup] [Packa
               (And.intro endpointRow
                 carrier.right.right.right.right.right.right.right.right.right)))))))
 
+theorem ObservableBHistOperatorCarrier_hilbert_spectral_boundary [AskSetup] [PackageSetup]
+    {hilbert operator spectrum expectation witness provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance ledger
+        endpoint bundle pkg ->
+      UnaryHistory hilbert ∧ UnaryHistory operator ∧ UnaryHistory spectrum ∧
+        UnaryHistory expectation ∧ UnaryHistory witness ∧ UnaryHistory provenance ∧
+          UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+            Cont operator spectrum expectation ∧ Cont hilbert witness ledger ∧
+              Cont provenance ledger endpoint ∧ hsame expectation (append operator spectrum) ∧
+                hsame ledger (append hilbert witness) ∧
+                  hsame endpoint (append provenance ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have expectationRow : Cont operator spectrum expectation :=
+    carrier.right.right.right.right.right.right.left
+  have ledgerRow : Cont hilbert witness ledger :=
+    carrier.right.right.right.right.right.right.right.left
+  have endpointRow : Cont provenance ledger endpoint :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.left carrier.right.right.right.right.left ledgerRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.right.right.right.right.right.left ledgerUnary endpointRow
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro carrier.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right.left
+              (And.intro ledgerUnary
+                (And.intro endpointUnary
+                  (And.intro expectationRow
+                    (And.intro ledgerRow
+                      (And.intro endpointRow
+                        (And.intro expectationRow
+                          (And.intro ledgerRow
+                            (And.intro endpointRow
+                              carrier.right.right.right.right.right.right.right.right.right)))))))))))))
+
 theorem ObservableBHistOperatorCarrier_spectral_transport_stability [AskSetup]
     [PackageSetup]
     {hilbert operator operator' spectrum spectrum' expectation expectation' witness provenance
