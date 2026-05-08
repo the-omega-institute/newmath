@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 
@@ -7,6 +8,7 @@ namespace BEDC.Derived.ChernWeilUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem ChernWeilSourceEnvelope_public_rows
@@ -126,6 +128,52 @@ theorem ChernWeilSourceEnvelope_carrier_obligation
       (And.intro endpointUnary
         (And.intro characteristicReadback
           (And.intro provenanceReadback endpointReadback))))
+
+theorem ChernWeilCarrierEnvelope_semantic_name_certificate
+    {curvature derham polynomial connectionLedger characteristic provenance endpoint : BHist} :
+    ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic provenance
+        endpoint ->
+      SemanticNameCert
+        (fun h : BHist =>
+          exists characteristic provenance _endpoint : BHist,
+            ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic
+              provenance h)
+        (fun h : BHist =>
+          exists characteristic provenance _endpoint : BHist,
+            ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic
+              provenance h)
+        (fun h : BHist =>
+          exists characteristic provenance _endpoint : BHist,
+            ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic
+              provenance h)
+        (fun left right : BHist =>
+          (exists characteristic provenance _endpoint : BHist,
+            ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic
+              provenance left) ∧
+            (exists characteristic provenance _endpoint : BHist,
+              ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic
+                provenance right) ∧
+              hsame left right) := by
+  intro envelope
+  constructor
+  · constructor
+    · exact Exists.intro endpoint
+        (Exists.intro characteristic (Exists.intro provenance (Exists.intro endpoint envelope)))
+    · intro h source
+      exact And.intro source (And.intro source (hsame_refl h))
+    · intro h k classified
+      exact And.intro classified.right.left
+        (And.intro classified.left (hsame_symm classified.right.right))
+    · intro h k r classifiedHK classifiedKR
+      exact And.intro classifiedHK.left
+        (And.intro classifiedKR.right.left
+          (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+    · intro h k classified _source
+      exact classified.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
 
 theorem ChernWeilCarrierEnvelope_characteristic_ledger_transport
     {curvature derham polynomial connectionLedger characteristic provenance endpoint
