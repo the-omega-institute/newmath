@@ -545,6 +545,99 @@ or of one of its finite $\Cont$ ledgers. Repacking those projections gives
 the public $\NameCert_{\RepresentationRingUp}$ surface.
 \end{proof}
 
+\begin{definition}[RepresentationRingUp obligation row inventory]
+\label{def:representationring-obligation-row-inventory}
+The $\RepresentationRingUp$ obligation row inventory is the finite list of
+public rows that a $\NameCert_{\RepresentationRingUp}$ packet must expose:
+\begin{enumerate}
+\item the carrier packet row of
+\autoref{def:representationring-bhist-representation-packet}, including the
+GroupUp packet, RingUp packet, finite representation endpoints, direct-sum
+ledger, tensor-product ledger, provenance packet, and finite $\Cont$ ledger;
+\item the Grothendieck classifier row of
+\autoref{def:representationring-grothendieck-ledger-classifier};
+\item the direct-sum ledger row, consisting of source endpoint rows, target
+endpoint rows, and the finite $\Cont$ records witnessing the displayed direct
+sum construction;
+\item the tensor-product ledger row, consisting of source endpoint rows,
+target endpoint rows, and the finite $\Cont$ records witnessing the displayed
+tensor construction;
+\item the provenance packet row, namely the $\mathsf{Pkg}$ row that records
+that each operation endpoint is read from the displayed GroupUp and RingUp
+dependencies;
+\item the finite $\Cont$ ledger row for all carrier, classifier, direct-sum,
+tensor-product, and provenance continuations in the public packet;
+\item the consumer readback rows exposed to $\InducedRepUp$ and no other
+downstream consumer.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[RepresentationRingUp obligation inventory soundness]
+\label{thm:representationring-obligation-inventory-sound}
+Every row listed in
+\autoref{def:representationring-obligation-row-inventory} is supplied by the
+displayed $\RepresentationRingUp$ public packet: carrier rows come from
+\autoref{thm:representationring-carrier-bhist-boundary}, classifier rows from
+\autoref{thm:representationring-classifier-exactness}, semantic certificate
+rows from \autoref{thm:representationring-namecert-obligation-surface},
+direct-sum and tensor rows from
+\autoref{thm:representationring-operation-ledger-coverage}, provenance and
+finite $\Cont$ rows from
+\autoref{thm:representationring-bhist-finite-source-exhaustion}, and consumer
+readback rows from \autoref{thm:representationring-consumer-boundary}.
+\end{theorem}
+\begin{proof}
+Start with the carrier packet. The carrier boundary theorem projects the
+finite GroupUp packet, RingUp packet, representation endpoint rows, operation
+ledgers, provenance packet, and finite $\Cont$ records from the displayed
+$\mathsf{BHist}$ representation packet.
+
+Next read the classifier and semantic certificate rows. Classifier exactness
+identifies the Grothendieck classifier with the finite ledger comparison, and
+the obligation-surface theorem places that classifier inside the public
+$\NameCert_{\RepresentationRingUp}$ surface.
+
+The operation rows are covered by the operation-ledger theorem. It handles the
+direct-sum ledger and tensor-product ledger by reading their source endpoints,
+target endpoints, provenance packet, and finite $\Cont$ records from the same
+packet.
+
+Finally apply finite source exhaustion and the consumer boundary theorem.
+Finite source exhaustion supplies the remaining provenance and $\Cont$ rows,
+and the consumer boundary theorem supplies exactly the $\InducedRepUp$
+readback rows named by the inventory.
+\end{proof}
+
+\begin{theorem}[RepresentationRingUp obligation inventory exhaustion]
+\label{thm:representationring-obligation-inventory-exhaustive}
+Every public $\RepresentationRingUp$ obligation projects to one of the rows in
+\autoref{def:representationring-obligation-row-inventory}. In particular, the
+public surface never reads a host representation category, an ambient
+Grothendieck quotient, character theory, induction-restriction calculus, or
+any operation not displayed by the finite carrier packet.
+\end{theorem}
+\begin{proof}
+Let a public $\RepresentationRingUp$ obligation be given. By the public
+NameCert surface theorem, it is a carrier, classifier, operation, provenance,
+finite $\Cont$, or consumer row of the displayed packet.
+
+Carrier obligations project to the carrier packet row. Classifier obligations
+project to the Grothendieck classifier row. Operation obligations are either
+direct-sum rows or tensor-product rows, hence project to the corresponding
+ledger row.
+
+Provenance and finite-continuation obligations project to the provenance
+packet row or to the finite $\Cont$ ledger row. Consumer obligations project
+to the $\InducedRepUp$ readback row and receive no additional downstream
+surface.
+
+These cases exhaust the public packet by finite source exhaustion. Since the
+exhaustion theorem has no branch for a host representation category,
+Grothendieck quotient object, character row, or induction-restriction
+calculus, none of those structures is read by a public
+$\RepresentationRingUp$ obligation.
+\end{proof}
+
 \closureat{RepresentationRingUp}{seedStr}[BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_semantic\_name\_certificate]
 \begin{closurestatus}{\RepresentationRingUp}
   \theoryclosure{\seedClosure}
