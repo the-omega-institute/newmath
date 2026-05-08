@@ -133,6 +133,44 @@ theorem GaloisGroupAutomorphismActionPacket_composition_closure
                 (And.intro actionRow (And.intro classifierRow ledgerRow))))))))
     (And.intro sameComposition (And.intro sameClassifier sameLedger))
 
+theorem GaloisGroupAutomorphismActionCompositionPacket_classifier_congruence
+    {extension group fixed action action' composition composition' inverse inverse' classifier
+      classifier' provenance ledger ledger' : BHist} :
+    GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition inverse
+        classifier provenance ledger ->
+      hsame action action' ->
+        hsame inverse inverse' ->
+          Cont fixed action' composition' ->
+            Cont composition' inverse' classifier' ->
+              Cont classifier' provenance ledger' ->
+                GaloisGroupAutomorphismActionCompositionPacket extension group fixed action'
+                    composition' inverse' classifier' provenance ledger' ∧
+                  hsame composition composition' ∧ hsame classifier classifier' ∧
+                    hsame ledger ledger' := by
+  intro packet sameAction sameInverse actionRow classifierRow ledgerRow
+  have actionUnary : UnaryHistory action' :=
+    unary_transport packet.right.right.right.left sameAction
+  have inverseUnary : UnaryHistory inverse' :=
+    unary_transport packet.right.right.right.right.left sameInverse
+  have sameComposition : hsame composition composition' :=
+    cont_respects_hsame (hsame_refl fixed) sameAction
+      packet.right.right.right.right.right.right.left actionRow
+  have sameClassifier : hsame classifier classifier' :=
+    cont_respects_hsame sameComposition sameInverse
+      packet.right.right.right.right.right.right.right.left classifierRow
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameClassifier (hsame_refl provenance)
+      packet.right.right.right.right.right.right.right.right ledgerRow
+  exact And.intro
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro actionUnary
+            (And.intro inverseUnary
+              (And.intro packet.right.right.right.right.right.left
+                (And.intro actionRow (And.intro classifierRow ledgerRow))))))))
+    (And.intro sameComposition (And.intro sameClassifier sameLedger))
+
 theorem GaloisGroupAutomorphismActionPacket_associative_composition_ledger [AskSetup]
     {sigBundle : ProbeBundle ProbeName} {x y z xy yz left right : BHist}
     (policy : AskPolicy (fun h : BHist => UnaryHistory h))
