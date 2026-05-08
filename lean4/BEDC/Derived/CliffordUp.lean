@@ -97,4 +97,38 @@ theorem CliffordCarrierPackage_ledger_exactness_obligations
             (And.intro carrier.right.right.right.left endpointCont)))
   · exact And.intro productUnary endpointUnary
 
+theorem CliffordCarrierPackage_universal_ledger_exactness
+    {unit vector product boundary endpoint : BHist} :
+    CliffordCarrierPackage unit vector product boundary endpoint ->
+      UnaryHistory unit ∧ UnaryHistory vector ∧ UnaryHistory product ∧ UnaryHistory boundary ∧
+        UnaryHistory endpoint ∧ Cont vector vector product ∧ Cont product boundary endpoint ∧
+          hsame product (append vector vector) ∧
+            hsame endpoint (append (append vector vector) boundary) := by
+  intro carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed carrier.right.left carrier.right.left carrier.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed productUnary carrier.right.right.left carrier.right.right.right.right
+  have endpointReadback : hsame endpoint (append (append vector vector) boundary) :=
+    hsame_trans carrier.right.right.right.right
+      (congrArg (fun h : BHist => append h boundary) carrier.right.right.right.left)
+  exact
+    And.intro carrier.left
+      (And.intro carrier.right.left
+        (And.intro productUnary
+          (And.intro carrier.right.right.left
+            (And.intro endpointUnary
+              (And.intro carrier.right.right.right.left
+                (And.intro carrier.right.right.right.right
+                  (And.intro carrier.right.right.right.left endpointReadback)))))))
+
+theorem CliffordCarrierPackage_ledger_exactness_obligation
+    {unit vector product boundary endpoint : BHist} :
+    CliffordCarrierPackage unit vector product boundary endpoint ->
+      UnaryHistory unit ∧ UnaryHistory vector ∧ UnaryHistory product ∧ UnaryHistory boundary ∧
+        UnaryHistory endpoint ∧ Cont vector vector product ∧ Cont product boundary endpoint ∧
+          hsame product (append vector vector) ∧
+            hsame endpoint (append (append vector vector) boundary) :=
+  CliffordCarrierPackage_universal_ledger_exactness
+
 end BEDC.Derived.CliffordUp
