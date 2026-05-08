@@ -126,31 +126,26 @@ theorem AffineSpaceHistoryTorsorCarrier_vector_action_stability
     (And.intro (And.intro actionUnary' carrier'.right) sameAction)
 
 theorem AffineSpaceHistoryTorsorCarrier_action_additivity
-    {point first second combined direct iterated firstEndpoint : BHist} :
-    AffineSpaceHistoryTorsorCarrier point first ->
-      UnaryHistory second ->
-        Cont first second combined ->
-          Cont point combined direct ->
-            Cont point first firstEndpoint ->
-              Cont firstEndpoint second iterated ->
-                hsame direct iterated ∧
-                  AffineSpaceHistoryTorsorCarrier direct combined ∧
-                    AffineSpaceHistoryTorsorCarrier iterated second := by
-  intro carrier secondUnary combinedCont directCont firstCont iteratedCont
-  have combinedUnary : UnaryHistory combined :=
-    unary_cont_closed carrier.right secondUnary combinedCont
+    {point left right sum first iter direct : BHist} :
+    AffineSpaceHistoryTorsorCarrier point left ->
+      AffineSpaceHistoryTorsorCarrier first right ->
+        Cont point left first ->
+          Cont first right iter ->
+            Cont left right sum ->
+              Cont point sum direct ->
+                AffineSpaceHistoryTorsorCarrier direct sum ∧
+                  AffineSpaceHistoryTorsorCarrier iter sum ∧ hsame iter direct := by
+  intro pointCarrier firstCarrier pointAction iterAction sumAction directAction
+  have sumUnary : UnaryHistory sum :=
+    unary_cont_closed pointCarrier.right firstCarrier.right sumAction
   have directUnary : UnaryHistory direct :=
-    unary_cont_closed carrier.left combinedUnary directCont
-  have firstEndpointUnary : UnaryHistory firstEndpoint :=
-    unary_cont_closed carrier.left carrier.right firstCont
-  have iteratedUnary : UnaryHistory iterated :=
-    unary_cont_closed firstEndpointUnary secondUnary iteratedCont
-  have sameIteratedDirect : hsame iterated direct :=
-    cont_assoc_hsame firstCont iteratedCont combinedCont directCont
-  exact
-    And.intro (hsame_symm sameIteratedDirect)
-      (And.intro (And.intro directUnary combinedUnary)
-        (And.intro iteratedUnary secondUnary))
+    unary_cont_closed pointCarrier.left sumUnary directAction
+  have iterUnary : UnaryHistory iter :=
+    unary_cont_closed firstCarrier.left firstCarrier.right iterAction
+  have sameActions : hsame iter direct :=
+    cont_assoc_hsame pointAction iterAction sumAction directAction
+  exact And.intro (And.intro directUnary sumUnary)
+    (And.intro (And.intro iterUnary sumUnary) sameActions)
 
 theorem AffineSpaceTranslationClassifier_witnesses_identified
     {point target left right leftAction rightAction : BHist} :
