@@ -267,4 +267,91 @@ theorem multiNext_iff
     {Γ : BHist → BMark → BHist → Prop} {h : BHist} :
     MultiNext Γ h ↔ AdNext Γ h BMark.b0 ∧ AdNext Γ h BMark.b1 := Iff.rfl
 
+/-- `FableLedger h xs` is `Trace h xs`: the ledger view is `Trace` read as
+a story-generation relation. The chapter-level naming carries the reading;
+the relation is the same. -/
+def FableLedger (h : BHist) (xs : List BMark) : Prop := Trace h xs
+
+theorem fable_ledger_iff_trace {h : BHist} {xs : List BMark} :
+    FableLedger h xs ↔ Trace h xs := Iff.rfl
+
+theorem fable_ledger_sound :
+    ∀ {h : BHist} {xs : List BMark}, FableLedger h xs → Trace h xs := by
+  intro h xs hfl
+  exact hfl
+
+private theorem listSnocCases :
+    ∀ (xs : List BMark),
+      xs = [] ∨ ∃ ys : List BMark, ∃ y : BMark, xs = ys ++ [y] := by
+  intro xs
+  induction xs with
+  | nil => exact Or.inl rfl
+  | cons x xs ih =>
+      cases ih with
+      | inl heq =>
+          cases heq
+          exact Or.inr ⟨[], x, rfl⟩
+      | inr hex =>
+          cases hex with
+          | intro ys hex2 =>
+              cases hex2 with
+              | intro y heq =>
+                  cases heq
+                  exact Or.inr ⟨x :: ys, y, rfl⟩
+
+private theorem length_append_singleton :
+    ∀ (ys : List BMark) (y : BMark), (ys ++ [y]).length = ys.length + 1 := by
+  intro ys y
+  induction ys with
+  | nil => rfl
+  | cons x xs ih =>
+      exact congrArg Nat.succ ih
+
+private theorem fable_ledger_complete_by_length :
+    ∀ (n : Nat) (xs : List BMark), xs.length = n → ∃ h : BHist, FableLedger h xs := by
+  intro n
+  induction n with
+  | zero =>
+      intro xs hlen
+      cases xs with
+      | nil => exact ⟨BHist.Empty, Trace.nil⟩
+      | cons x xs =>
+          cases hlen
+  | succ n ih =>
+      intro xs hlen
+      cases listSnocCases xs with
+      | inl hnil =>
+          cases hnil
+          cases hlen
+      | inr hex =>
+          cases hex with
+          | intro ys hex2 =>
+              cases hex2 with
+              | intro y heq =>
+                  cases heq
+                  have hlen_ys : ys.length = n := by
+                    have hcalc : (ys ++ [y]).length = ys.length + 1 := by
+                      exact length_append_singleton ys y
+                    have hsum : ys.length + 1 = n + 1 := by
+                      exact hcalc ▸ hlen
+                    exact Nat.succ.inj hsum
+                  cases ih ys hlen_ys with
+                  | intro h ih_h =>
+                      cases y with
+                      | b0 =>
+                          exact ⟨BHist.e0 h, Trace.zero h ys ih_h⟩
+                      | b1 =>
+                          exact ⟨BHist.e1 h, Trace.one h ys ih_h⟩
+
+theorem fable_ledger_complete :
+    ∀ xs : List BMark, ∃ h : BHist, FableLedger h xs := by
+  intro xs
+  exact fable_ledger_complete_by_length xs.length xs rfl
+
+theorem fable_ledger_unique_up_to_hsame :
+    ∀ {h k : BHist} {xs : List BMark},
+      FableLedger h xs → FableLedger k xs → hsame h k := by
+  intro h k xs lh lk
+  exact trace_same_marks_hsame lh lk
+
 end BEDC.Capstone.EmptyFableMachine
