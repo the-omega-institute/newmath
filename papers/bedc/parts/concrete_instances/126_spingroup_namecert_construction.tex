@@ -97,6 +97,34 @@ The classifier side is finite because every row is a named component of the carr
 Repacking these cases gives the stated root $\NameCert$ surface. No Spin or Pin global presentation, orthogonal action, matrix model, or host quotient algebra is used by this obligation surface.
 \end{proof}
 
+\begin{theorem}[SpinGroup Clifford even-unit carrier obligation]
+\label{thm:spingroup-clifford-even-unit-carrier-obligation}
+The $\SpinGroupUp$ carrier is the $\mathsf{BHist}$-coded row of Clifford unit
+data whose displayed product is even and whose projection lies in the
+orthogonal action boundary. Its visible carrier entries are inherited from
+$\NameCert_{\CliffordUp}$ and $\NameCert_{\GroupUp}$: Clifford unit rows, even
+product witnesses, group operation and inverse rows, $\hsame$ transport,
+$\Cont$ and $\Pkg$ provenance, and ledger entries naming the projection to the
+orthogonal action interface. The carrier does not export a host Clifford
+algebra element apart from these certified rows.
+\end{theorem}
+\begin{proof}
+Read the Clifford unit rows from
+\autoref{ch:concrete-instances-clifford-namecert}. They provide the visible
+$\mathsf{BHist}$ product, unit, inverse, even-product, and projection rows used
+by the spin carrier.
+
+Read the group-facing operation boundary from
+\autoref{ch:concrete-instances-group-namecert}. It supplies the multiplication,
+unit, inverse, carrier transport, and ledger slots needed to regard the
+Clifford unit rows as group rows.
+
+Repack the shared $\hsame$, $\Cont$, $\Pkg$, and ledger provenance as the
+carrier for $\SpinGroupUp$. The repacking keeps the Clifford and group rows
+visible and records the orthogonal projection as a boundary row, so it adds no
+analytic or host-level carrier beyond the displayed BEDC histories.
+\end{proof}
+
 \section{The certificate}
 \label{sec:spingroup-certificate}
 
@@ -321,4 +349,60 @@ The $\NameCert$ provenance binds these rows to the $\SpinGroupUp$ interface.
 Any $\LieGroupUp$ or $\PinGroupUp$ consumer that needs more structure must add
 its own displayed source rows rather than reading an unrecorded host object
 through this boundary.
+\end{proof}
+
+\begin{theorem}[SpinGroup even-product classifier obligation]
+\label{thm:spingroup-even-product-classifier-obligation}
+The $\SpinGroupUp$ classifier is inherited from the Clifford unit classifier
+together with group classifier transport. For carried spin rows it is stable
+under multiplication, inverse, and replacement of even-product witnesses, and
+it preserves the projection ledger into the orthogonal action boundary. The
+classifier surface uses only $\mathsf{BHist}$ rows, $\hsame$ transport,
+$\Cont/\Pkg$ provenance, $\NameCert$ fields, and the Clifford and group ledgers.
+\end{theorem}
+\begin{proof}
+Apply \autoref{ch:concrete-instances-clifford-namecert} to read the Clifford
+unit classifier and the even-product witness transport rows. These rows compare
+the displayed Clifford products through certified $\mathsf{BHist}$ data.
+
+Apply \autoref{ch:concrete-instances-group-namecert} to transport the same
+classifier through multiplication and inverse. The group boundary supplies the
+operation and inverse stability rows without replacing the BEDC comparison by
+host equality.
+
+The projection ledger is carried along the same $\Cont$ and $\Pkg$ provenance
+used by the carrier theorem. Thus multiplication, inverse, and even-witness
+replacement preserve the classifier and leave the orthogonal action boundary
+unchanged.
+\end{proof}
+
+\begin{theorem}[SpinGroup NameCert obligation surface]
+\label{thm:spingroup-namecert-obligation-surface}
+The carrier row of
+\autoref{thm:spingroup-clifford-even-unit-carrier-obligation} and the
+classifier row of
+\autoref{thm:spingroup-even-product-classifier-obligation} assemble the
+$\NameCert_{\SpinGroupUp}$ obligation surface. This surface contains the
+Clifford even-unit carrier, group transport rows, classifier stability, inverse
+and multiplication stability, even-product witness stability, projection
+ledger, $\hsame$ transport, $\Cont/\Pkg$ provenance, and the exact visible
+ledger boundary. It explicitly does not assert connected Lie topology,
+smooth-manifold structure, analytic covering data, or a topological double
+cover theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier theorem. It fixes the accepted histories as Clifford
+unit rows with even-product witnesses and an orthogonal-action projection
+ledger, all read through \autoref{ch:concrete-instances-clifford-namecert} and
+\autoref{ch:concrete-instances-group-namecert}.
+
+Then apply the classifier theorem. It supplies classifier transport under
+group multiplication and inverse and preserves the even-product and projection
+ledger rows.
+
+Repack these rows into the $\NameCert$ fields: source, carrier, classifier,
+stability, exactness, and ledger. Since every row is a $\mathsf{BHist}$,
+$\hsame$, $\Cont$, or $\Pkg$ row inherited from the Clifford and group
+boundaries, the resulting $\SpinGroupUp$ surface is a BEDC certificate surface
+only and carries no Lie-topological or analytic covering assertion.
 \end{proof}
