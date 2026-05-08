@@ -41,9 +41,7 @@ precheck:
 
 扫 `papers/bedc/parts/**/*.tex` 与 `papers/bedc/frontmatter/**/*.tex`, `papers/bedc/appendices/**/*.tex` (**只扫 .tex, 不扫 .md** — `HOW_INCREMENT_WORKS.md` 中的 `\leanchecked{X}` 是教学示例占位符, 不属于 marker), 提取所有 `\leanchecked{X}` 和 `\leantarget{X}`. 同 X 出现 ≥2 次 fail, 输出 `X` 的 file:line 列表.
 
-**例外**: `parts/proof_obligations/lean_scaffold_contract.tex` 是 CLAUDE.md §41.4 显式认可的"一站式"摘要块, 这个文件中的 marker 不计入唯一性检查 (但会计入"已经在别处出现过"的判断 — 即不允许其他文件指向它已经记录的 X 之外, 它本身可以多次列举).
-
-实现细节: 把 `lean_scaffold_contract.tex` 中的 X 收集进 contract-only 集合; 主扫描发现某 X 在非 contract 文件中出现 ≥2 次即 fail. contract-only 中重复出现不报错.
+**无例外**: 一律全 paper 唯一. `lean_scaffold_contract.tex` 中的 marker 当前都是 `\leanvariant` 居多, 跟外部唯一冲突的只有 1 处, 一并改 `\leanvariant`. CLAUDE.md §41.4 的 "一站式" 描述与 leanvariant 性质一致 — contract 是摘要不是 first-publish site, 用 leanvariant 自然.
 
 ### 1.4 `scripts/check_naming.py` (新)
 
@@ -99,33 +97,15 @@ precheck:
 
 ## 4. `\leanchecked` / `\leantarget` 唯一性修复
 
-11 个 X 在多 site 出现. 规则:
+完整调查后实际重复:
+- **`\leanchecked`: 36 个 X** (有些是同文件内 2 个 occurrence, 有些跨文件)
+- **`\leantarget`: 5 个 X**
 
-- 选 canonical primary site: 优先该定理首次发表的 chapter / construction 文件
-- `lean_scaffold_contract.tex` 中的引用永远视为变体, 改 `\leanvariant`
-- 其余非 canonical site 改 `\leanvariant`
+规则简化为机械式:
+- 对每个重复 X, 按 file:line 排序, **首个 occurrence 留原 marker**, 其余全部改 `\leanvariant`
+- 无 contract 文件特殊例外 — 即使 `lean_scaffold_contract.tex` 中的 marker 也按规则处理 (它跟外部唯一冲突的只有 1 处)
 
-具体每个 X 的 canonical 选择在执行时按 `grep -n "\\leanchecked{X}" parts/` 输出和 site 语义判断, 写在执行计划的 todo 项中.
-
-清单 (从调查得到):
-
-**leanchecked (9 X)**:
-- `BEDC.FKernel.Unary.add_up_licensed_not_primitive` (3 site)
-- `BEDC.FKernel.Unary.nat_up_interface_seed`
-- `BEDC.FKernel.Cont.cont_deterministic`
-- `BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel_empty_fiber_iff`
-- `BEDC.Derived.SheafUp.SheafBHistPointGermLedger_cover_descent_exhaustion`
-- `BEDC.Derived.RatUp.rat_history_semantic_name_certificate`
-- `BEDC.Derived.RatUp.RatHistoryLedgerPolicy_cont_unary_context_positive_denominators`
-- `BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier_endpoint_semantic_fields`
-- `BEDC.Derived.NumFieldUp.NumFieldRatReflexive_ledger_exactness`
-
-**leantarget (5 X)**:
-- `BEDC.Derived.TensorProductUp.TensorProductSingletonFactor_tensor_semanticNameCert`
-- `BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer_semanticNameCert`
-- `BEDC.Derived.MetricUp.MetricDistanceWitness_semanticNameCert`
-- `BEDC.Derived.GroupUp.GroupSingletonHistory_laws`
-- `BEDC.Derived.AbGroupUp.singleton_empty_history_abgroup_laws`
+执行时用一次性 helper python 脚本批量找出 + 改, 跑完人工 git diff 复核, 再 commit.
 
 ## 5. 验证
 
