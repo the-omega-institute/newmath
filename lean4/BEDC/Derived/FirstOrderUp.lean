@@ -180,6 +180,43 @@ theorem FirstOrderDeductionLedgerConcatenation_closure [AskSetup] [PackageSetup]
     (And.intro joinedRow
       (And.intro formulaSig carrier.right.right.right.right.right.right.right.right))
 
+theorem FirstOrderBHistSyntaxCarrier_deduction_soundness_ledger_obligation [AskSetup]
+    [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint provenance step1 step2 joined conclusion conclusionProvenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol functionSymbol
+        treeEndpoint formulaEndpoint provenance bundle pkg ->
+      UnaryHistory step1 ->
+        UnaryHistory step2 ->
+          Cont step1 step2 joined ->
+            Cont formulaEndpoint joined conclusion ->
+              SigRel bundle conclusion conclusionProvenance ->
+                PkgSig bundle conclusionProvenance pkg ->
+                  UnaryHistory joined ∧ UnaryHistory conclusion ∧ Cont step1 step2 joined ∧
+                    Cont formulaEndpoint joined conclusion ∧
+                      hsame conclusion (append formulaEndpoint joined) ∧
+                        SigRel bundle conclusion conclusionProvenance ∧
+                          PkgSig bundle conclusionProvenance pkg := by
+  intro carrier step1Unary step2Unary joinedRow conclusionRow conclusionSig conclusionPkg
+  have endpointUnary :=
+    FirstOrderBHistSyntaxCarrier_endpoint_unary
+      (symbolSource := symbolSource) (treeSource := treeSource)
+      (variableLedger := variableLedger) (relationSymbol := relationSymbol)
+      (functionSymbol := functionSymbol) (treeEndpoint := treeEndpoint)
+      (formulaEndpoint := formulaEndpoint) (provenance := provenance)
+      (bundle := bundle) (pkg := pkg) carrier
+  have joinedUnary : UnaryHistory joined :=
+    unary_cont_closed step1Unary step2Unary joinedRow
+  have conclusionUnary : UnaryHistory conclusion :=
+    unary_cont_closed endpointUnary.right joinedUnary conclusionRow
+  exact And.intro joinedUnary
+    (And.intro conclusionUnary
+      (And.intro joinedRow
+        (And.intro conclusionRow
+          (And.intro conclusionRow
+            (And.intro conclusionSig conclusionPkg)))))
+
 theorem FirstOrderBHistSyntaxCarrier_hsame_stability_obligation [AskSetup] [PackageSetup]
     {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
       formulaEndpoint provenance relationSymbol' functionSymbol' treeEndpoint' formulaEndpoint'
@@ -215,7 +252,7 @@ theorem FirstOrderBHistSyntaxCarrier_hsame_stability_obligation [AskSetup] [Pack
           (And.intro relationUnary'
             (And.intro functionUnary'
               (And.intro treeEndpointCont'
-                (And.intro formulaEndpointCont' (And.intro formulaSig' pkgSig'))))))))
+                 (And.intro formulaEndpointCont' (And.intro formulaSig' pkgSig'))))))))
     (And.intro sameTreeEndpoint sameFormulaEndpoint)
 
 end BEDC.Derived.FirstOrderUp
