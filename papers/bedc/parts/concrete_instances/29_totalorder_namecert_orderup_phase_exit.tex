@@ -559,6 +559,42 @@ Project the remaining paper rows through \autoref{thm:unary-prefix-orderup-phase
 The Lean target recorded below remains a dependency boundary: it certifies the inherited $\PreorderUp$ stability field rather than a checked $\OrderUp$ namespace theorem. Therefore the theory axis can report the public paper surface, while the verification axis stays below an audit-clean $\OrderUp$ target.
 \end{proof}
 
+\begin{theorem}[OrderUp unary prefix namespace target surface]
+\label{thm:orderup-unary-prefix-namespace-target-surface}
+The $\OrderUp$ namespace target surface in this chapter is exactly the unary carrier $\mathsf{UnaryHistory}$, classifier $\rho_{\mathsf{u}}$, relation $\le_{\mathsf{u}} := \mathsf{PreorderPrefixLE}$, constructive comparison rows, finite interval rows, endpoint uniqueness rows, exactness row, ledger rows, public export row, and bridge row displayed in this section. No additional carrier, comparison, endpoint, quotient, or host-order row belongs to the chapter surface.
+\end{theorem}
+\begin{proof}
+Project the carrier, classifier, and relation from \autoref{thm:orderup-unary-prefix-public-export}. The constructive comparison branches and order laws are the rows repacked by \autoref{thm:unary-prefix-orderup-phase-exit-package}.
+
+Next project the finite interval and endpoint rows from \autoref{thm:unary-prefix-orderup-bounded-interval-collapse} and \autoref{thm:totalorder-prefix-finite-extrema-interval-unique}. These are the only interval and endpoint witnesses attached to the unary-prefix public package.
+
+Finally read the exactness and ledger clauses through \autoref{thm:unary-prefix-orderup-ledger-obligation}, \autoref{thm:orderup-exactness-ledger-scope}, and \autoref{thm:orderup-unary-prefix-standard-bridge-boundary}. Repacking these projected rows gives precisely the listed namespace surface and nothing outside the displayed $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$, and $\Cont$ data.
+\end{proof}
+
+\begin{theorem}[OrderUp unary prefix audit consumer boundary]
+\label{thm:orderup-unary-prefix-audit-consumer-boundary}
+Any audit consumer of the $\OrderUp$ target surface in this chapter may cite only the $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$, and $\Cont$ rows listed by \autoref{thm:orderup-unary-prefix-namespace-target-surface}. Such a consumer may not replace those rows by a host order on natural numbers, an external finite-word equality, or classical trichotomy.
+\end{theorem}
+\begin{proof}
+Start from the public export row of \autoref{thm:orderup-unary-prefix-public-export}. Its consumer-visible data are the carried unary histories, the unary classifier, and the prefix relation.
+
+The ledger restrictions in \autoref{thm:unary-prefix-orderup-ledger-obligation} and \autoref{thm:orderup-exactness-ledger-scope} state that continuation readback is finite and attached to the displayed unary-prefix package. The standard bridge boundary of \autoref{thm:orderup-unary-prefix-standard-bridge-boundary} gives the finite-word reading without adding a host natural-number order.
+
+Thus an audit consumer can repack only the listed BEDC rows. Host order, external word equality, and classical trichotomy are not projections of any cited theorem block, so they cannot be substituted for the chapter surface.
+\end{proof}
+
+\begin{theorem}[OrderUp unary prefix formalization handshake]
+\label{thm:orderup-unary-prefix-formalization-handshake}
+A Lean theorem in the namespace $\mathsf{BEDC.Derived.OrderUp}$ that closes this chapter must prove the same unary-prefix surface listed in \autoref{thm:orderup-unary-prefix-namespace-target-surface}. The inherited $\PreorderUp$ stability dependency may remain a source row, but it is not the canonical $\OrderUp$ theorem for the carrier, comparison, finite interval, endpoint, exactness, ledger, public export, and bridge surface.
+\end{theorem}
+\begin{proof}
+The dependency target in the closure block certifies the preorder stability field used by the unary-prefix relation. That row is one source of the public package, not the whole $\OrderUp$ package.
+
+Project the chapter surface from \autoref{thm:orderup-unary-prefix-namespace-target-surface}. It contains comparison, bounded interval, endpoint uniqueness, exactness, ledger, public export, and bridge data in addition to the inherited preorder row.
+
+Therefore a namespace theorem for $\mathsf{BEDC.Derived.OrderUp}$ must repack all listed rows as its conclusion. Reusing the $\PreorderUp$ dependency as the canonical theorem would omit the displayed $\OrderUp$ rows and would not match the chapter surface.
+\end{proof}
+
 \begin{closurestatus}{\OrderUp}
   \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{thm:orderup-unary-prefix-public-export} gives the public $\OrderUp$ surface over $\mathsf{UnaryHistory}$, $\rho_{\mathsf{u}}$, and $\le_{\mathsf{u}}$, while \autoref{thm:orderup-unary-prefix-standard-bridge-boundary} identifies its finite unary-word standard bridge.}
