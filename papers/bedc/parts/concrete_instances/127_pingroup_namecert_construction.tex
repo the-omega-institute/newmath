@@ -6,56 +6,124 @@ The Pin-group interface $\PinGroupUp$ packages the double cover of the full orth
 \section{Carrier definition}
 \label{sec:pingroup-carrier}
 
-\begin{definition}[PinGroupUp BHist carrier]
-\label{def:pingroup-bhist-carrier}
-A $\PinGroupUp$ $\mathsf{BHist}$ carrier is a finite packet
-$$
-\Pi=(S,C,R,\mu,\iota,\lambda,\rho)
-$$
-whose source rows are the displayed $\NameCert_{\SpinGroupUp}$ and
-$\NameCert_{\CliffordUp}$ surfaces. The row $S$ is the selected
-$\SpinGroupUp$ carrier row. The row $C$ is the selected $\CliffordUp$ carrier
-row. The row $R$ is the reflection-generator row, displayed as a Clifford
-carrier entry whose source and target are read only through the same $C$ row.
-The row $\mu$ records the finite Clifford-product ledger combining carried
-spin rows with the displayed reflection row. The row $\iota$ records the
-inclusion of the spin row into the Clifford row. The row $\lambda$ is the
-$\Cont$ ledger transporting only the listed rows, and $\rho$ is the $\Pkg$
-provenance row for the spin, Clifford, reflection, product, inclusion, and
-continuation entries.
-
-Two such packets are compared by the public classifier only when the
-corresponding $S$, $C$, $R$, $\mu$, $\iota$, and $\rho$ rows are related by
-$\hsame$, and the continuation ledgers are related by $\Cont$. No ambient
-orthogonal group, external Clifford algebra, or standard double-cover object is
-part of the carrier.
+\begin{definition}[PinGroupUp reflection-extension carrier]
+\label{def:pingroup-reflection-extension-carrier}
+The $\PinGroupUp$ reflection-extension carrier is the finite $\mathsf{BHist}$
+carrier obtained from the $\SpinGroupUp$ carrier of
+\autoref{ch:concrete-instances-spingroup-namecert} by adjoining one displayed
+reflection-generator row inside the $\CliffordUp$ carrier of
+\autoref{ch:concrete-instances-clifford-namecert}.  Its classifier is inherited
+from $\hsame$-compatible Clifford transport: two displayed pin rows are
+classified exactly when the underlying Clifford carrier rows are connected by
+the finite $\Cont$ ledger accepted by the source $\NameCert_{\CliffordUp}$ and
+their spin subrows are classified by the inherited $\NameCert_{\SpinGroupUp}$
+surface.
 \end{definition}
 
 \section{The certificate}
 \label{sec:pingroup-certificate}
 
+\begin{theorem}[PinGroupUp reflection-generator admission]
+\label{thm:pingroup-reflection-generator-carrier}
+The reflection-generator row displayed in
+\autoref{def:pingroup-reflection-extension-carrier} is admitted by the
+$\PinGroupUp$ carrier precisely as a $\mathsf{BHist}$ row already carried by the
+source $\NameCert_{\CliffordUp}$, together with the finite $\Cont$ provenance
+ledger identifying it as the non-spin generator row of the pin surface.
+\end{theorem}
+\begin{proof}
+Project the generator from the Clifford carrier in
+\autoref{ch:concrete-instances-clifford-namecert}.  The row is a displayed
+$\mathsf{BHist}$ carrier entry, so it is available to the pin carrier without
+forming any host orthogonal-group element.
+
+The $\hsame$ classifier and finite $\Cont$ ledger carried by the Clifford
+certificate provide the admissibility certificate for transporting the
+generator row.  Repacking those rows with the source $\NameCert_{\CliffordUp}$
+provenance gives the reflection-generator field of
+\autoref{def:pingroup-reflection-extension-carrier}.
+
+No quotient of Clifford units and no equality in a host orthogonal group is
+used; the admitted object is only the displayed $\mathsf{BHist}$ generator row
+and its $\NameCert$ provenance.
+\end{proof}
+
+\begin{theorem}[SpinGroupUp inclusion surface for PinGroupUp]
+\label{thm:pingroup-spingroup-inclusion-surface}
+Every $\mathsf{BHist}$ carrier row supplied by
+$\NameCert_{\SpinGroupUp}$ embeds into the
+\autoref{def:pingroup-reflection-extension-carrier} as the spin subrow of the
+$\PinGroupUp$ carrier.  Its classifier, $\Cont$ transport ledger, and
+$\NameCert$ provenance are the inherited $\SpinGroupUp$ rows, read inside the
+ambient Clifford carrier.
+\end{theorem}
+\begin{proof}
+Start with a carried spin row from
+\autoref{ch:concrete-instances-spingroup-namecert}.  By the construction of
+\autoref{def:pingroup-reflection-extension-carrier}, the pin carrier keeps the
+whole spin carrier and adds only the displayed reflection-generator row.
+
+The spin classifier is not recomputed.  It is copied as the inherited
+$\hsame$-compatible classifier row and transported by the same finite $\Cont$
+ledger already accepted by $\NameCert_{\SpinGroupUp}$.
+
+The Clifford dependency supplies the ambient carrier in which both the spin
+subrow and the reflection-generator row live.  Therefore the inclusion surface
+is a kernel-level $\mathsf{BHist}$ inclusion with $\NameCert$ provenance, not an
+identification with a host orthogonal subgroup.
+\end{proof}
+
+\begin{theorem}[PinGroupUp Clifford conjugation ledger]
+\label{thm:pingroup-clifford-conjugation-ledger}
+The Clifford conjugation data visible to $\PinGroupUp$ is exactly the finite
+ledger consisting of the spin subrow, the reflection-generator row, the
+$\hsame$ classifier transports between their Clifford carrier representatives,
+and the $\Cont$ provenance rows supplied by
+$\NameCert_{\CliffordUp}$.  This ledger records provenance for pin conjugation
+without exporting a quotient action or host orthogonal-group equality.
+\end{theorem}
+\begin{proof}
+Read the two source rows from
+\autoref{def:pingroup-reflection-extension-carrier}: the inherited
+$\SpinGroupUp$ carrier row and the displayed Clifford reflection-generator row.
+Both are already $\mathsf{BHist}$ rows in the Clifford carrier.
+
+Apply the $\hsame$-compatible transport surface of
+\autoref{ch:concrete-instances-clifford-namecert}.  Its finite $\Cont$ ledger
+records how the Clifford representatives are transported under the displayed
+conjugation rows, and its $\NameCert$ provenance records the source of each
+projection.
+
+Combining these projections gives the exact conjugation ledger exposed by
+$\PinGroupUp$.  Since the ledger consists only of $\mathsf{BHist}$,
+$\hsame$, $\Cont$, and $\NameCert$ rows, it exports no quotient of Clifford
+representatives and no equality in a host orthogonal group.
+\end{proof}
+
 \begin{theorem}[PinGroupUp Clifford-reflection product closure]
 \label{thm:pingroup-clifford-reflection-product-closure}
-Let $\Pi=(S,C,R,\mu,\iota,\lambda,\rho)$ be a $\PinGroupUp$ $\mathsf{BHist}$
-carrier. If $x$ is carried by the spin row $S$ and the reflection-generator
-row $R$ is carried by the Clifford row $C$, then the displayed Clifford
-product row $\mu(x,R)$ is again a carried $\PinGroupUp$ row. Its Clifford
-source is $C$, its reflection source is $R$, and its transport is exhausted by
-the $\hsame$ comparisons and $\Cont$ entries already present in $\Pi$.
+Let a displayed $\PinGroupUp$ carrier expose the inherited spin row $S$, the
+Clifford carrier row $C$, the reflection-generator row $R$, and the Clifford
+product ledger $\mu$ supplied by the source $\NameCert_{\CliffordUp}$. If $x$
+is carried by $S$ and $R$ is carried by $C$, then the displayed product row
+$\mu(x,R)$ is again a carried $\PinGroupUp$ row. Its Clifford source is $C$,
+its reflection source is $R$, and its transport is exhausted by the $\hsame$
+comparisons and $\Cont$ entries already present in the displayed carrier.
 \end{theorem}
 \begin{proof}
 Project the spin carrier row, Clifford carrier row, reflection row, product
 ledger, continuation ledger, and provenance row from
-\autoref{def:pingroup-bhist-carrier}. These projections give all endpoints
+\autoref{def:pingroup-reflection-extension-carrier} and the source
+$\NameCert_{\CliffordUp}$ certificate. These projections give all endpoints
 used by the product row $\mu(x,R)$.
 
 The Clifford endpoint is read through $C$, and the reflection endpoint is read
 through $R$. The public classifier compares both endpoints only by $\hsame$,
 so transported product endpoints remain in the displayed finite packet.
 
-It remains to repack the product row. Append the product entry already named
-by $\mu$ to the finite $\mathsf{BHist}$ ledger and transport the same entry by
-the displayed $\Cont$ row. The resulting packet has the same source rows,
+Repack the product row by appending the product entry already named by $\mu$ to
+the finite $\mathsf{BHist}$ ledger and transporting the same entry by the
+displayed $\Cont$ row. The resulting packet has the same source rows,
 reflection row, and provenance row, hence it is again a $\PinGroupUp$ carrier.
 \end{proof}
 
@@ -63,41 +131,45 @@ reflection row, and provenance row, hence it is again a $\PinGroupUp$ carrier.
 \label{thm:pingroup-spin-clifford-source-scope}
 Every source row admitted by a $\PinGroupUp$ carrier is one of the displayed
 $\SpinGroupUp$ or $\CliffordUp$ source rows of
-\autoref{def:pingroup-bhist-carrier}. The reflection-generator row, the
-Clifford-product row, and the spin-inclusion row are internal rows over those
-two sources and do not introduce a third source certificate.
+\autoref{def:pingroup-reflection-extension-carrier}. The reflection-generator
+row, the Clifford-product row, and the spin-inclusion row are internal rows
+over those two sources and do not introduce a third source certificate.
 \end{theorem}
 \begin{proof}
-Induct over the finite $\mathsf{BHist}$ ledger underlying the packet. The
-initial source entries are exactly the spin row $S$ and the Clifford row $C$
-from \autoref{def:pingroup-bhist-carrier}.
+Induct over the finite $\mathsf{BHist}$ ledger underlying the displayed
+carrier. The initial source entries are exactly the inherited spin row and the
+Clifford row from \autoref{def:pingroup-reflection-extension-carrier}.
 
 For a reflection-generator entry, the carrier definition reads its source and
-target through $C$, so the entry contributes no new source. For a spin
-inclusion entry, the domain is $S$ and the codomain is $C$.
+target through the Clifford row, so the entry contributes no new source. For a
+spin inclusion entry, the domain is the inherited spin row and the codomain is
+the displayed Clifford row.
 
-For a Clifford-product entry, the ledger row is $\mu$ and its endpoints are
-the already carried spin and reflection rows. The continuation step preserves
-the same finite source list by $\Cont$, so the induction closes with only the
-two displayed source certificates.
+For a Clifford-product entry, the ledger row is $\mu$ and its endpoints are the
+already carried spin and reflection rows. The continuation step preserves the
+same finite source list by $\Cont$, so the induction closes with only the two
+displayed source certificates.
 \end{proof}
 
 \begin{theorem}[PinGroupUp NameCert obligation surface]
 \label{thm:pingroup-namecert-obligation-surface}
 The public $\NameCert_{\PinGroupUp}$ obligation surface consists exactly of
-the $\mathsf{BHist}$ carrier of \autoref{def:pingroup-bhist-carrier}, its
-componentwise $\hsame$ classifier, the reflection-generator row, the
-Clifford-product closure row, the spin-inclusion row, and the finite
-$\Cont$/$\Pkg$ ledger scope. It claims no data beyond the displayed
-$\SpinGroupUp$ and $\CliffordUp$ source certificates.
+the reflection-extension carrier of
+\autoref{def:pingroup-reflection-extension-carrier}, its componentwise
+$\hsame$ classifier, the reflection-generator row, the Clifford-product ledger,
+the spin-inclusion surface, and the finite $\Cont$/$\Pkg$ ledger scope. It
+claims no data beyond the displayed $\SpinGroupUp$ and $\CliffordUp$ source
+certificates.
 \end{theorem}
 \begin{proof}
 Unpack the carrier packet. The projections expose the spin source, Clifford
 source, reflection generator, Clifford product, spin inclusion, continuation
 ledger, and provenance row.
 
-Apply \autoref{thm:pingroup-clifford-reflection-product-closure} to identify
-the product row as a carried $\PinGroupUp$ row. Apply
+Apply \autoref{thm:pingroup-reflection-generator-carrier} to identify the
+admitted reflection row. Apply
+\autoref{thm:pingroup-clifford-reflection-product-closure} to identify the
+product row as a carried $\PinGroupUp$ row. Apply
 \autoref{thm:pingroup-spin-clifford-source-scope} to restrict all source rows
 to the displayed spin and Clifford surfaces.
 
