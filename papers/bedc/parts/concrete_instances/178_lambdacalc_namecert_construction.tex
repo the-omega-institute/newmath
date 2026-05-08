@@ -114,5 +114,78 @@ it names only $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\mathsf{TreeBHistCarri
 $\mathsf{Cont}$, $\hsame$, and $\mathsf{LambdaCalcBHistTermCarrier}$ rows.
 \end{proof}
 
+\begin{definition}[LambdaCalcUp term packet carrier]
+\label{def:lambdacalc-term-packet-carrier}
+A $\LambdaCalcUp$ term packet carrier is a finite $\mathsf{BHist}$ packet
+$$
+\mathcal L=(T,I,a,b,s,\lambda,\rho)
+$$
+over the source rows $\NameCert_{\TreeUp}$ and $\NameCert_{\NatUp}$. The row
+$T$ is the displayed $\TreeUp$ syntax row for variables, abstraction nodes,
+and application nodes. The row $I$ is the displayed $\NatUp$ binder-index row
+used to name de Bruijn levels, binder depth, and free-variable positions.
+The row $a$ is the alpha-equivalence ledger comparing syntax only through the
+carried tree and index rows. The row $b$ is the beta-redex ledger naming
+application-abstraction pairs together with their substitution endpoint. The
+row $s$ is the capture-avoidance $\Cont$ ledger recording renaming, binder
+shift, and substitution continuations. The row $\lambda$ orders the finite
+term-construction and reduction steps, and $\rho$ is the $\Pkg$ provenance row
+for the displayed syntax, index, alpha-equivalence, beta-redex,
+capture-avoidance, and continuation entries.
+\end{definition}
+
 \section{The certificate}
 \label{sec:lambdacalc-certificate}
+
+\begin{theorem}[LambdaCalcUp substitution ledger obligation]
+\label{thm:lambdacalc-substitution-ledger-obligation}
+Substitution in $\LambdaCalcUp$ is admitted only from a carried
+\autoref{def:lambdacalc-term-packet-carrier}: the $\TreeUp$ syntax row names
+the term spine, the $\NatUp$ binder-index row names the binder depth and free
+positions, and the capture-avoidance $\Cont$ ledger supplies the renaming,
+shift, and substitution continuations. No host syntax equality, ambient
+variable set, or quotient alpha-class is part of the substitution admission
+surface.
+\end{theorem}
+\begin{proof}
+Project the syntax row $T$ and binder-index row $I$ from
+\autoref{def:lambdacalc-term-packet-carrier}. These rows give the only term
+spine and binder positions that the substitution endpoint may read.
+
+Project the capture-avoidance ledger $s$ and the finite continuation ledger
+$\lambda$. Their entries record the renaming and binder-shift steps needed to
+thread substitution through abstraction and application nodes.
+
+Repack the substitution endpoint using exactly these projected rows and the
+$\Pkg$ provenance row $\rho$. Because the carrier contains no row for host
+syntax equality, ambient variable sets, or quotient alpha-classes, those data
+cannot be exported by the substitution obligation.
+\end{proof}
+
+\begin{theorem}[LambdaCalcUp beta-reduction classifier obligation]
+\label{thm:lambdacalc-beta-reduction-classifier-obligation}
+Beta reduction in $\LambdaCalcUp$ is classifier-stable under $\hsame$
+transport of the carried $\TreeUp$ syntax row, the carried $\NatUp$
+binder-index row, and the substitution ledger of
+\autoref{thm:lambdacalc-substitution-ledger-obligation}. A transported
+beta-redex row therefore repacks as a beta-reduction row with the transported
+syntax, binder index, capture-avoidance ledger, and $\Pkg$ provenance; it does
+not identify terms by host syntax equality or by quotient alpha-classes.
+\end{theorem}
+\begin{proof}
+Start from the beta-redex ledger $b$ in
+\autoref{def:lambdacalc-term-packet-carrier}. Its source application,
+abstraction body, argument, and endpoint are named through the carried syntax
+row and binder-index row.
+
+Transport the syntax and binder-index rows by $\hsame$, then transport the
+substitution ledger supplied by
+\autoref{thm:lambdacalc-substitution-ledger-obligation}. The transported
+ledger still records renaming, shift, and capture-avoidance continuations
+inside the displayed $\mathsf{BHist}$ packet.
+
+Repack the transported redex, substitution endpoint, continuation ledger, and
+provenance as the beta-reduction classifier row. Since each field came from a
+displayed carrier component or its $\hsame$ transport, no host equality of
+terms and no quotient alpha-class enters the classifier.
+\end{proof}
