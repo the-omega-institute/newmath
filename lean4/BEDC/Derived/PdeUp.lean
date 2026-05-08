@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -12,6 +13,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -342,6 +344,71 @@ theorem PdeConservativeStandardBridge_rows [AskSetup] [PackageSetup]
       (And.intro publicRows.right.left
         (And.intro publicRows.right.right.left
           (And.intro publicRows.right.right.right.left summarizedReadback))))
+
+theorem PdeConservativeStandardBridge_semantic_name_certificate [AskSetup] [PackageSetup]
+    {manifold derivative relation boundary endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PdeCarriedSourceRow manifold derivative relation boundary endpoint bundle pkg ->
+      SemanticNameCert
+        (fun h : BHist =>
+          exists relationBoundary summarizedEndpoint : BHist,
+            hsame h endpoint ∧ Cont relation boundary relationBoundary ∧
+              Cont (append manifold derivative) relationBoundary summarizedEndpoint)
+        (fun h : BHist =>
+          exists relationBoundary summarizedEndpoint : BHist,
+            hsame h endpoint ∧ Cont relation boundary relationBoundary ∧
+              Cont (append manifold derivative) relationBoundary summarizedEndpoint)
+        (fun h : BHist =>
+          exists relationBoundary summarizedEndpoint : BHist,
+            hsame h endpoint ∧ Cont relation boundary relationBoundary ∧
+              Cont (append manifold derivative) relationBoundary summarizedEndpoint)
+        (fun left right : BHist =>
+          (exists relationBoundary summarizedEndpoint : BHist,
+            hsame left endpoint ∧ Cont relation boundary relationBoundary ∧
+              Cont (append manifold derivative) relationBoundary summarizedEndpoint) ∧
+          (exists relationBoundary summarizedEndpoint : BHist,
+            hsame right endpoint ∧ Cont relation boundary relationBoundary ∧
+              Cont (append manifold derivative) relationBoundary summarizedEndpoint) ∧
+          hsame left right) := by
+  intro row
+  let SourceSpec : BHist -> Prop := fun h : BHist =>
+    exists relationBoundary summarizedEndpoint : BHist,
+      hsame h endpoint ∧ Cont relation boundary relationBoundary ∧
+        Cont (append manifold derivative) relationBoundary summarizedEndpoint
+  let ClassifierSpec : BHist -> BHist -> Prop := fun left right : BHist =>
+    SourceSpec left ∧ SourceSpec right ∧ hsame left right
+  have endpointSource : SourceSpec endpoint :=
+    Exists.intro endpoint
+      (Exists.intro (append (append manifold derivative) endpoint)
+        (And.intro (hsame_refl endpoint)
+          (And.intro row.right.right.right.right.left (cont_intro rfl))))
+  have core : NameCert SourceSpec ClassifierSpec := {
+    carrier_inhabited := Exists.intro endpoint endpointSource
+    equiv_refl := by
+      intro h source
+      exact And.intro source (And.intro source (hsame_refl h))
+    equiv_symm := by
+      intro h k classified
+      exact And.intro classified.right.left
+        (And.intro classified.left (hsame_symm classified.right.right))
+    equiv_trans := by
+      intro h k r classifiedHK classifiedKR
+      exact And.intro classifiedHK.left
+        (And.intro classifiedKR.right.left
+          (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+    carrier_respects_equiv := by
+      intro h k classified _source
+      exact classified.right.left
+  }
+  exact {
+    core := core
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
 
 theorem PdeCarriedSourceRow_source_scope [AskSetup] [PackageSetup]
     {manifold derivative relation boundary endpoint : BHist}
