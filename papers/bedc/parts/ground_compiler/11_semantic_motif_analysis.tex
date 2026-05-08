@@ -1,0 +1,492 @@
+\chapter{Semantic Motif Analysis}
+\label{ch:ground-compiler-semantic-motif-analysis}
+
+The preceding chapters establish a no-hidden-input compiler discipline:
+$$
+\begin{gathered}
+  \bzero,\bone\ \text{event flows}
+  \longrightarrow
+  \text{Zeckendorf-safe channel codes}
+  \longrightarrow
+  \text{generated recognizers}\\
+  \longrightarrow
+  \text{package, certificate, theorem, chapter, and compiler recognition}
+  \longrightarrow
+  \text{self-hosting compiler flow}.
+\end{gathered}
+$$
+This chapter begins to use that discipline to compare mathematical theories at the event-flow layer.
+
+The guiding observation is
+$$
+  \boxed{\text{traditionally distinct theories may share the same generating motifs in their underlying event flows}.}
+$$
+Objects such as $\NatUp$, $\ListUp$, $\AddUp$, categorical composition, completion, real-number structure, circle or phase structure, complex-number structure, and topological structure can have different names and certificates while sharing finite repetition, continuation, seal, carry, classifier quotient, ledger compression, or reuse motifs.
+
+The no-hidden-input rule remains unchanged:
+$$
+  \boxed{\text{a motif is not an external pattern; it is a stable subflow recognized by a generated motif recognizer}.}
+$$
+Thus finite repetition, completion, carry, reuse, classifier, and ledger motifs may not be attached to code by external tags or regular expressions. They must be recognized inside decoded event flows by generated recognizer flows.
+
+\section{Motif recognition}
+\label{sec:motif-generated-recognition}
+
+\begin{definition}[Subflow]
+\label{def:motif-generated-subflow}
+Let
+$$
+  S=(w_0,w_1,\ldots,w_{n-1})\in\mathsf{EventFlow}.
+$$
+A \emph{contiguous subflow} is a segment
+$$
+  S[i:j]=(w_i,w_{i+1},\ldots,w_{j-1}),
+  \qquad
+  0\leq i\leq j\leq n.
+$$
+An \emph{indexed subflow} is an order-preserving selection
+$$
+  (w_{i_0},w_{i_1},\ldots,w_{i_{k-1}}),
+  \qquad
+  i_0<i_1<\cdots<i_{k-1}.
+$$
+Contiguous subflows support local motif recognition. Indexed subflows support ledgers, dependencies, reuse, and other cross-position structure.
+\end{definition}
+
+\begin{definition}[Motif candidate flow]
+\label{def:motif-generated-candidate-flow}
+A \emph{motif candidate flow} is a subflow
+$$
+  M\subseteq S
+$$
+of an event flow. It has not yet been recognized as a motif. Thus $M\subseteq S$ does not imply that $M$ is a repetition motif, carry motif, completion motif, classifier motif, or any other semantic motif.
+\end{definition}
+
+\begin{definition}[Generated motif recognizer]
+\label{def:motif-generated-recognizer}
+A \emph{generated motif recognizer} is an event flow
+$$
+  R_M\in\mathsf{EventFlow}.
+$$
+It is not an external pattern matcher, regular expression, host-level algorithm, or YAML-defined motif table. It is itself generated from the two raw marks and supported by recognizer-certificate structure.
+\end{definition}
+
+\begin{definition}[Motif recognition relation]
+\label{def:motif-generated-recognition-relation}
+The motif recognition relation is written
+$$
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu),
+  \qquad
+  R_M,S,M,\mu\in\mathsf{EventFlow}.
+$$
+It is read as: the generated motif recognizer flow $R_M$ recognizes subflow $M$ of $S$ as motif role $\mu$. Explanatory roles include finite repetition, continuation, seal, carry, classifier quotient, ledger compression, reuse, and bridge. Formally, $\mu$ is not a host enum; it is role-flow structure represented in event-flow form.
+\end{definition}
+
+\begin{remark}[Motif recognition is not regex matching]
+\label{rem:motif-generated-not-regex}
+The judgment $\mathsf{RecognizesMotif}(R_M,S,M,\mu)$ is not a search for a bit substring or host pattern. It takes place on decoded source event flow and is witnessed by generated recognizer flow $R_M$. Its certificate discipline must retain domain, ledger, failure branches, and stability conditions.
+\end{remark}
+
+\begin{definition}[Motif occurrence]
+\label{def:motif-generated-occurrence}
+If
+$$
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu),
+$$
+then $M$ is a \emph{motif occurrence} in $S$, written
+$$
+  M\preceq_{\mu,R_M}S.
+$$
+This means that, under recognizer $R_M$, the subflow $M$ occurs in $S$ as motif role $\mu$.
+\end{definition}
+
+\begin{principle}[No external motif input]
+\label{prin:motif-generated-no-external-input}
+There is no formal input motif table, pattern list, or regular-expression rule that defines motifs. Motifs are recognized from event flows by generated motif recognizers.
+\end{principle}
+
+\begin{definition}[Motif ledger]
+\label{def:motif-generated-ledger}
+If $\mathsf{RecognizesMotif}(R_M,S,M,\mu)$, a \emph{motif ledger} is an event subflow $L_M$ recording the raw events of $M$, its positions in $S$, why it is recognized as $\mu$, whether normalization or classifier quotienting is involved, whether source material is hidden, and why adjacent candidate subflows fail. It is written
+$$
+  \mathsf{MotifLedger}_{R_M}(S,M,\mu,L_M).
+$$
+\end{definition}
+
+\begin{principle}[No motif without ledger]
+\label{prin:motif-generated-no-motif-without-ledger}
+A nontrivial motif recognition must carry a motif ledger:
+$$
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu)
+  \Longrightarrow
+  \exists L_M,\ \mathsf{MotifLedger}_{R_M}(S,M,\mu,L_M),
+$$
+unless the motif is explicitly recognized as a trivial no-compression motif.
+\end{principle}
+
+\begin{theorem}[Motif recognition is source-level]
+\label{thm:motif-generated-source-level}
+If $\mathsf{RecognizesMotif}(R_M,S,M,\mu)$, then $S$, $M$, and $\mu$ are source-level event-flow objects, not channel-level bit substrings.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:motif-generated-recognition-relation}, the arguments of $\mathsf{RecognizesMotif}$ are event flows. Event flows are source-level objects. By the source-channel separation theorem \autoref{thm:source-channel-layer-separation}, channel substrings cannot be used directly as source events or source subflows. Hence motif recognition is a source-level relation.
+\end{proof}
+
+\begin{corollary}[Motif analysis must decode first]
+\label{cor:motif-generated-analysis-decodes-first}
+For a legal channel stream $c\in\mathsf{LegalZStream}$, motif analysis must first form
+$$
+  \mathsf{Decode}(c)=S
+$$
+and then recognize motifs in $S$. It cannot search channel bits directly.
+\end{corollary}
+
+\section{Basic motif forms}
+\label{sec:motif-generated-basic-forms}
+
+\begin{definition}[Finite repetition motif]
+\label{def:motif-generated-finite-repetition}
+A \emph{finite repetition motif} is a recognized event subflow of the explanatory form
+$$
+  M=(x,xx,xxx,\ldots,x^k),
+$$
+where $x$ is a raw event and each term is recognized as a source-level extension of the previous term. For example, $0\mid 00\mid 000$ can be a finite repetition candidate, but it becomes a motif only through a judgment
+$$
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu_{\mathrm{rep}}).
+$$
+\end{definition}
+
+\begin{definition}[Continuation motif]
+\label{def:motif-generated-continuation}
+A \emph{continuation motif} is a recognized event subflow expressing continuation, composition, append, or combination behavior. Explanatory shapes include
+$$
+  x,\quad y,\quad xy
+$$
+or a larger input-flow, continuation-result-flow, and continuation-witness-flow. A candidate such as $00\mid 000\mid 00000$ becomes a continuation motif only when the recognizer supplies the continuation witness and ledger.
+\end{definition}
+
+\begin{definition}[Seal motif]
+\label{def:motif-generated-seal}
+A \emph{seal motif} is a recognized event subflow expressing finite stages, a repeat-boundary or completion witness, and tail ledger. A candidate such as
+$$
+  0\mid 00\mid 000\mid 01\mid 011
+$$
+may be recognized as completion-like, but the local event $011$ is not by itself a completed object. Completion requires seal, certificate, and ledger structure.
+\end{definition}
+
+\begin{definition}[Carry motif]
+\label{def:motif-generated-carry}
+A \emph{carry motif} is a recognized subflow
+$$
+  w\mid v
+$$
+where $w$ is a pre-normal event, $v$ is a normal event, and a source-level classifier or normalization relation relates $w$ to $v$. The candidate $011\mid 100$ can be a Zeckendorf carry motif. It is not equality; it must retain a ledger for both raw pre-normal and normal events.
+\end{definition}
+
+\begin{definition}[Classifier quotient motif]
+\label{def:motif-generated-classifier-quotient}
+A \emph{classifier quotient motif} is a recognized event structure in which multiple raw event flows are placed in one class by a classifier:
+$$
+  S_1\sim S_2.
+$$
+It contains raw-flow ledgers for $S_1$ and $S_2$, classifier witness, exactness witness, and failure cases.
+\end{definition}
+
+\begin{definition}[Ledger compression motif]
+\label{def:motif-generated-ledger-compression}
+A \emph{ledger compression motif} is a recognized structure in which a visible event or package token hides source material while a ledger subflow preserves provenance. It contains visible token flow, hidden source material flow, ledger flow, pullback or source-map flow, and compression seal flow. This is the motif-level form of the package and gap ledger discipline.
+\end{definition}
+
+\begin{definition}[Reuse motif]
+\label{def:motif-generated-reuse}
+A \emph{reuse motif} is a recognized structure in which a new flow references accepted or recognized flows $N_1,\ldots,N_k$ and uses a reuse witness while still supplying its own certificate obligations. It contains input accepted-flow references, transport witness, new source-flow, classifier-flow, ledger-flow, certificate-flow, and strength bound. Reuse does not erase the target object's own certificate obligations.
+\end{definition}
+
+\begin{definition}[Bridge motif]
+\label{def:motif-generated-bridge}
+A \emph{bridge motif} is a recognized structure establishing conservative correspondence between a BEDC flow and a standard-side mathematical description. It contains BEDC source flow, standard-side target description flow, translation flow, soundness flow, reflection or completeness flow where available, no-host-leak ledger, and bridge seal. The external object is not a primitive input; it appears only through certified correspondence flow.
+\end{definition}
+
+\section{Code behavior}
+\label{sec:motif-generated-code-behavior}
+
+\begin{proposition}[Motif recognition does not change channel code]
+\label{prop:motif-generated-recognition-preserves-code}
+If $\mathsf{RecognizesMotif}(R_M,S,M,\mu)$, then the channel code of $S$ is still
+$$
+  \mathsf{Compile}(S).
+$$
+\end{proposition}
+
+\begin{proof}
+Motif recognition is a source-level relation over an existing event flow $S$. It does not change the events of $S$. The channel code is defined by $\mathsf{Compile}(S)$ and depends only on $S$. Therefore motif recognition does not change channel code.
+\end{proof}
+
+\begin{corollary}[Motif code is not a separate code]
+\label{cor:motif-generated-code-not-separate}
+The code of a motif occurrence $M$ is the ordinary channel compilation $\mathsf{Compile}(M)$ of its raw subflow. It is not produced by a separate motif compiler.
+\end{corollary}
+
+\begin{theorem}[Motif recognition is invariant under compile-decode]
+\label{thm:motif-generated-compile-decode-invariant}
+If $\mathsf{RecognizesMotif}(R_M,S,M,\mu)$, then
+$$
+  \mathsf{RecognizesMotif}(R_M,\mathsf{Decode}(\mathsf{Compile}(S)),M,\mu).
+$$
+\end{theorem}
+
+\begin{proof}
+By the channel round-trip theorem \autoref{thm:channel-encoding-flow-round-trip},
+$$
+  \mathsf{Decode}(\mathsf{Compile}(S))=S.
+$$
+Substitution into the recognition judgment gives the claim.
+\end{proof}
+
+\section{Profiles, overlap, and prefixes}
+\label{sec:motif-generated-profiles-overlap-prefixes}
+
+\begin{definition}[Motif profile]
+\label{def:motif-generated-profile}
+Given an event flow $S$ and a family of motif recognizers $\mathcal R$, define the \emph{motif profile} of $S$ by
+$$
+  \mathsf{Profile}_{\mathcal R}(S)
+  =
+  \{\,(\mu,M,L_M)\mid
+  \exists R_M\in\mathcal R,\ 
+  \mathsf{RecognizesMotif}(R_M,S,M,\mu)
+  \wedge
+  \mathsf{MotifLedger}_{R_M}(S,M,\mu,L_M)\,\}.
+$$
+Thus the profile records recognized motif occurrences together with their ledgers.
+\end{definition}
+
+\begin{remark}[Motif profile depends on recognizer family]
+\label{rem:motif-generated-profile-depends-on-recognizers}
+The profile $\mathsf{Profile}_{\mathcal R}(S)$ depends on $\mathcal R$. If $\mathcal R$ contains no carry recognizer, carry motifs will not be reported; if it contains no seal recognizer, completion-like motifs will not be reported. A motif profile is analysis relative to a generated and certified recognizer family, not every truth about a bare event flow.
+\end{remark}
+
+\begin{definition}[Motif support]
+\label{def:motif-generated-support}
+If
+$$
+  (\mu,M,L_M)\in\mathsf{Profile}_{\mathcal R}(S),
+$$
+then $M$ is the \emph{support subflow} of the motif occurrence and $L_M$ is its \emph{support ledger}.
+\end{definition}
+
+\begin{definition}[Motif overlap]
+\label{def:motif-generated-overlap}
+For event flows $S$ and $T$, their motif overlap is
+$$
+  \mathsf{Overlap}_{\mathcal R}(S,T)
+  =
+  \mathsf{Profile}_{\mathcal R}(S)
+  \cap
+  \mathsf{Profile}_{\mathcal R}(T),
+$$
+where the comparison is by motif role, support shape, and ledger-compatible equivalence, not by bare channel substring.
+\end{definition}
+
+\begin{proposition}[Channel substring overlap is insufficient]
+\label{prop:motif-generated-channel-overlap-insufficient}
+If two channel codes share a bit substring, that alone does not imply that their source flows share a motif.
+\end{proposition}
+
+\begin{proof}
+Channel substrings are not source events. For example, a channel code may contain a substring shaped like $011$ even when its decoded event is the raw event $1$. Therefore channel substring overlap cannot serve as source motif overlap. Motif overlap must proceed by decoding and recognition.
+\end{proof}
+
+\begin{definition}[Event-level common prefix]
+\label{def:motif-generated-event-common-prefix}
+For event flows
+$$
+  S=(s_0,\ldots,s_{m-1}),
+  \qquad
+  T=(t_0,\ldots,t_{n-1}),
+$$
+their \emph{event-level common prefix length} is the largest $k$ such that
+$$
+  s_i=t_i
+  \quad\text{for all }0\leq i<k.
+$$
+It is written $\mathsf{PrefixLen}(S,T)=k$.
+\end{definition}
+
+\begin{definition}[Recognized semantic prefix]
+\label{def:motif-generated-semantic-prefix}
+A \emph{recognized semantic prefix} of $S$ and $T$ is a pair of prefix subflows $S[0:k]$ and $T[0:k]$ recognized by a motif recognizer as the same motif role with compatible ledger data. Raw prefix equality alone is not semantic prefix equality.
+\end{definition}
+
+\begin{proposition}[Same raw prefix need not imply same semantic prefix]
+\label{prop:motif-generated-raw-prefix-not-semantic-prefix}
+Two event flows can share the same raw prefix while their prefixes are recognized under different motif roles.
+\end{proposition}
+
+\begin{proof}
+The raw prefix $01$ can be recognized in one flow as a repeat-boundary witness and in another as an endpoint distinction or branch separator. If the recognized roles and ledgers differ, the semantic prefixes differ even though the raw prefix is the same.
+\end{proof}
+
+\section{Motif metrics}
+\label{sec:motif-generated-metrics}
+
+\begin{definition}[Seal depth]
+\label{def:motif-generated-seal-depth}
+For a recognizer family $\mathcal R$, the \emph{seal depth} $\mathsf{SealDepth}_{\mathcal R}(S)$ is the number of ledger-distinct motif occurrences in $S$ recognized as seal motifs.
+\end{definition}
+
+\begin{definition}[Carry index]
+\label{def:motif-generated-carry-index}
+The \emph{carry index} $\mathsf{CarryIndex}_{\mathcal R}(S)$ is the number of ledger-distinct motif occurrences in $S$ recognized as carry motifs. A recognized occurrence $011\mid 100$ contributes at least one carry occurrence.
+\end{definition}
+
+\begin{definition}[Ledger depth]
+\label{def:motif-generated-ledger-depth}
+The \emph{ledger depth} $\mathsf{LedgerDepth}_{\mathcal R}(S)$ is the maximum recognized dependency nesting depth of motif ledgers, package ledgers, $\NameCert$ ledgers, derivation-certificate ledgers, and theorem ledgers inside $S$.
+\end{definition}
+
+\begin{definition}[Classifier compression ratio]
+\label{def:motif-generated-compression-ratio}
+If $\mathcal R$ recognizes a classifier quotient motif in $S$ placing raw flows $M_1,\ldots,M_k$ into $r$ recognized classes with $r>0$, define
+$$
+  \mathsf{CompressionRatio}_{\mathcal R}(S)=\frac{k}{r}.
+$$
+This metric is defined only when classifier recognition and exactness ledger are both present.
+\end{definition}
+
+\begin{definition}[Reuse depth]
+\label{def:motif-generated-reuse-depth}
+The \emph{reuse depth} $\mathsf{ReuseDepth}_{\mathcal R}(S)$ is the length of the longest dependency chain of reuse motifs in $S$. It measures how many layers of accepted or recognized objects the flow depends on.
+\end{definition}
+
+\begin{definition}[Motif distance]
+\label{def:motif-generated-distance}
+For event flows $S$ and $T$, a \emph{motif distance} $\mathsf{Dist}_{\mathcal R}(S,T)$ is any distance function based on their motif profiles. A simple Jaccard-style choice is
+$$
+  \mathsf{Dist}_{\mathcal R}(S,T)
+  =
+  1-
+  \frac{
+    |\mathsf{Profile}_{\mathcal R}(S)\cap\mathsf{Profile}_{\mathcal R}(T)|
+  }{
+    |\mathsf{Profile}_{\mathcal R}(S)\cup\mathsf{Profile}_{\mathcal R}(T)|
+  }.
+$$
+Applications may choose distances better suited to ledger, role, and support-shape comparisons.
+\end{definition}
+
+\begin{theorem}[Motif metrics are code-invariant under round trip]
+\label{thm:motif-generated-metrics-roundtrip-invariant}
+If $c=\mathsf{Compile}(S)$, then for every recognizer family $\mathcal R$,
+$$
+  \mathsf{Profile}_{\mathcal R}(S)
+  =
+  \mathsf{Profile}_{\mathcal R}(\mathsf{Decode}(c)).
+$$
+Consequently seal depth, carry index, ledger depth, compression ratio, reuse depth, and motif-distance values defined from profiles are invariant under compile-decode round trip.
+\end{theorem}
+
+\begin{proof}
+By channel round trip, $\mathsf{Decode}(\mathsf{Compile}(S))=S$. Hence $S$ and $\mathsf{Decode}(c)$ are the same source event flow. Motif recognizers act on source event flows, so their profiles agree. Metrics defined from those profiles agree as well.
+\end{proof}
+
+\begin{corollary}[Motif analysis can be performed on decoded code]
+\label{cor:motif-generated-analysis-on-decoded-code}
+Given $c\in\mathsf{LegalZStream}$, one can decode $S=\mathsf{Decode}(c)$ and compute $\mathsf{Profile}_{\mathcal R}(S)$. This is the same source-level analysis as applying the recognizers to the original event flow.
+\end{corollary}
+
+\section{Examples}
+\label{sec:motif-generated-examples}
+
+\begin{example}[Completion skeleton motif profile]
+\label{ex:motif-generated-completion-skeleton}
+The event flow
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100
+$$
+may be recognized as containing finite repetition $0\mid 00\mid 000$, a repeat-boundary motif $01$, a seal motif $011$, a carry motif $011\mid 100$, and the larger completion skeleton. Its channel code is
+$$
+  011001100011010110101011100011.
+$$
+Motif recognition must decode back to source event flow before identifying $011$ or $100$ as source-level events.
+\end{example}
+
+\begin{example}[Add and fold skeleton motif profile]
+\label{ex:motif-generated-add-fold-skeleton}
+The event flow
+$$
+  0\mid 00\mid 001\mid 0011\mid 0100
+$$
+may be recognized as unit source $0$, binary repetition $00$, additive recursion $001$, iterated-addition raw completion $0011$, fold normal address $0100$, and carry or normalization ledger $0011\mid 0100$. Compared with the completion skeleton, it shares the finite-source prefix $0\mid 00$ but then branches toward binary combination and fold rather than seal-style completion.
+\end{example}
+
+\begin{example}[$\ListUp$ and $\NatUp$ motif relation]
+\label{ex:motif-generated-list-nat}
+A $\ListUp$ flow can contain a finite spine motif for nil, cons, cons-cons, and so on. Under bottom readback this overlaps with the finite repetition and finite-length motifs of $\NatUp$. The list flow also carries payload classifier, constructor-shape ledger, length ledger, and source-carrier reuse. Thus $\ListUp$ is not merely $\NatUp$; it is finite repetition plus payload and constructor ledger structure.
+\end{example}
+
+\begin{example}[$\AddUp$ and categorical composition]
+\label{ex:motif-generated-add-category}
+An $\AddUp$ event flow may recognize binary continuation, unit behavior, and associativity behavior. A category-composition flow may recognize arrow composition, identity behavior, and associativity behavior. Their motif profiles can overlap in continuation, unit, and associativity ledgers, while category structure also carries object and arrow sorting, domain and codomain compatibility, and identity-arrow ledger.
+\end{example}
+
+\begin{example}[$\RealUp$ and completion]
+\label{ex:motif-generated-real-completion}
+Completion flows and $\RealUp$ flows can both contain finite approximation stages, compatible thread, tail classifier, seal motif, and ledger retaining finite stages. The $\RealUp$ flow also carries arithmetic descent, order or metric compatibility, field-operation ledger, and Cauchy or regularity classifier. Thus $\RealUp$ is not a bare completion motif; it is completion plus algebra, order, and metric certificate stack.
+\end{example}
+
+\begin{example}[$\DimLiftUp$ and circle or phase structure]
+\label{ex:motif-generated-dimlift-circle}
+A $\DimLiftUp$ flow may contain completion witness, overflow witness, carry motif, lifted normal address, and old-axis ledger. Circle or phase structure may contain periodic closure, phase carry, lifted coordinate, unit-constraint ledger, and topological classifier. Shared carry shapes such as $011\mid 100$ or higher carry motifs can reveal common carry and lift structure without implying that the mature objects are the same.
+\end{example}
+
+\section{Limits of motif analysis}
+\label{sec:motif-generated-limits}
+
+\begin{theorem}[Motif similarity does not imply object equality]
+\label{thm:motif-generated-similarity-not-equality}
+If two event flows $S$ and $T$ have nonempty motif overlap,
+$$
+  \mathsf{Overlap}_{\mathcal R}(S,T)\neq\emptyset,
+$$
+one cannot conclude that they represent the same accepted object or are equivalent under any classifier.
+\end{theorem}
+
+\begin{proof}
+Motif overlap says only that the event flows contain recognized motif occurrences with compatible roles and ledgers. Object equality or accepted-object equivalence requires the appropriate classifier, bridge, exactness, and acceptance-gate recognition. Motif overlap does not supply those judgments.
+\end{proof}
+
+\begin{corollary}[Motif analysis is explanatory, not proof of identity]
+\label{cor:motif-generated-explanatory-not-identity-proof}
+Motif analysis can explain generating similarity between theories, but it does not replace proof, classifier exactness, $\NameCert$, derivation-certificate, or acceptance-gate structure.
+\end{corollary}
+
+\begin{theorem}[Motif recognition is conservative over the finite kernel]
+\label{thm:motif-generated-conservativity}
+Adding $\mathsf{RecognizesMotif}$, $\mathsf{Profile}$, $\mathsf{SealDepth}$, $\mathsf{CarryIndex}$, $\mathsf{LedgerDepth}$, and $\mathsf{ReuseDepth}$ does not add new raw marks, history constructors, sameness rules, continuation rules, or kernel-level equalities.
+\end{theorem}
+
+\begin{proof}
+All these relations act on event flows or recognized subflows. They record, recognize, and compare source-level event structures already present. They do not generate new $\bzero$ or $\bone$, add $\msame$, $\hsame$, or $\psame$ rules, change $\ExtR$ or $\ContR$, or license derived interfaces. Derived interfaces still require $\NameCert$ flow; accepted objects still require acceptance-gate flow. Hence motif analysis is conservative over the finite kernel.
+\end{proof}
+
+\begin{corollary}[Motif analysis cannot license mature objects]
+\label{cor:motif-generated-cannot-license-mature-objects}
+A flow showing completion, carry, phase, or quotient motifs is not thereby licensed as $\RealUp$, circle structure, $\ComplexUp$, topology, or any other mature object. Mature objects still require recognized $\NameCert$, derivation-certificate, and acceptance-gate flows.
+\end{corollary}
+
+\begin{definition}[Motif report]
+\label{def:motif-generated-report}
+A \emph{motif report} is a human-readable output view generated from an event flow $S$ and recognizer family $\mathcal R$. It may list recognized motifs, support subflows, motif ledgers, metrics, overlaps with other flows, and failure cases. It is not formal input, proof, or certificate.
+\end{definition}
+
+\begin{principle}[Motif reports are output, not input]
+\label{prin:motif-generated-reports-output-not-input}
+Motif reports, similarity tables, distance matrices, diagrams, and YAML or JSON reports cannot serve as formal compiler input. They are outputs of event-flow analysis.
+\end{principle}
+
+\begin{remark}[Outlook]
+\label{rem:motif-generated-outlook}
+This chapter establishes that motifs are not external patterns, but stable subflows recognized by generated motif recognizers. The core judgment is $\mathsf{RecognizesMotif}(R_M,S,M,\mu)$. Motif recognition is source-level, requires decoding before analysis, preserves channel code, and is invariant under compile-decode round trip. Channel substring overlap does not imply motif overlap, and raw prefix equality does not imply semantic prefix equality. Motif profiles support seal depth, carry index, ledger depth, compression ratio, reuse depth, and motif distance, all relative to a recognizer family. Motif similarity explains generative relation but does not prove object equality or license mature objects. Motif analysis is conservative over the finite kernel, and motif reports are outputs rather than inputs. The next chapter applies this framework to concrete flow comparisons among $\NatUp$, $\ListUp$, $\AddUp$, completion, and Zeckendorf axis skeletons.
+\end{remark}
