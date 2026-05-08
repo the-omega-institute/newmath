@@ -1,7 +1,11 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.4 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.5 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## Dedup partial drop handling
+
+If the orchestrator's dedup gate drops some `targets[i]` (in-flight collision with another worker), apply the SURVIVING targets — do NOT skip revise entirely. Even 1 surviving target is worth running. Only fast-skip when ALL N targets dropped, AND the orchestrator explicitly reports "0 targets remaining after dedup".
 
 ## Multi-target round support
 
