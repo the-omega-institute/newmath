@@ -102,13 +102,24 @@ Apply \autoref{thm:permutation-composition-inverse-action-obligation}. The compo
 The $\SymGroupUp$ carrier and classifier obligations of \autoref{ch:concrete-instances-symgroup-namecert} read this same permutation source row, and \autoref{thm:symgroup-composition-inverse-action-obligations} consumes its composition, inverse, action, exactness, and ledger rows. Therefore the bridge is a paper-side repacking of the public $\PermutationUp$ surface into the symmetric-group composition interface, with all enumeration choices, position names, and host bijection data remaining inside the ledger.
 \end{proof}
 
-\closureat{PermutationUp}{bridgedStr}[BEDC.Derived.PermutationUp.PermutationBijectionSourceRow\_public\_name\_certificate]
+\begin{theorem}[Permutation bridged surface completeness]\label{thm:permutation-bridged-surface-completeness}
+The public $\PermutationUp$ surface of \autoref{thm:permutation-public-namecert-surface}, together with the $\SymGroupUp$ consumer bridge of \autoref{thm:permutation-symgroup-composition-bridge}, exhausts the visible BEDC fields of the bridged permutation interface. The exhausted fields are carrier, classifier, identity, composition, inverse, action, and ledger boundary. The finite enumeration witness and order witness remain hidden in the ledger and are not exported as additional visible fields.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:permutation-finset-carrier-obligation}, \autoref{thm:permutation-classifier-obligation}, and \autoref{thm:permutation-composition-inverse-action-obligation}. These three obligation theorems provide the carrier row, the pointwise classifier row, and the identity, composition, inverse, action, and ledger rows over the fixed finite-set source certificate.
+
+Apply \autoref{thm:permutation-public-namecert-surface}. It repacks exactly those rows as the public $\NameCert_{\PermutationUp}$ surface and states that the downstream $\SymGroupUp$ boundary is a consumer row rather than an extra $\PermutationUp$ field.
+
+Apply \autoref{thm:permutation-symgroup-composition-bridge}. The bridge consumes that same public surface as the symmetric-group carrier, classifier, composition, inverse, action, exactness, and ledger boundary. Therefore projection from the public surface to the consumer bridge, followed by repacking of the consumed rows, returns exactly the visible permutation interface listed in the statement. The finite enumeration and order witnesses are only read through the ledger, so no further visible BEDC field remains outside the displayed inventory.
+\end{proof}
+
+\closureat{PermutationUp}{matureStr}[BEDC.Derived.PermutationUp.PermutationBijectionSourceRow\_public\_name\_certificate]
 \begin{closurestatus}{\PermutationUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The bridged surface is the $\mathsf{BHist}$ permutation source row of \autoref{def:permutation-bijection-source-row} together with the carrier, classifier, composition, inverse, action, ledger, public $\NameCert_{\PermutationUp}$ packaging, and symmetric-group composition bridge of \autoref{thm:permutation-finset-carrier-obligation}, \autoref{thm:permutation-classifier-obligation}, \autoref{thm:permutation-composition-inverse-action-obligation}, \autoref{thm:permutation-public-namecert-surface}, and \autoref{thm:permutation-symgroup-composition-bridge}.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature bridged surface is the $\mathsf{BHist}$ permutation source row of \autoref{def:permutation-bijection-source-row} together with the carrier, classifier, composition, inverse, action, ledger, public $\NameCert_{\PermutationUp}$ packaging, symmetric-group composition bridge, and visible-field completeness of \autoref{thm:permutation-finset-carrier-obligation}, \autoref{thm:permutation-classifier-obligation}, \autoref{thm:permutation-composition-inverse-action-obligation}, \autoref{thm:permutation-public-namecert-surface}, \autoref{thm:permutation-symgroup-composition-bridge}, and \autoref{thm:permutation-bridged-surface-completeness}.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.PermutationUp.PermutationBijectionSourceRow\_public\_name\_certificate}
   \bridgestatus{paperBridge}
   \notclaimed{This chapter does not claim machine-checked $\StdBridge$ coverage or full $\SymGroupUp$ closure.}
-  \upgradepath{Mature closure requires downstream examples or a completeness statement for the bridged permutation-to-symmetric-group surface.}
+  \upgradepath{No stronger paper-side closure grade remains for this permutation bridge; machine-checked $\StdBridge$ coverage is separate formal-axis work.}
 \end{closurestatus}
