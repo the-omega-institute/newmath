@@ -315,6 +315,29 @@ theorem SeparableExtSourceRow_semantic_name_certificate [AskSetup] [PackageSetup
       exact source
   }
 
+theorem SeparableExtSourceRow_carrier_classifier_surface [AskSetup] [PackageSetup]
+    {field polynomial simple provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SeparableExtSourceRow field polynomial simple provenance endpoint bundle pkg ->
+      UnaryHistory field ∧ UnaryHistory polynomial ∧ UnaryHistory simple ∧
+        UnaryHistory provenance ∧ UnaryHistory endpoint ∧
+          hsame provenance (append field polynomial) ∧
+            hsame endpoint (append (append field polynomial) simple) ∧
+              PkgSig bundle endpoint pkg := by
+  intro row
+  have endpointReadback : hsame endpoint (append (append field polynomial) simple) :=
+    hsame_trans row.right.right.right.right.right.right.left
+      (congrArg (fun route : BHist => append route simple)
+        row.right.right.right.right.right.left)
+  exact And.intro row.left
+    (And.intro row.right.left
+      (And.intro row.right.right.left
+        (And.intro row.right.right.right.left
+          (And.intro row.right.right.right.right.left
+            (And.intro row.right.right.right.right.right.left
+              (And.intro endpointReadback
+                row.right.right.right.right.right.right.right))))))
+
 theorem SeparableExtSourceSurface_simple_root_obligation [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot simpleRoot' provenance endpoint
       endpoint' : BHist}

@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -160,5 +161,27 @@ theorem GaloisGroupAutomorphismActionPacket_semantic_name_certificate [AskSetup]
       intro _target source
       exact source
   }
+
+theorem GaloisGroupAutomorphismActionPacket_identity_automorphism_row
+    [AskSetup] [PackageSetup]
+    {galoisExt group fixedBase action composition inverse classifier provenance ledger endpoint
+      identity : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisGroupAutomorphismActionPacket galoisExt group fixedBase action composition inverse
+        classifier provenance ledger endpoint bundle pkg ->
+      Cont endpoint BHist.Empty identity ->
+        UnaryHistory identity ∧ hsame identity endpoint ∧
+          hsame endpoint (append provenance ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro packet identityCont
+  have rows :=
+    GaloisGroupAutomorphismActionPacket_fixed_base_carrier_obligation packet
+  have sameIdentity : hsame identity endpoint :=
+    cont_right_unit_result identityCont
+  have identityUnary : UnaryHistory identity :=
+    unary_transport rows.right.right.right.left sameIdentity.symm
+  exact And.intro identityUnary
+    (And.intro sameIdentity
+      (And.intro rows.right.right.right.right.right.right.right.left
+        rows.right.right.right.right.right.right.right.right))
 
 end BEDC.Derived.GaloisGroupUp
