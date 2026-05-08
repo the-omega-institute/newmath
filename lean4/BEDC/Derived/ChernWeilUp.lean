@@ -10,6 +10,26 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
 def ChernWeilSourceEnvelope
+    (curvature derham provenance connectionFace characteristic : BHist) : Prop :=
+  UnaryHistory curvature ∧ UnaryHistory derham ∧ UnaryHistory provenance ∧
+    Cont curvature derham provenance ∧ Cont provenance connectionFace characteristic ∧
+      hsame characteristic (append provenance connectionFace)
+
+theorem ChernWeilSourceEnvelope_rows
+    {curvature derham provenance connectionFace characteristic : BHist} :
+    ChernWeilSourceEnvelope curvature derham provenance connectionFace characteristic ->
+      UnaryHistory curvature ∧ UnaryHistory derham ∧ Cont curvature derham provenance ∧
+        Cont provenance connectionFace characteristic ∧
+          hsame characteristic (append provenance connectionFace) := by
+  intro envelope
+  exact
+    And.intro envelope.left
+      (And.intro envelope.right.left
+        (And.intro envelope.right.right.right.left
+          (And.intro envelope.right.right.right.right.left
+            envelope.right.right.right.right.right)))
+
+def ChernWeilCarrierEnvelope
     (curvature derham polynomial connectionLedger characteristic provenance endpoint : BHist) :
     Prop :=
   UnaryHistory curvature ∧ UnaryHistory derham ∧ UnaryHistory polynomial ∧
@@ -18,7 +38,7 @@ def ChernWeilSourceEnvelope
 
 theorem ChernWeilSourceEnvelope_carrier_obligation
     {curvature derham polynomial connectionLedger characteristic provenance endpoint : BHist} :
-    ChernWeilSourceEnvelope curvature derham polynomial connectionLedger characteristic provenance
+    ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic provenance
       endpoint ->
       UnaryHistory characteristic ∧ UnaryHistory provenance ∧ UnaryHistory endpoint ∧
         hsame characteristic (append curvature polynomial) ∧
