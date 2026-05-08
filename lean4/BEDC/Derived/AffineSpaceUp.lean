@@ -85,6 +85,28 @@ theorem AffineSpaceTranslationClassifier_action_coverage_obligation
                 (And.intro sameActionTarget sameActionTarget)))))
         sameActionTarget))
 
+theorem AffineSpaceHistoryTorsorCarrier_transitive_action_obligation
+    {point target translation action witnessAction : BHist} :
+    AffineSpaceHistoryTorsorCarrier point translation ->
+      Cont point translation action ->
+        hsame action target ->
+          Cont point translation witnessAction ->
+            hsame witnessAction target ->
+              AffineSpaceTranslationClassifier point target translation translation action
+                  witnessAction ∧
+                hsame action witnessAction := by
+  intro carrier actionCont sameActionTarget witnessActionCont sameWitnessTarget
+  have sameActions : hsame action witnessAction :=
+    cont_deterministic actionCont witnessActionCont
+  exact
+    And.intro
+      (And.intro carrier
+        (And.intro carrier
+          (And.intro actionCont
+            (And.intro witnessActionCont
+              (And.intro sameActionTarget sameWitnessTarget)))))
+      sameActions
+
 theorem AffineSpaceHistoryTorsorCarrier_vector_action_stability
     {point point' translation translation' action action' : BHist} :
     AffineSpaceHistoryTorsorCarrier point translation ->
@@ -102,6 +124,33 @@ theorem AffineSpaceHistoryTorsorCarrier_vector_action_stability
     cont_respects_hsame samePoint sameTranslation actionCont actionCont'
   exact And.intro (And.intro actionUnary carrier.right)
     (And.intro (And.intro actionUnary' carrier'.right) sameAction)
+
+theorem AffineSpaceHistoryTorsorCarrier_action_additivity
+    {point first second combined direct iterated firstEndpoint : BHist} :
+    AffineSpaceHistoryTorsorCarrier point first ->
+      UnaryHistory second ->
+        Cont first second combined ->
+          Cont point combined direct ->
+            Cont point first firstEndpoint ->
+              Cont firstEndpoint second iterated ->
+                hsame direct iterated ∧
+                  AffineSpaceHistoryTorsorCarrier direct combined ∧
+                    AffineSpaceHistoryTorsorCarrier iterated second := by
+  intro carrier secondUnary combinedCont directCont firstCont iteratedCont
+  have combinedUnary : UnaryHistory combined :=
+    unary_cont_closed carrier.right secondUnary combinedCont
+  have directUnary : UnaryHistory direct :=
+    unary_cont_closed carrier.left combinedUnary directCont
+  have firstEndpointUnary : UnaryHistory firstEndpoint :=
+    unary_cont_closed carrier.left carrier.right firstCont
+  have iteratedUnary : UnaryHistory iterated :=
+    unary_cont_closed firstEndpointUnary secondUnary iteratedCont
+  have sameIteratedDirect : hsame iterated direct :=
+    cont_assoc_hsame firstCont iteratedCont combinedCont directCont
+  exact
+    And.intro (hsame_symm sameIteratedDirect)
+      (And.intro (And.intro directUnary combinedUnary)
+        (And.intro iteratedUnary secondUnary))
 
 theorem AffineSpaceTranslationClassifier_witnesses_identified
     {point target left right leftAction rightAction : BHist} :
