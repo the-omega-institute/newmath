@@ -21,6 +21,15 @@
 - 不添加文件内备注
 - 有问题直接改, 无需备份
 
+## 数学符号写法
+
+- 行内数学: `$...$`
+- 展示数学: `$$...$$` (每个 `$$` 占独立一行)
+- 多行展示: 在 `$$...$$` 内部使用 `\begin{aligned}...\end{aligned}` 或 `\begin{gathered}...\end{gathered}`
+- **禁止顶层使用**: `\[...\]`, `\begin{equation}`, `\begin{equation*}`, `\begin{align}`, `\begin{align*}`, `\begin{eqnarray}`, `\begin{eqnarray*}`
+- `papers/bedc/Makefile` 的 precheck 调 `scripts/check_math_env.sh`, 在 build 前**自动**把违规重写为 `$$\begin{aligned}...\end{aligned}$$` 形式; 写入禁用模式不会编译失败, 但会被静默替换
+- 编写时直接用 `$$` 形式; 不要依赖 auto-rewrite 兜底
+
 ## 项目结构
 
 - `lean4/` — Lean 4 形式化, mathlib-free, 0 axiom 0 sorry
