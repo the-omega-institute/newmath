@@ -126,6 +126,41 @@ theorem FirstOrderBHistSyntaxCarrier_deduction_endpoint_exactness [AskSetup] [Pa
       (And.intro conclusionRow
         (And.intro conclusionSig conclusionPkg)))
 
+theorem FirstOrderBHistSyntaxCarrier_modeltheory_consumer_boundary [AskSetup] [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint provenance deductionStep conclusion conclusionProvenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol functionSymbol
+        treeEndpoint formulaEndpoint provenance bundle pkg ->
+      UnaryHistory deductionStep ->
+        Cont formulaEndpoint deductionStep conclusion ->
+          SigRel bundle conclusion conclusionProvenance ->
+            PkgSig bundle conclusionProvenance pkg ->
+              UnaryHistory symbolSource ∧ UnaryHistory treeSource ∧
+                UnaryHistory formulaEndpoint ∧ UnaryHistory conclusion ∧
+                  hsame conclusion (append formulaEndpoint deductionStep) ∧
+                    SigRel bundle conclusion conclusionProvenance ∧
+                      PkgSig bundle provenance pkg ∧
+                        PkgSig bundle conclusionProvenance pkg := by
+  intro carrier deductionStepUnary conclusionRow conclusionSig conclusionPkg
+  have exactness :=
+    FirstOrderBHistSyntaxCarrier_deduction_endpoint_exactness
+      (symbolSource := symbolSource) (treeSource := treeSource)
+      (variableLedger := variableLedger) (relationSymbol := relationSymbol)
+      (functionSymbol := functionSymbol) (treeEndpoint := treeEndpoint)
+      (formulaEndpoint := formulaEndpoint) (provenance := provenance)
+      (deductionStep := deductionStep) (conclusion := conclusion)
+      (conclusionProvenance := conclusionProvenance) (bundle := bundle) (pkg := pkg)
+      carrier deductionStepUnary conclusionRow conclusionSig conclusionPkg
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro exactness.left
+        (And.intro exactness.right.left
+          (And.intro exactness.right.right.left
+            (And.intro exactness.right.right.right.left
+              (And.intro carrier.right.right.right.right.right.right.right.right
+                exactness.right.right.right.right))))))
+
 theorem FirstOrderDeductionLedgerConcatenation_closure [AskSetup] [PackageSetup]
     {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
       formulaEndpoint provenance d1 d2 joined : BHist}
