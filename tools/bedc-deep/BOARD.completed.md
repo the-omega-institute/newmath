@@ -13847,3 +13847,29 @@ Rationale:
 The Quadrature surface has exactness-degree weakening, degree-bound preorder rows, and an active empty-node sum target, but no base readback for degree-zero exactness. This candidate is a small concrete readback theorem connecting the constant polynomial row to the node-weight budget, and it lands safely in the existing finite weighted QuadratureUp chapter without duplicating current BOARD titles or paper labels.
 
 ---
+
+### B-543 - DeRham double exterior derivative boundary
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | DeRham double exterior derivative boundary |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a DeRhamUp packet over DiffFormUp and CohomologyUp supplies two successive exterior-derivative rows for a carried form, then the second derivative row is classified as the zero cochain endpoint and is an accepted DeRham chain-complex boundary row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/115_deRham_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/77_cohomology_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/114_diffform_exterior_derivative_boundary.tex`
+
+Rationale:
+This is a concrete single-implication target that fills the explicit DeRhamUp gap: the DeRham chapter advertises d^2 = 0 but has no carrier or certificate theorem, while the DiffForm exterior-derivative surface deliberately stops short of nilpotence and CohomologyUp already supplies nearby cycle/boundary machinery. It is not a BOARD duplicate, not already a labelled paper theorem, and the landing path is safe because the DeRham chapter is a short non-input stub with relevant dependency files below the line cap.
+
+---
