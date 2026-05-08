@@ -1,7 +1,21 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v5.11 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.12 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+
+## TOP-LEVEL HARD GATE — never emit empty targets; formal_axis_top is the safety net
+
+If you find yourself emitting `{"targets": []}`, STOP. Empty targets at lean rounds is almost always an error: it means you gave up before reading `critical_path.py`'s `formal_axis_top` and `bridge_candidates` lists. These lists exist precisely for the case when `top[0..2]` chapters have `labels=0` (all labels already marked) — they surface chapters where the paper IS ahead of lean.
+
+**Mandatory selection waterfall** (try each step until you have ≥1 valid target):
+
+1. **`top[0..2]` with `labels > 0`**: pick paper labels in those chapters that grep shows have NO `\leanchecked{X}` marker. This is the original gate.
+2. **If `top[0..2]` all have `labels = 0`**: skip them — those chapters are saturated, lean already wrote everything. Move to step 3.
+3. **`bridge_candidates[0..2]`**: write `<X>Up_StdBridge` theorem for one of these chapters. Use kernel constructs (`BHist`, `NameCert.transport`, `hsame`); no Classical.choice / Quot.sound / propext. Commit subject: `R<N>: bridge <X>Up to schema (axiomClean->bridgeCheck)`.
+4. **`formal_axis_top[0..4]`**: these are chapters where the paper has a `closurestatus` block (theory_grade non-null) but `formal_grade < theoremCheckedV`. Each entry has a `labels` count of unmarked paper theorems waiting for lean. Open `entry.file_paper`, find any `\begin{theorem}` block without a preceding `\leanchecked{...}`, and add a `\leanchecked{<X>}` marker pointing to a NEW Lean theorem in `lean4/BEDC/Derived/<X>Up.lean` (create the file if missing). The new Lean theorem's body uses BEDC kernel; restating the paper theorem with kernel-anchored proof is fine.
+5. **Last resort — any unmarked paper label anywhere under `papers/bedc/parts/concrete_instances/`**: scan the namecert files for `\label{thm:...}` blocks lacking `\leanchecked{...}`. There are typically 1500-2000 such labels at any time; pick 3 from chapters NOT already in another worktree's in-flight diff.
+
+If after the full waterfall you genuinely have ZERO valid candidates (extremely rare — only when lean has fully caught up to paper across the entire repo), THEN emit `{"targets": []}` with a `notes` field explaining which steps you exhausted. Without that note, an empty-targets emission is an error and Phase B will be retried.
 
 ## TOP-LEVEL HARD GATE — formal axis advancement (1 of N targets)
 

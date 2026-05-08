@@ -198,3 +198,45 @@ The vertex and incidence witnesses are retained from the hypothesis but are not 
 
 The graph-edge row and the no-shared-vertex row are exactly the two clauses of $\mathsf{MatchingEdgeSet}_G(M_{e_\star})$ in \autoref{def:matching-carrier-and-finite-edge-subset}.
 \end{proof}
+
+\begin{theorem}[Matching abstract sub-predicate closure]
+\label{thm:matching-abstract-subpredicate-closure}
+Let $G$ be a $\GraphUp$ carrier with edge classifier $\sim_E$. Let $M,N:\mathsf{BHist}\to\mathsf{Prop}$ be edge predicates. If
+$$
+\mathsf{MatchingEdgeSet}_G(M)
+$$
+and
+$$
+\forall e:\mathsf{BHist}.\;N(e)\to M(e),
+$$
+then
+$$
+\mathsf{MatchingEdgeSet}_G(N).
+$$
+Thus the matching condition is hereditary under ordinary predicate inclusion; no finite-spine enumeration of $N$ is required.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:matching-carrier-and-finite-edge-subset}. The matching hypothesis for $M$ supplies the graph-edge row
+$$
+\forall e:\mathsf{BHist}.\;M(e)\to\mathsf{Edge}_G(e)
+$$
+and the no-shared-vertex row
+$$
+\forall e,e',v:\mathsf{BHist}.\;
+M(e)\land M(e')\land\mathsf{Vert}_G(v)\land\mathsf{Inc}_G(v,e)\land\mathsf{Inc}_G(v,e')
+\to e\sim_E e'.
+$$
+The second hypothesis supplies the inclusion row from $N$ into $M$.
+
+For the graph-edge row of $N$, fix $e:\mathsf{BHist}$ and assume $N(e)$. The inclusion row gives $M(e)$, and the graph-edge row for $M$ gives $\mathsf{Edge}_G(e)$.
+
+For the no-shared-vertex row of $N$, fix $e,e',v:\mathsf{BHist}$ and assume
+$$
+N(e)\land N(e')\land\mathsf{Vert}_G(v)\land\mathsf{Inc}_G(v,e)\land\mathsf{Inc}_G(v,e').
+$$
+Projecting the first two components gives $N(e)$ and $N(e')$. The inclusion row turns these into $M(e)$ and $M(e')$. Keeping the same vertex and incidence witnesses, apply the no-shared-vertex row for $M$ to obtain
+$$
+e\sim_E e'.
+$$
+The graph-edge row and the no-shared-vertex row are exactly $\mathsf{MatchingEdgeSet}_G(N)$ by \autoref{def:matching-carrier-and-finite-edge-subset}.
+\end{proof}
