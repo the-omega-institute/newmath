@@ -217,6 +217,97 @@ Soundness is the transport statement of \autoref{thm:cyclotomic-splittingfield-s
 Completeness is the reverse repacking step. A downstream user of $\NameCert_{\CyclotomicUp}$ receives only the rows listed by \autoref{thm:cyclotomic-namecert-obligation-surface}; \autoref{thm:cyclotomic-numfield-embedding-ledger} accounts for the NumFieldUp readback, and the preceding two exactness theorems account for the primitive-root and factorization readbacks. Reassembling these projections gives the whole concrete source surface and nothing stronger.
 \end{proof}
 
+\begin{theorem}[Cyclotomic root-power ledger coverage]
+\label{thm:cyclotomic-root-power-ledger-coverage}
+For an accepted $\CyclotomicUp$ carrier
+$$
+\mathcal{C}_{\zeta}=(\mathcal{N},n,p,\mathcal{S},\zeta,\alpha,\lambda,\rho)
+$$
+of \autoref{def:cyclotomic-root-carrier}, the displayed positive exponent row
+$n$, the rational polynomial ledger $p$ for $X^n-1$, the splitting-field row
+$\mathcal{S}$, the primitive endpoint $\zeta$, and the $\Cont$ acceptance row
+$\alpha$ cover every public read of a root power from
+$\NameCert_{\CyclotomicUp}$. No separate root-power ledger is exported outside
+these $\mathsf{BHist}$, $\Cont$, $\hsame$, and $\mathsf{Pkg}$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cyclotomic-root-carrier}. The exponent
+coordinate $n$, polynomial coordinate $p$, splitting-field coordinate
+$\mathcal{S}$, endpoint coordinate $\zeta$, and acceptance coordinate
+$\alpha$ are the only rows from which a root-power read can be formed.
+
+Use \autoref{thm:cyclotomic-polynomial-ledger-exactness} to identify $p$ as
+the carried rational polynomial ledger for $X^n-1$. Use
+\autoref{thm:cyclotomic-primitive-root-endpoint-determinacy} to attach
+$\zeta$ to that displayed exponent and polynomial row through the same
+$\Cont$ ledger.
+
+The splitting-field and factorization surface is already exact by
+\autoref{thm:cyclotomic-splittingfield-source-exactness}. The provenance row
+$\rho$ and comparison row $\lambda$ record transport and package origin; they
+do not add another source for root powers. Thus every public root-power read
+is covered by the listed row family.
+\end{proof}
+
+\begin{theorem}[Cyclotomic primitive endpoint classifier stability]
+\label{thm:cyclotomic-primitive-endpoint-classifier-stability}
+If two accepted $\CyclotomicUp$ carriers are related by the classifier of
+\autoref{def:cyclotomic-rational-polynomial-classifier}, then the primitive
+endpoint and its root-power ledger transport componentwise by the displayed
+$\hsame$ rows on the NumFieldUp source, exponent, rational polynomial ledger,
+SplittingFieldUp source, endpoint, $\Cont$ acceptance ledger, and shared
+$\mathsf{Pkg}$ provenance. The transport does not quotient primitive roots
+and does not assert equality of ambient host fields.
+\end{theorem}
+\begin{proof}
+Unpack the classifier of
+\autoref{def:cyclotomic-rational-polynomial-classifier}. It supplies
+componentwise $\hsame$ rows for the source, exponent, polynomial,
+splitting-field, endpoint, acceptance, comparison, and provenance entries of
+the two carriers.
+
+Apply \autoref{thm:cyclotomic-root-power-ledger-coverage} to the source
+carrier and to the target carrier. The root-power surface on each side is the
+same displayed family of exponent, polynomial, splitting-field, endpoint, and
+acceptance rows.
+
+Finally use \autoref{thm:cyclotomic-splittingfield-stability} and
+\autoref{thm:cyclotomic-primitive-root-endpoint-determinacy}. These
+statements transport the endpoint and its root-power ledger through the
+carried $\hsame$ rows, so the primitive-root surface remains classifier-stable
+without quotienting roots or identifying host fields.
+\end{proof}
+
+\begin{theorem}[Cyclotomic downstream source exactness]
+\label{thm:cyclotomic-downstream-source-exactness}
+An $\IwasawaUp$, $\PadicUp$, or $\ClassFieldUp$ consumer of
+$\NameCert_{\CyclotomicUp}$ receives exactly the carrier rows
+$\mathcal{N},n,p,\mathcal{S},\zeta$, the acceptance row $\alpha$, the base
+comparison row $\lambda$, and the provenance row $\rho$, together with their
+displayed $\mathsf{BHist}$, $\Cont$, $\hsame$, and $\mathsf{Pkg}$ support. It
+receives no valuation row, class-group row, reciprocity row, local-symbol row,
+completion row, or host-field equality row from the cyclotomic certificate
+alone.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cyclotomic-root-carrier}. Its displayed
+tuple contains exactly the rows $\mathcal{N}$, $n$, $p$, $\mathcal{S}$,
+$\zeta$, $\alpha$, $\lambda$, and $\rho$.
+
+For the $\IwasawaUp$ and $\PadicUp$ reads, apply
+\autoref{thm:cyclotomic-iwasawa-source-boundary} and
+\autoref{thm:cyclotomic-padic-completion-input-boundary}. These statements
+repack the same projected rows as source data while excluding completion,
+measure, and valuation data unless another certificate supplies them.
+
+For the $\ClassFieldUp$ read, apply
+\autoref{thm:cyclotomic-classfield-source-interface}. The classifier
+transport is the componentwise transport of
+\autoref{thm:cyclotomic-primitive-endpoint-classifier-stability}, so the
+consumer receives exactly the listed rows and no class group, reciprocity map,
+local symbol, or host-field equality.
+\end{proof}
+
 \begin{theorem}[Cyclotomic primitive-root endpoint transport]
 \label{thm:cyclotomic-primitive-root-endpoint-transport}
 For classified $\CyclotomicUp$ carriers, the primitive-root endpoint is transported by the carried $\hsame$ row of \autoref{def:cyclotomic-rational-polynomial-classifier}. The transport preserves the displayed $\Cont$ acceptance ledger inside the $\NameCert_{\SplittingFieldUp}$ row, including the root row for $X^n-1$, the factorization rows listed by that splitting-field certificate, and the shared $\mathsf{Pkg}$ provenance of the NumFieldUp and SplittingFieldUp sources.

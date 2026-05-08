@@ -69,6 +69,26 @@ ten-field certificate surface. No additional row is available for topology,
 quotient equality, analytic connectedness, or a standard bridge.
 \end{proof}
 
+\begin{theorem}[SpinGroupUp Clifford unit carrier obligation]
+\label{thm:spingroup-clifford-unit-carrier-obligation}
+A $\SpinGroupUp$ carrier is a $\mathsf{BHist}$ packet whose visible rows are a
+$\CliffordUp$ unit row, an orthogonal-action endpoint row, and a $\GroupUp$
+carrier row. The packet exports no host Lie group, matrix equality, or ambient
+Clifford algebra equality beyond the displayed BEDC rows.
+\end{theorem}
+\begin{proof}
+Use the dependency surface stated at the start of this chapter. The
+$\CliffordUp$ certificate supplies the unit row inside the Clifford-algebra
+interface, while the $\GroupUp$ certificate supplies the public group-carrier
+row read by downstream group consumers.
+
+The $\SpinGroupUp$ carrier is the ten-field certificate packet that places
+those two dependency rows beside the orthogonal-action endpoint row. Since the
+carrier is a $\mathsf{BHist}$ packet, all equality and transport visible at the
+interface is through $\hsame$ and the named classifier rows, not through a host
+matrix or Lie-group equality.
+\end{proof}
+
 \begin{theorem}[SpinGroupUp Clifford--Group consumer boundary]
 \label{thm:spingroup-clifford-group-consumer-boundary}
 A downstream consumer of a $\SpinGroupUp$ certificate may read only the
@@ -122,4 +142,120 @@ row is a named finite action row on vector histories, not a quotient object;
 the subgroup row is a carried Group row over Clifford units, not an imported
 subgroup equality. Therefore every public spin certificate is exactly the
 finite packet described above.
+\end{proof}
+
+\begin{theorem}[SpinGroupUp double-cover ledger obligation]
+\label{thm:spingroup-double-cover-ledger-obligation}
+The double-cover ledger for a $\SpinGroupUp$ packet records the Clifford unit
+endpoint, the projected orthogonal-action endpoint, and the kernel-sign witness
+as $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$ rows. No additional covering
+space, topology, or host quotient is exported as public carrier data.
+\end{theorem}
+\begin{proof}
+Read the same dependency rows through the $\NameCert$ ten-field template. The
+$\CliffordUp$ side contributes the unit endpoint, and the projected
+orthogonal-action endpoint records the public target of the double-cover map.
+
+The kernel-sign witness is ledger data: it is carried by BEDC rows using
+$\mathsf{BHist}$ endpoints, $\hsame$ transport, continuation provenance
+$\Cont$, and package evidence $\Pkg$. Repacking those rows into the ledger slot
+of the $\SpinGroupUp$ certificate yields the stated double-cover ledger without
+adding a host quotient or topological covering object.
+\end{proof}
+
+\begin{theorem}[SpinGroupUp group interface boundary]
+\label{thm:spingroup-group-interface-boundary}
+Any $\GroupUp$ consumer of a displayed $\SpinGroupUp$ packet may read only the
+multiplication, identity, inverse, and classifier rows supplied by that packet.
+The Clifford multiplication rows, orthogonal projection rows, and kernel-sign
+witness remain ledger rows and are not exported as extra group operations.
+\end{theorem}
+\begin{proof}
+Project the $\GroupUp$ dependency from the carrier packet described in
+\autoref{thm:spingroup-clifford-unit-carrier-obligation}. The public group
+interface consists of its multiplication, identity, inverse, and classifier
+rows, all carried through the same $\mathsf{BHist}$ packet.
+
+The double-cover data is read separately through
+\autoref{thm:spingroup-double-cover-ledger-obligation}. It supplies provenance
+for why the group rows come from Clifford units and the orthogonal projection,
+but it stays in the ledger slot of the ten-field $\NameCert$ template. Thus a
+$\GroupUp$ consumer receives exactly the group interface and no hidden Clifford
+or projection operation.
+\end{proof}
+
+\begin{theorem}[SpinGroupUp Clifford-unit source obligation]
+\label{thm:spingroup-clifford-unit-source-obligation}
+A $\SpinGroupUp$ source row is a displayed $\CliffordUp$ unit endpoint together
+with even-product provenance, a $\GroupUp$ multiplication row, and
+$\mathsf{BHist}$, $\Cont$, and $\mathsf{Pkg}$ ledgers tying the unit read and
+the product read to the same carried source. The row records multiplication
+and inverse access only through the inherited Clifford-unit and group
+certificates, and it does not assert an uncarried host-level spin subgroup.
+\end{theorem}
+\begin{proof}
+Read the Clifford dependency as a unit endpoint in the $\CliffordUp$ carrier.
+The even-product provenance is a finite $\mathsf{BHist}$ ledger whose factors
+are carried Clifford generators and whose product endpoint is the displayed
+unit row.
+
+Read the group dependency as the multiplication and inverse package on those
+unit endpoints. The $\GroupUp$ row supplies the operation laws only for the
+displayed carried endpoints, while $\Cont$ records the product computation and
+$\mathsf{Pkg}$ records the shared provenance.
+
+Combining the two dependency reads gives the $\SpinGroupUp$ source row. Every
+field is inherited from $\CliffordUp$, $\GroupUp$, $\mathsf{BHist}$, $\Cont$,
+and $\mathsf{Pkg}$, so no ambient subgroup predicate or external Clifford
+algebra quotient is added.
+\end{proof}
+
+\begin{theorem}[SpinGroupUp double-cover fiber classifier]
+\label{thm:spingroup-double-cover-fiber-classifier}
+The double-cover classifier for $\SpinGroupUp$ compares two carried spin
+endpoints by their Clifford-unit carrier rows together with the shared
+$\mathsf{OrthogonalGroup}^{\uparrow}$ action endpoint. Two spin rows are in the same fiber
+exactly when the Clifford-unit comparisons and the displayed orthogonal-action
+readback agree in the package ledger; the classifier does not quotient by
+host-level signs or by an unrecorded kernel object.
+\end{theorem}
+\begin{proof}
+Unpack two $\SpinGroupUp$ source rows using
+\autoref{thm:spingroup-clifford-unit-source-obligation}. Each row exposes a
+carried Clifford unit, even-product provenance, multiplication and inverse
+rows, and package provenance.
+
+Compare the Clifford-unit coordinates with the inherited $\CliffordUp$
+classifier. Then compare the displayed orthogonal-action endpoint using the
+shared action readback recorded in the same $\mathsf{Pkg}$ ledger.
+
+The fiber classifier is the conjunction of these displayed comparisons. Since
+the sign ambiguity is represented only by carried Clifford-unit rows and their
+action endpoint, the construction never forms a host sign quotient or an
+unrecorded double-cover kernel.
+\end{proof}
+
+\begin{theorem}[SpinGroupUp group consumer boundary]
+\label{thm:spingroup-group-consumer-boundary}
+Downstream $\LieGroupUp$ or $\PinGroupUp$ consumers of $\SpinGroupUp$ may read
+only the Clifford unit row, multiplication and inverse rows, the double-cover
+classifier of \autoref{thm:spingroup-double-cover-fiber-classifier}, and
+$\NameCert$ provenance. They may not inspect a host Lie group, a host sign
+quotient, or an uncarried Clifford algebra carrier outside the displayed BEDC
+source package.
+\end{theorem}
+\begin{proof}
+The source obligation exposes the carried unit and the group operation rows.
+These are sufficient for group-style consumers to read multiplication,
+inverse, identity provenance, and the finite even-product ledger.
+
+The double-cover classifier exposes exactly the additional fiber data used by
+geometry consumers: the Clifford-unit comparison and the shared orthogonal
+action endpoint. The consumer therefore reads a package of named
+$\mathsf{BHist}$ rows, not an ambient quotient.
+
+The $\NameCert$ provenance binds these rows to the $\SpinGroupUp$ interface.
+Any $\LieGroupUp$ or $\PinGroupUp$ consumer that needs more structure must add
+its own displayed source rows rather than reading an unrecorded host object
+through this boundary.
 \end{proof}
