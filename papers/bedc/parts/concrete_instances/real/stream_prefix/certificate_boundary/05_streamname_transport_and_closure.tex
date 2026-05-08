@@ -157,6 +157,41 @@ $\mathsf{RatStreamNameClassifier}(s',t')$, which is the final row of the
 scoped $\RegSeqRat$ interface package.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window seal coverage]
+\label{thm:regseqrat-finite-window-seal-coverage}
+Let $s,t:\Hist\to\Hist$ be certified rational stream names and let
+$W:\mathsf{ProbeBundle}$ be a finite unary-observation window. The rows
+exported by
+\autoref{thm:streamname-public-finite-window-interface}, the scoped
+$\RegSeqRat$ interface of
+\autoref{thm:regseqrat-streamname-scoped-interface}, and the DyadicRatCore
+observation rows assemble the finite-window seal side consumed by $\RealUp$.
+The assembled package records the bundled unary observations of $W$, the
+pointwise $\RatUp$ classifier rows for $s$ and $t$, the dyadic observation
+witnesses, and the $\RegSeqRat$ spine ledger. It claims no $\RealUp$
+completeness, quotient carrier, arithmetic closure, order closure, metric
+completion, or standard bridge.
+\end{theorem}
+\begin{proof}
+First project the finite classifier rows from the StreamNameUp finite-window
+interface. For every bundled unary observation in $W$,
+\autoref{thm:streamname-public-finite-window-interface} supplies the carried
+stream-name endpoints and the pointwise $\RatUp$ classifier row visible at
+that observation.
+
+Next apply
+\autoref{thm:regseqrat-streamname-scoped-interface}. Its scoped package
+recovers the stream-name transport rows, the pointwise endpoint carrier rows,
+the transported StreamNameUp classifier, and the $\RegSeqRat$ spine rows over
+the same certified names.
+
+Finally attach the DyadicRatCore observation witnesses as the seal ledger.
+These witnesses are indexed by the same finite window $W$, so the bundled
+unary observations, pointwise classifier rows, dyadic observations, and spine
+ledger repack as exactly the finite boundary consumed by the later $\RealUp$
+seal theorem.
+\end{proof}
+
 The ten-field fit is: traditional target transport of a unary real stream-name
 classifier; BEDC source StreamNameUp read through the RealUp unary classifier;
 carrier the transported RatUp endpoint carrier rows for $s'$ and $t'$;
