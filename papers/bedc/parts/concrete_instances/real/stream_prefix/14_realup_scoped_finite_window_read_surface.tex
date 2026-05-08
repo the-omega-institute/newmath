@@ -76,13 +76,56 @@ index plus $\mathsf{RealLedgerPolicy}$; core theorem, this block; exactness,
 factorization through the public finite-window interface; standard bridge, none;
 status, proof target.
 
-Finally close directly at the finite-window surface. The $\StreamNameUp$
-component is exactly the public finite-window interface just identified, and
-\autoref{thm:realup-scoped-finite-window-read-surface} supplies the whole local
-read surface in which that component sits. Removing the $\StreamNameUp$ component
-therefore leaves precisely the DyadicRatCore observation rows, $\RegSeqRat$
-spine rows, $\RatUp$ endpoint rows, $\mathsf{UnaryHistory}$, $\hsame$ transport,
-and finite $\mathsf{RealLedgerPolicy}$ rows, with the excluded quotient,
-completion, arithmetic, order, metric-completeness, Classical, and
-standard-bridge data still absent.
+	Finally close directly at the finite-window surface. The $\StreamNameUp$
+	component is exactly the public finite-window interface just identified, and
+	\autoref{thm:realup-scoped-finite-window-read-surface} supplies the whole local
+	read surface in which that component sits. Removing the $\StreamNameUp$ component
+	therefore leaves precisely the DyadicRatCore observation rows, $\RegSeqRat$
+	spine rows, $\RatUp$ endpoint rows, $\mathsf{UnaryHistory}$, $\hsame$ transport,
+	and finite $\mathsf{RealLedgerPolicy}$ rows, with the excluded quotient,
+	completion, arithmetic, order, metric-completeness, Classical, and
+	standard-bridge data still absent.
+	\end{proof}
+
+\begin{theorem}[RealUp StreamName source-exhaustion equivalence]
+\label{thm:realup-streamname-source-exhaustion-equivalence}
+For any selected finite $\RealUp$ observation window, the selected read surface
+has exactly the $\StreamNameUp$ component supplied by
+\autoref{thm:streamname-public-finite-window-interface} together with the
+RegSeqRat and DyadicRatCore finite-window source rows consumed by
+\autoref{thm:realup-finite-window-exhaustion-obligation}. Conversely, the
+concrete RegSeqRat and DyadicRatCore rows, together with the public
+$\StreamNameUp$ finite-window package, repack into the $\StreamNameUp$ component
+of \autoref{thm:realup-scoped-finite-window-read-surface}.
+
+This equivalence is internal to the selected finite $\mathsf{BHist}$ window. It
+does not read a quotient datum, completion datum, metric-completeness
+certificate, arithmetic or order operation, Classical datum, or standard-bridge
+datum.
+\end{theorem}
+\begin{proof}
+Project the selected $\RealUp$ read surface using
+\autoref{thm:realup-scoped-finite-window-read-surface}. This gives the visible
+$\StreamNameUp$ rows, the RegSeqRat spine rows, the DyadicRatCore source rows,
+the $\RatUp$ endpoint rows, $\mathsf{UnaryHistory}$, $\hsame$ transport, and the
+finite $\mathsf{RealLedgerPolicy}$ rows, with the excluded data absent.
+
+Next apply \autoref{thm:realup-finite-window-export-through-streamname-interface}
+to the projected stream-name component. It identifies that component with the
+public $\mathsf{RatStreamNameFiniteWindowClassifier}$ package of
+\autoref{thm:streamname-public-finite-window-interface}.
+
+The remaining finite source rows are read from
+\autoref{thm:realup-finite-window-exhaustion-obligation}: DyadicRatCore supplies
+the selected dyadic observation rows, and RegSeqRat supplies the spine rows used
+by the finite window. These rows are concrete $\mathsf{BHist}$ entries rather
+than quotient or completion witnesses.
+
+For the converse direction, start with the public $\StreamNameUp$ finite-window
+package and the concrete RegSeqRat and DyadicRatCore rows just described. The
+public package reconstructs the same selected stream-name component, while the
+source rows provide exactly the surrounding finite-window inputs required by
+\autoref{thm:realup-scoped-finite-window-read-surface}. Repacking these rows
+therefore recovers the selected $\StreamNameUp$ component inside the same
+$\RealUp$ read surface, and no excluded datum is introduced.
 \end{proof}
