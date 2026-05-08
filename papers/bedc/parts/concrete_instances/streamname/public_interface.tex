@@ -111,6 +111,41 @@ feed an endpoint classifier row.  Completion, regularity, metric, and bridge
 claims are left outside the package.
 \end{proof}
 
+\begin{theorem}[StreamNameUp finite-window restriction export]
+\label{thm:streamname-finite-window-restriction-export}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, and let $B'$ and $B$
+be $\mathsf{ProbeBundle}$ windows. Suppose every certified unary observation
+carried by $B'$ is an $\mathsf{InBundle}$ member of $B$. Then
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B)
+\quad\Longrightarrow\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B').
+$$
+The restriction export has the ten-field fit used by downstream
+$\RegSeqRat$ and $\RealUp$ consumers: the BEDC source is
+$\StreamNameUp$ together with $\mathsf{ProbeBundle}$, the carrier consists of
+bundled certified unary observations, the classifier is the pointwise
+$\RatUp$ classification row, the ledger retains exactly the observation rows
+selected by $B'$, and exactness is supplied by bundle inclusion.
+\end{theorem}
+
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-finite-window-classifier}.  A
+finite-window classifier over $B$ is a pointwise classifier row for each
+certified unary observation carried by $B$.
+
+Fix an observation carried by $B'$.  The displayed inclusion witness presents
+that same certified unary observation as an $\mathsf{InBundle}$ member of
+$B$, so the classifier over $B$ supplies the corresponding pointwise
+$\RatUp$ row for $s$ and $t$.
+
+Repack these rows over all observations of $B'$.  The carrier remains the
+same bundled certified-unary-observation carrier, the ledger is the retained
+subfamily of observation rows, and no completion, quotient representative, or
+regularity row is introduced.  This is precisely the finite-window classifier
+over $B'$.
+\end{proof}
+
 \begin{theorem}[StreamNameUp empty finite-window vacuity]
 \label{thm:streamname-public-empty-window-vacuity}
 For certified observation maps $s,t:\Hist\to\Hist$,
