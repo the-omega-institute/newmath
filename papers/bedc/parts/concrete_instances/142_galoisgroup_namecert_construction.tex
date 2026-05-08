@@ -20,10 +20,12 @@ endpoint of $E$, that the automorphism endpoint leaves that base endpoint in
 the same $\hsame$ class. The row $a$ is the automorphism-action row: source
 and target extension endpoints are finite $\mathsf{BHist}$ endpoints from
 $E$, and the action is carried only by $\mathsf{Cont}$ rows and the displayed
-classifier of $E$. The row $m$ is the composition row, aligning the
-$\GroupUp$ multiplication operation of $G$ with composition of the displayed
-automorphism-action rows. The row $i$ is the inverse row, aligning the
-$\GroupUp$ inverse operation of $G$ with inverse automorphism-action rows.
+classifier of $E$. The unit row is read from the $\GroupUp$ unit endpoint of
+$G$ and the GaloisExtUp identity classifier of $E$. The row $m$ is the
+composition row, aligning the $\GroupUp$ multiplication operation of $G$ with
+composition of the displayed automorphism-action rows. The row $i$ is the
+inverse row, aligning the $\GroupUp$ inverse operation of $G$ with inverse
+automorphism-action rows.
 
 The row $c$ is the classifier row. It compares automorphism packets by
 $\hsame$ on their finite extension endpoints, fixed-base rows, action rows,
@@ -32,8 +34,8 @@ ambient function spaces, or quotient representatives. The row $\rho$ is the
 $\mathsf{Pkg}$ provenance row assigning every displayed face to either the
 Galois-extension packet $E$, the group packet $G$, or the Galois-group
 automorphism surface. The finite ledger $\lambda$ is the $\mathsf{Cont}$ list
-containing exactly the dependency rows, fixed-base rows, action rows,
-composition rows, inverse rows, classifier rows, provenance rows, and
+containing exactly the dependency rows, fixed-base rows, identity rows, action
+rows, composition rows, inverse rows, classifier rows, provenance rows, and
 exactness rows consumed by the public $\NameCert_{\GaloisGroupUp}$ interface.
 \end{definition}
 
@@ -172,6 +174,101 @@ Repack the reversed endpoints, inverse ledger, fixed-base witness, inherited
 dependency projections, classifier rows, and $\Pkg$ provenance. This is again
 a finite packet of the form required by
 \autoref{def:galoisgroup-bhist-automorphism-action-packet}.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp identity row closure]
+\label{thm:galoisgroup-identity-row-closure}
+For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the $\GroupUp$
+unit row of $G$, read through the GaloisExtUp identity classifier of $E$ and
+the fixed-base row $b$, is an accepted $\GaloisGroupUp$ automorphism-action row.
+It fixes every displayed base endpoint by $\hsame$, carries only rows listed in
+$\lambda$, and uses no equality of host fields or ambient automorphism sets.
+\end{theorem}
+\begin{proof}
+Project the packet to its consumed rows $E$ and $G$. The Galois-extension
+projection supplies the displayed extension endpoints, the identity classifier,
+and the exactness rows on the public extension surface. The group projection
+supplies the unit endpoint, the unit classifier rows, and the provenance needed
+to read the unit as a finite $\mathsf{BHist}$ row.
+
+Now combine those projections with the fixed-base row $b$. For each displayed
+base endpoint, the identity classifier leaves the endpoint in its original
+$\hsame$ class, and $b$ records that this comparison is part of the finite
+automorphism ledger. Thus the unit action fixes every displayed base endpoint.
+
+Finally, repack the base row, identity action row, classifier row $c$,
+provenance row $\rho$, and the same finite ledger $\lambda$. The resulting row
+has the packet shape required by
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, so it is accepted
+by the public $\NameCert_{\GaloisGroupUp}$ carrier.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp composition classifier congruence]
+\label{thm:galoisgroup-composition-classifier-congruence}
+Let $x,x',y,y'$ be accepted fixed-base automorphism-action rows in an
+automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}. Suppose $x$ is
+classified with $x'$, $y$ is classified with $y'$, the target endpoint of $x$
+is classified with the source endpoint of $y$, and the target endpoint of
+$x'$ is classified with the source endpoint of $y'$. Then the composite of
+$x$ with $y$ is classified with the composite of $x'$ with $y'$. The
+classification uses only inherited GaloisExtUp classifier transport,
+$\GroupUp$ operation congruence, $\hsame$, $\Cont$, and $\mathsf{Pkg}$
+provenance from the packet.
+\end{theorem}
+\begin{proof}
+First transport the extension faces. The GaloisExtUp classifier of $E$
+transports source, middle, and target endpoints across the displayed
+$\hsame$ rows, and the $\Cont$ rows in $\lambda$ record the two compatible
+composition ledgers.
+
+Next transport the fixed-base faces. Since $x$ is classified with $x'$ and
+$y$ is classified with $y'$, their fixed-base witnesses compare by the
+classifier row $c$. The middle endpoint comparisons align the two ways of
+reading the shared extension endpoint, so the composed fixed-base witness is
+again compared by $\hsame$.
+
+Apply the $\GroupUp$ operation congruence from $G$ to the operation endpoints
+underlying the two composites. The $\mathsf{Pkg}$ row $\rho$ identifies these
+operation endpoints as dependency rows from $G$, while the acted-on extension
+endpoints remain dependency rows from $E$.
+
+Repack the transported source, middle, target, fixed-base, operation, and
+ledger rows as the composed classifier row. This gives classifier-equivalent
+composites without introducing any host automorphism equality.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp automorphism ledger exactness]
+\label{thm:galoisgroup-automorphism-ledger-exactness}
+For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the public ledger
+$\lambda$ hides exactly the dependency rows, fixed-base rows, identity rows,
+action rows, composition rows, inverse rows, classifier rows, provenance rows,
+and exactness rows exposed by the $\GaloisGroupUp$ automorphism surface. Every
+public consumer of the packet factors through those rows and does not require
+host automorphism equality, equality of ambient function spaces, or equality of
+uncarried quotient representatives.
+\end{theorem}
+\begin{proof}
+Project the packet coordinates. The rows $E$ and $G$ give the dependency
+surfaces, $b$ gives the fixed-base surface, the unit endpoint of $G$ with the
+identity classifier of $E$ gives the identity surface, $m$ gives composition,
+$i$ gives inverse, $c$ gives classifier comparison, and $\rho$ gives
+provenance. The exactness rows are precisely the exactness rows already named
+by the dependency packets and the automorphism-action surface.
+
+These projected rows account for every public operation used by a
+$\NameCert_{\GaloisGroupUp}$ consumer. Carrier acceptance uses the dependency
+and fixed-base rows; identity uses the unit and identity-classifier rows;
+composition and inverse use $m$ and $i$; classifier transport uses $c$ together
+with $\hsame$ and $\Cont$; provenance uses $\rho$.
+
+Conversely, start from exactly those finite rows and their $\mathsf{Pkg}$
+assignments. Repacking them as $E$, $G$, $b$, $a$, $m$, $i$, $c$, $\rho$, and
+$\lambda$ reconstructs the public automorphism-action packet. Since no
+coordinate contains host automorphism equality, no consumer can depend on such
+an equality through the public ledger.
 \end{proof}
 
 \begin{theorem}[GaloisGroupUp identity automorphism row]
@@ -422,9 +519,10 @@ For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
 $\NameCert_{\GaloisGroupUp}$ obligation surface is exactly the following
 finite row family: the Galois-extension dependency packet $E$, the group
 dependency packet $G$, the fixed-base row $b$, the automorphism-action row
-$a$, the composition row $m$, the inverse row $i$, the classifier row $c$, the
-$\mathsf{Pkg}$ provenance row $\rho$, the finite $\mathsf{Cont}$ ledger
-$\lambda$, and the exactness rows named by those packets. This is the public
+$a$, the identity row read from the unit of $G$, the composition row $m$, the
+inverse row $i$, the classifier row $c$, the $\mathsf{Pkg}$ provenance row
+$\rho$, the finite $\mathsf{Cont}$ ledger $\lambda$, and the exactness rows
+named by those packets. This is the public
 obligation boundary consumed by downstream Galois and representation-facing
 chapters.
 \end{theorem}
@@ -438,18 +536,21 @@ classifier, stability, ledger, and exactness rows available to the
 Galois-group packet.
 
 The fixed-base carrier obligation is supplied by
-\autoref{thm:galoisgroup-fixed-base-carrier-obligation}. The composition and
-inverse obligation is supplied by
+\autoref{thm:galoisgroup-fixed-base-carrier-obligation}. The identity row is
+supplied by \autoref{thm:galoisgroup-identity-row-closure}; classifier-stable
+composition is supplied by
+\autoref{thm:galoisgroup-composition-classifier-congruence}; and the
+composition and inverse obligation is supplied by
 \autoref{thm:galoisgroup-composition-and-inverse-obligation}. Therefore every
-public row is a projection of $E$, $G$, $b$, $a$, $m$, $i$, $c$, $\rho$, or
-$\lambda$.
+public row is a projection of $E$, $G$, $b$, $a$, the identity row, $m$, $i$,
+$c$, $\rho$, or $\lambda$.
 
-Conversely, each listed row is a field of the
-\autoref{def:galoisgroup-bhist-automorphism-action-packet} packet and is named
-by the public $\GaloisGroupUp$ interface. Repacking those rows gives the
-carrier, operation, inverse, classifier, provenance, ledger, and exactness
-surface needed by downstream Galois and representation-facing uses, so no
-hidden host automorphism datum is part of the public boundary.
+Conversely, each listed row is either a coordinate of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet} or a projected row
+read from those coordinates. Repacking those rows gives the carrier, identity,
+operation, inverse, classifier, provenance, ledger, and exactness surface needed
+by downstream Galois and representation-facing uses, so no hidden host
+automorphism datum is part of the public boundary.
 \end{proof}
 
 \begin{theorem}[GaloisGroupUp identity closure]
