@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.2 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.3 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## TOP-LEVEL HARD GATE — bridge_sync_pending (paper records lean StdBridge upgrade)
 
@@ -323,11 +323,39 @@ If a top-3 chapter is technically blocked (its schema explicitly notes infrastru
 
 These are typically root-of-tree paper stubs (5-10 lines, no `\input`, no `\label`) that external commits referenced as dependencies but never gave obligation theorem blocks. Without obligation content, lean cannot register `\leanchecked` markers → downstream chapters stay `deps_ready=False` → `critical_path.top` stays starved (currently ~12 sibling fronts vs 200+ open horizons). Attacking root stubs has 5-10x fan-out leverage compared to depth-refining already-rich chapters.
 
-**HARD GATE**: if `top_root_unblocks` is non-empty AND its first entry has `unblock_count >= 3`, AT LEAST 1 of the proposed targets MUST be `kind = "theory_extension"` on a chapter from `top_root_unblocks[0..2]`. The target's `paper_files[0]` is the entry's `file_paper`. The diff must add at least 3 `\begin{theorem}` / `\begin{definition}` blocks with `\label{thm:<chapter>-...}` so the chapter's `thms` crosses `deps_ready_threshold`. Theorem statements should mention BEDC kernel constructs (`BHist`, `Cont`, `hsame`, `NameCert`, `UnaryHistory`) and articulate the chapter's NameCert obligations as the schema would have demanded had the chapter been written by hand.
+**HARD GATE**: if `top_root_unblocks` is non-empty AND its first entry has `unblock_count >= 1`, AT LEAST 1 of the proposed targets MUST be `kind = "theory_extension"` on a chapter from `top_root_unblocks[0..2]`. The target's `paper_files[0]` is the entry's `file_paper`. The diff must add at least 3 `\begin{theorem}` / `\begin{definition}` blocks with `\label{thm:<chapter>-...}` so the chapter's `thms` crosses `deps_ready_threshold`. Theorem statements should mention BEDC kernel constructs (`BHist`, `Cont`, `hsame`, `NameCert`, `UnaryHistory`) and articulate the chapter's NameCert obligations as the schema would have demanded had the chapter been written by hand.
+
+Why threshold `>= 1` (was `>= 3` before v4.3): in mutual-blocker dep tree (typical when `top` collapses to 0 — multiple `thms=0` peers blocking the same downstream), every root has `unblock_count=1` because no root is a SINGLE-blocker. Skipping the GATE because `unblock_count < 3` is the bug that produced the 4-day stall on 2026-05-08 (top: 0, top_root_unblocks: 10 entries × unblock_count=1, paper rounds did 240+ closure-axis bookkeeping commits without opening any new front).
 
 `closure_mark` targets do NOT satisfy this gate — they bump closurestatus axis, not `thms`. The two HARD GATES (top[0..2] and top_root_unblocks[0..2]) compose: a 3-target round can satisfy both with 1 top-3 target + 1 root-unblock target + 1 free slot.
 
 If `top_root_unblocks` is empty (every dep tree root is already at `thms >= threshold`), this gate is vacuous and may be skipped.
+
+## TOP-LEVEL HARD GATE — empty-root attack (paper opens new fronts when top is starved)
+
+`critical_path.py` JSON exposes `top_empty_roots[*]` (with `top_empty_roots_total`). Each entry is an open horizon where `max(thms, labels) == 0` — fully empty paper stub that has been referenced as a dependency by other chapters but never received any obligation content. Sorted by `transitive_downstream` descending (how many chapters transitively depend on this one).
+
+```json
+{
+  "name": "affinespace",
+  "thms": 0,
+  "labels": 0,
+  "deps": ["group", "vecspace"],
+  "transitive_downstream": 3,
+  "direct_downstream": 1,
+  "file_paper": "papers/bedc/parts/concrete_instances/184_affinespace_namecert_construction.tex"
+}
+```
+
+`top_empty_roots` exists because `top_root_unblocks` measures SINGLE-blocker fan-out only; in mutual-blocker bottom layers (e.g. affinespace + bilinform + chernweil + clifford all `thms=0`) no root is a single blocker for any downstream, so `top_root_unblocks[*].unblock_count` collapses to 1 even when the transitive impact of writing the schema is much larger. `top_empty_roots` measures the transitive metric directly.
+
+**HARD GATE — empty-root attack priority**: If `len(top) == 0` AND `top_empty_roots_total >= 1`, AT LEAST 1 of the proposed N targets MUST be `kind = "theory_extension"` on a chapter from `top_empty_roots[0..2]`. The target's `paper_files[0]` is the entry's `file_paper`. The diff must add at least 5 `\begin{theorem}` / `\begin{definition}` blocks with `\label{thm:<chapter>-...}` BHist-anchored statements articulating the chapter's NameCert obligation surface — concrete BHist/Cont/hsame/NameCert/UnaryHistory predicates, not abstract parameter-echo. This drives `thms` and `labels` past `deps_ready_threshold` so the chapter (and its transitive downstream) becomes eligible for `top` on subsequent rounds.
+
+This gate composes with bridge_sync_pending / drift_chapters / transition rotation gates: a 3-target round can satisfy 1 empty-root + 1 drift-sync + 1 transition closure_mark. The empty-root target counts as the round's `theory_extension` contribution for the rolling-window `theory_extension` requirement.
+
+If `len(top) >= 1`, this gate is vacuous (the existing `top[0..2]` HARD GATE handles new-front opening). If `top_empty_roots_total == 0`, this gate is also vacuous.
+
+Why this gate exists (added in v4.3): on 2026-05-08 the dep tree's bottom layer became fully mutual-blocked: `top: 0`, `top_root_unblocks` had 10 entries all with `unblock_count=1`, so the existing `unblock_count >= 3` GATE never fired. Paper rounds spent ~3000 commits in 24h on closure-axis bookkeeping while 94 empty-stub chapters sat un-attacked. The `top_empty_roots` GATE forces paper to open new fronts whenever `top` is starved.
 
 ## Theme saturation (HARD GATE)
 
