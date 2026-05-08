@@ -464,3 +464,100 @@ $$
 $$
 These are exactly the maximal-flow and minimal-cut clauses for the residual cut induced by $\Xi$.
 \end{proof}
+
+\begin{lemma}[Finite unary fold of the constant empty assignment]
+\label{lem:networkflow-unary-fold-constant-empty}
+Fix a finite spine $xs$ and define
+$$
+a_{\emp}(e):=\emp
+\qquad\text{for every }e:\mathsf{BHist}.
+$$
+Then
+$$
+\mathsf{USum}_{xs}(a_{\emp})=\emp.
+$$
+\end{lemma}
+\begin{proof}
+Induct on the finite spine $xs$. In the nil case, the defining nil clause of \autoref{def:networkflow-finite-flow-cut-data} gives
+$$
+\mathsf{USum}_{\mathsf{nil}}(a_{\emp})=\emp.
+$$
+
+For the cons case, write $xs=\mathsf{cons}(e,xs')$. Unfolding the cons clause of \autoref{def:networkflow-finite-flow-cut-data} gives
+$$
+\mathsf{USum}_{\mathsf{cons}(e,xs')}(a_{\emp})
+=
+\mathsf{append}(a_{\emp}(e),\mathsf{USum}_{xs'}(a_{\emp})).
+$$
+By definition of $a_{\emp}$ and the induction hypothesis, this becomes
+$$
+\mathsf{USum}_{\mathsf{cons}(e,xs')}(a_{\emp})
+=
+\mathsf{append}(\emp,\emp).
+$$
+By the append presentation of continuation from \autoref{def:continuation-relation}, the left-unit clause of \autoref{thm:continuation-unit-laws} identifies $\mathsf{append}(\emp,\emp)$ with $\emp$. Hence
+$$
+\mathsf{USum}_{\mathsf{cons}(e,xs')}(a_{\emp})=\emp.
+$$
+This closes the induction.
+\end{proof}
+
+\begin{theorem}[Zero edge-flow is feasible at zero value]
+\label{thm:networkflow-zero-edge-flow-feasible}
+Let $G$ be a directed $\GraphUp$ carrier, let $u$ be a unary capacity assignment on its edges, and let $s,t$ be carried vertices. Define the zero edge-flow assignment by
+$$
+f_0(e):=\emp
+\qquad\text{for every }e:\mathsf{BHist},
+$$
+and define the value witness by
+$$
+V_{F_0}:=\emp.
+$$
+Then the flow datum $F_0$ with edge-flow assignment $f_0$ and value history $V_{F_0}$ is a feasible $\NetworkFlowUp$ $s$-$t$ flow over $u$. More precisely, for every finite $s$-$t$ cut record $C$ in $G$, one may take
+$$
+B_{F_0,C}:=\emp,
+\qquad
+X_{F_0,C}:=\emp,
+$$
+and all rows required by \autoref{def:networkflow-finite-flow-cut-data} hold.
+\end{theorem}
+\begin{proof}
+Unfold feasibility from \autoref{def:networkflow-finite-flow-cut-data}. We must verify the capacity row and the cut-accounting row.
+
+For the capacity row, fix $e:\mathsf{BHist}$ and assume $\mathsf{Edge}_G(e)$. Because $u$ is a unary capacity assignment on edges, the history $u(e)$ lies in the concrete unary history preorder carrier. Therefore \autoref{thm:preorder-prefix-empty-left-iff-unary} gives
+$$
+\emp\preceq_{\NatUp}u(e).
+$$
+Since $f_0(e)=\emp$, this is exactly
+$$
+f_0(e)\preceq_{\NatUp}u(e).
+$$
+So the capacity row holds for every carried edge.
+
+Now fix a finite $s$-$t$ cut record $C$ in $G$. Apply \autoref{lem:networkflow-unary-fold-constant-empty} to the backward and forward cut spines with the constant assignment $f_0$. Using the definitions of $\mathsf{CutBack}_{G,C}$ and $\mathsf{CutForw}_{G,C}$ from \autoref{def:networkflow-finite-flow-cut-data}, this gives
+$$
+\mathsf{CutBack}_{G,C}(f_0)=\emp,
+\qquad
+\mathsf{CutForw}_{G,C}(f_0)=\emp.
+$$
+Hence the chosen witnesses satisfy the required identification rows
+$$
+B_{F_0,C}=\mathsf{CutBack}_{G,C}(f_0),
+\qquad
+X_{F_0,C}=\mathsf{CutForw}_{G,C}(f_0).
+$$
+
+It remains to verify the conservation-accounting row. With the chosen value and cut histories, this row is
+$$
+\Cont(V_{F_0},B_{F_0,C},X_{F_0,C})
+=
+\Cont(\emp,\emp,\emp).
+$$
+The left-unit clause of \autoref{thm:continuation-unit-laws} gives exactly
+$$
+\Cont(\emp,\emp,\emp).
+$$
+Thus the required accounting row holds for every finite cut record $C$.
+
+Both the capacity row and the cut-accounting row are therefore satisfied, so $F_0$ is a feasible $\NetworkFlowUp$ $s$-$t$ flow over $u$ with zero edge-flow, zero value witness, and trivial cut-history witnesses.
+\end{proof}
