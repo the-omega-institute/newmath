@@ -13094,3 +13094,52 @@ Rationale:
 175_firstorder_namecert_construction.tex (115 lines) has only 3 theorems (grep '\\begin{theorem}' = 3): formula_carrier_obligation, deduction_soundness_ledger_obligation, namecert_obligation_surface. The ledger soundness theorem (line 62-87) inducts on the finite displayed deduction ledger and verifies acceptance for empty and step cases, but does NOT package the natural concatenation closure. grep for 'concat\|append.*ledger\|join.*deduction' in the file: 0 matches. This is the standard cut-rule shape for proof systems and is the prerequisite for any future soundness/completeness theorem that builds longer derivations from named lemmas. The proof induct-on-D2 / step-case reuses the existing acceptance condition at the join point; no new carrier datum needed. Not in BOARD title index — ranges over deduction concatenation, distinct from B-447 LP complementary slackness or the 'category' associativity entries. Concrete implication, fits cleanly in the 115-line file (well below cap).
 
 ---
+
+### B-513 - ODE local-flow concatenation associativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ODE local-flow concatenation associativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+If R_{01}, R_{12}, R_{23} are three OdeUp BHist local-flow rows with matching shared endpoints (terminal of R_{ij} classified with initial of R_{jk} in the derivative-time and Banach-state classifiers), then the two grouped composites (R_{01}∘R_{12})∘R_{23} and R_{01}∘(R_{12}∘R_{23}) — built by iterated thm:ode-root-picard-continuation-scope — have endpoint state histories related by the BanachUp classifier ∼_BanachUp.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/171_ode_namecert_construction.tex`
+
+Rationale:
+171_ode_namecert_construction.tex (204 lines, 4 thms) currently caps at the binary thm:ode-local-flow-concatenation-endpoint-determinacy (B-452, line 132). Three-step associativity is the natural next theorem: it requires applying the binary determinacy theorem to two distinct groupings of the three-step composite, then composing the two endpoint-classifier witnesses through ∼_BanachUp transitivity. grep 'three-step\|three.*step.*flow\|associativity.*flow' on the file returns 0 hits; the parallel result at the higher DynSystemUp layer (173_dynsystem line 262 thm:dynsystem-flow-composition-ledger) is binary, not three-step, and DynSystemUp is a different (higher-tower) chapter. BOARD entry B-452 is binary; B-453 sheaf point-germ comparison transitivity is sheaf-specific; no three-step ODE entry exists. Proof: instantiate thm:ode-local-flow-concatenation-endpoint-determinacy twice with appropriate Lipschitz vector-field ledger comparisons (already required to exist by Cont associativity, line 88), compose endpoint witnesses by Banach classifier transitivity. Concrete implication, fits 204-line file.
+
+---
+
+### B-514 - InnerProduct polarization-difference identity row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | InnerProduct polarization-difference identity row |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For carried vector endpoints x,y in the parallelogram norm seed source, the scalar history \|x+_V y\|_I^2 +_K (-_K \|x-_V y\|_I^2) is classifier-equal under sim_K to 2_K cdot_K (langle x,y rangle_I +_K langle y,x rangle_I).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/parallelogram_norm_seed.tex`
+- `papers/bedc/parts/concrete_instances/innerproduct/core_surface.tex`
+
+Rationale:
+Companion to the existing parallelogram-identity row (sum form). The chapter records the SUM expansion \|x+y\|^2 + \|x-y\|^2 = 2(\|x\|^2 + \|y\|^2) but not the DIFFERENCE expansion \|x+y\|^2 - \|x-y\|^2 = 2(<x,y> + <y,x>), which is the residue of the same vecspace-linearity rows when subtracted. Diagonal terms cancel and cross terms double — a structural identity that bridges parallelogram seed to inner-product symmetry surface. No existing BOARD or paper coverage for polarization in innerproduct/. Single implication, lands in a small seed file far below cap. Neither this nor B-508 (Pythagorean) covers the difference identity.
+
+---
