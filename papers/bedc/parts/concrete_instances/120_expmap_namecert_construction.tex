@@ -112,6 +112,37 @@ Soundness is by reading each accepted ledger row from the carrier tuple or from 
 Exactness is the reverse reading. Any row accepted by the $\ExpMapUp$ ledger must be one of the rows listed in the definition of the certified carrier or one of the structural rows named by its source certificates. Therefore the dependency surface is exactly $\LieGroupUp$, $\LieAlgebraUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$, with no additional bridge or Lean verification target claimed here.
 \end{proof}
 
+\begin{theorem}[ExpMap standard-flow bridge surface]
+\label{thm:expmap-standard-flow-bridge-surface}
+The public $\ExpMapUp$ graph package over $\mathsf{BHist}$ has a standard-flow
+bridge whose source rows are exactly the $\NameCert_{\LieAlgebraUp}$ row, the
+$\NameCert_{\LieGroupUp}$ row, the tangent row, the endpoint row, the finite
+$\Cont$ flow ledger, and the componentwise $\hsame$ classifier. Its exported
+standard reading is the finite graph of the exponential-flow interface, not a
+host analytic exponential map.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:expmap-carrier-obligation-surface}. It identifies the
+carrier as a $\mathsf{BHist}$ graph package with a $\LieAlgebraUp$ tangent
+source, a $\LieGroupUp$ endpoint target, and a finite BEDC flow ledger.
+
+Use \autoref{thm:expmap-classifier-stability-obligation-surface} to transport
+the source row, target row, and ledger componentwise. This gives exactly the
+$\hsame$ classifier row required by the standard-flow reading.
+
+Next apply \autoref{thm:expmap-zero-flow-obligation-surface}. The zero and
+composition rows show that the displayed graph behaves as a finite flow
+interface under $\Cont$ composition, with no appeal to host uniqueness of
+analytic flows.
+
+Finally project the dependency rows through
+\autoref{thm:expmap-ledger-and-dependency-obligations}. The ledger names
+precisely $\NameCert_{\LieAlgebraUp}$, $\NameCert_{\LieGroupUp}$, the tangent
+row, the endpoint row, finite $\Cont$, and componentwise $\hsame$. Repacking
+these projections gives the standard-flow bridge surface, and its standard
+reading is only the finite graph carried by the same tuple.
+\end{proof}
+
 \closureat{ExpMapUp}{publicStr}[BEDC.Derived.ExpMapUp.ExpMapLedger\_dependency\_obligations]
 
 \begin{closurestatus}{\ExpMapUp}
