@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 
@@ -7,6 +8,7 @@ namespace BEDC.Derived.InducedRepUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem InducedRepFrobeniusLedger_boundary
@@ -44,49 +46,128 @@ theorem InducedRepFrobeniusLedger_boundary
             (And.intro frobeniusCont
               (And.intro counitCont ledgerCont))))))
 
-def InducedRepContinuationLedgerSpine (start : BHist) : List BHist -> BHist -> Prop
-  | [], final => hsame final start
-  | row :: rows, final =>
-      UnaryHistory row ∧
-        exists next : BHist, Cont start row next ∧ InducedRepContinuationLedgerSpine next rows final
+theorem InducedRepCarrierPacket_namecert_obligation_surface
+    {subgroup representation induction restriction frobenius unit counit provenance ledger :
+      BHist} :
+    UnaryHistory subgroup ->
+      UnaryHistory representation ->
+        UnaryHistory induction ->
+          UnaryHistory restriction ->
+            UnaryHistory unit ->
+              Cont subgroup representation provenance ->
+                Cont induction restriction frobenius ->
+                  Cont frobenius unit counit ->
+                    Cont provenance counit ledger ->
+                      SemanticNameCert
+                          (fun row : BHist =>
+                            exists frobenius counit provenance : BHist,
+                              Cont induction restriction frobenius ∧
+                                Cont frobenius unit counit ∧
+                                  Cont provenance counit row ∧
+                                    hsame provenance (append subgroup representation))
+                          (fun row : BHist =>
+                            exists frobenius counit provenance : BHist,
+                              Cont induction restriction frobenius ∧
+                                Cont frobenius unit counit ∧
+                                  Cont provenance counit row ∧
+                                    hsame provenance (append subgroup representation))
+                          (fun row : BHist =>
+                            exists frobenius counit provenance : BHist,
+                              Cont induction restriction frobenius ∧
+                                Cont frobenius unit counit ∧
+                                  Cont provenance counit row ∧
+                                    hsame provenance (append subgroup representation))
+                          (fun left right : BHist =>
+                            (exists frobenius counit provenance : BHist,
+                              Cont induction restriction frobenius ∧
+                                Cont frobenius unit counit ∧
+                                  Cont provenance counit left ∧
+                                    hsame provenance (append subgroup representation)) ∧
+                              (exists frobenius counit provenance : BHist,
+                                Cont induction restriction frobenius ∧
+                                  Cont frobenius unit counit ∧
+                                    Cont provenance counit right ∧
+                                      hsame provenance (append subgroup representation)) ∧
+                                hsame left right) ∧
+                        UnaryHistory ledger ∧ hsame ledger (append provenance counit) ∧
+                          hsame frobenius (append induction restriction) := by
+  intro subgroupUnary representationUnary inductionUnary restrictionUnary unitUnary provenanceCont
+    frobeniusCont counitCont ledgerCont
+  have boundary :=
+    InducedRepFrobeniusLedger_boundary subgroupUnary representationUnary inductionUnary
+      restrictionUnary unitUnary provenanceCont frobeniusCont counitCont ledgerCont
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := by
+          refine Exists.intro ledger ?_
+          refine Exists.intro frobenius ?_
+          refine Exists.intro counit ?_
+          refine Exists.intro provenance ?_
+          exact And.intro frobeniusCont
+            (And.intro counitCont (And.intro ledgerCont provenanceCont))
+        equiv_refl := by
+          intro row source
+          exact And.intro source (And.intro source (hsame_refl row))
+        equiv_symm := by
+          intro left right classified
+          exact And.intro classified.right.left
+            (And.intro classified.left (hsame_symm classified.right.right))
+        equiv_trans := by
+          intro left middle right classifiedLM classifiedMR
+          exact And.intro classifiedLM.left
+            (And.intro classifiedMR.right.left
+              (hsame_trans classifiedLM.right.right classifiedMR.right.right))
+        carrier_respects_equiv := by
+          intro left right classified _source
+          exact classified.right.left
+      }
+      pattern_sound := by
+        intro row source
+        exact source
+      ledger_sound := by
+        intro row source
+        exact source
+    }
+  · exact And.intro boundary.right.right.right.left
+      (And.intro boundary.right.right.right.right.right.right.right
+        boundary.right.right.right.right.right.left)
 
-private theorem InducedRepContinuationLedgerSpine_normalized_cont_aux
-    {start final : BHist} {rows : List BHist} :
-    InducedRepContinuationLedgerSpine start rows final ->
-      exists tail : BHist, UnaryHistory tail ∧ Cont start tail final := by
-  intro spine
-  induction rows generalizing start final with
-  | nil =>
-      exact Exists.intro BHist.Empty (And.intro unary_empty spine)
-  | cons row rows ih =>
-      cases spine with
-      | intro rowUnary nextData =>
-          cases nextData with
-          | intro next nextRows =>
-              cases nextRows with
-              | intro rowCont tailSpine =>
-                  have tailPack := ih tailSpine
-                  cases tailPack with
-                  | intro tail tailRows =>
-                      have combinedUnary : UnaryHistory (append row tail) :=
-                        unary_append_closed rowUnary tailRows.left
-                      have combinedCont : Cont start (append row tail) final :=
-                        hsame_trans tailRows.right
-                          ((congrArg (fun h : BHist => append h tail) rowCont).trans
-                            (append_assoc start row tail))
-                      exact Exists.intro (append row tail) (And.intro combinedUnary combinedCont)
-
-theorem InducedRepContinuationLedgerSpine_normalized_cont
-    {provenance counit ledger final : BHist} {rows : List BHist} :
-    InducedRepContinuationLedgerSpine ledger rows final ->
-      hsame ledger (append provenance counit) ->
-        exists tail : BHist, UnaryHistory tail ∧ Cont (append provenance counit) tail final := by
-  intro spine ledgerNormalized
-  have tailPack := InducedRepContinuationLedgerSpine_normalized_cont_aux spine
-  cases tailPack with
-  | intro tail tailRows =>
-      have tailCont : Cont (append provenance counit) tail final :=
-        hsame_trans tailRows.right (congrArg (fun h : BHist => append h tail) ledgerNormalized)
-      exact Exists.intro tail (And.intro tailRows.left tailCont)
+theorem InducedRepBHistCarrier_namecert_obligation_surface
+    {subgroup representation induction restriction frobenius unit counit provenance ledger surface :
+      BHist} :
+    UnaryHistory subgroup ->
+      UnaryHistory representation ->
+        UnaryHistory induction ->
+          UnaryHistory restriction ->
+            UnaryHistory unit ->
+              Cont subgroup representation provenance ->
+                Cont induction restriction frobenius ->
+                  Cont frobenius unit counit ->
+                    Cont provenance counit ledger ->
+                      Cont ledger frobenius surface ->
+                        UnaryHistory provenance ∧ UnaryHistory frobenius ∧ UnaryHistory counit ∧
+                          UnaryHistory ledger ∧ UnaryHistory surface ∧
+                            hsame provenance (append subgroup representation) ∧
+                              hsame frobenius (append induction restriction) ∧
+                                hsame counit (append frobenius unit) ∧
+                                  hsame ledger (append provenance counit) ∧
+                                    hsame surface (append ledger frobenius) := by
+  intro subgroupUnary representationUnary inductionUnary restrictionUnary unitUnary provenanceCont
+    frobeniusCont counitCont ledgerCont surfaceCont
+  have boundary :=
+    InducedRepFrobeniusLedger_boundary subgroupUnary representationUnary inductionUnary
+      restrictionUnary unitUnary provenanceCont frobeniusCont counitCont ledgerCont
+  have surfaceUnary : UnaryHistory surface :=
+    unary_cont_closed boundary.right.right.right.left boundary.right.left surfaceCont
+  exact And.intro boundary.left
+    (And.intro boundary.right.left
+      (And.intro boundary.right.right.left
+        (And.intro boundary.right.right.right.left
+          (And.intro surfaceUnary
+            (And.intro boundary.right.right.right.right.left
+              (And.intro boundary.right.right.right.right.right.left
+                (And.intro boundary.right.right.right.right.right.right.left
+                  (And.intro boundary.right.right.right.right.right.right.right surfaceCont))))))))
 
 end BEDC.Derived.InducedRepUp

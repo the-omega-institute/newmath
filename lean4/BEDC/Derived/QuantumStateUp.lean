@@ -234,48 +234,38 @@ theorem QuantumStateBHistCarrier_observable_expectation_input_exactness [AskSetu
                     (And.intro projectiveClassifier.right.right.right.right.left
                       projectiveClassifier.right.right.right.right.right)))))))))
 
-def QuantumStatePhaseLedgerSpine (start : BHist) : List BHist -> BHist -> Prop
-  | [], final => hsame final start
-  | row :: rows, final =>
-      UnaryHistory row ∧
-        exists next : BHist, Cont start row next ∧ QuantumStatePhaseLedgerSpine next rows final
-
-private theorem QuantumStatePhaseLedgerSpine_normalized_cont_aux
-    {start final : BHist} {rows : List BHist} :
-    QuantumStatePhaseLedgerSpine start rows final ->
-      exists ledger : BHist, UnaryHistory ledger ∧ Cont start ledger final := by
-  intro spine
-  induction rows generalizing start final with
-  | nil =>
-      exact Exists.intro BHist.Empty (And.intro unary_empty spine)
-  | cons row rows ih =>
-      cases spine with
-      | intro rowUnary nextData =>
-          cases nextData with
-          | intro next nextRows =>
-              cases nextRows with
-              | intro rowCont tailSpine =>
-                  have tailPack := ih tailSpine
-                  cases tailPack with
-                  | intro tail tailRows =>
-                      have ledgerUnary : UnaryHistory (append row tail) :=
-                        unary_append_closed rowUnary tailRows.left
-                      have ledgerCont : Cont start (append row tail) final :=
-                        hsame_trans tailRows.right
-                          ((congrArg (fun h : BHist => append h tail) rowCont).trans
-                            (append_assoc start row tail))
-                      exact Exists.intro (append row tail) (And.intro ledgerUnary ledgerCont)
-
-theorem QuantumStatePhaseLedgerSpine_normalized_cont [AskSetup] [PackageSetup]
-    {vector norm phase final : BHist} {rows : List BHist} :
-    QuantumStatePhaseLedgerSpine phase rows final -> hsame phase (append vector norm) ->
-      exists ledger : BHist, UnaryHistory ledger ∧ Cont (append vector norm) ledger final := by
-  intro spine phaseNorm
-  have ledgerPack := QuantumStatePhaseLedgerSpine_normalized_cont_aux spine
-  cases ledgerPack with
-  | intro ledger ledgerRows =>
-      have ledgerCont : Cont (append vector norm) ledger final :=
-        hsame_trans ledgerRows.right (congrArg (fun h : BHist => append h ledger) phaseNorm)
-      exact Exists.intro ledger (And.intro ledgerRows.left ledgerCont)
+theorem QuantumStateBHistCarrier_phase_ledger_exhaustion [AskSetup] [PackageSetup]
+    {hilbert projective vector norm phase projectiveEndpoint hilbertLedger projectiveLedger
+      provenance endpoint phaseLedger consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuantumStateBHistCarrier hilbert projective vector norm phase projectiveEndpoint hilbertLedger
+        projectiveLedger provenance endpoint bundle pkg ->
+      Cont phase (append hilbertLedger projectiveLedger) phaseLedger ->
+        Cont phaseLedger provenance consumerRead ->
+          UnaryHistory phase ∧ UnaryHistory phaseLedger ∧ UnaryHistory consumerRead ∧
+            hsame phase (append vector norm) ∧
+              hsame phaseLedger (append phase (append hilbertLedger projectiveLedger)) ∧
+                hsame consumerRead (append phaseLedger provenance) ∧
+                  hsame endpoint (append provenance (append hilbertLedger projectiveLedger)) ∧
+                    PkgSig bundle endpoint pkg := by
+  intro carrier phaseLedgerCont consumerReadCont
+  have projectiveClassifier :=
+    QuantumStateBHistCarrier_projective_phase_classifier carrier
+  have provenanceExact :=
+    QuantumStateBHistCarrier_provenance_row_exactness carrier
+  have combinedLedgerUnary : UnaryHistory (append hilbertLedger projectiveLedger) :=
+    unary_append_closed provenanceExact.right.left provenanceExact.right.right.left
+  have phaseLedgerUnary : UnaryHistory phaseLedger :=
+    unary_cont_closed projectiveClassifier.left combinedLedgerUnary phaseLedgerCont
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed phaseLedgerUnary provenanceExact.left consumerReadCont
+  exact And.intro projectiveClassifier.left
+    (And.intro phaseLedgerUnary
+      (And.intro consumerReadUnary
+        (And.intro projectiveClassifier.right.left
+          (And.intro phaseLedgerCont
+            (And.intro consumerReadCont
+              (And.intro projectiveClassifier.right.right.right.right.left
+                projectiveClassifier.right.right.right.right.right))))))
 
 end BEDC.Derived.QuantumStateUp

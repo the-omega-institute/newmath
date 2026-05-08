@@ -18,50 +18,164 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-518 - AbelianCat zero morphism left-absorbing under composition
+### B-543 - DeRham double exterior derivative boundary
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | AbelianCat zero morphism left-absorbing under composition |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 8/10 |
-
-Problem:
-For carried hom $f \in \mathcal{H}(X,A)$ in an $\AbelianCatUp$ additive kernel-cokernel carrier, the displayed composite $0_{A,B}\circ f$ is classified by $\sim_{X,B}$ with the displayed zero morphism $0_{X,B}$.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex`
-
-Rationale:
-AbelianCat is a 433-line chapter with 10 theorems but only B-423 (`AbelianCat hom zero morphism uniqueness`, line 380) and B-437 (kernel/cokernel factor uniqueness) completed. The zero-morphism API in 154_abeliancat_namecert_construction.tex:380-421 establishes that $0_{A,B}$ is the unique left/right additive identity but never asserts the corresponding composition-annihilation row that makes zero morphisms `compose to zero'. This is the foundational fact that turns the existing zero-biproduct surface (\autoref{thm:abeliancat-additive-zero-biproduct-obligation} at line 79) into a usable abelian-category obligation. Single implication, concrete, in chapter scope. No abstract carrier transport — this is content over the displayed hom carriers. No collision with BOARD index B-407..B-516 or completed list.
-
----
-
-### B-538 - Quadrature empty-node sum is zero
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Quadrature empty-node sum is zero |
-| Layer | adjacent |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | DeRham double exterior derivative boundary |
+| Layer | concrete_instances |
 | Route | proof |
 | Risk | unknown |
 | Fit | 8/10 |
 | Novelty | 7/10 |
 
 Problem:
-For a finite weighted QuadratureUp rule Q=(xs,alpha,omega,I_Q), if the FinSetUp node spine xs is empty, then for every finite polynomial-code spine p the quadrature fold QSum_Q(p) is scalar-classifier-equal to 0_R.
+If a DeRhamUp packet over DiffFormUp and CohomologyUp supplies two successive exterior-derivative rows for a carried form, then the second derivative row is classified as the zero cochain endpoint and is an accepted DeRham chain-complex boundary row.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/115_deRham_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/77_cohomology_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/114_diffform_exterior_derivative_boundary.tex`
 
 Rationale:
-QuadratureUp has completed coverage for the exactness-degree classifier, but that coverage is concentrated on degree weakening, reflexivity, transitivity, and preorder rows: see the definitions of QSum_Q and DegBoundLe at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:21-66 and the completed theorem suite at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:105-240. The concrete rule-level fold itself is defined as a finite additive fold over Pos(xs) at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:27-31, while the existing ledger theorem only states that this is the carried exactness surface at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:90-103. The empty-node boundary is not one of B-428, B-451, or B-465 and is a small concrete implication about the actual quadrature sum rather than another degree-classifier law.
+This is a concrete single-implication target that fills the explicit DeRhamUp gap: the DeRham chapter advertises d^2 = 0 but has no carrier or certificate theorem, while the DiffForm exterior-derivative surface deliberately stops short of nilpotence and CohomologyUp already supplies nearby cycle/boundary machinery. It is not a BOARD duplicate, not already a labelled paper theorem, and the landing path is safe because the DeRham chapter is a short non-input stub with relevant dependency files below the line cap.
 
 ---
+
+
+### B-544 - JonesPolynomial skein ledger obligation surface
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | JonesPolynomial skein ledger obligation surface |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a JonesPolynomialUp packet supplies a KnotUp diagram row, three skein-related KnotUp boundary rows, a PolynomialUp Laurent-polynomial endpoint, and a finite skein ledger compatible with Reidemeister transport, then it exposes an accepted JonesPolynomial carrier/classifier surface over those rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/233_jonespolynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/232_knot_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+
+Rationale:
+This lands in the empty JonesPolynomialUp certificate chapter as the first conservative skein-ledger obligation, not as a proof of the full Jones polynomial invariant. KnotUp already has Reidemeister ledger composition and classifier completeness, and PolynomialUp supplies the polynomial-side carrier surface, so the proposed theorem is a bounded bridge/coverage target over supplied rows. No existing BOARD title or paper label covers the JonesPolynomial skein surface, and the short JonesPolynomial landing file avoids hub-only and line-cap risks.
+
+---
+
+
+### B-545 - StoneDuality clopen-ultrafilter bridge surface
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | StoneDuality clopen-ultrafilter bridge surface |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a StoneDualityUp packet supplies a Boolean LatticeUp source row, a TopologyUp clopen-basis row, and an ultrafilter-to-point ledger whose clopen membership rows agree with the lattice classifier, then it yields the first order-to-topology bridge carrier/classifier surface for StoneDualityUp.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/239_stoneduality_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/66_topology_namecert_construction.tex`
+
+Rationale:
+The claim is scoped as a bridge surface over displayed Boolean-lattice, clopen-basis, and ultrafilter ledger rows, rather than the full Stone duality theorem. It belongs directly in the StoneDualityUp chapter named by the roadmap and avoids relying on BoolUp to close a full Boolean-algebra certificate by requiring the Boolean lattice row as input. There is no close BOARD or paper-label duplicate, and the short StoneDuality landing file gives a safe place for a bounded carrier/classifier theorem.
+
+---
+
+
+### B-546 - DeformQuantization first-order bracket ledger
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | DeformQuantization first-order bracket ledger |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a DeformQuantizationUp packet over a SymplecticUp boundary and a HopfAlgUp formal-product row contains a star-product ledger with degree-zero product and degree-one commutator endpoint, then the degree-one endpoint is the displayed Poisson-bracket obligation row for the formal-deformation classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/249_deformquantization_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/116_symplectic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/158_hopfalg_namecert_construction.tex`
+
+Rationale:
+This is a bounded first-order deformation obligation and not a claim that SymplecticUp alone produces a Poisson bracket; the SymplecticUp chapter explicitly marks that as a consumer frontier. The proposed target supplies the missing DeformQuantizationUp-side ledger that connects the formal product row to a displayed bracket endpoint under stated hypotheses. No current BOARD item or paper theorem covers DeformQuantizationUp, and the short chapter file is a safe landing point with relevant SymplecticUp and HopfAlgUp dependencies.
+
+---
+
+
+### B-547 - AtiyahSinger index-pairing carrier surface
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AtiyahSinger index-pairing carrier surface |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an AtiyahSingerUp packet supplies a SpectralTheoremUp analytic-index row and a ChernWeilUp topological characteristic-class row over the same closed-manifold endpoint, then it exposes an index-pairing classifier row whose equality obligation is scoped exactly to those two dependency surfaces.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/251_atiyahsinger_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/192_spectraltheorem_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/250_chernweil_namecert_construction.tex`
+
+Rationale:
+The target is the first AtiyahSingerUp carrier/classifier obligation surface, not the full Atiyah-Singer theorem. SpectralTheoremUp already has public spectral-data certificate rows and ChernWeilUp has characteristic-class exactness rows, so the proposed bridge can be stated as a scoped index-pairing surface over existing dependency rows. It is distinct from all BOARD titles and paper labels, and the short AtiyahSingerUp chapter is a safe landing file.
+
+---
+
+
+### B-548 - CurryHoward cut-beta bridge obligation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CurryHoward cut-beta bridge obligation |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a CurryHowardUp packet pairs a FirstOrderUp deduction ledger with a LambdaCalcUp term packet through a shared proof-program carrier, then a displayed cut-elimination step on the deduction side is carried to a beta-reduction/substitution ledger on the LambdaCalc side under the shared classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/243_curryhoward_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/175_firstorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/178_lambdacalc_namecert_construction.tex`
+
+Rationale:
+This is a concrete bridge obligation between the existing FirstOrderUp deduction-ledger surface and the LambdaCalcUp beta/substitution ledger surface, not the broad capstone observation that Curry-Howard is built into closure laws. The concrete CurryHowardUp chapter is empty, the relevant dependency theorems are already present, and no BOARD entry or paper label states this cut-to-beta bridge. The short CurryHowardUp file is a safe landing point for the bounded theorem.
+
+---
+

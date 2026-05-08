@@ -283,4 +283,35 @@ theorem ObservableBHistOperatorCarrier_expectation_transport_exactness [AskSetup
         (And.intro transported.right.right
           exactReadback.right.left)))
 
+theorem ObservableBHistOperatorCarrier_operator_row_classifier_determinacy [AskSetup]
+    [PackageSetup]
+    {hilbert hilbert' operator operator' spectrum spectrum' expectation expectation' witness
+      witness' provenance provenance' ledger ledger' endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance ledger
+        endpoint bundle pkg ->
+      ObservableBHistOperatorCarrier hilbert' operator' spectrum' expectation' witness' provenance'
+          ledger' endpoint' bundle pkg ->
+        hsame hilbert hilbert' ->
+          hsame operator operator' ->
+            hsame spectrum spectrum' ->
+              hsame witness witness' ->
+                hsame provenance provenance' ->
+                  hsame expectation expectation' ∧ hsame ledger ledger' ∧
+                    hsame endpoint endpoint' := by
+  intro carrier carrier' sameHilbert sameOperator sameSpectrum sameWitness sameProvenance
+  have sameExpectation : hsame expectation expectation' :=
+    cont_respects_hsame sameOperator sameSpectrum
+      carrier.right.right.right.right.right.right.left
+      carrier'.right.right.right.right.right.right.left
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameHilbert sameWitness
+      carrier.right.right.right.right.right.right.right.left
+      carrier'.right.right.right.right.right.right.right.left
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameLedger
+      carrier.right.right.right.right.right.right.right.right.left
+      carrier'.right.right.right.right.right.right.right.right.left
+  exact And.intro sameExpectation (And.intro sameLedger sameEndpoint)
+
 end BEDC.Derived.ObservableUp
