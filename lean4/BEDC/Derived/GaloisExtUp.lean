@@ -288,4 +288,34 @@ theorem GaloisExtSourcePacket_endpoint_empty_inversion [AskSetup] [PackageSetup]
     (And.intro fieldSeparableParts.right
       (And.intro normalitySeparabilityParts.left normalitySeparabilityParts.right))
 
+theorem GaloisExtSourcePacket_dependency_exactness_ledger [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      UnaryHistory provenance ∧ UnaryHistory classifier ∧ UnaryHistory endpoint ∧
+        hsame provenance (append fieldExt separable) ∧
+          hsame classifier (append normality separability) ∧
+            hsame endpoint (append provenance classifier) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have separableSurface :=
+    SeparableExtSourceSurface_dependency_ledger_closure packet.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed packet.left.left separableSurface.right.left
+      packet.right.right.right.left
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed packet.right.left packet.right.right.left
+      packet.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary classifierUnary
+      packet.right.right.right.right.right.left
+  exact And.intro provenanceUnary
+    (And.intro classifierUnary
+      (And.intro endpointUnary
+        (And.intro packet.right.right.right.left
+          (And.intro packet.right.right.right.right.left
+            (And.intro packet.right.right.right.right.right.left
+              packet.right.right.right.right.right.right)))))
+
 end BEDC.Derived.GaloisExtUp
