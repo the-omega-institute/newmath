@@ -1,7 +1,20 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.3 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.4 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## Multi-target round emission
+
+This phase now emits up to **5 distinct targets per round** (not just `targets[0]`). Phase Revise loops over `targets[*]` and applies each independently. To take advantage of this, populate the `targets` array with the top 5 valid candidates from `candidate_pool` (`selection_rank` 1..5). Drop any rank ≥ 2 candidate that fails the feasibility / dedup / dogpile filters; emit only the survivors.
+
+Constraints when emitting >1 target:
+
+- **No file overlap**: do not emit two targets whose `paper_files[0]` are the same file. The Phase Revise loop applies them sequentially in one git tree; identical-file edits overwrite each other and produce wasted work.
+- **No chapter overlap on closure_mark**: do not emit two `closure_mark` targets touching the same `<X>Up` chapter, even if their files differ. Pick another chapter.
+- **HARD GATE composition still holds**: the bridge_sync_pending / drift_chapters / rotation / top[0..2] / root_unblock gates apply to the AT-LEAST-ONE-OF-N rule independently. A 5-target round can satisfy: 1 bridge_sync + 1 drift_sync + 1 critical_path top + 1 root_unblock + 1 transition. If a gate has fewer than 1 valid candidate, that gate is no-op for the round.
+- **Mixed difficulty allowed**: a 5-target round may mix 3 quick `closure_mark` (drift / bridge sync / token) targets and 2 substantive `theory_extension` / `missing_companion` targets — the quick targets sync token, the substantive ones grow the theory. Mixed rounds maximize per-round leverage.
+
+If `candidate_pool` has fewer than 5 feasible candidates, emit only as many as exist (1, 2, 3, 4, or 5). Empty round (`{"targets": []}`) is still allowed when no feasible candidate survives.
 
 ## TOP-LEVEL HARD GATE — bridge_sync_pending (paper records lean StdBridge upgrade)
 
@@ -694,7 +707,7 @@ Output a single fenced JSON block:
 
 Field requirements:
 - `candidate_pool` is mandatory and must contain at least 3 candidates unless fewer than 3 valid candidates exist; in that case explain the shortage in `notes`.
-- `targets[0].candidate_id` must match the `candidate_pool` entry with `selection_rank = 1` and `feasible = true`.
+- `targets[i].candidate_id` (for each emitted target) must match a `candidate_pool` entry with `feasible = true` and consecutive `selection_rank` 1..N (N is the number of emitted targets, up to 5). `targets[0]` is rank 1, `targets[1]` is rank 2, etc.
 - Every feasible `medium` or `high` candidate ranked below a selected `low` candidate must have a concrete `rejected_reason`; otherwise the output is invalid.
 - `paper_files` lists EXACTLY the existing .tex file(s) the revise phase must edit. Do not list main.tex unless main.tex itself is what changes.
 - `new_files` is present only when the substantive target requires a line-cap split; these paths must live under an existing `papers/bedc/parts/<theme>/` directory, and the parent file must become a pure index containing only ordered `\input` lines.
