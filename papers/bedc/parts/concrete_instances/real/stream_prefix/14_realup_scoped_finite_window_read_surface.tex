@@ -267,3 +267,51 @@ surface. Repacking these displayed rows recovers the selected finite surface,
 again without quotient, completion, metric-completeness, Classical, or
 standard-bridge data.
 \end{proof}
+
+\begin{theorem}[RealUp finite-window StreamName readback package]
+\label{thm:realup-finite-window-streamname-readback-package}
+Let $W$ be a certified finite $\mathsf{ProbeBundle}$ window and let a public
+$\RealUp$ finite-window classifier read be accepted over a $\StreamNameUp$
+source. Then there is a displayed $\mathsf{BHist}$ packet whose rows are exactly
+the unary schedule for $W$, the $\RatUp$ observation endpoints visible in the
+window, the $\StreamNameUp$ finite-window classifier row, the $\RealUp$ scoped
+window row, the $\Cont$ and $\hsame$ transport ledger connecting the stream
+read to the real read, and the $\Pkg$ provenance of the selected source rows.
+Every public $\RealUp$ finite-window classifier read through this
+$\StreamNameUp$ source factors through that packet.
+
+The packet contains no quotient row, completion row, metric-completeness
+certificate, global Cauchy modulus, arithmetic or order operation, Classical
+datum, or standard bridge. Its endpoint reads are exactly the displayed
+$\RatUp$ observations and its classifier reads are exactly the displayed
+$\StreamNameUp$ and scoped $\RealUp$ finite-window rows.
+\end{theorem}
+\begin{proof}
+Begin with the accepted finite-window $\RealUp$ read and project its
+$\StreamNameUp$ component. By
+\autoref{thm:realup-finite-window-export-through-streamname-interface}, this
+component factors through the public $\StreamNameUp$ finite-window interface,
+so the stream-name classifier row is displayed as a finite $\mathsf{BHist}$
+row rather than as an ambient stream equality.
+
+Next use
+\autoref{thm:realup-streamname-window-stability-consumption}. It transports
+the projected stream-name row across the selected finite window and records
+the required $\Cont$ and $\hsame$ ledger entries. These entries are the only
+transport rows consumed by the scoped $\RealUp$ classifier read.
+
+For constant rational endpoints, apply
+\autoref{thm:realup-finite-window-constant-stream-seal-factorization}. It
+identifies the endpoint part of the read with the displayed $\RatUp$
+observation rows, the unary schedule, and the surrounding finite
+$\mathsf{RealLedgerPolicy}$ rows. For non-constant accepted stream-name
+sources, the same packet shape is obtained by reading the $\RatUp$ endpoints
+already exposed by the finite StreamName window.
+
+Finally apply
+\autoref{thm:realup-finite-window-common-refinement-determinacy}. Any two
+displayed packets supporting the same public $\RealUp$ classifier read admit
+the same common finite refinement, hence determine the same visible rows up
+to the recorded $\hsame$ transports. This gives the announced readback packet
+and shows that every public finite-window classifier read factors through it.
+\end{proof}
