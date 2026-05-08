@@ -71,8 +71,33 @@ theorem DyadicRatCoreObservationRow_realup_window_feed
     (And.intro realCarrierE
       (And.intro realClassifier
         (And.intro rowD'.right.left
-          (And.intro rowE'.right.left
-            (And.intro rowD'.right.right
-              (And.intro rowE'.right.right classified'.right.right))))))
+        (And.intro rowE'.right.left
+          (And.intro rowD'.right.right
+            (And.intro rowE'.right.right classified'.right.right))))))
+
+theorem RegSeqRatDyadicLedger_real_seal_obligation {d e d' e' radiusD radiusE : BHist} :
+    DyadicRatCoreObservationRow d radiusD -> DyadicRatCoreObservationRow e radiusE ->
+      RatHistoryClassifier d e -> hsame d d' -> hsame e e' ->
+        RealConstantHistoryCarrier (BHist.e1 d') ∧
+          RealConstantHistoryCarrier (BHist.e1 e') ∧
+            RealConstantHistoryClassifier (BHist.e1 d') (BHist.e1 e') ∧
+              PositiveUnaryDenominator d' ∧ PositiveUnaryDenominator e' ∧
+                UnaryHistory radiusD ∧ UnaryHistory radiusE ∧ hsame d' e' ∧
+                  DyadicRatCoreObservationRow d' radiusD ∧
+                    DyadicRatCoreObservationRow e' radiusE := by
+  intro rowD rowE classified sameD sameE
+  have feed :=
+    DyadicRatCoreObservationRow_realup_window_feed rowD rowE classified sameD sameE
+  have transported :=
+    DyadicRatCoreObservationRow_classifier_transport rowD rowE classified sameD sameE
+  exact And.intro feed.left
+    (And.intro feed.right.left
+      (And.intro feed.right.right.left
+        (And.intro feed.right.right.right.left
+          (And.intro feed.right.right.right.right.left
+            (And.intro feed.right.right.right.right.right.left
+              (And.intro feed.right.right.right.right.right.right.left
+                (And.intro feed.right.right.right.right.right.right.right
+                  (And.intro transported.left transported.right.left))))))))
 
 end BEDC.Derived.RealUp
