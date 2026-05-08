@@ -130,6 +130,7 @@ If any such structure is to participate in compilation, it must first appear as 
 
 \begin{definition}[Generated recognizer]
 \label{def:ground-event-flow-generated-recognizer}
+\leandef{BEDC.GroundCompiler.EventFlow.GeneratedRecognizer}
 A \emph{generated recognizer} is itself an event flow:
 $$
   R \in \mathsf{EventFlow}.
@@ -148,6 +149,7 @@ holds. The relation $\mathsf{RecognizesPkg}$ is a kernel-level judgment between 
 
 \begin{proposition}[Package structure is not a primitive compiler input]
 \label{prop:ground-event-flow-package-not-primitive}
+\leanchecked{BEDC.GroundCompiler.EventFlow.package\_not\_primitive}
 There is no formal compiler map of the form $\Pkg \to \mathsf{Code}$. The only admissible form is
 $$
   \mathsf{EventFlow} \longrightarrow \mathsf{Code},
@@ -240,6 +242,7 @@ A \emph{structural hidden input} is any datum used by the compiler, or by a down
 
 \begin{theorem}[No-hidden-input ground theorem]
 \label{thm:ground-event-flow-no-hidden-input}
+\leanchecked{BEDC.GroundCompiler.EventFlow.no\_hidden\_input}
 Every formal datum used by the BEDC compiler occurs in exactly one of the following ways:
 \begin{enumerate}
   \item as a raw event $w \in \mathsf{RawEvent}$;

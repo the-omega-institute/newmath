@@ -101,6 +101,28 @@ theorem structural_hidden_not_formal {d : CompilerDatum} :
   intro hHidden hFormal
   cases hHidden <;> cases hFormal
 
+theorem package_not_primitive :
+    Not (FormalCompilerInput CompilerDatum.hostPkg) :=
+  structural_hidden_not_formal StructuralHiddenInput.hostPkg
+
+theorem no_hidden_input {d : CompilerDatum} :
+    FormalCompilerInput d ->
+      (exists w : RawEvent, d = CompilerDatum.rawEvent w) \/
+      (exists S : EventFlow, d = CompilerDatum.eventFlow S) \/
+      (exists R : GeneratedRecognizer, exists S : EventFlow,
+        d = CompilerDatum.recognizedFlow R S) \/
+      (exists S : EventFlow, d = CompilerDatum.certifiedExport S) := by
+  intro h
+  cases h with
+  | rawEvent w =>
+      exact Or.inl ⟨w, rfl⟩
+  | eventFlow S =>
+      exact Or.inr (Or.inl ⟨S, rfl⟩)
+  | recognizedFlow R S =>
+      exact Or.inr (Or.inr (Or.inl ⟨R, S, rfl⟩))
+  | certifiedExport S =>
+      exact Or.inr (Or.inr (Or.inr ⟨S, rfl⟩))
+
 theorem yaml_not_input :
     Not (FormalCompilerInput CompilerDatum.hostYAML) :=
   structural_hidden_not_formal StructuralHiddenInput.hostYAML
