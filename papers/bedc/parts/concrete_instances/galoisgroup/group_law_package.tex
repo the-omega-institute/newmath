@@ -1,0 +1,319 @@
+\begin{theorem}[GaloisGroupUp composition and inverse obligation]
+\label{thm:galoisgroup-composition-and-inverse-obligation}
+For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the composition
+row $m$ and inverse row $i$ remain in the same Galois-group classifier exactly
+when their displayed endpoints are transported by finite $\mathsf{Cont}$ rows,
+$\hsame$ comparisons, and $\mathsf{Pkg}$ provenance from the Galois-extension
+packet $E$ and the group-operation packet $G$.
+\end{theorem}
+\begin{proof}
+First isolate the composition row. The operation endpoint in $m$ is the
+$\GroupUp$ multiplication row, while the acted-on endpoints are extension
+histories from $E$. Group congruence transports the multiplication endpoint,
+and the Galois-extension classifier transports the acted-on endpoints. The
+ledger $\lambda$ records both transports as finite $\mathsf{Cont}$ rows.
+
+Next isolate the inverse row. The inverse endpoint in $i$ is the $\GroupUp$
+inverse row, and the inverse action endpoints are again displayed extension
+histories from $E$. The inverse congruence and inverse laws from the group
+surface keep the operation in the same classifier, while the fixed-base row
+$b$ keeps the base endpoints in their original $\hsame$ classes.
+
+Combining the two rows gives the stated equivalence. If composition and
+inverse endpoints are transported by $\mathsf{Cont}$, $\hsame$, and
+$\mathsf{Pkg}$, then $m$ and $i$ repack into the classifier row $c$.
+Conversely, projecting $c$ exposes precisely those finite transports and no
+additional ambient automorphism equality.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp identity action row]
+\label{thm:galoisgroup-identity-action-row}
+For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the unit row of the
+group packet $G$ gives a displayed identity automorphism-action row on every
+extension endpoint carried by $E$. This row fixes every displayed base-field
+endpoint by $\hsame$ and is accepted by the same finite
+$\GaloisGroupUp$ automorphism-action packet using only $\mathsf{BHist}$,
+$\mathsf{Cont}$, $\mathsf{Pkg}$, and the inherited
+$\GaloisExtUp$ classifier.
+\end{theorem}
+\begin{proof}
+Unpack the automorphism-action packet. By
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the only available
+dependency data are the Galois-extension packet $E$, the group packet $G$, the
+fixed-base row $b$, the action row $a$, the composition row $m$, the inverse row
+$i$, the classifier row $c$, the package row $\rho$, and the finite ledger
+$\lambda$.
+
+The public Galois-extension boundary of
+\autoref{thm:galoisext-public-obligation-boundary} supplies the extension
+endpoints and their classifier rows. The fixed-base carrier obligation of
+\autoref{thm:galoisgroup-fixed-base-carrier-obligation} supplies the
+$\hsame$ base-field comparison for a displayed automorphism row over those
+endpoints.
+
+Read the unit endpoint from the $\GroupUp$ dependency packet $G$. Its displayed
+unit ledger acts as the identity action on each extension endpoint, and the
+fixed-base row transports the base endpoint back to its original $\hsame$ class.
+The composition and inverse controls of
+\autoref{thm:galoisgroup-composition-closure},
+\autoref{thm:galoisgroup-inverse-closure}, and
+\autoref{thm:galoisgroup-composition-and-inverse-obligation} ensure that this
+unit row lies in the same accepted automorphism-action classifier as the rows
+already carried by the packet.
+
+Repack the dependency projections, unit action ledger, fixed-base witness,
+classifier row, $\mathsf{Cont}$ readbacks, and shared $\mathsf{Pkg}$
+provenance. The result is a finite accepted row of the original packet, so the
+identity action is public without exporting a host automorphism function.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp associative composition row]
+\label{thm:galoisgroup-associative-composition-row}
+For three composable accepted automorphism-action rows in an
+automorphism-action packet of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the left-associated
+and right-associated composite ledgers are classified by the same
+$\GaloisGroupUp$ row. The comparison is obtained from the $\GroupUp$
+associativity row together with the middle-endpoint $\hsame$ transports exposed
+by the $\GaloisExtUp$ surface.
+\end{theorem}
+\begin{proof}
+Unpack the three accepted action rows through
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}. Each row has
+extension endpoints from $E$, group-operation endpoints from $G$, fixed-base
+witnesses, classifier entries, $\mathsf{Cont}$ ledger entries, and the shared
+$\mathsf{Pkg}$ provenance row.
+
+The endpoint alignments come from the Galois-extension public boundary
+\autoref{thm:galoisext-public-obligation-boundary}. Those classifier rows
+transport the first middle endpoint to the second source endpoint and the second
+middle endpoint to the third source endpoint inside the finite ledger
+$\lambda$.
+
+Apply the composition closure of
+\autoref{thm:galoisgroup-composition-closure} twice, once to form the
+left-associated ledger and once to form the right-associated ledger. The group
+packet $G$ contributes the $\GroupUp$ associativity row, and
+\autoref{thm:galoisgroup-composition-and-inverse-obligation} identifies the two
+composition ledgers through the same finite $\mathsf{Cont}$ and $\hsame$
+transports.
+
+The inverse closure of \autoref{thm:galoisgroup-inverse-closure} supplies the
+same accepted classifier controls for the operation endpoints that appear in
+the association comparison. Repack the two associated ledgers, their fixed-base
+witnesses, the dependency projections, and the shared package row. The repacked
+classifier proves that associativity is an action-ledger row of the original
+finite packet.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp action ledger exactness]
+\label{thm:galoisgroup-action-ledger-exactness}
+For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the public action
+ledger is exactly the fixed-base row, identity row, composition row, inverse
+row, classifier row, dependency projections to $E$ and $G$, finite
+$\mathsf{Cont}$ readbacks, and shared $\mathsf{Pkg}$ provenance. No host
+automorphism function space, quotient of automorphisms, or uncarried equality
+of field presentations is exported.
+\end{theorem}
+\begin{proof}
+Project the packet along
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}. The projection
+exposes only $E$, $G$, $b$, $a$, $m$, $i$, $c$, $\rho$, and $\lambda$ together
+with the dependency rows recorded inside the two consumed NameCert packets.
+
+The Galois-extension public boundary
+\autoref{thm:galoisext-public-obligation-boundary} accounts for all extension
+carrier, classifier, exactness, and ledger rows from $E$. The fixed-base carrier
+obligation \autoref{thm:galoisgroup-fixed-base-carrier-obligation} accounts for
+the base-fixing face of the action ledger.
+
+The identity row is the unit action row supplied above. The composition and
+inverse faces are exactly the rows controlled by
+\autoref{thm:galoisgroup-composition-closure},
+\autoref{thm:galoisgroup-inverse-closure}, and
+\autoref{thm:galoisgroup-composition-and-inverse-obligation}. These references
+exhaust the accepted action, association, and reversal data available in the
+finite packet.
+
+Conversely, every listed row is a displayed packet row or a dependency
+projection already carried by $\lambda$ and tagged by $\rho$. Repacking those
+rows gives the same public $\GaloisGroupUp$ automorphism-action packet, so the
+ledger is exact and has no additional ambient automorphism object behind it.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp public NameCert obligation boundary]
+\label{thm:galoisgroup-public-namecert-obligation-boundary}
+For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the public
+$\NameCert_{\GaloisGroupUp}$ obligation surface is exactly the following
+finite row family: the Galois-extension dependency packet $E$, the group
+dependency packet $G$, the fixed-base row $b$, the automorphism-action row
+$a$, the identity row read from the unit of $G$, the composition row $m$, the
+inverse row $i$, the classifier row $c$, the $\mathsf{Pkg}$ provenance row
+$\rho$, the finite $\mathsf{Cont}$ ledger $\lambda$, and the exactness rows
+named by those packets. This is the public
+obligation boundary consumed by downstream Galois and representation-facing
+chapters.
+\end{theorem}
+\begin{proof}
+Project the packet to its dependency surfaces. The Galois-extension side is
+the public boundary of
+\autoref{thm:galoisext-public-obligation-boundary}; the group side is the
+operation and inverse surface named by the $\GroupUp$ certificate. These two
+dependency projections account for the extension carrier, group operation,
+classifier, stability, ledger, and exactness rows available to the
+Galois-group packet.
+
+The fixed-base carrier obligation is supplied by
+\autoref{thm:galoisgroup-fixed-base-carrier-obligation}. The identity row is
+supplied by \autoref{thm:galoisgroup-identity-row-closure}; classifier-stable
+composition is supplied by
+\autoref{thm:galoisgroup-composition-classifier-congruence}; and the
+composition and inverse obligation is supplied by
+\autoref{thm:galoisgroup-composition-and-inverse-obligation}. Therefore every
+public row is a projection of $E$, $G$, $b$, $a$, the identity row, $m$, $i$,
+$c$, $\rho$, or $\lambda$.
+
+Conversely, each listed row is either a coordinate of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet} or a projected row
+read from those coordinates. Repacking those rows gives the carrier, identity,
+operation, inverse, classifier, provenance, ledger, and exactness surface needed
+by downstream Galois and representation-facing uses, so no hidden host
+automorphism datum is part of the public boundary.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp identity closure]
+\label{thm:galoisgroup-identity-closure}
+For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the identity
+automorphism row inherited from the $\GroupUp$ unit surface fixes every
+displayed $\GaloisExtUp$ endpoint and is accepted by the same
+automorphism-action packet. Its fixed-base witnesses are the $\hsame$ rows
+obtained by reading the unit row through the Galois-extension endpoints
+displayed by $E$ and the group unit face displayed by $G$.
+\end{theorem}
+\begin{proof}
+Project the packet to $E$, $G$, $b$, $a$, $m$, $i$, $c$, $\rho$, and
+$\lambda$. The row $E$ supplies the displayed extension endpoints and their
+classifier rows, while $G$ supplies the $\GroupUp$ unit row together with the
+operation classifier attached to that unit.
+
+Read the unit row as the identity automorphism-action row. On each displayed
+extension endpoint, the action endpoint is transported by the same
+$\GaloisExtUp$ classifier row, and the base endpoint is compared with itself
+by the fixed-base $\hsame$ witness already recorded in $b$ and $\lambda$.
+
+Repack the displayed extension endpoints, the group unit row, the fixed-base
+witnesses, the classifier row $c$, and the shared $\Pkg$ provenance $\rho$.
+The resulting row has the packet shape of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, so the identity
+automorphism is accepted inside the public $\GaloisGroupUp$ surface.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp associative composition ledger]
+\label{thm:galoisgroup-associative-composition-ledger}
+For three composable accepted automorphism-action rows of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the two
+parenthesisations of their composite are classified by the same finite
+$\Cont$ reassociation ledger. The comparison is inherited from the
+$\GroupUp$ associativity surface of $G$ and from the shared $\hsame$ endpoint
+classifier and $\Pkg$ provenance of the Galois-group packet.
+\end{theorem}
+\begin{proof}
+First compose the first two rows, then compose the result with the third row.
+\autoref{thm:galoisgroup-composition-closure} gives an accepted composite
+whose endpoints, fixed-base witnesses, $\Cont$ ledger, classifier rows, and
+$\Pkg$ provenance are all projections of the same packet.
+
+Next compose the last two rows, then compose the first row with that result.
+The same closure theorem gives the other accepted composite, with the same
+outer source and target endpoints and with the same dependency packets $E$
+and $G$.
+
+The $\GroupUp$ associativity surface in $G$ identifies the two multiplication
+parenthesisations. Transport the middle endpoint comparisons through the
+shared $\hsame$ rows, and concatenate the two displayed $\Cont$ ledgers in
+the reassociated order named by $\lambda$.
+
+Both composites now expose the same outer endpoints, fixed-base witnesses,
+classifier row $c$, $\Pkg$ provenance $\rho$, and dependency packets. Hence
+the public classifier accepts them as the same Galois-group composition row.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp inverse cancellation boundary]
+\label{thm:galoisgroup-inverse-cancellation-boundary}
+For any accepted automorphism-action row of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, composing the row
+with its inverse on either side classifies to the identity row inside the same
+packet. The cancellation uses only the inverse row $i$, the composition row
+$m$, the $\GroupUp$ inverse-law surface of $G$, and the fixed-base transport
+rows recorded by $b$ and $\lambda$.
+\end{theorem}
+\begin{proof}
+Start with an accepted automorphism-action row and apply
+\autoref{thm:galoisgroup-inverse-closure}. This supplies the reversed
+automorphism row, its reversed endpoints, the inverse ledger, and the
+fixed-base witness transported by $\hsame$ along the same base endpoint.
+
+Compose the original row with the inverse row using
+\autoref{thm:galoisgroup-composition-closure}. The GroupUp right inverse law
+classifies the operation endpoint to the unit row, while the fixed-base
+transport row identifies the acted-on base endpoint with the original base
+endpoint.
+
+For the opposite order, use the same inverse row and composition closure with
+the reversed endpoints. The GroupUp left inverse law again classifies the
+operation endpoint to the unit row, and the fixed-base witness is transported
+through the same $\hsame$ comparison.
+
+By \autoref{thm:galoisgroup-identity-closure}, the unit-classified action row
+is the accepted identity row of the packet. Thus both left and right
+cancellation composites classify to the public identity boundary without
+adding any host automorphism equality.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp public group-law package]
+\label{thm:galoisgroup-public-group-law-package}
+For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the public
+$\GaloisGroupUp$ group-law package consists exactly of the identity row, the
+composition-closure row, the associative composition ledger, the inverse
+closure row, the inverse cancellation boundary, the action-ledger exactness
+row, and the public NameCert obligation boundary. Each row is read only
+through the displayed $\mathsf{BHist}$, $\mathsf{Cont}$, $\hsame$,
+$\mathsf{Pkg}$, $\NameCert_{\GaloisExtUp}$, and $\NameCert_{\GroupUp}$
+surfaces of the packet, with no host automorphism equality and no quotient of
+automorphisms.
+\end{theorem}
+\begin{proof}
+Start by projecting the packet to its displayed dependency rows. The
+$\GaloisExtUp$ side supplies the extension endpoints, classifier rows, and
+exactness ledgers, while the $\GroupUp$ side supplies the unit, multiplication,
+inverse, associativity, congruence, and inverse-law rows that can be read by
+the automorphism-action packet.
+
+The unit part of the package is exactly
+\autoref{thm:galoisgroup-identity-closure}. The multiplication part is exactly
+\autoref{thm:galoisgroup-composition-closure}, and its associativity control is
+the finite reassociation ledger of
+\autoref{thm:galoisgroup-associative-composition-ledger}.
+
+For inverses, use \autoref{thm:galoisgroup-inverse-closure} to expose the
+inverse row and \autoref{thm:galoisgroup-inverse-cancellation-boundary} to
+classify the two cancellation composites back to the identity row. These two
+rows give all inverse laws visible at the $\GaloisGroupUp$ surface.
+
+It remains to identify the boundary of the package. The action face is the
+exact action-ledger surface of
+\autoref{thm:galoisgroup-action-ledger-exactness}, and the certificate face is
+the public obligation boundary of
+\autoref{thm:galoisgroup-public-namecert-obligation-boundary}. Projecting
+those two rows shows that the package exposes precisely the listed
+$\mathsf{BHist}$, $\mathsf{Cont}$, $\hsame$, $\mathsf{Pkg}$,
+$\NameCert_{\GaloisExtUp}$, and $\NameCert_{\GroupUp}$ data. No additional
+ambient equality or quotient carrier is present in the packet shape, so the
+listed rows are exactly the consumable public group-law package.
+\end{proof}
