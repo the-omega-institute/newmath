@@ -1,0 +1,465 @@
+\chapter{Theory Metrics and Flow Invariants}
+\label{ch:ground-compiler-theory-metrics-flow-invariants}
+
+\autoref{ch:ground-compiler-first-case-studies} compares finite repetition, Nat-like, Add, fold, and Completion skeletons. It shows that skeletons can share low-level motifs without implying object equality, theorem equivalence, or mature export. This chapter defines a group of theory metrics for comparing event flows by their recognized structures.
+
+The metrics include prefix profile, motif profile, seal depth, carry index, ledger depth, classifier compression ratio, reuse depth, normal-address distance, and theory-flow distance. These are not proof, $\NameCert$, derivation certificate, or acceptance gate. They are statistics and comparisons over decoded source event flows, recognized motifs, recognized ledgers, recognized classifiers, normal-address records, and reuse structures.
+
+The governing rule is
+$$
+  \boxed{\text{metrics are computed only from recognized event-flow structure, never from channel substrings or external labels}.}
+$$
+
+\section{Admissible metric data}
+\label{sec:metrics-admissible-data}
+
+\begin{definition}[Metric recognizer family]
+\label{def:metrics-recognizer-family}
+A \emph{metric recognizer family} is a finite family of generated recognizer flows
+$$
+  \mathcal R=(R_1,\ldots,R_k),
+$$
+where each $R_i$ is certified for some structure used by the metric, such as finite repetition, continuation, seal, carry, ledger, classifier, reuse, bridge, theorem-flow, or chapter-flow recognition. The family $\mathcal R$ is not an external metric table. It is represented by event-flow structure and supported by recognizer certificates.
+\end{definition}
+
+\begin{definition}[Metric admissibility]
+\label{def:metrics-admissibility}
+A metric $M$ is \emph{admissible} for a recognizer family $\mathcal R$ when $M(S)$ depends only on:
+\begin{enumerate}
+\item the decoded source event flow $S$;
+\item motif occurrences recognized by $\mathcal R$;
+\item ledger flows recognized by $\mathcal R$;
+\item classifier flows recognized by $\mathcal R$;
+\item reuse flows recognized by $\mathcal R$;
+\item normal-address flows recognized by $\mathcal R$;
+\item the associated failure-flow and cannot-claim-flow data.
+\end{enumerate}
+It may not depend on channel-substring search, external object names, YAML fields, host ASTs, theorem labels, human chapter titles, external semantic categories, or unrecorded classifier judgments.
+\end{definition}
+
+\begin{principle}[No external metric input]
+\label{prin:metrics-no-external-input}
+Every theory metric must be event-flow-derived. A metric depending on external object names, host tags, YAML fields, manual theorem grouping, or unrecognized semantic labels is not a BEDC-admissible metric.
+\end{principle}
+
+\section{Prefix profiles}
+\label{sec:metrics-prefix-profiles}
+
+\begin{definition}[Raw prefix profile]
+\label{def:metrics-raw-prefix-profile}
+For an event flow
+$$
+  S=(w_0,\ldots,w_{n-1}),
+$$
+define its \emph{raw prefix profile} by
+$$
+  \mathsf{RawPrefix}(S)
+  =
+  \{\,(w_0,\ldots,w_i)\mid 0\leq i<n\,\}.
+$$
+For the empty event flow, set $\mathsf{RawPrefix}(S)=\{\epsilon\}$. The raw prefix profile records source-level event prefixes but no semantic role.
+\end{definition}
+
+\begin{definition}[Recognized prefix profile]
+\label{def:metrics-recognized-prefix-profile}
+Given a recognizer family $\mathcal R$, define $\mathsf{Prefix}_{\mathcal R}(S)$ to be the set of all triples $(P,\mu,L)$ such that $P$ is a raw prefix of $S$, $P$ is recognized by some $R\in\mathcal R$ as motif role $\mu$, and $L$ is its motif ledger:
+$$
+  (P,\mu,L)\in\mathsf{Prefix}_{\mathcal R}(S)
+$$
+iff there exists $R\in\mathcal R$ with
+$$
+  \mathsf{RecognizesMotif}(R,S,P,\mu)
+  \quad\text{and}\quad
+  \mathsf{MotifLedger}_{R}(S,P,\mu,L).
+$$
+\end{definition}
+
+\begin{remark}[Raw prefix and semantic prefix differ]
+\label{rem:metrics-raw-prefix-semantic-prefix-differ}
+Two event flows can share a raw prefix without sharing a recognized prefix profile. For instance, $01$ may be recognized in one flow as a repeat-boundary witness and in another as a branch separator. Different recognized roles or ledgers mean different semantic prefixes.
+\end{remark}
+
+\begin{definition}[Prefix-overlap length]
+\label{def:metrics-prefix-overlap-length}
+For event flows $S$ and $T$, define $\mathsf{RawPrefixLen}(S,T)$ as the largest $k$ such that
+$$
+  S[0:k]=T[0:k].
+$$
+Define recognized prefix overlap by
+$$
+  \mathsf{PrefixOverlap}_{\mathcal R}(S,T)
+  =
+  \mathsf{Prefix}_{\mathcal R}(S)
+  \cap
+  \mathsf{Prefix}_{\mathcal R}(T),
+$$
+where intersection is computed by recognized role, support subflow shape, and ledger-compatible equivalence, not by bare event strings alone.
+\end{definition}
+
+\begin{proposition}[Raw prefix overlap is weaker than recognized prefix overlap]
+\label{prop:metrics-raw-prefix-weaker}
+If $\mathsf{PrefixOverlap}_{\mathcal R}(S,T)\neq\emptyset$, then $S$ and $T$ share a raw prefix support. Conversely, shared raw prefix support need not imply recognized prefix overlap.
+\end{proposition}
+
+\begin{proof}
+A recognized prefix overlap includes a recognized motif support, so its support is a raw prefix of both flows. The converse fails because a shared raw prefix may be recognized under different roles, have incompatible ledgers, or fail to be recognized in one of the two flows.
+\end{proof}
+
+\section{Motif profiles and counts}
+\label{sec:metrics-motif-profiles}
+
+\begin{definition}[Motif profile]
+\label{def:metrics-motif-profile}
+For a recognizer family $\mathcal R$, define the motif profile of an event flow $S$ by
+$$
+  \mathsf{MotifProfile}_{\mathcal R}(S)
+  =
+  \{\,(\mu,M,L)\mid
+  \exists R\in\mathcal R,\
+  \mathsf{RecognizesMotif}(R,S,M,\mu)
+  \wedge
+  \mathsf{MotifLedger}_{R}(S,M,\mu,L)\,\}.
+$$
+Here $\mu$ is the motif role, $M$ the support subflow, and $L$ the motif ledger.
+\end{definition}
+
+\begin{definition}[Motif multiplicity]
+\label{def:metrics-motif-multiplicity}
+The multiplicity of motif role $\mu$ in $S$ is
+$$
+  \mathsf{Mult}_{\mathcal R}(S,\mu)
+  =
+  \#\{\, (M,L)\mid(\mu,M,L)\in\mathsf{MotifProfile}_{\mathcal R}(S)\,\}.
+$$
+This chapter considers finite chapter, theorem, and package event flows.
+\end{definition}
+
+\begin{definition}[Seal depth]
+\label{def:metrics-seal-depth}
+The \emph{seal depth} of $S$ is
+$$
+  \mathsf{SealDepth}_{\mathcal R}(S)
+  =
+  \mathsf{Mult}_{\mathcal R}(S,\mu_{\mathrm{seal}}),
+$$
+where $\mu_{\mathrm{seal}}$ is the recognized event-flow role for seal motifs.
+\end{definition}
+
+\begin{definition}[Carry index]
+\label{def:metrics-carry-index}
+The \emph{carry index} of $S$ is
+$$
+  \mathsf{CarryIndex}_{\mathcal R}(S)
+  =
+  \mathsf{Mult}_{\mathcal R}(S,\mu_{\mathrm{carry}}),
+$$
+where $\mu_{\mathrm{carry}}$ is the recognized carry motif role. A recognized occurrence $011\mid 100$ contributes at least one carry occurrence.
+\end{definition}
+
+\begin{definition}[Ledger depth]
+\label{def:metrics-ledger-depth}
+The \emph{ledger depth} $\mathsf{LedgerDepth}_{\mathcal R}(S)$ is the maximum dependency nesting depth among recognized ledger flows in $S$. A ledger that references no other ledger has depth $1$. If a ledger $L$ references ledgers $L_1,\ldots,L_k$, then
+$$
+  \mathrm{depth}(L)=1+\max_i\mathrm{depth}(L_i).
+$$
+If no ledger flow is recognized in $S$, the ledger depth is $0$.
+\end{definition}
+
+\begin{definition}[Classifier compression ratio]
+\label{def:metrics-compression-ratio}
+If $\mathcal R$ recognizes a classifier quotient in $S$ that sends $k$ raw support flows $M_1,\ldots,M_k$ into $r$ recognized classifier classes with $r>0$, define
+$$
+  \mathsf{CompressionRatio}_{\mathcal R}(S)=\frac{k}{r}.
+$$
+This metric is defined only when classifier recognition, ledger recognition, and exactness recognition are all supplied.
+\end{definition}
+
+\begin{remark}[Compression ratio is not equality strength]
+\label{rem:metrics-compression-not-equality}
+The compression ratio measures how strongly raw flows are grouped by a classifier. It does not express kernel equality or theorem equivalence. If several raw flows are compressed into one classifier class, the ledger must retain the raw supports.
+\end{remark}
+
+\begin{definition}[Reuse depth]
+\label{def:metrics-reuse-depth}
+The \emph{reuse depth} $\mathsf{ReuseDepth}_{\mathcal R}(S)$ is the length of the longest dependency chain of recognized reuse motifs in $S$. If no reuse motif is recognized, the reuse depth is $0$.
+\end{definition}
+
+\begin{definition}[Bridge depth]
+\label{def:metrics-bridge-depth}
+If $S$ contains recognized bridge motifs, its \emph{bridge depth} $\mathsf{BridgeDepth}_{\mathcal R}(S)$ is the maximum bridge-chain length from BEDC source flow to standard-side target flow. If no bridge motif is recognized, the bridge depth is $0$.
+\end{definition}
+
+\section{Normal addresses and distances}
+\label{sec:metrics-normal-addresses}
+
+\begin{definition}[Normal-address map]
+\label{def:metrics-normal-address-map}
+Given a source-level normalizer recognizer in $\mathcal R$, if $S$ contains a ledger-preserving normalization
+$$
+  w\leadsto v,
+$$
+then the normal-address record is
+$$
+  (w,v,L_{w\to v}),
+$$
+where $L_{w\to v}$ is the normalization ledger. The normal-address map $\mathsf{NormAddr}_{\mathcal R}(S)$ is the set of all such records.
+\end{definition}
+
+\begin{definition}[Normal-address distance]
+\label{def:metrics-normal-address-distance}
+For event flows $S$ and $T$, define a normal-address distance by
+$$
+  \mathsf{NormDist}_{\mathcal R}(S,T)
+  =
+  1-
+  \frac{
+    |\mathsf{NormAddr}_{\mathcal R}(S)\cap\mathsf{NormAddr}_{\mathcal R}(T)|
+  }{
+    |\mathsf{NormAddr}_{\mathcal R}(S)\cup\mathsf{NormAddr}_{\mathcal R}(T)|
+  }.
+$$
+If the denominator is zero, the distance is either undefined or set to $0$, according to the chosen analysis protocol.
+\end{definition}
+
+\begin{definition}[Motif Jaccard distance]
+\label{def:metrics-motif-jaccard-distance}
+The motif Jaccard distance is
+$$
+  \mathsf{MotifDist}_{\mathcal R}(S,T)
+  =
+  1-
+  \frac{
+    |\mathsf{MotifProfile}_{\mathcal R}(S)\cap\mathsf{MotifProfile}_{\mathcal R}(T)|
+  }{
+    |\mathsf{MotifProfile}_{\mathcal R}(S)\cup\mathsf{MotifProfile}_{\mathcal R}(T)|
+  }.
+$$
+Intersections and unions are computed by motif role, support shape, and ledger-compatible equivalence, not by raw strings.
+\end{definition}
+
+\begin{definition}[Flow signature vector]
+\label{def:metrics-flow-signature}
+Given $\mathcal R$, define the \emph{flow signature vector} of $S$ by
+$$
+  \mathsf{Sig}_{\mathcal R}(S)
+  =
+  (
+  \mathsf{SealDepth},
+  \mathsf{CarryIndex},
+  \mathsf{LedgerDepth},
+  \mathsf{CompressionRatio},
+  \mathsf{ReuseDepth},
+  \mathsf{BridgeDepth}
+  )_S,
+$$
+with all components computed relative to $\mathcal R$.
+\end{definition}
+
+\begin{remark}[Signature vector is not object identity]
+\label{rem:metrics-signature-not-identity}
+Equal signature vectors do not imply that two event flows represent the same theory, theorem, object, or classifier class. A signature vector is an analysis summary, not an identity certificate.
+\end{remark}
+
+\begin{theorem}[Metrics are channel-roundtrip invariant]
+\label{thm:metrics-channel-roundtrip-invariant}
+If $c=\mathsf{Compile}(S)$, then for every admissible metric $M$,
+$$
+  M(S)=M(\mathsf{Decode}(c)).
+$$
+\end{theorem}
+
+\begin{proof}
+By channel round trip, $\mathsf{Decode}(\mathsf{Compile}(S))=S$, so $\mathsf{Decode}(c)=S$. An admissible metric depends only on decoded event flow and recognized structure. Therefore it has the same value on $S$ and on $\mathsf{Decode}(c)$.
+\end{proof}
+
+\begin{corollary}[Metrics may be computed from code after decoding]
+\label{cor:metrics-computed-from-decoded-code}
+If $c\in\mathsf{LegalZStream}$, one may first compute $S=\mathsf{Decode}(c)$ and then compute any admissible metric $M(S)$. This agrees with computing the metric on the original event flow.
+\end{corollary}
+
+\begin{proposition}[Channel substring metrics are inadmissible]
+\label{prop:metrics-channel-substring-inadmissible}
+Any metric that directly counts channel substrings such as $011$, $100$, or $11$ is inadmissible unless it first decodes the channel stream and turns the result into source-level event-flow recognition.
+\end{proposition}
+
+\begin{proof}
+\autoref{thm:source-channel-layer-separation} proves that channel substrings are not source events. A metric that counts channel substrings can confuse event terminators, raw-event encodings, and source-level event shapes. Such a metric depends on the wrong layer and violates \autoref{def:metrics-admissibility}.
+\end{proof}
+
+\section{Theory-flow distance and reports}
+\label{sec:metrics-theory-distance-reports}
+
+\begin{definition}[Theory-flow distance]
+\label{def:metrics-theory-flow-distance}
+For recognized theory flows $S$ and $T$, an optional \emph{theory-flow distance} is a weighted combination
+$$
+\begin{aligned}
+  \mathsf{TheoryDist}_{\mathcal R}(S,T)
+  ={}&
+  \alpha_1\mathsf{MotifDist}_{\mathcal R}(S,T)
+  +\alpha_2\mathsf{NormDist}_{\mathcal R}(S,T)\\
+  &+\alpha_3 d_{\mathrm{prefix}}(S,T)
+  +\alpha_4 d_{\mathrm{ledger}}(S,T)
+  +\alpha_5 d_{\mathrm{reuse}}(S,T).
+\end{aligned}
+$$
+The weights $\alpha_i\geq 0$ must be supplied by an analysis protocol flow, not hidden as external parameters.
+\end{definition}
+
+\begin{remark}[Metric weights must be explicit]
+\label{rem:metrics-weights-explicit}
+If a weighted distance is used, the weights must be recorded in an analysis-protocol event flow. Otherwise the metric result contains hidden input.
+\end{remark}
+
+\begin{definition}[Analysis protocol flow]
+\label{def:metrics-analysis-protocol}
+An \emph{analysis protocol flow} is an event flow $P$ recording the chosen recognizer family, chosen metrics, metric weights, comparison domain, failure cases, ledger requirements, normalization policy, and report format. Without such a protocol, no distance or similarity is canonical.
+\end{definition}
+
+\begin{theorem}[Theory-flow distance is protocol-relative]
+\label{thm:metrics-theory-distance-protocol-relative}
+The distance
+$$
+  \mathsf{TheoryDist}_{\mathcal R,P}(S,T)
+$$
+depends on recognizer family $\mathcal R$ and analysis protocol flow $P$. There is no unconditional absolute theory distance unless canonical recognizers and a canonical analysis protocol are supplied.
+\end{theorem}
+
+\begin{proof}
+Theory-flow distance uses recognizer family, metric selection, weights, normalization policy, and ledger policy. These are specified by $\mathcal R$ and $P$. Changing either can change which motifs, normal addresses, ledger depths, and weights are available. Hence the distance is protocol-relative.
+\end{proof}
+
+\begin{corollary}[Similarity claims require analysis protocol]
+\label{cor:metrics-similarity-requires-protocol}
+A claim that two theories are similar, closer, or share more structure must supply an analysis protocol flow $P$ and recognizer family $\mathcal R$. Without them the claim is informal intuition, not a BEDC-admissible metric claim.
+\end{corollary}
+
+\begin{definition}[Metric report]
+\label{def:metrics-report}
+A \emph{metric report} is an output view generated from an analysis protocol flow $P$, recognizer family $\mathcal R$, and one or more event flows. It records computed metrics, recognized motifs, normal-address records, ledger depth, classifier compression, reuse depth, bridge depth, warnings, and cannot-claim entries. It is not input, proof, or certificate.
+\end{definition}
+
+\begin{principle}[Metric reports are not evidence of theoremhood]
+\label{prin:metrics-reports-not-theoremhood}
+A metric report does not prove theoremhood, object identity, mature export, bridge correctness, or classifier exactness. It records recognized analysis results only.
+\end{principle}
+
+\begin{theorem}[Metrics do not imply object equality]
+\label{thm:metrics-do-not-imply-object-equality}
+Even if
+$$
+  \mathsf{Sig}_{\mathcal R}(S)=\mathsf{Sig}_{\mathcal R}(T)
+$$
+or
+$$
+  \mathsf{TheoryDist}_{\mathcal R,P}(S,T)=0,
+$$
+one cannot conclude that $S$ and $T$ represent the same accepted object, theorem, chapter, or classified object unless an additional classifier, exactness, or bridge certificate is supplied.
+\end{theorem}
+
+\begin{proof}
+Metrics are summaries or distances over recognized motifs and ledgers. Object equality and theorem equivalence require classifier or proof-level exactness. Equal metrics can occur for distinct flows with the same structural counts. Even distance zero relative to a protocol means only indistinguishability by that protocol, not equality in all recognized structures. Equality or equivalence therefore requires a separate certificate.
+\end{proof}
+
+\begin{corollary}[Metrics are explanatory, not identificatory]
+\label{cor:metrics-explanatory-not-identificatory}
+Metric analysis can explain structural similarity, but it cannot identify objects without additional classifier or bridge flow.
+\end{corollary}
+
+\section{Examples and cannot-claims}
+\label{sec:metrics-examples-cannot-claims}
+
+\begin{example}[Metrics for Completion skeleton]
+\label{ex:metrics-completion-skeleton}
+Let
+$$
+  S_{\mathrm{Comp}}=0\mid 00\mid 000\mid 01\mid 011\mid 100.
+$$
+If the recognizer family identifies finite repetition $0\mid 00\mid 000$, seal $011$, and carry $011\mid 100$, then the report may record
+$$
+  \mathsf{SealDepth}(S_{\mathrm{Comp}})=1,\qquad
+  \mathsf{CarryIndex}(S_{\mathrm{Comp}})=1,\qquad
+  \mathsf{LedgerDepth}(S_{\mathrm{Comp}})\geq 1.
+$$
+If no recognized ledger flow is present, the carry index should not be treated as admissible, because carry motifs require ledger support.
+\end{example}
+
+\begin{example}[Metrics for Add and fold skeleton]
+\label{ex:metrics-add-fold-skeleton}
+Let
+$$
+  S_{\mathrm{Fold}}=0\mid 00\mid 001\mid 0011\mid 0100.
+$$
+If additive recursion $001$ and fold completion $0011\mid 0100$ are recognized, then a report may record a seal-depth candidate, carry-index candidate, and reuse depth $1$ if $001$ is recognized as reused by $0011$. Whether $\AddUp$ or $\MulUp$ is licensed still depends on $\NameCert$ and derivation-certificate flows.
+\end{example}
+
+\begin{example}[Prefix comparison: Fold versus Completion]
+\label{ex:metrics-fold-completion-prefix}
+For
+$$
+  S_{\mathrm{Fold}}=(0,00,001,0011,0100),
+  \qquad
+  S_{\mathrm{Comp}}=(0,00,000,01,011,100),
+$$
+the raw prefix overlap is $0\mid 00$, so
+$$
+  \mathsf{RawPrefixLen}(S_{\mathrm{Fold}},S_{\mathrm{Comp}})=2.
+$$
+The recognized interpretation is that both share finite-source prefix, then the fold skeleton branches into additive recursion while the completion skeleton branches into repeat-boundary, seal, and carry. This is motif-level explanation, not a theorem of object relation.
+\end{example}
+
+\begin{example}[Nat-like versus Completion]
+\label{ex:metrics-nat-completion}
+For
+$$
+  S_{\mathrm{Nat}}=(0,00,000,01),
+  \qquad
+  S_{\mathrm{Comp}}=(0,00,000,01,011,100),
+$$
+$S_{\mathrm{Nat}}$ is a raw prefix of $S_{\mathrm{Comp}}$. A metric report may say that the Completion skeleton extends the Nat-like skeleton by $011\mid 100$, but it may not say that the Completion object extends the Nat object without a bridge or object-level certificate.
+\end{example}
+
+\begin{definition}[Metric cannot-claim entries]
+\label{def:metrics-cannot-claim-entries}
+A metric report must include cannot-claim entries for claims not supported by the metrics. Examples include:
+\begin{itemize}
+\item same motif profile implies same theorem;
+\item same signature vector implies same object;
+\item shared prefix implies subobject;
+\item positive carry index implies dimension exists;
+\item positive seal depth implies real completion exists;
+\item compression ratio greater than one implies quotient exactness.
+\end{itemize}
+These entries prevent metric analysis from being misread as proof.
+\end{definition}
+
+\begin{proposition}[Cannot-claim entries are required for nontrivial reports]
+\label{prop:metrics-cannot-claims-required}
+Any metric report involving seal, carry, classifier, bridge, or reuse motifs must include cannot-claim entries specifying what is not established by the report.
+\end{proposition}
+
+\begin{proof}
+Seal, carry, classifier, bridge, and reuse motifs are easily confused with mature-object claims such as completion, equality, quotient exactness, standard bridge, or object construction. Metrics do not supply $\NameCert$, derivation certificate, proof, or exactness by themselves. A report without cannot-claim entries can therefore overstate its results. Nontrivial reports must record these limits.
+\end{proof}
+
+\section{Conservativity}
+\label{sec:metrics-conservativity}
+
+\begin{theorem}[Metric analysis is conservative over the finite kernel]
+\label{thm:metrics-conservativity}
+Adding admissible metrics, metric reports, flow distances, signature vectors, and motif profiles does not add new raw marks, history constructors, sameness rules, continuation rules, or derived-interface formation rules.
+\end{theorem}
+
+\begin{proof}
+All metrics are computed from decoded event flows and recognized motifs. They do not generate new $\bzero$ or $\bone$, add $\msame$, $\hsame$, or $\psame$ rules, change $\ExtR$ or $\ContR$, or license derived interfaces. They summarize recognized structures only. Therefore metric analysis is conservative over the finite kernel.
+\end{proof}
+
+\begin{corollary}[Metrics cannot replace certificates or gates]
+\label{cor:metrics-cannot-replace-certificates}
+No metric, distance, profile, or report can replace recognized $\NameCert$ flow, derivation-certificate flow, proof flow, or acceptance-gate flow.
+\end{corollary}
+
+\begin{remark}[Outlook]
+\label{rem:metrics-outlook}
+This chapter establishes the no-hidden-input version of theory metrics: metrics are computed only from decoded event flows and generated recognizers. It defines metric recognizer families, admissibility, raw and recognized prefix profiles, prefix overlap, motif profiles, motif multiplicity, seal depth, carry index, ledger depth, classifier compression ratio, reuse depth, bridge depth, normal-address maps and distances, motif Jaccard distance, flow signature vectors, theory-flow distance, analysis protocol flows, metric reports, and metric cannot-claim entries. It proves that recognized prefix overlap is stronger than raw prefix overlap, metrics are invariant under compile-decode round trip, channel substring metrics are inadmissible, theory-flow distance is protocol-relative, similarity claims require protocol data, metrics do not imply object equality, metric reports are explanatory rather than proof, nontrivial reports require cannot-claim entries, metric analysis is conservative over the finite kernel, and metrics cannot replace certificates or acceptance gates. The next chapter applies these indicators to higher-level objects such as $\RealUp$, topology, circle and phase structure, $\ComplexUp$, functors, and homology.
+\end{remark}
