@@ -53,6 +53,7 @@ It is not a host parser, YAML schema, external grammar, Lean structure input, or
 
 \begin{definition}[NameCert recognition relation]
 \label{def:namecert-generated-recognition-relation}
+\leandef{BEDC.GroundCompiler.NameCertGenerated.NameCertRecognitionRelation}
 The name-indexed $\NameCert$ recognition relation is written
 $$
   \mathsf{RecognizesNameCert}(R,S,N),
@@ -85,6 +86,7 @@ $$
 
 \begin{definition}[Recognized NameCert flow]
 \label{def:namecert-generated-recognized-namecert-flow}
+\leandef{BEDC.GroundCompiler.NameCertGenerated.NameCertFlow}
 Define
 $$
   \mathsf{NameCertFlow}(S,N)
@@ -361,18 +363,22 @@ $$
 
 \begin{theorem}[Channel compilation preserves NameCert recognition]
 \label{thm:namecert-generated-compilation-preserves-recognition}
+\leanchecked{BEDC.GroundCompiler.NameCertGenerated.channel\_compilation\_preserves\_namecert\_recognition}
 If $\mathsf{RecognizesNameCert}(R,S,N)$, then
 $$
-  \mathsf{RecognizesNameCert}(R,\mathsf{Decode}(\mathsf{Compile}(S)),N).
+  \exists S',\quad
+  \mathsf{Decode}(\mathsf{Compile}(S)) = \mathsf{some}(S')
+  \quad\text{and}\quad
+  \mathsf{RecognizesNameCert}(R,S',N).
 $$
 \end{theorem}
 
 \begin{proof}
 By the flow-level round trip \autoref{thm:channel-encoding-flow-round-trip},
 $$
-  \mathsf{Decode}(\mathsf{Compile}(S))=S.
+  \mathsf{Decode}(\mathsf{Compile}(S))=\mathsf{some}(S).
 $$
-Substitution in the recognition judgment gives the conclusion.
+Taking $S'=S$ preserves the same source-layer recognition judgment.
 \end{proof}
 
 \begin{corollary}[NameCert recognition is invariant under compile-decode]
