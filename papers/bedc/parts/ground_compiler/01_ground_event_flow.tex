@@ -68,6 +68,7 @@ which denotes $(0, 00, 000, 01, 011, 100)$.
 
 \begin{definition}[Event boundary]
 \label{def:ground-event-flow-event-boundary}
+\leandef{BEDC.GroundCompiler.EventFlow.EventBoundary}
 An \emph{event boundary} is the separation between two consecutive raw events in an event flow. The event boundary is part of the generated event-flow datum and is not recoverable from the concatenation of glyphs alone. Two event flows $(0, 00, 000)$ and $(00, 0000)$ are distinct elements of $\mathsf{EventFlow}$ even though both display the concatenated glyph string $000000$ if their boundaries are erased.
 \end{definition}
 
@@ -93,6 +94,7 @@ Both event flows erase to the same bare string $000000$. As event flows they dif
 
 \begin{corollary}[A compiler input cannot be a bare bitstream]
 \label{cor:ground-event-flow-input-not-bare-bitstream}
+\leanchecked{BEDC.GroundCompiler.EventFlow.input\_not\_bare\_bitstream}
 If the formal input to the compiler were a bare bitstream $b \in \Sigma^{*}$, then the event segmentation that re-establishes the underlying event flow would have to be supplied externally, contradicting the no-hidden-input discipline of \autoref{prin:ground-event-flow-no-hidden-input}. Therefore the first formal input layer is $\mathsf{EventFlow}$, not $\Sigma^{*}$.
 \end{corollary}
 
