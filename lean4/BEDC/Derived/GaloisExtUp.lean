@@ -7,6 +7,7 @@ import BEDC.Derived.PolynomialUp
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
+import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 
@@ -18,6 +19,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 open BEDC.Derived.FieldExtUp
 open BEDC.Derived.PolynomialUp
@@ -215,6 +217,70 @@ theorem GaloisExtSourcePacket_classifier_transport
       (And.intro ledgerUnary'
         (And.intro sameClassifier
           (And.intro sameProvenance sameLedger))))
+
+theorem GaloisExtSourceClassifier_transitive [AskSetup]
+    {bundle : ProbeBundle ProbeName}
+    {field separable normal automorphism classifier provenance ledger field' separable' normal'
+      automorphism' classifier' provenance' ledger' field'' separable'' normal'' automorphism''
+      classifier'' provenance'' ledger'' : BHist}
+    (policy : AskPolicy (fun h : BHist => UnaryHistory h)) :
+    UnaryHistory field' ->
+      UnaryHistory separable' ->
+        UnaryHistory normal' ->
+          UnaryHistory automorphism' ->
+            UnaryHistory classifier' ->
+              (SameSig bundle field field' ∧ SameSig bundle separable separable' ∧
+                SameSig bundle normal normal' ∧ SameSig bundle automorphism automorphism' ∧
+                  SameSig bundle classifier classifier' ∧ hsame provenance provenance' ∧
+                    hsame ledger ledger') ->
+                (SameSig bundle field' field'' ∧ SameSig bundle separable' separable'' ∧
+                  SameSig bundle normal' normal'' ∧
+                    SameSig bundle automorphism' automorphism'' ∧
+                      SameSig bundle classifier' classifier'' ∧
+                        hsame provenance' provenance'' ∧ hsame ledger' ledger'') ->
+                  SameSig bundle field field'' ∧ SameSig bundle separable separable'' ∧
+                    SameSig bundle normal normal'' ∧
+                      SameSig bundle automorphism automorphism'' ∧
+                        SameSig bundle classifier classifier'' ∧
+                          hsame provenance provenance'' ∧ hsame ledger ledger'' := by
+  intro fieldUnary' separableUnary' normalUnary' automorphismUnary' classifierUnary'
+    left right
+  have fieldSame : SameSig bundle field field'' :=
+    sameSig_trans
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      (h := field) (k := field') (l := field'')
+      policy fieldUnary' left.left right.left
+  have separableSame : SameSig bundle separable separable'' :=
+    sameSig_trans
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      (h := separable) (k := separable') (l := separable'')
+      policy separableUnary' left.right.left right.right.left
+  have normalSame : SameSig bundle normal normal'' :=
+    sameSig_trans
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      (h := normal) (k := normal') (l := normal'')
+      policy normalUnary' left.right.right.left right.right.right.left
+  have automorphismSame : SameSig bundle automorphism automorphism'' :=
+    sameSig_trans
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      (h := automorphism) (k := automorphism') (l := automorphism'')
+      policy automorphismUnary' left.right.right.right.left right.right.right.right.left
+  have classifierSame : SameSig bundle classifier classifier'' :=
+    sameSig_trans
+      (bundle := bundle) (D := fun h : BHist => UnaryHistory h)
+      (h := classifier) (k := classifier') (l := classifier'')
+      policy classifierUnary' left.right.right.right.right.left
+        right.right.right.right.right.left
+  have provenanceSame : hsame provenance provenance'' :=
+    hsame_trans left.right.right.right.right.right.left right.right.right.right.right.right.left
+  have ledgerSame : hsame ledger ledger'' :=
+    hsame_trans left.right.right.right.right.right.right right.right.right.right.right.right.right
+  exact And.intro fieldSame
+    (And.intro separableSame
+      (And.intro normalSame
+        (And.intro automorphismSame
+          (And.intro classifierSame
+            (And.intro provenanceSame ledgerSame)))))
 
 theorem GaloisExtSourcePacket_normal_separable_stability [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
