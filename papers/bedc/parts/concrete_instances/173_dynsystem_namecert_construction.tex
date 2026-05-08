@@ -270,3 +270,69 @@ by the classifier transport and obligation surface of
 \autoref{thm:dynsystem-namecert-obligation-surface}. No other row is exposed
 as public flow provenance, so the exported provenance surface is exact.
 \end{proof}
+
+\begin{theorem}[DynSystemUp public flow endpoint exactness]
+\label{thm:dynsystem-public-flow-endpoint-exactness}
+For every accepted packet $\mathcal{D}$ of \autoref{def:dynsystem-bhist-flow-carrier}, the public flow endpoint exposed by $\NameCert_{\DynSystemUp}$ is exactly the row $\phi$ reached by the displayed route
+$$
+\Cont(t,x,\phi).
+$$
+The route is the $\lambda$ component of $\mathcal{D}$, its source and endpoint comparisons are transported only by inherited $\hsame$ rows from $\NameCert_{\ManifoldUp}$ and $\NameCert_{\OdeUp}$, and its dependency origin is the $\mathsf{Pkg}$ provenance recorded by $\rho$ over the projected packets $\mathcal{M}$ and $\mathcal{O}$.
+\end{theorem}
+\begin{proof}
+Project the accepted tuple to the fields $\mathcal{M}$, $\mathcal{O}$, $\rho$, and $\lambda$. The first two fields name the manifold and ODE certificates through which the source point, time row, local-flow row, and endpoint row are read.
+
+The ledger field $\lambda$ is the finite $\Cont$ route connecting the displayed source row $x$, elapsed-time row $t$, and endpoint row $\phi$. Any comparison needed to align the source or terminal rows is already supplied by the inherited $\hsame$ classifiers of $\mathcal{M}$ and $\mathcal{O}$.
+
+Finally read $\rho$. Since the provenance field is projected from the same packet and is not recomputed by a downstream consumer, the exposed endpoint is the carried row $\phi$ with its original $\mathsf{Pkg}$ dependency binding.
+\end{proof}
+
+\begin{theorem}[DynSystemUp flow adjacency classifier]
+\label{thm:dynsystem-flow-adjacency-classifier}
+Let $\mathcal{D}_{01}$ and $\mathcal{D}_{12}$ be accepted $\DynSystemUp$ packets over the same projected $\NameCert_{\ManifoldUp}$ and $\NameCert_{\OdeUp}$ dependency surface. They compose as adjacent flow packets only when the terminal time-state rows of $\mathcal{D}_{01}$ and the initial time-state rows of $\mathcal{D}_{12}$ are classified together by the ManifoldUp point classifier and the OdeUp local-flow classifier. Under that classifier hypothesis, the composite packet is the certified composition row of \autoref{thm:dynsystem-flow-composition-ledger}.
+\end{theorem}
+\begin{proof}
+Read the two packets through \autoref{thm:dynsystem-flow-composition-ledger}. Its compatibility premise is not an external equality of trajectories; it is the displayed classification of the middle point and time-state rows.
+
+Use \autoref{thm:dynsystem-classifier-flow-transport} to identify the classifiers that supply this middle comparison. The phase component is read by $\NameCert_{\ManifoldUp}$, while the elapsed-time and local-flow rows are read by $\NameCert_{\OdeUp}$.
+
+With those two classifier readings in place, the hypotheses of the composition ledger are exactly the adjacency hypotheses. The resulting concatenated $\Cont$ route is therefore the only certified composite exposed by $\NameCert_{\DynSystemUp}$.
+\end{proof}
+
+\begin{theorem}[DynSystemUp ODE phase-scope separation]
+\label{thm:dynsystem-ode-phase-scope-separation}
+In every accepted $\DynSystemUp$ flow packet, phase rows are read only through $\NameCert_{\ManifoldUp}$ and generator rows are read only through $\NameCert_{\OdeUp}$. The fields $p$, $x$, $y$, and the phase part of $\phi$ belong to the ManifoldUp reading, while $\omega$ and every vector-field or local-flow generator row belong to the OdeUp reading.
+\end{theorem}
+\begin{proof}
+Project the packet as in \autoref{thm:dynsystem-ode-source-ledger}. The ODE source is carried by $\mathcal{O}$ and witnessed by $\omega$, so generator information enters the dynamical-system packet only through the $\NameCert_{\OdeUp}$ local-flow source row.
+
+Next apply \autoref{thm:dynsystem-ode-generator-ledger}. It identifies the chart or singleton carrier as the ManifoldUp side and the vector-field evaluation row as the OdeUp side.
+
+Thus the two readings have disjoint scopes inside the packet: phase classification is routed through $\NameCert_{\ManifoldUp}$, and generator classification is routed through $\NameCert_{\OdeUp}$. The packet itself only records their BHist ledger and provenance binding.
+\end{proof}
+
+\begin{theorem}[DynSystemUp flow consumer projection coverage]
+\label{thm:dynsystem-flow-consumer-projection-coverage}
+Every downstream consumer whose output is invariant under the exposed phase rows, elapsed-time rows, source and endpoint rows, ODE-source row, displayed $\Cont$ ledger, inherited $\hsame$ transports, and $\mathsf{Pkg}$ provenance of \autoref{thm:dynsystem-namecert-obligation-surface} is invariant under the whole accepted $\DynSystemUp$ flow packet. No additional packet field can change such a consumer.
+\end{theorem}
+\begin{proof}
+Project an accepted packet to the obligation surface of \autoref{thm:dynsystem-namecert-obligation-surface}. This yields the phase certificate, ODE source certificate, time row, source point, target point, endpoint row, dependency witness, provenance, and finite continuation ledger.
+
+Now compare two accepted packets whose listed rows are related by the exposed classifiers. The phase, source, target, and endpoint readings are transported by $\NameCert_{\ManifoldUp}$, while the elapsed-time, local-flow, and ODE-source readings are transported by $\NameCert_{\OdeUp}$.
+
+The consumer is invariant under exactly these projections, including the $\Cont$ route, $\hsame$ transports, and $\mathsf{Pkg}$ provenance. Since the displayed tuple of \autoref{def:dynsystem-bhist-flow-carrier} has no further public row beyond those projections, the consumer has the same value on the whole packet.
+\end{proof}
+
+\begin{theorem}[DynSystemUp public NameCert export]
+\label{thm:dynsystem-public-namecert-export}
+The public $\NameCert_{\DynSystemUp}$ export surface consists of the carrier of \autoref{def:dynsystem-bhist-flow-carrier}, the inherited classifier of \autoref{thm:dynsystem-classifier-flow-transport}, the zero-time row of \autoref{thm:dynsystem-flow-unit-ledger}, the composition row of \autoref{thm:dynsystem-flow-composition-ledger}, the ODE-source row of \autoref{thm:dynsystem-ode-source-ledger}, the endpoint exactness row of \autoref{thm:dynsystem-public-flow-endpoint-exactness}, the adjacency classifier of \autoref{thm:dynsystem-flow-adjacency-classifier}, the phase-scope separation row of \autoref{thm:dynsystem-ode-phase-scope-separation}, and the consumer projection coverage row of \autoref{thm:dynsystem-flow-consumer-projection-coverage}.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and classifier. The carrier supplies the displayed BHist tuple, and the classifier transports each visible flow field through the ManifoldUp and OdeUp certificate surfaces.
+
+Add the algebraic flow rows. The zero-time theorem supplies the unit packet, the composition theorem supplies certified concatenation, and the adjacency theorem identifies the classifier premise under which that concatenation is public.
+
+Add the source and projection rows. The ODE-source theorem fixes the generator reading, the phase-scope theorem separates phase and generator access, and the endpoint exactness theorem identifies the exposed endpoint with the displayed $\Cont$ route and provenance.
+
+The consumer coverage theorem then states that these rows exhaust the public projections of an accepted packet. Together they form the advertised $\NameCert_{\DynSystemUp}$ export surface.
+\end{proof}
