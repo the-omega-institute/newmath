@@ -1,13 +1,19 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.BilinFormUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def BilinFormBHistObligationSurface
@@ -230,5 +236,54 @@ theorem BilinFormRootPairingSurface_input_transport
             (And.intro scalarUnary
               (And.intro endpointCont ledgerCont)))
   · exact And.intro sameEndpoint sameLedger
+
+def BilinFormModulePairingSourceRow
+    (moduleSource vecSource left right scalar endpoint probes ledger : BHist)
+    (bundle : ProbeBundle BHist) : Prop :=
+  UnaryHistory moduleSource ∧ UnaryHistory vecSource ∧
+    BilinFormRootPairingSurface left right scalar endpoint ledger ∧ InBundle probes bundle
+
+theorem BilinFormModulePairingSourceRow_pairing_classifier_row
+    {moduleSource vecSource left right scalar endpoint probes ledger endpoint' ledger' : BHist}
+    {bundle : ProbeBundle BHist} :
+    BilinFormModulePairingSourceRow moduleSource vecSource left right scalar endpoint probes ledger
+        bundle ->
+      hsame endpoint endpoint' ->
+        Cont left right endpoint' ->
+          Cont endpoint' scalar ledger' ->
+            BilinFormRootPairingSurface left right scalar endpoint' ledger' ∧
+              hsame ledger ledger' ∧ InBundle probes bundle := by
+  intro row sameEndpoint endpointCont ledgerCont
+  have transported :=
+    BilinFormRootPairingSurface_input_transport row.right.right.left (hsame_refl left)
+      (hsame_refl right) (hsame_refl scalar) endpointCont ledgerCont
+  exact And.intro transported.left (And.intro transported.right.right row.right.right.right)
+
+def BilinFormModulePairingPackageRow [AskSetup] [PackageSetup]
+    (moduleSource vectorSource left right scalar endpoint ledger : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory moduleSource ∧ UnaryHistory vectorSource ∧ UnaryHistory left ∧
+    UnaryHistory right ∧ UnaryHistory scalar ∧ Cont left right endpoint ∧
+      Cont endpoint scalar ledger ∧ PkgSig bundle ledger pkg
+
+theorem BilinFormModulePairingPackageRow_carrier_obligation [AskSetup] [PackageSetup]
+    {moduleSource vectorSource left right scalar endpoint ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BilinFormModulePairingPackageRow moduleSource vectorSource left right scalar endpoint ledger
+        bundle pkg ->
+      UnaryHistory endpoint ∧ UnaryHistory ledger ∧ Cont left right endpoint ∧
+        Cont endpoint scalar ledger ∧ PkgSig bundle ledger pkg := by
+  intro row
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed row.right.right.left row.right.right.right.left
+      row.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed endpointUnary row.right.right.right.right.left
+      row.right.right.right.right.right.right.left
+  exact And.intro endpointUnary
+    (And.intro ledgerUnary
+      (And.intro row.right.right.right.right.right.left
+        (And.intro row.right.right.right.right.right.right.left
+          row.right.right.right.right.right.right.right)))
 
 end BEDC.Derived.BilinFormUp
