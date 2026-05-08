@@ -69,7 +69,7 @@ object to consume $\mathsf{MulUp}$ as a single semantic package.
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.PrimeUp.NatMul\_result\_semanticNameCert}
   \bridgestatus{none}
-  \notclaimed{Ordered semiring interaction beyond the displayed right additive distribution and unary-prefix monotonicity rows, cancellation laws, left distribution rows, or a standard-model bridge for multiplication.}
+  \notclaimed{Ordered semiring interaction beyond the displayed additive distribution and unary-prefix monotonicity rows, cancellation laws, or a standard-model bridge for multiplication.}
   \upgradepath{$\matureClosure$ requires the multiplication package to be connected with $\AddUp$ and $\OrderUp$ through the remaining distribution, cancellation, and order-side laws where appropriate, and a standard-model bridge.}
 \end{closurestatus}
 
@@ -128,6 +128,31 @@ boundary. The resulting surface is the displayed $\MulUp/\AddUp$ phase
 interaction: multiplication by the fixed unary history $d$ sends the
 right-hand additive presentation $w+q$ to the continuation presentation of the
 two products.
+\end{proof}
+
+\begin{theorem}[NatMul left additive distribution surface]
+\label{thm:natmul-additive-left-distributivity-surface}
+Let $d,w,q,n,e,r:\Hist$ be unary histories. If $\mathsf{NatMul}(w,d,n)$,
+$\mathsf{NatMul}(q,d,e)$, and the $\AddUp$ continuation row presents the
+unary sum of $w$ and $q$ as $\mathsf{append}(w,q)$ with $\mathsf{Cont}(n,e,r)$,
+then $\mathsf{NatMul}(\mathsf{append}(w,q),d,r)$. Consequently the concrete
+$\MulUp$ operation distributes over the left-hand $\AddUp$ continuation
+presentation of unary addition.
+\end{theorem}
+\begin{proof}
+Use $\mathsf{NatMul}$ commutativity on the two displayed left-factor products.
+It supplies right-factor product presentations for multiplication by the fixed
+unary history $d$, with endpoints identified with $n$ and $e$ by $\hsame$.
+
+Apply \autoref{thm:natmul-additive-right-distributivity-surface} to those
+right-factor presentations and to the transported continuation ledger. This
+constructs a product row whose multiplier is $\mathsf{append}(w,q)$ and whose
+endpoint is identified with $r$.
+
+Finally apply $\mathsf{NatMul}$ commutativity to the constructed row. The
+result is a product with multiplicand $\mathsf{append}(w,q)$ and multiplier
+$d$; functionality transports the endpoint comparison back along the original
+$\Cont(n,e,r)$ boundary, yielding $\mathsf{NatMul}(\mathsf{append}(w,q),d,r)$.
 \end{proof}
 
 \begin{lemma}[Unit left multiplication reads back the multiplier]

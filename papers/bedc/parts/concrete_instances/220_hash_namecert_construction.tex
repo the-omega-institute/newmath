@@ -382,3 +382,20 @@ For the reverse direction, assume $\mathsf{HashCollisionSuccess}_{\mathcal H}(x,
 
 The two implications identify the successful transcript boundary. Negating the collision side or the second-preimage side therefore excludes the same successful pair of BEDC evaluation rows under the certificate classifiers.
 \end{proof}
+
+\begin{theorem}[Hash resistance negated boundary equivalence]
+\label{thm:hash-resistance-equivalence-negation-boundary}
+Let $\mathcal H$ be a $\HashUp$ certificate whose finite-output digest classifier $\rho_{\mathcal H}$ and message classifier $\sigma_{\mathcal H}$ are symmetric classifier fields supplied by the naming-certificate components of the certificate. Assume the digest classifier has the symmetry field used by \autoref{thm:hash-collision-success-induces-same-direction-second-preimage}. For message histories $x$ and $x'$, collision-freeness for the ordered pair is equivalent to the negation of second-preimage success:
+$$
+\mathsf{CollFreeH}_{\mathcal H}(x,x')
+\Longleftrightarrow
+\neg\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x').
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:hash-collision-freeness}. The displayed claim becomes the equivalence between $\neg\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')$ and $\neg\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x')$ under the same certificate hypotheses.
+
+For the forward direction, assume $\mathsf{CollFreeH}_{\mathcal H}(x,x')$ and suppose $\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x')$ held. By \autoref{thm:hash-second-preimage-success-induces-collision}, the second-preimage transcript induces $\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')$, contradicting the unfolded collision-freeness hypothesis.
+
+For the reverse direction, assume $\neg\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x')$. To show $\mathsf{CollFreeH}_{\mathcal H}(x,x')$, unfold \autoref{def:hash-collision-freeness} and suppose $\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x')$ held. By \autoref{thm:hash-collision-success-induces-same-direction-second-preimage}, that collision transcript induces $\mathsf{HashSecondPreimageSuccess}_{\mathcal H}(x,x')$, contradicting the assumed negation.
+\end{proof}
