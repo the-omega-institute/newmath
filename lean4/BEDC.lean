@@ -90,6 +90,7 @@ import BEDC.Derived.CurvatureUp.ConsumerRowCoverage
 import BEDC.Derived.CurvatureUp.ConsumerBoundary
 import BEDC.Derived.CurvatureUp.LedgerExactnessObligation
 import BEDC.Derived.CurvatureUp.Handoff
+import BEDC.Derived.CurvatureUp.HandoffConsumerCoverage
 import BEDC.Derived.CurvatureUp.ConnectionCarrierScope
 import BEDC.Derived.CurvatureUp.ChernWeilSourceEnvelope
 import BEDC.Derived.CurvatureUp.PublicObligation
