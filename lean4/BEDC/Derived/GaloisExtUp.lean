@@ -220,6 +220,31 @@ theorem GaloisExtSourcePacket_automorphism_action_source [AskSetup] [PackageSetu
         (And.intro actionLedgerReadback
           boundary.right.right.right.right.right.right.right.right.right)))
 
+theorem GaloisExtSourcePacket_galoisgroup_consumer_source_surface [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint action actionLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      Cont endpoint normality action ->
+        Cont action separability actionLedger ->
+          SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot sepProvenance
+              separable bundle pkg ∧
+            UnaryHistory normality ∧ UnaryHistory separability ∧ UnaryHistory action ∧
+              UnaryHistory actionLedger ∧ hsame action (append endpoint normality) ∧
+                hsame actionLedger (append action separability) ∧ PkgSig bundle endpoint pkg := by
+  intro packet actionCont actionLedgerCont
+  have boundary := GaloisExtSourcePacket_public_obligation_boundary packet
+  have actionRows :=
+    GaloisExtSourcePacket_automorphism_action_source packet actionCont actionLedgerCont
+  exact And.intro boundary.left
+    (And.intro boundary.right.left
+      (And.intro boundary.right.right.left
+        (And.intro actionRows.left
+          (And.intro actionRows.right.left
+            (And.intro actionRows.right.right.left
+              (And.intro actionLedgerCont actionRows.right.right.right.right))))))
+
 theorem GaloisExtSourcePacket_classifier_transport
     {field field' separable separable' normal normal' simple simple' classifier classifier'
       provenance provenance' ledger ledger' : BHist} :
