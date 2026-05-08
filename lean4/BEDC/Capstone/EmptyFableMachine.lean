@@ -72,4 +72,151 @@ theorem emptyStep_deterministic {h r r' : BHist} {m : BMark} :
   intro left right
   exact ext_deterministic left right
 
+/-- `Trace h xs` records that `h` is generated from `BHist.Empty` by the
+sequence of marks `xs` read in chronological order. The selector at
+constructor `e0` is `b0`; at `e1` it is `b1`. -/
+inductive Trace : BHist → List BMark → Prop
+  | nil  : Trace BHist.Empty []
+  | zero (h : BHist) (xs : List BMark) :
+      Trace h xs → Trace (BHist.e0 h) (xs ++ [BMark.b0])
+  | one  (h : BHist) (xs : List BMark) :
+      Trace h xs → Trace (BHist.e1 h) (xs ++ [BMark.b1])
+
+theorem trace_exists : ∀ h : BHist, ∃ xs : List BMark, Trace h xs := by
+  intro h
+  induction h with
+  | Empty => exact ⟨[], Trace.nil⟩
+  | e0 k ih =>
+      cases ih with
+      | intro xs hxs => exact ⟨xs ++ [BMark.b0], Trace.zero k xs hxs⟩
+  | e1 k ih =>
+      cases ih with
+      | intro xs hxs => exact ⟨xs ++ [BMark.b1], Trace.one k xs hxs⟩
+
+theorem trace_empty_iff {h : BHist} : Trace h [] ↔ h = BHist.Empty := by
+  constructor
+  · intro tr
+    generalize hxs : ([] : List BMark) = ys at tr
+    cases tr with
+    | nil => rfl
+    | zero h0 xs _ =>
+        have : xs ++ [BMark.b0] = [] := hxs.symm
+        cases xs <;> cases this
+    | one h0 xs _ =>
+        have : xs ++ [BMark.b1] = [] := hxs.symm
+        cases xs <;> cases this
+  · intro h_eq
+    cases h_eq
+    exact Trace.nil
+
+theorem trace_hsame_transport {h k : BHist} {xs : List BMark} :
+    hsame h k → Trace h xs → Trace k xs := by
+  intro same tr
+  cases same
+  exact tr
+
+private theorem appendSingletonEq {α : Type u} :
+    ∀ {xs ys : List α} {a b : α}, xs ++ [a] = ys ++ [b] → xs = ys ∧ a = b := by
+  intro xs
+  induction xs with
+  | nil =>
+      intro ys a b h
+      cases ys with
+      | nil =>
+          simp at h
+          constructor
+          · rfl
+          · exact h
+      | cons y ys =>
+          simp at h
+  | cons x xs ih =>
+      intro ys a b h
+      cases ys with
+      | nil =>
+          simp at h
+      | cons y ys =>
+          simp at h
+          cases h with
+          | intro hxy htail =>
+              cases hxy
+              cases htail with
+              | intro init last =>
+                  constructor
+                  · cases init
+                    rfl
+                  · exact last
+
+private theorem trace_snoc_inversion :
+    ∀ {h : BHist} {xs : List BMark} {m : BMark},
+      Trace h (xs ++ [m]) →
+        (m = BMark.b0 ∧ ∃ k, h = BHist.e0 k ∧ Trace k xs) ∨
+        (m = BMark.b1 ∧ ∃ k, h = BHist.e1 k ∧ Trace k xs) := by
+  intro h xs m tr
+  generalize hseq : xs ++ [m] = seq at tr
+  cases tr with
+  | nil =>
+      have impossible : xs ++ [m] = [] := hseq
+      cases xs <;> simp at impossible
+  | zero k ys hk =>
+      have heq : ys ++ [BMark.b0] = xs ++ [m] := hseq.symm
+      have hpair := appendSingletonEq heq
+      cases hpair with
+      | intro hinit hlast =>
+          cases hlast
+          cases hinit
+          exact Or.inl ⟨rfl, k, rfl, hk⟩
+  | one k ys hk =>
+      have heq : ys ++ [BMark.b1] = xs ++ [m] := hseq.symm
+      have hpair := appendSingletonEq heq
+      cases hpair with
+      | intro hinit hlast =>
+          cases hlast
+          cases hinit
+          exact Or.inr ⟨rfl, k, rfl, hk⟩
+
+theorem trace_same_marks_hsame :
+    ∀ {xs : List BMark} {h k : BHist}, Trace h xs → Trace k xs → hsame h k := by
+  intro xs h k th tk
+  induction th generalizing k with
+  | nil =>
+      have kk : k = BHist.Empty := (trace_empty_iff).mp tk
+      cases kk
+      rfl
+  | zero h0 xs0 th0 ih =>
+      cases trace_snoc_inversion tk with
+      | inl kcase =>
+          cases kcase with
+          | intro ky kexists =>
+              cases ky
+              cases kexists with
+              | intro k0 kdata =>
+                  cases kdata with
+                  | intro kk tk0 =>
+                      cases kk
+                      have htail := ih tk0
+                      cases htail
+                      rfl
+      | inr kcase =>
+          cases kcase with
+          | intro ky _ =>
+              cases ky
+  | one h0 xs0 th0 ih =>
+      cases trace_snoc_inversion tk with
+      | inl kcase =>
+          cases kcase with
+          | intro ky _ =>
+              cases ky
+      | inr kcase =>
+          cases kcase with
+          | intro ky kexists =>
+              cases ky
+              cases kexists with
+              | intro k0 kdata =>
+                  cases kdata with
+                  | intro kk tk0 =>
+                      cases kk
+                      have htail := ih tk0
+                      cases htail
+                      rfl
+
 end BEDC.Capstone.EmptyFableMachine

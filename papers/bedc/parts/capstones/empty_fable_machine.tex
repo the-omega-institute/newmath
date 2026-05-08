@@ -82,3 +82,41 @@ For every $h$ and every $m$, the result of an empty-boundary step is unique up t
 \label{rem:efm-no-reset}
 The reading ``each observation is born from Empty'' refers to the empty boundary above the current Hist, not to a reset of the history to $\emp$. The accumulated sequence $h_0, h_1, \dots, h_n$ has $h_{i+1}$ obtained from $h_i$ by an empty-boundary step, with $h_i$ retaining its full distinction record; the singleton tail $\Ezero(\emp)$ or $\Eone(\emp)$ is the local shape of that step, not the global state.
 \end{remark}
+
+\section{Observer sequence as finite selector ledger}
+\label{sec:efm-observer-sequence}
+
+\begin{definition}[Trace]
+\label{def:efm-trace}
+A \emph{trace} of a $\Hist$ value $h$ is the finite sequence $\langle s_0, s_1, \dots, s_{n-1}\rangle$ of marks read off the constructor spine of $h$ in chronological order: at each $\Ezero$ application the mark $b_0$ is recorded, at each $\Eone$ application the mark $b_1$ is recorded, and at $\emp$ the sequence is empty.
+\leandef{BEDC.Capstone.EmptyFableMachine.Trace}
+\end{definition}
+
+\begin{theorem}[Every Hist has a trace]
+\label{thm:efm-trace-exists}
+For every $\Hist$ value $h$, there exists a finite mark sequence $xs$ such that $h$ has trace $xs$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.trace\_exists}
+\end{theorem}
+
+\begin{theorem}[Empty trace iff empty Hist]
+\label{thm:efm-trace-empty-iff}
+A $\Hist$ value $h$ has the empty trace if and only if $h$ is $\emp$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.trace\_empty\_iff}
+\end{theorem}
+
+\begin{theorem}[Trace transports along $\hsame$]
+\label{thm:efm-trace-hsame-transport}
+If $h$ and $k$ are $\hsame$-equivalent and $h$ has trace $xs$, then $k$ has trace $xs$.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.trace\_hsame\_transport}
+\end{theorem}
+
+\begin{theorem}[Trace determines Hist up to $\hsame$]
+\label{thm:efm-trace-determines-hist}
+If $h$ and $k$ both have trace $xs$, then $h$ and $k$ are $\hsame$-equivalent.
+\leanchecked{BEDC.Capstone.EmptyFableMachine.trace\_same\_marks\_hsame}
+\end{theorem}
+
+\begin{corollary}[Observer identity is sequence identity]
+\label{cor:efm-observer-as-sequence}
+Under the identification $\mathit{observer} = \Hist$ (\autoref{cor:observer-is-hist}), two observers are the same observer (modulo $\hsame$) precisely when their selector ledgers are the same finite sequence of marks. The observer sequence is not a label attached from outside; it is the constructor spine of the Hist read as a list of distinctions.
+\end{corollary}
