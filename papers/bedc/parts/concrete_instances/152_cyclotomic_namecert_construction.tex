@@ -26,6 +26,70 @@ The $\CyclotomicUp$ classifier relates two carriers of \autoref{def:cyclotomic-r
 \label{sec:cyclotomic-certificate}
 \closureat{CyclotomicUp}{seedStr}
 
+\begin{theorem}[Cyclotomic source-triad obligation]
+\label{thm:cyclotomic-source-triad-obligation}
+For every accepted $\CyclotomicUp$ carrier
+$$
+\mathcal{C}_{\zeta}=(\mathcal{N},n,p,\mathcal{S},\zeta,\alpha,\lambda,\rho)
+$$
+of \autoref{def:cyclotomic-root-carrier}, the $\NameCert_{\CyclotomicUp}$ source triad is exactly the $\NameCert_{\NumFieldUp}$ row $\mathcal{N}$, the $\NameCert_{\SplittingFieldUp}$ row $\mathcal{S}$ over the rational polynomial ledger $p$ for $X^n-1$, and the primitive-root endpoint row $\zeta$ accepted by $\alpha$. The triad is covered by the displayed $\mathsf{BHist}$ rows, transported by the classifier of \autoref{def:cyclotomic-rational-polynomial-classifier}, and closed under the $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows $\lambda$, $\alpha$, and $\rho$; no fourth source row is exported by the certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier to $\mathcal{N}$, $\mathcal{S}$, and $\zeta$. The exponent row $n$ and polynomial ledger $p$ locate $\mathcal{S}$ at the displayed equation $X^n-1$, while the finite $\Cont$ row $\alpha$ attaches the primitive endpoint to the root and factorization surface.
+
+Use \autoref{thm:cyclotomic-splittingfield-stability} and \autoref{thm:cyclotomic-numfield-embedding-ledger} to transport the NumFieldUp and SplittingFieldUp rows through $\hsame$. Use \autoref{thm:cyclotomic-primitive-root-readback-exactness} for the endpoint component.
+
+Finally repack the three projected source rows with $\lambda$, $\alpha$, and $\rho$. The obligation surface of \autoref{thm:cyclotomic-namecert-obligation-surface} lists no additional source component, so the triad is both covered and complete.
+\end{proof}
+
+\begin{theorem}[Cyclotomic p-adic consumer obligation]
+\label{thm:cyclotomic-padic-consumer-obligation}
+A $p$-adic consumer of $\NameCert_{\CyclotomicUp}$ may read only the carrier rows $\mathcal{N}$, $n$, $p$, $\mathcal{S}$, $\zeta$, $\alpha$, $\lambda$, and $\rho$ from \autoref{def:cyclotomic-root-carrier}, with $p$ interpreted as the rational polynomial ledger for $X^n-1$ and not as a valuation or completion row. Any valuation, completion, or measure row used downstream must be supplied by a separate $\PadicUp$ or $\IwasawaUp$ certificate and may enter only through its own $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, or $\NameCert$ interface.
+\end{theorem}
+\begin{proof}
+Begin with the displayed cyclotomic carrier. Its rows provide a NumFieldUp source, a positive exponent, the rational polynomial ledger, the SplittingFieldUp source, the primitive endpoint, the acceptance ledger, the base comparison, and the provenance package.
+
+Apply \autoref{thm:cyclotomic-polynomial-ledger-exactness} to identify the polynomial row as the $X^n-1$ ledger and \autoref{thm:cyclotomic-factorization-ledger-exactness} to identify the accepted factorization rows. Apply \autoref{thm:cyclotomic-padic-completion-input-boundary} for the downstream completion boundary.
+
+The carrier and classifier contain no valuation, completion, or measure field. Therefore any $p$-adic consumer starts from the cyclotomic source package alone and must cite the separate certificate that provides the missing analytic rows.
+\end{proof}
+
+\begin{theorem}[Cyclotomic Iwasawa tower obligation]
+\label{thm:cyclotomic-iwasawa-tower-obligation}
+An $\IwasawaUp$ tower that consumes $\NameCert_{\CyclotomicUp}$ receives exactly the cyclotomic layer formed by the $\NameCert_{\NumFieldUp}$ row $\mathcal{N}$, the exponent row $n$, the primitive-root endpoint $\zeta$, the splitting-field factorization rows over $p$, the acceptance row $\alpha$, and the provenance row $\rho$. The tower may transport these rows through the carried $\hsame$ and $\Cont$ structure, but $\NameCert_{\CyclotomicUp}$ alone supplies no tower transition map, no $p$-adic measure row, no class-group row, and no host-field equality.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the source, exponent, polynomial, splitting-field, endpoint, acceptance, comparison, and provenance rows. These are the only rows available before an Iwasawa-specific certificate is attached.
+
+Use \autoref{thm:cyclotomic-iwasawa-consumer-boundary} and \autoref{thm:cyclotomic-iwasawa-source-boundary} to restrict the tower input surface to the projected cyclotomic source rows. Use \autoref{thm:cyclotomic-iwasawa-tower-source-readback} to repack those rows as the cyclotomic layer of the tower.
+
+The excluded tower maps and analytic rows do not occur in the carrier, the classifier, or the obligation surface. They must therefore be supplied by later $\NameCert$ rows rather than inferred from the cyclotomic packet.
+\end{proof}
+
+\begin{theorem}[Cyclotomic class-field source obligation]
+\label{thm:cyclotomic-classfield-source-obligation}
+A $\ClassFieldUp$ source interface may cite $\NameCert_{\CyclotomicUp}$ only through the displayed $\mathsf{BHist}$ rows $\mathcal{N}$, $n$, $p$, $\mathcal{S}$, and $\zeta$, the $\Cont$ row $\alpha$, the $\hsame$ comparison $\lambda$, and the $\mathsf{Pkg}$ provenance row $\rho$ of \autoref{def:cyclotomic-root-carrier}. This interface provides cyclotomic source data for a later class-field certificate, but it does not provide a class group, reciprocity map, local symbol, norm residue map, or equality of ambient fields.
+\end{theorem}
+\begin{proof}
+Project the carrier rows and read them through the classifier of \autoref{def:cyclotomic-rational-polynomial-classifier}. The only transport available is the carried $\hsame$ support on the source, exponent, polynomial, splitting-field, and endpoint rows, together with the displayed $\Cont$ and $\mathsf{Pkg}$ provenance.
+
+Apply \autoref{thm:cyclotomic-classfield-source-interface}. Its interface is the repacking of the cyclotomic source boundary, the $p$-adic input boundary, and the classifier transport already present in this chapter.
+
+Since the named class-field operations are not entries of the cyclotomic carrier and are not produced by its classifier, the class-field consumer receives a source interface only. Any class-field operation must arrive with a separate $\NameCert$ row.
+\end{proof}
+
+\begin{theorem}[Cyclotomic Galois transport obligation]
+\label{thm:cyclotomic-galois-transport-obligation}
+Every Galois-facing transport read from $\NameCert_{\CyclotomicUp}$ is a transport of the primitive-root endpoint and the splitting-field root and factorization rows along the $\hsame$ support carried by the classifier of \autoref{def:cyclotomic-rational-polynomial-classifier}. The transport is mediated by the $\mathsf{BHist}$ rows of \autoref{def:cyclotomic-root-carrier}, the $\Cont$ acceptance row, and the $\mathsf{Pkg}$ provenance row; it exports no automorphism-group object, no quotient of roots, and no host-field equality.
+\end{theorem}
+\begin{proof}
+Project the classifier to the source, exponent, polynomial, splitting-field, and endpoint comparisons. These $\hsame$ rows are the only Galois-facing transport data available from the cyclotomic certificate.
+
+Use \autoref{thm:cyclotomic-primitive-root-endpoint-transport} for the primitive endpoint and \autoref{thm:cyclotomic-splitting-polynomial-classifier-transport} for the polynomial and splitting-field rows. Use \autoref{thm:cyclotomic-galois-action-boundary} and \autoref{thm:cyclotomic-galois-action-namecert-boundary} to keep the readback inside endpoint and factorization transport.
+
+The proof closes by inspecting the carrier and classifier fields. Neither contains an automorphism group, a quotient-root representative, or a host-field equality datum, so no downstream Galois consumer can read such data from $\NameCert_{\CyclotomicUp}$ alone.
+\end{proof}
+
 \begin{theorem}[Cyclotomic splitting-field stability]
 \label{thm:cyclotomic-splittingfield-stability}
 For any two $\CyclotomicUp$ carriers related by the classifier of \autoref{def:cyclotomic-rational-polynomial-classifier}, $\hsame$ transport along the $\NameCert_{\SplittingFieldUp}$ classifier preserves the accepted primitive-root endpoint, the root row for $X^n-1$, and the factorization rows carried by the $\mathsf{BHist}$ splitting-field ledger. The transported certificate keeps the same $\NameCert_{\NumFieldUp}$ source comparison, the same positive exponent comparison, and the same $\Cont$ and $\mathsf{Pkg}$ provenance rows.
