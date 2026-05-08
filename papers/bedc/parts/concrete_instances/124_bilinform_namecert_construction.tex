@@ -6,17 +6,94 @@ The bilinear-form interface $\BilinFormUp$ packages a bilinear pairing on a modu
 \section{Carrier definition}
 \label{sec:bilinform-carrier}
 
+\begin{definition}[BilinForm root pairing surface]
+\label{def:bilinform-root-pairing-surface}
+A $\BilinFormUp$ root datum is read from two source certificates, a module certificate $\mathcal{M}:\NameCert_{\ModuleUp}$ and a vector-space certificate $\mathcal{V}:\NameCert_{\VecSpaceUp}$, together with a scalar endpoint row supplied by the shared scalar source. Its visible pairing surface is a ternary $\mathsf{BHist}$ relation
+$$
+\mathsf{Pair}_{B}(x,y,z)
+$$
+where $x$ and $y$ are carried vector endpoints accepted by the module and vector-space classifiers, and $z$ is the carried scalar endpoint produced by the pairing row.
+
+The carrier-aware classifier on pairing outputs declares two displayed rows $\mathsf{Pair}_{B}(x,y,z)$ and $\mathsf{Pair}_{B}(x',y',z')$ equivalent exactly when the two input endpoints are transported by the $\ModuleUp$ and $\VecSpaceUp$ classifiers and the scalar endpoints are transported by the scalar classifier exposed by those source certificates. Thus the public $\BilinFormUp$ object is the pairing relation together with its source certificates and scalar-output classifier, not a host-level function on an external carrier.
+\end{definition}
+
+\begin{theorem}[BilinForm root bilinearity rows]
+\label{thm:bilinform-root-bilinearity-rows}
+For the root pairing surface of \autoref{def:bilinform-root-pairing-surface}, the $\BilinFormUp$ certificate contains the following three rows.
+\begin{enumerate}
+\item Left additivity: if $x_{1}$ and $x_{2}$ are carried source endpoints and $y$ is a carried partner, then the pairing row for the module sum of $x_{1}$ and $x_{2}$ with $y$ is classified with the scalar sum of the two rows $\mathsf{Pair}_{B}(x_{1},y,z_{1})$ and $\mathsf{Pair}_{B}(x_{2},y,z_{2})$.
+\item Right additivity: if $y_{1}$ and $y_{2}$ are carried source endpoints and $x$ is a carried partner, then the pairing row for $x$ with the module sum of $y_{1}$ and $y_{2}$ is classified with the scalar sum of the two rows $\mathsf{Pair}_{B}(x,y_{1},z_{1})$ and $\mathsf{Pair}_{B}(x,y_{2},z_{2})$.
+\item Scalar compatibility: scalar multiplication on either input is transported to the scalar-output endpoint through the scalar-action classifier supplied by $\NameCert_{\ModuleUp}$ and $\NameCert_{\VecSpaceUp}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Package the three displayed clauses as certificate rows over the same $\mathsf{BHist}$ pairing ledger. The left and right additive clauses use the module addition rows from $\NameCert_{\ModuleUp}$ and the vector endpoint classifier from $\NameCert_{\VecSpaceUp}$ to keep both input positions inside the carried source surface.
+
+For scalar compatibility, read the scalar action through the shared scalar source of the module and vector-space certificates. Classifier transport in those two dependency certificates moves equivalent input rows to equivalent scalar-output rows.
+
+The resulting ledger is bilinear because every visible pairing output is justified by one of the three rows and every transport step is recorded through the source classifiers named in the root pairing surface.
+\end{proof}
+
+\begin{theorem}[BilinForm root symmetry and antisymmetry rows]
+\label{thm:bilinform-root-symmetry-rows}
+A $\BilinFormUp$ certificate over \autoref{def:bilinform-root-pairing-surface} must choose exactly one public exchange row for the pairing surface. The symmetric row states that carried endpoints satisfy
+$$
+\mathsf{Pair}_{B}(x,y,z)\quad\text{exactly when}\quad \mathsf{Pair}_{B}(y,x,z).
+$$
+The antisymmetric row states that exchanging the carried endpoints sends the scalar endpoint to its certified additive inverse:
+$$
+\mathsf{Pair}_{B}(x,y,z)\quad\text{exactly when}\quad \mathsf{Pair}_{B}(y,x,-z).
+$$
+The selected row is part of the certificate ledger; it is not a consequence of the three bilinearity rows alone.
+\end{theorem}
+\begin{proof}
+Start from the pairing relation and the two source classifiers. Bilinearity records additive and scalar behavior in each input slot, but it does not determine how the two slots compare after exchange.
+
+The certificate therefore carries an explicit exchange row. In the symmetric case, the exchanged ledger keeps the same scalar endpoint and transports only the input endpoints through the two source classifiers.
+
+In the antisymmetric case, the exchanged ledger also records the additive inverse endpoint in the scalar source. The inverse is certified by the scalar-output classifier, so the exchanged row remains a $\BilinFormUp$ pairing row rather than an external sign convention.
+\end{proof}
+
+\begin{theorem}[BilinForm root nondegeneracy row]
+\label{thm:bilinform-root-nondegeneracy-row}
+For the root pairing surface of \autoref{def:bilinform-root-pairing-surface}, nondegeneracy is the pair of kernel classifier rows below.
+\begin{enumerate}
+\item Left kernel row: if a carried endpoint $x$ pairs to the zero scalar endpoint with every carried partner $y$, then $x$ is classified with the zero vector endpoint of the module and vector-space source.
+\item Right kernel row: if a carried endpoint $y$ is paired to the zero scalar endpoint by every carried partner $x$, then $y$ is classified with the zero vector endpoint of the module and vector-space source.
+\end{enumerate}
+These two rows are the nondegeneracy obligations consumed by Clifford, symplectic, and inner-product certificates.
+\end{theorem}
+\begin{proof}
+For the left kernel row, quantify over all carried partners accepted by the source classifiers and assume each pairing ledger ends at the certified scalar zero. The module and vector-space certificates supply the zero vector endpoint and the classifier used to compare $x$ with it.
+
+For the right kernel row, use the same argument with the two input slots exchanged. If the certificate chose the symmetric exchange row, the exchange transport can reuse the left kernel ledger. If it chose the antisymmetric exchange row, the scalar zero is fixed by additive inverse, so the right kernel ledger still repacks through the same zero endpoint.
+
+Thus nondegeneracy is a classifier statement at the $\mathsf{BHist}$ boundary: a vector is zero exactly at the source classifier when all certified pairings against it land at the scalar zero endpoint.
+\end{proof}
+
+\begin{theorem}[BilinForm root ledger exactness boundary]
+\label{thm:bilinform-root-ledger-exactness-boundary}
+The $\BilinFormUp$ obligation boundary consists exactly of the carrier rows of \autoref{def:bilinform-root-pairing-surface}, the pairing-output classifier, the three bilinearity rows of \autoref{thm:bilinform-root-bilinearity-rows}, the selected symmetry-or-antisymmetry row of \autoref{thm:bilinform-root-symmetry-rows}, the two nondegeneracy rows of \autoref{thm:bilinform-root-nondegeneracy-row}, stability under $\mathsf{hsame}$ and source-classifier transport, the finite pairing ledger, exactness of visible scalar outputs against that ledger, and the dependency rows for $\NameCert_{\ModuleUp}$ and $\NameCert_{\VecSpaceUp}$.
+\end{theorem}
+\begin{proof}
+Collect the visible rows in the order displayed by the boundary statement. Carrier and classifier rows determine which $\mathsf{BHist}$ endpoints may be paired and how scalar outputs are compared.
+
+The bilinearity, exchange, and nondegeneracy rows then give the algebraic obligations that downstream geometry consumers may cite. Stability under $\mathsf{hsame}$ and under the two source classifiers ensures that replacing any carried endpoint by an equivalent endpoint preserves the same visible scalar-output classification.
+
+Finally, ledger exactness says that every public pairing output arises from the finite pairing ledger and every ledger row has a public scalar-output classifier. This is the precise boundary exported to Clifford, symplectic, and inner-product certificates.
+\end{proof}
+
 \section{The certificate}
 \label{sec:bilinform-certificate}
 
-\closureat{BilinFormUp}{seedStr}
+\closureat{BilinFormUp}{obligationStr}
 
 \begin{closurestatus}{\BilinFormUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed binds exactly the module-carrier and vector-space source named in the introduction, together with the bilinear-pairing carrier, classifier, symmetry, antisymmetry, nondegeneracy, stability, ledger, exactness, and dependency rows as seed obligations.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The chapter binds the $\BilinFormUp$ carrier, classifier, bilinearity, symmetry-or-antisymmetry, nondegeneracy, stability, ledger, exactness, and dependency rows as explicit paper obligations.}
   \formalstatus{\unformalizedV}
   \leantarget{}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close a bilinear-form carrier, classifier, symmetry proof, antisymmetry proof, nondegeneracy proof, standard bridge, or Lean verification target.}
-  \upgradepath{Obligation closure requires explicit carrier, classifier, bilinearity, symmetry or antisymmetry, nondegeneracy, stability, ledger, exactness, and ledger-boundary theorem blocks for the certified bilinear-form interface.}
+  \notclaimed{This chapter does not close scoped paper proof, a public bilinear-form object, a standard bridge, or a Lean verification target.}
+  \upgradepath{Scoped closure requires proofs that the displayed $\BilinFormUp$ obligations are jointly sufficient for every geometry consumer named in this chapter.}
 \end{closurestatus}
