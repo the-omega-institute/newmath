@@ -290,9 +290,10 @@ By induction on the length of $w$.
 
 \begin{theorem}[Flow-level round trip]
 \label{thm:channel-encoding-flow-round-trip}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.flow\_level\_round\_trip}
 For every event flow $S \in \mathsf{EventFlow}$,
 $$
-  \mathsf{Decode}(\mathsf{Compile}(S)) \;=\; S.
+  \mathsf{Decode}(\mathsf{Compile}(S)) \;=\; \mathsf{some}(S).
 $$
 \end{theorem}
 
@@ -308,9 +309,13 @@ By \autoref{cor:channel-encoding-first-11-is-terminator}, the leftmost $11$ in e
 
 \begin{theorem}[Legal-stream completeness]
 \label{thm:channel-encoding-legal-stream-completeness}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.legal\_stream\_completeness}
 For every legal channel stream $c \in \mathsf{LegalZStream}$,
+there exists an event flow $S \in \mathsf{EventFlow}$ such that
 $$
-  \mathsf{Compile}(\mathsf{Decode}(c)) \;=\; c.
+  \mathsf{Decode}(c) \;=\; \mathsf{some}(S)
+  \qquad\text{and}\qquad
+  \mathsf{Compile}(S) \;=\; c.
 $$
 \end{theorem}
 
@@ -331,6 +336,7 @@ $$
 
 \begin{corollary}[Bijection between event flows and legal channel streams]
 \label{cor:channel-encoding-bijection}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.channel\_encoding\_bijection}
 The map $\mathsf{Compile} \colon \mathsf{EventFlow} \to \mathsf{LegalZStream}$ is a bijection with inverse $\mathsf{Decode}$:
 $$
   \mathsf{EventFlow} \;\cong\; \mathsf{LegalZStream}

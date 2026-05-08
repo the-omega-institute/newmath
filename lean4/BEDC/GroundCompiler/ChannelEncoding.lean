@@ -42,14 +42,16 @@ def DecEvent : List DisplayAlphabet -> Option (RawEvent × List DisplayAlphabet)
 def DecodeFuel : Nat -> List DisplayAlphabet -> Option EventFlow
   | 0, [] => some []
   | 0, _ :: _ => none
-  | _ + 1, [] => some []
   | fuel + 1, c =>
       match DecEvent c with
       | some (w, remaining) =>
           match DecodeFuel fuel remaining with
           | some S => some (w :: S)
           | none => none
-      | none => none
+      | none =>
+          match c with
+          | [] => some []
+          | _ :: _ => none
 
 def Decode (c : List DisplayAlphabet) : Option EventFlow :=
   DecodeFuel c.length c
@@ -149,6 +151,64 @@ theorem event_level_round_trip (w : RawEvent) :
             simpa [EventEncoding] using ih
           simp [EventEncoding, BodyEncoding, DecEvent, h]
 
+theorem dec_event_append_event_encoding
+    (w : RawEvent) (restCode : List DisplayAlphabet) :
+    DecEvent (EventEncoding w ++ restCode) = some (w, restCode) := by
+  induction w with
+  | nil =>
+      rfl
+  | cons m rest ih =>
+      cases m with
+      | b0 =>
+          have h :
+              DecEvent (BodyEncoding rest ++ (EventTerminator ++ restCode)) =
+                some (rest, restCode) := by
+            simpa [EventEncoding, List.append_assoc] using ih
+          simp [EventEncoding, BodyEncoding, DecEvent, h]
+      | b1 =>
+          have h :
+              DecEvent (BodyEncoding rest ++ (EventTerminator ++ restCode)) =
+                some (rest, restCode) := by
+            simpa [EventEncoding, List.append_assoc] using ih
+          simp [EventEncoding, BodyEncoding, DecEvent, h]
+
+theorem decode_fuel_flow_encoding (S : EventFlow) (extra : Nat) :
+    DecodeFuel (S.length + extra) (FlowEncoding S) = some S := by
+  induction S with
+  | nil =>
+      cases extra <;> rfl
+  | cons w rest ih =>
+      change
+        DecodeFuel ((w :: rest).length + extra)
+          (EventEncoding w ++ FlowEncoding rest) = some (w :: rest)
+      have hFuel :
+          (w :: rest).length + extra = (rest.length + extra) + 1 := by
+        simp [Nat.add_assoc, Nat.add_comm]
+      rw [hFuel]
+      simp [DecodeFuel, dec_event_append_event_encoding, ih]
+
+theorem flow_encoding_length_has_event_fuel (S : EventFlow) :
+    exists extra : Nat, (FlowEncoding S).length = S.length + extra := by
+  induction S with
+  | nil =>
+      exact ⟨0, rfl⟩
+  | cons w rest ih =>
+      cases ih with
+      | intro extra hrest =>
+          refine ⟨(BodyEncoding w).length + 1 + extra, ?_⟩
+          simp [FlowEncoding, EventEncoding, EventTerminator, hrest,
+            Nat.add_assoc, Nat.add_left_comm, Nat.add_comm]
+          have htwo (n : Nat) : 2 + n = 1 + (1 + n) := by
+            rw [show 2 = 1 + 1 by rfl, Nat.add_assoc]
+          exact htwo (BodyEncoding w).length
+
+theorem flow_level_round_trip (S : EventFlow) :
+    Decode (FlowEncoding S) = some S := by
+  cases flow_encoding_length_has_event_fuel S with
+  | intro extra hlen =>
+      rw [Decode, hlen]
+      exact decode_fuel_flow_encoding S extra
+
 theorem encoder_streaming (w : RawEvent) (rest : EventFlow) :
     FlowEncoding (w :: rest) = EventEncoding w ++ FlowEncoding rest := by
   rfl
@@ -214,6 +274,25 @@ theorem legal_stream_not_theoremhood :
             have hNil : S = [] := flow_encoding_eq_nil hEq.symm
             cases hNil
             exact empty_not_recognized_theorem_flow hTheo
+
+theorem legal_stream_completeness {c : List DisplayAlphabet} :
+    LegalZStream c ->
+      exists S : EventFlow, Decode c = some S /\ FlowEncoding S = c := by
+  intro h
+  cases h with
+  | intro S hS =>
+      exact ⟨S, by rw [hS]; exact flow_level_round_trip S, hS.symm⟩
+
+theorem channel_encoding_bijection :
+    (forall S : EventFlow, Decode (FlowEncoding S) = some S) /\
+      (forall c : List DisplayAlphabet,
+        LegalZStream c ->
+          exists S : EventFlow, Decode c = some S /\ FlowEncoding S = c) := by
+  constructor
+  · intro S
+    exact flow_level_round_trip S
+  · intro c h
+    exact legal_stream_completeness h
 
 theorem channel_conservativity {S : EventFlow} {m : DisplayAlphabet} :
     List.Mem m (FlowEncoding S) -> m = BMark.b0 \/ m = BMark.b1 := by
