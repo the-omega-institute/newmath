@@ -484,6 +484,7 @@ import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
+import BEDC.Derived.LieGroupUp.AdjointRep
 import BEDC.Derived.ManifoldUp
 import BEDC.Derived.ManifoldUp.SemanticNameCert
 import BEDC.Derived.DerivedCatUp
@@ -501,6 +502,7 @@ import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
+import BEDC.Derived.HilbertUp.NameCertSurface
 import BEDC.Derived.HilbertUp.ProjectionBridge
 import BEDC.Derived.FpsUp.CauchyProductSemigroup
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
