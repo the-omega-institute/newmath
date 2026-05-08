@@ -125,6 +125,7 @@ Finally, the $\VecSpaceUp$ classifier is the public classifier for translation r
 \label{thm:affinespace-transitive-action-obligation}
 For any two carried point rows $p$ and $q$ in the $\AffineSpaceUp$ carrier, the transitive-action obligation records a certified vector row $v$ whose translation packet carries $p$ to a point row classified with $q$. The witness ledger consists exactly of the source $\NameCert_{\VecSpaceUp}$ row for $v$, the additive $\GroupUp$ row interpreting $v$ as a translation packet, and the $\Cont$ action ledger from $p$ to $q$.
 \end{theorem}
+\leanchecked{BEDC.Derived.AffineSpaceUp.AffineSpaceHistoryTorsorCarrier\_transitive\_action\_obligation}
 \begin{proof}
 Use the torsor source row in the carrier definition to read the difference from $p$ to $q$ as a vector-translation row in the $\VecSpaceUp$ carrier. This is a named $\mathsf{BHist}$ row, not a quotient of host points.
 
@@ -188,6 +189,7 @@ For exactness, read any accepted ledger row in reverse. It must be either a poin
 \label{thm:affinespace-action-additivity}
 Let $\mathcal{V}:\NameCert_{\VecSpaceUp}$ and $\mathcal{G}:\NameCert_{\GroupUp}$ be the dependency certificates of \autoref{def:affinespace-history-torsor-carrier}. Let $p:\mathsf{BHist}$ be a carried point row, and let $v,w:\mathsf{BHist}$ be vector rows accepted by $\mathcal{V}$ whose translation readings are accepted by $\mathcal{G}$. Write $v+_V w$ for the vector-addition row supplied by $\mathcal{V}$. Then the one-step action endpoint $\mathsf{act}(p,v+_V w)$ and the iterated action endpoint $\mathsf{act}(\mathsf{act}(p,v),w)$ admit carried affine repackings over the same source certificates and the same cumulative translation row $v+_V w$, and those repackings are classified by $\mathsf{AffCls}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.AffineSpaceUp.AffineSpaceHistoryTorsorCarrier\_action\_additivity}
 \begin{proof}
 Apply \autoref{thm:affinespace-action-closure-obligation} to the carried point row $p$ and the accepted vector row $v+_V w$. This produces a carried affine endpoint whose point component is $\mathsf{act}(p,v+_V w)$.
 
@@ -204,3 +206,4 @@ $$
 
 Finally repack both endpoints as affine rows over the same two source certificates and the common cumulative translation row $v+_V w$. The point components are related by the displayed $\hsame$ row, and the translation components are the same vector-sum row, hence are classified by the $\VecSpaceUp$ classifier. By the definition of $\mathsf{AffCls}$ in \autoref{def:affinespace-history-torsor-carrier}, the two repackings are classified together.
 \end{proof}
+\leanchecked{BEDC.Derived.AffineSpaceUp.AffineSpaceHistoryTorsorCarrier\_action\_additivity}

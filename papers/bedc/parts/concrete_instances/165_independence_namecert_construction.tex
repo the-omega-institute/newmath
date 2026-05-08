@@ -360,3 +360,51 @@ Finally apply \autoref{thm:independence-measurable-image-bridge}. It gives the b
   \notclaimed{Full probability theory, sigma-algebra completion, conditional expectation, martingales, and standard bridge data are not claimed here.}
   \upgradepath{No further theory-axis step remains; the chapter is at mature closure, with bridge verification tracked independently.}
 \end{closurestatus}
+
+\begin{theorem}[Independence empty index family satisfies the finite factorisation row]
+\label{thm:independence-empty-index-factorization-row}
+Let $R$ be a finite-family carrier for $\IndependenceUp$ as in \autoref{def:independence-finite-family-carrier}, with carried source $S$, finite index carrier $I$, displayed joint endpoint $\mu_X^J$, and finite $\RealUp$ product fold $\Pi_R$. Assume that $I$ has no positions, and let $B$ be the unique measurable target-event family on $I$. Write $\Omega_{\varnothing}$ for the total event of the empty-product target of the empty tuple family. Suppose:
+\begin{enumerate}
+\item the displayed product-cylinder ledger for $R$ reads the empty family as the target total event,
+$$
+\operatorname{Cyl}_X(B)=\Omega_{\varnothing};
+$$
+\item the hypotheses of \autoref{thm:distribution-pushforward-total-mass-unit} hold for the empty tuple map, its joint endpoint $\mu_X^J$, and the target total event $\Omega_{\varnothing}$;
+\item the empty marginal spine folds to the multiplicative unit,
+$$
+\Pi_R(\mathsf{MargSp}_X(B))\sim_R1_R.
+$$
+\end{enumerate}
+Then the displayed empty-family data satisfy the factorisation clause
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))\sim_R\Pi_R(\mathsf{MargSp}_X(B)).
+$$
+Consequently, these displayed data carry the finite factorisation row of \autoref{def:independence-finite-factorisation-row} for the empty index family.
+\end{theorem}
+\begin{proof}
+Because $I$ has no positions, there is only the empty measurable event family $B$. By the cylinder hypothesis, the left endpoint may be read at the total event of the empty-product target:
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))=\mu_X^J(\Omega_{\varnothing}).
+$$
+Apply \autoref{thm:distribution-pushforward-total-mass-unit} to the empty tuple map and its joint endpoint $\mu_X^J$. This gives
+$$
+\mu_X^J(\Omega_{\varnothing})\sim_R1_R.
+$$
+Reading the cylinder as $\Omega_{\varnothing}$ yields
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))\sim_R1_R.
+$$
+The empty-fold hypothesis gives
+$$
+\Pi_R(\mathsf{MargSp}_X(B))\sim_R1_R.
+$$
+By symmetry of the $\RealUp$ classifier,
+$$
+1_R\sim_R\Pi_R(\mathsf{MargSp}_X(B)).
+$$
+Transitivity of the same classifier from \autoref{def:real-classifier-specification} therefore yields
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))\sim_R\Pi_R(\mathsf{MargSp}_X(B)).
+$$
+This is exactly the factorisation clause of \autoref{def:independence-finite-factorisation-row} for the unique empty event family. Since the product-cylinder ledger and the finite product fold are already part of the displayed data, the empty family carries the stated finite factorisation row.
+\end{proof}
