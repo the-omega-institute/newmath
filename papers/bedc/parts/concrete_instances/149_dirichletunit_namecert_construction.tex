@@ -87,6 +87,53 @@ Inspect the carrier packet: determinant rows, analytic regulator values, and sta
 Therefore a $\RegulatorUp$ construction can cite the unit, inverse, rank, ledger, dependency, readback, and provenance rows. Any determinant or analytic regulator row must come from a separate regulator-side construction.
 \end{proof}
 
+\begin{theorem}[Dirichlet-unit rank ledger]
+\label{thm:dirichletunit-unit-rank-ledger}
+Every accepted carrier of \autoref{def:dirichletunit-bhist-carrier} contains a
+rank witness as a $\mathsf{UnaryHistory}$ row recording the visible ledger
+expression $r_1+r_2-1$. This row is stable under the row classifier of
+\autoref{def:dirichletunit-unit-classifier}, and it asserts no host arithmetic
+beyond finite ledger readback.
+\end{theorem}
+\begin{proof}
+Project the finite package underlying the carrier. The rank row is read as a
+unary history from the same source certificate that supplies the ring of
+integers and its real and complex place-count ledgers.
+
+The visible expression $r_1+r_2-1$ is therefore a ledger label: its content is
+the displayed finite readback row, not an assertion about an external
+arithmetic object. The $\mathsf{UnaryHistory}$ witness records exactly that
+visible row.
+
+The classifier compares the source, unit, inverse, law, and provenance rows
+through finite $\Cont$ readback. Hence the same unary rank row remains attached
+to every classified carrier.
+\end{proof}
+
+\begin{theorem}[Dirichlet-unit AbGroup projection]
+\label{thm:dirichletunit-unit-abgroup-projection}
+Every accepted $\DirichletUnitUp$ carrier projects to the $\AbGroupUp$
+operation, inverse, identity, and classifier rows carried by its dependency
+certificate. The Dirichlet-unit carrier adds the ring-of-integers unit source,
+the unit and inverse rows, and the finite readback ledgers, but it does not
+replace the inherited abelian-group interface.
+\end{theorem}
+\begin{proof}
+Unpack the tuple of \autoref{def:dirichletunit-bhist-carrier}. Its
+$\mathcal{A}$ projection is the dependency row from
+$\NameCert_{\AbGroupUp}$.
+
+Read $\mathcal{A}$ through the abelian-group certificate. This exposes the
+operation row, inverse row, identity row, and classifier row for the inherited
+finitely generated abelian carrier.
+
+The remaining projections $\mathcal{O}$, $u$, $u^{-1}$, $\lambda$, $\mu$, and
+$\rho$ witness that the inherited row is being used as a unit group for the
+ring-of-integers source. Repacking with $\mathcal{A}$ therefore gives exactly
+the $\AbGroupUp$ projection fields, with the unit rows retained as additional
+dependency data.
+\end{proof}
+
 \section{The certificate}
 \label{sec:dirichletunit-certificate}
 \closureat{DirichletUnitUp}{seedStr}

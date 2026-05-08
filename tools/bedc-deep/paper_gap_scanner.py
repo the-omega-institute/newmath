@@ -209,6 +209,27 @@ def hit_to_candidate(hit: GapHit) -> dict:
     }
 
 
+def generate_candidates(
+    *,
+    min_fit: int = 7,
+    min_novelty: int = 6,
+    limit: int = 0,
+) -> list[dict]:
+    hits = scan_all()
+    candidates = []
+    for hit in hits:
+        candidate = hit_to_candidate(hit)
+        if _is_substantive_gap(hit, candidate):
+            candidates.append(candidate)
+    candidates = [
+        c for c in candidates
+        if c["fit_score"] >= min_fit and c["novelty"] >= min_novelty
+    ]
+    if limit > 0:
+        candidates = candidates[:limit]
+    return candidates
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Scan papers/bedc/parts for theory gaps")
     parser.add_argument("--append", action="store_true", help="Append qualifying gaps to BOARD.md as candidate B-XX entries")
@@ -218,18 +239,11 @@ def main() -> int:
     parser.add_argument("--json", action="store_true", help="Emit candidates as JSON")
     args = parser.parse_args()
 
-    hits = scan_all()
-    candidates = []
-    for hit in hits:
-        candidate = hit_to_candidate(hit)
-        if _is_substantive_gap(hit, candidate):
-            candidates.append(candidate)
-    candidates = [
-        c for c in candidates
-        if c["fit_score"] >= args.min_fit and c["novelty"] >= args.min_novelty
-    ]
-    if args.limit > 0:
-        candidates = candidates[: args.limit]
+    candidates = generate_candidates(
+        min_fit=args.min_fit,
+        min_novelty=args.min_novelty,
+        limit=args.limit,
+    )
 
     if args.json:
         print(json.dumps({"candidates": candidates}, ensure_ascii=False, indent=2))
