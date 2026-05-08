@@ -42,30 +42,6 @@ AbelianCat is a 433-line chapter with 10 theorems but only B-423 (`AbelianCat ho
 
 ---
 
-### B-538 - Quadrature empty-node sum is zero
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Quadrature empty-node sum is zero |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-For a finite weighted QuadratureUp rule Q=(xs,alpha,omega,I_Q), if the FinSetUp node spine xs is empty, then for every finite polynomial-code spine p the quadrature fold QSum_Q(p) is scalar-classifier-equal to 0_R.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
-
-Rationale:
-QuadratureUp has completed coverage for the exactness-degree classifier, but that coverage is concentrated on degree weakening, reflexivity, transitivity, and preorder rows: see the definitions of QSum_Q and DegBoundLe at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:21-66 and the completed theorem suite at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:105-240. The concrete rule-level fold itself is defined as a finite additive fold over Pos(xs) at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:27-31, while the existing ledger theorem only states that this is the carried exactness surface at papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex:90-103. The empty-node boundary is not one of B-428, B-451, or B-465 and is a small concrete implication about the actual quadrature sum rather than another degree-classifier law.
-
----
-
 ### B-540 - LPDuality optimal face convex closure
 
 | field | value |
@@ -89,7 +65,6 @@ Rationale:
 This is a distinct structural strengthening of the existing LPDuality surface: existing BOARD entries cover primal and dual feasibility convex closure, while the paper already has weak duality and equality-implies-optimality rows. The proposed target combines feasibility convexity with objective affine readback to close the optimal primal face under binary affine combinations, without introducing a new LP interface or an external assumption.
 
 ---
-
 
 ### B-541 - Banach operator scalar-multiple bound closure
 
@@ -116,7 +91,6 @@ This fills a real closure gap in the Banach bounded-operator ledger. Existing en
 
 ---
 
-
 ### B-542 - Quadrature degree-zero exactness iff weight sum
 
 | field | value |
@@ -140,4 +114,3 @@ Rationale:
 The Quadrature surface has exactness-degree weakening, degree-bound preorder rows, and an active empty-node sum target, but no base readback for degree-zero exactness. This candidate is a small concrete readback theorem connecting the constant polynomial row to the node-weight budget, and it lands safely in the existing finite weighted QuadratureUp chapter without duplicating current BOARD titles or paper labels.
 
 ---
-
