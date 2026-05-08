@@ -124,4 +124,14 @@ theorem package_code_equivalence_is_equality {S T : PackageCandidateFlow} :
     cases hEq
     rfl
 
+theorem raw_flows_code_bijective {S T : PackageCandidateFlow} :
+    PackageCode S = PackageCode T <-> S = T := by
+  simpa [PackageCode, PackageCodeEquiv] using
+    (package_code_equivalence_is_equality : PackageCodeEquiv S T <-> S = T)
+
+def RecognizesPkgCode
+    (R : GeneratedPackageRecognizer) (c : List DisplayAlphabet) : Prop :=
+  exists S : PackageCandidateFlow,
+    Decode c = some S /\ PackageRecognitionRelation R S
+
 end BEDC.GroundCompiler.PackageGenerated

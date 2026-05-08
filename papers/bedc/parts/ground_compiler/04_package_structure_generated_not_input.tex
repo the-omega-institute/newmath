@@ -247,6 +247,7 @@ A package code cannot consist only of a visible package-token event. It must inc
 
 \begin{definition}[Recognition-preserving compilation]
 \label{def:package-generated-recognition-preserving-compilation}
+\leandef{BEDC.GroundCompiler.PackageGenerated.RecognitionPreservingCompilation}
 Compilation is \emph{recognition-preserving for packages} when, for every $\mathsf{RecognizesPkg}(R,S)$,
 $$
   \mathsf{Decode}(\mathsf{Compile}(S)) = S
@@ -319,6 +320,7 @@ By \autoref{thm:channel-encoding-flow-round-trip}, the left side is $S$ and the 
 
 \begin{corollary}[Raw package flows are code-bijective]
 \label{cor:package-generated-raw-flows-code-bijective}
+\leanchecked{BEDC.GroundCompiler.PackageGenerated.raw\_flows\_code\_bijective}
 Recognized package flows, considered as raw event flows, are in bijection with their legal channel codes. This is not the same as saying classified package objects are bijective with codes: a package classifier may identify two raw package flows.
 \end{corollary}
 
@@ -376,11 +378,15 @@ The first relation is bijective; the second is generally many-to-one.
 
 \begin{definition}[Package recognition from channel code]
 \label{def:package-generated-recognition-from-code}
-Given $c \in \mathsf{LegalZStream}$, define package recognition from code by
+\leandef{BEDC.GroundCompiler.PackageGenerated.RecognizesPkgCode}
+Given $c \in \mathsf{LegalZStream}$, define package recognition from code by the existence of a decoded event flow:
 $$
   \mathsf{RecognizesPkgCode}(R,c)
   \;:\Longleftrightarrow\;
-  \mathsf{RecognizesPkg}(R,\mathsf{Decode}(c)).
+  \exists S \in \mathsf{EventFlow},
+  \mathsf{Decode}(c)=\mathsf{some}(S)
+  \wedge
+  \mathsf{RecognizesPkg}(R,S).
 $$
 Thus package recognition from channel code always proceeds through decoding.
 \end{definition}
