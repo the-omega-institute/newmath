@@ -1,5 +1,6 @@
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.LieGroupUp
+import BEDC.Derived.VecSpaceUp
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Unary
