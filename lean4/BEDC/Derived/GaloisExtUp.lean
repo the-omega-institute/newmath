@@ -282,6 +282,27 @@ theorem GaloisExtSourceClassifier_transitive [AskSetup]
           (And.intro classifierSame
             (And.intro provenanceSame ledgerSame)))))
 
+theorem GaloisExtSourceClassifier_symmetric [AskSetup]
+    {bundle : ProbeBundle ProbeName}
+    {field separable normal automorphism classifier provenance ledger field' separable' normal'
+      automorphism' classifier' provenance' ledger' : BHist} :
+    (SameSig bundle field field' ∧ SameSig bundle separable separable' ∧
+      SameSig bundle normal normal' ∧ SameSig bundle automorphism automorphism' ∧
+        SameSig bundle classifier classifier' ∧ hsame provenance provenance' ∧
+          hsame ledger ledger') ->
+      SameSig bundle field' field ∧ SameSig bundle separable' separable ∧
+        SameSig bundle normal' normal ∧ SameSig bundle automorphism' automorphism ∧
+          SameSig bundle classifier' classifier ∧ hsame provenance' provenance ∧
+            hsame ledger' ledger := by
+  intro source
+  exact And.intro (sameSig_symm source.left)
+    (And.intro (sameSig_symm source.right.left)
+      (And.intro (sameSig_symm source.right.right.left)
+        (And.intro (sameSig_symm source.right.right.right.left)
+          (And.intro (sameSig_symm source.right.right.right.right.left)
+            (And.intro (hsame_symm source.right.right.right.right.right.left)
+              (hsame_symm source.right.right.right.right.right.right))))))
+
 theorem GaloisExtSourcePacket_normal_separable_stability [AskSetup] [PackageSetup]
     {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
       separability classifier provenance endpoint normality' separability' classifier'
