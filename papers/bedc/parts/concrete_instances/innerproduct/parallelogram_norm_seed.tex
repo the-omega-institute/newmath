@@ -122,3 +122,86 @@ identity as an algebraic scalar-history comparison, but any completion,
 topological, or host-space row must come from a separate downstream
 certificate.
 \end{proof}
+
+\begin{theorem}[InnerProduct Pythagorean row]
+\label{thm:innerproduct-pythagorean-row}
+For carried vector endpoints $x,y:C_V$ in the
+\autoref{def:innerproduct-parallelogram-norm-seed-source}, if $x\perp_I y$,
+then the retained scalar classifier compares the diagonal endpoint of their
+sum with the sum of the two diagonal endpoints:
+$$
+\|x+_V y\|_{I}^{2}
+\sim_{\mathbb{K}}
+\|x\|_{I}^{2}+_{\mathbb{K}}\|y\|_{I}^{2}.
+$$
+\end{theorem}
+\begin{proof}
+Assume $x\perp_I y$. By \autoref{def:innerproduct-orthogonality-row}, this is
+exactly the scalar-zero classification
+$$
+\langle x,y\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+Apply \autoref{thm:innerproduct-orthogonality-symmetry-row} to obtain
+$y\perp_I x$. Unpacking this second orthogonality statement with
+\autoref{def:innerproduct-orthogonality-row} gives
+$$
+\langle y,x\rangle_{\InnerProductUp}\sim_{\mathbb{K}}0_{\mathbb{K}}.
+$$
+
+Unfold \autoref{def:innerproduct-parallelogram-norm-seed-source}. The
+embedded $\VecSpaceUp$ rows carry $x+_V y$, and
+\autoref{thm:innerproduct-norm-squared-carrier-row} identifies each displayed
+norm square with the corresponding diagonal form endpoint. Apply
+\autoref{thm:innerproduct-vecspace-linearity-row} to expand
+$\langle x+_V y,x+_V y\rangle_{\InnerProductUp}$. The resulting scalar
+classifier row compares it with
+$$
+\langle x,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle x,y\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,y\rangle_{\InnerProductUp}.
+$$
+
+The retained scalar source of \autoref{def:innerproduct-bhist-source} is the
+$\FieldUp$ scalar coordinate. By \autoref{def:field-source-specification},
+\autoref{prop:commring-forgets-ring-certificate}, and
+\autoref{def:ring-stability-certificate}, its unchanged scalar classifier has
+addition congruence, additive zero laws, and classifier transitivity.
+Therefore the two mixed-term zero witnesses transport through scalar addition,
+so the displayed four-term scalar sum is classified with
+$$
+\langle x,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+0_{\mathbb{K}}
++_{\mathbb{K}}
+0_{\mathbb{K}}
++_{\mathbb{K}}
+\langle y,y\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}
+\langle x,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,y\rangle_{\InnerProductUp}.
+$$
+Composing this simplification with the linearity expansion by
+\autoref{thm:namecert-equivalence-transitivity} yields
+$$
+\langle x+_V y,x+_V y\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}
+\langle x,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,y\rangle_{\InnerProductUp}.
+$$
+
+Finally repack the three diagonal endpoints as
+$\|x+_V y\|_{I}^{2}$, $\|x\|_{I}^{2}$, and $\|y\|_{I}^{2}$ using
+\autoref{thm:innerproduct-norm-squared-carrier-row}. A final application of
+\autoref{thm:namecert-equivalence-transitivity} gives
+$$
+\|x+_V y\|_{I}^{2}
+\sim_{\mathbb{K}}
+\|x\|_{I}^{2}+_{\mathbb{K}}\|y\|_{I}^{2}.
+$$
+\end{proof}
