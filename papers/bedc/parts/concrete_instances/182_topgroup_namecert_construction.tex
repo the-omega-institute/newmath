@@ -106,3 +106,96 @@ are the displayed $\GroupUp$ and $\TopologyUp$ certificates, while every
 operation and continuity row is carried over those sources, so the obligation
 surface is exhausted by the listed finite packet.
 \end{proof}
+
+\begin{theorem}[TopGroupUp product neighbourhood transport]
+\label{thm:topgroup-product-neighbourhood-transport}
+Let $\mathcal G=(G,T,m,i,n,\lambda,\rho)$ be a $\TopGroupUp$ packet with
+displayed $\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$ source rows.
+For carried $\mathsf{BHist}$ endpoints $x,x',y,y',z,z'$, suppose
+$m(x,y,z)$ is the displayed product row, $z$ lies in a neighbourhood row of
+$T$, and $\hsame(x,x')$, $\hsame(y,y')$, and $\hsame(z,z')$ are the carried
+endpoint transports. Then the product neighbourhood row transports to the
+endpoint $z'$ using only the componentwise $\hsame$ rows, the
+$\NameCert_{\GroupUp}$ operation source, the $\NameCert_{\TopologyUp}$
+neighbourhood source, and the finite $\Cont$ ledger carried by
+$\mathcal G$.
+\end{theorem}
+\begin{proof}
+Project the packet $\mathcal G$. The projections expose the carried
+$\mathsf{BHist}$ endpoints, the $\NameCert_{\GroupUp}$ multiplication row,
+the $\NameCert_{\TopologyUp}$ neighbourhood row around the product endpoint,
+and the relevant entry of the finite $\Cont$ ledger.
+
+Transport the two input endpoints and the product endpoint componentwise by
+the displayed $\hsame$ rows. The group source transports the multiplication
+graph row, while the topology source transports the target neighbourhood row
+inside $T$.
+
+Repack the transported multiplication graph with the transported
+neighbourhood row and the same continuity ledger entry. No outside
+topological-group datum is introduced, so the transported row remains a
+$\TopGroupUp$ product neighbourhood row over $\mathcal G$.
+\end{proof}
+
+\begin{theorem}[TopGroupUp inverse neighbourhood transport]
+\label{thm:topgroup-inverse-neighbourhood-transport}
+Let $\mathcal G=(G,T,m,i,n,\lambda,\rho)$ be a $\TopGroupUp$ packet with
+displayed $\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$ source rows.
+For carried $\mathsf{BHist}$ endpoints $x,x',y,y'$, suppose $i(x,y)$ is the
+displayed inverse row, $y$ lies in a neighbourhood row of $T$, and
+$\hsame(x,x')$ and $\hsame(y,y')$ are the carried endpoint transports. Then
+the inverse neighbourhood row transports to the endpoint $y'$ using only the
+componentwise $\hsame$ rows, the $\NameCert_{\GroupUp}$ inverse source, the
+$\NameCert_{\TopologyUp}$ neighbourhood source, and the finite $\Cont$ ledger
+carried by $\mathcal G$.
+\end{theorem}
+\begin{proof}
+Unpack $\mathcal G$ to obtain the group source, topology source, inverse graph
+row, neighbourhood row around the inverse endpoint, and the matching
+continuity entry in the $\Cont$ ledger.
+
+The endpoint transport is componentwise. The $\hsame(x,x')$ row transports the
+input, the $\hsame(y,y')$ row transports the inverse endpoint, the
+$\NameCert_{\GroupUp}$ source carries the inverse graph across those rows, and
+the $\NameCert_{\TopologyUp}$ source carries the neighbourhood row inside
+$T$.
+
+Repack the transported inverse graph and transported neighbourhood with the
+same finite continuity entry. The result is still a row of the displayed
+$\TopGroupUp$ packet, because every field used came from $\mathcal G$.
+\end{proof}
+
+\begin{theorem}[TopGroupUp continuity ledger coverage]
+\label{thm:topgroup-continuity-ledger-coverage}
+For a $\TopGroupUp$ packet
+$\mathcal G=(G,T,m,i,n,\lambda,\rho)$ with displayed
+$\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$ sources, the finite
+$\Cont$ ledger covers exactly the product and inverse neighbourhood transport
+rows over carried $\mathsf{BHist}$ endpoints. Its rows are the transported
+operation neighbourhood entries of
+\autoref{thm:topgroup-product-neighbourhood-transport}, the transported
+inverse neighbourhood entries of
+\autoref{thm:topgroup-inverse-neighbourhood-transport}, and the source
+provenance rows already displayed by
+\autoref{thm:topgroup-namecert-obligation-surface}. It exports no additional
+topological-group structure.
+\end{theorem}
+\begin{proof}
+Start from the public obligation surface. Apply
+\autoref{thm:topgroup-namecert-obligation-surface} to project the
+$\mathsf{BHist}$ carrier, componentwise classifier, group source, topology
+source, multiplication and inversion rows, and finite $\Cont$/$\Pkg$ ledger.
+
+The product rows are covered by
+\autoref{thm:topgroup-product-neighbourhood-transport}. Each entry uses the
+displayed carried endpoints, the componentwise $\hsame$ transport rows, and
+the same $\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$ sources.
+
+The inverse rows are covered by
+\autoref{thm:topgroup-inverse-neighbourhood-transport}. These entries use the
+same packet projections and therefore sit in the same finite $\Cont$ ledger.
+
+Repack the two transport families with the provenance rows of $\mathcal G$.
+Since the ledger contains only those product and inverse continuity rows, its
+coverage is exactly the displayed $\TopGroupUp$ continuity surface.
+\end{proof}
