@@ -733,3 +733,27 @@ site: the three checked laws are consumed together by bounded divisor search,
 Euclid's lemma, and factorization uniqueness as the order-like interface for
 unary divisibility.
 \end{proof}
+
+\begin{theorem}[MulUp divisibility-order consumer package]
+\label{thm:mulup-divisibility-order-consumer-package}
+For unary histories, $\mathsf{NatDivides}$ supplies the $\MulUp$ arithmetic
+consumer package consisting of reflexivity, transitivity, antisymmetry modulo
+$\hsame$, right-factor closure and left-multiplication closure through
+$\mathsf{NatMul}$, and the unary-prefix lower-bound package for successor
+products. Thus any $\MulUp$ consumer that reads only unary divisibility order,
+ordinary product closure, and successor-product prefix lower bounds may cite a
+single package boundary rather than reassembling those rows separately.
+\end{theorem}
+\begin{proof}
+The order rows are exactly the reflexive and transitive laws of
+\autoref{lem:divides-reflexive} and \autoref{lem:divides-transitive}, together
+with the antisymmetry certificate of
+\autoref{thm:nat-divides-antisymmetry-hsame}.
+
+The multiplication-closure rows are supplied by
+\autoref{thm:nat-divides-mul-right-closed} and
+\autoref{thm:nat-divides-mul-left-closed}. The boundary row that connects
+successor products with the unary-prefix order is
+\autoref{thm:mulup-unary-product-order-lower-bound-package}. Collecting these
+checked rows gives the stated $\MulUp$ consumer surface.
+\end{proof}
