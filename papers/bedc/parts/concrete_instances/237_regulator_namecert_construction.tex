@@ -6,5 +6,142 @@ The regulator interface $\RegulatorUp$ packages the determinant of logarithms of
 \section{Carrier definition}
 \label{sec:regulator-carrier}
 
+\begin{definition}[Regulator root input packet]
+\label{def:regulator-root-input-packet}
+A $\RegulatorUp$ root input packet is a displayed $\mathsf{BHist}$ tuple
+$$
+\mathcal{R}=(\mathcal{D},\mathcal{N},u,\iota,\nu,\beta,\delta,\rho)
+$$
+whose source rows are the dependency certificates
+$\mathcal{D}:\NameCert_{\DirichletUnitUp}$ and
+$\mathcal{N}:\NameCert_{\NumFieldUp}$. The unit-facing rows $u$ and $\iota$ are
+the visible unit and inverse/unit-product rows read from
+$\mathcal{D}$; the unary row $\nu$ is the Dirichlet-unit rank witness; the row
+$\beta$ is the finite basis and logarithmic ledger supplied by
+$\mathcal{D}$; the row $\delta$ is the displayed determinant-layout ledger
+linking $\nu$, $\beta$, and the $\NumFieldUp$ source rows; and $\rho$ is the
+$\mathsf{Pkg}$ provenance tying the two dependency certificates to the
+regulator packet.
+
+The packet also carries finite $\Cont$ readbacks from $\mathcal{D}$ to the unit,
+inverse, rank, and logarithmic ledger rows, from $\mathcal{N}$ to the
+number-field carrier, embedding, singleton-basis, and ledger rows, and from
+$\rho$ to every exported dependency slot. It contains no analytic regulator
+value, no host logarithm map, no determinant evaluation in a host field, and no
+standard bridge row.
+\end{definition}
+
+\begin{theorem}[Regulator DirichletUnit input boundary]
+\label{thm:regulator-dirichletunit-input-boundary}
+Every accepted packet of \autoref{def:regulator-root-input-packet} projects to
+exactly the $\DirichletUnitUp$ rows needed by a root regulator source: visible
+unit rows, inverse/unit-product rows, the unary rank witness, the finite
+basis/logarithmic ledger row, finite $\Cont$ readbacks, and the $\mathsf{Pkg}$
+provenance attached to $\NameCert_{\DirichletUnitUp}$. It does not project a
+determinant, analytic regulator value, host logarithm equality, or standard
+bridge from the $\DirichletUnitUp$ dependency.
+\end{theorem}
+\begin{proof}
+Project the source row $\mathcal{D}$ from
+\autoref{def:regulator-root-input-packet}. The available unit, inverse, rank,
+and logarithmic rows are precisely the rows named by
+\autoref{thm:dirichletunit-regulator-consumer-boundary} and
+\autoref{thm:dirichletunit-root-regulator-input-exhaustion}.
+
+The packet adds no second Dirichlet-unit source. Its $\Cont$ readbacks point
+from $\mathcal{D}$ to $u$, $\iota$, $\nu$, and $\beta$, and its provenance row
+$\rho$ records those projections as the same package boundary.
+
+Inspecting the packet fields gives the exclusion clause. Determinant layout is
+recorded only as the separate regulator-side row $\delta$, while analytic
+regulator values, host logarithm equality, and bridge rows are not fields of
+$\mathcal{R}$.
+\end{proof}
+
+\begin{theorem}[Regulator NumField carrier boundary]
+\label{thm:regulator-numfield-carrier-boundary}
+Every accepted packet of \autoref{def:regulator-root-input-packet} projects to
+the $\NumFieldUp$ source rows through $\mathcal{N}$: the RatUp history carrier,
+the RatUp endpoint classifier, the identity finite-extension row, the
+singleton-basis row, the scalar-action row, exact endpoint classification, and
+the inherited ledger provenance of the public $\NameCert_{\NumFieldUp}$
+surface. No ambient host number field, quotient of embeddings, or analytic
+place map is exported by the regulator root packet.
+\end{theorem}
+\begin{proof}
+Project the source row $\mathcal{N}$ from the regulator packet. It is a
+$\NameCert_{\NumFieldUp}$ dependency row, so its public carrier and classifier
+surface is read through
+\autoref{thm:numfield-rat-reflexive-public-namecert-interface}.
+
+The exactness and ledger clauses are the rows isolated by
+\autoref{thm:numfield-reflexive-rational-exactness-package}. They give the
+identity finite-extension row, singleton basis, scalar action, exact endpoint
+classification, and ledger provenance available to a downstream packet.
+
+Repack these projections with the $\Cont$ readbacks and $\Pkg$ provenance of
+\autoref{def:regulator-root-input-packet}. Since no host number-field carrier,
+embedding quotient, or analytic place map is a component of $\mathcal{R}$, none
+is exported at the root boundary.
+\end{proof}
+
+\begin{theorem}[Regulator ledger exactness]
+\label{thm:regulator-ledger-exactness}
+The determinant and logarithm data visible in a
+\autoref{def:regulator-root-input-packet} are finite displayed ledger rows:
+the Dirichlet-unit logarithmic row $\beta$, the unary rank row $\nu$, the
+number-field source ledger read from $\mathcal{N}$, and the determinant-layout
+row $\delta$. These rows specify the shape of the regulator input matrix; they
+do not assert an analytic regulator value or equality of host logarithms.
+\end{theorem}
+\begin{proof}
+First project the Dirichlet-unit side by
+\autoref{thm:regulator-dirichletunit-input-boundary}. This gives $\nu$ and
+$\beta$ as finite $\mathsf{BHist}$ ledger rows, read through $\Cont$ and
+package provenance.
+
+Next project the number-field side by
+\autoref{thm:regulator-numfield-carrier-boundary}. The source rows available to
+the regulator are the displayed carrier, classifier, finite-extension,
+singleton-basis, exactness, and ledger rows of $\NameCert_{\NumFieldUp}$.
+
+The remaining determinant-facing row is $\delta$. By the packet definition it
+records only a finite layout over $\nu$, $\beta$, and the source ledger of
+$\mathcal{N}$. Repacking these three sources exhausts the regulator ledger, and
+there is no field from which an analytic regulator value or host logarithm
+equality could be read.
+\end{proof}
+
 \section{The certificate}
 \label{sec:regulator-certificate}
+
+\begin{theorem}[Regulator root NameCert threshold]
+\label{thm:regulator-root-namecert-threshold}
+The root $\NameCert_{\RegulatorUp}$ threshold is assembled from the packet of
+\autoref{def:regulator-root-input-packet}: the
+$\NameCert_{\DirichletUnitUp}$ source rows, the $\NameCert_{\NumFieldUp}$ source
+rows, the visible unit and inverse rows, the unary rank witness, the finite
+logarithmic ledger, the determinant-layout ledger, the finite $\Cont$
+readbacks, the $\hsame$ transport rows on displayed packet entries, and the
+$\mathsf{Pkg}$ provenance tying the two dependency certificates to the packet.
+The threshold exports no analytic regulator value, no host determinant
+evaluation, no host logarithm equality, and no standard bridge.
+\end{theorem}
+\begin{proof}
+Build the carrier source from \autoref{def:regulator-root-input-packet}. Its
+entries provide the two dependency certificates, the Dirichlet-unit visible
+rows, the number-field source rows, the determinant-layout row, and the finite
+readback and provenance rows.
+
+Use \autoref{thm:regulator-dirichletunit-input-boundary} for the exact
+Dirichlet-unit projections and
+\autoref{thm:regulator-numfield-carrier-boundary} for the exact number-field
+projections. These two boundaries bind every dependency row to
+$\mathsf{BHist}$, $\Cont$, $\hsame$, $\NameCert$, and $\mathsf{Pkg}$ data.
+
+Finally use \autoref{thm:regulator-ledger-exactness}. It says that the
+logarithm and determinant-facing entries are finite displayed ledger rows
+rather than analytic values. Repacking the carrier, dependency, classifier,
+ledger, readback, and provenance rows gives the stated root threshold, with no
+additional host determinant, logarithm, or bridge row to export.
+\end{proof}
