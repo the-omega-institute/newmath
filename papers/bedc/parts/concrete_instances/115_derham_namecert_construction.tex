@@ -237,6 +237,98 @@ are precisely the advertised certificate obligations and no additional bridge
 or quotient surface is used.
 \end{proof}
 
+\begin{theorem}[De Rham root carrier obligation]
+\label{thm:derham-root-carrier-obligation}
+The root carrier obligation exposed by $\DeRhamUp$ is exactly the displayed
+$\DiffFormUp$ row together with the $\mathsf{BHist}$ cochain differential
+packet. Concretely, the carrier reads a differential-form row
+$\omega:\mathsf{BHist}$ through the $\DiffFormUp$ source, a cochain
+differential $d_{\mathrm{dR}}:\mathsf{BHist}\to\mathsf{BHist}$, and the
+boundary preimage row of \autoref{def:derham-chain-complex-boundary-row};
+the square-zero data are the packet of
+\autoref{def:derham-double-exterior-derivative-packet}. No host manifold
+carrier, quotient carrier, or external cochain complex carrier is part of the
+root surface.
+\end{theorem}
+\begin{proof}
+Read the carrier side of
+\autoref{thm:derham-namecert-obligation-surface}. Its visible source row is
+the $\DiffFormUp$ form row, while the cochain side is represented by the
+displayed $\mathsf{BHist}$ differential $d_{\mathrm{dR}}$.
+
+The boundary preimage component is exactly
+\autoref{def:derham-chain-complex-boundary-row}. The square-zero endpoint
+data are exactly the packet of
+\autoref{def:derham-double-exterior-derivative-packet}.
+
+Apply \autoref{thm:derham-double-exterior-derivative-boundary} to identify
+the packet's second differential row as a boundary row, and apply
+\autoref{thm:derham-cocycle-readback} to read the intermediate cochain row
+as a cocycle. These two readings account for the carried De Rham data without
+adding any carrier beyond the displayed $\DiffFormUp$ and $\mathsf{BHist}$
+rows.
+\end{proof}
+
+\begin{theorem}[De Rham root classifier obligation]
+\label{thm:derham-root-classifier-obligation}
+The root classifier obligation for $\DeRhamUp$ is exactly
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$. If a boundary row is accepted by
+this classifier and its endpoint is transported by $\hsame$, the transported
+endpoint is again classified by
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$ through the same cochain preimage
+witness. Thus classifier stability is precisely the endpoint-transport row
+of \autoref{thm:derham-boundary-zero-endpoint-transport}.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:derham-chain-complex-boundary-row}. Classification by
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$ is the assertion that the public
+row has a displayed cochain preimage and compares by $\hsame$ with its
+$d_{\mathrm{dR}}$ image.
+
+The preservation clause is
+\autoref{thm:derham-boundary-zero-endpoint-transport}. It keeps the same
+preimage witness and changes only the visible endpoint along the supplied
+$\hsame$ comparison.
+
+The square-zero packet of
+\autoref{def:derham-double-exterior-derivative-packet}, together with
+\autoref{thm:derham-double-exterior-derivative-boundary}, supplies the
+canonical boundary instance consumed by this classifier. The assembly theorem
+\autoref{thm:derham-namecert-obligation-surface} records that no second
+classifier row is exported.
+\end{proof}
+
+\begin{theorem}[De Rham root ledger exactness]
+\label{thm:derham-root-ledger-exactness}
+The public ledger for the $\DeRhamUp$ root surface consists only of the
+boundary preimage row of \autoref{def:derham-chain-complex-boundary-row}, the
+square-zero endpoint row of
+\autoref{def:derham-double-exterior-derivative-packet}, the cocycle readback
+row of \autoref{thm:derham-cocycle-readback}, and the displayed source rows
+imported from $\DiffFormUp$ and $\CohomologyUp$. Its exactness entry is the
+boundary conclusion of
+\autoref{thm:derham-double-exterior-derivative-boundary}, transported at
+endpoints by \autoref{thm:derham-boundary-zero-endpoint-transport}.
+\end{theorem}
+\begin{proof}
+List the public rows named by
+\autoref{thm:derham-namecert-obligation-surface}. They are the
+$\DiffFormUp$ carrier row, the $\CohomologyUp$ cochain and cocycle rows, the
+boundary preimage row, the endpoint-transport row, the square-zero boundary
+row, and the cocycle readback row.
+
+The exactness component is provided by
+\autoref{thm:derham-double-exterior-derivative-boundary}: from the displayed
+double exterior packet it produces the accepted boundary predicate for the
+second differential row.
+
+The endpoint component is stable by
+\autoref{thm:derham-boundary-zero-endpoint-transport}, and the readback
+component is exactly \autoref{thm:derham-cocycle-readback}. Since each row is
+already named in the obligation surface, the ledger has no additional bridge,
+quotient, or cohomology-isomorphism entry.
+\end{proof}
+
 \closureat{DeRhamUp}{scopedStr}[BEDC.Derived.DeRhamUp.DeRhamDoubleExteriorPacket\_boundary]
 
 \begin{closurestatus}{\DeRhamUp}

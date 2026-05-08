@@ -192,6 +192,42 @@ ledger repack as exactly the finite boundary consumed by the later $\RealUp$
 seal theorem.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window RealUp seal interface]
+\label{thm:regseqrat-finite-window-real-seal-interface}
+Let $s,t:\Hist\to\Hist$ be certified rational stream names and let
+$W:\mathsf{ProbeBundle}$ be a finite unary-observation window. The
+StreamNameUp finite-window interface, the scoped $\RegSeqRat$ interface, the
+DyadicRatCore observation rows, and the public $\RealUp$ seal rows assemble one
+$\mathsf{BHist}$-anchored $\RealUp$ finite-window seal package. Its carrier row
+is $\mathsf{RatStreamNameCarrier}$ for $s$ and $t$; its classifier rows are
+$\mathsf{RatStreamNameClassifier}$ and the finite-window classifier over $W$;
+its observation face is the finite family of dyadic comparison rows; its spine
+ledger is the $\RegSeqRat$ stream-name ledger; and its consumer face is the
+public $\RealUp$ seal row. The package asserts no completeness theorem, quotient
+carrier, arithmetic closure, order closure, metric completion, Classical data,
+or trichotomy.
+\end{theorem}
+\begin{proof}
+First read the finite observation boundary. By
+\autoref{thm:streamname-public-finite-window-interface}, the certified stream
+names $s$ and $t$ supply the StreamNameUp carrier rows, the
+$\mathsf{RatStreamNameClassifier}$ row, and the finite-window classifier row
+for every bundled unary observation in $W$.
+
+Next read the scoped regular-sequence spine. Theorem~\ref{thm:regseqrat-streamname-scoped-interface}
+packages the same stream-name rows as the $\RegSeqRat$ interface, while
+\autoref{thm:regseqrat-finite-window-seal-coverage} attaches the dyadic
+observation witnesses and the finite spine ledger over the same window.
+
+Finally consume the public seal. Theorem~\ref{thm:realup-public-certificate-export}
+identifies the $\RealUp$ consumer row whose visible inputs are precisely the
+carrier, classifier, dyadic observation, and $\RegSeqRat$ ledger rows already
+assembled. Since none of these sources introduces quotient formation,
+arithmetic or order closure, metric-completion data, Classical data, or
+trichotomy, the resulting package is exactly the stated finite-window seal
+interface.
+\end{proof}
+
 The ten-field fit is: traditional target transport of a unary real stream-name
 classifier; BEDC source StreamNameUp read through the RealUp unary classifier;
 carrier the transported RatUp endpoint carrier rows for $s'$ and $t'$;
