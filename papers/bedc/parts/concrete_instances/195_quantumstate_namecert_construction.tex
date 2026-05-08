@@ -6,5 +6,75 @@ The quantum-state interface $\QuantumStateUp$ packages a unit vector in a Hilber
 \section{Carrier definition}
 \label{sec:quantumstate-carrier}
 
+\begin{definition}[QuantumState BHist ray packet]
+\label{def:quantumstate-bhist-ray-packet}
+A $\QuantumStateUp$ carried row is a finite $\mathsf{BHist}$ packet
+$$
+Q=(H,P,u,r,\phi,\rho,\lambda)
+$$
+whose entries are read as follows. The row $H$ is a $\HilbertUp$ dependency row from $\NameCert_{\HilbertUp}$. The row $P$ is a $\ProjectiveSpaceUp$ dependency row over the same displayed vector surface. The endpoint $u$ is a unit-vector row in the Hilbert carrier of $H$. The row $r$ records the projective ray projection sending $u$ to the carried projective endpoint in $P$. The ledger $\phi$ records the finite global-phase orbit witnesses consumed by the projective classifier. The provenance row $\rho$ is the $\Pkg$ row naming the Hilbert and projective dependency packages, and $\lambda$ is the $\Cont$ and $\hsame$ transport ledger tying the Hilbert carrier, unit-vector endpoint, ray projection, and projective endpoint to the same displayed vector surface.
+
+Thus $\QuantumStateUp$ carries no host quotient object. It carries only the finite $\mathsf{BHist}$ packet whose public endpoints are the Hilbert unit-vector row and the projective ray row, together with the ledgers needed to transport them through the consumed $\NameCert_{\HilbertUp}$ and $\NameCert_{\ProjectiveSpaceUp}$ surfaces.
+\end{definition}
+
+\begin{definition}[QuantumState phase-orbit classifier]
+\label{def:quantumstate-phase-orbit-classifier}
+For $\QuantumStateUp$ packets
+$$
+Q=(H,P,u,r,\phi,\rho,\lambda)
+\qquad\text{and}\qquad
+Q'=(H',P',u',r',\phi',\rho',\lambda'),
+$$
+the classifier $Q\sim_{\QuantumStateUp}Q'$ holds exactly when the following componentwise rows are present:
+\begin{enumerate}
+  \item $H$ and $H'$ are related by the consumed $\HilbertUp$ classifier;
+  \item $P$ and $P'$ are related by the consumed $\ProjectiveSpaceUp$ scaling-orbit classifier over the transported vector surface;
+  \item $u$ and $u'$ are related as unit-vector endpoint rows over the related Hilbert carriers;
+  \item $r$ and $r'$ are related as ray-projection rows landing in the related projective endpoints;
+  \item $\phi$ and $\phi'$ record the same finite global-phase orbit ledger after the projective classifier witnesses are consumed;
+  \item $\rho$ and $\rho'$ are related by $\msame$ as $\Pkg$ provenance rows;
+  \item $\lambda$ and $\lambda'$ are related by $\hsame$ as $\Cont$ transport ledgers.
+\end{enumerate}
+Equivalently, the quantum-state classifier is the componentwise classifier induced by the Hilbert row, projective row, unit-vector endpoint, ray projection, phase-orbit ledger, package provenance, and transport ledger; it does not identify density matrices, measurement records, spectral rows, or channel data.
+\end{definition}
+
 \section{The certificate}
 \label{sec:quantumstate-certificate}
+
+\begin{theorem}[QuantumState Hilbert unit-vector surface]
+\label{thm:quantumstate-hilbert-unit-vector-surface}
+Every carried $\QuantumStateUp$ packet of \autoref{def:quantumstate-bhist-ray-packet} projects to a public $\HilbertUp$ endpoint together with a unit-vector row over that endpoint. Conversely, any $\HilbertUp$ dependency row $H$, unit-vector endpoint $u$ over $H$, projective row $P$ over the same displayed vector surface, ray-projection row $r$, phase-orbit ledger $\phi$, $\Pkg$ provenance $\rho$, and $\Cont/\hsame$ ledger $\lambda$ repack as a carried $\QuantumStateUp$ packet when they satisfy the component requirements of \autoref{def:quantumstate-bhist-ray-packet}.
+\end{theorem}
+\begin{proof}
+Project the finite packet $Q=(H,P,u,r,\phi,\rho,\lambda)$ onto its first and third coordinates. The first coordinate is already a $\HilbertUp$ dependency row, and the third coordinate is required by the packet definition to be a unit-vector endpoint over that Hilbert carrier.
+
+For the converse direction, place the displayed data back into the seven-coordinate $\mathsf{BHist}$ packet in the order fixed by \autoref{def:quantumstate-bhist-ray-packet}. The Hilbert surface is supplied by $\NameCert_{\HilbertUp}$, and the unit-vector endpoint remains attached to the same Hilbert carrier through the $\Cont/\hsame$ ledger.
+
+The construction does not pass through equality of a host quotient. It exposes only the Hilbert row and unit-vector row, while density matrices, measurement rows, spectral data, and channel structure remain outside this certificate.
+\end{proof}
+
+\begin{theorem}[QuantumState projective phase surface]
+\label{thm:quantumstate-projectivespace-phase-surface}
+Every carried $\QuantumStateUp$ packet projects to a public $\ProjectiveSpaceUp$ endpoint and a finite global-phase orbit ledger. The projective endpoint is the ray row $r$ landing in the dependency row $P$, and the visible comparison of two such endpoints is exactly the scaling-orbit comparison consumed from \autoref{thm:projectivespace-scaling-orbit-classifier-obligation} together with the phase ledger component of \autoref{def:quantumstate-phase-orbit-classifier}.
+\end{theorem}
+\begin{proof}
+Project a carried packet onto the projective dependency row $P$, the ray-projection row $r$, and the phase ledger $\phi$. The packet definition requires $P$ to be a $\ProjectiveSpaceUp$ row over the same displayed vector surface as the Hilbert row, and $r$ records the image of the unit-vector endpoint in that projective row.
+
+Apply the $\ProjectiveSpaceUp$ public surface of \autoref{thm:projectivespace-punctured-carrier-obligation}, \autoref{thm:projectivespace-scaling-orbit-classifier-obligation}, and \autoref{thm:projectivespace-ledger-and-exactness-obligation}. These theorems make the scaling-orbit comparison public while keeping representative choices and scaling chains as ledger data.
+
+The $\QuantumStateUp$ phase ledger is the specialization of that scaling ledger to unit scalar phase witnesses. No density operator, spectral decomposition, measurement outcome, or channel action is added to the projective surface.
+\end{proof}
+
+\begin{theorem}[QuantumState public ray certificate surface]
+\label{thm:quantumstate-public-ray-certificate-surface}
+The public $\QuantumStateUp$ certificate surface consists exactly of the $\HilbertUp$ unit-vector projection of \autoref{thm:quantumstate-hilbert-unit-vector-surface}, the $\ProjectiveSpaceUp$ ray and phase projection of \autoref{thm:quantumstate-projectivespace-phase-surface}, the $\Pkg$ provenance row, and the $\Cont/\hsame$ transport ledger. Its classifier is the componentwise classifier of \autoref{def:quantumstate-phase-orbit-classifier}. Therefore two public quantum-state packets classify together exactly when the Hilbert dependency rows, projective dependency rows, unit-vector rows, ray rows, phase ledgers, package provenance rows, and transport ledgers classify componentwise.
+\end{theorem}
+\begin{proof}
+Start with a carried packet and project its seven coordinates. The previous two theorems identify the Hilbert unit-vector surface and the projective phase surface. The remaining coordinates are precisely the $\Pkg$ provenance row and the $\Cont/\hsame$ transport ledger.
+
+For soundness of the public classifier, unfold \autoref{def:quantumstate-phase-orbit-classifier}. Each visible comparison is one of the consumed component comparisons, and the hidden phase data are used only as the ledger certifying the projective scaling-orbit comparison.
+
+For completeness, assume the seven component comparisons listed in \autoref{def:quantumstate-phase-orbit-classifier}. Repack them in the displayed packet order and fold the classifier definition. The result is the public ray certificate comparison for $\QuantumStateUp$.
+
+The certificate surface is restricted to pure ray data. It does not claim host quotient equality, density-matrix structure, measurement rows, spectral data, or quantum-channel structure.
+\end{proof}
