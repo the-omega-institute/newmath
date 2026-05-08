@@ -256,4 +256,19 @@ theorem TensorProductSingletonFactor_classifier_stability_obligation
     (And.intro transported.right
       (TensorProductSingletonFactor_tensor_semanticNameCert transported.left))
 
+theorem TensorProductSingletonFactor_ledger_exactness_obligation {left right tensor : BHist} :
+    TensorProductSingletonFactor left right tensor ->
+      ModuleSingletonCarrier left ∧ ModuleSingletonCarrier right ∧
+        ModuleSingletonCarrier tensor ∧ Cont left right tensor ∧
+          (forall {tensor' : BHist}, TensorProductSingletonFactor left right tensor' ->
+            hsame tensor tensor') := by
+  intro factor
+  exact And.intro factor.left
+    (And.intro factor.right.left
+      (And.intro factor.right.right.left
+        (And.intro factor.right.right.right
+          (by
+            intro tensor' factor'
+            exact (TensorProductSingletonFactor_classifier_uniqueness factor factor').left))))
+
 end BEDC.Derived.TensorProductUp
