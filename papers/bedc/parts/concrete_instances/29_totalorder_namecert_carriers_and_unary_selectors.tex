@@ -97,6 +97,55 @@ $\mathsf{same}_{\emp}(h,k)\Longleftrightarrow\rho_{\emp}(h,k)$ gives the stated
 equivalence with $h\le_{\emp}k$ and $k\le_{\emp}h$.
 \end{proof}
 
+\begin{theorem}[TotalOrder carrier selector classifier coherence]
+\label{thm:totalorder-carrier-selector-classifier-coherence}
+For carried singleton histories $h,k:\mathsf{BHist}$ with $A_{\emp}(h)$ and
+$A_{\emp}(k)$, the branch selector of
+\autoref{def:concrete-singleton-history-totalorder-instance} is coherent with
+the carrier classifier:
+\begin{enumerate}
+  \item $\mathsf{same}_{\emp}(h,k)\Longleftrightarrow\rho_{\emp}(h,k)$.
+  \item $\mathsf{lt}_{\emp}(h,k)\to\mathsf{False}$ and
+  $\mathsf{gt}_{\emp}(h,k)\to\mathsf{False}$.
+  \item For histories $h',k':\mathsf{BHist}$ with $\hsame(h,h')$ and
+  $\hsame(k,k')$, endpoint replacement preserves the selected branch:
+  $$
+  \mathsf{same}_{\emp}(h',k')\Longleftrightarrow
+  \mathsf{same}_{\emp}(h,k).
+  $$
+\end{enumerate}
+
+The per-object fields are: traditional target singleton total order; BEDC
+source the $\mathsf{BHist}$ singleton carrier; classifier $\rho_{\emp}$;
+stability by $\hsame$ endpoint replacement; ledger branch selection; core
+theorem this selector coherence; exactness same-branch equivalence with the
+carrier classifier; standard bridge deferred; downstream use by
+$\TotalOrderUp$ obligation closure; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the concrete singleton total-order instance. The selected same branch is
+defined to be $\rho_{\emp}(h,k)$, while the strict-left and strict-right
+branches are both $\bot$.
+
+Apply \autoref{thm:singleton-history-totalorder-laws} to the carried histories
+$h$ and $k$. It supplies the singleton comparison package and the carrier
+classifier row built from the two carrier witnesses and $\hsame$ transitivity
+through $\emp$.
+
+Apply \autoref{thm:singleton-totalorder-comparison-exactness}. Its first clause
+eliminates both strict branches to $\mathsf{False}$, and its second clause is
+the displayed equivalence between the same branch and $\rho_{\emp}(h,k)$.
+
+For endpoint replacement, transport the carrier facts through
+$\hsame(h,h')$ and $\hsame(k,k')$. Symmetry and transitivity of $\hsame$
+repackage the transported witnesses as $\rho_{\emp}(h',k')$ exactly when the
+original witnesses repackage as $\rho_{\emp}(h,k)$.
+
+Composing this transported classifier equivalence with the same-branch
+equivalences for $(h,k)$ and $(h',k')$ proves preservation of the selected
+branch.
+\end{proof}
+
 \begin{theorem}[TotalOrder singleton branch transport determinacy]
 \label{thm:totalorder-singleton-branch-transport-determinacy}
 For histories $h,k,h',k':\mathsf{BHist}$, assume $A_{\emp}(h)$,
