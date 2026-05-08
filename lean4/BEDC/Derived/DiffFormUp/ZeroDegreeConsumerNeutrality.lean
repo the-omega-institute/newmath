@@ -72,4 +72,47 @@ theorem DiffFormZeroDegree_consumer_law_separation {ScalarCarrier : BHist -> Pro
     DiffFormRootConsumerFace_disjointness scalarCert shared.left leftScalar rightScalar
   exact And.intro shared.right.left separated
 
+theorem DiffFormZeroDegree_deps_ready_consumer_seal {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {probe tensor scalar antisym ledger dplus scalarLeft scalarRight : BHist} :
+    InBundle probe probes -> ScalarCarrier scalar -> UnaryHistory probe ->
+      Cont BHist.Empty probe tensor -> UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append BHist.Empty (append probe (append tensor (append scalar antisym)))) ->
+          Cont BHist.Empty (BHist.e1 BHist.Empty) dplus ->
+            ScalarClassifier scalarLeft scalar -> ScalarClassifier scalar scalarRight ->
+              DiffFormZeroDegreeConsumerNeutralitySurface BHist.Empty BHist.Empty tensor scalar
+                  ledger ∧
+                DiffFormBHistClassifier ScalarClassifier probes BHist.Empty probe tensor scalarLeft
+                    antisym ledger BHist.Empty probe tensor scalarRight antisym ledger ∧
+                  DiffFormExteriorDerivativeLedger scalar dplus BHist.Empty dplus probe probe
+                    tensor tensor scalar scalar antisym ledger ∧
+                    hsame ledger ledger := by
+  intro probeIn scalarCarrier probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+    degreeSuccessor leftScalar rightScalar
+  have tensorUnary : UnaryHistory tensor := by
+    cases tensorRoute
+    exact unary_append_closed unary_empty probeUnary
+  have scalarUnary : UnaryHistory scalar := by
+    cases scalarRoute
+    exact unary_append_closed tensorUnary antisymUnary
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_transport
+      (unary_append_closed unary_empty
+        (unary_append_closed probeUnary
+          (unary_append_closed tensorUnary
+            (unary_append_closed scalarUnary antisymUnary))))
+      (hsame_symm ledgerRoute)
+  have surface :
+      DiffFormZeroDegreeConsumerNeutralitySurface BHist.Empty BHist.Empty tensor scalar ledger :=
+    And.intro (hsame_refl BHist.Empty)
+      (And.intro (hsame_refl BHist.Empty)
+        (And.intro (cont_intro (append_empty_right BHist.Empty).symm)
+          (And.intro tensorUnary (And.intro scalarUnary ledgerUnary))))
+  have separated :=
+    DiffFormZeroDegree_consumer_law_separation scalarCert probeIn scalarCarrier probeUnary
+      tensorRoute antisymUnary scalarRoute ledgerRoute degreeSuccessor leftScalar rightScalar
+  exact And.intro surface
+    (And.intro separated.right.left (And.intro separated.left separated.right.right))
+
 end BEDC.Derived.DiffFormUp

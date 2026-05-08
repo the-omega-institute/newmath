@@ -42,6 +42,7 @@ import BEDC.FKernel.ExternalBinary.Model
 import BEDC.FKernel.ExternalBinary.Cancellation
 import BEDC.FKernel.ExternalBinary.Congruence
 import BEDC.FKernel.Gap
+import BEDC.FKernel.Gap.Pullback
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.NameCert.Descent
 import BEDC.FKernel.NameCert.StabilityMode
@@ -197,11 +198,11 @@ import BEDC.Derived.ComplexSeriesUp.NameCertificate
 import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
-import BEDC.Derived.SeriesUp
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.CondExpUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeqUp
+import BEDC.Derived.SeriesUp
 import BEDC.Derived.SheafUp
 import BEDC.Derived.SheafUp.ConsumerAccessTraceSource
 import BEDC.Derived.SheafUp.ConsumerAccessTrace

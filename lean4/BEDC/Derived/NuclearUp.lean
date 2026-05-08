@@ -32,6 +32,29 @@ theorem NuclearCarrier_obligation
     (unary_cont_closed sourceTargetUnary compactUnary endpointCont)
     (And.intro compactUnary rankUnary)
 
+theorem NuclearCompactOperator_banach_classifier_transport
+    {source target source' target' operator rankLedger endpoint endpoint' : BHist} :
+    BanachSingletonClassifier source source' -> BanachSingletonClassifier target target' ->
+      OperatorIdealTraceClassCarrier operator -> UnaryHistory rankLedger ->
+        Cont (append source target) operator endpoint ->
+          Cont (append source' target') operator endpoint' ->
+            UnaryHistory endpoint ∧ UnaryHistory endpoint' ∧ UnaryHistory operator ∧
+              UnaryHistory rankLedger ∧ hsame source source' ∧ hsame target target' := by
+  intro sourceClassified targetClassified operatorCarrier rankUnary endpointCont endpointCont'
+  have originalRows :
+      UnaryHistory endpoint ∧ UnaryHistory operator ∧ UnaryHistory rankLedger :=
+    NuclearCarrier_obligation sourceClassified.left targetClassified.left operatorCarrier rankUnary
+      endpointCont
+  have transportedRows :
+      UnaryHistory endpoint' ∧ UnaryHistory operator ∧ UnaryHistory rankLedger :=
+    NuclearCarrier_obligation sourceClassified.right.left targetClassified.right.left
+      operatorCarrier rankUnary endpointCont'
+  exact And.intro originalRows.left
+    (And.intro transportedRows.left
+      (And.intro originalRows.right.left
+        (And.intro originalRows.right.right
+          (And.intro sourceClassified.right.right targetClassified.right.right))))
+
 theorem NuclearCompactPrefixCarrier_banach_operator_rows
     {source target operator prefixHist : BHist} :
     BanachSingletonCarrier source -> BanachSingletonCarrier target ->
@@ -244,5 +267,35 @@ theorem NuclearRankOnePrefixLedger_semantic_name_certificate
       intro _endpoint source
       exact source
   }
+
+theorem NuclearCompactOperator_prefix_transport_obligation
+    {source target operator prefixHist endpoint endpoint' : BHist} :
+    BanachSingletonCarrier source -> BanachSingletonCarrier target ->
+      OperatorIdealTraceClassCarrier operator -> Cont source operator prefixHist ->
+        Cont prefixHist target endpoint -> hsame endpoint endpoint' ->
+          UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory operator ∧
+            UnaryHistory prefixHist ∧ UnaryHistory endpoint' ∧
+              OperatorIdealTraceClassCarrier prefixHist ∧ Cont source operator prefixHist := by
+  intro sourceCarrier targetCarrier operatorCarrier prefixCont endpointCont endpointSame
+  have sourceUnary : UnaryHistory source :=
+    unary_transport unary_empty (hsame_symm sourceCarrier.left)
+  have targetUnary : UnaryHistory target :=
+    unary_transport unary_empty (hsame_symm targetCarrier.left)
+  have operatorRows :=
+    OperatorIdealTraceClass_downstream_boundary_readback operatorCarrier
+  have prefixRows :=
+    OperatorIdealTraceClass_scalar_closure sourceUnary operatorCarrier prefixCont
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed
+      (OperatorIdealTraceClass_downstream_boundary_readback prefixRows.left).left
+      targetUnary endpointCont
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary endpointSame
+  exact And.intro sourceUnary
+    (And.intro targetUnary
+      (And.intro operatorRows.left
+        (And.intro (OperatorIdealTraceClass_downstream_boundary_readback prefixRows.left).left
+          (And.intro endpointUnary'
+            (And.intro prefixRows.left prefixCont)))))
 
 end BEDC.Derived.NuclearUp
