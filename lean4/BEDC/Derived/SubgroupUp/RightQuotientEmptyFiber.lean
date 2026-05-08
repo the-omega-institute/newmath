@@ -60,4 +60,61 @@ theorem SubgroupCentralizerRightQuotientClassifier_empty_right_fiber_iff
   · intro centralX
     exact Iff.mpr classifierKernel (Iff.mpr kernelFiber centralX)
 
+theorem SubgroupCentralizerQuotient_identity_fiber_bridge_package
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x : BHist} :
+    (SubgroupCentralizerQuotientKernel mul inv a BHist.Empty x <->
+        SubgroupCentralizerQuotientKernel mul inv a x BHist.Empty) ∧
+      (SubgroupCentralizerQuotientKernel mul inv a BHist.Empty x <->
+        SubgroupCentralizerCarrier mul a x) ∧
+      (SubgroupCentralizerQuotientKernel mul inv a x BHist.Empty <->
+        SubgroupCentralizerCarrier mul a x) ∧
+      (SubgroupCentralizerRightQuotientClassifier mul inv a BHist.Empty x <->
+        SubgroupCentralizerRightQuotientClassifier mul inv a x BHist.Empty) := by
+  have leftKernelFiber :
+      SubgroupCentralizerQuotientKernel mul inv a BHist.Empty x <->
+        SubgroupCentralizerCarrier mul a x :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel_empty_fiber_iff
+      assocC leftId rightId mulCongr leftInv rightInv
+  have rightKernelFiber :
+      SubgroupCentralizerQuotientKernel mul inv a x BHist.Empty <->
+        SubgroupCentralizerCarrier mul a x :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel_empty_right_fiber_iff
+      assocC leftId rightId mulCongr leftInv rightInv
+  have leftClassifierFiber :
+      SubgroupCentralizerRightQuotientClassifier mul inv a BHist.Empty x <->
+        SubgroupCentralizerCarrier mul a x :=
+    SubgroupCentralizerRightQuotientClassifier_empty_fiber_iff
+      assocC leftId rightId mulCongr leftInv rightInv
+  have rightClassifierFiber :
+      SubgroupCentralizerRightQuotientClassifier mul inv a x BHist.Empty <->
+        SubgroupCentralizerCarrier mul a x :=
+    SubgroupCentralizerRightQuotientClassifier_empty_right_fiber_iff
+      assocC leftId rightId mulCongr leftInv rightInv
+  have kernelBridge :
+      SubgroupCentralizerQuotientKernel mul inv a BHist.Empty x <->
+        SubgroupCentralizerQuotientKernel mul inv a x BHist.Empty := by
+    constructor
+    · intro leftKernel
+      exact Iff.mpr rightKernelFiber (Iff.mp leftKernelFiber leftKernel)
+    · intro rightKernel
+      exact Iff.mpr leftKernelFiber (Iff.mp rightKernelFiber rightKernel)
+  have classifierBridge :
+      SubgroupCentralizerRightQuotientClassifier mul inv a BHist.Empty x <->
+        SubgroupCentralizerRightQuotientClassifier mul inv a x BHist.Empty := by
+    constructor
+    · intro leftClassified
+      exact Iff.mpr rightClassifierFiber (Iff.mp leftClassifierFiber leftClassified)
+    · intro rightClassified
+      exact Iff.mpr leftClassifierFiber (Iff.mp rightClassifierFiber rightClassified)
+  exact And.intro kernelBridge
+    (And.intro leftKernelFiber (And.intro rightKernelFiber classifierBridge))
+
 end BEDC.Derived.SubgroupUp
