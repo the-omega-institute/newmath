@@ -37,4 +37,14 @@ theorem RealUp_concrete_to_schema :
         Iff.mp (bridge.right.right (d := d) (e := e)).right.left streamClassifier
       exact Iff.mp (bridge.right.right (d := d) (e := e)).right.right unaryClassifier
 
+theorem RealUp_StdBridge {d e : BHist} :
+    RatHistoryClassifier d e ->
+      RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e) ∧
+        SemanticNameCert RealConstantHistoryCarrier RealConstantHistoryCarrier
+          RealConstantHistoryCarrier RealConstantHistoryClassifier := by
+  intro ratClassifier
+  exact And.intro
+    (RealConstantHistoryClassifier_e1_iff_rat.mpr ratClassifier)
+    RealConstantHistory_semanticNameCert
+
 end BEDC.Derived.RealUp

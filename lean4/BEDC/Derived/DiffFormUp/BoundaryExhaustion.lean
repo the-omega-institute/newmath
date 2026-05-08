@@ -1,4 +1,5 @@
 import BEDC.Derived.DiffFormUp
+import BEDC.Derived.DiffFormUp.AntisymmetryChain
 
 namespace BEDC.Derived.DiffFormUp
 
@@ -27,8 +28,30 @@ theorem DiffFormBoundaryExhaustion_carrier_coverage {ScalarCarrier : BHist -> Pr
       (antisym := antisym) (ledger := ledger) probeIn scalarCarrier degreeUnary probeUnary
       tensorRoute antisymUnary scalarRoute ledgerRoute
   exact And.intro coverage.left.left
-    (And.intro coverage.left.right.left
-      (And.intro coverage.left.right.right.left
-        (And.intro coverage.left.right.right.right.left coverage.right)))
+      (And.intro coverage.left.right.left
+        (And.intro coverage.left.right.right.left
+          (And.intro coverage.left.right.right.right.left coverage.right)))
+
+theorem DiffFormBoundaryExhaustion_downstream_export
+    {probes : ProbeBundle BHist}
+    {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source chain degreeR
+      probeR tensorR scalarR antisymR ledgerR : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor' scalar
+        scalar' antisym source ->
+      DiffFormAntisymmetryChainLedger probes chain d probe tensor scalar antisym source degreeR
+        probeR tensorR scalarR antisymR ledgerR ->
+        UnaryHistory d ∧ UnaryHistory dplus ∧ Cont d (BHist.e1 BHist.Empty) dplus ∧
+          UnaryHistory chain ∧ Cont d probe tensor ∧ Cont tensor antisym scalar ∧
+            DiffFormBHistClassifier hsame probes d probe tensor scalar antisym source degreeR
+              probeR tensorR scalarR antisymR ledgerR := by
+  intro derivativeLedger chainLedger
+  have degreeRows := DiffFormExteriorDerivativeLedger_degree_raise derivativeLedger
+  have chainRows := DiffFormAntisymmetryChainLedger_coverage chainLedger
+  exact And.intro degreeRows.left
+    (And.intro degreeRows.right.left
+      (And.intro degreeRows.right.right
+        (And.intro chainRows.left
+          (And.intro chainRows.right.left
+            (And.intro chainRows.right.right.left chainRows.right.right.right.right.right)))))
 
 end BEDC.Derived.DiffFormUp
