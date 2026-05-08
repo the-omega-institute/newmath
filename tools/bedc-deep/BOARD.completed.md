@@ -13167,3 +13167,27 @@ Rationale:
 Negation-form companion to thm:hash-collision-success-symmetric. The chapter records collision-success symmetry and the second-preimage exclusion (B-489) but never the contrapositive transport: that collision-freeness itself is symmetric in the message pair. Lifts cleanly via negation of the existing symmetry: assume CollFreeH(x,x_prime) and HashCollisionSuccess(x_prime,x); apply success-symmetry to derive HashCollisionSuccess(x,x_prime); contradicts CollFreeH. Borderline on parameter-echo since it is a contrapositive of an existing symmetry, but it operates on a separately-defined predicate (CollFreeH not definitionally collapsed onto ¬CollSuccess) so the transport step is a real proof obligation, not pure rewriting. Held novelty at 6, the threshold.
 
 ---
+
+### B-515 - Singleton edge predicate is a matching
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Singleton edge predicate is a matching |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a GraphUp carrier G with edge classifier sim_E and a carried edge e_star satisfying Edge_G(e_star), the predicate M_{e_star}(e) := e sim_E e_star is a MatchingEdgeSet_G.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/212_matching_namecert_construction.tex`
+
+Rationale:
+Upper-unit dual to B-479 'Empty edge predicate is a matching'. The empty case gives the lower unit; the singleton case is the smallest non-trivial matching and the canonical building block for finite matching constructions. No-shared-vertex row collapses through classifier symmetry+transitivity since both endpoints of any in-set pair are sim_E e_star. Distinct from B-418 (compatible union closure) which assumes disjoint matchings already exist. Single implication, ~10 lines in a 143-line chapter. Provides the missing seed for any inductive matching construction over GraphUp.
+
+---
