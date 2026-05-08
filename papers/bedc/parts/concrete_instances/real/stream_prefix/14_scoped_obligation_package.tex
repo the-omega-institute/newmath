@@ -203,3 +203,51 @@ partition read surface. The repacked certificate is a single finite observation
 package for partitioned $\RealUp$ windows, and every row it displays has already
 been read from the scoped BEDC boundary named above.
 \end{proof}
+
+\begin{theorem}[RealUp finite-window observation determinacy]
+\label{thm:realup-finite-window-observation-determinacy}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor $n$, and
+a finite width $w$, suppose two BEDC finite-window packages are exposed from the
+same classifier
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,w).
+$$
+Assume that both packages read the same $\StreamNameUp$ request rows, $\RatUp$
+endpoint rows, DyadicRatCore source rows, $\mathsf{UnaryHistory}$ witnesses,
+$\mathsf{Cont}$ ledger entries, and $\hsame$ transports named by
+\autoref{thm:realup-window-partition-read-surface}. Then their visible endpoint
+classifiers, positive denominator rows, finite ledger rows, dyadic source rows,
+and $\RealUp$ seal rows classify together by $\hsame$. In particular, no second
+public finite-window observation package with a different visible endpoint
+surface is available from the same request.
+\end{theorem}
+\begin{proof}
+First bind the common source boundary. Apply
+\autoref{thm:realup-stream-prefix-scoped-obligation-package}. This fixes the
+allowed $\RegSeqRat$, $\StreamNameUp$, $\RatUp$, $\mathsf{BHist}$,
+$\mathsf{UnaryHistory}$, $\mathsf{Cont}$, dyadic, and $\hsame$ rows, and it
+excludes quotient, completion, host-function, external metric, and
+standard-bridge inputs.
+
+Next identify the window ledger seen by the two packages. Apply
+\autoref{thm:realup-window-partition-read-surface}. The total finite window and
+any certified partition of it expose the same finite ledger, DyadicRatCore
+source rows, stream-name requests, unary-history witnesses, and endpoint
+$\hsame$ transports. Since the two packages are read from the same classifier
+and the same request rows, their public ledgers are the same BEDC read surface.
+
+For each displayed segment of a partition, apply
+\autoref{thm:realup-scoped-window-tail-transport-package}. It reads the endpoint
+classifiers, positive unary denominator rows, unary endpoint rows, finite
+ledger entries, and dyadic endpoint source rows from the segment classifier and
+the endpoint transport rows. The hypotheses identify those rows for the two
+packages, so the segment endpoints classify together by $\hsame$.
+
+Finally repack the segmentwise $\hsame$ endpoint data through
+\autoref{thm:realup-partitioned-window-tail-transport-package}. The repacked
+finite-window package has only the rows already named by the scoped source and
+partition read surface. The same exclusion clauses remove quotient,
+completion, metric-completeness, host-function, Classical, arithmetic or order
+primitive, and standard-bridge data, so there is no remaining row from which a
+different public endpoint package could be exposed.
+\end{proof}
