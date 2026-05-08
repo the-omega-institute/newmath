@@ -36,4 +36,29 @@ theorem channel_compilation_preserves_recognition :
   intro R S hRecognizes
   exact ⟨S, flow_level_round_trip S, hRecognizes⟩
 
+theorem package_recognition_invariant {S : PackageCandidateFlow} :
+    PkgFlow S ->
+      exists S' : PackageCandidateFlow,
+        Decode (FlowEncoding S) = some S' /\ PkgFlow S' := by
+  intro hPkg
+  cases hPkg with
+  | intro R hRecognizes =>
+      exact ⟨S, flow_level_round_trip S, ⟨R, hRecognizes⟩⟩
+
+def PackageCodeEquiv (S T : PackageCandidateFlow) : Prop :=
+  FlowEncoding S = FlowEncoding T
+
+theorem package_code_equivalence_is_equality {S T : PackageCandidateFlow} :
+    PackageCodeEquiv S T <-> S = T := by
+  constructor
+  · intro hCode
+    have hDecode : Decode (FlowEncoding S) = Decode (FlowEncoding T) := by
+      rw [hCode]
+    rw [flow_level_round_trip S, flow_level_round_trip T] at hDecode
+    cases hDecode
+    rfl
+  · intro hEq
+    cases hEq
+    rfl
+
 end BEDC.GroundCompiler.PackageGenerated
