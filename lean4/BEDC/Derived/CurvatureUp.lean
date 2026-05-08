@@ -493,4 +493,57 @@ theorem CurvatureBracketCarrier_bianchi_ledger_row
       (And.intro rowsCA.left
         (And.intro pairCont cyclicReadback)))
 
+theorem CurvatureChernWeilHandoffPacket_bianchi_transport [AskSetup] [PackageSetup]
+    {base fibre sec tangentA tangentB derivativeA derivativeB derivativeA' derivativeB'
+      provenance ledgerA ledgerB ledgerA' ledgerB' boundary curvatureLedger boundary'
+      curvatureLedger' derham provenanceCW provenanceCW' connectionLedger classifier
+      classifier' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance
+        ledgerA ledgerB boundary curvatureLedger ->
+      ConnectionCarrierPacket base fibre sec tangentA derivativeA' provenance ledgerA' ->
+        ConnectionCarrierPacket base fibre sec tangentB derivativeB' provenance ledgerB' ->
+          hsame derivativeA derivativeA' ->
+            hsame derivativeB derivativeB' ->
+              Cont derivativeA' derivativeB' boundary' ->
+                Cont boundary' provenance curvatureLedger' ->
+                  CurvatureChernWeilSourceEnvelope curvatureLedger derham provenanceCW
+                      connectionLedger classifier bundle pkg ->
+                    Cont curvatureLedger' derham provenanceCW' ->
+                      Cont provenanceCW' connectionLedger classifier' ->
+                        PkgSig bundle classifier' pkg ->
+                          CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA'
+                              derivativeB' provenance ledgerA' ledgerB' boundary' curvatureLedger' ∧
+                            CurvatureChernWeilSourceEnvelope curvatureLedger' derham
+                              provenanceCW' connectionLedger classifier' bundle pkg ∧
+                              hsame curvatureLedger curvatureLedger' := by
+  intro carrier packetA' packetB' sameDerivativeA sameDerivativeB boundaryCont'
+    curvatureCont' envelope provenanceCont' classifierCont' pkgSig'
+  have transported :=
+    CurvatureBracketCarrier_tensorial_endpoint_transport carrier packetA' packetB'
+      sameDerivativeA sameDerivativeB (hsame_refl provenance) boundaryCont' curvatureCont'
+  have curvatureRows :=
+    CurvatureBracketCarrier_boundary_source_obligation transported.left
+  have provenanceUnary' : UnaryHistory provenanceCW' :=
+    unary_cont_closed curvatureRows.right.left envelope.right.left provenanceCont'
+  have classifierUnary' : UnaryHistory classifier' :=
+    unary_cont_closed provenanceUnary' envelope.right.right.right.left classifierCont'
+  have classifierReadback' :
+      hsame classifier' (append (append curvatureLedger' derham) connectionLedger) :=
+    hsame_trans classifierCont'
+      (congrArg (fun row : BHist => append row connectionLedger) provenanceCont')
+  have envelope' :
+      CurvatureChernWeilSourceEnvelope curvatureLedger' derham provenanceCW' connectionLedger
+        classifier' bundle pkg :=
+    And.intro curvatureRows.right.left
+      (And.intro envelope.right.left
+        (And.intro provenanceUnary'
+          (And.intro envelope.right.right.right.left
+            (And.intro classifierUnary'
+              (And.intro provenanceCont'
+                (And.intro classifierCont'
+                  (And.intro classifierReadback' pkgSig')))))))
+  exact And.intro transported.left
+    (And.intro envelope' transported.right.right)
+
 end BEDC.Derived.CurvatureUp
