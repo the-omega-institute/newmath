@@ -443,4 +443,34 @@ theorem BilinFormModulePairingPackageRow_bilinearity_transport_row [AskSetup] [P
           (And.intro additiveEndpointCont
             (And.intro additiveLedgerCont row.right.right.right.right.right.right.right)))))
 
+theorem BilinFormModulePairingPackageRow_nondegeneracy_witness_ledger_row
+    [AskSetup] [PackageSetup]
+    {moduleSource vectorSource left right scalar endpoint ledger partner witnessEndpoint
+      witnessLedger separation : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BilinFormModulePairingPackageRow moduleSource vectorSource left right scalar endpoint ledger
+        bundle pkg ->
+      UnaryHistory partner ->
+        Cont left partner witnessEndpoint ->
+          Cont witnessEndpoint scalar witnessLedger ->
+            Cont witnessLedger BHist.Empty separation ->
+              UnaryHistory witnessEndpoint ∧ UnaryHistory witnessLedger ∧ UnaryHistory separation ∧
+                hsame separation witnessLedger ∧ Cont left partner witnessEndpoint ∧
+                  Cont witnessEndpoint scalar witnessLedger ∧ PkgSig bundle ledger pkg := by
+  intro row partnerUnary witnessEndpointCont witnessLedgerCont separationCont
+  have witnessEndpointUnary : UnaryHistory witnessEndpoint :=
+    unary_cont_closed row.right.right.left partnerUnary witnessEndpointCont
+  have witnessLedgerUnary : UnaryHistory witnessLedger :=
+    unary_cont_closed witnessEndpointUnary row.right.right.right.right.left witnessLedgerCont
+  have separationUnary : UnaryHistory separation :=
+    unary_cont_closed witnessLedgerUnary unary_empty separationCont
+  have sameSeparation : hsame separation witnessLedger :=
+    cont_right_unit_result separationCont
+  exact And.intro witnessEndpointUnary
+    (And.intro witnessLedgerUnary
+      (And.intro separationUnary
+        (And.intro sameSeparation
+          (And.intro witnessEndpointCont
+            (And.intro witnessLedgerCont row.right.right.right.right.right.right.right)))))
+
 end BEDC.Derived.BilinFormUp
