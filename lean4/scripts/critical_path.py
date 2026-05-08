@@ -1516,6 +1516,7 @@ def main() -> int:
     # `{"targets": []}` triggering cooldown. Letting in-flight
     # chapters stay in surface lets the merge-time dedup handle
     # rate limiting naturally and keeps lean rounds productive.
+    inflight_lean = _inflight_lean_attack_chapters()  # used by formal_axis_top below
     bridge_candidates_full.sort(key=lambda c: c.get("thms", 0), reverse=True)
     # Per-call shuffle to disperse 12-worker dogpile.
     import random as _rand_bc
