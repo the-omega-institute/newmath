@@ -18,33 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-543 - DeRham double exterior derivative boundary
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | DeRham double exterior derivative boundary |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-If a DeRhamUp packet over DiffFormUp and CohomologyUp supplies two successive exterior-derivative rows for a carried form, then the second derivative row is classified as the zero cochain endpoint and is an accepted DeRham chain-complex boundary row.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/115_deRham_namecert_construction.tex`
-- `papers/bedc/parts/concrete_instances/77_cohomology_namecert_construction.tex`
-- `papers/bedc/parts/concrete_instances/114_diffform_exterior_derivative_boundary.tex`
-
-Rationale:
-This is a concrete single-implication target that fills the explicit DeRhamUp gap: the DeRham chapter advertises d^2 = 0 but has no carrier or certificate theorem, while the DiffForm exterior-derivative surface deliberately stops short of nilpotence and CohomologyUp already supplies nearby cycle/boundary machinery. It is not a BOARD duplicate, not already a labelled paper theorem, and the landing path is safe because the DeRham chapter is a short non-input stub with relevant dependency files below the line cap.
-
----
-
-
 ### B-544 - JonesPolynomial skein ledger obligation surface
 
 | field | value |
@@ -70,7 +43,6 @@ Rationale:
 This lands in the empty JonesPolynomialUp certificate chapter as the first conservative skein-ledger obligation, not as a proof of the full Jones polynomial invariant. KnotUp already has Reidemeister ledger composition and classifier completeness, and PolynomialUp supplies the polynomial-side carrier surface, so the proposed theorem is a bounded bridge/coverage target over supplied rows. No existing BOARD title or paper label covers the JonesPolynomial skein surface, and the short JonesPolynomial landing file avoids hub-only and line-cap risks.
 
 ---
-
 
 ### B-545 - StoneDuality clopen-ultrafilter bridge surface
 
@@ -98,7 +70,6 @@ The claim is scoped as a bridge surface over displayed Boolean-lattice, clopen-b
 
 ---
 
-
 ### B-546 - DeformQuantization first-order bracket ledger
 
 | field | value |
@@ -124,7 +95,6 @@ Rationale:
 This is a bounded first-order deformation obligation and not a claim that SymplecticUp alone produces a Poisson bracket; the SymplecticUp chapter explicitly marks that as a consumer frontier. The proposed target supplies the missing DeformQuantizationUp-side ledger that connects the formal product row to a displayed bracket endpoint under stated hypotheses. No current BOARD item or paper theorem covers DeformQuantizationUp, and the short chapter file is a safe landing point with relevant SymplecticUp and HopfAlgUp dependencies.
 
 ---
-
 
 ### B-547 - AtiyahSinger index-pairing carrier surface
 
@@ -152,7 +122,6 @@ The target is the first AtiyahSingerUp carrier/classifier obligation surface, no
 
 ---
 
-
 ### B-548 - CurryHoward cut-beta bridge obligation
 
 | field | value |
@@ -178,4 +147,3 @@ Rationale:
 This is a concrete bridge obligation between the existing FirstOrderUp deduction-ledger surface and the LambdaCalcUp beta/substitution ledger surface, not the broad capstone observation that Curry-Howard is built into closure laws. The concrete CurryHowardUp chapter is empty, the relevant dependency theorems are already present, and no BOARD entry or paper label states this cut-to-beta bridge. The short CurryHowardUp file is a safe landing point for the bounded theorem.
 
 ---
-
