@@ -60,6 +60,18 @@ theorem ListHistoryCarrier_generated_cases {S : BHist -> Prop} {h : BHist} :
             (Exists.intro _
               (And.intro source (And.intro tail (And.intro continuation endpoint))))))
 
+theorem ListHistoryCarrier_structural_recursion {A : BHist -> Prop} {P : BHist -> Prop}
+    (nilP : forall {h : BHist}, hsame h BHist.Empty -> P h)
+    (consP : forall {h a t p : BHist}, A a -> ListHistoryCarrier A t -> P t ->
+      Cont a t p -> hsame h (BHist.e1 p) -> P h) :
+    forall {h : BHist}, ListHistoryCarrier A h -> P h := by
+  intro h carrier
+  induction carrier with
+  | nil empty =>
+      exact nilP empty
+  | cons source tail continuation endpoint tailP =>
+      exact consP source tail tailP continuation endpoint
+
 theorem ListHistoryClassifierRec_carrier_endpoints {S : BHist -> Prop}
     {sameS : BHist -> BHist -> Prop} {h k : BHist} :
     ListHistoryClassifierRec S sameS h k -> ListHistoryCarrier S h ∧ ListHistoryCarrier S k := by
