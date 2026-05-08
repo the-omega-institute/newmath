@@ -75,6 +75,7 @@ and retain the same $\mathsf{Pkg}$ row $\rho$ and $\mathsf{Cont}$ ledger
 $\lambda$. This constructs the carrier face of
 $\NameCert_{\GaloisGroupUp}$ without adding any host-field equality clause.
 \end{proof}
+\leanchecked{BEDC.Derived.GaloisGroupUp.GaloisGroupAutomorphismActionPacket\_fixed\_base\_carrier\_obligation}
 
 \begin{theorem}[GaloisGroupUp fixed-base classifier]
 \label{thm:galoisgroup-fixed-base-classifier}
@@ -174,6 +175,126 @@ Repack the reversed endpoints, inverse ledger, fixed-base witness, inherited
 dependency projections, classifier rows, and $\Pkg$ provenance. This is again
 a finite packet of the form required by
 \autoref{def:galoisgroup-bhist-automorphism-action-packet}.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp unit automorphism row]
+\label{thm:galoisgroup-unit-automorphism-row}
+For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the unit row
+inherited from the $\NameCert_{\GroupUp}$ dependency $G$ repacks as the
+fixed-base identity automorphism row on every endpoint accepted by the public
+$\NameCert_{\GaloisExtUp}$ boundary of $E$. The resulting row is classified by
+the same $\GaloisGroupUp$ classifier as the displayed identity action, and its
+ledger uses only the unit, operation, congruence, and endpoint rows already
+carried by $G$, $E$, and $\lambda$.
+\end{theorem}
+\begin{proof}
+Project the packet by
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}. The
+Galois-extension side is the public boundary of
+\autoref{thm:galoisext-public-obligation-boundary}, so every endpoint under
+discussion is an accepted extension endpoint with classifier, exactness, and
+finite ledger rows in $E$.
+
+On the group side, read the operation, unit, associativity, congruence, and
+two-sided inverse-law surface from the $\NameCert_{\GroupUp}$ packet named in
+\autoref{ch:concrete-instances-group-namecert}. The unit operation endpoint is
+therefore already a carried row of $G$.
+
+Repack that unit endpoint as the identity automorphism-action row. Its
+fixed-base face is the identity comparison on each base endpoint of $E$, and
+the same endpoint is transported through the $\hsame$ rows in $\lambda$.
+\autoref{thm:galoisgroup-composition-closure} supplies compatibility with the
+composition row, while \autoref{thm:galoisgroup-inverse-closure} supplies the
+inverse-facing row needed by the same packet.
+
+The resulting finite tuple has exactly the rows required by
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}. Hence the inherited
+GroupUp unit row is the GaloisGroupUp fixed-base identity automorphism row.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp composition associativity row]
+\label{thm:galoisgroup-composition-associativity-row}
+Let $x$, $y$, and $z$ be accepted fixed-base automorphism-action rows of an
+automorphism-action packet
+$(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}. Suppose the target
+endpoint of $x$ is $\hsame$-classified with the source endpoint of $y$, the
+target endpoint of $y$ is $\hsame$-classified with the source endpoint of $z$,
+and the two finite $\mathsf{Cont}$ parenthesizations
+$(z\circ y)\circ x$ and $z\circ(y\circ x)$ are both displayed by the composition
+row $m$. Then the two parenthesized rows are classified by the inherited
+$\GroupUp$ associativity row, transported along the endpoint $\hsame$ rows from
+the public $\NameCert_{\GaloisExtUp}$ boundary of $E$.
+\end{theorem}
+\begin{proof}
+Project $x$, $y$, and $z$ through
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}. The GaloisExtUp
+public boundary of \autoref{thm:galoisext-public-obligation-boundary} supplies
+the accepted source, middle, and target endpoints together with the classifier
+rows that identify the two displayed middle endpoints.
+
+Apply \autoref{thm:galoisgroup-composition-closure} first to $x$ and $y$, then
+to the resulting row and $z$. This constructs the finite $\mathsf{Cont}$ row for
+$(z\circ y)\circ x$ with the required fixed-base witness and provenance.
+
+Apply \autoref{thm:galoisgroup-composition-closure} in the other order, first
+to $y$ and $z$ and then to $x$ with the result. This constructs the finite
+$\mathsf{Cont}$ row for $z\circ(y\circ x)$ over the same outer endpoints.
+
+The $\NameCert_{\GroupUp}$ dependency $G$ supplies the operation, unit,
+associativity, congruence, and two-sided inverse-law surface named in
+\autoref{ch:concrete-instances-group-namecert}. Its associativity row
+classifies the two operation parenthesizations in $G$, and the endpoint
+$\hsame$ rows from $E$ transport that classification to the displayed
+automorphism-action rows.
+
+Repacking the transported classifier, the two composition ledgers, the
+fixed-base witnesses, and the $\Pkg$ provenance gives the claimed
+GaloisGroupUp classifier row.
+\end{proof}
+
+\begin{theorem}[GaloisGroupUp inverse cancellation rows]
+\label{thm:galoisgroup-inverse-cancellation-rows}
+For every accepted fixed-base automorphism-action row $x$ of an
+automorphism-action packet
+$(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, let $x^{-1}$ be the
+inverse row supplied by \autoref{thm:galoisgroup-inverse-closure}. The composed
+rows $x^{-1}\circ x$ and $x\circ x^{-1}$ are accepted by
+\autoref{thm:galoisgroup-composition-closure} and are classified with the unit
+automorphism row of \autoref{thm:galoisgroup-unit-automorphism-row} by the
+inherited left and right inverse laws of the $\NameCert_{\GroupUp}$ dependency,
+with endpoint transport through the public $\NameCert_{\GaloisExtUp}$ boundary.
+\end{theorem}
+\begin{proof}
+Start with the accepted row $x$ and unpack it using
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}. The endpoint rows,
+fixed-base row, classifier row, inverse row, provenance row, and finite ledger
+all live in the same packet, while
+\autoref{thm:galoisext-public-obligation-boundary} supplies the public
+GaloisExtUp classifier rows needed for endpoint transport.
+
+Use \autoref{thm:galoisgroup-inverse-closure} to obtain the accepted inverse
+row $x^{-1}$. Its source and target are the reversed endpoints of $x$, and its
+fixed-base witness is transported by the same $\hsame$ comparisons on the base
+endpoint.
+
+Apply \autoref{thm:galoisgroup-composition-closure} to $x$ followed by
+$x^{-1}$, and again to $x^{-1}$ followed by $x$. These applications produce the
+two finite composition ledgers and preserve the fixed-base witness on both
+sides.
+
+The $\NameCert_{\GroupUp}$ packet $G$ supplies the operation, unit, congruence,
+associativity, and two-sided inverse-law rows from the GroupUp surface named in
+\autoref{ch:concrete-instances-group-namecert}. The right inverse law classifies
+$x\circ x^{-1}$ with the unit row, and the left inverse law classifies
+$x^{-1}\circ x$ with the unit row.
+
+Finally, \autoref{thm:galoisgroup-unit-automorphism-row} identifies that unit
+row with the fixed-base identity automorphism row over $E$. Repacking the two
+inverse-law classifications with the endpoint $\hsame$ transports and the
+ledger $\lambda$ gives the two claimed GaloisGroupUp cancellation rows.
 \end{proof}
 
 \begin{theorem}[GaloisGroupUp identity row closure]
@@ -553,92 +674,4 @@ by downstream Galois and representation-facing uses, so no hidden host
 automorphism datum is part of the public boundary.
 \end{proof}
 
-\begin{theorem}[GaloisGroupUp identity closure]
-\label{thm:galoisgroup-identity-closure}
-For an automorphism-action packet $(E,G,b,a,m,i,c,\rho,\lambda)$ of
-\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the identity
-automorphism row inherited from the $\GroupUp$ unit surface fixes every
-displayed $\GaloisExtUp$ endpoint and is accepted by the same
-automorphism-action packet. Its fixed-base witnesses are the $\hsame$ rows
-obtained by reading the unit row through the Galois-extension endpoints
-displayed by $E$ and the group unit face displayed by $G$.
-\end{theorem}
-\begin{proof}
-Project the packet to $E$, $G$, $b$, $a$, $m$, $i$, $c$, $\rho$, and
-$\lambda$. The row $E$ supplies the displayed extension endpoints and their
-classifier rows, while $G$ supplies the $\GroupUp$ unit row together with the
-operation classifier attached to that unit.
-
-Read the unit row as the identity automorphism-action row. On each displayed
-extension endpoint, the action endpoint is transported by the same
-$\GaloisExtUp$ classifier row, and the base endpoint is compared with itself
-by the fixed-base $\hsame$ witness already recorded in $b$ and $\lambda$.
-
-Repack the displayed extension endpoints, the group unit row, the fixed-base
-witnesses, the classifier row $c$, and the shared $\Pkg$ provenance $\rho$.
-The resulting row has the packet shape of
-\autoref{def:galoisgroup-bhist-automorphism-action-packet}, so the identity
-automorphism is accepted inside the public $\GaloisGroupUp$ surface.
-\end{proof}
-
-\begin{theorem}[GaloisGroupUp associative composition ledger]
-\label{thm:galoisgroup-associative-composition-ledger}
-For three composable accepted automorphism-action rows of
-\autoref{def:galoisgroup-bhist-automorphism-action-packet}, the two
-parenthesisations of their composite are classified by the same finite
-$\Cont$ reassociation ledger. The comparison is inherited from the
-$\GroupUp$ associativity surface of $G$ and from the shared $\hsame$ endpoint
-classifier and $\Pkg$ provenance of the Galois-group packet.
-\end{theorem}
-\begin{proof}
-First compose the first two rows, then compose the result with the third row.
-\autoref{thm:galoisgroup-composition-closure} gives an accepted composite
-whose endpoints, fixed-base witnesses, $\Cont$ ledger, classifier rows, and
-$\Pkg$ provenance are all projections of the same packet.
-
-Next compose the last two rows, then compose the first row with that result.
-The same closure theorem gives the other accepted composite, with the same
-outer source and target endpoints and with the same dependency packets $E$
-and $G$.
-
-The $\GroupUp$ associativity surface in $G$ identifies the two multiplication
-parenthesisations. Transport the middle endpoint comparisons through the
-shared $\hsame$ rows, and concatenate the two displayed $\Cont$ ledgers in
-the reassociated order named by $\lambda$.
-
-Both composites now expose the same outer endpoints, fixed-base witnesses,
-classifier row $c$, $\Pkg$ provenance $\rho$, and dependency packets. Hence
-the public classifier accepts them as the same Galois-group composition row.
-\end{proof}
-
-\begin{theorem}[GaloisGroupUp inverse cancellation boundary]
-\label{thm:galoisgroup-inverse-cancellation-boundary}
-For any accepted automorphism-action row of
-\autoref{def:galoisgroup-bhist-automorphism-action-packet}, composing the row
-with its inverse on either side classifies to the identity row inside the same
-packet. The cancellation uses only the inverse row $i$, the composition row
-$m$, the $\GroupUp$ inverse-law surface of $G$, and the fixed-base transport
-rows recorded by $b$ and $\lambda$.
-\end{theorem}
-\begin{proof}
-Start with an accepted automorphism-action row and apply
-\autoref{thm:galoisgroup-inverse-closure}. This supplies the reversed
-automorphism row, its reversed endpoints, the inverse ledger, and the
-fixed-base witness transported by $\hsame$ along the same base endpoint.
-
-Compose the original row with the inverse row using
-\autoref{thm:galoisgroup-composition-closure}. The GroupUp right inverse law
-classifies the operation endpoint to the unit row, while the fixed-base
-transport row identifies the acted-on base endpoint with the original base
-endpoint.
-
-For the opposite order, use the same inverse row and composition closure with
-the reversed endpoints. The GroupUp left inverse law again classifies the
-operation endpoint to the unit row, and the fixed-base witness is transported
-through the same $\hsame$ comparison.
-
-By \autoref{thm:galoisgroup-identity-closure}, the unit-classified action row
-is the accepted identity row of the packet. Thus both left and right
-cancellation composites classify to the public identity boundary without
-adding any host automorphism equality.
-\end{proof}
+\input{parts/concrete_instances/galoisgroup_group_law_package}
