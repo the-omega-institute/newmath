@@ -537,3 +537,87 @@ Finally apply \autoref{thm:cyclotomic-minimal-polynomial-nonexport}. It excludes
 
 Thus the $\ClassFieldUp$ consumer receives exactly the displayed source, exponent, polynomial, splitting-field, endpoint, acceptance, comparison, and provenance rows, and every class-field operation must enter through a separate class-field certificate.
 \end{proof}
+
+\begin{theorem}[CyclotomicUp unary exponent source closure]
+\label{thm:cyclotomic-unary-exponent-source-closure}
+For an accepted $\CyclotomicUp$ carrier
+$$
+\mathcal{C}_{\zeta}=(\mathcal{N},n,p,\mathcal{S},\zeta,\alpha,\lambda,\rho)
+$$
+of \autoref{def:cyclotomic-root-carrier}, every displayed positive exponent
+row used by the cyclotomic root carrier is the unary-history
+$\mathsf{BHist}$ row $n$. This row is stable under the classifier of
+\autoref{def:cyclotomic-rational-polynomial-classifier} and under the
+$\Cont$ source ledger recorded by $\alpha$ and $\lambda$.
+\end{theorem}
+\begin{proof}
+Project the cyclotomic carrier. Its exponent coordinate is the single positive
+row $n$, and the polynomial row $p$ is read as the ledger for $X^n-1$.
+
+Apply \autoref{thm:cyclotomic-positive-exponent-row-coverage}. It identifies
+$n$ as the only exponent datum exported by the certificate and ties every read
+of $X^n-1$ to the same $\mathsf{BHist}$ row, polynomial ledger, continuation
+entry, and provenance row.
+
+Finally use the classifier clauses for exponent and source comparison. They
+transport $n$ through $\hsame$ and keep the same $\Cont$ source ledger attached
+to the accepted carrier, so every displayed exponent row remains a unary
+$\mathsf{BHist}$ source row.
+\end{proof}
+
+\begin{theorem}[CyclotomicUp root-action package provenance]
+\label{thm:cyclotomic-root-action-pkg-provenance}
+For accepted $\CyclotomicUp$ carriers related by the classifier of
+\autoref{def:cyclotomic-rational-polynomial-classifier}, every Galois-action or
+splitting-field consumer row for the primitive endpoint $\zeta$ factors through
+the same $\mathsf{Pkg}$ provenance row $\rho$ as the root carrier, polynomial
+classifier, and splitting ledger. No action row receives an independent
+provenance package outside the carried $\NameCert_{\CyclotomicUp}$ packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cyclotomic-splittingfield-provenance-conservation}. It
+places the splitting-field consumer surface at the polynomial row $p$, the
+primitive endpoint $\zeta$, the factorization rows of $\mathcal S$, the
+$\Cont$ acceptance row, the transported $\hsame$ comparisons, and the package
+row $\rho$.
+
+Use \autoref{thm:cyclotomic-galois-action-namecert-boundary} to read the
+Galois-facing action surface from the same endpoint and factorization
+transport. The action row is therefore attached to the transported carrier
+surface rather than to a host-field equality package.
+
+Finally apply \autoref{thm:cyclotomic-root-source-provenance-confluence}. The
+root route and splitting-polynomial route share the same $\mathsf{BHist}$,
+$\Cont$, and $\mathsf{Pkg}$ row family, so each action or splitting consumer
+factors through $\rho$.
+\end{proof}
+
+\begin{theorem}[CyclotomicUp downstream NameCert obligation packet]
+\label{thm:cyclotomic-downstream-namecert-obligation-packet}
+The $\PadicUp$, $\IwasawaUp$, $\ClassFieldUp$, $\GaloisGroupUp$,
+$\NumFieldUp$, and $\SplittingFieldUp$ consumers of an accepted
+$\CyclotomicUp$ carrier receive exactly the $\mathsf{BHist}$ root carrier, the
+unary exponent row, the polynomial classifier, the root-action provenance, and
+the ledger exactness rows listed in this chapter. They receive no valuation,
+completion, class group, reciprocity map, ambient automorphism quotient,
+minimal polynomial, or host-field equality from $\NameCert_{\CyclotomicUp}$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cyclotomic-unary-exponent-source-closure} to fix the exponent
+input as the single unary $\mathsf{BHist}$ row $n$. Use
+\autoref{thm:cyclotomic-polynomial-ledger-exactness} and
+\autoref{thm:cyclotomic-factorization-ledger-exactness} to identify the
+polynomial and splitting ledgers attached to that row.
+
+Apply \autoref{thm:cyclotomic-root-action-pkg-provenance} for the
+Galois-action and splitting-field provenance surface. Apply
+\autoref{thm:cyclotomic-classfield-repack-exactness} for the class-field
+consumer and \autoref{thm:cyclotomic-padic-tower-consumer-exactness} for the
+local tower consumers.
+
+The remaining exclusions are supplied by
+\autoref{thm:cyclotomic-minimal-polynomial-nonexport} and
+\autoref{thm:cyclotomic-local-symbol-exclusion}. Thus each listed downstream
+$\NameCert$ consumes only the displayed root, exponent, polynomial,
+factorization, action-provenance, $\Cont$, and $\mathsf{Pkg}$ rows.
+\end{proof}
