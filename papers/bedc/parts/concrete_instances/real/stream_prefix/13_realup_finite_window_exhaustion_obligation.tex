@@ -40,3 +40,35 @@ source package. These are precisely the rows allowed by
 \autoref{thm:realup-scoped-certificate-boundary}; hence the finite-window observation
 field consumes no data outside that boundary.
 \end{proof}
+
+\begin{theorem}[RealUp StreamName finite-window ledger boundary]
+\label{thm:realup-streamname-finite-window-ledger-boundary}
+Every finite-window observation admitted by the $\RealUp$ seal factors through
+the $\StreamNameUp$ finite-window classifier, the $\RatUp$ endpoint denominator
+package, and the $\RegSeqRat$ dyadic source exhaustion rows. Its ledger is
+exactly the selected unary observation, the pointwise
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the endpoint denominator
+rows, and the dyadic source rows named by
+\autoref{thm:realup-finite-window-exhaustion-obligation}. No host
+$\mathsf{Nat}$ index, host function, quotient, or unrecorded infinite stream
+object is exposed at this boundary.
+\end{theorem}
+\begin{proof}
+Start with an observation accepted by the $\RealUp$ seal. Apply
+\autoref{thm:realup-finite-window-exhaustion-obligation}; it reduces the
+accepted finite window to the denominator package, truncated endpoint
+readback, and $\RegSeqRat$ dyadic source rows allowed by the scoped seal.
+
+The finite-window stream-name component is supplied by
+\autoref{thm:rat-stream-name-finite-window-from-classifier},
+\autoref{thm:rat-stream-name-finite-window-structural-laws}, and
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package}.
+Together these rows identify the selected unary observation, the bundled
+pointwise classifier, and the endpoint denominator package read by the window.
+
+Finally use \autoref{thm:realup-scoped-certificate-boundary}. That boundary
+permits only the listed carrier, classifier, stability, and finite ledger rows.
+The StreamName rows and the dyadic source rows therefore repack into the exact
+ledger stated above, while host $\mathsf{Nat}$ data, host functions, quotients,
+and unrecorded infinite objects have no exported row to inspect.
+\end{proof}
