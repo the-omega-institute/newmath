@@ -13460,3 +13460,51 @@ Rationale:
 Closes a referee-visible asymmetry: chapter currently has triple disjoint-union ADDITIVITY (finite_additivity_readback.tex:143) but only binary union SUBADDITIVITY (B-433). Two-application composition through binary subadditivity to (A, B∪C) and (B, C) with RealAlgOrder additive monotonicity. Novelty sits exactly at threshold but the asymmetry-of-coverage rationale is real and the existing infrastructure (head-tail readback, three-support countable readback) is already in place. File safe at 248 lines. Codex_close in 1-2 rounds.
 
 ---
+
+### B-529 - HopfAlgUp antipode uniqueness from convolution-inverse witnesses
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | HopfAlgUp antipode uniqueness from convolution-inverse witnesses |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+For a HopfAlgUp BHist bialgebra carrier and two antipode rows s, s' that both witness the convolution-inverse obligation (both ConvLeft and ConvRight ledgers compose to the unit-counit endpoint with each), the two antipode rows are classifier-equivalent: hsame(s, s').
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/158_hopfalg_namecert_construction.tex`
+
+Rationale:
+Frontier first closure on a 92-line chapter that currently has only carrier definition, classifier, tensor-product stability, antipode obligation, and namecert obligation — no closure theorem at all. Antipode uniqueness is the canonical first theorem any reader expects in a HopfAlg surface and is the principal property that distinguishes Hopf algebras from bialgebras. Concrete uniqueness target (not parameter-echo). Large landing headroom. Likely oracle route because convolution-associativity needs careful BHist-level statement.
+
+---
+
+### B-531 - AbelianCatUp zero-morphism right-absorbing under composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AbelianCatUp zero-morphism right-absorbing under composition |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For carried homs g ∈ H(A, B) and the displayed zero morphism 0_{X,A} ∈ H(X, A) in an AbelianCatUp additive kernel-cokernel carrier, the displayed composite g ∘ 0_{X,A} is classified by ~_{X,B} with the displayed zero morphism 0_{X,B}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex`
+
+Rationale:
+Symmetric companion to in-progress B-518 (left-absorbing 0∘f). Not a duplicate: opposite composition slot, separate theorem statement. The two together complete the 'two-sided absorbing' shape that any reader expects together. Proof mirrors B-518 via biproduct hom additivity (line 211) and zero morphism uniqueness (B-423). File safe at 433 lines. Codex_close in 1-2 rounds once B-518 lands.
+
+---

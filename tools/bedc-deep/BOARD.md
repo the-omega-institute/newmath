@@ -90,54 +90,6 @@ Strict dual companion to B-474 (countable preimage UNION exactness), the only si
 
 ---
 
-### B-529 - HopfAlgUp antipode uniqueness from convolution-inverse witnesses
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | HopfAlgUp antipode uniqueness from convolution-inverse witnesses |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 9/10 |
-
-Problem:
-For a HopfAlgUp BHist bialgebra carrier and two antipode rows s, s' that both witness the convolution-inverse obligation (both ConvLeft and ConvRight ledgers compose to the unit-counit endpoint with each), the two antipode rows are classifier-equivalent: hsame(s, s').
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/158_hopfalg_namecert_construction.tex`
-
-Rationale:
-Frontier first closure on a 92-line chapter that currently has only carrier definition, classifier, tensor-product stability, antipode obligation, and namecert obligation — no closure theorem at all. Antipode uniqueness is the canonical first theorem any reader expects in a HopfAlg surface and is the principal property that distinguishes Hopf algebras from bialgebras. Concrete uniqueness target (not parameter-echo). Large landing headroom. Likely oracle route because convolution-associativity needs careful BHist-level statement.
-
----
-
-### B-531 - AbelianCatUp zero-morphism right-absorbing under composition
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | AbelianCatUp zero-morphism right-absorbing under composition |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-For carried homs g ∈ H(A, B) and the displayed zero morphism 0_{X,A} ∈ H(X, A) in an AbelianCatUp additive kernel-cokernel carrier, the displayed composite g ∘ 0_{X,A} is classified by ~_{X,B} with the displayed zero morphism 0_{X,B}.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex`
-
-Rationale:
-Symmetric companion to in-progress B-518 (left-absorbing 0∘f). Not a duplicate: opposite composition slot, separate theorem statement. The two together complete the 'two-sided absorbing' shape that any reader expects together. Proof mirrors B-518 via biproduct hom additivity (line 211) and zero morphism uniqueness (B-423). File safe at 433 lines. Codex_close in 1-2 rounds once B-518 lands.
-
----
-
 ### B-532 - Banach bounded-linear-operator pointwise sum closure with norm subadditivity
 
 | field | value |
@@ -211,7 +163,6 @@ Concrete two-sided-inverse uniqueness for the abelian-group hom row of an Abelia
 
 ---
 
-
 ### B-535 - Hash collision-success induces same-direction second-preimage success
 
 | field | value |
@@ -236,3 +187,26 @@ Same-direction sibling of B-464 (collision-success $\Rightarrow$ reversed second
 
 ---
 
+### B-536 - Matching abstract sub-predicate closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Matching abstract sub-predicate closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Let G be a GraphUp carrier with edge classifier \sim_E and let M,N:BHist\to Prop. If MatchingEdgeSet_G(M) and \forall e. N(e) \to M(e), then MatchingEdgeSet_G(N) without any finite-enumeration hypothesis on N.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/212_matching_namecert_construction.tex`
+
+Rationale:
+Belongs to ch:concrete-instances-matching-namecert. Diestel Graph Theory §1.1 / Bondy-Murty Graph Theory §16.1 (every subgraph of a matching that consists of edges and shares no vertex with the matching's edges is itself a matching — the textbook statement does not assume finite enumeration). The chapter (200 lines) currently has only the strictly stronger-hypothesis version thm:matching-finite-subset-closure at line 38 (B-510), which requires FinSetEdgeSubset (i.e. a HistSpine enumeration witness) on N; reading its proof (lines 53-75) shows the spine witness is never actually used — only the inclusion row \forall e. N(e)\to M(e) is consumed. Dropping the finite-enumeration hypothesis is a genuine textbook generalization. Closes in 1-3 rounds: the proof of the stronger theorem is identical to the existing finite-subset proof with the spine witness removed, reading directly from def:matching-carrier-and-finite-edge-subset at line 14.
+
+---
