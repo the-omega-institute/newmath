@@ -323,6 +323,7 @@ import BEDC.Derived.TopologyUp.PublicOpenCertificate
 import BEDC.Derived.TopologyUp.PublicOpenWitness
 import BEDC.Derived.TopologyUp.PublicWitness
 import BEDC.Derived.TopologyUp.PublicWitnesses
+import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -416,6 +417,7 @@ import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.FilterUp
+import BEDC.Derived.ContinuousMapUp.PublicExport
 import BEDC.Derived.SumUp
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SumUp.Branch
@@ -445,6 +447,7 @@ import BEDC.Derived.ListUp.PublicReverse
 import BEDC.Derived.ListUp.PublicReverseLength
 import BEDC.Derived.ListUp.PublicAppendLength
 import BEDC.Derived.ListUp.ReverseAppendAntimorphism
+import BEDC.Derived.ListUp.StdBridge
 import BEDC.Derived.ListUp.NameCertTransport
 import BEDC.Derived.ListUp.SourceEquivalence
 import BEDC.Derived.ListUp.SourceRefinement
