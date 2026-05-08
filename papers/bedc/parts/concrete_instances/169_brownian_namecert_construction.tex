@@ -298,3 +298,48 @@ or $C$. Since the carrier and classifier contain no additional host
 probability-space, stochastic-process, or path-equality coordinate, the
 public obligation surface is exactly the one stated.
 \end{proof}
+
+\begin{theorem}[Brownian path-step boundary exhaustion]
+\label{thm:brownian-path-step-boundary-exhaustion}
+Every public $\BrownianUp$ consumer row mentioning either the Gaussian-step
+display or the path-continuity display factors through the displayed tuple
+$(M,C,T,I,N,P,\rho,\lambda)$. The martingale rows project only through
+$\NameCert_{\MartingaleUp}$, path-continuity rows only through
+$\NameCert_{\ContinuousMapUp}$, and step rows only through the common
+$\UnaryHistory$ time row, the $\Cont/\hsame$ ledger, and the $\Pkg$
+provenance.
+
+The boundary exports no host probability-space equality, no host
+stochastic-process equality, and no host path equality. It is exactly the
+joint consumer boundary supplied by the Brownian packet carrier, classifier,
+dependency projections, and ledger rows.
+\end{theorem}
+
+\begin{proof}
+Begin with the dependency surface. By
+\autoref{thm:brownian-martingale-continuousmap-dependency-surface}, the
+martingale and continuous-path faces of any admitted packet are read only
+through $M$ and $C$, with the visible time row $T$, the Gaussian-step and
+continuity displays $I,N,P$, the provenance $\rho$, and the ledger
+$\lambda$ remaining as displayed packet coordinates.
+
+Next apply the step transport row. Theorem~\ref{thm:brownian-step-ledger-transport}
+states that Gaussian-step transport uses the common $\UnaryHistory$ time row,
+the adjacent-step and normal-step displays, the provenance row, and the finite
+$\Cont/\hsame$ ledger. Thus no additional host time object or stochastic
+process coordinate is exposed by a step consumer.
+
+For path-continuity consumers, use
+\autoref{thm:brownian-path-continuity-ledger-exactness}. It identifies every
+public path-continuity row with the consumed $\NameCert_{\ContinuousMapUp}$
+row $C$ together with the displayed continuity and transport rows $P$ and
+$\lambda$.
+
+Finally apply
+\autoref{thm:brownian-namecert-obligation-surface}. It exhausts the public
+$\NameCert_{\BrownianUp}$ surface by the carrier, classifier, two dependency
+certificates, step-ledger transport, continuity transport, classifier
+stability, and ledger exactness over $(M,C,T,I,N,P,\rho,\lambda)$. Combining
+these four surfaces gives the stated factorisation and rules out host
+probability-space, stochastic-process, and path-equality comparisons.
+\end{proof}
