@@ -1508,14 +1508,21 @@ def main() -> int:
             bridge_candidates_full.append(entry)
         # else: lean target below axiomCleanV AND no StdBridge — not a
         # bridge candidate yet (drift sync / formal_axis_top first).
-    # Filter in-flight + recent (lean side: scan .worktrees/round_R*/)
-    inflight_lean = _inflight_lean_attack_chapters()
-    bridge_candidates_full = [
-        c for c in bridge_candidates_full
-        if c["name"] not in inflight_lean
-    ]
+    # Same lesson as bridge_sync_pending: do NOT inflight-filter
+    # bridge_candidates. With ~40 mature/axiomClean chapters and
+    # 12+ concurrent lean rounds, the filter empties the surface
+    # within one dispatch wave; the lean orchestrator then sees
+    # surface=[], runs phase B with empty top, and emits
+    # `{"targets": []}` triggering cooldown. Letting in-flight
+    # chapters stay in surface lets the merge-time dedup handle
+    # rate limiting naturally and keeps lean rounds productive.
+    inflight_lean = _inflight_lean_attack_chapters()  # used by formal_axis_top below
     bridge_candidates_full.sort(key=lambda c: c.get("thms", 0), reverse=True)
-    bridge_candidates = bridge_candidates_full[:10]
+    # Per-call shuffle to disperse 12-worker dogpile.
+    import random as _rand_bc
+    _surface_bc = bridge_candidates_full[:10]
+    _rand_bc.Random().shuffle(_surface_bc)
+    bridge_candidates = _surface_bc
 
     # NOTE: do NOT inflight-filter bridge_sync_pending. With only ~5
     # candidates total, the inflight filter empties the surface within

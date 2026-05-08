@@ -117,3 +117,49 @@ on the transported membership rows. Each paired entry stays between the
 transported endpoints, so the bounded-interval membership row is preserved
 through $\rho_{\mathsf{u}}$.
 \end{proof}
+
+\begin{theorem}[Unary prefix OrderUp interval witness coverage]
+\label{thm:unary-prefix-orderup-interval-witness-coverage}
+Let $L:\mathsf{ListCarrier}(\mathsf{BHist})$ be a nonempty finite carried spine
+and let $m,M$ be the selected extrema supplied by
+\autoref{thm:totalorder-prefix-finite-extrema-certificate}.  For every entry
+$x\in L$, every displayed lower-row and upper-row pair
+$$
+\ell\le_{\mathsf{u}}x
+\qquad
+\text{and}
+\qquad
+x\le_{\mathsf{u}}u
+$$
+that presents $x$ as lying in a unary prefix OrderUp interval factors through
+the minimum and maximum witness records for $m$ and $M$.  Any competing
+displayed interval endpoints $\ell$ and $u$ satisfying the finite-bound witness
+rows are classified by $\rho_{\mathsf{u}}$ with the selected endpoints:
+$$
+\rho_{\mathsf{u}}(m,\ell)
+\land
+\rho_{\mathsf{u}}(M,u).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:totalorder-prefix-finite-extrema-certificate} to the
+nonempty carried spine $L$.  It provides the minimum witness record for $m$,
+the maximum witness record for $M$, and classifier uniqueness for any
+competing minimum or maximum witness records.
+
+Use \autoref{thm:unary-prefix-orderup-bounded-interval-collapse}.  For each
+membership row $x\in L$, the selected minimum witness supplies
+$m\le_{\mathsf{u}}x$ and the selected maximum witness supplies
+$x\le_{\mathsf{u}}M$, so the displayed interval row for $x$ factors through
+the selected extrema.
+
+If the displayed endpoints $\ell$ and $u$ are carried as competing finite-bound
+witness rows, invoke the uniqueness clauses from the finite extrema
+certificate.  They classify $\ell$ with $m$ and $u$ with $M$ by
+$\rho_{\mathsf{u}}$.
+
+Finally apply \autoref{thm:unary-prefix-orderup-interval-transport}.  The
+endpoint classifications transport the lower and upper interval rows across
+the displayed $\rho_{\mathsf{u}}$ pairing, so every interval witness row is
+accounted for by the finite-extrema rows.
+\end{proof}
