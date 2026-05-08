@@ -57,7 +57,30 @@ theorem DynSystemFlowPacket_endpoint_coverage [AskSetup] [PackageSetup]
       (And.intro endpointUnary
         (And.intro routeUnary
           (And.intro flowWitnessCont
-            (And.intro endpointCont
-              (And.intro routeCont routePkg)))))
+              (And.intro endpointCont
+                (And.intro routeCont routePkg)))))
+
+theorem DynSystemFlowPacket_identity_flow_obligation [AskSetup] [PackageSetup]
+    {state : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory state -> PkgSig bundle state pkg ->
+      DynSystemFlowPacket BHist.Empty BHist.Empty BHist.Empty state BHist.Empty state state state
+          bundle pkg ∧
+        Cont BHist.Empty state state ∧ Cont state BHist.Empty state := by
+  intro stateUnary statePkg
+  have emptyUnary : UnaryHistory BHist.Empty := unary_empty
+  have leftFlow : Cont BHist.Empty state state := cont_left_unit state
+  have rightFlow : Cont state BHist.Empty state := cont_right_unit state
+  have packet :
+      DynSystemFlowPacket BHist.Empty BHist.Empty BHist.Empty state BHist.Empty state state state
+          bundle pkg :=
+    And.intro emptyUnary
+      (And.intro emptyUnary
+        (And.intro emptyUnary
+          (And.intro stateUnary
+            (And.intro emptyUnary
+              (And.intro leftFlow
+                (And.intro rightFlow
+                  (And.intro rightFlow statePkg)))))))
+  exact And.intro packet (And.intro leftFlow rightFlow)
 
 end BEDC.Derived.DynSystemUp
