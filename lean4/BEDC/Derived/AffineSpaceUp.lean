@@ -61,6 +61,28 @@ theorem AffineSpaceHistoryTorsorCarrier_action_closure_obligation
   exact And.intro actionCarrier
     (And.intro targetCarrier sameActionTarget)
 
+theorem AffineSpaceTranslationClassifier_action_coverage_obligation
+    {point target translation action : BHist} :
+    AffineSpaceHistoryTorsorCarrier point translation ->
+      Cont point translation action ->
+        hsame action target ->
+          ∃ endpoint : BHist,
+            AffineSpaceHistoryTorsorCarrier endpoint translation ∧
+              AffineSpaceTranslationClassifier point target translation translation action action ∧
+                hsame endpoint target := by
+  intro carrier actionCont sameActionTarget
+  have closure :=
+    AffineSpaceHistoryTorsorCarrier_action_closure_obligation carrier actionCont sameActionTarget
+  exact Exists.intro action
+    (And.intro closure.left
+      (And.intro
+        (And.intro carrier
+          (And.intro carrier
+            (And.intro actionCont
+              (And.intro actionCont
+                (And.intro sameActionTarget sameActionTarget)))))
+        sameActionTarget))
+
 theorem AffineSpaceHistoryTorsorCarrier_vector_action_stability
     {point point' translation translation' action action' : BHist} :
     AffineSpaceHistoryTorsorCarrier point translation ->
@@ -198,5 +220,24 @@ theorem AffineSpaceHistoryTorsorCarrier_action_coverage_obligation
                   (And.intro actionCont
                     (And.intro actionCont
                       (And.intro sameActionTarget sameActionTarget)))))))))
+
+theorem AffineSpaceTranslationClassifier_ledger_exactness
+    {point target left right leftAction rightAction : BHist} :
+    AffineSpaceTranslationClassifier point target left right leftAction rightAction ->
+      AffineSpaceHistoryTorsorCarrier point left ∧
+        AffineSpaceHistoryTorsorCarrier point right ∧
+          Cont point left leftAction ∧ Cont point right rightAction ∧
+            hsame leftAction target ∧ hsame rightAction target ∧ hsame left right ∧
+              hsame leftAction rightAction := by
+  intro classifier
+  have witnesses :=
+    AffineSpaceTranslationClassifier_witnesses_identified classifier
+  exact And.intro classifier.left
+    (And.intro classifier.right.left
+      (And.intro classifier.right.right.left
+        (And.intro classifier.right.right.right.left
+          (And.intro classifier.right.right.right.right.left
+            (And.intro classifier.right.right.right.right.right
+              (And.intro witnesses.left witnesses.right.right.right.right.right))))))
 
 end BEDC.Derived.AffineSpaceUp
