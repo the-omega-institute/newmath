@@ -222,4 +222,43 @@ theorem ChernWeilCarrierEnvelope_characteristic_ledger_exactness
               (And.intro envelope.right.right.right.right.right.left endpointCont')))))
   exact And.intro envelope' (And.intro sameEndpoint endpointUnary')
 
+theorem ChernWeilSourceEnvelope_characteristic_ledger_exactness
+    {curvature curvature' derham provenance connectionLedger connectionLedger' classRow classRow' :
+      BHist} :
+    ChernWeilSourceEnvelope curvature derham provenance connectionLedger classRow ->
+      hsame curvature curvature' ->
+        UnaryHistory connectionLedger' ->
+          Cont curvature' derham provenance ->
+            Cont provenance connectionLedger' classRow' ->
+              hsame classRow classRow' ->
+                ChernWeilSourceEnvelope curvature' derham provenance connectionLedger' classRow' ∧
+                  hsame provenance (append curvature derham) ∧
+                    hsame classRow (append provenance connectionLedger) ∧
+                      hsame classRow' (append provenance connectionLedger') := by
+  intro envelope sameCurvature connectionLedgerUnary' curvatureDerham' ledgerClass'
+    sameClassRow
+  unfold ChernWeilSourceEnvelope at envelope
+  have curvatureUnary' : UnaryHistory curvature' :=
+    unary_transport envelope.left sameCurvature
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed curvatureUnary' envelope.right.left curvatureDerham'
+  have classRowUnary' : UnaryHistory classRow' :=
+    unary_cont_closed provenanceUnary connectionLedgerUnary' ledgerClass'
+  have provenanceOriginal : hsame provenance (append curvature derham) :=
+    envelope.right.right.right.left
+  have classRowOriginal : hsame classRow (append provenance connectionLedger) :=
+    envelope.right.right.right.right.right
+  have classRowTransported : hsame classRow' (append provenance connectionLedger') :=
+    ledgerClass'
+  have transported :
+      ChernWeilSourceEnvelope curvature' derham provenance connectionLedger' classRow' :=
+    And.intro curvatureUnary'
+      (And.intro envelope.right.left
+        (And.intro provenanceUnary
+          (And.intro curvatureDerham'
+            (And.intro ledgerClass' classRowTransported))))
+  exact And.intro transported
+    (And.intro provenanceOriginal
+      (And.intro classRowOriginal classRowTransported))
+
 end BEDC.Derived.ChernWeilUp
