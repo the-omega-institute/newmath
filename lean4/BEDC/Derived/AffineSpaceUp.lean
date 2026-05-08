@@ -19,6 +19,21 @@ def AffineSpaceTranslationClassifier
       Cont point left leftAction ∧ Cont point right rightAction ∧
         hsame leftAction target ∧ hsame rightAction target
 
+theorem AffineSpaceTranslationClassifier_separation_obligation
+    {point target identityAction : BHist} :
+    UnaryHistory point ->
+      Cont point BHist.Empty identityAction ->
+        hsame identityAction target ->
+          AffineSpaceTranslationClassifier point target BHist.Empty BHist.Empty identityAction
+            identityAction := by
+  intro pointUnary identityCont sameTarget
+  exact
+    And.intro (And.intro pointUnary unary_empty)
+      (And.intro (And.intro pointUnary unary_empty)
+        (And.intro identityCont
+          (And.intro identityCont
+            (And.intro sameTarget sameTarget))))
+
 theorem AffineSpaceHistoryTorsorCarrier_append_translation
     {point translation action : BHist} :
     AffineSpaceHistoryTorsorCarrier point translation ->
@@ -29,6 +44,22 @@ theorem AffineSpaceHistoryTorsorCarrier_append_translation
   have actionUnary : UnaryHistory action :=
     unary_cont_closed carrier.left carrier.right actionCont
   exact And.intro (And.intro actionUnary carrier.right) actionCont
+
+theorem AffineSpaceHistoryTorsorCarrier_action_closure_obligation
+    {point translation action target : BHist} :
+    AffineSpaceHistoryTorsorCarrier point translation ->
+      Cont point translation action ->
+        hsame action target ->
+          AffineSpaceHistoryTorsorCarrier action translation ∧
+            AffineSpaceHistoryTorsorCarrier target translation ∧ hsame action target := by
+  intro carrier actionCont sameActionTarget
+  have actionCarrier :
+      AffineSpaceHistoryTorsorCarrier action translation :=
+    (AffineSpaceHistoryTorsorCarrier_append_translation carrier actionCont).left
+  have targetCarrier : AffineSpaceHistoryTorsorCarrier target translation :=
+    And.intro (unary_transport actionCarrier.left sameActionTarget) actionCarrier.right
+  exact And.intro actionCarrier
+    (And.intro targetCarrier sameActionTarget)
 
 theorem AffineSpaceHistoryTorsorCarrier_vector_action_stability
     {point point' translation translation' action action' : BHist} :
