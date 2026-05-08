@@ -6,5 +6,110 @@ The model-theory interface $\ModelTheoryUp$ packages a structure for a first-ord
 \section{Carrier definition}
 \label{sec:modeltheory-carrier}
 
+\begin{definition}[ModelTheoryUp BHist structure packet]\label{def:modeltheory-bhist-structure-packet}
+A $\ModelTheoryUp$ source packet is a finite displayed $\mathsf{BHist}$ tuple
+$(S,A,\mathsf{Val},\mathsf{Sat},\mathsf{Elem},\rho,\lambda)$. The row $S$ is
+the $\FirstOrderUp$ signature and formula row, $A$ is the displayed structure
+row, $\mathsf{Val}$ records variable-assignment observations, $\mathsf{Sat}$
+records the satisfaction ledgers for named formulas and assignments, and
+$\mathsf{Elem}$ records elementary-equivalence and elementary-substructure
+faces. The row $\rho$ is the $\Pkg$ provenance tying the packet to the visible
+certificate, and $\lambda$ is the $\Cont$ and $\hsame$ transport ledger.
+
+Acceptance of the packet exports only these displayed rows. A host
+satisfaction relation, an ambient model equality, or an external comparison
+of structures is not part of the carrier.
+\end{definition}
+
+\begin{definition}[ModelTheoryUp satisfaction ledger classifier]\label{def:modeltheory-satisfaction-ledger-classifier}
+Two $\ModelTheoryUp$ source packets classify the same row exactly when
+$\hsame$ transports their $\FirstOrderUp$ signature rows, displayed carrier
+rows, valuation rows, satisfaction ledgers, elementary-equivalence rows, and
+$\Pkg$ provenance through the same $\Cont$ ledger. The comparison is therefore
+rowwise: formula and substitution reads move through the $\FirstOrderUp$
+source, assignments move through $\mathsf{Val}$, truth records move through
+$\mathsf{Sat}$, and elementary faces move through $\mathsf{Elem}$.
+\end{definition}
+
 \section{The certificate}
 \label{sec:modeltheory-certificate}
+
+\begin{theorem}[ModelTheoryUp FirstOrder dependency surface]\label{thm:modeltheory-firstorder-dependency-surface}
+Every admitted $\ModelTheoryUp$ packet projects its signature row,
+term/formula grammar row, and substitution-read rows through
+$\NameCert_{\FirstOrderUp}$. The structure, valuation, satisfaction, and
+elementary rows may consume those projected first-order endpoints, but they
+do not export an independent first-order syntax source.
+\end{theorem}
+\begin{proof}
+Invert the carried packet of
+\autoref{def:modeltheory-bhist-structure-packet}. The first projection is the
+row $S$, so the available symbols, terms, formulas, and substitution reads
+are exactly the rows already visible from $\NameCert_{\FirstOrderUp}$.
+
+Project the displayed structure row $A$ and the valuation row
+$\mathsf{Val}$. Each assignment observation names variables and formula
+endpoints by referring back to $S$, so no separate grammar or substitution
+operation appears in the model-theory carrier.
+
+Finally project the satisfaction and elementary ledgers. Their formula
+occurrences are read through the same $S$ row, and their provenance is the
+same $\Pkg$ row $\rho$. Repacking these projections gives the admitted
+$\ModelTheoryUp$ packet with the first-order dependency surface unchanged.
+\end{proof}
+
+\begin{theorem}[ModelTheoryUp elementary transport]\label{thm:modeltheory-elementary-equivalence-transport}
+If two admitted $\ModelTheoryUp$ packets are related by $\hsame$ transport of
+their $\FirstOrderUp$ rows and satisfaction ledgers, then their
+elementary-equivalence and elementary-substructure rows transport as
+displayed $\mathsf{Elem}$ rows. This transport uses no host model equality.
+\end{theorem}
+\begin{proof}
+Start with the classifier relation of
+\autoref{def:modeltheory-satisfaction-ledger-classifier}. It supplies the
+$\hsame$ rows for the first-order source, the displayed structure row, the
+valuation ledger, the satisfaction ledger, the elementary ledger, and the
+$\Pkg$ provenance.
+
+Use the transported $\FirstOrderUp$ row to move formula endpoints and
+substitution reads. Use the transported $\mathsf{Sat}$ row to move each
+satisfaction record for the corresponding assignment observation.
+
+The elementary-equivalence and elementary-substructure faces are finite
+records in $\mathsf{Elem}$. Project those records from the source packet,
+replace each formula and satisfaction reference by the transported row just
+obtained, and repack them as the target $\mathsf{Elem}$ row. No step compares
+ambient carriers by a host equality; every comparison is one of the displayed
+$\hsame$ rows.
+\end{proof}
+
+\begin{theorem}[ModelTheoryUp NameCert obligation surface]\label{thm:modeltheory-namecert-obligation-surface}
+The public $\NameCert_{\ModelTheoryUp}$ obligation surface consists exactly of
+the carrier of \autoref{def:modeltheory-bhist-structure-packet}, the
+classifier of \autoref{def:modeltheory-satisfaction-ledger-classifier}, the
+first-order dependency surface of
+\autoref{thm:modeltheory-firstorder-dependency-surface}, the elementary
+transport of \autoref{thm:modeltheory-elementary-equivalence-transport},
+stability transport, the satisfaction exactness ledger, the
+elementary-equivalence ledger, and no additional exported field.
+\end{theorem}
+\begin{proof}
+Collect the carrier rows first. The finite $\mathsf{BHist}$ packet provides
+$S$, $A$, $\mathsf{Val}$, $\mathsf{Sat}$, $\mathsf{Elem}$, $\rho$, and
+$\lambda$, while the first-order dependency theorem identifies all syntax and
+substitution reads as projections through $\NameCert_{\FirstOrderUp}$.
+
+Next collect the classifier rows. The satisfaction ledger classifier gives
+rowwise $\hsame$ transport for the first-order source, the structure carrier,
+valuation observations, satisfaction records, elementary faces, and
+provenance. The elementary transport theorem repacks the transported
+satisfaction data into elementary-equivalence and elementary-substructure
+rows.
+
+It remains to check public coverage. A consumer of
+$\NameCert_{\ModelTheoryUp}$ can ask for a carrier row, a classifier row,
+stability under $\hsame$, exact readback of satisfaction records, or the
+elementary ledger. Each request is one of the collected rows, and none exposes
+a host satisfaction predicate, an ambient model equality, or another public
+field outside the displayed packet.
+\end{proof}

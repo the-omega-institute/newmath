@@ -232,3 +232,36 @@ $$
 \mathsf{CollFreeH}_{\mathcal H}(x',x).
 $$
 \end{proof}
+
+\begin{theorem}[Hash collision success is irreflexive on the message]
+\label{thm:hash-collision-success-irreflexive-on-message}
+Let $\mathcal H$ be a $\HashUp$ certificate whose message classifier $\sigma_{\mathcal H}$ carries the reflexivity field supplied by its naming-certificate component. For every message history $x$, if
+$$
+\mathsf{HashCollisionSuccess}_{\mathcal H}(x,x)
+$$
+holds, then
+$$
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:hash-evaluation-success-transcripts}. A collision transcript for the diagonal pair $(x,x)$ gives digest histories $d$ and $d'$ with the two evaluation row witnesses
+$$
+\mathsf{HashEval}_{\mathcal H}(x,d)
+\qquad\text{and}\qquad
+\mathsf{HashEval}_{\mathcal H}(x,d'),
+$$
+the message distinction witness
+$$
+\neg\sigma_{\mathcal H}(x,x),
+$$
+and the digest comparison
+$$
+\rho_{\mathcal H}(d,d').
+$$
+The first evaluation row already exhibits $x$ as a carried message of $\mathcal H$. Since the message classifier is supplied by a naming certificate, the reflexivity field from \autoref{def:lean-carrier-naming-certificate} therefore gives
+$$
+\sigma_{\mathcal H}(x,x).
+$$
+This contradicts the displayed witness $\neg\sigma_{\mathcal H}(x,x)$. Hence no diagonal collision-success transcript can exist, and the assumption implies $\bot$.
+\end{proof}

@@ -91,7 +91,6 @@ AbelianCat is a 433-line chapter with 10 theorems but only B-423 (`AbelianCat ho
 
 ---
 
-
 ### B-519 - LPDuality dual feasibility binary convex closure
 
 | field | value |
@@ -115,57 +114,6 @@ Rationale:
 B-516 `LPDuality primal feasibility binary convex closure` is on the BOARD pending list as the primal-side companion of weak-duality (B-429), complementary slackness (B-447), and weak-duality-equality optimality (B-444). Inspecting 213_lpduality_namecert_construction.tex:50-69 confirms the chapter exposes a separate `\mathsf{DuFeas}_{A,b,c}` predicate (dual feasibility, with $c_j \preceq_F \beta_j(y)$ rows) that has identical convex-closure structure: nonneg coefficients sum to one, finite-sum monotonicity row inherits, and dual constraint $c_j \preceq_F \beta_j(\eta)$ falls out of left/right multiplication monotonicity rows already named in the feasibility row at lines 18-36. The dual side is a structural mirror that B-516 deliberately omits; by symmetry of LP duality this is the natural complement, not a duplicate. File is 276 lines, plenty of room.
 
 ---
-
-
-### B-520 - Sheaf identity refinement is a refinement of itself
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Sheaf identity refinement is a refinement of itself |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 8/10 |
-
-Problem:
-For an indexed open cover $\mathcal{U}=(A,\iota,h,\gamma)$ of an indexed open $i$ in the $\SheafUp$ root-obligation surface, the identity map $\mathrm{id}_A:A\to A$ together with the displayed self-inclusion witnesses $\epsilon_a:\iota(a)\le_{\mathcal{T}}\iota(\mathrm{id}_A(a))$ given by the reflexive indexed-open inclusion is a displayed refinement of $\mathcal{U}$ through itself.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/sheaf/04_refinement_exactness.tex`
-
-Rationale:
-The refinement preorder on covers in 04_refinement_exactness.tex is currently constituted by the obligation theorem `Sheaf cover refinement obligation` (line 1) and the transitivity step (B-505 `Sheaf refinement composition is classifier-associative on three-step towers`, plus `Sheaf refinement composition obligation` at 05_refinement_composition_and_presentation.tex:1). The reflexivity row — i.e. that every cover refines itself via the identity map — is the missing third leg of refinement-as-preorder, distinct from the `identity-cover root package' in identity_cover_root_package.tex which only addresses the unit one-member cover of $i$, not arbitrary covers refining themselves. Single implication on a 154-line file. Companion to B-505 the way reflexivity complements transitivity.
-
----
-
-
-### B-521 - NetworkFlow zero edge-flow is feasible at zero value
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | NetworkFlow zero edge-flow is feasible at zero value |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 9/10 |
-
-Problem:
-Let $G$ be a directed $\GraphUp$ carrier with unary capacity assignment $u$ on its edges and carried vertices $s,t$. The zero edge-flow $f_0(e):=\emp$ for every $e:\mathsf{BHist}$, with value witness $V_{F_0}:=\emp$ and the trivial cut-history witnesses $B_{F_0,C}=\emp$, $X_{F_0,C}=\emp$, is a feasible $\NetworkFlowUp$ $s$-$t$ flow over $u$.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
-
-Rationale:
-211_networkflow_namecert_construction.tex carries 4 theorems (weak duality B-429-class, cut accounting, max-flow min-cut equality, equality-implies-optimality) and BOARD has B-493/B-463 on residual capacity/optimality. None establishes that the trivial zero flow is feasible — yet feasibility-of-zero is the standard `the feasible region is nonempty' fact the rest of the duality theory needs to be non-vacuous. Definition at line 50-69 sets feasibility = capacity row + per-cut conservation row; both reduce to $\Cont(\emp,\emp,\emp)$ and $\emp \preceq_{\NatUp} u(e)$, both of which are trivially supplied by the reflexive unary-prefix preorder. Single implication, concrete claim, file 466 lines.
-
----
-
 
 ### B-522 - Banach zero bounded operator left-composition annihilation
 
@@ -215,7 +163,6 @@ Clean diagonal-impossibility companion to the existing hash-collision family (B-
 
 ---
 
-
 ### B-524 - RandomVar countable preimage intersection exactness
 
 | field | value |
@@ -239,7 +186,6 @@ Rationale:
 Strict dual companion to B-474 (countable preimage UNION exactness), the only sigma-algebra closure case missing from the RandomVar preimage exactness suite (B-474 union, B-419 preimage union, B-456 empty preimage, B-455 total preimage, B-439 complement, B-434 relative-difference, plus binary intersection in countable_and_intersection.tex). The scoped-closure package thm:randomvar-scoped-closure-package currently only mentions countable union; a probability-theory referee would call this out. Concrete sigma-algebra closure, not a parameter transport — proof mirrors the union proof with exists -> forall. File 171 lines, safe landing.
 
 ---
-
 
 ### B-525 - LPDuality dual feasibility binary convex closure
 
@@ -265,3 +211,52 @@ Symmetric dual-side companion to the in-progress B-516 (LPDuality PRIMAL feasibi
 
 ---
 
+### B-526 - ConvexSet linear preimage carries the binary affine-combination row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ConvexSet linear preimage carries the binary affine-combination row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If f: V→W is a carried LinearMapUp and D is a convex carrier in W satisfying the binary affine-combination row of def:convexset-binary-affine-combination-row, then the source-side preimage carrier f^{-1}(D)(x) := D(f(x)) on the source vector carrier C_V satisfies the same binary nonneg unit-sum affine-combination closure row over the same FieldUp scalar source.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+
+Rationale:
+186_convexset already proves the IMAGE direction in thm:convexset-linear-image-affine-combination-closure (186:249-312) and thm:convexset-linear-image-finite-affine-spine-closure (186:314-346) via def:convexset-linear-image-carrier (186:238). The dual PREIMAGE direction is structurally simpler (no codomain-classifier transport needed; just push the f-output condition through linearity) and is genuinely missing. `Grep -rn 'preimage|f^{-1}.*convex|convex.*preimage' papers/bedc/parts/` returns 0 hits across the entire parts/ tree, and there is no `BEDC.Derived.ConvexSetUp.*Preimage` Lean target. File is 357 lines, well below the 760 cap, and follows the same chapter as the image case so the local style cues already exist.
+
+---
+
+### B-527 - Independence empty index family carries the finite factorisation row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Independence empty index family carries the finite factorisation row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a finite-family carrier R for IndependenceUp in the sense of def:independence-finite-family-carrier has empty FinSetUp index carrier I = ∅, then R satisfies the finite factorisation row of def:independence-finite-factorisation-row: for the unique empty event-family B, μ_X^J(Cyl_X(B)) ~_R Π_R(MargSp_X(B)) holds, both endpoints being the empty-product unit 1_R.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/165_independence_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+
+Rationale:
+165_independence has 11 theorems including B-477 (finite reindexing invariance), B-499 (measurable-image bridge), and B-511 (subfamily projection), but `grep -rn 'empty.*independence|empty.*indep.*finite|empty.*family.*independent' papers/bedc/parts/` returns 0 hits about IndependenceUp empty-family. (180 hits for matroid-empty are different concept.) The empty-index degenerate case is conceptually distinct from B-511 because it does not require an ambient-family hypothesis: it is structural—the joint pushforward of an empty-tuple map onto the singleton empty-product target is the total mass 1_R by ProbSpace total-mass row (thm:probspace-total-event-normalization-row, 162:130), and the empty real-product fold is 1_R by the finite-fold definitions. Closes the foundational degenerate case that the existing theorems all assume to be discharged. File at 362 lines.
+
+---
