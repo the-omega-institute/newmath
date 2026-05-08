@@ -54,15 +54,36 @@ Apply \autoref{thm:integral-measure-respecting-classifier-obligation}. It suppli
 Apply \autoref{thm:integral-operation-stability-ledger-obligation}. The roadmap ten-field template then reads the operation, measure-respecting stability, ledger, exactness, and dependency rows as visible public certificate fields. The same template keeps partitions, approximations, convergence witnesses, standard bridges, and host function equality as ledger or out-of-scope data, so the three obligation rows repack as the exported public $\NameCert_{\IntegralUp}$ surface.
 \end{proof}
 
+\begin{theorem}[IntegralUp conservative standard bridge]\label{thm:integral-conservative-standard-bridge}
+The public $\NameCert_{\IntegralUp}$ surface of \autoref{thm:integral-public-namecert-surface} admits a conservative standard interpretation with the following six fields.
+\begin{enumerate}
+  \item The BEDC side is exactly the public surface of \autoref{thm:integral-public-namecert-surface}.
+  \item The standard side is an ordinary integration-interface readback over the same displayed $\MeasureUp$ and $\ContourUp$ rows.
+  \item Forward readback exposes only the visible carrier, classifier, measure-respecting stability, operation ledger, exactness, and dependency rows.
+  \item Reverse admission accepts only packages with those displayed rows.
+  \item Classifier preservation is the classifier row of \autoref{thm:integral-measure-respecting-classifier-obligation}.
+  \item No host data leak through the bridge: partitions, approximations, convergence witnesses, and host function equality remain non-public ledger data by \autoref{thm:integral-operation-stability-ledger-obligation}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:integral-function-carrier-obligation}. It fixes the displayed $\MeasureUp$ row, the admissible function-carrier row, the $\ContourUp$ comparison boundary, and the $\mathsf{BHist}$ endpoint read by both sides of the bridge.
+
+Apply \autoref{thm:integral-measure-respecting-classifier-obligation}. The classifier preserved by the standard reading is therefore the displayed $\hsame$ and $\Pkg$ comparison on measure and contour histories, not host function equality.
+
+Apply \autoref{thm:integral-operation-stability-ledger-obligation}. Its ledger boundary keeps partitions, approximations, convergence witnesses, and operation presentations as non-public data, while its stability, exactness, and dependency rows are visible certificate fields.
+
+Finally apply \autoref{thm:integral-public-namecert-surface}. Forward readback can expose only the public rows listed there, and reverse admission can accept only packages carrying those same rows over the displayed $\MeasureUp$ and $\ContourUp$ sources. Thus the standard integration-interface reading is conservative over the public $\IntegralUp$ surface.
+\end{proof}
+
 \closureat{IntegralUp}{scopedStr}
-\closureat{IntegralUp}{publicStr}[BEDC.Derived.IntegralUp.IntegralFunctionCarrier\_obligation]
+\closureat{IntegralUp}{bridgedStr}[BEDC.Derived.IntegralUp.IntegralFunctionCarrier\_obligation]
 
 \begin{closurestatus}{\IntegralUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public paper surface is exactly \autoref{thm:integral-public-namecert-surface}, grounded by \autoref{thm:integral-function-carrier-obligation}, \autoref{thm:integral-measure-respecting-classifier-obligation}, and \autoref{thm:integral-operation-stability-ledger-obligation}, read through the displayed $\mathsf{BHist}$, $\Pkg$, $\hsame$, $\NameCert_{\MeasureUp}$, and $\NameCert_{\ContourUp}$ dependencies.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The public paper surface is exactly \autoref{thm:integral-public-namecert-surface}, and the conservative standard bridge is \autoref{thm:integral-conservative-standard-bridge}, grounded by \autoref{thm:integral-function-carrier-obligation}, \autoref{thm:integral-measure-respecting-classifier-obligation}, and \autoref{thm:integral-operation-stability-ledger-obligation}, read through the displayed $\mathsf{BHist}$, $\Pkg$, $\hsame$, $\NameCert_{\MeasureUp}$, and $\NameCert_{\ContourUp}$ dependencies.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.IntegralUp.IntegralFunctionCarrier\_obligation}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close a standard bridge, a convergence theorem, or host function equality for integrands.}
-  \upgradepath{Bridged closure requires a standard bridge for the public $\NameCert_{\IntegralUp}$ surface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close a convergence theorem, host function equality for integrands, or bridgeChecked verification.}
+  \upgradepath{Mature closure requires downstream examples or completeness-style consumers for the bridged public $\IntegralUp$ surface; bridgeChecked verification remains a separate formal-axis target.}
 \end{closurestatus}
