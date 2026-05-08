@@ -93,3 +93,28 @@ meet and join bound-characterization rows. The lower-bound and upper-bound
 comparisons are ledger entries over the same prefix relation, so their
 endpoint collapse still reads through the root $\PosetUp$ certificate.
 \end{proof}
+
+\begin{theorem}[Poset root scoped certificate boundary]
+\label{thm:poset-root-scoped-certificate-boundary}
+The root $\PosetUp$ package closes exactly the scoped boundary consisting of
+unary $\mathsf{BHist}$ carrier rows, inherited $\PreorderUp$ prefix comparison
+rows, the carrier-aware $\hsame$ classifier, antisymmetry collapse, finite
+$\Cont$ comparison ledgers, and $\Pkg$ provenance. These are precisely the
+rows inherited by $\TotalOrderUp$ and $\LatticeUp$ consumers.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:poset-root-certificate-readback}. It reads the concrete
+unary-prefix certificate of \autoref{thm:concrete-unary-prefix-poset-namecert}
+from \autoref{def:concrete-unary-prefix-poset-instance}, naming the carrier,
+classifier, prefix relation, exactness rows, ledger, and provenance fields.
+
+Apply \autoref{thm:poset-root-antisymmetry-obligation} to isolate the
+partial-order row. The only collapse added beyond the inherited
+$\PreorderUp$ prefix comparisons is the carrier-aware $\hsame$ result of the
+two directed prefix witnesses.
+
+Finally use \autoref{thm:poset-root-downstream-unblock-package}. It states that
+$\TotalOrderUp$ and $\LatticeUp$ consumers inherit exactly those rows and may
+only append their own selector or bound-characterization data. Thus the scoped
+boundary is neither weaker nor larger than the listed BEDC primitives.
+\end{proof}
