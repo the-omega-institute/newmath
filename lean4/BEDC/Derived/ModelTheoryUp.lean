@@ -291,4 +291,63 @@ theorem ModelTheoryBHistStructurePacket_carrier_classifier_stability [AskSetup] 
               (And.intro provenanceCont' (And.intro endpointCont' pkgSig')))))))
     (And.intro sameValuation (And.intro sameProvenance sameEndpoint))
 
+theorem ModelTheoryBHistStructurePacket_downstream_consumer_row [AskSetup] [PackageSetup]
+    {firstOrder structureRow valuation satisfaction elementary provenance endpoint formula formulaRead
+      assignmentRead satisfactionRecord elementaryRead elementaryEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelTheoryBHistStructurePacket firstOrder structureRow valuation satisfaction elementary
+        provenance endpoint bundle pkg ->
+      UnaryHistory formula ->
+        Cont firstOrder formula formulaRead ->
+          Cont valuation formulaRead assignmentRead ->
+            Cont assignmentRead satisfaction satisfactionRecord ->
+              Cont satisfaction elementary elementaryRead ->
+                Cont elementaryRead provenance elementaryEndpoint ->
+                  UnaryHistory firstOrder ∧ UnaryHistory structureRow ∧ UnaryHistory valuation ∧
+                    UnaryHistory satisfaction ∧ UnaryHistory elementary ∧ UnaryHistory formulaRead ∧
+                      UnaryHistory assignmentRead ∧ UnaryHistory satisfactionRecord ∧
+                        UnaryHistory elementaryRead ∧ UnaryHistory elementaryEndpoint ∧
+                          hsame formulaRead (append firstOrder formula) ∧
+                            hsame assignmentRead (append valuation (append firstOrder formula)) ∧
+                              hsame satisfactionRecord
+                                (append (append valuation (append firstOrder formula))
+                                  satisfaction) ∧
+                                hsame elementaryRead (append satisfaction elementary) ∧
+                                  hsame elementaryEndpoint (append elementaryRead provenance) ∧
+                                    PkgSig bundle endpoint pkg := by
+  intro packet formulaUnary formulaRow assignmentRow satisfactionRow elementaryReadRow
+    elementaryEndpointRow
+  have satisfactionExact :=
+    ModelTheoryBHistStructurePacket_satisfaction_exactness_row
+      (firstOrder := firstOrder) (structureRow := structureRow) (valuation := valuation)
+      (satisfaction := satisfaction) (elementary := elementary) (provenance := provenance)
+      (endpoint := endpoint) (formula := formula) (formulaRead := formulaRead)
+      (assignmentRead := assignmentRead) (satisfactionRecord := satisfactionRecord)
+      (bundle := bundle) (pkg := pkg) packet formulaUnary formulaRow assignmentRow satisfactionRow
+  have elementaryCoverage :=
+    ModelTheoryBHistStructurePacket_elementary_ledger_coverage
+      (firstOrder := firstOrder) (structureRow := structureRow) (valuation := valuation)
+      (satisfaction := satisfaction) (elementary := elementary) (provenance := provenance)
+      (endpoint := endpoint) (elementaryRead := elementaryRead)
+      (elementaryEndpoint := elementaryEndpoint) (bundle := bundle) (pkg := pkg) packet
+      elementaryReadRow elementaryEndpointRow
+  have valuationUnary : UnaryHistory valuation :=
+    unary_cont_closed packet.left packet.right.left packet.right.right.right.right.left
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro valuationUnary
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro satisfactionExact.left
+              (And.intro satisfactionExact.right.left
+                (And.intro satisfactionExact.right.right.left
+                  (And.intro elementaryCoverage.left
+                    (And.intro elementaryCoverage.right.left
+                      (And.intro satisfactionExact.right.right.right.left
+                        (And.intro satisfactionExact.right.right.right.right.left
+                          (And.intro satisfactionExact.right.right.right.right.right.left
+                            (And.intro elementaryCoverage.right.right.left
+                              (And.intro elementaryCoverage.right.right.right.left
+                                satisfactionExact.right.right.right.right.right.right))))))))))))))
+
 end BEDC.Derived.ModelTheoryUp

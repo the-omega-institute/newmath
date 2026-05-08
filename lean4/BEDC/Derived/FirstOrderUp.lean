@@ -378,4 +378,35 @@ theorem FirstOrderBHistSatisfactionCarrier_soundness_transport_row [AskSetup] [P
     (And.intro conclusionRow
       (And.intro resultRow syntaxCarrier.right.right.right.right.right.right.right.right))
 
+theorem FirstOrderBHistSatisfactionCarrier_satisfaction_endpoint_soundness [AskSetup]
+    [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint provenance modelSource result satisfactionProvenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol
+        functionSymbol treeEndpoint formulaEndpoint provenance bundle pkg ->
+      FirstOrderBHistSatisfactionCarrier formulaEndpoint modelSource result satisfactionProvenance
+        bundle pkg ->
+        SigRel bundle formulaEndpoint provenance ->
+          UnaryHistory formulaEndpoint ∧ UnaryHistory modelSource ∧ UnaryHistory result ∧
+            Cont formulaEndpoint modelSource result ∧ SigRel bundle formulaEndpoint provenance ∧
+              SigRel bundle result satisfactionProvenance ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle satisfactionProvenance pkg := by
+  intro syntaxCarrier satisfactionCarrier formulaSig
+  have endpointUnary :=
+    FirstOrderBHistSyntaxCarrier_endpoint_unary
+      (symbolSource := symbolSource) (treeSource := treeSource)
+      (variableLedger := variableLedger) (relationSymbol := relationSymbol)
+      (functionSymbol := functionSymbol) (treeEndpoint := treeEndpoint)
+      (formulaEndpoint := formulaEndpoint) (provenance := provenance)
+      (bundle := bundle) (pkg := pkg) syntaxCarrier
+  exact And.intro endpointUnary.right
+    (And.intro satisfactionCarrier.right.left
+      (And.intro satisfactionCarrier.right.right.left
+        (And.intro satisfactionCarrier.right.right.right.left
+          (And.intro formulaSig
+            (And.intro satisfactionCarrier.right.right.right.right.left
+              (And.intro syntaxCarrier.right.right.right.right.right.right.right.right
+                satisfactionCarrier.right.right.right.right.right))))))
+
 end BEDC.Derived.FirstOrderUp
