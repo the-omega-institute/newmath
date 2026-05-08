@@ -349,4 +349,30 @@ theorem GaloisGroupAutomorphismActionPacket_unit_action_laws [AskSetup] [Package
           (And.intro packet.right.right.right.right.right.right.right.right.right.left
             packet.right.right.right.right.right.right.right.right.right.right))))
 
+theorem GaloisGroupAutomorphismActionPacket_action_ledger_exactness [AskSetup] [PackageSetup]
+    {galoisExt group fixedBase action composition inverse classifier provenance ledger endpoint
+      identityLeft identityRight : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisGroupAutomorphismActionPacket galoisExt group fixedBase action composition inverse
+        classifier provenance ledger endpoint bundle pkg ->
+      Cont action BHist.Empty identityLeft ->
+        Cont BHist.Empty action identityRight ->
+          UnaryHistory provenance ∧ UnaryHistory classifier ∧ UnaryHistory ledger ∧
+            UnaryHistory endpoint ∧ hsame endpoint (append provenance ledger) ∧
+              hsame identityLeft action ∧ hsame identityRight action ∧
+                PkgSig bundle endpoint pkg := by
+  intro packet leftUnit rightUnit
+  have rows :=
+    GaloisGroupAutomorphismActionPacket_fixed_base_carrier_obligation packet
+  have unitRows :=
+    GaloisGroupAutomorphismActionPacket_unit_action_laws packet leftUnit rightUnit
+  exact And.intro rows.left
+    (And.intro rows.right.left
+      (And.intro rows.right.right.left
+        (And.intro rows.right.right.right.left
+          (And.intro rows.right.right.right.right.right.right.right.left
+            (And.intro unitRows.left
+              (And.intro unitRows.right.left
+                rows.right.right.right.right.right.right.right.right))))))
+
 end BEDC.Derived.GaloisGroupUp
