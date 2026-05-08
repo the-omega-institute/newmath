@@ -328,9 +328,24 @@ theorem ComputableBoundedGraph_ledger_exactness_obligation
   have run : ComputableBoundedSim C.program n (C.bound n) m :=
     C.graph_to_sim graphRow
   exact And.intro run
-    (And.intro run.left
-      (And.intro run.right.left
-        (And.intro run.right.right.left
-          (And.intro run.right.right.right.left run.right.right.right.right))))
+      (And.intro run.left
+        (And.intro run.right.left
+          (And.intro run.right.right.left
+            (And.intro run.right.right.right.left run.right.right.right.right))))
+
+theorem ComputableBoundedGraphCertificate_source_carrier_obligation
+    (C : ComputableBoundedGraphCertificate) {n m : BHist} :
+    C.Graph n m ->
+      UnaryHistory C.program ∧ UnaryHistory n ∧ UnaryHistory (C.bound n) ∧
+        UnaryHistory m ∧ Cont n (C.bound n) m ∧
+          ComputableBoundedSim C.program n (C.bound n) m := by
+  intro graphRow
+  have run : ComputableBoundedSim C.program n (C.bound n) m :=
+    C.graph_to_sim graphRow
+  exact And.intro C.program_unary
+    (And.intro run.right.left
+      (And.intro run.right.right.left
+        (And.intro run.right.right.right.left
+          (And.intro run.right.right.right.right run))))
 
 end BEDC.Derived.ComputableUp
