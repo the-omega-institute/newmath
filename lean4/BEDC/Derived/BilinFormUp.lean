@@ -54,6 +54,38 @@ theorem BilinFormBHistObligationSurface_carrier_classifier_obligations
             (And.intro sameEndpoint
               (And.intro sameScalarLedger sameLedger))))
 
+theorem BilinFormBHistObligationSurface_symmetry_antisymmetry_obligations
+    {left right scalar additive endpoint scalarLedger ledger swappedEndpoint swappedScalarLedger
+      swappedLedger : BHist} :
+    BilinFormBHistObligationSurface left right scalar additive endpoint scalarLedger ledger ->
+      Cont right left swappedEndpoint ->
+        Cont swappedEndpoint scalar swappedScalarLedger ->
+          Cont swappedScalarLedger additive swappedLedger ->
+            BilinFormBHistObligationSurface right left scalar additive swappedEndpoint
+                swappedScalarLedger swappedLedger ∧
+              hsame endpoint swappedEndpoint ∧ hsame scalarLedger swappedScalarLedger ∧
+                hsame ledger swappedLedger := by
+  intro surface swappedEndpointCont swappedScalarLedgerCont swappedLedgerCont
+  have sameEndpoint : hsame endpoint swappedEndpoint :=
+    unary_cont_comm surface.left surface.right.left surface.right.right.right.right.left
+      swappedEndpointCont
+  have sameScalarLedger : hsame scalarLedger swappedScalarLedger :=
+    cont_respects_hsame sameEndpoint (hsame_refl scalar)
+      surface.right.right.right.right.right.left swappedScalarLedgerCont
+  have sameLedger : hsame ledger swappedLedger :=
+    cont_respects_hsame sameScalarLedger (hsame_refl additive)
+      surface.right.right.right.right.right.right swappedLedgerCont
+  constructor
+  · exact
+      And.intro surface.right.left
+        (And.intro surface.left
+          (And.intro surface.right.right.left
+            (And.intro surface.right.right.right.left
+              (And.intro swappedEndpointCont
+                (And.intro swappedScalarLedgerCont swappedLedgerCont)))))
+  · exact And.intro sameEndpoint
+      (And.intro sameScalarLedger sameLedger)
+
 def BilinFormRootPairingSurface
     (left right scalar endpoint ledger : BHist) : Prop :=
   UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory scalar ∧

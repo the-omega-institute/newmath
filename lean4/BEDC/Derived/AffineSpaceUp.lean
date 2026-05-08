@@ -30,6 +30,22 @@ theorem AffineSpaceHistoryTorsorCarrier_append_translation
     unary_cont_closed carrier.left carrier.right actionCont
   exact And.intro (And.intro actionUnary carrier.right) actionCont
 
+theorem AffineSpaceHistoryTorsorCarrier_action_closure_obligation
+    {point translation action target : BHist} :
+    AffineSpaceHistoryTorsorCarrier point translation ->
+      Cont point translation action ->
+        hsame action target ->
+          AffineSpaceHistoryTorsorCarrier action translation ∧
+            AffineSpaceHistoryTorsorCarrier target translation ∧ hsame action target := by
+  intro carrier actionCont sameActionTarget
+  have actionCarrier :
+      AffineSpaceHistoryTorsorCarrier action translation :=
+    (AffineSpaceHistoryTorsorCarrier_append_translation carrier actionCont).left
+  have targetCarrier : AffineSpaceHistoryTorsorCarrier target translation :=
+    And.intro (unary_transport actionCarrier.left sameActionTarget) actionCarrier.right
+  exact And.intro actionCarrier
+    (And.intro targetCarrier sameActionTarget)
+
 theorem AffineSpaceHistoryTorsorCarrier_vector_action_stability
     {point point' translation translation' action action' : BHist} :
     AffineSpaceHistoryTorsorCarrier point translation ->
