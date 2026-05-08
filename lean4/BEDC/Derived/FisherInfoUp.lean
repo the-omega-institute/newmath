@@ -85,4 +85,19 @@ theorem FisherInfoBHistScoreCarrier_distribution_source_obligation [AskSetup] [P
         (And.intro carrier.right.right.right.right.left
           carrier.right.right.right.right.right.right.left)))
 
+theorem FisherInfoBHistScoreCarrier_expectation_ledger_exactness [AskSetup] [PackageSetup]
+    {distribution metric parameter score expectation component provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FisherInfoBHistScoreCarrier distribution metric parameter score expectation component
+        provenance ledger bundle pkg ->
+      hsame expectation (append distribution score) ∧
+        hsame component (append expectation metric) ∧ hsame ledger (append component provenance) ∧
+          UnaryHistory score ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  exact And.intro carrier.right.right.right.right.left
+    (And.intro carrier.right.right.right.right.right.left
+      (And.intro carrier.right.right.right.right.right.right.right
+        (And.intro carrier.right.right.right.left
+          carrier.right.right.right.right.right.right.left)))
+
 end BEDC.Derived.FisherInfoUp
