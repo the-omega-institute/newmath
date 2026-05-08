@@ -512,6 +512,112 @@ $\NameCert$ rows. Thus the public consumer receives exactly the listed data and
 no ambient topological-group object.
 \end{proof}
 
+\begin{definition}[TopGroupUp BHist continuity obligation triple]
+\label{def:topgroup-bhist-continuity-obligation-triple}
+The $\TopGroupUp$ $\mathsf{BHist}$ continuity obligation triple over the carrier
+of \autoref{def:topgroup-bhist-carrier} consists of exactly three public
+obligations:
+\begin{enumerate}
+\item the shared $\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$ source
+compatibility over the same carried endpoints, classifier rows, and
+$\mathsf{Pkg}$ provenance;
+\item the product $\Cont$-neighbourhood transport row, where the two input
+endpoints, product endpoint, target neighbourhood, and componentwise $\hsame$
+rows are read from the same carrier packet;
+\item the inverse $\Cont$-neighbourhood transport row, where the input endpoint,
+inverse endpoint, target neighbourhood, and componentwise $\hsame$ rows are read
+from the same carrier packet.
+\end{enumerate}
+No fourth operation obligation and no host topological-group primitive is part
+of this triple.
+\end{definition}
+
+\begin{theorem}[TopGroupUp source projection NameCert compatibility]
+\label{thm:topgroup-source-projection-namecert-compatibility}
+For every accepted $\TopGroupUp$ packet, the $\NameCert_{\GroupUp}$ source row
+and the $\NameCert_{\TopologyUp}$ source row project from the same
+$\mathsf{BHist}$ carrier endpoints, classifier rows, and $\mathsf{Pkg}$
+provenance of \autoref{def:topgroup-bhist-carrier}. Their compatibility is the
+first component of
+\autoref{def:topgroup-bhist-continuity-obligation-triple}.
+\end{theorem}
+\begin{proof}
+Project the packet by \autoref{def:topgroup-bhist-carrier}. The group row,
+topology row, operation rows, finite $\Cont$ ledger, and $\mathsf{Pkg}$
+provenance are all coordinates of one carrier.
+
+Apply \autoref{thm:topgroup-root-source-compatibility}. It identifies the
+displayed group and topology source certificates as projections over the same
+carried endpoints, with classifier transport supplied by the componentwise
+$\hsame$ rows and the finite $\Cont$ ledger.
+
+Finally compare this projected compatibility row with
+\autoref{def:topgroup-bhist-continuity-obligation-triple}. The source
+compatibility component is exactly the shared $\mathsf{BHist}$ endpoint,
+classifier, and provenance row just obtained, so no independent source
+certificate remains outside the packet.
+\end{proof}
+
+\begin{theorem}[TopGroupUp Cont ledger operation exhaustion]
+\label{thm:topgroup-cont-ledger-operation-exhaustion}
+For every accepted $\TopGroupUp$ packet, the finite $\Cont$ ledger contains
+exactly the product-neighbourhood continuity rows and the inverse-neighbourhood
+continuity rows listed by
+\autoref{def:topgroup-bhist-continuity-obligation-triple}. It contains no
+ambient topological-group operation row, no external continuity predicate, and
+no operation other than the carried product and inverse rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:topgroup-continuity-ledger-coverage}. The ledger
+coverage theorem says that every public continuity row is either a product
+neighbourhood transport row or an inverse neighbourhood transport row over the
+carried $\mathsf{BHist}$ endpoints.
+
+The product family is the second component of
+\autoref{def:topgroup-bhist-continuity-obligation-triple}, and it is supplied
+by \autoref{thm:topgroup-product-neighbourhood-transport}. The inverse family
+is the third component of the same definition, and it is supplied by
+\autoref{thm:topgroup-inverse-neighbourhood-transport}.
+
+Apply \autoref{thm:topgroup-public-consumer-minimality}. A downstream consumer
+can read only the displayed source rows, operation rows, finite $\Cont$ rows,
+and $\mathsf{Pkg}$ provenance. Thus the ledger is exhausted by the two
+operation-continuity families and contains no ambient topological-group row.
+\end{proof}
+
+\begin{theorem}[TopGroupUp downstream root unblock surface]
+\label{thm:topgroup-downstream-root-unblock-surface}
+The downstream $\NameCert_{\TopGroupUp}$ root-unblock surface is the
+$\mathsf{BHist}$ continuity obligation triple of
+\autoref{def:topgroup-bhist-continuity-obligation-triple}, together with the
+source projection compatibility of
+\autoref{thm:topgroup-source-projection-namecert-compatibility}, the finite
+$\Cont$ ledger exhaustion of
+\autoref{thm:topgroup-cont-ledger-operation-exhaustion}, and the product-inverse
+obligation triad of \autoref{thm:topgroup-product-inverse-obligation-triad}.
+This is the complete public obligation surface consumed by downstream chapters.
+\end{theorem}
+\begin{proof}
+First take the triple of
+\autoref{def:topgroup-bhist-continuity-obligation-triple}. It names the shared
+source compatibility obligation, the product neighbourhood transport
+obligation, and the inverse neighbourhood transport obligation over the carrier
+of \autoref{def:topgroup-bhist-carrier}.
+
+Apply \autoref{thm:topgroup-source-projection-namecert-compatibility} to bind
+the source obligation to the same $\mathsf{BHist}$ endpoints, classifier rows,
+and $\mathsf{Pkg}$ provenance. Apply
+\autoref{thm:topgroup-cont-ledger-operation-exhaustion} to bind the two
+operation-continuity obligations to the finite $\Cont$ ledger and exclude any
+ambient operation row.
+
+Finally use \autoref{thm:topgroup-product-inverse-obligation-triad}. It repacks
+exactly the same carrier compatibility, product transport, and inverse
+transport obligations as the public operation surface. Therefore downstream
+chapters receive precisely this source-compatible, ledger-exhaustive
+$\NameCert_{\TopGroupUp}$ surface.
+\end{proof}
+
 \begin{theorem}[TopGroupUp shared source-fiber product carrier]
 \label{thm:topgroup-source-fiber-product-carrier}
 For every accepted $\TopGroupUp$ source-coupled continuity packet, the displayed
