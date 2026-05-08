@@ -37,6 +37,7 @@ Compatibility with $\Cont$ is by induction on the unary prefix length. The base 
 A convergence modulus for a carried $\SeriesUp$ row is an explicit unary bound $\mu:\mathsf{BHist}\to\mathsf{BHist}$ such that, for every unary precision row $k$ and every pair of unary indices beyond $\mu(k)$, the corresponding partial-sum rows are classified by the additive carrier at precision $k$. If two summand streams are classified by the $\SeqUp$ stream classifier, the same displayed modulus row transports to the classified stream by the partial-sum classifier of \autoref{thm:series-partial-sum-obligation}. The modulus is therefore stable under the source classifier and remains a visible BEDC row.
 \end{theorem}
 \leanchecked{BEDC.Derived.SeriesUp.SeriesModulusStability\_transport}
+\leanvariant{BEDC.Derived.SeriesUp.SeriesPartialSum\_pointwise\_hsame\_deterministic}
 \begin{proof}
 Unpack the modulus as a unary history transformer together with its bound witness for pairs of sufficiently long prefixes. The witness refers only to partial-sum rows and the additive classifier, so it is scoped by \autoref{thm:series-source-carrier-boundary-obligation} and \autoref{thm:series-partial-sum-obligation}.
 
@@ -47,6 +48,7 @@ For classifier stability, transport the summand observations along the $\SeqUp$ 
 \label{thm:series-ledger-exactness-obligation}
 The $\SeriesUp$ ledger contains exactly the $\SeqUp$ source certificate, the additive-carrier row, the hidden summand-prefix rows, the partial-sum rows, the explicit modulus rows, the stream-classifier transport rows, and the additive-classifier comparison rows. Coverage says every accepted public series row exposes one such ledger; soundness says every ledger row is produced by those BEDC primitives; completeness says any package with precisely those rows is accepted by the $\SeriesUp$ obligation surface. No comparison with $\ComplexSeriesUp$, no host summability theorem, and no standard bridge is included in this ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.SeriesUp.SeriesPartialSum\_result\_unary}
 \begin{proof}
 Coverage is obtained by projecting an accepted public row into its source certificate, additive-carrier row, summand-prefix display, partial-sum display, and modulus display.
 
