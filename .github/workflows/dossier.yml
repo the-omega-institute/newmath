@@ -27,8 +27,12 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  # PR runs only build (deploy is gated on push events) but would otherwise
+  # occupy the `pages` slot and block real push deploys behind them. Scope PR
+  # runs to a per-PR group so push/workflow_dispatch keep the canonical
+  # `pages` queue to themselves.
+  group: ${{ github.event_name == 'pull_request' && format('pages-pr-{0}', github.event.number) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build_pdf:
