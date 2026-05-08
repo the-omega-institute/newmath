@@ -163,7 +163,16 @@ By \autoref{cor:channel-encoding-bijection}, $\mathsf{Decode}(c) \in \mathsf{Eve
 
 \begin{definition}[Ledger-preserving source relation]
 \label{def:source-channel-ledger-preserving}
-A source-level relation $w \leadsto v$ is \emph{ledger-preserving} when its action on event flows records the pair $(w, v)$ rather than deletes the pre-normal event. The ledger-preserving form of $w \leadsto v$ is the event flow $w \mid v$ of \autoref{def:source-channel-carry-ledger}, not the singleton flow $v$ alone.
+\leandef{BEDC.GroundCompiler.SourceChannel.LedgerPreserving}
+Given a source-level relation $w \leadsto v$, a recording operation
+$$
+  L \colon \mathsf{RawEvent} \times \mathsf{RawEvent} \longrightarrow \mathsf{EventFlow}
+$$
+is \emph{ledger-preserving} when every witnessed pair is recorded as the ordered event flow
+$$
+  L(w, v) \;=\; w \mid v.
+$$
+The ledger-preserving form of $w \leadsto v$ is the event flow $w \mid v$ of \autoref{def:source-channel-carry-ledger}, not the singleton flow $v$ alone.
 \end{definition}
 
 \begin{principle}[Normal address does not erase the raw event]
@@ -295,6 +304,7 @@ whereas the channel terminator is the literal glyph pair $11$. If the channel te
 
 \begin{corollary}[The source raw event $11$ encodes unambiguously]
 \label{cor:source-channel-source-event-11-unambiguous}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.source\_event\_11\_unambiguous}
 The source raw event $11$ encodes as the channel string $\mathsf{Ev}(11) = 101011$. The decoder of \autoref{def:channel-encoding-decoder-event} reads this as $10 \to \mathrm{raw}\ 1$, $10 \to \mathrm{raw}\ 1$, $11 \to \mathrm{event\ end}$, recovering $11 \in \mathsf{RawEvent}$ without ambiguity.
 \end{corollary}
 
@@ -305,6 +315,7 @@ The appearance of a displayed substring $u$ inside a channel stream $c \in \math
 
 \begin{proposition}[Channel substrings are not source events]
 \label{prop:source-channel-substring-not-source-event}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.channel\_substring\_not\_source\_event}
 There exists a channel stream $c \in \mathsf{LegalZStream}$ and a displayed substring $u$ of $c$ such that $u$ is not any source event of $\mathsf{Decode}(c)$.
 \end{proposition}
 

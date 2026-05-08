@@ -18,12 +18,25 @@ def SourceLevelRelation : Type :=
 def SourceCarryLedger (w v : RawEvent) : EventFlow :=
   [w, v]
 
+def LedgerPreserving
+    (rel : SourceLevelRelation) (record : RawEvent -> RawEvent -> EventFlow) :
+    Prop :=
+  forall w v : RawEvent, rel w v -> record w v = SourceCarryLedger w v
+
 def NormalizeChannel
     (N : EventFlow -> EventFlow) (c : List DisplayAlphabet) :
     Option (List DisplayAlphabet) :=
   match Decode c with
   | some S => some (FlowEncoding (N S))
   | none => none
+
+def ContiguousSubstring
+    (u c : List DisplayAlphabet) : Prop :=
+  exists pre post : List DisplayAlphabet, c = pre ++ u ++ post
+
+def OccursAsDecodedEvent
+    (u c : List DisplayAlphabet) : Prop :=
+  exists S : EventFlow, Decode c = some S /\ List.Mem u S
 
 theorem ledger_records_distinguish_ordered_pairs
     {w v w' v' : RawEvent} :
@@ -66,5 +79,33 @@ theorem channel_terminator_not_source_event_11 :
     Not (EventTerminator = EventEncoding [BMark.b1, BMark.b1]) := by
   intro h
   simp [EventTerminator, EventEncoding, BodyEncoding] at h
+
+theorem source_event_11_unambiguous :
+    Decode (EventEncoding [BMark.b1, BMark.b1]) =
+      some [[BMark.b1, BMark.b1]] := by
+  exact flow_level_round_trip [[BMark.b1, BMark.b1]]
+
+theorem channel_substring_not_source_event :
+    exists c u : List DisplayAlphabet,
+      LegalZStream c /\
+        ContiguousSubstring u c /\
+        Not (OccursAsDecodedEvent u c) := by
+  refine
+    ⟨EventEncoding [BMark.b1], [BMark.b0, BMark.b1, BMark.b1], ?_, ?_, ?_⟩
+  · exact flow_encoding_legal_zstream [[BMark.b1]]
+  · exact ⟨[BMark.b1], [], rfl⟩
+  · intro hOccurs
+    cases hOccurs with
+    | intro S hS =>
+        cases hS with
+        | intro hDecode hMem =>
+            have hRound :
+                Decode (EventEncoding [BMark.b1]) = some [[BMark.b1]] :=
+              flow_level_round_trip [[BMark.b1]]
+            rw [hRound] at hDecode
+            cases hDecode
+            cases hMem with
+            | tail _ hTail =>
+                cases hTail
 
 end BEDC.GroundCompiler.SourceChannel
