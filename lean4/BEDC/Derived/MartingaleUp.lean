@@ -232,4 +232,24 @@ theorem MartingaleAdaptedSequencePacket_tower_law_ledger_surface
   intro packet
   exact And.intro packet.right.right.right.right packet.right.right.right.right
 
+theorem MartingaleAdaptedSequencePacket_filtration_ledger_exactness
+    {targetTotal sourceTotal chosenPreimage integrable projected residual previous filtration
+      stepEndpoint ledger : BHist} :
+    MartingaleAdaptedSequencePacket targetTotal sourceTotal chosenPreimage integrable projected
+        residual previous filtration stepEndpoint ledger ->
+      UnaryHistory sourceTotal ∧ UnaryHistory filtration ∧
+        CondExpCarrierPacket targetTotal sourceTotal chosenPreimage integrable projected residual ∧
+          Cont integrable filtration stepEndpoint ∧ Cont stepEndpoint previous ledger ∧
+            hsame stepEndpoint (append integrable filtration) ∧
+              hsame ledger (append (append integrable filtration) previous) := by
+  intro packet
+  exact And.intro packet.left
+    (And.intro packet.right.right.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.right.left
+          (And.intro packet.right.right.right.right
+            (And.intro packet.right.right.right.left
+              (hsame_trans packet.right.right.right.right
+                (congrArg (fun h => append h previous) packet.right.right.right.left)))))))
+
 end BEDC.Derived.MartingaleUp

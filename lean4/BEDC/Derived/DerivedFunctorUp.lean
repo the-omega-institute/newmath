@@ -69,4 +69,29 @@ theorem DerivedFunctorCarrier_classifier_stability
     (And.intro degreeUnary (And.intro resolvedRow endpointRow))
     sameResolved
 
+def DerivedFunctorExactTriangleBoundaryCarrier
+    (functor resolutionA resolutionB resolutionC homology degree resolvedA resolvedB resolvedC
+      endpointA endpointB endpointC boundary : BHist) : Prop :=
+  DerivedFunctorCarrier functor resolutionA homology degree resolvedA endpointA ∧
+    DerivedFunctorCarrier functor resolutionB homology degree resolvedB endpointB ∧
+      DerivedFunctorCarrier functor resolutionC homology degree resolvedC endpointC ∧
+        UnaryHistory boundary
+
+theorem DerivedFunctorExactTriangleBoundaryCarrier_scope
+    {functor resolutionA resolutionB resolutionC homology degree resolvedA resolvedB resolvedC
+      endpointA endpointB endpointC boundary boundaryEndpoint : BHist} :
+    DerivedFunctorExactTriangleBoundaryCarrier functor resolutionA resolutionB resolutionC
+        homology degree resolvedA resolvedB resolvedC endpointA endpointB endpointC boundary ->
+      Cont endpointC boundary boundaryEndpoint ->
+        UnaryHistory degree ∧
+          DerivedFunctorCarrier functor resolutionA homology degree resolvedA endpointA ∧
+            DerivedFunctorCarrier functor resolutionB homology degree resolvedB endpointB ∧
+              DerivedFunctorCarrier functor resolutionC homology degree resolvedC endpointC ∧
+                hsame boundaryEndpoint (append endpointC boundary) := by
+  intro carrier boundaryRow
+  exact And.intro carrier.left.left
+    (And.intro carrier.left
+      (And.intro carrier.right.left
+        (And.intro carrier.right.right.left boundaryRow)))
+
 end BEDC.Derived.DerivedFunctorUp
