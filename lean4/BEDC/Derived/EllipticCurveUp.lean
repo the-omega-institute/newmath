@@ -1,6 +1,8 @@
 import BEDC.Derived.FieldUp
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.EllipticCurveUp
 
@@ -28,8 +30,33 @@ theorem EllipticCurveCarrierPacket_field_source_obligation [AskSetup] [PackageSe
   have discriminantUnary : UnaryHistory discriminant :=
     unary_cont_closed fieldUnary cubicUnary discriminantCont
   exact And.intro discriminantUnary
-    (And.intro fieldCarrier
       (And.intro fieldCarrier
-        (And.intro token discriminantCont)))
+        (And.intro fieldCarrier
+          (And.intro token discriminantCont)))
+
+def EllipticCurveCarrierPacket
+    (field projective coeffs cubic smooth basePoint fieldLedger projectiveLedger provenance :
+      BHist) : Prop :=
+  UnaryHistory field ∧ UnaryHistory projective ∧ UnaryHistory coeffs ∧
+    UnaryHistory basePoint ∧ Cont field projective fieldLedger ∧
+      Cont coeffs cubic projectiveLedger ∧ Cont smooth basePoint provenance
+
+theorem EllipticCurveCarrierPacket_field_projective_source_rows
+    {field projective coeffs cubic smooth basePoint fieldLedger projectiveLedger provenance :
+      BHist} :
+    EllipticCurveCarrierPacket field projective coeffs cubic smooth basePoint fieldLedger
+        projectiveLedger provenance ->
+      UnaryHistory field ∧ UnaryHistory projective ∧ UnaryHistory coeffs ∧
+        UnaryHistory basePoint ∧ hsame fieldLedger (append field projective) ∧
+          hsame projectiveLedger (append coeffs cubic) ∧
+            hsame provenance (append smooth basePoint) := by
+  intro packet
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.left
+        (And.intro packet.right.right.right.left
+           (And.intro packet.right.right.right.right.left
+             (And.intro packet.right.right.right.right.right.left
+               packet.right.right.right.right.right.right)))))
 
 end BEDC.Derived.EllipticCurveUp
