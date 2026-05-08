@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -116,6 +117,103 @@ theorem HomotopyBHistSourcePacket_interval_endpoint_determinacy [AskSetup] [Pack
       (hsame_symm sameEndpointRead)
   exact cont_left_cancel leftPacket.right.right.right.right.right.left rightEndpointReadCont
 
+theorem HomotopyBHistSourcePacket_composition_associativity_row [AskSetup] [PackageSetup]
+    {source middle target final deformationA deformationB deformationC interval provenance readA
+      ledgerA endpointA readB ledgerB endpointB readC ledgerC endpointC ab bc abc abcAlt
+      readABC ledgerABC endpointABC readABCAlt ledgerABCAlt endpointABCAlt : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HomotopyBHistSourcePacket source middle deformationA interval provenance readA ledgerA
+        endpointA bundle pkg ->
+      HomotopyBHistSourcePacket middle target deformationB interval provenance readB ledgerB
+        endpointB bundle pkg ->
+        HomotopyBHistSourcePacket target final deformationC interval provenance readC ledgerC
+          endpointC bundle pkg ->
+          Cont deformationA deformationB ab ->
+            Cont ab deformationC abc ->
+              Cont deformationB deformationC bc ->
+                Cont deformationA bc abcAlt ->
+                  Cont abc interval readABC ->
+                    Cont readABC provenance ledgerABC ->
+                      Cont ledgerABC final endpointABC ->
+                        PkgSig bundle endpointABC pkg ->
+                          Cont abcAlt interval readABCAlt ->
+                            Cont readABCAlt provenance ledgerABCAlt ->
+                              Cont ledgerABCAlt final endpointABCAlt ->
+                                PkgSig bundle endpointABCAlt pkg ->
+                                  HomotopyBHistSourcePacket source final abc interval provenance
+                                      readABC ledgerABC endpointABC bundle pkg ∧
+                                    HomotopyBHistSourcePacket source final abcAlt interval
+                                      provenance readABCAlt ledgerABCAlt endpointABCAlt bundle
+                                      pkg ∧
+                                      hsame abc abcAlt ∧ hsame endpointABC endpointABCAlt := by
+  intro firstPacket secondPacket thirdPacket abCont abcCont bcCont abcAltCont readABCCont
+    ledgerABCCont endpointABCCont pkgABC readABCAltCont ledgerABCAltCont endpointABCAltCont
+    pkgABCAlt
+  have abUnary : UnaryHistory ab :=
+    unary_cont_closed firstPacket.right.right.left secondPacket.right.right.left abCont
+  have abcUnary : UnaryHistory abc :=
+    unary_cont_closed abUnary thirdPacket.right.right.left abcCont
+  have bcUnary : UnaryHistory bc :=
+    unary_cont_closed secondPacket.right.right.left thirdPacket.right.right.left bcCont
+  have abcAltUnary : UnaryHistory abcAlt :=
+    unary_cont_closed firstPacket.right.right.left bcUnary abcAltCont
+  have sameABC : hsame abc abcAlt :=
+    cont_assoc_hsame abCont abcCont bcCont abcAltCont
+  have sameRead : hsame readABC readABCAlt :=
+    cont_respects_hsame sameABC (hsame_refl interval) readABCCont readABCAltCont
+  have sameLedger : hsame ledgerABC ledgerABCAlt :=
+    cont_respects_hsame sameRead (hsame_refl provenance) ledgerABCCont ledgerABCAltCont
+  have sameEndpoint : hsame endpointABC endpointABCAlt :=
+    cont_respects_hsame sameLedger (hsame_refl final) endpointABCCont endpointABCAltCont
+  have leftPacket :
+      HomotopyBHistSourcePacket source final abc interval provenance readABC ledgerABC
+        endpointABC bundle pkg :=
+    And.intro firstPacket.left
+      (And.intro thirdPacket.right.left
+        (And.intro abcUnary
+          (And.intro firstPacket.right.right.right.left
+            (And.intro firstPacket.right.right.right.right.left
+              (And.intro readABCCont
+                (And.intro ledgerABCCont
+                  (And.intro endpointABCCont pkgABC)))))))
+  have rightPacket :
+      HomotopyBHistSourcePacket source final abcAlt interval provenance readABCAlt ledgerABCAlt
+        endpointABCAlt bundle pkg :=
+    And.intro firstPacket.left
+      (And.intro thirdPacket.right.left
+        (And.intro abcAltUnary
+          (And.intro firstPacket.right.right.right.left
+            (And.intro firstPacket.right.right.right.right.left
+              (And.intro readABCAltCont
+                (And.intro ledgerABCAltCont
+                  (And.intro endpointABCAltCont pkgABCAlt)))))))
+  exact And.intro leftPacket (And.intro rightPacket (And.intro sameABC sameEndpoint))
+
+theorem HomotopyBHistSourcePacket_reversal_symmetry_row [AskSetup] [PackageSetup]
+    {source target deformation interval provenance endpointRead ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HomotopyBHistSourcePacket source target deformation interval provenance endpointRead ledger
+        endpoint bundle pkg ->
+      hsame source target ->
+        HomotopyBHistSourcePacket target source deformation interval provenance endpointRead ledger
+            endpoint bundle pkg ∧
+          hsame target source := by
+  intro packet sameSourceTarget
+  have endpointCont : Cont ledger source endpoint :=
+    cont_hsame_transport (hsame_refl ledger) (hsame_symm sameSourceTarget) (hsame_refl endpoint)
+      packet.right.right.right.right.right.right.right.left
+  exact And.intro
+    (And.intro packet.right.left
+      (And.intro packet.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro packet.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.left
+                  (And.intro endpointCont
+                    packet.right.right.right.right.right.right.right.right))))))))
+    (hsame_symm sameSourceTarget)
+
 theorem HomotopyBHistSourcePacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {source target deformation interval provenance endpointRead ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -214,7 +312,52 @@ theorem HomotopyBHistSourcePacket_endpoint_classifier_row [AskSetup] [PackageSet
               (And.intro endpointUnary
                 (And.intro endpointReadCont
                   (And.intro ledgerCont
-                    (And.intro endpointCont
-                      packet.right.right.right.right.right.right.right.right)))))))))
+                (And.intro endpointCont
+                  packet.right.right.right.right.right.right.right.right)))))))))
+
+theorem HomotopyBHistSourcePacket_identity_deformation_row [AskSetup] [PackageSetup]
+    {endpoint interval provenance endpointRead ledger endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory endpoint ->
+      UnaryHistory interval ->
+        UnaryHistory provenance ->
+          Cont endpoint interval endpointRead ->
+            Cont endpointRead provenance ledger ->
+              Cont ledger endpoint endpoint' ->
+                PkgSig bundle endpoint' pkg ->
+                  HomotopyBHistSourcePacket endpoint endpoint endpoint interval provenance
+                      endpointRead ledger endpoint' bundle pkg ∧
+                    hsame endpointRead (append endpoint interval) ∧
+                      hsame ledger (append endpointRead provenance) ∧
+                        hsame endpoint' (append ledger endpoint) := by
+  intro endpointUnary intervalUnary provenanceUnary endpointReadCont ledgerCont endpointCont pkgSig
+  exact
+    And.intro
+      (And.intro endpointUnary
+        (And.intro endpointUnary
+          (And.intro endpointUnary
+            (And.intro intervalUnary
+              (And.intro provenanceUnary
+                (And.intro endpointReadCont
+                  (And.intro ledgerCont
+                    (And.intro endpointCont pkgSig))))))))
+      (And.intro endpointReadCont
+        (And.intro ledgerCont endpointCont))
+
+theorem HomotopyBHistSourcePacket_constant_deformation_reflexivity_row
+    [AskSetup] [PackageSetup]
+    {source interval provenance endpointRead ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HomotopyBHistSourcePacket source source source interval provenance endpointRead ledger
+        endpoint bundle pkg ->
+      hsame source source ∧ hsame endpointRead (append source interval) ∧
+        hsame ledger (append endpointRead provenance) ∧
+          hsame endpoint (append ledger source) := by
+  intro packet
+  exact
+    And.intro (hsame_refl source)
+      (And.intro packet.right.right.right.right.right.left
+        (And.intro packet.right.right.right.right.right.right.left
+          packet.right.right.right.right.right.right.right.left))
 
 end BEDC.Derived.HomotopyUp

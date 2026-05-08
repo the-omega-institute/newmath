@@ -217,3 +217,64 @@ for the transported endpoints $s'(n)$ and $u'(n)$. Exposing exactly these rows
 gives the public composite $\StreamNameUp$ readback interface, while the middle
 map and transport chain stay in the certificate ledger.
 \end{proof}
+
+\begin{theorem}[StreamNameUp successor-reindexed selected endpoint package]
+\label{thm:streamname-successor-reindexed-selected-endpoint-package}
+Let $s,t:\Hist\to\Hist$ be certified rational stream-name observations. Suppose
+$\mathsf{RatStreamNameClassifier}(s,t)$, $\mathsf{UnaryHistory}(n)$,
+$\hsame(s(\Eone(n)),\Eone(a))$, and
+$\hsame(t(\Eone(n)),\Eone(b))$. For the successor-reindexed observations
+$s^{+}(m)=s(\Eone(m))$ and $t^{+}(m)=t(\Eone(m))$, the selected endpoint at
+$n$ exposes the finite-window endpoint package:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(s^{+}(n),t^{+}(n))$;
+  \item positive unary denominators for $s^{+}(n)$ and $t^{+}(n)$;
+  \item unary endpoint rows for $s^{+}(n)$ and $t^{+}(n)$;
+  \item empty-endpoint exclusions for $s^{+}(n)$ and $t^{+}(n)$;
+  \item zero-headed endpoint exclusions for $s^{+}(n)$ and $t^{+}(n)$;
+  \item unary one-tail agreement for the displayed endpoint tails $a$ and $b$.
+\end{enumerate}
+The package is selected at the visible successor observation; it exports no
+completion object, metric witness, or regular-sequence datum.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-stream-name-successor-reindexing-stability} to the
+classifier row $\mathsf{RatStreamNameClassifier}(s,t)$. This gives the
+successor-reindexed classifier row for $s^{+}$ and $t^{+}$.
+
+Next apply
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package} to
+that reindexed classifier, the unary row for $n$, and the displayed
+$\hsame$ endpoint facts for $s(\Eone(n))$ and $t(\Eone(n))$.
+
+The selected finite-window package supplies exactly the six rows listed in
+the statement. Repack them under the successor observation names
+$s^{+}(n)$ and $t^{+}(n)$, keeping the reindexing proof in the ledger.
+\end{proof}
+
+\begin{theorem}[StreamNameUp successor-reindexed window public readback]
+\label{thm:streamname-successor-reindexed-window-public-readback}
+Under the hypotheses of
+\autoref{thm:streamname-successor-reindexed-selected-endpoint-package}, the
+successor-reindexed selected endpoint package is precisely the public
+finite-window $\StreamNameUp$ readback for observing $s$ and $t$ one unary step
+later. The public surface consists of the reindexed RatHistoryClassifier row,
+positive denominators, unary endpoint rows, empty and zero-headed exclusions,
+and one-tail agreement for $a$ and $b$.
+
+This readback deliberately excludes $\RealUp$ completion data,
+$\RegSeqRat$ regularity data, metric witnesses, and any standard bridge
+claim. Those objects may consume the finite window, but they are not exported
+by the successor readback itself.
+\end{theorem}
+\begin{proof}
+Use
+\autoref{thm:streamname-successor-reindexed-selected-endpoint-package} to
+obtain the six visible endpoint rows for the successor observation.
+
+The public readback interface records only rows visible at the finite unary
+window. Therefore the classifier, positivity, endpoint-shape, exclusion, and
+tail-agreement rows are exported, while completion, regularity, metric, and
+bridge data remain outside this certificate.
+\end{proof}
