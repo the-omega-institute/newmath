@@ -44,6 +44,12 @@ COMMON_CONTEXT_WORDS = {
     "value",
 }
 
+DEEPEN_REQUEST_DIRECTIVE = (
+    "Redo this target, but this time perform an explicit obligation traversal "
+    "as defined in prompts/oracle_initial.txt's three-pass spine and "
+    "prompts/write_paper_latex.txt's OBLIGATION TRAVERSAL hard gate."
+)
+
 
 @dataclass
 class BedcTarget:
@@ -83,6 +89,13 @@ def parse_board(path: Path = BOARD_PATH) -> dict[str, BedcTarget]:
             fields=fields,
             body=body,
         )
+        meta = _target_cursor_meta(target)
+        if meta.get("deepen_request"):
+            target.fields = dict(target.fields)
+            target.fields["Object"] = (
+                f"{target.fields.get('Object', target.title)} "
+                f"[deepen request: {DEEPEN_REQUEST_DIRECTIVE}]"
+            )
         targets[target.target_id] = target
     return targets
 
@@ -220,21 +233,43 @@ def build_context_block(target: BedcTarget) -> str:
         total += len(body)
         blocks.append(f"### {rel}\n\n```text\n{body}\n```")
     if not blocks:
-        return "No local input excerpts were parsed from the target card."
-    return "\n\n".join(blocks)
+        context = "No local input excerpts were parsed from the target card."
+    else:
+        context = "\n\n".join(blocks)
+    deepen_block = _render_deepen_request_block(target)
+    if deepen_block:
+        context += "\n\n" + deepen_block
+    return context
+
+
+def _render_deepen_request_block(target: BedcTarget) -> str:
+    meta = _target_cursor_meta(target)
+    if not meta.get("deepen_request"):
+        return ""
+    reason = str(meta.get("reason") or "").strip()
+    return (
+        "### Deepen request\n\n"
+        f"{DEEPEN_REQUEST_DIRECTIVE}\n"
+        f"Reason: {reason[:300]}"
+    )
 
 
 def build_initial_prompt(target: BedcTarget) -> str:
+    meta = _target_cursor_meta(target)
+    deepen_request = bool(meta.get("deepen_request"))
     payload = {
         "target_id": target.target_id,
         "title": target.title,
         "fields": target.fields,
         "body": target.body,
     }
+    prior_art_object = target.fields.get("Object", "")
+    if deepen_request:
+        prior_art_object = f"{prior_art_object} deepen_request"
     try:
         from prior_art import lookup as prior_art_lookup, render_block as prior_art_render
         prior_art_block = prior_art_render(prior_art_lookup(
-            target.fields.get("Object", ""), target.title
+            prior_art_object, target.title
         ))
     except Exception:
         prior_art_block = ""
@@ -276,6 +311,18 @@ assumption, say so directly and cite the existing BEDC class or structure.
 End with a line:
 NEXT: <one precise follow-up question>
 """
+
+
+def _target_cursor_meta(target: BedcTarget) -> dict:
+    path = SCRIPT_DIR / "state" / target.slug / "cursor.json"
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    meta = data.get("meta")
+    return meta if isinstance(meta, dict) else {}
 
 
 def main() -> int:
