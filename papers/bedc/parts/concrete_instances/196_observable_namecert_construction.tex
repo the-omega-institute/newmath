@@ -6,5 +6,143 @@ The observable interface $\ObservableUp$ packages a self-adjoint operator on a H
 \section{Carrier definition}
 \label{sec:observable-carrier}
 
+\begin{definition}[ObservableUp state-spectral BHist packet]
+\label{def:observable-state-spectral-packet}
+An $\ObservableUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+\mathcal{O}=(H,S,o,sp,ev,\rho,\lambda).
+$$
+The row $H$ is the consumed $\NameCert_{\HilbertUp}$ packet. The row $S$ is
+the consumed $\NameCert_{\SpectralTheoremUp}$ packet over the same Hilbert
+source. The endpoint row $o$ is the self-adjoint operator endpoint read from
+the Hilbert side, $sp$ is the displayed spectral endpoint row supplied by
+$S$, and $ev$ is the expectation-pairing endpoint row between certified state
+rows and the carried operator row.
+
+The row $\rho$ is the shared $\mathsf{Pkg}$ provenance record witnessing that
+$H$, $S$, $o$, $sp$, and $ev$ belong to one finite package. The row $\lambda$
+is the finite $\mathsf{Cont}$ ledger that records the allowed $\hsame$
+transports for the Hilbert source, the spectral source, the operator endpoint,
+the spectral endpoint, and the expectation endpoint. No carrier datum outside
+$H$, $S$, $o$, $sp$, $ev$, $\rho$, and $\lambda$ is part of the public
+$\ObservableUp$ row.
+\end{definition}
+
 \section{The certificate}
 \label{sec:observable-certificate}
+
+\begin{theorem}[ObservableUp Hilbert and spectral boundary]
+\label{thm:observable-hilbert-spectral-boundary}
+For every finite $\mathsf{BHist}$ packet $\mathcal{O}$ of
+\autoref{def:observable-state-spectral-packet}, carrier acceptance exposes
+exactly the consumed $\NameCert_{\HilbertUp}$ row $H$, the consumed
+$\NameCert_{\SpectralTheoremUp}$ row $S$, the self-adjoint operator endpoint
+$o$, the spectral endpoint $sp$, the expectation endpoint $ev$, the shared
+$\mathsf{Pkg}$ provenance row $\rho$, and the finite $\mathsf{Cont}$ ledger
+$\lambda$. The exposed boundary is stable only by the displayed $\hsame$
+transport rows in $\lambda$.
+\end{theorem}
+\begin{proof}
+Unpack the carrier packet of
+\autoref{def:observable-state-spectral-packet}. The definition lists exactly
+the two consumed certificates, the three endpoint rows, the provenance row,
+and the continuation ledger.
+
+Acceptance is therefore a row-readback property. A consumer may inspect $H$,
+$S$, $o$, $sp$, $ev$, $\rho$, and $\lambda$, and every stability witness must
+be one of the $\hsame$ rows named by $\lambda$.
+
+There is no additional carrier whose fields could expose an ambient Hilbert
+space, an ambient spectral theorem, or a host operator equality. The boundary
+is precisely the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[ObservableUp expectation ledger exactness]
+\label{thm:observable-state-expectation-ledger-exactness}
+For every accepted finite $\mathsf{BHist}$ packet $\mathcal{O}$ of
+\autoref{def:observable-state-spectral-packet}, each public expectation row of
+$\ObservableUp$ is read from the expectation endpoint $ev$, the spectral
+endpoint $sp$, the shared $\mathsf{Pkg}$ provenance row $\rho$, and the finite
+$\mathsf{Cont}$ ledger $\lambda$. The readback uses the consumed
+$\NameCert_{\HilbertUp}$ packet $H$ and the consumed
+$\NameCert_{\SpectralTheoremUp}$ packet $S$ only through their displayed rows
+and their $\hsame$ transport entries in $\lambda$, not through host operator
+equality.
+\end{theorem}
+\begin{proof}
+The expectation interface is the row $ev$. Its source operator is the endpoint
+$o$, its spectral support is the endpoint $sp$, and its package membership is
+recorded by $\rho$.
+
+Exactness follows by restricting public expectation readback to those fields.
+The ledger $\lambda$ supplies the only permitted $\hsame$ transport data for
+moving the Hilbert source, the spectral source, the operator row, and the
+expectation row across accepted presentations.
+
+Thus equality of expectation rows is not recovered from an external operator
+identity. It is the certificate-local relation determined by $ev$, $sp$,
+$\rho$, $\lambda$, and the displayed rows of $H$ and $S$.
+\end{proof}
+
+\begin{theorem}[ObservableUp spectral transport stability]
+\label{thm:observable-spectral-transport-stability}
+Let $\mathcal{O}=(H,S,o,sp,ev,\rho,\lambda)$ and
+$\mathcal{O}'=(H',S',o',sp',ev',\rho',\lambda')$ be accepted finite
+$\mathsf{BHist}$ packets of
+\autoref{def:observable-state-spectral-packet}. If the consumed
+$\NameCert_{\HilbertUp}$ packets $H,H'$ and consumed
+$\NameCert_{\SpectralTheoremUp}$ packets $S,S'$ are transported by their
+displayed classifiers, and $\lambda,\lambda'$ record the corresponding
+$\hsame$ moves for $o,sp,ev$, then the transported packet is an accepted
+$\ObservableUp$ packet. The displayed expectation boundary of
+\autoref{thm:observable-state-expectation-ledger-exactness} is preserved with
+the transported $\mathsf{Pkg}$ provenance and finite $\mathsf{Cont}$ ledger.
+\end{theorem}
+\begin{proof}
+Transport the Hilbert dependency first. The classifier of $H$ moves the
+Hilbert carrier row and the self-adjoint operator endpoint, and the relevant
+$\hsame$ witness is recorded in the continuation ledger.
+
+Transport the spectral dependency next. The classifier of $S$ moves the
+spectral endpoint $sp$ over the transported operator row, again using only the
+$\hsame$ entries named by the ledger.
+
+The expectation endpoint is then transported as a dependent endpoint over the
+already transported Hilbert and spectral rows. The provenance row is carried
+from $\rho$ to $\rho'$, and the ledger changes from $\lambda$ to $\lambda'$.
+
+All fields of the target tuple are now present, so the target tuple is accepted
+by \autoref{def:observable-state-spectral-packet}. The expectation boundary is
+unchanged in form because the public rows are still exactly $ev'$, $sp'$,
+$\rho'$, and $\lambda'$ over $H'$ and $S'$.
+\end{proof}
+
+\begin{theorem}[ObservableUp public row family]
+\label{thm:observable-public-row-family}
+The public $\NameCert_{\ObservableUp}$ family consists exactly of the finite
+$\mathsf{BHist}$ carrier packet of
+\autoref{def:observable-state-spectral-packet}, the Hilbert and spectral
+boundary rows of \autoref{thm:observable-hilbert-spectral-boundary}, the
+expectation ledger exactness rows of
+\autoref{thm:observable-state-expectation-ledger-exactness}, and the spectral
+transport rows of \autoref{thm:observable-spectral-transport-stability}. Its
+public fields are the consumed $\NameCert_{\HilbertUp}$ packet, the consumed
+$\NameCert_{\SpectralTheoremUp}$ packet, the $\mathsf{Pkg}$ provenance row, the
+finite $\mathsf{Cont}$ ledger, and the displayed $\hsame$ transport family.
+\end{theorem}
+\begin{proof}
+Start with the carrier packet. It supplies the two consumed certificates, the
+operator endpoint, the spectral endpoint, the expectation endpoint, the
+package provenance, and the continuation ledger.
+
+The boundary theorem identifies the rows that carrier acceptance exposes. The
+exactness theorem then states that public expectation readback is confined to
+the displayed expectation, spectral, provenance, and ledger rows.
+
+The transport theorem supplies stability under the classifiers of the Hilbert
+and spectral dependency packets. Combining these rows gives the carrier,
+transport, ledger, and exactness pieces of the public
+$\NameCert_{\ObservableUp}$ obligation family. No host-level observable,
+operator-equality primitive, or extra spectral primitive is part of this
+surface.
+\end{proof}
