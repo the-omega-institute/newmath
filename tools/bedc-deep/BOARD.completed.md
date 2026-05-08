@@ -13191,3 +13191,51 @@ Rationale:
 Upper-unit dual to B-479 'Empty edge predicate is a matching'. The empty case gives the lower unit; the singleton case is the smallest non-trivial matching and the canonical building block for finite matching constructions. No-shared-vertex row collapses through classifier symmetry+transitivity since both endpoints of any in-set pair are sim_E e_star. Distinct from B-418 (compatible union closure) which assumes disjoint matchings already exist. Single implication, ~10 lines in a 143-line chapter. Provides the missing seed for any inductive matching construction over GraphUp.
 
 ---
+
+### B-520 - Sheaf identity refinement is a refinement of itself
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Sheaf identity refinement is a refinement of itself |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For an indexed open cover $\mathcal{U}=(A,\iota,h,\gamma)$ of an indexed open $i$ in the $\SheafUp$ root-obligation surface, the identity map $\mathrm{id}_A:A\to A$ together with the displayed self-inclusion witnesses $\epsilon_a:\iota(a)\le_{\mathcal{T}}\iota(\mathrm{id}_A(a))$ given by the reflexive indexed-open inclusion is a displayed refinement of $\mathcal{U}$ through itself.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/sheaf/04_refinement_exactness.tex`
+
+Rationale:
+The refinement preorder on covers in 04_refinement_exactness.tex is currently constituted by the obligation theorem `Sheaf cover refinement obligation` (line 1) and the transitivity step (B-505 `Sheaf refinement composition is classifier-associative on three-step towers`, plus `Sheaf refinement composition obligation` at 05_refinement_composition_and_presentation.tex:1). The reflexivity row — i.e. that every cover refines itself via the identity map — is the missing third leg of refinement-as-preorder, distinct from the `identity-cover root package' in identity_cover_root_package.tex which only addresses the unit one-member cover of $i$, not arbitrary covers refining themselves. Single implication on a 154-line file. Companion to B-505 the way reflexivity complements transitivity.
+
+---
+
+### B-521 - NetworkFlow zero edge-flow is feasible at zero value
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | NetworkFlow zero edge-flow is feasible at zero value |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+Let $G$ be a directed $\GraphUp$ carrier with unary capacity assignment $u$ on its edges and carried vertices $s,t$. The zero edge-flow $f_0(e):=\emp$ for every $e:\mathsf{BHist}$, with value witness $V_{F_0}:=\emp$ and the trivial cut-history witnesses $B_{F_0,C}=\emp$, $X_{F_0,C}=\emp$, is a feasible $\NetworkFlowUp$ $s$-$t$ flow over $u$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+
+Rationale:
+211_networkflow_namecert_construction.tex carries 4 theorems (weak duality B-429-class, cut accounting, max-flow min-cut equality, equality-implies-optimality) and BOARD has B-493/B-463 on residual capacity/optimality. None establishes that the trivial zero flow is feasible — yet feasibility-of-zero is the standard `the feasible region is nonempty' fact the rest of the duality theory needs to be non-vacuous. Definition at line 50-69 sets feasibility = capacity row + per-cut conservation row; both reduce to $\Cont(\emp,\emp,\emp)$ and $\emp \preceq_{\NatUp} u(e)$, both of which are trivially supplied by the reflexive unary-prefix preorder. Single implication, concrete claim, file 466 lines.
+
+---
