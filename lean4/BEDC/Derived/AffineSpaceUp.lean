@@ -200,4 +200,25 @@ theorem AffineSpaceTranslationClassifier_transport
               (And.intro leftTarget rightTarget))))
   · exact And.intro sameLeftAction sameRightAction
 
+theorem AffineSpaceHistoryTorsorCarrier_action_coverage_obligation
+    {point target translation action : BHist} :
+    AffineSpaceHistoryTorsorCarrier point translation ->
+      Cont point translation action ->
+        hsame action target ->
+          ∃ vector endpoint : BHist, AffineSpaceHistoryTorsorCarrier point vector ∧
+            Cont point vector endpoint ∧ hsame endpoint target ∧
+              AffineSpaceTranslationClassifier point target vector translation endpoint action := by
+  intro carrier actionCont sameActionTarget
+  exact
+    Exists.intro translation
+      (Exists.intro action
+        (And.intro carrier
+          (And.intro actionCont
+            (And.intro sameActionTarget
+              (And.intro carrier
+                (And.intro carrier
+                  (And.intro actionCont
+                    (And.intro actionCont
+                      (And.intro sameActionTarget sameActionTarget)))))))))
+
 end BEDC.Derived.AffineSpaceUp
