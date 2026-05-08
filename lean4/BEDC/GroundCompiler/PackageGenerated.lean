@@ -19,6 +19,10 @@ def PackageRecognitionRelation
 def PkgFlow (S : PackageCandidateFlow) : Prop :=
   exists R : GeneratedPackageRecognizer, PackageRecognitionRelation R S
 
+theorem no_external_package_input :
+    Not (FormalCompilerInput CompilerDatum.hostPkg) :=
+  structural_hidden_not_formal StructuralHiddenInput.hostPkg
+
 def RecognitionPreservingCompilation : Prop :=
   forall R : GeneratedPackageRecognizer,
     forall S : PackageCandidateFlow,

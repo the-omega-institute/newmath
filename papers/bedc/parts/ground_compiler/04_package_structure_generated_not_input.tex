@@ -29,6 +29,7 @@ This is the source-layer form of the package and gap discipline already used by 
 
 \begin{definition}[Package candidate flow]
 \label{def:package-generated-candidate-flow}
+\leandef{BEDC.GroundCompiler.PackageGenerated.PackageCandidateFlow}
 A \emph{package candidate flow} is an event flow
 $$
   S \in \mathsf{EventFlow}.
@@ -38,6 +39,7 @@ The phrase does not assert that $S$ is a package. It asserts only that $S$ is av
 
 \begin{definition}[Generated package recognizer]
 \label{def:package-generated-recognizer}
+\leandef{BEDC.GroundCompiler.PackageGenerated.GeneratedPackageRecognizer}
 A \emph{generated package recognizer} is an event flow
 $$
   R \in \mathsf{EventFlow}.
@@ -87,6 +89,11 @@ Thus $S$ is a recognized package flow exactly when a generated recognizer flow r
 
 \begin{principle}[No external package input]
 \label{prin:package-generated-no-external-package-input}
+\leanchecked{BEDC.GroundCompiler.PackageGenerated.no\_external\_package\_input}
+At the formal datum boundary, a host package object is not an admissible compiler input:
+$$
+  \neg\,\mathsf{FormalCompilerInput}(\mathrm{hostPkg}).
+$$
 There is no formal compiler entry point
 $$
   \mathsf{CompilePkg} \colon \Pkg \longrightarrow \mathsf{LegalZStream}.
