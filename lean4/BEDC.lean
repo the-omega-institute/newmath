@@ -93,6 +93,7 @@ import BEDC.Derived.CurvatureUp.Handoff
 import BEDC.Derived.CurvatureUp.HandoffConsumerCoverage
 import BEDC.Derived.CurvatureUp.ConnectionCarrierScope
 import BEDC.Derived.CurvatureUp.ChernWeilSourceEnvelope
+import BEDC.Derived.CurvatureUp.ConsumerExactness
 import BEDC.Derived.CurvatureUp.PublicObligation
 import BEDC.Derived.CurvatureUp.TensorialSectionTransport
 import BEDC.Derived.CurvatureUp.SourceEnvelopeReadback
@@ -209,6 +210,7 @@ import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.CliffordUp
+import BEDC.Derived.SpinGroupUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
 import BEDC.Derived.DerivativeUp
@@ -230,6 +232,7 @@ import BEDC.Derived.ComplexLimitUp.StabilityFields
 import BEDC.Derived.ComplexLimitUp.RegularSequence
 import BEDC.Derived.ComplexLimitUp.SourceSpec
 import BEDC.Derived.MeasureUp
+import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralTheoremUp
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.IntegralUp
@@ -611,6 +614,7 @@ import BEDC.Derived.StreamNameUp.EmptyWindow
 import BEDC.Derived.StreamNameUp.FiniteWindowEndpoint
 import BEDC.Derived.StreamNameUp.FiniteWindowStructural
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
+import BEDC.Derived.StreamNameUp.ScheduledConstantObservation
 import BEDC.Derived.StreamNameUp.StdBridge
 import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.PrimeUp
