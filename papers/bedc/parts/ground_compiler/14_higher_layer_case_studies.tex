@@ -1,0 +1,404 @@
+\chapter{Higher-Layer Case Studies: Completion, Real, Topology, Geometry, Category, and Homology}
+\label{ch:ground-compiler-higher-layer-case-studies}
+
+\autoref{ch:ground-compiler-theory-metrics-flow-invariants} defines theory metrics on event flows: prefix profile, motif profile, seal depth, carry index, ledger depth, classifier compression ratio, reuse depth, bridge depth, normal-address distance, and theory-flow distance. Those metrics are explanatory analysis tools, not proof, $\NameCert$, derivation certificate, or acceptance gate.
+
+This chapter applies those indicators to higher-layer object routes: completion, real-number structure, metric structure, topology, circle or phase structure, complex-number structure, functors, and homology. The purpose is not to prove that these mature objects have been accepted. It is to show how traditionally different theories can share low-level event motifs such as finite approximation, compatible thread, seal, tail ledger, classifier quotient, reuse, carry or lift, bridge, composition, and boundary-square-zero.
+
+The governing rule is
+$$
+  \boxed{\text{high-layer objects are not event codes; they are recognized structures after certificates, classifiers, ledgers, and gates}.}
+$$
+All case studies in this chapter say only that certain high-layer theories exhibit certain event-flow motifs. They do not imply mature export, object equality, completed bridge, or high-level theoremhood.
+
+\section{Higher-layer case-study flows}
+\label{sec:higher-case-flows}
+
+\begin{definition}[Higher-layer case-study flow]
+\label{def:higher-case-flow}
+A \emph{higher-layer case-study flow} is an event flow
+$$
+  S\in\mathsf{EventFlow}
+$$
+whose motif profile, under some recognizer family $\mathcal R$, contains at least one high-layer motif such as completion, metric, topology, phase, circle, complex, category, functor, homology, bridge, or analysis. The high-layer reading is not an external label; it is determined by motif roles and ledger structures recognized in $S$.
+\end{definition}
+
+\begin{definition}[Higher-layer motif bundle]
+\label{def:higher-case-motif-bundle}
+For an event flow $S$ and recognizer family $\mathcal R$, define
+$$
+  \mathsf{HighMotif}_{\mathcal R}(S)
+$$
+as the subcollection of $\mathsf{MotifProfile}_{\mathcal R}(S)$ whose records are recognized as higher-layer roles: completion, metric, topology, phase, circle, complex, category, functor, homology, bridge, or analysis. These role names are explanatory; formally they are recognized motif role flows.
+\end{definition}
+
+\begin{remark}[Higher-layer motif bundles are not mature export]
+\label{rem:higher-case-bundle-not-export}
+The bundle $\mathsf{HighMotif}_{\mathcal R}(S)$ is a collection of recognized motifs. It is not $\mathrm{AcceptGate}(N,s)$ and cannot automatically promote $S$ to $\RealUp$, $\TopologyUp$, circle structure, $\ComplexUp$, or homology.
+\end{remark}
+
+\section{Completion and Real-like flows}
+\label{sec:higher-case-completion-real}
+
+\begin{definition}[Completion skeleton flow]
+\label{def:higher-case-completion-skeleton}
+A \emph{completion skeleton flow} contains recognized finite-stage flow, compatible-thread flow, tail-classifier flow, seal witness flow, tail-ledger flow, and normal-address flow. An explanatory shape is
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100,
+$$
+where the initial segment records finite stages, $01$ is a thread witness, $011$ is a seal or completion witness, and $100$ is a normal address. This shape does not by itself constitute $\CompletionUp$.
+\end{definition}
+
+\begin{definition}[Completion motif record]
+\label{def:higher-case-completion-record}
+A \emph{completion motif record} is a tuple
+$$
+  (M_{\mathrm{stage}},M_{\mathrm{thread}},M_{\mathrm{classifier}},M_{\mathrm{seal}},M_{\mathrm{ledger}})
+$$
+where the entries are finite-stage support flow, compatible-thread support flow, tail or equivalence classifier flow, seal witness flow, and tail ledger flow. The tuple must be recognized by a generated completion recognizer.
+\end{definition}
+
+\begin{proposition}[Completion skeleton is seal-heavy]
+\label{prop:higher-case-completion-seal-heavy}
+If an event flow $S$ contains a recognized completion motif record, then
+$$
+  \mathsf{SealDepth}_{\mathcal R}(S)\geq 1.
+$$
+\end{proposition}
+
+\begin{proof}
+A completion motif record contains a seal witness flow $M_{\mathrm{seal}}$. If that witness is recognized as a seal motif by $\mathcal R$, then the seal depth counts at least that occurrence.
+\end{proof}
+
+\begin{proposition}[Completion skeleton is ledger-dependent]
+\label{prop:higher-case-completion-ledger-dependent}
+If a completion motif in $S$ lacks a tail ledger flow, it is not admissible as a completion motif.
+\end{proposition}
+
+\begin{proof}
+Completion hides or compresses an infinite-looking compatible thread into a named or sealed interface. Without a ledger, the finite stages and their provenance cannot be recovered. BEDC ledger discipline requires hidden material to remain traceable. Hence a completion motif without tail ledger is inadmissible.
+\end{proof}
+
+\begin{corollary}[Seal event alone is not completion]
+\label{cor:higher-case-seal-alone-not-completion}
+A single event such as $011$, even when recognized as a seal witness, does not constitute completion. It must appear with finite-stage source, compatible-thread pattern, tail classifier, seal stability, and tail ledger.
+\end{corollary}
+
+\begin{definition}[Real-like event flow]
+\label{def:higher-case-real-like-flow}
+A \emph{Real-like event flow} is a completion skeleton enriched by rational or dyadic approximation source motif, Cauchy or regularity classifier motif, operation descent motif, order or metric compatibility motif, completion seal motif, and real-ledger motif. Thus it is finite approximation plus classifier, completion, operation descent, and order or metric ledger.
+\end{definition}
+
+\begin{definition}[Real motif bundle]
+\label{def:higher-case-real-motif-bundle}
+Define $\mathsf{RealMotif}_{\mathcal R}(S)$ as the collection of recognized approximation-source, Cauchy-classifier, completion-seal, operation-descent, order-compatibility, metric-compatibility, and real-ledger records in $S$. If these records are not all present, $S$ is only a partial Real-like flow, not a complete $\RealUp$ certificate flow.
+\end{definition}
+
+\begin{proposition}[Real-like flow extends completion flow]
+\label{prop:higher-case-real-extends-completion}
+If $S$ is a complete Real-like flow, then $S$ contains a recognized completion motif.
+\end{proposition}
+
+\begin{proof}
+By \autoref{def:higher-case-real-like-flow}, a Real-like flow contains completion seal and completion classifier structure. These are components of a recognized completion motif.
+\end{proof}
+
+\begin{corollary}[Completion is necessary but not sufficient for $\RealUp$]
+\label{cor:higher-case-completion-necessary-not-sufficient-real}
+Completion motif is a necessary part of Real-like structure, but it is not sufficient. $\RealUp$ also requires approximation source, Cauchy or regularity classifier, operation descent, order and metric compatibility, and ledger.
+\end{corollary}
+
+\begin{theorem}[Real-like motif profile does not export $\RealUp$]
+\label{thm:higher-case-real-profile-not-export}
+If the motif profile of $S$ contains Real-like motifs, one still cannot infer that $\RealUp$ has been exported.
+\end{theorem}
+
+\begin{proof}
+Motif profile records structural motifs only. Exporting $\RealUp$ requires recognized $\NameCert$ and derivation-certificate flows, including exactness, classifier, ledger, stability, and strength. The motif profile does not supply those certificates.
+\end{proof}
+
+\section{Metric and topology flows}
+\label{sec:higher-case-metric-topology}
+
+\begin{definition}[Metric motif]
+\label{def:higher-case-metric-motif}
+A \emph{metric motif} is a recognized event structure containing carrier flow, distance-value flow, nonnegativity witness flow, symmetry witness flow, triangle witness flow, zero-exactness classifier flow, and metric ledger flow. It is only a source-level component of a possible $\MetricUp$ certificate.
+\end{definition}
+
+\begin{definition}[Topology motif]
+\label{def:higher-case-topology-motif}
+A \emph{topology motif} is a recognized event structure containing open or neighborhood source flow, finite-intersection stability flow, arbitrary-union or generated-union schema flow, continuity classifier flow, local ledger flow, and topology seal flow. If it contains only finite intersections and lacks union, basis, or generated-topology ledger, it is a partial topology motif.
+\end{definition}
+
+\begin{definition}[Neighborhood-basis motif]
+\label{def:higher-case-neighborhood-basis-motif}
+A \emph{neighborhood-basis motif} is a weaker topology motif containing point flow, neighborhood candidate flow, refinement witness flow, intersection witness flow, and local ledger flow. It can serve as source for a topology construction, but it does not by itself give a full topology.
+\end{definition}
+
+\begin{proposition}[Metric motif generates topology-like motif only with certificate]
+\label{prop:higher-case-metric-to-topology-needs-cert}
+A metric motif in $S$ does not by itself imply a topology motif. An additional recognized flow is needed to prove that metric balls or neighborhoods generate a topology basis and to carry the basis ledger.
+\end{proposition}
+
+\begin{proof}
+Metric motif supplies distance structure. Topology motif requires open or neighborhood closure behavior, finite intersection, union or generated-basis schema, and continuity classifier. These are not supplied by distance structure alone. They require a recognized construction certificate from metric balls to topology basis.
+\end{proof}
+
+\begin{corollary}[Metric does not automatically imply topology at raw motif layer]
+\label{cor:higher-case-metric-not-automatic-topology}
+Metric-like and topology-like event structures are related but not identical at the raw motif layer. The passage from one to the other requires bridge or certificate flow.
+\end{corollary}
+
+\begin{definition}[Topological classifier compression ratio]
+\label{def:higher-case-topological-compression}
+If a topology flow uses an open-set or neighborhood classifier to group raw local flows into equivalent local neighborhoods, define
+$$
+  \mathsf{TopoCompression}_{\mathcal R}(S)
+  =
+  \mathsf{CompressionRatio}_{\mathcal R}(S)
+$$
+restricted to topology classifier motifs.
+\end{definition}
+
+\begin{theorem}[Topology motif does not prove continuity theorems]
+\label{thm:higher-case-topology-not-continuity}
+Even if $S$ contains a topology motif, one cannot infer that a function or map is continuous unless a recognized continuity proof-flow or continuity classifier exactness flow is supplied.
+\end{theorem}
+
+\begin{proof}
+Topology motif supplies ambient open or neighborhood structure. Continuity requires a relation between source and target topology flows and a proof that inverse image or neighborhood transport preserves that structure. That proof is a separate event-flow structure.
+\end{proof}
+
+\section{Phase, circle, and complex flows}
+\label{sec:higher-case-phase-circle-complex}
+
+\begin{definition}[Phase motif]
+\label{def:higher-case-phase-motif}
+A \emph{phase motif} is a recognized event structure containing cyclic or periodic source flow, completion or seal witness flow, carry or wrap-around witness flow, normal-address flow, and phase ledger flow. Explanatory carry shapes include $011\mid 100$ and $10011\mid 10100$, but these are source-level carry candidates, not equalities.
+\end{definition}
+
+\begin{definition}[Circle motif]
+\label{def:higher-case-circle-motif}
+A \emph{circle motif} is phase motif plus unit-constraint or closed-loop classifier structure. It contains phase source flow, periodic closure flow, unit constraint flow, equation classifier flow, topological compatibility flow, and circle ledger flow. It does not automatically export circle structure.
+\end{definition}
+
+\begin{proposition}[Circle motif extends phase motif]
+\label{prop:higher-case-circle-extends-phase}
+If $S$ contains a recognized circle motif, then $S$ contains a recognized phase motif.
+\end{proposition}
+
+\begin{proof}
+By \autoref{def:higher-case-circle-motif}, circle motif contains phase source flow, periodic closure flow, and ledger structure whose base part is precisely phase motif structure.
+\end{proof}
+
+\begin{corollary}[Phase motif is necessary but not sufficient for circle]
+\label{cor:higher-case-phase-necessary-not-sufficient-circle}
+Phase motif is part of circle-like construction, but circle structure still requires unit constraint, equation classifier, topological compatibility, and ledger.
+\end{corollary}
+
+\begin{theorem}[Carry motif does not imply geometric dimension]
+\label{thm:higher-case-carry-not-dimension}
+A carry motif such as $011\mid 100$ does not imply geometric dimension, topological dimension, linear dimension, or manifold structure.
+\end{theorem}
+
+\begin{proof}
+Carry motif is a source-level normalization or classifier relation. Dimension requires carrier, topology, chart, vector-space, manifold, or homological certificates. Carry motif alone supplies none of these.
+\end{proof}
+
+\begin{definition}[Complex motif]
+\label{def:higher-case-complex-motif}
+A \emph{complex motif} is a recognized event structure containing ordered-pair or product source flow, real-component source flow, addition and multiplication descent flow, rotation or phase motif, conjugation or norm motif, field or ring classifier flow, and complex ledger flow. It typically reuses Real-like, product-like, ring-like, and phase-like flows, so its reuse depth and ledger depth are high.
+\end{definition}
+
+\begin{definition}[Complex analytic motif]
+\label{def:higher-case-complex-analytic-motif}
+A \emph{complex analytic motif} is complex motif plus limit or derivative source flow, difference quotient flow, Cauchy-Riemann or analytic compatibility flow, local power-series flow, modulus ledger flow, and analytic seal flow. It is not automatic from the complex motif.
+\end{definition}
+
+\begin{proposition}[Complex motif inherits reuse depth from real and product components]
+\label{prop:higher-case-complex-reuse-depth}
+If a complex motif in $S$ is recognized as reusing Real-like and product-like flows, then
+$$
+  \mathsf{ReuseDepth}_{\mathcal R}(S)
+$$
+is at least the maximum of the reuse depths of those components plus one.
+\end{proposition}
+
+\begin{proof}
+The complex motif has reuse edges from the Real-like and product-like components into the complex construction. This adds one reuse layer above the maximum reuse depth of the reused components.
+\end{proof}
+
+\begin{theorem}[Complex motif does not imply complex analysis]
+\label{thm:higher-case-complex-not-analysis}
+Complex motif alone does not imply complex differentiability, analyticity, Cauchy integral theorem, or power-series expansion.
+\end{theorem}
+
+\begin{proof}
+Complex motif supplies algebraic or coordinate structure over paired components. Complex analysis requires limit, derivative, analytic compatibility, local expansion, and proof-flow structures. These are not part of complex motif by definition.
+\end{proof}
+
+\section{Category, functor, and natural transformation motifs}
+\label{sec:higher-case-category-functor}
+
+\begin{definition}[Category composition motif]
+\label{def:higher-case-category-composition-motif}
+A \emph{category composition motif} is an event structure containing object-source flow, morphism-source flow, domain and codomain classifier flow, identity witness flow, composition witness flow, associativity proof-flow, unit proof-flow, and category ledger flow. It generalizes continuation or composition motif by adding object and morphism sorting and composability conditions.
+\end{definition}
+
+\begin{definition}[Functor motif]
+\label{def:higher-case-functor-motif}
+A \emph{functor motif} is an event structure containing source-category flow, target-category flow, object-map flow, morphism-map flow, identity-preservation flow, composition-preservation flow, and functor ledger flow. It reuses two category motifs.
+\end{definition}
+
+\begin{definition}[Natural transformation motif]
+\label{def:higher-case-natural-transformation-motif}
+A \emph{natural transformation motif} is an event structure containing source functor flow, target functor flow, component morphism family flow, naturality-square proof-flow, and component ledger flow. It reuses functor motifs and category composition motifs.
+\end{definition}
+
+\begin{proposition}[Functor motif extends category motif]
+\label{prop:higher-case-functor-extends-category}
+If $S$ contains a recognized functor motif, then $S$ contains or references recognized category motifs for source and target categories.
+\end{proposition}
+
+\begin{proof}
+By \autoref{def:higher-case-functor-motif}, functor motif contains source-category and target-category flows. These must be recognized category motifs or references to recognized category flows.
+\end{proof}
+
+\begin{proposition}[Natural transformation motif extends functor motif]
+\label{prop:higher-case-natural-transformation-extends-functor}
+If $S$ contains a recognized natural transformation motif, then $S$ contains or references source and target functor motifs.
+\end{proposition}
+
+\begin{proof}
+By \autoref{def:higher-case-natural-transformation-motif}, natural transformation motif contains source functor flow and target functor flow.
+\end{proof}
+
+\begin{theorem}[Composition motif alone does not yield category]
+\label{thm:higher-case-composition-not-category}
+A continuation or composition motif does not by itself yield a category.
+\end{theorem}
+
+\begin{proof}
+Composition motif records operation-like event structure. A category additionally requires object and morphism sorting, domain and codomain compatibility, identity witnesses, associativity proof-flow, unit proof-flow, and ledger. These are additional recognized flows.
+\end{proof}
+
+\section{Homology as boundary-quotient flow}
+\label{sec:higher-case-homology}
+
+\begin{definition}[Chain-complex motif]
+\label{def:higher-case-chain-complex-motif}
+A \emph{chain-complex motif} is an event structure containing graded object flow, boundary-map flow, boundary-composition flow, zero-composition proof-flow, and chain ledger flow. The key proof-flow states $d\circ d=0$.
+\end{definition}
+
+\begin{definition}[Cycle-boundary classifier motif]
+\label{def:higher-case-cycle-boundary-classifier}
+A \emph{cycle-boundary classifier motif} is an event structure containing cycle flow, boundary flow, equivalence modulo boundaries, quotient classifier flow, and exactness ledger flow. It is classifier-heavy and ledger-dependent.
+\end{definition}
+
+\begin{definition}[Homology motif]
+\label{def:higher-case-homology-motif}
+A \emph{homology motif} is chain-complex motif plus cycle-boundary classifier motif plus quotient ledger: chain complex, cycle classifier, boundary classifier, quotient flow, exactness proof-flow, and homology ledger.
+\end{definition}
+
+\begin{proposition}[Homology motif has classifier compression]
+\label{prop:higher-case-homology-has-compression}
+If $S$ contains a recognized homology motif, then $S$ contains a classifier quotient motif.
+\end{proposition}
+
+\begin{proof}
+Homology motif includes equivalence modulo boundaries. This identifies raw cycles that differ by boundaries, so it contains classifier quotient structure.
+\end{proof}
+
+\begin{theorem}[Chain-complex motif does not imply homology]
+\label{thm:higher-case-chain-complex-not-homology}
+A chain-complex motif alone does not yield homology.
+\end{theorem}
+
+\begin{proof}
+Chain-complex motif supplies graded objects and a boundary map with $d^2=0$. Homology requires forming cycles modulo boundaries. That formation needs classifier quotient and quotient ledger, which are not part of chain-complex motif alone.
+\end{proof}
+
+\section{Cross-domain comparison}
+\label{sec:higher-case-cross-domain}
+
+\begin{definition}[Cross-domain motif comparison]
+\label{def:higher-case-cross-domain-comparison}
+For event flows $S$ and $T$, define their cross-domain comparison by
+$$
+  \mathsf{CrossCompare}_{\mathcal R}(S,T)
+  =
+  (
+  \mathsf{MotifProfile}_{\mathcal R}(S),
+  \mathsf{MotifProfile}_{\mathcal R}(T),
+  \mathsf{Overlap}_{\mathcal R}(S,T),
+  \mathsf{TheoryDist}_{\mathcal R,P}(S,T)
+  ).
+$$
+This comparison is valid only relative to recognizer family $\mathcal R$ and analysis protocol $P$.
+\end{definition}
+
+\begin{example}[$\CompletionUp$ versus $\RealUp$]
+\label{ex:higher-case-completion-real}
+Expected shared motifs include finite approximation, compatible thread, seal, and tail ledger. Real-like structure adds Cauchy or regularity classifier, operation descent, order or metric compatibility, and field ledger. The report may say that $\RealUp$ is completion motif plus arithmetic, metric, and classifier stack, but it may not claim $\CompletionUp=\RealUp$.
+\end{example}
+
+\begin{example}[Phase structure versus circle]
+\label{ex:higher-case-phase-circle}
+Expected shared motifs include periodic or cyclic source, seal, carry or wrap-around, and normal address. Circle-like structure adds unit constraint, equation classifier, topology compatibility, and circle ledger. Carry motif is not the circle object.
+\end{example}
+
+\begin{example}[$\AddUp$ versus category composition]
+\label{ex:higher-case-add-category}
+Expected shared motifs include composition or continuation, identity or unit, and associativity. Category structure adds object and morphism sorting, domain and codomain classifier, identity morphism ledger, and composability ledger. This supports the claim that they share a continuation-stability motif, not that $\AddUp$ is category composition.
+\end{example}
+
+\begin{example}[Homology versus rational or Cauchy quotient]
+\label{ex:higher-case-homology-quotient}
+Expected shared motifs include classifier quotient, exactness or equivalence witness, and ledger preserving raw representatives. Homology adds chain complex, $d^2=0$, and cycle-boundary quotient. Cauchy quotient adds approximation sequence, tail-control classifier, and completion seal. Both are quotient-heavy, but their source and exactness motifs differ.
+\end{example}
+
+\begin{theorem}[Cross-domain motif overlap does not imply bridge]
+\label{thm:higher-case-overlap-not-bridge}
+If two flows share motifs across domains, this does not imply that there is a bridge between the corresponding mature theories.
+\end{theorem}
+
+\begin{proof}
+Motif overlap records structural similarity at event-flow level. A bridge requires translation flow, soundness flow, reflection or completeness where available, and no-host-leak ledger. Motif overlap supplies none of these.
+\end{proof}
+
+\begin{corollary}[Bridge requires bridge motif plus certificate]
+\label{cor:higher-case-bridge-needs-cert}
+Even when two theories have high motif similarity, a conservative bridge must be supplied as a separate recognized bridge flow with certificate support.
+\end{corollary}
+
+\section{Reports, limits, and conservativity}
+\label{sec:higher-case-reports-limits}
+
+\begin{definition}[High-level motif report]
+\label{def:higher-case-report}
+A \emph{high-level motif report} for an event flow $S$ includes its higher-layer motif bundle, seal depth, carry index, ledger depth, classifier compression ratio, reuse depth, bridge depth, normal-address map, warnings, and cannot-claim entries. It is an output view, not proof.
+\end{definition}
+
+\begin{principle}[High-level reports require cannot-claim entries]
+\label{prin:higher-case-reports-require-cannot-claims}
+Any report involving Real-like, Topology-like, Circle-like, Complex-like, Category-like, or Homology-like motifs must include cannot-claim entries preventing overinterpretation. Required examples include: Real-like motifs do not export $\RealUp$; topology motif does not prove continuity; carry motif does not imply dimension; phase motif does not imply circle structure; complex motif does not imply complex analysis; composition motif does not imply category; chain-complex motif does not imply homology; motif overlap does not imply bridge.
+\end{principle}
+
+\begin{theorem}[High-level motif analysis is conservative over the finite kernel]
+\label{thm:higher-case-conservativity}
+Adding high-layer motif analysis for Completion, Real, Topology, Circle, Complex, Category, Functor, Natural Transformation, and Homology does not add new raw marks, history constructors, sameness rules, continuation rules, derived-interface formation rules, or accepted-object export rules.
+\end{theorem}
+
+\begin{proof}
+High-layer motif analysis operates on decoded event flows and recognized motif profiles. It does not create new $\bzero$ or $\bone$, add kernel sameness, change $\ExtR$ or $\ContR$, or license any derived interface. Object export still requires $\NameCert$ flow, derivation-certificate flow, and acceptance-gate flow. Therefore the analysis is conservative over the finite kernel.
+\end{proof}
+
+\begin{corollary}[High-layer motifs cannot replace certificates]
+\label{cor:higher-case-motifs-cannot-replace-certificates}
+No high-layer motif bundle, metric report, or similarity score can replace $\NameCert$ flow, derivation-certificate flow, proof flow, acceptance-gate flow, bridge certificate, or ledger completeness.
+\end{corollary}
+
+\begin{remark}[Outlook]
+\label{rem:higher-case-outlook}
+This chapter applies event-flow metrics to higher-layer routes. It defines and analyzes completion motif, Real motif bundle, metric motif, topology motif, neighborhood-basis motif, phase motif, circle motif, complex motif, complex analytic motif, category composition motif, functor motif, natural transformation motif, chain-complex motif, cycle-boundary classifier motif, homology motif, cross-domain motif comparison, and high-level motif reports. It proves that completion is seal-heavy and ledger-dependent, completion is necessary but not sufficient for Real-like structure, Real-like motifs do not export $\RealUp$, metric motifs do not automatically generate topology, topology motifs do not prove continuity, circle motifs extend phase motifs, carry motifs do not imply dimension, complex motifs do not imply complex analysis, functor and natural transformation motifs extend category and functor motifs, composition does not yield category, homology includes classifier quotient while chain-complex alone does not yield homology, cross-domain overlap does not imply bridge, high-level reports require cannot-claim entries, high-level motif analysis is conservative, and high-layer motifs cannot replace certificates. The next chapter organizes motifs, metrics, and reports into a compiler analysis pipeline from channel code decoding through recognizer selection, protocol flow, reports, distance matrices, cannot-claim audit, and bridge-obligation discovery.
+\end{remark}

@@ -1,0 +1,578 @@
+\chapter{Minimal Executable Prototype Specification}
+\label{ch:ground-compiler-minimal-executable-prototype}
+
+\autoref{ch:ground-compiler-implementation-interface} fixes the implementation interface: host data structures may be used internally, but the public formal interface must not leak host structure. This chapter specifies the minimal executable prototype. Its purpose is not to recognize all mathematical structures, prove theorems, export mature objects, or replace name certificates, derivation certificates, or acceptance gates. It implements only the lossless streaming channel:
+$$
+  \mathsf{EventFlow}\cong\mathsf{LegalZStream}.
+$$
+The prototype encodes event flows, decodes legal channel streams, rejects illegal channel streams, emits human-readable reports, runs round-trip tests, and records rejection, warning, and cannot-claim information.
+
+\section{Scope and display representations}
+\label{sec:minimal-prototype-scope-display}
+
+\begin{definition}[Reference prototype]
+\label{def:minimal-prototype-reference}
+A \emph{reference prototype} is an executable implementation $P_0$ whose formal capability is limited to
+$$
+  \mathsf{Compile}:\mathsf{EventFlow}\to\mathsf{LegalZStream},
+  \qquad
+  \mathsf{Decode}:\mathsf{LegalZStream}\to\mathsf{EventFlow},
+$$
+together with illegal-input rejection. Write
+$$
+  \mathsf{ReferencePrototype}(P_0).
+$$
+It is a channel-level prototype, not a full compiler.
+\end{definition}
+
+\begin{principle}[Prototype is not full compiler]
+\label{prin:minimal-prototype-not-full-compiler}
+The reference prototype $P_0$ must not claim package recognition, name-certificate recognition, derivation-certificate recognition, acceptance-gate recognition, theorem recognition, chapter recognition, compiler self-hosting, motif analysis, metric analysis, or bridge discovery unless these functions are provided at a later prototype level with the required recognizer flows, certificate flows, or bootstrap obligations.
+\end{principle}
+
+\begin{definition}[Prototype level]
+\label{def:minimal-prototype-level}
+Prototype levels are ordered as follows:
+\begin{center}
+\begin{tabular}{ll}
+$P_0$ & channel prototype;\\
+$P_1$ & source-event reporting prototype;\\
+$P_2$ & source-level normalizer-ledger prototype;\\
+$P_3$ & motif-report prototype;\\
+$P_4$ & recognizer-flow prototype;\\
+$P_5$ & certificate-flow prototype;\\
+$P_6$ & theorem/chapter-flow prototype;\\
+$P_7$ & self-hosting prototype.
+\end{tabular}
+\end{center}
+This chapter specifies $P_0$ and optional $P_1$ output views.
+\end{definition}
+
+\begin{definition}[Prototype input representations]
+\label{def:minimal-prototype-input-representations}
+At implementation level, $P_0$ may accept two display representations:
+\begin{enumerate}
+\item an event-flow display, such as
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100,
+$$
+which displays the event flow $(0,00,000,01,011,100)$;
+\item a channel-stream display, such as
+$$
+  011001100011010110101011100011,
+$$
+which displays a candidate channel stream.
+\end{enumerate}
+These displays are implementation representations, not BEDC formal objects.
+\end{definition}
+
+\begin{remark}[Display separator is not formal structure]
+\label{rem:minimal-prototype-separator-not-formal}
+The symbol $\mid$ belongs to display notation for human-readable event boundaries. It is not a raw mark, and it does not occur in formal channel code. Thus
+$$
+  0\mid 00\mid 000
+$$
+is only a display of the event flow $(0,00,000)$.
+\end{remark}
+
+\begin{definition}[Prototype encoder]
+\label{def:minimal-prototype-encoder}
+The \emph{prototype encoder} is an implementation function from event-flow display to channel-stream display. If the input display parses as event flow $S$ and the output display is $c$, then it must implement the formal relation
+$$
+  \mathsf{Compiles}(S,c),
+$$
+equivalently $c=\mathsf{Compile}(S)$.
+\end{definition}
+
+\begin{definition}[Prototype decoder]
+\label{def:minimal-prototype-decoder}
+The \emph{prototype decoder} is an implementation function from channel-stream display to either event-flow display or a rejection report. If it returns success with event flow $S$ on channel stream $c$, then it must implement
+$$
+  \mathsf{Decodes}(c,S).
+$$
+If it rejects, it must return a rejection report.
+\end{definition}
+
+\begin{definition}[Reject report]
+\label{def:minimal-prototype-reject-report}
+A \emph{reject report} is an implementation-level output view recording why a channel stream is not accepted by the prototype. Typical rejection cases include dangling $1$, unfinished event, non-binary character, empty-input policy violation, resource-bound excess, and noncanonical display.
+
+The case ``dangling $1$'' means that the input ends with an isolated $1$ that cannot form $10$ or $11$. The case ``unfinished event'' means that an event body has not reached a terminator $11$. The case ``non-binary character'' means that the display contains a character other than $0$ or $1$.
+\end{definition}
+
+\begin{principle}[Reject reports are output]
+\label{prin:minimal-prototype-reject-reports-output}
+Reject reports are output views. They are not formal proofs, name certificates, derivation certificates, theorems, chapters, or accepted objects.
+\end{principle}
+
+\section{Encoding and decoding specification}
+\label{sec:minimal-prototype-encoding-decoding}
+
+\begin{definition}[Prototype event encoder]
+\label{def:minimal-prototype-event-encoder}
+For a raw event $w=w_1\cdots w_n$, the prototype event encoder outputs
+$$
+  \mathsf{Ev}(w)=\zeta(w)11,
+$$
+where
+$$
+  \zeta(0)=0,
+  \qquad
+  \zeta(1)=10.
+$$
+In implementation terms, each displayed $0$ contributes $0$, each displayed $1$ contributes $10$, and the event terminator $11$ is appended at the end.
+\end{definition}
+
+\begin{definition}[Prototype flow encoder]
+\label{def:minimal-prototype-flow-encoder}
+For an event flow
+$$
+  S=(w_0,\ldots,w_{n-1}),
+$$
+the prototype outputs
+$$
+  \mathsf{Compile}(S)=\mathsf{Ev}(w_0)\cdots\mathsf{Ev}(w_{n-1}).
+$$
+\end{definition}
+
+\begin{example}[Completion skeleton encoding]
+\label{ex:minimal-prototype-completion-encoding}
+The display
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100
+$$
+has event encodings
+$$
+\begin{array}{rcl}
+  0    &\mapsto& 011,\\
+  00   &\mapsto& 0011,\\
+  000  &\mapsto& 00011,\\
+  01   &\mapsto& 01011,\\
+  011  &\mapsto& 0101011,\\
+  100  &\mapsto& 100011.
+\end{array}
+$$
+The compiled output is
+$$
+  011001100011010110101011100011.
+$$
+\end{example}
+
+\begin{example}[Add/fold skeleton encoding]
+\label{ex:minimal-prototype-add-fold-encoding}
+The display
+$$
+  0\mid 00\mid 001\mid 0011\mid 0100
+$$
+has event encodings
+$$
+\begin{array}{rcl}
+  0     &\mapsto& 011,\\
+  00    &\mapsto& 0011,\\
+  001   &\mapsto& 001011,\\
+  0011  &\mapsto& 00101011,\\
+  0100  &\mapsto& 0100011.
+\end{array}
+$$
+The compiled output is
+$$
+  0110011001011001010110100011.
+$$
+\end{example}
+
+\begin{definition}[Prototype stream decoder]
+\label{def:minimal-prototype-stream-decoder}
+The prototype decoder scans channel bits left to right using:
+$$
+  0\mapsto \text{append raw }0,
+  \qquad
+  10\mapsto \text{append raw }1,
+  \qquad
+  11\mapsto \text{close current event}.
+$$
+It rejects dangling $1$, unclosed event body under the chosen display policy, and non-binary characters.
+\end{definition}
+
+\begin{definition}[Decoder state]
+\label{def:minimal-prototype-decoder-state}
+An implementation may use host-level decoder state containing current event bits, completed events, position, and rejection reason. These are implementation internals. Formal behavior is captured by the source-level relation $\mathsf{Decodes}(c,S)$.
+\end{definition}
+
+\begin{example}[Decode completion skeleton code]
+\label{ex:minimal-prototype-decode-completion}
+The channel stream
+$$
+  011001100011010110101011100011
+$$
+segments as
+$$
+  011,\quad 0011,\quad 00011,\quad 01011,\quad 0101011,\quad 100011
+$$
+and decodes to
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100.
+$$
+\end{example}
+
+\begin{example}[Rejecting $0111$]
+\label{ex:minimal-prototype-reject-0111}
+The input $0111$ scans as $0$ followed by $11$, closing the first event as raw $0$, and then leaves a dangling $1$. The prototype rejects with a dangling-$1$ report.
+\end{example}
+
+\begin{example}[Decoding raw source event $11$]
+\label{ex:minimal-prototype-source-11}
+The source event $11$ encodes as
+$$
+  101011.
+$$
+The decoder reads $10$ as raw $1$, then $10$ as raw $1$, then $11$ as event terminator. The output is the source event $11$. Thus channel terminator $11$ is not the source raw event $11$.
+\end{example}
+
+\section{Prototype test suite}
+\label{sec:minimal-prototype-test-suite}
+
+\begin{definition}[Required unit tests]
+\label{def:minimal-prototype-required-unit-tests}
+The reference prototype must pass the following event-level encoding tests:
+$$
+\begin{array}{rcl}
+  \epsilon &\mapsto& 11,\\
+  0        &\mapsto& 011,\\
+  1        &\mapsto& 1011,\\
+  00       &\mapsto& 0011,\\
+  01       &\mapsto& 01011,\\
+  10       &\mapsto& 10011,\\
+  11       &\mapsto& 101011,\\
+  011      &\mapsto& 0101011,\\
+  100      &\mapsto& 100011,\\
+  0011     &\mapsto& 00101011.
+\end{array}
+$$
+\end{definition}
+
+\begin{definition}[Required round-trip tests]
+\label{def:minimal-prototype-required-roundtrip-tests}
+The reference prototype must pass event round trips for
+$$
+  \epsilon,\quad
+  0,\quad
+  1,\quad
+  00,\quad
+  01,\quad
+  10,\quad
+  11,\quad
+  011,\quad
+  100,\quad
+  001,\quad
+  0011,\quad
+  0100,
+$$
+and flow round trips for
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100,
+$$
+$$
+  0\mid 00\mid 001\mid 0011\mid 0100,
+$$
+$$
+  011\mid 100,
+  \qquad
+  1\mid 11\mid 011\mid 100.
+$$
+\end{definition}
+
+\begin{definition}[Required reject tests]
+\label{def:minimal-prototype-required-reject-tests}
+The reference prototype must reject, or explicitly classify by implementation policy, the displays
+$$
+  1,\qquad
+  0111,\qquad
+  010,\qquad
+  101,\qquad
+  000.
+$$
+Here $1$ is dangling, $0111$ contains a valid first event followed by dangling $1$, $010$ decodes an event body but lacks terminator, $101$ decodes raw $1$ followed by dangling $1$, and $000$ is an event body without a terminator.
+\end{definition}
+
+\begin{remark}[Empty stream policy]
+\label{rem:minimal-prototype-empty-stream-policy}
+The empty channel stream may be accepted as the empty event flow or rejected by implementation policy when nonempty input is required. The formal channel language allows empty concatenation:
+$$
+  \epsilon\in((0\mid 10)^{\ast}11)^{\ast}.
+$$
+Rejecting the empty stream is therefore implementation-domain policy, not a channel-language theorem.
+\end{remark}
+
+\section{Prototype outputs}
+\label{sec:minimal-prototype-outputs}
+
+\begin{definition}[Decode report]
+\label{def:minimal-prototype-decode-report}
+A \emph{decode report} is human-readable output containing the input channel stream, legality status, decoded event flow when legal, event segmentation, rejection reason when illegal, and warnings. It is an output view, not a formal proof.
+\end{definition}
+
+\begin{definition}[Encode report]
+\label{def:minimal-prototype-encode-report}
+An \emph{encode report} is human-readable output containing the input event-flow display, per-event encoding, final channel stream, round-trip check result, and warnings. It is an output view, not a formal proof.
+\end{definition}
+
+\begin{example}[Encode report for completion skeleton]
+\label{ex:minimal-prototype-completion-report}
+For input
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100,
+$$
+an encode report may record the per-event codes $011$, $0011$, $00011$, $01011$, $0101011$, and $100011$, the compiled stream
+$$
+  011001100011010110101011100011,
+$$
+and a successful round trip.
+\end{example}
+
+\begin{example}[Decode report for carry-looking pair]
+\label{ex:minimal-prototype-carry-looking-report}
+The input
+$$
+  0101011100011
+$$
+segments as
+$$
+  0101011,\quad 100011
+$$
+and decodes to
+$$
+  011\mid 100.
+$$
+The report must not assert $011=100$. If this pair is read as a carry, a source-level carry recognizer and ledger are required.
+\end{example}
+
+\begin{principle}[Reports must include warnings]
+\label{prin:minimal-prototype-reports-warnings}
+When reports contain carry-looking pairs such as $011\mid 100$ or $0011\mid 0100$, they must warn that these are raw events, not equality claims. Any carry interpretation requires source-level recognizer and ledger.
+\end{principle}
+
+\section{Prototype correctness}
+\label{sec:minimal-prototype-correctness}
+
+\begin{theorem}[Prototype encoder soundness]
+\label{thm:minimal-prototype-encoder-soundness}
+If the reference prototype encodes event flow $S$ and returns channel stream $c$, then
+$$
+  \mathsf{Compiles}(S,c).
+$$
+\end{theorem}
+
+\begin{proof}
+By specification, the encoder applies $\mathsf{Ev}$ to each event and concatenates the results. This is exactly the definition of $\mathsf{Compile}(S)$.
+\end{proof}
+
+\begin{theorem}[Prototype decoder soundness]
+\label{thm:minimal-prototype-decoder-soundness}
+If the reference prototype decodes channel stream $c$ and returns event flow $S$, then
+$$
+  \mathsf{Decodes}(c,S).
+$$
+\end{theorem}
+
+\begin{proof}
+The decoder scans $c$ by the grammar $0$ for raw $0$, $10$ for raw $1$, and $11$ for event end. If it returns $S$, then $c$ has been parsed as a concatenation of legal event codes for the events of $S$. Hence $c=\mathsf{Compile}(S)$, so $\mathsf{Decodes}(c,S)$.
+\end{proof}
+
+\begin{theorem}[Prototype decoder completeness on legal streams]
+\label{thm:minimal-prototype-decoder-completeness}
+If $c\in\mathsf{LegalZStream}$, then the reference decoder returns some event flow $S$ such that
+$$
+  \mathsf{Decodes}(c,S).
+$$
+\end{theorem}
+
+\begin{proof}
+A legal stream lies in $((0\mid 10)^{\ast}11)^{\ast}$, hence is a concatenation of legal event codes. Event bodies contain no internal $11$, so the first $11$ after each body uniquely terminates an event. The scanner returns the corresponding event flow.
+\end{proof}
+
+\begin{theorem}[Prototype reject soundness]
+\label{thm:minimal-prototype-reject-soundness}
+If the reference decoder rejects $c$ with a syntactic reject reason, then
+$$
+  c\notin\mathsf{LegalZStream},
+$$
+unless the rejection reason is explicitly marked as implementation-domain policy.
+\end{theorem}
+
+\begin{proof}
+Syntactic rejection records violation of the grammar $((0\mid 10)^{\ast}11)^{\ast}$: dangling $1$, unclosed event body, or non-binary display character. Such failures cannot occur in a legal stream. Policy rejections, such as empty-input disallowance or resource bounds, must be recorded separately and do not assert syntactic illegality.
+\end{proof}
+
+\begin{corollary}[Prototype round-trip correctness]
+\label{cor:minimal-prototype-roundtrip-correctness}
+For every event flow $S$, decoding the prototype encoding of $S$ returns $S$. For every legal channel stream $c$, encoding the prototype decoding of $c$ returns $c$.
+\end{corollary}
+
+\begin{proof}
+This follows from encoder soundness, decoder soundness, decoder completeness on legal streams, and the channel bijection theorem.
+\end{proof}
+
+\section{Prototype limitations and CLI}
+\label{sec:minimal-prototype-limitations-cli}
+
+\begin{theorem}[Reference prototype does not recognize mathematical structures]
+\label{thm:minimal-prototype-no-math-structure-recognition}
+The reference prototype $P_0$ does not recognize package, name-certificate, derivation-certificate, theorem, chapter, motif, metric, or accepted-object structures.
+\end{theorem}
+
+\begin{proof}
+By definition, $P_0$ implements only channel encoding, decoding, and legality checking. It has no generated recognizer flow for any higher structure. Therefore it cannot formally recognize those structures.
+\end{proof}
+
+\begin{corollary}[Prototype output is not a name certificate]
+\label{cor:minimal-prototype-output-not-namecert}
+Even if a decoded event flow visually resembles a name-certificate flow, $P_0$ alone cannot recognize it as one. A name-certificate recognizer flow is required.
+\end{corollary}
+
+\begin{corollary}[Prototype output is not a theorem]
+\label{cor:minimal-prototype-output-not-theorem}
+Even if a decoded event flow visually resembles a theorem flow, $P_0$ alone cannot recognize it as one. A theorem recognizer flow and proof-checker flow are required.
+\end{corollary}
+
+\begin{corollary}[Prototype output is not an accepted object]
+\label{cor:minimal-prototype-output-not-accepted}
+Even if a decoded event flow contains apparent certificate-like segments, $P_0$ alone cannot establish an acceptance gate.
+\end{corollary}
+
+\begin{definition}[Allowed CLI commands]
+\label{def:minimal-prototype-allowed-cli}
+A reference implementation may provide commands named encode, decode, check, roundtrip, and report. Their meanings are implementation conveniences:
+\begin{center}
+\begin{tabular}{ll}
+encode & event-flow display to channel stream;\\
+decode & channel stream to event-flow display or reject report;\\
+check & channel stream to legal or illegal status;\\
+roundtrip & event-flow display through encode and decode;\\
+report & human-readable encode/decode report.
+\end{tabular}
+\end{center}
+These commands are not BEDC formal operators.
+\end{definition}
+
+\begin{definition}[Forbidden CLI meanings at $P_0$]
+\label{def:minimal-prototype-forbidden-cli}
+At $P_0$, the prototype must not provide commands implying higher recognition: name-certificate recognition, theorem recognition, object acceptance, proof, bridge, dimension inference, real-object inference, circle-object inference, or channel-level carry normalization. If such commands exist as stubs, they must report that they require higher recognizer flows.
+\end{definition}
+
+\section{Output formats and audit}
+\label{sec:minimal-prototype-output-formats-audit}
+
+\begin{definition}[Event-flow display format]
+\label{def:minimal-prototype-event-flow-display-format}
+An event-flow display may use $0$, $1$, $\mid$, and whitespace, with $\mid$ separating raw events and whitespace ignored. Empty events are supported only by explicit display syntax such as $\epsilon$, which is display-only and compiles as the empty raw event.
+\end{definition}
+
+\begin{definition}[Channel-stream display format]
+\label{def:minimal-prototype-channel-display-format}
+A channel-stream display uses only $0$ and $1$, with no separators. Successful decoding requires legal channel syntax.
+\end{definition}
+
+\begin{definition}[Report format]
+\label{def:minimal-prototype-report-format}
+A report may contain input, output, events, event codes, rejection reason, round-trip status, and warnings. It must not be accepted as formal input.
+\end{definition}
+
+\begin{principle}[Reports are output views]
+\label{prin:minimal-prototype-reports-output-views}
+Reports may be exported as text, Markdown, JSON, YAML, or HTML, but all are output views. None is a formal compiler input.
+\end{principle}
+
+\begin{definition}[Prototype audit checklist]
+\label{def:minimal-prototype-audit-checklist}
+A $P_0$ prototype must satisfy:
+\begin{enumerate}
+\item event encoding implements $\zeta(w)11$;
+\item flow encoding concatenates event encodings;
+\item stream decoding implements the $0/10/11$ scanner;
+\item dangling $1$ is rejected;
+\item unclosed event body is rejected;
+\item non-binary characters are rejected;
+\item required unit tests pass;
+\item required round-trip tests pass;
+\item carry-looking pairs produce warnings;
+\item no structure recognition is claimed;
+\item YAML, AST, and package structures are not accepted as input;
+\item no theorem, object, or proof claim is exposed.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Prototype audit suffices for $P_0$ adequacy]
+\label{thm:minimal-prototype-audit-suffices}
+If a reference prototype satisfies the audit checklist and its encoder and decoder satisfy soundness and completeness obligations, then it is adequate as a $P_0$ channel prototype.
+\end{theorem}
+
+\begin{proof}
+The checklist covers exactly the duties of $P_0$: channel encoding, decoding, legality checking, round-trip testing, rejection reporting, and non-claim discipline. Soundness and completeness establish correctness against the formal channel relations. Therefore the prototype is adequate at level $P_0$.
+\end{proof}
+
+\begin{corollary}[$P_0$ adequacy does not imply higher adequacy]
+\label{cor:minimal-prototype-p0-not-higher}
+Adequacy at $P_0$ does not imply adequacy for package recognition, theorem recognition, certificate recognition, motif analysis, or self-hosting.
+\end{corollary}
+
+\section{Example sessions and conservativity}
+\label{sec:minimal-prototype-examples-conservativity}
+
+\begin{example}[Encoding completion skeleton]
+\label{ex:minimal-prototype-session-encode-completion}
+Encoding the display
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100
+$$
+returns
+$$
+  011001100011010110101011100011.
+$$
+The report may say that round trip succeeds and that the occurrence of $011$ followed by $100$ may be read as carry only after a source-level carry recognizer is supplied.
+\end{example}
+
+\begin{example}[Decoding completion skeleton]
+\label{ex:minimal-prototype-session-decode-completion}
+Decoding
+$$
+  011001100011010110101011100011
+$$
+returns
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100
+$$
+with legal status and six events.
+\end{example}
+
+\begin{example}[Rejecting invalid stream]
+\label{ex:minimal-prototype-session-reject-invalid}
+Decoding $0111$ rejects with dangling $1$: the prefix $011$ decodes to raw event $0$, and the remaining $1$ is not a legal token.
+\end{example}
+
+\begin{example}[Encoding raw source event $11$]
+\label{ex:minimal-prototype-session-source-11}
+Encoding the single raw source event $11$ returns
+$$
+  101011.
+$$
+The report must warn that source raw event $11$ is not channel terminator $11$.
+\end{example}
+
+\begin{theorem}[Reference prototype is conservative over the finite kernel]
+\label{thm:minimal-prototype-conservative}
+Implementing $P_0$ adds no raw marks, history constructors, sameness rules, continuation rules, derived-interface formation rules, or accepted-object export rules.
+\end{theorem}
+
+\begin{proof}
+$P_0$ implements only channel encoding and decoding of event flows. It does not introduce source events beyond the existing display alphabet, assert $\msame$, $\hsame$, or $\psame$, alter $\ExtR$ or $\ContR$, recognize name certificates or acceptance gates, or license mature objects. Therefore it is conservative over the finite kernel.
+\end{proof}
+
+\begin{corollary}[Reference prototype is an address layer]
+\label{cor:minimal-prototype-address-layer}
+$P_0$ provides a lossless address layer for event flows. It is not a mathematical object generator.
+\end{corollary}
+
+\begin{remark}[Summary]
+\label{rem:minimal-prototype-summary}
+This chapter specifies the minimal executable prototype $P_0$. It implements event and flow encoding, channel decoding, legal-stream checking, round trips, and reports. It must satisfy encoder soundness, encoder totality, decoder soundness, decoder completeness, rejection soundness, warning discipline, and the $P_0$ audit checklist. It must not claim package recognition, certificate recognition, theorem recognition, object export, motif analysis, metric analysis, bridge discovery, or compiler self-hosting. Thus $P_0$ is a channel-level reference prototype, not a full compiler.
+\end{remark}
