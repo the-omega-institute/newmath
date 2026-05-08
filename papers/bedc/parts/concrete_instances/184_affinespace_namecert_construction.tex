@@ -6,17 +6,99 @@ The affine-space interface $\AffineSpaceUp$ packages a torsor over a vector-spac
 \section{Carrier definition}
 \label{sec:affinespace-carrier}
 
+\begin{definition}[Affine history torsor carrier]
+\label{def:affinespace-history-torsor-carrier}
+An $\AffineSpaceUp$ carried datum is a $\mathsf{BHist}$ package
+$$
+\mathcal{A}=(\mathcal{G},\mathcal{V},p,\tau,\eta_{\mathcal{G}},\eta_{\mathcal{V}},\lambda)
+$$
+where $\mathcal{G}$ is the $\GroupUp$ additive-translation source, $\mathcal{V}$ is the $\VecSpaceUp$ vector source, $p:\mathsf{BHist}$ is the point row, $\tau:\mathsf{BHist}$ is the vector-translation row, $\eta_{\mathcal{G}}$ and $\eta_{\mathcal{V}}$ are the displayed source $\NameCert$ witnesses, and $\lambda$ records that the translation row is read through the vector carrier of $\mathcal{V}$ and the additive group operation exposed by $\mathcal{G}$.
+
+The affine classifier on two carried rows $\mathcal{A}$ and $\mathcal{A}'$ is the componentwise relation saying that the point rows are $\hsame$-compatible and that the translation rows are classified by the $\VecSpaceUp$ vector classifier:
+$$
+\mathsf{AffCls}(\mathcal{A},\mathcal{A}') :=
+\hsame(p,p')\land \mathsf{VecCls}_{\mathcal{V}}(\tau,\tau').
+$$
+The affine action of a certified vector translation $v:\mathsf{BHist}$ on a carried point row $p$ is the $\Cont$-append row
+$$
+\mathsf{act}(p,v):=\Cont(p,\mathsf{trans}(v)),
+$$
+where $\mathsf{trans}(v)$ is the certified vector-translation packet scoped by the $\VecSpaceUp$ and $\GroupUp$ source certificates. Thus the carrier is a torsor surface over $\VecSpaceUp$ whose visible rows are only the point row, the vector-translation row, the source $\NameCert$ witnesses, and the finite $\Cont$ action ledger.
+\end{definition}
+
 \section{The certificate}
 \label{sec:affinespace-certificate}
 
-\closureat{AffineSpaceUp}{seedStr}
+\begin{theorem}[Affine vector-action stability]
+\label{thm:affinespace-vector-action-stability}
+Let $\mathcal{A}$ and $\mathcal{A}'$ be carried $\AffineSpaceUp$ rows of \autoref{def:affinespace-history-torsor-carrier}. If their point rows are related by $\hsame$ and their vector translations are related by the $\VecSpaceUp$ classifier, then appending any certified vector-translation packet by $\Cont$ preserves the affine classifier. Equivalently, for carried point rows $p,p'$ and vector rows $v,v'$,
+$$
+\hsame(p,p')\land \mathsf{VecCls}_{\mathcal{V}}(v,v')
+$$
+implies that the action endpoints $\Cont(p,\mathsf{trans}(v))$ and $\Cont(p',\mathsf{trans}(v'))$ are classified by $\mathsf{AffCls}$.
+\end{theorem}
+\begin{proof}
+Use the $\VecSpaceUp$ certificate to transport $v$ to $v'$ through its vector classifier. The $\GroupUp$ dependency reads the transported vector row as the same certified additive-translation packet in the translation source.
+
+Apply $\Cont$ endpoint transport to the point comparison $\hsame(p,p')$ and to the transported translation packet. The $\Cont$ associativity and unit rows keep the appended action ledger in the same finite-history surface, so the resulting endpoint pair satisfies the displayed affine classifier.
+\end{proof}
+
+\begin{theorem}[Affine free-action obligation]
+\label{thm:affinespace-free-action-obligation}
+For the carrier of \autoref{def:affinespace-history-torsor-carrier}, the free-action obligation is the following BEDC row: if two certified vector translations $v,w$ act on the same carried point row $p$ and the resulting point endpoints are related by $\hsame$, then the vector rows $v$ and $w$ are related by the $\VecSpaceUp$ classifier. The only accepted witnesses are the shared point row, the two vector-translation packets, the two $\Cont$ action ledgers, and the source $\NameCert_{\VecSpaceUp}$ and $\NameCert_{\GroupUp}$ rows.
+\end{theorem}
+\begin{proof}
+Read both action endpoints as $\Cont$ appends from the same point row $p$. The left unit and right unit behavior of $\Cont$ identifies the empty translation packet as the neutral action row supplied by the additive $\GroupUp$ source.
+
+Cancel the shared point ledger by composing the first action with the inverse translation packet supplied by the $\GroupUp$ certificate. Associativity of $\Cont$ moves the inverse packet next to the original packet, and the group inverse and unit rows reduce the visible endpoint comparison to a comparison of the two translation rows.
+
+Finally, the $\VecSpaceUp$ classifier is the public classifier for translation rows in this carrier. Transport through the $\NameCert_{\VecSpaceUp}$ witness repacks the endpoint comparison as $\mathsf{VecCls}_{\mathcal{V}}(v,w)$, with no host-level point equality used.
+\end{proof}
+
+\begin{theorem}[Affine transitive-action obligation]
+\label{thm:affinespace-transitive-action-obligation}
+For any two carried point rows $p$ and $q$ in the $\AffineSpaceUp$ carrier, the transitive-action obligation records a certified vector row $v$ whose translation packet carries $p$ to a point row classified with $q$. The witness ledger consists exactly of the source $\NameCert_{\VecSpaceUp}$ row for $v$, the additive $\GroupUp$ row interpreting $v$ as a translation packet, and the $\Cont$ action ledger from $p$ to $q$.
+\end{theorem}
+\begin{proof}
+Use the torsor source row in the carrier definition to read the difference from $p$ to $q$ as a vector-translation row in the $\VecSpaceUp$ carrier. This is a named $\mathsf{BHist}$ row, not a quotient of host points.
+
+The $\GroupUp$ certificate interprets that vector row as an additive translation packet. Appending the packet to $p$ by $\Cont$ gives the action endpoint, and the stored torsor ledger supplies the $\hsame$ comparison between this endpoint and $q$.
+
+The witness is therefore the displayed vector row together with its two source certificates and the finite action ledger. Exactness of the ledger prevents any additional choice of ambient affine coordinate system from entering the obligation.
+\end{proof}
+
+\begin{theorem}[Affine classifier transport]
+\label{thm:affinespace-classifier-transport}
+The affine classifier of \autoref{def:affinespace-history-torsor-carrier} is stable under $\hsame$ transport of point rows and under $\VecSpaceUp$ classifier transport of vector-translation rows. If $\mathsf{AffCls}(\mathcal{A},\mathcal{A}')$ and the source $\NameCert$ rows transport $\mathcal{A}$ to $\mathcal{B}$ and $\mathcal{A}'$ to $\mathcal{B}'$, then $\mathsf{AffCls}(\mathcal{B},\mathcal{B}')$ holds.
+\end{theorem}
+\begin{proof}
+Unfold the affine classifier into its point and translation components. The point component is an $\hsame$ comparison, so reflexivity, symmetry, transitivity, and endpoint transport are exactly the corresponding $\hsame$ rows.
+
+For the translation component, apply the $\VecSpaceUp$ certificate transport field to the two vector rows. The $\GroupUp$ source is used only to keep the transported vector rows accepted as additive translation packets.
+
+Recombine the transported point comparison and transported vector comparison. Since the classifier contains no hidden field beyond those two components, the recombined pair is precisely the target affine classifier.
+\end{proof}
+
+\begin{theorem}[Affine ledger exactness]
+\label{thm:affinespace-ledger-exactness}
+The $\AffineSpaceUp$ obligation ledger contains exactly the $\GroupUp$ source row, the $\VecSpaceUp$ source row, the carried point $\mathsf{BHist}$ row, the vector-translation $\mathsf{BHist}$ row, the $\hsame$ point classifier component, the $\VecSpaceUp$ translation classifier component, the $\Cont$ action rows, and the two source $\NameCert$ witnesses. No coordinate chart, host torsor equality, quotient representative, or standard bridge row is part of this obligation surface.
+\end{theorem}
+\begin{proof}
+Soundness is by projection from the carrier tuple. Each accepted affine row exposes the two source certificates, the point row, the vector-translation row, and the two source $\NameCert$ witnesses. The classifier definition exposes only $\hsame$ on point rows and the $\VecSpaceUp$ classifier on vector rows.
+
+The action rows are sound because they are built by appending the certified translation packet with $\Cont$. Associativity and the unit behavior of $\Cont$ account for changing parenthesization and for the neutral translation row, while the $\GroupUp$ certificate supplies the additive inverse and unit packets used by the free-action ledger.
+
+Exactness is the reverse reading. Any row used by stability, freeness, transitivity, or classifier transport is one of the projected carrier rows, one of the named source-certificate fields, or one finite $\Cont$ action row. Hence the public obligation surface is exactly the listed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\NameCert_{\GroupUp}$, and $\NameCert_{\VecSpaceUp}$ data.
+\end{proof}
+
+\closureat{AffineSpaceUp}{obligationStr}
 
 \begin{closurestatus}{\AffineSpaceUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The chapter is registered as a torsor-over-$\VecSpaceUp$ seed depending on the $\VecSpaceUp$ and $\GroupUp$ certificate chapters; no carrier, classifier, vector action, free-transitive law, or exactness obligation is closed here.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The chapter records the affine history torsor carrier, vector-action stability, free-action, transitive-action, classifier-transport, and ledger-exactness obligation rows over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\NameCert_{\GroupUp}$, and $\NameCert_{\VecSpaceUp}$.}
   \formalstatus{\unformalizedV}
   \leantarget{}
   \bridgestatus{none}
-  \notclaimed{No affine carrier, classifier, vector action, free-transitive law, stability certificate, ledger exactness, or standard bridge is claimed.}
-  \upgradepath{Raise to obligationClosure by adding the carrier, classifier, vector-action, identity/action, free-transitive, stability, ledger, and exactness obligation theorem blocks.}
+  \notclaimed{No public affine object, coordinate-chart surface, host torsor equality, standard bridge, or Lean verification target is claimed.}
+  \upgradepath{Public closure requires a named public $\NameCert_{\AffineSpaceUp}$ certificate surface and a dedicated Lean namespace for these obligation rows.}
 \end{closurestatus}
