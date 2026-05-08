@@ -98,3 +98,107 @@ field beyond the projected inventory, no host Fredholm equality, coordinate
 form equality, ambient cohomology quotient, or uncarried analytic-topological
 identity can be exported by a public read of $\mathcal{A}$.
 \end{proof}
+
+\begin{theorem}[Atiyah-Singer shared index-source boundary]
+\label{thm:atiyahsinger-shared-index-source-boundary}
+Let $\mathcal{A}$ be an accepted packet of
+\autoref{def:atiyahsinger-index-pairing-carrier-packet}. The spectral
+analytic-index read $\mathsf{SpecAnalyticIndex}_{m,D}(\mathcal{S},\alpha)$
+and the Chern-Weil topological-index read
+$\mathsf{CWTopologicalIndex}_{m,\sigma_D}(\mathcal{W},\theta,\tau)$ are
+admitted only over the same closed-manifold endpoint row $m$. Consequently the
+comparison $\hsame(\alpha,\tau)$ in the public classifier row never compares
+index endpoints whose dependency reads were formed over distinct manifold
+endpoints.
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet of
+\autoref{def:atiyahsinger-index-pairing-carrier-packet}. Its admission clause
+states that the analytic side and the topological side are displayed over the
+identical closed-manifold endpoint row $m$ before the classifier row is formed.
+
+The spectral read is bounded by the $\SpectralTheoremUp$ public surface cited
+in \autoref{thm:atiyahsinger-index-pairing-carrier-surface}: the operator row
+$D$ and the analytic endpoint $\alpha$ are read through the displayed spectral
+dependency packet $\mathcal{S}$. The Chern-Weil read is bounded by the
+$\ChernWeilUp$ surface cited in the same theorem: the symbol row $\sigma_D$,
+the characteristic row $\theta$, and the topological endpoint $\tau$ are read
+through the displayed packet $\mathcal{W}$.
+
+Apply \autoref{thm:atiyahsinger-index-pairing-provenance-exactness}. Every
+public read of $\alpha$, $\tau$, $\sigma_D$, $m$, and $\eta$ factors through
+the two dependency packets, the endpoint comparison, and the provenance row
+$\rho$. Since the only endpoint row available to both dependency reads is the
+projected row $m$, a comparison formed from distinct manifold endpoints cannot
+be read from an accepted packet.
+\end{proof}
+
+\begin{theorem}[Atiyah-Singer spectral Chern-Weil consumer exhaustion]
+\label{thm:atiyahsinger-spectral-chernweil-consumer-exhaustion}
+Let $\mathcal{A}$ be an accepted packet of
+\autoref{def:atiyahsinger-index-pairing-carrier-packet}. Any downstream
+consumer of the public Atiyah-Singer bridge surface sees exactly the spectral
+analytic-index read, the Chern-Weil topological-index read, the shared symbol
+row $\sigma_D$, the shared endpoint row $m$, the comparison
+$\hsame(\alpha,\tau)$, and the $\Pkg$ provenance row $\rho$. No additional
+consumer-visible datum is supplied by the carrier packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The tuple inventory gives the endpoint row $m$,
+the elliptic row $D$, the symbol row $\sigma_D$, the dependency packets
+$\mathcal{S}$ and $\mathcal{W}$, the endpoints $\alpha$ and $\tau$, the
+characteristic row $\theta$, the classifier row $\eta$, and the provenance row
+$\rho$.
+
+Apply \autoref{thm:atiyahsinger-index-pairing-carrier-surface}. It identifies
+$\eta$ with the public predicate whose clauses are precisely
+$\mathsf{SpecAnalyticIndex}_{m,D}(\mathcal{S},\alpha)$,
+$\mathsf{CWTopologicalIndex}_{m,\sigma_D}(\mathcal{W},\theta,\tau)$, and
+$\hsame(\alpha,\tau)$.
+
+Apply \autoref{thm:atiyahsinger-index-pairing-provenance-exactness}. It
+states that every public read of the analytic endpoint, topological endpoint,
+symbol row, endpoint row, and comparison row factors through those dependency
+reads and the $\Pkg$ provenance $\rho$.
+
+The $\SpectralTheoremUp$ citations in
+\autoref{thm:atiyahsinger-index-pairing-carrier-surface} bound the spectral
+consumer to the carrier, classifier, spectral-data, stability, ledger,
+exactness, and dependency rows exposed by $\mathcal{S}$. The $\ChernWeilUp$
+citations there bound the topological consumer to the displayed
+curvature-to-de~Rham, invariant-polynomial, characteristic-class, ledger, and
+provenance rows exposed by $\mathcal{W}$. Thus the listed reads exhaust the
+public bridge surface.
+\end{proof}
+
+\begin{theorem}[Atiyah-Singer index-pairing host exclusion]
+\label{thm:atiyahsinger-index-pairing-host-exclusion}
+Let $\mathcal{A}$ be an accepted packet of
+\autoref{def:atiyahsinger-index-pairing-carrier-packet}. The bridge surface
+exported by $\mathcal{A}$ does not export a host Fredholm equality, coordinate
+form equality, cohomology quotient, or ambient analytic-topological identity.
+Its only equality-bearing public row is the displayed comparison
+$\hsame(\alpha,\tau)$ inside the classifier
+$\mathsf{ASIndexPair}_{m,D,\sigma_D}(\alpha,\theta,\tau)$.
+\end{theorem}
+\begin{proof}
+Unpack the carrier packet. The displayed classifier in
+\autoref{def:atiyahsinger-index-pairing-carrier-packet} contains the spectral
+analytic-index read, the Chern-Weil topological-index read, and
+$\hsame(\alpha,\tau)$; it does not contain a host Fredholm row, a coordinate
+form row, a quotient row, or an ambient identity row.
+
+Apply \autoref{thm:atiyahsinger-index-pairing-carrier-surface} to identify the
+public classifier row $\eta$ with that displayed predicate. Apply
+\autoref{thm:atiyahsinger-index-pairing-provenance-exactness} to identify the
+complete public inventory as the two dependency reads, the shared symbol and
+endpoint rows, the endpoint comparison, and the provenance row $\rho$.
+
+The $\SpectralTheoremUp$ surface used by the spectral dependency excludes host
+operator equality from the public spectral read. The $\ChernWeilUp$ surface
+used by the topological dependency excludes coordinate connection forms,
+ambient polynomial algebras, and uncarried cohomology quotients from the
+public characteristic-class read. Since $\mathcal{A}$ exports only those two
+bounded reads and their displayed comparison, none of the excluded host-level
+objects can be recovered from the bridge surface.
+\end{proof}
