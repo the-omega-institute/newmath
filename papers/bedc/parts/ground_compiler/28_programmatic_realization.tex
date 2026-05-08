@@ -1,0 +1,289 @@
+\chapter{Programmatic Realization of the Prototype Ladder}
+\label{ch:ground-compiler-programmatic-realization}
+
+\autoref{ch:ground-compiler-self-hosting-global-verification-prototype} closes the prototype ladder at $P_9$. This chapter records the implementation reading of that ladder. The whole mechanism is programmatically realizable, but three claims must remain separate:
+$$
+  \boxed{
+    \text{executable implementation}
+    \neq
+    \text{formally verified implementation}
+    \neq
+    \text{fully self-hosting implementation}.
+  }
+$$
+The executable layers can run as ordinary programs. The recognition and certificate layers require event-flow recognizers, checkers, ledgers, and failure records. The self-hosting layer requires compiler-flow evidence, behavior equivalence, and bootstrap-obligation accounting.
+
+\section{Executable base}
+\label{sec:programmatic-executable-base}
+
+\begin{definition}[Executable channel core]
+\label{def:programmatic-executable-channel-core}
+The executable channel core is the deterministic program layer implementing:
+\begin{enumerate}
+\item source raw mark $0$ encodes as channel word $0$;
+\item source raw mark $1$ encodes as channel word $10$;
+\item event end encodes as channel word $11$;
+\item event flow compilation concatenates encoded events;
+\item decoding rejects dangling or malformed channel words.
+\end{enumerate}
+Equivalently,
+$$
+  \mathsf{Ev}(w)=\zeta(w)11,
+  \qquad
+  \zeta(0)=0,
+  \qquad
+  \zeta(1)=10.
+$$
+\end{definition}
+
+\begin{proposition}[The base language is stream-regular]
+\label{prop:programmatic-base-language-stream-regular}
+The legal channel stream language for the executable channel core is
+$$
+  ((0\mid 10)^*11)^*.
+$$
+It is recognized by a finite streaming automaton.
+\end{proposition}
+
+\begin{proof}
+Inside an event body the decoder accepts either $0$ or the two-bit word $10$. The word $11$ terminates the current event. A single trailing $1$ is rejected, and any non-binary mark is rejected before decoding. Thus each event has body $(0\mid 10)^*$ followed by terminator $11$, and legal streams are finite concatenations of such event words. This is a regular expression, hence a finite automaton recognizes it.
+\end{proof}
+
+\begin{definition}[Executable $P_0$ realization]
+\label{def:programmatic-p0-realization}
+An executable $P_0$ realization provides deterministic procedures for:
+\begin{enumerate}
+\item encoding one raw event;
+\item encoding a finite event flow;
+\item checking legal channel streams;
+\item decoding legal channel streams;
+\item rejecting illegal channel streams;
+\item running round-trip tests.
+\end{enumerate}
+This realization is executable code. It is not, by itself, a certificate that later recognizers, proofs, packages, or objects exist.
+\end{definition}
+
+\begin{example}[Channel core trace]
+\label{ex:programmatic-channel-core-trace}
+For the source event flow
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100,
+$$
+the executable channel core computes
+$$
+  011001100011010110101011100011.
+$$
+Decoding that channel stream recovers the same event flow.
+\end{example}
+
+\section{Report and metric layers}
+\label{sec:programmatic-report-metric-layers}
+
+\begin{definition}[Executable report layer]
+\label{def:programmatic-executable-report-layer}
+The executable report layer consists of $P_1$ through $P_4$ report routines:
+\begin{enumerate}
+\item $P_1$ source-event report generation;
+\item $P_2$ adjacent-pair and normalizer-candidate ledger reporting;
+\item $P_3$ motif candidate and recognized motif reporting;
+\item $P_4$ admissible metric reporting.
+\end{enumerate}
+These routines may compute displays, candidate sections, missing-recognizer items, undefined metrics, and cannot-claim annotations.
+\end{definition}
+
+\begin{principle}[Programs do not upgrade candidates]
+\label{prin:programmatic-programs-do-not-upgrade-candidates}
+An executable report routine may discover candidate shapes, but it may not upgrade a candidate to a recognized structure without the corresponding recognizer-flow, certificate-flow, ledger-flow, or proof-checker-flow.
+\end{principle}
+
+\begin{example}[Candidate pair boundary]
+\label{ex:programmatic-candidate-pair-boundary}
+The adjacent pair
+$$
+  011\mid 100
+$$
+may be reported as a candidate normalizer pair by an executable routine. It may be reported as a recognized carry ledger only when a generated normalizer recognizer and its ledger support that judgment. The executable routine alone does not establish $\mathsf{ZeckendorfCarry}(011,100)$, equality, or $\mathsf{hsame}$.
+\end{example}
+
+\begin{proposition}[$P_1$ through $P_4$ are executable report layers]
+\label{prop:programmatic-p1-p4-executable}
+$P_1$ through $P_4$ can be implemented as deterministic report and analysis procedures over decoded event flows, relative to any recognized recognizers and metric protocols supplied as event flows.
+\end{proposition}
+
+\begin{proof}
+$P_1$ reads decoded events and their channel segments. $P_2$ enumerates adjacent source events and records candidate or recognized normalizer ledgers according to available policy and recognizer evidence. $P_3$ separates candidate motifs from recognized motifs. $P_4$ computes only admissible metrics and explicitly records undefined items. Each step is a finite computation over decoded event-flow data and recognized evidence already present in the input environment. Hence each step is executable.
+\end{proof}
+
+\section{Recognizer virtual machine}
+\label{sec:programmatic-recognizer-vm}
+
+\begin{definition}[Recognizer virtual machine]
+\label{def:programmatic-recognizer-vm}
+A \emph{recognizer virtual machine} is an executable interpreter whose formal inputs are:
+\begin{enumerate}
+\item an ambient decoded event flow $S$;
+\item a recognizer-flow $R$;
+\item an optional candidate support subflow $M\subseteq S$.
+\end{enumerate}
+Its output is a report containing recognition judgments, ledger records, missing-field records, failure records, and cannot-claim annotations.
+\end{definition}
+
+\begin{principle}[Recognizer programs are not recognizer evidence]
+\label{prin:programmatic-vm-not-evidence}
+The host interpreter for a recognizer virtual machine is not itself formal recognizer evidence. Formal recognition evidence is the event-flow recognizer, its certificate, its ledger, and its failure behavior. Host execution is an implementation vehicle until covered by compiler certificates or bootstrap obligations.
+\end{principle}
+
+\begin{definition}[Recognizer VM discipline]
+\label{def:programmatic-recognizer-vm-discipline}
+The recognizer virtual machine must enforce the following discipline:
+\begin{enumerate}
+\item no external structured input replaces decoded event flow;
+\item no manifest, schema, table, label, file path, or host object becomes a formal package, certificate, theorem, chapter, or compiler;
+\item every nontrivial recognition result carries a ledger or a missing-ledger failure;
+\item every failed recognition records the field or soundness condition that failed;
+\item every overinterpretation risk receives a cannot-claim annotation.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Recognizer VM realizes the $P_5$ through $P_8$ interface]
+\label{thm:programmatic-vm-realizes-p5-p8}
+A recognizer virtual machine satisfying \autoref{def:programmatic-recognizer-vm-discipline} can implement the executable interface of $P_5$ through $P_8$ without accepting external package objects, certificate objects, theorem labels, chapter trees, or manuscript files as formal input.
+\end{theorem}
+
+\begin{proof}
+$P_5$ requires package-flow and NameCert-flow recognition; $P_6$ requires strength, DerivCert, and AcceptGate recognition; $P_7$ requires statement, proof, theorem, and proof-checking recognition; $P_8$ requires chapter and manuscript recognition. In each case the formal inputs are decoded event flows and generated recognizer flows. The recognizer virtual machine interprets those flows and emits judgments, ledgers, field-status records, and failure records. Since the machine never treats external structured data as formal input, it realizes the executable interface while preserving the no-hidden-input boundary.
+\end{proof}
+
+\section{Certificates, proofs, and acceptance}
+\label{sec:programmatic-certificates-proofs-acceptance}
+
+\begin{definition}[Certificate checker layer]
+\label{def:programmatic-certificate-checker-layer}
+The certificate checker layer is the executable layer that checks recognized certificate flows and proof-checker flows. It covers:
+\begin{enumerate}
+\item package and NameCert field completeness;
+\item DerivCert field completeness and soundness;
+\item AcceptGate composition from matching NameCert and DerivCert flows;
+\item theorem proof checking against statement and dependency flows;
+\item chapter and manuscript soundness checks;
+\item compiler certificate and global verification checks.
+\end{enumerate}
+\end{definition}
+
+\begin{principle}[Programs check certificates; they do not replace them]
+\label{prin:programmatic-programs-check-certificates}
+An executable checker may verify a certificate-flow or proof-flow, but it may not replace the certificate-flow or proof-flow. In particular, successful host computation is not the same judgment as recognized proof-flow, recognized DerivCert-flow, recognized AcceptGate-flow, or recognized theorem-flow.
+\end{principle}
+
+\begin{proposition}[Acceptance is certificate-mediated in programs]
+\label{prop:programmatic-acceptance-certificate-mediated}
+In a programmatic realization, accepted object code and accepted theorem code can be emitted only from recognized acceptance or theorem flows satisfying their certificate and proof obligations.
+\end{proposition}
+
+\begin{proof}
+Accepted object code at $P_6$ is compiled from a sound AcceptGate-flow. The AcceptGate-flow must include matching NameCert-flow, DerivCert-flow, strength-flow, and gate seal. Accepted theorem code at $P_7$ is compiled from an accepted theorem-flow whose proof and certificates have been checked by generated flows. Thus the executable program emits acceptance codes only after the corresponding event-flow evidence is present.
+\end{proof}
+
+\section{Self-hosting route}
+\label{sec:programmatic-self-hosting-route}
+
+\begin{definition}[Programmatic self-hosting route]
+\label{def:programmatic-self-hosting-route}
+The programmatic self-hosting route consists of:
+\begin{enumerate}
+\item a host reference runtime for the executable channel and report layers;
+\item event-flow descriptions of the channel rules and recognizer rules;
+\item a recognizer virtual machine for event-flow recognizers;
+\item compiler-flow recognition for the compiler description;
+\item compiler certificate-flow recognition for its behavior;
+\item self-compilation-flow recording $C:C\mapsto C'$;
+\item behavior-equivalence-flow recording $C'\equiv_{\mathrm{comp}}C$;
+\item bootstrap-obligation flows for every remaining host reliance.
+\end{enumerate}
+\end{definition}
+
+\begin{principle}[Self-hosting is not mere execution]
+\label{prin:programmatic-self-hosting-not-execution}
+Running a program that compiles a compiler description is not yet self-hosting. Self-hosting requires certified compiler-flow, self-compilation-flow, behavior-equivalence-flow, self-compilation ledger, no-host-leak audit, and complete bootstrap-obligation accounting.
+\end{principle}
+
+\begin{theorem}[Programmatic realization reaches $P_9$ only with compiler evidence]
+\label{thm:programmatic-realization-reaches-p9-with-evidence}
+An executable implementation reaches the $P_9$ status only when its compiler identity, compiler behavior, self-compilation, behavior equivalence, bootstrap obligations, no-host-leak audit, and global verification status are represented by recognized event-flow evidence.
+\end{theorem}
+
+\begin{proof}
+$P_9$ is defined by compiler-flow recognition, compiler certificate-flow, bootstrap-obligation-flow, self-compilation-flow, behavior-equivalence-flow, self-hosting ledger, and global verification-flow. Ordinary host execution supplies none of these as formal event-flow judgments. Therefore the executable implementation reaches $P_9$ only when these structures are represented and recognized inside the event-flow system.
+\end{proof}
+
+\section{Implementation architecture}
+\label{sec:programmatic-implementation-architecture}
+
+\begin{definition}[Four implementation layers]
+\label{def:programmatic-four-implementation-layers}
+A faithful implementation architecture has four layers:
+\begin{enumerate}
+\item an executable runtime layer for encoding, decoding, legality checking, reporting, and tests;
+\item a formal relation layer exposing event-flow relations such as legal stream, compile, decode, recognition, checking, and acceptance;
+\item a recognizer and certificate layer interpreting recognizer flows, certificate flows, proof-checker flows, ledgers, failures, and seals;
+\item a self-hosting and global verification layer tracking compiler-flow, compiler certificates, self-compilation, behavior equivalence, bootstrap obligations, and global status.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Implementation module partition]
+\label{def:programmatic-module-partition}
+A concrete implementation may be partitioned into modules for:
+\begin{enumerate}
+\item channel encoding, decoding, legality, and round-trip tests;
+\item source reports, adjacent-pair reports, normalizer candidates, motif reports, and metric reports;
+\item recognizer virtual machine execution;
+\item package, NameCert, DerivCert, AcceptGate, theorem, chapter, manuscript, and compiler recognizers;
+\item certificate soundness, ledger extraction, failure records, status records, and cannot-claim audits;
+\item bootstrap obligations, self-hosting records, behavior equivalence, and global verification.
+\end{enumerate}
+This partition is engineering structure only. It is not a formal source of BEDC objects.
+\end{definition}
+
+\begin{proposition}[Automatic computation has bounded authority]
+\label{prop:programmatic-automatic-computation-bounded-authority}
+The executable implementation may automatically compute channel round trips, source reports, candidate listings, field-status reports, missing-field reports, undefined metric items, cannot-claim annotations, and any recognized judgment whose recognizer and checker evidence is present. It may not automatically assert mathematical identity, object acceptance, theoremhood, bridge certification, or full self-hosting status without the required event-flow certificates.
+\end{proposition}
+
+\begin{proof}
+The first group consists of finite computations over decoded event flows and already recognized evidence. The second group crosses into certificate-mediated or proof-mediated judgments. By the prototype ladder definitions, those judgments require generated recognizers, certificate flows, proof-checker flows, ledgers, gates, or compiler verification flows. Hence automatic computation has bounded authority.
+\end{proof}
+
+\section{Deliverable ladder}
+\label{sec:programmatic-deliverable-ladder}
+
+\begin{definition}[Executable deliverable ladder]
+\label{def:programmatic-executable-deliverable-ladder}
+The executable deliverable ladder is:
+\begin{enumerate}
+\item channel encode, decode, legality, and round-trip;
+\item source-event report;
+\item source-level adjacent-pair and normalizer-candidate ledger report;
+\item motif candidate report with a small recognized motif example;
+\item metric report under an explicit metric protocol;
+\item package and NameCert recognizer for a small certificate example;
+\item DerivCert and AcceptGate recognizer for a small accepted-object example;
+\item theorem-flow recognizer and proof-checker-flow for a channel round-trip theorem;
+\item chapter-flow recognizer for a compiler chapter;
+\item compiler-flow and self-hosting scaffold with explicit bootstrap obligations.
+\end{enumerate}
+\end{definition}
+
+\begin{principle}[Executable completeness is not certificate completeness]
+\label{prin:programmatic-executable-not-certificate-complete}
+Completing the executable deliverable ladder does not by itself discharge all certificate obligations. It supplies a running system in which obligations are explicit, checkable, and reportable.
+\end{principle}
+
+\section{Summary}
+\label{sec:programmatic-realization-summary}
+
+The prototype ladder is programmatically realizable. The channel layer is a small deterministic streaming compiler. The report layers are finite computations over decoded event flows. The recognition layers are implemented by a recognizer virtual machine whose formal inputs are event-flow recognizers. The certificate and proof layers are implemented by checkers that validate event-flow certificates and proof flows. The self-hosting layer is implemented only when compiler-flow, compiler certificate-flow, self-compilation-flow, behavior-equivalence-flow, bootstrap obligations, no-host-leak audit, and global verification-flow are all represented in the event-flow system.
+
+The central implementation boundary is:
+$$
+  \boxed{\text{programs may implement the mechanism; programs do not replace certificates}.}
+$$

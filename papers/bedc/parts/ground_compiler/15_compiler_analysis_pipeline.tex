@@ -1,0 +1,479 @@
+\chapter{Compiler Analysis Pipeline}
+\label{ch:ground-compiler-analysis-pipeline}
+
+\autoref{ch:ground-compiler-higher-layer-case-studies} applies event-flow metrics to Completion, Real, Topology, Circle, Complex, Category, and Homology routes. It shows that these theories can share finite approximation, seal, carry, classifier quotient, ledger compression, reuse, bridge, and composition motifs without thereby proving mature export, equality, or bridge correctness.
+
+This chapter packages those ingredients into a compiler analysis pipeline:
+$$
+\begin{gathered}
+  \text{channel code}
+  \longrightarrow
+  \text{legality check}
+  \longrightarrow
+  \text{decode}
+  \longrightarrow
+  \text{protocol recognition}
+  \longrightarrow
+  \text{recognizer verification}\\
+  \longrightarrow
+  \text{motif extraction}
+  \longrightarrow
+  \text{metric computation}
+  \longrightarrow
+  \text{report generation}
+  \longrightarrow
+  \text{cannot-claim audit}
+  \longrightarrow
+  \text{bridge-obligation discovery}.
+\end{gathered}
+$$
+The pipeline remains subject to the same no-hidden-input rule:
+$$
+  \boxed{\text{analysis is driven by protocol flows and recognizer flows, not by external configuration}.}
+$$
+Recognizer families, analysis protocols, metric weights, report formats, cannot-claim audits, and bridge-obligation discovery must appear as recognized event-flow structure.
+
+\section{Inputs and protocol recognition}
+\label{sec:analysis-pipeline-inputs-protocols}
+
+\begin{definition}[Analysis input]
+\label{def:analysis-pipeline-input}
+An \emph{analysis input} is either a legal channel stream
+$$
+  c\in\mathsf{LegalZStream}
+$$
+or equivalently an event flow
+$$
+  S\in\mathsf{EventFlow}.
+$$
+The two presentations are related by the channel bijection:
+$$
+  S=\mathsf{Decode}(c),
+  \qquad
+  c=\mathsf{Compile}(S).
+$$
+If the input is channel code, it must be decoded before analysis. If the input is already a source event flow, it may be analyzed directly.
+\end{definition}
+
+\begin{principle}[Decode-first analysis]
+\label{prin:analysis-pipeline-decode-first}
+Every analysis acts on source-level event flow. For $c\in\mathsf{LegalZStream}$, the pipeline first forms
+$$
+  S=\mathsf{Decode}(c).
+$$
+All recognizer, motif, metric, ledger, cannot-claim, and bridge-obligation analysis then acts on $S$, not on channel bit substrings.
+\end{principle}
+
+\begin{definition}[Analysis protocol candidate flow]
+\label{def:analysis-pipeline-protocol-candidate}
+An \emph{analysis protocol candidate flow} is an event flow
+$$
+  P\in\mathsf{EventFlow}.
+$$
+It has not yet been recognized as an analysis protocol. Thus $P\in\mathsf{EventFlow}$ does not imply that $P$ specifies a recognizer family, metrics, weights, report format, cannot-claim audit, or bridge discovery policy.
+\end{definition}
+
+\begin{definition}[Generated analysis-protocol recognizer]
+\label{def:analysis-pipeline-protocol-recognizer}
+A \emph{generated analysis-protocol recognizer} is an event flow
+$$
+  R_P\in\mathsf{EventFlow}.
+$$
+It is not an external configuration parser, YAML schema, host analysis script, or handwritten metric table. It is generated from the two raw marks and acts on event flows.
+\end{definition}
+
+\begin{definition}[Analysis-protocol recognition relation]
+\label{def:analysis-pipeline-protocol-recognition}
+The analysis-protocol recognition relation is written
+$$
+  \mathsf{RecognizesAnalysisProtocol}(R_P,P),
+  \qquad
+  R_P,P\in\mathsf{EventFlow}.
+$$
+It is read as: the generated protocol recognizer flow $R_P$ recognizes event flow $P$ as an analysis protocol flow. If such an $R_P$ exists, $P$ is a recognized analysis protocol flow.
+\end{definition}
+
+\begin{definition}[Analysis protocol subflows]
+\label{def:analysis-pipeline-protocol-subflows}
+If $\mathsf{RecognizesAnalysisProtocol}(R_P,P)$, then $R_P$ may recognize subflows of $P$ as protocol roles:
+$$
+\begin{array}{ll}
+  \mathsf{ProtInputDom}_{R_P}(P,P_0),&
+  \mathsf{ProtRecognizerFamily}_{R_P}(P,P_1),\\
+  \mathsf{ProtMotifSelection}_{R_P}(P,P_2),&
+  \mathsf{ProtMetricSelection}_{R_P}(P,P_3),\\
+  \mathsf{ProtMetricWeights}_{R_P}(P,P_4),&
+  \mathsf{ProtNormalizationPolicy}_{R_P}(P,P_5),\\
+  \mathsf{ProtLedgerPolicy}_{R_P}(P,P_6),&
+  \mathsf{ProtCannotClaimPolicy}_{R_P}(P,P_7),\\
+  \mathsf{ProtBridgeObligationPolicy}_{R_P}(P,P_8),&
+  \mathsf{ProtReportPolicy}_{R_P}(P,P_9),\\
+  \mathsf{ProtSeal}_{R_P}(P,\sigma_P).
+\end{array}
+$$
+These are not external field labels. They are source-level subflow roles recognized inside $P$.
+\end{definition}
+
+\begin{principle}[No external analysis configuration]
+\label{prin:analysis-pipeline-no-external-config}
+There is no formal input such as analysis YAML, metric JSON, motif table, weight vector, report template, manual object grouping, human theory category list, or external bridge candidate list. If such information is used, it must appear as a recognized subflow of an analysis protocol flow.
+\end{principle}
+
+\begin{theorem}[Unrecognized protocol cannot drive analysis]
+\label{thm:analysis-pipeline-unrecognized-protocol-rejected}
+If there is no $R_P$ such that
+$$
+  \mathsf{RecognizesAnalysisProtocol}(R_P,P),
+$$
+then $P$ cannot be used as a formal analysis protocol.
+\end{theorem}
+
+\begin{proof}
+An analysis protocol determines recognizer family, metric selection, weights, normalization policy, ledger policy, cannot-claim policy, and report policy. If $P$ is not recognized by a generated protocol recognizer, these choices have no event-flow support. Using $P$ would introduce external analysis configuration, contrary to the no-hidden-input discipline.
+\end{proof}
+
+\begin{corollary}[Metric weights require protocol flow]
+\label{cor:analysis-pipeline-weights-require-protocol}
+Any weighted distance or similarity metric whose weights are not recorded by a recognized protocol flow is not a BEDC-admissible metric.
+\end{corollary}
+
+\section{Pipeline stages}
+\label{sec:analysis-pipeline-stages}
+
+\begin{definition}[Analysis pipeline]
+\label{def:analysis-pipeline}
+Given $c\in\mathsf{LegalZStream}$ and a recognized analysis protocol flow $P$, define
+$$
+  \mathsf{Analyze}(c,P)
+$$
+as the following sequence of stages:
+\begin{enumerate}
+\item legality check;
+\item decode;
+\item protocol recognition;
+\item recognizer-family extraction;
+\item motif extraction;
+\item metric computation;
+\item normal-address analysis;
+\item ledger audit;
+\item cannot-claim audit;
+\item bridge-obligation discovery;
+\item report generation.
+\end{enumerate}
+Every stage acts on event flows or recognized event-flow structures, not on channel substrings or external labels.
+\end{definition}
+
+\begin{definition}[Stage 0: legality check]
+\label{def:analysis-pipeline-stage-legality}
+Stage 0 checks $c\in\mathsf{LegalZStream}$. If this fails, the pipeline rejects the input.
+\end{definition}
+
+\begin{definition}[Stage 1: decode]
+\label{def:analysis-pipeline-stage-decode}
+Stage 1 forms
+$$
+  S:=\mathsf{Decode}(c).
+$$
+All later stages act on $S$ and recognized subflows of $S$.
+\end{definition}
+
+\begin{definition}[Stage 2: protocol recognition]
+\label{def:analysis-pipeline-stage-protocol}
+Stage 2 checks whether
+$$
+  \mathsf{RecognizesAnalysisProtocol}(R_P,P)
+$$
+holds. If the protocol is not recognized, the pipeline rejects the analysis run.
+\end{definition}
+
+\begin{definition}[Stage 3: recognizer-family extraction]
+\label{def:analysis-pipeline-stage-recognizer-family}
+Stage 3 identifies the recognizer-family subflow
+$$
+  \mathsf{ProtRecognizerFamily}_{R_P}(P,P_1).
+$$
+This subflow specifies generated recognizers
+$$
+  \mathcal R_P=(R_1,\ldots,R_k).
+$$
+Each $R_i$ must be certified. If an $R_i$ is not certified, the pipeline rejects or records a bootstrap obligation.
+\end{definition}
+
+\begin{definition}[Stage 4: motif extraction]
+\label{def:analysis-pipeline-stage-motif-extraction}
+Stage 4 computes
+$$
+  \mathsf{MotifProfile}_{\mathcal R_P}(S),
+$$
+namely all triples $(\mu,M,L)$ such that some $R\in\mathcal R_P$ satisfies
+$$
+  \mathsf{RecognizesMotif}(R,S,M,\mu)
+  \quad\text{and}\quad
+  \mathsf{MotifLedger}_{R}(S,M,\mu,L).
+$$
+Motif recognition without a required ledger is recorded as a failure or cannot-claim item, not silently accepted.
+\end{definition}
+
+\begin{definition}[Stage 5: metric computation]
+\label{def:analysis-pipeline-stage-metrics}
+Stage 5 computes the admissible metrics selected by the protocol: prefix profile, motif profile, seal depth, carry index, ledger depth, classifier compression ratio, reuse depth, bridge depth, normal-address distance, or theory-flow distance. If a metric requires a recognizer or ledger that is missing, the metric is undefined or blocked; the pipeline may not output a misleading numerical value.
+\end{definition}
+
+\begin{definition}[Stage 6: normal-address analysis]
+\label{def:analysis-pipeline-stage-normal-address}
+Stage 6 uses the protocol's normalization-policy flow to recognize source-level normal-address records
+$$
+  (w,v,L_{w\to v}).
+$$
+For example, $011\mid 100$ may be recognized as raw-to-normal carry ledger. This analysis acts on decoded event flow, never on channel bits.
+\end{definition}
+
+\begin{definition}[Stage 7: ledger audit]
+\label{def:analysis-pipeline-stage-ledger-audit}
+Stage 7 checks whether recognized motifs, packages, certificates, theorem flows, and bridge candidates carry their required ledgers. It emits ledger-audit failure items for motif without ledger, package without ledger, $\NameCert$ without ledger, completion without tail ledger, carry without pre-normal ledger, and bridge without no-host-leak ledger.
+\end{definition}
+
+\begin{definition}[Stage 8: cannot-claim audit]
+\label{def:analysis-pipeline-stage-cannot-claim-audit}
+Stage 8 uses the cannot-claim policy flow to attach required cannot-claim entries. Typical entries include: motif overlap does not imply object equality, same signature vector does not imply theorem equivalence, carry motif does not imply dimension, seal motif does not imply completion object, completion motif does not imply $\RealUp$, topology motif does not prove continuity, complex motif does not imply complex analysis, bridge candidate does not imply bridge certificate, and code existence does not imply acceptance gate.
+\end{definition}
+
+\begin{definition}[Stage 9: bridge-obligation discovery]
+\label{def:analysis-pipeline-stage-bridge-discovery}
+Stage 9 identifies bridge-obligation candidates, such as strong motif overlap without recognized bridge flow, reuse-like source relation without reuse-certificate flow, or normal-address relation without classifier exactness flow. Discovery creates obligation candidates; it does not establish bridges.
+\end{definition}
+
+\begin{definition}[Stage 10: report generation]
+\label{def:analysis-pipeline-stage-report}
+Stage 10 generates a human-readable report: motif report, metric report, ledger audit report, cannot-claim report, bridge-obligation report, distance matrix, or summary visualization. These are output views, not formal inputs and not proofs.
+\end{definition}
+
+\section{Pipeline correctness}
+\label{sec:analysis-pipeline-correctness}
+
+\begin{definition}[Well-formed analysis run]
+\label{def:analysis-pipeline-well-formed-run}
+A \emph{well-formed analysis run} is a triple
+$$
+  (c,P,O)
+$$
+such that $c\in\mathsf{LegalZStream}$, $P$ is a recognized analysis protocol flow, $O$ is the output or report flow generated by the stages of \autoref{def:analysis-pipeline}, every used recognizer is certified or recorded by bootstrap obligation, every nontrivial motif recognition has a ledger, and every high-risk claim has a cannot-claim entry.
+\end{definition}
+
+\begin{theorem}[Well-formed analysis run is source-determined]
+\label{thm:analysis-pipeline-source-determined}
+If $(c,P,O)$ is a well-formed analysis run and $S=\mathsf{Decode}(c)$, then $O$ is determined by $S$, $P$, and the recognizer family recognized inside $P$.
+\end{theorem}
+
+\begin{proof}
+Stages 0 and 1 uniquely decode $c$ into $S$. Stage 2 fixes the recognized protocol $P$. Stage 3 extracts the recognizer family from $P$. Stages 4 through 10 are specified by $S$, $P$, and that recognizer family. No external metric table, YAML file, object label, or manual grouping is used.
+\end{proof}
+
+\begin{corollary}[Same decoded flow and protocol give same output]
+\label{cor:analysis-pipeline-same-decoded-same-output}
+If $\mathsf{Decode}(c)=\mathsf{Decode}(c')$ and both runs use the same recognized protocol flow $P$, then well-formed analysis runs produce the same output.
+\end{corollary}
+
+\begin{theorem}[Pipeline is invariant under compile-decode round trip]
+\label{thm:analysis-pipeline-roundtrip-invariant}
+If $c=\mathsf{Compile}(S)$, then for any recognized protocol flow $P$,
+$$
+  \mathsf{Analyze}(c,P)
+  =
+  \mathsf{Analyze}(\mathsf{Compile}(\mathsf{Decode}(c)),P).
+$$
+\end{theorem}
+
+\begin{proof}
+By the channel round trips, $\mathsf{Decode}(\mathsf{Compile}(S))=S$ and, for legal $c$, $\mathsf{Compile}(\mathsf{Decode}(c))=c$. Both sides decode to the same source event flow and use the same protocol. By \autoref{thm:analysis-pipeline-source-determined}, their outputs agree.
+\end{proof}
+
+\begin{theorem}[Pipeline is conservative over the finite kernel]
+\label{thm:analysis-pipeline-conservativity}
+Adding the analysis pipeline, protocol recognition, motif reports, metric reports, ledger audits, cannot-claim audits, and bridge-obligation discovery does not add new raw marks, history constructors, sameness rules, continuation rules, or derived-interface formation rules.
+\end{theorem}
+
+\begin{proof}
+Pipeline stages act only on decoded event flows and recognized structures. They do not generate new $\bzero$ or $\bone$, add $\msame$, $\hsame$, or $\psame$ rules, change $\ExtR$ or $\ContR$, or license derived interfaces. Object export still requires $\NameCert$, derivation-certificate, and acceptance-gate flows. Bridge-obligation discovery is not bridge certification. Hence the pipeline is conservative over the finite kernel.
+\end{proof}
+
+\section{Report discipline}
+\label{sec:analysis-pipeline-report-discipline}
+
+\begin{definition}[Report flow]
+\label{def:analysis-pipeline-report-flow}
+A \emph{report flow} is an event flow $O$ recognized by a generated report recognizer as an output of the analysis pipeline. It may contain recognized motif lists, metric tables, normal-address tables, ledger audit results, cannot-claim entries, bridge-obligation candidates, failure cases, and summary remarks. It is output, not input.
+\end{definition}
+
+\begin{principle}[Reports are not evidence]
+\label{prin:analysis-pipeline-reports-not-evidence}
+A report flow is not a proof-flow, certificate-flow, or accepted-object-flow. It can serve only as explanatory output unless separately recognized in some stronger role.
+\end{principle}
+
+\begin{proposition}[Report cannot discharge certificate obligations]
+\label{prop:analysis-pipeline-report-cannot-discharge}
+If an object lacks $\NameCert$ flow, derivation-certificate flow, or acceptance-gate flow, no report flow can supply the missing certificate obligation.
+\end{proposition}
+
+\begin{proof}
+$\NameCert$, derivation-certificate, and acceptance-gate flows are recognized certificate structures required for object export. A report flow is analysis output and does not have the certificate-recognition role. Unless the same event flow is separately recognized as a certificate, it cannot discharge certificate obligations.
+\end{proof}
+
+\begin{corollary}[Motif report cannot license mature object]
+\label{cor:analysis-pipeline-motif-report-not-license}
+Even if a report shows completion, Real-like, Circle-like, or Homology-like motifs, it does not license the corresponding mature object.
+\end{corollary}
+
+\begin{definition}[Bridge-obligation candidate]
+\label{def:analysis-pipeline-bridge-obligation-candidate}
+A \emph{bridge-obligation candidate} is a recognized item $B_{\mathrm{obl}}$ in a report flow saying that motif-level similarity suggests a possible bridge, but no recognized bridge-certificate flow has been supplied.
+\end{definition}
+
+\begin{proposition}[Bridge obligation is not bridge]
+\label{prop:analysis-pipeline-bridge-obligation-not-bridge}
+If $B_{\mathrm{obl}}$ is a bridge-obligation candidate, one cannot infer the existence of a recognized bridge flow.
+\end{proposition}
+
+\begin{proof}
+A bridge obligation records a missing bridge certificate. It explicitly reports that a bridge flow has not yet been supplied. It therefore cannot imply the bridge it asks for.
+\end{proof}
+
+\begin{corollary}[Bridge discovery remains noncommittal]
+\label{cor:analysis-pipeline-bridge-discovery-noncommittal}
+Bridge-obligation discovery may guide later work, but it does not establish correspondence, soundness, reflection, or conservative bridge.
+\end{corollary}
+
+\section{Failure handling}
+\label{sec:analysis-pipeline-failure-handling}
+
+\begin{definition}[Analysis failure item]
+\label{def:analysis-pipeline-failure-item}
+An \emph{analysis failure item} is an event subflow in a report flow recording failure at some pipeline stage. Common failures include illegal channel stream, unrecognized protocol, uncertified recognizer, missing ledger, missing cannot-claim entry, undefined metric, missing classifier exactness, missing bridge certificate, normalization without raw ledger, and source/channel layer confusion.
+\end{definition}
+
+\begin{definition}[Failure-complete report]
+\label{def:analysis-pipeline-failure-complete-report}
+A report flow is \emph{failure-complete} when every pipeline failure is recorded as an analysis failure item.
+\end{definition}
+
+\begin{theorem}[Non-failure-complete report is inadmissible]
+\label{thm:analysis-pipeline-non-failure-complete-inadmissible}
+If an analysis run encounters a failure but its report flow omits the corresponding failure item, then the report is not admissible.
+\end{theorem}
+
+\begin{proof}
+A report that omits failures hides analysis obligations. It may make a metric appear defined when its recognizer is missing, or make a motif appear valid when its ledger is absent. The no-hidden-input discipline requires these conditions to be explicit. Failure omission therefore makes the report inadmissible.
+\end{proof}
+
+\begin{corollary}[Missing data cannot be silently treated as zero]
+\label{cor:analysis-pipeline-missing-data-not-zero}
+If a metric is undefined because a recognizer or ledger is missing, the pipeline may not set it to zero by default. It must record a failure or undefined-metric item.
+\end{corollary}
+
+\section{Theorem and chapter code analysis}
+\label{sec:analysis-pipeline-theorem-chapter-code}
+
+\begin{definition}[Theorem-code analysis]
+\label{def:analysis-pipeline-theorem-code-analysis}
+Given theorem code
+$$
+  c_T=\mathsf{Compile}(T),
+$$
+where $T$ is a sound theorem flow, define theorem-code analysis by
+$$
+  \mathsf{Analyze}(c_T,P).
+$$
+Its report may contain proof motif profile, dependency motif profile, certificate motif profile, ledger depth, status flow, cannot-claim audit, and bridge-obligation candidates.
+\end{definition}
+
+\begin{definition}[Chapter-code analysis]
+\label{def:analysis-pipeline-chapter-code-analysis}
+Given chapter code
+$$
+  c_C=\mathsf{Compile}(C),
+$$
+where $C$ is a sound chapter flow, define chapter-code analysis by
+$$
+  \mathsf{Analyze}(c_C,P).
+$$
+Its report may contain definition, theorem, proof, and certificate motif profiles, certificate coverage, cannot-claim coverage, status distribution, ledger-depth distribution, reuse graph, and bridge-obligation list.
+\end{definition}
+
+\begin{proposition}[Theorem-code analysis does not reprove theorem]
+\label{prop:analysis-pipeline-theorem-analysis-not-reprove}
+The analysis $\mathsf{Analyze}(c_T,P)$ does not reprove the theorem. It analyzes the structure of the theorem flow.
+\end{proposition}
+
+\begin{proof}
+The proof is contained in the proof flow and checked by proof recognizer or proof checker flow. The analysis pipeline extracts motifs and metrics; it does not perform proof checking unless proof checking is explicitly part of the protocol and recognized in that role.
+\end{proof}
+
+\begin{proposition}[Chapter-code analysis does not validate all chapter claims]
+\label{prop:analysis-pipeline-chapter-analysis-not-validation}
+The analysis $\mathsf{Analyze}(c_C,P)$ does not automatically validate every claim in the chapter.
+\end{proposition}
+
+\begin{proof}
+Chapter validation requires chapter recognition, theorem recognition, proof checking, certificate recognition, ledger audit, and status flow. The analysis protocol may include some of these stages, but motif or metric analysis alone does not validate all claims. The report therefore records only the structures, metrics, failures, and obligations recognized by the selected protocol.
+\end{proof}
+
+\section{Examples and determinacy}
+\label{sec:analysis-pipeline-examples-determinacy}
+
+\begin{example}[Analyze completion skeleton code]
+\label{ex:analysis-pipeline-completion-code}
+For input code
+$$
+  011001100011010110101011100011,
+$$
+Stage 1 decodes
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100.
+$$
+Possible recognized motifs are finite repetition $0\mid 00\mid 000$, repeat boundary $01$, seal $011$, and carry $011\mid 100$. A report may record seal depth $1$, carry index $1$, ledger depth at least $1$ when carry ledger is recognized, and cannot-claim entries saying that the completion skeleton does not license $\FullAxisUp$, carry motif does not imply dimension, and motif report does not imply object equality.
+\end{example}
+
+\begin{example}[Analyze fold skeleton code]
+\label{ex:analysis-pipeline-fold-code}
+For input code
+$$
+  0110011001011001010110100011,
+$$
+Stage 1 decodes
+$$
+  0\mid 00\mid 001\mid 0011\mid 0100.
+$$
+Possible recognized motifs are finite source $0\mid 00$, additive recursion $001$, and fold completion $0011\mid 0100$. A report may record carry-index candidate and reuse-depth candidate, while retaining cannot-claim entries that additive recursion does not license $\AddUp$ and fold motif does not license $\MulUp$.
+\end{example}
+
+\begin{example}[Compare completion and fold skeletons]
+\label{ex:analysis-pipeline-compare-completion-fold}
+For
+$$
+  S_{\mathrm{Comp}}=0\mid 00\mid 000\mid 01\mid 011\mid 100
+$$
+and
+$$
+  S_{\mathrm{Fold}}=0\mid 00\mid 001\mid 0011\mid 0100,
+$$
+the raw prefix overlap is $0\mid 00$. A report may say that both share finite-source motif, while the completion skeleton branches into repeat-boundary, seal, and carry, and the fold skeleton branches into additive recursion and fold completion. It may not claim that shared prefix implies subobject, that shared finite-source motif implies the same theory, or that fold and completion are bridge-equivalent.
+\end{example}
+
+\begin{theorem}[Analysis is deterministic relative to protocol]
+\label{thm:analysis-pipeline-deterministic-relative-protocol}
+If $c\in\mathsf{LegalZStream}$, $P$ is a recognized analysis protocol flow, and all recognizers selected by $P$ are deterministic on the decoded input domain, then $\mathsf{Analyze}(c,P)$ is uniquely determined.
+\end{theorem}
+
+\begin{proof}
+The code $c$ uniquely decodes to $S$. The protocol $P$ fixes recognizer family, metric selection, weights, normalization policy, ledger policy, cannot-claim policy, and report policy. If each selected recognizer is deterministic on the domain, then motif extraction, metric computation, ledger audit, and report generation are uniquely determined.
+\end{proof}
+
+\begin{corollary}[Nondeterministic recognizer requires nondeterminism ledger]
+\label{cor:analysis-pipeline-nondeterminism-ledger}
+If the recognizer family contains a nondeterministic recognizer, the analysis output must record choice branches, failure branches, or all possible outputs. Otherwise the report is not admissible.
+\end{corollary}
+
+\begin{remark}[Outlook]
+\label{rem:analysis-pipeline-outlook}
+This chapter establishes the compiler analysis pipeline: legality check, decode, protocol recognition, recognizer-family extraction, motif extraction, metric computation, normal-address analysis, ledger audit, cannot-claim audit, bridge-obligation discovery, and report generation. It defines analysis inputs, protocol candidate flows, protocol recognizers, protocol subflows, well-formed runs, report flows, bridge-obligation candidates, analysis failure items, failure-complete reports, theorem-code analysis, chapter-code analysis, and protocol-relative determinacy. It proves that unrecognized protocols cannot drive analysis, metric weights require protocol flow, well-formed runs are source-determined, equal decoded flow and protocol give equal output, the pipeline is invariant under compile-decode round trip and conservative over the finite kernel, reports cannot discharge certificates, bridge obligation is not bridge, incomplete failure reporting is inadmissible, missing data cannot silently become zero, theorem-code analysis does not reprove theorem, chapter-code analysis does not validate all claims, deterministic protocols determine analysis output, and nondeterminism requires ledger. The next chapter collects the main theorem of the no-hidden-input compiler discipline.
+\end{remark}

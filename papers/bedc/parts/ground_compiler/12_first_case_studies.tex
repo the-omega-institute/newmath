@@ -1,0 +1,581 @@
+\chapter{First Case Studies: Finite Repetition, Add/Fold, List, and Completion}
+\label{ch:ground-compiler-first-case-studies}
+
+\autoref{ch:ground-compiler-semantic-motif-analysis} establishes the no-hidden-input form of semantic motif analysis: motifs are not external patterns, but stable subflows recognized by generated motif recognizers. This chapter begins the first concrete comparisons. The goal is not to prove that any mature object has already been accepted. The goal is to show how already-generated event flows can be compared at the underlying $\bzero,\bone$ layer.
+
+The case studies are finite repetition skeletons, Nat-like skeletons, Add and fold skeletons, List-like skeletons, and Completion or $\FullAxisUp$-like skeletons. The guiding rule is
+$$
+  \boxed{\text{different traditional theories can share event motifs without becoming the same object}.}
+$$
+For example, $\NatUp$ and $\ListUp$ can share finite-spine motifs; $\AddUp$ and fold or composition can share continuation motifs; completion and $\FullAxisUp$ can share seal and tail-ledger motifs; Zeckendorf carry and $\DimLiftUp$ can share carry and normal-address motifs. These are motif-level relations. Mature export still requires recognized $\NameCert$ flow, derivation-certificate flow, ledger flow, and acceptance-gate flow.
+
+\section{Case-study flows}
+\label{sec:case-studies-flows}
+
+\begin{definition}[Case-study flow]
+\label{def:case-studies-flow}
+A \emph{case-study flow} is an event flow
+$$
+  S\in\mathsf{EventFlow}
+$$
+equipped with an explanatory target such as finite repetition skeleton, Add and fold skeleton, Completion skeleton, or List skeleton. The explanatory target is not input structure. Formally the flow is still just
+$$
+  S=(w_0,\ldots,w_{n-1}),
+$$
+and its theoretical reading must be recognized by generated recognizer flow.
+\end{definition}
+
+\begin{definition}[Skeleton code]
+\label{def:case-studies-skeleton-code}
+For a case-study flow $S=(w_0,\ldots,w_{n-1})$, define its \emph{skeleton code} by
+$$
+  \mathsf{SkCode}(S):=\mathsf{Compile}(S).
+$$
+This is not object code and not accepted theorem code. It is the channel code of the event flow.
+\end{definition}
+
+\begin{remark}[Skeletons are weaker than certificates]
+\label{rem:case-studies-skeleton-weaker-than-cert}
+A skeleton flow can display a motif such as finite repetition, carry, or seal structure, but it is not thereby a $\NameCert$ flow, derivation-certificate flow, or accepted-object flow. For example,
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100
+$$
+can be a Completion or $\FullAxisUp$ skeleton, but a full $\FullAxisUp$ certificate still requires recognized source, pattern, classifier, stability, and ledger fields.
+\end{remark}
+
+\section{Finite repetition skeleton}
+\label{sec:case-studies-finite-repetition}
+
+\begin{definition}[Finite repetition skeleton]
+\label{def:case-studies-finite-repetition-skeleton}
+Let
+$$
+  S_{\mathrm{rep}}^{(k)}
+  =
+  (0,00,000,\ldots,0^k)
+$$
+be the event flow consisting of the first $k$ finite $\bzero$-repetition events. For example,
+$$
+  S_{\mathrm{rep}}^{(3)}=(0,00,000).
+$$
+Its explanatory reading is starting unit, one repetition, two repetitions, and so on. Formally it is only an event flow.
+\end{definition}
+
+\begin{example}[Finite repetition skeleton code]
+\label{ex:case-studies-finite-repetition-code}
+For
+$$
+  0\mid 00\mid 000,
+$$
+the event encodings are
+$$
+  0\mapsto 011,\qquad
+  00\mapsto 0011,\qquad
+  000\mapsto 00011.
+$$
+Hence
+$$
+  \mathsf{Compile}(0\mid 00\mid 000)
+  =
+  011001100011,
+$$
+displayed by event as
+$$
+  011\mid 0011\mid 00011.
+$$
+\end{example}
+
+\begin{definition}[Finite repetition motif recognition]
+\label{def:case-studies-finite-repetition-motif}
+Given a motif recognizer $R_{\mathrm{rep}}$, if
+$$
+  \mathsf{RecognizesMotif}(R_{\mathrm{rep}},S,M,\mu_{\mathrm{rep}})
+$$
+and $M$ has event shape
+$$
+  (x,xx,xxx,\ldots,x^k),
+$$
+then $M$ is recognized in $S$ as a finite repetition motif. When $x=0$, this is the finite $\bzero$-axis repetition motif.
+\end{definition}
+
+\begin{proposition}[Finite repetition skeleton contains repetition motif]
+\label{prop:case-studies-repetition-skeleton-has-motif}
+If $R_{\mathrm{rep}}$ is certified as a finite-repetition recognizer and
+$$
+  S_{\mathrm{rep}}^{(k)}=(0,00,\ldots,0^k),
+$$
+then
+$$
+  \mathsf{RecognizesMotif}
+  (R_{\mathrm{rep}},S_{\mathrm{rep}}^{(k)},S_{\mathrm{rep}}^{(k)},\mu_{\mathrm{rep}})
+$$
+holds.
+\end{proposition}
+
+\begin{proof}
+By definition, each successor event in $S_{\mathrm{rep}}^{(k)}$ is obtained from the preceding event by source-level appending of $0$:
+$$
+  0^i\mapsto 0^{i+1}.
+$$
+This is exactly the source-level pattern certified for the finite-repetition recognizer. Hence $R_{\mathrm{rep}}$ recognizes the skeleton as a finite repetition motif.
+\end{proof}
+
+\begin{corollary}[Finite repetition motif does not imply $\NatUp$]
+\label{cor:case-studies-repetition-not-nat}
+Even if an event flow is recognized as a finite repetition motif, one cannot infer $\NatUp$. A derived interface such as $\NatUp$ still requires recognized $\NameCert$ flow with source, pattern, classifier, stability, and ledger fields.
+\end{corollary}
+
+\section{Nat-like skeleton}
+\label{sec:case-studies-nat-like}
+
+\begin{definition}[Nat-like skeleton]
+\label{def:case-studies-nat-like-skeleton}
+A \emph{Nat-like skeleton} is an event flow
+$$
+  S_{\mathrm{NatSkel}}
+  =
+  (0,00,000,\ldots,0^k,01),
+$$
+whose initial segment is a finite repetition skeleton and whose final event $01$ is a candidate repeat-rule witness. Formally it remains just an event flow.
+\end{definition}
+
+\begin{example}[Nat-like skeleton code]
+\label{ex:case-studies-nat-like-code}
+For
+$$
+  0\mid 00\mid 000\mid 01,
+$$
+the event encodings are
+$$
+  0\mapsto 011,\quad
+  00\mapsto 0011,\quad
+  000\mapsto 00011,\quad
+  01\mapsto 01011.
+$$
+Thus the skeleton code is
+$$
+  01100110001101011.
+$$
+\end{example}
+
+\begin{definition}[Repeat-rule motif]
+\label{def:case-studies-repeat-rule-motif}
+A \emph{repeat-rule motif} is a recognized structure consisting of finite repetition source plus repeat-rule witness. An explanatory shape is
+$$
+  0\mid 00\mid 000\mid 01,
+$$
+where $0\mid 00\mid 000$ is the finite repetition source and $01$ is the repeat-rule witness candidate.
+\end{definition}
+
+\begin{proposition}[Nat-like skeleton extends finite repetition skeleton]
+\label{prop:case-studies-nat-extends-repetition}
+The Nat-like skeleton $S_{\mathrm{NatSkel}}$ contains $S_{\mathrm{rep}}^{(k)}$ as a prefix subflow.
+\end{proposition}
+
+\begin{proof}
+By definition,
+$$
+  S_{\mathrm{NatSkel}}=(0,00,\ldots,0^k,01).
+$$
+Its first $k$ repetition events are exactly
+$$
+  S_{\mathrm{rep}}^{(k)}=(0,00,\ldots,0^k).
+$$
+\end{proof}
+
+\begin{corollary}[Nat-like and repetition skeletons share a prefix motif]
+\label{cor:case-studies-nat-repetition-share-prefix}
+If the finite repetition recognizer is certified, then the Nat-like skeleton and the finite repetition skeleton share the finite repetition motif.
+\end{corollary}
+
+\begin{remark}[Existing $\NatUp$ and $\AxisNatUp$]
+\label{rem:case-studies-nat-axisnat}
+In existing BEDC development, $\NatUp$ can arise from unary repetition direction, while the Zeckendorf-axis reading can separately consider the $\bzero$ direction as $\AxisNatUp$. This chapter does not identify them as the same object. It only records that, when both use finite repetition as source, their motif profiles share finite repetition or spine structure.
+\end{remark}
+
+\section{Add and fold skeletons}
+\label{sec:case-studies-add-fold}
+
+\begin{definition}[Add skeleton]
+\label{def:case-studies-add-skeleton}
+The Add-like skeleton is
+$$
+  S_{\mathrm{AddSkel}}
+  =
+  (0,00,001).
+$$
+The explanatory reading is starting unit, binary repetition or binary combination witness, and binary recursion witness. The event $001$ is not bare addition; it is an Add-style local witness candidate.
+\end{definition}
+
+\begin{example}[Add skeleton code]
+\label{ex:case-studies-add-code}
+The event encodings are
+$$
+  0\mapsto 011,\qquad
+  00\mapsto 0011,\qquad
+  001\mapsto 001011.
+$$
+Therefore
+$$
+  \mathsf{SkCode}(S_{\mathrm{AddSkel}})
+  =
+  0110011001011.
+$$
+\end{example}
+
+\begin{definition}[Fold or MulSeed skeleton]
+\label{def:case-studies-fold-skeleton}
+The fold-like or MulSeed-like skeleton is
+$$
+  S_{\mathrm{FoldSkel}}
+  =
+  (0,00,001,0011,0100).
+$$
+The explanatory reading is starting unit, binary repetition, Add-style recursion witness, iterated-addition completion witness, and normal-address candidate.
+\end{definition}
+
+\begin{example}[Fold or MulSeed skeleton code]
+\label{ex:case-studies-fold-code}
+The event encodings are
+$$
+\begin{gathered}
+  0\mapsto 011,\qquad
+  00\mapsto 0011,\qquad
+  001\mapsto 001011,\\
+  0011\mapsto 00101011,\qquad
+  0100\mapsto 0100011.
+\end{gathered}
+$$
+Thus
+$$
+  \mathsf{SkCode}(S_{\mathrm{FoldSkel}})
+  =
+  0110011001011001010110100011.
+$$
+\end{example}
+
+\begin{definition}[Additive recursion motif]
+\label{def:case-studies-additive-recursion-motif}
+An \emph{additive recursion motif} is a recognized event structure containing unit source, binary repetition witness, and binary recursion witness. An explanatory shape is
+$$
+  0\mid 00\mid 001.
+$$
+\end{definition}
+
+\begin{definition}[Fold completion motif]
+\label{def:case-studies-fold-completion-motif}
+A \emph{fold completion motif} is a recognized event structure containing additive recursion witness, raw iterated-addition completion witness, and normal fold address. An explanatory shape is
+$$
+  001\mid 0011\mid 0100,
+$$
+where $0011\mid 0100$ may be recognized as source-level carry or normalization ledger.
+\end{definition}
+
+\begin{proposition}[Fold skeleton extends Add skeleton]
+\label{prop:case-studies-fold-extends-add}
+The fold skeleton $S_{\mathrm{FoldSkel}}$ contains $S_{\mathrm{AddSkel}}$ as a prefix subflow.
+\end{proposition}
+
+\begin{proof}
+By definition,
+$$
+  S_{\mathrm{FoldSkel}}=(0,00,001,0011,0100).
+$$
+Its first three events are $(0,00,001)=S_{\mathrm{AddSkel}}$.
+\end{proof}
+
+\begin{corollary}[Fold skeleton reuses Add skeleton]
+\label{cor:case-studies-fold-reuses-add}
+At the motif-profile layer, the fold or MulSeed skeleton reuses the Add skeleton's additive recursion motif and adds fold completion or normalization motifs.
+\end{corollary}
+
+\begin{theorem}[Add and fold skeletons do not license $\AddUp$ or $\MulUp$]
+\label{thm:case-studies-add-fold-not-license}
+Recognizing $S_{\mathrm{AddSkel}}$ as an additive recursion motif or $S_{\mathrm{FoldSkel}}$ as a fold completion motif does not imply $\AddUp$ or $\MulUp$.
+\end{theorem}
+
+\begin{proof}
+Add and fold skeletons are source-level motifs. Derived interfaces such as $\AddUp$ and $\MulUp$ require recognized $\NameCert$ flows; mature export further requires derivation-certificate and acceptance-gate flows. Motif recognition supplies none of these certificates.
+\end{proof}
+
+\section{List-like skeleton}
+\label{sec:case-studies-list-like}
+
+\begin{definition}[List spine skeleton]
+\label{def:case-studies-list-spine}
+Given a source event $a$, define the list-spine skeleton
+$$
+  S_{\mathrm{ListSkel}}(a,k)
+  =
+  (a,aa,aaa,\ldots,a^k).
+$$
+Its explanatory reading is one-element spine, two-element spine, three-element spine, and so on. Formally this is a finite repetition motif over $a$. If $a=0$, then $0\mid 00\mid 000$ is also the minimal finite repetition skeleton.
+\end{definition}
+
+\begin{definition}[List constructor ledger motif]
+\label{def:case-studies-list-constructor-ledger}
+A \emph{list constructor ledger motif} is ledger structure over a finite spine motif recording nil or cons shape, length, payload source, payload classifier, and constructor decomposition. This motif is not provided by bare finite repetition; it must be recognized by a list recognizer flow.
+\end{definition}
+
+\begin{proposition}[List spine skeleton shares finite repetition with Nat-like skeleton]
+\label{prop:case-studies-list-shares-repetition-with-nat}
+If $a=0$, then
+$$
+  S_{\mathrm{ListSkel}}(0,k)=S_{\mathrm{rep}}^{(k)}.
+$$
+Hence a List-like finite spine skeleton and a Nat-like finite repetition skeleton have the same raw finite repetition motif.
+\end{proposition}
+
+\begin{proof}
+By definition,
+$$
+  S_{\mathrm{ListSkel}}(0,k)=(0,00,\ldots,0^k),
+$$
+which is exactly $S_{\mathrm{rep}}^{(k)}$.
+\end{proof}
+
+\begin{corollary}[$\ListUp$ is finite repetition plus constructor ledger]
+\label{cor:case-studies-list-finite-plus-ledger}
+If $\ListUp$ uses finite spine as source, its motif profile shares finite repetition structure. It still needs constructor ledger, payload classifier, length ledger, and source-carrier certificate. Thus it is not $\NatUp$; it is finite-spine motif plus list-specific ledger and classifier structure.
+\end{corollary}
+
+\begin{theorem}[Same finite spine does not imply same object]
+\label{thm:case-studies-same-spine-not-same-object}
+Even if two event flows share the same finite spine motif, one cannot conclude that they represent the same object.
+\end{theorem}
+
+\begin{proof}
+The same finite spine motif can serve as Nat-like source, List-like spine, finite index carrier, matrix index carrier, or polynomial coefficient list. Object identity is determined by classifier, ledger, $\NameCert$, and derivation-certificate structure. Sharing finite spine records source-level motif overlap only.
+\end{proof}
+
+\section{Completion and FullAxis skeleton}
+\label{sec:case-studies-completion}
+
+\begin{definition}[Completion skeleton]
+\label{def:case-studies-completion-skeleton}
+The Completion or $\FullAxisUp$-like skeleton is
+$$
+  S_{\mathrm{CompSkel}}
+  =
+  (0,00,000,01,011,100).
+$$
+The explanatory reading is starting unit, one repetition, two repetitions, repeat-boundary witness, repeat-to-completion or overflow witness, and normal-address candidate.
+\end{definition}
+
+\begin{example}[Completion skeleton code]
+\label{ex:case-studies-completion-code}
+The event encodings are
+$$
+\begin{gathered}
+  0\mapsto 011,\qquad
+  00\mapsto 0011,\qquad
+  000\mapsto 00011,\qquad
+  01\mapsto 01011,\\
+  011\mapsto 0101011,\qquad
+  100\mapsto 100011.
+\end{gathered}
+$$
+Therefore
+$$
+  \mathsf{SkCode}(S_{\mathrm{CompSkel}})
+  =
+  011001100011010110101011100011.
+$$
+\end{example}
+
+\begin{definition}[Completion motif]
+\label{def:case-studies-completion-motif}
+A \emph{completion motif} is a recognized structure containing finite stages, repeat-boundary witness, seal or completion witness, normal-address witness, and tail ledger. The explanatory shape is
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100.
+$$
+\end{definition}
+
+\begin{proposition}[Completion skeleton contains finite repetition motif]
+\label{prop:case-studies-completion-contains-repetition}
+The completion skeleton contains $(0,00,000)$ as a prefix subflow, and hence contains a finite repetition motif candidate.
+\end{proposition}
+
+\begin{proof}
+By definition,
+$$
+  S_{\mathrm{CompSkel}}=(0,00,000,01,011,100).
+$$
+Its first three events are $(0,00,000)$.
+\end{proof}
+
+\begin{proposition}[Completion skeleton contains carry ledger candidate]
+\label{prop:case-studies-completion-contains-carry}
+The completion skeleton contains
+$$
+  011\mid 100
+$$
+as a source-level carry ledger candidate.
+\end{proposition}
+
+\begin{proof}
+By definition, the last two events of $S_{\mathrm{CompSkel}}$ are $(011,100)$. Hence the carry ledger candidate appears as a subflow.
+\end{proof}
+
+\begin{corollary}[Completion skeleton splits from Add and fold skeleton]
+\label{cor:case-studies-completion-splits-from-fold}
+The Add and fold skeleton
+$$
+  0\mid 00\mid 001\mid 0011\mid 0100
+$$
+and the Completion skeleton
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100
+$$
+share the prefix $0\mid 00$ and then branch. The former turns toward additive recursion and fold; the latter turns toward repeat-boundary, seal, and carry.
+\end{corollary}
+
+\begin{theorem}[Completion skeleton does not license $\FullAxisUp$]
+\label{thm:case-studies-completion-not-fullaxis}
+Even if $S_{\mathrm{CompSkel}}$ is recognized as a completion motif, one cannot infer $\FullAxisUp$.
+\end{theorem}
+
+\begin{proof}
+A completion motif supplies source-level event structure. The derived interface $\FullAxisUp$ requires recognized $\NameCert$ flow: finite-prefix source, compatible-thread pattern, prefix-compatible classifier, seal stability, and tail ledger. Motif recognition is not $\NameCert$ recognition.
+\end{proof}
+
+\section{Cross-theory comparison}
+\label{sec:case-studies-cross-comparison}
+
+\begin{definition}[Skeleton overlap]
+\label{def:case-studies-skeleton-overlap}
+For skeleton flows $S$ and $T$, their raw prefix overlap is $\mathsf{PrefixLen}(S,T)$, and their recognized motif overlap is
+$$
+  \mathsf{Overlap}_{\mathcal R}(S,T),
+$$
+the set of motif occurrences shared under recognizer family $\mathcal R$.
+\end{definition}
+
+\begin{proposition}[Add and fold skeleton and Completion skeleton share finite source]
+\label{prop:case-studies-fold-completion-prefix}
+Let
+$$
+  S_{\mathrm{FoldSkel}}=(0,00,001,0011,0100)
+$$
+and
+$$
+  S_{\mathrm{CompSkel}}=(0,00,000,01,011,100).
+$$
+Then
+$$
+  \mathsf{PrefixLen}(S_{\mathrm{FoldSkel}},S_{\mathrm{CompSkel}})=2.
+$$
+\end{proposition}
+
+\begin{proof}
+The first two events in both flows are $0\mid 00$. The third events are $001$ and $000$, respectively, so the longest common prefix has length $2$.
+\end{proof}
+
+\begin{corollary}[Shared prefix indicates shared generative source]
+\label{cor:case-studies-shared-prefix-source}
+At the raw event-flow layer, the Add and fold skeleton and the Completion skeleton share the starting unit and one finite repetition. Their paths branch at the third event.
+\end{corollary}
+
+\begin{proposition}[Nat-like skeleton is a prefix of Completion skeleton]
+\label{prop:case-studies-nat-prefix-completion}
+Let
+$$
+  S_{\mathrm{NatSkel}}=(0,00,000,01)
+$$
+and
+$$
+  S_{\mathrm{CompSkel}}=(0,00,000,01,011,100).
+$$
+Then $S_{\mathrm{NatSkel}}$ is a prefix subflow of $S_{\mathrm{CompSkel}}$.
+\end{proposition}
+
+\begin{proof}
+The first four events of $S_{\mathrm{CompSkel}}$ are
+$$
+  (0,00,000,01)=S_{\mathrm{NatSkel}}.
+$$
+\end{proof}
+
+\begin{corollary}[Completion skeleton extends Nat-like skeleton]
+\label{cor:case-studies-completion-extends-nat}
+The Completion skeleton extends the Nat-like finite repetition and repeat-rule skeleton by adding
+$$
+  011\mid 100,
+$$
+the completion witness and normal-address candidate.
+\end{corollary}
+
+\begin{theorem}[Skeleton extension does not imply object extension]
+\label{thm:case-studies-skeleton-extension-not-object-extension}
+If one skeleton flow is a prefix of another, one cannot infer inclusion, subobject, subtype, extension, or morphism between the corresponding mature objects.
+\end{theorem}
+
+\begin{proof}
+The prefix relation is a raw event-flow relation. Mature-object relations require classifier, $\NameCert$, derivation-certificate, bridge, or morphism certificates. Raw prefix structure supplies none of these.
+\end{proof}
+
+\section{Motif reports}
+\label{sec:case-studies-motif-reports}
+
+\begin{definition}[Skeleton motif report]
+\label{def:case-studies-skeleton-report}
+For a skeleton flow $S$ and recognizer family $\mathcal R$, define
+$$
+  \mathsf{SkReport}_{\mathcal R}(S)
+$$
+to be the human-readable output view of its motif profile, support subflows, ledger subflows, and basic metrics. It is not formal input and not proof.
+\end{definition}
+
+\begin{example}[Completion skeleton motif report]
+\label{ex:case-studies-completion-report}
+For
+$$
+  0\mid 00\mid 000\mid 01\mid 011\mid 100,
+$$
+a report may list finite repetition motif $0\mid 00\mid 000$, repeat-rule motif $01$, seal motif $011$, carry motif $011\mid 100$, raw prefix length of six events, seal depth one, carry index one, and a ledger warning that $\FullAxisUp$ is not licensed without $\NameCert$ flow.
+\end{example}
+
+\begin{example}[Add and fold skeleton motif report]
+\label{ex:case-studies-add-fold-report}
+For
+$$
+  0\mid 00\mid 001\mid 0011\mid 0100,
+$$
+a report may list finite source $0\mid 00$, additive recursion motif $001$, fold completion motif $0011\mid 0100$, seal-depth candidate one, carry-index candidate one, and a ledger warning that $\AddUp$ or $\MulUp$ is not licensed without $\NameCert$ and derivation-certificate flows.
+\end{example}
+
+\begin{example}[Nat-like versus List-like motif report]
+\label{ex:case-studies-nat-list-report}
+If the Nat-like skeleton is $0\mid 00\mid 000\mid 01$ and the List-like skeleton is $0\mid 00\mid 000$, a report may show shared finite repetition motif $0\mid 00\mid 000$, the Nat-like extra event $01$ as repeat-rule witness, missing List-specific payload classifier, constructor-shape ledger, and length ledger, and the warning that the same finite spine does not imply the same object.
+\end{example}
+
+\begin{theorem}[Skeleton motif reports are explanatory, not certificatory]
+\label{thm:case-studies-reports-not-certificates}
+Skeleton motif reports do not license derived interfaces, theoremhood, accepted objects, or object equality.
+\end{theorem}
+
+\begin{proof}
+Motif reports are human-readable outputs generated from recognized motif profiles. They do not supply $\NameCert$ flow, derivation-certificate flow, proof flow, or acceptance-gate flow by themselves. They are explanatory tools, not certificates.
+\end{proof}
+
+\begin{corollary}[Skeleton comparison cannot replace proof]
+\label{cor:case-studies-comparison-not-proof}
+Even if two skeletons have high motif overlap, any claim of theorem equivalence, object equivalence, bridge, morphism, or reuse relation still requires explicit certificate flow.
+\end{corollary}
+
+\section{Conservativity}
+\label{sec:case-studies-conservativity}
+
+\begin{theorem}[Case-study analysis is conservative over the finite kernel]
+\label{thm:case-studies-conservativity}
+Adding the case-study skeletons, motif reports, and cross-skeleton comparisons of this chapter does not add new raw marks, history constructors, sameness rules, continuation rules, derived-interface formation rules, or accepted-object export rules.
+\end{theorem}
+
+\begin{proof}
+All case-study skeletons are event flows. Motif reports and comparisons are source-level analyses of event flows. They do not generate new $\bzero$ or $\bone$, add $\msame$, $\hsame$, or $\psame$ rules, change $\ExtR$ or $\ContR$, license derived interfaces, or export accepted objects. Hence this analysis layer is conservative over the finite kernel.
+\end{proof}
+
+\begin{remark}[Outlook]
+\label{rem:case-studies-outlook}
+This chapter gives the first concrete skeleton comparisons: finite repetition $0\mid 00\mid 000$, Nat-like $0\mid 00\mid 000\mid 01$, Add $0\mid 00\mid 001$, fold or MulSeed $0\mid 00\mid 001\mid 0011\mid 0100$, and Completion or $\FullAxisUp$ skeleton $0\mid 00\mid 000\mid 01\mid 011\mid 100$. Their typical channel codes are $011001100011$, $01100110001101011$, $0110011001011$, $0110011001011001010110100011$, and $011001100011010110101011100011$. The analysis shows shared finite repetition prefixes, Add-to-fold extension, Nat-like-to-completion extension, and the split between fold and completion paths. It also records the limits: same finite spine does not imply same object, skeleton extension does not imply mature-object extension, motif reports are explanatory rather than certificates, and the case-study layer is conservative over the finite kernel. The next chapter defines theory-distance invariants such as prefix profile, seal depth, carry index, ledger depth, classifier compression ratio, reuse depth, and normal-address distance.
+\end{remark}
