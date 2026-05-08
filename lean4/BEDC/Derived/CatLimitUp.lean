@@ -97,6 +97,9 @@ def CatLimitLimCone (L D lambda : BHist) : Prop :=
       (∀ {X chi m n cm cn : BHist}, CatLimitConeMor X L D m chi lambda cm ->
         CatLimitConeMor X L D n chi lambda cn -> hsame m n)
 
+def CatLimitPointwiseDiagramEquivalence (D E alpha beta : BHist) : Prop :=
+  hsame D E ∧ Cont D alpha beta ∧ Cont E beta alpha
+
 theorem CatLimitLimCone_endomorphism_rigidity {L D lambda a composite : BHist} :
     CatLimitLimCone L D lambda ->
       CatLimitConeMor L L D a lambda lambda composite -> hsame a BHist.Empty := by
