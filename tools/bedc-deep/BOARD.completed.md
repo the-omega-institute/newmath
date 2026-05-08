@@ -12921,3 +12921,27 @@ Rationale:
 Strict generalization, not a paraphrase. gap_policy.tex packages the single-step (line 152) and binary composite (line 196) cases, but the n-fold version is the form invoked downstream by proof_standing/04 and core/07's 'finite chain of compressions' arguments. Direct induction on chain length using the binary theorem closes it; lands in a 266-line chapter with no cap risk. No BOARD entry covers iterated pullback of gap policies, and the proof discharges as a clean inductive packaging — exactly the 'why only the binary case?' senior-referee gap that earns its own slot.
 
 ---
+
+### B-503 - ProbSpace binary inclusion-exclusion identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | ProbSpace binary inclusion-exclusion identity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If A,B are measurable events in a ProbSpace, then \mu(A\cup B)+\mu(A\cap B)\sim_R\mu(A)+\mu(B).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+
+Rationale:
+Genuinely missing companion in 162_probspace_namecert_construction.tex. BOARD has B-358 (complement-mass additivity), B-400 (complement = 1 − event-mass), B-435 (monotone bounds), and B-433 (measure binary-union subadditivity), but none packages the equality form for non-disjoint two-event pairs. The relative-difference row + finite-disjoint-union additivity decompose A∪B and B into disjoint pairs that add up to μ(A)+μ(B), giving the identity directly. This is the prerequisite shape downstream Distribution↑/Independence↑/CondExp↑ joint-event reasoning will repeatedly want, and the file (~178 lines) lands it cleanly without needing a split. Concrete implication form, in scope, not a parameter echo.
+
+---

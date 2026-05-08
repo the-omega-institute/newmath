@@ -6,6 +6,22 @@ The homotopy interface $\HomotopyUp$ packages the equivalence-of-paths relation 
 \section{Carrier definition}
 \label{sec:homotopy-carrier}
 
+\begin{definition}[$\HomotopyUp$ $\mathsf{BHist}$ source packet]
+\label{def:homotopy-bhist-source-packet}
+A $\HomotopyUp$ source packet is a finite $\mathsf{BHist}$ tuple
+$(f,g,H,I,\rho,\lambda)$. The rows $f$ and $g$ are the two endpoint
+$\ContinuousMapUp$ rows accepted by $\NameCert_{\ContinuousMapUp}$, the row
+$H$ is the displayed deformation row between them, and $I$ is the
+$\IntervalUp$ parameter row accepted by $\NameCert_{\IntervalUp}$.
+
+The row $\rho$ is the $\Pkg$ provenance tying the endpoint faces, deformation
+face, and interval face to those two dependency certificates. The row
+$\lambda$ is the finite $\Cont$ ledger recording the endpoint reads of $H$ at
+the two displayed interval faces and every $\hsame$ transport used by the
+packet classifier. No host quotient, imported path equality, or external
+function equality is part of the source packet.
+\end{definition}
+
 \begin{definition}[Homotopy source envelope]
 \label{def:homotopy-source-envelope}
 A $\HomotopyUp$ source envelope is a finite $\mathsf{BHist}$ packet
@@ -60,3 +76,105 @@ Classifier stability is the stated $\hsame$ transport of the endpoint rows, inte
 
 \section{The certificate}
 \label{sec:homotopy-certificate}
+
+\begin{theorem}[$\HomotopyUp$ endpoint classifier row]
+\label{thm:homotopy-endpoint-classifier-row}
+For every $\HomotopyUp$ source packet $(f,g,H,I,\rho,\lambda)$ of
+\autoref{def:homotopy-bhist-source-packet}, the two accepted endpoint faces
+classify only through the $\ContinuousMapUp$ classifier rows carried by $f$
+and $g$. The $\HomotopyUp$ classifier may read the endpoint rows, the
+$\mathsf{BHist}$ deformation row $H$, the interval row $I$, the $\Pkg$
+provenance $\rho$, and the $\Cont$ ledger $\lambda$, but it does not compare
+endpoints by host maps, path quotients, or external equality.
+\end{theorem}
+
+\begin{proof}
+Project the endpoint faces from the displayed finite packet. The rows $f$ and
+$g$ already arrive with $\NameCert_{\ContinuousMapUp}$ provenance, so their
+admissibility and endpoint comparison are exactly the classifier fields of
+that dependency certificate.
+
+The remaining rows only scope the readback. The $\mathsf{BHist}$ deformation
+row $H$ and the $\IntervalUp$ row $I$ determine which endpoint reads are
+visible; $\rho$ records their $\Pkg$ source; and $\lambda$ records the finite
+$\Cont$ and $\hsame$ transport needed to expose those reads. None of these
+rows creates a second endpoint classifier.
+\end{proof}
+
+\begin{theorem}[$\HomotopyUp$ interval-parameter transport]
+\label{thm:homotopy-interval-parameter-transport}
+Let $(f,g,H,I,\rho,\lambda)$ be a $\HomotopyUp$ source packet. If the
+$\IntervalUp$ parameter row $I$ is transported to a row $I'$ by $\hsame$ under
+$\NameCert_{\IntervalUp}$, and the endpoint read of $H$ along $I$ is recorded
+by the finite $\Cont$ ledger $\lambda$, then the transported endpoint read
+along $I'$ is accepted by the same $\HomotopyUp$ classifier with the
+transported $\Cont$ ledger and the inherited $\Pkg$ provenance.
+\end{theorem}
+
+\begin{proof}
+Use the $\NameCert_{\IntervalUp}$ classifier to transport the parameter row
+from $I$ to $I'$. The transport is an $\hsame$ row over $\mathsf{BHist}$, so it
+does not replace the deformation row $H$ or the endpoint rows $f$ and $g$.
+
+Next transport the endpoint readback ledger. The finite $\Cont$ entries in
+$\lambda$ are reindexed along the displayed $\hsame$ parameter comparison,
+and the resulting endpoint row is classified by the same dependency reads
+from $\NameCert_{\ContinuousMapUp}$. The $\Pkg$ provenance $\rho$ is retained
+because the dependency certificates and displayed faces are unchanged.
+\end{proof}
+
+\begin{theorem}[$\HomotopyUp$ deformation-composition row]
+\label{thm:homotopy-deformation-composition-row}
+Suppose $(f,g,H,I,\rho,\lambda)$ and $(g',k,H',I',\rho',\lambda')$ are
+$\HomotopyUp$ source packets whose middle endpoint faces are classified by the
+$\ContinuousMapUp$ classifier carried by $g$ and $g'$. Then their compatible
+deformation rows concatenate to a single $\HomotopyUp$ packet from $f$ to $k$,
+with composed finite $\Cont$ ledger and inherited $\Pkg$ provenance from
+$\rho$ and $\rho'$.
+\end{theorem}
+
+\begin{proof}
+First compare the middle faces using only the endpoint classifier supplied by
+$\NameCert_{\ContinuousMapUp}$. This gives the BEDC compatibility row needed
+to identify the end of $H$ with the start of $H'$ through $\hsame$, not
+through host-level equality of maps.
+
+Now concatenate the two deformation ledgers. The $\Cont$ rows in $\lambda$
+and $\lambda'$ compose as a finite BEDC ledger, and the middle $\hsame$
+comparison is inserted at the junction. The interval rows $I$ and $I'$ remain
+the parameter faces licensed by $\NameCert_{\IntervalUp}$.
+
+Finally repack the tuple. The new source packet has endpoints $f$ and $k$, a
+concatenated deformation row, the displayed parameter rows, composed
+$\Cont$ ledger, and the combined $\Pkg$ provenance inherited from $\rho$ and
+$\rho'$. These are exactly the rows allowed by
+\autoref{def:homotopy-bhist-source-packet}.
+\end{proof}
+
+\begin{theorem}[$\HomotopyUp$ reversal-symmetry row]
+\label{thm:homotopy-reversal-symmetry-row}
+For every $\HomotopyUp$ source packet $(f,g,H,I,\rho,\lambda)$, reversing the
+displayed $\IntervalUp$ row swaps the two endpoint faces and gives the
+symmetric $\HomotopyUp$ classifier row from $g$ to $f$. The reversed packet
+uses the same $\mathsf{BHist}$ deformation data, the $\hsame$ symmetry rows
+from the endpoint and interval classifiers, the same $\Pkg$ provenance, and
+the reversed finite $\Cont$ ledger.
+\end{theorem}
+
+\begin{proof}
+Apply the symmetry field of the $\NameCert_{\IntervalUp}$ classifier to the
+displayed interval row. This reverses the parameter face inside
+$\mathsf{BHist}$ and supplies the $\hsame$ transport that exchanges the two
+endpoint reads of $H$.
+
+Then apply the symmetry field of $\NameCert_{\ContinuousMapUp}$ to the two
+endpoint classifier rows. The endpoint comparison is therefore reversed
+inside the continuous-map certificate rather than by an external path
+symmetry principle.
+
+The final packet keeps the same provenance row $\rho$ and reverses the finite
+$\Cont$ ledger $\lambda$. Since the carrier definition exports only
+$\mathsf{BHist}$ rows, $\hsame$ transports, $\Cont$ ledgers, $\Pkg$
+provenance, and the two dependency certificates, the reversed tuple is a
+valid $\HomotopyUp$ classifier row from $g$ to $f$.
+\end{proof}
