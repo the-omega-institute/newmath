@@ -66,6 +66,77 @@ If a chapter does NOT appear in any of the three critical_path lists above, it i
 
 The corollary: if you see a chapter file with ten `\leanchecked` rows and a `\theoryclosure{\matureClosure}` line in its `closurestatus` block, that chapter is FINISHED — no closure_mark target is possible for it ever again. Pick a different chapter from the lists above.
 
+## SOFT SIGNAL — meta-capstone discovery board (NO HARD GATE)
+
+`critical_path.py` JSON now exposes `capstone_overlap_map.pairs[*]` and
+`capstone_overlap_map.triples[*]` plus `capstone_overlap_map.open_pairs_total`
+and `capstone_overlap_map.open_triples_total`. Each pair/triple records:
+
+- `a`, `b` (and `c` for triples): capstone chapter file stems under `papers/bedc/parts/capstones/`
+- `shared_kernel_objects`: the BEDC namespace prefixes (e.g. `BEDC.FKernel.Hist`, `BEDC.Derived.RingUp`) cited by all sources
+- `shared_lean_targets`: specific Lean target names cited by all sources
+- `unified_by`: a fourth capstone that already unifies the slot, or `null` if open
+
+This is a **discovery board**, NOT a HARD GATE. The pipeline cannot
+identify which open slot represents a non-trivial unifying structure
+and which is mere syntactic overlap. That recognition is structurally
+analogous to discovering primes: the sieve enumerates candidates, but
+identifying their atomic role requires a mathematical concept that does
+not arise from the sieve itself.
+
+How to use this signal:
+
+- IF you (the reviewer) can identify a non-trivial mathematical
+  unification across two/three capstones whose `unified_by` is `null`,
+  AND the unification adds at least one definition or theorem that does
+  NOT trivially follow from the source capstones individually,
+  AND the unification can be stated in BEDC kernel terms (`BHist`, `BMark`,
+  `Cont`, `Ext`, `hsame`, `NameCert`) without introducing new kernel objects,
+  THEN you MAY propose `kind = "theory_extension"` with `notes.flavor =
+  "meta_capstone"`. The target's `paper_files[0]` is a NEW capstone file
+  `papers/bedc/parts/capstones/<theme>.tex`. Phase REVISE will create the
+  file and append `\input{parts/capstones/<theme>}` to
+  `papers/bedc/parts/capstones/_index_files.tex` (alphabetical order).
+
+- IF you cannot identify a substantive unification, do NOT propose a
+  meta-capstone target. Pure syntactic intersection is a TRIVIAL
+  candidate and produces a no-op round. The board's purpose is to
+  record negative space, not to mandate filling it.
+
+The pipeline never strictly requires a meta-capstone target; rounds
+that don't propose one are not penalized. Meta-capstone discovery is
+a soft track running alongside the hard-gate frontier.
+
+## HARD GATE — meta-capstone trivial-overlap rejection
+
+If the round proposes a `kind = "theory_extension"` with `notes.flavor =
+"meta_capstone"`, the proposal MUST satisfy ALL of:
+
+1. The proposed unification adds at least 2 NEW theorems or definitions
+   whose statements reference BEDC kernel objects (`BHist`, `BMark`,
+   `Cont`, `Ext`, `hsame`, `NameCert`).
+2. At least 1 of the new theorems must NOT be a corollary of source
+   capstones' existing theorems — its proof must use the unification
+   structure itself, not merely instantiate one source's claim in
+   another's vocabulary.
+3. The proposed capstone must declare at least 1 NEW Lean target
+   (`\leandef`, `\leanstmt`, or eventually `\leanchecked`) that does
+   not exist in any source capstone — i.e. the meta-capstone synthesizes
+   a new identification, not a name change.
+4. The proposed capstone's prose must explicitly cite BOTH (or all
+   THREE) source capstones via `\autoref{ch:capstones-<source-slug>}`.
+
+A meta-capstone proposal failing any of these is a TRIVIAL OVERLAP
+and MUST be replaced. This gate prevents the no-op cycle where the
+pipeline mechanically generates "Capstone A and B both invoke X, here
+is meta-capstone naming X" — a tautology, not a unification.
+
+This gate is independent of the existing capstone gate at line 415:
+ordinary capstones synthesize ≥ 3 `<X>Up`-style chapters; meta-capstones
+synthesize ≥ 2 capstones. The two gates compose; an ordinary-capstone
+target (flavor=capstone) and a meta-capstone target (flavor=meta_capstone)
+are distinct kinds and can coexist in a multi-target round.
+
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
 
