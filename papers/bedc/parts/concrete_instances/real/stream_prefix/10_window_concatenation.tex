@@ -207,6 +207,55 @@ $\mathsf{append}(\mathsf{append}(w,\mathsf{BHist.e1}(r)),
 triple-window classifier.
 \end{proof}
 
+\begin{theorem}[RealUp concatenated StreamName finite-window feed]
+\label{thm:realup-window-concatenation-streamname-feed}
+For observation maps $s,t:\Hist\to\Hist$ and unary histories
+$a,w,r,q:\Hist$, assume the three adjacent finite-window feeds
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w),
+$$
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(a,\mathsf{BHist.e1}(w)),r),
+$$
+and
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(\mathsf{append}(a,\mathsf{BHist.e1}(w)),
+\mathsf{BHist.e1}(r)),q)
+$$
+are accepted StreamName-scheduled Real finite-window feeds. Then the
+concatenated row
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,a,\mathsf{append}(\mathsf{append}(w,\mathsf{BHist.e1}(r)),
+\mathsf{BHist.e1}(q)))
+$$
+is a single RealUp finite-window feed consumable by
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:streamname-scheduled-window-realup-feed}.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-unary-window-associative-triple-concatenation} to the three
+accepted adjacent windows. This produces one unary
+$\mathsf{RealUnaryStreamWindowClassifier}$ over the displayed concatenated
+bound, with all endpoint RatUp classifiers transported through the same
+$\hsame$, unary-history, append, and finite $\Cont$ rows already present in the
+three source windows.
+
+Next read the scheduling surface through
+\autoref{thm:streamname-scheduled-window-realup-feed}. The observation maps
+$s,t:\Hist\to\Hist$ are exactly the StreamName schedule consumed there, and the
+joined classifier is therefore a finite-window row of the kind passed to
+\autoref{thm:realup-finite-window-exhaustion-obligation}.
+
+The construction introduces no host $\mathsf{Nat}$, quotient representative,
+completion object, or hidden stream object. Its whole feed is the single
+concatenated $\mathsf{BHist}$ window together with the displayed endpoint
+classifiers and the finite scheduling ledger.
+\end{proof}
+
 The ten-field fit is: traditional target nested finite observation-window
 concatenation; BEDC source RealUp finite windows over StreamNameUp observation
 schedules $s,t:\Hist\to\Hist$; carrier unary $\mathsf{BHist}$ anchors and
