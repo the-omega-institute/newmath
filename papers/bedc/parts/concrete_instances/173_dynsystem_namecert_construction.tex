@@ -151,6 +151,97 @@ generator exactly behind those two certified rows and exposes only BHist,
 $\Cont$, and $\hsame$ obligations to downstream flow-system consumers.
 \end{proof}
 
+\begin{theorem}[DynSystemUp flow endpoint coverage]
+\label{thm:dynsystem-flow-endpoint-coverage}
+Every accepted flow endpoint row $\phi$ in a packet $\mathcal{D}$ of
+\autoref{def:dynsystem-bhist-flow-carrier} is reached by the displayed
+$\Cont$ ledger from the phase row $p$, elapsed-time row $t$, source point row
+$x$, and Ode local-flow witness $\omega$. Conversely, whenever rows classified
+by $\NameCert_{\ManifoldUp}$ and $\NameCert_{\OdeUp}$ supply a phase row, an
+elapsed-time row, a source point row, a local-flow witness, and a finite
+$\Cont$ route ending at $\phi$ over the same $\mathsf{Pkg}$ provenance, those
+rows repack as a $\DynSystemUp$ endpoint packet.
+\end{theorem}
+\begin{proof}
+Project the tuple $\mathcal{D}$ to its fields $p$, $t$, $x$, $\phi$, $\omega$,
+$\rho$, and $\lambda$. By \autoref{def:dynsystem-bhist-flow-carrier}, the field
+$\lambda$ is exactly the finite continuation ledger that connects the source
+point, elapsed-time row, Ode source witness, and endpoint row inside the
+accepted packet.
+
+The carrier theorem \autoref{thm:dynsystem-carrier-flow-surface} identifies the
+phase and Ode entries as displayed BHist rows rather than host objects. The
+generator theorem \autoref{thm:dynsystem-ode-generator-ledger} identifies
+$\omega$ as the only generator-facing row used by that endpoint route.
+
+For the converse direction, start with the listed ManifoldUp and OdeUp
+classified rows together with the shared provenance and finite $\Cont$ route.
+Place them in the ten displayed fields of
+\autoref{def:dynsystem-bhist-flow-carrier}; the same route supplies $\lambda$,
+and the classifier transport of
+\autoref{thm:dynsystem-classifier-flow-transport} supplies the inherited
+$\hsame$ comparisons. The resulting tuple is an accepted $\DynSystemUp$
+endpoint packet whose public endpoint is $\phi$.
+\end{proof}
+
+\begin{theorem}[DynSystemUp phase-Ode classifier exactness]
+\label{thm:dynsystem-phase-ode-classifier-exactness}
+Two accepted $\DynSystemUp$ packets classify together exactly when their
+ManifoldUp phase-carrier and point rows, OdeUp local-flow rows, elapsed-time
+rows, endpoint rows, and carried $\hsame$ transports agree componentwise
+through the same $\mathsf{Pkg}$ provenance. No classifier clause may identify
+two packets by ignoring a displayed phase row, Ode row, elapsed-time row,
+endpoint row, transport witness, or provenance field.
+\end{theorem}
+\begin{proof}
+For the forward reading, unpack the public classifier through
+\autoref{thm:dynsystem-classifier-flow-transport}. Its comparison first reads
+the ManifoldUp phase and point rows, then reads the OdeUp local-flow and
+elapsed-time rows, and finally transports the endpoint and ledger rows by the
+carried $\hsame$ witnesses.
+
+The provenance field is not recomputed by the classifier. It is a projected
+field of \autoref{def:dynsystem-bhist-flow-carrier}, so a classifier comparison
+that keeps the same public flow packet also keeps the same $\mathsf{Pkg}$
+source for the ManifoldUp and OdeUp dependency packets.
+
+Conversely, assume the listed componentwise comparisons and the shared
+provenance are already supplied. Apply the carrier surface theorem to read the
+two packets as the same ordered BHist flow surface, and apply the classifier
+transport theorem to repack those component comparisons as the public
+$\DynSystemUp$ classifier. The generator ledger theorem ensures that no hidden
+vector-field comparison is needed beyond the OdeUp local-flow row already in
+the list.
+\end{proof}
+
+\begin{theorem}[DynSystemUp dependency provenance exhaustion]
+\label{thm:dynsystem-dependency-provenance-exhaustion}
+The only dependency rows exported by $\DynSystemUp$ are the ManifoldUp carrier
+and point rows, the OdeUp local-flow source row, the finite $\Cont$ endpoint
+ledger, and the shared $\mathsf{Pkg}$ provenance. The export surface contains
+no host trajectory space, no external vector-field equality row, and no global
+existence row.
+\end{theorem}
+\begin{proof}
+Inspect the carrier tuple in \autoref{def:dynsystem-bhist-flow-carrier}. Its
+dependency-facing projections are the ManifoldUp packet $\mathcal{M}$, the
+OdeUp packet $\mathcal{O}$, the phase and point rows, the Ode witness
+$\omega$, the continuation ledger $\lambda$, and the provenance row $\rho$.
+
+The surface theorem \autoref{thm:dynsystem-carrier-flow-surface} shows that
+these projections are exactly the displayed BHist cells made available to a
+flow consumer. The endpoint coverage theorem above then accounts for the only
+endpoint-producing route, namely the finite $\Cont$ ledger from the certified
+phase, time, source, and Ode witness rows.
+
+Finally apply \autoref{thm:dynsystem-ode-generator-ledger}. It confines
+generator access to the OdeUp vector-field evaluation row and confines phase
+access to the ManifoldUp chart or singleton carrier. Therefore a downstream
+consumer receives no trajectory-space carrier, no vector-field equality outside
+the OdeUp row, and no global-existence dependency beyond the displayed
+provenance surface.
+\end{proof}
+
 \section{The certificate}
 \label{sec:dynsystem-certificate}
 
