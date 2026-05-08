@@ -282,6 +282,45 @@ $\HomologyUp$ cycle-boundary row, so the repacked object is again a
 $\SpectralSeqUp$ page carrier.
 \end{proof}
 
+\begin{theorem}[SpectralSeqUp continuous page-transition closure]
+\label{thm:spectralseq-cont-page-transition-closure}
+Let a $\SpectralSeqUp$ page carrier contain a displayed differential row
+$d_r^{p,q}$, the source and target page rows for that differential, a
+$\HomologyUp$ cycle-boundary readback naming the successor page, and a finite
+$\Cont$ page-transition ledger whose next row records that readback. Then the
+successor page is again a $\SpectralSeqUp$ carrier over the same
+$\NameCert_{\AbelianCatUp}$ source surface. Under the same transition, the
+transported differential remains an $\AbelianCatUp$ morphism row, the
+successor homology readback remains a $\HomologyUp$ boundary row, and the
+finite transition ledger carries exactly the displayed page, differential,
+homology-readback, convergence, transition, and $\Pkg$ provenance rows.
+No ambient exact couple, host quotient equality, analytic convergence datum,
+or external page object is exported.
+\end{theorem}
+\begin{proof}
+First read the differential surface. By
+\autoref{thm:spectralseq-differential-ledger}, the displayed row
+$d_r^{p,q}$ and its transported source and target rows remain within the
+$\NameCert_{\AbelianCatUp}$ morphism ledger selected by the page carrier.
+This gives the morphism component needed by a downstream derived-functor
+consumer.
+
+Next form the successor carrier. Apply
+\autoref{thm:spectralseq-successor-page-closure} to the same differential
+row, the same source and target page rows, and the same $\HomologyUp$
+cycle-boundary readback. The resulting carrier is obtained by extending the
+finite $\Cont$ transition ledger with the displayed successor entry and by
+retaining the corresponding $\Pkg$ provenance rows.
+
+Finally restrict the boundary of the repacked page. The exclusion clause of
+\autoref{thm:spectralseq-convergence-boundary} says that the only quotient
+information visible to the public page transition is the carried
+$\HomologyUp$ cycle-boundary readback row. Hence the composite transition
+presents one closed consumer surface: successor page carrier, transported
+abelian morphism row, homology boundary row, finite $\Cont$ ledger, and
+provenance, with no additional host object.
+\end{proof}
+
 \begin{definition}[SpectralSeqUp filtration ledger]
 \label{def:spectralseq-filtration-ledger}
 For a $\SpectralSeqUp$ page carrier
