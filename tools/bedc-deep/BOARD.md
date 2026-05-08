@@ -18,28 +18,3 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-548 - CurryHoward cut-beta bridge obligation
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | CurryHoward cut-beta bridge obligation |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 7/10 |
-| Novelty | 7/10 |
-
-Problem:
-If a CurryHowardUp packet pairs a FirstOrderUp deduction ledger with a LambdaCalcUp term packet through a shared proof-program carrier, then a displayed cut-elimination step on the deduction side is carried to a beta-reduction/substitution ledger on the LambdaCalc side under the shared classifier.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/243_curryhoward_namecert_construction.tex`
-- `papers/bedc/parts/concrete_instances/175_firstorder_namecert_construction.tex`
-- `papers/bedc/parts/concrete_instances/178_lambdacalc_namecert_construction.tex`
-
-Rationale:
-This is a concrete bridge obligation between the existing FirstOrderUp deduction-ledger surface and the LambdaCalcUp beta/substitution ledger surface, not the broad capstone observation that Curry-Howard is built into closure laws. The concrete CurryHowardUp chapter is empty, the relevant dependency theorems are already present, and no BOARD entry or paper label states this cut-to-beta bridge. The short CurryHowardUp file is a safe landing point for the bounded theorem.
-
----
