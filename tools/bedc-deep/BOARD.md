@@ -90,32 +90,6 @@ Strict dual companion to B-474 (countable preimage UNION exactness), the only si
 
 ---
 
-### B-528 - InnerProduct ternary mutually-orthogonal Pythagoras
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | InnerProduct ternary mutually-orthogonal Pythagoras |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-For an InnerProductUp BHist carrier with carried vector endpoints x,y,z:C_V satisfying x⊥_I y, x⊥_I z, and y⊥_I z, the displayed sum x+_V y+_V z is carried and the norm-squared endpoint ‖x+y+z‖²_I is classified by the scalar sum ‖x‖²_I +_scal ‖y‖²_I +_scal ‖z‖²_I under the retained scalar classifier.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/innerproduct/parallelogram_norm_seed.tex`
-- `papers/bedc/parts/concrete_instances/innerproduct/orthogonality_closure.tex`
-
-Rationale:
-Genuine generalization of binary Pythagoras (B-508, completed). Proof factors through binary Pythagoras applied twice via the existing thm:innerproduct-orthogonal-additivity-row to produce (x+y) ⊥ z from pairwise hypotheses. Lands cleanly at parallelogram_norm_seed.tex (331 lines) where the binary row was added — same proof skeleton, distinct theorem with three-input closure scope. Not a parameter-echo: the ternary statement carries a new sum-of-three norm-squared classifier, not a renaming of binary.
-
----
-
-
 ### B-529 - HopfAlgUp antipode uniqueness from convolution-inverse witnesses
 
 | field | value |
@@ -140,33 +114,6 @@ Frontier first closure on a 92-line chapter that currently has only carrier defi
 
 ---
 
-
-### B-530 - MeasureUp triple-union subadditivity
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | MeasureUp triple-union subadditivity |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 6/10 |
-
-Problem:
-For a MeasureUp carrier and three displayed measurable events A, B, C in one carried fiber with the binary unions A∪B and (A∪B)∪C carried by the σ-algebra row, the measure of the triple union satisfies μ((A∪B)∪C) ≤_R μ(A) +_R μ(B) +_R μ(C) under the RealUp algebraic order.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
-- `papers/bedc/parts/concrete_instances/measure/finite_additivity_readback.tex`
-
-Rationale:
-Closes a referee-visible asymmetry: chapter currently has triple disjoint-union ADDITIVITY (finite_additivity_readback.tex:143) but only binary union SUBADDITIVITY (B-433). Two-application composition through binary subadditivity to (A, B∪C) and (B, C) with RealAlgOrder additive monotonicity. Novelty sits exactly at threshold but the asymmetry-of-coverage rationale is real and the existing infrastructure (head-tail readback, three-support countable readback) is already in place. File safe at 248 lines. Codex_close in 1-2 rounds.
-
----
-
-
 ### B-531 - AbelianCatUp zero-morphism right-absorbing under composition
 
 | field | value |
@@ -190,7 +137,6 @@ Rationale:
 Symmetric companion to in-progress B-518 (left-absorbing 0∘f). Not a duplicate: opposite composition slot, separate theorem statement. The two together complete the 'two-sided absorbing' shape that any reader expects together. Proof mirrors B-518 via biproduct hom additivity (line 211) and zero morphism uniqueness (B-423). File safe at 433 lines. Codex_close in 1-2 rounds once B-518 lands.
 
 ---
-
 
 ### B-532 - Banach bounded-linear-operator pointwise sum closure with norm subadditivity
 
@@ -238,6 +184,55 @@ Local inputs:
 
 Rationale:
 The binary case (B-433) is proved at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:199 thm:measure-binary-union-subadditivity (mu(A cup B) le_R mu(A) + mu(B)). Grep across papers/bedc/parts for `measure-ternary|measure-three-union|measure-finite-union-subadditivity` returned zero matches; only the existing binary form and the unrelated `measure-finite-disjoint-union-additivity` (which requires disjointness) appear. The proof composes binary subadditivity twice -- once on (B, C) yielding mu(U_BC) le mu(B) + mu(C), then on (A, U_BC) yielding mu(U) le mu(A) + mu(U_BC) -- and chains by addition monotonicity. Concrete inequality on existing measure values, not a parameter echo. File currently 248 lines, fits append. Lands in the `measure/` child directory, not a hub.
+
+---
+
+### B-534 - AbelianCat hom additive inverse uniqueness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AbelianCat hom additive inverse uniqueness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For carried hom morphisms $f, u, v \in \mathcal{H}(A,B)$ in an $\AbelianCatUp$ additive kernel-cokernel carrier, if $u +_{A,B} f \sim_{A,B} 0_{A,B}$, $f +_{A,B} u \sim_{A,B} 0_{A,B}$, $v +_{A,B} f \sim_{A,B} 0_{A,B}$, and $f +_{A,B} v \sim_{A,B} 0_{A,B}$, then $u \sim_{A,B} v$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex`
+
+Rationale:
+Concrete two-sided-inverse uniqueness for the abelian-group hom row of an AbelianCatUp carrier, distinct from the existing zero-morphism uniqueness at B-423 (thm:abeliancat-hom-zero-morphism-uniqueness) and from the zero composition-absorption pair B-518/B-531. The proof routes through the same prop:abgroup-forgets-group-certificate / prop:group-forgets-monoid-certificate reduction the chapter already uses, then invokes group-inverse uniqueness rather than monoid-identity uniqueness, so the lemma fills a known companion gap in the AbelianCat additivity surface. The landing file 154_abeliancat_namecert_construction.tex is well below the line cap and is the canonical site for hom-row uniqueness statements; the new theorem lands directly after thm:abeliancat-hom-zero-morphism-uniqueness without needing a hub split.
+
+---
+
+
+### B-535 - Hash collision-success induces same-direction second-preimage success
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Hash collision-success induces same-direction second-preimage success |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+For a $\HashUp$ certificate $\mathcal{H}$ whose digest classifier carries the $\NameCert_{\FinSetUp}$ symmetry field, every successful collision transcript at message pair $(x, x')$ induces a successful second-preimage transcript with base message $x$ and returned message $x'$ over the same hash-evaluation rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex`
+
+Rationale:
+Same-direction sibling of B-464 (collision-success $\Rightarrow$ reversed second-preimage). Existing surface gives collision $\Rightarrow$ second-preimage at $(x',x)$ and the reverse implication second-preimage at $(x,x') \Rightarrow$ collision; the same-direction collision $\Rightarrow$ second-preimage at $(x,x')$ is genuinely missing and does not fall out of either direction without an extra digest-classifier symmetry pass on $\rho(d,d')$. With B-517 (collision-freeness symmetry) and thm:hash-collision-transcript-symmetry already in place, the proof composes B-464 with digest-classifier symmetry in a small but distinct way, and the result is consumed downstream whenever Hash chapters need a same-direction second-preimage witness instead of the reversed pairing. Landing site 220_hash_namecert_construction.tex is safely below the line cap and already hosts the related transcript-symmetry block, so the new theorem lands cleanly after thm:hash-collision-transcript-symmetry.
 
 ---
 

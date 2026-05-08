@@ -13410,3 +13410,53 @@ Rationale:
 165_independence_namecert_construction.tex builds finite-family independence around def:independence-finite-factorisation-row (lines 49-75) and proves stability under reindexing permutations (thm:independence-finite-reindexing-invariance, line 203) and binary measurable-image transport (thm:independence-measurable-image-bridge, line 270). The fundamental subfamily projection — independence of the full family implies independence of any sub-index family — is missing: grep 'subfamily\|sub-index\|index.*restriction\|restrict.*independence\|partial.*independence' on the file returns 0 matches. BOARD already covers Distribution↑ pushforward sigma-additivity / inclusion-exclusion (B-475, B-503/506) and B-499 finite-family measurable-image independence — none addresses index-restriction. The proof: take an arbitrary cylinder over J, complete it to a cylinder over I by inserting the total-event B_i = T_i for i ∉ J (using ProbSpaceUp normalization mu(Omega) ~ 1_R from thm:probspace-total-event-normalization-row at 162_probspace line 130), apply the full-family factorisation, and absorb the unit-marginals via finite RealUp product fold. Lands in 362-line file, well below cap; concrete prerequisite for downstream CondExp/Markov chain reasoning.
 
 ---
+
+### B-528 - InnerProduct ternary mutually-orthogonal Pythagoras
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | InnerProduct ternary mutually-orthogonal Pythagoras |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For an InnerProductUp BHist carrier with carried vector endpoints x,y,z:C_V satisfying x⊥_I y, x⊥_I z, and y⊥_I z, the displayed sum x+_V y+_V z is carried and the norm-squared endpoint ‖x+y+z‖²_I is classified by the scalar sum ‖x‖²_I +_scal ‖y‖²_I +_scal ‖z‖²_I under the retained scalar classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/parallelogram_norm_seed.tex`
+- `papers/bedc/parts/concrete_instances/innerproduct/orthogonality_closure.tex`
+
+Rationale:
+Genuine generalization of binary Pythagoras (B-508, completed). Proof factors through binary Pythagoras applied twice via the existing thm:innerproduct-orthogonal-additivity-row to produce (x+y) ⊥ z from pairwise hypotheses. Lands cleanly at parallelogram_norm_seed.tex (331 lines) where the binary row was added — same proof skeleton, distinct theorem with three-input closure scope. Not a parameter-echo: the ternary statement carries a new sum-of-three norm-squared classifier, not a renaming of binary.
+
+---
+
+### B-530 - MeasureUp triple-union subadditivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MeasureUp triple-union subadditivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+For a MeasureUp carrier and three displayed measurable events A, B, C in one carried fiber with the binary unions A∪B and (A∪B)∪C carried by the σ-algebra row, the measure of the triple union satisfies μ((A∪B)∪C) ≤_R μ(A) +_R μ(B) +_R μ(C) under the RealUp algebraic order.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/finite_additivity_readback.tex`
+
+Rationale:
+Closes a referee-visible asymmetry: chapter currently has triple disjoint-union ADDITIVITY (finite_additivity_readback.tex:143) but only binary union SUBADDITIVITY (B-433). Two-application composition through binary subadditivity to (A, B∪C) and (B, C) with RealAlgOrder additive monotonicity. Novelty sits exactly at threshold but the asymmetry-of-coverage rationale is real and the existing infrastructure (head-tail readback, three-support countable readback) is already in place. File safe at 248 lines. Codex_close in 1-2 rounds.
+
+---
