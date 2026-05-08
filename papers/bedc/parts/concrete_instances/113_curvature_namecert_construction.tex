@@ -6,5 +6,41 @@ The curvature interface $\CurvatureUp$ packages the antisymmetric bracket of a c
 \section{Carrier definition}
 \label{sec:curvature-carrier}
 
+\begin{theorem}[Curvature connection-boundary source projection]
+\label{thm:curvature-connection-boundary-source-projection}
+Every $\mathsf{BHist}$ curvature-boundary row accepted from the $\NameCert_{\ConnectionUp}$ source of \autoref{thm:connection-curvature-boundary-obligation} projects to the visible rows required by the $\CurvatureUp$ source surface: the base row supplied by $\ManifoldUp$, the fibre row supplied by $\BundleUp$, the section row, the ordered tangent-pair rows, the two derivative-endpoint rows, and the $\mathsf{Pkg}$ provenance rows of the $\BundleUp$ and $\ManifoldUp$ dependency certificates. The projection is a finite $\Cont$ readback from the accepted boundary row; it does not inspect host-level equality of base points, fibres, sections, tangent directions, or derivative endpoints.
+\end{theorem}
+\begin{proof}
+Read the boundary row through the $\NameCert_{\ConnectionUp}$ packet. Its construction in \autoref{thm:connection-curvature-boundary-obligation} already lists the base, fibre, section, tangent-pair, derivative-endpoint, and dependency rows used to build the commutator ledger.
+
+Project those entries one at a time along the finite $\Cont$ readback. The base component is the $\ManifoldUp$ point row, the fibre and section components are the $\BundleUp$ rows, and the derivative endpoints are the two $\mathsf{BHist}$ endpoint rows compared by the boundary.
+
+The $\mathsf{Pkg}$ entries are retained rather than recomputed. Thus the $\CurvatureUp$ source receives exactly the connection boundary surface, with all comparison data still mediated by $\hsame$ and the dependency classifiers.
+\end{proof}
+
+\begin{theorem}[Curvature antisymmetric boundary classifier]
+\label{thm:curvature-antisymmetric-boundary-classifier}
+For a $\NameCert_{\ConnectionUp}$ boundary row whose ordered tangent pair is $(t_1,t_2)$, swapping the displayed tangent rows to $(t_2,t_1)$ reverses the commutator boundary classifier by the inherited $\hsame$ endpoint comparisons and the $\mathsf{SigRel}$ orientation row. The reversed row has the same base, fibre, section, derivative-endpoint carrier rows, and $\mathsf{Pkg}$ provenance rows, but its classifier is the opposite boundary relation in $\mathsf{SigRel}$, not a judgmental or host equality between the two commutator histories.
+\end{theorem}
+\begin{proof}
+Start with the two finite $\Cont$ composites that define the accepted boundary: first $t_1$ then $t_2$, and first $t_2$ then $t_1$. Swapping the tangent rows interchanges these two composites while leaving their base, fibre, section, and provenance rows unchanged.
+
+Use symmetry of $\hsame$ on the derivative endpoint comparison to reverse the displayed endpoint relation. The reversal is recorded as a $\mathsf{SigRel}$ orientation row attached to the boundary classifier.
+
+Repack the same source rows with the opposite $\mathsf{SigRel}$ classifier. Since no host equality of histories is asserted, the antisymmetry belongs to the BEDC classifier data exposed by $\NameCert_{\ConnectionUp}$ and consumed by $\CurvatureUp$.
+\end{proof}
+
+\begin{theorem}[Curvature tensorial section transport]
+\label{thm:curvature-tensorial-section-transport}
+Let a $\NameCert_{\ConnectionUp}$ curvature-boundary row be accepted over a section row and fibre row carried by the $\BundleUp$ source. If the section classifier and fibre classifier are transported inside the same $\NameCert_{\ConnectionUp}$ dependency by finite $\Cont$ ledgers, then the transported section and fibre rows preserve the accepted $\mathsf{BHist}$ curvature boundary row. The transported boundary has the same $\ManifoldUp$ base row, tangent-pair rows, derivative-endpoint comparison up to $\hsame$, and $\mathsf{Pkg}$ provenance rows, so $\CurvatureUp$ reads it as the same tensorial source boundary.
+\end{theorem}
+\begin{proof}
+Apply the $\BundleUp$ fibre and section classifiers supplied inside the $\NameCert_{\ConnectionUp}$ dependency. These classifiers transport the fibre and section rows by finite $\Cont$ ledgers while keeping the $\ManifoldUp$ base row and tangent-pair rows fixed.
+
+Transport the two derivative endpoint rows along those ledgers and compare the transported endpoints by $\hsame$. The commutator boundary row is therefore carried to a boundary row with the same ordered tangent pair and the same source provenance.
+
+The $\mathsf{Pkg}$ rows of the dependency certificates are copied through the transport. Hence the $\CurvatureUp$ source surface sees tensorial section and fibre transport as classifier-preserving readback, not as a change of the underlying boundary object.
+\end{proof}
+
 \section{The certificate}
 \label{sec:curvature-certificate}
