@@ -451,3 +451,75 @@ Then apply \autoref{thm:concrete-singleton-empty-poset-namecert}. Its ledger
 row is the repackaging of those two witnesses with the carried endpoints, so
 no additional order-theoretic or quotient field is exported.
 \end{proof}
+
+\begin{theorem}[POSet singleton comparison endpoint determinacy]
+\label{thm:poset-singleton-comparison-endpoint-determinacy}
+For the concrete singleton $\POSetUp$ package of
+\autoref{def:concrete-singleton-empty-poset-instance}, any two guarded
+singleton comparisons over $A_{\emp}$ determine the same endpoint classifier
+$\rho_{\emp}$. There is no second endpoint row besides the carried singleton
+endpoint and its $\hsame$ transport.
+\end{theorem}
+\begin{proof}
+Read the comparison rows from
+\autoref{def:concrete-singleton-empty-poset-instance}. Their endpoints are
+required to lie in the singleton carrier $A_{\emp}$, so both comparisons have
+the same displayed carrier boundary.
+
+Apply \autoref{thm:singleton-empty-poset-laws}. The singleton laws collapse
+carrier membership to the empty-history endpoint and identify every guarded
+comparison with the classifier row $\rho_{\emp}$ on that endpoint.
+
+Finally apply \autoref{thm:concrete-singleton-empty-poset-namecert}. The
+certificate exposes exactly this classifier as the $\POSetUp$ endpoint row,
+so the two guarded comparisons cannot generate a second endpoint
+classification.
+\end{proof}
+
+\begin{theorem}[POSet singleton antichain terminality]
+\label{thm:poset-singleton-antichain-terminality}
+Every antichain subcarrier of the concrete singleton $\POSetUp$ package is
+terminal: each carried member is classified with $\emp$, and every comparison
+between carried members collapses by
+\autoref{thm:singleton-empty-poset-laws}. No nontrivial incomparable pair is
+exported.
+\end{theorem}
+\begin{proof}
+Fix an antichain subcarrier inside the carrier of
+\autoref{def:concrete-singleton-empty-poset-instance}. Any carried member is
+already a member of $A_{\emp}$, hence the singleton carrier law classifies it
+with $\emp$.
+
+For a comparison between two carried members, apply
+\autoref{thm:singleton-empty-poset-laws}. The law package identifies both
+endpoints with the singleton endpoint and collapses the guarded comparison to
+the displayed classifier row.
+
+Use \autoref{thm:concrete-singleton-empty-poset-namecert} to read this row as
+the concrete $\POSetUp$ certificate boundary. An antichain subcarrier
+therefore has only the terminal singleton member and no exported nontrivial
+comparison data.
+\end{proof}
+
+\begin{theorem}[POSet singleton ledger exhaustion]
+\label{thm:poset-singleton-ledger-exhaustion}
+The concrete singleton $\POSetUp$ ledger is exhausted by the two guarded
+comparison witnesses $h\le_{\emp}k$ and $k\le_{\emp}h$ together with the two
+carried endpoints in $A_{\emp}$. It contains no total-order row, lattice row,
+quotient row, host-order row, or additional carrier row.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:poset-ledger-obligation}. Its ledger description
+names exactly the two guarded comparison witnesses and the carried endpoints
+as the visible data of the singleton certificate.
+
+Apply \autoref{thm:singleton-empty-poset-laws} to the comparison witnesses.
+They supply antisymmetry and exactness only through the singleton classifier
+boundary, so no totality, lattice operation, quotient representative, or
+ambient host order can be read from them.
+
+The certificate theorem
+\autoref{thm:concrete-singleton-empty-poset-namecert} repackages precisely
+those rows as the concrete $\POSetUp$ naming certificate. Hence the ledger is
+fully exhausted by the displayed comparison and endpoint rows.
+\end{proof}
