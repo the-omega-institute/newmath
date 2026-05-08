@@ -441,3 +441,40 @@ public Brownian surface contains no host path equality, probability-space
 equality, or stochastic-process equality, compatibility is exactly the shared
 classifier transport of the displayed packet rows.
 \end{proof}
+
+\begin{theorem}[Brownian step-path NameCert closure boundary]
+\label{thm:brownian-step-path-namecert-closure-boundary}
+For every displayed Brownian packet
+$\mathcal{B}=(M,C,T,I,N,P,\rho,\lambda)$ of
+\autoref{def:brownian-bhist-process-packet}, the carrier packet, dependency
+surface, Gaussian-step ledger coverage, path-continuity ledger exactness, and
+continuity-martingale compatibility determine one public
+$\NameCert_{\BrownianUp}$ boundary over the tuple
+$(M,C,T,I,N,P,\rho,\lambda)$. The boundary exports only the displayed
+martingale dependency row $M$, continuous-path dependency row $C$, time row
+$T$, adjacent-step ledger $I$, normal-step display $N$, path-continuity row
+$P$, shared provenance $\rho$, and finite $\Cont/\hsame$ ledger $\lambda$; it
+does not export host stochastic-process equality, host path equality, or an
+ambient probability-space comparison.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and dependency surface. Theorem~\ref{thm:brownian-martingale-continuousmap-dependency-surface}
+projects all martingale reads through $M$ and all continuous-path reads through
+$C$, while leaving $T,I,N,P,\rho,\lambda$ as the visible Brownian rows.
+
+Next attach the step and path ledgers. Theorem~\ref{thm:brownian-step-ledger-transport}
+transports the finite time-step rows, and
+\autoref{thm:brownian-gaussian-step-ledger-coverage} exhausts every public
+adjacent Gaussian-step consumer by $T,I,N,\rho,\lambda$ and the relevant
+$\UnaryHistory$ and $\Cont/\hsame$ witnesses. The path face is fixed by the
+path-continuity ledger exactness already carried in the Brownian certificate
+surface.
+
+Finally apply
+\autoref{thm:brownian-continuity-martingale-compatibility}. It joins the
+martingale and continuous-path dependency rows through the same classifier over
+$(M,C,T,I,N,P,\rho,\lambda)$. The exact public field list is then the one
+identified by \autoref{thm:brownian-namecert-obligation-surface}, so these
+rows determine the stated $\NameCert_{\BrownianUp}$ boundary and nothing
+outside the displayed packet.
+\end{proof}
