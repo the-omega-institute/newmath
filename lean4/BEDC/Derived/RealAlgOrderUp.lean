@@ -86,4 +86,31 @@ theorem RealAlgOrderConstant_order_apartness_obligations {d e d' e' : BHist} :
           (And.intro (RealConstantHistoryClassifier_e1_iff_rat.mpr classifiedD)
             (RealConstantHistoryClassifier_e1_iff_rat.mpr classifiedE)))))
 
+theorem RealAlgOrderConstant_rational_scoped_certificate {d e o d' e' o' : BHist} :
+    RatHistoryClassifier d d' -> RatHistoryClassifier e e' -> RatHistoryClassifier o o' ->
+      RatHistoryClassifier d e -> RatHistoryClassifier e o ->
+        RealConstantHistoryCarrier (BHist.e1 d) ∧
+          RealConstantHistoryCarrier (BHist.e1 d') ∧
+            RealConstantHistoryCarrier (BHist.e1 e) ∧
+              RealConstantHistoryCarrier (BHist.e1 e') ∧
+                RealConstantHistoryCarrier (BHist.e1 o) ∧
+                  RealConstantHistoryCarrier (BHist.e1 o') ∧
+                    RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 d') ∧
+                      RealConstantHistoryClassifier (BHist.e1 e) (BHist.e1 e') ∧
+                        RealConstantHistoryClassifier (BHist.e1 o) (BHist.e1 o') ∧
+                          RatHistoryClassifier d o := by
+  intro classifiedD classifiedE classifiedO classifiedDE classifiedEO
+  have classifiedDO : RatHistoryClassifier d o :=
+    RatHistoryClassifier_trans classifiedDE classifiedEO
+  exact And.intro (RealConstantHistoryCarrier_e1_iff_rat.mpr classifiedD.left)
+    (And.intro (RealConstantHistoryCarrier_e1_iff_rat.mpr classifiedD.right.left)
+      (And.intro (RealConstantHistoryCarrier_e1_iff_rat.mpr classifiedE.left)
+        (And.intro (RealConstantHistoryCarrier_e1_iff_rat.mpr classifiedE.right.left)
+          (And.intro (RealConstantHistoryCarrier_e1_iff_rat.mpr classifiedO.left)
+            (And.intro (RealConstantHistoryCarrier_e1_iff_rat.mpr classifiedO.right.left)
+              (And.intro (RealConstantHistoryClassifier_e1_iff_rat.mpr classifiedD)
+                (And.intro (RealConstantHistoryClassifier_e1_iff_rat.mpr classifiedE)
+                  (And.intro (RealConstantHistoryClassifier_e1_iff_rat.mpr classifiedO)
+                    classifiedDO))))))))
+
 end BEDC.Derived.RealAlgOrderUp
