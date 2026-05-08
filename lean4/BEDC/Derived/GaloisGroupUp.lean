@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -12,6 +13,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -127,5 +129,93 @@ theorem GaloisGroupAutomorphismActionPacket_composition_closure
               (And.intro packet.right.right.right.right.right.left
                 (And.intro actionRow (And.intro classifierRow ledgerRow))))))))
     (And.intro sameComposition (And.intro sameClassifier sameLedger))
+
+theorem GaloisGroupAutomorphismActionPacket_inverse_closure
+    {extension group fixed action composition inverse inverse' classifier classifier' provenance ledger
+      ledger' : BHist} :
+    GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition inverse classifier
+        provenance ledger ->
+      hsame inverse inverse' ->
+        Cont composition inverse' classifier' ->
+          Cont classifier' provenance ledger' ->
+            GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition inverse'
+                classifier' provenance ledger' ∧
+              hsame classifier classifier' ∧ hsame ledger ledger' := by
+  intro packet sameInverse classifierRow ledgerRow
+  have inverseUnary : UnaryHistory inverse' :=
+    unary_transport packet.right.right.right.right.left sameInverse
+  have sameClassifier : hsame classifier classifier' :=
+    cont_respects_hsame (hsame_refl composition) sameInverse
+      packet.right.right.right.right.right.right.right.left classifierRow
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameClassifier (hsame_refl provenance)
+      packet.right.right.right.right.right.right.right.right ledgerRow
+  exact And.intro
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro inverseUnary
+              (And.intro packet.right.right.right.right.right.left
+                  (And.intro packet.right.right.right.right.right.right.left
+                    (And.intro classifierRow ledgerRow))))))))
+    (And.intro sameClassifier sameLedger)
+
+theorem GaloisGroupAutomorphismActionPacket_semantic_name_certificate [AskSetup]
+    [PackageSetup]
+    {galois group base action composition inverse classifier provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisGroupAutomorphismActionPacket galois group base action composition inverse
+        classifier provenance ledger endpoint bundle pkg ->
+      SemanticNameCert
+        (fun target : BHist =>
+          exists carriedClassifier carriedProvenance carriedLedger : BHist,
+            GaloisGroupAutomorphismActionPacket galois group base action composition inverse
+              carriedClassifier carriedProvenance carriedLedger target bundle pkg)
+        (fun target : BHist =>
+          exists carriedClassifier carriedProvenance carriedLedger : BHist,
+            GaloisGroupAutomorphismActionPacket galois group base action composition inverse
+              carriedClassifier carriedProvenance carriedLedger target bundle pkg)
+        (fun target : BHist =>
+          exists carriedClassifier carriedProvenance carriedLedger : BHist,
+            GaloisGroupAutomorphismActionPacket galois group base action composition inverse
+              carriedClassifier carriedProvenance carriedLedger target bundle pkg)
+        (fun left right : BHist =>
+          (exists leftClassifier leftProvenance leftLedger : BHist,
+            GaloisGroupAutomorphismActionPacket galois group base action composition inverse
+              leftClassifier leftProvenance leftLedger left bundle pkg) /\
+            (exists rightClassifier rightProvenance rightLedger : BHist,
+              GaloisGroupAutomorphismActionPacket galois group base action composition inverse
+                rightClassifier rightProvenance rightLedger right bundle pkg) /\
+              hsame left right) := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro endpoint
+          (Exists.intro classifier (Exists.intro provenance (Exists.intro ledger packet)))
+      equiv_refl := by
+        intro target targetPacket
+        exact And.intro targetPacket (And.intro targetPacket (hsame_refl target))
+      equiv_symm := by
+        intro left right classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro left middle right leftMiddle middleRight
+        exact And.intro leftMiddle.left
+          (And.intro middleRight.right.left
+            (hsame_trans leftMiddle.right.right middleRight.right.right))
+      carrier_respects_equiv := by
+        intro left right classified _leftPacket
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _target source
+      exact source
+    ledger_sound := by
+      intro _target source
+      exact source
+  }
 
 end BEDC.Derived.GaloisGroupUp
