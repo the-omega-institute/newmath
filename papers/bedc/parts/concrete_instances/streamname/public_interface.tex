@@ -489,6 +489,36 @@ rows establishes the scoped $\StreamNameUp$ interface and no stronger bridge
 or completion claim.
 \end{proof}
 
+\begin{theorem}[StreamNameUp RealUp finite-window seal boundary]
+\label{thm:streamname-realup-finite-window-seal-boundary}
+A public $\StreamNameUp$ package, together with finite-window classifier rows,
+constant and reindexing laws, and RatUp endpoint observations, supplies exactly
+the finite observation interface consumed by later $\RealUp$ and $\RegSeqRat$
+seal rows.  The interface consists of the $\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ rows over $\mathsf{BHist}$, the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows over certified finite
+bundles, the empty-window boundary, endpoint readbacks in $\RatUp$, and the
+constant/reindexing stability rows.
+
+This boundary supplies no RegSeqRat regularity, RealUp completion, metric
+completeness, quotient carrier, arithmetic or order closure, or trichotomy.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-public-finite-window-interface}.  It provides the
+finite-window classifier rows, endpoint package, coverage/exhaustion,
+reindexing stability, and finite-window structural laws.
+
+Apply \autoref{thm:streamname-finite-window-reindexing-stability} for certified
+transport of those windows, and apply
+\autoref{thm:streamname-public-interface-export-package} to repack the
+countable-name and finite-window rows as the public export.
+
+Finally apply \autoref{thm:streamname-scoped-interface-package}.  Its negative
+boundary is inherited unchanged, so the exported rows can be read by
+$\RealUp$ and $\RegSeqRat$ seal sites only as finite observations, not as
+regularity, completion, metric, quotient, or trichotomy data.
+\end{proof}
+
 \closureat{StreamNameUp}{matureStr}[BEDC.Derived.StreamNameUp.RatStreamName\_certificate\_fields]
 
 \begin{closurestatus}{\StreamNameUp}
