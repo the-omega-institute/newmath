@@ -142,62 +142,6 @@ Taking $Z=M_\varnothing$, the defining equivalence $M_\varnothing(e)\Longleftrig
 \end{proof}
 \leanchecked{BEDC.Derived.MatchingUp.MatchingEdgeSet\_e0\_empty\_absurd\_predicate}
 
-\begin{theorem}[Singleton edge predicate matching]
-\label{thm:singleton-edge-predicate-is-matching}
-Let $G$ be a $\GraphUp$ carrier with edge classifier $\sim_E$, and let $\mathsf{cert}_E:\NameCert(\mathsf{Edge}_G,\sim_E)$ be the edge naming certificate in the sense of \autoref{def:lean-carrier-naming-certificate}. Fix a carried edge $e_\star:\mathsf{BHist}$ such that
-$$
-\mathsf{Edge}_G(e_\star).
-$$
-Define the edge predicate $M_{e_\star}:\mathsf{BHist}\to\mathsf{Prop}$ by
-$$
-M_{e_\star}(e)\Longleftrightarrow e\sim_E e_\star.
-$$
-Then
-$$
-\mathsf{MatchingEdgeSet}_G(M_{e_\star}).
-$$
-In particular, the $\sim_E$-class of any carried edge is a $\MatchingUp$ edge set in $G$.
-\end{theorem}
-\begin{proof}
-Unpack \autoref{def:matching-carrier-and-finite-edge-subset}. To prove
-$\mathsf{MatchingEdgeSet}_G(M_{e_\star})$, it is enough to prove the graph-edge row and the no-shared-vertex row.
-
-For the graph-edge row, fix $e:\mathsf{BHist}$ and assume $M_{e_\star}(e)$. By definition of $M_{e_\star}$, this means
-$$
-e\sim_E e_\star.
-$$
-The symmetry field of the naming certificate from \autoref{def:lean-carrier-naming-certificate} reverses this comparison and gives
-$$
-e_\star\sim_E e.
-$$
-Apply the carrier-transport field of the same certificate to the carried-edge witness $\mathsf{Edge}_G(e_\star)$. This transports edge membership along $e_\star\sim_E e$ and yields
-$$
-\mathsf{Edge}_G(e).
-$$
-Thus every $M_{e_\star}$-selected edge is a graph edge of $G$.
-
-For the no-shared-vertex row, fix $e,e',v:\mathsf{BHist}$ and assume
-$$
-M_{e_\star}(e)\land M_{e_\star}(e')\land\mathsf{Vert}_G(v)\land\mathsf{Inc}_G(v,e)\land\mathsf{Inc}_G(v,e').
-$$
-Project the first two components. By the definition of $M_{e_\star}$, they give
-$$
-e\sim_E e_\star
-\qquad\text{and}\qquad
-e'\sim_E e_\star.
-$$
-Use symmetry from \autoref{def:lean-carrier-naming-certificate} on the second comparison to obtain
-$$
-e_\star\sim_E e'.
-$$
-Now apply classifier transitivity from \autoref{thm:namecert-equivalence-transitivity} to the comparisons $e\sim_E e_\star$ and $e_\star\sim_E e'$. This yields
-$$
-e\sim_E e'.
-$$
-The vertex and incidence witnesses are retained from the hypothesis but are not needed further, because every selected edge lies in the same classifier class of $e_\star$.
-
-The graph-edge row and the no-shared-vertex row are exactly the two clauses of $\mathsf{MatchingEdgeSet}_G(M_{e_\star})$ in \autoref{def:matching-carrier-and-finite-edge-subset}.
-\end{proof}
 
 \begin{theorem}[Singleton edge predicate matching]
 \label{thm:singleton-edge-predicate-is-matching}
