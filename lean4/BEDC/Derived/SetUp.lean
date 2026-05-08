@@ -251,4 +251,25 @@ theorem SetPublicNameCert_transport_target_carrier [AskSetup] [PackageSetup]
   | cons _ _ tailCarrier =>
       exact tailCarrier
 
+theorem SetPublicNameCert_standard_bridge [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} (policy : PackageTokenPolicy bundle) {h k : BHist} :
+    SetMembershipVisibleCarrier bundle h -> SetMembershipVisibleTransportChain bundle h k ->
+      SetMembershipVisibleCarrier bundle h ∧ SetMembershipVisibleCarrier bundle k ∧ hsame h k ∧
+        SetMembershipVisibleClassifier bundle h k := by
+  intro sourceCarrier chain
+  have targetCarrier : SetMembershipVisibleCarrier bundle k :=
+    SetMembershipVisibleTransportChain_carrier_transport sourceCarrier chain
+  have sameHist : hsame h k := SetMembershipVisibleTransportChain_hsame policy chain
+  cases sourceCarrier with
+  | intro p sourceToken =>
+      cases targetCarrier with
+      | intro q targetToken =>
+          have samePkg : psame bundle p q := policy.soundness sourceToken targetToken sameHist
+          exact And.intro (Exists.intro p sourceToken)
+            (And.intro (Exists.intro q targetToken)
+              (And.intro sameHist
+                (Exists.intro p
+                  (Exists.intro q
+                    (And.intro sourceToken (And.intro targetToken samePkg))))))
+
 end BEDC.Derived.SetUp

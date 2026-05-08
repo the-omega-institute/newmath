@@ -42,6 +42,7 @@ import BEDC.FKernel.ExternalBinary.Model
 import BEDC.FKernel.ExternalBinary.Cancellation
 import BEDC.FKernel.ExternalBinary.Congruence
 import BEDC.FKernel.Gap
+import BEDC.FKernel.Gap.Pullback
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.NameCert.Descent
 import BEDC.FKernel.NameCert.StabilityMode
