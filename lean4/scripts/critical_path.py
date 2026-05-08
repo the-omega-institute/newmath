@@ -1298,15 +1298,18 @@ def main() -> int:
     bridge_candidates_full.sort(key=lambda c: c.get("thms", 0), reverse=True)
     bridge_candidates = bridge_candidates_full[:10]
 
-    # bridge_sync_pending uses paper-side in-flight filter (it's a
-    # paper P-round task: edit the chapter's closurestatus block).
-    bridge_sync_pending_full = [
-        c for c in bridge_sync_pending_full
-        if c["name"] not in inflight_paper
-    ]
+    # NOTE: do NOT inflight-filter bridge_sync_pending. With only ~5
+    # candidates total, the inflight filter empties the surface within
+    # one round-dispatch wave; new rounds then see surface=[] but
+    # codex remembers <X>Up_StdBridge by self-grep and re-proposes
+    # CommRingUp / AddUp / FieldUp from memory, dedup drops, no
+    # progress. Allowing in-flight chapters into the surface lets new
+    # rounds pick the same chapter as a sibling and the merge layer's
+    # dedup correctly drops one of the duplicates after the first
+    # successful merge — natural rate limiting, not lock-out.
     bridge_sync_pending_full.sort(key=lambda c: c.get("thms", 0), reverse=True)
-    # Per-call shuffle for the same reason as drift_chapters: 5
-    # candidates × 10 paper workers all-deterministic-sort = dogpile.
+    # Per-call shuffle stays — disperses 10-worker simultaneous
+    # selection of the same top-1 across the candidate set.
     _surface_bsp = bridge_sync_pending_full[:10]
     import random as _rand2
     _rand2.Random().shuffle(_surface_bsp)
