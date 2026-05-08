@@ -100,4 +100,48 @@ theorem FisherInfoBHistScoreCarrier_expectation_ledger_exactness [AskSetup] [Pac
         (And.intro carrier.right.right.right.left
           carrier.right.right.right.right.right.right.left)))
 
+theorem FisherInfoBHistScoreCarrier_classifier_transport_obligation [AskSetup] [PackageSetup]
+    {distribution distribution' metric metric' parameter parameter' score score' expectation
+      expectation' component component' provenance ledger ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FisherInfoBHistScoreCarrier distribution metric parameter score expectation component
+        provenance ledger bundle pkg ->
+      hsame distribution distribution' ->
+        hsame parameter parameter' ->
+          hsame score score' ->
+            hsame metric metric' ->
+              DistributionPushforwardSourceSpec distribution' ->
+                RiemannianMetricSingletonFibreSurface parameter' score' metric' ->
+                  Cont distribution' score' expectation' ->
+                    Cont expectation' metric' component' ->
+                      Cont component' provenance ledger' ->
+                        FisherInfoBHistScoreCarrier distribution' metric' parameter' score'
+                            expectation' component' provenance ledger' bundle pkg ∧
+                          hsame expectation expectation' ∧ hsame component component' ∧
+                            hsame ledger ledger' := by
+  intro carrier sameDistribution sameParameter sameScore sameMetric distributionSource'
+  intro metricSurface' expectationRow' componentRow' ledgerRow'
+  have parameterUnary' : UnaryHistory parameter' :=
+    unary_transport carrier.right.right.left sameParameter
+  have scoreUnary' : UnaryHistory score' :=
+    unary_transport carrier.right.right.right.left sameScore
+  have sameExpectation : hsame expectation expectation' :=
+    cont_respects_hsame sameDistribution sameScore carrier.right.right.right.right.left
+      expectationRow'
+  have sameComponent : hsame component component' :=
+    cont_respects_hsame sameExpectation sameMetric
+      carrier.right.right.right.right.right.left componentRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameComponent (hsame_refl provenance)
+      carrier.right.right.right.right.right.right.right ledgerRow'
+  exact And.intro
+    (And.intro distributionSource'
+      (And.intro metricSurface'
+        (And.intro parameterUnary'
+          (And.intro scoreUnary'
+            (And.intro expectationRow'
+              (And.intro componentRow'
+                (And.intro carrier.right.right.right.right.right.right.left ledgerRow')))))))
+    (And.intro sameExpectation (And.intro sameComponent sameLedger))
+
 end BEDC.Derived.FisherInfoUp

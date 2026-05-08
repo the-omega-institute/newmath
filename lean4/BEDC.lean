@@ -420,6 +420,7 @@ import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
 import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.SimplicialComplexUp
+import BEDC.Derived.SimplicialSetUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
 import BEDC.Derived.FieldExtUp.RatReflexive
