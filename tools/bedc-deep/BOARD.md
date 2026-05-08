@@ -217,3 +217,27 @@ Frontier first closure: chapter has identity (B-481), zero (B-480), composition 
 
 ---
 
+### B-533 - Measure ternary-union subadditivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Measure ternary-union subadditivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+For a MeasureUp carrier with R-valued measure mu and three measurable events A, B, C, if U_BC is the displayed binary union of B and C and U is the displayed binary union of A and U_BC, and if the certificate supplies binary-union subadditivity, finite disjoint-union additivity, the nonnegative measure-value row, and the RealAlgOrder addition-monotonicity row, then mu(U) le_R mu(A) + mu(B) + mu(C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex`
+
+Rationale:
+The binary case (B-433) is proved at papers/bedc/parts/concrete_instances/measure/relative_difference_rows.tex:199 thm:measure-binary-union-subadditivity (mu(A cup B) le_R mu(A) + mu(B)). Grep across papers/bedc/parts for `measure-ternary|measure-three-union|measure-finite-union-subadditivity` returned zero matches; only the existing binary form and the unrelated `measure-finite-disjoint-union-additivity` (which requires disjointness) appear. The proof composes binary subadditivity twice -- once on (B, C) yielding mu(U_BC) le mu(B) + mu(C), then on (A, U_BC) yielding mu(U) le mu(A) + mu(U_BC) -- and chains by addition monotonicity. Concrete inequality on existing measure values, not a parameter echo. File currently 248 lines, fits append. Lands in the `measure/` child directory, not a hub.
+
+---
+
