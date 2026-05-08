@@ -142,4 +142,53 @@ theorem CurvatureBracketCarrier_boundary_source_obligation
     (And.intro boundaryProjection.right.left
       (And.intro boundaryProjection.right.right.left boundaryProjection.right.right.right.left))
 
+def CurvatureChernWeilSourceEnvelope [AskSetup] [PackageSetup]
+    (curvatureLedger derham provenance connectionLedger classifier : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory curvatureLedger ∧ UnaryHistory derham ∧ UnaryHistory provenance ∧
+    UnaryHistory connectionLedger ∧ UnaryHistory classifier ∧
+      Cont curvatureLedger derham provenance ∧ Cont provenance connectionLedger classifier ∧
+        hsame classifier (append (append curvatureLedger derham) connectionLedger) ∧
+          PkgSig bundle classifier pkg
+
+theorem CurvatureChernWeilSourceEnvelope_coverage [AskSetup] [PackageSetup]
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance0 ledgerA ledgerB boundary
+      curvatureLedger derham provenance connectionLedger classifier : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance0
+        ledgerA ledgerB boundary curvatureLedger ->
+      UnaryHistory derham ->
+        UnaryHistory connectionLedger ->
+          Cont curvatureLedger derham provenance ->
+            Cont provenance connectionLedger classifier ->
+              PkgSig bundle classifier pkg ->
+                CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance
+                    connectionLedger classifier bundle pkg ∧
+                  hsame classifier (append (append curvatureLedger derham) connectionLedger) := by
+  intro carrier derhamUnary connectionLedgerUnary provenanceCont classifierCont pkgSig
+  have curvatureRows :=
+    CurvatureBracketCarrier_boundary_source_obligation carrier
+  have curvatureUnary : UnaryHistory curvatureLedger :=
+    curvatureRows.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed curvatureUnary derhamUnary provenanceCont
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed provenanceUnary connectionLedgerUnary classifierCont
+  have classifierReadback :
+      hsame classifier (append (append curvatureLedger derham) connectionLedger) :=
+    hsame_trans classifierCont
+      (congrArg (fun row : BHist => append row connectionLedger) provenanceCont)
+  have envelope :
+      CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance connectionLedger
+        classifier bundle pkg :=
+    And.intro curvatureUnary
+      (And.intro derhamUnary
+        (And.intro provenanceUnary
+          (And.intro connectionLedgerUnary
+            (And.intro classifierUnary
+              (And.intro provenanceCont
+                (And.intro classifierCont
+                  (And.intro classifierReadback pkgSig)))))))
+  exact And.intro envelope classifierReadback
+
 end BEDC.Derived.CurvatureUp

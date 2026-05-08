@@ -4,6 +4,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
+import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 
@@ -14,6 +15,7 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
+open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 
 def BilinFormBHistObligationSurface
@@ -333,6 +335,32 @@ theorem BilinFormModulePairingSourceRow_pairing_classifier_row
     BilinFormRootPairingSurface_input_transport row.right.right.left (hsame_refl left)
       (hsame_refl right) (hsame_refl scalar) endpointCont ledgerCont
   exact And.intro transported.left (And.intro transported.right.right row.right.right.right)
+
+theorem BilinFormModulePairingSourceRow_dual_symmetry_row [AskSetup]
+    {moduleSource vecSource left right scalar endpoint probes ledger swappedEndpoint swappedLedger
+      observed swappedObserved : BHist}
+    {bundle : ProbeBundle BHist} {sigBundle : ProbeBundle ProbeName} :
+    BilinFormModulePairingSourceRow moduleSource vecSource left right scalar endpoint probes ledger
+        bundle ->
+      Cont right left swappedEndpoint ->
+        Cont swappedEndpoint scalar swappedLedger ->
+          SigRel sigBundle endpoint observed ->
+            SigRel sigBundle swappedEndpoint swappedObserved ->
+              hsame observed swappedObserved ->
+                BilinFormRootPairingSurface right left scalar swappedEndpoint swappedLedger ∧
+                  hsame endpoint swappedEndpoint ∧
+                    hsame ledger swappedLedger ∧
+                      SameSig sigBundle endpoint swappedEndpoint ∧ InBundle probes bundle := by
+  intro row swappedEndpointCont swappedLedgerCont endpointSig swappedEndpointSig sameObserved
+  have symmetryRows :=
+    BilinFormRootPairingSurface_symmetry_rows row.right.right.left swappedEndpointCont
+      swappedLedgerCont
+  have sameEndpointSig : SameSig sigBundle endpoint swappedEndpoint :=
+    sameSig_intro_from_witnesses endpointSig swappedEndpointSig sameObserved
+  exact And.intro symmetryRows.left
+    (And.intro symmetryRows.right.left
+      (And.intro symmetryRows.right.right
+        (And.intro sameEndpointSig row.right.right.right)))
 
 def BilinFormModulePairingPackageRow [AskSetup] [PackageSetup]
     (moduleSource vectorSource left right scalar endpoint ledger : BHist)
