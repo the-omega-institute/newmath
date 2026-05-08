@@ -68,6 +68,8 @@ import BEDC.Derived.EmptyUp
 import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
+import BEDC.Derived.GaloisExtUp
+import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
@@ -212,6 +214,7 @@ import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.CondExpUp
 import BEDC.Derived.RealAnalyticUp
+import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeriesUp
 import BEDC.Derived.SheafUp
