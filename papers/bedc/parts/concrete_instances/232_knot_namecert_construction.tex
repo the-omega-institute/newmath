@@ -6,5 +6,69 @@ The knot interface $\KnotUp$ packages an embedding of $S^1$ into $S^3$ up to amb
 \section{Carrier definition}
 \label{sec:knot-carrier}
 
+\begin{definition}[Knot BHist diagram carrier]
+\label{def:knot-bhist-diagram-carrier}
+A $\KnotUp$ packet is a finite displayed $\mathsf{BHist}$ diagram package with the following rows:
+\begin{enumerate}
+\item an $\SOneUp$ source-circle row $s$ and its $\NameCert_{\SOneUp}$ provenance;
+\item ambient endpoint rows $a_0$ and $a_1$ for the surrounding $S^3$ chart boundary;
+\item projection and diagram rows $d$ recording the planar knot diagram, crossing signs, arc incidence, and endpoint ordering;
+\item a crossing ledger $r$ whose entries are Reidemeister move rows connecting displayed diagrams;
+\item a $\HomotopyUp$ ambient-isotopy row $u$ scoped by $\NameCert_{\HomotopyUp}$;
+\item finite $\Cont$ provenance witnessing the source, projection, crossing-ledger, and isotopy rows as one BEDC history package;
+\item $\Pkg$ provenance naming this finite package as the public $\KnotUp$ carrier.
+\end{enumerate}
+The carried object is the diagram row $d$ together with these named provenance rows. The carrier does not include an equality of host embeddings $S^1\to S^3$; any geometric reading must pass through the displayed $\mathsf{BHist}$ rows and their $\hsame$ transports.
+\end{definition}
+
+\begin{definition}[Reidemeister classifier transport]
+\label{def:knot-reidemeister-classifier}
+For two $\KnotUp$ packets $K$ and $K'$, define $K\sim_{\KnotUp}K'$ when the following finite transport data are displayed:
+\begin{enumerate}
+\item an $\hsame$ comparison between their $\SOneUp$ source-circle endpoint rows;
+\item $\hsame$ comparisons between their ambient endpoint rows;
+\item $\hsame$ comparisons between their projection and diagram rows after applying the listed Reidemeister move ledger;
+\item an $\hsame$ comparison between the two Reidemeister ledgers, read after finite $\Cont$ reassociation of the move rows;
+\item an $\hsame$ comparison between their $\HomotopyUp$ ambient-isotopy rows.
+\end{enumerate}
+This relation is the public classifier of $\KnotUp$. It is generated only by source-circle transport, ambient endpoint transport, diagram transport, Reidemeister ledger transport, and HomotopyUp isotopy transport.
+\end{definition}
+
 \section{The certificate}
 \label{sec:knot-certificate}
+
+\begin{theorem}[Knot source boundary]
+\label{thm:knot-sone-homotopy-source-boundary}
+The source surface of a $\KnotUp$ packet is exactly the $\SOneUp$ source-circle row together with the $\HomotopyUp$ ambient-isotopy row. The carrier may expose ambient endpoint rows, projection rows, diagram rows, a Reidemeister ledger, finite $\Cont$ provenance, and $\Pkg$ provenance, but it does not assert equality of host embeddings $S^1\to S^3$.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:knot-bhist-diagram-carrier}. The only row licensed by the source certificate $\NameCert_{\SOneUp}$ is the source-circle row $s$, and the only row licensed by $\NameCert_{\HomotopyUp}$ is the ambient-isotopy row $u$.
+
+The ambient endpoints, projection row, diagram row, crossing ledger, finite $\Cont$ provenance, and $\Pkg$ provenance are ledger data attached to the packet. They scope how the displayed knot diagram is read, but none of them is a host embedding equality.
+
+Thus the source boundary exposed to later certificates is the pair consisting of the $\SOneUp$ row and the $\HomotopyUp$ row. Any consumer that needs a geometric comparison must use the classifier transport of \autoref{def:knot-reidemeister-classifier} rather than a hidden embedding equation.
+\end{proof}
+
+\begin{theorem}[Reidemeister ledger stability]
+\label{thm:knot-reidemeister-cont-ledger-stability}
+Let $K$ and $K'$ be $\KnotUp$ packets. Appending a finite Reidemeister move row to either packet, or reassociating a finite $\Cont$ display of Reidemeister rows, preserves the classifier $K\sim_{\KnotUp}K'$ whenever the added or reassociated ledger has the same endpoints up to $\hsame$.
+\end{theorem}
+\begin{proof}
+For an appended move row, keep the $\SOneUp$ source comparison, ambient endpoint comparisons, and $\HomotopyUp$ isotopy comparison unchanged. Extend the Reidemeister ledger component by the displayed finite $\Cont$ row.
+
+The diagram component transports along the endpoint $\hsame$ comparison of the added ledger row. The classifier definition then reads the extended diagram transport and the extended ledger transport as the same $\KnotUp$ comparison.
+
+For reassociation, replace the displayed $\Cont$ parenthesization by the reassociated display. The endpoints are $\hsame$-classified by the BEDC continuation reassociation witness, so the diagram transport and ledger transport components of \autoref{def:knot-reidemeister-classifier} are unchanged as classifier data. Repacking these components gives the required classifier preservation.
+\end{proof}
+
+\begin{theorem}[Knot public consumer boundary]
+\label{thm:knot-public-consumer-boundary}
+A downstream consumer of $\NameCert_{\KnotUp}$ may read only the diagram carrier of \autoref{def:knot-bhist-diagram-carrier}, the classifier of \autoref{def:knot-reidemeister-classifier}, the Reidemeister ledger, the $\SOneUp$ source row, the $\HomotopyUp$ isotopy source row, the displayed $\hsame$ transports, the finite $\Cont$ rows, and the $\Pkg$ provenance. No consumer may require a host embedding equality, a smooth ambient isotopy theorem outside the displayed $\HomotopyUp$ row, or an unrecorded Reidemeister normalization.
+\end{theorem}
+\begin{proof}
+Soundness follows by projection from the packet. Every allowed public datum is one of the named carrier fields or one of the named classifier fields, so it is obtained by reading the finite $\mathsf{BHist}$ package and its $\Cont$, $\hsame$, and $\Pkg$ provenance.
+
+Exactness follows in the reverse direction. The packet definition has no field for host embedding equality, no field for a smooth theorem outside the $\HomotopyUp$ source row, and no field for an unrecorded normal form of diagrams. A consumer request for any such datum is therefore outside the public $\NameCert_{\KnotUp}$ boundary.
+
+The exposed interface is consequently the finite BEDC diagram surface alone: source circle, ambient-isotopy source, diagram carrier, Reidemeister ledger, classifier transport, continuation rows, and package provenance.
+\end{proof}
