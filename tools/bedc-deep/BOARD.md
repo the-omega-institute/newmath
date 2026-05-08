@@ -91,78 +91,6 @@ AbelianCat is a 433-line chapter with 10 theorems but only B-423 (`AbelianCat ho
 
 ---
 
-### B-519 - LPDuality dual feasibility binary convex closure
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | LPDuality dual feasibility binary convex closure |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 10/10 |
-| Novelty | 8/10 |
-
-Problem:
-In a finite $\LPDualityUp$ ordered-field row, if $y$ and $y'$ are $\mathsf{DuFeas}_{A,b,c}$ and $a,b$ are scalar coefficients with $\mathsf{NonNeg}_F(a)$, $\mathsf{NonNeg}_F(b)$, and $(a +_F b) \sim_F 1_F$, then the componentwise sum $\eta_i := a \cdot_F y_i +_F b \cdot_F y_i'$ is $\mathsf{DuFeas}_{A,b,c}$.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex`
-
-Rationale:
-B-516 `LPDuality primal feasibility binary convex closure` is on the BOARD pending list as the primal-side companion of weak-duality (B-429), complementary slackness (B-447), and weak-duality-equality optimality (B-444). Inspecting 213_lpduality_namecert_construction.tex:50-69 confirms the chapter exposes a separate `\mathsf{DuFeas}_{A,b,c}` predicate (dual feasibility, with $c_j \preceq_F \beta_j(y)$ rows) that has identical convex-closure structure: nonneg coefficients sum to one, finite-sum monotonicity row inherits, and dual constraint $c_j \preceq_F \beta_j(\eta)$ falls out of left/right multiplication monotonicity rows already named in the feasibility row at lines 18-36. The dual side is a structural mirror that B-516 deliberately omits; by symmetry of LP duality this is the natural complement, not a duplicate. File is 276 lines, plenty of room.
-
----
-
-### B-522 - Banach zero bounded operator left-composition annihilation
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Banach zero bounded operator left-composition annihilation |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 8/10 |
-
-Problem:
-If $T:H_1\to H_2$ is a carried $\BanachUp$ bounded linear operator and $0_{H_0,H_1}$ is the zero bounded linear operator carried by \autoref{thm:banach-zero-bounded-linear-operator-carrier}, then the composite $T\circ 0_{H_0,H_1}$ is classifier-equal to $0_{H_0,H_2}$ in the $\BanachUp$ bounded-operator classifier on $(H_0,H_2)$.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
-
-Rationale:
-Banach completed targets are B-480 (zero bounded-linear operator carrier), B-481 (identity composition units), Banach bounded operator composition closure, and B-491 (bound weakening). The chapter has B-481 (identity ∘ T = T) but is missing the dual fact for the zero operator: composing with zero on either side gives zero. This is the standard 'zero is absorbing under composition' law that complements identity-as-unit. File bounded_linear_operator_composition.tex is 366 lines (well below cap), and it already proves bounded composition closure at line 134 and identity units at line 303 — the zero-absorption proof reuses the same finite-prefix Lipschitz tracking against the zero Cauchy modulus.
-
----
-
-### B-523 - Hash collision-success is irreflexive on the message
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | Hash collision-success is irreflexive on the message |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-For any HashUp certificate H whose message classifier carries the naming-certificate reflexivity field, and for every history x, HashCollisionSuccess_H(x, x) implies bot.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex`
-
-Rationale:
-Clean diagonal-impossibility companion to the existing hash-collision family (B-517 symmetry, B-489 second-preimage exclusion, B-464 reversed second-preimage, B-373 transcript symmetry, B-367 collision-success symmetry, B-361 second-preimage induces collision). None of those treat the reflexive case. The chapter (220_hash, 193 lines) defines HashCollisionSuccess via a `not sigma_H(x,x')` distinction premise, so reflexivity of sigma_H gives an immediate obstruction proof — concrete obstruction target, not a parameter echo. Lands as ~10 lines after thm:hash-collision-transcript-symmetry without hub or line-cap risk.
-
----
-
 ### B-524 - RandomVar countable preimage intersection exactness
 
 | field | value |
@@ -184,30 +112,6 @@ Local inputs:
 
 Rationale:
 Strict dual companion to B-474 (countable preimage UNION exactness), the only sigma-algebra closure case missing from the RandomVar preimage exactness suite (B-474 union, B-419 preimage union, B-456 empty preimage, B-455 total preimage, B-439 complement, B-434 relative-difference, plus binary intersection in countable_and_intersection.tex). The scoped-closure package thm:randomvar-scoped-closure-package currently only mentions countable union; a probability-theory referee would call this out. Concrete sigma-algebra closure, not a parameter transport — proof mirrors the union proof with exists -> forall. File 171 lines, safe landing.
-
----
-
-### B-525 - LPDuality dual feasibility binary convex closure
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | LPDuality dual feasibility binary convex closure |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 6/10 |
-
-Problem:
-In a finite LPDualityUp ordered-field row, if y and y' satisfy DuFeas_{A,b,c} and a,b are nonneg scalars with (a+_F b) sim_F 1_F, then mu_i := a *_F y_i +_F b *_F y'_i also satisfies DuFeas_{A,b,c}.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex`
-
-Rationale:
-Symmetric dual-side companion to the in-progress B-516 (LPDuality PRIMAL feasibility binary convex closure). LP duality theory is incomplete without symmetric closure on both feasibility cones; the chapter already has weak duality (thm 72), weak-duality-equality optimality (cor 139), and complementary slackness (thm 191), but no convex closure on either side. The dual case is not redundant with the primal — different inequality direction (c_j preceq_F beta_j(y)) and uses NonNeg multiplicative monotonicity in the opposite orientation. Concrete closure target, not parameter echo. File 276 lines, safe.
 
 ---
 
