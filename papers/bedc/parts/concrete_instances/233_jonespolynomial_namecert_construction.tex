@@ -177,3 +177,38 @@ packet, and the classifier definition supplies the accepted comparison rows.
 The public carrier/classifier surface is therefore exactly the supplied finite
 skein-ledger row family and contains no additional invariant or bridge row.
 \end{proof}
+
+\begin{theorem}[JonesPolynomial public NameCert obligation surface]
+\label{thm:jonespolynomial-namecert-obligation-surface}
+The public $\NameCert_{\JonesPolynomialUp}$ obligation surface consists exactly
+of the skein ledger packet, skein classifier, Reidemeister transport row,
+$\PolynomialUp$ endpoint classifier, $\KnotUp$ boundary rows, finite $\Bundle$
+skein ledger, $\Cont$ ledger, and shared $\Pkg$ provenance displayed in this
+section. It exports no full ambient-isotopy quotient, no host
+Laurent-polynomial equality, and no complete-knot-invariant claim.
+\end{theorem}
+\begin{proof}
+Start with the packet of
+\autoref{def:jonespolynomial-skein-ledger-packet}. Its fields already list the
+main knot diagram, the three skein boundary diagrams, the polynomial endpoint,
+the finite skein ledger, the continuation ledger, and the shared provenance
+row.
+
+The classifier is
+\autoref{def:jonespolynomial-skein-ledger-classifier}. It supplies the accepted
+comparison rows for the knot faces, the polynomial endpoint, the ledger, and
+the provenance component. The Reidemeister stability needed by that classifier
+is exactly \autoref{lem:jonespolynomial-skein-ledger-reidemeister-transport}.
+
+Apply
+\autoref{thm:jonespolynomial-skein-ledger-obligation-surface}. That theorem
+packages the displayed packet and classifier into the accepted finite
+carrier/classifier surface for $\NameCert_{\JonesPolynomialUp}$ over the knot,
+polynomial, bundle, continuation, and provenance rows.
+
+Finally read the roadmap ten-field template field by field. Each required
+public field is one of the rows just named, and every row in the public surface
+projects back to the same packet. Hence the public NameCert obligation surface
+is exactly the displayed skein-ledger construction, with no additional quotient,
+host-polynomial equality, or invariant row.
+\end{proof}

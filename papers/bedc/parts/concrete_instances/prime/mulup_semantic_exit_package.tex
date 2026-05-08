@@ -69,8 +69,8 @@ object to consume $\mathsf{MulUp}$ as a single semantic package.
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.PrimeUp.NatMul\_result\_semanticNameCert}
   \bridgestatus{none}
-  \notclaimed{Ordered semiring interaction, cancellation laws, order compatibility, distributivity with addition, or a standard-model bridge for multiplication.}
-  \upgradepath{$\matureClosure$ requires the multiplication package to be connected with $\AddUp$ and $\OrderUp$ through distributivity, cancellation or order-side laws where appropriate, and a standard-model bridge.}
+  \notclaimed{Ordered semiring interaction beyond the displayed right additive distribution and unary-prefix monotonicity rows, cancellation laws, left distribution rows, or a standard-model bridge for multiplication.}
+  \upgradepath{$\matureClosure$ requires the multiplication package to be connected with $\AddUp$ and $\OrderUp$ through the remaining distribution, cancellation, and order-side laws where appropriate, and a standard-model bridge.}
 \end{closurestatus}
 
 \begin{theorem}[Unary multiplication preserves unary-prefix order]
@@ -99,6 +99,35 @@ $\mathsf{PreorderPrefixLE}$. The prefix from $n$ to the constructed appended
 product is the continuation ledger supplied by multiplication; transporting it
 through the final $\hsame$ comparison gives the required
 $\mathsf{PreorderPrefixLE}(n,n')$ witness.
+\end{proof}
+
+\begin{theorem}[NatMul right additive distribution surface]
+\label{thm:natmul-additive-right-distributivity-surface}
+Let $d,w,q,n,e,r:\Hist$ be unary histories. If $\mathsf{NatMul}(d,w,n)$,
+$\mathsf{NatMul}(d,q,e)$, and the $\AddUp$ continuation row presents the
+unary sum of $w$ and $q$ as $\mathsf{append}(w,q)$ with $\mathsf{Cont}(n,e,r)$,
+then $\mathsf{NatMul}(d,\mathsf{append}(w,q),r)$. Consequently the concrete
+$\MulUp$ operation distributes over the right-hand $\AddUp$ continuation
+presentation of unary addition.
+\end{theorem}
+\begin{proof}
+The two multiplication rows supply the factor products for $d$ against $w$
+and $q$. Apply \autoref{thm:natmul-append-continuation-closure} to these
+factor rows and to the displayed continuation $\mathsf{Cont}(n,e,r)$; it
+constructs the product row for $d$ against the appended multiplier
+$\mathsf{append}(w,q)$ with endpoint $r$.
+
+The $\AddUp$ concrete NameCert surface reads unary addition through the same
+$\mathsf{UnaryHistory}$ carrier, continuation ledger, and append
+presentation. Therefore the continuation row that displays the sum of $w$ and
+$q$ is exactly the additive boundary required by the multiplication closure
+theorem.
+
+Repack the constructed $\mathsf{NatMul}$ row together with that $\AddUp$
+boundary. The resulting surface is the displayed $\MulUp/\AddUp$ phase
+interaction: multiplication by the fixed unary history $d$ sends the
+right-hand additive presentation $w+q$ to the continuation presentation of the
+two products.
 \end{proof}
 
 \begin{lemma}[Unit left multiplication reads back the multiplier]
