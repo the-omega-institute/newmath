@@ -412,6 +412,8 @@ import BEDC.Derived.FieldExtUp.RatReflexiveCertificateObligations
 import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.FirstOrderUp
+import BEDC.Derived.FisherInfoUp
+import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.NumFieldUp
 import BEDC.Derived.NumFieldUp.DegreeOneBasisEndpoint
@@ -441,6 +443,7 @@ import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
+import BEDC.Derived.GaloisGroupUp
 import BEDC.Derived.FilterUp
 import BEDC.Derived.ContinuousMapUp.PublicExport
 import BEDC.Derived.SumUp
@@ -489,6 +492,7 @@ import BEDC.Derived.FinsetUp
 import BEDC.Derived.MatroidUp
 import BEDC.Derived.AffineVarUp
 import BEDC.Derived.MagmaUp
+import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.LatticeUp.BoundUniqueness
 import BEDC.Derived.LatticeUp.Commutativity
@@ -506,6 +510,7 @@ import BEDC.Derived.MatchingUp
 import BEDC.Derived.LPDualityUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.AbelianCatUp
+import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
@@ -533,6 +538,7 @@ import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
 import BEDC.Derived.HilbertUp.ProjectionBridge
+import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.FpsUp.CauchyProductSemigroup
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy
