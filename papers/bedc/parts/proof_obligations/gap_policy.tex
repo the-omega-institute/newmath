@@ -265,3 +265,60 @@ which is the classifier-preservation clause for $\tau_1\circ\tau_2$.
 
 The composite operation is therefore equipped with the source-preservation and classifier-preservation clauses required by \autoref{def:classifier-preserving-pullback-ledger}. Applying \autoref{thm:pulled-back-gap-policy-preserves-coverage-and-separation} to $\GapPol(\Pi,D)$ and this composite ledger gives the displayed coverage and separation obligations on $D''$.
 \end{proof}
+
+\begin{theorem}[Identity pullback gap policy unit law]
+\label{thm:identity-pullback-gap-policy-unit-law}
+Assume $\GapPol(\Pi,D)$. Let $\operatorname{id}_D:D\to D$ be the identity BEDC history operation, $\operatorname{id}_D(h)=h$, and define its pulled-back package-gap membership predicate by
+$$
+  {\InGapSig}^{\operatorname{id}_D}(\Pi,D,D,p,h)
+  \Longleftrightarrow
+  \InDom(D,h)\;\text{and}\;\InGapSig(\Pi,D,p,h).
+$$
+Then $\operatorname{id}_D$ carries a classifier-preserving pullback ledger over $\Pi$ in the sense of \autoref{def:classifier-preserving-pullback-ledger}. Moreover, on every admitted history $h$,
+$$
+  \InDom(D,h)
+  \Longrightarrow
+  \bigl({\InGapSig}^{\operatorname{id}_D}(\Pi,D,D,p,h)
+  \Longleftrightarrow
+  \InGapSig(\Pi,D,p,h)\bigr),
+$$
+and the identity pulled-back membership predicate satisfies the coverage and separation obligations over $D$:
+\begin{enumerate}
+  \item for every source history $h$,
+  $$
+    \InDom(D,h)\Longrightarrow\exists p,\;{\InGapSig}^{\operatorname{id}_D}(\Pi,D,D,p,h);
+  $$
+  \item for every source history $h$ and visible package tokens $p,q$,
+  $$
+    {\InGapSig}^{\operatorname{id}_D}(\Pi,D,D,p,h)
+    \Longrightarrow
+    {\InGapSig}^{\operatorname{id}_D}(\Pi,D,D,q,h)
+    \Longrightarrow
+    \psame(p,q).
+  $$
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+First verify the two clauses of \autoref{def:classifier-preserving-pullback-ledger}. Source preservation is immediate: from $\InDom(D,h)$ and $\operatorname{id}_D(h)=h$ we obtain
+$$
+  \InDom(D,\operatorname{id}_D(h)).
+$$
+For classifier preservation, fix $p$ and $h$. The displayed definition gives
+$$
+  {\InGapSig}^{\operatorname{id}_D}(\Pi,D,D,p,h)
+  \Longleftrightarrow
+  \InDom(D,h)\;\text{and}\;\InGapSig(\Pi,D,p,h).
+$$
+Since $\operatorname{id}_D(h)=h$, this is exactly
+$$
+  {\InGapSig}^{\operatorname{id}_D}(\Pi,D,D,p,h)
+  \Longleftrightarrow
+  \InDom(D,h)\;\text{and}\;\InGapSig(\Pi,D,p,\operatorname{id}_D(h)),
+$$
+which is the classifier-preservation clause for the identity operation.
+
+Now assume $\InDom(D,h)$. If ${\InGapSig}^{\operatorname{id}_D}(\Pi,D,D,p,h)$ holds, the defining equivalence gives $\InGapSig(\Pi,D,p,h)$. Conversely, if $\InGapSig(\Pi,D,p,h)$ holds, pairing it with the admitted-source witness $\InDom(D,h)$ and applying the reverse direction of the displayed definition gives ${\InGapSig}^{\operatorname{id}_D}(\Pi,D,D,p,h)$. This proves the exact admitted-history equivalence.
+
+The identity operation has therefore been equipped with the source-preservation and classifier-preservation clauses required by \autoref{def:classifier-preserving-pullback-ledger}. Applying \autoref{thm:pulled-back-gap-policy-preserves-coverage-and-separation} to $\GapPol(\Pi,D)$ and this identity ledger gives the displayed coverage and separation obligations over $D$.
+\end{proof}
