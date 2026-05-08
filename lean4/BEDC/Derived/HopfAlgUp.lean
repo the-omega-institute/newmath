@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.Derived.RingUp
 import BEDC.Derived.TensorProductUp
 
@@ -6,6 +7,7 @@ namespace BEDC.Derived.HopfAlgUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.Derived.RingUp
 open BEDC.Derived.TensorProductUp
 
@@ -109,5 +111,56 @@ theorem HopfBialgCarrier_antipode_convolution_inverse_obligation
   exact And.intro sameMultiplication
     (And.intro sameComultiplication
       (And.intro sameConvLeft sameEndpoint))
+
+theorem HopfAlgBialgCarrier_namecert_obligation_surface
+    {bialg tensor mul comul unit counit : BHist} :
+    HopfAlgBialgCarrier bialg tensor mul comul unit counit ->
+      SemanticNameCert
+          (fun endpoint : BHist =>
+            exists t m c u e : BHist, HopfAlgBialgCarrier endpoint t m c u e)
+          (fun endpoint : BHist =>
+            exists t m c u e : BHist, HopfAlgBialgCarrier endpoint t m c u e)
+          (fun endpoint : BHist =>
+            exists t m c u e : BHist, HopfAlgBialgCarrier endpoint t m c u e)
+          (fun left right : BHist =>
+            (exists lt lm lc lu le : BHist, HopfAlgBialgCarrier left lt lm lc lu le) ∧
+            (exists rt rm rc ru re : BHist, HopfAlgBialgCarrier right rt rm rc ru re) ∧
+              hsame left right) ∧
+        Cont tensor mul bialg ∧ Cont tensor comul bialg := by
+  intro carrier
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := by
+          refine Exists.intro bialg ?_
+          refine Exists.intro tensor ?_
+          refine Exists.intro mul ?_
+          refine Exists.intro comul ?_
+          refine Exists.intro unit ?_
+          exact Exists.intro counit carrier
+        equiv_refl := by
+          intro endpoint source
+          exact And.intro source (And.intro source (hsame_refl endpoint))
+        equiv_symm := by
+          intro left right same
+          exact And.intro same.right.left
+            (And.intro same.left (hsame_symm same.right.right))
+        equiv_trans := by
+          intro left middle right sameLeftMiddle sameMiddleRight
+          exact And.intro sameLeftMiddle.left
+            (And.intro sameMiddleRight.right.left
+              (hsame_trans sameLeftMiddle.right.right sameMiddleRight.right.right))
+        carrier_respects_equiv := by
+          intro left right same _source
+          exact same.right.left
+      }
+      pattern_sound := by
+        intro endpoint source
+        exact source
+      ledger_sound := by
+        intro endpoint source
+        exact source
+    }
+  · exact And.intro carrier.right.right.left carrier.right.right.right.left
 
 end BEDC.Derived.HopfAlgUp
