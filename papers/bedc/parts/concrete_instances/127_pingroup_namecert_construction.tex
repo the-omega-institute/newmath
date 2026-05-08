@@ -558,6 +558,92 @@ Therefore a downstream consumer cannot read a host orthogonal group or an
 external Pin object from the public $\PinGroupUp$ action surface.
 \end{proof}
 
+\begin{definition}[PinGroup consumer readback packet]
+\label{def:pingroup-consumer-readback-packet}
+The $\PinGroupUp$ consumer readback packet is the finite public packet obtained
+from $\NameCert_{\PinGroupUp}$ by retaining exactly the reflection ledger, the
+Clifford action row, the Spin boundary row, the $\Pkg$ provenance rows, the
+finite $\Cont$ transport rows, and the $\hsame$ witnesses carried by the public
+certificate. It contains no host orthogonal group, no external Pin object, and
+no row not exported by the displayed $\NameCert_{\PinGroupUp}$ surface.
+\end{definition}
+
+\begin{theorem}[PinGroup consumer readback packet soundness]
+\label{thm:pingroup-consumer-readback-packet-sound}
+Every accepted public $\PinGroupUp$ consumer row projects to the
+$\PinGroupUp$ consumer readback packet of
+\autoref{def:pingroup-consumer-readback-packet}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:pingroup-namecert-obligation-surface}. It says that the
+accepted public surface of $\NameCert_{\PinGroupUp}$ is carried by the finite
+carrier, classifier, source, transport, witness, and provenance rows listed in
+the certificate.
+
+The reflection component is then covered by
+\autoref{thm:pingroup-reflection-ledger-closure}. That theorem identifies every
+reflection read with the displayed reflection ledger and its finite
+$\mathsf{BHist}$ provenance.
+
+The Spin component is covered by
+\autoref{thm:pingroup-spin-boundary-exhaustion}. Hence the remaining public
+action read is the Clifford action row already exposed by the certificate
+surface, and all transport or identity data are the displayed $\Cont$ and
+$\hsame$ rows. These are exactly the rows retained in the readback packet.
+\end{proof}
+
+\begin{theorem}[PinGroup consumer readback packet exactness]
+\label{thm:pingroup-consumer-readback-packet-exact}
+Any $\PinGroupUp$ consumer readback packet reconstructs the public
+$\PinGroupUp$ Clifford-action consumer surface and exposes no host orthogonal
+group or external Pin object.
+\end{theorem}
+\begin{proof}
+Start with a packet as in
+\autoref{def:pingroup-consumer-readback-packet}. Its reflection ledger,
+Clifford action row, Spin boundary, $\Pkg$ provenance, finite $\Cont$
+transport, and $\hsame$ witnesses are precisely the rows admitted by the
+public consumer surface of
+\autoref{thm:pingroup-clifford-action-consumer-surface}.
+
+Apply \autoref{thm:pingroup-source-exhaustion}. The only sources available to
+the public Pin certificate are the displayed $\SpinGroupUp$ and $\CliffordUp$
+source rows together with their transported histories.
+
+Therefore repacking the packet rows reconstructs the same consumer surface,
+while the source-exhaustion and consumer-surface theorems exclude any host
+orthogonal group or external Pin object outside those rows.
+\end{proof}
+
+\begin{theorem}[PinGroup downstream unblock package]
+\label{thm:pingroup-downstream-unblock-package}
+The carrier definition of $\PinGroupUp$ together with
+\autoref{def:pingroup-consumer-readback-packet},
+\autoref{thm:pingroup-consumer-readback-packet-sound}, and
+\autoref{thm:pingroup-consumer-readback-packet-exact} forms the ten-field
+downstream package consumed by later Clifford-family and Spin-family chapters:
+carrier, classifier, reflection ledger, Clifford action row, Spin boundary row,
+source exhaustion, $\Pkg$ provenance, finite $\Cont$ transport, $\hsame$
+witnesses, and exclusion of host orthogonal or external Pin reads.
+\end{theorem}
+\begin{proof}
+The carrier and classifier are the public $\PinGroupUp$ rows already fixed by
+\autoref{thm:pingroup-namecert-obligation-surface}. The reflection ledger,
+Clifford action row, and Spin boundary are exactly the three rows retained in
+\autoref{def:pingroup-consumer-readback-packet}.
+
+Soundness is supplied by
+\autoref{thm:pingroup-consumer-readback-packet-sound}; exact readback and
+exclusion of host data are supplied by
+\autoref{thm:pingroup-consumer-readback-packet-exact}. The remaining
+provenance, transport, and witness fields are the packet's $\Pkg$, $\Cont$,
+and $\hsame$ rows.
+
+Thus a later Clifford-family or Spin-family consumer may cite this single
+package instead of separately collecting the carrier, source, ledger,
+transport, and exclusion rows.
+\end{proof}
+
 \begin{closurestatus}{\PinGroupUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{The seed scope is limited to the displayed reflection-parity carrier, SpinGroup inclusion, Clifford reflection product, $\hsame$, $\Cont$, and $\Pkg$ rows in this chapter.}
