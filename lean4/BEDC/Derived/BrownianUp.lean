@@ -1,10 +1,12 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.BrownianUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def BrownianStepContinuityClassifier
@@ -78,5 +80,83 @@ theorem BrownianStepContinuityClassifier_dependency_surface
                   (And.intro classified.right.right.right.right.right.left
                     (And.intro classified.right.right.right.right.right.right.left
                       classified.right.right.right.right.right.right.right)))))))))
+
+theorem BrownianStepContinuityClassifier_semantic_name_certificate
+    {martingale continuous time path step normal provenance ledger : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      SemanticNameCert
+          (fun row : BHist => exists carriedProvenance : BHist,
+            BrownianStepContinuityClassifier martingale continuous time path step normal
+              carriedProvenance row)
+          (fun row : BHist => exists carriedProvenance : BHist,
+            BrownianStepContinuityClassifier martingale continuous time path step normal
+              carriedProvenance row)
+          (fun row : BHist => exists carriedProvenance : BHist,
+            BrownianStepContinuityClassifier martingale continuous time path step normal
+              carriedProvenance row)
+          (fun left right : BHist =>
+            (exists leftProvenance : BHist,
+              BrownianStepContinuityClassifier martingale continuous time path step normal
+                leftProvenance left) ∧
+              (exists rightProvenance : BHist,
+                BrownianStepContinuityClassifier martingale continuous time path step normal
+                  rightProvenance right) ∧
+                hsame left right) ∧
+        Cont continuous path step ∧ Cont martingale step provenance ∧
+          Cont provenance normal ledger := by
+  intro classified
+  have carrierLedger :
+      (fun row : BHist => exists carriedProvenance : BHist,
+        BrownianStepContinuityClassifier martingale continuous time path step normal
+          carriedProvenance row) ledger :=
+    Exists.intro provenance classified
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => exists carriedProvenance : BHist,
+            BrownianStepContinuityClassifier martingale continuous time path step normal
+              carriedProvenance row)
+          (fun row : BHist => exists carriedProvenance : BHist,
+            BrownianStepContinuityClassifier martingale continuous time path step normal
+              carriedProvenance row)
+          (fun row : BHist => exists carriedProvenance : BHist,
+            BrownianStepContinuityClassifier martingale continuous time path step normal
+              carriedProvenance row)
+          (fun left right : BHist =>
+            (exists leftProvenance : BHist,
+              BrownianStepContinuityClassifier martingale continuous time path step normal
+                leftProvenance left) ∧
+              (exists rightProvenance : BHist,
+                BrownianStepContinuityClassifier martingale continuous time path step normal
+                  rightProvenance right) ∧
+                hsame left right) := {
+    core := {
+      carrier_inhabited := Exists.intro ledger carrierLedger
+      equiv_refl := by
+        intro row rowCarrier
+        exact And.intro rowCarrier (And.intro rowCarrier (hsame_refl row))
+      equiv_symm := by
+        intro left right related
+        exact And.intro related.right.left
+          (And.intro related.left (hsame_symm related.right.right))
+      equiv_trans := by
+        intro left middle right relatedLM relatedMR
+        exact And.intro relatedLM.left
+          (And.intro relatedMR.right.left
+            (hsame_trans relatedLM.right.right relatedMR.right.right))
+      carrier_respects_equiv := by
+        intro left right related _leftCarrier
+        exact related.right.left
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro classified.right.right.right.right.right.left
+      (And.intro classified.right.right.right.right.right.right.left
+        classified.right.right.right.right.right.right.right))
 
 end BEDC.Derived.BrownianUp
