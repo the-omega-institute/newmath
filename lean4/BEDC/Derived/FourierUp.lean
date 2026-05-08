@@ -216,4 +216,138 @@ theorem FourierFiniteObservation_stability_obligation [AskSetup]
                   (And.intro sameSS'
                     (And.intro sameTT' sameSigH'K')))))
 
+theorem FourierFiniteObservation_standard_bridge [AskSetup]
+    {D : BHist -> Prop} (policy : AskPolicy D) {pi : ProbeName} {h k : BHist} :
+    D h -> D k -> hsame h k ->
+      exists s : BHist, exists t : BHist,
+        SigRel (ProbeBundle.Bcons pi ProbeBundle.Bnil) h s ∧
+          SigRel (ProbeBundle.Bcons pi ProbeBundle.Bnil) k t ∧
+            SameSig (ProbeBundle.Bcons pi ProbeBundle.Bnil) h k ∧ hsame s t := by
+  intro carrierH carrierK sameHK
+  cases policy.total (π := pi) (h := h) carrierH with
+  | intro markH markHData =>
+      cases markHData with
+      | intro deltaH askH =>
+          cases policy.total (π := pi) (h := k) carrierK with
+          | intro markK markKData =>
+              cases markKData with
+              | intro deltaK askK =>
+                  cases markH with
+                  | b0 =>
+                      cases markK with
+                      | b0 =>
+                          let s := BHist.e0 BHist.Empty
+                          let t := BHist.e0 BHist.Empty
+                          have sigH :
+                              SigRel (ProbeBundle.Bcons pi ProbeBundle.Bnil) h s :=
+                            SigRel.cons pi ProbeBundle.Bnil h BHist.Empty s
+                              BMark.b0 deltaH askH (SigRel.empty h) (Ext.e0 BHist.Empty)
+                          have sigK :
+                              SigRel (ProbeBundle.Bcons pi ProbeBundle.Bnil) k t :=
+                            SigRel.cons pi ProbeBundle.Bnil k BHist.Empty t
+                              BMark.b0 deltaK askK (SigRel.empty k) (Ext.e0 BHist.Empty)
+                          have classified :=
+                            FourierFiniteObservation_classifier_obligation
+                              (D := D)
+                              (bundle := ProbeBundle.Bcons pi ProbeBundle.Bnil)
+                              (h := h)
+                              (k := k)
+                              (s := s)
+                              (t := t)
+                              policy
+                              carrierH
+                              carrierK
+                              sameHK
+                              sigH
+                              sigK
+                          exact Exists.intro s
+                            (Exists.intro t
+                              (And.intro sigH (And.intro sigK classified)))
+                      | b1 =>
+                          let s := BHist.e0 BHist.Empty
+                          let t := BHist.e1 BHist.Empty
+                          have sigH :
+                              SigRel (ProbeBundle.Bcons pi ProbeBundle.Bnil) h s :=
+                            SigRel.cons pi ProbeBundle.Bnil h BHist.Empty s
+                              BMark.b0 deltaH askH (SigRel.empty h) (Ext.e0 BHist.Empty)
+                          have sigK :
+                              SigRel (ProbeBundle.Bcons pi ProbeBundle.Bnil) k t :=
+                            SigRel.cons pi ProbeBundle.Bnil k BHist.Empty t
+                              BMark.b1 deltaK askK (SigRel.empty k) (Ext.e1 BHist.Empty)
+                          have classified :=
+                            FourierFiniteObservation_classifier_obligation
+                              (D := D)
+                              (bundle := ProbeBundle.Bcons pi ProbeBundle.Bnil)
+                              (h := h)
+                              (k := k)
+                              (s := s)
+                              (t := t)
+                              policy
+                              carrierH
+                              carrierK
+                              sameHK
+                              sigH
+                              sigK
+                          exact Exists.intro s
+                            (Exists.intro t
+                              (And.intro sigH (And.intro sigK classified)))
+                  | b1 =>
+                      cases markK with
+                      | b0 =>
+                          let s := BHist.e1 BHist.Empty
+                          let t := BHist.e0 BHist.Empty
+                          have sigH :
+                              SigRel (ProbeBundle.Bcons pi ProbeBundle.Bnil) h s :=
+                            SigRel.cons pi ProbeBundle.Bnil h BHist.Empty s
+                              BMark.b1 deltaH askH (SigRel.empty h) (Ext.e1 BHist.Empty)
+                          have sigK :
+                              SigRel (ProbeBundle.Bcons pi ProbeBundle.Bnil) k t :=
+                            SigRel.cons pi ProbeBundle.Bnil k BHist.Empty t
+                              BMark.b0 deltaK askK (SigRel.empty k) (Ext.e0 BHist.Empty)
+                          have classified :=
+                            FourierFiniteObservation_classifier_obligation
+                              (D := D)
+                              (bundle := ProbeBundle.Bcons pi ProbeBundle.Bnil)
+                              (h := h)
+                              (k := k)
+                              (s := s)
+                              (t := t)
+                              policy
+                              carrierH
+                              carrierK
+                              sameHK
+                              sigH
+                              sigK
+                          exact Exists.intro s
+                            (Exists.intro t
+                              (And.intro sigH (And.intro sigK classified)))
+                      | b1 =>
+                          let s := BHist.e1 BHist.Empty
+                          let t := BHist.e1 BHist.Empty
+                          have sigH :
+                              SigRel (ProbeBundle.Bcons pi ProbeBundle.Bnil) h s :=
+                            SigRel.cons pi ProbeBundle.Bnil h BHist.Empty s
+                              BMark.b1 deltaH askH (SigRel.empty h) (Ext.e1 BHist.Empty)
+                          have sigK :
+                              SigRel (ProbeBundle.Bcons pi ProbeBundle.Bnil) k t :=
+                            SigRel.cons pi ProbeBundle.Bnil k BHist.Empty t
+                              BMark.b1 deltaK askK (SigRel.empty k) (Ext.e1 BHist.Empty)
+                          have classified :=
+                            FourierFiniteObservation_classifier_obligation
+                              (D := D)
+                              (bundle := ProbeBundle.Bcons pi ProbeBundle.Bnil)
+                              (h := h)
+                              (k := k)
+                              (s := s)
+                              (t := t)
+                              policy
+                              carrierH
+                              carrierK
+                              sameHK
+                              sigH
+                              sigK
+                          exact Exists.intro s
+                            (Exists.intro t
+                              (And.intro sigH (And.intro sigK classified)))
+
 end BEDC.Derived.FourierUp
