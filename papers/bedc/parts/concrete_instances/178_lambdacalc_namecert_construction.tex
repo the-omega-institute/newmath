@@ -6,6 +6,114 @@ The lambda-calculus interface $\LambdaCalcUp$ packages the inductive carrier of 
 \section{Carrier definition}
 \label{sec:lambdacalc-carrier}
 
+\begin{definition}[LambdaCalc BHist term carrier]
+\label{def:lambdacalc-bhist-term-carrier}
+The LambdaCalc BHist term carrier $\mathsf{LambdaCalcBHistTermCarrier}(h)$ is
+the $\TreeUp$-backed syntax row whose visible spine is a $\mathsf{BHist}$ tree with
+three constructor tags. A variable row has tag $\mathsf{lamVar}$ and a
+$\NatUp$ unary variable index $i$ with $\mathsf{UnaryHistory}(i)$. An
+abstraction row has tag $\mathsf{lamAbs}$, a unary binder index, and one body
+subtree. An application row has tag $\mathsf{lamApp}$ and two subtrees. In each
+case the spine is carried by a $\mathsf{TreeBHistCarrier}$ row, constructor
+readback is expressed by $\hsame$ between the visible tag-and-subtree endpoint
+and the displayed $\mathsf{BHist}$ syntax row, and the classifier compares carried
+terms only through the corresponding $\mathsf{Cont}$ witness on these visible
+spines.
+\end{definition}
+
+\begin{theorem}[LambdaCalc variable constructor carrier]
+\label{thm:lambdacalc-variable-constructor-carrier}
+For histories $i,h:\Hist$, if $\mathsf{UnaryHistory}(i)$, the visible variable
+constructor row for $h$ is a $\mathsf{TreeBHistCarrier}$ row, and the displayed
+constructor endpoint satisfies
+$$
+\hsame(h,\mathsf{lamVar}(i)),
+$$
+then $\mathsf{LambdaCalcBHistTermCarrier}(h)$. Moreover the carried row keeps
+the $\NatUp$ index visible: any $\mathsf{Cont}$ witness transporting $h$ to
+$h'$ along a constructor-preserving $\hsame(h,h')$ transports the same unary
+index row and yields $\mathsf{LambdaCalcBHistTermCarrier}(h')$.
+\end{theorem}
+\begin{proof}
+Read the variable row through the visible spine supplied by
+$\mathsf{TreeBHistCarrier}$. The tag readback identifies the root as
+$\mathsf{lamVar}$, and the sole payload is the unary history $i$.
+
+NatUp unary index closure keeps $i$ in the unary fragment under the displayed
+$\hsame$ transport. TreeUp visible-spine transport then carries the tagged
+endpoint from $h$ to $h'$, so the transported row is again a LambdaCalc carrier
+row of the variable form.
+\end{proof}
+
+\begin{theorem}[LambdaCalc abstraction and application carrier closure]
+\label{thm:lambdacalc-abstraction-application-carrier-closure}
+For histories $x,b,f,g,h:\Hist$, suppose the displayed syntax spines for $b$,
+$f$, and $g$ are $\mathsf{TreeBHistCarrier}$ rows and
+$$
+\mathsf{LambdaCalcBHistTermCarrier}(b),\quad
+\mathsf{LambdaCalcBHistTermCarrier}(f),\quad
+\mathsf{LambdaCalcBHistTermCarrier}(g).
+$$
+If $\mathsf{UnaryHistory}(x)$ and
+$$
+\hsame(h,\mathsf{lamAbs}(x,b)),
+$$
+then $\mathsf{LambdaCalcBHistTermCarrier}(h)$. If instead
+$$
+\hsame(h,\mathsf{lamApp}(f,g)),
+$$
+then $\mathsf{LambdaCalcBHistTermCarrier}(h)$. Both conclusions are stable
+under any constructor-preserving $\mathsf{Cont}$ transport of the displayed
+$\mathsf{BHist}$ spine.
+\end{theorem}
+\begin{proof}
+For abstraction, use the TreeUp visible-spine row to expose the
+$\mathsf{lamAbs}$ root, the unary binder payload, and the single body subtree.
+The body is already a LambdaCalc carrier row, and NatUp unary index closure
+keeps the binder inside the admitted index surface.
+
+For application, use the same TreeUp spine readback with root
+$\mathsf{lamApp}$ and the two carried subtrees $f$ and $g$. No host syntax
+operation is used: the two arguments are exactly the displayed $\mathsf{BHist}$
+subtrees, and the carrier conclusion repacks them through the LambdaCalc
+definition.
+
+Constructor-preserving $\mathsf{Cont}$ transport acts componentwise on the
+visible spine. It preserves the root tag and transports each carried subtree by
+$\hsame$, so both constructor clauses remain inside
+$\mathsf{LambdaCalcBHistTermCarrier}$.
+\end{proof}
+
+\begin{theorem}[LambdaCalc substitution ledger scope]
+\label{thm:lambdacalc-substitution-ledger-scope}
+Let $x,s,t,u:\Hist$ be histories with $\mathsf{UnaryHistory}(x)$,
+$\mathsf{LambdaCalcBHistTermCarrier}(s)$, and
+$\mathsf{LambdaCalcBHistTermCarrier}(t)$. A LambdaCalc substitution ledger row
+for substituting $s$ for the unary variable $x$ in $t$ is in scope only when it
+is presented by a $\mathsf{BHist}$ visible-spine traversal whose nodes are carried by
+$\mathsf{TreeBHistCarrier}$, whose recursive calls are connected by
+$\mathsf{Cont}$ witnesses, and whose output endpoint $u$ satisfies
+$\mathsf{LambdaCalcBHistTermCarrier}(u)$ together with constructorwise
+$\hsame$ readback. The row exports no host substitution function and no
+unmentioned capture-avoidance primitive.
+\end{theorem}
+\begin{proof}
+Traverse the displayed TreeUp spine of $t$. In the variable case, compare the
+visible NatUp unary index with $x$ and choose either the carried substituent
+$s$ or the original variable row, with the choice recorded as a BEDC ledger
+branch rather than a host-language function.
+
+In the abstraction and application cases, use the constructor closure theorem
+above after recursively transporting the displayed child rows. The
+$\mathsf{Cont}$ witnesses record the recursive route through the visible
+$\mathsf{BHist}$ spine, and every endpoint comparison is an $\hsame$ comparison
+between displayed constructor rows.
+
+Thus the substitution ledger remains a scoped LambdaCalc carrier obligation:
+it names only $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\mathsf{TreeBHistCarrier}$,
+$\mathsf{Cont}$, $\hsame$, and $\mathsf{LambdaCalcBHistTermCarrier}$ rows.
+\end{proof}
+
 \begin{definition}[LambdaCalcUp term packet carrier]
 \label{def:lambdacalc-term-packet-carrier}
 A $\LambdaCalcUp$ term packet carrier is a finite $\mathsf{BHist}$ packet
