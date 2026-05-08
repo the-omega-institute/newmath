@@ -79,4 +79,36 @@ theorem BilinFormRootPairingSurface_ledger_exactness_boundary
         (And.intro ledgerReadback
           (And.intro surface.right.right.right.left surface.right.right.right.right))))
 
+theorem BilinFormRootPairingSurface_bilinearity_rows
+    {left right scalar endpoint ledger additive additiveEndpoint finalLedger : BHist} :
+    BilinFormRootPairingSurface left right scalar endpoint ledger ->
+      UnaryHistory additive ->
+        Cont endpoint additive additiveEndpoint ->
+          Cont additiveEndpoint scalar finalLedger ->
+            UnaryHistory additiveEndpoint ∧ UnaryHistory finalLedger ∧
+              hsame additiveEndpoint (append (append left right) additive) ∧
+                hsame finalLedger (append (append (append left right) additive) scalar) ∧
+                  Cont endpoint additive additiveEndpoint ∧
+                    Cont additiveEndpoint scalar finalLedger := by
+  intro surface additiveUnary additiveCont finalCont
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed surface.left surface.right.left surface.right.right.right.left
+  have additiveEndpointUnary : UnaryHistory additiveEndpoint :=
+    unary_cont_closed endpointUnary additiveUnary additiveCont
+  have finalLedgerUnary : UnaryHistory finalLedger :=
+    unary_cont_closed additiveEndpointUnary surface.right.right.left finalCont
+  have additiveReadback :
+      hsame additiveEndpoint (append (append left right) additive) :=
+    hsame_trans additiveCont
+      (congrArg (fun h : BHist => append h additive) surface.right.right.right.left)
+  have finalReadback :
+      hsame finalLedger (append (append (append left right) additive) scalar) :=
+    hsame_trans finalCont
+      (congrArg (fun h : BHist => append h scalar) additiveReadback)
+  exact And.intro additiveEndpointUnary
+    (And.intro finalLedgerUnary
+      (And.intro additiveReadback
+        (And.intro finalReadback
+          (And.intro additiveCont finalCont))))
+
 end BEDC.Derived.BilinFormUp
