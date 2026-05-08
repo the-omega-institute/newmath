@@ -148,6 +148,54 @@ theorem CompactMetricCertificate_metric_distance_transport {X : BHist -> Prop}
   exact And.intro transportedX
     (And.intro transportedY (And.intro sameDistance rightDistance))
 
+theorem CompactMetricTotallyBoundedNet_obligation {X : BHist -> Prop} {eps eps' x : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> hsame eps eps' -> X x ->
+      TotallyBoundedProbeBundleNet X eps' bundle ∧
+        exists center : BHist, InBundle center bundle ∧ X center ∧
+          exists d : BHist, MetricDistanceWitness x center d ∧
+            RatHistoryClassifier d eps' := by
+  intro certificate sameEps source
+  have transportedNet : TotallyBoundedProbeBundleNet X eps' bundle :=
+    TotallyBoundedProbeBundleNet_coverage_hsame_transport sameEps certificate.left
+  constructor
+  · exact transportedNet
+  · cases transportedNet.right.right source with
+    | intro center centerData =>
+        exact Exists.intro center
+          (And.intro centerData.left
+            (And.intro (transportedNet.right.left centerData.left) centerData.right))
+
+theorem CompactMetricLedger_exactness_obligation {X : BHist -> Prop} {eps x n : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> X x -> UnaryHistory n ->
+      X (s n) ->
+        TotallyBoundedProbeBundleNet X eps bundle ∧
+          CompleteMetricLimitWitness X s M limit ∧
+            (exists center : BHist, InBundle center bundle ∧ X center ∧
+              exists d : BHist, MetricDistanceWitness x center d ∧
+                RatHistoryClassifier d eps) ∧
+              (exists limitDist : BHist,
+                MetricDistanceWitness (s n) limit limitDist ∧
+                  Cont (s n) limit limitDist ∧ RatHistoryClassifier limitDist (M n)) := by
+  intro certificate source nUnary streamSource
+  cases certificate with
+  | intro net complete =>
+      constructor
+      · exact net
+      · constructor
+        · exact complete
+        · constructor
+          · cases net.right.right source with
+            | intro center centerData =>
+                cases centerData.right with
+                | intro d distanceData =>
+                    exact Exists.intro center
+                      (And.intro centerData.left
+                        (And.intro (net.right.left centerData.left)
+                          (Exists.intro d distanceData)))
+          · exact complete.right nUnary streamSource
+
 theorem CompactMetricDownstreamConsumer_boundary {X : BHist -> Prop} {eps x n : BHist}
     {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
     CompactMetricCertificate X eps bundle s M limit -> X x -> UnaryHistory n -> X (s n) ->
