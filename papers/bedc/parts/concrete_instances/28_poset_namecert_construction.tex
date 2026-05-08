@@ -17,6 +17,77 @@ certificate fields are specified below.
 Use a preorder setup extended with antisymmetry under the carrier classifier.
 \end{definition}
 
+\begin{theorem}[POSet root carrier obligation]
+\label{thm:poset-root-carrier-obligation}
+The root $\POSetUp$ carrier obligation is a $\PreorderUp$ carrier over
+$\mathsf{BHist}$, equipped with the same prefix relation and with an
+antisymmetry row under the carrier classifier. No quotient carrier is added:
+the carried endpoints remain displayed $\mathsf{BHist}$ histories, and the
+only collapse allowed by the partial-order field is the classifier conclusion
+$\hsame(h,k)$.
+\end{theorem}
+\begin{proof}
+The carrier clause is exactly \autoref{def:poset-carrier}: start with the
+preorder carrier and add the antisymmetry field as an extra row, not as a new
+endpoint space.
+
+For the concrete root instance, \autoref{thm:preorder-prefix-order-laws-hsame}
+supplies the $\mathsf{BHist}$ carrier, the prefix preorder relation, and the
+$\hsame$ classifier boundary. The partial-order coordinate is supplied by
+\autoref{thm:poset-prefix-antisymmetry}, which turns opposing prefix
+comparisons into $\hsame(h,k)$.
+
+Thus the carrier remains the inherited preorder carrier, while the
+antisymmetry data is an obligation row attached to that carrier.
+\end{proof}
+
+\begin{theorem}[POSet root classifier obligation]
+\label{thm:poset-root-classifier-obligation}
+The root $\POSetUp$ classifier is the inherited $\hsame$-based classifier on
+carried $\mathsf{BHist}$ endpoints, and it is stable under the preorder
+relation: classifier-equivalent endpoints may be read through the same prefix
+comparison rows without changing the carried $\POSetUp$ object.
+\end{theorem}
+\begin{proof}
+By \autoref{def:poset-carrier}, a $\POSetUp$ object does not replace the
+preorder classifier. It extends the preorder package by demanding
+antisymmetry under that classifier.
+
+Apply \autoref{thm:preorder-prefix-order-laws-hsame} to obtain the inherited
+$\hsame$ classifier together with the prefix-order stability rows. Those rows
+are the classifier transport surface for comparison endpoints.
+
+The additional $\POSetUp$ row from \autoref{thm:poset-prefix-antisymmetry} is
+compatible with the same classifier, because its conclusion is again
+$\hsame(h,k)$. Hence classifier transport remains the inherited preorder
+transport.
+\end{proof}
+
+\begin{theorem}[POSet root exactness obligation]
+\label{thm:poset-root-exactness-obligation}
+For carried unary prefix endpoints $h$ and $k$, the opposing comparison rows
+$h\le_{\mathsf{pref}}k$ and $k\le_{\mathsf{pref}}h$ are exactly the
+$\POSetUp$ classifier row on those endpoints: the forward direction is
+antisymmetry, and the reverse direction is the inherited reflexive prefix row
+transported along $\hsame$.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the two comparison rows. The concrete
+antisymmetry theorem \autoref{thm:poset-prefix-antisymmetry} collapses the
+opposing prefix witnesses to $\hsame(h,k)$, which is the classifier row
+specified by \autoref{def:poset-carrier}.
+
+For the reverse direction, assume the classifier row $\hsame(h,k)$. The
+preorder law package of \autoref{thm:preorder-prefix-order-laws-hsame}
+provides reflexive prefix comparisons on carried endpoints and transports
+comparison endpoints along $\hsame$.
+
+Transporting the reflexive comparison on $h$ gives $h\le_{\mathsf{pref}}k$,
+and transporting the reflexive comparison on $k$ gives
+$k\le_{\mathsf{pref}}h$. The two directions identify the exact comparison
+boundary of the root $\POSetUp$ row.
+\end{proof}
+
 \section{Concrete unary prefix POSet instance}
 \label{sec:poset-concrete-unary-prefix-instance}
 

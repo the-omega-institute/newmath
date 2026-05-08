@@ -50,12 +50,10 @@ _DEFAULT_FORBIDDEN_VOCAB = [
 _DEFAULT_FORBIDDEN_VERSION_PATTERN = (
     r"\bv\d+\.\d+\.[Xx0-9]+\b|\bv\d+-[A-Za-z0-9_-]+"
 )
-_DEFAULT_FORBIDDEN_MATH_PATTERNS: list[str] = [
-    # Forbidden math env list intentionally empty: align*/equation*/eqnarray*
-    # are valid LaTeX, only style preference. Style guidance lives in
-    # phase_review/revise prompts; the gate is advisory only (codex_revise
-    # logs warnings but does not fail the round). Keep the list as a
-    # placeholder so config-overridden test fixtures still see the field.
+_DEFAULT_FORBIDDEN_MATH_PATTERNS = [
+    r"\\begin\{equation\*?\}",
+    r"\\begin\{align\*?\}",
+    r"\\begin\{eqnarray\*?\}",
 ]
 
 LEAN_MARKER_RE = re.compile(
