@@ -1314,6 +1314,273 @@ def compute_capstone_overlap_map() -> dict:
     }
 
 
+# === Theorem-level discovery (D-1, additive — does not affect existing surfaces) ===
+#
+# Scans main.tex reverse-traversal closure for every \begin{theorem|lemma|...}
+# environment, extracts (kind, label, file, line, nearby lean marker), classifies
+# its zone by path prefix, and assigns an anchor_status. Used to build a
+# `theorem_inventory` summary so workers can eventually consume a paper-wide
+# unformalized theorem stream regardless of which zone (horizon / capstones /
+# core / ground_compiler / proof_obligations / ...) the theorem lives in.
+
+THEOREM_ENV_RE = re.compile(
+    r"\\begin\{(theorem|lemma|definition|proposition|corollary)\}",
+    re.MULTILINE,
+)
+LABEL_INSIDE_RE = re.compile(r"\\label\{((?:thm|def|lem|prop|cor):[^}]+)\}")
+ALL_MARKERS_RE = re.compile(
+    r"\\(leanchecked|leanvariant|leandef|leanstmt|leansorryd|leantarget)\{([^}]+)\}"
+)
+
+# Per-zone default Lean namespace prefix. None means the zone is intentionally
+# never formalised (governance / frontmatter / appendices). Suggestions are a
+# starting point for workers; workers may override.
+ZONE_LEAN_PREFIX: dict[str, str | None] = {
+    "horizon":                       "BEDC.Derived",
+    "narrative.core":                "BEDC.FKernel",
+    "narrative.ground_compiler":     "BEDC.Compiler",
+    "narrative.capstones":           "BEDC.Capstones",
+    "narrative.proof_obligations":   "BEDC.ProofObligation",
+    "narrative.proof_sprint":        "BEDC.ProofSprint",
+    "narrative.proof_standing":      "BEDC.ProofStanding",
+    "narrative.formalization":       "BEDC.Formalization",
+    "narrative.acceptance":          "BEDC.Acceptance",
+    "narrative.hardening":           "BEDC.Hardening",
+    "narrative.concrete_hardening":  "BEDC.ConcreteHardening",
+    "narrative.project_governance":  None,
+    "narrative.frontmatter":         None,
+    "narrative.appendices":          None,
+    "meta":                          None,
+}
+
+
+def _discover_paper_files() -> list[Path]:
+    """main.tex \\input{} closure, recursively."""
+    in_pdf: set[Path] = set()
+    main = PAPER_ROOT_DIR / "main.tex"
+
+    def follow(p: Path) -> None:
+        p = p.resolve()
+        if p in in_pdf or not p.exists():
+            return
+        in_pdf.add(p)
+        try:
+            text = p.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            return
+        for m in INPUT_RE.finditer(text):
+            rel = m.group(1).strip()
+            if not rel.endswith(".tex"):
+                rel = rel + ".tex"
+            child = (PAPER_ROOT_DIR / rel).resolve()
+            follow(child)
+
+    follow(main)
+    return sorted(in_pdf)
+
+
+def _classify_zone(file_path: Path) -> str:
+    """Path-prefix based zone. Returns 'horizon' / 'narrative.<dir>' / 'meta' / 'unknown'."""
+    try:
+        rel = file_path.relative_to(PAPER_ROOT_DIR.resolve())
+    except ValueError:
+        return "unknown"
+    parts = rel.parts
+    if parts and parts[0] in ("main.tex", "preamble.tex"):
+        return "meta"
+    if len(parts) >= 2 and parts[0] == "parts":
+        zone_dir = parts[1]
+        if zone_dir == "concrete_instances":
+            return "horizon"
+        return f"narrative.{zone_dir}"
+    if len(parts) == 1 and parts[0].endswith(".tex"):
+        # parts/<zone>.tex hub files (e.g. parts/core.tex)
+        zone_dir = parts[0][:-4]
+        if zone_dir == "concrete_instances":
+            return "horizon"
+        return f"narrative.{zone_dir}"
+    return "unknown"
+
+
+def _slug_to_camel(slug: str) -> str:
+    """thm:nat-zero-classifier-uniqueness → NatZeroClassifierUniqueness."""
+    if ":" in slug:
+        slug = slug.split(":", 1)[1]
+    parts = re.split(r"[-_]+", slug)
+    return "".join(p[:1].upper() + p[1:] for p in parts if p)
+
+
+def _infer_lean_anchor(file_path: Path, label: str | None,
+                        zone: str) -> str | None:
+    """Suggest a default BEDC namespace + identifier for a paper label.
+
+    Returns None for zones not eligible for formalisation, or when label is
+    missing. Result is a SUGGESTION — workers may override. Used so downstream
+    surfaces can hint a Lean target name when paper writes \\begin{theorem}
+    without a \\leanchecked / \\leandef marker.
+    """
+    prefix = ZONE_LEAN_PREFIX.get(zone)
+    if prefix is None or not label:
+        return None
+    try:
+        rel = file_path.relative_to(PAPER_ROOT_DIR.resolve())
+    except ValueError:
+        return None
+    parts = rel.parts
+    suffix = _slug_to_camel(label)
+
+    if zone == "horizon":
+        m = re.match(r"\d+_([a-z][a-z0-9_]*?)_namecert", parts[-1])
+        if m:
+            chapter = m.group(1)
+            return f"{prefix}.{chapter[:1].upper()}{chapter[1:]}Up.{suffix}"
+        # sub-dir sibling: parts/concrete_instances/<theme>/<sib>.tex
+        if len(parts) >= 4 and parts[1] == "concrete_instances":
+            chapter = parts[2]
+            return f"{prefix}.{chapter[:1].upper()}{chapter[1:]}Up.{suffix}"
+        return f"{prefix}.{suffix}"
+
+    if zone.startswith("narrative."):
+        chapter_stem = parts[-1].replace(".tex", "")
+        # Strip leading numeric prefix (00_ / 14_ / 256_ etc.)
+        chapter_stem = re.sub(r"^\d+[a-z]?_", "", chapter_stem)
+        sub = _slug_to_camel(chapter_stem)
+        if sub:
+            return f"{prefix}.{sub}.{suffix}"
+        return f"{prefix}.{suffix}"
+
+    return None
+
+
+def _build_declared_set() -> set[str]:
+    """Set of qualified Lean names actually declared in lean4/BEDC/.
+    Reuses bedc_ci's inventory via dynamic import."""
+    try:
+        sys_path_addition = str((ROOT / "lean4" / "scripts").resolve())
+        import sys as _sys
+        if sys_path_addition not in _sys.path:
+            _sys.path.insert(0, sys_path_addition)
+        from bedc_ci import build_declaration_inventory  # type: ignore
+        declarations, _ = build_declaration_inventory()
+        return {d.qualified_name for d in declarations}
+    except Exception:
+        return set()
+
+
+def discover_all_theorems() -> list[dict]:
+    """Scan paper-wide tree (from main.tex) for every theorem environment.
+
+    For each \\begin{theorem|lemma|definition|proposition|corollary} env, look
+    forward up to 4000 chars for a \\label{} and any \\leanchecked/\\leandef/
+    etc. marker. Classify zone by file path prefix. Compute anchor_status:
+      - one of objective FORMAL_GRADE_ORDER tokens if marker target exists
+      - 'stale'      if marker target exists in source but not declared in build
+      - 'unwritten'  if no marker present
+    """
+    files = _discover_paper_files()
+    objective_grades = load_objective_formal_grades()
+    declared_set = _build_declared_set()
+
+    rows: list[dict] = []
+    for f in files:
+        zone = _classify_zone(f)
+        if zone in ("unknown", "meta"):
+            continue
+        try:
+            text = f.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            continue
+        try:
+            file_rel = str(f.relative_to(ROOT))
+        except ValueError:
+            file_rel = str(f)
+        # Chapter inference for grouping: the namecert hub name when in horizon,
+        # otherwise the file stem stripped of leading numeric prefix.
+        try:
+            rel = f.relative_to(PAPER_ROOT_DIR.resolve())
+            parts = rel.parts
+        except ValueError:
+            parts = ()
+        if zone == "horizon" and parts:
+            m_chap = re.match(r"\d+_([a-z][a-z0-9_]*?)_namecert", parts[-1])
+            if m_chap:
+                chapter = m_chap.group(1)
+            elif len(parts) >= 4 and parts[1] == "concrete_instances":
+                chapter = parts[2]
+            else:
+                chapter = parts[-1].replace(".tex", "")
+        elif parts:
+            stem = parts[-1].replace(".tex", "")
+            chapter = re.sub(r"^\d+[a-z]?_", "", stem)
+        else:
+            chapter = None
+
+        for m in THEOREM_ENV_RE.finditer(text):
+            kind = m.group(1)
+            start = m.start()
+            line_start = text.count("\n", 0, start) + 1
+            window = text[start:start + 4000]
+            label_m = LABEL_INSIDE_RE.search(window)
+            label = label_m.group(1) if label_m else None
+            marker_m = ALL_MARKERS_RE.search(window)
+            actual_anchor = (
+                marker_m.group(2).replace("\\_", "_").strip()
+                if marker_m else None
+            )
+            marker_kind = marker_m.group(1) if marker_m else None
+
+            if actual_anchor:
+                if actual_anchor in declared_set:
+                    grade = objective_grades.get(actual_anchor, "encodedDefV")
+                    anchor_status = grade
+                else:
+                    anchor_status = "stale"
+                suggested = None
+            else:
+                anchor_status = "unwritten"
+                suggested = _infer_lean_anchor(f, label, zone)
+
+            rows.append({
+                "id": label or f"unlabeled:{f.name}:{line_start}",
+                "kind": kind,
+                "file": file_rel,
+                "line": line_start,
+                "zone": zone,
+                "chapter": chapter,
+                "label": label,
+                "anchor_actual": actual_anchor,
+                "anchor_suggested": suggested,
+                "marker_kind": marker_kind,
+                "anchor_status": anchor_status,
+            })
+    return rows
+
+
+def summarize_theorem_inventory(rows: list[dict]) -> dict:
+    """Aggregate a theorem-list into headline counters for baseline reporting."""
+    from collections import Counter
+    by_zone = Counter(r["zone"] for r in rows)
+    by_anchor = Counter(r["anchor_status"] for r in rows)
+    by_kind = Counter(r["kind"] for r in rows)
+    by_chapter = Counter((r["zone"], r["chapter"]) for r in rows if r["chapter"])
+    # Per-zone unwritten count (the ground-truth "what's left to formalise"
+    # surface, broken down by zone — D-1 baseline metric).
+    by_zone_unwritten = Counter(
+        r["zone"] for r in rows if r["anchor_status"] == "unwritten"
+    )
+    return {
+        "total": len(rows),
+        "by_kind": dict(by_kind.most_common()),
+        "by_zone": dict(by_zone.most_common()),
+        "by_anchor_status": dict(by_anchor.most_common()),
+        "by_zone_unwritten": dict(by_zone_unwritten.most_common()),
+        "top_chapters_by_density": [
+            {"zone": z, "chapter": c, "count": n}
+            for (z, c), n in by_chapter.most_common(20)
+        ],
+    }
+
+
 def main() -> int:
     horizons = extract_horizons()
     downstream = transitive_downstream(horizons)
@@ -1598,6 +1865,7 @@ def main() -> int:
         "bridge_candidates": bridge_candidates,
         "formal_axis_top": formal_axis_top,
         "capstone_overlap_map": compute_capstone_overlap_map(),
+        "theorem_inventory": summarize_theorem_inventory(discover_all_theorems()),
     }
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
