@@ -6,5 +6,54 @@ The Galois-extension interface $\GaloisExtUp$ packages a normal and separable fi
 \section{Carrier definition}
 \label{sec:galoisext-carrier}
 
+\begin{definition}[GaloisExt BHist normal-separable carrier]
+\label{def:galoisext-bhist-normal-separable-carrier}
+A $\GaloisExtUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+\mathcal{G}=(\mathcal{F},\mathcal{S},\nu,\chi,\lambda,\eta_{\mathcal{F}},\eta_{\mathcal{S}})
+$$
+where $\mathcal{F}$ is a $\FieldExtUp$ source certificate, $\mathcal{S}$ is the $\SeparableExtUp$ simple-root ledger over the same source row, $\nu:\mathsf{BHist}$ records the normal conjugate-coverage row, $\chi$ is the restricted $\hsame$ classifier transporting the field-extension source and the separable-root ledger together, $\lambda$ is the finite $\Cont$ provenance ledger for the displayed rows, and $\eta_{\mathcal{F}}$ and $\eta_{\mathcal{S}}$ are the corresponding $\NameCert$ source witnesses. The packet is accepted exactly when the $\FieldExtUp$ projection, the $\SeparableExtUp$ projection, the normal row, the classifier transport, and the finite ledger all read back to these displayed components.
+\end{definition}
+
+\begin{theorem}[GaloisExt FieldExt source projection]
+\label{thm:galoisext-fieldext-source-projection}
+Every accepted packet $\mathcal{G}$ of \autoref{def:galoisext-bhist-normal-separable-carrier} projects a $\FieldExtUp$ source certificate, its base-field row, its extension-field row, its embedding row, and its vector-space row. These projected rows are exactly the rows used by the $\GaloisExtUp$ carrier; no extra field-extension source, quotient carrier, or ambient host field is introduced by the Galois-extension interface.
+\end{theorem}
+\begin{proof}
+Unpack the packet $\mathcal{G}$. The first component is the named $\FieldExtUp$ source certificate, and $\eta_{\mathcal{F}}$ is the certificate witness that scopes its carrier, classifier, stability, exactness, and ledger rows.
+
+Project the base-field, extension-field, embedding, and vector-space entries from that source certificate. The remaining components of $\mathcal{G}$ only add separability, normality, classifier transport, and finite provenance over the same source row, so the $\FieldExtUp$ source projection is unchanged and exact.
+\end{proof}
+
+\begin{theorem}[GaloisExt separable root ledger]
+\label{thm:galoisext-separable-root-ledger}
+For an accepted $\GaloisExtUp$ packet $\mathcal{G}$, the separability component $\mathcal{S}$ supplies the complete simple-root ledger required by $\SeparableExtUp$: for each displayed minimal-polynomial row over the projected $\FieldExtUp$ source, the ledger records the polynomial row, the chosen root row, the derivative non-collapse row, and the $\hsame$ transport witnessing that the root remains classified after source transport. The $\GaloisExtUp$ carrier uses this ledger by projection and adds no further separability obligation.
+\end{theorem}
+\begin{proof}
+Read $\mathcal{S}$ through the source witness $\eta_{\mathcal{S}}$. Its rows are already scoped as the $\SeparableExtUp$ certificate data over the $\FieldExtUp$ source obtained in \autoref{thm:galoisext-fieldext-source-projection}.
+
+For each minimal-polynomial display, retain the polynomial row, the root row, and the derivative non-collapse row as ledger entries. The restricted classifier $\chi$ transports these entries along the same $\hsame$ comparison used for the source certificate, so the simple-root ledger is inherited without adding a separate root predicate.
+\end{proof}
+
+\begin{theorem}[GaloisExt normal conjugate coverage]
+\label{thm:galoisext-normal-conjugate-coverage}
+For an accepted $\GaloisExtUp$ packet $\mathcal{G}$, the normality row $\nu$ is a finite $\mathsf{BHist}$ coverage ledger for conjugates of the source-root rows named by the separable ledger. Each conjugate endpoint named by the $\FieldExtUp$ source classifier has a displayed return row into the same extension carrier, and the return row is transported by $\chi$. Thus normality is recorded as finite conjugate coverage inside $\mathsf{BHist}$, not as a host-level closure assertion about all roots in an external algebraic closure.
+\end{theorem}
+\begin{proof}
+Start with a conjugate endpoint named by the projected $\FieldExtUp$ classifier. The normality component $\nu$ records the corresponding finite return row into the extension carrier together with its $\Cont$ provenance.
+
+Transport the return row along $\chi$. The source part of $\chi$ keeps the endpoint inside the same field-extension carrier, while the separable part keeps the root ledger compatible with the transported minimal-polynomial row. Repacking these two transported entries gives the required conjugate-coverage row for $\GaloisExtUp$.
+\end{proof}
+
+\begin{theorem}[GaloisExt NameCert obligation surface]
+\label{thm:galoisext-namecert-obligation-surface}
+The $\NameCert_{\GaloisExtUp}$ obligation surface for the carrier of \autoref{def:galoisext-bhist-normal-separable-carrier} consists exactly of the projected $\FieldExtUp$ source rows, the projected $\SeparableExtUp$ simple-root ledger, the normal conjugate-coverage row, the restricted $\hsame$ classifier transport, the finite $\Cont$ provenance ledger, and the two source $\NameCert$ witnesses. Its exactness clause says that every accepted public $\GaloisExtUp$ ledger row is one of these displayed rows or a row projected from one of the two source certificates.
+\end{theorem}
+\begin{proof}
+Soundness is by direct projection from the packet. The first two components give the $\FieldExtUp$ and $\SeparableExtUp$ sources, $\nu$ gives normal coverage, $\chi$ gives classifier transport, $\lambda$ gives finite provenance, and the two $\NameCert$ witnesses scope the source rows.
+
+For exactness, read an accepted $\GaloisExtUp$ ledger row against the packet definition. Carrier rows must project from $\mathcal{F}$, simple-root rows must project from $\mathcal{S}$, normal rows must be entries of $\nu$, classifier rows must be restrictions of $\chi$, and provenance rows must be entries of $\lambda$ or of the two source ledgers. These cases exhaust the certificate surface and leave no additional bridge or Lean verification target claimed here.
+\end{proof}
+
 \section{The certificate}
 \label{sec:galoisext-certificate}
