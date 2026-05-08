@@ -44,4 +44,49 @@ theorem InducedRepFrobeniusLedger_boundary
             (And.intro frobeniusCont
               (And.intro counitCont ledgerCont))))))
 
+def InducedRepContinuationLedgerSpine (start : BHist) : List BHist -> BHist -> Prop
+  | [], final => hsame final start
+  | row :: rows, final =>
+      UnaryHistory row ∧
+        exists next : BHist, Cont start row next ∧ InducedRepContinuationLedgerSpine next rows final
+
+private theorem InducedRepContinuationLedgerSpine_normalized_cont_aux
+    {start final : BHist} {rows : List BHist} :
+    InducedRepContinuationLedgerSpine start rows final ->
+      exists tail : BHist, UnaryHistory tail ∧ Cont start tail final := by
+  intro spine
+  induction rows generalizing start final with
+  | nil =>
+      exact Exists.intro BHist.Empty (And.intro unary_empty spine)
+  | cons row rows ih =>
+      cases spine with
+      | intro rowUnary nextData =>
+          cases nextData with
+          | intro next nextRows =>
+              cases nextRows with
+              | intro rowCont tailSpine =>
+                  have tailPack := ih tailSpine
+                  cases tailPack with
+                  | intro tail tailRows =>
+                      have combinedUnary : UnaryHistory (append row tail) :=
+                        unary_append_closed rowUnary tailRows.left
+                      have combinedCont : Cont start (append row tail) final :=
+                        hsame_trans tailRows.right
+                          ((congrArg (fun h : BHist => append h tail) rowCont).trans
+                            (append_assoc start row tail))
+                      exact Exists.intro (append row tail) (And.intro combinedUnary combinedCont)
+
+theorem InducedRepContinuationLedgerSpine_normalized_cont
+    {provenance counit ledger final : BHist} {rows : List BHist} :
+    InducedRepContinuationLedgerSpine ledger rows final ->
+      hsame ledger (append provenance counit) ->
+        exists tail : BHist, UnaryHistory tail ∧ Cont (append provenance counit) tail final := by
+  intro spine ledgerNormalized
+  have tailPack := InducedRepContinuationLedgerSpine_normalized_cont_aux spine
+  cases tailPack with
+  | intro tail tailRows =>
+      have tailCont : Cont (append provenance counit) tail final :=
+        hsame_trans tailRows.right (congrArg (fun h : BHist => append h tail) ledgerNormalized)
+      exact Exists.intro tail (And.intro tailRows.left tailCont)
+
 end BEDC.Derived.InducedRepUp
