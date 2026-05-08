@@ -1,3 +1,6 @@
+import BEDC.FKernel.Ext
+import BEDC.FKernel.NameCert
+
 /-
 BEDC.Reflection: statement-only scaffolds for the capstone chapter
 `papers/bedc/parts/capstones/reflection_and_limits.tex`. Each definition
@@ -8,6 +11,11 @@ matching theorem proof, at which point the paper marker switches from
 -/
 
 namespace BEDC.Reflection
+
+open BEDC.FKernel.Ext
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 
 /-- Irreducibility of the form of distinction (statement scaffold). -/
 def form_of_distinction_irreducible : Prop := True
@@ -53,12 +61,15 @@ def computation_as_continuation_correspondence : Prop := True
 -- well-foundedness corresponding to termination and hsame to behavioural
 -- equivalence.
 
-/-- Type checking as Ext membership (statement scaffold). -/
-def type_checking_as_ext_membership : Prop := True
--- TODO: refine to the assertion that for every typed term language, the
--- well-typedness predicate coincides with Ext in a corresponding naming
--- certificate, and that subject reduction is the certificate's classifier
--- closure.
+/-- Type checking as Ext membership. -/
+def type_checking_as_ext_membership : Prop :=
+  ∀ (WellTyped : BHist → Prop) (Classifier : BHist → BHist → Prop),
+    NameCert WellTyped Classifier →
+      (∀ t : BHist, WellTyped t ↔ ∃ h : BHist, ∃ m : BMark, Ext h m t) →
+        (∀ {h k : BHist}, Classifier h k → WellTyped h → WellTyped k) ∧
+          (∀ {h k : BHist}, Classifier h k →
+            (∃ s : BHist, ∃ m : BMark, Ext s m h) →
+              ∃ s : BHist, ∃ m : BMark, Ext s m k)
 
 /-- Compiler as naming-certificate morphism (statement scaffold). -/
 def compilation_as_namecert_morphism : Prop := True

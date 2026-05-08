@@ -77,6 +77,7 @@ import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.BilinFormUp
 import BEDC.Derived.BilinFormUp.SemanticNameCertificate
+import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.PublicObligation
@@ -215,7 +216,9 @@ import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
+import BEDC.Derived.BrownianUp
 import BEDC.Derived.CondExpUp
+import BEDC.Derived.MartingaleUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeqUp

@@ -349,4 +349,39 @@ theorem GaloisGroupAutomorphismActionPacket_unit_action_laws [AskSetup] [Package
           (And.intro packet.right.right.right.right.right.right.right.right.right.left
             packet.right.right.right.right.right.right.right.right.right.right))))
 
+theorem GaloisGroupAutomorphismActionCompositionPacket_inverse_cancellation_rows
+    {extension group fixed action composition inverse classifier provenance ledger leftCancel
+      rightCancel leftUnit rightUnit : BHist} :
+    GaloisGroupAutomorphismActionCompositionPacket extension group fixed action composition inverse
+        classifier provenance ledger ->
+      Cont action inverse leftCancel ->
+        Cont inverse action rightCancel ->
+          Cont leftCancel BHist.Empty leftUnit ->
+            Cont rightCancel BHist.Empty rightUnit ->
+              UnaryHistory leftCancel ∧ UnaryHistory rightCancel ∧ UnaryHistory leftUnit ∧
+                UnaryHistory rightUnit ∧ hsame leftUnit leftCancel ∧ hsame rightUnit rightCancel ∧
+                  Cont action inverse leftCancel ∧ Cont inverse action rightCancel := by
+  intro packet leftCancelRow rightCancelRow leftUnitRow rightUnitRow
+  have leftCancelUnary : UnaryHistory leftCancel :=
+    unary_cont_closed packet.right.right.right.left packet.right.right.right.right.left
+      leftCancelRow
+  have rightCancelUnary : UnaryHistory rightCancel :=
+    unary_cont_closed packet.right.right.right.right.left packet.right.right.right.left
+      rightCancelRow
+  have leftUnitUnary : UnaryHistory leftUnit :=
+    unary_cont_closed leftCancelUnary unary_empty leftUnitRow
+  have rightUnitUnary : UnaryHistory rightUnit :=
+    unary_cont_closed rightCancelUnary unary_empty rightUnitRow
+  have sameLeftUnit : hsame leftUnit leftCancel :=
+    cont_right_unit_result leftUnitRow
+  have sameRightUnit : hsame rightUnit rightCancel :=
+    cont_right_unit_result rightUnitRow
+  exact And.intro leftCancelUnary
+    (And.intro rightCancelUnary
+      (And.intro leftUnitUnary
+        (And.intro rightUnitUnary
+          (And.intro sameLeftUnit
+            (And.intro sameRightUnit
+              (And.intro leftCancelRow rightCancelRow))))))
+
 end BEDC.Derived.GaloisGroupUp
