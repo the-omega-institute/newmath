@@ -13,6 +13,9 @@ def EventFlow : Type := List RawEvent
 def EventBoundary (S : EventFlow) (i : Nat) : Prop :=
   i + 1 < S.length
 
+def NonemptyEventFlow (S : EventFlow) : Prop :=
+  exists w : RawEvent, exists rest : EventFlow, S = w :: rest
+
 def erase (S : EventFlow) : List BMark :=
   S.flatten
 
@@ -48,7 +51,8 @@ inductive FormalCompilerInput : CompilerDatum -> Prop where
       FormalCompilerInput (CompilerDatum.certifiedExport S)
 
 def RecognizesPkg (R S : EventFlow) : Prop :=
-  FormalCompilerInput (CompilerDatum.recognizedFlow R S)
+  FormalCompilerInput (CompilerDatum.recognizedFlow R S) /\
+    NonemptyEventFlow S
 
 def RecognizedPackageFlow (S : EventFlow) : Prop :=
   exists R : GeneratedRecognizer, RecognizesPkg R S
@@ -66,7 +70,8 @@ def RecognizedClosureCertFlow (S : EventFlow) : Prop :=
   exists R : GeneratedRecognizer, RecognizesClosureCert R S
 
 def RecognizesTheorem (R S : EventFlow) : Prop :=
-  FormalCompilerInput (CompilerDatum.recognizedFlow R S)
+  FormalCompilerInput (CompilerDatum.recognizedFlow R S) /\
+    NonemptyEventFlow S
 
 def RecognizedTheoremFlow (S : EventFlow) : Prop :=
   exists R : GeneratedRecognizer, RecognizesTheorem R S
@@ -79,6 +84,7 @@ def RecognizedCompilerFlow (C : EventFlow) : Prop :=
 
 def AcceptedObjectFlow (S : EventFlow) : Prop :=
   FormalCompilerInput (CompilerDatum.certifiedExport S) /\
+    NonemptyEventFlow S /\
     exists N C : EventFlow, RecognizedNameCertFlow N /\ RecognizedClosureCertFlow C
 
 inductive StructuralHiddenInput : CompilerDatum -> Prop where
@@ -171,7 +177,54 @@ theorem accepted_export_requires_cert {S : EventFlow} :
     AcceptedObjectFlow S ->
       exists N C : EventFlow, RecognizedNameCertFlow N /\ RecognizedClosureCertFlow C := by
   intro h
-  exact h.right
+  exact h.right.right
+
+theorem empty_not_nonempty_event_flow :
+    Not (NonemptyEventFlow []) := by
+  intro h
+  cases h with
+  | intro w hrest =>
+      cases hrest with
+      | intro rest heq =>
+          cases heq
+
+theorem empty_not_recognized_package_flow :
+    Not (RecognizedPackageFlow []) := by
+  intro h
+  cases h with
+  | intro R hrec =>
+      exact empty_not_nonempty_event_flow hrec.right
+
+theorem empty_not_recognized_theorem_flow :
+    Not (RecognizedTheoremFlow []) := by
+  intro h
+  cases h with
+  | intro R hrec =>
+      exact empty_not_nonempty_event_flow hrec.right
+
+theorem empty_not_accepted_object_flow :
+    Not (AcceptedObjectFlow []) := by
+  intro h
+  exact empty_not_nonempty_event_flow h.right.left
+
+theorem code_not_acceptance :
+    exists S : EventFlow,
+      FormalCompilerInput (CompilerDatum.eventFlow S) /\ Not (AcceptedObjectFlow S) := by
+  exact
+    ⟨[], FormalCompilerInput.eventFlow [],
+      empty_not_accepted_object_flow⟩
+
+theorem readability_weaker_than_theoremhood :
+    exists S : EventFlow,
+      FormalCompilerInput (CompilerDatum.eventFlow S) /\
+      Not (RecognizedTheoremFlow S) /\
+      Not (RecognizedPackageFlow S) /\
+      Not (AcceptedObjectFlow S) := by
+  exact
+    ⟨[], FormalCompilerInput.eventFlow [],
+      empty_not_recognized_theorem_flow,
+      empty_not_recognized_package_flow,
+      empty_not_accepted_object_flow⟩
 
 theorem event_flow_conservativity {S : EventFlow} {w : RawEvent}
     {m : DisplayAlphabet} :
