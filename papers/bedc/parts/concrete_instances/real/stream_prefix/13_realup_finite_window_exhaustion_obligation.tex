@@ -41,6 +41,42 @@ source package. These are precisely the rows allowed by
 field consumes no data outside that boundary.
 \end{proof}
 
+\begin{theorem}[RealUp StreamName window determinacy boundary]
+\label{thm:realup-streamname-window-determinacy-boundary}
+Let two finite-window observations be admitted by the $\RealUp$ seal through
+the same selected unary observation and the same
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ endpoint package. Then the two
+observations expose the same endpoint $\RatUp$ classifier rows, the same
+positive denominator witnesses, the same common e-one tail readbacks, and the
+same $\mathsf{DyadicRatCore}$ source rows, up to the displayed $\hsame$ ledger
+rows permitted by \autoref{thm:realup-scoped-certificate-boundary}. No host
+$\mathsf{Nat}$ index, host function, quotient, or unrecorded stream object is
+available to separate the two exposed windows.
+\end{theorem}
+\begin{proof}
+Begin with the two accepted finite-window observations. Apply
+\autoref{thm:realup-streamname-finite-window-ledger-boundary} to each one. The
+only exposed rows are the selected unary observation, the pointwise
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the endpoint denominator
+rows, and the dyadic source rows named by the finite-window obligation.
+
+Now use the common StreamName package. The structural laws of
+\autoref{thm:rat-stream-name-finite-window-structural-laws} and the selected
+full-endpoint package of
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package}
+identify the two selected observations and their endpoint classifier rows by
+the displayed $\hsame$ ledger rows. Thus the endpoint $\RatUp$ classifiers and
+positive denominator witnesses are the same readable rows of the package.
+
+Finally repack through
+\autoref{thm:realup-finite-window-exhaustion-obligation}. The common endpoint
+package supplies the hypotheses for the common e-one tail readbacks, and the
+dyadic source exhaustion supplies the same $\mathsf{DyadicRatCore}$ source
+rows. Since \autoref{thm:realup-scoped-certificate-boundary} permits only these
+carrier, classifier, stability, and finite ledger rows, the two windows have
+the same exposed RealUp seal ledger.
+\end{proof}
+
 \begin{theorem}[RealUp StreamName finite-window ledger boundary]
 \label{thm:realup-streamname-finite-window-ledger-boundary}
 Every finite-window observation admitted by the $\RealUp$ seal factors through
