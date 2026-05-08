@@ -1,10 +1,143 @@
 \chapter{A Concrete Naming Certificate for $\ObservableUp$}
 \label{ch:concrete-instances-observable-namecert}
 
-The observable interface $\ObservableUp$ packages a self-adjoint operator on a Hilbert space carrier together with its spectrum and expectation pairing with quantum states. It depends on $\NameCert_{\HilbertUp}$ (\autoref{ch:concrete-instances-hilbert-namecert}) and $\NameCert_{\SpectralTheoremUp}$ (\autoref{ch:concrete-instances-spectraltheorem-namecert}).
+The observable interface $\ObservableUp$ packages a self-adjoint operator on a Hilbert space carrier together with its spectrum and expectation pairing with quantum states. It depends on $\NameCert_{\HilbertUp}$ (\autoref{ch:concrete-instances-hilbert-namecert}), $\NameCert_{\SpectralTheoremUp}$ (\autoref{ch:concrete-instances-spectraltheorem-namecert}), and the quantum-state input boundary of $\NameCert_{\QuantumStateUp}$ (\autoref{ch:concrete-instances-quantumstate-namecert}).
 
 \section{Carrier definition}
 \label{sec:observable-carrier}
 
+\begin{definition}[ObservableUp spectral evaluation packet]
+\label{def:observable-spectral-evaluation-packet}
+An $\ObservableUp$ spectral evaluation packet is a finite $\mathsf{BHist}$ row
+$$
+\mathcal{O}=(H,A,S,E,Q,\rho,\lambda).
+$$
+The row $H$ is a consumed $\NameCert_{\HilbertUp}$ source row. The row $A$ is
+the displayed self-adjoint operator row over that Hilbert source. The row $S$
+is the consumed $\NameCert_{\SpectralTheoremUp}$ spectral-data row for $A$,
+containing the spectrum, projection-measure, and functional-calculus entries
+made visible by the spectral certificate.
+
+The row $E$ is the expectation pairing row against certified quantum-state
+inputs over the same Hilbert source. The row $Q$ is the admissible
+$\QuantumStateUp$ input boundary, $\rho$ is the shared $\mathsf{Pkg}$
+provenance row for the Hilbert, operator, spectral, and quantum-state entries,
+and $\lambda$ is the finite $\mathsf{Cont}$ ledger that records the displayed
+transport rows used by the packet. No observable row outside
+$H,A,S,E,Q,\rho,\lambda$ is part of this carrier.
+\end{definition}
+
 \section{The certificate}
 \label{sec:observable-certificate}
+
+\begin{theorem}[ObservableUp Hilbert source boundary]
+\label{thm:observable-hilbert-source-boundary}
+For every spectral evaluation packet $\mathcal{O}$ of
+\autoref{def:observable-spectral-evaluation-packet}, every operator row,
+spectral row, and expectation row reads its Hilbert source only through the
+consumed $\NameCert_{\HilbertUp}$ row $H$ and $\hsame$ transport. In
+particular, the operator carrier $A$, the spectral-data row $S$, and the
+expectation pairing row $E$ cannot inspect an ambient Hilbert carrier apart
+from the certified source row and its displayed classifier transport.
+\end{theorem}
+\begin{proof}
+Unpack the packet $\mathcal{O}=(H,A,S,E,Q,\rho,\lambda)$. The only field that
+names a Hilbert source is $H$, and the only transport field available to move
+Hilbert-side data is the $\mathsf{Cont}$ ledger $\lambda$ recording
+$\hsame$-compatible rows.
+
+Project the operator row $A$ from the packet. Its source is required to be the
+same $H$ because $A$ is displayed over the Hilbert source field rather than
+over a separate carrier. Project the spectral row $S$ next; by construction it
+is the spectral-data row for that same operator row $A$.
+
+Finally project the expectation row $E$. Its state input is constrained by
+$Q$, while its vector-space and inner-product source is still the consumed
+Hilbert row $H$. Repacking these projections with $\rho$ gives the stated
+source boundary: all Hilbert reads factor through $H$ and the displayed
+$\hsame$ transport rows.
+\end{proof}
+
+\begin{theorem}[ObservableUp spectral data ledger]
+\label{thm:observable-spectral-data-ledger}
+The spectral rows consumed by $\ObservableUp$ are exactly the
+$\SpectralTheoremUp$ spectrum, projection-measure, and functional-calculus rows
+for the displayed self-adjoint operator $A$, all with the same package
+provenance row $\rho$. No additional spectral support, projection assignment,
+or calculus action is accepted by the observable packet unless it is one of
+the rows carried by the consumed $\NameCert_{\SpectralTheoremUp}$ entry $S$.
+\end{theorem}
+\begin{proof}
+Read the spectral-data field $S$ of
+\autoref{def:observable-spectral-evaluation-packet}. It is not an independent
+host spectral theorem; it is the consumed $\NameCert_{\SpectralTheoremUp}$ row
+for the operator field $A$.
+
+The forward projection exposes precisely the three spectral entries supplied
+by that certificate: the spectrum row, the projection-measure row, and the
+functional-calculus row. The provenance row $\rho$ attaches these entries to
+the same finite packet as $H$ and $A$.
+
+For the reverse reading, any displayed spectrum, projection-measure, and
+functional-calculus rows with the shared $\rho$ provenance repack as the
+spectral field $S$ only when they are accepted by
+$\NameCert_{\SpectralTheoremUp}$. Thus the ledger is exact for those three
+spectral rows and contains no further spectral datum.
+\end{proof}
+
+\begin{theorem}[ObservableUp quantum-state expectation boundary]
+\label{thm:observable-quantumstate-expectation-boundary}
+Expectation evaluation in an $\ObservableUp$ packet may consume only
+$\QuantumStateUp$-compatible input rows over the same Hilbert source $H$.
+If the Hilbert source, operator row, spectral row, and quantum-state input row
+are transported by the displayed classifiers in $\lambda$, then the expectation
+row $E$ transports to the corresponding expectation row over the transported
+packet.
+\end{theorem}
+\begin{proof}
+Project the input boundary $Q$ from the packet. By definition $Q$ is the
+admissible $\QuantumStateUp$ boundary, so every state input used by $E$ is a
+certified quantum-state row rather than an arbitrary vector row.
+
+Use \autoref{thm:observable-hilbert-source-boundary} to identify the Hilbert
+source of the operator, spectral, and expectation rows with the same consumed
+row $H$. The quantum-state boundary then supplies only state inputs whose
+Hilbert field is compatible with that source.
+
+Transport a classified packet through $\lambda$. The $\hsame$ rows move $H$,
+$A$, $S$, and the quantum-state input boundary componentwise. Since $E$ is
+displayed as the pairing of the transported operator with the transported
+state input, it repacks as the transported expectation row and remains inside
+the $\ObservableUp$ carrier.
+\end{proof}
+
+\begin{theorem}[ObservableUp public certificate row family]
+\label{thm:observable-public-certificate-row-family}
+The carrier of \autoref{def:observable-spectral-evaluation-packet} together
+with \autoref{thm:observable-hilbert-source-boundary},
+\autoref{thm:observable-spectral-data-ledger}, and
+\autoref{thm:observable-quantumstate-expectation-boundary} supplies the
+carrier, classifier, stability, ledger, and exactness fields for the public
+$\NameCert_{\ObservableUp}$ surface. The public row family is exactly the
+Hilbert source row, self-adjoint operator row, spectral-data row, certified
+quantum-state input boundary, expectation row, shared $\mathsf{Pkg}$
+provenance row, and finite $\mathsf{Cont}$ transport ledger.
+\end{theorem}
+\begin{proof}
+Start with the carrier field. The packet
+$\mathcal{O}=(H,A,S,E,Q,\rho,\lambda)$ lists every public row of
+$\ObservableUp$ and excludes any row not named in the finite carrier.
+
+The classifier and stability fields are supplied by the transport ledger
+$\lambda$. The Hilbert boundary theorem restricts source transport to $H$ and
+$\hsame$, while the expectation boundary theorem shows that operator,
+spectral, and quantum-state input transport repacks the expectation row.
+
+The ledger and exactness fields come from the row projections. The spectral
+ledger theorem identifies exactly the spectrum, projection-measure, and
+functional-calculus rows consumed from $\SpectralTheoremUp$; the Hilbert and
+quantum-state boundary theorems identify the source and input rows. Repacking
+these rows with the shared provenance $\rho$ gives the public
+$\NameCert_{\ObservableUp}$ certificate surface and no larger operator or
+state-evaluation surface.
+\end{proof}
