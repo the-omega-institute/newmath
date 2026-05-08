@@ -48,4 +48,35 @@ theorem GaloisGroupAutomorphismActionPacket_composition_closure
                 (And.intro actionRow (And.intro classifierRow ledgerRow))))))))
     (And.intro sameComposition (And.intro sameClassifier sameLedger))
 
+theorem GaloisGroupAutomorphismActionPacket_inverse_closure
+    {extension group fixed action composition inverse inverse' classifier classifier' provenance ledger
+      ledger' : BHist} :
+    GaloisGroupAutomorphismActionPacket extension group fixed action composition inverse classifier
+        provenance ledger ->
+      hsame inverse inverse' ->
+        Cont composition inverse' classifier' ->
+          Cont classifier' provenance ledger' ->
+            GaloisGroupAutomorphismActionPacket extension group fixed action composition inverse'
+                classifier' provenance ledger' ∧
+              hsame classifier classifier' ∧ hsame ledger ledger' := by
+  intro packet sameInverse classifierRow ledgerRow
+  have inverseUnary : UnaryHistory inverse' :=
+    unary_transport packet.right.right.right.right.left sameInverse
+  have sameClassifier : hsame classifier classifier' :=
+    cont_respects_hsame (hsame_refl composition) sameInverse
+      packet.right.right.right.right.right.right.right.left classifierRow
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameClassifier (hsame_refl provenance)
+      packet.right.right.right.right.right.right.right.right ledgerRow
+  exact And.intro
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro inverseUnary
+              (And.intro packet.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.left
+                  (And.intro classifierRow ledgerRow))))))))
+    (And.intro sameClassifier sameLedger)
+
 end BEDC.Derived.GaloisGroupUp

@@ -123,4 +123,40 @@ theorem GaloisExtSourcePacket_classifier_transport
         (And.intro sameClassifier
           (And.intro sameProvenance sameLedger))))
 
+theorem GaloisExtSourcePacket_normal_separable_stability [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot sepProvenance separable normality
+      separability classifier provenance endpoint normality' separability' classifier'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance separable
+        normality separability classifier provenance endpoint bundle pkg ->
+      hsame normality normality' ->
+        hsame separability separability' ->
+          Cont normality' separability' classifier' ->
+            Cont provenance classifier' endpoint' ->
+              GaloisExtSourcePacket fieldExt polynomial generator minimal simpleRoot sepProvenance
+                  separable normality' separability' classifier' provenance endpoint' bundle pkg ∧
+                hsame classifier classifier' ∧ hsame endpoint endpoint' := by
+  intro packet sameNormality sameSeparability classifierRow endpointRow
+  have normalityUnary : UnaryHistory normality' :=
+    unary_transport packet.right.left sameNormality
+  have separabilityUnary : UnaryHistory separability' :=
+    unary_transport packet.right.right.left sameSeparability
+  have sameClassifier : hsame classifier classifier' :=
+    cont_respects_hsame sameNormality sameSeparability packet.right.right.right.right.left
+      classifierRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameClassifier
+      packet.right.right.right.right.right.left endpointRow
+  have pkgSig : PkgSig bundle endpoint' pkg := by
+    cases sameEndpoint
+    exact packet.right.right.right.right.right.right
+  exact And.intro
+    (And.intro packet.left
+      (And.intro normalityUnary
+        (And.intro separabilityUnary
+          (And.intro packet.right.right.right.left
+            (And.intro classifierRow (And.intro endpointRow pkgSig))))))
+    (And.intro sameClassifier sameEndpoint)
+
 end BEDC.Derived.GaloisExtUp
