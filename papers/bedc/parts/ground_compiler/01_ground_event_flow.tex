@@ -30,6 +30,7 @@ The display convention sends each raw mark to a glyph for the purpose of writing
 
 \begin{definition}[Raw event]
 \label{def:ground-event-flow-raw-event}
+\leandef{BEDC.GroundCompiler.EventFlow.RawEvent}
 A \emph{raw event} is a finite display string $w \in \Sigma^{*}$. The set of raw events is
 $$
   \mathsf{RawEvent} \;:=\; \Sigma^{*}.
@@ -47,6 +48,7 @@ A raw event is a finite displayed string of glyphs. It is not a theorem, not a p
 
 \begin{definition}[Event flow]
 \label{def:ground-event-flow-event-flow}
+\leandef{BEDC.GroundCompiler.EventFlow.EventFlow}
 An \emph{event flow} is a finite ordered sequence of raw events
 $$
   S \;=\; (w_{0}, w_{1}, \ldots, w_{n-1}),
@@ -71,6 +73,7 @@ An \emph{event boundary} is the separation between two consecutive raw events in
 
 \begin{proposition}[Bare bitstreams do not determine event flows]
 \label{prop:ground-event-flow-erasure-not-injective}
+\leanchecked{BEDC.GroundCompiler.EventFlow.erase\_not\_injective}
 The boundary-erasure map
 $$
   \mathrm{erase} \colon \mathsf{EventFlow} \longrightarrow \Sigma^{*},
@@ -349,4 +352,3 @@ Readability asserts only $S \in \mathsf{EventFlow}$. Theoremhood requires a reco
 \label{rem:ground-event-flow-outlook}
 The next chapter fixes the channel-level encoding $\mathsf{Compile} \colon \mathsf{EventFlow} \to \Sigma^{*}$ that displays an event flow as a single self-delimiting bit string under the Zeckendorf-safe convention $\bzero \mapsto 0$, $\bone \mapsto 10$, and event boundary $\mapsto 11$, and proves that the resulting language is in bijection with $\mathsf{EventFlow}$. The source-level rewrite $011 \to 100$ of \autoref{ch:concrete-instances-zeckendorf-normal-namecert} is a classifier on recognized history flows, not a rewrite of channel-level bit strings; the next chapter records the layer separation explicitly.
 \end{remark}
-
