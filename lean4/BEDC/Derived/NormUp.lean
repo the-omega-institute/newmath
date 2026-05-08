@@ -135,4 +135,30 @@ theorem NormSingletonEmptyHistory_semantic_name_certificate :
   · intro m carrierM
     exact NormSingletonEmptyHistory_zero_exactness carrierM
 
+theorem NormUp_StdBridge :
+    SemanticNameCert
+      (fun m : BHist =>
+        VecSpaceSingletonCarrier m ∧ RealConstantHistoryCarrier (NormSingletonNorm m))
+      VecSpaceSingletonCarrier
+      (fun m : BHist =>
+        RealConstantHistoryClassifier (NormSingletonNorm m) (BHist.e1 (BHist.e1 BHist.Empty)))
+      VecSpaceSingletonClassifier ∧
+      (∀ {m : BHist}, VecSpaceSingletonCarrier m →
+        VecSpaceSingletonClassifier m BHist.Empty ∧
+          RealConstantHistoryClassifier (NormSingletonNorm m) (BHist.e1 (BHist.e1 BHist.Empty))) ∧
+        (∀ {m : BHist}, VecSpaceSingletonCarrier m →
+          (RealConstantHistoryClassifier (NormSingletonNorm m) (BHist.e1 (BHist.e1 BHist.Empty)) ↔
+            VecSpaceSingletonClassifier m BHist.Empty)) := by
+  have certificateRows := NormSingletonEmptyHistory_semantic_name_certificate
+  constructor
+  · exact certificateRows.left
+  · constructor
+    · intro m carrierM
+      have exactness := NormSingletonEmptyHistory_zero_exactness carrierM
+      have vectorClassified : VecSpaceSingletonClassifier m BHist.Empty :=
+        And.intro carrierM (And.intro (hsame_refl BHist.Empty) carrierM)
+      exact And.intro vectorClassified (exactness.mpr vectorClassified)
+    · intro m carrierM
+      exact certificateRows.right carrierM
+
 end BEDC.Derived.NormUp

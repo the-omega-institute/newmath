@@ -518,6 +518,23 @@ theorem RatHistoryLedgerPolicy_visible_target_positive_nonempty_package {rho v w
       (And.intro rawPositives.right
         (And.intro rhoRows.right (And.intro vRows.right wRows.right))))
 
+theorem RatHistoryLedgerPolicy_visible_target_lift_positive_endpoints {rho v w : BHist} :
+    RatHistoryLedgerPolicy rho v → RatHistoryClassifier v w →
+      RatHistoryClassifier rho w ∧ PositiveUnaryDenominator rho ∧ PositiveUnaryDenominator v ∧
+        PositiveUnaryDenominator w ∧
+          (∃ tail : BHist, hsame v (BHist.e1 tail) ∧ UnaryHistory tail) := by
+  intro ledger visibleTarget
+  have rawTarget : RatHistoryClassifier rho w :=
+    RatHistoryLedgerPolicy_classifier_extension ledger visibleTarget
+  have rawPositives : PositiveUnaryDenominator rho ∧ PositiveUnaryDenominator w :=
+    RatHistoryClassifier_positive_denominators rawTarget
+  have visiblePositives : PositiveUnaryDenominator v ∧ PositiveUnaryDenominator w :=
+    RatHistoryClassifier_positive_denominators visibleTarget
+  exact And.intro rawTarget
+    (And.intro rawPositives.left
+      (And.intro visiblePositives.left
+        (And.intro rawPositives.right visiblePositives.left)))
+
 theorem RatHistoryLedgerPolicy_bidirectional_target_positive_endpoint_package {rho v w : BHist} :
     RatHistoryLedgerPolicy rho v ->
       (RatHistoryClassifier rho w <-> RatHistoryClassifier v w) ∧
