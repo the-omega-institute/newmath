@@ -8,3 +8,60 @@ The deformation-quantization interface $\DeformQuantizationUp$ packages the form
 
 \section{The certificate}
 \label{sec:deformquantization-certificate}
+
+\begin{definition}[DeformQuantization first-order star-product ledger]
+\label{def:deformquantization-first-order-star-product-ledger}
+Fix a $\SymplecticUp$ obligation boundary $\Sigma$ as in \autoref{def:symplectic-obligation-boundary}. Fix a $\HopfAlgUp$ row $H=(a,t,s,u,e)$ whose carrier and classifier are read through \autoref{def:hopfalg-bhist-bialgebra-carrier} and \autoref{def:hopfalg-antipode-ledger-classifier}. A first-order star-product ledger for $\DeformQuantizationUp$ over $(\Sigma,H)$ is a displayed $\mathsf{BHist}$ row
+$$
+\mathsf{DQStarLedger}_{\Sigma,H}(\mu_\hbar,\mu_0,\mu_1,\mu_1^{\mathrm{op}},\kappa,\pi,\Lambda_\star)
+$$
+with the following fields.
+\begin{enumerate}
+  \item The row $\mu_\hbar$ is a formal-product row whose multiplication provenance is read through the $\HopfAlgUp$ multiplication and tensor rows of $H$.
+  \item The row $\mu_0$ is the degree-zero product endpoint of $\mu_\hbar$ and is classified with the ordinary commutative product row on the function algebra over the carrier exposed by $\Sigma$.
+  \item The rows $\mu_1$ and $\mu_1^{\mathrm{op}}$ are the degree-one coefficient endpoints of $\mu_\hbar$ and of the opposite formal product.
+  \item The row $\kappa$ is the degree-one commutator endpoint, displayed by the continuation row
+$$
+\Cont(\mu_1,\mu_1^{\mathrm{op}},\kappa).
+$$
+  \item The row $\pi$ is the Poisson-bracket obligation row attached by the $\DeformQuantizationUp$ packet to the same symplectic boundary $\Sigma$.
+  \item The formal-deformation classifier attached to $\Lambda_\star$ contains the bracket exactness comparison
+$$
+\hsame(\kappa,\pi),
+$$
+and its coverage and soundness clauses say that every bracket read of the formal-deformation classifier factors through $\pi$ and every accepted degree-one commutator endpoint factors through $\kappa$ before this comparison is applied.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[DeformQuantization first-order bracket ledger]
+\label{thm:deformquantization-first-order-bracket-ledger}
+Let $\Sigma$ be a $\SymplecticUp$ obligation boundary and let $H=(a,t,s,u,e)$ be a $\HopfAlgUp$ formal-product row as in \autoref{def:deformquantization-first-order-star-product-ledger}. Let $Q$ be a $\DeformQuantizationUp$ packet over $(\Sigma,H)$ containing the visible ledger row
+$$
+\mathsf{DQStarLedger}_{\Sigma,H}(\mu_\hbar,\mu_0,\mu_1,\mu_1^{\mathrm{op}},\kappa,\pi,\Lambda_\star).
+$$
+If $\mu_0$ is read as the degree-zero product endpoint of the star product and $\kappa$ is read as the degree-one commutator endpoint, then the formal-deformation classifier of $Q$ reads the same degree-one endpoint as the displayed Poisson-bracket obligation row:
+$$
+\mathsf{PoissonBracketOb}_{\Sigma,H}(\pi)\land\hsame(\kappa,\pi).
+$$
+Thus the bracket endpoint belongs to the $\DeformQuantizationUp$ ledger over the supplied $\SymplecticUp$ boundary and $\HopfAlgUp$ formal-product row, not to the $\SymplecticUp$ boundary alone.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:deformquantization-first-order-star-product-ledger}. The $\HopfAlgUp$ side supplies the formal product substrate through the multiplication and tensor provenance rows recorded in \autoref{thm:hopfalg-namecert-obligation-surface}. This places $\mu_\hbar$ inside the same ledger spine as the degree-zero endpoint $\mu_0$ and the two degree-one coefficient endpoints $\mu_1$ and $\mu_1^{\mathrm{op}}$.
+
+The commutator endpoint is not an additional classifier choice. It is the row $\kappa$ displayed by the continuation face
+$$
+\Cont(\mu_1,\mu_1^{\mathrm{op}},\kappa)
+$$
+inside the same star-product ledger. The degree-zero clause records that the zeroth coefficient is the ordinary product endpoint, while the degree-one clause records that the first antisymmetric endpoint is $\kappa$.
+
+The Poisson-bracket clause of the ledger then supplies the row $\pi$ and the exactness comparison
+$$
+\hsame(\kappa,\pi).
+$$
+By the coverage clause, any bracket read made by the formal-deformation classifier factors through this displayed $\pi$ row. By the soundness clause, the accepted degree-one commutator read factors through $\kappa$ before it is compared with $\pi$. Therefore the endpoint read from the degree-one commutator is classified with the displayed Poisson-bracket obligation row, giving
+$$
+\mathsf{PoissonBracketOb}_{\Sigma,H}(\pi)\land\hsame(\kappa,\pi).
+$$
+
+The separation from the symplectic dependency is exactly the consumer frontier of \autoref{thm:symplecticup-hamiltonian-poisson-consumer-frontier}: the $\SymplecticUp$ boundary supplies carrier, two-form, closedness, nondegeneracy, pairing, and transport rows, but it does not by itself export a Poisson bracket. The bracket endpoint used here is supplied only after the $\DeformQuantizationUp$ packet adds the first-order star-product ledger over the Hopf formal-product row.
+\end{proof}
