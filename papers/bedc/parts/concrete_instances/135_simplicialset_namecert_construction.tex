@@ -88,3 +88,82 @@ Apply \autoref{thm:simplicialset-functor-source-boundary} to separate the functo
 The four clauses repack as the public $\NameCert_{\SimplicialSetUp}$ obligation surface. No additional host presheaf, host simplex category, host function equality, or unrecorded simplicial-identity proof is exported outside the displayed packet.
 \end{proof}
 \leanchecked{BEDC.Derived.SimplicialSetUp.SimplicialSetBHistSimplexRowCarrier\_namecert\_obligation\_surface}
+
+\begin{theorem}[SimplicialSet face-degeneracy endpoint coverage]
+\label{thm:simplicialset-face-degeneracy-endpoint-coverage}
+For every $\SimplicialSetUp$ BHist simplex-row carrier
+$(F,X,D,P,\rho,\lambda)$ of
+\autoref{def:simplicialset-bhist-simplex-row-carrier}, each displayed face
+or degeneracy endpoint in $D$ is covered by the functor-source row $F$, the
+finite simplex-row family $X$, and the finite $\Cont$ and $\Pkg$ ledgers.
+The source and target simplex rows are read through $X$, the displayed arrow
+is read through $F$, and the endpoint remains public only through the
+continuation and provenance rows recorded by $\lambda$ and $\rho$.
+\end{theorem}
+\begin{proof}
+Project a displayed endpoint entry from $D$. Its arrow component is one of the
+face or degeneracy arrows carried by the functor-source row $F$, so the
+source-category reading is already inside the $\NameCert_{\FunctorUp}$
+boundary.
+
+Next project the source and target simplex rows named by that endpoint. They
+are entries of the finite family $X$, hence are consumed through the
+$\NameCert_{\FinSetUp}$ carrier and classifier surface.
+
+Finally read the ledgers. The package provenance row $\rho$ records the
+dependency origin for the functor and finite-row reads, while $\lambda$
+records the finite $\Cont$ route that exposes the endpoint in the packet.
+Repacking these projections gives endpoint coverage without introducing a
+host presheaf endpoint.
+\end{proof}
+
+\begin{theorem}[SimplicialSet simplicial-identity ledger coverage]
+\label{thm:simplicialset-simplicial-identity-ledger-coverage}
+Every identity or composition law for displayed faces and degeneracies in a
+$\SimplicialSetUp$ carrier is consumed as a finite $\mathsf{BHist}$ ledger row
+inside $D$, $\rho$, and $\lambda$. The public certificate uses those ledger
+rows to compare endpoints, and it does not require host presheaf equality of
+face maps, degeneracy maps, or their composites.
+\end{theorem}
+\begin{proof}
+Start from an identity or composition law appearing in the displayed
+face-and-degeneracy data. The law is not read as equality in an external
+presheaf; it is a named row in the same $\mathsf{BHist}$ packet as the
+endpoint entries.
+
+Use the classifier of
+\autoref{def:simplicialset-face-degeneracy-classifier}. It transports the
+functor-source row, the finite simplex-row family, and the endpoint ledger by
+componentwise $\hsame$ witnesses.
+
+The continuation ledger then identifies the two displayed routes that the
+simplicial identity compares, while the package provenance records that both
+routes belong to the same public packet. Thus the identity is consumed as
+ledger coverage, not as a host-side equation of presheaf maps.
+\end{proof}
+
+\begin{theorem}[SimplicialSet public dependency scope]
+\label{thm:simplicialset-public-dependency-scope}
+The public $\NameCert_{\SimplicialSetUp}$ certificate depends exactly on
+$\NameCert_{\FunctorUp}$, $\NameCert_{\FinSetUp}$, $\mathsf{BHist}$,
+$\hsame$, $\Cont$, and $\Pkg$. Its public carrier, classifier, endpoint
+coverage, and simplicial-identity rows are obtained by projection and
+repacking of those dependencies alone.
+\end{theorem}
+\begin{proof}
+Read the carrier of
+\autoref{def:simplicialset-bhist-simplex-row-carrier}. The row $F$ is the
+only functor-source dependency, and the row $X$ is the only finite simplex-row
+dependency.
+
+The remaining public objects are kernel ledgers. Endpoints and identity rows
+are $\mathsf{BHist}$ entries, comparisons are $\hsame$ transports,
+continuations are finite $\Cont$ routes, and dependency provenance is recorded
+by $\Pkg$.
+
+Apply \autoref{thm:simplicialset-namecert-obligation-surface},
+\autoref{thm:simplicialset-face-degeneracy-endpoint-coverage}, and
+\autoref{thm:simplicialset-simplicial-identity-ledger-coverage}. These rows
+exhaust the public surface, so any dependency outside the listed objects
+would have no projection in the certificate.
+\end{proof}
