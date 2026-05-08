@@ -59,6 +59,86 @@ theorem KnotDiagramPacket_sone_source_boundary [AskSetup] [PackageSetup]
             (And.intro endpointCont
               packet.right.right.right.right.right.right.right.right.right.right)))))
 
+theorem KnotDiagramPacket_projection_stability_obligation [AskSetup] [PackageSetup]
+    {sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger endpoint
+      sone' ambient' homotopy' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KnotDiagramPacket sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger
+        endpoint bundle pkg ->
+      hsame sone sone' ->
+        hsame ambient ambient' ->
+          hsame homotopy homotopy' ->
+            Cont sone' ambient' provenance' ->
+              Cont provenance' ledger endpoint' ->
+                PkgSig bundle endpoint' pkg ->
+                  KnotDiagramPacket sone' ambient' diagram trace homotopy' endpoint0 endpoint1
+                      provenance' ledger endpoint' bundle pkg ∧
+                    hsame endpoint endpoint' := by
+  intro packet sameSone sameAmbient sameHomotopy provenanceRow endpointRow endpointPkg
+  have soneUnary : UnaryHistory sone' :=
+    unary_transport packet.left sameSone
+  have ambientUnary : UnaryHistory ambient' :=
+    unary_transport packet.right.left sameAmbient
+  have homotopyUnary : UnaryHistory homotopy' :=
+    unary_transport packet.right.right.right.right.left sameHomotopy
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameSone sameAmbient
+      packet.right.right.right.right.right.right.right.left provenanceRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance (hsame_refl ledger)
+      packet.right.right.right.right.right.right.right.right.right.left endpointRow
+  exact And.intro
+    (And.intro soneUnary
+      (And.intro ambientUnary
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro homotopyUnary
+              (And.intro packet.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.left
+                  (And.intro provenanceRow
+                    (And.intro packet.right.right.right.right.right.right.right.right.left
+                      (And.intro endpointRow endpointPkg))))))))))
+    sameEndpoint
+
+theorem KnotDiagramPacket_endpoint_source_exhaustion [AskSetup] [PackageSetup]
+    {sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KnotDiagramPacket sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger
+        endpoint bundle pkg ->
+      UnaryHistory endpoint0 ∧ UnaryHistory endpoint1 ∧ UnaryHistory provenance ∧
+        UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont sone ambient provenance ∧
+          Cont endpoint0 endpoint1 ledger ∧ Cont provenance ledger endpoint ∧
+            hsame endpoint (append (append sone ambient) (append endpoint0 endpoint1)) ∧
+              PkgSig bundle endpoint pkg := by
+  intro packet
+  have endpoint0Unary : UnaryHistory endpoint0 :=
+    packet.right.right.right.right.right.left
+  have endpoint1Unary : UnaryHistory endpoint1 :=
+    packet.right.right.right.right.right.right.left
+  have provenanceCont : Cont sone ambient provenance :=
+    packet.right.right.right.right.right.right.right.left
+  have ledgerCont : Cont endpoint0 endpoint1 ledger :=
+    packet.right.right.right.right.right.right.right.right.left
+  have endpointCont : Cont provenance ledger endpoint :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have packetRows :=
+    KnotDiagramPacket_sone_source_boundary packet
+  have endpointReadback :
+      hsame endpoint (append (append sone ambient) (append endpoint0 endpoint1)) := by
+    cases provenanceCont
+    cases ledgerCont
+    exact endpointCont
+  exact And.intro endpoint0Unary
+    (And.intro endpoint1Unary
+      (And.intro packetRows.left
+        (And.intro packetRows.right.left
+          (And.intro packetRows.right.right.left
+            (And.intro provenanceCont
+              (And.intro ledgerCont
+                (And.intro endpointCont
+                  (And.intro endpointReadback
+                    packetRows.right.right.right.right.right.right))))))))
+
 theorem KnotDiagramPacket_homotopy_ledger_boundary [AskSetup] [PackageSetup]
     {sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

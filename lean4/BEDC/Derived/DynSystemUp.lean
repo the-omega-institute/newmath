@@ -130,6 +130,43 @@ theorem DynSystemFlowPacket_ode_generator_ledger [AskSetup] [PackageSetup]
           (And.intro endpointRows.right.right.right.right.left
             packet.right.right.right.right.right.right.right.right))))
 
+theorem DynSystemFlowPacket_segment_route_exhaustion [AskSetup] [PackageSetup]
+    {phase ode time source target flowWitness endpoint route tail finalRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemFlowPacket phase ode time source target flowWitness endpoint route bundle pkg ->
+      UnaryHistory tail -> Cont route tail finalRoute -> PkgSig bundle finalRoute pkg ->
+        UnaryHistory flowWitness ∧ UnaryHistory endpoint ∧ UnaryHistory route ∧
+          UnaryHistory finalRoute ∧ hsame flowWitness (append (append phase time) source) ∧
+            hsame endpoint (append (append (append phase time) source) ode) ∧
+              hsame route (append (append (append (append phase time) source) ode) target) ∧
+                hsame finalRoute
+                  (append (append (append (append (append phase time) source) ode) target)
+                    tail) ∧
+                  PkgSig bundle finalRoute pkg := by
+  intro packet tailUnary finalRouteCont finalRoutePkg
+  have endpointRows :=
+    DynSystemFlowPacket_endpoint_coverage packet
+  have readback :=
+    DynSystemFlowPacket_flow_route_readback packet
+  have finalRouteUnary : UnaryHistory finalRoute :=
+    unary_cont_closed endpointRows.right.right.left tailUnary finalRouteCont
+  have finalRouteReadback :
+      hsame finalRoute
+        (append (append (append (append (append phase time) source) ode) target) tail) := by
+    have routeReadback : hsame route
+        (append (append (append (append phase time) source) ode) target) :=
+      readback.right.right.left
+    cases routeReadback
+    exact finalRouteCont
+  exact And.intro endpointRows.left
+    (And.intro endpointRows.right.left
+      (And.intro endpointRows.right.right.left
+        (And.intro finalRouteUnary
+          (And.intro readback.left
+            (And.intro readback.right.left
+              (And.intro readback.right.right.left
+                (And.intro finalRouteReadback finalRoutePkg)))))))
+
 theorem DynSystemFlowPacket_classifier_flow_transport [AskSetup] [PackageSetup]
     {phase phase' ode ode' time time' source source' target target' flowWitness flowWitness'
       endpoint endpoint' route route' : BHist}
