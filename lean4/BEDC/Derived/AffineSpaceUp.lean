@@ -72,4 +72,79 @@ theorem AffineSpaceTranslationClassifier_witnesses_identified
         (And.intro leftCont
           (And.intro rightCont sameActions))))
 
+theorem AffineSpaceTranslationClassifier_classifier_transport
+    {point target left right leftAction rightAction point' target' left' right' leftAction'
+      rightAction' : BHist} :
+    AffineSpaceTranslationClassifier point target left right leftAction rightAction ->
+      hsame point point' ->
+        hsame target target' ->
+          hsame left left' ->
+            hsame right right' ->
+              Cont point' left' leftAction' ->
+                Cont point' right' rightAction' ->
+                  hsame leftAction' target' ->
+                    hsame rightAction' target' ->
+                      AffineSpaceTranslationClassifier point' target' left' right' leftAction'
+                          rightAction' ∧
+                        hsame leftAction leftAction' ∧ hsame rightAction rightAction' := by
+  intro classifier samePoint sameTarget sameLeft sameRight leftCont' rightCont'
+    sameLeftActionTarget' sameRightActionTarget'
+  have pointUnary' : UnaryHistory point' :=
+    unary_transport classifier.left.left samePoint
+  have leftUnary' : UnaryHistory left' :=
+    unary_transport classifier.left.right sameLeft
+  have rightUnary' : UnaryHistory right' :=
+    unary_transport classifier.right.left.right sameRight
+  have sameLeftAction : hsame leftAction leftAction' :=
+    cont_respects_hsame samePoint sameLeft classifier.right.right.left leftCont'
+  have sameRightAction : hsame rightAction rightAction' :=
+    cont_respects_hsame samePoint sameRight classifier.right.right.right.left rightCont'
+  exact
+    And.intro
+      (And.intro (And.intro pointUnary' leftUnary')
+        (And.intro (And.intro pointUnary' rightUnary')
+          (And.intro leftCont'
+            (And.intro rightCont'
+              (And.intro sameLeftActionTarget' sameRightActionTarget')))))
+      (And.intro sameLeftAction sameRightAction)
+
+theorem AffineSpaceTranslationClassifier_transport
+    {point point' target target' left left' right right' leftAction leftAction' rightAction
+      rightAction' : BHist} :
+    AffineSpaceTranslationClassifier point target left right leftAction rightAction ->
+      hsame point point' ->
+        hsame target target' ->
+          hsame left left' ->
+            hsame right right' ->
+              Cont point' left' leftAction' ->
+                Cont point' right' rightAction' ->
+                  AffineSpaceTranslationClassifier point' target' left' right' leftAction'
+                      rightAction' ∧
+                    hsame leftAction leftAction' ∧ hsame rightAction rightAction' := by
+  intro classifier samePoint sameTarget sameLeft sameRight leftActionCont rightActionCont
+  have pointUnary : UnaryHistory point' :=
+    unary_transport classifier.left.left samePoint
+  have leftUnary : UnaryHistory left' :=
+    unary_transport classifier.left.right sameLeft
+  have rightUnary : UnaryHistory right' :=
+    unary_transport classifier.right.left.right sameRight
+  have sameLeftAction : hsame leftAction leftAction' :=
+    cont_respects_hsame samePoint sameLeft classifier.right.right.left leftActionCont
+  have sameRightAction : hsame rightAction rightAction' :=
+    cont_respects_hsame samePoint sameRight classifier.right.right.right.left rightActionCont
+  have leftTarget : hsame leftAction' target' :=
+    hsame_trans (hsame_symm sameLeftAction)
+      (hsame_trans classifier.right.right.right.right.left sameTarget)
+  have rightTarget : hsame rightAction' target' :=
+    hsame_trans (hsame_symm sameRightAction)
+      (hsame_trans classifier.right.right.right.right.right sameTarget)
+  constructor
+  · exact
+      And.intro (And.intro pointUnary leftUnary)
+        (And.intro (And.intro pointUnary rightUnary)
+          (And.intro leftActionCont
+            (And.intro rightActionCont
+              (And.intro leftTarget rightTarget))))
+  · exact And.intro sameLeftAction sameRightAction
+
 end BEDC.Derived.AffineSpaceUp
