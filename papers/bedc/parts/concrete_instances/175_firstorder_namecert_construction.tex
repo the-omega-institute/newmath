@@ -6,5 +6,110 @@ The first-order-logic interface $\FirstOrderUp$ packages a signature of relation
 \section{Carrier definition}
 \label{sec:firstorder-carrier}
 
+\begin{definition}[FirstOrderUp BHist syntax carrier]\label{def:firstorder-bhist-syntax-carrier}
+A carried $\FirstOrderUp$ syntax packet is a displayed $\mathsf{BHist}$ tuple
+$(S,T,V,R,F,\tau,\varphi,\rho)$. The row $S$ is the $\SetUp$ symbol-source
+row, $T$ is the $\TreeUp$ parse-tree row, $V$ is the variable ledger, $R$ and
+$F$ are the relation-symbol and function-symbol rows, $\tau$ is the finite
+term/formula tree endpoint, $\varphi$ is the displayed formula endpoint, and
+$\rho$ records the $\Pkg$ provenance that ties the syntax packet to the
+visible naming certificate.
+
+Acceptance of the packet is read entirely through $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, and the $\SetUp$ and $\TreeUp$
+$\NameCert$ rows. A host grammar, a host set of strings, or an external
+syntax equality is not part of the carrier.
+\end{definition}
+
+\begin{definition}[FirstOrderUp deduction ledger classifier]\label{def:firstorder-deduction-ledger-classifier}
+Two $\FirstOrderUp$ syntax/deduction packets agree when their symbol rows,
+parse-tree rows, formula endpoint rows, and deduction-step ledgers are
+transported by $\hsame$ through the same $\SetUp$ and $\TreeUp$ certificates.
+The comparison is rowwise: relation symbols and function symbols move through
+the $\SetUp$ source, parse subtrees and formula endpoints move through the
+$\TreeUp$ source, and every deduction step carries its premise and conclusion
+endpoints by the displayed $\Cont$ and $\hsame$ rows recorded in the ledger.
+\end{definition}
+
 \section{The certificate}
 \label{sec:firstorder-certificate}
+
+\begin{theorem}[FirstOrderUp formula carrier obligation]\label{thm:firstorder-formula-carrier-obligation}
+Every accepted $\FirstOrderUp$ formula row projects to a $\SetUp$ symbol row,
+a $\TreeUp$ parse row, a finite $\mathsf{ProbeBundle}$ arity ledger, and a $\mathsf{SigRel}$
+endpoint relation. These projections are exactly the visible carrier data of
+\autoref{def:firstorder-bhist-syntax-carrier}; no formula is accepted by a
+host syntax predicate outside the displayed $\mathsf{BHist}$ packet.
+\end{theorem}
+\begin{proof}
+Invert the carried syntax packet of
+\autoref{def:firstorder-bhist-syntax-carrier}. The first projections expose
+the $\SetUp$ symbol-source row, the $\TreeUp$ parse-tree row, the relation and
+function symbol rows, and the formula endpoint $\varphi$.
+
+The arity information is read from the finite $\mathsf{ProbeBundle}$ ledger attached
+to the displayed relation and function rows. Each arity check is therefore a
+finite probe over the named symbol endpoints, not an inspection of an ambient
+syntax table.
+
+Finally apply induction on the $\TreeUp$ syntax row. Leaf rows read variables
+and constants from the symbol and variable ledgers; internal rows read their
+subformula endpoints from the same finite tree ledger. The endpoint relation
+is the displayed $\mathsf{SigRel}$ row tying the resulting formula endpoint to the
+accepted packet.
+\end{proof}
+
+\begin{theorem}[FirstOrderUp deduction soundness ledger obligation]\label{thm:firstorder-deduction-soundness-ledger-obligation}
+A $\FirstOrderUp$ deduction ledger is accepted only when every rule step
+consumes formula endpoints already carried by
+\autoref{def:firstorder-bhist-syntax-carrier} and records its
+premise/conclusion transport by $\Cont$ and $\hsame$. The ledger does not
+validate a rule by appeal to an external proof system; validity is the finite
+display of named endpoint consumption and transport.
+\end{theorem}
+\begin{proof}
+Induct over the finite displayed deduction ledger.
+
+In the empty case there is no rule step to validate. The ledger acceptance
+condition reduces to the visibility of the initial formula endpoints already
+carried by the syntax packet.
+
+In the step case, the induction hypothesis gives accepted carried endpoints
+for all earlier premises. The next rule row must cite only those endpoints,
+record the conclusion endpoint as another displayed formula row, and attach
+the $\Cont$ and $\hsame$ transport rows that move premises to the conclusion
+inside the same $\SetUp$ and $\TreeUp$ provenance.
+
+Appending the checked step preserves acceptance because the new ledger tail
+adds one finite row whose inputs, output, and transport are all visible BEDC
+rows. Thus the completed deduction remains a named ledger rather than a host
+derivation.
+\end{proof}
+
+\begin{theorem}[FirstOrderUp NameCert obligation surface]\label{thm:firstorder-namecert-obligation-surface}
+The public $\NameCert_{\FirstOrderUp}$ surface consists exactly of the syntax
+carrier of \autoref{def:firstorder-bhist-syntax-carrier}, the deduction
+classifier of \autoref{def:firstorder-deduction-ledger-classifier}, the
+formula carrier obligation of
+\autoref{thm:firstorder-formula-carrier-obligation}, the deduction-soundness
+ledger of \autoref{thm:firstorder-deduction-soundness-ledger-obligation}, the
+$\SetUp$ symbol provenance, the $\TreeUp$ syntax provenance, stability under
+$\hsame$, and exactness of displayed formula and deduction endpoints.
+\end{theorem}
+\begin{proof}
+Collect the carrier rows first. The syntax carrier supplies the displayed
+$\mathsf{BHist}$ packet, and the formula carrier obligation projects from it
+the symbol source, parse source, arity ledger, and endpoint relation.
+
+Next collect the comparison rows. The deduction classifier supplies the
+rowwise $\hsame$ transport through the same $\SetUp$ and $\TreeUp$
+certificates, while the deduction-soundness ledger supplies the finite rule
+steps that consume already carried endpoints and produce displayed conclusion
+endpoints.
+
+It remains to check public coverage. Any consumer of $\NameCert_{\FirstOrderUp}$
+asks for a syntax endpoint, a deduction endpoint, provenance in $\SetUp$ or
+$\TreeUp$, transport under $\hsame$, or exact readback of a visible formula or
+deduction row. Each request is one of the rows just collected, so the public
+surface contains no additional carrier, classifier, or proof-system field.
+\end{proof}

@@ -82,6 +82,41 @@ Completeness repacks exactly those rows. Given the $\AbelianCatUp$ object and ar
 The exactness boundary follows because every classifier theorem above projects from this same packet and every accepted endpoint reads back through the $\HomologyUp$ cycle classifier. There is no exported row naming an equality of complexes or an external abelian-category equality, so such data cannot enter the public $\NameCert_{\DerivedFunctorUp}$ surface.
 \end{proof}
 
+\begin{theorem}[DerivedFunctorUp source-coupled homology readback]\label{thm:derivedfunctor-source-coupled-homology-readback}
+Every packet satisfying the resolution-spine carrier of \autoref{def:derivedfunctor-resolution-spine-carrier} projects one finite $\mathsf{BHist}$ resolution spine whose object and arrow rows are consumed by $\NameCert_{\AbelianCatUp}$ and whose cycle, boundary, and unary-degree rows are consumed by $\NameCert_{\HomologyUp}$. The two readings have the same $\Pkg$ provenance row, so the public $\NameCert_{\DerivedFunctorUp}$ surface cannot split them into unrelated resolution and homology sources.
+\end{theorem}
+\begin{proof}
+Unpack the carried packet into its $\AbelianCatUp$ source certificate, $\HomologyUp$ source certificate, object row, finite resolution spine, functor row, displayed unary degree, cycle rows, boundary rows, and $\Pkg$ provenance.
+
+Project the object and arrow rows to the $\NameCert_{\AbelianCatUp}$ source surface. These are exactly the rows that classify the endpoint object and every admissible arrow in the finite spine.
+
+Project the displayed unary degree, cycle rows, and boundary rows to the $\NameCert_{\HomologyUp}$ source surface. They are read at the same selected degree and over the spine already classified by the abelian-category source rows.
+
+The shared $\Pkg$ provenance row is part of the same carrier packet, not a separate input. Therefore the abelian-category transport side and the homology readback side are two projections of one $\mathsf{BHist}$ ledger, and no unrelated second spine is available to the public certificate.
+\end{proof}
+
+\begin{theorem}[DerivedFunctorUp boundary over transported resolution]\label{thm:derivedfunctor-boundary-over-transported-resolution}
+After $\hsame$ transport of the object row and $\Cont$ extension of the finite resolution spine, the selected boundary-equivalence row still compares the $\HomologyUp$ cycle rows over the transported $\AbelianCatUp$ resolution data. Thus boundary readback remains attached to the transported source resolution rather than to an independent homology packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:derivedfunctor-resolution-carrier-obligation} to transport the endpoint object row and extend the finite spine by the displayed continuation step. The result is again a carried resolution ledger with the same visible provenance form.
+
+Apply \autoref{thm:derivedfunctor-cycle-boundary-classifier-obligation} to the transported carried packets. The abelian-category rows compare the transported object and arrow data, while the homology rows compare the selected cycles modulo the displayed boundary rows.
+
+Finally read the endpoint through \autoref{thm:derivedfunctor-homology-readback-obligation}. The boundary-equivalence witness is interpreted by the $\HomologyUp$ source over the transported resolution data, so the public derived-functor classifier is preserved by the combined transport and readback.
+\end{proof}
+
+\begin{theorem}[DerivedFunctorUp downstream consumer package]\label{thm:derivedfunctor-downstream-consumer-package}
+A downstream $\DerivedCatUp$ or $\SpectralSeqUp$ consumer may receive precisely the shared source certificates, finite spine, functor row, unary degree, cycle-boundary rows, classifier transport, and $\Pkg$ provenance carried by the public $\NameCert_{\DerivedFunctorUp}$ surface. It receives no host quotient of complexes and no external abelian-category equality.
+\end{theorem}
+\begin{proof}
+Start with the coupled source packet of \autoref{thm:derivedfunctor-source-coupled-homology-readback}. It supplies one finite $\mathsf{BHist}$ spine together with the $\AbelianCatUp$ source rows and the $\HomologyUp$ cycle, boundary, and degree rows that read that same spine.
+
+Use \autoref{thm:derivedfunctor-boundary-over-transported-resolution} for the consumer-facing transport step. The classifier rows remain tied to the transported resolution data, and the selected boundary comparison continues to read the homology endpoint over those transported rows.
+
+Combine these projections with \autoref{thm:derivedfunctor-ledger-exactness-obligation}. The exact public package is the source certificates, finite spine, functor row, unary degree, cycle-boundary rows, classifier transport, and $\Pkg$ provenance, with no exported host quotient of complexes and no external abelian-category equality.
+\end{proof}
+
 \begin{definition}[DerivedFunctorUp exact-triangle boundary carrier]\label{def:derivedfunctor-exact-triangle-boundary-carrier}
 A $\DerivedFunctorUp$ exact-triangle boundary carrier is a concrete $\mathsf{BHist}$ packet whose public rows consist of one $\AbelianCatUp$ source row, the $\HomologyUp$ cycle and boundary rows at the displayed degree, three resolution-spine packets
 $$
