@@ -59,13 +59,24 @@ Unpack the exactness field of the roadmap ten-field template after the carrier, 
 These are finite-observation obligations only. Plancherel, inversion, and convergence require additional analytic closure rows and are therefore named as outside the exactness surface recorded here.
 \end{proof}
 
-\closureat{FourierUp}{publicStr}[BEDC.Derived.FourierUp.FourierFiniteObservation\_exactness\_obligation]
+\begin{theorem}[Fourier finite-observation standard bridge]\label{thm:fourier-finite-observation-standard-bridge}
+The five checked finite-observation rows assemble a paper-side bridge from BEDC Fourier packages over $\mathsf{BHist}$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $\sameSig$, and $\Pkg$ to the standard finite Fourier observation interface over $\NameCert_{\SOneUp}$, $\NameCert_{\RealUp}$, $\NameCert_{\InnerProductUp}$, and $\NameCert_{\IntegralUp}$. This bridge preserves only finite coefficient and transform observations, and keeps truncation windows, integration witnesses, and convergence-modulus data in the ledger.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:fourier-carrier-obligation} to read each observable coefficient, transform sample, inner-product probe, and integral witness as a finite BEDC package over $\mathsf{BHist}$, $\mathsf{ProbeBundle}$, and $\mathsf{SigRel}$. Then use \autoref{thm:fourier-classifier-obligation} to transport the comparison of those packages through $\sameSig$ and $\Pkg$ into the source classifiers of $\NameCert_{\SOneUp}$, $\NameCert_{\RealUp}$, $\NameCert_{\InnerProductUp}$, and $\NameCert_{\IntegralUp}$.
+
+Next apply \autoref{thm:fourier-stability-obligation} to make the transport stable under certified reindexing and integration rows. Apply \autoref{thm:fourier-ledger-obligation} to retain all truncation windows, integration witnesses, orthogonality probes, and convergence-modulus data beside the finite observation that uses them.
+
+Finally apply \autoref{thm:fourier-exactness-obligation}. Its coverage, soundness, and completeness clauses identify exactly the finite observations carried across the bridge, while Plancherel, inversion, and convergence closure remain outside the preserved interface.
+\end{proof}
+
+\closureat{FourierUp}{bridgedStr}[BEDC.Derived.FourierUp.FourierFiniteObservation\_exactness\_obligation]
 \begin{closurestatus}{\FourierUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public paper boundary is the finite-observation Fourier interface exported by the five checked rows: carrier probes, classifier packages, stability over source classifiers, ledger choices, and exactness coverage, soundness, and completeness over $\mathsf{BHist}$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $\sameSig$, and $\Pkg$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The bridged paper boundary is the finite-observation Fourier interface exported by the five checked rows and \autoref{thm:fourier-finite-observation-standard-bridge}: carrier probes, classifier packages, stability over source classifiers, ledger choices, exactness coverage, soundness, and completeness over $\mathsf{BHist}$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $\sameSig$, and $\Pkg$.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.FourierUp.FourierFiniteObservation\_exactness\_obligation}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close Plancherel, inversion, convergence closure, standard bridges, or bridgeChecked verification.}
-  \upgradepath{The next grade requires an explicit standard bridge or a stronger analytic closure theorem.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close Plancherel, inversion, convergence closure, bridgeChecked verification, or a Lean StdBridge theorem.}
+  \upgradepath{The next paper-side grade requires mature examples or downstream consumption of the finite-observation bridge; bridgeChecked verification awaits a Lean StdBridge theorem.}
 \end{closurestatus}
