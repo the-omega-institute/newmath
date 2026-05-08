@@ -6,6 +6,36 @@ The martingale interface $\MartingaleUp$ packages an adapted sequence of integra
 \section{Carrier definition}
 \label{sec:martingale-carrier}
 
+\begin{definition}[Adapted BHist carrier for MartingaleUp]
+\label{def:martingale-adapted-bhist-carrier}
+A $\MartingaleUp$ packet is a finite $\mathsf{BHist}$ row package over a displayed $\ProbSpaceUp$ source. It consists of:
+\begin{enumerate}
+\item a finite $\UnaryHistory$ time spine $T$ whose entries are histories $t:\mathsf{BHist}$;
+\item for each displayed time $t\in T$, a carried $\RandomVarUp$ row $X_t:S\to R$ with integrable $\RealUp$ endpoint history;
+\item for each successor display $t\leadsto t^+$ in $T$, a carried $\CondExpUp$ row $E_t$ whose source random-variable row is $X_{t^+}$ and whose conditioning visibility row is the filtration row $\mathcal{F}_t$;
+\item filtration visibility rows $\mathcal{F}_t\hookrightarrow\mathcal{F}_{t^+}$ saying that the readable events and the carried random-variable endpoint $X_t$ are visible at time $t$;
+\item a finite $\Cont$ ledger connecting the time row, the random-variable rows, the conditional-expectation rows, and the filtration visibility rows inside one shared $\Pkg$ provenance row.
+\end{enumerate}
+The displayed martingale row of the packet is the conditional-expectation comparison
+$$
+E_t(X_{t^+}\mid\mathcal{F}_t)\sim_R X_t
+$$
+for every successor display $t\leadsto t^+$ in the finite time spine, where $\sim_R$ is the $\RealUp$ classifier read through the carried conditional-expectation endpoint.
+\end{definition}
+
+\begin{definition}[Conditional-expectation classifier for MartingaleUp]
+\label{def:martingale-conditional-expectation-classifier}
+Let $M$ and $N$ be two $\MartingaleUp$ packets as in \autoref{def:martingale-adapted-bhist-carrier}. A conditional-expectation classifier from $M$ to $N$ consists of:
+\begin{enumerate}
+\item $\hsame$ transport between the two finite $\UnaryHistory$ time spines, preserving successor displays;
+\item componentwise $\hsame$ transport between the matched $\RandomVarUp$ rows $X_t$ and $Y_u$;
+\item componentwise $\hsame$ transport between the matched $\CondExpUp$ rows $E_t$ and $F_u$;
+\item transport of filtration visibility rows along the matched time and random-variable histories;
+\item a shared $\Pkg$ provenance comparison, with the finite $\Cont$ ledger of $M$ transported to the finite $\Cont$ ledger of $N$.
+\end{enumerate}
+The classifier holds exactly when these transported rows identify the displayed conditional-expectation comparison of $M$ with the displayed conditional-expectation comparison of $N$ at every matched successor display.
+\end{definition}
+
 \begin{definition}[MartingaleUp adapted BHist stream carrier]
 \label{def:martingale-adapted-bhist-stream-carrier}
 Fix a displayed finite horizon $N:\mathbb N$. A finite adapted
@@ -98,6 +128,42 @@ Thus the classifier transports only the visible filtration, endpoint-sequence, c
 
 \section{The certificate}
 \label{sec:martingale-certificate}
+
+\begin{theorem}[Martingale filtration ledger exactness]
+\label{thm:martingale-filtration-ledger-exactness}
+For a $\MartingaleUp$ packet of \autoref{def:martingale-adapted-bhist-carrier}, the $\NameCert_{\MartingaleUp}$ ledger exposes exactly the adaptedness rows, filtration visibility rows, $\RandomVarUp$ rows, $\CondExpUp$ rows, $\UnaryHistory$ time-index rows, shared $\Pkg$ provenance row, and finite $\Cont$ ledger listed in the carrier. The ledger is exact precisely when each successor display $t\leadsto t^+$ reads the displayed row
+$$
+E_t(X_{t^+}\mid\mathcal{F}_t)\sim_R X_t
+$$
+from those entries and from no additional host equality, host function equality, or unlisted measurability field.
+\end{theorem}
+\begin{proof}
+Project the carrier packet of \autoref{def:martingale-adapted-bhist-carrier}. The time spine supplies only $\UnaryHistory$ indices and successor displays. The random-variable spine supplies the carried $\RandomVarUp$ rows, and the filtration part supplies exactly the visibility rows that make $X_t$ readable at time $t$.
+
+The conditional-expectation entry at a successor display is already a carried $\CondExpUp$ row over $X_{t^+}$ and $\mathcal{F}_t$. Reading its endpoint through the shared $\RealUp$ classifier gives the displayed comparison with $X_t$.
+
+The finite $\Cont$ ledger records how these rows sit in one $\Pkg$ provenance row. Since every value consumed by $\NameCert_{\MartingaleUp}$ is one of the projected carrier entries, and the theorem excludes every unlisted host field, the ledger is exact for the displayed martingale surface.
+\end{proof}
+
+\begin{theorem}[Martingale conditional-expectation stability]
+\label{thm:martingale-conditional-expectation-stability}
+Let $M$ and $N$ be $\MartingaleUp$ packets related by the classifier of \autoref{def:martingale-conditional-expectation-classifier}. If $M$ carries the displayed conditional-expectation comparison
+$$
+E_t(X_{t^+}\mid\mathcal{F}_t)\sim_R X_t
+$$
+at a successor display $t\leadsto t^+$, then $N$ carries the transported comparison
+$$
+F_u(Y_{u^+}\mid\mathcal{G}_u)\sim_R Y_u
+$$
+at the matched successor display $u\leadsto u^+$. Hence classifier-related packets preserve every displayed martingale equality row.
+\end{theorem}
+\begin{proof}
+Use the time-spine clause of the classifier to transport the successor display $t\leadsto t^+$ to $u\leadsto u^+$. The same clause transports the filtration visibility row $\mathcal{F}_t$ to $\mathcal{G}_u$.
+
+Transport the random-variable rows componentwise by $\hsame$, sending $X_t$ to $Y_u$ and $X_{t^+}$ to $Y_{u^+}$. Transport the conditional-expectation row componentwise by $\hsame$, sending $E_t$ to $F_u$ over the matched source random variable and matched filtration row.
+
+Finally use the shared $\Pkg$ provenance comparison and the transported finite $\Cont$ ledger. These rows identify the displayed conditional-expectation comparison in $M$ with the displayed comparison in $N$, so the $\RealUp$ classifier row for $M$ transports to the corresponding row for $N$.
+\end{proof}
 
 \begin{theorem}[Martingale random-variable boundary]
 \label{thm:martingale-randomvar-boundary}
