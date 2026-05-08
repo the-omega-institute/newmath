@@ -114,4 +114,39 @@ theorem HomotopyBHistSourcePacket_interval_endpoint_determinacy [AskSetup] [Pack
       (hsame_symm sameEndpointRead)
   exact cont_left_cancel leftPacket.right.right.right.right.right.left rightEndpointReadCont
 
+theorem HomotopyBHistSourcePacket_endpoint_classifier_row [AskSetup] [PackageSetup]
+    {source target deformation interval provenance endpointRead ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HomotopyBHistSourcePacket source target deformation interval provenance endpointRead ledger
+        endpoint bundle pkg ->
+      UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory deformation ∧
+        UnaryHistory interval ∧ UnaryHistory endpointRead ∧ UnaryHistory ledger ∧
+          UnaryHistory endpoint ∧ hsame endpointRead (append deformation interval) ∧
+            hsame ledger (append endpointRead provenance) ∧
+              hsame endpoint (append ledger target) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have endpointReadCont : Cont deformation interval endpointRead :=
+    packet.right.right.right.right.right.left
+  have ledgerCont : Cont endpointRead provenance ledger :=
+    packet.right.right.right.right.right.right.left
+  have endpointCont : Cont ledger target endpoint :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left endpointReadCont
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed endpointReadUnary packet.right.right.right.right.left ledgerCont
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary packet.right.left endpointCont
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.left
+        (And.intro packet.right.right.right.left
+          (And.intro endpointReadUnary
+            (And.intro ledgerUnary
+              (And.intro endpointUnary
+                (And.intro endpointReadCont
+                  (And.intro ledgerCont
+                    (And.intro endpointCont
+                      packet.right.right.right.right.right.right.right.right)))))))))
+
 end BEDC.Derived.HomotopyUp
