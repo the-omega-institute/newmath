@@ -47,6 +47,7 @@ It is not a host-level parser, YAML schema, AST constructor, or external grammar
 
 \begin{definition}[Package recognition relation]
 \label{def:package-generated-recognition-relation}
+\leandef{BEDC.GroundCompiler.PackageGenerated.PackageRecognitionRelation}
 The package recognition relation is written
 $$
   \mathsf{RecognizesPkg}(R, S),
@@ -74,6 +75,7 @@ $$
 
 \begin{definition}[Recognized package flow]
 \label{def:package-generated-recognized-package-flow}
+\leandef{BEDC.GroundCompiler.PackageGenerated.PkgFlow}
 For an event flow $S$, define
 $$
   \mathsf{PkgFlow}(S)
@@ -231,6 +233,7 @@ $$
 
 \begin{theorem}[Channel compilation preserves package recognition]
 \label{thm:package-generated-compilation-preserves-recognition}
+\leanchecked{BEDC.GroundCompiler.PackageGenerated.channel\_compilation\_preserves\_recognition}
 If $\mathsf{RecognizesPkg}(R,S)$, then
 $$
   \mathsf{RecognizesPkg}(R,\mathsf{Decode}(\mathsf{Compile}(S))).
