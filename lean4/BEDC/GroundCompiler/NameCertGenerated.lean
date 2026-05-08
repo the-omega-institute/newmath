@@ -68,6 +68,12 @@ def NameCertCode (S : NameCertCandidateFlow) (_N : NameCandidateFlow) :
     List DisplayAlphabet :=
   FlowEncoding S
 
+def RecognizesNameCertCode
+    (R : GeneratedNameCertRecognizer) (c : List DisplayAlphabet)
+    (N : NameCandidateFlow) : Prop :=
+  exists S : EventFlow,
+    Decode c = some S /\ NameCertRecognitionRelation R S N
+
 def NameCertRecognitionPreservingCompilation : Prop :=
   forall R : GeneratedNameCertRecognizer,
     forall S : NameCertCandidateFlow,
@@ -193,6 +199,14 @@ theorem namecert_code_not_separate
       LegalZStream (NameCertCode S N) /\ Decode (NameCertCode S N) = some S := by
   intro _
   exact ⟨flow_encoding_legal_zstream S, flow_level_round_trip S⟩
+
+theorem namecert_recognition_invariant
+    {S : NameCertCandidateFlow} {N : NameCandidateFlow} :
+    NameCertFlow S N ->
+      exists S' : EventFlow,
+        Decode (NameCertCode S N) = some S' /\ NameCertFlow S' N := by
+  intro hFlow
+  exact ⟨S, flow_level_round_trip S, hFlow⟩
 
 theorem licensing_event_flow_based {N : NameCandidateFlow} :
     LicensedName N -> exists S : EventFlow, NameCertFlow S N := by

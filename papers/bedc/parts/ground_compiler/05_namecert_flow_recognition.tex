@@ -327,6 +327,7 @@ For a fixed generated recognizer $R$, even if source, pattern, classifier, and s
 
 \begin{definition}[NameCert code]
 \label{def:namecert-generated-code}
+\leandef{BEDC.GroundCompiler.NameCertGenerated.NameCertCode}
 If $S$ is a recognized $\NameCert$ flow for $N$, define
 $$
   \mathsf{NameCertCode}(S,N) := \mathsf{Compile}(S).
@@ -363,6 +364,7 @@ Equality of the displayed codes therefore gives $\mathsf{Compile}(S)=\mathsf{Com
 
 \begin{definition}[NameCert recognition from channel code]
 \label{def:namecert-generated-recognition-from-code}
+\leandef{BEDC.GroundCompiler.NameCertGenerated.RecognizesNameCertCode}
 For $c \in \mathsf{LegalZStream}$, define
 $$
   \mathsf{RecognizesNameCertCode}(R,c,N)
@@ -406,6 +408,7 @@ Taking $S'=S$ preserves the same source-layer recognition judgment.
 
 \begin{corollary}[NameCert recognition is invariant under compile-decode]
 \label{cor:namecert-generated-recognition-invariant}
+\leanchecked{BEDC.GroundCompiler.NameCertGenerated.namecert\_recognition\_invariant}
 For every recognized $\NameCert$ flow, compiling to a channel stream and decoding back to an event flow preserves its $\NameCert$ recognition status.
 \end{corollary}
 
