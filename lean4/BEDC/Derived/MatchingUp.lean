@@ -122,4 +122,17 @@ theorem MatchingEdgeSet_e0_empty_absurd_predicate
   · intro e _e' _v selected _selected' _vert _inc _inc'
     exact False.elim (not_hsame_e0_empty selected)
 
+theorem MatchingEdgeSet_singleton_edge_predicate
+    {Vert Edge : BHist -> Prop} {Inc EdgeRel : BHist -> BHist -> Prop}
+    (cert : NameCert Edge EdgeRel) {edge : BHist} :
+    Edge edge -> MatchingEdgeSet Vert Edge Inc EdgeRel (fun e : BHist => EdgeRel e edge) := by
+  intro edgeCarrier
+  constructor
+  · intro e selected
+    exact NameCert.carrier_respects_equiv cert (NameCert.equiv_symm cert selected) edgeCarrier
+  · intro e e' _v selected selected' _vert _inc _inc'
+    have edgeToRight : EdgeRel edge e' :=
+      NameCert.equiv_symm cert selected'
+    exact NameCert.equiv_trans cert selected edgeToRight
+
 end BEDC.Derived.MatchingUp
