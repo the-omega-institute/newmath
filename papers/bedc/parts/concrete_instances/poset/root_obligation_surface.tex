@@ -1,0 +1,95 @@
+\section{Poset root obligation surface}
+\label{sec:poset-root-obligation-surface}
+
+\begin{definition}[Poset root obligation surface]\label{def:poset-root-obligation-surface}
+The concrete root surface for $\PosetUp$ is the $\mathsf{BHist}$ packet read
+from \autoref{def:concrete-unary-prefix-poset-instance}. Its endpoints are
+carried unary histories $h,k:\mathsf{BHist}$; its inherited $\PreorderUp$
+comparison row is $\mathsf{PreorderPrefixLE}(h,k)$; its classifier row is the
+carrier-aware $\hsame$ classifier
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$; its
+partial-order row is the antisymmetry collapse for the two directed prefix
+comparisons; and its ledger is the finite $\Cont$ record consisting of the
+two comparison-tail witnesses, their carried endpoints, and the resulting
+classifier readback.
+\end{definition}
+
+\begin{theorem}[Poset root antisymmetry obligation]\label{thm:poset-root-antisymmetry-obligation}
+For carried unary $\mathsf{BHist}$ endpoints $h$ and $k$ in the surface of
+\autoref{def:poset-root-obligation-surface}, the bidirectional inherited
+prefix comparison
+$$
+\mathsf{PreorderPrefixLE}(h,k)\wedge
+\mathsf{PreorderPrefixLE}(k,h)
+$$
+collapses to the carried classifier row
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$.
+\end{theorem}
+\begin{proof}
+Project the two inherited comparison rows from the root surface. They are the
+same directed prefix rows used by the concrete unary-prefix preorder package,
+and their endpoints are the carried $\mathsf{BHist}$ histories named in
+\autoref{def:poset-root-obligation-surface}.
+
+Apply \autoref{thm:poset-prefix-antisymmetry} to the two opposite prefix
+comparisons. This gives the $\hsame(h,k)$ classifier content without changing
+the endpoint carrier.
+
+Finally reassemble the carrier-aware classifier with the two carried endpoint
+witnesses from the root surface. By
+\autoref{thm:poset-prefix-classifier-exactness}, this is exactly the
+classifier row of the concrete $\PosetUp$ root obligation package.
+\end{proof}
+
+\begin{theorem}[Poset root certificate readback]\label{thm:poset-root-certificate-readback}
+The concrete $\NameCert$ fields for the root surface of
+\autoref{def:poset-root-obligation-surface} are read directly from
+\autoref{def:concrete-unary-prefix-poset-instance} and
+\autoref{thm:concrete-unary-prefix-poset-namecert}. The source is
+$\mathsf{BHist}$ restricted to unary histories, the carrier is
+$\mathsf{PreorderCarrier}=\mathsf{UnaryHistory}$, the classifier is the
+carrier-aware $\hsame$ row, the relation is $\mathsf{PreorderPrefixLE}$, the
+antisymmetry and exactness rows are the prefix collapse rows, and the ledger is
+the two-comparison finite $\Cont$ record.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:concrete-unary-prefix-poset-instance}. Its displayed
+coordinates name the source, carrier, classifier, relation, stability rows,
+exactness row, and comparison ledger used by the root surface.
+
+Apply \autoref{thm:concrete-unary-prefix-poset-namecert}. It repacks those
+coordinates as the concrete $\NameCert$ licensing $\POSetUp$ over the same
+$\mathsf{BHist}$ carrier and prefix relation.
+
+The antisymmetry component is the row isolated in
+\autoref{thm:poset-root-antisymmetry-obligation}. Therefore the root
+certificate contains no additional carrier, quotient representative, or
+external equality witness beyond the fields already read from the concrete
+unary-prefix certificate.
+\end{proof}
+
+\begin{theorem}[Poset root downstream unblock package]\label{thm:poset-root-downstream-unblock-package}
+The root package of \autoref{thm:poset-root-certificate-readback} supplies the
+rows a $\TotalOrderUp$ or $\LatticeUp$ consumer may inherit from $\PosetUp$:
+carrier, classifier, antisymmetry, exactness, and finite $\Cont$ ledger. A
+downstream consumer may append its own total-comparison selector or meet-join
+bound rows, but it cannot replace the inherited $\mathsf{BHist}$ carrier,
+$\hsame$ classifier, prefix exactness, or antisymmetry ledger.
+\end{theorem}
+\begin{proof}
+Start with the certificate readback of
+\autoref{thm:poset-root-certificate-readback}. It exposes the carrier,
+classifier, relation, stability, exactness, and finite ledger rows of the
+concrete root surface.
+
+For a $\TotalOrderUp$ consumer, keep the inherited carrier and classifier and
+add only the selector row deciding a directed comparison between displayed
+endpoints. The antisymmetry and exactness rows still come from
+\autoref{thm:poset-root-antisymmetry-obligation} and
+\autoref{thm:poset-prefix-classifier-exactness}.
+
+For a $\LatticeUp$ consumer, keep the same inherited rows and add only the
+meet and join bound-characterization rows. The lower-bound and upper-bound
+comparisons are ledger entries over the same prefix relation, so their
+endpoint collapse still reads through the root $\PosetUp$ certificate.
+\end{proof}
