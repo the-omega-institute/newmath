@@ -189,6 +189,57 @@ classifier is therefore precisely the restricted probe window needed by
 $\RealUp$ and $\RegSeqRat$ boundary consumers.
 \end{proof}
 
+\begin{theorem}[StreamNameUp finite-window union composition]
+\label{thm:streamname-finite-window-union-composition}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, and let $B_L$ and
+$B_R$ be $\mathsf{ProbeBundle}$ windows. Then the two component classifiers
+assemble into the appended-window classifier:
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_L)
+\ \wedge\
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_R)
+\quad\Longrightarrow\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathsf{BAppend}(B_L,B_R)).
+$$
+Conversely, the appended-window classifier restricts to both component
+windows:
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathsf{BAppend}(B_L,B_R))
+\quad\Longrightarrow\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_L)
+\ \wedge\
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_R).
+$$
+The union row is a finite observation-window composition row only: it
+introduces no completion, quotient representative, metric row, or $\RealUp$
+completeness object.
+\end{theorem}
+
+\begin{proof}
+For assembly, unfold
+Definition~\ref{def:rat-stream-name-finite-window-classifier}.  Fix a
+certified unary observation carried by $\mathsf{BAppend}(B_L,B_R)$.  The
+bundle split theorem
+$\mathsf{BEDC.FKernel.Bundle.inBundle\_bundleAppend\_iff}$ identifies this
+membership with membership in $B_L$ or membership in $B_R$.
+
+In the left case, read the needed pointwise $\RatUp$ classifier row from the
+classifier over $B_L$.  In the right case, read the same kind of row from the
+classifier over $B_R$.  Repacking the case split over all bundled
+observations gives the classifier over $\mathsf{BAppend}(B_L,B_R)$.
+
+For restriction, use the canonical inclusions of $B_L$ and $B_R$ into the
+appended bundle, again supplied by the $\mathsf{InBundle}$ splitting row for
+$\mathsf{BAppend}$.  Applying
+\autoref{thm:streamname-finite-window-restriction-export} to each inclusion
+returns the two component classifiers.
+
+All rows remain the same finite $\mathsf{ProbeBundle}$ rows and the same
+pointwise $\RatUp$ classifier rows.  No completion package, quotient
+representative, metric structure, or $\RealUp$ completeness claim is used in
+either direction.
+\end{proof}
+
 \begin{theorem}[StreamNameUp empty finite-window vacuity]
 \label{thm:streamname-public-empty-window-vacuity}
 For certified observation maps $s,t:\Hist\to\Hist$,
