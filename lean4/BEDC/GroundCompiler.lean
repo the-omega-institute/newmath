@@ -1,1 +1,2 @@
 import BEDC.GroundCompiler.EventFlow
+import BEDC.GroundCompiler.ChannelEncoding

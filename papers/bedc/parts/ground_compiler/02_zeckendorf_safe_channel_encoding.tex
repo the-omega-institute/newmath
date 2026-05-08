@@ -33,6 +33,7 @@ The chapter does not perform any source-level rewrite. The Zeckendorf normal-for
 
 \begin{definition}[Zeckendorf-safe body encoding]
 \label{def:channel-encoding-body-encoding}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.BodyEncoding}
 The \emph{body encoding} is the function
 $$
   \zeta \colon \Sigma^{*} \longrightarrow \Sigma^{*}
@@ -59,6 +60,7 @@ The event terminator is a channel-level marker. It signals only that the encodin
 
 \begin{definition}[Event encoding]
 \label{def:channel-encoding-event-encoding}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.EventEncoding}
 The \emph{event encoding} of a raw event $w \in \mathsf{RawEvent}$ is
 $$
   \mathsf{Ev}(w) \;:=\; \zeta(w)\,11 \;\in\; \Sigma^{*}.
@@ -110,6 +112,7 @@ producing $\mathsf{Ev}(1) = 0111$. Read from left to right, the decoder would pa
 
 \begin{proposition}[Body encoding contains no adjacent terminator pattern]
 \label{prop:channel-encoding-no-adjacent-11-in-body}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.body\_encoding\_no\_adjacent\_11}
 For every raw event $w \in \mathsf{RawEvent}$, the encoded body $\zeta(w)$ contains no adjacent pair $11$ as a substring.
 \end{proposition}
 
@@ -394,4 +397,3 @@ The channel-level objects of this chapter operate exclusively on the external di
 \label{rem:channel-encoding-outlook}
 The next chapter strengthens the layer-separation discipline of \autoref{rem:channel-encoding-layer-separation}. It records that source-level relations on recognized history flows---in particular the carry classifier of \autoref{ch:concrete-instances-zeckendorf-carry-classifier} and any future fold or completion classifier---may not be applied to channel streams, and that channel-level rewrites may not be transported to histories without a bridge whose source is a recognized $\NameCert$ flow and whose target is a recognized channel-encoded event flow.
 \end{remark}
-
