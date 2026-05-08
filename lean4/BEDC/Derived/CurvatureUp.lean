@@ -3,6 +3,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -13,6 +14,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.ConnectionUp
@@ -224,6 +226,20 @@ theorem CurvatureBracketCarrier_source_row_coverage
           (And.intro boundaryRows.left
             (And.intro boundaryRows.right.left
               (And.intro boundaryRows.right.right.left boundaryRows.right.right.right))))))
+
+theorem CurvatureBracketCarrier_semantic_name_certificate
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
+      curvatureLedger : BHist} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance
+        ledgerA ledgerB boundary curvatureLedger ->
+      SemanticNameCert (fun e : BHist => exists b : BHist, CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB b e) (fun e : BHist => exists b : BHist, CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB b e) (fun e : BHist => exists b : BHist, CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB b e)
+        (fun left right : BHist => (exists lb : BHist, CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB lb left) /\ (exists rb : BHist, CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB rb right) /\ hsame left right) := by
+  intro carrier
+  exact {
+    core := { carrier_inhabited := Exists.intro curvatureLedger (Exists.intro boundary carrier), equiv_refl := by intro h source; exact And.intro source (And.intro source (hsame_refl h)), equiv_symm := by intro h k classified; exact And.intro classified.right.left (And.intro classified.left (hsame_symm classified.right.right)), equiv_trans := by intro h k r classifiedHK classifiedKR; exact And.intro classifiedHK.left (And.intro classifiedKR.right.left (hsame_trans classifiedHK.right.right classifiedKR.right.right)), carrier_respects_equiv := by intro h k classified _source; exact classified.right.left }
+    pattern_sound := by intro h source; exact source
+    ledger_sound := by intro h source; exact source
+  }
 
 theorem CurvatureBracketCarrier_classifier_transport_row
     {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
