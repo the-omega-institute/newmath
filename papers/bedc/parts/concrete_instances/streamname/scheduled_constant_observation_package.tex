@@ -1,0 +1,88 @@
+\begin{definition}[Scheduled constant observation package]
+\label{def:streamname-constant-scheduled-observation-package}
+For histories $d,e:\Hist$ and observation schedules $r,q:\Hist\to\Hist$, the
+scheduled constant observation package is the finite StreamNameUp-facing row
+tuple
+$$
+\mathsf{SchedConstObs}(d,e,r,q)
+$$
+consisting of the RatUp seed carrier rows
+$\mathsf{RatHistoryCarrier}(d)$ and $\mathsf{RatHistoryCarrier}(e)$, the RatUp
+seed classifier row $\mathsf{RatHistoryClassifier}(d,e)$, and the two
+scheduled constant stream rows
+$$
+\mathsf{RatConstStream}_d\circ r,
+\qquad
+\mathsf{RatConstStream}_e\circ q.
+$$
+Its StreamNameUp carrier entries are
+$\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)$ and
+$\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_e\circ q)$, and its
+StreamNameUp classifier entry is
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ q).
+$$
+The schedules $r$ and $q$ are retained only as observation rows; the rational
+seed histories remain the only RatUp endpoints exported by the package.
+\end{definition}
+
+\begin{theorem}[Scheduled constant observation exactness]
+\label{thm:streamname-constant-scheduled-observation-exactness}
+For histories $d,e:\Hist$ and schedules $r,q:\Hist\to\Hist$, the scheduled
+constant observation package of
+\autoref{def:streamname-constant-scheduled-observation-package} supplies
+exactly the following StreamNameUp rows:
+$$
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)
+$$
+and
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ q),
+$$
+if and only if the corresponding RatUp seed rows
+$\mathsf{RatHistoryCarrier}(d)$ and $\mathsf{RatHistoryClassifier}(d,e)$ hold.
+\end{theorem}
+\begin{proof}
+For the carrier row, unfold $\mathsf{RatConstStream}_d\circ r$. Every certified
+unary observation is sent back to the same seed history $d$, so the
+StreamNameUp carrier clause is precisely the RatUp carrier clause for $d$.
+
+For the classifier row, apply
+\autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness}.
+Its independently scheduled classifier clause identifies the classifier of
+$\mathsf{RatConstStream}_d\circ r$ against
+$\mathsf{RatConstStream}_e\circ q$ with the seed classifier
+$\mathsf{RatHistoryClassifier}(d,e)$.
+
+Combining these two readings gives the forward direction by projection from
+the scheduled package. The reverse direction repacks the RatUp carrier and
+classifier rows as the two displayed StreamNameUp rows, with $r$ and $q$
+serving only as observation schedules.
+\end{proof}
+
+\begin{theorem}[Scheduled constant observation RealUp feed]
+\label{thm:streamname-constant-scheduled-real-feed}
+For histories $d,e:\Hist$ and schedules $r,q:\Hist\to\Hist$, the scheduled
+constant observation package is the StreamNameUp-side input consumed by the
+RealUp independently scheduled constant rational embedding certificate of
+\autoref{thm:real-independent-reindexed-constant-rational-embedding-certificate}.
+Equivalently, its two scheduled stream rows and its exact classifier row are
+the StreamNameUp coordinates used by the downstream target
+$\mathsf{RealIndependentReindexedConstant\_rational\_embedding\_certificate}$.
+\end{theorem}
+\begin{proof}
+Read the RealUp package in
+\autoref{thm:real-independent-reindexed-constant-rational-embedding-certificate}.
+Its two StreamNameUp coordinates are exactly
+$\mathsf{RatConstStream}_d\circ r$ and
+$\mathsf{RatConstStream}_e\circ q$, and its classifier chain passes through
+the independently scheduled StreamNameUp classifier between those rows.
+
+By \autoref{thm:streamname-constant-scheduled-observation-exactness}, those
+are precisely the carrier and classifier rows delivered by the scheduled
+constant observation package. Thus RealUp consumes no additional StreamNameUp
+data beyond this scheduled package when forming the constant rational
+embedding certificate.
+\end{proof}
