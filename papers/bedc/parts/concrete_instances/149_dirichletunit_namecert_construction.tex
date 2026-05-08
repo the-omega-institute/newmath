@@ -22,6 +22,7 @@ The packet is a history-facing carrier. It exposes no host-level unit type, no a
 \label{thm:dirichletunit-visible-unit-row-obligation}
 Every accepted $\DirichletUnitUp$ carrier packet exposes the visible unit row $u$ and the inverse/unit-product row $\iota$ as carried $\mathsf{BHist}$ rows over the dependency certificate $\NameCert_{\RingOfIntegersUp}$. These rows are exported only through the finite $\Cont$ readback and $\mathsf{Pkg}$ provenance of \autoref{def:dirichletunit-carrier-packet}; they are not host units and do not assert host-level multiplication outside the displayed history.
 \end{theorem}
+\leanchecked{BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier\_visible\_unit\_rows}
 \begin{proof}
 Project an accepted packet to its tuple entries. The rows $\mathcal{O}$, $u$, and $\iota$ are named components of the same displayed $\mathsf{BHist}$ packet, and the carrier definition includes the $\Cont$ readback from $\mathcal{O}$ to the two unit-facing rows.
 
@@ -32,6 +33,7 @@ The provenance row $\rho$ records that the readback is part of the same package.
 \label{thm:dirichletunit-classifier-obligation}
 Classifier transport for $\DirichletUnitUp$ carrier packets is componentwise $\hsame$ together with dependency provenance transport. If packets $\mathcal{D}$ and $\mathcal{D}'$ are classified, then $\hsame$ transports the visible unit rows, inverse/unit-product rows, rank witness rows, finite basis/log-ledger rows, and package provenance rows, while the dependency slots remain tied to $\NameCert_{\RingOfIntegersUp}$ and $\NameCert_{\AbGroupUp}$ by their displayed $\mathsf{Pkg}$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier\_classifier\_transport}
 \begin{proof}
 Unpack the classifier as comparisons between the corresponding displayed rows of $\mathcal{D}$ and $\mathcal{D}'$. Each comparison is an $\hsame$ witness at a named projection of the carrier packet.
 
