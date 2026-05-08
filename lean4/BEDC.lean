@@ -87,6 +87,7 @@ import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.PublicObligation
+import BEDC.Derived.CurvatureUp.SemanticNameCertificate
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DynSystemUp
