@@ -14755,3 +14755,27 @@ Rationale:
 Same host file as candidate #1 (103 lines). Searched grep 'distrib' across papers/bedc/parts/concrete_instances/25_polynomial*.tex returned 0 hits for raw multiplication distributivity over addition — only the singleton-collapse-level distributivity at 25_polynomial_namecert_construction.tex L349 (thm:polynomial-singleton-append-distrib-classified) and the FPS sibling 26_fps_namecert_construction.tex L546 (thm:fps-cauchy-product-distributes-over-fps-addition) exist. So distributivity is proven for FPS Cauchy product but not for finite-spine polynomial Cauchy product. Proof: Cauchy formula gives rmul(p, radd(q,r))[n] ~ Σ p[i]·radd(q,r)[j] = Σ p[i]·(q[j]+r[j]) ~ Σ (p[i]·q[j] + p[i]·r[j]) by ring left-distributivity in def:ring-stability-certificate, splits via finite-additive-fold-congruence into Cauchy(p,q;n) + Cauchy(p,r;n) ~ rmul(p,q)[n] + rmul(p,r)[n], then padded extensionality gives PolySame.
 
 ---
+
+### B-580 - PublicKeyUp two-secret-key shared-public-key decryption consistency
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | PublicKeyUp two-secret-key shared-public-key decryption consistency |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If PKKeyGen(pk,sk1) and PKKeyGen(pk,sk2) and PKCertifiedEnc(pk,m,c), then for any d1 with PKDecrypt(sk1,c,d1) and d2 with PKDecrypt(sk2,c,d2), the plaintext classifier mu(d1,d2) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/221_publickey_namecert_construction.tex`
+
+Rationale:
+Closes a missing 'shared public key implies decryption equivalence class' invariant for PublicKeyUp. Distinct from B-490 (single-key uniqueness): this ranges over two distinct secret keys for a shared public key, a clean composite of decrypt-encrypt-correctness applied twice plus namecert-equivalence-transitivity. The 221_publickey chapter has decrypt-encrypt-correctness and ciphertext-plaintext uniqueness rows but no theorem covering distinct sk witnesses, leaving the cryptographic correctness story incomplete.
+
+---
