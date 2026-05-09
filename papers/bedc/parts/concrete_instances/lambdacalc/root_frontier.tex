@@ -179,6 +179,39 @@ public alpha-beta classifier. Hence the beta-ledger frontier has a deterministic
 root endpoint under the displayed classifier.
 \end{proof}
 
+\begin{theorem}[LambdaCalc root obligation inventory]
+\label{thm:lambdacalc-root-obligation-inventory}
+The displayed LambdaCalc root packet has the following obligation inventory:
+carrier rows for the visible $\mathsf{BHist}$ constructor branches, classifier
+rows for the $\TreeUp$ syntax spine and $\NatUp$ binder and free-variable
+indices, substitution rows transported by $\Cont$, alpha-beta rows transported
+by componentwise $\hsame$, exactness rows for the readable constructor and
+substitution frontiers, stability rows for the beta-ledger classifier, and
+ledger rows recording $\Pkg$ provenance and $\NameCert$ source data. The scope
+of the inventory is exactly the $\mathsf{BHist}$, $\TreeUp$, $\NatUp$, $\Cont$,
+$\hsame$, $\Pkg$, and $\NameCert$ rows exposed by
+\autoref{thm:lambdacalc-root-constructor-frontier},
+\autoref{thm:lambdacalc-root-substitution-frontier}, and
+\autoref{thm:lambdacalc-root-beta-ledger-frontier}; it exports no host syntax
+equality, alpha quotient, beta quotient, or unrecorded variable-set primitive.
+\end{theorem}
+\begin{proof}
+Project the root packet through
+\autoref{thm:lambdacalc-root-constructor-frontier}. This supplies the visible
+constructor branches, the $\TreeUp$ syntax spine, the $\NatUp$ binder and
+free-variable rows, and the readable $\mathsf{BHist}$ carrier rows.
+
+Next apply \autoref{thm:lambdacalc-root-substitution-frontier}. It accounts for
+the substitution endpoints, their capture-avoidance $\Cont$ ledger, and the
+carried $\Pkg$ provenance without adding a second syntax source.
+
+Finally apply \autoref{thm:lambdacalc-root-beta-ledger-frontier}. The alpha
+ledger, beta-redex row, substitution ledger, and provenance rows determine the
+public endpoint through componentwise $\hsame$. Repacking these projections
+gives exactly the listed carrier, classifier, substitution, alpha-beta,
+exactness, stability, and ledger obligations.
+\end{proof}
+
 \begin{closurestatus}{\LambdaCalcUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{The seed scope is the visible $\TreeUp$ constructors, $\NatUp$ binder and free-variable rows, $\mathsf{BHist}$ packets, $\Cont$ continuations, $\hsame$ comparisons, and $\Pkg$ provenance displayed in this root frontier.}
