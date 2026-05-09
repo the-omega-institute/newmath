@@ -81,6 +81,7 @@ where $D\in\mathsf{EventFlow}$ represents the input-flow range that $C$ is licen
 
 \begin{definition}[Compiler target domain]
 \label{def:self-hosting-compiler-target-domain}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerTargetDomain}
 The \emph{target domain} of a compiler flow $C$ is a recognized event-flow class
 $$
   \mathsf{TargetDom}(C,T),
@@ -93,6 +94,7 @@ recording the kind of output flow $C$ is meant to produce, such as channel-code 
 
 \begin{definition}[Compiler certificate candidate flow]
 \label{def:self-hosting-compiler-cert-candidate}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerCertificateCandidateFlow}
 A \emph{compiler certificate candidate flow} is an event flow
 $$
   K_C\in\mathsf{EventFlow}.
@@ -102,6 +104,7 @@ It claims to supply compilation-capability evidence for a compiler candidate $C$
 
 \begin{definition}[Compiler certificate recognition]
 \label{def:self-hosting-compiler-cert-recognition}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerCertificateRecognition}
 The compiler-certificate recognition relation is written
 $$
   \mathsf{RecognizesCompilerCert}(R_K,K_C,C),
@@ -152,6 +155,7 @@ and the recognized certificate flow is sound.
 
 \begin{principle}[No compiler without compiler certificate]
 \label{prin:self-hosting-compiler-no-compiler-without-cert}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.formal\_compilation\_requires\_certificate}
 A compiler flow may be used as a formal compiler only when it is certified. Before the judgment
 $$
   \mathsf{Compiles}_C(S,T)

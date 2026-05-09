@@ -16,6 +16,9 @@ def CompilerBehaviorRelation : Type :=
 def CompilerTaskDomain (C D : CompilerCandidateFlow) : Prop :=
   FormalCompilerInput (CompilerDatum.recognizedFlow C D)
 
+def CompilerTargetDomain (C T : CompilerCandidateFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow C T)
+
 def CompilerCertificateCandidateFlow : Type := EventFlow
 
 def CompilerCertificateRecognition
@@ -32,6 +35,13 @@ def FormalCompilationJudgment
     (Compiles : CompilerBehaviorRelation)
     (C : CompilerCandidateFlow) (S T : EventFlow) : Prop :=
   CertifiedCompiler C /\ Compiles C S T
+
+theorem formal_compilation_requires_certificate
+    {Compiles : CompilerBehaviorRelation}
+    {C : CompilerCandidateFlow} {S T : EventFlow} :
+    FormalCompilationJudgment Compiles C S T -> CertifiedCompiler C := by
+  intro hJudgment
+  exact hJudgment.left
 
 theorem uncertified_cannot_compile
     {Compiles : CompilerBehaviorRelation}
