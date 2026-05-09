@@ -77,6 +77,7 @@ butterfly continuation rows, the factorization ledger rows, and their
 $\hsame$ and $\Cont$ transports. It excludes analytic error estimates,
 floating-point bounds, asymptotic runtime claims, and standard bridge rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.FftUp.FftBHistSourcePacket\_ledger\_exactness\_obligation}
 \begin{proof}
 Coverage reads any accepted FFT packet into the two dependency rows, the
 finite schedule, the stage membership witnesses, the butterfly
@@ -90,6 +91,7 @@ Completeness is the absence of further ledger coordinates. Error estimates,
 floating-point bounds, asymptotic analysis, and standard bridge data are not
 fields of the packet, so they cannot be consumed by this certificate.
 \end{proof}
+\leanchecked{BEDC.Derived.FftUp.FftBHistSourcePacket\_factorization\_ledger\_transport\_determinacy}
 
 \begin{theorem}[FFT root threshold unblock surface]
 \label{thm:fft-root-threshold-unblock-surface}
@@ -154,3 +156,16 @@ evidence. The root threshold surface repacks those rows as the public
 $\NameCert_{\FftUp}$ interface, while analytic estimates, floating-point
 bounds, asymptotic runtime claims, and bridge rows remain unavailable.
 \end{proof}
+
+\closureat{FftUp}{seedStr}[BEDC.Derived.FftUp.FftBHistSourcePacket\_carrier\_butterfly\_obligation]
+
+\begin{closurestatus}{\FftUp}
+  \constructivestory{An FFT packet is presented by the ComplexUp and FourierUp dependency certificates, a finite probe-bundle schedule, displayed stage membership witnesses, butterfly continuation rows, factorization ledger rows, and the transport rows that make those finite rows readable as the public $\NameCert_{\FftUp}$ surface.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The recorded seed scope is the finite butterfly schedule surface: the ComplexUp and FourierUp dependency rows, stage probe bundle, bundle membership witnesses, butterfly continuation rows, factorization ledger, and transport rows used by the public FFT certificate.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.FftUp.FftBHistSourcePacket\_carrier\_butterfly\_obligation}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close analytic error bounds, floating-point bounds, asymptotic runtime claims, operation-optimality claims, or standard bridge rows.}
+  \upgradepath{A higher paper closure grade requires a closed public certificate theorem for the finite butterfly schedule surface, still without importing analytic estimates or runtime claims.}
+\end{closurestatus}
