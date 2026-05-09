@@ -122,6 +122,81 @@ attach to this surface, but they are not part of the factor packet itself.
 \section{The certificate}
 \label{sec:factor-certificate}
 
+\begin{theorem}[Factor type row no-confusion]
+\label{thm:factor-type-row-no-confusion}
+An accepted $\FactorUp$ packet cannot expose two distinct visible factor-type
+rows under the same transported trivial-centre witness. If the packet carries a
+$\NameCert_{\VonNeumannAlgUp}$ dependency, a $\mathsf{BHist}$ algebra carrier,
+a centre row, a trivial-centre witness transported by the displayed $\hsame$
+evidence, and visible type rows $T$ and $T'$, then the certificate ledger
+identifies $T$ and $T'$ as the same row among $\mathrm{I}$, $\mathrm{II}_1$,
+$\mathrm{II}_\infty$, and $\mathrm{III}$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{thm:factor-carrier-trivial-centre-obligation}. The projection gives one
+von Neumann algebra dependency and one transported trivial-centre witness over
+the displayed centre row.
+
+Now read the type coordinates through
+\autoref{thm:factor-type-classifier-stability-obligation}. The classifier row is
+stored in the same ledger as the transported centre witness, so two visible type
+rows under that witness must be compared by the same $\hsame$ evidence.
+
+Finally apply \autoref{thm:factor-ledger-exactness-obligation}. Since the ledger
+has exactly one factor-type coordinate and no hidden representation or spectral
+coordinate, the two displayed type rows are the same certificate row.
+\end{proof}
+
+\begin{theorem}[Factor centre ledger transport determinacy]
+\label{thm:factor-center-ledger-transport-determinacy}
+For a $\FactorUp$ packet, $\hsame$ transport of the
+$\NameCert_{\VonNeumannAlgUp}$ dependency, the $\mathsf{BHist}$ algebra carrier,
+the centre row, the trivial-centre witness, and the $\Cont$ provenance
+determines the transported $\FactorUp$ centre ledger. No additional
+representation row, spectral row, or ambient Hilbert-space equality can change
+the transported ledger.
+\end{theorem}
+\begin{proof}
+Start from the dependency row named by
+\autoref{def:factor-bhist-source-packet}. Its $\NameCert_{\VonNeumannAlgUp}$
+component transports the algebra carrier through the displayed $\hsame$ evidence.
+
+Transport the centre row and the trivial-centre witness along the same history
+comparison. The $\Cont$ provenance records that these rows move together as one
+factor packet rather than as independent host data.
+
+The ledger exactness theorem
+\autoref{thm:factor-ledger-exactness-obligation} then leaves no further centre
+coordinate to choose. The transported dependency, carrier, centre,
+trivial-centre witness, and $\Cont$ provenance therefore determine the
+transported centre ledger.
+\end{proof}
+
+\begin{theorem}[Factor VonNeumann dependency consumer boundary]
+\label{thm:factor-vonneumann-dependency-consumer-boundary}
+Every downstream consumer of the $\FactorUp$ certificate may read only the
+$\NameCert_{\VonNeumannAlgUp}$ dependency, the $\mathsf{BHist}$ algebra carrier,
+the centre row, the trivial-centre witness, the factor-type classifier, and the
+$\hsame/\Cont$ ledger. It may not read representation data, spectral
+decomposition data, measure-class data, ambient Hilbert-space equality, or any
+row not displayed by the factor source packet.
+\end{theorem}
+\begin{proof}
+The source packet of \autoref{def:factor-bhist-source-packet} lists the complete
+visible input surface: dependency, carrier, centre, trivial-centre witness, type
+classifier, and transport provenance.
+
+Apply \autoref{thm:factor-ledger-exactness-obligation} to the consumer read. The
+coverage direction supplies exactly those visible rows, while soundness and
+completeness repack only rows of the same listed kinds.
+
+The excluded analytic data have no coordinate in the packet and no entry in the
+ledger. Hence a consumer that remains inside the $\FactorUp$ certificate can read
+the displayed dependency and centre surface, but cannot inspect representation
+or spectral information.
+\end{proof}
+
 \begin{theorem}[FactorUp public NameCert export]
 \label{thm:factor-public-namecert-export}
 The source packet of \autoref{def:factor-bhist-source-packet}, the
