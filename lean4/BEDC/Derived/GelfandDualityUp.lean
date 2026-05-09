@@ -22,6 +22,15 @@ def GelfandDualitySpectrumPairingCarrier [AskSetup] [PackageSetup]
       Cont character evaluation ledger ∧ Cont ledger provenance endpoint ∧
         Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg
 
+def GelfandDualitySpectrumTransportPackage [AskSetup] [PackageSetup]
+    (A X character evaluation rhoA rhoX provenance ledger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  GelfandDualitySpectrumPairingCarrier A X character evaluation rhoA rhoX provenance
+      ledger endpoint bundle pkg ∧
+    ∃ evaluationProvenance : BHist,
+      Cont evaluation provenance evaluationProvenance ∧
+        Cont character evaluationProvenance endpoint
+
 theorem GelfandDualitySpectrum_source_obligation [AskSetup] [PackageSetup]
     {A X character evaluation rhoA rhoX provenance ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -55,5 +64,21 @@ theorem GelfandDualitySpectrumPairingCarrier_source_obligation [AskSetup] [Packa
       carrier.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right.left⟩
+
+theorem GelfandDualitySpectrumTransportPackage_exactness [AskSetup] [PackageSetup]
+    {A X character evaluation rhoA rhoX provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GelfandDualitySpectrumPairingCarrier A X character evaluation rhoA rhoX provenance
+        ledger endpoint bundle pkg ->
+      GelfandDualitySpectrumTransportPackage A X character evaluation rhoA rhoX provenance
+        ledger endpoint bundle pkg := by
+  intro carrier
+  have characterEvaluationLedger : Cont character evaluation ledger :=
+    carrier.right.right.right.right.right.right.right.left
+  have ledgerProvenanceEndpoint : Cont ledger provenance endpoint :=
+    carrier.right.right.right.right.right.right.right.right.left
+  cases cont_assoc_middle_exists characterEvaluationLedger ledgerProvenanceEndpoint with
+  | intro evaluationProvenance route =>
+      exact And.intro carrier (Exists.intro evaluationProvenance route)
 
 end BEDC.Derived.GelfandDualityUp
