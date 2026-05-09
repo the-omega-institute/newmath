@@ -53,6 +53,17 @@ theorem DeRhamBoundary_zero_endpoint_transport {d : BHist -> BHist} {b b' : BHis
         (Exists.intro preimage (hsame_trans sameBoundary samePreimage))
         (hsame_trans sameBoundary sameZero)
 
+theorem DeRhamBoundary_hsame_transport_with_empty_endpoint
+    {d : BHist -> BHist} {b b' : BHist} :
+    DeRhamBoundary d b -> hsame b' b ->
+      DeRhamBoundary d b' ∧ (hsame b BHist.Empty -> hsame b' BHist.Empty) := by
+  intro boundary sameBoundary
+  cases boundary with
+  | intro preimage samePreimage =>
+      exact And.intro
+        (Exists.intro preimage (hsame_trans sameBoundary samePreimage))
+        (fun sameEmpty => hsame_trans sameBoundary sameEmpty)
+
 def DeRhamDoubleExteriorPacket
     (d : BHist -> BHist) (omega eta theta zero : BHist) : Prop :=
   hsame eta (d omega) ∧ hsame theta (d eta) ∧
