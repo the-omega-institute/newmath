@@ -71,9 +71,33 @@ inductive PublicFormalInterface : InterfaceDatum -> Prop where
   | acceptFlow :
       PublicFormalInterface InterfaceDatum.acceptFlow
 
+def ImplementationSoundness {α β : Type}
+    (impl formal : α -> β -> Prop) : Prop :=
+  forall x y, impl x y -> formal x y
+
+def ImplementationCompleteness {α β : Type}
+    (domain : α -> Prop) (impl formal : α -> β -> Prop) : Prop :=
+  forall x y, domain x -> formal x y -> impl x y
+
+def NoHostLeakCondition (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  forall d, publicSurface d -> Not (ImplementationRepresentation d)
+
+def HostLeak (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  exists d, publicSurface d /\ ImplementationRepresentation d
+
+def NoHiddenInputStatus (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  NoHostLeakCondition publicSurface
+
 theorem host_representation_not_structure {d : InterfaceDatum} :
     ImplementationRepresentation d -> Not (PublicFormalInterface d) := by
   intro hImplementation hPublic
   cases hImplementation <;> cases hPublic
+
+theorem host_leak_invalidates {publicSurface : InterfaceDatum -> Prop} :
+    HostLeak publicSurface -> Not (NoHiddenInputStatus publicSurface) := by
+  intro hLeak hStatus
+  cases hLeak with
+  | intro d hd =>
+      exact hStatus d hd.left hd.right
 
 end BEDC.GroundCompiler.ImplementationInterface

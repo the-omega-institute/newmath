@@ -62,6 +62,7 @@ Host representation may implement BEDC relations, but it must not become BEDC pu
 
 \begin{definition}[Implementation soundness]
 \label{def:implementation-interface-implementation-soundness}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ImplementationSoundness}
 Let an implementation function or program $f_{\mathrm{impl}}$ claim to implement a formal relation $\mathcal R$. The implementation is \emph{sound} for $\mathcal R$ when every success returned by $f_{\mathrm{impl}}$ implies the corresponding formal relation.
 
 For example, if an implementation decoder returns success with output $S$ on input $c$, then one must have
@@ -79,6 +80,7 @@ For example, if $c\in\mathsf{LegalZStream}$ and $\mathsf{Decodes}(c,S)$, then a 
 
 \begin{definition}[No-host-leak condition]
 \label{def:implementation-interface-no-host-leak-condition}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.NoHostLeakCondition}
 An implementation satisfies the \emph{no-host-leak condition} when its public theorem statements, certificate statements, and compiler claims do not expose host-level primitives as BEDC objects. In particular, the public surface may not treat host natural numbers, booleans, lists, strings, equality, quotients, function spaces, parser states, ASTs, theorem identifiers, file paths, YAML, JSON, choice, or classical oracles as BEDC objects.
 
 These devices may appear inside implementation proofs as tools, but not as the BEDC public surface.
@@ -86,11 +88,12 @@ These devices may appear inside implementation proofs as tools, but not as the B
 
 \begin{theorem}[Host leak invalidates no-hidden-input status]
 \label{thm:implementation-interface-host-leak-invalidates}
-If an implementation's public interface depends on host-level structure as BEDC object input, then the implementation cannot claim no-hidden-input compiler status.
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.host\_leak\_invalidates}
+If an implementation's public interface contains a datum that is both public input and an implementation representation, then the implementation cannot claim no-hidden-input compiler status.
 \end{theorem}
 
 \begin{proof}
-The formal input of the no-hidden-input compiler is event flow. If a public interface accepts host-level structure as BEDC input, then the fields, boundaries, types, and readings of that structure are supplied by the host system rather than by $\bzero,\bone$ event flows and generated recognizers. This is hidden input. Hence the no-hidden-input claim fails.
+The no-hidden-input status includes the no-host-leak condition for the public surface. A public datum that is also an implementation representation is exactly a witness that the no-host-leak condition fails. Hence the no-hidden-input claim fails.
 \end{proof}
 
 \section{Core implementation modules}
