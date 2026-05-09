@@ -172,4 +172,22 @@ theorem incomplete_chapter_flow_not_chapter {C : ChapterCandidateFlow} :
   | intro R hComplete =>
       exact hIncomplete R hComplete
 
+theorem title_alone_not_chapter
+    {R : GeneratedChapterRecognizer} {C T : ChapterCandidateFlow} :
+    ChapStart R C T ->
+      (forall R' : GeneratedChapterRecognizer,
+        Not (CompleteChapterRecognition R' C)) ->
+      Not (ChapterFlow C) := by
+  intro _ hIncomplete
+  exact incomplete_chapter_flow_not_chapter hIncomplete
+
+theorem theorem_list_alone_not_chapter
+    {R : GeneratedChapterRecognizer} {C T : ChapterCandidateFlow} :
+    ChapTheorems R C T ->
+      (forall R' : GeneratedChapterRecognizer,
+        Not (CompleteChapterRecognition R' C)) ->
+      Not (ChapterFlow C) := by
+  intro _ hIncomplete
+  exact incomplete_chapter_flow_not_chapter hIncomplete
+
 end BEDC.GroundCompiler.ChapterFlow

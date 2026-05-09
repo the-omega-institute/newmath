@@ -194,12 +194,14 @@ By definition, $\mathsf{ChapterFlow}(C)$ means that some generated recognizer $R
 
 \begin{corollary}[Title alone is not a chapter]
 \label{cor:chapter-generated-title-alone-not-chapter}
-A chapter-start flow or title-like event does not by itself constitute a chapter flow. It still needs dependencies, definitions, lemmas, theorems, proofs, certificates, ledger, cannot-claims, status, and chapter seal.
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.title\_alone\_not\_chapter}
+A chapter-start flow or title-like event does not by itself constitute a chapter flow. If no generated chapter recognizer supplies complete chapter-flow recognition for the same candidate flow, then the candidate flow is not a chapter flow. It still needs dependencies, definitions, lemmas, theorems, proofs, certificates, ledger, cannot-claims, status, and chapter seal.
 \end{corollary}
 
 \begin{corollary}[Theorem list alone is not a chapter]
 \label{cor:chapter-generated-theorem-list-alone-not-chapter}
-Even if an event flow contains recognized theorem flows, that alone does not constitute a chapter flow. The chapter still needs dependency, definition, proof, certificate, ledger, cannot-claim, status, and chapter-seal structure.
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.theorem\_list\_alone\_not\_chapter}
+Even if an event flow contains recognized theorem flows, that alone does not constitute a chapter flow. If no generated chapter recognizer supplies complete chapter-flow recognition for the same candidate flow, then the candidate flow is not a chapter flow. The chapter still needs dependency, definition, proof, certificate, ledger, cannot-claim, status, and chapter-seal structure.
 \end{corollary}
 
 \section{Soundness of chapter structure}
