@@ -321,6 +321,7 @@ A sound source-event report records exactly the decoded source event flow. It do
 
 \begin{theorem}[Source report does not recognize structures]
 \label{thm:source-report-does-not-recognize-structures}
+\leanchecked{BEDC.GroundCompiler.SourceReport.source\_report\_does\_not\_recognize\_structures}
 A sound $P_1$ source-event report does not establish package, name-certificate, derivation-certificate, theorem, chapter, motif, or accepted-object recognition.
 \end{theorem}
 
@@ -374,11 +375,13 @@ A canonical display policy for $P_1$ may use separator ``$\mid$'', empty event m
 
 \begin{definition}[Host leak in report]
 \label{def:source-report-host-leak}
+\leandef{BEDC.GroundCompiler.SourceReport.HostLeakInReport}
 A source report contains a \emph{host leak} if it presents host-level structures as formal BEDC structures. Examples include a Python list interpreted as an event-flow object, JSON object interpreted as a package, YAML object interpreted as a chapter, string label interpreted as theorem identity, or host enum interpreted as status flow.
 \end{definition}
 
 \begin{theorem}[Host-leaking report is inadmissible]
 \label{thm:source-report-host-leak-inadmissible}
+\leanchecked{BEDC.GroundCompiler.SourceReport.host\_leak\_inadmissible}
 If a $P_1$ report contains a host leak, then it is not an admissible source-event report.
 \end{theorem}
 

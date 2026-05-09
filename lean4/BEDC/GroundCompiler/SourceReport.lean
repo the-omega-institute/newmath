@@ -78,6 +78,34 @@ structure DisplayPolicy where
   printsWarnings : Bool
   printsCannotClaims : Bool
 
+inductive SourceReportRecognition
+    (_c : List DisplayAlphabet) (_S : EventFlow) : Prop
+
+inductive ReportDatum : Type where
+  | sourceReport (c : List DisplayAlphabet) (S : EventFlow)
+  | hostPythonList
+  | hostJSONPackage
+  | hostYAMLChapter
+  | hostStringTheoremLabel
+  | hostEnumStatus
+
+inductive HostLeakInReport : ReportDatum -> Prop where
+  | hostPythonList :
+      HostLeakInReport ReportDatum.hostPythonList
+  | hostJSONPackage :
+      HostLeakInReport ReportDatum.hostJSONPackage
+  | hostYAMLChapter :
+      HostLeakInReport ReportDatum.hostYAMLChapter
+  | hostStringTheoremLabel :
+      HostLeakInReport ReportDatum.hostStringTheoremLabel
+  | hostEnumStatus :
+      HostLeakInReport ReportDatum.hostEnumStatus
+
+inductive AdmissibleSourceReportDatum : ReportDatum -> Prop where
+  | sourceReport (c : List DisplayAlphabet) (S : EventFlow) :
+      SourceEventReport c S ->
+        AdmissibleSourceReportDatum (ReportDatum.sourceReport c S)
+
 def PolicyDecode (_policy : DisplayPolicy)
     (c : List DisplayAlphabet) : Option EventFlow :=
   Decode c
@@ -155,6 +183,12 @@ theorem source_report_preserves_raw_flow {c : List DisplayAlphabet}
   intro h
   exact h.right
 
+theorem source_report_does_not_recognize_structures
+    {c : List DisplayAlphabet} {S : EventFlow} :
+    SoundSourceReport c S -> Not (SourceReportRecognition c S) := by
+  intro _ hRecognition
+  cases hRecognition
+
 theorem display_policy_not_semantics (policy : DisplayPolicy)
     {c : List DisplayAlphabet} {S : EventFlow} :
     SourceEventReport c S ->
@@ -171,5 +205,10 @@ theorem display_policy_roundtrip (leftPolicy rightPolicy : DisplayPolicy)
       PolicyCompile rightPolicy S = c := by
   intro h
   exact And.intro h.left (And.intro h.left (And.intro h.right h.right))
+
+theorem host_leak_inadmissible {d : ReportDatum} :
+    HostLeakInReport d -> Not (AdmissibleSourceReportDatum d) := by
+  intro hLeak hAdmissible
+  cases hLeak <;> cases hAdmissible
 
 end BEDC.GroundCompiler.SourceReport
