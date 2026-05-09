@@ -204,6 +204,7 @@ By \autoref{prin:recognizer-generated-no-recognizer-without-cert}, formal recogn
 
 \begin{corollary}[Host parser output is inadmissible]
 \label{cor:recognizer-generated-host-parser-inadmissible}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.host\_parser\_output\_inadmissible}
 Recognition supplied only by a host parser, YAML schema, external grammar, Lean meta-level elaborator, or file manifest is not admissible as a BEDC recognition judgment unless it is backed by a certified recognizer flow.
 \end{corollary}
 
@@ -228,6 +229,7 @@ The kernel-conservativity subflow records that $R$ recognizes structure inside s
 
 \begin{definition}[Recognizer hierarchy]
 \label{def:recognizer-generated-hierarchy}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecognizerHierarchy}
 A \emph{recognizer hierarchy} is a finite list of event flows
 $$
   R_0,R_1,\ldots,R_n
@@ -313,6 +315,7 @@ Hidden structural input is structure that enters the system without being genera
 
 \begin{corollary}[YAML, ASTs, and theorem labels remain inadmissible]
 \label{cor:recognizer-generated-external-views-inadmissible}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.external\_views\_inadmissible}
 Even in the presence of a recognizer hierarchy, YAML files, ASTs, external theorem labels, and external package records remain inadmissible as formal inputs. They may at most be human-readable output views generated from decoded event flows.
 \end{corollary}
 

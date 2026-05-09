@@ -73,6 +73,9 @@ def RecognizerConservative
           forall m : DisplayAlphabet,
             List.Mem m w -> m = BMark.b0 \/ m = BMark.b1
 
+def RecognizerHierarchy : Type :=
+  List (RecognizerCandidateFlow × RecognitionRole)
+
 def FormalRecognitionEvidence
     (R : RecognizerCandidateFlow) (rho : RecognitionRole) (S : EventFlow) :
     Prop :=
@@ -103,5 +106,24 @@ theorem certified_recognition_only
                   List.Mem m w -> m = BMark.b0 \/ m = BMark.b1 := by
   intro _ hCons
   exact hCons
+
+theorem host_parser_output_inadmissible :
+    Not (FormalCompilerInput CompilerDatum.hostParserState) :=
+  structural_hidden_not_formal StructuralHiddenInput.hostParserState
+
+theorem external_views_inadmissible :
+    Not (FormalCompilerInput CompilerDatum.hostYAML) /\
+      Not (FormalCompilerInput CompilerDatum.hostAST) /\
+      Not (FormalCompilerInput CompilerDatum.hostTheoremIdentifier) /\
+      Not (FormalCompilerInput CompilerDatum.hostPkg) := by
+  constructor
+  · exact structural_hidden_not_formal StructuralHiddenInput.hostYAML
+  · constructor
+    · exact structural_hidden_not_formal StructuralHiddenInput.hostAST
+    · constructor
+      · exact
+          structural_hidden_not_formal
+            StructuralHiddenInput.hostTheoremIdentifier
+      · exact structural_hidden_not_formal StructuralHiddenInput.hostPkg
 
 end BEDC.GroundCompiler.RecognizerFlows
