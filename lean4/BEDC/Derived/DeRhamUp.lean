@@ -1,7 +1,9 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 
 namespace BEDC.Derived.DeRhamUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 
 theorem DeRhamDoubleExteriorDerivative_boundary {d : BHist -> BHist}
@@ -30,6 +32,13 @@ def DeRhamDoubleExteriorPacket
   hsame eta (d omega) ∧ hsame theta (d eta) ∧
     (forall {a b : BHist}, hsame a b -> hsame (d a) (d b)) ∧
       (forall a : BHist, hsame (d (d a)) zero) ∧ hsame zero BHist.Empty
+
+def DeRhamBoundarySourcePacket
+    (d : BHist -> BHist) (omega eta theta zero graphLedger endpointLedger : BHist) :
+    Prop :=
+  DeRhamDoubleExteriorPacket d omega eta theta zero ∧ DeRhamBoundary d theta ∧
+    hsame (d eta) BHist.Empty ∧ Cont theta zero graphLedger ∧
+      Cont graphLedger eta endpointLedger
 
 theorem DeRhamDoubleExteriorPacket_boundary
     {d : BHist -> BHist} {omega eta theta zero : BHist} :

@@ -64,6 +64,7 @@ import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.IntUp.ZeroRepresentative
 import BEDC.Derived.IntUp.StdBridge
+import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.ErrorCodeUp
