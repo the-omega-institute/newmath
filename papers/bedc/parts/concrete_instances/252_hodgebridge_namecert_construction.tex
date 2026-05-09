@@ -68,5 +68,36 @@ Use \autoref{thm:hodgebridge-source-dependency-surface} to bind the two dependen
 Finally apply \autoref{thm:hodgebridge-ledger-exactness}. Its coverage, soundness, and completeness clauses exhaust the public rows, so repacking the listed data gives the $\NameCert_{\HodgeBridgeUp}$ obligation surface and excludes unlisted analytic bridge data.
 \end{proof}
 
+\begin{theorem}[HodgeBridge shared-projector readback exactness]
+\label{thm:hodgebridge-shared-projector-readback-exactness}
+Any public readback of a $\HodgeBridgeUp$ packet that consumes both the
+$\NameCert_{\DeRhamUp}$ source row and the $\NameCert_{\CohomologyUp}$
+endpoint row factors through the single displayed provenance package, harmonic
+projector row, bidegree ledger, Lefschetz ledger, finite $\Cont$ readback, and
+carried $\hsame$ transport family of
+\autoref{def:hodgebridge-bhist-source-packet}. It exports no uncarried Kähler
+geometry, ambient analytic projector, or host Hodge decomposition.
+\end{theorem}
+\begin{proof}
+First project the accepted packet. By
+\autoref{thm:hodgebridge-source-dependency-surface}, the de~Rham dependency
+row and the cohomology endpoint row are rows of one finite $\mathsf{BHist}$
+package, and the provenance coordinate $\rho$ binds them to the same displayed
+source.
+
+Next read the projector data through the carried transport family.
+\autoref{thm:hodgebridge-harmonic-projector-classifier-stability} keeps the
+harmonic projector and bidegree ledger stable under the packet's $\hsame$
+rows, and it carries the finite $\Cont$ readback to the transported
+$\NameCert_{\CohomologyUp}$ endpoint row.
+
+Finally combine \autoref{thm:hodgebridge-ledger-exactness} with
+\autoref{thm:hodgebridge-namecert-obligation-surface}. The public certificate
+is exhausted by the displayed dependency, projector, bidegree, Lefschetz,
+continuation, transport, and provenance rows. Because the carrier has no field
+for uncarried Kähler geometry, an ambient analytic projector, or a host Hodge
+decomposition, none of those structures is exported by the readback.
+\end{proof}
+
 \section{The certificate}
 \label{sec:hodgebridge-certificate}

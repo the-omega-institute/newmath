@@ -69,6 +69,37 @@ Next use \autoref{thm:geomquantization-source-dependency-surface} to bind the $\
 Finally apply \autoref{thm:geomquantization-ledger-exactness}. Its coverage, soundness, and completeness clauses say that the public certificate is exhausted by the displayed rows. Repacking these rows gives the $\NameCert_{\GeomQuantizationUp}$ obligation surface and rules out any unlisted bridge data.
 \end{proof}
 
+\begin{theorem}[GeomQuantization shared-provenance readback exactness]
+\label{thm:geomquantization-shared-provenance-readback-exactness}
+Any public readback of a $\GeomQuantizationUp$ packet that consumes both the
+$\NameCert_{\SymplecticUp}$ source row and the $\NameCert_{\HilbertUp}$
+endpoint row factors through the same displayed $\mathsf{Pkg}$ provenance row,
+finite $\Cont$ readback, and carried $\hsame$ transport family of
+\autoref{def:geomquantization-bhist-source-packet}. The readback may also
+project the prequantum line-bundle row, polarisation classifier row, and
+metaplectic-correction ledger row named by that packet, but it cannot read an
+ambient quantization functor or host Hilbert construction.
+\end{theorem}
+\begin{proof}
+Start with the accepted source packet. By
+\autoref{thm:geomquantization-source-dependency-surface}, the symplectic source
+row and Hilbert endpoint row are projections of one finite $\mathsf{BHist}$
+package, and their provenance is the single displayed $\mathsf{Pkg}$ row
+$\rho$.
+
+Next transport the classifier data. The polarisation classifier stability
+theorem keeps the prequantum line-bundle and polarisation rows attached to the
+same carried $\hsame$ transport family, and it sends the finite $\Cont$ ledger
+to the transported $\NameCert_{\HilbertUp}$ endpoint row.
+
+Finally apply \autoref{thm:geomquantization-ledger-exactness} together with
+\autoref{thm:geomquantization-namecert-obligation-surface}. These results
+exhaust the public certificate by the displayed source, endpoint, classifier,
+ledger, continuation, transport, and provenance rows. Since no accepted packet
+field names a host quantization functor or an ambient Hilbert construction,
+the public readback has no route to either structure.
+\end{proof}
+
 \begin{theorem}[GeomQuantization public certificate handoff]
 \label{thm:geomquantization-public-certificate-handoff}
 A public $\NameCert_{\GeomQuantizationUp}$ consumer may read exactly the shared

@@ -504,3 +504,45 @@ quotient, completion, host-index, regularity, standard-bridge, and hidden
 stream rows. The two routes therefore expose one finite $\RealUp$ source
 boundary.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat reindexed window triple-diamond normal form]
+\label{thm:streamname-regseqrat-reindexed-window-triple-diamond-normal-form}
+Let $\mathcal R_0$, $\mathcal R_1$, and $\mathcal R_2$ be three certified
+composable reindexing routes from the same finite $\StreamNameUp$ source
+window to the same finite $\RealUp$ boundary. Suppose the three routes display
+the same selected $\mathsf{RatHistoryClassifier}$ rows, $\mathsf{ProbeBundle}$
+rows, $\mathsf{InBundle}$ witnesses, $\mathsf{UnaryHistory}$ ledgers, $\hsame$
+transport rows, $\Cont$ rows, $\Pkg$ rows, and $\mathsf{RealLedgerPolicy}$
+rows. Then the three routes have a common normal form: they expose one finite
+$\RealUp$ source boundary, namely the selected StreamName classifier surface
+together with the displayed $\RegSeqRat$ handoff, probe, membership,
+unary-history, continuation, package, and real-ledger-policy rows.
+
+This normal form contains no quotient datum, completion object, host-index
+equality, regularity witness, standard bridge row, or hidden stream row. Any
+finite-window $\RealUp$ consumer of any one of the three routes therefore reads
+exactly the same source boundary and exactly the same recorded handoff ledger.
+\end{theorem}
+\begin{proof}
+First compare the routes pairwise. Apply
+\autoref{thm:streamname-regseqrat-reindexed-window-diamond-source-determinacy}
+to $\mathcal R_0$ and $\mathcal R_1$, and again to $\mathcal R_1$ and
+$\mathcal R_2$. The shared classifier, probe, membership, unary-history,
+transport, continuation, package, and real-ledger-policy rows force the same
+finite $\RealUp$ source boundary on both comparisons.
+
+Next normalize the bracketing of each route. Use
+\autoref{thm:streamname-regseqrat-reindexed-window-composition-associativity}
+to identify adjacent certified factorizations of the same route, and use
+\autoref{thm:streamname-regseqrat-reindexed-window-structural-closure} to read
+the route through only the selected StreamName classifier rows, the
+$\RegSeqRat$ handoff rows, and the displayed finite ledger rows.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-reindexed-window-composite-realup-boundary}
+to each normalized route. The common source boundary delivered by the pairwise
+diamond comparison is exactly the finite $\RealUp$ boundary delivered by the
+composite-boundary theorem, so no quotient, completion, host-index equality,
+regularity witness, standard bridge row, or hidden stream row is available to
+distinguish the three routes.
+\end{proof}
