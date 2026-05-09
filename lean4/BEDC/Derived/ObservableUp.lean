@@ -544,6 +544,31 @@ theorem ObservableBHistOperatorCarrier_dependency_namecert_exactness [AskSetup] 
                   (And.intro carrier.right.right.right.right.right.right.right.right.left
                     carrier.right.right.right.right.right.right.right.right.right))))))))
 
+theorem ObservableBHistOperatorCarrier_spectral_row_consumer_coverage [AskSetup]
+    [PackageSetup]
+    {hilbert operator spectrum expectation witness provenance ledger endpoint spectralConsumer :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance ledger
+        endpoint bundle pkg ->
+      Cont spectrum endpoint spectralConsumer ->
+        UnaryHistory spectralConsumer ∧ hsame spectralConsumer (append spectrum endpoint) ∧
+          hsame endpoint (append provenance ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier spectralConsumerRow
+  have ledgerRow : Cont hilbert witness ledger :=
+    carrier.right.right.right.right.right.right.right.left
+  have endpointRow : Cont provenance ledger endpoint :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.left carrier.right.right.right.right.left ledgerRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.right.right.right.right.right.left ledgerUnary endpointRow
+  have spectralConsumerUnary : UnaryHistory spectralConsumer :=
+    unary_cont_closed carrier.right.right.left endpointUnary spectralConsumerRow
+  exact And.intro spectralConsumerUnary
+    (And.intro spectralConsumerRow
+      (And.intro endpointRow carrier.right.right.right.right.right.right.right.right.right))
+
 theorem ObservableBHistOperatorCarrier_public_row_family [AskSetup] [PackageSetup]
     {hilbert operator spectrum expectation witness provenance ledger endpoint expectationEndpoint
       consumerEndpoint spectralEndpoint : BHist}
