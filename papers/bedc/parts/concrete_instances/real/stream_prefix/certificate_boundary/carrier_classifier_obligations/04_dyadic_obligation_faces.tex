@@ -380,3 +380,71 @@ The monotone radius claim is exactly the persistence of the dyadic-radius token
 inside this refined finite ledger. Thus every refined certified unary request
 still exposes a DyadicRatCore observation row at the endpoint.
 \end{proof}
+
+\begin{definition}[DyadicRatCore radius monotone window packet]
+\label{def:dyadic-rat-core-radius-monotone-window-packet}
+A DyadicRatCore radius monotone window packet is a finite $\mathsf{BHist}$
+window in a $\RegSeqRat$ spine whose entries are certified
+$\mathsf{UnaryHistory}$ requests together with their endpoint
+$\mathsf{DyadicRatCoreObservationRow}$ rows, their
+$\mathsf{PositiveUnaryDenominator}$ rows, the pointwise $\hsame$ transports
+between matching request endpoints, and the $\RegSeqRat$ ledger token recording
+the dyadic-radius bound for the window. The packet contains only the RatUp
+carrier face, the visible denominator rows, the request-order refinement rows,
+and the ledger provenance needed by the finite completion seal.
+\end{definition}
+
+\begin{theorem}[DyadicRatCore radius window transport]
+\label{thm:dyadic-rat-core-radius-window-transport}
+Let $W$ be a DyadicRatCore radius monotone window packet. If every certified
+unary request in $W$ is transported pointwise along $\hsame$ to a request with
+the same $\RegSeqRat$ ledger position, then the transported window is again a
+DyadicRatCore radius monotone window packet. The endpoint
+$\mathsf{DyadicRatCoreObservationRow}$, positive-denominator row, and
+dyadic-radius ledger token are carried componentwise by the classifier
+transport for the RatUp endpoint and by the denominator transport.
+\end{theorem}
+\begin{proof}
+Induct over the finite $\mathsf{BHist}$ window. The empty window has no
+endpoint rows and transports to the empty packet.
+
+In the cons step, apply
+\autoref{thm:dyadic-rat-core-observation-row-classifier-transport} to the head
+observation row and
+\autoref{thm:rat-positive-unary-denominator-hsame-transport} to the head
+denominator row. The pointwise request transport preserves the displayed
+ledger position, so the dyadic-radius token is the transported head token.
+
+The induction hypothesis transports the tail packet. Repacking the transported
+head with the transported tail gives a finite window with the same carrier,
+denominator, request-order, and ledger fields as
+\autoref{def:dyadic-rat-core-radius-monotone-window-packet}.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore radius window RegSeqRat consumer]
+\label{thm:dyadic-rat-core-radius-window-regseq-consumer}
+The packet of
+\autoref{def:dyadic-rat-core-radius-monotone-window-packet} is exactly the
+finite-window DyadicRatCore face consumed by the $\RegSeqRat$-to-$\RealUp$
+seal: a consumer may read the certified unary requests, RatUp endpoint
+observation rows, positive-denominator rows, pointwise $\hsame$ transports,
+and the dyadic-radius ledger token, and it may not read a quotient completion
+object or an ambient real-number equality from DyadicRatCore alone.
+\end{theorem}
+\begin{proof}
+Start from the finite ledger extraction theorem
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction}. It
+exposes the same finite request rows and endpoint observation rows named in
+the packet definition.
+
+Next use \autoref{thm:dyadic-rat-core-radius-monotonicity-obligation} to
+identify the monotone dyadic-radius component under request refinement. The
+window transport theorem above shows that the same face is stable under the
+pointwise $\hsame$ transport used by downstream stream consumers.
+
+Finally compare the fields with the $\RegSeqRat$ finite ledger bundle. The
+only exported rows are the request window, endpoint observation rows,
+denominator rows, classifier transports, and radius ledger token. Since none
+of these fields is a quotient completion object, the finite-window seal reads
+exactly the displayed packet and nothing outside it.
+\end{proof}
