@@ -151,9 +151,31 @@ theorem CstaralgebraBHistCarrier_ledger_exactness [AskSetup] [PackageSetup]
     unary_cont_closed ledgerUnary carrier.right.right.right.right.right.left ledgerProvenanceEndpoint
   exact And.intro ledgerUnary
     (And.intro mulInvolutionLedger
-      (And.intro endpointUnary
-        (And.intro ledgerProvenanceEndpoint
+        (And.intro endpointUnary
+          (And.intro ledgerProvenanceEndpoint
           carrier.right.right.right.right.right.right.right.right.right.right.right.right)))
+
+theorem CstaralgebraBHistCarrier_no_host_star_algebra_primitive [AskSetup] [PackageSetup]
+    {banach ring mul involution normSquare carrierTransport multiplicationTransport
+      involutionTransport normTransport provenance ledger endpoint hostEquality : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CstaralgebraBHistCarrier banach ring mul involution normSquare carrierTransport
+        multiplicationTransport involutionTransport normTransport provenance ledger endpoint
+        bundle pkg ->
+      hsame hostEquality endpoint ->
+        hsame hostEquality (append ledger provenance) ∧ Cont mul involution ledger ∧
+          Cont ledger provenance endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier hostEndpoint
+  have mulInvolutionLedger : Cont mul involution ledger :=
+    carrier.right.right.right.right.right.right.right.right.right.right.left
+  have ledgerEndpoint : Cont ledger provenance endpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right
+  have hostReadback : hsame hostEquality (append ledger provenance) :=
+    hsame_trans hostEndpoint ledgerEndpoint
+  exact And.intro hostReadback
+    (And.intro mulInvolutionLedger (And.intro ledgerEndpoint pkgSig))
 
 theorem CstaralgebraBHistCarrier_unital_commutative_source_boundary [AskSetup] [PackageSetup]
     {banach ring mul involution normSquare carrierTransport multiplicationTransport
