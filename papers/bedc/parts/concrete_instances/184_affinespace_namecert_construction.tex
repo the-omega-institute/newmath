@@ -207,3 +207,23 @@ $$
 Finally repack both endpoints as affine rows over the same two source certificates and the common cumulative translation row $v+_V w$. The point components are related by the displayed $\hsame$ row, and the translation components are the same vector-sum row, hence are classified by the $\VecSpaceUp$ classifier. By the definition of $\mathsf{AffCls}$ in \autoref{def:affinespace-history-torsor-carrier}, the two repackings are classified together.
 \end{proof}
 \leanvariant{BEDC.Derived.AffineSpaceUp.AffineSpaceHistoryTorsorCarrier\_action\_additivity}
+
+\begin{theorem}[AffineSpaceUp zero action classifies the carried point]
+\label{thm:affinespace-zero-action-classifies-carried-point}
+Let $\mathcal{V}:\NameCert_{\VecSpaceUp}$ and $\mathcal{G}:\NameCert_{\GroupUp}$ be the dependency certificates of \autoref{def:affinespace-history-torsor-carrier}. Let $p:\mathsf{BHist}$ be a carried point row, and let $0_V:\mathsf{BHist}$ be the vector zero row supplied by $\mathcal{V}$ whose translation reading is the identity translation row supplied by $\mathcal{G}$. Then the zero-action endpoint $\mathsf{act}(p,0_V)$ and the original point row $p$ admit carried affine repackings over the same two source certificates and the same zero translation row, and those repackings are classified by $\mathsf{AffCls}$. Equivalently, the displayed zero action gives the identity case of the translation classifier between $p$ and $\mathsf{act}(p,0_V)$.
+\end{theorem}
+\begin{proof}
+Unfold the action clause in \autoref{def:affinespace-history-torsor-carrier}. There exist histories $t,u:\mathsf{BHist}$ such that $t$ is the certified translation packet read from the vector zero row $0_V$ through the $\NameCert_{\VecSpaceUp}$ and $\NameCert_{\GroupUp}$ dependencies, $u$ is the appended endpoint witnessing
+$$
+\Cont(p,t,u),
+$$
+and $u$ is classified by $\hsame$ with $\mathsf{act}(p,0_V)$. By the hypothesis on $0_V$, the packet $t$ is the identity translation row exposed by the $\GroupUp$ dependency certificate.
+
+Apply \autoref{thm:affinespace-action-closure-obligation} to the carried point row $p$ and the accepted vector row $0_V$. The endpoint $u$ is therefore carried by the same $\AffineSpaceUp$ carrier over $\mathcal{V}$ and $\mathcal{G}$.
+
+The same displayed action ledger is a certified zero-translation action from $p$ to the endpoint $u$. Its endpoint comparison with $u$ is the reflexive $\hsame$ row. Thus the hypotheses of \autoref{thm:affinespace-separation-obligation} hold with $q=u$, and the separation obligation repacks the zero vector row, the identity translation row, and the endpoint comparison as the identity case of \autoref{def:affinespace-translation-classifier}.
+
+It remains only to read this identity classification in the affine carrier language. Repack $p$ and $u$ as affine rows over the same source certificates and with the same zero translation row $0_V$. The point component is the $\hsame$ comparison supplied by the identity action case, and the translation component is the reflexive $\VecSpaceUp$ classifier comparison of $0_V$ with itself. By the definition of $\mathsf{AffCls}$ in \autoref{def:affinespace-history-torsor-carrier}, the two carried repackings are classified together.
+
+Finally transport the carried repacking of $u$ along the recorded $\hsame$ comparison between $u$ and $\mathsf{act}(p,0_V)$. This gives the stated classification of the original point row $p$ with the zero-action endpoint $\mathsf{act}(p,0_V)$ over the same two source certificates and the same zero translation row.
+\end{proof}
