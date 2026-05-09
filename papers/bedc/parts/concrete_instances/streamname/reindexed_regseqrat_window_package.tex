@@ -89,3 +89,39 @@ quotient rows outside the finite StreamName source.
 Therefore projecting and repacking the package cannot introduce any of those
 excluded rows. They remain obligations of the downstream consumer surface.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat reindexed window consumer determinacy]
+\label{thm:streamname-regseqrat-reindexed-window-consumer-determinacy}
+Let $\Omega$ and $\Omega'$ be two
+$\StreamNameUp$--$\RegSeqRat$ reindexed window packages. Suppose they have the
+same public StreamName row, the same certified unary reindexer $\rho$, the same
+selected rational-history classifier rows, and the same finite-window handoff
+rows after the displayed $\hsame$ transports. Then every downstream
+$\RegSeqRat$ finite-window consumer reads the same source surface and the same
+selected finite-window input rows from $\Omega$ and $\Omega'$. No regularity
+witness, $\RealUp$ seal classifier, completion datum, quotient row, or host
+index equality can distinguish the two packages.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:rat-stream-name-reindexing-and-map-stability} to the
+shared reindexer $\rho$. The common StreamName source row and the displayed
+$\hsame$ transports identify the reindexed rational-history classifier rows
+seen by the consumer window.
+
+Next apply \autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage}.
+The selected classifier rows determine the finite $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$ rows available on the
+reindexed window. Thus the two packages expose the same selected finite-window
+input rows.
+
+Now apply \autoref{thm:streamname-real-regseq-finite-window-handoff}. The
+downstream $\RegSeqRat$ boundary reads only the reindexed rational-history
+classifier rows together with the displayed bundle, membership, unary
+observation, and handoff rows.
+
+Finally use
+\autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import}. It excludes
+regularity witnesses, $\RealUp$ seal classifiers, completion data, quotient
+rows, and host index equalities from the package surface, so no extra row can
+separate $\Omega$ from $\Omega'$ for a finite-window consumer.
+\end{proof}
