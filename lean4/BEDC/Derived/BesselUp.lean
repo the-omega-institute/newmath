@@ -164,6 +164,41 @@ theorem BesselRootPacket_holomorphic_consumer_boundary [AskSetup] [PackageSetup]
         (And.intro holomorphicRow
           (And.intro endpointRow pkgSig))))
 
+theorem BesselRootPacket_carrier_equation_order_obligation [AskSetup] [PackageSetup]
+    {ode holomorphic order sourceEndpoint targetEndpoint recurrence transport provenance
+      endpoint equationLedger equationEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BesselRootPacket ode holomorphic order sourceEndpoint targetEndpoint recurrence transport
+        provenance endpoint bundle pkg ->
+      Cont ode order equationLedger ->
+        Cont equationLedger sourceEndpoint equationEndpoint ->
+          UnaryHistory ode ∧ UnaryHistory order ∧ UnaryHistory equationLedger ∧
+            UnaryHistory equationEndpoint ∧
+              hsame recurrence (append sourceEndpoint targetEndpoint) ∧
+                hsame equationLedger (append ode order) ∧
+                  hsame equationEndpoint (append equationLedger sourceEndpoint) ∧
+                    PkgSig bundle endpoint pkg := by
+  intro packet equationLedgerRow equationEndpointRow
+  have rows := BesselRootPacket_root_ode_source_obligation packet
+  have odeUnary : UnaryHistory ode :=
+    rows.left
+  have orderUnary : UnaryHistory order :=
+    rows.right.left
+  have sourceUnary : UnaryHistory sourceEndpoint :=
+    rows.right.right.left
+  have equationLedgerUnary : UnaryHistory equationLedger :=
+    unary_cont_closed odeUnary orderUnary equationLedgerRow
+  have equationEndpointUnary : UnaryHistory equationEndpoint :=
+    unary_cont_closed equationLedgerUnary sourceUnary equationEndpointRow
+  exact And.intro odeUnary
+    (And.intro orderUnary
+      (And.intro equationLedgerUnary
+        (And.intro equationEndpointUnary
+          (And.intro rows.right.right.right.right.right.right.left
+            (And.intro equationLedgerRow
+              (And.intro equationEndpointRow
+                rows.right.right.right.right.right.right.right.right))))))
+
 theorem BesselRootPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {ode holomorphic order sourceEndpoint targetEndpoint recurrence transport provenance
       endpoint : BHist}
