@@ -51,4 +51,34 @@ theorem SpinGroupRootCarrier_source_scope [AskSetup] [PackageSetup]
         (And.intro spinUnary
           (And.intro carrier.right.right.left carrier.right.right.right)))
 
+theorem SpinGroupRootCarrier_group_law_transport [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint cliffordEndpoint' groupWord groupWord'
+      spinEndpoint spinEndpoint' ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      hsame cliffordEndpoint cliffordEndpoint' ->
+        hsame groupWord groupWord' ->
+          Cont product boundary cliffordEndpoint' ->
+            Cont cliffordEndpoint' groupWord' spinEndpoint' ->
+              SpinGroupRootCarrier unit vector product boundary cliffordEndpoint' groupWord'
+                  spinEndpoint' ledger bundle pkg ∧ hsame spinEndpoint spinEndpoint' := by
+  intro carrier sameClifford sameGroup productBoundary spinCont
+  have clifford' :
+      CliffordCarrierPackage unit vector product boundary cliffordEndpoint' :=
+    And.intro carrier.left.left
+      (And.intro carrier.left.right.left
+        (And.intro carrier.left.right.right.left
+          (And.intro carrier.left.right.right.right.left productBoundary)))
+  have group' : GroupSingletonCarrier groupWord' :=
+    hsame_trans (hsame_symm sameGroup) carrier.right.left
+  have sameSpin : hsame spinEndpoint spinEndpoint' :=
+    cont_respects_hsame sameClifford sameGroup carrier.right.right.left spinCont
+  exact
+    And.intro
+      (And.intro clifford'
+        (And.intro group'
+          (And.intro spinCont carrier.right.right.right)))
+      sameSpin
+
 end BEDC.Derived.SpinGroupUp
