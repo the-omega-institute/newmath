@@ -234,8 +234,23 @@ structure ClassifierCompressionData where
   exactnessRecognition : EventFlow
   classCountPositive : 0 < classifierClasses.length
 
+def CompressionExactnessRecognized
+    (R : GeneratedMetricRecognizer) (exactnessFlow : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R exactnessFlow)
+
+structure AdmissibleCompressionRatio where
+  data : ClassifierCompressionData
+  recognizer : GeneratedMetricRecognizer
+  exactnessRecognized :
+    CompressionExactnessRecognized recognizer data.exactnessRecognition
+
 def CompressionRatio (q : ClassifierCompressionData) : Nat × Nat :=
   (q.rawSupportFlows.length, q.classifierClasses.length)
+
+theorem compression_ratio_requires_exactness
+    (q : AdmissibleCompressionRatio) :
+    CompressionExactnessRecognized q.recognizer q.data.exactnessRecognition :=
+  q.exactnessRecognized
 
 structure ReuseChain where
   links : List EventFlow
