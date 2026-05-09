@@ -123,6 +123,77 @@ provenance. Hence the boundary grants precisely those read permissions and no
 metric, quotient, external lattice, or bridge data.
 \end{proof}
 
+\begin{definition}[Polytope face classifier]
+\label{def:polytope-face-classifier}
+The $\PolytopeUp$ face classifier relates two BHist face packets when their
+half-space rows, vertex rows, edge rows, face rows, $\Cont$ ledgers, and $\Pkg$
+provenance rows compare componentwise by $\hsame$, and when the dependency
+rows supplied by $\NameCert_{\ConvexSetUp}$ and $\NameCert_{\FinSetUp}$ are the
+same accepted dependency rows on both sides.
+
+Thus classifier agreement is entirely a BEDC row relation: half-space
+agreement is read through the convex-set dependency, vertex, edge, and face
+agreement is read through the finite-set dependency, and every incidence or
+containment movement is witnessed by the displayed $\Cont$ ledgers. No ambient
+face lattice or metric equality is part of the classifier.
+\end{definition}
+
+\begin{theorem}[Polytope face classifier transport]
+\label{thm:polytope-face-classifier-transport}
+If two $\PolytopeUp$ BHist face packets are related by the classifier of
+\autoref{def:polytope-face-classifier}, then any packet obtained by
+componentwise $\hsame$ transport of its half-space, vertex, edge, face,
+$\Cont$, and $\Pkg$ rows is again accepted by the same classifier. The
+transported packet keeps the same $\NameCert_{\ConvexSetUp}$ and
+$\NameCert_{\FinSetUp}$ dependency rows and remains available to the downstream
+boundary of \autoref{thm:polytope-downstream-boundary}.
+\end{theorem}
+\begin{proof}
+Project the classifier into its convex, finite, incidence, ledger, and
+provenance components. The convex component transports half-space and carried
+face rows through $\NameCert_{\ConvexSetUp}$, while the finite component
+transports vertex, edge, face, and incidence indices through
+$\NameCert_{\FinSetUp}$.
+
+Next transport the finite $\Cont$ ledger entries. Each entry has the same
+source, step, and result shape after replacing endpoints by their $\hsame$
+mates, and the $\Pkg$ row is carried along the same componentwise comparison.
+
+Repack these transported rows using
+\autoref{def:polytope-face-classifier}. The acceptance clauses are exactly the
+transported classifier clauses, so the resulting packet remains classifier
+related and has the same downstream readback permissions.
+\end{proof}
+
+\begin{theorem}[Polytope obligation boundary exhaustion]
+\label{thm:polytope-obligation-boundary-exhaustion}
+The carrier block, face-classifier block, stability block, dependency readback
+block, and downstream boundary block exhaust the $\PolytopeUp$
+$\NameCert$ obligation surface. Every accepted obligation row is one of the
+finite $\mathsf{BHist}$ half-space, vertex, edge, face, incidence, $\Cont$, or
+$\Pkg$ rows named in those blocks, together with the two dependency rows
+$\NameCert_{\ConvexSetUp}$ and $\NameCert_{\FinSetUp}$.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition
+\autoref{def:polytope-bhist-face-packet}. It lists all packet fields:
+dependency rows, half-space rows, vertex rows, edge rows, face rows,
+incidence ledgers, $\Cont$ ledgers, and provenance.
+
+The classifier and stability rows are exactly
+\autoref{def:polytope-face-classifier},
+\autoref{thm:polytope-face-classifier-transport}, and
+\autoref{thm:polytope-halfspace-face-carrier-stability}. They move only the
+listed finite rows along $\hsame$ and do not add a metric, quotient, or
+external face lattice.
+
+Finally combine dependency readback
+\autoref{thm:polytope-convex-finset-dependency-readback} with the downstream
+boundary \autoref{thm:polytope-downstream-boundary}. These projections account
+for every consumer-visible row, so the displayed blocks exhaust the obligation
+surface.
+\end{proof}
+
 \begin{theorem}[PolytopeUp obligation surface]
 \label{thm:polytope-obligation-surface}
 The existing $\PolytopeUp$ BHist face packet supplies the roadmap obligation
