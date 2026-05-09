@@ -670,13 +670,76 @@ consumer automorphism surface available downstream.
 \end{proof}
 \leanchecked{BEDC.Derived.GaloisExtUp.GaloisExtSourcePacket\_galoisgroup\_consumer\_automorphism\_surface}
 
-\closureat{GaloisExtUp}{scopedStr}[BEDC.Derived.GaloisExtUp.GaloisExtSourcePacket\_semantic\_name\_certificate]
+\begin{theorem}[GaloisExtUp public ledger coverage]
+\label{thm:galoisext-public-ledger-coverage}
+For every scoped source packet $(F,S,n,s,a,c,\rho,\lambda)$ of
+\autoref{def:galoisext-bhist-source-packet}, the public ledger visible to
+$\GaloisExtUp$ is exhausted by the $\FieldExtUp$ carrier and classifier rows,
+the $\SeparableExtUp$ simple-root rows, the automorphism-source and action
+rows, the finite $\mathsf{BHist}$ endpoints, the displayed $\hsame$ transport
+rows, the $\Cont$ ledgers, and the $\Pkg$ provenance. No public ledger row
+exports a normal-basis theorem, host quotient field, ambient algebraic closure,
+or automorphism quotient.
+\end{theorem}
+\begin{proof}
+Project the scoped source packet through
+\autoref{thm:galoisext-public-obligation-boundary}. The projected packet lists
+the FieldExtUp, SeparableExtUp, normality, separability, stability, ledger,
+exactness, and provenance rows available at the public boundary.
+
+Apply \autoref{thm:galoisext-dependency-exactness-ledger}. It identifies those
+projected rows as the complete dependency ledger and rules out extra host
+quotient-field, algebraic-closure, and automorphism-quotient slots.
+
+Finally add the automorphism-facing projections of
+\autoref{thm:galoisext-fixed-base-automorphism-source} and
+\autoref{thm:galoisext-automorphism-action-source}. These projections are still
+read through finite $\mathsf{BHist}$ endpoints, $\hsame$ transports, $\Cont$
+ledgers, and $\Pkg$ provenance, so the listed public ledger is exhausted.
+\end{proof}
+
+\begin{theorem}[GaloisExtUp public interface export]
+\label{thm:galoisext-public-interface-export}
+For every scoped source packet $(F,S,n,s,a,c,\rho,\lambda)$ of
+\autoref{def:galoisext-bhist-source-packet}, the scoped $\FieldExtUp$ carrier
+and classifier rows, $\SeparableExtUp$ simple-root rows, finite
+$\mathsf{BHist}$ endpoints, displayed $\hsame$ transports, $\Cont$ ledgers,
+$\Pkg$ provenance, and automorphism-source rows assemble a public
+$\NameCert_{\GaloisExtUp}$ interface. The exported interface contains exactly
+the public rows covered by
+\autoref{thm:galoisext-public-ledger-coverage}; it exports no normal-basis
+theorem and no host quotient field.
+\end{theorem}
+\begin{proof}
+First project the scoped source packet. The public obligation boundary of
+\autoref{thm:galoisext-public-obligation-boundary} supplies the FieldExtUp
+carrier and classifier rows, the SeparableExtUp simple-root rows, the
+normality and separability rows, the finite $\mathsf{BHist}$ endpoints, the
+$\hsame$ transports, the $\Cont$ ledgers, and the $\Pkg$ provenance.
+
+Next transport the classifier-facing rows through the already displayed source
+surface. The source packet theorem
+\autoref{thm:galoisext-public-obligation-boundary} packages these
+rows as the scoped $\NameCert$ surface, and
+\autoref{thm:galoisext-public-ledger-coverage} says that the public ledger has
+no further dependency row to export.
+
+Finally repackage the resulting boundary as a public
+$\NameCert_{\GaloisExtUp}$ interface. The automorphism-source rows are exactly
+the fixed-base and action rows of
+\autoref{thm:galoisext-fixed-base-automorphism-source} and
+\autoref{thm:galoisext-automorphism-action-source}; the ledger exactness
+prevents any normal-basis theorem or host quotient field from entering the
+exported interface.
+\end{proof}
+
+\closureat{GaloisExtUp}{publicStr}[BEDC.Derived.GaloisExtUp.GaloisExtSourcePacket\_semantic\_name\_certificate]
 \begin{closurestatus}{\GaloisExtUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The seed binds the current FieldExtUp carrier and classifier rows, SeparableExtUp simple-root rows, normality and separability obligations, automorphism-source and action rows, $\mathsf{BHist}$ endpoints, $\hsame$ classifier transport, $\Cont$ ledgers, and $\mathsf{Pkg}$ provenance surface displayed in this chapter.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public surface binds the current FieldExtUp carrier and classifier rows, SeparableExtUp simple-root rows, normality and separability obligations, automorphism-source and action rows, $\mathsf{BHist}$ endpoints, $\hsame$ classifier transport, $\Cont$ ledgers, and $\mathsf{Pkg}$ provenance surface displayed in this chapter.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.GaloisExtUp.GaloisExtSourcePacket\_semantic\_name\_certificate}
   \bridgestatus{none}
   \notclaimed{This chapter does not close the full Galois correspondence, algebraic closure, automorphism quotient, or standard bridge.}
-  \upgradepath{The publicClosure step is to export a public GaloisExtUp interface theorem from the scoped $\FieldExtUp$, $\SeparableExtUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and automorphism-source rows.}
+  \upgradepath{A bridge grade requires a standard-bridge row for the public $\FieldExtUp$, $\SeparableExtUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and automorphism-source surface.}
 \end{closurestatus}
