@@ -378,6 +378,162 @@ theorem real_like_extends_completion {S : EventFlow} :
   | intro _ hBundle =>
       exact hBundle.left
 
+def MetricCarrierFlow : EventFlow := [[BMark.b0, BMark.b0, BMark.b1]]
+
+def MetricDistanceValueFlow : EventFlow := [[BMark.b0, BMark.b1, BMark.b0]]
+
+def MetricNonnegativityFlow : EventFlow := [[BMark.b0, BMark.b1, BMark.b1]]
+
+def MetricSymmetryFlow : EventFlow := [[BMark.b1, BMark.b0, BMark.b0]]
+
+def MetricTriangleFlow : EventFlow := [[BMark.b1, BMark.b0, BMark.b1]]
+
+def MetricZeroExactnessFlow : EventFlow := [[BMark.b1, BMark.b1, BMark.b0]]
+
+def MetricLedgerFlow : EventFlow := [[BMark.b1, BMark.b1, BMark.b1]]
+
+def MetricMotifSkeleton : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b1],
+    [BMark.b0, BMark.b1, BMark.b0],
+    [BMark.b0, BMark.b1, BMark.b1],
+    [BMark.b1, BMark.b0, BMark.b0],
+    [BMark.b1, BMark.b0, BMark.b1],
+    [BMark.b1, BMark.b1, BMark.b0],
+    [BMark.b1, BMark.b1, BMark.b1]]
+
+def MetricMotif (S : EventFlow) : Prop :=
+  Subflow MetricCarrierFlow S /\
+    Subflow MetricDistanceValueFlow S /\
+    Subflow MetricNonnegativityFlow S /\
+    Subflow MetricSymmetryFlow S /\
+    Subflow MetricTriangleFlow S /\
+    Subflow MetricZeroExactnessFlow S /\
+    Subflow MetricLedgerFlow S /\
+    NonemptyEventFlow MetricLedgerFlow
+
+def TopologyOpenSourceFlow : EventFlow := [[BMark.b0, BMark.b0, BMark.b0, BMark.b0]]
+
+def TopologyFiniteIntersectionFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b0, BMark.b1]]
+
+def TopologyGeneratedUnionSchemaFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b1, BMark.b0]]
+
+def TopologyContinuityClassifierFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b1, BMark.b1]]
+
+def TopologyBasisLedgerFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b0, BMark.b0]]
+
+def TopologySealFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b0, BMark.b1]]
+
+def TopologyMotif (S : EventFlow) : Prop :=
+  Subflow TopologyOpenSourceFlow S /\
+    Subflow TopologyFiniteIntersectionFlow S /\
+    Subflow TopologyGeneratedUnionSchemaFlow S /\
+    Subflow TopologyContinuityClassifierFlow S /\
+    Subflow TopologyBasisLedgerFlow S /\
+    Subflow TopologySealFlow S /\
+    NonemptyEventFlow TopologyBasisLedgerFlow
+
+def MetricToTopologyCertificate (S : EventFlow) : Prop :=
+  Subflow TopologyBasisLedgerFlow S /\
+    NonemptyEventFlow TopologyBasisLedgerFlow
+
+theorem metric_motif_skeleton_recognized :
+    MetricMotif MetricMotifSkeleton := by
+  constructor
+  · exact Or.inl
+      ⟨[],
+        [[BMark.b0, BMark.b1, BMark.b0],
+          [BMark.b0, BMark.b1, BMark.b1],
+          [BMark.b1, BMark.b0, BMark.b0],
+          [BMark.b1, BMark.b0, BMark.b1],
+          [BMark.b1, BMark.b1, BMark.b0],
+          [BMark.b1, BMark.b1, BMark.b1]], rfl⟩
+  · constructor
+    · exact Or.inl
+        ⟨[[BMark.b0, BMark.b0, BMark.b1]],
+          [[BMark.b0, BMark.b1, BMark.b1],
+            [BMark.b1, BMark.b0, BMark.b0],
+            [BMark.b1, BMark.b0, BMark.b1],
+            [BMark.b1, BMark.b1, BMark.b0],
+            [BMark.b1, BMark.b1, BMark.b1]], rfl⟩
+    · constructor
+      · exact Or.inl
+          ⟨[[BMark.b0, BMark.b0, BMark.b1],
+            [BMark.b0, BMark.b1, BMark.b0]],
+            [[BMark.b1, BMark.b0, BMark.b0],
+              [BMark.b1, BMark.b0, BMark.b1],
+              [BMark.b1, BMark.b1, BMark.b0],
+              [BMark.b1, BMark.b1, BMark.b1]], rfl⟩
+      · constructor
+        · exact Or.inl
+            ⟨[[BMark.b0, BMark.b0, BMark.b1],
+              [BMark.b0, BMark.b1, BMark.b0],
+              [BMark.b0, BMark.b1, BMark.b1]],
+              [[BMark.b1, BMark.b0, BMark.b1],
+                [BMark.b1, BMark.b1, BMark.b0],
+                [BMark.b1, BMark.b1, BMark.b1]], rfl⟩
+        · constructor
+          · exact Or.inl
+              ⟨[[BMark.b0, BMark.b0, BMark.b1],
+                [BMark.b0, BMark.b1, BMark.b0],
+                [BMark.b0, BMark.b1, BMark.b1],
+                [BMark.b1, BMark.b0, BMark.b0]],
+                [[BMark.b1, BMark.b1, BMark.b0],
+                  [BMark.b1, BMark.b1, BMark.b1]], rfl⟩
+          · constructor
+            · exact Or.inl
+                ⟨[[BMark.b0, BMark.b0, BMark.b1],
+                  [BMark.b0, BMark.b1, BMark.b0],
+                  [BMark.b0, BMark.b1, BMark.b1],
+                  [BMark.b1, BMark.b0, BMark.b0],
+                  [BMark.b1, BMark.b0, BMark.b1]],
+                  [[BMark.b1, BMark.b1, BMark.b1]], rfl⟩
+            · constructor
+              · exact Or.inl
+                  ⟨[[BMark.b0, BMark.b0, BMark.b1],
+                    [BMark.b0, BMark.b1, BMark.b0],
+                    [BMark.b0, BMark.b1, BMark.b1],
+                    [BMark.b1, BMark.b0, BMark.b0],
+                    [BMark.b1, BMark.b0, BMark.b1],
+                    [BMark.b1, BMark.b1, BMark.b0]], [], rfl⟩
+              · exact ⟨[BMark.b1, BMark.b1, BMark.b1], [], rfl⟩
+
+theorem metric_to_topology_needs_cert {S : EventFlow} :
+    MetricMotif S -> TopologyMotif S -> MetricToTopologyCertificate S := by
+  intro _ hTopology
+  exact
+    ⟨hTopology.right.right.right.right.left,
+      hTopology.right.right.right.right.right.right⟩
+
+theorem metric_not_automatic_topology :
+    exists S : EventFlow, MetricMotif S /\ Not (TopologyMotif S) := by
+  refine ⟨MetricMotifSkeleton, metric_motif_skeleton_recognized, ?_⟩
+  intro hTopology
+  have hOpenMem :
+      List.Mem [BMark.b0, BMark.b0, BMark.b0, BMark.b0]
+        MetricMotifSkeleton :=
+    subflow_mem hTopology.left (List.Mem.head [])
+  unfold MetricMotifSkeleton at hOpenMem
+  cases hOpenMem with
+  | tail _ hOpenMem =>
+      cases hOpenMem with
+      | tail _ hOpenMem =>
+          cases hOpenMem with
+          | tail _ hOpenMem =>
+              cases hOpenMem with
+              | tail _ hOpenMem =>
+                  cases hOpenMem with
+                  | tail _ hOpenMem =>
+                      cases hOpenMem with
+                      | tail _ hOpenMem =>
+                          cases hOpenMem with
+                          | tail _ hOpenMem =>
+                              cases hOpenMem
+
 def sameDisplayMark : DisplayAlphabet -> DisplayAlphabet -> Bool
   | BMark.b0, BMark.b0 => true
   | BMark.b1, BMark.b1 => true
