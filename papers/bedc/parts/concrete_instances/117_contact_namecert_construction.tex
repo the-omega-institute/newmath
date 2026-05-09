@@ -145,13 +145,41 @@ row-for-row and introduces no host manifold, compactness, or external equality
 datum.
 \end{proof}
 
-\closureat{ContactUp}{bridgedStr}
+\begin{theorem}[ContactUp mature consumer completeness]
+\label{thm:contactup-mature-consumer-completeness}
+Every $\ContactUp$ consumer of the public bridge reads exactly the
+$\ManifoldUp$ carrier, the $\DiffFormUp$ one-form row, the exterior-input row,
+the wedge ladder rows, the top-wedge nondegeneracy row, the exact ledger, and
+the public bridge compatibility rows already named by
+\autoref{thm:contactup-public-namecert-export} and
+\autoref{thm:contact-public-bridge-compatibility}. No extra host manifold,
+compactness condition, or equality source is exported.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:contactup-form-row-obligation}. It identifies the
+contact consumer face with the routed $\DiffFormUp$ one-form, exterior-input,
+and wedge rows over the shared $\ManifoldUp$ carrier.
+
+Next apply \autoref{thm:contactup-nondegeneracy-obligation} and
+\autoref{thm:contactup-ledger-exactness-obligation}. These supply the local
+top-wedge nondegeneracy row and the exact coverage, soundness, and completeness
+ledger for the displayed carrier-classifier surface.
+
+Finally use \autoref{thm:contactup-public-namecert-export} to repack those rows
+as the public $\NameCert_{\ContactUp}$ surface, and use
+\autoref{thm:contact-public-bridge-compatibility} to compare the public surface
+with the bridge surface. The compatibility theorem states that the bridge adds
+no host manifold, compactness, or external equality datum, so the listed rows
+are the complete consumer boundary.
+\end{proof}
+
+\closureat{ContactUp}{matureStr}
 
 \begin{closurestatus}{\ContactUp}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{The public boundary is exactly the carrier-classifier surface, form-row obligation, nondegeneracy obligation, and exact ledger assembled in \autoref{thm:contactup-public-namecert-export}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a closed ContactUp carrier implementation, a proved nonintegrability theorem, Lean bridge verification, or mature examples.}
-  \upgradepath{Mature closure requires examples and cross-chapter consumer completeness for the $\ContactUp$ bridge.}
+  \upgradepath{The paper-side theory axis is complete; Lean bridge verification remains a separate verification-axis obligation.}
 \end{closurestatus}
