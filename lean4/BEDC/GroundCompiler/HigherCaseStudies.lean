@@ -438,6 +438,86 @@ structure CrossDomainMotifComparison where
     theoryDistance =
       TheoryFlowDistance recognizers protocol leftFlow rightFlow theoryComponents
 
+def CrossDomainSharedMotifFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b0, BMark.b1, BMark.b0]]
+
+def CrossDomainOverlapLeftFlow : EventFlow :=
+  CrossDomainSharedMotifFlow
+
+def CrossDomainOverlapRightFlow : EventFlow :=
+  CrossDomainSharedMotifFlow
+
+def CrossDomainMotifOverlapFlow (S T : EventFlow) : Prop :=
+  Subflow CrossDomainSharedMotifFlow S /\
+    Subflow CrossDomainSharedMotifFlow T /\
+    NonemptyEventFlow CrossDomainSharedMotifFlow
+
+def BridgeMotifFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0]]
+
+def BridgeTranslationSupportFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1]]
+
+def BridgeSoundnessSupportFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b1, BMark.b0, BMark.b1]]
+
+def BridgeLedgerSupportFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b0, BMark.b1, BMark.b1]]
+
+def BridgeCertificateSupport (S T : EventFlow) : Prop :=
+  Subflow BridgeTranslationSupportFlow S /\
+    Subflow BridgeSoundnessSupportFlow T /\
+    Subflow BridgeLedgerSupportFlow S /\
+    NonemptyEventFlow BridgeLedgerSupportFlow
+
+def RecognizedBridgeFlow (S T : EventFlow) : Prop :=
+  CrossDomainMotifOverlapFlow S T /\
+    Subflow BridgeMotifFlow S /\
+    Subflow BridgeMotifFlow T /\
+    BridgeCertificateSupport S T
+
+theorem cross_domain_overlap_witness :
+    CrossDomainMotifOverlapFlow
+      CrossDomainOverlapLeftFlow CrossDomainOverlapRightFlow := by
+  constructor
+  · exact subflow_self CrossDomainSharedMotifFlow
+  · constructor
+    · exact subflow_self CrossDomainSharedMotifFlow
+    · exact ⟨[BMark.b0, BMark.b1, BMark.b0, BMark.b1, BMark.b0],
+        [], rfl⟩
+
+theorem bridge_motif_not_in_overlap_left :
+    Not (Subflow BridgeMotifFlow CrossDomainOverlapLeftFlow) := by
+  intro h
+  have hBridgeHead :
+      List.Mem [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0]
+        BridgeMotifFlow := by
+    unfold BridgeMotifFlow
+    exact List.Mem.head []
+  have hMem :
+      List.Mem [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0]
+        CrossDomainOverlapLeftFlow :=
+    subflow_mem h hBridgeHead
+  unfold CrossDomainOverlapLeftFlow CrossDomainSharedMotifFlow at hMem
+  cases hMem with
+  | tail _ htail => cases htail
+
+theorem overlap_not_bridge :
+    exists S T : EventFlow,
+      CrossDomainMotifOverlapFlow S T /\ Not (RecognizedBridgeFlow S T) := by
+  refine
+    ⟨CrossDomainOverlapLeftFlow, CrossDomainOverlapRightFlow,
+      cross_domain_overlap_witness, ?_⟩
+  intro hBridge
+  exact bridge_motif_not_in_overlap_left hBridge.right.left
+
+theorem bridge_needs_cert {S T : EventFlow} :
+    RecognizedBridgeFlow S T ->
+      (Subflow BridgeMotifFlow S /\ Subflow BridgeMotifFlow T) /\
+        BridgeCertificateSupport S T := by
+  intro h
+  exact ⟨⟨h.right.left, h.right.right.left⟩, h.right.right.right⟩
+
 structure HighLevelMotifReport where
   sourceFlow : EventFlow
   motifBundle : List HighLayerMotifRole
