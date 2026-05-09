@@ -17,6 +17,7 @@ import BEDC.GroundCompiler.MotifReportCounts
 import BEDC.GroundCompiler.MotifReportPrototype
 import BEDC.GroundCompiler.CaseStudies
 import BEDC.GroundCompiler.MetricsFlow
+import BEDC.GroundCompiler.MetricsP4Pipeline
 import BEDC.GroundCompiler.HigherCaseStudies
 import BEDC.GroundCompiler.AnalysisPipeline
 import BEDC.GroundCompiler.MainTheorems

@@ -406,11 +406,13 @@ Every nontrivial metric report must contain a cannot-claim section listing the s
 
 \begin{definition}[$P_4$ pipeline]
 \label{def:metric-report-p4-pipeline}
+\leandef{BEDC.GroundCompiler.MetricsFlow.P4Pipeline}
 Given channel code $c$, the $P_4$ pipeline consists of $P_0$ legality check, $P_1$ source-event report, $P_2$ normalizer ledger report, $P_3$ motif report, metric protocol recognition, admissible metric computation, undefined metric audit, cannot-claim audit, and metric report generation.
 \end{definition}
 
 \begin{theorem}[$P_4$ pipeline is source-determined relative to protocol]
 \label{thm:metric-report-source-determined}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.p4\_source\_determined\_relative\_to\_protocol}
 If $c\in\mathsf{LegalZStream}$, $P_{\mathrm{met}}$ is a recognized metric protocol flow, and all selected recognizers are deterministic, then the $P_4$ output is uniquely determined.
 \end{theorem}
 
@@ -420,6 +422,7 @@ The channel bijection decodes $c$ to a unique event flow $S$. The recognized pro
 
 \begin{corollary}[Different protocols may yield different reports]
 \label{cor:metric-report-different-protocols}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.different\_protocols\_may\_yield\_different\_reports}
 Different metric protocol flows may choose different recognizer families, metric selections, weights, undefined-value policies, or report policies. Different reports under different protocols are therefore not contradictory.
 \end{corollary}
 
