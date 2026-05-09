@@ -14584,3 +14584,28 @@ Rationale:
 The chapter proves `thm:innerproduct-norm-squared-carrier-row` (carrier transport, 25_polynomial_literal_addtrim_eval would not be, this is innerproduct/norm_metric_seed.tex:25) and the linearity row `thm:innerproduct-vecspace-linearity-row` (innerproduct/core_surface.tex:121) handles both additive and scalar-action arguments with the conjugate handling promised on the conjugate-linear side. Polarization-difference and parallelogram are in the parallelogram seed. But the explicit norm-scaling identity ||r·x||²_I ~ (r·conj(r))·||x||²_I is missing — standard textbook (Folland Real Analysis Ch.5 §5.5, Conway Functional Analysis I §I.1.5: 'inner product is conjugate-bilinear, hence ||rx||² = |r|²||x||²'). Proof: apply linearity at left slot to extract r, then linearity at right slot with conjugation to extract conj(r), then scalar associativity. File norm_metric_seed.tex is only 101 lines. Closes in 2-3 rounds; the only nontrivial step is checking the conjugate-linearity clause of the existing linearity row at the right argument, which the row explicitly promises (core_surface.tex:140, 'the conjugate argument handled by the displayed conjugation row when the source uses that side as the conjugate-linear argument').
 
 ---
+
+### B-574 - LambdaCalc alpha classifier transitivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LambdaCalc alpha classifier transitivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If two accepted alpha-classifier rows relate $(s,t)$ and $(t,u)$ over accepted $\LambdaCalcUp$ term packets sharing the displayed $\TreeUp$ syntax row and $\NatUp$ binder ledger, then the composed alpha-classifier row relating $(s,u)$ is also accepted, with reversed and concatenated carried $\hsame$ rows on the $\TreeUp$ skeletons and the $\NatUp$ binder indices.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/178_lambdacalc_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/lambdacalc/root_frontier.tex`
+
+Rationale:
+The lambdacalc chapter currently exposes alpha-classifier reflexivity at `papers/bedc/parts/concrete_instances/178_lambdacalc_namecert_construction.tex:244-272` (`thm:lambdacalc-carrier-reflexive`) and alpha-classifier symmetry at lines 274-302 (`thm:lambdacalc-alpha-classifier-symmetric`), but no transitivity row anywhere in the chapter or its split sub-files (`lambdacalc/root_normal_form_boundary.tex`, `root_frontier.tex`, `namecert_public_boundary.tex`). Among the 25 theorems in the parent file and 17 in its sub-files, no completed BOARD target (search across `b-*_lambdacalc_*` returns only the parent chapter not yet probed by bedc-deep) covers transitivity. This is a textbook structural blindspot: equivalence-classifier predicates uniformly receive refl/sym/trans, and lambdacalc has the first two but the third is a simple compose-the-witnesses argument. Loning's parallel pipeline has not touched it either. The parent file is at 735/800 lines so the new theorem can land in `lambdacalc/root_frontier.tex` (293 lines, ample room) as a sibling body file.
+
+---
