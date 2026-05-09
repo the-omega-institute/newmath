@@ -158,6 +158,12 @@ def P6RecognizedDerivCertFlow
     (R : GeneratedDerivCertRecognizer) (S D N s : EventFlow) : Prop :=
   P6DerivCertCandidate S D N s /\ RecognizesDerivCert R D N s
 
+def AcceptGateCandidate (S A N s : EventFlow) : Prop :=
+  DerivCertSourceSubflow A S /\
+    FormalCompilerInput (CompilerDatum.eventFlow N) /\
+    StrengthEventFlow s /\
+    exists C D : EventFlow, DerivCertSourceSubflow C A /\ DerivCertSourceSubflow D A
+
 def AcceptedFlow (A N s : EventFlow) : Prop :=
   exists C D sealFlow : EventFlow,
     NameCertFlow C N /\
@@ -269,6 +275,11 @@ def SoundRecognizedDerivCertFlow
       DerivCertFieldSoundness R D N s source classifier exactness ledger
         stability strength
 
+def P6SoundDerivCertFlow
+    (R : GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow)
+    (N s : EventFlow) : Prop :=
+  SoundRecognizedDerivCertFlow R D N s
+
 theorem no_external_derivcert_input :
     Not (FormalCompilerInput CompilerDatum.hostDerivCert) :=
   structural_hidden_not_formal StructuralHiddenInput.hostDerivCert
@@ -368,6 +379,13 @@ theorem sound_derivcert_recognition_establishes_flow
     SoundRecognizedDerivCertFlow R D N s -> DerivCertFlow D N s := by
   intro hSound
   exact ⟨R, hSound.left⟩
+
+theorem p6_sound_derivcert_flow_establishes_derivcert
+    {R : GeneratedDerivCertRecognizer} {D : DerivCertCandidateFlow}
+    {N s : EventFlow} :
+    P6SoundDerivCertFlow R D N s -> DerivCertFlow D N s := by
+  intro hSound
+  exact sound_derivcert_recognition_establishes_flow hSound
 
 theorem accepted_requires_namecert_derivcert {N s : EventFlow} :
     AcceptGateFlow N s ->
