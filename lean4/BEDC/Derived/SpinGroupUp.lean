@@ -397,4 +397,29 @@ theorem SpinGroupRootCarrier_public_consumer_boundary_exhaustion [AskSetup] [Pac
     (And.intro sourceScope.right.right.left
       (And.intro sourceScope.right.right.right.left sourceScope.right.right.right.right))
 
+theorem SpinGroupRootCarrier_classifier_obligation [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger unit' vector'
+      product' boundary' cliffordEndpoint' groupWord' spinEndpoint' ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      SpinGroupRootCarrier unit' vector' product' boundary' cliffordEndpoint' groupWord'
+          spinEndpoint' ledger' bundle pkg ->
+        hsame cliffordEndpoint cliffordEndpoint' ->
+          hsame groupWord groupWord' ->
+            hsame ledger ledger' ->
+              hsame spinEndpoint spinEndpoint' ∧ UnaryHistory spinEndpoint ∧
+                UnaryHistory spinEndpoint' ∧ PkgSig bundle ledger pkg ∧
+                  PkgSig bundle ledger' pkg := by
+  intro carrier carrier' sameClifford sameGroup _sameLedger
+  have scope := SpinGroupRootCarrier_source_scope carrier
+  have scope' := SpinGroupRootCarrier_source_scope carrier'
+  have sameSpin : hsame spinEndpoint spinEndpoint' :=
+    cont_respects_hsame sameClifford sameGroup scope.right.right.right.left
+      scope'.right.right.right.left
+  exact And.intro sameSpin
+    (And.intro scope.right.right.left
+      (And.intro scope'.right.right.left
+        (And.intro scope.right.right.right.right scope'.right.right.right.right)))
+
 end BEDC.Derived.SpinGroupUp
