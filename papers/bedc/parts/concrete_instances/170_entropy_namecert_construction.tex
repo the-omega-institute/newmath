@@ -17,6 +17,72 @@ $\Pkg$ provenance for the whole package.
 \end{definition}
 \leandef{BEDC.Derived.EntropyUp.EntropySourceSurface}
 
+\begin{definition}[EntropyUp log-partition BHist carrier]
+\label{def:entropy-log-partition-bhist-carrier}
+An $\EntropyUp$ log-partition BHist carrier is a finite source packet
+$\mathcal E_{\log Z}$ consisting of a $\DistributionUp$ pushforward row, a
+finite partition observation row, a log-weight endpoint row, an $\IntegralUp$
+or finite-sum readback row for the displayed partition, componentwise $\hsame$
+transports for the distribution, partition, log-weight, and readback rows,
+finite $\Cont$ ledger routes connecting the observations, and $\Pkg$
+provenance for the packet. A consumer reads a log-partition boundary only
+through these rows.
+\end{definition}
+
+\begin{theorem}[Entropy log-partition consumer exhaustion]
+\label{thm:entropy-log-partition-consumer-exhaustion}
+Every accepted consumer of the carrier
+$\mathcal E_{\log Z}$ in
+\autoref{def:entropy-log-partition-bhist-carrier} reads exactly the
+$\DistributionUp$ pushforward row, the finite partition observation row, the
+log-weight endpoint row, the $\IntegralUp$ or finite-sum readback row, the
+componentwise $\hsame$ transports, the finite $\Cont$ ledger routes, and the
+$\Pkg$ provenance. It reads no analytic convergence row, no measure-completion
+row, and no host-level entropy equality.
+\end{theorem}
+\begin{proof}
+Project the finite carrier packet to its distribution, partition, log-weight,
+and readback coordinates. These are the only numeric observation rows displayed
+by the log-partition source.
+
+Next project the componentwise $\hsame$ transports and finite $\Cont$ routes.
+Repacking those finite rows through $\Pkg$ supplies the consumer boundary and
+exhausts the visible carrier fields.
+
+The packet has no field for analytic convergence, completed measures, or a
+host entropy identity. Such claims therefore cannot be read by a BEDC consumer
+of the log-partition carrier.
+\end{proof}
+
+\begin{theorem}[Entropy log-partition transport closure]
+\label{thm:entropy-log-partition-transport-closure}
+Let $\mathcal E_{\log Z}$ and $\mathcal E'_{\log Z}$ be two accepted
+$\EntropyUp$ log-partition BHist carriers. If their $\DistributionUp$
+pushforward rows, finite partition rows, log-weight endpoint rows, and
+$\IntegralUp$ or finite-sum readback rows are related componentwise by the
+displayed $\hsame$ transports, then the transported packet exposes the same
+log-partition consumer boundary: the same partition readback, the same
+log-weight endpoint, the same finite $\Cont$ ledger routes, and the same
+$\Pkg$ provenance up to the displayed transport rows.
+
+The transport closure does not assert analytic convergence, measure
+completion, or host-level equality of entropy values.
+\end{theorem}
+\begin{proof}
+Begin with the exhaustion theorem for each accepted carrier. It reduces both
+consumer surfaces to the finite distribution, partition, log-weight, readback,
+transport, ledger, and provenance rows.
+
+Use the displayed $\hsame$ rows component by component. They transport the
+distribution source, the partition observation, the log-weight endpoint, and
+the readback row without changing the finite ledger shape.
+
+Finally repack the transported rows through the same $\Pkg$ provenance surface.
+Since analytic convergence, measure completion, and host entropy equality were
+excluded from the exhausted boundary, the transported packet is closed exactly
+at the finite log-partition surface.
+\end{proof}
+
 \begin{theorem}[Entropy distribution-integral boundary]
 \label{thm:entropy-distribution-integral-boundary}
 Consumers of the $\EntropyUp$ source surface read exactly the
