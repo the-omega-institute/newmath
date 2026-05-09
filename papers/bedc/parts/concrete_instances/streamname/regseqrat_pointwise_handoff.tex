@@ -586,3 +586,42 @@ equality, and $\RealUp$ seal data from the observation handoff, so the
 transported packet is closed under pointwise $\hsame$ exactly on the listed
 consumer interface.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat pointwise hsame transport composition]
+\label{thm:streamname-regseqrat-pointwise-hsame-transport-composition}
+Let $s,t,s',t',s'',t'':\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows,
+and let $\mathcal P:\mathsf{ProbeBundle}$ be finite. Suppose the handoff for
+$(s,t)$ is the exact pointwise package of
+\autoref{thm:streamname-regseqrat-pointwise-classifier-handoff-exactness}.
+Suppose also that every certified bundled observation $n$ carries
+$\hsame(s(n),s'(n))$, $\hsame(t(n),t'(n))$, $\hsame(s'(n),s''(n))$, and
+$\hsame(t'(n),t''(n))$. Then the handoff for $(s'',t'')$ is exhausted by the
+same $\mathsf{RatStreamNameCarrier}$ rows, restricted finite-window classifier
+rows, $\UnaryHistory$ rows, $\mathsf{InBundle}$ rows, pointwise $\hsame$ rows,
+and pointwise $\mathsf{RatHistoryClassifier}$ rows. It accepts no $\RegSeqRat$
+regularity, completion, quotient, host-index equality, or $\RealUp$ seal row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-pointwise-hsame-closure} to the exact
+handoff for $(s,t)$ and the displayed observations from $(s,t)$ to
+$(s',t')$. This gives the same carrier, finite-window, unary-history,
+bundle-membership, pointwise $\hsame$, and rational-history classifier surface
+for the intermediate handoff.
+
+Next compose the observation rows pointwise. For each certified bundled
+observation $n$, transitivity of $\hsame$ composes
+$\hsame(s(n),s'(n))$ with $\hsame(s'(n),s''(n))$, and composes
+$\hsame(t(n),t'(n))$ with $\hsame(t'(n),t''(n))$. Thus the intermediate
+handoff has the exact pointwise transport data needed for the second step.
+
+Apply \autoref{thm:streamname-regseqrat-pointwise-hsame-closure} again, now
+from $(s',t')$ to $(s'',t'')$. The conclusion is the displayed handoff for
+$(s'',t'')$ on the original finite bundle $\mathcal P$ with no new row outside
+the consumer-facing observation surface.
+
+The exclusion clause is inherited at both applications of the closure theorem:
+neither step reads $\RegSeqRat$ regularity, completion, quotient,
+host-index equality, or $\RealUp$ seal data. Therefore the two transported
+handoffs compose inside the same finite-window pointwise interface.
+\end{proof}
