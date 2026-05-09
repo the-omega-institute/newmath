@@ -273,6 +273,41 @@ theorem MeasureZeroBHist_sigma_additivity (events : Nat -> BHist) :
     | succ n ih =>
         exact cont_respects_hsame ih (eventsZero (Nat.succ n)) rfl (cont_left_unit BHist.Empty)
 
+theorem MeasureZeroBHistPrefix_finite_support_countable_readback (events : Nat -> BHist) :
+    (forall n : Nat, MeasureZeroBHistClassifier (events n) BHist.Empty) ->
+      forall n : Nat,
+        MeasureZeroBHistClassifier (MeasureZeroBHistPrefix events n) BHist.Empty ∧
+          Cont (MeasureZeroBHistPrefix events n) (events n)
+            (MeasureZeroBHistPrefix events (Nat.succ n)) ∧
+            MeasureZeroBHistClassifier
+              (MeasureZeroBHistPrefix events (Nat.succ n)) BHist.Empty := by
+  intro eventsClassified n
+  induction n with
+  | zero =>
+      have prefixClassified :
+          MeasureZeroBHistClassifier (MeasureZeroBHistPrefix events Nat.zero) BHist.Empty :=
+        And.intro (hsame_refl BHist.Empty)
+          (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+      have endpointZero :
+          MeasureZeroBHistCarrier (MeasureZeroBHistPrefix events (Nat.succ Nat.zero)) :=
+        append_eq_empty_iff.mpr
+          (And.intro (hsame_refl BHist.Empty) (eventsClassified Nat.zero).left)
+      have endpointClassified :
+          MeasureZeroBHistClassifier
+            (MeasureZeroBHistPrefix events (Nat.succ Nat.zero)) BHist.Empty :=
+        And.intro endpointZero (And.intro (hsame_refl BHist.Empty) endpointZero)
+      exact And.intro prefixClassified (And.intro rfl endpointClassified)
+  | succ n ih =>
+      have endpointZero :
+          MeasureZeroBHistCarrier (MeasureZeroBHistPrefix events (Nat.succ (Nat.succ n))) :=
+        append_eq_empty_iff.mpr
+          (And.intro ih.right.right.left (eventsClassified (Nat.succ n)).left)
+      have endpointClassified :
+          MeasureZeroBHistClassifier
+            (MeasureZeroBHistPrefix events (Nat.succ (Nat.succ n))) BHist.Empty :=
+        And.intro endpointZero (And.intro (hsame_refl BHist.Empty) endpointZero)
+      exact And.intro ih.right.right (And.intro rfl endpointClassified)
+
 theorem MeasureZeroBHistPrefix_classifier_stability (events values : Nat -> BHist) :
     (forall n : Nat, MeasureZeroBHistClassifier (events n) (values n)) ->
       forall n : Nat,

@@ -164,3 +164,66 @@ exactly the visible finite-window readback inventory, so quotient, completion,
 Classical, metric-completeness, arithmetic, order, standard-bridge, and hidden
 selector rows have no slot in the stabilized reindexed package.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier reindexing composition]
+\label{thm:regseqrat-tail-classifier-reindexing-composition}
+Let $W_0$ and $W_1$ be finite $\RealUp$ observation-window packages. Let
+$\rho$ be a certified unary reindexer from the displayed window of $W_0$ to an
+intermediate displayed $\StreamNameUp$ window, and let $\sigma$ be a certified
+unary reindexer from that intermediate window to the displayed window of
+$W_1$. Suppose the two packages have matching $\StreamNameUp$ finite-window
+classifier rows after first reindexing by $\rho$ and then by $\sigma$, matching
+$\RegSeqRat$ spine rows, matching DyadicRatCore observation rows, matching
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, and $\mathsf{InBundle}$
+membership rows, and matching finite $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows at both displayed reindexing stages.
+
+Then the $\RegSeqRat$ tail classifier selected after the composite
+reindexing schedule $\sigma \circ \rho$ is the same finite-window readback row
+as the classifier obtained by applying the two certified reindexing steps
+successively. The composition surface is only the displayed finite readback
+surface; it introduces no quotient row, completion row, Classical
+representative, metric-completeness certificate, arithmetic or order row,
+standard-bridge row, or hidden regular-sequence selector.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion} to the
+$\rho$-reindexed handoff surface. The displayed $\StreamNameUp$ classifier,
+$\RegSeqRat$ spine, $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, and
+$\mathsf{InBundle}$ membership rows form the intermediate finite readback
+boundary.
+
+Apply the same exhaustion theorem to the $\sigma$-reindexed handoff surface.
+The intermediate boundary is thereby transported to the final displayed
+finite-window boundary with the same RegSeqRat spine, DyadicRatCore
+observation rows, endpoint $\hsame$ transports, finite $\Cont$ ledger, $\Pkg$
+row, and $\mathsf{RealLedgerPolicy}$ provenance.
+
+Next use
+\autoref{thm:streamname-regseqrat-reindexed-window-consumer-determinacy}. A
+consumer reading after $\sigma \circ \rho$ sees exactly the same displayed
+StreamName and RegSeqRat source rows as a consumer that reads after $\rho$ and
+then after $\sigma$. Thus both schedules feed the tail selector with the same
+finite-window row inventory.
+
+Now invoke
+\autoref{thm:regseqrat-tail-classifier-reindexing-stability} for the
+$\rho$-stage and again for the $\sigma$-stage. Each stage preserves the
+selected $\RegSeqRat$ tail classifier on the displayed finite rows, so the
+successive readback row agrees with the row exposed by the composite
+reindexing schedule.
+
+It remains to show that this agreement is the exact public surface. Apply
+\autoref{thm:regseqrat-tail-classifier-exactness} to the common StreamName,
+RegSeqRat, DyadicRatCore, endpoint-transport, ledger, package, and provenance
+rows. Then
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} excludes any
+second tail-classifier row pulling back through the two-stage schedule.
+
+Finally use \autoref{thm:realup-scoped-finite-window-read-surface}. The scoped
+row inventory contains only the finite-window readback rows displayed above,
+so quotient, completion, Classical, metric-completeness, arithmetic, order,
+standard-bridge, and hidden selector data have no slot in the composite
+surface.
+\end{proof}
