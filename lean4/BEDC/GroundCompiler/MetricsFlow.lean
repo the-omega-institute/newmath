@@ -246,6 +246,7 @@ structure FlowSignatureVector where
   compressionDenominator : Nat
   reuseDepth : Nat
   bridgeDepth : Nat
+  deriving DecidableEq
 
 def FlowSignature
     (profile : List MotifOccurrence) (sealRole carryRole : EventFlow)
@@ -277,6 +278,25 @@ structure TheoryDistanceComponents where
 structure AnalysisProtocolFlow where
   protocolFlow : EventFlow
   weights : TheoryDistanceWeights
+
+inductive MetricCannotClaimKind : Type where
+  | sameMotifProfileImpliesSameTheorem
+  | sameSignatureImpliesSameObject
+  | sharedPrefixImpliesSubobject
+  | positiveCarryIndexImpliesDimensionExists
+  | positiveSealDepthImpliesRealCompletionExists
+  | compressionRatioImpliesQuotientExactness
+
+structure MetricCannotClaimEntry where
+  kind : MetricCannotClaimKind
+  supportFlow : EventFlow
+
+structure MetricReport where
+  protocol : AnalysisProtocolFlow
+  recognizers : MetricRecognizerFamily
+  sourceFlows : List EventFlow
+  signatures : List FlowSignatureVector
+  cannotClaims : List MetricCannotClaimEntry
 
 def TheoryFlowDistance
     (_Rfam : MetricRecognizerFamily) (P : AnalysisProtocolFlow)
@@ -381,5 +401,22 @@ theorem theory_distance_protocol_relative :
     cases h
   · intro h
     simp [TheoryFlowDistance] at h
+
+def EmptyAnalysisSignature (_S : EventFlow) : FlowSignatureVector where
+  sealDepth := 0
+  carryIndex := 0
+  ledgerDepth := 0
+  compressionNumerator := 0
+  compressionDenominator := 0
+  reuseDepth := 0
+  bridgeDepth := 0
+
+theorem metrics_do_not_imply_object_equality :
+    exists S T : EventFlow,
+      Not (S = T) /\ EmptyAnalysisSignature S = EmptyAnalysisSignature T := by
+  refine ⟨[], [[]], ?_, ?_⟩
+  · intro h
+    cases h
+  · rfl
 
 end BEDC.GroundCompiler.MetricsFlow

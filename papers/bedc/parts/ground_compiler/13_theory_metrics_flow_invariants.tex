@@ -360,6 +360,7 @@ A claim that two theories are similar, closer, or share more structure must supp
 
 \begin{definition}[Metric report]
 \label{def:metrics-report}
+\leandef{BEDC.GroundCompiler.MetricsFlow.MetricReport}
 A \emph{metric report} is an output view generated from an analysis protocol flow $P$, recognizer family $\mathcal R$, and one or more event flows. It records computed metrics, recognized motifs, normal-address records, ledger depth, classifier compression, reuse depth, bridge depth, warnings, and cannot-claim entries. It is not input, proof, or certificate.
 \end{definition}
 
@@ -370,6 +371,7 @@ A metric report does not prove theoremhood, object identity, mature export, brid
 
 \begin{theorem}[Metrics do not imply object equality]
 \label{thm:metrics-do-not-imply-object-equality}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.metrics\_do\_not\_imply\_object\_equality}
 Even if
 $$
   \mathsf{Sig}_{\mathcal R}(S)=\mathsf{Sig}_{\mathcal R}(T)
@@ -379,6 +381,7 @@ $$
   \mathsf{TheoryDist}_{\mathcal R,P}(S,T)=0,
 $$
 one cannot conclude that $S$ and $T$ represent the same accepted object, theorem, chapter, or classified object unless an additional classifier, exactness, or bridge certificate is supplied.
+In particular, the empty admissible analysis assigns the same zero signature to distinct event flows, so equality of metric signatures does not even determine equality of the underlying event-flow datum.
 \end{theorem}
 
 \begin{proof}
@@ -445,6 +448,7 @@ $S_{\mathrm{Nat}}$ is a raw prefix of $S_{\mathrm{Comp}}$. A metric report may s
 
 \begin{definition}[Metric cannot-claim entries]
 \label{def:metrics-cannot-claim-entries}
+\leandef{BEDC.GroundCompiler.MetricsFlow.MetricCannotClaimEntry}
 A metric report must include cannot-claim entries for claims not supported by the metrics. Examples include:
 \begin{itemize}
 \item same motif profile implies same theorem;
