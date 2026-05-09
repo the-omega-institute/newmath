@@ -273,4 +273,68 @@ theorem CurryHowardCutBetaPacket_public_namecert_boundary [AskSetup] [PackageSet
       (And.intro bridgeRows.right.left
         (And.intro bridgeRows.right.right.left bridgeRows.right.right.right)))
 
+theorem CurryHowardCutBetaPacket_endpoint_classifier_obligation_surface [AskSetup] [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint formulaProvenance deductionStep conclusion conclusion' conclusionProvenance
+      graph edge connected acyclic funTag funPayload funEndpoint argTag argPayload argEndpoint
+      appPayload appTag appEndpoint appEndpoint' proofProgram proofProgram' provenance bridge
+      bridge' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol functionSymbol
+        treeEndpoint formulaEndpoint formulaProvenance bundle pkg ->
+      UnaryHistory deductionStep ->
+        Cont formulaEndpoint deductionStep conclusion ->
+          SigRel bundle conclusion conclusionProvenance ->
+            PkgSig bundle conclusionProvenance pkg ->
+              LambdaCalcBHistTermPacketCarrier graph edge connected acyclic funTag funPayload
+                  funEndpoint ->
+                LambdaCalcBHistTermPacketCarrier graph edge connected acyclic argTag argPayload
+                    argEndpoint ->
+                  Cont funEndpoint argEndpoint appPayload ->
+                    TreeBHistCarrier graph edge connected acyclic appTag appEndpoint ->
+                      Cont appTag appPayload appEndpoint ->
+                        Cont conclusion appEndpoint proofProgram ->
+                          hsame conclusion conclusion' ->
+                            hsame appEndpoint appEndpoint' ->
+                              Cont conclusion' appEndpoint' proofProgram' ->
+                                Cont provenance proofProgram bridge ->
+                                  Cont provenance proofProgram' bridge' ->
+                                    PkgSig bundle bridge pkg ->
+                                      PkgSig bundle bridge' pkg ->
+                                        hsame proofProgram proofProgram' ∧
+                                          hsame bridge bridge' ∧ UnaryHistory conclusion ∧
+                                            LambdaCalcBHistTermPacketCarrier graph edge connected
+                                              acyclic appTag appPayload appEndpoint ∧
+                                              PkgSig bundle bridge' pkg := by
+  intro firstOrderCarrier deductionStepUnary conclusionRow conclusionSig conclusionPkg funCarrier
+    argCarrier appPayloadRow appTree appEndpointRow proofProgramRow sameConclusion sameEndpoint
+    proofProgramRow' provenanceRow provenanceRow' bridgePkg bridgePkg'
+  have endpointRows :=
+    CurryHowardCutBetaPacket_endpoint_exactness
+      (symbolSource := symbolSource) (treeSource := treeSource)
+      (variableLedger := variableLedger) (relationSymbol := relationSymbol)
+      (functionSymbol := functionSymbol) (treeEndpoint := treeEndpoint)
+      (formulaEndpoint := formulaEndpoint) (formulaProvenance := formulaProvenance)
+      (deductionStep := deductionStep) (conclusion := conclusion)
+      (conclusionProvenance := conclusionProvenance) (graph := graph) (edge := edge)
+      (connected := connected) (acyclic := acyclic) (funTag := funTag)
+      (funPayload := funPayload) (funEndpoint := funEndpoint) (argTag := argTag)
+      (argPayload := argPayload) (argEndpoint := argEndpoint) (appPayload := appPayload)
+      (appTag := appTag) (appEndpoint := appEndpoint) (proofProgram := proofProgram)
+      (provenance := provenance) (bridge := bridge) (bundle := bundle) (pkg := pkg)
+      firstOrderCarrier deductionStepUnary conclusionRow conclusionSig conclusionPkg funCarrier
+      argCarrier appPayloadRow appTree appEndpointRow proofProgramRow provenanceRow bridgePkg
+  have transportedRows :=
+    CurryHowardCutBetaPacket_classifier_endpoint_transport
+      (conclusion := conclusion) (conclusion' := conclusion')
+      (appEndpoint := appEndpoint) (appEndpoint' := appEndpoint')
+      (proofProgram := proofProgram) (proofProgram' := proofProgram')
+      (provenance := provenance) (bridge := bridge) (bridge' := bridge')
+      (bundle := bundle) (pkg := pkg) proofProgramRow sameConclusion sameEndpoint
+      proofProgramRow' provenanceRow provenanceRow' bridgePkg bridgePkg'
+  exact And.intro transportedRows.left
+    (And.intro transportedRows.right.left
+      (And.intro endpointRows.left
+        (And.intro endpointRows.right.left transportedRows.right.right)))
+
 end BEDC.Derived.CurryHowardUp
