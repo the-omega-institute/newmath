@@ -224,6 +224,44 @@ value endpoint over the displayed filtration history is classified as the
 previous endpoint $X_n$.
 \end{proof}
 
+\begin{theorem}[MartingaleUp obligation closure package]
+\label{thm:martingale-obligation-closure-package}
+The public $\NameCert_{\MartingaleUp}$ obligation set consists exactly of the
+finite time spine, the RandomVarUp endpoint rows, the CondExpUp successor
+rows, the filtration visibility rows, the conditional-expectation comparison
+rows, the shared $\Pkg$ provenance row, and the finite $\Cont$ ledger. These
+rows are precisely the data carried by
+\autoref{def:martingale-adapted-bhist-stream-carrier} and classified by
+\autoref{def:martingale-condexp-step-classifier}. The package exports no host
+sequence equality, ambient analytic equality, unlisted measurability field, or
+bridge status.
+\end{theorem}
+\begin{proof}
+Start with the adapted carrier. The definition supplies the finite time spine,
+the displayed value endpoints, the RandomVarUp endpoint rows, the CondExpUp
+successor rows, the filtration/provenance ledger rows, and the finite
+continuation rows.
+
+Next attach the classifier. By
+\autoref{def:martingale-condexp-step-classifier}, comparison between two
+packets is only componentwise $\hsame$ transport of the finite time spine,
+RandomVarUp rows, CondExpUp rows, filtration visibility rows, provenance, and
+$\Cont$ ledger.
+
+Use \autoref{thm:martingale-public-certificate-row-family} and
+\autoref{thm:martingale-randomvar-boundary} to identify the public endpoint
+surface. The former packages the carrier and classifier rows as the public
+certificate family, while the latter says every visible value endpoint comes
+from the consumed RandomVarUp rows.
+
+Finally apply \autoref{thm:martingale-condexp-step-law}. It identifies each
+successor comparison row with the displayed CondExpUp endpoint comparison and
+the continuation row ending at the previous value endpoint. Combining these
+rows gives the listed obligation set exactly, so no host sequence equality,
+ambient analytic equality, unlisted measurability field, or bridge status is
+exported.
+\end{proof}
+
 \begin{theorem}[Martingale public certificate row family]
 \label{thm:martingale-public-certificate-row-family}
 The finite adapted carrier packet of
@@ -346,11 +384,11 @@ the original finite packet, with no row outside the displayed prefix added.
 \end{proof}
 
 \begin{closurestatus}{\MartingaleUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope is the finite adapted-sequence packet, RandomVar and CondExp source rows, filtration ledger, tower-law row, $\hsame$, $\Cont$, and $\Pkg$ provenance displayed in this chapter.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:martingale-obligation-closure-package} binds the finite time spine, RandomVarUp endpoint rows, CondExpUp step rows, filtration visibility rows, conditional-expectation comparison rows, shared $\Pkg$ provenance, and finite $\Cont$ ledger.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.MartingaleUp.MartingaleAdaptedSequencePacket\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \notclaimed{It does not close Brownian sample-path theory, measure-theoretic convergence, stopping-time results, or standard stochastic-process bridges.}
-  \upgradepath{Obligation closure requires enumerating the carrier, classifier, stability, tower-law, prefix-restriction, and Brownian consumer rows as a complete obligation surface.}
+  \upgradepath{Scoped closure requires a consumer projection theorem showing that BrownianUp and stochastic-process users read only the displayed obligation package.}
 \end{closurestatus}

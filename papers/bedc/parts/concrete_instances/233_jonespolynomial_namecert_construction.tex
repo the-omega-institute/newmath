@@ -346,3 +346,43 @@ public surface contains exactly these packet and classifier rows. Repacking the
 exhausted rows therefore gives one $\JonesPolynomialUp$ endpoint row determined
 by $\hsame$ and $\Cont$ transport.
 \end{proof}
+
+\begin{theorem}[JonesPolynomial skein boundary no-confusion]
+\label{thm:jonespolynomial-skein-boundary-no-confusion}
+Fix a $\mathsf{JonesSkeinCls}$ packet as in
+\autoref{def:jonespolynomial-skein-ledger-packet}. An accepted classifier
+witness cannot interchange the positive-crossing boundary row, the
+negative-crossing boundary row, and the smoothing boundary row unless the
+displayed local-window tag and the corresponding finite $\Bundle$ ledger row
+are the same packet entry. The separation is internal to the skein ledger and
+does not assert any host knot quotient or Laurent-polynomial equality.
+\end{theorem}
+\begin{proof}
+Unpack the packet of
+\autoref{def:jonespolynomial-skein-ledger-packet}. Its skein boundary fields
+are three displayed local-window rows, each paired with its own tag and its own
+position in the finite skein $\Bundle$ ledger.
+
+Proceed by closed finite $\Bundle$ induction over the skein ledger. In the base
+case there is no ledger row available, so no accepted classifier witness can
+manufacture a boundary tag from outside the packet.
+
+For the induction step, inspect the head ledger row. If the displayed tag is
+the positive-crossing tag, the classifier reads the positive boundary entry and
+the remaining bundle is handled by the induction hypothesis. The negative and
+smoothing tag cases are identical, with their own displayed boundary entries.
+
+Apply
+\autoref{thm:jonespolynomial-skein-endpoint-classifier-exhaustion}. Every
+accepted witness projects back to the fixed knot rows, the finite skein ledger,
+the $\Cont$ ledger, and the $\Pkg$ provenance. Thus an attempted interchange
+would require changing either the displayed local-window tag or the ledger row
+selected by that tag.
+
+The tag fields in
+\autoref{def:jonespolynomial-skein-ledger-packet} are distinct packet
+coordinates. Hence two boundary rows can be identified by an accepted witness
+only when the displayed tag and the finite $\Bundle$ ledger row already agree
+as the same coordinate of the fixed packet. No quotient of host knots and no
+Laurent-polynomial equality is used.
+\end{proof}
