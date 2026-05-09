@@ -25,6 +25,16 @@ theorem DeRhamDoubleExteriorDerivative_boundary {d : BHist -> BHist}
 def DeRhamBoundary (d : BHist -> BHist) (b : BHist) : Prop :=
   exists a : BHist, hsame b (d a)
 
+theorem DeRhamBoundary_zero_endpoint_transport {d : BHist -> BHist} {b b' : BHist} :
+    DeRhamBoundary d b -> hsame b' b -> hsame b BHist.Empty ->
+      DeRhamBoundary d b' ∧ hsame b' BHist.Empty := by
+  intro boundary sameBoundary sameZero
+  cases boundary with
+  | intro preimage samePreimage =>
+      exact And.intro
+        (Exists.intro preimage (hsame_trans sameBoundary samePreimage))
+        (hsame_trans sameBoundary sameZero)
+
 def DeRhamDoubleExteriorPacket
     (d : BHist -> BHist) (omega eta theta zero : BHist) : Prop :=
   hsame eta (d omega) ∧ hsame theta (d eta) ∧
