@@ -129,3 +129,36 @@ and determinacy theorem verify that the repacked deduction-side and
 program-side endpoints are the same displayed proof-program endpoint, which
 closes the classifier without adding any external quotient.
 \end{proof}
+
+\begin{theorem}[CurryHoward cut-beta endpoint exactness]
+\label{thm:curryhoward-cut-beta-endpoint-exactness}
+Every accepted shared cut-beta packet for $\CurryHowardUp$ projects the
+cut-eliminated $\FirstOrderUp$ deduction endpoint and the $\LambdaCalcUp$
+beta-substitution endpoint to the same displayed proof-program $\mathsf{BHist}$
+row under the shared $\hsame$ endpoint clauses and finite $\Cont$ provenance.
+Conversely, exactly those displayed deduction, beta-substitution,
+proof-program, $\hsame$, $\Cont$, and source-certificate rows repack into the
+CurryHoward endpoint classifier of \autoref{def:curryhoward-endpoint-classifier}.
+\end{theorem}
+\begin{proof}
+For the projection direction, start with an accepted shared cut-beta packet.
+Apply \autoref{thm:curryhoward-cut-beta-bridge-obligation}. It identifies the
+cut-eliminated deduction ledger $D_{\mathsf{cut}}$ with the accepted
+beta-reduction and substitution endpoint $u$ through the shared classifier row.
+
+Next apply \autoref{thm:curryhoward-classifier-endpoint-transport}. The
+deduction-side endpoint and the program-side endpoint transport along the same
+displayed $\hsame$ proof-program row, with the finite $\Cont$ provenance tied to
+$\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$.
+
+Now apply \autoref{thm:curryhoward-cut-beta-classifier-exhaustion}. It projects
+the endpoint classifier witness exactly to the deduction classifier rows,
+beta/substitution classifier rows, shared $\mathsf{BHist}$ endpoint rows,
+$\hsame$ transports, finite $\Cont$ provenance, and the two source certificates.
+
+For the converse direction, assume exactly those rows are displayed. The
+exhaustion theorem repacks them by the clauses of
+\autoref{def:curryhoward-endpoint-classifier}, and the bridge and transport
+theorems verify that the repacked deduction endpoint and beta-substitution
+endpoint are the same CurryHoward proof-program row.
+\end{proof}
