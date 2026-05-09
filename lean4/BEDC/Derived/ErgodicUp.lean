@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -185,5 +187,117 @@ theorem ErgodicMeasurePreservingSurface_decomposition_ledger [AskSetup] [Package
         (And.intro rows.right.right.right.right.right.right.left
           (And.intro rows.right.right.right.right.right.right.right.left
             (And.intro decompositionRow decompositionPkg)))))
+
+theorem ErgodicMeasurePreservingCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {dyn measure invariant transport ledger provenance endpoint decomposition : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ErgodicMeasurePreservingCarrier dyn measure invariant transport ledger provenance endpoint
+        bundle pkg ->
+      Cont ledger invariant decomposition ->
+        SemanticNameCert
+            (fun h : BHist =>
+              exists endpoint : BHist,
+                ErgodicMeasurePreservingCarrier dyn measure invariant transport ledger
+                    provenance endpoint bundle pkg ∧
+                  hsame h endpoint)
+            (fun h : BHist =>
+              exists endpoint : BHist,
+                ErgodicMeasurePreservingCarrier dyn measure invariant transport ledger
+                    provenance endpoint bundle pkg ∧
+                  hsame h endpoint)
+            (fun h : BHist =>
+              exists endpoint : BHist,
+                ErgodicMeasurePreservingCarrier dyn measure invariant transport ledger
+                    provenance endpoint bundle pkg ∧
+                  hsame h endpoint)
+            (fun h k : BHist =>
+              (exists endpoint : BHist,
+                ErgodicMeasurePreservingCarrier dyn measure invariant transport ledger
+                    provenance endpoint bundle pkg ∧
+                  hsame h endpoint) ∧
+              (exists endpoint : BHist,
+                ErgodicMeasurePreservingCarrier dyn measure invariant transport ledger
+                    provenance endpoint bundle pkg ∧
+                  hsame k endpoint) ∧
+              hsame h k) ∧
+          UnaryHistory decomposition ∧ hsame decomposition (append ledger invariant) ∧
+            PkgSig bundle endpoint pkg := by
+  intro carrier decompositionRow
+  have ledgerRows :=
+    ErgodicMeasurePreservingCarrier_decomposition_ledger carrier decompositionRow
+  let Surface : BHist -> Prop :=
+    fun h : BHist =>
+      exists endpoint : BHist,
+        ErgodicMeasurePreservingCarrier dyn measure invariant transport ledger provenance
+            endpoint bundle pkg ∧
+          hsame h endpoint
+  let Classifier : BHist -> BHist -> Prop :=
+    fun h k : BHist => Surface h ∧ Surface k ∧ hsame h k
+  have surfaceEndpoint : Surface endpoint :=
+    Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+  have semantic : SemanticNameCert Surface Surface Surface Classifier := by
+    constructor
+    · constructor
+      · exact Exists.intro endpoint surfaceEndpoint
+      · intro h sourceH
+        exact And.intro sourceH (And.intro sourceH (hsame_refl h))
+      · intro h k classified
+        exact
+          And.intro classified.right.left
+            (And.intro classified.left (hsame_symm classified.right.right))
+      · intro h k r left right
+        exact
+          And.intro left.left
+            (And.intro right.right.left (hsame_trans left.right.right right.right.right))
+      · intro h k classified _sourceH
+        exact classified.right.left
+    · intro h sourceH
+      exact sourceH
+    · intro h sourceH
+      exact sourceH
+  exact
+    And.intro semantic
+      (And.intro ledgerRows.left
+        (And.intro ledgerRows.right.left ledgerRows.right.right.right.right))
+
+theorem ErgodicMeasurePreservingCarrier_semantic_name_certificate [AskSetup]
+    [PackageSetup]
+    {dyn measure invariant transport ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ErgodicMeasurePreservingCarrier dyn measure invariant transport ledger provenance endpoint
+        bundle pkg ->
+      SemanticNameCert
+        (fun h : BHist =>
+          ErgodicMeasurePreservingCarrier dyn measure h transport ledger provenance endpoint
+            bundle pkg)
+        (fun h : BHist =>
+          ErgodicMeasurePreservingCarrier dyn measure h transport ledger provenance endpoint
+            bundle pkg)
+        (fun h : BHist =>
+          ErgodicMeasurePreservingCarrier dyn measure h transport ledger provenance endpoint
+            bundle pkg)
+        (fun h k : BHist =>
+          ErgodicMeasurePreservingCarrier dyn measure h transport ledger provenance endpoint
+              bundle pkg ∧
+            ErgodicMeasurePreservingCarrier dyn measure k transport ledger provenance endpoint
+              bundle pkg ∧
+              hsame h k) := by
+  intro carrier
+  constructor
+  · constructor
+    · exact Exists.intro invariant carrier
+    · intro h source
+      exact And.intro source (And.intro source (hsame_refl h))
+    · intro h k same
+      exact And.intro same.right.left (And.intro same.left (hsame_symm same.right.right))
+    · intro h k r sameHK sameKR
+      exact And.intro sameHK.left
+        (And.intro sameKR.right.left (hsame_trans sameHK.right.right sameKR.right.right))
+    · intro h k same _source
+      exact same.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
 
 end BEDC.Derived.ErgodicUp
