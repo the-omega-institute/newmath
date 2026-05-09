@@ -205,3 +205,83 @@ $\sim_{N_a}$; stability equivalence plus conjugation closure; ledger normalizer
 witness and conjugation endpoint; exactness quotient-free orbit reachability;
 standard bridge ordinary normal-subgroup orbit quotient input; status
 $\mathsf{ProofTarget}$.
+
+\begin{definition}[Abstract two-subgroup intersection carrier]
+\label{def:subgroup-abstract-two-intersection-carrier}
+Fix a BEDC history-level $\GroupUp$ source over $\mathsf{BHist}$ with operation $\mathsf{mul}$, unit $e$, inverse operation $\mathsf{inv}$, and ambient classifier $\hsame$. Let $H_1,H_2:\mathsf{BHist}\to\mathsf{Prop}$ be two predicates read as $\SubgroupUp$ carriers over this same source. Define their two-subgroup intersection carrier by
+$$
+H_{1,2}(x) :\Longleftrightarrow H_1(x)\land H_2(x).
+$$
+The inherited restricted classifier on this carrier is
+$$
+R_{1,2}(x,y) :\Longleftrightarrow H_{1,2}(x)\land H_{1,2}(y)\land x\hsame y.
+$$
+The operation, unit, inverse, and history classifier are inherited from the ambient $\GroupUp$ source.
+\end{definition}
+
+\begin{theorem}[Two-subgroup intersection SubgroupUp certificate]
+\label{thm:subgroup-abstract-two-intersection-certificate}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ with operation $\mathsf{mul}$, unit $e$, inverse operation $\mathsf{inv}$, and ambient classifier $\hsame$, assume the monoid stability rows of \autoref{def:monoid-stability-certificate}, the inverse rows of \autoref{def:group-stability-certificate}, and the history-sameness equivalence of \autoref{thm:history-sameness-equivalence}. Let $H_1,H_2:\mathsf{BHist}\to\mathsf{Prop}$ be two carrier predicates, and let $H_{1,2}$ and $R_{1,2}$ be the carrier and restricted classifier of \autoref{def:subgroup-abstract-two-intersection-carrier}. Assume that each $H_i$, for $i\in\{1,2\}$, satisfies the ambient $\SubgroupUp$ carrier rows:
+\begin{enumerate}
+\item $H_i(e)$.
+\item If $H_i(x)$ and $H_i(y)$, then $H_i(\mathsf{mul}(x,y))$.
+\item If $H_i(x)$, then $H_i(\mathsf{inv}(x))$.
+\item If $H_i(x)$ and $x\hsame y$, then $H_i(y)$.
+\end{enumerate}
+Then the carrier $H_{1,2}$ with classifier $R_{1,2}$ satisfies the concrete $\SubgroupUp$ certificate rows:
+\begin{enumerate}
+\item $R_{1,2}$ is a semantic naming classifier on $H_{1,2}$.
+\item $H_{1,2}(e)$.
+\item If $H_{1,2}(x)$ and $H_{1,2}(y)$, then $H_{1,2}(\mathsf{mul}(x,y))$.
+\item If $H_{1,2}(x)$, then $H_{1,2}(\mathsf{inv}(x))$.
+\item If $H_{1,2}(x)$ and $x\hsame y$, then $H_{1,2}(y)$.
+\item If $R_{1,2}(x,x')$ and $R_{1,2}(y,y')$, then
+$$
+R_{1,2}(\mathsf{mul}(x,y),\mathsf{mul}(x',y')).
+$$
+\item If $R_{1,2}(x,y)$, then
+$$
+R_{1,2}(\mathsf{inv}(x),\mathsf{inv}(y)).
+$$
+\end{enumerate}
+Thus the intersection of two carried $\SubgroupUp$ predicates over the same ambient $\GroupUp$ source is again a concrete $\SubgroupUp$ certificate target over the restricted $\hsame$ classifier.
+\end{theorem}
+\begin{proof}
+First verify the hypotheses of \autoref{thm:subgroup-one-step-criterion} for the predicate $P=H_{1,2}$. The inhabitance row is $H_{1,2}(e)$, obtained by pairing the two assumed unit rows $H_1(e)$ and $H_2(e)$.
+
+For carrier stability, assume $H_{1,2}(x)$ and $x\hsame y$. Unfolding $H_{1,2}(x)$ gives $H_1(x)$ and $H_2(x)$. The transport row for $H_1$ gives $H_1(y)$, and the transport row for $H_2$ gives $H_2(y)$. Pairing these conclusions gives $H_{1,2}(y)$.
+
+For one-step relative-product closure, assume $H_{1,2}(x)$ and $H_{1,2}(y)$. Unfolding gives $H_i(x)$ and $H_i(y)$ for each $i\in\{1,2\}$. The inverse row for $H_i$ gives $H_i(\mathsf{inv}(y))$, and then the product row for $H_i$ gives
+$$
+H_i(\mathsf{mul}(x,\mathsf{inv}(y))).
+$$
+Doing this for $i=1$ and $i=2$ and pairing the two results proves
+$$
+H_{1,2}(\mathsf{mul}(x,\mathsf{inv}(y))).
+$$
+Therefore \autoref{thm:subgroup-one-step-criterion} applies to $H_{1,2}$ and yields the identity, product, inverse, and carrier-transport rows listed above.
+
+It remains to record the restricted-classifier rows. For semantic naming, unfold $R_{1,2}$. If $H_{1,2}(x)$, reflexivity of $\hsame$ from \autoref{thm:history-sameness-equivalence} gives $x\hsame x$, so $R_{1,2}(x,x)$ holds. If $R_{1,2}(x,y)$ holds, keep the two endpoint carrier witnesses and reverse the stored $\hsame$ comparison by symmetry, giving $R_{1,2}(y,x)$. If $R_{1,2}(x,y)$ and $R_{1,2}(y,z)$ hold, keep the carried endpoints $H_{1,2}(x)$ and $H_{1,2}(z)$ and compose the stored comparisons by transitivity of $\hsame$, giving $R_{1,2}(x,z)$. Hence $R_{1,2}$ is a semantic naming classifier on the intersection carrier.
+
+For multiplication compatibility, assume $R_{1,2}(x,x')$ and $R_{1,2}(y,y')$. The already proved product row for $H_{1,2}$ supplies the endpoint witnesses
+$$
+H_{1,2}(\mathsf{mul}(x,y))
+$$
+and
+$$
+H_{1,2}(\mathsf{mul}(x',y')).
+$$
+The multiplication congruence row from \autoref{def:monoid-stability-certificate} transports the stored comparisons $x\hsame x'$ and $y\hsame y'$ to
+$$
+\mathsf{mul}(x,y)\hsame\mathsf{mul}(x',y').
+$$
+These three fields are exactly $R_{1,2}(\mathsf{mul}(x,y),\mathsf{mul}(x',y'))$.
+
+For inverse compatibility, assume $R_{1,2}(x,y)$. The already proved inverse row supplies $H_{1,2}(\mathsf{inv}(x))$ and $H_{1,2}(\mathsf{inv}(y))$. The ambient inverse congruence theorem \autoref{thm:group-inverse-congruence-from-laws} transports the stored comparison $x\hsame y$ to
+$$
+\mathsf{inv}(x)\hsame\mathsf{inv}(y).
+$$
+Repacking gives $R_{1,2}(\mathsf{inv}(x),\mathsf{inv}(y))$.
+
+The carrier, classifier, operation, unit, and inverse rows are therefore the concrete $\SubgroupUp$ row format used in \autoref{thm:subgroup-centralizer-certificate-target} and \autoref{thm:subgroup-trivial-certificate}.
+\end{proof}
