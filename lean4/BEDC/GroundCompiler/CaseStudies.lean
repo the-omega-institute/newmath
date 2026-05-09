@@ -348,6 +348,36 @@ theorem completion_skeleton_ledger_dependent
   intro hNoLedger hRecognized
   exact hNoLedger hRecognized.right.right.right.right.right.right
 
+structure RealMotifBundle where
+  approximationSource : EventFlow
+  cauchyClassifier : EventFlow
+  completionSeal : EventFlow
+  operationDescent : EventFlow
+  orderCompatibility : EventFlow
+  metricCompatibility : EventFlow
+  realLedger : EventFlow
+
+def RecognizedRealMotifBundle (S : EventFlow) (B : RealMotifBundle) : Prop :=
+  CompletionMotif S /\
+    Subflow B.approximationSource S /\
+    Subflow B.cauchyClassifier S /\
+    Subflow B.completionSeal S /\
+    Subflow B.operationDescent S /\
+    Subflow B.orderCompatibility S /\
+    Subflow B.metricCompatibility S /\
+    Subflow B.realLedger S /\
+    NonemptyEventFlow B.realLedger
+
+def RealLikeEventFlow (S : EventFlow) : Prop :=
+  exists B : RealMotifBundle, RecognizedRealMotifBundle S B
+
+theorem real_like_extends_completion {S : EventFlow} :
+    RealLikeEventFlow S -> CompletionMotif S := by
+  intro h
+  cases h with
+  | intro _ hBundle =>
+      exact hBundle.left
+
 def sameDisplayMark : DisplayAlphabet -> DisplayAlphabet -> Bool
   | BMark.b0, BMark.b0 => true
   | BMark.b1, BMark.b1 => true
