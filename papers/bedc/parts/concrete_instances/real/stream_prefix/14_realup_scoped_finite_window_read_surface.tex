@@ -32,6 +32,51 @@ completion, arithmetic, order, metric-completeness, Classical, and
 standard-bridge data.
 \end{proof}
 
+\begin{theorem}[RealUp common finite-window pullback transitive restriction]
+\label{thm:realup-common-window-pullback-transitive-restriction}
+Let $W_0$ and $W_1$ be certified finite $\RealUp$ observation-window packages,
+let $U$ be a certified common $\StreamNameUp$ subwindow of their displayed
+$\mathsf{ProbeBundle}$ windows, and let $V$ be a certified $\StreamNameUp$
+subwindow of $U$. Assume that the restrictions of $W_0$ and $W_1$ to $U$ carry
+matching $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, matching
+$\RegSeqRat$ spine rows, matching endpoint
+$\mathsf{DyadicRatCoreObservationRow}$ witnesses, matching displayed $\hsame$
+transports, matching $\Cont$ rows, matching $\Pkg$ provenance, and matching
+finite $\mathsf{RealLedgerPolicy}$ rows. Then the two routes to $V$ expose the
+same finite $\mathsf{BHist}$ packet and the same finite
+$\mathsf{RealLedgerPolicy}$ row: restrict the direct common-window pullback from
+$U$ to $V$, or first pull both $\RealUp$ packages back to $U$ and then restrict
+that common packet to $V$.
+
+This is a finite-window descent theorem only. It exposes no quotient,
+completion, metric-completeness datum, global Cauchy modulus, arithmetic
+operation, order operation, Classical representative, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:realup-streamname-regseqrat-common-window-pullback} on the common
+subwindow $U$. The hypotheses name the same StreamName classifier, regular
+sequence spine, dyadic endpoint observations, endpoint transports, continuation
+rows, package provenance, and finite real-ledger row, so the pullback over $U$
+is a single finite $\mathsf{BHist}$ packet with a single
+$\mathsf{RealLedgerPolicy}$ row.
+
+Now compare the two restrictions from $U$ to $V$. Apply
+\autoref{thm:realup-finite-window-two-step-restriction-coherence} to the
+certified chain $W_i \supseteq U \supseteq V$ for each selected observation
+window $W_i$. It identifies the direct restriction of the displayed
+$W_i$ package to $V$ with the two-step restriction through $U$, with the same
+finite packet, classifier rows, endpoint rows, transport ledger, provenance,
+and real-ledger boundary.
+
+Finally use
+\autoref{thm:realup-streamname-regseqrat-uniform-window-readback} on the
+endpoint window $V$. The StreamName-RegSeqRat handoff and the dyadic endpoint
+rows are already matched after the two-step coherence comparison, so the
+endpoint readback rows on $V$ and the finite $\mathsf{RealLedgerPolicy}$ row
+are the same for both routes.
+\end{proof}
+
 \begin{theorem}[RealUp StreamName-RegSeqRat finite-window correspondence]
 \label{thm:realup-streamname-regseqrat-window-correspondence}
 A selected finite $\RealUp$ observation-window surface is equivalent, as BEDC
@@ -266,4 +311,314 @@ unary-history, transport, and ledger rows needed by the scoped $\RealUp$ read
 surface. Repacking these displayed rows recovers the selected finite surface,
 again without quotient, completion, metric-completeness, Classical, or
 standard-bridge data.
+\end{proof}
+
+\begin{theorem}[RealUp finite-window StreamName readback package]
+\label{thm:realup-finite-window-streamname-readback-package}
+Let $W$ be a certified finite $\mathsf{ProbeBundle}$ window and let a public
+$\RealUp$ finite-window classifier read be accepted over a $\StreamNameUp$
+source. Then there is a displayed $\mathsf{BHist}$ packet whose rows are exactly
+the unary schedule for $W$, the $\RatUp$ observation endpoints visible in the
+window, the $\StreamNameUp$ finite-window classifier row, the $\RealUp$ scoped
+window row, the $\Cont$ and $\hsame$ transport ledger connecting the stream
+read to the real read, and the $\Pkg$ provenance of the selected source rows.
+Every public $\RealUp$ finite-window classifier read through this
+$\StreamNameUp$ source factors through that packet.
+
+The packet contains no quotient row, completion row, metric-completeness
+certificate, global Cauchy modulus, arithmetic or order operation, Classical
+datum, or standard bridge. Its endpoint reads are exactly the displayed
+$\RatUp$ observations and its classifier reads are exactly the displayed
+$\StreamNameUp$ and scoped $\RealUp$ finite-window rows.
+\end{theorem}
+\begin{proof}
+Begin with the accepted finite-window $\RealUp$ read and project its
+$\StreamNameUp$ component. By
+\autoref{thm:realup-finite-window-export-through-streamname-interface}, this
+component factors through the public $\StreamNameUp$ finite-window interface,
+so the stream-name classifier row is displayed as a finite $\mathsf{BHist}$
+row rather than as an ambient stream equality.
+
+Next use
+\autoref{thm:realup-streamname-window-stability-consumption}. It transports
+the projected stream-name row across the selected finite window and records
+the required $\Cont$ and $\hsame$ ledger entries. These entries are the only
+transport rows consumed by the scoped $\RealUp$ classifier read.
+
+For constant rational endpoints, apply
+\autoref{thm:realup-finite-window-constant-stream-seal-factorization}. It
+identifies the endpoint part of the read with the displayed $\RatUp$
+observation rows, the unary schedule, and the surrounding finite
+$\mathsf{RealLedgerPolicy}$ rows. For non-constant accepted stream-name
+sources, the same packet shape is obtained by reading the $\RatUp$ endpoints
+already exposed by the finite StreamName window.
+
+Finally apply
+\autoref{thm:realup-finite-window-common-refinement-determinacy}. Any two
+displayed packets supporting the same public $\RealUp$ classifier read admit
+the same common finite refinement, hence determine the same visible rows up
+to the recorded $\hsame$ transports. This gives the announced readback packet
+and shows that every public finite-window classifier read factors through it.
+\end{proof}
+
+\begin{theorem}[RealUp empty-window StreamName boundary]
+\label{thm:realup-empty-window-streamname-boundary}
+Let $W$ be a selected finite $\RealUp$ observation window whose
+$\mathsf{ProbeBundle}$ boundary is empty. Then the $\StreamNameUp$ component of
+the $\RealUp$ finite-window readback package is exactly the public empty-window
+vacuity row of \autoref{thm:streamname-public-empty-window-vacuity}. After this
+identification, the remaining visible $\RealUp$ rows are only the scoped ledger,
+dyadic source, $\mathsf{UnaryHistory}$, $\hsame$, and
+$\mathsf{RealLedgerPolicy}$ rows already listed by
+\autoref{thm:realup-scoped-finite-window-read-surface}.
+
+The empty-window read contains no quotient row, completion row,
+metric-completeness certificate, Classical datum, arithmetic or order row, or
+standard-bridge datum.
+\end{theorem}
+\begin{proof}
+Project the selected finite readback through
+\autoref{thm:realup-finite-window-streamname-readback-package}. The projected
+$\StreamNameUp$ row is a displayed finite-window classifier row inside the same
+$\mathsf{BHist}$ packet as the unary schedule, endpoint rows, $\Cont$ and
+$\hsame$ transport ledger, and $\Pkg$ provenance.
+
+Apply \autoref{thm:realup-finite-window-export-through-streamname-interface} to
+factor that stream-name row through the public finite-window interface. Since
+the $\mathsf{ProbeBundle}$ boundary of $W$ is empty, the corresponding public
+stream-name row is the empty-window vacuity row of
+\autoref{thm:streamname-public-empty-window-vacuity}.
+
+It remains to identify what the $\RealUp$ packet still exposes. The scoped read
+surface theorem \autoref{thm:realup-scoped-finite-window-read-surface} lists
+exactly the surviving finite rows: the scoped ledger, dyadic source,
+$\mathsf{UnaryHistory}$, $\hsame$, and $\mathsf{RealLedgerPolicy}$ entries. The
+same theorem excludes quotient, completion, metric-completeness, Classical,
+arithmetic, order, and standard-bridge data, and the empty-window projection
+does not add any of them.
+\end{proof}
+
+\begin{theorem}[RealUp StreamName-RegSeqRat tail-selector determinacy]
+\label{thm:realup-streamname-regseqrat-tail-selector-determinacy}
+Let $W_0$ and $W_1$ be selected finite $\RealUp$ observation-window packages.
+Assume that they display the same public $\StreamNameUp$ finite-window
+classifier row, the same $\RegSeqRat$ spine rows, the same DyadicRatCore
+observation rows, matching $\RatUp$ endpoint classifiers, and the same finite
+$\Cont/\hsame$ ledger. Then every selected tail-classifier readback extracted
+from $W_0$ and every selected tail-classifier readback extracted from $W_1$
+represent the same finite $\RealUp$ tail read up to the displayed $\hsame$
+transport. Moreover the two packages expose the same
+$\mathsf{RealLedgerPolicy}$ row.
+
+The conclusion is scoped to the selected finite-window surface. It does not
+assert equality of quotient completions, metric completions, arithmetic
+operations, order operations, Classical representatives, or standard bridge
+data.
+\end{theorem}
+\begin{proof}
+Project both selected packages through
+\autoref{thm:realup-finite-window-streamname-readback-package}. Each projection
+has a $\StreamNameUp$ component, $\RegSeqRat$ spine rows, DyadicRatCore
+observation rows, $\RatUp$ endpoint classifiers, a finite $\Cont/\hsame$ ledger,
+and a surrounding $\mathsf{RealLedgerPolicy}$ row.
+
+Identify the shared $\StreamNameUp$ component by
+\autoref{thm:realup-streamname-source-exhaustion-equivalence}. Under the
+hypotheses, the two finite-window classifier rows consume the same concrete
+stream-name source and the same regular-sequence and dyadic observation rows.
+
+The constant and empty boundary theorems remove non-displayed choices. Apply
+\autoref{thm:realup-finite-window-constant-stream-seal-factorization} to the
+constant endpoint case and
+\autoref{thm:realup-empty-window-streamname-boundary} to the empty-window case.
+In both cases the visible tail read is forced by the selected endpoint,
+stream-name, regular-sequence, dyadic, and ledger rows already present in the
+projected package.
+
+It remains to compare the two selected tail reads. Compose the displayed
+$\hsame$ transports in the common finite ledger. Since the two packages have the
+same $\Cont/\hsame$ ledger and the same $\mathsf{RealLedgerPolicy}$ boundary,
+the transported tail classifiers coincide up to $\hsame$, and the exposed
+$\mathsf{RealLedgerPolicy}$ rows are identical as public finite-window rows.
+\end{proof}
+
+\begin{theorem}[RealUp finite-window StreamName readback uniformity]
+\label{thm:realup-finite-window-streamname-readback-uniformity}
+Let $W$ be a certified finite $\mathsf{ProbeBundle}$ window supporting a public
+$\RealUp$ finite-window readback through a $\StreamNameUp$ source, and let
+$U$ be either a certified finite subwindow of $W$ or a certified finite common
+refinement of two such windows. Assume that the restriction to $U$ carries the
+same public $\StreamNameUp$ finite-window row, the same $\RegSeqRat$ spine rows,
+the same DyadicRatCore observation rows, and the restricted $\Cont/\hsame$
+ledger displayed over $U$. Then the $\RealUp$ readback packet over $W$
+restricts over $U$ to the same visible $\RatUp$ endpoint rows and to the same
+finite $\mathsf{RealLedgerPolicy}$ row.
+
+Equivalently, certified passage to a displayed finite subwindow or common
+finite refinement preserves the public endpoint readback and the real-ledger
+row determined by the StreamName-RegSeqRat-DyadicRatCore surface. The assertion
+does not identify quotient completions, metric completions, global Cauchy
+moduli, arithmetic operations, order operations, Classical representatives, or
+standard bridge data.
+\end{theorem}
+\begin{proof}
+Start with the selected $\RealUp$ read over $W$ and apply
+\autoref{thm:realup-finite-window-streamname-readback-package}. This displays a
+single finite $\mathsf{BHist}$ packet containing the public $\StreamNameUp$
+finite-window row, the $\RegSeqRat$ spine, the DyadicRatCore observations, the
+visible $\RatUp$ endpoints, the restricted $\Cont/\hsame$ ledger, the
+$\Pkg$ provenance, and the finite $\mathsf{RealLedgerPolicy}$ row.
+
+Restrict this displayed packet along the certified subwindow $U$, or along the
+certified common refinement when two windows are present. The common-refinement
+determinacy theorem
+\autoref{thm:realup-finite-window-common-refinement-determinacy} says that any
+two displayed packets with the same public rows over the refinement determine
+the same finite surface up to the recorded $\hsame$ transports.
+
+The source rows remaining after restriction are exactly the public stream-name
+row, the regular-sequence spine, and the dyadic observation rows named in the
+hypotheses. This is the source-exhaustion equivalence of
+\autoref{thm:realup-streamname-source-exhaustion-equivalence}, while
+\autoref{thm:streamname-public-finite-window-interface} identifies the
+restricted stream-name row as the same public finite-window interface row
+rather than an ambient stream equality.
+
+With the stream-name source and the restricted transport ledger fixed, the
+readback package has no remaining displayed choice for the $\RatUp$ endpoints
+or for the finite $\mathsf{RealLedgerPolicy}$ row. Hence the packet over $W$
+restricts to the same visible endpoint rows and the same real-ledger row over
+$U$.
+\end{proof}
+
+\begin{theorem}[RealUp StreamName-RegSeqRat uniform window readback]
+\label{thm:realup-streamname-regseqrat-uniform-window-readback}
+Let $W_0$ and $W_1$ be certified finite $\RealUp$ observation-window packages,
+and let $U$ be a certified finite common refinement of their selected
+$\mathsf{ProbeBundle}$ windows. Assume that both packages factor through the
+public $\StreamNameUp$ finite-window interface, that their restrictions to $U$
+carry the same $\StreamNameUp$ classifier row, and that the displayed
+$\RegSeqRat$ pointwise seal gives the same regular-sequence spine over the
+same $\mathsf{BHist}$ endpoints, $\hsame$ transports, $\Cont$ rows, and
+$\Pkg$ provenance rows. Then the two restricted $\RealUp$ readback packets have
+the same visible $\RatUp$ endpoint readback rows on every selected finite
+subwindow of $U$, and they expose the same finite
+$\mathsf{RealLedgerPolicy}$ row.
+
+The statement is only a finite-window consumer theorem. It identifies the rows
+read through the StreamName-RegSeqRat handoff and does not identify quotient
+completions, metric completions, global Cauchy moduli, arithmetic operations,
+order operations, Classical representatives, or standard bridge data.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-uniform-finite-window-seal}. The common
+$\StreamNameUp$ classifier row over $U$ and the displayed $\RegSeqRat$
+pointwise seal determine a single finite-window handoff surface, with the
+$\mathsf{BHist}$ endpoints, $\hsame$ transports, $\Cont$ rows, and $\Pkg$
+provenance rows kept in the public packet.
+
+Next compare that handoff surface with the selected $\RealUp$ read surface.
+Apply \autoref{thm:realup-streamname-regseqrat-window-correspondence}. It
+identifies the $\RealUp$ finite-window observation surface with the pair
+consisting of the public $\StreamNameUp$ finite-window interface and the
+$\RegSeqRat$ dyadic source exhaustion rows, together with the same endpoint,
+transport, provenance, and finite-ledger rows.
+
+Finally restrict along each selected finite subwindow of $U$. The hypotheses
+now match the input of
+\autoref{thm:realup-finite-window-streamname-readback-uniformity}: the public
+stream-name row, regular-sequence spine, dyadic observation rows, and
+restricted $\Cont/\hsame$ ledger are the same. Therefore the two consumer
+packets read back the same visible $\RatUp$ endpoint rows on each selected
+finite window and expose the same finite $\mathsf{RealLedgerPolicy}$ row.
+\end{proof}
+
+\begin{theorem}[RealUp common finite-window pullback]
+\label{thm:realup-streamname-regseqrat-common-window-pullback}
+Let $W_0$ and $W_1$ be certified finite $\RealUp$ observation-window packages,
+and let $U$ be a certified common $\StreamNameUp$ subwindow of their displayed
+$\mathsf{ProbeBundle}$ windows. Assume that the restrictions to $U$ carry the
+same $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the same
+$\RegSeqRat$ spine rows, and endpoint
+$\mathsf{DyadicRatCoreObservationRow}$ witnesses matched by the displayed
+$\hsame$ transports. Assume also that the two selected
+$\RealUp$ read surfaces expose their endpoint rows through the same restricted
+$\mathsf{BHist}$ packet and the same finite $\Cont/\Pkg$ provenance ledger over
+$U$. Then the restricted $\RealUp$ readback packets over $U$ are the same
+finite $\mathsf{BHist}$ packet and expose the same finite
+$\mathsf{RealLedgerPolicy}$ row.
+
+The theorem identifies only the finite StreamNameUp-RegSeqRat-DyadicRatCore
+window shared by the two read surfaces. It does not export quotient
+completions, metric completions, global Cauchy moduli, arithmetic operations,
+order operations, Classical representatives, or standard bridge data.
+\end{theorem}
+\begin{proof}
+Restrict both certified observation windows to the common subwindow $U$. The
+restricted surfaces still carry exactly the displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, $\RegSeqRat$ spine rows,
+DyadicRatCore endpoint witnesses, $\hsame$ transports, $\Cont$ rows, and
+$\Pkg$ provenance named in the hypotheses.
+
+Apply the finite-window source-exhaustion obligation of
+\autoref{thm:realup-streamname-source-exhaustion-equivalence} to the endpoint
+rows. It says that, over the selected finite packet, no endpoint readback row
+remains outside the StreamNameUp-RegSeqRat-DyadicRatCore source family.
+
+Next apply
+\autoref{thm:realup-streamname-regseqrat-uniform-window-readback}. The matching
+stream-name classifier rows and regular-sequence spine rows identify the
+StreamName-RegSeqRat handoff over $U$, while the dyadic endpoint witnesses and
+the displayed $\hsame$ transports fix the endpoint side of the handoff.
+
+Finally use the ledger exactness of the selected $\RealUp$ read surface, as in
+\autoref{thm:realup-finite-window-streamname-readback-package}. The only
+visible finite packet left over $U$ is the shared $\mathsf{BHist}$ packet, and
+the only finite ledger row exposed by that packet is the same
+$\mathsf{RealLedgerPolicy}$ row.
+\end{proof}
+
+\begin{theorem}[RealUp StreamName RegSeqRat cover seal associativity]
+\label{thm:realup-streamname-regseqrat-cover-seal-associativity}
+Let $K_0$, $K_1$, and $K_2$ be certified finite $\RealUp$ observation windows
+with certified $\StreamNameUp$ finite-window restrictions
+$K_0\leftarrow K_1\leftarrow K_2$. Assume that the displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the induced $\RegSeqRat$
+seal rows, and the finite $\Cont/\hsame/\Pkg$ ledgers are composable over these
+two restrictions. Then the $\RealUp$ finite-window seal obtained by first
+pulling the displayed $\mathsf{BHist}$ seal surface back from $K_2$ to $K_1$ and
+then from $K_1$ to $K_0$ is the same displayed $\mathsf{BHist}$ seal surface as
+the direct pullback from $K_2$ to $K_0$.
+
+The statement uses only the displayed $\StreamNameUp$, $\RegSeqRat$, $\RealUp$,
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and finite-window ledger rows. It includes
+no completion, quotient, metric-completeness, Classical, arithmetic, order, or
+standard bridge datum.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-streamname-regseqrat-common-window-pullback} to the
+restriction $K_2\to K_1$ and then to the restriction $K_1\to K_0$. The two
+applications identify the intermediate seal with displayed
+$\StreamNameUp$ classifier rows, $\RegSeqRat$ spine rows, endpoint witnesses,
+and the finite $\Cont/\hsame/\Pkg$ ledger on $K_1$ and $K_0$.
+
+Apply the same common-window pullback theorem directly to the composed
+restriction $K_2\to K_0$. Its input rows are exactly the rows obtained by
+composing the two certified restrictions: the same StreamName finite-window
+classifier, the same induced RegSeqRat seal rows, and the same finite transport
+ledger displayed over $K_0$.
+
+The common-refinement determinacy theorem
+\autoref{thm:realup-finite-window-common-refinement-determinacy} compares the
+two displayed packets over the common finite window $K_0$. Since their
+StreamName, RegSeqRat, endpoint, transport, and provenance rows agree, the
+visible $\RealUp$ seal surface is unique up to the recorded $\hsame$ transports.
+
+Finally use the tail-reindexing stability of
+\autoref{thm:streamname-regseqrat-tail-reindexing-stability}. It says that the
+tail rows introduced by the nested restriction are the same pointwise rows as
+those introduced by the composed restriction. Thus the two pullback routes
+display the same finite $\mathsf{BHist}$ seal surface and the same finite
+ledger rows.
 \end{proof}

@@ -1,0 +1,130 @@
+\begin{definition}[LambdaCalc root constructor readback packet]
+\label{def:lambdacalc-root-constructor-readback-packet}
+A LambdaCalc root constructor readback packet is the finite $\mathsf{BHist}$
+packet consisting of the visible $\TreeUp$ syntax row, the $\NatUp$ binder or
+variable-index row when the root tag carries one, the constructor tag
+$\mathsf{lamVar}$, $\mathsf{lamAbs}$, or $\mathsf{lamApp}$, the
+constructor-preserving $\Cont$ provenance, the root $\hsame$ readback row, and
+the $\Pkg$ provenance tying those rows to
+$\mathsf{LambdaCalcBHistTermCarrier}$. No host syntax tree, ambient variable
+set, or quotient alpha-class is part of the packet.
+\end{definition}
+
+\begin{theorem}[LambdaCalc root constructor readback exhaustion]
+\label{thm:lambdacalc-root-constructor-readback-exhaustion}
+Every accepted variable, abstraction, or application row of
+$\mathsf{LambdaCalcBHistTermCarrier}$ projects to exactly one constructor case
+of \autoref{def:lambdacalc-root-constructor-readback-packet}. The projection
+uses only the displayed $\TreeUp$ row, the visible $\NatUp$ index rows,
+$\Cont$, $\hsame$, and $\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+For a variable row, apply
+\autoref{thm:lambdacalc-variable-constructor-carrier}. The unary index is the
+visible $\NatUp$ payload and the root readback row is the displayed
+$\mathsf{lamVar}$ tag.
+
+For abstraction and application rows, use
+\autoref{thm:lambdacalc-abstraction-application-carrier-closure}. The theorem
+keeps the binder row, body row, and two application subtrees inside the
+visible $\TreeUp$ spine with constructor-preserving $\Cont$ transport.
+
+The case split is exhausted by
+\autoref{thm:lambdacalc-constructor-case-exhaustion}. Repacking each case with
+the shared $\Pkg$ provenance gives exactly one readback packet and introduces
+no extra equality relation.
+\end{proof}
+
+\begin{theorem}[LambdaCalc root beta-alpha consumer threshold]
+\label{thm:lambdacalc-root-beta-alpha-consumer-threshold}
+Every beta-redex, alpha-renaming, and substitution consumer for
+$\LambdaCalcUp$ reads its root data from
+\autoref{def:lambdacalc-root-constructor-readback-packet} together with the
+finite substitution ledger of
+\autoref{thm:lambdacalc-namecert-substitution-ledger}. Thus the consumer
+surface uses only $\mathsf{BHist}$ constructor packets, $\Cont$, $\hsame$, and
+$\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+First project each consumed root through
+\autoref{thm:lambdacalc-root-constructor-readback-exhaustion}. This supplies
+the visible constructor tag, TreeUp syntax row, NatUp index row when present,
+and the root readback provenance.
+
+Next attach the free-variable and capture-avoidance ledgers. Apply
+\autoref{thm:lambdacalc-free-variable-ledger-coverage} and
+\autoref{thm:lambdacalc-capture-avoidance-cont-closure}; these keep the
+substitution endpoint inside the displayed carrier and record the route as
+$\Cont$ data.
+
+Finally transport alpha and beta endpoints by
+\autoref{thm:lambdacalc-alpha-beta-carrier-transport}. The finite ledger of
+\autoref{thm:lambdacalc-namecert-substitution-ledger} supplies the remaining
+substitution provenance, so beta, alpha, and substitution consumers cross the
+root boundary only through the displayed packets.
+\end{proof}
+
+\begin{definition}[LambdaCalc root normal form packet]
+\label{def:lambdacalc-root-normal-form-packet}
+A LambdaCalc root normal form packet is the finite $\mathsf{BHist}$ packet
+whose source is a root constructor readback packet of
+\autoref{def:lambdacalc-root-constructor-readback-packet}, whose visible
+syntax row lies in $\TreeUp$, whose binder and variable-index rows lie in
+$\NatUp$ when present, and whose reduction frontier records that the root is
+not a beta-redex visible through the displayed $\Cont$, $\hsame$, and $\Pkg$
+provenance. The packet contains only constructor tags, finite subtree rows,
+NatUp index rows, capture-avoidance continuation rows, root readback rows, and
+the package provenance of $\mathsf{LambdaCalcBHistTermCarrier}$.
+\end{definition}
+
+\begin{theorem}[LambdaCalc root normal form readback]
+\label{thm:lambdacalc-root-normal-form-readback}
+Every accepted $\LambdaCalcUp$ root whose constructor readback packet has no
+visible beta-redex exposure reads back to exactly one root normal form packet.
+The readback uses the same $\TreeUp$ syntax row, the same $\NatUp$ binder or
+variable-index payload when present, and the same $\Cont$, $\hsame$, and
+$\Pkg$ provenance as the constructor readback packet.
+\end{theorem}
+\begin{proof}
+First project the accepted root through
+\autoref{thm:lambdacalc-root-constructor-readback-exhaustion}. This gives the
+visible constructor tag and the finite TreeUp and NatUp rows, with no ambient
+syntax object.
+
+Next use the beta ledger scope theorem
+\autoref{thm:lambdacalc-root-beta-ledger-scope}. The hypothesis that no
+visible beta-redex exposure is present excludes exactly the application-over-
+abstraction root case while leaving the variable, abstraction, and non-redex
+application cases inside the displayed constructor carrier.
+
+Finally repack the surviving constructor row with the original continuation,
+root readback, and package provenance. The packet is unique because the
+constructor case exhaustion theorem gives exactly one root constructor case.
+\end{proof}
+
+\begin{theorem}[LambdaCalc root substitution normal form consumer]
+\label{thm:lambdacalc-root-substitution-normal-form-consumer}
+Every substitution, alpha, or beta consumer that needs a LambdaCalc root normal
+form may read only the packet of
+\autoref{def:lambdacalc-root-normal-form-packet}, the finite substitution
+ledger of \autoref{thm:lambdacalc-namecert-substitution-ledger}, and the alpha
+transport of \autoref{thm:lambdacalc-alpha-beta-carrier-transport}. It may not
+read a host substitution function, a quotient alpha-class, or a syntax tree
+outside $\mathsf{LambdaCalcBHistTermCarrier}$.
+\end{theorem}
+\begin{proof}
+Begin with the consumer threshold
+\autoref{thm:lambdacalc-root-beta-alpha-consumer-threshold}. It already
+restricts beta, alpha, and substitution consumers to constructor packets,
+finite substitution ledgers, $\Cont$, $\hsame$, and $\Pkg$ provenance.
+
+Apply \autoref{thm:lambdacalc-root-normal-form-readback} to the consumed root
+when the consumer asks for a normal-form surface. This replaces the root
+constructor packet by the corresponding normal form packet without changing
+the TreeUp syntax row, NatUp payload, continuation, or package provenance.
+
+The remaining consumer data is exactly the finite substitution ledger and
+alpha transport already named by the threshold theorem. Since those rows live
+inside the displayed $\mathsf{BHist}$ carrier, no host substitution or quotient
+alpha object is available to the consumer.
+\end{proof}

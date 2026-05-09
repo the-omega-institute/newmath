@@ -1,4 +1,5 @@
-\section{Carrier definition}
+\section{Carrier obligation surface}
+\label{sec:s1-carrier}
 
 \begin{definition}[SOne carrier]
 \label{def:s1-carrier}
@@ -7,6 +8,33 @@ Use pairs $(x,y)$ of Bishop real witnesses with a certified unit equation witnes
 \leandef{BEDC.Derived.S1Up.SOneUnitHistory}
 \leandef{BEDC.Derived.S1Up.SOneProductHistoryCarrier}
 \leandef{BEDC.Derived.S1Up.SOneHistoryCarrier}
+
+\begin{theorem}[S1Up root obligation surface]
+\label{thm:s1-root-obligation-surface}
+An accepted $\SOneUp$ carrier over $\mathsf{BHist}$ consists of two $\RealUp$
+coordinate rows, the product-source row inherited from $\ProdUp$, the
+$\RealUp$ classifier transports for both coordinates, a displayed radius row
+asserting that $x^2+y^2$ is classified with the $\RealUp$ unit, and a
+$\NameCert$ ledger recording the $\RealUp$ and product witnesses.
+
+The radius row is a classifier obligation over the displayed real-coordinate
+data. It is not a host equality and it does not add a primitive circle carrier
+outside the real/product source rows.
+\end{theorem}
+\begin{proof}
+Unpack the two $\RealUp$ coordinate certificates. They supply the two
+$\mathsf{BHist}$ component rows and the componentwise classifier transports
+used by the circle carrier.
+
+Use the $\ProdUp$ product carrier to pair those rows into one source packet.
+The resulting packet records the real-coordinate witnesses and the product
+source row in the same $\mathsf{BHist}$ ledger.
+
+Finally record the radius condition $x^2+y^2$ against the $\RealUp$ unit as a
+displayed classifier obligation. Since the condition is stored as a row in the
+$\NameCert$ ledger, the carrier exposes only the real, product, radius, and
+ledger witnesses described above.
+\end{proof}
 
 \begin{theorem}[SOne history carrier rational components]
 \label{thm:s1-history-carrier-rational-components}

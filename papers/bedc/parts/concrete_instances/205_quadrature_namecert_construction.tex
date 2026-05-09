@@ -289,3 +289,59 @@ $$
 $$
 Substituting the displayed definition of $\mathsf{QSum}_Q(p)$ gives $\mathsf{QSum}_Q(p)\sim_R0_R$. The endpoint map $\mathcal I_Q$ and the pointwise exactness predicate do not enter this boundary calculation, because the claim concerns only the actual quadrature fold.
 \end{proof}
+
+\begin{lemma}[Quadrature singleton position fold]
+\label{lem:quadrature-singleton-position-fold}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, and addition $+$ whose finite additive scalar fold is the fold of \autoref{def:finite-additive-scalar-fold}. Let $xs$ be a finite $\FinSetUp$ node spine. If the position carrier $\mathsf{Pos}(xs)$ enumerates exactly the one position $i_0$, then every scalar summand family $s:\mathsf{Pos}(xs)\to R$ satisfies
+$$
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}(i\mapsto s(i))\sim_R s(i_0).
+$$
+\end{lemma}
+\begin{proof}
+The finite-position ledger of \autoref{def:finset-namecert-obligation-packet} reads a fold over $\mathsf{Pos}(xs)$ as the finite additive scalar fold over the scalar spine obtained by enumerating those positions. Under the singleton-position hypothesis, that scalar spine is exactly $\mathsf{singleton}(s(i_0))$; no other value of $s$ is read into the ledger.
+
+Thus the displayed position fold is the same folded endpoint as
+$$
+\mathsf{fold}_{+,R}(\mathsf{singleton}(s(i_0))).
+$$
+By the singleton clause of \autoref{def:finite-additive-scalar-fold}, equivalently by \autoref{lem:finite-additive-fold-singleton-identity}, this singleton scalar fold is classified with $s(i_0)$. Transporting along the finite-position readback gives
+$$
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}(i\mapsto s(i))\sim_R s(i_0).
+$$
+\end{proof}
+
+\begin{theorem}[Quadrature singleton-node sum is weighted evaluation]
+\label{thm:quadrature-singleton-node-sum-weighted-evaluation}
+Let $Q=(xs,\alpha,\omega,\mathcal I_Q)$ be a finite weighted $\QuadratureUp$ rule over the scalar carrier $R$ in the sense of \autoref{def:quadrature-finite-weighted-exactness-degree}. Assume the $\FinSetUp$ node spine enumerates exactly one position $i_0$, equivalently $\mathsf{Pos}(xs)$ has the single position $i_0$. Then for every finite polynomial-code spine $p:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{QSum}_Q(p)\sim_R \omega_{i_0}\cdot\mathsf{Eval}_{\alpha_{i_0},R}(p).
+$$
+\end{theorem}
+\begin{proof}
+Fix a finite coefficient spine $p:\mathsf{ListCarrier}(R)$. Unfolding \autoref{def:quadrature-finite-weighted-exactness-degree} gives
+$$
+\mathsf{QSum}_Q(p):=
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}
+\bigl(i\mapsto \omega_i\cdot\mathsf{Eval}_{\alpha_i,R}(p)\bigr).
+$$
+Apply \autoref{lem:quadrature-singleton-position-fold} to the summand family
+$$
+s(i):=\omega_i\cdot\mathsf{Eval}_{\alpha_i,R}(p).
+$$
+The singleton-node hypothesis identifies the finite-position scalar spine as the singleton spine whose sole entry is
+$$
+\omega_{i_0}\cdot\mathsf{Eval}_{\alpha_{i_0},R}(p).
+$$
+Therefore the quadrature fold is classified with that sole entry:
+$$
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}
+\bigl(i\mapsto \omega_i\cdot\mathsf{Eval}_{\alpha_i,R}(p)\bigr)
+\sim_R
+\omega_{i_0}\cdot\mathsf{Eval}_{\alpha_{i_0},R}(p).
+$$
+Substituting the displayed definition of $\mathsf{QSum}_Q(p)$ gives
+$$
+\mathsf{QSum}_Q(p)\sim_R \omega_{i_0}\cdot\mathsf{Eval}_{\alpha_{i_0},R}(p).
+$$
+The endpoint map $\mathcal I_Q$ and the exactness predicate $\mathsf{QExact}_Q$ do not enter this boundary calculation, because the claim concerns only the finite weighted quadrature fold.
+\end{proof}

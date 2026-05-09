@@ -268,3 +268,26 @@ Next instantiate \autoref{thm:ideal-quotientring-export-surface} with this predi
 
 Finally apply \autoref{thm:ideal-sum-quotient-kernel-absorption-closure}. Its conclusion is exactly the ambient left and right multiplication closure row for $Q_K$, using the same subtraction package and the same specialized ideal-sum predicate $K$.
 \end{proof}
+
+\begin{theorem}[Ideal intersection greatest lower bound]
+\label{thm:ideal-intersection-greatest-lower-bound}
+Let $R$ carry a $\RingUp$ certificate as in \autoref{ch:concrete-instances-ring-namecert}, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ predicates over the same $\RingUp$ certificate, with the rows specified in \autoref{sec:ideal-certificate}. Let $K:=I\cap_RJ$ as in \autoref{def:ideal-intersection-predicate}. Then $K$ is an $\IdealUp$ predicate by \autoref{thm:ideal-intersection-closure}, and $K$ is the greatest lower bound of $I$ and $J$ for $\preceq_R$:
+$$
+K\preceq_RI,\qquad K\preceq_RJ,
+$$
+and, for every $\IdealUp$ predicate $L$ over the same $\RingUp$ certificate,
+$$
+(L\preceq_RI)\land(L\preceq_RJ)\Longrightarrow L\preceq_RK.
+$$
+\end{theorem}
+\begin{proof}
+The predicate $K$ is an $\IdealUp$ predicate by \autoref{thm:ideal-intersection-closure}, because it is built from the same two ideal certificates and the same ambient $\RingUp$ rows.
+
+For the first lower-bound inclusion, assume $K(x)$. By \autoref{def:ideal-intersection-predicate}, this means $I(x)\land J(x)$. Projecting the first component gives $I(x)$, so \autoref{def:ideal-inclusion-predicate} gives $K\preceq_RI$.
+
+For the second lower-bound inclusion, the same unpacking of $K(x)$ gives the second component $J(x)$. Hence $K\preceq_RJ$.
+
+It remains to prove maximality among lower bounds. Let $L$ be an $\IdealUp$ predicate over the same $\RingUp$ certificate, and assume $L\preceq_RI$ and $L\preceq_RJ$. To prove $L\preceq_RK$, fix $x:\mathsf{BHist}$ and assume $L(x)$.
+
+The first inclusion sends this witness to $I(x)$, and the second inclusion sends the same witness to $J(x)$. Pairing these two memberships gives $I(x)\land J(x)$, which is exactly $K(x)$ by \autoref{def:ideal-intersection-predicate}. Therefore $L\preceq_RK$ by \autoref{def:ideal-inclusion-predicate}.
+\end{proof}

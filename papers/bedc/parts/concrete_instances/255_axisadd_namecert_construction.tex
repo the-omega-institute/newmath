@@ -132,3 +132,34 @@ For every zero-spine history \(h\), \(\ContR(h, \emp, h)\).
   \notclaimed{It does not claim full $\AddUp$ identification or public arithmetic beyond the zero-spine.}
   \upgradepath{Public closure requires a single exported public $\AxisAddUp$ interface theorem consumed by downstream arithmetic or bridge chapters.}
 \end{closurestatus}
+
+\begin{theorem}[Zero-spine result inversion for $\AxisAddUp$]
+\label{thm:axisadd-zero-spine-result-inversion}
+For histories $h,k,r:\mathsf{BHist}$, if $\ContR(h,k,r)$ and $\mathsf{ZeroSpine}(r)$, then
+$$
+\mathsf{ZeroSpine}(h)\wedge\mathsf{ZeroSpine}(k).
+$$
+Thus a displayed $\AxisAddUp$ continuation whose result lies on the $\Ezero$-spine has both its left prefix and right suffix on the same spine.
+\end{theorem}
+\begin{proof}
+Induct on the displayed derivation of $\ContR(h,k,r)$.
+
+In the empty-tail generator, the continuation is $\ContR(h,\emp,h)$ and the result is $h$. The assumed result witness is exactly $\mathsf{ZeroSpine}(h)$, while $\mathsf{ZeroSpine}(\emp)$ is supplied by \autoref{lem:zero-spine-empty-base}. Thus $\mathsf{ZeroSpine}(h)\wedge\mathsf{ZeroSpine}(\emp)$ holds.
+
+In the zero-tail step, the derivation has predecessor $\ContR(h,k_0,r_0)$ and conclusion $\ContR(h,\Ezero(k_0),\Ezero(r_0))$. The result assumption is $\mathsf{ZeroSpine}(\Ezero(r_0))$. By \autoref{lem:zero-spine-e0-inversion}, obtain $\mathsf{ZeroSpine}(r_0)$. The induction hypothesis applied to the predecessor continuation gives $\mathsf{ZeroSpine}(h)\wedge\mathsf{ZeroSpine}(k_0)$. Applying \autoref{lem:zero-spine-closure-under-zero-extension} to the second component gives $\mathsf{ZeroSpine}(\Ezero(k_0))$. Hence the step conclusion is $\mathsf{ZeroSpine}(h)\wedge\mathsf{ZeroSpine}(\Ezero(k_0))$.
+
+In the one-tail step, the derivation has result $\Eone(r_0)$, so the result assumption is $\mathsf{ZeroSpine}(\Eone(r_0))$. This contradicts \autoref{lem:zero-spine-no-one-extension}. Therefore no one-tail continuation can have a zero-spine result, and the implication holds in that branch.
+\end{proof}
+
+\begin{corollary}[Zero-spine source/result equivalence for $\AxisAddUp$]
+\label{cor:axisadd-zero-spine-source-result-equivalence}
+For histories $h,k,r:\mathsf{BHist}$ with $\ContR(h,k,r)$,
+$$
+\mathsf{ZeroSpine}(r)
+\quad\Longleftrightarrow\quad
+\mathsf{ZeroSpine}(h)\wedge\mathsf{ZeroSpine}(k).
+$$
+\end{corollary}
+\begin{proof}
+The forward direction is \autoref{thm:axisadd-zero-spine-result-inversion}. The reverse direction is \autoref{thm:axisadd-cont-preserves-zerospine} applied to the displayed continuation witness.
+\end{proof}

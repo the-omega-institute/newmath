@@ -144,3 +144,63 @@ $\mathsf{False}$.
 \leanchecked{BEDC.Derived.GroupUp.FullUnaryAppendInverse\_obstruction}
 \leanchecked{BEDC.Derived.GroupUp.UnaryHistory\_append\_inverse\_obstruction}
 \leanchecked{BEDC.Derived.GroupUp.MonoidHistoryClassifier\_unary\_append\_inverse\_obstruction}
+
+\begin{theorem}[Unary append inverse completion singleton boundary]
+\label{thm:group-unary-append-inverse-completion-singleton-boundary}
+Let $C:\mathsf{BHist}\to\mathsf{Prop}$ be a concrete subcarrier of
+$\mathsf{UnaryHistory}$, and let $i:\mathsf{BHist}\to\mathsf{BHist}$ be an
+inverse operation. Assume
+$$
+\begin{array}{ll}
+\text{\rm carrier:} &
+\forall h:\mathsf{BHist},\ C(h)\Rightarrow \mathsf{UnaryHistory}(h),\\
+\text{\rm unit:} & C(\emp),\\
+\text{\rm append closure:} &
+\forall h,k:\mathsf{BHist},\
+C(h)\Rightarrow C(k)\Rightarrow C(\mathsf{append}(h,k)),\\
+\text{\rm inverse closure:} &
+\forall h:\mathsf{BHist},\
+C(h)\Rightarrow C(i(h)),\\
+\text{\rm inverse products:} &
+\forall h:\mathsf{BHist},\
+C(h)\Rightarrow{}\\
+&\quad
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(h,i(h)),\emp)\land{}\\
+&\quad
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(i(h),h),\emp).
+\end{array}
+$$
+Then every carried element lies in the singleton unit fiber:
+$$
+\forall h:\mathsf{BHist},\
+C(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp).
+$$
+Moreover, if $C(\Eone(\emp))$ is also supplied, these same rows imply
+$\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unary-append-group-subcarrier-unit-collapse} to the
+displayed carrier, unit, append-closure, inverse-closure, and inverse-product
+rows. This gives the singleton unit-fiber classifier for every carried history
+in $C$.
+
+Now assume the additional nonempty carried row $C(\Eone(\emp))$. Instantiate
+the unit-fiber conclusion at $\Eone(\emp)$ to obtain
+
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(\Eone(\emp),\emp).
+$$
+
+Unfold the concrete monoid classifier as in
+\autoref{thm:full-unary-append-inverse-obstruction}. The classifier contains a
+history-sameness witness $\Eone(\emp)\hsame\emp$ between histories with
+different outer constructors.
+
+Apply \autoref{thm:history-no-confusion}. The $\Eone$ constructor cannot be
+identified with $\emp$, so the additional carried nonempty row contradicts the
+same inverse-completion package. Thus the only valid concrete unary append
+group carrier is the singleton unit fiber.
+\end{proof}

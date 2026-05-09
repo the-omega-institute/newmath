@@ -83,3 +83,70 @@ comparison stores no data beyond $A_{\emp}(h)$ and $A_{\emp}(k)$. Repacking
 these rows into the roadmap source, carrier, classifier, relation, ledger,
 exactness, and status fields gives the stated concrete $\PreorderUp$ surface.
 \end{proof}
+
+\begin{definition}[Preorder terminal opposite endpoint order]
+\label{def:preorder-terminal-opposite-endpoint-order}
+For histories $h,k:\mathsf{BHist}$, define the endpoint-swapped relation of
+\autoref{def:preorder-terminal-endpoint-order-surface} by
+$$
+h\preceq_{\emp}^{\mathrm{op}} k:=k\preceq_{\emp} h.
+$$
+This is the opposite relation of \autoref{def:opposite-preorder-certificate-data}
+specialized to the concrete terminal endpoint-order surface
+$(A_{\emp},\rho_{\emp},\preceq_{\emp})$.
+\end{definition}
+
+\begin{theorem}[Preorder terminal endpoint-order opposite self-duality]
+\label{thm:preorder-terminal-endpoint-order-opposite-self-dual}
+For histories $h,k:\mathsf{BHist}$ on the terminal endpoint-order surface of
+\autoref{def:preorder-terminal-endpoint-order-surface}, the opposite relation
+has the same endpoint readback:
+$$
+h\preceq_{\emp}^{\mathrm{op}} k
+\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k).
+$$
+Consequently,
+$$
+h\preceq_{\emp}^{\mathrm{op}} k
+\Longleftrightarrow
+h\preceq_{\emp} k.
+$$
+Thus the concrete terminal endpoint-order surface is its own opposite relation
+on carried endpoints.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:preorder-terminal-opposite-endpoint-order}. A witness of
+$h\preceq_{\emp}^{\mathrm{op}} k$ is exactly a witness of
+$k\preceq_{\emp} h$.
+
+Apply the exact-readback clause of
+\autoref{thm:preorder-terminal-endpoint-order-laws} to the ordered pair
+$(k,h)$. It gives
+$$
+k\preceq_{\emp}h
+\Longleftrightarrow
+A_{\emp}(k)\land A_{\emp}(h).
+$$
+The conjunction on the right is symmetric: from
+$A_{\emp}(k)\land A_{\emp}(h)$ project the second and first witnesses to obtain
+$A_{\emp}(h)\land A_{\emp}(k)$, and the reverse implication is obtained by the
+same projection swap. Therefore
+$$
+h\preceq_{\emp}^{\mathrm{op}} k
+\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k).
+$$
+
+Apply the same exact-readback clause of
+\autoref{thm:preorder-terminal-endpoint-order-laws} to $(h,k)$:
+$$
+h\preceq_{\emp}k
+\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k).
+$$
+Both $h\preceq_{\emp}^{\mathrm{op}} k$ and $h\preceq_{\emp}k$ are therefore
+equivalent to the same pair of endpoint carrier witnesses, which yields the
+claimed equivalence between the opposite relation and the original terminal
+endpoint order.
+\end{proof}

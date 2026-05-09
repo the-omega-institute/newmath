@@ -279,3 +279,81 @@ $$
 \mu(A\cup B)+\mu(A\cap B)\sim_R\mu(A)+\mu(B).
 $$
 \end{proof}
+
+\begin{definition}[Ternary inclusion-exclusion ledger]
+\label{def:probspace-ternary-inclusion-exclusion-ledger}
+Let $P$ be a $\ProbSpaceUp$ carrier obtained from the probability substrate of a $\MeasureUp$ carrier. Write $\mathcal A$ for the displayed measurable-event family inherited from the underlying $\MeasureUp$ carrier, write $\mu$ for the $\RealUp$-valued measure map, and write $E\sim_{\mathcal A}F$ for the public measurable-event classifier. For displayed events $A,B,C\in\mathcal A$, a ternary inclusion-exclusion ledger for $(A,B,C)$ consists of displayed events
+$$
+U,V,I_{AB},I_{AC},I_{BC},K,T\in\mathcal A
+$$
+and the following public rows:
+\begin{enumerate}
+\item binary cover-difference ledgers for the original pairs $(A,B)$, $(A,C)$, and $(B,C)$ in the sense of \autoref{def:probspace-binary-cover-difference-ledger}, whose displayed intersections are respectively $I_{AB}$, $I_{AC}$, and $I_{BC}$, and whose displayed union for $(B,C)$ is $V$;
+\item a binary cover-difference ledger for $(A,V)$ whose displayed union is $U$ and whose displayed intersection is $K$;
+\item a binary cover-difference ledger for $(I_{AB},I_{AC})$ whose displayed union is $K$ and whose displayed intersection is $T$.
+\end{enumerate}
+Thus $U$ is the displayed ternary union of $A,B,C$, $K$ is the displayed event $A\cap(B\cup C)$, and $T$ is the displayed triple intersection read as $(A\cap B)\cap(A\cap C)$ on the carried event surface. The ledger records these as measurable-event rows and classifier readbacks, not as host set-theoretic equalities outside the $\BEDC$ event surface.
+\end{definition}
+
+\begin{theorem}[ProbSpace ternary inclusion-exclusion identity]
+\label{thm:probspace-ternary-inclusion-exclusion-identity}
+Let $P$ be a $\ProbSpaceUp$ carrier obtained from the probability substrate of a $\MeasureUp$ carrier. Write $\mathcal A$ for its displayed measurable-event family, write $\mu$ for its $\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$ classifier. Let $A,B,C\in\mathcal A$ be displayed events in one carried fiber, and suppose that $(A,B,C)$ has a ternary inclusion-exclusion ledger with displayed events
+$$
+U,V,I_{AB},I_{AC},I_{BC},K,T
+$$
+in the sense of \autoref{def:probspace-ternary-inclusion-exclusion-ledger}. Suppose also that the finite disjoint-union additivity row applies to the disjoint pairs consumed by the three binary cover-difference ledgers $(B,C)$, $(A,V)$, and $(I_{AB},I_{AC})$, and that the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row. Then, with four-term sums read in the displayed left-associated bracketing,
+$$
+((\mu(U)+\mu(I_{AB}))+\mu(I_{AC}))+\mu(I_{BC})\sim_R((\mu(A)+\mu(B))+\mu(C))+\mu(T).
+$$
+Consequently, when the public notation $A\cup B\cup C$ names $U$, $A\cap B$ names $I_{AB}$, $A\cap C$ names $I_{AC}$, $B\cap C$ names $I_{BC}$, and $A\cap B\cap C$ names $T$, one obtains
+$$
+\mu(A\cup B\cup C)+\mu(A\cap B)+\mu(A\cap C)+\mu(B\cap C)\sim_R\mu(A)+\mu(B)+\mu(C)+\mu(A\cap B\cap C).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:probspace-binary-inclusion-exclusion-identity} to the binary cover-difference ledger for $(B,C)$. Its displayed union is $V$ and its displayed intersection is $I_{BC}$, so
+$$
+\mu(V)+\mu(I_{BC})\sim_R\mu(B)+\mu(C).
+$$
+Apply the same theorem to the binary cover-difference ledger for $(A,V)$. Its displayed union is $U$ and its displayed intersection is $K$, so
+$$
+\mu(U)+\mu(K)\sim_R\mu(A)+\mu(V).
+$$
+Apply the same theorem a third time to the binary cover-difference ledger for $(I_{AB},I_{AC})$. Its displayed union is $K$ and its displayed intersection is $T$, so
+$$
+\mu(K)+\mu(T)\sim_R\mu(I_{AB})+\mu(I_{AC}).
+$$
+Use addition congruence in the additive $\AbGroupUp$ row to add $\mu(I_{BC})$ to the comparison for $(A,V)$:
+$$
+(\mu(U)+\mu(K))+\mu(I_{BC})\sim_R(\mu(A)+\mu(V))+\mu(I_{BC}).
+$$
+Associativity rewrites the right endpoint as $\mu(A)+(\mu(V)+\mu(I_{BC}))$. Addition congruence with the fixed left summand $\mu(A)$ and the comparison for $(B,C)$ gives
+$$
+\mu(A)+(\mu(V)+\mu(I_{BC}))\sim_R\mu(A)+(\mu(B)+\mu(C)).
+$$
+Associativity rewrites the right endpoint as $(\mu(A)+\mu(B))+\mu(C)$. By transitivity of $\sim_R$,
+$$
+(\mu(U)+\mu(K))+\mu(I_{BC})\sim_R(\mu(A)+\mu(B))+\mu(C).
+$$
+Add $\mu(T)$ to both sides by addition congruence:
+$$
+((\mu(U)+\mu(K))+\mu(I_{BC}))+\mu(T)\sim_R((\mu(A)+\mu(B))+\mu(C))+\mu(T).
+$$
+It remains only to replace the middle event $K$ by the two displayed pairwise intersections, with the triple intersection carried to the right endpoint. Associativity and commutativity in the additive $\AbGroupUp$ row give
+$$
+((\mu(U)+\mu(K))+\mu(I_{BC}))+\mu(T)\sim_R(\mu(U)+(\mu(K)+\mu(T)))+\mu(I_{BC}).
+$$
+Addition congruence with the comparison for $(I_{AB},I_{AC})$ gives
+$$
+(\mu(U)+(\mu(K)+\mu(T)))+\mu(I_{BC})\sim_R(\mu(U)+(\mu(I_{AB})+\mu(I_{AC})))+\mu(I_{BC}).
+$$
+A final associativity rewrite gives
+$$
+(\mu(U)+(\mu(I_{AB})+\mu(I_{AC})))+\mu(I_{BC})\sim_R((\mu(U)+\mu(I_{AB}))+\mu(I_{AC}))+\mu(I_{BC}).
+$$
+Symmetry and transitivity of the $\RealUp$ classifier compose these displayed comparisons with the preceding four-term comparison, yielding
+$$
+((\mu(U)+\mu(I_{AB}))+\mu(I_{AC}))+\mu(I_{BC})\sim_R((\mu(A)+\mu(B))+\mu(C))+\mu(T).
+$$
+Substituting the public displayed representatives $U=A\cup B\cup C$, $I_{AB}=A\cap B$, $I_{AC}=A\cap C$, $I_{BC}=B\cap C$, and $T=A\cap B\cap C$ gives the stated public form.
+\end{proof}

@@ -1,4 +1,4 @@
-\chapter{A Concrete Naming Certificate for \(\ZNormalUp\)}
+\chapter{A Concrete Naming Certificate for $\ZeckendorfNormalUp$}
 \label{ch:concrete-instances-zeckendorf-normal-namecert}
 
 This chapter introduces a Zeckendorf-style normal-form classifier on histories: no two adjacent \(\Eone\)-extensions. The classifier is structural; it does not depend on \(\HSame\) and does not assert any arithmetic interpretation. The Fibonacci value-preservation reading is a horizon target queued for the formalize pipeline. The classifier acts as the source pattern for the carry classifier of Chapter~\ref{ch:concrete-instances-zeckendorf-carry-classifier}.
@@ -90,11 +90,11 @@ The ledger policy \(\mathsf{ZNormalLedger}\) records the source normal-form hist
 \end{definition}
 \leandef{BEDC.Derived.AxisZeckendorf.Zeckendorf.ZNormalLedgerPolicy}
 
-\begin{theorem}[Concrete \(\ZNormalUp\) naming certificate]
+\begin{theorem}[Concrete $\ZeckendorfNormalUp$ naming certificate]
 \label{thm:concrete-znormal-namecert}
 The tuple
 $$
-  \mathsf{NameCert}_{\ZNormalUp}
+  \mathsf{NameCert}_{\ZeckendorfNormalUp}
   :=
   (\mathsf{ZNormalSource},
    \mathsf{ZNormalPattern},
@@ -102,28 +102,171 @@ $$
    \mathsf{ZNormalStability},
    \mathsf{ZNormalLedger})
 $$
-forms a valid naming certificate for the derived interface \(\ZNormalUp\).
+forms a valid naming certificate for the derived interface $\ZeckendorfNormalUp$.
 \end{theorem}
 \leandef{BEDC.Derived.AxisZeckendorf.Zeckendorf.zNormal\_namecert}
 \begin{proof}
 The five fields are supplied by the preceding definitions. The stability field is justified by closed generation of the \(\mathsf{ZNormal}\) judgment together with the no-one-on-one exclusion.
 \end{proof}
 
-\begin{corollary}[\(\ZNormalUp\) is licensed, not primitive]
+\begin{theorem}[ZNormal adjacent-one inversion]
+\label{thm:znormal-adjacent-one-inversion}
+If a derivation of $\mathsf{ZNormal}(\Eone(h))$ is displayed, then either
+$h=\emp$, or there is a history $k$ such that
+$h=\Ezero(k)$ and $\mathsf{ZNormal}(\Ezero(k))$. In particular, no closed
+derivation of $\mathsf{ZNormal}(\Eone(h))$ has an $\Eone$-headed tail.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisZeckendorf.Zeckendorf.ZNormal\_adjacent\_one\_inversion}
+\begin{proof}
+Proceed by cases on the displayed derivation of
+$\mathsf{ZNormal}(\Eone(h))$. The $\Eone$-after-empty constructor gives the
+left alternative with $h=\emp$.
+
+The $\Eone$-above-zero constructor has input
+$\mathsf{ZNormal}(\Ezero(k))$ and conclusion
+$\mathsf{ZNormal}(\Eone(\Ezero(k)))$. This is exactly the right alternative,
+with $h=\Ezero(k)$.
+
+The empty constructor and the $\Ezero$-extension constructor have conclusions
+whose top constructor is not $\Eone$. They cannot match the displayed target.
+Thus the two alternatives exhaust all closed generators, with no arithmetic
+interpretation used.
+\end{proof}
+
+\begin{theorem}[ZNormal zero-extension inversion]
+\label{thm:znormal-zero-extension-inversion}
+Every zero-headed normal form descends to a normal tail: if
+$\mathsf{ZNormal}(\Ezero(h))$ is derived, then $\mathsf{ZNormal}(h)$ is
+derived.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisZeckendorf.Zeckendorf.ZNormal\_zero\_extension\_inversion}
+\begin{proof}
+Proceed by cases on the derivation of $\mathsf{ZNormal}(\Ezero(h))$. The only
+closed generator whose conclusion has top constructor $\Ezero$ is the
+$\Ezero$-extension rule.
+
+That rule is applied to a predecessor derivation of $\mathsf{ZNormal}(h)$.
+Project this predecessor derivation as the desired normal tail. The remaining
+constructors conclude at $\emp$ or at an $\Eone$-headed history, so they do
+not match the zero-headed target.
+\end{proof}
+
+\begin{theorem}[ZNormal normal-form coverage]
+\label{thm:znormal-normal-form-coverage}
+The $\NameCert_{\ZeckendorfNormalUp}$ source, pattern, classifier, stability, and ledger
+rows exhaust exactly the closed constructors of $\mathsf{ZNormal}$: the empty
+row, the $\Ezero$-extension row, the $\Eone$-after-empty row, and the
+$\Eone$-above-zero row. No arithmetic value row, Fibonacci interpretation, or
+extra classifier constructor is part of the covered surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisZeckendorf.Zeckendorf.ZNormal\_normal\_form\_coverage}
+\begin{proof}
+Unpack the certificate of \autoref{thm:concrete-znormal-namecert}. Its source is
+the normal-form carrier of \autoref{def:znormal-source-specification}, and its
+pattern row is the closed structural generation of
+\autoref{def:znormal-pattern-specification}.
+
+The stability row of \autoref{def:znormal-stability-certificate} lists the four
+generators: empty, zero extension, one after empty, and one above a zero-headed
+normal form. The ledger row of \autoref{def:znormal-ledger-policy} records the
+source normal-form history behind each visible class.
+
+Apply \autoref{thm:znormal-adjacent-one-inversion} to exclude any hidden
+$\Eone$-on-$\Eone$ constructor, and apply
+\autoref{thm:znormal-zero-extension-inversion} to read zero-headed judgments
+back to their normal tails. Hence the displayed certificate covers exactly the
+closed constructors and nothing from an arithmetic interpretation.
+\end{proof}
+
+\begin{corollary}[$\ZeckendorfNormalUp$ is licensed, not primitive]
 \label{cor:znormal-licensed-not-primitive}
-The interface \(\ZNormalUp\) is licensed by \(\mathsf{NameCert}_{\ZNormalUp}\). It is not a primitive object of the finite kernel.
+The interface $\ZeckendorfNormalUp$ is licensed by $\mathsf{NameCert}_{\ZeckendorfNormalUp}$. It is not a primitive object of the finite kernel.
 \end{corollary}
 
-\closureat{ZNormalUp}{seedStr}[BEDC.Derived.AxisZeckendorf.Zeckendorf.zNormal\_namecert]
+\begin{theorem}[Zeckendorf normal carry-window determinacy]
+\label{thm:zeckendorf-normal-carry-window-determinacy}
+For a displayed $\mathsf{ZNormal}$ derivation, any finite carry window whose
+local source word is $\mathtt{word\_011}$ is rejected by
+\autoref{thm:znormal-word-011-absurd}, while the corresponding structural
+target window $\mathtt{word\_100}$ is accepted by
+\autoref{thm:znormal-word-100}. Consequently the Zeckendorf structural carry
+boundary has a unique normal target window under the displayed $\mathsf{BHist}$
+constructors and the chapter's $\HSame$ transport. This is only a structural
+normal-form statement and makes no Fibonacci value-preservation claim.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisZeckendorf.Carry.ZCarry\_window\_determinacy}
+\begin{proof}
+Inspect the source side of the carry window. If it reads
+$\mathtt{word\_011}$, then it has an $\Eone$-headed tail under another
+$\Eone$-extension. Apply
+\autoref{thm:znormal-adjacent-one-inversion} and then
+\autoref{thm:znormal-word-011-absurd}; no displayed
+$\mathsf{ZNormal}(\mathtt{word\_011})$ derivation can be accepted.
 
-\begin{closurestatus}{\ZNormalUp}
-  \theoryclosure{\seedClosure}
+Inspect the target side. The word $\mathtt{word\_100}$ is generated by the
+$\Eone$-after-empty base followed by two $\Ezero$-extensions, so
+\autoref{thm:znormal-word-100} supplies the accepted normal target window.
+
+The remaining possible ambiguity is hidden transport along $\HSame$. Apply
+\autoref{thm:znormal-zero-extension-inversion} to peel zero-headed target
+judgments and \autoref{thm:znormal-hsame-transport} to move accepted normal
+windows along the chapter's history-sameness comparisons. These operations keep
+the same displayed $\mathsf{BHist}$ constructor shape, so a carry boundary over
+$\mathtt{word\_011}$ has only the displayed $\mathtt{word\_100}$ normal target.
+
+No arithmetic reading of the two words is used. The argument separates the
+structural source rejection from the structural target acceptance inside the
+normal-form classifier alone.
+\end{proof}
+
+\begin{theorem}[ZNormal scoped classifier boundary]
+\label{thm:znormal-scoped-classifier-boundary}
+Every accepted $\ZeckendorfNormalUp$ classifier row is exactly an $\hsame$ row between
+$\mathsf{BHist}$ witnesses that lie in the closed $\mathsf{ZNormal}$ source.
+The only scope inputs are the $\mathsf{BHist}$ constructors, the closed
+$\mathsf{ZNormal}$ generation rules, $\hsame$ transport, and the
+$\NameCert_{\ZeckendorfNormalUp}$ ledger. No Fibonacci value semantics, arithmetic
+weight, uniqueness-of-value row, or external number interpretation is read by
+the classifier boundary.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisZeckendorf.Zeckendorf.ZNormal\_semantic\_name\_certificate}
+\begin{proof}
+Unfold the source, pattern, classifier, stability, and ledger rows of
+\autoref{thm:concrete-znormal-namecert}. The source row is exactly the closed
+$\mathsf{ZNormal}$ carrier over $\mathsf{BHist}$, the pattern and stability rows
+are the four closed generators, and the classifier row is $\hsame$ restricted
+to witnesses recorded by the ledger.
+
+For an accepted row, the ledger supplies the two displayed source witnesses and
+the classifier supplies the $\hsame$ comparison between them. Transport along
+\autoref{thm:znormal-hsame-transport} keeps the accepted history inside the
+same closed normal-form source, so the row is an $\hsame$ row between
+$\mathsf{BHist}$ witnesses and nothing wider.
+
+For the converse direction, take an $\hsame$ row between two displayed
+$\mathsf{ZNormal}$ source witnesses. The classifier specification reads exactly
+such restricted history-sameness rows, and the ledger records the source
+witness behind each visible class, so the row is accepted by the
+$\ZeckendorfNormalUp$ classifier.
+
+The only constructor boundary that can hide an extra case is an $\Eone$-headed
+history. Apply \autoref{thm:znormal-adjacent-one-inversion}: an accepted
+$\Eone$ row is either above $\emp$ or above an $\Ezero$-headed normal source,
+and no $\Eone$-on-$\Eone$ source can be generated. Thus the scoped classifier
+boundary is exhausted by the displayed primitives and does not use Fibonacci
+value semantics.
+\end{proof}
+
+\closureat{ZeckendorfNormalUp}{scopedStr}[BEDC.Derived.AxisZeckendorf.Zeckendorf.zNormal\_namecert]
+
+\begin{closurestatus}{\ZeckendorfNormalUp}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The seed scope is the closed $\mathsf{BHist}$ generation of $\mathsf{ZNormal}$ together with the exclusion of adjacent one-extensions.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.AxisZeckendorf.Zeckendorf.zNormal\_namecert}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Fibonacci value preservation, uniqueness of arithmetic value, or any arithmetic interpretation of the structural normal form.}
-  \upgradepath{A higher closure grade requires obligation rows for the Fibonacci value bridge and its compatibility with the displayed normal-form carrier.}
+  \upgradepath{The next public step is a public exported normal-form certificate boundary.}
 \end{closurestatus}
 
 \section{Horizon: Fibonacci value reading}
@@ -134,3 +277,21 @@ The classifier above is purely structural. The arithmetic reading—each normal-
 \label{thm:znormal-fibonacci-value-horizon}
 There is a function from normal-form histories to non-negative integers that is determined by the recurrence \(W_{n+2} = W_{n+1} + W_n\) on Fibonacci-indexed positions.
 \end{theorem}
+
+\begin{theorem}[ZNormal $\HSame$ transport]
+\label{thm:znormal-hsame-transport}
+If $\mathsf{ZNormal}(h)$ and $\HSame(h,k)$, then $\mathsf{ZNormal}(k)$.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the closed derivation of $\mathsf{ZNormal}(h)$ from \autoref{def:zeckendorf-normal-form-judgment}. In each case, invert the displayed $\HSame$ comparison by \autoref{thm:history-constructor-characterization}.
+
+In the empty case, $h=\emp$. The comparison $\HSame(\emp,k)$ has only the empty aligned branch, so $k=\emp$. The empty generator gives $\mathsf{ZNormal}(k)$.
+
+In the zero-extension case, the derivation has predecessor $\mathsf{ZNormal}(h_0)$ and conclusion $\mathsf{ZNormal}(\Ezero(h_0))$. From $\HSame(\Ezero(h_0),k)$, constructor inversion gives a history $k_0$ such that $k=\Ezero(k_0)$ and $\HSame(h_0,k_0)$. The induction hypothesis applied to the predecessor derivation gives $\mathsf{ZNormal}(k_0)$. Applying the zero-extension generator yields $\mathsf{ZNormal}(\Ezero(k_0))$, hence $\mathsf{ZNormal}(k)$.
+
+In the one-after-empty case, the derivation concludes $\mathsf{ZNormal}(\Eone(\emp))$. From $\HSame(\Eone(\emp),k)$, one-constructor inversion gives a history $k_0$ such that $k=\Eone(k_0)$ and $\HSame(\emp,k_0)$. Empty no-confusion forces $k_0=\emp$. The one-after-empty generator therefore gives $\mathsf{ZNormal}(k)$.
+
+In the one-above-zero case, the derivation has predecessor $\mathsf{ZNormal}(\Ezero(h_0))$ and conclusion $\mathsf{ZNormal}(\Eone(\Ezero(h_0)))$. From $\HSame(\Eone(\Ezero(h_0)),k)$, one-constructor inversion gives a history $t$ such that $k=\Eone(t)$ and $\HSame(\Ezero(h_0),t)$. Zero-constructor inversion then gives a history $k_0$ such that $t=\Ezero(k_0)$ and $\HSame(h_0,k_0)$. Apply the induction hypothesis to the predecessor derivation $\mathsf{ZNormal}(\Ezero(h_0))$ and the comparison $\HSame(\Ezero(h_0),t)$; this gives $\mathsf{ZNormal}(t)$, hence $\mathsf{ZNormal}(\Ezero(k_0))$. The one-above-zero generator gives $\mathsf{ZNormal}(\Eone(\Ezero(k_0)))$, which is $\mathsf{ZNormal}(k)$.
+
+These four cases exhaust the closed generators of $\mathsf{ZNormal}$, so the predicate is closed under $\HSame$ transport.
+\end{proof}

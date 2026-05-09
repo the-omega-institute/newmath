@@ -184,6 +184,72 @@ the public finite-window $\StreamNameUp$ readback interface, leaving the
 transport proofs and selected-bundle witness in the ledger.
 \end{proof}
 
+\begin{theorem}[StreamNameUp transported subwindow public readback]
+\label{thm:streamname-transported-subwindow-public-readback}
+For certified observation maps $s,t,s',t':\Hist\to\Hist$, probe bundles
+$\mathcal{P},\mathcal{Q}:\mathsf{ProbeBundle}$, a selected bundled unary
+observation $n$, and histories $a,b,z_s,z_t:\Hist$, suppose
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})
+$$
+and suppose every certified unary observation displayed by $\mathcal{Q}$ is
+also displayed by $\mathcal{P}$. Suppose also
+$$
+\mathsf{InBundle}(n,\mathcal{Q}),
+\quad
+\mathsf{UnaryHistory}(n),
+$$
+together with the bundled pointwise transport rows
+$$
+\forall m,\ \mathsf{InBundle}(m,\mathcal{Q})\to
+\mathsf{UnaryHistory}(m)\to\hsame(s(m),s'(m))
+$$
+and
+$$
+\forall m,\ \mathsf{InBundle}(m,\mathcal{Q})\to
+\mathsf{UnaryHistory}(m)\to\hsame(t(m),t'(m)).
+$$
+If the selected transported observations are displayed as one-extension
+endpoints
+$$
+\hsame(s'(n),\Eone(a))\quad\text{and}\quad \hsame(t'(n),\Eone(b)),
+$$
+then the transported $\mathcal{Q}$ subwindow exposes the same public
+finite-window $\StreamNameUp$ readback surface at $n$:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(s'(n),t'(n))$;
+  \item positive unary denominators for $s'(n)$ and $t'(n)$;
+  \item unary-history rows for $s'(n)$ and $t'(n)$;
+  \item empty-endpoint exclusions for $s'(n)$ and $t'(n)$;
+  \item zero-headed endpoint exclusions for $s'(n)$ and $t'(n)$;
+  \item unary one-tail agreement for the displayed tails $a$ and $b$.
+\end{enumerate}
+No observation outside the subwindow $\mathcal{Q}$ is exported by this
+readback surface.
+\end{theorem}
+\begin{proof}
+First restrict the ambient finite-window classifier. Apply
+\autoref{thm:rat-stream-name-finite-window-subwindow-restriction} to the
+$\mathcal{P}$ classifier and the displayed inclusion of certified unary
+observations from $\mathcal{Q}$ into $\mathcal{P}$. This gives
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{Q}).
+$$
+
+Next apply
+\autoref{thm:rat-stream-name-finite-window-transported-selected-full-endpoint-package}
+to the restricted classifier, the selected $\mathcal{Q}$ bundle membership of
+$n$, the unary witness for $n$, the pointwise transport rows over
+$\mathcal{Q}$, and the displayed one-extension endpoints of $s'(n)$ and
+$t'(n)$.
+
+The cited package supplies exactly the six public rows: RatHistoryClassifier,
+positive denominators, unary endpoint shape, empty exclusion, zero-headed
+exclusion, and one-tail agreement. Repack those rows as the public
+$\StreamNameUp$ subwindow readback, while the ambient window and inclusion row
+remain certificate ledger data.
+\end{proof}
+
 \begin{theorem}[StreamNameUp transported composite window public readback]
 \label{thm:streamname-transported-window-composite-public-readback}
 For certified observation maps $s,t,u,s',u':\Hist\to\Hist$, a probe bundle
@@ -321,6 +387,59 @@ transport rows are used to choose and compare projections; they are retained in
 the ledger and do not become public endpoints.
 \end{proof}
 
+\begin{theorem}[StreamNameUp common-refinement denominator and shape agreement]
+\label{thm:streamname-common-refinement-denominator-shape-agreement}
+For certified rational stream observations $s,t,u,s',t',u':\Hist\to\Hist$,
+a common probe bundle $\mathcal{P}:\mathsf{ProbeBundle}$, selected bundled
+unary observations $n_1,n_2$, and displayed one-extension endpoint tails
+$a,b,c:\Hist$, suppose two finite-window public readback surfaces are obtained
+from the same common refinement over $\mathcal{P}$. Suppose the first surface
+exposes the transported endpoints $s'(n_1)$ and $t'(n_1)$ through
+$$
+\hsame(s'(n_1),\Eone(a))\quad\text{and}\quad
+\hsame(t'(n_1),\Eone(b)),
+$$
+and the second surface exposes the same transported observation endpoint and
+right endpoint through
+$$
+\hsame(s'(n_2),\Eone(a))\quad\text{and}\quad
+\hsame(u'(n_2),\Eone(c)).
+$$
+If the two selected observations name the same transported observation
+endpoint under $\hsame$, then the selected public rows agree: their
+$\mathsf{RatHistoryClassifier}$ rows are the two projections of the same
+common-refinement classifier, their positive-denominator rows name
+$\hsame$-equal endpoint histories, their unary endpoint-shape rows name
+$\hsame$-equal endpoint histories, their empty and zero-headed exclusions are
+the corresponding exclusion rows for those same histories, and their displayed
+one-tail agreement rows have $\hsame$-equal right tails. In particular the
+finite-window denominator data and endpoint-shape data exported to
+$\RealUp$ or $\RegSeqRat$ consumers do not depend on which selected public
+readback surface of the common refinement is used.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-transported-window-common-refinement-public-readback}
+to the two selected surfaces. This identifies both readbacks as public
+projections of the same finite-window classifier over $\mathcal{P}$, with the
+subwindow inclusions and transport rows kept in the ledger.
+
+Next apply
+\autoref{thm:streamname-transported-window-public-readback} to each selected
+surface. For each projection it supplies exactly the six exported rows:
+RatHistoryClassifier, positive denominators, unary endpoint shape, empty
+exclusion, zero-headed exclusion, and one-tail agreement for the displayed
+tails.
+
+Finally use
+\autoref{thm:streamname-two-route-selected-endpoint-agreement} on the two
+routes that share the transported observation endpoint. The theorem gives
+$\hsame(b,c)$ for the two displayed right tails. Repack the two readback
+packages along this tail agreement and along the shared endpoint
+$\hsame$-row; the classifier, denominator, shape, exclusion, and one-tail rows
+are therefore the same public rows up to $\hsame$.
+\end{proof}
+
 The compact ten-field fit is: traditional target common refinement of
 transported rational observation windows; BEDC source
 $\RatUp+\StreamNameUp+\mathsf{ProbeBundle}$; carrier certified observation
@@ -388,4 +507,168 @@ The public readback interface records only rows visible at the finite unary
 window. Therefore the classifier, positivity, endpoint-shape, exclusion, and
 tail-agreement rows are exported, while completion, regularity, metric, and
 bridge data remain outside this certificate.
+\end{proof}
+
+\begin{theorem}[StreamNameUp transported successor selected endpoint readback]
+\label{thm:streamname-transported-successor-selected-endpoint-readback}
+Let $s,t,s',t':\Hist\to\Hist$ be certified observation maps. Suppose
+$\mathsf{RatStreamNameClassifier}(s,t)$ and suppose the pointwise transported
+unary rows
+$$
+\forall m,\ \mathsf{UnaryHistory}(m)\to\hsame(s(m),s'(m))
+$$
+and
+$$
+\forall m,\ \mathsf{UnaryHistory}(m)\to\hsame(t(m),t'(m))
+$$
+hold. For a unary observation $n$ with $\mathsf{UnaryHistory}(n)$ and histories
+$a,b,z_s,z_t:\Hist$, suppose the transported selected endpoints are displayed
+as
+$$
+\hsame(s'(\Eone(n)),\Eone(a))
+\quad\text{and}\quad
+\hsame(t'(\Eone(n)),\Eone(b)).
+$$
+For the transported successor schedules $(s')^{+}(m)=s'(\Eone(m))$ and
+$(t')^{+}(m)=t'(\Eone(m))$, the selected successor observation at $n$ exposes
+the following finite-window endpoint rows:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}((s')^{+}(n),(t')^{+}(n))$;
+  \item positive unary denominators for $(s')^{+}(n)$ and $(t')^{+}(n)$;
+  \item unary endpoint rows for $(s')^{+}(n)$ and $(t')^{+}(n)$;
+  \item empty-endpoint exclusions for $(s')^{+}(n)$ and $(t')^{+}(n)$;
+  \item zero-headed endpoint exclusions for $(s')^{+}(n)$ and $(t')^{+}(n)$;
+  \item unary one-tail agreement for the displayed endpoint tails $a$ and $b$.
+\end{enumerate}
+The readback is a finite transported successor window. It exports no
+$\RealUp$ completion object, $\RegSeqRat$ regularity datum, metric witness, or
+standard bridge claim.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:rat-stream-name-transported-successor-reindexing-stability} to
+the classifier row $\mathsf{RatStreamNameClassifier}(s,t)$ and to the two
+pointwise $\hsame$ transport rows. This gives the successor classifier and,
+for each probe bundle, the finite-window classifier for the transported
+successor schedules $(s')^{+}$ and $(t')^{+}$.
+
+Next view $n$ as the selected successor observation. Apply
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package} to
+that transported finite-window classifier, the unary row for $n$, and the
+displayed endpoint rows
+$\hsame((s')^{+}(n),\Eone(a))$ and
+$\hsame((t')^{+}(n),\Eone(b))$.
+
+The selected endpoint package supplies the RatHistoryClassifier row, the
+positive denominators, the unary endpoint rows, the empty and zero-headed
+exclusions, and the one-tail agreement. The transport rows and the successor
+reindexing proof remain ledger data; they are not RealUp completion data.
+\end{proof}
+
+\begin{theorem}[StreamNameUp transported successor common-refinement readback]
+\label{thm:streamname-successor-transported-common-refinement-readback}
+Let $s_1,t_1,s_1',t_1',s_2,t_2,s_2',u_2':\Hist\to\Hist$ be certified
+rational stream-name observation maps. Let $\mathcal{P}:\mathsf{ProbeBundle}$
+be a common transported finite-window classifier, and let
+$\mathcal{Q}_1,\mathcal{Q}_2:\mathsf{ProbeBundle}$ be successor windows
+projected from $\mathcal{P}$. Suppose the two transported successor
+observations are selected at unary histories $n_1,n_2$ and expose displayed
+endpoint tails $a_1,b_1,a_2,c_2:\Hist$ by
+$$
+\hsame((s_1')^{+}(n_1),\Eone(a_1)),
+\qquad
+\hsame((t_1')^{+}(n_1),\Eone(b_1)),
+$$
+and
+$$
+\hsame((s_2')^{+}(n_2),\Eone(a_2)),
+\qquad
+\hsame((u_2')^{+}(n_2),\Eone(c_2)).
+$$
+If both successor windows are projected from the same common finite-window
+classifier over $\mathcal{P}$, the transported successor readbacks have the
+same public finite-window surface up to $\hsame$: their public denominator
+rows, unary endpoint-shape rows, empty and zero-headed exclusion rows, and
+one-tail agreement rows are the two projections of the same
+common-refinement classifier. The common bundle and the pointwise transport
+rows remain ledger data over
+$\RatUp+\StreamNameUp+\mathsf{ProbeBundle}$, $\mathsf{UnaryHistory}$,
+$\hsame$, and transported finite-window classifiers.
+\end{theorem}
+\begin{proof}
+First read the common refinement before taking the successor-selected public
+surface. Apply
+\autoref{thm:streamname-transported-window-common-refinement-public-readback}
+to the two successor subwindows $\mathcal{Q}_1,\mathcal{Q}_2$ inside the common
+bundle $\mathcal{P}$. This identifies both selected windows as projections of
+one transported finite-window classifier, with bundle inclusions and transport
+rows retained in the ledger.
+
+Next build the successor endpoint packages. Apply
+\autoref{thm:streamname-successor-reindexed-selected-endpoint-package} to the
+underlying successor schedules for each selected observation. The result is the
+finite-window endpoint package at the visible unary successor, carrying the
+classifier, denominator, endpoint-shape, exclusion, and one-tail rows.
+
+Finally transport the selected packages. Apply
+\autoref{thm:streamname-transported-successor-selected-endpoint-readback} to
+replace the source successor schedules by the pointwise transported schedules.
+Because both transported successor packages were already projected from the
+same common finite-window classifier, the public denominator, endpoint-shape,
+exclusion, and one-tail rows are identified by the same $\hsame$ rows that
+identify the selected transported endpoints. No completion object, metric
+witness, regularity datum, or standard bridge row is exported.
+\end{proof}
+
+\begin{theorem}[StreamName transported window RegSeqRat RealUp feed]
+\label{thm:streamname-transported-window-regseqrat-realup-feed}
+Let $s,t,s',t':\Hist\to\Hist$ be certified rational StreamName observation
+maps, and let $\mathcal{P}:\mathsf{ProbeBundle}$ be a selected transported
+finite-window request. Suppose its public endpoint readback is supplied by one
+of
+\autoref{thm:streamname-transported-window-public-readback},
+\autoref{thm:streamname-transported-window-composite-public-readback}, or
+\autoref{thm:streamname-successor-transported-common-refinement-readback}.
+Then the exported transported rows form exactly the downstream finite-window
+feed consumed by \autoref{thm:regseqrat-finite-window-seal-exactness},
+\autoref{thm:realup-finite-window-exhaustion-obligation}, and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}.
+
+The feed consists of the selected $\mathsf{RatHistoryClassifier}$ row, the
+positive unary denominator rows, the unary endpoint-shape rows, the empty and
+zero-headed endpoint exclusions, the one-tail agreement row, the selected
+$\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ membership row, and the finite
+$\Cont$ and $\hsame$ transport ledger. These are precisely the RegSeqRat seal
+inputs and the RealUp finite-window boundary inputs. No host $\mathsf{Nat}$
+index, quotient representative, completion object, metric witness, or
+$\RealUp$ completeness datum is exported.
+\end{theorem}
+\begin{proof}
+Project the public endpoint rows from the chosen StreamName transported
+readback theorem. In the direct public case these rows are read from
+\autoref{thm:streamname-transported-window-public-readback}; in the composite
+case they are read from
+\autoref{thm:streamname-transported-window-composite-public-readback}; in the
+successor common-refinement case they are read from
+\autoref{thm:streamname-successor-transported-common-refinement-readback}.
+
+In each case the projected packet has the same finite-window shape: a selected
+$\mathsf{ProbeBundle}$, its $\mathsf{InBundle}$ membership row, a
+$\mathsf{RatHistoryClassifier}$ endpoint row, positive unary denominator rows,
+unary endpoint-shape rows, empty and zero-headed exclusions, and one-tail
+agreement. The $\Cont$ acceptance row and the pointwise $\hsame$ comparisons
+remain attached as the transport ledger.
+
+Pass that packet through
+\autoref{thm:regseqrat-finite-window-seal-exactness}. The seal reads the
+finite-window classifier and selected bundle row together with the displayed
+endpoint and denominator rows, so it introduces no host index or quotient
+representative.
+
+Finally repack the same sealed packet through
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. These RealUp
+boundary theorems consume only the finite StreamName packet and its
+transport ledger, so no completion object, metric witness, or completeness
+datum is added.
 \end{proof}

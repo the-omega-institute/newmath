@@ -37,17 +37,73 @@ The ledger seed field records the originating function history, center, radius, 
 
 \begin{definition}[\texorpdfstring{$\HolomorphicUp$}{Holomorphic-up} obligation surface]
 \label{def:holo-certificate-seed}
-The public status of this chapter is $\scopedClosure$. The fields in this chapter bind the carrier, classifier, stability, ledger, open-disk, and iterated-differentiability data for $\HolomorphicUp$ to the paper-side scope witnessed by the sibling certificate files.
+The bridged status of this chapter is $\bridgedClosure$. The fields in this chapter bind the carrier, classifier, stability, ledger, open-disk, and iterated-differentiability data for $\HolomorphicUp$ to the paper-side scope witnessed by the sibling certificate files.
 \end{definition}
 
-\closureat{HolomorphicUp}{scopedStr}[BEDC.Derived.HolomorphicUp.HolomorphicSourceSpec\_semantic\_name\_certificate]
+\begin{theorem}[HolomorphicUp public NameCert export]
+\label{thm:holomorphic-public-namecert-export}
+The fields of \autoref{def:holo-source-spec},
+\autoref{def:holo-pattern-spec}, \autoref{def:holo-classifier-spec},
+\autoref{def:holo-stability-cert}, \autoref{def:holo-ledger-policy}, and
+\autoref{def:holo-core-theorem-obligations} assemble the public
+$\NameCert_{\HolomorphicUp}$ export over $\mathsf{BHist}$,
+$\UnaryHistory$, $\Cont$, $\hsame$, $\Pkg$, and the open-disk gap rows. The
+exported surface consists exactly of the holomorphic-on-disk source row,
+uniform complex-differentiability pattern row, disk-restricted classifier row,
+transport and iterated-derivative stability rows, ledger provenance rows, and
+the core theorem obligations named by those fields.
+\end{theorem}
+\begin{proof}
+Project the source, pattern, classifier, stability, and ledger fields from the
+five seed definitions. Each field is already stated over the displayed
+$\mathsf{BHist}$, $\UnaryHistory$, $\Cont$, $\hsame$, $\Pkg$, and open-disk gap
+surface.
+
+Add the core theorem obligations from
+\autoref{def:holo-core-theorem-obligations}. These obligations name the closure
+and readback rows that the public certificate may expose, without adding
+Cauchy integral theory, analytic continuation, or a standard bridge.
+
+Repack the projected rows as the public $\NameCert_{\HolomorphicUp}$ export.
+The packet is public because every consumer-visible row is named by one of the
+displayed fields and every transport row remains inside the same BEDC
+open-disk surface.
+\end{proof}
+
+\begin{theorem}[HolomorphicUp standard bridge boundary]
+\label{thm:holomorphic-standard-bridge-boundary}
+The public $\NameCert_{\HolomorphicUp}$ export of
+\autoref{thm:holomorphic-public-namecert-export} supplies the standard bridge
+boundary for the BEDC open-disk row, the uniform differentiability row, the
+transport rows, and the ledger rows. Its bridge surface is exactly those rows
+over $\mathsf{BHist}$, $\UnaryHistory$, $\Cont$, $\hsame$, $\Pkg$, and the
+open-disk gap data. It does not include Cauchy integral theory, analytic
+continuation, or bridge verification.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:holomorphic-public-namecert-export}. It identifies the
+public rows available to a consumer: the open-disk source, the uniform
+complex-differentiability pattern, disk-restricted classifier transport,
+iterated-derivative stability, and ledger provenance.
+
+Restrict the standard bridge boundary to those public rows. The source and
+pattern clauses give the BEDC open-disk and uniform differentiability entries;
+the classifier and stability clauses give the transport entries; the ledger
+policy gives the retained witness entries.
+
+The exclusions are part of the same boundary reading. Cauchy integral theory,
+analytic continuation, and bridge verification are not exported by any field in
+the public packet, so they remain outside this bridge boundary.
+\end{proof}
+
+\closureat{HolomorphicUp}{bridgedStr}[BEDC.Derived.HolomorphicUp.HolomorphicSourceSpec\_semantic\_name\_certificate]
 
 \begin{closurestatus}{\HolomorphicUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:holo-source-spec}, \autoref{def:holo-pattern-spec}, \autoref{def:holo-classifier-spec}, \autoref{def:holo-stability-cert}, \autoref{def:holo-ledger-policy}, \autoref{def:holo-core-theorem-obligations}, \autoref{lem:open-disk-gap-transport-certificate}, \autoref{lem:open-disk-unary-suffix-transport}, \autoref{thm:iterated-cplx-diff-hsame-transport-unary-readback}, and \autoref{thm:iterated-strict-cplx-diff-hsame-transport-unary-readback} give the scoped BEDC primitive boundary over $\mathsf{BHist}$, $\UnaryHistory$, $\Cont$, $\hsame$, $\Pkg$, gap transport, and ledger witnesses.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:holomorphic-standard-bridge-boundary} is the closed paper-side bridge boundary for the $\NameCert_{\HolomorphicUp}$ export over $\mathsf{BHist}$, $\UnaryHistory$, $\Cont$, $\hsame$, $\Pkg$, open-disk gap rows, transport rows, and ledger witnesses.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.HolomorphicUp.HolomorphicSourceSpec\_semantic\_name\_certificate}
   \bridgestatus{none}
   \notclaimed{The chapter does not claim Cauchy integral theory, identity theorem closure, analytic continuation, a standard bridge, or bridge verification.}
-  \upgradepath{The next grade requires an assembled public $\NameCert_{\HolomorphicUp}$ export theorem.}
+  \upgradepath{A bridge verification row would require a checked $\StdBridge$ target for the public $\NameCert_{\HolomorphicUp}$ export surface.}
 \end{closurestatus}

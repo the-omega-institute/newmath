@@ -160,6 +160,103 @@ exactness the displayed boundary package; standard bridge RealUp finite-window
 exhaustion boundary for RegSeqRat finite observations; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real stream finite-window two-boundary readback package]
+\label{thm:real-stream-window-two-boundary-readback-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, indices $n,m,r,s$,
+and histories $a_0,b_0,a_1,b_1,z_{X,0},z_{Y,0},z_{X,1},z_{Y,1}:\Hist$, assume
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m+1+r+1+s),
+$$
+with displayed one-extension endpoints
+$$
+\hsame(x(n+m),\Eone(a_0))\land
+\hsame(y(n+m),\Eone(b_0))
+$$
+and
+$$
+\hsame(x(n+(m+1)+r),\Eone(a_1))\land
+\hsame(y(n+(m+1)+r),\Eone(b_1)).
+$$
+Then the two cut points $n+m$ and $n+(m+1)+r$ carry the following finite
+readback package:
+\begin{enumerate}
+\item the three segment windows
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m),
+\qquad
+\mathsf{RealStreamWindowClassifier}(x,y,n+(m+1),r),
+\qquad
+\mathsf{RealStreamWindowClassifier}(x,y,n+(m+1)+(r+1),s);
+$$
+\item $\mathsf{RatHistoryClassifier}(\Eone(a_0),\Eone(b_0))$ and
+$\mathsf{RatHistoryClassifier}(\Eone(a_1),\Eone(b_1))$;
+\item $\mathsf{PositiveUnaryDenominator}(x(n+m))$,
+$\mathsf{PositiveUnaryDenominator}(y(n+m))$,
+$\mathsf{PositiveUnaryDenominator}(x(n+(m+1)+r))$, and
+$\mathsf{PositiveUnaryDenominator}(y(n+(m+1)+r))$;
+\item $\mathsf{UnaryHistory}(x(n+m))$, $\mathsf{UnaryHistory}(y(n+m))$,
+$\mathsf{UnaryHistory}(x(n+(m+1)+r))$, and
+$\mathsf{UnaryHistory}(y(n+(m+1)+r))$;
+\item the empty endpoint exclusions
+$$
+(\hsame(x(n+m),\emp)\to\mathsf{False})\land
+(\hsame(y(n+m),\emp)\to\mathsf{False})\land
+(\hsame(x(n+(m+1)+r),\emp)\to\mathsf{False})\land
+(\hsame(y(n+(m+1)+r),\emp)\to\mathsf{False});
+$$
+\item the zero-head endpoint exclusions
+$$
+(\hsame(x(n+m),\Ezero(z_{X,0}))\to\mathsf{False})\land
+(\hsame(y(n+m),\Ezero(z_{Y,0}))\to\mathsf{False})\land
+(\hsame(x(n+(m+1)+r),\Ezero(z_{X,1}))\to\mathsf{False})\land
+(\hsame(y(n+(m+1)+r),\Ezero(z_{Y,1}))\to\mathsf{False});
+$$
+\item the unary tail rows
+$$
+\mathsf{UnaryHistory}(a_0)\land
+\mathsf{UnaryHistory}(b_0)\land
+\hsame(a_0,b_0)\land
+\mathsf{UnaryHistory}(a_1)\land
+\mathsf{UnaryHistory}(b_1)\land
+\hsame(a_1,b_1).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-stream-window-three-piece-partition} to the
+wide window. The forward direction extracts the left, middle, and right
+segment windows at $(n,m)$, $(n+(m+1),r)$, and
+$(n+(m+1)+(r+1),s)$.
+
+The first cut point is the selected offset $m$ of the wide window. Since
+$m\le m+1+r+1+s$,
+\autoref{thm:real-stream-window-selected-full-shape-readback-package}
+applies to the wide classifier and to the displayed endpoints at $n+m$.
+
+The second cut point is the selected offset $m+1+r$ of the same wide window.
+The bound $m+1+r\le m+1+r+1+s$ lets the same selected full-shape readback
+theorem apply to the displayed endpoints at $n+(m+1)+r$.
+
+Finally repack the three segment windows with the two selected endpoint
+packages. The selected readback theorem supplies, at each cut point, the
+RatHistoryClassifier row, positive denominator rows, unary endpoint rows,
+empty and zero-head exclusions, and unary tail agreement for the displayed
+one-extension pair.
+\end{proof}
+
+The ten-field fit is: traditional target two cut points of a three-piece
+finite RegSeqRat observation window; BEDC source RealUp finite windows, RatUp
+endpoint classifiers, and displayed one-extension endpoints; carrier
+rational-observation streams; classifier $\mathsf{RealStreamWindowClassifier}$
+with two selected RatUp readbacks; stability by three-piece partition and
+selected endpoint readback; ledger anchor, three segment radii, two cut
+points, and two displayed endpoint pairs; core theorems
+\autoref{thm:real-stream-window-three-piece-partition} and
+\autoref{thm:real-stream-window-selected-full-shape-readback-package};
+exactness the displayed two-boundary package; standard bridge finite
+three-piece RegSeqRat observation readback for RealUp; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream finite-window three-piece partition]
 \label{thm:real-stream-window-three-piece-partition}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices
@@ -448,4 +545,60 @@ fine subspine leaves the tail of $P$ refining the tail of $Q$, so the induction
 hypothesis certifies every remaining coarse segment. Combining the head
 certificate with the tail certificates gives the claimed refinement
 transitivity.
+\end{proof}
+
+\begin{theorem}[Real stream finite-window common refinement exactness]
+\label{thm:real-stream-window-common-refinement-exactness}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a total anchor $n$,
+a total bound $w$, and certified finite partition spines $P,Q$ over $(n,w)$,
+suppose every segment of $P$ and every segment of $Q$ carries
+$\mathsf{RealStreamWindowClassifier}(x,y,-,-)$. Then there is a certified
+finite partition spine $R$ over $(n,w)$ such that:
+\begin{enumerate}
+  \item every segment of $R$ carries
+  $\mathsf{RealStreamWindowClassifier}(x,y,-,-)$;
+  \item folding the $R$-segments over each $P$-block recovers the $P$
+  presentation, and folding the $R$-segments over each $Q$-block recovers the
+  $Q$ presentation;
+  \item the public endpoint rows read from the $P$, $Q$, and $R$
+  presentations are exactly the same $\RatUp$, $\mathsf{DyadicRatCore}$,
+  $\RegSeqRat$, $\StreamNameUp$, $\mathsf{UnaryHistory}$, $\hsame$, and finite
+  $\Cont$ ledger rows.
+\end{enumerate}
+Thus two independent certified finite-window presentations of the same
+RealUp window admit a common refinement whose fold and visible read surface
+are exact for both presentations.
+\end{theorem}
+\begin{proof}
+Build $R$ by simultaneous induction on the two certified finite spines. The
+base case is the singleton overlap of the two total-window spines, where the
+given classifier row is already the required segment row.
+
+In the induction step, compare the first remaining $P$-segment and
+$Q$-segment by their unary endpoint ledgers. If one endpoint is earlier, split
+the longer current segment at that displayed endpoint; if the endpoints agree,
+take their common terminal segment. The construction uses only the unary
+radius histories, accumulated anchors, and $\Cont$ rows already present in the
+two certified spines, so the resulting list is again a certified finite
+partition spine over $(n,w)$.
+
+For each refined block, apply
+\autoref{thm:real-stream-window-finite-partition-fold}. It folds the
+$R$-segments contained in a displayed $P$-block back to the corresponding
+$P$-segment classifier, and the same argument folds the $R$-segments contained
+in a displayed $Q$-block back to the corresponding $Q$-segment classifier.
+
+Next apply
+\autoref{thm:real-stream-window-partition-refinement-transitivity} from $R$
+to $P$ and from $R$ to $Q$. These two refinement readings show that replacing
+either original presentation by the common refinement does not add or remove
+any classifier row at the visible boundary.
+
+Finally apply \autoref{thm:realup-window-partition-read-surface} to the three
+presentations and
+\autoref{thm:realup-window-partition-stability-package} to transport the
+stability rows across the two fold comparisons. The read surfaces are
+therefore the same endpoint $\RatUp$, $\mathsf{DyadicRatCore}$,
+$\RegSeqRat$, $\StreamNameUp$, $\mathsf{UnaryHistory}$, $\hsame$, and finite
+$\Cont$ ledger rows, which is the asserted exactness.
 \end{proof}

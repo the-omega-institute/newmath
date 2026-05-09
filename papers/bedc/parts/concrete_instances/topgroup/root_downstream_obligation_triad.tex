@@ -1,0 +1,196 @@
+\section{TopGroup root downstream obligation triad}
+\label{sec:topgroup-root-downstream-obligation-triad}
+
+\begin{definition}[TopGroupUp root downstream obligation triad]
+\label{def:topgroup-root-downstream-obligation-triad}
+The $\TopGroupUp$ root downstream obligation triad is the finite
+$\mathsf{BHist}$ packet
+$$
+\mathcal{D}_{\TopGroupUp}
+=
+(\eta_G,\eta_T,\mu,\iota,\mathcal{N},C_{\mu},C_{\iota},H,\Pi)
+$$
+whose source rows are the shared $\NameCert_{\GroupUp}$ row $\eta_G$, the
+shared $\NameCert_{\TopologyUp}$ row $\eta_T$, the product row $\mu$, the
+inverse row $\iota$, the neighbourhood row family $\mathcal{N}$, the product
+and inverse continuity ledgers $C_{\mu}$ and $C_{\iota}$, the displayed
+$\hsame$ comparison rows $H$, and the package provenance row $\Pi:\Pkg$.
+
+The packet is accepted exactly when these rows are the carrier, operation,
+continuity, history-sameness, and provenance projections of the root source
+packet of \autoref{def:topgroup-root-operation-source-packet}, and when the
+public threshold row of
+\autoref{def:topgroup-root-threshold-downstream-package} authorizes no further
+downstream read.
+\end{definition}
+
+\begin{theorem}[TopGroupUp root downstream carrier obligation]
+\label{thm:topgroup-root-downstream-carrier-obligation}
+Every carrier-facing downstream read of an accepted $\TopGroupUp$ root
+downstream obligation triad is exactly one of the shared $\mathsf{BHist}$ source
+rows $\eta_G$, $\eta_T$, or $\mathcal{N}$, together with its displayed $\hsame$
+transport row from $H$. Conversely, those shared source rows repack as the
+carrier-facing boundary of the same triad.
+\end{theorem}
+\begin{proof}
+Project the triad to the root operation source packet. Apply
+\autoref{thm:topgroup-root-source-pair-exactness}: it identifies the
+$\NameCert_{\GroupUp}$ source, the $\NameCert_{\TopologyUp}$ source, and the
+neighbourhood rows as the only carrier-facing source pair.
+
+Then apply \autoref{thm:topgroup-root-threshold-consumer-exhaustion}. The
+threshold package allows a downstream consumer to read only the listed source
+rows and their displayed $\hsame$ comparisons, so no additional carrier row is
+available.
+
+For the converse, insert those projected rows back into
+\autoref{def:topgroup-root-downstream-obligation-triad}. The acceptance clauses
+ask for exactly the root source pair and the threshold permission row, hence the
+same carrier-facing boundary is recovered.
+\end{proof}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_root\_downstream\_carrier\_obligation}
+
+\begin{theorem}[TopGroupUp root downstream operation obligation]
+\label{thm:topgroup-root-downstream-operation-obligation}
+For an accepted $\TopGroupUp$ root downstream obligation triad, the
+operation-facing boundary is exhausted by the product row $\mu$, the inverse row
+$\iota$, the product continuity ledger $C_{\mu}$, the inverse continuity ledger
+$C_{\iota}$, and their $\hsame$ transport rows. It includes no associativity,
+unit, inverse-law, quotient, completion, or standard-bridge datum beyond those
+operation and continuity rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_root\_downstream\_operation\_transport}
+\begin{proof}
+First read the operation rows from the root packet. By
+\autoref{thm:topgroup-root-operation-continuity-exhaustion}, the product and
+inverse rows are bound to the source pair only through the finite continuity
+ledgers $C_{\mu}$ and $C_{\iota}$.
+
+Next restrict the downstream view with
+\autoref{thm:topgroup-root-threshold-consumer-exhaustion}. A public downstream
+consumer receives the operation rows, their continuity ledgers, the source rows
+already isolated by
+\autoref{thm:topgroup-root-downstream-carrier-obligation}, and no further group
+law or host structure.
+
+Repacking is componentwise: the product, inverse, and two continuity ledgers are
+coordinates of $\mathcal{D}_{\TopGroupUp}$, while the displayed $\hsame$ rows are
+exactly the transport rows recorded in $H$. This is the whole operation-facing
+boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_operation\_ledger\_obligation}
+
+\begin{theorem}[TopGroupUp root downstream ledger obligation]
+\label{thm:topgroup-root-downstream-ledger-obligation}
+The finite $\Cont$ ledger rows $C_{\mu}$ and $C_{\iota}$ together with the
+package provenance row $\Pi:\Pkg$ exhaust all downstream root reads of an
+accepted $\TopGroupUp$ root downstream obligation triad. Every such read is a
+carrier source row, an operation row, a displayed $\hsame$ row, a finite
+continuity-ledger row, or the package provenance row of the triad.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_downstream\_ledger\_obligation}
+\begin{proof}
+Begin with the carrier side. Apply
+\autoref{thm:topgroup-root-downstream-carrier-obligation} to identify all source
+and neighbourhood reads as shared $\mathsf{BHist}$ rows over
+$\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$.
+
+Now use
+\autoref{thm:topgroup-root-downstream-operation-obligation} for the operation
+side. It says that product and inverse reads appear only through the displayed
+finite $\Cont$ ledgers and their $\hsame$ transport rows.
+
+Finally apply \autoref{thm:topgroup-root-threshold-consumer-exhaustion}. The
+threshold package leaves no downstream root read outside the source pair,
+operation rows, continuity ledgers, history-sameness rows, and provenance
+package. Since those are exactly the coordinates of
+\autoref{def:topgroup-root-downstream-obligation-triad}, the finite ledger and
+$\Pkg$ provenance exhaust the root downstream surface.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root downstream continuity obligation]
+\label{thm:topgroup-root-downstream-continuity-obligation}
+For an accepted $\TopGroupUp$ root downstream obligation triad, every product
+continuity read is exactly a row of the finite $\Cont$ ledger $C_{\mu}$ and
+every inverse continuity read is exactly a row of the finite $\Cont$ ledger
+$C_{\iota}$, transported only by the displayed $\hsame$ rows in $H$.
+Conversely, the rows of $C_{\mu}$ and $C_{\iota}$ with their displayed
+$\hsame$ transports repack as the whole continuity-facing downstream surface
+of $\mathcal{D}_{\TopGroupUp}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_root\_downstream\_continuity\_obligation}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:topgroup-root-downstream-obligation-triad}. Its continuity
+coordinates are precisely $C_{\mu}$ and $C_{\iota}$, with no separate host
+continuity object.
+
+Apply \autoref{thm:topgroup-root-downstream-operation-obligation}. It identifies
+the product and inverse boundaries with the operation rows together with the
+finite continuity ledgers and their displayed $\hsame$ rows. Then apply
+\autoref{thm:topgroup-root-downstream-ledger-obligation}, which rules out any
+downstream root read outside the listed finite ledger, transport, source, and
+provenance rows.
+
+For the converse, insert any row of $C_{\mu}$ or $C_{\iota}$ and its matching
+row of $H$ back into the defining packet. The acceptance clauses are exactly
+the finite $\Cont$ ledger clauses of the root operation source packet, so the
+same rows recover the continuity-facing boundary.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root downstream provenance obligation]
+\label{thm:topgroup-root-downstream-provenance-obligation}
+Every carrier, operation, continuity, and ledger read of an accepted
+$\TopGroupUp$ root downstream obligation triad is tied to the same package
+provenance row $\Pi:\Pkg$. In particular, no downstream read may exchange the
+carrier source, operation row, $\Cont$ ledger row, or displayed $\hsame$
+transport for a row with a different provenance package.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootDownstreamPackage\_provenance\_transport}
+\begin{proof}
+Use \autoref{thm:topgroup-root-downstream-carrier-obligation} for the carrier
+side: the visible carrier rows are the shared $\NameCert_{\GroupUp}$,
+$\NameCert_{\TopologyUp}$, and neighbourhood rows, all projected from the same
+accepted packet.
+
+Use \autoref{thm:topgroup-root-downstream-operation-obligation} and
+\autoref{thm:topgroup-root-downstream-continuity-obligation} for the operation
+and continuity sides. Their reads are the product row, inverse row, finite
+$\Cont$ ledgers, and displayed $\hsame$ transports already present in
+$\mathcal{D}_{\TopGroupUp}$.
+
+Finally apply \autoref{thm:topgroup-root-downstream-ledger-obligation}. It says
+that the finite ledger rows and the single package provenance row
+$\Pi:\Pkg$ exhaust the remaining downstream reads. Since all the cited rows are
+coordinates of the same packet, their provenance is the same $\Pi$.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root downstream threshold exactness]
+\label{thm:topgroup-root-downstream-threshold-exactness}
+The public threshold row of the $\TopGroupUp$ root downstream package
+authorizes exactly the carrier rows, operation rows, continuity rows, displayed
+$\hsame$ rows, ledger rows, and package provenance row listed in
+$\mathcal{D}_{\TopGroupUp}$. It authorizes no group-law, completion, quotient,
+standard-bridge, or ambient topological-group datum outside those rows.
+\end{theorem}
+\begin{proof}
+First unpack $\mathcal{D}_{\TopGroupUp}$ by
+\autoref{def:topgroup-root-downstream-obligation-triad}. The displayed packet
+contains the two source certificates, product and inverse rows, neighbourhood
+rows, two finite $\Cont$ ledgers, the transport family $H$, and the provenance
+row $\Pi$.
+
+The carrier boundary is exactly the one isolated in
+\autoref{thm:topgroup-root-downstream-carrier-obligation}. The operation
+boundary is exactly the one isolated in
+\autoref{thm:topgroup-root-downstream-operation-obligation}. The continuity
+boundary is exactly the one isolated in
+\autoref{thm:topgroup-root-downstream-continuity-obligation}.
+
+Apply \autoref{thm:topgroup-root-downstream-ledger-obligation} to include the
+finite ledger and provenance rows. Then apply
+\autoref{thm:topgroup-root-threshold-consumer-exhaustion}: the public threshold
+package admits no downstream consumer row beyond this displayed finite family.
+Thus the threshold row is exact for the listed root downstream surface.
+\end{proof}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_downstream\_threshold\_exactness}

@@ -1,0 +1,347 @@
+\begin{theorem}[LambdaCalc constructor source disjointness]
+\label{thm:lambdacalc-constructor-source-disjointness}
+Let a carried $\mathsf{BHist}$ term row satisfy
+$\mathsf{LambdaCalcBHistTermCarrier}$, and suppose its visible $\TreeUp$ root is
+one of $\mathsf{lamVar}$, $\mathsf{lamAbs}$, or $\mathsf{lamApp}$. Then the
+public LambdaCalc classifier reads only the source fields of that root: a
+variable row exposes only its unary variable-index field, an abstraction row
+exposes only its binder-index and body fields, and an application row exposes
+only its left and right subterm fields. No accepted row can simultaneously be
+read as a different LambdaCalc constructor under the same classifier endpoint.
+\end{theorem}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermCarrier\_constructor\_source\_disjointness}
+\begin{proof}
+Read the visible root tag through the $\TreeUp$ row in the carried
+$\mathsf{BHist}$ packet. The three LambdaCalc constructors are distinct
+TreeUp tags, so the tag readback fixes which source slots are present in the
+packet.
+
+In the variable case, apply
+\autoref{thm:lambdacalc-variable-constructor-carrier}. Its packet contains the
+unary variable-index row and no binder-body or binary subterm slots. Transport
+along the displayed $\hsame$ endpoint preserves that slot inventory.
+
+In the abstraction case, apply
+\autoref{thm:lambdacalc-abstraction-application-carrier-closure}. The source packet consists
+of the binder-index row and the carried body row, and $\hsame$ transport cannot
+create the variable-only or application-only source slots.
+
+In the application case, apply
+\autoref{thm:lambdacalc-abstraction-application-carrier-closure}. The packet consists of the
+two carried subterm rows, with no unary variable-index-only source and no
+binder-body abstraction source.
+
+Since the classifier is read from the same $\TreeUp$ tag, the same $\hsame$
+endpoint, and the same $\Pkg$ provenance in every case, two different
+constructor readings would require one visible root tag to be two distinct
+TreeUp constructors. The tag readback excludes this, giving constructor source
+disjointness.
+\end{proof}
+
+\begin{theorem}[LambdaCalc substitution source coverage]
+\label{thm:lambdacalc-substitution-source-coverage}
+Every accepted LambdaCalc substitution $\Cont$ ledger endpoint is sourced from
+exactly one variable, abstraction, or application branch of the displayed
+$\TreeUp$ syntax spine, together with the $\NatUp$ unary index rows named by the
+free-variable packet. Equivalently, the substitution endpoint has no additional
+source outside the constructor branch chosen by the visible syntax spine, the
+binder-index ledger, the free-variable ledger, the $\hsame$ endpoint rows, and
+the $\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+Induct on the displayed $\TreeUp$ syntax spine of the carried source term. The
+base variable branch exposes the variable-index row and the matching
+free-variable packet endpoint, so the substitution continuation is sourced from
+that single variable branch.
+
+For an abstraction spine, the visible constructor supplies the binder-index row
+and the body subterm. The $\NatUp$ unary row records the binder index, while the
+free-variable packet names the rows that survive capture-avoiding transport
+through the body.
+
+For an application spine, the visible constructor supplies the left and right
+subterm rows. The induction hypotheses cover the substitution endpoints of the
+two subspines, and the application packet repacks those endpoints into the
+single application branch selected by the root tag.
+
+At each step, use
+\autoref{thm:lambdacalc-free-variable-ledger-exactness} to identify the
+free-variable rows and
+\autoref{thm:lambdacalc-substitution-carrier-preservation} to transport the
+carried endpoint across the displayed $\Cont$ route.
+
+The repacking step records the same $\hsame$ endpoint rows and the same $\Pkg$
+provenance. Hence every accepted substitution endpoint is covered by exactly one
+constructor branch of the displayed syntax spine and the named $\NatUp$
+free-variable rows.
+\end{proof}
+
+\begin{theorem}[LambdaCalc alpha-beta ledger determinacy]
+\label{thm:lambdacalc-alpha-beta-ledger-determinacy}
+Let two accepted LambdaCalc packets expose the same $\TreeUp$ syntax row, the
+same $\NatUp$ binder-index row, the same alpha ledger, the same beta-redex row,
+the same substitution $\Cont$ ledger, and the same $\Pkg$ provenance. Then their
+public LambdaCalc classifier endpoints agree by $\hsame$.
+\end{theorem}
+\begin{proof}
+First transport the common syntax and binder rows through
+\autoref{thm:lambdacalc-alpha-beta-carrier-transport}. This aligns the carried
+LambdaCalc endpoints determined by the shared $\TreeUp$ syntax and $\NatUp$
+binder-index rows.
+
+Next apply
+\autoref{thm:lambdacalc-substitution-output-determinacy} to the shared
+substitution $\Cont$ ledger. The two packets therefore expose the same
+substitution output endpoint after the displayed endpoint transports.
+
+Finally apply
+\autoref{thm:lambdacalc-alpha-beta-ledger-separation}. The common alpha ledger
+and common beta-redex row cannot introduce a second public endpoint once the
+syntax, binder, substitution ledger, and provenance rows have been fixed.
+
+The remaining comparison is componentwise $\hsame$ transport along the shared
+rows. Repacking those transports with the common $\Pkg$ provenance gives the
+same public LambdaCalc classifier endpoint for both packets.
+\end{proof}
+
+\begin{theorem}[LambdaCalc root constructor frontier]
+\label{thm:lambdacalc-root-constructor-frontier}
+The public LambdaCalc term frontier exposed by a carried $\mathsf{BHist}$ row is
+exhausted by the three visible root constructors
+$\mathsf{lamVar}$, $\mathsf{lamAbs}$, and $\mathsf{lamApp}$. Each accepted root
+row reads exactly the $\TreeUp$ source slots, $\NatUp$ index rows, $\hsame$
+endpoint rows, and $\Pkg$ provenance assigned to that constructor branch, and no
+fourth public root constructor can be read from the same packet.
+\end{theorem}
+\begin{proof}
+Start with the carried $\mathsf{BHist}$ packet and read its visible $\TreeUp$
+root. The constructor packet theorems cover the variable, abstraction, and
+application cases as the public constructors of the LambdaCalc carrier.
+
+Apply \autoref{thm:lambdacalc-constructor-source-disjointness}. It separates the
+source slots attached to the three visible roots and rules out a second
+constructor reading at the same endpoint.
+
+For substitution or beta-visible rows attached to the root, use
+\autoref{thm:lambdacalc-substitution-source-coverage}. Those rows are still
+sourced from the constructor branch selected by the same syntax spine and the
+named $\NatUp$, $\hsame$, and $\Pkg$ rows.
+
+Thus the public frontier is exactly the listed constructor inventory, with all
+readable rows anchored in the displayed $\mathsf{BHist}$ packet.
+\end{proof}
+
+\begin{theorem}[LambdaCalc root substitution frontier]
+\label{thm:lambdacalc-root-substitution-frontier}
+For every accepted LambdaCalc root substitution endpoint, the substitution
+provenance is preserved through the displayed $\Cont$ continuation and the
+carried $\Pkg$ rows. The endpoint remains attached to the same visible
+$\mathsf{BHist}$ constructor branch, the same $\TreeUp$ syntax spine, the same
+$\NatUp$ binder and free-variable rows, and the same componentwise $\hsame$
+transport used by the source packet.
+\end{theorem}
+\begin{proof}
+Begin with the accepted root substitution endpoint. Apply
+\autoref{thm:lambdacalc-substitution-source-coverage} to identify the unique
+constructor branch, binder-index row, free-variable packet, and $\Pkg$
+provenance that source the endpoint.
+
+Next use \autoref{thm:lambdacalc-namecert-substitution-ledger}. It reads the
+endpoint from the displayed $\mathsf{BHist}$ traversal and capture-avoidance
+$\Cont$ ledger, so no ambient syntax equality or unrecorded variable set is
+available as a second source.
+
+Finally apply
+\autoref{thm:lambdacalc-substitution-composition-carrier-closure}. Composition
+of the accepted continuations preserves the carried LambdaCalc endpoint and
+reuses the same $\Pkg$ provenance. The root substitution frontier is therefore
+stable under the displayed $\Cont$ and $\Pkg$ rows.
+\end{proof}
+
+\begin{theorem}[LambdaCalc root beta-ledger frontier]
+\label{thm:lambdacalc-root-beta-ledger-frontier}
+Suppose two accepted LambdaCalc beta-ledger root packets expose the same
+$\TreeUp$ syntax row, the same $\NatUp$ binder-index row, the same alpha ledger,
+the same beta-redex row, the same substitution $\Cont$ ledger, and the same
+$\Pkg$ provenance. Under the displayed alpha-beta classifier, the two root
+packets expose the same public LambdaCalc endpoint by componentwise $\hsame$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:lambdacalc-alpha-beta-ledger-separation}. The alpha
+ledger and beta-redex row occupy disjoint readable positions once the syntax
+spine, binder row, substitution ledger, and provenance are fixed.
+
+Next apply \autoref{thm:lambdacalc-alpha-beta-ledger-determinacy}. Its
+hypotheses are exactly the shared $\TreeUp$, $\NatUp$, alpha, beta,
+substitution, and $\Pkg$ rows displayed by the root packets.
+
+The resulting $\hsame$ comparison is the endpoint comparison required by the
+public alpha-beta classifier. Hence the beta-ledger frontier has a deterministic
+root endpoint under the displayed classifier.
+\end{proof}
+
+\begin{theorem}[LambdaCalc root obligation inventory]
+\label{thm:lambdacalc-root-obligation-inventory}
+The displayed LambdaCalc root packet has the following obligation inventory:
+carrier rows for the visible $\mathsf{BHist}$ constructor branches, classifier
+rows for the $\TreeUp$ syntax spine and $\NatUp$ binder and free-variable
+indices, substitution rows transported by $\Cont$, alpha-beta rows transported
+by componentwise $\hsame$, exactness rows for the readable constructor and
+substitution frontiers, stability rows for the beta-ledger classifier, and
+ledger rows recording $\Pkg$ provenance and $\NameCert$ source data. The scope
+of the inventory is exactly the $\mathsf{BHist}$, $\TreeUp$, $\NatUp$, $\Cont$,
+$\hsame$, $\Pkg$, and $\NameCert$ rows exposed by
+\autoref{thm:lambdacalc-root-constructor-frontier},
+\autoref{thm:lambdacalc-root-substitution-frontier}, and
+\autoref{thm:lambdacalc-root-beta-ledger-frontier}; it exports no host syntax
+equality, alpha quotient, beta quotient, or unrecorded variable-set primitive.
+\end{theorem}
+\begin{proof}
+Project the root packet through
+\autoref{thm:lambdacalc-root-constructor-frontier}. This supplies the visible
+constructor branches, the $\TreeUp$ syntax spine, the $\NatUp$ binder and
+free-variable rows, and the readable $\mathsf{BHist}$ carrier rows.
+
+Next apply \autoref{thm:lambdacalc-root-substitution-frontier}. It accounts for
+the substitution endpoints, their capture-avoidance $\Cont$ ledger, and the
+carried $\Pkg$ provenance without adding a second syntax source.
+
+Finally apply \autoref{thm:lambdacalc-root-beta-ledger-frontier}. The alpha
+ledger, beta-redex row, substitution ledger, and provenance rows determine the
+public endpoint through componentwise $\hsame$. Repacking these projections
+gives exactly the listed carrier, classifier, substitution, alpha-beta,
+exactness, stability, and ledger obligations.
+\end{proof}
+
+\begin{theorem}[LambdaCalc root obligation carrier]
+\label{thm:lambdacalc-root-obligation-carrier}
+The variable, abstraction, and application $\mathsf{BHist}$ constructor rows
+cover the $\LambdaCalcUp$ carrier under
+$\mathsf{TreeBHistCarrier}$, $\mathsf{UnaryHistory}$, $\hsame$, and
+constructor-preserving $\Cont$. No carrier row is read from host syntax
+equality or from an alpha-quotient representative.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:lambdacalc-variable-constructor-carrier} to the variable
+case. The root packet exposes the visible $\TreeUp$ constructor tag and the
+$\NatUp$ unary variable index.
+
+Apply \autoref{thm:lambdacalc-abstraction-application-carrier-closure} to the
+abstraction and application cases. These rows expose the binder index, body,
+left subterm, and right subterm through the same $\TreeUp$ and $\NatUp$ visible
+spines.
+
+Finally use \autoref{thm:lambdacalc-constructor-case-exhaustion} and
+\autoref{thm:lambdacalc-root-constructor-frontier}. The constructor cases
+exhaust the carrier and transport through the displayed $\hsame$ and
+constructor-preserving $\Cont$ rows, so no host syntax row is added.
+\end{proof}
+
+\begin{theorem}[LambdaCalc root obligation classifier]
+\label{thm:lambdacalc-root-obligation-classifier}
+The beta and alpha classifier rows of the $\LambdaCalcUp$ root packet are
+stable under constructor-preserving $\hsame$ transport. They read only the
+visible $\TreeUp$ syntax spine, $\NatUp$ binder and free-variable rows,
+alpha-beta ledger rows, substitution $\Cont$ rows, and $\Pkg$ provenance, and
+they do not use host syntax equality.
+\end{theorem}
+\begin{proof}
+First align the constructor endpoints by
+\autoref{thm:lambdacalc-alpha-beta-carrier-transport}. This transports the
+visible $\TreeUp$ syntax row and the $\NatUp$ binder rows componentwise.
+
+Next use \autoref{thm:lambdacalc-alpha-beta-ledger-determinacy}. Shared syntax,
+binder, alpha, beta, substitution, and provenance rows determine the same
+public endpoint by $\hsame$.
+
+The root beta-ledger frontier
+\autoref{thm:lambdacalc-root-beta-ledger-frontier} repacks the transported rows
+as the public classifier surface. Since the cited rows are all displayed
+constructor, ledger, transport, and provenance rows, host syntax equality is
+not consumed.
+\end{proof}
+
+\begin{theorem}[LambdaCalc root obligation substitution ledger]
+\label{thm:lambdacalc-root-obligation-substitution-ledger}
+Capture-avoiding substitution at the $\LambdaCalcUp$ root exposes only
+$\NatUp$ index rows, $\TreeUp$ subtree rows, $\mathsf{BHist}$ constructor tags,
+displayed $\Cont$ substitution routes, $\hsame$ endpoint rows, and $\Pkg$
+package provenance to downstream consumers.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:lambdacalc-substitution-source-coverage}. It identifies each
+accepted substitution endpoint with one visible constructor branch and the
+named $\NatUp$ binder and free-variable rows.
+
+Then apply \autoref{thm:lambdacalc-namecert-substitution-ledger} and
+\autoref{thm:lambdacalc-root-substitution-frontier}. These theorems attach the
+displayed $\Cont$ capture-avoidance route, the endpoint $\hsame$ rows, and the
+same $\Pkg$ provenance to the substitution endpoint.
+
+The downstream read is therefore exactly the NatUp, TreeUp, constructor-tag,
+continuation, endpoint-transport, and provenance surface. No host substitution
+function, variable-set primitive, or quotient class is exported.
+\end{proof}
+
+\closureat{LambdaCalcUp}{scopedStr}[BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermCarrier\_variable\_constructor\_carrier]
+
+\begin{closurestatus}{\LambdaCalcUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The obligation scope binds the carrier, classifier, substitution, alpha-beta, exactness, stability, and ledger rows listed in \autoref{thm:lambdacalc-root-obligation-inventory} for the displayed LambdaCalc root packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermCarrier\_variable\_constructor\_carrier}
+  \bridgestatus{none}
+  \notclaimed{This frontier does not close host lambda syntax equality, alpha quotienting, beta quotienting, or a complete LambdaCalc standard bridge.}
+  \upgradepath{$\publicClosure$ requires a single exported $\LambdaCalcUp$ public endpoint theorem for the scoped root packet.}
+\end{closurestatus}
+
+\begin{theorem}[LambdaCalc alpha classifier transitivity]
+\label{thm:lambdacalc-alpha-classifier-transitive}
+Let $s,t,u:\Hist$ be accepted $\LambdaCalcUp$ term packets whose visible
+term data are carried by the displayed $\TreeUp$ syntax skeletons, $\NatUp$
+binder-index ledgers, $\Cont$ alpha-renaming routes, endpoint $\hsame$ rows,
+and common $\Pkg$ provenance. If an accepted alpha-classifier row relates
+$(s,t)$ and an accepted alpha-classifier row relates $(t,u)$ over the same
+middle packet $t$, then the composed alpha-classifier row relates $(s,u)$.
+The composed row is obtained by keeping the two endpoint carriers, reversing
+only those carried $\hsame$ rows whose displayed orientation points into the
+middle packet, concatenating the resulting $\TreeUp$ skeleton comparisons and
+$\NatUp$ binder-index comparisons, and repacking the concatenated alpha ledger
+with the same $\Cont$ and $\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+Project the two accepted alpha-classifier rows through
+\autoref{thm:lambdacalc-namecert-classifier-boundary}. Each row is a
+componentwise comparison of the visible $\TreeUp$ syntax skeleton, the visible
+$\NatUp$ binder and variable-index rows, the alpha-renaming ledger, the
+endpoint $\hsame$ rows, and the carried $\Pkg$ provenance. No host syntax
+conversion or quotient alpha-class is available as an extra step.
+
+Use \autoref{thm:lambdacalc-alpha-classifier-symmetric} only to orient the
+carried comparisons at the common middle packet. Thus every component has a
+row from the $s$-packet to the displayed middle $t$-packet and a row from that
+same middle packet to the $u$-packet. The middle syntax skeleton and middle
+binder ledger are the same displayed rows in the two hypotheses, so no
+additional matching datum is required.
+
+Concatenate the two oriented $\hsame$ comparisons on the $\TreeUp$ skeletons.
+Do the same for each $\NatUp$ binder or variable-index row named by the alpha
+ledger. The alpha-renaming routes are finite $\Cont$ rows attached to those
+same visible components, so their carried provenance concatenates along the
+middle packet while preserving constructor tags and binder positions.
+
+Apply \autoref{thm:lambdacalc-alpha-renaming-freshness-transport} to the
+concatenated alpha route. It keeps the endpoint inside
+$\mathsf{LambdaCalcBHistTermCarrier}$, preserves the free-variable packet, and
+records the transported syntax and binder rows by the concatenated $\hsame$
+comparisons. Apply \autoref{thm:lambdacalc-alpha-beta-carrier-transport} to
+read the resulting endpoints as LambdaCalc carrier data over the displayed
+syntax and binder ledgers.
+
+Finally repack the concatenated syntax comparison, concatenated binder-index
+comparison, concatenated alpha-renaming $\Cont$ route, endpoint $\hsame$ rows,
+and common $\Pkg$ provenance. By
+\autoref{thm:lambdacalc-namecert-ledger-exactness}, these are exactly the rows
+an accepted public LambdaCalc alpha read may consume. Hence the repacked row is
+an accepted alpha-classifier row relating $(s,u)$.
+\end{proof}

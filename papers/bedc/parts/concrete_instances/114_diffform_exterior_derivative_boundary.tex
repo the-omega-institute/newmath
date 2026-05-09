@@ -156,3 +156,51 @@ accepted input row is the retained scalar classifier entry bounded by
 accepted for $R$ transports to the corresponding accepted scalar endpoint for
 $R'$ without adding a new exterior-derivative law.
 \end{proof}
+
+\begin{theorem}[Differential-form exterior-derivative two-step continuation ledger]
+\label{thm:diffform-exterior-derivative-two-step-continuation-ledger}
+Let $R_{\omega\eta}$ and $R_{\eta\theta}$ be accepted exterior-derivative input
+rows of \autoref{def:diffform-exterior-derivative-input-row}. Suppose
+$R_{\omega\eta}$ has source row $\omega$, target row $\eta$, source degree
+$d_\omega$, and target degree $d_\eta$, while $R_{\eta\theta}$ has source row
+$\eta$, target row $\theta$, source degree $d_\eta$, and target degree
+$d_\theta$. Then the shared middle row exposes the two-step degree continuation
+row
+$$
+\ContR(d_\omega,\Eone(\Eone(\emp)),d_\theta).
+$$
+This composite is only a degree-continuation ledger from $\omega$ through
+$\eta$ to $\theta$; it does not assert that the second exterior derivative
+vanishes.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:diffform-exterior-derivative-degree-shift-boundary} to
+$R_{\omega\eta}$. Its degree boundary supplies
+$$
+\ContR(d_\omega,\Eone(\emp),d_\eta).
+$$
+Apply the same boundary theorem to $R_{\eta\theta}$. Since the target row of the
+first accepted input is the source row of the second, the middle degree row is
+the same displayed $d_\eta$, and the second boundary supplies
+$$
+\ContR(d_\eta,\Eone(\emp),d_\theta).
+$$
+
+By \autoref{thm:cont-composite-tail-iff}, the two continuation ledgers compose
+through the shared middle degree. It remains only to compute the exposed tail.
+The constructor clause in the generated continuation relation of
+\autoref{thm:continuation-determinacy-up-to-history-sameness} gives
+$$
+\ContR(\Eone(\emp),\Eone(\emp),\Eone(\Eone(\emp))).
+$$
+Substituting this tail in the composite-tail equivalence yields the displayed
+row
+$$
+\ContR(d_\omega,\Eone(\Eone(\emp)),d_\theta).
+$$
+
+All rows used in the construction are the two accepted input rows and the
+kernel continuation composition rule. The conclusion records only that two
+successor-degree continuations are composable as BHist data, so it leaves any
+$d^2=0$ assertion to the downstream $\DeRhamUp$ surface.
+\end{proof}

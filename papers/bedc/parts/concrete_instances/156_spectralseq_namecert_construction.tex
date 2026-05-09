@@ -600,13 +600,90 @@ equalities of abelian categories. Hence the transported package is exactly the
 surface named by the classifier and the four cited transport theorems.
 \end{proof}
 
+\begin{theorem}[SpectralSeqUp AbCat and derived-functor scope binding]
+\label{thm:spectralseq-abcat-derivedfunctor-scope-binding}
+The page-carrier rows and transition rows of $\SpectralSeqUp$ consume only the
+displayed $\AbelianCatUp$ source rows and $\DerivedFunctorUp$ source rows named
+by \autoref{thm:spectralseq-obligation-surface}. In particular, a page object,
+differential, successor-page transition, or derived-functor consumer cannot read
+an ambient abelian category, an unlisted functor, or a host exact couple outside
+those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the page-carrier and transition clauses exposed by
+\autoref{thm:spectralseq-obligation-surface}. The projected rows are the
+$\NameCert_{\AbelianCatUp}$ source surface, the page-object rows, the
+differential rows, and the finite transition ledger attached to the displayed
+$\DerivedFunctorUp$ source.
+
+Next use \autoref{thm:spectralseq-derivedfunctor-consumer-surface} to identify
+the derived-functor consumers with the same carrier and transition rows. The
+consumer surface has no extra field for an ambient abelian category or an
+unlisted functor.
+
+Repack those projected rows as the scope witness. Since the repacked packet is
+literally the obligation-surface packet with no added spectral-sequence data, all
+page and transition consumers remain bound to the displayed
+$\AbelianCatUp$ and $\DerivedFunctorUp$ rows.
+\end{proof}
+
+\begin{theorem}[SpectralSeqUp homology readback scope binding]
+\label{thm:spectralseq-homology-readback-scope-binding}
+The abutment rows and convergence rows of $\SpectralSeqUp$ factor through the
+displayed $\HomologyUp$ readback rows already listed in
+\autoref{thm:spectralseq-obligation-surface}. They do not require a quotient
+object, convergence target, or boundary representative outside those
+cycle-boundary readback rows.
+\end{theorem}
+\begin{proof}
+Project from \autoref{thm:spectralseq-obligation-surface} the homology readback
+rows, the successor-page rows, the convergence-filtration rows, and the
+abutment provenance row. These are the rows that name the visible
+$\HomologyUp$ cycle and boundary data.
+
+Apply \autoref{thm:spectralseq-abutment-readback-boundary} to the abutment
+projection. It states that the abutment representative is read through the
+displayed cycle-boundary boundary and not through a host quotient.
+
+Apply \autoref{thm:spectralseq-convergence-boundary} and
+\autoref{thm:spectralseq-filtration-transport} to the convergence projection.
+They keep convergence and filtration transport inside the same displayed
+$\HomologyUp$ readback rows. Repacking these projected rows gives the claimed
+scope binding.
+\end{proof}
+
+\begin{theorem}[SpectralSeqUp continuation and package ledger scope binding]
+\label{thm:spectralseq-cont-pkg-ledger-scope-binding}
+Every transition row, filtration row, and ledger row used by $\SpectralSeqUp$ is
+a finite $\Cont$, $\hsame$, or $\Pkg$ row from the displayed packet in
+\autoref{thm:spectralseq-obligation-surface}. No infinite transition ledger,
+ambient equality, or external package provenance is consumed by the chapter's
+certificate.
+\end{theorem}
+\begin{proof}
+Project the finite transition ledger, the filtration ledger, the $\hsame$ rows,
+and the $\Pkg$ provenance rows from
+\autoref{thm:spectralseq-obligation-surface}. These projections are already the
+ledger rows used by the page classifier and its transported consumer surface.
+
+Use \autoref{thm:spectralseq-cont-page-ledger-closure} and
+\autoref{thm:spectralseq-cont-page-transition-closure} to keep the
+transition steps inside the finite $\Cont$ ledger. Use
+\autoref{thm:spectralseq-page-classifier-transport-exactness} to identify the
+transported package with the same $\hsame$ and $\Pkg$ rows.
+
+Repack the projected ledger as the scope witness. Because the repacking adds no
+new row beyond the displayed packet, every transition, filtration, and package
+read is exactly one of the listed $\Cont$, $\hsame$, or $\Pkg$ dependencies.
+\end{proof}
+
 \closureat{SpectralSeqUp}{seedStr}[BEDC.Derived.SpectralSeqUp.SpectralSeqBHistPageCarrier\_obligation\_surface]
 \begin{closurestatus}{\SpectralSeqUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation set consists of the page carrier, page classifier, differential rows, homology-readback row, filtration ledger, convergence rows, finite $\Cont$ transition ledger, and $\Pkg$ provenance rows displayed in the chapter.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scope is exactly the displayed $\AbelianCatUp$, $\DerivedFunctorUp$, $\HomologyUp$, $\Cont$, $\hsame$, and $\Pkg$ dependencies of the page carrier, classifier, transition, readback, filtration, and convergence rows.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.SpectralSeqUp.SpectralSeqBHistPageCarrier\_obligation\_surface}
   \bridgestatus{none}
   \notclaimed{Full spectral-sequence convergence theory and standard bridge data are not closed by this chapter.}
-  \upgradepath{Scoped closure requires binding each obligation row to its exact AbCatUp, DerivedFunctorUp, HomologyUp, Cont, hsame, and Pkg dependencies.}
+  \upgradepath{Public closure requires a single exported $\SpectralSeqUp$ $\NameCert$ statement.}
 \end{closurestatus}

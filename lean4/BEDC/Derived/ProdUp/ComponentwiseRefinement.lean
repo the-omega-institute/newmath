@@ -522,4 +522,50 @@ theorem ProdComponentHistoryClassifier_singleton_endpoint_exactness
                           (hsame_symm endpoints.right))
                         (And.intro (hsame_refl l0) (hsame_refl r0)))))))))))
 
+theorem ProdUp_StdBridge {Left Right : BHist -> Prop}
+    {LeftEq RightEq : BHist -> BHist -> Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq) {h k l r l' r' : BHist} :
+    ProdPairRep Left Right h l r ->
+      ProdPairRep Left Right k l' r' ->
+        hsame h k ->
+          ProdComponentHistoryClassifier Left Right LeftEq RightEq h k ∧
+            ProdHistoryClassifier Left Right h k ∧ LeftEq l l' ∧ RightEq r r' := by
+  intro repH repK sameHK
+  cases repH with
+  | intro leftH restH =>
+      cases restH with
+      | intro rightH contH =>
+          cases repK with
+          | intro leftK restK =>
+              cases restK with
+              | intro rightK contK =>
+                  have _leftSelf : LeftEq l l :=
+                    leftCert.equiv_refl leftH
+                  have _rightSelf : RightEq r r :=
+                    rightCert.equiv_refl rightH
+                  have componentRel : LeftEq l l' ∧ RightEq r r' :=
+                    ProdPairRep_hsame_coherence coherent
+                      (And.intro leftH (And.intro rightH contH))
+                      (And.intro leftK (And.intro rightK contK)) sameHK
+                  have componentClassifier :
+                      ProdComponentHistoryClassifier Left Right LeftEq RightEq h k :=
+                    Exists.intro l
+                      (Exists.intro r
+                        (Exists.intro l'
+                          (Exists.intro r'
+                            (And.intro leftH
+                              (And.intro rightH
+                                (And.intro contH
+                                  (And.intro leftK
+                                    (And.intro rightK
+                                      (And.intro contK componentRel)))))))))
+                  have envelopeClassifier : ProdHistoryClassifier Left Right h k :=
+                    And.intro
+                      (ProdHistoryCarrier_cont_intro leftH rightH contH)
+                      (And.intro (ProdHistoryCarrier_cont_intro leftK rightK contK) sameHK)
+                  exact
+                    And.intro componentClassifier
+                      (And.intro envelopeClassifier componentRel)
+
 end BEDC.Derived.ProdUp

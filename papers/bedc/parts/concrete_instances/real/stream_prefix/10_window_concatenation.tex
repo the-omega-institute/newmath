@@ -160,6 +160,253 @@ $\mathsf{RealUnaryStreamWindowClassifier}
 (s,t,\mathsf{append}(a,\mathsf{BHist.e1}(w)),r)$.
 \end{proof}
 
+\begin{theorem}[Real unary adjacent window concatenation equivalence]
+\label{thm:real-unary-window-adjacent-concat-iff}
+For observation maps $s,t:\Hist\to\Hist$ and unary anchor and bound histories
+$a,w,r:\Hist$,
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,a,\mathsf{append}(w,\mathsf{BHist.e1}(r)))
+\Longleftrightarrow
+\Bigl(
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)
+\land
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(a,\mathsf{BHist.e1}(w)),r)
+\Bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the joined finite-window classifier. Apply
+\autoref{thm:real-unary-window-concat-left-projection} to obtain the left
+window over the original anchor $a$. Apply
+\autoref{thm:real-unary-window-concat-right-projection} to obtain the right
+window over the shifted anchor $\mathsf{append}(a,\mathsf{BHist.e1}(w))$.
+Pairing these two projections gives the displayed conjunction.
+
+For the reverse direction, assume the two displayed window classifiers. Apply
+\autoref{thm:real-unary-stream-window-adjacent-concatenation} to concatenate
+the left window and the adjacent right window. The resulting classifier has
+anchor $a$ and bound $\mathsf{append}(w,\mathsf{BHist.e1}(r))$, which is
+exactly the joined finite-window classifier.
+\end{proof}
+
+\begin{theorem}[Real unary window associative triple concatenation]
+\label{thm:real-unary-window-associative-triple-concatenation}
+For observation maps $s,t:\Hist\to\Hist$ and unary anchor and bound histories
+$a,w,r,q:\Hist$, assume
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w),
+$$
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(a,\mathsf{BHist.e1}(w)),r),
+$$
+and
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(\mathsf{append}(a,\mathsf{BHist.e1}(w)),
+\mathsf{BHist.e1}(r)),q).
+$$
+Then
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,a,\mathsf{append}(\mathsf{append}(w,\mathsf{BHist.e1}(r)),
+\mathsf{BHist.e1}(q))).
+$$
+\end{theorem}
+\begin{proof}
+First concatenate the $w$-window and the $r$-window by
+\autoref{thm:real-unary-stream-window-adjacent-concatenation}. This gives a
+window from $a$ with displayed bound
+$\mathsf{append}(w,\mathsf{BHist.e1}(r))$.
+
+Next apply the same adjacent-concatenation theorem to that joined window and
+the $q$-window. The third source window is anchored at
+$\mathsf{append}(\mathsf{append}(a,\mathsf{BHist.e1}(w)),
+\mathsf{BHist.e1}(r))$, while the second application expects the anchor
+obtained by appending the joined bound to $a$.
+
+The displayed associativity row for $\mathsf{append}$ supplies the needed
+$\hsame$ endpoint transport between these two anchor descriptions. Transport
+the RatUp endpoint classifiers along that $\hsame$ row, then repack the
+unary-history and $\Cont$ ledgers supplied by the two adjacent concatenations.
+
+The resulting bound is exactly
+$\mathsf{append}(\mathsf{append}(w,\mathsf{BHist.e1}(r)),
+\mathsf{BHist.e1}(q))$, so the repackaged endpoint rows prove the displayed
+triple-window classifier.
+\end{proof}
+
+\begin{theorem}[RealUp concatenated StreamName finite-window feed]
+\label{thm:realup-window-concatenation-streamname-feed}
+For observation maps $s,t:\Hist\to\Hist$ and unary histories
+$a,w,r,q:\Hist$, assume the three adjacent finite-window feeds
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w),
+$$
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(a,\mathsf{BHist.e1}(w)),r),
+$$
+and
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(\mathsf{append}(a,\mathsf{BHist.e1}(w)),
+\mathsf{BHist.e1}(r)),q)
+$$
+are accepted StreamName-scheduled Real finite-window feeds. Then the
+concatenated row
+$$
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,a,\mathsf{append}(\mathsf{append}(w,\mathsf{BHist.e1}(r)),
+\mathsf{BHist.e1}(q)))
+$$
+is a single RealUp finite-window feed consumable by
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:streamname-scheduled-window-realup-feed}.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-unary-window-associative-triple-concatenation} to the three
+accepted adjacent windows. This produces one unary
+$\mathsf{RealUnaryStreamWindowClassifier}$ over the displayed concatenated
+bound, with all endpoint RatUp classifiers transported through the same
+$\hsame$, unary-history, append, and finite $\Cont$ rows already present in the
+three source windows.
+
+Next read the scheduling surface through
+\autoref{thm:streamname-scheduled-window-realup-feed}. The observation maps
+$s,t:\Hist\to\Hist$ are exactly the StreamName schedule consumed there, and the
+joined classifier is therefore a finite-window row of the kind passed to
+\autoref{thm:realup-finite-window-exhaustion-obligation}.
+
+The construction introduces no host $\mathsf{Nat}$, quotient representative,
+completion object, or hidden stream object. Its whole feed is the single
+concatenated $\mathsf{BHist}$ window together with the displayed endpoint
+classifiers and the finite scheduling ledger.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp shared finite-window cover]
+\label{thm:streamname-regseqrat-shared-window-cover}
+For observation maps $s,t:\Hist\to\Hist$ and unary histories
+$a,w,r,q:\Hist$, suppose the three adjacent $\mathsf{BHist}$ pieces satisfy the
+public finite-window $\StreamNameUp$ classifier rows of
+\autoref{thm:streamname-public-finite-window-interface}, the
+$\RegSeqRat$ finite-window seal source coverage rows of
+\autoref{thm:regseqrat-seal-finite-window-source-coverage}, and the
+$\RealUp$ finite-window feed rows of
+\autoref{thm:realup-window-concatenation-streamname-feed}. Then the
+concatenated finite window
+$$
+\mathsf{append}(\mathsf{append}(w,\mathsf{BHist.e1}(r)),
+\mathsf{BHist.e1}(q))
+$$
+determines one shared public observation package for the three interfaces.
+
+The package surface consists exactly of the StreamName finite-window classifier,
+the selected $\RatUp$ endpoint classifier rows, the finite
+$\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ ledger rows, the
+$\UnaryHistory$ rows, the displayed $\hsame$ endpoint comparisons, the shared
+$\Cont$ transports, and the finite dyadic source rows read by $\RegSeqRat$.
+The $\RegSeqRat$ seal consumer and the $\RealUp$ finite-window feed therefore
+read the same bounded observations from the same concatenated
+$\mathsf{BHist}$ window.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:realup-window-concatenation-streamname-feed}. The three adjacent
+StreamName-scheduled finite windows are repacked into the displayed
+concatenated $\mathsf{BHist}$ window, and the RealUp feed keeps the same
+endpoint classifiers, $\hsame$ transports, unary-history rows, and finite
+$\Cont$ ledger.
+
+Next apply \autoref{thm:streamname-public-finite-window-interface}. Its
+structural laws and selected readback rows identify the public StreamName
+finite-window surface carried by the concatenated window: the classifier, probe
+bundle, membership rows, unary observations, endpoint comparisons, and finite
+stability rows are all read from the same ledger.
+
+Finally apply
+\autoref{thm:regseqrat-seal-finite-window-source-coverage}. The RegSeqRat seal
+uses exactly the StreamName finite-window interface rows, the dyadic source
+ledger, and the RealUp finite-window exhaustion rows already exposed by the
+same concatenated window. Since both downstream consumers cite the same
+$\hsame$, $\Cont$, $\UnaryHistory$, finite ledger, and endpoint readback rows,
+there is only one public observation package, with no quotient representative,
+completion object, host stream carrier, or extra regularity datum.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp joined-window consumer coherence]
+\label{thm:streamname-regseqrat-realup-joined-window-consumer-coherence}
+For observation maps $s,t:\Hist\to\Hist$ and three adjacent public
+$\StreamNameUp$ finite windows over $\mathsf{BHist}$ anchors
+$a,w,r,q:\Hist$, let
+$$
+L=\mathsf{append}(\mathsf{append}(w,\mathsf{BHist.e1}(r)),
+\mathsf{BHist.e1}(q))
+$$
+and let
+$$
+R=\mathsf{append}(w,\mathsf{BHist.e1}(\mathsf{append}(r,\mathsf{BHist.e1}(q)))).
+$$
+If the three source windows satisfy the public finite-window classifier rows
+of \autoref{thm:streamname-public-finite-window-interface}, the
+$\RegSeqRat$ finite-window seal source coverage rows of
+\autoref{thm:regseqrat-seal-finite-window-source-coverage}, and the
+$\RealUp$ finite-window feed rows of
+\autoref{thm:realup-window-concatenation-streamname-feed}, then the
+left-associated joined window $L$ and the right-associated joined window $R$
+induce the same public $\StreamNameUp$ finite-window rows, the same
+$\RegSeqRat$ finite-window seal source rows, and the same finite-window
+$\RealUp$ feed rows.
+
+The common consumer surface is exactly the shared $\mathsf{BHist}$ anchor,
+the three source finite-window rows, their endpoint $\RatUp$ classifiers, the
+finite $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ rows, the
+$\UnaryHistory$ rows, the displayed $\hsame$ transports, and the finite
+$\Cont$ ledger. No $\RegSeqRat$ regularity witness, $\RealUp$ seal
+classifier, quotient row, or host index equality is imported from the
+$\StreamNameUp$ side.
+\end{theorem}
+\begin{proof}
+First build the left-associated consumer package. Apply
+\autoref{thm:real-unary-window-associative-triple-concatenation} to the three
+adjacent windows, then apply
+\autoref{thm:realup-window-concatenation-streamname-feed}. This gives the
+$\RealUp$ feed over $L$ with exactly the endpoint classifiers,
+$\UnaryHistory$ rows, $\hsame$ transports, and finite $\Cont$ ledger already
+present in the source windows.
+
+Next apply \autoref{thm:streamname-regseqrat-shared-window-cover}. The shared
+cover reads the StreamName interface, the RegSeqRat seal source rows, and the
+RealUp feed from that same joined finite window.
+
+For the right-associated reading, use the visible associativity comparison
+between $L$ and $R$ for $\mathsf{append}$. Transport the public StreamName
+finite-window rows through the displayed $\hsame$ comparison, leaving the
+three source endpoint classifiers and the finite ledger unchanged.
+
+Finally apply
+\autoref{thm:streamname-real-regseq-overlap-unique-source}. Its overlap
+clause says that two downstream reads sharing the same StreamName finite
+window, endpoint readback rows, and finite ledger have one source package.
+Thus the RegSeqRat and RealUp consumers receive the same rows under the two
+parenthesizations, with no extra regularity, seal-classifier, quotient, or
+host-index data.
+\end{proof}
+
+The ten-field fit is: traditional target nested finite observation-window
+concatenation; BEDC source RealUp finite windows over StreamNameUp observation
+schedules $s,t:\Hist\to\Hist$; carrier unary $\mathsf{BHist}$ anchors and
+bounds; classifier RatUp endpoint classifiers at displayed append endpoints;
+stability by $\hsame$ endpoint transport; ledger $\Cont$, unary-history rows,
+and append-associativity readback; core theorem
+\autoref{thm:real-unary-window-associative-triple-concatenation}; exactness each
+endpoint in the nested bound is read from one of the three source windows;
+standard bridge finite-prefix consumption by RegSeqRat and RealUp surfaces;
+status $\mathsf{ProofTarget}$.
+
 The ten-field fit is: traditional target finite observation-window
 concatenation over unary histories; BEDC source
 $\mathsf{RealUnaryStreamWindowClassifier}$; carrier RealUp finite windows over

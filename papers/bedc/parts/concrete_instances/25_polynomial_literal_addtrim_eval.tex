@@ -468,3 +468,59 @@ $$
 Classifier transitivity composes these two comparisons, and substituting $x=\mathsf{cons}(a,t)$ gives the displayed formula.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonEval\_zero\_constant\_term}
+
+\begin{lemma}[Unit-point Horner evaluation is coefficient fold]
+\label{lem:unit-point-horner-evaluation-coefficient-fold}
+Let $R$ carry a $\RingUp(R)$ certificate with classifier $\sim_R$, zero endpoint $0_R$, multiplicative unit endpoint $1_R$, addition $+$, multiplication $\cdot$, and Horner evaluation as in \autoref{def:polynomial-horner-evaluation}. Let $\mathsf{fold}_{+,R}$ be the finite recursive coefficient fold from \autoref{thm:finite-additive-fold-congruence-coefficient-lists}, satisfying
+$$
+\mathsf{fold}_{+,R}(\mathsf{nil})=0_R,
+\qquad
+\mathsf{fold}_{+,R}(\mathsf{cons}(a,x'))=a+\mathsf{fold}_{+,R}(x').
+$$
+For every finite coefficient spine $x:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{eval}_{1_R,R}(x)\sim_R\mathsf{fold}_{+,R}(x).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the finite spine $x$ from \autoref{def:list-carrier}.
+
+In the nil case, the nil Horner equation in \autoref{def:polynomial-horner-evaluation} and the nil fold equation identify both endpoints with $0_R$. The zero self-classification row of \autoref{def:ring-stability-certificate} gives the displayed comparison.
+
+In the cons case, write $x=\mathsf{cons}(a,x')$. The induction hypothesis gives
+$$
+\mathsf{eval}_{1_R,R}(x')\sim_R\mathsf{fold}_{+,R}(x').
+$$
+The recursive Horner endpoint $\mathsf{eval}_{1_R,R}(x')$ is carried by induction on $x'$ using the scalar zero, addition, and multiplication closure rows of the $\RingUp$ certificate. Hence the multiplicative left-unit row retained in \autoref{def:ring-stability-certificate} gives
+$$
+1_R\cdot\mathsf{eval}_{1_R,R}(x')\sim_R\mathsf{eval}_{1_R,R}(x').
+$$
+Classifier transitivity composes this unit comparison with the induction hypothesis, yielding
+$$
+1_R\cdot\mathsf{eval}_{1_R,R}(x')\sim_R\mathsf{fold}_{+,R}(x').
+$$
+Source reflexivity gives $a\sim_Ra$. Applying additive congruence from \autoref{def:ring-stability-certificate} gives
+$$
+a+1_R\cdot\mathsf{eval}_{1_R,R}(x')\sim_Ra+\mathsf{fold}_{+,R}(x').
+$$
+The cons Horner equation identifies the left endpoint with $\mathsf{eval}_{1_R,R}(\mathsf{cons}(a,x'))$, and the cons fold equation identifies the right endpoint with $\mathsf{fold}_{+,R}(\mathsf{cons}(a,x'))$.
+\end{proof}
+
+\begin{theorem}[Polynomial evaluation at the multiplicative unit is coefficient fold]
+\label{thm:polynomial-evaluation-at-unit-coefficient-fold}
+Let $R$ carry a $\RingUp(R)$ certificate with classifier $\sim_R$, zero endpoint $0_R$, multiplicative unit endpoint $1_R$, addition $+$, multiplication $\cdot$, canonical trim $\mathsf{trim}_R$, and Horner evaluation as in \autoref{def:polynomial-horner-evaluation}. Let $\mathsf{fold}_{+,R}$ be the finite recursive coefficient fold from \autoref{thm:finite-additive-fold-congruence-coefficient-lists}. For every finite coefficient spine $p:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{Eval}_{1_R,R}(p)\sim_R\mathsf{fold}_{+,R}(\mathsf{trim}_R(p)).
+$$
+\end{theorem}
+\begin{proof}
+By the normalized evaluation definition in \autoref{def:polynomial-horner-evaluation},
+$$
+\mathsf{Eval}_{1_R,R}(p)=\mathsf{eval}_{1_R,R}(\mathsf{trim}_R(p)).
+$$
+Apply \autoref{lem:unit-point-horner-evaluation-coefficient-fold} to the finite coefficient spine $\mathsf{trim}_R(p)$. This gives
+$$
+\mathsf{eval}_{1_R,R}(\mathsf{trim}_R(p))\sim_R\mathsf{fold}_{+,R}(\mathsf{trim}_R(p)).
+$$
+Substituting the displayed definition of $\mathsf{Eval}_{1_R,R}(p)$ gives the claimed comparison.
+\end{proof}

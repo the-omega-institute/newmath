@@ -295,6 +295,7 @@ source packet with the corresponding row in the target packet. Thus the
 target packet has the same visible carrier and spectral-expectation rows, up
 to the displayed classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_classifier\_stability}
 
 \begin{theorem}[Observable expectation pairing boundary]
 \label{thm:observable-expectation-pairing-boundary}
@@ -304,6 +305,7 @@ and the observable endpoint ledger $(A,W,\rho,\lambda)$. It is not justified
 by host-level inner-product equality, host operator equality, or an external
 spectral primitive.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_expectation\_pairing\_boundary}
 \begin{proof}
 Take an exported expectation value. By ledger exactness it must appear in the
 expectation-source row $E$ of the carried packet, because no other row in the
@@ -338,6 +340,7 @@ $\NameCert_{\QuantumStateUp}$ expectation-source row, the observable endpoint,
 the self-adjointness witness row, the $\mathsf{Pkg}$ provenance row, the
 finite $\mathsf{Cont}$ ledger, and the displayed $\hsame$ transport family.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_public\_row\_family}
 \begin{proof}
 Start with the carrier packet. It supplies the Hilbert dependency, observable
 endpoint, spectral dependency, expectation-source dependency,
@@ -370,6 +373,9 @@ $\NameCert_{\HilbertUp}$, $\NameCert_{\SpectralTheoremUp}$, and
 $\NameCert_{\QuantumStateUp}$ dependency surfaces and consumes no host
 operator equality or independent spectral primitive.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableNameCert\_obligation\_surface}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_semanticNameCert}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 Collect the carrier rows first. The finite tuple
 $(H,A,S,E,W,\rho,\lambda)$ displays the Hilbert dependency, observable
@@ -415,6 +421,7 @@ expectation readback, provenance, and transport only through the seven rows
 displayed above. It contains no host operator equality and no ambient
 spectral or state primitive.
 \end{definition}
+\leandef{BEDC.Derived.ObservableUp.ObservableExpectationInterfacePacket}
 
 \begin{theorem}[ObservableUp spectral-state source coherence]
 \label{thm:observable-spectral-state-source-coherence}
@@ -445,6 +452,7 @@ $\rho$ and $\lambda$ are then the shared package and transport rows supplied
 by the packet itself, so repacking these projections gives the stated
 spectral-state coherence without adding any host equality.
 \end{proof}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_spectral\_state\_source\_coherence}
 
 \begin{theorem}[ObservableUp expectation transport exactness]
 \label{thm:observable-expectation-transport-exactness}
@@ -496,6 +504,7 @@ $\NameCert_{\HilbertUp}$, $\NameCert_{\SpectralTheoremUp}$, and
 $\NameCert_{\QuantumStateUp}$ surfaces. No downstream request can require a
 row outside that finite $\mathsf{BHist}$ packet or a host operator equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_public\_consumer\_exhaustion}
 \begin{proof}
 Begin with an arbitrary public consumer request. The obligation surface of
 \autoref{thm:observable-namecert-obligation-surface} says that public
@@ -599,6 +608,7 @@ Thus a spectral consumer reads $S$ together with $H$, $A$, $W$, $E$, $\rho$,
 and $\lambda$ only through the public certificate family. The coverage claim is
 therefore exact for the displayed $\ObservableUp$ surface.
 \end{proof}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_spectral\_row\_consumer\_coverage}
 
 \begin{theorem}[ObservableUp expectation row transport composition]
 \label{thm:observable-expectation-row-transport-composition}
@@ -610,6 +620,7 @@ followed by expectation readback agrees with expectation readback over the
 transported packet. The composite uses only the rows $E$, $A$, $W$, $S$,
 $\rho$, and $\lambda$ together with their displayed transported counterparts.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_expectation\_row\_transport\_composition}
 \begin{proof}
 Apply \autoref{thm:observable-quantumstate-expectation-boundary} to identify
 the expectation readback as a certified state-input row paired with the
@@ -655,15 +666,16 @@ Together they cover every public dependency and readback used by downstream
 $\QuantumStateUp$ and $\SpectralTheoremUp$ consumers, while excluding host
 operator equality and external spectral primitives from the paper surface.
 \end{proof}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_namecert\_obligation\_surface\_complete}
 
-\closureat{ObservableUp}{seedStr}[BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier]
+\closureat{ObservableUp}{scopedStr}[BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier]
 
 \begin{closurestatus}{\ObservableUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed boundary binds the Hilbert, spectral, quantum-state, expectation, $\Pkg$, $\Cont$, and $\hsame$ packet rows displayed in the $\ObservableUp$ certificate rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The obligation inventory is enumerated across the carrier, classifier, ledger exactness, dependency exactness, operator-row classifier determinacy, spectral consumer coverage, expectation transport composition, $\Pkg$, $\Cont$, and $\hsame$ rows.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier}
   \bridgestatus{none}
   \notclaimed{This chapter does not close the full carrier, classifier, stability, ledger, exactness, or bridge surface for $\ObservableUp$.}
-  \upgradepath{Obligation closure requires enumerating the full carrier, classifier, stability, ledger, exactness, and bridge rows.}
+  \upgradepath{Public closure requires a single exported ObservableUp public certificate theorem consumed by downstream spectral and quantum-state chapters.}
 \end{closurestatus}

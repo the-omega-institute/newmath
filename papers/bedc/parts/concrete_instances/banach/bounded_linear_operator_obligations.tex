@@ -510,3 +510,72 @@ $$
 \mathsf{BanachBLOp}(C,D,a\boxtimes_D T,|a|_{\RealUp}\cdot M,\langle a\rangle\boxtimes\Lambda).
 $$
 \end{proof}
+
+\begin{theorem}[Banach identity bounded linear operator carrier]
+\label{thm:banach-identity-bounded-linear-operator-carrier}
+Let $C$ be a $\BanachUp$ candidate as in \autoref{def:banach-complete-normed-carrier}, with vector carrier $C_V$, classifier $\sim_C$, addition $+_C$, scalar action $\cdot_C$, norm $\nu_C$, and norm-induced distance $d_C$. Let
+$$
+\operatorname{id}_C:C_V\to C_V,\qquad \operatorname{id}_C(x):=x.
+$$
+Let $1_{\RealUp}$ be the RealUp multiplicative-unit endpoint exposed by the scalar source. Let $\mathcal{I}_C$ be the visible identity ledger containing the source endpoint row, the same row read as the target endpoint row, the classifier equivalence rows of $\sim_C$, the vector operation rows for $+_C$ and $\cdot_C$, the $\NormUp$ norm rows for $\nu_C$, the RealUp non-negativity row
+$$
+1_{\RealUp}\ge 0,
+$$
+the RealUp multiplication-unit row
+$$
+1_{\RealUp}\cdot r\sim_{\RealUp} r
+$$
+for every carried norm endpoint $r$, and the RealUp order-reflexivity and order-transport rows. Then
+$$
+\mathsf{BanachBLOp}(C,C,\operatorname{id}_C,1_{\RealUp},\mathcal{I}_C)
+$$
+is carried.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:banach-bounded-linear-operator-carrier}. For every carried source endpoint $x:C_V$, the endpoint value of the displayed map is $\operatorname{id}_C(x)=x$. The source carrier row for $x$ is therefore also the target endpoint row, since source and target are both the same candidate $C$.
+
+For classifier-respect, suppose $x\sim_C x'$ and both endpoints are carried. The identity endpoint map changes neither side, so the same classifier witness gives
+$$
+\operatorname{id}_C(x)\sim_C\operatorname{id}_C(x').
+$$
+
+For additivity, let $x,y:C_V$ be carried. The vector-space addition row of the $\BanachUp$ candidate carries $x+_C y$. Both sides of the required comparison compute to this carried endpoint:
+$$
+\operatorname{id}_C(x+_C y)=x+_C y
+$$
+and
+$$
+\operatorname{id}_C(x)+_C\operatorname{id}_C(y)=x+_C y.
+$$
+Classifier reflexivity at the carried sum gives
+$$
+\operatorname{id}_C(x+_C y)\sim_C\operatorname{id}_C(x)+_C\operatorname{id}_C(y).
+$$
+
+For homogeneity, let $a$ be a carried RealUp scalar endpoint and let $x:C_V$ be carried. The scalar-action row carries $a\cdot_C x$. Again both sides compute to the same endpoint:
+$$
+\operatorname{id}_C(a\cdot_C x)=a\cdot_C x
+$$
+and
+$$
+a\cdot_C\operatorname{id}_C(x)=a\cdot_C x.
+$$
+Classifier reflexivity at the carried scalar-action endpoint gives
+$$
+\operatorname{id}_C(a\cdot_C x)\sim_C a\cdot_C\operatorname{id}_C(x).
+$$
+
+It remains to verify the bound row. The ledger gives $1_{\RealUp}\ge0$. For a carried source endpoint $x$, the norm row gives the carried RealUp endpoint $\nu_C(x)$. Since $\operatorname{id}_C(x)=x$, the left side of the operator bound is $\nu_C(x)$. RealUp order reflexivity gives
+$$
+\nu_C(x)\le \nu_C(x).
+$$
+The RealUp multiplication-unit row classifies $1_{\RealUp}\cdot\nu_C(x)$ with $\nu_C(x)$. Transporting the right side of the reflexive order comparison across this RealUp classifier comparison gives
+$$
+\nu_C(\operatorname{id}_C(x))\le 1_{\RealUp}\cdot\nu_C(x).
+$$
+
+The rows just assembled are exactly the target endpoint, classifier-respect, additive compatibility, scalar compatibility, RealUp bound, and visible ledger rows demanded by \autoref{def:banach-bounded-linear-operator-carrier}. Repacking them with the displayed endpoint map and the bound endpoint $1_{\RealUp}$ yields the carried row
+$$
+\mathsf{BanachBLOp}(C,C,\operatorname{id}_C,1_{\RealUp},\mathcal{I}_C).
+$$
+\end{proof}

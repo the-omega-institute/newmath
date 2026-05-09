@@ -1,0 +1,75 @@
+\begin{theorem}[PinGroup source projection obligation]
+\label{thm:pingroup-source-projection-obligation}
+The $\PinGroupUp$ source projection surface is exactly the pair consisting of
+the consumed $\SpinGroupUp$ source row and the consumed $\CliffordUp$ source
+row, transported by the displayed $\hsame$ witnesses and finite $\Cont$
+ledger of $\NameCert_{\PinGroupUp}$. No public source projection is available
+unless it factors through one of those two rows and the corresponding
+$\Pkg$ provenance entry.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:pingroup-source-ledger-coverage}. It places every
+public source read in the Spin or Clifford source ledger and records the
+same $\mathsf{BHist}$ histories in the carrier-facing certificate packet.
+
+Apply \autoref{thm:pingroup-reflection-parity-exactness}. The inherited Spin
+branch is the Spin projection, while the reflective branch is read through
+the Clifford source together with the reflection-generator product ledger.
+
+Now use \autoref{thm:pingroup-source-exhaustion}. It rules out a third source
+projection, and the downstream package of
+\autoref{thm:pingroup-downstream-unblock-package} repacks the two source
+rows with exactly their $\hsame$, $\Cont$, and $\Pkg$ witnesses.
+\end{proof}
+
+\begin{theorem}[PinGroup parity classifier obligation]
+\label{thm:pingroup-parity-classifier-obligation}
+The reflection-parity carrier of
+\autoref{def:pingroup-reflection-parity-carrier} is the complete public
+classifier for $\NameCert_{\PinGroupUp}$: every admitted public row is
+classified either by the inherited $\SpinGroupUp$ branch or by the
+$\CliffordUp$ reflection branch, and the classifier is exact under the
+carried $\hsame$ transport rows.
+\end{theorem}
+\begin{proof}
+Project a public row through
+\autoref{thm:pingroup-reflection-parity-boundary}. The row is read through
+one branch of the reflection-parity carrier, except for the Spin overlap
+already recorded by the inherited Spin branch.
+
+Apply \autoref{thm:pingroup-reflection-parity-exactness}. It identifies the
+Spin branch with rows factoring through the Spin-inclusion source and the
+reflective branch with rows factoring through the Clifford
+reflection-generator source and product ledger.
+
+Finally use \autoref{thm:pingroup-source-exhaustion} and
+\autoref{thm:pingroup-downstream-unblock-package}. The first excludes any
+outside classifier source, and the second exports the same parity carrier,
+transport witnesses, continuation ledger, and provenance rows to downstream
+consumers.
+\end{proof}
+
+\begin{theorem}[PinGroup Clifford action ledger obligation]
+\label{thm:pingroup-clifford-action-ledger-obligation}
+The Clifford action visible at the $\PinGroupUp$ obligation surface is
+exhausted by the reflection ledger, Clifford action row, inherited Spin
+boundary, finite $\Cont$ ledger, $\hsame$ witnesses, and $\Pkg$ provenance
+rows displayed by $\NameCert_{\PinGroupUp}$. The obligation surface exports
+no host orthogonal action, matrix action, quotient algebra, or external Pin
+object beyond those $\mathsf{BHist}$ rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:pingroup-clifford-action-consumer-surface}. It lists
+the action rows a consumer may inspect: reflection ledger, Clifford action,
+Spin boundary, provenance, continuation transport, and $\hsame$ witnesses.
+
+Apply \autoref{thm:pingroup-reflection-ledger-closure} to anchor the
+reflection part in carried Clifford rows, and apply
+\autoref{thm:pingroup-spin-boundary-exhaustion} to anchor the Spin part in
+the consumed Spin source and even-grade Clifford rows.
+
+Use \autoref{thm:pingroup-source-exhaustion} to exclude any source outside
+the Spin and Clifford rows. Then
+\autoref{thm:pingroup-downstream-unblock-package} repacks the same action,
+ledger, transport, and provenance rows as the downstream obligation surface.
+\end{proof}

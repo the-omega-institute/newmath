@@ -69,9 +69,37 @@ object to consume $\mathsf{MulUp}$ as a single semantic package.
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.PrimeUp.NatMul\_result\_semanticNameCert}
   \bridgestatus{none}
-  \notclaimed{Ordered semiring interaction beyond the displayed right additive distribution and unary-prefix monotonicity rows, cancellation laws, left distribution rows, or a standard-model bridge for multiplication.}
+  \notclaimed{Ordered semiring interaction beyond the displayed additive distribution and unary-prefix monotonicity rows, cancellation laws, or a standard-model bridge for multiplication.}
   \upgradepath{$\matureClosure$ requires the multiplication package to be connected with $\AddUp$ and $\OrderUp$ through the remaining distribution, cancellation, and order-side laws where appropriate, and a standard-model bridge.}
 \end{closurestatus}
+
+\begin{theorem}[MulUp semantic exit audit row coverage]
+\label{thm:mulup-semantic-exit-audit-row-coverage}
+The concrete unary multiplication package over $\mathsf{BHist}$ is
+audit-covered by the semantic exit theorem, the
+$\mathsf{SemanticNameCert}$ result row, the two $\AddUp$ distributivity
+surfaces, and the unary-prefix $\OrderUp$ monotonicity row. All rows are read
+through $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, $\mathsf{NatMul}$, and
+$\mathsf{PreorderPrefixLE}$, so the displayed surface is a single consumption
+point for the full natural-arithmetic phase.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unary-multiplication-mulup-semantic-exit-package}. It
+packages the carrier, classifier, multiplication relation, and
+$\mathsf{SemanticNameCert}$ result row over the displayed unary histories.
+
+The additive interaction rows are
+\autoref{thm:natmul-additive-right-distributivity-surface} and
+\autoref{thm:natmul-additive-left-distributivity-surface}. They use the same
+$\Cont$ presentation of unary addition and return to the same
+$\mathsf{NatMul}$ relation.
+
+For the order-facing row, use
+\autoref{thm:natmul-unary-prefix-order-monotone}. Finally,
+\autoref{thm:mulup-add-order-phase-interaction-package} records that these
+additive and order rows share the same concrete carrier and classifier
+surface, so the coverage package introduces no additional BEDC object.
+\end{proof}
 
 \begin{theorem}[Unary multiplication preserves unary-prefix order]
 \label{thm:natmul-unary-prefix-order-monotone}
@@ -128,6 +156,31 @@ boundary. The resulting surface is the displayed $\MulUp/\AddUp$ phase
 interaction: multiplication by the fixed unary history $d$ sends the
 right-hand additive presentation $w+q$ to the continuation presentation of the
 two products.
+\end{proof}
+
+\begin{theorem}[NatMul left additive distribution surface]
+\label{thm:natmul-additive-left-distributivity-surface}
+Let $d,w,q,n,e,r:\Hist$ be unary histories. If $\mathsf{NatMul}(w,d,n)$,
+$\mathsf{NatMul}(q,d,e)$, and the $\AddUp$ continuation row presents the
+unary sum of $w$ and $q$ as $\mathsf{append}(w,q)$ with $\mathsf{Cont}(n,e,r)$,
+then $\mathsf{NatMul}(\mathsf{append}(w,q),d,r)$. Consequently the concrete
+$\MulUp$ operation distributes over the left-hand $\AddUp$ continuation
+presentation of unary addition.
+\end{theorem}
+\begin{proof}
+Use $\mathsf{NatMul}$ commutativity on the two displayed left-factor products.
+It supplies right-factor product presentations for multiplication by the fixed
+unary history $d$, with endpoints identified with $n$ and $e$ by $\hsame$.
+
+Apply \autoref{thm:natmul-additive-right-distributivity-surface} to those
+right-factor presentations and to the transported continuation ledger. This
+constructs a product row whose multiplier is $\mathsf{append}(w,q)$ and whose
+endpoint is identified with $r$.
+
+Finally apply $\mathsf{NatMul}$ commutativity to the constructed row. The
+result is a product with multiplicand $\mathsf{append}(w,q)$ and multiplier
+$d$; functionality transports the endpoint comparison back along the original
+$\Cont(n,e,r)$ boundary, yielding $\mathsf{NatMul}(\mathsf{append}(w,q),d,r)$.
 \end{proof}
 
 \begin{lemma}[Unit left multiplication reads back the multiplier]
@@ -491,6 +544,45 @@ $\rho_{\mathsf{u}}$ as the endpoint boundary used whenever two-sided
 $\le_{\mathsf{u}}$ comparison collapses the endpoints.
 \end{proof}
 
+\begin{theorem}[MulUp AddUp OrderUp phase interaction package]
+\label{thm:mulup-add-order-phase-interaction-package}
+For unary histories $d,w,q,n,e,r$, the concrete unary $\MulUp$ package exports
+a single consumer package combining the following rows:
+\begin{enumerate}
+\item the right additive distribution row over the $\AddUp$ continuation
+presentation, sending $\mathsf{NatMul}(d,w,n)$, $\mathsf{NatMul}(d,q,e)$,
+and $\Cont(n,e,r)$ to $\mathsf{NatMul}(d,\mathsf{append}(w,q),r)$;
+\item the left additive distribution row over the same $\AddUp$ continuation
+presentation, sending $\mathsf{NatMul}(w,d,n)$, $\mathsf{NatMul}(q,d,e)$,
+and $\Cont(n,e,r)$ to $\mathsf{NatMul}(\mathsf{append}(w,q),d,r)$;
+\item the unary-prefix $\OrderUp$ lower-bound row for successor products,
+which reads $\mathsf{NatMul}(d,\Eone(q),n)$ as the boundary
+$\mathsf{PreorderPrefixLE}(d,n)$ together with the endpoint classifier row.
+\end{enumerate}
+The shared consumer objects are $\mathsf{BHist}$, $\mathsf{UnaryHistory}$,
+$\hsame$, $\Cont$, $\mathsf{NatMul}$, and $\mathsf{PreorderPrefixLE}$.
+\end{theorem}
+\begin{proof}
+The right additive row is exactly
+\autoref{thm:natmul-additive-right-distributivity-surface}. It uses the
+$\AddUp$ continuation presentation through the same $\Cont(n,e,r)$ ledger and
+keeps the product predicate inside $\mathsf{NatMul}$.
+
+The left additive row is
+\autoref{thm:natmul-additive-left-distributivity-surface}. Its proof transports
+through commutativity of $\mathsf{NatMul}$ and returns to the left-hand
+presentation without changing the underlying $\mathsf{BHist}$ carrier,
+$\mathsf{UnaryHistory}$ predicate, $\hsame$ classifier, or continuation row.
+
+The order row is supplied by
+\autoref{thm:mulup-unary-product-order-lower-bound-package}. It repacks the
+successor-product multiplication witness into the unary-prefix relation
+$\mathsf{PreorderPrefixLE}$ and the $\OrderUp$ endpoint classifier. Since all
+three rows consume the displayed $\mathsf{NatMul}$ and $\Cont$ ledgers over the
+same unary histories, the package combines them without introducing another
+carrier or classifier.
+\end{proof}
+
 \begin{definition}[Divisibility relation]
 \label{def:nat-divides}
 For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.
@@ -668,4 +760,28 @@ This is a paper-level bundled certificate rather than a distinct Lean marker
 site: the three checked laws are consumed together by bounded divisor search,
 Euclid's lemma, and factorization uniqueness as the order-like interface for
 unary divisibility.
+\end{proof}
+
+\begin{theorem}[MulUp divisibility-order consumer package]
+\label{thm:mulup-divisibility-order-consumer-package}
+For unary histories, $\mathsf{NatDivides}$ supplies the $\MulUp$ arithmetic
+consumer package consisting of reflexivity, transitivity, antisymmetry modulo
+$\hsame$, right-factor closure and left-multiplication closure through
+$\mathsf{NatMul}$, and the unary-prefix lower-bound package for successor
+products. Thus any $\MulUp$ consumer that reads only unary divisibility order,
+ordinary product closure, and successor-product prefix lower bounds may cite a
+single package boundary rather than reassembling those rows separately.
+\end{theorem}
+\begin{proof}
+The order rows are exactly the reflexive and transitive laws of
+\autoref{lem:divides-reflexive} and \autoref{lem:divides-transitive}, together
+with the antisymmetry certificate of
+\autoref{thm:nat-divides-antisymmetry-hsame}.
+
+The multiplication-closure rows are supplied by
+\autoref{thm:nat-divides-mul-right-closed} and
+\autoref{thm:nat-divides-mul-left-closed}. The boundary row that connects
+successor products with the unary-prefix order is
+\autoref{thm:mulup-unary-product-order-lower-bound-package}. Collecting these
+checked rows gives the stated $\MulUp$ consumer surface.
 \end{proof}

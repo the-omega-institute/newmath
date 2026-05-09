@@ -490,6 +490,48 @@ from the tail-shifted $\RegSeqRat$ surface that it receives from the original
 finite window, with no additional primitive or bridge.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-shift dyadic-tolerance stability]
+\label{thm:regseqrat-tail-shift-dyadic-tolerance-stability}
+For regular rational-observation streams $x,y:\mathbb{N}\to\Hist$, a certified
+window
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m),
+$$
+and indices $j,r$ with $\mathsf{UnaryHistory}(j)$ and $j+r\le m$, define
+tail-shifted streams by
+$$
+x_j(k)=x(n+j+k),\qquad y_j(k)=y(n+j+k).
+$$
+If the source window classifies $x$ and $y$ through the displayed $\RegSeqRat$
+dyadic-tolerance ledger at every requested unary observation in the window,
+then the shifted window $(x_j,y_j,0,r)$ classifies the shifted streams through
+the transported dyadic-tolerance window. The transported classifier uses only
+the same $\mathsf{UnaryHistory}$ request rows, $\hsame$ endpoint comparisons,
+finite dyadic ledger rows, and $\Cont$ provenance already exposed by the source
+$\RegSeqRat$ certificate.
+\end{theorem}
+\begin{proof}
+Project the source certificate into its regularity rows and its dyadic
+classifier rows. The regularity projection is the input used by
+\autoref{thm:regseqrat-tail-shift-regularity-stability}; the classifier
+projection is the finite list of dyadic-tolerance requests attached to the same
+unary observation window.
+
+Reindex the finite unary window by the common tail shift $j$. The hypothesis
+$j+r\le m$ identifies every shifted request $k\le r$ with the source request
+$n+j+k$, and $\mathsf{UnaryHistory}(j)$ keeps the transported request inside the
+same unary-history ledger. No new endpoint row is generated; the shifted row is
+the source row read at the transported index.
+
+Apply \autoref{thm:regseqrat-tail-shift-regularity-stability} to keep both
+shifted streams inside the finite $\RegSeqRat$ carrier. Then repack the
+dyadic-tolerance rows through the same $\Cont$ ledger and the same $\hsame$
+endpoint comparisons. The resulting packet is exactly the classifier for
+$(x_j,y_j,0,r)$, with the tolerance window transported by the tail shift and no
+extra quotient, completion object, external metric primitive, or standard
+bridge.
+\end{proof}
+
 \begin{theorem}[RegSeqRat seal finite-window source coverage]
 \label{thm:regseqrat-seal-finite-window-source-coverage}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a certified source
@@ -576,6 +618,93 @@ datum, external metric primitive, $\RealUp$ completeness claim, or standard
 bridge.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window seal source exhaustion]
+\label{thm:regseqrat-finite-window-seal-source-exhaustion}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and any certified
+finite $\RegSeqRat$-to-$\RealUp$ seal window
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m),
+$$
+the accepted source package of the seal is exactly the pair formed by the
+public $\StreamNameUp$ finite-window interface and the
+$\RegSeqRat$/$\DyadicRatCore$ dyadic source-exhaustion rows. The two sides use
+the same $\mathsf{BHist}$ carrier, $\mathsf{UnaryHistory}$ request rows,
+$\mathsf{ProbeBundle}$ entries, $\mathsf{InBundle}$ membership rows, $\hsame$
+comparisons, $\Cont$ provenance, and finite dyadic ledger rows. No quotient,
+completion object, Classical datum, metric-completeness witness,
+$\RealUp$-completeness witness, or bridge datum is part of the source package.
+\end{theorem}
+\begin{proof}
+For the projection direction, apply
+\autoref{thm:regseqrat-finite-window-seal-exactness}. It identifies every seal
+read with the finite-window source rows carried by the certified window, so the
+seal source has no row outside the displayed finite packet.
+
+Next apply \autoref{thm:streamname-public-finite-window-interface}. The
+stream-name component of the projected source is exactly the public finite
+window interface, including the same unary request rows, probe entries,
+membership rows, $\mathsf{BHist}$ carrier, and $\hsame$ comparisons.
+
+Apply \autoref{thm:regseqrat-seal-finite-window-source-coverage} and
+\autoref{thm:realup-finite-window-exhaustion-obligation}. These identify the
+remaining projected rows with the $\RegSeqRat$/$\DyadicRatCore$ dyadic
+source-exhaustion rows, the shared $\Cont$ provenance, and the finite dyadic
+ledger consumed by $\RealUp$.
+
+Conversely, start from the public $\StreamNameUp$ finite-window interface
+together with the listed $\RegSeqRat$/$\DyadicRatCore$ exhaustion rows. The
+coverage theorem repacks these rows as the finite-window source package for
+the seal, and the exactness theorem makes this repacked source the accepted
+seal source for the same certified window.
+
+Because both readings use only the displayed interface rows, exhaustion rows,
+continuation provenance, and finite ledger entries, there is no remaining
+field from which a quotient, completion object, Classical datum,
+metric-completeness witness, $\RealUp$-completeness witness, or bridge datum
+could be projected.
+\end{proof}
+
+\begin{theorem}[RegSeqRat finite-window seal composition]
+\label{thm:regseqrat-finite-window-seal-composition}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a certified
+DyadicRatCore public observation row over a finite window
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m)$, the $\StreamNameUp$
+finite-window interface rows, the $\RegSeqRat$ seal source-coverage row, and
+the $\RealUp$ finite-window feed compose to a single finite-window seal package
+over the same $\mathsf{BHist}$ carrier, $\hsame$ comparisons, $\Cont$ ledger,
+and finite dyadic observation rows. Every bounded subwindow and every nested
+bounded subwindow selected inside the source window is read through that same
+package. The composed seal asserts no quotient carrier, external metric
+primitive, $\RealUp$ completeness theorem, or standard-bridge status.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:dyadicratcore-public-observation-realup-window-feed}. It exposes
+the certified DyadicRatCore observation row as the finite dyadic ledger and
+RealUp consumer row attached to the displayed source window.
+
+Apply
+\autoref{thm:dyadicratcore-public-observation-subwindow-stability}. The finite
+window may be restricted without changing the underlying $\mathsf{BHist}$
+carrier, $\hsame$ comparisons, $\Cont$ ledger, classifier rows, or finite dyadic
+ledger rows.
+
+Next use
+\autoref{thm:regseqrat-seal-finite-window-source-coverage}. This repacks the
+subwindow observation row together with the $\StreamNameUp$ finite-window
+interface as the source package consumed by the $\RegSeqRat$ seal and by the
+RealUp finite-window feed.
+
+Finally apply
+\autoref{thm:regseqrat-nested-subwindow-source-coverage}. Nested selected
+windows are obtained by repeating the same public subwindow extraction, so the
+seal package remains tied to the original finite dyadic ledger rows and the
+same $\mathsf{BHist}$, $\hsame$, and $\Cont$ data. Since every component is read
+from the cited finite-window rows, the construction introduces no quotient
+carrier, external metric primitive, $\RealUp$ completeness theorem, or
+standard-bridge status.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore public observation standard bridge boundary]
 \label{thm:dyadicratcore-public-observation-standard-bridge-boundary}
 The public DyadicRatCore observation package of
@@ -624,7 +753,8 @@ full DyadicRatCore arithmetic, or machine-checked bridge status.
 \begin{closurestatus}{\DyadicRatCore}
   \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{thm:dyadicratcore-public-observation-standard-bridge-boundary} witnesses the conservative paper bridge from public DyadicRatCore observation rows over $\mathsf{BHist}$, $\hsame$, RatUp endpoint histories, StreamNameUp finite-window rows, and the finite dyadic ledger to the interface consumed by $\RegSeqRat$ and $\RealUp$.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RealUp.DyadicRatCoreObservationRow\_realup\_window\_feed}
   \bridgestatus{paperBridge}
   \notclaimed{This boundary does not close Lean verification, full DyadicRatCore arithmetic, metric completeness, RealUp completeness, quotient carriers, completion objects, or machine-checked bridge status.}
   \upgradepath{A stronger grade requires Lean verification of the bridge boundary together with full arithmetic, metric-completeness, and RealUp-completeness packages where those claims are made.}

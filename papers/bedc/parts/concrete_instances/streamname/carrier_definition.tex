@@ -218,6 +218,59 @@ pointwise projection to $\mathsf{RatHistoryClassifier}$; standard bridge finite
 prefix consumers in RegSeqRat and RealUp; status paper theorem awaiting formal
 target.
 
+\begin{theorem}[Rational stream-name finite-window union classifier]
+\label{thm:rat-stream-name-finite-window-union-classifier}
+For certified observation maps $s,t:\Hist\to\Hist$ and probe bundles
+$\mathcal{P},\mathcal{Q}:\mathsf{ProbeBundle}$, suppose that
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$ and
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{Q})$ hold. Let
+$\mathcal{P}\cup\mathcal{Q}$ be the displayed union bundle whose members are
+exactly the certified unary observations coming from $\mathcal{P}$ or from
+$\mathcal{Q}$:
+$$
+\mathsf{InBundle}(\mathcal{P}\cup\mathcal{Q},n)\land\mathsf{UnaryHistory}(n)
+\quad\text{iff}\quad
+\bigl(\mathsf{InBundle}(\mathcal{P},n)\land\mathsf{UnaryHistory}(n)\bigr)
+\lor
+\bigl(\mathsf{InBundle}(\mathcal{Q},n)\land\mathsf{UnaryHistory}(n)\bigr).
+$$
+Then
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P}\cup\mathcal{Q})$
+holds.
+\end{theorem}
+\begin{proof}
+Unfold the finite-window classifier for the union bundle. Fix a certified unary
+observation $n$ in $\mathcal{P}\cup\mathcal{Q}$ and read the displayed union
+membership row.
+
+There are two cases. If the row comes from $\mathcal{P}$, the classifier
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$ projects at $n$
+to the pointwise RatUp classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+If the row comes from $\mathcal{Q}$, the second finite-window classifier gives
+the same kind of pointwise certificate
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ at the same unary observation.
+
+In either case the required pointwise classifier is available for the fixed
+union observation. Since the observation was arbitrary, these pointwise
+$\mathsf{RatHistoryClassifier}$ rows repack into
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P}\cup\mathcal{Q})$.
+\end{proof}
+
+Ten-field fit: traditional target finite rational stream-name observation
+composition for RegSeqRat and RealUp; BEDC source RatUp, StreamNameUp,
+$\mathsf{BHist}$, $\mathsf{UnaryHistory}$, and $\mathsf{ProbeBundle}$; carrier
+the same displayed $\mathsf{RatStreamNameCarrier}$ endpoints read by the two
+windows; classifier $\mathsf{RatStreamNameFiniteWindowClassifier}$ on
+$\mathcal{P}$, $\mathcal{Q}$, and $\mathcal{P}\cup\mathcal{Q}$; stability union
+membership case analysis over certified unary observations; ledger the two
+bundle membership rows and their shared unary observation certificate; core
+theorem \autoref{thm:rat-stream-name-finite-window-union-classifier}; exactness
+pointwise projection to $\mathsf{RatHistoryClassifier}$; standard bridge
+finite-prefix consumer for RegSeqRat and RealUp; status paper theorem awaiting
+formal target.
+
 \begin{theorem}[Rational stream-name classifier unary context one-tail pair readback]
 \label{thm:rat-streamname-classifier-unary-context-e1-pair-readback}
 If $\mathsf{RatStreamNameClassifier}(s,t)$ holds at a unary observation $n$,

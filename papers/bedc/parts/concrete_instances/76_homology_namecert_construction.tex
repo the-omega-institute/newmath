@@ -640,14 +640,29 @@ endpoint carrier witness already stored in the classifier. The semantic
 pattern and ledger fields are the source witness itself.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologySingletonCycle\_semanticNameCert}
+
+\begin{theorem}[Homology singleton cycle standard bridge boundary]
+\label{thm:homology-singleton-cycle-standard-bridge-boundary}
+The singleton-cycle semantic certificate of \autoref{thm:homology-singleton-cycle-semantic-namecert} supplies the paper-side standard bridge boundary for the exported $\HomologyUp$ cycle interface. The BEDC source is $\mathsf{BHist}$ with $\hsame$, the carrier is the singleton cycle carrier, the classifier is endpoint carriage together with $\hsame$, the ledger is the source witness, and the standard readback is the one-cycle trivial homology object.
+\end{theorem}
+\begin{proof}
+Project the semantic certificate of \autoref{thm:homology-singleton-cycle-semantic-namecert}. Its source, pattern, and ledger policy are all the singleton cycle carrier, and its classifier stores the two endpoint-carrier witnesses together with the $\hsame$ comparison.
+
+Read the source as $\mathsf{BHist}$ equipped with $\hsame$. The carrier is inhabited by $\mathsf{BHist.Empty}$, so the standard readback is the one-cycle object whose only accepted cycle endpoint is the singleton empty-history class.
+
+The ledger field is the source witness itself, and transport along the classifier uses the right endpoint-carrier witness. Repacking these rows gives the standard bridge boundary for the exported singleton-cycle $\HomologyUp$ interface.
+\end{proof}
+
+\closureat{HomologyUp}{matureStr}[BEDC.Derived.HomologyUp.HomologySingletonCycle\_semanticNameCert]
+
 \begin{closurestatus}{\HomologyUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public export is the singleton cycle semantic certificate together with the displayed cycle and boundary carrier readback and classifier transport rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature surface binds the singleton-cycle semantic certificate, cycle and boundary carrier readbacks, continuation preimage package, append and $\Cont$ transport rows, and the final $\hsame$ transport theorem.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.HomologyUp.HomologySingletonCycle\_semanticNameCert}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \notclaimed{General homology theory: arbitrary chain complexes, boundary/image quotients, chain maps, exact sequences, long exact sequences, singular or simplicial homology, and derived functors.}
-  \upgradepath{$\bridgedClosure$ requires the standard bridge from the public $\HomologyUp$ cycle and boundary interface to the abstract $\HomologyUp$ schema.}
+  \upgradepath{No further theory-axis upgrade remains; the remaining work is machine-checked bridge verification.}
 \end{closurestatus}
 
 \begin{theorem}[Homology cycle carrier $\hsame$ transport]

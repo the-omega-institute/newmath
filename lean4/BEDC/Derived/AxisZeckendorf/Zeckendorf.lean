@@ -5,10 +5,12 @@ on `hsame` and does not assert any arithmetic interpretation.
 The Fibonacci-value semantics is a horizon target.
 -/
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.AxisZeckendorf.Zeckendorf
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 inductive ZNormal : BHist → Prop where
   | empty : ZNormal BHist.Empty
@@ -28,6 +30,44 @@ theorem znormal_word_011_absurd : ZNormal word_011 → False := by
   unfold word_011
   intro h
   cases h
+
+theorem ZNormal_adjacent_one_inversion {h : BHist} :
+    ZNormal (BHist.e1 h) ->
+      (h = BHist.Empty ∨ ∃ k : BHist, h = BHist.e0 k ∧ ZNormal (BHist.e0 k)) ∧
+        (∀ k : BHist, h = BHist.e1 k -> False) := by
+  intro normal
+  constructor
+  · cases normal with
+    | e1_after_empty =>
+        exact Or.inl rfl
+    | e1_after_e0 tailNormal =>
+        exact Or.inr (Exists.intro _ (And.intro rfl tailNormal))
+  · intro k hk
+    cases normal with
+    | e1_after_empty =>
+        cases hk
+    | e1_after_e0 _tailNormal =>
+        cases hk
+
+theorem ZNormal_zero_extension_inversion {h : BHist} :
+    ZNormal (BHist.e0 h) -> ZNormal h := by
+  intro normal
+  cases normal with
+  | e0 tailNormal =>
+      exact tailNormal
+
+theorem ZNormal_normal_form_coverage :
+    ZNormal BHist.Empty ∧ (∀ {h : BHist}, ZNormal h -> ZNormal (BHist.e0 h)) ∧
+      ZNormal (BHist.e1 BHist.Empty) ∧
+        (∀ {h : BHist}, ZNormal (BHist.e0 h) -> ZNormal (BHist.e1 (BHist.e0 h))) ∧
+          (∀ {h : BHist},
+            ZNormal (BHist.e1 h) ->
+              (h = BHist.Empty ∨ ∃ k : BHist, h = BHist.e0 k ∧ ZNormal (BHist.e0 k))) := by
+  exact And.intro ZNormal.empty
+    (And.intro (fun normal => ZNormal.e0 normal)
+      (And.intro ZNormal.e1_after_empty
+        (And.intro (fun normal => ZNormal.e1_after_e0 normal)
+          (fun normal => (ZNormal_adjacent_one_inversion normal).left))))
 
 def ZNormalSourceSpec (h : BHist) : Prop := ZNormal h
 
@@ -63,6 +103,41 @@ def zNormal_namecert : ZNormalNameCert :=
     classifier := ZNormalClassifierSpec
     stability := zNormalStabilityCert
     ledger := ZNormalLedgerPolicy }
+
+theorem ZNormal_semantic_name_certificate :
+    SemanticNameCert ZNormalSourceSpec ZNormalPatternSpec ZNormalLedgerPolicy
+        ZNormalClassifierSpec ∧
+      (forall {h k : BHist},
+        ZNormalClassifierSpec h k -> ZNormal h ∧ ZNormal k ∧ hsame h k) := by
+  have cert :
+      SemanticNameCert ZNormalSourceSpec ZNormalPatternSpec ZNormalLedgerPolicy
+        ZNormalClassifierSpec := {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty ZNormal.empty
+      equiv_refl := by
+        intro h source
+        exact And.intro source (And.intro source (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified _source
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+  exact And.intro cert (fun classified => classified)
 
 theorem zNormal_licensed_not_primitive : True := True.intro
 

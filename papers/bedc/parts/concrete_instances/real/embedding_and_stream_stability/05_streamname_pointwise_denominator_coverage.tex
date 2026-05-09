@@ -588,6 +588,45 @@ the finite ledger is the unary selected index together with the dyadic-radius
 tokens stored by the RegSeqRat spines.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window dyadic classifier determinacy]
+\label{thm:regseqrat-finite-window-dyadic-classifier-determinacy}
+Let $s,t:\Hist\to\Hist$ be carried RegSeqRat streams, let
+$a,w,k:\Hist$ satisfy $\mathsf{UnaryHistory}(a)$,
+$\mathsf{UnaryHistory}(w)$, and $\mathsf{UnaryOffsetLe}(k,w)$, and put
+$n=\mathsf{append}(a,k)$. Suppose two selected finite-window records have the
+same unary window, the same RegSeqRat stream certificate spines, the
+DyadicRatCore observation rows at $s(n)$ and $t(n)$, and two finite-window
+dyadic classifier packages selecting the same
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$. Then the selected $\RealUp$ finite
+observation endpoints and their ledger provenance are classified by the same
+displayed $\hsame$ row. No quotient of rational histories, host real equality,
+or external comparison of reals is exported.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-finite-window-dyadic-observation-coverage} to the shared
+unary window. It supplies the two pointwise DyadicRatCore observation rows and
+identifies their finite ledger with the selected index $n$ and the denominator
+tokens stored in the RegSeqRat spines.
+
+Next apply
+\autoref{thm:regseqrat-finite-window-dyadic-classifier-stability-package}. The
+two dyadic classifier packages name the same
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$, so their classifier readbacks have
+the same displayed stability row over the selected endpoints.
+
+Transport each package through
+\autoref{thm:regseqrat-finite-window-dyadic-transport-package}, using the
+identity endpoint rows supplied by the shared observation records. Then use
+\autoref{thm:regseqrat-finite-window-dyadic-transport-composition} to compose
+the two readback routes.
+
+The composed route is a single $\hsame$ comparison between the selected
+$\RealUp$ finite observation endpoints. Its provenance is exactly the shared
+finite-window ledger, so determinacy is internal to the displayed classifier
+package and exports no ambient equality of real numbers.
+\end{proof}
+
 \begin{theorem}[RegSeqRat finite-window dyadic closure package]
 \label{thm:regseqrat-finite-window-dyadic-closure-package}
 For observation maps $s,t,s',t',s'',t'':\Hist\to\Hist$ and histories

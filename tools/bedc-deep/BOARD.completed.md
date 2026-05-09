@@ -14027,3 +14027,731 @@ Rationale:
 File 213_lpduality_namecert_construction.tex (656 lines) carries DuFeas (line 59) and DuObj (line 68), thm:lpduality-dual-feasibility-binary-convex-closure (line 279), and the symmetric thm:lpduality-primal-feasibility-binary-convex-closure (line 400). At line 552 it proves thm:lpduality-optimal-primal-face-binary-convex-closure: a binary mixture of two primal-feasible vectors with the same primal objective tau stays primal-feasible AND keeps the same primal objective tau. The dual-side analog (B-540 'LPDuality optimal face convex closure' was a closely-related but DIFFERENT claim about optimal-face primal closure under fixed coefficient sums; the optimal DUAL face closure is not in the BOARD title index). Required ingredients all already present: lem:lpduality-primal-objective-binary-affine-readback (line 517) is the primal-side affine readback used in the primal-face proof; the dual proof needs an analogous DuObj binary-affine readback, which the chapter sketches but does not state. Concrete clean implication; proof mirrors lines 552-655 with primal-dual swap. File at 656 lines — adding ~80 lines of theorem+proof keeps it under 800.
 
 ---
+
+### B-550 - Identity pullback gap policy unit law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Identity pullback gap policy unit law |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+If GapPol(Pi, D), then id_D: D -> D carries a classifier-preserving pullback ledger over Pi and {InGapSig}^{id_D}(Pi, D, D, p, h) <=> InGapSig(Pi, D, p, h) on every admitted history.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/gap_policy.tex`
+
+Rationale:
+Pairs naturally with B-504 (n-fold composite pullback) by supplying the unit element of the same composition operation, completing the monoid structure of classifier-preserving pullback ledgers in proof_obligations/gap_policy.tex. The file already states the binary composite (thm:composite-pullback-gap-policy at lines 197-267) but no identity/unit theorem exists in the file (grep found no 'id_D' / 'unit' / 'identity' occurrences). BOARD precedent supports identity-unit companion theorems in the same lane (B-481 Banach identity units, B-484 QuantumChannel identity composition units, B-520 Sheaf identity refinement, B-391 Quantum channel identity closure), so this is consistent with existing granularity. Proof is largely definitional (source preservation by reflexivity; classifier-preservation iff collapses), which is why fit/novelty are at threshold rather than higher. File is 267 lines, well under the 800-line cap, safe to land.
+
+---
+
+### B-552 - ZNormal predicate is closed under HSame transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | ZNormal predicate is closed under HSame transport |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If ZNormal(h) and HSame(h, k), then ZNormal(k).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/257_zeckendorf_normal_namecert_construction.tex`
+
+Rationale:
+Sister chapter 254 (axisnat) explicitly proves the parallel HSame-transport lemma for ZeroSpine; the structurally analogous ZNormal predicate in 257 (Zeckendorf) is missing it. The chapter's classifier specification defines the classifier as HSame restricted to the carrier, which is logically distinct from the predicate itself being closed under HSame transport — closure is a structural induction over the ZNormal derivation, not a definitional unfolding. Fills a clear asymmetry gap a referee would flag, lands cleanly in a 203-line file, and proof is by induction on ZNormal(h) with HSame constructor inversion.
+
+---
+
+### B-553 - Zero-spine source shape exhaustion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Zero-spine source shape exhaustion |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+For every history h with ZeroSpine(h), either HSame(h, empty) or there exists h_pred with HSame(h, E0(h_pred)) and ZeroSpine(h_pred).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/254_axisnat_namecert_construction.tex`
+
+Rationale:
+Chapter 254 has the empty base, closure under E0, E0-inversion, no-E1-extension, and HSame-transport for ZeroSpine, but no constructor-exhaustion theorem giving a binary case-disjunction over arbitrary ZeroSpine witnesses. Distinct from E0-inversion (which assumes the form E0(h_pred)) and from no-E1-extension (a negative result on a different constructor). Used downstream wherever ZeroSpine is consumed by case analysis without an explicit exhaustion citation. 144-line file is safe; theorem is one structural induction.
+
+---
+
+### B-551 - Pullback ledger composition associativity at the gap-policy level
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Pullback ledger composition associativity at the gap-policy level |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If τ1:D'→D, τ2:D''→D', τ3:D'''→D'' each carry a classifier-preserving pullback ledger over Π and GapPol(Π,D) holds, then the composite pulled-back gap predicates obtained by ((τ1∘τ2)∘τ3) and (τ1∘(τ2∘τ3)) are logically equivalent on every D'''-source/token pair.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/gap_policy.tex`
+
+Rationale:
+papers/bedc/parts/proof_obligations/gap_policy.tex defines the classifier-preserving pullback ledger at line 109 and proves the n-fold composite case `thm:composite-pullback-gap-policy-preserves-coverage-and-separation` at line 197 (B-504) plus the identity unit law `thm:identity-pullback-gap-policy-unit-law` at line 269 (B-550). Associativity of pullback composition is the missing third law that closes the categorical structure (identity + composition + associativity), and is not implied by either existing theorem since each one only fixes a single composition order. Grep `pullback.*associat|pulled-back.*associat|composite-pullback.*associat` across papers/bedc/parts/ returns zero matches. The file is 324 lines, well under the 760-line cap, with the existing pullback section ending at line 324 — clean append point. The proof is a chain unfolding of `def:classifier-preserving-pullback-ledger` clause (ii) twice on each side and reducing to the underlying composition equality τ1(τ2(τ3 h''')) = (τ1∘(τ2∘τ3))(h''') = ((τ1∘τ2)∘τ3)(h'''), then folding back.
+
+---
+
+### B-554 - NetworkFlow zero feasible flow has minimum value among feasible flows
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | NetworkFlow zero feasible flow has minimum value among feasible flows |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+For any feasible NetworkFlowUp s-t flow F over capacity assignment u, FlowValue(F0) prefix-leq_NatUp FlowValue(F), where F0 is the zero edge-flow.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+
+Rationale:
+Chapter 211 has the max-extreme fully theoremed (residual-exhaustion optimality, equality-implies-optimality, weak duality) and the existence of the zero feasible flow at value zero (B-521), but the dual extremal statement — that the zero flow is the minimum-value feasible flow — is missing. Composite consequence using lem:networkflow-unary-fold-constant-empty and thm:preorder-prefix-empty-left-iff-unary, both already cited in the existing zero-feasibility proof. Distinct from B-521 (which only asserts feasibility at value 0, not extremality). 564-line file is under cap and the theorem lands in under 30 lines.
+
+---
+
+### B-555 - Ideal intersection greatest lower bound under inclusion preorder
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ideal intersection greatest lower bound under inclusion preorder |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+For ideals I,J over a RingUp certificate with inclusion predicate ⪯_R, the intersection I∩_R J satisfies (I∩_R J) ⪯_R I, (I∩_R J) ⪯_R J, and any K ⪯_R I and K ⪯_R J jointly imply K ⪯_R (I∩_R J).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/ideal/02_lattice_sum_surface.tex`
+
+Rationale:
+Hungerford / Atiyah-Macdonald characterize ideal lattice with both meets (intersection) as GLB and joins (sum) as LUB. The chapter has `thm:ideal-sum-least-upper-bound` (line 157) but no matching greatest-lower-bound theorem for intersection — only `thm:ideal-intersection-closure` (line 47). The proof unfolds intersection (Definition line 39) and inclusion (Definition line 93) directly: (I∩J)(x) ⇒ I(x) ∧ J(x), so projection laws are immediate; for the universal property, K(x) ⇒ I(x) and K(x) ⇒ J(x) jointly give K(x) ⇒ I(x) ∧ J(x). 1 round closure. Lands in 02_lattice_sum_surface.tex (270 lines).
+
+---
+
+### B-556 - ModN singleton element plus negation classifies with the empty endpoint
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ModN singleton element plus negation classifies with the empty endpoint |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+For each unary modulus history $m:\mathsf{BHist}$, if $\mathsf{ModNCarrier}_m(h)$, then $\mathsf{ModNClassifier}_m(\mathsf{RingSingletonAdd}(h, \mathsf{RingSingletonNeg}(h)), \emp)$ — i.e. an element added to its singleton additive inverse classifies with the empty (zero) representative under the concrete ModN classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/80_modn_namecert_construction.tex`
+
+Rationale:
+ModN (80_, 199 lines) is a one-completion theme (only the bare quotient-presentation construction). The chapter establishes the concrete ModN singleton carrier/classifier (line 57-75), the classifier rows (line 77-112), and the singleton operation descent rows (line 114-159) including `RingSingletonNeg` closure and congruence — but never composes additive descent with negation descent to assert the canonical $h+(-h)\equiv 0$ row, which is the defining computational property of any modular-arithmetic interface. Single-implication, narrow (singleton scope), and tests both descent rows simultaneously. Critical structural gap: ModN closes scoped without ever stating an arithmetic identity beyond classifier reflexivity.
+
+---
+
+### B-557 - Preorder terminal endpoint-order opposite is the same relation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Preorder terminal endpoint-order opposite is the same relation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+For the terminal endpoint-order surface $(A_{\emp}, \rho_{\emp}, \preceq_{\emp})$ of \autoref{def:preorder-terminal-endpoint-order-surface}, define $\preceq_{\emp}^{\mathrm{op}}(h, k) := \preceq_{\emp}(k, h)$. Then $h \preceq_{\emp}^{\mathrm{op}} k \Longleftrightarrow A_{\emp}(h) \land A_{\emp}(k)$, hence $h \preceq_{\emp}^{\mathrm{op}} k \Longleftrightarrow h \preceq_{\emp} k$ — the terminal endpoint-order surface is its own opposite.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/preorder/terminal_endpoint_order_surface.tex`
+
+Rationale:
+Preorder (27_, 772 lines, near cap) has only the existing `preorder/terminal_endpoint_order_surface.tex` (85 lines) and `preorder/closure_status.tex` (9 lines) child files. The hub establishes the abstract preorder opposite construction (line 700-719) and the terminal endpoint-order surface (line 721-769); no theorem instantiates the opposite construction on the terminal endpoint-order surface. Single-implication, follows from the surface's symmetric definition $\preceq_{\emp}(h,k) \Leftrightarrow A_{\emp}(h) \land A_{\emp}(k)$ being unchanged under endpoint swap. Should be added as a new sibling file `preorder/opposite_terminal_endpoint_order.tex` rather than appending to the near-cap hub. Fills the 'op-instance' gap that demonstrates the opposite construction is well-defined on the closed surface.
+
+---
+
+### B-559 - RealAnalytic CosPart at empty input is identically the constant-one stream
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RealAnalytic CosPart at empty input is identically the constant-one stream |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+If a $\RealUp$ history $x$ is classified to $\emp$ and supplied limit witness $\mathsf{Cos}(x,c)$ together with limit-uniqueness rows comparing $\mathsf{CosPart}(x,\cdot,\cdot)$ with the constant-one rational stream are present, then $\mathsf{RealClassifier}(c, \Eone(\emp))$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex`
+
+Rationale:
+Belongs to the Real Analytic chapter. Textbook standard: Apostol, *Mathematical Analysis*, §8.21 (cosine series) treats $\cos 0=1$ as the very first trigonometric value; Rudin *Principles of Mathematical Analysis*, §8.7 likewise. Currently the chapter only states the addition formula (line 535-558), the Pythagorean identity (line 387-395), and sin-pi-multiples (line 397-405) — and the latter explicitly assumes 'supplied limit-uniqueness classifier rows for the base values $\sin(0)$ and $\sin(\mathsf{Pi})$' (line 399), confirming neither base value is internally established. Closes in 1-3 codex rounds: at $x=\emp$, the recursive definition of $\mathsf{CosPart}$ (line 369-371) gives $C_0 = 1$, and every successor term contains the factor $x^{2k} = 0$ for $k\ge 1$ (zero-power vanishing under $\RealAlgOrder$ multiplication rows already cited in line 326). Infrastructure already present: $\RealAlgOrder$ rows for products and powers, unary factorial denominators, supplied $\RealUp$ limit and uniqueness rows. The lemma uses the same shape as the existing exp-additivity (line 324) and Pythagorean (line 387) theorems.
+
+---
+
+### B-560 - RealAnalytic SinPart at empty input is identically the zero stream
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RealAnalytic SinPart at empty input is identically the zero stream |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 6/10 |
+
+Problem:
+If a $\RealUp$ history $x$ is classified to $\emp$ and supplied limit witness $\mathsf{Sin}(x,s)$ together with limit-uniqueness rows comparing $\mathsf{SinPart}(x,\cdot,\cdot)$ with the constant-zero rational stream are present, then $\mathsf{RealClassifier}(s, \emp)$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex`
+
+Rationale:
+Belongs to the Real Analytic chapter. Textbook standard: Apostol §8.21, Rudin §8.7 — $\sin 0 = 0$ is the canonical base case for sine identities. This is currently a *supplied hypothesis* of $\autoref{thm:real-analytic-sin-pi-multiples}$ (file 52_real_analytic_namecert_construction.tex line 399 and 402: 'The trigonometric witnesses and classifier rows supply the base values $\sin(0)$ and $\sin(\mathsf{Pi})$ as zero'). Internalising sin(0)=0 as a kernel theorem turns one of the two supplied base rows into an established lemma, tightening sin-pi-multiples without touching the Pi machinery. Closes in 1-3 codex rounds: at $x=\emp$, the recursive definition $\sum_{k=0}^n (-1)^k x^{2k+1}/(2k+1)!$ (line 371) has every term containing the factor $x^{2k+1} = 0$ (every odd power of zero vanishes under the $\RealAlgOrder$ multiplication rows). Infrastructure: same as cos(0)=1 candidate. No new prerequisites.
+
+---
+
+### B-561 - RealAnalytic ExpPart at empty input is identically the constant-one stream
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RealAnalytic ExpPart at empty input is identically the constant-one stream |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+If a $\RealUp$ history $x$ is classified to $\emp$ and supplied limit witness $\mathsf{Exp}(x,e)$ together with limit-uniqueness rows comparing $\mathsf{ExpPart}(x,\cdot,\cdot)$ with the constant-one rational stream are present, then $\mathsf{RealClassifier}(e, \Eone(\emp))$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex`
+
+Rationale:
+Belongs to the Real Analytic chapter. Textbook standard: Apostol §8.20 (exponential series) and Rudin §8.6 take $\exp 0 = 1$ as the foundational identification preceding every multiplicative property. Currently the chapter has no theorem stating exp(0)=1; the additivity theorem (line 324-333) treats the additive identity case implicitly by way of supplied limit witnesses for both arguments. Closes in 1-3 codex rounds: at $x=\emp$, $\mathsf{ExpPart}(x,n,S_n) = \sum_{k=0}^n x^k/k!$ (line 111) collapses to $1 + 0 + 0 + \dots = 1$ since $x^k = \emp$ for $k \ge 1$ (zero-power vanishing) and $x^0/0! = 1_R$ by the unary factorial-denominator inverse already established in the chapter. Infrastructure already present: ExpPart definition (line 111), $\RealAlgOrder$ rows for products and powers (line 326), unary factorial-denominator inverses, supplied limit witness.
+
+---
+
+### B-562 - Polynomial evaluation at the multiplicative unit equals additive fold of coefficients
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial evaluation at the multiplicative unit equals additive fold of coefficients |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a scalar $\RingUp$ certificate $R$ with multiplicative unit $1_R$, for every carried coefficient spine $p$, $\mathsf{Eval}_{1_R,R}(p) \sim_R \mathsf{fold}_{+,R}(\mathsf{trim}_R(p))$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+
+Rationale:
+Belongs to the Polynomial chapter (25_polynomial). Textbook standard: Hungerford *Algebra*, ch.III §5 (polynomial evaluation), and any introductory abstract algebra textbook treats the identity $p(1) = a_0 + a_1 + \dots + a_n$ as the most basic specialisation of polynomial evaluation. The chapter has 'evaluation at zero returns the constant coefficient' as a stated theorem (file 25_polynomial_literal_addtrim_eval.tex line 442), evaluation is additive (line 113), evaluation is multiplicative (line 330), but the symmetric specialisation 'evaluation at one returns the sum of coefficients' is not stated. Closes in 1-3 codex rounds: the recursive Horner clause at $\alpha = 1_R$ collapses the multiplicand $\alpha\cdot u$ to $u$ via the scalar multiplicative left-unit row of $\RingUp$ (already cited multiple times in 26_fps_ringup_tail.tex line 68), and structural induction on the trimmed coefficient spine identifies the iterated Horner result with the finite additive fold (the lemma $\autoref{thm:finite-additive-fold-congruence-coefficient-lists}$ of file 25_polynomial_namecert_construction.tex line 525 is exactly the fold-side congruence prerequisite). All references already exist in the polynomial chapter.
+
+---
+
+### B-563 - ProbSpace ternary inclusion-exclusion identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ProbSpace ternary inclusion-exclusion identity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+Given a ProbSpace^↑ carrier P with measurable events A,B,C and binary cover-difference ledgers for each pair, mu(A ∪ B ∪ C) + mu(A ∩ B) + mu(A ∩ C) + mu(B ∩ C) ~_R mu(A) + mu(B) + mu(C) + mu(A ∩ B ∩ C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+
+Rationale:
+162_probspace_namecert_construction.tex:213 establishes the binary inclusion-exclusion identity (thm:probspace-binary-inclusion-exclusion-identity, B-503 on BOARD) using def:probspace-binary-cover-difference-ledger (line 189). Grep for `ternary.*inclusion|three.*inclusion|triple.*inclusion|ProbSpace.*[Tt]ernary` returned no matches in papers/ or lean4/. The natural ternary version is the next layer in the same chapter; the proof composes the binary identity twice (at A vs (B ∪ C) and then at B vs C), using the binary cover-difference ledger plus the AbGroupUp additive congruence rows already invoked at line 249. File at 281 lines, ample room. Distinct from B-530 'Measure ternary-union subadditivity' (Measure-side subadditivity, not inclusion-exclusion equality on ProbSpace).
+
+---
+
+### B-558 - Max-flow value lifts to a primal LP optimum bridge between NetworkFlow and LPDuality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Max-flow value lifts to a primal LP optimum bridge between NetworkFlow and LPDuality |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a NetworkFlowUp carrier G with capacity u, feasible flow F, and residual-cut exhaustion certificate Xi, the flow-value endpoint V_F and cut-capacity endpoint K_Xi assemble a primal-dual LPDualityUp feasible pair over the carrier's unary scalar field whose strong-duality classifier returns the same hsame endpoint.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/211_networkflow_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex`
+
+Rationale:
+This is a genuine bridge target between two existing concrete_instances chapters that the project_governance roadmap pairs but never wires up: 211_networkflow already proves V_F hsame K_Xi via residual-cut exhaustion (B-463, B-554) and 213_lpduality already provides strong-duality classifier data over abstract ordered fields (B-516/B-519/B-525/B-540/B-549). What is missing is the assembly map: certificate-grade max-flow data → primal-dual LP feasible pair with classifier coincidence. None of the existing BOARD entries do this; B-554 is single-side optimality only, the LPDuality entries are face/feasibility transports on the LP side alone, and B-447/B-444/B-429 stay inside the LP carrier. The candidate also flags the right landing-safety move: 211_networkflow is near cap, so this lands in a new sibling 211_networkflow_lpduality_bridge.tex rather than mutating either existing file. Concrete implication form, in BEDC scope, no paper duplicate.
+
+---
+
+### B-565 - UnitaryGroupUp public certificate theorem aggregating its four obligation rows
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | UnitaryGroupUp public certificate theorem aggregating its four obligation rows |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+The carrier-classifier, operation-stability, inner-product-preservation, and ledger-exactness obligations together exhibit a public NameCert_{UnitaryGroupUp} export over the HilbertUp and LieGroupUp sources.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/197_unitarygroup_namecert_construction.tex`
+
+Rationale:
+Chapter sits at scopedClosure with explicit upgradepath demanding exactly this aggregator. The four obligation theorems are present in the file but never composed into the public NameCert export. Standard BEDC public-closure pattern (matches `spectraltheorem-public-certificate` shape). Lands cleanly in 197_unitarygroup_namecert_construction.tex (114 lines, ample room).
+
+---
+
+### B-566 - DiffForm exterior-derivative two-step composability ledger
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | DiffForm exterior-derivative two-step composability ledger |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If two accepted DiffForm exterior-derivative input rows over (omega,eta) and (eta,theta) share the middle eta, the composite exposes the two-step degree continuation row ContR(d_omega, E1(E1(emp)), d_theta).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/114_diffform_exterior_derivative_boundary.tex`
+
+Rationale:
+Chapter currently carries only one-step degree-shift boundary (line 106) and explicitly defers d²=0 to DeRham. B-543 is the DeRham-side nilpotence; the DiffForm-side composability ledger (without d²=0 assertion) is the missing precursor that the DeRham proof would consume. Two-step continuation row is a classic composite consequence with clear binder shape. Lands in 114_diffform_exterior_derivative_boundary.tex (158 lines).
+
+---
+
+### B-564 - AxisAdd zero-spine result inversion: prefix and suffix inherit zero-spine
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AxisAdd zero-spine result inversion: prefix and suffix inherit zero-spine |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If ContR(h, k, r) and ZeroSpine(r) hold, then both ZeroSpine(h) and ZeroSpine(k) hold.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/255_axisadd_namecert_construction.tex`
+
+Rationale:
+Converse of `thm:axisadd-cont-preserves-zerospine` (line 86). Forward direction is ZS(h)∧ZS(k)∧Cont(h,k,r) → ZS(r); the inversion ZS(r)∧Cont(h,k,r) → ZS(h)∧ZS(k) is missing. Constructor-inversion / no-confusion lemma against the Ezero generator. Closes the source/result classification round-trip on AxisAddUp without invoking AddUp bridge. Distinct from B-553 (which lives in axisnat and concerns source shape exhaustion). Lands in 255_axisadd_namecert_construction.tex (134 lines).
+
+---
+
+### B-567 - Hash second-preimage success is irreflexive on the message
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Hash second-preimage success is irreflexive on the message |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under message-classifier reflexivity, HashSecondPreimageSuccess_{mathcal H}(x, x) is impossible: no transcript can witness a second-preimage with itself.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex`
+
+Rationale:
+Direct analogue of B-523 (collision irreflexivity at line 293-326) for second-preimage success. The transcript predicate requires neg sigma(x,x') as part of definition, so reflexivity of sigma forces irreflexivity. Distinct from B-489 (collision-freeness excludes second-preimage — that's the resistance direction, not the diagonal-impossibility direction). The dual is mentioned nowhere in the existing 220_hash file. Sits comfortably alongside the existing irreflexivity / induces-direction / boundary theorems. 413 lines, well below cap.
+
+---
+
+### B-568 - Banach identity bounded-linear operator carrier construction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Banach identity bounded-linear operator carrier construction |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If C is a BanachUp candidate, then BanachBLOp(C, C, id_C, 1_RealUp, I_C) is carried, where id_C is the source identity map and I_C records the reflexivity, multiplicative-unit, RealUp non-negativity, and norm rows used by the carrier definition.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex`
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
+
+Rationale:
+The Banach bounded-operator carrier is defined at papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex:1-31 with four carrier rows (classifier-respect, additivity, scalar action, RealUp bound). The zero operator carrier is constructed as a theorem at the same file, line 145 (B-480 on the BOARD). The IDENTITY operator carrier, by contrast, is only referenced as a hypothesis at bounded_linear_operator_composition.tex:319 ('Assume also that the source and target identity maps carry the unit bound: BanachBLOp(C,C,id_C,1_RealUp,I_C)'); no theorem CONSTRUCTS this carrier from the BanachUp axioms. A grep for `Banach.*identity.*operator.*carrier` returns no theorem-environment match across papers/bedc/parts/, and no Lean target named BanachIdentityBoundedLinearOperator_carrier or similar exists under lean4/BEDC/. The construction is a concrete one-shot proof using Banach C's classifier reflexivity, the RealUp multiplicative-identity row 1·r ~ r, and 1 ≥ 0; it parallels the zero-operator carrier proof at bounded_linear_operator_obligations.tex:163-194 in shape but uses different scalar-row witnesses, so it is not a parameter echo. Filling this gap also discharges the unit-ledger hypothesis hand-waved at line 319 of the composition file.
+
+---
+
+### B-570 - Polynomial multiplication has right zero absorption
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial multiplication has right zero absorption |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+For every CommRingUp scalar source R and finite coefficient spine p over R, the raw Cauchy product PolyMul_R(p, nil) is PolySame_R-classified with nil.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_algebra.tex`
+
+Rationale:
+The chapter already proves the LEFT version `thm:polynomial-multiplication-left-zero-absorption` at 25_polynomial_literal_addtrim_algebra.tex:203, and proves multiplicative commutativity over commring scalars at 25_polynomial_literal_addtrim_algebra.tex:134 (`thm:polynomial-raw-multiplication-commutativity-from-commring-scalars`). Hence right-zero absorption follows by composing the two: PolyMul(p, nil) ~ PolyMul(nil, p) ~ nil. Standard textbook (Hungerford Algebra Ch.III §6, Lang Algebra Ch.IV §1: polynomial ring zero element is two-sided absorbing). No matching label in BOARD index. The file is 242 lines (well below the 760-line cap). Closes in 1 round: a 5-line proof citing two existing labels.
+
+---
+
+### B-569 - Banach bounded operator zero right-composition annihilation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Banach bounded operator zero right-composition annihilation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If T : H_0 -> H_1 is a carried BanachBLOp row and 0_{H_1,H_2} : H_1 -> H_2 is the carried zero operator on (H_1, H_2), then 0_{H_1,H_2} ∘ T is carried as BanachBLOp(H_0, H_2, 0_{H_1,H_2} ∘ T, 0_RealUp · L, Lambda_{12} ⋆ Gamma) and is classified with the zero representative on (H_0, H_2).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex`
+
+Rationale:
+papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex:368 carries `thm:banach-bounded-linear-operator-left-zero-annihilation` (BOARD B-522), which composes T : H_1 -> H_2 with the input-side zero 0_{H_0,H_1} to get the (H_0,H_2) zero. The DUAL — composing T : H_0 -> H_1 with the output-side zero 0_{H_1,H_2} — is structurally absent. A grep for `[Bb]anach.*[Rr]ight.*[Zz]ero.*[Aa]nnihilat`, `right-composition`, and `Banach.*right.*zero` across papers/bedc/parts/ returns zero theorem matches; the only hit is the in-proof phrase 'right-zero multiplication comparison' at line 443 of the same file, used as a RealUp identity, not as a separate theorem. By contrast, papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex:435 carries `thm:abeliancat-zero-morphism-right-composition-absorption` and BOARD entries B-518 (left-absorbing) and B-531 (right-absorbing) appear as a paired set for AbelianCat — the asymmetry on the Banach side is therefore a real gap, not a deliberate scope cut. The proof structurally differs from B-522: zero ∘ T evaluates to 0 by the output-zero map's defining row, not via T's homogeneity, so it is not just symmetry on existing arguments.
+
+---
+
+### B-571 - AffineSpace action by the zero vector classifies with the carried point
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | AffineSpace action by the zero vector classifies with the carried point |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If p is a carried point row in an AffineSpaceUp history-torsor carrier and 0_V is the vector zero supplied by its VecSpaceUp dependency certificate, then the action endpoint act(p, 0_V) and p are AffCls-classified by the identity case of the translation classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/184_affinespace_namecert_construction.tex`
+
+Rationale:
+The chapter proves the converse direction `thm:affinespace-separation-obligation` at 184_affinespace_namecert_construction.tex:84 ('if zero-translation acts sending p to ~q, then AffCls identifies p, q'), but the forward fact 'act(p, 0_V) ~ p' is not stated. Standard textbook (Berger Geometry I Ch.II §2.1, Audin Geometry §I.1: translation by 0 is the identity action). The proof reuses `thm:affinespace-action-closure-obligation` to carry the endpoint and `thm:affinespace-separation-obligation` to convert the zero-translation hsame witness into AffCls identity classification. File is 209 lines. Closes in 1-2 rounds; no oracle escalation needed because all infrastructure is already in this file.
+
+---
+
+### B-573 - InnerProduct norm-squared of scalar action factors as scalar self-product times norm-squared
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | InnerProduct norm-squared of scalar action factors as scalar self-product times norm-squared |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For every carried scalar r and carried vector x in an InnerProductUp BHist source, the norm-squared endpoint ||r ·_V x||²_I is classified by the retained scalar classifier with (r ·_K conj_K(r)) ·_K ||x||²_I.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/norm_metric_seed.tex`
+
+Rationale:
+The chapter proves `thm:innerproduct-norm-squared-carrier-row` (carrier transport, 25_polynomial_literal_addtrim_eval would not be, this is innerproduct/norm_metric_seed.tex:25) and the linearity row `thm:innerproduct-vecspace-linearity-row` (innerproduct/core_surface.tex:121) handles both additive and scalar-action arguments with the conjugate handling promised on the conjugate-linear side. Polarization-difference and parallelogram are in the parallelogram seed. But the explicit norm-scaling identity ||r·x||²_I ~ (r·conj(r))·||x||²_I is missing — standard textbook (Folland Real Analysis Ch.5 §5.5, Conway Functional Analysis I §I.1.5: 'inner product is conjugate-bilinear, hence ||rx||² = |r|²||x||²'). Proof: apply linearity at left slot to extract r, then linearity at right slot with conjugation to extract conj(r), then scalar associativity. File norm_metric_seed.tex is only 101 lines. Closes in 2-3 rounds; the only nontrivial step is checking the conjugate-linearity clause of the existing linearity row at the right argument, which the row explicitly promises (core_surface.tex:140, 'the conjugate argument handled by the displayed conjugation row when the source uses that side as the conjugate-linear argument').
+
+---
+
+### B-574 - LambdaCalc alpha classifier transitivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LambdaCalc alpha classifier transitivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If two accepted alpha-classifier rows relate $(s,t)$ and $(t,u)$ over accepted $\LambdaCalcUp$ term packets sharing the displayed $\TreeUp$ syntax row and $\NatUp$ binder ledger, then the composed alpha-classifier row relating $(s,u)$ is also accepted, with reversed and concatenated carried $\hsame$ rows on the $\TreeUp$ skeletons and the $\NatUp$ binder indices.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/178_lambdacalc_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/lambdacalc/root_frontier.tex`
+
+Rationale:
+The lambdacalc chapter currently exposes alpha-classifier reflexivity at `papers/bedc/parts/concrete_instances/178_lambdacalc_namecert_construction.tex:244-272` (`thm:lambdacalc-carrier-reflexive`) and alpha-classifier symmetry at lines 274-302 (`thm:lambdacalc-alpha-classifier-symmetric`), but no transitivity row anywhere in the chapter or its split sub-files (`lambdacalc/root_normal_form_boundary.tex`, `root_frontier.tex`, `namecert_public_boundary.tex`). Among the 25 theorems in the parent file and 17 in its sub-files, no completed BOARD target (search across `b-*_lambdacalc_*` returns only the parent chapter not yet probed by bedc-deep) covers transitivity. This is a textbook structural blindspot: equivalence-classifier predicates uniformly receive refl/sym/trans, and lambdacalc has the first two but the third is a simple compose-the-witnesses argument. Loning's parallel pipeline has not touched it either. The parent file is at 735/800 lines so the new theorem can land in `lambdacalc/root_frontier.tex` (293 lines, ample room) as a sibling body file.
+
+---
+
+### B-575 - Quadrature singleton-node sum equals weight times integrand evaluation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Quadrature singleton-node sum equals weight times integrand evaluation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $Q=(xs,\alpha,\omega,\mathcal{I}_Q)$ is a finite weighted $\QuadratureUp$ rule over the scalar carrier $R$ in the sense of `def:quadrature-finite-weighted-exactness-degree`, and the $\FinSetUp$ node spine $xs$ enumerates exactly one position $i_0$, then for every finite polynomial-code spine $p:\mathsf{ListCarrier}(R)$, $\mathsf{QSum}_Q(p)\sim_R \omega_{i_0}\cdot \mathsf{Eval}_{\alpha_{i_0},R}(p)$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
+
+Rationale:
+The Quadrature chapter (`papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`, 291 lines) handles the empty-node-spine case in `thm:quadrature-empty-node-sum-zero` (B-538), the degree-zero exactness/weight-sum equivalence in B-542, and degree-bound preorder (transitivity B-? line 173, reflexivity B-? line 204, weakening line 124, equivalence stability line 149). The singleton-node case — the simplest non-empty quadrature rule — has no companion theorem and is a clean direct unfold of `\mathsf{QSum}_Q(p)` using the singleton clause of `def:finite-additive-scalar-fold` and `lem:quadrature-empty-position-fold-zero` (already present at line 469). It mirrors the existing empty-node closure-status proof and gives downstream numerical-analysis chapters the n=1 base case for inductive arguments over node count.
+
+---
+
+### B-576 - Banach scalar-action of bounded operator distributes over composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Banach scalar-action of bounded operator distributes over composition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If $T:H_0\to H_1$ is a carried $\BanachBLOp$ row with bound $L_T:\RealUp$, $S:H_1\to H_2$ is a carried $\BanachBLOp$ row with bound $L_S:\RealUp$, and $c:\RealUp$ is a carried scalar with $\NonNeg_{\RealUp}(c)$, then the composite $S\circ(c\cdot T)$ is a carried $\BanachBLOp$ row from $H_0$ to $H_2$ with bound $c\cdot L_T\cdot L_S$ and is $\BanachBLOp$-classifier equal to $c\cdot(S\circ T)$ over the same source/target Banach carriers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
+
+Rationale:
+The Banach BLO sub-directory has thoroughly developed composition algebra: associativity (line 231), identity units (B-481 line 303), left-zero annihilation (B-522 line 368), right-zero annihilation (B-569 in flight, line 453), composition-Lipschitz (line 24), composition-Cauchy preservation (line 60). The companion file `bounded_linear_operator_obligations.tex` adds scalar-multiple bound (B-541, line 398) and pointwise sum closure (B-532, line 223). What is conspicuously absent is the scalar-action × composition interaction `(c\cdot T)\circ S` or `S\circ(c\cdot T)` — the standard `\mathcal{L}(H_1,H_2)$-bimodule structure over scalars. With both ingredients on hand (scalar-multiple bound and composition closure), this is a direct ledger composition that closes the bilinearity-of-composition gap. File at 514/800 lines has ~280 lines of room.
+
+---
+
+### B-577 - RandomVar preimage symmetric-difference exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RandomVar preimage symmetric-difference exactness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For a carried $\RandomVarUp$ measurable map $f:\Omega\to\Omega'$ and target events $A,B\in\mathcal{A}'$ with classifier-stable measurable preimages and difference rows, the preimage of the symmetric difference $A\triangle B := (A\setminus B)\cup(B\setminus A)$ is classifier-equal to the symmetric difference of the preimages: $f^{-1}(A\triangle B)\sim f^{-1}(A)\triangle f^{-1}(B)$ in the source $\sigma$-algebra.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/randomvar/preimage_exactness.tex`
+
+Rationale:
+The randomvar chapter has expanded its preimage-exactness palette substantially: union exactness (B-419), relative-difference exactness (B-434, file line 60), complement-and-relative-difference exactness (B-439, line 113), empty-event exactness (B-456, line 184), countable union exactness (B-474), countable intersection exactness (B-524), disjoint binary union exactness (line 13). The symmetric-difference case is the natural composition of two of those rows (relative difference applied twice and then unioned) but has no dedicated theorem. It is the standard structural row that downstream measure-theoretic preimage manipulation expects, and the proof factors directly through the existing union (B-419) and relative-difference (B-434) theorems. File `randomvar/preimage_exactness.tex` at 220 lines has room.
+
+---
+
+### B-572 - ConvexSet pointwise (Minkowski) sum closes under the binary affine combination row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ConvexSet pointwise (Minkowski) sum closes under the binary affine combination row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If C and D are ConvexSetUp carriers over the same VecSpaceUp source V each supplying the binary affine-combination row, then the pointwise sum C+_*D := {z : ∃c,d, C(c) ∧ D(d) ∧ z ~_V c +_V d} also satisfies the binary affine-combination row of `def:convexset-binary-affine-combination-row`.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+
+Rationale:
+The chapter has intersection (`thm:convexset-pointwise-intersection-affine-combination-closure` at 186_convexset_namecert_construction.tex:207), linear image (`thm:convexset-linear-image-affine-combination-closure`:250), and linear preimage (`thm:convexset-linear-preimage-affine-combination-closure`:369) closures, but NOT the Minkowski (pointwise) sum closure. Standard textbook (Rockafellar Convex Analysis Ch.II §3.1: 'if C, D are convex then C+D is convex'). Proof uses `def:convexset-binary-affine-combination-row` separately on C and D, then VecSpaceUp distributivity and middle-four interchange (`thm:abgroup-middle-four-interchange`) to regroup a(c1+d1) + b(c2+d2) as (ac1+bc2) + (ad1+bd2). All three pieces exist. File is 431 lines (room remains). Closes in 2-3 rounds. Not a parameter-transport echo: it constructs a new convex set from two and verifies the binary affine row, an explicit closure law.
+
+---
+
+### B-578 - Two-$\SubgroupUp$ intersection is a $\SubgroupUp$ certificate (abstract version)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Two-$\SubgroupUp$ intersection is a $\SubgroupUp$ certificate (abstract version) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+For a fixed $\GroupUp$ source and any two $\SubgroupUp$ predicates $H_1, H_2$ on its carrier, the carrier $H_{1,2}(x) :\Leftrightarrow H_1(x) \land H_2(x)$ with restricted $\hsame$ classifier satisfies the $\SubgroupUp$ certificate rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction_core.tex`
+- `papers/bedc/parts/concrete_instances/subgroup/`
+
+Rationale:
+Concrete instances chapter (subgroup). Textbook-standard: 'the intersection of two subgroups is a subgroup' (Hungerford Algebra ch.I §2 Thm.2.5; Dummit & Foote ch.2). BEDC currently has only specialised intersections — `\thm:subgroup-centralizer-intersection-certificate` (58_subgroup_namecert_construction_core.tex:86) for two centralizers. The general two-subgroup version is a direct generalisation: the proof of the centralizer-intersection theorem (lines 107-145) componentwise unpacks two centralizer witnesses; the same shape works for arbitrary SubgroupUp predicates by using `\thm:subgroup-one-step-criterion` (subgroup chain) instead of centralizer-specific rows. Closes in 1-3 rounds: identity row pair, product closure pair, inverse closure pair, hsame transport pair. Land in new child `subgroup/abstract_two_subgroup_intersection.tex` (core file at 745 lines is borderline). NOT covered by B-466 (matroid intersection right subset projection) or any centralizer-intersection BOARD entry.
+
+---
+
+### B-579 - Polynomial raw multiplication right distributivity over raw addition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial raw multiplication right distributivity over raw addition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If R carries a RingUp certificate with classifier ~_R and operations radd_R, rmul_R as in def:polynomial-raw-cauchy-product, then for every finite coefficient spines p, q, r, PolySame_R(rmul_R(p, radd_R(q, r)), radd_R(rmul_R(p, q), rmul_R(p, r))).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_multiplication.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex`
+
+Rationale:
+Same host file as candidate #1 (103 lines). Searched grep 'distrib' across papers/bedc/parts/concrete_instances/25_polynomial*.tex returned 0 hits for raw multiplication distributivity over addition — only the singleton-collapse-level distributivity at 25_polynomial_namecert_construction.tex L349 (thm:polynomial-singleton-append-distrib-classified) and the FPS sibling 26_fps_namecert_construction.tex L546 (thm:fps-cauchy-product-distributes-over-fps-addition) exist. So distributivity is proven for FPS Cauchy product but not for finite-spine polynomial Cauchy product. Proof: Cauchy formula gives rmul(p, radd(q,r))[n] ~ Σ p[i]·radd(q,r)[j] = Σ p[i]·(q[j]+r[j]) ~ Σ (p[i]·q[j] + p[i]·r[j]) by ring left-distributivity in def:ring-stability-certificate, splits via finite-additive-fold-congruence into Cauchy(p,q;n) + Cauchy(p,r;n) ~ rmul(p,q)[n] + rmul(p,r)[n], then padded extensionality gives PolySame.
+
+---

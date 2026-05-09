@@ -561,3 +561,43 @@ Thus the required accounting row holds for every finite cut record $C$.
 
 Both the capacity row and the cut-accounting row are therefore satisfied, so $F_0$ is a feasible $\NetworkFlowUp$ $s$-$t$ flow over $u$ with zero edge-flow, zero value witness, and trivial cut-history witnesses.
 \end{proof}
+
+\begin{theorem}[Zero feasible network flow has minimum value]
+\label{thm:networkflow-zero-feasible-flow-minimum-value}
+Let $G$ be a directed $\GraphUp$ carrier, let $u$ be a unary capacity assignment on its edges, and let $s,t$ be carried vertices. Define the zero edge-flow assignment by
+$$
+f_0(e):=\emp
+\qquad\text{for every }e:\mathsf{BHist},
+$$
+and let $F_0$ be the feasible $\NetworkFlowUp$ $s$-$t$ flow over $u$ supplied by \autoref{thm:networkflow-zero-edge-flow-feasible}, with value witness
+$$
+V_{F_0}:=\emp.
+$$
+Then $F_0$ has minimum value among feasible finite $s$-$t$ flows over $u$: for every feasible finite $\NetworkFlowUp$ $s$-$t$ flow $F$ over $u$,
+$$
+\mathsf{FlowValue}(F_0)
+\preceq_{\NatUp}
+\mathsf{FlowValue}(F).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the feasible-flow datum of \autoref{def:networkflow-finite-flow-cut-data} for the arbitrary feasible flow $F$. Its value witness is a unary history, and by notation
+$$
+\mathsf{FlowValue}(F)=V_F.
+$$
+Since $V_F$ lies in the concrete unary history preorder carrier, \autoref{thm:preorder-prefix-empty-left-iff-unary} gives
+$$
+\emp\preceq_{\NatUp}V_F.
+$$
+Using the value-witness definition of the zero flow from \autoref{thm:networkflow-zero-edge-flow-feasible},
+$$
+\mathsf{FlowValue}(F_0)=V_{F_0}=\emp.
+$$
+Transporting the left endpoint along this identification and the right endpoint along $\mathsf{FlowValue}(F)=V_F$ gives
+$$
+\mathsf{FlowValue}(F_0)
+\preceq_{\NatUp}
+\mathsf{FlowValue}(F).
+$$
+The quantified flow $F$ was arbitrary among feasible finite $s$-$t$ flows over $u$, so the zero feasible flow is minimum for the concrete $\NatUp$ prefix order on flow values.
+\end{proof}
