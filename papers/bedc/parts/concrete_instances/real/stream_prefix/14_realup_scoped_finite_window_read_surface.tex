@@ -445,3 +445,46 @@ or for the finite $\mathsf{RealLedgerPolicy}$ row. Hence the packet over $W$
 restricts to the same visible endpoint rows and the same real-ledger row over
 $U$.
 \end{proof}
+
+\begin{theorem}[RealUp StreamName-RegSeqRat uniform window readback]
+\label{thm:realup-streamname-regseqrat-uniform-window-readback}
+Let $W_0$ and $W_1$ be certified finite $\RealUp$ observation-window packages,
+and let $U$ be a certified finite common refinement of their selected
+$\mathsf{ProbeBundle}$ windows. Assume that both packages factor through the
+public $\StreamNameUp$ finite-window interface, that their restrictions to $U$
+carry the same $\StreamNameUp$ classifier row, and that the displayed
+$\RegSeqRat$ pointwise seal gives the same regular-sequence spine over the
+same $\mathsf{BHist}$ endpoints, $\hsame$ transports, $\Cont$ rows, and
+$\Pkg$ provenance rows. Then the two restricted $\RealUp$ readback packets have
+the same visible $\RatUp$ endpoint readback rows on every selected finite
+subwindow of $U$, and they expose the same finite
+$\mathsf{RealLedgerPolicy}$ row.
+
+The statement is only a finite-window consumer theorem. It identifies the rows
+read through the StreamName-RegSeqRat handoff and does not identify quotient
+completions, metric completions, global Cauchy moduli, arithmetic operations,
+order operations, Classical representatives, or standard bridge data.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-uniform-finite-window-seal}. The common
+$\StreamNameUp$ classifier row over $U$ and the displayed $\RegSeqRat$
+pointwise seal determine a single finite-window handoff surface, with the
+$\mathsf{BHist}$ endpoints, $\hsame$ transports, $\Cont$ rows, and $\Pkg$
+provenance rows kept in the public packet.
+
+Next compare that handoff surface with the selected $\RealUp$ read surface.
+Apply \autoref{thm:realup-streamname-regseqrat-window-correspondence}. It
+identifies the $\RealUp$ finite-window observation surface with the pair
+consisting of the public $\StreamNameUp$ finite-window interface and the
+$\RegSeqRat$ dyadic source exhaustion rows, together with the same endpoint,
+transport, provenance, and finite-ledger rows.
+
+Finally restrict along each selected finite subwindow of $U$. The hypotheses
+now match the input of
+\autoref{thm:realup-finite-window-streamname-readback-uniformity}: the public
+stream-name row, regular-sequence spine, dyadic observation rows, and
+restricted $\Cont/\hsame$ ledger are the same. Therefore the two consumer
+packets read back the same visible $\RatUp$ endpoint rows on each selected
+finite window and expose the same finite $\mathsf{RealLedgerPolicy}$ row.
+\end{proof}

@@ -215,6 +215,43 @@ structural source rejection from the structural target acceptance inside the
 normal-form classifier alone.
 \end{proof}
 
+\begin{theorem}[ZNormal scoped classifier boundary]
+\label{thm:znormal-scoped-classifier-boundary}
+Every accepted $\ZNormalUp$ classifier row is exactly an $\hsame$ row between
+$\mathsf{BHist}$ witnesses that lie in the closed $\mathsf{ZNormal}$ source.
+The only scope inputs are the $\mathsf{BHist}$ constructors, the closed
+$\mathsf{ZNormal}$ generation rules, $\hsame$ transport, and the
+$\NameCert_{\ZNormalUp}$ ledger. No Fibonacci value semantics, arithmetic
+weight, uniqueness-of-value row, or external number interpretation is read by
+the classifier boundary.
+\end{theorem}
+\begin{proof}
+Unfold the source, pattern, classifier, stability, and ledger rows of
+\autoref{thm:concrete-znormal-namecert}. The source row is exactly the closed
+$\mathsf{ZNormal}$ carrier over $\mathsf{BHist}$, the pattern and stability rows
+are the four closed generators, and the classifier row is $\hsame$ restricted
+to witnesses recorded by the ledger.
+
+For an accepted row, the ledger supplies the two displayed source witnesses and
+the classifier supplies the $\hsame$ comparison between them. Transport along
+\autoref{thm:znormal-hsame-transport} keeps the accepted history inside the
+same closed normal-form source, so the row is an $\hsame$ row between
+$\mathsf{BHist}$ witnesses and nothing wider.
+
+For the converse direction, take an $\hsame$ row between two displayed
+$\mathsf{ZNormal}$ source witnesses. The classifier specification reads exactly
+such restricted history-sameness rows, and the ledger records the source
+witness behind each visible class, so the row is accepted by the
+$\ZNormalUp$ classifier.
+
+The only constructor boundary that can hide an extra case is an $\Eone$-headed
+history. Apply \autoref{thm:znormal-adjacent-one-inversion}: an accepted
+$\Eone$ row is either above $\emp$ or above an $\Ezero$-headed normal source,
+and no $\Eone$-on-$\Eone$ source can be generated. Thus the scoped classifier
+boundary is exhausted by the displayed primitives and does not use Fibonacci
+value semantics.
+\end{proof}
+
 \closureat{ZNormalUp}{obligationStr}[BEDC.Derived.AxisZeckendorf.Zeckendorf.zNormal\_namecert]
 
 \begin{closurestatus}{\ZNormalUp}
