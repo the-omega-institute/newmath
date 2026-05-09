@@ -5,6 +5,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.CstaralgebraUp
 
 namespace BEDC.Derived.GelfandDualityUp
 
@@ -15,6 +16,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.CstaralgebraUp
 
 def GelfandDualitySpectrumPairingCarrier [AskSetup] [PackageSetup]
     (A X character evaluation rhoA rhoX provenance ledger endpoint : BHist)
@@ -221,5 +223,46 @@ theorem GelfandDualitySpectrumPairingCarrier_evaluation_ledger_determinacy
       hsame (append provenance ledger) (append provenance' ledger') :=
     cont_respects_hsame sameProvenance sameLedger (cont_intro rfl) (cont_intro rfl)
   exact ⟨sameLedger, sameEndpoint, sameDisplayedLedger⟩
+
+theorem GelfandDualitySpectrumPairingCarrier_cstaralgebra_consumer_boundary
+    [AskSetup] [PackageSetup]
+    {A X character evaluation rhoA rhoX provenance ledger endpoint : BHist}
+    {banach ring mul involution normSquare carrierTransport multiplicationTransport
+      involutionTransport normTransport cstarLedger cstarEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GelfandDualitySpectrumPairingCarrier A X character evaluation rhoA rhoX provenance
+        ledger endpoint bundle pkg ->
+      CstaralgebraBHistCarrier banach ring mul involution normSquare carrierTransport
+        multiplicationTransport involutionTransport normTransport provenance cstarLedger
+        cstarEndpoint bundle pkg ->
+        hsame A banach ->
+          UnaryHistory A ∧ UnaryHistory character ∧ UnaryHistory evaluation ∧
+            hsame rhoA A ∧ Cont character evaluation ledger ∧ UnaryHistory banach ∧
+              UnaryHistory ring ∧ hsame A banach ∧ PkgSig bundle endpoint pkg := by
+  intro spectrum cstar sameABanach
+  have unaryA : UnaryHistory A :=
+    spectrum.left
+  have unaryCharacter : UnaryHistory character :=
+    spectrum.right.right.left
+  have unaryEvaluation : UnaryHistory evaluation :=
+    spectrum.right.right.right.left
+  have rhoASame : hsame rhoA A :=
+    spectrum.right.right.right.right.right.left
+  have characterEvaluationLedger : Cont character evaluation ledger :=
+    spectrum.right.right.right.right.right.right.right.left
+  have spectrumPkg : PkgSig bundle endpoint pkg :=
+    spectrum.right.right.right.right.right.right.right.right.right.right
+  have unaryBanach : UnaryHistory banach :=
+    cstar.left
+  have unaryRing : UnaryHistory ring :=
+    cstar.right.left
+  exact And.intro unaryA
+    (And.intro unaryCharacter
+      (And.intro unaryEvaluation
+        (And.intro rhoASame
+          (And.intro characterEvaluationLedger
+            (And.intro unaryBanach
+              (And.intro unaryRing
+                (And.intro sameABanach spectrumPkg)))))))
 
 end BEDC.Derived.GelfandDualityUp
