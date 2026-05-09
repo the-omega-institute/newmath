@@ -241,6 +241,13 @@ theorem no_motif_without_ledger
   intro h
   exact ⟨M, h, h.right.right⟩
 
+theorem recognized_motif_occurrence_has_ledger
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    RecognizedMotifOccurrence R S M mu ->
+      exists L : EventFlow, MotifLedger R S M mu L := by
+  intro h
+  exact no_motif_without_ledger h
+
 theorem motif_recognition_requires_generated_recognizer
     {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
     RecognizedMotifOccurrence R S M mu ->

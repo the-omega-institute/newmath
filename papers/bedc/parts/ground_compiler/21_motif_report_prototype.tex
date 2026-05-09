@@ -53,6 +53,7 @@ the subflow $0\mid 00\mid 000$ is a finite-repetition candidate, $011\mid 100$ i
 
 \begin{definition}[Generated motif recognizer]
 \label{def:motif-report-generated-recognizer}
+\leandef{BEDC.GroundCompiler.SemanticMotif.GeneratedMotifRecognizer}
 A \emph{generated motif recognizer} is an event flow
 $$
   R_M\in\mathsf{EventFlow}.
@@ -97,6 +98,7 @@ is the recognized motif judgment. Thus $0\mid 00\mid 000$ may look like finite r
 
 \begin{definition}[Motif ledger]
 \label{def:motif-report-ledger}
+\leandef{BEDC.GroundCompiler.SemanticMotif.MotifLedger}
 If
 $$
   \mathsf{RecognizesMotif}(R_M,S,M,\mu),
@@ -109,6 +111,7 @@ $$
 
 \begin{principle}[No recognized motif without ledger]
 \label{prin:motif-report-no-recognized-without-ledger}
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.recognized\_motif\_occurrence\_has\_ledger}
 Every nontrivial motif recognition carries a motif ledger:
 $$
   \mathsf{RecognizesMotif}(R_M,S,M,\mu)
