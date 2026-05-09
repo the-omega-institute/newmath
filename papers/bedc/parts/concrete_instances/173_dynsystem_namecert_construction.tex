@@ -501,3 +501,26 @@ The consumer coverage theorem then states that these rows exhaust the public pro
   \notclaimed{This chapter does not claim global existence, uniqueness beyond the displayed OdeUp row, invariant-measure structure, or ergodic consequences.}
   \upgradepath{Upgrade by proving the public flow export theorem that packages endpoint coverage, unit, composition, adjacency, source separation, and consumer projection coverage as one exported flow surface.}
 \end{closurestatus}
+
+\begin{definition}[DynSystemUp hsame-fixed one-step row]
+\label{def:dynsystem-hsame-fixed-one-step-row}
+Let $\mathcal{D}$ be an accepted $\DynSystemUp$ flow packet of \autoref{def:dynsystem-bhist-flow-carrier} over phase carrier $\mathcal{M}$, ODE source packet $\mathcal{O}$, elapsed-time row $t$, displayed source point row $p$, endpoint row $\phi$, provenance row $\rho$, and ledger $\lambda$. The packet is $\hsame$-fixed at $p$ when its public endpoint is classified with the displayed source point,
+$$
+\hsame(\phi,p),
+$$
+and the comparison is carried on the same $\NameCert_{\ManifoldUp}$ and $\NameCert_{\OdeUp}$ dependency surface as $\mathcal{D}$.
+\end{definition}
+
+\begin{theorem}[DynSystemUp hsame-fixed orbit-iterate stability]
+\label{thm:dynsystem-hsame-fixed-orbit-iterate-stability}
+Let $R$ be an accepted $\DynSystemUp$ flow packet of \autoref{def:dynsystem-bhist-flow-carrier} over a fixed $\NameCert_{\ManifoldUp}$ phase carrier, a fixed $\NameCert_{\OdeUp}$ source packet, elapsed-time row $t$, displayed source point row $p$, endpoint row $\phi$, provenance row $\rho$, and continuation ledger $\lambda$. Assume that $R$ is $\hsame$-fixed at $p$ in the sense of \autoref{def:dynsystem-hsame-fixed-one-step-row}. Then, for every finite unary horizon $\nu$ admitted by \autoref{def:dynsystem-orbit-iterate-packet}, the orbit-iterate packet obtained by reading $R$ at each successor cell of $\nu$ is accepted, has every public endpoint row classified with $p$, and has an ordered $\Cont$ ledger list whose entries are copies of $\lambda$ transported only by the supplied fixed-row comparison $\hsame(\phi,p)$ and by $\Cont$ associativity.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the displayed unary horizon $\nu$. For the empty horizon, the orbit segment has no successor flow row. Its public endpoint is the initial row $p$, and the required comparison with $p$ is the reflexive inherited $\hsame$ row on the carried ManifoldUp point. The ledger list is empty, so there is no endpoint motion beyond the zero-time row of \autoref{thm:dynsystem-flow-unit-ledger}.
+
+For the successor step, assume that the prefix segment indexed by $\nu$ is an accepted orbit-iterate packet whose terminal public endpoint $\beta_n$ is classified with $p$, and whose displayed ledger list consists of transported copies of $\lambda$. The fixed-row hypothesis supplies $\hsame(\phi,p)$. By symmetry and transitivity for the inherited endpoint classifier, the terminal comparison $\hsame(\beta_n,p)$ and the fixed comparison $\hsame(\phi,p)$ supply the transport needed to read another copy of $R$ with initial point classified with $\beta_n$ and terminal endpoint classified again with $p$.
+
+Apply the carrier-closure theorem \autoref{thm:dynsystem-orbit-iterate-carrier-closure} to append that transported copy of $R$ to the prefix packet. The appended row has the same phase carrier, the same ODE source packet, the same elapsed-time row $t$, and the same provenance row $\rho$. Its continuation entry is the same ledger $\lambda$, with only the endpoint transports just described inserted at the boundary.
+
+The only ledger operation introduced by the append is reassociation of the finite continuation chain, exactly as in \autoref{thm:dynsystem-flow-composition-ledger}. Hence the successor packet is accepted by \autoref{def:dynsystem-orbit-iterate-packet}, its terminal endpoint is classified with $p$, and its ledger list is the prefix list followed by one further transported copy of $\lambda$. Induction over the finite unary horizon gives the stated stability for every displayed iterate.
+\end{proof}
