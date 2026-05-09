@@ -73,6 +73,7 @@ import BEDC.Derived.IntUp.ZeroRepresentative
 import BEDC.Derived.IntUp.StdBridge
 import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.EmptyUp
+import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.EntanglementUp
 import BEDC.Derived.EntropyUp
