@@ -129,4 +129,16 @@ theorem PinGroupReflectionParityCarrier_reflection_product_closure
             (And.intro sameEndpoint reflectionUnary)))
         productUnary
 
+theorem PinGroupReflectionParityCarrier_odd_reflection_coset_exhaustion
+    {spin reflection product endpoint : BHist} :
+    PinGroupReflectionParityCarrier spin reflection product endpoint ->
+      (hsame endpoint spin -> False) ->
+        Cont spin reflection product ∧ hsame endpoint product ∧ UnaryHistory reflection := by
+  intro carrier notSpinEndpoint
+  cases carrier with
+  | inl spinBranch =>
+      exact False.elim (notSpinEndpoint spinBranch.left)
+  | inr reflectionBranch =>
+      exact reflectionBranch
+
 end BEDC.Derived.PinGroupUp
