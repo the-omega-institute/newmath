@@ -169,3 +169,40 @@ By the ledger exactness obligation of
 public row that could affect the consumer. Repacking the transported
 projections gives identical readback at the consumer boundary.
 \end{proof}
+
+\begin{theorem}[ClebschGordanUp coefficient slot determinacy]
+\label{thm:clebschgordan-coefficient-slot-determinacy}
+Let two accepted reads of coefficient histories in the coefficient ledger
+$\Gamma$ of a $\ClebschGordanUp$ coupling packet have the same transported
+source rows $V_{1}$ and $V_{2}$, the same tensor endpoint $\tau$, the same
+output irreducible row $W_{j}$, the same multiplicity history $m_{j}$, and
+the same source and output basis-index histories. Then the public classifier
+identifies the two coefficient rows by the componentwise $\hsame$ transport
+field of the coupling packet of
+\autoref{def:clebschgordan-bhist-coupling-packet}.
+
+Equivalently, a displayed coefficient history accepted in $\Gamma$ belongs to
+a unique public slot determined by
+$(V_{1},V_{2},\tau,W_{j},m_{j})$ together with its basis-index histories; no
+second public coefficient table can be read at that same slot.
+\end{theorem}
+\begin{proof}
+Project the two accepted coefficient reads through
+\autoref{def:clebschgordan-bhist-coupling-packet}. Each read is a row of the
+same displayed coefficient ledger $\Gamma$, so its source rows, tensor
+endpoint, output row, multiplicity row, and basis-index histories are among
+the packet fields.
+
+Use the classifier transport obligation of
+\autoref{thm:clebschgordan-classifier-transport-obligation}. Under the shared
+slot hypotheses, the public classifier compares the two coefficient rows by
+the componentwise $\hsame$ entry assigned to $\Gamma$ in the transport row
+$\theta$.
+
+It remains to exclude a second public coefficient source for that slot. Apply
+the ledger exactness obligation of
+\autoref{thm:clebschgordan-ledger-exactness-obligation}: every accepted
+coefficient read is projected from $\Gamma$, and the packet has no additional
+coefficient table. Thus the transported $\Gamma$ entry is the unique public
+coefficient row at the displayed slot.
+\end{proof}

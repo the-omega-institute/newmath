@@ -184,4 +184,16 @@ theorem LambdaCalcBHistTermPacketCarrier_substitution_output_determinacy
     cont_respects_hsame (hsame_refl tag) (hsame_refl payload) packet.right.right.right endpointRow
   exact And.intro packet' (And.intro sameEndpoint endpointUnary')
 
+theorem LambdaCalcBHistTermPacketCarrier_free_variable_ledger_coverage
+    {graph edge connected acyclic tag payload endpoint freeVariable freeLedger : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      UnaryHistory freeVariable ->
+        Cont endpoint freeVariable freeLedger ->
+          UnaryHistory freeLedger ∧ hsame freeLedger (append endpoint freeVariable) ∧
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint := by
+  intro packet freeVariableUnary freeLedgerCont
+  have freeLedgerUnary : UnaryHistory freeLedger :=
+    unary_cont_closed packet.right.right.left freeVariableUnary freeLedgerCont
+  exact And.intro freeLedgerUnary (And.intro freeLedgerCont packet)
+
 end BEDC.Derived.LambdaCalcUp
