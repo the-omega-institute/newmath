@@ -1,0 +1,84 @@
+\begin{definition}[Cyclotomic root obligation inventory]
+\label{def:cyclotomic-root-obligation-inventory}
+The root obligation inventory of $\NameCert_{\CyclotomicUp}$ is the finite
+packet consisting of the $\NameCert_{\NumFieldUp}$ source row, the
+$\NameCert_{\SplittingFieldUp}$ source row, the positive unary exponent row,
+the primitive-root classifier row, the rational polynomial ledger for
+$X^n-1$, the finite $\Cont$ readback, the $\hsame$ transport row, the $\Pkg$
+provenance row, the exactness row identifying the displayed root surface, and
+the downstream consumer rows for $\IwasawaUp$, $\ClassFieldUp$, and
+$\RegulatorUp$. Each component is a displayed $\mathsf{BHist}$, $\Cont$,
+$\hsame$, or $\Pkg$ row of the cyclotomic carrier and its source certificates.
+\end{definition}
+
+\begin{theorem}[Cyclotomic root carrier classifier obligations]
+\label{thm:cyclotomic-root-carrier-classifier-obligations}
+The carrier and classifier obligations of the cyclotomic root inventory are
+exactly the displayed $\mathsf{BHist}$ rows of
+\autoref{def:cyclotomic-root-obligation-inventory}: the NumFieldUp source, the
+SplittingFieldUp source, the positive unary exponent, the primitive-root
+classifier, and the rational polynomial ledger, together with their finite
+$\Cont$, $\hsame$, and $\Pkg$ support rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cyclotomic-root-carrier}. Its visible
+entries are the source field, exponent, polynomial, splitting-field, root,
+acceptance, transport, and provenance rows.
+
+Apply \autoref{def:cyclotomic-rational-polynomial-classifier} to identify the
+polynomial ledger and primitive-root classifier rows. Apply
+\autoref{thm:cyclotomic-root-carrier-classifier-scope} to see that the
+classifier boundary is only the componentwise $\hsame$ transport on those
+displayed rows, with $\Cont$ and $\Pkg$ kept as ledger support.
+
+Thus every carrier and classifier obligation is one of the displayed rows of
+the inventory, and no ambient cyclotomic-field carrier is required.
+\end{proof}
+
+\begin{theorem}[Cyclotomic root ledger exactness obligation]
+\label{thm:cyclotomic-root-ledger-exactness-obligation}
+The ledger of \autoref{def:cyclotomic-root-obligation-inventory} is exact:
+after reading the polynomial, primitive endpoint, splitting-field, transport,
+and provenance rows, the cyclotomic root packet contains no host cyclotomic
+field, no quotient of roots, and no object beyond the displayed finite rows.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cyclotomic-polynomial-ledger-exactness} for the rational
+polynomial ledger and
+\autoref{thm:cyclotomic-primitive-root-readback-exactness} for the endpoint
+readback. These two results identify the polynomial and primitive-root data as
+finite projections of the accepted carrier.
+
+Next apply \autoref{thm:cyclotomic-root-ledger-stability-package}. It carries
+the splitting-field, factorization, endpoint, transport, and NumFieldUp
+provenance rows through the same $\hsame$, $\Cont$, and $\Pkg$ support.
+
+The resulting packet is precisely the inventory. Since each coordinate has
+already been projected from the displayed carrier, there is no remaining
+coordinate in which a host cyclotomic field or quotient root could be exported.
+\end{proof}
+
+\begin{theorem}[Cyclotomic root downstream consumer obligations]
+\label{thm:cyclotomic-root-downstream-consumer-obligations}
+Downstream $\IwasawaUp$, $\ClassFieldUp$, and $\RegulatorUp$ readers consume
+only the packet boundary listed in
+\autoref{def:cyclotomic-root-obligation-inventory}: source certificates,
+positive exponent and primitive-root classifier rows, polynomial ledger,
+finite $\Cont$ readback, $\hsame$ transport, $\Pkg$ provenance, and the
+exactness row of the cyclotomic root surface.
+\end{theorem}
+\begin{proof}
+For the Iwasawa and ClassField readers, apply
+\autoref{thm:cyclotomic-root-iwasawa-classfield-consumer-boundary}. It factors
+both consumers through the cyclotomic root downstream package and excludes
+tower maps, reciprocity maps, class groups, local symbols, completion data,
+quotient roots, and host-field equality.
+
+For the Regulator reader, use the same packet boundary: the reader can address
+the NumFieldUp source, the polynomial ledger, and the finite root readback
+only through the displayed $\mathsf{BHist}$, $\Cont$, $\hsame$, and $\Pkg$
+rows. These rows are exactly the rows named by the inventory.
+
+Therefore every downstream consumer cited here reads the same finite packet
+boundary, and none receives a host algebra primitive outside that packet.
+\end{proof}
