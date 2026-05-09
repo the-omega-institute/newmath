@@ -202,3 +202,47 @@ Repacking the two restricted inputs therefore gives the same source handoff
 surface on $K$ for either downstream consumer, with all non-source rows kept
 outside the overlap package.
 \end{proof}
+
+\begin{theorem}[StreamName Real-RegSeq overlap unique source]
+\label{thm:streamname-real-regseq-overlap-unique-source}
+Let $\mathcal{W}_0$ and $\mathcal{W}_1$ be public $\StreamNameUp$
+finite-window packages whose restrictions to a certified finite overlap $K$
+expose the same $\mathsf{RatHistoryClassifier}$ rows, the same
+$\mathsf{ProbeBundle}$ ledger, the same $\mathsf{InBundle}$ membership rows,
+the same $\mathsf{UnaryHistory}$ observation rows, and the same displayed
+$\hsame$ rows. Then the overlap determines one StreamName source surface:
+every $\RegSeqRat$ handoff package induced from either restriction, and every
+finite-window $\RealUp$ handoff package induced from either restriction, has
+that same source surface on $K$.
+
+This source surface consists only of the public finite-window
+$\StreamNameUp$ rows displayed on the certified overlap. It does not include
+$\RegSeqRat$ regularity rows, $\RealUp$ seal classifiers, completion data,
+quotient data, or host index equality.
+\end{theorem}
+\begin{proof}
+First restrict both public finite-window packages to the common overlap $K$.
+\autoref{thm:streamname-real-regseq-finite-window-handoff} identifies the
+source-facing rows of each restriction as the rational-history classifier,
+probe-bundle ledger, membership rows, unary-history rows, and displayed
+$\hsame$ comparisons.
+
+The hypotheses say precisely that those rows agree on $K$.
+\autoref{thm:streamname-real-regseq-finite-overlap-source-stability} then
+turns the shared restricted rows into the same source surface for every
+induced $\RegSeqRat$ handoff and every induced finite-window $\RealUp$
+handoff.
+
+It remains to check that no downstream or host row is being folded into the
+source. Apply
+\autoref{thm:streamname-real-regseq-obligation-separation}: RegSeqRat
+regularity rows and RealUp seal classifiers are downstream obligations rather
+than StreamName source rows. The same separation keeps completion data,
+quotient data, and host index equality outside the handoff source.
+
+Finally, \autoref{thm:realup-finite-window-exhaustion-overlap-closure}
+supplies the RealUp finite-window overlap boundary used by the consumer side.
+Since the RealUp boundary reads the same certified overlap and the StreamName
+source has already been fixed there, both induced consumer packages inherit
+one source handoff surface on $K$.
+\end{proof}
