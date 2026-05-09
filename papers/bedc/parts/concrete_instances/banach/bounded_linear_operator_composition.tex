@@ -512,3 +512,140 @@ The ledger component is the remaining hypothesis: after rewriting the endpoint r
 
 These three components are precisely the fields of the Banach bounded-operator classifier. Hence the composite representative $(0_{H_1,H_2}\circ T,0_{\RealUp}\cdot L,\Lambda_{12}\star\Gamma)$ is classified with the zero representative $(0_{H_0,H_2},0_{\RealUp},\Lambda_{02})$ on $(H_0,H_2)$.
 \end{proof}
+
+\begin{theorem}[Banach bounded linear operator scalar action distributes through right composition]
+\label{thm:banach-bounded-linear-operator-scalar-action-right-composition-distribution}
+Let $H_0,H_1,H_2$ be $\BanachUp$ candidates as in
+\autoref{def:banach-complete-normed-carrier}, with vector carriers
+$H_{0,V},H_{1,V},H_{2,V}$, classifiers
+$\sim_{H_0},\sim_{H_1},\sim_{H_2}$, scalar actions
+$\cdot_{H_1},\cdot_{H_2}$, norms $\nu_{H_0},\nu_{H_1},\nu_{H_2}$,
+and norm-induced distances. Let
+$$
+\mathsf{BanachBLOp}(H_0,H_1,T,L_T,\Lambda_T)
+$$
+and
+$$
+\mathsf{BanachBLOp}(H_1,H_2,S,L_S,\Lambda_S)
+$$
+be carried bounded linear operator rows. Let $c$ be a carried RealUp scalar
+endpoint with $c\ge0$, and let $|c|_{\RealUp}$ be the carried absolute-value
+endpoint exposed by the shared $\RealAlgOrder$ row, with the non-negative
+scalar row classifying $|c|_{\RealUp}$ with $c$. Write
+$$
+(c\boxtimes_{H_1}T)(x):=c\cdot_{H_1}T(x)
+$$
+and
+$$
+(c\boxtimes_{H_2}(S\circ T))(x):=c\cdot_{H_2}S(Tx).
+$$
+Then the right scalar-action composite is carried by a Banach bounded linear
+operator row
+$$
+\mathsf{BanachBLOp}
+(H_0,H_2,S\circ(c\boxtimes_{H_1}T),(c\cdot L_T)\cdot L_S,
+\Theta_{S(cT)}),
+$$
+where $\Theta_{S(cT)}$ is obtained from the scalar-multiple ledger for $T$,
+the composition ledger with $S$, and the RealUp product transport identifying
+$L_S\cdot(c\cdot L_T)$ with $(c\cdot L_T)\cdot L_S$. Moreover this operator
+representative is classified with the scalar multiple of the ordinary
+composite over the same source and target Banach carriers:
+$$
+(S\circ(c\boxtimes_{H_1}T),(c\cdot L_T)\cdot L_S,\Theta_{S(cT)})
+\sim_{\mathrm{op}(H_0,H_2)}
+(c\boxtimes_{H_2}(S\circ T),(c\cdot L_T)\cdot L_S,\Theta_{c(ST)}),
+$$
+where $\Theta_{c(ST)}$ is obtained from the composition ledger for $S\circ T$,
+the scalar-multiple ledger by $c$, and the same RealUp product-normalization
+rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:banach-bounded-linear-operator-scalar-multiple-closure} to
+the carried row for $T$ and the carried scalar endpoint $c$. This yields
+$$
+\mathsf{BanachBLOp}
+(H_0,H_1,c\boxtimes_{H_1}T,|c|_{\RealUp}\cdot L_T,
+\langle c\rangle\boxtimes\Lambda_T).
+$$
+The RealUp absolute-value row for the non-negative scalar transports the bound
+endpoint $|c|_{\RealUp}\cdot L_T$ to $c\cdot L_T$, so the same scalar-multiple
+operator row is carried with normalized bound $c\cdot L_T$ and the transported
+ledger.
+
+Now apply \autoref{thm:banach-bounded-linear-operator-composition-closure} to
+this scalar-multiple row and the carried row for $S$. The composite endpoint
+map is $S\circ(c\boxtimes_{H_1}T)$ and the immediate product bound is
+$$
+L_S\cdot(c\cdot L_T).
+$$
+RealUp commutativity and associativity transport this product to
+$$
+(c\cdot L_T)\cdot L_S,
+$$
+and product non-negativity follows from $c\ge0$, the bound row $L_T\ge0$, and
+the bound row $L_S\ge0$. Transporting the composition ledger across this
+RealUp classifier comparison gives the displayed carried row
+$$
+\mathsf{BanachBLOp}
+(H_0,H_2,S\circ(c\boxtimes_{H_1}T),(c\cdot L_T)\cdot L_S,
+\Theta_{S(cT)}).
+$$
+
+For the comparison with the scalar multiple of the ordinary composite, first
+apply \autoref{thm:banach-bounded-linear-operator-composition-closure} to the
+rows for $T$ and $S$. This gives
+$$
+\mathsf{BanachBLOp}(H_0,H_2,S\circ T,L_S\cdot L_T,
+\Lambda_S\star\Lambda_T).
+$$
+Applying \autoref{thm:banach-bounded-linear-operator-scalar-multiple-closure}
+to this row and $c$ gives the scalar-multiple representative
+$$
+\mathsf{BanachBLOp}
+(H_0,H_2,c\boxtimes_{H_2}(S\circ T),
+|c|_{\RealUp}\cdot(L_S\cdot L_T),
+\langle c\rangle\boxtimes(\Lambda_S\star\Lambda_T)).
+$$
+The classifier comparison $|c|_{\RealUp}\sim_{\RealUp}c$, together with RealUp
+associativity and commutativity, transports this bound to
+$$
+(c\cdot L_T)\cdot L_S.
+$$
+The transported ledger is $\Theta_{c(ST)}$.
+
+It remains to compare the two displayed representatives in the operator
+classifier of \autoref{def:banach-bounded-linear-operator-carrier}. For a
+carried source endpoint $x:H_{0,V}$, the target endpoint row of $\Lambda_T$
+carries $T(x)$ in $H_{1,V}$. The homogeneity row of $\Lambda_S$, applied to
+the carried scalar $c$ and the carried middle endpoint $T(x)$, gives
+$$
+S(c\cdot_{H_1}T(x))\sim_{H_2}c\cdot_{H_2}S(Tx).
+$$
+By the two endpoint definitions, this is exactly
+$$
+(S\circ(c\boxtimes_{H_1}T))(x)
+\sim_{H_2}
+(c\boxtimes_{H_2}(S\circ T))(x).
+$$
+Since $x$ was arbitrary, these comparisons supply the endpoint-map component
+of the Banach bounded-operator classifier.
+
+The bound component is RealUp classifier reflexivity at the normalized bound
+$(c\cdot L_T)\cdot L_S$. For the ledger component, both ledgers contain the
+same carried scalar row for $c$, the two input operator ledgers $\Lambda_T$ and
+$\Lambda_S$, the scalar-action rows in $H_1$ and $H_2$, the homogeneity row of
+$S$ used in the endpoint comparison, and the same RealUp absolute-value,
+commutativity, associativity, monotonicity, and product non-negativity rows.
+Componentwise ledger transport along the endpoint comparison just proved and
+the normalized RealUp product comparison therefore identifies
+$\Theta_{S(cT)}$ with $\Theta_{c(ST)}$.
+
+These endpoint, bound, and ledger components are precisely the fields of the
+Banach bounded-operator classifier on $(H_0,H_2)$. Hence
+$$
+(S\circ(c\boxtimes_{H_1}T),(c\cdot L_T)\cdot L_S,\Theta_{S(cT)})
+\sim_{\mathrm{op}(H_0,H_2)}
+(c\boxtimes_{H_2}(S\circ T),(c\cdot L_T)\cdot L_S,\Theta_{c(ST)}).
+$$
+\end{proof}
