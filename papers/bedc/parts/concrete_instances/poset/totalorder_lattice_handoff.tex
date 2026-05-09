@@ -1,0 +1,79 @@
+\section{Poset TotalOrder and Lattice handoff}
+\label{sec:poset-totalorder-lattice-handoff}
+
+\begin{theorem}[POSet TotalOrder and Lattice handoff carrier]
+\label{thm:poset-totalorder-lattice-handoff-carrier}
+Downstream $\OrderUp$, $\TotalOrderUp$, and $\LatticeUp$ consumers inherit
+exactly the unary $\mathsf{BHist}$ carrier, the $\hsame$ classifier, the
+inherited prefix-comparison row, antisymmetry, classifier exactness, the
+finite $\Cont$ ledger, and the $\mathsf{Pkg}$ provenance rows from the
+$\POSetUp$ root. No host order, quotient equality, or replacement carrier is
+part of this inherited surface.
+\end{theorem}
+\begin{proof}
+Read the carrier, classifier, and inherited comparison rows from
+\autoref{def:poset-root-comparison-surface}. These rows already place every
+endpoint inside the unary $\mathsf{BHist}$ carrier and use $\hsame$ as the
+displayed classifier.
+
+Add antisymmetry and exactness from
+\autoref{thm:poset-root-antisymmetry-surface} and
+\autoref{thm:poset-prefix-classifier-exactness}. The collapse row remains the
+same $\hsame$ classifier named by the root surface.
+
+Finally attach the finite ledger and provenance rows of
+\autoref{thm:poset-root-ledger-exhaustion-surface} and
+\autoref{thm:poset-root-public-handoff-boundary}. The cited handoff surface
+exports precisely these rows, so downstream order chapters inherit this
+package without replacing the carrier or adding quotient data.
+\end{proof}
+
+\begin{theorem}[POSet TotalOrder selector extension boundary]
+\label{thm:poset-totalorder-selector-extension-boundary}
+A $\TotalOrderUp$ selector may extend the inherited $\POSetUp$ package only by
+adding a directed-comparison choice row for each comparable endpoint pair. The
+selector does not change the inherited carrier, $\hsame$ classifier, prefix
+comparison, antisymmetry, exactness, $\Cont$ ledger, or $\mathsf{Pkg}$
+provenance rows.
+\end{theorem}
+\begin{proof}
+Begin with the inherited package of
+\autoref{thm:poset-totalorder-lattice-handoff-carrier}. It fixes the carrier,
+classifier, comparison, antisymmetry, exactness, ledger, and provenance rows.
+
+The additional $\TotalOrderUp$ information is a directed comparison selection
+over the same carried endpoints. Because the selection targets the inherited
+prefix-comparison row, it adds only the choice of direction and not a new
+carrier or classifier.
+
+Repack the selected direction together with the fixed $\POSetUp$ package. The
+root obligation and unblock surfaces, namely
+\autoref{thm:poset-root-threshold-unblock-surface} and
+\autoref{thm:poset-root-public-handoff-boundary}, already exhaust the
+inherited rows, so the selector boundary has no further field to replace.
+\end{proof}
+
+\begin{theorem}[POSet Lattice bound extension boundary]
+\label{thm:poset-lattice-bound-extension-boundary}
+$\LatticeUp$ meet and join bound rows extend the same inherited $\POSetUp$
+package by adding lower-bound and upper-bound witnesses over the displayed
+prefix comparison. They do not replace the unary carrier, the $\hsame$
+classifier, the comparison row, antisymmetry, exactness, ledger, or provenance
+rows inherited from the root.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:poset-totalorder-lattice-handoff-carrier} as the inherited
+input package. Its carrier, classifier, comparison, antisymmetry, exactness,
+ledger, and provenance rows are fixed before any meet or join witness is read.
+
+A meet row supplies lower-bound data and a join row supplies upper-bound data
+for the same displayed prefix comparison. These rows quantify over the
+existing carried endpoints, so they extend the root package rather than
+selecting a new endpoint universe.
+
+The exhaustion clauses of
+\autoref{thm:poset-root-ledger-exhaustion-surface} and
+\autoref{thm:poset-root-public-handoff-boundary} keep the inherited ledger and
+provenance rows fixed. Repacking the bound witnesses with those rows gives the
+$\LatticeUp$ extension boundary without changing the Poset root surface.
+\end{proof}

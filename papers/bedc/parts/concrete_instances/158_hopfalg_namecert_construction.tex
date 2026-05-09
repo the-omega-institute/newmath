@@ -248,6 +248,81 @@ data, tensor-row transport, antipode uniqueness and transport, and the two
 source-certificate provenance rows.
 \end{proof}
 
+\begin{theorem}[HopfAlgUp bialgebra source consumer readback]
+\label{thm:hopfalg-bialgebra-source-consumer-readback}
+From the displayed $\HopfAlgUp$ carrier witness, a downstream consumer can
+read exactly the $\RingUp$ source row, the $\TensorProductUp$ source row, the
+bialgebra carrier row, the multiplication and comultiplication $\Cont$ rows,
+and the unit and counit rows. These are the source rows named by the carrier
+and no further algebra object is exported.
+\end{theorem}
+\begin{proof}
+Project the carrier witness through
+\autoref{def:hopfalg-bhist-bialgebra-carrier}. Its source coordinates are the
+$\RingUp$ and $\TensorProductUp$ $\NameCert$ rows, and its operation
+coordinates are the multiplication, comultiplication, unit, and counit rows.
+
+Use \autoref{thm:hopfalg-tensor-product-row-stability} to read these rows
+through the classifier without changing the source certificates. The theorem
+identifies the tensor row and the bialgebra row as transported data rather
+than as new carrier choices.
+
+Thus consumer readback is exhausted by the two source certificates, the
+bialgebra carrier, and the four operation-ledger rows. The carrier definition
+contains no additional public algebra row to project.
+\end{proof}
+
+\begin{theorem}[HopfAlgUp antipode endpoint ledger exhaustion]
+\label{thm:hopfalg-antipode-endpoint-ledger-exhaustion}
+The antipode obligation exposes only the two convolution packets
+$\mathsf{ConvLeft}(a,t,s,u,e)$ and $\mathsf{ConvRight}(a,t,s,u,e)$ together
+with their unit-counit endpoint comparisons. No further multiplication,
+comultiplication, tensor, or endpoint equality row is part of the antipode
+ledger.
+\end{theorem}
+\begin{proof}
+Read the antipode ledger classifier from
+\autoref{def:hopfalg-antipode-ledger-classifier}. It places the antipode row
+inside the same endpoint ledger as the bialgebra, tensor, unit, and counit
+coordinates.
+
+Apply \autoref{thm:hopfalg-antipode-ledger-obligation}. The obligation
+statement exposes exactly the two convolution faces and their unit-counit
+endpoint comparisons.
+
+Finally apply \autoref{thm:hopfalg-antipode-classifier-transport}. Transport
+preserves those packets and endpoint comparisons, so it cannot add an
+independent tensor row, operation row, or host equality witness to the
+antipode boundary.
+\end{proof}
+
+\begin{theorem}[HopfAlgUp obligation public handoff]
+\label{thm:hopfalg-obligation-public-handoff}
+The public obligation handoff for downstream $\HopfAlgUp$ consumers is the
+package consisting of the bialgebra source-consumer readback of
+\autoref{thm:hopfalg-bialgebra-source-consumer-readback}, the antipode
+endpoint ledger exhaustion of
+\autoref{thm:hopfalg-antipode-endpoint-ledger-exhaustion}, and classifier
+transport through the displayed $\hsame$ rows.
+\end{theorem}
+\begin{proof}
+First collect the source and operation rows from
+\autoref{thm:hopfalg-bialgebra-source-consumer-readback}. This supplies the
+$\RingUp$ row, the $\TensorProductUp$ row, the bialgebra carrier, and the
+four operation-ledger rows.
+
+Next attach the antipode rows from
+\autoref{thm:hopfalg-antipode-endpoint-ledger-exhaustion}. The only antipode
+data added to the handoff are the two convolution packets and their
+unit-counit endpoint comparisons.
+
+Use \autoref{thm:hopfalg-antipode-classifier-transport} and
+\autoref{thm:hopfalg-tensor-product-row-stability} for classifier transport
+across these rows. Repacking the transported source, operation, and antipode
+inventories gives the public handoff surface, and the exhaustion clauses above
+rule out any additional consumer row.
+\end{proof}
+
 \closureat{HopfAlgUp}{seedStr}[BEDC.Derived.HopfAlgUp.HopfAlgBialgCarrier\_namecert\_obligation\_surface]
 \begin{closurestatus}{\HopfAlgUp}
   \theoryclosure{\seedClosure}
