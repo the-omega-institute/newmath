@@ -541,6 +541,21 @@ theorem RealAnalyticCosPart_empty_constant_one {one n result : BHist}
         cont_respects_hsame (hsame_refl _) sameStepTerm stepContinuation (cont_right_unit _)
       exact And.intro (unary_e1_closed ih.left) (hsame_trans sameResultPrevious ih.right)
 
+theorem RealAnalyticSinPart_empty_zero {zero n result : BHist} {sinTerm : BHist -> BHist} :
+    hsame zero BHist.Empty ->
+      (forall {m : BHist}, UnaryHistory m -> hsame (sinTerm m) BHist.Empty) ->
+        ComplexPartSum zero sinTerm n result -> UnaryHistory n ∧ hsame result BHist.Empty := by
+  intro sameZero termEmpty sum
+  induction sum with
+  | zero =>
+      exact And.intro unary_empty sameZero
+  | step previous stepContinuation ih =>
+      have sameStepTerm : hsame (sinTerm _) BHist.Empty :=
+        termEmpty ih.left
+      have sameResultPrevious : hsame _ _ :=
+        cont_respects_hsame ih.right sameStepTerm stepContinuation (cont_right_unit _)
+      exact And.intro (unary_e1_closed ih.left) sameResultPrevious
+
 theorem real_analytic_certificate_boundary {zero : BHist} {c modulus : BHist -> BHist} :
     SemanticNameCert
       (fun result : BHist =>
