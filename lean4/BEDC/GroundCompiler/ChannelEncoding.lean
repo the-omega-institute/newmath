@@ -26,6 +26,12 @@ def FlowEncoding : EventFlow -> List DisplayAlphabet
 def LegalZStream (c : List DisplayAlphabet) : Prop :=
   exists S : EventFlow, c = FlowEncoding S
 
+def EncodesEvent (w : RawEvent) (c : List DisplayAlphabet) : Prop :=
+  c = EventEncoding w
+
+def Compiles (S : EventFlow) (c : List DisplayAlphabet) : Prop :=
+  c = FlowEncoding S
+
 def DecEvent : List DisplayAlphabet -> Option (RawEvent × List DisplayAlphabet)
   | [] => none
   | BMark.b0 :: rest =>
@@ -208,6 +214,12 @@ theorem flow_level_round_trip (S : EventFlow) :
   | intro extra hlen =>
       rw [Decode, hlen]
       exact decode_fuel_flow_encoding S extra
+
+theorem compiles_functional {S : EventFlow}
+    {c d : List DisplayAlphabet} :
+    Compiles S c -> Compiles S d -> c = d := by
+  intro hc hd
+  exact Eq.trans hc (Eq.symm hd)
 
 theorem encoder_streaming (w : RawEvent) (rest : EventFlow) :
     FlowEncoding (w :: rest) = EventEncoding w ++ FlowEncoding rest := by

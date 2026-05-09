@@ -202,6 +202,7 @@ Analysis modules include motif, metric, report, cannot-claim, and bridge-obligat
 
 \begin{definition}[Event encoder specification]
 \label{def:implementation-interface-event-encoder-spec}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.EncodesEvent}
 The event encoding specification is the relation
 $$
   \mathsf{EncodesEvent}(w,c)
@@ -214,6 +215,7 @@ $$
 
 \begin{definition}[Flow compiler specification]
 \label{def:implementation-interface-flow-compiler-spec}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.Compiles}
 The flow encoding specification is the relation
 $$
   \mathsf{Compiles}(S,c)
@@ -271,6 +273,7 @@ By the definition of $\mathsf{Decodes}$, both $S$ and $T$ compile to $c$. The ch
 
 \begin{proposition}[Specification-level compiler is functional]
 \label{prop:implementation-interface-compiler-functional}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.compiles\_functional}
 If
 $$
   \mathsf{Compiles}(S,c)
