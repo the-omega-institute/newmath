@@ -325,6 +325,36 @@ theorem ObservableBHistOperatorCarrier_public_consumer_exhaustion [AskSetup] [Pa
       (And.intro exactness.right.right.right.right.left
         exactness.right.right.right.right.right))
 
+theorem ObservableBHistOperatorCarrier_expectation_row_transport_composition [AskSetup]
+    [PackageSetup]
+    {hilbert operator operator' spectrum spectrum' expectation expectation' witness provenance
+      ledger endpoint endpoint' expectationEndpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance ledger
+        endpoint bundle pkg ->
+      hsame operator operator' ->
+        hsame spectrum spectrum' ->
+          Cont operator' spectrum' expectation' ->
+            Cont provenance ledger endpoint' ->
+              PkgSig bundle endpoint' pkg ->
+                Cont operator' expectation' expectationEndpoint' ->
+                  ObservableBHistOperatorCarrier hilbert operator' spectrum' expectation' witness
+                      provenance ledger endpoint' bundle pkg ∧
+                    UnaryHistory expectationEndpoint' ∧
+                      hsame expectationEndpoint' (append operator' expectation') ∧
+                        hsame endpoint endpoint' ∧ PkgSig bundle endpoint' pkg := by
+  intro carrier sameOperator sameSpectrum expectationRow' endpointRow' pkgSig' expectationEndpointRow'
+  have transported :=
+    ObservableBHistOperatorCarrier_expectation_transport_exactness carrier sameOperator sameSpectrum
+      expectationRow' endpointRow' pkgSig'
+  have expectationEndpointUnary : UnaryHistory expectationEndpoint' :=
+    unary_cont_closed transported.left.right.left transported.left.right.right.right.left
+      expectationEndpointRow'
+  exact And.intro transported.left
+    (And.intro expectationEndpointUnary
+      (And.intro expectationEndpointRow'
+        (And.intro transported.right.right.right.left pkgSig')))
+
 theorem ObservableBHistOperatorCarrier_operator_row_classifier_determinacy [AskSetup]
     [PackageSetup]
     {hilbert hilbert' operator operator' spectrum spectrum' expectation expectation' witness
