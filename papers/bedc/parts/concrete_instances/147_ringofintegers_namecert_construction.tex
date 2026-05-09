@@ -241,13 +241,45 @@ $\eta$ serving only as dependency scope. No additional host integral-closure,
 quotient, or analytic unit row is available to the consumer.
 \end{proof}
 
-\closureat{RingOfIntegersUp}{obligationStr}
+\begin{theorem}[RingOfIntegers scoped dependency package]
+\label{thm:ringofintegers-scoped-dependency-package}
+The $\RingOfIntegersUp$ carrier, integral-equation ledger, dependency
+projection, classifier transport, ledger exhaustion, and $\DirichletUnitUp$
+readback rows of this chapter are exhausted by the scoped primitive package
+consisting of $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$,
+$\NameCert_{\NumFieldUp}$, and $\NameCert_{\IntUp}$.
+
+No public read of the chapter uses a host integral-closure predicate, quotient
+integer object, analytic unit datum, or extra dependency beyond those primitive
+rows and the displayed source certificates.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:ringofintegers-integral-closure-obligation-surface}. It lists the
+carrier and integral-equation ledger rows available to the chapter and ties
+them to the number-field and integer source certificates.
+
+Next apply \autoref{thm:ringofintegers-dependency-projection-boundary} and
+\autoref{thm:ringofintegers-root-classifier-transport}. These identify the
+dependency projection and classifier transport as rows over $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\Pkg$, $\NameCert_{\NumFieldUp}$, and
+$\NameCert_{\IntUp}$.
+
+Finally use
+\autoref{thm:ringofintegers-integral-equation-ledger-exhaustion} together with
+\autoref{thm:ringofintegers-dirichletunit-source-readback}. The ledger
+exhaustion and downstream readback clauses show that every consumer row is one
+of the displayed primitive rows, so the obligation surface is a scoped
+dependency package.
+\end{proof}
+
+\closureat{RingOfIntegersUp}{scopedStr}
 \begin{closurestatus}{\RingOfIntegersUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation surface consists of the Dedekind-source carrier, integral-equation ledger, dependency projection, classifier transport, ledger exhaustion, and DirichletUnit readback rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped dependency package binds the Dedekind-source carrier, integral-equation ledger, dependency projection, classifier transport, ledger exhaustion, and DirichletUnit readback rows to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert_{\NumFieldUp}$, and $\NameCert_{\IntUp}$.}
   \formalstatus{\unformalizedV}
   \leantarget{}
   \bridgestatus{none}
   \notclaimed{It does not close full algebraic-integer theory, class-group structure, analytic units, or standard bridge rows.}
-  \upgradepath{Scoped closure requires binding the displayed obligation rows to the concrete $\mathsf{BHist}$, $\hsame$, $\Cont$, $\NameCert$, and $\Pkg$ primitives.}
+  \upgradepath{Public closure requires an exported $\NameCert_{\RingOfIntegersUp}$ public surface with integral readback, endpoint exactness, and standard bridge boundary.}
 \end{closurestatus}
