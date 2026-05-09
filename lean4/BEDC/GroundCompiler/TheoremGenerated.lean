@@ -69,6 +69,23 @@ def ProofSoundTheoremRecognition
         TheoremRoleSubflow R T proof TheoremRole.proof /\
         ChecksProof proofChecker statement dependencies proof
 
+def LedgerSoundTheoremRecognition
+    (R : GeneratedTheoremRecognizer) (T : TheoremCandidateFlow) : Prop :=
+  exists ledger : TheoremCandidateFlow,
+    TheoremRoleSubflow R T ledger TheoremRole.ledger
+
+def StatusSoundTheoremRecognition
+    (R : GeneratedTheoremRecognizer) (T : TheoremCandidateFlow) : Prop :=
+  exists status : TheoremCandidateFlow,
+    exists statusRecognizer : GeneratedRecognizer,
+      TheoremRoleSubflow R T status TheoremRole.status /\
+        Recognizes statusRecognizer status status
+
+def SiteSoundTheoremRecognition
+    (R : GeneratedTheoremRecognizer) (T : TheoremCandidateFlow) : Prop :=
+  exists canonicalSite : TheoremCandidateFlow,
+    TheoremRoleSubflow R T canonicalSite TheoremRole.canonicalSite
+
 theorem no_external_theorem_input :
     Not (FormalCompilerInput CompilerDatum.hostTheoremIdentifier) :=
   structural_hidden_not_formal StructuralHiddenInput.hostTheoremIdentifier
