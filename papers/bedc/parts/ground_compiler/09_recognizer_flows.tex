@@ -243,6 +243,7 @@ such that $R_0$ handles channel decoding and event-flow recognition, each recogn
 
 \begin{definition}[Bootstrap base recognizer]
 \label{def:recognizer-generated-bootstrap-base}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.BootstrapBaseRecognizer}
 The \emph{bootstrap base recognizer} $R_0$ recognizes legal channel streams and event flows:
 $$
   \mathsf{RecognizesLegalZStream}(R_0,c),
@@ -258,6 +259,7 @@ Its role covers event boundaries, raw $0$, raw $1$, legal event codes, and legal
 
 \begin{proposition}[Bootstrap base does not recognize mathematical structure]
 \label{prop:recognizer-generated-base-no-math-structure}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.bootstrap\_base\_no\_math\_structure}
 The base recognizer $R_0$ recognizes only channel legality and event-flow structure. It does not recognize packages, $\NameCert$ flows, theorem flows, chapter flows, proof flows, accepted objects, or mature interfaces.
 \end{proposition}
 
@@ -267,6 +269,7 @@ The role of $R_0$ is channel grammar and event-flow decoding. Packages, certific
 
 \begin{definition}[Package recognizer level]
 \label{def:recognizer-generated-package-level}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.PackageRecognizerLevel}
 A \emph{package recognizer level} is a level $R_i$ in a recognizer hierarchy whose role is package recognition. It supports judgments of the form
 $$
   \mathsf{RecognizesPkg}(R_i,S),

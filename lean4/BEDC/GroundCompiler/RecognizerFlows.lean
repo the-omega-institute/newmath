@@ -1,8 +1,9 @@
-import BEDC.GroundCompiler.EventFlow
+import BEDC.GroundCompiler.ChannelEncoding
 
 namespace BEDC.GroundCompiler.RecognizerFlows
 
 open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.ChannelEncoding
 open BEDC.GroundCompiler.EventFlow
 
 def RecognizerCertCandidateFlow : Type :=
@@ -76,10 +77,30 @@ def RecognizerConservative
 def RecognizerHierarchy : Type :=
   List (RecognizerCandidateFlow × RecognitionRole)
 
+def RecognizesLegalZStream
+    (_R0 : RecognizerCandidateFlow) (c : List DisplayAlphabet) : Prop :=
+  LegalZStream c /\
+    exists S : EventFlow, Decode c = some S /\ FlowEncoding S = c
+
+def RecognizesEventFlow
+    (_R0 : RecognizerCandidateFlow) (S : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow S)
+
+def BootstrapBaseRecognizer (R0 : RecognizerCandidateFlow) : Prop :=
+  (forall c : List DisplayAlphabet,
+    LegalZStream c -> RecognizesLegalZStream R0 c) /\
+    (forall S : EventFlow, RecognizesEventFlow R0 S)
+
 def FormalRecognitionEvidence
     (R : RecognizerCandidateFlow) (rho : RecognitionRole) (S : EventFlow) :
     Prop :=
   CertifiedRecognizer R rho /\ Recognizes R rho S
+
+def PackageRecognizerLevel
+    (R : RecognizerCandidateFlow) (rho : RecognitionRole) : Prop :=
+  CertifiedRecognizer R rho /\
+    forall S : EventFlow,
+      RecognizesPkg R S -> FormalRecognitionEvidence R rho S
 
 theorem formal_recognition_evidence_requires_certified
     {R : RecognizerCandidateFlow} {rho : RecognitionRole} {S : EventFlow} :
@@ -93,6 +114,23 @@ theorem uncertified_cannot_license
       Not (FormalRecognitionEvidence R rho S) := by
   intro hNotCert hEvidence
   exact hNotCert (formal_recognition_evidence_requires_certified hEvidence)
+
+theorem bootstrap_base_no_math_structure {R0 : RecognizerCandidateFlow} :
+    BootstrapBaseRecognizer R0 ->
+      Not (FormalCompilerInput CompilerDatum.hostPkg) /\
+        Not (FormalCompilerInput CompilerDatum.hostNameCert) /\
+        Not (FormalCompilerInput CompilerDatum.hostTheoremIdentifier) /\
+        Not (AcceptedObjectFlow []) := by
+  intro _
+  constructor
+  · exact structural_hidden_not_formal StructuralHiddenInput.hostPkg
+  · constructor
+    · exact structural_hidden_not_formal StructuralHiddenInput.hostNameCert
+    · constructor
+      · exact
+          structural_hidden_not_formal
+            StructuralHiddenInput.hostTheoremIdentifier
+      · exact empty_not_accepted_object_flow
 
 theorem certified_recognition_only
     {R : RecognizerCandidateFlow} {rho : RecognitionRole} :
