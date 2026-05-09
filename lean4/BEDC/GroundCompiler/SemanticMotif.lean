@@ -248,4 +248,20 @@ theorem motif_compile_decode_invariant
   intro h
   exact ⟨S, flow_level_round_trip S, h⟩
 
+def MotifProfile
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (mu M L : EventFlow) : Prop :=
+  exists R : GeneratedMotifRecognizer,
+    Rfam R /\ RecognizesMotif R S M mu /\ MotifLedger R S M mu L
+
+def MotifSupport
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S M L : EventFlow) :
+    Prop :=
+  exists mu : MotifRole, MotifProfile Rfam S mu M L
+
+def MotifOverlap
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S T : EventFlow)
+    (mu M L : EventFlow) : Prop :=
+  MotifProfile Rfam S mu M L /\ MotifProfile Rfam T mu M L
+
 end BEDC.GroundCompiler.SemanticMotif
