@@ -77,6 +77,10 @@ structure NormalizerRecognizerCert where
   stabilityFlow : EventFlow
   sealFlow : EventFlow
 
+def NormalizerSoundness (R : GeneratedNormalizerRecognizer) : Prop :=
+  forall {S : EventFlow} {i : Nat} {w v : RawEvent},
+    RecognizesNormalizer R S i w v -> InducedNormalizes R S i w v
+
 inductive P2Warning : Type where
   | candidateOnly
   | recognizerMissing
@@ -204,5 +208,26 @@ theorem source011_100_not_carry
     Not (exists R : GeneratedNormalizerRecognizer,
       InducedNormalizes R source011100Flow 0 source011 source100) := by
   exact candidate_not_relation source011100_candidate hNoRecognized
+
+theorem sound_recognizer_establishes_relation
+    {R : GeneratedNormalizerRecognizer} {S : EventFlow}
+    {i : Nat} {w v : RawEvent} :
+    NormalizerSoundness R ->
+      RecognizesNormalizer R S i w v -> InducedNormalizes R S i w v := by
+  intro hSound hRecognized
+  exact hSound hRecognized
+
+theorem recognized_stronger_than_candidate
+    {candidate : RawEvent -> RawEvent -> Prop}
+    {R : GeneratedNormalizerRecognizer} {S : EventFlow}
+    {i : Nat} {w v : RawEvent} :
+    NormCand candidate S i w v ->
+      NormalizerSoundness R ->
+      RecognizesNormalizer R S i w v ->
+      InducedNormalizes R S i w v /\ List.Mem w S /\ List.Mem v S := by
+  intro _ hSound hRecognized
+  constructor
+  · exact hSound hRecognized
+  · exact adj_pair_events_mem hRecognized.left
 
 end BEDC.GroundCompiler.SourceNormalizer

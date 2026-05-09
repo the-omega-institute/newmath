@@ -289,6 +289,7 @@ $$
 
 \begin{definition}[Normalizer soundness]
 \label{def:source-normalizer-soundness}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.NormalizerSoundness}
 A normalizer recognizer $R_N$ is \emph{sound} when
 $$
   \mathsf{RecognizesNormalizer}(R_N,S,i,w,v)
@@ -305,6 +306,7 @@ implies:
 
 \begin{theorem}[Sound normalizer recognizer establishes source relation]
 \label{thm:source-normalizer-sound-recognizer-establishes-relation}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.sound\_recognizer\_establishes\_relation}
 If $R_N$ is a sound normalizer recognizer and
 $$
   \mathsf{RecognizesNormalizer}(R_N,S,i,w,v),
@@ -321,6 +323,7 @@ By soundness, the relation-soundness flow supports $w\leadsto_{R_N}v$.
 
 \begin{corollary}[Recognized carry is stronger than candidate carry]
 \label{cor:source-normalizer-recognized-stronger-than-candidate}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.recognized\_stronger\_than\_candidate}
 A recognized normalizer ledger with a sound normalizer recognizer can establish a source-level relation. A candidate pair only reports shape.
 \end{corollary}
 
