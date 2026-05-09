@@ -140,6 +140,7 @@ rows, the factorization ledger, and the $\hsame/\Cont$ transport rows. Analytic
 error estimates, floating-point bounds, asymptotic runtime claims, and standard
 bridge rows are not part of this certificate.
 \end{theorem}
+\leanchecked{BEDC.Derived.FftUp.FftBHistSourcePacket\_schedule\_public\_namecert\_export}
 \begin{proof}
 The source packet fixes the two dependency certificates and the finite
 $\mathsf{ProbeBundle}$ schedule. Its membership rows and butterfly
@@ -160,14 +161,15 @@ bounds, asymptotic runtime claims, and bridge rows remain unavailable.
 \leanchecked{BEDC.Derived.FftUp.FftBHistSourcePacket\_public\_namecert\_export}
 
 \closureat{FftUp}{seedStr}[BEDC.Derived.FftUp.FftBHistSourcePacket\_carrier\_butterfly\_obligation]
+\closureat{FftUp}{obligationStr}[BEDC.Derived.FftUp.FftBHistSourcePacket\_carrier\_butterfly\_obligation]
 
 \begin{closurestatus}{\FftUp}
   \constructivestory{An FFT packet is presented by the ComplexUp and FourierUp dependency certificates, a finite probe-bundle schedule, displayed stage membership witnesses, butterfly continuation rows, factorization ledger rows, and the transport rows that make those finite rows readable as the public $\NameCert_{\FftUp}$ surface.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The recorded seed scope is the finite butterfly schedule surface: the ComplexUp and FourierUp dependency rows, stage probe bundle, bundle membership witnesses, butterfly continuation rows, factorization ledger, and transport rows used by the public FFT certificate.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.FftUp.FftBHistSourcePacket\_carrier\_butterfly\_obligation}
   \bridgestatus{none}
   \notclaimed{The chapter does not close analytic error bounds, floating-point bounds, asymptotic runtime claims, operation-optimality claims, or standard bridge rows.}
-  \upgradepath{A higher paper closure grade requires a closed public certificate theorem for the finite butterfly schedule surface, still without importing analytic estimates or runtime claims.}
+  \upgradepath{Scoped closure requires a closed finite butterfly schedule surface over the factorization classifier, ledger exactness, and transport determinacy rows.}
 \end{closurestatus}
