@@ -1,0 +1,124 @@
+\section{Root source-fiber export packet}
+\label{sec:topgroup-root-source-fiber-export-packet}
+
+\begin{definition}[TopGroupUp root source-fiber export packet]
+\label{def:topgroup-root-source-fiber-export-packet}
+The $\TopGroupUp$ root source-fiber export packet is the public projection of
+\autoref{def:topgroup-root-source-fiber-obligation-packet}. It consists of the
+shared $\mathsf{BHist}$ source pair for
+$\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$, the product and inverse
+rows, the componentwise $\hsame$ classifier rows on the source and operation
+endpoints, the finite $\Cont$ ledger for the two continuity families, and the
+shared $\mathsf{Pkg}$ provenance. A downstream root consumer receives the
+$\TopGroupUp$ source fiber only through these rows.
+\end{definition}
+
+\begin{theorem}[TopGroupUp root source-fiber export carrier]
+\label{thm:topgroup-root-source-fiber-export-carrier}
+Every accepted $\TopGroupUp$ root source-fiber export packet carries the
+$\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$ source rows over one
+shared $\mathsf{BHist}$ carrier. The product row, inverse row, componentwise
+$\hsame$ rows, finite $\Cont$ ledger, and $\mathsf{Pkg}$ provenance are
+projections from that carrier, so the export surface contains no detached
+group source, topology source, or ambient topological-group carrier.
+\end{theorem}
+\begin{proof}
+Start with the carrier theorem
+\autoref{thm:topgroup-root-source-fiber-carrier-obligation}. It reads the two
+source rows and both operation rows from one root source-fiber obligation
+packet.
+
+Apply \autoref{thm:topgroup-root-source-fiber-ledger-exactness}. The finite
+ledger and provenance rows are attached to that same source pair, so they
+cannot be exported as independent carrier data.
+
+Finally compare with
+\autoref{thm:topgroup-public-consumer-minimality}. A public consumer receives
+only the displayed source certificate rows, operation rows, finite
+continuation rows, and provenance. This is precisely the carrier surface of
+\autoref{def:topgroup-root-source-fiber-export-packet}.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root source-fiber export continuity]
+\label{thm:topgroup-root-source-fiber-export-continuity}
+For an accepted $\TopGroupUp$ root source-fiber export packet, product
+continuity and inverse continuity are exported only as componentwise $\hsame$
+transport through the shared source pair and the finite $\Cont$ ledger. The
+product and inverse rows have no continuity witness outside the displayed
+operation endpoints, classifier rows, ledger entries, and provenance.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:topgroup-root-source-fiber-continuity-obligation}. It binds
+the product and inverse continuity rows to the same source-fiber carrier,
+componentwise classifier packet, and finite ledger.
+
+Then apply
+\autoref{thm:topgroup-root-source-fiber-carrier-obligation}. The operation
+endpoints are already projections from the shared $\mathsf{BHist}$ source pair
+and cannot introduce a separate continuity carrier.
+
+The public boundary is fixed by
+\autoref{thm:topgroup-public-consumer-minimality}. Since the consumer receives
+no ambient topological-group predicate, the two exported continuity rows are
+exactly the ledger-indexed product and inverse rows.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root source-fiber export ledger]
+\label{thm:topgroup-root-source-fiber-export-ledger}
+For an accepted $\TopGroupUp$ root source-fiber export packet, the finite
+$\Cont$ ledger is exact for the exported product and inverse continuity rows.
+Every exported operation-continuity read is one of those rows, and every listed
+ledger entry is sound through the shared $\mathsf{BHist}$ source pair,
+componentwise $\hsame$ classifier rows, and shared $\mathsf{Pkg}$ provenance.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:topgroup-root-source-fiber-ledger-exactness}. It states that the
+finite $\Cont$ ledger exhausts precisely the product-continuity and
+inverse-continuity obligation families over the root source fiber.
+
+Next use
+\autoref{thm:topgroup-root-source-fiber-continuity-obligation}. This identifies
+the endpoints and classifier transports consumed by each listed ledger entry.
+
+Finally apply
+\autoref{thm:topgroup-public-consumer-minimality}. A downstream consumer has no
+third operation-continuity family and no ledger row outside the exported
+source, operation, classifier, continuation, and provenance rows.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root source-fiber export consumer boundary]
+\label{thm:topgroup-root-source-fiber-export-consumer-boundary}
+Every public consumer read of the $\TopGroupUp$ root source fiber factors
+through \autoref{def:topgroup-root-source-fiber-export-packet}. Conversely,
+each row of that export packet is a public row already forced by the shared
+$\mathsf{BHist}$ source pair for $\NameCert_{\GroupUp}$ and
+$\NameCert_{\TopologyUp}$, the product and inverse rows, componentwise
+$\hsame$ transport, the finite $\Cont$ ledger, and shared $\mathsf{Pkg}$
+provenance. No order row, topology row outside $\NameCert_{\TopologyUp}$,
+operation row outside product and inverse, or ambient topological-group object
+is exported.
+\end{theorem}
+\begin{proof}
+First assemble the export carrier by
+\autoref{thm:topgroup-root-source-fiber-export-carrier}. The source pair,
+operation rows, classifier packet, finite ledger, and provenance all live over
+one $\mathsf{BHist}$ source fiber.
+
+Next attach the operational rows. Apply
+\autoref{thm:topgroup-root-source-fiber-export-continuity} for the product and
+inverse continuity rows, and
+\autoref{thm:topgroup-root-source-fiber-export-ledger} for the exact finite
+ledger that lists them.
+
+For the forward direction, use
+\autoref{thm:topgroup-public-consumer-minimality}. It restricts every public
+consumer to the same source certificate rows, operation rows, finite
+continuation rows, and provenance, so the consumer read factors through the
+export packet.
+
+For the reverse direction, each row of
+\autoref{def:topgroup-root-source-fiber-export-packet} is already one of the
+public rows named by the carrier, continuity, and ledger theorems above. Thus
+the packet exports exactly the source-fiber surface and nothing outside it.
+\end{proof}
