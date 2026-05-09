@@ -58,4 +58,20 @@ theorem FullAxisSeal_source_exhaustion {h k : BHist} :
     exact zeroSpine_no_e1_extension boundarySpine
   exact And.intro hSpine (And.intro kSpine (And.intro hBoundary kBoundary))
 
+theorem FullAxisPrefixThread_obligation_inventory {h k : BHist} :
+    fullAxis_namecert.source h -> fullAxis_namecert.classifier h k ->
+      fullAxis_namecert.ledger h ∧ FullAxisSourceSpec zeroSpinePrefixThread h ∧
+        FullAxisPatternSpec zeroSpinePrefixThread k ∧
+          FullAxisClassifierSpec zeroSpinePrefixThread h k ∧
+            (hsame h (BHist.e1 (BHist.e0 BHist.Empty)) -> False) ∧
+              (hsame k (BHist.e1 (BHist.e0 BHist.Empty)) -> False) := by
+  intro sourceH classifiedHK
+  have inventory :=
+    FullAxisSeal_source_exhaustion sourceH classifiedHK.right classifiedHK sourceH
+  exact And.intro sourceH
+    (And.intro sourceH
+      (And.intro classifiedHK.right
+        (And.intro classifiedHK
+          (And.intro inventory.right.right.left inventory.right.right.right))))
+
 end BEDC.Derived.AxisZeckendorf.FullAxis
