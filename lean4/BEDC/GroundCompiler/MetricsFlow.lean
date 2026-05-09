@@ -423,7 +423,8 @@ theorem theory_distance_protocol_relative :
   · intro h
     cases h
   · intro h
-    simp [TheoryFlowDistance] at h
+    change 0 = 1 at h
+    cases h
 
 def EmptyAnalysisSignature (_S : EventFlow) : FlowSignatureVector where
   sealDepth := 0

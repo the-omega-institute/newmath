@@ -299,8 +299,13 @@ theorem channel_compiler_not_full :
           have hImpossible :
               [FlowEncoding ChannelCompiler] = ChannelCompiler :=
             Eq.trans (Eq.symm hCode) hCeq
-          simp [ChannelCompiler, FlowEncoding, EventEncoding, BodyEncoding,
-            EventTerminator] at hImpossible
+          change
+              [[BMark.b0, BMark.b1, BMark.b1,
+                BMark.b1, BMark.b0, BMark.b0, BMark.b1, BMark.b1,
+                BMark.b1, BMark.b0, BMark.b1, BMark.b0, BMark.b1, BMark.b1]] =
+                [[BMark.b0], [BMark.b1, BMark.b0], [BMark.b1, BMark.b1]]
+            at hImpossible
+          cases hImpossible
 
 structure CompilerBootstrapLadder where
   C0 : CompilerCandidateFlow

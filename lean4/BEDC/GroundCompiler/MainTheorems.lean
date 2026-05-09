@@ -300,8 +300,8 @@ theorem topic_not_chapter_code :
   · constructor
     · rfl
     · intro hCode
-      simp [ChapterCode, ChapterFlow.ChapterCode, FlowEncoding,
-        EventEncoding, BodyEncoding, EventTerminator] at hCode
+      change [] = [BMark.b0, BMark.b1, BMark.b1] at hCode
+      cases hCode
 
 def RawFlowCodeLayer (S : EventFlow) (c : List DisplayAlphabet) : Prop :=
   c = FlowEncoding S

@@ -28,6 +28,10 @@ theorem event_segments_partition (S : EventFlow) :
   | nil =>
       rfl
   | cons w rest ih =>
-      simp [FlowEncoding, EventSegment, ih]
+      change
+        EventEncoding w ++ FlowEncoding rest =
+          EventSegment w ++ (List.map EventSegment rest).flatten
+      rw [ih]
+      rfl
 
 end BEDC.GroundCompiler.SourceReport
