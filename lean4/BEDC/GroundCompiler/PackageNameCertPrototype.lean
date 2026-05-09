@@ -93,6 +93,87 @@ def CompletePackageRecognition
       PackageRoleSubflow R S P ledger PackageRoleKind.ledger /\
       PackageRoleSubflow R S P sealFlow PackageRoleKind.seal
 
+def PackageHasLedger
+    (R : GeneratedPackageRecognizer) (S P : EventFlow) : Prop :=
+  exists ledger : EventFlow,
+    PackageRoleSubflow R S P ledger PackageRoleKind.ledger
+
+def MissingPackageRole
+    (R : GeneratedPackageRecognizer) (S P : EventFlow) : Prop :=
+  (forall source : EventFlow,
+    Not (PackageRoleSubflow R S P source PackageRoleKind.source)) \/
+  (forall visible : EventFlow,
+    Not (PackageRoleSubflow R S P visible PackageRoleKind.visible)) \/
+  (forall pattern : EventFlow,
+    Not (PackageRoleSubflow R S P pattern PackageRoleKind.pattern)) \/
+  (forall classifier : EventFlow,
+    Not (PackageRoleSubflow R S P classifier PackageRoleKind.classifier)) \/
+  (forall ledger : EventFlow,
+    Not (PackageRoleSubflow R S P ledger PackageRoleKind.ledger)) \/
+  (forall sealFlow : EventFlow,
+    Not (PackageRoleSubflow R S P sealFlow PackageRoleKind.seal))
+
+theorem complete_package_recognition_has_ledger
+    {R : GeneratedPackageRecognizer} {S P : EventFlow} :
+    CompletePackageRecognition R S P -> PackageHasLedger R S P := by
+  intro hComplete
+  cases hComplete with
+  | intro source hComplete =>
+      cases hComplete with
+      | intro visible hComplete =>
+          cases hComplete with
+          | intro pattern hComplete =>
+              cases hComplete with
+              | intro classifier hComplete =>
+                  cases hComplete with
+                  | intro ledger hComplete =>
+                      cases hComplete with
+                      | intro sealFlow hFields =>
+                          exact
+                            ⟨ledger, hFields.right.right.right.right.left⟩
+
+theorem incomplete_package_not_package
+    {R : GeneratedPackageRecognizer} {S P : EventFlow} :
+    MissingPackageRole R S P -> Not (CompletePackageRecognition R S P) := by
+  intro hMissing hComplete
+  cases hComplete with
+  | intro source hComplete =>
+      cases hComplete with
+      | intro visible hComplete =>
+          cases hComplete with
+          | intro pattern hComplete =>
+              cases hComplete with
+              | intro classifier hComplete =>
+                  cases hComplete with
+                  | intro ledger hComplete =>
+                      cases hComplete with
+                      | intro sealFlow hFields =>
+                          cases hMissing with
+                          | inl hNoSource =>
+                              exact hNoSource source hFields.left
+                          | inr hMissing =>
+                              cases hMissing with
+                              | inl hNoVisible =>
+                                  exact hNoVisible visible hFields.right.left
+                              | inr hMissing =>
+                                  cases hMissing with
+                                  | inl hNoPattern =>
+                                      exact hNoPattern pattern
+                                        hFields.right.right.left
+                                  | inr hMissing =>
+                                      cases hMissing with
+                                      | inl hNoClassifier =>
+                                          exact hNoClassifier classifier
+                                            hFields.right.right.right.left
+                                      | inr hMissing =>
+                                          cases hMissing with
+                                          | inl hNoLedger =>
+                                              exact hNoLedger ledger
+                                                hFields.right.right.right.right.left
+                                          | inr hNoSeal =>
+                                              exact hNoSeal sealFlow
+                                                hFields.right.right.right.right.right
+
 theorem package_candidate_has_ambient_decomposition
     {S P : EventFlow} :
     PackageCandidate S P ->
