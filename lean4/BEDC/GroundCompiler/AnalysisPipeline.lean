@@ -104,6 +104,43 @@ inductive FormalWeightedMetric : AnalysisProtocolCandidateFlow ->
       MetricWeightsRecordedByProtocol P weights ->
         FormalWeightedMetric P weights
 
+inductive AnalysisStage : Type where
+  | legalityCheck
+  | decode
+  | protocolRecognition
+  | recognizerFamilyExtraction
+  | motifExtraction
+  | metricComputation
+  | normalAddressAnalysis
+  | ledgerAudit
+  | cannotClaimAudit
+  | bridgeObligationDiscovery
+  | reportGeneration
+
+def AnalysisPipelineStages : List AnalysisStage :=
+  [AnalysisStage.legalityCheck,
+    AnalysisStage.decode,
+    AnalysisStage.protocolRecognition,
+    AnalysisStage.recognizerFamilyExtraction,
+    AnalysisStage.motifExtraction,
+    AnalysisStage.metricComputation,
+    AnalysisStage.normalAddressAnalysis,
+    AnalysisStage.ledgerAudit,
+    AnalysisStage.cannotClaimAudit,
+    AnalysisStage.bridgeObligationDiscovery,
+    AnalysisStage.reportGeneration]
+
+def Analyze
+    (_c : List DisplayAlphabet)
+    (_P : AnalysisProtocolCandidateFlow) : List AnalysisStage :=
+  AnalysisPipelineStages
+
+def StageLegality (c : List DisplayAlphabet) : Prop :=
+  LegalZStream c
+
+def StageDecode (c : List DisplayAlphabet) (S : EventFlow) : Prop :=
+  Decode c = some S
+
 inductive FormalAnalysisProtocol :
     AnalysisProtocolCandidateFlow -> Prop where
   | recognized {R : GeneratedAnalysisProtocolRecognizer}

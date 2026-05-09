@@ -149,6 +149,7 @@ Any weighted distance or similarity metric whose weights are not recorded by a r
 
 \begin{definition}[Analysis pipeline]
 \label{def:analysis-pipeline}
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.Analyze}
 Given $c\in\mathsf{LegalZStream}$ and a recognized analysis protocol flow $P$, define
 $$
   \mathsf{Analyze}(c,P)
@@ -172,11 +173,13 @@ Every stage acts on event flows or recognized event-flow structures, not on chan
 
 \begin{definition}[Stage 0: legality check]
 \label{def:analysis-pipeline-stage-legality}
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.StageLegality}
 Stage 0 checks $c\in\mathsf{LegalZStream}$. If this fails, the pipeline rejects the input.
 \end{definition}
 
 \begin{definition}[Stage 1: decode]
 \label{def:analysis-pipeline-stage-decode}
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.StageDecode}
 Stage 1 forms
 $$
   S:=\mathsf{Decode}(c).
