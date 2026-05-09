@@ -236,6 +236,87 @@ and cannot contain projective-limit quotient data, analytic main-conjecture
 data, or $p$-adic $L$-function equality data.
 \end{proof}
 
+\begin{theorem}[Iwasawa finite source inventory]
+\label{thm:iwasawa-finite-source-inventory}
+Every accepted finite $\IwasawaUp$ source packet contains only the visible
+$\CyclotomicUp$ tower rows, the $\IdealClassUp$ endpoint and classifier rows,
+the finite $\mathsf{BHist}$ packet holding the unary level window, the
+$\hsame$ comparison rows between transported levels, the adjacent-level
+$\Cont$ transition ledger, the $\Pkg$ provenance row, and the displayed
+$\NameCert_{\IwasawaUp}$ row. In particular, the inventory has no projective
+limit object, no analytic $p$-adic $L$-function row, and no main-conjecture
+equality row.
+\end{theorem}
+\begin{proof}
+Project the accepted source packet through
+\autoref{thm:iwasawa-source-obligation-surface}. The carrier, classifier,
+stability, exactness, and ledger clauses listed there are all finite rows over
+the displayed unary tower window.
+
+The cyclotomic part is exactly the source boundary of
+\autoref{thm:cyclotomic-iwasawa-source-boundary}, and the ideal-class part is
+exactly the scoped source certificate of
+\autoref{thm:idealclass-scoped-source-certificate}. These two projections
+supply the named $\CyclotomicUp$ and $\IdealClassUp$ rows, while the same
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows account for
+the finite tower packet. Since no projected clause has a projective-limit or
+analytic slot, the inventory is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Iwasawa classifier transport surface]
+\label{thm:iwasawa-classifier-transport-surface}
+Let two finite $\IwasawaUp$ source packets be connected by displayed $\hsame$
+transport over their cyclotomic tower rows, ideal-class endpoint rows, finite
+$\mathsf{BHist}$ windows, transition $\Cont$ ledgers, and $\Pkg$ provenance.
+Then the transported packet carries the same $\NameCert_{\IwasawaUp}$ source
+inventory: the $\CyclotomicUp$ rows move to the transported tower rows, the
+$\IdealClassUp$ classifier rows move to the transported ideal-class rows, and
+the adjacent transition row remains the displayed finite $\Cont$ ledger.
+\end{theorem}
+\begin{proof}
+Begin with the $\hsame$ transport rows supplied for the tower window. Apply
+\autoref{thm:iwasawa-transition-ledger-stability}; it carries the accepted
+transition ledger across the transported cyclotomic and ideal-class rows while
+keeping the same $\Pkg$ provenance scope.
+
+Now transport the two source faces separately. The cyclotomic face is stable by
+the source boundary in
+\autoref{thm:cyclotomic-iwasawa-source-boundary}, and the ideal-class face is
+stable by the classifier rows in
+\autoref{thm:idealclass-scoped-source-certificate}. Repacking these transported
+rows gives the same finite $\NameCert_{\IwasawaUp}$ inventory, with no new
+source family introduced by transport.
+\end{proof}
+
+\begin{theorem}[Iwasawa transition source coverage]
+\label{thm:iwasawa-transition-source-coverage}
+Every accepted $\IwasawaUp$ transition row projects to one of the finite source
+rows of \autoref{thm:iwasawa-finite-source-inventory}: either a
+$\CyclotomicUp$ tower source row, an $\IdealClassUp$ endpoint or classifier
+row, a finite $\mathsf{BHist}$ window row, an $\hsame$ transport row, an
+adjacent-level $\Cont$ ledger row, a $\Pkg$ provenance row, or the displayed
+$\NameCert_{\IwasawaUp}$ row. No accepted transition row projects to an
+external projective-limit, analytic, or quotient source.
+\end{theorem}
+\begin{proof}
+Take an accepted transition row and project it through
+\autoref{thm:iwasawa-transition-ledger-exactness}. The projection identifies
+the transition as an adjacent-level $\Cont$ ledger between displayed source
+rows, not as an ambient tower limit.
+
+Perform the finite case split over the rows listed in
+\autoref{thm:iwasawa-finite-source-inventory}. Cyclotomic cases are read by
+\autoref{thm:cyclotomic-iwasawa-source-boundary}; ideal-class cases are read by
+\autoref{thm:idealclass-scoped-source-certificate}; window, transport,
+provenance, and certificate cases are the corresponding $\mathsf{BHist}$,
+$\hsame$, $\Pkg$, and $\NameCert$ projections of the same packet.
+
+The classifier transport theorem
+\autoref{thm:iwasawa-classifier-transport-surface} keeps these cases stable
+under displayed $\hsame$ movement. Hence every accepted transition row lands in
+the finite source inventory and no external source remains.
+\end{proof}
+
 \closureat{IwasawaUp}{obligationStr}
 \begin{closurestatus}{\IwasawaUp}
   \theoryclosure{\obligationClosure}
