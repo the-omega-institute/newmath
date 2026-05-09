@@ -484,6 +484,15 @@ theorem RealAnalyticExp_local_witness_unary {x bound modulus y : BHist} :
                     (And.intro sumUnary
                       (And.intro data.right.left data.right.right))))))
 
+theorem RealAnalyticExp_endpoint_unary {x bound modulus y : BHist} :
+    RealAnalyticExp x bound modulus y -> UnaryHistory y := by
+  intro exp
+  have witness := RealAnalyticExp_local_witness_unary exp
+  exact
+    match witness.right.right with
+    | Exists.intro _n (Exists.intro _S payload) =>
+        unary_cont_closed payload.right.left witness.right.left payload.right.right.right
+
 theorem RealAnalyticExp_product_witness_unary {x y bx bynd mx my ex ey prod : BHist} :
     RealAnalyticExp x bx mx ex -> RealAnalyticExp y bynd my ey -> Cont ex ey prod ->
       UnaryHistory ex ∧ UnaryHistory ey ∧ UnaryHistory prod := by
