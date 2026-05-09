@@ -166,6 +166,7 @@ is the ordinary channel code of $D$, not the output of a separate derivation-cer
 
 \begin{definition}[Recognized DerivCert field subflows]
 \label{def:derivcert-generated-field-subflows}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.DerivCertFieldSubflow}
 If $\mathsf{RecognizesDerivCert}(R_D,D,N,s)$, then $R_D$ may recognize subflows of $D$ as the six export-certificate roles:
 \begin{center}
 \begin{tabular}{l}
@@ -207,6 +208,7 @@ The seal is a source-level subflow, not the channel-level terminator $11$.
 
 \begin{definition}[Complete six-field DerivCert recognition]
 \label{def:derivcert-generated-complete-six-field-recognition}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.CompleteSixFieldDerivCertRecognition}
 The judgment $\mathsf{RecognizesDerivCert}(R_D,D,N,s)$ has \emph{complete six-field recognition} when there exist subflows $D_0,D_1,D_2,D_3,D_4,D_5$ and $\sigma_D$ such that
 $$
   \mathsf{DerivSource}_{R_D}(D,D_0),\quad
@@ -232,6 +234,7 @@ The channel-level $11$ is the event terminator of \autoref{def:channel-encoding-
 
 \begin{principle}[No DerivCert without six recognized fields]
 \label{prin:derivcert-generated-no-derivcert-without-six-fields}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.no\_derivcert\_without\_six\_fields}
 A recognized derivation-certificate flow must have complete six-field recognition: source, classifier, exactness, ledger, stability, strength, and seal subflows are all required. This is the event-flow form of the six export-certificate roles.
 \end{principle}
 
