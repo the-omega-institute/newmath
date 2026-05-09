@@ -20,6 +20,39 @@ inductive IndexedSubflow : EventFlow -> EventFlow -> Prop where
 def Subflow (M S : EventFlow) : Prop :=
   ContiguousSubflow M S \/ IndexedSubflow M S
 
+theorem indexed_subflow_mem {M S : EventFlow} {w : RawEvent} :
+    IndexedSubflow M S -> List.Mem w M -> List.Mem w S := by
+  intro h
+  induction h with
+  | nil _ =>
+      intro hmem
+      cases hmem
+  | keep _ ih =>
+      intro hmem
+      cases hmem with
+      | head =>
+          exact List.Mem.head _
+      | tail _ htail =>
+          exact List.Mem.tail _ (ih htail)
+  | skip _ ih =>
+      intro hmem
+      exact List.Mem.tail _ (ih hmem)
+
+theorem subflow_mem {M S : EventFlow} {w : RawEvent} :
+    Subflow M S -> List.Mem w M -> List.Mem w S := by
+  intro h hmem
+  cases h with
+  | inl hc =>
+      cases hc with
+      | intro left hright =>
+          cases hright with
+          | intro right heq =>
+              rw [heq]
+              exact List.mem_append.mpr
+                (Or.inr (List.mem_append.mpr (Or.inl hmem)))
+  | inr hi =>
+      exact indexed_subflow_mem hi hmem
+
 def MotifCandidate (M S : EventFlow) : Prop :=
   Subflow M S
 
@@ -264,6 +297,39 @@ def MotifOverlap
     (mu M L : EventFlow) : Prop :=
   MotifProfile Rfam S mu M L /\ MotifProfile Rfam T mu M L
 
+def ChannelSubstring (needle haystack : List DisplayAlphabet) : Prop :=
+  exists left right : List DisplayAlphabet,
+    haystack = left ++ needle ++ right
+
+theorem singleton_zero_not_subflow_singleton_one :
+    Not (Subflow [[BMark.b0]] [[BMark.b1]]) := by
+  intro h
+  have hmem : List.Mem [BMark.b0] [[BMark.b1]] :=
+    subflow_mem h (List.Mem.head [])
+  cases hmem with
+  | tail _ ht =>
+      cases ht
+
+theorem channel_substring_overlap_insufficient :
+    exists c q : List DisplayAlphabet, exists S U : EventFlow,
+      LegalZStream c /\
+        Decode c = some S /\
+        ChannelSubstring q c /\
+        Decode q = some U /\
+        Not (Subflow U S) := by
+  refine
+    ⟨EventEncoding [BMark.b1], [BMark.b0, BMark.b1, BMark.b1],
+      [[BMark.b1]], [[BMark.b0]], ?_⟩
+  constructor
+  · exact flow_encoding_legal_zstream [[BMark.b1]]
+  · constructor
+    · rfl
+    · constructor
+      · exact ⟨[BMark.b1], [], rfl⟩
+      · constructor
+        · rfl
+        · exact singleton_zero_not_subflow_singleton_one
+
 def MotifProfileWitnessList
     (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
     (mu : MotifRole) (occurrences : List (EventFlow × EventFlow)) :
@@ -310,6 +376,21 @@ def RecognizedSemanticPrefix
     T.take P.length = P /\
     RecognizesMotif R S P mu /\
     RecognizesMotif R T P mu
+
+theorem motif_metrics_roundtrip_invariant
+    {Rfam : GeneratedMotifRecognizer -> Prop} {S T : EventFlow}
+    {mu M L : EventFlow} :
+    Decode (FlowEncoding S) = some T ->
+      (MotifProfile Rfam S mu M L <-> MotifProfile Rfam T mu M L) := by
+  intro h
+  have hRound : Decode (FlowEncoding S) = some S := flow_level_round_trip S
+  rw [hRound] at h
+  cases h
+  constructor
+  · intro hp
+    exact hp
+  · intro hp
+    exact hp
 
 theorem same_raw_prefix_not_unique_semantic_prefix :
     exists R S T P : EventFlow,
