@@ -281,6 +281,27 @@ theorem chapter_code_bijection :
           rw [hC.right]
           exact ChapterFlow.chapter_code_round_trip C
 
+inductive ChapterTopic : Type where
+  | compilerArchitecture
+
+def ChapterTopicOf (_C : EventFlow) : ChapterTopic :=
+  ChapterTopic.compilerArchitecture
+
+theorem topic_not_chapter_code :
+    exists C D : EventFlow,
+      Not (C = D) /\
+        ChapterTopicOf C = ChapterTopicOf D /\
+        Not (ChapterCode C = ChapterCode D) := by
+  refine ⟨[], [[BMark.b0]], ?_⟩
+  constructor
+  · intro h
+    cases h
+  · constructor
+    · rfl
+    · intro hCode
+      simp [ChapterCode, ChapterFlow.ChapterCode, FlowEncoding,
+        EventEncoding, BodyEncoding, EventTerminator] at hCode
+
 def RawFlowCodeLayer (S : EventFlow) (c : List DisplayAlphabet) : Prop :=
   c = FlowEncoding S
 
@@ -302,5 +323,16 @@ theorem classifier_quotient_many_to_one :
   · intro h
     cases h
   · rfl
+
+theorem normal_address_requires_ledger (w v : RawEvent) :
+    Not (SourceCarryLedger w v = [v]) := by
+  exact normal_address_does_not_erase_raw_event w v
+
+theorem declared_bootstrap_boundary
+    {C : BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerCandidateFlow} :
+    BEDC.GroundCompiler.SelfHostingCompilerFlow.RemainingBootstrapBoundary C ->
+      BEDC.GroundCompiler.SelfHostingCompilerFlow.BootstrapRecorded C := by
+  exact
+    BEDC.GroundCompiler.SelfHostingCompilerFlow.remaining_bootstrap_boundary_visible
 
 end BEDC.GroundCompiler.MainTheorems
