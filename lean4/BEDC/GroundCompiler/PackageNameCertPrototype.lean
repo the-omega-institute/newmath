@@ -432,13 +432,53 @@ inductive FieldStatus : Type where
 def PackageFieldStatus : Type :=
   EventFlow -> PackageRoleKind -> FieldStatus
 
+def NameCertFieldStatus : Type :=
+  EventFlow -> NameCertSubflowRole -> FieldStatus
+
 structure P5Report : Type where
   outputView : P5Output
   decodedFlow : EventFlow
   packageFieldStatus : PackageFieldStatus
-  nameCertFieldStatus : EventFlow -> NameCertSubflowRole -> FieldStatus
+  nameCertFieldStatus : NameCertFieldStatus
   licensedNameStatus : EventFlow -> EventFlow -> Prop
   cannotClaimAnnotation : EventFlow -> Prop
+
+structure SoundP5Report (report : P5Report) : Prop where
+  packageSupport :
+    forall R : GeneratedPackageRecognizer,
+      forall P : EventFlow,
+        List.Mem (P5ReportDatum.recognizedPackage R P) report.outputView ->
+          RecognizedPackageFlow R report.decodedFlow P /\
+            PackageHasLedger R report.decodedFlow P
+  nameCertSupport :
+    forall R : GeneratedNameCertRecognizer,
+      forall C N : EventFlow,
+        List.Mem (P5ReportDatum.recognizedNameCert R C N) report.outputView ->
+          RecognizedNameCertFlow R report.decodedFlow C N /\
+            exists ledger : EventFlow,
+              NameCertFieldSubflow R report.decodedFlow C N ledger
+                NameCertSubflowRole.ledger
+
+theorem sound_p5_report {report : P5Report} :
+    SoundP5Report report ->
+      (forall R : GeneratedPackageRecognizer,
+        forall P : EventFlow,
+          List.Mem (P5ReportDatum.recognizedPackage R P) report.outputView ->
+            RecognizedPackageFlow R report.decodedFlow P /\
+              PackageHasLedger R report.decodedFlow P) /\
+      (forall R : GeneratedNameCertRecognizer,
+        forall C N : EventFlow,
+          List.Mem (P5ReportDatum.recognizedNameCert R C N) report.outputView ->
+            RecognizedNameCertFlow R report.decodedFlow C N /\
+              exists ledger : EventFlow,
+                NameCertFieldSubflow R report.decodedFlow C N ledger
+                  NameCertSubflowRole.ledger) := by
+  intro hSound
+  constructor
+  · intro R P hMem
+    exact hSound.packageSupport R P hMem
+  · intro R C N hMem
+    exact hSound.nameCertSupport R C N hMem
 
 theorem p5_license_weaker_than_export :
     exists S N : EventFlow, LicensedNameP5 S N /\ Not (AcceptedObjectFlow S) := by
