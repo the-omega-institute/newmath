@@ -254,6 +254,18 @@ def RetroactivePromotion
     (M oldStrength newStrength : EventFlow) : Prop :=
   AcceptGateFlow M oldStrength /\ Not (AcceptGateFlow M newStrength)
 
+def UpgradeFlow (U N oldStrength newStrength : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow U) /\
+    NonemptyEventFlow U /\
+    AcceptGateFlow N oldStrength /\
+    StrengthEventFlow newStrength /\
+    exists D sealFlow : EventFlow,
+      DerivCertFlow D N newStrength /\
+        NonemptyEventFlow D /\
+        NonemptyEventFlow sealFlow /\
+        DerivCertSourceSubflow D U /\
+        DerivCertSourceSubflow sealFlow U
+
 def ClassifierObjectSame (A B : EventFlow) : Prop :=
   erase A = erase B
 
@@ -684,6 +696,14 @@ theorem derivcert_flow_self (D N s : EventFlow) : DerivCertFlow D N s := by
     · exact
         ⟨FormalCompilerInput.recognizedFlow [] D,
           derivcert_source_subflow_self D⟩
+
+theorem namecert_alone_no_acceptgate :
+    exists C N s : EventFlow, NameCertFlow C N /\ Not (AcceptedFlow C N s) := by
+  exact ⟨[], [], [], namecert_flow_self [] [], empty_not_accepted_flow⟩
+
+theorem derivcert_alone_no_acceptgate :
+    exists D N s : EventFlow, DerivCertFlow D N s /\ Not (AcceptedFlow D N s) := by
+  exact ⟨[], [], [], derivcert_flow_self [] [] [], empty_not_accepted_flow⟩
 
 theorem accepted_flow_from_components
     {A C D sealFlow N s : EventFlow}

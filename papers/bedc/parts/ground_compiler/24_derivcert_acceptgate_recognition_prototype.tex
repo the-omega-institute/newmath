@@ -378,12 +378,14 @@ By the component definition, recognized acceptance-gate flow identifies \NameCer
 
 \begin{corollary}[NameCert alone does not imply AcceptGate]
 \label{cor:deriv-accept-namecert-alone-no-gate}
-Even if $N$ is licensed at $P_5$, an acceptance gate requires sound derivation-certificate flow and gate recognition.
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.namecert\_alone\_no\_acceptgate}
+There exists a recognized \NameCert\ flow whose same event-flow carrier is not an accepted flow. Licensing a name at $P_5$ therefore does not by itself supply the derivation-certificate flow, gate seal, and gate recognition required for an acceptance gate.
 \end{corollary}
 
 \begin{corollary}[DerivCert alone does not imply AcceptGate]
 \label{cor:deriv-accept-derivcert-alone-no-gate}
-A derivation-certificate flow alone does not imply an acceptance gate if a matching \NameCert\ flow or gate-seal flow is missing.
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.derivcert\_alone\_no\_acceptgate}
+There exists a recognized derivation-certificate flow whose same event-flow carrier is not an accepted flow. Derivation-certificate recognition alone therefore does not supply the matching \NameCert\ flow, gate seal, and gate recognition required for an acceptance gate.
 \end{corollary}
 
 \section{Accepted object code}
@@ -474,6 +476,7 @@ The acceptance gate at $s$ contains a \NameCert\ flow and a derivation-certifica
 
 \begin{definition}[Upgrade flow]
 \label{def:deriv-accept-upgrade-flow}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.UpgradeFlow}
 An \emph{upgrade flow} is an event flow $U$ that upgrades object $N$ from strength $s$ to $s'>s$. It contains prior acceptance-gate flow at $s$, new obligations for $s'$, new proof, exactness, bridge, or checked-target flow, new ledger, and upgrade seal. Write
 $$
   \mathsf{UpgradeFlow}(U,N,s,s').
