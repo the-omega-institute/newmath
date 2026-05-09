@@ -92,6 +92,13 @@ inductive P2Warning : Type where
   | noCarryClaim
   | noChannelRewrite
 
+inductive P2CannotClaim : Type where
+  | rawEquality
+  | hsame
+  | theoremhood
+  | nameCertificate
+  | acceptedObject
+
 structure P2Report where
   inputChannel : List DisplayAlphabet
   decodedFlow : EventFlow
@@ -103,6 +110,11 @@ structure P2Report where
   normalAddressEvents : List RawEvent
   candidateOnlyWarnings : List P2Warning
   roundTripStatus : Bool
+
+structure P2ReportFormat where
+  report : P2Report
+  candidatePolicyRecognized : Bool
+  cannotClaims : List P2CannotClaim
 
 theorem adj_pair_events_mem {S : EventFlow} {i : Nat} {w v : RawEvent} :
     AdjPair S i w v -> List.Mem w S /\ List.Mem v S := by
@@ -257,5 +269,23 @@ theorem recognized_normalizer_relation_source_level
     InducedNormalizes R S i w v -> AdjPair S i w v := by
   intro hRelation
   exact hRelation.left
+
+theorem p2_candidate_report_conservative
+    {candidate : RawEvent -> RawEvent -> Prop}
+    {S : EventFlow} {i : Nat} {w v : RawEvent} :
+    NormCand candidate S i w v ->
+      (forall R : GeneratedNormalizerRecognizer,
+        Not (RecognizesNormalizer R S i w v)) ->
+      Not (exists R : GeneratedNormalizerRecognizer,
+        InducedNormalizes R S i w v) := by
+  intro hCand hNoRecognized
+  exact candidate_not_relation hCand hNoRecognized
+
+theorem p2_no_channel_rewrite
+    {R : GeneratedNormalizerRecognizer} {S : EventFlow}
+    {i : Nat} {w v : RawEvent} :
+    InducedNormalizes R S i w v -> AdjPair S i w v := by
+  intro hRelation
+  exact recognized_normalizer_relation_source_level hRelation
 
 end BEDC.GroundCompiler.SourceNormalizer

@@ -415,6 +415,7 @@ is established.
 
 \begin{definition}[$P_2$ report]
 \label{def:source-normalizer-p2-report-format}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.P2ReportFormat}
 A $P_2$ report extends a $P_1$ report with an adjacent-pair table, candidate-policy status, candidate normalizer pairs, recognized normalizer ledgers if supplied, pre-normal and normal-address display, candidate-only warnings, and normalizer cannot-claims.
 \end{definition}
 
@@ -457,7 +458,8 @@ It still may not claim $011=100$ as raw equality or $\hsame(011,100)$ unless a s
 
 \begin{theorem}[$P_2$ candidate report is conservative]
 \label{thm:source-normalizer-candidate-report-conservative}
-Adding candidate normalizer reporting does not add source-level normalization relations.
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.p2\_candidate\_report\_conservative}
+Adding candidate normalizer reporting does not add source-level normalization relations: a candidate adjacent pair, without any generated normalizer recognizer recognizing the same source position, cannot produce an induced normalization relation.
 \end{theorem}
 
 \begin{proof}
@@ -480,7 +482,8 @@ The relation $\leadsto_{R_N}$ is defined through $\mathsf{RecognizesNormalizer}(
 
 \begin{corollary}[$P_2$ does not permit channel rewrite]
 \label{cor:source-normalizer-no-channel-rewrite}
-Even recognized normalizer relations cannot be applied directly to channel strings. The correct path is decode, source normalizer ledger, and compile.
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.p2\_no\_channel\_rewrite}
+Every recognized normalizer relation still returns an adjacent pair in the decoded event flow. It is therefore a source-level ledger relation, not a direct rewrite rule on channel strings. The correct path is decode, source normalizer ledger, and compile.
 \end{corollary}
 
 \begin{theorem}[$P_2$ is conservative over the finite kernel]
