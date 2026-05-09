@@ -74,6 +74,37 @@ theorem CharacterTheoryRootBHistSurface_root_carrier_obligation
   exact
     ⟨groupCarrier, vectorCarrier, actionUnary, traceUnary, provenanceTrace, actionRow, traceRow⟩
 
+theorem CharacterTheoryRootBHistSurface_root_classifier_obligation
+    {group group' vector vector' action trace trace' provenance : BHist} :
+    GroupSingletonCarrier group ->
+      ModuleSingletonCarrier vector ->
+        hsame group group' ->
+          hsame vector vector' ->
+            Cont group' vector' action ->
+              Cont action BHist.Empty trace' ->
+                hsame trace trace' ->
+                  hsame provenance trace ->
+                    GroupSingletonCarrier group' ∧ ModuleSingletonCarrier vector' ∧
+                      UnaryHistory action ∧ UnaryHistory trace' ∧ hsame provenance trace' ∧
+                        Cont group' vector' action ∧ Cont action BHist.Empty trace' := by
+  intro groupCarrier vectorCarrier sameGroup sameVector actionRow traceRow sameTrace provenanceTrace
+  have groupCarrier' : GroupSingletonCarrier group' :=
+    hsame_trans (hsame_symm sameGroup) groupCarrier
+  have vectorCarrier' : ModuleSingletonCarrier vector' :=
+    hsame_trans (hsame_symm sameVector) vectorCarrier
+  have groupUnary' : UnaryHistory group' :=
+    unary_transport unary_empty (hsame_symm groupCarrier')
+  have vectorUnary' : UnaryHistory vector' :=
+    unary_transport unary_empty (hsame_symm vectorCarrier')
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed groupUnary' vectorUnary' actionRow
+  have traceUnary' : UnaryHistory trace' :=
+    unary_cont_closed actionUnary unary_empty traceRow
+  have provenanceTrace' : hsame provenance trace' :=
+    hsame_trans provenanceTrace sameTrace
+  exact
+    ⟨groupCarrier', vectorCarrier', actionUnary, traceUnary', provenanceTrace', actionRow, traceRow⟩
+
 theorem CharacterTheoryRootBHistSurface_carrier_obligation [AskSetup] [PackageSetup]
     {group vector action trace orthLedger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -97,9 +128,9 @@ theorem CharacterTheoryRootBHistSurface_carrier_obligation [AskSetup] [PackageSe
         (And.intro surface.right.right.right.left
           (And.intro orthLedgerUnary
             (And.intro endpointUnary
-              (And.intro surface.right.right.left
-                (And.intro surface.right.right.right.right.left
-                  (And.intro surface.right.right.right.right.right.left
-                    surface.right.right.right.right.right.right))))))))
+                (And.intro surface.right.right.left
+                  (And.intro surface.right.right.right.right.left
+                    (And.intro surface.right.right.right.right.right.left
+                      surface.right.right.right.right.right.right))))))))
 
 end BEDC.Derived.CharacterTheoryUp
