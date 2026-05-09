@@ -15097,3 +15097,27 @@ Rationale:
 Symmetric counterpart to the left-identity candidate above. Same evidence: no polynomial-multiplication-right-identity / right-unit theorem appears in the labels of 25_polynomial_literal_multiplication.tex or in PolynomialUp/CauchyProduct.lean. Note that thm:polynomial-raw-multiplication-commutativity-from-commring-scalars only triggers under CommRingUp; for general RingUp scalars the right-identity is an independent theorem requiring direct proof on the right-side Cauchy fold (mirroring the right-unit half of thm:fps-cauchy-product-unit-laws). Local proof inputs include: lem:raw-cauchy-product-coefficient-formula (raw product coefficient = Cauchy fold), the multiplicative right-unit row from def:ring-stability-certificate, the right-zero-absorption row, and lem:padded-coefficient-extensionality-polynomial-classifier (to lift coefficient-wise classifier comparisons to PolySame_R).
 
 ---
+
+### B-594 - Lattice one-sided distributive inequality (universal modular bound)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lattice one-sided distributive inequality (universal modular bound) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For carried lattice elements $x,y,z$ in a $\LatticeUp$ certificate, the meet-over-join admits the universal one-sided bound $(x\wedge y)\vee(x\wedge z)\preceq x\wedge(y\vee z)$ in the underlying poset order.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+
+Rationale:
+Birkhoff Lattice Theory Ch. I §6: the universal one-sided modular inequality holds in every lattice (without distributivity). The chapter has meet/join idempotence (`lem:lattice-meet-idempotence-from-bounds` line 44, `lem:lattice-join-idempotence-from-bounds` line 71), absorption (lines 98, 133), commutativity (`thm:lattice-commutativity-from-directional-bounds` line 194), and bound-uniqueness (line 378). Verified no `thm:lattice-distrib*|modular*|inequal*` exists in the_certificate.tex. The proof reuses meet-monotonicity in each argument (deducible from the bound characterization) plus join's least-upper-bound property — both already explicit. File is 656 lines (under cap). 1-2 codex rounds.
+
+---
