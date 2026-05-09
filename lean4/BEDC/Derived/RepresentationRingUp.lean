@@ -552,4 +552,25 @@ theorem RepresentationRingBHistRepresentationPacket_finite_source_exhaustion
                           · exact
                               packet.right.right.right.right.right.right.right.right.right.right.right
 
+theorem RepresentationRingBHistRepresentationPacket_public_namecert_surface [AskSetup]
+    [PackageSetup]
+    {group ring reps directSum tensor provenance classifier ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RepresentationRingBHistRepresentationPacket group ring reps directSum tensor provenance
+        classifier ledger endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) hsame ∧
+        UnaryHistory group ∧ UnaryHistory ring ∧ UnaryHistory reps ∧ UnaryHistory directSum ∧
+          UnaryHistory tensor ∧ UnaryHistory provenance ∧ UnaryHistory classifier ∧
+            UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont reps directSum tensor ∧
+              Cont group ring provenance ∧ Cont provenance classifier ledger ∧
+                Cont ledger tensor endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have surface :=
+    RepresentationRingBHistRepresentationPacket_namecert_obligation_surface packet
+  have rows :=
+    RepresentationRingBHistRepresentationPacket_finite_source_exhaustion packet
+  exact And.intro surface.left rows
+
 end BEDC.Derived.RepresentationRingUp
