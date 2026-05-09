@@ -406,6 +406,7 @@ import BEDC.Derived.TopGroupUp
 import BEDC.Derived.TopGroupUp.RootLedgerSemanticExactness
 import BEDC.Derived.TopGroupUp.ClassifierContinuityTransport
 import BEDC.Derived.TopGroupUp.SourceCompatibility
+import BEDC.Derived.TopGroupUp.RootCarrierObligations
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
