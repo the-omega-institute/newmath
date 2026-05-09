@@ -213,4 +213,52 @@ theorem GeomQuantizationBHistSourcePacket_namecert_obligation_surface
                 rows.right.right.right.right.right.right.right.right.right.right.right.left
                 rows.right.right.right.right.right.right.right.right.right.right.right.right))))))
 
+theorem GeomQuantizationBHistSourcePacket_public_certificate_handoff
+    [AskSetup] [PackageSetup]
+    {symplectic hilbert line polarisation metaplectic readback transport provenance endpoint
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeomQuantizationBHistSourcePacket symplectic hilbert line polarisation metaplectic
+        readback transport provenance endpoint bundle pkg ->
+      Cont endpoint transport consumer ->
+      (let Source := fun h : BHist => hsame h endpoint;
+        SemanticNameCert Source Source Source hsame) ∧ UnaryHistory consumer ∧
+        hsame consumer (append endpoint transport) ∧ UnaryHistory endpoint ∧
+          PkgSig bundle endpoint pkg := by
+  intro packet consumerCont
+  have surface :=
+    GeomQuantizationBHistSourcePacket_namecert_obligation_surface packet
+  have transportUnary : UnaryHistory transport := packet.right.right.right.right.left
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed surface.right.right.right.left transportUnary consumerCont
+  exact
+    ⟨surface.left, consumerUnary, consumerCont, surface.right.right.right.left,
+      surface.right.right.right.right.right.right.right⟩
+
+theorem GeomQuantizationBHistSourcePacket_shared_provenance_readback_exactness
+    [AskSetup] [PackageSetup]
+    {symplectic hilbert line polarisation metaplectic readback transport provenance endpoint
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeomQuantizationBHistSourcePacket symplectic hilbert line polarisation metaplectic
+        readback transport provenance endpoint bundle pkg ->
+      Cont endpoint provenance consumer ->
+        UnaryHistory readback ∧ UnaryHistory metaplectic ∧ UnaryHistory endpoint ∧
+          UnaryHistory provenance ∧ UnaryHistory consumer ∧
+            hsame consumer (append endpoint provenance) ∧
+              Cont provenance metaplectic endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet consumerCont
+  have rows :=
+    GeomQuantizationBHistSourcePacket_source_dependency_surface packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed rows.right.right.right.right.right.right.right.right.left
+      rows.right.right.right.right.right.left consumerCont
+  exact
+    ⟨rows.right.right.right.right.right.right.left,
+      rows.right.right.right.right.right.right.right.left,
+      rows.right.right.right.right.right.right.right.right.left,
+      rows.right.right.right.right.right.left, consumerUnary, consumerCont,
+      rows.right.right.right.right.right.right.right.right.right.right.right.left,
+      rows.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.GeomQuantizationUp
