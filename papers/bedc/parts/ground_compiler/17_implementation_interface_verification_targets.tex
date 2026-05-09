@@ -241,6 +241,7 @@ $$
 
 \begin{definition}[Event decoder specification]
 \label{def:implementation-interface-event-decoder-spec}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.DecodesEvent}
 The event decoding specification is the relation
 $$
   \mathsf{DecodesEvent}(c,w)
@@ -254,6 +255,7 @@ This is a specification-level relation. An implementation may scan the input, bu
 
 \begin{definition}[Stream decoder specification]
 \label{def:implementation-interface-stream-decoder-spec}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.Decodes}
 The stream decoding specification is the relation
 $$
   \mathsf{Decodes}(c,S)
@@ -267,6 +269,7 @@ Thus the executable decoder must prove soundness and completeness with respect t
 
 \begin{proposition}[Specification-level decoder is functional]
 \label{prop:implementation-interface-decoder-functional}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.decoder\_functional}
 If
 $$
   \mathsf{Decodes}(c,S)

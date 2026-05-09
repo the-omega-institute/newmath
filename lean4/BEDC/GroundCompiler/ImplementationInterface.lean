@@ -1,6 +1,9 @@
-import BEDC.GroundCompiler.EventFlow
+import BEDC.GroundCompiler.ChannelEncoding
 
 namespace BEDC.GroundCompiler.ImplementationInterface
+
+open BEDC.GroundCompiler.ChannelEncoding
+open BEDC.GroundCompiler.EventFlow
 
 inductive InterfaceDatum : Type where
   | hostBoolList
@@ -121,6 +124,12 @@ def DecoderCoreModule (publicSurface : InterfaceDatum -> Prop) : Prop :=
     publicSurface InterfaceDatum.rejects /\
     NoHostLeakCondition publicSurface
 
+def DecodesEvent (c : List DisplayAlphabet) (w : RawEvent) : Prop :=
+  EncodesEvent w c
+
+def Decodes (c : List DisplayAlphabet) (S : EventFlow) : Prop :=
+  Compiles S c
+
 theorem host_representation_not_structure {d : InterfaceDatum} :
     ImplementationRepresentation d -> Not (PublicFormalInterface d) := by
   intro hImplementation hPublic
@@ -132,5 +141,18 @@ theorem host_leak_invalidates {publicSurface : InterfaceDatum -> Prop} :
   cases hLeak with
   | intro d hd =>
       exact hStatus d hd.left hd.right
+
+theorem decoder_functional {c : List DisplayAlphabet} {S T : EventFlow} :
+    Decodes c S -> Decodes c T -> S = T := by
+  intro hS hT
+  have hDecodeS : Decode c = some S := by
+    rw [hS]
+    exact flow_level_round_trip S
+  have hDecodeT : Decode c = some T := by
+    rw [hT]
+    exact flow_level_round_trip T
+  rw [hDecodeS] at hDecodeT
+  cases hDecodeT
+  rfl
 
 end BEDC.GroundCompiler.ImplementationInterface
