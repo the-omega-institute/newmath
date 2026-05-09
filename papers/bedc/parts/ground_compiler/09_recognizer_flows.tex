@@ -399,11 +399,13 @@ Before a self-hosting compiler flow is available, the system must explicitly rec
 
 \begin{definition}[Bootstrap obligation]
 \label{def:recognizer-generated-bootstrap-obligation}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.BootstrapObligation}
 A \emph{bootstrap obligation} is a cannot-claim style record saying that a recognizer or compiler component still depends on an external implementation or on structure not yet discharged by self-hosting event flow. It records claim text, status, why the obligation is not discharged, and the required upgrade.
 \end{definition}
 
 \begin{theorem}[Bootstrap obligation blocks full self-hosting claim]
 \label{thm:recognizer-generated-bootstrap-obligation-blocks-claim}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.bootstrap\_obligation\_blocks\_full\_self\_hosting\_claim}
 If any bootstrap obligation remains undischarged, the system cannot claim that the compiler is fully no-hidden-input self-hosting.
 \end{theorem}
 
@@ -436,6 +438,7 @@ A chapter recognizer certificate records chapter-candidate flows, recognized cha
 
 \begin{theorem}[Recognizer flows are conservative over the finite kernel]
 \label{thm:recognizer-generated-conservative-over-kernel}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.recognizer\_flows\_conservative\_over\_kernel}
 Adding certified recognizer flows, recognizer-certificate flows, and self-hosting compiler flows does not add new raw marks, history constructors, sameness rules, continuation rules, or kernel-level equalities.
 \end{theorem}
 
@@ -450,6 +453,7 @@ The existence of a recognizer flow $R$ does not imply the existence of an event 
 
 \begin{corollary}[Recognition does not imply acceptance]
 \label{cor:recognizer-generated-recognition-not-acceptance}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.recognition\_not\_acceptance}
 Even if $R$ recognizes $S$ as a package, $\NameCert$, theorem, or chapter flow, acceptance of mature objects still requires recognized $\NameCert$ flow, recognized derivation-certificate flow, and acceptance-gate flow where applicable.
 \end{corollary}
 

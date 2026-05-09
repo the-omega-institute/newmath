@@ -151,6 +151,16 @@ def SelfHostingCompilerFlow (C : EventFlow) : Prop :=
     exists C' : EventFlow,
       CompilesCompilerFlow C C C' /\ CompilerBehaviorClassifier C' C
 
+def BootstrapObligation : Type :=
+  EventFlow
+
+def UndischargedBootstrapObligation (O : BootstrapObligation) : Prop :=
+  NonemptyEventFlow O
+
+def FullNoHiddenInputSelfHosting (C : EventFlow) : Prop :=
+  SelfHostingCompilerFlow C /\
+    forall O : BootstrapObligation, Not (UndischargedBootstrapObligation O)
+
 theorem formal_recognition_evidence_requires_certified
     {R : RecognizerCandidateFlow} {rho : RecognitionRole} {S : EventFlow} :
     FormalRecognitionEvidence R rho S -> CertifiedRecognizer R rho := by
@@ -226,5 +236,32 @@ theorem self_hosting_projects_behavior_classifier {C : EventFlow} :
         CompilesCompilerFlow C C C' /\ CompilerBehaviorClassifier C' C := by
   intro h
   exact h.right
+
+theorem bootstrap_obligation_blocks_full_self_hosting_claim
+    {C : EventFlow} {O : BootstrapObligation} :
+    UndischargedBootstrapObligation O ->
+      Not (FullNoHiddenInputSelfHosting C) := by
+  intro hObligation hFull
+  exact (hFull.right O) hObligation
+
+theorem recognizer_flows_conservative_over_kernel
+    {R : RecognizerCandidateFlow} {rho : RecognitionRole} {S : EventFlow}
+    {w : RawEvent} {m : DisplayAlphabet} :
+    Recognizes R rho S ->
+      List.Mem w S -> List.Mem m w -> m = BMark.b0 \/ m = BMark.b1 := by
+  intro _ _ _
+  cases m with
+  | b0 => exact Or.inl rfl
+  | b1 => exact Or.inr rfl
+
+theorem recognition_not_acceptance :
+    Not (forall R : RecognizerCandidateFlow,
+      forall rho : RecognitionRole,
+        forall S : EventFlow, Recognizes R rho S -> AcceptedObjectFlow S) := by
+  intro h
+  have hAccepted :
+      AcceptedObjectFlow [] :=
+    h [] [] [] (FormalCompilerInput.recognizedFlow [] [])
+  exact empty_not_accepted_object_flow hAccepted
 
 end BEDC.GroundCompiler.RecognizerFlows
