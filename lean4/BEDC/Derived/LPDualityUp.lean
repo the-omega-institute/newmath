@@ -96,4 +96,30 @@ theorem LPDualityOptimalPrimalFace_binary_convex_closure
       (PreorderPrefixLE_of_hsame mixtureOpt)
       (PreorderPrefixLE_of_hsame (hsame_symm mixtureOpt)))
 
+theorem LPDualityObjectiveFiber_sandwich_closure
+    {primal primal' dual dual' primalMixture dualMixture optimum : BHist} :
+    hsame primal optimum -> hsame primal' optimum -> hsame dual optimum ->
+      hsame dual' optimum -> hsame optimum BHist.Empty ->
+        Cont primal primal' primalMixture -> Cont dual dual' dualMixture ->
+          hsame primalMixture optimum ∧ hsame dualMixture optimum ∧
+            PreorderPrefixLE primalMixture dualMixture ∧
+              PreorderPrefixLE dualMixture primalMixture := by
+  intro primalOpt primalOpt' dualOpt dualOpt' optimumEmpty primalRow dualRow
+  have primalClosure :
+      hsame primalMixture optimum ∧ PreorderPrefixLE primalMixture optimum ∧
+        PreorderPrefixLE optimum primalMixture :=
+    LPDualityOptimalPrimalFace_binary_convex_closure
+      primalOpt primalOpt' optimumEmpty primalRow
+  have dualClosure :
+      hsame dualMixture optimum ∧ PreorderPrefixLE dualMixture optimum ∧
+        PreorderPrefixLE optimum dualMixture :=
+    LPDualityOptimalPrimalFace_binary_convex_closure dualOpt dualOpt' optimumEmpty dualRow
+  have sameMixtures : hsame primalMixture dualMixture :=
+    hsame_trans primalClosure.left (hsame_symm dualClosure.left)
+  exact And.intro primalClosure.left
+    (And.intro dualClosure.left
+      (And.intro
+        (PreorderPrefixLE_of_hsame sameMixtures)
+        (PreorderPrefixLE_of_hsame (hsame_symm sameMixtures))))
+
 end BEDC.Derived.LPDualityUp

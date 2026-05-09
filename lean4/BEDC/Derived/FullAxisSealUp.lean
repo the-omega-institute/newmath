@@ -36,4 +36,26 @@ theorem FullAxis_e1_e0_empty_boundary_exclusion :
       · intro h classifiedBoundary
         exact zeroSpine_no_e1_extension classifiedBoundary.left
 
+theorem FullAxisSeal_source_exhaustion {h k : BHist} :
+    FullAxisSourceSpec zeroSpinePrefixThread h ->
+      FullAxisPatternSpec zeroSpinePrefixThread k ->
+        FullAxisClassifierSpec zeroSpinePrefixThread h k ->
+          FullAxisLedgerPolicy zeroSpinePrefixThread h ->
+            ZeroSpine h ∧ ZeroSpine k ∧
+              (hsame h (BHist.e1 (BHist.e0 BHist.Empty)) -> False) ∧
+                (hsame k (BHist.e1 (BHist.e0 BHist.Empty)) -> False) := by
+  intro sourceH patternK classifiedHK _ledgerH
+  have hSpine : ZeroSpine h := sourceH
+  have kSpine : ZeroSpine k := patternK
+  have hBoundary :
+      hsame h (BHist.e1 (BHist.e0 BHist.Empty)) -> False :=
+    FullAxisSourceSpec_boundary_01_thread_separation sourceH
+  have kBoundary :
+      hsame k (BHist.e1 (BHist.e0 BHist.Empty)) -> False := by
+    intro sameBoundary
+    have boundarySpine : ZeroSpine (BHist.e1 (BHist.e0 BHist.Empty)) :=
+      zeroSpine_hsame_transport classifiedHK.right sameBoundary
+    exact zeroSpine_no_e1_extension boundarySpine
+  exact And.intro hSpine (And.intro kSpine (And.intro hBoundary kBoundary))
+
 end BEDC.Derived.AxisZeckendorf.FullAxis
