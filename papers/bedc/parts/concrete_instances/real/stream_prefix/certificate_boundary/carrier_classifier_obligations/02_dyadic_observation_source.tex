@@ -95,6 +95,34 @@ Thus the source package has precisely the stated carrier, classifier,
 stability, and finite ledger faces over $\Hist$.
 \end{proof}
 
+\begin{theorem}[Phase Real dyadic stream RegSeq scope]
+\label{thm:real-phase-dyadic-stream-regseq-scope}
+Every DyadicRatCore request consumed by the Phase Real $\RegSeqRat$ spine is
+exactly a $\mathsf{DyadicRatCoreObservationRow}$ over $\mathsf{BHist}$. Its
+carrier, positive-denominator, dyadic-radius, classifier, and ledger faces are
+read from the $\RatUp$ carrier and classifier transports together with the
+$\RegSeqRat$ unary observation request. No $\RealUp$ completeness row, quotient
+row, completion object, metric-completeness row, Classical datum, or standard
+bridge row is part of this DyadicRatCore source scope.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:dyadic-rat-core-observation-row}. A consumed endpoint row is
+the rational-history carrier, positive unary denominator, and dyadic-radius
+token attached to the certified unary observation entry of the $\RegSeqRat$
+spine.
+
+Apply \autoref{thm:dyadic-rat-core-scoped-source-package}. Its carrier face is
+the endpoint $\RatUp$ row, its classifier face is the
+$\mathsf{RatHistoryClassifier}$ comparison, and its stability face is the same
+$\hsame$ transport used by the $\RegSeqRat$ pointwise classifier obligation.
+
+The remaining ledger component is the finite dyadic-tolerance request already
+named by the $\RegSeqRat$ carrier and classifier obligations. Repacking these
+faces gives exactly the Phase Real DyadicRatCore request scope, and there is no
+slot in that package for quotient, completion, metric, Classical, or $\RealUp$
+completeness data.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore observation row hsame transport]
 \label{thm:dyadic-rat-core-observation-row-hsame-transport}
 Let $d,e:\Hist$. If $d$ has a DyadicRatCore observation row in the sense of
