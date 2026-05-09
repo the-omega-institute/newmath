@@ -119,4 +119,27 @@ theorem reference_prototype_not_full_compiler
   have hCore : ReferencePrototypePublic d := hPrototype.left d hPublic
   cases hCore <;> cases hHigher
 
+theorem prototype_encoder_soundness {S : EventFlow}
+    {c : List DisplayAlphabet} :
+    PrototypeEncoder S c -> Compiles S c := by
+  intro h
+  exact h
+
+theorem prototype_decoder_soundness {c : List DisplayAlphabet}
+    {S : EventFlow} :
+    PrototypeDecoder c (PrototypeDecoderOutput.decoded S) -> Decodes c S := by
+  intro h
+  exact h
+
+theorem prototype_decoder_completeness_on_legal_streams
+    {c : List DisplayAlphabet} :
+    LegalZStream c ->
+      exists S : EventFlow, PrototypeStreamDecoder c = some S /\ Decodes c S := by
+  intro hLegal
+  cases legal_stream_completeness hLegal with
+  | intro S hS =>
+      cases hS with
+      | intro hDecode hFlow =>
+          exact ⟨S, hDecode, hFlow.symm⟩
+
 end BEDC.GroundCompiler.MinimalPrototype

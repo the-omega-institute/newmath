@@ -367,6 +367,7 @@ When reports contain carry-looking pairs such as $011\mid 100$ or $0011\mid 0100
 
 \begin{theorem}[Prototype encoder soundness]
 \label{thm:minimal-prototype-encoder-soundness}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.prototype\_encoder\_soundness}
 If the reference prototype encodes event flow $S$ and returns channel stream $c$, then
 $$
   \mathsf{Compiles}(S,c).
@@ -379,6 +380,7 @@ By specification, the encoder applies $\mathsf{Ev}$ to each event and concatenat
 
 \begin{theorem}[Prototype decoder soundness]
 \label{thm:minimal-prototype-decoder-soundness}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.prototype\_decoder\_soundness}
 If the reference prototype decodes channel stream $c$ and returns event flow $S$, then
 $$
   \mathsf{Decodes}(c,S).
@@ -391,6 +393,7 @@ The decoder scans $c$ by the grammar $0$ for raw $0$, $10$ for raw $1$, and $11$
 
 \begin{theorem}[Prototype decoder completeness on legal streams]
 \label{thm:minimal-prototype-decoder-completeness}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.prototype\_decoder\_completeness\_on\_legal\_streams}
 If $c\in\mathsf{LegalZStream}$, then the reference decoder returns some event flow $S$ such that
 $$
   \mathsf{Decodes}(c,S).
