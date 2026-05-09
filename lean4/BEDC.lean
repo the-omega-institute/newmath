@@ -465,6 +465,7 @@ import BEDC.Derived.TopGroupUp.JointSourceDeterminacy
 import BEDC.Derived.TopGroupUp.RootDownstreamContinuityObligation
 import BEDC.Derived.TopGroupUp.ExportBoundary
 import BEDC.Derived.TopGroupUp.SourceFiberExportExactness
+import BEDC.Derived.TopGroupUp.RootSourceFiberExportPacket
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
