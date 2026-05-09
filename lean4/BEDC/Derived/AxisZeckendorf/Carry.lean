@@ -37,6 +37,17 @@ theorem zCarry_source_not_normal : ∀ {h k : BHist}, ZCarry h k → ¬ ZNormal 
   cases carry with
   | base => exact znormal_word_011_absurd
 
+theorem ZCarry_window_determinacy {h k : BHist} :
+    ZCarry h k ->
+      h = word_011 ∧ k = word_100 ∧ ¬ ZNormal h ∧ ZNormal k ∧ ¬ hsame h k := by
+  intro carry
+  cases carry with
+  | base =>
+      exact And.intro rfl
+        (And.intro rfl
+          (And.intro znormal_word_011_absurd
+            (And.intro znormal_word_100 zCarry_011_100_not_hsame)))
+
 def ZCarrySourceSpec (h : BHist) : Prop := ¬ ZNormal h
 
 def ZCarryPatternSpec (h k : BHist) : Prop := ZCarry h k
