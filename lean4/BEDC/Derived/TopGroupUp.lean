@@ -325,4 +325,26 @@ theorem TopGroupRootSourceFiber_export_ledger
   cases provenanceCont
   rfl
 
+theorem TopGroupRootThresholdPackage_downstream_threshold_exactness
+    {group topology product inverse neighborhood ledger provenance productLedger inverseLedger :
+      BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      Cont product neighborhood productLedger ->
+        Cont inverse neighborhood inverseLedger ->
+          hsame productLedger (append product neighborhood) ∧
+            hsame inverseLedger (append inverse neighborhood) ∧
+              hsame ledger (append product inverse) ∧ hsame provenance ledger ∧
+                UnaryHistory productLedger ∧ UnaryHistory inverseLedger := by
+  intro package productCont inverseCont
+  have rows := TopGroupRootThresholdPackage_source_coupled_continuity_boundary package
+  have productLedgerUnary : UnaryHistory productLedger :=
+    unary_cont_closed rows.right.right.left rows.right.right.right.right.left productCont
+  have inverseLedgerUnary : UnaryHistory inverseLedger :=
+    unary_cont_closed rows.right.right.right.left rows.right.right.right.right.left inverseCont
+  exact And.intro productCont
+    (And.intro inverseCont
+      (And.intro package.right.right.right.right.right.left
+        (And.intro package.right.right.right.right.right.right
+          (And.intro productLedgerUnary inverseLedgerUnary))))
+
 end BEDC.Derived.TopGroupUp
