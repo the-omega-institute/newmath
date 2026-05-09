@@ -1,9 +1,11 @@
 import BEDC.GroundCompiler.EventFlow
+import BEDC.GroundCompiler.SourceReport
 
 namespace BEDC.GroundCompiler.SourceNormalizer
 
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
+open BEDC.GroundCompiler.SourceReport
 
 inductive AdjPair : EventFlow -> Nat -> RawEvent -> RawEvent -> Prop where
   | here (w v : RawEvent) (rest : EventFlow) :
@@ -371,5 +373,37 @@ structure P2AuditChecklist where
       AcceptedObjectFlow S ->
         exists N C : EventFlow,
           RecognizedNameCertFlow N /\ RecognizedClosureCertFlow C
+
+def P2Adequate (P : List DisplayAlphabet -> Option EventFlow) : Prop :=
+  P1Adequate P /\
+    P2AuditChecklist /\
+    (forall {R : GeneratedNormalizerRecognizer} {S : EventFlow}
+      {i : Nat} {w v : RawEvent},
+      RecognizesNormalizer R S i w v -> InducedNormalizes R S i w v) /\
+    P2BelowHigherRecognition
+
+theorem p2_adequacy
+    {P : List DisplayAlphabet -> Option EventFlow} :
+    P1Adequate P ->
+      P2AuditChecklist ->
+      (forall {R : GeneratedNormalizerRecognizer} {S : EventFlow}
+        {i : Nat} {w v : RawEvent},
+        RecognizesNormalizer R S i w v -> NormalizerSoundness R) ->
+      P2Adequate P := by
+  intro hP1 hChecklist hBacked
+  constructor
+  · exact hP1
+  · constructor
+    · exact hChecklist
+    · constructor
+      · intro R S i w v hRecognized
+        exact (hBacked hRecognized) hRecognized
+      · exact p2_below_higher_recognition
+
+theorem p2_adequacy_not_higher
+    {P : List DisplayAlphabet -> Option EventFlow} :
+    P2Adequate P -> Not (HigherLayerAdequacy P) := by
+  intro _ hHigher
+  cases hHigher
 
 end BEDC.GroundCompiler.SourceNormalizer
