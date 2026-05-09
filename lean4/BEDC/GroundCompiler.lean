@@ -1,5 +1,6 @@
 import BEDC.GroundCompiler.EventFlow
 import BEDC.GroundCompiler.ChannelEncoding
+import BEDC.GroundCompiler.SourceReport
 import BEDC.GroundCompiler.SourceChannel
 import BEDC.GroundCompiler.PackageGenerated
 import BEDC.GroundCompiler.NameCertGenerated
