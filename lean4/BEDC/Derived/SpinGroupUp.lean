@@ -397,6 +397,56 @@ theorem SpinGroupRootCarrier_public_consumer_boundary_exhaustion [AskSetup] [Pac
     (And.intro sourceScope.right.right.left
       (And.intro sourceScope.right.right.right.left sourceScope.right.right.right.right))
 
+theorem SpinGroupRootCarrier_double_cover_consumer_exhaustion [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger row : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      hsame row spinEndpoint ->
+        SemanticNameCert (fun h : BHist => hsame h row) (fun h : BHist => hsame h row)
+          (fun h : BHist => hsame h row) hsame ∧
+            CliffordCarrierPackage unit vector product boundary cliffordEndpoint ∧
+              GroupSingletonCarrier groupWord ∧ UnaryHistory row ∧ UnaryHistory spinEndpoint ∧
+                Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg := by
+  intro carrier sameRowSpin
+  have scope := SpinGroupRootCarrier_source_scope carrier
+  have rowSelf : hsame row row :=
+    hsame_refl row
+  have rowUnary : UnaryHistory row :=
+    unary_transport scope.right.right.left (hsame_symm sameRowSpin)
+  have cert :
+      SemanticNameCert (fun h : BHist => hsame h row) (fun h : BHist => hsame h row)
+        (fun h : BHist => hsame h row) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro row rowSelf
+      equiv_refl := by
+        intro h _source
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK source
+        exact hsame_trans (hsame_symm sameHK) source
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+  exact
+    And.intro cert
+      (And.intro scope.left
+        (And.intro scope.right.left
+          (And.intro rowUnary
+            (And.intro scope.right.right.left
+              (And.intro scope.right.right.right.left scope.right.right.right.right)))))
+
 theorem SpinGroupRootCarrier_transport_closure [AskSetup] [PackageSetup]
     {unit vector product boundary cliffordEndpoint cliffordEndpoint' groupWord groupWord'
       spinEndpoint spinEndpoint' ledger transportLedger : BHist}
