@@ -35,4 +35,25 @@ theorem IwasawaTransitionLedger_finite_window_exactness
       | tail _ restMem =>
           exact ih restMem
 
+theorem IwasawaTransitionLedger_cons_transport_stability
+    {level level' next next' transition transition' provenance : BHist} {rest : List BHist} :
+    UnaryHistory level -> UnaryHistory next -> hsame level level' -> hsame next next' ->
+      Cont level next transition -> Cont level' next' transition' ->
+        IwasawaTransitionLedger rest provenance ->
+          IwasawaTransitionLedger (transition' :: rest) provenance ∧ hsame transition transition' ∧
+            UnaryHistory transition' := by
+  intro levelUnary nextUnary sameLevel sameNext transitionCont transitionCont' restLedger
+  have levelUnary' : UnaryHistory level' :=
+    unary_transport levelUnary sameLevel
+  have nextUnary' : UnaryHistory next' :=
+    unary_transport nextUnary sameNext
+  have sameTransition : hsame transition transition' :=
+    cont_respects_hsame sameLevel sameNext transitionCont transitionCont'
+  have transitionUnary' : UnaryHistory transition' :=
+    unary_cont_closed levelUnary' nextUnary' transitionCont'
+  exact
+    And.intro
+      (IwasawaTransitionLedger.cons levelUnary' nextUnary' transitionCont' restLedger)
+      (And.intro sameTransition transitionUnary')
+
 end BEDC.Derived.IwasawaUp
