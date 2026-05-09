@@ -55,6 +55,7 @@ import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.AxisZeckendorf
+import BEDC.Derived.BayesianUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
@@ -118,7 +119,6 @@ import BEDC.Derived.DeRhamUp.RootCocycleLedgerThreshold
 import BEDC.Derived.DeRhamUp.RootObligations
 import BEDC.Derived.DeRhamUp.DoubleExteriorObligations
 import BEDC.Derived.DeRhamUp.BridgeInputSource
-import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
@@ -272,6 +272,7 @@ import BEDC.Derived.CondExpUp
 import BEDC.Derived.MartingaleUp
 import BEDC.Derived.RepresentationRingUp
 import BEDC.Derived.RealAnalyticUp
+import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeriesUp
@@ -400,8 +401,10 @@ import BEDC.Derived.TopologyUp.PublicWitness
 import BEDC.Derived.TopologyUp.PublicWitnesses
 import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.TopGroupUp
+import BEDC.Derived.TopGroupUp.LedgerExactnessObligation
 import BEDC.Derived.TopGroupUp.RootLedgerSemanticExactness
 import BEDC.Derived.TopGroupUp.ClassifierContinuityTransport
+import BEDC.Derived.TopGroupUp.ContinuityObligations
 import BEDC.Derived.TopGroupUp.SourceCompatibility
 import BEDC.Derived.TopGroupUp.SourceFiberContinuityObligation
 import BEDC.Derived.ComplexTopologyUp
@@ -499,7 +502,6 @@ import BEDC.Derived.NumFieldUp.EmbeddingCoordinateProductCompatibility
 import BEDC.Derived.NumFieldUp.SingletonBasisSupport
 import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
 import BEDC.Derived.QuadratureUp
-import BEDC.Derived.RegulatorUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
@@ -507,7 +509,6 @@ import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.QuantumChannelUp
 import BEDC.Derived.IdealUp
 import BEDC.Derived.IdealClassUp
-import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.IdealUp.AbsorptionClosure
 import BEDC.Derived.IdealUp.AmbientCarrier
 import BEDC.Derived.IdealUp.QuotientKernel
@@ -612,7 +613,6 @@ import BEDC.Derived.ManifoldUp.StdBridge
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.PolynomialUp.StdBridge
-import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
