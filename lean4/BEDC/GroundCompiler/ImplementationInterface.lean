@@ -22,6 +22,8 @@ inductive InterfaceDatum : Type where
   | compiles
   | decodes
   | rejects
+  | recognizes
+  | certifiedRecognizer
   | recognizesPkg
   | recognizesNameCert
   | recognizesDerivCert
@@ -65,6 +67,10 @@ inductive PublicFormalInterface : InterfaceDatum -> Prop where
       PublicFormalInterface InterfaceDatum.decodes
   | rejects :
       PublicFormalInterface InterfaceDatum.rejects
+  | recognizes :
+      PublicFormalInterface InterfaceDatum.recognizes
+  | certifiedRecognizer :
+      PublicFormalInterface InterfaceDatum.certifiedRecognizer
   | recognizesPkg :
       PublicFormalInterface InterfaceDatum.recognizesPkg
   | recognizesNameCert :
@@ -122,6 +128,54 @@ def DecoderCoreModule (publicSurface : InterfaceDatum -> Prop) : Prop :=
   (forall d, publicSurface d -> DecoderCorePublic d) /\
     publicSurface InterfaceDatum.decodes /\
     publicSurface InterfaceDatum.rejects /\
+    NoHostLeakCondition publicSurface
+
+inductive RoundTripPublic : InterfaceDatum -> Prop where
+  | compiles :
+      RoundTripPublic InterfaceDatum.compiles
+  | decodes :
+      RoundTripPublic InterfaceDatum.decodes
+  | isLegalZStream :
+      RoundTripPublic InterfaceDatum.isLegalZStream
+
+def RoundTripModule (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  (forall d, publicSurface d -> RoundTripPublic d) /\
+    publicSurface InterfaceDatum.compiles /\
+    publicSurface InterfaceDatum.decodes /\
+    publicSurface InterfaceDatum.isLegalZStream /\
+    NoHostLeakCondition publicSurface
+
+inductive LayerSeparationPublic : InterfaceDatum -> Prop where
+  | isRawEvent :
+      LayerSeparationPublic InterfaceDatum.isRawEvent
+  | isEventFlow :
+      LayerSeparationPublic InterfaceDatum.isEventFlow
+  | isLegalZStream :
+      LayerSeparationPublic InterfaceDatum.isLegalZStream
+  | encodesEvent :
+      LayerSeparationPublic InterfaceDatum.encodesEvent
+  | decodes :
+      LayerSeparationPublic InterfaceDatum.decodes
+
+def LayerSeparationModule (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  (forall d, publicSurface d -> LayerSeparationPublic d) /\
+    publicSurface InterfaceDatum.isRawEvent /\
+    publicSurface InterfaceDatum.isEventFlow /\
+    publicSurface InterfaceDatum.isLegalZStream /\
+    publicSurface InterfaceDatum.encodesEvent /\
+    publicSurface InterfaceDatum.decodes /\
+    NoHostLeakCondition publicSurface
+
+inductive RecognizerCorePublic : InterfaceDatum -> Prop where
+  | recognizes :
+      RecognizerCorePublic InterfaceDatum.recognizes
+  | certifiedRecognizer :
+      RecognizerCorePublic InterfaceDatum.certifiedRecognizer
+
+def RecognizerCoreModule (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  (forall d, publicSurface d -> RecognizerCorePublic d) /\
+    publicSurface InterfaceDatum.recognizes /\
+    publicSurface InterfaceDatum.certifiedRecognizer /\
     NoHostLeakCondition publicSurface
 
 def DecodesEvent (c : List DisplayAlphabet) (w : RawEvent) : Prop :=
