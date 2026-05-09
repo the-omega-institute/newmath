@@ -4,6 +4,25 @@ namespace BEDC.GroundCompiler.MetricsFlow
 
 open BEDC.GroundCompiler.EventFlow
 
+inductive MetricCandidate : Type where
+  | scalar (value : Nat)
+  | sequence (values : List Nat)
+  | finiteSet (values : List Nat)
+  | summary (values : List Nat)
+
+def GeneratedMetricRecognizer : Type :=
+  EventFlow
+
+def MetricSpecificationFlow : Type :=
+  EventFlow
+
+def RecognizesMetric
+    (R : GeneratedMetricRecognizer) (m : MetricSpecificationFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R m)
+
+def MetricProtocolFlow (Pmet : EventFlow) : Prop :=
+  exists R : GeneratedMetricRecognizer, RecognizesMetric R Pmet
+
 def MetricRecognizerFamily : Type :=
   List GeneratedRecognizer
 
