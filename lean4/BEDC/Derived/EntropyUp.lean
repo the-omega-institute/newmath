@@ -102,4 +102,67 @@ theorem EntropyBHistMeasureSourceSurface_distribution_integral_boundary [AskSetu
             (And.intro endpointRow
               (And.intro transportRow pkgSig))))))
 
+def EntropySourceSurface [AskSetup] [PackageSetup]
+    (distribution integral logWeight distributionTransport integralTransport logTransport
+      observationLedger sourceLedger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory distribution ∧ UnaryHistory integral ∧ UnaryHistory logWeight ∧
+    hsame distributionTransport distribution ∧ hsame integralTransport integral ∧
+      hsame logTransport logWeight ∧ Cont distribution integral observationLedger ∧
+        Cont observationLedger logWeight sourceLedger ∧
+          Cont sourceLedger logTransport endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem EntropySourceSurface_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {distribution integral logWeight distributionTransport integralTransport logTransport
+      observationLedger sourceLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EntropySourceSurface distribution integral logWeight distributionTransport integralTransport
+        logTransport observationLedger sourceLedger endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row logWeight)
+          (fun row : BHist => hsame row logWeight)
+          (fun row : BHist => hsame row logWeight) hsame ∧
+        UnaryHistory distribution ∧ UnaryHistory integral ∧ UnaryHistory logWeight ∧
+          hsame distributionTransport distribution ∧ hsame integralTransport integral ∧
+            hsame logTransport logWeight ∧ Cont distribution integral observationLedger ∧
+              Cont observationLedger logWeight sourceLedger ∧
+                Cont sourceLedger logTransport endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro surface
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row logWeight)
+          (fun row : BHist => hsame row logWeight)
+          (fun row : BHist => hsame row logWeight) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro logWeight (hsame_refl logWeight)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row other target sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows rowSource
+        exact hsame_trans (hsame_symm sameRows) rowSource
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+     (And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro surface.right.right.left
+          (And.intro surface.right.right.right.left
+            (And.intro surface.right.right.right.right.left
+              (And.intro surface.right.right.right.right.right.left
+                (And.intro surface.right.right.right.right.right.right.left
+                  (And.intro surface.right.right.right.right.right.right.right.left
+                    (And.intro surface.right.right.right.right.right.right.right.right.left
+                      surface.right.right.right.right.right.right.right.right.right)))))))))
+
 end BEDC.Derived.EntropyUp

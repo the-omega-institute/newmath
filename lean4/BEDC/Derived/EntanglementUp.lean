@@ -134,4 +134,58 @@ theorem EntanglementBHistSourceSurface_factor_boundary [AskSetup] [PackageSetup]
               (And.intro obstructionBoundary
                 (And.intro packageBoundary pkgSig)))))))
 
+def EntanglementSourceSurface [AskSetup] [PackageSetup]
+    (quantumState leftFactor rightFactor endpoint obstruction stateTransport leftTransport
+      rightTransport provenance factorLedger endpointLedger : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory quantumState ∧ UnaryHistory leftFactor ∧ UnaryHistory rightFactor ∧
+    UnaryHistory endpoint ∧ UnaryHistory obstruction ∧ UnaryHistory provenance ∧
+      hsame stateTransport endpoint ∧ hsame leftTransport leftFactor ∧
+        hsame rightTransport rightFactor ∧ Cont leftFactor rightFactor factorLedger ∧
+          Cont quantumState obstruction endpointLedger ∧
+            Cont factorLedger endpointLedger endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem EntanglementSourceSurface_factor_boundary [AskSetup] [PackageSetup]
+    {quantumState leftFactor rightFactor endpoint obstruction stateTransport leftTransport
+      rightTransport provenance factorLedger endpointLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EntanglementSourceSurface quantumState leftFactor rightFactor endpoint obstruction
+        stateTransport leftTransport rightTransport provenance factorLedger endpointLedger
+        bundle pkg ->
+      UnaryHistory leftFactor ∧ UnaryHistory rightFactor ∧ UnaryHistory obstruction ∧
+        hsame stateTransport endpoint ∧ hsame leftTransport leftFactor ∧
+          hsame rightTransport rightFactor ∧ Cont leftFactor rightFactor factorLedger ∧
+            Cont quantumState obstruction endpointLedger ∧
+              Cont factorLedger endpointLedger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro surface
+  have leftUnary : UnaryHistory leftFactor :=
+    surface.right.left
+  have rightUnary : UnaryHistory rightFactor :=
+    surface.right.right.left
+  have obstructionUnary : UnaryHistory obstruction :=
+    surface.right.right.right.right.left
+  have stateTransportEndpoint : hsame stateTransport endpoint :=
+    surface.right.right.right.right.right.right.left
+  have leftTransportFactor : hsame leftTransport leftFactor :=
+    surface.right.right.right.right.right.right.right.left
+  have rightTransportFactor : hsame rightTransport rightFactor :=
+    surface.right.right.right.right.right.right.right.right.left
+  have factorLedgerRow : Cont leftFactor rightFactor factorLedger :=
+    surface.right.right.right.right.right.right.right.right.right.left
+  have endpointLedgerRow : Cont quantumState obstruction endpointLedger :=
+    surface.right.right.right.right.right.right.right.right.right.right.left
+  have endpointRow : Cont factorLedger endpointLedger endpoint :=
+    surface.right.right.right.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    surface.right.right.right.right.right.right.right.right.right.right.right.right
+  exact And.intro leftUnary
+    (And.intro rightUnary
+      (And.intro obstructionUnary
+        (And.intro stateTransportEndpoint
+          (And.intro leftTransportFactor
+            (And.intro rightTransportFactor
+              (And.intro factorLedgerRow
+                (And.intro endpointLedgerRow
+                  (And.intro endpointRow pkgSig))))))))
+
 end BEDC.Derived.EntanglementUp
