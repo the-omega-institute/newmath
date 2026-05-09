@@ -140,6 +140,10 @@ def P6CompleteDerivCertRecognition
     (R : P6GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow) : Prop :=
   CompleteSixFieldDerivCertRecognition R D
 
+def P6DerivCertFieldSubflows
+    (R : P6GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow) : Prop :=
+  P6CompleteDerivCertRecognition R D
+
 def RecognizesDerivCert
     (R : GeneratedDerivCertRecognizer) (D N s : EventFlow) : Prop :=
   FormalCompilerInput (CompilerDatum.recognizedFlow R D) /\
@@ -250,6 +254,13 @@ def DerivCertFieldSoundness
     DerivStabilitySound R D stability N /\
     DerivStrengthSound R D strength s
 
+def P6DerivCertFieldSoundness
+    (R : P6GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow)
+    (N s source classifier exactness ledger stability strength : EventFlow) :
+    Prop :=
+  DerivCertFieldSoundness R D N s source classifier exactness ledger stability
+    strength
+
 def SoundRecognizedDerivCertFlow
     (R : GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow)
     (N s : EventFlow) : Prop :=
@@ -340,6 +351,16 @@ theorem strength_candidate_without_recognition_insufficient
           cases hSigma with
           | intro sigma hStrength =>
               exact hNoRecognition R sigma hStrength
+
+theorem p6_strength_alone_no_export
+    {D : DerivCertCandidateFlow} {N s : EventFlow} :
+    StrengthEventFlow s ->
+      (forall R : P6GeneratedDerivCertRecognizer,
+        RecognizesDerivCert R D N s ->
+          Not (P6CompleteDerivCertRecognition R D)) ->
+        Not (DerivCertFlow D N s) := by
+  intro hStrength hIncomplete
+  exact strength_flow_alone_insufficient hStrength hIncomplete
 
 theorem sound_derivcert_recognition_establishes_flow
     {R : GeneratedDerivCertRecognizer} {D : DerivCertCandidateFlow}
