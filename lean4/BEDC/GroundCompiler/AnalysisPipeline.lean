@@ -1,6 +1,7 @@
 import BEDC.GroundCompiler.ChannelEncoding
 import BEDC.GroundCompiler.SemanticMotif
 import BEDC.GroundCompiler.MetricsFlow
+import BEDC.GroundCompiler.HigherCaseStudies
 
 namespace BEDC.GroundCompiler.AnalysisPipeline
 
@@ -8,6 +9,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.ChannelEncoding
 open BEDC.GroundCompiler.SemanticMotif
 open BEDC.GroundCompiler.MetricsFlow
+open BEDC.GroundCompiler.CaseStudies
 
 inductive AnalysisInput : Type where
   | channel (c : List DisplayAlphabet) : LegalZStream c -> AnalysisInput
@@ -251,8 +253,11 @@ inductive BridgeObligationKind : Type where
 
 structure BridgeObligationCandidate where
   kind : BridgeObligationKind
+  source : EventFlow
+  target : EventFlow
   support : EventFlow
   evidence : EventFlow
+  missingBridge : Not (RecognizedBridgeFlow source target)
 
 def StageBridgeObligationDiscovery
     (P policyFlow S : AnalysisProtocolCandidateFlow)
@@ -429,5 +434,20 @@ theorem non_failure_complete_inadmissible
         Not (FailureCompleteReport required recorded) := by
   intro hRequired hOmitted hComplete
   exact hOmitted (hComplete item hRequired)
+
+theorem bridge_obligation_not_bridge
+    (candidate : BridgeObligationCandidate) :
+    Not (RecognizedBridgeFlow candidate.source candidate.target) :=
+  candidate.missingBridge
+
+theorem bridge_discovery_noncommittal
+    {P policyFlow S : AnalysisProtocolCandidateFlow}
+    {candidates : List BridgeObligationCandidate}
+    {candidate : BridgeObligationCandidate} :
+    StageBridgeObligationDiscovery P policyFlow S candidates ->
+      List.Mem candidate candidates ->
+        Not (RecognizedBridgeFlow candidate.source candidate.target) := by
+  intro _ _
+  exact candidate.missingBridge
 
 end BEDC.GroundCompiler.AnalysisPipeline

@@ -353,12 +353,14 @@ Even if a report shows completion, Real-like, Circle-like, or Homology-like moti
 
 \begin{definition}[Bridge-obligation candidate]
 \label{def:analysis-pipeline-bridge-obligation-candidate}
-A \emph{bridge-obligation candidate} is a recognized item $B_{\mathrm{obl}}$ in a report flow saying that motif-level similarity suggests a possible bridge, but no recognized bridge-certificate flow has been supplied.
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.BridgeObligationCandidate}
+A \emph{bridge-obligation candidate} is a recognized item $B_{\mathrm{obl}}$ in a report flow attached to a source event flow $S$ and a target event flow $T$. It records support and evidence subflows saying that motif-level similarity suggests a possible bridge, together with the explicit condition that no recognized bridge flow from $S$ to $T$ has been supplied.
 \end{definition}
 
 \begin{proposition}[Bridge obligation is not bridge]
 \label{prop:analysis-pipeline-bridge-obligation-not-bridge}
-If $B_{\mathrm{obl}}$ is a bridge-obligation candidate, one cannot infer the existence of a recognized bridge flow.
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.bridge\_obligation\_not\_bridge}
+If $B_{\mathrm{obl}}$ is a bridge-obligation candidate attached to source event flow $S$ and target event flow $T$, then $B_{\mathrm{obl}}$ does not establish a recognized bridge flow from $S$ to $T$.
 \end{proposition}
 
 \begin{proof}
@@ -367,7 +369,8 @@ A bridge obligation records a missing bridge certificate. It explicitly reports 
 
 \begin{corollary}[Bridge discovery remains noncommittal]
 \label{cor:analysis-pipeline-bridge-discovery-noncommittal}
-Bridge-obligation discovery may guide later work, but it does not establish correspondence, soundness, reflection, or conservative bridge.
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.bridge\_discovery\_noncommittal}
+Bridge-obligation discovery may guide later work, but each bridge-obligation candidate it records remains noncommittal: it does not establish correspondence, soundness, reflection, or conservative bridge between its source and target flows.
 \end{corollary}
 
 \section{Failure handling}
