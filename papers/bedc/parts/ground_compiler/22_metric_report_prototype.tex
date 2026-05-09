@@ -259,6 +259,7 @@ If the denominator is $0$, the undefined-value policy in the metric protocol det
 
 \begin{definition}[Normal-address overlap and distance]
 \label{def:metric-report-normal-address-distance}
+\leandef{BEDC.GroundCompiler.MetricsFlow.NormalAddressDistance}
 Given normalizer recognizers, the \emph{normal-address profile} of $S$ is the set of recognized records $(w,v,L_{w\to v})$. The overlap of $S$ and $T$ is the intersection of these profiles. When defined, the normal-address distance is
 $$
   \mathsf{NormDist}(S,T)
@@ -272,6 +273,7 @@ Zero denominator behavior is protocol-defined.
 
 \begin{definition}[Flow signature vector]
 \label{def:metric-report-signature-vector}
+\leandef{BEDC.GroundCompiler.MetricsFlow.FlowSignatureVector}
 The \emph{flow signature vector} of $S$ is
 $$
   \mathsf{Sig}(S)
@@ -328,6 +330,7 @@ An \emph{undefined metric item} records why a metric is undefined: recognizer mi
 
 \begin{principle}[Undefined metric is explicit]
 \label{prin:metric-report-undefined-explicit}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.undefined\_metric\_explicit}
 If a metric is inadmissible or undefined, the report must record an undefined metric item. It must not silently omit the metric or treat missing data as $0$.
 \end{principle}
 

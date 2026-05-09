@@ -434,6 +434,14 @@ structure MetricReportSoundness (report : MetricReport) where
         ReportHasUndefinedMetricItem report item
   cannotClaimsGuarded : CannotClaimGuardedReport report
 
+theorem undefined_metric_explicit {report : MetricReport}
+    {item : UndefinedMetricItem} :
+    MetricReportSoundness report ->
+      List.Mem item report.undefinedItems ->
+        ReportHasUndefinedMetricItem report item := by
+  intro hSound hItem
+  exact hSound.undefinedMetricsRecorded item hItem
+
 structure MetricReportPrototype where
   sourceFlow : EventFlow
   metricSpecFlow : MetricSpecificationFlow
