@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -110,6 +112,36 @@ theorem SplittingFieldRootCarrierPacket_classifier_obligation [AskSetup] [Packag
                   (And.intro endpointRow
                     packet.right.right.right.right.right.right.right.right.right))))))))
 
+theorem SplittingFieldRootCarrierPacket_root_downstream_threshold [AskSetup] [PackageSetup]
+    {fieldExt polynomial roots factors transport provenance classifier factorLedger endpoint
+      pkgrow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SplittingFieldRootCarrierPacket fieldExt polynomial roots factors transport provenance
+        classifier factorLedger endpoint bundle pkg ->
+      Cont factorLedger transport pkgrow ->
+        PkgSig bundle pkgrow pkg ->
+          SplittingFieldRootTransportPacket fieldExt polynomial roots factors factorLedger transport
+              pkgrow bundle pkg ∧
+            Cont fieldExt polynomial classifier ∧ Cont roots factors factorLedger ∧
+              Cont provenance factorLedger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet factorLedgerTransport pkgrowPkg
+  have obligation := SplittingFieldRootCarrierPacket_classifier_obligation packet
+  have transportPacket :
+      SplittingFieldRootTransportPacket fieldExt polynomial roots factors factorLedger transport
+        pkgrow bundle pkg :=
+    And.intro obligation.left
+      (And.intro obligation.right.left
+        (And.intro obligation.right.right.left
+          (And.intro obligation.right.right.right.left
+            (And.intro obligation.right.right.right.right.left
+              (And.intro obligation.right.right.right.right.right.right.right.left
+                (And.intro factorLedgerTransport pkgrowPkg))))))
+  exact And.intro transportPacket
+    (And.intro obligation.right.right.right.right.right.right.left
+      (And.intro obligation.right.right.right.right.right.right.right.left
+        (And.intro packet.right.right.right.right.right.right.right.right.left
+          packet.right.right.right.right.right.right.right.right.right)))
+
 theorem SplittingFieldRootCarrierPacket_factor_ledger_exhaustion [AskSetup] [PackageSetup]
     {fieldExt polynomial roots factors transport provenance classifier factorLedger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -175,5 +207,55 @@ theorem SplittingFieldRootCarrierPacket_ledger_obligation [AskSetup] [PackageSet
     (And.intro factorLedgerRow
       (And.intro endpointRow
         packet.right.right.right.right.right.right.right.right.right))
+
+theorem SplittingFieldRootCarrierPacket_root_namecert_surface [AskSetup] [PackageSetup]
+    {fieldExt polynomial roots factors transport provenance classifier factorLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SplittingFieldRootCarrierPacket fieldExt polynomial roots factors transport provenance
+        classifier factorLedger endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row other : BHist =>
+            hsame row other ∧ hsame row endpoint ∧ hsame other endpoint) ∧
+        Cont roots factors factorLedger ∧ Cont provenance factorLedger endpoint ∧
+          PkgSig bundle endpoint pkg := by
+  intro packet
+  have ledger := SplittingFieldRootCarrierPacket_root_ledger_obligation packet
+  have endpointCarrier : hsame endpoint endpoint := hsame_refl endpoint
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row other : BHist =>
+            hsame row other ∧ hsame row endpoint ∧ hsame other endpoint) :=
+    {
+      core := {
+        carrier_inhabited := Exists.intro endpoint endpointCarrier
+        equiv_refl := by
+          intro row rowEndpoint
+          exact And.intro (hsame_refl row) (And.intro rowEndpoint rowEndpoint)
+        equiv_symm := by
+          intro row other classified
+          exact And.intro (hsame_symm classified.left)
+            (And.intro classified.right.right classified.right.left)
+        equiv_trans := by
+          intro row other third classifiedRO classifiedOT
+          exact And.intro (hsame_trans classifiedRO.left classifiedOT.left)
+            (And.intro classifiedRO.right.left classifiedOT.right.right)
+        carrier_respects_equiv := by
+          intro row other classified _rowEndpoint
+          exact classified.right.right
+      }
+      pattern_sound := by
+        intro _row source
+        exact source
+      ledger_sound := by
+        intro _row source
+        exact source
+    }
+  exact And.intro cert
+    (And.intro ledger.right.right.left
+      (And.intro ledger.right.right.right.left ledger.right.right.right.right.right))
 
 end BEDC.Derived.SplittingFieldUp
