@@ -283,6 +283,55 @@ regularity, seal, completion, quotient, or host-index-equality coordinate,
 the appended handoff cannot export any such row.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat finite reindexing coverage]
+\label{thm:streamname-regseqrat-pointwise-reindexing-coverage}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, let
+$\mathcal P_0,\ldots,\mathcal P_k:\mathsf{ProbeBundle}$ be finite observation
+bundles, and let the adjacent stages be connected by certified unary
+reindexing maps. Suppose each adjacent reindexing preserves
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$ membership, $\mathsf{InBundle}$
+rows, pointwise $\hsame$ comparisons, and the
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P_i)$ rows carried by
+the stage. Then the terminal handoff over $\mathcal P_k$ to $\RegSeqRat$ or to a
+finite-window $\RealUp$ consumer is covered by exactly the same pointwise
+StreamName rows as the stagewise handoff: the $\mathsf{RatStreamNameCarrier}$
+rows for $s$ and $t$, the terminal finite-window classifier, the transported
+$\mathsf{UnaryHistory}$ and $\mathsf{InBundle}(-,\mathcal P_k)$ evidence, and the
+pointwise $\mathsf{RatHistoryClassifier}(s(n),t(n))$ rows at the transported
+observations.
+
+The coverage statement is only a finite-window BEDC handoff. It exports no
+$\RegSeqRat$ regularity row, no $\RealUp$ seal classifier, no completion object,
+no quotient row, and no host-index equality.
+\end{theorem}
+\begin{proof}
+Induct on the finite reindexing schedule. In the empty schedule, the terminal
+bundle is the initial bundle, and
+\autoref{thm:streamname-regseqrat-pointwise-handoff} gives exactly the listed
+StreamName carrier, finite-window classifier, unary-history, membership, and
+pointwise rational-history rows.
+
+For the step, assume the coverage packet has been built over $\mathcal P_i$.
+The certified unary reindexing map transports the visible unary histories and
+their $\mathsf{InBundle}$ witnesses to the next bundle. Apply
+\autoref{thm:streamname-regseqrat-observation-stability} to carry the pointwise
+$\hsame$ comparisons and the pointwise rational-history classifier rows along
+that transported observation.
+
+The next terminal window may discard observations or assemble adjacent visible
+pieces. Use \autoref{thm:streamname-regseqrat-finite-window-restriction-handoff}
+for the restricted part and
+\autoref{thm:streamname-regseqrat-bundle-union-handoff} for the finite bundle
+repacking. These two handoff results rebuild the terminal
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P_{i+1})$ row from
+the transported pointwise rows.
+
+The induction step therefore preserves the exact public surface named in the
+statement. Since every stage passes through the pointwise, restriction, and
+bundle-union handoff boundaries, no stage introduces a regularity row, seal
+classifier, completion object, quotient row, or host-index equality.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat overlap pullback handoff]
 \label{thm:streamname-regseqrat-overlap-pullback-handoff}
 Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, let
