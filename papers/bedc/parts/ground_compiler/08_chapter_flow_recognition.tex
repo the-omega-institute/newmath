@@ -209,11 +209,12 @@ Even if an event flow contains recognized theorem flows, that alone does not con
 
 \begin{definition}[Dependency soundness]
 \label{def:chapter-generated-dependency-sound}
+\leandef{BEDC.GroundCompiler.ChapterFlow.DependencySound}
 The judgment $\mathsf{RecognizesChapter}(R_C,C)$ is \emph{dependency-sound} when
 $$
   \mathsf{ChapDependencies}_{R_C}(C,C_1)
 $$
-and every dependency flow recognized inside $C_1$ has already been generated before $C$ or appears in the same chapter flow in a well-founded order. A chapter may refer to a later object only when that reference is explicitly marked as a deferred claim, cannot-claim item, or open obligation.
+for some recognized dependency subflow $C_1$. The ordering, deferred-claim marks, cannot-claim marks, and open-obligation marks are carried by this event subflow, not by an external dependency manifest.
 \end{definition}
 
 \begin{definition}[Definition soundness]
@@ -281,6 +282,7 @@ and $C_9$ records the status of each main definition, theorem, certificate, brid
 
 \begin{definition}[Sound recognized chapter flow]
 \label{def:chapter-generated-sound-recognized-flow}
+\leandef{BEDC.GroundCompiler.ChapterFlow.SoundRecognizedChapterFlow}
 A recognized chapter judgment
 $$
   \mathsf{RecognizesChapter}(R_C,C)
@@ -290,6 +292,7 @@ is \emph{sound} when it has complete chapter-flow recognition and is dependency-
 
 \begin{theorem}[Sound flow establishes chapterhood]
 \label{thm:chapter-generated-sound-establishes-chapterhood}
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.sound\_establishes\_chapterhood}
 If $\mathsf{RecognizesChapter}(R_C,C)$ and this recognition is sound, then
 $$
   \mathsf{ChapterFlow}(C),

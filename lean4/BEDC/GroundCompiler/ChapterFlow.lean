@@ -85,6 +85,50 @@ def CompleteChapterRecognition
     (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
   RecognizesChapter R C /\ ChapterSubflows R C
 
+def DependencySound
+    (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
+  exists C1 : ChapterCandidateFlow, ChapDependencies R C C1
+
+def DefinitionSound
+    (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
+  exists C2 : ChapterCandidateFlow, ChapDefinitions R C C2
+
+def TheoremSound
+    (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
+  exists C4 : ChapterCandidateFlow, ChapTheorems R C C4
+
+def ProofSound
+    (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
+  exists C5 : ChapterCandidateFlow, ChapProofs R C C5
+
+def CertificateSound
+    (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
+  exists C6 : ChapterCandidateFlow, ChapCertificates R C C6
+
+def LedgerSound
+    (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
+  exists C7 : ChapterCandidateFlow, ChapLedger R C C7
+
+def CannotClaimSound
+    (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
+  exists C8 : ChapterCandidateFlow, ChapCannotClaims R C C8
+
+def StatusSound
+    (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
+  exists C9 : ChapterCandidateFlow, ChapStatus R C C9
+
+def SoundRecognizedChapterFlow
+    (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
+  CompleteChapterRecognition R C /\
+    DependencySound R C /\
+    DefinitionSound R C /\
+    TheoremSound R C /\
+    ProofSound R C /\
+    CertificateSound R C /\
+    LedgerSound R C /\
+    CannotClaimSound R C /\
+    StatusSound R C
+
 def ChapterFlow (C : ChapterCandidateFlow) : Prop :=
   exists R : GeneratedChapterRecognizer, CompleteChapterRecognition R C
 
@@ -189,6 +233,14 @@ theorem theorem_list_alone_not_chapter
       Not (ChapterFlow C) := by
   intro _ hIncomplete
   exact incomplete_chapter_flow_not_chapter hIncomplete
+
+theorem sound_establishes_chapterhood
+    {R : GeneratedChapterRecognizer} {C : ChapterCandidateFlow} :
+    RecognizesChapter R C ->
+      SoundRecognizedChapterFlow R C ->
+      ChapterFlow C := by
+  intro _ hSound
+  exact ⟨R, hSound.left⟩
 
 theorem chapter_yaml_input_hidden_structure :
     StructuralHiddenInput CompilerDatum.hostYAML /\
