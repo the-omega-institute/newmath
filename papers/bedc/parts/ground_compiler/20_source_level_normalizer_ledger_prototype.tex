@@ -245,6 +245,7 @@ Without a recognized candidate policy, $P_2$ may list literal adjacent pairs but
 
 \begin{principle}[No hardcoded normalizer table]
 \label{prin:source-normalizer-no-hardcoded-table}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.no\_hardcoded\_table}
 The pairs $011\mid 100$, $0011\mid 0100$, and $10011\mid 10100$ may be examples, but they must not be hardcoded as formal normalizer candidates. Formal candidate marking requires recognized candidate policy flow.
 \end{principle}
 
@@ -270,6 +271,7 @@ For $S=(w_0,\ldots,w_{n-1})$, the adjacent pairs $(w_i,w_{i+1})$ are determined 
 
 \begin{corollary}[Candidate marking requires policy]
 \label{cor:source-normalizer-candidate-marking-requires-policy}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.candidate\_marking\_requires\_policy}
 $P_2$ may list adjacent pairs without policy, but marking a pair as a candidate normalizer pair requires recognized candidate policy flow.
 \end{corollary}
 
@@ -278,9 +280,10 @@ $P_2$ may list adjacent pairs without policy, but marking a pair as a candidate 
 
 \begin{definition}[Normalizer recognizer certificate]
 \label{def:source-normalizer-recognizer-certificate}
-A certificate flow for a normalizer recognizer $R_N$ contains domain flow, candidate-policy flow, pre-normal criterion flow, normal-address criterion flow, relation-soundness flow, ledger flow, failure flow, stability flow, and seal flow. Write
+\leandef{BEDC.GroundCompiler.SourceNormalizer.NormalizerRecognizerCert}
+A normalizer recognizer certificate is a record whose public fields are a certificate flow $K_N$, a generated normalizer recognizer $R_N$, a domain flow, a candidate-policy flow, a pre-normal criterion flow, a normal-address criterion flow, a relation-soundness flow, a ledger flow, a failure flow, a stability flow, and a seal flow. Write
 $$
-  \mathsf{NormalizerRecognizerCert}(K_N,R_N).
+  \mathsf{NormalizerRecognizerCert}.
 $$
 \end{definition}
 

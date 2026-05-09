@@ -55,9 +55,27 @@ def RecognizesCandidatePolicy
     (R : GeneratedCandidatePolicyRecognizer) (P : CandidatePolicyFlow) : Prop :=
   NonemptyEventFlow R /\ NonemptyEventFlow P
 
+def CandidateMarkedByPolicy
+    (R : GeneratedCandidatePolicyRecognizer) (P : CandidatePolicyFlow)
+    (S : EventFlow) (i : Nat) (w v : RawEvent) : Prop :=
+  RecognizesCandidatePolicy R P /\ AdjPair S i w v
+
 def LiteralAdjacentPairListing
     (S : EventFlow) (i : Nat) (w v : RawEvent) : Prop :=
   AdjPair S i w v
+
+structure NormalizerRecognizerCert where
+  certFlow : EventFlow
+  recognizer : GeneratedNormalizerRecognizer
+  domainFlow : EventFlow
+  candidatePolicyFlow : EventFlow
+  preNormalCriterionFlow : EventFlow
+  normalAddressCriterionFlow : EventFlow
+  relationSoundnessFlow : EventFlow
+  ledgerFlow : EventFlow
+  failureFlow : EventFlow
+  stabilityFlow : EventFlow
+  sealFlow : EventFlow
 
 inductive P2Warning : Type where
   | candidateOnly
@@ -109,6 +127,22 @@ theorem literal_listing_policy_free
     AdjPair S i w v -> LiteralAdjacentPairListing S i w v := by
   intro h
   exact h
+
+theorem no_hardcoded_table
+    {R : GeneratedCandidatePolicyRecognizer} {P : CandidatePolicyFlow}
+    {S : EventFlow} {i : Nat} {w v : RawEvent} :
+    Not (RecognizesCandidatePolicy R P) ->
+      Not (CandidateMarkedByPolicy R P S i w v) := by
+  intro hNoPolicy hMarked
+  exact hNoPolicy hMarked.left
+
+theorem candidate_marking_requires_policy
+    {R : GeneratedCandidatePolicyRecognizer} {P : CandidatePolicyFlow}
+    {S : EventFlow} {i : Nat} {w v : RawEvent} :
+    CandidateMarkedByPolicy R P S i w v ->
+      RecognizesCandidatePolicy R P := by
+  intro hMarked
+  exact hMarked.left
 
 theorem no_normalization_without_recognizer
     {candidate : RawEvent -> RawEvent -> Prop}
