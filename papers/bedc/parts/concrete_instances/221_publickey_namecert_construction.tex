@@ -196,3 +196,43 @@ $$
 $$
 \end{proof}
 \leanchecked{BEDC.Derived.PublicKeyUp.PublicKeyCertifiedCiphertext\_plaintext\_uniqueness}
+
+\begin{theorem}[PublicKey shared-public-key decryption consistency]
+\label{thm:publickey-shared-public-key-decryption-consistency}
+Let $\mathcal P$ be a $\PublicKeyUp$ certificate with transcript rows as in \autoref{def:publickey-decrypt-encrypt-transcript-interface}, and assume $\mathsf{PKDecryptEncryptExact}_{\mathcal P}$ and $\mathsf{PKDecryptOutputDet}_{\mathcal P}$. For histories $pk$, $sk_1$, $sk_2$, $m$, $c$, $d_1$, and $d_2$, if
+$$
+\mathsf{PKKeyGen}_{\mathcal P}(pk,sk_1)
+\qquad\text{and}\qquad
+\mathsf{PKKeyGen}_{\mathcal P}(pk,sk_2)
+\qquad\text{and}\qquad
+\mathsf{PKCertifiedEnc}_{\mathcal P}(pk,m,c),
+$$
+and if
+$$
+\mathsf{PKDecrypt}_{\mathcal P}(sk_1,c,d_1)
+\qquad\text{and}\qquad
+\mathsf{PKDecrypt}_{\mathcal P}(sk_2,c,d_2),
+$$
+then the two decryption endpoints are in the same plaintext classifier class:
+$$
+\mu_{\mathcal P}(d_1,d_2).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:publickey-certified-encryption-arbitrary-decryption} to $\mathsf{PKDecryptEncryptExact}_{\mathcal P}$, $\mathsf{PKDecryptOutputDet}_{\mathcal P}$, the first generated keypair row, the certified encryption transcript, and the displayed decryption row for $d_1$. This gives
+$$
+\mathsf{Msg}_{\mathcal P}(d_1)\land\mu_{\mathcal P}(d_1,m).
+$$
+Apply the same theorem to the second generated keypair row, the same certified encryption transcript, and the displayed decryption row for $d_2$. This gives
+$$
+\mathsf{Msg}_{\mathcal P}(d_2)\land\mu_{\mathcal P}(d_2,m).
+$$
+The plaintext classifier of $\mathcal P$ is supplied by the carrier naming certificate recorded in \autoref{def:publickey-decrypt-encrypt-transcript-interface}, hence by \autoref{def:lean-carrier-naming-certificate}. Use its symmetry field on $\mu_{\mathcal P}(d_2,m)$ to obtain
+$$
+\mu_{\mathcal P}(m,d_2).
+$$
+Classifier transitivity, equivalently \autoref{thm:namecert-equivalence-transitivity}, composes $\mu_{\mathcal P}(d_1,m)$ with $\mu_{\mathcal P}(m,d_2)$ and yields
+$$
+\mu_{\mathcal P}(d_1,d_2).
+$$
+\end{proof}

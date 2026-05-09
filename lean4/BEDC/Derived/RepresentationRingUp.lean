@@ -481,4 +481,48 @@ theorem RepresentationRingBHistRepresentationPacket_classifier_ledger_exhaustion
       (And.intro endpointUnary'
         (And.intro ledgerSame (And.intro endpointSame pkgSig'))))
 
+theorem RepresentationRingBHistRepresentationPacket_finite_source_exhaustion
+    [AskSetup] [PackageSetup]
+    {group ring reps directSum tensor provenance classifier ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RepresentationRingBHistRepresentationPacket group ring reps directSum tensor provenance
+        classifier ledger endpoint bundle pkg ->
+      UnaryHistory group ∧ UnaryHistory ring ∧ UnaryHistory reps ∧ UnaryHistory directSum ∧
+        UnaryHistory tensor ∧ UnaryHistory provenance ∧ UnaryHistory classifier ∧
+          UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont reps directSum tensor ∧
+            Cont group ring provenance ∧ Cont provenance classifier ledger ∧
+              Cont ledger tensor endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have boundary :=
+    RepresentationRingBHistRepresentationPacket_carrier_boundary packet
+  constructor
+  · exact packet.left
+  · constructor
+    · exact packet.right.left
+    · constructor
+      · exact packet.right.right.left
+      · constructor
+        · exact packet.right.right.right.left
+        · constructor
+          · exact packet.right.right.right.right.left
+          · constructor
+            · exact packet.right.right.right.right.right.left
+            · constructor
+              · exact packet.right.right.right.right.right.right.left
+              · constructor
+                · exact boundary.right.right.right.right.right.right.right.left
+                · constructor
+                  · exact boundary.right.right.right.right.right.right.right.right.left
+                  · constructor
+                    · exact packet.right.right.right.right.right.right.right.left
+                    · constructor
+                      · exact packet.right.right.right.right.right.right.right.right.left
+                      · constructor
+                        · exact packet.right.right.right.right.right.right.right.right.right.left
+                        · constructor
+                          · exact
+                              packet.right.right.right.right.right.right.right.right.right.right.left
+                          · exact
+                              packet.right.right.right.right.right.right.right.right.right.right.right
+
 end BEDC.Derived.RepresentationRingUp

@@ -73,6 +73,27 @@ theorem BanachSingletonBoundedLinearOperator_composition_closure {T S : BHist ->
         intro x carrierX
         exact boundedS.right.right (boundedT.right.right carrierX)))
 
+theorem BanachSingletonBoundedLinearOperator_lipschitz {T : BHist -> BHist}
+    {K Lambda x y : BHist} :
+    BanachSingletonBoundedLinearOperator T K Lambda -> BanachSingletonCarrier x ->
+      BanachSingletonCarrier y ->
+        MetricDistanceWitness (T x) (T y) BHist.Empty ∧
+          BanachSingletonClassifier (T x) (T y) ∧ hsame K BHist.Empty := by
+  intro boundedT carrierX carrierY
+  have targetCarrierX : BanachSingletonCarrier (T x) :=
+    boundedT.right.right carrierX
+  have targetCarrierY : BanachSingletonCarrier (T y) :=
+    boundedT.right.right carrierY
+  have distance :
+      MetricDistanceWitness (T x) (T y) BHist.Empty :=
+    MetricDistanceWitness_empty_distance_iff.mpr
+      (And.intro targetCarrierX.left targetCarrierY.left)
+  have sameTargets : hsame (T x) (T y) :=
+    hsame_trans targetCarrierX.left (hsame_symm targetCarrierY.left)
+  have classified : BanachSingletonClassifier (T x) (T y) :=
+    And.intro targetCarrierX (And.intro targetCarrierY sameTargets)
+  exact And.intro distance (And.intro classified boundedT.left)
+
 theorem BanachSingletonCarrier_semanticNameCert :
     SemanticNameCert BanachSingletonCarrier BanachSingletonCarrier BanachSingletonCarrier
       BanachSingletonClassifier := by
