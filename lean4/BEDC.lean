@@ -536,6 +536,7 @@ import BEDC.Derived.FieldExtUp.RatReflexiveSourcePattern
 import BEDC.Derived.FieldExtUp.RatReflexiveCertificateObligations
 import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
+import BEDC.Derived.FieldExtUp.StdBridge
 import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.CurryHowardUp
 import BEDC.Derived.FirstOrderUp
