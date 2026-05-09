@@ -81,36 +81,40 @@ theorem SpinGroupRootCarrier_group_law_transport [AskSetup] [PackageSetup]
           (And.intro spinCont carrier.right.right.right)))
       sameSpin
 
-theorem SpinGroupRootCarrier_ledger_exhaustion [AskSetup] [PackageSetup]
+theorem SpinGroupRootCarrier_public_consumer_boundary_coverage [AskSetup] [PackageSetup]
     {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
         ledger bundle pkg ->
-      CliffordCarrierPackage unit vector product boundary cliffordEndpoint ∧
-        GroupSingletonCarrier groupWord ∧ UnaryHistory unit ∧ UnaryHistory vector ∧
-          UnaryHistory product ∧ UnaryHistory boundary ∧ UnaryHistory cliffordEndpoint ∧
-            UnaryHistory groupWord ∧ UnaryHistory spinEndpoint ∧
-              Cont vector vector product ∧ Cont product boundary cliffordEndpoint ∧
-                Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg := by
+      UnaryHistory unit ∧ UnaryHistory vector ∧ UnaryHistory product ∧ UnaryHistory boundary ∧
+        UnaryHistory cliffordEndpoint ∧ GroupSingletonCarrier groupWord ∧
+          UnaryHistory spinEndpoint ∧ Cont vector vector product ∧
+            Cont product boundary cliffordEndpoint ∧
+              Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg := by
   intro carrier
-  have cliffordRows := CliffordCarrierPackage_universal_ledger_exactness carrier.left
-  have groupUnary : UnaryHistory groupWord :=
-    unary_transport unary_empty (hsame_symm carrier.right.left)
-  have spinUnary : UnaryHistory spinEndpoint :=
-    unary_cont_closed cliffordRows.right.right.right.right.left groupUnary carrier.right.right.left
+  have cliffordExact :
+      UnaryHistory unit ∧ UnaryHistory vector ∧ UnaryHistory product ∧ UnaryHistory boundary ∧
+        UnaryHistory cliffordEndpoint ∧ Cont vector vector product ∧
+          Cont product boundary cliffordEndpoint ∧
+            hsame product (append vector vector) ∧
+              hsame cliffordEndpoint (append (append vector vector) boundary) :=
+    CliffordCarrierPackage_universal_ledger_exactness carrier.left
+  have sourceScope :
+      CliffordCarrierPackage unit vector product boundary cliffordEndpoint ∧
+        GroupSingletonCarrier groupWord ∧ UnaryHistory spinEndpoint ∧
+          Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg :=
+    SpinGroupRootCarrier_source_scope carrier
   exact
-    And.intro carrier.left
-      (And.intro carrier.right.left
-        (And.intro cliffordRows.left
-          (And.intro cliffordRows.right.left
-            (And.intro cliffordRows.right.right.left
-              (And.intro cliffordRows.right.right.right.left
-                (And.intro cliffordRows.right.right.right.right.left
-                  (And.intro groupUnary
-                    (And.intro spinUnary
-                      (And.intro cliffordRows.right.right.right.right.right.left
-                        (And.intro cliffordRows.right.right.right.right.right.right.left
-                          (And.intro carrier.right.right.left
-                            carrier.right.right.right)))))))))))
+    And.intro cliffordExact.left
+      (And.intro cliffordExact.right.left
+        (And.intro cliffordExact.right.right.left
+          (And.intro cliffordExact.right.right.right.left
+            (And.intro cliffordExact.right.right.right.right.left
+              (And.intro sourceScope.right.left
+                (And.intro sourceScope.right.right.left
+                  (And.intro cliffordExact.right.right.right.right.right.left
+                    (And.intro cliffordExact.right.right.right.right.right.right.left
+                      (And.intro sourceScope.right.right.right.left
+                        sourceScope.right.right.right.right)))))))))
 
 end BEDC.Derived.SpinGroupUp

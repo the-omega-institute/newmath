@@ -47,6 +47,19 @@ theorem ZNormal_adjacent_one_inversion {h : BHist} :
     | e1_after_e0 _tailNormal =>
         cases hk
 
+theorem ZNormal_normal_form_coverage :
+    ZNormal BHist.Empty ∧ (∀ {h : BHist}, ZNormal h -> ZNormal (BHist.e0 h)) ∧
+      ZNormal (BHist.e1 BHist.Empty) ∧
+        (∀ {h : BHist}, ZNormal (BHist.e0 h) -> ZNormal (BHist.e1 (BHist.e0 h))) ∧
+          (∀ {h : BHist},
+            ZNormal (BHist.e1 h) ->
+              (h = BHist.Empty ∨ ∃ k : BHist, h = BHist.e0 k ∧ ZNormal (BHist.e0 k))) := by
+  exact And.intro ZNormal.empty
+    (And.intro (fun normal => ZNormal.e0 normal)
+      (And.intro ZNormal.e1_after_empty
+        (And.intro (fun normal => ZNormal.e1_after_e0 normal)
+          (fun normal => (ZNormal_adjacent_one_inversion normal).left))))
+
 def ZNormalSourceSpec (h : BHist) : Prop := ZNormal h
 
 def ZNormalPatternSpec (h : BHist) : Prop := ZNormal h
