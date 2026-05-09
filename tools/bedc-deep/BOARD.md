@@ -143,3 +143,27 @@ Belongs to the Polynomial chapter (25_polynomial). Textbook standard: Hungerford
 
 ---
 
+### B-563 - ProbSpace ternary inclusion-exclusion identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ProbSpace ternary inclusion-exclusion identity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+Given a ProbSpace^↑ carrier P with measurable events A,B,C and binary cover-difference ledgers for each pair, mu(A ∪ B ∪ C) + mu(A ∩ B) + mu(A ∩ C) + mu(B ∩ C) ~_R mu(A) + mu(B) + mu(C) + mu(A ∩ B ∩ C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+
+Rationale:
+162_probspace_namecert_construction.tex:213 establishes the binary inclusion-exclusion identity (thm:probspace-binary-inclusion-exclusion-identity, B-503 on BOARD) using def:probspace-binary-cover-difference-ledger (line 189). Grep for `ternary.*inclusion|three.*inclusion|triple.*inclusion|ProbSpace.*[Tt]ernary` returned no matches in papers/ or lean4/. The natural ternary version is the next layer in the same chapter; the proof composes the binary identity twice (at A vs (B ∪ C) and then at B vs C), using the binary cover-difference ledger plus the AbGroupUp additive congruence rows already invoked at line 249. File at 281 lines, ample room. Distinct from B-530 'Measure ternary-union subadditivity' (Measure-side subadditivity, not inclusion-exclusion equality on ProbSpace).
+
+---
+
