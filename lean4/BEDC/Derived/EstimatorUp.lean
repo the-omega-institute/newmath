@@ -158,4 +158,37 @@ theorem EstimatorBHistSourceSurface_namecert_obligation_surface [AskSetup] [Pack
   }
   exact And.intro cert (EstimatorBHistSourceSurface_source_obligation surface)
 
+theorem EstimatorBHistSourceSurface_finite_sample_boundary [AskSetup] [PackageSetup]
+    {samples independence estimator bias variance transport ledger endpoint samples' independence'
+      bias' variance' transport' estimator' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EstimatorBHistSourceSurface samples independence estimator bias variance transport ledger
+        endpoint bundle pkg ->
+      hsame samples samples' ->
+        hsame independence independence' ->
+          hsame bias bias' ->
+            hsame variance variance' ->
+              hsame transport transport' ->
+                Cont samples' independence' estimator' ->
+                  Cont bias' variance' ledger' ->
+                    Cont estimator' ledger' endpoint' ->
+                      PkgSig bundle endpoint' pkg ->
+                        EstimatorBHistSourceSurface samples' independence' estimator' bias'
+                            variance' transport' ledger' endpoint' bundle pkg ∧
+                          UnaryHistory estimator' ∧ UnaryHistory ledger' ∧
+                            UnaryHistory endpoint' ∧ hsame estimator estimator' ∧
+                              hsame ledger ledger' ∧ hsame endpoint endpoint' := by
+  intro surface sameSamples sameIndependence sameBias sameVariance sameTransport
+  intro estimatorRow' ledgerRow' endpointRow' pkgRow'
+  have transported :=
+    EstimatorBHistSourceSurface_transport_obligation surface sameSamples sameIndependence
+      sameBias sameVariance sameTransport estimatorRow' ledgerRow' endpointRow' pkgRow'
+  have sourceRows' := EstimatorBHistSourceSurface_source_obligation transported.left
+  exact And.intro transported.left
+    (And.intro sourceRows'.right.right.left
+      (And.intro sourceRows'.right.right.right.right.right.left
+        (And.intro sourceRows'.right.right.right.right.right.right.left
+          (And.intro transported.right.left
+            (And.intro transported.right.right.left transported.right.right.right)))))
+
 end BEDC.Derived.EstimatorUp
