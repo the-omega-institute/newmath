@@ -43,6 +43,55 @@ data. Hence the selected tail classifier is determined exactly by the common
 finite rows.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-classifier reindexing normal form]
+\label{thm:regseqrat-tail-classifier-reindexing-normal-form}
+Let $W$ be a finite $\RealUp$ observation-window package, and let
+$\rho_1,\ldots,\rho_n$ be a finite certified unary reindexing schedule whose
+adjacent stages preserve the displayed $\StreamNameUp$, $\RegSeqRat$,
+DyadicRatCore, $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows. At every stage, read the selected
+$\RegSeqRat$ tail classifier from the displayed finite-window surface.
+
+Then the selected tail row read after any adjacent certified stage, the row
+read after the composite schedule $\rho_n\circ\cdots\circ\rho_1$, and the row
+read directly from the normal-form finite-window surface of $W$ are the same
+finite-window $\RegSeqRat$ tail-classifier row. This normal-form comparison
+uses only the displayed finite readback rows and introduces no quotient row,
+completion row, Classical representative, metric-completeness certificate,
+arithmetic or order row, standard-bridge row, or hidden regular-sequence
+selector.
+\end{theorem}
+\begin{proof}
+Induct on the finite certified schedule. In the empty schedule case, the
+normal-form read is the direct finite-window read of $W$; apply
+\autoref{thm:regseqrat-tail-classifier-exactness} to obtain the selected
+$\RegSeqRat$ tail row from the displayed StreamName, RegSeqRat, DyadicRatCore,
+endpoint-transport, ledger, package, and provenance rows.
+
+For the cons step, assume the statement for the initial schedule and append one
+certified unary reindexer. The induction hypothesis identifies the selected
+tail row after the initial schedule with the direct normal-form read. Apply
+\autoref{thm:regseqrat-tail-classifier-reindexing-stability} to the appended
+stage, using the preserved $\StreamNameUp$, $\RegSeqRat$, DyadicRatCore,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+The composite schedule has the same public readback as the stagewise schedule
+by \autoref{thm:regseqrat-tail-classifier-reindexing-composition}. Therefore
+the row read after the composite schedule agrees with each stagewise selected
+tail row and with the normal-form finite-window row.
+
+Finally apply
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness}. Any candidate
+tail row compatible with all stagewise pullbacks factors through the same
+displayed finite-window surface, so there is only one selected tail classifier.
+\autoref{thm:realup-scoped-finite-window-read-surface} supplies the exclusion
+boundary: quotient, completion, Classical, metric-completeness, arithmetic,
+order, standard-bridge, and hidden selector rows are outside the scoped finite
+surface.
+\end{proof}
+
 \begin{theorem}[RegSeqRat tail-classifier pullback uniqueness]
 \label{thm:regseqrat-tail-classifier-pullback-uniqueness}
 Let $W_0$ and $W_1$ be finite-window $\RealUp$ packages whose displayed

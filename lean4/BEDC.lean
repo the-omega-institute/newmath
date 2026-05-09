@@ -245,6 +245,7 @@ import BEDC.Derived.ComplexUp.ComponentsNonempty
 import BEDC.Derived.ComplexUp.UnaryContinuation
 import BEDC.Derived.ComplexUp.ComponentTargetTransport
 import BEDC.Derived.ComplexUp.SemanticCertificate
+import BEDC.Derived.ComplexUp.StdBridge
 import BEDC.Derived.ComplexUp.ComponentContextPositive
 import BEDC.Derived.ComplexUp.RawLedgerE0
 import BEDC.Derived.ComplexAnalyticUp
@@ -787,6 +788,7 @@ import BEDC.Derived.S1Up.SemanticFields
 import BEDC.Derived.S1Up.SharedPointComponent
 import BEDC.Derived.S1Up.VisibleSourceUnitEquationPackage
 import BEDC.Derived.S1Up.LedgerObligationSurface
+import BEDC.Derived.S1Up.EquationTransportObligationSurface
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.SingletonEquationSolver
 import BEDC.Derived.GroupUp.ConjugationParameter
