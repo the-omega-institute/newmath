@@ -98,6 +98,7 @@ It is read as: the generated protocol recognizer flow $R_P$ recognizes event flo
 
 \begin{definition}[Analysis protocol subflows]
 \label{def:analysis-pipeline-protocol-subflows}
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.AnalysisProtocolSubflow}
 If $\mathsf{RecognizesAnalysisProtocol}(R_P,P)$, then $R_P$ may recognize subflows of $P$ as protocol roles:
 $$
 \begin{array}{ll}
@@ -119,6 +120,7 @@ These are not external field labels. They are source-level subflow roles recogni
 
 \begin{principle}[No external analysis configuration]
 \label{prin:analysis-pipeline-no-external-config}
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.no\_external\_analysis\_config}
 There is no formal input such as analysis YAML, metric JSON, motif table, weight vector, report template, manual object grouping, human theory category list, or external bridge candidate list. If such information is used, it must appear as a recognized subflow of an analysis protocol flow.
 \end{principle}
 
@@ -138,6 +140,7 @@ An analysis protocol determines recognizer family, metric selection, weights, no
 
 \begin{corollary}[Metric weights require protocol flow]
 \label{cor:analysis-pipeline-weights-require-protocol}
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.metric\_weights\_require\_protocol\_flow}
 Any weighted distance or similarity metric whose weights are not recorded by a recognized protocol flow is not a BEDC-admissible metric.
 \end{corollary}
 

@@ -35,6 +35,75 @@ def RecognizedAnalysisProtocolFlow
   exists R : GeneratedAnalysisProtocolRecognizer,
     RecognizesAnalysisProtocol R P
 
+inductive AnalysisProtocolRole : Type where
+  | inputDomain
+  | recognizerFamily
+  | motifSelection
+  | metricSelection
+  | metricWeights
+  | normalizationPolicy
+  | ledgerPolicy
+  | cannotClaimPolicy
+  | bridgeObligationPolicy
+  | reportPolicy
+  | seal
+
+def EventSubflow (part whole : EventFlow) : Prop :=
+  exists pre post : EventFlow, whole = List.append pre (List.append part post)
+
+def AnalysisProtocolSubflow
+    (R : GeneratedAnalysisProtocolRecognizer)
+    (P part : AnalysisProtocolCandidateFlow)
+    (_role : AnalysisProtocolRole) : Prop :=
+  RecognizesAnalysisProtocol R P /\
+    EventSubflow part P /\
+    NonemptyEventFlow part
+
+inductive AnalysisConfigDatum : Type where
+  | protocolFlow (P : AnalysisProtocolCandidateFlow)
+  | analysisYAML
+  | metricJSON
+  | motifTable
+  | weightVector
+  | reportTemplate
+  | manualObjectGrouping
+  | humanTheoryCategoryList
+  | externalBridgeCandidateList
+
+inductive ExternalAnalysisConfig : AnalysisConfigDatum -> Prop where
+  | analysisYAML :
+      ExternalAnalysisConfig AnalysisConfigDatum.analysisYAML
+  | metricJSON :
+      ExternalAnalysisConfig AnalysisConfigDatum.metricJSON
+  | motifTable :
+      ExternalAnalysisConfig AnalysisConfigDatum.motifTable
+  | weightVector :
+      ExternalAnalysisConfig AnalysisConfigDatum.weightVector
+  | reportTemplate :
+      ExternalAnalysisConfig AnalysisConfigDatum.reportTemplate
+  | manualObjectGrouping :
+      ExternalAnalysisConfig AnalysisConfigDatum.manualObjectGrouping
+  | humanTheoryCategoryList :
+      ExternalAnalysisConfig AnalysisConfigDatum.humanTheoryCategoryList
+  | externalBridgeCandidateList :
+      ExternalAnalysisConfig AnalysisConfigDatum.externalBridgeCandidateList
+
+inductive FormalAnalysisConfig : AnalysisConfigDatum -> Prop where
+  | protocol {P : AnalysisProtocolCandidateFlow} :
+      RecognizedAnalysisProtocolFlow P ->
+        FormalAnalysisConfig (AnalysisConfigDatum.protocolFlow P)
+
+def MetricWeightsRecordedByProtocol
+    (P weights : AnalysisProtocolCandidateFlow) : Prop :=
+  exists R : GeneratedAnalysisProtocolRecognizer,
+    AnalysisProtocolSubflow R P weights AnalysisProtocolRole.metricWeights
+
+inductive FormalWeightedMetric : AnalysisProtocolCandidateFlow ->
+    AnalysisProtocolCandidateFlow -> Prop where
+  | protocol {P weights : AnalysisProtocolCandidateFlow} :
+      MetricWeightsRecordedByProtocol P weights ->
+        FormalWeightedMetric P weights
+
 inductive FormalAnalysisProtocol :
     AnalysisProtocolCandidateFlow -> Prop where
   | recognized {R : GeneratedAnalysisProtocolRecognizer}
@@ -50,5 +119,19 @@ theorem unrecognized_protocol_rejected
   cases hFormal with
   | recognized hRec =>
       exact hMissing ⟨_, hRec⟩
+
+theorem no_external_analysis_config {d : AnalysisConfigDatum} :
+    ExternalAnalysisConfig d -> Not (FormalAnalysisConfig d) := by
+  intro hExternal hFormal
+  cases hExternal <;> cases hFormal
+
+theorem metric_weights_require_protocol_flow
+    {P weights : AnalysisProtocolCandidateFlow} :
+    Not (MetricWeightsRecordedByProtocol P weights) ->
+      Not (FormalWeightedMetric P weights) := by
+  intro hMissing hFormal
+  cases hFormal with
+  | protocol hRecorded =>
+      exact hMissing hRecorded
 
 end BEDC.GroundCompiler.AnalysisPipeline
