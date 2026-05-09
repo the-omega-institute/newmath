@@ -84,7 +84,8 @@ theorem normalize_channel_preserves_legality
       cases hDecoded with
       | intro hDecode _ =>
           refine ⟨FlowEncoding (N S), ?_, ?_⟩
-          · simp [NormalizeChannel, hDecode]
+          · unfold NormalizeChannel
+            rw [hDecode]
           · exact flow_encoding_legal_zstream (N S)
 
 theorem normalizer_output_factors_through_decoding
@@ -123,19 +124,33 @@ theorem channel_level_source_rewrite_may_destroy_legality :
     | intro S hDecoded =>
         cases hDecoded with
         | intro hDecode _ =>
-            simp [Decode, DecodeFuel, DecEvent] at hDecode
+            have hBad :
+                Decode
+                  [BMark.b0, BMark.b1, BMark.b0, BMark.b1,
+                    BMark.b1, BMark.b0, BMark.b0] = none := by
+              rfl
+            rw [hBad] at hDecode
+            cases hDecode
 
 theorem no_channel_level_source_rewrite :
     LegalZStream (EventEncoding CarryPreNormal) /\
       Not (LegalZStream
         [BMark.b0, BMark.b1, BMark.b0, BMark.b1,
           BMark.b1, BMark.b0, BMark.b0]) := by
-  simpa [CarryPreNormal] using channel_level_source_rewrite_may_destroy_legality
+  cases channel_level_source_rewrite_may_destroy_legality with
+  | intro hLegal hIllegal =>
+      constructor
+      · change LegalZStream (EventEncoding [BMark.b0, BMark.b1, BMark.b1])
+        exact hLegal
+      · exact hIllegal
 
 theorem channel_terminator_not_source_event_11 :
     Not (EventTerminator = EventEncoding [BMark.b1, BMark.b1]) := by
   intro h
-  simp [EventTerminator, EventEncoding, BodyEncoding] at h
+  change
+    [BMark.b1, BMark.b1] =
+      [BMark.b1, BMark.b0, BMark.b1, BMark.b0, BMark.b1, BMark.b1] at h
+  cases h
 
 theorem source_event_11_unambiguous :
     Decode (EventEncoding [BMark.b1, BMark.b1]) =
