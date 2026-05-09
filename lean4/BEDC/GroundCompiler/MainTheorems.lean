@@ -366,4 +366,142 @@ theorem similarity_not_identity :
         SemanticMotif.MotifOverlap Rfam S T mu M L /\ Not (S = T) := by
   exact SemanticMotif.motif_similarity_not_object_equality
 
+inductive CannotClaimKind : Type where
+  | arbitraryBinaryMeaning
+  | channelSubstringSourceEvent
+  | sourceCarryChannelRewrite
+  | codeImpliesProof
+  | codeImpliesAcceptedObject
+  | structuresAreInputs
+  | recognizerIsHostParser
+  | classifierQuotientPreservesRawBijection
+  | motifSimilarityImpliesObjectEquality
+  | carryMotifImpliesDimension
+  | sealMotifImpliesCompletion
+  | reportIsProof
+  | selfHostingImpliesRawEquality
+  | fullNoHiddenInputWithoutSelfHosting
+deriving DecidableEq
+
+structure CompilerCannotClaimEntry where
+  claimText : EventFlow
+  status : EventFlow
+  whyNotDischarged : EventFlow
+  requiredUpgrade : EventFlow
+  ledger : EventFlow
+
+inductive RequiredCannotClaimEntries : CannotClaimKind -> Prop where
+  | arbitraryBinaryMeaning :
+      RequiredCannotClaimEntries CannotClaimKind.arbitraryBinaryMeaning
+  | channelSubstringSourceEvent :
+      RequiredCannotClaimEntries CannotClaimKind.channelSubstringSourceEvent
+  | sourceCarryChannelRewrite :
+      RequiredCannotClaimEntries CannotClaimKind.sourceCarryChannelRewrite
+  | codeImpliesProof :
+      RequiredCannotClaimEntries CannotClaimKind.codeImpliesProof
+  | codeImpliesAcceptedObject :
+      RequiredCannotClaimEntries CannotClaimKind.codeImpliesAcceptedObject
+  | structuresAreInputs :
+      RequiredCannotClaimEntries CannotClaimKind.structuresAreInputs
+  | recognizerIsHostParser :
+      RequiredCannotClaimEntries CannotClaimKind.recognizerIsHostParser
+  | classifierQuotientPreservesRawBijection :
+      RequiredCannotClaimEntries
+        CannotClaimKind.classifierQuotientPreservesRawBijection
+  | motifSimilarityImpliesObjectEquality :
+      RequiredCannotClaimEntries
+        CannotClaimKind.motifSimilarityImpliesObjectEquality
+  | carryMotifImpliesDimension :
+      RequiredCannotClaimEntries CannotClaimKind.carryMotifImpliesDimension
+  | sealMotifImpliesCompletion :
+      RequiredCannotClaimEntries CannotClaimKind.sealMotifImpliesCompletion
+  | reportIsProof :
+      RequiredCannotClaimEntries CannotClaimKind.reportIsProof
+  | selfHostingImpliesRawEquality :
+      RequiredCannotClaimEntries CannotClaimKind.selfHostingImpliesRawEquality
+  | fullNoHiddenInputWithoutSelfHosting :
+      RequiredCannotClaimEntries
+        CannotClaimKind.fullNoHiddenInputWithoutSelfHosting
+
+def RegistryEntry
+    (registry : List (CannotClaimKind × CompilerCannotClaimEntry))
+    (kind : CannotClaimKind) (entry : CompilerCannotClaimEntry) : Prop :=
+  List.Mem (kind, entry) registry
+
+def RegistryHasLedger
+    (registry : List (CannotClaimKind × CompilerCannotClaimEntry))
+    (kind : CannotClaimKind) : Prop :=
+  exists entry : CompilerCannotClaimEntry,
+    RegistryEntry registry kind entry /\ NonemptyEventFlow entry.ledger
+
+def CannotClaimRegistryAdequate
+    (registry : List (CannotClaimKind × CompilerCannotClaimEntry)) : Prop :=
+  forall kind : CannotClaimKind,
+    RequiredCannotClaimEntries kind -> RegistryHasLedger registry kind
+
+theorem cannot_claim_registry_mandatory
+    {registry : List (CannotClaimKind × CompilerCannotClaimEntry)} :
+    CannotClaimRegistryAdequate registry ->
+      RegistryHasLedger registry CannotClaimKind.arbitraryBinaryMeaning /\
+      RegistryHasLedger registry CannotClaimKind.channelSubstringSourceEvent /\
+      RegistryHasLedger registry CannotClaimKind.sourceCarryChannelRewrite /\
+      RegistryHasLedger registry CannotClaimKind.codeImpliesProof /\
+      RegistryHasLedger registry CannotClaimKind.codeImpliesAcceptedObject /\
+      RegistryHasLedger registry CannotClaimKind.structuresAreInputs /\
+      RegistryHasLedger registry CannotClaimKind.recognizerIsHostParser /\
+      RegistryHasLedger registry
+        CannotClaimKind.classifierQuotientPreservesRawBijection /\
+      RegistryHasLedger registry
+        CannotClaimKind.motifSimilarityImpliesObjectEquality /\
+      RegistryHasLedger registry CannotClaimKind.carryMotifImpliesDimension /\
+      RegistryHasLedger registry CannotClaimKind.sealMotifImpliesCompletion /\
+      RegistryHasLedger registry CannotClaimKind.reportIsProof /\
+      RegistryHasLedger registry CannotClaimKind.selfHostingImpliesRawEquality /\
+      RegistryHasLedger registry
+        CannotClaimKind.fullNoHiddenInputWithoutSelfHosting := by
+  intro h
+  constructor
+  · exact h CannotClaimKind.arbitraryBinaryMeaning
+      RequiredCannotClaimEntries.arbitraryBinaryMeaning
+  · constructor
+    · exact h CannotClaimKind.channelSubstringSourceEvent
+        RequiredCannotClaimEntries.channelSubstringSourceEvent
+    · constructor
+      · exact h CannotClaimKind.sourceCarryChannelRewrite
+          RequiredCannotClaimEntries.sourceCarryChannelRewrite
+      · constructor
+        · exact h CannotClaimKind.codeImpliesProof
+            RequiredCannotClaimEntries.codeImpliesProof
+        · constructor
+          · exact h CannotClaimKind.codeImpliesAcceptedObject
+              RequiredCannotClaimEntries.codeImpliesAcceptedObject
+          · constructor
+            · exact h CannotClaimKind.structuresAreInputs
+                RequiredCannotClaimEntries.structuresAreInputs
+            · constructor
+              · exact h CannotClaimKind.recognizerIsHostParser
+                  RequiredCannotClaimEntries.recognizerIsHostParser
+              · constructor
+                · exact h
+                    CannotClaimKind.classifierQuotientPreservesRawBijection
+                    RequiredCannotClaimEntries.classifierQuotientPreservesRawBijection
+                · constructor
+                  · exact h CannotClaimKind.motifSimilarityImpliesObjectEquality
+                      RequiredCannotClaimEntries.motifSimilarityImpliesObjectEquality
+                  · constructor
+                    · exact h CannotClaimKind.carryMotifImpliesDimension
+                        RequiredCannotClaimEntries.carryMotifImpliesDimension
+                    · constructor
+                      · exact h CannotClaimKind.sealMotifImpliesCompletion
+                          RequiredCannotClaimEntries.sealMotifImpliesCompletion
+                      · constructor
+                        · exact h CannotClaimKind.reportIsProof
+                            RequiredCannotClaimEntries.reportIsProof
+                        · constructor
+                          · exact h CannotClaimKind.selfHostingImpliesRawEquality
+                              RequiredCannotClaimEntries.selfHostingImpliesRawEquality
+                          · exact h
+                              CannotClaimKind.fullNoHiddenInputWithoutSelfHosting
+                              RequiredCannotClaimEntries.fullNoHiddenInputWithoutSelfHosting
+
 end BEDC.GroundCompiler.MainTheorems

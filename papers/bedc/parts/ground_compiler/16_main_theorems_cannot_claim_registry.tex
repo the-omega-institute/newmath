@@ -454,6 +454,7 @@ Motif similarity, equal signatures, zero distance, and shared prefixes do not im
 
 \begin{definition}[Compiler cannot-claim entry]
 \label{def:main-theorems-compiler-cannot-claim-entry}
+\leandef{BEDC.GroundCompiler.MainTheorems.CompilerCannotClaimEntry}
 A \emph{compiler cannot-claim entry} contains at least:
 \begin{center}
 \begin{tabular}{ll}
@@ -468,6 +469,7 @@ A \emph{compiler cannot-claim entry} contains at least:
 
 \begin{definition}[Required cannot-claim entries]
 \label{def:main-theorems-required-cannot-claims}
+\leandef{BEDC.GroundCompiler.MainTheorems.RequiredCannotClaimEntries}
 The no-hidden-input compiler part requires at least the following cannot-claim entries.
 
 \begin{description}
@@ -517,11 +519,12 @@ One may not claim a fully no-hidden-input compiler unless a self-hosting compile
 
 \begin{theorem}[Cannot-claim registry is mandatory]
 \label{thm:main-theorems-cannot-claim-registry-mandatory}
-Any use of the no-hidden-input compiler must include a cannot-claim registry containing at least C1--C14, unless each entry is discharged by a recognized certificate flow.
+\leanchecked{BEDC.GroundCompiler.MainTheorems.cannot\_claim\_registry\_mandatory}
+A cannot-claim registry is adequate only if each required entry C1--C14 has a registry entry with a nonempty ledger flow. Consequently, every adequate registry contains ledger-backed entries for C1--C14.
 \end{theorem}
 
 \begin{proof}
-Each entry blocks a known failure mode: invalid channel analysis, hidden structure input, code-as-proof confusion, classifier/equality collapse, motif-as-object confusion, or hidden bootstrap. If the registry omits such entries, the system may silently make unsupported claims. Therefore the registry is mandatory unless the corresponding block is discharged by certificate flow.
+Each entry blocks a known failure mode: invalid channel analysis, hidden structure input, code-as-proof confusion, classifier/equality collapse, motif-as-object confusion, or hidden bootstrap. Adequacy of the registry is the finite condition that every required cannot-claim code has an entry whose ledger is present as an event flow. Applying that condition to C1--C14 gives the required ledger-backed entries.
 \end{proof}
 
 \section{Global conservativity and final theorem}
