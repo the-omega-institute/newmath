@@ -365,6 +365,63 @@ def LedgerDepth
               Rfam R /\ MotifLedger R S M mu L) /\
       ledgers.length = n
 
+def ClassifierCompressionRatio
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (rawFlows classes : List EventFlow) (k r : Nat) : Prop :=
+  rawFlows.length = k /\
+    classes.length = r /\
+    r > 0 /\
+    List.Nodup rawFlows /\
+    List.Nodup classes /\
+    (forall rawFlow : EventFlow,
+      List.Mem rawFlow rawFlows ->
+        exists R M leftFlow rightFlow classifierFlow exactnessFlow
+          failureFlow : EventFlow,
+          Rfam R /\
+            ClassifierQuotientMotif R S M leftFlow rightFlow classifierFlow
+              exactnessFlow failureFlow /\
+            Subflow rawFlow M) /\
+    (forall classFlow : EventFlow,
+      List.Mem classFlow classes ->
+        exists R M leftFlow rightFlow classifierFlow exactnessFlow
+          failureFlow : EventFlow,
+          Rfam R /\
+            ClassifierQuotientMotif R S M leftFlow rightFlow classifierFlow
+              exactnessFlow failureFlow /\
+            Subflow classFlow classifierFlow)
+
+def ReuseDepth
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (chain : List EventFlow) (n : Nat) : Prop :=
+  chain.length = n /\
+    List.Nodup chain /\
+    forall M : EventFlow,
+      List.Mem M chain ->
+        exists R acceptedRefs transportWitness newSource classifierFlow
+          ledgerFlow certificateFlow strengthBound : EventFlow,
+          Rfam R /\
+            ReuseMotif R S M acceptedRefs transportWitness newSource
+              classifierFlow ledgerFlow certificateFlow strengthBound
+
+def MotifProfileItem : Type :=
+  MotifRole × EventFlow × EventFlow
+
+def MotifDistance
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S T : EventFlow)
+    (leftProfile rightProfile overlap : List MotifProfileItem) : Prop :=
+  List.Nodup leftProfile /\
+    List.Nodup rightProfile /\
+    List.Nodup overlap /\
+    (forall item : MotifProfileItem,
+      List.Mem item leftProfile ->
+        MotifProfile Rfam S item.1 item.2.1 item.2.2) /\
+    (forall item : MotifProfileItem,
+      List.Mem item rightProfile ->
+        MotifProfile Rfam T item.1 item.2.1 item.2.2) /\
+    (forall item : MotifProfileItem,
+      List.Mem item overlap ->
+        List.Mem item leftProfile /\ List.Mem item rightProfile)
+
 def EventCommonPrefixLength (S T : EventFlow) (k : Nat) : Prop :=
   k <= S.length /\ k <= T.length /\ S.take k = T.take k
 
