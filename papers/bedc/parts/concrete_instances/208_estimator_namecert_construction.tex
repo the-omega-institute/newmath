@@ -110,6 +110,42 @@ $\NameCert_{\EstimatorUp}$ surface has no field for asymptotic normality or
 completed statistical convergence, so neither can act as an intermediate
 readback witness.
 \end{proof}
+\leanchecked{BEDC.Derived.EstimatorUp.EstimatorBHistSourceSurface\_finite\_cont\_readback\_determinacy}
+
+\begin{theorem}[EstimatorUp bias and variance ledger exclusion]
+\label{thm:estimator-bias-variance-ledger-exclusion}
+Let $E$ be an accepted $\EstimatorUp$ $\mathsf{BHist}$ packet. If $E$ exposes
+a public bias witness row or a public variance witness row, that row factors
+through the bias or variance coordinate of
+\autoref{def:estimator-bhist-source-surface}, the finite $\Cont$ readback
+ledgers displayed there, and the same $\Pkg$ provenance naming the source
+certificates. No host probability-space equality, asymptotic normality row,
+completed convergence theorem, or external statistical model supplies a
+public bias or variance witness for $\NameCert_{\EstimatorUp}$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{thm:estimator-source-obligation}. The projection lists the displayed
+sample rows, the sample-family row, estimator endpoint rows, bias and
+variance witness rows, finite continuation ledgers, and package provenance as
+the complete source surface for $E$.
+
+Transport this projected packet by
+\autoref{thm:estimator-transport-obligation}. Componentwise $\hsame$ movement
+keeps the bias and variance coordinates inside the same displayed packet and
+preserves the finite $\Cont$ ledgers together with their $\Pkg$ provenance.
+
+Now compare public readback rows using
+\autoref{thm:estimator-finite-cont-readback-determinacy}. Any exposed bias or
+variance witness row is determined by the displayed finite ledger row after
+the listed transports, so it cannot be replaced by a row outside the source
+surface.
+
+The source surface has no coordinate for host probability-space equality,
+asymptotic normality, completed convergence, or an external statistical
+model. Hence none of those data can enter the public
+$\NameCert_{\EstimatorUp}$ witness boundary.
+\end{proof}
 
 \begin{theorem}[EstimatorUp NameCert obligation surface]
 \label{thm:estimator-namecert-obligation-surface}
