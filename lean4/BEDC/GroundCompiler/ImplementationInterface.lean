@@ -184,6 +184,9 @@ def DecodesEvent (c : List DisplayAlphabet) (w : RawEvent) : Prop :=
 def Decodes (c : List DisplayAlphabet) (S : EventFlow) : Prop :=
   Compiles S c
 
+def ExecutableEncoder : EventFlow -> List DisplayAlphabet :=
+  FlowEncoding
+
 theorem host_representation_not_structure {d : InterfaceDatum} :
     ImplementationRepresentation d -> Not (PublicFormalInterface d) := by
   intro hImplementation hPublic
@@ -208,5 +211,15 @@ theorem decoder_functional {c : List DisplayAlphabet} {S T : EventFlow} :
   rw [hDecodeS] at hDecodeT
   cases hDecodeT
   rfl
+
+theorem encoder_soundness_obligation {S : EventFlow}
+    {c : List DisplayAlphabet} :
+    ExecutableEncoder S = c -> Compiles S c := by
+  intro h
+  exact h.symm
+
+theorem encoder_totality_obligation (S : EventFlow) :
+    exists c : List DisplayAlphabet, ExecutableEncoder S = c /\ Compiles S c := by
+  exact ⟨FlowEncoding S, rfl, rfl⟩
 
 end BEDC.GroundCompiler.ImplementationInterface

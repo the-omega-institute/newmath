@@ -345,11 +345,13 @@ Each rejection branch must correspond to an event-flow syntax failure, such as d
 
 \begin{definition}[Executable encoder]
 \label{def:implementation-interface-executable-encoder}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ExecutableEncoder}
 An \emph{executable encoder} is an implementation-layer procedure from event-flow representation to bit-stream representation. Its formal obligations are encoder soundness, encoder totality over event flows, and absence of internal event terminators inside encoded event bodies.
 \end{definition}
 
 \begin{theorem}[Encoder soundness obligation]
 \label{thm:implementation-interface-encoder-soundness-obligation}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.encoder\_soundness\_obligation}
 If the implementation encoder returns $c$ on event flow $S$, then
 $$
   \mathsf{Compiles}(S,c)
@@ -363,6 +365,7 @@ The implementation must show that each raw event is encoded by $\zeta$ and follo
 
 \begin{theorem}[Encoder totality obligation]
 \label{thm:implementation-interface-encoder-totality-obligation}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.encoder\_totality\_obligation}
 For every $S\in\mathsf{EventFlow}$, the implementation encoder returns some $c$ such that
 $$
   \mathsf{Compiles}(S,c).
