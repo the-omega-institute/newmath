@@ -325,4 +325,39 @@ theorem TopGroupRootSourceFiber_export_ledger
   cases provenanceCont
   rfl
 
+theorem TopGroupRootThresholdPackage_operation_ledger_obligation
+    {group topology product inverse neighborhood ledger provenance productLedger inverseLedger
+      consumerLedger : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      Cont product neighborhood productLedger ->
+        Cont inverse neighborhood inverseLedger ->
+          Cont productLedger inverseLedger consumerLedger ->
+            UnaryHistory productLedger ∧ UnaryHistory inverseLedger ∧
+              UnaryHistory consumerLedger ∧
+                hsame consumerLedger
+                  (append (append product neighborhood) (append inverse neighborhood)) ∧
+                  hsame ledger (append product inverse) ∧ hsame provenance ledger := by
+  intro package productRow inverseRow consumerRow
+  have boundary :=
+    TopGroupRootThresholdPackage_source_coupled_continuity_boundary package
+  have productLedgerUnary : UnaryHistory productLedger :=
+    unary_cont_closed boundary.right.right.left boundary.right.right.right.right.left productRow
+  have inverseLedgerUnary : UnaryHistory inverseLedger :=
+    unary_cont_closed boundary.right.right.right.left boundary.right.right.right.right.left
+      inverseRow
+  have consumerLedgerUnary : UnaryHistory consumerLedger :=
+    unary_cont_closed productLedgerUnary inverseLedgerUnary consumerRow
+  have consumerReadback :
+      hsame consumerLedger (append (append product neighborhood) (append inverse neighborhood)) := by
+    cases productRow
+    cases inverseRow
+    cases consumerRow
+    rfl
+  exact And.intro productLedgerUnary
+    (And.intro inverseLedgerUnary
+      (And.intro consumerLedgerUnary
+        (And.intro consumerReadback
+          (And.intro package.right.right.right.right.right.left
+            package.right.right.right.right.right.right))))
+
 end BEDC.Derived.TopGroupUp
