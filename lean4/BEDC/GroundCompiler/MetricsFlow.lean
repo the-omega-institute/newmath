@@ -299,6 +299,21 @@ structure MetricReport where
   signatures : List FlowSignatureVector
   cannotClaims : List MetricCannotClaimEntry
 
+def ReportHasCannotClaimEntry (report : MetricReport) : Prop :=
+  exists entry : MetricCannotClaimEntry, List.Mem entry report.cannotClaims
+
+def NontrivialMetricReport (report : MetricReport) : Prop :=
+  exists sig : FlowSignatureVector,
+    List.Mem sig report.signatures /\
+      (0 < sig.sealDepth \/
+        0 < sig.carryIndex \/
+        0 < sig.compressionNumerator \/
+        0 < sig.reuseDepth \/
+        0 < sig.bridgeDepth)
+
+def CannotClaimGuardedReport (report : MetricReport) : Prop :=
+  NontrivialMetricReport report -> ReportHasCannotClaimEntry report
+
 def TheoryFlowDistance
     (_Rfam : MetricRecognizerFamily) (P : AnalysisProtocolFlow)
     (_S _T : EventFlow) (components : TheoryDistanceComponents) : Nat :=
@@ -447,11 +462,46 @@ theorem metrics_do_not_imply_object_equality :
     cases h
   · rfl
 
+theorem metrics_explanatory_not_identificatory :
+    exists S T : EventFlow,
+      Not (S = T) /\ EmptyAnalysisSignature S = EmptyAnalysisSignature T := by
+  refine ⟨[], [[]], ?_, ?_⟩
+  · intro h
+    cases h
+  · rfl
+
+theorem cannot_claims_required_for_nontrivial_reports {report : MetricReport} :
+    CannotClaimGuardedReport report ->
+      NontrivialMetricReport report ->
+        ReportHasCannotClaimEntry report := by
+  intro hGuard hNontrivial
+  exact hGuard hNontrivial
+
 theorem metrics_conservativity {_report : MetricReport} {S : EventFlow}
     {w : RawEvent} {m : DisplayAlphabet} :
     List.Mem S _report.sourceFlows -> List.Mem w S -> List.Mem m w ->
       m = BMark.b0 \/ m = BMark.b1 := by
   intro _ hEvent hMark
   exact event_flow_conservativity hEvent hMark
+
+theorem metrics_cannot_replace_certificates :
+    exists report : MetricReport, exists S : EventFlow,
+      List.Mem S report.sourceFlows /\ Not (AcceptedObjectFlow S) := by
+  refine
+    ⟨{ protocol :=
+          { protocolFlow := [],
+            weights :=
+              { motifWeight := 0,
+                normalAddressWeight := 0,
+                prefixWeight := 0,
+                ledgerWeight := 0,
+                reuseWeight := 0 } },
+        recognizers := [],
+        sourceFlows := [[]],
+        signatures := [EmptyAnalysisSignature []],
+        cannotClaims := [] },
+      [], ?_, ?_⟩
+  · exact List.Mem.head []
+  · exact empty_not_accepted_object_flow
 
 end BEDC.GroundCompiler.MetricsFlow
