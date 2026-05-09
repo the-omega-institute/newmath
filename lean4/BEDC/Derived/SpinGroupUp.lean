@@ -117,4 +117,34 @@ theorem SpinGroupRootCarrier_public_consumer_boundary_coverage [AskSetup] [Packa
                       (And.intro sourceScope.right.right.right.left
                         sourceScope.right.right.right.right)))))))))
 
+theorem SpinGroupRootCarrier_threshold_obligation_triple [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger thresholdLedger :
+      BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      Cont product groupWord thresholdLedger ->
+        UnaryHistory unit ∧ UnaryHistory product ∧ UnaryHistory spinEndpoint ∧
+          UnaryHistory thresholdLedger ∧ Cont vector vector product ∧
+            Cont product boundary cliffordEndpoint ∧ Cont cliffordEndpoint groupWord spinEndpoint ∧
+              hsame product (append vector vector) ∧
+                hsame spinEndpoint (append cliffordEndpoint groupWord) ∧
+                  hsame thresholdLedger (append product groupWord) ∧ PkgSig bundle ledger pkg := by
+  intro carrier thresholdCont
+  have cliffordExact := CliffordCarrierPackage_universal_ledger_exactness carrier.left
+  have sourceScope := SpinGroupRootCarrier_source_scope carrier
+  have groupUnary : UnaryHistory groupWord :=
+    unary_transport unary_empty (hsame_symm sourceScope.right.left)
+  have thresholdUnary : UnaryHistory thresholdLedger :=
+    unary_cont_closed cliffordExact.right.right.left groupUnary thresholdCont
+  exact And.intro cliffordExact.left
+    (And.intro cliffordExact.right.right.left
+      (And.intro sourceScope.right.right.left
+        (And.intro thresholdUnary
+          (And.intro cliffordExact.right.right.right.right.right.left
+            (And.intro cliffordExact.right.right.right.right.right.right.left
+              (And.intro sourceScope.right.right.right.left
+                (And.intro cliffordExact.right.right.right.right.right.right.right.left
+                  (And.intro sourceScope.right.right.right.left
+                    (And.intro thresholdCont sourceScope.right.right.right.right)))))))))
+
 end BEDC.Derived.SpinGroupUp

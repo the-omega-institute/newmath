@@ -579,4 +579,22 @@ theorem TopGroupRootSourceFiber_export_common_cont_ledger
       (And.intro consumers.right.right.left
         (And.intro consumers.right.right.right.left ledgerScope.right.left)))
 
+theorem TopGroupRootThresholdPackage_public_certificate_boundary
+    {group topology product inverse neighborhood ledger provenance : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      SemanticNameCert (fun row : BHist => hsame row provenance)
+        (fun row : BHist => hsame row provenance) (fun row : BHist => hsame row provenance) hsame ∧
+          GroupSingletonCarrier group ∧ TopologySingletonCarrier topology ∧ UnaryHistory product ∧
+            UnaryHistory inverse ∧ UnaryHistory ledger ∧ hsame ledger (append product inverse) ∧
+              hsame provenance ledger := by
+  intro package
+  have boundary := TopGroupRootThresholdPackage_source_coupled_continuity_boundary package
+  exact And.intro (TopGroupRootThresholdPackage_export_boundary_certificate package).left
+    (And.intro boundary.left
+      (And.intro boundary.right.left
+        (And.intro boundary.right.right.left
+          (And.intro boundary.right.right.right.left
+            (And.intro boundary.right.right.right.right.right.left
+              (And.intro boundary.right.right.right.right.right.right.left
+                boundary.right.right.right.right.right.right.right))))))
 end BEDC.Derived.TopGroupUp
