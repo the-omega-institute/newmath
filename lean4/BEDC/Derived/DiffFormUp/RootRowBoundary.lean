@@ -44,6 +44,33 @@ theorem DiffFormRootRow_downstream_boundary
         rootRows.left.right.right.right.left, rootRows.right⟩,
       wedgeRows, derivativeRows⟩
 
+theorem DiffFormRootBHistCarrier_obligation
+    {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger : BHist} :
+    InBundle probe probes -> ScalarCarrier scalar -> DegreeProbeAligned degree probes ->
+      UnaryHistory probe -> Cont degree probe tensor -> UnaryHistory antisym ->
+        Cont tensor antisym scalar ->
+          hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+            (UnaryHistory degree ∧ InBundle probe probes ∧ UnaryHistory tensor ∧
+                UnaryHistory scalar ∧
+                  hsame ledger
+                    (append degree (append probe (append tensor (append scalar antisym))))) ∧
+              DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym
+                ledger degree probe tensor scalar antisym ledger := by
+  intro probeIn scalarCarrier aligned probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+  have carrierRows :
+      UnaryHistory degree ∧ InBundle probe probes ∧ UnaryHistory tensor ∧
+        UnaryHistory scalar ∧
+          hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) :=
+    DiffFormDegreeProbeSupport_carrier_admissibility aligned probeIn probeUnary tensorRoute
+      antisymUnary scalarRoute ledgerRoute
+  have classifierRows :
+      DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym ledger
+        degree probe tensor scalar antisym ledger :=
+    DiffFormBHistClassifier_reflexivity_obligation scalarCert probeIn scalarCarrier
+  exact And.intro carrierRows classifierRows
+
 theorem DiffFormRootBHistNameCert_semantic_name_certificate
     {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
     (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
