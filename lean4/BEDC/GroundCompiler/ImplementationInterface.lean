@@ -451,6 +451,64 @@ structure ReferenceExecutable where
     forall {c : List DisplayAlphabet} {S : EventFlow},
       decode c = DecoderOutcome.decoded S -> Decodes c S
 
+def CompletionSkeletonTestFlow : EventFlow :=
+  [[BMark.b0], [BMark.b0, BMark.b0], [BMark.b0, BMark.b0, BMark.b0],
+    [BMark.b0, BMark.b1], [BMark.b0, BMark.b1, BMark.b1],
+    [BMark.b1, BMark.b0, BMark.b0]]
+
+def AddFoldSkeletonTestFlow : EventFlow :=
+  [[BMark.b0], [BMark.b0, BMark.b0], [BMark.b0, BMark.b0, BMark.b1],
+    [BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+    [BMark.b0, BMark.b1, BMark.b0, BMark.b0]]
+
+def ReferenceTestSuite : Prop :=
+  EncodesEvent [] [BMark.b1, BMark.b1] /\
+    EncodesEvent [BMark.b0] [BMark.b0, BMark.b1, BMark.b1] /\
+    EncodesEvent [BMark.b1] [BMark.b1, BMark.b0, BMark.b1, BMark.b1] /\
+    EncodesEvent [BMark.b0, BMark.b0]
+      [BMark.b0, BMark.b0, BMark.b1, BMark.b1] /\
+    EncodesEvent [BMark.b0, BMark.b1]
+      [BMark.b0, BMark.b1, BMark.b0, BMark.b1, BMark.b1] /\
+    EncodesEvent [BMark.b0, BMark.b1, BMark.b1]
+      [BMark.b0, BMark.b1, BMark.b0, BMark.b1, BMark.b0,
+        BMark.b1, BMark.b1] /\
+    EncodesEvent [BMark.b1, BMark.b0, BMark.b0]
+      [BMark.b1, BMark.b0, BMark.b0, BMark.b0, BMark.b1, BMark.b1] /\
+    Decodes [BMark.b0, BMark.b1, BMark.b1] [[BMark.b0]] /\
+    Decodes [BMark.b1, BMark.b0, BMark.b1, BMark.b1] [[BMark.b1]] /\
+    Not (LegalZStream [BMark.b0, BMark.b1, BMark.b1, BMark.b1]) /\
+    Decodes (FlowEncoding CompletionSkeletonTestFlow)
+      CompletionSkeletonTestFlow /\
+    Decodes (FlowEncoding AddFoldSkeletonTestFlow) AddFoldSkeletonTestFlow
+
+structure ImplementationReport where
+  moduleName : EventFlow
+  implementedRelations : EventFlow
+  testCases : EventFlow
+  roundTripResults : EventFlow
+  rejectionCases : EventFlow
+  hostLeakAuditItems : EventFlow
+  bootstrapObligations : EventFlow
+  proofStatus : EventFlow
+  leanTargetStatus : EventFlow
+
+inductive ImplementationArtifact : Type where
+  | report (r : ImplementationReport)
+  | nameCertificateFlow (S : EventFlow)
+  | derivationCertificateFlow (S : EventFlow)
+  | acceptanceGateFlow (S : EventFlow)
+  | theoremProofFlow (S : EventFlow)
+
+inductive CertificateArtifact : ImplementationArtifact -> Prop where
+  | nameCertificateFlow (S : EventFlow) :
+      CertificateArtifact (ImplementationArtifact.nameCertificateFlow S)
+  | derivationCertificateFlow (S : EventFlow) :
+      CertificateArtifact (ImplementationArtifact.derivationCertificateFlow S)
+  | acceptanceGateFlow (S : EventFlow) :
+      CertificateArtifact (ImplementationArtifact.acceptanceGateFlow S)
+  | theoremProofFlow (S : EventFlow) :
+      CertificateArtifact (ImplementationArtifact.theoremProofFlow S)
+
 inductive ReferenceExecutablePublicSurface : InterfaceDatum -> Prop where
   | encodesEvent :
       ReferenceExecutablePublicSurface InterfaceDatum.encodesEvent
@@ -612,6 +670,38 @@ theorem reference_executable_not_formal_compiler :
       ReferenceExecutablePublicSurface InterfaceDatum.recognizesPkg :=
     hFull.left.right.left
   cases hPkg
+
+theorem reference_test_suite_holds : ReferenceTestSuite := by
+  unfold ReferenceTestSuite
+  constructor
+  · rfl
+  constructor
+  · rfl
+  constructor
+  · rfl
+  constructor
+  · rfl
+  constructor
+  · rfl
+  constructor
+  · rfl
+  constructor
+  · rfl
+  constructor
+  · rfl
+  constructor
+  · rfl
+  constructor
+  · exact channel_encoding_0111_illegal
+  constructor
+  · rfl
+  · rfl
+
+theorem implementation_reports_not_certificates
+    (report : ImplementationReport) :
+    Not (CertificateArtifact (ImplementationArtifact.report report)) := by
+  intro h
+  cases h
 
 theorem decoder_functional {c : List DisplayAlphabet} {S T : EventFlow} :
     Decodes c S -> Decodes c T -> S = T := by
