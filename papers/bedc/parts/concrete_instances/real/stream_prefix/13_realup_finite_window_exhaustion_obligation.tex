@@ -271,3 +271,49 @@ hypothesis supplies every unary observation row of $W$, and the overlap and
 two-step coherence rows remove duplicate presentations. The assembled surface
 is therefore exactly the direct finite-window surface of $W$.
 \end{proof}
+
+\begin{theorem}[RealUp finite-window directed refinement seal]
+\label{thm:realup-finite-window-directed-refinement-seal}
+Suppose two $\RealUp$ finite-window exhaustion packages are exposed over the
+same $\StreamNameUp$ source, with certified windows $W$ and $W'$. Suppose also
+that there is a certified common refinement, given by a finite family of
+$\StreamNameUp$ subwindows whose union covers every certified unary observation
+row of both $W$ and $W'$, and whose pairwise overlaps satisfy
+\autoref{thm:realup-finite-window-exhaustion-overlap-closure}. Then the two
+finite-window presentations expose the same public $\mathsf{BHist}$ read
+surface. In particular, they have the same
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, endpoint $\RatUp$
+classifier rows, positive denominator witnesses, common e-one tail readbacks,
+$\mathsf{DyadicRatCore}$ source rows, $\hsame$ ledger, and
+$\mathsf{RealLedgerPolicy}$ boundary, and neither presentation exports host
+indices, quotient witnesses, or unrecorded infinite stream data.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-finite-window-partition-exactness} to the window
+$W$ and the certified common refinement. The coverage hypothesis says that the
+refinement carries every certified unary observation row visible from $W$, so
+the refinement assembly is the same public finite $\mathsf{BHist}$ surface as
+the direct $W$ presentation.
+
+Apply \autoref{thm:realup-finite-window-partition-exactness} again to the
+window $W'$. The same refinement family covers every certified unary
+observation row visible from $W'$, so the refinement assembly is also the same
+public finite $\mathsf{BHist}$ surface as the direct $W'$ presentation.
+
+It remains to compare the two uses of the refinement. When a refinement
+subwindow is reached through either ambient window, use
+\autoref{thm:realup-finite-window-two-step-restriction-coherence} to identify
+the restricted read with the direct refinement read. On intersections between
+two refinement subwindows, use
+\autoref{thm:realup-finite-window-exhaustion-overlap-closure} to identify the
+duplicate classifier rows, denominator witnesses, readbacks, and dyadic source
+rows through the same $\hsame$ ledger.
+
+Finally apply \autoref{thm:realup-streamname-finite-window-ledger-boundary} to
+the common refinement surface. Its ledger contains exactly the selected
+observation rows, endpoint $\RatUp$ rows, positive denominator witnesses,
+common e-one tail readbacks, $\mathsf{DyadicRatCore}$ rows, and
+$\mathsf{RealLedgerPolicy}$ boundary. Therefore both finite-window
+presentations expose the same public surface, with no additional host index,
+quotient, or infinite-stream datum available to distinguish them.
+\end{proof}
