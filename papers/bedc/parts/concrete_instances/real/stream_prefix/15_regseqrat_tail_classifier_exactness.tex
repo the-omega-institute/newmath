@@ -76,3 +76,47 @@ the finite package. Therefore the two pullbacks of $T$ factor through the
 same selected tail, and $T$ is the unique selected $\RegSeqRat$ tail
 classifier available at the finite-window seal.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier reindexing stability]
+\label{thm:regseqrat-tail-classifier-reindexing-stability}
+Let $W_0$ and $W_1$ be finite $\RealUp$ observation-window packages, and let
+$\rho$ be a certified unary reindexer between their displayed
+$\StreamNameUp$ windows. Suppose the two packages have matching
+$\StreamNameUp$ finite-window classifier rows after reindexing by $\rho$,
+matching $\RegSeqRat$ spine rows, matching DyadicRatCore observation rows,
+matching $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, and
+$\mathsf{InBundle}$ membership rows, and matching finite $\hsame$, $\Cont$,
+$\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+Then the $\RegSeqRat$ tail classifier selected after reindexing is the same
+finite-window readback row for $W_0$ and $W_1$. This stability statement uses
+only the displayed finite rows. It imports no quotient row, completion row,
+Classical representative, metric-completeness certificate, arithmetic or order
+row, standard-bridge row, or hidden regular-sequence selector.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion} to the displayed
+$\StreamNameUp$--$\RegSeqRat$ handoff surface. The certified unary reindexer
+$\rho$ identifies the reindexed StreamName classifier rows together with the
+visible $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, and
+$\mathsf{InBundle}$ membership rows.
+
+Next apply
+\autoref{thm:streamname-regseqrat-reindexed-window-consumer-determinacy}. Since
+the reindexed classifier rows and the finite handoff rows match, every
+downstream $\RegSeqRat$ finite-window consumer reads the same source surface and
+the same selected input rows from both packages.
+
+Now use \autoref{thm:regseqrat-tail-classifier-exactness}. The common
+StreamName, RegSeqRat, DyadicRatCore, endpoint-transport, ledger, and provenance
+rows determine one selected $\RegSeqRat$ tail classifier. Then
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} rules out a second
+tail row pulling back through the same displayed finite readback surface.
+
+Finally close the surface with
+\autoref{thm:realup-scoped-finite-window-read-surface}. Its row inventory is
+exactly the visible finite-window readback inventory, so quotient, completion,
+Classical, metric-completeness, arithmetic, order, standard-bridge, and hidden
+selector rows have no slot in the stabilized reindexed package.
+\end{proof}
