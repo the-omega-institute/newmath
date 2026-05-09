@@ -84,6 +84,11 @@ def DerivCertSourceSubflow (part whole : EventFlow) : Prop :=
 def StrengthCandidateFlow (S s : EventFlow) : Prop :=
   DerivCertSourceSubflow s S
 
+def P6DerivCertCandidate (S D N s : EventFlow) : Prop :=
+  DerivCertSourceSubflow D S /\
+    FormalCompilerInput (CompilerDatum.eventFlow N) /\
+    StrengthCandidateFlow S s
+
 def StrengthOrderWitness
     (R : GeneratedStrengthRecognizerFlow) (S o : EventFlow) : Prop :=
   DerivCertSourceSubflow o S /\
@@ -137,6 +142,10 @@ def RecognizesDerivCert
 
 def DerivCertFlow (D N s : EventFlow) : Prop :=
   exists R : GeneratedDerivCertRecognizer, RecognizesDerivCert R D N s
+
+def P6RecognizedDerivCertFlow
+    (R : GeneratedDerivCertRecognizer) (S D N s : EventFlow) : Prop :=
+  P6DerivCertCandidate S D N s /\ RecognizesDerivCert R D N s
 
 def AcceptedFlow (A N s : EventFlow) : Prop :=
   exists C D sealFlow : EventFlow,
@@ -264,6 +273,13 @@ theorem no_derivcert_without_six_fields
       CompleteSixFieldDerivCertRecognition R D := by
   intro h
   exact h.right.right.right
+
+theorem p6_recognized_derivcert_has_six_fields
+    {R : GeneratedDerivCertRecognizer} {S D N s : EventFlow} :
+    P6RecognizedDerivCertFlow R S D N s ->
+      CompleteSixFieldDerivCertRecognition R D := by
+  intro h
+  exact no_derivcert_without_six_fields h.right
 
 theorem derivcert_seal_is_source_subflow
     {R : GeneratedDerivCertRecognizer} {D : DerivCertCandidateFlow}

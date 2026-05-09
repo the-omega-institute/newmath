@@ -141,11 +141,12 @@ The strength field of a derivation certificate must be recognized. If $s$ is not
 
 \begin{definition}[DerivCert candidate]
 \label{def:deriv-accept-derivcert-candidate}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.P6DerivCertCandidate}
 A \emph{DerivCert candidate} is an event subflow
 $$
   D\subseteq S
 $$
-not yet recognized as a derivation-certificate flow. Write
+with a formal event-flow name carrier $N$ and a strength candidate subflow $s\subseteq S$, not yet recognized as a derivation-certificate flow. Write
 $$
   \mathsf{DerivCertCand}(S,D,N,s),
 $$
@@ -167,9 +168,12 @@ This says that $R_D$ recognizes subflow $D$ of $S$ as a derivation-certificate f
 
 \begin{definition}[Recognized DerivCert flow]
 \label{def:deriv-accept-recognized-derivcert-flow}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.P6RecognizedDerivCertFlow}
 If
 $$
-  \mathsf{RecognizesDerivCert}(R_D,S,D,N,s),
+  \mathsf{DerivCertCand}(S,D,N,s)
+  \quad\text{and}\quad
+  \mathsf{RecognizesDerivCert}(R_D,D,N,s),
 $$
 then $D$ is a recognized derivation-certificate flow for $N$ and $s$ in $S$. Write
 $$
@@ -212,6 +216,7 @@ satisfying all field and seal judgments in \autoref{def:deriv-accept-derivcert-f
 
 \begin{principle}[No DerivCert without six fields]
 \label{prin:deriv-accept-no-derivcert-without-six}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.p6\_recognized\_derivcert\_has\_six\_fields}
 A derivation-certificate flow must have recognized source, classifier, exactness, ledger, stability, strength, and seal. If any is missing, the flow remains a candidate.
 \end{principle}
 
