@@ -289,4 +289,50 @@ theorem code_equality_refines_statement_equivalence
     TheoremCode T = TheoremCode U -> T = U :=
   theorem_code_injective
 
+def TheoremClassifierRelation : Type :=
+  TheoremCandidateFlow -> TheoremCandidateFlow -> Prop
+
+def TheoremClassifierQuotient
+    (rel : TheoremClassifierRelation) (T U : TheoremCandidateFlow) : Prop :=
+  rel T U
+
+def ClassifierCollapsesDistinctTheoremCode
+    (rel : TheoremClassifierRelation) : Prop :=
+  exists T U : TheoremCandidateFlow,
+    TheoremFlow T /\
+      TheoremFlow U /\
+      Not (TheoremCode T = TheoremCode U) /\
+      TheoremClassifierQuotient rel T U
+
+theorem classified_theorem_objects_not_code_bijective
+    {rel : TheoremClassifierRelation} :
+    (exists T U : TheoremCandidateFlow,
+      TheoremFlow T /\
+        TheoremFlow U /\
+        Not (T = U) /\
+        TheoremClassifierQuotient rel T U) ->
+      ClassifierCollapsesDistinctTheoremCode rel := by
+  intro h
+  cases h with
+  | intro T hT =>
+      cases hT with
+      | intro U hU =>
+          refine ⟨T, U, hU.left, hU.right.left, ?_, hU.right.right.right⟩
+          intro hCode
+          exact hU.right.right.left (theorem_code_injective hCode)
+
+theorem theorem_flow_object_layer_differ {rel : TheoremClassifierRelation} :
+    (forall T U : TheoremCandidateFlow, TheoremCode T = TheoremCode U -> T = U) /\
+      ((exists T U : TheoremCandidateFlow,
+        TheoremFlow T /\
+          TheoremFlow U /\
+          Not (T = U) /\
+          TheoremClassifierQuotient rel T U) ->
+        ClassifierCollapsesDistinctTheoremCode rel) := by
+  constructor
+  · intro T U hCode
+    exact theorem_code_injective hCode
+  · intro h
+    exact classified_theorem_objects_not_code_bijective h
+
 end BEDC.GroundCompiler.TheoremGenerated
