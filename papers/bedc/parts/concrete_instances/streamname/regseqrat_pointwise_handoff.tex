@@ -683,3 +683,43 @@ quotient, host-index equality, and $\RealUp$ seal rows from the observation
 handoff, so neither route can expose any row outside the common pointwise
 StreamName interface.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat restricted pointwise transport confluence]
+\label{thm:streamname-regseqrat-pointwise-restricted-transport-confluence}
+Let $s,t,u,v:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, and let
+$\mathcal Q\subseteq\mathcal P$ be a certified finite subbundle. Suppose two
+finite pointwise $\hsame$ transport schedules for $(s,t)$ have common endpoint
+$(u,v)$ as in
+\autoref{thm:streamname-regseqrat-pointwise-hsame-transport-confluence}. After
+restricting each transported handoff to $\mathcal Q$, the two restricted packets
+expose the same $\mathsf{RatStreamNameCarrier}$ rows, restricted finite-window
+classifier rows, $\UnaryHistory$ rows, $\mathsf{InBundle}$ rows, pointwise
+$\hsame$ rows, and pointwise $\mathsf{RatHistoryClassifier}$ rows to every
+$\RegSeqRat$ handoff and every finite-window $\RealUp$ consumer. The restricted
+packets expose no $\RegSeqRat$ regularity row, completion row, quotient row,
+host-index equality row, or $\RealUp$ seal row.
+\end{theorem}
+\begin{proof}
+Begin with the two endpoint handoffs supplied by
+\autoref{thm:streamname-regseqrat-pointwise-hsame-transport-confluence}. That
+confluence theorem identifies the carrier, finite-window classifier,
+$\UnaryHistory$, $\mathsf{InBundle}$, pointwise $\hsame$, and
+$\mathsf{RatHistoryClassifier}$ rows at the common endpoint $(u,v)$.
+
+Restrict both endpoint packets along the certified inclusion
+$\mathcal Q\subseteq\mathcal P$. By
+\autoref{thm:streamname-regseqrat-finite-window-restriction-handoff}, restriction
+forgets only observations outside $\mathcal Q$ and preserves every displayed row
+of the finite-window handoff on the subbundle.
+
+It remains to check the consumer boundary. Apply
+\autoref{thm:streamname-regseqrat-observation-envelope} after restriction. The
+envelope is already stated only in terms of the exposed StreamName observation
+rows, so it is stable under passing from $\mathcal P$ to $\mathcal Q$.
+
+Thus every $\RegSeqRat$ handoff and every finite-window $\RealUp$ consumer sees
+the same restricted carrier, classifier, history, membership, pointwise
+$\hsame$, and rational-history rows through either route. The same envelope
+excludes regularity, completion, quotient, host-index equality, and $\RealUp$
+seal data from the restricted packets.
+\end{proof}
