@@ -373,4 +373,33 @@ theorem no_namecert_without_five_fields
                               ⟨hRecognized,
                                 hFields.right.right.right.right.right⟩⟩
 
+def NameCertOverPackage
+    (Rpkg : GeneratedPackageRecognizer) (Rn : GeneratedNameCertRecognizer)
+    (S C N P : EventFlow) : Prop :=
+  RecognizedPackageFlow Rpkg S P /\
+    PackageHasLedger Rpkg S P /\
+    RecognizedNameCertFlow Rn S C N
+
+theorem namecert_over_package_requires_ledger
+    {Rpkg : GeneratedPackageRecognizer} {Rn : GeneratedNameCertRecognizer}
+    {S C N P : EventFlow} :
+    NameCertOverPackage Rpkg Rn S C N P -> PackageHasLedger Rpkg S P := by
+  intro hOver
+  exact hOver.right.left
+
+theorem package_without_ledger_no_namecert_over_package
+    {Rpkg : GeneratedPackageRecognizer} {S P : EventFlow} :
+    Not (PackageHasLedger Rpkg S P) ->
+      Not (exists Rn : GeneratedNameCertRecognizer,
+        exists C N : EventFlow, NameCertOverPackage Rpkg Rn S C N P) := by
+  intro hNoLedger hOver
+  cases hOver with
+  | intro Rn hRn =>
+      cases hRn with
+      | intro C hC =>
+          cases hC with
+          | intro N hNameCertOver =>
+              exact hNoLedger
+                (namecert_over_package_requires_ledger hNameCertOver)
+
 end BEDC.GroundCompiler.PackageNameCertPrototype
