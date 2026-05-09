@@ -117,4 +117,19 @@ theorem SpinGroupRootCarrier_public_consumer_boundary_coverage [AskSetup] [Packa
                       (And.intro sourceScope.right.right.right.left
                         sourceScope.right.right.right.right)))))))))
 
+theorem SpinGroupRootCarrier_clifford_unit_lift [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint spinEndpoint ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CliffordCarrierPackage unit vector product boundary cliffordEndpoint ->
+      Cont cliffordEndpoint BHist.Empty spinEndpoint ->
+        PkgSig bundle ledger pkg ->
+          SpinGroupRootCarrier unit vector product boundary cliffordEndpoint BHist.Empty
+            spinEndpoint ledger bundle pkg ∧ hsame spinEndpoint cliffordEndpoint := by
+  intro clifford endpointUnit packageSig
+  exact And.intro
+    (And.intro clifford
+      (And.intro (hsame_refl BHist.Empty)
+        (And.intro endpointUnit packageSig)))
+    (cont_right_unit_result endpointUnit)
+
 end BEDC.Derived.SpinGroupUp
