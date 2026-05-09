@@ -93,4 +93,31 @@ theorem GelfandDualitySpectrumPairingCarrier_classifier_stability [AskSetup] [Pa
       pkgSig'⟩
   exact And.intro transported (And.intro sameLedger sameEndpoint)
 
+theorem GelfandDualitySpectrumPairingCarrier_evaluation_ledger_determinacy
+    [AskSetup] [PackageSetup]
+    {A X character evaluation evaluation' rhoA rhoX provenance provenance' ledger ledger'
+      endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GelfandDualitySpectrumPairingCarrier A X character evaluation rhoA rhoX provenance
+        ledger endpoint bundle pkg ->
+      GelfandDualitySpectrumPairingCarrier A X character evaluation' rhoA rhoX provenance'
+        ledger' endpoint' bundle pkg ->
+      hsame evaluation evaluation' ->
+      hsame provenance provenance' ->
+      hsame ledger ledger' ∧ hsame endpoint endpoint' ∧
+        hsame (append provenance ledger) (append provenance' ledger') := by
+  intro leftCarrier rightCarrier sameEvaluation sameProvenance
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame (hsame_refl character) sameEvaluation
+      leftCarrier.right.right.right.right.right.right.right.left
+      rightCarrier.right.right.right.right.right.right.right.left
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameLedger
+      leftCarrier.right.right.right.right.right.right.right.right.right.left
+      rightCarrier.right.right.right.right.right.right.right.right.right.left
+  have sameDisplayedLedger :
+      hsame (append provenance ledger) (append provenance' ledger') :=
+    cont_respects_hsame sameProvenance sameLedger (cont_intro rfl) (cont_intro rfl)
+  exact ⟨sameLedger, sameEndpoint, sameDisplayedLedger⟩
+
 end BEDC.Derived.GelfandDualityUp

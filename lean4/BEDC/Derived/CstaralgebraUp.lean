@@ -132,4 +132,49 @@ theorem CstaralgebraBHistCarrier_classifier_stability [AskSetup] [PackageSetup]
       pkgSig'⟩
   exact And.intro transported (And.intro sameLedger sameEndpoint)
 
+theorem CstaralgebraBHistCarrier_unital_commutative_source_boundary [AskSetup] [PackageSetup]
+    {banach ring mul involution normSquare carrierTransport multiplicationTransport
+      involutionTransport normTransport provenance ledger endpoint unit commutativity : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CstaralgebraBHistCarrier banach ring mul involution normSquare carrierTransport
+        multiplicationTransport involutionTransport normTransport provenance ledger endpoint
+        bundle pkg ->
+      UnaryHistory unit ->
+        UnaryHistory commutativity ->
+          Cont unit commutativity ledger ->
+            UnaryHistory banach ∧ UnaryHistory ring ∧ UnaryHistory mul ∧
+              UnaryHistory unit ∧ UnaryHistory commutativity ∧ UnaryHistory involution ∧
+                UnaryHistory normSquare ∧ Cont unit commutativity ledger ∧
+                  hsame endpoint (append provenance ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier unitUnary commutativityUnary unitCommutativityLedger
+  have banachUnary : UnaryHistory banach :=
+    carrier.left
+  have ringUnary : UnaryHistory ring :=
+    carrier.right.left
+  have mulUnary : UnaryHistory mul :=
+    carrier.right.right.left
+  have involutionUnary : UnaryHistory involution :=
+    carrier.right.right.right.left
+  have normSquareUnary : UnaryHistory normSquare :=
+    carrier.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    carrier.right.right.right.right.right.left
+  have ledgerEndpoint : Cont ledger provenance endpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed unitUnary commutativityUnary unitCommutativityLedger
+  have endpointReadback : hsame endpoint (append provenance ledger) :=
+    hsame_trans ledgerEndpoint (unary_append_comm_hsame ledgerUnary provenanceUnary)
+  exact And.intro banachUnary
+    (And.intro ringUnary
+      (And.intro mulUnary
+        (And.intro unitUnary
+          (And.intro commutativityUnary
+            (And.intro involutionUnary
+              (And.intro normSquareUnary
+                (And.intro unitCommutativityLedger
+                  (And.intro endpointReadback pkgSig))))))))
+
 end BEDC.Derived.CstaralgebraUp

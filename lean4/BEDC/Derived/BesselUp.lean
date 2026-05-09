@@ -107,9 +107,34 @@ theorem BesselRootPacket_recurrence_ledger_exactness [AskSetup] [PackageSetup]
   exact And.intro cert
     (And.intro rows.right.right.right.right.left
       (And.intro rows.right.right.right.right.right.left
-        (And.intro rows.right.right.right.right.right.right.left
-          (And.intro rows.right.right.right.right.right.right.right.left
-            (And.intro endpointRow rows.right.right.right.right.right.right.right.right)))))
+          (And.intro rows.right.right.right.right.right.right.left
+            (And.intro rows.right.right.right.right.right.right.right.left
+              (And.intro endpointRow rows.right.right.right.right.right.right.right.right)))))
+
+theorem BesselRootPacket_recurrence_cont_ledger_obligation [AskSetup] [PackageSetup]
+    {ode holomorphic order sourceEndpoint targetEndpoint recurrence transport provenance
+      endpoint recurrenceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BesselRootPacket ode holomorphic order sourceEndpoint targetEndpoint recurrence transport
+        provenance endpoint bundle pkg ->
+      Cont recurrence endpoint recurrenceRead ->
+        UnaryHistory recurrenceRead ∧ hsame recurrenceRead (append recurrence endpoint) ∧
+          hsame recurrence (append sourceEndpoint targetEndpoint) ∧
+            hsame endpoint (append transport provenance) ∧ PkgSig bundle endpoint pkg := by
+  intro packet recurrenceReadRow
+  have rows := BesselRootPacket_root_ode_source_obligation packet
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.right.left
+  have endpointRow : Cont transport provenance endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed rows.right.right.right.right.right.left provenanceUnary endpointRow
+  have recurrenceReadUnary : UnaryHistory recurrenceRead :=
+    unary_cont_closed rows.right.right.right.right.left endpointUnary recurrenceReadRow
+  exact And.intro recurrenceReadUnary
+    (And.intro recurrenceReadRow
+      (And.intro rows.right.right.right.right.right.right.left
+        (And.intro endpointRow rows.right.right.right.right.right.right.right.right)))
 
 theorem BesselRootPacket_holomorphic_consumer_boundary [AskSetup] [PackageSetup]
     {ode holomorphic order sourceEndpoint targetEndpoint recurrence transport provenance
