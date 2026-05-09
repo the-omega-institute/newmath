@@ -338,4 +338,24 @@ theorem EnrichedCatPublicPacket_ledger_exactness_obligation [AskSetup] [PackageS
             (And.intro ledgerRow
               (And.intro endpointRow pkgSig))))))
 
+theorem EnrichedCatSourceSurface_consumer_readback_boundary [AskSetup] [PackageSetup]
+    {category monoidal hom identity composition transport provenance ledger endpoint consumer
+      readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EnrichedCatSourceSurface category monoidal hom identity composition transport provenance
+        ledger endpoint bundle pkg ->
+      UnaryHistory consumer ->
+        Cont endpoint consumer readback ->
+          UnaryHistory readback ∧ hsame readback (append endpoint consumer) ∧
+            PkgSig bundle endpoint pkg := by
+  intro surface consumerUnary readbackRow
+  have source := EnrichedCatSourceSurface_source_obligation surface
+  have endpointUnary : UnaryHistory endpoint :=
+    source.right.right.right.right.right.right.left
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed endpointUnary consumerUnary readbackRow
+  exact And.intro readbackUnary
+    (And.intro readbackRow
+      source.right.right.right.right.right.right.right.right.right.right.right)
+
 end BEDC.Derived.EnrichedCatUp
