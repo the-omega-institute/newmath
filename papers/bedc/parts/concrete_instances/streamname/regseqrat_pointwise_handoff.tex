@@ -160,3 +160,72 @@ the one separated in
 sealing, completion, and quotient data remain downstream, so the singleton
 source row is precisely the finite-window packet displayed above.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat finite-window restriction handoff]
+\label{thm:streamname-regseqrat-finite-window-restriction-handoff}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, let
+$\mathcal P:\mathsf{ProbeBundle}$ be a finite observation bundle, and let
+$\mathcal Q:\mathsf{ProbeBundle}$ be a certified sub-bundle of $\mathcal P$.
+Any pointwise handoff package from $\mathcal P$ restricts to the same
+StreamName source rows over $\mathcal Q$: the
+$\mathsf{RatStreamNameCarrier}$ rows for $s$ and $t$, the restricted
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal Q)$ row,
+$\mathsf{UnaryHistory}$, $\mathsf{InBundle}(-,\mathcal Q)$, and the pointwise
+$\mathsf{RatHistoryClassifier}$ rows. The restricted packet exports no
+$\RegSeqRat$ regularity row, $\RealUp$ seal classifier, completion object,
+quotient row, or host-index equality.
+\end{theorem}
+\begin{proof}
+Unfold the finite-window classifier for the smaller certified bundle
+$\mathcal Q$. A visible observation over $\mathcal Q$ is a certified unary
+history $n$ together with $\mathsf{InBundle}(n,\mathcal Q)$.
+
+Use the sub-bundle evidence to read the same observation as
+$\mathsf{InBundle}(n,\mathcal P)$. The pointwise handoff over $\mathcal P$
+then supplies exactly the source rows named by
+\autoref{thm:streamname-regseqrat-pointwise-handoff}: the carried StreamName
+endpoints, unary history evidence, and the pointwise
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ row.
+
+Repack those rows with the membership witness for $\mathcal Q$. This gives
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal Q)$ and the same
+pointwise rational-history classifier at each selected observation.
+
+The final packet is still read through the exhaustion boundary of
+\autoref{thm:streamname-regseqrat-pointwise-handoff}. Since that boundary
+contains only StreamName carrier, finite-window classifier, unary history,
+bundle membership, and pointwise classifier rows, the restriction introduces
+no regularity, seal, completion, quotient, or host-index-equality datum.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat observation envelope]
+\label{thm:streamname-regseqrat-observation-envelope}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows and let
+$\mathcal P$ be a finite $\mathsf{ProbeBundle}$. The observation packet
+consisting of $\mathsf{RatStreamNameCarrier}$,
+$\mathsf{RatStreamNameFiniteWindowClassifier}$, $\mathsf{UnaryHistory}$,
+$\mathsf{InBundle}$, and the pointwise $\hsame$ and
+$\mathsf{RatHistoryClassifier}$ rows is closed under certified sub-bundle
+restriction and singleton extraction. The packet contains no $\RegSeqRat$
+regularity row, no completion row, no quotient row, and no $\RealUp$ seal row.
+\end{theorem}
+\begin{proof}
+For the full finite window, apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff}. It identifies the
+handoff rows available to $\RegSeqRat$ with the carried StreamName endpoint,
+the finite probe bundle, the bundle-membership rows, and the pointwise
+rational-history classifier.
+
+For a certified sub-bundle, use
+\autoref{thm:streamname-regseqrat-observation-stability}. The same
+$\mathsf{RatStreamNameCarrier}$ rows and pointwise $\hsame$ transports are
+read after restriction, while membership is replaced by the certified
+$\mathsf{InBundle}$ rows of the smaller bundle.
+
+For singleton extraction, apply
+\autoref{thm:streamname-regseqrat-singleton-diagonal-handoff}. The extracted
+observation has exactly one unary history row, its singleton membership
+witness, and the corresponding rational-history classifier. Since all three
+steps read only these finite observation rows, the envelope has no place for
+regularity, completion, quotient, or $\RealUp$ seal data.
+\end{proof}

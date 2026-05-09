@@ -163,3 +163,36 @@ dyadic, and tail rows as the public finite-window surface. The two selected
 windows therefore determine classifier-equivalent finite-window readbacks at
 the shared e-one tail endpoint.
 \end{proof}
+
+\begin{theorem}[RealUp RegSeqRat window seal restriction]
+\label{thm:realup-regseqrat-window-seal-restriction}
+Let $W$ be a finite $\RealUp$ observation window carrying the scoped
+$\RegSeqRat$ stream-name interface, the dyadic ledger rows, and the Real
+ledger tail rows used by the visible seal obligation. If $W'$ is a certified
+sub-window of $W$, then $W'$ carries the corresponding seal package by
+restriction, with the same $\mathsf{RatHistoryCarrier}$ endpoint rows selected
+from the $\RegSeqRat$ spine. The restricted seal exposes no quotient,
+completion, arithmetic closure, order closure, or metric-completion claim.
+\end{theorem}
+\begin{proof}
+Start with the visible seal package on $W$. By
+\autoref{thm:real-stream-prefix-ledger-seal-obligation}, this package is
+assembled from the scoped $\RegSeqRat$ stream-name interface, the finite
+dyadic ledger, and the Real ledger tail rows; it does not require quotient or
+completion data.
+
+Restrict the selected rows to the certified sub-window $W'$. Finite-window
+membership for $W'$ reads each selected observation as a member of $W$, so the
+same $\mathsf{RatHistoryCarrier}$ endpoint rows and dyadic ledger entries are
+available at the smaller window.
+
+Apply \autoref{thm:realup-finite-window-tail-determinacy} to the shared
+tail readback. The endpoint, denominator, dyadic, and Real ledger tail rows
+selected by $W'$ classify to the same finite-window surface as their
+counterparts in $W$.
+
+Finally repackage only those restricted rows into the seal boundary. Finite
+window exhaustion supplies no additional arithmetic, order, quotient, or
+metric-completion component, so the seal over $W'$ is exactly the restricted
+$\RegSeqRat$-to-$\RealUp$ seal package.
+\end{proof}

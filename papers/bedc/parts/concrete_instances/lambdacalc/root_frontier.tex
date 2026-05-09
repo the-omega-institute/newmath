@@ -212,6 +212,76 @@ gives exactly the listed carrier, classifier, substitution, alpha-beta,
 exactness, stability, and ledger obligations.
 \end{proof}
 
+\begin{theorem}[LambdaCalc root obligation carrier]
+\label{thm:lambdacalc-root-obligation-carrier}
+The variable, abstraction, and application $\mathsf{BHist}$ constructor rows
+cover the $\LambdaCalcUp$ carrier under
+$\mathsf{TreeBHistCarrier}$, $\mathsf{UnaryHistory}$, $\hsame$, and
+constructor-preserving $\Cont$. No carrier row is read from host syntax
+equality or from an alpha-quotient representative.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:lambdacalc-variable-constructor-carrier} to the variable
+case. The root packet exposes the visible $\TreeUp$ constructor tag and the
+$\NatUp$ unary variable index.
+
+Apply \autoref{thm:lambdacalc-abstraction-application-carrier-closure} to the
+abstraction and application cases. These rows expose the binder index, body,
+left subterm, and right subterm through the same $\TreeUp$ and $\NatUp$ visible
+spines.
+
+Finally use \autoref{thm:lambdacalc-constructor-case-exhaustion} and
+\autoref{thm:lambdacalc-root-constructor-frontier}. The constructor cases
+exhaust the carrier and transport through the displayed $\hsame$ and
+constructor-preserving $\Cont$ rows, so no host syntax row is added.
+\end{proof}
+
+\begin{theorem}[LambdaCalc root obligation classifier]
+\label{thm:lambdacalc-root-obligation-classifier}
+The beta and alpha classifier rows of the $\LambdaCalcUp$ root packet are
+stable under constructor-preserving $\hsame$ transport. They read only the
+visible $\TreeUp$ syntax spine, $\NatUp$ binder and free-variable rows,
+alpha-beta ledger rows, substitution $\Cont$ rows, and $\Pkg$ provenance, and
+they do not use host syntax equality.
+\end{theorem}
+\begin{proof}
+First align the constructor endpoints by
+\autoref{thm:lambdacalc-alpha-beta-carrier-transport}. This transports the
+visible $\TreeUp$ syntax row and the $\NatUp$ binder rows componentwise.
+
+Next use \autoref{thm:lambdacalc-alpha-beta-ledger-determinacy}. Shared syntax,
+binder, alpha, beta, substitution, and provenance rows determine the same
+public endpoint by $\hsame$.
+
+The root beta-ledger frontier
+\autoref{thm:lambdacalc-root-beta-ledger-frontier} repacks the transported rows
+as the public classifier surface. Since the cited rows are all displayed
+constructor, ledger, transport, and provenance rows, host syntax equality is
+not consumed.
+\end{proof}
+
+\begin{theorem}[LambdaCalc root obligation substitution ledger]
+\label{thm:lambdacalc-root-obligation-substitution-ledger}
+Capture-avoiding substitution at the $\LambdaCalcUp$ root exposes only
+$\NatUp$ index rows, $\TreeUp$ subtree rows, $\mathsf{BHist}$ constructor tags,
+displayed $\Cont$ substitution routes, $\hsame$ endpoint rows, and $\Pkg$
+package provenance to downstream consumers.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:lambdacalc-substitution-source-coverage}. It identifies each
+accepted substitution endpoint with one visible constructor branch and the
+named $\NatUp$ binder and free-variable rows.
+
+Then apply \autoref{thm:lambdacalc-namecert-substitution-ledger} and
+\autoref{thm:lambdacalc-root-substitution-frontier}. These theorems attach the
+displayed $\Cont$ capture-avoidance route, the endpoint $\hsame$ rows, and the
+same $\Pkg$ provenance to the substitution endpoint.
+
+The downstream read is therefore exactly the NatUp, TreeUp, constructor-tag,
+continuation, endpoint-transport, and provenance surface. No host substitution
+function, variable-set primitive, or quotient class is exported.
+\end{proof}
+
 \begin{closurestatus}{\LambdaCalcUp}
   \theoryclosure{\obligationClosure}
   \scopeclosed{The obligation scope binds the carrier, classifier, substitution, alpha-beta, exactness, stability, and ledger rows listed in \autoref{thm:lambdacalc-root-obligation-inventory} for the displayed LambdaCalc root packet.}
