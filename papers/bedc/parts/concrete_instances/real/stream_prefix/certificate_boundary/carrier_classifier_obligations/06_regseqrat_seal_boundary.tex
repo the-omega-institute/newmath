@@ -490,6 +490,48 @@ from the tail-shifted $\RegSeqRat$ surface that it receives from the original
 finite window, with no additional primitive or bridge.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-shift dyadic-tolerance stability]
+\label{thm:regseqrat-tail-shift-dyadic-tolerance-stability}
+For regular rational-observation streams $x,y:\mathbb{N}\to\Hist$, a certified
+window
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m),
+$$
+and indices $j,r$ with $\mathsf{UnaryHistory}(j)$ and $j+r\le m$, define
+tail-shifted streams by
+$$
+x_j(k)=x(n+j+k),\qquad y_j(k)=y(n+j+k).
+$$
+If the source window classifies $x$ and $y$ through the displayed $\RegSeqRat$
+dyadic-tolerance ledger at every requested unary observation in the window,
+then the shifted window $(x_j,y_j,0,r)$ classifies the shifted streams through
+the transported dyadic-tolerance window. The transported classifier uses only
+the same $\mathsf{UnaryHistory}$ request rows, $\hsame$ endpoint comparisons,
+finite dyadic ledger rows, and $\Cont$ provenance already exposed by the source
+$\RegSeqRat$ certificate.
+\end{theorem}
+\begin{proof}
+Project the source certificate into its regularity rows and its dyadic
+classifier rows. The regularity projection is the input used by
+\autoref{thm:regseqrat-tail-shift-regularity-stability}; the classifier
+projection is the finite list of dyadic-tolerance requests attached to the same
+unary observation window.
+
+Reindex the finite unary window by the common tail shift $j$. The hypothesis
+$j+r\le m$ identifies every shifted request $k\le r$ with the source request
+$n+j+k$, and $\mathsf{UnaryHistory}(j)$ keeps the transported request inside the
+same unary-history ledger. No new endpoint row is generated; the shifted row is
+the source row read at the transported index.
+
+Apply \autoref{thm:regseqrat-tail-shift-regularity-stability} to keep both
+shifted streams inside the finite $\RegSeqRat$ carrier. Then repack the
+dyadic-tolerance rows through the same $\Cont$ ledger and the same $\hsame$
+endpoint comparisons. The resulting packet is exactly the classifier for
+$(x_j,y_j,0,r)$, with the tolerance window transported by the tail shift and no
+extra quotient, completion object, external metric primitive, or standard
+bridge.
+\end{proof}
+
 \begin{theorem}[RegSeqRat seal finite-window source coverage]
 \label{thm:regseqrat-seal-finite-window-source-coverage}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a certified source
