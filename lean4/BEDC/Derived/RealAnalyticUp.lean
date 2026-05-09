@@ -522,6 +522,22 @@ theorem RealAnalyticLogExpInverse_supplied_boundary_unary {x y e bound modulus :
           unary_transport eUnary sameEX
         exact And.intro eUnary (And.intro xUnary yUnary)
 
+theorem RealAnalyticCosPart_empty_constant_one {one n result : BHist}
+    {cosTerm : BHist -> BHist} :
+    hsame one (BHist.e1 BHist.Empty) ->
+      (forall {m : BHist}, UnaryHistory m -> hsame (cosTerm m) BHist.Empty) ->
+        ComplexPartSum one cosTerm n result -> UnaryHistory n ∧ hsame result one := by
+  intro _sameOne termEmpty sum
+  induction sum with
+  | zero =>
+      exact And.intro unary_empty (hsame_refl one)
+  | step previous stepContinuation ih =>
+      have sameStepTerm : hsame (cosTerm _) BHist.Empty :=
+        termEmpty ih.left
+      have sameResultPrevious : hsame _ _ :=
+        cont_respects_hsame (hsame_refl _) sameStepTerm stepContinuation (cont_right_unit _)
+      exact And.intro (unary_e1_closed ih.left) (hsame_trans sameResultPrevious ih.right)
+
 theorem real_analytic_certificate_boundary {zero : BHist} {c modulus : BHist -> BHist} :
     SemanticNameCert
       (fun result : BHist =>
