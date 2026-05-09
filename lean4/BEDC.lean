@@ -109,7 +109,6 @@ import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.RegulatorUp
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DeRhamUp
-import BEDC.Derived.TopgroupUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.KnotUp
