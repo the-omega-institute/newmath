@@ -139,6 +139,15 @@ theorem ZNormal_semantic_name_certificate :
   }
   exact And.intro cert (fun classified => classified)
 
-theorem zNormal_licensed_not_primitive : True := True.intro
+theorem ZNormal_namecert_licensed_not_primitive :
+    (∃ cert : ZNormalNameCert,
+        cert.source BHist.Empty ∧ cert.classifier BHist.Empty BHist.Empty) ∧
+      SemanticNameCert ZNormalSourceSpec ZNormalPatternSpec ZNormalLedgerPolicy
+        ZNormalClassifierSpec := by
+  have emptyClassified : zNormal_namecert.classifier BHist.Empty BHist.Empty :=
+    And.intro ZNormal.empty (And.intro ZNormal.empty (hsame_refl BHist.Empty))
+  exact And.intro
+    (Exists.intro zNormal_namecert (And.intro ZNormal.empty emptyClassified))
+    ZNormal_semantic_name_certificate.left
 
 end BEDC.Derived.AxisZeckendorf.Zeckendorf

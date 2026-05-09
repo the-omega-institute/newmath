@@ -80,6 +80,37 @@ Exactness is the reverse reading. The section-linearity, parallel-transport, and
 
 \section{The certificate}
 \label{sec:connection-certificate}
+
+\begin{theorem}[ConnectionUp public certificate consumer surface]
+\label{thm:connection-public-certificate-consumer-surface}
+A public consumer of $\NameCert_{\ConnectionUp}$ may read exactly the carrier
+packet of \autoref{def:connection-carrier-packet}, the $\mathsf{ConnCls}$
+classifier of \autoref{def:connection-classifier-and-derivative-row}, the
+section-linearity row, the parallel-transport row, the curvature-boundary row,
+the stability-ledger exactness row, and the displayed $\BundleUp$,
+$\ManifoldUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ dependencies carried by those rows. It does not receive a
+coordinate chart, a host connection operator, a curvature theory beyond the
+displayed boundary row, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Project the consumer request to the carrier and classifier rows. The carrier
+packet supplies exactly the $\BundleUp$ and $\ManifoldUp$ dependency rows,
+base, fibre, section, tangent, derivative endpoint, provenance, and finite
+readback data, while $\mathsf{ConnCls}$ supplies the public classifier.
+
+Apply \autoref{thm:connection-section-linearity-obligation},
+\autoref{thm:connection-parallel-transport-obligation}, and
+\autoref{thm:connection-curvature-boundary-obligation}. These are precisely
+the derivative, transport, and curvature rows a consumer may follow from the
+carrier packet.
+
+Finally apply \autoref{thm:connection-stability-ledger-exactness-obligation}.
+Its exactness statement excludes any additional public ledger row, so the
+listed rows repack as the whole consumer surface for
+$\NameCert_{\ConnectionUp}$.
+\end{proof}
+
 \closureat{ConnectionUp}{publicStr}[BEDC.Derived.ConnectionUp.ConnectionCarrierPacket\_stability\_ledger\_exactness\_obligation]
 
 \begin{closurestatus}{\ConnectionUp}

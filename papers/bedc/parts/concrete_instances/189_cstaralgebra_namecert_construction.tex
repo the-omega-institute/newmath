@@ -33,6 +33,8 @@ The classifier is then forced by the same $\hsame$ transport rows. Banach transp
 
 Repack these projections as the certificate surface of \autoref{def:cstaralgebra-certificate-surface}. No further row is available to the repacking step, so the listed rows are the whole obligation surface.
 \end{proof}
+\leanchecked{BEDC.Derived.CStarAlgUp.CStarAlgCertificateSurface\_namecert\_obligation}
+\leanvariant{BEDC.Derived.CStarAlgUp.CStarAlgBHistCarrier\_namecert\_obligation\_surface}
 
 \begin{theorem}[\texorpdfstring{$\CStarAlgUp$}{CStarAlgUp} Gelfand and von Neumann consumer boundary]
 \label{thm:cstaralgebra-gelfand-vonneumann-consumer-boundary}
@@ -44,6 +46,36 @@ Read the dependency citation through \autoref{thm:cstaralgebra-namecert-obligati
 For $\GelfandDualityUp$, a spectrum and a commutative transform require rows not present in the $\CStarAlgUp$ root surface. For $\VonNeumannAlgUp$, weak-operator closure and Hilbert-space representation data also require rows not present in that surface.
 
 Thus both consumers share the same BEDC source boundary: they may cite the $\CStarAlgUp$ certificate rows, while their own chapters must supply any spectrum, closure, representation, or transform rows they use.
+\end{proof}
+\leanchecked{BEDC.Derived.CStarAlgUp.CStarAlgCertificateSurface\_gelfand\_vonneumann\_consumer\_boundary}
+
+\begin{theorem}[\texorpdfstring{$\CStarAlgUp$}{CStarAlgUp} unital-commutative source boundary]
+\label{thm:cstaralgebra-unital-commutative-source-boundary}
+A $\GelfandDualityUp$ consumer may treat a $\CStarAlgUp$ row as a unital
+commutative source only when the displayed $\mathsf{BHist}$ surface supplies,
+in addition to the root certificate, a unit row, multiplication row,
+commutativity classifier row, involution row, norm-square row, $\hsame$
+transport, $\Cont$ ledger, and $\mathsf{Pkg}$ provenance over the same
+BanachUp and RingUp dependency rows. The root $\CStarAlgUp$ certificate alone
+does not export the Gelfand transform, the spectrum row, or a compact
+Hausdorff carrier.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:cstaralgebra-bhist-carrier}. The root carrier exposes the
+Banach row, RingUp multiplication row, involution row, norm-square row,
+transport rows, and dependency provenance.
+
+Unfold \autoref{def:cstaralgebra-certificate-surface}. Its public classifier
+and ledger are the displayed $\hsame$, $\Cont$, and $\Pkg$ rows over those
+carrier components; unit and commutativity data must therefore be supplied as
+visible rows of the consumer surface when $\GelfandDualityUp$ asks for a
+unital commutative source.
+
+Finally apply
+\autoref{thm:cstaralgebra-gelfand-vonneumann-consumer-boundary}. That boundary
+rules out hidden spectrum data and hidden transform rows, so the
+$\GelfandDualityUp$ source read is limited to the displayed unital,
+commutative, involutive, norm-square, transport, ledger, and provenance rows.
 \end{proof}
 
 \begin{theorem}[No host star-algebra primitive in \texorpdfstring{$\CStarAlgUp$}{CStarAlgUp}]
