@@ -68,6 +68,28 @@ def ChapSeal
     (R : GeneratedChapterRecognizer) (C X : ChapterCandidateFlow) : Prop :=
   ChapterRole R C X
 
+inductive ChapterDependencyMarker : Type where
+  | earlierGenerated
+  | earlierRecognized
+  | deferredObligation
+  | cannotClaimItem
+  | openObligation
+  | futureBridge
+  | unmarkedForward
+
+def ChapterDependencyMarked (marker : ChapterDependencyMarker) : Prop :=
+  Not (marker = ChapterDependencyMarker.unmarkedForward)
+
+def ChapterDependencyOrder
+    (R : GeneratedChapterRecognizer) (C dependencies _X : ChapterCandidateFlow)
+    (marker : ChapterDependencyMarker) : Prop :=
+  ChapDependencies R C dependencies /\ ChapterDependencyMarked marker
+
+def ChapterOpenObligationRecorded
+    (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
+  exists X : ChapterCandidateFlow,
+    ChapCannotClaims R C X \/ ChapStatus R C X \/ ChapLedger R C X
+
 def ChapterSubflows
     (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
   exists C0 C1 C2 C3 C4 C5 C6 C7 C8 C9 sigmaC : ChapterCandidateFlow,
@@ -335,6 +357,62 @@ theorem chapter_yaml_input_hidden_structure :
 theorem chapter_yaml_output_not_input :
     Not (FormalCompilerInput CompilerDatum.hostYAML) :=
   structural_hidden_not_formal StructuralHiddenInput.hostYAML
+
+theorem no_forward_dependency_without_marker
+    {R : GeneratedChapterRecognizer} {C dependencies X : ChapterCandidateFlow} :
+    Not
+      (ChapterDependencyOrder R C dependencies X
+        ChapterDependencyMarker.unmarkedForward) := by
+  intro hOrder
+  exact hOrder.right rfl
+
+theorem open_obligations_recorded
+    {R : GeneratedChapterRecognizer} {C : ChapterCandidateFlow} :
+    CompleteChapterRecognition R C -> ChapterOpenObligationRecorded R C := by
+  intro hComplete
+  cases hComplete with
+  | intro _ hSubflows =>
+      cases hSubflows with
+      | intro C0 hC0 =>
+          cases hC0 with
+          | intro C1 hC1 =>
+              cases hC1 with
+              | intro C2 hC2 =>
+                  cases hC2 with
+                  | intro C3 hC3 =>
+                      cases hC3 with
+                      | intro C4 hC4 =>
+                          cases hC4 with
+                          | intro C5 hC5 =>
+                              cases hC5 with
+                              | intro C6 hC6 =>
+                                  cases hC6 with
+                                  | intro C7 hC7 =>
+                                      cases hC7 with
+                                      | intro C8 hC8 =>
+                                          cases hC8 with
+                                          | intro C9 hC9 =>
+                                              cases hC9 with
+                                              | intro sigmaC hFields =>
+                                                  cases hFields with
+                                                  | intro _ hRest =>
+                                                      cases hRest with
+                                                      | intro _ hRest =>
+                                                          cases hRest with
+                                                          | intro _ hRest =>
+                                                              cases hRest with
+                                                              | intro _ hRest =>
+                                                                  cases hRest with
+                                                                  | intro _ hRest =>
+                                                                      cases hRest with
+                                                                      | intro _ hRest =>
+                                                                          cases hRest with
+                                                                          | intro _ hRest =>
+                                                                              cases hRest with
+                                                                              | intro _ hRest =>
+                                                                                  cases hRest with
+                                                                                  | intro hCannot _ =>
+                                                                                      exact ⟨C8, Or.inl hCannot⟩
 
 theorem chapter_seal_is_event_flow
     {R : GeneratedChapterRecognizer} {C sigmaC : ChapterCandidateFlow} :

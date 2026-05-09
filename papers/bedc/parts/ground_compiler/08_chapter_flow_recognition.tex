@@ -503,25 +503,28 @@ The reverse direction is not a formal compiler input.
 
 \begin{definition}[Chapter-level dependency order]
 \label{def:chapter-generated-dependency-order}
-The dependency order of a chapter flow is the order recognized by
+\leandef{BEDC.GroundCompiler.ChapterFlow.ChapterDependencyOrder}
+The dependency order of a chapter flow is the recognized dependency subflow
 $$
   \mathsf{ChapDependencies}_{R_C}(C,C_1).
 $$
-It must make every referenced flow earlier generated, earlier recognized, or explicitly marked as deferred, cannot-claim, or open-obligation structure.
+Each referenced flow is carried with one of the admissible dependency markers: earlier generated, earlier recognized, deferred obligation, cannot-claim item, open obligation, or future bridge. The unmarked-forward case is not a valid dependency-order entry.
 \end{definition}
 
 \begin{theorem}[No forward dependency without marker]
 \label{thm:chapter-generated-no-forward-dependency-without-marker}
-If a chapter flow $C$ refers to a flow $X$ that has not yet been generated or recognized, and if $X$ is not marked as a deferred obligation, cannot-claim item, or future bridge, then $C$ is not dependency-sound.
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.no\_forward\_dependency\_without\_marker}
+If a chapter flow $C$ refers to a flow $X$ through the dependency subflow $C_1$, and the reference is assigned the unmarked-forward marker, then it is not a valid chapter-level dependency-order entry.
 \end{theorem}
 
 \begin{proof}
-By \autoref{def:chapter-generated-dependency-sound}, dependency-soundness requires dependencies to have been generated before $C$ or to appear in the same chapter flow in a well-founded order, except where an explicit deferred or cannot-claim marker records the obligation. If $X$ is neither generated nor recognized and has no such marker, that requirement fails.
+By \autoref{def:chapter-generated-dependency-order}, a valid dependency-order entry requires a marker different from the unmarked-forward marker. The displayed reference has exactly that excluded marker, so it cannot satisfy the dependency-order predicate.
 \end{proof}
 
 \begin{corollary}[Chapter flow must record open obligations]
 \label{cor:chapter-generated-open-obligations-recorded}
-If a chapter depends on an unfinished certificate, proof, bridge, or recognizer, that obligation must be recorded in the cannot-claim flow, status flow, or ledger flow.
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.open\_obligations\_recorded}
+If a chapter flow has complete chapter-flow recognition, then its recognized structure includes a cannot-claim flow, a status flow, and a ledger flow. Any unfinished certificate, proof, bridge, or recognizer that the chapter depends on must be recorded through this recognized obligation structure.
 \end{corollary}
 
 \begin{definition}[Chapter seal subflow]
