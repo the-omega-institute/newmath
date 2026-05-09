@@ -159,4 +159,30 @@ theorem HypergeometricBHistSourcePacket_root_ledger [AskSetup] [PackageSetup]
       packet.right.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right.right⟩
 
+theorem HypergeometricBHistSourcePacket_root_consumer_boundary [AskSetup] [PackageSetup]
+    {complex gamma numerator denominator coeff readback provenance ledger endpoint consumer :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HypergeometricBHistSourcePacket complex gamma numerator denominator coeff readback
+        provenance ledger endpoint bundle pkg ->
+      Cont endpoint provenance consumer ->
+      UnaryHistory consumer ∧ hsame consumer (append endpoint provenance) ∧
+        hsame endpoint (append provenance ledger) ∧ hsame ledger (append coeff readback) ∧
+          PkgSig bundle endpoint pkg := by
+  intro packet consumerCont
+  have ledgerRows :=
+    HypergeometricBHistSourcePacket_root_ledger packet
+  have provenanceUnary : UnaryHistory provenance := ledgerRows.left
+  have endpointUnary : UnaryHistory endpoint := ledgerRows.right.right.left
+  have ledgerExact : hsame ledger (append coeff readback) :=
+    ledgerRows.right.right.right.right.right.right.left
+  have endpointExact : hsame endpoint (append provenance ledger) :=
+    ledgerRows.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    ledgerRows.right.right.right.right.right.right.right.right
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary provenanceUnary consumerCont
+  exact
+    ⟨consumerUnary, consumerCont, endpointExact, ledgerExact, pkgSig⟩
+
 end BEDC.Derived.HypergeometricUp
