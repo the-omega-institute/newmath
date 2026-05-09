@@ -31,7 +31,7 @@ theorem TopGroupRootThresholdPackage_inversion_continuity_carrier
               (And.intro inverseLedgerCont
                 (And.intro inverseLedgerCont boundary.right.right.right.right.right.right.right))))))
 
-theorem TopGroupRootThresholdPackage_operation_continuity_obligation
+theorem TopGroupRootThresholdPackage_operation_continuity_witness_obligation
     {group topology product inverse neighborhood ledger provenance productLedger inverseLedger :
       BHist} :
     TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
