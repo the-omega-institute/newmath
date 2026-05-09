@@ -200,3 +200,21 @@ The classifier above is purely structural. The arithmetic reading—each normal-
 \label{thm:znormal-fibonacci-value-horizon}
 There is a function from normal-form histories to non-negative integers that is determined by the recurrence \(W_{n+2} = W_{n+1} + W_n\) on Fibonacci-indexed positions.
 \end{theorem}
+
+\begin{theorem}[ZNormal $\HSame$ transport]
+\label{thm:znormal-hsame-transport}
+If $\mathsf{ZNormal}(h)$ and $\HSame(h,k)$, then $\mathsf{ZNormal}(k)$.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the closed derivation of $\mathsf{ZNormal}(h)$ from \autoref{def:zeckendorf-normal-form-judgment}. In each case, invert the displayed $\HSame$ comparison by \autoref{thm:history-constructor-characterization}.
+
+In the empty case, $h=\emp$. The comparison $\HSame(\emp,k)$ has only the empty aligned branch, so $k=\emp$. The empty generator gives $\mathsf{ZNormal}(k)$.
+
+In the zero-extension case, the derivation has predecessor $\mathsf{ZNormal}(h_0)$ and conclusion $\mathsf{ZNormal}(\Ezero(h_0))$. From $\HSame(\Ezero(h_0),k)$, constructor inversion gives a history $k_0$ such that $k=\Ezero(k_0)$ and $\HSame(h_0,k_0)$. The induction hypothesis applied to the predecessor derivation gives $\mathsf{ZNormal}(k_0)$. Applying the zero-extension generator yields $\mathsf{ZNormal}(\Ezero(k_0))$, hence $\mathsf{ZNormal}(k)$.
+
+In the one-after-empty case, the derivation concludes $\mathsf{ZNormal}(\Eone(\emp))$. From $\HSame(\Eone(\emp),k)$, one-constructor inversion gives a history $k_0$ such that $k=\Eone(k_0)$ and $\HSame(\emp,k_0)$. Empty no-confusion forces $k_0=\emp$. The one-after-empty generator therefore gives $\mathsf{ZNormal}(k)$.
+
+In the one-above-zero case, the derivation has predecessor $\mathsf{ZNormal}(\Ezero(h_0))$ and conclusion $\mathsf{ZNormal}(\Eone(\Ezero(h_0)))$. From $\HSame(\Eone(\Ezero(h_0)),k)$, one-constructor inversion gives a history $t$ such that $k=\Eone(t)$ and $\HSame(\Ezero(h_0),t)$. Zero-constructor inversion then gives a history $k_0$ such that $t=\Ezero(k_0)$ and $\HSame(h_0,k_0)$. Apply the induction hypothesis to the predecessor derivation $\mathsf{ZNormal}(\Ezero(h_0))$ and the comparison $\HSame(\Ezero(h_0),t)$; this gives $\mathsf{ZNormal}(t)$, hence $\mathsf{ZNormal}(\Ezero(k_0))$. The one-above-zero generator gives $\mathsf{ZNormal}(\Eone(\Ezero(k_0)))$, which is $\mathsf{ZNormal}(k)$.
+
+These four cases exhaust the closed generators of $\mathsf{ZNormal}$, so the predicate is closed under $\HSame$ transport.
+\end{proof}
