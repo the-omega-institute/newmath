@@ -195,4 +195,64 @@ theorem prototype_reject_soundness {c : List DisplayAlphabet}
               rw [hSome] at hNone
               cases hNone
 
+theorem reference_prototype_no_math_structure_recognition
+    {publicSurface : InterfaceDatum -> Prop} :
+    ReferencePrototype publicSurface ->
+      Not (publicSurface InterfaceDatum.recognizesPkg) /\
+      Not (publicSurface InterfaceDatum.recognizesNameCert) /\
+      Not (publicSurface InterfaceDatum.recognizesDerivCert) /\
+      Not (publicSurface InterfaceDatum.recognizesTheorem) /\
+      Not (publicSurface InterfaceDatum.recognizesChapter) /\
+      Not (publicSurface InterfaceDatum.motifReport) /\
+      Not (publicSurface InterfaceDatum.metricReport) /\
+      Not (publicSurface InterfaceDatum.acceptFlow) := by
+  intro hPrototype
+  constructor
+  · intro hPublic
+    exact reference_prototype_not_full_compiler hPrototype hPublic
+      HigherPrototypeClaim.recognizesPkg
+  constructor
+  · intro hPublic
+    exact reference_prototype_not_full_compiler hPrototype hPublic
+      HigherPrototypeClaim.recognizesNameCert
+  constructor
+  · intro hPublic
+    exact reference_prototype_not_full_compiler hPrototype hPublic
+      HigherPrototypeClaim.recognizesDerivCert
+  constructor
+  · intro hPublic
+    exact reference_prototype_not_full_compiler hPrototype hPublic
+      HigherPrototypeClaim.recognizesTheorem
+  constructor
+  · intro hPublic
+    exact reference_prototype_not_full_compiler hPrototype hPublic
+      HigherPrototypeClaim.recognizesChapter
+  constructor
+  · intro hPublic
+    exact reference_prototype_not_full_compiler hPrototype hPublic
+      HigherPrototypeClaim.motifReport
+  constructor
+  · intro hPublic
+    exact reference_prototype_not_full_compiler hPrototype hPublic
+      HigherPrototypeClaim.metricReport
+  · intro hPublic
+    exact reference_prototype_not_full_compiler hPrototype hPublic
+      HigherPrototypeClaim.acceptFlow
+
+theorem prototype_output_not_namecert
+    {publicSurface : InterfaceDatum -> Prop} :
+    ReferencePrototype publicSurface ->
+      Not (publicSurface InterfaceDatum.recognizesNameCert) := by
+  intro hPrototype hPublic
+  exact reference_prototype_not_full_compiler hPrototype hPublic
+    HigherPrototypeClaim.recognizesNameCert
+
+theorem prototype_output_not_theorem
+    {publicSurface : InterfaceDatum -> Prop} :
+    ReferencePrototype publicSurface ->
+      Not (publicSurface InterfaceDatum.recognizesTheorem) := by
+  intro hPrototype hPublic
+  exact reference_prototype_not_full_compiler hPrototype hPublic
+    HigherPrototypeClaim.recognizesTheorem
+
 end BEDC.GroundCompiler.MinimalPrototype
