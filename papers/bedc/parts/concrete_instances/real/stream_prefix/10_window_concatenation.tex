@@ -396,6 +396,50 @@ parenthesizations, with no extra regularity, seal-classifier, quotient, or
 host-index data.
 \end{proof}
 
+\begin{theorem}[Real completion boundary unique observation route]
+\label{thm:real-completion-boundary-unique-observation-route}
+For observation maps $s,t:\Hist\to\Hist$ and adjacent unary $\mathsf{BHist}$
+windows $a,w,r,q:\Hist$ satisfying the hypotheses of
+\autoref{thm:streamname-regseqrat-shared-window-cover} and
+\autoref{thm:streamname-regseqrat-realup-joined-window-consumer-coherence},
+every public Real-completion-phase observation read consumed by
+$\StreamNameUp$, $\RegSeqRat$, and $\RealUp$ factors through the single
+concatenated $\mathsf{BHist}$ window
+$$
+\mathsf{append}(\mathsf{append}(w,\mathsf{BHist.e1}(r)),
+\mathsf{BHist.e1}(q)).
+$$
+The visible route consists exactly of that joined window, the StreamName
+finite-window classifier rows, the RegSeqRat finite-window seal rows, the
+RealUp finite-window feed rows, the $\RatUp$ endpoint classifiers,
+$\UnaryHistory$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, and $\Pkg$ provenance.
+
+No quotient representative, host stream equality, independent regularity
+witness, RealUp completeness row, or direct RealUp read bypassing the
+StreamName--RegSeqRat handoff is available at this boundary.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-regseqrat-shared-window-cover}. It identifies
+the common public package over the displayed concatenated $\mathsf{BHist}$
+window, so the StreamName classifier, RegSeqRat seal source, RealUp feed,
+endpoint classifiers, bundle rows, unary-history rows, $\hsame$ comparisons,
+$\Cont$ transports, and $\Pkg$ provenance are read from one bounded package.
+
+Next apply
+\autoref{thm:streamname-regseqrat-realup-joined-window-consumer-coherence}. The
+coherence theorem transports that same package across the two visible
+parenthesizations of the joined window, leaving the downstream StreamName,
+RegSeqRat, and RealUp consumers attached to the same finite rows.
+
+Project the listed rows from the shared package. Tuple exhaustion leaves no
+remaining coordinate that could carry a quotient representative, host stream
+equality, independent regularity witness, RealUp completeness row, or direct
+RealUp read outside the StreamName--RegSeqRat handoff. Thus the displayed
+finite route is the unique visible observation route at the Real completion
+boundary.
+\end{proof}
+
 The ten-field fit is: traditional target nested finite observation-window
 concatenation; BEDC source RealUp finite windows over StreamNameUp observation
 schedules $s,t:\Hist\to\Hist$; carrier unary $\mathsf{BHist}$ anchors and
