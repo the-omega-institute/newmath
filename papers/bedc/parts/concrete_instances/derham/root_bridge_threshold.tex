@@ -1,0 +1,83 @@
+\begin{theorem}[De Rham root boundary preimage threshold]
+\label{thm:derham-root-boundary-preimage-threshold}
+Every accepted standard-boundary source row of the public $\DeRhamUp$ bridge
+packet projects to a concrete $\mathsf{BHist}$ boundary preimage witness for
+the classifier $\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$. The witness is the
+source cochain row named by
+\autoref{def:derham-standard-boundary-bridge-packet}; its endpoint is the
+boundary row of \autoref{def:derham-chain-complex-boundary-row}, and every
+accepted source is exhausted by the rows listed in
+\autoref{thm:derham-standard-boundary-source-exhaustion}.
+\end{theorem}
+\begin{proof}
+Project the accepted source through
+\autoref{def:derham-standard-boundary-bridge-packet}. The bridge packet exposes
+only the public boundary source packet, the displayed boundary classifier, and
+the finite source rows over $\DiffFormUp$, $\CohomologyUp$, and
+$\mathsf{BHist}$.
+
+Apply \autoref{thm:derham-standard-boundary-source-exhaustion}. It says that an
+accepted standard-boundary source row is one of the displayed form, cochain,
+endpoint, square-zero, $\hsame$, or $\Pkg$ rows and conversely that these rows
+repack the source.
+
+Finally read the boundary predicate from
+\autoref{def:derham-chain-complex-boundary-row}. The cochain row supplies the
+preimage, the endpoint row supplies the concrete $\mathsf{BHist}$ boundary
+target, and the displayed predicate
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$ records exactly that preimage
+witness.
+\end{proof}
+
+\begin{theorem}[De Rham root cocycle ledger threshold]
+\label{thm:derham-root-cocycle-ledger-threshold}
+The same standard-boundary source packet exports its intermediate row as a
+$\CohomologyUp$ cocycle row and not as a quotient representative. The exported
+ledger is the cocycle readback row of \autoref{thm:derham-cocycle-readback},
+filtered through the consumer ledger exhaustion theorem
+\autoref{thm:derham-bridge-consumer-ledger-exhaustion}.
+\end{theorem}
+\begin{proof}
+Start with the source packet of
+\autoref{def:derham-standard-boundary-bridge-packet}. Its cochain component is
+the row already used by the boundary classifier, so the intermediate
+$\CohomologyUp$ object is visible before any quotient or representative choice
+could be introduced.
+
+Apply \autoref{thm:derham-cocycle-readback}. The zero endpoint for
+$d_{\mathrm{dR}}(d_{\mathrm{dR}}\omega)$ reads back as a cocycle row in
+$\CohomologyUp$.
+
+Now apply \autoref{thm:derham-bridge-consumer-ledger-exhaustion}. The consumer
+ledger admits boundary preimage, zero endpoint, cocycle readback, finite graph
+rows, and package provenance only. Since quotient carriers and selected
+cohomology representatives are excluded there, the intermediate row exported
+by the packet is the cocycle ledger row itself.
+\end{proof}
+
+\begin{theorem}[De Rham root standard-bridge consumer threshold]
+\label{thm:derham-root-standard-bridge-consumer-threshold}
+Downstream standard-bridge consumers of the public $\DeRhamUp$ boundary packet
+see exactly the boundary preimage row, the zero endpoint row, the cocycle row,
+the finite graph rows over $\DiffFormUp$, $\CohomologyUp$, and $\mathsf{BHist}$,
+and the $\Pkg$ provenance rows. No consumer row sees a quotient carrier, a de
+Rham isomorphism, a host cochain complex, a host manifold comparison, or a
+chosen cohomology representative.
+\end{theorem}
+\begin{proof}
+First transport the classifier through
+\autoref{thm:derham-standard-boundary-classifier-transport}. It keeps the
+consumer-visible classifier inside $\hsame$ endpoint transport and
+cochain-differential stability for
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$.
+
+Next read the consumer surface by
+\autoref{thm:derham-standard-boundary-consumer-readback}. The permitted
+consumer rows are the boundary preimage, cocycle row, finite graph rows over
+$\DiffFormUp$, $\CohomologyUp$, and $\mathsf{BHist}$, and package provenance.
+
+Finally apply \autoref{thm:derham-bridge-consumer-ledger-exhaustion}. It adds
+the zero endpoint row and proves that the listed rows exhaust the consumer
+ledger. The excluded quotient, isomorphism, host-comparison, and representative
+rows therefore have no source branch in the standard boundary bridge packet.
+\end{proof}
