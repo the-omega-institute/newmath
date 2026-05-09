@@ -269,6 +269,81 @@ def CompleteNameCertRecognition
       NameCertFieldSubflow R S C N ledger NameCertSubflowRole.ledger /\
       NameCertFieldSubflow R S C N sealFlow NameCertSubflowRole.seal
 
+def MissingNameCertRole
+    (R : GeneratedNameCertRecognizer) (S C N : EventFlow) : Prop :=
+  (forall source : EventFlow,
+    Not (NameCertFieldSubflow R S C N source NameCertSubflowRole.source)) \/
+  (forall pattern : EventFlow,
+    Not (NameCertFieldSubflow R S C N pattern NameCertSubflowRole.pattern)) \/
+  (forall classifier : EventFlow,
+    Not (NameCertFieldSubflow R S C N classifier
+      NameCertSubflowRole.classifier)) \/
+  (forall stability : EventFlow,
+    Not (NameCertFieldSubflow R S C N stability
+      NameCertSubflowRole.stability)) \/
+  (forall ledger : EventFlow,
+    Not (NameCertFieldSubflow R S C N ledger NameCertSubflowRole.ledger)) \/
+  (forall sealFlow : EventFlow,
+    Not (NameCertFieldSubflow R S C N sealFlow NameCertSubflowRole.seal))
+
+def LicensedNameP5Witness (S C N : EventFlow) : Prop :=
+  exists R : GeneratedNameCertRecognizer, CompleteNameCertRecognition R S C N
+
+def LicensedNameP5 (S N : EventFlow) : Prop :=
+  exists C : EventFlow, LicensedNameP5Witness S C N
+
+theorem missing_namecert_role_not_complete
+    {R : GeneratedNameCertRecognizer} {S C N : EventFlow} :
+    MissingNameCertRole R S C N ->
+      Not (CompleteNameCertRecognition R S C N) := by
+  intro hMissing hComplete
+  cases hComplete with
+  | intro source hComplete =>
+      cases hComplete with
+      | intro pattern hComplete =>
+          cases hComplete with
+          | intro classifier hComplete =>
+              cases hComplete with
+              | intro stability hComplete =>
+                  cases hComplete with
+                  | intro ledger hComplete =>
+                      cases hComplete with
+                      | intro sealFlow hFields =>
+                          cases hMissing with
+                          | inl hNoSource =>
+                              exact hNoSource source hFields.left
+                          | inr hMissing =>
+                              cases hMissing with
+                              | inl hNoPattern =>
+                                  exact hNoPattern pattern hFields.right.left
+                              | inr hMissing =>
+                                  cases hMissing with
+                                  | inl hNoClassifier =>
+                                      exact hNoClassifier classifier
+                                        hFields.right.right.left
+                                  | inr hMissing =>
+                                      cases hMissing with
+                                      | inl hNoStability =>
+                                          exact hNoStability stability
+                                            hFields.right.right.right.left
+                                      | inr hMissing =>
+                                          cases hMissing with
+                                          | inl hNoLedger =>
+                                              exact hNoLedger ledger
+                                                hFields.right.right.right.right.left
+                                          | inr hNoSeal =>
+                                              exact hNoSeal sealFlow
+                                                hFields.right.right.right.right.right
+
+theorem incomplete_namecert_candidate_cannot_license
+    {S C N : EventFlow} :
+    (forall R : GeneratedNameCertRecognizer, MissingNameCertRole R S C N) ->
+      Not (LicensedNameP5Witness S C N) := by
+  intro hIncomplete hLicense
+  cases hLicense with
+  | intro R hComplete =>
+      exact missing_namecert_role_not_complete (hIncomplete R) hComplete
+
 theorem no_namecert_without_five_fields
     {R : GeneratedNameCertRecognizer} {S C N : EventFlow} :
     RecognizedNameCertFlow R S C N ->

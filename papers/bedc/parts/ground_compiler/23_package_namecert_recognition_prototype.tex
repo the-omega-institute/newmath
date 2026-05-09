@@ -218,6 +218,7 @@ $$
 
 \begin{definition}[Generated NameCert recognizer]
 \label{def:pkg-namecert-generated-namecert-recognizer}
+\leandef{BEDC.GroundCompiler.PackageNameCertPrototype.GeneratedNameCertRecognizer}
 A \emph{generated \NameCert\ recognizer} is an event flow
 $$
   R_N\in\mathsf{EventFlow}
@@ -284,7 +285,8 @@ A \NameCert\ flow must have recognized source, pattern, classifier, stability, l
 
 \begin{theorem}[Incomplete NameCert candidate cannot license name]
 \label{thm:pkg-namecert-incomplete-namecert-cannot-license}
-If $C_N$ lacks any recognized source, pattern, classifier, stability, ledger, or seal subflow, then $C_N$ cannot license the name candidate $N$.
+\leanchecked{BEDC.GroundCompiler.PackageNameCertPrototype.incomplete\_namecert\_candidate\_cannot\_license}
+If $C_N$ lacks any recognized source, pattern, classifier, stability, ledger, or seal subflow for every generated \NameCert\ recognizer, then $C_N$ cannot serve as a $P_5$ licensing witness for the name candidate $N$.
 \end{theorem}
 
 \begin{proof}
@@ -298,6 +300,7 @@ A name candidate event $N$ cannot by itself license a derived interface. A recog
 
 \begin{definition}[Licensed name at $P_5$]
 \label{def:pkg-namecert-licensed-name-p5}
+\leandef{BEDC.GroundCompiler.PackageNameCertPrototype.LicensedNameP5}
 At the $P_5$ layer, define
 $$
   \mathsf{LicensedName}_{P_5}(S,N)
