@@ -3,7 +3,7 @@ Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Comp
 Lean rounds primarily advance the verification axis: a new theorem registered with `\leanchecked` is evidence for `\theoremCheckedV`, but it does not by itself raise the paper-side theoryclosure grade. Any `closurestatus` block belongs to the paper discipline and must keep theoryclosure × formalstatus independent.
 
 ## Prompts version
-v5.12 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v5.13 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -196,6 +196,30 @@ done
 If the script prints any `ORPHAN:` line, append the corresponding `import BEDC.<module>` line to `lean4/BEDC.lean` BEFORE Step 3. Place the new line near the existing imports for the same `BEDC.Derived.<X>Up.*` namespace (alphabetic ordering preferred but not strictly enforced — just keep related imports clustered). Re-run `lake_gate.py build` after the edit to confirm the import compiles cleanly. The build verifies the new file's transitive deps; the orphan check verifies the new file is reachable from the toplevel module.
 
 This gate catches the failure mode where a Lean round adds new theorems that build standalone but don't enter the main `#print axioms` graph — a salvage-merge or solo-run gap that produces transient `axiom-purity` failures across downstream rounds until manually fixed.
+
+### HARD GATE — case-insensitive filename conflict (PascalCase enforcement)
+
+BEDC chapter modules are PascalCase: `<X>Up.lean` where `<X>` is the chapter name (`TopGroupUp`, `DeRhamUp`, `LambdaCalcUp`, `RingOfIntegersUp`, …). Before creating a new file under `lean4/BEDC/Derived/`, run a **case-insensitive** existence check:
+
+```bash
+# Replace TopgroupUp with the file you intend to create
+intended="lean4/BEDC/Derived/TopgroupUp.lean"
+basename_lc=$(basename "$intended" | tr 'A-Z' 'a-z')
+existing=$(find lean4/BEDC -iname "$basename_lc" 2>/dev/null)
+if [ -n "$existing" ]; then
+  echo "CASE-CONFLICT: $intended would shadow $existing on case-insensitive filesystems"
+fi
+```
+
+**If the check prints `CASE-CONFLICT`, do NOT create the new file.** Instead, edit the existing file (whose path the find command printed) and place your new `theorem` / `def` inside its existing namespace. macOS APFS and Windows NTFS are case-insensitive by default — `TopgroupUp.lean` and `TopGroupUp.lean` are the SAME inode. Adding both to `BEDC.lean` produces:
+
+```
+error: BEDC.lean:N:0: import BEDC.Derived.TopGroupUp failed,
+environment already contains 'BEDC.Derived.TopGroupUp.<thm>'
+from BEDC.Derived.TopgroupUp
+```
+
+Lean's import resolver treats the two casings as DISTINCT modules but the OS hands back the SAME file twice, so identical declarations get registered twice and the build fails. R3806 spent a full round renaming `TopgroupUp.lean` → `TopGroupUp.lean` to canonicalize the casing; R3809 then re-introduced the lowercase variant in the same hour, triggering the failure again. Do not repeat this — always run the case-insensitive find before adding a new chapter file. If you find an existing chapter under any casing, **use that exact casing** for both the filename and every `import` / `namespace` reference; never create a sibling file with a different case.
 
 ## Step 3: Paper marker registration
 After `lake build` passes:
