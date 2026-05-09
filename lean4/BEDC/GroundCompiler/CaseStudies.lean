@@ -4,11 +4,15 @@ import BEDC.GroundCompiler.SemanticMotif
 namespace BEDC.GroundCompiler.CaseStudies
 
 open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.ChannelEncoding
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.SemanticMotif
 
 def PrefixSubflow (M S : EventFlow) : Prop :=
   exists tail : EventFlow, S = List.append M tail
+
+def SkeletonCode (S : EventFlow) : List DisplayAlphabet :=
+  FlowEncoding S
 
 def ZeroRunEvent : Nat -> RawEvent
   | 0 => [BMark.b0]
@@ -17,6 +21,34 @@ def ZeroRunEvent : Nat -> RawEvent
 def FiniteRepetitionSkeleton : Nat -> EventFlow
   | 0 => []
   | n + 1 => List.append (FiniteRepetitionSkeleton n) [ZeroRunEvent n]
+
+def CertifiedFiniteRepetitionRecognizer (R : GeneratedMotifRecognizer) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow R)
+
+def FiniteRepetitionMotifRecognition
+    (R : GeneratedMotifRecognizer) (S M : EventFlow) : Prop :=
+  CertifiedFiniteRepetitionRecognizer R /\
+    RecognizesMotif R S M FiniteRepetitionRole
+
+theorem subflow_self (S : EventFlow) : Subflow S S := by
+  exact Or.inl ⟨[], [], by simp⟩
+
+theorem repetition_skeleton_has_motif
+    {R : GeneratedMotifRecognizer} (hR : CertifiedFiniteRepetitionRecognizer R)
+    (k : Nat) :
+    FiniteRepetitionMotifRecognition R
+      (FiniteRepetitionSkeleton (k + 1)) (FiniteRepetitionSkeleton (k + 1)) := by
+  constructor
+  · exact hR
+  · constructor
+    · exact hR
+    · constructor
+      · constructor
+        · exact FormalCompilerInput.eventFlow (FiniteRepetitionSkeleton (k + 1))
+        · constructor
+          · exact FormalCompilerInput.eventFlow (FiniteRepetitionSkeleton (k + 1))
+          · exact FormalCompilerInput.eventFlow FiniteRepetitionRole
+      · exact subflow_self (FiniteRepetitionSkeleton (k + 1))
 
 def NatLikeSkeleton (k : Nat) : EventFlow :=
   List.append (FiniteRepetitionSkeleton k) [[BMark.b0, BMark.b1]]
