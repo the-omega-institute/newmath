@@ -195,6 +195,34 @@ theorem CyclotomicRootClassifier_trans [AskSetup] [PackageSetup]
             · exact hsame_trans classified01.right.right.right.right.right.right
                 classified12.right.right.right.right.right.right
 
+theorem CyclotomicRootClassifier_symm [AskSetup] [PackageSetup]
+    {numField0 exponent0 polynomial0 splittingField0 primitiveRoot0 acceptance0 comparison0
+      provenance0 ledger0 numField1 exponent1 polynomial1 splittingField1 primitiveRoot1
+      acceptance1 comparison1 provenance1 ledger1 : BHist}
+    {bundle0 bundle1 : ProbeBundle ProbeName} {pkg0 pkg1 : Pkg} :
+    CyclotomicRootClassifier numField0 exponent0 polynomial0 splittingField0 primitiveRoot0
+        acceptance0 comparison0 provenance0 ledger0 numField1 exponent1 polynomial1
+        splittingField1 primitiveRoot1 acceptance1 comparison1 provenance1 ledger1 bundle0 bundle1
+        pkg0 pkg1 ->
+      CyclotomicRootClassifier numField1 exponent1 polynomial1 splittingField1 primitiveRoot1
+        acceptance1 comparison1 provenance1 ledger1 numField0 exponent0 polynomial0
+        splittingField0 primitiveRoot0 acceptance0 comparison0 provenance0 ledger0 bundle1
+        bundle0 pkg1 pkg0 := by
+  intro classified
+  constructor
+  · exact classified.right.left
+  · constructor
+    · exact classified.left
+    · constructor
+      · exact hsame_symm classified.right.right.left
+      · constructor
+        · exact hsame_symm classified.right.right.right.left
+        · constructor
+          · exact hsame_symm classified.right.right.right.right.left
+          · constructor
+            · exact hsame_symm classified.right.right.right.right.right.left
+            · exact hsame_symm classified.right.right.right.right.right.right
+
 theorem CyclotomicRootClassifier_downstream_consumer_transport [AskSetup] [PackageSetup]
     {numField0 exponent0 polynomial0 splittingField0 primitiveRoot0 acceptance0 comparison0
       provenance0 ledger0 numField1 exponent1 polynomial1 splittingField1 primitiveRoot1
