@@ -87,6 +87,47 @@ theorem HypergeometricBHistSourcePacket_root_stability [AskSetup] [PackageSetup]
         pkgSig'⟩,
       sameRatio, sameLedger, sameEndpoint⟩
 
+theorem HypergeometricBHistSourcePacket_root_classifier [AskSetup] [PackageSetup]
+    {complex complex' gamma gamma' numerator numerator' denominator denominator' coeff coeff'
+      readback readback' provenance provenance' ledger ledger' endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HypergeometricBHistSourcePacket complex gamma numerator denominator coeff readback provenance
+        ledger endpoint bundle pkg ->
+      hsame complex complex' ->
+        hsame gamma gamma' ->
+          hsame numerator numerator' ->
+            hsame denominator denominator' ->
+              hsame readback readback' ->
+                hsame provenance provenance' ->
+                  Cont numerator' denominator' coeff' ->
+                    Cont coeff' readback' ledger' ->
+                      Cont provenance' ledger' endpoint' ->
+                        PkgSig bundle endpoint' pkg ->
+                          HypergeometricBHistSourcePacket complex' gamma' numerator' denominator'
+                              coeff' readback' provenance' ledger' endpoint' bundle pkg ∧
+                            hsame coeff coeff' ∧ hsame ledger ledger' ∧
+                              hsame endpoint endpoint' := by
+  intro packet sameComplex sameGamma sameNumerator sameDenominator sameReadback sameProvenance
+    coeffRow' ledgerRow' endpointRow' pkgSig'
+  have sameCoeff : hsame coeff coeff' :=
+    cont_respects_hsame sameNumerator sameDenominator
+      packet.right.right.right.right.right.right.left coeffRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameCoeff sameReadback
+      packet.right.right.right.right.right.right.right.left ledgerRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameLedger
+      packet.right.right.right.right.right.right.right.right.left endpointRow'
+  exact
+    ⟨⟨unary_transport packet.left sameComplex,
+        unary_transport packet.right.left sameGamma,
+        unary_transport packet.right.right.left sameNumerator,
+        unary_transport packet.right.right.right.left sameDenominator,
+        unary_transport packet.right.right.right.right.left sameReadback,
+        unary_transport packet.right.right.right.right.right.left sameProvenance,
+        coeffRow', ledgerRow', endpointRow', pkgSig'⟩,
+      sameCoeff, sameLedger, sameEndpoint⟩
+
 theorem HypergeometricBHistSourcePacket_root_ledger [AskSetup] [PackageSetup]
     {complex gamma numerator denominator coeff readback provenance ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
