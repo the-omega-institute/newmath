@@ -6,6 +6,83 @@ The enriched-category interface $\EnrichedCatUp$ packages a collection of object
 \section{Carrier definition}
 \label{sec:enrichedcat-carrier}
 
+\begin{definition}[EnrichedCat BHist packet]\label{def:enrichedcat-bhist-packet}
+An $\EnrichedCatUp$ carrier packet is the finite $\mathsf{BHist}$ tuple
+$$
+\begin{aligned}
+\mathcal{E} =
+(&C_{\mathrm{obj}},M_{\otimes},
+  H_{\mathrm{hom}},H_{\mathrm{id}},H_{\mathrm{comp}},
+  T_{\hsame},P_{\mathsf{Pkg}},R_{\Cont})
+\end{aligned}
+$$
+whose coordinates are, in order, the consumed
+$\NameCert_{\CategoryUp}$ object boundary $C_{\mathrm{obj}}$, the consumed
+$\NameCert_{\MonoidalCatUp}$ tensor boundary $M_{\otimes}$, the hom-object
+rows $H_{\mathrm{hom}}$, the identity rows $H_{\mathrm{id}}$, the composition
+rows $H_{\mathrm{comp}}$, the componentwise $\hsame$ transport rows
+$T_{\hsame}$, the $\mathsf{Pkg}$ provenance $P_{\mathsf{Pkg}}$, and the finite
+$\Cont$ readbacks $R_{\Cont}$.
+
+The carrier accepts exactly those packets for which the two consumed boundary
+coordinates are public certificate rows, every hom-object, identity, and
+composition coordinate is a displayed $\mathsf{BHist}$ row over those
+boundaries, every transport coordinate is an $\hsame$ row between displayed
+coordinates, the provenance coordinate is a $\mathsf{Pkg}$ row for the same
+packet, and the readback coordinate is a finite $\Cont$ ledger for those rows.
+\end{definition}
+
+\begin{theorem}[EnrichedCat hom-object carrier obligation]\label{thm:enrichedcat-hom-object-carrier-obligation}
+Every hom-object row used by the $\EnrichedCatUp$ certificate is a coordinate
+of the packet in \autoref{def:enrichedcat-bhist-packet}, with its object
+boundary read from the consumed $\NameCert_{\CategoryUp}$ coordinate, its
+tensor boundary read from the consumed $\NameCert_{\MonoidalCatUp}$ coordinate,
+and its visible provenance and continuation reads carried by the same
+$\mathsf{Pkg}$ and $\Cont$ coordinates. No hom-object obligation is supplied by
+an implicit enriched-category carrier outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Project the packet of \autoref{def:enrichedcat-bhist-packet} to the
+$H_{\mathrm{hom}}$ coordinate. Its source and target object rows are read from
+$C_{\mathrm{obj}}$, while its value object lies under the tensor boundary
+$M_{\otimes}$.
+
+The visible provenance is the coordinate $P_{\mathsf{Pkg}}$, and the permitted
+readbacks are exactly the finite routes in $R_{\Cont}$. These are the same rows
+enumerated by \autoref{thm:enrichedcat-source-obligation}.
+
+Repack the projected hom-object row with the same boundary, provenance, and
+readback coordinates. Classifier transport is supplied componentwise by
+\autoref{thm:enrichedcat-classifier-transport-obligation}, and ledger exactness
+is supplied by \autoref{thm:enrichedcat-ledger-exactness-obligation}.
+\end{proof}
+
+\begin{theorem}[EnrichedCat tensor-composition scope]\label{thm:enrichedcat-tensor-composition-scope}
+Every identity or composition row used by the $\EnrichedCatUp$ certificate is
+scoped by the packet in \autoref{def:enrichedcat-bhist-packet}: identities read
+the hom-object and tensor-unit rows, compositions read the two adjacent
+hom-object rows and the tensor-composition boundary, and all coherence,
+transport, provenance, and finite readback data are supplied by
+$T_{\hsame}$, $P_{\mathsf{Pkg}}$, and $R_{\Cont}$. The scope does not include
+unlisted host-level enriched-category data.
+\end{theorem}
+\begin{proof}
+Project first to the identity coordinate $H_{\mathrm{id}}$. The identity row
+uses the object boundary from $C_{\mathrm{obj}}$, the hom-object row from
+$H_{\mathrm{hom}}$, and the unit part of $M_{\otimes}$.
+
+Project next to the composition coordinate $H_{\mathrm{comp}}$. Its inputs are
+the adjacent hom-object rows and the tensor-composition part of
+$M_{\otimes}$, so the monoidal dependency is exactly the one described in
+\autoref{thm:enrichedcat-monoidal-category-boundary}.
+
+The component transport rows are then read from $T_{\hsame}$, while provenance
+and finite ledgers are read from $P_{\mathsf{Pkg}}$ and $R_{\Cont}$. Repacking
+these same coordinates gives the public certificate rows by
+\autoref{thm:enrichedcat-source-obligation} and
+\autoref{thm:enrichedcat-ledger-exactness-obligation}.
+\end{proof}
+
 \section{The certificate}
 \label{sec:enrichedcat-certificate}
 
