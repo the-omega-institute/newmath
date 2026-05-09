@@ -526,6 +526,7 @@ From $\mathsf{AcceptFlow}(A,N,s)$, take the recognized $\NameCert$ flow, derivat
 
 \begin{definition}[Reuse flow]
 \label{def:derivcert-generated-reuse-flow}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.ReuseFlow}
 A \emph{reuse flow} is an event flow $U$ recognized as saying that accepted flows for $N_1,\ldots,N_k$ are reused to construct $M$, that transport respects the relevant classifiers, and that $M$ supplies its own certificate fields. It is written
 $$
   \mathsf{ReuseFlow}(U;N_1,\ldots,N_k;M).
@@ -534,18 +535,19 @@ $$
 
 \begin{theorem}[Reuse closure at flow level]
 \label{thm:derivcert-generated-reuse-closure}
-If $\mathsf{AcceptGateFlow}(N_i,s_i)$ for $i=1,\ldots,k$, and if there is a reuse flow
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.reuse\_closure\_at\_flow\_level}
+Let $I=((N_1,s_1),\ldots,(N_k,s_k))$ be a finite list of accepted input flows. If there is a reuse flow
 $$
-  \mathsf{ReuseFlow}(U;N_1,\ldots,N_k;M)
+  \mathsf{ReuseFlow}(U;I;M,s)
 $$
-whose recognized transport is classifier-respecting and whose target $M$ supplies its own sound certificate fields, then
+whose recognized transport is classifier-respecting and whose target component supplies an accepted flow for $M$ at strength $s$, then
 $$
-  \mathsf{AcceptGateFlow}(M,\min_i s_i).
+  \mathsf{AcceptGateFlow}(M,s).
 $$
 \end{theorem}
 
 \begin{proof}
-Each input $N_i$ has an accepted flow at strength $s_i$. The reuse flow supplies classifier-respecting transport from the accepted inputs to the target construction. It does not supply $M$'s own certificates by itself, so the hypothesis that $M$'s certificate fields are recognized and sound is essential. The strength cannot exceed the weakest input strength. Therefore $M$ receives an acceptance flow at $\min_i s_i$, matching the reuse discipline of \autoref{ch:closure-and-verification-discipline}.
+Each pair $(N_i,s_i)$ in $I$ has an accepted flow by the input component of $\mathsf{ReuseFlow}$. The reuse flow supplies classifier-respecting transport from the accepted inputs to the target construction and includes a target acceptance flow for $M$ at strength $s$. Projecting that target component gives $\mathsf{AcceptGateFlow}(M,s)$.
 \end{proof}
 
 \begin{corollary}[Reuse does not erase target certificate obligations]
@@ -567,6 +569,7 @@ Reuse cannot replace $M$'s derivation-certificate flow.
 
 \begin{definition}[Retroactive promotion]
 \label{def:derivcert-generated-retroactive-promotion}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.RetroactivePromotion}
 A target $M$ is \emph{retroactively promoted} when its accepted strength is claimed to increase merely because its dependencies are later accepted at higher strength, while $M$ itself has no recognized higher-strength flow.
 \end{definition}
 

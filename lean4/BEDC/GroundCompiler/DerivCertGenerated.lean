@@ -85,6 +85,19 @@ def StrengthMonotonicityAtFlowLevel : Prop :=
           DerivCertSourceSubflow Dlow A) ->
         AcceptedFlow A N low
 
+def ReuseFlow
+    (U : EventFlow) (inputs : List (EventFlow × EventFlow))
+    (M s : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow U) /\
+    NonemptyEventFlow U /\
+    (forall input : EventFlow × EventFlow,
+      List.Mem input inputs -> AcceptGateFlow input.fst input.snd) /\
+    exists A : EventFlow, AcceptedFlow A M s /\ DerivCertSourceSubflow U A
+
+def RetroactivePromotion
+    (M oldStrength newStrength : EventFlow) : Prop :=
+  AcceptGateFlow M oldStrength /\ Not (AcceptGateFlow M newStrength)
+
 def DerivCertCode (D _N _s : EventFlow) : List DisplayAlphabet :=
   FlowEncoding D
 
@@ -310,6 +323,14 @@ theorem gate_monotone_strength : StrengthMonotonicityAtFlowLevel := by
                       hAccepted.right.right.right.right.right.left,
                       hLower.right.right,
                       hAccepted.right.right.right.right.right.right.right⟩
+
+theorem reuse_closure_at_flow_level
+    {U M s : EventFlow} {inputs : List (EventFlow × EventFlow)} :
+    ReuseFlow U inputs M s -> AcceptGateFlow M s := by
+  intro hReuse
+  cases hReuse.right.right.right with
+  | intro A hAccepted =>
+      exact ⟨A, hAccepted.left⟩
 
 theorem reuse_does_not_erase_obligations {M s : EventFlow} :
     AcceptGateFlow M s ->
