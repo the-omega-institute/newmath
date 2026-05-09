@@ -184,6 +184,29 @@ theorem LambdaCalcBHistTermPacketCarrier_substitution_output_determinacy
     cont_respects_hsame (hsame_refl tag) (hsame_refl payload) packet.right.right.right endpointRow
   exact And.intro packet' (And.intro sameEndpoint endpointUnary')
 
+theorem LambdaCalcBHistTermPacketCarrier_substitution_ledger_scope
+    {graph edge connected acyclic tag payload endpoint substTag substPayload substEndpoint
+      varIndex ledger result : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic substTag substPayload
+          substEndpoint ->
+        UnaryHistory varIndex ->
+          Cont endpoint substEndpoint ledger ->
+            Cont ledger varIndex result ->
+              UnaryHistory ledger ∧ UnaryHistory result ∧ hsame ledger
+                  (append endpoint substEndpoint) ∧
+                hsame result (append (append endpoint substEndpoint) varIndex) := by
+  intro packet substPacket varUnary ledgerRow resultRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed packet.right.right.left substPacket.right.right.left ledgerRow
+  have resultUnary : UnaryHistory result :=
+    unary_cont_closed ledgerUnary varUnary resultRow
+  have resultReadback : hsame result (append (append endpoint substEndpoint) varIndex) := by
+    cases ledgerRow
+    exact resultRow
+  exact And.intro ledgerUnary
+    (And.intro resultUnary (And.intro ledgerRow resultReadback))
+
 theorem LambdaCalcBHistTermPacketCarrier_free_variable_ledger_coverage
     {graph edge connected acyclic tag payload endpoint freeVariable freeLedger : BHist} :
     LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
