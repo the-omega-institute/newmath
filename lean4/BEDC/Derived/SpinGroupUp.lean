@@ -81,4 +81,36 @@ theorem SpinGroupRootCarrier_group_law_transport [AskSetup] [PackageSetup]
           (And.intro spinCont carrier.right.right.right)))
       sameSpin
 
+theorem SpinGroupRootCarrier_ledger_exhaustion [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      CliffordCarrierPackage unit vector product boundary cliffordEndpoint ∧
+        GroupSingletonCarrier groupWord ∧ UnaryHistory unit ∧ UnaryHistory vector ∧
+          UnaryHistory product ∧ UnaryHistory boundary ∧ UnaryHistory cliffordEndpoint ∧
+            UnaryHistory groupWord ∧ UnaryHistory spinEndpoint ∧
+              Cont vector vector product ∧ Cont product boundary cliffordEndpoint ∧
+                Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg := by
+  intro carrier
+  have cliffordRows := CliffordCarrierPackage_universal_ledger_exactness carrier.left
+  have groupUnary : UnaryHistory groupWord :=
+    unary_transport unary_empty (hsame_symm carrier.right.left)
+  have spinUnary : UnaryHistory spinEndpoint :=
+    unary_cont_closed cliffordRows.right.right.right.right.left groupUnary carrier.right.right.left
+  exact
+    And.intro carrier.left
+      (And.intro carrier.right.left
+        (And.intro cliffordRows.left
+          (And.intro cliffordRows.right.left
+            (And.intro cliffordRows.right.right.left
+              (And.intro cliffordRows.right.right.right.left
+                (And.intro cliffordRows.right.right.right.right.left
+                  (And.intro groupUnary
+                    (And.intro spinUnary
+                      (And.intro cliffordRows.right.right.right.right.right.left
+                        (And.intro cliffordRows.right.right.right.right.right.right.left
+                          (And.intro carrier.right.right.left
+                            carrier.right.right.right)))))))))))
+
 end BEDC.Derived.SpinGroupUp
