@@ -54,4 +54,44 @@ theorem GeomQuantizationBHistSourcePacket_source_dependency_surface
       packet.right.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right.right⟩
 
+theorem GeomQuantizationBHistSourcePacket_polarisation_classifier_stability
+    [AskSetup] [PackageSetup]
+    {symplectic symplectic' hilbert line line' polarisation polarisation'
+      metaplectic metaplectic' readback readback' transport provenance provenance'
+      endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeomQuantizationBHistSourcePacket symplectic hilbert line polarisation metaplectic
+        readback transport provenance endpoint bundle pkg ->
+      hsame symplectic symplectic' ->
+      hsame line line' ->
+      hsame polarisation polarisation' ->
+      hsame provenance provenance' ->
+      Cont symplectic' line' readback' ->
+      Cont readback' polarisation' metaplectic' ->
+      Cont provenance' metaplectic' endpoint' ->
+      PkgSig bundle endpoint' pkg ->
+      GeomQuantizationBHistSourcePacket symplectic' hilbert line' polarisation'
+          metaplectic' readback' transport provenance' endpoint' bundle pkg ∧
+        hsame readback readback' ∧ hsame metaplectic metaplectic' ∧
+          hsame endpoint endpoint' := by
+  intro packet sameSymplectic sameLine samePolarisation sameProvenance readbackCont'
+    metaplecticCont' endpointCont' pkgSig'
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame sameSymplectic sameLine
+      packet.right.right.right.right.right.right.left readbackCont'
+  have sameMetaplectic : hsame metaplectic metaplectic' :=
+    cont_respects_hsame sameReadback samePolarisation
+      packet.right.right.right.right.right.right.right.left metaplecticCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameMetaplectic
+      packet.right.right.right.right.right.right.right.right.left endpointCont'
+  exact
+    ⟨⟨unary_transport packet.left sameSymplectic, packet.right.left,
+        unary_transport packet.right.right.left sameLine,
+        unary_transport packet.right.right.right.left samePolarisation,
+        packet.right.right.right.right.left,
+        unary_transport packet.right.right.right.right.right.left sameProvenance,
+        readbackCont', metaplecticCont', endpointCont', pkgSig'⟩,
+      sameReadback, sameMetaplectic, sameEndpoint⟩
+
 end BEDC.Derived.GeomQuantizationUp
