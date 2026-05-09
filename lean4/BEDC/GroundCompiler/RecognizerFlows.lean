@@ -130,6 +130,14 @@ def ChapterRecognizerLevel
     forall C : ChapterCandidateFlow,
       RecognizesChapter R C -> FormalRecognitionEvidence R rho C
 
+def RecognizerSelfDescriptionFlow
+    (R : RecognizerCandidateFlow) (D_R : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow D_R) /\
+    exists rho : RecognitionRole, FormalRecognitionEvidence R rho D_R
+
+def CompilerRecognizerFlow (C : EventFlow) : Prop :=
+  RecognizedCompilerFlow C
+
 theorem formal_recognition_evidence_requires_certified
     {R : RecognizerCandidateFlow} {rho : RecognitionRole} {S : EventFlow} :
     FormalRecognitionEvidence R rho S -> CertifiedRecognizer R rho := by
@@ -172,6 +180,13 @@ theorem certified_recognition_only
                   List.Mem m w -> m = BMark.b0 \/ m = BMark.b1 := by
   intro _ hCons
   exact hCons
+
+theorem recognizer_hierarchy_removes_hidden_input
+    {R : RecognizerCandidateFlow} {rho : RecognitionRole} {S : EventFlow} :
+    FormalRecognitionEvidence R rho S ->
+      Not (StructuralHiddenInput (CompilerDatum.recognizedFlow R S)) := by
+  intro _ hHidden
+  cases hHidden
 
 theorem host_parser_output_inadmissible :
     Not (FormalCompilerInput CompilerDatum.hostParserState) :=

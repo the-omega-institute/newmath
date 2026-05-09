@@ -312,6 +312,7 @@ Its certificate records soundness for definitions, lemmas, theorems, proofs, cer
 
 \begin{theorem}[Recognizer hierarchy removes structural hidden input]
 \label{thm:recognizer-generated-hierarchy-removes-hidden-input}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.recognizer\_hierarchy\_removes\_hidden\_input}
 If the recognition judgments for package, $\NameCert$, derivation-certificate, theorem, and chapter structures are supplied by certified recognizers in a recognizer hierarchy, then these structures are not hidden structural inputs.
 \end{theorem}
 
@@ -330,6 +331,7 @@ Even in the presence of a recognizer hierarchy, YAML files, ASTs, external theor
 
 \begin{definition}[Recognizer self-description flow]
 \label{def:recognizer-generated-self-description}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecognizerSelfDescriptionFlow}
 A \emph{self-description flow} for a recognizer $R$ is an event flow
 $$
   D_R\in\mathsf{EventFlow}
@@ -339,6 +341,7 @@ recording which role $R$ recognizes, which domain it requires, which recognition
 
 \begin{definition}[Compiler recognizer flow]
 \label{def:recognizer-generated-compiler-recognizer-flow}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.CompilerRecognizerFlow}
 A \emph{compiler recognizer flow} is an event flow $C$ that recognizes channel compiler definitions, event encoder and decoder structure, the recognizer hierarchy, recognizer certificates, theorem and chapter code construction, and self-description flows. This is written
 $$
   \mathsf{RecognizesCompiler}(C).
