@@ -26,6 +26,9 @@ def SourceReportPrototype
   forall c : List DisplayAlphabet,
     forall S : EventFlow, P c = some S -> SourceEventReport c S
 
+inductive SourceReportFormalInput
+    (_c : List DisplayAlphabet) (_S : EventFlow) : Prop
+
 inductive EventIndex : EventFlow -> Nat -> RawEvent -> Prop where
   | here (w : RawEvent) (rest : EventFlow) :
       EventIndex (w :: rest) 0 w
@@ -38,9 +41,32 @@ inductive LiteralSourceWarning : Type where
   | completionWitnessCandidate
   | normalAddressCandidate
 
+inductive LiteralWarningRecognition : LiteralSourceWarning -> Prop
+
+inductive CannotClaimAnnotation : Type where
+  | decodedEventFlowNotTheoremhood
+  | decodedEventFlowNotNameCert
+  | decodedEventFlowNotDerivCert
+  | decodedEventFlowNotAcceptanceGate
+  | literalCarryRequiresRecognizer
+  | terminatorNotSourceEvent
+  | reportNotProof
+  | reportNotPackageRecognition
+
 theorem event_segment_body_terminator (w : RawEvent) :
     EventSegment w = BodySegment w ++ TerminatorSegment w := by
   rfl
+
+theorem source_report_output_not_input {c : List DisplayAlphabet}
+    {S : EventFlow} :
+    SourceEventReport c S -> Not (SourceReportFormalInput c S) := by
+  intro _ hInput
+  cases hInput
+
+theorem literal_warning_not_recognition (warning : LiteralSourceWarning) :
+    Not (LiteralWarningRecognition warning) := by
+  intro h
+  cases h
 
 theorem event_segments_partition (S : EventFlow) :
     FlowEncoding S = (List.map EventSegment S).flatten := by
