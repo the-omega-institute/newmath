@@ -79,3 +79,48 @@ cited window theorems asserts a regularity modulus, bounded variation row, or
 sequence-comparison law, those rows must be supplied by the $\RegSeqRat$
 certificate itself.
 \end{proof}
+
+\begin{theorem}[StreamName constant window overlap exactness]
+\label{thm:streamname-constant-window-overlap-exactness}
+Let $a,b:\Hist$ be rational-history endpoints, and let $I,J$ be inhabited
+finite unary windows for constant rational streams over the same BEDC source
+$\mathsf{BHist}$. Suppose $K$ is a certified common subwindow of $I$ and $J$,
+with every probe in $K$ carried by $\mathsf{UnaryHistory}$ and by the finite
+$\mathsf{ProbeBundle}$ ledgers of both windows. Then the restrictions of the two
+constant-window packages to $K$ expose the same
+$\mathsf{RatHistoryClassifier}(a,b)$ row, with the StreamName comparison read
+through the displayed $\mathsf{hsame}$ rows on the overlap.
+
+Consequently, any $\RealUp$ finite-window read surface built from the two
+restricted packages has the same $\StreamNameUp$ component on $K$. The overlap
+surface contains only the public $\StreamNameUp$ finite-window interface rows
+over $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$,
+$\mathsf{hsame}$, and $\mathsf{RatHistoryClassifier}(a,b)$; it does not use a
+quotient, completion row, host index equality, or hidden stream datum.
+\end{theorem}
+\begin{proof}
+Restrict the $I$-window package to the certified overlap $K$. By
+\autoref{thm:streamname-constant-window-subwindow-exactness}, the restricted
+package recovers exactly the row $\mathsf{RatHistoryClassifier}(a,b)$, because
+the ambient stream is constant and every probe of $K$ is an inhabited unary
+observation.
+
+Repeat the same restriction for the $J$-window package. The second application
+of \autoref{thm:streamname-constant-window-subwindow-exactness} yields the same
+endpoint row $\mathsf{RatHistoryClassifier}(a,b)$ on the same
+$\mathsf{ProbeBundle}$ overlap ledger. The displayed $\mathsf{hsame}$ clauses on
+$K$ therefore identify the two public StreamName components without comparing
+host streams.
+
+Now read both packages as possible inputs to a finite-window $\RealUp$ consumer.
+By \autoref{thm:streamname-constant-window-real-boundary}, such a consumer may
+read only the rational point-classifier row and the finite probe ledger from the
+constant $\StreamNameUp$ window.
+
+Finally apply
+\autoref{thm:realup-finite-window-exhaustion-overlap-closure}. Since both
+restricted read surfaces present the same overlap rows just listed, the RealUp
+finite-window surface repacks the same StreamName component over $K$. No
+quotient, completion witness, host index, or hidden stream equality is added in
+that repacking.
+\end{proof}
