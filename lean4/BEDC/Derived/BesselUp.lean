@@ -199,4 +199,60 @@ theorem BesselRootPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
                 (And.intro rows.right.right.right.right.right.right.right.left
                   (And.intro endpointRow rows.right.right.right.right.right.right.right.right))))))))
 
+theorem BesselRootPacket_asymptotic_ledger_scope [AskSetup] [PackageSetup]
+    {ode holomorphic order sourceEndpoint targetEndpoint recurrence transport provenance
+      endpoint asymptoticLedger asymptoticEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BesselRootPacket ode holomorphic order sourceEndpoint targetEndpoint recurrence transport
+        provenance endpoint bundle pkg ->
+      Cont holomorphic recurrence asymptoticLedger ->
+        Cont asymptoticLedger endpoint asymptoticEndpoint ->
+          UnaryHistory ode ∧ UnaryHistory holomorphic ∧ UnaryHistory order ∧
+            UnaryHistory recurrence ∧ UnaryHistory asymptoticLedger ∧
+              UnaryHistory asymptoticEndpoint ∧
+                hsame recurrence (append sourceEndpoint targetEndpoint) ∧
+                  hsame asymptoticLedger (append holomorphic recurrence) ∧
+                    hsame asymptoticEndpoint (append asymptoticLedger endpoint) ∧
+                      PkgSig bundle endpoint pkg := by
+  intro packet holomorphicRecurrence asymptoticEndpointRow
+  have unaryOde : UnaryHistory ode :=
+    packet.left
+  have unaryHolomorphic : UnaryHistory holomorphic :=
+    packet.right.left
+  have unaryOrder : UnaryHistory order :=
+    packet.right.right.left
+  have unarySourceEndpoint : UnaryHistory sourceEndpoint :=
+    packet.right.right.right.left
+  have unaryTargetEndpoint : UnaryHistory targetEndpoint :=
+    packet.right.right.right.right.left
+  have unaryProvenance : UnaryHistory provenance :=
+    packet.right.right.right.right.right.left
+  have recurrenceRow : Cont sourceEndpoint targetEndpoint recurrence :=
+    packet.right.right.right.right.right.right.left
+  have transportRow : Cont recurrence order transport :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointRow : Cont transport provenance endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right
+  have unaryRecurrence : UnaryHistory recurrence :=
+    unary_cont_closed unarySourceEndpoint unaryTargetEndpoint recurrenceRow
+  have unaryTransport : UnaryHistory transport :=
+    unary_cont_closed unaryRecurrence unaryOrder transportRow
+  have unaryEndpoint : UnaryHistory endpoint :=
+    unary_cont_closed unaryTransport unaryProvenance endpointRow
+  have unaryAsymptoticLedger : UnaryHistory asymptoticLedger :=
+    unary_cont_closed unaryHolomorphic unaryRecurrence holomorphicRecurrence
+  have unaryAsymptoticEndpoint : UnaryHistory asymptoticEndpoint :=
+    unary_cont_closed unaryAsymptoticLedger unaryEndpoint asymptoticEndpointRow
+  exact And.intro unaryOde
+    (And.intro unaryHolomorphic
+      (And.intro unaryOrder
+        (And.intro unaryRecurrence
+          (And.intro unaryAsymptoticLedger
+            (And.intro unaryAsymptoticEndpoint
+              (And.intro recurrenceRow
+                (And.intro holomorphicRecurrence
+                  (And.intro asymptoticEndpointRow pkgSig))))))))
+
 end BEDC.Derived.BesselUp

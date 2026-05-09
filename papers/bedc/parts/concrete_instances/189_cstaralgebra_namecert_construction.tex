@@ -10,6 +10,7 @@ The C*-algebra interface $\CStarAlgUp$ packages a Banach algebra with an involut
 \label{def:cstaralgebra-bhist-carrier}
 Fix a $\NameCert_{\BanachUp}$ row $B$ and a $\NameCert_{\RingUp}$ row $R$ over the same $\mathsf{BHist}$ source. A $\CStarAlgUp$ carrier row is the predicate on a history $h:\mathsf{BHist}$ asserting that $h$ carries exactly the following certificate-visible data: the Banach carrier row from $B$, the RingUp multiplication row from $R$, an involution row $s:\mathsf{BHist}$ on the same carried endpoints, a norm-square compatibility row for $s$ and the multiplication row, the $\hsame$ transport rows for the carrier, multiplication, involution, and norm-square witnesses, and the $\Pkg$ provenance rows naming $B$ and $R$.
 \end{definition}
+\leandef{BEDC.Derived.CStarAlgUp.CstaralgebraBHistCarrier}
 
 The predicate of \autoref{def:cstaralgebra-bhist-carrier} treats multiplication, involution, norm, and provenance as BEDC rows. It does not expose an ambient host $*$-algebra object or a quotient of algebra presentations.
 
@@ -25,6 +26,7 @@ The $\NameCert_{\CStarAlgUp}$ certificate surface consists of the carrier predic
 \label{thm:cstaralgebra-namecert-obligation-surface}
 The surface of \autoref{def:cstaralgebra-certificate-surface} is a complete paper-side obligation surface for $\NameCert_{\CStarAlgUp}$. Every accepted $\CStarAlgUp$ row is read from a $\mathsf{BHist}$ carrier row, a BanachUp source row, a RingUp multiplication row, an involution row, a norm-square compatibility row, the corresponding $\hsame$ and $\Cont$ transport rows, and the $\Pkg$ provenance rows for the two dependency certificates.
 \end{theorem}
+\leanchecked{BEDC.Derived.CstaralgebraUp.CstaralgebraNameCert\_obligation\_surface}
 \begin{proof}
 Project an accepted carrier witness through \autoref{def:cstaralgebra-bhist-carrier}. The projection exposes the Banach row, the RingUp multiplication row, the involution row, the norm-square row, the transport rows, and the dependency provenance.
 
