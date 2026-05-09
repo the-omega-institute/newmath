@@ -193,4 +193,64 @@ theorem FftBHistSourcePacket_ledger_exactness_obligation [AskSetup] [PackageSetu
       packet.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right⟩
 
+theorem FftBHistSourcePacket_root_threshold_unblock_surface [AskSetup] [PackageSetup]
+    {complex fourier stage butterfly factorization ledger endpoint consumerEndpoint : BHist}
+    {stageName : ProbeName} {schedule : ProbeBundle ProbeName} {pkg : Pkg} :
+    FftBHistSourcePacket complex fourier stage butterfly factorization ledger endpoint
+        stageName schedule pkg ->
+      Cont endpoint factorization consumerEndpoint ->
+        UnaryHistory consumerEndpoint ∧ hsame consumerEndpoint (append endpoint factorization) ∧
+          hsame endpoint (append ledger factorization) ∧
+            hsame ledger (append stage butterfly) ∧ hsame stage (append complex fourier) ∧
+              InBundle stageName schedule ∧ PkgSig schedule endpoint pkg := by
+  intro packet consumerRow
+  have stageUnary : UnaryHistory stage :=
+    unary_cont_closed packet.right.left packet.right.right.left
+      packet.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed stageUnary packet.right.right.right.left
+      packet.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary packet.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.left
+  have consumerUnary : UnaryHistory consumerEndpoint :=
+    unary_cont_closed endpointUnary packet.right.right.right.right.left consumerRow
+  exact
+    ⟨consumerUnary, consumerRow, packet.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.left, packet.left,
+      packet.right.right.right.right.right.right.right.right⟩
+
+theorem FftBHistSourcePacket_public_namecert_export [AskSetup] [PackageSetup]
+    {complex complex' fourier fourier' stage stage' butterfly butterfly'
+      factorization factorization' ledger ledger' endpoint endpoint' : BHist}
+    {stageName : ProbeName} {schedule : ProbeBundle ProbeName} {pkg : Pkg} :
+    FftBHistSourcePacket complex fourier stage butterfly factorization ledger endpoint
+        stageName schedule pkg ->
+      hsame complex complex' ->
+      hsame fourier fourier' ->
+      hsame butterfly butterfly' ->
+      hsame factorization factorization' ->
+      Cont complex' fourier' stage' ->
+      Cont stage' butterfly' ledger' ->
+      Cont ledger' factorization' endpoint' ->
+      PkgSig schedule endpoint' pkg ->
+      FftBHistSourcePacket complex' fourier' stage' butterfly' factorization' ledger'
+          endpoint' stageName schedule pkg ∧
+        InBundle stageName schedule ∧ UnaryHistory stage' ∧ UnaryHistory ledger' ∧
+          UnaryHistory endpoint' ∧ hsame stage stage' ∧ hsame ledger ledger' ∧
+            hsame endpoint endpoint' := by
+  intro packet sameComplex sameFourier sameButterfly sameFactorization stageCont'
+    ledgerCont' endpointCont' pkgSig'
+  have stability :=
+    FftBHistSourcePacket_factorization_classifier_stability_obligation
+      packet sameComplex sameFourier sameButterfly sameFactorization stageCont' ledgerCont'
+      endpointCont' pkgSig'
+  have exactness := FftBHistSourcePacket_ledger_exactness_obligation stability.left
+  exact
+    ⟨stability.left, exactness.left, exactness.right.right.right.left,
+      exactness.right.right.right.right.right.right.left,
+      exactness.right.right.right.right.right.right.right.left,
+      stability.right.left, stability.right.right.left, stability.right.right.right⟩
+
 end BEDC.Derived.FftUp
