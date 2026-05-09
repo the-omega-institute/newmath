@@ -325,15 +325,97 @@ def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str]:
 # ---------------------------------------------------------------------------
 
 
+def _log_snapshot_warning(message: str) -> None:
+    try:
+        LOG_DIR.mkdir(parents=True, exist_ok=True)
+        with (LOG_DIR / "pi_snapshot_warnings.log").open("a", encoding="utf-8") as f:
+            f.write(f"{_now_iso()} {message}\n")
+    except OSError:
+        pass
+
+
+def _stage2_reject_clusters_from_supervisor() -> dict:
+    try:
+        import supervisor
+        clusters = supervisor.stage2_reject_clusters()
+    except Exception as exc:
+        _log_snapshot_warning(f"stage2_reject_clusters unavailable: {exc}")
+        return {}
+    if not isinstance(clusters, dict):
+        _log_snapshot_warning("stage2_reject_clusters returned non-dict")
+        return {}
+    out: dict[str, int] = {}
+    for key, value in clusters.items():
+        try:
+            count = int(value)
+        except (TypeError, ValueError):
+            continue
+        if count >= 3:
+            out[str(key)] = count
+    return out
+
+
+def _stage2_reject_persistence(
+    current_clusters: dict,
+    recent_cycles: list[dict],
+    current_ts: str,
+) -> dict:
+    persistence: dict[str, dict] = {}
+    for category, count in current_clusters.items():
+        try:
+            current_count = int(count)
+        except (TypeError, ValueError):
+            continue
+        if current_count < 3:
+            continue
+        persisted_cycles = 1
+        first_seen = current_ts
+        for cycle in reversed(recent_cycles):
+            if not isinstance(cycle, dict):
+                break
+            cycle_snapshot = cycle.get("snapshot")
+            if not isinstance(cycle_snapshot, dict):
+                break
+            prior_clusters = cycle_snapshot.get("stage2_reject_clusters")
+            if not isinstance(prior_clusters, dict):
+                break
+            try:
+                prior_count = int(prior_clusters.get(category, 0))
+            except (TypeError, ValueError):
+                prior_count = 0
+            if prior_count < 3:
+                break
+            persisted_cycles += 1
+            first_seen = (
+                cycle.get("ts")
+                or cycle_snapshot.get("ts")
+                or first_seen
+            )
+        persistence[category] = {
+            "current_count": current_count,
+            "persisted_cycles": persisted_cycles,
+            "first_seen_cycle_ts": first_seen,
+        }
+    return persistence
+
+
 def collect_snapshot_v1() -> dict:
     base = collect_snapshot_v0()
+    recent_pi_cycles = _read_recent_cycles(n=10)
+    stage2_clusters = _stage2_reject_clusters_from_supervisor()
     base["pipeline_version_target"] = "v2"  # what v1 expects to manage
     base["completion_rates"] = _completion_rates()
     base["codex_track_summary"] = _codex_track_summary()
     base["shallow_completed_candidate"] = _shallow_completed_candidate()
     base["prompt_files"] = _prompt_files_inventory()
-    base["recent_pi_cycles"] = _read_recent_cycles(n=10)
+    base["recent_pi_cycles"] = recent_pi_cycles
     base["current_branch"] = _current_branch()
+    base["stage2_reject_clusters"] = stage2_clusters
+    base["stage2_reject_persistence"] = _stage2_reject_persistence(
+        stage2_clusters,
+        recent_pi_cycles,
+        str(base.get("ts") or _now_iso()),
+    )
     return base
 
 
@@ -1219,6 +1301,10 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         "deepen_emitted": deepen_emitted,
         "escalated_concerns": [c.get("text", "")[:120] for c in escalated],
         "gauntlet_results": gauntlet_results,
+        "snapshot": {
+            "stage2_reject_clusters": snapshot.get("stage2_reject_clusters") or {},
+            "stage2_reject_persistence": snapshot.get("stage2_reject_persistence") or {},
+        },
     }
     _append_recent_cycle(record)
 
