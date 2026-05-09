@@ -481,6 +481,17 @@ theorem motif_report_soundness
   intro hSection hMem
   exact hSection item hMem
 
+theorem motif_report_cannot_invent
+    {Rfam : GeneratedMotifRecognizer -> Prop} {S : EventFlow}
+    {items : List MotifProfileItem} {item : MotifProfileItem} :
+    Not (exists R : GeneratedMotifRecognizer,
+      Rfam R /\ RecognizesMotif R S item.2.1 item.1 /\
+        MotifLedger R S item.2.1 item.1 item.2.2) ->
+      RecognizedMotifSection Rfam S items ->
+        Not (List.Mem item items) := by
+  intro hMissing hSection hMem
+  exact hMissing (motif_report_soundness hSection hMem)
+
 inductive MotifAnalysisDatum : Type where
   | sourceFlow (S : EventFlow)
   | motifReport (Q : MotifReport)
@@ -493,6 +504,23 @@ inductive MotifAnalysisDatum : Type where
 inductive FormalMotifAnalysisInput : MotifAnalysisDatum -> Prop where
   | sourceFlow (S : EventFlow) :
       FormalMotifAnalysisInput (MotifAnalysisDatum.sourceFlow S)
+
+structure P3Pipeline where
+  channelCode : List DisplayAlphabet
+  decodedSource : EventFlow
+  p2ReportFlow : EventFlow
+  recognizerFamilyFlow : EventFlow
+  report : MotifReport
+  decoded :
+    Decode channelCode = some decodedSource
+  source_formal :
+    FormalCompilerInput (CompilerDatum.eventFlow decodedSource)
+  p2_report_formal :
+    FormalCompilerInput (CompilerDatum.eventFlow p2ReportFlow)
+  recognizer_family_formal :
+    FormalCompilerInput (CompilerDatum.eventFlow recognizerFamilyFlow)
+  report_not_formal_input :
+    Not (FormalMotifAnalysisInput (MotifAnalysisDatum.motifReport report))
 
 structure MotifReportPrototype where
   prototypeFlow : EventFlow

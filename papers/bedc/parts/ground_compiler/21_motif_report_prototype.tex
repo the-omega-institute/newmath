@@ -220,6 +220,7 @@ A \emph{bridge-candidate motif} is a recognized structure suggesting that two fl
 
 \begin{definition}[Motif report]
 \label{def:motif-report-report}
+\leandef{BEDC.GroundCompiler.SemanticMotif.MotifReport}
 Given a decoded event flow $S$ and a family of generated motif recognizers $\mathcal R$, a \emph{motif report} is an output view containing the ambient event flow, recognized motif occurrences, candidate motifs, motif roles, support subflows, motif ledgers, failure cases, warnings, and cannot-claim annotations. Write
 $$
   \mathsf{MotifReport}_{\mathcal R}(S).
@@ -275,6 +276,7 @@ By definition, the recognized motif section may list only entries with a recogni
 
 \begin{corollary}[Motif report cannot invent motifs]
 \label{cor:motif-report-cannot-invent}
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.motif\_report\_cannot\_invent}
 If recognizer or ledger is missing, a report may not promote a candidate motif to recognized motif.
 \end{corollary}
 
@@ -283,6 +285,7 @@ If recognizer or ledger is missing, a report may not promote a candidate motif t
 
 \begin{definition}[$P_3$ pipeline]
 \label{def:motif-report-p3-pipeline}
+\leandef{BEDC.GroundCompiler.SemanticMotif.P3Pipeline}
 Given channel code $c$, the $P_3$ pipeline has stages:
 \begin{enumerate}
 \item legality check;
