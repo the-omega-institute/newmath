@@ -108,3 +108,39 @@ The StreamName rows and the dyadic source rows therefore repack into the exact
 ledger stated above, while host $\mathsf{Nat}$ data, host functions, quotients,
 and unrecorded infinite objects have no exported row to inspect.
 \end{proof}
+
+\begin{theorem}[RealUp finite-window exhaustion subwindow closure]
+\label{thm:realup-finite-window-exhaustion-subwindow-closure}
+Whenever a $\RealUp$ finite-window exhaustion package is exposed for a
+$\StreamNameUp$ finite window, every certified subwindow obtained by the
+$\StreamNameUp$ finite-window subwindow restriction exposes the same $\RatUp$
+endpoint classifier, the same ledger boundary, and the same $\RealUp$ read
+surface restricted to that subwindow. The restricted package reads only the
+subwindow observation rows, the inherited
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the endpoint denominator
+rows, and the $\mathsf{DyadicRatCore}$ source rows already named by the ambient
+window.
+\end{theorem}
+\begin{proof}
+Start with the ambient finite-window exhaustion package. Apply
+\autoref{thm:realup-finite-window-exhaustion-obligation} to identify its
+$\RatUp$ endpoint classifiers, positive denominator witnesses, common e-one
+tail readbacks, and $\mathsf{DyadicRatCore}$ source rows.
+
+Restrict the StreamName component by
+\autoref{thm:rat-stream-name-finite-window-subwindow-restriction}. The certified
+subwindow keeps the same pointwise
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows and only changes the
+displayed finite observation domain.
+
+Next use \autoref{thm:realup-streamname-window-determinacy-boundary}. It rules
+out a second endpoint reading for the restricted window once the selected
+StreamName package and endpoint denominator rows are fixed.
+
+Finally apply
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. The ledger
+boundary remains exactly the selected unary observation, the restricted
+StreamName classifier row, the endpoint denominator rows, and the dyadic source
+rows. Repacking these rows gives the same $\RealUp$ read surface restricted to
+the certified subwindow.
+\end{proof}
