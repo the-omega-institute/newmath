@@ -1,40 +1,64 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.BesselUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def BesselRootPacket
-    (ode holo order solution target recurrence transport provenance : BHist) : Prop :=
-  UnaryHistory ode ∧ UnaryHistory holo ∧ UnaryHistory order ∧ UnaryHistory target ∧
-    Cont ode order solution ∧ Cont solution target recurrence ∧
-      hsame transport BHist.Empty ∧ Cont recurrence transport provenance
+def BesselRootPacket [AskSetup] [PackageSetup]
+    (ode holomorphic order sourceEndpoint targetEndpoint recurrence transport provenance
+      endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory ode ∧ UnaryHistory holomorphic ∧ UnaryHistory order ∧
+    UnaryHistory sourceEndpoint ∧ UnaryHistory targetEndpoint ∧ UnaryHistory provenance ∧
+      Cont sourceEndpoint targetEndpoint recurrence ∧ Cont recurrence order transport ∧
+        Cont transport provenance endpoint ∧ PkgSig bundle endpoint pkg
 
-theorem BesselRootPacket_ode_source_obligation
-    {ode holo order solution target recurrence transport provenance : BHist} :
-    BesselRootPacket ode holo order solution target recurrence transport provenance ->
-      UnaryHistory ode ∧ UnaryHistory order ∧ UnaryHistory solution ∧
-        UnaryHistory recurrence ∧ UnaryHistory provenance ∧ Cont ode order solution ∧
-          hsame transport BHist.Empty := by
+theorem BesselRootPacket_root_ode_source_obligation [AskSetup] [PackageSetup]
+    {ode holomorphic order sourceEndpoint targetEndpoint recurrence transport provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BesselRootPacket ode holomorphic order sourceEndpoint targetEndpoint recurrence transport
+        provenance endpoint bundle pkg ->
+      UnaryHistory ode ∧ UnaryHistory order ∧ UnaryHistory sourceEndpoint ∧
+        UnaryHistory targetEndpoint ∧ UnaryHistory recurrence ∧ UnaryHistory transport ∧
+          hsame recurrence (append sourceEndpoint targetEndpoint) ∧
+            hsame transport (append recurrence order) ∧ PkgSig bundle endpoint pkg := by
   intro packet
-  have solutionUnary : UnaryHistory solution :=
-    unary_cont_closed packet.left packet.right.right.left packet.right.right.right.right.left
+  have odeUnary : UnaryHistory ode :=
+    packet.left
+  have orderUnary : UnaryHistory order :=
+    packet.right.right.left
+  have sourceUnary : UnaryHistory sourceEndpoint :=
+    packet.right.right.right.left
+  have targetUnary : UnaryHistory targetEndpoint :=
+    packet.right.right.right.right.left
+  have recurrenceRow : Cont sourceEndpoint targetEndpoint recurrence :=
+    packet.right.right.right.right.right.right.left
+  have transportRow : Cont recurrence order transport :=
+    packet.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right
   have recurrenceUnary : UnaryHistory recurrence :=
-    unary_cont_closed solutionUnary packet.right.right.right.left
-      packet.right.right.right.right.right.left
+    unary_cont_closed sourceUnary targetUnary recurrenceRow
   have transportUnary : UnaryHistory transport :=
-    unary_transport unary_empty (hsame_symm packet.right.right.right.right.right.right.left)
-  have provenanceUnary : UnaryHistory provenance :=
-    unary_cont_closed recurrenceUnary transportUnary packet.right.right.right.right.right.right.right
-  exact And.intro packet.left
-    (And.intro packet.right.right.left
-      (And.intro solutionUnary
-        (And.intro recurrenceUnary
-          (And.intro provenanceUnary
-            (And.intro packet.right.right.right.right.left
-              packet.right.right.right.right.right.right.left)))))
+    unary_cont_closed recurrenceUnary orderUnary transportRow
+  exact And.intro odeUnary
+    (And.intro orderUnary
+      (And.intro sourceUnary
+        (And.intro targetUnary
+          (And.intro recurrenceUnary
+            (And.intro transportUnary
+              (And.intro recurrenceRow
+                (And.intro transportRow pkgSig)))))))
 
 end BEDC.Derived.BesselUp

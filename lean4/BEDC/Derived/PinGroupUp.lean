@@ -55,9 +55,35 @@ theorem PinGroupReflectionParityCarrier_exactness
           spinBranch.right)
   | inr reflectionBranch =>
       exact Or.inr
-        (And.intro
+          (And.intro
           (cont_respects_hsame reflectionBranch.right.left (hsame_refl ledger)
             endpointLedger (cont_intro rfl))
           (And.intro reflectionBranch.left reflectionBranch.right.right))
+
+theorem PinGroupReflectionParityCarrier_reflection_product_closure
+    {spin reflection product endpoint product' endpoint' : BHist} :
+    PinGroupReflectionParityCarrier spin reflection product endpoint ->
+      UnaryHistory spin ->
+        UnaryHistory reflection ->
+          Cont spin reflection product' ->
+            hsame endpoint' product' ->
+              PinGroupReflectionParityCarrier spin reflection product' endpoint' ∧
+                UnaryHistory product' := by
+  intro carrier spinUnary reflectionUnary productCont sameEndpoint
+  have productUnary : UnaryHistory product' :=
+    unary_cont_closed spinUnary reflectionUnary productCont
+  cases carrier with
+  | inl _spinBranch =>
+      exact And.intro
+        (Or.inr
+          (And.intro productCont
+            (And.intro sameEndpoint reflectionUnary)))
+        productUnary
+  | inr _reflectionBranch =>
+      exact And.intro
+        (Or.inr
+          (And.intro productCont
+            (And.intro sameEndpoint reflectionUnary)))
+        productUnary
 
 end BEDC.Derived.PinGroupUp
