@@ -1033,14 +1033,28 @@ def _exec_edit_pipeline_code(args: dict) -> str:
 
 
 def _apply_unified_diff(target: Path, diff_text: str) -> int:
-    """Apply a unified diff via `patch`. Returns 0 on success."""
+    """Apply a unified diff. Tries patch with context fuzz first, then falls
+    back to `git apply --3way` for headers without line numbers / context
+    drift. Returns 0 on success."""
     if not diff_text.strip():
         return 1
     proc = subprocess.run(
-        ["patch", "-p0", str(target)],
+        ["patch", "-p0", "--fuzz=3", "--forward", str(target)],
         input=diff_text, text=True, capture_output=True, cwd=str(REPO_ROOT), timeout=30,
     )
-    return proc.returncode
+    if proc.returncode == 0:
+        return 0
+    proc2 = subprocess.run(
+        ["git", "apply", "--3way", "--whitespace=fix"],
+        input=diff_text, text=True, capture_output=True, cwd=str(REPO_ROOT), timeout=30,
+    )
+    if proc2.returncode == 0:
+        return 0
+    proc3 = subprocess.run(
+        ["git", "apply", "--whitespace=fix"],
+        input=diff_text, text=True, capture_output=True, cwd=str(REPO_ROOT), timeout=30,
+    )
+    return proc3.returncode
 
 
 def _exec_git_commit() -> str:
