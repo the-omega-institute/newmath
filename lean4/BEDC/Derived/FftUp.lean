@@ -221,4 +221,36 @@ theorem FftBHistSourcePacket_root_threshold_unblock_surface [AskSetup] [PackageS
       packet.right.right.right.right.right.left, packet.left,
       packet.right.right.right.right.right.right.right.right⟩
 
+theorem FftBHistSourcePacket_public_namecert_export [AskSetup] [PackageSetup]
+    {complex complex' fourier fourier' stage stage' butterfly butterfly'
+      factorization factorization' ledger ledger' endpoint endpoint' : BHist}
+    {stageName : ProbeName} {schedule : ProbeBundle ProbeName} {pkg : Pkg} :
+    FftBHistSourcePacket complex fourier stage butterfly factorization ledger endpoint
+        stageName schedule pkg ->
+      hsame complex complex' ->
+      hsame fourier fourier' ->
+      hsame butterfly butterfly' ->
+      hsame factorization factorization' ->
+      Cont complex' fourier' stage' ->
+      Cont stage' butterfly' ledger' ->
+      Cont ledger' factorization' endpoint' ->
+      PkgSig schedule endpoint' pkg ->
+      FftBHistSourcePacket complex' fourier' stage' butterfly' factorization' ledger'
+          endpoint' stageName schedule pkg ∧
+        InBundle stageName schedule ∧ UnaryHistory stage' ∧ UnaryHistory ledger' ∧
+          UnaryHistory endpoint' ∧ hsame stage stage' ∧ hsame ledger ledger' ∧
+            hsame endpoint endpoint' := by
+  intro packet sameComplex sameFourier sameButterfly sameFactorization stageCont'
+    ledgerCont' endpointCont' pkgSig'
+  have stability :=
+    FftBHistSourcePacket_factorization_classifier_stability_obligation
+      packet sameComplex sameFourier sameButterfly sameFactorization stageCont' ledgerCont'
+      endpointCont' pkgSig'
+  have exactness := FftBHistSourcePacket_ledger_exactness_obligation stability.left
+  exact
+    ⟨stability.left, exactness.left, exactness.right.right.right.left,
+      exactness.right.right.right.right.right.right.left,
+      exactness.right.right.right.right.right.right.right.left,
+      stability.right.left, stability.right.right.left, stability.right.right.right⟩
+
 end BEDC.Derived.FftUp

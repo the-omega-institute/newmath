@@ -98,6 +98,37 @@ continuation, transport, and provenance rows. Because the carrier has no field
 for uncarried Kähler geometry, an ambient analytic projector, or a host Hodge
 decomposition, none of those structures is exported by the readback.
 \end{proof}
+\leanchecked{BEDC.Derived.HodgeBridgeUp.HodgeBridgeBHistSourcePacket\_shared\_projector\_readback\_exactness}
+
+\begin{theorem}[HodgeBridge public certificate handoff]
+\label{thm:hodgebridge-public-certificate-handoff}
+A public $\NameCert_{\HodgeBridgeUp}$ consumer may read exactly the de~Rham
+dependency row, the cohomology dependency row, the harmonic projector row, the
+bidegree ledger, the Lefschetz ledger, the finite $\Cont$ readback, the
+$\hsame$ transport family, and the $\mathsf{Pkg}$ provenance supplied by
+\autoref{def:hodgebridge-bhist-source-packet} and exhausted by
+\autoref{thm:hodgebridge-namecert-obligation-surface}. The handoff exports no
+host Hodge decomposition, no ambient analytic projector, and no uncarried
+Kähler geometry.
+\end{theorem}
+\begin{proof}
+Project the accepted source packet. Its displayed coordinates supply the
+de~Rham dependency row, cohomology dependency row, harmonic projector, bidegree
+ledger, Lefschetz ledger, finite continuation readback, transport family, and
+package provenance.
+
+Apply \autoref{thm:hodgebridge-source-dependency-surface} to bind the two
+dependency rows to one provenance package. Then use
+\autoref{thm:hodgebridge-harmonic-projector-classifier-stability} for the
+harmonic classifier transport and \autoref{thm:hodgebridge-ledger-exactness}
+for the exact public ledger rows.
+
+Finally repack exactly those projected fields as the consumer handoff. The
+obligation surface of \autoref{thm:hodgebridge-namecert-obligation-surface}
+exhausts the public projections, so there is no coordinate from which to read a
+host Hodge decomposition, an ambient analytic projector, or uncarried Kähler
+geometry.
+\end{proof}
 
 \section{The certificate}
 \label{sec:hodgebridge-certificate}
