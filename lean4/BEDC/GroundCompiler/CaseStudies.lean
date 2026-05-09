@@ -182,6 +182,29 @@ theorem list_spine_shares_repetition_with_nat (k : Nat) :
         List.append (FiniteRepetitionSkeleton k) [ZeroRunEvent k]
       rw [ih]
 
+def CompletionSkeleton : EventFlow :=
+  List.append (FiniteRepetitionSkeleton 3)
+    [[BMark.b0, BMark.b1],
+      [BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b1, BMark.b0, BMark.b0]]
+
+theorem completion_skeleton_contains_repetition :
+    PrefixSubflow (FiniteRepetitionSkeleton 3) CompletionSkeleton := by
+  exact
+    ⟨[[BMark.b0, BMark.b1],
+      [BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+
+theorem completion_skeleton_contains_carry :
+    Subflow
+      [[BMark.b0, BMark.b1, BMark.b1],
+        [BMark.b1, BMark.b0, BMark.b0]]
+      CompletionSkeleton := by
+  exact
+    Or.inl
+      ⟨List.append (FiniteRepetitionSkeleton 3) [[BMark.b0, BMark.b1]], [],
+        rfl⟩
+
 structure CompletionMotifRecord where
   stage : EventFlow
   threadFlow : EventFlow
