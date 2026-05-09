@@ -97,3 +97,31 @@ the transported root surface has only the product and inverse continuity
 families listed in the finite ledger, classifier transport cannot introduce a
 host topological-group object or an ambient continuity predicate.
 \end{proof}
+
+\begin{theorem}[TopGroupUp root operation-source continuity coupling]
+\label{thm:topgroup-root-operation-source-continuity-coupling}
+For an accepted root operation-source packet
+$\mathcal R=(G,T,m,i,n,\lambda,\rho)$, the displayed
+$\NameCert_{\GroupUp}$ row $G$ and displayed $\NameCert_{\TopologyUp}$ row $T$
+determine the product-continuity and inverse-continuity families through the
+same neighbourhood row $n$, finite $\Cont$ ledger $\lambda$, and $\Pkg$
+provenance row $\rho$. Classifier transport of $\mathcal R$ transports both
+continuity families through those same rows and cannot create an ambient
+continuity predicate outside the packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:topgroup-root-source-pair-exactness}. It identifies $G$ and
+$T$ as the displayed source pair of a single $\mathsf{BHist}$ packet, with
+$m$, $i$, $n$, $\lambda$, and $\rho$ read as projections from that same packet.
+
+Next use \autoref{thm:topgroup-root-operation-continuity-exhaustion}. The only
+operation-continuity rows over the displayed source pair are the
+product-continuity family for $m$ and the inverse-continuity family for $i$,
+both indexed by the same neighbourhood row and finite $\Cont$ ledger.
+
+Finally apply \autoref{thm:topgroup-root-classifier-ledger-stability}. The
+classifier transports the product row, inverse row, neighbourhood row, ledger,
+and provenance componentwise, so it transports both continuity families
+together and has no row from which to synthesize an ambient continuity
+predicate.
+\end{proof}
