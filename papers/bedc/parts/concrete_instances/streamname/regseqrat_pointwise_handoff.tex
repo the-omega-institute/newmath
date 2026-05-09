@@ -229,3 +229,116 @@ witness, and the corresponding rational-history classifier. Since all three
 steps read only these finite observation rows, the envelope has no place for
 regularity, completion, quotient, or $\RealUp$ seal data.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat finite-window coverage]
+\label{thm:streamname-regseqrat-window-coverage}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows and let
+$\mathcal P:\mathsf{ProbeBundle}$ be a finite observation bundle. For every
+row of $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$,
+every certified $\mathsf{UnaryHistory}(n)$, and every witness
+$\mathsf{InBundle}(n,\mathcal P)$, the exposed observation is exactly the
+pointwise row $\mathsf{RatHistoryClassifier}(s(n),t(n))$ together with the
+corresponding pointwise $\hsame$ datum. The coverage surface contains no
+$\RegSeqRat$ regularity row, completion row, quotient row, or $\RealUp$ seal
+row.
+\end{theorem}
+\begin{proof}
+Start with the global handoff of
+\autoref{thm:streamname-regseqrat-pointwise-handoff}. It lists the carrier,
+finite-window classifier, unary-history, bundle-membership, pointwise
+$\hsame$, and rational-history classifier rows as the only rows visible at
+the StreamName-to-$\RegSeqRat$ boundary.
+
+The observation stability theorem,
+\autoref{thm:streamname-regseqrat-observation-stability}, identifies the
+same pointwise $\hsame$ and rational-history row after passing through the
+certified bundle observation. The singleton diagonal handoff of
+\autoref{thm:streamname-regseqrat-singleton-diagonal-handoff} then reads the
+selected $n$-row as the diagonal pointwise classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+For an arbitrary finite row, the restriction handoff
+\autoref{thm:streamname-regseqrat-finite-window-restriction-handoff} reduces
+the visible packet to the certified sub-bundle containing that observation.
+Finally, the envelope theorem
+\autoref{thm:streamname-regseqrat-observation-envelope} removes every
+regularity, completion, quotient, and $\RealUp$ seal row from the consumer
+surface. Hence the finite-window coverage is exactly the displayed pointwise
+classifier row and its membership evidence.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat tail reindexing stability]
+\label{thm:streamname-regseqrat-tail-reindexing-stability}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, let
+$\mathcal P:\mathsf{ProbeBundle}$ be a finite observation bundle, and let
+$r:\mathsf{BHist}\to\mathsf{BHist}$ be a certified unary tail schedule whose
+selected rows preserve $\mathsf{UnaryHistory}$ and
+$\mathsf{InBundle}(-,\mathcal P)$. The StreamName handoff package for $s$
+and $t$ transports to the package for $s\circ r$ and $t\circ r$ using only
+the reindexed pointwise $\hsame$ rows, the reindexed $\mathsf{UnaryHistory}$
+rows, and the transported $\mathsf{InBundle}$ rows. No reindexed packet
+imports $\RegSeqRat$ regularity, completion, quotient, host-index equality,
+or $\RealUp$ seal data.
+\end{theorem}
+\begin{proof}
+Apply the pointwise handoff
+\autoref{thm:streamname-regseqrat-pointwise-handoff} before reindexing. Its
+source rows are the StreamName carriers, the finite-window classifier, unary
+histories, bundle membership, pointwise $\hsame$, and pointwise
+rational-history classifiers.
+
+The certified tail schedule supplies the same observation witnesses after
+composition with $r$. By observation stability,
+\autoref{thm:streamname-regseqrat-observation-stability}, the transported
+rows remain pointwise rows; no global regularity or quotient datum is used.
+
+For each selected row, use the singleton diagonal handoff
+\autoref{thm:streamname-regseqrat-singleton-diagonal-handoff} to identify
+the transported observation with
+$\mathsf{RatHistoryClassifier}(s(r(n)),t(r(n)))$. The finite-window
+restriction handoff,
+\autoref{thm:streamname-regseqrat-finite-window-restriction-handoff}, repacks
+these rows over the reindexed certified sub-bundle.
+
+The observation envelope
+\autoref{thm:streamname-regseqrat-observation-envelope} is stable under this
+repacking because it names only carrier, finite-window, membership,
+unary-history, pointwise $\hsame$, and pointwise rational classifier rows.
+Thus the tail-reindexed package is exhausted by the same pointwise handoff
+surface.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat pointwise classifier handoff exactness]
+\label{thm:streamname-regseqrat-pointwise-classifier-handoff-exactness}
+For StreamName rows $s,t:\mathsf{BHist}\to\mathsf{BHist}$ and a finite
+bundle $\mathcal P:\mathsf{ProbeBundle}$, the consumer-facing handoff from
+StreamName observations to $\RegSeqRat$ is exhausted by the
+$\mathsf{RatStreamNameCarrier}$ rows, the
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$ rows, bundle
+membership, unary observations, pointwise $\hsame$ rows, and pointwise
+$\mathsf{RatHistoryClassifier}$ rows. Any datum outside this list is not part
+of the handoff interface.
+\end{theorem}
+\begin{proof}
+The base handoff theorem
+\autoref{thm:streamname-regseqrat-pointwise-handoff} gives the complete
+source packet for the consumer boundary. Its rows already name the carriers,
+finite-window classifier, membership witnesses, unary observations,
+pointwise $\hsame$, and pointwise rational-history classifiers.
+
+Observation stability,
+\autoref{thm:streamname-regseqrat-observation-stability}, shows that moving
+inside the finite bundle preserves only these named pointwise rows. The
+singleton diagonal handoff,
+\autoref{thm:streamname-regseqrat-singleton-diagonal-handoff}, gives the
+same conclusion at a single certified observation.
+
+The finite-window restriction handoff
+\autoref{thm:streamname-regseqrat-finite-window-restriction-handoff} checks
+that every certified sub-bundle exposes no additional row. The observation
+envelope theorem,
+\autoref{thm:streamname-regseqrat-observation-envelope}, closes the
+interface by excluding $\RegSeqRat$ regularity, completion, quotient,
+host-index equality, and $\RealUp$ seal data. Therefore the listed rows are
+exactly the consumer-facing handoff surface.
+\end{proof}
