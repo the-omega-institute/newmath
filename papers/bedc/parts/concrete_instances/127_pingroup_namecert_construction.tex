@@ -725,12 +725,64 @@ consumers.
 \input{parts/concrete_instances/127_pingroup_scope_packages}
 \input{parts/concrete_instances/127_pingroup_scoped_consumer_surface}
 
+\begin{definition}[PinGroup scoped primitive binding]
+\label{def:pingroup-scoped-primitive-binding}
+The scoped primitive binding for $\PinGroupUp$ is the finite dependency package
+whose only primitive rows are $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$,
+$\NameCert_{\SpinGroupUp}$, and $\NameCert_{\CliffordUp}$. The inherited
+$\SpinGroupUp$ inclusion row and the $\CliffordUp$ reflection product row are
+read only through those two source certificates, and every reflection-parity
+carrier, classifier, transport, and provenance row of this chapter is a row in
+that package.
+\end{definition}
+
+\begin{theorem}[PinGroup parity scope transport]
+\label{thm:pingroup-parity-scope-transport}
+Every reflection-parity carrier transport used by $\PinGroupUp$ is exhausted by
+the primitive package of
+\autoref{def:pingroup-scoped-primitive-binding}. In particular, parity transport
+may use only the carried $\mathsf{BHist}$ histories, displayed $\hsame$
+comparisons, finite $\Cont$ routes, $\Pkg$ provenance, and the two source
+certificate rows from $\NameCert_{\SpinGroupUp}$ and
+$\NameCert_{\CliffordUp}$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:pingroup-parity-source-scope-package} to identify the parity
+rows as the inherited Spin branch, Clifford reflection branch, transport rows,
+and provenance rows.
+
+Then apply \autoref{thm:pingroup-scoped-reflection-parity-source}. It repacks
+the same rows as the scoped reflection-parity source and excludes host
+orthogonal, matrix, quotient, and third-source data. Hence every carrier
+transport factors through exactly the primitive binding package.
+\end{proof}
+
+\begin{theorem}[PinGroup consumer boundary exhaustion]
+\label{thm:pingroup-consumer-boundary-exhaustion}
+Every downstream consumer of the scoped $\PinGroupUp$ surface receives only the
+two source projections, the reflection-parity classifier, the transport rows,
+and the provenance package. No downstream consumer receives a host orthogonal
+group, matrix model, quotient Clifford unit, or additional Pin source row.
+\end{theorem}
+\begin{proof}
+Project the consumer through
+\autoref{thm:pingroup-scoped-consumer-projection-exhaustion}. This gives the
+consumer readback packet, reflection-parity classifier, Spin inclusion row,
+Clifford reflection product row, transport rows, finite continuation routes,
+and provenance rows.
+
+Finally apply \autoref{thm:pingroup-downstream-unblock-package}. It identifies
+the downstream package with the same finite rows, so the exported consumer
+boundary has exactly the two source projections, classifier, transport, and
+provenance data stated above.
+\end{proof}
+
 \begin{closurestatus}{\PinGroupUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation surface is limited to the displayed reflection-parity carrier, SpinGroup inclusion, Clifford reflection product, source projection, consumer boundary, $\hsame$, $\Cont$, and $\Pkg$ rows in this chapter.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the reflection-parity carrier, SpinGroup inclusion, Clifford reflection product, source projection, consumer boundary, $\hsame$, $\Cont$, and $\Pkg$ rows to $\mathsf{BHist}$, $\NameCert_{\SpinGroupUp}$, and $\NameCert_{\CliffordUp}$.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.PinGroupUp.PinGroupReflectionParityCarrier\_stability}
   \bridgestatus{none}
   \notclaimed{The full orthogonal group, analytic covering theory, matrix models, quotient algebras, and standard bridge data are outside this chapter.}
-  \upgradepath{Scoped closure requires binding each parity obligation row to its precise BEDC primitive and exported consumer boundary.}
+  \upgradepath{Public closure requires an exported $\NameCert_{\PinGroupUp}$ public surface with endpoint exactness, no-hidden-leakage rows, and standard bridge boundary.}
 \end{closurestatus}
