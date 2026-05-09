@@ -103,6 +103,61 @@ theorem LambdaCalcBHistTermPacketCarrier_public_endpoint_transport
         (And.intro endpointUnary' endpointRow'))
   exact And.intro carrier' (And.intro endpointRow' endpointUnary')
 
+theorem LambdaCalcBHistTermPacketCarrier_carrier_reflexive
+    {graph edge connected acyclic tag payload endpoint : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      SemanticNameCert
+          (fun row : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload row)
+          (fun row : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload row)
+          (fun row : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload row)
+          (fun left right : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload left ∧
+              LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload right ∧
+                hsame left right) ∧
+        hsame endpoint endpoint ∧ Cont tag payload endpoint := by
+  intro packet
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload row)
+          (fun row : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload row)
+          (fun row : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload row)
+          (fun left right : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload left ∧
+              LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload right ∧
+                hsame left right) := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint packet
+      equiv_refl := by
+        intro row carrier
+        exact And.intro carrier (And.intro carrier (hsame_refl row))
+      equiv_symm := by
+        intro left right classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro left middle right classifiedLM classifiedMR
+        exact And.intro classifiedLM.left
+          (And.intro classifiedMR.right.left
+            (hsame_trans classifiedLM.right.right classifiedMR.right.right))
+      carrier_respects_equiv := by
+        intro left right classified _carrierLeft
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _row carrier
+      exact carrier
+    ledger_sound := by
+      intro _row carrier
+      exact carrier
+  }
+  exact And.intro cert (And.intro (hsame_refl endpoint) packet.right.right.right)
+
 theorem LambdaCalcBHistTermCarrier_constructor_source_disjointness
     {i hVar hAbs hApp : BHist} :
     UnaryHistory i ->
