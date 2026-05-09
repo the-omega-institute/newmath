@@ -58,4 +58,50 @@ theorem RegulatorRootInputPacket_ledger_exactness [AskSetup] [PackageSetup]
                                         (And.intro determinantLedgerCont
                                           (And.intro endpointCont endpointPkg))
 
+theorem RegulatorRootInputPacket_root_namecert_threshold [AskSetup] [PackageSetup]
+    {dirichlet numfield unit inverse rank basis determinant provenance endpoint threshold : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegulatorRootInputPacket dirichlet numfield unit inverse rank basis determinant provenance
+        endpoint bundle pkg ->
+      Cont endpoint provenance threshold ->
+        PkgSig bundle threshold pkg ->
+          UnaryHistory threshold ∧ hsame threshold (append endpoint provenance) ∧
+            RegulatorRootInputPacket dirichlet numfield unit inverse rank basis determinant
+              provenance endpoint bundle pkg := by
+  intro packet thresholdCont _
+  cases packet with
+  | intro dirichletUnary rest =>
+      cases rest with
+      | intro numfieldUnary rest =>
+          cases rest with
+          | intro unitUnary rest =>
+              cases rest with
+              | intro inverseUnary rest =>
+                  cases rest with
+                  | intro rankUnary rest =>
+                      cases rest with
+                      | intro basisUnary rest =>
+                          cases rest with
+                          | intro determinantUnary rest =>
+                              cases rest with
+                              | intro provenanceUnary rest =>
+                                  cases rest with
+                                  | intro endpointCont endpointPkg =>
+                                      have endpointUnary : UnaryHistory endpoint :=
+                                        unary_cont_closed provenanceUnary determinantUnary endpointCont
+                                      have thresholdUnary : UnaryHistory threshold :=
+                                        unary_cont_closed endpointUnary provenanceUnary thresholdCont
+                                      exact And.intro thresholdUnary
+                                        (And.intro thresholdCont
+                                          (And.intro dirichletUnary
+                                            (And.intro numfieldUnary
+                                              (And.intro unitUnary
+                                                (And.intro inverseUnary
+                                                  (And.intro rankUnary
+                                                    (And.intro basisUnary
+                                                      (And.intro determinantUnary
+                                                        (And.intro provenanceUnary
+                                                          (And.intro endpointCont
+                                                            endpointPkg))))))))))
+
 end BEDC.Derived.RegulatorUp

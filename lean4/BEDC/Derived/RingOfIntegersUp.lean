@@ -70,4 +70,46 @@ theorem RingOfIntegersDedekindSourceCarrier_equation_ledger_transport_closure
                                             (And.intro targetPkgCont targetPkgSig)))))))
                                 (And.intro sameControw samePkgrow)
 
+theorem RingOfIntegersDedekindSourceCarrier_root_classifier_transport
+    [AskSetup] [PackageSetup]
+    {numfield introw embedding ledger classifier controw pkgrow classifier' pkgrow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RingOfIntegersDedekindSourceCarrier numfield introw embedding ledger classifier controw
+        pkgrow bundle pkg ->
+      hsame classifier classifier' ->
+        Cont controw classifier' pkgrow' ->
+          PkgSig bundle pkgrow' pkg ->
+            RingOfIntegersDedekindSourceCarrier numfield introw embedding ledger classifier'
+                controw pkgrow' bundle pkg ∧
+              hsame pkgrow pkgrow' := by
+  intro carrier sameClassifier targetPkgCont targetPkgSig
+  cases carrier with
+  | intro numfieldUnary rest =>
+      cases rest with
+      | intro introwUnary rest =>
+          cases rest with
+          | intro embeddingUnary rest =>
+              cases rest with
+              | intro ledgerUnary rest =>
+                  cases rest with
+                  | intro classifierUnary rest =>
+                      cases rest with
+                      | intro ledgerCont rest =>
+                          cases rest with
+                          | intro pkgCont _ =>
+                              have classifierUnary' : UnaryHistory classifier' :=
+                                unary_transport classifierUnary sameClassifier
+                              have samePkgrow : hsame pkgrow pkgrow' :=
+                                cont_respects_hsame (hsame_refl controw) sameClassifier pkgCont
+                                  targetPkgCont
+                              exact And.intro
+                                (And.intro numfieldUnary
+                                  (And.intro introwUnary
+                                    (And.intro embeddingUnary
+                                      (And.intro ledgerUnary
+                                        (And.intro classifierUnary'
+                                          (And.intro ledgerCont
+                                            (And.intro targetPkgCont targetPkgSig)))))))
+                                samePkgrow
+
 end BEDC.Derived.RingOfIntegersUp
