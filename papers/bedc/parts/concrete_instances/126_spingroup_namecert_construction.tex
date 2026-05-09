@@ -421,6 +421,7 @@ the product read to the same carried source. The row records multiplication
 and inverse access only through the inherited Clifford-unit and group
 certificates, and it does not assert an uncarried host-level spin subgroup.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_clifford\_unit\_source\_obligation}
 \begin{proof}
 Read the Clifford dependency as a unit endpoint in the $\CliffordUp$ carrier.
 The even-product provenance is a finite $\mathsf{BHist}$ ledger whose factors
@@ -680,40 +681,7 @@ rows exhaust the accepted comparison, so no host quotient or external
 orthogonal equality is read.
 \end{proof}
 
-\begin{theorem}[SpinGroup root double-cover consumer exhaustion]
-\label{thm:spingroup-root-double-cover-consumer-exhaustion}
-A downstream $\PinGroupUp$ or $\CliffordUp$ consumer of the $\SpinGroupUp$ root
-double-cover boundary can read only the visible Clifford unit source, the
-parity classifier, inverse and product witnesses, the double-cover fiber
-classifier, finite $\Cont$ readbacks, and $\mathsf{Pkg}$ provenance. These are
-exactly the rows exposed by
-\autoref{def:spingroup-bhist-carrier-packet},
-\autoref{def:spingroup-root-bhist-carrier},
-\autoref{thm:spingroup-root-namecert-threshold-package},
-\autoref{thm:spingroup-double-cover-fiber-classifier}, and
-\autoref{thm:spingroup-namecert-obligation-surface}.
-\end{theorem}
-\begin{proof}
-Project a consumer read through
-\autoref{thm:spingroup-namecert-obligation-surface}. The obligation surface
-lists the carrier, classifier, stability, exactness, and ledger rows available
-to any downstream consumer.
-
-Apply \autoref{thm:spingroup-root-namecert-threshold-package} to the root part.
-It confines carrier reads to the visible Clifford unit source, parity ledger,
-inverse and product witnesses, finite $\Cont$ transport, $\hsame$ comparison,
-and $\mathsf{Pkg}$ provenance. The concrete packet definitions provide no
-other constructor to inspect.
-
-Finally apply \autoref{thm:spingroup-double-cover-fiber-classifier} to the
-projection boundary. The only extra classifier available there is the
-double-cover fiber classifier, and it is again a displayed finite
-$\mathsf{BHist}$ row. Repacking the projected rows gives exactly the consumer
-surface named in the statement, with no host quotient, ambient orthogonal group
-equality, analytic covering datum, or standard-bridge datum.
-\end{proof}
-\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_double\_cover\_consumer\_exhaustion}
-
+\input{parts/concrete_instances/spingroup/double_cover_consumer_boundary}
 \input{parts/concrete_instances/spingroup/boundary_consumer_exactness}
 
 \begin{closurestatus}{\SpinGroupUp}
