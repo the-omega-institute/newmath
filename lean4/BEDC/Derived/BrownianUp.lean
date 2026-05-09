@@ -236,4 +236,42 @@ theorem BrownianStepContinuityClassifier_namecert_obligation_surface
       exact source
   }
 
+theorem BrownianStepContinuityClassifier_path_step_boundary_exhaustion
+    {martingale continuous time path step normal provenance ledger martingale' continuous' time'
+      path' step' normal' provenance' ledger' : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      hsame martingale martingale' ->
+        hsame continuous continuous' ->
+          hsame time time' ->
+            hsame path path' ->
+              hsame normal normal' ->
+                Cont continuous' path' step' ->
+                  Cont martingale' step' provenance' ->
+                    Cont provenance' normal' ledger' ->
+                      BrownianStepContinuityClassifier martingale' continuous' time' path' step'
+                          normal' provenance' ledger' ∧
+                        hsame step step' ∧ hsame provenance provenance' ∧ hsame ledger ledger' ∧
+                          UnaryHistory time' ∧ UnaryHistory normal' := by
+  intro classified sameMartingale sameContinuous sameTime samePath sameNormal stepRow provenanceRow
+    ledgerRow
+  have transported :
+      BrownianStepContinuityClassifier martingale' continuous' time' path' step' normal'
+          provenance' ledger' ∧ hsame provenance provenance' ∧ hsame ledger ledger' :=
+    BrownianStepContinuityClassifier_step_ledger_transport classified sameMartingale sameContinuous
+      sameTime samePath sameNormal stepRow provenanceRow ledgerRow
+  have sameStep : hsame step step' :=
+    cont_respects_hsame sameContinuous samePath classified.right.right.right.right.right.left
+      stepRow
+  constructor
+  · exact transported.left
+  · constructor
+    · exact sameStep
+    · constructor
+      · exact transported.right.left
+      · constructor
+        · exact transported.right.right
+        · constructor
+          · exact transported.left.right.right.left
+          · exact transported.left.right.right.right.right.left
+
 end BEDC.Derived.BrownianUp
