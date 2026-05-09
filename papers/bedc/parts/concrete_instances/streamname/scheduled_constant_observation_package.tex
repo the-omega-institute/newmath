@@ -294,6 +294,55 @@ boundary theorems consume the finite StreamName rows and RegSeqRat ledger as
 given, so no completion-side or host analytic datum is added.
 \end{proof}
 
+\begin{theorem}[StreamName-RegSeqRat-RealUp feed common-row determinacy]
+\label{thm:streamname-regseqrat-realup-feed-common-row-determinacy}
+Let $d,e:\Hist$ be seed histories, let $r,q:\Hist\to\Hist$ be observation
+schedules, and let $u:\Hist\to\Hist$ be a certified unary reindexing row. Let
+$\mathcal{P}:\mathsf{ProbeBundle}$ be the same accepted finite-window request
+for two scheduled finite-window feeds built from
+$\mathsf{SchedConstObs}(d,e,r\circ u,q\circ u)$. If the two feeds also share the
+same $\mathsf{RatStreamNameClassifier}$ seed row for $(d,e)$ and the same
+RegSeqRat dyadic ledger rows, then they expose the same StreamName
+finite-window carrier rows, the same StreamName classifier row selected by
+$\mathcal{P}$, the same input row for
+\autoref{thm:regseqrat-finite-window-seal-exactness}, and the same RealUp
+finite-window ledger boundary row.
+
+Thus common finite source data determine the rows read by the RegSeqRat seal
+and by the RealUp finite-window consumer. No host index, quotient
+representative, completion object, metric row, or $\RealUp$ completeness datum
+can distinguish the two feeds.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-regseqrat-realup-finite-window-feed} to each feed. Both
+applications start from the same $\mathsf{BHist}$ seed histories $d,e$, the same
+accepted $\mathsf{ProbeBundle}$ request $\mathcal{P}$, the same
+$\mathsf{InBundle}$ evidence, and the same $\mathsf{UnaryHistory}$ row $u$.
+
+Project the two inventories through
+\autoref{thm:streamname-regseqrat-seal-scope}. The scope theorem says that the
+visible rows are exactly the scheduled StreamName carriers, the selected
+finite-window classifier, the RatUp seed classifier, the endpoint denominator
+rows, and the RegSeqRat dyadic ledger rows. Since the hypotheses identify those
+source rows, the two inventories have the same displayed StreamName carrier and
+classifier rows.
+
+Now read the RegSeqRat input. The shared $\mathsf{hsame}$, $\Cont$, unary
+reindexing, accepted bundle membership, and dyadic ledger hypotheses are
+precisely the rows consumed by
+\autoref{thm:regseqrat-finite-window-seal-exactness}. Therefore the seal input
+row cannot vary between the two feeds.
+
+Finally pass the common seal packet through
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. These RealUp
+boundary statements read the finite StreamName packet and RegSeqRat ledger
+already identified above, so every RealUp finite-window ledger boundary row is
+the same for the two feeds and no additional datum remains available to
+separate them.
+\end{proof}
+
 \begin{theorem}[Scheduled constant observation RealUp feed]
 \label{thm:streamname-constant-scheduled-real-feed}
 For histories $d,e:\Hist$ and schedules $r,q:\Hist\to\Hist$, the scheduled
