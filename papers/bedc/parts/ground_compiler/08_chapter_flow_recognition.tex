@@ -462,6 +462,7 @@ YAML, manifests, and outlines may be generated from a decoded and recognized cha
 
 \begin{proposition}[YAML input would be hidden structure]
 \label{prop:chapter-generated-yaml-hidden-structure}
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.chapter\_yaml\_input\_hidden\_structure}
 If YAML were accepted as formal input, then chapter boundaries, field names, theorem order, certificate slots, ledger slots, and status labels would be supplied externally. Such input is structural hidden input.
 \end{proposition}
 
@@ -506,16 +507,18 @@ If a chapter depends on an unfinished certificate, proof, bridge, or recognizer,
 
 \begin{definition}[Chapter seal subflow]
 \label{def:chapter-generated-seal-subflow}
-If $\mathsf{RecognizesChapter}(R_C,C)$ and $R_C$ recognizes a terminal subflow $\sigma_C$ of $C$ as expressing chapter completion, then $\sigma_C$ is a \emph{chapter-seal subflow}, written
+\leandef{BEDC.GroundCompiler.ChapterFlow.ChapSeal}
+If $\mathsf{RecognizesChapter}(R_C,C)$ and $R_C$ recognizes an event flow $\sigma_C$ as the chapter-completion role for $C$, then $\sigma_C$ is a \emph{chapter-seal subflow}, written
 $$
   \mathsf{ChapSeal}_{R_C}(C,\sigma_C).
 $$
-The chapter seal is a source-level subflow, not the channel-level terminator $11$.
+The chapter seal is a source-level event flow carrying a recognized role, not the channel-level terminator $11$.
 \end{definition}
 
 \begin{proposition}[Chapter seal is not the channel terminator]
 \label{prop:chapter-generated-seal-not-channel-terminator}
-If $\mathsf{ChapSeal}_{R_C}(C,\sigma_C)$, then $\sigma_C$ is a source-level subflow, not the channel-level terminator $11$.
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.chapter\_seal\_is\_event\_flow}
+If $\mathsf{ChapSeal}_{R_C}(C,\sigma_C)$, then $\sigma_C$ is a source-level event flow recognized as nonempty formal event-flow input. The seal judgment is therefore not a claim about the channel-level terminator $11$.
 \end{proposition}
 
 \begin{proof}

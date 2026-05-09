@@ -190,4 +190,19 @@ theorem theorem_list_alone_not_chapter
   intro _ hIncomplete
   exact incomplete_chapter_flow_not_chapter hIncomplete
 
+theorem chapter_yaml_input_hidden_structure :
+    StructuralHiddenInput CompilerDatum.hostYAML /\
+      Not (FormalCompilerInput CompilerDatum.hostYAML) := by
+  constructor
+  · exact StructuralHiddenInput.hostYAML
+  · exact structural_hidden_not_formal StructuralHiddenInput.hostYAML
+
+theorem chapter_seal_is_event_flow
+    {R : GeneratedChapterRecognizer} {C sigmaC : ChapterCandidateFlow} :
+    ChapSeal R C sigmaC ->
+      FormalCompilerInput (CompilerDatum.eventFlow sigmaC) /\
+        NonemptyEventFlow sigmaC := by
+  intro hSeal
+  exact hSeal.right
+
 end BEDC.GroundCompiler.ChapterFlow
