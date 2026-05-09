@@ -61,3 +61,35 @@ $\Cont$ rows with their $\Pkg$ provenance. Repacking these finite rows supplies
 the NameCert obligation surface and leaves stronger analytic claims outside the
 certificate.
 \end{proof}
+
+\begin{theorem}[Entropy log-weight transport determinacy]
+\label{thm:entropy-log-weight-transport-determinacy}
+Let $E$ and $E'$ be two accepted $\EntropyUp$ source surfaces of the form
+displayed in \autoref{def:entropy-bhist-measure-source-surface}. If $E$ and
+$E'$ share the same $\DistributionUp$ pushforward row, the same $\IntegralUp$
+readback row, and the same transported log-weight endpoint through the
+displayed $\hsame$ rows, then every entropy consumer reads the same log-weight
+endpoint, $\Cont$ ledger rows, and $\Pkg$ provenance from $E$ and $E'$.
+
+No entropy equality theorem, convergence theorem, measure completion, or
+host-level integral identity can distinguish the two packages within the
+displayed BEDC boundary.
+\end{theorem}
+\begin{proof}
+First project both packages through
+\autoref{thm:entropy-distribution-integral-boundary}. The only observable
+numerical rows are the shared $\DistributionUp$ pushforward row, the shared
+$\IntegralUp$ readback row, and the transported log-weight endpoint carried by
+the displayed $\hsame$ rows.
+
+Next project the certificate surface with
+\autoref{thm:entropy-namecert-obligation-surface}. Since the accepted surfaces
+have the same distribution, integral, and log-weight endpoints, the certificate
+can repack only the corresponding $\Cont$ ledger rows and the same $\Pkg$
+provenance for the accepted source package.
+
+Finally use the exclusions in the two boundary theorems. Analytic convergence,
+measure-theoretic completion, entropy equality, and host integral identity are
+not rows of the accepted $\EntropyUp$ surface. They therefore cannot supply a
+second consumer read or separate the two transported log-weight packages.
+\end{proof}
