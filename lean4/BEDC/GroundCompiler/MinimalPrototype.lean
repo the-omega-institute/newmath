@@ -409,6 +409,51 @@ theorem p0_adequacy_not_higher
             reference_prototype_not_full_compiler
               hAdequate.left hPublic hHigherClaim
 
+theorem reference_prototype_not_higher_adequacy
+    {publicSurface : InterfaceDatum -> Prop} :
+    ReferencePrototype publicSurface ->
+      Not (HigherPrototypeAdequacy publicSurface) := by
+  intro hPrototype hHigher
+  cases hHigher with
+  | intro d hDatum =>
+      cases hDatum with
+      | intro hPublic hHigherClaim =>
+          exact
+            reference_prototype_not_full_compiler
+              hPrototype hPublic hHigherClaim
+
+theorem reference_prototype_conservative_over_kernel
+    {publicSurface : InterfaceDatum -> Prop} :
+    ReferencePrototype publicSurface ->
+      (forall d, publicSurface d -> ReferencePrototypePublic d) /\
+      Not (HigherPrototypeAdequacy publicSurface) /\
+      NoHostLeakCondition publicSurface := by
+  intro hPrototype
+  constructor
+  · exact hPrototype.left
+  · constructor
+    · exact reference_prototype_not_higher_adequacy hPrototype
+    · exact hPrototype.right.right.right.right.right
+
+theorem reference_prototype_address_layer
+    {publicSurface : InterfaceDatum -> Prop} :
+    ReferencePrototype publicSurface ->
+      publicSurface InterfaceDatum.compiles /\
+      publicSurface InterfaceDatum.decodes /\
+      publicSurface InterfaceDatum.rejects /\
+      publicSurface InterfaceDatum.isLegalZStream /\
+      Not (HigherPrototypeAdequacy publicSurface) := by
+  intro hPrototype
+  constructor
+  · exact hPrototype.right.left
+  · constructor
+    · exact hPrototype.right.right.left
+    · constructor
+      · exact hPrototype.right.right.right.left
+      · constructor
+        · exact hPrototype.right.right.right.right.left
+        · exact reference_prototype_not_higher_adequacy hPrototype
+
 theorem prototype_reports_output_not_formal_input {v : PrototypeIOView} :
     PrototypeReportOutputView v -> Not (FormalPrototypeInput v) := by
   intro hReport hInput
