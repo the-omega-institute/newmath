@@ -11,13 +11,13 @@ import BEDC.FKernel.Unary
 namespace BEDC.Derived.RingOfIntegersUp
 
 open BEDC.Derived.IntUp
+open BEDC.Derived.NumFieldUp
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
-open BEDC.Derived.NumFieldUp
 
 def RingOfIntegersDedekindSourceCarrier [AskSetup] [PackageSetup]
     (numfield embeddedInt embedding equationLedger classifier provenance contLedger endpoint : BHist)

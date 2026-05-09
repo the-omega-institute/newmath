@@ -167,14 +167,45 @@ Use \autoref{thm:symplecticup-ledger-exactness-obligation} to convert that list 
 The excluded objects require structure not present in the displayed rows. A Poisson bracket needs its own bracket operation and Jacobi witness, a Hamiltonian flow needs a flow construction, and a standard model needs a $\StdBridge$ row. Since the public export in \autoref{thm:symplecticup-public-namecert-export} carries none of those rows, the consumer frontier is exactly the stated boundary.
 \end{proof}
 
-\closureat{SymplecticUp}{bridgedStr}[BEDC.Derived.SymplecticUp.SymplecticObligationBoundary\_semantic\_name\_certificate]
+\begin{theorem}[SymplecticUp mature consumer completeness boundary]
+\label{thm:symplecticup-mature-consumer-completeness-boundary}
+Every Hamiltonian, Poisson, or standard-model consumer row admitted by this
+chapter either factors through the public $\NameCert_{\SymplecticUp}$ export,
+the closed/nondegenerate public stability row, and the Hamiltonian/Poisson
+consumer frontier, or is explicitly outside the $\SymplecticUp$ boundary. In
+particular, the chapter supplies the shared manifold carrier, degree-two form,
+exterior-derivative routing, closedness, nondegeneracy, pairing ledger, and
+classifier transport rows; it does not supply a Poisson bracket, Hamiltonian
+flow, Jacobi witness, concrete carrier implementation, or $\StdBridge$ row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:symplecticup-public-namecert-export}. It supplies the
+public carrier-classifier surface over $\mathsf{BHist}$ with the shared
+manifold and degree-two form rows, the restricted $\hsame$ classifier,
+closedness, nondegeneracy, and exact ledger rows.
+
+Next apply
+\autoref{thm:symplecticup-closed-nondegenerate-public-stability}. This ensures
+that any admitted consumer of closedness or nondegeneracy consumes those rows
+on the same paired $\ManifoldUp+\DiffFormUp$ carrier and cannot separate the
+law row from the endpoint to which it belongs.
+
+Finally apply
+\autoref{thm:symplecticup-hamiltonian-poisson-consumer-frontier}. Its soundness
+clause lists the permitted Hamiltonian and Poisson-facing reads and excludes
+the Poisson bracket, Hamiltonian flow, Jacobi witness, and standard bridge.
+Thus every admitted consumer row factors through the displayed public export
+and stability rows, while every other row is outside the boundary.
+\end{proof}
+
+\closureat{SymplecticUp}{matureStr}[BEDC.Derived.SymplecticUp.SymplecticObligationBoundary\_semantic\_name\_certificate]
 
 \begin{closurestatus}{\SymplecticUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The bridge scope is the displayed $\NameCert_{\DiffFormUp}$ and $\NameCert_{\ManifoldUp}$ carrier-classifier surface, the $\hsame$-restricted classifier, exterior-derivative routing, ledger rows, public $\NameCert_{\SymplecticUp}$ export, and Hamiltonian/Poisson consumer frontier cited in \autoref{def:symplecticup-carrier-classifier-surface}, \autoref{def:symplectic-obligation-boundary}, \autoref{thm:symplectic-carrier-classifier-obligations}, \autoref{thm:symplecticup-public-namecert-export}, and \autoref{thm:symplecticup-hamiltonian-poisson-consumer-frontier}.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature scope is the displayed $\NameCert_{\DiffFormUp}$ and $\NameCert_{\ManifoldUp}$ carrier-classifier surface, the $\hsame$-restricted classifier, exterior-derivative routing, ledger rows, public $\NameCert_{\SymplecticUp}$ export, closed/nondegenerate stability, and Hamiltonian/Poisson consumer completeness boundary cited in \autoref{def:symplecticup-carrier-classifier-surface}, \autoref{def:symplectic-obligation-boundary}, \autoref{thm:symplectic-carrier-classifier-obligations}, \autoref{thm:symplecticup-public-namecert-export}, \autoref{thm:symplecticup-closed-nondegenerate-public-stability}, \autoref{thm:symplecticup-hamiltonian-poisson-consumer-frontier}, and \autoref{thm:symplecticup-mature-consumer-completeness-boundary}.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.SymplecticUp.SymplecticObligationBoundary\_semantic\_name\_certificate}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a concrete $\SymplecticUp$ carrier implementation, a closedness proof, a nondegeneracy proof, a Hamiltonian or Poisson structure, or a standard bridge.}
-  \upgradepath{Mature closure requires examples and completeness coverage beyond the displayed public export and consumer frontier.}
+  \upgradepath{Only formal bridge checking is separate; the theory axis is already at $\matureClosure$.}
 \end{closurestatus}
