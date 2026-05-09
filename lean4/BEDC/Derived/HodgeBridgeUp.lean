@@ -243,4 +243,51 @@ theorem HodgeBridgeBHistSourcePacket_namecert_obligation_surface
                 rows.right.right.right.right.right.right.right.right.right.right.right.left
                 rows.right.right.right.right.right.right.right.right.right.right.right.right))))))
 
+theorem HodgeBridgeBHistSourcePacket_semantic_name_certificate [AskSetup] [PackageSetup]
+    {derham cohomology projector bidegree lefschetz readback transport provenance endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz readback
+        transport provenance endpoint bundle pkg ->
+      SemanticNameCert
+        (fun h : BHist =>
+          ∃ endpoint0 : BHist,
+            HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz
+              readback transport provenance endpoint0 bundle pkg ∧ hsame h endpoint0)
+        (fun h : BHist =>
+          ∃ endpoint0 : BHist,
+            HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz
+              readback transport provenance endpoint0 bundle pkg ∧ hsame h endpoint0)
+        (fun h : BHist =>
+          ∃ endpoint0 : BHist,
+            HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz
+              readback transport provenance endpoint0 bundle pkg ∧ hsame h endpoint0)
+        (fun left right : BHist =>
+          (∃ leftEndpoint : BHist,
+            HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz
+              readback transport provenance leftEndpoint bundle pkg ∧
+                hsame left leftEndpoint) ∧
+          (∃ rightEndpoint : BHist,
+            HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz
+              readback transport provenance rightEndpoint bundle pkg ∧
+                hsame right rightEndpoint) ∧ hsame left right) := by
+  intro packet
+  constructor
+  · constructor
+    · exact Exists.intro endpoint
+        (Exists.intro endpoint (And.intro packet (hsame_refl endpoint)))
+    · intro h source
+      exact And.intro source (And.intro source (hsame_refl h))
+    · intro h k same
+      exact And.intro same.right.left (And.intro same.left (hsame_symm same.right.right))
+    · intro h k r sameHK sameKR
+      exact And.intro sameHK.left
+        (And.intro sameKR.right.left (hsame_trans sameHK.right.right sameKR.right.right))
+    · intro h k same _source
+      exact same.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 end BEDC.Derived.HodgeBridgeUp
