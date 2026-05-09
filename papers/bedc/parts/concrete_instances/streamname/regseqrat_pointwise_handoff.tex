@@ -1,0 +1,122 @@
+\section{StreamName RegSeqRat Pointwise Handoff}
+\label{sec:streamname-regseqrat-pointwise-handoff}
+
+\begin{theorem}[StreamName pointwise handoff package]
+\label{thm:streamname-regseqrat-pointwise-handoff}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows and let
+$\mathcal{P}:\mathsf{ProbeBundle}$ be a finite observation bundle. A
+pointwise handoff from $\StreamNameUp$ to $\RegSeqRat$ or to a finite-window
+$\RealUp$ consumer consists exactly of the following source rows:
+\begin{enumerate}
+  \item $\mathsf{RatStreamNameCarrier}(s)$ and
+  $\mathsf{RatStreamNameCarrier}(t)$;
+  \item $\mathsf{RatStreamNameClassifier}(s,t)$, restricted on
+  $\mathcal{P}$ through
+  $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$;
+  \item for each certified $n$, the rows
+  $\mathsf{UnaryHistory}(n)$, $\mathsf{InBundle}(n,\mathcal{P})$, and the
+  pointwise $\hsame$ comparison carried by the classifier at $n$.
+\end{enumerate}
+Every row handed to $\RegSeqRat$ or to a finite-window $\RealUp$ consumer is
+one of these pointwise StreamName rows. The handoff contains no completion
+object, quotient row, host-index equality, $\RegSeqRat$ regularity row, or
+$\RealUp$ seal classifier.
+\end{theorem}
+\begin{proof}
+Project the public finite-window StreamName surface by
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. It exposes the
+selected classifier rows, the finite $\mathsf{ProbeBundle}$ ledger,
+$\mathsf{InBundle}$ membership, and $\mathsf{UnaryHistory}$ observations.
+
+Now read the selected classifier pointwise. Definitions
+\autoref{def:rat-stream-name-carrier} and
+\autoref{def:rat-stream-name-classifier} identify the carrier and classifier
+rows as statements about the observations $s(n)$ and $t(n)$ at certified unary
+histories. The finite-window classifier row restricts exactly those
+pointwise observations to the selected bundle.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion} and
+\autoref{thm:streamname-real-regseq-obligation-separation}. These theorems
+repack the pointwise rows into the same downstream handoff and keep
+regularity and seal classifiers on the consumer side.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat observation stability]
+\label{thm:streamname-regseqrat-observation-stability}
+Let $s,t,u,s',t':\mathsf{BHist}\to\mathsf{BHist}$ and let
+$\mathcal{P}:\mathsf{ProbeBundle}$ be finite. Suppose
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$ and
+$\mathsf{RatStreamNameFiniteWindowClassifier}(t,u,\mathcal{P})$ hold, and
+suppose every certified $n$ with
+$\mathsf{InBundle}(n,\mathcal{P})$ and $\mathsf{UnaryHistory}(n)$ carries the
+pointwise comparisons $\hsame(s(n),s'(n))$ and $\hsame(t(n),t'(n))$. Then the
+same bundle also supports the self, symmetric, transitive, and transported
+pointwise classifier rows:
+$$
+\begin{gathered}
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,s,\mathcal{P}),\\
+\mathsf{RatStreamNameFiniteWindowClassifier}(t,s,\mathcal{P}),\\
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,u,\mathcal{P}),\\
+\mathsf{RatStreamNameFiniteWindowClassifier}(s',t',\mathcal{P}).
+\end{gathered}
+$$
+Thus a $\RegSeqRat$ handoff or finite-window $\RealUp$ consumer may transport
+the StreamName observation window only along pointwise $\hsame$ rows already
+certified in the finite bundle.
+\end{theorem}
+\begin{proof}
+Unfold the finite-window classifier at a certified member of
+$\mathcal{P}$. The hypotheses provide the pointwise classifier rows
+$s(n)\sim t(n)$ and $t(n)\sim u(n)$ together with the carrier row for $s(n)$.
+
+Apply the finite-window stability fields represented on the Lean side by
+$\mathsf{RatStreamNameFiniteWindowClassifier\_stability\_fields}$. Its four
+projections give the self row for $s$, the symmetric row from $t$ to $s$, the
+transitive row from $s$ to $u$, and the transported row from $s'$ to $t'$ on
+the same finite bundle.
+
+The consumer boundary is unchanged. By
+\autoref{thm:streamname-regseqrat-pointwise-handoff}, the transported rows are
+still only pointwise StreamName observations plus bundle membership and unary
+history evidence, so no downstream regularity or seal row is imported.
+\end{proof}
+
+\begin{theorem}[StreamName RealUp constant observation handoff]
+\label{thm:streamname-realup-constant-observation-handoff}
+Let $d,e:\mathsf{BHist}$ be rational-history endpoints, let
+$r,q:\mathsf{BHist}\to\mathsf{BHist}$ be observation schedules, and let
+$\mathcal{P}:\mathsf{ProbeBundle}$ be a finite unary observation bundle. The
+constant StreamName rows
+$$
+n\mapsto \mathsf{RatStreamName\_constant}(d,r(n)),
+\qquad
+n\mapsto \mathsf{RatStreamName\_constant}(e,q(n))
+$$
+feed $\RegSeqRat$ and finite-window $\RealUp$ only through the pointwise rows
+of \autoref{thm:streamname-regseqrat-pointwise-handoff}. The rational endpoint
+classifier for $d$ and $e$ supplies the constant point observations, while
+regularity, dyadic seal data, and the $\RealUp$ seal classifier remain
+downstream obligations.
+\end{theorem}
+\begin{proof}
+Start from the constant StreamName boundary. Apply
+\autoref{thm:streamname-real-regseq-constant-boundary}: a constant finite
+window exports the rational point-classifier row, the finite bundle ledger,
+membership rows, and unary observation rows, while $\RegSeqRat$ regularity
+remains outside the StreamName source.
+
+Apply
+\autoref{thm:streamname-constant-scheduled-observation-exactness} to the two
+scheduled constant rows. The Lean definitions
+$\mathsf{RatStreamNameCarrier}$, $\mathsf{RatStreamNameClassifier}$, and
+$\mathsf{RatStreamName\_constant}$ express this as pointwise observations of
+the fixed rational endpoints $d$ and $e$ at every certified unary history.
+
+Finally pass the resulting finite window through
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. These RealUp
+consumer theorems read only the pointwise StreamName packet and its ledger, so
+the constant handoff contributes no completion, quotient, host-index equality,
+regularity witness, or seal classifier.
+\end{proof}
