@@ -27,6 +27,58 @@ def CompilerCertificateRecognition
   FormalCompilerInput (CompilerDatum.recognizedFlow RK KC) /\
     FormalCompilerInput (CompilerDatum.eventFlow C)
 
+def P9Subflow (S C : EventFlow) : Prop :=
+  exists pre : EventFlow, exists post : EventFlow,
+    S = List.append (List.append pre C) post
+
+inductive CompilerCertificateRole : Type where
+  | inputDomain
+  | outputDomain
+  | encodingRule
+  | decodingRule
+  | roundTrip
+  | recognizerHierarchy
+  | ledger
+  | failure
+  | kernelConservativity
+  | selfDescription
+  | closingSeal
+
+def CompilerCertificateFieldSubflow
+    (RK : EventFlow) (KC part : EventFlow)
+    (_role : CompilerCertificateRole) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow RK KC) /\
+    P9Subflow KC part
+
+def CompilerCertificateFields
+    (RK : EventFlow) (KC : CompilerCertificateCandidateFlow)
+    (C : CompilerCandidateFlow) : Prop :=
+  CompilerCertificateRecognition RK KC C /\
+    exists inputDomain outputDomain encoding decoding roundTrip hierarchy
+      ledger failure kernel selfDescription closingSeal : EventFlow,
+      CompilerCertificateFieldSubflow RK KC inputDomain
+        CompilerCertificateRole.inputDomain /\
+      CompilerCertificateFieldSubflow RK KC outputDomain
+        CompilerCertificateRole.outputDomain /\
+      CompilerCertificateFieldSubflow RK KC encoding
+        CompilerCertificateRole.encodingRule /\
+      CompilerCertificateFieldSubflow RK KC decoding
+        CompilerCertificateRole.decodingRule /\
+      CompilerCertificateFieldSubflow RK KC roundTrip
+        CompilerCertificateRole.roundTrip /\
+      CompilerCertificateFieldSubflow RK KC hierarchy
+        CompilerCertificateRole.recognizerHierarchy /\
+      CompilerCertificateFieldSubflow RK KC ledger
+        CompilerCertificateRole.ledger /\
+      CompilerCertificateFieldSubflow RK KC failure
+        CompilerCertificateRole.failure /\
+      CompilerCertificateFieldSubflow RK KC kernel
+        CompilerCertificateRole.kernelConservativity /\
+      CompilerCertificateFieldSubflow RK KC selfDescription
+        CompilerCertificateRole.selfDescription /\
+      CompilerCertificateFieldSubflow RK KC closingSeal
+        CompilerCertificateRole.closingSeal
+
 def CertifiedCompiler (C : CompilerCandidateFlow) : Prop :=
   exists KC : CompilerCertificateCandidateFlow,
     exists RK : EventFlow, CompilerCertificateRecognition RK KC C
@@ -58,10 +110,6 @@ theorem host_output_inadmissible_without_certificate
       Not (FormalCompilationJudgment Compiles C S T) := by
   exact uncertified_cannot_compile
 
-def P9Subflow (S C : EventFlow) : Prop :=
-  exists pre : EventFlow, exists post : EventFlow,
-    S = List.append (List.append pre C) post
-
 inductive BootstrapRole : Type where
   | channelEncoderDecoder
   | eventFlowRecognizer
@@ -74,6 +122,46 @@ def BootstrapCompiler
 def BootstrapObligation
     (B : EventFlow) (C : CompilerCandidateFlow) (rho : BootstrapRole) : Prop :=
   NonemptyEventFlow B /\ P9Subflow B C /\ BootstrapCompiler C rho
+
+def BootstrapRecorded (C : CompilerCandidateFlow) : Prop :=
+  exists B : EventFlow, exists rho : BootstrapRole, BootstrapObligation B C rho
+
+def BoundaryCompilationJudgment
+    (Compiles : CompilerBehaviorRelation)
+    (C : CompilerCandidateFlow) (S T : EventFlow) : Prop :=
+  (CertifiedCompiler C \/ BootstrapRecorded C) /\ Compiles C S T
+
+theorem bootstrap_must_be_explicit
+    {Compiles : CompilerBehaviorRelation}
+    {C : CompilerCandidateFlow} {S T : EventFlow} :
+    BoundaryCompilationJudgment Compiles C S T ->
+      CertifiedCompiler C \/ BootstrapRecorded C := by
+  intro hJudgment
+  exact hJudgment.left
+
+def HiddenBootstrapUse
+    (Compiles : CompilerBehaviorRelation)
+    (C : CompilerCandidateFlow) (S T : EventFlow) : Prop :=
+  Compiles C S T /\ Not (CertifiedCompiler C) /\ Not (BootstrapRecorded C)
+
+def NoHiddenCompilerUse
+    (Compiles : CompilerBehaviorRelation)
+    (C : CompilerCandidateFlow) (S T : EventFlow) : Prop :=
+  Compiles C S T -> CertifiedCompiler C \/ BootstrapRecorded C
+
+theorem hidden_bootstrap_violates
+    {Compiles : CompilerBehaviorRelation}
+    {C : CompilerCandidateFlow} {S T : EventFlow} :
+    HiddenBootstrapUse Compiles C S T ->
+      Not (NoHiddenCompilerUse Compiles C S T) := by
+  intro hHidden hNoHidden
+  have hBoundary : CertifiedCompiler C \/ BootstrapRecorded C :=
+    hNoHidden hHidden.left
+  cases hBoundary with
+  | inl hCertified =>
+      exact hHidden.right.left hCertified
+  | inr hBootstrap =>
+      exact hHidden.right.right hBootstrap
 
 def CompilerBehaviorClassifier
     (behavior : CompilerBehaviorRelation)

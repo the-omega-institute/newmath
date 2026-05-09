@@ -116,6 +116,7 @@ It is read as: the generated recognizer flow $R_K$ recognizes the event flow $K_
 
 \begin{definition}[Compiler certificate fields]
 \label{def:self-hosting-compiler-certificate-fields}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerCertificateFields}
 If
 $$
   \mathsf{RecognizesCompilerCert}(R_K,K_C,C),
@@ -217,11 +218,13 @@ $$
 
 \begin{principle}[Bootstrap must be explicit]
 \label{prin:self-hosting-compiler-bootstrap-explicit}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.bootstrap\_must\_be\_explicit}
 Before full self-hosting is established, every compiler component that depends on external implementation must be recorded by a bootstrap obligation. The component cannot be hidden in host functions, YAML, Lean meta code, proof scripts, or implementation details.
 \end{principle}
 
 \begin{theorem}[Hidden bootstrap violates no-hidden-input discipline]
 \label{thm:self-hosting-compiler-hidden-bootstrap-violates}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.hidden\_bootstrap\_violates}
 If a compiler component $C$ is used in a formal compilation judgment, but is neither a certified compiler flow nor recorded by a bootstrap obligation, then the system violates the no-hidden-input discipline.
 \end{theorem}
 
