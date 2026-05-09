@@ -25,3 +25,71 @@ $\mathsf{UnaryHistory}$ carrier, the same $\hsame$ comparison, the same $\Cont$
 transport ledgers, and the same $\mathsf{NatMul}$ relation. Therefore the three
 packages assemble as one Full Nat Arithmetic consumption point for $\MulUp$.
 \end{proof}
+
+\begin{theorem}[MulUp Full Nat Arithmetic phase-exit boundary]
+\label{thm:mulup-full-nat-arithmetic-phase-exit-boundary}
+Over $\mathsf{BHist}$ and the carrier $\mathsf{UnaryHistory}$, the package of
+\autoref{thm:mulup-semantic-exit-and-divisibility-order-phase-package} is
+exactly the $\MulUp$ L7 consumer boundary required by the Full Nat Arithmetic
+phase. Its rows are the carrier $\mathsf{UnaryHistory}$, classifier $\hsame$,
+multiplication relation $\mathsf{NatMul}$, unit, totality, result closure,
+functionality, unit laws, commutativity, associativity, the $\AddUp$
+distributivity rows, the $\OrderUp$ monotonicity row, and the divisibility-order
+consumer rows.
+\end{theorem}
+\begin{proof}
+Unfold the package theorem
+\autoref{thm:mulup-semantic-exit-and-divisibility-order-phase-package}. Its
+displayed surface already fixes the concrete carrier, classifier,
+multiplication relation, semantic result object, additive rows, order row, and
+divisibility-order rows over $\mathsf{BHist}$ and $\mathsf{UnaryHistory}$.
+
+The algebraic part comes from
+\autoref{thm:unary-multiplication-mulup-semantic-exit-package}: it supplies the
+unit, totality, result closure, functionality, unit laws, commutativity, and
+associativity rows for $\mathsf{NatMul}$ on the same $\hsame$-classified unary
+histories.
+
+The additive and order-facing part is the row coverage recorded by
+\autoref{thm:mulup-semantic-exit-audit-row-coverage} together with
+\autoref{thm:mulup-divisibility-order-consumer-package}. These give the
+$\AddUp$ distributivity rows, the $\OrderUp$ monotonicity row, and the
+reflexive, transitive, and antisymmetric divisibility-order consumer rows
+without changing the carrier or classifier.
+
+Thus a later Full Nat Arithmetic consumer can read $\MulUp$ through this single
+boundary. No host natural-number multiplication, quotient object, or
+multiplication operation outside the unary-history package is used.
+\end{proof}
+
+\begin{theorem}[MulUp Full Nat Arithmetic hsame transport boundary]
+\label{thm:mulup-full-nat-arithmetic-hsame-transport-boundary}
+Let two unary-history presentations over $\mathsf{BHist}$ be related
+componentwise by $\hsame$. Then the Full Nat Arithmetic phase-exit boundary of
+\autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary} transports across
+that comparison. The transported boundary has the same
+$\mathsf{UnaryHistory}$ carrier surface, the transported $\hsame$ classifier,
+the transported $\mathsf{NatMul}$ relation, the same unit, the same $\AddUp$
+distributivity rows, the same $\OrderUp$ monotonicity row, and the same
+divisibility-order consumer rows, all exported through the unchanged
+$\mathsf{BHist}$ surface.
+\end{theorem}
+\begin{proof}
+Project the phase-exit boundary of
+\autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary}. Its rows are
+already expressed over $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$,
+$\mathsf{NatMul}$, the additive distribution rows, the order row, and the
+divisibility-order consumer rows.
+
+Transport the carrier and classifier first. The componentwise $\hsame$
+comparison keeps each unary-history row inside $\mathsf{UnaryHistory}$ and
+keeps every $\Cont$ ledger on the same displayed $\mathsf{BHist}$ endpoints.
+The functionality and transport clauses for $\mathsf{NatMul}$ then move the
+multiplication row, unit row, and result row to the transported presentation.
+
+Finally, repack the AddUp distribution rows, the OrderUp monotonicity row, and
+the divisibility rows from the transported endpoints. These rows mention only
+the already transported unary histories, $\Cont$ ledgers, $\hsame$
+comparisons, and $\mathsf{NatMul}$ witnesses, so the consumer receives the
+same phase-exit package and no new exported surface.
+\end{proof}
