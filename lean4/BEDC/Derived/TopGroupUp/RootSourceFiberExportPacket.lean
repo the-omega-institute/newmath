@@ -9,6 +9,22 @@ open BEDC.FKernel.Unary
 open BEDC.Derived.GroupUp
 open BEDC.Derived.TopologyUp
 
+def TopGroupRootSourceFiberExportPacket
+    (group topology product inverse classifier ledger provenance : BHist) : Prop :=
+  GroupSingletonCarrier group ∧ TopologySingletonCarrier topology ∧ Cont product inverse ledger ∧
+    hsame classifier ledger ∧ hsame provenance ledger
+
+theorem TopGroupRootSourceFiberExportPacket_source_boundary
+    {group topology product inverse classifier ledger provenance : BHist} :
+    TopGroupRootSourceFiberExportPacket group topology product inverse classifier ledger provenance ->
+      GroupSingletonCarrier group ∧ TopologySingletonCarrier topology ∧
+        Cont product inverse ledger ∧ hsame classifier ledger ∧ hsame provenance ledger := by
+  intro packet
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.left
+        (And.intro packet.right.right.right.left packet.right.right.right.right)))
+
 theorem TopGroupRootSourceFiberExportPacket_exactness
     {group topology product inverse neighborhood ledger provenance productLedger inverseLedger
       exportLedger : BHist} :
