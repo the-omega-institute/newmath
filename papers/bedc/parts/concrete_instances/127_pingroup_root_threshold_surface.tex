@@ -1,0 +1,143 @@
+\begin{theorem}[PinGroup reflection-generator transport closure]
+\label{thm:pingroup-reflection-generator-transport-closure}
+The $\hsame$ transport of the Clifford reflection-generator row preserves
+$\PinGroupUp$ carrier admission exactly through the finite $\Cont$ ledger of
+the displayed $\NameCert_{\PinGroupUp}$; no transported reflection-generator
+row is admitted without the carrier row, the reflection-generator obligation,
+and the closed reflection ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier admission row of
+\autoref{def:pingroup-reflection-extension-carrier}. It exposes the Clifford
+reflection-generator source, its $\hsame$ witness, and its finite $\Cont$
+transport as the only carrier-facing generator data.
+
+Apply \autoref{thm:pingroup-reflection-generator-obligation} to identify the
+accepted generator row, then apply
+\autoref{thm:pingroup-reflection-ledger-closure}. The ledger closure repacks
+exactly the transported row and excludes any host generator outside the
+displayed $\Cont$ ledger.
+\end{proof}
+
+\begin{theorem}[PinGroup Spin subrow classifier readback]
+\label{thm:pingroup-spin-subrow-classifier-readback}
+Every $\SpinGroupUp$ source row embedded in the $\PinGroupUp$ carrier is read
+by the inherited Spin classifier together with the identity reflection ledger.
+The embedded row therefore contributes no independent Clifford reflection
+generator beyond the Spin boundary already carried by $\NameCert_{\PinGroupUp}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:pingroup-spin-extension-obligation}. It places the
+$\SpinGroupUp$ source row inside the carrier with the inherited classifier,
+the identity reflection entry, $\hsame$, $\Cont$, and $\Pkg$ provenance.
+
+Apply \autoref{thm:pingroup-spin-boundary-exhaustion}. The exhaustion theorem
+rules out a second reflection-generator read on the Spin subrow, so the
+classifier readback is precisely the inherited Spin row plus the identity
+reflection ledger.
+\end{proof}
+
+\begin{theorem}[PinGroup orthogonal projection ledger exhaustion]
+\label{thm:pingroup-orthogonal-projection-ledger-exhaustion}
+Every public orthogonal-action projection row of $\PinGroupUp$ is exhausted by
+the inherited Spin source, the Clifford action row, the reflection-generator
+parity row, the listed $\hsame$ transports, the finite $\Cont$ ledger, and the
+$\Pkg$ provenance row of $\NameCert_{\PinGroupUp}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:pingroup-full-orthogonal-projection-obligation} to reduce a
+public orthogonal-action read to the certificate projection ledger. Apply
+\autoref{thm:pingroup-source-ledger-coverage} to identify its Spin source,
+Clifford action, and reflection-generator parity components.
+
+Finally apply \autoref{thm:pingroup-clifford-action-consumer-surface}. It
+exports exactly those source rows with their $\hsame$, $\Cont$, and $\Pkg$
+data, so no further public orthogonal-action projection remains.
+\end{proof}
+
+\begin{definition}[PinGroup root consumer threshold packet]
+\label{def:pingroup-root-consumer-threshold-packet}
+The $\PinGroupUp$ root consumer threshold packet is the finite public packet
+whose rows are the $\SpinGroupUp$ source row, the $\CliffordUp$ source row, the
+reflection-parity row of
+\autoref{def:pingroup-reflection-parity-carrier}, the orthogonal-action
+projection row, the $\hsame$ transport rows, the finite $\Cont$ ledger rows,
+and the $\Pkg$ provenance rows displayed by $\NameCert_{\PinGroupUp}$. A
+downstream root consumer reads only this packet when it asks for the Pin
+reflection boundary.
+\end{definition}
+
+\begin{theorem}[PinGroup root source-threshold coverage]
+\label{thm:pingroup-root-source-threshold-coverage}
+Every source row visible to the $\PinGroupUp$ root consumer threshold packet is
+covered by the consumed $\SpinGroupUp$ source, the consumed $\CliffordUp$
+source, and the reflection-parity split of
+\autoref{def:pingroup-reflection-parity-carrier}. No third source projection is
+visible at the threshold.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:pingroup-source-ledger-coverage}. It places every public
+source read in the Spin or Clifford source ledger and records the same
+$\mathsf{BHist}$ histories in the finite certificate packet.
+
+Apply \autoref{thm:pingroup-spin-subrow-classifier-readback} to read the Spin
+subrow through the inherited classifier, and apply
+\autoref{thm:pingroup-reflection-parity-exactness} to separate the Clifford
+reflection branch from the inherited Spin branch.
+
+Finally apply \autoref{thm:pingroup-source-exhaustion}. The exhaustion result
+rules out any source outside those two rows, so the threshold packet has
+exactly the advertised source coverage.
+\end{proof}
+
+\begin{theorem}[PinGroup root reflection-threshold exactness]
+\label{thm:pingroup-root-reflection-threshold-exactness}
+The reflection part of the $\PinGroupUp$ root consumer threshold packet is
+accepted exactly when the Clifford reflection-generator obligation, the
+reflection-parity classifier, the orthogonal-action projection, and the finite
+$\hsame$ and $\Cont$ transport rows of $\NameCert_{\PinGroupUp}$ are present.
+It exports no host reflection, matrix reflection, or orthogonal-group element.
+\end{theorem}
+\begin{proof}
+Project the reflection generator through
+\autoref{thm:pingroup-reflection-generator-transport-closure}. This identifies
+the admitted reflection row with the carrier row, the generator obligation,
+and the closed finite reflection ledger.
+
+Apply \autoref{thm:pingroup-reflection-parity-exactness}. The classifier
+accepts precisely the inherited Spin branch or the Clifford reflection branch,
+and the reflection threshold is the latter branch with its displayed parity
+row.
+
+Now apply \autoref{thm:pingroup-orthogonal-projection-ledger-exhaustion}. The
+orthogonal-action readback is exhausted by the Spin source, Clifford action,
+parity row, $\hsame$ transports, $\Cont$ ledger, and $\Pkg$ provenance already
+listed in the threshold packet. Hence no host reflection object is exported.
+\end{proof}
+
+\begin{theorem}[PinGroup root downstream threshold surface]
+\label{thm:pingroup-root-downstream-threshold-surface}
+The downstream root-facing surface of $\PinGroupUp$ is exactly the consumer
+threshold packet of
+\autoref{def:pingroup-root-consumer-threshold-packet}. It supplies the Spin
+source row, Clifford source row, reflection-parity row, orthogonal projection
+row, $\hsame$ transport rows, $\Cont$ ledger rows, and $\Pkg$ provenance rows
+needed by Spin-facing and Pin-facing root consumers, and it supplies no
+analytic covering, quotient algebra, matrix model, or host orthogonal-group
+surface.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:pingroup-root-source-threshold-coverage}. It fixes the
+only source rows available to the threshold packet and keeps them inside the
+Spin and Clifford source ledgers.
+
+Next use \autoref{thm:pingroup-root-reflection-threshold-exactness}. It fixes
+the reflection branch by the generator obligation, parity classifier,
+orthogonal projection, and finite transport ledgers.
+
+Finally apply \autoref{thm:pingroup-downstream-unblock-package} and
+\autoref{thm:pingroup-clifford-action-consumer-surface}. These results repack
+the same source, reflection, action, $\hsame$, $\Cont$, and $\Pkg$ rows for
+downstream consumers. The packet is therefore the full root threshold surface,
+with all host analytic and algebraic models excluded.
+\end{proof}

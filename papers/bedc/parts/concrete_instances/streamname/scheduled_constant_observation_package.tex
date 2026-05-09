@@ -233,3 +233,43 @@ constant observation package. Thus RealUp consumes no additional StreamNameUp
 data beyond this scheduled package when forming the constant rational
 embedding certificate.
 \end{proof}
+
+\begin{theorem}[Scheduled constant StreamName RealUp seal exactness]
+\label{thm:streamname-scheduled-constant-realup-seal-exactness}
+For histories $d,e:\Hist$ and schedules $r,q:\Hist\to\Hist$, the package
+$\mathsf{SchedConstObs}(d,e,r,q)$ supplies exactly the StreamNameUp carrier
+rows, the StreamNameUp classifier row, the RatUp seed rows, and the provenance
+rows consumed by
+\autoref{thm:realup-finite-window-exhaustion-obligation},
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}, and
+\autoref{thm:streamname-constant-scheduled-real-feed}. It supplies no host
+stream function, quotient representative, completion datum, or RealUp
+completeness witness.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:streamname-constant-scheduled-observation-package}. The
+displayed entries are the two scheduled constant StreamName rows
+$\mathsf{RatConstStream}_d\circ r$ and
+$\mathsf{RatConstStream}_e\circ q$, the RatUp seed histories $d,e$, the
+classifier row between the scheduled names, and the package provenance
+recording their finite-window source.
+
+Apply \autoref{thm:streamname-constant-scheduled-observation-exactness} to the
+same package. It identifies the carrier and classifier rows as the exact
+StreamNameUp surface induced by the two RatUp seeds, so there is no additional
+StreamName classifier or host stream map outside the displayed packet.
+
+Next use \autoref{thm:streamname-constant-scheduled-real-feed}. The RealUp
+consumer coordinates for the independently scheduled constant rational
+embedding are precisely the two scheduled StreamName rows and their exact
+classifier row. Thus the consumer side reads the rows already isolated by the
+scheduled observation package.
+
+Finally repack these rows through
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. Those theorems
+read only the finite StreamName window, the RatUp seed rows, and the
+provenance ledger, so the seal exports exactly the finite-window RealUp input
+surface and not a quotient representative, completion datum, or completeness
+witness.
+\end{proof}
