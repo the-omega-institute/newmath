@@ -6,5 +6,115 @@ The factor interface $\FactorUp$ packages a von Neumann algebra with trivial cen
 \section{Carrier definition}
 \label{sec:factor-carrier}
 
+\begin{definition}[Factor BHist source packet]
+\label{def:factor-bhist-source-packet}
+A $\FactorUp$ source packet is a $\mathsf{BHist}$ row carrying a
+$\VonNeumannAlgUp$ dependency row, a displayed centre row, a trivial-centre
+witness, and a factor-type classifier row with value in
+$\mathrm{I}$, $\mathrm{II}_1$, $\mathrm{II}_\infty$, or $\mathrm{III}$. The
+carrier accepts exactly those packets whose algebra component is accepted by
+$\NameCert_{\VonNeumannAlgUp}$, whose centre witness is transported by the
+same $\hsame$ evidence, and whose type row is recorded in the visible ledger.
+\end{definition}
+
+\begin{theorem}[Factor carrier trivial-centre obligation]
+\label{thm:factor-carrier-trivial-centre-obligation}
+Every accepted $\FactorUp$ carrier row projects to a
+$\VonNeumannAlgUp$ carrier row together with a centre witness whose only
+visible carrier is the scalar endpoint of the source algebra. Conversely, a
+$\VonNeumannAlgUp$ carrier row, a displayed centre row, and a trivial-centre
+witness transported through the same $\hsame$ comparison repack as a
+$\FactorUp$ carrier row. No host equality of algebras or ambient Hilbert-space
+realization is read by this obligation.
+\end{theorem}
+\begin{proof}
+Project the dependency row from the source packet of
+\autoref{def:factor-bhist-source-packet}. The $\NameCert_{\VonNeumannAlgUp}$
+row supplies the algebra carrier and the classifier used to compare its
+visible history.
+
+The trivial-centre field is then read as a displayed witness over that same
+history. Transport along $\hsame$ preserves the centre row because the packet
+stores the centre witness beside the algebra dependency rather than as a host
+property.
+
+For the converse direction, place the algebra dependency, centre row, and
+trivial-centre witness into the packet constructor and apply $\Cont$ to the
+shared history comparison. The result is exactly the factor carrier surface.
+\end{proof}
+
+\begin{theorem}[Factor type classifier stability obligation]
+\label{thm:factor-type-classifier-stability-obligation}
+The factor-type classifier row of a $\FactorUp$ packet is stable under
+accepted $\hsame$ replacement of the underlying $\VonNeumannAlgUp$ history.
+If two source packets compare through the algebra classifier, the transported
+trivial-centre witnesses determine the same displayed type row among
+$\mathrm{I}$, $\mathrm{II}_1$, $\mathrm{II}_\infty$, and $\mathrm{III}$.
+\end{theorem}
+\begin{proof}
+Start with the algebra comparison supplied by
+$\NameCert_{\VonNeumannAlgUp}$. It transports the carrier, operation, and
+classifier rows of the source von Neumann algebra through the accepted
+$\hsame$ evidence.
+
+The factor packet keeps the type classifier in the same ledger as the
+trivial-centre witness. Therefore the transported centre witness is read
+before the type row is compared, so the classification cannot change without
+leaving the displayed packet.
+
+Repacking the transported algebra row, centre witness, and type row gives the
+same $\FactorUp$ classifier surface for the target packet.
+\end{proof}
+
+\begin{theorem}[Factor ledger exactness obligation]
+\label{thm:factor-ledger-exactness-obligation}
+The $\FactorUp$ ledger consists exactly of the
+$\NameCert_{\VonNeumannAlgUp}$ dependency row, the $\mathsf{BHist}$ algebra
+carrier row, the centre row, the trivial-centre witness row, the factor-type
+classifier row, and their $\hsame$ and $\Cont$ transport evidence. Coverage,
+soundness, and completeness hold for precisely those rows; spectral
+decomposition theorems, representation theorems, measure-class data, and
+standard bridge rows are excluded.
+\end{theorem}
+\begin{proof}
+Coverage projects an accepted packet into its visible ledger entries: the
+von Neumann algebra dependency, the algebra carrier, the centre row, the
+trivial-centre witness, the factor-type row, and the transport witnesses.
+
+Soundness reads those entries back through the packet constructor. The
+dependency certificate justifies the algebra component, while $\hsame$ and
+$\Cont$ carry the centre and type rows across the accepted history comparison.
+
+Completeness follows because the packet has no ledger coordinate for spectral
+decomposition, representation, measure class, or bridge data. Any accepted row
+therefore exposes exactly the listed entries and no larger analytic surface.
+\end{proof}
+
+\begin{theorem}[Factor root threshold unblock surface]
+\label{thm:factor-root-threshold-unblock-surface}
+The rows of \autoref{def:factor-bhist-source-packet},
+\autoref{thm:factor-carrier-trivial-centre-obligation},
+\autoref{thm:factor-type-classifier-stability-obligation}, and
+\autoref{thm:factor-ledger-exactness-obligation} form the dependency-ready
+surface for $\FactorUp$. A downstream certificate may consume the
+$\mathsf{BHist}$ carrier, $\NameCert_{\VonNeumannAlgUp}$ dependency,
+trivial-centre witness, factor-type classifier, and exact ledger exclusions,
+but it must supply any standard bridge or analytic classification theorem
+separately.
+\end{theorem}
+\begin{proof}
+The definition fixes the source packet and names every row that can enter the
+factor certificate. The carrier obligation recovers the algebra dependency
+and the trivial-centre witness from any accepted packet.
+
+The stability obligation gives the classifier transport needed by downstream
+NameCert rows. The ledger exactness obligation then closes the readback by
+excluding every row outside the displayed packet.
+
+Combining these three obligations gives a concrete finite-history interface
+over $\mathsf{BHist}$ rather than an empty chapter shell. Later bridges may
+attach to this surface, but they are not part of the factor packet itself.
+\end{proof}
+
 \section{The certificate}
 \label{sec:factor-certificate}

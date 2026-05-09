@@ -313,6 +313,7 @@ import BEDC.Derived.MartingaleUp
 import BEDC.Derived.RepresentationRingUp
 import BEDC.Derived.RepresentationRingUp.InducedConsumerBoundary
 import BEDC.Derived.RepresentationRingUp.OperationLedgerCoverage
+import BEDC.Derived.RepresentationRingUp.RepresentationObligationInventory
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.SeparableExtUp
@@ -532,6 +533,7 @@ import BEDC.Derived.DiffFormUp.RootConsumerExport
 import BEDC.Derived.DiffFormUp.RootConsumerFace
 import BEDC.Derived.DiffFormUp.RootConsumerFactorization
 import BEDC.Derived.DiffFormUp.RootConsumerEntry
+import BEDC.Derived.DiffFormUp.RootConsumerReadablePackage
 import BEDC.Derived.DiffFormUp.RootConsumerSourceProjection
 import BEDC.Derived.DiffFormUp.RootNameCertSurface
 import BEDC.Derived.DiffFormUp.RootObligationSurface

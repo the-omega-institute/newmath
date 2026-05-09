@@ -229,4 +229,29 @@ theorem EstimatorBHistSourceSurface_finite_cont_readback_determinacy [AskSetup]
           (And.intro source.right.right.right.right.right.right.right.right.right.right
             source'.right.right.right.right.right.right.right.right.right.right)))
 
+theorem EstimatorBHistSourceSurface_bias_variance_ledger_exclusion [AskSetup] [PackageSetup]
+    {samples independence estimator bias variance transport ledger endpoint biasWitness
+      varianceWitness : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EstimatorBHistSourceSurface samples independence estimator bias variance transport ledger
+        endpoint bundle pkg ->
+      Cont bias ledger biasWitness ->
+        Cont variance ledger varianceWitness ->
+          UnaryHistory biasWitness ∧ UnaryHistory varianceWitness ∧
+            hsame biasWitness (append bias ledger) ∧
+              hsame varianceWitness (append variance ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro surface biasRow varianceRow
+  have sourceRows := EstimatorBHistSourceSurface_source_obligation surface
+  have biasWitnessUnary : UnaryHistory biasWitness :=
+    unary_cont_closed sourceRows.right.right.right.left
+      sourceRows.right.right.right.right.right.left biasRow
+  have varianceWitnessUnary : UnaryHistory varianceWitness :=
+    unary_cont_closed sourceRows.right.right.right.right.left
+      sourceRows.right.right.right.right.right.left varianceRow
+  exact And.intro biasWitnessUnary
+    (And.intro varianceWitnessUnary
+      (And.intro biasRow
+        (And.intro varianceRow
+          sourceRows.right.right.right.right.right.right.right.right.right.right)))
+
 end BEDC.Derived.EstimatorUp
