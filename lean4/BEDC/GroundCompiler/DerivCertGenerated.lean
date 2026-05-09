@@ -14,6 +14,14 @@ def GeneratedDerivCertRecognizer : Type :=
 def DerivCertSourceSubflow (part whole : EventFlow) : Prop :=
   exists before after : EventFlow, whole = List.append before (List.append part after)
 
+def StrengthCandidateFlow (S s : EventFlow) : Prop :=
+  DerivCertSourceSubflow s S
+
+def RecognizedStrengthFlow
+    (R : GeneratedStrengthRecognizer) (S s : EventFlow)
+    (sigma : StrengthRole) : Prop :=
+  StrengthCandidateFlow S s /\ RecognizesStrength R s sigma
+
 inductive DerivCertFieldRole : Type where
   | source
   | classifier
@@ -210,6 +218,21 @@ theorem strength_flow_alone_insufficient
         Not (DerivCertFlow D N s) := by
   intro _ hIncomplete
   exact incomplete_derivcert_does_not_support_export hIncomplete
+
+theorem strength_candidate_without_recognition_insufficient
+    {S s D N : EventFlow} :
+    StrengthCandidateFlow S s ->
+      (forall R : GeneratedStrengthRecognizer, forall sigma : StrengthRole,
+        Not (RecognizesStrength R s sigma)) ->
+        Not (DerivCertFlow D N s) := by
+  intro _ hNoRecognition hFlow
+  cases hFlow with
+  | intro _ hRecognizes =>
+      cases hRecognizes.right.right.left with
+      | intro R hSigma =>
+          cases hSigma with
+          | intro sigma hStrength =>
+              exact hNoRecognition R sigma hStrength
 
 theorem sound_derivcert_recognition_establishes_flow
     {R : GeneratedDerivCertRecognizer} {D : DerivCertCandidateFlow}
