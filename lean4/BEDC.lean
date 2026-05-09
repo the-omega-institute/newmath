@@ -777,6 +777,7 @@ import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
 import BEDC.Derived.S1Up.CarrierExactness
+import BEDC.Derived.S1Up.ProductRealLedgerObligationSurface
 import BEDC.Derived.S1Up.SemanticFieldAssembly
 import BEDC.Derived.S1Up.SemanticCertificateFields
 import BEDC.Derived.S1Up.FieldAssembly
