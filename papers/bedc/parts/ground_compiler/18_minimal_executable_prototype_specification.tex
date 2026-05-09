@@ -12,6 +12,7 @@ The prototype encodes event flows, decodes legal channel streams, rejects illega
 
 \begin{definition}[Reference prototype]
 \label{def:minimal-prototype-reference}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.ReferencePrototype}
 A \emph{reference prototype} is an executable implementation $P_0$ whose formal capability is limited to
 $$
   \mathsf{Compile}:\mathsf{EventFlow}\to\mathsf{LegalZStream},
@@ -27,11 +28,13 @@ It is a channel-level prototype, not a full compiler.
 
 \begin{principle}[Prototype is not full compiler]
 \label{prin:minimal-prototype-not-full-compiler}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.reference\_prototype\_not\_full\_compiler}
 The reference prototype $P_0$ must not claim package recognition, name-certificate recognition, derivation-certificate recognition, acceptance-gate recognition, theorem recognition, chapter recognition, compiler self-hosting, motif analysis, metric analysis, or bridge discovery unless these functions are provided at a later prototype level with the required recognizer flows, certificate flows, or bootstrap obligations.
 \end{principle}
 
 \begin{definition}[Prototype level]
 \label{def:minimal-prototype-level}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.PrototypeLevel}
 Prototype levels are ordered as follows:
 \begin{center}
 \begin{tabular}{ll}
