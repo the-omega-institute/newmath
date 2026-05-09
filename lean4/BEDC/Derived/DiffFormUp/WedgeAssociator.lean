@@ -20,4 +20,20 @@ theorem DiffFormWedgeDegreeLedger_associator_closure
   exact And.intro sameOut
     (And.intro leftParenthesized.right.right.right.left rightParenthesized.right.right.right.left)
 
+theorem DiffFormWedgeDegreeLedger_degree_additivity_transport
+    {left right out leftLedger rightLedger tensorLedger left' right' out' : BHist} :
+    DiffFormWedgeDegreeLedger left right out leftLedger rightLedger tensorLedger ->
+      hsame left left' ->
+        hsame right right' ->
+          Cont left' right' out' ->
+            DiffFormWedgeDegreeLedger left' right' out' leftLedger rightLedger tensorLedger ∧
+              hsame out out' ∧ UnaryHistory out' := by
+  intro ledger sameLeft sameRight outRow
+  have sameOut : hsame out out' :=
+    cont_respects_hsame sameLeft sameRight ledger.right.right.left outRow
+  have transported :=
+    DiffFormWedgeDegreeLedger_classifier_stability ledger sameLeft sameRight sameOut
+  exact And.intro transported.left
+    (And.intro sameOut transported.left.right.right.right.left)
+
 end BEDC.Derived.DiffFormUp
