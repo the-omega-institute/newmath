@@ -14899,3 +14899,28 @@ Rationale:
 papers/bedc/parts/concrete_instances/236_classfield_namecert_construction.tex declares upgradepath "Public closure requires a single exported $\ClassFieldUp$ public interface theorem or a checked bridge over the scoped certificate rows." File at 106 lines, with three obligation theorems clearly visible at lines 12, 24, 36 (verified by direct read). Notclaimed enumerates Artin reciprocity etc as out of scope, leaving only the aggregator. Grep `thm:classfield.*public` returns 0 hits. Single-implication aggregator over three explicitly-named obligation theorems — same B-565 pattern.
 
 ---
+
+### B-587 - PolynomialUp raw multiplication left distributivity over raw addition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | PolynomialUp raw multiplication left distributivity over raw addition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For accepted spines x, y, z over a CommRingUp scalar source, the raw Cauchy product rmul_R(x, radd_R(y,z)) classifies in the polynomial classifier with radd_R(rmul_R(x,y), rmul_R(x,z)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_multiplication.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_algebra.tex`
+
+Rationale:
+B-579 records ONLY the right distributivity row (`(x+y)*z ~ x*z + y*z`) for raw polynomial multiplication; the dual `x*(y+z) ~ x*y + x*z` is not in BOARD nor in `25_polynomial_literal_multiplication.tex` (the file lists Cauchy coefficient formula at line 19, associativity at line 55, and singleton evaluation at line 77, with no left-distributivity row). Both polynomial-multiplication zero-absorptions (left at line 202, right at line 244) appear in the algebra sibling, so the symmetric pair is published for zero-absorption but is asymmetric for distributivity. The file is 103 lines, far below the 800 cap, and a clean coefficient-fold proof is available via `lem:scalar-product-distributes-across-finite-additive-folds` already used in associativity (line 50).
+
+---
