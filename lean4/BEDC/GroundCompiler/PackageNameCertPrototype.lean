@@ -228,4 +228,74 @@ def RecognizedNameCertFlow
   NameCertCandidate S C N /\
     BEDC.GroundCompiler.NameCertGenerated.NameCertRecognitionRelation R C N
 
+inductive NameCertSubflowRole : Type where
+  | source
+  | pattern
+  | classifier
+  | stability
+  | ledger
+  | seal
+
+def NameCertFieldSubflow
+    (R : GeneratedNameCertRecognizer) (S C N part : EventFlow)
+    (role : NameCertSubflowRole) : Prop :=
+  RecognizedNameCertFlow R S C N /\
+    match role with
+    | NameCertSubflowRole.source =>
+        BEDC.GroundCompiler.NameCertGenerated.NameCertFieldSubflow R C
+          BEDC.GroundCompiler.NameCertGenerated.NameCertFieldRole.source part
+    | NameCertSubflowRole.pattern =>
+        BEDC.GroundCompiler.NameCertGenerated.NameCertFieldSubflow R C
+          BEDC.GroundCompiler.NameCertGenerated.NameCertFieldRole.pattern part
+    | NameCertSubflowRole.classifier =>
+        BEDC.GroundCompiler.NameCertGenerated.NameCertFieldSubflow R C
+          BEDC.GroundCompiler.NameCertGenerated.NameCertFieldRole.classifier part
+    | NameCertSubflowRole.stability =>
+        BEDC.GroundCompiler.NameCertGenerated.NameCertFieldSubflow R C
+          BEDC.GroundCompiler.NameCertGenerated.NameCertFieldRole.stability part
+    | NameCertSubflowRole.ledger =>
+        BEDC.GroundCompiler.NameCertGenerated.NameCertFieldSubflow R C
+          BEDC.GroundCompiler.NameCertGenerated.NameCertFieldRole.ledger part
+    | NameCertSubflowRole.seal =>
+        BEDC.GroundCompiler.NameCertGenerated.NameCertSealSubflow R C part
+
+def CompleteNameCertRecognition
+    (R : GeneratedNameCertRecognizer) (S C N : EventFlow) : Prop :=
+  exists source pattern classifier stability ledger sealFlow : EventFlow,
+    NameCertFieldSubflow R S C N source NameCertSubflowRole.source /\
+      NameCertFieldSubflow R S C N pattern NameCertSubflowRole.pattern /\
+      NameCertFieldSubflow R S C N classifier NameCertSubflowRole.classifier /\
+      NameCertFieldSubflow R S C N stability NameCertSubflowRole.stability /\
+      NameCertFieldSubflow R S C N ledger NameCertSubflowRole.ledger /\
+      NameCertFieldSubflow R S C N sealFlow NameCertSubflowRole.seal
+
+theorem no_namecert_without_five_fields
+    {R : GeneratedNameCertRecognizer} {S C N : EventFlow} :
+    RecognizedNameCertFlow R S C N ->
+      CompleteNameCertRecognition R S C N := by
+  intro hRecognized
+  cases hRecognized.right.right.right with
+  | intro source hComplete =>
+      cases hComplete with
+      | intro pattern hComplete =>
+          cases hComplete with
+          | intro classifier hComplete =>
+              cases hComplete with
+              | intro stability hComplete =>
+                  cases hComplete with
+                  | intro ledger hComplete =>
+                      cases hComplete with
+                      | intro sealFlow hFields =>
+                          exact
+                            ⟨source, pattern, classifier, stability, ledger,
+                              sealFlow,
+                              ⟨hRecognized, hFields.left⟩,
+                              ⟨hRecognized, hFields.right.left⟩,
+                              ⟨hRecognized, hFields.right.right.left⟩,
+                              ⟨hRecognized, hFields.right.right.right.left⟩,
+                              ⟨hRecognized,
+                                hFields.right.right.right.right.left⟩,
+                              ⟨hRecognized,
+                                hFields.right.right.right.right.right⟩⟩
+
 end BEDC.GroundCompiler.PackageNameCertPrototype
