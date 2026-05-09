@@ -361,3 +361,29 @@ row.
   \notclaimed{This chapter does not close host path quotients or full homotopy theory.}
   \upgradepath{Public closure requires a single exported $\HomotopyUp$ package theorem consumable by $\KnotUp$ and higher-homotopy chapters.}
 \end{closurestatus}
+
+\begin{theorem}[$\HomotopyUp$ double-reversal classifier row]
+\label{thm:homotopy-double-reversal-classifier-row}
+Let
+$$
+\mathcal H=(f,g,H,I,\rho,\lambda)
+$$
+be a $\HomotopyUp$ source packet of \autoref{def:homotopy-bhist-source-packet}. Let $\mathcal H^{\mathrm{rev}}$ be the reversed packet supplied by \autoref{thm:homotopy-reversal-symmetry-row}, and let
+$$
+\mathcal H^{\mathrm{rr}}=(\mathcal H^{\mathrm{rev}})^{\mathrm{rev}}
+$$
+be obtained by applying the same reversal construction a second time. Then $\mathcal H^{\mathrm{rr}}$ is a $\HomotopyUp$ source packet from $f$ to $g$ that classifies the same homotopy object as $\mathcal H$: its deformation row is $\hsame$ to the original deformation row $H$, its interval-parameter row is $\hsame$ to $I$ through the double interval-classifier transport, its endpoint $\ContinuousMapUp$ rows are $\hsame$ to $f$ and $g$ in their original order, its finite $\Cont$ ledger is the double reverse of $\lambda$ and is therefore the same finite ledger order as $\lambda$, and its $\Pkg$ provenance is the original row $\rho$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:homotopy-reversal-symmetry-row} to $\mathcal H$. The resulting packet has endpoint order $g,f$, keeps the same displayed deformation data $H$, transports the interval row by the $\NameCert_{\IntervalUp}$ symmetry row, keeps the same provenance row $\rho$, and replaces the finite ledger $\lambda$ by its reversed ledger.
+
+Apply \autoref{thm:homotopy-reversal-symmetry-row} again to this reversed packet. The endpoint order is exchanged a second time, so the visible endpoint rows return to $f,g$. The endpoint transports used in the two applications are the two symmetry rows of the $\NameCert_{\ContinuousMapUp}$ classifier; composed with the reflexive classifier rows at $f$ and at $g$, they give the required $\hsame$ comparisons with the original endpoint rows.
+
+The deformation coordinate is never replaced by either reversal construction. Each application only changes the interval reading of the same displayed row $H$, so the double-reversed deformation coordinate is classified with $H$ by the reflexive $\hsame$ row on that displayed $\mathsf{BHist}$ deformation data.
+
+For the interval coordinate, the first reversal uses the interval symmetry row that reads the endpoint ledger in the opposite direction. The second reversal applies the same interval-classifier symmetry to the reversed parameter row. By the transitivity and symmetry rows of the interval classifier, the composite double transport classifies the resulting parameter row with the original row $I$. This is precisely the interval component compared by the Homotopy classifier surface of \autoref{def:homotopy-classifier-surface}.
+
+For the ledger coordinate, the first construction reverses the finite $\Cont$ ledger $\lambda$, and the second construction reverses that finite ledger again. Since a finite ledger is a displayed BEDC row list, reversing the row list twice restores the original row order and the same endpoint-read entries. Thus the double-reversed ledger is componentwise $\hsame$ to $\lambda$.
+
+Both reversal steps retain the provenance row rather than producing a new package scope, so the provenance of $\mathcal H^{\mathrm{rr}}$ is the same $\rho$. The classifier surface of \autoref{def:homotopy-classifier-surface} compares exactly the endpoint rows, interval parameter row, deformation readback ledger, and provenance just identified. Repacking these componentwise comparisons gives a $\HomotopyUp$ source packet from $f$ to $g$ that classifies the same homotopy object as $\mathcal H$.
+\end{proof}
