@@ -18,6 +18,7 @@ Host representations such as lists, arrays, strings, parser states, Lean structu
 
 \begin{definition}[Implementation representation]
 \label{def:implementation-interface-representation}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ImplementationRepresentation}
 An \emph{implementation representation} is a host-language data structure used temporarily to represent event flows, bit streams, recognition results, or reports. Examples include host lists of booleans, arrays of bits, strings, vectors, parser states, JSON objects, Lean structures, Rust structs, and Python dataclasses.
 
 Such representations may be used in engineering implementations, but they are not BEDC public mathematical objects.
@@ -25,6 +26,7 @@ Such representations may be used in engineering implementations, but they are no
 
 \begin{definition}[Public formal interface]
 \label{def:implementation-interface-public-formal-interface}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.PublicFormalInterface}
 A \emph{public formal interface} is an interface stated only in BEDC event-flow relations. Allowed public forms include
 $$
   \mathsf{IsRawEvent}(x),\quad
@@ -54,6 +56,7 @@ Disallowed public forms include maps from host package structures to strings, pa
 
 \begin{principle}[Host representation is not BEDC structure]
 \label{prin:implementation-interface-host-representation-not-structure}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.host\_representation\_not\_structure}
 Host representation may implement BEDC relations, but it must not become BEDC public structure. A host list may implement an event-flow representation, but $\mathsf{EventFlow}$ is not a mathematical primitive defined by host lists. A parser state may implement decoding, but a parser state is not a source-level theorem witness.
 \end{principle}
 
