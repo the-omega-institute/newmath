@@ -51,9 +51,29 @@ theorem uncertified_cannot_compile
   intro hUncertified hJudgment
   exact hUncertified hJudgment.left
 
+theorem host_output_inadmissible_without_certificate
+    {Compiles : CompilerBehaviorRelation}
+    {C : CompilerCandidateFlow} {S T : EventFlow} :
+    Not (CertifiedCompiler C) ->
+      Not (FormalCompilationJudgment Compiles C S T) := by
+  exact uncertified_cannot_compile
+
 def P9Subflow (S C : EventFlow) : Prop :=
   exists pre : EventFlow, exists post : EventFlow,
     S = List.append (List.append pre C) post
+
+inductive BootstrapRole : Type where
+  | channelEncoderDecoder
+  | eventFlowRecognizer
+  | recognizerCertificateChecker
+
+def BootstrapCompiler
+    (C : CompilerCandidateFlow) (_rho : BootstrapRole) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow C)
+
+def BootstrapObligation
+    (B : EventFlow) (C : CompilerCandidateFlow) (rho : BootstrapRole) : Prop :=
+  NonemptyEventFlow B /\ P9Subflow B C /\ BootstrapCompiler C rho
 
 def P9CompilerCandidate (S C : EventFlow) : Prop :=
   P9Subflow S C

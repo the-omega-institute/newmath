@@ -189,6 +189,7 @@ By \autoref{prin:self-hosting-compiler-no-compiler-without-cert}, a formal compi
 
 \begin{corollary}[Host compiler output is inadmissible without event-flow certificate]
 \label{cor:self-hosting-compiler-host-output-inadmissible}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.host\_output\_inadmissible\_without\_certificate}
 If a compilation result comes only from a host compiler, script, external parser, build tool, YAML manifest, or meta-level program, and has no certified compiler flow, then it is not admissible as a formal BEDC compiler judgment.
 \end{corollary}
 
@@ -197,6 +198,7 @@ If a compilation result comes only from a host compiler, script, external parser
 
 \begin{definition}[Bootstrap compiler]
 \label{def:self-hosting-compiler-bootstrap-compiler}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.BootstrapCompiler}
 A \emph{bootstrap compiler} is a compiler component explicitly recorded as part of the bootstrap boundary before self-hosting is discharged. It is written
 $$
   \mathsf{Bootstrap}(C,\rho),
@@ -206,6 +208,7 @@ where $\rho$ records the bootstrap role, such as channel encoder and decoder, fi
 
 \begin{definition}[Bootstrap obligation]
 \label{def:self-hosting-compiler-bootstrap-obligation}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.BootstrapObligation}
 A \emph{bootstrap obligation} is an event flow $B$ whose recognized content records the bootstrap component, its role, why it is assumed, which part is not yet self-hosted, the required discharge condition, status, and ledger. It is written
 $$
   \mathsf{BootstrapObligation}(B,C,\rho).
