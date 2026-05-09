@@ -302,4 +302,23 @@ theorem PinGroupReflectionParityCarrier_namecert_obligation_surface
   have ledgerRows := PinGroupReflectionParityLedgerSurface_exhaustion surface
   exact And.intro certRows.left (And.intro ledgerRows certRows.right)
 
+theorem PinGroupReflectionParityLedgerSurface_reflection_parity_determinacy
+    {spin reflection product endpoint ledger carried : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      (hsame spin product -> False) ->
+        ((hsame endpoint spin ∧ hsame endpoint product) -> False) ∧
+          ((((hsame carried (append spin ledger) ∧ UnaryHistory spin) ∧
+              (hsame carried (append product ledger) ∧ Cont spin reflection product ∧
+                UnaryHistory reflection))) -> False) := by
+  intro surface spinProductSeparated
+  have noConfusion :=
+    PinGroupReflectionParityCarrier_source_projection_no_confusion surface.left
+      spinProductSeparated
+  constructor
+  · exact noConfusion.left
+  · intro bothBranches
+    have sameAppends : hsame (append spin ledger) (append product ledger) :=
+      hsame_trans (hsame_symm bothBranches.left.left) bothBranches.right.left
+    exact spinProductSeparated (append_right_cancel (k := ledger) sameAppends)
+
 end BEDC.Derived.PinGroupUp
