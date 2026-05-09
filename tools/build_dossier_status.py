@@ -26,64 +26,69 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 LEAN_DIR = ROOT / "lean4" / "BEDC"
 DERIVED_DIR = LEAN_DIR / "Derived"
-PAPER_INSTANCES = ROOT / "papers" / "bedc" / "parts" / "concrete_instances"
+PAPER_PARTS = ROOT / "papers" / "bedc" / "parts"
+PAPER_INSTANCES = PAPER_PARTS / "concrete_instances"
 DATA_DIR = ROOT / "docs" / "dossier" / "data"
 
 THEOREM_RE = re.compile(r"^(?:theorem|lemma)\s+(\w+)", re.MULTILINE)
 DEF_RE = re.compile(r"^(?:def|inductive|structure|class)\s+(\w+)", re.MULTILINE)
 MARKER_RE = re.compile(r"\\(leanchecked|leanstmt|leandef|leanvariant|leansorryd)\{")
+LEAN_TARGET_RE = re.compile(
+    r"\\(?:leanchecked|leanstmt|leandef|leanvariant|leansorryd)\{(BEDC[A-Za-z0-9_\\\.]+)\}"
+)
+# Self-declared chapter region label: \label{ch:concrete-instances-<region>-namecert}.
+# Used as a fallback when a roadmap chapter has no Lean targets yet.
+CHAPTER_LABEL_RE = re.compile(r"\\label\{ch:concrete-instances-([a-z0-9-]+)-namecert\}")
 
 
 def shell(cmd: list[str]) -> str:
     return subprocess.check_output(cmd, cwd=ROOT, text=True, stderr=subprocess.DEVNULL)
 
 
-def region_name_from_lean_file(path: Path) -> str:
-    """Map BEDC/Derived/RatUp.lean -> 'rat', /FieldUp/Foo.lean -> 'field'."""
-    stem = path.stem
-    if path.parent != DERIVED_DIR:
-        stem = path.parent.name
-    name = stem.replace("Up", "")
-    return re.sub(r"([a-z])([A-Z])", r"\1_\2", name).lower()
-
-
 def count_lean_theorems_per_region() -> dict[str, dict[str, int]]:
-    """Walk lean4/BEDC/Derived/ and count theorems / lemmas / defs per region."""
+    """Walk every .lean file under lean4/BEDC/ and tally theorems / defs per
+    canonical region (as defined by `lean_module_to_region`).
+
+    Single source of truth for region IDs: the same function the dependency
+    graph uses, so theorem counts join cleanly with dep-graph nodes.
+    """
     out: dict[str, dict[str, int]] = defaultdict(lambda: {"theorems": 0, "defs": 0, "files": 0})
-    for f in DERIVED_DIR.rglob("*.lean"):
+    if not LEAN_DIR.exists():
+        return dict(out)
+    lean_root = LEAN_DIR.parent  # lean4/
+    for f in LEAN_DIR.rglob("*.lean"):
+        try:
+            module = ".".join(f.relative_to(lean_root).with_suffix("").parts)
+        except ValueError:
+            continue
+        region = lean_module_to_region(module)
+        if not region:
+            continue
         text = f.read_text(encoding="utf-8", errors="ignore")
-        region = region_name_from_lean_file(f)
         out[region]["theorems"] += len(THEOREM_RE.findall(text))
         out[region]["defs"] += len(DEF_RE.findall(text))
         out[region]["files"] += 1
-    # also count kernel theorems (FKernel)
-    fkernel = LEAN_DIR / "FKernel"
-    if fkernel.exists():
-        for f in fkernel.rglob("*.lean"):
-            text = f.read_text(encoding="utf-8", errors="ignore")
-            out["kernel"]["theorems"] += len(THEOREM_RE.findall(text))
-            out["kernel"]["defs"] += len(DEF_RE.findall(text))
-            out["kernel"]["files"] += 1
     return dict(out)
 
 
 def count_paper_markers_per_chapter() -> list[dict]:
-    """Scan concrete_instances/**/*.tex for marker counts.
+    """Scan every .tex file under papers/bedc/parts/ for marker counts.
 
-    Files in subdirectories like `field/foo.tex` are tagged with the parent
-    directory name as the region hint, so they roll up under the right region.
+    Each row carries the chapter's canonical region (derived from its Lean
+    targets via `paper_chapter_to_region`), so aggregation joins cleanly with
+    Lean-side region IDs and the dep graph.
     """
     rows = []
-    for f in sorted(PAPER_INSTANCES.rglob("*.tex")):
+    if not PAPER_PARTS.exists():
+        return rows
+    for f in sorted(PAPER_PARTS.rglob("*.tex")):
         text = f.read_text(encoding="utf-8", errors="ignore")
         counts = Counter(MARKER_RE.findall(text))
-        rel = f.relative_to(PAPER_INSTANCES)
-        # subdirectory name (e.g. 'field') is a strong region hint when present
-        subdir_hint = rel.parts[0] if len(rel.parts) > 1 else None
+        rel = f.relative_to(PAPER_PARTS)
         rows.append({
             "file": str(rel),
             "name": f.name,
-            "subdir": subdir_hint,
+            "region": paper_chapter_to_region(f),
             "checked": counts.get("leanchecked", 0),
             "stmt": counts.get("leanstmt", 0),
             "def": counts.get("leandef", 0),
@@ -169,62 +174,46 @@ FKERNEL_REGION_OVERRIDES: dict[str, str] = {
     "Hist": "kernel",
 }
 
-# Paper directories scanned for namecert markers. concrete_instances holds
-# per-region object certificates; core / hardening / proof_standing /
-# proof_sprint / capstones contain kernel-level and meta certificates that
-# nonetheless ground a region's stage.
-PAPER_NAMECERT_DIRS = [
-    PAPER_INSTANCES,
-    ROOT / "papers" / "bedc" / "parts" / "core",
-    ROOT / "papers" / "bedc" / "parts" / "hardening",
-    ROOT / "papers" / "bedc" / "parts" / "proof_standing",
-    ROOT / "papers" / "bedc" / "parts" / "proof_sprint",
-    ROOT / "papers" / "bedc" / "parts" / "capstones",
-]
-
-
 def collect_namecert_theorems_per_region() -> dict[str, list[dict]]:
-    """Walk all paper chapters that may carry namecert markers; return
-    {region_id: [{name, status, file}, ...]}.
+    """Walk every .tex file under papers/bedc/parts/ for namecert markers;
+    return {region_id: [{name, status, file}, ...]}.
 
     A 'namecert theorem' is any \\leanchecked / \\leanstmt target whose Lean
     name matches *NameCert* or *Name(_)Certificate* (the BEDC convention for
     the object-completion theorems). Stripped underscore escapes are resolved.
-    Markers in core / hardening / proof_standing also count: they ground the
-    kernel and nat / add regions whose proofs live in FKernel.
+
+    Single walk root keeps coverage symmetric with `count_paper_markers_per_chapter`.
     """
     out: dict[str, list[dict]] = defaultdict(list)
-    paper_root = ROOT / "papers" / "bedc" / "parts"
-    for top in PAPER_NAMECERT_DIRS:
-        if not top.exists():
+    if not PAPER_PARTS.exists():
+        return dict(out)
+    for f in PAPER_PARTS.rglob("*.tex"):
+        try:
+            rel = f.relative_to(PAPER_PARTS)
+            text = f.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
             continue
-        for f in top.rglob("*.tex"):
-            try:
-                rel = f.relative_to(paper_root)
-                text = f.read_text(encoding="utf-8", errors="ignore")
-            except Exception:
+        for m in NAMECERT_TARGET_RE.finditer(text):
+            status = m.group(1).removeprefix("lean")  # 'checked' or 'stmt'
+            full_target = m.group(2).replace("\\_", "_")
+            module = m.group(3)  # e.g. 'FieldUp', 'NatUp', 'Unary', 'NameCert'
+            if "FKernel" in m.group(2):
+                region = FKERNEL_REGION_OVERRIDES.get(module, "kernel")
+                short = full_target.split(".")[-1].lower()
+                if short.startswith("add"):
+                    region = "add"
+                elif short.startswith("nat"):
+                    region = "nat"
+            else:
+                region = canonical(lean_module_to_region(f"BEDC.Derived.{module}"))
+            if not region:
                 continue
-            for m in NAMECERT_TARGET_RE.finditer(text):
-                status = m.group(1).removeprefix("lean")  # 'checked' or 'stmt'
-                full_target = m.group(2).replace("\\_", "_")
-                module = m.group(3)  # e.g. 'FieldUp', 'NatUp', 'Unary', 'NameCert'
-                if "FKernel" in m.group(2):
-                    region = FKERNEL_REGION_OVERRIDES.get(module, "kernel")
-                    short = full_target.split(".")[-1].lower()
-                    if short.startswith("add"):
-                        region = "add"
-                    elif short.startswith("nat"):
-                        region = "nat"
-                else:
-                    region = canonical(lean_module_to_region(f"BEDC.Derived.{module}"))
-                if not region:
-                    continue
-                out[region].append({
-                    "name": full_target,
-                    "short": full_target.split(".")[-1],
-                    "status": status,
-                    "file": str(rel),
-                })
+            out[region].append({
+                "name": full_target,
+                "short": full_target.split(".")[-1],
+                "status": status,
+                "file": str(rel),
+            })
     # Deduplicate (same target may appear in multiple chapters)
     for region in out:
         seen = set()
@@ -236,50 +225,6 @@ def collect_namecert_theorems_per_region() -> dict[str, list[dict]]:
             unique.append(entry)
         out[region] = sorted(unique, key=lambda e: (0 if e["status"] == "checked" else 1, e["short"]))
     return dict(out)
-
-
-# Map a paper chapter filename to a region id in HIERARCHY.
-# Most chapters follow `NN_<region>_namecert_construction.tex` or similar;
-# the substring matches below cover all current concrete_instances files.
-def paper_file_to_region(filename: str) -> str | None:
-    name = filename.lower()
-    # explicit overrides where the substring heuristic would misfire
-    overrides = {
-        "complex_limit": "complexlimit",
-        "complex_differentiability": "complexdiff",
-        "complex_series": "complexseries",
-        "convergence_radius": "convergenceradius",
-        "dirichlet_series": "dirichletseries",
-        "zeta_basic": "zetabasic",
-        "zeta_continuation": "zetacont",
-        "zeta_zeros": "zetazeros",
-        "critical_strip": "critstrip",
-        "contour_integral": "contour",
-        "analytic_continuation": "anacont",
-        "complex_analytic": "anacont",  # 54_complex_analytic falls under anacont scope
-        "real_analytic": "real",
-        "complex_topology": "complex",
-        "gamma_function": "zetacont",  # gamma is inside zeta-continuation chapter scope
-        "nattrans": "nattrans",
-        "totalorder": "totalorder",
-        "abgroup": "abgroup",
-        "commring": "commring",
-        "linearmap": "linearmap",
-        "vecspace": "vecspace",
-    }
-    for key, region in overrides.items():
-        if key in name:
-            return region
-    # fallback: split on _, take the segment after numeric prefix
-    base = name.replace(".tex", "")
-    parts = base.split("_")
-    # skip leading numeric prefix tokens like "08", "34b"
-    while parts and (parts[0].isdigit() or (parts[0][:-1].isdigit() and parts[0][-1].isalpha())):
-        parts.pop(0)
-    if not parts:
-        return None
-    candidate = parts[0]
-    return candidate if candidate else None
 
 
 # Regions that are intentionally schema-only horizons. These should NOT be
@@ -294,13 +239,11 @@ SCHEMA_ONLY_REGIONS: set[str] = {
 def aggregate_markers_per_region(per_chapter: list[dict]) -> dict[str, dict[str, int]]:
     """Sum paper marker counts across chapters belonging to each region.
 
-    Region resolution priority:
-      1. subdir name (e.g. files in concrete_instances/field/ -> 'field')
-      2. paper_file_to_region heuristic on the basename
+    Region is precomputed per chapter (canonical, derived from Lean targets).
     """
     out: dict[str, dict[str, int]] = defaultdict(lambda: {"checked": 0, "stmt": 0, "def": 0})
     for row in per_chapter:
-        region = row.get("subdir") or paper_file_to_region(row.get("name", row["file"]))
+        region = canonical(row.get("region"))
         if not region:
             continue
         out[region]["checked"] += row["checked"]
@@ -331,18 +274,18 @@ def detect_schema_only_regions() -> set[str]:
     return detected | SCHEMA_ONLY_REGIONS
 
 
-def monthly_commit_activity() -> list[dict]:
-    """Group git log by month, return commits per month over the project lifetime."""
+def daily_commit_activity() -> list[dict]:
+    """Group git log by day, return commits per day over the project lifetime."""
     out = shell(["git", "log", "--all", "--pretty=format:%aI"])
-    months: Counter[str] = Counter()
+    days: Counter[str] = Counter()
     for line in out.splitlines():
         try:
             d = datetime.fromisoformat(line.strip())
         except ValueError:
             continue
-        ym = d.strftime("%Y-%m")
-        months[ym] += 1
-    return [{"month": m, "commits": c} for m, c in sorted(months.items())]
+        ymd = d.strftime("%Y-%m-%d")
+        days[ymd] += 1
+    return [{"day": d, "commits": c} for d, c in sorted(days.items())]
 
 
 def critical_path_targets() -> dict:
@@ -409,6 +352,8 @@ def lean_module_to_region(module: str) -> str | None:
         BEDC.Derived.OptionUpNullableBridge -> 'option'
         BEDC.Derived.FieldUp.Foo            -> 'field'
         BEDC.Derived.ComplexLimitUp        -> 'complexlimit'
+        BEDC.BaseReflection.PackageReflection -> 'basereflection'
+        BEDC.Capstone.Cap                  -> 'capstone'
     """
     parts = module.split(".")
     if len(parts) < 2 or parts[0] != "BEDC":
@@ -424,7 +369,9 @@ def lean_module_to_region(module: str) -> str | None:
         if not name:
             return None
         return canonical(name.lower())
-    return None
+    # Any other top-level subtree under BEDC (BaseReflection, Capstone,
+    # Reflection, ...) is its own region at subtree granularity.
+    return canonical(parts[1].lower())
 
 
 def lean_file_to_region(f: Path) -> str | None:
@@ -446,39 +393,74 @@ def paper_label_to_region(label_segment: str) -> str:
     return label_segment.replace("-", "")
 
 
-# Top-level concrete_instances chapters are kept only if their filename
-# indicates a namecert / operation / application / certificate construction.
-# This drops framework chapters (01_signature, 02_concrete_gap, 03_globalize)
-# from the node set without needing per-chapter blacklists.
-NAMECERT_CHAPTER_KEYWORDS = (
-    "_namecert_construction",
-    "_operation",
-    "_application",
-    "_certificate",
-)
+def lean_target_to_region(target: str) -> str | None:
+    """Map a fully-qualified Lean target (e.g. BEDC.Derived.FieldUp.foo_thm)
+    to a canonical region id. Same convention as `lean_module_to_region`,
+    plus FKernel.Unary nat / add namecerts that semantically belong to the
+    nat / add regions rather than the generic kernel."""
+    parts = target.split(".")
+    if len(parts) < 2 or parts[0] != "BEDC":
+        return None
+    if parts[1] == "FKernel":
+        short = parts[-1].lower()
+        if short.startswith("add"):
+            return "add"
+        if short.startswith("nat"):
+            return "nat"
+        return "kernel"
+    return lean_module_to_region(target)
 
 
-def is_namecert_chapter_file(filename: str) -> bool:
-    name = filename.lower()
-    return any(k in name for k in NAMECERT_CHAPTER_KEYWORDS)
+def _read_text_or_none(f: Path) -> str | None:
+    try:
+        return f.read_text(encoding="utf-8", errors="ignore")
+    except OSError:
+        return None
+
+
+def chapter_lean_region(text: str) -> str | None:
+    """Region from the chapter's Lean targets (majority vote). None if absent."""
+    votes: Counter[str] = Counter()
+    for m in LEAN_TARGET_RE.finditer(text):
+        target = m.group(1).replace("\\_", "_")
+        r = lean_target_to_region(target)
+        if r:
+            votes[r] += 1
+    return votes.most_common(1)[0][0] if votes else None
+
+
+def chapter_label_region(text: str) -> str | None:
+    """Region from `\\label{ch:concrete-instances-<region>-namecert}`. None if absent."""
+    m = CHAPTER_LABEL_RE.search(text)
+    return paper_label_to_region(m.group(1)) if m else None
 
 
 def paper_chapter_to_region(f: Path) -> str | None:
-    """Map a paper .tex file path to a region id."""
-    rel = f.relative_to(PAPER_INSTANCES.parent)
-    # rel = concrete_instances/40_complex_limit_namecert_construction.tex
-    # or concrete_instances/field/foo.tex
-    if rel.parts[0] == "concrete_instances":
-        if len(rel.parts) > 2:
-            # Sub-directory files always belong to the parent region (e.g. field/...)
-            return rel.parts[1]
-        # Top-level: only keep recognised namecert / operation / certificate chapters
-        if not is_namecert_chapter_file(rel.name):
-            return None
-        return paper_file_to_region(rel.name)
+    """Map a paper .tex file to its canonical region id.
+
+    Resolution order (single rule, tried in priority):
+      1. Chapter's Lean targets (canonical via `lean_target_to_region`)
+      2. Chapter's self-declared `\\label{ch:concrete-instances-<region>-namecert}`
+         (preserves roadmap chapters whose Lean code doesn't exist yet)
+      3. Capstone whitelist for `parts/capstones/*.tex` (declarative chapters
+         with no Lean refs and no concrete-instances label)
+
+    Hub files / framework chapters with none of the above return None.
+    """
+    text = _read_text_or_none(f)
+    if text is not None:
+        r = chapter_lean_region(text)
+        if r:
+            return canonical(r)
+        r = chapter_label_region(text)
+        if r:
+            return canonical(r)
+    try:
+        rel = f.relative_to(PAPER_INSTANCES.parent)
+    except ValueError:
+        return None
     if rel.parts[0] == "capstones":
-        stem = f.stem
-        return CAPSTONE_FILE_TO_REGION.get(stem)
+        return CAPSTONE_FILE_TO_REGION.get(f.stem)
     return None
 
 
@@ -725,7 +707,7 @@ def build_dependency_graph() -> dict:
             "id": nid,
             "label_en": label_en,
             "label_zh": label_zh,
-            "thms": cp_entry.get("thms", thms),
+            "thms": thms,
             "level": levels.get(nid, 0),
             "downstream": cp_entry.get("downstream", 0),
             "score": cp_entry.get("score", 0.0),
@@ -808,8 +790,8 @@ def main() -> int:
     print("[build-dossier-status] scanning paper markers...", file=sys.stderr)
     paper_markers = count_paper_markers_per_chapter()
 
-    print("[build-dossier-status] computing monthly activity...", file=sys.stderr)
-    activity = monthly_commit_activity()
+    print("[build-dossier-status] computing daily activity...", file=sys.stderr)
+    activity = daily_commit_activity()
 
     print("[build-dossier-status] running critical_path.py...", file=sys.stderr)
     cp = critical_path_targets()
@@ -820,24 +802,34 @@ def main() -> int:
     print("[build-dossier-status] building glossary...", file=sys.stderr)
     glossary = build_glossary()
 
-    # ensure every dependency-graph node has a glossary entry; default to its id
+    # Ensure every dep-graph node has a glossary entry. Missing ones get a
+    # placeholder keyed by node id (uniform fallback, no per-name patches).
     for node in deps["nodes"]:
         nid = node["id"]
-        if nid in glossary:
-            node["label_en"] = glossary[nid]["en"]["label"]
-            node["label_zh"] = glossary[nid]["zh"]["label"]
+        if nid not in glossary:
+            glossary[nid] = {
+                "en": {"label": nid, "desc": ""},
+                "zh": {"label": nid, "desc": ""},
+            }
+        node["label_en"] = glossary[nid]["en"]["label"]
+        node["label_zh"] = glossary[nid]["zh"]["label"]
 
     total_thms = sum(r["theorems"] for r in region_thms.values())
     valid_region_ids = {n["id"] for n in deps["nodes"]}
+    # Region universe = dep-graph nodes ∪ Lean-derived regions. Dep nodes
+    # without Lean code yet are listed with zero counts so the regions table
+    # mirrors the graph 1:1 and consumers can join on `name == node.id`.
+    region_stats = {nid: {"theorems": 0, "defs": 0, "files": 0} for nid in valid_region_ids}
+    region_stats.update(region_thms)
     status = {
         "generated_at": datetime.utcnow().isoformat() + "Z",
         "total_theorems": total_thms,
         "regions": [
             {"name": name, **stats}
-            for name, stats in sorted(region_thms.items(), key=lambda kv: -kv[1]["theorems"])
+            for name, stats in sorted(region_stats.items(), key=lambda kv: -kv[1]["theorems"])
         ],
         "paper_markers": paper_markers,
-        "monthly_activity": activity,
+        "daily_activity": activity,
         "critical_path": [
             entry for entry in cp.get("top", [])
             if entry.get("name", "") in valid_region_ids
