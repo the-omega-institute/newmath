@@ -78,8 +78,8 @@ import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.EntanglementUp
 import BEDC.Derived.EntropyUp
 import BEDC.Derived.ErgodicUp
-import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.EstimatorUp
+import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
@@ -143,7 +143,6 @@ import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KnotUp
-import BEDC.Derived.ApproximationUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
@@ -246,6 +245,7 @@ import BEDC.Derived.ComplexUp.ComponentsNonempty
 import BEDC.Derived.ComplexUp.UnaryContinuation
 import BEDC.Derived.ComplexUp.ComponentTargetTransport
 import BEDC.Derived.ComplexUp.SemanticCertificate
+import BEDC.Derived.ComplexUp.StdBridge
 import BEDC.Derived.ComplexUp.ComponentContextPositive
 import BEDC.Derived.ComplexUp.RawLedgerE0
 import BEDC.Derived.ComplexAnalyticUp
@@ -255,7 +255,6 @@ import BEDC.Derived.ComplexDifferentiabilityUp.ObligationSurface
 import BEDC.Derived.ComplexDifferentiabilityUp.SeedBoundaryReadback
 import BEDC.Derived.ComplexDifferentiabilityUp.SeedBoundary
 import BEDC.Derived.ComplexDifferentiabilityUp.SourceObligationSurface
-import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.PinGroupUp
 import BEDC.Derived.SpinGroupUp
@@ -511,7 +510,6 @@ import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.ContourIntegralUp
-import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.TensorProductUp
@@ -790,6 +788,7 @@ import BEDC.Derived.S1Up.SemanticFields
 import BEDC.Derived.S1Up.SharedPointComponent
 import BEDC.Derived.S1Up.VisibleSourceUnitEquationPackage
 import BEDC.Derived.S1Up.LedgerObligationSurface
+import BEDC.Derived.S1Up.EquationTransportObligationSurface
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.SingletonEquationSolver
 import BEDC.Derived.GroupUp.ConjugationParameter

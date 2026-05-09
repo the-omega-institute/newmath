@@ -171,10 +171,11 @@ def EnrichedCatPublicPacket [AskSetup] [PackageSetup]
         UnaryHistory identity ∧
           UnaryHistory composition ∧
             UnaryHistory transport ∧
-              Cont homObject identity composition ∧
-                Cont transport provenance ledger ∧
-                  Cont ledger monoidalBoundary endpoint ∧
-                    PkgSig bundle endpoint pkg
+              UnaryHistory provenance ∧
+                Cont homObject identity composition ∧
+                  Cont transport provenance ledger ∧
+                    Cont ledger monoidalBoundary endpoint ∧
+                      PkgSig bundle endpoint pkg
 
 theorem EnrichedCatPublicPacket_source_obligation [AskSetup] [PackageSetup]
     {categoryBoundary monoidalBoundary homObject identity composition transport provenance ledger
@@ -188,9 +189,10 @@ theorem EnrichedCatPublicPacket_source_obligation [AskSetup] [PackageSetup]
             UnaryHistory identity ∧
               UnaryHistory composition ∧
                 UnaryHistory transport ∧
-                  Cont homObject identity composition ∧
-                    Cont transport provenance ledger ∧
-                      Cont ledger monoidalBoundary endpoint ∧ PkgSig bundle endpoint pkg := by
+                  UnaryHistory provenance ∧
+                    Cont homObject identity composition ∧
+                      Cont transport provenance ledger ∧
+                        Cont ledger monoidalBoundary endpoint ∧ PkgSig bundle endpoint pkg := by
   intro packet
   exact packet
 
@@ -279,13 +281,13 @@ theorem EnrichedCatPublicPacket_classifier_transport_obligation [AskSetup] [Pack
     homIdentityCont' transportProvenanceCont' ledgerMonoidalCont' pkgSig'
   have sameComposition : hsame composition composition' :=
     cont_respects_hsame sameHom sameIdentity
-      packet.right.right.right.right.right.right.left homIdentityCont'
+      packet.right.right.right.right.right.right.right.left homIdentityCont'
   have sameLedger : hsame ledger ledger' :=
     cont_respects_hsame sameTransport sameProvenance
-      packet.right.right.right.right.right.right.right.left transportProvenanceCont'
+      packet.right.right.right.right.right.right.right.right.left transportProvenanceCont'
   have sameEndpoint : hsame endpoint endpoint' :=
     cont_respects_hsame sameLedger sameMonoidal
-      packet.right.right.right.right.right.right.right.right.left ledgerMonoidalCont'
+      packet.right.right.right.right.right.right.right.right.right.left ledgerMonoidalCont'
   have transported :
       EnrichedCatPublicPacket categoryBoundary' monoidalBoundary' homObject' identity'
           composition' transport' provenance' ledger' endpoint' bundle pkg :=
@@ -296,6 +298,7 @@ theorem EnrichedCatPublicPacket_classifier_transport_obligation [AskSetup] [Pack
       unary_cont_closed (unary_transport packet.right.right.left sameHom)
         (unary_transport packet.right.right.right.left sameIdentity) homIdentityCont',
       unary_transport packet.right.right.right.right.right.left sameTransport,
+      unary_transport packet.right.right.right.right.right.right.left sameProvenance,
       homIdentityCont',
       transportProvenanceCont',
       ledgerMonoidalCont',
@@ -323,13 +326,13 @@ theorem EnrichedCatPublicPacket_ledger_exactness_obligation [AskSetup] [PackageS
   have transportUnary : UnaryHistory transport :=
     packet.right.right.right.right.right.left
   have compositionRow : Cont homObject identity composition :=
-    packet.right.right.right.right.right.right.left
-  have ledgerRow : Cont transport provenance ledger :=
     packet.right.right.right.right.right.right.right.left
-  have endpointRow : Cont ledger monoidalBoundary endpoint :=
+  have ledgerRow : Cont transport provenance ledger :=
     packet.right.right.right.right.right.right.right.right.left
+  have endpointRow : Cont ledger monoidalBoundary endpoint :=
+    packet.right.right.right.right.right.right.right.right.right.left
   have pkgSig : PkgSig bundle endpoint pkg :=
-    packet.right.right.right.right.right.right.right.right.right
+    packet.right.right.right.right.right.right.right.right.right.right
   exact And.intro homUnary
     (And.intro identityUnary
       (And.intro compositionUnary
@@ -337,6 +340,45 @@ theorem EnrichedCatPublicPacket_ledger_exactness_obligation [AskSetup] [PackageS
           (And.intro compositionRow
             (And.intro ledgerRow
               (And.intro endpointRow pkgSig))))))
+
+theorem EnrichedCatPublicPacket_monoidal_category_boundary [AskSetup] [PackageSetup]
+    {categoryBoundary monoidalBoundary homObject identity composition transport provenance ledger
+      endpoint tensorReadback consumerReadback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EnrichedCatPublicPacket categoryBoundary monoidalBoundary homObject identity composition
+        transport provenance ledger endpoint bundle pkg ->
+      Cont composition monoidalBoundary tensorReadback ->
+        Cont endpoint tensorReadback consumerReadback ->
+          UnaryHistory tensorReadback ∧ UnaryHistory consumerReadback ∧
+            hsame tensorReadback (append composition monoidalBoundary) ∧
+              hsame consumerReadback (append endpoint tensorReadback) ∧
+                hsame endpoint (append ledger monoidalBoundary) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro packet tensorReadbackRow consumerReadbackRow
+  have compositionUnary : UnaryHistory composition :=
+    packet.right.right.right.right.left
+  have monoidalUnary : UnaryHistory monoidalBoundary :=
+    packet.right.left
+  have transportUnary : UnaryHistory transport :=
+    packet.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed transportUnary provenanceUnary
+      packet.right.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary monoidalUnary
+      packet.right.right.right.right.right.right.right.right.right.left
+  have tensorReadbackUnary : UnaryHistory tensorReadback :=
+    unary_cont_closed compositionUnary monoidalUnary tensorReadbackRow
+  have consumerReadbackUnary : UnaryHistory consumerReadback :=
+    unary_cont_closed endpointUnary tensorReadbackUnary consumerReadbackRow
+  exact And.intro tensorReadbackUnary
+    (And.intro consumerReadbackUnary
+      (And.intro tensorReadbackRow
+        (And.intro consumerReadbackRow
+          (And.intro packet.right.right.right.right.right.right.right.right.right.left
+            packet.right.right.right.right.right.right.right.right.right.right))))
 
 theorem EnrichedCatSourceSurface_consumer_readback_boundary [AskSetup] [PackageSetup]
     {category monoidal hom identity composition transport provenance ledger endpoint consumer
