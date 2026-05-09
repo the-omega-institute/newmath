@@ -365,11 +365,13 @@ Both claims are the defining witnesses carried by metric-report soundness.
 
 \begin{definition}[Metric claim]
 \label{def:metric-report-claim}
+\leandef{BEDC.GroundCompiler.MetricsFlow.MetricClaim}
 A \emph{metric claim} is a statement based on a metric report, such as: $S$ and $T$ share a finite-repetition motif, $S$ has carry index $1$, $S$ has seal depth $2$, $S$ and $T$ have motif distance $0.25$, or $S$ has classifier compression ratio $3$. Such a claim is admissible only when the relevant metric report is sound and the metric is admissible.
 \end{definition}
 
 \begin{definition}[Forbidden metric claim]
 \label{def:metric-report-forbidden-claim}
+\leandef{BEDC.GroundCompiler.MetricsFlow.ForbiddenMetricClaim}
 The following metric claims are forbidden unless supported by additional certificate flows:
 \begin{itemize}
 \item same metric profile implies same object;
@@ -385,6 +387,7 @@ The following metric claims are forbidden unless supported by additional certifi
 
 \begin{theorem}[Forbidden metric claims need certificates]
 \label{thm:metric-report-forbidden-claims-need-certificates}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.forbidden\_metric\_claims\_need\_certificates}
 Every forbidden metric claim is invalid without additional classifier, proof, bridge, name-certificate, derivation-certificate, or acceptance-gate flow.
 \end{theorem}
 

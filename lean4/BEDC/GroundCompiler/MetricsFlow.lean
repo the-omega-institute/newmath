@@ -404,6 +404,97 @@ structure MetricReport where
   undefinedItems : List UndefinedMetricItem
   cannotClaims : List MetricCannotClaimEntry
 
+inductive MetricClaimKind : Type where
+  | sharedMotif
+  | carryIndexValue
+  | sealDepthValue
+  | motifDistanceValue
+  | compressionRatioValue
+  | sameMetricProfileImpliesSameObject
+  | sameSignatureImpliesSameTheorem
+  | motifDistanceZeroImpliesProofEquivalence
+  | highMotifOverlapImpliesBridge
+  | positiveCarryIndexImpliesDimension
+  | positiveSealDepthImpliesCompletion
+  | compressionRatioImpliesExactness
+  | positiveReuseDepthImpliesReuseCertificate
+
+structure MetricClaim where
+  kind : MetricClaimKind
+  report : MetricReport
+  subject : EventFlow
+  comparison : Option EventFlow
+  claimedValue : MetricCandidate
+
+inductive ForbiddenMetricClaim : MetricClaim -> Prop where
+  | sameMetricProfileImpliesSameObject
+      (report : MetricReport) (S T : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.sameMetricProfileImpliesSameObject,
+          report := report, subject := S, comparison := some T,
+          claimedValue := value }
+  | sameSignatureImpliesSameTheorem
+      (report : MetricReport) (S T : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.sameSignatureImpliesSameTheorem,
+          report := report, subject := S, comparison := some T,
+          claimedValue := value }
+  | motifDistanceZeroImpliesProofEquivalence
+      (report : MetricReport) (S T : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.motifDistanceZeroImpliesProofEquivalence,
+          report := report, subject := S, comparison := some T,
+          claimedValue := value }
+  | highMotifOverlapImpliesBridge
+      (report : MetricReport) (S T : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.highMotifOverlapImpliesBridge,
+          report := report, subject := S, comparison := some T,
+          claimedValue := value }
+  | positiveCarryIndexImpliesDimension
+      (report : MetricReport) (S : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.positiveCarryIndexImpliesDimension,
+          report := report, subject := S, comparison := none,
+          claimedValue := value }
+  | positiveSealDepthImpliesCompletion
+      (report : MetricReport) (S : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.positiveSealDepthImpliesCompletion,
+          report := report, subject := S, comparison := none,
+          claimedValue := value }
+  | compressionRatioImpliesExactness
+      (report : MetricReport) (S : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.compressionRatioImpliesExactness,
+          report := report, subject := S, comparison := none,
+          claimedValue := value }
+  | positiveReuseDepthImpliesReuseCertificate
+      (report : MetricReport) (S : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.positiveReuseDepthImpliesReuseCertificate,
+          report := report, subject := S, comparison := none,
+          claimedValue := value }
+
+inductive MetricCertificateRole : Type where
+  | classifier
+  | proof
+  | bridge
+  | nameCert
+  | derivCert
+  | acceptanceGate
+
+structure MetricCertificateFlow where
+  role : MetricCertificateRole
+  flow : EventFlow
+  recognizer : GeneratedRecognizer
+  recognized :
+    FormalCompilerInput (CompilerDatum.recognizedFlow recognizer flow)
+
+structure CertifiedForbiddenMetricClaim (claim : MetricClaim) where
+  forbidden : ForbiddenMetricClaim claim
+  certificate : MetricCertificateFlow
+
 def ReportHasUndefinedMetricItem
     (report : MetricReport) (item : UndefinedMetricItem) : Prop :=
   List.Mem item report.undefinedItems
@@ -633,6 +724,18 @@ theorem metric_report_requires_cannot_claim_sections {report : MetricReport} :
       NontrivialMetricReport report ->
         ReportHasCannotClaimEntry report :=
   cannot_claims_required_for_nontrivial_reports
+
+theorem forbidden_metric_claims_need_certificates {claim : MetricClaim} :
+    CertifiedForbiddenMetricClaim claim ->
+      ForbiddenMetricClaim claim /\
+        exists certificate : MetricCertificateFlow,
+          FormalCompilerInput
+            (CompilerDatum.recognizedFlow
+              certificate.recognizer certificate.flow) := by
+  intro hClaim
+  constructor
+  · exact hClaim.forbidden
+  · exact ⟨hClaim.certificate, hClaim.certificate.recognized⟩
 
 theorem metrics_conservativity {_report : MetricReport} {S : EventFlow}
     {w : RawEvent} {m : DisplayAlphabet} :
