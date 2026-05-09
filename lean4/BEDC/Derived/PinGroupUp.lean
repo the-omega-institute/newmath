@@ -224,6 +224,38 @@ theorem PinGroupReflectionParityLedgerSurface_reflection_ledger_closure
     And.intro carrier' endpointRow'
   exact And.intro surface' (PinGroupReflectionParityLedgerSurface_exhaustion surface')
 
+theorem PinGroupReflectionParityLedgerSurface_parity_scope_transport
+    {spin reflection product endpoint ledger carried spin' reflection' product' endpoint' ledger'
+      carried' : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      hsame spin spin' ->
+        hsame reflection reflection' ->
+          hsame product product' ->
+            hsame endpoint endpoint' ->
+              hsame ledger ledger' ->
+                Cont spin' reflection' product' ->
+                  Cont endpoint' ledger' carried' ->
+                    PinGroupReflectionParityLedgerSurface spin' reflection' product' endpoint'
+                        ledger' carried' ∧
+                      hsame carried carried' ∧
+                        (((hsame carried' (append spin' ledger') ∧ UnaryHistory spin') ∨
+                            (hsame carried' (append product' ledger') ∧
+                              Cont spin' reflection' product' ∧ UnaryHistory reflection')) ∧
+                          hsame carried' (append endpoint' ledger')) := by
+  intro surface sameSpin sameReflection sameProduct sameEndpoint sameLedger productRow'
+    endpointLedgerRow'
+  have carrier' :
+      PinGroupReflectionParityCarrier spin' reflection' product' endpoint' :=
+    PinGroupReflectionParityCarrier_stability surface.left sameSpin sameReflection sameProduct
+      sameEndpoint productRow'
+  have surface' :
+      PinGroupReflectionParityLedgerSurface spin' reflection' product' endpoint' ledger' carried' :=
+    And.intro carrier' endpointLedgerRow'
+  have sameCarried : hsame carried carried' :=
+    cont_respects_hsame sameEndpoint sameLedger surface.right endpointLedgerRow'
+  exact And.intro surface'
+    (And.intro sameCarried (PinGroupReflectionParityLedgerSurface_exhaustion surface'))
+
 theorem PinGroupReflectionParityCarrier_source_projection_no_confusion
     {spin reflection product endpoint : BHist} :
     PinGroupReflectionParityCarrier spin reflection product endpoint ->
