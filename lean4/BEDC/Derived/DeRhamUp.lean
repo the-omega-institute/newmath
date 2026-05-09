@@ -371,6 +371,34 @@ theorem DeRhamBoundarySourceLedgerPacket_consumer_exactness
       (And.intro boundary.right.right
         (And.intro packet.right.right.right.left packet.right.right.right.right)))
 
+theorem DeRhamStandardBoundaryBridgePacket_source_ledger_repack
+    {d : BHist -> BHist} {omega eta theta zero provenance bridge : BHist} :
+    DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
+      ∃ graphLedger endpointLedger : BHist,
+        DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger ∧
+          Cont theta zero graphLedger ∧ Cont graphLedger eta endpointLedger ∧
+            Cont provenance theta bridge ∧ hsame graphLedger (append theta zero) ∧
+              hsame endpointLedger (append (append theta zero) eta) := by
+  intro packet
+  let graphLedger := append theta zero
+  let endpointLedger := append graphLedger eta
+  have boundaryRows := DeRhamDoubleExteriorPacket_boundary packet.left
+  have graphCont : Cont theta zero graphLedger := by
+    rfl
+  have endpointCont : Cont graphLedger eta endpointLedger := by
+    rfl
+  have sourcePacket :
+      DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger :=
+    And.intro packet.left
+      (And.intro boundaryRows.right.left
+        (And.intro boundaryRows.right.right (And.intro graphCont endpointCont)))
+  exact Exists.intro graphLedger
+    (Exists.intro endpointLedger
+      (And.intro sourcePacket
+        (And.intro graphCont
+          (And.intro endpointCont
+            (And.intro packet.right (And.intro graphCont endpointCont))))))
+
 theorem DeRhamBoundarySourcePacket_consumer_exactness
     {d : BHist -> BHist} {omega eta theta theta' zero : BHist} :
     DeRhamDoubleExteriorPacket d omega eta theta zero ->

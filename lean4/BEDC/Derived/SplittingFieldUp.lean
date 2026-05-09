@@ -140,6 +140,33 @@ theorem SplittingFieldRootCarrierPacket_root_downstream_threshold [AskSetup] [Pa
         (And.intro packet.right.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right.right)))
 
+theorem SplittingFieldRootCarrierPacket_cyclotomic_consumer_source_boundary
+    [AskSetup] [PackageSetup]
+    {fieldExt polynomial roots factors transport provenance classifier factorLedger endpoint
+      pkgrow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SplittingFieldRootCarrierPacket fieldExt polynomial roots factors transport provenance
+        classifier factorLedger endpoint bundle pkg ->
+      Cont factorLedger transport pkgrow ->
+        PkgSig bundle pkgrow pkg ->
+          SplittingFieldRootTransportPacket fieldExt polynomial roots factors factorLedger
+              transport pkgrow bundle pkg ∧
+            Cont fieldExt polynomial classifier ∧ Cont roots factors factorLedger ∧
+              Cont provenance factorLedger endpoint ∧ hsame factorLedger (append roots factors) ∧
+                hsame pkgrow (append factorLedger transport) ∧ PkgSig bundle endpoint pkg ∧
+                  PkgSig bundle pkgrow pkg := by
+  intro packet factorLedgerTransport pkgrowPkg
+  have downstream :=
+    SplittingFieldRootCarrierPacket_root_downstream_threshold packet factorLedgerTransport
+      pkgrowPkg
+  exact And.intro downstream.left
+    (And.intro downstream.right.left
+      (And.intro downstream.right.right.left
+        (And.intro downstream.right.right.right.left
+          (And.intro packet.right.right.right.right.right.right.right.left
+            (And.intro factorLedgerTransport
+              (And.intro downstream.right.right.right.right pkgrowPkg))))))
+
 theorem SplittingFieldRootCarrierPacket_factor_ledger_exhaustion [AskSetup] [PackageSetup]
     {fieldExt polynomial roots factors transport provenance classifier factorLedger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
