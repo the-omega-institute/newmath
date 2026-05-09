@@ -354,6 +354,7 @@ The behavior of $C_0$ is limited to event-channel encoding and decoding. It supp
 
 \begin{definition}[Compiler bootstrap ladder]
 \label{def:self-hosting-compiler-bootstrap-ladder}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerBootstrapLadder}
 A \emph{compiler bootstrap ladder} is a sequence
 $$
   C_0,C_1,C_2,C_3,C_4,C_5
@@ -374,6 +375,7 @@ Each transition to $C_{i+1}$ must be compiled or recognized using prior stages a
 
 \begin{definition}[Ladder soundness]
 \label{def:self-hosting-compiler-ladder-soundness}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.LadderSoundness}
 A compiler bootstrap ladder is \emph{sound} when every transition
 $$
   C_i\to C_{i+1}
@@ -383,6 +385,7 @@ has an event-flow certificate containing input domain, output domain, compiler b
 
 \begin{theorem}[Sound ladder discharges staged hidden inputs]
 \label{thm:self-hosting-compiler-sound-ladder-discharges}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.sound\_ladder\_discharges}
 If $C_0,\ldots,C_5$ is a sound compiler bootstrap ladder and $C_5$ is a self-hosting compiler flow, then the lower recognizer and compiler structures are generated, recognized, compiled, or self-hosted by event-flow structure rather than supplied as external hidden inputs.
 \end{theorem}
 

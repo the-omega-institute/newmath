@@ -248,6 +248,41 @@ theorem full_claim_requires_boundary
   | inr hBootstrap =>
       exact hBootstrap
 
+structure CompilerBootstrapLadder where
+  C0 : CompilerCandidateFlow
+  C1 : CompilerCandidateFlow
+  C2 : CompilerCandidateFlow
+  C3 : CompilerCandidateFlow
+  C4 : CompilerCandidateFlow
+  C5 : CompilerCandidateFlow
+
+def LadderTransitionCertificate
+    (source target certificate : EventFlow) : Prop :=
+  exists RK : EventFlow,
+    CompilerCertificateRecognition RK certificate target /\
+      P9Subflow certificate source
+
+def LadderSoundness (L : CompilerBootstrapLadder) : Prop :=
+  exists K01 K12 K23 K34 K45 : EventFlow,
+    LadderTransitionCertificate L.C0 L.C1 K01 /\
+      LadderTransitionCertificate L.C1 L.C2 K12 /\
+      LadderTransitionCertificate L.C2 L.C3 K23 /\
+      LadderTransitionCertificate L.C3 L.C4 K34 /\
+      LadderTransitionCertificate L.C4 L.C5 K45
+
+def StagedHiddenInputsDischarged
+    (behavior : CompilerBehaviorRelation) (L : CompilerBootstrapLadder) :
+    Prop :=
+  LadderSoundness L /\ SelfHostingCompilerFlow behavior L.C5
+
+theorem sound_ladder_discharges
+    {behavior : CompilerBehaviorRelation} {L : CompilerBootstrapLadder} :
+    LadderSoundness L ->
+      SelfHostingCompilerFlow behavior L.C5 ->
+        StagedHiddenInputsDischarged behavior L := by
+  intro hSound hSelf
+  exact ⟨hSound, hSelf⟩
+
 def P9CompilerCandidate (S C : EventFlow) : Prop :=
   P9Subflow S C
 
