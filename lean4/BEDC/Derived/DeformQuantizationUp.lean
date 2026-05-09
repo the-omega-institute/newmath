@@ -28,4 +28,20 @@ theorem DeformQuantizationStarLedger_first_order_bracket
       (And.intro ledgerUnary
         (And.intro kappaPi ledgerRow)))
 
+theorem DeformQuantizationStarLedger_bracket_classifier_obligation
+    {mu1 mu1op kappa pi mu1' mu1op' kappa' pi' : BHist} :
+    Cont mu1 mu1op kappa ->
+      Cont mu1' mu1op' kappa' ->
+        hsame mu1 mu1' ->
+          hsame mu1op mu1op' ->
+            hsame kappa pi ->
+              hsame kappa' pi' ->
+                hsame kappa kappa' ∧ hsame pi pi' := by
+  intro leftRow rightRow sameMu1 sameMu1op sameKappaPi sameKappaPi'
+  have sameKappa : hsame kappa kappa' :=
+    cont_respects_hsame sameMu1 sameMu1op leftRow rightRow
+  have samePi : hsame pi pi' :=
+    hsame_trans (hsame_symm sameKappaPi) (hsame_trans sameKappa sameKappaPi')
+  exact And.intro sameKappa samePi
+
 end BEDC.Derived.DeformQuantizationUp
