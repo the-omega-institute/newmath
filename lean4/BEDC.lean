@@ -448,6 +448,7 @@ import BEDC.Derived.TopGroupUp.OperationSourceContinuity
 import BEDC.Derived.TopGroupUp.OperationContinuityLedgerScope
 import BEDC.Derived.TopGroupUp.OperationLedgerConsumerBoundary
 import BEDC.Derived.TopGroupUp.SourceCompatibility
+import BEDC.Derived.TopGroupUp.ObligationSurfaceCertificate
 import BEDC.Derived.TopGroupUp.RootSourceCompatibility
 import BEDC.Derived.TopGroupUp.RootCarrierObligations
 import BEDC.Derived.TopGroupUp.PublicNamecertReadbackExactness
