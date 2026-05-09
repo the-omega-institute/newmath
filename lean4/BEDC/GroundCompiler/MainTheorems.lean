@@ -1,7 +1,9 @@
 import BEDC.GroundCompiler.ChannelEncoding
 import BEDC.GroundCompiler.DerivCertGenerated
 import BEDC.GroundCompiler.RecognizerFlows
+import BEDC.GroundCompiler.SemanticMotif
 import BEDC.GroundCompiler.SourceChannel
+import BEDC.GroundCompiler.TheoremGenerated
 
 namespace BEDC.GroundCompiler.MainTheorems
 
@@ -156,5 +158,19 @@ theorem code_existence_not_export (N s : EventFlow) :
       LegalZStream c /\
         Not (DerivCertGenerated.RecognizesAcceptanceCode c N s) := by
   exact ⟨[], DerivCertGenerated.code_existence_not_acceptance N s⟩
+
+theorem motif_existence_not_export :
+    Not (forall Rfam : SemanticMotif.GeneratedMotifRecognizer -> Prop,
+      forall S mu M L : EventFlow,
+        SemanticMotif.MotifProfile Rfam S mu M L -> AcceptedObjectFlow S) := by
+  exact SemanticMotif.motif_analysis_cannot_license_mature_objects
+
+def CanonicalTheoremFlow (T : EventFlow) : Prop :=
+  exists R : TheoremGenerated.GeneratedTheoremRecognizer,
+    TheoremGenerated.SoundTheoremFlow R T /\
+      TheoremGenerated.SiteSoundTheoremRecognition R T
+
+def TheoremCode (T : EventFlow) : List DisplayAlphabet :=
+  FlowEncoding T
 
 end BEDC.GroundCompiler.MainTheorems
