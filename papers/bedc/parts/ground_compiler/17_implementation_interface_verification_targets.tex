@@ -564,6 +564,7 @@ $$
 
 \begin{definition}[Analysis Lean target set]
 \label{def:implementation-interface-analysis-lean-targets}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.AnalysisLeanTargetSet}
 The fourth Lean target set covers motif and metric analysis:
 $$
 \begin{gathered}
@@ -587,11 +588,13 @@ The first implementation targets should not be definitions of infinity, dimensio
 
 \begin{definition}[Reference executable]
 \label{def:implementation-interface-reference-executable}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ReferenceExecutable}
 A \emph{reference executable} is a runnable program satisfying the channel encoder and decoder specifications. Its tasks are to encode event flows, decode channel streams, check legal streams, and generate human-readable reports from decoded flows. It is not a proof checker or certificate recognizer unless the corresponding recognizer flows and certificates are supplied.
 \end{definition}
 
 \begin{proposition}[Reference executable alone is not a formal compiler]
 \label{prop:implementation-interface-reference-not-formal-compiler}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.reference\_executable\_not\_formal\_compiler}
 Even if a reference executable passes all encode/decode tests, it is not a full no-hidden-input compiler unless the recognizer hierarchy, certificate flows, and bootstrap obligations are also handled.
 \end{proposition}
 

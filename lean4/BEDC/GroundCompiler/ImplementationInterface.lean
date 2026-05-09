@@ -319,6 +319,15 @@ inductive ImplementationLeanTarget : Type where
   | soundDerivCertFlowEstablishesDerivCert
   | acceptedFlowRequiresNameCertAndDerivCert
   | codeExistenceNotAcceptance
+  | motifProfile
+  | sealDepth
+  | carryIndex
+  | ledgerDepth
+  | metricAdmissible
+  | metricRoundTripInvariant
+  | channelSubstringMetricInadmissible
+  | motifSimilarityNotIdentity
+  | metricsConservative
 
 inductive CoreLeanTargetSet : ImplementationLeanTarget -> Prop where
   | bitRep :
@@ -392,6 +401,27 @@ inductive CertificateLeanTargetSet : ImplementationLeanTarget -> Prop where
   | codeExistenceNotAcceptance :
       CertificateLeanTargetSet ImplementationLeanTarget.codeExistenceNotAcceptance
 
+inductive AnalysisLeanTargetSet : ImplementationLeanTarget -> Prop where
+  | motifProfile :
+      AnalysisLeanTargetSet ImplementationLeanTarget.motifProfile
+  | sealDepth :
+      AnalysisLeanTargetSet ImplementationLeanTarget.sealDepth
+  | carryIndex :
+      AnalysisLeanTargetSet ImplementationLeanTarget.carryIndex
+  | ledgerDepth :
+      AnalysisLeanTargetSet ImplementationLeanTarget.ledgerDepth
+  | metricAdmissible :
+      AnalysisLeanTargetSet ImplementationLeanTarget.metricAdmissible
+  | metricRoundTripInvariant :
+      AnalysisLeanTargetSet ImplementationLeanTarget.metricRoundTripInvariant
+  | channelSubstringMetricInadmissible :
+      AnalysisLeanTargetSet
+        ImplementationLeanTarget.channelSubstringMetricInadmissible
+  | motifSimilarityNotIdentity :
+      AnalysisLeanTargetSet ImplementationLeanTarget.motifSimilarityNotIdentity
+  | metricsConservative :
+      AnalysisLeanTargetSet ImplementationLeanTarget.metricsConservative
+
 def CertifiedNoHiddenInputCompilerComponent
     (publicSurface : InterfaceDatum -> Prop)
     (bootstrapObligationsRecorded reportsAreOutputViews : Prop) : Prop :=
@@ -408,6 +438,39 @@ def Decodes (c : List DisplayAlphabet) (S : EventFlow) : Prop :=
 inductive DecoderOutcome : Type where
   | decoded (S : EventFlow)
   | rejected (r : EventFlow)
+
+structure ReferenceExecutable where
+  encode : EventFlow -> List DisplayAlphabet
+  decode : List DisplayAlphabet -> DecoderOutcome
+  legal : List DisplayAlphabet -> Prop
+  report : EventFlow -> EventFlow
+  encoderSound :
+    forall {S : EventFlow} {c : List DisplayAlphabet},
+      encode S = c -> Compiles S c
+  decoderSound :
+    forall {c : List DisplayAlphabet} {S : EventFlow},
+      decode c = DecoderOutcome.decoded S -> Decodes c S
+
+inductive ReferenceExecutablePublicSurface : InterfaceDatum -> Prop where
+  | encodesEvent :
+      ReferenceExecutablePublicSurface InterfaceDatum.encodesEvent
+  | compiles :
+      ReferenceExecutablePublicSurface InterfaceDatum.compiles
+  | isLegalZStream :
+      ReferenceExecutablePublicSurface InterfaceDatum.isLegalZStream
+  | decodes :
+      ReferenceExecutablePublicSurface InterfaceDatum.decodes
+  | rejects :
+      ReferenceExecutablePublicSurface InterfaceDatum.rejects
+  | motifReport :
+      ReferenceExecutablePublicSurface InterfaceDatum.motifReport
+  | metricReport :
+      ReferenceExecutablePublicSurface InterfaceDatum.metricReport
+
+def FullNoHiddenInputCompilerInterface
+    (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  CertificateRecognizerModules publicSurface /\
+    CompilerRecognitionPublicInterface publicSurface
 
 def ExecutableDecoder (c : List DisplayAlphabet) : DecoderOutcome :=
   match Decode c with
@@ -540,6 +603,15 @@ theorem no_host_leak_required {publicSurface : InterfaceDatum -> Prop}
         bootstrapObligationsRecorded reportsAreOutputViews) := by
   intro hAuditFailed hCertified
   exact hAuditFailed hCertified.left
+
+theorem reference_executable_not_formal_compiler :
+    Not (FullNoHiddenInputCompilerInterface
+      ReferenceExecutablePublicSurface) := by
+  intro hFull
+  have hPkg :
+      ReferenceExecutablePublicSurface InterfaceDatum.recognizesPkg :=
+    hFull.left.right.left
+  cases hPkg
 
 theorem decoder_functional {c : List DisplayAlphabet} {S T : EventFlow} :
     Decodes c S -> Decodes c T -> S = T := by
