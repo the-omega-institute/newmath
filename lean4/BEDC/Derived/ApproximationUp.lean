@@ -306,4 +306,59 @@ theorem ApproximationCarrierPacket_no_choice_polynomial_window_stability [AskSet
         (And.intro sameEndpointWindow
           (And.intro ledgerRow' provenancePkg'))))
 
+theorem ApproximationCarrierPacket_namecert_obligation_inventory [AskSetup] [PackageSetup]
+    {continuousSource continuousMap continuousTarget modulus continuousCert continuousDistance
+      polynomialCandidate errorEndpoint errorLedger transportLedger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuousMapCarrier continuousSource continuousMap continuousTarget modulus continuousCert
+        continuousDistance ->
+      PolynomialSingletonCarrier polynomialCandidate ->
+        UnaryHistory transportLedger ->
+          Cont continuousTarget polynomialCandidate errorEndpoint ->
+            Cont errorEndpoint transportLedger errorLedger ->
+              PkgSig bundle provenance pkg ->
+                SemanticNameCert (fun row : BHist => hsame row errorLedger)
+                    (fun row : BHist => hsame row errorLedger)
+                    (fun row : BHist => hsame row errorLedger) hsame ∧
+                  UnaryHistory continuousSource ∧ UnaryHistory continuousTarget ∧
+                    PolynomialSingletonCarrier polynomialCandidate ∧ UnaryHistory errorEndpoint ∧
+                      UnaryHistory errorLedger ∧
+                        hsame errorEndpoint (append continuousTarget polynomialCandidate) ∧
+                          hsame errorLedger (append errorEndpoint transportLedger) ∧
+                            PkgSig bundle provenance pkg := by
+  intro continuousCarrier polynomialCarrier transportUnary endpointRow ledgerRow provenancePkg
+  have rows :=
+    ApproximationCarrierPacket_compact_continuous_source_boundary continuousCarrier
+      polynomialCarrier transportUnary endpointRow ledgerRow provenancePkg
+  have errorLedgerSelf : hsame errorLedger errorLedger :=
+    hsame_refl errorLedger
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row errorLedger)
+          (fun row : BHist => hsame row errorLedger)
+          (fun row : BHist => hsame row errorLedger) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro errorLedger errorLedgerSelf
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows carrierRow
+        exact hsame_trans (hsame_symm sameRows) carrierRow
+    }
+    pattern_sound := by
+      intro _row carrier
+      exact carrier
+    ledger_sound := by
+      intro _row carrier
+      exact carrier
+  }
+  exact And.intro cert rows
+
+
 end BEDC.Derived.ApproximationUp
