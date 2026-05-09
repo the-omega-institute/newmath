@@ -321,6 +321,25 @@ theorem BHistIndexedOpen_neighborhood_semantic_name_certificate
       exact sourceH.right
   }
 
+theorem TopologyUp_StdBridge (T : BHistIndexedOpenCarrier) {i : T.OpenIx}
+    (source : exists h : BHist, UnaryHistory h ∧ T.OpenAt i h) :
+    SemanticNameCert (fun h : BHist => UnaryHistory h ∧ T.OpenAt i h)
+      (fun h : BHist => T.OpenAt i h) (fun h : BHist => T.OpenAt i h)
+      (fun h k : BHist => UnaryHistory h ∧ UnaryHistory k ∧ hsame h k) ∧
+      (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+        (TopologyNeighborhood T x i <-> TopologyNeighborhood T y i)) := by
+  have cert :
+      SemanticNameCert (fun h : BHist => UnaryHistory h ∧ T.OpenAt i h)
+        (fun h : BHist => T.OpenAt i h) (fun h : BHist => T.OpenAt i h)
+        (fun h k : BHist => UnaryHistory h ∧ UnaryHistory k ∧ hsame h k) :=
+    BHistIndexedOpen_neighborhood_semantic_name_certificate T source
+  have transport :
+      forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+        (TopologyNeighborhood T x i <-> TopologyNeighborhood T y i) := by
+    intro x y unaryX unaryY sameXY
+    exact T.membership_stable unaryX unaryY sameXY
+  exact And.intro cert transport
+
 theorem TopologyScopedObligation_downstream_export_certificate
     (T : BHistIndexedOpenCarrier) {i : T.OpenIx} {U : BHist -> Prop} {ledger : BHist}
     (tree : BHistLedgerPublicOpenTree T i U ledger)
