@@ -212,6 +212,49 @@ quotient, completion, metric, Classical, $\RealUp$ completeness, or bridge data
 can enter the seal interface.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window seal overlap compatibility]
+\label{thm:regseqrat-finite-window-seal-overlap-compatibility}
+Let $s,t:\Hist\to\Hist$ carry $\RegSeqRat$ rational-observation stream
+certificate spines. Let $\mathcal P,\mathcal Q:\mathsf{ProbeBundle}$ be
+certified finite observation windows, and let
+$\mathcal R:\mathsf{ProbeBundle}$ be a certified common sub-bundle of both
+$\mathcal P$ and $\mathcal Q$. Suppose the $\RegSeqRat$-to-$\RealUp$ seal
+packages over $\mathcal P$ and $\mathcal Q$ agree after restriction to
+$\mathcal R$ on the StreamName finite-window classifier, the DyadicRatCore
+observation rows, the unary observation witnesses, and the dyadic ledger
+tokens.
+
+Then the two $\RealUp$ seal readbacks restrict to the same consumer-facing
+package over $\mathcal R$. This common package contains only the finite-window
+classifier, the pointwise $\mathsf{RatHistoryClassifier}$ rows, the dyadic
+observation rows, the regularity ledger, and the $\RealUp$ observation
+classifier; it contains no completion object, quotient carrier, or host-index
+equality row.
+\end{theorem}
+\begin{proof}
+First restrict the two finite windows to the common sub-bundle
+$\mathcal R$. By
+\autoref{thm:streamname-regseqrat-overlap-pullback-handoff}, the restricted
+StreamName handoff rows classify the same consumer-facing finite-window tuple
+over $\mathcal R$.
+
+Now read each restricted seal with
+\autoref{thm:regseqrat-finite-window-seal-exactness}. Each readback is
+therefore exhausted by the StreamName finite-window rows and the DyadicRatCore
+endpoint observation-row family over the same common bundle.
+
+Identify the dyadic component through
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction}. The
+assumed agreement of unary witnesses and dyadic ledger tokens gives the same
+endpoint observation rows on the two restricted packages.
+
+Finally repack the identified rows using
+\autoref{thm:real-phase-seal-consumer-exactness}. The resulting
+consumer-facing $\RealUp$ package over $\mathcal R$ is the same on both sides,
+and the cited exactness boundaries expose no completion, quotient, or
+host-index equality coordinate.
+\end{proof}
+
 \begin{theorem}[Phase Real seal consumer exactness]
 \label{thm:real-phase-seal-consumer-exactness}
 Let $s:\Hist\to\Hist$ carry a $\RegSeqRat$ rational-observation stream spine,
