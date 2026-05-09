@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -113,5 +115,47 @@ theorem EstimatorBHistSourceSurface_transport_obligation [AskSetup] [PackageSetu
                 (And.intro ledgerRow' (And.intro endpointRow' pkgRow')))))))
   exact And.intro transported
     (And.intro sameEstimator (And.intro sameLedger sameEndpoint))
+
+theorem EstimatorBHistSourceSurface_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {samples independence estimator bias variance transport ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EstimatorBHistSourceSurface samples independence estimator bias variance transport ledger
+        endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) hsame ∧
+        UnaryHistory samples ∧ UnaryHistory independence ∧ UnaryHistory estimator ∧
+          UnaryHistory bias ∧ UnaryHistory variance ∧ UnaryHistory ledger ∧
+            UnaryHistory endpoint ∧ Cont samples independence estimator ∧
+              Cont bias variance ledger ∧ Cont estimator ledger endpoint ∧
+                PkgSig bundle endpoint pkg := by
+  intro surface
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (hsame_refl endpoint)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row other target sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows rowSource
+        exact hsame_trans (hsame_symm sameRows) rowSource
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert (EstimatorBHistSourceSurface_source_obligation surface)
 
 end BEDC.Derived.EstimatorUp
