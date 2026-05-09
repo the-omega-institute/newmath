@@ -197,3 +197,37 @@ frontier theorem packages the same componentwise classifier and provenance rows
 as the public $\NameCert_{\TopGroupUp}$ threshold, giving exactly the stated
 NameCert surface.
 \end{proof}
+
+\begin{theorem}[TopGroupUp public threshold joint source determinacy]
+\label{thm:topgroup-root-public-threshold-joint-source-determinacy}
+Two final public threshold packets over the same displayed
+$\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$ source rows, and with the
+same product, inverse, neighbourhood, finite $\Cont$ ledger, classifier, and
+$\Pkg$ provenance rows up to componentwise $\hsame$, determine the same public
+$\NameCert_{\TopGroupUp}$ surface. The determined surface exposes the two
+source rows and the listed finite public threshold rows, and exposes no
+ambient continuity predicate.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:topgroup-root-source-ledger-public-threshold} to each packet.
+The common source rows, operation rows, neighbourhood row, finite $\Cont$
+ledger, classifier row, and $\Pkg$ provenance row bind both reads to the same
+public threshold source ledger.
+
+Next use \autoref{thm:topgroup-root-namecert-frontier-threshold}. The frontier
+theorem turns that shared source ledger into the public
+$\NameCert_{\TopGroupUp}$ threshold, so the two packets have the same
+NameCert-facing source boundary.
+
+Apply \autoref{thm:topgroup-root-public-threshold-transport} to the
+componentwise $\hsame$ rows. This transports each displayed row of the first
+packet to the corresponding row of the second without adding any row beyond
+the final threshold packet.
+
+Finally apply \autoref{thm:topgroup-root-public-threshold-namecert-surface}.
+It identifies the transported threshold packet with exactly the source pair,
+product, inverse, neighbourhood, finite ledger, classifier, and provenance
+surface, so no ambient continuity predicate remains available to distinguish
+the two public reads.
+\end{proof}
