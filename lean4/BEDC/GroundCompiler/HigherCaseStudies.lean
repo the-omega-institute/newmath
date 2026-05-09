@@ -6,9 +6,136 @@ namespace BEDC.GroundCompiler.CaseStudies
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.MetricsFlow
 open BEDC.GroundCompiler.SemanticMotif
+open BEDC.FKernel.Mark
 
 def TopologicalCompression (q : ClassifierCompressionData) : Nat × Nat :=
   CompressionRatio q
+
+def TopologyMotifSkeleton : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b0, BMark.b0],
+    [BMark.b0, BMark.b0, BMark.b0, BMark.b1],
+    [BMark.b0, BMark.b0, BMark.b1, BMark.b0],
+    [BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+    [BMark.b0, BMark.b1, BMark.b0, BMark.b0],
+    [BMark.b0, BMark.b1, BMark.b0, BMark.b1]]
+
+def ContinuityProofFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b1, BMark.b1]]
+
+def ContinuityProofMotif (S : EventFlow) : Prop :=
+  Subflow ContinuityProofFlow S /\ NonemptyEventFlow ContinuityProofFlow
+
+theorem topology_motif_skeleton_recognized :
+    TopologyMotif TopologyMotifSkeleton := by
+  constructor
+  · exact Or.inr
+        (IndexedSubflow.keep
+          (IndexedSubflow.nil
+          [[BMark.b0, BMark.b0, BMark.b0, BMark.b1],
+            [BMark.b0, BMark.b0, BMark.b1, BMark.b0],
+            [BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+            [BMark.b0, BMark.b1, BMark.b0, BMark.b0],
+            [BMark.b0, BMark.b1, BMark.b0, BMark.b1]]))
+  · constructor
+    · exact Or.inr
+        (IndexedSubflow.skip
+          (IndexedSubflow.keep
+            (IndexedSubflow.nil
+              [[BMark.b0, BMark.b0, BMark.b1, BMark.b0],
+                [BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+                [BMark.b0, BMark.b1, BMark.b0, BMark.b0],
+                [BMark.b0, BMark.b1, BMark.b0, BMark.b1]])))
+    · constructor
+      · exact Or.inr
+          (IndexedSubflow.skip
+            (IndexedSubflow.skip
+              (IndexedSubflow.keep
+                (IndexedSubflow.nil
+                  [[BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+                    [BMark.b0, BMark.b1, BMark.b0, BMark.b0],
+                    [BMark.b0, BMark.b1, BMark.b0, BMark.b1]]))))
+      · constructor
+        · exact Or.inr
+            (IndexedSubflow.skip
+              (IndexedSubflow.skip
+                (IndexedSubflow.skip
+                  (IndexedSubflow.keep
+                    (IndexedSubflow.nil
+                      [[BMark.b0, BMark.b1, BMark.b0, BMark.b0],
+                        [BMark.b0, BMark.b1, BMark.b0, BMark.b1]])))))
+        · constructor
+          · exact Or.inr
+              (IndexedSubflow.skip
+                (IndexedSubflow.skip
+                  (IndexedSubflow.skip
+                    (IndexedSubflow.skip
+                      (IndexedSubflow.keep
+                        (IndexedSubflow.nil
+                          [[BMark.b0, BMark.b1, BMark.b0, BMark.b1]]))))))
+          · constructor
+            · exact Or.inr
+                (IndexedSubflow.skip
+                  (IndexedSubflow.skip
+                    (IndexedSubflow.skip
+                      (IndexedSubflow.skip
+                        (IndexedSubflow.skip
+                          (IndexedSubflow.keep
+                            (IndexedSubflow.nil [])))))))
+            · exact ⟨[BMark.b0, BMark.b1, BMark.b0, BMark.b0], [], rfl⟩
+
+theorem topology_motif_not_continuity :
+    exists S : EventFlow, TopologyMotif S /\ Not (ContinuityProofMotif S) := by
+  refine ⟨TopologyMotifSkeleton, topology_motif_skeleton_recognized, ?_⟩
+  intro hContinuity
+  have hMem :
+      List.Mem [BMark.b1, BMark.b1, BMark.b1, BMark.b1]
+        TopologyMotifSkeleton :=
+    subflow_mem hContinuity.left (List.Mem.head [])
+  unfold TopologyMotifSkeleton at hMem
+  cases hMem with
+  | tail _ hMem =>
+      cases hMem with
+      | tail _ hMem =>
+          cases hMem with
+          | tail _ hMem =>
+              cases hMem with
+              | tail _ hMem =>
+                  cases hMem with
+                  | tail _ hMem =>
+                      cases hMem with
+                      | tail _ hMem =>
+                          cases hMem
+
+def CarryCandidateFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b1], [BMark.b1, BMark.b0, BMark.b0]]
+
+def CarryOnlyMotif (S : EventFlow) : Prop :=
+  Subflow CarryCandidateFlow S /\ NonemptyEventFlow CarryCandidateFlow
+
+def DimensionCertificateFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b1, BMark.b1]]
+
+def DimensionCertificateMotif (S : EventFlow) : Prop :=
+  Subflow DimensionCertificateFlow S /\ NonemptyEventFlow DimensionCertificateFlow
+
+theorem carry_motif_not_dimension :
+    exists S : EventFlow, CarryOnlyMotif S /\ Not (DimensionCertificateMotif S) := by
+  refine ⟨CarryCandidateFlow, ?_, ?_⟩
+  · constructor
+    · exact subflow_self CarryCandidateFlow
+    · exact ⟨[BMark.b0, BMark.b1, BMark.b1],
+        [[BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+  · intro hDimension
+    have hMem :
+        List.Mem [BMark.b1, BMark.b1, BMark.b1, BMark.b1]
+          CarryCandidateFlow :=
+      subflow_mem hDimension.left (List.Mem.head [])
+    unfold CarryCandidateFlow at hMem
+    cases hMem with
+    | tail _ hMem =>
+        cases hMem with
+        | tail _ hMem =>
+            cases hMem
 
 structure ComplexMotifRecord where
   productSource : EventFlow
