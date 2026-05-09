@@ -9,6 +9,45 @@ open BEDC.FKernel.Unary
 open BEDC.Derived.GroupUp
 open BEDC.Derived.TopologyUp
 
+def TopGroupRootThresholdDownstreamPackage
+    (group topology product inverse neighborhood classifier ledger provenance threshold :
+      BHist) : Prop :=
+  TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ∧
+    hsame classifier (append group topology) ∧ Cont ledger classifier threshold ∧
+      hsame threshold (append ledger classifier)
+
+theorem TopGroupRootThresholdDownstreamPackage_boundary_rows
+    {group topology product inverse neighborhood classifier ledger provenance threshold : BHist} :
+    TopGroupRootThresholdDownstreamPackage group topology product inverse neighborhood classifier
+        ledger provenance threshold ->
+      GroupSingletonCarrier group ∧ TopologySingletonCarrier topology ∧ UnaryHistory ledger ∧
+        UnaryHistory classifier ∧ UnaryHistory threshold ∧ Cont ledger classifier threshold ∧
+          hsame threshold (append ledger classifier) ∧ hsame provenance ledger := by
+  intro downstream
+  have package :=
+    downstream.left
+  have boundary :=
+    TopGroupRootThresholdPackage_source_coupled_continuity_boundary package
+  have groupUnary : UnaryHistory group :=
+    unary_transport unary_empty (hsame_symm package.left)
+  have topologyUnary : UnaryHistory topology :=
+    unary_transport unary_empty (hsame_symm package.right.left)
+  have classifierUnaryRaw : UnaryHistory (append group topology) :=
+    unary_append_closed groupUnary topologyUnary
+  have classifierUnary : UnaryHistory classifier :=
+    unary_transport classifierUnaryRaw (hsame_symm downstream.right.left)
+  have thresholdUnary : UnaryHistory threshold :=
+    unary_cont_closed boundary.right.right.right.right.right.left classifierUnary
+      downstream.right.right.left
+  exact And.intro package.left
+    (And.intro package.right.left
+      (And.intro boundary.right.right.right.right.right.left
+        (And.intro classifierUnary
+          (And.intro thresholdUnary
+            (And.intro downstream.right.right.left
+              (And.intro downstream.right.right.right
+                boundary.right.right.right.right.right.right.right))))))
+
 theorem TopGroupRootThresholdPackage_root_threshold_namecert_threshold
     {group topology product inverse neighborhood ledger provenance : BHist} :
     TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->

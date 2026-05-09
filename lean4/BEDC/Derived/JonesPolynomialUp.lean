@@ -253,6 +253,53 @@ theorem JonesSkeinLedgerPacket_skein_classifier_determinacy
         (And.intro transportedLedger
           transported.left.right.right.right.right.left)))
 
+def JonesSkeinLedgerPacket_classifier
+    (diagram positive negative smoothing endpoint provenance contLedger diagram' positive' negative'
+      smoothing' endpoint' provenance' contLedger' : BHist)
+    (skeinLedger skeinLedger' : ProbeBundle JonesSkeinBoundaryTag) : Prop :=
+  JonesSkeinLedgerPacket diagram positive negative smoothing endpoint provenance contLedger
+      skeinLedger ∧
+    JonesSkeinLedgerPacket diagram' positive' negative' smoothing' endpoint' provenance'
+        contLedger' skeinLedger' ∧
+      hsame diagram diagram' ∧ hsame positive positive' ∧ hsame negative negative' ∧
+        hsame smoothing smoothing' ∧ hsame endpoint endpoint' ∧
+          hsame provenance provenance' ∧ hsame contLedger contLedger'
+
+theorem JonesSkeinLedgerPacket_classifier_transport
+    {diagram positive negative smoothing endpoint provenance contLedger diagram' positive' negative'
+      smoothing' endpoint' endpoint'' provenance' provenance'' contLedger' contLedger'' : BHist}
+    {skeinLedger skeinLedger' : ProbeBundle JonesSkeinBoundaryTag} :
+    JonesSkeinLedgerPacket_classifier diagram positive negative smoothing endpoint provenance
+        contLedger diagram' positive' negative' smoothing' endpoint' provenance' contLedger'
+        skeinLedger skeinLedger' ->
+      hsame endpoint' endpoint'' ->
+        Cont diagram' endpoint'' provenance'' ->
+          Cont provenance'' endpoint'' contLedger'' ->
+            JonesSkeinLedgerPacket_classifier diagram positive negative smoothing endpoint provenance
+                contLedger diagram' positive' negative' smoothing' endpoint'' provenance''
+                contLedger'' skeinLedger skeinLedger' ∧
+              hsame provenance' provenance'' ∧ hsame contLedger' contLedger'' := by
+  intro classifier sameEndpoint transportedProvenance transportedLedger
+  have transported :=
+    JonesSkeinLedgerPacket_reidemeister_transport classifier.right.left (hsame_refl diagram')
+      sameEndpoint transportedProvenance transportedLedger
+  have sameEndpointBase : hsame endpoint endpoint'' :=
+    hsame_trans classifier.right.right.right.right.right.right.left sameEndpoint
+  have sameProvenanceBase : hsame provenance provenance'' :=
+    hsame_trans classifier.right.right.right.right.right.right.right.left transported.right.left
+  have sameLedgerBase : hsame contLedger contLedger'' :=
+    hsame_trans classifier.right.right.right.right.right.right.right.right transported.right.right
+  exact And.intro
+    (And.intro classifier.left
+      (And.intro transported.left
+        (And.intro classifier.right.right.left
+          (And.intro classifier.right.right.right.left
+            (And.intro classifier.right.right.right.right.left
+              (And.intro classifier.right.right.right.right.right.left
+                (And.intro sameEndpointBase
+                  (And.intro sameProvenanceBase sameLedgerBase))))))))
+    (And.intro transported.right.left transported.right.right)
+
 theorem JonesSkeinLedgerPacket_endpoint_classifier_exhaustion
     {diagram positive negative smoothing endpoint provenance contLedger : BHist}
     {skeinLedger : ProbeBundle JonesSkeinBoundaryTag} :
