@@ -300,6 +300,28 @@ structure PrototypeAuditChecklist
       Not (publicSurface InterfaceDatum.recognizesTheorem) /\
       Not (publicSurface InterfaceDatum.acceptFlow)
 
+def ReportIncludesCarryWarning (report : DecodeReport) : Prop :=
+  List.Mem ReportWarning.carryLookingPair report.warnings
+
+def P0ChannelObligations : Prop :=
+  (forall S : EventFlow, forall c : List DisplayAlphabet,
+    PrototypeEncoder S c -> Compiles S c) /\
+  (forall c : List DisplayAlphabet, forall S : EventFlow,
+    PrototypeDecoder c (PrototypeDecoderOutput.decoded S) -> Decodes c S) /\
+  (forall c : List DisplayAlphabet,
+    LegalZStream c ->
+      exists S : EventFlow, PrototypeStreamDecoder c = some S /\ Decodes c S) /\
+  (forall c : List DisplayAlphabet, forall reason : RejectReason,
+    PrototypeSyntacticReject c reason -> Not (LegalZStream c))
+
+def P0Adequate (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  ReferencePrototype publicSurface /\
+    exists _checklist : PrototypeAuditChecklist publicSurface,
+      P0ChannelObligations
+
+def HigherPrototypeAdequacy (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  exists d : InterfaceDatum, publicSurface d /\ HigherPrototypeClaim d
+
 theorem reference_prototype_not_full_compiler
     {publicSurface : InterfaceDatum -> Prop} {d : InterfaceDatum} :
     ReferencePrototype publicSurface ->
@@ -344,6 +366,48 @@ theorem prototype_reject_soundness {c : List DisplayAlphabet}
           | intro hSome _ =>
               rw [hSome] at hNone
               cases hNone
+
+theorem p0_channel_obligations_hold :
+    P0ChannelObligations := by
+  constructor
+  · intro S c h
+    exact prototype_encoder_soundness h
+  constructor
+  · intro c S h
+    exact prototype_decoder_soundness h
+  constructor
+  · intro c hLegal
+    exact prototype_decoder_completeness_on_legal_streams hLegal
+  · intro c reason hReject
+    exact prototype_reject_soundness hReject
+
+theorem reports_must_include_warnings
+    {publicSurface : InterfaceDatum -> Prop} :
+    PrototypeAuditChecklist publicSurface ->
+      exists report : DecodeReport, ReportIncludesCarryWarning report := by
+  intro hChecklist
+  exact hChecklist.carryWarningsAvailable
+
+theorem prototype_audit_suffices
+    {publicSurface : InterfaceDatum -> Prop} :
+    PrototypeAuditChecklist publicSurface ->
+      ReferencePrototype publicSurface ->
+        P0Adequate publicSurface := by
+  intro hChecklist hPrototype
+  exact ⟨hPrototype, ⟨hChecklist, p0_channel_obligations_hold⟩⟩
+
+theorem p0_adequacy_not_higher
+    {publicSurface : InterfaceDatum -> Prop} :
+    P0Adequate publicSurface ->
+      Not (HigherPrototypeAdequacy publicSurface) := by
+  intro hAdequate hHigher
+  cases hHigher with
+  | intro d hDatum =>
+      cases hDatum with
+      | intro hPublic hHigherClaim =>
+          exact
+            reference_prototype_not_full_compiler
+              hAdequate.left hPublic hHigherClaim
 
 theorem prototype_reports_output_not_formal_input {v : PrototypeIOView} :
     PrototypeReportOutputView v -> Not (FormalPrototypeInput v) := by
