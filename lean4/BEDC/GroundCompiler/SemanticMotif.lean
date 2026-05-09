@@ -39,6 +39,10 @@ def ClassifierQuotientRole : MotifRole := [[BMark.b1, BMark.b0, BMark.b0]]
 
 def LedgerCompressionRole : MotifRole := [[BMark.b1, BMark.b0, BMark.b1]]
 
+def ReuseRole : MotifRole := [[BMark.b1, BMark.b1, BMark.b0]]
+
+def BridgeRole : MotifRole := [[BMark.b1, BMark.b1, BMark.b1]]
+
 def SourceLevelMotifArgs (S M : EventFlow) (mu : MotifRole) : Prop :=
   FormalCompilerInput (CompilerDatum.eventFlow S) /\
     FormalCompilerInput (CompilerDatum.eventFlow M) /\
@@ -144,6 +148,45 @@ def LedgerCompressionMotif
     NonemptyEventFlow sourceMapFlow /\
     NonemptyEventFlow compressionSealFlow
 
+def ReuseMotif
+    (R : GeneratedMotifRecognizer)
+    (S M acceptedRefs transportWitness newSource classifierFlow ledgerFlow
+      certificateFlow strengthBound : EventFlow) : Prop :=
+  RecognizesMotif R S M ReuseRole /\
+    Subflow acceptedRefs M /\
+    Subflow transportWitness M /\
+    Subflow newSource M /\
+    Subflow classifierFlow M /\
+    Subflow ledgerFlow M /\
+    Subflow certificateFlow M /\
+    Subflow strengthBound M /\
+    NonemptyEventFlow acceptedRefs /\
+    NonemptyEventFlow transportWitness /\
+    NonemptyEventFlow newSource /\
+    NonemptyEventFlow classifierFlow /\
+    NonemptyEventFlow ledgerFlow /\
+    NonemptyEventFlow certificateFlow /\
+    NonemptyEventFlow strengthBound
+
+def BridgeMotif
+    (R : GeneratedMotifRecognizer)
+    (S M bedcSource standardTargetDescription translationFlow soundnessFlow
+      reflectionFlow noHostLeakLedger bridgeSeal : EventFlow) : Prop :=
+  RecognizesMotif R S M BridgeRole /\
+    Subflow bedcSource M /\
+    Subflow standardTargetDescription M /\
+    Subflow translationFlow M /\
+    Subflow soundnessFlow M /\
+    Subflow reflectionFlow M /\
+    Subflow noHostLeakLedger M /\
+    Subflow bridgeSeal M /\
+    NonemptyEventFlow bedcSource /\
+    NonemptyEventFlow standardTargetDescription /\
+    NonemptyEventFlow translationFlow /\
+    NonemptyEventFlow soundnessFlow /\
+    NonemptyEventFlow noHostLeakLedger /\
+    NonemptyEventFlow bridgeSeal
+
 theorem no_external_motif_input
     {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
     MotifOccurrence R S M mu ->
@@ -187,6 +230,13 @@ theorem motif_recognition_preserves_code
     {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
     RecognizesMotif R S M mu ->
       Compiles S (FlowEncoding S) /\ SourceLevelMotifArgs S M mu := by
+  intro h
+  exact ⟨rfl, h.right.left⟩
+
+theorem motif_code_not_separate
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    RecognizesMotif R S M mu ->
+      Compiles M (FlowEncoding M) /\ SourceLevelMotifArgs S M mu := by
   intro h
   exact ⟨rfl, h.right.left⟩
 

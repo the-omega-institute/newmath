@@ -216,11 +216,13 @@ A \emph{ledger compression motif} is a recognized structure in which a visible e
 
 \begin{definition}[Reuse motif]
 \label{def:motif-generated-reuse}
+\leandef{BEDC.GroundCompiler.SemanticMotif.ReuseMotif}
 A \emph{reuse motif} is a recognized structure in which a new flow references accepted or recognized flows $N_1,\ldots,N_k$ and uses a reuse witness while still supplying its own certificate obligations. It contains input accepted-flow references, transport witness, new source-flow, classifier-flow, ledger-flow, certificate-flow, and strength bound. Reuse does not erase the target object's own certificate obligations.
 \end{definition}
 
 \begin{definition}[Bridge motif]
 \label{def:motif-generated-bridge}
+\leandef{BEDC.GroundCompiler.SemanticMotif.BridgeMotif}
 A \emph{bridge motif} is a recognized structure establishing conservative correspondence between a BEDC flow and a standard-side mathematical description. It contains BEDC source flow, standard-side target description flow, translation flow, soundness flow, reflection or completeness flow where available, no-host-leak ledger, and bridge seal. The external object is not a primitive input; it appears only through certified correspondence flow.
 \end{definition}
 
@@ -242,6 +244,7 @@ Motif recognition is a source-level relation over an existing event flow $S$. It
 
 \begin{corollary}[Motif code is not a separate code]
 \label{cor:motif-generated-code-not-separate}
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.motif\_code\_not\_separate}
 The code of a motif occurrence $M$ is the ordinary channel compilation $\mathsf{Compile}(M)$ of its raw subflow. It is not produced by a separate motif compiler.
 \end{corollary}
 
