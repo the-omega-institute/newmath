@@ -1,0 +1,39 @@
+\begin{theorem}[MulUp public semantic exit certificate]
+\label{thm:mulup-public-semantic-exit-certificate}
+The concrete unary multiplication surface obtained from
+\autoref{thm:unary-multiplication-mulup-semantic-exit-package},
+\autoref{thm:mulup-semantic-exit-audit-row-coverage}, the right and left
+additive distribution surfaces
+\autoref{thm:natmul-additive-right-distributivity-surface} and
+\autoref{thm:natmul-additive-left-distributivity-surface}, and
+\autoref{thm:natmul-unary-prefix-order-monotone} is the public
+$\NameCert_{\MulUp}$ consumption package over $\mathsf{BHist}$ for the full
+natural-arithmetic phase.
+
+A consumer of this package may read only the carrier
+$\mathsf{UnaryHistory}$, the classifier $\hsame$, the continuation ledger
+$\Cont$, the multiplication relation $\mathsf{NatMul}$, the semantic result
+$\NameCert$ row, and the displayed $\AddUp/\OrderUp$ interaction rows. The
+certificate does not expose cancellation, semiring completeness, or
+standard-bridge data.
+\end{theorem}
+\begin{proof}
+Project the semantic exit package of
+\autoref{thm:unary-multiplication-mulup-semantic-exit-package}. This gives the
+unary carrier over $\mathsf{BHist}$, the classifier, the multiplication
+relation, the unit, the finite multiplication law rows, and the semantic result
+$\NameCert$ row.
+
+Apply the audit coverage theorem
+\autoref{thm:mulup-semantic-exit-audit-row-coverage}. Its coverage statement
+identifies the same public rows with the two additive distribution surfaces and
+the unary-prefix monotonicity row, all through $\mathsf{UnaryHistory}$,
+$\hsame$, $\Cont$, and $\mathsf{NatMul}$.
+
+Repack the two $\AddUp$ distribution rows and the $\OrderUp$ monotonicity row
+as one public consumption boundary. Since every displayed row uses the same
+carrier, classifier, continuation ledger, and multiplication relation, the
+boundary is exactly the $\NameCert_{\MulUp}$ package consumed by the full
+natural-arithmetic phase, while the excluded cancellation, semiring, and
+standard-bridge data remain outside the theorem.
+\end{proof}
