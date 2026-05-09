@@ -251,4 +251,86 @@ theorem RingOfIntegersDedekindSourceCarrier_classifier_transport [AskSetup] [Pac
             (And.intro endpointCont' pkgSig'))))
   exact And.intro carrier' (And.intro sameEmbedding sameContRow)
 
+theorem RingOfIntegersDedekindSourceCarrier_scoped_dependency_package [AskSetup]
+    [PackageSetup]
+    {numfield embeddedInt embedding equationLedger classifier provenance contLedger endpoint num
+      embedded classifierEmbedding classifierEquation classifierContRow classifierProvenance
+      classifierEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RingOfIntegersDedekindSourceCarrier numfield embeddedInt embedding equationLedger classifier
+        provenance contLedger endpoint bundle pkg ->
+      RingOfIntegersClassifierTransportCarrier num embedded classifierEmbedding classifierEquation
+          classifier classifierContRow classifierProvenance classifierEndpoint bundle pkg ->
+        NumFieldRatReflexiveCarrier numfield ∧
+          IntCarrier BEDC.FKernel.Mark.BMark.b0 embedded ∧
+            UnaryHistory embeddedInt ∧ UnaryHistory equationLedger ∧ UnaryHistory classifier ∧
+              UnaryHistory contLedger ∧ UnaryHistory endpoint ∧
+                Cont numfield embeddedInt embedding ∧
+                  Cont embedding equationLedger contLedger ∧
+                    Cont embedded num classifierEmbedding ∧
+                      Cont classifierEmbedding classifierEquation classifierContRow ∧
+                        hsame classifier classifierContRow ∧
+                          Cont provenance contLedger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro sourceCarrier classifierCarrier
+  have sourceRows :=
+    RingOfIntegersDedekindSourceCarrier_dependency_projection_boundary
+      (numfield := numfield) (embeddedInt := embeddedInt) (embedding := embedding)
+      (equationLedger := equationLedger) (classifier := classifier)
+      (provenance := provenance) (contLedger := contLedger) (endpoint := endpoint)
+      (bundle := bundle) (pkg := pkg) sourceCarrier
+  constructor
+  · exact sourceRows.left
+  constructor
+  · exact classifierCarrier.left
+  constructor
+  · exact sourceRows.right.left
+  constructor
+  · exact sourceRows.right.right.right.left
+  constructor
+  · exact sourceRows.right.right.right.right.left
+  constructor
+  · exact sourceRows.right.right.right.right.right.left
+  constructor
+  · exact sourceRows.right.right.right.right.right.right.left
+  constructor
+  · exact sourceRows.right.right.right.right.right.right.right.left
+  constructor
+  · exact sourceRows.right.right.right.right.right.right.right.right.left
+  constructor
+  · exact classifierCarrier.right.left
+  constructor
+  · exact classifierCarrier.right.right.left
+  constructor
+  · exact classifierCarrier.right.right.right.left
+  constructor
+  · exact sourceRows.right.right.right.right.right.right.right.right.right.left
+  · exact sourceRows.right.right.right.right.right.right.right.right.right.right
+
+theorem RingOfIntegersClassifierTransportCarrier_scoped_bhist_source_binding
+    [AskSetup] [PackageSetup]
+    {num embedded embedding equation classifier contRow provenance endpoint embedded'
+      embedding' contRow' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RingOfIntegersClassifierTransportCarrier num embedded embedding equation classifier contRow
+        provenance endpoint bundle pkg ->
+      hsame embedded embedded' ->
+        Cont embedded' num embedding' ->
+          Cont embedding' equation contRow' ->
+            Cont provenance contRow' endpoint' ->
+              PkgSig bundle endpoint' pkg ->
+                RingOfIntegersClassifierTransportCarrier num embedded' embedding' equation
+                    classifier contRow' provenance endpoint' bundle pkg ∧
+                  hsame embedding embedding' ∧ hsame contRow contRow' ∧
+                    hsame endpoint endpoint' := by
+  intro carrier sameEmbedded embeddingCont' contRowCont' endpointCont' pkgSig'
+  have transported :=
+    RingOfIntegersDedekindSourceCarrier_classifier_transport carrier sameEmbedded embeddingCont'
+      contRowCont' endpointCont' pkgSig'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) transported.right.right
+      carrier.right.right.right.right.left endpointCont'
+  exact And.intro transported.left
+    (And.intro transported.right.left
+      (And.intro transported.right.right sameEndpoint))
+
 end BEDC.Derived.RingOfIntegersUp
