@@ -3,6 +3,7 @@ import BEDC.GroundCompiler.NameCertGenerated
 
 namespace BEDC.GroundCompiler.DerivCertGenerated
 
+open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.ChannelEncoding
 open BEDC.GroundCompiler.NameCertGenerated
@@ -55,12 +56,15 @@ def DerivCertFlow (D N s : EventFlow) : Prop :=
   exists R : GeneratedDerivCertRecognizer, RecognizesDerivCert R D N s
 
 def AcceptedFlow (A N s : EventFlow) : Prop :=
-  exists C D : EventFlow,
+  exists C D sealFlow : EventFlow,
     NameCertFlow C N /\
       DerivCertFlow D N s /\
+      NonemptyEventFlow C /\
+      NonemptyEventFlow D /\
+      NonemptyEventFlow sealFlow /\
       DerivCertSourceSubflow C A /\
       DerivCertSourceSubflow D A /\
-      exists sealFlow : EventFlow, DerivCertSourceSubflow sealFlow A
+      DerivCertSourceSubflow sealFlow A
 
 def AcceptGateFlow (N s : EventFlow) : Prop :=
   exists A : EventFlow, AcceptedFlow A N s
@@ -199,7 +203,53 @@ theorem accepted_requires_namecert_derivcert {N s : EventFlow} :
       | intro C hAccepted =>
           cases hAccepted with
           | intro D hAccepted =>
-              exact ⟨C, D, hAccepted.left, hAccepted.right.left⟩
+              cases hAccepted with
+              | intro _ hAccepted =>
+                  exact ⟨C, D, hAccepted.left, hAccepted.right.left⟩
+
+theorem nonempty_not_derivcert_subflow_of_empty {part : EventFlow} :
+    NonemptyEventFlow part -> Not (DerivCertSourceSubflow part []) := by
+  intro hNonempty hSubflow
+  cases hNonempty with
+  | intro w hRest =>
+      cases hRest with
+      | intro rest hPart =>
+          cases hSubflow with
+          | intro before hAfter =>
+              cases hAfter with
+              | intro after hWhole =>
+                  rw [hPart] at hWhole
+                  cases before with
+                  | nil =>
+                      cases hWhole
+                  | cons _ _ =>
+                      cases hWhole
+
+theorem empty_not_accepted_flow {N s : EventFlow} :
+    Not (AcceptedFlow [] N s) := by
+  intro hAccepted
+  cases hAccepted with
+  | intro C hAccepted =>
+      cases hAccepted with
+      | intro D hAccepted =>
+          cases hAccepted with
+          | intro sealFlow hFields =>
+              exact
+                nonempty_not_derivcert_subflow_of_empty
+                  hFields.right.right.left
+                  hFields.right.right.right.right.right.left
+
+theorem code_existence_not_acceptance (N s : EventFlow) :
+    LegalZStream [] /\ Not (RecognizesAcceptanceCode [] N s) := by
+  constructor
+  · exact flow_encoding_legal_zstream []
+  · intro hRecognizes
+    cases hRecognizes with
+    | intro A hDecoded =>
+        cases hDecoded with
+        | intro hDecode hAccepted =>
+            cases hDecode
+            exact empty_not_accepted_flow hAccepted
 
 theorem accepted_object_code_injective
     {A B N M s t : EventFlow} :
@@ -226,5 +276,21 @@ theorem channel_compilation_preserves_acceptance
     AcceptedFlow A N s -> RecognizesAcceptanceCode (FlowEncoding A) N s := by
   intro hAccepted
   exact ⟨A, flow_level_round_trip A, hAccepted⟩
+
+theorem acceptance_recognition_invariant {A N s : EventFlow} :
+    AcceptedFlow A N s ->
+      exists A' : EventFlow,
+        Decode (FlowEncoding A) = some A' /\ A' = A /\ AcceptedFlow A' N s := by
+  intro hAccepted
+  exact ⟨A, flow_level_round_trip A, rfl, hAccepted⟩
+
+theorem accepted_flow_recognition_conservativity
+    {A N s : EventFlow} {w : RawEvent} {m : DisplayAlphabet} :
+    AcceptedFlow A N s -> List.Mem w A -> List.Mem m w ->
+      m = BMark.b0 \/ m = BMark.b1 := by
+  intro _ _ _
+  cases m with
+  | b0 => exact Or.inl rfl
+  | b1 => exact Or.inr rfl
 
 end BEDC.GroundCompiler.DerivCertGenerated

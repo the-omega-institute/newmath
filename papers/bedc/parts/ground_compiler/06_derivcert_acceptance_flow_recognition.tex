@@ -343,6 +343,7 @@ the $\NameCert$ recognition is sound in the sense of \autoref{def:namecert-gener
 $$
   \mathsf{AcceptFlow}(A,N,s).
 $$
+The contained $\NameCert$ flow, derivation-certificate flow, and acceptance-seal subflow are nonempty event flows.
 \end{definition}
 
 \begin{definition}[Flow-level acceptance gate]
@@ -381,11 +382,12 @@ By \autoref{def:derivcert-generated-accept-gate-flow}, there is an $A$ with $\ma
 
 \begin{corollary}[Code existence does not imply acceptance]
 \label{cor:derivcert-generated-code-existence-not-acceptance}
-A legal channel stream $c \in \mathsf{LegalZStream}$ does not by itself imply any $\mathsf{AcceptGateFlow}(N,s)$. Acceptance requires decoding and then recognizing sound $\NameCert$, sound derivation-certificate, and acceptance-seal structure in the decoded event flow or its recognized subflows.
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.code\_existence\_not\_acceptance}
+A legal channel stream $c \in \mathsf{LegalZStream}$ does not by itself imply $\mathsf{RecognizesAcceptanceCode}(c,N,s)$. Acceptance from code requires decoding and then recognizing nonempty sound $\NameCert$, nonempty sound derivation-certificate, and nonempty acceptance-seal structure in the decoded event flow or its recognized subflows.
 \end{corollary}
 
 \begin{proof}
-Membership $c \in \mathsf{LegalZStream}$ says only that $c$ decodes to an event flow. Acceptance requires additional source-layer recognition judgments. Channel legality alone does not entail those judgments.
+Membership $c \in \mathsf{LegalZStream}$ says only that $c$ decodes to an event flow. Acceptance-code recognition requires additional source-layer recognition judgments on the decoded flow. The empty channel stream is legal because it decodes to the empty event flow, but the empty event flow cannot contain a nonempty $\NameCert$ flow, derivation-certificate flow, and acceptance-seal subflow. Hence channel legality alone does not entail acceptance-code recognition.
 \end{proof}
 
 \begin{definition}[Accepted object code]
@@ -469,6 +471,7 @@ Substitution in $\mathsf{AcceptFlow}(A,N,s)$ gives the result.
 
 \begin{corollary}[Acceptance recognition is invariant under compile-decode]
 \label{cor:derivcert-generated-acceptance-invariant}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.acceptance\_recognition\_invariant}
 For every accepted flow, compiling to a channel stream and decoding back to an event flow preserves its acceptance status.
 \end{corollary}
 
@@ -555,6 +558,7 @@ A flow accepted at strength $s$ does not automatically become accepted at a high
 
 \begin{theorem}[Accepted flow recognition is conservative over the finite kernel]
 \label{thm:derivcert-generated-conservativity}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.accepted\_flow\_recognition\_conservativity}
 Adding $\mathsf{RecognizesDerivCert}$, $\mathsf{AcceptFlow}$, $\mathsf{AcceptGateFlow}$, and the associated field-recognition relations does not add new raw marks, history constructors, sameness rules, continuation rules, or kernel-level equalities.
 \end{theorem}
 
