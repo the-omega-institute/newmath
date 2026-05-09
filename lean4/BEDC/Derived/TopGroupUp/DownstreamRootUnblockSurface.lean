@@ -37,4 +37,27 @@ theorem TopGroupRootThresholdPackage_downstream_root_unblock_surface
             (And.intro package.right.right.right.right.right.left
               package.right.right.right.right.right.right)))))
 
+def TopGroupRootSharedSourcePacket
+    (group topology product inverse neighborhood ledger provenance : BHist) : Prop :=
+  TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ∧
+    Cont group topology product ∧ Cont product inverse ledger ∧
+      Cont ledger BHist.Empty provenance
+
+theorem TopGroupRootSharedSourcePacket_export_rows
+    {group topology product inverse neighborhood ledger provenance : BHist} :
+    TopGroupRootSharedSourcePacket group topology product inverse neighborhood ledger provenance ->
+      GroupSingletonCarrier group ∧ TopologySingletonCarrier topology ∧ Cont group topology product ∧
+        Cont product inverse ledger ∧ Cont ledger BHist.Empty provenance ∧
+          UnaryHistory provenance := by
+  intro packet
+  have package :
+      TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance :=
+    packet.left
+  have rows := TopGroupRootThresholdPackage_shared_source_rows package
+  exact And.intro package.left
+    (And.intro package.right.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right rows.right.right.right.right))))
+
 end BEDC.Derived.TopGroupUp

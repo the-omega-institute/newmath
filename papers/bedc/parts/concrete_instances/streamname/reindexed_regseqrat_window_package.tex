@@ -181,3 +181,50 @@ other consumer row is present in the package. Finally
 regularity, seal, completion, quotient, and host index-equality rows. Hence the
 identity case is precisely the unreindexed finite-window handoff.
 \end{proof}
+
+\begin{theorem}[StreamName RealUp subwindow ledger determinacy]
+\label{thm:streamname-realup-subwindow-ledger-determinacy}
+Let $\Omega$ and $\Omega'$ be two reindexed
+$\StreamNameUp$--$\RegSeqRat$ finite-window packages over rational histories.
+Assume that they display the same public $\StreamNameUp$ finite-window row, the
+same certified unary reindexer, the same selected
+$\mathsf{ProbeBundle}$ subwindow, the same $\mathsf{InBundle}$ membership rows,
+the same $\mathsf{UnaryHistory}$ observation rows, and the same transported
+$\mathsf{RatHistoryClassifier}$ rows. Then every finite-window $\RealUp$
+consumer reading the corresponding subwindow sees the same finite
+$\mathsf{BHist}$ source surface from $\Omega$ and $\Omega'$.
+
+The common surface consists exactly of the public StreamName classifier rows,
+the $\RegSeqRat$ handoff rows, the selected endpoint rows, and the finite
+ledger boundary carried by the displayed bundle, membership, and unary-history
+rows. It contains no quotient datum, completion object, host-index equality,
+metric-completeness witness, or standard-bridge row.
+\end{theorem}
+\begin{proof}
+Start with the two reindexed window packages. By
+\autoref{thm:streamname-regseqrat-reindexed-window-consumer-determinacy}, the
+common public StreamName row, certified unary reindexer, selected bundle,
+membership rows, unary-history rows, and transported rational classifiers force
+the same finite source surface for every downstream finite-window consumer.
+
+Next project the RegSeqRat side. The finite-window handoff theorem
+\autoref{thm:streamname-real-regseq-finite-window-handoff} reads exactly the
+selected $\mathsf{RatHistoryClassifier}$ rows together with the displayed
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$ ledger
+rows. The restriction theorem
+\autoref{thm:streamname-regseqrat-finite-window-restriction-handoff} keeps
+those rows unchanged when the consumer asks only for the selected subwindow.
+
+Now attach the RealUp read boundary. Apply
+\autoref{thm:realup-streamname-finite-window-ledger-boundary} to the common
+subwindow surface. It identifies the visible $\RealUp$ input as the selected
+StreamName classifier rows, endpoint rows, RegSeqRat dyadic source rows, and
+finite ledger boundary already present in the two packages.
+
+Finally use
+\autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import}. Since the
+reindexed package imports no seal classifier, quotient, completion,
+host-index equality, metric-completeness witness, or standard-bridge row, no
+finite-window $\RealUp$ consumer can distinguish $\Omega$ from $\Omega'$ by
+such data. The exposed $\mathsf{BHist}$ source surface is therefore the same.
+\end{proof}
