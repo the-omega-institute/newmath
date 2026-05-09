@@ -17,6 +17,9 @@ inductive IndexedSubflow : EventFlow -> EventFlow -> Prop where
 def Subflow (M S : EventFlow) : Prop :=
   ContiguousSubflow M S \/ IndexedSubflow M S
 
+def MotifCandidate (M S : EventFlow) : Prop :=
+  Subflow M S
+
 def GeneratedMotifRecognizer : Type := EventFlow
 
 def MotifRole : Type := EventFlow
@@ -33,10 +36,22 @@ def RecognizesMotif
     SourceLevelMotifArgs S M mu /\
     Subflow M S
 
+def RecognizedMotifOccurrence
+    (R : GeneratedMotifRecognizer) (S M : EventFlow) (mu : MotifRole) :
+    Prop :=
+  RecognizesMotif R S M mu
+
 theorem motif_recognition_source_level
     {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
     RecognizesMotif R S M mu -> SourceLevelMotifArgs S M mu := by
   intro h
   exact h.right.left
+
+theorem motif_recognition_requires_generated_recognizer
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    RecognizedMotifOccurrence R S M mu ->
+      FormalCompilerInput (CompilerDatum.eventFlow R) := by
+  intro h
+  exact h.left
 
 end BEDC.GroundCompiler.SemanticMotif

@@ -39,6 +39,7 @@ $$
 
 \begin{definition}[Motif candidate]
 \label{def:motif-report-candidate}
+\leandef{BEDC.GroundCompiler.SemanticMotif.MotifCandidate}
 Given an event flow
 $$
   S=(w_0,\ldots,w_{n-1}),
@@ -74,6 +75,7 @@ representing a motif role, such as finite repetition, continuation, seal, carry,
 
 \begin{definition}[Recognized motif occurrence]
 \label{def:motif-report-recognized-occurrence}
+\leandef{BEDC.GroundCompiler.SemanticMotif.RecognizedMotifOccurrence}
 If
 $$
   \mathsf{RecognizesMotif}(R_M,S,M,\mu),
@@ -118,7 +120,8 @@ Without such a ledger, the subflow may be reported only as a candidate motif.
 
 \begin{theorem}[Motif recognition requires generated recognizer]
 \label{thm:motif-report-requires-generated-recognizer}
-If no generated motif recognizer $R_M$ is available, one cannot formally assert
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.motif\_recognition\_requires\_generated\_recognizer}
+If $M$ is a recognized motif occurrence in $S$, then the recognizing datum $R_M$ is itself present as a formal generated event-flow input. Without such a generated motif recognizer flow, one cannot formally assert
 $$
   \mathsf{RecognizesMotif}(R_M,S,M,\mu).
 $$
