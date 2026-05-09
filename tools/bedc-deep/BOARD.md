@@ -41,29 +41,3 @@ Rationale:
 Fills the gap between the empty-node case (thm:quadrature-empty-node-sum-zero, file:267, BOARD B-538) and the singleton-node case (thm:quadrature-singleton-node-sum-weighted-evaluation, file:313, BOARD B-575). grep for 'two-node|binary.*node|Quadrature.*pair|Quadrature.*two' in 205_quadrature_namecert_construction.tex returned 0 matches. Builds directly on def:quadrature-finite-weighted-exactness-degree (file:22), lem:quadrature-empty-position-fold-zero (file:255), and lem:quadrature-singleton-position-fold (file:294). Concrete identity, not a transport echo. File is at 347 lines, well under cap. Natural extension of the existing empty/singleton fold-shape pattern.
 
 ---
-
-
-### B-591 - Independence singleton index family satisfies finite factorisation row
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Independence singleton index family satisfies finite factorisation row |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-If R is an Independence finite-family carrier as in def:independence-finite-family-carrier with finite index carrier I enumerating exactly one position i_0 and measurable target event B_{i_0}, then under the hypotheses linking the cylinder Cyl_X(B) to the marginal event B_{i_0} and finite RealUp product fold to the singleton evaluation, the joint endpoint at the cylinder factorises with the marginal product fold: μ_X^J(Cyl_X(B)) ~_R Π_R(MargSp_X(B)).
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/165_independence_namecert_construction.tex`
-
-Rationale:
-Fills the gap between thm:independence-empty-index-factorization-row (165:365, exists) and thm:independence-measurable-image-bridge for two variables (165:271). grep for 'independence.*singleton|independence.*single.*index|independence.*one.*index' returned 0 matches across parts/. Builds on def:independence-finite-family-carrier (165:134), thm:distribution-pushforward-total-mass-unit (referenced 165:373), and the empty-family theorem template at 165:365 demonstrating how to lift a singleton-shape factorisation. File 411 lines, under cap. Concrete factorisation identity, not a parameter transport — singleton index is a structurally distinct case that the empty/two-variable theorems do not subsume.
-
----
-
