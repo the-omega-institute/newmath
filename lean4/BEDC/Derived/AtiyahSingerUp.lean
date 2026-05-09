@@ -282,4 +282,68 @@ theorem AtiyahSingerIndexPairingCarrierPacket_namecert_obligation_surface
           (And.intro rows.right.right.right.right.right.right.right.right.left
             rows.right.right.right.right.right.right.right.right.right.right))))
 
+theorem AtiyahSingerIndexPairingCarrierPacket_shared_index_source_boundary
+    [AskSetup] [PackageSetup]
+    {m operator symbol spectral analytic chern characteristic topological equality provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AtiyahSingerIndexPairingCarrierPacket m operator symbol spectral analytic chern
+        characteristic topological equality provenance endpoint bundle pkg ->
+      hsame analytic topological ->
+        UnaryHistory m ∧ UnaryHistory analytic ∧ UnaryHistory topological ∧
+          hsame analytic topological ∧ hsame equality (append spectral analytic) ∧
+            hsame topological (append chern characteristic) ∧
+              hsame endpoint (append provenance topological) ∧ PkgSig bundle endpoint pkg := by
+  intro packet sharedIndex
+  have rows :=
+    AtiyahSingerIndexPairingCarrierPacket_provenance_exactness
+      (m := m) (operator := operator) (symbol := symbol) (spectral := spectral)
+      (analytic := analytic) (chern := chern) (characteristic := characteristic)
+      (topological := topological) (equality := equality) (provenance := provenance)
+      (endpoint := endpoint) (bundle := bundle) (pkg := pkg) packet
+  exact And.intro rows.left
+    (And.intro packet.right.right.right.right.left
+      (And.intro rows.right.right.right.left
+        (And.intro sharedIndex
+          (And.intro rows.right.right.right.right.right.right.left
+            (And.intro rows.right.right.right.right.right.right.right.left
+              (And.intro rows.right.right.right.right.right.right.right.right.right.left
+                rows.right.right.right.right.right.right.right.right.right.right))))))
+
+theorem AtiyahSingerIndexPairingCarrierPacket_root_endpoint_exactness_frontier
+    [AskSetup] [PackageSetup]
+    {m operator symbol spectral analytic chern characteristic topological equality provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AtiyahSingerIndexPairingCarrierPacket m operator symbol spectral analytic chern
+        characteristic topological equality provenance endpoint bundle pkg ->
+      hsame endpoint (append (append (append spectral analytic) symbol)
+          (append chern characteristic)) ∧
+        UnaryHistory endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have rows :=
+    AtiyahSingerIndexPairingCarrierPacket_provenance_exactness
+      (m := m) (operator := operator) (symbol := symbol) (spectral := spectral)
+      (analytic := analytic) (chern := chern) (characteristic := characteristic)
+      (topological := topological) (equality := equality) (provenance := provenance)
+      (endpoint := endpoint) (bundle := bundle) (pkg := pkg) packet
+  have endpointExact :
+      hsame endpoint (append (append (append spectral analytic) symbol)
+        (append chern characteristic)) := by
+    have equalityExact : hsame equality (append spectral analytic) :=
+      rows.right.right.right.right.right.right.left
+    have topologicalExact : hsame topological (append chern characteristic) :=
+      rows.right.right.right.right.right.right.right.left
+    have provenanceExact : hsame provenance (append equality symbol) :=
+      rows.right.right.right.right.right.right.right.right.left
+    have endpointReadback : hsame endpoint (append provenance topological) :=
+      rows.right.right.right.right.right.right.right.right.right.left
+    cases equalityExact
+    cases topologicalExact
+    cases provenanceExact
+    exact endpointReadback
+  exact And.intro endpointExact
+    (And.intro rows.right.right.right.right.right.left
+      rows.right.right.right.right.right.right.right.right.right.right)
+
 end BEDC.Derived.AtiyahSingerUp

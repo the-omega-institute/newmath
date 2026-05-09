@@ -94,6 +94,7 @@ import BEDC.Derived.BilinFormUp.EmptyLedgerInversion
 import BEDC.Derived.BilinFormUp.SemanticNameCertificate
 import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.ChernWeilUp
+import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.ConsumerRowCoverage
 import BEDC.Derived.CurvatureUp.ConsumerBoundary
@@ -453,6 +454,7 @@ import BEDC.Derived.TopGroupUp.PublicThresholdFrontier
 import BEDC.Derived.TopGroupUp.PublicConsumerMinimality
 import BEDC.Derived.TopGroupUp.SourceProjectionNamecertCompatibility
 import BEDC.Derived.TopGroupUp.SourceFiberProductCarrier
+import BEDC.Derived.TopGroupUp.RootOperationSourcePacket
 import BEDC.Derived.TopGroupUp.SourceRowsEmptyCoupled
 import BEDC.Derived.TopGroupUp.RootSourcePairExactness
 import BEDC.Derived.ComplexTopologyUp
