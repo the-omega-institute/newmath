@@ -141,3 +141,82 @@ the same source, reflection, action, $\hsame$, $\Cont$, and $\Pkg$ rows for
 downstream consumers. The packet is therefore the full root threshold surface,
 with all host analytic and algebraic models excluded.
 \end{proof}
+
+\begin{theorem}[PinGroup root carrier obligation scope]
+\label{thm:pingroup-root-carrier-obligation-scope}
+The carrier rows required for the $\PinGroupUp$ root
+seed-to-obligation surface are exactly the $\SpinGroupUp$ source row, the
+$\CliffordUp$ source row, the reflection-parity carrier row, and the
+orthogonal-action projection row displayed by
+\autoref{def:pingroup-root-consumer-threshold-packet}. No matrix model,
+analytic cover, quotient algebra, or host orthogonal-group carrier is part of
+the obligation scope.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:pingroup-root-consumer-threshold-packet}. Its public
+packet lists the Spin source, Clifford source, reflection-parity carrier, and
+orthogonal-action projection rows as the carrier-facing data.
+
+Use \autoref{thm:pingroup-root-source-threshold-coverage}. It proves that
+every source row visible at the threshold is covered by the Spin and Clifford
+source rows together with the reflection-parity split.
+
+Apply \autoref{thm:pingroup-root-reflection-threshold-exactness} and
+\autoref{thm:pingroup-root-downstream-threshold-surface}. These results place
+the reflection and projection rows inside the same finite threshold packet and
+exclude all host carrier models from the downstream surface.
+\end{proof}
+
+\begin{theorem}[PinGroup root classifier obligation scope]
+\label{thm:pingroup-root-classifier-obligation-scope}
+The classifier rows required for the $\PinGroupUp$ root
+seed-to-obligation surface are exactly the inherited $\SpinGroupUp$ classifier
+on Spin subrows and the reflection-parity classifier separating the inherited
+Spin branch from the Clifford reflection branch. No independent Clifford
+classifier, matrix parity classifier, or quotient classifier is exported.
+\end{theorem}
+\begin{proof}
+Read the inherited Spin classifier from
+\autoref{thm:pingroup-spin-subrow-classifier-readback}. A Spin source row
+embedded in the Pin carrier is classified by the inherited Spin row together
+with the identity reflection ledger.
+
+Read the reflection branch from
+\autoref{thm:pingroup-root-reflection-threshold-exactness}. It uses
+\autoref{thm:pingroup-reflection-parity-exactness} to identify the accepted
+reflection side with the reflection-parity classifier and the Clifford
+reflection-generator obligation.
+
+Finally use \autoref{thm:pingroup-root-downstream-threshold-surface}. The
+downstream threshold surface repacks exactly those classifier rows, so there
+is no remaining classifier obligation outside the inherited Spin and
+reflection-parity rows.
+\end{proof}
+
+\begin{theorem}[PinGroup root ledger obligation scope]
+\label{thm:pingroup-root-ledger-obligation-scope}
+The ledger rows required for the $\PinGroupUp$ root seed-to-obligation surface
+are exactly the listed $\hsame$ transports, finite $\Cont$ rows, $\Pkg$
+provenance rows, and the orthogonal projection ledger exhausted by
+\autoref{thm:pingroup-orthogonal-projection-ledger-exhaustion}. These rows
+are sufficient for the downstream root surface and supply no analytic
+covering ledger, quotient-algebra ledger, matrix ledger, or host
+orthogonal-group ledger.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:pingroup-root-consumer-threshold-packet}. The packet
+lists the $\hsame$ transport rows, finite $\Cont$ ledger rows, and $\Pkg$
+provenance rows read by the root consumer.
+
+Apply \autoref{thm:pingroup-orthogonal-projection-ledger-exhaustion}. It
+exhausts the public orthogonal-action projection by the inherited Spin source,
+Clifford action row, reflection-generator parity row, listed transports,
+finite $\Cont$ ledger, and $\Pkg$ provenance.
+
+Use \autoref{thm:pingroup-root-source-threshold-coverage} and
+\autoref{thm:pingroup-root-reflection-threshold-exactness} to identify the
+source and reflection parts of the same ledger. Then
+\autoref{thm:pingroup-root-downstream-threshold-surface} repacks those rows
+as the downstream root threshold surface, excluding any host analytic,
+quotient, matrix, or orthogonal-group ledger.
+\end{proof}
