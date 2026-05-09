@@ -422,6 +422,22 @@ def MotifDistance
       List.Mem item overlap ->
         List.Mem item leftProfile /\ List.Mem item rightProfile)
 
+def MotifReport : Type :=
+  EventFlow × GeneratedMotifRecognizer × List MotifProfileItem × List EventFlow
+
+inductive MotifAnalysisDatum : Type where
+  | sourceFlow (S : EventFlow)
+  | motifReport (Q : MotifReport)
+  | similarityTable (items : List MotifProfileItem)
+  | distanceMatrix (cells : List (Nat × Nat × Nat))
+  | diagram (nodes : List EventFlow)
+  | yamlReport (Q : MotifReport)
+  | jsonReport (Q : MotifReport)
+
+inductive FormalMotifAnalysisInput : MotifAnalysisDatum -> Prop where
+  | sourceFlow (S : EventFlow) :
+      FormalMotifAnalysisInput (MotifAnalysisDatum.sourceFlow S)
+
 def EventCommonPrefixLength (S T : EventFlow) (k : Nat) : Prop :=
   k <= S.length /\ k <= T.length /\ S.take k = T.take k
 
@@ -498,6 +514,40 @@ theorem motif_generated_conservativity
   | b0 => exact Or.inl rfl
   | b1 => exact Or.inr rfl
 
+theorem motif_similarity_not_object_equality :
+    exists Rfam : GeneratedMotifRecognizer -> Prop,
+      exists S T mu M L : EventFlow,
+        MotifOverlap Rfam S T mu M L /\ Not (S = T) := by
+  let R : GeneratedMotifRecognizer := []
+  let S : EventFlow := [[BMark.b0]]
+  let T : EventFlow := [[BMark.b0], [BMark.b1]]
+  let M : EventFlow := [[BMark.b0]]
+  let mu : MotifRole := FiniteRepetitionRole
+  let L : EventFlow := [[BMark.b0]]
+  let Rfam : GeneratedMotifRecognizer -> Prop := fun X => X = R
+  have hSubS : Subflow M S := Or.inl ⟨[], [], rfl⟩
+  have hSubT : Subflow M T := Or.inl ⟨[], [[BMark.b1]], rfl⟩
+  have hRecS : RecognizesMotif R S M mu :=
+    ⟨FormalCompilerInput.eventFlow R,
+      ⟨FormalCompilerInput.eventFlow S,
+        FormalCompilerInput.eventFlow M,
+        FormalCompilerInput.eventFlow mu⟩,
+      hSubS⟩
+  have hRecT : RecognizesMotif R T M mu :=
+    ⟨FormalCompilerInput.eventFlow R,
+      ⟨FormalCompilerInput.eventFlow T,
+        FormalCompilerInput.eventFlow M,
+        FormalCompilerInput.eventFlow mu⟩,
+      hSubT⟩
+  have hProfileS : MotifProfile Rfam S mu M L :=
+    ⟨R, rfl, hRecS, hRecS, hSubS⟩
+  have hProfileT : MotifProfile Rfam T mu M L :=
+    ⟨R, rfl, hRecT, hRecT, hSubT⟩
+  refine ⟨Rfam, S, T, mu, M, L, ⟨hProfileS, hProfileT⟩, ?_⟩
+  change Not ([[BMark.b0]] = [[BMark.b0], [BMark.b1]])
+  intro hEq
+  cases hEq
+
 def EmptyRfam : GeneratedMotifRecognizer -> Prop :=
   fun R => R = []
 
@@ -523,5 +573,34 @@ theorem motif_analysis_cannot_license_mature_objects :
   intro h
   exact empty_not_accepted_object_flow
     (h EmptyRfam [] [] [] [] empty_motif_profile)
+
+theorem motif_reports_output_not_input
+    (Q : MotifReport) (items : List MotifProfileItem)
+    (cells : List (Nat × Nat × Nat)) (nodes : List EventFlow) :
+    Not (FormalMotifAnalysisInput (MotifAnalysisDatum.motifReport Q)) /\
+      Not (FormalMotifAnalysisInput
+        (MotifAnalysisDatum.similarityTable items)) /\
+      Not (FormalMotifAnalysisInput
+        (MotifAnalysisDatum.distanceMatrix cells)) /\
+      Not (FormalMotifAnalysisInput (MotifAnalysisDatum.diagram nodes)) /\
+      Not (FormalMotifAnalysisInput (MotifAnalysisDatum.yamlReport Q)) /\
+      Not (FormalMotifAnalysisInput (MotifAnalysisDatum.jsonReport Q)) := by
+  constructor
+  · intro h
+    cases h
+  · constructor
+    · intro h
+      cases h
+    · constructor
+      · intro h
+        cases h
+      · constructor
+        · intro h
+          cases h
+        · constructor
+          · intro h
+            cases h
+          · intro h
+            cases h
 
 end BEDC.GroundCompiler.SemanticMotif

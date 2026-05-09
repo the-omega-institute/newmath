@@ -482,15 +482,16 @@ A $\DimLiftUp$ flow may contain completion witness, overflow witness, carry moti
 
 \begin{theorem}[Motif similarity does not imply object equality]
 \label{thm:motif-generated-similarity-not-equality}
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.motif\_similarity\_not\_object\_equality}
 If two event flows $S$ and $T$ have nonempty motif overlap,
 $$
   \mathsf{Overlap}_{\mathcal R}(S,T)\neq\emptyset,
 $$
-one cannot conclude that they represent the same accepted object or are equivalent under any classifier.
+one cannot conclude that they are the same source flow, represent the same accepted object, or are equivalent under any classifier.
 \end{theorem}
 
 \begin{proof}
-Motif overlap says only that the event flows contain recognized motif occurrences with compatible roles and ledgers. Object equality or accepted-object equivalence requires the appropriate classifier, bridge, exactness, and acceptance-gate recognition. Motif overlap does not supply those judgments.
+Motif overlap says only that the event flows contain recognized motif occurrences with compatible roles and ledgers. Two distinct source flows can share such an occurrence. Object equality or accepted-object equivalence further requires the appropriate classifier, bridge, exactness, and acceptance-gate recognition. Motif overlap does not supply those judgments.
 \end{proof}
 
 \begin{corollary}[Motif analysis is explanatory, not proof of identity]
@@ -516,12 +517,14 @@ A flow showing completion, carry, phase, or quotient motifs is not thereby licen
 
 \begin{definition}[Motif report]
 \label{def:motif-generated-report}
+\leandef{BEDC.GroundCompiler.SemanticMotif.MotifReport}
 A \emph{motif report} is a human-readable output view generated from an event flow $S$ and recognizer family $\mathcal R$. It may list recognized motifs, support subflows, motif ledgers, metrics, overlaps with other flows, and failure cases. It is not formal input, proof, or certificate.
 \end{definition}
 
 \begin{principle}[Motif reports are output, not input]
 \label{prin:motif-generated-reports-output-not-input}
-Motif reports, similarity tables, distance matrices, diagrams, and YAML or JSON reports cannot serve as formal compiler input. They are outputs of event-flow analysis.
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.motif\_reports\_output\_not\_input}
+Motif reports, similarity tables, distance matrices, diagrams, and YAML or JSON reports cannot serve as formal motif-analysis input or formal compiler input. They are outputs of event-flow analysis.
 \end{principle}
 
 \begin{remark}[Outlook]
