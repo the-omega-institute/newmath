@@ -336,6 +336,15 @@ theorem channel_substring_overlap_insufficient :
         · rfl
         · exact singleton_zero_not_subflow_singleton_one
 
+theorem host_regex_not_motif_recognizer :
+    exists c q : List DisplayAlphabet, exists S U : EventFlow,
+      LegalZStream c /\
+        Decode c = some S /\
+        ChannelSubstring q c /\
+        Decode q = some U /\
+        Not (Subflow U S) :=
+  channel_substring_overlap_insufficient
+
 def MotifProfileWitnessList
     (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
     (mu : MotifRole) (occurrences : List (EventFlow × EventFlow)) :
@@ -608,5 +617,10 @@ theorem motif_reports_output_not_input
             cases h
           · intro h
             cases h
+
+theorem motif_report_output_not_input (Q : MotifReport) :
+    Not (FormalMotifAnalysisInput (MotifAnalysisDatum.motifReport Q)) := by
+  intro h
+  cases h
 
 end BEDC.GroundCompiler.SemanticMotif
