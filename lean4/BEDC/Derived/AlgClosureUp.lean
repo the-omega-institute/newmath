@@ -43,4 +43,31 @@ theorem AlgClosureCarrierPacket_polynomial_root_classifier_obligation
     (And.intro sameTransportRoot' (And.intro ledgerCont' provenanceCont'))
     (And.intro sameLedger sameProvenance)
 
+theorem AlgClosureCarrierPacket_root_witness_transport_coverage
+    {fieldExt fieldExt' polynomial polynomial' root root' transport transport' ledger ledger'
+      provenance provenance' satisfaction satisfaction' : BHist} :
+    AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ->
+      hsame fieldExt fieldExt' ->
+        hsame polynomial polynomial' ->
+          hsame root root' ->
+            hsame transport transport' ->
+              Cont polynomial' root' ledger' ->
+                Cont fieldExt' ledger' provenance' ->
+                  Cont root ledger satisfaction ->
+                    Cont root' ledger' satisfaction' ->
+                      AlgClosureCarrierPacket fieldExt' polynomial' root' transport' ledger'
+                          provenance' ∧
+                        hsame ledger ledger' ∧ hsame provenance provenance' ∧
+                          hsame satisfaction satisfaction' := by
+  intro packet sameField samePolynomial sameRoot sameTransport ledgerCont' provenanceCont'
+    satisfactionCont satisfactionCont'
+  have transported :=
+    AlgClosureCarrierPacket_polynomial_root_classifier_obligation packet sameField samePolynomial
+      sameRoot sameTransport ledgerCont' provenanceCont'
+  have sameSatisfaction : hsame satisfaction satisfaction' :=
+    cont_respects_hsame sameRoot transported.right.left satisfactionCont satisfactionCont'
+  exact And.intro transported.left
+    (And.intro transported.right.left
+      (And.intro transported.right.right sameSatisfaction))
+
 end BEDC.Derived.AlgClosureUp
