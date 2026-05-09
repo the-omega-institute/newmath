@@ -21,6 +21,38 @@ def TheoremFlow (T : TheoremCandidateFlow) : Prop :=
 def TheoremCode (T : TheoremCandidateFlow) : List DisplayAlphabet :=
   FlowEncoding T
 
+inductive TheoremRole : Type where
+  | statement
+  | dependencies
+  | proof
+  | certificates
+  | ledger
+  | status
+  | canonicalSite
+  | closingSeal
+
+def TheoremRoleSubflow
+    (R : GeneratedTheoremRecognizer) (T part : TheoremCandidateFlow)
+    (_role : TheoremRole) : Prop :=
+  TheoremRecognitionRelation R T /\ NonemptyEventFlow part
+
+def CompleteTheoremFlowRecognition
+    (R : GeneratedTheoremRecognizer) (T : TheoremCandidateFlow) : Prop :=
+  exists statement dependencies proof certificates ledger status canonicalSite
+      sealFlow : EventFlow,
+    TheoremRoleSubflow R T statement TheoremRole.statement /\
+      TheoremRoleSubflow R T dependencies TheoremRole.dependencies /\
+      TheoremRoleSubflow R T proof TheoremRole.proof /\
+      TheoremRoleSubflow R T certificates TheoremRole.certificates /\
+      TheoremRoleSubflow R T ledger TheoremRole.ledger /\
+      TheoremRoleSubflow R T status TheoremRole.status /\
+      TheoremRoleSubflow R T canonicalSite TheoremRole.canonicalSite /\
+      TheoremRoleSubflow R T sealFlow TheoremRole.closingSeal
+
+theorem no_external_theorem_input :
+    Not (FormalCompilerInput CompilerDatum.hostTheoremIdentifier) :=
+  structural_hidden_not_formal StructuralHiddenInput.hostTheoremIdentifier
+
 theorem theorem_recognition_preserves_code
     {R : GeneratedTheoremRecognizer} {T : TheoremCandidateFlow} :
     TheoremRecognitionRelation R T -> TheoremCode T = FlowEncoding T := by

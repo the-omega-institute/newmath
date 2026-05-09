@@ -74,6 +74,7 @@ Thus $T$ is a recognized theorem flow exactly when some generated recognizer rec
 
 \begin{principle}[No external theorem input]
 \label{prin:theorem-generated-no-external-input}
+\leanchecked{BEDC.GroundCompiler.TheoremGenerated.no\_external\_theorem\_input}
 There is no formal compiler entry point
 $$
   \mathsf{CompileTheorem}:\mathsf{TheoremObject}\to\mathsf{LegalZStream}.
@@ -114,6 +115,7 @@ is the channel code of the same event flow $T$, not the output of a separate the
 
 \begin{definition}[Recognized theorem subflows]
 \label{def:theorem-generated-subflows}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.TheoremRoleSubflow}
 If $\mathsf{RecognizesTheorem}(R_T,T)$, then $R_T$ may recognize subflows of $T$ as theorem roles:
 $$
 \begin{array}{ll}
@@ -150,6 +152,7 @@ This preserves the no-hidden-input rule: theorem fields are not first-layer inpu
 
 \begin{definition}[Complete theorem-flow recognition]
 \label{def:theorem-generated-complete-recognition}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.CompleteTheoremFlowRecognition}
 The judgment $\mathsf{RecognizesTheorem}(R_T,T)$ has \emph{complete theorem-flow recognition} when there exist subflows
 $$
   T_0,T_1,T_2,T_3,T_4,T_5,T_6,\sigma_T
