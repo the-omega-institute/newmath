@@ -141,4 +141,32 @@ theorem PinGroupReflectionParityCarrier_odd_reflection_coset_exhaustion
   | inr reflectionBranch =>
       exact reflectionBranch
 
+theorem PinGroupReflectionParityLedgerSurface_reflection_ledger_closure
+    {spin reflection product endpoint ledger carried spin' reflection' product' endpoint'
+      carried' : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      hsame spin spin' ->
+        hsame reflection reflection' ->
+          hsame product product' ->
+            hsame endpoint endpoint' ->
+              hsame carried carried' ->
+                Cont spin' reflection' product' ->
+                  Cont endpoint' ledger carried' ->
+                    PinGroupReflectionParityLedgerSurface spin' reflection' product' endpoint'
+                        ledger carried' ∧
+                      (((hsame carried' (append spin' ledger) ∧ UnaryHistory spin') ∨
+                            (hsame carried' (append product' ledger) ∧
+                              Cont spin' reflection' product' ∧ UnaryHistory reflection')) ∧
+                        hsame carried' (append endpoint' ledger)) := by
+  intro surface sameSpin sameReflection sameProduct sameEndpoint _sameCarried productRow'
+    endpointRow'
+  have carrier' :
+      PinGroupReflectionParityCarrier spin' reflection' product' endpoint' :=
+    PinGroupReflectionParityCarrier_stability surface.left sameSpin sameReflection sameProduct
+      sameEndpoint productRow'
+  have surface' :
+      PinGroupReflectionParityLedgerSurface spin' reflection' product' endpoint' ledger carried' :=
+    And.intro carrier' endpointRow'
+  exact And.intro surface' (PinGroupReflectionParityLedgerSurface_exhaustion surface')
+
 end BEDC.Derived.PinGroupUp
