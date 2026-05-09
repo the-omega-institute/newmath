@@ -102,4 +102,23 @@ theorem TreePublicCertificateBoundary_semantic_name_certificate
   · intro _h source
     exact source
 
+theorem TreeUp_StdBridge {graph edge connected acyclic root endpoint syntaxHist
+    syntaxTarget : BHist} :
+    TreeObligationSurface graph edge connected acyclic root endpoint syntaxHist syntaxTarget ->
+      TreeBHistCarrier graph edge connected acyclic root endpoint ∧
+        GraphContEdge endpoint syntaxHist syntaxTarget ∧
+          SemanticNameCert
+            (fun h : BHist =>
+              TreeObligationSurface graph edge connected acyclic root h syntaxHist syntaxTarget)
+            (fun h : BHist =>
+              TreeObligationSurface graph edge connected acyclic root h syntaxHist syntaxTarget)
+            (fun h : BHist =>
+              TreeObligationSurface graph edge connected acyclic root h syntaxHist syntaxTarget)
+            hsame := by
+  intro surface
+  have rows := TreeObligationSurface_rows surface
+  exact And.intro rows.left
+    (And.intro rows.right.right.right.right.left
+      (TreePublicCertificateBoundary_semantic_name_certificate surface))
+
 end BEDC.Derived.TreeUp
