@@ -207,4 +207,22 @@ theorem ContactCarrierClassifierSurface_public_bridge_compatibility
       (And.intro exported.right.right.right.right.left
         exported.right.right.right.right.right.right))
 
+theorem ContactStandardBridgeSurface_mature_consumer_completeness
+    {manifold form derivative wedge top top' bridge ledger tail : BHist} :
+    ContactStandardBridgeSurface manifold form derivative wedge top top' bridge ledger ->
+      hsame wedge (BHist.e1 tail) ->
+        ContactCarrierClassifierSurface manifold form derivative wedge top' ∧
+          Cont top' bridge ledger ∧ hsame bridge BHist.Empty ∧ UnaryHistory top' ∧
+            hsame top' wedge ∧ (hsame top' BHist.Empty -> False) := by
+  intro bridgeSurface sameWedgeVisible
+  have exported :=
+    ContactCarrierClassifierSurface_public_namecert_export bridgeSurface.left
+      bridgeSurface.right.left sameWedgeVisible
+  exact And.intro exported.left
+    (And.intro bridgeSurface.right.right.left
+      (And.intro bridgeSurface.right.right.right
+        (And.intro exported.right.right.right.right.left
+          (And.intro exported.right.right.right.right.right.left
+            exported.right.right.right.right.right.right))))
+
 end BEDC.Derived.ContactUp
