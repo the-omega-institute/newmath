@@ -103,6 +103,28 @@ theorem LambdaCalcBHistTermPacketCarrier_public_endpoint_transport
         (And.intro endpointUnary' endpointRow'))
   exact And.intro carrier' (And.intro endpointRow' endpointUnary')
 
+theorem LambdaCalcBHistTermPacketCarrier_alpha_classifier_symmetric
+    {graph edge connected acyclic leftTag leftPayload leftEndpoint rightTag rightPayload
+      rightEndpoint reverseLedger : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic leftTag leftPayload
+        leftEndpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic rightTag rightPayload
+          rightEndpoint ->
+        hsame leftTag rightTag ->
+          hsame leftPayload rightPayload ->
+            hsame leftEndpoint rightEndpoint ->
+              Cont rightEndpoint leftEndpoint reverseLedger ->
+                hsame rightTag leftTag ∧ hsame rightPayload leftPayload ∧
+                  hsame rightEndpoint leftEndpoint ∧ UnaryHistory reverseLedger ∧
+                    hsame reverseLedger (append rightEndpoint leftEndpoint) := by
+  intro leftPacket rightPacket sameTag samePayload sameEndpoint reverseLedgerRow
+  have reverseLedgerUnary : UnaryHistory reverseLedger :=
+    unary_cont_closed rightPacket.right.right.left leftPacket.right.right.left reverseLedgerRow
+  exact And.intro (hsame_symm sameTag)
+    (And.intro (hsame_symm samePayload)
+      (And.intro (hsame_symm sameEndpoint)
+        (And.intro reverseLedgerUnary reverseLedgerRow)))
+
 theorem LambdaCalcBHistTermPacketCarrier_carrier_reflexive
     {graph edge connected acyclic tag payload endpoint : BHist} :
     LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
