@@ -266,6 +266,7 @@ This is the content of \autoref{def:namecert-generated-licensed-name}, with the 
 
 \begin{theorem}[Derived interfaces require recognized NameCert flow]
 \label{thm:namecert-generated-derived-interfaces-require-flow}
+\leanchecked{BEDC.GroundCompiler.NameCertGenerated.derived\_interfaces\_require\_flow}
 If an upward-arrow derived interface $N^{\uparrow}$ is licensed, then there exists a recognized $\NameCert$ flow $S$ for $N$:
 $$
   N^{\uparrow}\ \mathrm{licensed}
@@ -376,6 +377,7 @@ Thus $\NameCert$ recognition from channel code first decodes to an event flow.
 
 \begin{proposition}[No NameCert recognition by channel substring]
 \label{prop:namecert-generated-no-recognition-by-channel-substring}
+\leanchecked{BEDC.GroundCompiler.NameCertGenerated.no\_namecert\_recognition\_by\_channel\_substring}
 There is no valid rule that recognizes a $\NameCert$ by inspecting channel substrings without first applying
 $$
   \mathsf{Decode}\colon \mathsf{LegalZStream}\to\mathsf{EventFlow}.
@@ -417,6 +419,7 @@ For every recognized $\NameCert$ flow, compiling to a channel stream and decodin
 
 \begin{definition}[NameCert-source soundness event]
 \label{def:namecert-generated-source-soundness}
+\leandef{BEDC.GroundCompiler.NameCertGenerated.NameCertSourceSoundnessEvent}
 If $\mathsf{RecognizesNameCert}(R,S,N)$ and $R$ recognizes source subflow $S_{0}$, then a \emph{NameCert-source soundness event} is a subflow of $S$ witnessing that $S_{0}$ supplies the generated material from which $N$ is named. The relation is written
 $$
   \mathsf{NameCertSourceSound}_{R}(S,S_{0}).

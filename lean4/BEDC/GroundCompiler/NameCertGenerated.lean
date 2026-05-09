@@ -69,6 +69,11 @@ def NameCertSoundnessEvent
     (part : EventFlow) : Prop :=
   SourceSubflow part S
 
+def NameCertSourceSoundnessEvent
+    (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
+    (part : EventFlow) : Prop :=
+  NameCertSoundnessEvent R S part
+
 def SoundRecognizedNameCertFlow
     (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
     (N : NameCandidateFlow) : Prop :=
@@ -234,6 +239,11 @@ theorem licensing_event_flow_based {N : NameCandidateFlow} :
   intro h
   exact h
 
+theorem derived_interfaces_require_flow {N : NameCandidateFlow} :
+    LicensedName N -> exists S : EventFlow, NameCertFlow S N := by
+  intro h
+  exact h
+
 theorem namecert_code_injective
     {S T : NameCertCandidateFlow} {N M : NameCandidateFlow} :
     NameCertFlow S N ->
@@ -251,6 +261,15 @@ theorem channel_compilation_preserves_namecert_recognition :
     NameCertRecognitionPreservingCompilation := by
   intro R S N hRecognizes
   exact ⟨S, flow_level_round_trip S, hRecognizes⟩
+
+theorem no_namecert_recognition_by_channel_substring
+    {R : GeneratedNameCertRecognizer} {c : List DisplayAlphabet}
+    {N : NameCandidateFlow} :
+    RecognizesNameCertCode R c N ->
+      exists S : EventFlow,
+        Decode c = some S /\ NameCertRecognitionRelation R S N := by
+  intro h
+  exact h
 
 theorem sound_namecert_flow_licenses_name
     {R : GeneratedNameCertRecognizer} {S : NameCertCandidateFlow}
