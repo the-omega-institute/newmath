@@ -1,3 +1,4 @@
+import BEDC.Derived.ComplexLimitUp.ConditionalUnique
 import BEDC.Derived.ComplexSeriesUp
 
 namespace BEDC.Derived.ComplexSeriesUp
@@ -83,6 +84,21 @@ theorem ComplexSeriesConv_pointwise_source_limit_transport {zero zero' S T : BHi
                   (Exists.intro M
                     (And.intro targetPartials
                       (ComplexLimit_hsame_transport sameLimit targetLimitS))))
+
+theorem ComplexSeriesConv_sum_unique_shared_witness {zero : BHist}
+    {c ps N M M' : BHist -> BHist} {S Sprime diagonal : BHist} :
+    (forall n : BHist, UnaryHistory n -> ComplexPartSum zero c n (ps n)) ->
+      ComplexLimit ps N S M -> ComplexLimit ps N Sprime M' ->
+        ComplexDistance S Sprime diagonal -> hsame diagonal BHist.Empty ->
+          ComplexSeriesConv zero c S ∧ ComplexSeriesConv zero c Sprime ∧ hsame S Sprime := by
+  intro partialSums limitS limitSprime distance diagonalEmpty
+  have convS : ComplexSeriesConv zero c S :=
+    Exists.intro ps (Exists.intro N (Exists.intro M (And.intro partialSums limitS)))
+  have convSprime : ComplexSeriesConv zero c Sprime :=
+    Exists.intro ps (Exists.intro N (Exists.intro M' (And.intro partialSums limitSprime)))
+  have sameLimit : hsame S Sprime :=
+    ComplexLimit_conditional_unique_boundary limitS limitSprime distance diagonalEmpty
+  exact And.intro convS (And.intro convSprime sameLimit)
 
 theorem ComplexPartSum_index_unary {zero : BHist} {c : BHist -> BHist} {n S : BHist} :
     ComplexPartSum zero c n S -> UnaryHistory n := by

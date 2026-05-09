@@ -328,6 +328,49 @@ theorem LambdaCalcBHistTermPacketCarrier_free_variable_ledger_coverage
     unary_cont_closed packet.right.right.left freeVariableUnary freeLedgerCont
   exact And.intro freeLedgerUnary (And.intro freeLedgerCont packet)
 
+theorem LambdaCalcBHistTermPacketCarrier_free_variable_ledger_exactness
+    {graph edge connected acyclic tag payload endpoint freeVariable freeLedger : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      UnaryHistory freeVariable ->
+        Cont endpoint freeVariable freeLedger ->
+          SemanticNameCert (fun row : BHist => hsame row freeLedger)
+              (fun row : BHist => hsame row freeLedger)
+              (fun row : BHist => hsame row freeLedger) hsame ∧
+            UnaryHistory freeLedger ∧ hsame freeLedger (append endpoint freeVariable) ∧
+              LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload
+                endpoint := by
+  intro packet freeVariableUnary freeLedgerCont
+  have coverage :=
+    LambdaCalcBHistTermPacketCarrier_free_variable_ledger_coverage packet freeVariableUnary
+      freeLedgerCont
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row freeLedger)
+          (fun row : BHist => hsame row freeLedger)
+          (fun row : BHist => hsame row freeLedger) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro freeLedger (hsame_refl freeLedger)
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows rowCarrier
+        exact hsame_trans (hsame_symm sameRows) rowCarrier
+    }
+    pattern_sound := by
+      intro _row carrier
+      exact carrier
+    ledger_sound := by
+      intro _row carrier
+      exact carrier
+  }
+  exact And.intro cert coverage
+
 theorem LambdaCalcBHistTermPacketCarrier_alpha_beta_carrier_transport
     {graph edge connected acyclic tag tag' payload endpoint endpoint' substTag substPayload
       substEndpoint substEndpoint' ledger ledger' varIndex result result' : BHist} :
