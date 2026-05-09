@@ -264,3 +264,43 @@ endpoints into the common $\tau$ fiber. Thus the primal and dual closure rows
 are consumed by one objective-fiber sandwich rather than by separate scalar
 certificates.
 \end{proof}
+
+\begin{theorem}[LPDuality weak-duality slackness optimality packet]
+\label{thm:lpduality-weak-duality-slackness-optimality-packet}
+Let an $\LPDualityUp$ row over an ordered field be given as in
+\autoref{def:lpduality-finite-ordered-field-feasibility-row}. Let $x:J\to F$
+be a primal feasible witness and let $y:I\to F$ be a dual feasible witness.
+Suppose the two complementary-slackness product families are
+classifier-equal termwise:
+$$
+\forall j\in J.\; c_j\cdot_Fx_j\sim_F\beta_j(y)\cdot_Fx_j,
+\qquad
+\forall i\in I.\; y_i\cdot_F\alpha_i(x)\sim_Fy_i\cdot_Fb_i.
+$$
+Then the row carries a certified optimality packet: the objectives
+$\mathsf{PrObj}_{A,c}(x)$ and $\mathsf{DuObj}_{b}(y)$ are classifier-equal,
+$x$ is primal optimal, and $y$ is dual optimal. Moreover, writing
+$\tau:=\mathsf{PrObj}_{A,c}(x)$, any further primal feasible optimal witness
+$x':J\to F$ and any further dual feasible optimal witness $y':I\to F$ whose
+objective endpoints are classifier-equal to $\tau$ enter the common
+objective-fiber sandwich at $\tau$: every binary affine primal mixture of
+$x,x'$ and every binary affine dual mixture of $y,y'$ with nonnegative
+coefficients whose sum is classifier-equal to $1_F$ remains feasible, remains
+in its own $\tau$-objective fiber, and is bounded by the weak-duality
+comparisons between classifier-stable copies of $\tau$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:lpduality-complementary-slackness-objective-equality} to
+the feasible witnesses $x$ and $y$ and to the two displayed slackness
+families. This gives the scalar objective equality together with the primal
+optimality of $x$ and the dual optimality of $y$.
+
+The objective equality identifies $\mathsf{DuObj}_{b}(y)$ with the same fiber
+endpoint $\tau:=\mathsf{PrObj}_{A,c}(x)$. Together with the assumed fiber
+readbacks for the feasible optimal witnesses $x'$ and $y'$, the four
+endpoints $x,x',y,y'$ have weak-duality comparisons by
+\autoref{thm:lpduality-feasible-weak-duality}. Hence they satisfy the
+hypotheses of \autoref{thm:lpduality-objective-fiber-sandwich-closure}.
+Applying that theorem gives the shared primal and dual binary-affine closure
+statement and the weak-duality sandwich over the common $\tau$ fiber.
+\end{proof}

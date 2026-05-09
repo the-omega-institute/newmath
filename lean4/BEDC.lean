@@ -113,6 +113,7 @@ import BEDC.Derived.RegulatorUp
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DeRhamUp.BridgeInputSource
+import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.KnotUp
@@ -189,6 +190,7 @@ import BEDC.Derived.OptionUp.Context
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ObservableUp
 import BEDC.Derived.ObservableUp.NameCertObligationSurface
+import BEDC.Derived.ObservableUp.SpectralStateSource
 import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
