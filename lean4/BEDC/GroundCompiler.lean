@@ -3,6 +3,7 @@ import BEDC.GroundCompiler.ChannelEncoding
 import BEDC.GroundCompiler.SourceChannel
 import BEDC.GroundCompiler.PackageGenerated
 import BEDC.GroundCompiler.NameCertGenerated
+import BEDC.GroundCompiler.DerivCertGenerated
 import BEDC.GroundCompiler.TheoremGenerated
 import BEDC.GroundCompiler.ChapterFlow
 import BEDC.GroundCompiler.SelfHostingCompilerFlow
