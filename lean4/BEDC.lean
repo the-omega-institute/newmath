@@ -410,6 +410,7 @@ import BEDC.Derived.TopGroupUp.SourceFiberClassifierDeterminacy
 import BEDC.Derived.TopGroupUp.RootOperationSourceContinuityCoupling
 import BEDC.Derived.TopGroupUp.DownstreamLedgerObligation
 import BEDC.Derived.TopGroupUp.ContinuityObligations
+import BEDC.Derived.TopGroupUp.ContinuityLedgerCoverage
 import BEDC.Derived.TopGroupUp.DownstreamProvenanceTransport
 import BEDC.Derived.TopGroupUp.OperationSourceContinuity
 import BEDC.Derived.TopGroupUp.SourceCompatibility
@@ -417,6 +418,7 @@ import BEDC.Derived.TopGroupUp.RootCarrierObligations
 import BEDC.Derived.TopGroupUp.PublicNamecertReadbackExactness
 import BEDC.Derived.TopGroupUp.SourceFiberContinuityObligation
 import BEDC.Derived.TopGroupUp.ContinuityConsumerExhaustion
+import BEDC.Derived.TopGroupUp.RootDownstreamOperationTransport
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
