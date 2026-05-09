@@ -472,6 +472,46 @@ Thus the tail-reindexed package is exhausted by the same pointwise handoff
 surface.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat finite-window union seal determinacy]
+\label{thm:streamname-regseqrat-finite-window-union-seal-determinacy}
+Let $\mathcal P$ and $\mathcal Q$ be certified finite $\mathsf{ProbeBundle}$
+observation bundles for StreamName rows $s,t:\mathsf{BHist}\to\mathsf{BHist}$,
+and let $\mathcal R$ be their certified finite overlap. Assume that the
+$\mathsf{RatStreamNameClassifier}$ rows on $\mathcal R$ match and that the
+induced $\RegSeqRat$ handoff packages read the same dyadic finite ledger on
+the overlap. Then the union handoff over $\mathcal P\cup\mathcal Q$ determines
+a unique $\RegSeqRat$ finite-window seal surface, and the restrictions back to
+$\mathcal P$ and to $\mathcal Q$ recover the original displayed seal surfaces.
+
+No regularity row outside the displayed $\RegSeqRat$ handoff, no completion
+row, no quotient row, no host-index equality row, and no $\RealUp$ seal row is
+introduced by the union.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-regseqrat-finite-window-restriction-handoff} to
+$\mathcal P$ and to $\mathcal Q$. Each restriction displays only the StreamName
+carrier rows, the finite-window classifier rows, the unary-history and bundle
+membership witnesses, and the pointwise rational-history classifier rows.
+
+Use \autoref{thm:streamname-regseqrat-bundle-union-handoff} to assemble these
+two displayed packets over $\mathcal P\cup\mathcal Q$. The matching classifier
+rows on $\mathcal R$ and the common dyadic finite ledger identify the overlap
+as a single source rather than two competing seal readings.
+
+The overlap rows are then compared by
+\autoref{thm:streamname-regseqrat-tail-reindexing-stability}. Tail reindexing
+preserves the pointwise $\hsame$ rows, the transported unary histories, and
+the transported membership witnesses, so the union packet has one displayed
+finite-window seal surface on the common part.
+
+Restrict the union packet back to $\mathcal P$ and to $\mathcal Q$ using the
+restriction handoff theorem again. Since the union packet contains no row
+outside the observation envelope, the two restrictions return exactly the
+original displayed handoff surfaces, and the finite-window seal determined by
+the union is unique.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat pointwise classifier handoff exactness]
 \label{thm:streamname-regseqrat-pointwise-classifier-handoff-exactness}
 For StreamName rows $s,t:\mathsf{BHist}\to\mathsf{BHist}$ and a finite
