@@ -32,4 +32,21 @@ theorem SpinGroupRootCarrier_clifford_group_consumer_boundary [AskSetup] [Packag
     ⟨sourceScope.left, sourceScope.right.left, consumerUnary, consumerRow,
       sourceScope.right.right.right.left, sourceScope.right.right.right.right⟩
 
+theorem SpinGroupRootCarrier_group_consumer_boundary [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger row : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      hsame row spinEndpoint ->
+        CliffordCarrierPackage unit vector product boundary cliffordEndpoint ∧
+          GroupSingletonCarrier groupWord ∧ UnaryHistory row ∧ UnaryHistory spinEndpoint ∧
+            Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg := by
+  intro carrier sameRow
+  have sourceScope := SpinGroupRootCarrier_source_scope carrier
+  have rowUnary : UnaryHistory row :=
+    unary_transport sourceScope.right.right.left (hsame_symm sameRow)
+  exact
+    ⟨sourceScope.left, sourceScope.right.left, rowUnary, sourceScope.right.right.left,
+      sourceScope.right.right.right.left, sourceScope.right.right.right.right⟩
+
 end BEDC.Derived.SpinGroupUp
