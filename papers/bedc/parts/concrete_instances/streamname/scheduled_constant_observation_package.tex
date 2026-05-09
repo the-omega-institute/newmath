@@ -209,6 +209,46 @@ therefore supplied by the scheduled package plus the RegSeqRat dyadic ledger,
 with no additional analytic or completion-side input.
 \end{proof}
 
+\begin{theorem}[StreamName-RegSeqRat seal scope]
+\label{thm:streamname-regseqrat-seal-scope}
+Every accepted scheduled finite-window feed for
+$$
+\mathsf{SchedConstObs}(d,e,r\circ u,q\circ u)
+$$
+supplies exactly the StreamName carrier and classifier rows, the RatUp seed
+classifier, the finite-window $\mathsf{ProbeBundle}$ row, the endpoint
+denominator rows, and the RegSeqRat dyadic ledger rows required by
+\autoref{thm:regseqrat-finite-window-seal-exactness}. The same packet is
+then consumable by \autoref{thm:realup-finite-window-exhaustion-obligation}
+and \autoref{thm:realup-streamname-finite-window-ledger-boundary} without
+adding host $\mathsf{Nat}$ indices, quotient representatives, completion
+objects, metric data, or $\RealUp$ completeness rows.
+\end{theorem}
+\begin{proof}
+Start from
+\autoref{thm:streamname-regseqrat-realup-finite-window-feed}. It identifies
+the accepted feed with the two scheduled StreamName carriers, the RatUp seed
+classifier, the selected finite-window classifier row, the endpoint
+denominator rows, and the RegSeqRat dyadic source ledger.
+
+Project the finite-window rows through
+\autoref{thm:streamname-scheduled-window-reindex-stability}. The unary
+reindexing row keeps the window inside the public $\mathsf{ProbeBundle}$
+interface, so the seal sees a finite StreamName packet rather than a host
+index family.
+
+Pass the classifier and dyadic source rows through
+\autoref{thm:regseqrat-finite-window-seal-exactness}. This is precisely the
+RegSeqRat seal obligation: the seed classifier, endpoint denominators, and
+dyadic ledger rows are the only rows read by the seal.
+
+Finally repack the same packet through
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. These RealUp
+boundary theorems consume the finite StreamName rows and RegSeqRat ledger as
+given, so no completion-side or host analytic datum is added.
+\end{proof}
+
 \begin{theorem}[Scheduled constant observation RealUp feed]
 \label{thm:streamname-constant-scheduled-real-feed}
 For histories $d,e:\Hist$ and schedules $r,q:\Hist\to\Hist$, the scheduled

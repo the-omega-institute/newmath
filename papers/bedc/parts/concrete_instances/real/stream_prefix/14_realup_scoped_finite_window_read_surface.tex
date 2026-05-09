@@ -352,3 +352,47 @@ same theorem excludes quotient, completion, metric-completeness, Classical,
 arithmetic, order, and standard-bridge data, and the empty-window projection
 does not add any of them.
 \end{proof}
+
+\begin{theorem}[RealUp StreamName-RegSeqRat tail-selector determinacy]
+\label{thm:realup-streamname-regseqrat-tail-selector-determinacy}
+Let $W_0$ and $W_1$ be selected finite $\RealUp$ observation-window packages.
+Assume that they display the same public $\StreamNameUp$ finite-window
+classifier row, the same $\RegSeqRat$ spine rows, the same DyadicRatCore
+observation rows, matching $\RatUp$ endpoint classifiers, and the same finite
+$\Cont/\hsame$ ledger. Then every selected tail-classifier readback extracted
+from $W_0$ and every selected tail-classifier readback extracted from $W_1$
+represent the same finite $\RealUp$ tail read up to the displayed $\hsame$
+transport. Moreover the two packages expose the same
+$\mathsf{RealLedgerPolicy}$ row.
+
+The conclusion is scoped to the selected finite-window surface. It does not
+assert equality of quotient completions, metric completions, arithmetic
+operations, order operations, Classical representatives, or standard bridge
+data.
+\end{theorem}
+\begin{proof}
+Project both selected packages through
+\autoref{thm:realup-finite-window-streamname-readback-package}. Each projection
+has a $\StreamNameUp$ component, $\RegSeqRat$ spine rows, DyadicRatCore
+observation rows, $\RatUp$ endpoint classifiers, a finite $\Cont/\hsame$ ledger,
+and a surrounding $\mathsf{RealLedgerPolicy}$ row.
+
+Identify the shared $\StreamNameUp$ component by
+\autoref{thm:realup-streamname-source-exhaustion-equivalence}. Under the
+hypotheses, the two finite-window classifier rows consume the same concrete
+stream-name source and the same regular-sequence and dyadic observation rows.
+
+The constant and empty boundary theorems remove non-displayed choices. Apply
+\autoref{thm:realup-finite-window-constant-stream-seal-factorization} to the
+constant endpoint case and
+\autoref{thm:realup-empty-window-streamname-boundary} to the empty-window case.
+In both cases the visible tail read is forced by the selected endpoint,
+stream-name, regular-sequence, dyadic, and ledger rows already present in the
+projected package.
+
+It remains to compare the two selected tail reads. Compose the displayed
+$\hsame$ transports in the common finite ledger. Since the two packages have the
+same $\Cont/\hsame$ ledger and the same $\mathsf{RealLedgerPolicy}$ boundary,
+the transported tail classifiers coincide up to $\hsame$, and the exposed
+$\mathsf{RealLedgerPolicy}$ rows are identical as public finite-window rows.
+\end{proof}
