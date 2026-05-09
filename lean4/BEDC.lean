@@ -235,6 +235,7 @@ import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.PinGroupUp
 import BEDC.Derived.SpinGroupUp
+import BEDC.Derived.SpinGroupUp.ConjugationActionReadback
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
 import BEDC.Derived.DerivativeUp
