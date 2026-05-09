@@ -100,4 +100,22 @@ theorem SpectralSeqBHistPageCarrier_successor_page_closure [AskSetup] [PackageSe
                     (And.intro successorEndpoint pkgSig')))))))))
     (And.intro sameReadback sameTransition)
 
+theorem SpectralSeqBHistPageCarrier_zero_page_carrier [AskSetup] [PackageSetup]
+    {source provenance : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory source ->
+      UnaryHistory provenance ->
+        PkgSig bundle (append provenance source) pkg ->
+          SpectralSeqBHistPageCarrier source source source BHist.Empty source BHist.Empty
+            source provenance (append provenance source) bundle pkg := by
+  intro sourceUnary provenanceUnary pkgSig
+  exact And.intro sourceUnary
+    (And.intro sourceUnary
+      (And.intro sourceUnary
+        (And.intro unary_empty
+          (And.intro unary_empty
+            (And.intro provenanceUnary
+              (And.intro (cont_right_unit source)
+                (And.intro (cont_right_unit source)
+                  (And.intro rfl pkgSig))))))))
+
 end BEDC.Derived.SpectralSeqUp

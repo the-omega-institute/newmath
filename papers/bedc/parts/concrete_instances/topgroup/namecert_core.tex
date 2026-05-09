@@ -551,6 +551,8 @@ from the same carrier packet.
 No fourth operation obligation and no host topological-group primitive is part
 of this triple.
 \end{definition}
+\leandef{BEDC.Derived.TopGroupUp.TopGroupBHistContinuityObligationTriple}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupBHistContinuityObligationTriple\_sound}
 
 \begin{theorem}[TopGroupUp source projection NameCert compatibility]
 \label{thm:topgroup-source-projection-namecert-compatibility}
@@ -762,33 +764,6 @@ carrier-classifier obligation is precisely componentwise $\hsame$ over the two
 shared source rows plus the single $\mathsf{Pkg}$ provenance packet, with no
 independent classifier source remaining.
 \end{proof}
-
-\begin{theorem}[TopGroupUp operation ledger obligation]
-\label{thm:topgroup-operation-ledger-obligation}
-The multiplication and inverse continuity obligations of a $\TopGroupUp$
-certificate are exactly the two operation-continuity ledger families supplied
-by the finite $\Cont$ ledger: product-neighbourhood transport and
-inverse-neighbourhood transport. There is no third operation row in the public
-certificate boundary.
-\end{theorem}
-\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_operation\_ledger\_semantic\_certificate}
-\begin{proof}
-Use \autoref{thm:topgroup-continuity-ledger-coverage}. Every public continuity
-row over the accepted packet is covered by the finite $\Cont$ ledger and is one
-of the product or inverse neighbourhood transport rows.
-
-\autoref{thm:topgroup-cont-ledger-operation-exhaustion} identifies those two
-families with the product and inverse components of
-\autoref{def:topgroup-bhist-continuity-obligation-triple}. It also excludes
-ambient continuity predicates and any operation outside the carried product and
-inverse graphs.
-
-Finally apply \autoref{thm:topgroup-product-inverse-obligation-triad}. The
-public operation surface repacks the same two continuity families with the
-shared carrier compatibility row. Therefore the operation ledger obligation has
-exactly two operation families and no third operation row.
-\end{proof}
-\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_operation\_ledger\_consumer\_boundary}
 
 \closureat{TopGroupUp}{seedStr}
 \begin{closurestatus}{\TopGroupUp}
