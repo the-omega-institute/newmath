@@ -515,6 +515,88 @@ theorem sound_p5_licensed_name {report : P5Report} {S N : EventFlow} :
   intro hSound hLicensed
   exact hSound.licensedNameSupport S N hLicensed
 
+structure P5AuditChecklist
+    (prototype : PkgNameCertPrototype) (report : P5Report) where
+  soundReport : SoundP5Report report
+  hostStructuresRejected :
+    Not (FormalCompilerInput CompilerDatum.hostPkg) /\
+      Not (FormalCompilerInput CompilerDatum.hostNameCert)
+  packageCandidatesSeparated :
+    forall R : GeneratedPackageRecognizer,
+      forall P : EventFlow,
+        List.Mem (P5ReportDatum.recognizedPackage R P) report.outputView ->
+          RecognizedPackageFlow R report.decodedFlow P
+  recognizedPackagesLedger :
+    forall R : GeneratedPackageRecognizer,
+      forall P : EventFlow,
+        List.Mem (P5ReportDatum.recognizedPackage R P) report.outputView ->
+          PackageHasLedger R report.decodedFlow P
+  recognizedNameCertsGenerated :
+    forall R : GeneratedNameCertRecognizer,
+      forall C N : EventFlow,
+        List.Mem (P5ReportDatum.recognizedNameCert R C N) report.outputView ->
+          RecognizedNameCertFlow R report.decodedFlow C N
+  recognizedNameCertsComplete :
+    forall R : GeneratedNameCertRecognizer,
+      forall C N : EventFlow,
+        List.Mem (P5ReportDatum.recognizedNameCert R C N) report.outputView ->
+          CompleteNameCertRecognition R report.decodedFlow C N
+  licensedNamesSupported :
+    forall S N : EventFlow,
+      report.licensedNameStatus S N ->
+        exists C : EventFlow, LicensedNameP5Witness S C N
+  cannotClaimsIncluded :
+    forall S : EventFlow,
+      report.cannotClaimAnnotation S ->
+        List.Mem (P5ReportDatum.cannotClaim S) report.outputView
+  prototypeRejectsHostObjects :
+    Not (FormalCompilerInput CompilerDatum.hostPkg) /\
+      Not (FormalCompilerInput CompilerDatum.hostNameCert)
+
+structure P5Adequate
+    (prototype : PkgNameCertPrototype) (report : P5Report) where
+  audit : P5AuditChecklist prototype report
+  packageSupport :
+    forall R : GeneratedPackageRecognizer,
+      forall P : EventFlow,
+        List.Mem (P5ReportDatum.recognizedPackage R P) report.outputView ->
+          RecognizedPackageFlow R report.decodedFlow P /\
+            PackageHasLedger R report.decodedFlow P
+  nameCertSupport :
+    forall R : GeneratedNameCertRecognizer,
+      forall C N : EventFlow,
+        List.Mem (P5ReportDatum.recognizedNameCert R C N) report.outputView ->
+          RecognizedNameCertFlow R report.decodedFlow C N /\
+            CompleteNameCertRecognition R report.decodedFlow C N
+  licensedNameSupport :
+    forall S N : EventFlow,
+      report.licensedNameStatus S N ->
+        exists C : EventFlow, LicensedNameP5Witness S C N
+  hostObjectsRejected :
+    Not (FormalCompilerInput CompilerDatum.hostPkg) /\
+      Not (FormalCompilerInput CompilerDatum.hostNameCert)
+
+theorem p5_adequacy
+    {prototype : PkgNameCertPrototype} {report : P5Report} :
+    P5AuditChecklist prototype report -> P5Adequate prototype report := by
+  intro hAudit
+  exact
+    { audit := hAudit,
+      packageSupport := by
+        intro R P hMem
+        exact
+          And.intro
+            (hAudit.packageCandidatesSeparated R P hMem)
+            (hAudit.recognizedPackagesLedger R P hMem),
+      nameCertSupport := by
+        intro R C N hMem
+        exact
+          And.intro
+            (hAudit.recognizedNameCertsGenerated R C N hMem)
+            (hAudit.recognizedNameCertsComplete R C N hMem),
+      licensedNameSupport := hAudit.licensedNamesSupported,
+      hostObjectsRejected := hAudit.hostStructuresRejected }
+
 theorem p5_license_weaker_than_export :
     exists S N : EventFlow, LicensedNameP5 S N /\ Not (AcceptedObjectFlow S) := by
   have hSubflow :
@@ -590,5 +672,9 @@ theorem p5_license_weaker_than_export :
   exact
     ⟨[], [],
       ⟨⟨[], ⟨[], hComplete⟩⟩, empty_not_accepted_object_flow⟩⟩
+
+theorem p5_licensed_not_accepted_export :
+    exists S N : EventFlow, LicensedNameP5 S N /\ Not (AcceptedObjectFlow S) :=
+  p5_license_weaker_than_export
 
 end BEDC.GroundCompiler.PackageNameCertPrototype
