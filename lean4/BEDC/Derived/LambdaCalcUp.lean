@@ -474,4 +474,28 @@ theorem LambdaCalcBHistTermPacketCarrier_substitution_composition_carrier_closur
           (And.intro scope.right.right.left
           (And.intro scope.right.right.right secondLedgerReadback))))
 
+theorem LambdaCalcBHistTermPacketCarrier_alpha_beta_ledger_separation
+    {graph edge connected acyclic sharedTag sharedPayload sharedEndpoint alphaTag alphaPayload
+      alphaEndpoint betaTag betaPayload betaEndpoint alphaLedger betaLedger : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic sharedTag sharedPayload
+        sharedEndpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic alphaTag alphaPayload
+          alphaEndpoint ->
+        LambdaCalcBHistTermPacketCarrier graph edge connected acyclic betaTag betaPayload
+            betaEndpoint ->
+          Cont sharedEndpoint alphaEndpoint alphaLedger ->
+            Cont sharedEndpoint betaEndpoint betaLedger ->
+              UnaryHistory sharedEndpoint ∧ UnaryHistory alphaLedger ∧
+                UnaryHistory betaLedger ∧ hsame alphaLedger (append sharedEndpoint alphaEndpoint) ∧
+                  hsame betaLedger (append sharedEndpoint betaEndpoint) := by
+  intro sharedPacket alphaPacket betaPacket alphaLedgerRow betaLedgerRow
+  have alphaLedgerUnary : UnaryHistory alphaLedger :=
+    unary_cont_closed sharedPacket.right.right.left alphaPacket.right.right.left alphaLedgerRow
+  have betaLedgerUnary : UnaryHistory betaLedger :=
+    unary_cont_closed sharedPacket.right.right.left betaPacket.right.right.left betaLedgerRow
+  exact And.intro sharedPacket.right.right.left
+    (And.intro alphaLedgerUnary
+      (And.intro betaLedgerUnary
+        (And.intro alphaLedgerRow betaLedgerRow)))
+
 end BEDC.Derived.LambdaCalcUp
