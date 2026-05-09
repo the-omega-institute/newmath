@@ -94,4 +94,35 @@ theorem GeomQuantizationBHistSourcePacket_polarisation_classifier_stability
         readbackCont', metaplecticCont', endpointCont', pkgSig'⟩,
       sameReadback, sameMetaplectic, sameEndpoint⟩
 
+theorem GeomQuantizationBHistSourcePacket_ledger_exactness [AskSetup] [PackageSetup]
+    {symplectic hilbert line polarisation metaplectic readback transport provenance endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeomQuantizationBHistSourcePacket symplectic hilbert line polarisation metaplectic
+        readback transport provenance endpoint bundle pkg ->
+      UnaryHistory symplectic ∧ UnaryHistory hilbert ∧ UnaryHistory line ∧
+        UnaryHistory polarisation ∧ UnaryHistory metaplectic ∧ UnaryHistory readback ∧
+          UnaryHistory endpoint ∧ hsame readback (append symplectic line) ∧
+            hsame metaplectic (append readback polarisation) ∧
+              hsame endpoint (append provenance metaplectic) ∧
+                PkgSig bundle endpoint pkg := by
+  intro packet
+  have lineUnary : UnaryHistory line := packet.right.right.left
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed packet.left lineUnary packet.right.right.right.right.right.right.left
+  have polarisationUnary : UnaryHistory polarisation := packet.right.right.right.left
+  have metaplecticUnary : UnaryHistory metaplectic :=
+    unary_cont_closed readbackUnary polarisationUnary
+      packet.right.right.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance := packet.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary metaplecticUnary
+      packet.right.right.right.right.right.right.right.right.left
+  exact
+    ⟨packet.left, packet.right.left, lineUnary, polarisationUnary, metaplecticUnary,
+      readbackUnary, endpointUnary, packet.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.GeomQuantizationUp
