@@ -74,6 +74,41 @@ completed convergence theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.EstimatorUp.EstimatorBHistSourceSurface\_transport\_obligation}
 
+\begin{theorem}[EstimatorUp finite Cont-readback determinacy]
+\label{thm:estimator-finite-cont-readback-determinacy}
+Let $E_0$ and $E_1$ be accepted $\EstimatorUp$ $\mathsf{BHist}$ packets. Suppose
+they display the same $\RandomVarUp$ sample rows, the same $\IndependenceUp$
+sample-family row, matching estimator endpoint, bias, and variance witness
+rows, componentwise $\hsame$ transport, the same finite $\Cont$ ledgers, and
+the same $\Pkg$ provenance from
+\autoref{def:estimator-bhist-source-surface}. Then every public estimator
+readback row is identical after the displayed transports. No asymptotic
+normality row and no completed convergence row can mediate this readback.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through
+\autoref{thm:estimator-source-obligation}. The only source rows exposed are the
+displayed sample rows, sample-family row, endpoint rows, bias and variance
+witness rows, finite continuation ledgers, and package provenance listed in
+\autoref{def:estimator-bhist-source-surface}.
+
+Next apply \autoref{thm:estimator-transport-obligation} componentwise. The
+matching $\hsame$ transports identify the sample, independence, endpoint, bias,
+and variance rows while preserving the same finite $\Cont$ ledgers and the same
+$\Pkg$ provenance.
+
+Compare the finite continuation ledgers row-by-row. Since the ledgers are the
+same and their endpoints have already been transported into the same displayed
+rows, every public readback entry of $E_0$ agrees with the corresponding entry
+of $E_1$.
+
+Repack the common rows using
+\autoref{thm:estimator-namecert-obligation-surface}. The public
+$\NameCert_{\EstimatorUp}$ surface has no field for asymptotic normality or
+completed statistical convergence, so neither can act as an intermediate
+readback witness.
+\end{proof}
+
 \begin{theorem}[EstimatorUp NameCert obligation surface]
 \label{thm:estimator-namecert-obligation-surface}
 The public $\NameCert_{\EstimatorUp}$ obligation surface is precisely the
