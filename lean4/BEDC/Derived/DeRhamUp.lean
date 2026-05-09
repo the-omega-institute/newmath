@@ -59,7 +59,7 @@ def DeRhamDoubleExteriorPacket
     (forall {a b : BHist}, hsame a b -> hsame (d a) (d b)) ∧
       (forall a : BHist, hsame (d (d a)) zero) ∧ hsame zero BHist.Empty
 
-def DeRhamBoundarySourcePacket
+def DeRhamBoundarySourceLedgerPacket
     (d : BHist -> BHist) (omega eta theta zero graphLedger endpointLedger : BHist) :
     Prop :=
   DeRhamDoubleExteriorPacket d omega eta theta zero ∧ DeRhamBoundary d theta ∧
