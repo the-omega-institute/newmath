@@ -86,6 +86,11 @@ def CannotClaimCoverage (annotations : List CannotClaimAnnotation) : Prop :=
     List.Mem CannotClaimAnnotation.reportNotProof annotations /\
     List.Mem CannotClaimAnnotation.reportNotPackageRecognition annotations
 
+def NontrivialCannotClaimPolicy
+    (S : EventFlow) (annotations : List CannotClaimAnnotation) : Prop :=
+  (exists w : RawEvent, List.Mem w S /\ HighRiskRawEvent w) ->
+    CannotClaimCoverage annotations
+
 inductive HigherLayerAdequacy
     (_P : List DisplayAlphabet -> Option EventFlow) : Prop
 
@@ -230,6 +235,14 @@ theorem cannot_claims_prevent_overinterpretation
             (And.intro hCoverage.right.right.right.left
               hCoverage.right.right.right.right.right))))
 
+theorem source_report_nontrivial_cannot_claims
+    {S : EventFlow} {annotations : List CannotClaimAnnotation} :
+    NontrivialCannotClaimPolicy S annotations ->
+      (exists w : RawEvent, List.Mem w S /\ HighRiskRawEvent w) ->
+        CannotClaimCoverage annotations := by
+  intro hPolicy hRisk
+  exact hPolicy hRisk
+
 theorem event_segments_partition (S : EventFlow) :
     FlowEncoding S = (List.map EventSegment S).flatten := by
   induction S with
@@ -332,6 +345,21 @@ theorem p1_adequacy_not_higher
     P1Adequate P -> Not (HigherLayerAdequacy P) := by
   intro _ hHigher
   cases hHigher
+
+theorem source_report_conservative {c : List DisplayAlphabet}
+    {S : EventFlow} :
+    SourceEventReport c S ->
+      (forall w : RawEvent,
+        List.Mem w S ->
+          forall m : DisplayAlphabet, List.Mem m w -> m = BMark.b0 \/ m = BMark.b1) /\
+      Not (SourceReportRecognition c S) := by
+  intro _
+  exact
+    And.intro
+      (fun w hw m hm =>
+        BEDC.GroundCompiler.EventFlow.event_flow_conservativity hw hm)
+      (fun hRecognition => by
+        cases hRecognition)
 
 theorem p1_address_report_layer
     {P : List DisplayAlphabet -> Option EventFlow} :
