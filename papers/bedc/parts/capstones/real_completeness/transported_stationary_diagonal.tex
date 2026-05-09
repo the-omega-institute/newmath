@@ -1,0 +1,56 @@
+\begin{theorem}[Transported stationary rational diagonal]
+\label{thm:real-completeness-transported-stationary-diagonal}
+Let $d,e:\Hist$ satisfy $\mathsf{RatHistoryCarrier}(d)$,
+$\mathsf{RatHistoryCarrier}(e)$, and
+$\mathsf{RatHistoryClassifier}(d,e)$. Let $X_d$ and $X_e$ be the stationary
+regular Cauchy inputs of
+\autoref{def:real-completeness-stationary-rational-cauchy}, and let $L_d$ and
+$L_e$ be their diagonal representatives from
+\autoref{def:real-completeness-diagonal-limit}. Then the transported RatUp
+classifier induces the constant StreamNameUp classifier
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e),
+$$
+the e-one RealUp constant classifier
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e)),
+$$
+and the RealUp classifier
+$$
+\mathsf{RealClassifier}(L_d,L_e).
+$$
+Moreover these three rows are the same transported stationary rational
+diagonal row: every finite RegSeqRat or DyadicRatCore observation window read
+from $L_d$ and $L_e$ factors through the constant StreamNameUp classifier and
+then through the e-one RealUp constant classifier induced by
+$\mathsf{RatHistoryClassifier}(d,e)$.
+\end{theorem}
+
+\begin{proof}[Sketch]
+First apply
+\autoref{thm:real-completeness-stationary-rational-diagonal} to $d$ and to
+$e$. The two applications identify the diagonal representatives $L_d$ and
+$L_e$ with the constant rational RealUp names
+$(\mathsf{RatConstStream}_d,\Eone(d))$ and
+$(\mathsf{RatConstStream}_e,\Eone(e))$.
+
+Next apply
+\autoref{thm:real-completeness-stationary-embedding-classifier-full-correspondence}
+to the supplied RatUp classifier. It transports
+$\mathsf{RatHistoryClassifier}(d,e)$ across the two diagonal agreement rows
+and produces $\mathsf{RealClassifier}(L_d,L_e)$.
+
+The finite-window content is the same row read at the StreamNameUp boundary.
+Use \autoref{thm:real-completeness-stationary-rational-finite-window-bridge}.
+It identifies the RatUp seed classifier with the constant StreamNameUp
+classifier and with the e-one RealUp constant classifier for any displayed
+unary observation window.
+
+Finally read the RegSeqRat and DyadicRatCore boundary rows through the RealUp
+certificate boundary. The RegSeqRat seal consumes the finite StreamNameUp
+window together with the dyadic source ledger, and the DyadicRatCore
+finite-window transport rows preserve that same ledger under selected
+subwindows. Hence every stationary finite observation of $L_d$ and $L_e$
+is the transported constant-stream row induced by the original RatUp
+classifier, with no additional RealUp comparison datum.
+\end{proof}
