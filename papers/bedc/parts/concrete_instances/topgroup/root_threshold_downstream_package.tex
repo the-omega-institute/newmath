@@ -119,3 +119,37 @@ Finally use \autoref{thm:topgroup-public-consumer-minimality}. The public
 NameCert boundary is therefore exactly the displayed finite
 $\mathsf{BHist}$ packet over the two source certificates.
 \end{proof}
+
+\begin{theorem}[TopGroupUp root threshold export boundary]
+\label{thm:topgroup-root-threshold-export-boundary}
+Every downstream public export of the $\TopGroupUp$ root threshold factors
+through the single packet $\Omega_{\TopGroupUp}$ of
+\autoref{def:topgroup-root-threshold-downstream-package}. The export exposes
+exactly the $\GroupUp$ source, the $\TopologyUp$ source, the product row, the
+inverse row, the shared neighbourhood row, the componentwise $\hsame$
+classifier packet, the finite $\Cont$ ledger, the $\Pkg$ provenance, and the
+threshold row. It exposes no ambient topological-group object, no host
+continuity predicate, no detached source certificate, and no operation
+continuity row beyond the product and inverse ledger rows already carried by
+$\Omega_{\TopGroupUp}$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:topgroup-root-threshold-carrier-scope}. It places the
+$\GroupUp$ and $\TopologyUp$ source certificates, the operation rows, the
+neighbourhood row, the classifier packet, the finite ledger, and the provenance
+row inside one $\mathsf{BHist}$ carrier.
+
+Next use \autoref{thm:topgroup-root-threshold-operation-scope}. The product
+and inverse continuity data are precisely the ledger rows over the shared
+neighbourhood source and componentwise $\hsame$ classifier packet.
+
+Apply \autoref{thm:topgroup-root-threshold-consumer-exhaustion}. A downstream
+public consumer reads only the displayed source, operation, classifier,
+continuity, and provenance rows, so an ambient topological-group object, host
+continuity predicate, or detached source certificate is outside the export.
+
+Finally apply \autoref{thm:topgroup-root-threshold-namecert-threshold}. The
+threshold row is the public $\NameCert_{\TopGroupUp}$ boundary of the same
+packet. Repacking these projections gives the stated export boundary and leaves
+no extra operation-continuity row to expose.
+\end{proof}

@@ -157,6 +157,37 @@ $\mathsf{BHist}$ endpoints, so the displayed list is a single Full Nat
 Arithmetic audit surface and not a host multiplication or quotient surface.
 \end{proof}
 
+\begin{theorem}[MulUp L7 additive-order audit handoff]
+\label{thm:mulup-l7-add-order-audit-handoff}
+Any Full Nat Arithmetic consumer over $\mathsf{BHist}$ that reads the
+$\MulUp$ package through the audit surface of
+\autoref{thm:mulup-full-nat-arithmetic-audit-surface} may consume exactly the
+checked $\mathsf{NatMul}$ law rows, the two $\AddUp$ distributivity rows, the
+$\OrderUp$ monotonicity row, and the reflexive, transitive, and
+antisymmetric divisibility-order rows. All of these rows are over
+$\mathsf{UnaryHistory}$, $\hsame$, and finite $\Cont$ ledgers. The consumer
+may not introduce host multiplication, quotient equality, or a second
+carrier.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:mulup-full-nat-arithmetic-audit-surface}. It fixes the
+only displayed Full Nat Arithmetic audit surface over $\mathsf{BHist}$,
+$\mathsf{UnaryHistory}$, $\hsame$, and the finite $\Cont$ ledgers.
+
+Unpack \autoref{thm:mulup-checked-law-audit-package} for the checked
+$\mathsf{NatMul}$ law rows. These are the totality, result-closure,
+functionality, unit, unit-law, commutativity, associativity,
+operation-congruence, and result $\mathsf{NameCert}$ rows already accepted by
+the $\MulUp$ law audit.
+
+Finally repack the additive-order rows from
+\autoref{thm:mulup-semantic-exit-and-divisibility-order-phase-package}. Those
+rows contribute exactly the two $\AddUp$ distributivity rows, the $\OrderUp$
+monotonicity row, and the divisibility-order rows, while preserving the same
+carrier, classifier, and ledger boundary. Hence the L7 consumer receives the
+listed rows and no host multiplication, quotient equality, or second carrier.
+\end{proof}
+
 \begin{theorem}[MulUp AddUp--OrderUp--divisibility phase-exit package]
 \label{thm:mulup-add-order-divisibility-phase-exit-package}
 Over $\mathsf{BHist}$ and the carrier $\mathsf{UnaryHistory}$, $\MulUp$
