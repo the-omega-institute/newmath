@@ -260,4 +260,24 @@ theorem FisherInfoBHistScoreCarrier_semantic_name_certificate [AskSetup] [Packag
       (And.intro carrier.right.right.right.right.right.left
         carrier.right.right.right.right.right.right.left)
 
+theorem FisherInfoBHistScoreCarrier_score_expectation_metric_confluence
+    [AskSetup] [PackageSetup]
+    {distribution metric parameter score expectation component provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FisherInfoBHistScoreCarrier distribution metric parameter score expectation component
+        provenance ledger bundle pkg ->
+      Cont distribution score expectation ∧ Cont expectation metric component ∧
+        hsame expectation (append distribution score) ∧
+          hsame component (append expectation metric) ∧
+            hsame ledger (append component provenance) ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  have expectationLedger :=
+    FisherInfoBHistScoreCarrier_expectation_ledger_exactness carrier
+  exact And.intro carrier.right.right.right.right.left
+    (And.intro carrier.right.right.right.right.right.left
+      (And.intro expectationLedger.left
+        (And.intro expectationLedger.right.left
+          (And.intro expectationLedger.right.right.left
+            carrier.right.right.right.right.right.right.left))))
+
 end BEDC.Derived.FisherInfoUp
