@@ -91,6 +91,9 @@ def ChapterFlow (C : ChapterCandidateFlow) : Prop :=
 def ChapterCode (C : ChapterCandidateFlow) : List DisplayAlphabet :=
   FlowEncoding C
 
+def LegalChapterCode (c : List DisplayAlphabet) : Prop :=
+  exists C : ChapterCandidateFlow, c = ChapterCode C
+
 theorem no_external_chapter_input :
     Not (FormalCompilerInput CompilerDatum.hostChapterPkg) :=
   structural_hidden_not_formal StructuralHiddenInput.hostChapterPkg
@@ -105,6 +108,36 @@ theorem chapter_code_not_new_code {C : ChapterCandidateFlow} :
     ChapterFlow C -> ChapterCode C = FlowEncoding C := by
   intro _
   rfl
+
+theorem chapter_code_round_trip (C : ChapterCandidateFlow) :
+    Decode (ChapterCode C) = some C :=
+  flow_level_round_trip C
+
+theorem chapter_code_injective {C D : ChapterCandidateFlow} :
+    ChapterCode C = ChapterCode D -> C = D := by
+  intro h
+  have hDecode : Decode (ChapterCode C) = Decode (ChapterCode D) :=
+    congrArg Decode h
+  rw [chapter_code_round_trip C, chapter_code_round_trip D] at hDecode
+  cases hDecode
+  rfl
+
+theorem chapter_code_bijective :
+    (forall C : ChapterCandidateFlow, Decode (ChapterCode C) = some C) /\
+      (forall c : List DisplayAlphabet,
+        LegalChapterCode c ->
+          exists C : ChapterCandidateFlow,
+            Decode c = some C /\ ChapterCode C = c) := by
+  constructor
+  · intro C
+    exact chapter_code_round_trip C
+  · intro c h
+    cases h with
+    | intro C hC =>
+        refine ⟨C, ?_, ?_⟩
+        · rw [hC]
+          exact chapter_code_round_trip C
+        · exact hC.symm
 
 theorem no_chapter_without_complete_recognition {C : ChapterCandidateFlow} :
     ChapterFlow C ->
