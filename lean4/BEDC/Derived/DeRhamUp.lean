@@ -1,12 +1,20 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.DeRhamUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 
 theorem DeRhamDoubleExteriorDerivative_boundary {d : BHist -> BHist}
     {omega eta theta zero : BHist} :
@@ -117,6 +125,63 @@ theorem DeRhamStandardBoundaryGraphLedger_finite_graph_completeness
             (Exists.intro _ (And.intro packet.right.left boundary.right.right))
       | tail _ restMem =>
           exact ih restMem
+
+theorem DeRhamBoundary_packet_classifier_transport
+    {d : BHist -> BHist} {omega eta theta zero theta' : BHist} :
+    DeRhamDoubleExteriorPacket d omega eta theta zero ->
+      hsame theta' theta ->
+        DeRhamBoundary d theta' ∧ hsame theta' zero ∧ hsame (d eta) BHist.Empty := by
+  intro packet sameTheta'
+  have boundaryRows := DeRhamDoubleExteriorPacket_boundary packet
+  have sameThetaEmpty : hsame theta BHist.Empty :=
+    hsame_trans boundaryRows.left packet.right.right.right.right
+  have transported :=
+    DeRhamBoundary_zero_endpoint_transport boundaryRows.right.left sameTheta' sameThetaEmpty
+  exact And.intro transported.left
+    (And.intro (hsame_trans sameTheta' boundaryRows.left) boundaryRows.right.right)
+
+theorem DeRhamBoundary_public_classifier_exactness
+    {d : BHist -> BHist} {omega eta theta zero : BHist} :
+    DeRhamDoubleExteriorPacket d omega eta theta zero ->
+      SemanticNameCert (DeRhamBoundary d) (DeRhamBoundary d) (DeRhamBoundary d)
+        (fun b c : BHist => DeRhamBoundary d b ∧ DeRhamBoundary d c ∧ hsame b c) ∧
+        DeRhamBoundary d theta ∧ hsame (d eta) BHist.Empty := by
+  intro packet
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet
+  have boundaryTheta : DeRhamBoundary d theta := boundary.right.left
+  have emptyDerivative : hsame (d eta) BHist.Empty := boundary.right.right
+  have core :
+      NameCert (DeRhamBoundary d)
+        (fun b c : BHist => DeRhamBoundary d b ∧ DeRhamBoundary d c ∧ hsame b c) := {
+    carrier_inhabited := Exists.intro theta boundaryTheta
+    equiv_refl := by
+      intro h boundaryH
+      exact And.intro boundaryH (And.intro boundaryH (hsame_refl h))
+    equiv_symm := by
+      intro h k classified
+      exact And.intro classified.right.left
+        (And.intro classified.left (hsame_symm classified.right.right))
+    equiv_trans := by
+      intro h k r classifiedHK classifiedKR
+      exact And.intro classifiedHK.left
+        (And.intro classifiedKR.right.left
+          (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+    carrier_respects_equiv := by
+      intro h k classified _boundaryH
+      exact classified.right.left
+  }
+  have cert :
+      SemanticNameCert (DeRhamBoundary d) (DeRhamBoundary d) (DeRhamBoundary d)
+        (fun b c : BHist => DeRhamBoundary d b ∧ DeRhamBoundary d c ∧ hsame b c) := {
+    core := core
+    pattern_sound := by
+      intro h boundaryH
+      exact boundaryH
+    ledger_sound := by
+      intro h boundaryH
+      exact boundaryH
+  }
+  exact And.intro cert (And.intro boundaryTheta emptyDerivative)
 
 theorem DeRhamStandardBoundaryBridgePacket_classifier_compatibility
     {d : BHist -> BHist} {omega eta theta zero provenance bridge : BHist} :

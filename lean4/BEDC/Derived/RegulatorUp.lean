@@ -119,9 +119,32 @@ theorem RegulatorRootInputPacket_ledger_exactness [AskSetup] [PackageSetup]
                                       have determinantLedgerUnary :
                                           UnaryHistory determinantLedger :=
                                         unary_cont_closed basisUnary determinantUnary
-                                          determinantLedgerCont
+                                        determinantLedgerCont
                                       exact And.intro determinantLedgerUnary
                                         (And.intro determinantLedgerCont
                                           (And.intro endpointCont endpointPkg))
+
+theorem RegulatorRootInputPacket_root_namecert_threshold [AskSetup] [PackageSetup]
+    {duSource unit inverse law unitLedger lawLedger duProvenance nfSource rank layout provenance
+      endpoint threshold : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegulatorRootInputPacket duSource unit inverse law unitLedger lawLedger duProvenance
+        nfSource rank layout provenance endpoint bundle pkg ->
+      Cont endpoint provenance threshold ->
+      PkgSig bundle threshold pkg ->
+          UnaryHistory threshold ∧ hsame threshold (append endpoint provenance) ∧
+            RegulatorRootInputPacket duSource unit inverse law unitLedger lawLedger duProvenance
+              nfSource rank layout provenance endpoint bundle pkg := by
+  intro packet thresholdCont _
+  have boundary :=
+    RegulatorRootInputPacket_dirichletunit_input_boundary
+      (duSource := duSource) (unit := unit) (inverse := inverse) (law := law)
+      (unitLedger := unitLedger) (lawLedger := lawLedger) (duProvenance := duProvenance)
+      (nfSource := nfSource) (rank := rank) (layout := layout) (provenance := provenance)
+      (endpoint := endpoint) (bundle := bundle) (pkg := pkg) packet
+  have thresholdUnary : UnaryHistory threshold :=
+    unary_cont_closed boundary.right.right.right.right.right.left
+      boundary.right.right.right.right.left thresholdCont
+  exact And.intro thresholdUnary (And.intro thresholdCont packet)
 
 end BEDC.Derived.RegulatorUp

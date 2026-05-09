@@ -108,6 +108,41 @@ carrier-classifier surface, the public certificate contains no standard bridge
 row.
 \end{proof}
 
+\begin{definition}[ContactUp standard bridge surface]
+\label{def:contact-standard-bridge-surface}
+The $\ContactUp$ standard bridge surface is the public $\ContactUp$
+carrier-classifier rows, the form-row obligation, the nondegeneracy row, the
+ledger exactness row, and the public $\NameCert$ export, read as the source
+side of the standard contact-structure interpretation. Its source side is
+exactly the surface displayed by
+\autoref{thm:contactup-public-namecert-export}.
+\end{definition}
+
+\begin{theorem}[ContactUp public bridge compatibility]
+\label{thm:contact-public-bridge-compatibility}
+Every row interpreted by the bridge surface of
+\autoref{def:contact-standard-bridge-surface} is already one of the public
+$\ContactUp$ rows, and every public $\ContactUp$ row has a corresponding
+bridge-side row. The bridge adds no host manifold, no open-cover compactness
+condition, and no external equality beyond the public carrier, classifier,
+obligation, ledger, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:contactup-form-row-obligation} for the routed one-form,
+exterior-input, and wedge-ladder rows, then
+\autoref{thm:contactup-nondegeneracy-obligation} for the contact-local
+top-wedge row.
+
+Apply \autoref{thm:contactup-ledger-exactness-obligation}. Its coverage,
+soundness, and completeness clauses say that the listed bridge reads are
+exactly the certified public contact reads.
+
+Finally use \autoref{thm:contactup-public-namecert-export}. It repacks those
+rows as the public $\NameCert_{\ContactUp}$ surface, so the correspondence is
+row-for-row and introduces no host manifold, compactness, or external equality
+datum.
+\end{proof}
+
 \closureat{ContactUp}{publicStr}
 
 \begin{closurestatus}{\ContactUp}
