@@ -405,6 +405,8 @@ import BEDC.Derived.TopGroupUp.LedgerExactnessObligation
 import BEDC.Derived.TopGroupUp.RootLedgerSemanticExactness
 import BEDC.Derived.TopGroupUp.ClassifierContinuityTransport
 import BEDC.Derived.TopGroupUp.ContinuityObligations
+import BEDC.Derived.TopGroupUp.DownstreamProvenanceTransport
+import BEDC.Derived.TopGroupUp.OperationSourceContinuity
 import BEDC.Derived.TopGroupUp.SourceCompatibility
 import BEDC.Derived.TopGroupUp.PublicNamecertReadbackExactness
 import BEDC.Derived.TopGroupUp.SourceFiberContinuityObligation
