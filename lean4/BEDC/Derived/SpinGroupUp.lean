@@ -83,6 +83,37 @@ theorem SpinGroupRootCarrier_group_law_transport [AskSetup] [PackageSetup]
           (And.intro spinCont carrier.right.right.right)))
       sameSpin
 
+theorem SpinGroupRootCarrier_concrete_lift_closure [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger unit' vector'
+      product' boundary' cliffordEndpoint' groupWord' spinEndpoint' ledger' composedLift
+      composedProjection composedLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      SpinGroupRootCarrier unit' vector' product' boundary' cliffordEndpoint' groupWord'
+          spinEndpoint' ledger' bundle pkg ->
+        Cont spinEndpoint spinEndpoint' composedLift ->
+          Cont composedLift BHist.Empty composedProjection ->
+            PkgSig bundle composedLedger pkg ->
+              UnaryHistory composedLift ∧ UnaryHistory composedProjection ∧
+                hsame composedLift (append spinEndpoint spinEndpoint') ∧
+                  hsame composedProjection composedLift ∧ PkgSig bundle composedLedger pkg := by
+  intro carrier carrier' liftRow projectionRow composedPkg
+  have scope :=
+    SpinGroupRootCarrier_source_scope carrier
+  have scope' :=
+    SpinGroupRootCarrier_source_scope carrier'
+  have liftUnary : UnaryHistory composedLift :=
+    unary_cont_closed scope.right.right.left scope'.right.right.left liftRow
+  have projectionUnary : UnaryHistory composedProjection :=
+    unary_cont_closed liftUnary unary_empty projectionRow
+  have projectionSame : hsame composedProjection composedLift :=
+    cont_right_unit_result projectionRow
+  exact And.intro liftUnary
+    (And.intro projectionUnary
+      (And.intro liftRow
+        (And.intro projectionSame composedPkg)))
+
 theorem SpinGroupRootCarrier_public_consumer_boundary_coverage [AskSetup] [PackageSetup]
     {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
