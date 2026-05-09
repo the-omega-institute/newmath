@@ -260,4 +260,44 @@ theorem ErgodicMeasurePreservingCarrier_namecert_obligation_surface [AskSetup] [
       (And.intro ledgerRows.left
         (And.intro ledgerRows.right.left ledgerRows.right.right.right.right))
 
+theorem ErgodicMeasurePreservingCarrier_semantic_name_certificate [AskSetup]
+    [PackageSetup]
+    {dyn measure invariant transport ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ErgodicMeasurePreservingCarrier dyn measure invariant transport ledger provenance endpoint
+        bundle pkg ->
+      SemanticNameCert
+        (fun h : BHist =>
+          ErgodicMeasurePreservingCarrier dyn measure h transport ledger provenance endpoint
+            bundle pkg)
+        (fun h : BHist =>
+          ErgodicMeasurePreservingCarrier dyn measure h transport ledger provenance endpoint
+            bundle pkg)
+        (fun h : BHist =>
+          ErgodicMeasurePreservingCarrier dyn measure h transport ledger provenance endpoint
+            bundle pkg)
+        (fun h k : BHist =>
+          ErgodicMeasurePreservingCarrier dyn measure h transport ledger provenance endpoint
+              bundle pkg ∧
+            ErgodicMeasurePreservingCarrier dyn measure k transport ledger provenance endpoint
+              bundle pkg ∧
+              hsame h k) := by
+  intro carrier
+  constructor
+  · constructor
+    · exact Exists.intro invariant carrier
+    · intro h source
+      exact And.intro source (And.intro source (hsame_refl h))
+    · intro h k same
+      exact And.intro same.right.left (And.intro same.left (hsame_symm same.right.right))
+    · intro h k r sameHK sameKR
+      exact And.intro sameHK.left
+        (And.intro sameKR.right.left (hsame_trans sameHK.right.right sameKR.right.right))
+    · intro h k same _source
+      exact same.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 end BEDC.Derived.ErgodicUp

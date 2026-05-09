@@ -168,14 +168,75 @@ not rows of the accepted $\EntropyUp$ surface. They therefore cannot supply a
 second consumer read or separate the two transported log-weight packages.
 \end{proof}
 
-\closureat{EntropyUp}{seedStr}[BEDC.Derived.EntropyUp.EntropySourceSurface\_namecert\_obligation\_surface]
+\begin{definition}[Entropy obligation inventory packet]
+\label{def:entropy-obligation-inventory-packet}
+The $\EntropyUp$ obligation inventory packet is the finite $\mathsf{BHist}$
+packet consisting of the $\DistributionUp$ pushforward row, the $\IntegralUp$
+readback row, the certified log-weight endpoint, the componentwise $\hsame$
+transports for those three rows, the finite $\Cont$ ledgers carrying the
+displayed observations, and the $\Pkg$ provenance for the accepted entropy
+source. The carrier row is the accepted source surface of
+\autoref{def:entropy-bhist-measure-source-surface}; the classifier row is the
+componentwise comparison of the displayed distribution, integral, and
+log-weight endpoints; the stability and ledger rows are exactly the displayed
+$\hsame$, $\Cont$, and $\Pkg$ data.
+\end{definition}
+
+\begin{theorem}[Entropy carrier-classifier obligation]
+\label{thm:entropy-carrier-classifier-obligation}
+Every accepted inventory packet of
+\autoref{def:entropy-obligation-inventory-packet} supplies the $\EntropyUp$
+carrier row and the componentwise classifier obligations for the displayed
+$\DistributionUp$ pushforward row, $\IntegralUp$ readback row, and certified
+log-weight endpoint. No analytic convergence row, measure-completion row, or
+host entropy equality participates in the carrier or classifier obligation.
+\end{theorem}
+\begin{proof}
+Project the inventory packet to its carrier row. By definition this row is the
+accepted source surface of \autoref{def:entropy-bhist-measure-source-surface}.
+
+Next project the classifier coordinates. They are exactly the componentwise
+$\hsame$ transports on the distribution pushforward, integral readback, and
+log-weight endpoint, so they supply the classifier obligations named by the
+packet.
+
+The remaining rows are continuation and provenance data. Since the inventory has
+no field for convergence, completed measures, or host entropy equality, those
+claims cannot enter the carrier-classifier obligation.
+\end{proof}
+
+\begin{theorem}[Entropy ledger stability obligation]
+\label{thm:entropy-ledger-stability-obligation}
+If an accepted $\EntropyUp$ obligation inventory packet is transported
+componentwise along its displayed $\hsame$ rows, then the transported
+log-weight endpoint and transported $\IntegralUp$ readback row remain inside the
+same finite $\Cont$ ledger and $\Pkg$ provenance package. The transported
+package is again an $\EntropyUp$ obligation inventory packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:entropy-log-weight-transport-determinacy}. It shows that
+transported packages with the same distribution, integral, and log-weight
+endpoints expose the same log-weight consumer boundary and provenance.
+
+Apply \autoref{thm:entropy-namecert-obligation-surface} to read the finite
+ledger rows of the transported package. The $\Cont$ rows and $\Pkg$ provenance
+are precisely the ledger fields listed in
+\autoref{def:entropy-obligation-inventory-packet}.
+
+Repack the transported distribution, integral, log-weight, $\hsame$, $\Cont$,
+and $\Pkg$ rows. This gives another accepted obligation inventory packet and
+keeps analytic convergence, measure completion, and host entropy equality
+outside the ledger.
+\end{proof}
+
+\closureat{EntropyUp}{obligationStr}[BEDC.Derived.EntropyUp.EntropySourceSurface\_namecert\_obligation\_surface]
 \begin{closurestatus}{\EntropyUp}
-  \constructivestory{An entropy source is assembled as a finite BHist packet whose displayed faces are a $\DistributionUp$ pushforward row, an $\IntegralUp$ readback row, a certified log-weight endpoint, componentwise $\hsame$ transports, finite $\Cont$ ledgers, and $\Pkg$ provenance. The chapter registers this packet as the seed $\EntropyUp$ obligation surface while leaving analytic convergence, measure completion, and host entropy equality outside the packet.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed surface binds the displayed $\DistributionUp$ pushforward rows, $\IntegralUp$ readback rows, certified log-weight $\mathsf{BHist}$ endpoint, $\hsame$ transports, $\Cont$ ledgers, and $\Pkg$ provenance rows visible in this chapter.}
+  \constructivestory{An entropy source is assembled as a finite BHist packet whose displayed faces are a $\DistributionUp$ pushforward row, an $\IntegralUp$ readback row, a certified log-weight endpoint, componentwise $\hsame$ transports, finite $\Cont$ ledgers, and $\Pkg$ provenance. The chapter binds these rows as the $\EntropyUp$ obligation inventory while leaving analytic convergence, measure completion, and host entropy equality outside the packet.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation inventory binds the carrier row, componentwise classifier obligations, transported log-weight and integral rows, $\Cont$ ledgers, and $\Pkg$ provenance rows visible in this chapter.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.EntropyUp.EntropySourceSurface\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \notclaimed{This chapter does not close convergence, measure completion, or host entropy equality.}
-  \upgradepath{Obligation closure requires the full carrier, classifier, stability, and ledger obligation inventory for the $\EntropyUp$ surface.}
+  \upgradepath{Scoped closure requires a consumer-exact carrier boundary that proves every downstream entropy read factors through this finite obligation inventory.}
 \end{closurestatus}
