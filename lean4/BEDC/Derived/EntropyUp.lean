@@ -24,6 +24,95 @@ def EntropyBHistMeasureSourceSurface [AskSetup] [PackageSetup]
       Cont observationLedger logWeight endpoint ∧ Cont endpoint provenance transport ∧
         PkgSig bundle transport pkg
 
+def EntropyLogPartitionCarrier [AskSetup] [PackageSetup]
+    (distribution partition logWeight readback transport provenance ledger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory distribution ∧ UnaryHistory partition ∧ UnaryHistory logWeight ∧
+    UnaryHistory readback ∧ Cont distribution partition ledger ∧
+      Cont ledger logWeight endpoint ∧ Cont endpoint provenance transport ∧
+        PkgSig bundle transport pkg
+
+theorem EntropyLogPartitionCarrier_consumer_exhaustion [AskSetup] [PackageSetup]
+    {distribution partition logWeight readback transport provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EntropyLogPartitionCarrier distribution partition logWeight readback transport provenance
+        ledger endpoint bundle pkg ->
+      UnaryHistory distribution ∧ UnaryHistory partition ∧ UnaryHistory logWeight ∧
+        UnaryHistory readback ∧ Cont distribution partition ledger ∧
+          Cont ledger logWeight endpoint ∧ Cont endpoint provenance transport ∧
+            PkgSig bundle transport pkg := by
+  intro carrier
+  have distributionUnary : UnaryHistory distribution :=
+    carrier.left
+  have partitionUnary : UnaryHistory partition :=
+    carrier.right.left
+  have logWeightUnary : UnaryHistory logWeight :=
+    carrier.right.right.left
+  have readbackUnary : UnaryHistory readback :=
+    carrier.right.right.right.left
+  have ledgerRoute : Cont distribution partition ledger :=
+    carrier.right.right.right.right.left
+  have endpointRoute : Cont ledger logWeight endpoint :=
+    carrier.right.right.right.right.right.left
+  have transportRoute : Cont endpoint provenance transport :=
+    carrier.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle transport pkg :=
+    carrier.right.right.right.right.right.right.right
+  exact And.intro distributionUnary
+    (And.intro partitionUnary
+      (And.intro logWeightUnary
+        (And.intro readbackUnary
+          (And.intro ledgerRoute
+            (And.intro endpointRoute
+              (And.intro transportRoute pkgSig))))))
+
+theorem EntropyLogPartitionCarrier_transport_closure [AskSetup] [PackageSetup]
+    {distribution partition logWeight readback transport provenance ledger endpoint
+      distribution' partition' logWeight' readback' ledger' endpoint' transport' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EntropyLogPartitionCarrier distribution partition logWeight readback transport provenance
+        ledger endpoint bundle pkg ->
+      hsame distribution distribution' ->
+      hsame partition partition' ->
+      hsame logWeight logWeight' ->
+      hsame readback readback' ->
+      Cont distribution' partition' ledger' ->
+      Cont ledger' logWeight' endpoint' ->
+      Cont endpoint' provenance transport' ->
+      PkgSig bundle transport' pkg ->
+      EntropyLogPartitionCarrier distribution' partition' logWeight' readback' transport'
+          provenance ledger' endpoint' bundle pkg ∧ hsame ledger ledger' ∧
+        hsame endpoint endpoint' := by
+  intro carrier sameDistribution samePartition sameLogWeight sameReadback ledgerRoute
+    endpointRoute transportRoute pkgSig
+  have distributionUnary : UnaryHistory distribution :=
+    carrier.left
+  have partitionUnary : UnaryHistory partition :=
+    carrier.right.left
+  have logWeightUnary : UnaryHistory logWeight :=
+    carrier.right.right.left
+  have readbackUnary : UnaryHistory readback :=
+    carrier.right.right.right.left
+  have ledgerRouteOriginal : Cont distribution partition ledger :=
+    carrier.right.right.right.right.left
+  have endpointRouteOriginal : Cont ledger logWeight endpoint :=
+    carrier.right.right.right.right.right.left
+  have ledgerSame : hsame ledger ledger' :=
+    cont_respects_hsame sameDistribution samePartition ledgerRouteOriginal ledgerRoute
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame ledgerSame sameLogWeight endpointRouteOriginal endpointRoute
+  have transportedCarrier :
+      EntropyLogPartitionCarrier distribution' partition' logWeight' readback' transport'
+          provenance ledger' endpoint' bundle pkg :=
+    And.intro (unary_transport distributionUnary sameDistribution)
+      (And.intro (unary_transport partitionUnary samePartition)
+        (And.intro (unary_transport logWeightUnary sameLogWeight)
+          (And.intro (unary_transport readbackUnary sameReadback)
+            (And.intro ledgerRoute
+              (And.intro endpointRoute
+                (And.intro transportRoute pkgSig))))))
+  exact And.intro transportedCarrier (And.intro ledgerSame endpointSame)
+
 theorem EntropyBHistMeasureSourceSurface_namecert_obligation_surface [AskSetup] [PackageSetup]
     {distribution integral logWeight transport provenance observationLedger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -250,5 +339,78 @@ theorem EntropySourceSurface_log_weight_transport_determinacy [AskSetup] [Packag
         (And.intro distributionUnary'
           (And.intro integralUnary'
             (And.intro logWeightUnary' pkgSig')))))
+
+def EntropyLogPartitionBHistCarrier [AskSetup] [PackageSetup]
+    (distribution partition logWeight readback distributionTransport partitionTransport logTransport
+      readbackTransport partitionLedger readbackLedger provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory distribution ∧ UnaryHistory partition ∧ UnaryHistory logWeight ∧
+    UnaryHistory readback ∧ hsame distributionTransport distribution ∧
+      hsame partitionTransport partition ∧ hsame logTransport logWeight ∧
+        hsame readbackTransport readback ∧ Cont distribution partition partitionLedger ∧
+          Cont partitionLedger logWeight readbackLedger ∧
+            Cont readbackLedger provenance endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem EntropyLogPartitionBHistCarrier_transport_closure [AskSetup] [PackageSetup]
+    {distribution partition logWeight readback distributionTransport partitionTransport logTransport
+      readbackTransport partitionLedger readbackLedger provenance endpoint distribution' partition'
+      logWeight' readback' partitionLedger' readbackLedger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EntropyLogPartitionBHistCarrier distribution partition logWeight readback
+        distributionTransport partitionTransport logTransport readbackTransport partitionLedger
+        readbackLedger provenance endpoint bundle pkg ->
+      hsame distribution distribution' ->
+      hsame partition partition' ->
+      hsame logWeight logWeight' ->
+      hsame readback readback' ->
+      Cont distribution' partition' partitionLedger' ->
+      Cont partitionLedger' logWeight' readbackLedger' ->
+      Cont readbackLedger' provenance endpoint' ->
+      PkgSig bundle endpoint' pkg ->
+      EntropyLogPartitionBHistCarrier distribution' partition' logWeight' readback'
+          distributionTransport partitionTransport logTransport readbackTransport partitionLedger'
+          readbackLedger' provenance endpoint' bundle pkg ∧
+        hsame partitionLedger partitionLedger' ∧ hsame readbackLedger readbackLedger' ∧
+          hsame endpoint endpoint' := by
+  intro carrier sameDistribution samePartition sameLogWeight sameReadback partitionCont'
+    readbackCont' endpointCont' pkgSig'
+  have distribution'Unary : UnaryHistory distribution' :=
+    unary_transport carrier.left sameDistribution
+  have partition'Unary : UnaryHistory partition' :=
+    unary_transport carrier.right.left samePartition
+  have logWeight'Unary : UnaryHistory logWeight' :=
+    unary_transport carrier.right.right.left sameLogWeight
+  have readback'Unary : UnaryHistory readback' :=
+    unary_transport carrier.right.right.right.left sameReadback
+  have sameDistributionTransport : hsame distributionTransport distribution' :=
+    hsame_trans carrier.right.right.right.right.left sameDistribution
+  have samePartitionTransport : hsame partitionTransport partition' :=
+    hsame_trans carrier.right.right.right.right.right.left samePartition
+  have sameLogTransport : hsame logTransport logWeight' :=
+    hsame_trans carrier.right.right.right.right.right.right.left sameLogWeight
+  have sameReadbackTransport : hsame readbackTransport readback' :=
+    hsame_trans carrier.right.right.right.right.right.right.right.left sameReadback
+  have samePartitionLedger : hsame partitionLedger partitionLedger' :=
+    cont_respects_hsame sameDistribution samePartition
+      carrier.right.right.right.right.right.right.right.right.left partitionCont'
+  have sameReadbackLedger : hsame readbackLedger readbackLedger' :=
+    cont_respects_hsame samePartitionLedger sameLogWeight
+      carrier.right.right.right.right.right.right.right.right.right.left readbackCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameReadbackLedger (hsame_refl provenance)
+      carrier.right.right.right.right.right.right.right.right.right.right.left endpointCont'
+  exact And.intro
+    (And.intro distribution'Unary
+      (And.intro partition'Unary
+        (And.intro logWeight'Unary
+          (And.intro readback'Unary
+            (And.intro sameDistributionTransport
+              (And.intro samePartitionTransport
+                (And.intro sameLogTransport
+                  (And.intro sameReadbackTransport
+                    (And.intro partitionCont'
+                      (And.intro readbackCont'
+                        (And.intro endpointCont' pkgSig')))))))))))
+    (And.intro samePartitionLedger (And.intro sameReadbackLedger sameEndpoint))
 
 end BEDC.Derived.EntropyUp
