@@ -68,6 +68,24 @@ def SoundSourceReport (c : List DisplayAlphabet) (S : EventFlow) : Prop :=
     SourceEventReport c S /\
     c = (List.map EventSegment S).flatten
 
+structure DisplayPolicy where
+  printsRawEventSeparator : Bool
+  printsEmptyEventMarker : Bool
+  printsEventIndex : Bool
+  printsBodySegment : Bool
+  printsTerminatorSegment : Bool
+  printsEventCode : Bool
+  printsWarnings : Bool
+  printsCannotClaims : Bool
+
+def PolicyDecode (_policy : DisplayPolicy)
+    (c : List DisplayAlphabet) : Option EventFlow :=
+  Decode c
+
+def PolicyCompile (_policy : DisplayPolicy) (S : EventFlow) :
+    List DisplayAlphabet :=
+  FlowEncoding S
+
 theorem event_segment_body_terminator (w : RawEvent) :
     EventSegment w = BodySegment w ++ TerminatorSegment w := by
   rfl
@@ -136,5 +154,22 @@ theorem source_report_preserves_raw_flow {c : List DisplayAlphabet}
       SourceEventReport c S /\ c = (List.map EventSegment S).flatten := by
   intro h
   exact h.right
+
+theorem display_policy_not_semantics (policy : DisplayPolicy)
+    {c : List DisplayAlphabet} {S : EventFlow} :
+    SourceEventReport c S ->
+      PolicyDecode policy c = some S /\ PolicyCompile policy S = c := by
+  intro h
+  exact And.intro h.left h.right
+
+theorem display_policy_roundtrip (leftPolicy rightPolicy : DisplayPolicy)
+    {c : List DisplayAlphabet} {S : EventFlow} :
+    SourceEventReport c S ->
+      PolicyDecode leftPolicy c = some S /\
+      PolicyDecode rightPolicy c = some S /\
+      PolicyCompile leftPolicy S = c /\
+      PolicyCompile rightPolicy S = c := by
+  intro h
+  exact And.intro h.left (And.intro h.left (And.intro h.right h.right))
 
 end BEDC.GroundCompiler.SourceReport

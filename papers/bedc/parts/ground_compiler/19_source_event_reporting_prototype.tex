@@ -344,16 +344,19 @@ At $P_1$, no higher recognizers are present. Any interpretation of raw events as
 
 \begin{definition}[Display policy]
 \label{def:source-report-display-policy}
+\leandef{BEDC.GroundCompiler.SourceReport.DisplayPolicy}
 A \emph{display policy} is an implementation-level convention determining how event flows and reports are printed. It may specify the raw event separator, empty-event marker, event-index format, indentation, warning format, and cannot-claim format. Display policy is output formatting, not formal input.
 \end{definition}
 
 \begin{principle}[Display policy is not semantics]
 \label{prin:source-report-display-policy-not-semantics}
+\leanchecked{BEDC.GroundCompiler.SourceReport.display\_policy\_not\_semantics}
 Changing display policy must not change $\mathsf{Decode}(c)$ or $\mathsf{Compile}(S)$. Display policy may change how reports look, but not what event flow they report.
 \end{principle}
 
 \begin{proposition}[Display policy does not affect round trip]
 \label{prop:source-report-display-policy-roundtrip}
+\leanchecked{BEDC.GroundCompiler.SourceReport.display\_policy\_roundtrip}
 If two reports differ only by display policy, they represent the same decoded event flow and the same channel stream.
 \end{proposition}
 
