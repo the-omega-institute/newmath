@@ -133,6 +133,44 @@ theorem JonesSkeinLedgerPacket_local_skein_window_composition
     (And.intro positiveRow
       (And.intro negativeRow smoothingRow))
 
+theorem JonesSkeinLedgerPacket_classifier_obligation
+    {diagram positive negative smoothing endpoint provenance contLedger diagram' positive'
+      negative' smoothing' endpoint' provenance' contLedger' : BHist}
+    {left right : ProbeBundle JonesSkeinBoundaryTag} :
+    JonesSkeinLedgerPacket diagram positive negative smoothing endpoint provenance contLedger left ->
+      JonesSkeinLedgerPacket diagram' positive' negative' smoothing' endpoint' provenance'
+          contLedger' right ->
+        hsame diagram diagram' ->
+          hsame positive positive' ->
+            hsame negative negative' ->
+              hsame endpoint endpoint' ->
+                hsame smoothing smoothing' ∧ hsame provenance provenance' ∧
+                  hsame contLedger contLedger' ∧
+                    InBundle JonesSkeinBoundaryTag.positive (bundleAppend left right) ∧
+                      InBundle JonesSkeinBoundaryTag.negative (bundleAppend left right) ∧
+                        InBundle JonesSkeinBoundaryTag.smoothing
+                          (bundleAppend left right) := by
+  intro leftPacket rightPacket sameDiagram samePositive sameNegative sameEndpoint
+  have sameSmoothing : hsame smoothing smoothing' :=
+    cont_respects_hsame samePositive sameNegative leftPacket.right.right.right.right.right.left
+      rightPacket.right.right.right.right.right.left
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameDiagram sameEndpoint
+      leftPacket.right.right.right.right.right.right.left
+      rightPacket.right.right.right.right.right.right.left
+  have sameLedger : hsame contLedger contLedger' :=
+    cont_respects_hsame sameProvenance sameEndpoint
+      leftPacket.right.right.right.right.right.right.right
+      rightPacket.right.right.right.right.right.right.right
+  have positiveRow : InBundle JonesSkeinBoundaryTag.positive (bundleAppend left right) :=
+    Iff.mpr inBundle_bundleAppend_iff (Or.inl leftPacket.right.left)
+  have negativeRow : InBundle JonesSkeinBoundaryTag.negative (bundleAppend left right) :=
+    Iff.mpr inBundle_bundleAppend_iff (Or.inl leftPacket.right.right.left)
+  have smoothingRow : InBundle JonesSkeinBoundaryTag.smoothing (bundleAppend left right) :=
+    Iff.mpr inBundle_bundleAppend_iff (Or.inl leftPacket.right.right.right.left)
+  exact And.intro sameSmoothing (And.intro sameProvenance (And.intro sameLedger
+    (And.intro positiveRow (And.intro negativeRow smoothingRow))))
+
 theorem JonesSkeinLedgerPacket_skein_boundary_no_confusion
     {diagram positive negative smoothing endpoint provenance contLedger : BHist}
     {skeinLedger : ProbeBundle JonesSkeinBoundaryTag} :
