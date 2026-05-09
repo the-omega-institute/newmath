@@ -324,32 +324,35 @@ Channel substrings are not source events. For example, a channel code may contai
 
 \begin{definition}[Event-level common prefix]
 \label{def:motif-generated-event-common-prefix}
+\leandef{BEDC.GroundCompiler.SemanticMotif.EventCommonPrefixLength}
 For event flows
 $$
   S=(s_0,\ldots,s_{m-1}),
   \qquad
   T=(t_0,\ldots,t_{n-1}),
 $$
-their \emph{event-level common prefix length} is the largest $k$ such that
+an \emph{event-level common prefix of length $k$} is the assertion that $k\leq m$, $k\leq n$, and
 $$
   s_i=t_i
   \quad\text{for all }0\leq i<k.
 $$
-It is written $\mathsf{PrefixLen}(S,T)=k$.
+It is written $\mathsf{PrefixLen}(S,T,k)$.
 \end{definition}
 
 \begin{definition}[Recognized semantic prefix]
 \label{def:motif-generated-semantic-prefix}
-A \emph{recognized semantic prefix} of $S$ and $T$ is a pair of prefix subflows $S[0:k]$ and $T[0:k]$ recognized by a motif recognizer as the same motif role with compatible ledger data. Raw prefix equality alone is not semantic prefix equality.
+\leandef{BEDC.GroundCompiler.SemanticMotif.RecognizedSemanticPrefix}
+A \emph{recognized semantic prefix} of $S$ and $T$ is a common event-level prefix $P$ such that a generated motif recognizer recognizes $P$ inside both flows under the same motif role. Raw prefix equality alone is not semantic prefix equality, because the semantic datum includes the recognized role.
 \end{definition}
 
 \begin{proposition}[Same raw prefix need not imply same semantic prefix]
 \label{prop:motif-generated-raw-prefix-not-semantic-prefix}
-Two event flows can share the same raw prefix while their prefixes are recognized under different motif roles.
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.same\_raw\_prefix\_not\_unique\_semantic\_prefix}
+Two event flows can share the same raw prefix while that prefix is recognized under different motif roles. Thus raw prefix equality does not determine a unique semantic prefix role.
 \end{proposition}
 
 \begin{proof}
-The raw prefix $01$ can be recognized in one flow as a repeat-boundary witness and in another as an endpoint distinction or branch separator. If the recognized roles and ledgers differ, the semantic prefixes differ even though the raw prefix is the same.
+The one-event prefix $0$ is a common event-level prefix of the two displayed one-event flows $0$ and $0$. A generated motif recognizer may recognize that prefix under the finite-repetition role in one occurrence and under the continuation role in another occurrence. These roles are distinct event-flow roles, so the shared raw prefix does not determine a unique semantic prefix role.
 \end{proof}
 
 \section{Motif metrics}

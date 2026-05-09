@@ -264,4 +264,49 @@ def MotifOverlap
     (mu M L : EventFlow) : Prop :=
   MotifProfile Rfam S mu M L /\ MotifProfile Rfam T mu M L
 
+def EventCommonPrefixLength (S T : EventFlow) (k : Nat) : Prop :=
+  k <= S.length /\ k <= T.length /\ S.take k = T.take k
+
+def RecognizedSemanticPrefix
+    (R : GeneratedMotifRecognizer) (S T P : EventFlow) (mu : MotifRole) :
+    Prop :=
+  EventCommonPrefixLength S T P.length /\
+    S.take P.length = P /\
+    T.take P.length = P /\
+    RecognizesMotif R S P mu /\
+    RecognizesMotif R T P mu
+
+theorem same_raw_prefix_not_unique_semantic_prefix :
+    exists R S T P : EventFlow,
+      EventCommonPrefixLength S T P.length /\
+        S.take P.length = P /\
+        T.take P.length = P /\
+        RecognizesMotif R S P FiniteRepetitionRole /\
+        RecognizesMotif R T P ContinuationRole /\
+        Not (FiniteRepetitionRole = ContinuationRole) := by
+  refine
+    ⟨[], [[BMark.b0]], [[BMark.b0]], [[BMark.b0]], ?_⟩
+  constructor
+  · exact ⟨Nat.le_refl 1, Nat.le_refl 1, rfl⟩
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · constructor
+        · exact
+            ⟨FormalCompilerInput.eventFlow [],
+              ⟨FormalCompilerInput.eventFlow [[BMark.b0]],
+                FormalCompilerInput.eventFlow [[BMark.b0]],
+                FormalCompilerInput.eventFlow FiniteRepetitionRole⟩,
+              Or.inl ⟨[], [], rfl⟩⟩
+        · constructor
+          · exact
+              ⟨FormalCompilerInput.eventFlow [],
+                ⟨FormalCompilerInput.eventFlow [[BMark.b0]],
+                  FormalCompilerInput.eventFlow [[BMark.b0]],
+                  FormalCompilerInput.eventFlow ContinuationRole⟩,
+                Or.inl ⟨[], [], rfl⟩⟩
+          · intro h
+            cases h
+
 end BEDC.GroundCompiler.SemanticMotif
