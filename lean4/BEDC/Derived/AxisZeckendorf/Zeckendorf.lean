@@ -5,10 +5,12 @@ on `hsame` and does not assert any arithmetic interpretation.
 The Fibonacci-value semantics is a horizon target.
 -/
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.AxisZeckendorf.Zeckendorf
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 inductive ZNormal : BHist → Prop where
   | empty : ZNormal BHist.Empty
@@ -94,6 +96,41 @@ def zNormal_namecert : ZNormalNameCert :=
     classifier := ZNormalClassifierSpec
     stability := zNormalStabilityCert
     ledger := ZNormalLedgerPolicy }
+
+theorem ZNormal_semantic_name_certificate :
+    SemanticNameCert ZNormalSourceSpec ZNormalPatternSpec ZNormalLedgerPolicy
+        ZNormalClassifierSpec ∧
+      (forall {h k : BHist},
+        ZNormalClassifierSpec h k -> ZNormal h ∧ ZNormal k ∧ hsame h k) := by
+  have cert :
+      SemanticNameCert ZNormalSourceSpec ZNormalPatternSpec ZNormalLedgerPolicy
+        ZNormalClassifierSpec := {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty ZNormal.empty
+      equiv_refl := by
+        intro h source
+        exact And.intro source (And.intro source (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified _source
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+  exact And.intro cert (fun classified => classified)
 
 theorem zNormal_licensed_not_primitive : True := True.intro
 
