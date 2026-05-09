@@ -54,8 +54,10 @@ import BEDC.Derived.AddUp
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AtiyahSingerUp
+import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.BayesianUp
+import BEDC.Derived.BesselUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
@@ -125,6 +127,7 @@ import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KnotUp
+import BEDC.Derived.ApproximationUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
@@ -246,6 +249,7 @@ import BEDC.Derived.SpinGroupUp.PinConsumerSourceExactness
 import BEDC.Derived.SpinGroupUp.PublicConsumerNamecertBoundary
 import BEDC.Derived.SpinGroupUp.Transport
 import BEDC.Derived.SpinGroupUp.EvenWordClassifierInversion
+import BEDC.Derived.SpinGroupUp.CliffordGroupConsumerBoundary
 import BEDC.Derived.SpinGroupUp.LedgerExclusion
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
@@ -414,6 +418,7 @@ import BEDC.Derived.TopologyUp.PublicWitness
 import BEDC.Derived.TopologyUp.PublicWitnesses
 import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.TopGroupUp
+import BEDC.Derived.TopGroupUp.ObligationInventory
 import BEDC.Derived.TopGroupUp.LedgerExactnessObligation
 import BEDC.Derived.TopGroupUp.RootLedgerSemanticExactness
 import BEDC.Derived.TopGroupUp.ClassifierContinuityTransport
@@ -436,6 +441,8 @@ import BEDC.Derived.TopGroupUp.NamecertObligationSurface
 import BEDC.Derived.TopGroupUp.ContinuityConsumerExhaustion
 import BEDC.Derived.TopGroupUp.CarrierClassifierObligation
 import BEDC.Derived.TopGroupUp.RootDownstreamOperationTransport
+import BEDC.Derived.TopGroupUp.PublicThresholdFrontier
+import BEDC.Derived.TopGroupUp.PublicConsumerMinimality
 import BEDC.Derived.TopGroupUp.SourceProjectionNamecertCompatibility
 import BEDC.Derived.TopGroupUp.SourceFiberProductCarrier
 import BEDC.Derived.ComplexTopologyUp
