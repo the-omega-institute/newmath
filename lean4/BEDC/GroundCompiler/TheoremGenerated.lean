@@ -1,9 +1,11 @@
 import BEDC.GroundCompiler.ChannelEncoding
+import BEDC.GroundCompiler.SourceChannel
 
 namespace BEDC.GroundCompiler.TheoremGenerated
 
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.ChannelEncoding
+open BEDC.GroundCompiler.SourceChannel
 
 def TheoremCandidateFlow : Type :=
   EventFlow
@@ -40,6 +42,15 @@ def TheoremRoleSubflow
     (R : GeneratedTheoremRecognizer) (T part : TheoremCandidateFlow)
     (_role : TheoremRole) : Prop :=
   TheoremRecognitionRelation R T /\ NonemptyEventFlow part
+
+def TheoremSourceSubflow (part whole : EventFlow) : Prop :=
+  exists before after : EventFlow, whole = List.append before (List.append part after)
+
+def TheoremSealSubflow
+    (R : GeneratedTheoremRecognizer) (T : TheoremCandidateFlow)
+    (sealFlow : EventFlow) : Prop :=
+  TheoremRoleSubflow R T sealFlow TheoremRole.closingSeal /\
+    TheoremSourceSubflow sealFlow T
 
 def CompleteTheoremFlowRecognition
     (R : GeneratedTheoremRecognizer) (T : TheoremCandidateFlow) : Prop :=
@@ -165,6 +176,21 @@ theorem compile_decode_preserves_recognition
   intro h
   exact ⟨T, theorem_code_round_trip T, h⟩
 
+theorem no_theorem_recognition_by_channel_substring :
+    (exists c u : List DisplayAlphabet,
+      LegalZStream c /\
+        ContiguousSubstring u c /\
+        Not (OccursAsDecodedEvent u c)) /\
+      (forall R : GeneratedTheoremRecognizer,
+        forall c : List DisplayAlphabet,
+          RecognizesTheoremCode R c ->
+            exists T : TheoremCandidateFlow,
+              Decode c = some T /\ TheoremRecognitionRelation R T) := by
+  constructor
+  · exact channel_substring_not_source_event
+  · intro _ _ hCode
+    exact hCode
+
 theorem recognition_invariant_under_compile_decode
     {T : TheoremCandidateFlow} :
     TheoremFlow T -> exists R : GeneratedTheoremRecognizer,
@@ -238,6 +264,13 @@ theorem theorem_code_is_not_proof :
   refine ⟨TheoremCode [], ?_, ?_⟩
   · exact ⟨[], rfl⟩
   · exact ⟨[], theorem_code_round_trip [], empty_not_proof_sound⟩
+
+theorem theorem_seal_is_source_subflow
+    {R : GeneratedTheoremRecognizer} {T : TheoremCandidateFlow}
+    {sealFlow : EventFlow} :
+    TheoremSealSubflow R T sealFlow -> TheoremSourceSubflow sealFlow T := by
+  intro hSeal
+  exact hSeal.right
 
 theorem sound_theorem_flow_establishes_theoremhood
     {R : GeneratedTheoremRecognizer} {T : TheoremCandidateFlow} :

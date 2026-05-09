@@ -459,7 +459,8 @@ Recognition from channel code therefore proceeds through decoding.
 
 \begin{proposition}[No theorem recognition by channel substring]
 \label{prop:theorem-generated-no-channel-substring-recognition}
-There is no valid rule that recognizes a theorem by inspecting arbitrary channel substrings without first decoding the channel stream into an event flow.
+\leanchecked{BEDC.GroundCompiler.TheoremGenerated.no\_theorem\_recognition\_by\_channel\_substring}
+There is no valid rule that recognizes a theorem by inspecting arbitrary channel substrings without first decoding the channel stream into an event flow. A channel-code recognition judgment factors through a decoded event flow $T$ and a source-level judgment $\mathsf{RecognizesTheorem}(R_T,T)$.
 \end{proposition}
 
 \begin{proof}
@@ -526,6 +527,7 @@ Theorem code records a theorem flow. It does not replace the proof-flow, generat
 
 \begin{definition}[Theorem seal subflow]
 \label{def:theorem-generated-seal-subflow}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.TheoremSealSubflow}
 If $\mathsf{RecognizesTheorem}(R_T,T)$ and $R_T$ recognizes a terminal subflow $\sigma_T$ of $T$ as expressing theorem-package completion, then $\sigma_T$ is a \emph{theorem-seal subflow}, written
 $$
   \mathsf{ThmSeal}_{R_T}(T,\sigma_T).
@@ -535,7 +537,8 @@ The theorem seal is a source-level subflow, not the channel-level terminator $11
 
 \begin{proposition}[Theorem seal is not the channel terminator]
 \label{prop:theorem-generated-seal-not-channel-terminator}
-If $\mathsf{ThmSeal}_{R_T}(T,\sigma_T)$, then $\sigma_T$ is a source-level subflow, not the channel-level terminator $11$.
+\leanchecked{BEDC.GroundCompiler.TheoremGenerated.theorem\_seal\_is\_source\_subflow}
+If $\mathsf{ThmSeal}_{R_T}(T,\sigma_T)$, then $\sigma_T$ is a source-level subflow of $T$, not a channel-level terminator datum.
 \end{proposition}
 
 \begin{proof}
