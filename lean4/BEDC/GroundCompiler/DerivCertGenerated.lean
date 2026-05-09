@@ -75,6 +75,61 @@ def RecognizesAcceptanceCode
 def DerivCertCode (D _N _s : EventFlow) : List DisplayAlphabet :=
   FlowEncoding D
 
+def DerivSourceSound
+    (R : GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow)
+    (part N : EventFlow) : Prop :=
+  DerivCertFieldSubflow R D DerivCertFieldRole.source part /\
+    FormalCompilerInput (CompilerDatum.eventFlow N)
+
+def DerivClassifierSound
+    (R : GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow)
+    (part N : EventFlow) : Prop :=
+  DerivCertFieldSubflow R D DerivCertFieldRole.classifier part /\
+    FormalCompilerInput (CompilerDatum.eventFlow N)
+
+def DerivExactnessSound
+    (R : GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow)
+    (part N : EventFlow) : Prop :=
+  DerivCertFieldSubflow R D DerivCertFieldRole.exactness part /\
+    FormalCompilerInput (CompilerDatum.eventFlow N)
+
+def DerivLedgerSound
+    (R : GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow)
+    (part N : EventFlow) : Prop :=
+  DerivCertFieldSubflow R D DerivCertFieldRole.ledger part /\
+    FormalCompilerInput (CompilerDatum.eventFlow N)
+
+def DerivStabilitySound
+    (R : GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow)
+    (part N : EventFlow) : Prop :=
+  DerivCertFieldSubflow R D DerivCertFieldRole.stability part /\
+    FormalCompilerInput (CompilerDatum.eventFlow N)
+
+def DerivStrengthSound
+    (R : GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow)
+    (part s : EventFlow) : Prop :=
+  DerivCertFieldSubflow R D DerivCertFieldRole.strength part /\
+    StrengthEventFlow s
+
+def DerivCertFieldSoundness
+    (R : GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow)
+    (N s source classifier exactness ledger stability strength : EventFlow) :
+    Prop :=
+  DerivSourceSound R D source N /\
+    DerivClassifierSound R D classifier N /\
+    DerivExactnessSound R D exactness N /\
+    DerivLedgerSound R D ledger N /\
+    DerivStabilitySound R D stability N /\
+    DerivStrengthSound R D strength s
+
+def SoundRecognizedDerivCertFlow
+    (R : GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow)
+    (N s : EventFlow) : Prop :=
+  RecognizesDerivCert R D N s /\
+    exists source classifier exactness ledger stability strength : EventFlow,
+      DerivCertFieldSoundness R D N s source classifier exactness ledger
+        stability strength
+
 theorem no_external_derivcert_input :
     Not (FormalCompilerInput CompilerDatum.hostDerivCert) :=
   structural_hidden_not_formal StructuralHiddenInput.hostDerivCert
@@ -116,6 +171,13 @@ theorem incomplete_derivcert_does_not_support_export
   cases hFlow with
   | intro R hRecognizes =>
       exact hIncomplete R hRecognizes hRecognizes.right.right.right
+
+theorem sound_derivcert_recognition_establishes_flow
+    {R : GeneratedDerivCertRecognizer} {D : DerivCertCandidateFlow}
+    {N s : EventFlow} :
+    SoundRecognizedDerivCertFlow R D N s -> DerivCertFlow D N s := by
+  intro hSound
+  exact ⟨R, hSound.left⟩
 
 theorem accepted_requires_namecert_derivcert {N s : EventFlow} :
     AcceptGateFlow N s ->
