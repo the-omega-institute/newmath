@@ -65,4 +65,34 @@ theorem ComplexAbsConv_complexSeriesConv {modulus : BHist -> BHist} {bound : BHi
   exact ComplexAbsConv_complexSeriesConv_of_pointwise_hsame
     (fun {n : BHist} _unaryN => hsame_refl (modulus n)) absConv
 
+theorem ComplexAbsConv_comparison_same_sequence {zero bound : BHist}
+    {modulus majorant : BHist -> BHist} :
+    (forall {n : BHist}, UnaryHistory n -> hsame (modulus n) (majorant n)) ->
+      ComplexAbsConv zero majorant bound -> ComplexAbsConv zero modulus bound := by
+  intro pointwise absConv
+  cases absConv with
+  | intro majorantSums rest =>
+      cases rest with
+      | intro N rest =>
+          cases rest with
+          | intro M data =>
+              refine Exists.intro majorantSums ?_
+              refine Exists.intro N ?_
+              refine Exists.intro M ?_
+              constructor
+              · intro n unaryN
+                have transported :=
+                  ComplexAbsPartSum_modulus_hsame_transport (hsame_refl zero)
+                    (fun {m : BHist} unaryM => hsame_symm (pointwise unaryM)) unaryN
+                    (data.left n unaryN)
+                cases transported with
+                | intro row rowData =>
+                    have sameResult :
+                        hsame row (majorantSums n) :=
+                      ComplexAbsPartSum_modulus_hsame_deterministic pointwise rowData.left
+                        (data.left n unaryN)
+                    cases sameResult
+                    exact rowData.left
+              · exact data.right
+
 end BEDC.Derived.ComplexSeriesUp

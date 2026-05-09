@@ -313,6 +313,7 @@ import BEDC.Derived.MartingaleUp
 import BEDC.Derived.RepresentationRingUp
 import BEDC.Derived.RepresentationRingUp.InducedConsumerBoundary
 import BEDC.Derived.RepresentationRingUp.OperationLedgerCoverage
+import BEDC.Derived.RepresentationRingUp.RepresentationObligationInventory
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.SeparableExtUp
