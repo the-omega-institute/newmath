@@ -504,4 +504,191 @@ theorem cannot_claim_registry_mandatory
                               CannotClaimKind.fullNoHiddenInputWithoutSelfHosting
                               RequiredCannotClaimEntries.fullNoHiddenInputWithoutSelfHosting
 
+def GlobalConservativityStatement : Prop :=
+    (forall S : EventFlow,
+      forall w : RawEvent,
+      forall m : DisplayAlphabet,
+        List.Mem w S -> List.Mem m w -> m = BMark.b0 \/ m = BMark.b1) /\
+      (forall S : EventFlow, LegalZStream (FlowEncoding S)) /\
+      (forall d : CompilerDatum,
+        StructuralHiddenInput d -> Not (FormalCompilerInput d)) /\
+      (forall report : MetricsFlow.MetricReport,
+        forall S : EventFlow,
+        forall w : RawEvent,
+        forall m : DisplayAlphabet,
+          List.Mem S report.sourceFlows ->
+            List.Mem w S ->
+              List.Mem m w -> m = BMark.b0 \/ m = BMark.b1) /\
+      Not (FormalCompilerInput CompilerDatum.hostPkg) /\
+      Not (FormalCompilerInput CompilerDatum.hostNameCert) /\
+      Not (FormalCompilerInput CompilerDatum.hostDerivCert) /\
+      Not (FormalCompilerInput CompilerDatum.hostClosureCert)
+
+theorem global_conservativity :
+    GlobalConservativityStatement := by
+  constructor
+  · intro S w m hw hm
+    exact event_flow_conservativity hw hm
+  · constructor
+    · intro S
+      exact flow_encoding_legal_zstream S
+    · constructor
+      · intro d hHidden
+        exact structural_hidden_not_formal hHidden
+      · constructor
+        · intro report S w m hS hw hm
+          exact MetricsFlow.metrics_conservativity hS hw hm
+        · constructor
+          · exact structural_hidden_not_formal StructuralHiddenInput.hostPkg
+          · constructor
+            · exact
+                structural_hidden_not_formal StructuralHiddenInput.hostNameCert
+            · constructor
+              · exact
+                  structural_hidden_not_formal
+                    StructuralHiddenInput.hostDerivCert
+              · exact
+                  structural_hidden_not_formal
+                    StructuralHiddenInput.hostClosureCert
+
+def CompilerLayerAddressAnalysisStatement : Prop :=
+    (forall S : EventFlow, Decode (FlowEncoding S) = some S) /\
+      (forall c : List DisplayAlphabet,
+        LegalZStream c ->
+          exists S : EventFlow, Decode c = some S /\ FlowEncoding S = c) /\
+      (exists c : List DisplayAlphabet,
+        LegalZStream c /\
+          Not (exists S : EventFlow,
+            c = FlowEncoding S /\ RecognizedTheoremFlow S)) /\
+      (exists report : MetricsFlow.MetricReport, exists S : EventFlow,
+        List.Mem S report.sourceFlows /\ Not (AcceptedObjectFlow S)) /\
+      GlobalConservativityStatement
+
+theorem compiler_layer_address_analysis_layer :
+    CompilerLayerAddressAnalysisStatement := by
+  constructor
+  · exact flow_level_round_trip
+  · constructor
+    · intro c hLegal
+      exact legal_stream_completeness hLegal
+    · constructor
+      · exact code_not_proof
+      · constructor
+        · exact metric_conservativity.right
+        · exact global_conservativity
+
+def NoHiddenInputStreamingCompilerStatement : Prop :=
+    (forall S : EventFlow,
+      FormalCompilerInput (CompilerDatum.eventFlow S) /\
+        LegalZStream (FlowEncoding S) /\
+        Decode (FlowEncoding S) = some S) /\
+      ((forall S : EventFlow, Decode (FlowEncoding S) = some S) /\
+        (forall c : List DisplayAlphabet,
+          LegalZStream c ->
+            exists S : EventFlow, Decode c = some S /\ FlowEncoding S = c)) /\
+      (Not (FormalCompilerInput CompilerDatum.hostPkg) /\
+        Not (FormalCompilerInput CompilerDatum.hostNameCert) /\
+        Not (FormalCompilerInput CompilerDatum.hostDerivCert) /\
+        Not (FormalCompilerInput CompilerDatum.hostClosureCert) /\
+        Not (FormalCompilerInput CompilerDatum.hostChapterPkg) /\
+        Not (FormalCompilerInput CompilerDatum.hostTheoremIdentifier) /\
+        Not (FormalCompilerInput CompilerDatum.hostManifest)) /\
+      (forall R : RecognizerCandidateFlow,
+        forall rho : RecognitionRole,
+        forall S : EventFlow,
+          FormalRecognitionEvidence R rho S ->
+            CertifiedRecognizer R rho /\
+              FormalCompilerInput (CompilerDatum.recognizedFlow R S)) /\
+      (forall N s : EventFlow,
+        AcceptedExport N s ↔ DerivCertGenerated.AcceptGateFlow N s) /\
+      ((forall T : EventFlow,
+        CanonicalTheoremFlow T -> LegalCanonicalTheoremCode (TheoremCode T)) /\
+        (forall T U : EventFlow,
+          CanonicalTheoremFlow T ->
+            CanonicalTheoremFlow U -> TheoremCode T = TheoremCode U -> T = U) /\
+        (forall c : List DisplayAlphabet,
+          LegalCanonicalTheoremCode c ->
+            exists T : EventFlow,
+              CanonicalTheoremFlow T /\
+                Decode c = some T /\ TheoremCode T = c)) /\
+      ((forall C : EventFlow,
+        CanonicalChapterFlow C -> LegalCanonicalChapterCode (ChapterCode C)) /\
+        (forall C D : EventFlow,
+          CanonicalChapterFlow C ->
+            CanonicalChapterFlow D -> ChapterCode C = ChapterCode D -> C = D) /\
+        (forall c : List DisplayAlphabet,
+          LegalCanonicalChapterCode c ->
+            exists C : EventFlow,
+              CanonicalChapterFlow C /\
+                Decode c = some C /\ ChapterCode C = c)) /\
+      (exists S T : EventFlow,
+        Not (S = T) /\ ClassifiedObjectLayer ErasureClassifier S T) /\
+      ((forall S : EventFlow, LegalZStream (FlowEncoding S)) /\
+        (forall S : EventFlow, Decode (FlowEncoding S) = some S) /\
+        Not (EventTerminator = EventEncoding [BMark.b1, BMark.b1]) /\
+        exists c u : List DisplayAlphabet,
+          LegalZStream c /\
+            ContiguousSubstring u c /\ Not (OccursAsDecodedEvent u c)) /\
+      ((forall report : MetricsFlow.MetricReport,
+        forall S : EventFlow,
+        forall w : RawEvent,
+        forall m : DisplayAlphabet,
+          List.Mem S report.sourceFlows ->
+            List.Mem w S ->
+              List.Mem m w -> m = BMark.b0 \/ m = BMark.b1) /\
+        exists report : MetricsFlow.MetricReport, exists S : EventFlow,
+          List.Mem S report.sourceFlows /\ Not (AcceptedObjectFlow S)) /\
+      (forall behavior :
+        BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerBehaviorRelation,
+        forall C :
+          BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerCandidateFlow,
+          SelfHostedCompiler behavior C ->
+            BEDC.GroundCompiler.SelfHostingCompilerFlow.RecognizerHierarchyCoversCompilerTower C ->
+              BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerNoLongerHiddenInput
+                behavior C) /\
+      (forall C :
+        BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerCandidateFlow,
+        BEDC.GroundCompiler.SelfHostingCompilerFlow.RemainingBootstrapBoundary C ->
+          BEDC.GroundCompiler.SelfHostingCompilerFlow.BootstrapRecorded C) /\
+      GlobalConservativityStatement
+
+theorem no_hidden_input_streaming_compiler :
+    NoHiddenInputStreamingCompilerStatement := by
+  constructor
+  · intro S
+    constructor
+    · exact FormalCompilerInput.eventFlow S
+    · constructor
+      · exact flow_encoding_legal_zstream S
+      · exact flow_level_round_trip S
+  · constructor
+    · exact channel_bijection
+    · constructor
+      · exact structure_emergence
+      · constructor
+        · intro R rho S hEvidence
+          exact recognizer_generatedness hEvidence
+        · constructor
+          · intro N s
+            exact accepted_export N s
+          · constructor
+            · exact theorem_code_bijection
+            · constructor
+              · exact chapter_code_bijection
+              · constructor
+                · exact classifier_quotient_many_to_one
+                · constructor
+                  · exact source_channel_separation
+                  · constructor
+                    · exact metric_conservativity
+                    · constructor
+                      · intro behavior C hSelf hHierarchy
+                        exact
+                          self_hosting_removes_hidden_compiler hSelf
+                            hHierarchy
+                      · constructor
+                        · intro C hBoundary
+                          exact declared_bootstrap_boundary hBoundary
+                        · exact global_conservativity
+
 end BEDC.GroundCompiler.MainTheorems
