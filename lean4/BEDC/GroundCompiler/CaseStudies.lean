@@ -84,6 +84,10 @@ theorem prefix_subflow_subflow {M S : EventFlow} :
   | intro tail ht =>
       exact Or.inl ⟨[], tail, by simpa using ht⟩
 
+theorem prefix_subflow_self (S : EventFlow) :
+    PrefixSubflow S S := by
+  exact ⟨[], by simp⟩
+
 theorem nat_repetition_share_prefix
     {R : GeneratedMotifRecognizer} (hR : CertifiedFiniteRepetitionRecognizer R)
     (k : Nat) :
@@ -197,6 +201,25 @@ theorem list_spine_shares_repetition_with_nat (k : Nat) :
         List.append (ListSpineSkeleton [BMark.b0] k) [ZeroRunEvent k] =
         List.append (FiniteRepetitionSkeleton k) [ZeroRunEvent k]
       rw [ih]
+
+theorem same_finite_spine_not_same_object :
+    exists A B : CaseStudyFlow,
+      PrefixSubflow (FiniteRepetitionSkeleton 3) A.flow /\
+        PrefixSubflow (FiniteRepetitionSkeleton 3) B.flow /\
+        A.flow = B.flow /\
+        Not (A.target = B.target) := by
+  let spine := FiniteRepetitionSkeleton 3
+  refine
+    ⟨{ flow := spine, target := CaseStudyTarget.finiteRepetition },
+      { flow := spine, target := CaseStudyTarget.listLike }, ?_⟩
+  constructor
+  · exact prefix_subflow_self spine
+  · constructor
+    · exact prefix_subflow_self spine
+    · constructor
+      · rfl
+      · intro h
+        cases h
 
 def CompletionSkeleton : EventFlow :=
   List.append (FiniteRepetitionSkeleton 3)
@@ -345,5 +368,36 @@ theorem completion_extends_nat_like :
           [BMark.b1, BMark.b0, BMark.b0]]
         CompletionSkeleton := by
   exact ⟨nat_prefix_completion, completion_skeleton_contains_carry⟩
+
+theorem skeleton_extension_not_object_extension :
+    exists A B : CaseStudyFlow,
+      PrefixSubflow A.flow B.flow /\ Not (A.target = B.target) := by
+  refine
+    ⟨{ flow := NatLikeSkeleton 3, target := CaseStudyTarget.finiteRepetition },
+      { flow := CompletionSkeleton, target := CaseStudyTarget.completion }, ?_⟩
+  constructor
+  · exact nat_prefix_completion
+  · intro h
+    cases h
+
+structure SkeletonMotifReport where
+  sourceFlow : EventFlow
+  profileFlow : EventFlow
+  supportFlow : EventFlow
+  ledgerFlow : EventFlow
+  metricFlow : EventFlow
+
+theorem skeleton_reports_not_certificates :
+    exists report : SkeletonMotifReport,
+      FormalCompilerInput (CompilerDatum.eventFlow report.sourceFlow) /\
+        Not (AcceptedObjectFlow report.sourceFlow) := by
+  exact
+    ⟨{ sourceFlow := [],
+        profileFlow := [],
+        supportFlow := [],
+        ledgerFlow := [],
+        metricFlow := [] },
+      FormalCompilerInput.eventFlow [],
+      empty_not_accepted_object_flow⟩
 
 end BEDC.GroundCompiler.CaseStudies

@@ -369,11 +369,12 @@ If a list constructor ledger motif is recognized, then it contains a recognized 
 
 \begin{theorem}[Same finite spine does not imply same object]
 \label{thm:case-studies-same-spine-not-same-object}
-Even if two event flows share the same finite spine motif, one cannot conclude that they represent the same object.
+\leanchecked{BEDC.GroundCompiler.CaseStudies.same\_finite\_spine\_not\_same\_object}
+There exist two case-study readings whose event flows share the same finite spine motif, and even the same underlying finite-spine flow, while their case-study targets are distinct. Hence finite-spine sharing alone does not determine object identity.
 \end{theorem}
 
 \begin{proof}
-The same finite spine motif can serve as Nat-like source, List-like spine, finite index carrier, matrix index carrier, or polynomial coefficient list. Object identity is determined by classifier, ledger, $\NameCert$, and derivation-certificate structure. Sharing finite spine records source-level motif overlap only.
+The same finite spine motif can serve as Nat-like source, List-like spine, finite index carrier, matrix index carrier, or polynomial coefficient list. The formal witness is a pair of case-study flows with identical finite-spine event flow and distinct target tags. Object identity is determined by classifier, ledger, $\NameCert$, and derivation-certificate structure. Sharing finite spine records source-level motif overlap only.
 \end{proof}
 
 \section{Completion and FullAxis skeleton}
@@ -545,11 +546,12 @@ the completion witness and normal-address candidate.
 
 \begin{theorem}[Skeleton extension does not imply object extension]
 \label{thm:case-studies-skeleton-extension-not-object-extension}
-If one skeleton flow is a prefix of another, one cannot infer inclusion, subobject, subtype, extension, or morphism between the corresponding mature objects.
+\leanchecked{BEDC.GroundCompiler.CaseStudies.skeleton\_extension\_not\_object\_extension}
+There exist two case-study skeleton readings whose event flows are related by prefix inclusion while their case-study targets are distinct. Hence raw skeleton extension alone does not determine inclusion, subobject, subtype, extension, or morphism between corresponding mature objects.
 \end{theorem}
 
 \begin{proof}
-The prefix relation is a raw event-flow relation. Mature-object relations require classifier, $\NameCert$, derivation-certificate, bridge, or morphism certificates. Raw prefix structure supplies none of these.
+The Nat-like skeleton is a prefix of the Completion skeleton, but their target readings are distinct. The prefix relation is a raw event-flow relation. Mature-object relations require classifier, $\NameCert$, derivation-certificate, bridge, or morphism certificates. Raw prefix structure supplies none of these.
 \end{proof}
 
 \section{Motif reports}
@@ -557,11 +559,12 @@ The prefix relation is a raw event-flow relation. Mature-object relations requir
 
 \begin{definition}[Skeleton motif report]
 \label{def:case-studies-skeleton-report}
+\leandef{BEDC.GroundCompiler.CaseStudies.SkeletonMotifReport}
 For a skeleton flow $S$ and recognizer family $\mathcal R$, define
 $$
   \mathsf{SkReport}_{\mathcal R}(S)
 $$
-to be the human-readable output view of its motif profile, support subflows, ledger subflows, and basic metrics. It is not formal input and not proof.
+to be the human-readable output view of its source flow, motif profile flow, support subflows, ledger subflows, and basic metrics. It is not formal input and not proof.
 \end{definition}
 
 \begin{example}[Completion skeleton motif report]
@@ -589,11 +592,12 @@ If the Nat-like skeleton is $0\mid 00\mid 000\mid 01$ and the List-like skeleton
 
 \begin{theorem}[Skeleton motif reports are explanatory, not certificatory]
 \label{thm:case-studies-reports-not-certificates}
-Skeleton motif reports do not license derived interfaces, theoremhood, accepted objects, or object equality.
+\leanchecked{BEDC.GroundCompiler.CaseStudies.skeleton\_reports\_not\_certificates}
+There exists a skeleton motif report on a readable event-flow source whose reported source flow is not an accepted object flow. Hence the existence of a skeleton motif report alone does not license derived interfaces, theoremhood, accepted objects, or object equality.
 \end{theorem}
 
 \begin{proof}
-Motif reports are human-readable outputs generated from recognized motif profiles. They do not supply $\NameCert$ flow, derivation-certificate flow, proof flow, or acceptance-gate flow by themselves. They are explanatory tools, not certificates.
+Take the empty source-flow report. Its source flow is readable as an event flow, but it is not an accepted object flow because acceptance requires a nonempty accepted export together with recognized certificate structure. Motif reports are human-readable outputs generated from recognized motif profiles. They do not supply $\NameCert$ flow, derivation-certificate flow, proof flow, or acceptance-gate flow by themselves. They are explanatory tools, not certificates.
 \end{proof}
 
 \begin{corollary}[Skeleton comparison cannot replace proof]
