@@ -640,14 +640,119 @@ compatibility theorem above supplies the same boundary predicate, and the
 three source-scope theorems close the bridge-facing packet.
 \end{proof}
 
+\begin{theorem}[De Rham standard-boundary source exhaustion]
+\label{thm:derham-standard-boundary-source-exhaustion}
+Every standard-boundary bridge source row for the public $\DeRhamUp$ boundary
+surface projects to one of the displayed $\DiffFormUp$ form rows,
+$\CohomologyUp$ cochain rows, $\mathsf{BHist}$ endpoint rows,
+exterior-square-zero rows, $\hsame$ endpoint-transport rows, or $\Pkg$
+provenance rows of \autoref{def:derham-standard-boundary-bridge-packet}.
+Conversely, those rows repack the standard-boundary bridge source surface.
+
+No quotient cohomology carrier, de Rham isomorphism row, host cochain complex,
+host manifold comparison, or selected cohomology representative is part of the
+standard-boundary source.
+\end{theorem}
+\begin{proof}
+Project the source packet through
+\autoref{def:derham-standard-boundary-bridge-packet}. Its visible source is
+\autoref{def:derham-boundary-source-packet}, so the only available raw rows are
+the boundary preimage, the double-exterior packet, the cocycle readback, the
+finite graph rows over $\DiffFormUp$, $\CohomologyUp$, and $\mathsf{BHist}$,
+and the package provenance.
+
+Apply \autoref{thm:derham-bridge-input-source-scope}. It identifies the input
+side with the displayed carried forms, cochain-differential rows,
+$\mathsf{BHist}$ endpoints, and the square-zero row
+$d_{\mathrm{dR}}(d_{\mathrm{dR}}\omega)=0$.
+
+Apply \autoref{thm:derham-bridge-classifier-source-scope} and
+\autoref{thm:derham-bridge-ledger-source-scope}. The classifier scope admits
+only $\hsame$ endpoint transport and cochain-differential stability, while the
+ledger scope admits only boundary preimage, zero endpoint, cocycle readback,
+finite graph rows, and package provenance.
+
+For the converse direction, use
+\autoref{thm:derham-boundary-public-classifier-exactness} together with
+\autoref{thm:derham-standard-boundary-classifier-compatibility}. The displayed
+rows reconstruct the same boundary predicate and the same bridge-facing source
+packet, with no branch for quotient, isomorphism, host-comparison, or
+representative data.
+\end{proof}
+
+\begin{theorem}[De Rham standard-boundary classifier transport]
+\label{thm:derham-standard-boundary-classifier-transport}
+Classifier transport across the standard-boundary bridge for the public
+$\DeRhamUp$ boundary surface uses only $\hsame$ endpoint transport and
+cochain-differential stability. In particular, the transported classifier is
+the same displayed boundary predicate
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$ on the transported endpoint, and
+the transport does not read a quotient class, a de Rham isomorphism, a host
+manifold comparison, or a chosen cohomology representative.
+\end{theorem}
+\begin{proof}
+Start with the classifier identified by
+\autoref{thm:derham-standard-boundary-classifier-compatibility}. It is the
+same predicate $\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$ as the public
+boundary classifier of
+\autoref{thm:derham-boundary-public-classifier-exactness}.
+
+Transport the endpoint by
+\autoref{thm:derham-boundary-zero-endpoint-transport}. That theorem keeps the
+cochain preimage fixed, moves only the displayed endpoint by $\hsame$, and
+preserves the cochain-differential row that witnesses the boundary predicate.
+
+Now apply \autoref{thm:derham-bridge-classifier-source-scope}. It says that
+all bridge-visible classifier movement is exhausted by precisely that
+$\hsame$ endpoint transport plus cochain-differential stability.
+
+The input and ledger scope theorems,
+\autoref{thm:derham-bridge-input-source-scope} and
+\autoref{thm:derham-bridge-ledger-source-scope}, add only the finite displayed
+rows and package provenance. Therefore the classifier transport has no
+remaining source from which quotient, isomorphism, host-manifold, or
+representative data could enter.
+\end{proof}
+
+\begin{theorem}[De Rham standard-boundary consumer readback]
+\label{thm:derham-standard-boundary-consumer-readback}
+Every downstream consumer of the standard-boundary bridge packet reads only
+the boundary preimage row, the cocycle row, the finite graph rows over
+$\DiffFormUp$, $\CohomologyUp$, and $\mathsf{BHist}$, and the package
+provenance rows displayed by \autoref{def:derham-standard-boundary-bridge-packet}.
+No consumer row reads a quotient carrier, a de Rham isomorphism, a host
+manifold comparison, or a selected cohomology representative.
+\end{theorem}
+\begin{proof}
+Project the consumer surface by
+\autoref{thm:derham-bridge-consumer-ledger-exhaustion}. It lists exactly the
+boundary preimage, zero endpoint, cocycle readback, finite graph rows, and
+package provenance rows available to a bridge consumer.
+
+Use \autoref{thm:derham-standard-boundary-source-exhaustion} to identify the
+source side of those consumer rows. The source contributes only the displayed
+$\DiffFormUp$, $\CohomologyUp$, $\mathsf{BHist}$, square-zero, $\hsame$, and
+$\Pkg$ rows.
+
+Use \autoref{thm:derham-standard-boundary-classifier-transport} for the
+classifier side. It keeps consumer-visible classifier movement inside
+$\hsame$ endpoint transport and cochain-differential stability.
+
+Finally repack through
+\autoref{def:derham-standard-boundary-bridge-packet}. Since both the source
+and classifier projections have already been exhausted by displayed rows, the
+consumer readback cannot contain quotient, isomorphism, host-manifold, or
+representative data.
+\end{proof}
+
 \closureat{DeRhamUp}{publicStr}[BEDC.Derived.DeRhamUp.DeRhamDoubleExteriorPacket\_boundary]
 
 \begin{closurestatus}{\DeRhamUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public surface is bound by \autoref{thm:derham-boundary-public-classifier-exactness} to the displayed DiffFormUp, CohomologyUp, BHist, hsame, and cochain-differential rows.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The standard boundary bridge is bound by \autoref{thm:derham-standard-boundary-classifier-compatibility} and \autoref{thm:derham-bridge-consumer-ledger-exhaustion} to the displayed DiffFormUp, CohomologyUp, BHist, hsame, and cochain-differential rows.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.DeRhamUp.DeRhamBoundary}
-  \bridgestatus{none}
-  \notclaimed{No cohomology theorem, de Rham isomorphism, or standard bridge is claimed here.}
-  \upgradepath{Bridged closure requires an explicit standard bridge for the public boundary-classifier surface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{No de Rham isomorphism, quotient cohomology construction, or mature package completeness theorem is claimed here.}
+  \upgradepath{Mature closure requires mature examples, completeness coverage, and Lean bridge checking for the standard boundary bridge.}
 \end{closurestatus}

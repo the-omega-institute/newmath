@@ -291,6 +291,50 @@ pointwise identical on the common overlap, without importing any completion,
 quotient, host-index, or RealUp completeness datum.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat pointwise seal pasting]
+\label{thm:streamname-regseqrat-pointwise-seal-pasting}
+Let $\mathcal{W}_0$ and $\mathcal{W}_1$ be certified finite
+$\StreamNameUp$ windows with a certified finite overlap $K$. Suppose their
+restrictions to $K$ agree on every certified unary observation, every selected
+$\mathsf{RatHistoryClassifier}$ row, every $\mathsf{ProbeBundle}$ ledger row,
+every $\mathsf{InBundle}$ membership row, and every displayed $\hsame$ row.
+Suppose also that the induced $\RegSeqRat$ handoff packages consume the same
+DyadicRatCore finite ledger on $K$. Then the $\RealUp$ seal classifier rows
+induced from the two handoffs paste to a single finite-window source surface
+on $\mathcal{W}_0 \cup \mathcal{W}_1$.
+
+The pasted surface exports only $\mathsf{RatHistoryClassifier}$ rows,
+$\mathsf{ProbeBundle}$ ledger rows, $\mathsf{InBundle}$ membership rows,
+$\mathsf{UnaryHistory}$ observations, $\hsame$ comparisons, and the shared
+dyadic ledger. It exports no completion datum, quotient datum, host index
+equality, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+First identify the common source on the overlap. Apply
+\autoref{thm:streamname-real-regseq-overlap-unique-source} to the two
+restricted certified windows. The displayed agreement rows are exactly the
+finite StreamName source rows, so the overlap has one source-facing surface
+for both induced $\RegSeqRat$ handoffs.
+
+Next stabilize the seal rows over that common source. By
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability}, the shared
+DyadicRatCore finite ledger forces the $\RealUp$ seal classifier rows induced
+from the two handoffs to agree pointwise on every member of $K$.
+
+It remains to build the union surface. Use finite $\mathsf{ProbeBundle}$
+induction over the selected rows of $\mathcal{W}_0$ and $\mathcal{W}_1$: rows
+outside the overlap are inserted from their own certified window, while rows
+inside $K$ are identified by the pointwise seal stability just obtained.
+
+Finally exhaust the pasted rows. Apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}: every row in
+the handoff surface is one of the displayed pointwise
+$\mathsf{RatHistoryClassifier}$ observations, bundle and membership rows,
+unary observations, $\hsame$ comparisons, or dyadic ledger rows. Hence the
+finite union surface contains no completion, quotient, host-index, or
+RealUp-completeness datum.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat pointwise handoff exhaustion]
 \label{thm:streamname-regseqrat-pointwise-handoff-exhaustion}
 Every finite-window row handed from $\StreamNameUp$ to a $\RegSeqRat$ consumer
@@ -332,4 +376,52 @@ ledger from producing different StreamName source surfaces. The same theorem
 also keeps quotient data, completion data, and host index equality outside the
 handoff, so the reverse repacking returns precisely the original finite-window
 surface.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat nested-window handoff]
+\label{thm:streamname-regseqrat-nested-window-handoff}
+Let $K \subseteq J \subseteq L$ be certified finite windows of a public
+$\StreamNameUp$ rational stream package. For any $\RegSeqRat$ consumer, and
+for any finite-window $\RealUp$ consumer, the source surface obtained by first
+restricting the handoff from $L$ to $J$ and then from $J$ to $K$ is the same
+source surface as the handoff obtained by restricting directly from $L$ to
+$K$.
+
+The common source surface consists only of the pointwise
+$\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ observations at certified
+$\mathsf{UnaryHistory}$ indices, the finite $\mathsf{ProbeBundle}$ ledger,
+the $\mathsf{InBundle}$ membership rows, and the displayed $\hsame$
+comparisons. It contains no $\RegSeqRat$ regularity datum, $\RealUp$ seal
+datum, completion datum, quotient datum, or host index equality.
+\end{theorem}
+\begin{proof}
+First restrict the outer window. By
+\autoref{thm:streamname-real-regseq-finite-window-handoff}, the handoff from
+$L$ to $J$ exposes only the selected rational-stream point rows, the finite
+bundle ledger, the membership rows, and the displayed $\hsame$ comparisons.
+Applying the same theorem again to the certified subwindow $K \subseteq J$
+projects the two-step handoff to that same kind of surface over $K$.
+
+Now compare the direct route. Applying
+\autoref{thm:streamname-real-regseq-finite-window-handoff} directly to
+$K \subseteq L$ gives a handoff surface whose visible rows are again exactly
+the certified pointwise carrier and classifier observations, the finite
+$\mathsf{ProbeBundle}$ ledger, the $\mathsf{InBundle}$ membership rows, and
+the displayed $\hsame$ comparisons over $K$.
+
+Use \autoref{thm:streamname-real-regseq-overlap-unique-source} first on the
+overlap $J$ and then on the overlap $K$. The hypotheses are the same certified
+point rows and the same finite ledger rows inherited from $L$, so the two
+restriction routes cannot produce different StreamName source surfaces on
+either overlap.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. It collapses
+both restricted handoffs to the same pointwise
+$\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ rows together with the same finite ledger.
+The exclusion clauses in that exhaustion theorem and in the finite-window
+handoff theorem keep regularity, seal, completion, quotient, and host-index
+data outside the common surface.
 \end{proof}
