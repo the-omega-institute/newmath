@@ -129,6 +129,26 @@ inductive AdmissibleSourceReportDatum : ReportDatum -> Prop where
       SourceEventReport c S ->
         AdmissibleSourceReportDatum (ReportDatum.sourceReport c S)
 
+structure P1AuditChecklist
+    (P : List DisplayAlphabet -> Option EventFlow) where
+  reportsAreSourceReports :
+    forall c : List DisplayAlphabet,
+      forall S : EventFlow, P c = some S -> SourceEventReport c S
+  illegalInputsRejected :
+    forall c : List DisplayAlphabet, Not (LegalZStream c) -> P c = none
+  reportsDoNotBecomeInputs :
+    forall c : List DisplayAlphabet,
+      forall S : EventFlow, P c = some S -> Not (SourceReportFormalInput c S)
+  hostLeaksRejected :
+    forall d : ReportDatum,
+      HostLeakInReport d -> Not (AdmissibleSourceReportDatum d)
+
+def P1Adequate (P : List DisplayAlphabet -> Option EventFlow) : Prop :=
+  SourceReportPrototype P /\
+    (forall c : List DisplayAlphabet, Not (LegalZStream c) -> P c = none) /\
+    (forall c : List DisplayAlphabet,
+      forall S : EventFlow, P c = some S -> Not (SourceReportFormalInput c S))
+
 def PolicyDecode (_policy : DisplayPolicy)
     (c : List DisplayAlphabet) : Option EventFlow :=
   Decode c
@@ -238,5 +258,20 @@ theorem host_leak_inadmissible {d : ReportDatum} :
     HostLeakInReport d -> Not (AdmissibleSourceReportDatum d) := by
   intro hLeak hAdmissible
   cases hLeak <;> cases hAdmissible
+
+theorem json_yaml_reports_view_only :
+    Not (AdmissibleSourceReportDatum ReportDatum.hostJSONPackage) /\
+      Not (AdmissibleSourceReportDatum ReportDatum.hostYAMLChapter) := by
+  exact
+    And.intro
+      (host_leak_inadmissible HostLeakInReport.hostJSONPackage)
+      (host_leak_inadmissible HostLeakInReport.hostYAMLChapter)
+
+theorem p1_adequacy {P : List DisplayAlphabet -> Option EventFlow} :
+    P1AuditChecklist P -> P1Adequate P := by
+  intro h
+  exact
+    And.intro h.reportsAreSourceReports
+      (And.intro h.illegalInputsRejected h.reportsDoNotBecomeInputs)
 
 end BEDC.GroundCompiler.SourceReport
