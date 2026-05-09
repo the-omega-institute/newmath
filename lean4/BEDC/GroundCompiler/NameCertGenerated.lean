@@ -74,6 +74,24 @@ def NameCertSourceSoundnessEvent
     (part : EventFlow) : Prop :=
   NameCertSoundnessEvent R S part
 
+def NameCertPatternSoundnessEvent
+    (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
+    (part : EventFlow) : Prop :=
+  NameCertFieldSubflow R S NameCertFieldRole.pattern part /\
+    NameCertSoundnessEvent R S part
+
+def NameCertClassifierSoundnessEvent
+    (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
+    (part : EventFlow) : Prop :=
+  NameCertFieldSubflow R S NameCertFieldRole.classifier part /\
+    NameCertSoundnessEvent R S part
+
+def NameCertStabilitySoundnessEvent
+    (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
+    (part : EventFlow) : Prop :=
+  NameCertFieldSubflow R S NameCertFieldRole.stability part /\
+    NameCertSoundnessEvent R S part
+
 def SoundRecognizedNameCertFlow
     (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
     (N : NameCandidateFlow) : Prop :=
