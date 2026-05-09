@@ -137,6 +137,78 @@ theorem carry_motif_not_dimension :
         | tail _ hMem =>
             cases hMem
 
+def PhaseMotifSkeleton : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b1, BMark.b0],
+    [BMark.b0, BMark.b1, BMark.b1, BMark.b1],
+    [BMark.b1, BMark.b0, BMark.b0, BMark.b0],
+    [BMark.b1, BMark.b0, BMark.b0, BMark.b1],
+    [BMark.b1, BMark.b0, BMark.b1, BMark.b0]]
+
+theorem phase_motif_skeleton_recognized :
+    PhaseMotif PhaseMotifSkeleton := by
+  constructor
+  · exact Or.inl
+      ⟨[],
+        [[BMark.b0, BMark.b1, BMark.b1, BMark.b1],
+          [BMark.b1, BMark.b0, BMark.b0, BMark.b0],
+          [BMark.b1, BMark.b0, BMark.b0, BMark.b1],
+          [BMark.b1, BMark.b0, BMark.b1, BMark.b0]], rfl⟩
+  · constructor
+    · exact Or.inl
+        ⟨[[BMark.b0, BMark.b1, BMark.b1, BMark.b0]],
+          [[BMark.b1, BMark.b0, BMark.b0, BMark.b0],
+            [BMark.b1, BMark.b0, BMark.b0, BMark.b1],
+            [BMark.b1, BMark.b0, BMark.b1, BMark.b0]], rfl⟩
+    · constructor
+      · exact Or.inl
+          ⟨[[BMark.b0, BMark.b1, BMark.b1, BMark.b0],
+            [BMark.b0, BMark.b1, BMark.b1, BMark.b1]],
+            [[BMark.b1, BMark.b0, BMark.b0, BMark.b1],
+              [BMark.b1, BMark.b0, BMark.b1, BMark.b0]], rfl⟩
+      · constructor
+        · exact Or.inl
+            ⟨[[BMark.b0, BMark.b1, BMark.b1, BMark.b0],
+              [BMark.b0, BMark.b1, BMark.b1, BMark.b1],
+              [BMark.b1, BMark.b0, BMark.b0, BMark.b0]],
+              [[BMark.b1, BMark.b0, BMark.b1, BMark.b0]], rfl⟩
+        · constructor
+          · exact Or.inl
+              ⟨[[BMark.b0, BMark.b1, BMark.b1, BMark.b0],
+                [BMark.b0, BMark.b1, BMark.b1, BMark.b1],
+                [BMark.b1, BMark.b0, BMark.b0, BMark.b0],
+                [BMark.b1, BMark.b0, BMark.b0, BMark.b1]], [], rfl⟩
+          · exact ⟨[BMark.b1, BMark.b0, BMark.b1, BMark.b0], [], rfl⟩
+
+theorem phase_motif_skeleton_not_circle :
+    Not (CircleMotif PhaseMotifSkeleton) := by
+  intro hCircle
+  have hUnitMem :
+      List.Mem [BMark.b0, BMark.b1, BMark.b0, BMark.b1]
+        PhaseMotifSkeleton :=
+    subflow_mem hCircle.right.left (List.Mem.head [])
+  unfold PhaseMotifSkeleton at hUnitMem
+  cases hUnitMem with
+  | tail _ hUnitMem =>
+      cases hUnitMem with
+      | tail _ hUnitMem =>
+          cases hUnitMem with
+          | tail _ hUnitMem =>
+              cases hUnitMem with
+              | tail _ hUnitMem =>
+                  cases hUnitMem with
+                  | tail _ hUnitMem =>
+                      cases hUnitMem
+
+theorem phase_necessary_not_sufficient_circle :
+    (forall {S : EventFlow}, CircleMotif S -> PhaseMotif S) /\
+      exists S : EventFlow, PhaseMotif S /\ Not (CircleMotif S) := by
+  constructor
+  · intro S hCircle
+    exact circle_extends_phase hCircle
+  · exact
+      ⟨PhaseMotifSkeleton, phase_motif_skeleton_recognized,
+        phase_motif_skeleton_not_circle⟩
+
 structure ComplexMotifRecord where
   productSource : EventFlow
   realComponentSource : EventFlow
@@ -350,5 +422,28 @@ theorem homology_has_classifier_compression {S : EventFlow} :
   cases h with
   | intro M hM =>
       exact ⟨M.cycleBoundaryClassifier, hM.right.left⟩
+
+structure CrossDomainMotifComparison where
+  recognizers : MetricRecognizerFamily
+  protocol : AnalysisProtocolFlow
+  leftFlow : EventFlow
+  rightFlow : EventFlow
+  leftProfile : List BEDC.GroundCompiler.MetricsFlow.MotifOccurrence
+  rightProfile : List BEDC.GroundCompiler.MetricsFlow.MotifOccurrence
+  overlap : Nat × Nat
+  overlap_eq : overlap = MotifJaccardDistance leftProfile rightProfile
+  theoryComponents : TheoryDistanceComponents
+  theoryDistance : Nat
+  theoryDistance_eq :
+    theoryDistance =
+      TheoryFlowDistance recognizers protocol leftFlow rightFlow theoryComponents
+
+structure HighLevelMotifReport where
+  sourceFlow : EventFlow
+  motifBundle : List HighLayerMotifRole
+  signature : FlowSignatureVector
+  normalAddressMap : List NormalAddressRecord
+  warnings : List EventFlow
+  cannotClaims : List MetricCannotClaimEntry
 
 end BEDC.GroundCompiler.CaseStudies
