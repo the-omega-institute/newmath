@@ -603,6 +603,95 @@ The concrete certificate of \autoref{thm:complex-diff-namecert} satisfies the se
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter, together with transport along \(\hsame\) on each input slot.
 \end{proof}
 
+\begin{theorem}[ComplexDiffUp carrier obligation surface]
+\label{thm:cplx-diff-carrier-obligation-surface}
+The carrier/source obligation surface for $\ComplexDiffUp$ is finite. It
+consists of the $\mathsf{CplxDiffAt}$ source row of
+\autoref{def:cplx-diff-at}, the unary explicit-modulus rows of
+\autoref{lem:cplx-diff-at-witness-step-nonzero}--\autoref{thm:cplx-diff-at-witness-nonzero-result},
+the $\mathsf{BHist}$ endpoints used by the quotient and derivative witnesses,
+and the $\hsame$ transport rows of \autoref{lem:cplx-diff-at-hsame} and
+\autoref{lem:cplx-diff-at-full-hsame-transport}.
+\end{theorem}
+\begin{proof}
+Project the source specification of
+\autoref{def:cplx-diff-source-specification}. Its carrier is exactly the
+$\mathsf{CplxDiffAt}$ predicate on triples $(f,z,f')$, and the witness data is
+the explicit unary modulus introduced in \autoref{def:cplx-diff-at}.
+
+The nonzero-step and nonempty-result rows are the local carrier rows cited in
+the statement. They keep every source and result endpoint inside
+$\mathsf{BHist}$ and expose only unary modulus histories to downstream
+consumers.
+
+Finally, apply \autoref{lem:cplx-diff-at-hsame} and
+\autoref{lem:cplx-diff-at-full-hsame-transport}. These rows show that the same
+carrier is stable under $\hsame$ on the function, point, and derivative slots,
+so the displayed list is a complete carrier/source obligation surface.
+\end{proof}
+
+\begin{theorem}[ComplexDiffUp quotient-pattern obligation surface]
+\label{thm:cplx-diff-quotient-pattern-obligation-surface}
+The quotient-pattern obligation surface for $\ComplexDiffUp$ is finite. It
+consists of the $\mathsf{CplxDiffQuot}$ pattern of
+\autoref{def:cplx-diff-quot}, the nonzero step witness rows of
+\autoref{thm:cplx-diff-quot-step-unary} and
+\autoref{thm:cplx-diff-quot-result-nonempty-from-step}, quotient-result
+determinacy from \autoref{thm:cplx-diff-quot-same-result-step-deterministic},
+and visible-step exclusion from
+\autoref{thm:cplx-diff-quot-visible-step-same-result-absurd}.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:cplx-diff-pattern-specification}. It names
+$\mathsf{CplxDiffQuot}$ as the pattern row and restricts the step input by
+$\mathsf{CplxNonZero}(h)$, so the obligation surface begins with the displayed
+quotient relation and its nonzero-step witness.
+
+The unary-step and result-nonempty rows are supplied by
+\autoref{thm:cplx-diff-quot-step-unary} and
+\autoref{thm:cplx-diff-quot-result-nonempty-from-step}. They guarantee that the
+visible quotient calculation has a carried unary step and a carried quotient
+result rather than an empty result endpoint.
+
+Determinacy and exclusion are then local. Apply
+\autoref{thm:cplx-diff-quot-same-result-step-deterministic} for quotient-result
+determinacy at a fixed visible step, and apply
+\autoref{thm:cplx-diff-quot-visible-step-same-result-absurd} to rule out the
+visible-step collision that would identify a forbidden quotient branch. These
+four row groups exhaust the quotient-pattern obligations.
+\end{proof}
+
+\begin{theorem}[ComplexDiffUp transport and ledger obligation surface]
+\label{thm:cplx-diff-transport-ledger-obligation-surface}
+The transport and ledger obligation surface for $\ComplexDiffUp$ is finite. It
+consists of $\hsame$ transport for $\mathsf{CplxDiffAt}$ and
+$\mathsf{CplxDiffQuot}$, sum, scalar, product, and chain closure, and the
+Cauchy--Riemann ledger rows recorded by
+\autoref{lem:cplx-diff-at-full-hsame-transport},
+\autoref{lem:cplx-diff-quot-hsame},
+\autoref{lem:cplx-diff-sum}--\autoref{lem:cplx-diff-chain}, and
+\autoref{thm:cauchy-riemann-forward}--\autoref{lem:cauchy-riemann-iff}.
+\end{theorem}
+\begin{proof}
+First collect the transport rows. The differentiability predicate transports by
+\autoref{lem:cplx-diff-at-full-hsame-transport}, and the quotient pattern
+transports by \autoref{lem:cplx-diff-quot-hsame}. Both rows use the same
+$\hsame$ classifier that appears in
+\autoref{def:cplx-diff-classifier-specification}.
+
+Next collect the closure ledger. The sum, scalar, product, and chain rows are
+exactly \autoref{lem:cplx-diff-sum}--\autoref{lem:cplx-diff-chain}, with the
+explicit modulus pasting promised by
+\autoref{def:cplx-diff-ledger-policy}.
+
+Finally collect the real-coordinate ledger. The forward, backward, and
+equivalence rows of
+\autoref{thm:cauchy-riemann-forward}--\autoref{lem:cauchy-riemann-iff} give the
+Cauchy--Riemann coupling inside the same ledger policy. Together these finite
+rows are precisely the transport and ledger obligations left by the semantic
+certificate.
+\end{proof}
+
 \closureat{ComplexDiffUp}{seedStr}
 \begin{closurestatus}{\ComplexDiffUp}
   \theoryclosure{\seedClosure}
