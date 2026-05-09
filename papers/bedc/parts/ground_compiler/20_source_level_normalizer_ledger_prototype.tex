@@ -107,6 +107,7 @@ It reads as: $R_N$ recognizes the adjacent pair $w\mid v$ at position $i$ in $S$
 
 \begin{definition}[Recognized normalizer ledger]
 \label{def:source-normalizer-recognized-ledger}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.NormLedger}
 If
 $$
   \mathsf{RecognizesNormalizer}(R_N,S,i,w,v),
@@ -119,6 +120,7 @@ $$
 
 \begin{definition}[Recognizer-induced normalization relation]
 \label{def:source-normalizer-induced-relation}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.InducedNormalizes}
 If
 $$
   \mathsf{NormLedger}_{R_N}(S,i,w,v)
@@ -132,7 +134,8 @@ The relation $\leadsto_{R_N}$ is induced by the recognizer $R_N$.
 
 \begin{principle}[No normalization without recognizer]
 \label{prin:source-normalizer-no-normalization-without-recognizer}
-Candidate pairs do not produce normalization relations. Only recognized normalizer ledgers, together with recognizer soundness, can support
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.no\_normalization\_without\_recognizer}
+Candidate pairs do not produce normalization relations. A recognizer-induced normalization relation contains a recognized normalizer ledger as its ground witness. Only recognized normalizer ledgers, together with recognizer soundness, can support
 $$
   w\leadsto v.
 $$

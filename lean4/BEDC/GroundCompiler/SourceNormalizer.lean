@@ -24,9 +24,19 @@ def GeneratedNormalizerRecognizer : Type :=
   EventFlow
 
 def RecognizesNormalizer
-    (_R : GeneratedNormalizerRecognizer) (S : EventFlow)
+    (R : GeneratedNormalizerRecognizer) (S : EventFlow)
     (i : Nat) (w v : RawEvent) : Prop :=
-  AdjPair S i w v
+  AdjPair S i w v /\ NonemptyEventFlow R
+
+def NormLedger
+    (R : GeneratedNormalizerRecognizer) (S : EventFlow)
+    (i : Nat) (w v : RawEvent) : Prop :=
+  RecognizesNormalizer R S i w v
+
+def InducedNormalizes
+    (R : GeneratedNormalizerRecognizer) (S : EventFlow)
+    (i : Nat) (w v : RawEvent) : Prop :=
+  NormLedger R S i w v
 
 theorem adj_pair_events_mem {S : EventFlow} {i : Nat} {w v : RawEvent} :
     AdjPair S i w v -> List.Mem w S /\ List.Mem v S := by
@@ -54,5 +64,16 @@ theorem candidate_does_not_erase_pre_normal
     NormCand candidate S i w v -> List.Mem w S := by
   intro h
   exact (candidate_preserves_raw h).left
+
+theorem no_normalization_without_recognizer
+    {candidate : RawEvent -> RawEvent -> Prop}
+    {S : EventFlow} {i : Nat} {w v : RawEvent} :
+    NormCand candidate S i w v ->
+      (forall R : GeneratedNormalizerRecognizer, Not (NormLedger R S i w v)) ->
+      Not (exists R : GeneratedNormalizerRecognizer, InducedNormalizes R S i w v) := by
+  intro _ hNoRecognized hRelation
+  cases hRelation with
+  | intro R hInduced =>
+      exact hNoRecognized R hInduced
 
 end BEDC.GroundCompiler.SourceNormalizer
