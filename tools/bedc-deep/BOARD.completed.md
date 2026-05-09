@@ -14414,3 +14414,51 @@ Rationale:
 Chapter currently carries only one-step degree-shift boundary (line 106) and explicitly defers d²=0 to DeRham. B-543 is the DeRham-side nilpotence; the DiffForm-side composability ledger (without d²=0 assertion) is the missing precursor that the DeRham proof would consume. Two-step continuation row is a classic composite consequence with clear binder shape. Lands in 114_diffform_exterior_derivative_boundary.tex (158 lines).
 
 ---
+
+### B-564 - AxisAdd zero-spine result inversion: prefix and suffix inherit zero-spine
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AxisAdd zero-spine result inversion: prefix and suffix inherit zero-spine |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If ContR(h, k, r) and ZeroSpine(r) hold, then both ZeroSpine(h) and ZeroSpine(k) hold.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/255_axisadd_namecert_construction.tex`
+
+Rationale:
+Converse of `thm:axisadd-cont-preserves-zerospine` (line 86). Forward direction is ZS(h)∧ZS(k)∧Cont(h,k,r) → ZS(r); the inversion ZS(r)∧Cont(h,k,r) → ZS(h)∧ZS(k) is missing. Constructor-inversion / no-confusion lemma against the Ezero generator. Closes the source/result classification round-trip on AxisAddUp without invoking AddUp bridge. Distinct from B-553 (which lives in axisnat and concerns source shape exhaustion). Lands in 255_axisadd_namecert_construction.tex (134 lines).
+
+---
+
+### B-567 - Hash second-preimage success is irreflexive on the message
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Hash second-preimage success is irreflexive on the message |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under message-classifier reflexivity, HashSecondPreimageSuccess_{mathcal H}(x, x) is impossible: no transcript can witness a second-preimage with itself.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex`
+
+Rationale:
+Direct analogue of B-523 (collision irreflexivity at line 293-326) for second-preimage success. The transcript predicate requires neg sigma(x,x') as part of definition, so reflexivity of sigma forces irreflexivity. Distinct from B-489 (collision-freeness excludes second-preimage — that's the resistance direction, not the diagonal-impossibility direction). The dual is mentioned nowhere in the existing 220_hash file. Sits comfortably alongside the existing irreflexivity / induces-direction / boundary theorems. 413 lines, well below cap.
+
+---
