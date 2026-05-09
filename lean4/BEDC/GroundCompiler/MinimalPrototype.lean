@@ -134,6 +134,18 @@ inductive ReportWarning : Type where
   | outputViewOnly
   | higherRecognizerRequired
 
+inductive EventFlowDisplayToken : Type where
+  | mark (m : DisplayAlphabet)
+  | boundary
+  | epsilon
+  | whitespace
+
+def EventFlowDisplayFormat : Type :=
+  List EventFlowDisplayToken
+
+def ChannelStreamDisplayFormat : Type :=
+  List DisplayAlphabet
+
 structure DecodeReport where
   inputStream : List DisplayAlphabet
   status : DecodeStatus
@@ -259,6 +271,34 @@ inductive ForbiddenP0CLIMeaning : Type where
   | realObjectInference
   | circleObjectInference
   | channelLevelCarryNormalization
+
+structure PrototypeAuditChecklist
+    (publicSurface : InterfaceDatum -> Prop) where
+  eventEncodingImplements :
+    forall w : RawEvent, PrototypeEventEncoder w = EventEncoding w
+  flowEncodingImplements :
+    forall S : EventFlow, PrototypeFlowEncoder S = FlowEncoding S
+  streamDecoderImplements :
+    forall c : List DisplayAlphabet, PrototypeStreamDecoder c = Decode c
+  danglingOneRejected :
+    PrototypeStreamDecoder [BMark.b1] = none
+  unfinishedEventRejected :
+    PrototypeStreamDecoder [BMark.b0, BMark.b1, BMark.b0] = none
+  unitTestsPass :
+    forall w c,
+      List.Mem (w, c) RequiredUnitTestVectors -> EventEncoding w = c
+  roundTripEventTestsPass :
+    forall w,
+      List.Mem w RequiredRoundTripTestVectors.eventVectors ->
+        DecEvent (EventEncoding w) = some (w, [])
+  carryWarningsAvailable :
+    exists report : DecodeReport,
+      List.Mem ReportWarning.carryLookingPair report.warnings
+  noHigherRecognitionClaim :
+    Not (publicSurface InterfaceDatum.recognizesPkg) /\
+      Not (publicSurface InterfaceDatum.recognizesNameCert) /\
+      Not (publicSurface InterfaceDatum.recognizesTheorem) /\
+      Not (publicSurface InterfaceDatum.acceptFlow)
 
 theorem reference_prototype_not_full_compiler
     {publicSurface : InterfaceDatum -> Prop} {d : InterfaceDatum} :
