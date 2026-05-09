@@ -11,3 +11,4 @@ import BEDC.GroundCompiler.SemanticMotif
 import BEDC.GroundCompiler.CaseStudies
 import BEDC.GroundCompiler.MetricsFlow
 import BEDC.GroundCompiler.AnalysisPipeline
+import BEDC.GroundCompiler.MainTheorems

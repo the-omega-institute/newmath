@@ -18,6 +18,7 @@ None of these may enter as an external object.
 
 \begin{definition}[No-hidden-input compiler state]
 \label{def:main-theorems-no-hidden-input-state}
+\leandef{BEDC.GroundCompiler.MainTheorems.NoHiddenInputCompilerState}
 A \emph{no-hidden-input compiler state} is a tuple
 $$
   \mathcal C =
@@ -44,6 +45,7 @@ satisfying:
 
 \begin{definition}[Hidden input]
 \label{def:main-theorems-hidden-input}
+\leandef{BEDC.GroundCompiler.MainTheorems.HiddenInput}
 A datum $X$ is a \emph{hidden input} when it is used for compilation, recognition, proof, analysis, or reporting, but $X$ is not any of:
 \begin{enumerate}
 \item a raw event;
@@ -60,6 +62,7 @@ Typical hidden inputs include external atom tables, external enums, YAML, manife
 
 \begin{principle}[No hidden input]
 \label{prin:main-theorems-no-hidden-input}
+\leanchecked{BEDC.GroundCompiler.MainTheorems.no\_hidden\_input}
 The formal compiler discipline may not use hidden input. If a component is not yet generated and recognized as event-flow structure, it must be explicitly recorded as a bootstrap obligation. Otherwise it may not support a formal claim.
 \end{principle}
 
