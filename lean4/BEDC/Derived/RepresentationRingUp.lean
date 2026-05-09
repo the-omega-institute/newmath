@@ -354,6 +354,53 @@ theorem RepresentationRingBHistRepresentationPacket_semantic_name_certificate [A
       exact source
   }
 
+theorem RepresentationRingBHistRepresentationPacket_namecert_obligation_surface [AskSetup]
+    [PackageSetup]
+    {group ring reps directSum tensor provenance classifier ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RepresentationRingBHistRepresentationPacket group ring reps directSum tensor provenance
+        classifier ledger endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) hsame ∧
+        UnaryHistory ledger ∧ UnaryHistory endpoint ∧ hsame ledger (append provenance classifier) ∧
+          hsame endpoint (append ledger tensor) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have boundary :=
+    RepresentationRingBHistRepresentationPacket_carrier_boundary packet
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+        (fun row : BHist => hsame row endpoint)
+        (fun row : BHist => hsame row endpoint) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (hsame_refl endpoint)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _left _right same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _left _middle _right sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _left _right same source
+        exact hsame_trans (hsame_symm same) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro boundary.right.right.right.right.right.right.right.left
+      (And.intro boundary.right.right.right.right.right.right.right.right.left
+        (And.intro boundary.right.right.right.right.right.right.right.right.right.left
+          (And.intro boundary.right.right.right.right.right.right.right.right.right.right.left
+            boundary.right.right.right.right.right.right.right.right.right.right.right))))
+
 theorem RepresentationRingGrothendieckClassifier_symmetric
     {group ring reps directSum tensor provenance classifier ledger endpoint group' ring' reps'
       directSum' tensor' provenance' classifier' ledger' endpoint' : BHist} :
