@@ -104,4 +104,21 @@ theorem FullAxisSeal_real_route_separation_obligation {h k r : BHist} :
     exact zeroSpine_no_e1_extension boundarySpine
   exact And.intro resultSpine boundaryExcluded
 
+theorem FullAxisSeal_object_name_alignment {h k : BHist} :
+    fullAxis_namecert.source h -> fullAxis_namecert.classifier h k ->
+      hsame boundary_01 (BHist.e1 (BHist.e0 BHist.Empty)) ∧
+        FullAxisSourceSpec zeroSpinePrefixThread h ∧
+          FullAxisPatternSpec zeroSpinePrefixThread k ∧
+            FullAxisLedgerPolicy zeroSpinePrefixThread h ∧
+              (hsame h boundary_01 -> False) ∧ (hsame k boundary_01 -> False) := by
+  intro sourceH classifiedHK
+  have inventory :=
+    FullAxisPrefixThread_obligation_inventory sourceH classifiedHK
+  exact And.intro (hsame_refl boundary_01)
+    (And.intro inventory.right.left
+      (And.intro inventory.right.right.left
+        (And.intro inventory.left
+          (And.intro inventory.right.right.right.right.left
+            inventory.right.right.right.right.right))))
+
 end BEDC.Derived.AxisZeckendorf.FullAxis
