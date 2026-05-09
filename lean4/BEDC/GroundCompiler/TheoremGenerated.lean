@@ -69,6 +69,13 @@ def ProofSoundTheoremRecognition
         TheoremRoleSubflow R T proof TheoremRole.proof /\
         ChecksProof proofChecker statement dependencies proof
 
+def CertificateSoundTheoremRecognition
+    (R : GeneratedTheoremRecognizer) (T : TheoremCandidateFlow) : Prop :=
+  exists certificates : TheoremCandidateFlow,
+    exists certificateRecognizer : GeneratedRecognizer,
+      TheoremRoleSubflow R T certificates TheoremRole.certificates /\
+        Recognizes certificateRecognizer certificates certificates
+
 def LedgerSoundTheoremRecognition
     (R : GeneratedTheoremRecognizer) (T : TheoremCandidateFlow) : Prop :=
   exists ledger : TheoremCandidateFlow,
@@ -86,6 +93,15 @@ def SiteSoundTheoremRecognition
   exists canonicalSite : TheoremCandidateFlow,
     TheoremRoleSubflow R T canonicalSite TheoremRole.canonicalSite
 
+def SoundTheoremFlow
+    (R : GeneratedTheoremRecognizer) (T : TheoremCandidateFlow) : Prop :=
+  CompleteTheoremFlowRecognition R T /\
+    ProofSoundTheoremRecognition R T /\
+    CertificateSoundTheoremRecognition R T /\
+    LedgerSoundTheoremRecognition R T /\
+    StatusSoundTheoremRecognition R T /\
+    SiteSoundTheoremRecognition R T
+
 theorem no_external_theorem_input :
     Not (FormalCompilerInput CompilerDatum.hostTheoremIdentifier) :=
   structural_hidden_not_formal StructuralHiddenInput.hostTheoremIdentifier
@@ -100,5 +116,27 @@ theorem theorem_code_not_separate {T : TheoremCandidateFlow} :
     TheoremFlow T -> TheoremCode T = FlowEncoding T := by
   intro _
   rfl
+
+theorem sound_theorem_flow_establishes_theoremhood
+    {R : GeneratedTheoremRecognizer} {T : TheoremCandidateFlow} :
+    SoundTheoremFlow R T -> TheoremFlow T := by
+  intro hSound
+  cases hSound.left with
+  | intro statement hComplete =>
+      cases hComplete with
+      | intro dependencies hComplete =>
+          cases hComplete with
+          | intro proof hComplete =>
+              cases hComplete with
+              | intro certificates hComplete =>
+                  cases hComplete with
+                  | intro ledger hComplete =>
+                      cases hComplete with
+                      | intro status hComplete =>
+                          cases hComplete with
+                          | intro canonicalSite hComplete =>
+                              cases hComplete with
+                              | intro sealFlow hFields =>
+                                  exact ⟨R, hFields.left.left⟩
 
 end BEDC.GroundCompiler.TheoremGenerated

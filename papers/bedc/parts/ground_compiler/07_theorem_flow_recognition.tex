@@ -242,7 +242,14 @@ $$
 
 \begin{definition}[Certificate soundness]
 \label{def:theorem-generated-certificate-sound}
-The judgment $\mathsf{RecognizesTheorem}(R_T,T)$ is \emph{certificate-sound} when its certificate subflow is recognized as containing the required $\NameCert$ flows, derivation-certificate flows, proof-certificate flows, or other certificate flows, and those certificate flows are sound recognized flows in the appropriate sense.
+\leandef{BEDC.GroundCompiler.TheoremGenerated.CertificateSoundTheoremRecognition}
+The judgment $\mathsf{RecognizesTheorem}(R_T,T)$ is \emph{certificate-sound} when there is a certificate subflow $T_3$ recognized inside $T$ by $R_T$ and a generated certificate recognizer $R_C$ such that
+$$
+  \mathsf{ThmCertificates}_{R_T}(T,T_3)
+  \quad\text{and}\quad
+  \mathsf{Recognizes}(R_C,T_3,T_3)
+$$
+hold. The certificate subflow may itself be recognized as containing required $\NameCert$ flows, derivation-certificate flows, proof-certificate flows, or other certificate flows; the certificate datum is recognized from the theorem event flow, not supplied externally.
 \end{definition}
 
 \begin{definition}[Ledger-sound theorem recognition]
@@ -277,6 +284,7 @@ and $T_6$ records the theorem flow's canonical site, namely the recognized place
 
 \begin{definition}[Sound theorem flow]
 \label{def:theorem-generated-sound-recognized-flow}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.SoundTheoremFlow}
 A recognized theorem judgment
 $$
   \mathsf{RecognizesTheorem}(R_T,T)
@@ -286,6 +294,7 @@ is \emph{sound} when it has complete theorem-flow recognition and is proof-sound
 
 \begin{theorem}[Sound flow establishes theoremhood]
 \label{thm:theorem-generated-sound-establishes-theoremhood}
+\leanchecked{BEDC.GroundCompiler.TheoremGenerated.sound\_theorem\_flow\_establishes\_theoremhood}
 If $\mathsf{RecognizesTheorem}(R_T,T)$ and this recognition is sound, then
 $$
   \mathsf{TheoremFlow}(T),
