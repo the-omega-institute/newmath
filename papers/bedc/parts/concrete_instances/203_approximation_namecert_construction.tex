@@ -52,6 +52,7 @@ and the finite error ledger. Its permitted window is the finite candidate,
 degree, endpoint, and error data displayed by the packet, with no supremum row
 and no choice data.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApproximationUp.ApproximationCarrierPacket\_polynomial\_consumer\_window}
 \begin{proof}
 The consumer first projects the continuous map from
 $\NameCert_{\ContinuousMapUp}$ and the candidate polynomial from
@@ -143,6 +144,34 @@ polynomial endpoint, and the error endpoint under $\hsame$. The visible
 $\Cont$ rows transport only the already recorded source and candidate rows, so
 no supremum-derived value or choice-selected witness can be read by the
 consumer.
+\end{proof}
+
+\begin{theorem}[ApproximationUp no-choice polynomial window stability]
+\label{thm:approximation-no-choice-polynomial-window-stability}
+Transport the displayed $\NameCert_{\ContinuousMapUp}$ source row, the
+$\NameCert_{\PolynomialUp}$ polynomial-candidate row, and one finite
+error-ledger entry by the chapter's $\hsame$ classifier rows and finite
+$\Cont$ transport rows. The transported read preserves the same
+$\ApproximationUp$ polynomial consumer window. It still exposes only the
+source endpoint, polynomial endpoint, error endpoint, and finite ledger entry,
+with no supremum object and no choice row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:approximation-error-ledger-exactness} before transport.
+The original consumer window is therefore the displayed finite ledger entry
+together with its source endpoint, polynomial endpoint, and error endpoint.
+
+Apply the same exactness theorem after transporting the continuous-source row,
+polynomial-candidate row, and finite ledger entry along the chapter's
+$\hsame$ and $\Cont$ rows. Exactness again reads only the transported source
+endpoint, polynomial endpoint, error endpoint, and ledger entry.
+
+Finally use
+\autoref{thm:approximation-finite-error-ledger-consumer-determinacy}. Since
+both reads are over the same finite error-ledger entry up to the displayed
+transport rows, determinacy identifies the exposed endpoints under $\hsame$.
+The polynomial consumer window is stable, and no supremum object or
+choice-selected row is introduced.
 \end{proof}
 
 \begin{theorem}[ApproximationUp NameCert obligation inventory]

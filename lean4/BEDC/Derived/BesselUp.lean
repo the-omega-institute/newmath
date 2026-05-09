@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -53,12 +55,60 @@ theorem BesselRootPacket_root_ode_source_obligation [AskSetup] [PackageSetup]
   have transportUnary : UnaryHistory transport :=
     unary_cont_closed recurrenceUnary orderUnary transportRow
   exact And.intro odeUnary
-    (And.intro orderUnary
-      (And.intro sourceUnary
-        (And.intro targetUnary
-          (And.intro recurrenceUnary
-            (And.intro transportUnary
-              (And.intro recurrenceRow
-                (And.intro transportRow pkgSig)))))))
+      (And.intro orderUnary
+        (And.intro sourceUnary
+          (And.intro targetUnary
+            (And.intro recurrenceUnary
+              (And.intro transportUnary
+                (And.intro recurrenceRow
+                  (And.intro transportRow pkgSig)))))))
+
+theorem BesselRootPacket_recurrence_ledger_exactness [AskSetup] [PackageSetup]
+    {ode holomorphic order sourceEndpoint targetEndpoint recurrence transport provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BesselRootPacket ode holomorphic order sourceEndpoint targetEndpoint recurrence transport
+        provenance endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row transport)
+        (fun row : BHist => hsame row transport) (fun row : BHist => hsame row transport) hsame ∧
+        UnaryHistory recurrence ∧ UnaryHistory transport ∧
+          hsame recurrence (append sourceEndpoint targetEndpoint) ∧
+            hsame transport (append recurrence order) ∧
+              Cont transport provenance endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have rows := BesselRootPacket_root_ode_source_obligation packet
+  have endpointRow : Cont transport provenance endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row transport)
+        (fun row : BHist => hsame row transport) (fun row : BHist => hsame row transport) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro transport (hsame_refl transport)
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows carrierRow
+        exact hsame_trans (hsame_symm sameRows) carrierRow
+    }
+    pattern_sound := by
+      intro _row carrier
+      exact carrier
+    ledger_sound := by
+      intro _row carrier
+      exact carrier
+  }
+  exact And.intro cert
+    (And.intro rows.right.right.right.right.left
+      (And.intro rows.right.right.right.right.right.left
+        (And.intro rows.right.right.right.right.right.right.left
+          (And.intro rows.right.right.right.right.right.right.right.left
+            (And.intro endpointRow rows.right.right.right.right.right.right.right.right)))))
 
 end BEDC.Derived.BesselUp
