@@ -5,6 +5,7 @@ namespace BEDC.Derived.TopGroupUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.Derived.GroupUp
 open BEDC.Derived.TopologyUp
 
@@ -53,5 +54,29 @@ theorem TopGroupRootThresholdPackage_source_compatibility_obligation
           (And.intro package.right.right.right.left
           (And.intro package.right.right.right.right.right.left
             package.right.right.right.right.right.right))))
+
+theorem TopGroupRootThresholdPackage_operation_continuity_obligation
+    {group topology product inverse neighborhood ledger provenance : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      exists productLedger inverseLedger : BHist,
+        Cont product neighborhood productLedger ∧ Cont inverse neighborhood inverseLedger ∧
+          UnaryHistory productLedger ∧ UnaryHistory inverseLedger ∧ Cont product inverse ledger ∧
+            hsame ledger (append product inverse) ∧ hsame provenance ledger := by
+  intro package
+  have operationScope :=
+    TopGroupRootThresholdPackage_operation_scope package
+  cases operationScope with
+  | intro productLedger productRows =>
+      cases productRows with
+      | intro inverseLedger rows =>
+          exact Exists.intro productLedger
+            (Exists.intro inverseLedger
+              (And.intro rows.left
+                (And.intro rows.right.left
+                  (And.intro rows.right.right.left
+                    (And.intro rows.right.right.right.left
+                      (And.intro rows.right.right.right.right.left
+                        (And.intro rows.right.right.right.right.right
+                          package.right.right.right.right.right.right)))))))
 
 end BEDC.Derived.TopGroupUp

@@ -548,10 +548,29 @@ theorem TopGroupRootThresholdPackage_downstream_threshold_exactness
   have inverseLedgerUnary : UnaryHistory inverseLedger :=
     unary_cont_closed rows.right.right.right.left rows.right.right.right.right.left inverseCont
   exact And.intro productCont
-      (And.intro inverseCont
+    (And.intro inverseCont
         (And.intro package.right.right.right.right.right.left
           (And.intro package.right.right.right.right.right.right
             (And.intro productLedgerUnary inverseLedgerUnary))))
+
+theorem TopGroupRootThresholdPackage_inverse_cont_ledger_soundness
+    {group topology product inverse neighborhood ledger provenance inverseLedger : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      Cont inverse neighborhood inverseLedger ->
+        UnaryHistory inverseLedger ∧ hsame inverseLedger (append inverse neighborhood) ∧
+          UnaryHistory inverse ∧ UnaryHistory neighborhood ∧ hsame ledger (append product inverse) ∧
+            hsame provenance ledger := by
+  intro package inverseCont
+  have rows :=
+    TopGroupRootThresholdPackage_source_coupled_continuity_boundary package
+  have inverseLedgerUnary : UnaryHistory inverseLedger :=
+    unary_cont_closed rows.right.right.right.left rows.right.right.right.right.left inverseCont
+  exact And.intro inverseLedgerUnary
+      (And.intro inverseCont
+        (And.intro rows.right.right.right.left
+          (And.intro rows.right.right.right.right.left
+          (And.intro rows.right.right.right.right.right.right.left
+            rows.right.right.right.right.right.right.right))))
 
 theorem TopGroupRootSourceFiber_export_continuity
     {group topology product inverse neighborhood ledger provenance productLedger inverseLedger
@@ -596,4 +615,22 @@ theorem TopGroupRootSourceFiber_export_common_cont_ledger
       (And.intro consumers.right.right.left
         (And.intro consumers.right.right.right.left ledgerScope.right.left)))
 
+theorem TopGroupRootThresholdPackage_public_certificate_boundary
+    {group topology product inverse neighborhood ledger provenance : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      SemanticNameCert (fun row : BHist => hsame row provenance)
+        (fun row : BHist => hsame row provenance) (fun row : BHist => hsame row provenance) hsame ∧
+          GroupSingletonCarrier group ∧ TopologySingletonCarrier topology ∧ UnaryHistory product ∧
+            UnaryHistory inverse ∧ UnaryHistory ledger ∧ hsame ledger (append product inverse) ∧
+              hsame provenance ledger := by
+  intro package
+  have boundary := TopGroupRootThresholdPackage_source_coupled_continuity_boundary package
+  exact And.intro (TopGroupRootThresholdPackage_export_boundary_certificate package).left
+    (And.intro boundary.left
+      (And.intro boundary.right.left
+        (And.intro boundary.right.right.left
+          (And.intro boundary.right.right.right.left
+            (And.intro boundary.right.right.right.right.right.left
+              (And.intro boundary.right.right.right.right.right.right.left
+                boundary.right.right.right.right.right.right.right))))))
 end BEDC.Derived.TopGroupUp

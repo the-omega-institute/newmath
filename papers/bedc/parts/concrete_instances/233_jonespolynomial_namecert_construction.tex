@@ -313,6 +313,101 @@ is exactly the displayed skein-ledger construction, with no additional quotient,
 host-polynomial equality, or invariant row.
 \end{proof}
 
+\begin{theorem}[JonesPolynomial carrier obligation]
+\label{thm:jonespolynomial-carrier-obligation}
+The carrier obligation for $\JonesPolynomialUp$ is exactly the finite
+$\mathsf{JonesSkeinLedgerPacket}$ over $\mathsf{BHist}$, $\Bundle$, $\Cont$,
+$\hsame$, $\Pkg$, $\NameCert_{\KnotUp}$, $\NameCert_{\PolynomialUp}$, and
+$\NameCert_{\SOneUp}$. Its rows are the displayed main knot row, the three
+skein-boundary rows, the polynomial endpoint row, the finite skein $\Bundle$,
+the continuation ledger, and the shared provenance row. It contains no host
+knot quotient, no host Laurent-polynomial equality, and no complete-invariant
+row.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:jonespolynomial-skein-ledger-packet}. The packet definition
+lists precisely the $\mathsf{BHist}$ knot histories, polynomial endpoint
+history, finite $\Bundle$ ledger, $\Cont$ continuation entries, $\hsame$
+comparison rows, and $\Pkg$ provenance field named in the statement.
+
+Apply
+\autoref{lem:jonespolynomial-skein-ledger-reidemeister-transport} to the three
+boundary rows. Transport stays inside the same displayed skein window, so the
+carrier does not acquire an ambient quotient or an external polynomial
+comparison.
+
+Finally use
+\autoref{thm:jonespolynomial-skein-ledger-obligation-surface} together with
+\autoref{thm:jonespolynomial-namecert-obligation-surface}. These identify the
+public carrier part of the $\NameCert_{\JonesPolynomialUp}$ surface with the
+packet fields just enumerated and with no additional host row.
+\end{proof}
+
+\begin{theorem}[JonesPolynomial classifier obligation]
+\label{thm:jonespolynomial-classifier-obligation}
+The classifier obligation for $\JonesPolynomialUp$ is exactly
+$\mathsf{JonesSkeinCls}$. It consists of the main knot classifier row, the
+positive-crossing, negative-crossing, and smoothing boundary classifier rows,
+the $\PolynomialUp$ endpoint classifier, finite $\Bundle$ comparison,
+$\Pkg$ provenance comparison, and $\Cont$ continuation rows attached to the
+packet of \autoref{def:jonespolynomial-skein-ledger-packet}.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:jonespolynomial-skein-ledger-classifier}. Its fields are
+the accepted comparisons for the main $\KnotUp$ row, the three skein boundary
+rows, the polynomial endpoint row, the finite skein $\Bundle$, the provenance
+component, and the continuation ledger.
+
+Use \autoref{lem:jonespolynomial-skein-ledger-reidemeister-transport} for the
+boundary comparisons and
+\autoref{thm:jonespolynomial-skein-endpoint-classifier-exhaustion} for the
+endpoint comparison. Together they show that every accepted classifier witness
+projects to exactly those rows.
+
+The reverse packing is supplied by
+\autoref{thm:jonespolynomial-skein-ledger-obligation-surface}. The public
+surface theorem \autoref{thm:jonespolynomial-namecert-obligation-surface} then
+reads the same classifier rows as the $\NameCert_{\JonesPolynomialUp}$
+classifier obligation, with no extra equality principle.
+\end{proof}
+
+\begin{theorem}[JonesPolynomial ledger exactness obligation]
+\label{thm:jonespolynomial-ledger-exactness-obligation}
+Every accepted public $\JonesPolynomialUp$ row projects to the carrier packet,
+classifier, Reidemeister-transport, endpoint, finite $\Bundle$, $\Cont$, and
+$\Pkg$ ledger fields of
+\autoref{thm:jonespolynomial-carrier-obligation} and
+\autoref{thm:jonespolynomial-classifier-obligation}. Conversely, those fields
+repack as the accepted public $\NameCert_{\JonesPolynomialUp}$ row. The exactness
+surface uses no host knot quotient and no host Laurent-polynomial equality.
+\end{theorem}
+\begin{proof}
+For the projection direction, apply
+\autoref{thm:jonespolynomial-namecert-obligation-surface}. It states that the
+public row consists exactly of the skein ledger packet, classifier,
+Reidemeister transport row, endpoint classifier, finite $\Bundle$ ledger,
+$\Cont$ ledger, and shared $\Pkg$ provenance.
+
+Refine the projected rows by
+\autoref{thm:jonespolynomial-carrier-obligation} and
+\autoref{thm:jonespolynomial-classifier-obligation}. The carrier theorem names
+the packet fields, and the classifier theorem names the
+$\mathsf{JonesSkeinCls}$ comparison fields.
+
+For the repacking direction, use
+\autoref{thm:jonespolynomial-local-skein-window-composition} to compose the
+local skein window inside the displayed finite ledger, then apply
+\autoref{thm:jonespolynomial-skein-endpoint-classifier-exhaustion} to recover
+the endpoint row.
+
+Finally invoke
+\autoref{thm:jonespolynomial-skein-ledger-obligation-surface} and
+\autoref{thm:jonespolynomial-namecert-obligation-surface}. They repack exactly
+the named carrier, classifier, transport, endpoint, ledger, continuation, and
+provenance rows as the public certificate, while excluding host quotient and
+host polynomial equality rows.
+\end{proof}
+
 \begin{theorem}[JonesPolynomial skein classifier determinacy]
 \label{thm:jonespolynomial-skein-classifier-determinacy}
 Fix a $\JonesPolynomialUp$ skein ledger packet whose main $\KnotUp$ diagram row,
@@ -349,6 +444,7 @@ public surface contains exactly these packet and classifier rows. Repacking the
 exhausted rows therefore gives one $\JonesPolynomialUp$ endpoint row determined
 by $\hsame$ and $\Cont$ transport.
 \end{proof}
+\leanchecked{BEDC.Derived.JonesPolynomialUp.JonesSkeinLedgerPacket\_skein\_classifier\_determinacy}
 
 \begin{theorem}[JonesPolynomial skein boundary no-confusion]
 \label{thm:jonespolynomial-skein-boundary-no-confusion}
