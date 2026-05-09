@@ -247,6 +247,50 @@ source has already been fixed there, both induced consumer packages inherit
 one source handoff surface on $K$.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat pointwise seal stability]
+\label{thm:streamname-regseqrat-pointwise-seal-stability}
+Let $\mathcal{W}_0$ and $\mathcal{W}_1$ be public $\StreamNameUp$
+finite-window packages whose restrictions to a certified finite overlap $K$
+agree on every certified unary observation, every selected
+$\mathsf{RatHistoryClassifier}$ row, every $\mathsf{ProbeBundle}$ ledger row,
+every $\mathsf{InBundle}$ membership row, and every displayed $\hsame$ row.
+Suppose the two induced $\RegSeqRat$ handoff packages consume the same
+DyadicRatCore finite ledger over that overlap. Then the $\RealUp$ seal
+classifier rows induced from those two handoffs agree pointwise on $K$.
+
+The source used by this pointwise seal comparison is only the public
+$\StreamNameUp$ finite-window surface together with the consumed
+$\RegSeqRat$ dyadic ledger. The comparison does not use completion data,
+quotient data, host index equality, or a $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+First fix the source surface. Apply
+\autoref{thm:streamname-real-regseq-overlap-unique-source} to the two
+restricted public StreamName packages. The hypotheses are exactly the shared
+finite-window rows on $K$, so both induced $\RegSeqRat$ handoffs and both
+finite-window $\RealUp$ handoffs read one source surface there.
+
+Next fix the seal ledger. By
+\autoref{thm:regseqrat-dyadic-common-radius-seal}, the $\RegSeqRat$ seal reads
+the refined finite dyadic ledger: carried RatUp endpoints, positive unary
+denominators, common-radius rows, $\hsame$ and $\Cont$ provenance, and the
+scoped DyadicRatCore boundary. Since the two handoffs consume the same
+DyadicRatCore ledger, the seal input rows coincide pointwise on the overlap.
+
+Now transport the public observation rows along the displayed comparisons.
+\autoref{thm:dyadicratcore-public-observation-hsame-transport-bridge} says
+that each $\hsame$-transported DyadicRatCore public observation remains the
+same $\RealUp$ finite-window input, with the same finite ledger and RatUp
+endpoint faces.
+
+Finally use classifier stability and transitivity along the displayed
+$\hsame$ rows. The StreamName finite-window classifiers agree on $K$, the
+dyadic seal ledger agrees on $K$, and the transported RealUp finite-window
+inputs are the same rows. Hence the induced $\RealUp$ seal classifier rows are
+pointwise identical on the common overlap, without importing any completion,
+quotient, host-index, or RealUp completeness datum.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat pointwise handoff exhaustion]
 \label{thm:streamname-regseqrat-pointwise-handoff-exhaustion}
 Every finite-window row handed from $\StreamNameUp$ to a $\RegSeqRat$ consumer
