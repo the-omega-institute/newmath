@@ -154,3 +154,58 @@ boundary is precisely the displayed finite $\mathsf{BHist}$ packet.
 
 \section{The certificate}
 \label{sec:hypergeometric-certificate}
+
+\begin{theorem}[HypergeometricUp NameCert obligation surface]
+\label{thm:hypergeometric-namecert-obligation-surface}
+The source packet of \autoref{def:hypergeometric-bhist-source-packet} together
+with \autoref{thm:hypergeometric-root-carrier},
+\autoref{thm:hypergeometric-root-classifier},
+\autoref{thm:hypergeometric-root-ledger},
+\autoref{thm:hypergeometric-root-stability}, and
+\autoref{thm:hypergeometric-root-consumer-boundary} supplies the paper-side
+$\NameCert_{\HypergeometricUp}$ obligation surface. Its rows are exactly the
+$\mathsf{BHist}$ source packet, $\Cont$, $\hsame$, $\Pkg$, the
+$\ComplexAnalyticUp$ dependency row, the $\GammaUp$ dependency row, the
+parameter rows, the coefficient-ratio row, and the finite readback row.
+\end{theorem}
+\begin{proof}
+Start with the source packet definition. It displays the carrier coordinates:
+the two dependency packets, numerator and denominator parameter rows, the
+coefficient-ratio row, the finite readback row, package provenance, and the
+finite continuation ledger.
+
+Apply the root carrier, classifier, ledger, and stability theorems. They show
+that these displayed coordinates are enough for habitation, rowwise
+classification, ledger exactness, and transport stability of the
+$\HypergeometricUp$ packet.
+
+Finally use the root consumer-boundary theorem. It states that downstream reads
+factor through the same displayed rows, so the five local theorems assemble the
+paper-side $\NameCert_{\HypergeometricUp}$ obligation surface without adding an
+analytic-continuation row.
+\end{proof}
+
+\begin{theorem}[HypergeometricUp signature-gap boundary]
+\label{thm:hypergeometric-signature-gap-boundary}
+Any $\HypergeometricUp$ token gap may expose only the rows of
+\autoref{thm:hypergeometric-namecert-obligation-surface}: the finite
+$\mathsf{BHist}$ packet, $\Cont$, $\hsame$, $\Pkg$, the
+$\ComplexAnalyticUp$ and $\GammaUp$ dependency rows, parameter rows, the
+coefficient-ratio row, and the finite readback row. It never exposes analytic
+continuation, monodromy, singularity classification, host differential
+equations, or host special-function equality.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligation surface to enumerate the only rows accepted and
+transported by the certificate. The carrier and classifier theorems keep token
+gap reads inside those finite packet coordinates.
+
+The ledger and stability theorems exclude additional coordinates from the
+transport surface. In particular, analytic continuation, monodromy, singularity
+classification, host differential equations, and host special-function equality
+are not fields of the packet and cannot be recovered by $\hsame$ or $\Cont$.
+
+The consumer-boundary theorem gives the downstream direction. Any exposed token
+gap row must be consumed through the finite packet surface already listed, so
+the signature gap has exactly that boundary.
+\end{proof}
