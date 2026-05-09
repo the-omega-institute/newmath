@@ -443,6 +443,7 @@ The injectivity theorem concerns raw acceptance flows and their codes. If a late
 
 \begin{corollary}[Accepted code equality is stronger than object equivalence]
 \label{cor:deriv-accept-code-stronger-than-equivalence}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.p6\_accepted\_code\_equality\_stronger\_than\_equivalence}
 Equal accepted object codes imply equal raw acceptance flows. Equivalent mature objects under classifier or bridge need not have equal accepted object codes.
 \end{corollary}
 
@@ -451,7 +452,8 @@ Equal accepted object codes imply equal raw acceptance flows. Equivalent mature 
 
 \begin{definition}[Flow-level strength monotonicity]
 \label{def:deriv-accept-strength-monotonicity}
-If strength recognition supplies $s'\le s$, $P_6$ may report
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.StrengthMonotonicityAtFlowLevel}
+Flow-level strength monotonicity is the rule that, when an accepted flow at strength $s$ contains a recognized lower-strength derivation-certificate subflow supporting $s'$, $P_6$ may report
 $$
   \mathsf{AcceptGateFlow}(N,s)
   \Rightarrow
@@ -462,7 +464,8 @@ provided that the higher-strength derivation-certificate flow contains a recogni
 
 \begin{theorem}[Strength monotonicity]
 \label{thm:deriv-accept-strength-monotonicity}
-If $\mathsf{AcceptGateFlow}(N,s)$ holds, $s'\le s$, and the derivation-certificate flow at $s$ contains a recognized lower-strength subflow supporting $s'$, then $\mathsf{AcceptGateFlow}(N,s')$ holds.
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.p6\_strength\_monotonicity}
+If $\mathsf{AcceptGateFlow}(N,s)$ holds and the accepted flow contains a recognized lower-strength derivation-certificate subflow supporting $s'$, then $\mathsf{AcceptGateFlow}(N,s')$ holds.
 \end{theorem}
 
 \begin{proof}

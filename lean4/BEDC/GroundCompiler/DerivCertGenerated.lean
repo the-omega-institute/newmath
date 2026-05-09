@@ -578,6 +578,9 @@ theorem gate_monotone_strength : StrengthMonotonicityAtFlowLevel := by
                       hLower.right.right,
                       hAccepted.right.right.right.right.right.right.right⟩
 
+theorem p6_strength_monotonicity : StrengthMonotonicityAtFlowLevel :=
+  gate_monotone_strength
+
 theorem reuse_closure_at_flow_level
     {U M s : EventFlow} {inputs : List (EventFlow × EventFlow)} :
     ReuseFlow U inputs M s -> AcceptGateFlow M s := by
@@ -726,5 +729,13 @@ theorem accepted_object_code_weaker_than_object_equality :
   · rfl
   · intro hEqual
     cases hEqual
+
+theorem p6_accepted_code_equality_stronger_than_equivalence :
+    exists A B N M s t : EventFlow,
+      AcceptedFlow A N s /\
+        AcceptedFlow B M t /\
+        ClassifierObjectSame A B /\
+        Not (A = B) :=
+  accepted_object_code_weaker_than_object_equality
 
 end BEDC.GroundCompiler.DerivCertGenerated
