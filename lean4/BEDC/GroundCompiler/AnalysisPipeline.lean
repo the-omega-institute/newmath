@@ -2,6 +2,8 @@ import BEDC.GroundCompiler.ChannelEncoding
 import BEDC.GroundCompiler.SemanticMotif
 import BEDC.GroundCompiler.MetricsFlow
 import BEDC.GroundCompiler.HigherCaseStudies
+import BEDC.GroundCompiler.TheoremGenerated
+import BEDC.GroundCompiler.ChapterFlow
 
 namespace BEDC.GroundCompiler.AnalysisPipeline
 
@@ -10,6 +12,8 @@ open BEDC.GroundCompiler.ChannelEncoding
 open BEDC.GroundCompiler.SemanticMotif
 open BEDC.GroundCompiler.MetricsFlow
 open BEDC.GroundCompiler.CaseStudies
+open BEDC.GroundCompiler.TheoremGenerated
+open BEDC.GroundCompiler.ChapterFlow
 
 inductive AnalysisInput : Type where
   | channel (c : List DisplayAlphabet) : LegalZStream c -> AnalysisInput
@@ -373,6 +377,16 @@ def FailureCompleteReport
   forall item : AnalysisFailureItem,
     List.Mem item required -> List.Mem item recorded
 
+def TheoremCodeAnalysis
+    (T : TheoremCandidateFlow) (P : AnalysisProtocolCandidateFlow) :
+    List AnalysisStage :=
+  Analyze (TheoremCode T) P
+
+def ChapterCodeAnalysis
+    (C : ChapterCandidateFlow) (P : AnalysisProtocolCandidateFlow) :
+    List AnalysisStage :=
+  Analyze (ChapterCode C) P
+
 structure WellFormedAnalysisRun where
   code : List DisplayAlphabet
   protocol : AnalysisProtocolCandidateFlow
@@ -487,6 +501,20 @@ theorem non_failure_complete_inadmissible
         Not (FailureCompleteReport required recorded) := by
   intro hRequired hOmitted hComplete
   exact hOmitted (hComplete item hRequired)
+
+theorem theorem_code_analysis_not_reprove :
+    exists c : List DisplayAlphabet,
+      LegalTheoremCode c /\
+        exists T : TheoremCandidateFlow,
+          Decode c = some T /\
+            TheoremCodeAnalysis T [] = Analyze c [] /\
+            (forall R : GeneratedTheoremRecognizer,
+              Not (ProofSoundTheoremRecognition R T)) := by
+  refine ⟨TheoremCode [], ?_, ?_⟩
+  · exact ⟨[], rfl⟩
+  · exact
+      ⟨[], theorem_code_round_trip [], rfl,
+        empty_not_proof_sound⟩
 
 theorem bridge_obligation_not_bridge
     (candidate : BridgeObligationCandidate) :
