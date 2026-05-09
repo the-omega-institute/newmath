@@ -27,6 +27,43 @@ def ErgodicMeasurePreservingCarrier [AskSetup] [PackageSetup]
   ErgodicBHistSourceSurface dyn measure invariant transport ledger provenance endpoint bundle
     pkg ∧ hsame invariant (append dyn measure)
 
+theorem ErgodicBHistSourceSurface_invariant_subspace_classifier [AskSetup] [PackageSetup]
+    {dyn measure invariant transport ledger provenance endpoint invariant' transport' ledger'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ErgodicMeasurePreservingCarrier dyn measure invariant transport ledger provenance endpoint
+        bundle pkg ->
+      hsame invariant invariant' ->
+        hsame transport transport' ->
+          Cont invariant' transport' ledger' ->
+            Cont provenance ledger' endpoint' ->
+              PkgSig bundle endpoint' pkg ->
+                ErgodicBHistSourceSurface dyn measure invariant' transport' ledger' provenance
+                    endpoint' bundle pkg ∧
+                  hsame ledger ledger' ∧ hsame endpoint endpoint' := by
+  intro carrier sameInvariant sameTransport ledgerRow' endpointRow' pkgSig'
+  have surface :
+      ErgodicBHistSourceSurface dyn measure invariant transport ledger provenance endpoint
+        bundle pkg :=
+    carrier.left
+  have ledgerRow : Cont invariant transport ledger :=
+    surface.right.right.right.right.left
+  have endpointRow : Cont provenance ledger endpoint :=
+    surface.right.right.right.right.right.left
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport surface.right.right.left sameTransport
+  have ledgerSame : hsame ledger ledger' :=
+    cont_respects_hsame sameInvariant sameTransport ledgerRow ledgerRow'
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) ledgerSame endpointRow endpointRow'
+  exact And.intro
+    (And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro transportUnary'
+          (And.intro surface.right.right.right.left
+            (And.intro ledgerRow' (And.intro endpointRow' pkgSig'))))))
+    (And.intro ledgerSame endpointSame)
+
 theorem ErgodicMeasurePreservingCarrier_invariant_subspace_classifier [AskSetup]
     [PackageSetup]
     {dyn measure invariant transport ledger provenance endpoint : BHist}
