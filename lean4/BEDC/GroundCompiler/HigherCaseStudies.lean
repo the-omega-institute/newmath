@@ -445,5 +445,39 @@ structure HighLevelMotifReport where
   normalAddressMap : List NormalAddressRecord
   warnings : List EventFlow
   cannotClaims : List MetricCannotClaimEntry
+  cannotClaims_present : exists entry : MetricCannotClaimEntry,
+    List.Mem entry cannotClaims
+
+theorem high_level_reports_require_cannot_claims
+    (report : HighLevelMotifReport) :
+    exists entry : MetricCannotClaimEntry, List.Mem entry report.cannotClaims :=
+  report.cannotClaims_present
+
+theorem high_layer_motifs_cannot_replace_certificates :
+    Not (forall Rfam : GeneratedMotifRecognizer -> Prop,
+      forall S : EventFlow,
+      forall role : HighLayerMotifRole,
+      forall M L : EventFlow,
+        HighLayerMotif Rfam S role M L -> AcceptedObjectFlow S) := by
+  intro h
+  let role : HighLayerMotifRole := HighLayerMotifRole.completion
+  have hRecognizes : RecognizesMotif [] [] [] role.code :=
+    ⟨FormalCompilerInput.eventFlow [],
+      ⟨FormalCompilerInput.eventFlow [],
+        FormalCompilerInput.eventFlow [],
+        FormalCompilerInput.eventFlow role.code⟩,
+      Or.inl ⟨[], [], rfl⟩⟩
+  have hMotif : HighLayerMotif EmptyRfam [] role [] [] :=
+    ⟨[], rfl, hRecognizes, hRecognizes, Or.inl ⟨[], [], rfl⟩⟩
+  exact empty_not_accepted_object_flow (h EmptyRfam [] role [] [] hMotif)
+
+theorem higher_layer_conservativity
+    {Rfam : GeneratedMotifRecognizer -> Prop} {S : EventFlow}
+    {role : HighLayerMotifRole} {M L : EventFlow} :
+    HighLayerMotif Rfam S role M L -> CaseStudyFlowUsesOnlyDisplayAlphabet S := by
+  intro _ w _ m _
+  cases m with
+  | b0 => exact Or.inl rfl
+  | b1 => exact Or.inr rfl
 
 end BEDC.GroundCompiler.CaseStudies
