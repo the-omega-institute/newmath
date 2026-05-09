@@ -131,6 +131,7 @@ These are not external field labels. They are subflow roles recognized by $Q$ in
 
 \begin{definition}[Recognizer soundness]
 \label{def:recognizer-generated-soundness}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecSound}
 A recognizer $R$ is \emph{sound} for role $\rho$ when every flow it recognizes under that role satisfies the structure required by the role:
 $$
   \mathsf{RecSound}(R,\rho)
@@ -171,19 +172,22 @@ recording the source events used by $R$, the subflows assigned to roles, the sou
 
 \begin{principle}[No recognizer without certificate]
 \label{prin:recognizer-generated-no-recognizer-without-cert}
-A recognizer flow may be used as a formal recognizer only when it is certified for the relevant role. Before the judgment
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.formal\_recognition\_evidence\_requires\_certified}
+A recognizer flow may be used as a formal recognizer only when it is certified for the relevant role. Formal recognition evidence is the paired datum consisting of the recognition judgment
 $$
   \mathsf{Recognizes}(R,\rho,S)
 $$
-is used as formal evidence, the system must have
+and the certificate judgment
 $$
   \mathsf{CertifiedRecognizer}(R,\rho).
 $$
+Hence any formal recognition evidence for $R$, $\rho$, and $S$ projects to $\mathsf{CertifiedRecognizer}(R,\rho)$.
 \end{principle}
 
 \begin{theorem}[Uncertified recognizer cannot license recognition]
 \label{thm:recognizer-generated-uncertified-cannot-license}
-If $\neg\mathsf{CertifiedRecognizer}(R,\rho)$, then the system cannot use
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.uncertified\_cannot\_license}
+If $\neg\mathsf{CertifiedRecognizer}(R,\rho)$, then there is no formal recognition evidence for $R$, $\rho$, and $S$. Equivalently, the system cannot use the bare judgment
 $$
   \mathsf{Recognizes}(R,\rho,S)
 $$
