@@ -1,3 +1,53 @@
+\begin{theorem}[SpinGroup double-cover fiber ledger]
+\label{thm:spingroup-double-cover-fiber-ledger}
+The double-cover fiber ledger row exposed by $\SpinGroupUp$ is exactly the
+Clifford-unit comparison, the parity $\mathsf{UnaryHistory}$ row, the
+orthogonal-action endpoint, the $\Cont$ projection witness, and the
+$\mathsf{Pkg}$ provenance. These five rows are the fiber face of
+\autoref{def:spingroup-bhist-carrier-packet} and
+\autoref{thm:spingroup-double-cover-fiber-classifier}; no host sign quotient
+or ambient orthogonal-group equality is part of the ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_double\_cover\_fiber\_ledger}
+\begin{proof}
+Project the carried packet through
+\autoref{def:spingroup-bhist-carrier-packet}. The visible coordinates include
+the Clifford unit data, parity history, action endpoint, continuation witness,
+and package provenance.
+
+Apply \autoref{thm:spingroup-double-cover-fiber-classifier}. It compares the
+two carried spin endpoints only by the Clifford-unit comparison and the shared
+orthogonal-action endpoint recorded in the package ledger.
+
+The parity row and the $\Cont$ witness are the transport data that make this
+comparison a fiber row. Since the classifier theorem exposes no other
+constructor, the five displayed rows exhaust the ledger.
+\end{proof}
+
+\begin{theorem}[SpinGroup conjugation action readback]
+\label{thm:spingroup-conjugation-action-readback}
+The action row in \autoref{def:spingroup-bhist-carrier-packet} reads
+conjugation only from the displayed Clifford product rows, Clifford inverse
+rows, and $\hsame$ transport. It does not read a host action, a matrix action,
+or an unrecorded orthogonal representation outside the $\SpinGroupUp$ packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_conjugation\_action\_readback}
+\begin{proof}
+Unpack the action coordinate of
+\autoref{def:spingroup-bhist-carrier-packet}. Its source rows are the
+Clifford-unit endpoint, the multiplication ledger, the inverse ledger, and the
+displayed $\hsame$ transports between the selected endpoints.
+
+Use \autoref{thm:spingroup-group-consumer-boundary} to restrict downstream
+reads to Clifford unit, multiplication, inverse, double-cover classifier, and
+provenance rows. The conjugation action is therefore reconstructed from the
+product-inverse-product spine already present in the packet.
+
+The $\hsame$ rows transport the readback between classifier-equal endpoints.
+No host action row is available after this projection, so the action readback
+is exactly the displayed Clifford product and inverse readback.
+\end{proof}
+
 \begin{theorem}[SpinGroup boundary consumer exactness]
 \label{thm:spingroup-boundary-consumer-exactness}
 Every $\PinGroupUp$, $\LieGroupUp$, or $\CliffordUp$ consumer of the

@@ -6,5 +6,59 @@ The character-theory interface $\CharacterTheoryUp$ packages, for a finite group
 \section{Carrier definition}
 \label{sec:charactertheory-carrier}
 
+\begin{definition}[CharacterTheoryUp root BHist surface]
+\label{def:charactertheory-root-bhist-surface}
+The root $\CharacterTheoryUp$ surface is a finite $\mathsf{BHist}$ packet
+$$
+\mathcal{X}_{\CharacterTheoryUp}:=(G,V,\rho,\tau,\Omega,\Pi)
+$$
+whose rows have the following meanings:
+\begin{enumerate}
+  \item $G$ is the consumed $\NameCert_{\GroupUp}$ source row for the finite group endpoint.
+  \item $V$ is the consumed $\NameCert_{\VecSpaceUp}$ source row for the representation space endpoint.
+  \item $\rho$ is the displayed representation-action row, read as a finite $\Cont$ ledger from the group row and vector-space row to an endomorphism row of $V$.
+  \item $\tau$ is the trace row of the displayed action endpoint, carried as a $\mathsf{BHist}$ readback row and not as a host matrix trace.
+  \item $\Omega$ is the orthogonality and class-function ledger, consisting only of the finite rows that record class-function basis reads, trace-pairing reads, and the $\hsame$ comparisons used to transport those reads.
+  \item $\Pi:\Pkg$ is the provenance row tying $G$, $V$, $\rho$, $\tau$, and $\Omega$ to the same accepted package.
+\end{enumerate}
+No row of $\mathcal{X}_{\CharacterTheoryUp}$ is a quotient of conjugacy classes, a complex inner-product space, or an ambient trace operator outside this finite $\mathsf{BHist}$ packet.
+\end{definition}
+
+\begin{theorem}[CharacterTheoryUp root carrier obligation]
+\label{thm:charactertheory-root-carrier-obligation}
+An accepted root packet $\mathcal{X}_{\CharacterTheoryUp}$ exposes only the $\NameCert_{\GroupUp}$ row $G$, the $\NameCert_{\VecSpaceUp}$ row $V$, the representation-action row $\rho$, the trace row $\tau$, and the provenance row $\Pi:\Pkg$ as carrier-facing data. It exposes no host group element set, no host vector space, no matrix algebra, and no detached trace carrier beyond these displayed rows.
+\end{theorem}
+\begin{proof}
+Unpack the packet of \autoref{def:charactertheory-root-bhist-surface}. Its carrier-facing coordinates are exactly $G$, $V$, $\rho$, $\tau$, and $\Pi$; the orthogonality ledger $\Omega$ is a downstream readback ledger rather than a new carrier coordinate.
+
+For each accepted carrier read, project to the corresponding coordinate of the finite packet. The group source is $G$, the vector source is $V$, the action is $\rho$, the trace readback is $\tau$, and the provenance is $\Pi$.
+
+Conversely, repack those five rows into the displayed tuple and leave $\Omega$ available only as ledger data. Since the definition lists no other constructor for accepted root packets, there is no additional host carrier or trace object to expose.
+\end{proof}
+
+\begin{theorem}[CharacterTheoryUp root classifier obligation]
+\label{thm:charactertheory-root-classifier-obligation}
+If two accepted root packets have $\hsame$-transported group source rows, $\hsame$-transported vector-space source rows, and $\hsame$-transported trace rows, then they determine the same $\CharacterTheoryUp$ character classifier. The classifier transport uses only those source and trace transports together with the representation-action row of \autoref{def:charactertheory-root-bhist-surface}.
+\end{theorem}
+\begin{proof}
+Project the two accepted packets to their $G$, $V$, $\rho$, and $\tau$ rows. The displayed $\hsame$ transport on $G$ identifies the group source endpoints, and the displayed $\hsame$ transport on $V$ identifies the vector-space endpoints that carry the representation row.
+
+Transport the action row $\rho$ along the two source comparisons. The trace row $\tau$ is then transported along the given trace comparison, so the character readback obtained from the transported action has the same $\mathsf{BHist}$ classifier endpoint as the original readback.
+
+Repack the transported source rows, action row, trace row, ledger row, and provenance row as an accepted packet. The character classifier reads only this transported trace endpoint, so the classifier is preserved.
+\end{proof}
+
+\begin{theorem}[CharacterTheoryUp root ledger obligation]
+\label{thm:charactertheory-root-ledger-obligation}
+Every downstream orthogonality read and every class-function-basis read of an accepted $\CharacterTheoryUp$ root packet factors through the finite $\Cont$ and $\Pkg$ ledger rows of $\Omega$ and $\Pi$. Such reads introduce no host trace, quotient class object, or complex inner product beyond the rows displayed in \autoref{def:charactertheory-root-bhist-surface}.
+\end{theorem}
+\begin{proof}
+Unpack the ledger coordinate $\Omega$. Its entries are finite rows for trace-pairing reads, class-function basis reads, and the $\hsame$ comparisons that transport those reads across accepted source endpoints.
+
+Any downstream orthogonality query first projects to the trace row $\tau$ and then follows a finite $\Cont$ row inside $\Omega$. Any downstream class-function-basis query projects to the same packet and follows the basis read rows recorded in $\Omega$.
+
+The provenance row $\Pi:\Pkg$ ties those ledger entries back to the same accepted group source, vector-space source, action, and trace rows. Repacking the query through $\Omega$ and $\Pi$ leaves no remaining coordinate from which a host trace, quotient class object, or complex inner product could be read.
+\end{proof}
+
 \section{The certificate}
 \label{sec:charactertheory-certificate}
