@@ -223,6 +223,28 @@ theorem CplxDiffAt_product_append_derivative_carrier {f g z fp gp : BHist} :
                             (And.intro quotientF
                               (And.intro quotientG (cont_intro rfl)))))))
 
+theorem CplxDiffAt_chain_append_derivative_carrier {g f z gp fp : BHist} :
+    CplxDiffAt g z gp -> CplxDiffAt f gp fp ->
+      ComplexHistoryCarrier (append fp gp) ∧
+        ∃ hg : BHist, ∃ qg : BHist, ∃ hf : BHist, ∃ qf : BHist,
+          CplxDiffQuot g z hg qg ∧ CplxDiffQuot f gp hf qf ∧
+            Cont fp gp (append fp gp) := by
+  intro diffG diffF
+  cases diffG.right.right.right.left with
+  | intro hg diffGWitness =>
+      cases diffGWitness with
+      | intro qg quotientG =>
+          cases diffF.right.right.right.left with
+          | intro hf diffFWitness =>
+              cases diffFWitness with
+              | intro qf quotientF =>
+                  have appendCarrier : ComplexHistoryCarrier (append fp gp) :=
+                    ComplexHistoryCarrier_append_unary_closed diffF.right.right.left
+                      (ComplexHistoryCarrier_unary diffG.right.right.left)
+                  exact And.intro appendCarrier (Exists.intro hg (Exists.intro qg
+                    (Exists.intro hf (Exists.intro qf (And.intro quotientG
+                      (And.intro quotientF (cont_intro rfl)))))))
+
 theorem CplxDiffAt_visible_step_branches_absurd {f z fp p q out0 out1 : BHist} :
     CplxDiffAt f z fp -> CplxDiffQuot f z (BHist.e0 p) out0 ->
       CplxDiffQuot f z (BHist.e1 q) out1 -> False := by

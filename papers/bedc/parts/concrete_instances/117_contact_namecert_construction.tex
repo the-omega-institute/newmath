@@ -108,14 +108,82 @@ carrier-classifier surface, the public certificate contains no standard bridge
 row.
 \end{proof}
 
-\closureat{ContactUp}{publicStr}
+\begin{definition}[ContactUp standard bridge surface]
+\label{def:contact-standard-bridge-surface}
+The $\ContactUp$ standard bridge surface is the public $\ContactUp$
+carrier-classifier rows, the form-row obligation, the nondegeneracy row, the
+ledger exactness row, and the public $\NameCert$ export, read as the source
+side of the standard contact-structure interpretation. Its source side is
+exactly the surface displayed by
+\autoref{thm:contactup-public-namecert-export}.
+\end{definition}
+\leandef{BEDC.Derived.ContactUp.ContactStandardBridgeSurface}
+
+\begin{theorem}[ContactUp public bridge compatibility]
+\label{thm:contact-public-bridge-compatibility}
+Every row interpreted by the bridge surface of
+\autoref{def:contact-standard-bridge-surface} is already one of the public
+$\ContactUp$ rows, and every public $\ContactUp$ row has a corresponding
+bridge-side row. The bridge adds no host manifold, no open-cover compactness
+condition, and no external equality beyond the public carrier, classifier,
+obligation, ledger, and $\NameCert$ rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContactUp.ContactStandardBridgeSurface\_public\_bridge\_compatibility}
+\leanchecked{BEDC.Derived.ContactUp.ContactCarrierClassifierSurface\_public\_bridge\_compatibility}
+\begin{proof}
+Use \autoref{thm:contactup-form-row-obligation} for the routed one-form,
+exterior-input, and wedge-ladder rows, then
+\autoref{thm:contactup-nondegeneracy-obligation} for the contact-local
+top-wedge row.
+
+Apply \autoref{thm:contactup-ledger-exactness-obligation}. Its coverage,
+soundness, and completeness clauses say that the listed bridge reads are
+exactly the certified public contact reads.
+
+Finally use \autoref{thm:contactup-public-namecert-export}. It repacks those
+rows as the public $\NameCert_{\ContactUp}$ surface, so the correspondence is
+row-for-row and introduces no host manifold, compactness, or external equality
+datum.
+\end{proof}
+
+\begin{theorem}[ContactUp mature consumer completeness]
+\label{thm:contactup-mature-consumer-completeness}
+Every $\ContactUp$ consumer of the public bridge reads exactly the
+$\ManifoldUp$ carrier, the $\DiffFormUp$ one-form row, the exterior-input row,
+the wedge ladder rows, the top-wedge nondegeneracy row, the exact ledger, and
+the public bridge compatibility rows already named by
+\autoref{thm:contactup-public-namecert-export} and
+\autoref{thm:contact-public-bridge-compatibility}. No extra host manifold,
+compactness condition, or equality source is exported.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContactUp.ContactStandardBridgeSurface\_mature\_consumer\_completeness}
+\leanchecked{BEDC.Derived.ContactUp.ContactCarrierClassifierSurface\_mature\_consumer\_completeness}
+\begin{proof}
+First apply \autoref{thm:contactup-form-row-obligation}. It identifies the
+contact consumer face with the routed $\DiffFormUp$ one-form, exterior-input,
+and wedge rows over the shared $\ManifoldUp$ carrier.
+
+Next apply \autoref{thm:contactup-nondegeneracy-obligation} and
+\autoref{thm:contactup-ledger-exactness-obligation}. These supply the local
+top-wedge nondegeneracy row and the exact coverage, soundness, and completeness
+ledger for the displayed carrier-classifier surface.
+
+Finally use \autoref{thm:contactup-public-namecert-export} to repack those rows
+as the public $\NameCert_{\ContactUp}$ surface, and use
+\autoref{thm:contact-public-bridge-compatibility} to compare the public surface
+with the bridge surface. The compatibility theorem states that the bridge adds
+no host manifold, compactness, or external equality datum, so the listed rows
+are the complete consumer boundary.
+\end{proof}
+
+\closureat{ContactUp}{matureStr}
 
 \begin{closurestatus}{\ContactUp}
   \constructivestory{A contact surface is built over a shared $\ManifoldUp$ and $\DiffFormUp$ source by displaying an odd-dimensional manifold row, a carried degree-one form $\alpha$, its hyperplane row, an exterior-derivative input $d\alpha$, the wedge ladder $\alpha\wedge(d\alpha)^k$, and the top-degree wedge row. A history enters the carrier only through those routed form rows, and two accepted surfaces classify together when $\hsame$ preserves the shared manifold endpoint, the one-form, the hyperplane row, the exterior-input row, and every wedge-ladder row. The source covers exactly the manifold plus routed one-form data, the pattern records the top wedge nondegeneracy condition on dimension $2n+1$, and the ledger keeps chart rows, the one-form source, derivative input, wedge ladder, top wedge, and local nonintegrability witness aligned. The public certificate obligations are therefore the displayed carrier row, restricted classifier reflexivity, symmetry, transitivity, and closure of all listed form rows under that classifier, with coverage, soundness, and completeness supplied by the exact ledger. A history $h$ lies in the signature gap of a $\ContactUp$ token $p$ when the source accepts such a form surface for $h$, the signature relation pairs it with an answer surface and evidence ledger, and token introduction identifies that answer as $p$; unfolded, $h$ carries the same odd-dimensional endpoint, one-form, derivative input, wedge ladder, and nondegenerate top wedge encoded by $p$. The surface deliberately reads the nonintegrability condition as this top-wedge row rather than as a separate primitive, and it exports no standard bridge. The chapter registers this routed one-form construction under the name $\ContactUp$; no closed carrier implementation, host contact manifold, or independent nonintegrability theorem is assumed.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{The public boundary is exactly the carrier-classifier surface, form-row obligation, nondegeneracy obligation, and exact ledger assembled in \autoref{thm:contactup-public-namecert-export}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim a closed ContactUp carrier implementation, a proved nonintegrability theorem, a standard bridge, or a Lean verification target.}
-  \upgradepath{Bridged closure requires an explicit standard bridge for the public $\ContactUp$ surface.}
+  \notclaimed{This chapter does not claim a closed ContactUp carrier implementation, a proved nonintegrability theorem, Lean bridge verification, or mature examples.}
+  \upgradepath{The paper-side theory axis is complete; Lean bridge verification remains a separate verification-axis obligation.}
 \end{closurestatus}

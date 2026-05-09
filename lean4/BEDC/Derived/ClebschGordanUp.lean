@@ -1,0 +1,304 @@
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.ClebschGordanUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def ClebschGordanCouplingPacket [AskSetup] [PackageSetup]
+    (lie tensor repr sourceLeft sourceRight tensorEndpoint decomposition coefficients classifier
+      provenance ledger : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory lie ∧ UnaryHistory tensor ∧ UnaryHistory repr ∧ UnaryHistory sourceLeft ∧
+    UnaryHistory sourceRight ∧ UnaryHistory decomposition ∧ UnaryHistory classifier ∧
+      (∀ {provenance' : BHist}, PkgSig bundle provenance' pkg -> UnaryHistory provenance') ∧
+      Cont sourceLeft sourceRight tensorEndpoint ∧
+        Cont tensorEndpoint decomposition coefficients ∧ Cont coefficients classifier ledger ∧
+          PkgSig bundle provenance pkg
+
+theorem ClebschGordanCouplingPacket_carrier_source_obligation [AskSetup] [PackageSetup]
+    {lie tensor repr sourceLeft sourceRight tensorEndpoint decomposition coefficients classifier
+      provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClebschGordanCouplingPacket lie tensor repr sourceLeft sourceRight tensorEndpoint
+        decomposition coefficients classifier provenance ledger bundle pkg ->
+      UnaryHistory sourceLeft -> UnaryHistory sourceRight -> UnaryHistory decomposition ->
+        UnaryHistory classifier ->
+          UnaryHistory tensorEndpoint ∧ UnaryHistory coefficients ∧ UnaryHistory ledger ∧
+            Cont sourceLeft sourceRight tensorEndpoint ∧
+              Cont tensorEndpoint decomposition coefficients ∧
+                Cont coefficients classifier ledger ∧ PkgSig bundle provenance pkg := by
+  intro packet sourceLeftUnary sourceRightUnary decompositionUnary classifierUnary
+  have tensorEndpointRow : Cont sourceLeft sourceRight tensorEndpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have coefficientRow : Cont tensorEndpoint decomposition coefficients :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have ledgerRow : Cont coefficients classifier ledger :=
+    packet.right.right.right.right.right.right.right.right.right.right.left
+  have pkgRow : PkgSig bundle provenance pkg :=
+    packet.right.right.right.right.right.right.right.right.right.right.right
+  have tensorEndpointUnary : UnaryHistory tensorEndpoint :=
+    unary_cont_closed sourceLeftUnary sourceRightUnary tensorEndpointRow
+  have coefficientsUnary : UnaryHistory coefficients :=
+    unary_cont_closed tensorEndpointUnary decompositionUnary coefficientRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed coefficientsUnary classifierUnary ledgerRow
+  exact And.intro tensorEndpointUnary
+    (And.intro coefficientsUnary
+      (And.intro ledgerUnary
+        (And.intro tensorEndpointRow
+          (And.intro coefficientRow
+            (And.intro ledgerRow pkgRow)))))
+
+theorem ClebschGordanCouplingPacket_ledger_exactness_obligation [AskSetup] [PackageSetup]
+    {lie tensor repr sourceLeft sourceRight tensorEndpoint decomposition coefficients classifier
+      provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClebschGordanCouplingPacket lie tensor repr sourceLeft sourceRight tensorEndpoint
+        decomposition coefficients classifier provenance ledger bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row ledger)
+        (fun row : BHist => hsame row ledger) (fun row : BHist => hsame row ledger)
+        hsame ∧
+        UnaryHistory tensorEndpoint ∧ UnaryHistory coefficients ∧ UnaryHistory ledger ∧
+          Cont sourceLeft sourceRight tensorEndpoint ∧
+            Cont tensorEndpoint decomposition coefficients ∧
+              Cont coefficients classifier ledger ∧ PkgSig bundle provenance pkg := by
+  intro packet
+  have sourceLeftUnary : UnaryHistory sourceLeft :=
+    packet.right.right.right.left
+  have sourceRightUnary : UnaryHistory sourceRight :=
+    packet.right.right.right.right.left
+  have decompositionUnary : UnaryHistory decomposition :=
+    packet.right.right.right.right.right.left
+  have classifierUnary : UnaryHistory classifier :=
+    packet.right.right.right.right.right.right.left
+  have rows :=
+    ClebschGordanCouplingPacket_carrier_source_obligation packet sourceLeftUnary
+      sourceRightUnary decompositionUnary classifierUnary
+  have ledgerSelf : hsame ledger ledger :=
+    hsame_refl ledger
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row ledger)
+        (fun row : BHist => hsame row ledger) (fun row : BHist => hsame row ledger)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro ledger ledgerSelf
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows rowCarrier
+        exact hsame_trans (hsame_symm sameRows) rowCarrier
+    }
+    pattern_sound := by
+      intro row source
+      exact source
+    ledger_sound := by
+      intro row source
+      exact source
+  }
+  exact And.intro cert rows
+
+theorem ClebschGordanCouplingPacket_classifier_transport_obligation [AskSetup] [PackageSetup]
+    {lie tensor repr sourceLeft sourceRight tensorEndpoint decomposition coefficients classifier
+      provenance ledger lie' tensor' repr' sourceLeft' sourceRight' tensorEndpoint'
+      decomposition' coefficients' classifier' provenance' ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClebschGordanCouplingPacket lie tensor repr sourceLeft sourceRight tensorEndpoint
+        decomposition coefficients classifier provenance ledger bundle pkg ->
+      hsame lie lie' -> hsame tensor tensor' -> hsame repr repr' ->
+        hsame sourceLeft sourceLeft' -> hsame sourceRight sourceRight' ->
+          hsame decomposition decomposition' -> hsame classifier classifier' ->
+            Cont sourceLeft' sourceRight' tensorEndpoint' ->
+              Cont tensorEndpoint' decomposition' coefficients' ->
+                Cont coefficients' classifier' ledger' -> PkgSig bundle provenance' pkg ->
+                  hsame tensorEndpoint tensorEndpoint' ∧ hsame coefficients coefficients' ∧
+                    hsame ledger ledger' ∧
+                      ClebschGordanCouplingPacket lie' tensor' repr' sourceLeft' sourceRight'
+                        tensorEndpoint' decomposition' coefficients' classifier' provenance'
+                        ledger' bundle pkg := by
+  intro packet sameLie sameTensor sameRepr sameSourceLeft sameSourceRight sameDecomposition
+    sameClassifier tensorEndpointRow' coefficientRow' ledgerRow' pkgRow'
+  have lieUnary : UnaryHistory lie :=
+    packet.left
+  have tensorUnary : UnaryHistory tensor :=
+    packet.right.left
+  have reprUnary : UnaryHistory repr :=
+    packet.right.right.left
+  have sourceLeftUnary : UnaryHistory sourceLeft :=
+    packet.right.right.right.left
+  have sourceRightUnary : UnaryHistory sourceRight :=
+    packet.right.right.right.right.left
+  have decompositionUnary : UnaryHistory decomposition :=
+    packet.right.right.right.right.right.left
+  have classifierUnary : UnaryHistory classifier :=
+    packet.right.right.right.right.right.right.left
+  have provenancePolicy :
+      ∀ {provenance' : BHist}, PkgSig bundle provenance' pkg -> UnaryHistory provenance' :=
+    packet.right.right.right.right.right.right.right.left
+  have tensorEndpointRow : Cont sourceLeft sourceRight tensorEndpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have coefficientRow : Cont tensorEndpoint decomposition coefficients :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have ledgerRow : Cont coefficients classifier ledger :=
+    packet.right.right.right.right.right.right.right.right.right.right.left
+  have lieUnary' : UnaryHistory lie' :=
+    unary_transport lieUnary sameLie
+  have tensorUnary' : UnaryHistory tensor' :=
+    unary_transport tensorUnary sameTensor
+  have reprUnary' : UnaryHistory repr' :=
+    unary_transport reprUnary sameRepr
+  have sourceLeftUnary' : UnaryHistory sourceLeft' :=
+    unary_transport sourceLeftUnary sameSourceLeft
+  have sourceRightUnary' : UnaryHistory sourceRight' :=
+    unary_transport sourceRightUnary sameSourceRight
+  have decompositionUnary' : UnaryHistory decomposition' :=
+    unary_transport decompositionUnary sameDecomposition
+  have classifierUnary' : UnaryHistory classifier' :=
+    unary_transport classifierUnary sameClassifier
+  have sameTensorEndpoint : hsame tensorEndpoint tensorEndpoint' :=
+    cont_respects_hsame sameSourceLeft sameSourceRight tensorEndpointRow tensorEndpointRow'
+  have sameCoefficients : hsame coefficients coefficients' :=
+    cont_respects_hsame sameTensorEndpoint sameDecomposition coefficientRow coefficientRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameCoefficients sameClassifier ledgerRow ledgerRow'
+  have tensorEndpointUnary' : UnaryHistory tensorEndpoint' :=
+    unary_cont_closed sourceLeftUnary' sourceRightUnary' tensorEndpointRow'
+  have coefficientsUnary' : UnaryHistory coefficients' :=
+    unary_cont_closed tensorEndpointUnary' decompositionUnary' coefficientRow'
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed coefficientsUnary' classifierUnary' ledgerRow'
+  have targetPacket :
+      ClebschGordanCouplingPacket lie' tensor' repr' sourceLeft' sourceRight'
+        tensorEndpoint' decomposition' coefficients' classifier' provenance' ledger' bundle pkg :=
+    And.intro lieUnary'
+      (And.intro tensorUnary'
+        (And.intro reprUnary'
+          (And.intro sourceLeftUnary'
+              (And.intro sourceRightUnary'
+                (And.intro decompositionUnary'
+                  (And.intro classifierUnary'
+                    (And.intro provenancePolicy
+                      (And.intro tensorEndpointRow'
+                        (And.intro coefficientRow'
+                          (And.intro ledgerRow' pkgRow'))))))))))
+  exact And.intro sameTensorEndpoint
+    (And.intro sameCoefficients
+      (And.intro sameLedger targetPacket))
+
+theorem ClebschGordanCouplingPacket_coefficient_slot_determinacy [AskSetup] [PackageSetup]
+    {lie tensor repr sourceLeft sourceRight tensorEndpoint decomposition coefficients coefficients'
+      classifier provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClebschGordanCouplingPacket lie tensor repr sourceLeft sourceRight tensorEndpoint
+        decomposition coefficients classifier provenance ledger bundle pkg ->
+      Cont tensorEndpoint decomposition coefficients' ->
+        hsame coefficients coefficients' ∧ hsame ledger (append coefficients classifier) ∧
+          PkgSig bundle provenance pkg := by
+  intro packet coefficientRow'
+  have coefficientRow : Cont tensorEndpoint decomposition coefficients :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have sameCoefficients : hsame coefficients coefficients' :=
+    cont_respects_hsame (hsame_refl tensorEndpoint) (hsame_refl decomposition) coefficientRow
+      coefficientRow'
+  exact And.intro sameCoefficients
+    (And.intro packet.right.right.right.right.right.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.right.right.right.right)
+
+theorem ClebschGordanCouplingPacket_source_namecert_boundary [AskSetup] [PackageSetup]
+    {lie tensor repr sourceLeft sourceRight tensorEndpoint decomposition coefficients classifier
+      provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClebschGordanCouplingPacket lie tensor repr sourceLeft sourceRight tensorEndpoint
+        decomposition coefficients classifier provenance ledger bundle pkg ->
+      UnaryHistory lie ∧ UnaryHistory tensor ∧ UnaryHistory repr ∧ UnaryHistory sourceLeft ∧
+        UnaryHistory sourceRight ∧ UnaryHistory tensorEndpoint ∧
+          Cont sourceLeft sourceRight tensorEndpoint ∧ PkgSig bundle provenance pkg := by
+  intro packet
+  have lieUnary : UnaryHistory lie :=
+    packet.left
+  have tensorUnary : UnaryHistory tensor :=
+    packet.right.left
+  have reprUnary : UnaryHistory repr :=
+    packet.right.right.left
+  have sourceLeftUnary : UnaryHistory sourceLeft :=
+    packet.right.right.right.left
+  have sourceRightUnary : UnaryHistory sourceRight :=
+    packet.right.right.right.right.left
+  have tensorEndpointRow : Cont sourceLeft sourceRight tensorEndpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have tensorEndpointUnary : UnaryHistory tensorEndpoint :=
+    unary_cont_closed sourceLeftUnary sourceRightUnary tensorEndpointRow
+  have pkgRow : PkgSig bundle provenance pkg :=
+    packet.right.right.right.right.right.right.right.right.right.right.right
+  exact And.intro lieUnary
+    (And.intro tensorUnary
+      (And.intro reprUnary
+        (And.intro sourceLeftUnary
+          (And.intro sourceRightUnary
+            (And.intro tensorEndpointUnary
+              (And.intro tensorEndpointRow pkgRow))))))
+
+theorem ClebschGordanCouplingPacket_consumer_readback_boundary [AskSetup] [PackageSetup]
+    {lie tensor repr sourceLeft sourceRight tensorEndpoint decomposition coefficients classifier
+      provenance ledger consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClebschGordanCouplingPacket lie tensor repr sourceLeft sourceRight tensorEndpoint
+        decomposition coefficients classifier provenance ledger bundle pkg ->
+      Cont ledger provenance consumer ->
+        UnaryHistory consumer ∧ hsame consumer (append ledger provenance) ∧
+          Cont sourceLeft sourceRight tensorEndpoint ∧
+            Cont tensorEndpoint decomposition coefficients ∧
+              Cont coefficients classifier ledger ∧ PkgSig bundle provenance pkg := by
+  intro packet consumerRow
+  have sourceLeftUnary : UnaryHistory sourceLeft :=
+    packet.right.right.right.left
+  have sourceRightUnary : UnaryHistory sourceRight :=
+    packet.right.right.right.right.left
+  have decompositionUnary : UnaryHistory decomposition :=
+    packet.right.right.right.right.right.left
+  have classifierUnary : UnaryHistory classifier :=
+    packet.right.right.right.right.right.right.left
+  have provenancePolicy :
+      ∀ {provenance' : BHist}, PkgSig bundle provenance' pkg -> UnaryHistory provenance' :=
+    packet.right.right.right.right.right.right.right.left
+  have tensorEndpointRow : Cont sourceLeft sourceRight tensorEndpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have coefficientRow : Cont tensorEndpoint decomposition coefficients :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have ledgerRow : Cont coefficients classifier ledger :=
+    packet.right.right.right.right.right.right.right.right.right.right.left
+  have pkgRow : PkgSig bundle provenance pkg :=
+    packet.right.right.right.right.right.right.right.right.right.right.right
+  have tensorEndpointUnary : UnaryHistory tensorEndpoint :=
+    unary_cont_closed sourceLeftUnary sourceRightUnary tensorEndpointRow
+  have coefficientsUnary : UnaryHistory coefficients :=
+    unary_cont_closed tensorEndpointUnary decompositionUnary coefficientRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed coefficientsUnary classifierUnary ledgerRow
+  have provenanceUnary : UnaryHistory provenance :=
+    provenancePolicy pkgRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed ledgerUnary provenanceUnary consumerRow
+  exact And.intro consumerUnary
+    (And.intro consumerRow
+      (And.intro tensorEndpointRow
+        (And.intro coefficientRow
+          (And.intro ledgerRow pkgRow))))
+
+end BEDC.Derived.ClebschGordanUp

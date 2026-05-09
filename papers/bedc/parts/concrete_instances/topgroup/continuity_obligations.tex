@@ -28,6 +28,8 @@ transports, finite ledger, and provenance row, the inverse-continuity row is
 sound exactly through those packet projections and no outside datum is present.
 \end{proof}
 
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_inverse\_cont\_ledger\_soundness}
+
 \begin{theorem}[TopGroupUp source compatibility obligation]
 \label{thm:topgroup-source-compatibility-obligation}
 Every accepted $\TopGroupUp$ root surface reads its displayed $\GroupUp$ and
@@ -46,6 +48,7 @@ the public side. A downstream consumer sees only the displayed source
 certificates, $\hsame$ transports, finite $\Cont$ ledger, and $\Pkg$ provenance,
 so the two source rows cannot be separated into different carriers.
 \end{proof}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_source\_compatibility\_obligation}
 
 \begin{theorem}[TopGroupUp operation continuity obligation]
 \label{thm:topgroup-operation-continuity-obligation}
@@ -70,6 +73,7 @@ surface exposes only these operation rows together with the source
 certificates, classifier transports, ledger, and provenance packet, there is no
 third operation-continuity obligation available to a consumer.
 \end{proof}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_operation\_continuity\_witness\_obligation}
 
 \begin{theorem}[TopGroupUp continuity ledger exactness obligation]
 \label{thm:topgroup-ledger-exactness-obligation}
@@ -95,6 +99,7 @@ continuity predicates or unstated operation rows. The finite $\Cont$ ledger is
 therefore exact for the product and inverse continuity obligations exported by
 $\TopGroupUp$.
 \end{proof}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_ledger\_exactness\_obligation}
 
 \begin{theorem}[TopGroupUp source-pair carrier obligation]
 \label{thm:topgroup-source-pair-carrier-obligation}
@@ -113,6 +118,7 @@ The same theorem also records that product, inverse, neighbourhood, ledger, and
 provenance rows are packet projections. Hence a root consumer can read both
 source rows only through the common $\mathsf{BHist}$ carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_source\_pair\_carrier\_obligation}
 
 \begin{theorem}[TopGroupUp product continuity obligation]
 \label{thm:topgroup-product-continuity-obligation}
@@ -121,6 +127,7 @@ endpoint transport supplied by the packet's $\hsame$ rows together with the
 finite $\Cont$ ledger entry for multiplication. No extra product-continuity
 predicate is present outside the carrier of \autoref{def:topgroup-bhist-carrier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_product\_continuity\_obligation}
 \begin{proof}
 First use \autoref{thm:topgroup-source-fiber-product-carrier} to place the
 product graph, neighbourhood row, endpoint transports, and finite ledger over
@@ -138,6 +145,7 @@ endpoint-transport row carried by the packet's $\hsame$ data and the finite
 $\Cont$ ledger entry for inversion. The obligation has no separate inverse
 carrier, topology source, or ambient continuity witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_inverse\_continuity\_obligation}
 \begin{proof}
 Apply \autoref{thm:topgroup-source-pair-carrier-obligation} to bind the unary
 inverse row to the same $\mathsf{BHist}$ carrier as the group and topology source
@@ -148,3 +156,29 @@ accepted inverse-continuity row is sound precisely through the input endpoint,
 inverse endpoint, target neighbourhood, $\hsame$ transports, and finite
 $\Cont$ ledger entry projected from that packet.
 \end{proof}
+
+\begin{theorem}[TopGroupUp operation ledger obligation]
+\label{thm:topgroup-operation-ledger-obligation}
+The multiplication and inverse continuity obligations of a $\TopGroupUp$
+certificate are exactly the two operation-continuity ledger families supplied
+by the finite $\Cont$ ledger: product-neighbourhood transport and
+inverse-neighbourhood transport. There is no third operation row in the public
+certificate boundary.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:topgroup-continuity-ledger-coverage}. Every public continuity
+row over the accepted packet is covered by the finite $\Cont$ ledger and is one
+of the product or inverse neighbourhood transport rows.
+
+\autoref{thm:topgroup-cont-ledger-operation-exhaustion} identifies those two
+families with the product and inverse components of
+\autoref{def:topgroup-bhist-continuity-obligation-triple}. It also excludes
+ambient continuity predicates and any operation outside the carried product and
+inverse graphs.
+
+Finally apply \autoref{thm:topgroup-product-inverse-obligation-triad}. The
+public operation surface repacks the same two continuity families with the
+shared carrier compatibility row. Therefore the operation ledger obligation has
+exactly two operation families and no third operation row.
+\end{proof}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_operation\_ledger\_consumer\_boundary}

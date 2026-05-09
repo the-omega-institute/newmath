@@ -599,6 +599,38 @@ to the concrete $\POSetUp$ surface, and they rule out total-order, lattice,
 quotient, and host-order data.
 \end{proof}
 
+\begin{theorem}[POSet unary prefix bridged closure package]
+\label{thm:poset-unary-prefix-bridged-closure-package}
+The unary-prefix and singleton-empty $\POSetUp$ packages, together with the
+finite-chain endpoint classifier coverage and selector boundary, form the
+bridge package from the concrete $\mathsf{BHist}$ $\POSetUp$ surface to the
+finite unary-prefix partial order. The package exports only the carried
+unary-prefix endpoints, singleton endpoint classifier, guarded prefix
+comparisons, finite-chain endpoint classifiers, and selector-consumer boundary;
+it exports no host order, quotient representative, total-order row, or lattice
+operation.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:poset-unary-prefix-standard-bridge-boundary}. It reads
+the concrete unary-prefix and singleton-empty packages as the finite
+unary-prefix partial order interface, with carrier, classifier, comparison,
+antisymmetry, exactness, and ledger rows coming only from the displayed
+$\POSetUp$ surface.
+
+Next apply \autoref{thm:poset-singleton-ledger-exhaustion}. This removes any
+extra host-order, quotient, total-order, or lattice field from the singleton
+ledger, so the bridge package has no additional exported structure beyond the
+concrete endpoint and comparison rows.
+
+Finally compose
+\autoref{thm:poset-prefix-finite-chain-endpoint-classifier-coverage} with
+\autoref{thm:poset-prefix-chain-totalorder-selector-consumer-boundary}. The
+first theorem supplies the finite-chain endpoint classifier rows, and the
+second restricts selectors to those carried chain rows. Hence the bridge
+package is consumable by the finite unary-prefix partial order boundary and
+exports exactly the rows named in the statement.
+\end{proof}
+
 \begin{theorem}[POSet finite-chain endpoint classifier coverage]
 \label{thm:poset-prefix-finite-chain-endpoint-classifier-coverage}
 For the concrete singleton $\POSetUp$ package of

@@ -87,6 +87,107 @@ determinacy; the standard bridge is deferred; and the status is
 $\mathsf{ProofTarget}$.
 \end{proof}
 
+\begin{theorem}[SOne carrier-classifier ledger obligation surface]
+\label{thm:s1-carrier-classifier-ledger-obligation-surface}
+For $\SOneUp$ over $\mathsf{BHist}$, the carrier-classifier ledger obligation
+surface consists of the $\RealUp$ component carrier rows, the $\ProdUp$ product
+readback row, the $\mathsf{Cont}$ point ledger, the componentwise $\hsame$
+classifier rows, and the $\NameCert_{\SOneUp}$ ledger rows displayed by
+\autoref{def:s1-source-specification}, \autoref{def:s1-classifier-specification},
+\autoref{def:sone-component-classifier-relation}, and
+\autoref{thm:sone-component-classifier-stability}. These obligations do not
+claim connectedness, compactness, angle parametrisation, or a standard
+topological circle bridge.
+\end{theorem}
+\begin{proof}
+The carrier part is the concrete
+$\mathsf{SOneHistoryCarrier}(x,y,e,p)$ row over $\mathsf{BHist}$. Its visible
+payload names two $\RealUp$ component histories, the displayed product history,
+and the continuation ledger $\mathsf{Cont}(x,y,p)$.
+
+The classifier part is
+$\mathsf{SOneComponentClassifier}((x,y,e,p),(x',y',e',p'))$. By
+\autoref{def:sone-component-classifier-relation}, it contains exactly the two
+carrier rows and the two exposed component comparisons $\hsame(x,x')$ and
+$\hsame(y,y')$.
+
+The ledger part is recovered by
+\autoref{thm:sone-component-classifier-stability}. Its proof invokes
+\autoref{thm:s1-component-classifier-ledger-determinacy} to determine the
+hidden equation and point rows, then uses the carrier transport surface to keep
+the certificate inside the same $\NameCert_{\SOneUp}$ obligations.
+
+No argument in these rows reads a topological circle. The surface is confined
+to $\mathsf{BHist}$, $\RealUp$, $\ProdUp$, $\mathsf{Cont}$, $\hsame$, and
+$\NameCert$ data, so connectedness, compactness, angle parametrisation, and
+standard topological bridges remain outside the obligation list.
+\end{proof}
+
+\begin{theorem}[SOne equation transport obligation surface]
+\label{thm:s1-equation-transport-obligation-surface}
+For $\SOneUp$ over $\mathsf{BHist}$, the equation transport obligation surface
+is the $\RealUp$ equation witness row, the fixed unit-history classifier row,
+the componentwise $\hsame$ rows, the $\mathsf{Cont}$ ledger, and the
+$\NameCert_{\SOneUp}$ carrier row transported by
+\autoref{thm:s1-equation-witness-transport} and
+\autoref{thm:s1-carrier-hsame-transport}. It excludes connectedness,
+compactness, angle parametrisation, and standard topological circle bridges.
+\end{theorem}
+\begin{proof}
+Begin with the equation row inside
+$\mathsf{SOneHistoryCarrier}(x,y,e,p)$. The row is a
+$\RealUp$-typed witness that the displayed equation history is classified
+against $\mathsf{SOneUnitHistory}$, while the same carrier also records the
+two real component histories and the point ledger.
+
+\autoref{thm:s1-equation-witness-transport} gives the isolated equation
+replacement obligation. It changes only the displayed equation witness along
+$\hsame(e,e')$ and leaves the component carriers and $\mathsf{Cont}$ ledger
+unchanged.
+
+\autoref{thm:s1-carrier-hsame-transport} gives the full coordinate transport
+obligation. It combines the two component $\hsame$ rows, the equation
+$\hsame$ row, and the point $\hsame$ row to produce the transported
+$\mathsf{SOneHistoryCarrier}(x',y',e',p')$.
+
+These two transport theorems enumerate exactly the equation-facing
+$\NameCert_{\SOneUp}$ obligations. They do not provide any connectedness,
+compactness, angle parametrisation, or standard topological circle bridge row.
+\end{proof}
+
+\begin{theorem}[SOne product-real ledger obligation surface]
+\label{thm:s1-product-real-ledger-obligation-surface}
+For $\SOneUp$ over $\mathsf{BHist}$, the product-real ledger obligation surface
+is the public readback of the $\ProdUp$ point history, the two $\RealUp$
+component histories, the $\mathsf{Cont}$ ledger, the transported $\hsame$
+rows, and the $\NameCert_{\SOneUp}$ readback ledger supplied by
+\autoref{thm:sone-history-carrier-public-readback},
+\autoref{thm:s1-public-readback-transport}, and
+\autoref{thm:sone-component-classifier-public-readback}. It does not claim
+connectedness, compactness, angle parametrisation, or any standard topological
+circle bridge.
+\end{theorem}
+\begin{proof}
+\autoref{thm:sone-history-carrier-public-readback} reads a concrete carrier as
+a product carrier at $p$, the fixed unit-equation history, two rational
+witnesses for the real component histories, and the continuation ledger
+$\ContR(x,y,p)$. This is the public product-real ledger for the source tuple.
+
+\autoref{thm:s1-public-readback-transport} applies the coordinate transport
+surface before taking the same readback at $(x',y',e',p')$. The product row,
+the real component rows, the equation row, and the continuation ledger remain
+inside the transported $\NameCert_{\SOneUp}$ carrier.
+
+\autoref{thm:sone-component-classifier-public-readback} shows that a component
+classifier witness already contains enough carrier and hidden-ledger data to
+recover the transported public package. Thus the product-real ledger surface
+is exactly the readback, transport, and classifier-readback trio.
+
+The trio is still a BEDC history certificate surface. It records no
+connectedness, no compactness, no angle parametrisation, and no standard
+topological circle bridge.
+\end{proof}
+
 \begin{definition}[SOne stability certificate]
 \label{def:s1-stability-certificate}
 The stability certificate consists of:

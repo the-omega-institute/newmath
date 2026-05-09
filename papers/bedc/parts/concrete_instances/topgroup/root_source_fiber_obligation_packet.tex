@@ -47,6 +47,39 @@ consumer has no field for a second carrier, second classifier packet, or
 detached provenance row, so the displayed source fiber is the whole carrier
 obligation.
 \end{proof}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_root\_source\_fiber\_carrier\_obligation}
+
+\begin{theorem}[TopGroupUp root source-fiber classifier determinacy]
+\label{thm:topgroup-root-source-fiber-classifier-determinacy}
+For an accepted $\TopGroupUp$ root source-fiber obligation packet, every
+classifier read accepted at the root is determined by the shared
+$\mathsf{BHist}$ carrier, the componentwise $\hsame$ classifier packet, the
+product and inverse endpoint rows, the finite $\Cont$ ledger, and the
+$\mathsf{Pkg}$ provenance row. Conversely, those rows repack the same root
+classifier read, so no detached group classifier, topology classifier, or
+ambient topological-group classifier is present at the root boundary.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootPublicThresholdPacket\_source\_fiber\_classifier\_determinacy}
+\begin{proof}
+First apply
+\autoref{thm:topgroup-root-source-fiber-carrier-obligation}. It places the
+group source, topology source, operation endpoints, componentwise classifier
+packet, ledger, and provenance over one shared $\mathsf{BHist}$ carrier.
+
+Next use
+\autoref{thm:topgroup-root-source-fiber-continuity-obligation}. The product
+and inverse endpoint reads are transported through that same classifier
+packet, and their continuity evidence is read only through the finite
+$\Cont$ entries listed in the packet.
+
+Finally apply
+\autoref{thm:topgroup-root-source-fiber-ledger-exactness}. The ledger covers
+exactly the accepted product-continuity and inverse-continuity families.
+Repacking the shared carrier, componentwise $\hsame$ packet, endpoint rows,
+ledger, and $\mathsf{Pkg}$ provenance therefore reconstructs the same
+classifier read, while any classifier outside those rows has no field in the
+accepted source-fiber packet.
+\end{proof}
 
 \begin{theorem}[TopGroupUp root source-fiber continuity obligation]
 \label{thm:topgroup-root-source-fiber-continuity-obligation}
@@ -58,6 +91,7 @@ transport, and its ledger entry; the inverse row uses the input endpoint,
 inverse endpoint, neighbourhood row, componentwise $\hsame$ transport, and
 its ledger entry. No continuity row is detached from the shared source fiber.
 \end{theorem}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootSourceFiber\_continuity\_obligation}
 \begin{proof}
 Start from the carrier obligation of
 \autoref{thm:topgroup-root-source-fiber-carrier-obligation}. It places the
@@ -77,6 +111,7 @@ the two operation families through one classifier packet. Since both
 continuity rows read the same source fiber and ledger, classifier transport
 cannot introduce an ambient topological-group continuity predicate.
 \end{proof}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_source\_fiber\_continuity\_obligation}
 
 \begin{theorem}[TopGroupUp root source-fiber ledger exactness]
 \label{thm:topgroup-root-source-fiber-ledger-exactness}
@@ -107,3 +142,4 @@ consumer receives no continuity primitive beyond the source rows, operation
 rows, classifier packet, finite ledger, and provenance, so the ledger is exact
 for precisely the two displayed obligation families.
 \end{proof}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootSourceFiber\_ledger\_exactness}

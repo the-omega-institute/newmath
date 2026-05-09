@@ -189,6 +189,37 @@ classifier is therefore precisely the restricted probe window needed by
 $\RealUp$ and $\RegSeqRat$ boundary consumers.
 \end{proof}
 
+\begin{theorem}[StreamName finite-window reindexing composition]
+\label{thm:streamname-finite-window-reindexing-composition}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, let $B$, $B'$, and
+$B''$ be $\mathsf{ProbeBundle}$ windows, and let $r$ and $q$ be certified unary
+reindexers. Suppose $r$ sends every certified unary observation carried by
+$B''$ to an $\mathsf{InBundle}$ member of $B'$, and $q$ sends every certified
+unary observation carried by $B'$ to an $\mathsf{InBundle}$ member of $B$.
+Then restricting the finite $\mathsf{RatStreamNameFiniteWindowClassifier}$
+window by $r$ and then by $q$ exposes the same finite $\mathsf{BHist}$ packet as
+restricting once by $q\circ r$. The classifier, endpoint, $\hsame$, and finite
+ledger rows are the same rows repacked over $B''$.
+\end{theorem}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_reindexing\_composition\_law}
+
+\begin{proof}
+Apply \autoref{thm:streamname-finite-window-reindexing-stability} to the
+restriction from $B$ to $B'$. This transports the finite-window classifier rows
+along $q$ and keeps the endpoint, $\hsame$, and finite ledger rows as displayed
+rows on $B'$.
+
+Apply \autoref{thm:streamname-finite-window-reindexing-stability} again to the
+restriction from $B'$ to $B''$. The second transport reads the rows already
+repacked over $B'$ and exposes them on $B''$ along $r$.
+
+The checked composition law for certified reindexers supplies the same unary
+observation witness for the composite map $q\circ r$. Repacking the identical
+finite-window rows over $B''$ gives the one-step restriction by $q\circ r$ and
+does not introduce completion, regularity, quotient, metric, arithmetic, or
+order data.
+\end{proof}
+
 \begin{theorem}[StreamNameUp finite-window union composition]
 \label{thm:streamname-finite-window-union-composition}
 Let $s,t$ be certified $\StreamNameUp$ observation maps, and let $B_L$ and

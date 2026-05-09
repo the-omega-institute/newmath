@@ -17,6 +17,7 @@ $\Cont$ ledger, whose provenance row $\rho$ is the shared $\Pkg$ row, and
 whose threshold row $\nu$ records that a downstream public consumer reads only
 these NameCert-anchored coordinates.
 \end{definition}
+\leandef{BEDC.Derived.TopGroupUp.TopGroupRootThresholdDownstreamPackage}
 
 \begin{theorem}[TopGroupUp root threshold carrier scope]
 \label{thm:topgroup-root-threshold-carrier-scope}
@@ -43,6 +44,7 @@ Use \autoref{thm:topgroup-public-consumer-minimality}. A downstream public
 consumer receives only the carrier projections just listed, so the threshold
 surface has no second carrier or detached provenance row.
 \end{proof}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThreshold\_carrier\_scope}
 
 \begin{theorem}[TopGroupUp root threshold operation scope]
 \label{thm:topgroup-root-threshold-operation-scope}
@@ -68,6 +70,7 @@ Apply \autoref{thm:topgroup-inverse-cont-ledger-soundness}. The inverse
 continuity family has the same scope for its input endpoint, inverse endpoint,
 neighbourhood row, classifier transport, and ledger entry.
 \end{proof}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_operation\_scope}
 
 \begin{theorem}[TopGroupUp root threshold consumer exhaustion]
 \label{thm:topgroup-root-threshold-consumer-exhaustion}
@@ -79,6 +82,7 @@ $\Pkg$ provenance of
 ambient topological-group object, host continuity predicate, or detached
 NameCert source is available beyond those rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_consumer\_exhaustion}
 \begin{proof}
 First use \autoref{thm:topgroup-root-threshold-carrier-scope} to bind the
 source and provenance rows to the shared carrier. Then use
@@ -100,6 +104,7 @@ classifier is exactly the componentwise $\hsame$ transport of source,
 operation, neighbourhood, and provenance rows together with finite
 $\Cont$ transport of the product and inverse ledger rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_root\_threshold\_namecert\_threshold}
 \begin{proof}
 Unpack the threshold row $\nu$ in
 \autoref{def:topgroup-root-threshold-downstream-package}. It records
@@ -114,4 +119,40 @@ is the whole public threshold surface.
 Finally use \autoref{thm:topgroup-public-consumer-minimality}. The public
 NameCert boundary is therefore exactly the displayed finite
 $\mathsf{BHist}$ packet over the two source certificates.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root threshold export boundary]
+\label{thm:topgroup-root-threshold-export-boundary}
+Every downstream public export of the $\TopGroupUp$ root threshold factors
+through the single packet $\Omega_{\TopGroupUp}$ of
+\autoref{def:topgroup-root-threshold-downstream-package}. The export exposes
+exactly the $\GroupUp$ source, the $\TopologyUp$ source, the product row, the
+inverse row, the shared neighbourhood row, the componentwise $\hsame$
+classifier packet, the finite $\Cont$ ledger, the $\Pkg$ provenance, and the
+threshold row. It exposes no ambient topological-group object, no host
+continuity predicate, no detached source certificate, and no operation
+continuity row beyond the product and inverse ledger rows already carried by
+$\Omega_{\TopGroupUp}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_root\_threshold\_export\_boundary}
+\leanvariant{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_export\_boundary}
+\begin{proof}
+Begin with \autoref{thm:topgroup-root-threshold-carrier-scope}. It places the
+$\GroupUp$ and $\TopologyUp$ source certificates, the operation rows, the
+neighbourhood row, the classifier packet, the finite ledger, and the provenance
+row inside one $\mathsf{BHist}$ carrier.
+
+Next use \autoref{thm:topgroup-root-threshold-operation-scope}. The product
+and inverse continuity data are precisely the ledger rows over the shared
+neighbourhood source and componentwise $\hsame$ classifier packet.
+
+Apply \autoref{thm:topgroup-root-threshold-consumer-exhaustion}. A downstream
+public consumer reads only the displayed source, operation, classifier,
+continuity, and provenance rows, so an ambient topological-group object, host
+continuity predicate, or detached source certificate is outside the export.
+
+Finally apply \autoref{thm:topgroup-root-threshold-namecert-threshold}. The
+threshold row is the public $\NameCert_{\TopGroupUp}$ boundary of the same
+packet. Repacking these projections gives the stated export boundary and leaves
+no extra operation-continuity row to expose.
 \end{proof}

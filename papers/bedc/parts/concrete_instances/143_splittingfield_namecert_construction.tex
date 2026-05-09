@@ -25,6 +25,7 @@ $\Pkg$ provenance packet recording exactly the consumed FieldExtUp source,
 PolynomialUp source, endpoint, factorization, continuation, and transport
 rows.
 \end{definition}
+\leanchecked{BEDC.Derived.SplittingFieldUp.SplittingFieldRootCarrierPacket\_provenance\_transport}
 
 \section{The certificate}
 \label{sec:splittingfield-certificate}
@@ -79,6 +80,8 @@ For the converse, take any row on that finite list. The carrier packet
 reconstructs the same public splitting-field ledger without adding quotient
 fields, algebraic closures, or host polynomial roots.
 \end{proof}
+\leanchecked{BEDC.Derived.SplittingFieldUp.SplittingFieldRootCarrierPacket\_root\_ledger\_obligation}
+\leanvariant{BEDC.Derived.SplittingFieldUp.SplittingFieldRootCarrierPacket\_ledger\_obligation}
 
 \begin{theorem}[SplittingFieldUp root NameCert surface]
 \label{thm:splittingfield-root-namecert-surface}
@@ -89,6 +92,7 @@ $\hsame$ transport witnesses, and $\Pkg$ provenance rows of
 \autoref{def:splittingfield-root-carrier-packet}. This surface exports no
 quotient-field carrier, algebraic-closure carrier, or host-level root set.
 \end{theorem}
+\leanchecked{BEDC.Derived.SplittingFieldUp.SplittingFieldRootCarrierPacket\_root\_namecert\_surface}
 \begin{proof}
 Use \autoref{thm:splittingfield-root-classifier-obligation} to fix the
 classifier from $E,P,R,F,H$. These are the only source, polynomial,
@@ -114,6 +118,7 @@ ledger, transport witnesses, and provenance packet. No downstream consumer
 receives a quotient field, algebraic closure, or host polynomial-root object
 unless it is represented by one of those carried rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.SplittingFieldUp.SplittingFieldRootCarrierPacket\_root\_downstream\_threshold}
 \begin{proof}
 Begin with \autoref{thm:splittingfield-root-namecert-surface}. It packages
 the classifier and ledger rows into the public splitting-field surface seen
@@ -143,6 +148,7 @@ transport row $H$ along $\hsame$. The transported classifier keeps the same
 factorization ledger $C$ and the same provenance packet $\Pi$, and it exports
 no quotient field, algebraic closure, or host polynomial-root object.
 \end{theorem}
+\leanchecked{BEDC.Derived.SplittingFieldUp.SplittingFieldRootCarrierPacket\_root\_classifier\_transport}
 \begin{proof}
 Project the classifier through
 \autoref{thm:splittingfield-root-classifier-obligation}. Its public data are
@@ -169,6 +175,7 @@ with its root endpoint in $R$, transport row in $H$, continuation entry in
 $C$, and provenance entry in $\Pi$ repacks as an accepted public factorization
 read of the same packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.SplittingFieldUp.SplittingFieldRootCarrierPacket\_factor\_ledger\_exhaustion}
 \begin{proof}
 Read the ledger obligation
 \autoref{thm:splittingfield-root-ledger-obligation}. It says that public ledger
@@ -198,6 +205,7 @@ $\mathcal{S}=(E,P,R,F,C,H,\Pi)$. These are the only root, factor, polynomial,
 FieldExtUp, $\Cont$, $\hsame$, and $\Pkg$ rows available at the consumer
 boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.SplittingFieldUp.SplittingFieldRootCarrierPacket\_cyclotomic\_consumer\_source\_boundary}
 \begin{proof}
 Begin with
 \autoref{thm:splittingfield-root-downstream-threshold}. It already restricts
@@ -219,14 +227,14 @@ field, algebraic closure, host root set, or host factorization source is
 available unless it is represented by one of $E,P,R,F,C,H,\Pi$.
 \end{proof}
 
-\closureat{SplittingFieldUp}{obligationStr}
+\closureat{SplittingFieldUp}{scopedStr}
 
 \begin{closurestatus}{\SplittingFieldUp}
   \constructivestory{A splitting field is presented as a root carrier packet whose entries are a $\FieldExtUp$ source row, a $\PolynomialUp$ row over that source, displayed root endpoints, displayed factor rows, a finite factorization ledger, transport witnesses, and package provenance. The carrier accepts only packets where those rows are unary histories tied by the stated $\Cont$ displays, so quotient-field carriers, algebraic-closure carriers, and host root sets never become accepted inputs. Its classifier is the transported agreement of the field-extension row, polynomial row, root endpoints, factor rows, and transport row along $\hsame$, with the same factorization ledger and provenance kept attached. The source specification is the whole root packet, the pattern specification is the visible factorization of the carried polynomial into the listed linear factors and roots, and the ledger records exactly the continuation and provenance rows that make each raw factor read visible. At this obligation boundary, inhabitedness is supplied by an accepted packet when one is displayed, reflexivity, symmetry, and transitivity are the $\hsame$ rows demanded of the classifier, and carrier closure is the transport obligation that repacks the same $E,P,R,F,C,H,\Pi$ data after classification. A history $h$ lies in the signature GAP of a $\SplittingFieldUp$ token $p$ when the source accepts $h$, the signature relation pairs it with an answer root packet and evidence ledger, and token introduction names that answer as $p$; here this contracts to the claim that $h$ is exactly the endpoint whose FieldExt row, Polynomial row, roots, factors, $\Cont$ ledger, $\hsame$ transport, and $\Pkg$ provenance are the carried packet rows. The chapter registers this construction as $\SplittingFieldUp$ without adding a quotient field, an algebraic-closure object, a host-level root set, or a standard bridge.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope consists of the root carrier packet, FieldExtUp source row, PolynomialUp row, root endpoints, factor rows, $\Cont$ factorization ledger, $\hsame$ transport, and $\Pkg$ provenance.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The closed scope is exactly the FieldExtUp source row, PolynomialUp row, root endpoints, factor rows, $\Cont$ factorization ledger, $\hsame$ transport, $\Pkg$ provenance, and the Cyclotomic and algebraic-field consumer boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{No quotient-field carrier, algebraic-closure carrier, host root set, or standard bridge is claimed.}
-  \upgradepath{Scoped closure requires binding these obligations to the exact consumer scope for CyclotomicUp and algebraic-field users.}
+  \upgradepath{Public closure requires a public SplittingFieldUp interface theorem exported from the scoped root and consumer rows.}
 \end{closurestatus}

@@ -41,6 +41,47 @@ source package. These are precisely the rows allowed by
 field consumes no data outside that boundary.
 \end{proof}
 
+\begin{theorem}[RealUp refinement envelope reindexed consumer invariance]
+\label{thm:realup-refinement-envelope-reindexed-consumer-invariance}
+Let $E$ be a $\RealUp$ finite-window refinement envelope over a fixed
+$\StreamNameUp$ source, and let $P$ be a
+$\StreamNameUp$--$\RegSeqRat$ reindexed window package whose selected rational
+classifier rows feed a certified window $W$ carried by $E$. The downstream
+$\RegSeqRat$ handoff determined by $P$ and the finite-window $\RealUp$ seal
+read determined by $W$ factor through the same envelope-facing rows:
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$ rows,
+the endpoint denominator rows, the $\mathsf{DyadicRatCore}$ source rows, the
+shared $\hsame$ ledger, and the $\mathsf{RealLedgerPolicy}$ boundary.
+Consequently the reindexed handoff and the carried seal expose one public read
+surface, with no exported host index, quotient witness, completion object, or
+unrecorded stream row.
+\end{theorem}
+\begin{proof}
+Begin with the reindexed package $P$. By
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion}, its selected
+rational rows are exhausted by the reindexed $\StreamNameUp$ finite-window
+classifier rows, the probe and unary-history rows, the endpoint denominator
+rows, and the dyadic source rows visible in the window.
+
+Next apply
+\autoref{thm:realup-streamname-regseqrat-reindexed-ledger-handoff}. The
+$\RegSeqRat$ consumer handoff reads those rows through the same shared
+$\hsame$ ledger and the same $\mathsf{RealLedgerPolicy}$ boundary used by the
+carried $\RealUp$ window.
+
+Finally use
+\autoref{thm:realup-finite-window-refinement-envelope-consumer-coverage} for
+the carried window $W$ inside $E$. That theorem forces both the
+$\RegSeqRat$ handoff and the finite-window $\RealUp$ seal through exactly the
+rows stored in the refinement envelope.
+
+The listed envelope rows therefore form the common public surface. Since the
+envelope boundary contains no slot for a host index, quotient witness,
+completion object, or unrecorded stream datum, none of those objects can be
+exported by either consumer.
+\end{proof}
+
 \begin{theorem}[RealUp StreamName window determinacy boundary]
 \label{thm:realup-streamname-window-determinacy-boundary}
 Let two finite-window observations be admitted by the $\RealUp$ seal through
@@ -107,6 +148,122 @@ permits only the listed carrier, classifier, stability, and finite ledger rows.
 The StreamName rows and the dyadic source rows therefore repack into the exact
 ledger stated above, while host $\mathsf{Nat}$ data, host functions, quotients,
 and unrecorded infinite objects have no exported row to inspect.
+\end{proof}
+
+\begin{theorem}[RealUp finite-window reindexed classifier transport]
+\label{thm:realup-finite-window-reindexed-classifier-transport}
+Let $W$ be a selected finite $\RealUp$ observation window admitted through the
+$\StreamNameUp$ finite-window seal ledger. Suppose $W'$ is obtained from $W$
+by a certified $\StreamNameUp$ unary reindexer, and suppose the transported
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row and the selected endpoint
+denominator package are present at $W'$. Then the transported window exposes
+the same $\RealUp$ finite seal ledger boundary as $W$: endpoint $\RatUp$
+classifier rows, positive denominator witnesses, common e-one tail readback,
+$\mathsf{DyadicRatCore}$ source rows, unary-history rows, $\hsame$ transport,
+and the finite $\mathsf{RealLedgerPolicy}$. The transported surface exposes
+no quotient, completion, host $\mathsf{Nat}$ index, host function,
+$\mathsf{Classical}$ datum, metric-completeness certificate, or standard
+bridge.
+\end{theorem}
+\begin{proof}
+Start with the certified unary reindexer. Apply
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} to transport the
+selected $\StreamNameUp$ observation rows and their $\hsame$ stability ledger
+from $W$ to $W'$.
+
+Next apply
+\autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage}. The
+transported finite-window classifier at $W'$ covers exactly the reindexed
+unary observation rows and the selected endpoint package, so no host
+$\mathsf{Nat}$ index or host function is exported by the StreamName face.
+
+Now identify the RealUp ledger carried by the source window. By
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}, the original
+surface of $W$ contains only the selected unary observation, the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, endpoint $\RatUp$
+classifier rows, positive denominator witnesses, common e-one tail readback,
+$\mathsf{DyadicRatCore}$ source rows, and the finite
+$\mathsf{RealLedgerPolicy}$ rows allowed by the seal.
+
+Finally repack the transported rows through
+\autoref{thm:realup-finite-window-exhaustion-obligation}. The scoped boundary
+permits only carrier, classifier, stability, source, and finite ledger rows,
+so the reindexed read surface is the same RealUp finite seal ledger boundary
+and has no quotient, completion, $\mathsf{Classical}$ datum,
+metric-completeness certificate, or standard bridge to inspect.
+\end{proof}
+
+\begin{theorem}[RealUp StreamName reindexing composition boundary]
+\label{thm:realup-streamname-reindexing-composition-boundary}
+Let $W$ be a selected finite $\RealUp$ observation window admitted through the
+$\StreamNameUp$ finite-window seal ledger. Suppose two certified
+$\StreamNameUp$ unary reindexers are applied successively to $W$, and suppose
+the same selected endpoint package is also read through the single certified
+composite reindexer. Then the successive read and the composite read expose the
+same finite seal ledger: selected unary observation rows, the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, endpoint $\RatUp$
+denominator rows, positive denominator witnesses, common e-one tail readback,
+$\mathsf{DyadicRatCore}$ source rows, $\hsame$ transport, and the finite
+$\mathsf{RealLedgerPolicy}$.
+
+In particular, the composite surface has no additional quotient, completion,
+host $\mathsf{Nat}$ index, host function, unrecorded stream object,
+$\mathsf{Classical}$ datum, metric-completeness certificate, or standard bridge
+beyond the rows already exposed by the two successive unary transports.
+\end{theorem}
+\begin{proof}
+Start with the two certified unary reindexers. Apply
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} to each reindexing
+step, and use the $\StreamNameUp$ reindexing composition law to identify the
+successive selected unary observation rows with the rows selected by the single
+composite reindexer.
+
+Next apply
+\autoref{thm:realup-finite-window-reindexed-classifier-transport} to the first
+transported window and again to the second transported window. The finite
+classifier, endpoint denominator package, common e-one tail readback, and
+$\mathsf{DyadicRatCore}$ source rows are carried componentwise through the same
+$\hsame$ transport ledger.
+
+Finally compare both transported reads with
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. That boundary
+lists the whole finite $\RealUp$ seal ledger, so the successive read and the
+composite read have the same public rows and no further host-level reindexing
+datum to inspect.
+\end{proof}
+
+\begin{theorem}[RealUp StreamName-RegSeqRat reindexed ledger handoff]
+\label{thm:realup-streamname-regseqrat-reindexed-ledger-handoff}
+Let $\mathcal{W}$ be a $\StreamNameUp$--$\RegSeqRat$ reindexed window package
+whose selected rational classifier rows feed a finite $\RealUp$ observation
+window $W$. Then the package exposes exactly the $\RealUp$ finite seal ledger
+boundary for $W$: the selected unary observation row, the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the endpoint denominator
+rows, and the $\RegSeqRat$ dyadic source rows selected by the finite window. It
+exposes no host $\mathsf{Nat}$ index, host function, quotient, completion
+object, or unrecorded infinite stream.
+\end{theorem}
+\begin{proof}
+Start with the displayed reindexed window package. Apply
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion} to decompose its
+visible rows into the selected unary observation, the transported
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the endpoint denominator
+rows, and the $\RegSeqRat$ source rows supplied by the package.
+
+Next use \autoref{thm:streamname-real-regseq-finite-window-handoff}. It is the
+common handoff from the StreamName finite-window face to the RegSeqRat dyadic
+source face, so the selected rational classifier rows are the same rows read by
+the finite $\RealUp$ observation.
+
+Now apply \autoref{thm:realup-streamname-finite-window-ledger-boundary}. The
+RealUp seal boundary admits exactly the selected unary observation, the finite
+StreamName classifier row, the endpoint denominator rows, and the dyadic source
+rows as public ledger entries.
+
+Finally use \autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import}.
+It excludes the host index, host map, quotient, completion object, and
+unrecorded stream data from the reindexed package, so the package and the
+$\RealUp$ finite seal expose the same finite boundary.
 \end{proof}
 
 \begin{theorem}[RealUp finite-window exhaustion subwindow closure]
@@ -227,4 +384,197 @@ observation, the $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
 endpoint rows, the dyadic source rows, and the
 $\mathsf{RealLedgerPolicy}$ boundary. Hence the two-step restriction and the
 direct restriction expose the same $\RealUp$ read surface.
+\end{proof}
+
+\begin{theorem}[RealUp finite-window partition exactness]
+\label{thm:realup-finite-window-partition-exactness}
+Suppose a $\RealUp$ finite-window exhaustion package is exposed for a
+$\StreamNameUp$ window $W$. Let $(W_i)_{i\in I}$ be a finite family of
+certified $\StreamNameUp$ subwindows of $W$ such that every certified unary
+observation row of $W$ is carried by at least one $W_i$, and such that every
+pairwise intersection exposed by two selected subwindows is certified by the
+overlap boundary of
+\autoref{thm:realup-finite-window-exhaustion-overlap-closure}. Then the
+$\RealUp$ read surface assembled from the finite family $(W_i)_{i\in I}$ is
+the same public finite $\mathsf{BHist}$ surface as the direct read surface of
+$W$. The two surfaces have the same
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, endpoint $\RatUp$
+classifier rows, positive denominator witnesses, common e-one tail readbacks,
+$\mathsf{DyadicRatCore}$ source rows, $\hsame$ ledger, and
+$\mathsf{RealLedgerPolicy}$ boundary.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-finite-window-exhaustion-subwindow-closure} to each
+certified subwindow $W_i$. Each local read therefore contains only the
+inherited unary observation rows, finite-window classifier rows, endpoint
+denominator rows, common e-one tail readbacks, and dyadic source rows coming
+from the ambient window $W$.
+
+On every certified overlap $W_i\cap W_j$, use
+\autoref{thm:realup-finite-window-exhaustion-overlap-closure}. It identifies
+duplicate observations and their endpoint $\RatUp$ classifier rows through the
+same $\hsame$ ledger, so the finite family contributes one public observation
+row for each certified observation of $W$ rather than a separate row for each
+covering subwindow.
+
+If a selected observation is reached through a smaller certified refinement,
+\autoref{thm:realup-finite-window-two-step-restriction-coherence} identifies
+the refined read with the direct restriction from $W$. Thus changing the
+subwindow presentation does not change the visible read surface.
+
+Finally repack the covered observation rows by
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. The coverage
+hypothesis supplies every unary observation row of $W$, and the overlap and
+two-step coherence rows remove duplicate presentations. The assembled surface
+is therefore exactly the direct finite-window surface of $W$.
+\end{proof}
+
+\begin{theorem}[RealUp finite-window directed refinement seal]
+\label{thm:realup-finite-window-directed-refinement-seal}
+Suppose two $\RealUp$ finite-window exhaustion packages are exposed over the
+same $\StreamNameUp$ source, with certified windows $W$ and $W'$. Suppose also
+that there is a certified common refinement, given by a finite family of
+$\StreamNameUp$ subwindows whose union covers every certified unary observation
+row of both $W$ and $W'$, and whose pairwise overlaps satisfy
+\autoref{thm:realup-finite-window-exhaustion-overlap-closure}. Then the two
+finite-window presentations expose the same public $\mathsf{BHist}$ read
+surface. In particular, they have the same
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, endpoint $\RatUp$
+classifier rows, positive denominator witnesses, common e-one tail readbacks,
+$\mathsf{DyadicRatCore}$ source rows, $\hsame$ ledger, and
+$\mathsf{RealLedgerPolicy}$ boundary, and neither presentation exports host
+indices, quotient witnesses, or unrecorded infinite stream data.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-finite-window-partition-exactness} to the window
+$W$ and the certified common refinement. The coverage hypothesis says that the
+refinement carries every certified unary observation row visible from $W$, so
+the refinement assembly is the same public finite $\mathsf{BHist}$ surface as
+the direct $W$ presentation.
+
+Apply \autoref{thm:realup-finite-window-partition-exactness} again to the
+window $W'$. The same refinement family covers every certified unary
+observation row visible from $W'$, so the refinement assembly is also the same
+public finite $\mathsf{BHist}$ surface as the direct $W'$ presentation.
+
+It remains to compare the two uses of the refinement. When a refinement
+subwindow is reached through either ambient window, use
+\autoref{thm:realup-finite-window-two-step-restriction-coherence} to identify
+the restricted read with the direct refinement read. On intersections between
+two refinement subwindows, use
+\autoref{thm:realup-finite-window-exhaustion-overlap-closure} to identify the
+duplicate classifier rows, denominator witnesses, readbacks, and dyadic source
+rows through the same $\hsame$ ledger.
+
+Finally apply \autoref{thm:realup-streamname-finite-window-ledger-boundary} to
+the common refinement surface. Its ledger contains exactly the selected
+observation rows, endpoint $\RatUp$ rows, positive denominator witnesses,
+common e-one tail readbacks, $\mathsf{DyadicRatCore}$ rows, and
+$\mathsf{RealLedgerPolicy}$ boundary. Therefore both finite-window
+presentations expose the same public surface, with no additional host index,
+quotient, or infinite-stream datum available to distinguish them.
+\end{proof}
+
+\begin{definition}[RealUp finite-window refinement envelope]
+\label{def:realup-finite-window-refinement-envelope}
+A $\RealUp$ finite-window refinement envelope over one $\StreamNameUp$ source
+is a finite $\mathsf{BHist}$ package whose rows consist of certified
+$\StreamNameUp$ finite windows, a common-refinement package for every ordered
+pair of carried windows, the overlap-closure witnesses for each refinement
+family, the two-step restriction coherence witnesses for every displayed
+subwindow chain, the endpoint $\RatUp$ classifier rows, the positive
+denominator witnesses, the $\mathsf{DyadicRatCore}$ source rows, the shared
+$\hsame$ ledger identifying duplicate presentations, and the
+$\mathsf{RealLedgerPolicy}$ boundary. The envelope exports only these finite
+rows and their $\mathsf{Pkg}$ provenance.
+\end{definition}
+
+\begin{theorem}[RealUp finite-window refinement envelope coherence]
+\label{thm:realup-finite-window-refinement-envelope-coherence}
+Let $E$ be a $\RealUp$ finite-window refinement envelope over a fixed
+$\StreamNameUp$ source. If two certified windows $W$ and $W'$ are carried by
+$E$, then the public read surface exposed from $W$ is the same finite
+$\mathsf{BHist}$ read surface as the one exposed from $W'$. The common surface
+contains exactly the envelope's
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, endpoint $\RatUp$
+classifier rows, positive denominator witnesses, common e-one tail readbacks,
+$\mathsf{DyadicRatCore}$ source rows, shared $\hsame$ ledger, and
+$\mathsf{RealLedgerPolicy}$ boundary, with no host index, quotient witness, or
+unrecorded infinite stream datum.
+\end{theorem}
+\begin{proof}
+Choose the common-refinement package in $E$ for the ordered pair $(W,W')$.
+The package supplies a finite family of certified subwindows covering every
+certified unary observation row of both windows, together with the required
+overlap-closure witnesses.
+
+Apply
+\autoref{thm:realup-finite-window-directed-refinement-seal} to this pair. The
+seal reduces the comparison of the two ambient presentations to the public
+surface assembled from their displayed common refinement.
+
+The assembly through the common refinement is exact by
+\autoref{thm:realup-finite-window-partition-exactness}. Whenever a row is
+read through an intermediate refinement before reaching the displayed
+subwindow, \autoref{thm:realup-finite-window-two-step-restriction-coherence}
+identifies that reading with the direct restriction used by the refinement
+surface.
+
+Finally apply
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. The only public
+rows left in the envelope are the selected finite-window observation rows,
+endpoint $\RatUp$ classifier rows, positive denominator witnesses, common
+e-one tail readbacks, dyadic source rows, the shared $\hsame$ ledger, and the
+$\mathsf{RealLedgerPolicy}$ boundary. Since that boundary has no slot for a
+host index, quotient witness, or unrecorded infinite stream datum, the two
+carried windows expose one public read surface.
+\end{proof}
+
+\begin{theorem}[RealUp finite-window refinement envelope consumer coverage]
+\label{thm:realup-finite-window-refinement-envelope-consumer-coverage}
+Let $E$ be a $\RealUp$ finite-window refinement envelope over a fixed
+$\StreamNameUp$ source, and let $W$ be any certified window carried by $E$.
+Every $\mathsf{RegSeqRat}$ handoff induced by $W$, and every finite-window
+$\RealUp$ seal read induced by $W$, factors through exactly the rows carried
+by $E$: the $\StreamNameUp$ finite-window classifier rows, the
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$ rows,
+the pointwise $\mathsf{RatHistoryClassifier}$ rows, the endpoint denominator
+rows, the $\mathsf{DyadicRatCore}$ source rows, the shared $\hsame$ ledger,
+and the $\mathsf{RealLedgerPolicy}$ boundary. Conversely, any such row family
+inside $E$ repacks into the same $\mathsf{RegSeqRat}$ handoff and
+finite-window $\RealUp$ seal surface. No completion object, quotient witness,
+host-index equality, or unrecorded stream datum is part of this consumer
+surface.
+\end{theorem}
+\begin{proof}
+First compare the chosen carried window with the envelope surface. Apply
+\autoref{thm:realup-finite-window-refinement-envelope-coherence} with $W$ and
+any other carried representative used by the consumer. The comparison
+identifies the consumer-facing read with the envelope's finite public
+$\mathsf{BHist}$ surface, so the read cannot escape the rows named in the
+envelope.
+
+Next expose the stream-name boundary. By
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}, a finite
+window contributes only its classifier rows, the certified probe and unary
+history rows, the endpoint denominator witnesses, the shared $\hsame$ ledger,
+and the $\mathsf{RealLedgerPolicy}$ boundary. These are precisely rows already
+stored in $E$.
+
+For a $\mathsf{RegSeqRat}$ consumer, apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff}. Its pointwise handoff
+uses the $\mathsf{RatHistoryClassifier}$ rows read from the same
+$\StreamNameUp$ finite window. Then apply
+\autoref{thm:regseqrat-finite-window-dyadic-source-exhaustion} to replace the
+dyadic source requirements by the displayed $\mathsf{DyadicRatCore}$ source
+rows and endpoint denominator rows carried by the envelope.
+
+The reverse packing uses the same two displayed handoff theorems in the
+opposite direction of construction: the finite-window classifier,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+pointwise rational classifier, denominator, dyadic-source, $\hsame$, and
+ledger-policy rows assemble the public consumer interface. Since all cited
+boundaries are finite $\mathsf{BHist}$ rows, there is no constructor slot for
+completion, quotient identification, host-index equality, or unrecorded
+stream data.
 \end{proof}

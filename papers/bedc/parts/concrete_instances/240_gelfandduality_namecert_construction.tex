@@ -6,5 +6,267 @@ The Gelfand-duality interface $\GelfandDualityUp$ packages the contravariant equ
 \section{Carrier definition}
 \label{sec:gelfandduality-carrier}
 
+\begin{definition}[GelfandDuality BHist spectrum-pairing carrier]
+\label{def:gelfandduality-spectrum-pairing-carrier}
+A $\GelfandDualityUp$ spectrum-pairing carrier is a finite $\mathsf{BHist}$
+packet
+$$
+\mathcal{G}=(A,X,\chi,\varepsilon,\rho_{A},\rho_{X},P,\lambda).
+$$
+The row $A$ is a consumed $\NameCert_{\CStarAlgUp}$ source row for a unital
+commutative C*-algebra history. The row $X$ is a consumed
+$\NameCert_{\TopologyUp}$ compact-spectrum row. The finite row family $\chi$
+lists the visible character histories from $A$ to the scalar endpoint, and
+the finite row family $\varepsilon$ lists the displayed character-evaluation
+histories relating elements of $A$ to points of $X$.
+
+The rows $\rho_{A}$ and $\rho_{X}$ are the componentwise $\hsame$ transport
+rows for the algebraic and topological faces of the same spectrum pairing.
+The row $P$ is the $\mathsf{Pkg}$ provenance recording exactly the consumed
+$\NameCert_{\CStarAlgUp}$ row, the consumed $\NameCert_{\TopologyUp}$ row,
+the character rows, and the evaluation rows. The finite ledger $\lambda$ is
+the $\Cont$ route containing only those displayed rows and their endpoint
+readbacks.
+\end{definition}
+\leandef{BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrumPairingCarrier}
+
+\begin{definition}[GelfandDuality spectrum transport package]
+\label{def:gelfandduality-spectrum-transport-package}
+A $\GelfandDualityUp$ spectrum transport package for
+\autoref{def:gelfandduality-spectrum-pairing-carrier} is the displayed
+$\mathsf{BHist}$ packet
+$$
+\mathcal{T}_{\mathcal{G}}=(A,X,\chi,\varepsilon,\rho_{A},\rho_{X},P,\lambda).
+$$
+The rows $A$ and $X$ are the transported algebra and compact-spectrum faces,
+$\chi$ and $\varepsilon$ are the transported character and evaluation rows,
+$\rho_{A}$ and $\rho_{X}$ are the two componentwise $\hsame$ transport rows,
+$P$ is the $\mathsf{Pkg}$ provenance for the shared spectrum pairing, and
+$\lambda$ is the $\Cont$ route carrying exactly those transported readbacks.
+The package exposes transport only through these displayed rows.
+\end{definition}
+
 \section{The certificate}
 \label{sec:gelfandduality-certificate}
+
+\begin{theorem}[GelfandDuality spectrum source obligation]
+\label{thm:gelfandduality-spectrum-source-obligation}
+Every public source row of a $\GelfandDualityUp$ spectrum-pairing carrier is
+a displayed $\mathsf{BHist}$ row of
+\autoref{def:gelfandduality-spectrum-pairing-carrier}. In particular, the
+source boundary consists of the consumed $\NameCert_{\CStarAlgUp}$ row $A$,
+the consumed $\NameCert_{\TopologyUp}$ row $X$, the character-evaluation
+rows, the componentwise $\hsame$ rows $\rho_{A},\rho_{X}$, the $\mathsf{Pkg}$
+row $P$, and the finite $\Cont$ route $\lambda$.
+\end{theorem}
+\leanchecked{BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrum\_source\_obligation}
+\leanvariant{BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrumPairingCarrier\_source\_obligation}
+\begin{proof}
+Project an accepted carrier to the tuple
+$\mathcal{G}=(A,X,\chi,\varepsilon,\rho_{A},\rho_{X},P,\lambda)$. The carrier
+definition names each public source row, so projection cannot expose a second
+algebra object, a second spectrum object, or an unrecorded evaluation row.
+
+The algebraic source is the $\NameCert_{\CStarAlgUp}$ row $A$, and the
+topological source is the $\NameCert_{\TopologyUp}$ row $X$. The character
+and evaluation histories are rows over those two sources, while $\rho_{A}$,
+$\rho_{X}$, $P$, and $\lambda$ provide transport, provenance, and readback.
+
+Repacking these displayed projections gives the source obligation. The
+carrier therefore exports only the listed $\mathsf{BHist}$ rows and no hidden
+host-level Gelfand duality theorem.
+\end{proof}
+
+\begin{theorem}[GelfandDuality CStarAlg consumer boundary]
+\label{thm:gelfandduality-cstaralgebra-consumer-boundary}
+A downstream $\NameCert_{\CStarAlgUp}$ consumer of a $\GelfandDualityUp$
+spectrum-pairing carrier reads the C*-algebra face only through the
+$\mathsf{BHist}$ row $A$, the character-evaluation rows $\chi$ and
+$\varepsilon$, the algebra-side $\hsame$ row $\rho_{A}$, the shared
+$\mathsf{Pkg}$ row $P$, and the finite $\Cont$ route $\lambda$; the
+$\NameCert_{\TopologyUp}$ row $X$ is available to that consumer only as the
+recorded compact-spectrum dependency of the same packet.
+\end{theorem}
+\begin{proof}
+Take a consumer whose input is the algebraic face of the carrier. Projecting
+the carrier exposes $A$ as the only consumed $\NameCert_{\CStarAlgUp}$ row and
+exposes $\chi$ and $\varepsilon$ as the only visible character and
+evaluation-history rows.
+
+The algebra-side transport available to the consumer is $\rho_{A}$. The
+provenance row $P$ records that these algebraic rows are paired with the
+topological dependency $X$, and the continuation route $\lambda$ records the
+readbacks that the consumer may follow.
+
+No separate algebra carrier occurs in
+\autoref{def:gelfandduality-spectrum-pairing-carrier}. Thus the consumer
+boundary is exactly the projected algebraic face together with its recorded
+$\NameCert_{\TopologyUp}$ dependency.
+\end{proof}
+
+\begin{theorem}[GelfandDuality Topology consumer boundary]
+\label{thm:gelfandduality-topology-consumer-boundary}
+A downstream $\NameCert_{\TopologyUp}$ consumer of a $\GelfandDualityUp$
+spectrum-pairing carrier reads the compact-spectrum face only through the
+$\mathsf{BHist}$ row $X$, the character-evaluation rows $\chi$ and
+$\varepsilon$, the topology-side $\hsame$ row $\rho_{X}$, the shared
+$\mathsf{Pkg}$ row $P$, and the finite $\Cont$ route $\lambda$; the
+$\NameCert_{\CStarAlgUp}$ row $A$ is available to that consumer only as the
+recorded C*-algebra dependency of the same packet.
+\end{theorem}
+\begin{proof}
+Take a consumer whose input is the topological face of the carrier.
+Projection exposes $X$ as the only consumed $\NameCert_{\TopologyUp}$ compact
+spectrum row. The visible character and evaluation histories are the rows
+$\chi$ and $\varepsilon$, now read as the connection from the spectrum points
+back to the algebraic source.
+
+The topology-side transport available to the consumer is $\rho_{X}$. The
+provenance row $P$ records the dependence on $A$, and the continuation route
+$\lambda$ records exactly the endpoint readbacks that remain public.
+
+Since the carrier has no further topology row, no additional compact
+Hausdorff space or open-set basis can be imported by the consumer. The
+boundary is the displayed $\mathsf{BHist}$ spectrum face and its recorded
+$\NameCert_{\CStarAlgUp}$ dependency.
+\end{proof}
+
+\begin{theorem}[GelfandDuality spectrum transport exactness]
+\label{thm:gelfandduality-spectrum-transport-exactness}
+Every accepted transport of the spectrum pairing of
+\autoref{def:gelfandduality-spectrum-transport-package} projects exactly to the
+algebra face $A$, the topology face $X$, the character rows $\chi$, the
+evaluation rows $\varepsilon$, the two $\hsame$ rows $\rho_{A}$ and
+$\rho_{X}$, the $\mathsf{Pkg}$ provenance row $P$, and the continuation route
+$\lambda$. Conversely, those displayed rows repack as the transported
+$\GelfandDualityUp$ spectrum-pairing surface, with no second spectrum carrier,
+no hidden transform row, and no host compact-Hausdorff theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted transport to the tuple
+$\mathcal{T}_{\mathcal{G}}=(A,X,\chi,\varepsilon,\rho_{A},\rho_{X},P,\lambda)$.
+By \autoref{def:gelfandduality-spectrum-transport-package}, these are exactly
+the rows carried by the transport package.
+
+The algebraic projection is checked against
+\autoref{thm:gelfandduality-cstaralgebra-consumer-boundary}, and the
+topological projection is checked against
+\autoref{thm:gelfandduality-topology-consumer-boundary}. These two boundaries
+force the character and evaluation rows to remain attached to the shared
+algebra-topology packet.
+
+For the reverse direction, repack the displayed projections into the transport
+package. The provenance and continuation rows are already $P$ and $\lambda$,
+so there is no remaining public slot for an external spectrum construction.
+\end{proof}
+
+\begin{theorem}[GelfandDuality evaluation ledger determinacy]
+\label{thm:gelfandduality-evaluation-ledger-determinacy}
+Let two accepted evaluation reads in a $\GelfandDualityUp$ spectrum transport
+package have the same transported algebra row $A$, the same topology point row
+inside $X$, the same character row in $\chi$, and the same endpoint readback in
+$\varepsilon$. Then the public spectrum-pairing classifier identifies the two
+evaluation rows through the displayed $\hsame$ transport rows
+$\rho_{A},\rho_{X}$ and the finite $\Cont$ route $\lambda$. No second
+evaluation ledger can be exposed at that same transported slot.
+\end{theorem}
+\begin{proof}
+Project both evaluation reads through
+\autoref{def:gelfandduality-spectrum-transport-package}. The shared algebra
+row, topology point row, character row, and endpoint readback place both reads
+in the same displayed $\varepsilon$ slot.
+
+Apply \autoref{thm:gelfandduality-spectrum-transport-exactness}. Every accepted
+evaluation read is one of the evaluation rows in the transported package, and
+the only available comparison rows are $\rho_{A}$, $\rho_{X}$, and the
+readback route $\lambda$.
+
+Repacking those comparisons gives the public classifier identification. A
+second evaluation ledger would require another public row outside
+$\mathcal{T}_{\mathcal{G}}$, which the exactness theorem excludes.
+\end{proof}
+
+\begin{theorem}[GelfandDuality NameCert obligation surface]
+\label{thm:gelfandduality-namecert-obligation-surface}
+The public $\GelfandDualityUp$ obligation surface is exactly the coverage of
+the $\mathsf{BHist}$ rows $A$, $X$, $\chi$, $\varepsilon$, $\rho_{A}$,
+$\rho_{X}$, $P$, and $\lambda$ in
+\autoref{def:gelfandduality-spectrum-pairing-carrier}: $A$ is covered by
+$\NameCert_{\CStarAlgUp}$, $X$ is covered by $\NameCert_{\TopologyUp}$,
+$\rho_{A}$ and $\rho_{X}$ are the only $\hsame$ transports, $P$ is the only
+$\mathsf{Pkg}$ provenance, and $\lambda$ is the only $\Cont$ readback route.
+\end{theorem}
+\begin{proof}
+Start with an accepted public obligation for the certificate. Projection to
+the carrier tuple determines whether the obligation is algebraic,
+topological, evaluational, transport, provenance, or readback data.
+
+The algebraic case lands in $A$ and is covered by
+$\NameCert_{\CStarAlgUp}$. The topological case lands in $X$ and is covered
+by $\NameCert_{\TopologyUp}$. The evaluation case lands in $\chi$ or
+$\varepsilon$, so it remains tied to both displayed source rows.
+
+The remaining cases are exact by inspection of the packet: $\rho_{A}$ and
+$\rho_{X}$ are the available $\hsame$ transports, $P$ is the available
+$\mathsf{Pkg}$ provenance, and $\lambda$ is the available $\Cont$ route.
+Repacking those projections gives the stated obligation surface, with no
+parameter-transport equivalence and no extra public row.
+\end{proof}
+
+\begin{theorem}[GelfandDuality spectrum-pairing classifier stability]
+\label{thm:gelfandduality-spectrum-pairing-classifier-stability}
+Componentwise $\hsame$ transport of the rows $A$, $X$, $\chi$, $\varepsilon$,
+$\rho_{A}$, $\rho_{X}$, $P$, and $\lambda$ in
+\autoref{def:gelfandduality-spectrum-pairing-carrier} preserves the public
+$\GelfandDualityUp$ spectrum-pairing classifier. The transported packet reads
+the algebraic face through the same $\NameCert_{\CStarAlgUp}$ dependency, the
+topological face through the same $\NameCert_{\TopologyUp}$ dependency, and the
+evaluation face through the displayed character and evaluation rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to
+$\mathcal{G}=(A,X,\chi,\varepsilon,\rho_{A},\rho_{X},P,\lambda)$ using
+\autoref{def:gelfandduality-spectrum-pairing-carrier}. Transport acts on each
+displayed component and therefore cannot create a second algebra row, topology
+row, character family, evaluation family, provenance row, or readback route.
+
+Apply \autoref{thm:gelfandduality-cstaralgebra-consumer-boundary} to the
+algebraic face. The transported algebra consumer still reads only $A$, $\chi$,
+$\varepsilon$, $\rho_{A}$, $P$, and $\lambda$.
+
+Apply \autoref{thm:gelfandduality-topology-consumer-boundary} to the
+topological face. The transported topology consumer still reads only $X$,
+$\chi$, $\varepsilon$, $\rho_{X}$, $P$, and $\lambda$.
+
+Combining the two transported faces gives the same public spectrum-pairing
+classifier. No external Gelfand transform, compact-Hausdorff theorem, or
+parameter-transport equivalence is imported by the transport.
+\end{proof}
+
+\begin{theorem}[GelfandDuality spectrum ledger exactness]
+\label{thm:gelfandduality-spectrum-ledger-exactness}
+The public $\GelfandDualityUp$ spectrum ledger is exactly the
+$\NameCert_{\CStarAlgUp}$ source row $A$, the $\NameCert_{\TopologyUp}$
+compact-spectrum row $X$, the character rows $\chi$, the evaluation rows
+$\varepsilon$, the algebra and topology transport rows $\rho_{A}$ and
+$\rho_{X}$, the $\Pkg$ provenance row $P$, and the finite $\Cont$ readback route
+$\lambda$ displayed in \autoref{def:gelfandduality-spectrum-pairing-carrier}.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:gelfandduality-namecert-obligation-surface}. Every
+public obligation projects to one of the packet components $A$, $X$, $\chi$,
+$\varepsilon$, $\rho_{A}$, $\rho_{X}$, $P$, and $\lambda$.
+
+The algebraic side is exact by
+\autoref{thm:gelfandduality-cstaralgebra-consumer-boundary}; it permits only the
+CStarAlgUp source row, character and evaluation rows, algebra transport,
+provenance, and finite readback. The topological side is exact by
+\autoref{thm:gelfandduality-topology-consumer-boundary}; it permits only the
+TopologyUp compact-spectrum row, the same character and evaluation rows,
+topology transport, provenance, and finite readback.
+
+Conversely, each listed component is a field of the carrier packet, so it is a
+public ledger row of the certificate. The ledger therefore has no remaining
+slot for an external Gelfand transform, an imported compact-Hausdorff theorem,
+or any host-level spectrum construction.
+\end{proof}

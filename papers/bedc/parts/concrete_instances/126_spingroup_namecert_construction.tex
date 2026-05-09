@@ -72,10 +72,14 @@ Next choose the singleton-history identity row from $\NameCert_{\GroupUp}$. Sinc
 Finally repack the Clifford row, the singleton identity law, and the reflexive $\Cont$ and $\hsame$ witnesses into \autoref{def:spingroup-root-bhist-carrier}. No multiplication or inverse row is consumed in this special case.
 \end{proof}
 
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_clifford\_unit\_lift}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_unit\_lift}
+
 \begin{theorem}[SpinGroup group-law transport]
 \label{thm:spingroup-root-group-law-transport}
 Let $a$, $b$, $a'$, and $b'$ be $\SpinGroupUp$ root-carrier rows whose Clifford endpoints are classified by the $\CliffordUp$ endpoint classifier and whose group-law rows are singleton-history $\GroupUp$ rows. If $\hsame(a,a')$ and $\hsame(b,b')$ hold through the Clifford classifier, then multiplication and inverse rows transported by $\Cont$ remain inside the $\SpinGroupUp$ root carrier and carry the corresponding $\GroupUp$ multiplication and inverse laws.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_group\_law\_transport}
 \begin{proof}
 Unpack the two root-carrier rows. The Clifford parts expose carried endpoints and classifier witnesses, while the group parts expose the singleton-history multiplication and inverse law rows.
 
@@ -97,11 +101,11 @@ The classifier side is finite because every row is a named component of the carr
 
 Repacking these cases gives the stated root $\NameCert$ surface. No Spin or Pin global presentation, orthogonal action, matrix model, or host quotient algebra is used by this obligation surface.
 \end{proof}
-
 \begin{theorem}[SpinGroup root ledger exhaustion]
 \label{thm:spingroup-root-ledger-exhaustion}
 Every finite ledger row exposed by \autoref{def:spingroup-root-bhist-carrier} is one of the displayed $\mathsf{BHist}$ rows, $\Cont$ witnesses, $\hsame$ witnesses, $\NameCert_{\CliffordUp}$ source rows, $\NameCert_{\GroupUp}$ source rows, or singleton $\mathsf{UnaryHistory}$ group-law rows. Conversely, each displayed row of these forms is accepted by the root carrier ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_ledger\_semantic\_exhaustion}
 \begin{proof}
 Project an arbitrary ledger row from the root carrier packet. Constructor inversion leaves only the four packet coordinates listed in \autoref{def:spingroup-root-bhist-carrier}: the Clifford endpoint row, the singleton-history group-law row, the unit-like Clifford endpoint row, and the displayed $\Cont/\hsame$ transport witnesses.
 
@@ -121,6 +125,7 @@ The unit row transports first. If the row is the unit-like Clifford endpoint, \a
 
 For multiplication and inverse, apply \autoref{thm:spingroup-root-group-law-transport}. The theorem composes the Clifford endpoint transport with the product or inverse $\Cont$ row and then reads the matching singleton-history group law from $\NameCert_{\GroupUp}$. The transported row is therefore again a row of \autoref{def:spingroup-root-bhist-carrier}.
 \end{proof}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_transport\_closure}
 
 \begin{theorem}[SpinGroup root NameCert threshold package]
 \label{thm:spingroup-root-namecert-threshold-package}
@@ -133,6 +138,7 @@ The carrier and source faces are supplied by constructor projection from \autore
 
 The transport faces are supplied by \autoref{thm:spingroup-root-group-law-transport} and \autoref{thm:spingroup-root-transport-closure}. Finally, \autoref{thm:spingroup-root-ledger-exhaustion} shows that the ledger has exactly the displayed BEDC rows, so the package has no hidden orthogonal-group, matrix, or quotient-algebra obligation.
 \end{proof}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_root\_namecert\_threshold\_package}
 
 \input{parts/concrete_instances/spingroup/root_public_consumer_boundary}
 
@@ -152,6 +158,7 @@ The source classification is then inherited without a new case split. Apply \aut
 
 It remains to account for ledger visibility. Apply \autoref{thm:spingroup-root-ledger-exhaustion}; it says that the displayed $\mathsf{BHist}$ rows, $\Cont$ rows, $\hsame$ rows, $\mathsf{UnaryHistory}$ rows, and $\Pkg$ provenance rows exhaust the root ledger. Repacking those rows into the double-cover interface gives the converse inclusion and leaves no host quotient, matrix, or orthogonal primitive outside the named BEDC sources.
 \end{proof}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_double\_cover\_source\_exhaustion}
 
 \begin{theorem}[SpinGroup NameCert root obligation package]
 \label{thm:spingroup-namecert-root-obligation-package}
@@ -164,6 +171,7 @@ Now refine the package into the ten visible fields. The carrier field is the fin
 
 The ledger and boundary fields are final projections. The ledger is exact by \autoref{thm:spingroup-root-ledger-exhaustion}, while \autoref{thm:spingroup-double-cover-source-exhaustion} shows that the public double-cover interface has no additional source row. Thus the obligation package contains the root certificate surface but does not assert a standard bridge.
 \end{proof}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_root\_namecert\_obligation\_package}
 
 \begin{theorem}[SpinGroup Clifford even-unit carrier obligation]
 \label{thm:spingroup-clifford-even-unit-carrier-obligation}
@@ -210,6 +218,7 @@ No host spin group is introduced. The certificate surface exports the rows named
 \begin{theorem}[SpinGroup classifier obligation]\label{thm:spingroup-classifier-obligation}
 Two $\SpinGroupUp$ carrier rows are classified exactly when their Clifford lift rows, double-cover projection rows, and even-Clifford ledger rows are compared by $\hsame$ in the same $\mathsf{BHist}$ scope. The classifier is componentwise over the lift, projection, and parity ledger; it does not identify two rows by appealing to an external Lie-group equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_classifier\_obligation}
 \begin{proof}
 Use the classifier field of the roadmap ten-field template after \autoref{thm:spingroup-carrier-obligation} has fixed the carried rows. The source classifier comes from $\NameCert_{\CliffordUp}$, and the visible projection endpoint is a $\mathsf{BHist}$ row, so the only available comparison is $\hsame$.
 
@@ -221,6 +230,7 @@ Conversely, any classifier row for $\SpinGroupUp$ must be readable through these
 \begin{theorem}[SpinGroup lift parity ledger]\label{thm:spingroup-lift-parity-ledger}
 The hidden ledger of a $\SpinGroupUp$ certificate records two rows: the even-Clifford parity row as $\mathsf{UnaryHistory}$ data over $\mathsf{BHist}$ words, and the two-to-one projection row as $\Cont$ data from the Clifford lift to the orthogonal endpoint. These rows are ledger data of the certificate, not new public carrier primitives.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_lift\_parity\_ledger}
 \begin{proof}
 Project the ledger field of the roadmap ten-field template. The Clifford source supplies word histories and product rows, while the spin certificate adds the parity and projection ledgers needed to read a lift as a double-cover point.
 
@@ -239,6 +249,7 @@ Compose the lift packets using the Clifford product continuation supplied by $\N
 
 Classifier transport is componentwise. The lift comparison is transported by the Clifford $\NameCert$ classifier, the projection comparison by the composed $\Cont$ rows, and the parity comparison by $\hsame$ on the unary ledger. These are exactly the carrier fields of \autoref{thm:spingroup-carrier-obligation}.
 \end{proof}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_concrete\_lift\_closure}
 
 \begin{theorem}[SpinGroup spin double cover boundary]\label{thm:spingroup-spin-double-cover-boundary}
 The public boundary of $\SpinGroupUp$ is the double-cover projection row from a Clifford-even lift to the already certified orthogonal or special-orthogonal surface. The boundary is a $\mathsf{BHist}$ projection ledger classified by $\hsame$ and transported by $\Cont$; it is not an external Lie group supplied outside the BEDC certificate.
@@ -250,6 +261,7 @@ The public row is therefore the projection endpoint, together with its $\Cont$ w
 
 Exactness runs in the reverse direction. Any public spin-boundary use must recover the lift row, parity ledger, and projection continuation from the same $\mathsf{BHist}$ packet; rows outside those fields are not part of this certificate.
 \end{proof}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_spin\_double\_cover\_boundary}
 
 \begin{theorem}[SpinGroupUp root obligation surface]
 \label{thm:spingroup-root-obligation-surface}
@@ -282,6 +294,7 @@ public $\SpinGroupUp$ row is obtained by repacking those rows into the
 ten-field certificate surface. No additional row is available for topology,
 quotient equality, analytic connectedness, or a standard bridge.
 \end{proof}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_root\_namecert\_obligation\_surface}
 
 \begin{theorem}[SpinGroupUp Clifford unit carrier obligation]
 \label{thm:spingroup-clifford-unit-carrier-obligation}
@@ -302,101 +315,9 @@ carrier is a $\mathsf{BHist}$ packet, all equality and transport visible at the
 interface is through $\hsame$ and the named classifier rows, not through a host
 matrix or Lie-group equality.
 \end{proof}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_clifford\_unit\_carrier\_obligation}
 
-\begin{theorem}[SpinGroupUp Clifford--Group consumer boundary]
-\label{thm:spingroup-clifford-group-consumer-boundary}
-A downstream consumer of a $\SpinGroupUp$ certificate may read only the
-$\CliffordUp$ source rows, the $\GroupUp$ source rows, the cover row, the
-subgroup row, the action row, the generated classifier row, the $\hsame$ and
-$\Cont$ transport witnesses, and the $\Pkg$ provenance rows appearing in
-\autoref{def:spingroup-bhist-carrier-packet}. In particular, every consumer
-request name factors through those rows and no request may inspect a host Lie
-group, a quotient representative, or an analytic connected-component object.
-\end{theorem}
-\begin{proof}
-Unpack a consumer request against the displayed carrier packet. The only
-source rows named by the packet are the Clifford rows from
-\autoref{ch:concrete-instances-clifford-namecert} and the Group rows from
-\autoref{ch:concrete-instances-group-namecert}.
-
-The cover and action requests are finite ledger reads: the cover row names
-the induced action on vector histories, while the action row records
-conjugation by carried spin histories. Both rows retain their $\Pkg$
-provenance and use the generated classifier for transport.
-
-For a product or classifier request, the consumer must use the same finite
-$\Cont$ spine and $\hsame$ endpoint transport carried by the packet. Since no
-other row is present, the public surface exposes exactly the Clifford source,
-Group source, cover, action, subgroup, classifier, transport, and provenance
-rows listed in the statement.
-\end{proof}
-
-\begin{theorem}[SpinGroupUp ledger exclusion]
-\label{thm:spingroup-ledger-exclusion}
-The public $\SpinGroupUp$ ledger excludes host Lie-group topology, quotient
-equality, analytic connectedness, and external double-cover data. Any accepted
-spin row must instead exhibit a finite $\mathsf{BHist}$ packet over the
-$\CliffordUp$ and $\GroupUp$ sources, with cover, subgroup, action,
-classifier, transport, and $\Pkg$ provenance rows as in
-\autoref{def:spingroup-bhist-carrier-packet}.
-\end{theorem}
-\begin{proof}
-Inspect the ledger rows of the carrier packet. The visible rows are all
-finite BEDC rows: Clifford unit and vector rows, Group unit and product rows,
-finite product spines, cover and action rows, subgroup rows, classifier rows,
-and provenance rows.
-
-Host Lie-group topology and analytic connectedness have no row in this
-packet. A consumer cannot reconstruct them from $\hsame$ or $\Cont$, since
-those witnesses only transport endpoints and finite product spines already
-present in the BEDC ledger.
-
-Quotient equality and external double-cover data are also absent. The cover
-row is a named finite action row on vector histories, not a quotient object;
-the subgroup row is a carried Group row over Clifford units, not an imported
-subgroup equality. Therefore every public spin certificate is exactly the
-finite packet described above.
-\end{proof}
-
-\begin{theorem}[SpinGroupUp double-cover ledger obligation]
-\label{thm:spingroup-double-cover-ledger-obligation}
-The double-cover ledger for a $\SpinGroupUp$ packet records the Clifford unit
-endpoint, the projected orthogonal-action endpoint, and the kernel-sign witness
-as $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$ rows. No additional covering
-space, topology, or host quotient is exported as public carrier data.
-\end{theorem}
-\begin{proof}
-Read the same dependency rows through the $\NameCert$ ten-field template. The
-$\CliffordUp$ side contributes the unit endpoint, and the projected
-orthogonal-action endpoint records the public target of the double-cover map.
-
-The kernel-sign witness is ledger data: it is carried by BEDC rows using
-$\mathsf{BHist}$ endpoints, $\hsame$ transport, continuation provenance
-$\Cont$, and package evidence $\Pkg$. Repacking those rows into the ledger slot
-of the $\SpinGroupUp$ certificate yields the stated double-cover ledger without
-adding a host quotient or topological covering object.
-\end{proof}
-
-\begin{theorem}[SpinGroupUp group interface boundary]
-\label{thm:spingroup-group-interface-boundary}
-Any $\GroupUp$ consumer of a displayed $\SpinGroupUp$ packet may read only the
-multiplication, identity, inverse, and classifier rows supplied by that packet.
-The Clifford multiplication rows, orthogonal projection rows, and kernel-sign
-witness remain ledger rows and are not exported as extra group operations.
-\end{theorem}
-\begin{proof}
-Project the $\GroupUp$ dependency from the carrier packet described in
-\autoref{thm:spingroup-clifford-unit-carrier-obligation}. The public group
-interface consists of its multiplication, identity, inverse, and classifier
-rows, all carried through the same $\mathsf{BHist}$ packet.
-
-The double-cover data is read separately through
-\autoref{thm:spingroup-double-cover-ledger-obligation}. It supplies provenance
-for why the group rows come from Clifford units and the orthogonal projection,
-but it stays in the ledger slot of the ten-field $\NameCert$ template. Thus a
-$\GroupUp$ consumer receives exactly the group interface and no hidden Clifford
-or projection operation.
-\end{proof}
+\input{parts/concrete_instances/spingroup/ledger_exclusion_surface}
 
 \begin{theorem}[SpinGroupUp Clifford-unit source obligation]
 \label{thm:spingroup-clifford-unit-source-obligation}
@@ -407,6 +328,7 @@ the product read to the same carried source. The row records multiplication
 and inverse access only through the inherited Clifford-unit and group
 certificates, and it does not assert an uncarried host-level spin subgroup.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_clifford\_unit\_source\_obligation}
 \begin{proof}
 Read the Clifford dependency as a unit endpoint in the $\CliffordUp$ carrier.
 The even-product provenance is a finite $\mathsf{BHist}$ ledger whose factors
@@ -433,6 +355,7 @@ exactly when the Clifford-unit comparisons and the displayed orthogonal-action
 readback agree in the package ledger; the classifier does not quotient by
 host-level signs or by an unrecorded kernel object.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_double\_cover\_fiber\_classifier}
 \begin{proof}
 Unpack two $\SpinGroupUp$ source rows using
 \autoref{thm:spingroup-clifford-unit-source-obligation}. Each row exposes a
@@ -458,6 +381,7 @@ $\NameCert$ provenance. They may not inspect a host Lie group, a host sign
 quotient, or an uncarried Clifford algebra carrier outside the displayed BEDC
 source package.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_group\_consumer\_boundary}
 \begin{proof}
 The source obligation exposes the carried unit and the group operation rows.
 These are sufficient for group-style consumers to read multiplication,
@@ -498,6 +422,7 @@ used by the carrier theorem. Thus multiplication, inverse, and even-witness
 replacement preserve the classifier and leave the orthogonal action boundary
 unchanged.
 \end{proof}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_even\_product\_classifier\_obligation}
 
 \begin{theorem}[SpinGroup NameCert obligation surface]
 \label{thm:spingroup-namecert-obligation-surface}
@@ -553,6 +478,7 @@ the transported unary group-law spine with the same boundary read by the
 SpinGroup carrier. Repacking these transported rows gives an admitted Spin
 boundary row and adds no host orthogonal group or quotient row.
 \end{proof}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_spin\_boundary\_inclusion\_transport}
 
 \begin{theorem}[SpinGroup Clifford-unit ledger coverage]
 \label{thm:spingroup-clifford-unit-ledger-coverage}
@@ -576,6 +502,7 @@ or provenance rows listed by the root exhaustion theorem. Hence every visible
 row has one of the five forms in the statement, and there is no further
 external ledger source to inspect.
 \end{proof}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_clifford\_unit\_ledger\_coverage}
 
 \begin{theorem}[SpinGroup PinGroup consumer source exactness]
 \label{thm:spingroup-pin-consumer-source-exactness}
@@ -601,6 +528,7 @@ surface is the exported boundary, and the PinGroup inclusion surface consumes
 that boundary as its source. Therefore the consumer source is exact and admits
 none of the excluded host, model, quotient, analytic, or covering data.
 \end{proof}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_pin\_consumer\_source\_exactness}
 
 \begin{theorem}[SpinGroup root threshold obligation triple]
 \label{thm:spingroup-root-threshold-obligation-triple}
@@ -614,6 +542,7 @@ outside the threshold package of
 \autoref{thm:spingroup-root-namecert-threshold-package} and the obligation
 surface of \autoref{thm:spingroup-namecert-obligation-surface}.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_threshold\_obligation\_triple}
 \begin{proof}
 Project the accepted packet through
 \autoref{def:spingroup-root-bhist-carrier}. Its constructors expose only the
@@ -644,6 +573,7 @@ $\mathsf{BHist}$ packet: it reads the even-word component from
 \autoref{thm:spingroup-double-cover-fiber-classifier}. It does not use a host
 quotient or an ambient orthogonal group equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_even\_word\_classifier\_inversion}
 \begin{proof}
 Start with the accepted classifier comparison and project it through
 \autoref{thm:spingroup-namecert-obligation-surface}. The classifier face is a
@@ -664,109 +594,5 @@ rows exhaust the accepted comparison, so no host quotient or external
 orthogonal equality is read.
 \end{proof}
 
-\begin{theorem}[SpinGroup root double-cover consumer exhaustion]
-\label{thm:spingroup-root-double-cover-consumer-exhaustion}
-A downstream $\PinGroupUp$ or $\CliffordUp$ consumer of the $\SpinGroupUp$ root
-double-cover boundary can read only the visible Clifford unit source, the
-parity classifier, inverse and product witnesses, the double-cover fiber
-classifier, finite $\Cont$ readbacks, and $\mathsf{Pkg}$ provenance. These are
-exactly the rows exposed by
-\autoref{def:spingroup-bhist-carrier-packet},
-\autoref{def:spingroup-root-bhist-carrier},
-\autoref{thm:spingroup-root-namecert-threshold-package},
-\autoref{thm:spingroup-double-cover-fiber-classifier}, and
-\autoref{thm:spingroup-namecert-obligation-surface}.
-\end{theorem}
-\begin{proof}
-Project a consumer read through
-\autoref{thm:spingroup-namecert-obligation-surface}. The obligation surface
-lists the carrier, classifier, stability, exactness, and ledger rows available
-to any downstream consumer.
-
-Apply \autoref{thm:spingroup-root-namecert-threshold-package} to the root part.
-It confines carrier reads to the visible Clifford unit source, parity ledger,
-inverse and product witnesses, finite $\Cont$ transport, $\hsame$ comparison,
-and $\mathsf{Pkg}$ provenance. The concrete packet definitions provide no
-other constructor to inspect.
-
-Finally apply \autoref{thm:spingroup-double-cover-fiber-classifier} to the
-projection boundary. The only extra classifier available there is the
-double-cover fiber classifier, and it is again a displayed finite
-$\mathsf{BHist}$ row. Repacking the projected rows gives exactly the consumer
-surface named in the statement, with no host quotient, ambient orthogonal group
-equality, analytic covering datum, or standard-bridge datum.
-\end{proof}
-
-\begin{theorem}[SpinGroup double-cover fiber ledger]
-\label{thm:spingroup-double-cover-fiber-ledger}
-The double-cover fiber ledger row exposed by $\SpinGroupUp$ is exactly the
-Clifford-unit comparison, the parity $\mathsf{UnaryHistory}$ row, the
-orthogonal-action endpoint, the $\Cont$ projection witness, and the
-$\mathsf{Pkg}$ provenance. These five rows are the fiber face of
-\autoref{def:spingroup-bhist-carrier-packet} and
-\autoref{thm:spingroup-double-cover-fiber-classifier}; no host sign quotient
-or ambient orthogonal-group equality is part of the ledger.
-\end{theorem}
-\begin{proof}
-Project the carried packet through
-\autoref{def:spingroup-bhist-carrier-packet}. The visible coordinates include
-the Clifford unit data, parity history, action endpoint, continuation witness,
-and package provenance.
-
-Apply \autoref{thm:spingroup-double-cover-fiber-classifier}. It compares the
-two carried spin endpoints only by the Clifford-unit comparison and the shared
-orthogonal-action endpoint recorded in the package ledger.
-
-The parity row and the $\Cont$ witness are the transport data that make this
-comparison a fiber row. Since the classifier theorem exposes no other
-constructor, the five displayed rows exhaust the ledger.
-\end{proof}
-
-\begin{theorem}[SpinGroup conjugation action readback]
-\label{thm:spingroup-conjugation-action-readback}
-The action row in \autoref{def:spingroup-bhist-carrier-packet} reads
-conjugation only from the displayed Clifford product rows, Clifford inverse
-rows, and $\hsame$ transport. It does not read a host action, a matrix action,
-or an unrecorded orthogonal representation outside the $\SpinGroupUp$ packet.
-\end{theorem}
-\begin{proof}
-Unpack the action coordinate of
-\autoref{def:spingroup-bhist-carrier-packet}. Its source rows are the
-Clifford-unit endpoint, the multiplication ledger, the inverse ledger, and the
-displayed $\hsame$ transports between the selected endpoints.
-
-Use \autoref{thm:spingroup-group-consumer-boundary} to restrict downstream
-reads to Clifford unit, multiplication, inverse, double-cover classifier, and
-provenance rows. The conjugation action is therefore reconstructed from the
-product-inverse-product spine already present in the packet.
-
-The $\hsame$ rows transport the readback between classifier-equal endpoints.
-No host action row is available after this projection, so the action readback
-is exactly the displayed Clifford product and inverse readback.
-\end{proof}
-
-\begin{theorem}[SpinGroup boundary consumer exactness]
-\label{thm:spingroup-boundary-consumer-exactness}
-Every $\PinGroupUp$, $\LieGroupUp$, or $\CliffordUp$ consumer of the
-$\SpinGroupUp$ boundary reads precisely the exported Clifford-unit source,
-parity classifier, multiplication and inverse rows, conjugation readback,
-double-cover fiber ledger, finite $\Cont$ witnesses, and $\mathsf{Pkg}$
-provenance. No host orthogonal group, host quotient, or additional Clifford
-carrier row is exported.
-\end{theorem}
-\begin{proof}
-Begin with \autoref{thm:spingroup-root-double-cover-consumer-exhaustion}. It
-already confines root double-cover consumers to the visible Clifford unit,
-parity, inverse, product, fiber classifier, continuation, and provenance rows.
-
-Apply \autoref{thm:spingroup-double-cover-fiber-ledger} to replace the fiber
-classifier by its exact ledger rows. Apply
-\autoref{thm:spingroup-conjugation-action-readback} for the action coordinate;
-that readback contributes only Clifford product, inverse, and $\hsame$
-transport rows.
-
-Finally use \autoref{thm:spingroup-group-consumer-boundary}. Its consumer
-projection admits the same rows for $\PinGroupUp$, $\LieGroupUp$, and
-$\CliffordUp$ consumers and admits no host orthogonal group or quotient row.
-Thus the exported boundary is exact.
-\end{proof}
+\input{parts/concrete_instances/spingroup/double_cover_consumer_boundary}
+\input{parts/concrete_instances/spingroup/root_boundary_consumer_exactness_and_status}

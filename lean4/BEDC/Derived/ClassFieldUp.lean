@@ -246,4 +246,41 @@ theorem ClassFieldScopedLedger_exactness
       exactRows.right.right.right.right.right.left,
       exactRows.right.right.right.right.right.right⟩
 
+theorem ClassField_public_namecert_interface
+    {base idele extension classifier ledger artin frob ideleRep localPrime frobRep
+      extensionPresentation classifierPrime ledgerPrime : BHist} :
+    ClassFieldSourceCarrier base idele extension classifier ledger ->
+    ClassFieldArtinFrobeniusRows base idele extension artin frob ->
+    Cont idele frob ideleRep ->
+    Cont base ideleRep localPrime ->
+    Cont localPrime frobRep extensionPresentation ->
+    hsame frobRep frob ->
+    hsame classifier classifierPrime ->
+    hsame ledger ledgerPrime ->
+      SemanticNameCert
+          (fun h : BHist => ClassFieldSourceCarrier base idele h classifier ledger)
+          (fun h : BHist => ClassFieldSourceCarrier base idele h classifier ledger)
+          (fun h : BHist => ClassFieldSourceCarrier base idele h classifier ledger) hsame ∧
+        ClassFieldSourceCarrier base idele extension classifierPrime ledgerPrime ∧
+          ClassFieldArtinFrobeniusRows base idele extension artin frob ∧
+            UnaryHistory ideleRep ∧ UnaryHistory localPrime ∧
+              UnaryHistory extensionPresentation ∧ hsame classifierPrime extension ∧
+                hsame ledger ledgerPrime := by
+  intro source rows ideleRepRoute localPrimeRoute presentationRoute sameFrob sameClassifier
+    sameLedger
+  have certificate :=
+    ClassFieldSourceCarrier_semantic_name_certificate source
+  have transported :=
+    ClassFieldLedgerExactnessRows_transport source rows ideleRepRoute localPrimeRoute
+      presentationRoute sameFrob sameClassifier sameLedger
+  exact
+    ⟨certificate,
+      transported.left,
+      transported.right.left,
+      transported.right.right.left,
+      transported.right.right.right.left,
+      transported.right.right.right.right.left,
+      transported.right.right.right.right.right.left,
+      transported.right.right.right.right.right.right⟩
+
 end BEDC.Derived.ClassFieldUp

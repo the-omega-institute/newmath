@@ -272,3 +272,46 @@ The equation-inclusion bridge is positional rather than quotient-based. By \auto
   \notclaimed{This chapter does not close projective-variety consumer certificates, scheme-level consumer certificates, the full $\AffineVarUp$ $\NameCert$, or machine-checked bridge closure.}
   \upgradepath{The next verification step is bridgeCheckedV and audit packaging for the same finite-family bridge, not a stronger paper closure claim.}
 \end{closurestatus}
+
+\begin{theorem}[Affine singleton-equation zero-locus exactness]
+\label{thm:affine-singleton-equation-zero-locus-exactness}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $p:\mathsf{BHist}$ be a polynomial-code history and let $\mathsf{cons}(p,\mathsf{nil}):\mathsf{HistSpine}$ be the singleton polynomial-family spine. For every point history $x:\mathsf{BHist}$,
+$$
+\mathsf{V}_{R,n}(\mathsf{cons}(p,\mathsf{nil}))(x)
+\Longleftrightarrow
+\mathsf{AffPoint}_{R,n}(x)\land
+\mathsf{PolyEvalZero}_{R,n}(p,x).
+$$
+Thus the one-equation affine finite-family zero-locus is exactly the ambient affine-point predicate together with vanishing of the displayed polynomial code.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:affine-finite-family-zero-locus}. A witness of
+$$
+\mathsf{V}_{R,n}(\mathsf{cons}(p,\mathsf{nil}))(x)
+$$
+is a pair consisting of
+$$
+\mathsf{AffPoint}_{R,n}(x)
+$$
+and an equation row
+$$
+\forall i:\mathsf{Pos}(\mathsf{cons}(p,\mathsf{nil})).\;
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{\mathsf{cons}(p,\mathsf{nil})}(i),x).
+$$
+By the cons-spine position clauses of \autoref{def:list-spine-representation}, the singleton spine has one head position and no tail positions, since the tail is $\mathsf{nil}$. At the head position, the readback is $p$.
+
+For the forward implication, assume $\mathsf{V}_{R,n}(\mathsf{cons}(p,\mathsf{nil}))(x)$. The first projection gives $\mathsf{AffPoint}_{R,n}(x)$. Evaluating the displayed equation row at the head position of $\mathsf{cons}(p,\mathsf{nil})$ gives
+$$
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{\mathsf{cons}(p,\mathsf{nil})}(\mathsf{head}),x).
+$$
+The singleton head readback identifies $\mathsf{entry}_{\mathsf{cons}(p,\mathsf{nil})}(\mathsf{head})$ with $p$, so this is exactly $\mathsf{PolyEvalZero}_{R,n}(p,x)$. Pairing these two projections gives the right-hand side.
+
+For the reverse implication, assume
+$$
+\mathsf{AffPoint}_{R,n}(x)\land
+\mathsf{PolyEvalZero}_{R,n}(p,x).
+$$
+The affine-point component of $\mathsf{V}_{R,n}(\mathsf{cons}(p,\mathsf{nil}))(x)$ is the first component of this pair. It remains to verify the equation row for every position of $\mathsf{cons}(p,\mathsf{nil})$. Such a position is the head position or a tail position inherited from $\mathsf{nil}$. In the head case, the readback is $p$, and the second component supplies $\mathsf{PolyEvalZero}_{R,n}(p,x)$. In the tail case there is no position to check, because $\mathsf{nil}$ has no positions. Hence the equation row is complete.
+
+Combining the ambient affine-point witness with this singleton equation row repacks as $\mathsf{V}_{R,n}(\mathsf{cons}(p,\mathsf{nil}))(x)$ by \autoref{def:affine-finite-family-zero-locus}.
+\end{proof}

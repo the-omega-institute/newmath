@@ -1,0 +1,265 @@
+\begin{definition}[StreamName RegSeqRat reindexed window package]
+\label{def:streamname-regseqrat-reindexed-window-package}
+A $\StreamNameUp$--$\RegSeqRat$ reindexed window package is a finite public
+handoff row with the following displayed components:
+\begin{enumerate}
+  \item a finite-window $\StreamNameUp$ row over rational histories, with its
+  public carrier and selected $\mathsf{RatStreamNameClassifier}$ row;
+  \item a certified unary reindexer $\rho$ between the source unary window and
+  the consumer unary window;
+  \item the reindexed $\mathsf{RatHistoryClassifier}$ rows obtained by reading
+  the selected StreamName observations through $\rho$;
+  \item the finite $\mathsf{ProbeBundle}$ ledger, the
+  $\mathsf{InBundle}$ membership rows, and the $\mathsf{UnaryHistory}$
+  observation rows for both the source window and the reindexed consumer
+  window;
+  \item the downstream $\RegSeqRat$ finite-window seal input rows whose source
+  side is exactly the reindexed rational-history classifier rows and their
+  displayed bundle membership evidence.
+\end{enumerate}
+The package has no hidden carrier. Its public surface is only the finite
+StreamName row, the unary reindexer, the reindexed rational-history classifier
+rows, the bundle and membership rows, the unary observation rows, and the
+displayed downstream finite-window input rows.
+\end{definition}
+
+\begin{theorem}[StreamName RegSeqRat reindexed window exhaustion]
+\label{thm:streamname-regseqrat-reindexed-window-exhaustion}
+Every consumer row of the reindexed window package of
+\autoref{def:streamname-regseqrat-reindexed-window-package} is projected from
+one of the following three sources: the StreamName reindexing and map-stability
+row of \autoref{thm:rat-stream-name-reindexing-and-map-stability}, the
+finite-window reindexed map coverage row of
+\autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage}, or the
+finite-window RegSeqRat handoff row of
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. Conversely, those
+three rows repack into the displayed package and determine its whole consumer
+surface.
+\end{theorem}
+\begin{proof}
+First project the reindexing spine. Apply
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} to the certified
+unary reindexer $\rho$. This gives the transported StreamName carrier row and
+the selected rational-history classifier rows after reindexing.
+
+Next project the finite window. Apply
+\autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage}. It gives
+the matching $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+$\mathsf{UnaryHistory}$ rows on the source and consumer windows, and it
+identifies the reindexed classifier rows as the only rows visible on the
+consumer window.
+
+Finally project the downstream handoff. Apply
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. It says that the
+RegSeqRat finite-window consumer reads exactly the selected rational-history
+classifier rows together with the displayed bundle, membership, and unary
+observation rows.
+
+For the converse direction, repack those three projections in the order listed
+in the definition: the public finite-window StreamName row, the certified
+unary reindexer, the reindexed rational-history classifier rows, the bundle
+ledger rows, and the downstream finite-window input rows. No additional row is
+available after these projections, so the repacked package is exhaustive.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat reindexed window imports no seal]
+\label{thm:streamname-regseqrat-reindexed-window-no-seal-import}
+The reindexed window package of
+\autoref{def:streamname-regseqrat-reindexed-window-package} exports no
+$\RegSeqRat$ regularity witness, no $\RealUp$ seal classifier, no completion
+object, no host index equality, and no quotient row. Any such row must be
+supplied by the downstream $\RegSeqRat$ or $\RealUp$ certificate rather than by
+the finite reindexed StreamName window.
+\end{theorem}
+\begin{proof}
+Read the package by the exhaustion theorem
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion}. Its three
+sources are the reindexing spine, the finite-window reindexed map coverage,
+and the finite-window StreamName handoff.
+
+The first two sources only transport and cover StreamName observation rows.
+They mention the unary reindexer, rational-history classifier rows,
+$\mathsf{ProbeBundle}$ membership, and $\mathsf{UnaryHistory}$ observations.
+
+The handoff source is separated by
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. That theorem
+places regularity, seal classifiers, completion objects, host equalities, and
+quotient rows outside the finite StreamName source.
+
+Therefore projecting and repacking the package cannot introduce any of those
+excluded rows. They remain obligations of the downstream consumer surface.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat reindexed window consumer determinacy]
+\label{thm:streamname-regseqrat-reindexed-window-consumer-determinacy}
+Let $\Omega$ and $\Omega'$ be two
+$\StreamNameUp$--$\RegSeqRat$ reindexed window packages. Suppose they have the
+same public StreamName row, the same certified unary reindexer $\rho$, the same
+selected rational-history classifier rows, and the same finite-window handoff
+rows after the displayed $\hsame$ transports. Then every downstream
+$\RegSeqRat$ finite-window consumer reads the same source surface and the same
+selected finite-window input rows from $\Omega$ and $\Omega'$. No regularity
+witness, $\RealUp$ seal classifier, completion datum, quotient row, or host
+index equality can distinguish the two packages.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:rat-stream-name-reindexing-and-map-stability} to the
+shared reindexer $\rho$. The common StreamName source row and the displayed
+$\hsame$ transports identify the reindexed rational-history classifier rows
+seen by the consumer window.
+
+Next apply \autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage}.
+The selected classifier rows determine the finite $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$ rows available on the
+reindexed window. Thus the two packages expose the same selected finite-window
+input rows.
+
+Now apply \autoref{thm:streamname-real-regseq-finite-window-handoff}. The
+downstream $\RegSeqRat$ boundary reads only the reindexed rational-history
+classifier rows together with the displayed bundle, membership, unary
+observation, and handoff rows.
+
+Finally use
+\autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import}. It excludes
+regularity witnesses, $\RealUp$ seal classifiers, completion data, quotient
+rows, and host index equalities from the package surface, so no extra row can
+separate $\Omega$ from $\Omega'$ for a finite-window consumer.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat reindexed window identity handoff]
+\label{thm:streamname-regseqrat-reindexed-window-identity-handoff}
+Assume that the certified unary reindexer in a
+$\StreamNameUp$--$\RegSeqRat$ reindexed window package is the identity on every
+displayed $\mathsf{UnaryHistory}$ observation. Then the package of
+\autoref{def:streamname-regseqrat-reindexed-window-package} exposes exactly the
+unreindexed $\StreamNameUp$ finite-window row and the same $\RegSeqRat$
+finite-window handoff rows. It exposes no additional regularity row, seal row,
+completion row, quotient row, or host index-equality row.
+
+The associated ten-field fit is:
+\begin{enumerate}
+\item the traditional target is identity reindexing for countable names;
+\item the BEDC source is $\StreamNameUp$ together with the $\RegSeqRat$
+finite-window handoff;
+\item the carrier is the finite rational-observation window;
+\item the classifier consists of the selected $\mathsf{RatHistoryClassifier}$
+rows;
+\item stability is identity reindexing together with the displayed $\hsame$
+transports;
+\item the ledger consists of the $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$ rows;
+\item the core theorem is this identity handoff;
+\item exactness is equality with the same finite-window rows;
+\item the ordinary bridge is finite prefix readback;
+\item the status is a paper theorem awaiting a formal target.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rat-stream-name-reindexing-and-map-stability} to the
+certified unary reindexer. Under the identity assumption on every displayed
+$\mathsf{UnaryHistory}$ observation, the transported StreamName carrier row and
+the source carrier row have the same finite observations after the displayed
+$\hsame$ transports.
+
+Apply \autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage}. The
+finite-window coverage row identifies the reindexed
+$\mathsf{RatHistoryClassifier}$ entries with the selected entries already read
+from the unreindexed StreamName window. The $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$ ledger rows are therefore the
+same displayed finite rows.
+
+Next use \autoref{thm:streamname-real-regseq-finite-window-handoff}. The
+$\RegSeqRat$ finite-window consumer reads only those selected rational-history
+classifier rows together with the visible bundle, membership, unary-observation,
+and handoff rows, so the identity reindexer supplies exactly the unreindexed
+handoff surface.
+
+The exhaustion theorem
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion} shows that no
+other consumer row is present in the package. Finally
+\autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import} excludes
+regularity, seal, completion, quotient, and host index-equality rows. Hence the
+identity case is precisely the unreindexed finite-window handoff.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat reindexed selected-classifier handoff]
+\label{thm:streamname-regseqrat-reindexed-window-selected-classifier-handoff}
+For a $\StreamNameUp$--$\RegSeqRat$ reindexed window package, the reindexed
+selected $\mathsf{RatHistoryClassifier}$ rows, the finite
+$\mathsf{ProbeBundle}$ ledger, the $\mathsf{InBundle}$ membership rows, and the
+$\mathsf{UnaryHistory}$ observations are exactly the common finite-window source
+surface consumed by both the downstream $\RegSeqRat$ finite-window seal row and
+the finite-window $\RealUp$ ledger-boundary row. No $\RegSeqRat$ regularity
+witness, $\RealUp$ seal classifier, completion datum, quotient datum, or host
+index equality is imported into that common surface.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion}. It identifies
+the package surface with the public StreamName finite-window row, the certified
+unary reindexer, the selected rational-history classifier rows, the finite
+bundle, membership, unary-observation, and handoff rows.
+
+Next use \autoref{thm:streamname-real-regseq-finite-window-handoff}. The
+$\RegSeqRat$ finite-window consumer reads precisely the selected
+$\mathsf{RatHistoryClassifier}$ rows together with the displayed
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$ ledger
+rows.
+
+Then apply \autoref{thm:realup-streamname-finite-window-ledger-boundary}. The
+finite-window $\RealUp$ boundary reads the same displayed ledger surface after
+the StreamName and RegSeqRat rows have been restricted to the selected window.
+
+Finally use
+\autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import}. Since the
+reindexed package imports no regularity witness, seal classifier, completion
+row, quotient row, or host index equality, the four selected source families are
+the whole common input surface for the two downstream consumers.
+\end{proof}
+
+\begin{theorem}[StreamName RealUp subwindow ledger determinacy]
+\label{thm:streamname-realup-subwindow-ledger-determinacy}
+Let $\Omega$ and $\Omega'$ be two reindexed
+$\StreamNameUp$--$\RegSeqRat$ finite-window packages over rational histories.
+Assume that they display the same public $\StreamNameUp$ finite-window row, the
+same certified unary reindexer, the same selected
+$\mathsf{ProbeBundle}$ subwindow, the same $\mathsf{InBundle}$ membership rows,
+the same $\mathsf{UnaryHistory}$ observation rows, and the same transported
+$\mathsf{RatHistoryClassifier}$ rows. Then every finite-window $\RealUp$
+consumer reading the corresponding subwindow sees the same finite
+$\mathsf{BHist}$ source surface from $\Omega$ and $\Omega'$.
+
+The common surface consists exactly of the public StreamName classifier rows,
+the $\RegSeqRat$ handoff rows, the selected endpoint rows, and the finite
+ledger boundary carried by the displayed bundle, membership, and unary-history
+rows. It contains no quotient datum, completion object, host-index equality,
+metric-completeness witness, or standard-bridge row.
+\end{theorem}
+\begin{proof}
+Start with the two reindexed window packages. By
+\autoref{thm:streamname-regseqrat-reindexed-window-consumer-determinacy}, the
+common public StreamName row, certified unary reindexer, selected bundle,
+membership rows, unary-history rows, and transported rational classifiers force
+the same finite source surface for every downstream finite-window consumer.
+
+Next project the RegSeqRat side. The finite-window handoff theorem
+\autoref{thm:streamname-real-regseq-finite-window-handoff} reads exactly the
+selected $\mathsf{RatHistoryClassifier}$ rows together with the displayed
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$ ledger
+rows. The restriction theorem
+\autoref{thm:streamname-regseqrat-finite-window-restriction-handoff} keeps
+those rows unchanged when the consumer asks only for the selected subwindow.
+
+Now attach the RealUp read boundary. Apply
+\autoref{thm:realup-streamname-finite-window-ledger-boundary} to the common
+subwindow surface. It identifies the visible $\RealUp$ input as the selected
+StreamName classifier rows, endpoint rows, RegSeqRat dyadic source rows, and
+finite ledger boundary already present in the two packages.
+
+Finally use
+\autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import}. Since the
+reindexed package imports no seal classifier, quotient, completion,
+host-index equality, metric-completeness witness, or standard-bridge row, no
+finite-window $\RealUp$ consumer can distinguish $\Omega$ from $\Omega'$ by
+such data. The exposed $\mathsf{BHist}$ source surface is therefore the same.
+\end{proof}

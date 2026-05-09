@@ -6,5 +6,194 @@ The Bessel-function interface $\BesselUp$ packages the holomorphic solutions to 
 \section{Carrier definition}
 \label{sec:bessel-carrier}
 
+\begin{definition}[BesselUp BHist carrier packet]
+\label{def:bessel-bhist-carrier-packet}
+The $\BesselUp$ carrier is the $\mathsf{BHist}$ packet
+$$
+\mathcal B=(O,H,\nu,\sigma,\tau,\rho,\kappa,\pi)
+$$
+where $O$ is an $\OdeUp$ source row for the displayed Bessel differential
+equation, $H$ is a $\HolomorphicUp$ source row for the corresponding
+disk-local solution histories, $\nu$ is the order and index row, $\sigma$ and
+$\tau$ are the solution endpoint rows, $\rho$ is the finite recurrence ledger,
+$\kappa$ is the family of $\hsame$ transport rows connecting the ODE,
+holomorphic, order, and endpoint entries, and $\pi$ is the shared
+$\mathsf{Pkg}$ provenance row. A $\BesselUp$ consumer reads solution data only
+through this packet.
+\end{definition}
+
 \section{The certificate}
 \label{sec:bessel-certificate}
+
+\begin{theorem}[BesselUp root ODE source obligation]
+\label{thm:bessel-root-ode-source-obligation}
+Every accepted $\BesselUp$ root packet projects an $\OdeUp$ source row for
+the Bessel equation, its order and index row, the solution endpoint rows, the
+ODE-side endpoint classifier, and the $\mathsf{Pkg}$ provenance recorded in
+\autoref{def:bessel-bhist-carrier-packet}. The root packet exports no host
+analytic solution operator and no equality of ordinary functions.
+\end{theorem}
+\leanchecked{BEDC.Derived.BesselUp.BesselRootPacket\_root\_ode\_source\_obligation}
+\begin{proof}
+Project the carrier packet of
+\autoref{def:bessel-bhist-carrier-packet} to its $O$, $\nu$, $\sigma$,
+$\tau$, $\kappa$, and $\pi$ coordinates. These are exactly the ODE source,
+order data, endpoint data, transport rows, and provenance rows named in the
+statement.
+
+Repack the projected rows through the $\OdeUp$ naming surface. Since the
+carrier stores endpoint comparison as $\hsame$ rows and package provenance as
+$\mathsf{Pkg}$ data, the projection never requires a host solution operator
+or function equality.
+\end{proof}
+
+\begin{theorem}[BesselUp holomorphic consumer boundary]
+\label{thm:bessel-holomorphic-consumer-boundary}
+Every holomorphic read accepted by the $\BesselUp$ root packet is determined
+by the $\HolomorphicUp$ source row, the solution endpoint rows, the
+order/index row, the $\hsame$ transport packet, and the shared
+$\mathsf{Pkg}$ provenance of \autoref{def:bessel-bhist-carrier-packet}. It
+does not add a separate complex-analysis carrier or a standard holomorphic
+function bridge.
+\end{theorem}
+\begin{proof}
+Read the $H$ coordinate of the carrier packet together with the endpoint
+rows, order/index row, transport packet, and provenance. These are the only
+rows exposed to the holomorphic consumer side.
+
+Transport the endpoint histories along the componentwise $\hsame$ rows in
+$\kappa$. Repacking those rows through the $\HolomorphicUp$ naming surface
+gives the same holomorphic consumer boundary, while the packet contains no
+field for a separate carrier or standard bridge.
+\end{proof}
+\leanchecked{BEDC.Derived.BesselUp.BesselRootPacket\_holomorphic\_consumer\_boundary}
+
+\begin{theorem}[BesselUp recurrence ledger exactness]
+\label{thm:bessel-recurrence-ledger-exactness}
+The recurrence ledger $\rho$ in a $\BesselUp$ carrier packet exhausts the
+accepted recurrence reads for the carried order/index row and solution
+endpoint rows. Each recurrence read is a finite $\Cont$ route transported by
+the packet's $\hsame$ rows and justified by the same $\mathsf{Pkg}$
+provenance; conversely each ledger entry repacks as one accepted recurrence
+read.
+\end{theorem}
+\leanchecked{BEDC.Derived.BesselUp.BesselRootPacket\_recurrence\_ledger\_exactness}
+\begin{proof}
+Project the recurrence ledger $\rho$ from
+\autoref{def:bessel-bhist-carrier-packet}. Each entry has source endpoints,
+target endpoints, order/index data, and a displayed finite $\Cont$ route.
+
+Use the $\hsame$ packet $\kappa$ to transport the endpoints and order row
+inside the shared $\mathsf{BHist}$ carrier. The $\mathsf{Pkg}$ row $\pi$
+records that the transported route belongs to the same Bessel packet.
+
+For the converse direction, start from any accepted recurrence read. Its
+fields are exactly a source endpoint row, target endpoint row, order/index
+row, finite continuation route, transport row, and provenance row, so it
+repackages as an entry of $\rho$.
+\end{proof}
+
+\begin{theorem}[BesselUp name-certificate obligation surface]
+\label{thm:bessel-namecert-obligation-surface}
+The $\BesselUp$ root naming obligation surface consists exactly of the
+carrier packet of \autoref{def:bessel-bhist-carrier-packet}, the $\OdeUp$
+source obligation of \autoref{thm:bessel-root-ode-source-obligation}, the
+$\HolomorphicUp$ consumer boundary of
+\autoref{thm:bessel-holomorphic-consumer-boundary}, and the recurrence ledger
+exactness of \autoref{thm:bessel-recurrence-ledger-exactness}. This surface
+contains no host analytic primitive, no standard Bessel model, and no
+function-space quotient row.
+\end{theorem}
+\leanchecked{BEDC.Derived.BesselUp.BesselRootPacket\_namecert\_obligation\_surface}
+\begin{proof}
+Assemble the packet by projection from
+\autoref{def:bessel-bhist-carrier-packet}. The ODE source, holomorphic source,
+order/index row, endpoints, recurrence ledger, transport rows, and provenance
+are all coordinates of the same $\mathsf{BHist}$ carrier.
+
+Apply \autoref{thm:bessel-root-ode-source-obligation} to identify the ODE
+source side and \autoref{thm:bessel-holomorphic-consumer-boundary} to
+identify the holomorphic consumer side. Both projections use the same
+transport packet and provenance row.
+
+Finally apply \autoref{thm:bessel-recurrence-ledger-exactness}. The finite
+recurrence ledger covers exactly the accepted recurrence reads, so repacking
+the three projections gives the whole name-certificate obligation surface
+without adding analytic primitives or quotient data.
+\end{proof}
+
+\begin{theorem}[BesselUp carrier, equation, and order obligation]
+\label{thm:bessel-carrier-equation-order-obligation}
+An accepted $\BesselUp$ name-certificate packet binds the Bessel ODE source row
+$O$, the order and index row $\nu$, the two solution endpoint rows, the
+ODE-side endpoint classifier, the $\hsame$ transport packet, and the shared
+$\mathsf{Pkg}$ provenance to one $\mathsf{BHist}$ carrier packet
+$\mathcal B$ of \autoref{def:bessel-bhist-carrier-packet}. No consumer can
+read the equation row or the order row through a second carrier, a host
+analytic solution operator, or an equality of ordinary functions.
+\end{theorem}
+\begin{proof}
+Project the accepted root packet through
+\autoref{thm:bessel-namecert-obligation-surface}. Its carrier coordinate is
+the packet $\mathcal B$ of \autoref{def:bessel-bhist-carrier-packet}, whose
+$O$, $\nu$, endpoint, transport, and provenance coordinates are the displayed
+ODE source, order and index, endpoint, $\hsame$, and $\mathsf{Pkg}$ rows.
+
+Apply \autoref{thm:bessel-root-ode-source-obligation}. This projection already
+identifies the ODE row, the order and index row, the endpoint classifiers, and
+the provenance as rows of the same root packet. Since the obligation surface
+has no field for a second carrier, host solution operator, or ordinary-function
+equality, those data are not exported.
+\end{proof}
+
+\begin{theorem}[BesselUp recurrence Cont ledger obligation]
+\label{thm:bessel-recurrence-cont-ledger-obligation}
+Every recurrence read accepted by a $\BesselUp$ name-certificate packet is
+exactly one of the finite $\Cont$ ledger rows already exposed by
+\autoref{thm:bessel-recurrence-ledger-exactness}, transported along the packet's
+$\hsame$ rows and justified by the same $\mathsf{Pkg}$ provenance. Conversely,
+each such finite ledger row repacks as an accepted recurrence read for the
+same order and endpoint rows.
+\end{theorem}
+\begin{proof}
+Start from an accepted recurrence read of the name-certificate packet. Apply
+\autoref{thm:bessel-namecert-obligation-surface} to place the read inside the
+carrier packet, with the same order row, endpoint rows, transport packet, and
+provenance as the root surface.
+
+Now apply \autoref{thm:bessel-recurrence-ledger-exactness}. It says that the
+recurrence ledger $\rho$ exhausts accepted recurrence reads and that each read
+is a finite $\Cont$ route transported by the packet's $\hsame$ rows. The
+reverse direction in the same theorem repacks each finite ledger entry as an
+accepted recurrence read, so the exposed ledger is exact.
+\end{proof}
+
+\begin{theorem}[BesselUp asymptotic ledger scope]
+\label{thm:bessel-asymptotic-ledger-scope}
+Any holomorphic or asymptotic consumer read of a $\BesselUp$ packet is scoped
+to the displayed Bessel ODE source row, the $\HolomorphicUp$ source row, the
+order and index row, the solution endpoint rows, the recurrence ledger, the
+$\hsame$ transport packet, and the shared $\mathsf{Pkg}$ provenance. The read
+exposes no standard analytic primitive, no host Bessel function model, no
+function-space quotient, and no separate asymptotic carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.BesselUp.BesselRootPacket\_asymptotic\_ledger\_scope}
+\begin{proof}
+For holomorphic reads, apply
+\autoref{thm:bessel-holomorphic-consumer-boundary}. It restricts the consumer
+surface to the $\HolomorphicUp$ source row, endpoint rows, order and index row,
+transport packet, and provenance of the shared carrier.
+
+For recurrence and endpoint movement, apply
+\autoref{thm:bessel-recurrence-ledger-exactness}. The only routes available to
+the consumer are the finite recurrence $\Cont$ rows transported by the same
+$\hsame$ packet and justified by the same provenance.
+
+Finally compose these two projections with
+\autoref{thm:bessel-namecert-obligation-surface}. The resulting surface is the
+ODE row, HolomorphicUp row, order row, endpoints, recurrence ledger, transport
+packet, and $\mathsf{Pkg}$ row of one $\mathsf{BHist}$ carrier. Because the
+root surface excludes host analytic primitives, standard Bessel models,
+function-space quotients, and separate carriers, the asymptotic read has no
+additional row to expose.
+\end{proof}

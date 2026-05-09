@@ -182,6 +182,7 @@ $\eta\hsame d_{\mathrm{dR}}(\omega)$, the square-zero row for
 $d_{\mathrm{dR}}$, and the zero endpoint comparison
 $\hsame(z_{\mathrm{dR}},\emp)$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamDoubleExteriorPacket\_cohomology\_cocycle\_readback}
 \begin{proof}
 Unpack \autoref{def:derham-double-exterior-derivative-packet}. The graph row
 identifies the intermediate carried row with the first cochain differential:
@@ -308,6 +309,7 @@ therefore supplies no additional cohomology quotient, no de Rham isomorphism
 row, and no hidden differential-form operation beyond the accepted
 $\mathsf{BHist}$ boundary-source data.
 \end{theorem}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamBoundarySourceLedgerPacket\_consumer\_exactness}
 \begin{proof}
 Start with an accepted packet. Its boundary row is part of the data in
 \autoref{def:derham-boundary-source-packet}, and
@@ -331,6 +333,7 @@ rows, the square-zero row, and the visible $\DiffFormUp$ and $\CohomologyUp$
 source rows. Since the definition lists no quotient, isomorphism, or additional
 operation row, every downstream readback is exhausted by those rows.
 \end{proof}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamBoundarySourcePacket\_consumer\_exactness}
 
 \begin{theorem}[De Rham root carrier obligation]
 \label{thm:derham-root-carrier-obligation}
@@ -345,6 +348,8 @@ the square-zero data are the packet of
 carrier, quotient carrier, or external cochain complex carrier is part of the
 root surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamRootCarrier\_obligation}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamDoubleExteriorPacket\_root\_carrier\_obligation}
 \begin{proof}
 Read the carrier side of
 \autoref{thm:derham-namecert-obligation-surface}. Its visible source row is
@@ -374,6 +379,7 @@ $\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$ through the same cochain preimage
 witness. Thus classifier stability is precisely the endpoint-transport row
 of \autoref{thm:derham-boundary-zero-endpoint-transport}.
 \end{theorem}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamBoundary\_hsame\_transport\_with\_empty\_endpoint}
 \begin{proof}
 Unpack \autoref{def:derham-chain-complex-boundary-row}. Classification by
 $\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$ is the assertion that the public
@@ -392,6 +398,7 @@ canonical boundary instance consumed by this classifier. The assembly theorem
 \autoref{thm:derham-namecert-obligation-surface} records that no second
 classifier row is exported.
 \end{proof}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamBoundary\_packet\_classifier\_transport}
 
 \begin{theorem}[De Rham root ledger exactness]
 \label{thm:derham-root-ledger-exactness}
@@ -405,6 +412,7 @@ boundary conclusion of
 \autoref{thm:derham-double-exterior-derivative-boundary}, transported at
 endpoints by \autoref{thm:derham-boundary-zero-endpoint-transport}.
 \end{theorem}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamStandardBoundaryGraphLedger\_endpoint\_empty\_from\_rows}
 \begin{proof}
 List the public rows named by
 \autoref{thm:derham-namecert-obligation-surface}. They are the
@@ -423,6 +431,7 @@ component is exactly \autoref{thm:derham-cocycle-readback}. Since each row is
 already named in the obligation surface, the ledger has no additional bridge,
 quotient, or cohomology-isomorphism entry.
 \end{proof}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamBoundarySourceLedgerPacket\_root\_ledger\_exactness}
 
 \begin{definition}[De Rham root consumer readback packet]
 \label{def:derham-root-consumer-readback-packet}
@@ -436,6 +445,7 @@ $\DiffFormUp$, the $\mathsf{BHist}$ cochain endpoints, the $\hsame$ endpoint
 transport rows, the $\Cont$ ledgers for the cochain differential and boundary
 preimage, and the $\Pkg$ provenance row tying these entries to one package.
 \end{definition}
+\leandef{BEDC.Derived.DeRhamUp.DeRhamRootConsumerReadbackPacket}
 
 \begin{theorem}[De Rham root consumer readback stability]
 \label{thm:derham-root-consumer-readback-stability}
@@ -446,6 +456,7 @@ $\CohomologyUp$, $\ManifoldUp$, and $\TensorProductUp$ source rows, the same
 finite $\Cont$ ledger shape, and the same $\Pkg$ provenance, with only the
 visible $\mathsf{BHist}$ endpoints replaced by their $\hsame$ mates.
 \end{theorem}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamBoundarySourceLedgerPacket\_endpoint\_transport}
 \begin{proof}
 Project the packet of
 \autoref{def:derham-root-consumer-readback-packet} into source, endpoint,
@@ -473,6 +484,8 @@ exactly the $\DeRhamUp$ root-unblock surface. A downstream consumer may read
 only the $\DiffFormUp$, $\CohomologyUp$, $\ManifoldUp$, $\TensorProductUp$,
 $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$ rows displayed in those blocks.
 \end{theorem}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamRootUnblock\_threshold\_surface}
+\leanvariant{BEDC.Derived.DeRhamUp.DeRhamBoundarySourceLedgerPacket\_root\_unblock\_threshold\_surface}
 \begin{proof}
 Project the root carrier block
 \autoref{thm:derham-root-carrier-obligation}. It supplies the carried
@@ -511,6 +524,7 @@ under $\hsame$, cocycle readback, and the finite ledger rows named above. It
 does not export a de Rham isomorphism, a quotient-cohomology carrier, or any
 cohomology equality beyond the displayed boundary and cocycle rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamBoundary\_public\_classifier\_exactness}
 \begin{proof}
 Project the carrier field from
 \autoref{def:derham-chain-complex-boundary-row}: the public object is the
@@ -548,6 +562,8 @@ $d_{\mathrm{dR}}(d_{\mathrm{dR}}\omega)=0$ read through
 manifold, quotient-cohomology representative, de Rham isomorphism, or external
 chain-complex carrier is part of this input scope.
 \end{theorem}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamDoubleExteriorPacket\_bridge\_input\_source\_scope}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamStandardBoundaryBridgePacket\_input\_source\_scope}
 \begin{proof}
 Start from the De Rham packet
 \autoref{def:derham-double-exterior-derivative-packet}. It displays the
@@ -577,6 +593,8 @@ scope contains no equality of quotient cohomology classes, no chosen
 representative of a cohomology class, and no analytic comparison beyond the
 displayed $\mathsf{BHist}$ endpoint transport.
 \end{theorem}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamStandardBoundaryBridgePacket\_bridge\_classifier\_source\_scope}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamBoundarySourceLedgerPacket\_bridge\_classifier\_source\_scope}
 \begin{proof}
 Project the classifier from
 \autoref{thm:derham-boundary-public-classifier-exactness}. Its visible
@@ -604,6 +622,7 @@ provenance named by the public source packet. It does not export a host
 cochain complex, a quotient carrier, an isomorphism theorem, or any ledger row
 not already displayed by the De Rham packet and boundary source surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.DeRhamUp.DeRhamBoundarySourceLedgerPacket\_bridge\_ledger\_source\_scope}
 \begin{proof}
 Read the ledger entries from
 \autoref{def:derham-boundary-source-packet}. They are the boundary preimage,
@@ -631,11 +650,11 @@ no remaining branch for external chain-complex, quotient, or isomorphism data.
 
 \begin{closurestatus}{\DeRhamUp}
   \constructivestory{A de Rham boundary is built on top of $\DiffFormUp$ and $\CohomologyUp$ by displaying a cochain differential $d_{\mathrm{dR}}$, a zero endpoint, carried differential-form rows, and the graph comparisons that identify successive exterior outputs with applications of that same differential. The carrier accepts a boundary row only when some cochain preimage $a$ is displayed with $\hsame(b,d_{\mathrm{dR}}(a))$, and the double-exterior packet additionally carries the two form inputs, square-zero row, zero endpoint row, and cohomology cocycle readback; quotient cohomology classes and de Rham isomorphism data are absent. The classifier is the displayed boundary predicate transported by endpoint $\hsame$, keeping the same cochain preimage and the same differential row rather than comparing quotient representatives. The source is the differential-form and cohomology certificate surface with the cochain differential, the pattern is the square-zero boundary and cocycle packet, and the ledger records boundary preimages, zero endpoints, finite graph rows, cocycle readback, and package provenance. The five name-certificate obligations are supplied by accepted boundary packets for inhabitation, by history-equality for reflexive, symmetric, and transitive endpoint movement, and by the zero-endpoint boundary transport theorem for closure of the boundary predicate under classified representatives. A row $h$ lies in the signature gap of a $\DeRhamUp$ token $p$ when the source-domain accepts its displayed form, cochain, boundary, and cocycle rows, the signature relation pairs them with an answer boundary packet and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, the same preimage, square-zero endpoint, and cocycle ledger are what $p$ records. The standard boundary bridge reads exactly this predicate and ledger surface and reads it back without exporting a host cochain complex, quotient carrier, selected representative, or de Rham isomorphism; the chapter registers the construction under $\DeRhamUp$.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The standard boundary bridge is bound by \autoref{thm:derham-standard-boundary-classifier-compatibility} and \autoref{thm:derham-bridge-consumer-ledger-exhaustion} to the displayed DiffFormUp, CohomologyUp, BHist, hsame, and cochain-differential rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The standard-boundary bridge, mature examples, and root threshold bind DeRhamUp to the displayed DiffFormUp, CohomologyUp, BHist, hsame, and cochain-differential rows by \autoref{thm:derham-standard-boundary-classifier-compatibility} and \autoref{thm:derham-bridge-consumer-ledger-exhaustion}.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.DeRhamUp.DeRhamBoundary}
   \bridgestatus{paperBridge}
   \notclaimed{No de Rham isomorphism, quotient cohomology construction, or mature package completeness theorem is claimed here.}
-  \upgradepath{Mature closure requires mature examples, completeness coverage, and Lean bridge checking for the standard boundary bridge.}
+  \upgradepath{The remaining step is Lean-side bridge checking for the existing standard boundary bridge.}
 \end{closurestatus}

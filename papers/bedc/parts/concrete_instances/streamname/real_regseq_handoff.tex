@@ -654,6 +654,42 @@ public read exactly in the stated agreement conditions, and the reverse
 direction reads the same four families of rows back into the three packages.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat finite-window cover determinacy]
+\label{thm:streamname-regseqrat-finite-window-cover-determinacy}
+Let $\{W_i\}_{i\in I}$ be a finite public $\StreamNameUp$ cover of rational
+windows feeding the same $\RegSeqRat$ finite-window consumer and the same
+finite-window $\RealUp$ handoff surface. Suppose every displayed pairwise
+overlap satisfies the overlap-source and nested-window determinacy hypotheses
+for the StreamName source rows, and suppose every three-way overlap is
+compatible in the triple seal cover. Then the induced $\RegSeqRat$ seal rows
+and finite-window $\RealUp$ handoff rows determine one cover-indexed source
+surface: the selected $\mathsf{RatHistoryClassifier}$ rows, the
+$\mathsf{ProbeBundle}$ ledger, the $\mathsf{InBundle}$ membership rows,
+$\mathsf{UnaryHistory}$ observations, and the displayed $\hsame$ comparisons.
+
+The determined surface contains no completion datum, quotient datum, host
+index equality, RegSeqRat regularity claim outside the finite seal rows, or
+$\RealUp$ seal classifier outside the displayed ledger boundary.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:streamname-real-regseq-finite-overlap-source-stability} and
+\autoref{thm:streamname-real-regseq-overlap-unique-source} on each displayed
+pairwise overlap. They identify the source row, unary observation, bundle
+membership, and $\hsame$ comparison read by the two windows.
+
+Induct over the finite cover. The empty and singleton cases are just the
+displayed window rows. In the step case, apply
+\autoref{thm:streamname-regseqrat-nested-window-seal-determinacy} to paste the
+new window into the already determined finite surface along the pairwise
+overlap.
+
+For compatibility of the pasted overlaps, use
+\autoref{thm:streamname-regseqrat-realup-triple-seal-cover}. The triple cover
+keeps the StreamName, RegSeqRat, and RealUp reads on the same finite ledger, so
+no completion, quotient, host-index, external regularity, or off-ledger
+classifier row is introduced.
+\end{proof}
+
 \begin{theorem}[StreamName-RegSeqRat uniform finite-window seal]
 \label{thm:streamname-regseqrat-uniform-finite-window-seal}
 Let $W$ be a finite $\mathsf{BHist}$ observation window for a public

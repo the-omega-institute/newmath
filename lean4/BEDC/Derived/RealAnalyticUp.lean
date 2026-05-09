@@ -191,6 +191,9 @@ def RealAnalyticExp (x bound modulus y : BHist) : Prop :=
   ComplexHistoryCarrier x ∧ UnaryHistory bound ∧ UnaryHistory modulus ∧
     exists n S : BHist, UnaryHistory n ∧ RealAnalyticExpPart x n S ∧ Cont S modulus y
 
+def RealAnalyticExpOneStream (n O : BHist) : Prop :=
+  UnaryHistory n ∧ hsame O (BHist.e1 BHist.Empty)
+
 theorem RealAnalyticComplexPartSum_index_unary {zero : BHist} {c : BHist -> BHist}
     {n S : BHist} :
     ComplexPartSum zero c n S -> UnaryHistory n := by
@@ -309,6 +312,30 @@ theorem RealAnalyticCosAdd_local_product_difference_unary {zero n sx cx sy cy pa
   exact And.intro leftProdUnary
     (And.intro rightProdUnary
       (unary_cont_closed leftProdUnary rightProdUnary diffCont))
+
+theorem RealAnalyticPythagorean_local_square_sum_unary
+    {zero n sx cx pair squareSin squareCos total : BHist}
+    {sinTerm cosTerm : BHist -> BHist}
+    (zeroUnary : UnaryHistory zero)
+    (sinUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (sinTerm m))
+    (cosUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (cosTerm m)) :
+    RealAnalyticTrigPart zero sinTerm cosTerm n sx cx pair ->
+      Cont sx sx squareSin ->
+        Cont cx cx squareCos ->
+          Cont squareSin squareCos total ->
+            UnaryHistory squareSin ∧ UnaryHistory squareCos ∧ UnaryHistory total := by
+  intro trigPart squareSinCont squareCosCont totalCont
+  have trigRows :=
+    RealAnalyticTrigPart_pair_index_result_unary zeroUnary sinUnary cosUnary trigPart
+  have sxUnary : UnaryHistory sx := trigRows.right.left
+  have cxUnary : UnaryHistory cx := trigRows.right.right.left
+  have squareSinUnary : UnaryHistory squareSin :=
+    unary_cont_closed sxUnary sxUnary squareSinCont
+  have squareCosUnary : UnaryHistory squareCos :=
+    unary_cont_closed cxUnary cxUnary squareCosCont
+  exact And.intro squareSinUnary
+    (And.intro squareCosUnary
+      (unary_cont_closed squareSinUnary squareCosUnary totalCont))
 
 theorem RealAnalyticComplexPartSum_closed_pointwise_index_result_unary_transport {zero zero' : BHist}
     {c d : BHist -> BHist} {n S T : BHist}
@@ -457,6 +484,15 @@ theorem RealAnalyticExp_local_witness_unary {x bound modulus y : BHist} :
                     (And.intro sumUnary
                       (And.intro data.right.left data.right.right))))))
 
+theorem RealAnalyticExp_endpoint_unary {x bound modulus y : BHist} :
+    RealAnalyticExp x bound modulus y -> UnaryHistory y := by
+  intro exp
+  have witness := RealAnalyticExp_local_witness_unary exp
+  exact
+    match witness.right.right with
+    | Exists.intro _n (Exists.intro _S payload) =>
+        unary_cont_closed payload.right.left witness.right.left payload.right.right.right
+
 theorem RealAnalyticExp_product_witness_unary {x y bx bynd mx my ex ey prod : BHist} :
     RealAnalyticExp x bx mx ex -> RealAnalyticExp y bynd my ey -> Cont ex ey prod ->
       UnaryHistory ex ∧ UnaryHistory ey ∧ UnaryHistory prod := by
@@ -497,6 +533,37 @@ theorem RealAnalyticLogExpInverse_supplied_boundary_unary {x y e bound modulus :
         have xUnary : UnaryHistory x :=
           unary_transport eUnary sameEX
         exact And.intro eUnary (And.intro xUnary yUnary)
+
+theorem RealAnalyticCosPart_empty_constant_one {one n result : BHist}
+    {cosTerm : BHist -> BHist} :
+    hsame one (BHist.e1 BHist.Empty) ->
+      (forall {m : BHist}, UnaryHistory m -> hsame (cosTerm m) BHist.Empty) ->
+        ComplexPartSum one cosTerm n result -> UnaryHistory n ∧ hsame result one := by
+  intro _sameOne termEmpty sum
+  induction sum with
+  | zero =>
+      exact And.intro unary_empty (hsame_refl one)
+  | step previous stepContinuation ih =>
+      have sameStepTerm : hsame (cosTerm _) BHist.Empty :=
+        termEmpty ih.left
+      have sameResultPrevious : hsame _ _ :=
+        cont_respects_hsame (hsame_refl _) sameStepTerm stepContinuation (cont_right_unit _)
+      exact And.intro (unary_e1_closed ih.left) (hsame_trans sameResultPrevious ih.right)
+
+theorem RealAnalyticSinPart_empty_zero {zero n result : BHist} {sinTerm : BHist -> BHist} :
+    hsame zero BHist.Empty ->
+      (forall {m : BHist}, UnaryHistory m -> hsame (sinTerm m) BHist.Empty) ->
+        ComplexPartSum zero sinTerm n result -> UnaryHistory n ∧ hsame result BHist.Empty := by
+  intro sameZero termEmpty sum
+  induction sum with
+  | zero =>
+      exact And.intro unary_empty sameZero
+  | step previous stepContinuation ih =>
+      have sameStepTerm : hsame (sinTerm _) BHist.Empty :=
+        termEmpty ih.left
+      have sameResultPrevious : hsame _ _ :=
+        cont_respects_hsame ih.right sameStepTerm stepContinuation (cont_right_unit _)
+      exact And.intro (unary_e1_closed ih.left) sameResultPrevious
 
 theorem real_analytic_certificate_boundary {zero : BHist} {c modulus : BHist -> BHist} :
     SemanticNameCert

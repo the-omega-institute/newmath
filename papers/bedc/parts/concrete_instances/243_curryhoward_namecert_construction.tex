@@ -26,6 +26,7 @@ and $s$ is the capture-avoiding substitution ledger that substitutes $a$ for the
 \begin{theorem}[CurryHowardUp cut-beta bridge obligation]\label{thm:curryhoward-cut-beta-bridge-obligation}
 Let $\mathcal H$ be an accepted shared cut-beta packet for $\CurryHowardUp$ as in \autoref{def:curryhoward-shared-cut-beta-packet}. If the $\FirstOrderUp$ component displays the cut-elimination step from $D_1 \mathbin{+\!\!+} D_2$ to $D_{\mathsf{cut}}$, then the $\LambdaCalcUp$ component displays an accepted beta-reduction row whose source is $\mathsf{lamApp}(\mathsf{lamAbs}(x,b),a)$ and whose substitution endpoint is $u$. Under the shared classifier $\chi$, this beta/substitution endpoint is the same proof-program endpoint as the cut-eliminated deduction ledger $D_{\mathsf{cut}}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CurryHowardUp.CurryHowardCutBetaPacket\_bridge\_obligation}
 \begin{proof}
 Unpack the accepted packet $\mathcal H$. The $\FirstOrderUp$ side supplies two accepted ledgers $D_1$ and $D_2$ over the same syntax carrier, with the final endpoint of $D_1$ displayed as the initial premise row of $D_2$. By \autoref{def:firstorder-deduction-ledger-concatenation-source}, this is exactly the composability datum for the concatenated ledger $D_1 \mathbin{+\!\!+} D_2$.
 
@@ -81,10 +82,12 @@ beta/substitution, endpoint, transport, provenance, and source-certificate
 rows. Hence the source rows remain separated except at the stated public
 endpoint and provenance surface.
 \end{proof}
+\leanchecked{BEDC.Derived.CurryHowardUp.CurryHowardCutBetaPacket\_source\_row\_separation}
 
 \begin{theorem}[CurryHowardUp classifier endpoint transport]\label{thm:curryhoward-classifier-endpoint-transport}
 Let $\mathcal H$ and $\mathcal H'$ be accepted shared cut-beta packets for $\CurryHowardUp$. If the CurryHowardUp endpoint classifier of \autoref{def:curryhoward-endpoint-classifier} relates $\mathcal H$ and $\mathcal H'$, then the cut-eliminated deduction endpoint and the beta-substitution endpoint transport to the same proof-program endpoint under the shared $\hsame$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.CurryHowardUp.CurryHowardCutBetaPacket\_classifier\_endpoint\_transport}
 \begin{proof}
 Unpack the endpoint classifier. Its $\FirstOrderUp$ row gives deduction-classifier agreement for the two cut sources, the two cut targets, and the two cut-eliminated ledgers. Apply \autoref{thm:firstorder-deduction-endpoint-exactness} to read the displayed endpoints of $D_{\mathsf{cut}}$ and $D'_{\mathsf{cut}}$, and then apply \autoref{thm:firstorder-classifier-transport-obligation} to transport those endpoints through the deduction classifier.
 
@@ -96,6 +99,7 @@ It remains to compare the two sides of the bridge. The shared $\hsame$ clauses i
 \begin{theorem}[CurryHowardUp public NameCert boundary]\label{thm:curryhoward-public-namecert-boundary}
 The shared cut-beta packet of \autoref{def:curryhoward-shared-cut-beta-packet}, the endpoint classifier of \autoref{def:curryhoward-endpoint-classifier}, the endpoint transport theorem \autoref{thm:curryhoward-classifier-endpoint-transport}, and the no-host-equality ledger in the packet definition form the public CurryHowardUp certificate boundary over $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CurryHowardUp.CurryHowardCutBetaPacket\_public\_namecert\_boundary}
 \begin{proof}
 The carrier part of the boundary is the accepted shared cut-beta packet. It lists the $\FirstOrderUp$ deduction ledgers, the $\LambdaCalcUp$ term packet, the beta-redex row, the substitution ledger, the shared classifier row, and the provenance row as displayed $\mathsf{BHist}$ data.
 
@@ -126,6 +130,7 @@ $$
 $$
 This is the single proof-program endpoint determined by both readings. The conclusion is a statement about the CurryHoward classifier data itself, so it does not assert equality in the host proof language.
 \end{proof}
+\leanchecked{BEDC.Derived.CurryHowardUp.CurryHowardCutBetaPacket\_proof\_program\_determinacy}
 
 \begin{theorem}[CurryHoward cut-beta classifier exhaustion]\label{thm:curryhoward-cut-beta-classifier-exhaustion}
 Every accepted CurryHoward cut-beta endpoint classifier witness of
@@ -169,6 +174,7 @@ and determinacy theorem verify that the repacked deduction-side and
 program-side endpoints are the same displayed proof-program endpoint, which
 closes the classifier without adding any external quotient.
 \end{proof}
+\leanchecked{BEDC.Derived.CurryHowardUp.CurryHowardCutBetaPacket\_classifier\_exhaustion}
 
 \begin{theorem}[CurryHoward cut-beta endpoint exactness]
 \label{thm:curryhoward-cut-beta-endpoint-exactness}
@@ -180,6 +186,7 @@ Conversely, exactly those displayed deduction, beta-substitution,
 proof-program, $\hsame$, $\Cont$, and source-certificate rows repack into the
 CurryHoward endpoint classifier of \autoref{def:curryhoward-endpoint-classifier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.CurryHowardUp.CurryHowardCutBetaPacket\_endpoint\_exactness}
 \begin{proof}
 For the projection direction, start with an accepted shared cut-beta packet.
 Apply \autoref{thm:curryhoward-cut-beta-bridge-obligation}. It identifies the
@@ -241,6 +248,7 @@ endpoints $P,A,B$, the displayed $\hsame$ and $\Cont$ rows, and the two source
 certificates $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$.
 Conversely, those source rows repack as the source component of the package.
 \end{theorem}
+\leanchecked{BEDC.Derived.CurryHowardUp.CurryHowardCutBetaPacket\_source\_obligation\_surface}
 \begin{proof}
 Project the package to its shared packet coordinate $\mathcal H$. By
 \autoref{def:curryhoward-shared-cut-beta-packet}, the first-order side supplies
@@ -274,6 +282,7 @@ certificates $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$.
 These rows repack into the same endpoint classifier and determine the common
 cut-beta endpoint.
 \end{theorem}
+\leanchecked{BEDC.Derived.CurryHowardUp.CurryHowardCutBetaPacket\_endpoint\_classifier\_obligation\_surface}
 \begin{proof}
 Start from the classifier component
 $\Xi_{\mathsf{cls}}$. Unfold
@@ -332,13 +341,15 @@ Since the public boundary and the package definition name no normalization
 operator, host equality, alpha quotient, or categorical semantic object, the
 ledger surface is exhausted by the displayed proof-program rows.
 \end{proof}
+\leanchecked{BEDC.Derived.CurryHowardUp.CurryHowardCutBetaPacket\_proof\_program\_ledger\_obligation\_surface}
 
 \begin{closurestatus}{\CurryHowardUp}
   \constructivestory{A Curry-Howard packet is generated by placing $\FirstOrderUp$ deduction ledgers beside $\LambdaCalcUp$ term, beta-redex, and substitution ledgers, then tying them to shared proof-program, cut-formula/type, and conclusion-type endpoint histories. The carrier accepts only shared cut-beta packets whose first-order side displays composable deduction ledgers and a cut-eliminated endpoint, whose lambda side displays the corresponding application of an abstraction to an argument and the capture-avoiding substitution output, and whose common endpoint and provenance are carried by $\hsame$, finite $\Cont$, and the two source certificates. Two packets are classified by the first-order deduction classifier, the lambda beta/substitution classifier, and the shared endpoint rows, so the bridge never identifies host proof trees with host lambda terms or quotients alpha classes. The source is the displayed cut-beta packet over $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$, the pattern records the cut-beta bridge obligation, source-row separation, endpoint transport, public boundary, proof-program determinacy, classifier exhaustion, endpoint exactness, and proof-program ledger surface, and the ledger keeps deduction endpoints, program endpoints, substitution output, shared $\hsame$, $\Cont$, and $\Pkg$ provenance visible. The five name-certificate obligations at this seed level are represented by an accepted shared packet for carrier inhabitation, by the two inherited classifiers for reflexivity, symmetry, and transitivity, and by endpoint exactness and classifier exhaustion for closure under classified transport. A history $h$ lies in the signature gap of a $\CurryHowardUp$ token $p$ when the source-domain accepts its cut-beta packet, the signature relation pairs it with an answer packet and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, $h$ carries the same deduction ledgers, beta/substitution rows, proof-program endpoint, and provenance encoded by $p$. The chapter registers this shared cut-beta construction under the name $\CurryHowardUp$; normalization, full Curry-Howard equivalence, host proof equality, host lambda equality, alpha quotient, categorical semantics, and standard bridge data are not introduced.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope is the shared cut-beta packet, endpoint classifier, $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$ source certificates, $\mathsf{BHist}$ proof-program endpoints, $\hsame$ endpoint rows, and finite $\Cont$ provenance displayed in this chapter.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The obligation scope is the shared cut-beta packet, endpoint classifier, $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$ source certificates, $\mathsf{BHist}$ proof-program endpoints, $\hsame$ endpoint rows, and finite $\Cont$ provenance displayed in this chapter.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.CurryHowardUp.CurryHowardCutBetaPacket\_proof\_program\_ledger\_obligation\_surface}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a full Curry-Howard equivalence, normalization theorem, host proof equality, host lambda-term equality, alpha quotient, categorical semantics, or standard bridge data.}
-  \upgradepath{Formal target: BEDC.Derived.CurryHowardUp.CurryHowardCutBetaEndpointExactness; the next theory-axis step is an obligation package for the displayed cut-beta endpoint surface.}
+  \upgradepath{The next paper-axis step is a public CurryHowardUp export theorem over the displayed cut-beta source, classifier, endpoint, and proof-program ledger rows.}
 \end{closurestatus}

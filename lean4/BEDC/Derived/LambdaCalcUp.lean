@@ -1,9 +1,11 @@
 import BEDC.Derived.TreeUp
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.LambdaCalcUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.TreeUp
 
@@ -78,5 +80,398 @@ theorem LambdaCalcBHistTermCarrier_abstraction_application_closure
   exact And.intro absCarrier
     (And.intro appCarrier
       (And.intro absPayloadUnary appPayloadUnary))
+
+theorem LambdaCalcBHistTermPacketCarrier_public_endpoint_transport
+    {graph edge connected acyclic tag tag' payload endpoint endpoint' : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      hsame tag tag' -> hsame endpoint endpoint' ->
+        LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag' payload endpoint' ∧
+          Cont tag' payload endpoint' ∧ UnaryHistory endpoint' := by
+  intro carrier sameTag sameEndpoint
+  have treeCarrier' :
+      TreeBHistCarrier graph edge connected acyclic tag' endpoint' :=
+    (TreeBHistCarrier_classifier_transport carrier.left (hsame_refl graph) (hsame_refl edge)
+      (hsame_refl connected) (hsame_refl acyclic) sameTag sameEndpoint).left
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport carrier.right.right.left sameEndpoint
+  have endpointRow' : Cont tag' payload endpoint' :=
+    cont_hsame_transport sameTag (hsame_refl payload) sameEndpoint carrier.right.right.right
+  have carrier' :
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag' payload endpoint' :=
+    And.intro treeCarrier'
+      (And.intro carrier.right.left
+        (And.intro endpointUnary' endpointRow'))
+  exact And.intro carrier' (And.intro endpointRow' endpointUnary')
+
+theorem LambdaCalcBHistTermPacketCarrier_alpha_classifier_symmetric
+    {graph edge connected acyclic leftTag leftPayload leftEndpoint rightTag rightPayload
+      rightEndpoint reverseLedger : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic leftTag leftPayload
+        leftEndpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic rightTag rightPayload
+          rightEndpoint ->
+        hsame leftTag rightTag ->
+          hsame leftPayload rightPayload ->
+            hsame leftEndpoint rightEndpoint ->
+              Cont rightEndpoint leftEndpoint reverseLedger ->
+                hsame rightTag leftTag ∧ hsame rightPayload leftPayload ∧
+                  hsame rightEndpoint leftEndpoint ∧ UnaryHistory reverseLedger ∧
+                    hsame reverseLedger (append rightEndpoint leftEndpoint) := by
+  intro leftPacket rightPacket sameTag samePayload sameEndpoint reverseLedgerRow
+  have reverseLedgerUnary : UnaryHistory reverseLedger :=
+    unary_cont_closed rightPacket.right.right.left leftPacket.right.right.left reverseLedgerRow
+  exact And.intro (hsame_symm sameTag)
+    (And.intro (hsame_symm samePayload)
+      (And.intro (hsame_symm sameEndpoint)
+        (And.intro reverseLedgerUnary reverseLedgerRow)))
+
+theorem LambdaCalcBHistTermPacketCarrier_carrier_reflexive
+    {graph edge connected acyclic tag payload endpoint : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      SemanticNameCert
+          (fun row : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload row)
+          (fun row : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload row)
+          (fun row : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload row)
+          (fun left right : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload left ∧
+              LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload right ∧
+                hsame left right) ∧
+        hsame endpoint endpoint ∧ Cont tag payload endpoint := by
+  intro packet
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload row)
+          (fun row : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload row)
+          (fun row : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload row)
+          (fun left right : BHist =>
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload left ∧
+              LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload right ∧
+                hsame left right) := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint packet
+      equiv_refl := by
+        intro row carrier
+        exact And.intro carrier (And.intro carrier (hsame_refl row))
+      equiv_symm := by
+        intro left right classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro left middle right classifiedLM classifiedMR
+        exact And.intro classifiedLM.left
+          (And.intro classifiedMR.right.left
+            (hsame_trans classifiedLM.right.right classifiedMR.right.right))
+      carrier_respects_equiv := by
+        intro left right classified _carrierLeft
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _row carrier
+      exact carrier
+    ledger_sound := by
+      intro _row carrier
+      exact carrier
+  }
+  exact And.intro cert (And.intro (hsame_refl endpoint) packet.right.right.right)
+
+theorem LambdaCalcBHistTermCarrier_constructor_source_disjointness
+    {i hVar hAbs hApp : BHist} :
+    UnaryHistory i ->
+      hsame hVar (append (BHist.e1 BHist.Empty) i) ->
+        hsame hAbs (append (BHist.e0 BHist.Empty) i) ->
+          hsame hApp (append (BHist.e1 (BHist.e1 BHist.Empty)) i) ->
+            (hsame hVar hAbs -> False) ∧ (hsame hAbs hApp -> False) := by
+  intro _indexUnary sameVar sameAbs sameApp
+  constructor
+  · intro mixed
+    have sourcesSame :
+        hsame (append (BHist.e1 BHist.Empty) i) (append (BHist.e0 BHist.Empty) i) :=
+      hsame_trans (hsame_symm sameVar) (hsame_trans mixed sameAbs)
+    have tagsSame : hsame (BHist.e1 BHist.Empty) (BHist.e0 BHist.Empty) :=
+      append_right_cancel (k := i) sourcesSame
+    exact not_hsame_e1_e0 tagsSame
+  · intro mixed
+    have sourcesSame :
+        hsame (append (BHist.e0 BHist.Empty) i)
+          (append (BHist.e1 (BHist.e1 BHist.Empty)) i) :=
+      hsame_trans (hsame_symm sameAbs) (hsame_trans mixed sameApp)
+    have tagsSame :
+        hsame (BHist.e0 BHist.Empty) (BHist.e1 (BHist.e1 BHist.Empty)) :=
+      append_right_cancel (k := i) sourcesSame
+    exact not_hsame_e0_e1 tagsSame
+
+theorem LambdaCalcBHistTermCarrier_constructor_case_exhaustion {i hVar hAbs hApp : BHist} :
+    UnaryHistory i ->
+      hsame hVar (append (BHist.e1 BHist.Empty) i) ->
+        hsame hAbs (append (BHist.e0 BHist.Empty) i) ->
+          hsame hApp (append (BHist.e1 (BHist.e1 BHist.Empty)) i) ->
+            (hsame hVar hAbs -> False) ∧ (hsame hAbs hApp -> False) ∧
+              (hsame hVar hApp -> False) := by
+  intro _indexUnary sameVar sameAbs sameApp
+  constructor
+  · intro mixed
+    have sourcesSame :
+        hsame (append (BHist.e1 BHist.Empty) i) (append (BHist.e0 BHist.Empty) i) :=
+      hsame_trans (hsame_symm sameVar) (hsame_trans mixed sameAbs)
+    have tagsSame : hsame (BHist.e1 BHist.Empty) (BHist.e0 BHist.Empty) :=
+      append_right_cancel (k := i) sourcesSame
+    exact not_hsame_e1_e0 tagsSame
+  · constructor
+    · intro mixed
+      have sourcesSame :
+          hsame (append (BHist.e0 BHist.Empty) i)
+            (append (BHist.e1 (BHist.e1 BHist.Empty)) i) :=
+        hsame_trans (hsame_symm sameAbs) (hsame_trans mixed sameApp)
+      have tagsSame :
+          hsame (BHist.e0 BHist.Empty) (BHist.e1 (BHist.e1 BHist.Empty)) :=
+        append_right_cancel (k := i) sourcesSame
+      exact not_hsame_e0_e1 tagsSame
+    · intro mixed
+      have sourcesSame :
+          hsame (append (BHist.e1 BHist.Empty) i)
+            (append (BHist.e1 (BHist.e1 BHist.Empty)) i) :=
+        hsame_trans (hsame_symm sameVar) (hsame_trans mixed sameApp)
+      have tagsSame :
+          hsame (BHist.e1 BHist.Empty) (BHist.e1 (BHist.e1 BHist.Empty)) :=
+        append_right_cancel (k := i) sourcesSame
+      have tailsSame : hsame BHist.Empty (BHist.e1 BHist.Empty) :=
+        hsame_e1_iff.mp tagsSame
+      exact not_hsame_emp_e1 tailsSame
+
+theorem LambdaCalcBHistTermPacketCarrier_substitution_output_determinacy
+    {graph edge connected acyclic tag payload endpoint endpoint' : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      TreeBHistCarrier graph edge connected acyclic tag endpoint' ->
+        Cont tag payload endpoint' ->
+          LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint' ∧
+            hsame endpoint endpoint' ∧ UnaryHistory endpoint' := by
+  intro packet treeCarrier endpointRow
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed
+      (TreeBHistCarrier_exactness_rows treeCarrier).right.right.right.right.right.right.left
+      packet.right.left endpointRow
+  have packet' :
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint' :=
+    And.intro treeCarrier (And.intro packet.right.left (And.intro endpointUnary' endpointRow))
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl tag) (hsame_refl payload) packet.right.right.right endpointRow
+  exact And.intro packet' (And.intro sameEndpoint endpointUnary')
+
+theorem LambdaCalcBHistTermPacketCarrier_substitution_ledger_scope
+    {graph edge connected acyclic tag payload endpoint substTag substPayload substEndpoint
+      varIndex ledger result : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic substTag substPayload
+          substEndpoint ->
+        UnaryHistory varIndex ->
+          Cont endpoint substEndpoint ledger ->
+            Cont ledger varIndex result ->
+              UnaryHistory ledger ∧ UnaryHistory result ∧ hsame ledger
+                  (append endpoint substEndpoint) ∧
+                hsame result (append (append endpoint substEndpoint) varIndex) := by
+  intro packet substPacket varUnary ledgerRow resultRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed packet.right.right.left substPacket.right.right.left ledgerRow
+  have resultUnary : UnaryHistory result :=
+    unary_cont_closed ledgerUnary varUnary resultRow
+  have resultReadback : hsame result (append (append endpoint substEndpoint) varIndex) := by
+    cases ledgerRow
+    exact resultRow
+  exact And.intro ledgerUnary
+    (And.intro resultUnary (And.intro ledgerRow resultReadback))
+
+theorem LambdaCalcBHistTermPacketCarrier_substitution_carrier_preservation
+    {graph edge connected acyclic tag payload endpoint substTag substPayload substEndpoint
+      varIndex ledger resultPayload resultTag resultEndpoint : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic substTag substPayload
+          substEndpoint ->
+        UnaryHistory varIndex ->
+          Cont endpoint substEndpoint ledger ->
+            Cont ledger varIndex resultPayload ->
+              TreeBHistCarrier graph edge connected acyclic resultTag resultEndpoint ->
+                Cont resultTag resultPayload resultEndpoint ->
+                  LambdaCalcBHistTermPacketCarrier graph edge connected acyclic resultTag
+                      resultPayload resultEndpoint ∧
+                    UnaryHistory resultPayload ∧
+                      hsame resultPayload (append (append endpoint substEndpoint) varIndex) := by
+  intro packet substPacket varUnary ledgerRow resultPayloadRow resultTree resultEndpointRow
+  have scope :=
+    LambdaCalcBHistTermPacketCarrier_substitution_ledger_scope packet substPacket varUnary
+      ledgerRow resultPayloadRow
+  have resultPayloadUnary : UnaryHistory resultPayload :=
+    scope.right.left
+  have resultEndpointUnary : UnaryHistory resultEndpoint :=
+    (TreeBHistCarrier_exactness_rows resultTree).right.right.right.right.right.right.right.left
+  have resultPacket :
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic resultTag resultPayload
+        resultEndpoint :=
+    And.intro resultTree
+      (And.intro resultPayloadUnary (And.intro resultEndpointUnary resultEndpointRow))
+  exact And.intro resultPacket (And.intro resultPayloadUnary scope.right.right.right)
+
+theorem LambdaCalcBHistTermPacketCarrier_free_variable_ledger_coverage
+    {graph edge connected acyclic tag payload endpoint freeVariable freeLedger : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      UnaryHistory freeVariable ->
+        Cont endpoint freeVariable freeLedger ->
+          UnaryHistory freeLedger ∧ hsame freeLedger (append endpoint freeVariable) ∧
+            LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint := by
+  intro packet freeVariableUnary freeLedgerCont
+  have freeLedgerUnary : UnaryHistory freeLedger :=
+    unary_cont_closed packet.right.right.left freeVariableUnary freeLedgerCont
+  exact And.intro freeLedgerUnary (And.intro freeLedgerCont packet)
+
+theorem LambdaCalcBHistTermPacketCarrier_alpha_beta_carrier_transport
+    {graph edge connected acyclic tag tag' payload endpoint endpoint' substTag substPayload
+      substEndpoint substEndpoint' ledger ledger' varIndex result result' : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic substTag substPayload
+          substEndpoint ->
+        hsame tag tag' ->
+          hsame endpoint endpoint' ->
+            hsame substEndpoint substEndpoint' ->
+              UnaryHistory varIndex ->
+                Cont endpoint substEndpoint ledger ->
+                  Cont endpoint' substEndpoint' ledger' ->
+                    Cont ledger varIndex result ->
+                      Cont ledger' varIndex result' ->
+                        UnaryHistory result' ∧ hsame result result' ∧ hsame ledger ledger' := by
+  intro packet substPacket sameTag sameEndpoint sameSubstEndpoint varUnary ledgerRow ledgerRow'
+    resultRow resultRow'
+  have transportedPacket :=
+    LambdaCalcBHistTermPacketCarrier_public_endpoint_transport packet sameTag sameEndpoint
+  have transportedSubstPacket :=
+    LambdaCalcBHistTermPacketCarrier_public_endpoint_transport substPacket (hsame_refl substTag)
+      sameSubstEndpoint
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed transportedPacket.right.right transportedSubstPacket.right.right ledgerRow'
+  have resultUnary' : UnaryHistory result' :=
+    unary_cont_closed ledgerUnary' varUnary resultRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameEndpoint sameSubstEndpoint ledgerRow ledgerRow'
+  have sameResult : hsame result result' :=
+    cont_respects_hsame sameLedger (hsame_refl varIndex) resultRow resultRow'
+  exact And.intro resultUnary' (And.intro sameResult sameLedger)
+
+theorem LambdaCalcBHistTermPacketCarrier_beta_reduction_classifier_obligation
+    {graph edge connected acyclic tag tag' payload endpoint endpoint' substTag substPayload
+      substEndpoint substEndpoint' ledger ledger' varIndex result result' : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic substTag substPayload
+          substEndpoint ->
+        hsame tag tag' ->
+          hsame endpoint endpoint' ->
+            hsame substEndpoint substEndpoint' ->
+              UnaryHistory varIndex ->
+                Cont endpoint substEndpoint ledger ->
+                  Cont endpoint' substEndpoint' ledger' ->
+                    Cont ledger varIndex result ->
+                      Cont ledger' varIndex result' ->
+                        LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag'
+                            payload endpoint' ∧
+                          UnaryHistory result' ∧ hsame result result' ∧ hsame ledger ledger' := by
+  intro packet substPacket sameTag sameEndpoint sameSubstEndpoint varUnary ledgerRow ledgerRow'
+    resultRow resultRow'
+  have transportedPacket :=
+    LambdaCalcBHistTermPacketCarrier_public_endpoint_transport packet sameTag sameEndpoint
+  have transportedLedger :=
+    LambdaCalcBHistTermPacketCarrier_alpha_beta_carrier_transport packet substPacket sameTag
+      sameEndpoint sameSubstEndpoint varUnary ledgerRow ledgerRow' resultRow resultRow'
+  exact And.intro transportedPacket.left
+    (And.intro transportedLedger.left
+      (And.intro transportedLedger.right.left transportedLedger.right.right))
+
+theorem LambdaCalcBHistTermPacketCarrier_namecert_substitution_ledger
+    {graph edge connected acyclic tag payload endpoint substTag substPayload substEndpoint
+      varIndex ledger result : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic substTag substPayload
+          substEndpoint ->
+        UnaryHistory varIndex ->
+          Cont endpoint substEndpoint ledger ->
+            Cont ledger varIndex result ->
+              SemanticNameCert (fun row : BHist => hsame row result)
+                  (fun row : BHist => hsame row result)
+                  (fun row : BHist => hsame row result) hsame ∧
+                UnaryHistory ledger ∧ UnaryHistory result ∧
+                  hsame ledger (append endpoint substEndpoint) ∧
+                    hsame result (append (append endpoint substEndpoint) varIndex) := by
+  intro packet substPacket varUnary ledgerRow resultRow
+  have scope :=
+    LambdaCalcBHistTermPacketCarrier_substitution_ledger_scope packet substPacket
+      varUnary ledgerRow resultRow
+  have resultSelf : hsame result result :=
+    hsame_refl result
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row result)
+        (fun row : BHist => hsame row result)
+        (fun row : BHist => hsame row result) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro result resultSelf
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows rowCarrier
+        exact hsame_trans (hsame_symm sameRows) rowCarrier
+    }
+    pattern_sound := by
+      intro _row carrier
+      exact carrier
+    ledger_sound := by
+      intro _row carrier
+      exact carrier
+  }
+  exact And.intro cert scope
+
+theorem LambdaCalcBHistTermPacketCarrier_substitution_composition_carrier_closure
+    {graph edge connected acyclic tag payload endpoint substTag substPayload substEndpoint
+      replTag replPayload replEndpoint varIndex firstLedger firstResult secondLedger : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic substTag substPayload
+          substEndpoint ->
+        LambdaCalcBHistTermPacketCarrier graph edge connected acyclic replTag replPayload
+            replEndpoint ->
+          UnaryHistory varIndex ->
+            Cont endpoint substEndpoint firstLedger ->
+              Cont firstLedger varIndex firstResult ->
+                Cont firstResult replEndpoint secondLedger ->
+                  UnaryHistory firstLedger ∧ UnaryHistory firstResult ∧
+                    UnaryHistory secondLedger ∧
+                      hsame firstLedger (append endpoint substEndpoint) ∧
+                        hsame firstResult (append (append endpoint substEndpoint) varIndex) ∧
+                          hsame secondLedger
+                            (append (append (append endpoint substEndpoint) varIndex)
+                              replEndpoint) := by
+  intro packet substPacket replPacket varUnary firstLedgerRow firstResultRow secondLedgerRow
+  have scope :=
+    LambdaCalcBHistTermPacketCarrier_substitution_ledger_scope packet substPacket
+      varUnary firstLedgerRow firstResultRow
+  have secondLedgerUnary : UnaryHistory secondLedger :=
+    unary_cont_closed scope.right.left replPacket.right.right.left secondLedgerRow
+  have secondLedgerReadback :
+      hsame secondLedger
+        (append (append (append endpoint substEndpoint) varIndex) replEndpoint) := by
+    cases firstLedgerRow
+    cases firstResultRow
+    exact secondLedgerRow
+  exact And.intro scope.left
+    (And.intro scope.right.left
+        (And.intro secondLedgerUnary
+          (And.intro scope.right.right.left
+          (And.intro scope.right.right.right secondLedgerReadback))))
 
 end BEDC.Derived.LambdaCalcUp

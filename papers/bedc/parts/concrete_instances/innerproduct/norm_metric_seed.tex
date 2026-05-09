@@ -99,3 +99,83 @@ orthogonality row, and ledger. Since neither this definition nor
 Cauchy-limit selection, topology, or a host Hilbert carrier, those rows cannot
 be consumed from the $\InnerProductUp$ seed boundary.
 \end{proof}
+
+\begin{theorem}[InnerProduct norm-squared scalar-action factor row]
+\label{thm:innerproduct-norm-squared-scalar-action-factor-row}
+For every carried scalar endpoint $r$ and carried vector endpoint $x$ of the
+$\InnerProductUp$ BHist source, the norm-metric seed source carries the
+diagonal endpoint $\|r\cdot_V x\|_{I}^{2}$, and the retained scalar classifier
+classifies it with the scalar self-product acting on the original diagonal
+endpoint:
+$$
+\|r\cdot_V x\|_{I}^{2}
+\sim_{\mathbb{K}}
+\bigl(r\cdot_{\mathbb{K}}\overline{r}\bigr)
+\cdot_{\mathbb{K}}
+\|x\|_{I}^{2}.
+$$
+Here $\overline{r}$ is the displayed scalar conjugate endpoint retained by the
+$\InnerProductUp$ scalar source.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:innerproduct-norm-metric-seed-source}. The endpoint
+$\|r\cdot_V x\|_{I}^{2}$ is the diagonal form value
+$$
+\langle r\cdot_V x,r\cdot_V x\rangle_{\InnerProductUp}.
+$$
+The vector-space component of \autoref{def:innerproduct-bhist-source} carries
+$r\cdot_V x$, since scalar-action closure is one of the module stability rows
+retained by \autoref{def:vecspace-stability-certificate} and
+\autoref{def:module-stability-certificate}. Hence
+\autoref{thm:innerproduct-norm-squared-carrier-row} applies to the carried
+vector endpoint $r\cdot_V x$.
+
+Apply the scalar-action compatibility component of
+\autoref{thm:innerproduct-vecspace-linearity-row} in the scalar-linear
+argument. It gives a retained scalar-classifier comparison
+$$
+\langle r\cdot_V x,r\cdot_V x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}
+r\cdot_{\mathbb{K}}
+\langle x,r\cdot_V x\rangle_{\InnerProductUp}.
+$$
+Apply the conjugate-linear scalar-action clause from the same theorem in the
+other argument. The displayed conjugation row of the scalar source supplies the
+comparison
+$$
+\langle x,r\cdot_V x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}
+\overline{r}\cdot_{\mathbb{K}}
+\langle x,x\rangle_{\InnerProductUp}.
+$$
+Scalar multiplication congruence in the retained scalar source, read through
+\autoref{def:field-stability-certificate}, transports this second comparison
+under left multiplication by $r$ and gives
+$$
+r\cdot_{\mathbb{K}}
+\langle x,r\cdot_V x\rangle_{\InnerProductUp}
+\sim_{\mathbb{K}}
+r\cdot_{\mathbb{K}}
+\bigl(
+\overline{r}\cdot_{\mathbb{K}}
+\langle x,x\rangle_{\InnerProductUp}
+\bigr).
+$$
+The scalar associativity row from the same scalar source classifies the last
+endpoint with
+$$
+\bigl(r\cdot_{\mathbb{K}}\overline{r}\bigr)
+\cdot_{\mathbb{K}}
+\langle x,x\rangle_{\InnerProductUp},
+$$
+using classifier symmetry from \autoref{def:lean-carrier-naming-certificate}
+if the stored associativity row is oriented oppositely.
+
+Finally repack
+$\langle x,x\rangle_{\InnerProductUp}$ as $\|x\|_{I}^{2}$ by
+\autoref{def:innerproduct-norm-metric-seed-source}. Successive applications of
+\autoref{thm:namecert-equivalence-transitivity} compose the first scalar-action
+comparison, the transported conjugate-linear comparison, the scalar
+associativity comparison, and this repacking into the displayed retained
+scalar-classifier row.
+\end{proof}

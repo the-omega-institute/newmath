@@ -115,6 +115,7 @@ Thus the substitution ledger remains a scoped LambdaCalc carrier obligation:
 it names only $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\mathsf{TreeBHistCarrier}$,
 $\mathsf{Cont}$, $\hsame$, and $\mathsf{LambdaCalcBHistTermCarrier}$ rows.
 \end{proof}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermPacketCarrier\_substitution\_ledger\_scope}
 
 \begin{definition}[LambdaCalcUp term packet carrier]
 \label{def:lambdacalc-term-packet-carrier}
@@ -170,6 +171,7 @@ listed in $F$, and the projection is justified only by the displayed
 $\mathsf{BHist}$, $\Cont$, $\hsame$, $\NameCert$, and $\Pkg$ rows. No host
 variable set is exported.
 \end{theorem}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermPacketCarrier\_free\_variable\_ledger\_coverage}
 \begin{proof}
 Induct on the displayed TreeUp spine of the carried LambdaCalc term. In the
 variable case, the NatUp unary index row is the exposed free-variable endpoint,
@@ -213,6 +215,7 @@ spines and combine their endpoints with the application constructor closure of
 endpoint $u$ is therefore a LambdaCalc BHist term carrier, transported only
 through the listed $\hsame$ and $\Cont$ rows.
 \end{proof}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermPacketCarrier\_capture\_avoidance\_cont\_closure}
 
 \begin{theorem}[LambdaCalc alpha-beta carrier transport]
 \label{thm:lambdacalc-alpha-beta-carrier-transport}
@@ -225,6 +228,7 @@ $\mathsf{LambdaCalcBHistTermCarrier}$ rows along the displayed TreeUp and NatUp
 $\hsame$ comparisons. Thus alpha-related beta-redex packets determine
 equivalent carrier endpoints without exporting quotient alpha classes.
 \end{theorem}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermPacketCarrier\_alpha\_beta\_carrier\_transport}
 \begin{proof}
 Read the two beta-redex packets through the TreeUp application spine. The alpha
 ledger supplies constructor-preserving $\hsame$ rows for the application root,
@@ -248,6 +252,7 @@ $\NatUp$ binder ledger classifies with itself. The reflexive classifier is the
 componentwise $\hsame$ row on the syntax tree, binder indices, free-variable
 ledger, and package provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermPacketCarrier\_carrier\_reflexive}
 \begin{proof}
 \begin{enumerate}
 \item Traditional target: reflexivity of the lambda-term equality classifier.
@@ -278,6 +283,7 @@ packets, then the reverse alpha-classifier row is accepted. The reversed row is
 obtained by reversing the carried $\hsame$ rows on the $\TreeUp$ skeletons and
 the $\NatUp$ binder indices.
 \end{theorem}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermPacketCarrier\_alpha\_classifier\_symmetric}
 \begin{proof}
 \begin{enumerate}
 \item Traditional target: symmetry of alpha equivalence. BEDC source: an
@@ -336,6 +342,7 @@ beta-redex row therefore repacks as a beta-reduction row with the transported
 syntax, binder index, capture-avoidance ledger, and $\Pkg$ provenance; it does
 not identify terms by host syntax equality or by quotient alpha-classes.
 \end{theorem}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermPacketCarrier\_beta\_reduction\_classifier\_obligation}
 \begin{proof}
 Start from the beta-redex ledger $b$ in
 \autoref{def:lambdacalc-term-packet-carrier}. Its source application,
@@ -380,6 +387,7 @@ The tag ledger is single-valued inside the displayed $\mathsf{BHist}$ packet.
 Thus an accepted row lands in exactly one constructor case, and the two
 remaining constructor tags are excluded by the same ledger field.
 \end{proof}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermCarrier\_constructor\_case\_exhaustion}
 
 \begin{theorem}[LambdaCalcUp alpha beta ledger separation]
 \label{thm:lambdacalc-alpha-beta-ledger-separation}
@@ -435,6 +443,7 @@ substitution $\Cont$ ledger, and provenance row as the LambdaCalc carrier for
 the output endpoint. No host lambda syntax equality or quotient alpha-class is
 used in the preservation step.
 \end{proof}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermPacketCarrier\_substitution\_carrier\_preservation}
 
 \begin{theorem}[LambdaCalcUp substitution output determinacy]
 \label{thm:lambdacalc-substitution-output-determinacy}
@@ -460,6 +469,7 @@ transport between two outputs of one visible ledger packet. Repack this
 comparison with the common $\Pkg$ provenance row; no host substitution
 function, alpha quotient, or unlisted syntax equality is used.
 \end{proof}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermPacketCarrier\_substitution\_output\_determinacy}
 
 \begin{theorem}[LambdaCalcUp alpha beta constructor transport]
 \label{thm:lambdacalc-alpha-beta-constructor-transport}
@@ -581,6 +591,7 @@ $\Cont$ substitution routes, $\hsame$ endpoint rows, and $\Pkg$ provenance,
 then the composed substitution route has a final endpoint satisfying
 $\mathsf{LambdaCalcBHistTermCarrier}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermPacketCarrier\_substitution\_composition\_carrier\_closure}
 \begin{proof}
 Apply
 \autoref{thm:lambdacalc-substitution-carrier-preservation} to the first
@@ -662,6 +673,7 @@ the listed $\TreeUp$, $\NatUp$, $\hsame$, and $\Pkg$ rows. No host syntax
 equality, ambient variable set, or quotient alpha-class is used to identify
 the endpoint.
 \end{theorem}
+\leanchecked{BEDC.Derived.LambdaCalcUp.LambdaCalcBHistTermPacketCarrier\_namecert\_substitution\_ledger}
 \begin{proof}
 Start from
 \autoref{thm:lambdacalc-substitution-ledger-scope}. It localizes the
@@ -730,71 +742,6 @@ packet. \autoref{thm:lambdacalc-namecert-substitution-ledger} supplies the
 package provenance, so no host equality or quotient row is read.
 \end{proof}
 
-\begin{definition}[LambdaCalc root constructor readback packet]
-\label{def:lambdacalc-root-constructor-readback-packet}
-A LambdaCalc root constructor readback packet is the finite $\mathsf{BHist}$
-packet consisting of the visible $\TreeUp$ syntax row, the $\NatUp$ binder or
-variable-index row when the root tag carries one, the constructor tag
-$\mathsf{lamVar}$, $\mathsf{lamAbs}$, or $\mathsf{lamApp}$, the
-constructor-preserving $\Cont$ provenance, the root $\hsame$ readback row, and
-the $\Pkg$ provenance tying those rows to
-$\mathsf{LambdaCalcBHistTermCarrier}$. No host syntax tree, ambient variable
-set, or quotient alpha-class is part of the packet.
-\end{definition}
-
-\begin{theorem}[LambdaCalc root constructor readback exhaustion]
-\label{thm:lambdacalc-root-constructor-readback-exhaustion}
-Every accepted variable, abstraction, or application row of
-$\mathsf{LambdaCalcBHistTermCarrier}$ projects to exactly one constructor case
-of \autoref{def:lambdacalc-root-constructor-readback-packet}. The projection
-uses only the displayed $\TreeUp$ row, the visible $\NatUp$ index rows,
-$\Cont$, $\hsame$, and $\Pkg$ provenance.
-\end{theorem}
-\begin{proof}
-For a variable row, apply
-\autoref{thm:lambdacalc-variable-constructor-carrier}. The unary index is the
-visible $\NatUp$ payload and the root readback row is the displayed
-$\mathsf{lamVar}$ tag.
-
-For abstraction and application rows, use
-\autoref{thm:lambdacalc-abstraction-application-carrier-closure}. The theorem
-keeps the binder row, body row, and two application subtrees inside the
-visible $\TreeUp$ spine with constructor-preserving $\Cont$ transport.
-
-The case split is exhausted by
-\autoref{thm:lambdacalc-constructor-case-exhaustion}. Repacking each case with
-the shared $\Pkg$ provenance gives exactly one readback packet and introduces
-no extra equality relation.
-\end{proof}
-
-\begin{theorem}[LambdaCalc root beta-alpha consumer threshold]
-\label{thm:lambdacalc-root-beta-alpha-consumer-threshold}
-Every beta-redex, alpha-renaming, and substitution consumer for
-$\LambdaCalcUp$ reads its root data from
-\autoref{def:lambdacalc-root-constructor-readback-packet} together with the
-finite substitution ledger of
-\autoref{thm:lambdacalc-namecert-substitution-ledger}. Thus the consumer
-surface uses only $\mathsf{BHist}$ constructor packets, $\Cont$, $\hsame$, and
-$\Pkg$ provenance.
-\end{theorem}
-\begin{proof}
-First project each consumed root through
-\autoref{thm:lambdacalc-root-constructor-readback-exhaustion}. This supplies
-the visible constructor tag, TreeUp syntax row, NatUp index row when present,
-and the root readback provenance.
-
-Next attach the free-variable and capture-avoidance ledgers. Apply
-\autoref{thm:lambdacalc-free-variable-ledger-coverage} and
-\autoref{thm:lambdacalc-capture-avoidance-cont-closure}; these keep the
-substitution endpoint inside the displayed carrier and record the route as
-$\Cont$ data.
-
-Finally transport alpha and beta endpoints by
-\autoref{thm:lambdacalc-alpha-beta-carrier-transport}. The finite ledger of
-\autoref{thm:lambdacalc-namecert-substitution-ledger} supplies the remaining
-substitution provenance, so beta, alpha, and substitution consumers cross the
-root boundary only through the displayed packets.
-\end{proof}
-
+\input{parts/concrete_instances/lambdacalc/root_normal_form_boundary}
 \input{parts/concrete_instances/lambdacalc/root_frontier}
 \input{parts/concrete_instances/lambdacalc/namecert_public_boundary}
