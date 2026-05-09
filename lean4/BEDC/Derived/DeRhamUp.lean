@@ -1,8 +1,12 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.DeRhamUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 theorem DeRhamDoubleExteriorDerivative_boundary {d : BHist -> BHist}
     {omega eta theta zero : BHist} :
@@ -57,6 +61,17 @@ def DeRhamDoubleExteriorPacket
     (forall {a b : BHist}, hsame a b -> hsame (d a) (d b)) ∧
       (forall a : BHist, hsame (d (d a)) zero) ∧ hsame zero BHist.Empty
 
+def DeRhamStandardBoundaryBridgePacket
+    (d : BHist -> BHist) (omega eta theta zero provenance bridge : BHist) : Prop :=
+  DeRhamDoubleExteriorPacket d omega eta theta zero ∧ Cont provenance theta bridge
+
+def DeRhamBoundarySourceLedgerPacket
+    (d : BHist -> BHist) (omega eta theta zero graphLedger endpointLedger : BHist) :
+    Prop :=
+  DeRhamDoubleExteriorPacket d omega eta theta zero ∧ DeRhamBoundary d theta ∧
+    hsame (d eta) BHist.Empty ∧ Cont theta zero graphLedger ∧
+      Cont graphLedger eta endpointLedger
+
 theorem DeRhamDoubleExteriorPacket_boundary
     {d : BHist -> BHist} {omega eta theta zero : BHist} :
     DeRhamDoubleExteriorPacket d omega eta theta zero ->
@@ -74,6 +89,43 @@ theorem DeRhamDoubleExteriorPacket_boundary
     hsame_trans sameDEtaDDOmega (packet.right.right.right.left omega)
   exact And.intro sameThetaZero
     (And.intro boundaryTheta (hsame_trans sameDEtaZero packet.right.right.right.right))
+
+theorem DeRhamStandardBoundaryBridgePacket_classifier_compatibility
+    {d : BHist -> BHist} {omega eta theta zero provenance bridge : BHist} :
+    DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
+      DeRhamBoundary d theta ∧ hsame (d eta) BHist.Empty ∧ Cont provenance theta bridge := by
+  intro packet
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
+  exact And.intro boundary.right.left (And.intro boundary.right.right packet.right)
+
+theorem DeRhamBoundary_semanticNameCert {d : BHist -> BHist} {axis : BHist}
+    (axisBoundary : DeRhamBoundary d axis) :
+    SemanticNameCert (DeRhamBoundary d) (DeRhamBoundary d) (DeRhamBoundary d) hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro axis axisBoundary
+      equiv_refl := by
+        intro h _boundary
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same boundaryH
+        cases boundaryH with
+        | intro preimage sameH =>
+            exact Exists.intro preimage (hsame_trans (hsame_symm same) sameH)
+    }
+    pattern_sound := by
+      intro _h boundary
+      exact boundary
+    ledger_sound := by
+      intro _h boundary
+      exact boundary
+  }
 
 def DeRhamBoundarySourcePacket (d : BHist -> BHist) (theta zero : BHist) : Prop :=
   DeRhamBoundary d theta ∧ hsame zero BHist.Empty
