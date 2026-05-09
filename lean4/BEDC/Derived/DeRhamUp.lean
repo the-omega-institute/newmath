@@ -63,6 +63,17 @@ theorem DeRhamBoundary_zero_endpoint_transport {d : BHist -> BHist} {b b' : BHis
         (Exists.intro preimage (hsame_trans sameBoundary samePreimage))
         (hsame_trans sameBoundary sameZero)
 
+theorem DeRhamBoundary_hsame_transport_with_empty_endpoint
+    {d : BHist -> BHist} {b b' : BHist} :
+    DeRhamBoundary d b -> hsame b' b ->
+      DeRhamBoundary d b' ∧ (hsame b BHist.Empty -> hsame b' BHist.Empty) := by
+  intro boundary sameBoundary
+  cases boundary with
+  | intro preimage samePreimage =>
+      exact And.intro
+        (Exists.intro preimage (hsame_trans sameBoundary samePreimage))
+        (fun sameEmpty => hsame_trans sameBoundary sameEmpty)
+
 def DeRhamDoubleExteriorPacket
     (d : BHist -> BHist) (omega eta theta zero : BHist) : Prop :=
   hsame eta (d omega) ∧ hsame theta (d eta) ∧
@@ -190,6 +201,48 @@ theorem DeRhamStandardBoundaryBridgePacket_classifier_compatibility
   intro packet
   have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
   exact And.intro boundary.right.left (And.intro boundary.right.right packet.right)
+
+theorem DeRhamBoundarySourceLedgerPacket_endpoint_transport
+    {d : BHist -> BHist} {omega eta theta theta' zero graphLedger endpointLedger : BHist} :
+    DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger ->
+      hsame theta' theta ->
+        DeRhamBoundary d theta' ∧ hsame (d eta) BHist.Empty ∧ hsame zero BHist.Empty ∧
+          ∃ graphLedger' endpointLedger' : BHist,
+            Cont theta' zero graphLedger' ∧ Cont graphLedger' eta endpointLedger' ∧
+              hsame graphLedger graphLedger' ∧ hsame endpointLedger endpointLedger' := by
+  intro packet sameTheta'
+  cases packet with
+  | intro doublePacket rest =>
+      cases rest with
+      | intro boundaryTheta rest =>
+          cases rest with
+          | intro sameDEtaEmpty rest =>
+              cases rest with
+              | intro graphCont endpointCont =>
+                  cases boundaryTheta with
+                  | intro preimage sameThetaPreimage =>
+                      let graphLedger' := append theta' zero
+                      let endpointLedger' := append graphLedger' eta
+                      have boundaryTheta' : DeRhamBoundary d theta' :=
+                        Exists.intro preimage (hsame_trans sameTheta' sameThetaPreimage)
+                      have graphCont' : Cont theta' zero graphLedger' := by
+                        rfl
+                      have endpointCont' : Cont graphLedger' eta endpointLedger' := by
+                        rfl
+                      have sameGraphLedger : hsame graphLedger graphLedger' :=
+                        cont_respects_hsame (hsame_symm sameTheta') (hsame_refl zero) graphCont
+                          graphCont'
+                      have sameEndpointLedger : hsame endpointLedger endpointLedger' :=
+                        cont_respects_hsame sameGraphLedger (hsame_refl eta) endpointCont
+                          endpointCont'
+                      exact And.intro boundaryTheta'
+                        (And.intro sameDEtaEmpty
+                          (And.intro doublePacket.right.right.right.right
+                            (Exists.intro graphLedger'
+                              (Exists.intro endpointLedger'
+                                (And.intro graphCont'
+                                  (And.intro endpointCont'
+                                    (And.intro sameGraphLedger sameEndpointLedger)))))))
 
 theorem DeRhamBoundary_semanticNameCert {d : BHist -> BHist} {axis : BHist}
     (axisBoundary : DeRhamBoundary d axis) :
