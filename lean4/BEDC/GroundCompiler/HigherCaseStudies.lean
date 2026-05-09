@@ -67,4 +67,63 @@ theorem complex_analytic_extends_complex {S : EventFlow} :
   | intro M hM =>
       exact ⟨M.complex, hM.left⟩
 
+structure CategoryCompositionMotifRecord where
+  objectSource : EventFlow
+  morphismSource : EventFlow
+  domainCodomainClassifier : EventFlow
+  identityWitness : EventFlow
+  compositionWitness : EventFlow
+  associativityProof : EventFlow
+  unitProof : EventFlow
+  ledger : EventFlow
+
+def RecognizedCategoryCompositionMotifRecord
+    (S : EventFlow) (M : CategoryCompositionMotifRecord) : Prop :=
+  Subflow M.objectSource S /\
+    Subflow M.morphismSource S /\
+    Subflow M.domainCodomainClassifier S /\
+    Subflow M.identityWitness S /\
+    Subflow M.compositionWitness S /\
+    Subflow M.associativityProof S /\
+    Subflow M.unitProof S /\
+    Subflow M.ledger S /\
+    NonemptyEventFlow M.ledger
+
+def CategoryCompositionMotif (S : EventFlow) : Prop :=
+  exists M : CategoryCompositionMotifRecord,
+    RecognizedCategoryCompositionMotifRecord S M
+
+structure FunctorMotifRecord where
+  sourceCategory : CategoryCompositionMotifRecord
+  targetCategory : CategoryCompositionMotifRecord
+  objectMap : EventFlow
+  morphismMap : EventFlow
+  identityPreservation : EventFlow
+  compositionPreservation : EventFlow
+  ledger : EventFlow
+
+def RecognizedFunctorMotifRecord
+    (S : EventFlow) (M : FunctorMotifRecord) : Prop :=
+  RecognizedCategoryCompositionMotifRecord S M.sourceCategory /\
+    RecognizedCategoryCompositionMotifRecord S M.targetCategory /\
+    Subflow M.objectMap S /\
+    Subflow M.morphismMap S /\
+    Subflow M.identityPreservation S /\
+    Subflow M.compositionPreservation S /\
+    Subflow M.ledger S /\
+    NonemptyEventFlow M.ledger
+
+def FunctorMotif (S : EventFlow) : Prop :=
+  exists M : FunctorMotifRecord, RecognizedFunctorMotifRecord S M
+
+theorem functor_extends_category {S : EventFlow} :
+    FunctorMotif S ->
+      exists C D : CategoryCompositionMotifRecord,
+        RecognizedCategoryCompositionMotifRecord S C /\
+          RecognizedCategoryCompositionMotifRecord S D := by
+  intro h
+  cases h with
+  | intro M hM =>
+      exact ⟨M.sourceCategory, M.targetCategory, hM.left, hM.right.left⟩
+
 end BEDC.GroundCompiler.CaseStudies
