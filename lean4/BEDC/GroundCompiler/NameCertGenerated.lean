@@ -322,6 +322,58 @@ theorem sound_namecert_flow_licenses_name
   intro hSound
   exact ⟨S, R, hSound.left⟩
 
+theorem namecert_recognition_relation_is_sound
+    {R : GeneratedNameCertRecognizer} {S : NameCertCandidateFlow}
+    {N : NameCandidateFlow} :
+    NameCertRecognitionRelation R S N -> SoundRecognizedNameCertFlow R S N := by
+  intro hRecognizes
+  cases hRecognizes.right.right with
+  | intro source hComplete =>
+      cases hComplete with
+      | intro pattern hComplete =>
+          cases hComplete with
+          | intro classifier hComplete =>
+              cases hComplete with
+              | intro stability hComplete =>
+                  cases hComplete with
+                  | intro ledger hComplete =>
+                      cases hComplete with
+                      | intro sealFlow hFields =>
+                          exact
+                            ⟨hRecognizes, source, pattern, classifier,
+                              stability, ledger,
+                              hFields.left, hFields.left.right,
+                              hFields.right.left, hFields.right.left.right,
+                              hFields.right.right.left,
+                              hFields.right.right.left.right,
+                              hFields.right.right.right.left,
+                              hFields.right.right.right.left.right,
+                              hFields.right.right.right.right.left,
+                              hFields.right.right.right.right.left.right⟩
+
+theorem derived_licensing_mediated_by_sound_flow
+    {N : NameCandidateFlow} :
+    LicensedName N ->
+      exists S : NameCertCandidateFlow,
+        exists R : GeneratedNameCertRecognizer,
+          SoundRecognizedNameCertFlow R S N := by
+  intro hLicensed
+  cases hLicensed with
+  | intro S hFlow =>
+      cases hFlow with
+      | intro R hRecognizes =>
+          exact ⟨S, R, namecert_recognition_relation_is_sound hRecognizes⟩
+
+theorem recognition_does_not_change_source_events
+    {S : NameCertCandidateFlow} {N : NameCandidateFlow} :
+    NameCertFlow S N ->
+      exists R : GeneratedNameCertRecognizer,
+        NameCertRecognitionRelation R S N /\ RecognizesNameCert R S := by
+  intro hFlow
+  cases hFlow with
+  | intro R hRecognizes =>
+      exact ⟨R, hRecognizes, hRecognizes.left⟩
+
 theorem namecert_flow_recognition_conservativity
     {S : NameCertCandidateFlow} {N : NameCandidateFlow} {w : RawEvent}
     {m : DisplayAlphabet} :
