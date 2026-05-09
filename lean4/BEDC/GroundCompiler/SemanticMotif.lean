@@ -3,6 +3,7 @@ import BEDC.GroundCompiler.EventFlow
 
 namespace BEDC.GroundCompiler.SemanticMotif
 
+open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.ChannelEncoding
 open BEDC.GroundCompiler.EventFlow
 
@@ -25,6 +26,12 @@ def MotifCandidate (M S : EventFlow) : Prop :=
 def GeneratedMotifRecognizer : Type := EventFlow
 
 def MotifRole : Type := EventFlow
+
+def FiniteRepetitionRole : MotifRole := [[BMark.b0]]
+
+def ContinuationRole : MotifRole := [[BMark.b0, BMark.b0]]
+
+def SealRole : MotifRole := [[BMark.b0, BMark.b1]]
 
 def SourceLevelMotifArgs (S M : EventFlow) (mu : MotifRole) : Prop :=
   FormalCompilerInput (CompilerDatum.eventFlow S) /\
@@ -53,6 +60,41 @@ def MotifLedger
     (L : EventFlow) :
     Prop :=
   RecognizesMotif R S M mu /\ Subflow L S
+
+def RepeatRawEvent (x : RawEvent) : Nat -> RawEvent
+  | 0 => x
+  | n + 1 => List.append (RepeatRawEvent x n) x
+
+def FiniteRepetitionPrefix (x : RawEvent) : Nat -> EventFlow
+  | 0 => []
+  | n + 1 => List.append (FiniteRepetitionPrefix x n) [RepeatRawEvent x n]
+
+def FiniteRepetitionMotif
+    (R : GeneratedMotifRecognizer) (S M : EventFlow) : Prop :=
+  exists x : RawEvent,
+    exists k : Nat,
+      M = FiniteRepetitionPrefix x (k + 1) /\
+        RecognizesMotif R S M FiniteRepetitionRole
+
+def ContinuationMotif
+    (R : GeneratedMotifRecognizer) (S M input result witness : EventFlow) :
+    Prop :=
+  RecognizesMotif R S M ContinuationRole /\
+    Subflow input M /\
+    Subflow result M /\
+    Subflow witness M /\
+    NonemptyEventFlow witness
+
+def SealMotif
+    (R : GeneratedMotifRecognizer)
+    (S M stages boundary sealFlow ledgerFlow : EventFlow) : Prop :=
+  RecognizesMotif R S M SealRole /\
+    Subflow stages M /\
+    Subflow boundary M /\
+    Subflow sealFlow M /\
+    Subflow ledgerFlow M /\
+    NonemptyEventFlow sealFlow /\
+    NonemptyEventFlow ledgerFlow
 
 theorem no_external_motif_input
     {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
