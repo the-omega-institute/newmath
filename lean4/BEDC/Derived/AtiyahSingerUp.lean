@@ -223,9 +223,43 @@ theorem AtiyahSingerIndexPairingCarrierPacket_spectral_chernweil_consumer_exhaus
       (And.intro consumerLedgerRow
         (And.intro consumerEndpointExact
           (And.intro exactRows.right.right.right.right.right.right.left
-              (And.intro exactRows.right.right.right.right.right.right.right.left
-                (And.intro exactRows.right.right.right.right.right.right.right.right.right.left
-                  exactRows.right.right.right.right.right.right.right.right.right.right))))))
+                (And.intro exactRows.right.right.right.right.right.right.right.left
+                  (And.intro exactRows.right.right.right.right.right.right.right.right.right.left
+                    exactRows.right.right.right.right.right.right.right.right.right.right))))))
+
+theorem AtiyahSingerIndexPairingCarrierPacket_host_exclusion [AskSetup] [PackageSetup]
+    {m operator symbol spectral analytic chern characteristic topological equality provenance
+      endpoint hostEquality : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AtiyahSingerIndexPairingCarrierPacket m operator symbol spectral analytic chern
+        characteristic topological equality provenance endpoint bundle pkg ->
+      hsame hostEquality equality ->
+        hsame hostEquality (append spectral analytic) ∧
+          hsame endpoint (append (append hostEquality symbol) topological) ∧
+            PkgSig bundle endpoint pkg := by
+  intro packet sameHostEquality
+  have rows :=
+    AtiyahSingerIndexPairingCarrierPacket_provenance_exactness
+      (m := m) (operator := operator) (symbol := symbol) (spectral := spectral)
+      (analytic := analytic) (chern := chern) (characteristic := characteristic)
+      (topological := topological) (equality := equality) (provenance := provenance)
+      (endpoint := endpoint) (bundle := bundle) (pkg := pkg) packet
+  have equalityExact : hsame equality (append spectral analytic) :=
+    rows.right.right.right.right.right.right.left
+  have hostEqualityExact : hsame hostEquality (append spectral analytic) :=
+    hsame_trans sameHostEquality equalityExact
+  have provenanceExact : hsame provenance (append equality symbol) :=
+    rows.right.right.right.right.right.right.right.right.left
+  have endpointReadback : hsame endpoint (append provenance topological) :=
+    rows.right.right.right.right.right.right.right.right.right.left
+  have endpointHostReadback :
+      hsame endpoint (append (append hostEquality symbol) topological) := by
+    cases sameHostEquality
+    cases provenanceExact
+    exact endpointReadback
+  exact And.intro hostEqualityExact
+    (And.intro endpointHostReadback
+      rows.right.right.right.right.right.right.right.right.right.right)
 
 theorem AtiyahSingerIndexPairingCarrierPacket_namecert_obligation_surface
     [AskSetup] [PackageSetup]
