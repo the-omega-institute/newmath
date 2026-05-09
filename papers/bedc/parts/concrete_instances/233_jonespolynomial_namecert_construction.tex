@@ -309,3 +309,40 @@ projects back to the same packet. Hence the public NameCert obligation surface
 is exactly the displayed skein-ledger construction, with no additional quotient,
 host-polynomial equality, or invariant row.
 \end{proof}
+
+\begin{theorem}[JonesPolynomial skein classifier determinacy]
+\label{thm:jonespolynomial-skein-classifier-determinacy}
+Fix a $\JonesPolynomialUp$ skein ledger packet whose main $\KnotUp$ diagram row,
+three skein boundary rows, $\PolynomialUp$ endpoint classifier row, finite
+skein $\Bundle$, finite $\Cont$ ledger, and $\Pkg$ provenance are displayed as in
+\autoref{def:jonespolynomial-skein-ledger-packet}. Then any accepted
+$\mathsf{JonesSkeinCls}$ witness over those fixed rows determines the same
+displayed $\JonesPolynomialUp$ endpoint row by $\hsame$ and $\Cont$ transport.
+The determinacy is internal to the skein classifier surface and asserts no host
+Laurent-polynomial equality, knot quotient, or complete invariant.
+\end{theorem}
+\begin{proof}
+Start with two accepted $\mathsf{JonesSkeinCls}$ witnesses over the fixed packet
+rows. The packet fixes the main knot diagram, positive crossing, negative
+crossing, smoothing boundary rows, the polynomial endpoint row, the finite
+skein bundle, the continuation ledger, and the provenance row.
+
+Apply \autoref{lem:jonespolynomial-skein-ledger-reidemeister-transport}. The
+Reidemeister row transports only the displayed $\KnotUp$ local-window boundary,
+so both classifier witnesses read the same boundary diagrams through $\hsame$.
+
+Next use \autoref{thm:jonespolynomial-skein-endpoint-classifier-exhaustion}. It
+projects each accepted classifier witness exactly to the fixed knot rows, the
+fixed polynomial endpoint classifier, the finite skein ledger, the $\Cont$
+ledger, and the $\Pkg$ provenance.
+
+Apply \autoref{thm:jonespolynomial-local-skein-window-composition} to the fixed
+local window. The composition theorem keeps the skein bundle and the polynomial
+endpoint comparison at the same displayed boundary, so the two classifier
+readings cannot produce distinct displayed endpoint rows.
+
+Finally cite \autoref{thm:jonespolynomial-namecert-obligation-surface}. The
+public surface contains exactly these packet and classifier rows. Repacking the
+exhausted rows therefore gives one $\JonesPolynomialUp$ endpoint row determined
+by $\hsame$ and $\Cont$ transport.
+\end{proof}
