@@ -78,6 +78,7 @@ import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
 import BEDC.Derived.GaloisExtUp.PublicLedgerCoverage
+import BEDC.Derived.GaloisExtUp.SourceClassifier
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
@@ -296,6 +297,7 @@ import BEDC.Derived.BrownianUp
 import BEDC.Derived.CondExpUp
 import BEDC.Derived.MartingaleUp
 import BEDC.Derived.RepresentationRingUp
+import BEDC.Derived.RepresentationRingUp.InducedConsumerBoundary
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.SeparableExtUp
@@ -460,6 +462,8 @@ import BEDC.Derived.TopGroupUp.SourceRowsEmptyCoupled
 import BEDC.Derived.TopGroupUp.RootSourcePairExactness
 import BEDC.Derived.TopGroupUp.SourceCoupledCarrierScope
 import BEDC.Derived.TopGroupUp.JointSourceDeterminacy
+import BEDC.Derived.TopGroupUp.RootDownstreamContinuityObligation
+import BEDC.Derived.TopGroupUp.ExportBoundary
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -498,6 +502,7 @@ import BEDC.Derived.DiffFormUp.RootObligationSurface
 import BEDC.Derived.DiffFormUp.RootRowBoundary
 import BEDC.Derived.DiffFormUp.RootUnblockObligations
 import BEDC.Derived.DiffFormUp.SourceScope
+import BEDC.Derived.DiffFormUp.VisibleInputPackage
 import BEDC.Derived.DiffFormUp.WedgeAssociator
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
 import BEDC.Derived.DiffFormUp.ZeroDegreeEmptyProbe
@@ -536,6 +541,7 @@ import BEDC.Derived.FieldExtUp.RatReflexiveSourcePattern
 import BEDC.Derived.FieldExtUp.RatReflexiveCertificateObligations
 import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
+import BEDC.Derived.FieldExtUp.StdBridge
 import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.CurryHowardUp
 import BEDC.Derived.FirstOrderUp
@@ -549,6 +555,7 @@ import BEDC.Derived.GaloisGroupUp.FixedBasePublicSurface
 import BEDC.Derived.GaloisGroupUp.ActionRows
 import BEDC.Derived.GaloisGroupUp.IdentityRowClosure
 import BEDC.Derived.LambdaCalcUp
+import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
 import BEDC.Derived.NumFieldUp
 import BEDC.Derived.NumFieldUp.DegreeOneBasisEndpoint
 import BEDC.Derived.NumFieldUp.DegreeOneBasis
