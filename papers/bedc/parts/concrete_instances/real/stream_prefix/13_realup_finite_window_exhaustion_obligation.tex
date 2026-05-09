@@ -449,3 +449,52 @@ $\mathsf{RealLedgerPolicy}$ boundary. Since that boundary has no slot for a
 host index, quotient witness, or unrecorded infinite stream datum, the two
 carried windows expose one public read surface.
 \end{proof}
+
+\begin{theorem}[RealUp finite-window refinement envelope consumer coverage]
+\label{thm:realup-finite-window-refinement-envelope-consumer-coverage}
+Let $E$ be a $\RealUp$ finite-window refinement envelope over a fixed
+$\StreamNameUp$ source, and let $W$ be any certified window carried by $E$.
+Every $\mathsf{RegSeqRat}$ handoff induced by $W$, and every finite-window
+$\RealUp$ seal read induced by $W$, factors through exactly the rows carried
+by $E$: the $\StreamNameUp$ finite-window classifier rows, the
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$ rows,
+the pointwise $\mathsf{RatHistoryClassifier}$ rows, the endpoint denominator
+rows, the $\mathsf{DyadicRatCore}$ source rows, the shared $\hsame$ ledger,
+and the $\mathsf{RealLedgerPolicy}$ boundary. Conversely, any such row family
+inside $E$ repacks into the same $\mathsf{RegSeqRat}$ handoff and
+finite-window $\RealUp$ seal surface. No completion object, quotient witness,
+host-index equality, or unrecorded stream datum is part of this consumer
+surface.
+\end{theorem}
+\begin{proof}
+First compare the chosen carried window with the envelope surface. Apply
+\autoref{thm:realup-finite-window-refinement-envelope-coherence} with $W$ and
+any other carried representative used by the consumer. The comparison
+identifies the consumer-facing read with the envelope's finite public
+$\mathsf{BHist}$ surface, so the read cannot escape the rows named in the
+envelope.
+
+Next expose the stream-name boundary. By
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}, a finite
+window contributes only its classifier rows, the certified probe and unary
+history rows, the endpoint denominator witnesses, the shared $\hsame$ ledger,
+and the $\mathsf{RealLedgerPolicy}$ boundary. These are precisely rows already
+stored in $E$.
+
+For a $\mathsf{RegSeqRat}$ consumer, apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff}. Its pointwise handoff
+uses the $\mathsf{RatHistoryClassifier}$ rows read from the same
+$\StreamNameUp$ finite window. Then apply
+\autoref{thm:regseqrat-finite-window-dyadic-source-exhaustion} to replace the
+dyadic source requirements by the displayed $\mathsf{DyadicRatCore}$ source
+rows and endpoint denominator rows carried by the envelope.
+
+The reverse packing uses the same two displayed handoff theorems in the
+opposite direction of construction: the finite-window classifier,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+pointwise rational classifier, denominator, dyadic-source, $\hsame$, and
+ledger-policy rows assemble the public consumer interface. Since all cited
+boundaries are finite $\mathsf{BHist}$ rows, there is no constructor slot for
+completion, quotient identification, host-index equality, or unrecorded
+stream data.
+\end{proof}
