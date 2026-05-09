@@ -24,6 +24,11 @@ def TheoremCode (T : TheoremCandidateFlow) : List DisplayAlphabet :=
 def LegalTheoremCode (c : List DisplayAlphabet) : Prop :=
   exists T : TheoremCandidateFlow, c = TheoremCode T
 
+def RecognizesTheoremCode
+    (R : GeneratedTheoremRecognizer) (c : List DisplayAlphabet) : Prop :=
+  exists T : TheoremCandidateFlow,
+    Decode c = some T /\ TheoremRecognitionRelation R T
+
 inductive TheoremRole : Type where
   | statement
   | dependencies
@@ -149,6 +154,21 @@ theorem theorem_code_bijective :
         · rw [hT]
           exact theorem_code_round_trip T
         · exact hT.symm
+
+theorem compile_decode_preserves_recognition
+    {R : GeneratedTheoremRecognizer} {T : TheoremCandidateFlow} :
+    TheoremRecognitionRelation R T -> RecognizesTheoremCode R (TheoremCode T) := by
+  intro h
+  exact ⟨T, theorem_code_round_trip T, h⟩
+
+theorem recognition_invariant_under_compile_decode
+    {T : TheoremCandidateFlow} :
+    TheoremFlow T -> exists R : GeneratedTheoremRecognizer,
+      RecognizesTheoremCode R (TheoremCode T) := by
+  intro h
+  cases h with
+  | intro R hR =>
+      exact ⟨R, compile_decode_preserves_recognition hR⟩
 
 theorem sound_theorem_flow_establishes_theoremhood
     {R : GeneratedTheoremRecognizer} {T : TheoremCandidateFlow} :

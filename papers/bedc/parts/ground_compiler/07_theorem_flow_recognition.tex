@@ -432,11 +432,12 @@ The first is bijective; the second is generally a quotient.
 
 \begin{definition}[Theorem recognition from channel code]
 \label{def:theorem-generated-recognition-from-code}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.RecognizesTheoremCode}
 For a legal channel stream $c\in\mathsf{LegalZStream}$, define
 $$
   \mathsf{RecognizesTheoremCode}(R_T,c)
   \;:\Longleftrightarrow\;
-  \mathsf{RecognizesTheorem}(R_T,\mathsf{Decode}(c)).
+  \exists T,\ \mathsf{Decode}(c)=T \,\wedge\, \mathsf{RecognizesTheorem}(R_T,T).
 $$
 Recognition from channel code therefore proceeds through decoding.
 \end{definition}
@@ -452,9 +453,10 @@ There is no valid rule that recognizes a theorem by inspecting arbitrary channel
 
 \begin{theorem}[Compile-decode preserves recognition]
 \label{thm:theorem-generated-compile-decode-preserves-recognition}
+\leanchecked{BEDC.GroundCompiler.TheoremGenerated.compile\_decode\_preserves\_recognition}
 If $\mathsf{RecognizesTheorem}(R_T,T)$, then
 $$
-  \mathsf{RecognizesTheorem}(R_T,\mathsf{Decode}(\mathsf{Compile}(T))).
+  \mathsf{RecognizesTheoremCode}(R_T,\mathsf{Compile}(T)).
 $$
 \end{theorem}
 
@@ -463,12 +465,13 @@ By the flow-level round trip \autoref{thm:channel-encoding-flow-round-trip},
 $$
   \mathsf{Decode}(\mathsf{Compile}(T))=T.
 $$
-Substituting this equality into $\mathsf{RecognizesTheorem}(R_T,T)$ gives the claim.
+Together with $\mathsf{RecognizesTheorem}(R_T,T)$, this supplies the decoded witness required by $\mathsf{RecognizesTheoremCode}(R_T,\mathsf{Compile}(T))$.
 \end{proof}
 
 \begin{corollary}[Theorem recognition is invariant under compile-decode]
 \label{cor:theorem-generated-recognition-invariant}
-For every recognized theorem flow, compiling to a channel stream and decoding back to an event flow preserves its theorem-recognition status.
+\leanchecked{BEDC.GroundCompiler.TheoremGenerated.recognition\_invariant\_under\_compile\_decode}
+For every recognized theorem flow, its theorem code is recognized after the compile-decode round trip.
 \end{corollary}
 
 \section{Acceptance and seals}
