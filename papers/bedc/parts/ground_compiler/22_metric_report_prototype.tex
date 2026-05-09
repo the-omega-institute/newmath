@@ -157,16 +157,19 @@ The \emph{carry index} of $S$ is the number of recognized carry motif occurrence
 
 \begin{definition}[Ledger depth]
 \label{def:metric-report-ledger-depth}
+\leandef{BEDC.GroundCompiler.MetricsFlow.LedgerDepth}
 The \emph{ledger depth} of $S$ is the maximum nesting depth among recognized ledger flows in $S$. If there is no recognized ledger flow, ledger depth is $0$. If there are suspected ledger candidates without recognizer, the report must separately mark ledger-recognizer missing; it must not treat the value $0$ as a structural conclusion.
 \end{definition}
 
 \begin{definition}[Reuse depth]
 \label{def:metric-report-reuse-depth}
+\leandef{BEDC.GroundCompiler.MetricsFlow.ReuseDepth}
 The \emph{reuse depth} of $S$ is the length of the longest dependency chain of recognized reuse motifs. If the reuse recognizer is missing, reuse depth is undefined.
 \end{definition}
 
 \begin{definition}[Bridge depth]
 \label{def:metric-report-bridge-depth}
+\leandef{BEDC.GroundCompiler.MetricsFlow.BridgeDepth}
 The \emph{bridge depth} of $S$ is the maximum bridge-chain length among recognized bridge motifs or bridge flows. If only bridge-candidate motifs are present, bridge depth is undefined, while bridge-candidate count may be reported separately.
 \end{definition}
 
