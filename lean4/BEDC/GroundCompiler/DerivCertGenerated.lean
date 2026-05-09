@@ -172,6 +172,16 @@ theorem incomplete_derivcert_does_not_support_export
   | intro R hRecognizes =>
       exact hIncomplete R hRecognizes hRecognizes.right.right.right
 
+theorem strength_flow_alone_insufficient
+    {D : DerivCertCandidateFlow} {N s : EventFlow} :
+    StrengthEventFlow s ->
+      (forall R : GeneratedDerivCertRecognizer,
+        RecognizesDerivCert R D N s ->
+          Not (CompleteSixFieldDerivCertRecognition R D)) ->
+        Not (DerivCertFlow D N s) := by
+  intro _ hIncomplete
+  exact incomplete_derivcert_does_not_support_export hIncomplete
+
 theorem sound_derivcert_recognition_establishes_flow
     {R : GeneratedDerivCertRecognizer} {D : DerivCertCandidateFlow}
     {N s : EventFlow} :
@@ -203,5 +213,18 @@ theorem accepted_object_code_injective
   rw [hB] at hA
   cases hA
   rfl
+
+theorem no_acceptance_recognition_by_channel_substring
+    {c : List DisplayAlphabet} {N s : EventFlow} :
+    RecognizesAcceptanceCode c N s ->
+      exists A : EventFlow, Decode c = some A /\ AcceptedFlow A N s := by
+  intro h
+  exact h
+
+theorem channel_compilation_preserves_acceptance
+    {A N s : EventFlow} :
+    AcceptedFlow A N s -> RecognizesAcceptanceCode (FlowEncoding A) N s := by
+  intro hAccepted
+  exact ⟨A, flow_level_round_trip A, hAccepted⟩
 
 end BEDC.GroundCompiler.DerivCertGenerated

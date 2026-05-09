@@ -252,6 +252,7 @@ By \autoref{prin:derivcert-generated-no-derivcert-without-six-fields}, a recogni
 
 \begin{corollary}[Strength flow alone is insufficient]
 \label{cor:derivcert-generated-strength-alone-insufficient}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.strength\_flow\_alone\_insufficient}
 Even if an event flow is recognized as a $\mathrm{checkedCert}$ or $\mathrm{bridgeCert}$ strength flow, it does not form a derivation-certificate flow without recognized source, classifier, exactness, ledger, and stability fields.
 \end{corollary}
 
@@ -437,10 +438,12 @@ Thus accepted-object recognition from channel code first decodes to an event flo
 
 \begin{proposition}[No acceptance recognition by channel substring]
 \label{prop:derivcert-generated-no-acceptance-by-channel-substring}
-There is no valid rule that recognizes an accepted object by inspecting channel substrings without first applying
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.no\_acceptance\_recognition\_by\_channel\_substring}
+Any valid recognition of an accepted object from channel code must first exhibit an event flow decoded by
 $$
   \mathsf{Decode}\colon \mathsf{LegalZStream}\to\mathsf{EventFlow}.
 $$
+Equivalently, a judgment $\mathsf{RecognizesAcceptanceCode}(c,N,s)$ factors through some $A$ such that $\mathsf{Decode}(c)=\mathsf{some}(A)$ and $\mathsf{AcceptFlow}(A,N,s)$.
 \end{proposition}
 
 \begin{proof}
@@ -449,9 +452,10 @@ $$
 
 \begin{theorem}[Channel compilation preserves acceptance recognition]
 \label{thm:derivcert-generated-compilation-preserves-acceptance}
-If $\mathsf{AcceptFlow}(A,N,s)$, then
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.channel\_compilation\_preserves\_acceptance}
+If $\mathsf{AcceptFlow}(A,N,s)$, then the channel code $\mathsf{Compile}(A)$ is recognized as acceptance code:
 $$
-  \mathsf{AcceptFlow}(\mathsf{Decode}(\mathsf{Compile}(A)),N,s).
+  \mathsf{RecognizesAcceptanceCode}(\mathsf{Compile}(A),N,s).
 $$
 \end{theorem}
 
