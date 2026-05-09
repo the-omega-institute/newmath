@@ -42,30 +42,6 @@ The chapter has intersection (`thm:convexset-pointwise-intersection-affine-combi
 
 ---
 
-### B-575 - Quadrature singleton-node sum equals weight times integrand evaluation
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Quadrature singleton-node sum equals weight times integrand evaluation |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-If $Q=(xs,\alpha,\omega,\mathcal{I}_Q)$ is a finite weighted $\QuadratureUp$ rule over the scalar carrier $R$ in the sense of `def:quadrature-finite-weighted-exactness-degree`, and the $\FinSetUp$ node spine $xs$ enumerates exactly one position $i_0$, then for every finite polynomial-code spine $p:\mathsf{ListCarrier}(R)$, $\mathsf{QSum}_Q(p)\sim_R \omega_{i_0}\cdot \mathsf{Eval}_{\alpha_{i_0},R}(p)$.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
-
-Rationale:
-The Quadrature chapter (`papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`, 291 lines) handles the empty-node-spine case in `thm:quadrature-empty-node-sum-zero` (B-538), the degree-zero exactness/weight-sum equivalence in B-542, and degree-bound preorder (transitivity B-? line 173, reflexivity B-? line 204, weakening line 124, equivalence stability line 149). The singleton-node case — the simplest non-empty quadrature rule — has no companion theorem and is a clean direct unfold of `\mathsf{QSum}_Q(p)` using the singleton clause of `def:finite-additive-scalar-fold` and `lem:quadrature-empty-position-fold-zero` (already present at line 469). It mirrors the existing empty-node closure-status proof and gives downstream numerical-analysis chapters the n=1 base case for inductive arguments over node count.
-
----
-
 ### B-576 - Banach scalar-action of bounded operator distributes over composition
 
 | field | value |
