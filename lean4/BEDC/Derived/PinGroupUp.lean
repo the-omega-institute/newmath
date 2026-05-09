@@ -38,4 +38,26 @@ theorem PinGroupReflectionParityCarrier_stability
               (hsame_trans reflectionBranch.right.left sameProduct))
             (unary_transport reflectionBranch.right.right sameReflection)))
 
+theorem PinGroupReflectionParityCarrier_exactness
+    {spin reflection product endpoint ledger carried : BHist} :
+    PinGroupReflectionParityCarrier spin reflection product endpoint ->
+      Cont endpoint ledger carried ->
+        (hsame carried (append spin ledger) ∧ UnaryHistory spin) ∨
+          (hsame carried (append product ledger) ∧
+            Cont spin reflection product ∧ UnaryHistory reflection) := by
+  intro carrier endpointLedger
+  cases carrier with
+  | inl spinBranch =>
+      exact Or.inl
+        (And.intro
+          (cont_respects_hsame spinBranch.left (hsame_refl ledger)
+            endpointLedger (cont_intro rfl))
+          spinBranch.right)
+  | inr reflectionBranch =>
+      exact Or.inr
+        (And.intro
+          (cont_respects_hsame reflectionBranch.right.left (hsame_refl ledger)
+            endpointLedger (cont_intro rfl))
+          (And.intro reflectionBranch.left reflectionBranch.right.right))
+
 end BEDC.Derived.PinGroupUp
