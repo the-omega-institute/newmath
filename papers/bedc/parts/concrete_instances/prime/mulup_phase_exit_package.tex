@@ -61,3 +61,35 @@ Thus a later Full Nat Arithmetic consumer can read $\MulUp$ through this single
 boundary. No host natural-number multiplication, quotient object, or
 multiplication operation outside the unary-history package is used.
 \end{proof}
+
+\begin{theorem}[MulUp Full Nat Arithmetic hsame transport boundary]
+\label{thm:mulup-full-nat-arithmetic-hsame-transport-boundary}
+Let two unary-history presentations over $\mathsf{BHist}$ be related
+componentwise by $\hsame$. Then the Full Nat Arithmetic phase-exit boundary of
+\autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary} transports across
+that comparison. The transported boundary has the same
+$\mathsf{UnaryHistory}$ carrier surface, the transported $\hsame$ classifier,
+the transported $\mathsf{NatMul}$ relation, the same unit, the same $\AddUp$
+distributivity rows, the same $\OrderUp$ monotonicity row, and the same
+divisibility-order consumer rows, all exported through the unchanged
+$\mathsf{BHist}$ surface.
+\end{theorem}
+\begin{proof}
+Project the phase-exit boundary of
+\autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary}. Its rows are
+already expressed over $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$,
+$\mathsf{NatMul}$, the additive distribution rows, the order row, and the
+divisibility-order consumer rows.
+
+Transport the carrier and classifier first. The componentwise $\hsame$
+comparison keeps each unary-history row inside $\mathsf{UnaryHistory}$ and
+keeps every $\Cont$ ledger on the same displayed $\mathsf{BHist}$ endpoints.
+The functionality and transport clauses for $\mathsf{NatMul}$ then move the
+multiplication row, unit row, and result row to the transported presentation.
+
+Finally, repack the AddUp distribution rows, the OrderUp monotonicity row, and
+the divisibility rows from the transported endpoints. These rows mention only
+the already transported unary histories, $\Cont$ ledgers, $\hsame$
+comparisons, and $\mathsf{NatMul}$ witnesses, so the consumer receives the
+same phase-exit package and no new exported surface.
+\end{proof}
