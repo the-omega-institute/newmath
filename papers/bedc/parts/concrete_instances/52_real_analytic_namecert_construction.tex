@@ -599,3 +599,63 @@ $$
 \RealClassifier(c,\Eone(\emp)).
 $$
 \end{proof}
+
+\begin{definition}[Constant-one exponential comparison stream]
+\label{def:real-analytic-exp-one-stream}
+The constant-one comparison stream for the exponential package is the unary observation relation $\mathsf{ExpOneStream}(n,O_n)$ defined by the two rows $\UnaryHistory(n)$ and $O_n\hsame\Eone(\emp)$. Its regular rational spine is the constant-stream spine of \autoref{thm:regseqrat-constant-stream-spine} at the RatUp unit history.
+\end{definition}
+
+\begin{lemma}[Exponential partial sums at empty input]
+\label{lem:real-analytic-exp-part-empty-input-constant-one}
+For every unary index $n$, assume the supplied $\RealAlgOrder$ rows for the zero constant $\emp$, the unit constant $\Eone(\emp)$, powers of $\emp$, products with $\emp$, addition with $\emp$, and the unary factorial-denominator inverses used in \autoref{def:real-analytic-exp-part}. Assume in particular the power rows stating that $\emp^0$ is classified with $\Eone(\emp)$ and that $\emp^k$ is classified with $\emp$ for every successor unary $k$. If $\mathsf{ExpPart}(\emp,n,S_n)$ and $\mathsf{ExpOneStream}(n,O_n)$, then
+$$
+\RealClassifier(S_n,O_n).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the unary index $n$ exposed by $\mathsf{ExpOneStream}(n,O_n)$.
+
+In the empty-index case, \autoref{def:real-analytic-exp-part} gives the single term $\emp^0/0!$. The zero-power row classifies $\emp^0$ with $\Eone(\emp)$, and the zero constructor of \autoref{def:unary-factorial} gives $0!$ as $\Eone(\emp)$. The supplied denominator-inverse row for the unit denominator and the unit multiplication row therefore classify the displayed partial sum $S_{\emp}$ with $\Eone(\emp)$. Since $\mathsf{ExpOneStream}(\emp,O_{\emp})$ exposes $O_{\emp}\hsame\Eone(\emp)$, classifier transport gives $\RealClassifier(S_{\emp},O_{\emp})$.
+
+For the successor step, write the predecessor partial sum as $S_n$ and the successor partial sum as $S_{\Eone(n)}$. By the induction hypothesis, $S_n$ is classified with the predecessor constant-one observation, hence with $\Eone(\emp)$. The successor summand in \autoref{def:real-analytic-exp-part} is $\emp^{\Eone(n)}/(\Eone(n))!$. The supplied positive-power row classifies the numerator $\emp^{\Eone(n)}$ with $\emp$. The factorial row supplies a positive unary denominator and its inverse, but multiplication of the zero numerator by that carried inverse is classified with $\emp$. The supplied addition-with-zero row then classifies $S_{\Eone(n)}$ with the predecessor value, hence with $\Eone(\emp)$. The successor observation row $\mathsf{ExpOneStream}(\Eone(n),O_{\Eone(n)})$ exposes $O_{\Eone(n)}\hsame\Eone(\emp)$, so classifier transport yields $\RealClassifier(S_{\Eone(n)},O_{\Eone(n)})$.
+\end{proof}
+
+\begin{theorem}[Exponential at empty input is one]
+\label{thm:real-analytic-exp-empty-input-one}
+Let $x$ and $e$ be carried $\RealUp$ histories. Assume a supplied classifier row $\RealClassifier(x,\emp)$, a supplied $\mathsf{Exp}(x,e)$ limit witness as in \autoref{def:real-analytic-exp}, and the classifier-stability rows that transport every unary finite computation $\mathsf{ExpPart}(x,n,T_n)$ along $\RealClassifier(x,\emp)$ to an empty-input computation $\mathsf{ExpPart}(\emp,n,S_n)$. Assume also the algebra rows of \autoref{lem:real-analytic-exp-part-empty-input-constant-one}, a supplied $\RegSeqRat$ spine and $\RealUp$ limit witness for $\mathsf{ExpOneStream}$ with endpoint $\Eone(\emp)$, and the supplied limit-uniqueness row comparing the transported $\mathsf{ExpPart}(x,\cdot,\cdot)$ stream with $\mathsf{ExpOneStream}$. Then
+$$
+\RealClassifier(e,\Eone(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+The supplied $\mathsf{Exp}(x,e)$ witness exposes the regular rational stream of exponential partial sums for $x$ and names $e$ as its $\RealUp$ endpoint. For each unary observation index, the input classifier $\RealClassifier(x,\emp)$ and the stated stability rows transport the observed finite computation from $\mathsf{ExpPart}(x,n,T_n)$ to an empty-input computation $\mathsf{ExpPart}(\emp,n,S_n)$.
+
+By \autoref{lem:real-analytic-exp-part-empty-input-constant-one}, each empty-input observation is classified with the corresponding observation of $\mathsf{ExpOneStream}$. Thus the transported exponential partial-sum stream and the constant-one stream carry the required stream classifier.
+
+The constant-one stream has its supplied $\RegSeqRat$ spine and its supplied $\RealUp$ limit witness at $\Eone(\emp)$. Applying the supplied limit-uniqueness row to the stream classifier and to the two endpoint witnesses identifies the endpoint $e$ of $\mathsf{Exp}(x,e)$ with the constant-one endpoint, giving
+$$
+\RealClassifier(e,\Eone(\emp)).
+$$
+\end{proof}
+
+\begin{theorem}[Sine at the empty real input has zero endpoint]
+\label{thm:real-analytic-sin-empty-input-zero}
+Let $x$ be a $\RealUp$-history with $\RealClassifier(x,\emp)$. Assume the $\RealAlgOrder$ rows for the zero constant $\emp$, multiplication by $\emp$, odd powers of $x$, factorial-denominator inverses, signs, and finite addition in the sine partial sums of \autoref{def:real-analytic-trig-part}. Assume also the classifier-congruence rows for these algebraic operations. If $\mathsf{Sin}(x,s)$ is supplied by the limit witness of \autoref{def:real-analytic-sin-cos}, and the supplied limit-uniqueness rows compare $\mathsf{SinPart}(x,\cdot,\cdot)$ with the constant-zero regular rational stream whose $\RealUp$ endpoint is $\emp$, then
+$$
+\RealClassifier(s,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The classifier $\RealClassifier(x,\emp)$ places the input in the zero classifier class. By classifier congruence for the $\RealAlgOrder$ multiplication rows, each positive power occurring in the sine series is classified with the corresponding positive power of $\emp$. Since every exponent $2k+1$ is nonzero, the supplied zero-multiplication rows identify $\emp^{2k+1}$ with $\emp$. Hence every numerator $x^{2k+1}$ in the $k$th sine term is classified with $\emp$.
+
+Multiplication by the signed factorial-denominator inverse preserves the zero classifier class, again by the supplied $\RealAlgOrder$ congruence rows. Thus each term
+$$
+(-1)^k\frac{x^{2k+1}}{(2k+1)!}
+$$
+is classified with the rational zero term. Induction on the unary partial-sum index in \autoref{def:real-analytic-trig-part} now gives that every witness $\mathsf{SinPart}(x,n,S_n)$ is classified with the $n$th value of the constant-zero regular rational stream: the empty partial sum is zero, and the step adds a term already classified with zero, so finite addition preserves the zero classifier class.
+
+The trigonometric Cauchy modulus of \autoref{lem:real-analytic-trig-cauchy} makes the sine partial sums an admissible regular rational stream, and the constant-zero stream is regular with the same endpoint $\emp$. The supplied $\mathsf{Sin}(x,s)$ witness names $s$ as the $\RealUp$ limit of $\mathsf{SinPart}(x,\cdot,\cdot)$. Applying the supplied limit-uniqueness row to the pointwise classifier comparison with the constant-zero stream gives
+$$
+\RealClassifier(s,\emp).
+$$
+\end{proof}
