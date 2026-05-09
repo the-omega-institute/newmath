@@ -111,4 +111,50 @@ theorem PolytopeBHistFacePacket_halfspace_face_carrier_stability [AskSetup]
                                                                             endpointPkg))))))))))))
                                                     (And.intro sameLedger sameEndpoint)
 
+theorem PolytopeBHistFacePacket_vertex_edge_ledger_readback [AskSetup] [PackageSetup]
+    {convex finset halfspaces vertices edges faces ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolytopeBHistFacePacket convex finset halfspaces vertices edges faces ledger provenance
+        endpoint bundle pkg ->
+      UnaryHistory vertices ∧
+        UnaryHistory edges ∧
+          UnaryHistory faces ∧
+            Cont halfspaces vertices edges ∧
+              Cont edges faces ledger ∧
+                hsame ledger (append edges faces) ∧
+                  hsame endpoint (append provenance ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  cases packet with
+  | intro _convexUnary packet =>
+      cases packet with
+      | intro _finsetUnary packet =>
+          cases packet with
+          | intro _halfspacesUnary packet =>
+              cases packet with
+              | intro verticesUnary packet =>
+                  cases packet with
+                  | intro edgesUnary packet =>
+                      cases packet with
+                      | intro facesUnary packet =>
+                          cases packet with
+                          | intro _ledgerUnary packet =>
+                              cases packet with
+                              | intro _provenanceUnary packet =>
+                                  cases packet with
+                                  | intro _endpointUnary packet =>
+                                      cases packet with
+                                      | intro edgeCont packet =>
+                                          cases packet with
+                                          | intro ledgerCont packet =>
+                                              cases packet with
+                                              | intro endpointCont endpointPkg =>
+                                                  exact And.intro verticesUnary
+                                                    (And.intro edgesUnary
+                                                      (And.intro facesUnary
+                                                        (And.intro edgeCont
+                                                          (And.intro ledgerCont
+                                                            (And.intro ledgerCont
+                                                              (And.intro endpointCont
+                                                                endpointPkg))))))
+
 end BEDC.Derived.PolytopeUp
