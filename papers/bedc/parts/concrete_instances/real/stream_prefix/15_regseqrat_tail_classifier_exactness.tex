@@ -441,6 +441,56 @@ standard-bridge, and hidden selector data have no slot in the composite
 surface.
 \end{proof}
 
+\begin{theorem}[RealUp RegSeqRat tail-window reindexing boundary]
+\label{thm:realup-regseqrat-tail-window-reindexing-boundary}
+Let $W$ be a finite $\RealUp$ observation-window package and let $\rho$ be a
+certified unary tail map from its displayed window to a reindexed
+$\StreamNameUp$ finite window. Suppose the reindexed source rows match the
+tail-window normal forms: the $\StreamNameUp$ finite-window classifier rows,
+the selected $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ membership rows,
+the $\mathsf{UnaryHistory}$ observations, the $\RegSeqRat$ spine and
+tail-classifier rows, the DyadicRatCore observation rows, the finite
+$\hsame$ and $\Cont$ ledger, the $\Pkg$ provenance row, and the displayed
+$\mathsf{RealLedgerPolicy}$ row.
+
+Then the finite $\RealUp$ observation window reindexed through $\rho$ consumes
+exactly those rows. Its handoff boundary is the StreamName finite-window
+classifier surface together with the RegSeqRat tail-classifier surface
+transported by the certified unary tail map. It imports no $\RealUp$ seal
+classifier, completion object, quotient row, host-index equality,
+Classical representative, metric-completeness witness, arithmetic or order
+row, standard-bridge row, or hidden regular-sequence selector.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion}. The reindexed
+window is therefore exhausted by the displayed $\StreamNameUp$ classifier,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+$\RegSeqRat$ spine, and finite ledger rows.
+
+Next use
+\autoref{thm:regseqrat-tail-classifier-reindexing-stability} and
+\autoref{thm:regseqrat-tail-classifier-reindexing-composition}. These two
+results identify the row obtained by the certified unary tail map with the
+same selected $\RegSeqRat$ tail classifier carried by the displayed
+tail-window normal form.
+
+Now apply
+\autoref{thm:regseqrat-tail-classifier-reindexed-cover-compatibility}. It
+shows that the same projection remains valid after finite-window cover
+gluing, so the reindexed boundary does not depend on a hidden choice of local
+tail classifier.
+
+Finally combine the StreamName side with
+\autoref{thm:streamname-regseqrat-pointwise-handoff} and
+\autoref{thm:streamname-transported-window-regseqrat-realup-feed}. These
+handoff theorems expose exactly the finite StreamName rows that a
+$\RegSeqRat$ or $\RealUp$ consumer may read. Repacking those rows with the
+RegSeqRat tail normal form gives the stated $\RealUp$ boundary and leaves no
+slot for seal, completion, quotient, host-index, order, arithmetic, bridge, or
+hidden selector data.
+\end{proof}
+
 \begin{theorem}[RegSeqRat tail-classifier reindexed finite-cover compatibility]
 \label{thm:regseqrat-tail-classifier-reindexed-cover-compatibility}
 Let $\{W_i\}_{i\in I}$ be a finite family of selected finite $\RealUp$
