@@ -606,6 +606,42 @@ $\SOneUp$ over $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.sone\_history\_semantic\_name\_certificate}
 
+\begin{theorem}[SOne public constructor compatibility]
+\label{thm:s1-public-constructor-compatibility}
+Every public $\SOneUp$ constructor row built from two $\RealUp$ component
+rows, the $\ProdUp$ point readback, the unit-equation witness, componentwise
+$\hsame$, and the $\Cont$ point ledger repacks into the same public
+$\NameCert_{\SOneUp}$ surface. Conversely, every public constructor read from
+$\NameCert_{\SOneUp}$ exposes only those component, product, equation,
+transport, continuation, and provenance rows. It exposes no connectedness,
+compactness, angle parametrisation, or standard circle bridge.
+\end{theorem}
+\begin{proof}
+Start with the displayed public constructor row. Apply
+\autoref{thm:s1-public-namecert-obligation-assembly} to identify the public
+$\NameCert_{\SOneUp}$ fields as the two $\RealUp$ component rows, the $\ProdUp$
+point row, the unit-equation witness, componentwise $\hsame$, and the $\Cont$
+point ledger.
+
+The semantic certificate is then supplied by
+\autoref{thm:sone-history-semantic-namecert}. Its carrier, classifier, source,
+stability, and ledger rows give the certificate envelope into which the public
+constructor fields repack.
+
+For the reverse read, project the public surface through
+\autoref{thm:s1-product-real-ledger-obligation-surface},
+\autoref{thm:s1-equation-transport-obligation-surface}, and
+\autoref{thm:sone-component-classifier-public-readback}. These results recover
+exactly the product readback, equation transport, component comparisons, and
+continuation ledgers available to a public constructor.
+
+No further row is present in the carrier or in the semantic certificate.
+Therefore the public constructor interface is compatible with the unit-circle
+equation and exposes only the listed BEDC history rows, while connectedness,
+compactness, angle parametrisation, and standard circle bridges remain outside
+the exported surface.
+\end{proof}
+
 \paragraph{Primitive boundary.}
 $\SOneUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
