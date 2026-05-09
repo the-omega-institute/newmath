@@ -124,4 +124,49 @@ theorem AtiyahSingerIndexPairingCarrierPacket_provenance_exactness [AskSetup] [P
                   (And.intro provenanceCont
                     (And.intro endpointCont pkgSig)))))))))
 
+theorem AtiyahSingerIndexPairingCarrierPacket_spectral_chernweil_consumer_exhaustion
+    [AskSetup] [PackageSetup]
+    {m operator symbol spectral analytic chern characteristic topological equality provenance endpoint
+      consumerLedger consumerEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AtiyahSingerIndexPairingCarrierPacket m operator symbol spectral analytic chern
+        characteristic topological equality provenance endpoint bundle pkg ->
+      Cont endpoint equality consumerLedger ->
+        Cont consumerLedger symbol consumerEndpoint ->
+          UnaryHistory consumerLedger ∧ UnaryHistory consumerEndpoint ∧
+            hsame consumerLedger (append endpoint equality) ∧
+              hsame consumerEndpoint (append (append endpoint equality) symbol) ∧
+                hsame equality (append spectral analytic) ∧
+                  hsame topological (append chern characteristic) ∧
+                    hsame endpoint (append provenance topological) ∧
+                      PkgSig bundle endpoint pkg := by
+  intro packet consumerLedgerRow consumerEndpointRow
+  have exactRows :=
+    AtiyahSingerIndexPairingCarrierPacket_provenance_exactness
+      (m := m) (operator := operator) (symbol := symbol) (spectral := spectral)
+      (analytic := analytic) (chern := chern) (characteristic := characteristic)
+      (topological := topological) (equality := equality) (provenance := provenance)
+      (endpoint := endpoint) (bundle := bundle) (pkg := pkg) packet
+  have symbolUnary : UnaryHistory symbol :=
+    exactRows.right.left
+  have equalityUnary : UnaryHistory equality :=
+    exactRows.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    exactRows.right.right.right.right.right.left
+  have consumerLedgerUnary : UnaryHistory consumerLedger :=
+    unary_cont_closed endpointUnary equalityUnary consumerLedgerRow
+  have consumerEndpointUnary : UnaryHistory consumerEndpoint :=
+    unary_cont_closed consumerLedgerUnary symbolUnary consumerEndpointRow
+  have consumerEndpointExact : hsame consumerEndpoint (append (append endpoint equality) symbol) := by
+    cases consumerLedgerRow
+    exact consumerEndpointRow
+  exact And.intro consumerLedgerUnary
+    (And.intro consumerEndpointUnary
+      (And.intro consumerLedgerRow
+        (And.intro consumerEndpointExact
+          (And.intro exactRows.right.right.right.right.right.right.left
+            (And.intro exactRows.right.right.right.right.right.right.right.left
+              (And.intro exactRows.right.right.right.right.right.right.right.right.right.left
+                exactRows.right.right.right.right.right.right.right.right.right.right))))))
+
 end BEDC.Derived.AtiyahSingerUp
