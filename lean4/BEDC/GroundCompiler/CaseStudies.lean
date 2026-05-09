@@ -295,6 +295,9 @@ def CompletionSkeletonFlow (S : EventFlow) : Prop :=
     Subflow [[BMark.b0, BMark.b1, BMark.b1]] S /\
     Subflow [[BMark.b1, BMark.b0, BMark.b0]] S
 
+def SealEventAlone : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b1]]
+
 theorem completion_skeleton_contains_repetition :
     PrefixSubflow (FiniteRepetitionSkeleton 3) CompletionSkeleton := by
   exact
@@ -347,6 +350,13 @@ theorem completion_skeleton_ledger_dependent
       Not (RecognizedCompletionMotifRecord S M) := by
   intro hNoLedger hRecognized
   exact hNoLedger hRecognized.right.right.right.right.right.right
+
+theorem seal_event_alone_not_completion :
+    Not (CompletionSkeletonFlow SealEventAlone) := by
+  intro h
+  cases h.left with
+  | intro _ heq =>
+      cases heq
 
 structure RealMotifBundle where
   approximationSource : EventFlow
@@ -436,6 +446,29 @@ def TopologyMotif (S : EventFlow) : Prop :=
     Subflow TopologyBasisLedgerFlow S /\
     Subflow TopologySealFlow S /\
     NonemptyEventFlow TopologyBasisLedgerFlow
+
+def NeighborhoodPointFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b0, BMark.b0, BMark.b0]]
+
+def NeighborhoodCandidateFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b0, BMark.b0, BMark.b1]]
+
+def NeighborhoodRefinementWitnessFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b0, BMark.b1, BMark.b0]]
+
+def NeighborhoodIntersectionWitnessFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b0, BMark.b1, BMark.b1]]
+
+def NeighborhoodLocalLedgerFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b1, BMark.b0, BMark.b0]]
+
+def NeighborhoodBasisMotif (S : EventFlow) : Prop :=
+  Subflow NeighborhoodPointFlow S /\
+    Subflow NeighborhoodCandidateFlow S /\
+    Subflow NeighborhoodRefinementWitnessFlow S /\
+    Subflow NeighborhoodIntersectionWitnessFlow S /\
+    Subflow NeighborhoodLocalLedgerFlow S /\
+    NonemptyEventFlow NeighborhoodLocalLedgerFlow
 
 def MetricToTopologyCertificate (S : EventFlow) : Prop :=
   Subflow TopologyBasisLedgerFlow S /\
