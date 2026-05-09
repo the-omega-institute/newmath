@@ -461,6 +461,7 @@ import BEDC.Derived.TopGroupUp.CarrierClassifierObligation
 import BEDC.Derived.TopGroupUp.RootDownstreamOperationTransport
 import BEDC.Derived.TopGroupUp.PublicThresholdFrontier
 import BEDC.Derived.TopGroupUp.PublicConsumerMinimality
+import BEDC.Derived.TopGroupUp.PublicObligationInventory
 import BEDC.Derived.TopGroupUp.SourceProjectionNamecertCompatibility
 import BEDC.Derived.TopGroupUp.SourceFiberProductCarrier
 import BEDC.Derived.TopGroupUp.RootOperationSourcePacket
@@ -470,6 +471,7 @@ import BEDC.Derived.TopGroupUp.SourceCoupledCarrierScope
 import BEDC.Derived.TopGroupUp.JointSourceDeterminacy
 import BEDC.Derived.TopGroupUp.RootDownstreamContinuityObligation
 import BEDC.Derived.TopGroupUp.ExportBoundary
+import BEDC.Derived.TopGroupUp.RootPublicObligationInventory
 import BEDC.Derived.TopGroupUp.SourceFiberExportExactness
 import BEDC.Derived.TopGroupUp.RootSourceFiberExportExactness
 import BEDC.Derived.TopGroupUp.RootSourceFiberExportPacket
