@@ -76,6 +76,7 @@ import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
+import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
 import BEDC.Derived.GaloisExtUp.PublicLedgerCoverage
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InducedRepUp
@@ -112,6 +113,7 @@ import BEDC.Derived.CurvatureUp.CarrierBoundaryRow
 import BEDC.Derived.CurvatureUp.ManifoldBaseDependencyRow
 import BEDC.Derived.CurvatureUp.BundleFibreDependencyRow
 import BEDC.Derived.CurvatureUp.ExportDeterminacy
+import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.RegulatorUp
@@ -254,6 +256,7 @@ import BEDC.Derived.SpinGroupUp.Transport
 import BEDC.Derived.SpinGroupUp.EvenWordClassifierInversion
 import BEDC.Derived.SpinGroupUp.CliffordGroupConsumerBoundary
 import BEDC.Derived.SpinGroupUp.LedgerExclusion
+import BEDC.Derived.SpinGroupUp.SpinBoundaryInclusionTransport
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
 import BEDC.Derived.DerivativeUp
@@ -450,6 +453,7 @@ import BEDC.Derived.TopGroupUp.PublicThresholdFrontier
 import BEDC.Derived.TopGroupUp.PublicConsumerMinimality
 import BEDC.Derived.TopGroupUp.SourceProjectionNamecertCompatibility
 import BEDC.Derived.TopGroupUp.SourceFiberProductCarrier
+import BEDC.Derived.TopGroupUp.SourceRowsEmptyCoupled
 import BEDC.Derived.TopGroupUp.RootSourcePairExactness
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact

@@ -111,4 +111,32 @@ theorem BesselRootPacket_recurrence_ledger_exactness [AskSetup] [PackageSetup]
           (And.intro rows.right.right.right.right.right.right.right.left
             (And.intro endpointRow rows.right.right.right.right.right.right.right.right)))))
 
+theorem BesselRootPacket_holomorphic_consumer_boundary [AskSetup] [PackageSetup]
+    {ode holomorphic order sourceEndpoint targetEndpoint recurrence transport provenance
+      endpoint holomorphicLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BesselRootPacket ode holomorphic order sourceEndpoint targetEndpoint recurrence transport
+        provenance endpoint bundle pkg ->
+      Cont holomorphic targetEndpoint holomorphicLedger ->
+        UnaryHistory holomorphic ∧ UnaryHistory targetEndpoint ∧
+          UnaryHistory holomorphicLedger ∧
+            hsame holomorphicLedger (append holomorphic targetEndpoint) ∧
+              hsame endpoint (append transport provenance) ∧ PkgSig bundle endpoint pkg := by
+  intro packet holomorphicRow
+  have holomorphicUnary : UnaryHistory holomorphic :=
+    packet.right.left
+  have targetUnary : UnaryHistory targetEndpoint :=
+    packet.right.right.right.right.left
+  have holomorphicLedgerUnary : UnaryHistory holomorphicLedger :=
+    unary_cont_closed holomorphicUnary targetUnary holomorphicRow
+  have endpointRow : Cont transport provenance endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right
+  exact And.intro holomorphicUnary
+    (And.intro targetUnary
+      (And.intro holomorphicLedgerUnary
+        (And.intro holomorphicRow
+          (And.intro endpointRow pkgSig))))
+
 end BEDC.Derived.BesselUp

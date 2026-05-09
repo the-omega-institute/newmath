@@ -70,4 +70,20 @@ theorem AlgClosureCarrierPacket_root_witness_transport_coverage
     (And.intro transported.right.left
       (And.intro transported.right.right sameSatisfaction))
 
+theorem AlgClosureCarrierPacket_ledger_readback_obligation
+    {fieldExt polynomial root transport ledger provenance satisfaction : BHist} :
+    AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ->
+      Cont root ledger satisfaction ->
+        hsame transport root ∧ Cont polynomial root ledger ∧ Cont fieldExt ledger provenance ∧
+          Cont root ledger satisfaction ∧ hsame satisfaction (append root ledger) ∧
+            hsame provenance (append fieldExt ledger) := by
+  intro packet satisfactionRow
+  have source :=
+    AlgClosureCarrierPacket_source_obligation packet
+  exact And.intro source.left
+    (And.intro source.right.left
+      (And.intro source.right.right.left
+        (And.intro satisfactionRow
+          (And.intro satisfactionRow source.right.right.right))))
+
 end BEDC.Derived.AlgClosureUp
