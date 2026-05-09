@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
 import BEDC.FKernel.Unary.Closure
@@ -9,6 +10,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -156,5 +158,60 @@ theorem PolytopeBHistFacePacket_vertex_edge_ledger_readback [AskSetup] [PackageS
                                                             (And.intro ledgerCont
                                                               (And.intro endpointCont
                                                                 endpointPkg))))))
+
+theorem PolytopeBHistFacePacket_obligation_boundary_exhaustion [AskSetup] [PackageSetup]
+    {convex finset halfspaces vertices edges faces ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolytopeBHistFacePacket convex finset halfspaces vertices edges faces ledger provenance
+        endpoint bundle pkg ->
+      SemanticNameCert (fun h : BHist => hsame h endpoint)
+        (fun h : BHist => hsame h endpoint)
+        (fun h : BHist => hsame h endpoint) hsame ∧
+        UnaryHistory halfspaces ∧ UnaryHistory vertices ∧ UnaryHistory edges ∧
+          UnaryHistory faces ∧ Cont halfspaces vertices edges ∧ Cont edges faces ledger ∧
+            Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have readback := PolytopeBHistFacePacket_vertex_edge_ledger_readback packet
+  have endpointSelf : hsame endpoint endpoint :=
+    hsame_refl endpoint
+  have halfspacesUnary : UnaryHistory halfspaces :=
+    packet.right.right.left
+  have endpointCont : Cont provenance ledger endpoint :=
+    readback.right.right.right.right.right.right.left
+  have cert :
+      SemanticNameCert (fun h : BHist => hsame h endpoint)
+        (fun h : BHist => hsame h endpoint)
+        (fun h : BHist => hsame h endpoint) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointSelf
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK carrierH
+        exact hsame_trans (hsame_symm sameHK) carrierH
+    }
+    pattern_sound := by
+      intro h carrierH
+      exact carrierH
+    ledger_sound := by
+      intro h carrierH
+      exact carrierH
+  }
+  exact And.intro cert
+    (And.intro halfspacesUnary
+      (And.intro readback.left
+        (And.intro readback.right.left
+          (And.intro readback.right.right.left
+            (And.intro readback.right.right.right.left
+              (And.intro readback.right.right.right.right.left
+                (And.intro endpointCont
+                  readback.right.right.right.right.right.right.right)))))))
 
 end BEDC.Derived.PolytopeUp
