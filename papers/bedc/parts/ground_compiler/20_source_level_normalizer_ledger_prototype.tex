@@ -169,11 +169,13 @@ If $P_2$ reports $011\mid 100$, then both $011$ and $100$ remain in the decoded 
 
 \begin{definition}[Pre-normal and normal-address events]
 \label{def:source-normalizer-pre-normal-normal-address}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.PreNormalNormalAddressRoles}
 If $\mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v)$ or $\mathsf{NormLedger}_{R_N}(S,i,w,v)$, then $w$ is the \emph{pre-normal event} of the pair and $v$ is the \emph{normal-address event}. The normal-address role is a ledger role, not object identity, equality target, or mature object.
 \end{definition}
 
 \begin{definition}[$P_2$ normalizer ledger report]
 \label{def:source-normalizer-p2-report}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.P2Report}
 Given a legal channel stream $c$ with
 $$
   S=\mathsf{Decode}(c),
@@ -183,6 +185,7 @@ a \emph{$P_2$ normalizer ledger report} contains at least the input channel stre
 
 \begin{principle}[$P_2$ separates candidate and recognized status]
 \label{prin:source-normalizer-candidate-recognized-separated}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.candidate\_recognized\_separated}
 A $P_2$ report must distinguish candidate normalizer pairs from recognized normalizer ledgers. It must not display a candidate pair as a proved relation.
 \end{principle}
 

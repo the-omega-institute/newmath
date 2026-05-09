@@ -38,6 +38,30 @@ def InducedNormalizes
     (i : Nat) (w v : RawEvent) : Prop :=
   NormLedger R S i w v
 
+def PreNormalNormalAddressRoles
+    (candidate : RawEvent -> RawEvent -> Prop)
+    (R : GeneratedNormalizerRecognizer) (S : EventFlow)
+    (i : Nat) (w v : RawEvent) : Prop :=
+  NormCand candidate S i w v \/ NormLedger R S i w v
+
+inductive P2Warning : Type where
+  | candidateOnly
+  | recognizerMissing
+  | noCarryClaim
+  | noChannelRewrite
+
+structure P2Report where
+  inputChannel : List DisplayAlphabet
+  decodedFlow : EventFlow
+  adjacentPairs : List (Nat × RawEvent × RawEvent)
+  candidatePairs : List (Nat × RawEvent × RawEvent)
+  recognizedLedgers :
+    List (GeneratedNormalizerRecognizer × Nat × RawEvent × RawEvent)
+  preNormalEvents : List RawEvent
+  normalAddressEvents : List RawEvent
+  candidateOnlyWarnings : List P2Warning
+  roundTripStatus : Bool
+
 theorem adj_pair_events_mem {S : EventFlow} {i : Nat} {w v : RawEvent} :
     AdjPair S i w v -> List.Mem w S /\ List.Mem v S := by
   intro h
@@ -75,5 +99,16 @@ theorem no_normalization_without_recognizer
   cases hRelation with
   | intro R hInduced =>
       exact hNoRecognized R hInduced
+
+theorem candidate_recognized_separated
+    {candidate : RawEvent -> RawEvent -> Prop}
+    {S : EventFlow} {i : Nat} {w v : RawEvent} :
+    NormCand candidate S i w v ->
+      (forall R : GeneratedNormalizerRecognizer,
+        Not (RecognizesNormalizer R S i w v)) ->
+      Not (exists R : GeneratedNormalizerRecognizer,
+        InducedNormalizes R S i w v) := by
+  intro hCand hNoRecognized
+  exact no_normalization_without_recognizer hCand hNoRecognized
 
 end BEDC.GroundCompiler.SourceNormalizer
