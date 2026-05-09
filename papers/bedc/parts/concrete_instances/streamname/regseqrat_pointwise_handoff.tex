@@ -282,6 +282,47 @@ regularity, seal, completion, quotient, or host-index-equality coordinate,
 the appended handoff cannot export any such row.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat overlap pullback handoff]
+\label{thm:streamname-regseqrat-overlap-pullback-handoff}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, let
+$\mathcal P,\mathcal Q:\mathsf{ProbeBundle}$ be finite observation bundles,
+and let $\mathcal R:\mathsf{ProbeBundle}$ be a certified common sub-bundle
+of both $\mathcal P$ and $\mathcal Q$. If the $\mathcal P$-packet and the
+$\mathcal Q$-packet each supply the pointwise StreamName-to-$\RegSeqRat$
+handoff rows for $s$ and $t$, then their restrictions to $\mathcal R$
+classify the same consumer-facing tuple:
+$\mathsf{RatStreamNameCarrier}$,
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal R)$,
+$\mathsf{UnaryHistory}$, $\mathsf{InBundle}(-,\mathcal R)$, the pointwise
+$\hsame$ rows, and $\mathsf{RatHistoryClassifier}$. The common-overlap
+packet contains no $\RegSeqRat$ regularity row, $\RealUp$ seal row,
+completion row, quotient row, or host-index equality row.
+\end{theorem}
+\begin{proof}
+Restrict the $\mathcal P$-packet to the certified common sub-bundle
+$\mathcal R$ by
+\autoref{thm:streamname-regseqrat-finite-window-restriction-handoff}. The
+restricted packet exposes the same StreamName carrier rows, the finite-window
+classifier over $\mathcal R$, the unary-history and
+$\mathsf{InBundle}(-,\mathcal R)$ witnesses, and the pointwise
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ rows.
+
+Apply the same restriction theorem to the $\mathcal Q$-packet. Because both
+restricted reads use the same rows $s,t$ and the same certified bundle
+$\mathcal R$, the pointwise handoff
+\autoref{thm:streamname-regseqrat-pointwise-handoff} identifies both packet
+readings with the same consumer-facing tuple on each observation of
+$\mathcal R$.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-observation-envelope}. The envelope is
+closed under the two certified restrictions and contains only carrier,
+finite-window, unary-history, membership, pointwise $\hsame$, and
+rational-history classifier rows. Hence the pullback over the common overlap
+has no coordinate for regularity, seal, completion, quotient, or host-index
+equality data.
+\end{proof}
+
 \begin{theorem}[StreamName finite observation RealUp seal scope]
 \label{thm:streamname-finite-observation-realup-seal-scope}
 Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, let
