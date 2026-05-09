@@ -14292,3 +14292,52 @@ Rationale:
 Belongs to the Real Analytic chapter. Textbook standard: Apostol §8.20 (exponential series) and Rudin §8.6 take $\exp 0 = 1$ as the foundational identification preceding every multiplicative property. Currently the chapter has no theorem stating exp(0)=1; the additivity theorem (line 324-333) treats the additive identity case implicitly by way of supplied limit witnesses for both arguments. Closes in 1-3 codex rounds: at $x=\emp$, $\mathsf{ExpPart}(x,n,S_n) = \sum_{k=0}^n x^k/k!$ (line 111) collapses to $1 + 0 + 0 + \dots = 1$ since $x^k = \emp$ for $k \ge 1$ (zero-power vanishing) and $x^0/0! = 1_R$ by the unary factorial-denominator inverse already established in the chapter. Infrastructure already present: ExpPart definition (line 111), $\RealAlgOrder$ rows for products and powers (line 326), unary factorial-denominator inverses, supplied limit witness.
 
 ---
+
+### B-562 - Polynomial evaluation at the multiplicative unit equals additive fold of coefficients
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial evaluation at the multiplicative unit equals additive fold of coefficients |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a scalar $\RingUp$ certificate $R$ with multiplicative unit $1_R$, for every carried coefficient spine $p$, $\mathsf{Eval}_{1_R,R}(p) \sim_R \mathsf{fold}_{+,R}(\mathsf{trim}_R(p))$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+
+Rationale:
+Belongs to the Polynomial chapter (25_polynomial). Textbook standard: Hungerford *Algebra*, ch.III §5 (polynomial evaluation), and any introductory abstract algebra textbook treats the identity $p(1) = a_0 + a_1 + \dots + a_n$ as the most basic specialisation of polynomial evaluation. The chapter has 'evaluation at zero returns the constant coefficient' as a stated theorem (file 25_polynomial_literal_addtrim_eval.tex line 442), evaluation is additive (line 113), evaluation is multiplicative (line 330), but the symmetric specialisation 'evaluation at one returns the sum of coefficients' is not stated. Closes in 1-3 codex rounds: the recursive Horner clause at $\alpha = 1_R$ collapses the multiplicand $\alpha\cdot u$ to $u$ via the scalar multiplicative left-unit row of $\RingUp$ (already cited multiple times in 26_fps_ringup_tail.tex line 68), and structural induction on the trimmed coefficient spine identifies the iterated Horner result with the finite additive fold (the lemma $\autoref{thm:finite-additive-fold-congruence-coefficient-lists}$ of file 25_polynomial_namecert_construction.tex line 525 is exactly the fold-side congruence prerequisite). All references already exist in the polynomial chapter.
+
+---
+
+### B-563 - ProbSpace ternary inclusion-exclusion identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ProbSpace ternary inclusion-exclusion identity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+Given a ProbSpace^↑ carrier P with measurable events A,B,C and binary cover-difference ledgers for each pair, mu(A ∪ B ∪ C) + mu(A ∩ B) + mu(A ∩ C) + mu(B ∩ C) ~_R mu(A) + mu(B) + mu(C) + mu(A ∩ B ∩ C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/162_probspace_namecert_construction.tex`
+
+Rationale:
+162_probspace_namecert_construction.tex:213 establishes the binary inclusion-exclusion identity (thm:probspace-binary-inclusion-exclusion-identity, B-503 on BOARD) using def:probspace-binary-cover-difference-ledger (line 189). Grep for `ternary.*inclusion|three.*inclusion|triple.*inclusion|ProbSpace.*[Tt]ernary` returned no matches in papers/ or lean4/. The natural ternary version is the next layer in the same chapter; the proof composes the binary identity twice (at A vs (B ∪ C) and then at B vs C), using the binary cover-difference ledger plus the AbGroupUp additive congruence rows already invoked at line 249. File at 281 lines, ample room. Distinct from B-530 'Measure ternary-union subadditivity' (Measure-side subadditivity, not inclusion-exclusion equality on ProbSpace).
+
+---
