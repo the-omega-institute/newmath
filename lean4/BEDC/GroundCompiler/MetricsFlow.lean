@@ -1,7 +1,9 @@
+import BEDC.GroundCompiler.ChannelEncoding
 import BEDC.GroundCompiler.EventFlow
 
 namespace BEDC.GroundCompiler.MetricsFlow
 
+open BEDC.GroundCompiler.ChannelEncoding
 open BEDC.GroundCompiler.EventFlow
 
 deriving instance DecidableEq for DisplayAlphabet
@@ -232,6 +234,32 @@ def NormalAddressDistance
     (left right : List NormalAddressRecord) : Nat × Nat :=
   JaccardDistanceRatio left right
 
+def MotifJaccardDistance
+    (left right : List MotifOccurrence) : Nat × Nat :=
+  JaccardDistanceRatio left right
+
+structure FlowSignatureVector where
+  sealDepth : Nat
+  carryIndex : Nat
+  ledgerDepth : Nat
+  compressionNumerator : Nat
+  compressionDenominator : Nat
+  reuseDepth : Nat
+  bridgeDepth : Nat
+
+def FlowSignature
+    (profile : List MotifOccurrence) (sealRole carryRole : EventFlow)
+    (ledgerDepths : List Nat) (compression : Nat × Nat)
+    (reuseChains : List ReuseChain) (bridgeChains : List BridgeChain) :
+    FlowSignatureVector where
+  sealDepth := SealDepth profile sealRole
+  carryIndex := CarryIndex profile carryRole
+  ledgerDepth := LedgerDepth ledgerDepths
+  compressionNumerator := compression.fst
+  compressionDenominator := compression.snd
+  reuseDepth := ReuseDepth reuseChains
+  bridgeDepth := BridgeDepth bridgeChains
+
 theorem external_metric_input_not_allowed {d : MetricDataKind} :
     MetricExternalInput d -> Not (MetricAllowedData d) := by
   intro hExternal hAllowed
@@ -285,5 +313,11 @@ theorem channel_substring_metrics_inadmissible :
     external_metric_input_not_allowed
       MetricExternalInput.channelSubstring
       (hAdmissible MetricDataKind.channelSubstring (List.Mem.head []))
+
+theorem metrics_channel_roundtrip_invariant
+    {α : Type} (M : EventFlow -> α) (S : EventFlow) :
+    Option.map M (Decode (FlowEncoding S)) = some (M S) := by
+  rw [flow_level_round_trip]
+  rfl
 
 end BEDC.GroundCompiler.MetricsFlow

@@ -240,6 +240,7 @@ If the denominator is zero, the distance is either undefined or set to $0$, acco
 
 \begin{definition}[Motif Jaccard distance]
 \label{def:metrics-motif-jaccard-distance}
+\leandef{BEDC.GroundCompiler.MetricsFlow.MotifJaccardDistance}
 The motif Jaccard distance is
 $$
   \mathsf{MotifDist}_{\mathcal R}(S,T)
@@ -256,6 +257,7 @@ Intersections and unions are computed by motif role, support shape, and ledger-c
 
 \begin{definition}[Flow signature vector]
 \label{def:metrics-flow-signature}
+\leandef{BEDC.GroundCompiler.MetricsFlow.FlowSignatureVector}
 Given $\mathcal R$, define the \emph{flow signature vector} of $S$ by
 $$
   \mathsf{Sig}_{\mathcal R}(S)
@@ -279,6 +281,7 @@ Equal signature vectors do not imply that two event flows represent the same the
 
 \begin{theorem}[Metrics are channel-roundtrip invariant]
 \label{thm:metrics-channel-roundtrip-invariant}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.metrics\_channel\_roundtrip\_invariant}
 If $c=\mathsf{Compile}(S)$, then for every admissible metric $M$,
 $$
   M(S)=M(\mathsf{Decode}(c)).
