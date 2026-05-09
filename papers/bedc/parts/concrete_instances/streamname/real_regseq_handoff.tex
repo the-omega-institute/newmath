@@ -335,6 +335,57 @@ finite union surface contains no completion, quotient, host-index, or
 RealUp-completeness datum.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat overlap-pasting consumer exhaustion]
+\label{thm:streamname-regseqrat-overlap-pasting-consumer-exhaustion}
+Let $\mathcal{W}_0$ and $\mathcal{W}_1$ be certified finite
+$\StreamNameUp$ windows with certified finite overlap $K$. Suppose the
+hypotheses of
+\autoref{thm:streamname-regseqrat-pointwise-seal-pasting} hold: the two
+restrictions to $K$ agree on the certified unary observations, selected
+$\mathsf{RatHistoryClassifier}$ rows, $\mathsf{ProbeBundle}$ ledger rows,
+$\mathsf{InBundle}$ membership rows, displayed $\hsame$ rows, and the induced
+$\RegSeqRat$ handoffs consume the same DyadicRatCore finite ledger on $K$.
+Then every finite-window $\RealUp$ consumer row read from
+$\mathcal{W}_0 \cup \mathcal{W}_1$ is exactly one of the following rows: a row
+already read from $\mathcal{W}_0$, a row already read from $\mathcal{W}_1$, or
+an overlap row identified by
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability}.
+
+Thus the exhausted consumer surface is precisely the finite inventory of
+$\mathsf{RatHistoryClassifier}$ rows, $\mathsf{ProbeBundle}$ rows,
+$\mathsf{InBundle}$ rows, $\mathsf{UnaryHistory}$ rows, $\hsame$ comparisons,
+and shared DyadicRatCore ledger rows. It contains no completion datum, quotient
+datum, host-index equality, metric row, or $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+First paste the seal surface. Apply
+\autoref{thm:streamname-regseqrat-pointwise-seal-pasting}. Its hypotheses are
+the displayed agreement rows on $K$ together with the common DyadicRatCore
+finite ledger, so it yields one pasted finite-window source surface over
+$\mathcal{W}_0 \cup \mathcal{W}_1$.
+
+Next compare the consumer rows on the overlap. By
+\autoref{thm:streamname-real-regseq-common-window-consumer-determinacy}, any
+finite-window $\RealUp$ consumer restricted to $K$ reads the same
+$\mathsf{BHist}$ surface as the induced $\RegSeqRat$ handoff. The pointwise
+identifications on $K$ are exactly those supplied by
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability}.
+
+Now run finite bundle induction over the two windows. A selected row outside
+$K$ is inserted from the unique source window containing it. A selected row
+inside $K$ is identified through the overlap comparison, so inserting it from
+either side gives the same pasted consumer row.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion} to the pasted
+surface. It enumerates the only rows visible to $\RegSeqRat$ and finite-window
+$\RealUp$ consumers: rational-history classifier rows, bundle and membership
+rows, unary observations, $\hsame$ comparisons, and the shared dyadic ledger.
+The exclusion clause rules out completion, quotient, host-index, metric, and
+RealUp-completeness data, so the union consumer surface is exhausted exactly by
+the stated rows.
+\end{proof}
+
 \begin{theorem}[StreamName Real-RegSeq common-window consumer determinacy]
 \label{thm:streamname-real-regseq-common-window-consumer-determinacy}
 Let $\mathcal{W}_0$ and $\mathcal{W}_1$ be public $\StreamNameUp$
