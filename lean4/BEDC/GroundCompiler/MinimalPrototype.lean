@@ -78,6 +78,39 @@ def RequiredRejectTestVectors : List (List DisplayAlphabet × RejectReason) :=
     ([BMark.b1, BMark.b0, BMark.b1], RejectReason.danglingOne),
     ([BMark.b0, BMark.b0, BMark.b0], RejectReason.unfinishedEvent) ]
 
+structure RoundTripTestSuite where
+  eventVectors : List RawEvent
+  flowVectors : List EventFlow
+
+def RequiredRoundTripTestVectors : RoundTripTestSuite where
+  eventVectors :=
+    [ [],
+      [BMark.b0],
+      [BMark.b1],
+      [BMark.b0, BMark.b0],
+      [BMark.b0, BMark.b1],
+      [BMark.b1, BMark.b0],
+      [BMark.b1, BMark.b1],
+      [BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b1, BMark.b0, BMark.b0],
+      [BMark.b0, BMark.b0, BMark.b1],
+      [BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b0, BMark.b1, BMark.b0, BMark.b0] ]
+  flowVectors :=
+    [ [[BMark.b0], [BMark.b0, BMark.b0],
+        [BMark.b0, BMark.b0, BMark.b0], [BMark.b0, BMark.b1],
+        [BMark.b0, BMark.b1, BMark.b1],
+        [BMark.b1, BMark.b0, BMark.b0]],
+      [[BMark.b0], [BMark.b0, BMark.b0],
+        [BMark.b0, BMark.b0, BMark.b1],
+        [BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+        [BMark.b0, BMark.b1, BMark.b0, BMark.b0]],
+      [[BMark.b0, BMark.b1, BMark.b1],
+        [BMark.b1, BMark.b0, BMark.b0]],
+      [[BMark.b1], [BMark.b1, BMark.b1],
+        [BMark.b0, BMark.b1, BMark.b1],
+        [BMark.b1, BMark.b0, BMark.b0]] ]
+
 structure DecoderState where
   currentEvent : RawEvent
   completedEvents : EventFlow
@@ -90,6 +123,24 @@ def PrototypeStreamDecoder (c : List DisplayAlphabet) : Option EventFlow :=
 inductive PrototypeDecoderOutput : Type where
   | decoded (S : EventFlow)
   | rejected (report : RejectReport)
+
+inductive DecodeStatus : Type where
+  | legal
+  | illegal
+
+inductive ReportWarning : Type where
+  | carryLookingPair
+  | rawEventNotChannelTerminator
+  | outputViewOnly
+  | higherRecognizerRequired
+
+structure DecodeReport where
+  inputStream : List DisplayAlphabet
+  status : DecodeStatus
+  decodedFlow : Option EventFlow
+  eventSegments : EventFlow
+  rejectionReason : Option RejectReason
+  warnings : List ReportWarning
 
 def PrototypeDecoder
     (c : List DisplayAlphabet) : PrototypeDecoderOutput -> Prop
@@ -254,5 +305,13 @@ theorem prototype_output_not_theorem
   intro hPrototype hPublic
   exact reference_prototype_not_full_compiler hPrototype hPublic
     HigherPrototypeClaim.recognizesTheorem
+
+theorem prototype_output_not_accepted
+    {publicSurface : InterfaceDatum -> Prop} :
+    ReferencePrototype publicSurface ->
+      Not (publicSurface InterfaceDatum.acceptFlow) := by
+  intro hPrototype hPublic
+  exact reference_prototype_not_full_compiler hPrototype hPublic
+    HigherPrototypeClaim.acceptFlow
 
 end BEDC.GroundCompiler.MinimalPrototype
