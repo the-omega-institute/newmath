@@ -228,6 +228,29 @@ def DerivCertRecognitionPublicInterface
     (forall d, publicSurface d -> d = InterfaceDatum.recognizesDerivCert) /\
     NoHostLeakCondition publicSurface
 
+def TheoremRecognitionPublicInterface
+    (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  publicSurface InterfaceDatum.recognizesTheorem /\
+    (forall d, publicSurface d -> d = InterfaceDatum.recognizesTheorem) /\
+    NoHostLeakCondition publicSurface
+
+def ChapterRecognitionPublicInterface
+    (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  publicSurface InterfaceDatum.recognizesChapter /\
+    (forall d, publicSurface d -> d = InterfaceDatum.recognizesChapter) /\
+    NoHostLeakCondition publicSurface
+
+def CompilerRecognitionPublicInterface
+    (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  publicSurface InterfaceDatum.recognizesCompiler /\
+    publicSurface InterfaceDatum.certifiedRecognizer /\
+    publicSurface InterfaceDatum.compiles /\
+    (forall d, publicSurface d ->
+      d = InterfaceDatum.recognizesCompiler \/
+        d = InterfaceDatum.certifiedRecognizer \/
+        d = InterfaceDatum.compiles) /\
+    NoHostLeakCondition publicSurface
+
 inductive AnalysisPublic : InterfaceDatum -> Prop where
   | motifReport :
       AnalysisPublic InterfaceDatum.motifReport
