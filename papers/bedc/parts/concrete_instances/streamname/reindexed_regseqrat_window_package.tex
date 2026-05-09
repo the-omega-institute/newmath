@@ -310,3 +310,51 @@ equality, metric-completeness witnesses, or standard-bridge rows, their
 composition cannot expose such a row to the $\RealUp$ consumer. The displayed
 finite boundary is the whole composite readback surface.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat reindexed window composition associativity]
+\label{thm:streamname-regseqrat-reindexed-window-composition-associativity}
+Let $\Omega_{01}$, $\Omega_{12}$, and $\Omega_{23}$ be three composable
+reindexed $\StreamNameUp$--$\RegSeqRat$ finite-window packages over rational
+histories. Assume that the two middle interfaces match by the displayed
+transported $\mathsf{RatHistoryClassifier}$ rows, selected
+$\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership rows, and
+$\mathsf{UnaryHistory}$ ledger rows. Then the two composites
+$(\Omega_{23}\circ\Omega_{12})\circ\Omega_{01}$ and
+$\Omega_{23}\circ(\Omega_{12}\circ\Omega_{01})$ expose the same selected
+StreamName classifier rows, the same $\RegSeqRat$ handoff rows, the same
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$
+ledger rows, and the same finite-window $\RealUp$ seal surface.
+
+Neither bracketing introduces a regularity witness, completion object, quotient
+row, host-index equality, or unrecorded stream datum. Thus every
+finite-window consumer reads the same BEDC boundary from both bracketings.
+\end{theorem}
+\begin{proof}
+First compare the adjacent composites. Apply
+\autoref{thm:streamname-regseqrat-reindexed-window-consumer-determinacy} to
+the $\Omega_{01}$--$\Omega_{12}$ interface and again to the
+$\Omega_{12}$--$\Omega_{23}$ interface. The transported middle classifier
+rows, selected bundle rows, membership rows, and unary-history ledger rows
+force the same finite consumer surface at each shared boundary.
+
+Next form the left bracketing. Use
+\autoref{thm:streamname-regseqrat-reindexed-window-composite-realup-boundary}
+on $\Omega_{01}$ and $\Omega_{12}$, then use the same theorem on the resulting
+composite and $\Omega_{23}$. The visible output is exactly the selected
+StreamName classifiers, $\RegSeqRat$ handoff rows, endpoint rows, and displayed
+finite ledger boundary.
+
+For the right bracketing, apply
+\autoref{thm:streamname-regseqrat-reindexed-window-composite-realup-boundary}
+first to $\Omega_{12}$ and $\Omega_{23}$, and then to $\Omega_{01}$ and that
+composite. The same determinacy rows are used at the same two middle
+interfaces, so the selected classifiers, handoff rows, bundle rows, membership
+rows, unary-history rows, and $\RealUp$ boundary are identical.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import} to the
+three component packages. Since no component imports a seal classifier,
+regularity witness, completion object, quotient row, host-index equality, or
+unrecorded stream datum, neither bracketing can create such a distinguishing
+row. The two bracketings therefore expose one common finite-window boundary.
+\end{proof}

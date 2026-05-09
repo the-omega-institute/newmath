@@ -148,6 +148,10 @@ format:
   #detail .term-other { color: #888; font-size: 0.95rem; margin-left: 0.4rem; font-style: italic; }
   #detail .term-desc { margin-top: 0.5rem; line-height: 1.55; }
   #detail .term-other-desc { margin-top: 0.4rem; color: #777; line-height: 1.5; font-style: italic; }
+  #detail .term-story {
+    margin-top: 0.7rem; padding: 0.4rem 0.7rem; border-left: 3px solid #b39ddb;
+    color: #4a3c5a; font-style: italic; line-height: 1.55; font-size: 0.93rem;
+  }
   #detail .term-stats {
     margin-top: 0.9rem; padding-top: 0.7rem; border-top: 1px dashed #ddd;
     font-family: ui-monospace, monospace; font-size: 0.84rem;
@@ -1180,6 +1184,15 @@ function showNodeDetail(id) {
   } else {
     html += `<div class="term-name">${id}</div>`;
     html += `<div class="term-desc" style="color:#888;">(no glossary entry)</div>`;
+  }
+
+  // Bottom-up construction story (paper EN / glossary ZH). Active language
+  // wins; falls back to EN if ZH absent; hidden if both empty.
+  const story = (LANG === "zh" ? node.constructive_story_zh : null)
+    || node.constructive_story_en
+    || null;
+  if (story) {
+    html += `<div class="term-story">${story}</div>`;
   }
 
   const stats = [];
