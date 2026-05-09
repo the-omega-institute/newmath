@@ -238,6 +238,7 @@ import BEDC.Derived.SpinGroupUp
 import BEDC.Derived.SpinGroupUp.BoundaryConsumerExactness
 import BEDC.Derived.SpinGroupUp.CliffordUnitCarrierObligation
 import BEDC.Derived.SpinGroupUp.GroupInterfaceBoundary
+import BEDC.Derived.SpinGroupUp.EvenProductClassifierObligation
 import BEDC.Derived.SpinGroupUp.LiftParityLedger
 import BEDC.Derived.SpinGroupUp.ConjugationActionReadback
 import BEDC.Derived.SpinGroupUp.DoubleCoverLedgerObligation
@@ -429,6 +430,7 @@ import BEDC.Derived.TopGroupUp.RootSourceCompatibility
 import BEDC.Derived.TopGroupUp.RootCarrierObligations
 import BEDC.Derived.TopGroupUp.PublicNamecertReadbackExactness
 import BEDC.Derived.TopGroupUp.PublicThresholdExhaustion
+import BEDC.Derived.TopGroupUp.ProductInverseObligationTriad
 import BEDC.Derived.TopGroupUp.SourceFiberContinuityObligation
 import BEDC.Derived.TopGroupUp.DownstreamRootUnblockSurface
 import BEDC.Derived.TopGroupUp.NamecertObligationSurface
