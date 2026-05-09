@@ -1,0 +1,129 @@
+\begin{definition}[Cyclotomic scoped root obligation package]
+\label{def:cyclotomic-root-scoped-obligation-package}
+The scoped root obligation package for $\CyclotomicUp$ is the finite BEDC row
+family
+$$
+\mathcal{R}_{\zeta}=(\mathcal{C}_{\zeta},\Theta_{\mathbb{Q}[X]},\zeta,\alpha,\lambda,\rho,\nu,\sigma),
+$$
+where $\mathcal{C}_{\zeta}$ is the root carrier of
+\autoref{def:cyclotomic-root-carrier}, $\Theta_{\mathbb{Q}[X]}$ is the
+rational-polynomial classifier of
+\autoref{def:cyclotomic-rational-polynomial-classifier}, $\zeta$ is the
+primitive endpoint, $\alpha$ is the finite $\Cont$ root and factorization
+ledger, $\lambda$ is the displayed $\hsame$ base-row comparison, $\rho$ is the
+$\mathsf{Pkg}$ provenance row for $\NameCert_{\NumFieldUp}$ and
+$\NameCert_{\SplittingFieldUp}$, $\nu$ is the finite row family consumed by
+$\NameCert_{\IwasawaUp}$, $\NameCert_{\ClassFieldUp}$,
+$\NameCert_{\RegulatorUp}$, and $\NameCert_{\SplittingFieldUp}$, and $\sigma$
+is the displayed $\NameCert_{\CyclotomicUp}$ row obtained by repacking these
+components.
+
+The package is scoped to the rows named above. It is not a host cyclotomic
+field, quotient of primitive roots, reciprocity map, regulator determinant,
+valuation, completion, or ambient splitting-field equality.
+\end{definition}
+
+\begin{theorem}[Cyclotomic root BHist scope binding]
+\label{thm:cyclotomic-root-bhist-scope-binding}
+Every accepted scoped root obligation package
+$\mathcal{R}_{\zeta}$ of
+\autoref{def:cyclotomic-root-scoped-obligation-package} binds its carrier,
+rational-polynomial classifier, primitive endpoint, $\Cont$ ledger, $\hsame$
+base comparison, $\mathsf{Pkg}$ provenance, and source $\NameCert$ rows to
+displayed $\mathsf{BHist}$ primitives. Conversely, exactly those displayed rows
+repack as the scoped package.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinate $\mathcal{C}_{\zeta}$. By
+\autoref{def:cyclotomic-root-carrier}, its visible components are the
+$\NameCert_{\NumFieldUp}$ source row, the positive unary exponent, the
+rational polynomial ledger for $X^n-1$, the $\NameCert_{\SplittingFieldUp}$
+source row, the primitive endpoint, the finite acceptance row, the base
+comparison row, and the provenance row.
+
+Apply \autoref{thm:cyclotomic-root-source-row-exhaustion}. It identifies this
+same row family as the root obligation packet and shows that no other source
+coordinate is available at the root boundary.
+
+Next use \autoref{thm:cyclotomic-primitive-root-ledger-transport} together
+with \autoref{thm:cyclotomic-root-obligation-threshold}. These theorems bind
+the primitive endpoint, polynomial ledger, factorization rows, $\Cont$ ledger,
+$\hsame$ transport, and $\mathsf{Pkg}$ provenance to the displayed
+$\mathsf{BHist}$ carrier surface.
+
+For the converse direction, start with exactly the displayed carrier,
+classifier, endpoint, continuation, sameness, provenance, and source-certificate
+rows. The root carrier definition and the root obligation packet definition
+repack them as $\mathcal{C}_{\zeta}$ and then as
+$\mathcal{R}_{\zeta}$. No host field equality or root quotient is introduced in
+the repacking step.
+\end{proof}
+
+\begin{theorem}[Cyclotomic root consumer scope exhaustion]
+\label{thm:cyclotomic-root-consumer-scope-exhaustion}
+A downstream $\IwasawaUp$, $\ClassFieldUp$, $\RegulatorUp$, or
+$\SplittingFieldUp$ reader of $\NameCert_{\CyclotomicUp}$ receives exactly the
+rows of the scoped root obligation package: the root carrier, the
+rational-polynomial classifier, the primitive endpoint, the finite $\Cont$
+ledger, the displayed $\hsame$ comparisons, the $\mathsf{Pkg}$ provenance, and
+the source $\NameCert_{\NumFieldUp}$ and $\NameCert_{\SplittingFieldUp}$ rows.
+No reader receives a class group, reciprocity map, regulator determinant,
+valuation, completion, quotient-root object, or host splitting-field equality
+from this package alone.
+\end{theorem}
+\begin{proof}
+First consider the splitting-field reader. Apply
+\autoref{thm:cyclotomic-splittingfield-consumer-boundary}. It restricts that
+consumer to the splitting-field source row, polynomial row, primitive endpoint,
+factorization and acceptance rows, transported $\hsame$ comparisons, and
+$\mathsf{Pkg}$ provenance contained in the root obligation packet.
+
+For $\IwasawaUp$ and $\ClassFieldUp$, use
+\autoref{thm:cyclotomic-root-iwasawa-classfield-consumer-boundary} and
+\autoref{thm:cyclotomic-classfield-source-interface}. These statements permit
+the cyclotomic source package to be cited as input rows while excluding tower
+maps, class groups, reciprocity maps, local symbols, completion data, and
+host-field equality.
+
+For the regulator-facing reader, use the same source-row exhaustion supplied by
+\autoref{thm:cyclotomic-root-source-row-exhaustion} and the nonexport boundary
+of \autoref{thm:cyclotomic-minimal-polynomial-nonexport}. Since no coordinate
+of the carrier or classifier is a determinant, norm form, or regulator ledger,
+the reader receives only the displayed root source rows and provenance.
+
+The four cases exhaust the consumer row family $\nu$ in
+\autoref{def:cyclotomic-root-scoped-obligation-package}. Repacking the cases
+gives exactly the listed $\mathsf{BHist}$, $\Cont$, $\hsame$, $\mathsf{Pkg}$,
+and $\NameCert$ rows, and no additional algebraic object is exported.
+\end{proof}
+
+\begin{theorem}[Cyclotomic root scoped closure boundary]
+\label{thm:cyclotomic-root-scoped-closure-boundary}
+The package of \autoref{def:cyclotomic-root-scoped-obligation-package}, the
+scope binding theorem
+\autoref{thm:cyclotomic-root-bhist-scope-binding}, and the consumer exhaustion
+theorem \autoref{thm:cyclotomic-root-consumer-scope-exhaustion} close the
+scoped root-obligation boundary of $\CyclotomicUp$ over $\mathsf{BHist}$,
+$\Cont$, $\hsame$, $\mathsf{Pkg}$, $\NameCert_{\NumFieldUp}$, and
+$\NameCert_{\SplittingFieldUp}$. The boundary does not export a host
+cyclotomic field, primitive-root quotient, Galois bridge, class-field bridge,
+regulator bridge, or standard splitting-field model.
+\end{theorem}
+\begin{proof}
+The definition supplies the finite package: carrier, classifier, endpoint,
+continuation, sameness, provenance, source certificates, consumer rows, and the
+repacked $\NameCert_{\CyclotomicUp}$ row.
+
+Apply \autoref{thm:cyclotomic-root-bhist-scope-binding}. It ties every package
+coordinate to displayed BEDC primitives and gives the converse repacking from
+those primitives.
+
+Apply \autoref{thm:cyclotomic-root-consumer-scope-exhaustion}. It verifies that
+the named downstream readers can consume only the same finite row family and
+cannot read the excluded host or bridge objects from the cyclotomic certificate.
+
+Therefore the scoped boundary is exactly the displayed root-obligation
+surface. Any public cyclotomic field, quotient of roots, reciprocity structure,
+regulator structure, or standard model must be supplied by a separate
+certificate or bridge.
+\end{proof}
