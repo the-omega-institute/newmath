@@ -27,6 +27,18 @@ def JonesSkeinLedgerPacket
             Cont positive negative smoothing ∧ Cont diagram endpoint provenance ∧
               Cont provenance endpoint contLedger
 
+def JonesSkeinLedgerClassifier
+    (diagram diagram' positive negative smoothing endpoint endpoint' provenance provenance'
+      contLedger contLedger' : BHist) (skeinLedger : ProbeBundle JonesSkeinBoundaryTag) :
+    Prop :=
+  JonesSkeinLedgerPacket diagram positive negative smoothing endpoint provenance contLedger
+      skeinLedger ∧
+    hsame diagram diagram' ∧
+      hsame endpoint endpoint' ∧
+        Cont diagram' endpoint' provenance' ∧
+          Cont provenance' endpoint' contLedger' ∧
+            hsame provenance provenance' ∧ hsame contLedger contLedger'
+
 theorem JonesSkeinLedgerPacket_reidemeister_transport
     {diagram diagram' positive negative smoothing endpoint endpoint' provenance provenance'
       contLedger contLedger' : BHist} {skeinLedger : ProbeBundle JonesSkeinBoundaryTag} :
