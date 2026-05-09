@@ -449,6 +449,12 @@ theorem motif_metrics_roundtrip_invariant
   · intro hp
     exact hp
 
+theorem motif_analysis_on_decoded_code {c : List DisplayAlphabet} :
+    LegalZStream c ->
+      exists S : EventFlow, Decode c = some S /\ FlowEncoding S = c := by
+  intro h
+  exact legal_stream_completeness h
+
 theorem same_raw_prefix_not_unique_semantic_prefix :
     exists R S T P : EventFlow,
       EventCommonPrefixLength S T P.length /\
@@ -481,5 +487,41 @@ theorem same_raw_prefix_not_unique_semantic_prefix :
                 Or.inl ⟨[], [], rfl⟩⟩
           · intro h
             cases h
+
+theorem motif_generated_conservativity
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole}
+    {w : RawEvent} {m : DisplayAlphabet} :
+    RecognizesMotif R S M mu -> List.Mem w S -> List.Mem m w ->
+      m = BMark.b0 \/ m = BMark.b1 := by
+  intro _ _ _
+  cases m with
+  | b0 => exact Or.inl rfl
+  | b1 => exact Or.inr rfl
+
+def EmptyRfam : GeneratedMotifRecognizer -> Prop :=
+  fun R => R = []
+
+theorem empty_recognizes_motif :
+    RecognizesMotif [] [] [] [] := by
+  exact
+    ⟨FormalCompilerInput.eventFlow [],
+      ⟨FormalCompilerInput.eventFlow [],
+        FormalCompilerInput.eventFlow [],
+        FormalCompilerInput.eventFlow []⟩,
+      Or.inl ⟨[], [], rfl⟩⟩
+
+theorem empty_motif_profile :
+    MotifProfile EmptyRfam [] [] [] [] := by
+  exact
+    ⟨[], rfl, empty_recognizes_motif,
+      empty_recognizes_motif, Or.inl ⟨[], [], rfl⟩⟩
+
+theorem motif_analysis_cannot_license_mature_objects :
+    Not (forall Rfam : GeneratedMotifRecognizer -> Prop,
+      forall S mu M L : EventFlow,
+        MotifProfile Rfam S mu M L -> AcceptedObjectFlow S) := by
+  intro h
+  exact empty_not_accepted_object_flow
+    (h EmptyRfam [] [] [] [] empty_motif_profile)
 
 end BEDC.GroundCompiler.SemanticMotif

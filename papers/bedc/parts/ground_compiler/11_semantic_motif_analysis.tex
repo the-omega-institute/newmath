@@ -428,6 +428,7 @@ By channel round trip, $\mathsf{Decode}(\mathsf{Compile}(S))=S$. Hence $S$ and $
 
 \begin{corollary}[Motif analysis can be performed on decoded code]
 \label{cor:motif-generated-analysis-on-decoded-code}
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.motif\_analysis\_on\_decoded\_code}
 Given $c\in\mathsf{LegalZStream}$, one can decode $S=\mathsf{Decode}(c)$ and compute $\mathsf{Profile}_{\mathcal R}(S)$. This is the same source-level analysis as applying the recognizers to the original event flow.
 \end{corollary}
 
@@ -499,6 +500,7 @@ Motif analysis can explain generating similarity between theories, but it does n
 
 \begin{theorem}[Motif recognition is conservative over the finite kernel]
 \label{thm:motif-generated-conservativity}
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.motif\_generated\_conservativity}
 Adding $\mathsf{RecognizesMotif}$, $\mathsf{Profile}$, $\mathsf{SealDepth}$, $\mathsf{CarryIndex}$, $\mathsf{LedgerDepth}$, and $\mathsf{ReuseDepth}$ does not add new raw marks, history constructors, sameness rules, continuation rules, or kernel-level equalities.
 \end{theorem}
 
@@ -508,6 +510,7 @@ All these relations act on event flows or recognized subflows. They record, reco
 
 \begin{corollary}[Motif analysis cannot license mature objects]
 \label{cor:motif-generated-cannot-license-mature-objects}
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.motif\_analysis\_cannot\_license\_mature\_objects}
 A flow showing completion, carry, phase, or quotient motifs is not thereby licensed as $\RealUp$, circle structure, $\ComplexUp$, topology, or any other mature object. Mature objects still require recognized $\NameCert$, derivation-certificate, and acceptance-gate flows.
 \end{corollary}
 
