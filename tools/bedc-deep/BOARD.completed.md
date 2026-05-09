@@ -14366,3 +14366,51 @@ Rationale:
 This is a genuine bridge target between two existing concrete_instances chapters that the project_governance roadmap pairs but never wires up: 211_networkflow already proves V_F hsame K_Xi via residual-cut exhaustion (B-463, B-554) and 213_lpduality already provides strong-duality classifier data over abstract ordered fields (B-516/B-519/B-525/B-540/B-549). What is missing is the assembly map: certificate-grade max-flow data → primal-dual LP feasible pair with classifier coincidence. None of the existing BOARD entries do this; B-554 is single-side optimality only, the LPDuality entries are face/feasibility transports on the LP side alone, and B-447/B-444/B-429 stay inside the LP carrier. The candidate also flags the right landing-safety move: 211_networkflow is near cap, so this lands in a new sibling 211_networkflow_lpduality_bridge.tex rather than mutating either existing file. Concrete implication form, in BEDC scope, no paper duplicate.
 
 ---
+
+### B-565 - UnitaryGroupUp public certificate theorem aggregating its four obligation rows
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | UnitaryGroupUp public certificate theorem aggregating its four obligation rows |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+The carrier-classifier, operation-stability, inner-product-preservation, and ledger-exactness obligations together exhibit a public NameCert_{UnitaryGroupUp} export over the HilbertUp and LieGroupUp sources.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/197_unitarygroup_namecert_construction.tex`
+
+Rationale:
+Chapter sits at scopedClosure with explicit upgradepath demanding exactly this aggregator. The four obligation theorems are present in the file but never composed into the public NameCert export. Standard BEDC public-closure pattern (matches `spectraltheorem-public-certificate` shape). Lands cleanly in 197_unitarygroup_namecert_construction.tex (114 lines, ample room).
+
+---
+
+### B-566 - DiffForm exterior-derivative two-step composability ledger
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | DiffForm exterior-derivative two-step composability ledger |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If two accepted DiffForm exterior-derivative input rows over (omega,eta) and (eta,theta) share the middle eta, the composite exposes the two-step degree continuation row ContR(d_omega, E1(E1(emp)), d_theta).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/114_diffform_exterior_derivative_boundary.tex`
+
+Rationale:
+Chapter currently carries only one-step degree-shift boundary (line 106) and explicitly defers d²=0 to DeRham. B-543 is the DeRham-side nilpotence; the DiffForm-side composability ledger (without d²=0 assertion) is the missing precursor that the DeRham proof would consume. Two-step continuation row is a classic composite consequence with clear binder shape. Lands in 114_diffform_exterior_derivative_boundary.tex (158 lines).
+
+---

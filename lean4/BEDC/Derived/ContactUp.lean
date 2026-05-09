@@ -147,6 +147,11 @@ theorem ContactCarrierClassifierSurface_public_namecert_export
           (And.intro transported.right.left
             (And.intro transported.right.right topNonempty)))))
 
+def ContactStandardBridgeSurface
+    (manifold form derivative wedge top top' bridge ledger : BHist) : Prop :=
+  ContactCarrierClassifierSurface manifold form derivative wedge top ∧ hsame top top' ∧
+    Cont top' bridge ledger ∧ hsame bridge BHist.Empty
+
 theorem ContactStandardBridgeSurface_public_bridge_compatibility
     {manifold form derivative wedge top top' tail : BHist} :
     ContactCarrierClassifierSurface manifold form derivative wedge top ->
@@ -201,5 +206,48 @@ theorem ContactCarrierClassifierSurface_public_bridge_compatibility
     (And.intro exported.right.right.right.right.right.left
       (And.intro exported.right.right.right.right.left
         exported.right.right.right.right.right.right))
+
+theorem ContactStandardBridgeSurface_mature_consumer_completeness
+    {manifold form derivative wedge top top' bridge ledger tail : BHist} :
+    ContactStandardBridgeSurface manifold form derivative wedge top top' bridge ledger ->
+      hsame wedge (BHist.e1 tail) ->
+        ContactCarrierClassifierSurface manifold form derivative wedge top' ∧
+          Cont top' bridge ledger ∧ hsame bridge BHist.Empty ∧ UnaryHistory top' ∧
+            hsame top' wedge ∧ (hsame top' BHist.Empty -> False) := by
+  intro bridgeSurface sameWedgeVisible
+  have exported :=
+    ContactCarrierClassifierSurface_public_namecert_export bridgeSurface.left
+      bridgeSurface.right.left sameWedgeVisible
+  exact And.intro exported.left
+    (And.intro bridgeSurface.right.right.left
+      (And.intro bridgeSurface.right.right.right
+        (And.intro exported.right.right.right.right.left
+          (And.intro exported.right.right.right.right.right.left
+            exported.right.right.right.right.right.right))))
+
+theorem ContactCarrierClassifierSurface_mature_consumer_completeness
+    {manifold form derivative wedge top bridge top' tail : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      hsame top bridge ->
+        hsame bridge top' ->
+          hsame wedge (BHist.e1 tail) ->
+            ManifoldSingletonCarrier manifold ∧ UnaryHistory manifold ∧ UnaryHistory form ∧
+              UnaryHistory derivative ∧ UnaryHistory wedge ∧ UnaryHistory top' ∧
+                hsame top' wedge ∧ (hsame top' BHist.Empty -> False) ∧
+                  ContactCarrierClassifierSurface manifold form derivative wedge top' := by
+  intro surface sameTopBridge sameBridgeTop sameWedgeVisible
+  have rows :=
+    ContactCarrierClassifierSurface_form_row_obligation surface
+  have bridge :=
+    ContactCarrierClassifierSurface_public_bridge_compatibility surface sameTopBridge
+      sameBridgeTop sameWedgeVisible
+  exact And.intro rows.left
+    (And.intro rows.right.left
+      (And.intro rows.right.right.left
+        (And.intro rows.right.right.right.left
+          (And.intro rows.right.right.right.right.left
+            (And.intro bridge.right.right.left
+              (And.intro bridge.right.left
+                (And.intro bridge.right.right.right bridge.left)))))))
 
 end BEDC.Derived.ContactUp

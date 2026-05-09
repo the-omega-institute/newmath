@@ -66,4 +66,54 @@ theorem CurryHowardCutBetaPacket_bridge_obligation [AskSetup] [PackageSetup]
     (And.intro appCarrier
       (And.intro proofProgramRow bridgePkg))
 
+theorem CurryHowardCutBetaPacket_endpoint_exactness [AskSetup] [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint formulaProvenance deductionStep conclusion conclusionProvenance graph edge
+      connected acyclic funTag funPayload funEndpoint argTag argPayload argEndpoint appPayload appTag
+      appEndpoint proofProgram provenance bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol functionSymbol
+        treeEndpoint formulaEndpoint formulaProvenance bundle pkg ->
+      UnaryHistory deductionStep ->
+        Cont formulaEndpoint deductionStep conclusion ->
+          SigRel bundle conclusion conclusionProvenance ->
+            PkgSig bundle conclusionProvenance pkg ->
+              LambdaCalcBHistTermPacketCarrier graph edge connected acyclic funTag funPayload
+                  funEndpoint ->
+                LambdaCalcBHistTermPacketCarrier graph edge connected acyclic argTag argPayload
+                    argEndpoint ->
+                  Cont funEndpoint argEndpoint appPayload ->
+                    TreeBHistCarrier graph edge connected acyclic appTag appEndpoint ->
+                      Cont appTag appPayload appEndpoint ->
+                        Cont conclusion appEndpoint proofProgram ->
+                          Cont provenance proofProgram bridge ->
+                            PkgSig bundle bridge pkg ->
+                              UnaryHistory conclusion ∧
+                                LambdaCalcBHistTermPacketCarrier graph edge connected acyclic appTag
+                                  appPayload appEndpoint ∧
+                                  hsame proofProgram (append conclusion appEndpoint) ∧
+                                    hsame bridge (append provenance proofProgram) ∧
+                                      PkgSig bundle bridge pkg := by
+  intro firstOrderCarrier deductionStepUnary conclusionRow conclusionSig conclusionPkg funCarrier
+    argCarrier appPayloadRow appTree appEndpointRow proofProgramRow provenanceRow bridgePkg
+  have bridgeRows :=
+    CurryHowardCutBetaPacket_bridge_obligation
+      (symbolSource := symbolSource) (treeSource := treeSource)
+      (variableLedger := variableLedger) (relationSymbol := relationSymbol)
+      (functionSymbol := functionSymbol) (treeEndpoint := treeEndpoint)
+      (formulaEndpoint := formulaEndpoint) (formulaProvenance := formulaProvenance)
+      (deductionStep := deductionStep) (conclusion := conclusion)
+      (conclusionProvenance := conclusionProvenance) (graph := graph) (edge := edge)
+      (connected := connected) (acyclic := acyclic) (funTag := funTag)
+      (funPayload := funPayload) (funEndpoint := funEndpoint) (argTag := argTag)
+      (argPayload := argPayload) (argEndpoint := argEndpoint) (appPayload := appPayload)
+      (appTag := appTag) (appEndpoint := appEndpoint) (proofProgram := proofProgram)
+      (provenance := provenance) (bridge := bridge) (bundle := bundle) (pkg := pkg)
+      firstOrderCarrier deductionStepUnary conclusionRow conclusionSig conclusionPkg funCarrier
+      argCarrier appPayloadRow appTree appEndpointRow proofProgramRow provenanceRow bridgePkg
+  exact And.intro bridgeRows.left
+    (And.intro bridgeRows.right.left
+      (And.intro bridgeRows.right.right.left
+        (And.intro provenanceRow bridgeRows.right.right.right)))
+
 end BEDC.Derived.CurryHowardUp
