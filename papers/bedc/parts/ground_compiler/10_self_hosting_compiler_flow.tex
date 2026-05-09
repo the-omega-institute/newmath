@@ -395,21 +395,24 @@ By ladder soundness, each stage $C_{i+1}$ is supported by prior stages and a tra
 
 \begin{definition}[Remaining bootstrap boundary]
 \label{def:self-hosting-compiler-remaining-boundary}
-Before $C_5$ is self-hosting, the \emph{remaining bootstrap boundary} is the collection of components not yet discharged by the sound ladder:
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.RemainingBootstrapBoundary}
+Before $C_5$ is self-hosting, the \emph{remaining bootstrap boundary} is the recorded collection of components not yet discharged by the sound ladder:
 $$
   \mathsf{BootBoundary}
   =
-  \{\,C_i\mid C_i\text{ is not yet certified or not yet self-hosted}\,\}.
+  \{\,C_i\mid C_i\text{ is not yet certified or not yet self-hosted, and has a bootstrap-obligation flow}\,\}.
 $$
 \end{definition}
 
 \begin{principle}[Bootstrap boundary must be visible]
 \label{prin:self-hosting-compiler-boundary-visible}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.remaining\_bootstrap\_boundary\_visible}
 Every element of $\mathsf{BootBoundary}$ must have a bootstrap-obligation event flow. Hidden bootstrap is not allowed.
 \end{principle}
 
 \begin{theorem}[Invisible bootstrap blocks compiler certification]
 \label{thm:self-hosting-compiler-invisible-bootstrap-blocks}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.invisible\_bootstrap\_blocks\_certification}
 If some $C_i\in\mathsf{BootBoundary}$ lacks a bootstrap-obligation flow, then the compiler part cannot be certified as no-hidden-input.
 \end{theorem}
 

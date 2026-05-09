@@ -283,6 +283,26 @@ theorem sound_ladder_discharges
   intro hSound hSelf
   exact ⟨hSound, hSelf⟩
 
+def BootstrapUndischarged (C : CompilerCandidateFlow) : Prop :=
+  Not (CertifiedCompiler C) \/
+    (forall behavior : CompilerBehaviorRelation,
+      Not (SelfHostingCompilerFlow behavior C))
+
+def RemainingBootstrapBoundary (C : CompilerCandidateFlow) : Prop :=
+  BootstrapUndischarged C /\ BootstrapRecorded C
+
+theorem remaining_bootstrap_boundary_visible {C : CompilerCandidateFlow} :
+    RemainingBootstrapBoundary C -> BootstrapRecorded C := by
+  intro hBoundary
+  exact hBoundary.right
+
+theorem invisible_bootstrap_blocks_certification {C : CompilerCandidateFlow} :
+    BootstrapUndischarged C ->
+      Not (BootstrapRecorded C) ->
+        Not (RemainingBootstrapBoundary C) := by
+  intro _hUndischarged hNotRecorded hBoundary
+  exact hNotRecorded hBoundary.right
+
 def P9CompilerCandidate (S C : EventFlow) : Prop :=
   P9Subflow S C
 
