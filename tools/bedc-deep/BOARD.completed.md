@@ -14996,3 +14996,27 @@ Rationale:
 173_dynsystem (503 lines) carries flow surface, identity flow, composition flow, ODE generator ledger, orbit-iterate carrier closure (thm:dynsystem-orbit-iterate-carrier-closure), invariant consumer projection, time-reindex stability, endpoint determinacy, but has zero fixed-point/equilibrium/periodic-orbit instance — grep on 'fixed.point|equilibrium|periodic|stationary' returns no theorem. Fixed points are the canonical first invariant of any dynamical system and the natural single-row instance to anchor downstream invariant-measure / ergodic targets. Mirrors B-585 (singleton-equation zero-locus exactness): a single supplied row plus orbit-iterate closure gives the iterate by induction over the displayed unary horizon.
 
 ---
+
+### B-591 - Independence singleton index family satisfies finite factorisation row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Independence singleton index family satisfies finite factorisation row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If R is an Independence finite-family carrier as in def:independence-finite-family-carrier with finite index carrier I enumerating exactly one position i_0 and measurable target event B_{i_0}, then under the hypotheses linking the cylinder Cyl_X(B) to the marginal event B_{i_0} and finite RealUp product fold to the singleton evaluation, the joint endpoint at the cylinder factorises with the marginal product fold: μ_X^J(Cyl_X(B)) ~_R Π_R(MargSp_X(B)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/165_independence_namecert_construction.tex`
+
+Rationale:
+Fills the gap between thm:independence-empty-index-factorization-row (165:365, exists) and thm:independence-measurable-image-bridge for two variables (165:271). grep for 'independence.*singleton|independence.*single.*index|independence.*one.*index' returned 0 matches across parts/. Builds on def:independence-finite-family-carrier (165:134), thm:distribution-pushforward-total-mass-unit (referenced 165:373), and the empty-family theorem template at 165:365 demonstrating how to lift a singleton-shape factorisation. File 411 lines, under cap. Concrete factorisation identity, not a parameter transport — singleton index is a structurally distinct case that the empty/two-variable theorems do not subsume.
+
+---

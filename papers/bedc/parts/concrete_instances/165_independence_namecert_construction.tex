@@ -410,3 +410,61 @@ $$
 $$
 This is exactly the factorisation clause of \autoref{def:independence-finite-factorisation-row} for the unique empty event family. Since the product-cylinder ledger and the finite product fold are already part of the displayed data, the empty family carries the stated finite factorisation row.
 \end{proof}
+
+\begin{theorem}[Independence singleton index family satisfies the finite factorisation row]
+\label{thm:independence-singleton-index-factorization-row}
+Let $R$ be a finite-family carrier for $\IndependenceUp$ as in \autoref{def:independence-finite-family-carrier}, with carried source $S$, finite index carrier $I$, random-variable spine $(X_i)_{i\in I}$, marginal endpoints $(\mu_i)_{i\in I}$, displayed joint endpoint $\mu_X^J$, and finite $\RealUp$ product fold $\Pi_R$. Assume that $I$ has exactly one certified position $i_0$, and let $B$ be a measurable target-event family on $I$. Suppose:
+\begin{enumerate}
+\item the singleton index certificate identifies every quantified index in the cylinder ledger with $i_0$;
+\item the product-cylinder readback for $R$ reduces at $B$ to the unique marginal event, so for every carried source point $s$,
+$$
+s\in X^{-1}(\operatorname{Cyl}_X(B))
+\Longleftrightarrow
+X_{i_0}(s)\in B_{i_0};
+$$
+\item the $\DistributionUp$ pushforward rows for the singleton tuple endpoint and the marginal endpoint read this source-event equivalence as
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))\sim_R\mu_{i_0}(B_{i_0});
+$$
+\item the singleton $\RealUp$ product fold evaluates the marginal spine at its unique position:
+$$
+\Pi_R(\mathsf{MargSp}_X(B))\sim_R\mu_{i_0}(B_{i_0}).
+$$
+\end{enumerate}
+Then the displayed singleton-family data satisfy the factorisation clause
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))\sim_R\Pi_R(\mathsf{MargSp}_X(B)).
+$$
+Consequently, when the four displayed hypotheses hold for every measurable singleton event family $B$, these data carry the finite factorisation row of \autoref{def:independence-finite-factorisation-row} for the singleton index family.
+\end{theorem}
+\begin{proof}
+Fix the measurable singleton event family $B$. Since $I$ has exactly one certified position $i_0$, the universal clause in the product-cylinder ledger has no component other than $i_0$. Hence the cylinder readback reduces to
+$$
+s\in X^{-1}(\operatorname{Cyl}_X(B))
+\Longleftrightarrow
+X_{i_0}(s)\in B_{i_0}.
+$$
+By the $\DistributionUp$ pushforward rows named in the hypotheses, this displayed source-event equivalence compares the joint singleton-cylinder endpoint with the marginal endpoint:
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))\sim_R\mu_{i_0}(B_{i_0}).
+$$
+The marginal spine has exactly one entry, namely
+$$
+\mathsf{MargSp}_X(B)(i_0)=\mu_{i_0}(B_{i_0}).
+$$
+The singleton product-fold hypothesis therefore gives
+$$
+\Pi_R(\mathsf{MargSp}_X(B))\sim_R\mu_{i_0}(B_{i_0}).
+$$
+By symmetry of the $\RealUp$ classifier from \autoref{def:real-classifier-specification}, this comparison reverses to
+$$
+\mu_{i_0}(B_{i_0})\sim_R\Pi_R(\mathsf{MargSp}_X(B)).
+$$
+Transitivity of the same classifier composes the joint-to-marginal comparison with the reversed singleton-fold comparison and yields
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))\sim_R\Pi_R(\mathsf{MargSp}_X(B)).
+$$
+This is exactly the factorisation clause of \autoref{def:independence-finite-factorisation-row} at the singleton event family $B$.
+
+If the displayed hypotheses hold for every measurable singleton event family, the same argument applies to each $B$. The carrier already supplies the product-cylinder ledger, marginal distribution spine, finite product fold, and joint endpoint required by \autoref{def:independence-finite-factorisation-row}; hence the singleton index family carries the finite factorisation row.
+\end{proof}
