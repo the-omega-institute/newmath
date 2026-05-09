@@ -1,4 +1,4 @@
-\chapter{A Concrete Naming Certificate for \(\ZNormalUp\)}
+\chapter{A Concrete Naming Certificate for $\ZeckendorfNormalUp$}
 \label{ch:concrete-instances-zeckendorf-normal-namecert}
 
 This chapter introduces a Zeckendorf-style normal-form classifier on histories: no two adjacent \(\Eone\)-extensions. The classifier is structural; it does not depend on \(\HSame\) and does not assert any arithmetic interpretation. The Fibonacci value-preservation reading is a horizon target queued for the formalize pipeline. The classifier acts as the source pattern for the carry classifier of Chapter~\ref{ch:concrete-instances-zeckendorf-carry-classifier}.
@@ -90,11 +90,11 @@ The ledger policy \(\mathsf{ZNormalLedger}\) records the source normal-form hist
 \end{definition}
 \leandef{BEDC.Derived.AxisZeckendorf.Zeckendorf.ZNormalLedgerPolicy}
 
-\begin{theorem}[Concrete \(\ZNormalUp\) naming certificate]
+\begin{theorem}[Concrete $\ZeckendorfNormalUp$ naming certificate]
 \label{thm:concrete-znormal-namecert}
 The tuple
 $$
-  \mathsf{NameCert}_{\ZNormalUp}
+  \mathsf{NameCert}_{\ZeckendorfNormalUp}
   :=
   (\mathsf{ZNormalSource},
    \mathsf{ZNormalPattern},
@@ -102,7 +102,7 @@ $$
    \mathsf{ZNormalStability},
    \mathsf{ZNormalLedger})
 $$
-forms a valid naming certificate for the derived interface \(\ZNormalUp\).
+forms a valid naming certificate for the derived interface $\ZeckendorfNormalUp$.
 \end{theorem}
 \leandef{BEDC.Derived.AxisZeckendorf.Zeckendorf.zNormal\_namecert}
 \begin{proof}
@@ -152,7 +152,7 @@ not match the zero-headed target.
 
 \begin{theorem}[ZNormal normal-form coverage]
 \label{thm:znormal-normal-form-coverage}
-The $\NameCert_{\ZNormalUp}$ source, pattern, classifier, stability, and ledger
+The $\NameCert_{\ZeckendorfNormalUp}$ source, pattern, classifier, stability, and ledger
 rows exhaust exactly the closed constructors of $\mathsf{ZNormal}$: the empty
 row, the $\Ezero$-extension row, the $\Eone$-after-empty row, and the
 $\Eone$-above-zero row. No arithmetic value row, Fibonacci interpretation, or
@@ -177,9 +177,9 @@ back to their normal tails. Hence the displayed certificate covers exactly the
 closed constructors and nothing from an arithmetic interpretation.
 \end{proof}
 
-\begin{corollary}[\(\ZNormalUp\) is licensed, not primitive]
+\begin{corollary}[$\ZeckendorfNormalUp$ is licensed, not primitive]
 \label{cor:znormal-licensed-not-primitive}
-The interface \(\ZNormalUp\) is licensed by \(\mathsf{NameCert}_{\ZNormalUp}\). It is not a primitive object of the finite kernel.
+The interface $\ZeckendorfNormalUp$ is licensed by $\mathsf{NameCert}_{\ZeckendorfNormalUp}$. It is not a primitive object of the finite kernel.
 \end{corollary}
 
 \begin{theorem}[Zeckendorf normal carry-window determinacy]
@@ -219,11 +219,11 @@ normal-form classifier alone.
 
 \begin{theorem}[ZNormal scoped classifier boundary]
 \label{thm:znormal-scoped-classifier-boundary}
-Every accepted $\ZNormalUp$ classifier row is exactly an $\hsame$ row between
+Every accepted $\ZeckendorfNormalUp$ classifier row is exactly an $\hsame$ row between
 $\mathsf{BHist}$ witnesses that lie in the closed $\mathsf{ZNormal}$ source.
 The only scope inputs are the $\mathsf{BHist}$ constructors, the closed
 $\mathsf{ZNormal}$ generation rules, $\hsame$ transport, and the
-$\NameCert_{\ZNormalUp}$ ledger. No Fibonacci value semantics, arithmetic
+$\NameCert_{\ZeckendorfNormalUp}$ ledger. No Fibonacci value semantics, arithmetic
 weight, uniqueness-of-value row, or external number interpretation is read by
 the classifier boundary.
 \end{theorem}
@@ -244,7 +244,7 @@ For the converse direction, take an $\hsame$ row between two displayed
 $\mathsf{ZNormal}$ source witnesses. The classifier specification reads exactly
 such restricted history-sameness rows, and the ledger records the source
 witness behind each visible class, so the row is accepted by the
-$\ZNormalUp$ classifier.
+$\ZeckendorfNormalUp$ classifier.
 
 The only constructor boundary that can hide an extra case is an $\Eone$-headed
 history. Apply \autoref{thm:znormal-adjacent-one-inversion}: an accepted
@@ -254,9 +254,9 @@ boundary is exhausted by the displayed primitives and does not use Fibonacci
 value semantics.
 \end{proof}
 
-\closureat{ZNormalUp}{scopedStr}[BEDC.Derived.AxisZeckendorf.Zeckendorf.zNormal\_namecert]
+\closureat{ZeckendorfNormalUp}{scopedStr}[BEDC.Derived.AxisZeckendorf.Zeckendorf.zNormal\_namecert]
 
-\begin{closurestatus}{\ZNormalUp}
+\begin{closurestatus}{\ZeckendorfNormalUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The seed scope is the closed $\mathsf{BHist}$ generation of $\mathsf{ZNormal}$ together with the exclusion of adjacent one-extensions.}
   \formalstatus{\encodedDefV}
