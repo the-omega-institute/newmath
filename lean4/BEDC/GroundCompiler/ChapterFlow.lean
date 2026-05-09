@@ -94,6 +94,10 @@ def ChapterCode (C : ChapterCandidateFlow) : List DisplayAlphabet :=
 def LegalChapterCode (c : List DisplayAlphabet) : Prop :=
   exists C : ChapterCandidateFlow, c = ChapterCode C
 
+def RecognizesChapterCode
+    (R : GeneratedChapterRecognizer) (c : List DisplayAlphabet) : Prop :=
+  exists C : ChapterCandidateFlow, Decode c = some C /\ RecognizesChapter R C
+
 theorem no_external_chapter_input :
     Not (FormalCompilerInput CompilerDatum.hostChapterPkg) :=
   structural_hidden_not_formal StructuralHiddenInput.hostChapterPkg
@@ -138,6 +142,20 @@ theorem chapter_code_bijective :
         · rw [hC]
           exact chapter_code_round_trip C
         · exact hC.symm
+
+theorem compile_decode_preserves_chapter_recognition
+    {R : GeneratedChapterRecognizer} {C : ChapterCandidateFlow} :
+    RecognizesChapter R C -> RecognizesChapterCode R (ChapterCode C) := by
+  intro hRecognition
+  exact ⟨C, chapter_code_round_trip C, hRecognition⟩
+
+theorem chapter_recognition_invariant
+    {R : GeneratedChapterRecognizer} {C : ChapterCandidateFlow} :
+    RecognizesChapter R C ->
+      exists D : ChapterCandidateFlow,
+        Decode (ChapterCode C) = some D /\ RecognizesChapter R D := by
+  intro hRecognition
+  exact ⟨C, chapter_code_round_trip C, hRecognition⟩
 
 theorem no_chapter_without_complete_recognition {C : ChapterCandidateFlow} :
     ChapterFlow C ->

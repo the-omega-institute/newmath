@@ -406,11 +406,12 @@ The first is bijective; the second is generally a quotient.
 
 \begin{definition}[Chapter recognition from channel code]
 \label{def:chapter-generated-recognition-from-code}
+\leandef{BEDC.GroundCompiler.ChapterFlow.RecognizesChapterCode}
 For a legal channel stream $c\in\mathsf{LegalZStream}$, define
 $$
   \mathsf{RecognizesChapterCode}(R_C,c)
   \;:\Longleftrightarrow\;
-  \mathsf{RecognizesChapter}(R_C,\mathsf{Decode}(c)).
+  \exists C,\ \mathsf{Decode}(c)=C\ \wedge\ \mathsf{RecognizesChapter}(R_C,C).
 $$
 Recognition from channel code therefore proceeds through decoding.
 \end{definition}
@@ -426,22 +427,24 @@ There is no valid rule that recognizes a chapter by inspecting arbitrary channel
 
 \begin{theorem}[Compile-decode preserves chapter recognition]
 \label{thm:chapter-generated-compile-decode-preserves-recognition}
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.compile\_decode\_preserves\_chapter\_recognition}
 If $\mathsf{RecognizesChapter}(R_C,C)$, then
 $$
-  \mathsf{RecognizesChapter}(R_C,\mathsf{Decode}(\mathsf{Compile}(C))).
+  \mathsf{RecognizesChapterCode}(R_C,\mathsf{ChapterCode}(C)).
 $$
 \end{theorem}
 
 \begin{proof}
 By the flow-level round trip \autoref{thm:channel-encoding-flow-round-trip},
 $$
-  \mathsf{Decode}(\mathsf{Compile}(C))=C.
+  \mathsf{Decode}(\mathsf{ChapterCode}(C))=C.
 $$
-Substituting this equality into $\mathsf{RecognizesChapter}(R_C,C)$ gives the claim.
+Together with $\mathsf{RecognizesChapter}(R_C,C)$, this supplies the decoded witness required by $\mathsf{RecognizesChapterCode}$.
 \end{proof}
 
 \begin{corollary}[Chapter recognition is invariant under compile-decode]
 \label{cor:chapter-generated-recognition-invariant}
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.chapter\_recognition\_invariant}
 For every recognized chapter flow, compiling to a channel stream and decoding back to an event flow preserves its chapter-recognition status.
 \end{corollary}
 
