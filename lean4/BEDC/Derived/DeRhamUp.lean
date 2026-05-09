@@ -59,4 +59,18 @@ theorem DeRhamDoubleExteriorPacket_boundary
   exact And.intro sameThetaZero
     (And.intro boundaryTheta (hsame_trans sameDEtaZero packet.right.right.right.right))
 
+theorem DeRhamBoundary_packet_classifier_transport
+    {d : BHist -> BHist} {omega eta theta zero theta' : BHist} :
+    DeRhamDoubleExteriorPacket d omega eta theta zero ->
+      hsame theta' theta ->
+        DeRhamBoundary d theta' ∧ hsame theta' zero ∧ hsame (d eta) BHist.Empty := by
+  intro packet sameTheta'
+  have boundaryRows := DeRhamDoubleExteriorPacket_boundary packet
+  have sameThetaEmpty : hsame theta BHist.Empty :=
+    hsame_trans boundaryRows.left packet.right.right.right.right
+  have transported :=
+    DeRhamBoundary_zero_endpoint_transport boundaryRows.right.left sameTheta' sameThetaEmpty
+  exact And.intro transported.left
+    (And.intro (hsame_trans sameTheta' boundaryRows.left) boundaryRows.right.right)
+
 end BEDC.Derived.DeRhamUp
