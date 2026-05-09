@@ -427,6 +427,7 @@ import BEDC.Derived.HolomorphicUp.SeedSpecs
 import BEDC.Derived.HolomorphicUp.SeedStability
 import BEDC.Derived.HolomorphicUp.StabilityCertificate
 import BEDC.Derived.HolomorphicUp.StabilityCert
+import BEDC.Derived.HolomorphicUp.StdBridge
 import BEDC.Derived.TopologyUp.Core
 import BEDC.Derived.TopologyUp.FiniteBaseNeighborhood
 import BEDC.Derived.TopologyUp.Singleton
