@@ -166,4 +166,20 @@ theorem ContactCarrierClassifierSurface_top_wedge_transport
     ContactCarrierClassifierSurface_form_row_obligation transportedSurface
   exact And.intro transportedSurface transportedRows.right.right.right.right.right.left
 
+theorem ContactCarrierClassifierSurface_public_bridge_compatibility
+    {manifold form derivative wedge top bridge top' : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      Cont top BHist.Empty bridge ->
+        hsame bridge top' ->
+          ContactCarrierClassifierSurface manifold form derivative wedge top' ∧
+            hsame top top' ∧ UnaryHistory top' := by
+  intro surface bridgeCont bridgeSameTop
+  have bridgeSameSource : hsame bridge top :=
+    cont_right_unit_result bridgeCont
+  have topSameTop' : hsame top top' :=
+    hsame_trans (hsame_symm bridgeSameSource) bridgeSameTop
+  have transported :=
+    ContactCarrierClassifierSurface_top_wedge_transport surface topSameTop'
+  exact And.intro transported.left (And.intro topSameTop' transported.right)
+
 end BEDC.Derived.ContactUp
