@@ -606,6 +606,7 @@ import BEDC.Derived.NumFieldUp.DegreeOneBasis
 import BEDC.Derived.NumFieldUp.EmbeddingCoordinateProductCompatibility
 import BEDC.Derived.NumFieldUp.SingletonBasisSupport
 import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
+import BEDC.Derived.NumFieldUp.StandardBridgeBoundary
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
@@ -776,6 +777,7 @@ import BEDC.Derived.PrimeUp.TrialDivTerminal
 import BEDC.Derived.PrimeUp.ZeroHeadedComponent
 import BEDC.Derived.PrimeUp.TrialDivStep
 import BEDC.Derived.PrimeUp.SemanticCertificate
+import BEDC.Derived.PrimeUp.StdBridge
 import BEDC.Derived.PadicUp
 import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
