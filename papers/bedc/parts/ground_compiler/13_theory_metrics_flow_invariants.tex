@@ -312,6 +312,7 @@ Any metric that directly counts channel substrings such as $011$, $100$, or $11$
 
 \begin{definition}[Theory-flow distance]
 \label{def:metrics-theory-flow-distance}
+\leandef{BEDC.GroundCompiler.MetricsFlow.TheoryFlowDistance}
 For recognized theory flows $S$ and $T$, an optional \emph{theory-flow distance} is a weighted combination
 $$
 \begin{aligned}
@@ -334,11 +335,13 @@ If a weighted distance is used, the weights must be recorded in an analysis-prot
 
 \begin{definition}[Analysis protocol flow]
 \label{def:metrics-analysis-protocol}
+\leandef{BEDC.GroundCompiler.MetricsFlow.AnalysisProtocolFlow}
 An \emph{analysis protocol flow} is an event flow $P$ recording the chosen recognizer family, chosen metrics, metric weights, comparison domain, failure cases, ledger requirements, normalization policy, and report format. Without such a protocol, no distance or similarity is canonical.
 \end{definition}
 
 \begin{theorem}[Theory-flow distance is protocol-relative]
 \label{thm:metrics-theory-distance-protocol-relative}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.theory\_distance\_protocol\_relative}
 The distance
 $$
   \mathsf{TheoryDist}_{\mathcal R,P}(S,T)

@@ -260,6 +260,33 @@ def FlowSignature
   reuseDepth := ReuseDepth reuseChains
   bridgeDepth := BridgeDepth bridgeChains
 
+structure TheoryDistanceWeights where
+  motifWeight : Nat
+  normalAddressWeight : Nat
+  prefixWeight : Nat
+  ledgerWeight : Nat
+  reuseWeight : Nat
+
+structure TheoryDistanceComponents where
+  motifDistance : Nat
+  normalAddressDistance : Nat
+  prefixDistance : Nat
+  ledgerDistance : Nat
+  reuseDistance : Nat
+
+structure AnalysisProtocolFlow where
+  protocolFlow : EventFlow
+  weights : TheoryDistanceWeights
+
+def TheoryFlowDistance
+    (_Rfam : MetricRecognizerFamily) (P : AnalysisProtocolFlow)
+    (_S _T : EventFlow) (components : TheoryDistanceComponents) : Nat :=
+  P.weights.motifWeight * components.motifDistance +
+    P.weights.normalAddressWeight * components.normalAddressDistance +
+    P.weights.prefixWeight * components.prefixDistance +
+    P.weights.ledgerWeight * components.ledgerDistance +
+    P.weights.reuseWeight * components.reuseDistance
+
 theorem external_metric_input_not_allowed {d : MetricDataKind} :
     MetricExternalInput d -> Not (MetricAllowedData d) := by
   intro hExternal hAllowed
@@ -319,5 +346,40 @@ theorem metrics_channel_roundtrip_invariant
     Option.map M (Decode (FlowEncoding S)) = some (M S) := by
   rw [flow_level_round_trip]
   rfl
+
+theorem theory_distance_protocol_relative :
+    exists Rfam : MetricRecognizerFamily,
+      exists S T : EventFlow,
+        exists components : TheoryDistanceComponents,
+          exists P Q : AnalysisProtocolFlow,
+            Not (P.weights = Q.weights) /\
+              Not (TheoryFlowDistance Rfam P S T components =
+                TheoryFlowDistance Rfam Q S T components) := by
+  refine
+    ⟨[], [], [],
+      { motifDistance := 1,
+        normalAddressDistance := 0,
+        prefixDistance := 0,
+        ledgerDistance := 0,
+        reuseDistance := 0 },
+      { protocolFlow := [],
+        weights :=
+          { motifWeight := 0,
+            normalAddressWeight := 0,
+            prefixWeight := 0,
+            ledgerWeight := 0,
+            reuseWeight := 0 } },
+      { protocolFlow := [[]],
+        weights :=
+          { motifWeight := 1,
+            normalAddressWeight := 0,
+            prefixWeight := 0,
+            ledgerWeight := 0,
+            reuseWeight := 0 } },
+      ?_, ?_⟩
+  · intro h
+    cases h
+  · intro h
+    simp [TheoryFlowDistance] at h
 
 end BEDC.GroundCompiler.MetricsFlow
