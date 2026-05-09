@@ -50,6 +50,7 @@ Every theory metric must be event-flow-derived. A metric depending on external o
 
 \begin{definition}[Raw prefix profile]
 \label{def:metrics-raw-prefix-profile}
+\leandef{BEDC.GroundCompiler.MetricsFlow.RawPrefixProfile}
 For an event flow
 $$
   S=(w_0,\ldots,w_{n-1}),
@@ -65,6 +66,7 @@ For the empty event flow, set $\mathsf{RawPrefix}(S)=\{\epsilon\}$. The raw pref
 
 \begin{definition}[Recognized prefix profile]
 \label{def:metrics-recognized-prefix-profile}
+\leandef{BEDC.GroundCompiler.MetricsFlow.RecognizedPrefixProfile}
 Given a recognizer family $\mathcal R$, define $\mathsf{Prefix}_{\mathcal R}(S)$ to be the set of all triples $(P,\mu,L)$ such that $P$ is a raw prefix of $S$, $P$ is recognized by some $R\in\mathcal R$ as motif role $\mu$, and $L$ is its motif ledger:
 $$
   (P,\mu,L)\in\mathsf{Prefix}_{\mathcal R}(S)
@@ -101,6 +103,7 @@ where intersection is computed by recognized role, support subflow shape, and le
 
 \begin{proposition}[Raw prefix overlap is weaker than recognized prefix overlap]
 \label{prop:metrics-raw-prefix-weaker}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.raw\_prefix\_weaker}
 If $\mathsf{PrefixOverlap}_{\mathcal R}(S,T)\neq\emptyset$, then $S$ and $T$ share a raw prefix support. Conversely, shared raw prefix support need not imply recognized prefix overlap.
 \end{proposition}
 
