@@ -92,6 +92,12 @@ def NameCertStabilitySoundnessEvent
   NameCertFieldSubflow R S NameCertFieldRole.stability part /\
     NameCertSoundnessEvent R S part
 
+def NameCertLedgerSoundnessEvent
+    (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
+    (part : EventFlow) : Prop :=
+  NameCertFieldSubflow R S NameCertFieldRole.ledger part /\
+    NameCertSoundnessEvent R S part
+
 def SoundRecognizedNameCertFlow
     (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
     (N : NameCandidateFlow) : Prop :=
@@ -257,10 +263,30 @@ theorem licensing_event_flow_based {N : NameCandidateFlow} :
   intro h
   exact h
 
+theorem visible_name_event_insufficient {N : NameCandidateFlow} :
+    FormalCompilerInput (CompilerDatum.eventFlow N) ->
+      (forall S : NameCertCandidateFlow, Not (NameCertFlow S N)) ->
+      Not (LicensedName N) := by
+  intro _ hNoFlow hLicensed
+  cases hLicensed with
+  | intro S hFlow =>
+      exact hNoFlow S hFlow
+
 theorem derived_interfaces_require_flow {N : NameCandidateFlow} :
     LicensedName N -> exists S : EventFlow, NameCertFlow S N := by
   intro h
   exact h
+
+theorem no_upward_from_raw_code_alone
+    {c : List DisplayAlphabet} {N : NameCandidateFlow} :
+    (exists R : GeneratedNameCertRecognizer, RecognizesNameCertCode R c N) ->
+      exists S : EventFlow, Decode c = some S /\ NameCertFlow S N := by
+  intro hCode
+  cases hCode with
+  | intro R hRecognizesCode =>
+      cases hRecognizesCode with
+      | intro S hDecoded =>
+          exact ⟨S, hDecoded.left, R, hDecoded.right⟩
 
 theorem namecert_code_injective
     {S T : NameCertCandidateFlow} {N M : NameCandidateFlow} :
