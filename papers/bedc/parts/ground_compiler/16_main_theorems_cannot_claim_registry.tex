@@ -191,6 +191,7 @@ A recognizer cannot be a host parser or external function. A recognizer used in 
 
 \begin{definition}[Certificate-mediated export]
 \label{def:main-theorems-certificate-mediated-export}
+\leandef{BEDC.GroundCompiler.MainTheorems.CertificateMediatedExport}
 An object candidate $N$ is a \emph{certificate-mediated export} at strength $s$ when there are recognized name-certificate, derivation-certificate, and acceptance-gate flows such that
 $$
   \mathsf{AcceptGateFlow}(N,s)
@@ -200,6 +201,7 @@ holds.
 
 \begin{theorem}[Accepted export theorem]
 \label{thm:main-theorems-accepted-export}
+\leanchecked{BEDC.GroundCompiler.MainTheorems.accepted\_export}
 A mature object $N$ may be exported at strength $s$ exactly when its decoded event flow supplies the recognized name-certificate, derivation-certificate, and acceptance-gate structure:
 $$
   \boxed{
@@ -216,7 +218,8 @@ By definition, $\mathsf{AcceptGateFlow}(N,s)$ holds exactly when there is an acc
 
 \begin{corollary}[Code existence does not imply export]
 \label{cor:main-theorems-code-existence-not-export}
-From $c\in\mathsf{LegalZStream}$ one cannot infer $\mathsf{AcceptedExport}(N,s)$. The stream must first be decoded, and the required certificate and acceptance flows must be recognized.
+\leanchecked{BEDC.GroundCompiler.MainTheorems.code\_existence\_not\_export}
+From $c\in\mathsf{LegalZStream}$ alone one cannot infer that $c$ recognizes $\mathsf{AcceptedExport}(N,s)$. The stream must first be decoded, and the required certificate and acceptance flows must be recognized.
 \end{corollary}
 
 \begin{corollary}[Motif existence does not imply export]

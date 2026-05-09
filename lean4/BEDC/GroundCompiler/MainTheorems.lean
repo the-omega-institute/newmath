@@ -1,4 +1,5 @@
 import BEDC.GroundCompiler.ChannelEncoding
+import BEDC.GroundCompiler.DerivCertGenerated
 import BEDC.GroundCompiler.RecognizerFlows
 import BEDC.GroundCompiler.SourceChannel
 
@@ -135,5 +136,25 @@ theorem recognizer_generatedness
         FormalCompilerInput (CompilerDatum.recognizedFlow R S) := by
   intro hEvidence
   exact ⟨hEvidence.left, hEvidence.right⟩
+
+def CertificateMediatedExport (N s : EventFlow) : Prop :=
+  DerivCertGenerated.AcceptGateFlow N s
+
+def AcceptedExport (N s : EventFlow) : Prop :=
+  CertificateMediatedExport N s
+
+theorem accepted_export (N s : EventFlow) :
+    AcceptedExport N s ↔ DerivCertGenerated.AcceptGateFlow N s := by
+  constructor
+  · intro h
+    exact h
+  · intro h
+    exact h
+
+theorem code_existence_not_export (N s : EventFlow) :
+    exists c : List DisplayAlphabet,
+      LegalZStream c /\
+        Not (DerivCertGenerated.RecognizesAcceptanceCode c N s) := by
+  exact ⟨[], DerivCertGenerated.code_existence_not_acceptance N s⟩
 
 end BEDC.GroundCompiler.MainTheorems
