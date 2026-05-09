@@ -401,7 +401,12 @@ structure MetricReport where
   recognizers : MetricRecognizerFamily
   sourceFlows : List EventFlow
   signatures : List FlowSignatureVector
+  undefinedItems : List UndefinedMetricItem
   cannotClaims : List MetricCannotClaimEntry
+
+def ReportHasUndefinedMetricItem
+    (report : MetricReport) (item : UndefinedMetricItem) : Prop :=
+  List.Mem item report.undefinedItems
 
 def ReportHasCannotClaimEntry (report : MetricReport) : Prop :=
   exists entry : MetricCannotClaimEntry, List.Mem entry report.cannotClaims
@@ -417,6 +422,17 @@ def NontrivialMetricReport (report : MetricReport) : Prop :=
 
 def CannotClaimGuardedReport (report : MetricReport) : Prop :=
   NontrivialMetricReport report -> ReportHasCannotClaimEntry report
+
+structure MetricReportSoundness (report : MetricReport) where
+  sourceFlowsAreFormal :
+    forall S : EventFlow,
+      List.Mem S report.sourceFlows ->
+        FormalCompilerInput (CompilerDatum.eventFlow S)
+  undefinedMetricsRecorded :
+    forall item : UndefinedMetricItem,
+      List.Mem item report.undefinedItems ->
+        ReportHasUndefinedMetricItem report item
+  cannotClaimsGuarded : CannotClaimGuardedReport report
 
 structure MetricReportPrototype where
   sourceFlow : EventFlow
@@ -575,6 +591,7 @@ theorem metrics_reports_not_theoremhood :
         recognizers := [],
         sourceFlows := [[]],
         signatures := [EmptyAnalysisSignature []],
+        undefinedItems := [],
         cannotClaims := [] },
       [], ?_, ?_⟩
   · exact empty_not_recognized_theorem_flow
@@ -637,9 +654,23 @@ theorem metrics_cannot_replace_certificates :
         recognizers := [],
         sourceFlows := [[]],
         signatures := [EmptyAnalysisSignature []],
+        undefinedItems := [],
         cannotClaims := [] },
       [], ?_, ?_⟩
   · exact List.Mem.head []
   · exact empty_not_accepted_object_flow
+
+theorem sound_metric_report {report : MetricReport} :
+    MetricReportSoundness report ->
+      (forall S : EventFlow,
+        List.Mem S report.sourceFlows ->
+          FormalCompilerInput (CompilerDatum.eventFlow S)) /\
+      (forall item : UndefinedMetricItem,
+        List.Mem item report.undefinedItems ->
+          ReportHasUndefinedMetricItem report item) := by
+  intro hSound
+  constructor
+  · exact hSound.sourceFlowsAreFormal
+  · exact hSound.undefinedMetricsRecorded
 
 end BEDC.GroundCompiler.MetricsFlow

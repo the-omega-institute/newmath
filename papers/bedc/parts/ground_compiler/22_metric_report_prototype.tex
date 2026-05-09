@@ -313,6 +313,7 @@ Signature vectors may support comparison and clustering, but they are not identi
 
 \begin{definition}[Metric report]
 \label{def:metric-report-report}
+\leandef{BEDC.GroundCompiler.MetricsFlow.MetricReport}
 Given event flow $S$, metric protocol flow $P_{\mathrm{met}}$, and a recognized motif report, a \emph{metric report} is an output view containing the input flow, recognized motif summary, candidate motif summary, metric protocol, computed admissible metrics, undefined metrics, missing recognizers, ledger requirements, warnings, and cannot-claim annotations. Write
 $$
   \mathsf{MetricReport}(S,P_{\mathrm{met}}).
@@ -342,16 +343,18 @@ Missing recognizer means the system cannot determine whether the motif exists. R
 
 \begin{definition}[Metric report soundness]
 \label{def:metric-report-soundness}
-A metric report is \emph{sound} when every computed metric is admissible, every undefined metric has an undefined metric item, every recognizer and ledger dependency is recorded, candidate counts and recognized counts are separated, cannot-claim annotations are complete, and the report does not assert proof, certificate, object equality, or bridge.
+\leandef{BEDC.GroundCompiler.MetricsFlow.MetricReportSoundness}
+A metric report is \emph{sound} when every listed source flow is witnessed as a formal event-flow input, every listed undefined metric has a corresponding undefined metric item in the report, and the report satisfies the cannot-claim guard for nontrivial metric signatures.
 \end{definition}
 
 \begin{theorem}[Sound metric report theorem]
 \label{thm:metric-report-sound-report}
-If $P_4$ outputs a sound metric report, then every numerical metric in the report is supported by recognized event-flow structure, and every undefined metric is explicitly recorded.
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.sound\_metric\_report}
+If $P_4$ outputs a sound metric report, then every source flow listed by the report is a formal event-flow input, and every undefined metric item listed by the report is explicitly recorded in the report.
 \end{theorem}
 
 \begin{proof}
-By soundness, computed metrics must be admissible. Admissible metrics depend only on decoded event flow, recognized motifs, recognized ledgers, recognized classifiers, and protocol flow. Undefined metrics are recorded by undefined metric items.
+Both claims are the defining witnesses carried by metric-report soundness.
 \end{proof}
 
 \section{Metric claims and cannot-claims}
