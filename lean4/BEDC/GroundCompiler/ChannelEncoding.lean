@@ -16,12 +16,18 @@ def EventTerminator : List DisplayAlphabet :=
 def EventEncoding (w : RawEvent) : List DisplayAlphabet :=
   BodyEncoding w ++ EventTerminator
 
+def PrototypeEventEncoder : RawEvent -> List DisplayAlphabet :=
+  EventEncoding
+
 def LegalEvent (c : List DisplayAlphabet) : Prop :=
   exists w : RawEvent, c = EventEncoding w
 
 def FlowEncoding : EventFlow -> List DisplayAlphabet
   | [] => []
   | w :: rest => EventEncoding w ++ FlowEncoding rest
+
+def PrototypeFlowEncoder : EventFlow -> List DisplayAlphabet :=
+  FlowEncoding
 
 def LegalZStream (c : List DisplayAlphabet) : Prop :=
   exists S : EventFlow, c = FlowEncoding S
@@ -305,6 +311,13 @@ theorem channel_encoding_bijection :
     exact flow_level_round_trip S
   · intro c h
     exact legal_stream_completeness h
+
+theorem prototype_roundtrip_correctness :
+    (forall S : EventFlow, Decode (PrototypeFlowEncoder S) = some S) /\
+      (forall c : List DisplayAlphabet,
+        LegalZStream c ->
+          exists S : EventFlow, Decode c = some S /\ PrototypeFlowEncoder S = c) := by
+  exact channel_encoding_bijection
 
 theorem channel_conservativity {S : EventFlow} {m : DisplayAlphabet} :
     List.Mem m (FlowEncoding S) -> m = BMark.b0 \/ m = BMark.b1 := by

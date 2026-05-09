@@ -110,6 +110,7 @@ Reject reports are output views. They are not formal proofs, name certificates, 
 
 \begin{definition}[Prototype event encoder]
 \label{def:minimal-prototype-event-encoder}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.PrototypeEventEncoder}
 For a raw event $w=w_1\cdots w_n$, the prototype event encoder outputs
 $$
   \mathsf{Ev}(w)=\zeta(w)11,
@@ -125,6 +126,7 @@ In implementation terms, each displayed $0$ contributes $0$, each displayed $1$ 
 
 \begin{definition}[Prototype flow encoder]
 \label{def:minimal-prototype-flow-encoder}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.PrototypeFlowEncoder}
 For an event flow
 $$
   S=(w_0,\ldots,w_{n-1}),
@@ -405,6 +407,7 @@ Syntactic rejection records violation of the grammar $((0\mid 10)^{\ast}11)^{\as
 
 \begin{corollary}[Prototype round-trip correctness]
 \label{cor:minimal-prototype-roundtrip-correctness}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.prototype\_roundtrip\_correctness}
 For every event flow $S$, decoding the prototype encoding of $S$ returns $S$. For every legal channel stream $c$, encoding the prototype decoding of $c$ returns $c$.
 \end{corollary}
 
