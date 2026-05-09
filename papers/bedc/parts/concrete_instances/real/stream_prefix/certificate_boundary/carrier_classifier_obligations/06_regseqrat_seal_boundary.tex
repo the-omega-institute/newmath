@@ -618,6 +618,52 @@ datum, external metric primitive, $\RealUp$ completeness claim, or standard
 bridge.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window seal source exhaustion]
+\label{thm:regseqrat-finite-window-seal-source-exhaustion}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and any certified
+finite $\RegSeqRat$-to-$\RealUp$ seal window
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m),
+$$
+the accepted source package of the seal is exactly the pair formed by the
+public $\StreamNameUp$ finite-window interface and the
+$\RegSeqRat$/$\DyadicRatCore$ dyadic source-exhaustion rows. The two sides use
+the same $\mathsf{BHist}$ carrier, $\mathsf{UnaryHistory}$ request rows,
+$\mathsf{ProbeBundle}$ entries, $\mathsf{InBundle}$ membership rows, $\hsame$
+comparisons, $\Cont$ provenance, and finite dyadic ledger rows. No quotient,
+completion object, Classical datum, metric-completeness witness,
+$\RealUp$-completeness witness, or bridge datum is part of the source package.
+\end{theorem}
+\begin{proof}
+For the projection direction, apply
+\autoref{thm:regseqrat-finite-window-seal-exactness}. It identifies every seal
+read with the finite-window source rows carried by the certified window, so the
+seal source has no row outside the displayed finite packet.
+
+Next apply \autoref{thm:streamname-public-finite-window-interface}. The
+stream-name component of the projected source is exactly the public finite
+window interface, including the same unary request rows, probe entries,
+membership rows, $\mathsf{BHist}$ carrier, and $\hsame$ comparisons.
+
+Apply \autoref{thm:regseqrat-seal-finite-window-source-coverage} and
+\autoref{thm:realup-finite-window-exhaustion-obligation}. These identify the
+remaining projected rows with the $\RegSeqRat$/$\DyadicRatCore$ dyadic
+source-exhaustion rows, the shared $\Cont$ provenance, and the finite dyadic
+ledger consumed by $\RealUp$.
+
+Conversely, start from the public $\StreamNameUp$ finite-window interface
+together with the listed $\RegSeqRat$/$\DyadicRatCore$ exhaustion rows. The
+coverage theorem repacks these rows as the finite-window source package for
+the seal, and the exactness theorem makes this repacked source the accepted
+seal source for the same certified window.
+
+Because both readings use only the displayed interface rows, exhaustion rows,
+continuation provenance, and finite ledger entries, there is no remaining
+field from which a quotient, completion object, Classical datum,
+metric-completeness witness, $\RealUp$-completeness witness, or bridge datum
+could be projected.
+\end{proof}
+
 \begin{theorem}[RegSeqRat finite-window seal composition]
 \label{thm:regseqrat-finite-window-seal-composition}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a certified

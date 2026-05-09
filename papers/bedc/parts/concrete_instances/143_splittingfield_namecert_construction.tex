@@ -129,3 +129,92 @@ The two consumer paths therefore share the same finite packet. Since
 algebraic closures, and host roots outside the packet, the downstream
 threshold is exactly the carried root surface.
 \end{proof}
+
+\begin{theorem}[SplittingFieldUp root classifier transport]
+\label{thm:splittingfield-root-classifier-transport}
+For a $\SplittingFieldUp$ root carrier packet
+$$
+\mathcal{S}=(E,P,R,F,C,H,\Pi),
+$$
+the root classifier transports exactly the displayed FieldExtUp source row
+$E$, PolynomialUp row $P$, root endpoint rows $R$, factor rows $F$, and
+transport row $H$ along $\hsame$. The transported classifier keeps the same
+factorization ledger $C$ and the same provenance packet $\Pi$, and it exports
+no quotient field, algebraic closure, or host polynomial-root object.
+\end{theorem}
+\begin{proof}
+Project the classifier through
+\autoref{thm:splittingfield-root-classifier-obligation}. Its public data are
+the FieldExtUp source row, the PolynomialUp row, the displayed roots, the
+displayed factors, and the $\hsame$ transport witnesses.
+
+The carrier packet of
+\autoref{def:splittingfield-root-carrier-packet} keeps $C$ and $\Pi$ attached
+to those same rows. Transport therefore changes only the displayed endpoints
+along $H$ and leaves the finite continuation ledger and provenance packet in
+place.
+
+Repack the transported $E,P,R,F,H$ rows with the same $C$ and $\Pi$. Because
+the classifier obligation has no field for a quotient field, algebraic
+closure, or host root set, no such object is transported.
+\end{proof}
+
+\begin{theorem}[SplittingFieldUp root factor-ledger exhaustion]
+\label{thm:splittingfield-root-factor-ledger-exhaustion}
+Every public factorization read from a $\SplittingFieldUp$ root packet
+$\mathcal{S}=(E,P,R,F,C,H,\Pi)$ is exhausted by the finite $\Cont$ ledger $C$
+and the provenance packet $\Pi$. Conversely, every factor row listed in $F$
+with its root endpoint in $R$, transport row in $H$, continuation entry in
+$C$, and provenance entry in $\Pi$ repacks as an accepted public factorization
+read of the same packet.
+\end{theorem}
+\begin{proof}
+Read the ledger obligation
+\autoref{thm:splittingfield-root-ledger-obligation}. It says that public ledger
+reads are rows of $C$ or provenance rows of $\Pi$ attached to the displayed
+source, polynomial, root, factor, and transport data.
+
+Induct over the finite factor rows $F$. In the empty case, $C$ and $\Pi$ have
+no factor row to bind, so no public factorization read can be projected.
+
+In the cons case, the head factor is tied to the polynomial row $P$, a root
+endpoint in $R$, a transport witness in $H$, a continuation entry in $C$, and a
+provenance entry in $\Pi$. The induction hypothesis exhausts the tail factors
+through the same finite ledgers.
+
+For the converse, attach each listed factor row to its displayed endpoint,
+transport, continuation, and provenance entries, then repack through
+\autoref{def:splittingfield-root-carrier-packet}. The result is the same
+public factorization packet and adds no host-level factor source.
+\end{proof}
+
+\begin{theorem}[SplittingFieldUp Cyclotomic consumer source boundary]
+\label{thm:splittingfield-cyclotomic-consumer-source-boundary}
+A $\CyclotomicUp$ consumer reading from $\SplittingFieldUp$ may consume exactly
+the FieldExtUp source row $E$, PolynomialUp row $P$, root endpoint rows $R$,
+factor rows $F$, finite factorization ledger $C$, $\hsame$ transport row $H$,
+and $\Pkg$ provenance packet $\Pi$ of a carried packet
+$\mathcal{S}=(E,P,R,F,C,H,\Pi)$. These are the only root, factor, polynomial,
+FieldExtUp, $\Cont$, $\hsame$, and $\Pkg$ rows available at the consumer
+boundary.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:splittingfield-root-downstream-threshold}. It already restricts
+downstream consumers to the root NameCert surface consisting of the
+FieldExtUp, PolynomialUp, root, factor, continuation, transport, and provenance
+rows.
+
+Apply \autoref{thm:splittingfield-root-classifier-transport}. This fixes the
+consumer's transport reads to the displayed $E,P,R,F,H$ classifier packet, with
+the same $C$ and $\Pi$ still attached.
+
+Apply \autoref{thm:splittingfield-root-factor-ledger-exhaustion}. This
+exhausts the factor side by the finite continuation ledger $C$ and provenance
+packet $\Pi$, so every factor read consumed by $\CyclotomicUp$ is already a row
+of the carried packet.
+
+Combining these projections gives the exact consumer boundary. No quotient
+field, algebraic closure, host root set, or host factorization source is
+available unless it is represented by one of $E,P,R,F,C,H,\Pi$.
+\end{proof}
