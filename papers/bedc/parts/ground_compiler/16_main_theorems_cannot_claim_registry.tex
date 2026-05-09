@@ -384,6 +384,7 @@ If a normal representative is used as an object address, the raw ledger must be 
 
 \begin{theorem}[Recognizer generatedness theorem]
 \label{thm:main-theorems-recognizer-generatedness}
+\leanchecked{BEDC.GroundCompiler.MainTheorems.recognizer\_generatedness\_theorem}
 Every formal recognizer must be a certified event flow. Outputs of host parsers, external grammars, YAML schemas, AST constructors, or meta-level elaborators are not formal recognition judgments unless supported by event-flow recognizer certificates.
 \end{theorem}
 
@@ -393,6 +394,7 @@ If a recognizer is not an event flow, its recognition power comes from outside t
 
 \begin{definition}[Self-hosted compiler]
 \label{def:main-theorems-self-hosted-compiler}
+\leandef{BEDC.GroundCompiler.MainTheorems.SelfHostedCompiler}
 A compiler flow $C$ is \emph{self-hosted} when:
 \begin{enumerate}
 \item $C$ is a certified compiler flow;
@@ -405,6 +407,7 @@ A compiler flow $C$ is \emph{self-hosted} when:
 
 \begin{theorem}[Self-hosting removes compiler-as-hidden-input]
 \label{thm:main-theorems-self-hosting-removes-hidden-compiler}
+\leanchecked{BEDC.GroundCompiler.MainTheorems.self\_hosting\_removes\_hidden\_compiler}
 If there is a self-hosted compiler flow $C$, and if the package, name-certificate, derivation-certificate, theorem, chapter, and analysis recognizers are supported by the recognizer hierarchy of $C$, then the compiler is no longer a host-level hidden input.
 \end{theorem}
 

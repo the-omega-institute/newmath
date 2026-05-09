@@ -3,6 +3,7 @@ import BEDC.GroundCompiler.ChapterFlow
 import BEDC.GroundCompiler.DerivCertGenerated
 import BEDC.GroundCompiler.RecognizerFlows
 import BEDC.GroundCompiler.SemanticMotif
+import BEDC.GroundCompiler.SelfHostingCompilerFlow
 import BEDC.GroundCompiler.SourceChannel
 import BEDC.GroundCompiler.TheoremGenerated
 
@@ -139,6 +140,34 @@ theorem recognizer_generatedness
         FormalCompilerInput (CompilerDatum.recognizedFlow R S) := by
   intro hEvidence
   exact ⟨hEvidence.left, hEvidence.right⟩
+
+theorem recognizer_generatedness_theorem
+    {R : RecognizerCandidateFlow} {rho : RecognitionRole} {S : EventFlow} :
+    FormalRecognitionEvidence R rho S ->
+      CertifiedRecognizer R rho /\
+        FormalCompilerInput (CompilerDatum.recognizedFlow R S) := by
+  intro hEvidence
+  exact recognizer_generatedness hEvidence
+
+def SelfHostedCompiler
+    (behavior :
+      BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerBehaviorRelation)
+    (C : BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerCandidateFlow) :
+    Prop :=
+  BEDC.GroundCompiler.SelfHostingCompilerFlow.SelfHostingCompilerFlow behavior C
+
+theorem self_hosting_removes_hidden_compiler
+    {behavior :
+      BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerBehaviorRelation}
+    {C : BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerCandidateFlow} :
+    SelfHostedCompiler behavior C ->
+      BEDC.GroundCompiler.SelfHostingCompilerFlow.RecognizerHierarchyCoversCompilerTower C ->
+        BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerNoLongerHiddenInput
+          behavior C := by
+  intro hSelf hHierarchy
+  exact
+    BEDC.GroundCompiler.SelfHostingCompilerFlow.self_hosting_removes_hidden_input
+      hSelf hHierarchy
 
 def CertificateMediatedExport (N s : EventFlow) : Prop :=
   DerivCertGenerated.AcceptGateFlow N s
