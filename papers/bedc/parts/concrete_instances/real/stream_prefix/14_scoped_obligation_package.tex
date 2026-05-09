@@ -204,6 +204,59 @@ package for partitioned $\RealUp$ windows, and every row it displays has already
 been read from the scoped BEDC boundary named above.
 \end{proof}
 
+\begin{theorem}[RealUp refined partition tail-source determinacy]
+\label{thm:realup-refined-partition-tail-source-determinacy}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor $n$, and
+a finite width $w$, let $P$ and $Q$ be certified finite partition spines
+refining the same total $\RealUp$ stream window
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,w).
+$$
+Assume that the two refined presentations have matching segment endpoint
+$\hsame$ rows, matching displayed
+$\mathsf{RealStreamWindowClassifier}$ rows on corresponding refined segments,
+and the same pointwise anchors
+$$
+\forall j,\ \mathsf{UnaryHistory}(x(j)).
+$$
+Then the two refined presentations expose the same finite source surface:
+endpoint $\RatUp$ classifiers, dyadic source rows, $\RegSeqRat$ spine rows,
+$\StreamNameUp$ observation names, $\mathsf{Cont}$ routes, $\hsame$ transports,
+and finite ledger rows. Thus the refined partitions determine one BEDC source
+ledger for the total window, rather than two presentation-dependent ledgers.
+
+No quotient representative, completion object, metric-completeness witness,
+Classical datum, host arithmetic or order closure, or standard bridge is read
+by this determinacy surface.
+\end{theorem}
+\begin{proof}
+First bind both presentations to the same total window. Apply
+\autoref{thm:realup-window-partition-read-surface} to $P$ and again to $Q$.
+Each application identifies its refined partition ledger with the same total
+finite-window read surface, including the $\StreamNameUp$ request rows,
+dyadic source rows, $\RegSeqRat$ spine rows, unary-history anchors,
+$\mathsf{Cont}$ routes, and endpoint $\hsame$ transports.
+
+Next transport the segment endpoints. Apply
+\autoref{thm:realup-scoped-window-tail-transport-package} on each displayed
+segment. The matching segment classifier rows, endpoint $\hsame$ rows, and
+pointwise unary anchors expose the same endpoint $\RatUp$ classifiers, dyadic
+source rows, unary endpoint rows, and finite ledger entries for the two refined
+presentations.
+
+Finally repack the refined segment data with
+\autoref{thm:realup-partitioned-window-tail-transport-package}. Since both
+partition packages have already been read from the same total window surface,
+the repacked endpoint classifiers, dyadic rows, spine rows, observation names,
+continuation routes, transports, and ledger rows are the same finite BEDC
+source surface.
+
+The cited packages also carry the exclusion clauses. They have no fields for
+quotient representatives, completion objects, metric-completeness witnesses,
+Classical data, host arithmetic or order closure, or standard bridges, so none
+of those can distinguish the two refined presentations.
+\end{proof}
+
 \begin{theorem}[RealUp finite-window observation determinacy]
 \label{thm:realup-finite-window-observation-determinacy}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor $n$, and
