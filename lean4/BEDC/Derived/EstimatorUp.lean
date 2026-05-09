@@ -15,55 +15,103 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def EstimatorBHistSourceSurface [AskSetup] [PackageSetup]
-    (sample independence endpoint bias variance transport ledger provenance final : BHist)
+    (samples independence estimator bias variance transport ledger endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory sample ∧ UnaryHistory independence ∧ UnaryHistory bias ∧
-    UnaryHistory variance ∧ UnaryHistory transport ∧ UnaryHistory provenance ∧
-      Cont sample independence endpoint ∧ Cont bias variance ledger ∧
-        Cont provenance ledger final ∧ PkgSig bundle final pkg
+  UnaryHistory samples ∧ UnaryHistory independence ∧ UnaryHistory bias ∧
+    UnaryHistory variance ∧ UnaryHistory transport ∧ Cont samples independence estimator ∧
+      Cont bias variance ledger ∧ Cont estimator ledger endpoint ∧ PkgSig bundle endpoint pkg
 
 theorem EstimatorBHistSourceSurface_source_obligation [AskSetup] [PackageSetup]
-    {sample independence endpoint bias variance transport ledger provenance final : BHist}
+    {samples independence estimator bias variance transport ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    EstimatorBHistSourceSurface sample independence endpoint bias variance transport ledger
-        provenance final bundle pkg ->
-      UnaryHistory sample ∧ UnaryHistory independence ∧ UnaryHistory endpoint ∧
+    EstimatorBHistSourceSurface samples independence estimator bias variance transport ledger
+        endpoint bundle pkg ->
+      UnaryHistory samples ∧ UnaryHistory independence ∧ UnaryHistory estimator ∧
         UnaryHistory bias ∧ UnaryHistory variance ∧ UnaryHistory ledger ∧
-          UnaryHistory provenance ∧ UnaryHistory final ∧
-            hsame endpoint (append sample independence) ∧
-              hsame ledger (append bias variance) ∧
-                hsame final (append provenance ledger) ∧ PkgSig bundle final pkg := by
+          UnaryHistory endpoint ∧ Cont samples independence estimator ∧
+            Cont bias variance ledger ∧ Cont estimator ledger endpoint ∧
+              PkgSig bundle endpoint pkg := by
   intro surface
-  have sampleUnary : UnaryHistory sample := surface.left
+  have samplesUnary : UnaryHistory samples := surface.left
   have independenceUnary : UnaryHistory independence := surface.right.left
   have biasUnary : UnaryHistory bias := surface.right.right.left
   have varianceUnary : UnaryHistory variance := surface.right.right.right.left
-  have provenanceUnary : UnaryHistory provenance :=
+  have estimatorRow : Cont samples independence estimator :=
     surface.right.right.right.right.right.left
-  have endpointRow : Cont sample independence endpoint :=
-    surface.right.right.right.right.right.right.left
   have ledgerRow : Cont bias variance ledger :=
+    surface.right.right.right.right.right.right.left
+  have endpointRow : Cont estimator ledger endpoint :=
     surface.right.right.right.right.right.right.right.left
-  have finalRow : Cont provenance ledger final :=
-    surface.right.right.right.right.right.right.right.right.left
-  have pkgSig : PkgSig bundle final pkg :=
-    surface.right.right.right.right.right.right.right.right.right
-  have endpointUnary : UnaryHistory endpoint :=
-    unary_cont_closed sampleUnary independenceUnary endpointRow
+  have estimatorUnary : UnaryHistory estimator :=
+    unary_cont_closed samplesUnary independenceUnary estimatorRow
   have ledgerUnary : UnaryHistory ledger :=
     unary_cont_closed biasUnary varianceUnary ledgerRow
-  have finalUnary : UnaryHistory final :=
-    unary_cont_closed provenanceUnary ledgerUnary finalRow
-  exact And.intro sampleUnary
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed estimatorUnary ledgerUnary endpointRow
+  exact And.intro samplesUnary
     (And.intro independenceUnary
-      (And.intro endpointUnary
+      (And.intro estimatorUnary
         (And.intro biasUnary
           (And.intro varianceUnary
             (And.intro ledgerUnary
-              (And.intro provenanceUnary
-                (And.intro finalUnary
-                  (And.intro endpointRow
-                    (And.intro ledgerRow
-                      (And.intro finalRow pkgSig))))))))))
+              (And.intro endpointUnary
+                (And.intro estimatorRow
+                  (And.intro ledgerRow
+                    (And.intro endpointRow
+                      surface.right.right.right.right.right.right.right.right)))))))))
+
+theorem EstimatorBHistSourceSurface_transport_obligation [AskSetup] [PackageSetup]
+    {samples independence estimator bias variance transport ledger endpoint samples' independence'
+      bias' variance' transport' estimator' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EstimatorBHistSourceSurface samples independence estimator bias variance transport ledger
+        endpoint bundle pkg ->
+      hsame samples samples' ->
+        hsame independence independence' ->
+          hsame bias bias' ->
+            hsame variance variance' ->
+              hsame transport transport' ->
+                Cont samples' independence' estimator' ->
+                  Cont bias' variance' ledger' ->
+                    Cont estimator' ledger' endpoint' ->
+                      PkgSig bundle endpoint' pkg ->
+                        EstimatorBHistSourceSurface samples' independence' estimator' bias'
+                            variance' transport' ledger' endpoint' bundle pkg ∧
+                          hsame estimator estimator' ∧ hsame ledger ledger' ∧
+                            hsame endpoint endpoint' := by
+  intro surface sameSamples sameIndependence sameBias sameVariance sameTransport
+  intro estimatorRow' ledgerRow' endpointRow' pkgRow'
+  have sourceRows := EstimatorBHistSourceSurface_source_obligation surface
+  have samplesUnary' : UnaryHistory samples' :=
+    unary_transport sourceRows.left sameSamples
+  have independenceUnary' : UnaryHistory independence' :=
+    unary_transport sourceRows.right.left sameIndependence
+  have biasUnary' : UnaryHistory bias' :=
+    unary_transport sourceRows.right.right.right.left sameBias
+  have varianceUnary' : UnaryHistory variance' :=
+    unary_transport sourceRows.right.right.right.right.left sameVariance
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport surface.right.right.right.right.left sameTransport
+  have sameEstimator : hsame estimator estimator' :=
+    cont_respects_hsame sameSamples sameIndependence
+      sourceRows.right.right.right.right.right.right.right.left estimatorRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameBias sameVariance
+      sourceRows.right.right.right.right.right.right.right.right.left ledgerRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameEstimator sameLedger
+      sourceRows.right.right.right.right.right.right.right.right.right.left endpointRow'
+  have transported :
+      EstimatorBHistSourceSurface samples' independence' estimator' bias' variance'
+        transport' ledger' endpoint' bundle pkg :=
+    And.intro samplesUnary'
+      (And.intro independenceUnary'
+        (And.intro biasUnary'
+          (And.intro varianceUnary'
+            (And.intro transportUnary'
+              (And.intro estimatorRow'
+                (And.intro ledgerRow' (And.intro endpointRow' pkgRow')))))))
+  exact And.intro transported
+    (And.intro sameEstimator (And.intro sameLedger sameEndpoint))
 
 end BEDC.Derived.EstimatorUp
