@@ -196,4 +196,23 @@ theorem ClebschGordanCouplingPacket_classifier_transport_obligation [AskSetup] [
     (And.intro sameCoefficients
       (And.intro sameLedger targetPacket))
 
+theorem ClebschGordanCouplingPacket_coefficient_slot_determinacy [AskSetup] [PackageSetup]
+    {lie tensor repr sourceLeft sourceRight tensorEndpoint decomposition coefficients coefficients'
+      classifier provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClebschGordanCouplingPacket lie tensor repr sourceLeft sourceRight tensorEndpoint
+        decomposition coefficients classifier provenance ledger bundle pkg ->
+      Cont tensorEndpoint decomposition coefficients' ->
+        hsame coefficients coefficients' ∧ hsame ledger (append coefficients classifier) ∧
+          PkgSig bundle provenance pkg := by
+  intro packet coefficientRow'
+  have coefficientRow : Cont tensorEndpoint decomposition coefficients :=
+    packet.right.right.right.right.right.right.right.right.left
+  have sameCoefficients : hsame coefficients coefficients' :=
+    cont_respects_hsame (hsame_refl tensorEndpoint) (hsame_refl decomposition) coefficientRow
+      coefficientRow'
+  exact And.intro sameCoefficients
+    (And.intro packet.right.right.right.right.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.right.right.right)
+
 end BEDC.Derived.ClebschGordanUp
