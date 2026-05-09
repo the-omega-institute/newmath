@@ -460,6 +460,7 @@ import BEDC.Derived.TopGroupUp.SourceRowsEmptyCoupled
 import BEDC.Derived.TopGroupUp.RootSourcePairExactness
 import BEDC.Derived.TopGroupUp.SourceCoupledCarrierScope
 import BEDC.Derived.TopGroupUp.JointSourceDeterminacy
+import BEDC.Derived.TopGroupUp.ExportBoundary
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -498,6 +499,7 @@ import BEDC.Derived.DiffFormUp.RootObligationSurface
 import BEDC.Derived.DiffFormUp.RootRowBoundary
 import BEDC.Derived.DiffFormUp.RootUnblockObligations
 import BEDC.Derived.DiffFormUp.SourceScope
+import BEDC.Derived.DiffFormUp.VisibleInputPackage
 import BEDC.Derived.DiffFormUp.WedgeAssociator
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
 import BEDC.Derived.DiffFormUp.ZeroDegreeEmptyProbe

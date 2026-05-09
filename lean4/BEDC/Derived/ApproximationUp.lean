@@ -174,4 +174,58 @@ theorem ApproximationCarrierPacket_polynomial_consumer_window [AskSetup] [Packag
             (And.intro rows.right.right.right.right.right.left
               rows.right.right.right.right.right.right)))))
 
+theorem ApproximationCarrierPacket_error_ledger_exactness [AskSetup] [PackageSetup]
+    {continuousSource continuousMap continuousTarget modulus continuousCert continuousDistance
+      polynomialCandidate errorEndpoint errorLedger transportLedger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuousMapCarrier continuousSource continuousMap continuousTarget modulus continuousCert
+        continuousDistance ->
+      PolynomialSingletonCarrier polynomialCandidate ->
+        UnaryHistory transportLedger ->
+          Cont continuousTarget polynomialCandidate errorEndpoint ->
+            Cont errorEndpoint transportLedger errorLedger ->
+              PkgSig bundle provenance pkg ->
+                UnaryHistory errorEndpoint ∧ UnaryHistory errorLedger ∧
+                  hsame errorEndpoint (append continuousTarget polynomialCandidate) ∧
+                    hsame errorLedger (append errorEndpoint transportLedger) ∧
+                      PkgSig bundle provenance pkg := by
+  intro continuousCarrier polynomialCarrier transportUnary endpointRow ledgerRow provenancePkg
+  have targetUnary : UnaryHistory continuousTarget :=
+    continuousCarrier.left.right.left
+  have polynomialUnary : UnaryHistory polynomialCandidate :=
+    unary_transport unary_empty (hsame_symm polynomialCarrier)
+  have endpointUnary : UnaryHistory errorEndpoint :=
+    unary_cont_closed targetUnary polynomialUnary endpointRow
+  have ledgerUnary : UnaryHistory errorLedger :=
+    unary_cont_closed endpointUnary transportUnary ledgerRow
+  exact And.intro endpointUnary
+    (And.intro ledgerUnary
+      (And.intro endpointRow
+        (And.intro ledgerRow provenancePkg)))
+
+theorem ApproximationFiniteErrorLedger_consumer_determinacy
+    {continuousSource polynomialCandidate errorLedger errorLedger' sourceEndpoint
+      polynomialEndpoint errorEndpoint errorEndpoint' provenance provenance' : BHist} :
+    UnaryHistory continuousSource ->
+      PolynomialSingletonCarrier polynomialCandidate ->
+        UnaryHistory sourceEndpoint ->
+          UnaryHistory polynomialEndpoint ->
+            Cont continuousSource polynomialCandidate errorLedger ->
+              Cont continuousSource polynomialCandidate errorLedger' ->
+                Cont sourceEndpoint polynomialEndpoint errorEndpoint ->
+                  Cont sourceEndpoint polynomialEndpoint errorEndpoint' ->
+                    hsame provenance errorLedger ->
+                      hsame provenance' errorLedger' ->
+                        hsame errorLedger errorLedger' ∧ hsame errorEndpoint errorEndpoint' ∧
+                          hsame provenance provenance' := by
+  intro _continuousUnary _polynomialCarrier _sourceEndpointUnary _polynomialEndpointUnary
+    ledgerRow ledgerRow' endpointRow endpointRow' provenanceRow provenanceRow'
+  have sameLedger : hsame errorLedger errorLedger' :=
+    cont_deterministic ledgerRow ledgerRow'
+  have sameEndpoint : hsame errorEndpoint errorEndpoint' :=
+    cont_deterministic endpointRow endpointRow'
+  have sameProvenance : hsame provenance provenance' :=
+    hsame_trans provenanceRow (hsame_trans sameLedger (hsame_symm provenanceRow'))
+  exact And.intro sameLedger (And.intro sameEndpoint sameProvenance)
+
 end BEDC.Derived.ApproximationUp
