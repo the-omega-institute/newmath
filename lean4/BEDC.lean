@@ -106,6 +106,7 @@ import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.CurvatureUp
+import BEDC.Derived.CurvatureUp.Bridge
 import BEDC.Derived.CurvatureUp.ConsumerRowCoverage
 import BEDC.Derived.CurvatureUp.ConsumerBoundary
 import BEDC.Derived.CurvatureUp.LedgerExactnessObligation
