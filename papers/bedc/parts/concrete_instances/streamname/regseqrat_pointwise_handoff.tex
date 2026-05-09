@@ -238,6 +238,50 @@ bundle membership, and pointwise classifier rows, the restriction introduces
 no regularity, seal, completion, quotient, or host-index-equality datum.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat appended-bundle handoff exactness]
+\label{thm:streamname-regseqrat-bundle-union-handoff}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, and let
+$\mathcal P,\mathcal Q:\mathsf{ProbeBundle}$ be finite observation windows.
+Suppose $\mathcal P$ and $\mathcal Q$ each supply the pointwise StreamName
+handoff rows for $s$ and $t$: the $\mathsf{RatStreamNameCarrier}$ source
+rows, the finite-window classifier row, $\mathsf{UnaryHistory}$ evidence,
+membership evidence, and the pointwise $\mathsf{RatHistoryClassifier}$ rows.
+Then the appended bundle $\mathsf{BAppend}(\mathcal P,\mathcal Q)$ supplies
+exactly the same kind of $\RegSeqRat$ and finite-window $\RealUp$ handoff
+rows over the combined window.
+
+Conversely, any consumer read over
+$\mathsf{BAppend}(\mathcal P,\mathcal Q)$ restricts to one of the two
+component handoff packets. The appended packet exports no $\RegSeqRat$
+regularity row, $\RealUp$ seal classifier, completion object, quotient row,
+or host-index equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-finite-window-union-composition} to the two
+finite observation windows. It identifies the visible observations of
+$\mathsf{BAppend}(\mathcal P,\mathcal Q)$ with the observations that come
+from $\mathcal P$ or from $\mathcal Q$, carrying their original
+$\mathsf{InBundle}$ and $\mathsf{UnaryHistory}$ witnesses.
+
+On each component observation, use
+\autoref{thm:streamname-regseqrat-pointwise-handoff}. The supplied component
+handoff packet gives the carried StreamName endpoints and the pointwise
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ row, and the union composition
+repackages those rows into the finite-window classifier for
+$\mathsf{BAppend}(\mathcal P,\mathcal Q)$.
+
+For the converse read, restrict the appended window along the selected
+component inclusion. Then
+\autoref{thm:streamname-regseqrat-finite-window-restriction-handoff}
+recovers exactly the same carrier, classifier, membership, unary-history,
+and pointwise rational-history rows over that component packet.
+
+Both directions pass through the pointwise handoff boundary and the
+finite-window restriction boundary. Since those boundaries name no
+regularity, seal, completion, quotient, or host-index-equality coordinate,
+the appended handoff cannot export any such row.
+\end{proof}
+
 \begin{theorem}[StreamName finite observation RealUp seal scope]
 \label{thm:streamname-finite-observation-realup-seal-scope}
 Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, let
