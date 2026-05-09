@@ -4,6 +4,11 @@ namespace BEDC.GroundCompiler.MetricsFlow
 
 open BEDC.GroundCompiler.EventFlow
 
+deriving instance DecidableEq for DisplayAlphabet
+deriving instance DecidableEq for RawEvent
+deriving instance DecidableEq for EventFlow
+deriving instance DecidableEq for GeneratedRecognizer
+
 inductive MetricCandidate : Type where
   | scalar (value : Nat)
   | sequence (values : List Nat)
@@ -89,6 +94,12 @@ def MetricAdmissible (M : MetricSpec) : Prop :=
 def RawPrefixProfile (S P : EventFlow) : Prop :=
   exists rest : EventFlow, S = List.append P rest
 
+def RawPrefixOverlapLength : EventFlow -> EventFlow -> Nat
+  | [], _ => 0
+  | _, [] => 0
+  | w :: S, v :: T =>
+      if w = v then Nat.succ (RawPrefixOverlapLength S T) else 0
+
 def RecognizedPrefixProfile
     (Rfam : MetricRecognizerFamily) (S P role ledger : EventFlow) : Prop :=
   RawPrefixProfile S P /\
@@ -102,6 +113,34 @@ def RecognizedPrefixOverlap
     (Rfam : MetricRecognizerFamily) (S T P role ledger : EventFlow) : Prop :=
   RecognizedPrefixProfile Rfam S P role ledger /\
     RecognizedPrefixProfile Rfam T P role ledger
+
+structure MotifOccurrence where
+  role : EventFlow
+  support : EventFlow
+  ledger : EventFlow
+  recognizer : GeneratedRecognizer
+  deriving DecidableEq
+
+def EventSubflow (S M : EventFlow) : Prop :=
+  exists pre post : EventFlow, S = List.append pre (List.append M post)
+
+def MotifOccurrenceRecognized
+    (Rfam : MetricRecognizerFamily) (S : EventFlow) (occ : MotifOccurrence) :
+    Prop :=
+  EventSubflow S occ.support /\
+    List.Mem occ.recognizer Rfam /\
+    FormalCompilerInput (CompilerDatum.recognizedFlow occ.recognizer occ.support) /\
+    FormalCompilerInput (CompilerDatum.recognizedFlow occ.recognizer occ.role) /\
+    FormalCompilerInput (CompilerDatum.recognizedFlow occ.recognizer occ.ledger)
+
+def MotifProfile
+    (Rfam : MetricRecognizerFamily) (S : EventFlow)
+    (profile : List MotifOccurrence) : Prop :=
+  forall occ : MotifOccurrence,
+    List.Mem occ profile -> MotifOccurrenceRecognized Rfam S occ
+
+def MotifMultiplicity (profile : List MotifOccurrence) (role : EventFlow) : Nat :=
+  (profile.filter (fun occ => decide (occ.role = role))).length
 
 theorem external_metric_input_not_allowed {d : MetricDataKind} :
     MetricExternalInput d -> Not (MetricAllowedData d) := by

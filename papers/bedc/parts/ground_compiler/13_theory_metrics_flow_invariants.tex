@@ -86,6 +86,7 @@ Two event flows can share a raw prefix without sharing a recognized prefix profi
 
 \begin{definition}[Prefix-overlap length]
 \label{def:metrics-prefix-overlap-length}
+\leandef{BEDC.GroundCompiler.MetricsFlow.RawPrefixOverlapLength}
 For event flows $S$ and $T$, define $\mathsf{RawPrefixLen}(S,T)$ as the largest $k$ such that
 $$
   S[0:k]=T[0:k].
@@ -116,26 +117,28 @@ A recognized prefix overlap includes a recognized motif support, so its support 
 
 \begin{definition}[Motif profile]
 \label{def:metrics-motif-profile}
-For a recognizer family $\mathcal R$, define the motif profile of an event flow $S$ by
+\leandef{BEDC.GroundCompiler.MetricsFlow.MotifProfile}
+For a recognizer family $\mathcal R$, define the motif profile of an event flow $S$ as a finite list of recognized occurrence records satisfying
 $$
-  \mathsf{MotifProfile}_{\mathcal R}(S)
-  =
-  \{\,(\mu,M,L)\mid
-  \exists R\in\mathcal R,\
+  (\mu,M,L,R)\in\mathsf{MotifProfile}_{\mathcal R}(S)
+  \Longrightarrow
+  R\in\mathcal R,\
+  M\subseteq S,\
   \mathsf{RecognizesMotif}(R,S,M,\mu)
   \wedge
-  \mathsf{MotifLedger}_{R}(S,M,\mu,L)\,\}.
+  \mathsf{MotifLedger}_{R}(S,M,\mu,L).
 $$
-Here $\mu$ is the motif role, $M$ the support subflow, and $L$ the motif ledger.
+Here $\mu$ is the motif role, $M$ the support subflow, $L$ the motif ledger, and $R$ the generated recognizer supplying the occurrence.
 \end{definition}
 
 \begin{definition}[Motif multiplicity]
 \label{def:metrics-motif-multiplicity}
-The multiplicity of motif role $\mu$ in $S$ is
+\leandef{BEDC.GroundCompiler.MetricsFlow.MotifMultiplicity}
+For a finite motif profile list $P$, the multiplicity of motif role $\mu$ is
 $$
-  \mathsf{Mult}_{\mathcal R}(S,\mu)
+  \mathsf{Mult}(P,\mu)
   =
-  \#\{\, (M,L)\mid(\mu,M,L)\in\mathsf{MotifProfile}_{\mathcal R}(S)\,\}.
+  \#\{\,(\mu',M,L,R)\in P\mid \mu'=\mu\,\}.
 $$
 This chapter considers finite chapter, theorem, and package event flows.
 \end{definition}
