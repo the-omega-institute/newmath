@@ -210,6 +210,24 @@ def CertificateRecognizerModules (publicSurface : InterfaceDatum -> Prop) :
     publicSurface InterfaceDatum.recognizesCompiler /\
     NoHostLeakCondition publicSurface
 
+def PackageRecognitionPublicInterface
+    (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  publicSurface InterfaceDatum.recognizesPkg /\
+    (forall d, publicSurface d -> d = InterfaceDatum.recognizesPkg) /\
+    NoHostLeakCondition publicSurface
+
+def NameCertRecognitionPublicInterface
+    (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  publicSurface InterfaceDatum.recognizesNameCert /\
+    (forall d, publicSurface d -> d = InterfaceDatum.recognizesNameCert) /\
+    NoHostLeakCondition publicSurface
+
+def DerivCertRecognitionPublicInterface
+    (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  publicSurface InterfaceDatum.recognizesDerivCert /\
+    (forall d, publicSurface d -> d = InterfaceDatum.recognizesDerivCert) /\
+    NoHostLeakCondition publicSurface
+
 inductive AnalysisPublic : InterfaceDatum -> Prop where
   | motifReport :
       AnalysisPublic InterfaceDatum.motifReport
