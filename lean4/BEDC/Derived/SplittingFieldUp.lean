@@ -110,4 +110,34 @@ theorem SplittingFieldRootCarrierPacket_classifier_obligation [AskSetup] [Packag
                   (And.intro endpointRow
                     packet.right.right.right.right.right.right.right.right.right))))))))
 
+theorem SplittingFieldRootCarrierPacket_root_downstream_threshold [AskSetup] [PackageSetup]
+    {fieldExt polynomial roots factors transport provenance classifier factorLedger endpoint
+      pkgrow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SplittingFieldRootCarrierPacket fieldExt polynomial roots factors transport provenance
+        classifier factorLedger endpoint bundle pkg ->
+      Cont factorLedger transport pkgrow ->
+        PkgSig bundle pkgrow pkg ->
+          SplittingFieldRootTransportPacket fieldExt polynomial roots factors factorLedger transport
+              pkgrow bundle pkg ∧
+            Cont fieldExt polynomial classifier ∧ Cont roots factors factorLedger ∧
+              Cont provenance factorLedger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet factorLedgerTransport pkgrowPkg
+  have obligation := SplittingFieldRootCarrierPacket_classifier_obligation packet
+  have transportPacket :
+      SplittingFieldRootTransportPacket fieldExt polynomial roots factors factorLedger transport
+        pkgrow bundle pkg :=
+    And.intro obligation.left
+      (And.intro obligation.right.left
+        (And.intro obligation.right.right.left
+          (And.intro obligation.right.right.right.left
+            (And.intro obligation.right.right.right.right.left
+              (And.intro obligation.right.right.right.right.right.right.right.left
+                (And.intro factorLedgerTransport pkgrowPkg))))))
+  exact And.intro transportPacket
+    (And.intro obligation.right.right.right.right.right.right.left
+      (And.intro obligation.right.right.right.right.right.right.right.left
+        (And.intro packet.right.right.right.right.right.right.right.right.left
+          packet.right.right.right.right.right.right.right.right.right)))
+
 end BEDC.Derived.SplittingFieldUp
