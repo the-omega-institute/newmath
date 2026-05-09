@@ -115,3 +115,38 @@ certificates while keeping numerical-analysis obligations separate.
 
 \section{The certificate}
 \label{sec:fft-certificate}
+
+\begin{theorem}[FFT schedule public NameCert export]
+\label{thm:fft-schedule-public-namecert-export}
+The source packet of \autoref{def:fft-bhist-source-packet}, the butterfly
+carrier obligation of \autoref{thm:fft-carrier-butterfly-obligation}, the
+factorization classifier stability obligation of
+\autoref{thm:fft-factorization-classifier-stability-obligation}, the ledger
+exactness obligation of \autoref{thm:fft-ledger-exactness-obligation}, and the
+root threshold surface of \autoref{thm:fft-root-threshold-unblock-surface}
+together export the public $\NameCert_{\FftUp}$ finite schedule interface.
+
+Consumers may read the $\NameCert_{\ComplexUp}$ and
+$\NameCert_{\FourierUp}$ dependencies, the finite $\mathsf{ProbeBundle}$
+schedule, the $\mathsf{InBundle}$ stage witnesses, the butterfly continuation
+rows, the factorization ledger, and the $\hsame/\Cont$ transport rows. Analytic
+error estimates, floating-point bounds, asymptotic runtime claims, and standard
+bridge rows are not part of this certificate.
+\end{theorem}
+\begin{proof}
+The source packet fixes the two dependency certificates and the finite
+$\mathsf{ProbeBundle}$ schedule. Its membership rows and butterfly
+continuations are the only stage data exposed to the BEDC surface.
+
+Apply the butterfly carrier obligation to recover the finite stage witnesses
+and their $\Cont$ rows from any accepted packet. Apply the factorization
+classifier stability obligation to transport the split-length ledger and the
+butterfly rows through the displayed $\hsame$ comparison.
+
+The ledger exactness obligation states that the readable ledger consists
+exactly of the two dependency rows, the schedule, the stage witnesses, the
+butterfly continuations, the factorization ledger, and their transport
+evidence. The root threshold surface repacks those rows as the public
+$\NameCert_{\FftUp}$ interface, while analytic estimates, floating-point
+bounds, asymptotic runtime claims, and bridge rows remain unavailable.
+\end{proof}

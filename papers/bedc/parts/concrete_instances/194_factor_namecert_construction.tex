@@ -118,3 +118,38 @@ attach to this surface, but they are not part of the factor packet itself.
 
 \section{The certificate}
 \label{sec:factor-certificate}
+
+\begin{theorem}[FactorUp public NameCert export]
+\label{thm:factor-public-namecert-export}
+The source packet of \autoref{def:factor-bhist-source-packet}, the
+trivial-centre carrier obligation of
+\autoref{thm:factor-carrier-trivial-centre-obligation}, the classifier
+stability obligation of
+\autoref{thm:factor-type-classifier-stability-obligation}, the ledger
+exactness obligation of \autoref{thm:factor-ledger-exactness-obligation}, and
+the root threshold surface of \autoref{thm:factor-root-threshold-unblock-surface}
+together export the public $\NameCert_{\FactorUp}$ surface.
+
+Consumers of this certificate may read only the
+$\NameCert_{\VonNeumannAlgUp}$ dependency row, the centre row, the
+trivial-centre witness, the factor-type classifier, the $\hsame/\Cont$
+transport rows, and the ledger exclusions listed by the packet. Representation
+theory, spectral decomposition, measure-class data, and standard bridge rows
+remain outside the certificate.
+\end{theorem}
+\begin{proof}
+The source packet fixes the only rows available to $\FactorUp$: a
+$\VonNeumannAlgUp$ dependency, a displayed centre row, a trivial-centre
+witness, a factor-type classifier, and the shared transport ledger.
+
+Apply the trivial-centre carrier obligation to project an accepted packet to
+the von Neumann algebra carrier and its scalar-centre witness. Apply the
+classifier stability obligation to transport the displayed factor type along
+the same $\hsame$ comparison.
+
+The ledger exactness obligation then says that the visible rows are exactly the
+dependency, centre, trivial-centre, classifier, $\hsame$, and $\Cont$ entries.
+The root threshold surface packages these rows for downstream consumers, so the
+public $\NameCert_{\FactorUp}$ surface contains precisely those entries and no
+representation-theoretic, spectral, measure-class, or bridge datum.
+\end{proof}
