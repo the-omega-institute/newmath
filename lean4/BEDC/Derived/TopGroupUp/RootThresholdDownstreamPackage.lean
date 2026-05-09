@@ -5,6 +5,7 @@ namespace BEDC.Derived.TopGroupUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.Derived.GroupUp
 open BEDC.Derived.TopologyUp
 
@@ -51,5 +52,35 @@ theorem TopGroupRootThresholdPackage_root_threshold_namecert_threshold
       (And.intro package.right.left
         (And.intro package.right.right.right.right.right.left
           package.right.right.right.right.right.right)))
+
+theorem TopGroupRootThresholdPackage_root_threshold_export_boundary
+    {group topology product inverse neighborhood ledger provenance productLedger inverseLedger
+      exportLedger : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      Cont product neighborhood productLedger ->
+        Cont inverse neighborhood inverseLedger ->
+          Cont productLedger inverseLedger exportLedger ->
+            GroupSingletonCarrier group ∧ TopologySingletonCarrier topology ∧
+              UnaryHistory productLedger ∧ UnaryHistory inverseLedger ∧
+                UnaryHistory exportLedger ∧ hsame exportLedger (append productLedger inverseLedger) ∧
+                  hsame ledger (append product inverse) ∧ hsame provenance ledger := by
+  intro package productLedgerRow inverseLedgerRow exportLedgerRow
+  have boundary := TopGroupRootThresholdPackage_source_coupled_continuity_boundary package
+  have productLedgerUnary : UnaryHistory productLedger :=
+    unary_cont_closed boundary.right.right.left boundary.right.right.right.right.left
+      productLedgerRow
+  have inverseLedgerUnary : UnaryHistory inverseLedger :=
+    unary_cont_closed boundary.right.right.right.left boundary.right.right.right.right.left
+      inverseLedgerRow
+  have exportLedgerUnary : UnaryHistory exportLedger :=
+    unary_cont_closed productLedgerUnary inverseLedgerUnary exportLedgerRow
+  exact And.intro package.left
+    (And.intro package.right.left
+      (And.intro productLedgerUnary
+        (And.intro inverseLedgerUnary
+          (And.intro exportLedgerUnary
+            (And.intro exportLedgerRow
+              (And.intro package.right.right.right.right.right.left
+                package.right.right.right.right.right.right))))))
 
 end BEDC.Derived.TopGroupUp
