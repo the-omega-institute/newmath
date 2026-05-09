@@ -257,4 +257,56 @@ theorem JonesSkeinLedgerPacket_endpoint_classifier_exhaustion
                   (And.intro packet.right.right.right.right.right.right.right
                     packet.right.right.right.right.right.right.right))))))))
 
+theorem JonesSkeinLedgerPacket_namecert_obligation_surface
+    {diagram positive negative smoothing endpoint provenance contLedger : BHist}
+    {skeinLedger : ProbeBundle JonesSkeinBoundaryTag} :
+    JonesSkeinLedgerPacket diagram positive negative smoothing endpoint provenance contLedger
+        skeinLedger ->
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) hsame ∧
+        InBundle JonesSkeinBoundaryTag.diagram skeinLedger ∧
+          InBundle JonesSkeinBoundaryTag.positive skeinLedger ∧
+            InBundle JonesSkeinBoundaryTag.negative skeinLedger ∧
+              InBundle JonesSkeinBoundaryTag.smoothing skeinLedger ∧
+                InBundle JonesSkeinBoundaryTag.endpoint skeinLedger ∧
+                  Cont positive negative smoothing ∧ Cont diagram endpoint provenance ∧
+                    Cont provenance endpoint contLedger := by
+  intro packet
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (hsame_refl endpoint)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row other target sameRO sameOT
+        exact hsame_trans sameRO sameOT
+      carrier_respects_equiv := by
+        intro row other sameRO source
+        exact hsame_trans (hsame_symm sameRO) source
+    }
+    pattern_sound := by
+      intro row source
+      exact source
+    ledger_sound := by
+      intro row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro packet.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.left
+                  packet.right.right.right.right.right.right.right)))))))
+
 end BEDC.Derived.JonesPolynomialUp

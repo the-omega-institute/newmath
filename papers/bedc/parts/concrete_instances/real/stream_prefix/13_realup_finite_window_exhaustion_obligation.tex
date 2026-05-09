@@ -109,6 +109,49 @@ ledger stated above, while host $\mathsf{Nat}$ data, host functions, quotients,
 and unrecorded infinite objects have no exported row to inspect.
 \end{proof}
 
+\begin{theorem}[RealUp finite-window reindexed classifier transport]
+\label{thm:realup-finite-window-reindexed-classifier-transport}
+Let $W$ be a selected finite $\RealUp$ observation window admitted through the
+$\StreamNameUp$ finite-window seal ledger. Suppose $W'$ is obtained from $W$
+by a certified $\StreamNameUp$ unary reindexer, and suppose the transported
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row and the selected endpoint
+denominator package are present at $W'$. Then the transported window exposes
+the same $\RealUp$ finite seal ledger boundary as $W$: endpoint $\RatUp$
+classifier rows, positive denominator witnesses, common e-one tail readback,
+$\mathsf{DyadicRatCore}$ source rows, unary-history rows, $\hsame$ transport,
+and the finite $\mathsf{RealLedgerPolicy}$. The transported surface exposes
+no quotient, completion, host $\mathsf{Nat}$ index, host function,
+$\mathsf{Classical}$ datum, metric-completeness certificate, or standard
+bridge.
+\end{theorem}
+\begin{proof}
+Start with the certified unary reindexer. Apply
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} to transport the
+selected $\StreamNameUp$ observation rows and their $\hsame$ stability ledger
+from $W$ to $W'$.
+
+Next apply
+\autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage}. The
+transported finite-window classifier at $W'$ covers exactly the reindexed
+unary observation rows and the selected endpoint package, so no host
+$\mathsf{Nat}$ index or host function is exported by the StreamName face.
+
+Now identify the RealUp ledger carried by the source window. By
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}, the original
+surface of $W$ contains only the selected unary observation, the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, endpoint $\RatUp$
+classifier rows, positive denominator witnesses, common e-one tail readback,
+$\mathsf{DyadicRatCore}$ source rows, and the finite
+$\mathsf{RealLedgerPolicy}$ rows allowed by the seal.
+
+Finally repack the transported rows through
+\autoref{thm:realup-finite-window-exhaustion-obligation}. The scoped boundary
+permits only carrier, classifier, stability, source, and finite ledger rows,
+so the reindexed read surface is the same RealUp finite seal ledger boundary
+and has no quotient, completion, $\mathsf{Classical}$ datum,
+metric-completeness certificate, or standard bridge to inspect.
+\end{proof}
+
 \begin{theorem}[RealUp finite-window exhaustion subwindow closure]
 \label{thm:realup-finite-window-exhaustion-subwindow-closure}
 Whenever a $\RealUp$ finite-window exhaustion package is exposed for a
