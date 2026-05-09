@@ -86,3 +86,46 @@ $$
 $$
 This is the single proof-program endpoint determined by both readings. The conclusion is a statement about the CurryHoward classifier data itself, so it does not assert equality in the host proof language.
 \end{proof}
+
+\begin{theorem}[CurryHoward cut-beta classifier exhaustion]\label{thm:curryhoward-cut-beta-classifier-exhaustion}
+Every accepted CurryHoward cut-beta endpoint classifier witness of
+\autoref{def:curryhoward-endpoint-classifier} projects exactly to the
+$\FirstOrderUp$ deduction classifier rows, the $\LambdaCalcUp$ beta/substitution
+classifier rows, the shared $\mathsf{BHist}$ proof-program endpoint rows, the
+displayed $\hsame$ transports, finite $\Cont$ provenance, and the two source
+certificates $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$.
+Conversely, those rows repack into the same accepted CurryHoward endpoint
+classifier witness.
+
+Thus the cut-beta classifier surface is exhausted by displayed deduction,
+program, endpoint, transport, provenance, and source-certificate rows. It does
+not read host proof equality, host lambda-term equality, or an alpha-quotient.
+\end{theorem}
+\begin{proof}
+Project an accepted witness through
+\autoref{def:curryhoward-endpoint-classifier}. Its first clause is precisely the
+$\FirstOrderUp$ deduction classifier comparison for $D_1,D_2,D_{\mathsf{cut}}$
+and the corresponding rows of the second packet. Its second clause is the
+$\LambdaCalcUp$ beta/substitution classifier comparison for the term packets,
+redex rows, substitution ledgers, and output endpoints.
+
+The remaining clauses of the same definition expose the shared
+$\mathsf{BHist}$ proof-program endpoint rows, the displayed $\hsame$ transports
+for $P,A,B$, and the finite $\Cont$ provenance row $\rho$. The provenance row
+names exactly $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$ as the
+source certificates for the comparison.
+
+Apply \autoref{thm:curryhoward-classifier-endpoint-transport}. The projected
+deduction and beta/substitution rows transport to the same proof-program
+endpoint under those displayed $\hsame$ and $\Cont$ rows.
+
+Apply \autoref{thm:curryhoward-cut-beta-proof-program-determinacy}. The
+transported endpoint is the displayed CurryHoward proof-program row, so the
+classifier has no further host equality component to project.
+
+Conversely, given exactly the rows listed above, rebuild the witness by the
+clauses of \autoref{def:curryhoward-endpoint-classifier}. The transport theorem
+and determinacy theorem verify that the repacked deduction-side and
+program-side endpoints are the same displayed proof-program endpoint, which
+closes the classifier without adding any external quotient.
+\end{proof}

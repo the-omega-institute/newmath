@@ -225,6 +225,56 @@ polynomial classifier specification. Repacking these fields gives precisely an
 accepted $\mathsf{JonesSkeinCls}$ witness.
 \end{proof}
 
+\begin{theorem}[JonesPolynomial local skein-window composition]
+\label{thm:jonespolynomial-local-skein-window-composition}
+Let $\mathcal{J}_1$ and $\mathcal{J}_2$ be finite $\JonesPolynomialUp$ skein
+ledger packets over $\mathsf{BHist}$ as in
+\autoref{def:jonespolynomial-skein-ledger-packet}. Suppose the terminal local
+skein-window row of $\mathcal{J}_1$ and the initial local skein-window row of
+$\mathcal{J}_2$ are the same displayed $\KnotUp$ boundary row under $\hsame$,
+and suppose the adjacent Laurent endpoints carry compatible $\PolynomialUp$
+endpoint classifier rows. Then the finite $\Bundle$ skein ledgers of
+$\mathcal{J}_1$ and $\mathcal{J}_2$ concatenate to a finite $\JonesPolynomialUp$
+skein ledger packet whose classifier projects exactly to the two original
+classifiers, the shared $\KnotUp$ boundary row, the compatible $\PolynomialUp$
+endpoint row, the inherited $\Cont$ ledgers, and the shared $\Pkg$ provenance.
+
+The composed packet is a local finite-window construction. It introduces no
+host Laurent-polynomial equality, no knot quotient, and no global invariant row
+beyond the displayed $\mathsf{BHist}$, $\mathsf{Bundle}$, $\hsame$, $\Cont$,
+$\Pkg$, $\KnotUp$, and $\PolynomialUp$ data.
+\end{theorem}
+\begin{proof}
+Unpack the two packets by
+\autoref{def:jonespolynomial-skein-ledger-packet}. Each packet supplies four
+visible $\KnotUp$ rows, one $\PolynomialUp$ endpoint row, a finite
+$\Bundle$ skein ledger, a $\Pkg$ provenance row, and a finite $\Cont$
+continuation ledger.
+
+Concatenate the two finite $\Bundle$ skein ledgers at the shared boundary face.
+The hypothesis identifies that face as the same displayed $\KnotUp$ local-window
+row under $\hsame$, and the compatible $\PolynomialUp$ endpoint classifier row
+gives the polynomial endpoint comparison needed at the join.
+
+Apply
+\autoref{lem:jonespolynomial-skein-ledger-reidemeister-transport} to the shared
+boundary face. The Reidemeister transport stays inside the same local skein
+window, so the concatenated ledger still has the positive, negative, and
+smoothing boundary rows required by
+\autoref{def:jonespolynomial-skein-ledger-packet}.
+
+The provenance rows and continuation ledgers concatenate as finite $\Pkg$ and
+$\Cont$ rows over the same public source certificates. Repacking these fields
+therefore gives a $\JonesPolynomialUp$ skein ledger packet.
+
+Finally apply
+\autoref{thm:jonespolynomial-skein-endpoint-classifier-exhaustion}. The
+classifier of the composed packet projects exactly to the two original
+classifier surfaces plus the shared boundary row and the compatible polynomial
+endpoint row. Since endpoint exhaustion lists no host polynomial equality or
+knot quotient, the composition does not introduce either one.
+\end{proof}
+
 \begin{theorem}[JonesPolynomial public NameCert obligation surface]
 \label{thm:jonespolynomial-namecert-obligation-surface}
 The public $\NameCert_{\JonesPolynomialUp}$ obligation surface consists exactly
