@@ -226,4 +226,29 @@ theorem FactorBHistSourcePacket_vonneumann_dependency_consumer_boundary [AskSetu
       packet.right.right.right.right.right.left, packet.right.right.right.right.right.right.left,
       endpointAlgebra, endpointAlgebra, packet.right.right.right.right.right.right.right⟩
 
+theorem FactorBHistSourcePacket_root_threshold_unblock_surface [AskSetup] [PackageSetup]
+    {algebra centre witness typeRow transport ledger endpoint consumerEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FactorBHistSourcePacket algebra centre witness typeRow transport ledger endpoint bundle pkg ->
+      Cont endpoint transport consumerEndpoint ->
+        UnaryHistory consumerEndpoint ∧ hsame consumerEndpoint (append endpoint transport) ∧
+          hsame endpoint (append ledger transport) ∧ hsame ledger (append witness typeRow) ∧
+            hsame witness (append algebra centre) ∧ PkgSig bundle endpoint pkg := by
+  intro packet endpointTransport
+  have centreUnary : UnaryHistory centre := packet.right.left
+  have witnessUnary : UnaryHistory witness :=
+    unary_cont_closed packet.left centreUnary packet.right.right.right.right.left
+  have typeRowUnary : UnaryHistory typeRow := packet.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed witnessUnary typeRowUnary packet.right.right.right.right.right.left
+  have transportUnary : UnaryHistory transport := packet.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary transportUnary packet.right.right.right.right.right.right.left
+  have consumerUnary : UnaryHistory consumerEndpoint :=
+    unary_cont_closed endpointUnary transportUnary endpointTransport
+  exact
+    ⟨consumerUnary, endpointTransport, packet.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.left, packet.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.FactorUp
