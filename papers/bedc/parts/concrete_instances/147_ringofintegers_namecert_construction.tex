@@ -80,6 +80,72 @@ the displayed finite packet, the surface has no hidden host quotient or detached
 integral-closure carrier.
 \end{proof}
 
+\begin{theorem}[RingOfIntegers dependency projection boundary]
+\label{thm:ringofintegers-dependency-projection-boundary}
+Every accepted $\RingOfIntegersUp$ Dedekind-source carrier
+$$
+\mathcal O=(\mathcal N,\mathcal Z,\eta,E,\kappa,\tau,\rho)
+$$
+projects exactly to the $\NumFieldUp$ carrier and operation rows carried by
+$\mathcal N$, the embedded $\IntUp$ rows carried by $\mathcal Z$ and $\eta$,
+the displayed $\Cont$ provenance $\tau$, the $\hsame$ classifier row $\kappa$,
+and the $\Pkg$ provenance $\rho$. The dependency projection has no host
+polynomial-equality row, host integral-closure carrier, or quotient carrier.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of
+\autoref{def:ringofintegers-dedekind-source-carrier}. Its dependency fields are
+precisely the number-field row $\mathcal N$, embedded integer row
+$\mathcal Z$, embedding provenance $\eta$, classifier $\kappa$, continuation
+row $\tau$, and package row $\rho$.
+
+Apply \autoref{thm:ringofintegers-integral-closure-obligation-surface}. The
+obligation surface projects accepted rows to those displayed dependency rows
+and to the finite equation ledger $E$, with no hidden host carrier.
+
+Finally drop the equation entries and retain only the rows that describe the
+dependency boundary. Because the carrier definition has no field for host
+polynomial equality, a quotient carrier, or a detached integral-closure object,
+the projection is exhausted by the listed $\NumFieldUp$, $\IntUp$, $\Cont$,
+$\hsame$, and $\Pkg$ rows.
+\end{proof}
+
+\begin{theorem}[RingOfIntegers equation-ledger transport closure]
+\label{thm:ringofintegers-equation-ledger-transport-closure}
+For an accepted $\RingOfIntegersUp$ Dedekind-source carrier
+$$
+\mathcal O=(\mathcal N,\mathcal Z,\eta,E,\kappa,\tau,\rho),
+$$
+transport the finite integral-equation ledger $E$ by the displayed classifier
+row $\kappa$. The transported ledger, together with the same
+$\NumFieldUp$ carrier row, embedded $\IntUp$ rows, $\Cont$ provenance, and
+$\Pkg$ provenance, repacks as the same accepted
+$\RingOfIntegersUp$ obligation surface. No host polynomial-equality row,
+quotient carrier, or detached integral-closure carrier is introduced by the
+transport.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:ringofintegers-dedekind-source-carrier}. The classifier row
+$\kappa$ contains the $\hsame$ transports for the number-field carrier, embedded
+integer rows, field-operation endpoints, and every integral-equation row in
+$E$.
+
+Induct over the finite ledger $E$, following the ledger argument in
+\autoref{thm:ringofintegers-integral-closure-obligation-surface}. In the empty
+case, transport preserves only the dependency, classifier, continuation, and
+package rows, so the obligation surface repacks immediately.
+
+In the cons case, the head equation is transported through the displayed
+field-operation endpoints and integer-coefficient rows recorded by $\kappa$.
+The induction hypothesis transports the tail ledger and repacks it over the
+same $\mathcal N$, $\mathcal Z$, $\eta$, $\tau$, and $\rho$ rows.
+
+Attach the transported head equation to the transported tail and repack through
+the obligation surface. Since every transported equation row remains a row of
+the displayed finite ledger and the carrier has no host polynomial-equality or
+quotient field, the accepted surface is unchanged.
+\end{proof}
+
 \begin{theorem}[RingOfIntegers root classifier transport]
 \label{thm:ringofintegers-root-classifier-transport}
 For a $\RingOfIntegersUp$ Dedekind-source carrier
