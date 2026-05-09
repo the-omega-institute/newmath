@@ -112,6 +112,8 @@ import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.RegulatorUp
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DeRhamUp
+import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
+import BEDC.Derived.DeRhamUp.GraphLedger
 import BEDC.Derived.DeRhamUp.RootCocycleLedgerThreshold
 import BEDC.Derived.DeRhamUp.RootObligations
 import BEDC.Derived.DeRhamUp.DoubleExteriorObligations
@@ -198,6 +200,7 @@ import BEDC.Derived.ObservableUp.SemanticCertificate
 import BEDC.Derived.ObservableUp.ObligationSurface
 import BEDC.Derived.ObservableUp.NameCertObligationSurface
 import BEDC.Derived.ObservableUp.SpectralStateSource
+import BEDC.Derived.ObservableUp.ExpectationInterface
 import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
@@ -397,6 +400,9 @@ import BEDC.Derived.TopologyUp.PublicWitness
 import BEDC.Derived.TopologyUp.PublicWitnesses
 import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.TopGroupUp
+import BEDC.Derived.TopGroupUp.RootLedgerSemanticExactness
+import BEDC.Derived.TopGroupUp.ClassifierContinuityTransport
+import BEDC.Derived.TopGroupUp.SourceCompatibility
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
