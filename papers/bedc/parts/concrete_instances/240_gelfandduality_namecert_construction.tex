@@ -45,6 +45,7 @@ $P$ is the $\mathsf{Pkg}$ provenance for the shared spectrum pairing, and
 $\lambda$ is the $\Cont$ route carrying exactly those transported readbacks.
 The package exposes transport only through these displayed rows.
 \end{definition}
+\leandef{BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrumTransportPackage}
 
 \section{The certificate}
 \label{sec:gelfandduality-certificate}
@@ -87,6 +88,7 @@ $\mathsf{Pkg}$ row $P$, and the finite $\Cont$ route $\lambda$; the
 $\NameCert_{\TopologyUp}$ row $X$ is available to that consumer only as the
 recorded compact-spectrum dependency of the same packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrumPairingCarrier\_cstaralgebra\_consumer\_boundary}
 \begin{proof}
 Take a consumer whose input is the algebraic face of the carrier. Projecting
 the carrier exposes $A$ as the only consumed $\NameCert_{\CStarAlgUp}$ row and
@@ -142,6 +144,7 @@ $\lambda$. Conversely, those displayed rows repack as the transported
 $\GelfandDualityUp$ spectrum-pairing surface, with no second spectrum carrier,
 no hidden transform row, and no host compact-Hausdorff theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrumTransportPackage\_exactness}
 \begin{proof}
 Project the accepted transport to the tuple
 $\mathcal{T}_{\mathcal{G}}=(A,X,\chi,\varepsilon,\rho_{A},\rho_{X},P,\lambda)$.
@@ -275,14 +278,48 @@ slot for an external Gelfand transform, an imported compact-Hausdorff theorem,
 or any host-level spectrum construction.
 \end{proof}
 
-\closureat{GelfandDualityUp}{seedStr}[BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrum\_source\_obligation]
+\begin{theorem}[GelfandDuality obligation closure inventory]
+\label{thm:gelfandduality-obligation-closure-inventory}
+The $\GelfandDualityUp$ obligation inventory consists exactly of the
+$\mathsf{BHist}$ spectrum-pairing carrier rows
+$A$, $X$, $\chi$, $\varepsilon$, $\rho_{A}$, $\rho_{X}$, $P$, and $\lambda$,
+the two consumer boundaries for the $\NameCert_{\CStarAlgUp}$ and
+$\NameCert_{\TopologyUp}$ faces, spectrum transport exactness, classifier
+stability, ledger exactness, and the NameCert obligation surface. All entries
+are mediated by $\mathsf{BHist}$, $\hsame$, $\Pkg$, and $\Cont$, and the
+inventory excludes host Gelfand transforms and compact-Hausdorff imports.
+\end{theorem}
+\begin{proof}
+The carrier rows are the displayed tuple of
+\autoref{def:gelfandduality-spectrum-pairing-carrier}. The source boundary is
+\autoref{thm:gelfandduality-spectrum-source-obligation}, so every public source
+row is one of $A$, $X$, $\chi$, $\varepsilon$, $\rho_{A}$, $\rho_{X}$, $P$, or
+$\lambda$.
+
+The two consumer sides are exactly
+\autoref{thm:gelfandduality-cstaralgebra-consumer-boundary} and
+\autoref{thm:gelfandduality-topology-consumer-boundary}. Transport contributes
+\autoref{thm:gelfandduality-spectrum-transport-exactness}, which repacks only
+the displayed rows through the two $\hsame$ transports, the provenance row, and
+the finite continuation route.
+
+The remaining public obligations are supplied by
+\autoref{thm:gelfandduality-namecert-obligation-surface},
+\autoref{thm:gelfandduality-spectrum-pairing-classifier-stability}, and
+\autoref{thm:gelfandduality-spectrum-ledger-exactness}. Together these blocks
+cover the NameCert surface, classifier stability, and ledger exactness, while
+each block rules out any public slot for a host Gelfand transform,
+compact-Hausdorff import, or external spectrum construction.
+\end{proof}
+
+\closureat{GelfandDualityUp}{obligationStr}[BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrum\_source\_obligation]
 
 \begin{closurestatus}{\GelfandDualityUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope binds the spectrum-pairing carrier rows $A$, $X$, $\chi$, $\varepsilon$, $\rho_A$, $\rho_X$, $P$, and $\lambda$ with their displayed $\hsame$, $\Pkg$, and finite $\Cont$ readback routes.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope binds the spectrum-pairing carrier rows $A$, $X$, $\chi$, $\varepsilon$, $\rho_A$, $\rho_X$, $P$, and $\lambda$, the two consumer boundaries, transport exactness, classifier stability, ledger exactness, and the NameCert obligation surface.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrum\_source\_obligation}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a standard compact-Hausdorff bridge, a Gelfand-transform bridge, or host-level spectrum equality.}
-  \upgradepath{Obligation closure requires the full public obligation inventory for the spectrum-pairing packet.}
+  \upgradepath{A later bridge requires a standard compact-Hausdorff interface and a checked comparison theorem for the displayed spectrum-pairing packet.}
 \end{closurestatus}
