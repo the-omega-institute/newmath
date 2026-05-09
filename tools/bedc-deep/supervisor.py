@@ -176,8 +176,13 @@ def crash_retry_sweep() -> int:
 _REJECTION_ITEM_RE = re.compile(r"item\s*(\d+)|build\s*invariant|content\s*duplication|non-?LaTeX")
 
 
-def stage2_reject_clusters(min_count: int = 3) -> dict[str, int]:
-    """Count Stage 2 rejection reason categories across all completed targets.
+def stage2_reject_clusters(min_count: int = 3, window_hours: float = 2.0) -> dict[str, int]:
+    """Count Stage 2 rejection reason categories from RECENT completed targets.
+
+    Only stage2_result.json files modified within `window_hours` are counted,
+    so PI's signal stays fresh — old failed backlog (alert_user / abandoned
+    targets) doesn't keep firing the recurring-pattern trigger after the
+    underlying root cause is fixed.
 
     Returns dict of category → count when count >= min_count.
     Categories are normalized: 'item N' (hygiene checklist item N),
@@ -191,7 +196,13 @@ def stage2_reject_clusters(min_count: int = 3) -> dict[str, int]:
     targets_dir = SCRIPT_DIR / "targets"
     if not targets_dir.exists():
         return {}
+    cutoff = time.time() - (window_hours * 3600)
     for stage2_file in targets_dir.glob("*/stage2_result.json"):
+        try:
+            if stage2_file.stat().st_mtime < cutoff:
+                continue
+        except OSError:
+            continue
         try:
             data = json.loads(stage2_file.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
