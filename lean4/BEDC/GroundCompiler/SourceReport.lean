@@ -2,6 +2,7 @@ import BEDC.GroundCompiler.ChannelEncoding
 
 namespace BEDC.GroundCompiler.SourceReport
 
+open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.ChannelEncoding
 
@@ -62,6 +63,34 @@ inductive CannotClaimAnnotation : Type where
   | terminatorNotSourceEvent
   | reportNotProof
   | reportNotPackageRecognition
+
+inductive HighRiskRawEvent : RawEvent -> Prop where
+  | event01 :
+      HighRiskRawEvent [BMark.b0, BMark.b1]
+  | event011 :
+      HighRiskRawEvent [BMark.b0, BMark.b1, BMark.b1]
+  | event100 :
+      HighRiskRawEvent [BMark.b1, BMark.b0, BMark.b0]
+  | event001 :
+      HighRiskRawEvent [BMark.b0, BMark.b0, BMark.b1]
+  | event0011 :
+      HighRiskRawEvent [BMark.b0, BMark.b0, BMark.b1, BMark.b1]
+  | event0100 :
+      HighRiskRawEvent [BMark.b0, BMark.b1, BMark.b0, BMark.b0]
+
+def CannotClaimCoverage (annotations : List CannotClaimAnnotation) : Prop :=
+  List.Mem CannotClaimAnnotation.decodedEventFlowNotTheoremhood annotations /\
+    List.Mem CannotClaimAnnotation.decodedEventFlowNotNameCert annotations /\
+    List.Mem CannotClaimAnnotation.decodedEventFlowNotDerivCert annotations /\
+    List.Mem CannotClaimAnnotation.decodedEventFlowNotAcceptanceGate annotations /\
+    List.Mem CannotClaimAnnotation.reportNotProof annotations /\
+    List.Mem CannotClaimAnnotation.reportNotPackageRecognition annotations
+
+inductive HigherLayerAdequacy
+    (_P : List DisplayAlphabet -> Option EventFlow) : Prop
+
+inductive MathematicalObjectGenerator
+    (_P : List DisplayAlphabet -> Option EventFlow) : Prop
 
 def SoundSourceReport (c : List DisplayAlphabet) (S : EventFlow) : Prop :=
   LegalZStream c /\
@@ -149,6 +178,11 @@ def P1Adequate (P : List DisplayAlphabet -> Option EventFlow) : Prop :=
     (forall c : List DisplayAlphabet,
       forall S : EventFlow, P c = some S -> Not (SourceReportFormalInput c S))
 
+def AddressReportLayer (P : List DisplayAlphabet -> Option EventFlow) : Prop :=
+  P1Adequate P /\
+    Not (HigherLayerAdequacy P) /\
+    Not (MathematicalObjectGenerator P)
+
 def PolicyDecode (_policy : DisplayPolicy)
     (c : List DisplayAlphabet) : Option EventFlow :=
   Decode c
@@ -176,6 +210,25 @@ theorem warnings_weaker_than_recognitions
     (warning : LiteralSourceWarning) :
     Not (LiteralWarningRecognition warning) :=
   literal_warning_not_recognition warning
+
+theorem cannot_claims_prevent_overinterpretation
+    {w : RawEvent} {annotations : List CannotClaimAnnotation} :
+    HighRiskRawEvent w ->
+      CannotClaimCoverage annotations ->
+        List.Mem CannotClaimAnnotation.reportNotProof annotations /\
+        List.Mem CannotClaimAnnotation.decodedEventFlowNotTheoremhood annotations /\
+        List.Mem CannotClaimAnnotation.decodedEventFlowNotNameCert annotations /\
+        List.Mem CannotClaimAnnotation.decodedEventFlowNotDerivCert annotations /\
+        List.Mem CannotClaimAnnotation.decodedEventFlowNotAcceptanceGate annotations /\
+        List.Mem CannotClaimAnnotation.reportNotPackageRecognition annotations := by
+  intro _ hCoverage
+  exact
+    And.intro hCoverage.right.right.right.right.left
+      (And.intro hCoverage.left
+        (And.intro hCoverage.right.left
+          (And.intro hCoverage.right.right.left
+            (And.intro hCoverage.right.right.right.left
+              hCoverage.right.right.right.right.right))))
 
 theorem event_segments_partition (S : EventFlow) :
     FlowEncoding S = (List.map EventSegment S).flatten := by
@@ -273,5 +326,21 @@ theorem p1_adequacy {P : List DisplayAlphabet -> Option EventFlow} :
   exact
     And.intro h.reportsAreSourceReports
       (And.intro h.illegalInputsRejected h.reportsDoNotBecomeInputs)
+
+theorem p1_adequacy_not_higher
+    {P : List DisplayAlphabet -> Option EventFlow} :
+    P1Adequate P -> Not (HigherLayerAdequacy P) := by
+  intro _ hHigher
+  cases hHigher
+
+theorem p1_address_report_layer
+    {P : List DisplayAlphabet -> Option EventFlow} :
+    P1Adequate P -> AddressReportLayer P := by
+  intro hAdequate
+  exact
+    And.intro hAdequate
+      (And.intro (p1_adequacy_not_higher hAdequate)
+        (fun hGenerator => by
+          cases hGenerator))
 
 end BEDC.GroundCompiler.SourceReport
