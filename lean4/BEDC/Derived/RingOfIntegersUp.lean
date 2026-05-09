@@ -251,4 +251,59 @@ theorem RingOfIntegersDedekindSourceCarrier_classifier_transport [AskSetup] [Pac
             (And.intro endpointCont' pkgSig'))))
   exact And.intro carrier' (And.intro sameEmbedding sameContRow)
 
+theorem RingOfIntegersDedekindSourceCarrier_scoped_dependency_package [AskSetup]
+    [PackageSetup]
+    {numfield embeddedInt embedding equationLedger classifier provenance contLedger endpoint num
+      embedded classifierEmbedding classifierEquation classifierContRow classifierProvenance
+      classifierEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RingOfIntegersDedekindSourceCarrier numfield embeddedInt embedding equationLedger classifier
+        provenance contLedger endpoint bundle pkg ->
+      RingOfIntegersClassifierTransportCarrier num embedded classifierEmbedding classifierEquation
+          classifier classifierContRow classifierProvenance classifierEndpoint bundle pkg ->
+        NumFieldRatReflexiveCarrier numfield ∧
+          IntCarrier BEDC.FKernel.Mark.BMark.b0 embedded ∧
+            UnaryHistory embeddedInt ∧ UnaryHistory equationLedger ∧ UnaryHistory classifier ∧
+              UnaryHistory contLedger ∧ UnaryHistory endpoint ∧
+                Cont numfield embeddedInt embedding ∧
+                  Cont embedding equationLedger contLedger ∧
+                    Cont embedded num classifierEmbedding ∧
+                      Cont classifierEmbedding classifierEquation classifierContRow ∧
+                        hsame classifier classifierContRow ∧
+                          Cont provenance contLedger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro sourceCarrier classifierCarrier
+  have sourceRows :=
+    RingOfIntegersDedekindSourceCarrier_dependency_projection_boundary
+      (numfield := numfield) (embeddedInt := embeddedInt) (embedding := embedding)
+      (equationLedger := equationLedger) (classifier := classifier)
+      (provenance := provenance) (contLedger := contLedger) (endpoint := endpoint)
+      (bundle := bundle) (pkg := pkg) sourceCarrier
+  constructor
+  · exact sourceRows.left
+  constructor
+  · exact classifierCarrier.left
+  constructor
+  · exact sourceRows.right.left
+  constructor
+  · exact sourceRows.right.right.right.left
+  constructor
+  · exact sourceRows.right.right.right.right.left
+  constructor
+  · exact sourceRows.right.right.right.right.right.left
+  constructor
+  · exact sourceRows.right.right.right.right.right.right.left
+  constructor
+  · exact sourceRows.right.right.right.right.right.right.right.left
+  constructor
+  · exact sourceRows.right.right.right.right.right.right.right.right.left
+  constructor
+  · exact classifierCarrier.right.left
+  constructor
+  · exact classifierCarrier.right.right.left
+  constructor
+  · exact classifierCarrier.right.right.right.left
+  constructor
+  · exact sourceRows.right.right.right.right.right.right.right.right.right.left
+  · exact sourceRows.right.right.right.right.right.right.right.right.right.right
+
 end BEDC.Derived.RingOfIntegersUp

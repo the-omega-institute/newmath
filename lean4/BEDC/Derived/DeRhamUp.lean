@@ -1,3 +1,4 @@
+import BEDC.Derived.CohomologyUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
@@ -15,6 +16,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.CohomologyUp
 
 theorem DeRhamDoubleExteriorDerivative_boundary {d : BHist -> BHist}
     {omega eta theta zero : BHist} :
@@ -193,6 +195,23 @@ theorem DeRhamBoundary_public_classifier_exactness
       exact boundaryH
   }
   exact And.intro cert (And.intro boundaryTheta emptyDerivative)
+
+theorem DeRhamDoubleExteriorPacket_cohomology_cocycle_readback
+    {d : BHist -> BHist} {omega eta theta zero : BHist} :
+    DeRhamDoubleExteriorPacket d omega eta theta zero ->
+      hsame (d eta) BHist.Empty ∧
+        SemanticNameCert (fun h : BHist => hsame (d h) BHist.Empty)
+          (fun h : BHist => hsame (d h) BHist.Empty)
+          (fun h : BHist => hsame (d h) BHist.Empty) hsame := by
+  intro packet
+  have boundaryRows := DeRhamDoubleExteriorPacket_boundary packet
+  have cert :
+      SemanticNameCert (fun h : BHist => hsame (d h) BHist.Empty)
+        (fun h : BHist => hsame (d h) BHist.Empty)
+        (fun h : BHist => hsame (d h) BHist.Empty) hsame :=
+    CohomologyCocycle_predicate_semanticNameCert
+      (axis := eta) boundaryRows.right.right packet.right.right.left
+  exact And.intro boundaryRows.right.right cert
 
 theorem DeRhamStandardBoundaryBridgePacket_classifier_compatibility
     {d : BHist -> BHist} {omega eta theta zero provenance bridge : BHist} :

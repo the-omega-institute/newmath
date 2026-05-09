@@ -325,6 +325,53 @@ theorem ObservableBHistOperatorCarrier_public_consumer_exhaustion [AskSetup] [Pa
       (And.intro exactness.right.right.right.right.left
         exactness.right.right.right.right.right))
 
+theorem ObservableBHistOperatorCarrier_expectation_pairing_boundary [AskSetup] [PackageSetup]
+    {hilbert operator spectrum expectation witness provenance ledger endpoint stateHilbert
+      stateProjective stateVector stateNorm statePhase stateProjectiveEndpoint stateHilbertLedger
+      stateProjectiveLedger stateProvenance stateEndpoint expectationEndpoint consumerEndpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance ledger
+        endpoint bundle pkg ->
+      QuantumStateBHistCarrier stateHilbert stateProjective stateVector stateNorm statePhase
+          stateProjectiveEndpoint stateHilbertLedger stateProjectiveLedger stateProvenance
+          stateEndpoint bundle pkg ->
+        hsame hilbert stateHilbert ->
+          Cont operator stateEndpoint expectationEndpoint ->
+            Cont expectationEndpoint endpoint consumerEndpoint ->
+              UnaryHistory expectationEndpoint ∧
+                hsame expectationEndpoint (append operator stateEndpoint) ∧
+                  UnaryHistory consumerEndpoint ∧
+                    hsame consumerEndpoint (append expectationEndpoint endpoint) ∧
+                      hsame endpoint (append provenance ledger) ∧
+                        PkgSig bundle endpoint pkg := by
+  intro carrier stateCarrier sameHilbert expectationRow consumerRow
+  have expectationBoundary :=
+    ObservableBHistOperatorCarrier_quantumstate_expectation_boundary
+      (hilbert := hilbert) (operator := operator) (spectrum := spectrum)
+      (expectation := expectation) (witness := witness) (provenance := provenance)
+      (ledger := ledger) (endpoint := endpoint) (stateHilbert := stateHilbert)
+      (stateProjective := stateProjective) (stateVector := stateVector)
+      (stateNorm := stateNorm) (statePhase := statePhase)
+      (stateProjectiveEndpoint := stateProjectiveEndpoint)
+      (stateHilbertLedger := stateHilbertLedger)
+      (stateProjectiveLedger := stateProjectiveLedger) (stateProvenance := stateProvenance)
+      (stateEndpoint := stateEndpoint) (expectationEndpoint := expectationEndpoint)
+      (bundle := bundle) (pkg := pkg) carrier stateCarrier sameHilbert expectationRow
+  have spectralRows :=
+    ObservableBHistOperatorCarrier_spectral_data_ledger
+      (hilbert := hilbert) (operator := operator) (spectrum := spectrum)
+      (expectation := expectation) (witness := witness) (provenance := provenance)
+      (ledger := ledger) (endpoint := endpoint) (bundle := bundle) (pkg := pkg) carrier
+  have consumerUnary : UnaryHistory consumerEndpoint :=
+    unary_cont_closed expectationBoundary.left spectralRows.right.right.right.right.left
+      consumerRow
+  exact And.intro expectationBoundary.left
+    (And.intro expectationBoundary.right.left
+      (And.intro consumerUnary
+        (And.intro consumerRow
+          (And.intro expectationBoundary.right.right.left expectationBoundary.right.right.right))))
+
 theorem ObservableBHistOperatorCarrier_expectation_row_transport_composition [AskSetup]
     [PackageSetup]
     {hilbert operator operator' spectrum spectrum' expectation expectation' witness provenance
