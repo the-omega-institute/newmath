@@ -178,6 +178,23 @@ theorem InnerProductRoot_vecspace_scalar_exposure {x y : BHist} :
     exact RealConstantHistoryClassifier_e1_iff_rat.mpr ratClassifier
   exact And.intro carrierX (And.intro carrierY realClassifier)
 
+theorem InnerProductRoot_form_law_exposure {x y : BHist} :
+    VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier y ->
+      InnerProductSingletonOrthogonal x y ∧ InnerProductSingletonOrthogonal y x ∧
+        RealConstantHistoryClassifier (InnerProductSingletonForm x y)
+          (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+          (RealConstantHistoryClassifier (InnerProductSingletonForm x x)
+              (BHist.e1 (BHist.e1 BHist.Empty)) ↔
+            VecSpaceSingletonClassifier x BHist.Empty) := by
+  intro carrierX carrierY
+  have exposure := InnerProductRoot_vecspace_scalar_exposure carrierX carrierY
+  have orthogonalXY : InnerProductSingletonOrthogonal x y :=
+    And.intro exposure.left (And.intro exposure.right.left exposure.right.right)
+  have symmetric := InnerProductSingletonOrthogonal_symm_constant_endpoint orthogonalXY
+  have diagonal := InnerProductSingletonDiagonal_zero_exactness (x := x) carrierX
+  exact And.intro orthogonalXY
+    (And.intro symmetric.left (And.intro exposure.right.right diagonal))
+
 theorem InnerProductSingletonOrthogonal_symm_package {x y : BHist} :
     InnerProductSingletonOrthogonal x y ->
       InnerProductSingletonOrthogonal y x ∧
