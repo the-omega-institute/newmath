@@ -33,4 +33,40 @@ theorem RatStreamName_scheduled_constant_observation_exactness {d e : BHist}
     exact classifiedDE
   exact And.intro streamCarrier (And.intro streamClassifier pointRows)
 
+theorem RatStreamName_scheduled_window_reindex_stability {d e : BHist}
+    {r q u : BHist -> BHist} :
+    RatHistoryCarrier d -> RatHistoryClassifier d e ->
+      (forall n : BHist, UnaryHistory n -> UnaryHistory (u n)) ->
+        RatStreamNameCarrier (fun n : BHist => RatConstStream d (r (u n))) ∧
+          RatStreamNameClassifier (fun n : BHist => RatConstStream d (r (u n)))
+            (fun n : BHist => RatConstStream e (q (u n))) ∧
+            (forall {n : BHist}, UnaryHistory n ->
+              RatHistoryClassifier (RatConstStream d (r (u n)))
+                (RatConstStream e (q (u n)))) := by
+  intro carrierD classifiedDE uUnary
+  have carrierE : RatHistoryCarrier e := classifiedDE.right.left
+  have streamCarrier :
+      RatStreamNameCarrier (fun n : BHist => RatConstStream d (r (u n))) := by
+    intro n nUnary
+    have _windowUnary : UnaryHistory (u n) := uUnary n nUnary
+    change RatHistoryCarrier d
+    exact carrierD
+  have streamCarrierE :
+      RatStreamNameCarrier (fun n : BHist => RatConstStream e (q (u n))) := by
+    intro n nUnary
+    have _windowUnary : UnaryHistory (u n) := uUnary n nUnary
+    change RatHistoryCarrier e
+    exact carrierE
+  have pointRows :
+      forall {n : BHist}, UnaryHistory n ->
+        RatHistoryClassifier (RatConstStream d (r (u n))) (RatConstStream e (q (u n))) := by
+    intro n nUnary
+    have _windowUnary : UnaryHistory (u n) := uUnary n nUnary
+    change RatHistoryClassifier d e
+    exact classifiedDE
+  exact And.intro streamCarrier
+    (And.intro (And.intro streamCarrier
+        (And.intro streamCarrierE (fun n nUnary => pointRows (n := n) nUnary)))
+      pointRows)
+
 end BEDC.Derived.StreamNameUp
