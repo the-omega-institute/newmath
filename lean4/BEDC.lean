@@ -399,6 +399,7 @@ import BEDC.Derived.TopologyUp.PublicWitness
 import BEDC.Derived.TopologyUp.PublicWitnesses
 import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.TopGroupUp
+import BEDC.Derived.TopGroupUp.LedgerExactnessObligation
 import BEDC.Derived.TopGroupUp.SourceCompatibility
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
