@@ -81,6 +81,35 @@ def SplittingFieldRootCarrierPacket [AskSetup] [PackageSetup]
       Cont fieldExt polynomial classifier ∧ Cont roots factors factorLedger ∧
         Cont provenance factorLedger endpoint ∧ PkgSig bundle endpoint pkg
 
+theorem SplittingFieldRootCarrierPacket_provenance_transport [AskSetup] [PackageSetup]
+    {fieldExt polynomial roots factors transport provenance provenance' classifier factorLedger
+      endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SplittingFieldRootCarrierPacket fieldExt polynomial roots factors transport provenance classifier
+        factorLedger endpoint bundle pkg ->
+      hsame provenance provenance' ->
+        Cont provenance' factorLedger endpoint' ->
+          PkgSig bundle endpoint' pkg ->
+            SplittingFieldRootCarrierPacket fieldExt polynomial roots factors transport provenance'
+                classifier factorLedger endpoint' bundle pkg ∧ hsame endpoint endpoint' := by
+  intro packet sameProvenance endpointCont' endpointPkg'
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport packet.right.right.right.right.right.left sameProvenance
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance (hsame_refl factorLedger)
+      packet.right.right.right.right.right.right.right.right.left endpointCont'
+  exact And.intro
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro packet.right.right.right.right.left
+              (And.intro provenanceUnary'
+                (And.intro packet.right.right.right.right.right.right.left
+                  (And.intro packet.right.right.right.right.right.right.right.left
+                    (And.intro endpointCont' endpointPkg')))))))))
+    sameEndpoint
+
 theorem SplittingFieldRootCarrierPacket_classifier_obligation [AskSetup] [PackageSetup]
     {fieldExt polynomial roots factors transport provenance classifier factorLedger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
