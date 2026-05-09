@@ -26,6 +26,9 @@ def SourceReportPrototype
   forall c : List DisplayAlphabet,
     forall S : EventFlow, P c = some S -> SourceEventReport c S
 
+def RoundTripReport (c : List DisplayAlphabet) (S : EventFlow) : Prop :=
+  Decode c = some S /\ FlowEncoding S = c
+
 inductive SourceReportFormalInput
     (_c : List DisplayAlphabet) (_S : EventFlow) : Prop
 
@@ -52,6 +55,11 @@ inductive CannotClaimAnnotation : Type where
   | terminatorNotSourceEvent
   | reportNotProof
   | reportNotPackageRecognition
+
+def SoundSourceReport (c : List DisplayAlphabet) (S : EventFlow) : Prop :=
+  LegalZStream c /\
+    SourceEventReport c S /\
+    c = (List.map EventSegment S).flatten
 
 theorem event_segment_body_terminator (w : RawEvent) :
     EventSegment w = BodySegment w ++ TerminatorSegment w := by
@@ -91,5 +99,17 @@ theorem illegal_channel_no_source_report {c : List DisplayAlphabet}
     Not (LegalZStream c) -> Not (SourceEventReport c S) := by
   intro hIllegal hReport
   exact hIllegal ⟨S, hReport.right.symm⟩
+
+theorem roundtrip_report_determined :
+    (forall S : EventFlow, RoundTripReport (FlowEncoding S) S) /\
+      (forall c : List DisplayAlphabet,
+        LegalZStream c -> exists S : EventFlow, RoundTripReport c S) := by
+  constructor
+  · intro S
+    exact And.intro (flow_level_round_trip S) rfl
+  · intro c hLegal
+    cases legal_stream_completeness hLegal with
+    | intro S hReport =>
+        exact ⟨S, hReport⟩
 
 end BEDC.GroundCompiler.SourceReport

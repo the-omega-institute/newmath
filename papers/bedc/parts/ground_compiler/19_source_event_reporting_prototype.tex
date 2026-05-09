@@ -193,6 +193,7 @@ A source-event report requires $S=\mathsf{Decode}(c)$. But $\mathsf{Decode}$ is 
 
 \begin{definition}[Round-trip report]
 \label{def:source-report-roundtrip-report}
+\leandef{BEDC.GroundCompiler.SourceReport.RoundTripReport}
 A \emph{round-trip report} for input event flow $S$ records $S$, $\mathsf{Compile}(S)$, $\mathsf{Decode}(\mathsf{Compile}(S))$, and the comparison result. It succeeds when
 $$
   \mathsf{Decode}(\mathsf{Compile}(S))=S.
@@ -205,6 +206,7 @@ $$
 
 \begin{proposition}[Round-trip report is determined by channel bijection]
 \label{prop:source-report-roundtrip-determined}
+\leanchecked{BEDC.GroundCompiler.SourceReport.roundtrip\_report\_determined}
 If $S\in\mathsf{EventFlow}$, then its round-trip report succeeds. If $c\in\mathsf{LegalZStream}$, then its round-trip report succeeds.
 \end{proposition}
 
@@ -278,6 +280,7 @@ the decoded event flow is the single source event $11$. The event table records 
 
 \begin{definition}[Sound source report]
 \label{def:source-report-sound}
+\leandef{BEDC.GroundCompiler.SourceReport.SoundSourceReport}
 A source-event report $\mathsf{SrcReport}(c,S)$ is \emph{sound} when:
 \begin{enumerate}
 \item $c\in\mathsf{LegalZStream}$;
