@@ -260,4 +260,36 @@ theorem IntegralUp_conservative_standard_bridge [AskSetup] [PackageSetup]
             (And.intro surface.right.right.right.right.right
               (And.intro classifierRows.left classifierRows.right.right.right.right.right))))))
 
+theorem IntegralUp_mature_consumer_completeness [AskSetup] [PackageSetup]
+    {measure contour integrand value measureContour integrandValue row row' measure' contour'
+      integrand' value' measureContour' integrandValue' row'' : BHist} :
+    IntegralVisibleCarrierRow measure contour integrand value measureContour integrandValue row ->
+      IntegralVisibleCarrierRow measure' contour' integrand' value' measureContour'
+        integrandValue' row'' ->
+        hsame row row' -> hsame measure measure' -> hsame contour contour' ->
+          hsame integrand integrand' -> hsame value value' ->
+            UnaryHistory row' ∧ MeasureZeroBHistCarrier measure ∧ PLContour contour ∧
+              UnaryHistory integrand ∧ RealConstantHistoryCarrier value ∧
+                Cont measureContour integrandValue row ∧
+                  MeasureZeroBHistClassifier measure measure' ∧ hsame row row'' ∧
+                    hsame measureContour measureContour' ∧
+                      hsame integrandValue integrandValue' := by
+  intro carrier carrier' sameRow sameMeasure sameContour sameIntegrand sameValue
+  have bridge :=
+    IntegralUp_conservative_standard_bridge carrier carrier' sameRow sameMeasure sameContour
+      sameIntegrand sameValue
+  have classifierRows :=
+    IntegralVisibleCarrierRow_measure_respecting_classifier carrier carrier' sameMeasure
+      sameContour sameIntegrand sameValue
+  exact And.intro bridge.left
+    (And.intro bridge.right.left
+      (And.intro bridge.right.right.left
+        (And.intro bridge.right.right.right.left
+          (And.intro bridge.right.right.right.right.left
+            (And.intro bridge.right.right.right.right.right.left
+              (And.intro bridge.right.right.right.right.right.right.left
+                (And.intro bridge.right.right.right.right.right.right.right
+                  (And.intro classifierRows.right.right.right.left
+                    classifierRows.right.right.right.right.left))))))))
+
 end BEDC.Derived.IntegralUp
