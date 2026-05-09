@@ -411,6 +411,17 @@ theorem package_without_ledger_no_namecert_over_package
               exact hNoLedger
                 (namecert_over_package_requires_ledger hNameCertOver)
 
+theorem package_sourced_namecert_licenses_name_not_export
+    {Rpkg : GeneratedPackageRecognizer} {Rn : GeneratedNameCertRecognizer}
+    {S C N P : EventFlow} :
+    NameCertOverPackage Rpkg Rn S C N P ->
+      Not (AcceptedObjectFlow S) ->
+        LicensedNameP5 S N /\ Not (AcceptedObjectFlow S) := by
+  intro hOver hNotAccepted
+  constructor
+  · exact ⟨C, ⟨Rn, no_namecert_without_five_fields hOver.right.right⟩⟩
+  · exact hNotAccepted
+
 structure PackageSourcedNameCertReport : Type where
   packageRecognizer : GeneratedPackageRecognizer
   nameCertRecognizer : GeneratedNameCertRecognizer
@@ -428,6 +439,19 @@ inductive FieldStatus : Type where
   | present
   | missing
   | candidateOnly
+
+inductive P5CannotClaimKind : Type where
+  | packageIsNameCert
+  | nameCertIsDerivCert
+  | licensedNameIsAcceptedObject
+  | packageTokenAloneSuffices
+  | nameEventAloneSuffices
+  | missingFieldsDoNotBlockRecognition
+  | channelCodeIsProof
+  | reportIsCertificate
+
+def P5CannotClaimAnnotations : Type :=
+  P5CannotClaimKind -> EventFlow -> Prop
 
 def PackageFieldStatus : Type :=
   EventFlow -> PackageRoleKind -> FieldStatus
@@ -458,6 +482,10 @@ structure SoundP5Report (report : P5Report) : Prop where
             exists ledger : EventFlow,
               NameCertFieldSubflow R report.decodedFlow C N ledger
                 NameCertSubflowRole.ledger
+  licensedNameSupport :
+    forall S N : EventFlow,
+      report.licensedNameStatus S N ->
+        exists C : EventFlow, LicensedNameP5Witness S C N
 
 theorem sound_p5_report {report : P5Report} :
     SoundP5Report report ->
@@ -479,6 +507,13 @@ theorem sound_p5_report {report : P5Report} :
     exact hSound.packageSupport R P hMem
   · intro R C N hMem
     exact hSound.nameCertSupport R C N hMem
+
+theorem sound_p5_licensed_name {report : P5Report} {S N : EventFlow} :
+    SoundP5Report report ->
+      report.licensedNameStatus S N ->
+        exists C : EventFlow, LicensedNameP5Witness S C N := by
+  intro hSound hLicensed
+  exact hSound.licensedNameSupport S N hLicensed
 
 theorem p5_license_weaker_than_export :
     exists S N : EventFlow, LicensedNameP5 S N /\ Not (AcceptedObjectFlow S) := by

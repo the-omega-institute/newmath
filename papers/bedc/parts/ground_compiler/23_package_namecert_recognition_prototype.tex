@@ -373,7 +373,8 @@ A \emph{package-sourced \NameCert\ report} contains recognized package flow $P$,
 
 \begin{principle}[Package-sourced NameCert is still not accepted export]
 \label{prin:pkg-namecert-over-package-not-export}
-Even a complete \NameCert\ over a recognized package licenses only a name. Mature export still requires derivation-certificate and acceptance-gate flows.
+\leanchecked{BEDC.GroundCompiler.PackageNameCertPrototype.package\_sourced\_namecert\_licenses\_name\_not\_export}
+If a recognized package flow with ledger supports a recognized \NameCert\ flow, then the package-sourced record supplies a $P_5$ licensed-name witness. It still does not supply accepted-object export unless the accepted-object witness is separately present; mature export requires derivation-certificate and acceptance-gate flows.
 \end{principle}
 
 \section{$P_5$ reports and soundness}
@@ -404,6 +405,7 @@ If a field is reported missing, the report only says that the field is missing f
 
 \begin{definition}[$P_5$ cannot-claim annotations]
 \label{def:pkg-namecert-p5-cannot-claims}
+\leandef{BEDC.GroundCompiler.PackageNameCertPrototype.P5CannotClaimAnnotations}
 A $P_5$ report must include cannot-claim annotations saying that recognized package flow does not imply \NameCert\ flow, recognized \NameCert\ flow does not imply derivation-certificate flow, licensed name does not imply accepted object, package token alone is insufficient, name event alone is insufficient, missing fields block recognition, channel code is not proof, and report is not certificate.
 \end{definition}
 
@@ -435,6 +437,7 @@ Soundness requires each recognized package flow to be supported by generated pac
 
 \begin{theorem}[Sound $P_5$ licensed name theorem]
 \label{thm:pkg-namecert-sound-licensed-name}
+\leanchecked{BEDC.GroundCompiler.PackageNameCertPrototype.sound\_p5\_licensed\_name}
 If a sound $P_5$ report asserts
 $$
   \mathsf{LicensedName}_{P_5}(S,N),
