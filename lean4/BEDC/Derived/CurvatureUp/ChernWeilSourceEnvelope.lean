@@ -44,4 +44,28 @@ theorem CurvatureChernWeilSourceEnvelope_provenance_ledger_transport [AskSetup]
                 (And.intro classifierRow (And.intro classifierReadback' pkgSig'))))))))
     sameClassifier
 
+theorem CurvatureBracketCarrier_chernweil_export_dependency_surface [AskSetup]
+    [PackageSetup]
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
+      curvatureLedger derham exportProvenance connectionLedger classifier : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA
+        ledgerB boundary curvatureLedger ->
+      UnaryHistory derham ->
+        UnaryHistory connectionLedger ->
+          Cont curvatureLedger derham exportProvenance ->
+            Cont exportProvenance connectionLedger classifier ->
+              PkgSig bundle classifier pkg ->
+                CurvatureChernWeilSourceEnvelope curvatureLedger derham exportProvenance
+                    connectionLedger classifier bundle pkg ∧
+                  hsame classifier (append (append curvatureLedger derham) connectionLedger) ∧
+                    UnaryHistory curvatureLedger := by
+  intro carrier derhamUnary connectionLedgerUnary exportRow classifierRow pkgSig
+  have coverage :=
+    CurvatureChernWeilSourceEnvelope_coverage carrier derhamUnary connectionLedgerUnary
+      exportRow classifierRow pkgSig
+  have boundaryRows :=
+    CurvatureBracketCarrier_boundary_source_obligation carrier
+  exact And.intro coverage.left (And.intro coverage.right boundaryRows.right.left)
+
 end BEDC.Derived.CurvatureUp
