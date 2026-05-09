@@ -144,3 +144,43 @@ StreamName classifier row, the endpoint denominator rows, and the dyadic source
 rows. Repacking these rows gives the same $\RealUp$ read surface restricted to
 the certified subwindow.
 \end{proof}
+
+\begin{theorem}[RealUp finite-window exhaustion overlap closure]
+\label{thm:realup-finite-window-exhaustion-overlap-closure}
+Let two $\RealUp$ finite-window exhaustion packages expose certified
+$\StreamNameUp$ subwindows. If the two restricted windows have a certified
+common $\StreamNameUp$ subwindow overlap, then the overlap exposes the same
+inherited $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the same
+endpoint denominator rows, the same common e-one tail readbacks, and the same
+$\mathsf{DyadicRatCore}$ source rows, up to the $\hsame$ ledger permitted by
+\autoref{thm:realup-scoped-certificate-boundary}. The overlap certificate
+does not expose host $\mathsf{Nat}$ indices, host functions, quotients, or
+unrecorded infinite stream data.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:realup-finite-window-exhaustion-subwindow-closure} to each
+ambient finite-window exhaustion package. Each restricted window therefore
+reads only its subwindow observation rows, inherited
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, endpoint denominator
+rows, common e-one tail readbacks, and $\mathsf{DyadicRatCore}$ source rows.
+
+Now restrict both sides to the certified common $\StreamNameUp$ overlap. The
+overlap has the same selected StreamName window on both readings, so
+\autoref{thm:realup-streamname-window-determinacy-boundary} identifies the
+endpoint $\RatUp$ classifier rows, positive denominator witnesses, common
+e-one tail readbacks, and dyadic source rows through the displayed $\hsame$
+ledger.
+
+Finally apply
+\autoref{thm:realup-streamname-finite-window-ledger-boundary} on the overlap
+itself. The only exported ledger rows are the selected unary observation, the
+overlap $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the endpoint
+denominator rows, and the dyadic source rows named by the finite-window
+exhaustion boundary.
+
+Since \autoref{thm:realup-scoped-certificate-boundary} admits no exported row
+for host $\mathsf{Nat}$ indices, host functions, quotient witnesses, or
+unrecorded infinite stream data, no further datum can distinguish the two
+restricted readings on their common overlap.
+\end{proof}
