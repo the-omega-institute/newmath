@@ -1,4 +1,5 @@
 import BEDC.GroundCompiler.ChannelEncoding
+import BEDC.GroundCompiler.RecognizerFlows
 import BEDC.GroundCompiler.SourceChannel
 
 namespace BEDC.GroundCompiler.MainTheorems
@@ -6,6 +7,7 @@ namespace BEDC.GroundCompiler.MainTheorems
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.ChannelEncoding
+open BEDC.GroundCompiler.RecognizerFlows
 open BEDC.GroundCompiler.SourceChannel
 
 structure NoHiddenInputCompilerState where
@@ -91,5 +93,47 @@ def GeneratedStructure
     (RecognizesK : GeneratedRecognizer -> EventFlow -> Prop) : Prop :=
   exists R : GeneratedRecognizer, exists S : EventFlow,
     FormalCompilerInput (CompilerDatum.recognizedFlow R S) /\ RecognizesK R S
+
+theorem structure_emergence :
+    Not (FormalCompilerInput CompilerDatum.hostPkg) /\
+      Not (FormalCompilerInput CompilerDatum.hostNameCert) /\
+      Not (FormalCompilerInput CompilerDatum.hostDerivCert) /\
+      Not (FormalCompilerInput CompilerDatum.hostClosureCert) /\
+      Not (FormalCompilerInput CompilerDatum.hostChapterPkg) /\
+      Not (FormalCompilerInput CompilerDatum.hostTheoremIdentifier) /\
+      Not (FormalCompilerInput CompilerDatum.hostManifest) := by
+  constructor
+  · exact structural_hidden_not_formal StructuralHiddenInput.hostPkg
+  · constructor
+    · exact structural_hidden_not_formal StructuralHiddenInput.hostNameCert
+    · constructor
+      · exact structural_hidden_not_formal StructuralHiddenInput.hostDerivCert
+      · constructor
+        · exact structural_hidden_not_formal StructuralHiddenInput.hostClosureCert
+        · constructor
+          · exact structural_hidden_not_formal StructuralHiddenInput.hostChapterPkg
+          · constructor
+            · exact
+                structural_hidden_not_formal
+                  StructuralHiddenInput.hostTheoremIdentifier
+            · exact structural_hidden_not_formal StructuralHiddenInput.hostManifest
+
+theorem yaml_ast_output_only :
+    Not (FormalCompilerInput CompilerDatum.hostYAML) /\
+      Not (FormalCompilerInput CompilerDatum.hostAST) /\
+      Not (FormalCompilerInput CompilerDatum.hostManifest) := by
+  constructor
+  · exact structural_hidden_not_formal StructuralHiddenInput.hostYAML
+  · constructor
+    · exact structural_hidden_not_formal StructuralHiddenInput.hostAST
+    · exact structural_hidden_not_formal StructuralHiddenInput.hostManifest
+
+theorem recognizer_generatedness
+    {R : RecognizerCandidateFlow} {rho : RecognitionRole} {S : EventFlow} :
+    FormalRecognitionEvidence R rho S ->
+      CertifiedRecognizer R rho /\
+        FormalCompilerInput (CompilerDatum.recognizedFlow R S) := by
+  intro hEvidence
+  exact ⟨hEvidence.left, hEvidence.right⟩
 
 end BEDC.GroundCompiler.MainTheorems
