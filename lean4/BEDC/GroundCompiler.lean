@@ -1,4 +1,5 @@
 import BEDC.GroundCompiler.EventFlow
+import BEDC.GroundCompiler.RecognizerFlows
 import BEDC.GroundCompiler.ChannelEncoding
 import BEDC.GroundCompiler.SourceReport
 import BEDC.GroundCompiler.SourceChannel
