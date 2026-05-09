@@ -473,6 +473,20 @@ inductive FormalMotifAnalysisInput : MotifAnalysisDatum -> Prop where
   | sourceFlow (S : EventFlow) :
       FormalMotifAnalysisInput (MotifAnalysisDatum.sourceFlow S)
 
+structure MotifReportPrototype where
+  prototypeFlow : EventFlow
+  p2ReportFlow : EventFlow
+  recognizerFamilyFlow : EventFlow
+  report : MotifReport
+  prototype_formal :
+    FormalCompilerInput (CompilerDatum.eventFlow prototypeFlow)
+  p2_report_formal :
+    FormalCompilerInput (CompilerDatum.eventFlow p2ReportFlow)
+  recognizer_family_formal :
+    FormalCompilerInput (CompilerDatum.eventFlow recognizerFamilyFlow)
+  report_not_formal_input :
+    Not (FormalMotifAnalysisInput (MotifAnalysisDatum.motifReport report))
+
 def EventCommonPrefixLength (S T : EventFlow) (k : Nat) : Prop :=
   k <= S.length /\ k <= T.length /\ S.take k = T.take k
 
