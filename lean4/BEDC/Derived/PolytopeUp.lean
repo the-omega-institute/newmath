@@ -207,6 +207,63 @@ theorem PolytopeFaceClassifier_transport [AskSetup] [PackageSetup]
             (And.intro sameFaces
               (And.intro transported.right.left transported.right.right))))))
 
+theorem PolytopeBHistFacePacket_downstream_boundary [AskSetup] [PackageSetup]
+    {convex finset halfspaces vertices edges faces ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolytopeBHistFacePacket convex finset halfspaces vertices edges faces ledger provenance
+        endpoint bundle pkg ->
+      UnaryHistory convex ∧
+        UnaryHistory finset ∧
+          UnaryHistory vertices ∧
+            UnaryHistory edges ∧
+              UnaryHistory faces ∧
+                UnaryHistory ledger ∧
+                  UnaryHistory endpoint ∧
+                    Cont halfspaces vertices edges ∧
+                      Cont edges faces ledger ∧
+                        Cont provenance ledger endpoint ∧
+                          hsame ledger (append edges faces) ∧
+                            hsame endpoint (append provenance ledger) ∧
+                              PkgSig bundle endpoint pkg := by
+  intro packet
+  cases packet with
+  | intro convexUnary packet =>
+      cases packet with
+      | intro finsetUnary packet =>
+          cases packet with
+          | intro _halfspacesUnary packet =>
+              cases packet with
+              | intro verticesUnary packet =>
+                  cases packet with
+                  | intro edgesUnary packet =>
+                      cases packet with
+                      | intro facesUnary packet =>
+                          cases packet with
+                          | intro ledgerUnary packet =>
+                              cases packet with
+                              | intro _provenanceUnary packet =>
+                                  cases packet with
+                                  | intro endpointUnary packet =>
+                                      cases packet with
+                                      | intro edgeCont packet =>
+                                          cases packet with
+                                          | intro ledgerCont packet =>
+                                              cases packet with
+                                              | intro endpointCont endpointPkg =>
+                                                  exact And.intro convexUnary
+                                                    (And.intro finsetUnary
+                                                      (And.intro verticesUnary
+                                                        (And.intro edgesUnary
+                                                          (And.intro facesUnary
+                                                            (And.intro ledgerUnary
+                                                              (And.intro endpointUnary
+                                                                (And.intro edgeCont
+                                                                  (And.intro ledgerCont
+                                                                    (And.intro endpointCont
+                                                                      (And.intro ledgerCont
+                                                                        (And.intro endpointCont
+                                                                          endpointPkg)))))))))))
+
 theorem PolytopeBHistFacePacket_obligation_boundary_exhaustion [AskSetup] [PackageSetup]
     {convex finset halfspaces vertices edges faces ledger provenance endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -352,5 +409,35 @@ theorem PolytopeBHistFacePacket_convex_finset_dependency_readback [AskSetup] [Pa
                                                           (And.intro ledgerCont
                                                             (And.intro endpointCont
                                                               endpointPkg)))))
+
+theorem PolytopeBHistFacePacket_downstream_boundary_transport [AskSetup] [PackageSetup]
+    {convex finset halfspaces vertices edges faces ledger provenance endpoint halfspaces'
+      vertices' edges' faces' ledger' endpoint' consumer consumer' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolytopeBHistFacePacket convex finset halfspaces vertices edges faces ledger provenance
+        endpoint bundle pkg ->
+      hsame halfspaces halfspaces' ->
+        hsame vertices vertices' ->
+          hsame edges edges' ->
+            hsame faces faces' ->
+              Cont halfspaces' vertices' edges' ->
+                Cont edges' faces' ledger' ->
+                  Cont provenance ledger' endpoint' ->
+                    PkgSig bundle endpoint' pkg ->
+                      Cont endpoint consumer consumer' ->
+                        PolytopeBHistFacePacket convex finset halfspaces' vertices' edges'
+                            faces' ledger' provenance endpoint' bundle pkg ∧
+                          hsame endpoint endpoint' ∧ hsame consumer' (append endpoint consumer) := by
+  intro packet sameHalfspaces sameVertices sameEdges sameFaces edgeCont ledgerCont endpointCont
+    endpointPkg consumerCont
+  have transported :=
+    PolytopeBHistFacePacket_halfspace_face_carrier_stability
+      (convex := convex) (finset := finset) (halfspaces := halfspaces)
+      (vertices := vertices) (edges := edges) (faces := faces) (ledger := ledger)
+      (provenance := provenance) (endpoint := endpoint) (halfspaces' := halfspaces')
+      (vertices' := vertices') (edges' := edges') (faces' := faces') (ledger' := ledger')
+      (endpoint' := endpoint') (bundle := bundle) (pkg := pkg) packet sameHalfspaces
+      sameVertices sameEdges sameFaces edgeCont ledgerCont endpointCont endpointPkg
+  exact And.intro transported.left (And.intro transported.right.right consumerCont)
 
 end BEDC.Derived.PolytopeUp

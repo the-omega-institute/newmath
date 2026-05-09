@@ -127,4 +127,61 @@ theorem LambdaCalcBHistTermCarrier_constructor_source_disjointness
       append_right_cancel (k := i) sourcesSame
     exact not_hsame_e0_e1 tagsSame
 
+theorem LambdaCalcBHistTermCarrier_constructor_case_exhaustion {i hVar hAbs hApp : BHist} :
+    UnaryHistory i ->
+      hsame hVar (append (BHist.e1 BHist.Empty) i) ->
+        hsame hAbs (append (BHist.e0 BHist.Empty) i) ->
+          hsame hApp (append (BHist.e1 (BHist.e1 BHist.Empty)) i) ->
+            (hsame hVar hAbs -> False) ∧ (hsame hAbs hApp -> False) ∧
+              (hsame hVar hApp -> False) := by
+  intro _indexUnary sameVar sameAbs sameApp
+  constructor
+  · intro mixed
+    have sourcesSame :
+        hsame (append (BHist.e1 BHist.Empty) i) (append (BHist.e0 BHist.Empty) i) :=
+      hsame_trans (hsame_symm sameVar) (hsame_trans mixed sameAbs)
+    have tagsSame : hsame (BHist.e1 BHist.Empty) (BHist.e0 BHist.Empty) :=
+      append_right_cancel (k := i) sourcesSame
+    exact not_hsame_e1_e0 tagsSame
+  · constructor
+    · intro mixed
+      have sourcesSame :
+          hsame (append (BHist.e0 BHist.Empty) i)
+            (append (BHist.e1 (BHist.e1 BHist.Empty)) i) :=
+        hsame_trans (hsame_symm sameAbs) (hsame_trans mixed sameApp)
+      have tagsSame :
+          hsame (BHist.e0 BHist.Empty) (BHist.e1 (BHist.e1 BHist.Empty)) :=
+        append_right_cancel (k := i) sourcesSame
+      exact not_hsame_e0_e1 tagsSame
+    · intro mixed
+      have sourcesSame :
+          hsame (append (BHist.e1 BHist.Empty) i)
+            (append (BHist.e1 (BHist.e1 BHist.Empty)) i) :=
+        hsame_trans (hsame_symm sameVar) (hsame_trans mixed sameApp)
+      have tagsSame :
+          hsame (BHist.e1 BHist.Empty) (BHist.e1 (BHist.e1 BHist.Empty)) :=
+        append_right_cancel (k := i) sourcesSame
+      have tailsSame : hsame BHist.Empty (BHist.e1 BHist.Empty) :=
+        hsame_e1_iff.mp tagsSame
+      exact not_hsame_emp_e1 tailsSame
+
+theorem LambdaCalcBHistTermPacketCarrier_substitution_output_determinacy
+    {graph edge connected acyclic tag payload endpoint endpoint' : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      TreeBHistCarrier graph edge connected acyclic tag endpoint' ->
+        Cont tag payload endpoint' ->
+          LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint' ∧
+            hsame endpoint endpoint' ∧ UnaryHistory endpoint' := by
+  intro packet treeCarrier endpointRow
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed
+      (TreeBHistCarrier_exactness_rows treeCarrier).right.right.right.right.right.right.left
+      packet.right.left endpointRow
+  have packet' :
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint' :=
+    And.intro treeCarrier (And.intro packet.right.left (And.intro endpointUnary' endpointRow))
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl tag) (hsame_refl payload) packet.right.right.right endpointRow
+  exact And.intro packet' (And.intro sameEndpoint endpointUnary')
+
 end BEDC.Derived.LambdaCalcUp
