@@ -13,6 +13,9 @@ def CompilerRecognitionRelation
 def CompilerBehaviorRelation : Type :=
   CompilerCandidateFlow -> EventFlow -> EventFlow -> Prop
 
+def CompilerTaskDomain (C D : CompilerCandidateFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow C D)
+
 def CompilerCertificateCandidateFlow : Type := EventFlow
 
 def CompilerCertificateRecognition
