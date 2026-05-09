@@ -6,5 +6,112 @@ The Fast-Fourier-transform interface $\FftUp$ packages the $O(n \log n)$ divide-
 \section{Carrier definition}
 \label{sec:fft-carrier}
 
+\begin{definition}[FFT BHist source packet]
+\label{def:fft-bhist-source-packet}
+An $\FftUp$ source packet is a finite $\mathsf{BHist}$ schedule carrying a
+$\ComplexUp$ scalar row, a $\FourierUp$ transform row, a finite
+$\mathsf{ProbeBundle}$ of butterfly stages, $\mathsf{InBundle}$ membership
+witnesses for every scheduled stage, and a factorization ledger naming the
+split of the transform length. The carrier accepts exactly those packets whose
+complex scalar rows and Fourier rows are accepted by their dependency
+certificates and whose stage rows transport through the same $\hsame$ and
+$\Cont$ evidence.
+\end{definition}
+
+\begin{theorem}[FFT carrier butterfly obligation]
+\label{thm:fft-carrier-butterfly-obligation}
+Every accepted $\FftUp$ carrier row projects to a finite butterfly schedule:
+each stage is a $\mathsf{BHist}$ row in the displayed
+$\mathsf{ProbeBundle}$, each membership witness is an
+$\mathsf{InBundle}$ row, and each butterfly continuation is carried by
+$\Cont$ from the $\ComplexUp$ scalar dependency and the $\FourierUp$ transform
+dependency. Conversely, those rows repack as the FFT carrier.
+\end{theorem}
+\begin{proof}
+Project the $\ComplexUp$ and $\FourierUp$ dependency rows from the packet.
+They supply the scalar and transform histories used by every scheduled stage.
+
+Read the finite schedule through the $\mathsf{ProbeBundle}$ field. Each
+butterfly row is certified by an $\mathsf{InBundle}$ witness, so the schedule
+is finite at the BEDC surface and does not depend on a host array traversal.
+
+For the converse direction, place the dependency rows, stage membership rows,
+and butterfly continuations into the packet constructor. The common $\hsame$
+and $\Cont$ evidence transports the stage rows and yields the carried
+$\FftUp$ endpoint.
+\end{proof}
+
+\begin{theorem}[FFT factorization classifier stability obligation]
+\label{thm:fft-factorization-classifier-stability-obligation}
+The factorization classifier row of an $\FftUp$ packet is stable under
+accepted replacement of the complex scalar, Fourier transform, and finite
+butterfly schedule rows. If two packets compare by the displayed $\hsame$
+evidence, then the split-length ledger, the stage membership witnesses, and
+the butterfly continuations classify the same FFT factorization surface.
+\end{theorem}
+\begin{proof}
+Transport the scalar row through $\NameCert_{\ComplexUp}$ and the transform
+row through $\NameCert_{\FourierUp}$. These two dependency transports fix the
+source histories on which the finite schedule is read.
+
+Next transport every scheduled butterfly stage along the same packet
+comparison. The $\mathsf{InBundle}$ witnesses keep the stage list inside the
+finite $\mathsf{ProbeBundle}$, while $\Cont$ transports the butterfly output
+rows.
+
+The factorization ledger is stored with those stage rows. Repacking the
+transported dependencies, schedule, and ledger gives the same classifier
+surface for the target FFT packet.
+\end{proof}
+
+\begin{theorem}[FFT ledger exactness obligation]
+\label{thm:fft-ledger-exactness-obligation}
+The $\FftUp$ ledger consists exactly of the $\NameCert_{\ComplexUp}$
+dependency row, the $\NameCert_{\FourierUp}$ dependency row, the finite
+$\mathsf{ProbeBundle}$ schedule, the $\mathsf{InBundle}$ stage witnesses, the
+butterfly continuation rows, the factorization ledger rows, and their
+$\hsame$ and $\Cont$ transports. It excludes analytic error estimates,
+floating-point bounds, asymptotic runtime claims, and standard bridge rows.
+\end{theorem}
+\begin{proof}
+Coverage reads any accepted FFT packet into the two dependency rows, the
+finite schedule, the stage membership witnesses, the butterfly
+continuations, and the factorization ledger.
+
+Soundness repacks exactly those rows. The scalar and transform dependencies
+justify the input histories, while $\mathsf{InBundle}$ and $\Cont$ justify the
+finite schedule and every butterfly output.
+
+Completeness is the absence of further ledger coordinates. Error estimates,
+floating-point bounds, asymptotic analysis, and standard bridge data are not
+fields of the packet, so they cannot be consumed by this certificate.
+\end{proof}
+
+\begin{theorem}[FFT root threshold unblock surface]
+\label{thm:fft-root-threshold-unblock-surface}
+The rows of \autoref{def:fft-bhist-source-packet},
+\autoref{thm:fft-carrier-butterfly-obligation},
+\autoref{thm:fft-factorization-classifier-stability-obligation}, and
+\autoref{thm:fft-ledger-exactness-obligation} form the dependency-ready
+finite-history surface for $\FftUp$. Downstream numerical-analysis
+certificates may consume the complex dependency, Fourier dependency, finite
+butterfly schedule, factorization ledger, and exact exclusion of analytic
+error or bridge data, but must provide any such estimates or bridges outside
+the FFT packet.
+\end{theorem}
+\begin{proof}
+The definition fixes the finite packet and the two dependency certificates.
+The butterfly obligation turns the packet into carried $\mathsf{BHist}$ stage
+rows over a certified finite schedule.
+
+The factorization stability obligation supplies the classifier transport for
+the split-length ledger and butterfly continuations. The ledger exactness
+obligation then states that no analytic estimate or standard bridge row is
+available inside the packet.
+
+Together these rows expose the concrete FFT source surface needed by later
+certificates while keeping numerical-analysis obligations separate.
+\end{proof}
+
 \section{The certificate}
 \label{sec:fft-certificate}
