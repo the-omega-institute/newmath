@@ -38,6 +38,7 @@ $$
 
 \begin{principle}[Accepted object is not input]
 \label{prin:deriv-accept-accepted-object-not-input}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.p6\_external\_inputs\_not\_formal}
 There is no formal input
 $$
   \mathsf{AcceptedObject}\to\mathsf{Code},
@@ -51,11 +52,13 @@ The only formal inputs remain event flows and legal channel streams. If the inpu
 
 \begin{definition}[$P_6$ input]
 \label{def:deriv-accept-p6-input}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.P6FormalInput}
 The input to $P_6$ is displayed as a channel stream $c$ or event flow $S$. If the input is $c$, then $S=\mathsf{Decode}(c)$. If $c\notin\mathsf{LegalZStream}$, $P_6$ rejects and produces neither derivation-certificate report nor acceptance-gate report.
 \end{definition}
 
 \begin{definition}[$P_6$ output]
 \label{def:deriv-accept-p6-output}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.P6Output}
 The output of $P_6$ is a report flow or human-readable report containing the decoded event flow, recognized \NameCert\ flows inherited from $P_5$, derivation-certificate candidates, recognized derivation-certificate flows, strength candidates, recognized strength flows, acceptance-gate candidates, recognized acceptance-gate flows, accepted object codes, missing fields, missing exactness, missing ledger, missing strength, failure cases, warnings, and cannot-claim annotations.
 \end{definition}
 

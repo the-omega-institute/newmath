@@ -11,6 +11,62 @@ open BEDC.GroundCompiler.NameCertGenerated
 def GeneratedDerivCertRecognizer : Type :=
   GeneratedRecognizer
 
+def GeneratedAcceptGateRecognizer : Type :=
+  GeneratedRecognizer
+
+inductive P6FormalInput : Type where
+  | channel (c : List DisplayAlphabet) (h : LegalZStream c)
+  | eventFlow (S : EventFlow)
+
+inductive P6ExternalInput : Type where
+  | acceptedObject
+  | derivCertStruct
+  | acceptGateStruct
+
+inductive P6InputRepresentation : Type where
+  | formal (x : P6FormalInput)
+  | external (x : P6ExternalInput)
+
+inductive P6ReportDatum : Type where
+  | decodedEventFlow (S : EventFlow)
+  | recognizedNameCert (C N : EventFlow)
+  | derivCertCandidate (D N s : EventFlow)
+  | recognizedDerivCert
+      (R : GeneratedDerivCertRecognizer) (D N s : EventFlow)
+  | strengthCandidate (ambient s : EventFlow)
+  | recognizedStrength
+      (R : GeneratedStrengthRecognizer) (ambient s : EventFlow)
+      (sigma : StrengthRole)
+  | acceptGateCandidate (A N s : EventFlow)
+  | recognizedAcceptGate
+      (R : GeneratedAcceptGateRecognizer) (A N s : EventFlow)
+  | acceptedObjectCode (A N s : EventFlow)
+  | missingField (candidate : EventFlow)
+  | warning (datum : EventFlow)
+  | cannotClaim (datum : EventFlow)
+
+def P6Output : Type :=
+  List P6ReportDatum
+
+theorem p6_external_inputs_not_formal :
+    (forall x : P6FormalInput,
+      Not (P6InputRepresentation.external P6ExternalInput.acceptedObject =
+        P6InputRepresentation.formal x)) /\
+      (forall x : P6FormalInput,
+        Not (P6InputRepresentation.external P6ExternalInput.derivCertStruct =
+          P6InputRepresentation.formal x)) /\
+      (forall x : P6FormalInput,
+        Not (P6InputRepresentation.external P6ExternalInput.acceptGateStruct =
+          P6InputRepresentation.formal x)) := by
+  constructor
+  · intro x h
+    cases h
+  constructor
+  · intro x h
+    cases h
+  · intro x h
+    cases h
+
 def DerivCertSourceSubflow (part whole : EventFlow) : Prop :=
   exists before after : EventFlow, whole = List.append before (List.append part after)
 
