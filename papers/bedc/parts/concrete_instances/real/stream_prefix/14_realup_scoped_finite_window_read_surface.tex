@@ -658,3 +658,59 @@ pullback followed by the identity subwindow, or preceded by it, has the same
 direct route. Thus the displayed $\mathsf{BHist}$ seal surface and its finite
 ledger are unchanged.
 \end{proof}
+
+\begin{theorem}[RealUp window refinement cover pullback exhaustion]
+\label{thm:realup-window-refinement-cover-pullback-exhaustion}
+Let $W$ be a certified finite $\RealUp$ observation window. Let
+$\mathcal{C}_0$ and $\mathcal{C}_1$ be two finite $\StreamNameUp$ cover
+presentations of the displayed window of $W$, and let $\mathcal{R}$ be a
+certified finite common refinement whose restrictions to the two covers carry
+the same $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the same
+$\RegSeqRat$ spine rows, the same DyadicRatCore observation witnesses, and the
+same displayed $\hsame$ transports. Assume that every cover member exposes its
+$\RatUp$ endpoint rows through the displayed finite $\mathsf{BHist}$ packet
+and through the same restricted $\Cont/\Pkg$ provenance ledger. Then the
+$\RealUp$ read surface assembled from $\mathcal{C}_0$, the $\RealUp$ read
+surface assembled from $\mathcal{C}_1$, and the direct read surface of $W$
+expose exactly the same finite $\mathsf{BHist}$ packet.
+
+The common packet consists of the $\StreamNameUp$ classifier rows, the
+$\RegSeqRat$ spine, the DyadicRatCore observation rows, the visible
+$\RatUp$ endpoint rows, the displayed $\hsame/\Cont/\Pkg$ provenance rows, and
+the finite $\mathsf{RealLedgerPolicy}$ row. The result does not export quotient
+completions, metric completions, global Cauchy moduli, arithmetic operations,
+order operations, Classical representatives, or standard bridge data.
+\end{theorem}
+\begin{proof}
+Pull both cover presentations back to the certified common refinement
+$\mathcal{R}$. By
+\autoref{thm:realup-streamname-regseqrat-common-window-pullback}, the
+restrictions of the two cover-assembled surfaces to each member of
+$\mathcal{R}$ display the same classifier rows, $\RegSeqRat$ spine rows,
+DyadicRatCore observation witnesses, $\RatUp$ endpoint rows, and
+$\hsame/\Cont/\Pkg$ provenance rows.
+
+Assemble those refined packets back along each cover. The cover-seal
+associativity theorem
+\autoref{thm:realup-streamname-regseqrat-cover-seal-associativity} says that
+refining through $\mathcal{R}$ and then returning along $\mathcal{C}_i$ gives
+the same displayed finite $\mathsf{BHist}$ surface as the direct pullback along
+that cover. Thus the two assembled cover surfaces expose the same refined
+packet.
+
+Compare each assembled cover with the direct read surface of $W$. The identity
+seal theorem
+\autoref{thm:realup-streamname-regseqrat-cover-identity-seal} identifies the
+direct surface with the neutral cover presentation on the same certified finite
+window, so associativity transports the refined packet from either cover route
+to the direct route.
+
+It remains only to check that no visible row is left outside this packet.
+Apply the source-exhaustion equivalence
+\autoref{thm:realup-streamname-source-exhaustion-equivalence} to the
+StreamNameUp-RegSeqRat-DyadicRatCore source rows, and then apply the
+finite-window ledger boundary recorded in
+\autoref{thm:realup-finite-window-streamname-readback-package}. The endpoint,
+transport, provenance, and $\mathsf{RealLedgerPolicy}$ rows are therefore
+exactly the shared finite $\mathsf{BHist}$ packet named in the statement.
+\end{proof}
