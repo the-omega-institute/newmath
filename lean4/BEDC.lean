@@ -125,6 +125,7 @@ import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KnotUp
+import BEDC.Derived.ApproximationUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
