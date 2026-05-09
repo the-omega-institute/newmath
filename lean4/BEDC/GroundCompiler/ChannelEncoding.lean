@@ -231,12 +231,58 @@ theorem flow_encoding_length_has_event_fuel (S : EventFlow) :
   | cons w rest ih =>
       cases ih with
       | intro extra hrest =>
-          refine ⟨(BodyEncoding w).length + 1 + extra, ?_⟩
-          simp [FlowEncoding, EventEncoding, EventTerminator, hrest,
-            Nat.add_assoc, Nat.add_left_comm, Nat.add_comm]
-          have htwo (n : Nat) : 2 + n = 1 + (1 + n) := by
-            rw [show 2 = 1 + 1 by rfl, Nat.add_assoc]
-          exact htwo (BodyEncoding w).length
+          induction w with
+          | nil =>
+              refine ⟨1 + extra, ?_⟩
+              dsimp [FlowEncoding, EventEncoding, BodyEncoding,
+                EventTerminator]
+              rw [hrest]
+              rw [Nat.add_assoc rest.length extra 1]
+              rw [Nat.add_assoc rest.length (extra + 1) 1]
+              rw [Nat.add_left_comm extra 1 1]
+              rw [Nat.add_comm extra 1]
+              rw [← Nat.add_assoc rest.length 1 (1 + extra)]
+          | cons m tail ihw =>
+              cases m with
+              | b0 =>
+                  cases ihw with
+                  | intro tailExtra htail =>
+                      refine ⟨tailExtra + 1, ?_⟩
+                      dsimp [FlowEncoding, EventEncoding, BodyEncoding]
+                      change
+                        (FlowEncoding (tail :: rest)).length.succ =
+                          (tail :: rest).length + (tailExtra + 1)
+                      rw [htail]
+                      exact
+                        (Nat.add_succ
+                          (tail :: rest).length tailExtra).symm
+              | b1 =>
+                  cases ihw with
+                  | intro tailExtra htail =>
+                      refine ⟨tailExtra + 2, ?_⟩
+                      dsimp [FlowEncoding, EventEncoding, BodyEncoding]
+                      change
+                        ((FlowEncoding (tail :: rest)).length.succ).succ =
+                          (tail :: rest).length + (tailExtra + 2)
+                      rw [htail]
+                      calc
+                        (((tail :: rest).length + tailExtra).succ).succ
+                            =
+                              ((tail :: rest).length +
+                                tailExtra.succ).succ := by
+                              exact congrArg Nat.succ
+                                (Nat.add_succ
+                                  (tail :: rest).length tailExtra).symm
+                        _ =
+                              (tail :: rest).length +
+                                tailExtra.succ.succ := by
+                              exact
+                                (Nat.add_succ
+                                  (tail :: rest).length
+                                  tailExtra.succ).symm
+                        _ =
+                              (tail :: rest).length +
+                                (tailExtra + 2) := rfl
 
 theorem flow_level_round_trip (S : EventFlow) :
     Decode (FlowEncoding S) = some S := by
