@@ -138,3 +138,61 @@ $\mathsf{Pkg}$ provenance, and $\lambda$ is the available $\Cont$ route.
 Repacking those projections gives the stated obligation surface, with no
 parameter-transport equivalence and no extra public row.
 \end{proof}
+
+\begin{theorem}[GelfandDuality spectrum-pairing classifier stability]
+\label{thm:gelfandduality-spectrum-pairing-classifier-stability}
+Componentwise $\hsame$ transport of the rows $A$, $X$, $\chi$, $\varepsilon$,
+$\rho_{A}$, $\rho_{X}$, $P$, and $\lambda$ in
+\autoref{def:gelfandduality-spectrum-pairing-carrier} preserves the public
+$\GelfandDualityUp$ spectrum-pairing classifier. The transported packet reads
+the algebraic face through the same $\NameCert_{\CStarAlgUp}$ dependency, the
+topological face through the same $\NameCert_{\TopologyUp}$ dependency, and the
+evaluation face through the displayed character and evaluation rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to
+$\mathcal{G}=(A,X,\chi,\varepsilon,\rho_{A},\rho_{X},P,\lambda)$ using
+\autoref{def:gelfandduality-spectrum-pairing-carrier}. Transport acts on each
+displayed component and therefore cannot create a second algebra row, topology
+row, character family, evaluation family, provenance row, or readback route.
+
+Apply \autoref{thm:gelfandduality-cstaralgebra-consumer-boundary} to the
+algebraic face. The transported algebra consumer still reads only $A$, $\chi$,
+$\varepsilon$, $\rho_{A}$, $P$, and $\lambda$.
+
+Apply \autoref{thm:gelfandduality-topology-consumer-boundary} to the
+topological face. The transported topology consumer still reads only $X$,
+$\chi$, $\varepsilon$, $\rho_{X}$, $P$, and $\lambda$.
+
+Combining the two transported faces gives the same public spectrum-pairing
+classifier. No external Gelfand transform, compact-Hausdorff theorem, or
+parameter-transport equivalence is imported by the transport.
+\end{proof}
+
+\begin{theorem}[GelfandDuality spectrum ledger exactness]
+\label{thm:gelfandduality-spectrum-ledger-exactness}
+The public $\GelfandDualityUp$ spectrum ledger is exactly the
+$\NameCert_{\CStarAlgUp}$ source row $A$, the $\NameCert_{\TopologyUp}$
+compact-spectrum row $X$, the character rows $\chi$, the evaluation rows
+$\varepsilon$, the algebra and topology transport rows $\rho_{A}$ and
+$\rho_{X}$, the $\Pkg$ provenance row $P$, and the finite $\Cont$ readback route
+$\lambda$ displayed in \autoref{def:gelfandduality-spectrum-pairing-carrier}.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:gelfandduality-namecert-obligation-surface}. Every
+public obligation projects to one of the packet components $A$, $X$, $\chi$,
+$\varepsilon$, $\rho_{A}$, $\rho_{X}$, $P$, and $\lambda$.
+
+The algebraic side is exact by
+\autoref{thm:gelfandduality-cstaralgebra-consumer-boundary}; it permits only the
+CStarAlgUp source row, character and evaluation rows, algebra transport,
+provenance, and finite readback. The topological side is exact by
+\autoref{thm:gelfandduality-topology-consumer-boundary}; it permits only the
+TopologyUp compact-spectrum row, the same character and evaluation rows,
+topology transport, provenance, and finite readback.
+
+Conversely, each listed component is a field of the carrier packet, so it is a
+public ledger row of the certificate. The ledger therefore has no remaining
+slot for an external Gelfand transform, an imported compact-Hausdorff theorem,
+or any host-level spectrum construction.
+\end{proof}
