@@ -20,12 +20,43 @@ def CertifiedRecognizer
     exists Q : GeneratedRecognizer,
       RecognizesRecognizerCert Q C_R R rho
 
+def RecognizerCertificateField
+    (Q : GeneratedRecognizer) (_C_R : RecognizerCertCandidateFlow)
+    (X : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow Q X)
+
+def RecognizerCertificateFields
+    (Q : GeneratedRecognizer) (C_R : RecognizerCertCandidateFlow)
+    (D T rho snd cmp ledger failure stability recSeal : EventFlow) : Prop :=
+  RecognizerCertificateField Q C_R D /\
+    RecognizerCertificateField Q C_R T /\
+    RecognizerCertificateField Q C_R rho /\
+    RecognizerCertificateField Q C_R snd /\
+    RecognizerCertificateField Q C_R cmp /\
+    RecognizerCertificateField Q C_R ledger /\
+    RecognizerCertificateField Q C_R failure /\
+    RecognizerCertificateField Q C_R stability /\
+    RecognizerCertificateField Q C_R recSeal
+
 def RoleOK (rho : RecognitionRole) (S : EventFlow) : Prop :=
   NonemptyEventFlow rho /\
     FormalCompilerInput (CompilerDatum.recognizedFlow rho S)
 
 def RecSound (R : RecognizerCandidateFlow) (rho : RecognitionRole) : Prop :=
   forall S : EventFlow, Recognizes R rho S -> RoleOK rho S
+
+def RecComplete
+    (R : RecognizerCandidateFlow) (D : EventFlow) (rho : RecognitionRole) :
+    Prop :=
+  NonemptyEventFlow D /\
+    forall S : EventFlow,
+      FormalCompilerInput (CompilerDatum.recognizedFlow D S) ->
+        RoleOK rho S -> Recognizes R rho S
+
+def RecFailureLedger
+    (Q : GeneratedRecognizer) (C_R : RecognizerCertCandidateFlow)
+    (F : EventFlow) : Prop :=
+  RecognizerCertificateField Q C_R F /\ NonemptyEventFlow F
 
 def FormalRecognitionEvidence
     (R : RecognizerCandidateFlow) (rho : RecognitionRole) (S : EventFlow) :
