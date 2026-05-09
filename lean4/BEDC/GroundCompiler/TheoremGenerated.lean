@@ -27,4 +27,9 @@ theorem theorem_recognition_preserves_code
   intro _
   rfl
 
+theorem theorem_code_not_separate {T : TheoremCandidateFlow} :
+    TheoremFlow T -> TheoremCode T = FlowEncoding T := by
+  intro _
+  rfl
+
 end BEDC.GroundCompiler.TheoremGenerated
