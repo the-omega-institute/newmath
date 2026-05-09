@@ -242,6 +242,7 @@ import BEDC.Derived.SpinGroupUp.LiftParityLedger
 import BEDC.Derived.SpinGroupUp.ConjugationActionReadback
 import BEDC.Derived.SpinGroupUp.DoubleCoverLedgerObligation
 import BEDC.Derived.SpinGroupUp.PublicBoundaryNoExtraRow
+import BEDC.Derived.SpinGroupUp.PinConsumerSourceExactness
 import BEDC.Derived.SpinGroupUp.PublicConsumerNamecertBoundary
 import BEDC.Derived.SpinGroupUp.Transport
 import BEDC.Derived.SpinGroupUp.EvenWordClassifierInversion
@@ -436,6 +437,7 @@ import BEDC.Derived.TopGroupUp.ContinuityConsumerExhaustion
 import BEDC.Derived.TopGroupUp.CarrierClassifierObligation
 import BEDC.Derived.TopGroupUp.RootDownstreamOperationTransport
 import BEDC.Derived.TopGroupUp.SourceProjectionNamecertCompatibility
+import BEDC.Derived.TopGroupUp.SourceFiberProductCarrier
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
