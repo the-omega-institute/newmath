@@ -73,4 +73,41 @@ theorem FftBHistSourcePacket_carrier_butterfly_obligation [AskSetup] [PackageSet
       packet.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right⟩
 
+theorem FftBHistSourcePacket_factorization_classifier_stability_obligation
+    [AskSetup] [PackageSetup]
+    {complex complex' fourier fourier' stage stage' butterfly butterfly'
+      factorization factorization' ledger ledger' endpoint endpoint' : BHist}
+    {stageName : ProbeName} {schedule : ProbeBundle ProbeName} {pkg : Pkg} :
+    FftBHistSourcePacket complex fourier stage butterfly factorization ledger endpoint
+        stageName schedule pkg ->
+      hsame complex complex' ->
+      hsame fourier fourier' ->
+      hsame butterfly butterfly' ->
+      hsame factorization factorization' ->
+      Cont complex' fourier' stage' ->
+      Cont stage' butterfly' ledger' ->
+      Cont ledger' factorization' endpoint' ->
+      PkgSig schedule endpoint' pkg ->
+      FftBHistSourcePacket complex' fourier' stage' butterfly' factorization' ledger'
+          endpoint' stageName schedule pkg ∧
+        hsame stage stage' ∧ hsame ledger ledger' ∧ hsame endpoint endpoint' := by
+  intro packet sameComplex sameFourier sameButterfly sameFactorization stageCont'
+    ledgerCont' endpointCont' pkgSig'
+  have sameStage : hsame stage stage' :=
+    cont_respects_hsame sameComplex sameFourier
+      packet.right.right.right.right.right.left stageCont'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameStage sameButterfly
+      packet.right.right.right.right.right.right.left ledgerCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger sameFactorization
+      packet.right.right.right.right.right.right.right.left endpointCont'
+  exact
+    ⟨⟨packet.left, unary_transport packet.right.left sameComplex,
+        unary_transport packet.right.right.left sameFourier,
+        unary_transport packet.right.right.right.left sameButterfly,
+        unary_transport packet.right.right.right.right.left sameFactorization,
+        stageCont', ledgerCont', endpointCont', pkgSig'⟩,
+      sameStage, sameLedger, sameEndpoint⟩
+
 end BEDC.Derived.FftUp
