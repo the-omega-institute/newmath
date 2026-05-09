@@ -123,6 +123,49 @@ provenance. Hence the boundary grants precisely those read permissions and no
 metric, quotient, external lattice, or bridge data.
 \end{proof}
 
+\begin{theorem}[PolytopeUp obligation surface]
+\label{thm:polytope-obligation-surface}
+The existing $\PolytopeUp$ BHist face packet supplies the roadmap obligation
+surface for this chapter. Its carrier row is
+\autoref{def:polytope-bhist-face-packet}; its classifier and stability rows are
+the $\hsame$ transport surface of
+\autoref{thm:polytope-halfspace-face-carrier-stability}; its finite vertex,
+edge, and face ledger readback is
+\autoref{thm:polytope-vertex-edge-ledger-readback}; its dependency scope is
+\autoref{thm:polytope-convex-finset-dependency-readback}; and its downstream
+consumer boundary is \autoref{thm:polytope-downstream-boundary}.
+
+Consequently the obligation inventory consists only of the
+$\NameCert_{\ConvexSetUp}$ and $\NameCert_{\FinSetUp}$ dependency rows, finite
+half-space, vertex, edge, face, and incidence $\mathsf{BHist}$ rows, displayed
+$\hsame$ transports, finite $\Cont$ ledger rows, and $\Pkg$ provenance. It
+contains no Euclidean metric, quotient carrier, external face lattice, or
+standard bridge.
+\end{theorem}
+\begin{proof}
+Project the packet to its carrier definition. The tuple of
+\autoref{def:polytope-bhist-face-packet} names exactly the convex dependency,
+finite-index dependency, half-space rows, vertex ledger, edge ledger, face
+ledger, continuity ledger, and provenance row.
+
+Next transport the classifier surface. Apply
+\autoref{thm:polytope-halfspace-face-carrier-stability} to the displayed
+$\hsame$ comparisons; it keeps the dependency witnesses, ledger shape, and
+package provenance while replacing each carried row by its transported mate.
+
+Read back the finite ledgers and dependencies. The vertex, edge, and face rows
+come from \autoref{thm:polytope-vertex-edge-ledger-readback}, while
+\autoref{thm:polytope-convex-finset-dependency-readback} isolates the two
+source certificates that scope every half-space and finite combinatorial row.
+
+Finally apply \autoref{thm:polytope-downstream-boundary}. It is precisely the
+consumer projection of the same packet, so repacking the carrier, transport,
+ledger, dependency, and boundary projections gives the stated obligation
+surface. The exclusion clause follows from the same downstream boundary: none
+of the packet projections exposes metric, quotient, external lattice, or bridge
+data.
+\end{proof}
+
 \closureat{PolytopeUp}{seedStr}
 
 \begin{closurestatus}{\PolytopeUp}
