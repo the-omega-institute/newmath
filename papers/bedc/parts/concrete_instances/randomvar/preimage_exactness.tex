@@ -218,3 +218,88 @@ A_\varnothing\sim_{\mathcal{A}_S}\varnothing_S.
 $$
 \end{proof}
 \leanchecked{BEDC.Derived.RandomVarUp.RandomVarPreimage\_empty\_event\_exactness}
+
+\begin{theorem}[RandomVar preimage symmetric-difference exactness]
+\label{thm:randomvar-preimage-symmetric-difference-exactness}
+Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Let $A$ and $B$ be target events in one carried target fiber with $A,B\in\mathcal{A}_T$. Suppose the target difference rows supply measurable events
+$$
+D_T^{A\setminus B}:=A\setminus B,\qquad D_T^{B\setminus A}:=B\setminus A
+$$
+with public membership readbacks
+$$
+t\in D_T^{A\setminus B}\quad\Longleftrightarrow\quad t\in A\ \text{and}\ t\notin B,
+$$
+$$
+t\in D_T^{B\setminus A}\quad\Longleftrightarrow\quad t\in B\ \text{and}\ t\notin A.
+$$
+Let $\Delta_T$ be the displayed target binary union of these two difference events, so
+$$
+t\in\Delta_T\quad\Longleftrightarrow\quad t\in D_T^{A\setminus B}\ \text{or}\ t\in D_T^{B\setminus A}.
+$$
+Define source preimages
+$$
+A_S:=X^{-1}(A),\qquad B_S:=X^{-1}(B),\qquad \Delta_X:=X^{-1}(\Delta_T).
+$$
+If the $\RandomVarUp$ certificate row of \autoref{sec:randomvar-certificate} sends every target measurable event to a source measurable preimage with membership readback, then $A_S,B_S,\Delta_X\in\mathcal{A}_S$. Let the source difference rows supply measurable events
+$$
+D_S^{A\setminus B}:=A_S\setminus B_S,\qquad D_S^{B\setminus A}:=B_S\setminus A_S
+$$
+with readbacks
+$$
+s\in D_S^{A\setminus B}\quad\Longleftrightarrow\quad s\in A_S\ \text{and}\ s\notin B_S,
+$$
+$$
+s\in D_S^{B\setminus A}\quad\Longleftrightarrow\quad s\in B_S\ \text{and}\ s\notin A_S.
+$$
+Let $\Delta_S$ be the source binary union of $D_S^{A\setminus B}$ and $D_S^{B\setminus A}$ supplied by the source $\MeasureUp$ sigma-algebra row of \autoref{thm:measure-sigma-algebra-obligations}. Then
+$$
+\Delta_S\in\mathcal{A}_S,\qquad \Delta_X\sim_{\mathcal{A}_S}\Delta_S.
+$$
+Moreover, the two source difference components are disjoint.
+\end{theorem}
+\begin{proof}
+The target difference rows make $D_T^{A\setminus B}$ and $D_T^{B\setminus A}$ measurable, and the target binary-union row makes $\Delta_T$ measurable. Applying the measurable-preimage row of the $\RandomVarUp$ certificate to $A$, $B$, and $\Delta_T$ gives
+$$
+A_S,B_S,\Delta_X\in\mathcal{A}_S.
+$$
+The same row gives the three preimage readbacks
+$$
+s\in A_S\quad\Longleftrightarrow\quad X(s)\in A,
+$$
+$$
+s\in B_S\quad\Longleftrightarrow\quad X(s)\in B,
+$$
+$$
+s\in\Delta_X\quad\Longleftrightarrow\quad X(s)\in\Delta_T.
+$$
+
+The source difference rows supply $D_S^{A\setminus B},D_S^{B\setminus A}\in\mathcal{A}_S$ and the two displayed source readbacks. They are disjoint: if a carried source point $s$ has witnesses in both source difference events, the first readback gives $s\in A_S$ and $s\notin B_S$, while the second gives $s\in B_S$ and $s\notin A_S$. Either negative component eliminates the corresponding positive witness.
+
+Therefore the source sigma-algebra row of \autoref{thm:measure-sigma-algebra-obligations} supplies the binary union $\Delta_S$ of the two source difference events, with
+$$
+\Delta_S\in\mathcal{A}_S
+$$
+and membership readback
+$$
+s\in\Delta_S\quad\Longleftrightarrow\quad s\in D_S^{A\setminus B}\ \text{or}\ s\in D_S^{B\setminus A}.
+$$
+
+It remains to compare $\Delta_X$ with $\Delta_S$. For every carried source point $s$, the displayed rows give
+$$
+\begin{aligned}
+s\in\Delta_X
+&\Longleftrightarrow X(s)\in\Delta_T\\
+&\Longleftrightarrow X(s)\in D_T^{A\setminus B}\ \text{or}\ X(s)\in D_T^{B\setminus A}\\
+&\Longleftrightarrow (X(s)\in A\ \text{and}\ X(s)\notin B)\ \text{or}\ (X(s)\in B\ \text{and}\ X(s)\notin A)\\
+&\Longleftrightarrow (s\in A_S\ \text{and}\ s\notin B_S)\ \text{or}\ (s\in B_S\ \text{and}\ s\notin A_S)\\
+&\Longleftrightarrow s\in D_S^{A\setminus B}\ \text{or}\ s\in D_S^{B\setminus A}\\
+&\Longleftrightarrow s\in\Delta_S.
+\end{aligned}
+$$
+The first equivalence is the preimage readback for $\Delta_T$; the second is the target binary-union readback; the third uses the two target difference readbacks; the fourth uses the preimage readbacks for $A$ and $B$ in both positive and negative directions; the fifth uses the two source difference readbacks; and the last is the source binary-union readback.
+
+Thus $\Delta_X$ and $\Delta_S$ have the same carried source memberships. By the source event-classifier component of \autoref{def:measure-classifier-specification}, this pointwise readback is exactly
+$$
+\Delta_X\sim_{\mathcal{A}_S}\Delta_S.
+$$
+\end{proof}
