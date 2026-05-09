@@ -56,6 +56,7 @@ import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AxisZeckendorf
+import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.BesselUp
 import BEDC.Derived.EqtypeUp
@@ -443,6 +444,7 @@ import BEDC.Derived.TopGroupUp.ContinuityLedgerCoverage
 import BEDC.Derived.TopGroupUp.DownstreamProvenanceTransport
 import BEDC.Derived.TopGroupUp.OperationSourceContinuity
 import BEDC.Derived.TopGroupUp.OperationContinuityLedgerScope
+import BEDC.Derived.TopGroupUp.OperationLedgerConsumerBoundary
 import BEDC.Derived.TopGroupUp.SourceCompatibility
 import BEDC.Derived.TopGroupUp.RootSourceCompatibility
 import BEDC.Derived.TopGroupUp.RootCarrierObligations
@@ -502,6 +504,7 @@ import BEDC.Derived.DiffFormUp.RootBoundaryConsumer
 import BEDC.Derived.DiffFormUp.RootConsumerExport
 import BEDC.Derived.DiffFormUp.RootConsumerFace
 import BEDC.Derived.DiffFormUp.RootConsumerEntry
+import BEDC.Derived.DiffFormUp.RootConsumerSourceProjection
 import BEDC.Derived.DiffFormUp.RootNameCertSurface
 import BEDC.Derived.DiffFormUp.RootObligationSurface
 import BEDC.Derived.DiffFormUp.RootRowBoundary
