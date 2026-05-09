@@ -322,3 +322,85 @@ Now assume $\InDom(D,h)$. If ${\InGapSig}^{\operatorname{id}_D}(\Pi,D,D,p,h)$ ho
 
 The identity operation has therefore been equipped with the source-preservation and classifier-preservation clauses required by \autoref{def:classifier-preserving-pullback-ledger}. Applying \autoref{thm:pulled-back-gap-policy-preserves-coverage-and-separation} to $\GapPol(\Pi,D)$ and this identity ledger gives the displayed coverage and separation obligations over $D$.
 \end{proof}
+
+\begin{theorem}[Pullback gap-policy composition associativity]
+\label{thm:pullback-gap-policy-composition-associativity}
+Assume $\GapPol(\Pi,D)$. Let $\tau_1:D'\to D$, $\tau_2:D''\to D'$, and $\tau_3:D'''\to D''$ be BEDC history operations, each equipped with a classifier-preserving pullback ledger over $\Pi$ in the sense of \autoref{def:classifier-preserving-pullback-ledger}. For a visible package token $p$ and a source $h'''$, define the left-associated composite pulled-back predicate by
+$$
+  L_{\tau_1,\tau_2,\tau_3}(p,h''')
+  \Longleftrightarrow
+  \InDom(D''',h''')\;\text{and}\;
+  \bigl(\InDom(D'',\tau_3(h'''))\;\text{and}\;
+  {\InGapSig}^{\tau_1}(\Pi,D',D,p,\tau_2(\tau_3(h''')))\bigr),
+$$
+which is the pullback along $\tau_3$ of the $\tau_1\circ\tau_2$ composite predicate from \autoref{thm:composite-pullback-gap-policy-preserves-coverage-and-separation}. Define the right-associated composite pulled-back predicate by
+$$
+  R_{\tau_1,\tau_2,\tau_3}(p,h''')
+  \Longleftrightarrow
+  \InDom(D''',h''')\;\text{and}\;
+  {\InGapSig}^{\tau_1}(\Pi,D',D,p,\tau_2(\tau_3(h'''))),
+$$
+which is the pullback of the $\tau_1$-ledger along the composed source operation $\tau_2\circ\tau_3:D'''\to D'$. Then the two associated composite gap predicates are pointwise equivalent:
+$$
+  L_{\tau_1,\tau_2,\tau_3}(p,h''')
+  \Longleftrightarrow
+  R_{\tau_1,\tau_2,\tau_3}(p,h''').
+$$
+Consequently the two composite presentations determine the same coverage and separation obligations over $D'''$:
+$$
+  \bigl(\InDom(D''',h''')\Longrightarrow
+  \exists p,\;L_{\tau_1,\tau_2,\tau_3}(p,h''')\bigr)
+  \Longleftrightarrow
+  \bigl(\InDom(D''',h''')\Longrightarrow
+  \exists p,\;R_{\tau_1,\tau_2,\tau_3}(p,h''')\bigr),
+$$
+and
+$$
+  \bigl(L_{\tau_1,\tau_2,\tau_3}(p,h''')
+  \Longrightarrow
+  L_{\tau_1,\tau_2,\tau_3}(q,h''')
+  \Longrightarrow
+  \psame(p,q)\bigr)
+  \Longleftrightarrow
+  \bigl(R_{\tau_1,\tau_2,\tau_3}(p,h''')
+  \Longrightarrow
+  R_{\tau_1,\tau_2,\tau_3}(q,h''')
+  \Longrightarrow
+  \psame(p,q)\bigr).
+$$
+\end{theorem}
+
+\begin{proof}
+Fix $p$ and $h'''$. The defining equivalence for the left-associated predicate gives
+$$
+  L_{\tau_1,\tau_2,\tau_3}(p,h''')
+  \Longleftrightarrow
+  \InDom(D''',h''')\;\text{and}\;
+  \bigl(\InDom(D'',\tau_3(h'''))\;\text{and}\;
+  {\InGapSig}^{\tau_1}(\Pi,D',D,p,\tau_2(\tau_3(h''')))\bigr).
+$$
+The source-preservation clause for the $\tau_3$-ledger in \autoref{def:classifier-preserving-pullback-ledger} gives
+$$
+  \InDom(D''',h''')\Longrightarrow\InDom(D'',\tau_3(h''')).
+$$
+Hence the middle admitted-source conjunct is forced whenever the outer admitted-source conjunct holds, and the displayed formula is equivalent to
+$$
+  \InDom(D''',h''')\;\text{and}\;
+  {\InGapSig}^{\tau_1}(\Pi,D',D,p,\tau_2(\tau_3(h'''))).
+$$
+By the defining equivalence for the right-associated predicate, this is exactly $R_{\tau_1,\tau_2,\tau_3}(p,h''')$. This proves the pointwise equivalence.
+
+Equivalently, unfolding the $\tau_1$-ledger classifier clause of \autoref{def:classifier-preserving-pullback-ledger} shows that both sides reduce to the same original target classifier. For the right-associated side one obtains
+$$
+  R_{\tau_1,\tau_2,\tau_3}(p,h''')
+  \Longleftrightarrow
+  \InDom(D''',h''')\;\text{and}\;
+  \bigl(\InDom(D',\tau_2(\tau_3(h''')))\;\text{and}\;
+  \InGapSig(\Pi,D,p,\tau_1(\tau_2(\tau_3(h'''))))\bigr).
+$$
+For the left-associated side the same unfolding gives the same target classifier with the extra conjunct $\InDom(D'',\tau_3(h'''))$. The source-preservation clauses for $\tau_3$ and $\tau_2$ make the $D''$ and $D'$ admitted-source conjuncts consequences of $\InDom(D''',h''')$. Thus both associated routes read the original gap ledger at the identical source coordinate $\tau_1(\tau_2(\tau_3(h''')))$.
+
+For coverage, apply the pointwise equivalence inside the existential over $p$: a witness for the left-associated predicate is the same token read through the right-associated predicate, and conversely. Placing the common implication premise $\InDom(D''',h''')$ in front of both statements preserves the equivalence of the two coverage obligations.
+
+For separation, assume the left-associated implication. Given $R_{\tau_1,\tau_2,\tau_3}(p,h''')$ and $R_{\tau_1,\tau_2,\tau_3}(q,h''')$, convert both hypotheses to the corresponding left-associated memberships by the pointwise equivalence and obtain $\psame(p,q)$. The converse implication is identical with left and right interchanged. Therefore the two composite predicates determine the same separation obligation over $D'''$.
+\end{proof}
