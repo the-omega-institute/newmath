@@ -238,6 +238,45 @@ bundle membership, and pointwise classifier rows, the restriction introduces
 no regularity, seal, completion, quotient, or host-index-equality datum.
 \end{proof}
 
+\begin{theorem}[StreamName finite observation RealUp seal scope]
+\label{thm:streamname-finite-observation-realup-seal-scope}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, let
+$\mathcal P:\mathsf{ProbeBundle}$ be finite, and let $n$ be a certified
+observation with $\mathsf{UnaryHistory}(n)$ and
+$\mathsf{InBundle}(n,\mathcal P)$. A finite-window $\RealUp$ seal consumer of
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$ may read from
+StreamName only the carried endpoints for $s$ and $t$, the membership row
+$\mathsf{InBundle}(n,\mathcal P)$, the unary observation row
+$\mathsf{UnaryHistory}(n)$, and the pointwise classifier row
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+All $\RegSeqRat$ regularity rows, $\RealUp$ seal classifiers, completion
+data, quotient data, and host-index equality remain downstream obligations
+and are not exported by the finite StreamName observation.
+\end{theorem}
+\begin{proof}
+Begin with the pointwise handoff of
+\autoref{thm:streamname-regseqrat-pointwise-handoff}. It exposes the
+StreamName endpoint rows, the finite bundle membership row, the unary
+observation row, and the pointwise rational-history classifier at the chosen
+observation.
+
+For the certified observation $n$, use
+\autoref{thm:streamname-regseqrat-singleton-diagonal-handoff} to identify the
+singleton diagonal view with the same endpoint, membership, unary-history,
+and pointwise classifier rows. Then use
+\autoref{thm:streamname-regseqrat-finite-window-restriction-handoff} to read
+the same rows through any certified finite-window restriction of
+$\mathcal P$.
+
+Finally apply the obligation separation of
+\autoref{thm:streamname-real-regseq-obligation-separation}. It keeps
+$\RegSeqRat$ regularity, $\RealUp$ seal classifiers, completion structure,
+quotient structure, and host-index equality on the downstream side of the
+handoff. The finite observation therefore exports exactly the named
+StreamName rows and nothing from the later seal boundary.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat observation envelope]
 \label{thm:streamname-regseqrat-observation-envelope}
 Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows and let
