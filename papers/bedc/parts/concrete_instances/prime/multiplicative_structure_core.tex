@@ -274,3 +274,72 @@ intermediate result, and associativity of continuation concatenation identifies
 the displayed result $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_cont}
+
+\begin{theorem}[NatMul total functional law surface]
+\label{thm:natmul-total-functional-law-surface}
+On $\mathsf{UnaryHistory}$ inputs, the concrete $\mathsf{NatMul}$ relation is
+total, has unary outputs, and is functional up to $\hsame$. Equivalently, for
+all unary histories $d$ and $q$ there is a unary history $n$ with
+$\mathsf{NatMul}(d,q,n)$, and whenever $\mathsf{NatMul}(d,q,n)$ and
+$\mathsf{NatMul}(d,q,n')$ are two products from the same inputs, the outputs
+satisfy $n\hsame n'$.
+\end{theorem}
+\begin{proof}
+Use \autoref{lem:nat-mul-total} to obtain a displayed product
+$\mathsf{NatMul}(d,q,n)$ for unary inputs $d$ and $q$.
+
+Apply \autoref{lem:nat-mul-result-unary} to that product to read the result
+back inside $\mathsf{UnaryHistory}$. For any second product from the same
+inputs, apply \autoref{lem:nat-mul-functional} to identify the two displayed
+results up to $\hsame$.
+\end{proof}
+
+\begin{theorem}[NatMul one-history unit law surface]
+\label{thm:natmul-unit-law-surface}
+For the one-step unary history $\Eone(\emp)$ and every unary history $d$, the
+concrete multiplication rows display one-history unit laws:
+$$
+\mathsf{NatMul}(\Eone(\emp),d,n)\Longrightarrow n\hsame d
+$$
+and
+$$
+\mathsf{NatMul}(d,\Eone(\emp),n)\Longrightarrow n\hsame d.
+$$
+The proof dependencies are the Lean-side rows
+$\mathsf{BEDC.Derived.PrimeUp.NatMul\_unit\_left\_hsame}$ and
+$\mathsf{BEDC.Derived.PrimeUp.NatMul\_unit\_right\_hsame}$.
+\end{theorem}
+\begin{proof}
+For the left unit, unfold the multiplication derivation against the one-history
+multiplicand. The zero branch is excluded by the displayed multiplier, and the
+single successor branch leaves exactly the multiplier history, transported
+through the recorded $\hsame$ endpoint.
+
+For the right unit, induct over the one-history multiplier. The sole successor
+step appends one copy of $d$ to the zero product, and the continuation unit
+identifies the result with $d$ up to $\hsame$.
+\end{proof}
+
+\begin{theorem}[NatMul append-composition law surface]
+\label{thm:natmul-append-composition-surface}
+The multiplicative composition row consumed by $\MulUp$ is the
+$\mathsf{NatMul}$ append law together with the shared $\Cont$ ledger:
+$$
+\mathsf{NatMul}(d,w,n)\land
+\mathsf{NatMul}(d,q,e)\land
+\Cont(n,e,r)
+\Longrightarrow
+\mathsf{NatMul}(d,\mathsf{append}(w,q),r).
+$$
+Thus the ledger records the two source products and the continuation witness
+that composes their results.
+\end{theorem}
+\begin{proof}
+Project the two source product rows and the displayed $\Cont(n,e,r)$ ledger
+witness. Then apply \autoref{thm:natmul-append-continuation-closure}.
+
+The conclusion is the same $\mathsf{NatMul}$ row on the appended multiplier,
+with no host multiplication, quotient, or classical choice principle. The only
+composition data read by consumers are the source products and the shared
+continuation ledger.
+\end{proof}
