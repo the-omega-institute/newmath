@@ -202,3 +202,40 @@ public characteristic-class read. Since $\mathcal{A}$ exports only those two
 bounded reads and their displayed comparison, none of the excluded host-level
 objects can be recovered from the bridge surface.
 \end{proof}
+
+\begin{theorem}[Atiyah-Singer NameCert obligation surface]
+\label{thm:atiyahsinger-namecert-obligation-surface}
+The public $\NameCert_{\AtiyahSingerUp}$ obligation surface for the
+Atiyah-Singer index-pairing certificate consists exactly of the carrier packet
+of \autoref{def:atiyahsinger-index-pairing-carrier-packet}, the classifier row
+$\mathsf{ASIndexPair}_{m,D,\sigma_D}(\alpha,\theta,\tau)$, the shared endpoint
+and source-compatibility rows, the spectral and Chern-Weil dependency reads, the
+endpoint comparison $\hsame(\alpha,\tau)$, and the $\Pkg$ provenance row. The
+surface excludes host Fredholm equality, coordinate forms, cohomology quotients,
+and uncarried analytic-topological identities.
+\end{theorem}
+\begin{proof}
+Start with the carried packet. Apply
+\autoref{thm:atiyahsinger-index-pairing-carrier-surface} to identify the public
+classifier as
+$\mathsf{ASIndexPair}_{m,D,\sigma_D}(\alpha,\theta,\tau)$ and to bound the
+equality-bearing row by the displayed spectral read, Chern-Weil read, and
+$\hsame(\alpha,\tau)$.
+
+Next apply \autoref{thm:atiyahsinger-index-pairing-provenance-exactness}. This
+records that every public endpoint, symbol, comparison, and dependency read
+factors through the two dependency packets and the $\Pkg$ provenance row.
+
+The endpoint and source boundary is supplied by
+\autoref{thm:atiyahsinger-shared-index-source-boundary}. The dependency reads
+are then exhausted by
+\autoref{thm:atiyahsinger-spectral-chernweil-consumer-exhaustion}, which leaves
+only the spectral analytic-index read and the Chern-Weil topological-index read
+as public consumers of the two source certificates.
+
+Finally apply \autoref{thm:atiyahsinger-index-pairing-host-exclusion}. It
+removes host Fredholm equality, coordinate forms, cohomology quotients, and
+uncarried analytic-topological identities from the public surface. The remaining
+rows are precisely the carrier packet, the classifier, the shared compatibility
+rows, the two dependency reads, $\hsame(\alpha,\tau)$, and $\Pkg$ provenance.
+\end{proof}
