@@ -299,6 +299,59 @@ def ReportFlow (O : EventFlow) : Prop :=
     exists items : List AnalysisReportItem,
       StageReportGeneration P reportPolicyFlow O items
 
+inductive AnalysisEvidenceKind : Type where
+  | proofFlow
+  | nameCertFlow
+  | derivationCertFlow
+  | acceptanceGateFlow
+
+inductive AnalysisOutputDatum : Type where
+  | reportFlow (O : EventFlow)
+  | evidenceFlow (kind : AnalysisEvidenceKind) (S : EventFlow)
+
+inductive ReportOutputDatum : AnalysisOutputDatum -> Prop where
+  | report (O : EventFlow) :
+      ReportOutputDatum (AnalysisOutputDatum.reportFlow O)
+
+inductive CertificateEvidenceDatum : AnalysisOutputDatum -> Prop where
+  | evidence (kind : AnalysisEvidenceKind) (S : EventFlow) :
+      CertificateEvidenceDatum (AnalysisOutputDatum.evidenceFlow kind S)
+
+inductive CertificateObligationKind : Type where
+  | nameCert
+  | derivationCert
+  | acceptanceGate
+
+structure CertificateObligation where
+  kind : CertificateObligationKind
+  support : EventFlow
+
+def ObligationEvidenceKind :
+    CertificateObligationKind -> AnalysisEvidenceKind
+  | CertificateObligationKind.nameCert =>
+      AnalysisEvidenceKind.nameCertFlow
+  | CertificateObligationKind.derivationCert =>
+      AnalysisEvidenceKind.derivationCertFlow
+  | CertificateObligationKind.acceptanceGate =>
+      AnalysisEvidenceKind.acceptanceGateFlow
+
+inductive CertificateObligationDischarge :
+    CertificateObligation -> AnalysisOutputDatum -> Prop where
+  | evidence (obl : CertificateObligation) :
+      CertificateObligationDischarge obl
+        (AnalysisOutputDatum.evidenceFlow
+          (ObligationEvidenceKind obl.kind) obl.support)
+
+def ContainsMotifReportItem (items : List AnalysisReportItem) : Prop :=
+  exists item : AnalysisReportItem,
+    List.Mem item items /\ item.kind = AnalysisReportKind.motifReport
+
+def MotifReportOutput (O : EventFlow) : Prop :=
+  exists P reportPolicyFlow : AnalysisProtocolCandidateFlow,
+    exists items : List AnalysisReportItem,
+      StageReportGeneration P reportPolicyFlow O items /\
+        ContainsMotifReportItem items
+
 inductive AnalysisFailureKind : Type where
   | illegalChannelStream
   | unrecognizedProtocol
@@ -449,5 +502,30 @@ theorem bridge_discovery_noncommittal
         Not (RecognizedBridgeFlow candidate.source candidate.target) := by
   intro _ _
   exact candidate.missingBridge
+
+theorem reports_not_evidence {d : AnalysisOutputDatum} :
+    ReportOutputDatum d -> Not (CertificateEvidenceDatum d) := by
+  intro hReport hEvidence
+  cases hReport
+  cases hEvidence
+
+theorem report_cannot_discharge_certificate_obligation
+    {obl : CertificateObligation} {O : EventFlow} :
+    Not
+      (CertificateObligationDischarge obl
+        (AnalysisOutputDatum.reportFlow O)) := by
+  intro h
+  cases h
+
+theorem motif_report_cannot_license_mature_object
+    {O : EventFlow} :
+    MotifReportOutput O ->
+      Not
+        (CertificateObligationDischarge
+          { kind := CertificateObligationKind.acceptanceGate,
+            support := O }
+          (AnalysisOutputDatum.reportFlow O)) := by
+  intro _ h
+  cases h
 
 end BEDC.GroundCompiler.AnalysisPipeline
