@@ -249,4 +249,44 @@ theorem HypergeometricBHistSourcePacket_root_consumer_boundary [AskSetup] [Packa
   exact
     ⟨consumerUnary, consumerCont, endpointExact, ledgerExact, pkgSig⟩
 
+theorem HypergeometricBHistSourcePacket_endpoint_ledger_determinacy [AskSetup] [PackageSetup]
+    {complex complex' gamma gamma' numerator numerator' denominator denominator' coeff coeff'
+      readback readback' provenance provenance' ledger ledger' endpoint endpoint' gap gap' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HypergeometricBHistSourcePacket complex gamma numerator denominator coeff readback provenance
+        ledger endpoint bundle pkg ->
+      hsame complex complex' ->
+      hsame gamma gamma' ->
+      hsame numerator numerator' ->
+      hsame denominator denominator' ->
+      hsame readback readback' ->
+      hsame provenance provenance' ->
+      Cont numerator' denominator' coeff' ->
+      Cont coeff' readback' ledger' ->
+      Cont provenance' ledger' endpoint' ->
+      PkgSig bundle endpoint' pkg ->
+      Cont endpoint ledger gap ->
+      Cont endpoint' ledger' gap' ->
+        HypergeometricBHistSourcePacket complex' gamma' numerator' denominator' coeff'
+            readback' provenance' ledger' endpoint' bundle pkg ∧
+          hsame coeff coeff' ∧ hsame ledger ledger' ∧ hsame endpoint endpoint' ∧
+            hsame gap gap' ∧ UnaryHistory gap' := by
+  intro packet sameComplex sameGamma sameNumerator sameDenominator sameReadback sameProvenance
+    coeffRow' ledgerRow' endpointRow' pkgSig' gapRow gapRow'
+  have transported :=
+    HypergeometricBHistSourcePacket_root_classifier packet sameComplex sameGamma sameNumerator
+      sameDenominator sameReadback sameProvenance coeffRow' ledgerRow' endpointRow' pkgSig'
+  have transportedRows := HypergeometricBHistSourcePacket_root_ledger transported.left
+  have sameGap : hsame gap gap' :=
+    cont_respects_hsame transported.right.right.right transported.right.right.left gapRow gapRow'
+  have gapUnary : UnaryHistory gap' :=
+    unary_cont_closed transportedRows.right.right.left transportedRows.right.left gapRow'
+  exact
+    ⟨transported.left,
+      transported.right.left,
+      transported.right.right.left,
+      transported.right.right.right,
+      sameGap,
+      gapUnary⟩
+
 end BEDC.Derived.HypergeometricUp

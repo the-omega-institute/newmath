@@ -237,4 +237,27 @@ theorem EllipticCurveCarrierPacket_semantic_name_certificate
   · intro endpoint source
     exact source
 
+theorem EllipticCurveCarrierPacket_basepoint_readback_obligation
+    {field projective coeffs cubic smooth basePoint basePointPrime fieldLedger projectiveLedger
+      provenance provenancePrime : BHist} :
+    EllipticCurveCarrierPacket field projective coeffs cubic smooth basePoint fieldLedger
+        projectiveLedger provenance ->
+      hsame basePoint basePointPrime ->
+        Cont smooth basePointPrime provenancePrime ->
+          EllipticCurveCarrierPacket field projective coeffs cubic smooth basePointPrime
+              fieldLedger projectiveLedger provenancePrime ∧
+            UnaryHistory basePointPrime ∧ hsame provenance provenancePrime ∧
+              hsame fieldLedger (append field projective) ∧
+                hsame projectiveLedger (append coeffs cubic) := by
+  intro packet sameBasePoint provenanceCont
+  have stability :=
+    EllipticCurveCarrierPacket_basepoint_stability_obligation packet sameBasePoint
+      provenanceCont
+  have sourceRows :=
+    EllipticCurveCarrierPacket_field_projective_source_rows packet
+  exact
+    ⟨stability.left, stability.left.right.right.right.left, stability.right,
+      sourceRows.right.right.right.right.left,
+      sourceRows.right.right.right.right.right.left⟩
+
 end BEDC.Derived.EllipticCurveUp
