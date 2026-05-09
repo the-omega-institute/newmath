@@ -77,6 +77,7 @@ import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.EntanglementUp
 import BEDC.Derived.EntropyUp
+import BEDC.Derived.ErgodicUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.GaloisExtUp
@@ -426,6 +427,7 @@ import BEDC.Derived.HolomorphicUp.SeedSpecs
 import BEDC.Derived.HolomorphicUp.SeedStability
 import BEDC.Derived.HolomorphicUp.StabilityCertificate
 import BEDC.Derived.HolomorphicUp.StabilityCert
+import BEDC.Derived.HolomorphicUp.StdBridge
 import BEDC.Derived.TopologyUp.Core
 import BEDC.Derived.TopologyUp.FiniteBaseNeighborhood
 import BEDC.Derived.TopologyUp.Singleton
