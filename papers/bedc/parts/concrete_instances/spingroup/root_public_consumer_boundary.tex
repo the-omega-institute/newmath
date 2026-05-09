@@ -1,0 +1,74 @@
+\begin{definition}[SpinGroup root public consumer boundary packet]
+\label{def:spingroup-root-public-consumer-boundary-packet}
+The $\SpinGroupUp$ root public consumer boundary packet is the finite
+$\mathsf{BHist}$ packet whose visible rows are exactly the Clifford source row
+from $\NameCert_{\CliffordUp}$, the singleton $\GroupUp$ row from
+$\NameCert_{\GroupUp}$, the unit endpoint, product endpoint, and inverse
+endpoint rows, the even-parity $\mathsf{UnaryHistory}$ ledger, the displayed
+$\Cont$ transport rows, the displayed $\hsame$ classifier rows, and the
+$\Pkg$ provenance rows tying these entries to the root package.
+
+The packet has no field for a host orthogonal group, a Clifford quotient, a
+matrix model, or a standard bridge row.
+\end{definition}
+
+\begin{theorem}[SpinGroup root public consumer boundary coverage]
+\label{thm:spingroup-root-public-consumer-boundary-coverage}
+Every public $\SpinGroupUp$ consumer row at the root boundary projects from
+\autoref{def:spingroup-root-public-consumer-boundary-packet}. In particular,
+the readable rows are the Clifford source row, singleton $\GroupUp$ row, unit,
+product, inverse, even-parity ledger, $\Cont$, $\hsame$, and $\Pkg$ rows
+displayed by that packet.
+\end{theorem}
+\begin{proof}
+Start with the root threshold package of
+\autoref{thm:spingroup-root-namecert-threshold-package}. It confines the root
+certificate to the Clifford source, singleton group-law source, transport
+rows, classifier rows, unit/product/inverse endpoints, and finite ledger
+rows.
+
+Project the consumer read through
+\autoref{thm:spingroup-root-ledger-exhaustion}. The ledger inversion leaves
+only displayed $\mathsf{BHist}$ rows, $\Cont$ rows, $\hsame$ rows,
+$\NameCert_{\CliffordUp}$ source rows, $\NameCert_{\GroupUp}$ source rows,
+singleton $\mathsf{UnaryHistory}$ rows, and $\Pkg$ provenance.
+
+Finally repack those projected rows into
+\autoref{def:spingroup-root-public-consumer-boundary-packet}. The packet
+contains exactly the row kinds left by the threshold package and ledger
+exhaustion, so every public root consumer row is covered by it.
+\end{proof}
+
+\begin{theorem}[SpinGroup root public consumer boundary exhaustion]
+\label{thm:spingroup-root-public-consumer-boundary-exhaustion}
+Every row displayed by
+\autoref{def:spingroup-root-public-consumer-boundary-packet} repacks as a
+public $\SpinGroupUp$ root consumer row, and every public root consumer row is
+one of those displayed rows. Thus the root public boundary is exhausted by the
+Clifford source row, singleton $\GroupUp$ row, unit/product/inverse endpoints,
+even-parity $\mathsf{UnaryHistory}$ ledger, $\Cont$, $\hsame$, and $\Pkg$
+provenance.
+
+No host orthogonal group row, Clifford quotient row, matrix-model row, or
+standard bridge row is in scope for this public root boundary.
+\end{theorem}
+\begin{proof}
+For coverage, use
+\autoref{thm:spingroup-root-public-consumer-boundary-coverage}. It projects
+each public root consumer row to one coordinate of the boundary packet.
+
+For repacking, read the coordinates of
+\autoref{def:spingroup-root-public-consumer-boundary-packet}. The Clifford
+source and singleton group-law rows repack through
+\autoref{thm:spingroup-root-carrier-source-scope}; the unit endpoint repacks
+through \autoref{thm:spingroup-root-clifford-unit-lift}; and the product and
+inverse endpoints repack through
+\autoref{thm:spingroup-root-group-law-transport}.
+
+The even-parity ledger, $\Cont$, $\hsame$, and $\Pkg$ rows repack through
+\autoref{thm:spingroup-root-ledger-exhaustion} and then through the threshold
+package of \autoref{thm:spingroup-root-namecert-threshold-package}. The
+definition of the boundary packet provides no coordinate for host orthogonal
+groups, Clifford quotients, matrix models, or standard bridges, so the
+exhausted public surface cannot read any such row.
+\end{proof}
