@@ -81,4 +81,40 @@ theorem SpinGroupRootCarrier_group_law_transport [AskSetup] [PackageSetup]
           (And.intro spinCont carrier.right.right.right)))
       sameSpin
 
+theorem SpinGroupRootCarrier_public_consumer_boundary_coverage [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      UnaryHistory unit ∧ UnaryHistory vector ∧ UnaryHistory product ∧ UnaryHistory boundary ∧
+        UnaryHistory cliffordEndpoint ∧ GroupSingletonCarrier groupWord ∧
+          UnaryHistory spinEndpoint ∧ Cont vector vector product ∧
+            Cont product boundary cliffordEndpoint ∧
+              Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg := by
+  intro carrier
+  have cliffordExact :
+      UnaryHistory unit ∧ UnaryHistory vector ∧ UnaryHistory product ∧ UnaryHistory boundary ∧
+        UnaryHistory cliffordEndpoint ∧ Cont vector vector product ∧
+          Cont product boundary cliffordEndpoint ∧
+            hsame product (append vector vector) ∧
+              hsame cliffordEndpoint (append (append vector vector) boundary) :=
+    CliffordCarrierPackage_universal_ledger_exactness carrier.left
+  have sourceScope :
+      CliffordCarrierPackage unit vector product boundary cliffordEndpoint ∧
+        GroupSingletonCarrier groupWord ∧ UnaryHistory spinEndpoint ∧
+          Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg :=
+    SpinGroupRootCarrier_source_scope carrier
+  exact
+    And.intro cliffordExact.left
+      (And.intro cliffordExact.right.left
+        (And.intro cliffordExact.right.right.left
+          (And.intro cliffordExact.right.right.right.left
+            (And.intro cliffordExact.right.right.right.right.left
+              (And.intro sourceScope.right.left
+                (And.intro sourceScope.right.right.left
+                  (And.intro cliffordExact.right.right.right.right.right.left
+                    (And.intro cliffordExact.right.right.right.right.right.right.left
+                      (And.intro sourceScope.right.right.right.left
+                        sourceScope.right.right.right.right)))))))))
+
 end BEDC.Derived.SpinGroupUp
