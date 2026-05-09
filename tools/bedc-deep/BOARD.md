@@ -18,31 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-568 - Banach identity bounded-linear operator carrier construction
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Banach identity bounded-linear operator carrier construction |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 8/10 |
-
-Problem:
-If C is a BanachUp candidate, then BanachBLOp(C, C, id_C, 1_RealUp, I_C) is carried, where id_C is the source identity map and I_C records the reflexivity, multiplicative-unit, RealUp non-negativity, and norm rows used by the carrier definition.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex`
-- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
-
-Rationale:
-The Banach bounded-operator carrier is defined at papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex:1-31 with four carrier rows (classifier-respect, additivity, scalar action, RealUp bound). The zero operator carrier is constructed as a theorem at the same file, line 145 (B-480 on the BOARD). The IDENTITY operator carrier, by contrast, is only referenced as a hypothesis at bounded_linear_operator_composition.tex:319 ('Assume also that the source and target identity maps carry the unit bound: BanachBLOp(C,C,id_C,1_RealUp,I_C)'); no theorem CONSTRUCTS this carrier from the BanachUp axioms. A grep for `Banach.*identity.*operator.*carrier` returns no theorem-environment match across papers/bedc/parts/, and no Lean target named BanachIdentityBoundedLinearOperator_carrier or similar exists under lean4/BEDC/. The construction is a concrete one-shot proof using Banach C's classifier reflexivity, the RealUp multiplicative-identity row 1·r ~ r, and 1 ≥ 0; it parallels the zero-operator carrier proof at bounded_linear_operator_obligations.tex:163-194 in shape but uses different scalar-row witnesses, so it is not a parameter echo. Filling this gap also discharges the unit-ledger hypothesis hand-waved at line 319 of the composition file.
-
----
-
 ### B-569 - Banach bounded operator zero right-composition annihilation
 
 | field | value |
