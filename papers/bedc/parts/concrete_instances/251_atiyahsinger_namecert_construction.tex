@@ -101,6 +101,44 @@ form equality, ambient cohomology quotient, or uncarried analytic-topological
 identity can be exported by a public read of $\mathcal{A}$.
 \end{proof}
 
+\begin{theorem}[Atiyah-Singer index-pairing classifier coverage]
+\label{thm:atiyahsinger-index-pairing-classifier-coverage}
+Let $\mathcal{A}$ be an accepted packet of
+\autoref{def:atiyahsinger-index-pairing-carrier-packet}. Its accepted public
+classifier surface is exactly the coverage, soundness, and completeness table
+whose rows are the spectral analytic-index read
+$\mathsf{SpecAnalyticIndex}_{m,D}(\mathcal{S},\alpha)$, the Chern-Weil
+topological-index read
+$\mathsf{CWTopologicalIndex}_{m,\sigma_D}(\mathcal{W},\theta,\tau)$, the shared
+closed-manifold row $m$, the shared symbol row $\sigma_D$, the displayed
+comparison $\hsame(\alpha,\tau)$, and the provenance row $\rho$ recording the
+relevant $\Pkg$ sources.
+
+Thus every accepted public classifier read is covered by one of these rows,
+each such row is sound for the displayed index-pairing packet, and the table is
+complete: no host Fredholm equality, ambient characteristic-class quotient, or
+uncarried analytic-topological comparison is part of the public classifier
+surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:atiyahsinger-index-pairing-carrier-surface}. It identifies
+the public classifier row $\eta$ with the spectral analytic-index read, the
+Chern-Weil topological-index read, and the comparison $\hsame(\alpha,\tau)$
+over the displayed endpoint and symbol rows.
+
+Apply \autoref{thm:atiyahsinger-index-pairing-provenance-exactness}. It
+identifies every public read of $\alpha$, $\tau$, $\sigma_D$, $m$, and $\eta$
+with the dependency packets, the endpoint comparison, and the provenance row
+$\rho$.
+
+Coverage follows by projecting those rows from the accepted tuple
+$\mathcal{A}$. Soundness follows because each projected row is one of the
+admission rows of \autoref{def:atiyahsinger-index-pairing-carrier-packet}.
+Completeness follows by repacking only those projected rows: the tuple has no
+additional field carrying a host Fredholm equality, an ambient cohomology
+quotient, or a separate analytic-topological comparison.
+\end{proof}
+
 \begin{theorem}[Atiyah-Singer shared index-source boundary]
 \label{thm:atiyahsinger-shared-index-source-boundary}
 Let $\mathcal{A}$ be an accepted packet of

@@ -240,3 +240,59 @@ $$
 $$
 The displayed sums use the finite additive fold of \autoref{thm:finite-additive-fold-congruence-coefficient-lists} over the lexicographic finite spines of the displayed natural-number tuples.
 \end{definition}
+
+\begin{theorem}[Polynomial multiplication has right zero absorption]
+\label{thm:polynomial-multiplication-right-zero-absorption}
+Let $R$ carry a $\CommRingUp(R)$ certificate with classifier $\sim_R$, zero endpoint $0_R$, scalar certificate $\mathsf{cert}_R:\NameCert(R,\sim_R)$, and canonical trim $\mathsf{trim}_R$. Let $\mathsf{PolySame}_R$, $\mathsf{rmul}_R$, and $\mathsf{PolyMul}_R$ be as in \autoref{def:polynomial-raw-add-comparison-data} and \autoref{def:polynomial-raw-cauchy-product}. For every finite coefficient spine $p:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{PolySame}_R(\mathsf{PolyMul}_R(p,\mathsf{nil}),\mathsf{nil}).
+$$
+Consequently the same conclusion holds for every normalized polynomial representative $p$ from \autoref{def:polynomial-carrier}.
+\end{theorem}
+\begin{proof}
+Set
+$$
+p_0:=\mathsf{trim}_R(p),
+\qquad
+n_0:=\mathsf{trim}_R(\mathsf{nil}).
+$$
+The empty zero-polynomial clause in \autoref{def:polynomial-stability-certificate} gives $n_0=\mathsf{nil}$. Unfolding the normalized product in \autoref{def:polynomial-raw-cauchy-product} gives
+$$
+\begin{aligned}
+\mathsf{PolyMul}_R(p,\mathsf{nil})
+&=\mathsf{trim}_R(\mathsf{rmul}_R(p_0,n_0))\\
+&=\mathsf{trim}_R(\mathsf{rmul}_R(p_0,\mathsf{nil}))
+\end{aligned}
+$$
+and
+$$
+\begin{aligned}
+\mathsf{PolyMul}_R(\mathsf{nil},p)
+&=\mathsf{trim}_R(\mathsf{rmul}_R(n_0,p_0))\\
+&=\mathsf{trim}_R(\mathsf{rmul}_R(\mathsf{nil},p_0)).
+\end{aligned}
+$$
+Apply \autoref{thm:polynomial-raw-multiplication-commutativity-from-commring-scalars} to the finite coefficient spines $p_0$ and $\mathsf{nil}$. It gives
+$$
+\mathsf{PolySame}_R(\mathsf{rmul}_R(p_0,\mathsf{nil}),\mathsf{rmul}_R(\mathsf{nil},p_0)).
+$$
+After unfolding $\mathsf{PolySame}_R$ by \autoref{def:polynomial-raw-add-comparison-data}, this is the structural classifier comparison
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,
+\mathsf{trim}_R(\mathsf{rmul}_R(p_0,\mathsf{nil})),
+\mathsf{trim}_R(\mathsf{rmul}_R(\mathsf{nil},p_0))\bigr).
+$$
+Using the two displayed product computations and trim idempotence from \autoref{def:polynomial-stability-certificate}, this is exactly
+$$
+\mathsf{PolySame}_R(\mathsf{PolyMul}_R(p,\mathsf{nil}),\mathsf{PolyMul}_R(\mathsf{nil},p)).
+$$
+On the other hand, \autoref{thm:polynomial-multiplication-left-zero-absorption} applied to $p$ gives
+$$
+\mathsf{PolySame}_R(\mathsf{PolyMul}_R(\mathsf{nil},p),\mathsf{nil}).
+$$
+Unfold the two $\mathsf{PolySame}_R$ witnesses and compose their structural list-classifier witnesses by \autoref{thm:list-classifier-transitivity}, using the transitivity field of $\mathsf{cert}_R$ on scalar heads. Folding back \autoref{def:polynomial-raw-add-comparison-data} yields
+$$
+\mathsf{PolySame}_R(\mathsf{PolyMul}_R(p,\mathsf{nil}),\mathsf{nil}).
+$$
+Every normalized polynomial representative from \autoref{def:polynomial-carrier} is, in particular, a finite coefficient spine, so the same argument applies to that carrier representative.
+\end{proof}
