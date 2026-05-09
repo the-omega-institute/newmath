@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
 import BEDC.FKernel.Unary.Closure
@@ -9,6 +10,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -156,5 +158,96 @@ theorem PolytopeBHistFacePacket_vertex_edge_ledger_readback [AskSetup] [PackageS
                                                             (And.intro ledgerCont
                                                               (And.intro endpointCont
                                                                 endpointPkg))))))
+
+theorem PolytopeBHistFacePacket_convex_finset_dependency_readback [AskSetup] [PackageSetup]
+    {convex finset halfspaces vertices edges faces ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolytopeBHistFacePacket convex finset halfspaces vertices edges faces ledger provenance
+        endpoint bundle pkg ->
+      UnaryHistory convex ∧ UnaryHistory finset ∧
+        SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row other : BHist =>
+            hsame row other ∧ hsame row endpoint ∧ hsame other endpoint) ∧
+        Cont halfspaces vertices edges ∧ Cont edges faces ledger ∧
+          Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  cases packet with
+  | intro convexUnary packet =>
+      cases packet with
+      | intro finsetUnary packet =>
+          cases packet with
+          | intro _halfspacesUnary packet =>
+              cases packet with
+              | intro _verticesUnary packet =>
+                  cases packet with
+                  | intro _edgesUnary packet =>
+                      cases packet with
+                      | intro _facesUnary packet =>
+                          cases packet with
+                          | intro _ledgerUnary packet =>
+                              cases packet with
+                              | intro _provenanceUnary packet =>
+                                  cases packet with
+                                  | intro _endpointUnary packet =>
+                                      cases packet with
+                                      | intro edgeCont packet =>
+                                          cases packet with
+                                          | intro ledgerCont packet =>
+                                              cases packet with
+                                              | intro endpointCont endpointPkg =>
+                                                  have endpointSelf :
+                                                      hsame endpoint endpoint :=
+                                                    hsame_refl endpoint
+                                                  have cert :
+                                                      SemanticNameCert
+                                                        (fun row : BHist => hsame row endpoint)
+                                                        (fun row : BHist => hsame row endpoint)
+                                                        (fun row : BHist => hsame row endpoint)
+                                                        (fun row other : BHist =>
+                                                          hsame row other ∧
+                                                            hsame row endpoint ∧
+                                                              hsame other endpoint) := {
+                                                    core := {
+                                                      carrier_inhabited :=
+                                                        Exists.intro endpoint endpointSelf
+                                                      equiv_refl := by
+                                                        intro row source
+                                                        exact And.intro (hsame_refl row)
+                                                          (And.intro source source)
+                                                      equiv_symm := by
+                                                        intro row other classified
+                                                        exact And.intro
+                                                          (hsame_symm classified.left)
+                                                          (And.intro classified.right.right
+                                                            classified.right.left)
+                                                      equiv_trans := by
+                                                        intro row other target classifiedRO
+                                                          classifiedOT
+                                                        have sameRT : hsame row target :=
+                                                          hsame_trans classifiedRO.left
+                                                            classifiedOT.left
+                                                        exact And.intro sameRT
+                                                          (And.intro classifiedRO.right.left
+                                                            classifiedOT.right.right)
+                                                      carrier_respects_equiv := by
+                                                        intro row other classified _source
+                                                        exact classified.right.right
+                                                    }
+                                                    pattern_sound := by
+                                                      intro row source
+                                                      exact source
+                                                    ledger_sound := by
+                                                      intro row source
+                                                      exact source
+                                                  }
+                                                  exact And.intro convexUnary
+                                                    (And.intro finsetUnary
+                                                      (And.intro cert
+                                                        (And.intro edgeCont
+                                                          (And.intro ledgerCont
+                                                            (And.intro endpointCont
+                                                              endpointPkg)))))
 
 end BEDC.Derived.PolytopeUp
