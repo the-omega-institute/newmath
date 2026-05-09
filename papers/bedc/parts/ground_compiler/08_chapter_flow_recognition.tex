@@ -279,6 +279,7 @@ and $C_8$ records the claims the chapter is not allowed to make. Typical example
 
 \begin{definition}[Status soundness]
 \label{def:chapter-generated-status-sound}
+\leandef{BEDC.GroundCompiler.ChapterFlow.StatusSound}
 The judgment $\mathsf{RecognizesChapter}(R_C,C)$ is \emph{status-sound} when
 $$
   \mathsf{ChapStatus}_{R_C}(C,C_9)
@@ -365,19 +366,23 @@ The bijection is between canonical raw chapter flows and their chapter codes.
 
 \begin{definition}[Chapter classifier quotient]
 \label{def:chapter-generated-classifier-quotient}
-If a chapter classifier $\sim_{\mathrm{chap}}$ identifies chapter flows, the classified chapter object is an equivalence class
+\leandef{BEDC.GroundCompiler.ChapterFlow.ChapterClassifierQuotient}
+A chapter classifier relation $\sim_{\mathrm{chap}}$ is a source-level relation on chapter candidate flows. The classified chapter object relation is represented by
 $$
-  [C]_{\sim_{\mathrm{chap}}}.
+  \mathsf{ChapterClassifierQuotient}_{\sim_{\mathrm{chap}}}(C,D)
+  \;:\Longleftrightarrow\;
+  C\sim_{\mathrm{chap}}D.
 $$
-The projection
+The classified projection
 $$
-  C \longmapsto [C]_{\sim_{\mathrm{chap}}}
+  C\longmapsto [C]_{\sim_{\mathrm{chap}}}
 $$
 need not be injective.
 \end{definition}
 
 \begin{proposition}[Classified chapter objects need not be code-bijective]
 \label{prop:chapter-generated-classified-not-code-bijective}
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.classified\_chapter\_objects\_not\_code\_bijective}
 If there are sound chapter flows $C\neq D$ with
 $$
   C\sim_{\mathrm{chap}} D,

@@ -187,6 +187,38 @@ theorem chapter_code_bijective :
           exact chapter_code_round_trip C
         · exact hC.symm
 
+def ChapterClassifierRelation : Type :=
+  ChapterCandidateFlow -> ChapterCandidateFlow -> Prop
+
+def ChapterClassifierQuotient
+    (rel : ChapterClassifierRelation) (C D : ChapterCandidateFlow) : Prop :=
+  rel C D
+
+def ClassifierCollapsesDistinctChapterCode
+    (rel : ChapterClassifierRelation) : Prop :=
+  exists C D : ChapterCandidateFlow,
+    ChapterFlow C /\
+      ChapterFlow D /\
+      Not (ChapterCode C = ChapterCode D) /\
+      ChapterClassifierQuotient rel C D
+
+theorem classified_chapter_objects_not_code_bijective
+    {rel : ChapterClassifierRelation} :
+    (exists C D : ChapterCandidateFlow,
+      ChapterFlow C /\
+        ChapterFlow D /\
+        Not (C = D) /\
+        ChapterClassifierQuotient rel C D) ->
+      ClassifierCollapsesDistinctChapterCode rel := by
+  intro h
+  cases h with
+  | intro C hC =>
+      cases hC with
+      | intro D hD =>
+          refine ⟨C, D, hD.left, hD.right.left, ?_, hD.right.right.right⟩
+          intro hCode
+          exact hD.right.right.left (chapter_code_injective hCode)
+
 theorem compile_decode_preserves_chapter_recognition
     {R : GeneratedChapterRecognizer} {C : ChapterCandidateFlow} :
     RecognizesChapter R C -> RecognizesChapterCode R (ChapterCode C) := by
