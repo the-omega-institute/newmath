@@ -177,4 +177,53 @@ theorem CstaralgebraBHistCarrier_unital_commutative_source_boundary [AskSetup] [
                 (And.intro unitCommutativityLedger
                   (And.intro endpointReadback pkgSig))))))))
 
+theorem CstaralgebraBHistCarrier_banach_ring_source_boundary [AskSetup] [PackageSetup]
+    {banach ring mul involution normSquare carrierTransport multiplicationTransport
+      involutionTransport normTransport provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CstaralgebraBHistCarrier banach ring mul involution normSquare carrierTransport
+        multiplicationTransport involutionTransport normTransport provenance ledger endpoint
+        bundle pkg ->
+      UnaryHistory banach ∧ UnaryHistory ring ∧ UnaryHistory mul ∧
+        UnaryHistory involution ∧ UnaryHistory normSquare ∧ hsame carrierTransport banach ∧
+          hsame multiplicationTransport mul ∧ hsame involutionTransport involution ∧
+            hsame normTransport normSquare ∧ Cont mul involution ledger ∧
+              Cont ledger provenance endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have banachUnary : UnaryHistory banach :=
+    carrier.left
+  have ringUnary : UnaryHistory ring :=
+    carrier.right.left
+  have mulUnary : UnaryHistory mul :=
+    carrier.right.right.left
+  have involutionUnary : UnaryHistory involution :=
+    carrier.right.right.right.left
+  have normSquareUnary : UnaryHistory normSquare :=
+    carrier.right.right.right.right.left
+  have carrierRead : hsame carrierTransport banach :=
+    carrier.right.right.right.right.right.right.left
+  have multiplicationRead : hsame multiplicationTransport mul :=
+    carrier.right.right.right.right.right.right.right.left
+  have involutionRead : hsame involutionTransport involution :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have normRead : hsame normTransport normSquare :=
+    carrier.right.right.right.right.right.right.right.right.right.left
+  have mulInvolutionLedger : Cont mul involution ledger :=
+    carrier.right.right.right.right.right.right.right.right.right.right.left
+  have ledgerEndpoint : Cont ledger provenance endpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right
+  exact And.intro banachUnary
+    (And.intro ringUnary
+      (And.intro mulUnary
+        (And.intro involutionUnary
+          (And.intro normSquareUnary
+            (And.intro carrierRead
+              (And.intro multiplicationRead
+                (And.intro involutionRead
+                  (And.intro normRead
+                    (And.intro mulInvolutionLedger
+                      (And.intro ledgerEndpoint pkgSig))))))))))
+
 end BEDC.Derived.CstaralgebraUp
