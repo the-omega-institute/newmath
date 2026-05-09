@@ -147,6 +147,11 @@ theorem ContactCarrierClassifierSurface_public_namecert_export
           (And.intro transported.right.left
             (And.intro transported.right.right topNonempty)))))
 
+def ContactStandardBridgeSurface
+    (manifold form derivative wedge top top' bridge ledger : BHist) : Prop :=
+  ContactCarrierClassifierSurface manifold form derivative wedge top ∧ hsame top top' ∧
+    Cont top' bridge ledger ∧ hsame bridge BHist.Empty
+
 theorem ContactStandardBridgeSurface_public_bridge_compatibility
     {manifold form derivative wedge top top' tail : BHist} :
     ContactCarrierClassifierSurface manifold form derivative wedge top ->
