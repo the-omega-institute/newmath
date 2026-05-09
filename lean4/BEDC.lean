@@ -78,6 +78,7 @@ import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.EntanglementUp
 import BEDC.Derived.EntropyUp
 import BEDC.Derived.ErgodicUp
+import BEDC.Derived.EstimatorUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.GaloisExtUp
