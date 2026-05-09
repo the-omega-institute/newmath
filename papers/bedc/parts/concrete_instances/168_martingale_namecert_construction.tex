@@ -383,6 +383,42 @@ therefore satisfies the same $\NameCert_{\MartingaleUp}$ obligation surface as
 the original finite packet, with no row outside the displayed prefix added.
 \end{proof}
 
+\begin{theorem}[Martingale Brownian consumer projection scope]
+\label{thm:martingale-brownian-consumer-projection-scope}
+Any $\BrownianUp$ consumer reading the $\MartingaleUp$ dependency row may access
+only the adapted-sequence carrier of
+\autoref{def:martingale-bhist-adapted-sequence-packet}, the
+conditional-expectation ledger classifier of
+\autoref{def:martingale-conditional-expectation-ledger-classifier}, the finite
+endpoint sequence rows, the tower-law ledger, the shared $\Pkg$ provenance, and
+the finite $\Cont/\hsame$ transport rows named by
+\autoref{thm:martingale-namecert-obligation-surface}. It has no projection to
+host stochastic-process data, stopping-time data, convergence data, or standard
+bridge data through the $\MartingaleUp$ row.
+\end{theorem}
+\begin{proof}
+First read the public row family from
+\autoref{thm:martingale-public-certificate-row-family}. It exposes the
+adapted-sequence carrier, componentwise classifier transport, stability rows,
+filtration/provenance rows, conditional-expectation exactness rows, and the
+finite displayed horizon as the public $\NameCert_{\MartingaleUp}$ surface.
+
+Next apply \autoref{thm:martingale-namecert-obligation-surface}. That theorem
+identifies the same public surface with the adapted-sequence packet, the
+conditional-expectation ledger classifier, the finite endpoint sequence rows,
+the tower-law boundary, the shared $\Pkg$ provenance, and the finite
+$\Cont/\hsame$ transport rows.
+
+Finally compare with the Brownian displayed dependency surface
+\autoref{thm:brownian-martingale-continuousmap-dependency-surface}. The
+Brownian packet reads its martingale input only through the consumed
+$\NameCert_{\MartingaleUp}$ row $M$, so composing the two Martingale projections
+with that Brownian projection gives exactly the listed consumer scope. Since
+neither the Martingale packet nor the Brownian dependency surface carries a host
+stochastic-process row, stopping-time row, convergence row, or standard bridge
+row, none of those data can be exported through this consumer projection.
+\end{proof}
+
 \begin{closurestatus}{\MartingaleUp}
   \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{thm:martingale-obligation-closure-package} binds the finite time spine, RandomVarUp endpoint rows, CondExpUp step rows, filtration visibility rows, conditional-expectation comparison rows, shared $\Pkg$ provenance, and finite $\Cont$ ledger.}
