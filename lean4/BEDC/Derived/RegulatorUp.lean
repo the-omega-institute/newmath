@@ -147,4 +147,35 @@ theorem RegulatorRootInputPacket_root_namecert_threshold [AskSetup] [PackageSetu
       boundary.right.right.right.right.left thresholdCont
   exact And.intro thresholdUnary (And.intro thresholdCont packet)
 
+theorem RegulatorRootInputPacket_dependency_ledger_factorization [AskSetup] [PackageSetup]
+    {duSource unit inverse law unitLedger lawLedger duProvenance nfSource rank layout provenance
+      endpoint determinant determinantLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegulatorRootInputPacket duSource unit inverse law unitLedger lawLedger duProvenance
+        nfSource rank layout provenance endpoint bundle pkg ->
+      RegulatorRootLedgerPacket duSource nfSource unit inverse rank layout determinant provenance
+        endpoint bundle pkg ->
+        Cont layout determinant determinantLedger ->
+          DirichletUnitHistoryCarrier duSource unit inverse law unitLedger lawLedger
+              duProvenance ∧
+            NumFieldRatReflexiveCarrier nfSource ∧ UnaryHistory determinantLedger ∧
+              hsame determinantLedger (append layout determinant) ∧ PkgSig bundle endpoint pkg := by
+  intro inputPacket ledgerPacket determinantLedgerCont
+  have inputBoundary :=
+    RegulatorRootInputPacket_dirichletunit_input_boundary
+      (duSource := duSource) (unit := unit) (inverse := inverse) (law := law)
+      (unitLedger := unitLedger) (lawLedger := lawLedger) (duProvenance := duProvenance)
+      (nfSource := nfSource) (rank := rank) (layout := layout) (provenance := provenance)
+      (endpoint := endpoint) (bundle := bundle) (pkg := pkg) inputPacket
+  have ledgerExact :=
+    RegulatorRootInputPacket_ledger_exactness
+      (dirichlet := duSource) (numfield := nfSource) (unit := unit) (inverse := inverse)
+      (rank := rank) (basis := layout) (determinant := determinant)
+      (provenance := provenance) (endpoint := endpoint) (determinantLedger := determinantLedger)
+      (bundle := bundle) (pkg := pkg) ledgerPacket determinantLedgerCont
+  exact And.intro inputBoundary.left
+    (And.intro inputBoundary.right.left
+      (And.intro ledgerExact.left
+        (And.intro ledgerExact.right.left ledgerExact.right.right.right)))
+
 end BEDC.Derived.RegulatorUp

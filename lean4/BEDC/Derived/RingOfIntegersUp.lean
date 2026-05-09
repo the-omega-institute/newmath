@@ -57,6 +57,71 @@ theorem RingOfIntegersDedekindSourceCarrier_dependency_projection_boundary [AskS
                     (And.intro carrier.right.right.right.right.right.right.right.right.left
                       carrier.right.right.right.right.right.right.right.right.right)))))))))
 
+theorem RingOfIntegersDedekindSourceCarrier_dirichletunit_source_readback [AskSetup]
+    [PackageSetup]
+    {numfield embeddedInt embedding equationLedger classifier provenance contLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RingOfIntegersDedekindSourceCarrier numfield embeddedInt embedding equationLedger
+      classifier provenance contLedger endpoint bundle pkg ->
+      NumFieldRatReflexiveCarrier numfield ∧ UnaryHistory embeddedInt ∧
+        UnaryHistory embedding ∧ UnaryHistory equationLedger ∧ UnaryHistory classifier ∧
+          UnaryHistory contLedger ∧ hsame contLedger (append embedding equationLedger) ∧
+            hsame endpoint (append provenance contLedger) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have rows :=
+    RingOfIntegersDedekindSourceCarrier_dependency_projection_boundary carrier
+  exact And.intro rows.left
+    (And.intro rows.right.left
+      (And.intro rows.right.right.left
+        (And.intro rows.right.right.right.left
+          (And.intro rows.right.right.right.right.left
+            (And.intro rows.right.right.right.right.right.left
+              (And.intro rows.right.right.right.right.right.right.right.right.left
+                (And.intro rows.right.right.right.right.right.right.right.right.right.left
+                  rows.right.right.right.right.right.right.right.right.right.right)))))))
+
+theorem RingOfIntegersDedekindSourceCarrier_integral_closure_obligation_surface
+    [AskSetup] [PackageSetup]
+    {numfield embeddedInt embedding equationLedger classifier provenance contLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RingOfIntegersDedekindSourceCarrier numfield embeddedInt embedding equationLedger
+        classifier provenance contLedger endpoint bundle pkg ->
+      NumFieldRatReflexiveCarrier numfield ∧ UnaryHistory embeddedInt ∧
+        UnaryHistory embedding ∧ UnaryHistory equationLedger ∧ UnaryHistory classifier ∧
+          UnaryHistory provenance ∧ UnaryHistory contLedger ∧ UnaryHistory endpoint ∧
+            Cont numfield embeddedInt embedding ∧ Cont embedding equationLedger contLedger ∧
+              Cont provenance contLedger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have contLedgerUnary : UnaryHistory contLedger :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.right.right.right.right.right.left contLedgerUnary
+      carrier.right.right.right.right.right.right.right.right.left
+  constructor
+  · exact carrier.left
+  constructor
+  · exact carrier.right.left
+  constructor
+  · exact carrier.right.right.left
+  constructor
+  · exact carrier.right.right.right.left
+  constructor
+  · exact carrier.right.right.right.right.left
+  constructor
+  · exact carrier.right.right.right.right.right.left
+  constructor
+  · exact contLedgerUnary
+  constructor
+  · exact endpointUnary
+  constructor
+  · exact carrier.right.right.right.right.right.right.left
+  constructor
+  · exact carrier.right.right.right.right.right.right.right.left
+  constructor
+  · exact carrier.right.right.right.right.right.right.right.right.left
+  · exact carrier.right.right.right.right.right.right.right.right.right
+
 def RingOfIntegersEquationLedgerCarrier [AskSetup] [PackageSetup]
     (numfield introw embedding ledger classifier controw pkgrow : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
