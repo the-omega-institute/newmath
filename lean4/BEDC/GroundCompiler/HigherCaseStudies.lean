@@ -303,4 +303,52 @@ def ChainComplexMotif (S : EventFlow) : Prop :=
   exists M : ChainComplexMotifRecord,
     RecognizedChainComplexMotifRecord S M
 
+structure CycleBoundaryClassifierMotifRecord where
+  cycleFlow : EventFlow
+  boundaryFlow : EventFlow
+  boundaryEquivalence : EventFlow
+  quotientClassifier : EventFlow
+  exactnessLedger : EventFlow
+
+def RecognizedCycleBoundaryClassifierMotifRecord
+    (S : EventFlow) (M : CycleBoundaryClassifierMotifRecord) : Prop :=
+  Subflow M.cycleFlow S /\
+    Subflow M.boundaryFlow S /\
+    Subflow M.boundaryEquivalence S /\
+    Subflow M.quotientClassifier S /\
+    Subflow M.exactnessLedger S /\
+    NonemptyEventFlow M.boundaryEquivalence /\
+    NonemptyEventFlow M.quotientClassifier /\
+    NonemptyEventFlow M.exactnessLedger
+
+def CycleBoundaryClassifierMotif (S : EventFlow) : Prop :=
+  exists M : CycleBoundaryClassifierMotifRecord,
+    RecognizedCycleBoundaryClassifierMotifRecord S M
+
+structure HomologyMotifRecord where
+  chainComplex : ChainComplexMotifRecord
+  cycleBoundaryClassifier : CycleBoundaryClassifierMotifRecord
+  quotientFlow : EventFlow
+  exactnessProof : EventFlow
+  homologyLedger : EventFlow
+
+def RecognizedHomologyMotifRecord
+    (S : EventFlow) (M : HomologyMotifRecord) : Prop :=
+  RecognizedChainComplexMotifRecord S M.chainComplex /\
+    RecognizedCycleBoundaryClassifierMotifRecord S M.cycleBoundaryClassifier /\
+    Subflow M.quotientFlow S /\
+    Subflow M.exactnessProof S /\
+    Subflow M.homologyLedger S /\
+    NonemptyEventFlow M.homologyLedger
+
+def HomologyMotif (S : EventFlow) : Prop :=
+  exists M : HomologyMotifRecord, RecognizedHomologyMotifRecord S M
+
+theorem homology_has_classifier_compression {S : EventFlow} :
+    HomologyMotif S -> CycleBoundaryClassifierMotif S := by
+  intro h
+  cases h with
+  | intro M hM =>
+      exact ⟨M.cycleBoundaryClassifier, hM.right.left⟩
+
 end BEDC.GroundCompiler.CaseStudies
