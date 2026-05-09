@@ -385,6 +385,7 @@ Thus self-hosting records compiler-behavior stability through a classifier witne
 
 \begin{theorem}[Self-hosting removes compiler-as-hidden-input]
 \label{thm:recognizer-generated-self-hosting-removes-hidden-input}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.self\_hosting\_removes\_compiler\_as\_hidden\_input}
 If there is a self-hosting compiler flow $C$, and its recognizer hierarchy recognizes package, $\NameCert$, derivation-certificate, theorem, chapter, and compiler flows, then the compiler is not a host-level hidden input.
 \end{theorem}
 
@@ -394,7 +395,8 @@ Under self-hosting, the compiler $C$ is itself an event flow and its compiler st
 
 \begin{corollary}[Full no-hidden-input needs self-hosting or a bootstrap boundary]
 \label{cor:recognizer-generated-self-hosting-or-bootstrap-boundary}
-Before a self-hosting compiler flow is available, the system must explicitly record a bootstrap boundary. A full no-hidden-input claim requires either a self-hosting compiler flow or open bootstrap assumptions marked as obligations or cannot-claims.
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.full\_no\_hidden\_input\_needs\_self\_hosting}
+Before a self-hosting compiler flow is available, the system cannot assert a full no-hidden-input self-hosting claim. A full no-hidden-input claim must include a self-hosting compiler flow; any remaining external compiler dependence belongs in the bootstrap-obligation layer.
 \end{corollary}
 
 \begin{definition}[Bootstrap obligation]

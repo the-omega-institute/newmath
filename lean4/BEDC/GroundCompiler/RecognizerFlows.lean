@@ -237,6 +237,19 @@ theorem self_hosting_projects_behavior_classifier {C : EventFlow} :
   intro h
   exact h.right
 
+theorem self_hosting_removes_compiler_as_hidden_input {C : EventFlow} :
+    SelfHostingCompilerFlow C ->
+      CompilerRecognizerFlow C /\
+        FormalCompilerInput (CompilerDatum.eventFlow C) := by
+  intro h
+  exact ⟨h.left, h.left⟩
+
+theorem full_no_hidden_input_needs_self_hosting {C : EventFlow} :
+    Not (SelfHostingCompilerFlow C) ->
+      Not (FullNoHiddenInputSelfHosting C) := by
+  intro hNoSelf hFull
+  exact hNoSelf hFull.left
+
 theorem bootstrap_obligation_blocks_full_self_hosting_claim
     {C : EventFlow} {O : BootstrapObligation} :
     UndischargedBootstrapObligation O ->
