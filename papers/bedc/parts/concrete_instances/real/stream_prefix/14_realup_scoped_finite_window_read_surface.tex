@@ -622,3 +622,39 @@ those introduced by the composed restriction. Thus the two pullback routes
 display the same finite $\mathsf{BHist}$ seal surface and the same finite
 ledger rows.
 \end{proof}
+
+\begin{theorem}[RealUp StreamName RegSeqRat cover identity seal]
+\label{thm:realup-streamname-regseqrat-cover-identity-seal}
+Let $K$ be a certified finite $\RealUp$ observation window carrying the
+displayed $\StreamNameUp$ finite-window, $\RegSeqRat$, and
+DyadicRatCore seal rows exposed by
+\autoref{thm:realup-finite-window-streamname-readback-package}. Restrict this
+displayed seal along the identity certified subwindow $K\leftarrow K$. Then the
+restricted surface is the same finite $\mathsf{BHist}$ seal surface, with the
+same $\hsame/\Cont/\Pkg$ provenance ledger and the same finite
+$\mathsf{RealLedgerPolicy}$ row.
+
+The identity restriction exports no quotient, completion, metric-completeness,
+Classical representative, arithmetic operation, order operation, or standard
+bridge datum. It only records that the finite
+StreamNameUp-RegSeqRat-DyadicRatCore read surface is neutral under the
+certified identity subwindow.
+\end{theorem}
+\begin{proof}
+Start with the finite readback package of
+\autoref{thm:realup-finite-window-streamname-readback-package}. It displays the
+$\StreamNameUp$ finite-window classifier, the $\RegSeqRat$ spine rows, the
+DyadicRatCore endpoint rows, and the finite $\hsame/\Cont/\Pkg$ ledger on $K$.
+
+Apply \autoref{thm:realup-streamname-regseqrat-common-window-pullback} to the
+identity certified subwindow $K\leftarrow K$. The source and target windows
+are the same certified window, so the pullback reads exactly the same
+classifier rows, endpoint witnesses, provenance rows, and
+$\mathsf{RealLedgerPolicy}$ entry.
+
+Finally view the identity restriction as the neutral member of the composition
+law in \autoref{thm:realup-streamname-regseqrat-cover-seal-associativity}. A
+pullback followed by the identity subwindow, or preceded by it, has the same
+direct route. Thus the displayed $\mathsf{BHist}$ seal surface and its finite
+ledger are unchanged.
+\end{proof}
