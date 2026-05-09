@@ -400,4 +400,39 @@ theorem EnrichedCatSourceSurface_consumer_readback_boundary [AskSetup] [PackageS
     (And.intro readbackRow
       source.right.right.right.right.right.right.right.right.right.right.right)
 
+theorem EnrichedCatSourceSurface_tensor_composition_scope [AskSetup] [PackageSetup]
+    {category monoidal hom identity composition transport provenance ledger endpoint
+      tensorReadback consumerReadback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EnrichedCatSourceSurface category monoidal hom identity composition transport provenance
+        ledger endpoint bundle pkg ->
+      Cont composition monoidal tensorReadback ->
+        Cont endpoint tensorReadback consumerReadback ->
+          UnaryHistory composition ∧ UnaryHistory tensorReadback ∧
+            UnaryHistory consumerReadback ∧ Cont hom identity composition ∧
+              Cont composition monoidal tensorReadback ∧
+                Cont endpoint tensorReadback consumerReadback ∧
+                  hsame ledger (append composition transport) ∧
+                    PkgSig bundle endpoint pkg := by
+  intro surface tensorReadbackRow consumerReadbackRow
+  have source := EnrichedCatSourceSurface_source_obligation surface
+  have compositionUnary : UnaryHistory composition :=
+    source.right.right.right.right.left
+  have monoidalUnary : UnaryHistory monoidal :=
+    source.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    source.right.right.right.right.right.right.left
+  have tensorReadbackUnary : UnaryHistory tensorReadback :=
+    unary_cont_closed compositionUnary monoidalUnary tensorReadbackRow
+  have consumerReadbackUnary : UnaryHistory consumerReadback :=
+    unary_cont_closed endpointUnary tensorReadbackUnary consumerReadbackRow
+  exact And.intro compositionUnary
+    (And.intro tensorReadbackUnary
+      (And.intro consumerReadbackUnary
+        (And.intro source.right.right.right.right.right.right.right.left
+          (And.intro tensorReadbackRow
+            (And.intro consumerReadbackRow
+              (And.intro source.right.right.right.right.right.right.right.right.right.left
+                source.right.right.right.right.right.right.right.right.right.right.right))))))
+
 end BEDC.Derived.EnrichedCatUp
