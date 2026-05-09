@@ -111,6 +111,9 @@ def SoundTheoremFlow
     StatusSoundTheoremRecognition R T /\
     SiteSoundTheoremRecognition R T
 
+def AcceptedTheoremFlow (T : TheoremCandidateFlow) : Prop :=
+  exists R : GeneratedTheoremRecognizer, SoundTheoremFlow R T
+
 theorem no_external_theorem_input :
     Not (FormalCompilerInput CompilerDatum.hostTheoremIdentifier) :=
   structural_hidden_not_formal StructuralHiddenInput.hostTheoremIdentifier
@@ -170,6 +173,71 @@ theorem recognition_invariant_under_compile_decode
   cases h with
   | intro R hR =>
       exact ⟨R, compile_decode_preserves_recognition hR.left⟩
+
+theorem empty_not_theorem_recognition_relation
+    (R : GeneratedTheoremRecognizer) :
+    Not (TheoremRecognitionRelation R []) := by
+  intro h
+  exact empty_not_nonempty_event_flow h.right
+
+theorem empty_not_proof_sound
+    (R : GeneratedTheoremRecognizer) :
+    Not (ProofSoundTheoremRecognition R []) := by
+  intro h
+  cases h with
+  | intro statement hStatement =>
+      cases hStatement with
+      | intro dependencies hDependencies =>
+          cases hDependencies with
+          | intro proof hProof =>
+              cases hProof with
+              | intro proofChecker hFields =>
+                  exact empty_not_theorem_recognition_relation R hFields.left.left
+
+theorem empty_not_accepted_theorem_flow :
+    Not (AcceptedTheoremFlow []) := by
+  intro h
+  cases h with
+  | intro R hSound =>
+      cases hSound.left with
+      | intro statement hComplete =>
+          cases hComplete with
+          | intro dependencies hComplete =>
+              cases hComplete with
+              | intro proof hComplete =>
+                  cases hComplete with
+                  | intro certificates hComplete =>
+                      cases hComplete with
+                      | intro ledger hComplete =>
+                          cases hComplete with
+                          | intro status hComplete =>
+                              cases hComplete with
+                              | intro canonicalSite hComplete =>
+                                  cases hComplete with
+                                  | intro sealFlow hFields =>
+                                      exact
+                                        empty_not_theorem_recognition_relation R
+                                          hFields.left.left
+
+theorem theorem_code_existence_not_accepted :
+    exists c : List DisplayAlphabet,
+      LegalTheoremCode c /\
+        exists T : TheoremCandidateFlow,
+          Decode c = some T /\ Not (AcceptedTheoremFlow T) := by
+  refine ⟨TheoremCode [], ?_, ?_⟩
+  · exact ⟨[], rfl⟩
+  · exact ⟨[], theorem_code_round_trip [], empty_not_accepted_theorem_flow⟩
+
+theorem theorem_code_is_not_proof :
+    exists c : List DisplayAlphabet,
+      LegalTheoremCode c /\
+        exists T : TheoremCandidateFlow,
+          Decode c = some T /\
+            (forall R : GeneratedTheoremRecognizer,
+              Not (ProofSoundTheoremRecognition R T)) := by
+  refine ⟨TheoremCode [], ?_, ?_⟩
+  · exact ⟨[], rfl⟩
+  · exact ⟨[], theorem_code_round_trip [], empty_not_proof_sound⟩
 
 theorem sound_theorem_flow_establishes_theoremhood
     {R : GeneratedTheoremRecognizer} {T : TheoremCandidateFlow} :

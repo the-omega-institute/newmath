@@ -494,6 +494,7 @@ For every recognized theorem flow, its theorem code is recognized after the comp
 
 \begin{definition}[Accepted theorem flow]
 \label{def:theorem-generated-accepted-theorem-flow}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.AcceptedTheoremFlow}
 A theorem flow $T$ is an \emph{accepted theorem flow} when:
 \begin{enumerate}
 \item $T$ is a sound recognized theorem flow;
@@ -505,10 +506,12 @@ This is written $\mathsf{AcceptedTheoremFlow}(T)$.
 
 \begin{proposition}[Theorem code existence does not imply accepted theorem]
 \label{prop:theorem-generated-code-existence-not-accepted}
-A legal channel stream $c\in\mathsf{LegalZStream}$ does not imply
+\leanchecked{BEDC.GroundCompiler.TheoremGenerated.theorem\_code\_existence\_not\_accepted}
+There exists a legal theorem code $c\in\mathsf{LegalTheoremCode}_{01}$ whose decoded event flow is not an accepted theorem flow. Thus legal channel-code existence alone does not imply
 $$
-  \mathsf{AcceptedTheoremFlow}(\mathsf{Decode}(c)).
+  \mathsf{AcceptedTheoremFlow}(T)
 $$
+for the decoded theorem-candidate flow $T$.
 \end{proposition}
 
 \begin{proof}
@@ -517,6 +520,7 @@ Legal channel membership says only that $c$ decodes to an event flow. Accepted t
 
 \begin{corollary}[Code is not proof]
 \label{cor:theorem-generated-code-is-not-proof}
+\leanchecked{BEDC.GroundCompiler.TheoremGenerated.theorem\_code\_is\_not\_proof}
 Theorem code records a theorem flow. It does not replace the proof-flow, generated proof checker, or proof-soundness judgment.
 \end{corollary}
 
