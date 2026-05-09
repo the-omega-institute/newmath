@@ -424,6 +424,74 @@ already named in the obligation surface, the ledger has no additional bridge,
 quotient, or cohomology-isomorphism entry.
 \end{proof}
 
+\begin{definition}[De Rham root consumer readback packet]
+\label{def:derham-root-consumer-readback-packet}
+The root consumer readback packet for $\DeRhamUp$ is the finite list of rows
+that a downstream root consumer may inspect before any standard boundary
+bridge. It consists of the $\DiffFormUp$ carried-form row, the
+$\CohomologyUp$ cochain and cocycle rows, the $\ManifoldUp$ source row only as
+the domain provenance already visible to $\DiffFormUp$, the
+$\TensorProductUp$ row only as the algebraic source already visible to
+$\DiffFormUp$, the $\mathsf{BHist}$ cochain endpoints, the $\hsame$ endpoint
+transport rows, the $\Cont$ ledgers for the cochain differential and boundary
+preimage, and the $\Pkg$ provenance row tying these entries to one package.
+\end{definition}
+
+\begin{theorem}[De Rham root consumer readback stability]
+\label{thm:derham-root-consumer-readback-stability}
+If two root consumer readback packets for $\DeRhamUp$ are related
+componentwise by $\hsame$, then the transported packet has the same accepted
+root readback surface. The transported surface keeps the same $\DiffFormUp$,
+$\CohomologyUp$, $\ManifoldUp$, and $\TensorProductUp$ source rows, the same
+finite $\Cont$ ledger shape, and the same $\Pkg$ provenance, with only the
+visible $\mathsf{BHist}$ endpoints replaced by their $\hsame$ mates.
+\end{theorem}
+\begin{proof}
+Project the packet of
+\autoref{def:derham-root-consumer-readback-packet} into source, endpoint,
+ledger, transport, and provenance rows. The source rows are read through the
+already displayed $\DiffFormUp$ and $\CohomologyUp$ entries, while the
+$\ManifoldUp$ and $\TensorProductUp$ rows remain provenance of the
+differential-form source.
+
+Transport the visible $\mathsf{BHist}$ endpoints by the supplied $\hsame$
+comparisons. The boundary classifier stability of
+\autoref{thm:derham-boundary-zero-endpoint-transport} keeps the same preimage
+row, and the root ledger exactness of
+\autoref{thm:derham-root-ledger-exactness} keeps the same finite ledger list.
+
+Repack the transported rows into the readback packet. Since no step introduces
+a quotient cohomology carrier, de Rham isomorphism, or host cochain complex,
+the transported packet exposes exactly the same root consumer surface.
+\end{proof}
+
+\begin{theorem}[De Rham root unblock threshold surface]
+\label{thm:derham-root-unblock-threshold-surface}
+The root carrier obligation, root classifier obligation, root ledger exactness,
+root consumer readback packet, and root consumer readback stability theorem are
+exactly the $\DeRhamUp$ root-unblock surface. A downstream consumer may read
+only the $\DiffFormUp$, $\CohomologyUp$, $\ManifoldUp$, $\TensorProductUp$,
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$ rows displayed in those blocks.
+\end{theorem}
+\begin{proof}
+Project the root carrier block
+\autoref{thm:derham-root-carrier-obligation}. It supplies the carried
+$\DiffFormUp$ row, the cochain differential, the boundary preimage row, and
+the square-zero packet.
+
+Project the classifier and ledger blocks
+\autoref{thm:derham-root-classifier-obligation} and
+\autoref{thm:derham-root-ledger-exactness}. These blocks account for
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$, endpoint transport by $\hsame$,
+cocycle readback, and the finite ledger rows.
+
+Finally add the readback packet and its stability theorem. They name the
+allowed downstream rows and show that their $\hsame$ movement is closed within
+the same finite packet. Therefore the listed blocks exhaust the root-unblock
+surface and exclude quotient cohomology, de Rham isomorphism, and external
+cochain-complex data.
+\end{proof}
+
 \begin{theorem}[De Rham boundary public classifier exactness]
 \label{thm:derham-boundary-public-classifier-exactness}
 The boundary rows of \autoref{def:derham-chain-complex-boundary-row}, the
