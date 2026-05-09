@@ -3,6 +3,7 @@ import BEDC.Derived.GroupUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
@@ -16,6 +17,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -116,5 +118,50 @@ theorem SpinGroupRootCarrier_public_consumer_boundary_coverage [AskSetup] [Packa
                     (And.intro cliffordExact.right.right.right.right.right.right.left
                       (And.intro sourceScope.right.right.right.left
                         sourceScope.right.right.right.right)))))))))
+
+theorem SpinGroupRootCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      SemanticNameCert (fun h : BHist => hsame h spinEndpoint)
+          (fun h : BHist => hsame h spinEndpoint)
+          (fun h : BHist => hsame h spinEndpoint) hsame ∧
+        CliffordCarrierPackage unit vector product boundary cliffordEndpoint ∧
+          GroupSingletonCarrier groupWord ∧ Cont cliffordEndpoint groupWord spinEndpoint ∧
+            PkgSig bundle ledger pkg := by
+  intro carrier
+  have spinSelf : hsame spinEndpoint spinEndpoint :=
+    hsame_refl spinEndpoint
+  have cert :
+      SemanticNameCert (fun h : BHist => hsame h spinEndpoint)
+        (fun h : BHist => hsame h spinEndpoint)
+        (fun h : BHist => hsame h spinEndpoint) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro spinEndpoint spinSelf
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK carrierH
+        exact hsame_trans (hsame_symm sameHK) carrierH
+    }
+    pattern_sound := by
+      intro h carrierH
+      exact carrierH
+    ledger_sound := by
+      intro h carrierH
+      exact carrierH
+  }
+  exact And.intro cert
+    (And.intro carrier.left
+      (And.intro carrier.right.left
+        (And.intro carrier.right.right.left carrier.right.right.right)))
 
 end BEDC.Derived.SpinGroupUp
