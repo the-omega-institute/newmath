@@ -6,3 +6,4 @@ import BEDC.GroundCompiler.NameCertGenerated
 import BEDC.GroundCompiler.TheoremGenerated
 import BEDC.GroundCompiler.ChapterFlow
 import BEDC.GroundCompiler.SelfHostingCompilerFlow
+import BEDC.GroundCompiler.SemanticMotif
