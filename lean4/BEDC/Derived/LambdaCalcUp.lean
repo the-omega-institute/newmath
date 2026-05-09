@@ -79,4 +79,26 @@ theorem LambdaCalcBHistTermCarrier_abstraction_application_closure
     (And.intro appCarrier
       (And.intro absPayloadUnary appPayloadUnary))
 
+theorem LambdaCalcBHistTermPacketCarrier_public_endpoint_transport
+    {graph edge connected acyclic tag tag' payload endpoint endpoint' : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      hsame tag tag' -> hsame endpoint endpoint' ->
+        LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag' payload endpoint' ∧
+          Cont tag' payload endpoint' ∧ UnaryHistory endpoint' := by
+  intro carrier sameTag sameEndpoint
+  have treeCarrier' :
+      TreeBHistCarrier graph edge connected acyclic tag' endpoint' :=
+    (TreeBHistCarrier_classifier_transport carrier.left (hsame_refl graph) (hsame_refl edge)
+      (hsame_refl connected) (hsame_refl acyclic) sameTag sameEndpoint).left
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport carrier.right.right.left sameEndpoint
+  have endpointRow' : Cont tag' payload endpoint' :=
+    cont_hsame_transport sameTag (hsame_refl payload) sameEndpoint carrier.right.right.right
+  have carrier' :
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag' payload endpoint' :=
+    And.intro treeCarrier'
+      (And.intro carrier.right.left
+        (And.intro endpointUnary' endpointRow'))
+  exact And.intro carrier' (And.intro endpointRow' endpointUnary')
+
 end BEDC.Derived.LambdaCalcUp
