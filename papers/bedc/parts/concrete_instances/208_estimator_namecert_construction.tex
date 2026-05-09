@@ -6,5 +6,95 @@ The estimator interface $\EstimatorUp$ packages a sequence of measurable functio
 \section{Carrier definition}
 \label{sec:estimator-carrier}
 
+\begin{definition}[EstimatorUp BHist source surface]
+\label{def:estimator-bhist-source-surface}
+The $\EstimatorUp$ $\mathsf{BHist}$ source surface consists of displayed
+$\RandomVarUp$ sample rows, an $\IndependenceUp$ sample-family row, estimator
+endpoint rows, bias and variance witness rows, componentwise $\hsame$
+transport, finite $\Cont$ readback ledgers, and $\Pkg$ provenance naming the
+source certificates. A carried estimator packet is accepted only through these
+rows: the sample rows expose the random-variable inputs, the independence row
+records the finite sample-family boundary, the endpoint rows name the
+estimator outputs, and the bias and variance witnesses are read by finite
+continuation ledgers from the same packet.
+\end{definition}
+
 \section{The certificate}
 \label{sec:estimator-certificate}
+
+\begin{theorem}[EstimatorUp source obligation]
+\label{thm:estimator-source-obligation}
+Every $\EstimatorUp$ $\mathsf{BHist}$ source packet is sourced exactly by the
+$\RandomVarUp$ sample rows, the $\IndependenceUp$ sample-family row, the
+estimator endpoint rows, the bias and variance witness rows, finite $\Cont$
+readback, and $\Pkg$ provenance of
+\autoref{def:estimator-bhist-source-surface}. It includes no host
+probability-space equality, no asymptotic normality row, and no completed
+statistical convergence claim.
+\end{theorem}
+\begin{proof}
+Unpack the source surface definition. Its sample coordinates are displayed
+$\RandomVarUp$ rows, and its family coordinate is the single
+$\IndependenceUp$ row that relates those samples inside $\mathsf{BHist}$.
+
+The estimator endpoint, bias, and variance rows are then read by the listed
+finite $\Cont$ ledgers. The $\Pkg$ provenance names exactly the certificates
+used for those reads, so there is no separate source from an ambient
+probability space.
+
+Repacking those rows gives the whole source packet. Since the definition
+contains no row for host probability-space equality, asymptotic normality, or
+completed statistical convergence, none is exported by the source obligation.
+\end{proof}
+
+\begin{theorem}[EstimatorUp transport obligation]
+\label{thm:estimator-transport-obligation}
+The classifier transport obligation for $\EstimatorUp$ is componentwise
+$\hsame$ transport of the displayed $\RandomVarUp$ samples, the
+$\IndependenceUp$ sample-family row, the estimator endpoint rows, the bias and
+variance witness rows, and the finite $\Cont$ ledgers of
+\autoref{def:estimator-bhist-source-surface}. Transport preserves the same
+$\Pkg$ provenance and does not identify host probability spaces, derive
+asymptotic normality, or complete any statistical convergence argument.
+\end{theorem}
+\begin{proof}
+Start with two displayed estimator packets related componentwise by $\hsame$.
+The sample rows transport through their $\RandomVarUp$ certificates, while the
+sample-family row transports through the $\IndependenceUp$ certificate.
+
+Next transport the endpoint, bias, and variance rows along the listed
+component comparisons. The finite $\Cont$ ledgers are stable under the same
+endpoint replacement, so the readback packet remains a $\mathsf{BHist}$
+estimator packet with unchanged $\Pkg$ provenance.
+
+The transported witness is therefore still built only from the source surface.
+No step introduces host probability-space equality, asymptotic normality, or a
+completed convergence theorem.
+\end{proof}
+
+\begin{theorem}[EstimatorUp NameCert obligation surface]
+\label{thm:estimator-namecert-obligation-surface}
+The public $\NameCert_{\EstimatorUp}$ obligation surface is precisely the
+$\mathsf{BHist}$ source surface of
+\autoref{def:estimator-bhist-source-surface}, the source obligation of
+\autoref{thm:estimator-source-obligation}, and the transport obligation of
+\autoref{thm:estimator-transport-obligation}. Its public reads expose only
+sample, independence, endpoint, bias, variance, $\hsame$, $\Cont$, and $\Pkg$
+rows, and exclude host probability-space equality, asymptotic normality, and
+completed statistical convergence.
+\end{theorem}
+\begin{proof}
+The carrier row is the displayed source surface. By
+\autoref{thm:estimator-source-obligation}, every accepted estimator packet
+unpacks into the named sample, independence, endpoint, bias, variance,
+continuation, and provenance rows.
+
+The classifier and stability rows are supplied by
+\autoref{thm:estimator-transport-obligation}. Componentwise $\hsame$ moves the
+visible rows and preserves the finite ledgers, so the transported packet
+reassembles under the same $\NameCert_{\EstimatorUp}$ interface.
+
+Combining these two obligations gives the exact public surface. The surface is
+anchored in $\mathsf{BHist}$ and contains no field for host probability-space
+equality, asymptotic normality, or completed statistical convergence.
+\end{proof}
