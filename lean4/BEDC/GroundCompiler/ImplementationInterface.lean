@@ -15,8 +15,10 @@ inductive InterfaceDatum : Type where
   | isRawEvent
   | isEventFlow
   | isLegalZStream
+  | encodesEvent
   | compiles
   | decodes
+  | rejects
   | recognizesPkg
   | recognizesNameCert
   | recognizesDerivCert
@@ -52,10 +54,14 @@ inductive PublicFormalInterface : InterfaceDatum -> Prop where
       PublicFormalInterface InterfaceDatum.isEventFlow
   | isLegalZStream :
       PublicFormalInterface InterfaceDatum.isLegalZStream
+  | encodesEvent :
+      PublicFormalInterface InterfaceDatum.encodesEvent
   | compiles :
       PublicFormalInterface InterfaceDatum.compiles
   | decodes :
       PublicFormalInterface InterfaceDatum.decodes
+  | rejects :
+      PublicFormalInterface InterfaceDatum.rejects
   | recognizesPkg :
       PublicFormalInterface InterfaceDatum.recognizesPkg
   | recognizesNameCert :
@@ -87,6 +93,33 @@ def HostLeak (publicSurface : InterfaceDatum -> Prop) : Prop :=
 
 def NoHiddenInputStatus (publicSurface : InterfaceDatum -> Prop) : Prop :=
   NoHostLeakCondition publicSurface
+
+inductive ChannelCorePublic : InterfaceDatum -> Prop where
+  | encodesEvent :
+      ChannelCorePublic InterfaceDatum.encodesEvent
+  | compiles :
+      ChannelCorePublic InterfaceDatum.compiles
+  | isLegalZStream :
+      ChannelCorePublic InterfaceDatum.isLegalZStream
+
+def ChannelCoreModule (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  (forall d, publicSurface d -> ChannelCorePublic d) /\
+    publicSurface InterfaceDatum.encodesEvent /\
+    publicSurface InterfaceDatum.compiles /\
+    publicSurface InterfaceDatum.isLegalZStream /\
+    NoHostLeakCondition publicSurface
+
+inductive DecoderCorePublic : InterfaceDatum -> Prop where
+  | decodes :
+      DecoderCorePublic InterfaceDatum.decodes
+  | rejects :
+      DecoderCorePublic InterfaceDatum.rejects
+
+def DecoderCoreModule (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  (forall d, publicSurface d -> DecoderCorePublic d) /\
+    publicSurface InterfaceDatum.decodes /\
+    publicSurface InterfaceDatum.rejects /\
+    NoHostLeakCondition publicSurface
 
 theorem host_representation_not_structure {d : InterfaceDatum} :
     ImplementationRepresentation d -> Not (PublicFormalInterface d) := by

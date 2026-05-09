@@ -73,6 +73,7 @@ $$
 
 \begin{definition}[Implementation completeness]
 \label{def:implementation-interface-implementation-completeness}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ImplementationCompleteness}
 An implementation $f_{\mathrm{impl}}$ is \emph{complete relative to a domain $D$} for a formal relation $\mathcal R$ when every instance of $\mathcal R$ on input in $D$ is returned by the implementation.
 
 For example, if $c\in\mathsf{LegalZStream}$ and $\mathsf{Decodes}(c,S)$, then a complete decoder over the legal-stream domain returns success with output $S$. Completeness is always domain-relative.
@@ -101,6 +102,7 @@ The no-hidden-input status includes the no-host-leak condition for the public su
 
 \begin{definition}[Channel core module]
 \label{def:implementation-interface-channel-core}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ChannelCoreModule}
 The \emph{channel core module} implements the channel-layer definitions
 $$
   \zeta(0)=0,\qquad \zeta(1)=10,
@@ -122,6 +124,7 @@ Executable functions may exist internally, but theorem statements should align w
 
 \begin{definition}[Decoder core module]
 \label{def:implementation-interface-decoder-core}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.DecoderCoreModule}
 The \emph{decoder core module} implements the scan rules:
 $$
   0\mapsto \text{raw }0,\qquad
