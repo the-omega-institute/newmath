@@ -1,8 +1,10 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.DeRhamUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 theorem DeRhamDoubleExteriorDerivative_boundary {d : BHist -> BHist}
     {omega eta theta zero : BHist} :
@@ -48,5 +50,34 @@ theorem DeRhamDoubleExteriorPacket_boundary
     hsame_trans sameDEtaDDOmega (packet.right.right.right.left omega)
   exact And.intro sameThetaZero
     (And.intro boundaryTheta (hsame_trans sameDEtaZero packet.right.right.right.right))
+
+theorem DeRhamBoundary_semanticNameCert {d : BHist -> BHist} {axis : BHist}
+    (axisBoundary : DeRhamBoundary d axis) :
+    SemanticNameCert (DeRhamBoundary d) (DeRhamBoundary d) (DeRhamBoundary d) hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro axis axisBoundary
+      equiv_refl := by
+        intro h _boundary
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same boundaryH
+        cases boundaryH with
+        | intro preimage sameH =>
+            exact Exists.intro preimage (hsame_trans (hsame_symm same) sameH)
+    }
+    pattern_sound := by
+      intro _h boundary
+      exact boundary
+    ledger_sound := by
+      intro _h boundary
+      exact boundary
+  }
 
 end BEDC.Derived.DeRhamUp
