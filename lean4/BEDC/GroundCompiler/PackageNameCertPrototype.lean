@@ -216,4 +216,16 @@ theorem package_candidate_has_ambient_decomposition
   intro h
   exact h
 
+def NameCandidate (S N : EventFlow) : Prop :=
+  BEDC.GroundCompiler.NameCertGenerated.SourceSubflow N S
+
+def NameCertCandidate (S C N : EventFlow) : Prop :=
+  NameCandidate S N /\
+    BEDC.GroundCompiler.NameCertGenerated.SourceSubflow C S
+
+def RecognizedNameCertFlow
+    (R : GeneratedNameCertRecognizer) (S C N : EventFlow) : Prop :=
+  NameCertCandidate S C N /\
+    BEDC.GroundCompiler.NameCertGenerated.NameCertRecognitionRelation R C N
+
 end BEDC.GroundCompiler.PackageNameCertPrototype
