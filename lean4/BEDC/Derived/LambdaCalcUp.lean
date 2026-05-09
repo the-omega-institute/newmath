@@ -219,4 +219,36 @@ theorem LambdaCalcBHistTermPacketCarrier_free_variable_ledger_coverage
     unary_cont_closed packet.right.right.left freeVariableUnary freeLedgerCont
   exact And.intro freeLedgerUnary (And.intro freeLedgerCont packet)
 
+theorem LambdaCalcBHistTermPacketCarrier_alpha_beta_carrier_transport
+    {graph edge connected acyclic tag tag' payload endpoint endpoint' substTag substPayload
+      substEndpoint substEndpoint' ledger ledger' varIndex result result' : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic substTag substPayload
+          substEndpoint ->
+        hsame tag tag' ->
+          hsame endpoint endpoint' ->
+            hsame substEndpoint substEndpoint' ->
+              UnaryHistory varIndex ->
+                Cont endpoint substEndpoint ledger ->
+                  Cont endpoint' substEndpoint' ledger' ->
+                    Cont ledger varIndex result ->
+                      Cont ledger' varIndex result' ->
+                        UnaryHistory result' ∧ hsame result result' ∧ hsame ledger ledger' := by
+  intro packet substPacket sameTag sameEndpoint sameSubstEndpoint varUnary ledgerRow ledgerRow'
+    resultRow resultRow'
+  have transportedPacket :=
+    LambdaCalcBHistTermPacketCarrier_public_endpoint_transport packet sameTag sameEndpoint
+  have transportedSubstPacket :=
+    LambdaCalcBHistTermPacketCarrier_public_endpoint_transport substPacket (hsame_refl substTag)
+      sameSubstEndpoint
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed transportedPacket.right.right transportedSubstPacket.right.right ledgerRow'
+  have resultUnary' : UnaryHistory result' :=
+    unary_cont_closed ledgerUnary' varUnary resultRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameEndpoint sameSubstEndpoint ledgerRow ledgerRow'
+  have sameResult : hsame result result' :=
+    cont_respects_hsame sameLedger (hsame_refl varIndex) resultRow resultRow'
+  exact And.intro resultUnary' (And.intro sameResult sameLedger)
+
 end BEDC.Derived.LambdaCalcUp
