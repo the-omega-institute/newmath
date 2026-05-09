@@ -6,5 +6,137 @@ The best-approximation interface $\ApproximationUp$ packages, for a continuous f
 \section{Carrier definition}
 \label{sec:approximation-carrier}
 
+\begin{theorem}[ApproximationUp carrier obligation surface]
+\label{thm:approximation-carrier-obligation-surface}
+The $\ApproximationUp$ carrier surface is a $\mathsf{BHist}$ packet whose
+continuous-source row is certified by $\NameCert_{\ContinuousMapUp}$, whose
+polynomial-candidate row is certified by $\NameCert_{\PolynomialUp}$, whose
+comparison row is $\hsame$, whose transport rows are $\Cont$ ledgers, and whose
+finite error ledger records the displayed approximation error data. The carrier
+does not expose a supremum object or any choice data.
+\end{theorem}
+\begin{proof}
+Read the carrier through the ten-field roadmap template:
+\begin{enumerate}
+\item source: the $\mathsf{BHist}$ input carrying the compact continuous-map
+source;
+\item carrier: the accepted continuous endpoint supplied by
+$\NameCert_{\ContinuousMapUp}$;
+\item pattern: the polynomial candidate supplied by
+$\NameCert_{\PolynomialUp}$;
+\item classifier: componentwise $\hsame$ between source, candidate, and error
+endpoints;
+\item stability: $\Cont$ transport for every exposed endpoint;
+\item ledger: the finite error ledger;
+\item exactness: each error row is attached to one displayed candidate and one
+displayed source;
+\item consumer: polynomial approximation consumers read only these rows;
+\item boundary: no supremum witness is exported;
+\item provenance: no choice data is added beyond the two cited $\NameCert$
+sources.
+\end{enumerate}
+
+These ten rows are all carried by named histories and finite ledgers. Therefore
+the carrier surface is a BEDC packet rather than an external analytic
+minimisation object.
+\end{proof}
+
+\begin{theorem}[ApproximationUp polynomial consumer window]
+\label{thm:approximation-polynomial-consumer-window}
+Every $\ApproximationUp$ polynomial consumer reads a $\mathsf{BHist}$ source
+through $\NameCert_{\ContinuousMapUp}$, a candidate row through
+$\NameCert_{\PolynomialUp}$, $\hsame$ comparison rows, $\Cont$ transport rows,
+and the finite error ledger. Its permitted window is the finite candidate,
+degree, endpoint, and error data displayed by the packet, with no supremum row
+and no choice data.
+\end{theorem}
+\begin{proof}
+The consumer first projects the continuous map from
+$\NameCert_{\ContinuousMapUp}$ and the candidate polynomial from
+$\NameCert_{\PolynomialUp}$. Both projections remain histories in the same
+$\mathsf{BHist}$ packet.
+
+It then reads the $\hsame$ classifier and the $\Cont$ transport ledgers. These
+rows allow the candidate and error endpoints to move together without replacing
+the source certificate.
+
+Finally the consumer reads the finite error ledger. Since the ledger is finite,
+the consumer can inspect recorded error rows directly; no supremum witness,
+selection functional, or choice data is part of the exposed window.
+\end{proof}
+
 \section{The certificate}
 \label{sec:approximation-certificate}
+
+\begin{theorem}[ApproximationUp compact continuous source boundary]
+\label{thm:approximation-compact-continuous-source-boundary}
+The $\ApproximationUp$ source boundary for a compact continuous input is exactly
+the $\mathsf{BHist}$ packet combining $\NameCert_{\ContinuousMapUp}$,
+$\NameCert_{\PolynomialUp}$, $\Cont$ transport, $\hsame$ comparison, and the
+finite error ledger. Compactness and continuity are consumed only through the
+continuous-map certificate row, and the boundary exports no supremum or choice
+data.
+\end{theorem}
+\begin{proof}
+Use the ten-field roadmap template with the continuous certificate as the source
+side: source $\mathsf{BHist}$, continuous carrier, polynomial pattern,
+$\hsame$ classifier, $\Cont$ stability, finite error ledger, endpoint exactness,
+polynomial consumer, no-supremum boundary, and no-choice provenance.
+
+The compact continuous hypothesis is therefore not a separate analytic carrier.
+It is the continuous-map certificate row already present in
+$\NameCert_{\ContinuousMapUp}$, transported by $\Cont$ and compared by $\hsame$.
+
+The polynomial side is read through $\NameCert_{\PolynomialUp}$. The finite
+error ledger relates the two sides at recorded endpoints only, so the source
+boundary remains finite and certificate-local.
+\end{proof}
+
+\begin{theorem}[ApproximationUp error ledger exactness]
+\label{thm:approximation-error-ledger-exactness}
+For $\ApproximationUp$, the finite error ledger is exact relative to the
+$\mathsf{BHist}$ source certified by $\NameCert_{\ContinuousMapUp}$, the
+candidate certified by $\NameCert_{\PolynomialUp}$, the $\hsame$ classifier,
+and the $\Cont$ transport rows: every ledger entry names one source endpoint,
+one polynomial endpoint, and one error endpoint, and every exposed error
+comparison is one of these finite entries. No supremum row or choice data is
+part of the exactness claim.
+\end{theorem}
+\begin{proof}
+Project the source, candidate, classifier, and transport rows from the same
+certificate packet. The ten fields are the source, carrier, pattern,
+classifier, stability, ledger, exactness, consumer, no-supremum boundary, and
+no-choice provenance rows.
+
+For an error entry already in the finite ledger, exactness is immediate from
+its recorded endpoints: it contains the source endpoint, the polynomial
+endpoint, and the named error endpoint.
+
+Conversely, an exposed approximation error comparison is visible to consumers
+only by passing through the finite ledger row. Thus there is no hidden
+supremum-derived error endpoint and no unrecorded choice data.
+\end{proof}
+
+\begin{theorem}[ApproximationUp NameCert obligation inventory]
+\label{thm:approximation-namecert-obligation-inventory}
+The $\ApproximationUp$ $\NameCert$ obligation inventory consists of the
+$\mathsf{BHist}$ source row, $\NameCert_{\ContinuousMapUp}$ source certificate,
+$\NameCert_{\PolynomialUp}$ candidate certificate, $\hsame$ classifier,
+$\Cont$ stability transport, finite error ledger, ledger exactness, polynomial
+consumer window, no-supremum boundary, and no-choice provenance. These are the
+only obligations exported by the certificate surface.
+\end{theorem}
+\begin{proof}
+List the ten obligations in order: source row, continuous carrier row,
+polynomial pattern row, $\hsame$ classifier row, $\Cont$ stability row, finite
+error ledger row, exactness row, consumer row, no-supremum boundary row, and
+no-choice provenance row.
+
+The first two rows come from $\NameCert_{\ContinuousMapUp}$, and the polynomial
+row comes from $\NameCert_{\PolynomialUp}$. The classifier and stability rows
+are BEDC transport data over the same $\mathsf{BHist}$ endpoints.
+
+The final four rows restrict consumers to finite recorded error data. Hence the
+inventory closes the approximation certificate surface without adding a
+supremum object, a best-candidate selector, or any choice data.
+\end{proof}

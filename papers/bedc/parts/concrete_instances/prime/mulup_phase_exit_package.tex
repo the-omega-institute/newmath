@@ -93,3 +93,32 @@ the already transported unary histories, $\Cont$ ledgers, $\hsame$
 comparisons, and $\mathsf{NatMul}$ witnesses, so the consumer receives the
 same phase-exit package and no new exported surface.
 \end{proof}
+
+\begin{theorem}[MulUp checked law audit package]
+\label{thm:mulup-checked-law-audit-package}
+Over $\mathsf{BHist}$ and the carrier $\mathsf{UnaryHistory}$, the checked
+NatMul law package consumed by the Full Nat Arithmetic boundary consists of the
+totality, result-closure, functionality, unit, unit-law, commutativity,
+associativity, $\hsame$ operation-congruence, and result semantic
+$\mathsf{NameCert}$ rows for $\mathsf{NatMul}$. The package is read only through
+the unary-history carrier, the $\hsame$ classifier, and the displayed
+$\mathsf{BHist}$ result endpoints.
+\end{theorem}
+\begin{proof}
+The algebraic rows are the rows certified by
+$\mathsf{BEDC.Derived.PrimeUp.NatMul\_unary\_mulup\_certificate}$: totality,
+result closure, functionality, the unit row, unit laws, commutativity, and
+associativity all live on the same unary-history endpoints.
+
+The transport row is the checked congruence theorem
+$\mathsf{BEDC.Derived.PrimeUp.NatMul\_operation\_congruence}$. It says that
+componentwise $\hsame$ comparison of the input and result histories preserves
+the $\mathsf{NatMul}$ operation row, so the law package is stable under the
+phase-exit transport boundary.
+
+The result naming row is the checked semantic certificate theorem
+$\mathsf{BEDC.Derived.PrimeUp.NatMul\_result\_semanticNameCert}$. Repacking
+these three checked sources gives exactly the NatMul audit package required by
+the L7 boundary, without adding a second carrier, a host multiplication
+operation, or an extra quotient surface.
+\end{proof}

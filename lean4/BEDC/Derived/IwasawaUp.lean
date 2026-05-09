@@ -56,4 +56,24 @@ theorem IwasawaTransitionLedger_cons_transport_stability
       (IwasawaTransitionLedger.cons levelUnary' nextUnary' transitionCont' restLedger)
       (And.intro sameTransition transitionUnary')
 
+theorem IwasawaTransitionLedger_transition_hsame_transport
+    {transitions : List BHist} {provenance row row' : BHist} :
+    IwasawaTransitionLedger transitions provenance ->
+      List.Mem row transitions ->
+        hsame row row' ->
+          ∃ level next : BHist, UnaryHistory level ∧ UnaryHistory next ∧
+            Cont level next row' := by
+  intro ledger rowMem sameRow
+  have exactRow :=
+    IwasawaTransitionLedger_finite_window_exactness ledger rowMem
+  cases exactRow with
+  | intro level exactRest =>
+      cases exactRest with
+      | intro next rowData =>
+          exact Exists.intro level
+            (Exists.intro next
+                (And.intro rowData.left
+                  (And.intro rowData.right.left
+                    (cont_result_hsame_transport rowData.right.right sameRow))))
+
 end BEDC.Derived.IwasawaUp
