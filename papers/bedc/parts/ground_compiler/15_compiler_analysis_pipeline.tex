@@ -38,6 +38,7 @@ Recognizer families, analysis protocols, metric weights, report formats, cannot-
 
 \begin{definition}[Analysis input]
 \label{def:analysis-pipeline-input}
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.AnalysisInput}
 An \emph{analysis input} is either a legal channel stream
 $$
   c\in\mathsf{LegalZStream}
@@ -57,6 +58,7 @@ If the input is channel code, it must be decoded before analysis. If the input i
 
 \begin{principle}[Decode-first analysis]
 \label{prin:analysis-pipeline-decode-first}
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.decode\_first\_analysis}
 Every analysis acts on source-level event flow. For $c\in\mathsf{LegalZStream}$, the pipeline first forms
 $$
   S=\mathsf{Decode}(c).
@@ -84,13 +86,14 @@ It is not an external configuration parser, YAML schema, host analysis script, o
 
 \begin{definition}[Analysis-protocol recognition relation]
 \label{def:analysis-pipeline-protocol-recognition}
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.RecognizesAnalysisProtocol}
 The analysis-protocol recognition relation is written
 $$
   \mathsf{RecognizesAnalysisProtocol}(R_P,P),
   \qquad
   R_P,P\in\mathsf{EventFlow}.
 $$
-It is read as: the generated protocol recognizer flow $R_P$ recognizes event flow $P$ as an analysis protocol flow. If such an $R_P$ exists, $P$ is a recognized analysis protocol flow.
+It is read as: the generated protocol recognizer flow $R_P$ recognizes event flow $P$ as an analysis protocol flow. The relation records source-level support by requiring the generated recognizer flow and the protocol candidate flow to be present as nonempty event flows. If such an $R_P$ exists, $P$ is a recognized analysis protocol flow.
 \end{definition}
 
 \begin{definition}[Analysis protocol subflows]
@@ -121,6 +124,7 @@ There is no formal input such as analysis YAML, metric JSON, motif table, weight
 
 \begin{theorem}[Unrecognized protocol cannot drive analysis]
 \label{thm:analysis-pipeline-unrecognized-protocol-rejected}
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.unrecognized\_protocol\_rejected}
 If there is no $R_P$ such that
 $$
   \mathsf{RecognizesAnalysisProtocol}(R_P,P),

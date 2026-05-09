@@ -10,3 +10,4 @@ import BEDC.GroundCompiler.SelfHostingCompilerFlow
 import BEDC.GroundCompiler.SemanticMotif
 import BEDC.GroundCompiler.CaseStudies
 import BEDC.GroundCompiler.MetricsFlow
+import BEDC.GroundCompiler.AnalysisPipeline
