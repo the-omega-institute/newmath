@@ -295,6 +295,7 @@ Name licensing requires complete recognized \NameCert\ flow. If any required fie
 
 \begin{corollary}[Name event alone does not license interface]
 \label{cor:pkg-namecert-name-event-not-license}
+\leanchecked{BEDC.GroundCompiler.PackageNameCertPrototype.name\_event\_alone\_not\_license}
 A name candidate event $N$ cannot by itself license a derived interface. A recognized \NameCert\ flow is required.
 \end{corollary}
 
@@ -314,15 +315,16 @@ and that recognition is complete and sound. This licenses a name, not an accepte
 
 \begin{theorem}[$P_5$ licensing is weaker than accepted export]
 \label{thm:pkg-namecert-p5-license-weaker-than-export}
-If
+\leanchecked{BEDC.GroundCompiler.PackageNameCertPrototype.p5\_license\_weaker\_than\_export}
+There exist event flows $S$ and $N$ such that
 $$
-  \mathsf{LicensedName}_{P_5}(S,N),
+  \mathsf{LicensedName}_{P_5}(S,N)
 $$
-one cannot infer $\mathsf{AcceptedExport}(N,s)$ for any strength $s$.
+holds while $S$ is not an accepted object flow. Thus $P_5$ licensing does not by itself imply accepted export at any strength.
 \end{theorem}
 
 \begin{proof}
-$P_5$ recognizes \NameCert\ flows. Accepted export requires derivation-certificate flow and acceptance-gate flow as well. These are not supplied at $P_5$.
+Take the empty decoded flow as the carrier of a complete \NameCert\ recognition witness for a name candidate under the $P_5$ recognition predicates. This supplies a $P_5$ license. The same empty flow is not an accepted object flow, because accepted object flow requires the nonempty exported flow together with recognized certificate support. Hence $P_5$ licensing is weaker than accepted export.
 \end{proof}
 
 \section{Package-sourced NameCert flows}

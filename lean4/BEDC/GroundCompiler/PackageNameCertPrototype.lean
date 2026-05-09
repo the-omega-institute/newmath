@@ -292,6 +292,15 @@ def LicensedNameP5Witness (S C N : EventFlow) : Prop :=
 def LicensedNameP5 (S N : EventFlow) : Prop :=
   exists C : EventFlow, LicensedNameP5Witness S C N
 
+theorem name_event_alone_not_license
+    {S N : EventFlow} :
+    (forall C : EventFlow, Not (LicensedNameP5Witness S C N)) ->
+      Not (LicensedNameP5 S N) := by
+  intro hNoWitness hLicensed
+  cases hLicensed with
+  | intro C hWitness =>
+      exact hNoWitness C hWitness
+
 theorem missing_namecert_role_not_complete
     {R : GeneratedNameCertRecognizer} {S C N : EventFlow} :
     MissingNameCertRole R S C N ->
@@ -401,5 +410,81 @@ theorem package_without_ledger_no_namecert_over_package
           | intro N hNameCertOver =>
               exact hNoLedger
                 (namecert_over_package_requires_ledger hNameCertOver)
+
+theorem p5_license_weaker_than_export :
+    exists S N : EventFlow, LicensedNameP5 S N /\ Not (AcceptedObjectFlow S) := by
+  have hSubflow :
+      BEDC.GroundCompiler.NameCertGenerated.SourceSubflow
+        ([] : EventFlow) ([] : EventFlow) :=
+    ⟨[], [], rfl⟩
+  have hRecognizes :
+      RecognizesNameCert ([] : GeneratedNameCertRecognizer) ([] : EventFlow) :=
+    FormalCompilerInput.recognizedFlow [] []
+  have hGeneratedComplete :
+      BEDC.GroundCompiler.NameCertGenerated.CompleteFiveFieldRecognition
+        ([] : GeneratedNameCertRecognizer) ([] : EventFlow) :=
+    ⟨[], [], [], [], [], [],
+      ⟨hRecognizes, hSubflow⟩,
+      ⟨hRecognizes, hSubflow⟩,
+      ⟨hRecognizes, hSubflow⟩,
+      ⟨hRecognizes, hSubflow⟩,
+      ⟨hRecognizes, hSubflow⟩,
+      ⟨hRecognizes, hSubflow⟩⟩
+  have hRelation :
+      BEDC.GroundCompiler.NameCertGenerated.NameCertRecognitionRelation
+        ([] : GeneratedNameCertRecognizer) ([] : EventFlow) ([] : EventFlow) :=
+    ⟨hRecognizes, FormalCompilerInput.eventFlow [], hGeneratedComplete⟩
+  have hCandidate : NameCertCandidate ([] : EventFlow) [] [] :=
+    ⟨hSubflow, hSubflow⟩
+  have hRecognized :
+      RecognizedNameCertFlow
+        ([] : GeneratedNameCertRecognizer) ([] : EventFlow)
+        ([] : EventFlow) ([] : EventFlow) :=
+    ⟨hCandidate, hRelation⟩
+  have hSource :
+      NameCertFieldSubflow
+        ([] : GeneratedNameCertRecognizer) ([] : EventFlow)
+        ([] : EventFlow) ([] : EventFlow) ([] : EventFlow)
+        NameCertSubflowRole.source :=
+    ⟨hRecognized, ⟨hRecognizes, hSubflow⟩⟩
+  have hPattern :
+      NameCertFieldSubflow
+        ([] : GeneratedNameCertRecognizer) ([] : EventFlow)
+        ([] : EventFlow) ([] : EventFlow) ([] : EventFlow)
+        NameCertSubflowRole.pattern :=
+    ⟨hRecognized, ⟨hRecognizes, hSubflow⟩⟩
+  have hClassifier :
+      NameCertFieldSubflow
+        ([] : GeneratedNameCertRecognizer) ([] : EventFlow)
+        ([] : EventFlow) ([] : EventFlow) ([] : EventFlow)
+        NameCertSubflowRole.classifier :=
+    ⟨hRecognized, ⟨hRecognizes, hSubflow⟩⟩
+  have hStability :
+      NameCertFieldSubflow
+        ([] : GeneratedNameCertRecognizer) ([] : EventFlow)
+        ([] : EventFlow) ([] : EventFlow) ([] : EventFlow)
+        NameCertSubflowRole.stability :=
+    ⟨hRecognized, ⟨hRecognizes, hSubflow⟩⟩
+  have hLedger :
+      NameCertFieldSubflow
+        ([] : GeneratedNameCertRecognizer) ([] : EventFlow)
+        ([] : EventFlow) ([] : EventFlow) ([] : EventFlow)
+        NameCertSubflowRole.ledger :=
+    ⟨hRecognized, ⟨hRecognizes, hSubflow⟩⟩
+  have hSeal :
+      NameCertFieldSubflow
+        ([] : GeneratedNameCertRecognizer) ([] : EventFlow)
+        ([] : EventFlow) ([] : EventFlow) ([] : EventFlow)
+        NameCertSubflowRole.seal :=
+    ⟨hRecognized, ⟨hRecognizes, hSubflow⟩⟩
+  have hComplete :
+      CompleteNameCertRecognition
+        ([] : GeneratedNameCertRecognizer) ([] : EventFlow)
+        ([] : EventFlow) ([] : EventFlow) :=
+    ⟨[], [], [], [], [], [], hSource, hPattern, hClassifier, hStability,
+      hLedger, hSeal⟩
+  exact
+    ⟨[], [],
+      ⟨⟨[], ⟨[], hComplete⟩⟩, empty_not_accepted_object_flow⟩⟩
 
 end BEDC.GroundCompiler.PackageNameCertPrototype
