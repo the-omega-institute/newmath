@@ -56,6 +56,7 @@ Contiguous subflows support local motif recognition. Indexed subflows support le
 
 \begin{definition}[Motif candidate flow]
 \label{def:motif-generated-candidate-flow}
+\leandef{BEDC.GroundCompiler.SemanticMotif.MotifCandidate}
 A \emph{motif candidate flow} is a subflow
 $$
   M\subseteq S
@@ -92,6 +93,7 @@ The judgment $\mathsf{RecognizesMotif}(R_M,S,M,\mu)$ is not a search for a bit s
 
 \begin{definition}[Motif occurrence]
 \label{def:motif-generated-occurrence}
+\leandef{BEDC.GroundCompiler.SemanticMotif.MotifOccurrence}
 If
 $$
   \mathsf{RecognizesMotif}(R_M,S,M,\mu),
@@ -105,6 +107,7 @@ This means that, under recognizer $R_M$, the subflow $M$ occurs in $S$ as motif 
 
 \begin{principle}[No external motif input]
 \label{prin:motif-generated-no-external-input}
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.no\_external\_motif\_input}
 There is no formal input motif table, pattern list, or regular-expression rule that defines motifs. Motifs are recognized from event flows by generated motif recognizers.
 \end{principle}
 

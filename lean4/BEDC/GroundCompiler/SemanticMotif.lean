@@ -41,6 +41,20 @@ def RecognizedMotifOccurrence
     Prop :=
   RecognizesMotif R S M mu
 
+def MotifOccurrence
+    (R : GeneratedMotifRecognizer) (S M : EventFlow) (mu : MotifRole) :
+    Prop :=
+  RecognizesMotif R S M mu
+
+theorem no_external_motif_input
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    MotifOccurrence R S M mu ->
+      FormalCompilerInput (CompilerDatum.eventFlow R) /\
+        SourceLevelMotifArgs S M mu /\
+        Subflow M S := by
+  intro h
+  exact h
+
 theorem motif_recognition_source_level
     {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
     RecognizesMotif R S M mu -> SourceLevelMotifArgs S M mu := by
