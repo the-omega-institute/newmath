@@ -185,6 +185,32 @@ def SelfHostingCompilerFlow
         CompilerBehaviorClassifier behavior C' C /\
         NonemptyEventFlow L
 
+def SelfHostingLedger (_C : CompilerCandidateFlow) (L : EventFlow) : Prop :=
+  NonemptyEventFlow L
+
+theorem self_hosting_yields_behavior_classifier
+    {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :
+    SelfHostingCompilerFlow behavior C ->
+      exists C' : CompilerCandidateFlow,
+        CompilerBehaviorClassifier behavior C' C := by
+  intro hSelf
+  cases hSelf.right.right with
+  | intro C' hC' =>
+      cases hC' with
+      | intro _L hLedger =>
+          exact ⟨C', hLedger.right.left⟩
+
+theorem self_hosting_requires_ledger
+    {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :
+    SelfHostingCompilerFlow behavior C ->
+      exists L : EventFlow, SelfHostingLedger C L := by
+  intro hSelf
+  cases hSelf.right.right with
+  | intro _C' hC' =>
+      cases hC' with
+      | intro L hLedger =>
+          exact ⟨L, hLedger.right.right⟩
+
 def P9CompilerCandidate (S C : EventFlow) : Prop :=
   P9Subflow S C
 

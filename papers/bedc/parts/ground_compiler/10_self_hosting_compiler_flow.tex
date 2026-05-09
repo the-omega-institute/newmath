@@ -271,15 +271,16 @@ A compiler flow $C$ is \emph{self-hosting}, written $\mathsf{SelfHosting}(C)$, w
 
 \begin{proposition}[Self-hosting is not raw equality]
 \label{prop:self-hosting-compiler-not-raw-equality}
-If $\mathsf{SelfHosting}(C)$, then for some $C'$ one obtains
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.self\_hosting\_yields\_behavior\_classifier}
+If $\mathsf{SelfHosting}(C)$, then for some event flow $C'$ one obtains
 $$
   C'\equiv_{\mathrm{comp}}C,
 $$
-but not necessarily $C'=C$ as raw event flows.
+as a compiler-behavior classifier witness. The self-hosting judgment therefore exposes behavior classification as its equality-like datum, rather than raw event-flow equality.
 \end{proposition}
 
 \begin{proof}
-\autoref{def:self-hosting-compiler-flow} requires behavior-classifier equivalence $C'\equiv_{\mathrm{comp}}C$. By \autoref{def:self-hosting-compiler-behavior-classifier}, this classifier is not raw event-flow equality. Hence self-hosting does not imply $C'=C$.
+\autoref{def:self-hosting-compiler-flow} contains a self-compilation output $C'$ together with the behavior-classifier witness $C'\equiv_{\mathrm{comp}}C$. By \autoref{def:self-hosting-compiler-behavior-classifier}, this classifier is a relation on compiler behavior, not raw event-flow equality.
 \end{proof}
 
 \begin{corollary}[Self-hosting does not imply kernel equality]
@@ -289,6 +290,7 @@ Since $C'\equiv_{\mathrm{comp}}C$ is a compiler-behavior classifier, self-hostin
 
 \begin{definition}[Self-hosting ledger]
 \label{def:self-hosting-compiler-ledger}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.SelfHostingLedger}
 A \emph{self-hosting ledger} for $C$ is an event flow $L_C$ recording raw compiler flow $C$, compiled channel code $\mathsf{Compile}(C)$, decoded output flow $C'$, the compiler-behavior classifier witness $C'\equiv_{\mathrm{comp}}C$, failure branches, discharged or remaining bootstrap obligations, and kernel-conservativity witness. This is written
 $$
   \mathsf{SelfHostingLedger}(C,L_C).
@@ -297,6 +299,7 @@ $$
 
 \begin{principle}[No self-hosting without ledger]
 \label{prin:self-hosting-compiler-no-self-hosting-without-ledger}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.self\_hosting\_requires\_ledger}
 A self-hosting claim requires a self-hosting ledger:
 $$
   \mathsf{SelfHosting}(C)
