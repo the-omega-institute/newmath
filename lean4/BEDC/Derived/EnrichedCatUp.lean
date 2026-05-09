@@ -4,6 +4,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.EnrichedCatUp
 
@@ -52,5 +53,38 @@ theorem EnrichedCatCertificateSurface_source_obligation [AskSetup] [PackageSetup
             (And.intro endpointUnary
               (And.intro surface.right.right.right.right.right.right.right.right.left
                 surface.right.right.right.right.right.right.right.right.right))))))
+
+def EnrichedCatPublicPacket [AskSetup] [PackageSetup]
+    (categoryBoundary monoidalBoundary homObject identity composition transport provenance ledger
+      endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory categoryBoundary ∧
+    UnaryHistory monoidalBoundary ∧
+      UnaryHistory homObject ∧
+        UnaryHistory identity ∧
+          UnaryHistory composition ∧
+            UnaryHistory transport ∧
+              Cont homObject identity composition ∧
+                Cont transport provenance ledger ∧
+                  Cont ledger monoidalBoundary endpoint ∧
+                    PkgSig bundle endpoint pkg
+
+theorem EnrichedCatPublicPacket_source_obligation [AskSetup] [PackageSetup]
+    {categoryBoundary monoidalBoundary homObject identity composition transport provenance ledger
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EnrichedCatPublicPacket categoryBoundary monoidalBoundary homObject identity composition
+      transport provenance ledger endpoint bundle pkg ->
+      UnaryHistory categoryBoundary ∧
+        UnaryHistory monoidalBoundary ∧
+          UnaryHistory homObject ∧
+            UnaryHistory identity ∧
+              UnaryHistory composition ∧
+                UnaryHistory transport ∧
+                  Cont homObject identity composition ∧
+                    Cont transport provenance ledger ∧
+                      Cont ledger monoidalBoundary endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  exact packet
 
 end BEDC.Derived.EnrichedCatUp
