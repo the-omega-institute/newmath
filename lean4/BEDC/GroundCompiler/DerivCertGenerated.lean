@@ -1,9 +1,11 @@
 import BEDC.GroundCompiler.ChannelEncoding
+import BEDC.GroundCompiler.NameCertGenerated
 
 namespace BEDC.GroundCompiler.DerivCertGenerated
 
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.ChannelEncoding
+open BEDC.GroundCompiler.NameCertGenerated
 
 def GeneratedDerivCertRecognizer : Type :=
   GeneratedRecognizer
@@ -52,6 +54,17 @@ def RecognizesDerivCert
 def DerivCertFlow (D N s : EventFlow) : Prop :=
   exists R : GeneratedDerivCertRecognizer, RecognizesDerivCert R D N s
 
+def AcceptedFlow (A N s : EventFlow) : Prop :=
+  exists C D : EventFlow,
+    NameCertFlow C N /\
+      DerivCertFlow D N s /\
+      DerivCertSourceSubflow C A /\
+      DerivCertSourceSubflow D A /\
+      exists sealFlow : EventFlow, DerivCertSourceSubflow sealFlow A
+
+def AcceptGateFlow (N s : EventFlow) : Prop :=
+  exists A : EventFlow, AcceptedFlow A N s
+
 def DerivCertCode (D _N _s : EventFlow) : List DisplayAlphabet :=
   FlowEncoding D
 
@@ -96,5 +109,17 @@ theorem incomplete_derivcert_does_not_support_export
   cases hFlow with
   | intro R hRecognizes =>
       exact hIncomplete R hRecognizes hRecognizes.right.right.right
+
+theorem accepted_requires_namecert_derivcert {N s : EventFlow} :
+    AcceptGateFlow N s ->
+      exists C D : EventFlow, NameCertFlow C N /\ DerivCertFlow D N s := by
+  intro hGate
+  cases hGate with
+  | intro A hAccepted =>
+      cases hAccepted with
+      | intro C hAccepted =>
+          cases hAccepted with
+          | intro D hAccepted =>
+              exact ⟨C, D, hAccepted.left, hAccepted.right.left⟩
 
 end BEDC.GroundCompiler.DerivCertGenerated

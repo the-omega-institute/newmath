@@ -328,6 +328,7 @@ By \autoref{def:derivcert-generated-sound-recognized-flow}, $D$ contains recogni
 
 \begin{definition}[Accepted flow]
 \label{def:derivcert-generated-accepted-flow}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.AcceptedFlow}
 For $N,s \in \mathsf{EventFlow}$, an event flow $A$ is an \emph{accepted flow} for $N$ at $s$ when there exist event flows $C,D$ and recognizers $R_C,R_D$ such that
 $$
   \mathsf{RecognizesNameCert}(R_C,C,N),
@@ -342,6 +343,7 @@ $$
 
 \begin{definition}[Flow-level acceptance gate]
 \label{def:derivcert-generated-accept-gate-flow}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.AcceptGateFlow}
 Define the flow-level acceptance gate by
 $$
   \mathsf{AcceptGateFlow}(N,s)
@@ -360,6 +362,7 @@ $$
 
 \begin{theorem}[Accepted flow requires NameCert-flow and DerivCert-flow]
 \label{thm:derivcert-generated-accepted-requires-namecert-derivcert}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.accepted\_requires\_namecert\_derivcert}
 If $\mathsf{AcceptGateFlow}(N,s)$, then there exist $C,D$ such that
 $$
   \mathsf{NameCertFlow}(C,N)
