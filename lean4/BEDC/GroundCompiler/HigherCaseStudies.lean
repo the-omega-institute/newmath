@@ -8,6 +8,98 @@ open BEDC.GroundCompiler.MetricsFlow
 open BEDC.GroundCompiler.SemanticMotif
 open BEDC.FKernel.Mark
 
+def RealApproximationSourceFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b1, BMark.b0]]
+
+def RealCauchyClassifierFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b0, BMark.b1]]
+
+def RealOperationDescentFlow : EventFlow :=
+  [[BMark.b1, BMark.b0, BMark.b1, BMark.b1]]
+
+def RealOrderCompatibilityFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b0, BMark.b1]]
+
+def RealMetricCompatibilityFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b1, BMark.b1]]
+
+def RealLedgerFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b0, BMark.b1]]
+
+def CompleteRealLikeFlow (S : EventFlow) : Prop :=
+  CompletionMotif S /\
+    Subflow RealApproximationSourceFlow S /\
+    Subflow RealCauchyClassifierFlow S /\
+    Subflow RealOperationDescentFlow S /\
+    Subflow RealOrderCompatibilityFlow S /\
+    Subflow RealMetricCompatibilityFlow S /\
+    Subflow RealLedgerFlow S /\
+    NonemptyEventFlow RealLedgerFlow
+
+theorem completion_skeleton_motif :
+    CompletionMotif CompletionSkeleton := by
+  refine
+    ⟨{ stage := FiniteRepetitionSkeleton 3,
+        threadFlow := [[BMark.b0, BMark.b1]],
+        classifier := [[BMark.b0, BMark.b1, BMark.b1]],
+        sealFlow := [[BMark.b0, BMark.b1, BMark.b1]],
+        ledgerFlow := [[BMark.b1, BMark.b0, BMark.b0]] }, ?_⟩
+  constructor
+  · exact prefix_subflow_subflow completion_skeleton_contains_repetition
+  · constructor
+    · exact Or.inl
+        ⟨FiniteRepetitionSkeleton 3,
+          [[BMark.b0, BMark.b1, BMark.b1],
+            [BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+    · constructor
+      · exact Or.inl
+          ⟨List.append (FiniteRepetitionSkeleton 3) [[BMark.b0, BMark.b1]],
+            [[BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+      · constructor
+        · exact Or.inl
+            ⟨List.append (FiniteRepetitionSkeleton 3) [[BMark.b0, BMark.b1]],
+              [[BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+        · constructor
+          · exact Or.inl
+              ⟨List.append (FiniteRepetitionSkeleton 3)
+                [[BMark.b0, BMark.b1], [BMark.b0, BMark.b1, BMark.b1]],
+                [], rfl⟩
+          · constructor
+            · exact ⟨[BMark.b0, BMark.b1, BMark.b1], [], rfl⟩
+            · exact ⟨[BMark.b1, BMark.b0, BMark.b0], [], rfl⟩
+
+theorem real_approximation_not_in_completion_skeleton :
+    Not (Subflow RealApproximationSourceFlow CompletionSkeleton) := by
+  intro h
+  have hMem :
+      List.Mem [BMark.b1, BMark.b1, BMark.b1, BMark.b0]
+        CompletionSkeleton :=
+    subflow_mem h (List.Mem.head [])
+  simp [CompletionSkeleton, FiniteRepetitionSkeleton, ZeroRunEvent] at hMem
+  cases hMem with
+  | tail _ hMem =>
+      cases hMem with
+      | tail _ hMem =>
+          cases hMem with
+          | tail _ hMem =>
+              cases hMem with
+              | tail _ hMem =>
+                  cases hMem with
+                  | tail _ hMem =>
+                      cases hMem with
+                      | tail _ hMem =>
+                          cases hMem
+
+theorem completion_necessary_not_sufficient_real :
+    (forall {S : EventFlow}, CompleteRealLikeFlow S -> CompletionMotif S) /\
+      exists S : EventFlow, CompletionMotif S /\ Not (CompleteRealLikeFlow S) := by
+  constructor
+  · intro S hReal
+    exact hReal.left
+  · refine ⟨CompletionSkeleton, completion_skeleton_motif, ?_⟩
+    intro hReal
+    exact real_approximation_not_in_completion_skeleton hReal.right.left
+
 def TopologicalCompression (q : ClassifierCompressionData) : Nat × Nat :=
   CompressionRatio q
 
@@ -265,6 +357,18 @@ theorem complex_analytic_extends_complex {S : EventFlow} :
   cases h with
   | intro M hM =>
       exact ⟨M.complex, hM.left⟩
+
+structure ComplexReuseDepthRecord where
+  realDepth : Nat
+  productDepth : Nat
+  complexDepth : Nat
+  complexDepth_eq :
+    complexDepth = Nat.succ (Nat.max realDepth productDepth)
+
+theorem complex_reuse_depth (rec : ComplexReuseDepthRecord) :
+    Nat.succ (Nat.max rec.realDepth rec.productDepth) <= rec.complexDepth := by
+  rw [rec.complexDepth_eq]
+  exact Nat.le_refl _
 
 structure CategoryCompositionMotifRecord where
   objectSource : EventFlow
