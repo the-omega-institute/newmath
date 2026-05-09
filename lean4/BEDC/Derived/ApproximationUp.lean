@@ -1,5 +1,6 @@
 import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.PolynomialUp
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.ApproximationUp
 
@@ -7,6 +8,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.ContinuousMapUp
@@ -76,5 +78,62 @@ theorem ApproximationFiniteErrorLedger_carrier_surface {continuousSource map tar
       · constructor
         · exact errorEndpointRel
         · exact provenanceRel
+
+theorem ApproximationCarrierPacket_polynomial_consumer_window [AskSetup] [PackageSetup]
+    {continuousSource continuousMap continuousTarget modulus continuousCert continuousDistance
+      polynomialCandidate errorEndpoint errorLedger transportLedger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuousMapCarrier continuousSource continuousMap continuousTarget modulus continuousCert
+        continuousDistance ->
+      PolynomialSingletonCarrier polynomialCandidate ->
+        UnaryHistory transportLedger ->
+          Cont continuousTarget polynomialCandidate errorEndpoint ->
+            Cont errorEndpoint transportLedger errorLedger ->
+              PkgSig bundle provenance pkg ->
+                SemanticNameCert (fun row : BHist => hsame row errorLedger)
+                  (fun row : BHist => hsame row errorLedger)
+                  (fun row : BHist => hsame row errorLedger) hsame ∧
+                  PolynomialSingletonCarrier polynomialCandidate ∧ UnaryHistory errorEndpoint ∧
+                    UnaryHistory errorLedger ∧
+                      hsame errorEndpoint (append continuousTarget polynomialCandidate) ∧
+                        Cont errorEndpoint transportLedger errorLedger ∧
+                          PkgSig bundle provenance pkg := by
+  intro continuousCarrier polynomialCarrier transportUnary endpointRow ledgerRow provenancePkg
+  have rows :=
+    ApproximationCarrierPacket_obligation_surface continuousCarrier polynomialCarrier transportUnary
+      endpointRow ledgerRow provenancePkg
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row errorLedger)
+        (fun row : BHist => hsame row errorLedger)
+        (fun row : BHist => hsame row errorLedger) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro errorLedger (hsame_refl errorLedger)
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows carrierRow
+        exact hsame_trans (hsame_symm sameRows) carrierRow
+    }
+    pattern_sound := by
+      intro _row carrier
+      exact carrier
+    ledger_sound := by
+      intro _row carrier
+      exact carrier
+  }
+  exact And.intro cert
+    (And.intro rows.right.left
+      (And.intro rows.right.right.left
+        (And.intro rows.right.right.right.left
+          (And.intro rows.right.right.right.right.left
+            (And.intro rows.right.right.right.right.right.left
+              rows.right.right.right.right.right.right)))))
 
 end BEDC.Derived.ApproximationUp
