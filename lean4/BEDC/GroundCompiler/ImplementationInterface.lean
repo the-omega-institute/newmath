@@ -287,6 +287,111 @@ def NoHostLeakAudit
     bootstrapObligationsRecorded /\
     reportsAreOutputViews
 
+inductive ImplementationLeanTarget : Type where
+  | bitRep
+  | rawEvent
+  | eventFlow
+  | zeta
+  | ev
+  | compile
+  | legalZStream
+  | decode
+  | decodeEncodeEvent
+  | decodeEncodeFlow
+  | encodeDecodeLegal
+  | noInternalTerminator
+  | channelTerminatorUnique
+  | channelSubstringNotSourceEvent
+  | recognizerFlow
+  | certifiedRecognizer
+  | recognizesPkg
+  | recognizesNameCert
+  | recognizesDerivCert
+  | recognizesTheorem
+  | recognizesChapter
+  | recognizesCompiler
+  | recognitionCompileDecodeInvariant
+  | recognitionConservative
+  | nameCertFlow
+  | derivCertFlow
+  | acceptGateFlow
+  | soundNameCertFlowLicensesName
+  | soundDerivCertFlowEstablishesDerivCert
+  | acceptedFlowRequiresNameCertAndDerivCert
+  | codeExistenceNotAcceptance
+
+inductive CoreLeanTargetSet : ImplementationLeanTarget -> Prop where
+  | bitRep :
+      CoreLeanTargetSet ImplementationLeanTarget.bitRep
+  | rawEvent :
+      CoreLeanTargetSet ImplementationLeanTarget.rawEvent
+  | eventFlow :
+      CoreLeanTargetSet ImplementationLeanTarget.eventFlow
+  | zeta :
+      CoreLeanTargetSet ImplementationLeanTarget.zeta
+  | ev :
+      CoreLeanTargetSet ImplementationLeanTarget.ev
+  | compile :
+      CoreLeanTargetSet ImplementationLeanTarget.compile
+  | legalZStream :
+      CoreLeanTargetSet ImplementationLeanTarget.legalZStream
+  | decode :
+      CoreLeanTargetSet ImplementationLeanTarget.decode
+  | decodeEncodeEvent :
+      CoreLeanTargetSet ImplementationLeanTarget.decodeEncodeEvent
+  | decodeEncodeFlow :
+      CoreLeanTargetSet ImplementationLeanTarget.decodeEncodeFlow
+  | encodeDecodeLegal :
+      CoreLeanTargetSet ImplementationLeanTarget.encodeDecodeLegal
+  | noInternalTerminator :
+      CoreLeanTargetSet ImplementationLeanTarget.noInternalTerminator
+  | channelTerminatorUnique :
+      CoreLeanTargetSet ImplementationLeanTarget.channelTerminatorUnique
+  | channelSubstringNotSourceEvent :
+      CoreLeanTargetSet ImplementationLeanTarget.channelSubstringNotSourceEvent
+
+inductive RecognizerLeanTargetSet : ImplementationLeanTarget -> Prop where
+  | recognizerFlow :
+      RecognizerLeanTargetSet ImplementationLeanTarget.recognizerFlow
+  | certifiedRecognizer :
+      RecognizerLeanTargetSet ImplementationLeanTarget.certifiedRecognizer
+  | recognizesPkg :
+      RecognizerLeanTargetSet ImplementationLeanTarget.recognizesPkg
+  | recognizesNameCert :
+      RecognizerLeanTargetSet ImplementationLeanTarget.recognizesNameCert
+  | recognizesDerivCert :
+      RecognizerLeanTargetSet ImplementationLeanTarget.recognizesDerivCert
+  | recognizesTheorem :
+      RecognizerLeanTargetSet ImplementationLeanTarget.recognizesTheorem
+  | recognizesChapter :
+      RecognizerLeanTargetSet ImplementationLeanTarget.recognizesChapter
+  | recognizesCompiler :
+      RecognizerLeanTargetSet ImplementationLeanTarget.recognizesCompiler
+  | recognitionCompileDecodeInvariant :
+      RecognizerLeanTargetSet
+        ImplementationLeanTarget.recognitionCompileDecodeInvariant
+  | recognitionConservative :
+      RecognizerLeanTargetSet ImplementationLeanTarget.recognitionConservative
+
+inductive CertificateLeanTargetSet : ImplementationLeanTarget -> Prop where
+  | nameCertFlow :
+      CertificateLeanTargetSet ImplementationLeanTarget.nameCertFlow
+  | derivCertFlow :
+      CertificateLeanTargetSet ImplementationLeanTarget.derivCertFlow
+  | acceptGateFlow :
+      CertificateLeanTargetSet ImplementationLeanTarget.acceptGateFlow
+  | soundNameCertFlowLicensesName :
+      CertificateLeanTargetSet
+        ImplementationLeanTarget.soundNameCertFlowLicensesName
+  | soundDerivCertFlowEstablishesDerivCert :
+      CertificateLeanTargetSet
+        ImplementationLeanTarget.soundDerivCertFlowEstablishesDerivCert
+  | acceptedFlowRequiresNameCertAndDerivCert :
+      CertificateLeanTargetSet
+        ImplementationLeanTarget.acceptedFlowRequiresNameCertAndDerivCert
+  | codeExistenceNotAcceptance :
+      CertificateLeanTargetSet ImplementationLeanTarget.codeExistenceNotAcceptance
+
 def CertifiedNoHiddenInputCompilerComponent
     (publicSurface : InterfaceDatum -> Prop)
     (bootstrapObligationsRecorded reportsAreOutputViews : Prop) : Prop :=
