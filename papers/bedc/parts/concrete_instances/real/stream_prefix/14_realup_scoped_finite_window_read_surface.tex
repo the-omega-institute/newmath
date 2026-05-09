@@ -32,6 +32,51 @@ completion, arithmetic, order, metric-completeness, Classical, and
 standard-bridge data.
 \end{proof}
 
+\begin{theorem}[RealUp common finite-window pullback transitive restriction]
+\label{thm:realup-common-window-pullback-transitive-restriction}
+Let $W_0$ and $W_1$ be certified finite $\RealUp$ observation-window packages,
+let $U$ be a certified common $\StreamNameUp$ subwindow of their displayed
+$\mathsf{ProbeBundle}$ windows, and let $V$ be a certified $\StreamNameUp$
+subwindow of $U$. Assume that the restrictions of $W_0$ and $W_1$ to $U$ carry
+matching $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, matching
+$\RegSeqRat$ spine rows, matching endpoint
+$\mathsf{DyadicRatCoreObservationRow}$ witnesses, matching displayed $\hsame$
+transports, matching $\Cont$ rows, matching $\Pkg$ provenance, and matching
+finite $\mathsf{RealLedgerPolicy}$ rows. Then the two routes to $V$ expose the
+same finite $\mathsf{BHist}$ packet and the same finite
+$\mathsf{RealLedgerPolicy}$ row: restrict the direct common-window pullback from
+$U$ to $V$, or first pull both $\RealUp$ packages back to $U$ and then restrict
+that common packet to $V$.
+
+This is a finite-window descent theorem only. It exposes no quotient,
+completion, metric-completeness datum, global Cauchy modulus, arithmetic
+operation, order operation, Classical representative, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:realup-streamname-regseqrat-common-window-pullback} on the common
+subwindow $U$. The hypotheses name the same StreamName classifier, regular
+sequence spine, dyadic endpoint observations, endpoint transports, continuation
+rows, package provenance, and finite real-ledger row, so the pullback over $U$
+is a single finite $\mathsf{BHist}$ packet with a single
+$\mathsf{RealLedgerPolicy}$ row.
+
+Now compare the two restrictions from $U$ to $V$. Apply
+\autoref{thm:realup-finite-window-two-step-restriction-coherence} to the
+certified chain $W_i \supseteq U \supseteq V$ for each selected observation
+window $W_i$. It identifies the direct restriction of the displayed
+$W_i$ package to $V$ with the two-step restriction through $U$, with the same
+finite packet, classifier rows, endpoint rows, transport ledger, provenance,
+and real-ledger boundary.
+
+Finally use
+\autoref{thm:realup-streamname-regseqrat-uniform-window-readback} on the
+endpoint window $V$. The StreamName-RegSeqRat handoff and the dyadic endpoint
+rows are already matched after the two-step coherence comparison, so the
+endpoint readback rows on $V$ and the finite $\mathsf{RealLedgerPolicy}$ row
+are the same for both routes.
+\end{proof}
+
 \begin{theorem}[RealUp StreamName-RegSeqRat finite-window correspondence]
 \label{thm:realup-streamname-regseqrat-window-correspondence}
 A selected finite $\RealUp$ observation-window surface is equivalent, as BEDC
