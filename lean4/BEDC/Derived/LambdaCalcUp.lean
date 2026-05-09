@@ -1,9 +1,11 @@
 import BEDC.Derived.TreeUp
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.LambdaCalcUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.TreeUp
 
@@ -250,5 +252,54 @@ theorem LambdaCalcBHistTermPacketCarrier_alpha_beta_carrier_transport
   have sameResult : hsame result result' :=
     cont_respects_hsame sameLedger (hsame_refl varIndex) resultRow resultRow'
   exact And.intro resultUnary' (And.intro sameResult sameLedger)
+
+theorem LambdaCalcBHistTermPacketCarrier_namecert_substitution_ledger
+    {graph edge connected acyclic tag payload endpoint substTag substPayload substEndpoint
+      varIndex ledger result : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic substTag substPayload
+          substEndpoint ->
+        UnaryHistory varIndex ->
+          Cont endpoint substEndpoint ledger ->
+            Cont ledger varIndex result ->
+              SemanticNameCert (fun row : BHist => hsame row result)
+                  (fun row : BHist => hsame row result)
+                  (fun row : BHist => hsame row result) hsame ∧
+                UnaryHistory ledger ∧ UnaryHistory result ∧
+                  hsame ledger (append endpoint substEndpoint) ∧
+                    hsame result (append (append endpoint substEndpoint) varIndex) := by
+  intro packet substPacket varUnary ledgerRow resultRow
+  have scope :=
+    LambdaCalcBHistTermPacketCarrier_substitution_ledger_scope packet substPacket
+      varUnary ledgerRow resultRow
+  have resultSelf : hsame result result :=
+    hsame_refl result
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row result)
+        (fun row : BHist => hsame row result)
+        (fun row : BHist => hsame row result) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro result resultSelf
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows rowCarrier
+        exact hsame_trans (hsame_symm sameRows) rowCarrier
+    }
+    pattern_sound := by
+      intro _row carrier
+      exact carrier
+    ledger_sound := by
+      intro _row carrier
+      exact carrier
+  }
+  exact And.intro cert scope
 
 end BEDC.Derived.LambdaCalcUp
