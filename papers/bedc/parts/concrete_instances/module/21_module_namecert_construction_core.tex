@@ -273,6 +273,40 @@ same concrete fiber.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_output\_fiber\_semanticNameCert}
 
+\begin{theorem}[Module singleton scalar action fiber exhaustion]
+\label{thm:module-singleton-smul-fiber-exhaustion}
+For histories $r,m,o:\mathsf{BHist}$ with $A_{\emp}(r)$ and
+$A_{\emp}(m)$, define the concrete scalar-action output fiber by
+$$
+F_{r,m}(o)\;:\Longleftrightarrow\;
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),o).
+$$
+Then the fiber is exactly the singleton classifier class:
+$$
+F_{r,m}(o)\quad\Longleftrightarrow\quad A_{\emp}(o).
+$$
+Moreover, if $F_{r,m}(o)$ and $F_{r,m}(o')$, then
+$\rho_{\emp}(o,o')$.
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold the fiber predicate. The concrete action
+$\mathsf{ModuleSingletonSmul}(r,m)$ is the constant empty endpoint, so
+Theorem~\ref{thm:module-singleton-classifier-empty-endpoints} reads the
+classification
+$\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),o)$ back as the singleton
+endpoint witness $A_{\emp}(o)$.
+
+For the reverse direction, assume $A_{\emp}(o)$. The same endpoint
+exactness theorem applies to the empty action endpoint and $o$, giving
+$\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),o)$ and hence
+$F_{r,m}(o)$.
+
+For the fiber classification claim, combine the two fiber witnesses as
+graph witnesses with the fixed input endpoint witnesses $A_{\emp}(r)$ and
+$A_{\emp}(m)$. Theorem~\ref{thm:module-singleton-smul-graph-output-determinacy}
+then returns $\rho_{\emp}(o,o')$.
+\end{proof}
+
 \begin{theorem}[Module singleton empty-action output determinacy]
 \label{thm:module-singleton-smul-empty-action-outputs-deterministic}
 For histories $r,m,n,n':\mathsf{BHist}$, if the empty scalar action classifies
