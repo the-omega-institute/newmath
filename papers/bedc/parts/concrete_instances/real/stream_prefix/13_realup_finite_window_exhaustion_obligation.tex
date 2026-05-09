@@ -360,3 +360,58 @@ $\mathsf{RealLedgerPolicy}$ boundary. Therefore both finite-window
 presentations expose the same public surface, with no additional host index,
 quotient, or infinite-stream datum available to distinguish them.
 \end{proof}
+
+\begin{definition}[RealUp finite-window refinement envelope]
+\label{def:realup-finite-window-refinement-envelope}
+A $\RealUp$ finite-window refinement envelope over one $\StreamNameUp$ source
+is a finite $\mathsf{BHist}$ package whose rows consist of certified
+$\StreamNameUp$ finite windows, a common-refinement package for every ordered
+pair of carried windows, the overlap-closure witnesses for each refinement
+family, the two-step restriction coherence witnesses for every displayed
+subwindow chain, the endpoint $\RatUp$ classifier rows, the positive
+denominator witnesses, the $\mathsf{DyadicRatCore}$ source rows, the shared
+$\hsame$ ledger identifying duplicate presentations, and the
+$\mathsf{RealLedgerPolicy}$ boundary. The envelope exports only these finite
+rows and their $\mathsf{Pkg}$ provenance.
+\end{definition}
+
+\begin{theorem}[RealUp finite-window refinement envelope coherence]
+\label{thm:realup-finite-window-refinement-envelope-coherence}
+Let $E$ be a $\RealUp$ finite-window refinement envelope over a fixed
+$\StreamNameUp$ source. If two certified windows $W$ and $W'$ are carried by
+$E$, then the public read surface exposed from $W$ is the same finite
+$\mathsf{BHist}$ read surface as the one exposed from $W'$. The common surface
+contains exactly the envelope's
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, endpoint $\RatUp$
+classifier rows, positive denominator witnesses, common e-one tail readbacks,
+$\mathsf{DyadicRatCore}$ source rows, shared $\hsame$ ledger, and
+$\mathsf{RealLedgerPolicy}$ boundary, with no host index, quotient witness, or
+unrecorded infinite stream datum.
+\end{theorem}
+\begin{proof}
+Choose the common-refinement package in $E$ for the ordered pair $(W,W')$.
+The package supplies a finite family of certified subwindows covering every
+certified unary observation row of both windows, together with the required
+overlap-closure witnesses.
+
+Apply
+\autoref{thm:realup-finite-window-directed-refinement-seal} to this pair. The
+seal reduces the comparison of the two ambient presentations to the public
+surface assembled from their displayed common refinement.
+
+The assembly through the common refinement is exact by
+\autoref{thm:realup-finite-window-partition-exactness}. Whenever a row is
+read through an intermediate refinement before reaching the displayed
+subwindow, \autoref{thm:realup-finite-window-two-step-restriction-coherence}
+identifies that reading with the direct restriction used by the refinement
+surface.
+
+Finally apply
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. The only public
+rows left in the envelope are the selected finite-window observation rows,
+endpoint $\RatUp$ classifier rows, positive denominator witnesses, common
+e-one tail readbacks, dyadic source rows, the shared $\hsame$ ledger, and the
+$\mathsf{RealLedgerPolicy}$ boundary. Since that boundary has no slot for a
+host index, quotient witness, or unrecorded infinite stream datum, the two
+carried windows expose one public read surface.
+\end{proof}

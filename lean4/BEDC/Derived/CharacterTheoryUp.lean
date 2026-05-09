@@ -134,6 +134,30 @@ theorem CharacterTheoryRootBHistSurface_carrier_obligation [AskSetup] [PackageSe
                     (And.intro surface.right.right.right.right.right.left
                       surface.right.right.right.right.right.right))))))))
 
+theorem CharacterTheoryRootBHistSurface_root_ledger_obligation [AskSetup] [PackageSetup]
+    {group vector action trace orthLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CharacterTheoryRootBHistSurface group vector action trace orthLedger endpoint bundle pkg ->
+      UnaryHistory orthLedger ∧ UnaryHistory endpoint ∧ Cont action trace orthLedger ∧
+        Cont orthLedger trace endpoint ∧ hsame orthLedger (append action trace) ∧
+          hsame endpoint (append orthLedger trace) ∧ PkgSig bundle endpoint pkg := by
+  intro surface
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed surface.left surface.right.left surface.right.right.left
+  have orthLedgerUnary : UnaryHistory orthLedger :=
+    unary_cont_closed actionUnary surface.right.right.right.left
+      surface.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed orthLedgerUnary surface.right.right.right.left
+      surface.right.right.right.right.right.left
+  exact And.intro orthLedgerUnary
+    (And.intro endpointUnary
+      (And.intro surface.right.right.right.right.left
+        (And.intro surface.right.right.right.right.right.left
+          (And.intro surface.right.right.right.right.left
+            (And.intro surface.right.right.right.right.right.left
+              surface.right.right.right.right.right.right)))))
+
 theorem CharacterTheoryRootBHistSurface_source_compatibility_obligation [AskSetup]
     [PackageSetup]
     {group group' vector vector' action action' trace trace' orthLedger orthLedger' endpoint
@@ -243,5 +267,4 @@ theorem CharacterTheoryRootBHistSurface_trace_transport_stability [AskSetup] [Pa
             (And.intro traceUnary'
               (And.intro orthLedgerRow' (And.intro endpointRow' pkgRow')))))
   exact And.intro transportedSurface (And.intro orthLedgerSame endpointSame)
-
 end BEDC.Derived.CharacterTheoryUp
