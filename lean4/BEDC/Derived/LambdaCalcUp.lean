@@ -209,6 +209,36 @@ theorem LambdaCalcBHistTermPacketCarrier_substitution_ledger_scope
   exact And.intro ledgerUnary
     (And.intro resultUnary (And.intro ledgerRow resultReadback))
 
+theorem LambdaCalcBHistTermPacketCarrier_substitution_carrier_preservation
+    {graph edge connected acyclic tag payload endpoint substTag substPayload substEndpoint
+      varIndex ledger resultPayload resultTag resultEndpoint : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic substTag substPayload
+          substEndpoint ->
+        UnaryHistory varIndex ->
+          Cont endpoint substEndpoint ledger ->
+            Cont ledger varIndex resultPayload ->
+              TreeBHistCarrier graph edge connected acyclic resultTag resultEndpoint ->
+                Cont resultTag resultPayload resultEndpoint ->
+                  LambdaCalcBHistTermPacketCarrier graph edge connected acyclic resultTag
+                      resultPayload resultEndpoint ∧
+                    UnaryHistory resultPayload ∧
+                      hsame resultPayload (append (append endpoint substEndpoint) varIndex) := by
+  intro packet substPacket varUnary ledgerRow resultPayloadRow resultTree resultEndpointRow
+  have scope :=
+    LambdaCalcBHistTermPacketCarrier_substitution_ledger_scope packet substPacket varUnary
+      ledgerRow resultPayloadRow
+  have resultPayloadUnary : UnaryHistory resultPayload :=
+    scope.right.left
+  have resultEndpointUnary : UnaryHistory resultEndpoint :=
+    (TreeBHistCarrier_exactness_rows resultTree).right.right.right.right.right.right.right.left
+  have resultPacket :
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic resultTag resultPayload
+        resultEndpoint :=
+    And.intro resultTree
+      (And.intro resultPayloadUnary (And.intro resultEndpointUnary resultEndpointRow))
+  exact And.intro resultPacket (And.intro resultPayloadUnary scope.right.right.right)
+
 theorem LambdaCalcBHistTermPacketCarrier_free_variable_ledger_coverage
     {graph edge connected acyclic tag payload endpoint freeVariable freeLedger : BHist} :
     LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
