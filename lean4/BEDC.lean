@@ -243,6 +243,7 @@ import BEDC.Derived.ComplexUp.RawLedgerE0
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
+import BEDC.Derived.ComplexDifferentiabilityUp.SourceObligationSurface
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.PinGroupUp
@@ -470,6 +471,7 @@ import BEDC.Derived.TopGroupUp.ExportBoundary
 import BEDC.Derived.TopGroupUp.SourceFiberExportExactness
 import BEDC.Derived.TopGroupUp.RootSourceFiberExportExactness
 import BEDC.Derived.TopGroupUp.RootSourceFiberExportPacket
+import BEDC.Derived.TopGroupUp.OperationLedgerSemanticCertificate
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
