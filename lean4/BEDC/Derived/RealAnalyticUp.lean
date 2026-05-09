@@ -191,6 +191,9 @@ def RealAnalyticExp (x bound modulus y : BHist) : Prop :=
   ComplexHistoryCarrier x ∧ UnaryHistory bound ∧ UnaryHistory modulus ∧
     exists n S : BHist, UnaryHistory n ∧ RealAnalyticExpPart x n S ∧ Cont S modulus y
 
+def RealAnalyticExpOneStream (n O : BHist) : Prop :=
+  UnaryHistory n ∧ hsame O (BHist.e1 BHist.Empty)
+
 theorem RealAnalyticComplexPartSum_index_unary {zero : BHist} {c : BHist -> BHist}
     {n S : BHist} :
     ComplexPartSum zero c n S -> UnaryHistory n := by
