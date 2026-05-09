@@ -132,6 +132,29 @@ theorem CstaralgebraBHistCarrier_classifier_stability [AskSetup] [PackageSetup]
       pkgSig'⟩
   exact And.intro transported (And.intro sameLedger sameEndpoint)
 
+theorem CstaralgebraBHistCarrier_ledger_exactness [AskSetup] [PackageSetup]
+    {banach ring mul involution normSquare carrierTransport multiplicationTransport
+      involutionTransport normTransport provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CstaralgebraBHistCarrier banach ring mul involution normSquare carrierTransport
+        multiplicationTransport involutionTransport normTransport provenance ledger endpoint bundle pkg ->
+      UnaryHistory ledger ∧ hsame ledger (append mul involution) ∧ UnaryHistory endpoint ∧
+        hsame endpoint (append ledger provenance) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have mulInvolutionLedger : Cont mul involution ledger :=
+    carrier.right.right.right.right.right.right.right.right.right.right.left
+  have ledgerProvenanceEndpoint : Cont ledger provenance endpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left mulInvolutionLedger
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary carrier.right.right.right.right.right.left ledgerProvenanceEndpoint
+  exact And.intro ledgerUnary
+    (And.intro mulInvolutionLedger
+      (And.intro endpointUnary
+        (And.intro ledgerProvenanceEndpoint
+          carrier.right.right.right.right.right.right.right.right.right.right.right.right)))
+
 theorem CstaralgebraBHistCarrier_unital_commutative_source_boundary [AskSetup] [PackageSetup]
     {banach ring mul involution normSquare carrierTransport multiplicationTransport
       involutionTransport normTransport provenance ledger endpoint unit commutativity : BHist}
