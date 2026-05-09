@@ -333,3 +333,51 @@ also keeps quotient data, completion data, and host index equality outside the
 handoff, so the reverse repacking returns precisely the original finite-window
 surface.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat nested-window handoff]
+\label{thm:streamname-regseqrat-nested-window-handoff}
+Let $K \subseteq J \subseteq L$ be certified finite windows of a public
+$\StreamNameUp$ rational stream package. For any $\RegSeqRat$ consumer, and
+for any finite-window $\RealUp$ consumer, the source surface obtained by first
+restricting the handoff from $L$ to $J$ and then from $J$ to $K$ is the same
+source surface as the handoff obtained by restricting directly from $L$ to
+$K$.
+
+The common source surface consists only of the pointwise
+$\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ observations at certified
+$\mathsf{UnaryHistory}$ indices, the finite $\mathsf{ProbeBundle}$ ledger,
+the $\mathsf{InBundle}$ membership rows, and the displayed $\hsame$
+comparisons. It contains no $\RegSeqRat$ regularity datum, $\RealUp$ seal
+datum, completion datum, quotient datum, or host index equality.
+\end{theorem}
+\begin{proof}
+First restrict the outer window. By
+\autoref{thm:streamname-real-regseq-finite-window-handoff}, the handoff from
+$L$ to $J$ exposes only the selected rational-stream point rows, the finite
+bundle ledger, the membership rows, and the displayed $\hsame$ comparisons.
+Applying the same theorem again to the certified subwindow $K \subseteq J$
+projects the two-step handoff to that same kind of surface over $K$.
+
+Now compare the direct route. Applying
+\autoref{thm:streamname-real-regseq-finite-window-handoff} directly to
+$K \subseteq L$ gives a handoff surface whose visible rows are again exactly
+the certified pointwise carrier and classifier observations, the finite
+$\mathsf{ProbeBundle}$ ledger, the $\mathsf{InBundle}$ membership rows, and
+the displayed $\hsame$ comparisons over $K$.
+
+Use \autoref{thm:streamname-real-regseq-overlap-unique-source} first on the
+overlap $J$ and then on the overlap $K$. The hypotheses are the same certified
+point rows and the same finite ledger rows inherited from $L$, so the two
+restriction routes cannot produce different StreamName source surfaces on
+either overlap.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. It collapses
+both restricted handoffs to the same pointwise
+$\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ rows together with the same finite ledger.
+The exclusion clauses in that exhaustion theorem and in the finite-window
+handoff theorem keep regularity, seal, completion, quotient, and host-index
+data outside the common surface.
+\end{proof}
