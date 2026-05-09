@@ -618,6 +618,47 @@ datum, external metric primitive, $\RealUp$ completeness claim, or standard
 bridge.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window seal composition]
+\label{thm:regseqrat-finite-window-seal-composition}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a certified
+DyadicRatCore public observation row over a finite window
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m)$, the $\StreamNameUp$
+finite-window interface rows, the $\RegSeqRat$ seal source-coverage row, and
+the $\RealUp$ finite-window feed compose to a single finite-window seal package
+over the same $\mathsf{BHist}$ carrier, $\hsame$ comparisons, $\Cont$ ledger,
+and finite dyadic observation rows. Every bounded subwindow and every nested
+bounded subwindow selected inside the source window is read through that same
+package. The composed seal asserts no quotient carrier, external metric
+primitive, $\RealUp$ completeness theorem, or standard-bridge status.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:dyadicratcore-public-observation-realup-window-feed}. It exposes
+the certified DyadicRatCore observation row as the finite dyadic ledger and
+RealUp consumer row attached to the displayed source window.
+
+Apply
+\autoref{thm:dyadicratcore-public-observation-subwindow-stability}. The finite
+window may be restricted without changing the underlying $\mathsf{BHist}$
+carrier, $\hsame$ comparisons, $\Cont$ ledger, classifier rows, or finite dyadic
+ledger rows.
+
+Next use
+\autoref{thm:regseqrat-seal-finite-window-source-coverage}. This repacks the
+subwindow observation row together with the $\StreamNameUp$ finite-window
+interface as the source package consumed by the $\RegSeqRat$ seal and by the
+RealUp finite-window feed.
+
+Finally apply
+\autoref{thm:regseqrat-nested-subwindow-source-coverage}. Nested selected
+windows are obtained by repeating the same public subwindow extraction, so the
+seal package remains tied to the original finite dyadic ledger rows and the
+same $\mathsf{BHist}$, $\hsame$, and $\Cont$ data. Since every component is read
+from the cited finite-window rows, the construction introduces no quotient
+carrier, external metric primitive, $\RealUp$ completeness theorem, or
+standard-bridge status.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore public observation standard bridge boundary]
 \label{thm:dyadicratcore-public-observation-standard-bridge-boundary}
 The public DyadicRatCore observation package of

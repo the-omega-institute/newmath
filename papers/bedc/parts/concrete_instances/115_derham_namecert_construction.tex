@@ -550,6 +550,96 @@ ledger into the public classifier surface. The boundary theorem
 no remaining branch for external chain-complex, quotient, or isomorphism data.
 \end{proof}
 
+\begin{definition}[De Rham standard boundary bridge packet]
+\label{def:derham-standard-boundary-bridge-packet}
+The De Rham standard boundary bridge packet is the bridge-facing row obtained
+by packaging the public boundary source packet of
+\autoref{def:derham-boundary-source-packet}, the public classifier exactness
+surface of \autoref{thm:derham-boundary-public-classifier-exactness}, and the
+three bridge source-scope rows
+\autoref{thm:derham-bridge-input-source-scope},
+\autoref{thm:derham-bridge-classifier-source-scope}, and
+\autoref{thm:derham-bridge-ledger-source-scope}.
+
+Its exported fields are the boundary preimage, the zero endpoint, the cocycle
+readback, the finite graph rows over $\DiffFormUp$, $\CohomologyUp$, and
+$\mathsf{BHist}$, the public boundary classifier
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$, and the provenance tying those
+rows to the De Rham packet. It exports no de Rham isomorphism, quotient
+carrier, host cochain complex, or external comparison row.
+\end{definition}
+
+\begin{theorem}[De Rham standard boundary classifier compatibility]
+\label{thm:derham-standard-boundary-classifier-compatibility}
+The standard boundary bridge packet of
+\autoref{def:derham-standard-boundary-bridge-packet} reads the same boundary
+classifier as the encoded classifier
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$ of
+\autoref{def:derham-chain-complex-boundary-row}, represented in Lean by
+$\mathsf{BEDC.Derived.DeRhamUp.DeRhamBoundary}$.
+For every bridge-visible boundary endpoint, classifier acceptance in the bridge
+packet is equivalent to acceptance by that displayed boundary predicate.
+\end{theorem}
+\begin{proof}
+Start with the double-exterior packet boundary. By
+\autoref{thm:derham-double-exterior-derivative-boundary}, the accepted packet
+produces the zero endpoint comparison, the boundary predicate
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$, and the cocycle row.
+
+Transport the endpoint only through
+\autoref{thm:derham-boundary-zero-endpoint-transport}. This keeps the same
+cochain preimage and therefore keeps the same boundary classifier rather than
+introducing a quotient or external cochain-complex equality.
+
+Read back the cocycle by \autoref{thm:derham-cocycle-readback}. The cocycle
+row is a consequence of the displayed differential and zero endpoint, so it
+does not change the boundary classifier.
+
+Finally apply
+\autoref{thm:derham-boundary-public-classifier-exactness}. It repacks the
+double-exterior boundary, zero-endpoint transport, cocycle readback, and
+finite ledger rows into the public classifier surface. Since the standard
+bridge packet is defined from exactly that public surface and the three
+bridge source-scope theorems, it reads the same
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$ classifier.
+\end{proof}
+
+\begin{theorem}[De Rham bridge consumer ledger exhaustion]
+\label{thm:derham-bridge-consumer-ledger-exhaustion}
+Every bridge consumer row of the standard boundary bridge packet of
+\autoref{def:derham-standard-boundary-bridge-packet} is one of the boundary
+preimage row, the zero endpoint row, the cocycle readback row, the finite graph
+rows over $\DiffFormUp$, $\CohomologyUp$, and $\mathsf{BHist}$, or the package
+provenance row linking those fields to the public De Rham boundary source.
+
+Conversely, those rows repack into the standard boundary bridge packet. No
+consumer row exports a de Rham isomorphism, quotient carrier, external cochain
+complex, host manifold comparison, or cohomology representative.
+\end{theorem}
+\begin{proof}
+Project the packet fields from
+\autoref{def:derham-standard-boundary-bridge-packet}. Its source component is
+\autoref{def:derham-boundary-source-packet}, so the available ledger rows are
+the boundary preimage, double-exterior packet data, cocycle row, finite source
+rows, and package provenance.
+
+Apply the bridge input and classifier scope theorems. The input scope
+\autoref{thm:derham-bridge-input-source-scope} admits only the displayed
+$\DiffFormUp$, $\CohomologyUp$, $\mathsf{BHist}$, and square-zero rows. The
+classifier scope \autoref{thm:derham-bridge-classifier-source-scope} admits
+only $\hsame$ endpoint transport and cochain differential stability.
+
+Apply \autoref{thm:derham-bridge-ledger-source-scope} for the final ledger
+projection. It identifies the bridge ledger with the boundary preimage, zero
+endpoint, cocycle readback, finite graph rows, and package provenance, with no
+remaining branch for quotient, isomorphism, or external cochain-complex data.
+
+For the converse direction, repack those projected rows with
+\autoref{thm:derham-boundary-public-classifier-exactness}. The classifier
+compatibility theorem above supplies the same boundary predicate, and the
+three source-scope theorems close the bridge-facing packet.
+\end{proof}
+
 \closureat{DeRhamUp}{publicStr}[BEDC.Derived.DeRhamUp.DeRhamDoubleExteriorPacket\_boundary]
 
 \begin{closurestatus}{\DeRhamUp}

@@ -120,6 +120,73 @@ compactness, topology, or arbitrary host-real metric structure is introduced.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricUp\_StdBridge}
 
+\begin{definition}[MetricSpaceUp public distance surface]
+\label{def:metricspace-public-distance-surface}
+The $\MetricSpaceUp$ public distance surface is the finite $\mathsf{BHist}$
+surface whose carrier rows are the unary endpoint histories $x,y$, the
+displayed $\mathsf{MetricDistanceWitness}(x,y,d)$ row, the ball-budget row
+$\mathsf{MetricBallBudget}_d(x,y;r)$, the classifier row $\hsame$, the finite
+$\Cont$ provenance row, and the $\RealUp$ budget rows used by
+\autoref{def:metric-ball-budget-predicate}. A public distance read of
+$\MetricSpaceUp$ is a projection of this surface and no larger host metric-space
+object.
+\end{definition}
+
+\begin{theorem}[MetricSpaceUp public distance surface exhaustion]
+\label{thm:metricspace-public-distance-surface-exhaustion}
+Every public distance read of $\MetricSpaceUp$ projects exactly to the
+$\mathsf{BHist}$ endpoint rows, the $\mathsf{MetricDistanceWitness}$ row, the
+$\mathsf{MetricBallBudget}$ row, the $\hsame$ classifier row, the finite
+$\Cont$ provenance row, and the $\RealUp$ budget rows of
+\autoref{def:metricspace-public-distance-surface}. Conversely, any such finite
+family repacks as the same public distance surface.
+\end{theorem}
+\begin{proof}
+Project a public read through the distance-witness semantic certificate of
+\autoref{thm:metric-distance-witness-semantic-namecert}. This fixes the
+$\mathsf{BHist}$ endpoints, the concrete
+$\mathsf{MetricDistanceWitness}(x,y,d)$ row, and the $\hsame$ classifier row.
+
+Next apply \autoref{thm:metric-ball-budget-composition}. The only budget rows
+available to the public read are the displayed $\RealUp$ comparison, addition,
+transitivity, and monotonicity fields used to compose ball-budget witnesses.
+
+Finally use \autoref{thm:metric-distance-witness-standard-bridge} and
+\autoref{thm:metric-distance-witness-visible-context-determinacy}. The bridge
+reads the same finite witness surface in the standard direction, and visible
+context determinacy prevents an additional host distance row from entering the
+packet. Repacking the projected rows gives exactly
+\autoref{def:metricspace-public-distance-surface}.
+\end{proof}
+
+\begin{theorem}[MetricSpaceUp visible-context distance consumer surface]
+\label{thm:metricspace-visible-context-distance-consumer-surface}
+The named visible-context consumers $\TotallyBoundedUp$, $\CompleteMetricUp$,
+$\CompactMetricUp$, $\ContinuousMapUp$, and $\SOneUp$ may read a
+$\MetricSpaceUp$ distance only through the visible-context distance witness,
+ball-budget, and classifier rows of
+\autoref{def:metricspace-public-distance-surface}. Their public use of the
+metric interface does not add a host metric carrier, a separate topology
+generator, or an analytic completeness or compactness row.
+\end{theorem}
+\begin{proof}
+Start with the public surface of
+\autoref{def:metricspace-public-distance-surface}. The only exported distance
+data are the $\mathsf{MetricDistanceWitness}$ row, the ball-budget row, the
+$\hsame$ classifier, and the finite $\Cont$ provenance over the displayed
+$\RealUp$ budget rows.
+
+Apply \autoref{thm:metric-distance-witness-visible-context-determinacy}. Any
+visible-context consumer that reads a distance witness receives the determined
+finite witness row rather than an external host distance function.
+
+Use \autoref{thm:metric-ball-budget-composition} for all budget propagation and
+\autoref{thm:metric-distance-witness-standard-bridge} for the standard
+distance-facing reading. These two rows exhaust the consumer-facing surface, so
+the listed downstream chapters can consume only the visible-context witness,
+budget, and classifier rows.
+\end{proof}
+
 \paragraph{Primitive boundary.}
 \(\MetricSpaceUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 \input{parts/concrete_instances/32_metric_empty_boundary_visible_context_distance_empty}
