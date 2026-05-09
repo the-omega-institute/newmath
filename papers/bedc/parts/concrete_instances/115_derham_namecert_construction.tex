@@ -419,14 +419,60 @@ already named in the obligation surface, the ledger has no additional bridge,
 quotient, or cohomology-isomorphism entry.
 \end{proof}
 
-\closureat{DeRhamUp}{scopedStr}[BEDC.Derived.DeRhamUp.DeRhamDoubleExteriorPacket\_boundary]
+\begin{theorem}[De Rham boundary public classifier exactness]
+\label{thm:derham-boundary-public-classifier-exactness}
+The boundary rows of \autoref{def:derham-chain-complex-boundary-row}, the
+endpoint stability of
+\autoref{thm:derham-boundary-zero-endpoint-transport}, the double-exterior
+boundary row of
+\autoref{thm:derham-double-exterior-derivative-boundary}, the cocycle
+readback of \autoref{thm:derham-cocycle-readback}, and the root ledger
+exactness of \autoref{thm:derham-root-ledger-exactness} assemble the public
+$\NameCert_{\DeRhamUp}$ classifier-exactness surface over $\DiffFormUp$,
+$\CohomologyUp$, $\mathsf{BHist}$, $\hsame$, and the displayed cochain
+differential $d_{\mathrm{dR}}$.
+
+This public surface exports the carried differential-form row, the boundary
+classifier $\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$, endpoint stability
+under $\hsame$, cocycle readback, and the finite ledger rows named above. It
+does not export a de Rham isomorphism, a quotient-cohomology carrier, or any
+cohomology equality beyond the displayed boundary and cocycle rows.
+\end{theorem}
+\begin{proof}
+Project the carrier field from
+\autoref{def:derham-chain-complex-boundary-row}: the public object is the
+$\DiffFormUp$ source row together with the $\mathsf{BHist}$ cochain
+differential and its displayed preimage row.
+
+Project the classifier field from
+\autoref{thm:derham-root-classifier-obligation}. The classifier is
+$\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$, and
+\autoref{thm:derham-boundary-zero-endpoint-transport} supplies the stability
+field by keeping the same cochain preimage while transporting the endpoint by
+$\hsame$.
+
+Project exactness from
+\autoref{thm:derham-double-exterior-derivative-boundary} and project the
+cohomology-facing readback from \autoref{thm:derham-cocycle-readback}. These
+two rows give the boundary and cocycle fields without introducing a quotient
+carrier.
+
+Finally repack the finite list in
+\autoref{thm:derham-root-ledger-exactness} as the public ledger field. Since
+that ledger names only the displayed $\DiffFormUp$, $\CohomologyUp$,
+$\mathsf{BHist}$, $\hsame$, and cochain-differential rows, the repacked
+surface contains no de Rham isomorphism row and no quotient-cohomology
+surface.
+\end{proof}
+
+\closureat{DeRhamUp}{publicStr}[BEDC.Derived.DeRhamUp.DeRhamDoubleExteriorPacket\_boundary]
 
 \begin{closurestatus}{\DeRhamUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface is bound to the displayed DiffFormUp, CohomologyUp, TensorProductUp, BHist, hsame, Cont, and Pkg rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public surface is bound by \autoref{thm:derham-boundary-public-classifier-exactness} to the displayed DiffFormUp, CohomologyUp, BHist, hsame, and cochain-differential rows.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.DeRhamUp.DeRhamBoundary}
   \bridgestatus{none}
   \notclaimed{No cohomology theorem, de Rham isomorphism, or standard bridge is claimed here.}
-  \upgradepath{Public closure requires a public de Rham readback surface and bridge obligations beyond the scoped chain-complex packet.}
+  \upgradepath{Bridged closure requires an explicit standard bridge for the public boundary-classifier surface.}
 \end{closurestatus}

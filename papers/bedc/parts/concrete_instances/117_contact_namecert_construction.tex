@@ -68,13 +68,52 @@ Apply \autoref{thm:contactup-form-row-obligation} to identify the contact consum
 The coverage predicate says every certified contact read lands in this displayed package. Soundness says each such read is one of the listed rows. Completeness says each listed row is available to the carrier-classifier. These three clauses are precisely the ledger exactness obligation.
 \end{proof}
 
-\closureat{ContactUp}{scopedStr}
+\begin{theorem}[ContactUp public NameCert export]
+\label{thm:contactup-public-namecert-export}
+The carrier-classifier surface of
+\autoref{def:contactup-carrier-classifier-surface}, the form-row obligation of
+\autoref{thm:contactup-form-row-obligation}, the nondegeneracy obligation of
+\autoref{thm:contactup-nondegeneracy-obligation}, and the ledger exactness
+obligation of \autoref{thm:contactup-ledger-exactness-obligation} assemble the
+public $\NameCert_{\ContactUp}$ surface over $\mathsf{BHist}$, the
+$\ManifoldUp$ carrier, the $\DiffFormUp$ one-form row, the exterior-input row,
+the wedge ladder, the top wedge, the restricted $\hsame$ classifier, and the
+exact ledger.
+
+This public surface exports the carried contact rows and their exact ledger. It
+does not export a separate nonintegrability primitive and does not include a
+standard bridge.
+\end{theorem}
+\begin{proof}
+Project the carrier field from
+\autoref{def:contactup-carrier-classifier-surface}. The carrier consists of
+the shared $\ManifoldUp$ endpoint, the $\DiffFormUp$ degree-one form row, the
+exterior-input row, the wedge ladder, and the top wedge row over
+$\mathsf{BHist}$.
+
+Project the classifier field from the same definition. It is the restriction
+of $\hsame$ to transports preserving the manifold carrier, one-form row,
+hyperplane row, exterior-input row, and wedge-ladder rows.
+
+Project the routed form face from
+\autoref{thm:contactup-form-row-obligation} and the local top-wedge condition
+from \autoref{thm:contactup-nondegeneracy-obligation}. These two rows provide
+the form and nondegeneracy fields without adding a nonintegrability primitive.
+
+Finally repack the coverage, soundness, completeness, and row list of
+\autoref{thm:contactup-ledger-exactness-obligation} as the exact ledger field.
+Because every projected row is already part of the displayed
+carrier-classifier surface, the public certificate contains no standard bridge
+row.
+\end{proof}
+
+\closureat{ContactUp}{publicStr}
 
 \begin{closurestatus}{\ContactUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped boundary is exactly the carrier-classifier surface, the form-row obligation, the nondegeneracy obligation, and ledger exactness over $\NameCert_{\DiffFormUp}$, $\NameCert_{\ManifoldUp}$, $\mathsf{BHist}$, $\hsame$, the exterior-derivative input, the wedge-ladder rows, and the local top-wedge nondegeneracy row in \autoref{def:contactup-carrier-classifier-surface}, \autoref{thm:contactup-form-row-obligation}, \autoref{thm:contactup-nondegeneracy-obligation}, and \autoref{thm:contactup-ledger-exactness-obligation}.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public boundary is exactly the carrier-classifier surface, form-row obligation, nondegeneracy obligation, and exact ledger assembled in \autoref{thm:contactup-public-namecert-export}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a closed ContactUp carrier implementation, a proved nonintegrability theorem, a standard bridge, or a Lean verification target.}
-  \upgradepath{The next closure grade is $\publicClosure$ and requires a named public $\ContactUp$ certificate surface rather than another obligation inventory.}
+  \upgradepath{Bridged closure requires an explicit standard bridge for the public $\ContactUp$ surface.}
 \end{closurestatus}
