@@ -1,8 +1,10 @@
+import BEDC.Derived.AxisZeckendorf.AxisAdd
 import BEDC.Derived.AxisZeckendorf.FullAxis
 
 namespace BEDC.Derived.AxisZeckendorf.FullAxis
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.Derived.AxisZeckendorf.Spine
 
 theorem FullAxisSourceSpec_boundary_01_thread_separation {h : BHist} :
@@ -86,5 +88,20 @@ theorem FullAxisBoundaryMarker_finite_obligation :
     · constructor
       · exact boundary_01_not_zeroSpine
       · exact boundary_01_not_zeroSpine
+
+theorem FullAxisSeal_real_route_separation_obligation {h k r : BHist} :
+    FullAxisSourceSpec zeroSpinePrefixThread h ->
+      FullAxisPatternSpec zeroSpinePrefixThread k ->
+        Cont h k r ->
+          ZeroSpine r ∧ (hsame r (BHist.e1 (BHist.e0 BHist.Empty)) -> False) := by
+  intro sourceH patternK contHK
+  have resultSpine : ZeroSpine r :=
+    BEDC.Derived.AxisZeckendorf.AxisAdd.AxisAddCont_result_zeroSpine sourceH patternK contHK
+  have boundaryExcluded : hsame r (BHist.e1 (BHist.e0 BHist.Empty)) -> False := by
+    intro sameBoundary
+    have boundarySpine : ZeroSpine (BHist.e1 (BHist.e0 BHist.Empty)) :=
+      zeroSpine_hsame_transport resultSpine sameBoundary
+    exact zeroSpine_no_e1_extension boundarySpine
+  exact And.intro resultSpine boundaryExcluded
 
 end BEDC.Derived.AxisZeckendorf.FullAxis
