@@ -353,4 +353,30 @@ theorem PolytopeBHistFacePacket_convex_finset_dependency_readback [AskSetup] [Pa
                                                             (And.intro endpointCont
                                                               endpointPkg)))))
 
+theorem PolytopeBHistFacePacket_obligation_surface [AskSetup] [PackageSetup]
+    {convex finset halfspaces vertices edges faces ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolytopeBHistFacePacket convex finset halfspaces vertices edges faces ledger provenance
+        endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+        (fun row : BHist => hsame row endpoint)
+        (fun row : BHist => hsame row endpoint) hsame ∧
+        UnaryHistory convex ∧ UnaryHistory finset ∧ UnaryHistory halfspaces ∧
+          UnaryHistory vertices ∧ UnaryHistory edges ∧ UnaryHistory faces ∧
+            Cont halfspaces vertices edges ∧ Cont edges faces ledger ∧
+              Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have boundary := PolytopeBHistFacePacket_obligation_boundary_exhaustion packet
+  exact And.intro boundary.left
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro boundary.right.left
+          (And.intro boundary.right.right.left
+            (And.intro boundary.right.right.right.left
+              (And.intro boundary.right.right.right.right.left
+                (And.intro boundary.right.right.right.right.right.left
+                  (And.intro boundary.right.right.right.right.right.right.left
+                    (And.intro boundary.right.right.right.right.right.right.right.left
+                      boundary.right.right.right.right.right.right.right.right)))))))))
+
 end BEDC.Derived.PolytopeUp
