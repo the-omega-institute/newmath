@@ -626,3 +626,60 @@ neither step reads $\RegSeqRat$ regularity, completion, quotient,
 host-index equality, or $\RealUp$ seal data. Therefore the two transported
 handoffs compose inside the same finite-window pointwise interface.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat pointwise hsame transport confluence]
+\label{thm:streamname-regseqrat-pointwise-hsame-transport-confluence}
+Let $s,t,u,v:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, and let
+$\mathcal P:\mathsf{ProbeBundle}$ be finite. Let
+$$
+\begin{gathered}
+(s_0,t_0),\ldots,(s_m,t_m),\\
+(r_0,q_0),\ldots,(r_k,q_k)
+\end{gathered}
+$$
+be two finite pointwise $\hsame$ transport schedules of StreamName row pairs
+with common endpoints
+$$
+(s_0,t_0)=(r_0,q_0)=(s,t),
+\qquad
+(s_m,t_m)=(r_k,q_k)=(u,v).
+$$
+Assume the handoff for $(s,t)$ is the exact pointwise package of
+\autoref{thm:streamname-regseqrat-pointwise-classifier-handoff-exactness}.
+Assume further that every adjacent stage of both schedules carries the
+certified bundled pointwise $\hsame$ rows and preserves that exact pointwise
+package. Then the two induced handoff packets at $(u,v)$ expose the same
+$\mathsf{RatStreamNameCarrier}$ rows, restricted finite-window classifier
+rows, $\UnaryHistory$ rows, $\mathsf{InBundle}$ rows, pointwise $\hsame$ rows,
+and pointwise $\mathsf{RatHistoryClassifier}$ rows. Neither packet exposes a
+$\RegSeqRat$ regularity row, completion row, quotient row, host-index equality
+row, or $\RealUp$ seal row.
+\end{theorem}
+\begin{proof}
+Induct over the first finite schedule. The base case is the source handoff
+itself, whose exact consumer-facing package is supplied by
+\autoref{thm:streamname-regseqrat-pointwise-classifier-handoff-exactness}.
+For the step case, apply
+\autoref{thm:streamname-regseqrat-pointwise-hsame-transport-composition} to
+compose the accumulated transport with the next adjacent pointwise $\hsame$
+stage.
+
+The same induction applies to the second finite schedule. Its base is the
+same exact package at $(s,t)$, and each step preserves the displayed carrier,
+finite-window, unary-history, bundle-membership, pointwise $\hsame$, and
+rational-history classifier rows by the same composition theorem.
+
+Both inductions therefore terminate at the common endpoint $(u,v)$ with the
+pointwise package of
+\autoref{thm:streamname-regseqrat-pointwise-classifier-handoff-exactness}.
+Comparing through that endpoint package identifies the exposed carrier,
+restricted finite-window classifier, $\UnaryHistory$, $\mathsf{InBundle}$,
+pointwise $\hsame$, and pointwise $\mathsf{RatHistoryClassifier}$ rows from
+the two routes.
+
+Finally apply \autoref{thm:streamname-regseqrat-observation-envelope} at the
+common endpoint. The envelope excludes $\RegSeqRat$ regularity, completion,
+quotient, host-index equality, and $\RealUp$ seal rows from the observation
+handoff, so neither route can expose any row outside the common pointwise
+StreamName interface.
+\end{proof}
