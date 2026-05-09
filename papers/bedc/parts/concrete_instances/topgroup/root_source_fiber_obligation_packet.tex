@@ -48,6 +48,37 @@ detached provenance row, so the displayed source fiber is the whole carrier
 obligation.
 \end{proof}
 
+\begin{theorem}[TopGroupUp root source-fiber classifier determinacy]
+\label{thm:topgroup-root-source-fiber-classifier-determinacy}
+For an accepted $\TopGroupUp$ root source-fiber obligation packet, every
+classifier read accepted at the root is determined by the shared
+$\mathsf{BHist}$ carrier, the componentwise $\hsame$ classifier packet, the
+product and inverse endpoint rows, the finite $\Cont$ ledger, and the
+$\mathsf{Pkg}$ provenance row. Conversely, those rows repack the same root
+classifier read, so no detached group classifier, topology classifier, or
+ambient topological-group classifier is present at the root boundary.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:topgroup-root-source-fiber-carrier-obligation}. It places the
+group source, topology source, operation endpoints, componentwise classifier
+packet, ledger, and provenance over one shared $\mathsf{BHist}$ carrier.
+
+Next use
+\autoref{thm:topgroup-root-source-fiber-continuity-obligation}. The product
+and inverse endpoint reads are transported through that same classifier
+packet, and their continuity evidence is read only through the finite
+$\Cont$ entries listed in the packet.
+
+Finally apply
+\autoref{thm:topgroup-root-source-fiber-ledger-exactness}. The ledger covers
+exactly the accepted product-continuity and inverse-continuity families.
+Repacking the shared carrier, componentwise $\hsame$ packet, endpoint rows,
+ledger, and $\mathsf{Pkg}$ provenance therefore reconstructs the same
+classifier read, while any classifier outside those rows has no field in the
+accepted source-fiber packet.
+\end{proof}
+
 \begin{theorem}[TopGroupUp root source-fiber continuity obligation]
 \label{thm:topgroup-root-source-fiber-continuity-obligation}
 For an accepted $\TopGroupUp$ root source-fiber obligation packet, product
