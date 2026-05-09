@@ -166,6 +166,7 @@ recording why candidate flows are rejected: format failure, missing field, missi
 
 \begin{definition}[Recognizer ledger]
 \label{def:recognizer-generated-ledger}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecLedger}
 A recognizer-certificate flow must contain a ledger flow
 $$
   \mathsf{RecLedger}_Q(C_R,L)
@@ -211,11 +212,13 @@ Recognition supplied only by a host parser, YAML schema, external grammar, Lean 
 
 \begin{definition}[Recognizer conservativity]
 \label{def:recognizer-generated-conservativity}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecognizerConservative}
 A certified recognizer $R$ is \emph{kernel-conservative} for role $\rho$ when $\mathsf{Recognizes}(R,\rho,S)$ does not add new raw marks, history constructors, sameness rules, continuation rules, or derived-interface formation rules.
 \end{definition}
 
 \begin{theorem}[Certified recognizers are recognition-only]
 \label{thm:recognizer-generated-certified-recognition-only}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.certified\_recognition\_only}
 If $\mathsf{CertifiedRecognizer}(R,\rho)$ and its certificate contains a kernel-conservativity subflow, then the recognition judgments of $R$ do not change the finite kernel.
 \end{theorem}
 

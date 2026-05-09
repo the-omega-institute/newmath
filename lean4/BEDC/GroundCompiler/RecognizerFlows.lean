@@ -2,6 +2,7 @@ import BEDC.GroundCompiler.EventFlow
 
 namespace BEDC.GroundCompiler.RecognizerFlows
 
+open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 
 def RecognizerCertCandidateFlow : Type :=
@@ -58,6 +59,20 @@ def RecFailureLedger
     (F : EventFlow) : Prop :=
   RecognizerCertificateField Q C_R F /\ NonemptyEventFlow F
 
+def RecLedger
+    (Q : GeneratedRecognizer) (C_R : RecognizerCertCandidateFlow)
+    (L : EventFlow) : Prop :=
+  RecognizerCertificateField Q C_R L /\ NonemptyEventFlow L
+
+def RecognizerConservative
+    (R : RecognizerCandidateFlow) (rho : RecognitionRole) : Prop :=
+  forall S : EventFlow,
+    Recognizes R rho S ->
+      forall w : RawEvent,
+        List.Mem w S ->
+          forall m : DisplayAlphabet,
+            List.Mem m w -> m = BMark.b0 \/ m = BMark.b1
+
 def FormalRecognitionEvidence
     (R : RecognizerCandidateFlow) (rho : RecognitionRole) (S : EventFlow) :
     Prop :=
@@ -75,5 +90,18 @@ theorem uncertified_cannot_license
       Not (FormalRecognitionEvidence R rho S) := by
   intro hNotCert hEvidence
   exact hNotCert (formal_recognition_evidence_requires_certified hEvidence)
+
+theorem certified_recognition_only
+    {R : RecognizerCandidateFlow} {rho : RecognitionRole} :
+    CertifiedRecognizer R rho ->
+      RecognizerConservative R rho ->
+        forall S : EventFlow,
+          Recognizes R rho S ->
+            forall w : RawEvent,
+              List.Mem w S ->
+                forall m : DisplayAlphabet,
+                  List.Mem m w -> m = BMark.b0 \/ m = BMark.b1 := by
+  intro _ hCons
+  exact hCons
 
 end BEDC.GroundCompiler.RecognizerFlows
