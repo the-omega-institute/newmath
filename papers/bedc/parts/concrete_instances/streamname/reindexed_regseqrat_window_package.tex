@@ -358,3 +358,46 @@ regularity witness, completion object, quotient row, host-index equality, or
 unrecorded stream datum, neither bracketing can create such a distinguishing
 row. The two bracketings therefore expose one common finite-window boundary.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat reindexed window structural closure]
+\label{thm:streamname-regseqrat-reindexed-window-structural-closure}
+Let $\Omega_{01}$ and $\Omega_{12}$ be composable reindexed
+$\StreamNameUp$--$\RegSeqRat$ finite-window packages over rational histories.
+Assume that their selected probe bundles are joined by
+$\mathsf{bundleAppend}$ and that their reindexing maps compose on the selected
+rational observation rows. Then the composite package exposes exactly the
+selected StreamName classifier rows, the $\RegSeqRat$ handoff rows, the
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$
+ledger rows, and the finite-window $\RealUp$ boundary already exposed by the
+two factors after reindexing.
+
+No seal row, quotient row, completion object, host-index equality, regularity
+witness, or unrecorded stream datum is introduced by the composite package.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion} to each factor.
+For each leg, the accepted finite-window consumer surface is exhausted by the
+selected StreamName classifier rows, the $\RegSeqRat$ handoff rows, and the
+displayed probe, membership, and unary-history ledger rows.
+
+Next use the structural laws for $\mathsf{bundleAppend}$. Appending the two
+finite probe bundles preserves exactly the entries already recorded in the two
+factor ledgers and supplies the composite $\mathsf{InBundle}$ and
+$\mathsf{UnaryHistory}$ rows by finite concatenation, not by a new stream
+source.
+
+The reindexing composition law identifies the selected rational observation
+rows of the appended package with the observation rows obtained by applying the
+two factor reindexings in sequence. Hence the StreamName classifier rows and
+$\RegSeqRat$ handoff rows seen by the composite consumer are precisely the
+transported rows already present in the factors.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-reindexed-window-composite-realup-boundary}
+to read the finite $\RealUp$ boundary, and apply
+\autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import} to the two
+factors. These theorems exclude seal, quotient, completion, host-index,
+regularity, and unrecorded-stream rows, so the displayed rows are the whole
+structural closure of the composite package.
+\end{proof}

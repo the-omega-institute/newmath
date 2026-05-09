@@ -57,6 +57,41 @@ Soundness reads each projected component back through the corresponding BEDC pri
 Completeness is the reverse packing. Given exactly those rows, assemble the carrier boundary, the partial-sum family, and the modulus stability witness, then record them as the public $\SeriesUp$ obligation surface. Since every accepted row is accounted for in this package, the dependency surface is exact.
 \end{proof}
 
+\begin{theorem}[SeriesUp public name certificate]
+\label{thm:series-public-namecert-certificate}
+The $\SeriesUp$ source carrier boundary, partial-sum obligation, modulus
+stability obligation, and ledger exactness obligation assemble into the public
+$\NameCert_{\SeriesUp}$ surface. The public certificate exposes exactly the
+$\SeqUp$ source row, the additive carrier row, finite $\Cont$ partial-sum
+routes, explicit unary modulus rows, classifier transports, and ledger rows
+recorded in
+\autoref{thm:series-source-carrier-boundary-obligation},
+\autoref{thm:series-partial-sum-obligation},
+\autoref{thm:series-modulus-stability-obligation}, and
+\autoref{thm:series-ledger-exactness-obligation}.
+
+It does not include a $\ComplexSeriesUp$ comparison, a host summability theorem,
+or a standard bridge claim.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:series-source-carrier-boundary-obligation}. This supplies the
+$\SeqUp$ source certificate, the summand stream, the additive carrier row, and
+the source classifier surface for the public name certificate.
+
+Next apply \autoref{thm:series-partial-sum-obligation} and
+\autoref{thm:series-modulus-stability-obligation}. The first theorem supplies
+the finite $\Cont$ partial-sum routes, while the second supplies explicit unary
+modulus rows and their classifier transports.
+
+Finally apply \autoref{thm:series-ledger-exactness-obligation}. Its coverage,
+soundness, and completeness clauses say that these rows are exactly the public
+ledger rows accepted by the $\SeriesUp$ surface. Repacking the four scoped
+obligation rows into the $\NameCert_{\SeriesUp}$ fields gives the public
+certificate and leaves complex-series comparisons, host summability, and
+standard bridges outside the exposed boundary.
+\end{proof}
+
 \closureat{SeriesUp}{scopedStr}{BEDC.Derived.SeriesUp.SeriesPartialSumLedger\_step\_transport}
 
 \begin{closurestatus}{\SeriesUp}
