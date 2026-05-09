@@ -92,6 +92,50 @@ order, standard-bridge, and hidden selector rows are outside the scoped finite
 surface.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-classifier normal-form tail coverage]
+\label{thm:regseqrat-tail-classifier-normal-form-tail-coverage}
+Let $W$ be a finite $\RealUp$ observation-window package, and let
+$\rho_1,\ldots,\rho_n$ be a finite certified unary reindexing schedule whose
+adjacent stages preserve the displayed $\StreamNameUp$, $\RegSeqRat$,
+DyadicRatCore, $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows. For each stagewise read, for the read after
+the composite schedule $\rho_n\circ\cdots\circ\rho_1$, and for the direct
+normal-form finite-window read of $W$, the selected tail row is covered by one
+and the same selected $\RegSeqRat$ classifier row.
+
+The covering row is the finite-window classifier row exposed by the displayed
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, endpoint-transport,
+continuation-ledger, package, and $\mathsf{RealLedgerPolicy}$ data. The
+coverage statement has no quotient row, completion row, Classical
+representative, metric-completeness certificate, arithmetic or order row,
+standard-bridge row, or hidden selector row.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-tail-classifier-reindexing-normal-form}. It identifies
+the selected tail row read at each certified stage, the selected row read after
+the composite schedule, and the selected row read directly from the normal-form
+finite-window surface.
+
+Now use \autoref{thm:regseqrat-tail-classifier-exactness} on that common
+finite-window surface. The exactness theorem says that the selected tail is not
+a separate row but the displayed $\RegSeqRat$ classifier row read from the
+shared StreamName, RegSeqRat, DyadicRatCore, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ data.
+
+It remains to rule out a second mediator for one of the reads. Apply
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness}. Any candidate row
+compatible with the stagewise, composite, and direct pullbacks factors through
+the same selected finite-window classifier row, so all selected tails are
+covered by that single row.
+
+The exclusion boundary is inherited from the exact finite read surface: quotient
+data, completion data, Classical representatives, metric-completeness
+certificates, arithmetic or order structure, standard-bridge data, and hidden
+selector rows are not part of the scoped package.
+\end{proof}
+
 \begin{theorem}[RegSeqRat tail-classifier pullback uniqueness]
 \label{thm:regseqrat-tail-classifier-pullback-uniqueness}
 Let $W_0$ and $W_1$ be finite-window $\RealUp$ packages whose displayed
