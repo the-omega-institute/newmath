@@ -101,3 +101,64 @@ finite BHist package. The package has no additional field beyond the displayed
 $\DynSystemUp$, $\MeasureUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$
 rows, so it is the concrete $\ErgodicUp$ obligation surface.
 \end{proof}
+
+\begin{definition}[Ergodic invariant probe package]
+\label{def:ergodic-invariant-probe-package}
+An $\ErgodicUp$ invariant probe package is the finite $\mathsf{BHist}$ package
+whose public rows are the $\DynSystemUp$ flow row, the $\MeasureUp$ preserving
+row for that flow, the invariant-subspace classifier row, the finite $\Cont$
+ledger carrying the flow and invariant endpoints, and the $\NameCert$
+provenance row for the accepted ergodic source. The package contains no host
+measure-preserving transformation object, no ambient completed invariant
+subspace, and no spectral decomposition row.
+\end{definition}
+
+\begin{theorem}[Ergodic invariant probe hsame transport]
+\label{thm:ergodic-invariant-probe-hsame-transport}
+Let $E$ and $E'$ be accepted $\ErgodicUp$ invariant probe packages. If their
+displayed $\DynSystemUp$ flow rows, $\MeasureUp$ preserving rows, and
+invariant-subspace classifier rows are related componentwise by $\hsame$, then
+the transported $\Cont$ ledgers and $\NameCert$ provenance repack $E'$ as the
+same invariant probe package boundary read from $E$.
+\end{theorem}
+\begin{proof}
+Project both packages through \autoref{def:ergodic-invariant-probe-package}.
+The only transportable coordinates are the flow row, preserving measure row,
+invariant classifier row, continuation ledger, and provenance row.
+
+Apply \autoref{thm:ergodic-invariant-subspace-classifier} to the displayed
+classifier rows. Componentwise $\hsame$ on the flow and measure endpoints
+transports the invariant classifier because the classifier reads no external
+sigma-algebra quotient or completed subspace.
+
+Finally use \autoref{thm:ergodic-decomposition-ledger} to carry the finite
+ledger rows and repack the provenance. The transported package is therefore the
+same invariant probe boundary, with no additional host transformation object
+available to alter the read.
+\end{proof}
+
+\begin{theorem}[Ergodic NameCert consumer exhaustion]
+\label{thm:ergodic-namecert-consumer-exhaustion}
+Every downstream consumer read from the $\ErgodicUp$ NameCert obligation
+surface factors through the invariant probe package of
+\autoref{def:ergodic-invariant-probe-package}. Such a consumer can read only the
+displayed $\DynSystemUp$ flow row, $\MeasureUp$ preserving row,
+invariant-subspace classifier row, finite $\Cont$ ledger, and $\NameCert$
+provenance; it cannot read host measure-preserving transformations or spectral
+decomposition data.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:ergodic-namecert-obligation-surface}. It identifies the
+consumer-visible obligation rows with the carrier, invariant classifier,
+transport stability rows, and decomposition ledger.
+
+Next repack those rows as the invariant probe package of
+\autoref{def:ergodic-invariant-probe-package}. The carrier supplies the flow and
+measure-preserving rows, the classifier supplies the invariant-subspace row, and
+the decomposition ledger supplies the continuation and provenance rows.
+
+The source surface has no field for a host measure-preserving transformation or
+for spectral decomposition data. Therefore every downstream read factors
+through the finite invariant probe package and is exhausted by its displayed
+rows.
+\end{proof}
