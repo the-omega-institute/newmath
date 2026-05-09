@@ -133,4 +133,43 @@ theorem CharacterTheoryRootBHistSurface_carrier_obligation [AskSetup] [PackageSe
                     (And.intro surface.right.right.right.right.right.left
                       surface.right.right.right.right.right.right))))))))
 
+theorem CharacterTheoryRootBHistSurface_source_compatibility_obligation [AskSetup]
+    [PackageSetup]
+    {group group' vector vector' action action' trace trace' orthLedger orthLedger' endpoint
+      endpoint' : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CharacterTheoryRootBHistSurface group vector action trace orthLedger endpoint bundle pkg ->
+      hsame group group' ->
+        hsame vector vector' ->
+          hsame trace trace' ->
+            Cont group' vector' action' ->
+              Cont action' trace' orthLedger' ->
+                Cont orthLedger' trace' endpoint' ->
+                  PkgSig bundle endpoint' pkg ->
+                    CharacterTheoryRootBHistSurface group' vector' action' trace' orthLedger'
+                        endpoint' bundle pkg ∧
+                      hsame action action' ∧ hsame orthLedger orthLedger' := by
+  intro surface sameGroup sameVector sameTrace actionRow' orthLedgerRow' endpointRow' endpointPkg'
+  have groupUnary' : UnaryHistory group' :=
+    unary_transport surface.left sameGroup
+  have vectorUnary' : UnaryHistory vector' :=
+    unary_transport surface.right.left sameVector
+  have traceUnary' : UnaryHistory trace' :=
+    unary_transport surface.right.right.right.left sameTrace
+  have actionSame : hsame action action' :=
+    cont_respects_hsame sameGroup sameVector surface.right.right.left actionRow'
+  have orthLedgerSame : hsame orthLedger orthLedger' :=
+    cont_respects_hsame actionSame sameTrace surface.right.right.right.right.left
+      orthLedgerRow'
+  have transportedSurface :
+      CharacterTheoryRootBHistSurface group' vector' action' trace' orthLedger' endpoint'
+        bundle pkg :=
+    And.intro groupUnary'
+      (And.intro vectorUnary'
+        (And.intro actionRow'
+          (And.intro traceUnary'
+            (And.intro orthLedgerRow'
+              (And.intro endpointRow' endpointPkg')))))
+  exact And.intro transportedSurface
+    (And.intro actionSame orthLedgerSame)
+
 end BEDC.Derived.CharacterTheoryUp

@@ -79,6 +79,44 @@ theorem ApproximationFiniteErrorLedger_carrier_surface {continuousSource map tar
         · exact errorEndpointRel
         · exact provenanceRel
 
+theorem ApproximationCarrierPacket_finite_error_ledger_consumer_determinacy [AskSetup]
+    [PackageSetup]
+    {continuousSource continuousMap continuousTarget modulus continuousCert continuousDistance
+      polynomialCandidate sourceEndpoint polynomialEndpoint errorEndpoint errorEndpoint' errorLedger
+      errorLedger' provenance provenance' : BHist} :
+    ContinuousMapCarrier continuousSource continuousMap continuousTarget modulus continuousCert
+        continuousDistance ->
+      PolynomialSingletonCarrier polynomialCandidate ->
+        UnaryHistory sourceEndpoint ->
+          UnaryHistory polynomialEndpoint ->
+            Cont continuousSource polynomialCandidate errorLedger ->
+              Cont continuousSource polynomialCandidate errorLedger' ->
+                Cont sourceEndpoint polynomialEndpoint errorEndpoint ->
+                  Cont sourceEndpoint polynomialEndpoint errorEndpoint' ->
+                    hsame provenance errorLedger ->
+                      hsame provenance' errorLedger' ->
+                        hsame errorLedger errorLedger' ∧ hsame errorEndpoint errorEndpoint' ∧
+                          UnaryHistory errorLedger ∧ UnaryHistory errorEndpoint := by
+  intro continuousCarrier polynomialCarrier sourceEndpointCarrier polynomialEndpointCarrier
+    errorLedgerRel errorLedgerRel' errorEndpointRel errorEndpointRel' _provenanceRel
+    _provenanceRel'
+  have ledgerSame : hsame errorLedger errorLedger' :=
+    cont_respects_hsame (hsame_refl continuousSource) (hsame_refl polynomialCandidate)
+      errorLedgerRel errorLedgerRel'
+  have endpointSame : hsame errorEndpoint errorEndpoint' :=
+    cont_respects_hsame (hsame_refl sourceEndpoint) (hsame_refl polynomialEndpoint)
+      errorEndpointRel errorEndpointRel'
+  have continuousSourceCarrier : UnaryHistory continuousSource := continuousCarrier.left.left
+  have polynomialCandidateCarrier : UnaryHistory polynomialCandidate :=
+    unary_transport unary_empty (hsame_symm polynomialCarrier)
+  have errorLedgerCarrier : UnaryHistory errorLedger :=
+    unary_cont_closed continuousSourceCarrier polynomialCandidateCarrier errorLedgerRel
+  have errorEndpointCarrier : UnaryHistory errorEndpoint :=
+    unary_cont_closed sourceEndpointCarrier polynomialEndpointCarrier errorEndpointRel
+  exact And.intro ledgerSame
+    (And.intro endpointSame
+      (And.intro errorLedgerCarrier errorEndpointCarrier))
+
 theorem ApproximationCarrierPacket_polynomial_consumer_window [AskSetup] [PackageSetup]
     {continuousSource continuousMap continuousTarget modulus continuousCert continuousDistance
       polynomialCandidate errorEndpoint errorLedger transportLedger provenance : BHist}
