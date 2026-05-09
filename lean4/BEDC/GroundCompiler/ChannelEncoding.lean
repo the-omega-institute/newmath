@@ -110,10 +110,13 @@ theorem flow_encoding_not_single_one (S : EventFlow) :
   | cons w rest =>
       cases w with
       | nil =>
-          simp [FlowEncoding, EventEncoding, BodyEncoding, EventTerminator] at h
+          cases h
       | cons m tail =>
-          cases m <;>
-            simp [FlowEncoding, EventEncoding, BodyEncoding, EventTerminator] at h
+          cases m with
+          | b0 =>
+              cases h
+          | b1 =>
+              cases h
 
 theorem channel_encoding_0111_illegal :
     Not (LegalZStream [BMark.b0, BMark.b1, BMark.b1, BMark.b1]) := by
@@ -126,22 +129,28 @@ theorem channel_encoding_0111_illegal :
       | cons w rest =>
           cases w with
           | nil =>
-              simp [FlowEncoding, EventEncoding, BodyEncoding, EventTerminator] at hS
+              cases hS
           | cons m tail =>
               cases m with
               | b0 =>
                   cases tail with
                   | nil =>
-                      have hrest : [BMark.b1] = FlowEncoding rest := by
-                        simpa [FlowEncoding, EventEncoding, BodyEncoding,
-                          EventTerminator] using hS
+                      change
+                        [BMark.b0, BMark.b1, BMark.b1, BMark.b1] =
+                          BMark.b0 :: BMark.b1 :: BMark.b1 ::
+                            FlowEncoding rest at hS
+                      have hrest : [BMark.b1] = FlowEncoding rest :=
+                        congrArg List.tail
+                          (congrArg List.tail (congrArg List.tail hS))
                       exact flow_encoding_not_single_one rest hrest.symm
                   | cons n tailRest =>
-                      cases n <;>
-                        simp [FlowEncoding, EventEncoding, BodyEncoding,
-                          EventTerminator] at hS
+                      cases n with
+                      | b0 =>
+                          cases hS
+                      | b1 =>
+                          cases hS
               | b1 =>
-                  simp [FlowEncoding, EventEncoding, BodyEncoding, EventTerminator] at hS
+                  cases hS
 
 theorem event_level_round_trip (w : RawEvent) :
     DecEvent (EventEncoding w) = some (w, []) := by
@@ -151,17 +160,21 @@ theorem event_level_round_trip (w : RawEvent) :
   | cons m rest ih =>
       cases m with
       | b0 =>
+          dsimp [EventEncoding, BodyEncoding, DecEvent]
           have h :
               DecEvent (BodyEncoding rest ++ EventTerminator) =
                 some (rest, []) := by
-            simpa [EventEncoding] using ih
-          simp [EventEncoding, BodyEncoding, DecEvent, h]
+            change DecEvent (EventEncoding rest) = some (rest, [])
+            exact ih
+          rw [h]
       | b1 =>
+          dsimp [EventEncoding, BodyEncoding, DecEvent]
           have h :
               DecEvent (BodyEncoding rest ++ EventTerminator) =
                 some (rest, []) := by
-            simpa [EventEncoding] using ih
-          simp [EventEncoding, BodyEncoding, DecEvent, h]
+            change DecEvent (EventEncoding rest) = some (rest, [])
+            exact ih
+          rw [h]
 
 theorem dec_event_append_event_encoding
     (w : RawEvent) (restCode : List DisplayAlphabet) :
@@ -172,17 +185,25 @@ theorem dec_event_append_event_encoding
   | cons m rest ih =>
       cases m with
       | b0 =>
+          dsimp [EventEncoding, BodyEncoding, DecEvent]
           have h :
-              DecEvent (BodyEncoding rest ++ (EventTerminator ++ restCode)) =
+              DecEvent (BodyEncoding rest ++ EventTerminator ++ restCode) =
                 some (rest, restCode) := by
-            simpa [EventEncoding, List.append_assoc] using ih
-          simp [EventEncoding, BodyEncoding, DecEvent, h]
+            change
+              DecEvent (EventEncoding rest ++ restCode) =
+                some (rest, restCode)
+            exact ih
+          rw [h]
       | b1 =>
+          dsimp [EventEncoding, BodyEncoding, DecEvent]
           have h :
-              DecEvent (BodyEncoding rest ++ (EventTerminator ++ restCode)) =
+              DecEvent (BodyEncoding rest ++ EventTerminator ++ restCode) =
                 some (rest, restCode) := by
-            simpa [EventEncoding, List.append_assoc] using ih
-          simp [EventEncoding, BodyEncoding, DecEvent, h]
+            change
+              DecEvent (EventEncoding rest ++ restCode) =
+                some (rest, restCode)
+            exact ih
+          rw [h]
 
 theorem decode_fuel_flow_encoding (S : EventFlow) (extra : Nat) :
     DecodeFuel (S.length + extra) (FlowEncoding S) = some S := by
@@ -191,13 +212,16 @@ theorem decode_fuel_flow_encoding (S : EventFlow) (extra : Nat) :
       cases extra <;> rfl
   | cons w rest ih =>
       change
-        DecodeFuel ((w :: rest).length + extra)
+        DecodeFuel (Nat.succ rest.length + extra)
           (EventEncoding w ++ FlowEncoding rest) = some (w :: rest)
-      have hFuel :
-          (w :: rest).length + extra = (rest.length + extra) + 1 := by
-        simp [Nat.add_assoc, Nat.add_comm]
-      rw [hFuel]
-      simp [DecodeFuel, dec_event_append_event_encoding, ih]
+      rw [Nat.succ_add]
+      dsimp [DecodeFuel]
+      rw [dec_event_append_event_encoding]
+      change
+        (match DecodeFuel (rest.length + extra) (FlowEncoding rest) with
+        | some S => some (w :: S)
+        | none => none) = some (w :: rest)
+      rw [ih]
 
 theorem flow_encoding_length_has_event_fuel (S : EventFlow) :
     exists extra : Nat, (FlowEncoding S).length = S.length + extra := by
@@ -272,10 +296,13 @@ theorem flow_encoding_eq_nil {S : EventFlow} :
   | cons w rest =>
       cases w with
       | nil =>
-          simp [FlowEncoding, EventEncoding, BodyEncoding, EventTerminator] at h
+          cases h
       | cons m tail =>
-          cases m <;>
-            simp [FlowEncoding, EventEncoding, BodyEncoding, EventTerminator] at h
+          cases m with
+          | b0 =>
+              cases h
+          | b1 =>
+              cases h
 
 theorem legal_stream_not_theoremhood :
     exists c : List DisplayAlphabet,
