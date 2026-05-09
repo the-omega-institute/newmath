@@ -156,3 +156,33 @@ share the same carrier, classifier, $\mathsf{NatMul}$ relation, and
 $\mathsf{BHist}$ endpoints, so the displayed list is a single Full Nat
 Arithmetic audit surface and not a host multiplication or quotient surface.
 \end{proof}
+
+\begin{theorem}[MulUp AddUp--OrderUp--divisibility phase-exit package]
+\label{thm:mulup-add-order-divisibility-phase-exit-package}
+Over $\mathsf{BHist}$ and the carrier $\mathsf{UnaryHistory}$, $\MulUp$
+exposes a single L7 Full Nat Arithmetic package whose rows are the
+$\mathsf{NatMul}$ semantic exit, the two $\AddUp$ distributivity rows, the
+$\OrderUp$ unary-prefix monotonicity row, and the unary divisibility
+reflexive, transitive, and antisymmetric rows. The package is read through the
+same $\mathsf{BHist}$ endpoints, $\mathsf{UnaryHistory}$ carrier, $\hsame$
+classifier, $\Cont$ ledgers, and $\mathsf{NatMul}$ relation.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unary-multiplication-mulup-semantic-exit-package}. It gives
+the $\mathsf{NatMul}$ semantic exit over $\mathsf{BHist}$ and
+$\mathsf{UnaryHistory}$, including the result semantic certificate and the
+operation laws used by the L7 consumer.
+
+Next apply \autoref{thm:mulup-semantic-exit-audit-row-coverage} and
+\autoref{thm:mulup-full-nat-arithmetic-audit-surface}. These identify the two
+$\AddUp$ distributivity rows and the $\OrderUp$ unary-prefix monotonicity row
+as rows of the same audit surface, with no change of carrier, classifier, or
+result relation.
+
+Finally apply \autoref{thm:mulup-divisibility-order-consumer-package}. Its
+reflexive, transitive, and antisymmetric divisibility rows are stated over the
+same $\mathsf{BHist}$ endpoints, $\mathsf{UnaryHistory}$ histories, $\hsame$
+comparisons, $\Cont$ ledgers, and $\mathsf{NatMul}$ witnesses. Repacking these
+shared rows gives one named phase-exit package for downstream natural,
+rational, and prime consumers.
+\end{proof}
