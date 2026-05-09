@@ -24,6 +24,18 @@ def SoundMotifReport
   CandidateMotifSection S candidates /\
     RecognizedMotifSection Rfam S recognized
 
+theorem candidate_recognized_sections_separate
+    {Rfam : GeneratedMotifRecognizer -> Prop} {S : EventFlow}
+    {candidates : List EventFlow} {recognized : List MotifProfileItem}
+    {M mu L : EventFlow} :
+    CandidateMotifSection S candidates ->
+      RecognizedMotifSection Rfam S recognized ->
+        List.Mem M candidates ->
+          Not (MotifProfile Rfam S mu M L) ->
+            Not (List.Mem (mu, M, L) recognized) := by
+  intro _ hRecognized _ hMissing hMem
+  exact hMissing (hRecognized (mu, M, L) hMem)
+
 theorem sound_motif_report_has_recognizer_ledger
     {Rfam : GeneratedMotifRecognizer -> Prop} {S : EventFlow}
     {recognized : List MotifProfileItem} {item : MotifProfileItem} :
@@ -167,5 +179,37 @@ structure P3AuditChecklist where
   noTheoremhoodAsserted : Prop
   noHardcodedMotifTableAsFormalInput : Prop
   implementationRecognizersHaveBootstrapObligations : Prop
+
+theorem p3_adequacy
+    {Rfam : GeneratedMotifRecognizer -> Prop} {S : EventFlow}
+    {candidates : List EventFlow} {recognized : List MotifProfileItem} :
+    SoundMotifReport Rfam S candidates recognized ->
+      P3AuditChecklist ->
+        (forall item : MotifProfileItem,
+          List.Mem item recognized ->
+            exists R : GeneratedMotifRecognizer,
+              Rfam R /\ RecognizesMotif R S item.2.1 item.1 /\
+                MotifLedger R S item.2.1 item.1 item.2.2) ->
+          SoundMotifReport Rfam S candidates recognized /\
+            exists _checklist : P3AuditChecklist,
+              forall item : MotifProfileItem,
+                List.Mem item recognized ->
+                  exists R : GeneratedMotifRecognizer,
+                    Rfam R /\ RecognizesMotif R S item.2.1 item.1 /\
+                      MotifLedger R S item.2.1 item.1 item.2.2 := by
+  intro hSound hChecklist hBacked
+  exact ⟨hSound, hChecklist, hBacked⟩
+
+theorem p3_conservative_over_finite_kernel
+    {Rfam : GeneratedMotifRecognizer -> Prop} {S : EventFlow}
+    {candidates : List EventFlow} {recognized : List MotifProfileItem}
+    {R M mu : EventFlow} {w : RawEvent} {m : DisplayAlphabet} :
+    SoundMotifReport Rfam S candidates recognized ->
+      RecognizesMotif R S M mu ->
+        List.Mem w S ->
+          List.Mem m w ->
+            m = BMark.b0 \/ m = BMark.b1 := by
+  intro _ hRecognized hEvent hMark
+  exact motif_generated_conservativity hRecognized hEvent hMark
 
 end BEDC.GroundCompiler.MotifReportPrototype
