@@ -6,5 +6,71 @@ The model-category interface $\ModelCatUp$ packages a category carrier with thre
 \section{Carrier definition}
 \label{sec:modelcat-carrier}
 
+\begin{definition}[ModelCatUp BHist source packet]
+\label{def:modelcat-bhist-source-packet}
+A $\ModelCatUp$ $\mathsf{BHist}$ source packet is a finite tuple
+$$
+\mathcal{M}=(C,\mathsf{Cof},\mathsf{Fib},\mathsf{W},\mathsf{Lift},\mathsf{Fact},P,\rho,\lambda)
+$$
+whose coordinates are all displayed BEDC rows:
+\begin{enumerate}
+\item $C$ is the consumed $\NameCert_{\CategoryUp}$ row, carrying the object,
+morphism, identity, composition, and morphism-classifier surface.
+\item $\mathsf{Cof}$, $\mathsf{Fib}$, and $\mathsf{W}$ are the cofibration,
+fibration, and weak-equivalence classifier rows on morphisms of $C$.
+\item $\mathsf{Lift}$ records the finite lifting ledgers between cofibration
+rows and fibration rows, including the acyclic cases whose weak-equivalence
+coordinates are read through $\mathsf{W}$.
+\item $\mathsf{Fact}$ records the finite factorisation ledgers that split each
+displayed morphism through a cofibration followed by an acyclic fibration and
+through an acyclic cofibration followed by a fibration.
+\item $P$ is the $\Pkg$ provenance row for the CategoryUp dependency and for
+the displayed classifier ledgers.
+\item $\rho$ and $\lambda$ are the $\Cont/\hsame$ transport ledgers that keep
+the category row, the three morphism-classifier rows, the lifting rows, the
+factorisation rows, and the package provenance stable under rowwise transport.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[ModelCatUp root obligation surface]
+\label{thm:modelcat-root-obligation-surface}
+An admitted $\ModelCatUp$ source packet in the sense of
+\autoref{def:modelcat-bhist-source-packet} exposes exactly the finite
+$\mathsf{BHist}$ rows $C$, $\mathsf{Cof}$, $\mathsf{Fib}$, $\mathsf{W}$,
+$\mathsf{Lift}$, $\mathsf{Fact}$, $P$, $\rho$, and $\lambda$. Consequently the
+root obligation surface for $\NameCert_{\ModelCatUp}$ consists of the consumed
+$\NameCert_{\CategoryUp}$ row, the cofibration row, the fibration row, the
+weak-equivalence row, the lifting and factorisation ledgers, the $\Pkg$
+provenance, and the $\Cont/\hsame$ transport ledger. It does not expose a host
+localization, a quotient category, an external weak-equivalence calculus, a
+derived mapping space, or a bridge row.
+\end{theorem}
+\begin{proof}
+Project an admitted packet
+$\mathcal{M}=(C,\mathsf{Cof},\mathsf{Fib},\mathsf{W},\mathsf{Lift},\mathsf{Fact},P,\rho,\lambda)$.
+By \autoref{def:modelcat-bhist-source-packet}, these nine coordinates are the
+only carrier fields. The category coordinate is already a
+$\NameCert_{\CategoryUp}$ row, so object, morphism, identity, composition, and
+morphism-classifier reads pass through that dependency row rather than through
+an ambient host category.
+
+The next three projections give the displayed cofibration, fibration, and
+weak-equivalence classifier rows. The lifting projection reads only finite
+squares whose left and right morphism faces are classified by those rows, and
+the factorisation projection reads only the two displayed factorisation
+ledgers. Acyclic clauses use the same weak-equivalence coordinate
+$\mathsf{W}$; they do not open a separate localization calculus.
+
+Transport is rowwise. If a consumer replaces a displayed coordinate by an
+$\hsame$-classified representative, the $\rho$ and $\lambda$ ledgers carry the
+CategoryUp dependency, the three classifier rows, the lifting rows, the
+factorisation rows, and the $\Pkg$ provenance to the transported packet.
+
+Repacking these projections gives exactly the stated root obligation surface.
+Since the packet has no coordinate for a host localization, quotient category,
+external weak-equivalence calculus, derived mapping space, or bridge datum,
+none of those objects can be consumed from the $\ModelCatUp$ source surface.
+\end{proof}
+
 \section{The certificate}
 \label{sec:modelcat-certificate}
