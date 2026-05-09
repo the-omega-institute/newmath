@@ -194,4 +194,63 @@ theorem EnrichedCatPublicPacket_source_obligation [AskSetup] [PackageSetup]
   intro packet
   exact packet
 
+theorem EnrichedCatPublicRows_classifier_transport_obligation [AskSetup] [PackageSetup]
+    {category tensor hom identity composition provenance ledger endpoint category' tensor' hom'
+      identity' composition' provenance' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory category ->
+      UnaryHistory tensor ->
+        UnaryHistory hom ->
+          UnaryHistory identity ->
+            UnaryHistory composition ->
+              UnaryHistory provenance ->
+                Cont hom identity ledger ->
+                  Cont ledger composition endpoint ->
+                    Cont endpoint provenance tensor ->
+                      PkgSig bundle endpoint pkg ->
+                        hsame category category' ->
+                          hsame tensor tensor' ->
+                            hsame hom hom' ->
+                              hsame identity identity' ->
+                                hsame composition composition' ->
+                                  hsame provenance provenance' ->
+                                    Cont hom' identity' ledger' ->
+                                      Cont ledger' composition' endpoint' ->
+                                        Cont endpoint' provenance' tensor' ->
+                                          PkgSig bundle endpoint' pkg ->
+                                            UnaryHistory category' ∧ UnaryHistory tensor' ∧
+                                              UnaryHistory hom' ∧ UnaryHistory identity' ∧
+                                                UnaryHistory composition' ∧
+                                                  hsame ledger ledger' ∧
+                                                    hsame endpoint endpoint' ∧
+                                                      hsame tensor tensor' ∧
+                                                        PkgSig bundle endpoint' pkg := by
+  intro categoryUnary tensorUnary homUnary identityUnary compositionUnary _provenanceUnary
+  intro ledgerRow endpointRow tensorRow _pkgSig sameCategory sameTensor sameHom sameIdentity
+  intro sameComposition sameProvenance ledgerRow' endpointRow' tensorRow' pkgSig'
+  have categoryUnary' : UnaryHistory category' :=
+    unary_transport categoryUnary sameCategory
+  have tensorUnary' : UnaryHistory tensor' :=
+    unary_transport tensorUnary sameTensor
+  have homUnary' : UnaryHistory hom' :=
+    unary_transport homUnary sameHom
+  have identityUnary' : UnaryHistory identity' :=
+    unary_transport identityUnary sameIdentity
+  have compositionUnary' : UnaryHistory composition' :=
+    unary_transport compositionUnary sameComposition
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameHom sameIdentity ledgerRow ledgerRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger sameComposition endpointRow endpointRow'
+  have sameTensorFromRows : hsame tensor tensor' :=
+    cont_respects_hsame sameEndpoint sameProvenance tensorRow tensorRow'
+  exact And.intro categoryUnary'
+    (And.intro tensorUnary'
+      (And.intro homUnary'
+        (And.intro identityUnary'
+          (And.intro compositionUnary'
+            (And.intro sameLedger
+              (And.intro sameEndpoint
+                (And.intro sameTensorFromRows pkgSig')))))))
+
 end BEDC.Derived.EnrichedCatUp
