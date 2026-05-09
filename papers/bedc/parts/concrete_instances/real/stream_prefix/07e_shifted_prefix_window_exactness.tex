@@ -60,6 +60,53 @@ over $(x,y,n,m)$, and the negative boundary is inherited from the two pullback
 theorems.
 \end{proof}
 
+\begin{theorem}[Real stream shifted prefix-window classifier composition]
+\label{thm:real-stream-shifted-prefix-window-classifier-composition}
+Let $x,y:\mathbb{N}\to\Hist$ be rational-observation streams, let
+$x_n(k)=x(n+k)$ and $y_n(k)=y(n+k)$, and fix a finite radius $m$. Suppose the
+shift certificate from $(x,y,n,m)$ to $(x_n,y_n,0,m)$ carries
+$\mathsf{RealStreamPrefixClassifier}(x_n,y_n,m)$ to
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m)$. Suppose also that the shifted
+window is passed to a downstream finite-window handoff whose displayed rows are
+the $\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the $\RegSeqRat$ spine,
+the endpoint $\mathsf{DyadicRatCoreObservationRow}$ witnesses, and the shared
+$\hsame/\Cont/\Pkg/\mathsf{RealLedgerPolicy}$ ledger. Then the
+$\mathsf{RealStreamWindowClassifier}$ row consumed at $(x,y,n,m)$ is exactly the
+finite $\mathsf{BHist}$ classifier row obtained by first reading the shifted
+prefix classifier over $(x_n,y_n,m)$ and then passing through the
+$\StreamNameUp$-$\RegSeqRat$ finite-window handoff.
+
+This is only a finite classifier-composition law. It does not introduce a
+quotient carrier, a completion carrier, host real equality, metric
+completeness, arithmetic or order closure, Classical representatives, or bridge
+status.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-shifted-prefix-window-exactness}. It identifies the
+shifted prefix classifier over $(x_n,y_n,m)$ with the unshifted finite-window
+classifier over $(x,y,n,m)$, so the downstream consumer and the original window
+read the same bounded endpoint rows.
+
+Next apply
+\autoref{thm:real-stream-shifted-prefix-window-seal-pullback}. The hypotheses
+provide the matching $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows,
+$\RegSeqRat$ spine rows, DyadicRatCore endpoints, and displayed
+$\hsame/\Cont/\Pkg/\mathsf{RealLedgerPolicy}$ ledger on the shifted window.
+The pullback identifies the shifted prefix packet and the unshifted window
+packet as the same finite $\mathsf{BHist}$ source surface.
+
+Finally apply
+\autoref{thm:realup-streamname-regseqrat-window-correspondence} together with
+\autoref{thm:realup-streamname-regseqrat-common-window-pullback}. The
+correspondence factors the finite $\RealUp$ window through the public
+$\StreamNameUp$ finite-window interface and the $\RegSeqRat$ dyadic source
+rows; the pullback says that these rows repack as the same finite classifier
+packet. Thus the row consumed at $(x,y,n,m)$ is precisely the row obtained by
+the shifted-prefix route followed by the StreamName-RegSeqRat handoff, with the
+negative boundary inherited from the cited finite-window theorems.
+\end{proof}
+
 The ten-field fit is: traditional target shifted finite RealUp observation
 windows; BEDC source RealUp prefix/window classifiers plus RatUp endpoints;
 carrier rational-observation streams; classifier the displayed equivalence;
