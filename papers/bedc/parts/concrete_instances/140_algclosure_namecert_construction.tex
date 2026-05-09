@@ -21,6 +21,7 @@ classifier transport row, the shared $\Pkg$ provenance row, and the finite
 root-ledger rows. Conversely, these rows repack as the carrier surface of the
 same $\AlgClosureUp$ packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.AlgClosureUp.AlgClosureCarrierPacket\_source\_obligation}
 \begin{proof}
 Unpack the carrier packet into its displayed $\mathsf{BHist}$ coordinates. The
 $\FieldExtUp$ row supplies the base and extension histories, and the
@@ -84,6 +85,37 @@ also records the $\hsame$ transport used by the classifier obligation.
 Since the packet has only one provenance coordinate, every visible ledger row
 returns to $\Pi:\Pkg$. Thus downstream readback is exhausted by the listed
 finite family.
+\end{proof}
+
+\begin{theorem}[AlgClosureUp root-witness transport coverage]
+\label{thm:algclosure-root-witness-transport-coverage}
+If two accepted $\AlgClosureUp$ root-witness packets classify together, then
+every visible root-satisfaction row in the first packet transports to a
+visible root-satisfaction row in the second packet over the transported
+$\FieldExtUp$ and $\PolynomialUp$ sources. The transported row keeps the same
+$\Pkg$ provenance, and it introduces no ambient algebraic-closure object and
+no quotient root.
+\end{theorem}
+\begin{proof}
+First unpack both root-witness packets through
+\autoref{thm:algclosure-carrier-source-obligation}. Each side exposes only the
+field-extension source row, the nonconstant polynomial request, the displayed
+root endpoint, the classifier transport row, the finite ledger, and the
+package provenance.
+
+Next apply
+\autoref{thm:algclosure-polynomial-root-classifier-obligation}. The packet
+classifier transports the $\FieldExtUp$ source first, then reads the
+$\PolynomialUp$ request over that transported source, and then carries the
+endpoint, ledger, and provenance rows along the same comparison.
+
+Finally re-read the target packet ledger with
+\autoref{thm:algclosure-ledger-readback-obligation}. The root-satisfaction row
+is one of the visible ledger rows, so the transported endpoint and polynomial
+request determine the corresponding visible satisfaction row in the second
+packet. Because the readback ledger contains only finite BEDC rows and the
+single $\Pkg$ coordinate, no ambient algebraic closure or quotient root is
+exported.
 \end{proof}
 
 \begin{theorem}[AlgClosureUp standard boundary obligation]
