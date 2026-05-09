@@ -302,10 +302,48 @@ theorem fold_completion_prefix :
     PrefixLen FoldSkeleton CompletionSkeleton = 2 := by
   rfl
 
+theorem fold_completion_share_starting_prefix :
+    PrefixSubflow (FiniteRepetitionSkeleton 2) FoldSkeleton /\
+      PrefixSubflow (FiniteRepetitionSkeleton 2) CompletionSkeleton := by
+  constructor
+  · exact
+      ⟨[[BMark.b0, BMark.b0, BMark.b1],
+        [BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+        [BMark.b0, BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+  · exact
+      ⟨[[BMark.b0, BMark.b0, BMark.b0],
+        [BMark.b0, BMark.b1],
+        [BMark.b0, BMark.b1, BMark.b1],
+        [BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+
+theorem fold_completion_split :
+    PrefixLen FoldSkeleton CompletionSkeleton = 2 /\
+      Not (PrefixSubflow FoldSkeleton CompletionSkeleton) /\
+      Not (PrefixSubflow CompletionSkeleton FoldSkeleton) := by
+  constructor
+  · exact fold_completion_prefix
+  · constructor
+    · intro h
+      cases h with
+      | intro tail ht =>
+          cases tail <;> cases ht
+    · intro h
+      cases h with
+      | intro tail ht =>
+          cases tail <;> cases ht
+
 theorem nat_prefix_completion :
     PrefixSubflow (NatLikeSkeleton 3) CompletionSkeleton := by
   exact
     ⟨[[BMark.b0, BMark.b1, BMark.b1],
       [BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+
+theorem completion_extends_nat_like :
+    PrefixSubflow (NatLikeSkeleton 3) CompletionSkeleton /\
+      Subflow
+        [[BMark.b0, BMark.b1, BMark.b1],
+          [BMark.b1, BMark.b0, BMark.b0]]
+        CompletionSkeleton := by
+  exact ⟨nat_prefix_completion, completion_skeleton_contains_carry⟩
 
 end BEDC.GroundCompiler.CaseStudies
