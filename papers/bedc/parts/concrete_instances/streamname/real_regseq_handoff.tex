@@ -468,6 +468,45 @@ handoff theorem keep regularity, seal, completion, quotient, and host-index
 data outside the common surface.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat nested-window seal determinacy]
+\label{thm:streamname-regseqrat-nested-window-seal-determinacy}
+Let $K \subseteq J \subseteq L$ be certified finite windows of a public
+$\StreamNameUp$ rational stream package. Suppose the $\RegSeqRat$ handoff
+consumes the same $\mathsf{DyadicRatCore}$ finite ledger along the direct
+restriction route from $L$ to $K$ and along the two-step restriction route from
+$L$ to $J$ and then from $J$ to $K$. Then the induced finite-window $\RealUp$
+seal classifier rows agree on every certified index of $K$.
+
+The common seal row is determined only by the pointwise
+$\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ rows, the accepted
+$\mathsf{DyadicRatCore}$ ledger entries over $K$, the displayed $\hsame$
+transports, the finite $\Cont$ routes, and the shared $\Pkg$ provenance. It
+does not use completion data, quotient representatives, host-index equality,
+or any $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+First compare the two restriction routes at the StreamName source level. By
+\autoref{thm:streamname-regseqrat-nested-window-handoff}, the direct route
+$L$ to $K$ and the two-step route through $J$ expose the same pointwise source
+rows and the same finite ledger over $K$.
+
+Next transport those rows to the seal side. Apply
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability} at each certified
+index of $K$. Since the carrier row, classifier row, $\hsame$ transport,
+$\Cont$ route, $\Pkg$ provenance, and $\mathsf{DyadicRatCore}$ ledger entry are
+the same on both routes, the corresponding $\RealUp$ seal classifier row is the
+same at that index.
+
+Finally use
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. It says that
+the RegSeqRat consumer has no additional public handoff data beyond those
+pointwise rows and finite ledger entries. The exclusion clauses in the handoff
+and stability theorems keep completion, quotient, host-index, and
+$\RealUp$-completeness data outside the determinacy claim, so the rowwise
+agreement over $K$ is exactly the stated finite-window seal determinacy.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat RealUp triple seal cover]
 \label{thm:streamname-regseqrat-realup-triple-seal-cover}
 Let $\mathcal{S}$ be an accepted finite $\StreamNameUp$ rational-window
@@ -510,4 +549,52 @@ same restricted source surface. Therefore the StreamName window package, the
 RegSeqRat pointwise seal package, and the RealUp endpoint seal determine one
 public read exactly in the stated agreement conditions, and the reverse
 direction reads the same four families of rows back into the three packages.
+\end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat uniform finite-window seal]
+\label{thm:streamname-regseqrat-uniform-finite-window-seal}
+Let $W$ be a finite $\mathsf{BHist}$ observation window for a public
+$\StreamNameUp$ rational stream package, and suppose that the two endpoints
+of $W$ satisfy $\mathsf{RatStreamNameFiniteWindowClassifier}$. Then the
+StreamName pointwise seal, the $\RegSeqRat$ scheduled seal, every certified
+nested-window handoff through $W$, and the finite-window $\RealUp$ readback
+select the same finite observation packet under $\hsame$.
+
+The common packet consists exactly of the pointwise
+$\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ observations at the certified unary
+indices of $W$, the accepted $\RegSeqRat$ pointwise seal rows, the
+$\RealUp$ endpoint seal row, the finite $\Cont$ ledger, the
+$\mathsf{ProbeBundle}$ membership rows, and the shared $\Pkg$ provenance.
+It contains no quotient representative, completion modulus, host index
+equality, or additional regularity datum.
+\end{theorem}
+\begin{proof}
+First form the pointwise seal over the certified endpoints of $W$. Apply
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability} at each unary
+index. The endpoint classifier hypotheses give the same carrier row,
+classifier row, $\hsame$ transport, finite $\Cont$ route, $\Pkg$ provenance,
+and accepted $\mathsf{DyadicRatCore}$ ledger entry for the StreamName and
+$\RegSeqRat$ reads.
+
+Next paste these pointwise rows over the whole finite window. By
+\autoref{thm:streamname-regseqrat-pointwise-seal-pasting}, the scheduled
+$\RegSeqRat$ seal over $W$ is the unique finite packet assembled from those
+rows and the same finite ledger. No quotient or completion representative is
+introduced by this pasting step.
+
+Now compare all certified subwindows of $W$. Use
+\autoref{thm:streamname-regseqrat-nested-window-handoff} to identify the
+direct and nested handoff routes with the same restricted source surface.
+Thus every nested-window consumer sees the pointwise packet just constructed,
+with the same $\mathsf{ProbeBundle}$ membership rows and $\hsame$
+comparisons.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-realup-triple-seal-cover}. The triple cover
+identifies the StreamName window package, the $\RegSeqRat$ scheduled seal,
+and the $\RealUp$ endpoint readback whenever their unary observations,
+finite $\Cont$ ledger, $\hsame$ transports, and $\Pkg$ provenance agree.
+Combining the four steps gives one uniform finite-window seal packet under
+$\hsame$.
 \end{proof}
