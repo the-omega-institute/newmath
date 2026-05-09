@@ -54,6 +54,7 @@ import BEDC.Derived.AddUp
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AtiyahSingerUp
+import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.EqtypeUp
