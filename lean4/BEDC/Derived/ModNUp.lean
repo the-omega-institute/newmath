@@ -220,4 +220,18 @@ theorem ModNQuotientSingleton_operation_descent_rows {modulus h h' k k' : BHist}
         · intro _classifiedHH'
           exact emptyClassifier
 
+theorem ModNQuotient_singleton_add_neg_empty_classifier {modulus h : BHist} :
+    ModNQuotientCarrier modulus h ->
+      ModNQuotientClassifier modulus (RingSingletonAdd h (RingSingletonNeg h)) BHist.Empty := by
+  intro carrierH
+  have emptyRingCarrier : RingSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyCarrier : ModNQuotientCarrier modulus BHist.Empty :=
+    And.intro carrierH.left emptyRingCarrier
+  have addNegCarrier : ModNQuotientCarrier modulus (RingSingletonAdd h (RingSingletonNeg h)) :=
+    And.intro carrierH.left emptyRingCarrier
+  have addNegClassified : RingSingletonClassifier (RingSingletonAdd h (RingSingletonNeg h))
+      BHist.Empty :=
+    And.intro emptyRingCarrier (And.intro emptyRingCarrier (hsame_refl BHist.Empty))
+  exact And.intro addNegCarrier (And.intro emptyCarrier addNegClassified)
+
 end BEDC.Derived.ModNUp
