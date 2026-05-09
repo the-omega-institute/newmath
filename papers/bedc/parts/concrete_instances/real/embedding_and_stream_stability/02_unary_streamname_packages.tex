@@ -34,6 +34,38 @@ row.
 
 \leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_ratStreamName\_pointwise\_iff}
 
+\begin{definition}[Phase Real certificate obligation surface]
+\label{def:real-phase-certificate-obligation-surface}
+The Phase Real stream-observation interface is the tuple consisting of
+$\mathsf{RatStreamNameCarrier}$, $\mathsf{RatStreamNameClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$,
+$\mathsf{RealUnaryStreamWindowClassifier}$, certified unary anchor and bound
+rows, and the selected endpoint denominator package. Its carrier face is the
+rat-stream-name carrier row, its classifier face is the Real unary classifier
+identified with the StreamNameUp classifier, its finite-window face is the
+bounded unary observation window, and its selected-endpoint face is the
+denominator package at the certified observation.
+\end{definition}
+\begin{proof}
+The carrier and classifier faces are named by
+\autoref{thm:real-unary-streamname-classifier-exactness}: under the two
+$\mathsf{RatStreamNameCarrier}$ rows, the Real unary stream classifier and the
+$\mathsf{RatStreamNameClassifier}$ row describe the same pointwise BEDC
+comparison.
+
+The finite-window face is
+\autoref{thm:real-unary-streamname-finite-window-coverage}. It reads the
+certified unary anchor and bound rows and returns the
+$\mathsf{RealUnaryStreamWindowClassifier}$ row for the same observation maps.
+
+The selected-endpoint face is
+\autoref{thm:real-unary-streamname-selected-endpoint-denominator-package}. It
+projects a certified observation to the endpoint
+$\mathsf{RatHistoryClassifier}$ row, the two positive-denominator rows, and the
+associated unary and nonempty endpoint facts. These faces together are exactly
+the Phase Real stream-observation obligation surface.
+\end{proof}
+
 Fit. Traditional target: classifier exactness for certified countable rational
 observations. BEDC source: $\StreamNameUp+\RealUp$ over $\mathsf{BHist}$.
 Carrier: $\mathsf{RatStreamNameCarrier}$. Classifier pair:
