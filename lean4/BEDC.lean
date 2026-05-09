@@ -108,6 +108,7 @@ import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DynSystemUp
+import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.KnotUp
