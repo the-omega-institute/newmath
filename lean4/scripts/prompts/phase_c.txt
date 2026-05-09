@@ -3,7 +3,7 @@ Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Comp
 Lean rounds primarily advance the verification axis: a new theorem registered with `\leanchecked` is evidence for `\theoremCheckedV`, but it does not by itself raise the paper-side theoryclosure grade. Any `closurestatus` block belongs to the paper discipline and must keep theoryclosure × formalstatus independent.
 
 ## Prompts version
-v5.13 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v5.14 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -264,7 +264,7 @@ While iterating on a paper edit, `cd papers/bedc && make check` (single `pdflate
 Before staging and committing, fetch the latest BASE and merge it into the worktree. This catches concurrent rounds' commits that landed during your Phase C session, and lets you resolve any label / declaration collision INLINE while you still have full context — much cheaper than the outer pipeline's reactive `_codex_resolve_post_rebase_audit` flow which runs after the audit gate already failed.
 
 ```bash
-BASE=lean4-codex-auto-dev
+BASE=codex-auto-dev
 git fetch origin "$BASE"
 git merge --no-ff --no-edit "origin/$BASE"
 ```

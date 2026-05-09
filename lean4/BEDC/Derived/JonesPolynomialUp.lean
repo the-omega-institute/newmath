@@ -1,11 +1,13 @@
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.JonesPolynomialUp
 
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 inductive JonesSkeinBoundaryTag where
   | diagram
@@ -74,8 +76,60 @@ theorem JonesSkeinLedgerPacket_obligation_surface
         (And.intro packet.right.right.right.left
           (And.intro packet.right.right.right.right.left
             (And.intro packet.right.right.right.right.right.left
-              (And.intro packet.right.right.right.right.right.right.left
-                (And.intro packet.right.right.right.right.right.right.right
-                  packet.right.right.right.right.right.right.right)))))))
+                (And.intro packet.right.right.right.right.right.right.left
+                  (And.intro packet.right.right.right.right.right.right.right
+                    packet.right.right.right.right.right.right.right)))))))
+
+theorem JonesSkeinLedgerPacket_skein_classifier_determinacy
+    {diagram positive negative smoothing endpoint provenance contLedger endpoint' provenance'
+      contLedger' : BHist} {skeinLedger : ProbeBundle JonesSkeinBoundaryTag} :
+    JonesSkeinLedgerPacket diagram positive negative smoothing endpoint provenance contLedger
+        skeinLedger ->
+      hsame endpoint endpoint' ->
+        Cont diagram endpoint' provenance' ->
+          Cont provenance' endpoint' contLedger' ->
+            SemanticNameCert (fun row : BHist => hsame row endpoint')
+              (fun row : BHist => hsame row endpoint')
+              (fun row : BHist => hsame row endpoint') hsame ∧
+            hsame provenance provenance' ∧ hsame contLedger contLedger' ∧
+              hsame contLedger' (append provenance' endpoint') ∧
+                InBundle JonesSkeinBoundaryTag.endpoint skeinLedger := by
+  intro packet sameEndpoint transportedProvenance transportedLedger
+  have transported :=
+    JonesSkeinLedgerPacket_reidemeister_transport packet (hsame_refl diagram) sameEndpoint
+      transportedProvenance transportedLedger
+  have endpointSelf : hsame endpoint' endpoint' :=
+    hsame_refl endpoint'
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row endpoint')
+        (fun row : BHist => hsame row endpoint')
+        (fun row : BHist => hsame row endpoint') hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint' endpointSelf
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row other target sameRO sameOT
+        exact hsame_trans sameRO sameOT
+      carrier_respects_equiv := by
+        intro row other sameRO source
+        exact hsame_trans (hsame_symm sameRO) source
+    }
+    pattern_sound := by
+      intro row source
+      exact source
+    ledger_sound := by
+      intro row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro transported.right.left
+      (And.intro transported.right.right
+        (And.intro transportedLedger
+          transported.left.right.right.right.right.left)))
 
 end BEDC.Derived.JonesPolynomialUp
