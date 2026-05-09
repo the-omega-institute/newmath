@@ -137,36 +137,4 @@ Combining these two obligations gives the exact public surface. The surface is
 anchored in $\mathsf{BHist}$ and contains no field for host probability-space
 equality, asymptotic normality, or completed statistical convergence.
 \end{proof}
-
-\begin{theorem}[EstimatorUp finite-sample RandomVar-Independence boundary]
-\label{thm:estimator-finite-sample-randomvar-independence-boundary}
-Every public finite-sample $\EstimatorUp$ packet factors its stochastic input
-surface through displayed $\RandomVarUp$ sample rows and one
-$\IndependenceUp$ sample-family row. The estimator endpoint, bias row,
-variance row, finite $\Cont$ ledger, and $\Pkg$ provenance are downstream rows
-of that same packet. The public surface does not assert host probability-space
-equality, asymptotic normality, or completed statistical convergence.
-\end{theorem}
-\begin{proof}
-Begin with the carrier description in
-\autoref{def:estimator-bhist-source-surface}. It lists the displayed
-$\RandomVarUp$ sample rows and the single $\IndependenceUp$ sample-family row
-before any estimator endpoint, bias, variance, continuation, or provenance
-readback is considered.
-
-Apply \autoref{thm:estimator-source-obligation} to an accepted public packet.
-The stochastic input surface is therefore exhausted by those sample and
-sample-family rows, with no ambient probability-space equality row available
-as an alternative source.
-
-Now use \autoref{thm:estimator-transport-obligation}. Componentwise
-$\hsame$ transport preserves the displayed sample rows, the independence row,
-the estimator endpoint, the bias and variance witnesses, the finite $\Cont$
-ledger, and the same $\Pkg$ provenance as one packet surface.
-
-Finally repack through
-\autoref{thm:estimator-namecert-obligation-surface}. The public
-$\NameCert_{\EstimatorUp}$ obligation surface exposes exactly these rows, so
-asymptotic normality and completed statistical convergence remain outside the
-finite-sample packet boundary.
-\end{proof}
+\leanchecked{BEDC.Derived.EstimatorUp.EstimatorBHistSourceSurface\_namecert\_obligation\_surface}

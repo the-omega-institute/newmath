@@ -201,6 +201,42 @@ def EntropySourceSurface [AskSetup] [PackageSetup]
         Cont observationLedger logWeight sourceLedger ∧
           Cont sourceLedger logTransport endpoint ∧ PkgSig bundle endpoint pkg
 
+def EntropyObligationInventoryPacket [AskSetup] [PackageSetup]
+    (distribution integral logWeight distributionTransport integralTransport logTransport
+      observationLedger sourceLedger endpoint classifierLedger : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  EntropySourceSurface distribution integral logWeight distributionTransport integralTransport
+    logTransport observationLedger sourceLedger endpoint bundle pkg ∧
+      Cont classifierLedger endpoint BHist.Empty
+
+theorem EntropyObligationInventoryPacket_carrier_classifier_obligation [AskSetup]
+    [PackageSetup]
+    {distribution integral logWeight distributionTransport integralTransport logTransport
+      observationLedger sourceLedger endpoint classifierLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EntropyObligationInventoryPacket distribution integral logWeight distributionTransport
+      integralTransport logTransport observationLedger sourceLedger endpoint classifierLedger
+      bundle pkg ->
+        EntropySourceSurface distribution integral logWeight distributionTransport integralTransport
+            logTransport observationLedger sourceLedger endpoint bundle pkg ∧
+          hsame distributionTransport distribution ∧ hsame integralTransport integral ∧
+            hsame logTransport logWeight ∧ Cont distribution integral observationLedger ∧
+              Cont observationLedger logWeight sourceLedger ∧
+                Cont classifierLedger endpoint BHist.Empty ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have surface :
+      EntropySourceSurface distribution integral logWeight distributionTransport integralTransport
+        logTransport observationLedger sourceLedger endpoint bundle pkg :=
+    packet.left
+  exact And.intro surface
+    (And.intro surface.right.right.right.left
+      (And.intro surface.right.right.right.right.left
+        (And.intro surface.right.right.right.right.right.left
+          (And.intro surface.right.right.right.right.right.right.left
+            (And.intro surface.right.right.right.right.right.right.right.left
+              (And.intro packet.right
+                surface.right.right.right.right.right.right.right.right.right))))))
+
 theorem EntropySourceSurface_namecert_obligation_surface [AskSetup] [PackageSetup]
     {distribution integral logWeight distributionTransport integralTransport logTransport
       observationLedger sourceLedger endpoint : BHist}
@@ -339,6 +375,50 @@ theorem EntropySourceSurface_log_weight_transport_determinacy [AskSetup] [Packag
         (And.intro distributionUnary'
           (And.intro integralUnary'
             (And.intro logWeightUnary' pkgSig')))))
+
+theorem EntropySourceSurface_ledger_stability_obligation [AskSetup] [PackageSetup]
+    {distribution integral logWeight distributionTransport integralTransport logTransport
+      observationLedger sourceLedger endpoint distribution' integral' logWeight'
+      observationLedger' sourceLedger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EntropySourceSurface distribution integral logWeight distributionTransport integralTransport
+        logTransport observationLedger sourceLedger endpoint bundle pkg ->
+      hsame distribution distribution' ->
+      hsame integral integral' ->
+      hsame logWeight logWeight' ->
+      Cont distribution' integral' observationLedger' ->
+      Cont observationLedger' logWeight' sourceLedger' ->
+      Cont sourceLedger' logTransport endpoint' ->
+      PkgSig bundle endpoint' pkg ->
+      EntropySourceSurface distribution' integral' logWeight' distributionTransport
+          integralTransport logTransport observationLedger' sourceLedger' endpoint' bundle pkg ∧
+        hsame observationLedger observationLedger' ∧ hsame sourceLedger sourceLedger' ∧
+          hsame endpoint endpoint' := by
+  intro surface sameDistribution sameIntegral sameLogWeight observationLedgerRow'
+  intro sourceLedgerRow' endpointRow' pkgSig'
+  have transportedRows :=
+    EntropySourceSurface_log_weight_transport_determinacy surface sameDistribution sameIntegral
+      sameLogWeight observationLedgerRow' sourceLedgerRow' endpointRow' pkgSig'
+  have sameDistributionTransport : hsame distributionTransport distribution' :=
+    hsame_trans surface.right.right.right.left sameDistribution
+  have sameIntegralTransport : hsame integralTransport integral' :=
+    hsame_trans surface.right.right.right.right.left sameIntegral
+  have sameLogTransport : hsame logTransport logWeight' :=
+    hsame_trans surface.right.right.right.right.right.left sameLogWeight
+  have transportedSurface :
+      EntropySourceSurface distribution' integral' logWeight' distributionTransport
+          integralTransport logTransport observationLedger' sourceLedger' endpoint' bundle pkg :=
+    And.intro transportedRows.right.right.right.left
+      (And.intro transportedRows.right.right.right.right.left
+        (And.intro transportedRows.right.right.right.right.right.left
+          (And.intro sameDistributionTransport
+            (And.intro sameIntegralTransport
+              (And.intro sameLogTransport
+                (And.intro observationLedgerRow'
+                  (And.intro sourceLedgerRow' (And.intro endpointRow' pkgSig'))))))))
+  exact And.intro transportedSurface
+    (And.intro transportedRows.left
+      (And.intro transportedRows.right.left transportedRows.right.right.left))
 
 def EntropyLogPartitionBHistCarrier [AskSetup] [PackageSetup]
     (distribution partition logWeight readback distributionTransport partitionTransport logTransport
