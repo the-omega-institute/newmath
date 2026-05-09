@@ -1,7 +1,9 @@
+import BEDC.GroundCompiler.ChannelEncoding
 import BEDC.GroundCompiler.EventFlow
 
 namespace BEDC.GroundCompiler.SemanticMotif
 
+open BEDC.GroundCompiler.ChannelEncoding
 open BEDC.GroundCompiler.EventFlow
 
 def ContiguousSubflow (M S : EventFlow) : Prop :=
@@ -80,5 +82,30 @@ theorem motif_recognition_requires_generated_recognizer
       FormalCompilerInput (CompilerDatum.eventFlow R) := by
   intro h
   exact h.left
+
+theorem motif_analysis_decodes_first {c : List DisplayAlphabet} :
+    LegalZStream c ->
+      exists S : EventFlow,
+        Decode c = some S /\
+          FormalCompilerInput (CompilerDatum.eventFlow S) := by
+  intro h
+  cases legal_stream_completeness h with
+  | intro S hS =>
+      exact ⟨S, hS.left, FormalCompilerInput.eventFlow S⟩
+
+theorem motif_recognition_preserves_code
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    RecognizesMotif R S M mu ->
+      Compiles S (FlowEncoding S) /\ SourceLevelMotifArgs S M mu := by
+  intro h
+  exact ⟨rfl, h.right.left⟩
+
+theorem motif_compile_decode_invariant
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    RecognizesMotif R S M mu ->
+      exists T : EventFlow,
+        Decode (FlowEncoding S) = some T /\ RecognizesMotif R T M mu := by
+  intro h
+  exact ⟨S, flow_level_round_trip S, h⟩
 
 end BEDC.GroundCompiler.SemanticMotif
