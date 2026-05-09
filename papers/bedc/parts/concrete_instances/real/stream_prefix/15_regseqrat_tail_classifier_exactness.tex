@@ -440,3 +440,56 @@ so quotient, completion, Classical, metric-completeness, arithmetic, order,
 standard-bridge, and hidden selector data have no slot in the composite
 surface.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier reindexed finite-cover compatibility]
+\label{thm:regseqrat-tail-classifier-reindexed-cover-compatibility}
+Let $\{W_i\}_{i\in I}$ be a finite family of selected finite $\RealUp$
+observation-window packages with compatible local selected $\RegSeqRat$
+tail-classifier rows on every certified overlap. Let $\rho_i$ be certified
+unary reindexers for the member windows, and let $\rho$ be the certified unary
+reindexer induced on the displayed finite union window. Suppose these
+reindexers preserve the displayed $\StreamNameUp$, $\RegSeqRat$,
+DyadicRatCore, $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, finite $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows, and suppose the transported overlap rows are
+the same rows as the overlaps of the reindexed member windows.
+
+Then the selected $\RegSeqRat$ tail classifier obtained by first gluing the
+finite cover and then reindexing by $\rho$ is the same finite-window readback
+row as the classifier obtained by reindexing each member window by $\rho_i$
+and then applying finite-cover gluing to the reindexed cover. The compatibility
+surface contains no quotient, completion, Classical representative,
+metric-completeness, arithmetic or order row, standard-bridge row, or hidden
+regular-sequence selector row.
+\end{theorem}
+\begin{proof}
+First glue the original cover with
+\autoref{thm:regseqrat-tail-classifier-finite-cover-sheaf}. The compatible
+local selected rows determine a unique global selected tail row on the
+displayed finite union, and each member row is its pullback.
+
+Next transport this global row along $\rho$. The one-step case is
+\autoref{thm:regseqrat-tail-classifier-reindexing-stability}, and the
+finite-window schedule is handled by
+\autoref{thm:regseqrat-tail-classifier-reindexing-composition}. Thus the
+glue-then-reindex construction has a displayed selected row on the reindexed
+finite union.
+
+Now reindex each member window by $\rho_i$. The same stability theorem
+identifies every transported local classifier with the selected classifier on
+the corresponding reindexed member window, and the transported overlap
+hypothesis gives the compatibility condition required by
+\autoref{thm:regseqrat-tail-classifier-finite-cover-sheaf}. Therefore the
+reindexed cover also glues to a selected global tail row.
+
+It remains to compare the two global rows. On each reindexed member window,
+both constructions pull back to the same transported local selected
+$\RegSeqRat$ tail classifier. Apply
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} on the reindexed
+finite cover to identify the two global rows. The row inventory used in each
+step is exactly the displayed $\StreamNameUp$, $\RegSeqRat$, DyadicRatCore,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ inventory, so the
+listed quotient, completion, Classical, metric-completeness, arithmetic,
+order, standard-bridge, and hidden selector rows are excluded.
+\end{proof}

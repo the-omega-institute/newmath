@@ -381,4 +381,26 @@ theorem CompactMetricPublicInterface_stability {X : BHist -> Prop} {eps epsPrime
   exact And.intro transported
     (And.intro transported.left (And.intro transported.right publicCert))
 
+theorem CompactMetricCertificate_total_bounded_field_projection {X : BHist -> Prop}
+    {eps eps' x x' : BHist} {bundle : ProbeBundle BHist} {s M : BHist -> BHist}
+    {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit ->
+      (forall {h k : BHist}, hsame h k -> X h -> X k) ->
+        hsame eps eps' -> hsame x x' -> X x ->
+          X x' ∧ TotallyBoundedProbeBundleNet X eps' bundle ∧
+            exists center : BHist, InBundle center bundle ∧ X center ∧
+              exists d : BHist,
+                MetricDistanceWitness x' center d ∧ RatHistoryClassifier d eps' := by
+  intro certificate carrierTransport sameEps sameX source
+  have transportedSource : X x' := carrierTransport sameX source
+  have transportedNet : TotallyBoundedProbeBundleNet X eps' bundle :=
+    TotallyBoundedProbeBundleNet_coverage_hsame_transport sameEps certificate.left
+  cases transportedNet.right.right transportedSource with
+  | intro center centerData =>
+      exact And.intro transportedSource
+        (And.intro transportedNet
+          (Exists.intro center
+             (And.intro centerData.left
+               (And.intro (transportedNet.right.left centerData.left) centerData.right))))
+
 end BEDC.Derived.CompactMetricUp
