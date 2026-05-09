@@ -200,6 +200,49 @@ theorem p3_adequacy
   intro hSound hChecklist hBacked
   exact ⟨hSound, hChecklist, hBacked⟩
 
+def HigherAdequacyEvidence (S : EventFlow) : Prop :=
+  RecognizedPackageFlow S \/ RecognizedTheoremFlow S \/ AcceptedObjectFlow S
+
+theorem p3_adequacy_not_higher :
+    exists Rfam : GeneratedMotifRecognizer -> Prop,
+      exists S : EventFlow,
+        exists candidates : List EventFlow,
+          exists recognized : List MotifProfileItem,
+            SoundMotifReport Rfam S candidates recognized /\
+              Not (HigherAdequacyEvidence S) := by
+  refine ⟨EmptyRfam, [], [], [], ?_, ?_⟩
+  · constructor
+    · intro M hMem
+      cases hMem
+    · intro item hMem
+      cases hMem
+  · intro hHigher
+    cases hHigher with
+    | inl hPkg =>
+        exact empty_not_recognized_package_flow hPkg
+    | inr hRest =>
+        cases hRest with
+        | inl hThm =>
+            exact empty_not_recognized_theorem_flow hThm
+        | inr hAccepted =>
+            exact empty_not_accepted_object_flow hAccepted
+
+theorem p3_analysis_layer_not_object_generator :
+    exists Rfam : GeneratedMotifRecognizer -> Prop,
+      exists S : EventFlow,
+        exists candidates : List EventFlow,
+          exists recognized : List MotifProfileItem,
+            SoundMotifReport Rfam S candidates recognized /\
+              recognized = [] /\
+              MotifCountP3 S CarryRole none = MotifCountStatus.undefined /\
+              Not (AcceptedObjectFlow S) := by
+  refine ⟨EmptyRfam, [], [], [], ?_, rfl, rfl, empty_not_accepted_object_flow⟩
+  constructor
+  · intro M hMem
+    cases hMem
+  · intro item hMem
+    cases hMem
+
 theorem p3_conservative_over_finite_kernel
     {Rfam : GeneratedMotifRecognizer -> Prop} {S : EventFlow}
     {candidates : List EventFlow} {recognized : List MotifProfileItem}
