@@ -282,6 +282,34 @@ theorem AtiyahSingerIndexPairingCarrierPacket_namecert_obligation_surface
           (And.intro rows.right.right.right.right.right.right.right.right.left
             rows.right.right.right.right.right.right.right.right.right.right))))
 
+theorem AtiyahSingerIndexPairingCarrierPacket_shared_index_source_boundary
+    [AskSetup] [PackageSetup]
+    {m operator symbol spectral analytic chern characteristic topological equality provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AtiyahSingerIndexPairingCarrierPacket m operator symbol spectral analytic chern
+        characteristic topological equality provenance endpoint bundle pkg ->
+      hsame analytic topological ->
+        UnaryHistory m ∧ UnaryHistory analytic ∧ UnaryHistory topological ∧
+          hsame analytic topological ∧ hsame equality (append spectral analytic) ∧
+            hsame topological (append chern characteristic) ∧
+              hsame endpoint (append provenance topological) ∧ PkgSig bundle endpoint pkg := by
+  intro packet sharedIndex
+  have rows :=
+    AtiyahSingerIndexPairingCarrierPacket_provenance_exactness
+      (m := m) (operator := operator) (symbol := symbol) (spectral := spectral)
+      (analytic := analytic) (chern := chern) (characteristic := characteristic)
+      (topological := topological) (equality := equality) (provenance := provenance)
+      (endpoint := endpoint) (bundle := bundle) (pkg := pkg) packet
+  exact And.intro rows.left
+    (And.intro packet.right.right.right.right.left
+      (And.intro rows.right.right.right.left
+        (And.intro sharedIndex
+          (And.intro rows.right.right.right.right.right.right.left
+            (And.intro rows.right.right.right.right.right.right.right.left
+              (And.intro rows.right.right.right.right.right.right.right.right.right.left
+                rows.right.right.right.right.right.right.right.right.right.right))))))
+
 theorem AtiyahSingerIndexPairingCarrierPacket_root_endpoint_exactness_frontier
     [AskSetup] [PackageSetup]
     {m operator symbol spectral analytic chern characteristic topological equality provenance
