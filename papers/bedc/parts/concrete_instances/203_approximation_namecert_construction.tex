@@ -117,6 +117,32 @@ only by passing through the finite ledger row. Thus there is no hidden
 supremum-derived error endpoint and no unrecorded choice data.
 \end{proof}
 
+\begin{theorem}[ApproximationUp finite error-ledger consumer determinacy]
+\label{thm:approximation-finite-error-ledger-consumer-determinacy}
+For $\ApproximationUp$, two consumer reads of the same finite error-ledger
+entry over the same $\NameCert_{\ContinuousMapUp}$ source row and the same
+$\NameCert_{\PolynomialUp}$ candidate row classify to the same source
+endpoint, polynomial endpoint, and error endpoint under $\hsame$. The
+$\Cont$ transport rows carry the visible source and candidate rows to those
+endpoints, and the consumer surface exposes no supremum row or choice row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:approximation-error-ledger-exactness} to the first
+consumer read. The finite ledger entry names a source endpoint, a polynomial
+endpoint, and an error endpoint, and the read exposes no endpoint outside that
+recorded triple.
+
+Apply the same exactness theorem to the second consumer read. Because the
+ledger entry is the same recorded finite entry, the second read has the same
+three named endpoints.
+
+Use the shared ledger-entry identity to identify the source endpoint, the
+polynomial endpoint, and the error endpoint under $\hsame$. The visible
+$\Cont$ rows transport only the already recorded source and candidate rows, so
+no supremum-derived value or choice-selected witness can be read by the
+consumer.
+\end{proof}
+
 \begin{theorem}[ApproximationUp NameCert obligation inventory]
 \label{thm:approximation-namecert-obligation-inventory}
 The $\ApproximationUp$ $\NameCert$ obligation inventory consists of the
