@@ -105,6 +105,15 @@ def NoHostLeakCondition (publicSurface : InterfaceDatum -> Prop) : Prop :=
 def HostLeak (publicSurface : InterfaceDatum -> Prop) : Prop :=
   exists d, publicSurface d /\ ImplementationRepresentation d
 
+structure HostLeakAuditItem where
+  location : EventFlow
+  hostConstruct : InterfaceDatum
+  hostLeak : ImplementationRepresentation hostConstruct
+  replacementRelation : InterfaceDatum
+  replacementPublic : PublicFormalInterface replacementRelation
+  status : EventFlow
+  ledger : EventFlow
+
 def NoHiddenInputStatus (publicSurface : InterfaceDatum -> Prop) : Prop :=
   NoHostLeakCondition publicSurface
 
@@ -270,6 +279,21 @@ def AnalysisModules (publicSurface : InterfaceDatum -> Prop) : Prop :=
     publicSurface InterfaceDatum.bridgeObligation /\
     NoHostLeakCondition publicSurface
 
+def NoHostLeakAudit
+    (publicSurface : InterfaceDatum -> Prop)
+    (bootstrapObligationsRecorded reportsAreOutputViews : Prop) : Prop :=
+  (forall d, publicSurface d -> PublicFormalInterface d) /\
+    NoHostLeakCondition publicSurface /\
+    bootstrapObligationsRecorded /\
+    reportsAreOutputViews
+
+def CertifiedNoHiddenInputCompilerComponent
+    (publicSurface : InterfaceDatum -> Prop)
+    (bootstrapObligationsRecorded reportsAreOutputViews : Prop) : Prop :=
+  NoHostLeakAudit publicSurface bootstrapObligationsRecorded
+    reportsAreOutputViews /\
+    NoHiddenInputStatus publicSurface
+
 def DecodesEvent (c : List DisplayAlphabet) (w : RawEvent) : Prop :=
   EncodesEvent w c
 
@@ -402,6 +426,15 @@ theorem host_leak_invalidates {publicSurface : InterfaceDatum -> Prop} :
   cases hLeak with
   | intro d hd =>
       exact hStatus d hd.left hd.right
+
+theorem no_host_leak_required {publicSurface : InterfaceDatum -> Prop}
+    {bootstrapObligationsRecorded reportsAreOutputViews : Prop} :
+    Not (NoHostLeakAudit publicSurface bootstrapObligationsRecorded
+      reportsAreOutputViews) ->
+      Not (CertifiedNoHiddenInputCompilerComponent publicSurface
+        bootstrapObligationsRecorded reportsAreOutputViews) := by
+  intro hAuditFailed hCertified
+  exact hAuditFailed hCertified.left
 
 theorem decoder_functional {c : List DisplayAlphabet} {S T : EventFlow} :
     Decodes c S -> Decodes c T -> S = T := by

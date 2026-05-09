@@ -470,6 +470,7 @@ Host executable paths, binary hashes, and build scripts may be implementation-le
 
 \begin{definition}[Host-leak audit item]
 \label{def:implementation-interface-host-leak-audit-item}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.HostLeakAuditItem}
 A \emph{host-leak audit item} is an event flow recording the occurrence of host-level input in an implementation statement. It contains at least a location, the host construct, why it is a leak, the replacement relation, status, and ledger.
 
 Examples include a host list exposed as BEDC event flow, a host natural number exposed as raw length, YAML used as package input, or a string theorem label used as theorem identity.
@@ -477,6 +478,7 @@ Examples include a host list exposed as BEDC event flow, a host natural number e
 
 \begin{definition}[No-host-leak audit]
 \label{def:implementation-interface-no-host-leak-audit}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.NoHostLeakAudit}
 An implementation module passes \emph{no-host-leak audit} when:
 \begin{enumerate}
 \item all public statements use only event-flow relations;
@@ -488,6 +490,7 @@ An implementation module passes \emph{no-host-leak audit} when:
 
 \begin{theorem}[No-host-leak audit is required for compiler certification]
 \label{thm:implementation-interface-no-host-leak-required}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.no\_host\_leak\_required}
 If an implementation module fails the no-host-leak audit, then it cannot be a certified no-hidden-input compiler component.
 \end{theorem}
 
