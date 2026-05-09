@@ -263,3 +263,50 @@ host-index equality, metric-completeness witness, or standard-bridge row, no
 finite-window $\RealUp$ consumer can distinguish $\Omega$ from $\Omega'$ by
 such data. The exposed $\mathsf{BHist}$ source surface is therefore the same.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat composite reindexed RealUp boundary]
+\label{thm:streamname-regseqrat-reindexed-window-composite-realup-boundary}
+Let $\Omega_{01}$ and $\Omega_{12}$ be composable reindexed
+$\StreamNameUp$--$\RegSeqRat$ finite-window packages over rational histories.
+Assume that the output side of $\Omega_{01}$ and the input side of
+$\Omega_{12}$ share the middle transported $\mathsf{RatHistoryClassifier}$
+rows, the same selected $\mathsf{ProbeBundle}$, the same $\mathsf{InBundle}$
+membership rows, and the same $\mathsf{UnaryHistory}$ ledger rows. Then the
+composite package exposes to every finite-window $\RealUp$ consumer exactly the
+selected StreamName classifier rows, the $\RegSeqRat$ handoff rows, the selected
+endpoint rows, and the finite ledger boundary carried by those displayed
+bundle, membership, and unary-history rows.
+
+The composite package exposes no quotient datum, completion object, host-index
+equality, metric-completeness witness, or standard-bridge row. In particular,
+the middle transported rational classifier rows are boundary glue for the two
+finite windows, not a source of additional $\RealUp$ input data.
+\end{theorem}
+\begin{proof}
+First compare each leg with its finite-window consumer surface. Apply
+\autoref{thm:streamname-regseqrat-reindexed-window-consumer-determinacy} to
+$\Omega_{01}$ and to $\Omega_{12}$. The shared middle
+$\mathsf{RatHistoryClassifier}$ rows, selected bundle, membership rows, and
+unary-history ledger rows force the same visible source surface at the joint
+window boundary.
+
+Next identify the rows that survive the handoff. By
+\autoref{thm:streamname-regseqrat-reindexed-window-selected-classifier-handoff},
+the common source surface is exactly the selected StreamName classifier rows
+together with the $\RegSeqRat$ handoff rows and the displayed finite ledger
+rows. Composability only matches the middle classifier entries; it does not add
+a second handoff family.
+
+Now read the composite through a finite-window $\RealUp$ consumer. Apply
+\autoref{thm:streamname-realup-subwindow-ledger-determinacy} to the shared
+subwindow surface. The $\RealUp$ input is therefore the selected StreamName
+classifier rows, the selected endpoint rows, the $\RegSeqRat$ handoff rows, and
+the finite ledger boundary already present in the two packages.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import} to both
+legs. Since neither leg exposes quotient data, completion data, host-index
+equality, metric-completeness witnesses, or standard-bridge rows, their
+composition cannot expose such a row to the $\RealUp$ consumer. The displayed
+finite boundary is the whole composite readback surface.
+\end{proof}

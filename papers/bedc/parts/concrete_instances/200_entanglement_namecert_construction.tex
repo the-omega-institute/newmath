@@ -6,5 +6,58 @@ The entanglement interface $\EntanglementUp$ packages the structure obstruction 
 \section{Carrier definition}
 \label{sec:entanglement-carrier}
 
+\begin{definition}[EntanglementUp BHist source surface]
+\label{def:entanglement-bhist-source-surface}
+An $\EntanglementUp$ BHist source surface consists of a $\QuantumStateUp$ row
+for the displayed bipartite state, $\TensorProductUp$ factor rows for the two
+displayed factors, a bipartite state endpoint, a factorization-obstruction
+witness for that endpoint, $\hsame$ transport rows for the state and factor
+endpoints, and $\Pkg$ provenance for all displayed rows. The obstruction row is
+part of the certified source surface; it is not a host-level negation over all
+possible decompositions.
+\end{definition}
+
+\begin{theorem}[Entanglement source factor boundary]
+\label{thm:entanglement-source-factor-boundary}
+Consumers of the $\EntanglementUp$ source surface may read only the two
+displayed factor rows, the bipartite endpoint row, the
+factorization-obstruction witness, the $\hsame$ transport rows, and the
+$\Pkg$ provenance from \autoref{def:entanglement-bhist-source-surface}. No
+Schmidt-rank completeness theorem, entropy criterion, or classification of all
+bipartite states is included in this boundary.
+\end{theorem}
+\begin{proof}
+Unpack the source surface as a finite BHist package. The $\QuantumStateUp$ row
+supplies the carried bipartite endpoint, and the two $\TensorProductUp$ rows
+name the displayed factor histories read by downstream tensor consumers.
+
+Project the obstruction row and the $\hsame$ transport rows from the same
+package. Repacking these projections through $\Pkg$ gives exactly the visible
+consumer boundary, while completeness principles about Schmidt rank or entropy
+would require rows absent from the displayed source surface.
+\end{proof}
+
 \section{The certificate}
 \label{sec:entanglement-certificate}
+
+\begin{theorem}[EntanglementUp NameCert obligation surface]
+\label{thm:entanglement-namecert-obligation-surface}
+The $\EntanglementUp$ NameCert obligation surface for
+\autoref{def:entanglement-bhist-source-surface} is the package containing its
+$\QuantumStateUp$ endpoint row, the two $\TensorProductUp$ factor rows, the
+factorization-obstruction row, the $\hsame$ transport rows, and the $\Pkg$
+provenance. Certificate consumers may demand those rows and no stronger
+entanglement invariant.
+\end{theorem}
+\begin{proof}
+Start from the source factor boundary of
+\autoref{thm:entanglement-source-factor-boundary}. It already separates the
+state endpoint, factor rows, obstruction witness, transport rows, and
+provenance rows.
+
+Repack those rows into the NameCert fields: carrier from the state endpoint,
+dependencies from $\QuantumStateUp$ and $\TensorProductUp$, stability from the
+$\hsame$ transports, and ledger provenance from $\Pkg$. Since no row supplies a
+complete Schmidt decomposition or entropy comparison, the certificate closes
+only this displayed obligation surface.
+\end{proof}
