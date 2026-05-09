@@ -87,6 +87,30 @@ third operation-continuity family and no ledger row outside the exported
 source, operation, classifier, continuation, and provenance rows.
 \end{proof}
 
+\begin{theorem}[TopGroupUp root source-fiber export common Cont ledger]
+\label{thm:topgroup-root-source-fiber-export-common-cont-ledger}
+In an accepted $\TopGroupUp$ root source-fiber export packet, the
+product-continuity and inverse-continuity rows are indexed by the same finite
+$\Cont$ ledger and the same $\Pkg$ provenance over the shared
+$\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$ source pair. Any
+downstream read of either continuity family factors through that common ledger,
+with no ambient topological-group object and no separate continuity carrier.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:topgroup-root-source-fiber-export-continuity}. It binds
+both operation-continuity families to the displayed operation endpoints,
+classifier rows, finite $\Cont$ ledger, and provenance.
+
+Next use \autoref{thm:topgroup-root-source-fiber-export-ledger}. The exported
+ledger is exact for the product and inverse continuity rows, so a downstream
+read of either family is one of its entries.
+
+Finally, \autoref{thm:topgroup-root-source-fiber-export-carrier} ties the
+ledger and provenance to the shared
+$\NameCert_{\GroupUp}$--$\NameCert_{\TopologyUp}$ source pair. This leaves no
+ambient topological-group carrier through which a second ledger could enter.
+\end{proof}
+
 \begin{theorem}[TopGroupUp root source-fiber export consumer boundary]
 \label{thm:topgroup-root-source-fiber-export-consumer-boundary}
 Every public consumer read of the $\TopGroupUp$ root source fiber factors
