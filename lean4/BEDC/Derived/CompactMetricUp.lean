@@ -308,4 +308,77 @@ theorem CompactMetricCertificate_public_export_surface {X : BHist -> Prop} {eps 
     }
     (And.intro certificate.left certificate.right)
 
+theorem CompactMetricPublicInterface_stability {X : BHist -> Prop} {eps epsPrime x : BHist}
+    {bundle : ProbeBundle BHist} {s sPrime M MPrime : BHist -> BHist}
+    {limit limitPrime : BHist} :
+    (forall {h k : BHist}, hsame h k -> X h -> X k) -> hsame eps epsPrime ->
+      (forall {n : BHist}, UnaryHistory n -> hsame (s n) (sPrime n)) ->
+        (forall {n : BHist}, UnaryHistory n -> hsame (M n) (MPrime n)) ->
+          hsame limit limitPrime -> CompactMetricCertificate X eps bundle s M limit -> X x ->
+            CompactMetricCertificate X epsPrime bundle sPrime MPrime limitPrime ∧
+              TotallyBoundedProbeBundleNet X epsPrime bundle ∧
+                CompleteMetricLimitWitness X sPrime MPrime limitPrime ∧
+                  SemanticNameCert
+                    (fun row : BHist =>
+                      X row ∨
+                        (exists center : BHist, InBundle center bundle ∧ hsame row center) ∨
+                          hsame row limitPrime)
+                    (fun row : BHist =>
+                      X row ∨
+                        (exists center : BHist, InBundle center bundle ∧ hsame row center) ∨
+                          hsame row limitPrime)
+                    (fun row : BHist =>
+                      X row ∨
+                        (exists center : BHist, InBundle center bundle ∧ hsame row center) ∨
+                          hsame row limitPrime)
+                    (fun left right : BHist =>
+                      (X left ∨
+                          (exists center : BHist, InBundle center bundle ∧ hsame left center) ∨
+                            hsame left limitPrime) ∧
+                        (X right ∨
+                            (exists center : BHist, InBundle center bundle ∧
+                              hsame right center) ∨ hsame right limitPrime) ∧
+                          hsame left right) := by
+  intro carrierTransport sameEps streamTransport modulusTransport sameLimit certificate source
+  let publicSurface : BHist -> Prop :=
+    fun row : BHist =>
+      X row ∨ (exists center : BHist, InBundle center bundle ∧ hsame row center) ∨
+        hsame row limitPrime
+  have transported :
+      CompactMetricCertificate X epsPrime bundle sPrime MPrime limitPrime :=
+    CompactMetricCertificate_hsame_transport carrierTransport sameEps streamTransport
+      modulusTransport sameLimit certificate
+  have publicCert :
+      SemanticNameCert publicSurface publicSurface publicSurface
+        (fun left right : BHist =>
+          publicSurface left ∧ publicSurface right ∧ hsame left right) := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro x (Or.inl source)
+        equiv_refl := by
+          intro row rowPublic
+          exact And.intro rowPublic (And.intro rowPublic (hsame_refl row))
+        equiv_symm := by
+          intro _left _right classified
+          exact And.intro classified.right.left
+            (And.intro classified.left (hsame_symm classified.right.right))
+        equiv_trans := by
+          intro _left _middle _right classifiedLeft classifiedRight
+          exact And.intro classifiedLeft.left
+            (And.intro classifiedRight.right.left
+              (hsame_trans classifiedLeft.right.right classifiedRight.right.right))
+        carrier_respects_equiv := by
+          intro _left _right classified _leftPublic
+          exact classified.right.left
+      }
+      pattern_sound := by
+        intro _row rowPublic
+        exact rowPublic
+      ledger_sound := by
+        intro _row rowPublic
+        exact rowPublic
+    }
+  exact And.intro transported
+    (And.intro transported.left (And.intro transported.right publicCert))
+
 end BEDC.Derived.CompactMetricUp
