@@ -543,3 +543,51 @@ $\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ inventory, so the
 listed quotient, completion, Classical, metric-completeness, arithmetic,
 order, standard-bridge, and hidden selector rows are excluded.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier nested-cover associativity]
+\label{thm:regseqrat-tail-classifier-nested-cover-associativity}
+Let $\{W_i\}_{i\in I}$ be a finite family of selected finite $\RealUp$
+observation-window packages. For each $i$, let $\{W_{ij}\}_{j\in J_i}$ be a
+finite certified subcover of $W_i$ by selected finite windows, and suppose
+all first-level and second-level overlaps preserve the displayed
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows.
+
+Then the selected $\RegSeqRat$ tail-classifier row obtained by first gluing
+each subcover $\{W_{ij}\}_{j\in J_i}$, then gluing the resulting member
+windows $\{W_i\}_{i\in I}$, is the same finite-window row as the selected
+classifier obtained by flattening the family $\{W_{ij}\}_{i,j}$ and gluing
+that single certified finite cover once. The associativity surface exports no
+quotient, completion, Classical representative, metric-completeness,
+arithmetic or order row, standard-bridge row, or hidden regular-sequence
+selector row.
+\end{theorem}
+\begin{proof}
+First glue each certified subcover $\{W_{ij}\}_{j\in J_i}$. By
+\autoref{thm:regseqrat-tail-classifier-finite-cover-sheaf}, every compatible
+subfamily determines a unique selected tail-classifier row on $W_i$, and the
+pullback of that row to each $W_{ij}$ is the displayed local classifier.
+
+Next glue the resulting family of member windows. The same finite-cover
+theorem gives a selected global row over the finite union of the $W_i$, and
+the overlap hypotheses ensure that its pullback to each $W_i$ is the row
+obtained from the corresponding subcover.
+
+Now flatten the two-level family to the certified finite cover
+$\{W_{ij}\}_{i,j}$. Apply
+\autoref{thm:regseqrat-tail-classifier-reindexed-cover-compatibility} to
+identify the flattened cover with the same displayed finite-window inventory
+used by the staged construction; the reindexing data here is only the
+certified inclusion and ordering of the flattened subwindows.
+
+It remains to compare the staged row with the flattened row. Both pull back
+to the same selected $\RegSeqRat$ tail-classifier row on every certified
+subwindow $W_{ij}$, so
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} identifies the
+two global rows. Each step used only the displayed $\StreamNameUp$,
+$\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows, leaving no slot for the excluded host or
+completion data.
+\end{proof}
