@@ -435,6 +435,7 @@ Recognition from channel code therefore proceeds through decoding.
 
 \begin{proposition}[No chapter recognition by channel substring]
 \label{prop:chapter-generated-no-channel-substring-recognition}
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.no\_chapter\_recognition\_by\_channel\_substring}
 There is no valid rule that recognizes a chapter by inspecting arbitrary channel substrings without first decoding the channel stream into an event flow.
 \end{proposition}
 
@@ -467,6 +468,7 @@ For every recognized chapter flow, compiling to a channel stream and decoding ba
 
 \begin{definition}[Human-readable chapter view]
 \label{def:chapter-generated-human-readable-view}
+\leandef{BEDC.GroundCompiler.ChapterFlow.HumanReadableChapterView}
 A \emph{human-readable chapter view} is a display generated from a decoded and recognized chapter flow, such as Markdown, \LaTeX{}, YAML, JSON, an outline, a theorem-status table, or a dependency graph. These views are output presentations, not input structure.
 \end{definition}
 
@@ -488,7 +490,8 @@ YAML explicitly supplies chapter structure: field names, nesting, lists, order, 
 
 \begin{corollary}[YAML may be a report]
 \label{cor:chapter-generated-yaml-may-report}
-If a decoded and recognized chapter flow $C$ is already available, the system may output YAML as a human-readable report
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.yaml\_may\_report}
+If a decoded and recognized chapter flow $C$ is already available, YAML is a human-readable chapter view generated as a report
 $$
   C\longrightarrow \mathrm{YAMLView}(C).
 $$

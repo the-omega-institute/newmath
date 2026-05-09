@@ -1,9 +1,11 @@
 import BEDC.GroundCompiler.ChannelEncoding
+import BEDC.GroundCompiler.SourceChannel
 
 namespace BEDC.GroundCompiler.ChapterFlow
 
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.ChannelEncoding
+open BEDC.GroundCompiler.SourceChannel
 
 def ChapterCandidateFlow : Type :=
   EventFlow
@@ -142,6 +144,19 @@ def RecognizesChapterCode
     (R : GeneratedChapterRecognizer) (c : List DisplayAlphabet) : Prop :=
   exists C : ChapterCandidateFlow, Decode c = some C /\ RecognizesChapter R C
 
+inductive ChapterReadableViewFormat : Type where
+  | markdown
+  | latex
+  | yaml
+  | json
+  | outline
+  | theoremStatusTable
+  | dependencyGraph
+
+def HumanReadableChapterView
+    (C : ChapterCandidateFlow) (_fmt : ChapterReadableViewFormat) : Prop :=
+  ChapterFlow C
+
 theorem no_external_chapter_input :
     Not (FormalCompilerInput CompilerDatum.hostChapterPkg) :=
   structural_hidden_not_formal StructuralHiddenInput.hostChapterPkg
@@ -244,6 +259,30 @@ theorem chapter_recognition_invariant
         Decode (ChapterCode C) = some D /\ RecognizesChapter R D := by
   intro hRecognition
   exact ⟨C, chapter_code_round_trip C, hRecognition⟩
+
+theorem no_chapter_recognition_by_channel_substring :
+    (exists c u : List DisplayAlphabet,
+      LegalZStream c /\
+        ContiguousSubstring u c /\
+        Not (OccursAsDecodedEvent u c)) /\
+      (forall R : GeneratedChapterRecognizer,
+        forall c : List DisplayAlphabet,
+          RecognizesChapterCode R c ->
+            exists C : ChapterCandidateFlow,
+              Decode c = some C /\ RecognizesChapter R C) := by
+  constructor
+  · exact channel_substring_not_source_event
+  · intro _ _ hCode
+    exact hCode
+
+theorem yaml_may_report {C : ChapterCandidateFlow} :
+    ChapterFlow C ->
+      HumanReadableChapterView C ChapterReadableViewFormat.yaml /\
+        Not (FormalCompilerInput CompilerDatum.hostYAML) := by
+  intro hChapter
+  constructor
+  · exact hChapter
+  · exact structural_hidden_not_formal StructuralHiddenInput.hostYAML
 
 theorem no_chapter_without_complete_recognition {C : ChapterCandidateFlow} :
     ChapterFlow C ->
