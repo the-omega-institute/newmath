@@ -337,6 +337,65 @@ there is only one public observation package, with no quotient representative,
 completion object, host stream carrier, or extra regularity datum.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat RealUp joined-window consumer coherence]
+\label{thm:streamname-regseqrat-realup-joined-window-consumer-coherence}
+For observation maps $s,t:\Hist\to\Hist$ and three adjacent public
+$\StreamNameUp$ finite windows over $\mathsf{BHist}$ anchors
+$a,w,r,q:\Hist$, let
+$$
+L=\mathsf{append}(\mathsf{append}(w,\mathsf{BHist.e1}(r)),
+\mathsf{BHist.e1}(q))
+$$
+and let
+$$
+R=\mathsf{append}(w,\mathsf{BHist.e1}(\mathsf{append}(r,\mathsf{BHist.e1}(q)))).
+$$
+If the three source windows satisfy the public finite-window classifier rows
+of \autoref{thm:streamname-public-finite-window-interface}, the
+$\RegSeqRat$ finite-window seal source coverage rows of
+\autoref{thm:regseqrat-seal-finite-window-source-coverage}, and the
+$\RealUp$ finite-window feed rows of
+\autoref{thm:realup-window-concatenation-streamname-feed}, then the
+left-associated joined window $L$ and the right-associated joined window $R$
+induce the same public $\StreamNameUp$ finite-window rows, the same
+$\RegSeqRat$ finite-window seal source rows, and the same finite-window
+$\RealUp$ feed rows.
+
+The common consumer surface is exactly the shared $\mathsf{BHist}$ anchor,
+the three source finite-window rows, their endpoint $\RatUp$ classifiers, the
+finite $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ rows, the
+$\UnaryHistory$ rows, the displayed $\hsame$ transports, and the finite
+$\Cont$ ledger. No $\RegSeqRat$ regularity witness, $\RealUp$ seal
+classifier, quotient row, or host index equality is imported from the
+$\StreamNameUp$ side.
+\end{theorem}
+\begin{proof}
+First build the left-associated consumer package. Apply
+\autoref{thm:real-unary-window-associative-triple-concatenation} to the three
+adjacent windows, then apply
+\autoref{thm:realup-window-concatenation-streamname-feed}. This gives the
+$\RealUp$ feed over $L$ with exactly the endpoint classifiers,
+$\UnaryHistory$ rows, $\hsame$ transports, and finite $\Cont$ ledger already
+present in the source windows.
+
+Next apply \autoref{thm:streamname-regseqrat-shared-window-cover}. The shared
+cover reads the StreamName interface, the RegSeqRat seal source rows, and the
+RealUp feed from that same joined finite window.
+
+For the right-associated reading, use the visible associativity comparison
+between $L$ and $R$ for $\mathsf{append}$. Transport the public StreamName
+finite-window rows through the displayed $\hsame$ comparison, leaving the
+three source endpoint classifiers and the finite ledger unchanged.
+
+Finally apply
+\autoref{thm:streamname-real-regseq-overlap-unique-source}. Its overlap
+clause says that two downstream reads sharing the same StreamName finite
+window, endpoint readback rows, and finite ledger have one source package.
+Thus the RegSeqRat and RealUp consumers receive the same rows under the two
+parenthesizations, with no extra regularity, seal-classifier, quotient, or
+host-index data.
+\end{proof}
+
 The ten-field fit is: traditional target nested finite observation-window
 concatenation; BEDC source RealUp finite windows over StreamNameUp observation
 schedules $s,t:\Hist\to\Hist$; carrier unary $\mathsf{BHist}$ anchors and
