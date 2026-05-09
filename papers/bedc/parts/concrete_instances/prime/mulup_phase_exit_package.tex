@@ -123,3 +123,36 @@ the L7 boundary, without adding a second carrier, a host multiplication
 operation, or an extra quotient surface.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_unary\_mulup\_certificate}
+
+\begin{theorem}[MulUp Full Nat Arithmetic audit surface]
+\label{thm:mulup-full-nat-arithmetic-audit-surface}
+Over $\mathsf{BHist}$ and the carrier $\mathsf{UnaryHistory}$, a Full Nat
+Arithmetic consumer reads $\MulUp$ exactly through the following rows: the
+$\mathsf{NatMul}$ totality row, result-closure row, functionality row, unit
+row, unit-law rows, commutativity row, associativity row,
+$\hsame$ operation-congruence row, result $\mathsf{NameCert}$ row, the two
+$\AddUp$ distributivity rows, the $\OrderUp$ monotonicity row, and the
+reflexive, transitive, and antisymmetric divisibility-order rows. This is the
+complete cited audit surface for the open Full Nat Arithmetic phase.
+\end{theorem}
+\begin{proof}
+Project the phase-exit boundary of
+\autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary}. It fixes the
+consumer boundary over $\mathsf{BHist}$ and $\mathsf{UnaryHistory}$ and
+contains the $\mathsf{NatMul}$ algebraic rows, the $\AddUp$ rows, the
+$\OrderUp$ row, and the divisibility-order rows.
+
+Use the checked law audit package of
+\autoref{thm:mulup-checked-law-audit-package}. That package identifies the
+checked $\mathsf{NatMul}$ totality, result-closure, functionality, unit,
+unit-law, commutativity, associativity, operation-congruence, and result
+$\mathsf{NameCert}$ rows as the law-facing part of the same boundary.
+
+Finally repack the remaining consumer rows already assembled in
+\autoref{thm:mulup-semantic-exit-and-divisibility-order-phase-package}: the
+two $\AddUp$ distributivity rows, the $\OrderUp$ monotonicity row, and the
+reflexive, transitive, and antisymmetric divisibility-order rows. These rows
+share the same carrier, classifier, $\mathsf{NatMul}$ relation, and
+$\mathsf{BHist}$ endpoints, so the displayed list is a single Full Nat
+Arithmetic audit surface and not a host multiplication or quotient surface.
+\end{proof}
