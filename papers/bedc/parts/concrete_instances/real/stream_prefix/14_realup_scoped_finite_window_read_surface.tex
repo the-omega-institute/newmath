@@ -488,3 +488,48 @@ restricted $\Cont/\hsame$ ledger are the same. Therefore the two consumer
 packets read back the same visible $\RatUp$ endpoint rows on each selected
 finite window and expose the same finite $\mathsf{RealLedgerPolicy}$ row.
 \end{proof}
+
+\begin{theorem}[RealUp common finite-window pullback]
+\label{thm:realup-streamname-regseqrat-common-window-pullback}
+Let $W_0$ and $W_1$ be certified finite $\RealUp$ observation-window packages,
+and let $U$ be a certified common $\StreamNameUp$ subwindow of their displayed
+$\mathsf{ProbeBundle}$ windows. Assume that the restrictions to $U$ carry the
+same $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the same
+$\RegSeqRat$ spine rows, and endpoint
+$\mathsf{DyadicRatCoreObservationRow}$ witnesses matched by the displayed
+$\hsame$ transports. Assume also that the two selected
+$\RealUp$ read surfaces expose their endpoint rows through the same restricted
+$\mathsf{BHist}$ packet and the same finite $\Cont/\Pkg$ provenance ledger over
+$U$. Then the restricted $\RealUp$ readback packets over $U$ are the same
+finite $\mathsf{BHist}$ packet and expose the same finite
+$\mathsf{RealLedgerPolicy}$ row.
+
+The theorem identifies only the finite StreamNameUp-RegSeqRat-DyadicRatCore
+window shared by the two read surfaces. It does not export quotient
+completions, metric completions, global Cauchy moduli, arithmetic operations,
+order operations, Classical representatives, or standard bridge data.
+\end{theorem}
+\begin{proof}
+Restrict both certified observation windows to the common subwindow $U$. The
+restricted surfaces still carry exactly the displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, $\RegSeqRat$ spine rows,
+DyadicRatCore endpoint witnesses, $\hsame$ transports, $\Cont$ rows, and
+$\Pkg$ provenance named in the hypotheses.
+
+Apply the finite-window source-exhaustion obligation of
+\autoref{thm:realup-streamname-source-exhaustion-equivalence} to the endpoint
+rows. It says that, over the selected finite packet, no endpoint readback row
+remains outside the StreamNameUp-RegSeqRat-DyadicRatCore source family.
+
+Next apply
+\autoref{thm:realup-streamname-regseqrat-uniform-window-readback}. The matching
+stream-name classifier rows and regular-sequence spine rows identify the
+StreamName-RegSeqRat handoff over $U$, while the dyadic endpoint witnesses and
+the displayed $\hsame$ transports fix the endpoint side of the handoff.
+
+Finally use the ledger exactness of the selected $\RealUp$ read surface, as in
+\autoref{thm:realup-finite-window-streamname-readback-package}. The only
+visible finite packet left over $U$ is the shared $\mathsf{BHist}$ packet, and
+the only finite ledger row exposed by that packet is the same
+$\mathsf{RealLedgerPolicy}$ row.
+\end{proof}
