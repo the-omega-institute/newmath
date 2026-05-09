@@ -165,4 +165,29 @@ theorem ApproximationCarrierPacket_error_ledger_exactness [AskSetup] [PackageSet
       (And.intro endpointRow
         (And.intro ledgerRow provenancePkg)))
 
+theorem ApproximationFiniteErrorLedger_consumer_determinacy
+    {continuousSource polynomialCandidate errorLedger errorLedger' sourceEndpoint
+      polynomialEndpoint errorEndpoint errorEndpoint' provenance provenance' : BHist} :
+    UnaryHistory continuousSource ->
+      PolynomialSingletonCarrier polynomialCandidate ->
+        UnaryHistory sourceEndpoint ->
+          UnaryHistory polynomialEndpoint ->
+            Cont continuousSource polynomialCandidate errorLedger ->
+              Cont continuousSource polynomialCandidate errorLedger' ->
+                Cont sourceEndpoint polynomialEndpoint errorEndpoint ->
+                  Cont sourceEndpoint polynomialEndpoint errorEndpoint' ->
+                    hsame provenance errorLedger ->
+                      hsame provenance' errorLedger' ->
+                        hsame errorLedger errorLedger' ∧ hsame errorEndpoint errorEndpoint' ∧
+                          hsame provenance provenance' := by
+  intro _continuousUnary _polynomialCarrier _sourceEndpointUnary _polynomialEndpointUnary
+    ledgerRow ledgerRow' endpointRow endpointRow' provenanceRow provenanceRow'
+  have sameLedger : hsame errorLedger errorLedger' :=
+    cont_deterministic ledgerRow ledgerRow'
+  have sameEndpoint : hsame errorEndpoint errorEndpoint' :=
+    cont_deterministic endpointRow endpointRow'
+  have sameProvenance : hsame provenance provenance' :=
+    hsame_trans provenanceRow (hsame_trans sameLedger (hsame_symm provenanceRow'))
+  exact And.intro sameLedger (And.intro sameEndpoint sameProvenance)
+
 end BEDC.Derived.ApproximationUp
