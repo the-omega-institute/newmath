@@ -250,4 +250,24 @@ theorem PinGroupReflectionParityCarrier_source_projection_no_confusion
         exact spinProductSeparated
           (hsame_trans (hsame_symm endpointSpin) productProjection.right)
 
+theorem PinGroupReflectionParityCarrier_namecert_obligation_surface
+    {spin reflection product endpoint ledger carried : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      SemanticNameCert
+          (fun row : BHist => PinGroupReflectionParityCarrier spin reflection product row)
+          (fun row : BHist => PinGroupReflectionParityCarrier spin reflection product row)
+          (fun row : BHist => PinGroupReflectionParityCarrier spin reflection product row)
+          (fun left right : BHist =>
+            PinGroupReflectionParityCarrier spin reflection product left ∧
+              PinGroupReflectionParityCarrier spin reflection product right ∧ hsame left right) ∧
+        (((hsame carried (append spin ledger) ∧ UnaryHistory spin) ∨
+            (hsame carried (append product ledger) ∧ Cont spin reflection product ∧
+              UnaryHistory reflection)) ∧
+          hsame carried (append endpoint ledger)) ∧
+          (hsame endpoint spin ∨ hsame endpoint product) := by
+  intro surface
+  have certRows := PinGroupReflectionParityCarrier_semantic_name_certificate surface.left
+  have ledgerRows := PinGroupReflectionParityLedgerSurface_exhaustion surface
+  exact And.intro certRows.left (And.intro ledgerRows certRows.right)
+
 end BEDC.Derived.PinGroupUp
