@@ -178,7 +178,15 @@ If a report displays events commonly used as mathematical witnesses, such as $01
 
 \begin{definition}[Source report for illegal input]
 \label{def:source-report-illegal-input}
-If channel input $c$ is illegal, $P_1$ does not produce a source-event report. It produces a rejection report containing the input, failure position, rejection reason, optionally a partial decoded prefix if policy allows it, and a cannot-claim annotation saying that an illegal channel stream has no decoded event flow.
+\leandef{BEDC.GroundCompiler.SourceReport.IllegalInputReport}
+If channel input $c$ is illegal, $P_1$ does not produce a source-event report. The formal core of an illegal-input report is:
+$$
+  c\notin\mathsf{LegalZStream}
+  \quad\text{and}\quad
+  \forall S\in\mathsf{EventFlow},\;
+  \neg\,\mathsf{SrcReport}(c,S).
+$$
+The rendered rejection report may contain the input, failure position, rejection reason, optionally a partial decoded prefix if policy allows it, and a cannot-claim annotation saying that an illegal channel stream has no decoded event flow.
 \end{definition}
 
 \begin{proposition}[Illegal channel stream has no source-event report]
@@ -294,6 +302,7 @@ A source-event report $\mathsf{SrcReport}(c,S)$ is \emph{sound} when:
 
 \begin{theorem}[Sound report theorem]
 \label{thm:source-report-sound-report}
+\leanchecked{BEDC.GroundCompiler.SourceReport.source\_report\_sound\_report}
 If $P_1$ produces a sound source-event report $\mathsf{SrcReport}(c,S)$, then
 $$
   \mathsf{Decodes}(c,S).
@@ -306,6 +315,7 @@ By soundness of the report, $c\in\mathsf{LegalZStream}$ and $\mathsf{Decode}(c)=
 
 \begin{corollary}[Source report preserves raw event flow]
 \label{cor:source-report-preserves-raw-flow}
+\leanchecked{BEDC.GroundCompiler.SourceReport.source\_report\_preserves\_raw\_flow}
 A sound source-event report records exactly the decoded source event flow. It does not add or remove source events.
 \end{corollary}
 
