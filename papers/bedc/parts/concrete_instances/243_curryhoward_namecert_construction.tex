@@ -26,6 +26,7 @@ and $s$ is the capture-avoiding substitution ledger that substitutes $a$ for the
 \begin{theorem}[CurryHowardUp cut-beta bridge obligation]\label{thm:curryhoward-cut-beta-bridge-obligation}
 Let $\mathcal H$ be an accepted shared cut-beta packet for $\CurryHowardUp$ as in \autoref{def:curryhoward-shared-cut-beta-packet}. If the $\FirstOrderUp$ component displays the cut-elimination step from $D_1 \mathbin{+\!\!+} D_2$ to $D_{\mathsf{cut}}$, then the $\LambdaCalcUp$ component displays an accepted beta-reduction row whose source is $\mathsf{lamApp}(\mathsf{lamAbs}(x,b),a)$ and whose substitution endpoint is $u$. Under the shared classifier $\chi$, this beta/substitution endpoint is the same proof-program endpoint as the cut-eliminated deduction ledger $D_{\mathsf{cut}}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CurryHowardUp.CurryHowardCutBetaPacket\_bridge\_obligation}
 \begin{proof}
 Unpack the accepted packet $\mathcal H$. The $\FirstOrderUp$ side supplies two accepted ledgers $D_1$ and $D_2$ over the same syntax carrier, with the final endpoint of $D_1$ displayed as the initial premise row of $D_2$. By \autoref{def:firstorder-deduction-ledger-concatenation-source}, this is exactly the composability datum for the concatenated ledger $D_1 \mathbin{+\!\!+} D_2$.
 
