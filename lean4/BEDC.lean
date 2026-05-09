@@ -55,6 +55,7 @@ import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.AxisZeckendorf
+import BEDC.Derived.BayesianUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
@@ -118,6 +119,7 @@ import BEDC.Derived.DeRhamUp.RootCocycleLedgerThreshold
 import BEDC.Derived.DeRhamUp.RootObligations
 import BEDC.Derived.DeRhamUp.DoubleExteriorObligations
 import BEDC.Derived.DeRhamUp.BridgeInputSource
+import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
@@ -267,10 +269,12 @@ import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.BrownianUp
+import BEDC.Derived.BayesianUp
 import BEDC.Derived.CondExpUp
 import BEDC.Derived.MartingaleUp
 import BEDC.Derived.RepresentationRingUp
 import BEDC.Derived.RealAnalyticUp
+import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeriesUp
@@ -399,6 +403,7 @@ import BEDC.Derived.TopologyUp.PublicWitness
 import BEDC.Derived.TopologyUp.PublicWitnesses
 import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.TopGroupUp
+import BEDC.Derived.TopGroupUp.RootLedgerSemanticExactness
 import BEDC.Derived.TopGroupUp.ClassifierContinuityTransport
 import BEDC.Derived.TopGroupUp.SourceCompatibility
 import BEDC.Derived.ComplexTopologyUp

@@ -83,6 +83,87 @@ theorem SpinGroupRootCarrier_group_law_transport [AskSetup] [PackageSetup]
           (And.intro spinCont carrier.right.right.right)))
       sameSpin
 
+theorem SpinGroupRootCarrier_concrete_lift_closure [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger unit' vector'
+      product' boundary' cliffordEndpoint' groupWord' spinEndpoint' ledger' composedLift
+      composedProjection composedLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      SpinGroupRootCarrier unit' vector' product' boundary' cliffordEndpoint' groupWord'
+          spinEndpoint' ledger' bundle pkg ->
+        Cont spinEndpoint spinEndpoint' composedLift ->
+          Cont composedLift BHist.Empty composedProjection ->
+            PkgSig bundle composedLedger pkg ->
+              UnaryHistory composedLift ∧ UnaryHistory composedProjection ∧
+                hsame composedLift (append spinEndpoint spinEndpoint') ∧
+                  hsame composedProjection composedLift ∧ PkgSig bundle composedLedger pkg := by
+  intro carrier carrier' liftRow projectionRow composedPkg
+  have scope :=
+    SpinGroupRootCarrier_source_scope carrier
+  have scope' :=
+    SpinGroupRootCarrier_source_scope carrier'
+  have liftUnary : UnaryHistory composedLift :=
+    unary_cont_closed scope.right.right.left scope'.right.right.left liftRow
+  have projectionUnary : UnaryHistory composedProjection :=
+    unary_cont_closed liftUnary unary_empty projectionRow
+  have projectionSame : hsame composedProjection composedLift :=
+    cont_right_unit_result projectionRow
+  exact And.intro liftUnary
+    (And.intro projectionUnary
+      (And.intro liftRow
+        (And.intro projectionSame composedPkg)))
+
+theorem SpinGroupRootCarrier_root_namecert_threshold_package [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row spinEndpoint)
+          (fun row : BHist => hsame row spinEndpoint)
+          (fun row : BHist => hsame row spinEndpoint) hsame ∧
+        UnaryHistory spinEndpoint ∧ Cont cliffordEndpoint groupWord spinEndpoint ∧
+          PkgSig bundle ledger pkg := by
+  intro carrier
+  have sourceScope :
+      CliffordCarrierPackage unit vector product boundary cliffordEndpoint ∧
+        GroupSingletonCarrier groupWord ∧ UnaryHistory spinEndpoint ∧
+          Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg :=
+    SpinGroupRootCarrier_source_scope carrier
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row spinEndpoint)
+          (fun row : BHist => hsame row spinEndpoint)
+          (fun row : BHist => hsame row spinEndpoint) hsame := by
+    refine {
+      core := ?core
+      pattern_sound := ?pattern_sound
+      ledger_sound := ?ledger_sound
+    }
+    · refine {
+        carrier_inhabited := ?carrier_inhabited
+        equiv_refl := ?equiv_refl
+        equiv_symm := ?equiv_symm
+        equiv_trans := ?equiv_trans
+        carrier_respects_equiv := ?carrier_respects_equiv
+      }
+      · exact Exists.intro spinEndpoint (hsame_refl spinEndpoint)
+      · intro row _source
+        exact hsame_refl row
+      · intro row other sameRows
+        exact hsame_symm sameRows
+      · intro row other third sameFirst sameSecond
+        exact hsame_trans sameFirst sameSecond
+      · intro row other sameRows rowSource
+        exact hsame_trans (hsame_symm sameRows) rowSource
+    · intro row source
+      exact source
+    · intro row source
+      exact source
+  exact
+    And.intro cert
+      (And.intro sourceScope.right.right.left
+        (And.intro sourceScope.right.right.right.left sourceScope.right.right.right.right))
+
 theorem SpinGroupRootCarrier_public_consumer_boundary_coverage [AskSetup] [PackageSetup]
     {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -118,6 +199,76 @@ theorem SpinGroupRootCarrier_public_consumer_boundary_coverage [AskSetup] [Packa
                     (And.intro cliffordExact.right.right.right.right.right.right.left
                       (And.intro sourceScope.right.right.right.left
                         sourceScope.right.right.right.right)))))))))
+
+theorem SpinGroupRootCarrier_clifford_unit_lift [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint spinEndpoint ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CliffordCarrierPackage unit vector product boundary cliffordEndpoint ->
+      Cont cliffordEndpoint BHist.Empty spinEndpoint ->
+        PkgSig bundle ledger pkg ->
+          SpinGroupRootCarrier unit vector product boundary cliffordEndpoint BHist.Empty
+            spinEndpoint ledger bundle pkg ∧ hsame spinEndpoint cliffordEndpoint := by
+  intro clifford endpointUnit packageSig
+  exact And.intro
+    (And.intro clifford
+      (And.intro (hsame_refl BHist.Empty)
+        (And.intro endpointUnit packageSig)))
+    (cont_right_unit_result endpointUnit)
+
+theorem SpinGroupRootCarrier_ledger_semantic_exhaustion [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      SemanticNameCert (fun h : BHist => hsame h spinEndpoint)
+        (fun h : BHist => hsame h spinEndpoint)
+        (fun h : BHist => hsame h spinEndpoint) hsame ∧
+        UnaryHistory unit ∧ UnaryHistory vector ∧ UnaryHistory product ∧ UnaryHistory boundary ∧
+          UnaryHistory cliffordEndpoint ∧ UnaryHistory spinEndpoint ∧
+            Cont vector vector product ∧ Cont product boundary cliffordEndpoint ∧
+              Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg := by
+  intro carrier
+  have coverage := SpinGroupRootCarrier_public_consumer_boundary_coverage carrier
+  have endpointSelf : hsame spinEndpoint spinEndpoint :=
+    hsame_refl spinEndpoint
+  have cert :
+      SemanticNameCert (fun h : BHist => hsame h spinEndpoint)
+        (fun h : BHist => hsame h spinEndpoint)
+        (fun h : BHist => hsame h spinEndpoint) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro spinEndpoint endpointSelf
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK carrierH
+        exact hsame_trans (hsame_symm sameHK) carrierH
+    }
+    pattern_sound := by
+      intro h carrierH
+      exact carrierH
+    ledger_sound := by
+      intro h carrierH
+      exact carrierH
+  }
+  exact And.intro cert
+    (And.intro coverage.left
+      (And.intro coverage.right.left
+        (And.intro coverage.right.right.left
+          (And.intro coverage.right.right.right.left
+            (And.intro coverage.right.right.right.right.left
+              (And.intro coverage.right.right.right.right.right.right.left
+                (And.intro coverage.right.right.right.right.right.right.right.left
+                  (And.intro coverage.right.right.right.right.right.right.right.right.left
+                    (And.intro
+                      coverage.right.right.right.right.right.right.right.right.right.left
+                      coverage.right.right.right.right.right.right.right.right.right.right)))))))))
 
 theorem SpinGroupRootCarrier_threshold_obligation_triple [AskSetup] [PackageSetup]
     {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger thresholdLedger :

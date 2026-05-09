@@ -266,6 +266,57 @@ are consumed by one objective-fiber sandwich rather than by separate scalar
 certificates.
 \end{proof}
 
+\begin{theorem}[LPDuality primal-dual affine fiber product closure]
+\label{thm:lpduality-primal-dual-affine-fiber-product-closure}
+Let an $\LPDualityUp$ row over an ordered field be given as in
+\autoref{def:lpduality-finite-ordered-field-feasibility-row}. Let
+$x,x':J\to F$ be primal feasible witnesses, let $y,y':I\to F$ be dual
+feasible witnesses, and let $\tau:F$ be a scalar endpoint. Suppose all four
+objective endpoints lie in the same scalar fiber:
+$$
+\mathsf{PrObj}_{A,c}(x)\sim_F\tau,
+\qquad
+\mathsf{PrObj}_{A,c}(x')\sim_F\tau,
+$$
+$$
+\mathsf{DuObj}_{b}(y)\sim_F\tau,
+\qquad
+\mathsf{DuObj}_{b}(y')\sim_F\tau.
+$$
+Let $\alpha,\beta:F$ be nonnegative coefficients with
+$\alpha+_F\beta\sim_F1_F$, and form the paired binary affine mixture
+$$
+\lambda_j:=\alpha\cdot_Fx_j+_F\beta\cdot_Fx'_j
+\qquad (j\in J),
+\qquad
+\mu_i:=\alpha\cdot_Fy_i+_F\beta\cdot_Fy'_i
+\qquad (i\in I).
+$$
+Then $(\lambda,\mu)$ is a feasible primal-dual pair, both objective endpoints
+remain classifier-equal to $\tau$, and the weak-duality comparison between
+the mixed pair is a comparison between classifier-stable copies of $\tau$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:lpduality-optimal-primal-face-binary-convex-closure} to the
+primal witnesses $x,x'$ with endpoint $\tau$ and coefficients
+$\alpha,\beta$. This gives the primal feasibility of $\lambda$ and the
+readback $\mathsf{PrObj}_{A,c}(\lambda)\sim_F\tau$.
+
+Apply
+\autoref{thm:lpduality-optimal-dual-face-binary-convex-closure} to the dual
+witnesses $y,y'$ with the same endpoint and coefficients. This gives the dual
+feasibility of $\mu$ and the readback
+$\mathsf{DuObj}_{b}(\mu)\sim_F\tau$.
+
+Finally use
+\autoref{thm:lpduality-objective-fiber-sandwich-closure} on the same four
+witnesses and the same scalar fiber. The two closure rows give the paired
+feasible mixture, and weak duality for the mixed pair is transported along
+the two objective readbacks to a comparison whose endpoints are
+classifier-stable copies of $\tau$.
+\end{proof}
+
 \begin{theorem}[LPDuality weak-duality slackness optimality packet]
 \label{thm:lpduality-weak-duality-slackness-optimality-packet}
 Let an $\LPDualityUp$ row over an ordered field be given as in
