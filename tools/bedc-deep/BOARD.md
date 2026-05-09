@@ -18,55 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-569 - Banach bounded operator zero right-composition annihilation
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Banach bounded operator zero right-composition annihilation |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-If T : H_0 -> H_1 is a carried BanachBLOp row and 0_{H_1,H_2} : H_1 -> H_2 is the carried zero operator on (H_1, H_2), then 0_{H_1,H_2} ∘ T is carried as BanachBLOp(H_0, H_2, 0_{H_1,H_2} ∘ T, 0_RealUp · L, Lambda_{12} ⋆ Gamma) and is classified with the zero representative on (H_0, H_2).
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
-- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex`
-
-Rationale:
-papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex:368 carries `thm:banach-bounded-linear-operator-left-zero-annihilation` (BOARD B-522), which composes T : H_1 -> H_2 with the input-side zero 0_{H_0,H_1} to get the (H_0,H_2) zero. The DUAL — composing T : H_0 -> H_1 with the output-side zero 0_{H_1,H_2} — is structurally absent. A grep for `[Bb]anach.*[Rr]ight.*[Zz]ero.*[Aa]nnihilat`, `right-composition`, and `Banach.*right.*zero` across papers/bedc/parts/ returns zero theorem matches; the only hit is the in-proof phrase 'right-zero multiplication comparison' at line 443 of the same file, used as a RealUp identity, not as a separate theorem. By contrast, papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex:435 carries `thm:abeliancat-zero-morphism-right-composition-absorption` and BOARD entries B-518 (left-absorbing) and B-531 (right-absorbing) appear as a paired set for AbelianCat — the asymmetry on the Banach side is therefore a real gap, not a deliberate scope cut. The proof structurally differs from B-522: zero ∘ T evaluates to 0 by the output-zero map's defining row, not via T's homogeneity, so it is not just symmetry on existing arguments.
-
----
-
-### B-571 - AffineSpace action by the zero vector classifies with the carried point
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | AffineSpace action by the zero vector classifies with the carried point |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-If p is a carried point row in an AffineSpaceUp history-torsor carrier and 0_V is the vector zero supplied by its VecSpaceUp dependency certificate, then the action endpoint act(p, 0_V) and p are AffCls-classified by the identity case of the translation classifier.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/184_affinespace_namecert_construction.tex`
-
-Rationale:
-The chapter proves the converse direction `thm:affinespace-separation-obligation` at 184_affinespace_namecert_construction.tex:84 ('if zero-translation acts sending p to ~q, then AffCls identifies p, q'), but the forward fact 'act(p, 0_V) ~ p' is not stated. Standard textbook (Berger Geometry I Ch.II §2.1, Audin Geometry §I.1: translation by 0 is the identity action). The proof reuses `thm:affinespace-action-closure-obligation` to carry the endpoint and `thm:affinespace-separation-obligation` to convert the zero-translation hsame witness into AffCls identity classification. File is 209 lines. Closes in 1-2 rounds; no oracle escalation needed because all infrastructure is already in this file.
-
----
-
 ### B-572 - ConvexSet pointwise (Minkowski) sum closes under the binary affine combination row
 
 | field | value |
