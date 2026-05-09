@@ -99,7 +99,7 @@ theorem RegulatorRootInputPacket_ledger_exactness [AskSetup] [PackageSetup]
                                       have determinantLedgerUnary :
                                           UnaryHistory determinantLedger :=
                                         unary_cont_closed basisUnary determinantUnary
-                                          determinantLedgerCont
+                                        determinantLedgerCont
                                       exact And.intro determinantLedgerUnary
                                         (And.intro determinantLedgerCont
                                           (And.intro endpointCont endpointPkg))
