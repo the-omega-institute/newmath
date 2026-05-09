@@ -134,4 +134,23 @@ theorem SplittingFieldRootCarrierPacket_root_ledger_obligation [AskSetup] [Packa
           (And.intro endpointRow
             packet.right.right.right.right.right.right.right.right.right))))
 
+theorem SplittingFieldRootCarrierPacket_ledger_obligation [AskSetup] [PackageSetup]
+    {fieldExt polynomial roots factors transport provenance classifier factorLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SplittingFieldRootCarrierPacket fieldExt polynomial roots factors transport provenance
+        classifier factorLedger endpoint bundle pkg ->
+      UnaryHistory factorLedger ∧ hsame factorLedger (append roots factors) ∧
+        hsame endpoint (append provenance factorLedger) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have factorLedgerRow : Cont roots factors factorLedger :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointRow : Cont provenance factorLedger endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have factorLedgerUnary : UnaryHistory factorLedger :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left factorLedgerRow
+  exact And.intro factorLedgerUnary
+    (And.intro factorLedgerRow
+      (And.intro endpointRow
+        packet.right.right.right.right.right.right.right.right.right))
+
 end BEDC.Derived.SplittingFieldUp
