@@ -431,6 +431,7 @@ import BEDC.Derived.TopGroupUp.ContinuityObligations
 import BEDC.Derived.TopGroupUp.ContinuityLedgerCoverage
 import BEDC.Derived.TopGroupUp.DownstreamProvenanceTransport
 import BEDC.Derived.TopGroupUp.OperationSourceContinuity
+import BEDC.Derived.TopGroupUp.OperationContinuityLedgerScope
 import BEDC.Derived.TopGroupUp.SourceCompatibility
 import BEDC.Derived.TopGroupUp.RootSourceCompatibility
 import BEDC.Derived.TopGroupUp.RootCarrierObligations
