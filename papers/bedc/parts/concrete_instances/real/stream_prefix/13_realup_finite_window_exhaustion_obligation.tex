@@ -41,6 +41,47 @@ source package. These are precisely the rows allowed by
 field consumes no data outside that boundary.
 \end{proof}
 
+\begin{theorem}[RealUp refinement envelope reindexed consumer invariance]
+\label{thm:realup-refinement-envelope-reindexed-consumer-invariance}
+Let $E$ be a $\RealUp$ finite-window refinement envelope over a fixed
+$\StreamNameUp$ source, and let $P$ be a
+$\StreamNameUp$--$\RegSeqRat$ reindexed window package whose selected rational
+classifier rows feed a certified window $W$ carried by $E$. The downstream
+$\RegSeqRat$ handoff determined by $P$ and the finite-window $\RealUp$ seal
+read determined by $W$ factor through the same envelope-facing rows:
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$ rows,
+the endpoint denominator rows, the $\mathsf{DyadicRatCore}$ source rows, the
+shared $\hsame$ ledger, and the $\mathsf{RealLedgerPolicy}$ boundary.
+Consequently the reindexed handoff and the carried seal expose one public read
+surface, with no exported host index, quotient witness, completion object, or
+unrecorded stream row.
+\end{theorem}
+\begin{proof}
+Begin with the reindexed package $P$. By
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion}, its selected
+rational rows are exhausted by the reindexed $\StreamNameUp$ finite-window
+classifier rows, the probe and unary-history rows, the endpoint denominator
+rows, and the dyadic source rows visible in the window.
+
+Next apply
+\autoref{thm:realup-streamname-regseqrat-reindexed-ledger-handoff}. The
+$\RegSeqRat$ consumer handoff reads those rows through the same shared
+$\hsame$ ledger and the same $\mathsf{RealLedgerPolicy}$ boundary used by the
+carried $\RealUp$ window.
+
+Finally use
+\autoref{thm:realup-finite-window-refinement-envelope-consumer-coverage} for
+the carried window $W$ inside $E$. That theorem forces both the
+$\RegSeqRat$ handoff and the finite-window $\RealUp$ seal through exactly the
+rows stored in the refinement envelope.
+
+The listed envelope rows therefore form the common public surface. Since the
+envelope boundary contains no slot for a host index, quotient witness,
+completion object, or unrecorded stream datum, none of those objects can be
+exported by either consumer.
+\end{proof}
+
 \begin{theorem}[RealUp StreamName window determinacy boundary]
 \label{thm:realup-streamname-window-determinacy-boundary}
 Let two finite-window observations be admitted by the $\RealUp$ seal through
