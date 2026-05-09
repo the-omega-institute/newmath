@@ -228,6 +228,31 @@ theorem MeasureZeroBHistClassifier_union_symmetry {event diff left right : BHist
     hsame_trans leftZero (hsame_symm rightZero)
   exact And.intro leftZero (And.intro rightZero sameEndpoints)
 
+theorem MeasureFiniteDisjointUnion_additivity
+    {event diff union valueEvent valueDiff valueUnion valueSum : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty ->
+      MeasureZeroBHistClassifier diff BHist.Empty ->
+        Cont event diff union ->
+          hsame valueEvent event ->
+            hsame valueDiff diff ->
+              hsame valueUnion union ->
+                Cont valueEvent valueDiff valueSum ->
+                  MeasureZeroBHistClassifier valueSum valueUnion := by
+  intro eventClassified diffClassified unionRow sameValueEvent sameValueDiff sameValueUnion
+    valueRow
+  have sameValueSumUnion : hsame valueSum union :=
+    cont_respects_hsame sameValueEvent sameValueDiff valueRow unionRow
+  have unionZero : MeasureZeroBHistCarrier union :=
+    cont_respects_hsame eventClassified.left diffClassified.left unionRow
+      (cont_left_unit BHist.Empty)
+  have valueSumZero : MeasureZeroBHistCarrier valueSum :=
+    hsame_trans sameValueSumUnion unionZero
+  have valueUnionZero : MeasureZeroBHistCarrier valueUnion :=
+    hsame_trans sameValueUnion unionZero
+  have sameValueSumValueUnion : hsame valueSum valueUnion :=
+    hsame_trans sameValueSumUnion (hsame_symm sameValueUnion)
+  exact And.intro valueSumZero (And.intro valueUnionZero sameValueSumValueUnion)
+
 theorem MeasureNestedDifference_package
     {event firstDiff middle secondDiff total valueEvent valueFirstDiff valueMiddle
       valueSecondDiff valueTotal firstSum totalSum : BHist} :
