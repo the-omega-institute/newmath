@@ -147,3 +147,31 @@ field is formulated only in terms of that packet, the public boundary exports
 no host orthogonal group, matrix model, Clifford quotient, or standard bridge
 row.
 \end{proof}
+
+\begin{theorem}[SpinGroup root public boundary no extra row]
+\label{thm:spingroup-root-public-boundary-no-extra-row}
+Every public $\SpinGroupUp$ root consumer row that is stable under the
+displayed $\Cont$ and $\hsame$ transports is one of the rows of
+\autoref{def:spingroup-root-public-consumer-boundary-packet}. In particular,
+no host orthogonal group row, matrix-model row, Clifford quotient row, or
+standard bridge row can be recovered by transport from this public boundary.
+\end{theorem}
+\begin{proof}
+Project the stable public consumer row through
+\autoref{thm:spingroup-root-public-consumer-boundary-coverage}. The projection
+lands in the finite packet containing only the Clifford source, singleton
+$\GroupUp$ row, unit, product, inverse, even-parity ledger, $\Cont$, $\hsame$,
+and $\Pkg$ coordinates.
+
+Use
+\autoref{thm:spingroup-root-public-boundary-transport-stability} for the
+transport step. Stability keeps the row inside the same displayed packet and
+does not create a coordinate outside the packet.
+
+Finally apply
+\autoref{thm:spingroup-root-public-consumer-boundary-exhaustion}. It says that
+the packet rows exhaust the public root boundary, so every transported stable
+row is one of the displayed coordinates. Because the packet has no coordinate
+for host orthogonal groups, matrix models, Clifford quotients, or standard
+bridges, none of those rows can be recovered by transport.
+\end{proof}
