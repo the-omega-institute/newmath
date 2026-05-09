@@ -48,6 +48,35 @@ Thus both consumers share the same BEDC source boundary: they may cite the $\CSt
 \end{proof}
 \leanchecked{BEDC.Derived.CStarAlgUp.CStarAlgCertificateSurface\_gelfand\_vonneumann\_consumer\_boundary}
 
+\begin{theorem}[\texorpdfstring{$\CStarAlgUp$}{CStarAlgUp} unital-commutative source boundary]
+\label{thm:cstaralgebra-unital-commutative-source-boundary}
+A $\GelfandDualityUp$ consumer may treat a $\CStarAlgUp$ row as a unital
+commutative source only when the displayed $\mathsf{BHist}$ surface supplies,
+in addition to the root certificate, a unit row, multiplication row,
+commutativity classifier row, involution row, norm-square row, $\hsame$
+transport, $\Cont$ ledger, and $\mathsf{Pkg}$ provenance over the same
+BanachUp and RingUp dependency rows. The root $\CStarAlgUp$ certificate alone
+does not export the Gelfand transform, the spectrum row, or a compact
+Hausdorff carrier.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:cstaralgebra-bhist-carrier}. The root carrier exposes the
+Banach row, RingUp multiplication row, involution row, norm-square row,
+transport rows, and dependency provenance.
+
+Unfold \autoref{def:cstaralgebra-certificate-surface}. Its public classifier
+and ledger are the displayed $\hsame$, $\Cont$, and $\Pkg$ rows over those
+carrier components; unit and commutativity data must therefore be supplied as
+visible rows of the consumer surface when $\GelfandDualityUp$ asks for a
+unital commutative source.
+
+Finally apply
+\autoref{thm:cstaralgebra-gelfand-vonneumann-consumer-boundary}. That boundary
+rules out hidden spectrum data and hidden transform rows, so the
+$\GelfandDualityUp$ source read is limited to the displayed unital,
+commutative, involutive, norm-square, transport, ledger, and provenance rows.
+\end{proof}
+
 \begin{theorem}[No host star-algebra primitive in \texorpdfstring{$\CStarAlgUp$}{CStarAlgUp}]
 \label{thm:cstaralgebra-no-host-star-algebra-primitive}
 The $\CStarAlgUp$ obligation surface does not include a host $*$-algebra primitive. Equality and transport for $\CStarAlgUp$ are mediated only by $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert_{\BanachUp}$, and $\NameCert_{\RingUp}$ together with the displayed involution and norm-square rows.
