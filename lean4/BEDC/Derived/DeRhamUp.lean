@@ -49,4 +49,23 @@ theorem DeRhamDoubleExteriorPacket_boundary
   exact And.intro sameThetaZero
     (And.intro boundaryTheta (hsame_trans sameDEtaZero packet.right.right.right.right))
 
+def DeRhamBoundarySourcePacket (d : BHist -> BHist) (theta zero : BHist) : Prop :=
+  DeRhamBoundary d theta ∧ hsame zero BHist.Empty
+
+theorem DeRhamBoundarySourcePacket_stability
+    {d : BHist -> BHist} {theta theta' zero : BHist} :
+    DeRhamBoundarySourcePacket d theta zero ->
+      hsame theta' theta ->
+        DeRhamBoundarySourcePacket d theta' zero ∧ DeRhamBoundary d theta' ∧
+          hsame zero BHist.Empty := by
+  intro packet sameTheta
+  cases packet with
+  | intro boundary zeroEmpty =>
+      cases boundary with
+      | intro preimage boundaryTheta =>
+          have boundaryTheta' : DeRhamBoundary d theta' :=
+            Exists.intro preimage (hsame_trans sameTheta boundaryTheta)
+          exact And.intro (And.intro boundaryTheta' zeroEmpty)
+            (And.intro boundaryTheta' zeroEmpty)
+
 end BEDC.Derived.DeRhamUp
