@@ -165,4 +165,40 @@ theorem ConnectionCarrierPacket_parallel_transport_obligation
           | intro middle tail =>
               exact ih (unary_cont_closed unaryInitial stepUnary tail.left) restRows tail.right
 
+theorem ConnectionCarrierPacket_public_certificate_consumer_surface
+    {base fibre sec tangent derivative provenance ledger sectionAdd scalarAction derivativeAdd
+      derivativeScalar tangentB derivativeB ledgerB boundary curvatureLedger : BHist} :
+    ConnectionCarrierPacket base fibre sec tangent derivative provenance ledger ->
+      ConnectionCarrierPacket base fibre sec tangentB derivativeB provenance ledgerB ->
+        UnaryHistory sectionAdd ->
+          UnaryHistory scalarAction ->
+            Cont sec sectionAdd derivativeAdd ->
+              Cont sec scalarAction derivativeScalar ->
+                Cont derivative derivativeB boundary ->
+                  Cont boundary provenance curvatureLedger ->
+                    UnaryHistory sec ∧ UnaryHistory derivative ∧ UnaryHistory ledger ∧
+                      UnaryHistory derivativeAdd ∧ UnaryHistory derivativeScalar ∧
+                        UnaryHistory boundary ∧ UnaryHistory curvatureLedger ∧
+                          hsame ledger (append derivative provenance) ∧
+                            hsame derivativeAdd (append (append base fibre) sectionAdd) ∧
+                              hsame derivativeScalar
+                                (append (append base fibre) scalarAction) ∧
+                                hsame boundary (append derivative derivativeB) ∧
+                                  hsame curvatureLedger
+                                    (append boundary provenance) := by
+  intro packet packetB sectionAddUnary scalarActionUnary derivativeAddCont derivativeScalarCont
+    boundaryCont curvatureCont
+  have exactness :=
+    ConnectionCarrierPacket_stability_ledger_exactness_obligation packet
+  have linearity :=
+    ConnectionCarrierPacket_section_linearity_obligation packet sectionAddUnary
+      scalarActionUnary derivativeAddCont derivativeScalarCont
+  have curvature :=
+    ConnectionCarrierPacket_curvature_boundary_obligation packet packetB boundaryCont curvatureCont
+  exact ⟨exactness.left, exactness.right.left, exactness.right.right.left, linearity.left,
+    linearity.right.left, curvature.left, curvature.right.left,
+    packet.right.right.right.right.right.right, linearity.right.right.left,
+    linearity.right.right.right.left, curvature.right.right.left,
+    curvature.right.right.right.left⟩
+
 end BEDC.Derived.ConnectionUp
