@@ -210,4 +210,28 @@ theorem DiffFormExteriorDerivative_downstream_scope {ScalarCarrier : BHist -> Pr
             coverage.left.right.right.right.right))))
     (And.intro coverage.right (And.intro raised.right.left raised.right.right.left))
 
+theorem DiffFormExteriorDerivativeLedger_degree_continuation_composite
+    {omega eta theta dOmega dEta dTheta probe probe' tensor tensor' scalar scalar' antisym source
+      probe2 probe2' tensor2 tensor2' scalar2 scalar2' antisym2 source2 : BHist} :
+    DiffFormExteriorDerivativeLedger omega eta dOmega dEta probe probe' tensor tensor' scalar
+        scalar' antisym source ->
+      DiffFormExteriorDerivativeLedger eta theta dEta dTheta probe2 probe2' tensor2 tensor2'
+          scalar2 scalar2' antisym2 source2 ->
+        UnaryHistory dTheta ∧
+          exists twoStep : BHist,
+            Cont (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) twoStep ∧
+              Cont dOmega twoStep dTheta ∧ hsame twoStep (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro first second
+  have firstRaise := DiffFormExteriorDerivativeLedger_degree_raise first
+  have secondRaise := DiffFormExteriorDerivativeLedger_degree_raise second
+  have assoc :=
+    cont_assoc_left_exists firstRaise.right.right secondRaise.right.right
+  cases assoc with
+  | intro twoStep composed =>
+      have twoStepShape : hsame twoStep (BHist.e1 (BHist.e1 BHist.Empty)) := by
+        cases composed.left
+        rfl
+      exact
+        ⟨secondRaise.right.left, twoStep, composed.left, composed.right, twoStepShape⟩
+
 end BEDC.Derived.DiffFormUp
