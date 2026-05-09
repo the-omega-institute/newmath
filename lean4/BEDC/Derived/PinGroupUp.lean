@@ -1,11 +1,13 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.PinGroupUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def PinGroupReflectionParityCarrier
@@ -140,5 +142,86 @@ theorem PinGroupReflectionParityCarrier_odd_reflection_coset_exhaustion
       exact False.elim (notSpinEndpoint spinBranch.left)
   | inr reflectionBranch =>
       exact reflectionBranch
+
+theorem PinGroupReflectionParityCarrier_semantic_name_certificate
+    {spin reflection product endpoint : BHist} :
+    PinGroupReflectionParityCarrier spin reflection product endpoint ->
+      SemanticNameCert
+          (fun row : BHist => PinGroupReflectionParityCarrier spin reflection product row)
+          (fun row : BHist => PinGroupReflectionParityCarrier spin reflection product row)
+          (fun row : BHist => PinGroupReflectionParityCarrier spin reflection product row)
+          (fun left right : BHist =>
+            PinGroupReflectionParityCarrier spin reflection product left ∧
+              PinGroupReflectionParityCarrier spin reflection product right ∧ hsame left right) ∧
+        (hsame endpoint spin ∨ hsame endpoint product) := by
+  intro carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => PinGroupReflectionParityCarrier spin reflection product row)
+          (fun row : BHist => PinGroupReflectionParityCarrier spin reflection product row)
+          (fun row : BHist => PinGroupReflectionParityCarrier spin reflection product row)
+          (fun left right : BHist =>
+            PinGroupReflectionParityCarrier spin reflection product left ∧
+              PinGroupReflectionParityCarrier spin reflection product right ∧ hsame left right) := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint carrier
+      equiv_refl := by
+        intro row rowCarrier
+        exact And.intro rowCarrier (And.intro rowCarrier (hsame_refl row))
+      equiv_symm := by
+        intro left right related
+        exact And.intro related.right.left
+          (And.intro related.left (hsame_symm related.right.right))
+      equiv_trans := by
+        intro left middle right relatedLM relatedMR
+        exact And.intro relatedLM.left
+          (And.intro relatedMR.right.left
+            (hsame_trans relatedLM.right.right relatedMR.right.right))
+      carrier_respects_equiv := by
+        intro left right related _leftCarrier
+        exact related.right.left
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  constructor
+  · exact cert
+  · cases carrier with
+    | inl spinBranch =>
+        exact Or.inl spinBranch.left
+    | inr reflectionBranch =>
+        exact Or.inr reflectionBranch.right.left
+
+theorem PinGroupReflectionParityLedgerSurface_reflection_ledger_closure
+    {spin reflection product endpoint ledger carried spin' reflection' product' endpoint'
+      carried' : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      hsame spin spin' ->
+        hsame reflection reflection' ->
+          hsame product product' ->
+            hsame endpoint endpoint' ->
+              hsame carried carried' ->
+                Cont spin' reflection' product' ->
+                  Cont endpoint' ledger carried' ->
+                    PinGroupReflectionParityLedgerSurface spin' reflection' product' endpoint'
+                        ledger carried' ∧
+                      (((hsame carried' (append spin' ledger) ∧ UnaryHistory spin') ∨
+                            (hsame carried' (append product' ledger) ∧
+                              Cont spin' reflection' product' ∧ UnaryHistory reflection')) ∧
+                        hsame carried' (append endpoint' ledger)) := by
+  intro surface sameSpin sameReflection sameProduct sameEndpoint _sameCarried productRow'
+    endpointRow'
+  have carrier' :
+      PinGroupReflectionParityCarrier spin' reflection' product' endpoint' :=
+    PinGroupReflectionParityCarrier_stability surface.left sameSpin sameReflection sameProduct
+      sameEndpoint productRow'
+  have surface' :
+      PinGroupReflectionParityLedgerSurface spin' reflection' product' endpoint' ledger carried' :=
+    And.intro carrier' endpointRow'
+  exact And.intro surface' (PinGroupReflectionParityLedgerSurface_exhaustion surface')
 
 end BEDC.Derived.PinGroupUp
