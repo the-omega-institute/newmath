@@ -1,7 +1,10 @@
+import BEDC.GroundCompiler.ChannelEncoding
 import BEDC.GroundCompiler.EventFlow
 
 namespace BEDC.GroundCompiler.SelfHostingCompilerFlow
 
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.ChannelEncoding
 open BEDC.GroundCompiler.EventFlow
 
 def CompilerCandidateFlow : Type := EventFlow
@@ -247,6 +250,41 @@ theorem full_claim_requires_boundary
       exact False.elim (hNotSelf hSelf)
   | inr hBootstrap =>
       exact hBootstrap
+
+def ChannelCompiler : CompilerCandidateFlow :=
+  [[BMark.b0], [BMark.b1, BMark.b0], [BMark.b1, BMark.b1]]
+
+def ChannelCompilerBehavior : CompilerBehaviorRelation :=
+  fun C S T =>
+    C = ChannelCompiler /\ T = [FlowEncoding S]
+
+def ChannelFullCompiler (C : CompilerCandidateFlow) : Prop :=
+  SelfHostingCompilerFlow ChannelCompilerBehavior C
+
+theorem channel_compiler_not_full :
+    Not (ChannelFullCompiler ChannelCompiler) := by
+  intro hFull
+  cases hFull.right.right with
+  | intro C' hC' =>
+      cases hC' with
+      | intro _L hLedger =>
+          have hForward :
+              forall S T : EventFlow,
+                ChannelCompilerBehavior ChannelCompiler S T ->
+                  ChannelCompilerBehavior C' S T :=
+            hLedger.right.left.right.right.left
+          have hCompiled : ChannelCompilerBehavior ChannelCompiler
+              ChannelCompiler C' :=
+            hLedger.left
+          have hCeq : C' = ChannelCompiler :=
+            (hForward ChannelCompiler C' hCompiled).left
+          have hCode : C' = [FlowEncoding ChannelCompiler] :=
+            hCompiled.right
+          have hImpossible :
+              [FlowEncoding ChannelCompiler] = ChannelCompiler :=
+            Eq.trans (Eq.symm hCode) hCeq
+          simp [ChannelCompiler, FlowEncoding, EventEncoding, BodyEncoding,
+            EventTerminator] at hImpossible
 
 structure CompilerBootstrapLadder where
   C0 : CompilerCandidateFlow

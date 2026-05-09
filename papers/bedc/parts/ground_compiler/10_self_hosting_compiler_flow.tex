@@ -330,13 +330,20 @@ If $\mathsf{SelfHosting}(C)$ has not been established, then the system cannot cl
 
 \begin{definition}[Channel compiler $C_0$]
 \label{def:self-hosting-compiler-channel-compiler}
-The lowest channel compiler $C_0$ has behavior
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.ChannelCompiler}
+The lowest channel compiler $C_0$ is the event-flow table
+$$
+  C_0 \;:=\; (0,\;10,\;11).
+$$
+Its three raw events record the channel codewords
 $$
   \text{raw }0\mapsto 0,\qquad
   \text{raw }1\mapsto 10,\qquad
   \text{event end}\mapsto 11,
 $$
-and supports the bijection
+and its channel-only behavior sends an input event flow $S$ to the one-event
+flow whose raw event is $\mathsf{Compile}(S)$. This behavior supports the
+bijection
 $$
   \mathsf{EventFlow}\cong\mathsf{LegalZStream}.
 $$
@@ -345,11 +352,17 @@ It recognizes legal event codes, event boundaries, raw event reconstruction, and
 
 \begin{proposition}[$C_0$ is not a full compiler]
 \label{prop:self-hosting-compiler-c0-not-full}
-The channel compiler $C_0$ is not a package compiler, theorem compiler, or self-hosting compiler.
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.channel\_compiler\_not\_full}
+The channel compiler $C_0$ is not a full self-hosting compiler under the
+channel-only behavior above.
 \end{proposition}
 
 \begin{proof}
-The behavior of $C_0$ is limited to event-channel encoding and decoding. It supplies no recognition relation for package, $\NameCert$, derivation-certificate, theorem, chapter, or compiler flows. Hence it is not a full compiler.
+The behavior of $C_0$ is limited to event-channel encoding and decoding. When
+applied to $C_0$ itself, it returns the channel code flow
+$\mathsf{Compile}(C_0)$ rather than a compiler flow behaviorally classifying
+back to $C_0$. Thus the self-hosting classifier required for a full compiler
+cannot be obtained from the channel-only behavior.
 \end{proof}
 
 \begin{definition}[Compiler bootstrap ladder]
