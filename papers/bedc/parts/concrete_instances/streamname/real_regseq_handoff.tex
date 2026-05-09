@@ -96,6 +96,72 @@ row is accounted for by exactly one side of the handoff, and no completion or
 host equality row is imported from the finite StreamName package.
 \end{proof}
 
+\begin{definition}[StreamName-RegSeqRat scheduled seal package]
+\label{def:streamname-regseqrat-scheduled-seal-package}
+A $\StreamNameUp$--$\RegSeqRat$ scheduled seal package is the scheduled
+constant observation row together with three finite-window boundary rows:
+\begin{enumerate}
+  \item the public finite-window $\StreamNameUp$ row over
+  $\mathsf{BHist}$ histories, its finite $\mathsf{ProbeBundle}$ ledger,
+  $\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ observation
+  rows, and the displayed $\hsame$ comparisons between scheduled endpoints;
+  \item the $\RegSeqRat$ finite-window seal row reading the same selected
+  $\mathsf{RatHistoryClassifier}$ rows and dyadic ledger rows;
+  \item the finite-window $\RealUp$ ledger-boundary row that consumes only the
+  selected rational classifier rows, the probe ledger, and the unary
+  observation rows.
+\end{enumerate}
+The package has no further carrier. Its consumer-facing surface is exactly the
+scheduled observation, finite-window StreamName row, RegSeqRat seal row, and
+RealUp ledger-boundary row over the displayed $\mathsf{BHist}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+$\hsame$, $\RatUp$ classifier, and dyadic ledger data.
+\end{definition}
+
+\begin{theorem}[StreamName-RegSeqRat scheduled seal exhaustion]
+\label{thm:streamname-regseqrat-scheduled-seal-exhaustion}
+Every consumer row of the scheduled seal package of
+\autoref{def:streamname-regseqrat-scheduled-seal-package} is projected from
+exactly one of the following sources: the scheduled constant observation
+exactness row, the scheduled window reindex row, the $\RegSeqRat$
+finite-window seal exactness row, or the finite-window $\RealUp$
+ledger-boundary row. Conversely, those four source rows repack into the
+scheduled seal package and determine its whole consumer-facing surface.
+
+No consumer row of the package exports completion data, quotient data, host
+index equality, a $\RegSeqRat$ regularity witness beyond the finite-window seal
+row, or a $\RealUp$ seal classifier outside the displayed ledger boundary.
+\end{theorem}
+\begin{proof}
+First project the scheduled StreamName source. Apply
+\autoref{thm:streamname-constant-scheduled-observation-exactness} to obtain
+the constant observation row and
+\autoref{thm:streamname-scheduled-window-reindex-stability} to identify its
+finite scheduled windows under reindexing.
+
+Next project the downstream seal rows. The finite-window feed theorem
+\autoref{thm:streamname-regseqrat-realup-finite-window-feed} places the
+selected $\RatUp$ classifier rows, probe-bundle rows, membership rows, unary
+observation rows, and dyadic ledger rows at the common handoff. The RegSeqRat
+seal scope theorem \autoref{thm:streamname-regseqrat-seal-scope} says that
+the RegSeqRat consumer reads precisely the finite-window seal row from that
+handoff.
+
+The separation theorems in this section identify the remaining boundary.
+\autoref{thm:streamname-real-regseq-finite-window-handoff} gives the public
+finite-window StreamName row, \autoref{thm:streamname-real-regseq-constant-boundary}
+specializes it to the constant scheduled source, and
+\autoref{thm:streamname-real-regseq-obligation-separation} keeps the
+RegSeqRat and RealUp obligations disjoint.
+
+For the reverse direction, repack the scheduled observation exactness row,
+the reindex row, the RegSeqRat finite-window seal exactness row, and the
+RealUp finite-window ledger boundary into the three displayed components of
+\autoref{def:streamname-regseqrat-scheduled-seal-package}. The same cited
+handoff and separation theorems exclude every row outside those components, so
+the repacked package is exhaustive.
+\end{proof}
+
 \begin{theorem}[StreamName Real-RegSeq finite-overlap source stability]
 \label{thm:streamname-real-regseq-finite-overlap-source-stability}
 Let $\mathcal{W}_0$ and $\mathcal{W}_1$ be public $\StreamNameUp$
