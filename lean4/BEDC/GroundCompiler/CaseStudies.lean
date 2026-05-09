@@ -627,26 +627,28 @@ theorem circle_extends_phase {S : EventFlow} :
   intro h
   exact h.left
 
-def sameDisplayMark : DisplayAlphabet -> DisplayAlphabet -> Bool
-  | BMark.b0, BMark.b0 => true
-  | BMark.b1, BMark.b1 => true
-  | _, _ => false
+def sameDisplayMark : DisplayAlphabet -> DisplayAlphabet -> Bool :=
+  fun a b =>
+    BMark.casesOn a
+      (BMark.casesOn b true false)
+      (BMark.casesOn b false true)
 
 def sameRawEvent : RawEvent -> RawEvent -> Bool
-  | [], [] => true
-  | m :: ms, n :: ns =>
-      match sameDisplayMark m n with
-      | true => sameRawEvent ms ns
-      | false => false
-  | _, _ => false
+  | [] => fun ys =>
+      match ys with
+      | [] => true
+      | _ :: _ => false
+  | m :: ms => fun ys =>
+      match ys with
+      | [] => false
+      | n :: ns => Bool.casesOn (sameDisplayMark m n) false (sameRawEvent ms ns)
 
 def PrefixLen : EventFlow -> EventFlow -> Nat
-  | [], _ => 0
-  | _, [] => 0
-  | w :: ws, v :: vs =>
-      match sameRawEvent w v with
-      | true => Nat.succ (PrefixLen ws vs)
-      | false => 0
+  | [] => fun _ => 0
+  | w :: ws => fun ys =>
+      match ys with
+      | [] => 0
+      | v :: vs => Bool.casesOn (sameRawEvent w v) 0 (Nat.succ (PrefixLen ws vs))
 
 def RecognizedMotifOverlap
     (S T : EventFlow) (R : GeneratedMotifRecognizer) (M : EventFlow)
