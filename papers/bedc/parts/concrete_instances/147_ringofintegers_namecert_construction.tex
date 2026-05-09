@@ -79,3 +79,98 @@ obligation surface. Since every field has been projected from, or repacked into,
 the displayed finite packet, the surface has no hidden host quotient or detached
 integral-closure carrier.
 \end{proof}
+
+\begin{theorem}[RingOfIntegers root classifier transport]
+\label{thm:ringofintegers-root-classifier-transport}
+For a $\RingOfIntegersUp$ Dedekind-source carrier
+$$
+\mathcal O=(\mathcal N,\mathcal Z,\eta,E,\kappa,\tau,\rho),
+$$
+the root classifier transports exactly the displayed packet fields
+$\mathcal N,\mathcal Z,\eta,E,\kappa,\tau,\rho$ along $\hsame$. A transported
+accepted row has the same number-field source row, embedded integer row,
+embedding-provenance row, finite integral-equation ledger, classifier row,
+$\Cont$ provenance row, and $\Pkg$ provenance row. No host integral-closure
+carrier, quotient object, or detached polynomial-equality row is transported.
+\end{theorem}
+\begin{proof}
+Project the carrier through
+\autoref{def:ringofintegers-dedekind-source-carrier}. Its named fields are
+exactly $\mathcal N,\mathcal Z,\eta,E,\kappa,\tau,\rho$, and the classifier row
+$\kappa$ records the allowed $\hsame$ transports for these fields.
+
+Apply the obligation surface of
+\autoref{thm:ringofintegers-integral-closure-obligation-surface}. It says that
+accepted root rows project only to the number-field source, embedded integer
+source, embedding provenance, integral-equation ledger, classifier transport,
+continuation provenance, and package provenance.
+
+Repack the transported projections with the same finite ledger and provenance
+rows. Since neither the carrier definition nor the obligation surface has a
+field for a host integral-closure carrier, quotient object, or detached
+polynomial-equality row, transport is exhausted by the displayed packet
+fields.
+\end{proof}
+
+\begin{theorem}[RingOfIntegers integral-equation ledger exhaustion]
+\label{thm:ringofintegers-integral-equation-ledger-exhaustion}
+Every integral-equation read accepted by a $\RingOfIntegersUp$ root surface is
+one of the finite ledger rows in $E$ of the Dedekind-source carrier
+$\mathcal O=(\mathcal N,\mathcal Z,\eta,E,\kappa,\tau,\rho)$. Conversely, every
+row of $E$, together with its $\hsame$ classifier entry in $\kappa$, its finite
+$\Cont$ provenance in $\tau$, and the shared $\Pkg$ row $\rho$, repacks as an
+accepted integral-equation read of the same root surface.
+\end{theorem}
+\begin{proof}
+Induct on the finite ledger $E$. In the empty case, the carrier still exposes
+the dependency rows, classifier row, continuation row, and package row, but it
+exposes no integral-equation read.
+
+In the cons case, project the head equation to its displayed field-operation
+endpoints and integer-coefficient rows. The classifier component of $\kappa$
+and the continuation component of $\tau$ are the only rows that bind this head
+equation to the root packet.
+
+Apply the induction hypothesis to the tail ledger. It exhausts all remaining
+integral-equation reads through the same $\mathcal N,\mathcal Z,\eta$ source
+rows and the same shared package provenance.
+
+The reverse direction uses the same induction. The empty ledger repacks
+immediately, and the cons step attaches the displayed head equation before
+repacking the tail. Thus the accepted equation reads are exactly the finite
+rows of $E$, with no host integral-closure or quotient source.
+\end{proof}
+
+\begin{theorem}[RingOfIntegers DirichletUnit source readback]
+\label{thm:ringofintegers-dirichletunit-source-readback}
+A downstream $\DirichletUnitUp$ consumer reading from
+$\RingOfIntegersUp$ may read only the embedded integer row $\mathcal Z$, the
+integral-equation ledger $E$, the classifier row $\kappa$, the finite $\Cont$
+provenance row $\tau$, and the shared $\Pkg$ provenance row $\rho$ carried by
+the accepted Dedekind-source packet
+$\mathcal O=(\mathcal N,\mathcal Z,\eta,E,\kappa,\tau,\rho)$. The consumer may
+also retain the number-field source row $\mathcal N$ and embedding provenance
+$\eta$ as dependency scope, but it receives no host integral-closure carrier,
+quotient object, or analytic unit datum from $\RingOfIntegersUp$.
+\end{theorem}
+\begin{proof}
+Project the $\RingOfIntegersUp$ source through
+\autoref{thm:ringofintegers-integral-closure-obligation-surface}. The
+dependency rows available to any consumer are the number-field row, embedded
+integer row, embedding provenance, integral-equation ledger, classifier,
+continuation provenance, and package provenance.
+
+Use \autoref{thm:ringofintegers-root-classifier-transport} to identify the
+transported classifier data. A $\DirichletUnitUp$ reader may compare accepted
+integer and equation rows only through the displayed $\hsame$ entries of
+$\kappa$.
+
+Use \autoref{thm:ringofintegers-integral-equation-ledger-exhaustion} to exhaust
+the equation side. Every equation read is a member of $E$ and is tied to the
+same finite continuation and package rows.
+
+Therefore the downstream readback surface is exactly the embedded integer,
+equation-ledger, classifier, $\Cont$, and $\Pkg$ rows, with $\mathcal N$ and
+$\eta$ serving only as dependency scope. No additional host integral-closure,
+quotient, or analytic unit row is available to the consumer.
+\end{proof}
