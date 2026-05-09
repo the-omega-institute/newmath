@@ -74,6 +74,8 @@ import BEDC.Derived.IntUp.StdBridge
 import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.EllipticCurveUp
+import BEDC.Derived.EntanglementUp
+import BEDC.Derived.EntropyUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.GaloisExtUp
@@ -775,6 +777,7 @@ import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
 import BEDC.Derived.S1Up.CarrierExactness
+import BEDC.Derived.S1Up.ProductRealLedgerObligationSurface
 import BEDC.Derived.S1Up.SemanticFieldAssembly
 import BEDC.Derived.S1Up.SemanticCertificateFields
 import BEDC.Derived.S1Up.FieldAssembly
