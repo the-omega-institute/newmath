@@ -233,6 +233,17 @@ theorem DeRhamBoundarySourceLedgerPacket_endpoint_transport
                                   (And.intro endpointCont'
                                     (And.intro sameGraphLedger sameEndpointLedger)))))))
 
+theorem DeRhamBoundarySourceLedgerPacket_bridge_ledger_source_scope
+    {d : BHist -> BHist} {omega eta theta zero graphLedger endpointLedger : BHist} :
+    DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger ->
+      DeRhamBoundary d theta ∧ hsame zero BHist.Empty ∧ hsame (d eta) BHist.Empty ∧
+        Cont theta zero graphLedger ∧ Cont graphLedger eta endpointLedger := by
+  intro packet
+  exact And.intro packet.right.left
+    (And.intro packet.left.right.right.right.right
+      (And.intro packet.right.right.left
+        (And.intro packet.right.right.right.left packet.right.right.right.right)))
+
 theorem DeRhamBoundary_semanticNameCert {d : BHist -> BHist} {axis : BHist}
     (axisBoundary : DeRhamBoundary d axis) :
     SemanticNameCert (DeRhamBoundary d) (DeRhamBoundary d) (DeRhamBoundary d) hsame := by
