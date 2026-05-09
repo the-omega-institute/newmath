@@ -534,6 +534,54 @@ theorem metric_not_automatic_topology :
                           | tail _ hOpenMem =>
                               cases hOpenMem
 
+def PhaseCyclicSourceFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b1, BMark.b0]]
+
+def PhaseCompletionSealFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b1, BMark.b1]]
+
+def PhaseCarryFlow : EventFlow :=
+  [[BMark.b1, BMark.b0, BMark.b0, BMark.b0]]
+
+def PhaseNormalAddressFlow : EventFlow :=
+  [[BMark.b1, BMark.b0, BMark.b0, BMark.b1]]
+
+def PhaseLedgerFlow : EventFlow :=
+  [[BMark.b1, BMark.b0, BMark.b1, BMark.b0]]
+
+def PhaseMotif (S : EventFlow) : Prop :=
+  Subflow PhaseCyclicSourceFlow S /\
+    Subflow PhaseCompletionSealFlow S /\
+    Subflow PhaseCarryFlow S /\
+    Subflow PhaseNormalAddressFlow S /\
+    Subflow PhaseLedgerFlow S /\
+    NonemptyEventFlow PhaseLedgerFlow
+
+def CircleUnitConstraintFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b0, BMark.b1]]
+
+def CircleEquationClassifierFlow : EventFlow :=
+  [[BMark.b1, BMark.b0, BMark.b1, BMark.b1]]
+
+def CircleTopologicalCompatibilityFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b0, BMark.b0]]
+
+def CircleLedgerFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b0, BMark.b1]]
+
+def CircleMotif (S : EventFlow) : Prop :=
+  PhaseMotif S /\
+    Subflow CircleUnitConstraintFlow S /\
+    Subflow CircleEquationClassifierFlow S /\
+    Subflow CircleTopologicalCompatibilityFlow S /\
+    Subflow CircleLedgerFlow S /\
+    NonemptyEventFlow CircleLedgerFlow
+
+theorem circle_extends_phase {S : EventFlow} :
+    CircleMotif S -> PhaseMotif S := by
+  intro h
+  exact h.left
+
 def sameDisplayMark : DisplayAlphabet -> DisplayAlphabet -> Bool
   | BMark.b0, BMark.b0 => true
   | BMark.b1, BMark.b1 => true
