@@ -65,7 +65,10 @@ theorem channel_dfa_run_append
   | nil =>
       rfl
   | cons m rest ih =>
-      simp [ChannelDFARun, ih]
+      change
+        ChannelDFARun (ChannelDFAStep q m) (rest ++ ys) =
+          ChannelDFARun (ChannelDFARun (ChannelDFAStep q m) rest) ys
+      exact ih (ChannelDFAStep q m)
 
 theorem event_encoding_dfa_accepts_from_boundary_and_body
     (w : RawEvent) :
@@ -75,22 +78,31 @@ theorem event_encoding_dfa_accepts_from_boundary_and_body
       ChannelDFAState.boundary := by
   induction w with
   | nil =>
-      simp [EventEncoding, BodyEncoding, EventTerminator, ChannelDFARun,
-        ChannelDFAStep]
+      constructor
+      · rfl
+      · rfl
   | cons m rest ih =>
       cases m with
       | b0 =>
           constructor
-          · simpa [EventEncoding, BodyEncoding, ChannelDFARun, ChannelDFAStep]
-              using ih.right
-          · simpa [EventEncoding, BodyEncoding, ChannelDFARun, ChannelDFAStep]
-              using ih.right
+          · change
+              ChannelDFARun ChannelDFAState.body (EventEncoding rest) =
+                ChannelDFAState.boundary
+            exact ih.right
+          · change
+              ChannelDFARun ChannelDFAState.body (EventEncoding rest) =
+                ChannelDFAState.boundary
+            exact ih.right
       | b1 =>
           constructor
-          · simpa [EventEncoding, BodyEncoding, ChannelDFARun, ChannelDFAStep]
-              using ih.right
-          · simpa [EventEncoding, BodyEncoding, ChannelDFARun, ChannelDFAStep]
-              using ih.right
+          · change
+              ChannelDFARun ChannelDFAState.body (EventEncoding rest) =
+                ChannelDFAState.boundary
+            exact ih.right
+          · change
+              ChannelDFARun ChannelDFAState.body (EventEncoding rest) =
+                ChannelDFAState.boundary
+            exact ih.right
 
 theorem flow_encoding_dfa_accepts (S : EventFlow) :
     ChannelDFAAccept (FlowEncoding S) := by

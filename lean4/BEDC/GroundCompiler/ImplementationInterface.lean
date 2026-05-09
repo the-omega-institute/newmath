@@ -550,7 +550,7 @@ theorem dec_event_sound {c : List DisplayAlphabet} {w : RawEvent}
       cases m with
       | b0 =>
           intro h
-          simp [DecEvent] at h
+          dsimp [DecEvent] at h
           cases hDec : DecEvent rest with
           | none =>
               rw [hDec] at h
@@ -573,7 +573,7 @@ theorem dec_event_sound {c : List DisplayAlphabet} {w : RawEvent}
           | cons n restTail =>
               cases n with
               | b0 =>
-                  simp [DecEvent] at h
+                  dsimp [DecEvent] at h
                   cases hDec : DecEvent restTail with
                   | none =>
                       rw [hDec] at h
@@ -582,11 +582,16 @@ theorem dec_event_sound {c : List DisplayAlphabet} {w : RawEvent}
                       cases pair with
                       | mk tail remainingTail =>
                           rw [hDec] at h
+                          have hDecB0 :
+                              DecEvent (BMark.b0 :: restTail) =
+                                some (BMark.b0 :: tail, remainingTail) := by
+                            dsimp [DecEvent]
+                            rw [hDec]
                           have hRest :
                               BMark.b0 :: restTail =
                                 EventEncoding (BMark.b0 :: tail) ++
                                   remainingTail :=
-                            ih (by simp [DecEvent, hDec])
+                            ih hDecB0
                           cases h
                           rw [hRest]
                           rfl
@@ -611,7 +616,7 @@ theorem decode_fuel_sound {fuel : Nat} {c : List DisplayAlphabet}
       unfold DecodeFuel at h
       cases hDec : DecEvent c with
       | none =>
-          simp [hDec] at h
+          rw [hDec] at h
           cases c with
           | nil =>
               cases h
@@ -621,7 +626,11 @@ theorem decode_fuel_sound {fuel : Nat} {c : List DisplayAlphabet}
       | some pair =>
           cases pair with
           | mk w remaining =>
-              simp [hDec] at h
+              rw [hDec] at h
+              change
+                (match DecodeFuel fuel remaining with
+                | some tail => some (w :: tail)
+                | none => none) = some S at h
               cases hRest : DecodeFuel fuel remaining with
               | none =>
                   rw [hRest] at h
