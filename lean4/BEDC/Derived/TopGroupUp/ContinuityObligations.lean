@@ -58,6 +58,38 @@ theorem TopGroupRootThresholdPackage_operation_continuity_witness_obligation
             (And.intro package.right.right.right.right.right.left
               package.right.right.right.right.right.right))))
 
+theorem TopGroupRootThresholdPackage_obligation_continuity_ledger_surface
+    {group topology product inverse neighborhood ledger provenance productLedger inverseLedger
+      continuityLedger : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      Cont product neighborhood productLedger ->
+        Cont inverse neighborhood inverseLedger ->
+          Cont productLedger inverseLedger continuityLedger ->
+            GroupSingletonCarrier group ∧ TopologySingletonCarrier topology ∧
+              UnaryHistory productLedger ∧ UnaryHistory inverseLedger ∧
+                UnaryHistory continuityLedger ∧ Cont product neighborhood productLedger ∧
+                  Cont inverse neighborhood inverseLedger ∧
+                    Cont productLedger inverseLedger continuityLedger ∧
+                      Cont product inverse ledger ∧ hsame provenance ledger := by
+  intro package productLedgerCont inverseLedgerCont continuityLedgerCont
+  have operationObligation :=
+    TopGroupRootThresholdPackage_operation_continuity_witness_obligation package
+      productLedgerCont inverseLedgerCont
+  have continuityLedgerUnary : UnaryHistory continuityLedger :=
+    unary_cont_closed operationObligation.left operationObligation.right.left
+      continuityLedgerCont
+  exact
+    And.intro package.left
+      (And.intro package.right.left
+        (And.intro operationObligation.left
+          (And.intro operationObligation.right.left
+            (And.intro continuityLedgerUnary
+              (And.intro productLedgerCont
+                (And.intro inverseLedgerCont
+                  (And.intro continuityLedgerCont
+                    (And.intro operationObligation.right.right.right.right.left
+                      operationObligation.right.right.right.right.right))))))))
+
 theorem TopGroupRootThresholdPackage_product_cont_ledger_soundness
     {group topology product inverse neighborhood ledger provenance productLedger
       productContinuityLedger : BHist} :
