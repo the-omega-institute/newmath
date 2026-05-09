@@ -74,3 +74,36 @@ definition of the boundary packet provides no coordinate for host orthogonal
 groups, Clifford quotients, matrix models, or standard bridges, so the
 exhausted public surface cannot read any such row.
 \end{proof}
+
+\begin{theorem}[SpinGroup root public boundary transport stability]
+\label{thm:spingroup-root-public-boundary-transport-stability}
+Let $r$ be a public $\SpinGroupUp$ root consumer row displayed by
+\autoref{def:spingroup-root-public-consumer-boundary-packet}. If $r$ is
+transported by the displayed $\hsame$ and $\Cont$ rows while keeping the same
+Clifford source row, singleton $\GroupUp$ row, even-parity
+$\mathsf{UnaryHistory}$ ledger, and $\Pkg$ provenance, then the transported
+row is again a public $\SpinGroupUp$ root consumer row.
+
+No host orthogonal group, matrix model, Clifford quotient, or standard bridge
+row enters this public boundary under the transport.
+\end{theorem}
+\begin{proof}
+Project the original public row through
+\autoref{thm:spingroup-root-public-consumer-boundary-coverage}. The projected
+coordinates are exactly the Clifford source row, singleton $\GroupUp$ row,
+unit, product, inverse, even-parity ledger, displayed $\Cont/\hsame$ rows,
+and $\Pkg$ provenance.
+
+Transport only the displayed classifier and continuation coordinates. The
+source coordinates remain fixed by
+\autoref{thm:spingroup-root-carrier-source-scope}, and the product and
+inverse coordinates remain admitted by
+\autoref{thm:spingroup-root-group-law-transport} over the same singleton
+group-law row and unary ledger.
+
+Repack the transported coordinates by
+\autoref{thm:spingroup-root-public-consumer-boundary-exhaustion}. Since the
+boundary packet has no coordinate for host orthogonal groups, matrix models,
+Clifford quotients, or standard bridges, the transported row is still a
+public root consumer row and no external row has entered the boundary.
+\end{proof}
