@@ -232,6 +232,7 @@ $$
 
 \begin{definition}[Minimal source-event report format]
 \label{def:source-report-minimal-format}
+\leandef{BEDC.GroundCompiler.SourceReport.MinimalSourceEventReportFormat}
 A minimal report contains input channel stream, legal status, decoded event-flow display when legal, event index, raw event, body code, terminator code, full event code, round-trip status, literal source warnings, and cannot-claim annotations.
 \end{definition}
 
@@ -331,6 +332,7 @@ The $P_1$ layer decodes channel streams and reports source events. It has no gen
 
 \begin{corollary}[Warnings are weaker than recognitions]
 \label{cor:source-report-warnings-weaker}
+\leanchecked{BEDC.GroundCompiler.SourceReport.warnings\_weaker\_than\_recognitions}
 A warning such as ``literal pair $011\mid 100$ appears'' is not carry motif recognition. It only reports a literal pattern in decoded source events.
 \end{corollary}
 
@@ -367,6 +369,7 @@ Display policy affects only output formatting. It does not alter $\mathsf{Compil
 
 \begin{definition}[Canonical display policy]
 \label{def:source-report-canonical-display-policy}
+\leandef{BEDC.GroundCompiler.SourceReport.CanonicalDisplayPolicy}
 A canonical display policy for $P_1$ may use separator ``$\mid$'', empty event marker $\epsilon$, event index form $i$, explicit body, terminator, and code fields, warnings after the event table, and cannot-claims last. This policy is recommended for reproducibility but remains output policy, not source semantics.
 \end{definition}
 

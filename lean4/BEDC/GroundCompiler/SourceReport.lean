@@ -78,6 +78,29 @@ structure DisplayPolicy where
   printsWarnings : Bool
   printsCannotClaims : Bool
 
+structure MinimalSourceEventReportFormat where
+  containsInputChannelStream : Bool
+  containsLegalStatus : Bool
+  containsDecodedEventFlowDisplay : Bool
+  containsEventIndex : Bool
+  containsRawEvent : Bool
+  containsBodyCode : Bool
+  containsTerminatorCode : Bool
+  containsFullEventCode : Bool
+  containsRoundTripStatus : Bool
+  containsLiteralSourceWarnings : Bool
+  containsCannotClaimAnnotations : Bool
+
+def CanonicalDisplayPolicy : DisplayPolicy where
+  printsRawEventSeparator := true
+  printsEmptyEventMarker := true
+  printsEventIndex := true
+  printsBodySegment := true
+  printsTerminatorSegment := true
+  printsEventCode := true
+  printsWarnings := true
+  printsCannotClaims := true
+
 inductive SourceReportRecognition
     (_c : List DisplayAlphabet) (_S : EventFlow) : Prop
 
@@ -128,6 +151,11 @@ theorem literal_warning_not_recognition (warning : LiteralSourceWarning) :
     Not (LiteralWarningRecognition warning) := by
   intro h
   cases h
+
+theorem warnings_weaker_than_recognitions
+    (warning : LiteralSourceWarning) :
+    Not (LiteralWarningRecognition warning) :=
+  literal_warning_not_recognition warning
 
 theorem event_segments_partition (S : EventFlow) :
     FlowEncoding S = (List.map EventSegment S).flatten := by
