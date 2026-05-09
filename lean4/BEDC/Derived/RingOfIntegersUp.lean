@@ -1,9 +1,11 @@
 import BEDC.Derived.IntUp
+import BEDC.Derived.NumFieldUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
+import BEDC.FKernel.Package.Core
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.RingOfIntegersUp
@@ -15,8 +17,47 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.NumFieldUp
 
 def RingOfIntegersDedekindSourceCarrier [AskSetup] [PackageSetup]
+    (numfield embeddedInt embedding equationLedger classifier provenance contLedger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  NumFieldRatReflexiveCarrier numfield ∧ UnaryHistory embeddedInt ∧ UnaryHistory embedding ∧
+    UnaryHistory equationLedger ∧ UnaryHistory classifier ∧ UnaryHistory provenance ∧
+      Cont numfield embeddedInt embedding ∧ Cont embedding equationLedger contLedger ∧
+        Cont provenance contLedger endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem RingOfIntegersDedekindSourceCarrier_dependency_projection_boundary [AskSetup]
+    [PackageSetup]
+    {numfield embeddedInt embedding equationLedger classifier provenance contLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RingOfIntegersDedekindSourceCarrier numfield embeddedInt embedding equationLedger
+      classifier provenance contLedger endpoint bundle pkg ->
+      NumFieldRatReflexiveCarrier numfield ∧ UnaryHistory embeddedInt ∧
+        UnaryHistory embedding ∧ UnaryHistory equationLedger ∧ UnaryHistory classifier ∧
+          UnaryHistory contLedger ∧ UnaryHistory endpoint ∧ Cont numfield embeddedInt embedding ∧
+            Cont embedding equationLedger contLedger ∧ Cont provenance contLedger endpoint ∧
+              PkgSig bundle endpoint pkg := by
+  intro carrier
+  have contLedgerUnary : UnaryHistory contLedger :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.right.right.right.right.right.left contLedgerUnary
+      carrier.right.right.right.right.right.right.right.right.left
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro carrier.right.right.right.right.left
+            (And.intro contLedgerUnary
+              (And.intro endpointUnary
+                (And.intro carrier.right.right.right.right.right.right.left
+                  (And.intro carrier.right.right.right.right.right.right.right.left
+                    (And.intro carrier.right.right.right.right.right.right.right.right.left
+                      carrier.right.right.right.right.right.right.right.right.right)))))))))
+
+def RingOfIntegersEquationLedgerCarrier [AskSetup] [PackageSetup]
     (numfield introw embedding ledger classifier controw pkgrow : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory numfield ∧ UnaryHistory introw ∧ UnaryHistory embedding ∧
@@ -28,14 +69,14 @@ theorem RingOfIntegersDedekindSourceCarrier_equation_ledger_transport_closure
     {numfield introw embedding ledger classifier controw pkgrow ledger' classifier' controw'
       pkgrow' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    RingOfIntegersDedekindSourceCarrier numfield introw embedding ledger classifier controw
+    RingOfIntegersEquationLedgerCarrier numfield introw embedding ledger classifier controw
         pkgrow bundle pkg ->
       hsame ledger ledger' ->
         hsame classifier classifier' ->
           Cont embedding ledger' controw' ->
             Cont controw' classifier' pkgrow' ->
               PkgSig bundle pkgrow' pkg ->
-                RingOfIntegersDedekindSourceCarrier numfield introw embedding ledger'
+                RingOfIntegersEquationLedgerCarrier numfield introw embedding ledger'
                     classifier' controw' pkgrow' bundle pkg ∧
                   hsame controw controw' ∧ hsame pkgrow pkgrow' := by
   intro carrier sameLedger sameClassifier targetLedgerCont targetPkgCont targetPkgSig
@@ -65,11 +106,11 @@ theorem RingOfIntegersDedekindSourceCarrier_equation_ledger_transport_closure
                               exact And.intro
                                 (And.intro numfieldUnary
                                   (And.intro introwUnary
-                                    (And.intro embeddingUnary
-                                      (And.intro ledgerUnary'
-                                        (And.intro classifierUnary'
-                                          (And.intro targetLedgerCont
-                                            (And.intro targetPkgCont targetPkgSig)))))))
+                                      (And.intro embeddingUnary
+                                        (And.intro ledgerUnary'
+                                          (And.intro classifierUnary'
+                                            (And.intro targetLedgerCont
+                                              (And.intro targetPkgCont targetPkgSig)))))))
                                 (And.intro sameControw samePkgrow)
 
 def RingOfIntegersClassifierTransportCarrier [AskSetup] [PackageSetup]

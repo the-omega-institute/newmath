@@ -295,6 +295,36 @@ theorem ObservableBHistOperatorCarrier_expectation_transport_exactness [AskSetup
         (And.intro transported.right.right
           exactReadback.right.left)))
 
+theorem ObservableBHistOperatorCarrier_public_consumer_exhaustion [AskSetup] [PackageSetup]
+    {hilbert operator spectrum expectation witness provenance ledger endpoint expectationEndpoint
+      consumerEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance ledger
+        endpoint bundle pkg ->
+      Cont operator expectation expectationEndpoint ->
+        Cont expectationEndpoint endpoint consumerEndpoint ->
+          UnaryHistory consumerEndpoint ∧
+            hsame consumerEndpoint (append (append operator expectation) endpoint) ∧
+              hsame endpoint (append provenance ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier expectationEndpointRow consumerEndpointRow
+  have exactness :=
+    ObservableBHistOperatorCarrier_expectation_ledger_exactness
+      (hilbert := hilbert) (operator := operator) (spectrum := spectrum)
+      (expectation := expectation) (witness := witness) (provenance := provenance)
+      (ledger := ledger) (endpoint := endpoint) (expectationEndpoint := expectationEndpoint)
+      (bundle := bundle) (pkg := pkg) carrier expectationEndpointRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.right.right.right.right.right.left exactness.right.right.left
+      carrier.right.right.right.right.right.right.right.right.left
+  have consumerEndpointUnary : UnaryHistory consumerEndpoint :=
+    unary_cont_closed exactness.left endpointUnary consumerEndpointRow
+  have consumerReadback : hsame consumerEndpoint (append (append operator expectation) endpoint) :=
+    hsame_trans consumerEndpointRow (congrArg (fun row : BHist => append row endpoint) exactness.right.left)
+  exact And.intro consumerEndpointUnary
+    (And.intro consumerReadback
+      (And.intro exactness.right.right.right.right.left
+        exactness.right.right.right.right.right))
+
 theorem ObservableBHistOperatorCarrier_expectation_row_transport_composition [AskSetup]
     [PackageSetup]
     {hilbert operator operator' spectrum spectrum' expectation expectation' witness provenance
