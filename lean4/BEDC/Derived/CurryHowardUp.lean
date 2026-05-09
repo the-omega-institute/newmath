@@ -415,4 +415,24 @@ theorem CurryHowardCutBetaPacket_proof_program_ledger_obligation_surface [AskSet
       (And.intro endpointRows.right.right.right.left
         (And.intro provenanceRow endpointRows.right.right.right.right)))
 
+theorem CurryHowardCutBetaPacket_proof_program_determinacy [AskSetup] [PackageSetup]
+    {conclusion appEndpoint proofProgram proofProgram' provenance bridge bridge' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont conclusion appEndpoint proofProgram ->
+      Cont conclusion appEndpoint proofProgram' ->
+        Cont provenance proofProgram bridge ->
+          Cont provenance proofProgram' bridge' ->
+            PkgSig bundle bridge pkg ->
+              PkgSig bundle bridge' pkg ->
+                hsame proofProgram proofProgram' ∧ hsame bridge bridge' ∧
+                  PkgSig bundle bridge pkg ∧ PkgSig bundle bridge' pkg := by
+  intro proofProgramRow proofProgramRow' provenanceRow provenanceRow' bridgePkg bridgePkg'
+  have proofProgramSame : hsame proofProgram proofProgram' :=
+    cont_respects_hsame (hsame_refl conclusion) (hsame_refl appEndpoint) proofProgramRow
+      proofProgramRow'
+  have bridgeSame : hsame bridge bridge' :=
+    cont_respects_hsame (hsame_refl provenance) proofProgramSame provenanceRow provenanceRow'
+  exact And.intro proofProgramSame
+    (And.intro bridgeSame (And.intro bridgePkg bridgePkg'))
+
 end BEDC.Derived.CurryHowardUp
