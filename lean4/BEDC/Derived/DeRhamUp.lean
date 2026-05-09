@@ -1,7 +1,8 @@
-import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 
 namespace BEDC.Derived.DeRhamUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 
 theorem DeRhamDoubleExteriorDerivative_boundary {d : BHist -> BHist}
@@ -31,6 +32,10 @@ def DeRhamDoubleExteriorPacket
     (forall {a b : BHist}, hsame a b -> hsame (d a) (d b)) ∧
       (forall a : BHist, hsame (d (d a)) zero) ∧ hsame zero BHist.Empty
 
+def DeRhamStandardBoundaryBridgePacket
+    (d : BHist -> BHist) (omega eta theta zero provenance bridge : BHist) : Prop :=
+  DeRhamDoubleExteriorPacket d omega eta theta zero ∧ Cont provenance theta bridge
+
 theorem DeRhamDoubleExteriorPacket_boundary
     {d : BHist -> BHist} {omega eta theta zero : BHist} :
     DeRhamDoubleExteriorPacket d omega eta theta zero ->
@@ -48,5 +53,13 @@ theorem DeRhamDoubleExteriorPacket_boundary
     hsame_trans sameDEtaDDOmega (packet.right.right.right.left omega)
   exact And.intro sameThetaZero
     (And.intro boundaryTheta (hsame_trans sameDEtaZero packet.right.right.right.right))
+
+theorem DeRhamStandardBoundaryBridgePacket_classifier_compatibility
+    {d : BHist -> BHist} {omega eta theta zero provenance bridge : BHist} :
+    DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
+      DeRhamBoundary d theta ∧ hsame (d eta) BHist.Empty ∧ Cont provenance theta bridge := by
+  intro packet
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
+  exact And.intro boundary.right.left (And.intro boundary.right.right packet.right)
 
 end BEDC.Derived.DeRhamUp
