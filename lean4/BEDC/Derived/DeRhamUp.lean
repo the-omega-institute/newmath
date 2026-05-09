@@ -239,4 +239,16 @@ theorem DeRhamBoundarySourcePacket_stability
           exact And.intro (And.intro boundaryTheta' zeroEmpty)
             (And.intro boundaryTheta' zeroEmpty)
 
+theorem DeRhamBoundarySourceLedgerPacket_consumer_exactness
+    {d : BHist -> BHist} {omega eta theta zero graphLedger endpointLedger : BHist} :
+    DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger ->
+      hsame theta zero ∧ DeRhamBoundary d theta ∧ hsame (d eta) BHist.Empty ∧
+        Cont theta zero graphLedger ∧ Cont graphLedger eta endpointLedger := by
+  intro packet
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
+  exact And.intro boundary.left
+    (And.intro boundary.right.left
+      (And.intro boundary.right.right
+        (And.intro packet.right.right.right.left packet.right.right.right.right)))
+
 end BEDC.Derived.DeRhamUp

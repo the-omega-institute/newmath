@@ -35,4 +35,26 @@ theorem TopGroupRootThreshold_carrier_scope
             (And.intro package.right.right.right.right.right.left
               package.right.right.right.right.right.right)))))
 
+theorem TopGroupRootThresholdPackage_continuity_ledger_scope
+    {group topology product inverse neighborhood ledger provenance : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      Cont product inverse ledger ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+        hsame provenance ledger := by
+  intro package
+  have rows := TopGroupRootThreshold_carrier_scope package
+  have productUnary : UnaryHistory product :=
+    unary_transport (unary_append_closed rows.right.right.left rows.right.right.right.left)
+      (hsame_symm package.right.right.right.left)
+  have inverseUnary : UnaryHistory inverse :=
+    unary_transport unary_empty (hsame_symm package.right.right.right.right.left)
+  have ledgerCont : Cont product inverse ledger :=
+    package.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed productUnary inverseUnary ledgerCont
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_transport ledgerUnary (hsame_symm rows.right.right.right.right.right.right)
+  exact And.intro ledgerCont
+    (And.intro ledgerUnary
+      (And.intro provenanceUnary rows.right.right.right.right.right.right))
+
 end BEDC.Derived.TopGroupUp
