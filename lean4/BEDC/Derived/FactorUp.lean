@@ -173,6 +173,30 @@ theorem FactorBHistSourcePacket_type_row_no_confusion [AskSetup] [PackageSetup]
     cont_respects_hsame sameLedgers (hsame_refl transport) ledgerTransportA ledgerTransportB
   exact ⟨sameTypeRows, sameLedgers, sameEndpoints⟩
 
+theorem FactorBHistSourcePacket_public_namecert_export [AskSetup] [PackageSetup]
+    {algebra centre witness typeRow transport ledger endpoint centre' witness' ledger'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FactorBHistSourcePacket algebra centre witness typeRow transport ledger endpoint bundle pkg ->
+      hsame centre' centre -> Cont algebra centre' witness' -> Cont witness' typeRow ledger' ->
+        Cont ledger' transport endpoint' -> PkgSig bundle endpoint' pkg ->
+          FactorBHistSourcePacket algebra centre' witness' typeRow transport ledger' endpoint'
+              bundle pkg ∧
+            hsame witness witness' ∧ hsame ledger ledger' ∧ hsame endpoint endpoint' ∧
+              UnaryHistory algebra ∧ UnaryHistory centre' ∧ UnaryHistory typeRow ∧
+                PkgSig bundle endpoint pkg := by
+  intro packet sameCentre algebraCentre' witnessTypeRow' ledgerTransport' pkgSig'
+  have boundary :=
+    FactorBHistSourcePacket_centre_ledger_transport_determinacy
+      packet sameCentre algebraCentre' witnessTypeRow' ledgerTransport'
+  have centreUnary' : UnaryHistory centre' :=
+    unary_transport packet.right.left (hsame_symm sameCentre)
+  exact
+    ⟨⟨packet.left, centreUnary', packet.right.right.left, packet.right.right.right.left,
+        algebraCentre', witnessTypeRow', ledgerTransport', pkgSig'⟩,
+      boundary.left, boundary.right.left, boundary.right.right.left, packet.left, centreUnary',
+      packet.right.right.left, packet.right.right.right.right.right.right.right⟩
+
 theorem FactorBHistSourcePacket_public_bridge_boundary [AskSetup] [PackageSetup]
     {algebra centre centre' witness witness' typeRow transport ledger ledger' endpoint endpoint' :
       BHist}
