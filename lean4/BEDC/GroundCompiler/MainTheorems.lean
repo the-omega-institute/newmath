@@ -1,9 +1,12 @@
 import BEDC.GroundCompiler.ChannelEncoding
+import BEDC.GroundCompiler.SourceChannel
 
 namespace BEDC.GroundCompiler.MainTheorems
 
+open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.ChannelEncoding
+open BEDC.GroundCompiler.SourceChannel
 
 structure NoHiddenInputCompilerState where
   compile : EventFlow -> List DisplayAlphabet
@@ -66,5 +69,27 @@ theorem code_not_proof :
         Not (exists S : EventFlow,
           c = FlowEncoding S /\ RecognizedTheoremFlow S) := by
   exact legal_stream_not_theoremhood
+
+theorem source_channel_separation :
+    (forall S : EventFlow, LegalZStream (FlowEncoding S)) /\
+      (forall S : EventFlow, Decode (FlowEncoding S) = some S) /\
+      Not (EventTerminator = EventEncoding [BMark.b1, BMark.b1]) /\
+      exists c u : List DisplayAlphabet,
+        LegalZStream c /\
+          ContiguousSubstring u c /\
+          Not (OccursAsDecodedEvent u c) := by
+  exact layer_separation
+
+theorem carry_not_channel_rewrite :
+    LegalZStream (EventEncoding CarryPreNormal) /\
+      Not (LegalZStream
+        [BMark.b0, BMark.b1, BMark.b0, BMark.b1,
+          BMark.b1, BMark.b0, BMark.b0]) := by
+  exact no_channel_level_source_rewrite
+
+def GeneratedStructure
+    (RecognizesK : GeneratedRecognizer -> EventFlow -> Prop) : Prop :=
+  exists R : GeneratedRecognizer, exists S : EventFlow,
+    FormalCompilerInput (CompilerDatum.recognizedFlow R S) /\ RecognizesK R S
 
 end BEDC.GroundCompiler.MainTheorems

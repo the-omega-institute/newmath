@@ -132,6 +132,7 @@ The judgment $c\in\mathsf{LegalZStream}$ only says that $c$ decodes to an event 
 
 \begin{theorem}[Source/channel layer separation theorem]
 \label{thm:main-theorems-source-channel-separation}
+\leanchecked{BEDC.GroundCompiler.MainTheorems.source\_channel\_separation}
 Source events and channel streams are strictly separated:
 \begin{enumerate}
 \item source events belong to $\mathsf{RawEvent}=\{0,1\}^{\ast}$;
@@ -149,6 +150,7 @@ The first two clauses are definitions. The third follows from $\mathsf{Ev}(w)=\z
 
 \begin{corollary}[Source carry is not channel rewrite]
 \label{cor:main-theorems-carry-not-channel-rewrite}
+\leanchecked{BEDC.GroundCompiler.MainTheorems.carry\_not\_channel\_rewrite}
 A source-level relation such as $011\leadsto 100$ cannot be applied as a string rewrite on compiled channel bits. The valid order is decode, source-level normalization, and compile.
 \end{corollary}
 
@@ -157,6 +159,7 @@ A source-level relation such as $011\leadsto 100$ cannot be applied as a string 
 
 \begin{definition}[Generated structure]
 \label{def:main-theorems-generated-structure}
+\leandef{BEDC.GroundCompiler.MainTheorems.GeneratedStructure}
 A structure $K$ is a \emph{generated structure} when there are an event flow $S$ and a generated recognizer flow $R$ such that
 $$
   \mathsf{Recognizes}_K(R,S).
