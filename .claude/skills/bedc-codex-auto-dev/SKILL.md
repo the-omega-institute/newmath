@@ -276,6 +276,16 @@ The `[ "$cur" != "$prev" ]` guard means it stays silent during steady-state (one
 
 Always run **both** monitors in parallel after starting the pipelines: log-stream (active error watch) + ps-based (daemon liveness change). The two cover orthogonal failure modes — log-stream catches loud failures (Tracebacks, recovery activity, `Session complete:` etc.); ps-based catches silent disappearance (process killed by OS, exit before flushing log, parent shell SIGHUP edge cases). Either alone misses an entire category.
 
+**Before arming a fresh monitor pair, sweep stale Monitor children from prior sessions.** Monitor tasks are detached children; a cross-session disconnect leaves the `tail -F …` / `while true; do ps_out=…; done` shells running and re-emitting events into a transcript they no longer belong to (you also see every log line twice when the new monitor lands on top of the old). Sweep first:
+
+```bash
+ps -axo pid,etime,command \
+  | grep -E 'tail -F .*orchestrator\.log|while true; do.*ps_out|prev=' \
+  | grep -v grep
+```
+
+Anything older than the current session's start time (`etime` clearly large, e.g. days) belongs to a prior session — `kill <pid>` it before launching the new monitors. The corresponding Monitor task will flip to `failed (exit 144)`, which is the desired outcome.
+
 Because Monitor no longer holds the orchestrator, you can freely change the `grep` filter, kill the Monitor, or re-launch it with a different filter without affecting any in-flight round.
 
 ## 3-hour open-ended self-check loop
