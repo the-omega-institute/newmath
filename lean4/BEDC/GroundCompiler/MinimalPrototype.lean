@@ -149,6 +149,40 @@ structure EncodeReport where
   roundTripSucceeded : Bool
   warnings : List ReportWarning
 
+inductive PrototypeReportDatum : Type where
+  | reject (report : RejectReport)
+  | decode (report : DecodeReport)
+  | encode (report : EncodeReport)
+
+inductive PrototypeFormalInputDatum : Type where
+  | eventFlowDisplay (S : EventFlow)
+  | channelStreamDisplay (c : List DisplayAlphabet)
+
+inductive PrototypeIOView : Type where
+  | input (datum : PrototypeFormalInputDatum)
+  | report (datum : PrototypeReportDatum)
+
+inductive FormalPrototypeInput : PrototypeIOView -> Prop where
+  | eventFlowDisplay (S : EventFlow) :
+      FormalPrototypeInput
+        (PrototypeIOView.input
+          (PrototypeFormalInputDatum.eventFlowDisplay S))
+  | channelStreamDisplay (c : List DisplayAlphabet) :
+      FormalPrototypeInput
+        (PrototypeIOView.input
+          (PrototypeFormalInputDatum.channelStreamDisplay c))
+
+inductive PrototypeReportOutputView : PrototypeIOView -> Prop where
+  | reject (report : RejectReport) :
+      PrototypeReportOutputView
+        (PrototypeIOView.report (PrototypeReportDatum.reject report))
+  | decode (report : DecodeReport) :
+      PrototypeReportOutputView
+        (PrototypeIOView.report (PrototypeReportDatum.decode report))
+  | encode (report : EncodeReport) :
+      PrototypeReportOutputView
+        (PrototypeIOView.report (PrototypeReportDatum.encode report))
+
 def PrototypeDecoder
     (c : List DisplayAlphabet) : PrototypeDecoderOutput -> Prop
   | PrototypeDecoderOutput.decoded S => Decodes c S
@@ -270,6 +304,21 @@ theorem prototype_reject_soundness {c : List DisplayAlphabet}
           | intro hSome _ =>
               rw [hSome] at hNone
               cases hNone
+
+theorem prototype_reports_output_not_formal_input {v : PrototypeIOView} :
+    PrototypeReportOutputView v -> Not (FormalPrototypeInput v) := by
+  intro hReport hInput
+  cases hReport <;> cases hInput
+
+theorem reject_reports_output_not_formal_input (report : RejectReport) :
+    PrototypeReportOutputView
+        (PrototypeIOView.report (PrototypeReportDatum.reject report)) /\
+      Not (FormalPrototypeInput
+        (PrototypeIOView.report (PrototypeReportDatum.reject report))) := by
+  constructor
+  · exact PrototypeReportOutputView.reject report
+  · intro hInput
+    cases hInput
 
 theorem reference_prototype_no_math_structure_recognition
     {publicSurface : InterfaceDatum -> Prop} :
