@@ -202,6 +202,16 @@ theorem DeRhamStandardBoundaryBridgePacket_classifier_compatibility
   have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
   exact And.intro boundary.right.left (And.intro boundary.right.right packet.right)
 
+theorem DeRhamStandardBoundaryBridgePacket_boundary_preimage_threshold
+    {d : BHist -> BHist} {omega eta theta zero provenance bridge : BHist} :
+    DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
+      (exists preimage : BHist, hsame theta (d preimage)) ∧ hsame theta zero ∧
+        hsame (d eta) BHist.Empty ∧ Cont provenance theta bridge := by
+  intro packet
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
+  exact And.intro boundary.right.left
+    (And.intro boundary.left (And.intro boundary.right.right packet.right))
+
 theorem DeRhamStandardBoundaryBridgePacket_classifier_transport
     {d : BHist -> BHist} {omega eta theta theta' zero provenance bridge bridge' : BHist} :
     DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
@@ -265,6 +275,17 @@ theorem DeRhamBoundarySourceLedgerPacket_endpoint_transport
                                   (And.intro endpointCont'
                                     (And.intro sameGraphLedger sameEndpointLedger)))))))
 
+theorem DeRhamBoundarySourceLedgerPacket_bridge_ledger_source_scope
+    {d : BHist -> BHist} {omega eta theta zero graphLedger endpointLedger : BHist} :
+    DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger ->
+      DeRhamBoundary d theta ∧ hsame zero BHist.Empty ∧ hsame (d eta) BHist.Empty ∧
+        Cont theta zero graphLedger ∧ Cont graphLedger eta endpointLedger := by
+  intro packet
+  exact And.intro packet.right.left
+    (And.intro packet.left.right.right.right.right
+      (And.intro packet.right.right.left
+        (And.intro packet.right.right.right.left packet.right.right.right.right)))
+
 theorem DeRhamBoundary_semanticNameCert {d : BHist -> BHist} {axis : BHist}
     (axisBoundary : DeRhamBoundary d axis) :
     SemanticNameCert (DeRhamBoundary d) (DeRhamBoundary d) (DeRhamBoundary d) hsame := by
@@ -312,6 +333,18 @@ theorem DeRhamBoundarySourcePacket_stability
             Exists.intro preimage (hsame_trans sameTheta boundaryTheta)
           exact And.intro (And.intro boundaryTheta' zeroEmpty)
             (And.intro boundaryTheta' zeroEmpty)
+
+theorem DeRhamBoundarySourceLedgerPacket_consumer_exactness
+    {d : BHist -> BHist} {omega eta theta zero graphLedger endpointLedger : BHist} :
+    DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger ->
+      hsame theta zero ∧ DeRhamBoundary d theta ∧ hsame (d eta) BHist.Empty ∧
+        Cont theta zero graphLedger ∧ Cont graphLedger eta endpointLedger := by
+  intro packet
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
+  exact And.intro boundary.left
+    (And.intro boundary.right.left
+      (And.intro boundary.right.right
+        (And.intro packet.right.right.right.left packet.right.right.right.right)))
 
 theorem DeRhamBoundarySourcePacket_consumer_exactness
     {d : BHist -> BHist} {omega eta theta theta' zero : BHist} :

@@ -1,12 +1,14 @@
 import BEDC.Derived.GroupUp
 import BEDC.Derived.TopologyUp.Singleton
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.TopGroupUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.GroupUp
 open BEDC.Derived.TopologyUp
@@ -42,6 +44,150 @@ theorem TopGroupRootThreshold_carrier_scope
           (And.intro package.right.right.left
             (And.intro package.right.right.right.right.right.left
               package.right.right.right.right.right.right)))))
+
+theorem TopGroupRootThresholdPackage_shared_source_rows
+    {group topology product inverse neighborhood ledger provenance : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      Cont group topology product ∧ Cont product inverse ledger ∧ Cont ledger BHist.Empty provenance ∧
+        UnaryHistory ledger ∧ UnaryHistory provenance := by
+  intro package
+  have groupUnary : UnaryHistory group :=
+    unary_transport unary_empty (hsame_symm package.left)
+  have topologyUnary : UnaryHistory topology :=
+    unary_transport unary_empty (hsame_symm package.right.left)
+  have productCont : Cont group topology product := by
+    exact package.right.right.right.left
+  have inverseUnary : UnaryHistory inverse :=
+    unary_transport unary_empty (hsame_symm package.right.right.right.right.left)
+  have ledgerCont : Cont product inverse ledger := by
+    exact package.right.right.right.right.right.left
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed groupUnary topologyUnary productCont
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed productUnary inverseUnary ledgerCont
+  have provenanceCont : Cont ledger BHist.Empty provenance := by
+    cases package.right.right.right.right.right.right
+    exact cont_right_unit ledger
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed ledgerUnary unary_empty provenanceCont
+  exact And.intro productCont
+    (And.intro ledgerCont
+      (And.intro provenanceCont (And.intro ledgerUnary provenanceUnary)))
+
+theorem TopGroupRootThresholdPackage_export_boundary_certificate
+    {group topology product inverse neighborhood ledger provenance : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      SemanticNameCert (fun h : BHist => hsame h provenance)
+        (fun h : BHist => hsame h provenance)
+        (fun h : BHist => hsame h provenance) hsame ∧ hsame provenance BHist.Empty := by
+  intro package
+  have groupEmpty : hsame group BHist.Empty := package.left
+  have topologyEmpty : hsame topology BHist.Empty := package.right.left
+  have productEmpty : hsame product BHist.Empty := by
+    have productAppend : hsame product (append group topology) := package.right.right.right.left
+    have appendEmpty : hsame (append group topology) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro groupEmpty topologyEmpty)
+    exact hsame_trans productAppend appendEmpty
+  have inverseEmpty : hsame inverse BHist.Empty := package.right.right.right.right.left
+  have ledgerEmpty : hsame ledger BHist.Empty := by
+    have ledgerAppend : hsame ledger (append product inverse) :=
+      package.right.right.right.right.right.left
+    have appendEmpty : hsame (append product inverse) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro productEmpty inverseEmpty)
+    exact hsame_trans ledgerAppend appendEmpty
+  have provenanceEmpty : hsame provenance BHist.Empty :=
+    hsame_trans package.right.right.right.right.right.right ledgerEmpty
+  have provenanceSelf : hsame provenance provenance :=
+    hsame_refl provenance
+  have cert :
+      SemanticNameCert (fun h : BHist => hsame h provenance)
+        (fun h : BHist => hsame h provenance)
+        (fun h : BHist => hsame h provenance) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro provenance provenanceSelf
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK carrierH
+        exact hsame_trans (hsame_symm sameHK) carrierH
+    }
+    pattern_sound := by
+      intro h carrier
+      exact carrier
+    ledger_sound := by
+      intro h carrier
+      exact carrier
+  }
+  exact And.intro cert provenanceEmpty
+
+theorem TopGroupRootThreshold_product_inverse_empty_scope
+    {group topology product inverse neighborhood ledger provenance : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      hsame product BHist.Empty ∧ hsame inverse BHist.Empty ∧ hsame ledger BHist.Empty ∧
+        hsame provenance BHist.Empty := by
+  intro package
+  have productEmpty : hsame product BHist.Empty :=
+    hsame_trans package.right.right.right.left
+      (append_eq_empty_iff.mpr (And.intro package.left package.right.left))
+  have ledgerEmpty : hsame ledger BHist.Empty :=
+    hsame_trans package.right.right.right.right.right.left
+      (append_eq_empty_iff.mpr (And.intro productEmpty package.right.right.right.right.left))
+  exact And.intro productEmpty
+    (And.intro package.right.right.right.right.left
+      (And.intro ledgerEmpty
+        (hsame_trans package.right.right.right.right.right.right ledgerEmpty)))
+
+theorem TopGroupRootThreshold_classifier_ledger_transport_packet
+    {group topology product inverse neighborhood ledger provenance ledger' provenance' : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      hsame ledger' ledger ->
+        hsame provenance' provenance ->
+          hsame ledger' (append product inverse) ∧ hsame provenance' ledger' ∧
+            TopGroupRootThresholdPackage group topology product inverse neighborhood ledger'
+              provenance' := by
+  intro package sameLedger sameProvenance
+  have ledgerEndpoint : hsame ledger' (append product inverse) :=
+    hsame_trans sameLedger package.right.right.right.right.right.left
+  have provenanceEndpoint : hsame provenance' ledger' :=
+    hsame_trans sameProvenance
+      (hsame_trans package.right.right.right.right.right.right (hsame_symm sameLedger))
+  exact And.intro ledgerEndpoint
+    (And.intro provenanceEndpoint
+      (And.intro package.left
+        (And.intro package.right.left
+          (And.intro package.right.right.left
+              (And.intro package.right.right.right.left
+                (And.intro package.right.right.right.right.left
+                  (And.intro ledgerEndpoint provenanceEndpoint)))))))
+
+theorem TopGroupRootThresholdPackage_continuity_ledger_scope
+    {group topology product inverse neighborhood ledger provenance : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      Cont product inverse ledger ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+        hsame provenance ledger := by
+  intro package
+  have rows := TopGroupRootThreshold_carrier_scope package
+  have productUnary : UnaryHistory product :=
+    unary_transport (unary_append_closed rows.right.right.left rows.right.right.right.left)
+      (hsame_symm package.right.right.right.left)
+  have inverseUnary : UnaryHistory inverse :=
+    unary_transport unary_empty (hsame_symm package.right.right.right.right.left)
+  have ledgerCont : Cont product inverse ledger :=
+    package.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed productUnary inverseUnary ledgerCont
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_transport ledgerUnary (hsame_symm rows.right.right.right.right.right.right)
+  exact And.intro ledgerCont
+    (And.intro ledgerUnary
+      (And.intro provenanceUnary rows.right.right.right.right.right.right))
 
 theorem TopGroupRootPublicThreshold_transport
     {G G' T T' product product' inverse inverse' neighborhood neighborhood'
