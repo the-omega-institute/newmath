@@ -184,8 +184,40 @@ def P6RecognizedAcceptGateFlow
     (R : GeneratedAcceptGateRecognizer) (S A N s : EventFlow) : Prop :=
   AcceptGateCandidate S A N s /\ RecognizesAcceptGate R S A N s
 
+def AcceptGateComponents
+    (R : GeneratedAcceptGateRecognizer) (S A N s C D sealFlow : EventFlow) :
+    Prop :=
+  P6RecognizedAcceptGateFlow R S A N s /\
+    NameCertFlow C N /\
+    DerivCertFlow D N s /\
+    StrengthEventFlow s /\
+    DerivCertSourceSubflow C A /\
+    DerivCertSourceSubflow D A /\
+    DerivCertSourceSubflow sealFlow A
+
 def AcceptGateFlow (N s : EventFlow) : Prop :=
   exists A : EventFlow, AcceptedFlow A N s
+
+structure DerivAcceptPrototype where
+  run : P6FormalInput -> P6Output
+  externalInputsNotFormal :
+    (forall x : P6FormalInput,
+      Not (P6InputRepresentation.external P6ExternalInput.acceptedObject =
+        P6InputRepresentation.formal x)) /\
+      (forall x : P6FormalInput,
+        Not (P6InputRepresentation.external P6ExternalInput.derivCertStruct =
+          P6InputRepresentation.formal x)) /\
+      (forall x : P6FormalInput,
+        Not (P6InputRepresentation.external P6ExternalInput.acceptGateStruct =
+          P6InputRepresentation.formal x))
+  strengthEnumNotFormal :
+    forall x : P6FormalInput,
+      Not (P6InputRepresentation.external P6ExternalInput.strengthEnum =
+        P6InputRepresentation.formal x)
+  acceptedCodeMediated :
+    forall {R : GeneratedAcceptGateRecognizer} {S A N s : EventFlow},
+      P6RecognizedAcceptGateFlow R S A N s ->
+        exists C D : EventFlow, NameCertFlow C N /\ DerivCertFlow D N s
 
 def AcceptedObjectCode (A _N _s : EventFlow) : List DisplayAlphabet :=
   FlowEncoding A
@@ -416,6 +448,28 @@ theorem p6_acceptgate_requires_namecert_derivcert
       exists C D : EventFlow, NameCertFlow C N /\ DerivCertFlow D N s := by
   intro hGate
   exact accepted_requires_namecert_derivcert ⟨A, hGate.right.right⟩
+
+theorem p6_acceptgate_components_from_recognition
+    {R : GeneratedAcceptGateRecognizer} {S A N s : EventFlow} :
+    P6RecognizedAcceptGateFlow R S A N s ->
+      exists C D sealFlow : EventFlow,
+        AcceptGateComponents R S A N s C D sealFlow := by
+  intro hGate
+  cases hGate.right.right with
+  | intro C hAccepted =>
+      cases hAccepted with
+      | intro D hAccepted =>
+          cases hAccepted with
+          | intro sealFlow hFields =>
+              have hStrength : StrengthEventFlow s := by
+                cases hFields.right.left with
+                | intro _ hRecognizes =>
+                    exact hRecognizes.right.right.left
+              exact
+                ⟨C, D, sealFlow, hGate, hFields.left, hFields.right.left,
+                  hStrength, hFields.right.right.right.right.right.left,
+                  hFields.right.right.right.right.right.right.left,
+                  hFields.right.right.right.right.right.right.right⟩
 
 theorem nonempty_not_derivcert_subflow_of_empty {part : EventFlow} :
     NonemptyEventFlow part -> Not (DerivCertSourceSubflow part []) := by

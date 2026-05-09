@@ -18,6 +18,7 @@ The prototype does not accept derivation-certificate structures, acceptance-gate
 
 \begin{definition}[DerivCert and AcceptGate recognition prototype]
 \label{def:deriv-accept-p6-prototype}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.DerivAcceptPrototype}
 A \emph{DerivCert and AcceptGate recognition prototype} is an executable prototype $P_6$ satisfying:
 \begin{enumerate}
 \item $P_6$ includes all $P_5$ functions;
@@ -332,6 +333,7 @@ $$
 
 \begin{definition}[AcceptGate components]
 \label{def:deriv-accept-acceptgate-components}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.AcceptGateComponents}
 If
 $$
   \mathsf{RecognizesAcceptGate}(R_A,S,A,N,s),
@@ -351,6 +353,7 @@ $$
 
 \begin{principle}[No AcceptGate without NameCert and DerivCert]
 \label{prin:deriv-accept-no-gate-without-namecert-derivcert}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.p6\_acceptgate\_components\_from\_recognition}
 An acceptance-gate flow must contain a recognized \NameCert\ flow and a sound recognized derivation-certificate flow. If either is missing, the flow is only an acceptance-gate candidate.
 \end{principle}
 
