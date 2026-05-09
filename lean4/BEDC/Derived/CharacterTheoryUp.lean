@@ -133,4 +133,45 @@ theorem CharacterTheoryRootBHistSurface_carrier_obligation [AskSetup] [PackageSe
                     (And.intro surface.right.right.right.right.right.left
                       surface.right.right.right.right.right.right))))))))
 
+theorem CharacterTheoryRootBHistSurface_classifier_obligation [AskSetup] [PackageSetup]
+    {group group' vector vector' action action' trace trace' orthLedger orthLedger' endpoint
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CharacterTheoryRootBHistSurface group vector action trace orthLedger endpoint bundle pkg ->
+      hsame group group' ->
+        hsame vector vector' ->
+          hsame trace trace' ->
+            Cont group' vector' action' ->
+              Cont action' trace' orthLedger' ->
+                Cont orthLedger' trace' endpoint' ->
+                  hsame action action' ∧ hsame orthLedger orthLedger' ∧
+                    hsame endpoint endpoint' ∧ UnaryHistory action' ∧
+                      UnaryHistory orthLedger' ∧ UnaryHistory endpoint' := by
+  intro surface sameGroup sameVector sameTrace actionRow' orthLedgerRow' endpointRow'
+  have actionSame : hsame action action' :=
+    cont_respects_hsame sameGroup sameVector surface.right.right.left actionRow'
+  have groupUnary' : UnaryHistory group' :=
+    unary_transport surface.left sameGroup
+  have vectorUnary' : UnaryHistory vector' :=
+    unary_transport surface.right.left sameVector
+  have traceUnary' : UnaryHistory trace' :=
+    unary_transport surface.right.right.right.left sameTrace
+  have actionUnary' : UnaryHistory action' :=
+    unary_cont_closed groupUnary' vectorUnary' actionRow'
+  have orthLedgerSame : hsame orthLedger orthLedger' :=
+    cont_respects_hsame actionSame sameTrace surface.right.right.right.right.left
+      orthLedgerRow'
+  have orthLedgerUnary' : UnaryHistory orthLedger' :=
+    unary_cont_closed actionUnary' traceUnary' orthLedgerRow'
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame orthLedgerSame sameTrace surface.right.right.right.right.right.left
+      endpointRow'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed orthLedgerUnary' traceUnary' endpointRow'
+  exact And.intro actionSame
+    (And.intro orthLedgerSame
+      (And.intro endpointSame
+        (And.intro actionUnary'
+          (And.intro orthLedgerUnary' endpointUnary'))))
+
 end BEDC.Derived.CharacterTheoryUp
