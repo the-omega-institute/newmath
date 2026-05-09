@@ -3,6 +3,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -12,6 +13,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.QuantumStateUp
@@ -494,5 +496,69 @@ theorem ObservableBHistOperatorCarrier_dependency_namecert_exactness [AskSetup] 
                 (And.intro expectationEndpointRow
                   (And.intro carrier.right.right.right.right.right.right.right.right.left
                     carrier.right.right.right.right.right.right.right.right.right))))))))
+
+theorem ObservableBHistOperatorCarrier_public_row_family [AskSetup] [PackageSetup]
+    {hilbert operator spectrum expectation witness provenance ledger endpoint expectationEndpoint
+      consumerEndpoint spectralEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance ledger
+        endpoint bundle pkg ->
+      Cont operator expectation expectationEndpoint ->
+        Cont expectationEndpoint endpoint consumerEndpoint ->
+          Cont spectrum witness spectralEndpoint ->
+            SemanticNameCert (fun h : BHist => hsame h endpoint)
+                (fun h : BHist => hsame h endpoint) (fun h : BHist => hsame h endpoint)
+                hsame ∧
+              UnaryHistory consumerEndpoint ∧ UnaryHistory spectralEndpoint ∧
+                hsame consumerEndpoint (append (append operator expectation) endpoint) ∧
+                  hsame spectralEndpoint (append spectrum witness) ∧
+                    PkgSig bundle endpoint pkg := by
+  intro carrier expectationEndpointRow consumerEndpointRow spectralEndpointRow
+  have publicRows :=
+    ObservableBHistOperatorCarrier_public_consumer_exhaustion
+      (hilbert := hilbert) (operator := operator) (spectrum := spectrum)
+      (expectation := expectation) (witness := witness) (provenance := provenance)
+      (ledger := ledger) (endpoint := endpoint) (expectationEndpoint := expectationEndpoint)
+      (consumerEndpoint := consumerEndpoint) (bundle := bundle) (pkg := pkg)
+      carrier expectationEndpointRow consumerEndpointRow
+  have spectralRows :=
+    ObservableBHistOperatorCarrier_hilbert_spectral_ledger_exactness
+      (hilbert := hilbert) (operator := operator) (spectrum := spectrum)
+      (expectation := expectation) (witness := witness) (provenance := provenance)
+      (ledger := ledger) (endpoint := endpoint) (spectralEndpoint := spectralEndpoint)
+      (bundle := bundle) (pkg := pkg) carrier spectralEndpointRow
+  have core :
+      NameCert (fun h : BHist => hsame h endpoint) hsame := {
+    carrier_inhabited := Exists.intro endpoint (hsame_refl endpoint)
+    equiv_refl := by
+      intro h _source
+      exact hsame_refl h
+    equiv_symm := by
+      intro h k sameHK
+      exact hsame_symm sameHK
+    equiv_trans := by
+      intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    carrier_respects_equiv := by
+      intro h k sameHK sourceH
+      exact hsame_trans (hsame_symm sameHK) sourceH
+  }
+  have cert :
+      SemanticNameCert (fun h : BHist => hsame h endpoint)
+        (fun h : BHist => hsame h endpoint) (fun h : BHist => hsame h endpoint) hsame := {
+    core := core
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro publicRows.left
+      (And.intro spectralRows.right.right.right.right.right.left
+        (And.intro publicRows.right.left
+          (And.intro spectralRows.right.right.right.right.right.right.right.left
+            publicRows.right.right.right))))
 
 end BEDC.Derived.ObservableUp

@@ -37,6 +37,12 @@ theorem DeRhamDoubleExteriorDerivative_boundary {d : BHist -> BHist}
 def DeRhamBoundary (d : BHist -> BHist) (b : BHist) : Prop :=
   exists a : BHist, hsame b (d a)
 
+def DeRhamRootConsumerReadbackPacket
+    (d : BHist -> BHist) (form cochain manifold tensor endpoint transport ledger provenance :
+      BHist) : Prop :=
+  DeRhamBoundary d endpoint ∧ Cont form cochain ledger ∧ Cont ledger transport provenance ∧
+    hsame manifold BHist.Empty ∧ hsame tensor BHist.Empty
+
 theorem DeRhamBoundary_zero_endpoint_hsame_transport
     {d : BHist -> BHist} {b b' zero : BHist} :
     DeRhamBoundary d b ->
