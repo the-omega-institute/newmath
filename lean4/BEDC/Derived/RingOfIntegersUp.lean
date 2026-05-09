@@ -251,4 +251,31 @@ theorem RingOfIntegersDedekindSourceCarrier_classifier_transport [AskSetup] [Pac
             (And.intro endpointCont' pkgSig'))))
   exact And.intro carrier' (And.intro sameEmbedding sameContRow)
 
+theorem RingOfIntegersClassifierTransportCarrier_scoped_bhist_source_binding
+    [AskSetup] [PackageSetup]
+    {num embedded embedding equation classifier contRow provenance endpoint embedded'
+      embedding' contRow' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RingOfIntegersClassifierTransportCarrier num embedded embedding equation classifier contRow
+        provenance endpoint bundle pkg ->
+      hsame embedded embedded' ->
+        Cont embedded' num embedding' ->
+          Cont embedding' equation contRow' ->
+            Cont provenance contRow' endpoint' ->
+              PkgSig bundle endpoint' pkg ->
+                RingOfIntegersClassifierTransportCarrier num embedded' embedding' equation
+                    classifier contRow' provenance endpoint' bundle pkg ∧
+                  hsame embedding embedding' ∧ hsame contRow contRow' ∧
+                    hsame endpoint endpoint' := by
+  intro carrier sameEmbedded embeddingCont' contRowCont' endpointCont' pkgSig'
+  have transported :=
+    RingOfIntegersDedekindSourceCarrier_classifier_transport carrier sameEmbedded embeddingCont'
+      contRowCont' endpointCont' pkgSig'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) transported.right.right
+      carrier.right.right.right.right.left endpointCont'
+  exact And.intro transported.left
+    (And.intro transported.right.left
+      (And.intro transported.right.right sameEndpoint))
+
 end BEDC.Derived.RingOfIntegersUp
