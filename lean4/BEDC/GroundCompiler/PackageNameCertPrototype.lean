@@ -411,6 +411,35 @@ theorem package_without_ledger_no_namecert_over_package
               exact hNoLedger
                 (namecert_over_package_requires_ledger hNameCertOver)
 
+structure PackageSourcedNameCertReport : Type where
+  packageRecognizer : GeneratedPackageRecognizer
+  nameCertRecognizer : GeneratedNameCertRecognizer
+  ambientFlow : EventFlow
+  nameCertFlow : EventFlow
+  nameCandidate : EventFlow
+  packageFlow : EventFlow
+  overPackage :
+    NameCertOverPackage packageRecognizer nameCertRecognizer
+      ambientFlow nameCertFlow nameCandidate packageFlow
+  missingFieldReport : P5Output
+  cannotClaimAnnotations : P5Output
+
+inductive FieldStatus : Type where
+  | present
+  | missing
+  | candidateOnly
+
+def PackageFieldStatus : Type :=
+  EventFlow -> PackageRoleKind -> FieldStatus
+
+structure P5Report : Type where
+  outputView : P5Output
+  decodedFlow : EventFlow
+  packageFieldStatus : PackageFieldStatus
+  nameCertFieldStatus : EventFlow -> NameCertSubflowRole -> FieldStatus
+  licensedNameStatus : EventFlow -> EventFlow -> Prop
+  cannotClaimAnnotation : EventFlow -> Prop
+
 theorem p5_license_weaker_than_export :
     exists S N : EventFlow, LicensedNameP5 S N /\ Not (AcceptedObjectFlow S) := by
   have hSubflow :
