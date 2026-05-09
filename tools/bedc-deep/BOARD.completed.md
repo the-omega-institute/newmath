@@ -14705,3 +14705,53 @@ Rationale:
 The chapter has intersection (`thm:convexset-pointwise-intersection-affine-combination-closure` at 186_convexset_namecert_construction.tex:207), linear image (`thm:convexset-linear-image-affine-combination-closure`:250), and linear preimage (`thm:convexset-linear-preimage-affine-combination-closure`:369) closures, but NOT the Minkowski (pointwise) sum closure. Standard textbook (Rockafellar Convex Analysis Ch.II §3.1: 'if C, D are convex then C+D is convex'). Proof uses `def:convexset-binary-affine-combination-row` separately on C and D, then VecSpaceUp distributivity and middle-four interchange (`thm:abgroup-middle-four-interchange`) to regroup a(c1+d1) + b(c2+d2) as (ac1+bc2) + (ad1+bd2). All three pieces exist. File is 431 lines (room remains). Closes in 2-3 rounds. Not a parameter-transport echo: it constructs a new convex set from two and verifies the binary affine row, an explicit closure law.
 
 ---
+
+### B-578 - Two-$\SubgroupUp$ intersection is a $\SubgroupUp$ certificate (abstract version)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Two-$\SubgroupUp$ intersection is a $\SubgroupUp$ certificate (abstract version) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+For a fixed $\GroupUp$ source and any two $\SubgroupUp$ predicates $H_1, H_2$ on its carrier, the carrier $H_{1,2}(x) :\Leftrightarrow H_1(x) \land H_2(x)$ with restricted $\hsame$ classifier satisfies the $\SubgroupUp$ certificate rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction_core.tex`
+- `papers/bedc/parts/concrete_instances/subgroup/`
+
+Rationale:
+Concrete instances chapter (subgroup). Textbook-standard: 'the intersection of two subgroups is a subgroup' (Hungerford Algebra ch.I §2 Thm.2.5; Dummit & Foote ch.2). BEDC currently has only specialised intersections — `\thm:subgroup-centralizer-intersection-certificate` (58_subgroup_namecert_construction_core.tex:86) for two centralizers. The general two-subgroup version is a direct generalisation: the proof of the centralizer-intersection theorem (lines 107-145) componentwise unpacks two centralizer witnesses; the same shape works for arbitrary SubgroupUp predicates by using `\thm:subgroup-one-step-criterion` (subgroup chain) instead of centralizer-specific rows. Closes in 1-3 rounds: identity row pair, product closure pair, inverse closure pair, hsame transport pair. Land in new child `subgroup/abstract_two_subgroup_intersection.tex` (core file at 745 lines is borderline). NOT covered by B-466 (matroid intersection right subset projection) or any centralizer-intersection BOARD entry.
+
+---
+
+### B-579 - Polynomial raw multiplication right distributivity over raw addition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial raw multiplication right distributivity over raw addition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If R carries a RingUp certificate with classifier ~_R and operations radd_R, rmul_R as in def:polynomial-raw-cauchy-product, then for every finite coefficient spines p, q, r, PolySame_R(rmul_R(p, radd_R(q, r)), radd_R(rmul_R(p, q), rmul_R(p, r))).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_multiplication.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex`
+
+Rationale:
+Same host file as candidate #1 (103 lines). Searched grep 'distrib' across papers/bedc/parts/concrete_instances/25_polynomial*.tex returned 0 hits for raw multiplication distributivity over addition — only the singleton-collapse-level distributivity at 25_polynomial_namecert_construction.tex L349 (thm:polynomial-singleton-append-distrib-classified) and the FPS sibling 26_fps_namecert_construction.tex L546 (thm:fps-cauchy-product-distributes-over-fps-addition) exist. So distributivity is proven for FPS Cauchy product but not for finite-spine polynomial Cauchy product. Proof: Cauchy formula gives rmul(p, radd(q,r))[n] ~ Σ p[i]·radd(q,r)[j] = Σ p[i]·(q[j]+r[j]) ~ Σ (p[i]·q[j] + p[i]·r[j]) by ring left-distributivity in def:ring-stability-certificate, splits via finite-additive-fold-congruence into Cauchy(p,q;n) + Cauchy(p,r;n) ~ rmul(p,q)[n] + rmul(p,r)[n], then padded extensionality gives PolySame.
+
+---
