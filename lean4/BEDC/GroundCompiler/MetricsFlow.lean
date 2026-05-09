@@ -47,6 +47,7 @@ inductive MetricDataKind : Type where
   | externalObjectName
   | yamlField
   | hostAST
+  | hostSimilarityScore
   | theoremLabel
   | chapterTitle
   | externalSemanticCategory
@@ -82,6 +83,8 @@ inductive MetricExternalInput : MetricDataKind -> Prop where
       MetricExternalInput MetricDataKind.yamlField
   | hostAST :
       MetricExternalInput MetricDataKind.hostAST
+  | hostSimilarityScore :
+      MetricExternalInput MetricDataKind.hostSimilarityScore
   | theoremLabel :
       MetricExternalInput MetricDataKind.theoremLabel
   | chapterTitle :
@@ -110,6 +113,17 @@ theorem no_metric_without_protocol
     AdmissibleMetric m spec S Pmet -> MetricProtocolFlow Pmet := by
   intro hAdmissible
   exact hAdmissible.right.right.left
+
+theorem unrecognized_metric_inadmissible
+    {m : MetricSpecificationFlow} {spec : MetricSpec} {S Pmet : EventFlow} :
+    (Not (RecognizedMetricSpec m) \/ Not (MetricProtocolFlow Pmet)) ->
+      Not (AdmissibleMetric m spec S Pmet) := by
+  intro hMissing hAdmissible
+  cases hMissing with
+  | inl hNoSpec =>
+      exact hNoSpec hAdmissible.right.left
+  | inr hNoProtocol =>
+      exact hNoProtocol hAdmissible.right.right.left
 
 def RawPrefixProfile (S P : EventFlow) : Prop :=
   exists rest : EventFlow, S = List.append P rest
@@ -161,6 +175,10 @@ def MotifProfile
 
 def MotifMultiplicity (profile : List MotifOccurrence) (role : EventFlow) : Nat :=
   (profile.filter (fun occ => decide (occ.role = role))).length
+
+def RecognizedMotifCount (profile : List MotifOccurrence) (role : EventFlow) :
+    Nat :=
+  MotifMultiplicity profile role
 
 def SealDepth (profile : List MotifOccurrence) (sealRole : EventFlow) : Nat :=
   MotifMultiplicity profile sealRole
@@ -396,6 +414,15 @@ theorem external_object_name_metric_inadmissible :
     external_metric_input_not_allowed
       MetricExternalInput.externalObjectName
       (hAdmissible MetricDataKind.externalObjectName (List.Mem.head []))
+
+theorem host_similarity_score_not_admissible :
+    Not (MetricAdmissible
+      { sources := [MetricDataKind.hostSimilarityScore] }) := by
+  intro hAdmissible
+  exact
+    external_metric_input_not_allowed
+      MetricExternalInput.hostSimilarityScore
+      (hAdmissible MetricDataKind.hostSimilarityScore (List.Mem.head []))
 
 theorem channel_substring_metrics_inadmissible :
     Not (MetricAdmissible
