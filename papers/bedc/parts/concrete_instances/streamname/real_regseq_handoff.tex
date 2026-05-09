@@ -1,0 +1,97 @@
+\section{StreamName Real and RegSeqRat handoff}
+\label{sec:streamname-real-regseq-handoff}
+
+\begin{theorem}[StreamName finite-window handoff to RegSeqRat and RealUp]
+\label{thm:streamname-real-regseq-finite-window-handoff}
+Let $\mathcal{W}$ be a public $\StreamNameUp$ finite-window package over
+$\Hist$ whose selected observations are certified by a finite
+$\mathsf{ProbeBundle}$ ledger and by $\mathsf{InBundle}$ membership rows. Then
+the rows handed to $\RegSeqRat$ or finite-window $\RealUp$ consumers are exactly
+the selected $\mathsf{RatHistoryClassifier}$ rows, the finite
+$\mathsf{ProbeBundle}$ ledger, the $\mathsf{InBundle}$ membership rows, and the
+$\mathsf{UnaryHistory}$ rows naming the observed histories.
+
+No $\RegSeqRat$ regularity row, no $\RealUp$ seal classifier, no completion
+object, and no host equality row is read from $\mathcal{W}$.
+\end{theorem}
+\begin{proof}
+Project the public StreamName boundary through
+\autoref{thm:streamname-public-finite-window-interface}. That theorem lists the
+carrier, selected classifier, probe-bundle, membership, and unary-history rows
+available at the public finite-window interface.
+
+For a finite-window $\RealUp$ consumer, apply
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. These RealUp
+rows consume the displayed finite StreamName packet and its ledger, not a
+completion object or a hidden host stream.
+
+For a $\RegSeqRat$ consumer, apply
+\autoref{thm:regseqrat-finite-window-seal-exactness}. The seal reads the
+selected finite-window classifier and bundle rows as inputs to the downstream
+regularity and seal surface. Since the StreamName interface theorem lists no
+regularity row and no seal classifier, those obligations remain outside the
+handoff.
+\end{proof}
+
+\begin{theorem}[StreamName constant-window handoff boundary]
+\label{thm:streamname-real-regseq-constant-boundary}
+Let $a,b:\Hist$ be rational-history endpoints and let $\mathcal{W}$ be a
+constant rational $\StreamNameUp$ finite-window package over an inhabited
+finite unary window. The package may seed the $\RegSeqRat$ stream side only by
+exporting the same $\mathsf{RatHistoryClassifier}(a,b)$ row together with its
+finite $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$
+ledger. A $\RegSeqRat$ certificate must still supply regularity rows, and a
+sealed $\RealUp$ candidate must still supply the seal classifier row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-constant-window-real-boundary}. It says that a
+finite-window $\RealUp$ consumer of the constant package reads only the rational
+point classifier and the finite probe ledger.
+
+Apply \autoref{thm:streamname-constant-window-regseq-boundary}. It gives the
+same boundary for $\RegSeqRat$: the constant StreamName window supplies rational
+point-classifier and probe-ledger data, while the regularity rows remain
+$\RegSeqRat$ obligations.
+
+Finally use \autoref{thm:regseqrat-obligation-seal-ledger} and
+\autoref{thm:regseqrat-obligation-seal-interface}. These theorems place
+regularity and seal-interface rows on the RegSeqRat and RealUp side of the
+boundary, so the constant window is only a seed surface for the displayed finite
+rows.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp obligation separation]
+\label{thm:streamname-real-regseq-obligation-separation}
+Across the StreamName, RegSeqRat, and RealUp handoff, the obligation surface
+separates into three disjoint sources. The $\StreamNameUp$ package contributes
+the stream carrier, selected rational-history classifier, finite
+$\mathsf{ProbeBundle}$ ledger, $\mathsf{InBundle}$ membership, and
+$\mathsf{UnaryHistory}$ observation rows. The $\RegSeqRat$ certificate
+contributes regularity, dyadic-tolerance, transport, and stream-spine rows. The
+$\RealUp$ seal contributes the seal classifier required by the real
+classifier specification.
+
+No finite StreamName window contributes a quotient, a completion witness, a
+host index equality, a RegSeqRat regularity witness, or the RealUp seal
+classifier.
+\end{theorem}
+\begin{proof}
+Read the StreamName part first. By
+\autoref{thm:streamname-public-finite-window-interface}, and in the constant
+case by \autoref{thm:streamname-constant-window-real-boundary} and
+\autoref{thm:streamname-constant-window-regseq-boundary}, the StreamName
+surface exposes exactly the carrier, classifier, bundle, membership, unary, and
+finite ledger rows.
+
+Read the RegSeqRat part next. The regularity and dyadic-tolerance rows are
+listed by \autoref{thm:regseqrat-obligation-seal-ledger}, while
+\autoref{thm:regseqrat-finite-window-seal-exactness} describes how the selected
+finite-window rows are consumed at the seal boundary.
+
+Read the RealUp part last. The seal classifier is supplied by
+\autoref{thm:regseqrat-obligation-seal-interface} and is consumed through
+\autoref{thm:realup-finite-window-exhaustion-obligation}. Thus every downstream
+row is accounted for by exactly one side of the handoff, and no completion or
+host equality row is imported from the finite StreamName package.
+\end{proof}
