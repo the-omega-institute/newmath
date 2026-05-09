@@ -23,6 +23,48 @@ structure CaseStudyFlow where
   flow : EventFlow
   target : CaseStudyTarget
 
+inductive HighLayerMotifRole : Type where
+  | completion
+  | metric
+  | topology
+  | phase
+  | circle
+  | complex
+  | category
+  | functor
+  | homology
+  | bridge
+  | analysis
+
+def HighLayerMotifRole.code : HighLayerMotifRole -> MotifRole
+  | HighLayerMotifRole.completion => SealRole
+  | HighLayerMotifRole.metric => [[BMark.b0, BMark.b0, BMark.b1]]
+  | HighLayerMotifRole.topology => [[BMark.b0, BMark.b1, BMark.b0]]
+  | HighLayerMotifRole.phase => CarryRole
+  | HighLayerMotifRole.circle => [[BMark.b0, BMark.b1, BMark.b1]]
+  | HighLayerMotifRole.complex => [[BMark.b1, BMark.b0, BMark.b0]]
+  | HighLayerMotifRole.category => [[BMark.b1, BMark.b0, BMark.b1]]
+  | HighLayerMotifRole.functor => ReuseRole
+  | HighLayerMotifRole.homology => ClassifierQuotientRole
+  | HighLayerMotifRole.bridge => BridgeRole
+  | HighLayerMotifRole.analysis => LedgerCompressionRole
+
+def HighLayerMotif
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (role : HighLayerMotifRole) (M L : EventFlow) : Prop :=
+  MotifProfile Rfam S role.code M L
+
+def HigherLayerCaseStudyFlow
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow) : Prop :=
+  exists role : HighLayerMotifRole,
+    exists M L : EventFlow, HighLayerMotif Rfam S role M L
+
+def HighMotifBundle
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (items : List (HighLayerMotifRole × EventFlow × EventFlow)) : Prop :=
+  forall item : HighLayerMotifRole × EventFlow × EventFlow,
+    List.Mem item items -> HighLayerMotif Rfam S item.1 item.2.1 item.2.2
+
 def SkeletonCode (S : EventFlow) : List DisplayAlphabet :=
   FlowEncoding S
 
@@ -246,6 +288,12 @@ def CompletionSkeleton : EventFlow :=
     [[BMark.b0, BMark.b1],
       [BMark.b0, BMark.b1, BMark.b1],
       [BMark.b1, BMark.b0, BMark.b0]]
+
+def CompletionSkeletonFlow (S : EventFlow) : Prop :=
+  PrefixSubflow (FiniteRepetitionSkeleton 3) S /\
+    Subflow [[BMark.b0, BMark.b1]] S /\
+    Subflow [[BMark.b0, BMark.b1, BMark.b1]] S /\
+    Subflow [[BMark.b1, BMark.b0, BMark.b0]] S
 
 theorem completion_skeleton_contains_repetition :
     PrefixSubflow (FiniteRepetitionSkeleton 3) CompletionSkeleton := by
