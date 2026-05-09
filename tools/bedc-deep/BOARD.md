@@ -43,54 +43,6 @@ This is a genuine bridge target between two existing concrete_instances chapters
 
 ---
 
-### B-560 - RealAnalytic SinPart at empty input is identically the zero stream
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | RealAnalytic SinPart at empty input is identically the zero stream |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 10/10 |
-| Novelty | 6/10 |
-
-Problem:
-If a $\RealUp$ history $x$ is classified to $\emp$ and supplied limit witness $\mathsf{Sin}(x,s)$ together with limit-uniqueness rows comparing $\mathsf{SinPart}(x,\cdot,\cdot)$ with the constant-zero rational stream are present, then $\mathsf{RealClassifier}(s, \emp)$.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex`
-
-Rationale:
-Belongs to the Real Analytic chapter. Textbook standard: Apostol §8.21, Rudin §8.7 — $\sin 0 = 0$ is the canonical base case for sine identities. This is currently a *supplied hypothesis* of $\autoref{thm:real-analytic-sin-pi-multiples}$ (file 52_real_analytic_namecert_construction.tex line 399 and 402: 'The trigonometric witnesses and classifier rows supply the base values $\sin(0)$ and $\sin(\mathsf{Pi})$ as zero'). Internalising sin(0)=0 as a kernel theorem turns one of the two supplied base rows into an established lemma, tightening sin-pi-multiples without touching the Pi machinery. Closes in 1-3 codex rounds: at $x=\emp$, the recursive definition $\sum_{k=0}^n (-1)^k x^{2k+1}/(2k+1)!$ (line 371) has every term containing the factor $x^{2k+1} = 0$ (every odd power of zero vanishes under the $\RealAlgOrder$ multiplication rows). Infrastructure: same as cos(0)=1 candidate. No new prerequisites.
-
----
-
-### B-561 - RealAnalytic ExpPart at empty input is identically the constant-one stream
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | RealAnalytic ExpPart at empty input is identically the constant-one stream |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 6/10 |
-
-Problem:
-If a $\RealUp$ history $x$ is classified to $\emp$ and supplied limit witness $\mathsf{Exp}(x,e)$ together with limit-uniqueness rows comparing $\mathsf{ExpPart}(x,\cdot,\cdot)$ with the constant-one rational stream are present, then $\mathsf{RealClassifier}(e, \Eone(\emp))$.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex`
-
-Rationale:
-Belongs to the Real Analytic chapter. Textbook standard: Apostol §8.20 (exponential series) and Rudin §8.6 take $\exp 0 = 1$ as the foundational identification preceding every multiplicative property. Currently the chapter has no theorem stating exp(0)=1; the additivity theorem (line 324-333) treats the additive identity case implicitly by way of supplied limit witnesses for both arguments. Closes in 1-3 codex rounds: at $x=\emp$, $\mathsf{ExpPart}(x,n,S_n) = \sum_{k=0}^n x^k/k!$ (line 111) collapses to $1 + 0 + 0 + \dots = 1$ since $x^k = \emp$ for $k \ge 1$ (zero-power vanishing) and $x^0/0! = 1_R$ by the unary factorial-denominator inverse already established in the chapter. Infrastructure already present: ExpPart definition (line 111), $\RealAlgOrder$ rows for products and powers (line 326), unary factorial-denominator inverses, supplied limit witness.
-
----
-
 ### B-562 - Polynomial evaluation at the multiplicative unit equals additive fold of coefficients
 
 | field | value |
