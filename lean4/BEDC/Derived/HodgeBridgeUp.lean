@@ -53,4 +53,44 @@ theorem HodgeBridgeBHistSourcePacket_source_dependency_surface [AskSetup] [Packa
       packet.right.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right.right⟩
 
+theorem HodgeBridgeBHistSourcePacket_harmonic_projector_classifier_stability
+    [AskSetup] [PackageSetup]
+    {derham derham' cohomology projector projector' bidegree bidegree'
+      lefschetz lefschetz' readback readback' transport provenance provenance'
+      endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz
+        readback transport provenance endpoint bundle pkg ->
+      hsame derham derham' ->
+      hsame projector projector' ->
+      hsame bidegree bidegree' ->
+      hsame provenance provenance' ->
+      Cont derham' projector' readback' ->
+      Cont readback' bidegree' lefschetz' ->
+      Cont provenance' lefschetz' endpoint' ->
+      PkgSig bundle endpoint' pkg ->
+      HodgeBridgeBHistSourcePacket derham' cohomology projector' bidegree'
+          lefschetz' readback' transport provenance' endpoint' bundle pkg ∧
+        hsame readback readback' ∧ hsame lefschetz lefschetz' ∧
+          hsame endpoint endpoint' := by
+  intro packet sameDerham sameProjector sameBidegree sameProvenance readbackCont'
+    lefschetzCont' endpointCont' pkgSig'
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame sameDerham sameProjector
+      packet.right.right.right.right.right.right.left readbackCont'
+  have sameLefschetz : hsame lefschetz lefschetz' :=
+    cont_respects_hsame sameReadback sameBidegree
+      packet.right.right.right.right.right.right.right.left lefschetzCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameLefschetz
+      packet.right.right.right.right.right.right.right.right.left endpointCont'
+  exact
+    ⟨⟨unary_transport packet.left sameDerham, packet.right.left,
+        unary_transport packet.right.right.left sameProjector,
+        unary_transport packet.right.right.right.left sameBidegree,
+        packet.right.right.right.right.left,
+        unary_transport packet.right.right.right.right.right.left sameProvenance,
+        readbackCont', lefschetzCont', endpointCont', pkgSig'⟩,
+      sameReadback, sameLefschetz, sameEndpoint⟩
+
 end BEDC.Derived.HodgeBridgeUp
