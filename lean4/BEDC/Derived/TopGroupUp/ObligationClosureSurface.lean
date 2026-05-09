@@ -53,4 +53,57 @@ theorem TopGroupObligation_public_consumer_surface_certificate
       classifierRow,
       certificate⟩
 
+theorem TopGroupObligation_carrier_classifier_surface
+    {group topology product inverse neighborhood ledger provenance classifierLedger : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+    Cont provenance ledger classifierLedger ->
+      SemanticNameCert (fun row : BHist => hsame row provenance)
+        (fun row : BHist => hsame row provenance)
+        (fun row : BHist => hsame row provenance)
+        (fun left right : BHist =>
+          hsame left right ∧ hsame left provenance ∧ hsame right provenance) ∧
+        UnaryHistory classifierLedger ∧ hsame classifierLedger (append provenance ledger) ∧
+          GroupSingletonCarrier group ∧ TopologySingletonCarrier topology := by
+  intro package classifierRow
+  have sourceRows := TopGroupRootThresholdPackage_shared_source_rows package
+  have classifierUnary : UnaryHistory classifierLedger :=
+    unary_cont_closed sourceRows.right.right.right.right sourceRows.right.right.right.left
+      classifierRow
+  have provenanceSelf : hsame provenance provenance :=
+    hsame_refl provenance
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row provenance)
+        (fun row : BHist => hsame row provenance)
+        (fun row : BHist => hsame row provenance)
+        (fun left right : BHist =>
+          hsame left right ∧ hsame left provenance ∧ hsame right provenance) := {
+    core := {
+      carrier_inhabited := Exists.intro provenance provenanceSelf
+      equiv_refl := by
+        intro row rowCarrier
+        exact And.intro (hsame_refl row) (And.intro rowCarrier rowCarrier)
+      equiv_symm := by
+        intro left right classified
+        exact
+          And.intro (hsame_symm classified.left)
+            (And.intro classified.right.right classified.right.left)
+      equiv_trans := by
+        intro left mid right classifiedLM classifiedMR
+        exact
+          And.intro (hsame_trans classifiedLM.left classifiedMR.left)
+            (And.intro classifiedLM.right.left classifiedMR.right.right)
+      carrier_respects_equiv := by
+        intro left right classified _leftCarrier
+        exact classified.right.right
+    }
+    pattern_sound := by
+      intro row carrier
+      exact carrier
+    ledger_sound := by
+      intro row carrier
+      exact carrier
+  }
+  exact
+    ⟨cert, classifierUnary, classifierRow, package.left, package.right.left⟩
+
 end BEDC.Derived.TopGroupUp
