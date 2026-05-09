@@ -77,6 +77,7 @@ import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.EntanglementUp
 import BEDC.Derived.EntropyUp
+import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.GaloisExtUp
@@ -484,6 +485,7 @@ import BEDC.Derived.TopGroupUp.RootPublicObligationInventory
 import BEDC.Derived.TopGroupUp.SourceFiberExportExactness
 import BEDC.Derived.TopGroupUp.RootSourceFiberExportExactness
 import BEDC.Derived.TopGroupUp.RootSourceFiberExportPacket
+import BEDC.Derived.TopGroupUp.RootSourceFiberObligationPacket
 import BEDC.Derived.TopGroupUp.RootDownstreamObligationTriad
 import BEDC.Derived.TopGroupUp.ContinuityObligationTriple
 import BEDC.Derived.TopGroupUp.OperationLedgerSemanticCertificate
