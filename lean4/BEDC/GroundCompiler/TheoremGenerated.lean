@@ -244,4 +244,49 @@ theorem statement_alone_not_theorem
                                       exact hNoProof R hRecognizes.left proof
                                         hFields.right.right.left
 
+theorem proof_alone_not_theorem
+    {T : TheoremCandidateFlow} :
+    (exists R : GeneratedTheoremRecognizer,
+      exists proof : TheoremCandidateFlow,
+        TheoremRoleSubflow R T proof TheoremRole.proof) ->
+      (forall R : GeneratedTheoremRecognizer,
+        TheoremRecognitionRelation R T ->
+          Not (CompleteTheoremFlowRecognition R T)) ->
+        Not (TheoremFlow T) := by
+  intro _ hIncomplete
+  exact incomplete_theorem_flow_not_theorem hIncomplete
+
+theorem same_statement_multiple_flows :
+    exists R : GeneratedTheoremRecognizer,
+      exists statement T U : TheoremCandidateFlow,
+        Not (T = U) /\
+          TheoremRoleSubflow R T statement TheoremRole.statement /\
+          TheoremRoleSubflow R U statement TheoremRole.statement := by
+  refine
+    ⟨[],
+      [[BEDC.FKernel.Mark.BMark.b0]],
+      [[BEDC.FKernel.Mark.BMark.b0]],
+      [[BEDC.FKernel.Mark.BMark.b1]], ?_⟩
+  constructor
+  · intro h
+    cases h
+  · constructor
+    · constructor
+      · constructor
+        · exact FormalCompilerInput.recognizedFlow []
+            [[BEDC.FKernel.Mark.BMark.b0]]
+        · exact ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩
+      · exact ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩
+    · constructor
+      · constructor
+        · exact FormalCompilerInput.recognizedFlow []
+            [[BEDC.FKernel.Mark.BMark.b1]]
+        · exact ⟨[BEDC.FKernel.Mark.BMark.b1], [], rfl⟩
+      · exact ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩
+
+theorem code_equality_refines_statement_equivalence
+    {T U : TheoremCandidateFlow} :
+    TheoremCode T = TheoremCode U -> T = U :=
+  theorem_code_injective
+
 end BEDC.GroundCompiler.TheoremGenerated
