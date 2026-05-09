@@ -14633,3 +14633,51 @@ Rationale:
 The Quadrature chapter (`papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`, 291 lines) handles the empty-node-spine case in `thm:quadrature-empty-node-sum-zero` (B-538), the degree-zero exactness/weight-sum equivalence in B-542, and degree-bound preorder (transitivity B-? line 173, reflexivity B-? line 204, weakening line 124, equivalence stability line 149). The singleton-node case — the simplest non-empty quadrature rule — has no companion theorem and is a clean direct unfold of `\mathsf{QSum}_Q(p)` using the singleton clause of `def:finite-additive-scalar-fold` and `lem:quadrature-empty-position-fold-zero` (already present at line 469). It mirrors the existing empty-node closure-status proof and gives downstream numerical-analysis chapters the n=1 base case for inductive arguments over node count.
 
 ---
+
+### B-576 - Banach scalar-action of bounded operator distributes over composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Banach scalar-action of bounded operator distributes over composition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If $T:H_0\to H_1$ is a carried $\BanachBLOp$ row with bound $L_T:\RealUp$, $S:H_1\to H_2$ is a carried $\BanachBLOp$ row with bound $L_S:\RealUp$, and $c:\RealUp$ is a carried scalar with $\NonNeg_{\RealUp}(c)$, then the composite $S\circ(c\cdot T)$ is a carried $\BanachBLOp$ row from $H_0$ to $H_2$ with bound $c\cdot L_T\cdot L_S$ and is $\BanachBLOp$-classifier equal to $c\cdot(S\circ T)$ over the same source/target Banach carriers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
+
+Rationale:
+The Banach BLO sub-directory has thoroughly developed composition algebra: associativity (line 231), identity units (B-481 line 303), left-zero annihilation (B-522 line 368), right-zero annihilation (B-569 in flight, line 453), composition-Lipschitz (line 24), composition-Cauchy preservation (line 60). The companion file `bounded_linear_operator_obligations.tex` adds scalar-multiple bound (B-541, line 398) and pointwise sum closure (B-532, line 223). What is conspicuously absent is the scalar-action × composition interaction `(c\cdot T)\circ S` or `S\circ(c\cdot T)` — the standard `\mathcal{L}(H_1,H_2)$-bimodule structure over scalars. With both ingredients on hand (scalar-multiple bound and composition closure), this is a direct ledger composition that closes the bilinearity-of-composition gap. File at 514/800 lines has ~280 lines of room.
+
+---
+
+### B-577 - RandomVar preimage symmetric-difference exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RandomVar preimage symmetric-difference exactness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For a carried $\RandomVarUp$ measurable map $f:\Omega\to\Omega'$ and target events $A,B\in\mathcal{A}'$ with classifier-stable measurable preimages and difference rows, the preimage of the symmetric difference $A\triangle B := (A\setminus B)\cup(B\setminus A)$ is classifier-equal to the symmetric difference of the preimages: $f^{-1}(A\triangle B)\sim f^{-1}(A)\triangle f^{-1}(B)$ in the source $\sigma$-algebra.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/randomvar/preimage_exactness.tex`
+
+Rationale:
+The randomvar chapter has expanded its preimage-exactness palette substantially: union exactness (B-419), relative-difference exactness (B-434, file line 60), complement-and-relative-difference exactness (B-439, line 113), empty-event exactness (B-456, line 184), countable union exactness (B-474), countable intersection exactness (B-524), disjoint binary union exactness (line 13). The symmetric-difference case is the natural composition of two of those rows (relative difference applied twice and then unioned) but has no dedicated theorem. It is the standard structural row that downstream measure-theoretic preimage manipulation expects, and the proof factors directly through the existing union (B-419) and relative-difference (B-434) theorems. File `randomvar/preimage_exactness.tex` at 220 lines has room.
+
+---
