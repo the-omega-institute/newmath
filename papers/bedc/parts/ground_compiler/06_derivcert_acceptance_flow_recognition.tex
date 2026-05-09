@@ -386,6 +386,7 @@ Membership $c \in \mathsf{LegalZStream}$ says only that $c$ decodes to an event 
 
 \begin{definition}[Accepted object code]
 \label{def:derivcert-generated-accepted-object-code}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.AcceptedObjectCode}
 If $\mathsf{AcceptFlow}(A,N,s)$, define
 $$
   \mathsf{AcceptedObjectCode}(A,N,s) := \mathsf{Compile}(A).
@@ -395,6 +396,7 @@ The code is accepted because its decoded event flow is recognized as an acceptan
 
 \begin{proposition}[Accepted object code is injective on acceptance flows]
 \label{prop:derivcert-generated-accepted-code-injective}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.accepted\_object\_code\_injective}
 If
 $$
   \mathsf{AcceptedObjectCode}(A,N,s)
@@ -418,11 +420,14 @@ By \autoref{def:derivcert-generated-accepted-object-code}, the equality is $\mat
 
 \begin{definition}[Acceptance recognition from channel code]
 \label{def:derivcert-generated-recognition-from-code}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.RecognizesAcceptanceCode}
 For $c \in \mathsf{LegalZStream}$, define
 $$
   \mathsf{RecognizesAcceptanceCode}(c,N,s)
   \;:\Longleftrightarrow\;
-  \mathsf{AcceptFlow}(\mathsf{Decode}(c),N,s).
+  \exists A,\ \mathsf{Decode}(c)=\mathsf{some}(A)
+  \ \wedge\
+  \mathsf{AcceptFlow}(A,N,s).
 $$
 Thus accepted-object recognition from channel code first decodes to an event flow.
 \end{definition}

@@ -65,6 +65,13 @@ def AcceptedFlow (A N s : EventFlow) : Prop :=
 def AcceptGateFlow (N s : EventFlow) : Prop :=
   exists A : EventFlow, AcceptedFlow A N s
 
+def AcceptedObjectCode (A _N _s : EventFlow) : List DisplayAlphabet :=
+  FlowEncoding A
+
+def RecognizesAcceptanceCode
+    (c : List DisplayAlphabet) (N s : EventFlow) : Prop :=
+  exists A : EventFlow, Decode c = some A /\ AcceptedFlow A N s
+
 def DerivCertCode (D _N _s : EventFlow) : List DisplayAlphabet :=
   FlowEncoding D
 
@@ -121,5 +128,18 @@ theorem accepted_requires_namecert_derivcert {N s : EventFlow} :
           cases hAccepted with
           | intro D hAccepted =>
               exact ⟨C, D, hAccepted.left, hAccepted.right.left⟩
+
+theorem accepted_object_code_injective
+    {A B N M s t : EventFlow} :
+    AcceptedObjectCode A N s = AcceptedObjectCode B M t -> A = B := by
+  intro h
+  have hA : Decode (AcceptedObjectCode A N s) = some A := by
+    simpa [AcceptedObjectCode] using flow_level_round_trip A
+  have hB : Decode (AcceptedObjectCode B M t) = some B := by
+    simpa [AcceptedObjectCode] using flow_level_round_trip B
+  rw [h] at hA
+  rw [hB] at hA
+  cases hA
+  rfl
 
 end BEDC.GroundCompiler.DerivCertGenerated
