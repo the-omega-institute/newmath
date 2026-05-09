@@ -248,16 +248,19 @@ while true; do
   ps_out=$(ps -axo pid,ppid,command 2>/dev/null \
     | grep -E 'codex_revise\.py|codex_formalize\.py|sync_with_auto_dev\.py' \
     | grep -v grep || true)
-  paper=$(echo "$ps_out" | grep -c 'codex_revise\.py')
-  lean=$(echo "$ps_out"  | grep -c 'codex_formalize\.py')
-  sync=$(echo  "$ps_out" | grep -c 'sync_with_auto_dev\.py')
-  cur="paper=$paper lean=$lean sync=$sync"
+  p=$(echo "$ps_out" | grep -c 'codex_revise\.py')
+  l=$(echo "$ps_out" | grep -c 'codex_formalize\.py')
+  s=$(echo "$ps_out" | grep -c 'sync_with_auto_dev\.py')
+  pa=$([ "$p" -ge 1 ] && echo 1 || echo 0)
+  la=$([ "$l" -ge 1 ] && echo 1 || echo 0)
+  sa=$([ "$s" -ge 1 ] && echo 1 || echo 0)
+  cur="paper=$pa lean=$la sync=$sa"
   if [ "$cur" != "$prev" ]; then
     ts=$(date '+%Y-%m-%d %H:%M:%S')
-    if [ "$paper" -eq 0 ] || [ "$lean" -eq 0 ] || [ "$sync" -eq 0 ]; then
-      echo "[$ts] DAEMON DOWN — $cur (was: $prev)"
+    if [ "$pa" -eq 0 ] || [ "$la" -eq 0 ] || [ "$sa" -eq 0 ]; then
+      echo "[$ts] DAEMON DOWN — $cur (raw paper=$p lean=$l sync=$s; was: $prev)"
     else
-      echo "[$ts] daemon liveness OK — $cur (was: $prev)"
+      echo "[$ts] daemon liveness OK — $cur (raw paper=$p lean=$l sync=$s; was: $prev)"
     fi
     prev=$cur
   fi
@@ -265,11 +268,23 @@ while true; do
 done
 ```
 
+Compare alive-as-boolean (≥1 process matches → 1, else 0), not raw counts. The paper bash wrapper makes `codex_revise.py` match twice; the sync wrapper periodically spawns a Python child that pushes the sync count from 1 to 2 for a few seconds every 600s. Comparing raw counts emits a no-op `liveness OK` event every 10 minutes during steady state. Comparing alive-booleans stays silent and only fires when a daemon actually disappears.
+
 `persistent: true`. Description: `BEDC daemon liveness change (paper/lean/sync)`.
 
 The `[ "$cur" != "$prev" ]` guard means it stays silent during steady-state (one event at boot to confirm initial state, then nothing until a change). When a daemon dies, you get a `DAEMON DOWN` notification within 60s — the missing log signal becomes a positive `ps` signal.
 
 Always run **both** monitors in parallel after starting the pipelines: log-stream (active error watch) + ps-based (daemon liveness change). The two cover orthogonal failure modes — log-stream catches loud failures (Tracebacks, recovery activity, `Session complete:` etc.); ps-based catches silent disappearance (process killed by OS, exit before flushing log, parent shell SIGHUP edge cases). Either alone misses an entire category.
+
+**Before arming a fresh monitor pair, sweep stale Monitor children from prior sessions.** Monitor tasks are detached children; a cross-session disconnect leaves the `tail -F …` / `while true; do ps_out=…; done` shells running and re-emitting events into a transcript they no longer belong to (you also see every log line twice when the new monitor lands on top of the old). Sweep first:
+
+```bash
+ps -axo pid,etime,command \
+  | grep -E 'tail -F .*orchestrator\.log|while true; do.*ps_out|prev=' \
+  | grep -v grep
+```
+
+Anything older than the current session's start time (`etime` clearly large, e.g. days) belongs to a prior session — `kill <pid>` it before launching the new monitors. The corresponding Monitor task will flip to `failed (exit 144)`, which is the desired outcome.
 
 Because Monitor no longer holds the orchestrator, you can freely change the `grep` filter, kill the Monitor, or re-launch it with a different filter without affecting any in-flight round.
 
