@@ -121,6 +121,7 @@ Thus $D$ is a recognized derivation-certificate flow for $N$ at strength $s$ exa
 
 \begin{principle}[No external DerivCert input]
 \label{prin:derivcert-generated-no-external-input}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.no\_external\_derivcert\_input}
 There is no formal compiler entry point
 $$
   \mathsf{CompileDerivCert}
@@ -142,6 +143,7 @@ If $D$ is a recognized derivation-certificate flow, its code is just $\mathsf{Co
 
 \begin{proposition}[DerivCert recognition does not change channel code]
 \label{prop:derivcert-generated-recognition-preserves-code}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.derivcert\_recognition\_preserves\_code}
 If $\mathsf{RecognizesDerivCert}(R_D,D,N,s)$, then the channel encoding of $D$ is still $\mathsf{Compile}(D)$. Derivation-certificate recognition does not add, delete, or rewrite channel bits.
 \end{proposition}
 
@@ -151,6 +153,7 @@ The judgment $\mathsf{RecognizesDerivCert}(R_D,D,N,s)$ is a source-level recogni
 
 \begin{corollary}[Recognized DerivCert code is not a separate code]
 \label{cor:derivcert-generated-code-not-separate}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.derivcert\_code\_not\_separate}
 If $D$ is a recognized derivation-certificate flow, then
 $$
   \mathsf{DerivCertCode}(D,N,s) := \mathsf{Compile}(D)
