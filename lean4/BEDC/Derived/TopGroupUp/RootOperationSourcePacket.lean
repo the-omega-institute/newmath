@@ -1,12 +1,47 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Package
 import BEDC.Derived.TopGroupUp
 
 namespace BEDC.Derived.TopGroupUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.GroupUp
 open BEDC.Derived.TopologyUp
+
+def TopGroupRootOperationSourcePacket [AskSetup] [PackageSetup]
+    (group topology product inverse neighborhood ledger provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory group ∧ UnaryHistory topology ∧ UnaryHistory product ∧ UnaryHistory inverse ∧
+    UnaryHistory neighborhood ∧ UnaryHistory provenance ∧ Cont product inverse ledger ∧
+      Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem TopGroupRootOperationSourcePacket_cont_pkg_rows [AskSetup] [PackageSetup]
+    {group topology product inverse neighborhood ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TopGroupRootOperationSourcePacket group topology product inverse neighborhood ledger
+        provenance endpoint bundle pkg ->
+      Cont product inverse ledger ∧ Cont provenance ledger endpoint ∧
+        UnaryHistory ledger ∧ UnaryHistory endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have productInverseLedger : Cont product inverse ledger :=
+    packet.right.right.right.right.right.right.left
+  have provenanceLedgerEndpoint : Cont provenance ledger endpoint :=
+    packet.right.right.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left productInverseLedger
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed packet.right.right.right.right.right.left ledgerUnary
+      provenanceLedgerEndpoint
+  exact And.intro productInverseLedger
+    (And.intro provenanceLedgerEndpoint
+      (And.intro ledgerUnary
+        (And.intro endpointUnary packet.right.right.right.right.right.right.right.right)))
 
 theorem TopGroupRootOperationSourcePacket_root_source_pair_exactness
     {group topology product inverse neighborhood ledger provenance endpoint : BHist} :
