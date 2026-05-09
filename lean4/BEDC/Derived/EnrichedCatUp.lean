@@ -253,4 +253,109 @@ theorem EnrichedCatPublicRows_classifier_transport_obligation [AskSetup] [Packag
               (And.intro sameEndpoint
                 (And.intro sameTensorFromRows pkgSig')))))))
 
+theorem EnrichedCatPublicPacket_classifier_transport_obligation [AskSetup] [PackageSetup]
+    {categoryBoundary monoidalBoundary homObject identity composition transport provenance ledger
+      endpoint categoryBoundary' monoidalBoundary' homObject' identity' composition' transport'
+      provenance' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EnrichedCatPublicPacket categoryBoundary monoidalBoundary homObject identity composition
+        transport provenance ledger endpoint bundle pkg ->
+      hsame categoryBoundary categoryBoundary' ->
+        hsame monoidalBoundary monoidalBoundary' ->
+          hsame homObject homObject' ->
+            hsame identity identity' ->
+              hsame transport transport' ->
+                hsame provenance provenance' ->
+                  Cont homObject' identity' composition' ->
+                    Cont transport' provenance' ledger' ->
+                      Cont ledger' monoidalBoundary' endpoint' ->
+                        PkgSig bundle endpoint' pkg ->
+                          EnrichedCatPublicPacket categoryBoundary' monoidalBoundary' homObject'
+                              identity' composition' transport' provenance' ledger' endpoint'
+                              bundle pkg ∧
+                            hsame composition composition' ∧ hsame ledger ledger' ∧
+                              hsame endpoint endpoint' := by
+  intro packet sameCategory sameMonoidal sameHom sameIdentity sameTransport sameProvenance
+    homIdentityCont' transportProvenanceCont' ledgerMonoidalCont' pkgSig'
+  have sameComposition : hsame composition composition' :=
+    cont_respects_hsame sameHom sameIdentity
+      packet.right.right.right.right.right.right.left homIdentityCont'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameTransport sameProvenance
+      packet.right.right.right.right.right.right.right.left transportProvenanceCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger sameMonoidal
+      packet.right.right.right.right.right.right.right.right.left ledgerMonoidalCont'
+  have transported :
+      EnrichedCatPublicPacket categoryBoundary' monoidalBoundary' homObject' identity'
+          composition' transport' provenance' ledger' endpoint' bundle pkg :=
+    ⟨unary_transport packet.left sameCategory,
+      unary_transport packet.right.left sameMonoidal,
+      unary_transport packet.right.right.left sameHom,
+      unary_transport packet.right.right.right.left sameIdentity,
+      unary_cont_closed (unary_transport packet.right.right.left sameHom)
+        (unary_transport packet.right.right.right.left sameIdentity) homIdentityCont',
+      unary_transport packet.right.right.right.right.right.left sameTransport,
+      homIdentityCont',
+      transportProvenanceCont',
+      ledgerMonoidalCont',
+      pkgSig'⟩
+  exact And.intro transported
+    (And.intro sameComposition (And.intro sameLedger sameEndpoint))
+
+theorem EnrichedCatPublicPacket_ledger_exactness_obligation [AskSetup] [PackageSetup]
+    {categoryBoundary monoidalBoundary homObject identity composition transport provenance ledger
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EnrichedCatPublicPacket categoryBoundary monoidalBoundary homObject identity composition
+        transport provenance ledger endpoint bundle pkg ->
+      UnaryHistory homObject ∧ UnaryHistory identity ∧ UnaryHistory composition ∧
+        UnaryHistory transport ∧ hsame composition (append homObject identity) ∧
+          hsame ledger (append transport provenance) ∧
+            hsame endpoint (append ledger monoidalBoundary) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have homUnary : UnaryHistory homObject :=
+    packet.right.right.left
+  have identityUnary : UnaryHistory identity :=
+    packet.right.right.right.left
+  have compositionUnary : UnaryHistory composition :=
+    packet.right.right.right.right.left
+  have transportUnary : UnaryHistory transport :=
+    packet.right.right.right.right.right.left
+  have compositionRow : Cont homObject identity composition :=
+    packet.right.right.right.right.right.right.left
+  have ledgerRow : Cont transport provenance ledger :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointRow : Cont ledger monoidalBoundary endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right
+  exact And.intro homUnary
+    (And.intro identityUnary
+      (And.intro compositionUnary
+        (And.intro transportUnary
+          (And.intro compositionRow
+            (And.intro ledgerRow
+              (And.intro endpointRow pkgSig))))))
+
+theorem EnrichedCatSourceSurface_consumer_readback_boundary [AskSetup] [PackageSetup]
+    {category monoidal hom identity composition transport provenance ledger endpoint consumer
+      readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EnrichedCatSourceSurface category monoidal hom identity composition transport provenance
+        ledger endpoint bundle pkg ->
+      UnaryHistory consumer ->
+        Cont endpoint consumer readback ->
+          UnaryHistory readback ∧ hsame readback (append endpoint consumer) ∧
+            PkgSig bundle endpoint pkg := by
+  intro surface consumerUnary readbackRow
+  have source := EnrichedCatSourceSurface_source_obligation surface
+  have endpointUnary : UnaryHistory endpoint :=
+    source.right.right.right.right.right.right.left
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed endpointUnary consumerUnary readbackRow
+  exact And.intro readbackUnary
+    (And.intro readbackRow
+      source.right.right.right.right.right.right.right.right.right.right.right)
+
 end BEDC.Derived.EnrichedCatUp
