@@ -637,7 +637,7 @@ $\bridgedClosure$.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatUp\_StdBridge}
 \begin{closurestatus}{\RatUp}
-  \constructivestory{Start with the signed-unary integer package for numerators and the unary natural-number package for positive denominator tails. A rational number is read from a ledgered pair in which the numerator history and nonempty denominator history remain visible to their classifiers. The chapter registers this numerator-over-positive-denominator reading under the name $\RatUp$. No primitive rational field or quotient constructor enters; representative stability is expressed by the existing history classifier and $\hsame$ transport.}
+  \constructivestory{A rational is a numerator history (a signed unary $\IntUp$) paired with a non-empty denominator history (a positive unary $\NatUp$ tail), both kept fully visible — there is no quotient and no equivalence class. Two pairs that traditional math would identify, such as $(2, 4)$ and $(1, 2)$, are not collapsed; instead the classifier knows when two such pairs name the same rational, and $\hsame$ transports that recognition without ever forming the equivalence class. The chapter registers this paired-history reading under the name $\RatUp$; the rational is not a class of equivalent fractions, it is a pair of histories together with a classifier that compares them in place.}
   \theoryclosure{\matureClosure}
   \scopeclosed{The RatUp mature paper scope is the $\mathsf{RatHistoryCarrier}$/$\mathsf{RatHistoryClassifier}$ semantic certificate, representative stability, positive denominator-tail readbacks, and the four bridge-obligation witnesses of \autoref{thm:ratup-bridged-closure-obligation-package}.}
   \formalstatus{\bridgeCheckedV}

@@ -710,7 +710,7 @@ Apply Theorem~\ref{thm:tagged-option-history-semantic-certificate} with source c
 \end{proof}
 
 \begin{closurestatus}{\OptionUp}
-  \constructivestory{Start with an already certified source carrier of histories. The empty history is read as absence, while a one-mark extension $\Eone(a)$ records presence together with the payload history $a$ drawn from that source. The chapter registers this tagged absent-or-present reading under the name $\OptionUp$. No new option primitive enters; the construction only reuses $\emp$, $\Eone$, the source classifier, and $\hsame$ transport.}
+  \constructivestory{An option carries one bit of choice — presence or absence — together with a payload when present. In BEDC the bit is the kernel mark itself: $\emp$ reads as absence, and $\Eone(a)$ reads as presence carrying the payload history $a$ drawn from a source carrier. The chapter registers this presence-or-absence reading under the name $\OptionUp$; the same b1 that distinguishes truth from falsehood in $\BoolUp$ is here repurposed to also name what is being carried.}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The tagged option history semantic certificate over a source carrier, with empty none endpoint, one-tag present endpoint, payload transport, and carrier-pattern-ledger equivalence.}
   \formalstatus{\auditCleanV}

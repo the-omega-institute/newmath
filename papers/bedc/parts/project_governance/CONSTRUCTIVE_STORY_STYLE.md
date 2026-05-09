@@ -20,11 +20,26 @@
 
 ## 3. 结构骨架 (3 句版)
 
-1. **追溯起点**: 从哪几个 prior 层 (`Empty` / `b0` / `b1` / 上一章已命名的概念) 出发, 怎么叠出新模式
+1. **追溯起点 + 走构造**: 从哪几个 prior 层 (`Empty` / `b0` / `b1` / 上一章已命名的概念) 出发, 怎么叠出新模式 —— **要走具体动作**, 不是只列依赖名字
 2. **命名动作**: 本章的 NameCert 给那个已经存在的模式起了什么名 (用 `$\<Name>Up$` 形式登记)
 3. **没新东西**: 强调"不引入新原件, 只是给一个本来就在的读法起名"
 
 第 3 句可与第 2 句合并; 必要时可加第 4 句澄清范围 (例如"完整 X 理论不在本闭合层级内"), 但能放进 `\notclaimed` 的就不要重复进 story。
+
+## 3a. 关键原则: 展示传统数学隐藏的细节
+
+每一段 story 的 **第 1 句**最重要的不是说"X 是什么", 而是说"X 怎么垒出来的"。传统数学习惯把构造过程缩成一行结果 ("a rational is an equivalence class of pairs"), 把 *如何* 隐藏起来。BEDC 没有这层抽象遮挡 —— 一切都是从 `Empty` / `b0` / `b1` / `Eone` 一层层叠出来的, 所以 story 必须把那些被传统数学省掉的步骤明写出来:
+
+- ❌ "A rational is a pair of integers modulo equivalence."
+- ✓ "A rational is a numerator history paired with a non-empty denominator history, both kept fully visible — no quotient, no equivalence class. Two pairs that traditional math would identify, such as $(2, 4)$ and $(1, 2)$, are not collapsed; instead the classifier knows when two pairs name the same rational, and $\hsame$ transports that recognition without ever forming the equivalence class."
+
+- ❌ "Addition is associative, commutative, with identity 0."
+- ✓ "Take a unary history of depth $n$ ... and lay another of depth $m$ on top of it: $m$ more b1-marks above the existing apex. The continuation that produced it is exactly the sum $n+m$."
+
+- ❌ "Complex multiplication satisfies $i^2 = -1$."
+- ✓ "Multiplication is given by the explicit formula $(a,b)(c,d) = (ac-bd,\,ad+bc)$, so $i^2 = -1$ is not a postulate but a consequence of squaring $(0,1)$ through that formula."
+
+读者读完这一句应该能 *动手复现* 那个构造的第一步, 不只是知道一个名字。
 
 ## 4. 词汇政策
 
@@ -38,6 +53,20 @@
 - 全中文叙述, 不要中英混杂式音译 ("emp", "E1-extension" 这种半拉子写法只在受限的 glossary `desc` 里用; story 字段写"空历史"、"b1 扩展"、"b1 标记叠加")
 - 保留作为标识符的 BEDC 名字 (`NatUp`, `CategoryUp`, `BHist`, `Cont`, `hsame`) 不译, 是程序中的真名
 - 中文里的标准数学术语用中文 ("自然数"、"布尔值"、"范畴"、"域"、"模"); 外来术语用通用学术译名
+
+**反 jargon 清单 (避免 BEDC 内部行话当主词)**:
+
+下面这些词组在 BEDC 内部是技术术语, 但读者一眼看不出含义。在 story 里**避免直接用**, 改用具体动作描述:
+
+| 避免 | 改写思路 |
+|---|---|
+| "ledgered pair" / "账本配对" | 写"一对历史并排展示"/"两条历史保持在视野中" |
+| "carrier and classifier surface" / "承载与分类器表面" | 写具体的承载 (e.g. "rational history") 和具体的分类 (e.g. "tells when two pairs name the same rational") |
+| "visible to its classifier" / "对分类器可见" | 写"由分类器追踪"/"被分类器认得" |
+| "ledger discipline" / "账本纪律" | 直接说做了什么动作 |
+| "transport discipline" / "输运纪律" | 写"hsame 把识别送过去" |
+| "X is read as Y" / "X 读作 Y" 反复出现 | 至少有一句换成具体动作 ("stack one b1 above empty, then another, ...") |
+| 罗列 prior 层名字而不说怎么用 | 必须写"取 X, 做动作 D, 得到 Y" |
 
 ## 5. 数学符号政策
 
@@ -70,6 +99,26 @@
 > **EN.** Take histories as objects and the continuation relation $\Cont$ between histories as morphisms. Composing two morphisms means chaining two continuations head-to-tail; the identity at each object is the reflexivity of $\hsame$ on that history. A category, in this reading, is already lying in the kernel's history-and-continuation surface, with no functor library imported. The chapter registers this reading under the name $\CategoryUp$; the category laws are checked inside BEDC's own apparatus, and nothing is posited beyond what mark-stacking and same-relations already gave.
 
 > **ZH.** 把历史当作对象, 把历史之间的延拓关系 Cont 当作态射. 两个态射的复合, 就是把两段延拓首尾相接; 每个对象处的单位, 就是历史等同关系 hsame 在该历史上的自反性. 在这种读法下, 一个范畴本来就摆在内核的"历史 + 延拓"表面上, 不需要引入任何外部函子库. 本章把这一读法命名为 CategoryUp; 范畴公理在 BEDC 自有装置中得到验证, 在标记叠加与同一关系之外没有引入任何新东西.
+
+### 更多已写好的 exemplar
+
+后续填写时直接对照 paper 中已有的 story (按递归底层顺序排列), 这些都已经按本规范写好, 是最权威参照:
+
+| Region | Paper file (含 `\constructivestory{...}`) |
+|---|---|
+| `nat` | `parts/concrete_instances/04_nat_namecert_construction.tex` |
+| `add` | `parts/concrete_instances/05_add_namecert_construction.tex` |
+| `bool` | `parts/concrete_instances/07_bool_namecert_construction.tex` |
+| `option` | `parts/concrete_instances/option/02_tagged_option_namecert.tex` |
+| `prod` | `parts/concrete_instances/prod/09_componentwise_certificate_transfer.tex` |
+| `sum` | `parts/concrete_instances/sum/ledger_and_semantic_certificate.tex` |
+| `list` | `parts/concrete_instances/list/11_public_reverse_append_antimorphism.tex` |
+| `int` | `parts/concrete_instances/int/06_int_history_certificate.tex` |
+| `rat` | `parts/concrete_instances/12_rat_namecert_construction.tex` |
+| `realalgorder` | `parts/concrete_instances/real/13_real_alg_order_interface.tex` |
+| `complex` | `parts/concrete_instances/14_complex_namecert_construction.tex` |
+
+ZH 对照在 `docs/dossier/data_source/glossary.json` 各 region key 下的 `constructive_story_zh` 字段。
 
 ## 7. 反模式 (避免)
 
