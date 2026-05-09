@@ -53,6 +53,7 @@ inductive CompilerDatum : Type where
   | hostYAML
   | hostManifest
   | hostPkg
+  | hostChapterPkg
   | hostNameCert
   | hostDerivCert
   | hostClosureCert
@@ -144,6 +145,7 @@ inductive StructuralHiddenInput : CompilerDatum -> Prop where
   | hostYAML : StructuralHiddenInput CompilerDatum.hostYAML
   | hostManifest : StructuralHiddenInput CompilerDatum.hostManifest
   | hostPkg : StructuralHiddenInput CompilerDatum.hostPkg
+  | hostChapterPkg : StructuralHiddenInput CompilerDatum.hostChapterPkg
   | hostNameCert : StructuralHiddenInput CompilerDatum.hostNameCert
   | hostDerivCert : StructuralHiddenInput CompilerDatum.hostDerivCert
   | hostClosureCert : StructuralHiddenInput CompilerDatum.hostClosureCert
