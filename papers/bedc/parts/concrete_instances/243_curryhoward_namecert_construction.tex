@@ -65,3 +65,24 @@ The stability and endpoint-exactness part is \autoref{thm:curryhoward-classifier
 
 Finally, the packet definition explicitly excludes host proof trees, host lambda syntax equality, and quotients of alpha classes. This no-host-equality ledger is the remaining boundary clause, and the four clauses together give the stated public CurryHowardUp certificate boundary.
 \end{proof}
+
+\begin{theorem}[CurryHoward cut-beta proof-program determinacy]\label{thm:curryhoward-cut-beta-proof-program-determinacy}
+Let $\mathcal H$ and $\mathcal H'$ be accepted shared cut-beta packets for $\CurryHowardUp$ as in \autoref{def:curryhoward-shared-cut-beta-packet}. Suppose their $\FirstOrderUp$ cut-elimination rows, $\LambdaCalcUp$ beta-substitution rows, shared $\hsame$ endpoint rows, and finite $\Cont$ provenance rows are the same displayed rows under the CurryHoward endpoint classifier of \autoref{def:curryhoward-endpoint-classifier}. Then the cut-eliminated deduction endpoint and the beta-substitution endpoint determine one proof-program endpoint:
+$$
+(\mathsf{BHist}_{D_{\mathsf{cut}}},\mathsf{BHist}_{u},\hsame_{P},\Cont_{\rho}).
+$$
+This endpoint is a displayed CurryHoward certificate row, not a host equality between proof trees or lambda terms.
+\end{theorem}
+\begin{proof}
+Unpack the two accepted packets by \autoref{def:curryhoward-shared-cut-beta-packet}. The displayed cut-elimination rows fix the $\FirstOrderUp$ ledgers $D_1,D_2,D_{\mathsf{cut}}$ and $D'_1,D'_2,D'_{\mathsf{cut}}$, while the displayed beta-substitution rows fix the redex, substitution ledger, and output endpoints $u,u'$.
+
+Apply \autoref{thm:firstorder-deduction-endpoint-exactness} to the two cut-eliminated ledgers. Their endpoints are read from the visible deduction rows, so no external proof-tree equality is available or needed. Apply \autoref{thm:lambdacalc-beta-reduction-classifier-obligation} to the two beta-substitution rows. Their substitution outputs are accepted beta-reduction classifier endpoints, not host lambda-term quotients.
+
+Now apply \autoref{thm:curryhoward-classifier-endpoint-transport}. The CurryHoward endpoint classifier transports the deduction endpoint and the beta-substitution endpoint through the same shared $\hsame$ proof-program row and the same finite $\Cont$ provenance over $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$.
+
+The common endpoint is therefore obtained by repacking the displayed rows as
+$$
+(\mathsf{BHist}_{D_{\mathsf{cut}}},\mathsf{BHist}_{u},\hsame_{P},\Cont_{\rho}).
+$$
+This is the single proof-program endpoint determined by both readings. The conclusion is a statement about the CurryHoward classifier data itself, so it does not assert equality in the host proof language.
+\end{proof}

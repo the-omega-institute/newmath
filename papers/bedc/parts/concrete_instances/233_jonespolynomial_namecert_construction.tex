@@ -178,6 +178,53 @@ The public carrier/classifier surface is therefore exactly the supplied finite
 skein-ledger row family and contains no additional invariant or bridge row.
 \end{proof}
 
+\begin{theorem}[JonesPolynomial skein endpoint classifier exhaustion]
+\label{thm:jonespolynomial-skein-endpoint-classifier-exhaustion}
+Every accepted $\mathsf{JonesSkeinCls}$ witness between skein ledger packets
+$\mathcal{J}$ and $\mathcal{J}'$ projects exactly to the main $\KnotUp$ row, the
+three skein-boundary $\KnotUp$ rows, the $\PolynomialUp$ endpoint classifier
+row, the finite $\Bundle$ skein ledger, the shared $\Pkg$ provenance, and the
+finite $\Cont$ continuation ledger displayed in
+\autoref{def:jonespolynomial-skein-ledger-classifier}. Conversely, any finite
+row family with precisely those fields repacks as the same
+$\mathsf{JonesSkeinCls}$ witness.
+
+Thus endpoint readback for $\JonesPolynomialUp$ is exhausted by generated
+classifier data: the endpoint comparison reads the listed knot, polynomial,
+ledger, provenance, and continuation rows, not host Laurent-polynomial equality
+or a knot quotient.
+\end{theorem}
+\begin{proof}
+Project an accepted classifier witness by the constructor clauses of
+\autoref{def:jonespolynomial-skein-ledger-classifier}. The first four clauses
+give the main $\KnotUp$ row, the three skein-boundary $\KnotUp$ rows, the
+$\PolynomialUp$ endpoint classifier row, and the finite $\Bundle$ ledger
+comparison.
+
+For the ledger component, induct over the finite $\Bundle$ skein ledger. The
+empty ledger projects to the empty displayed row family. In the cons step, the
+head face projects to its four knot classifier rows and its polynomial endpoint
+classifier row, while the induction hypothesis projects the tail ledger.
+
+Apply
+\autoref{lem:jonespolynomial-skein-ledger-reidemeister-transport} at each head
+face to keep Reidemeister transport inside the same local skein window. The
+polynomial classifier specification from
+\autoref{def:polynomial-classifier-specification} keeps the Laurent endpoint
+readback inside $\NameCert_{\PolynomialUp}$.
+
+The final classifier clauses project the shared $\Pkg$ provenance and finite
+$\Cont$ continuation ledger. These are exactly the rows listed in the theorem
+statement, and no further host witness is present in the classifier definition.
+
+Conversely, given the listed rows, rebuild the witness by the same constructor
+clauses. The finite $\Bundle$ ledger is rebuilt by the empty and cons cases just
+used in projection, the knot rows are accepted by their displayed
+$\KnotUp$ classifier clauses, and the polynomial endpoint row is accepted by the
+polynomial classifier specification. Repacking these fields gives precisely an
+accepted $\mathsf{JonesSkeinCls}$ witness.
+\end{proof}
+
 \begin{theorem}[JonesPolynomial public NameCert obligation surface]
 \label{thm:jonespolynomial-namecert-obligation-surface}
 The public $\NameCert_{\JonesPolynomialUp}$ obligation surface consists exactly
