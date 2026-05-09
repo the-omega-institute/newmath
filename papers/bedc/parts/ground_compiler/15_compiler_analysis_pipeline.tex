@@ -315,6 +315,7 @@ By the channel round trips, $\mathsf{Decode}(\mathsf{Compile}(S))=S$ and, for le
 
 \begin{theorem}[Pipeline is conservative over the finite kernel]
 \label{thm:analysis-pipeline-conservativity}
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.analysis\_pipeline\_conservativity}
 Adding the analysis pipeline, protocol recognition, motif reports, metric reports, ledger audits, cannot-claim audits, and bridge-obligation discovery does not add new raw marks, history constructors, sameness rules, continuation rules, or derived-interface formation rules.
 \end{theorem}
 
@@ -327,6 +328,7 @@ Pipeline stages act only on decoded event flows and recognized structures. They 
 
 \begin{definition}[Report flow]
 \label{def:analysis-pipeline-report-flow}
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.ReportFlow}
 A \emph{report flow} is an event flow $O$ recognized by a generated report recognizer as an output of the analysis pipeline. It may contain recognized motif lists, metric tables, normal-address tables, ledger audit results, cannot-claim entries, bridge-obligation candidates, failure cases, and summary remarks. It is output, not input.
 \end{definition}
 

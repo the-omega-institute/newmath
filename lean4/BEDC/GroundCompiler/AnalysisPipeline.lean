@@ -289,6 +289,11 @@ def StageReportGeneration
     forall item : AnalysisReportItem,
       List.Mem item items -> EventSubflow item.support O
 
+def ReportFlow (O : EventFlow) : Prop :=
+  exists P reportPolicyFlow : AnalysisProtocolCandidateFlow,
+    exists items : List AnalysisReportItem,
+      StageReportGeneration P reportPolicyFlow O items
+
 structure WellFormedAnalysisRun where
   code : List DisplayAlphabet
   protocol : AnalysisProtocolCandidateFlow
@@ -383,5 +388,16 @@ theorem analysis_roundtrip_invariant
     AnalysisDescriptorFromCode (FlowEncoding S) P Rfam =
       some (CanonicalAnalysisOutput S P Rfam) := by
   rw [AnalysisDescriptorFromCode, flow_level_round_trip]
+
+theorem analysis_pipeline_conservativity
+    {run : WellFormedAnalysisRun} {w : RawEvent} {m : DisplayAlphabet} :
+    List.Mem w run.decoded ->
+      List.Mem m w ->
+        m = BEDC.FKernel.Mark.BMark.b0 \/
+          m = BEDC.FKernel.Mark.BMark.b1 := by
+  intro _ _
+  cases m with
+  | b0 => exact Or.inl rfl
+  | b1 => exact Or.inr rfl
 
 end BEDC.GroundCompiler.AnalysisPipeline
