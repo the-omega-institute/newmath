@@ -56,6 +56,7 @@ import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.BayesianUp
+import BEDC.Derived.BesselUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
@@ -436,6 +437,7 @@ import BEDC.Derived.TopGroupUp.NamecertObligationSurface
 import BEDC.Derived.TopGroupUp.ContinuityConsumerExhaustion
 import BEDC.Derived.TopGroupUp.CarrierClassifierObligation
 import BEDC.Derived.TopGroupUp.RootDownstreamOperationTransport
+import BEDC.Derived.TopGroupUp.PublicThresholdFrontier
 import BEDC.Derived.TopGroupUp.PublicConsumerMinimality
 import BEDC.Derived.TopGroupUp.SourceProjectionNamecertCompatibility
 import BEDC.Derived.ComplexTopologyUp
