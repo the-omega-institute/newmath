@@ -70,6 +70,9 @@ The only formal input remains $\mathsf{EventFlow}$ or $\mathsf{LegalZStream}$. I
 
 \begin{definition}[Compiler candidate and recognizer]
 \label{def:self-hosting-compiler-candidate-recognizer}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9CompilerCandidate}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9RecognizesCompiler}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9RecognizedCompilerFlow}
 A \emph{compiler candidate flow} is an event subflow $C\subseteq S$ not yet recognized as compiler-flow. Write $\mathsf{CompilerCand}(S,C)$.
 
 A \emph{generated compiler recognizer} is an event flow $R_C\in\mathsf{EventFlow}$ supporting
@@ -87,6 +90,8 @@ $$
 
 \begin{definition}[Compiler certificate candidate and recognizer]
 \label{def:self-hosting-compiler-cert-candidate-recognizer}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9CompilerCertificateCandidate}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9RecognizesCompilerCert}
 A \emph{compiler certificate candidate} is an event subflow $K_C\subseteq S$ claiming to certify compilation capability for compiler-flow $C$. Write $\mathsf{CompilerCertCand}(S,K_C,C)$.
 
 A \emph{generated compiler-certificate recognizer} is an event flow $R_K\in\mathsf{EventFlow}$ supporting
@@ -128,6 +133,7 @@ A compiler-flow cannot be used as a formal compiler unless it has complete compi
 
 \begin{theorem}[Uncertified compiler-flow cannot compile formally]
 \label{thm:self-hosting-uncertified-compiler-cannot-compile}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.p9\_uncertified\_cannot\_compile}
 If $C$ is a recognized compiler-flow but no complete compiler certificate-flow $K_C$ exists for $C$, then $\mathsf{Compiles}_C(X,Y)$ cannot be used as a formal judgment.
 \end{theorem}
 

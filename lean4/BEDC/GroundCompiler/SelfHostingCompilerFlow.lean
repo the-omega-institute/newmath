@@ -38,4 +38,43 @@ theorem uncertified_cannot_compile
   intro hUncertified hJudgment
   exact hUncertified hJudgment.left
 
+def P9Subflow (S C : EventFlow) : Prop :=
+  exists pre : EventFlow, exists post : EventFlow,
+    S = List.append (List.append pre C) post
+
+def P9CompilerCandidate (S C : EventFlow) : Prop :=
+  P9Subflow S C
+
+def P9RecognizesCompiler (RC S C : EventFlow) : Prop :=
+  P9CompilerCandidate S C /\
+    FormalCompilerInput (CompilerDatum.recognizedFlow RC C)
+
+def P9RecognizedCompilerFlow (S C : EventFlow) : Prop :=
+  exists RC : EventFlow, P9RecognizesCompiler RC S C
+
+def P9CompilerCertificateCandidate (S KC C : EventFlow) : Prop :=
+  P9Subflow S KC /\ P9CompilerCandidate S C
+
+def P9RecognizesCompilerCert (RK S KC C : EventFlow) : Prop :=
+  P9CompilerCertificateCandidate S KC C /\
+    FormalCompilerInput (CompilerDatum.recognizedFlow RK KC) /\
+    P9RecognizedCompilerFlow S C
+
+def P9CertifiedCompiler (C : EventFlow) : Prop :=
+  exists S : EventFlow, exists KC : EventFlow, exists RK : EventFlow,
+    P9RecognizesCompilerCert RK S KC C
+
+def P9FormalCompilationJudgment
+    (Compiles : CompilerBehaviorRelation)
+    (C S T : EventFlow) : Prop :=
+  P9CertifiedCompiler C /\ Compiles C S T
+
+theorem p9_uncertified_cannot_compile
+    {Compiles : CompilerBehaviorRelation}
+    {C S T : EventFlow} :
+    Not (P9CertifiedCompiler C) ->
+      Not (P9FormalCompilationJudgment Compiles C S T) := by
+  intro hUncertified hJudgment
+  exact hUncertified hJudgment.left
+
 end BEDC.GroundCompiler.SelfHostingCompilerFlow
