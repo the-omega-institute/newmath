@@ -235,6 +235,7 @@ import BEDC.Derived.ComplexUp.RawLedgerE0
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
+import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.PinGroupUp
 import BEDC.Derived.SpinGroupUp
