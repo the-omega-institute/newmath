@@ -184,3 +184,47 @@ for host $\mathsf{Nat}$ indices, host functions, quotient witnesses, or
 unrecorded infinite stream data, no further datum can distinguish the two
 restricted readings on their common overlap.
 \end{proof}
+
+\begin{theorem}[RealUp finite-window two-step restriction coherence]
+\label{thm:realup-finite-window-two-step-restriction-coherence}
+Suppose a $\RealUp$ finite-window exhaustion package is exposed for a
+$\StreamNameUp$ window $W$, and suppose $U$ is a certified $\StreamNameUp$
+subwindow of $W$ while $V$ is a certified $\StreamNameUp$ subwindow of $U$. The
+$\RealUp$ read surface obtained by restricting first from $W$ to $U$ and then
+from $U$ to $V$ is the same public finite $\mathsf{BHist}$ surface as the direct
+restriction from $W$ to $V$. Both readings expose the same
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, endpoint $\RatUp$
+classifier rows, positive denominator witnesses, common e-one tail readbacks,
+$\mathsf{DyadicRatCore}$ source rows, $\hsame$ ledger, and
+$\mathsf{RealLedgerPolicy}$ boundary.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:realup-finite-window-exhaustion-subwindow-closure} to the ambient
+window $W$ and the certified subwindow $U$. This identifies the $U$ reading as
+the inherited finite-window package whose public rows are exactly the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, endpoint denominator rows,
+common e-one tail readbacks, and dyadic source rows of $W$ restricted to $U$.
+
+Apply
+\autoref{thm:realup-finite-window-exhaustion-subwindow-closure} again to the
+$U$ package and the certified subwindow $V$. The two-step reading therefore has
+only the inherited $V$ observation rows, the endpoint $\RatUp$ classifier rows,
+positive denominator witnesses, common e-one tail readbacks, and
+$\mathsf{DyadicRatCore}$ source rows already named by the ambient package.
+
+For the direct $W$ to $V$ reading, use
+\autoref{thm:realup-streamname-window-determinacy-boundary}. The selected
+StreamName window and endpoint denominator rows for $V$ are the same in the
+direct and two-step presentations, so the endpoint classifiers, denominator
+witnesses, readbacks, and source rows are identified through the displayed
+$\hsame$ ledger.
+
+Finally apply
+\autoref{thm:realup-streamname-finite-window-ledger-boundary} to the common
+$V$ surface. The public finite $\mathsf{BHist}$ ledger is exactly the selected
+observation, the $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
+endpoint rows, the dyadic source rows, and the
+$\mathsf{RealLedgerPolicy}$ boundary. Hence the two-step restriction and the
+direct restriction expose the same $\RealUp$ read surface.
+\end{proof}
