@@ -46,6 +46,12 @@ def MotifOccurrence
     Prop :=
   RecognizesMotif R S M mu
 
+def MotifLedger
+    (R : GeneratedMotifRecognizer) (S M : EventFlow) (mu : MotifRole)
+    (L : EventFlow) :
+    Prop :=
+  RecognizesMotif R S M mu /\ Subflow L S
+
 theorem no_external_motif_input
     {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
     MotifOccurrence R S M mu ->
@@ -60,6 +66,13 @@ theorem motif_recognition_source_level
     RecognizesMotif R S M mu -> SourceLevelMotifArgs S M mu := by
   intro h
   exact h.right.left
+
+theorem no_motif_without_ledger
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    RecognizesMotif R S M mu ->
+      exists L : EventFlow, MotifLedger R S M mu L := by
+  intro h
+  exact ⟨M, h, h.right.right⟩
 
 theorem motif_recognition_requires_generated_recognizer
     {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :

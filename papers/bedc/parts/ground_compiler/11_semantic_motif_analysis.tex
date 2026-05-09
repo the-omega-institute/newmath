@@ -113,25 +113,28 @@ There is no formal input motif table, pattern list, or regular-expression rule t
 
 \begin{definition}[Motif ledger]
 \label{def:motif-generated-ledger}
+\leandef{BEDC.GroundCompiler.SemanticMotif.MotifLedger}
 If $\mathsf{RecognizesMotif}(R_M,S,M,\mu)$, a \emph{motif ledger} is an event subflow $L_M$ recording the raw events of $M$, its positions in $S$, why it is recognized as $\mu$, whether normalization or classifier quotienting is involved, whether source material is hidden, and why adjacent candidate subflows fail. It is written
 $$
   \mathsf{MotifLedger}_{R_M}(S,M,\mu,L_M).
 $$
+The formal core of the relation requires $L_M$ to be an event flow attached to the recognition witness and carried as a subflow of the same source flow.
 \end{definition}
 
 \begin{principle}[No motif without ledger]
 \label{prin:motif-generated-no-motif-without-ledger}
-A nontrivial motif recognition must carry a motif ledger:
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.no\_motif\_without\_ledger}
+Every motif recognition carries a motif ledger. The support flow $M$ supplies the minimal ledger witness, and richer analyses may recognize a larger ledger subflow:
 $$
   \mathsf{RecognizesMotif}(R_M,S,M,\mu)
   \Longrightarrow
-  \exists L_M,\ \mathsf{MotifLedger}_{R_M}(S,M,\mu,L_M),
+  \exists L_M,\ \mathsf{MotifLedger}_{R_M}(S,M,\mu,L_M).
 $$
-unless the motif is explicitly recognized as a trivial no-compression motif.
 \end{principle}
 
 \begin{theorem}[Motif recognition is source-level]
 \label{thm:motif-generated-source-level}
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.motif\_recognition\_source\_level}
 If $\mathsf{RecognizesMotif}(R_M,S,M,\mu)$, then $S$, $M$, and $\mu$ are source-level event-flow objects, not channel-level bit substrings.
 \end{theorem}
 
