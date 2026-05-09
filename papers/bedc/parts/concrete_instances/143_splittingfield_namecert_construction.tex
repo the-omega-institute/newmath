@@ -6,5 +6,126 @@ The splitting-field interface $\SplittingFieldUp$ packages the smallest field ex
 \section{Carrier definition}
 \label{sec:splittingfield-carrier}
 
+\begin{definition}[SplittingFieldUp root carrier packet]
+\label{def:splittingfield-root-carrier-packet}
+A $\SplittingFieldUp$ root carrier packet is a finite $\mathsf{BHist}$ packet
+$$
+\mathcal{S}=(E,P,R,F,C,H,\Pi).
+$$
+The row $E$ is the consumed $\NameCert_{\FieldExtUp}$ source row. The row
+$P$ is the consumed $\NameCert_{\PolynomialUp}$ polynomial row over that
+source. The row $R$ records the displayed root endpoints for the carried
+polynomial, and the row $F$ records the displayed factor rows whose product
+is the polynomial row $P$ inside the carried extension.
+
+The finite ledger $C$ is the $\Cont$ factorization ledger. The row $H$
+records the $\hsame$ transport witnesses for the field-extension source,
+polynomial row, root endpoints, and factor rows. The row $\Pi$ is the
+$\Pkg$ provenance packet recording exactly the consumed FieldExtUp source,
+PolynomialUp source, endpoint, factorization, continuation, and transport
+rows.
+\end{definition}
+
 \section{The certificate}
 \label{sec:splittingfield-certificate}
+
+\begin{theorem}[SplittingFieldUp root classifier obligation]
+\label{thm:splittingfield-root-classifier-obligation}
+For a root carrier packet
+$\mathcal{S}=(E,P,R,F,C,H,\Pi)$ of
+\autoref{def:splittingfield-root-carrier-packet}, the public classifier is
+determined by the FieldExtUp source row $E$, the PolynomialUp factor row
+$P$, the displayed root endpoints $R$, the factor rows $F$, and the
+$\hsame$ transport witnesses $H$. It does not classify quotient fields,
+ambient algebraic closures, or host polynomial roots not present in the
+carried ledger.
+\end{theorem}
+\begin{proof}
+Project the packet to $E$ and $P$. The source of the classifier is the
+consumed field-extension certificate together with the consumed polynomial
+certificate, so every public read begins from those two $\mathsf{BHist}$
+rows.
+
+Project next to the root and factorization part. The rows $R$ and $F$ are
+the only endpoint and factor rows carried by the packet, and $H$ is the only
+transport datum allowed to compare such rows.
+
+The reverse direction repacks the same $E,P,R,F,H$ rows into the packet
+classifier. Since no carrier field names a quotient field, algebraic
+closure, or host root outside $R$, those objects cannot be public classifier
+data.
+\end{proof}
+
+\begin{theorem}[SplittingFieldUp root ledger obligation]
+\label{thm:splittingfield-root-ledger-obligation}
+Every public ledger read of a $\SplittingFieldUp$ root carrier packet is a
+row of the factorization continuation ledger $C$ or the provenance packet
+$\Pi$ attached to $E,P,R,F,H$. Conversely, every listed continuation or
+provenance row repacks into the same public splitting-field packet.
+\end{theorem}
+\begin{proof}
+Project the $\Cont$ component $C$. It records finite factorization reads for
+the polynomial row $P$, the root endpoints $R$, the factor rows $F$, and the
+transport witnesses $H$.
+
+Project the $\Pkg$ component $\Pi$. Its provenance entries are exactly the
+consumed FieldExtUp row, the consumed PolynomialUp row, the endpoint rows,
+the factor rows, the continuation rows, and the transport rows named in the
+carrier.
+
+For the converse, take any row on that finite list. The carrier packet
+\autoref{def:splittingfield-root-carrier-packet} has a field for it, so it
+reconstructs the same public splitting-field ledger without adding quotient
+fields, algebraic closures, or host polynomial roots.
+\end{proof}
+
+\begin{theorem}[SplittingFieldUp root NameCert surface]
+\label{thm:splittingfield-root-namecert-surface}
+The $\NameCert_{\SplittingFieldUp}$ public surface for the root packet is the
+finite packet consisting of the FieldExtUp source row, PolynomialUp factor
+row, root endpoint rows, factorization rows, $\Cont$ factorization ledger,
+$\hsame$ transport witnesses, and $\Pkg$ provenance rows of
+\autoref{def:splittingfield-root-carrier-packet}. This surface exports no
+quotient-field carrier, algebraic-closure carrier, or host-level root set.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:splittingfield-root-classifier-obligation} to fix the
+classifier from $E,P,R,F,H$. These are the only source, polynomial,
+endpoint, factorization, and transport rows available to the public surface.
+
+Use \autoref{thm:splittingfield-root-ledger-obligation} to fix the ledger
+from $C$ and $\Pi$. The continuation and provenance rows exhaust all public
+factorization reads attached to the classifier rows.
+
+Repack the classifier and ledger rows through
+\autoref{def:splittingfield-root-carrier-packet}. The result is exactly the
+public $\NameCert_{\SplittingFieldUp}$ surface, and all host-level splitting
+objects are excluded because the packet has no field for them.
+\end{proof}
+
+\begin{theorem}[SplittingFieldUp root downstream threshold]
+\label{thm:splittingfield-root-downstream-threshold}
+Downstream CyclotomicUp and algebraic-field consumers of
+$\SplittingFieldUp$ may read exactly the root NameCert surface of
+\autoref{thm:splittingfield-root-namecert-surface}: the FieldExtUp source,
+PolynomialUp polynomial row, root endpoints, factor rows, continuation
+ledger, transport witnesses, and provenance packet. No downstream consumer
+receives a quotient field, algebraic closure, or host polynomial-root object
+unless it is represented by one of those carried rows.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:splittingfield-root-namecert-surface}. It packages
+the classifier and ledger rows into the public splitting-field surface seen
+by consumers.
+
+For a CyclotomicUp consumer, the polynomial row and root endpoint rows are
+read through $P$ and $R$, while the factorization requirement is read through
+$F$ and $C$. For an algebraic-field consumer, the field-extension source and
+provenance rows are read through $E$ and $\Pi$.
+
+The two consumer paths therefore share the same finite packet. Since
+\autoref{thm:splittingfield-root-classifier-obligation} and
+\autoref{thm:splittingfield-root-ledger-obligation} exclude quotient fields,
+algebraic closures, and host roots outside the packet, the downstream
+threshold is exactly the carried root surface.
+\end{proof}
