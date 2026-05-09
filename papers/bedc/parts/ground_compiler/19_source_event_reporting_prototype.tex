@@ -128,6 +128,7 @@ Since event segments partition the channel stream, $P_1$ may display segment $0$
 
 \begin{definition}[Event index]
 \label{def:source-report-event-index}
+\leandef{BEDC.GroundCompiler.SourceReport.EventIndex}
 For a decoded event flow $S=(w_0,\ldots,w_{n-1})$, the \emph{event index} of $w_i$ is $i$. In a report, event index is implementation-level display. It is not a BEDC source event and not part of the formal event flow.
 \end{definition}
 
@@ -141,6 +142,7 @@ The index $i$ helps a human inspect the decoded flow. It is not a raw event, the
 
 \begin{definition}[Literal source warning]
 \label{def:source-report-literal-warning}
+\leandef{BEDC.GroundCompiler.SourceReport.LiteralSourceWarning}
 A \emph{literal source warning} is a report entry generated from raw source events without claiming motif recognition. Examples include: an event $011$ followed by $100$, an event containing adjacent source $11$, an event resembling a raw completion witness, or an event resembling a normal-address candidate.
 
 Every literal warning must state that it is candidate-only and requires recognizer flow for interpretation.
@@ -178,6 +180,7 @@ If channel input $c$ is illegal, $P_1$ does not produce a source-event report. I
 
 \begin{proposition}[Illegal channel stream has no source-event report]
 \label{prop:source-report-illegal-no-report}
+\leanchecked{BEDC.GroundCompiler.SourceReport.illegal\_channel\_no\_source\_report}
 If $c\notin\mathsf{LegalZStream}$, then $P_1$ cannot output $\mathsf{SrcReport}(c,S)$ for any $S$.
 \end{proposition}
 
