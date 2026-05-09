@@ -74,6 +74,8 @@ import BEDC.Derived.IntUp.StdBridge
 import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.EllipticCurveUp
+import BEDC.Derived.EntanglementUp
+import BEDC.Derived.EntropyUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.GaloisExtUp
@@ -481,6 +483,7 @@ import BEDC.Derived.TopGroupUp.RootPublicObligationInventory
 import BEDC.Derived.TopGroupUp.SourceFiberExportExactness
 import BEDC.Derived.TopGroupUp.RootSourceFiberExportExactness
 import BEDC.Derived.TopGroupUp.RootSourceFiberExportPacket
+import BEDC.Derived.TopGroupUp.RootDownstreamObligationTriad
 import BEDC.Derived.TopGroupUp.ContinuityObligationTriple
 import BEDC.Derived.TopGroupUp.OperationLedgerSemanticCertificate
 import BEDC.Derived.TopGroupUp.ObligationSurfacePublicConsumerExhaustion
@@ -547,7 +550,6 @@ import BEDC.Derived.RandomVarUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
-import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
@@ -781,6 +783,7 @@ import BEDC.Derived.S1Up.FieldAssembly
 import BEDC.Derived.S1Up.SemanticFields
 import BEDC.Derived.S1Up.SharedPointComponent
 import BEDC.Derived.S1Up.VisibleSourceUnitEquationPackage
+import BEDC.Derived.S1Up.LedgerObligationSurface
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.SingletonEquationSolver
 import BEDC.Derived.GroupUp.ConjugationParameter

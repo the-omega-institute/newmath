@@ -42,3 +42,37 @@ metric-completeness, arithmetic, order, standard-bridge, and external selector
 data. Hence the selected tail classifier is determined exactly by the common
 finite rows.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier pullback uniqueness]
+\label{thm:regseqrat-tail-classifier-pullback-uniqueness}
+Let $W_0$ and $W_1$ be finite-window $\RealUp$ packages whose displayed
+$\StreamNameUp$ classifier rows, $\RegSeqRat$ spine rows, DyadicRatCore
+observation rows, endpoint $\hsame$ transports, and finite $\Cont$ ledger
+entries agree as in
+\autoref{thm:regseqrat-tail-classifier-exactness}. Suppose a candidate
+tail-classifier row $T$ pulls back to the selected tail of $W_0$ and also
+pulls back to the selected tail of $W_1$ through exactly those displayed
+rows. Then $T$ is identified with the unique selected $\RegSeqRat$ tail
+classifier determined by the common finite-window readback data. No second
+tail-classifier surface can mediate the finite-window $\RealUp$ seal while
+remaining invisible to the displayed $\StreamNameUp$, $\RegSeqRat$,
+DyadicRatCore, $\hsame$, and $\Cont$ rows.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:regseqrat-tail-classifier-exactness}, the two selected tails
+of $W_0$ and $W_1$ are the same $\RegSeqRat$ tail classifier after the
+displayed endpoint transports in the shared ledger are applied.
+
+It remains to exclude a hidden mediator. The scoped read surface of
+\autoref{thm:realup-scoped-finite-window-read-surface} lists every row that a
+finite-window $\RealUp$ consumer may read: the stream-name classifier row, the
+regular-sequence spine, the dyadic observation rows, the endpoint transport
+ledger, and the finite continuation ledger.
+
+Finally, \autoref{thm:realup-finite-window-streamname-readback-package}
+packages exactly that surface as the readback boundary. Since $T$ pulls back
+through no rows other than those displayed rows, it has no independent slot in
+the finite package. Therefore the two pullbacks of $T$ factor through the
+same selected tail, and $T$ is the unique selected $\RegSeqRat$ tail
+classifier available at the finite-window seal.
+\end{proof}
