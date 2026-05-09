@@ -127,7 +127,16 @@ This is exactly the source-level pattern certified for the finite-repetition rec
 
 \begin{corollary}[Finite repetition motif does not imply $\NatUp$]
 \label{cor:case-studies-repetition-not-nat}
-Even if an event flow is recognized as a finite repetition motif, one cannot infer $\NatUp$. A derived interface such as $\NatUp$ still requires recognized $\NameCert$ flow with source, pattern, classifier, stability, and ledger fields.
+\leanchecked{BEDC.GroundCompiler.CaseStudies.repetition\_skeleton\_not\_repeat\_rule}
+The finite repetition skeleton
+$$
+  0\mid 00\mid 000
+$$
+does not by itself contain the Nat-like repeat-rule witness
+$$
+  01.
+$$
+Thus finite repetition motif data alone cannot be read as $\NatUp$. A derived interface such as $\NatUp$ still requires recognized $\NameCert$ flow with source, pattern, classifier, stability, and ledger fields.
 \end{corollary}
 
 \section{Nat-like skeleton}
@@ -354,7 +363,8 @@ which is exactly $S_{\mathrm{rep}}^{(k)}$.
 
 \begin{corollary}[$\ListUp$ is finite repetition plus constructor ledger]
 \label{cor:case-studies-list-finite-plus-ledger}
-If $\ListUp$ uses finite spine as source, its motif profile shares finite repetition structure. It still needs constructor ledger, payload classifier, length ledger, and source-carrier certificate. Thus it is not $\NatUp$; it is finite-spine motif plus list-specific ledger and classifier structure.
+\leanchecked{BEDC.GroundCompiler.CaseStudies.list\_finite\_plus\_ledger}
+If a list constructor ledger motif is recognized, then it contains a recognized reuse-spine motif and a nonempty ledger flow. When $\ListUp$ uses finite spine as source, its motif profile may share finite repetition structure with Nat-like skeletons, but it still needs constructor ledger, payload classifier, length ledger, and source-carrier certificate. Thus it is not $\NatUp$; it is finite-spine motif plus list-specific ledger and classifier structure.
 \end{corollary}
 
 \begin{theorem}[Same finite spine does not imply same object]
@@ -404,6 +414,7 @@ $$
 
 \begin{definition}[Completion motif]
 \label{def:case-studies-completion-motif}
+\leandef{BEDC.GroundCompiler.CaseStudies.CompletionMotif}
 A \emph{completion motif} is a recognized structure containing finite stages, repeat-boundary witness, seal or completion witness, normal-address witness, and tail ledger. The explanatory shape is
 $$
   0\mid 00\mid 000\mid 01\mid 011\mid 100.

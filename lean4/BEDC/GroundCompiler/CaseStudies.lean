@@ -70,6 +70,13 @@ theorem nat_like_extends_repetition (k : Nat) :
     PrefixSubflow (FiniteRepetitionSkeleton k) (NatLikeSkeleton k) := by
   exact ⟨[[BMark.b0, BMark.b1]], rfl⟩
 
+theorem repetition_skeleton_not_repeat_rule :
+    Not (RepeatRuleMotif (FiniteRepetitionSkeleton 3)) := by
+  intro h
+  cases h with
+  | intro tail ht =>
+      cases tail <;> cases ht
+
 theorem prefix_subflow_subflow {M S : EventFlow} :
     PrefixSubflow M S -> Subflow M S := by
   intro h
@@ -143,6 +150,15 @@ def ListConstructorLedgerMotif
     Subflow payloadClassifier S /\
     Subflow decomposition S /\
     NonemptyEventFlow ledger
+
+theorem list_finite_plus_ledger
+    {R S spine ledger payloadSource payloadClassifier decomposition :
+      EventFlow} :
+    ListConstructorLedgerMotif R S spine ledger payloadSource
+      payloadClassifier decomposition ->
+      RecognizesMotif R S spine ReuseRole /\ NonemptyEventFlow ledger := by
+  intro h
+  exact ⟨h.left, h.right.right.right.right.right⟩
 
 theorem zero_run_append (k : Nat) :
     List.append (ZeroRunEvent k) [BMark.b0] =
@@ -221,6 +237,9 @@ def RecognizedCompletionMotifRecord
     Subflow M.ledgerFlow S /\
     NonemptyEventFlow M.sealFlow /\
     NonemptyEventFlow M.ledgerFlow
+
+def CompletionMotif (S : EventFlow) : Prop :=
+  exists M : CompletionMotifRecord, RecognizedCompletionMotifRecord S M
 
 def SealDepthAtLeastOne (S : EventFlow) : Prop :=
   exists sigma : EventFlow, Subflow sigma S /\ NonemptyEventFlow sigma
