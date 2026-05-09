@@ -598,3 +598,48 @@ finite $\Cont$ ledger, $\hsame$ transports, and $\Pkg$ provenance agree.
 Combining the four steps gives one uniform finite-window seal packet under
 $\hsame$.
 \end{proof}
+
+\begin{theorem}[StreamName RealUp finite-window seal boundary]
+\label{thm:streamname-realup-seal-boundary}
+Let $W$ be a finite public $\StreamNameUp$ rational observation window whose
+endpoints satisfy $\mathsf{RatStreamNameFiniteWindowClassifier}$. Suppose that
+the $\RegSeqRat$ handoff over $W$ carries accepted pointwise seal rows, the
+finite $\Cont$ ledger, the $\mathsf{ProbeBundle}$ membership rows, the
+corresponding $\mathsf{InBundle}$ rows, the $\mathsf{UnaryHistory}$
+observations, and shared $\mathsf{Pkg}$ provenance. Then these rows determine
+exactly the finite-window $\RealUp$ seal boundary read from $W$.
+
+Conversely, every public finite-window $\RealUp$ seal read arising from this
+handoff factors through those same StreamName source rows, accepted
+$\RegSeqRat$ pointwise seal rows, bundle-membership rows, unary observations,
+finite ledger entries, and provenance rows. The boundary contains no completion
+object, quotient representative, host index equality, or regularity datum
+outside the displayed $\RegSeqRat$ seal.
+\end{theorem}
+\begin{proof}
+First recover the StreamName source surface. Apply
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. It identifies the
+finite public window read with the displayed rational StreamName observations,
+the unary histories at the certified indices, the finite $\Cont$ routes, and
+the shared $\mathsf{Pkg}$ provenance.
+
+Next pass to the scheduled rational seal. By
+\autoref{thm:streamname-regseqrat-scheduled-seal-exhaustion}, the
+$\RegSeqRat$ side contributes only the accepted pointwise seal rows over the
+same unary observations, the same bundle-membership rows, and the same finite
+ledger. No additional sequence regularity row is available at this step.
+
+Now compare the three visible seal surfaces. Use
+\autoref{thm:streamname-regseqrat-realup-triple-seal-cover}. The StreamName
+window, the $\RegSeqRat$ scheduled seal, and the $\RealUp$ endpoint readback
+cover one another exactly when their unary observations, bundle rows, finite
+transport ledger, $\hsame$ comparisons, and provenance agree.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-uniform-finite-window-seal}. Uniformity over
+nested finite windows prevents a later subwindow from adding completion data,
+quotient representatives, host index equality, or hidden regularity data.
+Thus the forward direction gives a unique finite-window $\RealUp$ seal
+boundary, and the reverse direction factors every public read through precisely
+the displayed rows.
+\end{proof}
