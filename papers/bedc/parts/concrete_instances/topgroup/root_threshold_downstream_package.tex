@@ -1,0 +1,117 @@
+\section{TopGroup root threshold downstream package}
+\label{sec:topgroup-root-threshold-downstream}
+
+\begin{definition}[TopGroupUp root threshold downstream package]
+\label{def:topgroup-root-threshold-downstream-package}
+The $\TopGroupUp$ root threshold downstream package is the finite
+$\mathsf{BHist}$ packet
+$$
+\Omega_{\TopGroupUp}=(G,T,m,i,n,\kappa,\lambda,\rho,\nu)
+$$
+whose source pair $G,T$ is the displayed
+$\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$ pair, whose operation
+rows $m,i$ are the product and inverse rows, whose row $n$ is the shared
+neighbourhood source, whose classifier packet $\kappa$ is componentwise
+$\hsame$, whose finite ledger $\lambda$ is the product and inverse
+$\Cont$ ledger, whose provenance row $\rho$ is the shared $\Pkg$ row, and
+whose threshold row $\nu$ records that a downstream public consumer reads only
+these NameCert-anchored coordinates.
+\end{definition}
+
+\begin{theorem}[TopGroupUp root threshold carrier scope]
+\label{thm:topgroup-root-threshold-carrier-scope}
+Every accepted $\TopGroupUp$ root threshold downstream package carries the
+$\NameCert_{\GroupUp}$ source row, the $\NameCert_{\TopologyUp}$ source row,
+the product row, the inverse row, the neighbourhood row, the componentwise
+$\hsame$ classifier packet, the finite $\Cont$ ledger, and the shared
+$\Pkg$ provenance as projections of one $\mathsf{BHist}$ carrier. No
+downstream root consumer may split the source pair into two carrier packages.
+\end{theorem}
+\begin{proof}
+Project the package of
+\autoref{def:topgroup-root-threshold-downstream-package}. Its coordinates are
+the two NameCert source rows, the operation rows, the neighbourhood source,
+the classifier packet, the ledger, the provenance row, and the public
+threshold row.
+
+Apply \autoref{thm:topgroup-source-fiber-product-carrier}. It identifies the
+source pair, product graph, inverse graph, neighbourhood row, finite
+$\Cont$ ledger, and $\Pkg$ provenance as projections of one
+$\mathsf{BHist}$ carrier.
+
+Use \autoref{thm:topgroup-public-consumer-minimality}. A downstream public
+consumer receives only the carrier projections just listed, so the threshold
+surface has no second carrier or detached provenance row.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root threshold operation scope]
+\label{thm:topgroup-root-threshold-operation-scope}
+For an accepted $\TopGroupUp$ root threshold downstream package, the only
+operation-continuity rows exposed to a downstream consumer are the product
+continuity rows for $m$ and the inverse continuity rows for $i$. Both
+families use the shared neighbourhood row $n$, the same componentwise
+$\hsame$ classifier packet $\kappa$, and the same finite $\Cont$ ledger
+$\lambda$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier scope of
+\autoref{thm:topgroup-root-threshold-carrier-scope}. It places the source
+pair, operation rows, neighbourhood row, classifier packet, ledger, and
+provenance over one $\mathsf{BHist}$ packet.
+
+Apply \autoref{thm:topgroup-product-cont-ledger-soundness}. The product
+continuity family is sound precisely through the two input endpoints, product
+endpoint, neighbourhood row, componentwise $\hsame$ transport, and finite
+ledger entry.
+
+Apply \autoref{thm:topgroup-inverse-cont-ledger-soundness}. The inverse
+continuity family has the same scope for its input endpoint, inverse endpoint,
+neighbourhood row, classifier transport, and ledger entry.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root threshold consumer exhaustion]
+\label{thm:topgroup-root-threshold-consumer-exhaustion}
+Every downstream public consumer of a $\TopGroupUp$ root threshold package
+reads exactly the source pair, operation rows, neighbourhood row,
+componentwise $\hsame$ classifier packet, finite $\Cont$ ledger, and
+$\Pkg$ provenance of
+\autoref{def:topgroup-root-threshold-downstream-package}. In particular, no
+ambient topological-group object, host continuity predicate, or detached
+NameCert source is available beyond those rows.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:topgroup-root-threshold-carrier-scope} to bind the
+source and provenance rows to the shared carrier. Then use
+\autoref{thm:topgroup-root-threshold-operation-scope} to bind the product and
+inverse continuity rows to the same classifier packet and ledger.
+
+Apply \autoref{thm:topgroup-public-consumer-minimality}. The public consumer
+surface contains only the displayed source, operation, classifier,
+continuity, and provenance rows. Hence every downstream read is exhausted by
+the root threshold package.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root threshold NameCert threshold]
+\label{thm:topgroup-root-threshold-namecert-threshold}
+The rows of the $\TopGroupUp$ root threshold downstream package form a public
+$\NameCert_{\TopGroupUp}$ threshold over the displayed
+$\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$ sources. The threshold
+classifier is exactly the componentwise $\hsame$ transport of source,
+operation, neighbourhood, and provenance rows together with finite
+$\Cont$ transport of the product and inverse ledger rows.
+\end{theorem}
+\begin{proof}
+Unpack the threshold row $\nu$ in
+\autoref{def:topgroup-root-threshold-downstream-package}. It records
+componentwise $\hsame$ transport for the NameCert source pair, product row,
+inverse row, neighbourhood row, and provenance row, plus finite $\Cont$
+transport for the ledger.
+
+Apply \autoref{thm:topgroup-root-threshold-consumer-exhaustion}. Since the
+downstream consumer reads no row outside the package, this classifier packet
+is the whole public threshold surface.
+
+Finally use \autoref{thm:topgroup-public-consumer-minimality}. The public
+NameCert boundary is therefore exactly the displayed finite
+$\mathsf{BHist}$ packet over the two source certificates.
+\end{proof}
