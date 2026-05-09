@@ -94,6 +94,23 @@ inductive MetricExternalInput : MetricDataKind -> Prop where
 def MetricAdmissible (M : MetricSpec) : Prop :=
   forall d : MetricDataKind, List.Mem d M.sources -> MetricAllowedData d
 
+def RecognizedMetricSpec (m : MetricSpecificationFlow) : Prop :=
+  exists R : GeneratedMetricRecognizer, RecognizesMetric R m
+
+def AdmissibleMetric
+    (m : MetricSpecificationFlow) (spec : MetricSpec) (S : EventFlow)
+    (Pmet : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow S) /\
+    RecognizedMetricSpec m /\
+    MetricProtocolFlow Pmet /\
+    MetricAdmissible spec
+
+theorem no_metric_without_protocol
+    {m : MetricSpecificationFlow} {spec : MetricSpec} {S Pmet : EventFlow} :
+    AdmissibleMetric m spec S Pmet -> MetricProtocolFlow Pmet := by
+  intro hAdmissible
+  exact hAdmissible.right.right.left
+
 def RawPrefixProfile (S P : EventFlow) : Prop :=
   exists rest : EventFlow, S = List.append P rest
 
@@ -313,6 +330,18 @@ def NontrivialMetricReport (report : MetricReport) : Prop :=
 
 def CannotClaimGuardedReport (report : MetricReport) : Prop :=
   NontrivialMetricReport report -> ReportHasCannotClaimEntry report
+
+structure MetricReportPrototype where
+  sourceFlow : EventFlow
+  metricSpecFlow : MetricSpecificationFlow
+  metricSpec : MetricSpec
+  protocolFlow : EventFlow
+  report : MetricReport
+  specificationRecognized : RecognizedMetricSpec metricSpecFlow
+  protocolRecognized : MetricProtocolFlow protocolFlow
+  metricsAdmissible :
+    AdmissibleMetric metricSpecFlow metricSpec sourceFlow protocolFlow
+  reportGuarded : CannotClaimGuardedReport report
 
 def TheoryFlowDistance
     (_Rfam : MetricRecognizerFamily) (P : AnalysisProtocolFlow)
