@@ -2,6 +2,7 @@ import BEDC.GroundCompiler.MotifReportCounts
 
 namespace BEDC.GroundCompiler.MotifReportPrototype
 
+open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.SemanticMotif
 open BEDC.GroundCompiler.MotifReportCounts
@@ -47,5 +48,124 @@ theorem motif_report_does_not_license_objects :
     cases hMem
   · intro item hMem
     cases hMem
+
+def DimensionLiftCertificateFlow : EventFlow :=
+  [[BMark.b1, BMark.b1]]
+
+def CompletionCertificateFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b1]]
+
+def DimensionLiftStructure (S : EventFlow) : Prop :=
+  Subflow DimensionLiftCertificateFlow S
+
+def CompletionStructure (S : EventFlow) : Prop :=
+  Subflow CompletionCertificateFlow S
+
+def CarryMotifWitnessFlow : EventFlow :=
+  [[BMark.b0], [BMark.b1], [BMark.b0, BMark.b1]]
+
+def SealMotifWitnessFlow : EventFlow :=
+  [[BMark.b0], [BMark.b0, BMark.b1], [BMark.b1]]
+
+theorem dimension_lift_certificate_absent_from_carry_witness :
+    Not (DimensionLiftStructure CarryMotifWitnessFlow) := by
+  intro hSub
+  have hMem : List.Mem [BMark.b1, BMark.b1] CarryMotifWitnessFlow :=
+    subflow_mem hSub (List.Mem.head [])
+  change
+    List.Mem [BMark.b1, BMark.b1]
+      [[BMark.b0], [BMark.b1], [BMark.b0, BMark.b1]] at hMem
+  cases hMem with
+  | tail _ hTail =>
+      cases hTail with
+      | tail _ hTail2 =>
+          cases hTail2 with
+          | tail _ hNil =>
+              cases hNil
+
+theorem completion_certificate_absent_from_seal_witness :
+    Not (CompletionStructure SealMotifWitnessFlow) := by
+  intro hSub
+  have hMem : List.Mem [BMark.b1, BMark.b1, BMark.b1]
+      SealMotifWitnessFlow :=
+    subflow_mem hSub (List.Mem.head [])
+  change
+    List.Mem [BMark.b1, BMark.b1, BMark.b1]
+      [[BMark.b0], [BMark.b0, BMark.b1], [BMark.b1]] at hMem
+  cases hMem with
+  | tail _ hTail =>
+      cases hTail with
+      | tail _ hTail2 =>
+          cases hTail2 with
+          | tail _ hNil =>
+              cases hNil
+
+theorem recognized_carry_motif_not_dimension_lift :
+    exists R S M preNormal normal ledgerFlow : EventFlow,
+      CarryMotif R S M preNormal normal ledgerFlow /\
+        Not (DimensionLiftStructure S) := by
+  refine
+    ⟨[], CarryMotifWitnessFlow, CarryMotifWitnessFlow, [[BMark.b0]],
+      [[BMark.b1]], [[BMark.b0, BMark.b1]], ?_,
+      dimension_lift_certificate_absent_from_carry_witness⟩
+  constructor
+  · exact
+      ⟨FormalCompilerInput.eventFlow [],
+        ⟨FormalCompilerInput.eventFlow CarryMotifWitnessFlow,
+          FormalCompilerInput.eventFlow CarryMotifWitnessFlow,
+          FormalCompilerInput.eventFlow CarryRole⟩,
+        Or.inl ⟨[], [], rfl⟩⟩
+  · constructor
+    · exact Or.inl ⟨[], [[BMark.b1], [BMark.b0, BMark.b1]], rfl⟩
+    · constructor
+      · exact Or.inl ⟨[[BMark.b0]], [[BMark.b0, BMark.b1]], rfl⟩
+      · constructor
+        · exact Or.inl ⟨[[BMark.b0], [BMark.b1]], [], rfl⟩
+        · constructor
+          · exact ⟨[BMark.b0], [], rfl⟩
+          · constructor
+            · exact ⟨[BMark.b1], [], rfl⟩
+            · exact ⟨[BMark.b0, BMark.b1], [], rfl⟩
+
+theorem recognized_seal_motif_not_completion :
+    exists R S M stages boundary sealFlow ledgerFlow : EventFlow,
+      SealMotif R S M stages boundary sealFlow ledgerFlow /\
+        Not (CompletionStructure S) := by
+  refine
+    ⟨[], SealMotifWitnessFlow, SealMotifWitnessFlow, [[BMark.b0]],
+      [[BMark.b0, BMark.b1]], [[BMark.b1]], [[BMark.b0]], ?_,
+      completion_certificate_absent_from_seal_witness⟩
+  constructor
+  · exact
+      ⟨FormalCompilerInput.eventFlow [],
+        ⟨FormalCompilerInput.eventFlow SealMotifWitnessFlow,
+          FormalCompilerInput.eventFlow SealMotifWitnessFlow,
+          FormalCompilerInput.eventFlow SealRole⟩,
+        Or.inl ⟨[], [], rfl⟩⟩
+  · constructor
+    · exact Or.inl ⟨[], [[BMark.b0, BMark.b1], [BMark.b1]], rfl⟩
+    · constructor
+      · exact Or.inl ⟨[[BMark.b0]], [[BMark.b1]], rfl⟩
+      · constructor
+        · exact Or.inl ⟨[[BMark.b0], [BMark.b0, BMark.b1]], [], rfl⟩
+        · constructor
+          · exact Or.inl ⟨[], [[BMark.b0, BMark.b1], [BMark.b1]], rfl⟩
+          · constructor
+            · exact ⟨[BMark.b1], [], rfl⟩
+            · exact ⟨[BMark.b0], [], rfl⟩
+
+structure P3AuditChecklist where
+  p2AuditRequirements : Prop
+  candidateRecognizedSeparated : Prop
+  recognizedMotifsRequireGeneratedRecognizers : Prop
+  recognizedMotifsRequireLedgers : Prop
+  missingRecognizersReportedUndefined : Prop
+  sourceMotifsSeparatedFromChannelSubstrings : Prop
+  highRiskMotifsHaveCannotClaimAnnotations : Prop
+  noDerivedInterfaceLicensed : Prop
+  noObjectEqualityAsserted : Prop
+  noTheoremhoodAsserted : Prop
+  noHardcodedMotifTableAsFormalInput : Prop
+  implementationRecognizersHaveBootstrapObligations : Prop
 
 end BEDC.GroundCompiler.MotifReportPrototype

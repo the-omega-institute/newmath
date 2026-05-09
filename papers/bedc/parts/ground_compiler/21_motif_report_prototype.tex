@@ -457,16 +457,19 @@ Motif reports supply motif recognition and ledger information. The empty recogni
 
 \begin{corollary}[Recognized carry motif does not imply dimension-lift]
 \label{cor:motif-report-carry-not-dimlift}
-A recognized carry motif such as $011\mid 100$ does not imply dimension-lift structure. That requires its own certificates and ledger.
+\leanchecked{BEDC.GroundCompiler.MotifReportPrototype.recognized\_carry\_motif\_not\_dimension\_lift}
+There is a recognized carry-motif witness whose ambient event flow does not contain the dimension-lift certificate subflow. Thus recognized carry evidence such as $011\mid 100$ does not by itself imply dimension-lift structure; that structure requires its own certificate subflow and ledger.
 \end{corollary}
 
 \begin{corollary}[Recognized seal motif does not imply completion]
 \label{cor:motif-report-seal-not-completion}
-A recognized seal motif does not imply completion. Completion requires compatible-thread source, classifier, seal certificate, and tail ledger.
+\leanchecked{BEDC.GroundCompiler.MotifReportPrototype.recognized\_seal\_motif\_not\_completion}
+There is a recognized seal-motif witness whose ambient event flow does not contain the completion certificate subflow. Thus recognized seal evidence does not by itself imply completion; completion requires compatible-thread source, classifier, seal certificate, and tail ledger.
 \end{corollary}
 
 \begin{definition}[$P_3$ audit checklist]
 \label{def:motif-report-p3-audit}
+\leandef{BEDC.GroundCompiler.MotifReportPrototype.P3AuditChecklist}
 A $P_3$ prototype must satisfy:
 \begin{enumerate}
 \item all $P_2$ audit requirements;
