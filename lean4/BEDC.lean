@@ -191,6 +191,7 @@ import BEDC.Derived.PreSheafUp
 import BEDC.Derived.ProjectiveSpaceUp
 import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.QuantumStateUp
+import BEDC.Derived.RegulatorUp
 import BEDC.Derived.AffineSpaceUp
 import BEDC.Derived.ModelTheoryUp
 import BEDC.Derived.ProdUp
@@ -731,6 +732,7 @@ import BEDC.Derived.HomologyUp
 import BEDC.Derived.HomotopyUp
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.RingUp
+import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.RingUp.SingletonAppend
 import BEDC.Derived.RingUp.SingletonContinuation
 import BEDC.Derived.RingUp.Cancellation
@@ -784,6 +786,7 @@ import BEDC.Derived.CategoryUp.MatureHostInterfaceInventory
 import BEDC.Derived.CategoryFunctorIndex
 import BEDC.Derived.InterHist
 import BEDC.Derived.Observer
+import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.FieldUp.RatExternalUnitSeparation
 import BEDC.Derived.FieldUp.RatDenominatorExternalUnitNormalForm
 import BEDC.Derived.FieldUp.ContextualActionThreefold
