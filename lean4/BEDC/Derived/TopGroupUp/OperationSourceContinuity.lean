@@ -28,4 +28,34 @@ theorem TopGroupRootOperationSourcePacket_continuity_coupling
       (And.intro stability.left
         (And.intro stability.right.right.right consumers.right.right.right.right.right)))
 
+theorem TopGroupRootOperationSourcePacket_operation_continuity_exhaustion
+    {group topology product inverse neighborhood ledger provenance : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      exists productLedger inverseLedger operationLedger : BHist,
+        Cont product neighborhood productLedger ∧ Cont inverse neighborhood inverseLedger ∧
+          Cont productLedger inverseLedger operationLedger ∧ UnaryHistory productLedger ∧
+            UnaryHistory inverseLedger ∧ UnaryHistory operationLedger ∧
+              hsame operationLedger
+                (append (append product neighborhood) (append inverse neighborhood)) ∧
+                hsame ledger (append product inverse) ∧ hsame provenance ledger := by
+  intro package
+  let productLedger := append product neighborhood
+  let inverseLedger := append inverse neighborhood
+  let operationLedger := append productLedger inverseLedger
+  have productRow : Cont product neighborhood productLedger := by
+    rfl
+  have inverseRow : Cont inverse neighborhood inverseLedger := by
+    rfl
+  have operationRow : Cont productLedger inverseLedger operationLedger := by
+    rfl
+  have operation :=
+    TopGroupRootThresholdPackage_operation_ledger_obligation package productRow inverseRow
+      operationRow
+  exact Exists.intro productLedger
+    (Exists.intro inverseLedger
+      (Exists.intro operationLedger
+        (And.intro productRow
+          (And.intro inverseRow
+            (And.intro operationRow operation)))))
+
 end BEDC.Derived.TopGroupUp
