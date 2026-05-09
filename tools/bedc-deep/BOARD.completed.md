@@ -15044,3 +15044,30 @@ Rationale:
 Fills the gap between the empty-node case (thm:quadrature-empty-node-sum-zero, file:267, BOARD B-538) and the singleton-node case (thm:quadrature-singleton-node-sum-weighted-evaluation, file:313, BOARD B-575). grep for 'two-node|binary.*node|Quadrature.*pair|Quadrature.*two' in 205_quadrature_namecert_construction.tex returned 0 matches. Builds directly on def:quadrature-finite-weighted-exactness-degree (file:22), lem:quadrature-empty-position-fold-zero (file:255), and lem:quadrature-singleton-position-fold (file:294). Concrete identity, not a transport echo. File is at 347 lines, well under cap. Natural extension of the existing empty/singleton fold-shape pattern.
 
 ---
+
+### B-592 - PolynomialUp raw multiplication left identity by singleton-1 polynomial
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | PolynomialUp raw multiplication left identity by singleton-1 polynomial |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If R carries a RingUp(R) certificate with multiplicative unit 1_R and additive zero 0_R, and p:ListCarrier(R) is any finite coefficient spine, then PolySame_R(rmul_R(cons(1_R, nil), p), p).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_multiplication.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_algebra.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex`
+- `papers/bedc/parts/concrete_instances/26_fps_ringup_tail.tex`
+
+Rationale:
+PolynomialUp file 25_polynomial_literal_multiplication.tex (182 lines, well under cap) currently proves polynomial raw multiplication associativity (thm:polynomial-multiplication-associativity-commring-scalars), commutativity (thm:polynomial-raw-multiplication-commutativity-from-commring-scalars in 25_polynomial_literal_addtrim_algebra.tex), left/right zero absorption (thm:polynomial-multiplication-left-zero-absorption, thm:polynomial-multiplication-right-zero-absorption), and left/right distributivity (B-579, B-587 already completed). The fifth basic ring-multiplication law — that the singleton-1 polynomial cons(1_R, nil) is a multiplicative left identity — is conspicuously absent: grep for 'polynomial.*identity\|polynomial.*one\|raw.mul.*one\|raw.mul.*unit\|PolyOne\|PolyUnit' across papers/bedc/parts/ returns zero hits, and grep across lean4/BEDC/Derived/PolynomialUp/CauchyProduct.lean returns _zero, _commutative, _associative theorems but no _left_unit / _right_unit / _one. The exact analogue for FormalPowerSeriesUp is fully proven as thm:fps-cauchy-product-unit-laws (papers/bedc/parts/concrete_instances/26_fps_ringup_tail.tex line 56) with Lean target FpsSingletonCauchyProduct_unit_laws. The polynomial proof reuses lem:raw-cauchy-product-coefficient-formula and the additive-zero / multiplicative-left-unit rows already retained in def:ring-stability-certificate; structurally identical to the FPS unit-law argument but on finite ListCarrier instead of Nat → R.
+
+---
