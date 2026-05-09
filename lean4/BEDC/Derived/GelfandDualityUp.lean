@@ -56,4 +56,26 @@ theorem GelfandDualitySpectrumPairingCarrier_source_obligation [AskSetup] [Packa
       carrier.right.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right.left⟩
 
+theorem GelfandDualitySpectrumPairingCarrier_spectrum_ledger_exactness [AskSetup]
+    [PackageSetup] {A X character evaluation rhoA rhoX provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GelfandDualitySpectrumPairingCarrier A X character evaluation rhoA rhoX provenance
+        ledger endpoint bundle pkg ->
+      UnaryHistory A ∧ UnaryHistory X ∧ UnaryHistory character ∧ UnaryHistory evaluation ∧
+        UnaryHistory provenance ∧ Cont character evaluation ledger ∧
+          Cont ledger provenance endpoint ∧ Cont provenance ledger endpoint ∧
+            hsame ledger (append character evaluation) ∧
+              hsame endpoint (append ledger provenance) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have characterRow : Cont character evaluation ledger :=
+    carrier.right.right.right.right.right.right.right.left
+  have endpointRow : Cont ledger provenance endpoint :=
+    carrier.right.right.right.right.right.right.right.right.left
+  exact
+    ⟨carrier.left, carrier.right.left, carrier.right.right.left,
+      carrier.right.right.right.left, carrier.right.right.right.right.left, characterRow,
+      endpointRow, carrier.right.right.right.right.right.right.right.right.right.left,
+      characterRow, endpointRow,
+      carrier.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.GelfandDualityUp
