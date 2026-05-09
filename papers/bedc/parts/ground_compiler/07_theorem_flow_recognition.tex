@@ -67,9 +67,12 @@ Define
 $$
   \mathsf{TheoremFlow}(T)
   \;:\Longleftrightarrow\;
-  \exists R_T,\ \mathsf{RecognizesTheorem}(R_T,T).
+  \exists R_T,
+  \mathsf{RecognizesTheorem}(R_T,T)
+  \ \wedge\
+  \mathsf{CompleteTheoremFlowRecognition}(R_T,T).
 $$
-Thus $T$ is a recognized theorem flow exactly when some generated recognizer recognizes it in that role.
+Thus $T$ is a recognized theorem flow exactly when some generated recognizer recognizes it in that role and recognizes the complete theorem-role structure inside it.
 \end{definition}
 
 \begin{principle}[No external theorem input]
@@ -175,18 +178,23 @@ Intuitively, $T_0$ is the statement flow, $T_1$ the dependency flow, $T_2$ the p
 
 \begin{principle}[No theorem without complete recognized flow]
 \label{prin:theorem-generated-no-incomplete-theorem}
+\leanchecked{BEDC.GroundCompiler.TheoremGenerated.no\_theorem\_without\_complete\_recognition}
 A recognized theorem flow must have complete theorem-flow recognition. Thus
 $$
   \mathsf{TheoremFlow}(T)
   \Longrightarrow
-  \exists R_T,\ \mathsf{RecognizesTheorem}(R_T,T),
+  \exists R_T,
+  \mathsf{RecognizesTheorem}(R_T,T)
+  \ \wedge\
+  \mathsf{CompleteTheoremFlowRecognition}(R_T,T),
 $$
 with recognized statement, dependency, proof, certificate, ledger, status, canonical-site, and seal subflows.
 \end{principle}
 
 \begin{theorem}[Incomplete theorem flow is not a theorem flow]
 \label{thm:theorem-generated-incomplete-not-theorem}
-If an event flow $T$ lacks any one of the recognized statement, dependency, proof, certificate, ledger, status, canonical-site, or theorem-seal subflows, then $T$ cannot be used as a recognized theorem flow.
+\leanchecked{BEDC.GroundCompiler.TheoremGenerated.incomplete\_theorem\_flow\_not\_theorem}
+If, for every generated theorem recognizer $R_T$ that recognizes $T$, complete theorem-flow recognition fails, then $T$ is not a theorem flow.
 \end{theorem}
 
 \begin{proof}
@@ -195,7 +203,8 @@ By \autoref{prin:theorem-generated-no-incomplete-theorem}, a recognized theorem 
 
 \begin{corollary}[Statement alone is not a theorem]
 \label{cor:theorem-generated-statement-alone-not-theorem}
-A recognized statement flow does not by itself constitute a theorem flow. It still needs proof, dependency, certificate, ledger, status, canonical-site, and theorem-seal subflows.
+\leanchecked{BEDC.GroundCompiler.TheoremGenerated.statement\_alone\_not\_theorem}
+If an event flow carries a recognized statement subflow but no generated theorem recognizer recognizes a proof subflow for it, then the event flow is not a theorem flow.
 \end{corollary}
 
 \begin{corollary}[Proof alone is not a theorem]

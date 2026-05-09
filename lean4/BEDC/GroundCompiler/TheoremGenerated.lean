@@ -15,9 +15,6 @@ def TheoremRecognitionRelation
     (R : GeneratedTheoremRecognizer) (T : TheoremCandidateFlow) : Prop :=
   RecognizesTheorem R T
 
-def TheoremFlow (T : TheoremCandidateFlow) : Prop :=
-  exists R : GeneratedTheoremRecognizer, TheoremRecognitionRelation R T
-
 def TheoremCode (T : TheoremCandidateFlow) : List DisplayAlphabet :=
   FlowEncoding T
 
@@ -56,6 +53,10 @@ def CompleteTheoremFlowRecognition
       TheoremRoleSubflow R T status TheoremRole.status /\
       TheoremRoleSubflow R T canonicalSite TheoremRole.canonicalSite /\
       TheoremRoleSubflow R T sealFlow TheoremRole.closingSeal
+
+def TheoremFlow (T : TheoremCandidateFlow) : Prop :=
+  exists R : GeneratedTheoremRecognizer,
+    TheoremRecognitionRelation R T /\ CompleteTheoremFlowRecognition R T
 
 def GeneratedProofCheckerFlow : Type :=
   EventFlow
@@ -168,7 +169,7 @@ theorem recognition_invariant_under_compile_decode
   intro h
   cases h with
   | intro R hR =>
-      exact ⟨R, compile_decode_preserves_recognition hR⟩
+      exact ⟨R, compile_decode_preserves_recognition hR.left⟩
 
 theorem sound_theorem_flow_establishes_theoremhood
     {R : GeneratedTheoremRecognizer} {T : TheoremCandidateFlow} :
@@ -190,6 +191,57 @@ theorem sound_theorem_flow_establishes_theoremhood
                           | intro canonicalSite hComplete =>
                               cases hComplete with
                               | intro sealFlow hFields =>
-                                  exact ⟨R, hFields.left.left⟩
+                                  exact ⟨R, hFields.left.left, hSound.left⟩
+
+theorem no_theorem_without_complete_recognition
+    {T : TheoremCandidateFlow} :
+    TheoremFlow T ->
+      exists R : GeneratedTheoremRecognizer,
+        TheoremRecognitionRelation R T /\ CompleteTheoremFlowRecognition R T := by
+  intro h
+  exact h
+
+theorem incomplete_theorem_flow_not_theorem
+    {T : TheoremCandidateFlow} :
+    (forall R : GeneratedTheoremRecognizer,
+      TheoremRecognitionRelation R T ->
+        Not (CompleteTheoremFlowRecognition R T)) ->
+      Not (TheoremFlow T) := by
+  intro hIncomplete hFlow
+  cases hFlow with
+  | intro R hRecognizes =>
+      exact hIncomplete R hRecognizes.left hRecognizes.right
+
+theorem statement_alone_not_theorem
+    {T : TheoremCandidateFlow} :
+    (exists R : GeneratedTheoremRecognizer,
+      exists statement : TheoremCandidateFlow,
+        TheoremRoleSubflow R T statement TheoremRole.statement) ->
+      (forall R : GeneratedTheoremRecognizer,
+        TheoremRecognitionRelation R T ->
+          forall proof : TheoremCandidateFlow,
+            Not (TheoremRoleSubflow R T proof TheoremRole.proof)) ->
+        Not (TheoremFlow T) := by
+  intro _ hNoProof hFlow
+  cases hFlow with
+  | intro R hRecognizes =>
+      cases hRecognizes.right with
+      | intro statement hComplete =>
+          cases hComplete with
+          | intro dependencies hComplete =>
+              cases hComplete with
+              | intro proof hComplete =>
+                  cases hComplete with
+                  | intro certificates hComplete =>
+                      cases hComplete with
+                      | intro ledger hComplete =>
+                          cases hComplete with
+                          | intro status hComplete =>
+                              cases hComplete with
+                              | intro canonicalSite hComplete =>
+                                  cases hComplete with
+                                  | intro sealFlow hFields =>
+                                      exact hNoProof R hRecognizes.left proof
+                                        hFields.right.right.left
 
 end BEDC.GroundCompiler.TheoremGenerated
