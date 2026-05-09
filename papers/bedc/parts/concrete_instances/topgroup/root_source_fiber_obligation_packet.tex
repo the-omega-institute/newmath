@@ -1,0 +1,109 @@
+\section{Root source-fiber obligation packet}
+\label{sec:topgroup-root-source-fiber-obligation-packet}
+
+\begin{definition}[TopGroupUp root source-fiber obligation packet]
+\label{def:topgroup-root-source-fiber-obligation-packet}
+The $\TopGroupUp$ root source-fiber obligation packet is the shared
+$\mathsf{BHist}$ packet
+$$
+\mathcal F=(G,T,m,i,n,\kappa,\lambda,\rho)
+$$
+read over the displayed $\GroupUp$ source row $G$ and $\TopologyUp$ source row
+$T$. The row $m$ is the product operation source, $i$ is the inverse operation
+source, $n$ is the neighbourhood source used by both continuity families,
+$\kappa$ is the componentwise $\hsame$ classifier packet on the carried source
+rows and operation endpoints, $\lambda$ is the finite $\Cont$ ledger listing
+the product and inverse continuity entries, and $\rho$ is the shared
+$\mathsf{Pkg}$ provenance row. A root consumer may read the $\GroupUp$ and
+$\TopologyUp$ sources only through this packet.
+\end{definition}
+
+\begin{theorem}[TopGroupUp root source-fiber carrier obligation]
+\label{thm:topgroup-root-source-fiber-carrier-obligation}
+Every accepted $\TopGroupUp$ root source-fiber obligation packet carries the
+$\GroupUp$ and $\TopologyUp$ source rows on one $\mathsf{BHist}$ carrier and
+one classifier packet. The product row, inverse row, neighbourhood row,
+componentwise $\hsame$ classifier, finite $\Cont$ ledger, and $\mathsf{Pkg}$
+provenance are projections from that carrier, so neither source row supplies a
+separate root carrier.
+\end{theorem}
+\begin{proof}
+Project the packet of
+\autoref{def:topgroup-root-source-fiber-obligation-packet}. Its coordinates
+are the two source rows, operation rows, neighbourhood row, classifier packet,
+continuation ledger, and provenance row.
+
+Apply \autoref{thm:topgroup-source-fiber-product-carrier}. It identifies the
+group source, topology source, product graph, inverse graph, neighbourhood
+row, finite $\Cont$ ledger, and $\mathsf{Pkg}$ provenance as projections from
+one shared $\mathsf{BHist}$ carrier.
+
+Then apply \autoref{thm:topgroup-root-shared-carrier-obligation}. The root
+surface reads the two source certificates through exactly this shared packet,
+with their endpoint classifiers supplied by the componentwise $\hsame$ rows.
+
+Finally use \autoref{thm:topgroup-public-consumer-minimality}. A public root
+consumer has no field for a second carrier, second classifier packet, or
+detached provenance row, so the displayed source fiber is the whole carrier
+obligation.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root source-fiber continuity obligation]
+\label{thm:topgroup-root-source-fiber-continuity-obligation}
+For an accepted $\TopGroupUp$ root source-fiber obligation packet, product
+continuity and inverse continuity transport through the same classifier packet
+and the same finite $\Cont$ ledger. The product row uses the two input
+endpoints, product endpoint, neighbourhood row, componentwise $\hsame$
+transport, and its ledger entry; the inverse row uses the input endpoint,
+inverse endpoint, neighbourhood row, componentwise $\hsame$ transport, and
+its ledger entry. No continuity row is detached from the shared source fiber.
+\end{theorem}
+\begin{proof}
+Start from the carrier obligation of
+\autoref{thm:topgroup-root-source-fiber-carrier-obligation}. It places the
+product row, inverse row, neighbourhood row, $\hsame$ classifier packet,
+finite ledger, and provenance over the same carried source rows.
+
+Apply \autoref{thm:topgroup-product-continuity-obligation}. The product
+continuity obligation is exactly endpoint transport through the packet's
+$\hsame$ rows together with the displayed finite $\Cont$ entry.
+
+Apply \autoref{thm:topgroup-inverse-continuity-obligation}. The inverse
+continuity obligation has the same form for the unary inverse endpoint and its
+finite ledger entry.
+
+Use \autoref{thm:topgroup-root-continuity-classifier-stability} to compare
+the two operation families through one classifier packet. Since both
+continuity rows read the same source fiber and ledger, classifier transport
+cannot introduce an ambient topological-group continuity predicate.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root source-fiber ledger exactness]
+\label{thm:topgroup-root-source-fiber-ledger-exactness}
+For an accepted $\TopGroupUp$ root source-fiber obligation packet, the finite
+$\Cont$ ledger exhausts exactly the product-continuity and inverse-continuity
+obligations. Every accepted operation-continuity read is one of those two
+families, and every listed ledger entry is sound through the shared
+$\mathsf{BHist}$ carrier, componentwise $\hsame$ classifier, and
+$\mathsf{Pkg}$ provenance of the packet.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:topgroup-root-source-fiber-continuity-obligation}. It binds both
+operation-continuity families to the same classifier packet and finite
+continuation ledger.
+
+Apply \autoref{thm:topgroup-ledger-exactness-obligation}. It states that the
+finite $\Cont$ ledger covers every accepted product-neighbourhood and
+inverse-neighbourhood continuity read, with soundness through the shared
+carrier packet.
+
+Use \autoref{thm:topgroup-root-operation-continuity-exhaustion} to rule out a
+third operation-continuity family at the root. The accepted root surface has
+only product continuity and inverse continuity over the displayed source pair.
+
+Finally apply \autoref{thm:topgroup-public-consumer-minimality}. A public
+consumer receives no continuity primitive beyond the source rows, operation
+rows, classifier packet, finite ledger, and provenance, so the ledger is exact
+for precisely the two displayed obligation families.
+\end{proof}
