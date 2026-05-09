@@ -211,6 +211,43 @@ theorem self_hosting_requires_ledger
       | intro L hLedger =>
           exact ⟨L, hLedger.right.right⟩
 
+def RecognizerHierarchyCoversCompilerTower
+    (C : CompilerCandidateFlow) : Prop :=
+  exists package nameCert derivCert theoremFlow chapter compiler : EventFlow,
+    FormalCompilerInput (CompilerDatum.recognizedFlow C package) /\
+      FormalCompilerInput (CompilerDatum.recognizedFlow C nameCert) /\
+      FormalCompilerInput (CompilerDatum.recognizedFlow C derivCert) /\
+      FormalCompilerInput (CompilerDatum.recognizedFlow C theoremFlow) /\
+      FormalCompilerInput (CompilerDatum.recognizedFlow C chapter) /\
+      FormalCompilerInput (CompilerDatum.recognizedFlow C compiler)
+
+def CompilerNoLongerHiddenInput
+    (behavior : CompilerBehaviorRelation) (C : CompilerCandidateFlow) :
+    Prop :=
+  SelfHostingCompilerFlow behavior C /\
+    RecognizerHierarchyCoversCompilerTower C /\
+    exists L : EventFlow, SelfHostingLedger C L
+
+theorem self_hosting_removes_hidden_input
+    {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :
+    SelfHostingCompilerFlow behavior C ->
+      RecognizerHierarchyCoversCompilerTower C ->
+        CompilerNoLongerHiddenInput behavior C := by
+  intro hSelf hHierarchy
+  exact ⟨hSelf, hHierarchy, self_hosting_requires_ledger hSelf⟩
+
+theorem full_claim_requires_boundary
+    {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :
+    Not (SelfHostingCompilerFlow behavior C) ->
+      (SelfHostingCompilerFlow behavior C \/ BootstrapRecorded C) ->
+        BootstrapRecorded C := by
+  intro hNotSelf hClaim
+  cases hClaim with
+  | inl hSelf =>
+      exact False.elim (hNotSelf hSelf)
+  | inr hBootstrap =>
+      exact hBootstrap
+
 def P9CompilerCandidate (S C : EventFlow) : Prop :=
   P9Subflow S C
 
