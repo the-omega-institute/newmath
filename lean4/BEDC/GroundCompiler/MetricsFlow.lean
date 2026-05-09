@@ -151,6 +151,45 @@ def CarryIndex (profile : List MotifOccurrence) (carryRole : EventFlow) : Nat :=
 def LedgerDepth (ledgerDepths : List Nat) : Nat :=
   ledgerDepths.foldr Nat.max 0
 
+structure ClassifierCompressionData where
+  rawSupportFlows : List EventFlow
+  classifierClasses : List EventFlow
+  classifierRecognition : MetricAllowedData MetricDataKind.recognizedClassifier
+  ledgerRecognition : MetricAllowedData MetricDataKind.recognizedLedger
+  exactnessRecognition : EventFlow
+  classCountPositive : 0 < classifierClasses.length
+
+def CompressionRatio (q : ClassifierCompressionData) : Nat × Nat :=
+  (q.rawSupportFlows.length, q.classifierClasses.length)
+
+structure ReuseChain where
+  links : List EventFlow
+  recognizer : GeneratedRecognizer
+  allLinksRecognized :
+    forall M : EventFlow,
+      List.Mem M links ->
+        FormalCompilerInput (CompilerDatum.recognizedFlow recognizer M)
+
+def ReuseDepth (chains : List ReuseChain) : Nat :=
+  (chains.map (fun chain => chain.links.length)).foldr Nat.max 0
+
+structure BridgeChain where
+  sourceFlow : EventFlow
+  targetFlow : EventFlow
+  steps : List EventFlow
+  recognizer : GeneratedRecognizer
+  sourceRecognized :
+    FormalCompilerInput (CompilerDatum.recognizedFlow recognizer sourceFlow)
+  targetRecognized :
+    FormalCompilerInput (CompilerDatum.recognizedFlow recognizer targetFlow)
+  allStepsRecognized :
+    forall step : EventFlow,
+      List.Mem step steps ->
+        FormalCompilerInput (CompilerDatum.recognizedFlow recognizer step)
+
+def BridgeDepth (chains : List BridgeChain) : Nat :=
+  (chains.map (fun chain => chain.steps.length)).foldr Nat.max 0
+
 theorem external_metric_input_not_allowed {d : MetricDataKind} :
     MetricExternalInput d -> Not (MetricAllowedData d) := by
   intro hExternal hAllowed
