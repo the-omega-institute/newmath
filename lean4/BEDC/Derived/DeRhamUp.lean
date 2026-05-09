@@ -167,6 +167,33 @@ theorem DeRhamStandardBoundaryGraphLedger_source_exhaustion
           intro rowsEmpty
           cases rowsEmpty)
 
+theorem DeRhamStandardBoundaryGraphLedger_append_consumer_readback
+    {d : BHist -> BHist} {left rightRows : List BHist} {mid tailEndpoint endpoint : BHist} :
+    DeRhamStandardBoundaryGraphLedger d left mid ->
+      DeRhamStandardBoundaryGraphLedger d rightRows tailEndpoint ->
+        Cont mid tailEndpoint endpoint ->
+          DeRhamStandardBoundaryGraphLedger d (left ++ rightRows) endpoint ∧
+            (forall row : BHist, List.Mem row (left ++ rightRows) -> DeRhamBoundary d row) := by
+  intro leftLedger rightLedger endpointCont
+  induction leftLedger generalizing rightRows tailEndpoint endpoint with
+  | nil sameMid =>
+      cases sameMid
+      have endpointTail : endpoint = tailEndpoint :=
+        endpointCont.trans (append_empty_left tailEndpoint)
+      cases endpointTail
+      exact And.intro rightLedger
+        (DeRhamStandardBoundaryGraphLedger_source_exhaustion rightLedger).left
+  | cons packet restLedger thetaTailCont ih =>
+      have combinedRest :=
+        ih rightLedger (by rfl)
+      have combinedLedger :
+          DeRhamStandardBoundaryGraphLedger d (_ :: _ ++ rightRows) endpoint :=
+        DeRhamStandardBoundaryGraphLedger.cons packet combinedRest.left (by
+          cases thetaTailCont
+          exact endpointCont.trans (append_assoc _ _ tailEndpoint))
+      exact And.intro combinedLedger
+        (DeRhamStandardBoundaryGraphLedger_source_exhaustion combinedLedger).left
+
 theorem DeRhamBoundary_packet_classifier_transport
     {d : BHist -> BHist} {omega eta theta zero theta' : BHist} :
     DeRhamDoubleExteriorPacket d omega eta theta zero ->
@@ -421,6 +448,29 @@ theorem DeRhamBoundarySourceLedgerPacket_bridge_ledger_source_scope
     (And.intro packet.left.right.right.right.right
       (And.intro packet.right.right.left
         (And.intro packet.right.right.right.left packet.right.right.right.right)))
+
+theorem DeRhamBoundarySourceLedgerPacket_cocycle_ledger_threshold
+    {d : BHist -> BHist} {omega eta theta zero graphLedger endpointLedger : BHist} :
+    DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger ->
+      exists cocycleLedger : BHist,
+        Cont (d eta) zero cocycleLedger ∧ hsame cocycleLedger BHist.Empty ∧
+          hsame (d eta) BHist.Empty ∧ hsame zero BHist.Empty ∧ DeRhamBoundary d theta ∧
+            Cont theta zero graphLedger ∧ Cont graphLedger eta endpointLedger := by
+  intro packet
+  let cocycleLedger := append (d eta) zero
+  have cocycleCont : Cont (d eta) zero cocycleLedger := by
+    rfl
+  have zeroEmpty : hsame zero BHist.Empty :=
+    packet.left.right.right.right.right
+  have cocycleEmpty : hsame cocycleLedger BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro packet.right.right.left zeroEmpty)
+  exact Exists.intro cocycleLedger
+    (And.intro cocycleCont
+      (And.intro cocycleEmpty
+        (And.intro packet.right.right.left
+          (And.intro zeroEmpty
+            (And.intro packet.right.left
+              (And.intro packet.right.right.right.left packet.right.right.right.right))))))
 
 theorem DeRhamRootUnblock_threshold_surface
     {d : BHist -> BHist} {omega eta theta theta' zero graphLedger endpointLedger : BHist} :
