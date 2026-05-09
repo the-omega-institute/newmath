@@ -720,3 +720,43 @@ consumer row. Since the inventory has no slot for completion objects, metric
 witnesses, order or arithmetic rows, standard bridges, or $\RealUp$
 completeness data, none of those objects is exposed by the terminal seal.
 \end{proof}
+
+\begin{theorem}[StreamName RealUp terminal seal scope readback]
+\label{thm:streamname-realup-terminal-seal-scope-readback}
+Let $s,t,s',t':\Hist\to\Hist$ be certified rational StreamName maps, and let
+$\mathcal P:\mathsf{ProbeBundle}$ be a selected transported finite-window
+request. Suppose a terminal finite-window $\RealUp$ seal consumer is obtained
+from the StreamName terminal seal boundary of
+\autoref{thm:streamname-realup-terminal-seal-boundary}. Then every scope row
+available to that consumer factors through exactly the carried StreamName
+finite-window classifier, the selected endpoint package, the transported
+denominator package, the RegSeqRat dyadic ledger rows, the $\hsame$ transport
+rows, the $\Cont$ provenance row, and the source $\Pkg$ rows.
+
+No readback from this terminal scope exposes a host $\mathsf{Nat}$ index,
+quotient representative, completion object, metric row, or standard bridge
+row. Thus the reusable scope handed to later $\RealUp$ and RegSeqRat boundary
+arguments is precisely the displayed finite packet and nothing outside it.
+\end{theorem}
+\begin{proof}
+Project the terminal packet supplied by
+\autoref{thm:streamname-realup-terminal-seal-boundary}. Its available rows are
+the selected finite-window classifier, endpoint and denominator data,
+endpoint exclusions, one-tail agreement, selected $\mathsf{ProbeBundle}$ and
+$\mathsf{InBundle}$ membership, and the attached $\Cont$ and $\hsame$ transport
+ledger.
+
+Apply \autoref{thm:streamname-transported-window-regseqrat-realup-feed} to the
+same packet. This identifies the RegSeqRat and $\RealUp$ handoff rows as the
+dyadic ledger rows carried by the transported denominator package together
+with the endpoint classifier and the source $\Pkg$ rows already present in the
+StreamName readback.
+
+Finally use \autoref{thm:realup-streamname-finite-window-ledger-boundary}. Its
+boundary inventory has slots only for the displayed finite StreamName packet,
+the RegSeqRat dyadic ledger, the $\hsame$ transports, the $\Cont$ provenance,
+and the source package rows. Since the inventory has no slot for host
+$\mathsf{Nat}$ indices, quotient representatives, completion objects, metric
+rows, or standard bridge rows, the terminal scope-readback exposes none of
+them.
+\end{proof}
