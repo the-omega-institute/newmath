@@ -228,3 +228,46 @@ endpoint rows, the dyadic source rows, and the
 $\mathsf{RealLedgerPolicy}$ boundary. Hence the two-step restriction and the
 direct restriction expose the same $\RealUp$ read surface.
 \end{proof}
+
+\begin{theorem}[RealUp finite-window partition exactness]
+\label{thm:realup-finite-window-partition-exactness}
+Suppose a $\RealUp$ finite-window exhaustion package is exposed for a
+$\StreamNameUp$ window $W$. Let $(W_i)_{i\in I}$ be a finite family of
+certified $\StreamNameUp$ subwindows of $W$ such that every certified unary
+observation row of $W$ is carried by at least one $W_i$, and such that every
+pairwise intersection exposed by two selected subwindows is certified by the
+overlap boundary of
+\autoref{thm:realup-finite-window-exhaustion-overlap-closure}. Then the
+$\RealUp$ read surface assembled from the finite family $(W_i)_{i\in I}$ is
+the same public finite $\mathsf{BHist}$ surface as the direct read surface of
+$W$. The two surfaces have the same
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, endpoint $\RatUp$
+classifier rows, positive denominator witnesses, common e-one tail readbacks,
+$\mathsf{DyadicRatCore}$ source rows, $\hsame$ ledger, and
+$\mathsf{RealLedgerPolicy}$ boundary.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-finite-window-exhaustion-subwindow-closure} to each
+certified subwindow $W_i$. Each local read therefore contains only the
+inherited unary observation rows, finite-window classifier rows, endpoint
+denominator rows, common e-one tail readbacks, and dyadic source rows coming
+from the ambient window $W$.
+
+On every certified overlap $W_i\cap W_j$, use
+\autoref{thm:realup-finite-window-exhaustion-overlap-closure}. It identifies
+duplicate observations and their endpoint $\RatUp$ classifier rows through the
+same $\hsame$ ledger, so the finite family contributes one public observation
+row for each certified observation of $W$ rather than a separate row for each
+covering subwindow.
+
+If a selected observation is reached through a smaller certified refinement,
+\autoref{thm:realup-finite-window-two-step-restriction-coherence} identifies
+the refined read with the direct restriction from $W$. Thus changing the
+subwindow presentation does not change the visible read surface.
+
+Finally repack the covered observation rows by
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. The coverage
+hypothesis supplies every unary observation row of $W$, and the overlap and
+two-step coherence rows remove duplicate presentations. The assembled surface
+is therefore exactly the direct finite-window surface of $W$.
+\end{proof}

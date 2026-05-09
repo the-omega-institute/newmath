@@ -147,6 +147,24 @@ theorem ContactCarrierClassifierSurface_public_namecert_export
           (And.intro transported.right.left
             (And.intro transported.right.right topNonempty)))))
 
+theorem ContactStandardBridgeSurface_public_bridge_compatibility
+    {manifold form derivative wedge top top' tail : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      hsame top top' ->
+        hsame wedge (BHist.e1 tail) ->
+          ContactCarrierClassifierSurface manifold form derivative wedge top' ∧
+            Cont wedge BHist.Empty top' ∧ UnaryHistory top' ∧ hsame top' wedge ∧
+              (hsame top' BHist.Empty -> False) := by
+  intro surface sameTop sameWedgeVisible
+  have transported :=
+    ContactCarrierClassifierSurface_top_wedge_transport_with_wedge surface sameTop
+  have exported :=
+    ContactCarrierClassifierSurface_public_namecert_export surface sameTop sameWedgeVisible
+  exact And.intro transported.left
+    (And.intro transported.left.right.right.right.right
+      (And.intro transported.right.left
+        (And.intro transported.right.right exported.right.right.right.right.right.right)))
+
 theorem ContactCarrierClassifierSurface_top_wedge_transport
     {manifold form derivative wedge top top' : BHist} :
     ContactCarrierClassifierSurface manifold form derivative wedge top ->
@@ -165,5 +183,23 @@ theorem ContactCarrierClassifierSurface_top_wedge_transport
   have transportedRows :=
     ContactCarrierClassifierSurface_form_row_obligation transportedSurface
   exact And.intro transportedSurface transportedRows.right.right.right.right.right.left
+
+theorem ContactCarrierClassifierSurface_public_bridge_compatibility
+    {manifold form derivative wedge top bridge top' tail : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      hsame top bridge ->
+        hsame bridge top' ->
+          hsame wedge (BHist.e1 tail) ->
+            ContactCarrierClassifierSurface manifold form derivative wedge top' ∧
+              hsame top' wedge ∧ UnaryHistory top' ∧ (hsame top' BHist.Empty -> False) := by
+  intro surface sameTopBridge sameBridgeTop sameWedgeVisible
+  have sameTopTop' : hsame top top' :=
+    hsame_trans sameTopBridge sameBridgeTop
+  have exported :=
+    ContactCarrierClassifierSurface_public_namecert_export surface sameTopTop' sameWedgeVisible
+  exact And.intro exported.left
+    (And.intro exported.right.right.right.right.right.left
+      (And.intro exported.right.right.right.right.left
+        exported.right.right.right.right.right.right))
 
 end BEDC.Derived.ContactUp
