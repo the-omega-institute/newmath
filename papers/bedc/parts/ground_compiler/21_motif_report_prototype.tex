@@ -423,6 +423,7 @@ If a motif recognizer is missing, the recognized count for that motif is undefin
 
 \begin{definition}[Sound motif report]
 \label{def:motif-report-sound}
+\leandef{BEDC.GroundCompiler.MotifReportPrototype.SoundMotifReport}
 A motif report is \emph{sound} when:
 \begin{enumerate}
 \item the candidate section lists only candidates;
@@ -446,11 +447,12 @@ By soundness, the recognized section contains only entries with recognizer and l
 
 \begin{theorem}[Motif report does not license objects]
 \label{thm:motif-report-does-not-license-objects}
-Even a sound motif report does not imply any derived interface or accepted object.
+\leanchecked{BEDC.GroundCompiler.MotifReportPrototype.motif\_report\_does\_not\_license\_objects}
+There exists a sound motif report whose underlying event flow is not an accepted object flow. Thus sound motif reporting does not, by itself, imply accepted-object status or license any derived interface.
 \end{theorem}
 
 \begin{proof}
-Motif reports supply motif recognition and ledger information. Derived interfaces require name-certificate flows. Accepted objects require derivation-certificate flows and acceptance gates. A motif report does not provide these certificates.
+Motif reports supply motif recognition and ledger information. The empty recognized section is sound when it contains no unsupported recognized motifs, but the empty event flow is not an accepted object flow because acceptance requires nonempty certified export structure. Derived interfaces and accepted objects require certificate and acceptance-gate data not supplied by a sound motif report alone.
 \end{proof}
 
 \begin{corollary}[Recognized carry motif does not imply dimension-lift]
