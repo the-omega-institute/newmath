@@ -133,5 +133,33 @@ geometry.
 \end{proof}
 \leanchecked{BEDC.Derived.HodgeBridgeUp.HodgeBridgeBHistSourcePacket\_public\_certificate\_handoff}
 
+\begin{theorem}[HodgeBridgeUp bridge-status surface]
+\label{thm:hodgebridge-bridge-status-surface}
+The checked public handoff of
+\autoref{thm:hodgebridge-public-certificate-handoff} exposes only the
+$\mathsf{BHist}$ source packet, the $\CohomologyUp$ and $\DeRhamUp$ dependency
+rows, the harmonic-projector classifier, the shared projector readback,
+$\Cont$, $\hsame$, and the $\Pkg$ ledger rows. Analytic Hodge decomposition,
+ambient harmonic analysis, and Kähler geometry are not part of this bridge
+surface.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:hodgebridge-namecert-obligation-surface}. It gives the
+finite source packet, the two dependency rows, the projector and bidegree
+ledger, continuation readback, transport, and package provenance as the public
+obligation surface.
+
+Then apply
+\autoref{thm:hodgebridge-shared-projector-readback-exactness}. The shared
+projector readback is exhausted by the carried projector row and the displayed
+dependency endpoints; no ambient analytic projector is introduced by the
+readback.
+
+Finally use \autoref{thm:hodgebridge-public-certificate-handoff}. Its exported
+rows are exactly the public packet rows just listed. Since the handoff has no
+field for analytic Hodge decomposition, ambient harmonic analysis, or Kähler
+geometry, those structures remain outside the bridge-status surface.
+\end{proof}
+
 \section{The certificate}
 \label{sec:hodgebridge-certificate}

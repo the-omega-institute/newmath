@@ -124,6 +124,41 @@ and its classifier are stable without using analytic continuation as an
 uncarried host theorem.
 \end{proof}
 
+\begin{theorem}[HypergeometricUp endpoint ledger determinacy]
+\label{thm:hypergeometric-endpoint-ledger-determinacy}
+Let two $\HypergeometricUp$ source packets share the
+$\ComplexAnalyticUp$ dependency row and the $\GammaUp$ dependency row. Suppose
+their numerator-parameter, denominator-parameter, finite readback, and
+$\Pkg$ provenance rows are compared rowwise by $\hsame$, and suppose their
+coefficient-ratio, finite ledger, and endpoint rows are carried by compatible
+$\Cont$ rows over those comparisons. Then the transported endpoint, the
+coefficient-ratio row, and the finite ledger are determined up to $\hsame$ by
+the common $\mathsf{BHist}$ packet rows.
+
+Equivalently, any downstream consumer that sees only those dependency rows,
+parameter comparisons, readback rows, provenance rows, and compatible $\Cont$
+entries cannot distinguish two different transported endpoints,
+coefficient-ratio rows, or finite ledgers inside the root surface.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:hypergeometric-root-classifier}. The classifier
+compares exactly the $\ComplexAnalyticUp$ dependency, the $\GammaUp$ dependency,
+the numerator and denominator parameter rows, the readback rows, and the
+$\Pkg$ provenance rows, so the two packets have the same root-facing
+classification data.
+
+Next apply \autoref{thm:hypergeometric-root-stability}. The compatible $\Cont$
+rows transport the coefficient-ratio boundary, finite ledger, and endpoint
+through the already matched parameter and dependency rows, keeping the
+transported packet inside the same root carrier and classifier surface.
+
+Finally apply \autoref{thm:hypergeometric-root-ledger}. Ledger exactness says
+that no further row is available to decide an endpoint, coefficient-ratio
+boundary, or finite ledger. The conclusion therefore uses only the finite
+$\mathsf{BHist}$ packet, $\Cont$, $\hsame$, and $\Pkg$ rows; it does not use
+analytic continuation or host special-function equality.
+\end{proof}
+
 \begin{theorem}[HypergeometricUp root consumer boundary]
 \label{thm:hypergeometric-root-consumer-boundary}
 A downstream consumer of the $\HypergeometricUp$ root may read exactly the
@@ -185,6 +220,7 @@ factor through the same displayed rows, so the five local theorems assemble the
 paper-side $\NameCert_{\HypergeometricUp}$ obligation surface without adding an
 analytic-continuation row.
 \end{proof}
+\leanchecked{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_namecert\_obligation\_surface}
 
 \begin{theorem}[HypergeometricUp signature-gap boundary]
 \label{thm:hypergeometric-signature-gap-boundary}
@@ -209,4 +245,33 @@ are not fields of the packet and cannot be recovered by $\hsame$ or $\Cont$.
 The consumer-boundary theorem gives the downstream direction. Any exposed token
 gap row must be consumed through the finite packet surface already listed, so
 the signature gap has exactly that boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_signature\_gap\_boundary}
+
+\begin{theorem}[HypergeometricUp public certificate handoff]
+\label{thm:hypergeometric-public-certificate-handoff}
+The public $\NameCert_{\HypergeometricUp}$ handoff consists exactly of the
+finite $\mathsf{BHist}$ source packet of
+\autoref{def:hypergeometric-bhist-source-packet}, $\Cont$, $\hsame$, $\Pkg$, the
+$\ComplexAnalyticUp$ dependency row, the $\GammaUp$ dependency row, the
+parameter rows, the coefficient-ratio row, the finite readback row, and the
+signature-gap exclusion of
+\autoref{thm:hypergeometric-signature-gap-boundary}. It exports no analytic
+continuation, monodromy, singularity classification, host differential
+equation, or host special-function equality.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:hypergeometric-namecert-obligation-surface}. It
+packages the finite source packet with exactly the continuation, transport,
+provenance, dependency, parameter, coefficient-ratio, and readback rows required
+by the public name certificate.
+
+Next apply \autoref{thm:hypergeometric-signature-gap-boundary}. The same finite
+rows are the only rows visible through a token gap, and the excluded analytic
+objects have no coordinate in the accepted packet.
+
+Combining the obligation surface with the gap boundary gives the consumer
+handoff. A downstream chapter may cite this theorem to receive the displayed
+finite $\mathsf{BHist}$ packet and the stated exclusions without importing any
+host analytic continuation or special-function equality.
 \end{proof}
