@@ -5,6 +5,7 @@ namespace BEDC.GroundCompiler.MetricsFlow
 
 open BEDC.GroundCompiler.ChannelEncoding
 open BEDC.GroundCompiler.EventFlow
+open BEDC.FKernel.Mark
 
 deriving instance DecidableEq for DisplayAlphabet
 deriving instance DecidableEq for RawEvent
@@ -367,6 +368,13 @@ theorem metrics_channel_roundtrip_invariant
   rw [flow_level_round_trip]
   rfl
 
+theorem metrics_computed_from_decoded_code
+    {α : Type} (M : EventFlow -> α) (S : EventFlow) :
+    exists c : List DisplayAlphabet,
+      c = FlowEncoding S /\ Option.map M (Decode c) = some (M S) := by
+  refine ⟨FlowEncoding S, rfl, ?_⟩
+  exact metrics_channel_roundtrip_invariant M S
+
 theorem theory_distance_protocol_relative :
     exists Rfam : MetricRecognizerFamily,
       exists S T : EventFlow,
@@ -411,6 +419,26 @@ def EmptyAnalysisSignature (_S : EventFlow) : FlowSignatureVector where
   reuseDepth := 0
   bridgeDepth := 0
 
+theorem metrics_reports_not_theoremhood :
+    exists report : MetricReport, exists S : EventFlow,
+      Not (RecognizedTheoremFlow S) /\ Not (AcceptedObjectFlow S) := by
+  refine
+    ⟨{ protocol :=
+          { protocolFlow := [],
+            weights :=
+              { motifWeight := 0,
+                normalAddressWeight := 0,
+                prefixWeight := 0,
+                ledgerWeight := 0,
+                reuseWeight := 0 } },
+        recognizers := [],
+        sourceFlows := [[]],
+        signatures := [EmptyAnalysisSignature []],
+        cannotClaims := [] },
+      [], ?_, ?_⟩
+  · exact empty_not_recognized_theorem_flow
+  · exact empty_not_accepted_object_flow
+
 theorem metrics_do_not_imply_object_equality :
     exists S T : EventFlow,
       Not (S = T) /\ EmptyAnalysisSignature S = EmptyAnalysisSignature T := by
@@ -418,5 +446,12 @@ theorem metrics_do_not_imply_object_equality :
   · intro h
     cases h
   · rfl
+
+theorem metrics_conservativity {_report : MetricReport} {S : EventFlow}
+    {w : RawEvent} {m : DisplayAlphabet} :
+    List.Mem S _report.sourceFlows -> List.Mem w S -> List.Mem m w ->
+      m = BMark.b0 \/ m = BMark.b1 := by
+  intro _ hEvent hMark
+  exact event_flow_conservativity hEvent hMark
 
 end BEDC.GroundCompiler.MetricsFlow
