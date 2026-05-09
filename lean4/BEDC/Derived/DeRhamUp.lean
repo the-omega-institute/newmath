@@ -1,8 +1,18 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.DeRhamUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 
 theorem DeRhamDoubleExteriorDerivative_boundary {d : BHist -> BHist}
     {omega eta theta zero : BHist} :
@@ -48,5 +58,43 @@ theorem DeRhamDoubleExteriorPacket_boundary
     hsame_trans sameDEtaDDOmega (packet.right.right.right.left omega)
   exact And.intro sameThetaZero
     (And.intro boundaryTheta (hsame_trans sameDEtaZero packet.right.right.right.right))
+
+def DeRhamBoundarySourcePacket [AskSetup] [PackageSetup]
+    (d : BHist -> BHist) (omega eta theta zero ledger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  DeRhamDoubleExteriorPacket d omega eta theta zero ∧ UnaryHistory theta ∧
+    UnaryHistory ledger ∧ Cont theta ledger endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem DeRhamBoundarySourcePacket_boundary_source_stability [AskSetup] [PackageSetup]
+    {d : BHist -> BHist} {omega eta theta theta' zero ledger endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DeRhamBoundarySourcePacket d omega eta theta zero ledger endpoint bundle pkg ->
+      hsame theta' theta ->
+        Cont theta' ledger endpoint' ->
+          PkgSig bundle endpoint' pkg ->
+            DeRhamBoundarySourcePacket d omega eta theta' zero ledger endpoint' bundle pkg ∧
+              UnaryHistory endpoint' ∧ hsame endpoint endpoint' ∧ DeRhamBoundary d theta' := by
+  intro packet sameTheta endpointCont' pkgSig'
+  have thetaUnary' : UnaryHistory theta' :=
+    unary_transport packet.right.left (hsame_symm sameTheta)
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed thetaUnary' packet.right.right.left endpointCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_symm sameTheta) (hsame_refl ledger)
+      packet.right.right.right.left endpointCont'
+  have doublePacket' : DeRhamDoubleExteriorPacket d omega eta theta' zero :=
+    And.intro packet.left.left
+      (And.intro (hsame_trans sameTheta packet.left.right.left)
+        (And.intro packet.left.right.right.left
+          (And.intro packet.left.right.right.right.left packet.left.right.right.right.right)))
+  have boundary' : DeRhamBoundary d theta' :=
+    (DeRhamDoubleExteriorPacket_boundary doublePacket').right.left
+  have packet' :
+      DeRhamBoundarySourcePacket d omega eta theta' zero ledger endpoint' bundle pkg :=
+    And.intro doublePacket'
+      (And.intro thetaUnary'
+        (And.intro packet.right.right.left (And.intro endpointCont' pkgSig')))
+  exact And.intro packet'
+    (And.intro endpointUnary' (And.intro sameEndpoint boundary'))
 
 end BEDC.Derived.DeRhamUp
