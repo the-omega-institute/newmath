@@ -3,7 +3,9 @@ import BEDC.Derived.DiffFormUp
 namespace BEDC.Derived.DiffFormUp
 
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem DiffFormRootConsumerExport_no_extra_laws
@@ -44,5 +46,34 @@ theorem DiffFormRootConsumerExport_coverage
     (And.intro exportRow
       (And.intro ledger.left
         (And.intro ledger.right.left sourceUnary)))
+
+theorem DiffFormRootConsumerExport_exactness
+    {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier)
+    {omega domega degree dplus probe probePrime tensor tensorPrime scalar scalarPrime antisym source
+      rootLedger exportLedger : BHist}
+    {probes : ProbeBundle BHist} :
+    InBundle probe probes ->
+      ScalarCarrier scalar ->
+        DiffFormExteriorDerivativeLedger omega domega degree dplus probe probePrime tensor
+            tensorPrime scalar scalarPrime antisym source ->
+          UnaryHistory rootLedger ->
+            Cont source rootLedger exportLedger ->
+              DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym
+                  source degree probe tensor scalar antisym source ∧
+                UnaryHistory exportLedger ∧ hsame exportLedger (append source rootLedger) ∧
+                  UnaryHistory omega ∧ UnaryHistory domega ∧ UnaryHistory source := by
+  intro probeIn scalarCarrier ledger rootUnary exportRow
+  have classifierRows :
+      DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym source
+        degree probe tensor scalar antisym source :=
+    DiffFormBHistClassifier_reflexivity_obligation
+      (d := degree) (p := probe) (t := tensor) (s := scalar) (a := antisym)
+      (l := source) scalarCert probeIn scalarCarrier
+  have coverageRows :
+      UnaryHistory exportLedger ∧ hsame exportLedger (append source rootLedger) ∧
+        UnaryHistory omega ∧ UnaryHistory domega ∧ UnaryHistory source :=
+    DiffFormRootConsumerExport_coverage ledger rootUnary exportRow
+  exact And.intro classifierRows coverageRows
 
 end BEDC.Derived.DiffFormUp
