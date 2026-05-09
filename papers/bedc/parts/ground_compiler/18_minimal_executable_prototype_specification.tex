@@ -80,6 +80,7 @@ is only a display of the event flow $(0,00,000)$.
 
 \begin{definition}[Prototype encoder]
 \label{def:minimal-prototype-encoder}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.PrototypeEncoder}
 The \emph{prototype encoder} is an implementation function from event-flow display to channel-stream display. If the input display parses as event flow $S$ and the output display is $c$, then it must implement the formal relation
 $$
   \mathsf{Compiles}(S,c),
@@ -89,6 +90,7 @@ equivalently $c=\mathsf{Compile}(S)$.
 
 \begin{definition}[Prototype decoder]
 \label{def:minimal-prototype-decoder}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.PrototypeDecoder}
 The \emph{prototype decoder} is an implementation function from channel-stream display to either event-flow display or a rejection report. If it returns success with event flow $S$ on channel stream $c$, then it must implement
 $$
   \mathsf{Decodes}(c,S).
@@ -98,6 +100,7 @@ If it rejects, it must return a rejection report.
 
 \begin{definition}[Reject report]
 \label{def:minimal-prototype-reject-report}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.RejectReport}
 A \emph{reject report} is an implementation-level output view recording why a channel stream is not accepted by the prototype. Typical rejection cases include dangling $1$, unfinished event, non-binary character, empty-input policy violation, resource-bound excess, and noncanonical display.
 
 The case ``dangling $1$'' means that the input ends with an isolated $1$ that cannot form $10$ or $11$. The case ``unfinished event'' means that an event body has not reached a terminator $11$. The case ``non-binary character'' means that the display contains a character other than $0$ or $1$.

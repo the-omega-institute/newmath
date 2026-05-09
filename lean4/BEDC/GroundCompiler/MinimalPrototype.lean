@@ -3,6 +3,8 @@ import BEDC.GroundCompiler.ImplementationInterface
 namespace BEDC.GroundCompiler.MinimalPrototype
 
 open BEDC.GroundCompiler.ImplementationInterface
+open BEDC.GroundCompiler.ChannelEncoding
+open BEDC.GroundCompiler.EventFlow
 
 inductive PrototypeLevel : Type where
   | p0
@@ -26,6 +28,30 @@ def PrototypeLevelRank : PrototypeLevel -> Nat
 
 def PrototypeLevelLE (a b : PrototypeLevel) : Prop :=
   PrototypeLevelRank a <= PrototypeLevelRank b
+
+def PrototypeEncoder (S : EventFlow) (c : List DisplayAlphabet) : Prop :=
+  Compiles S c
+
+inductive RejectReason : Type where
+  | danglingOne
+  | unfinishedEvent
+  | nonBinaryCharacter
+  | emptyInputPolicyViolation
+  | resourceBoundExcess
+  | noncanonicalDisplay
+
+structure RejectReport where
+  stream : List DisplayAlphabet
+  reason : RejectReason
+
+inductive PrototypeDecoderOutput : Type where
+  | decoded (S : EventFlow)
+  | rejected (report : RejectReport)
+
+def PrototypeDecoder
+    (c : List DisplayAlphabet) : PrototypeDecoderOutput -> Prop
+  | PrototypeDecoderOutput.decoded S => Decodes c S
+  | PrototypeDecoderOutput.rejected report => report.stream = c
 
 inductive ReferencePrototypePublic : InterfaceDatum -> Prop where
   | compiles :
