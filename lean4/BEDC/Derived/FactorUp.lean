@@ -13,6 +13,27 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def FactorBHistSourceCore
+    (vna centre witness typeRow ledger endpoint : BHist) : Prop :=
+  UnaryHistory vna ∧ UnaryHistory centre ∧ UnaryHistory witness ∧ UnaryHistory typeRow ∧
+    Cont vna centre ledger ∧ Cont ledger witness endpoint
+
+theorem FactorBHistSourcePacket_trivial_centre_obligation
+    {vna centre witness typeRow ledger endpoint : BHist} :
+    FactorBHistSourceCore vna centre witness typeRow ledger endpoint ->
+      UnaryHistory vna ∧ UnaryHistory centre ∧ UnaryHistory witness ∧ UnaryHistory typeRow ∧
+        UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont vna centre ledger ∧
+          Cont ledger witness endpoint := by
+  intro packet
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed packet.left packet.right.left packet.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary packet.right.right.left packet.right.right.right.right.right
+  exact
+    ⟨packet.left, packet.right.left, packet.right.right.left, packet.right.right.right.left,
+      ledgerUnary, endpointUnary, packet.right.right.right.right.left,
+      packet.right.right.right.right.right⟩
+
 def FactorBHistSourcePacket [AskSetup] [PackageSetup]
     (algebra centre witness typeRow transport ledger endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
