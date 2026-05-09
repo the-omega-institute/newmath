@@ -42,57 +42,6 @@ Converse of `thm:axisadd-cont-preserves-zerospine` (line 86). Forward direction 
 
 ---
 
-
-### B-565 - UnitaryGroupUp public certificate theorem aggregating its four obligation rows
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | UnitaryGroupUp public certificate theorem aggregating its four obligation rows |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-The carrier-classifier, operation-stability, inner-product-preservation, and ledger-exactness obligations together exhibit a public NameCert_{UnitaryGroupUp} export over the HilbertUp and LieGroupUp sources.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/197_unitarygroup_namecert_construction.tex`
-
-Rationale:
-Chapter sits at scopedClosure with explicit upgradepath demanding exactly this aggregator. The four obligation theorems are present in the file but never composed into the public NameCert export. Standard BEDC public-closure pattern (matches `spectraltheorem-public-certificate` shape). Lands cleanly in 197_unitarygroup_namecert_construction.tex (114 lines, ample room).
-
----
-
-
-### B-566 - DiffForm exterior-derivative two-step composability ledger
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | DiffForm exterior-derivative two-step composability ledger |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 8/10 |
-
-Problem:
-If two accepted DiffForm exterior-derivative input rows over (omega,eta) and (eta,theta) share the middle eta, the composite exposes the two-step degree continuation row ContR(d_omega, E1(E1(emp)), d_theta).
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/114_diffform_exterior_derivative_boundary.tex`
-
-Rationale:
-Chapter currently carries only one-step degree-shift boundary (line 106) and explicitly defers d²=0 to DeRham. B-543 is the DeRham-side nilpotence; the DiffForm-side composability ledger (without d²=0 assertion) is the missing precursor that the DeRham proof would consume. Two-step continuation row is a classic composite consequence with clear binder shape. Lands in 114_diffform_exterior_derivative_boundary.tex (158 lines).
-
----
-
-
 ### B-567 - Hash second-preimage success is irreflexive on the message
 
 | field | value |
@@ -141,7 +90,6 @@ Rationale:
 The Banach bounded-operator carrier is defined at papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex:1-31 with four carrier rows (classifier-respect, additivity, scalar action, RealUp bound). The zero operator carrier is constructed as a theorem at the same file, line 145 (B-480 on the BOARD). The IDENTITY operator carrier, by contrast, is only referenced as a hypothesis at bounded_linear_operator_composition.tex:319 ('Assume also that the source and target identity maps carry the unit bound: BanachBLOp(C,C,id_C,1_RealUp,I_C)'); no theorem CONSTRUCTS this carrier from the BanachUp axioms. A grep for `Banach.*identity.*operator.*carrier` returns no theorem-environment match across papers/bedc/parts/, and no Lean target named BanachIdentityBoundedLinearOperator_carrier or similar exists under lean4/BEDC/. The construction is a concrete one-shot proof using Banach C's classifier reflexivity, the RealUp multiplicative-identity row 1·r ~ r, and 1 ≥ 0; it parallels the zero-operator carrier proof at bounded_linear_operator_obligations.tex:163-194 in shape but uses different scalar-row witnesses, so it is not a parameter echo. Filling this gap also discharges the unit-ledger hypothesis hand-waved at line 319 of the composition file.
 
 ---
-
 
 ### B-569 - Banach bounded operator zero right-composition annihilation
 
@@ -192,7 +140,6 @@ The chapter already proves the LEFT version `thm:polynomial-multiplication-left-
 
 ---
 
-
 ### B-571 - AffineSpace action by the zero vector classifies with the carried point
 
 | field | value |
@@ -216,7 +163,6 @@ Rationale:
 The chapter proves the converse direction `thm:affinespace-separation-obligation` at 184_affinespace_namecert_construction.tex:84 ('if zero-translation acts sending p to ~q, then AffCls identifies p, q'), but the forward fact 'act(p, 0_V) ~ p' is not stated. Standard textbook (Berger Geometry I Ch.II §2.1, Audin Geometry §I.1: translation by 0 is the identity action). The proof reuses `thm:affinespace-action-closure-obligation` to carry the endpoint and `thm:affinespace-separation-obligation` to convert the zero-translation hsame witness into AffCls identity classification. File is 209 lines. Closes in 1-2 rounds; no oracle escalation needed because all infrastructure is already in this file.
 
 ---
-
 
 ### B-572 - ConvexSet pointwise (Minkowski) sum closes under the binary affine combination row
 
@@ -242,7 +188,6 @@ The chapter has intersection (`thm:convexset-pointwise-intersection-affine-combi
 
 ---
 
-
 ### B-573 - InnerProduct norm-squared of scalar action factors as scalar self-product times norm-squared
 
 | field | value |
@@ -266,4 +211,3 @@ Rationale:
 The chapter proves `thm:innerproduct-norm-squared-carrier-row` (carrier transport, 25_polynomial_literal_addtrim_eval would not be, this is innerproduct/norm_metric_seed.tex:25) and the linearity row `thm:innerproduct-vecspace-linearity-row` (innerproduct/core_surface.tex:121) handles both additive and scalar-action arguments with the conjugate handling promised on the conjugate-linear side. Polarization-difference and parallelogram are in the parallelogram seed. But the explicit norm-scaling identity ||r·x||²_I ~ (r·conj(r))·||x||²_I is missing — standard textbook (Folland Real Analysis Ch.5 §5.5, Conway Functional Analysis I §I.1.5: 'inner product is conjugate-bilinear, hence ||rx||² = |r|²||x||²'). Proof: apply linearity at left slot to extract r, then linearity at right slot with conjugation to extract conj(r), then scalar associativity. File norm_metric_seed.tex is only 101 lines. Closes in 2-3 rounds; the only nontrivial step is checking the conjugate-linearity clause of the existing linearity row at the right argument, which the row explicitly promises (core_surface.tex:140, 'the conjugate argument handled by the displayed conjugation row when the source uses that side as the conjugate-linear argument').
 
 ---
-
