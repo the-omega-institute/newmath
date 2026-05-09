@@ -141,3 +141,25 @@ classifiers and the BEDC continuation relation.
   \notclaimed{It does not claim Lie integration uniqueness, bridgeChecked verification, or closure outside the displayed public adjoint-representation rows.}
   \upgradepath{There is no further paper-side closure upgrade beyond standard-bridge verification.}
 \end{closurestatus}
+
+\begin{theorem}[AdjointRep multiplicative action row]
+\label{thm:adjointrep-multiplicative-action-row}
+Let $g$ and $h$ be carried $\LieGroupUp$ histories in the source surface of $\AdjointRepUp$, and let $t$ be a carried $\LieAlgebraUp$ history. Write $gh$ for the product history read by the $\LieGroupUp$ multiplication row, write $\mathrm{Ad}_{g}(t)$ for the carried adjoint-action endpoint supplied by the $\AdjointRepUp$ conjugation row, and write $\sim_{\mathfrak g}$ for the target $\LieAlgebraUp$ endomap classifier. Then the product action endpoint and the iterated action endpoint are both carried by the displayed automorphism-target row, and
+$$
+\mathrm{Ad}_{gh}(t)\sim_{\mathfrak g}\mathrm{Ad}_{g}(\mathrm{Ad}_{h}(t)).
+$$
+This comparison is a pointwise endomap-classifier row over the $\LieAlgebraUp$ target, not an equality of host maps and not an additional group-action bridge.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:adjointrep-dependency-source-obligation}, the only group-side rows available to $\AdjointRepUp$ are the $\LieGroupUp$ carrier, classifier, identity, multiplication, inverse, and conjugation rows, and the only algebra-side target rows are the $\LieAlgebraUp$ carrier, classifier, bracket, and adjoint endomap surface. Thus $gh$ is the product history supplied by the group multiplication row inside the same source boundary.
+
+Apply \autoref{thm:adjointrep-conjugation-carrier-obligation} first to $h$ and $t$. The endpoint $\mathrm{Ad}_{h}(t)$ is a displayed $\mathsf{BHist}$ action endpoint over the algebra input row. Applying the same carrier obligation to $g$ and this endpoint carries the iterated endpoint $\mathrm{Ad}_{g}(\mathrm{Ad}_{h}(t))$. Applying it to $gh$ and $t$ carries the product endpoint $\mathrm{Ad}_{gh}(t)$.
+
+The comparison row comes from the $\LieGroupUp$ source, not from an external action. The concrete singleton source surface of \autoref{thm:liegroup-singleton-adjointrep-source-surface} exports the conjugation operation and its compatibility row; the compatibility itself is \autoref{thm:liegroup-singleton-conjugation-action-law}, which classifies conjugation by the product word with the corresponding iterated conjugation endpoint. Reading that row with the action input supplied by the $\AdjointRepUp$ carrier gives the BEDC endpoint comparison between $\mathrm{Ad}_{gh}(t)$ and $\mathrm{Ad}_{g}(\mathrm{Ad}_{h}(t))$.
+
+It remains only to identify the target classifier. By \autoref{thm:adjointrep-automorphism-target-obligation}, the $\mathrm{Ad}$ target is an automorphism-style carrier over the $\LieAlgebraUp$ classifier: group multiplication supplies composition of action endpoints, while the algebra endomap rows keep the result over the algebra target classifier. Therefore the endpoint comparison just obtained is read pointwise as
+$$
+\mathrm{Ad}_{gh}(t)\sim_{\mathfrak g}\mathrm{Ad}_{g}(\mathrm{Ad}_{h}(t)).
+$$
+Finally, \autoref{thm:adjointrep-classifier-stability-obligation} records that all transport used in this reading is through $\hsame$, $\Cont$, and the two source $\NameCert$ classifiers. Hence the multiplicative action row is internal to the displayed $\AdjointRepUp$ ledger and invokes no host group action.
+\end{proof}
