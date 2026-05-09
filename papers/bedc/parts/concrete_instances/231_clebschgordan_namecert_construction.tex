@@ -8,3 +8,164 @@ The Clebsch-Gordan interface $\ClebschGordanUp$ packages, for a pair of irreduci
 
 \section{The certificate}
 \label{sec:clebschgordan-certificate}
+
+\begin{definition}[ClebschGordanUp BHist coupling packet]
+\label{def:clebschgordan-bhist-coupling-packet}
+A $\ClebschGordanUp$ coupling packet is a finite $\mathsf{BHist}$ tuple
+$$
+\mathcal{C}=(G,T,R,V_{1},V_{2},\tau,D,\Gamma,\theta,P,\lambda).
+$$
+The rows $G$, $T$, and $R$ are consumed certificates
+$\NameCert_{\LieGroupUp}$, $\NameCert_{\TensorProductUp}$, and
+$\NameCert_{\RepresentationRingUp}$. The rows $V_{1}$ and $V_{2}$ are the two
+irreducible source-representation histories, each read through $G$ and $R$.
+The row $\tau$ is the tensor-product endpoint history for
+$V_{1}\otimes V_{2}$ read through $T$.
+
+The finite decomposition ledger $D$ lists irreducible output histories
+$W_{j}$ with multiplicity histories $m_{j}$ and representation-ring
+summand rows in $R$. The coefficient ledger $\Gamma$ lists the displayed
+coupling-coefficient histories $\gamma_{a,b}^{j,q}$ that relate source basis
+histories for $V_{1}$ and $V_{2}$ to output basis histories for each
+$W_{j}$ and multiplicity slot $q$. The row $\theta$ is the componentwise
+$\hsame$ transport datum for $G,T,R,V_{1},V_{2},\tau,D,\Gamma$.
+
+The row $P$ is the $\mathsf{Pkg}$ provenance recording exactly the consumed
+LieGroupUp, TensorProductUp, RepresentationRingUp, decomposition, and
+coefficient rows. The finite ledger $\lambda$ is the $\Cont$ route containing
+only those displayed rows and their endpoint readbacks.
+\end{definition}
+
+\begin{theorem}[ClebschGordanUp carrier source obligation]
+\label{thm:clebschgordan-carrier-source-obligation}
+Every public carrier row of a $\ClebschGordanUp$ coupling packet is one of the
+displayed rows of
+\autoref{def:clebschgordan-bhist-coupling-packet}. In particular, the two
+irreducible source rows are read only through
+$\NameCert_{\LieGroupUp}$ and $\NameCert_{\RepresentationRingUp}$, and the
+tensor endpoint is read only through $\NameCert_{\TensorProductUp}$ together
+with those two source rows.
+\end{theorem}
+\begin{proof}
+Project an accepted packet to the tuple
+$\mathcal{C}=(G,T,R,V_{1},V_{2},\tau,D,\Gamma,\theta,P,\lambda)$. The carrier
+definition lists all public rows in that tuple, so no additional carrier row
+can be read by a downstream consumer.
+
+The two source rows $V_{1}$ and $V_{2}$ carry their group action through $G$
+and their representation-ring membership through $R$. The tensor endpoint
+$\tau$ is then the row supplied by $T$ on those same two source histories.
+
+Repacking these projections gives the carrier obligation: source
+irreducibles, tensor endpoint, decomposition entries, coefficients,
+transport, provenance, and continuation are all $\mathsf{BHist}$ rows of the
+same displayed packet.
+\end{proof}
+
+\begin{theorem}[ClebschGordanUp classifier transport obligation]
+\label{thm:clebschgordan-classifier-transport-obligation}
+Let $\mathcal{C}$ and $\mathcal{C}'$ be two
+\autoref{def:clebschgordan-bhist-coupling-packet} packets. A public
+$\ClebschGordanUp$ classifier row from $\mathcal{C}$ to $\mathcal{C}'$ is the
+componentwise $\hsame$ transport of the consumed
+$\NameCert_{\LieGroupUp}$, $\NameCert_{\TensorProductUp}$, and
+$\NameCert_{\RepresentationRingUp}$ rows, the two irreducible source rows, the
+tensor endpoint row, the finite decomposition ledger, the coefficient
+histories, the $\mathsf{Pkg}$ provenance row, and the finite $\Cont$ ledger.
+\end{theorem}
+\begin{proof}
+Unpack the transport row $\theta$ in the source packet and the corresponding
+row $\theta'$ in the target packet. Their displayed fields compare the three
+consumed certificates, the two source irreducibles, and the tensor endpoint
+by $\hsame$.
+
+The same componentwise comparison transports the decomposition ledger $D$:
+each output irreducible history, multiplicity history, and
+representation-ring summand row is matched with its transported target row.
+The coefficient ledger $\Gamma$ is transported entry by entry over the same
+source and output histories.
+
+Finally compare $P$ and $\lambda$ by the displayed provenance and continuation
+rows. These projections exhaust the public classifier, so no host equality of
+representations, basis vectors, or coefficient arrays is available outside
+the packet.
+\end{proof}
+
+\begin{theorem}[ClebschGordanUp ledger exactness obligation]
+\label{thm:clebschgordan-ledger-exactness-obligation}
+The exact ledger of a $\ClebschGordanUp$ coupling packet consists precisely
+of the tensor endpoint $\tau$, the finite decomposition ledger $D$, the
+coefficient-history ledger $\Gamma$, the componentwise $\hsame$ transport
+$\theta$, the provenance packet $P$, and the finite $\Cont$ route $\lambda$.
+Every accepted coupling read projects to these rows, and every family of
+these rows repacks as the public coupling ledger.
+\end{theorem}
+\begin{proof}
+For the projection direction, take an accepted coupling read and inspect its
+public packet. The tensor product endpoint is the row $\tau$, the finite list
+of irreducible summands and multiplicities is $D$, and the coupling
+coefficients are the histories in $\Gamma$.
+
+The transport, provenance, and continuation fields are then the displayed
+rows $\theta$, $P$, and $\lambda$. Because the packet definition contains no
+other public field, the projection cannot expose a host decomposition theorem
+or an unrecorded coefficient table.
+
+For the reverse direction, start with rows of exactly these six forms over
+the same consumed $G,T,R,V_{1},V_{2}$ source data. Insert them into the tuple
+of \autoref{def:clebschgordan-bhist-coupling-packet}. The resulting tuple is
+the public ledger, so exactness is projection followed by this repacking.
+\end{proof}
+
+\begin{theorem}[ClebschGordanUp source NameCert boundary]
+\label{thm:clebschgordan-source-namecert-boundary}
+The source boundary of a $\ClebschGordanUp$ coupling packet is exactly the
+triple of consumed certificates
+$\NameCert_{\LieGroupUp}$, $\NameCert_{\TensorProductUp}$, and
+$\NameCert_{\RepresentationRingUp}$ together with the two irreducible source
+rows and their tensor endpoint. It does not export a separate compact-group
+carrier, representation category, basis convention, or ambient Hilbert-space
+object.
+\end{theorem}
+\begin{proof}
+Project the dependency rows $G,T,R$ from the packet. The irreducible source
+histories $V_{1}$ and $V_{2}$ are scoped by $G$ and $R$, while the tensor row
+$\tau$ is scoped by $T$ and those same two source histories.
+
+The decomposition ledger and coefficient histories are downstream rows over
+this source boundary. They refer back to $G,T,R,V_{1},V_{2},\tau$ through
+$\mathsf{Pkg}$ provenance and through the displayed $\Cont$ route.
+
+Since no other source row occurs in the tuple, any consumer requesting a
+Clebsch-Gordan source can receive only those certificates and histories.
+Thus the boundary is a BEDC source boundary, not a hidden representation
+theory environment.
+\end{proof}
+
+\begin{theorem}[ClebschGordanUp consumer readback boundary]
+\label{thm:clebschgordan-consumer-readback-boundary}
+Every downstream consumer of a $\ClebschGordanUp$ coupling packet reads only
+the two irreducible source histories, the tensor endpoint, the finite
+decomposition ledger, the coefficient histories, the componentwise $\hsame$
+transport rows, the $\mathsf{Pkg}$ provenance, and the finite $\Cont$
+readback route of
+\autoref{def:clebschgordan-bhist-coupling-packet}. If two packets agree on
+those rows by the public classifier, then every such consumer has the same
+readback.
+\end{theorem}
+\begin{proof}
+Let a consumer be invariant under the displayed rows named in the statement.
+Project both packets to their source histories, tensor endpoint,
+decomposition ledger, coefficient histories, transport rows, provenance, and
+continuation route.
+
+The public classifier supplies componentwise $\hsame$ comparisons for those
+projections. The consumer therefore sees the same source inputs, the same
+tensor endpoint, the same finite decomposition entries, and the same
+coefficient histories after transport.
+
+By the ledger exactness obligation of
+\autoref{thm:clebschgordan-ledger-exactness-obligation}, there is no further
+public row that could affect the consumer. Repacking the transported
+projections gives identical readback at the consumer boundary.
+\end{proof}

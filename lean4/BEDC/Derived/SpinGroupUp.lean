@@ -225,35 +225,8 @@ theorem SpinGroupRootCarrier_ledger_semantic_exhaustion [AskSetup] [PackageSetup
               Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg := by
   intro carrier
   have coverage := SpinGroupRootCarrier_public_consumer_boundary_coverage carrier
-  have endpointSelf : hsame spinEndpoint spinEndpoint :=
-    hsame_refl spinEndpoint
-  have cert :
-      SemanticNameCert (fun h : BHist => hsame h spinEndpoint)
-        (fun h : BHist => hsame h spinEndpoint)
-        (fun h : BHist => hsame h spinEndpoint) hsame := {
-    core := {
-      carrier_inhabited := Exists.intro spinEndpoint endpointSelf
-      equiv_refl := by
-        intro h _carrier
-        exact hsame_refl h
-      equiv_symm := by
-        intro h k same
-        exact hsame_symm same
-      equiv_trans := by
-        intro h k r sameHK sameKR
-        exact hsame_trans sameHK sameKR
-      carrier_respects_equiv := by
-        intro h k sameHK carrierH
-        exact hsame_trans (hsame_symm sameHK) carrierH
-    }
-    pattern_sound := by
-      intro h carrierH
-      exact carrierH
-    ledger_sound := by
-      intro h carrierH
-      exact carrierH
-  }
-  exact And.intro cert
+  have threshold := SpinGroupRootCarrier_root_namecert_threshold_package carrier
+  exact And.intro threshold.left
     (And.intro coverage.left
       (And.intro coverage.right.left
         (And.intro coverage.right.right.left
@@ -588,5 +561,32 @@ theorem SpinGroupRootCarrier_root_namecert_obligation_package [AskSetup] [Packag
     ⟨cert, sourceScope.left, sourceScope.right.left, sourceScope.right.right.left,
       doubleCoverUnary, doubleCoverSame, sourceScope.right.right.right.left,
       sourceScope.right.right.right.right⟩
+
+theorem SpinGroupRootCarrier_double_cover_fiber_classifier [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger unit' vector'
+      product' boundary' cliffordEndpoint' groupWord' spinEndpoint' ledger' actionEndpoint
+      fiberLedger fiberLedger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      SpinGroupRootCarrier unit' vector' product' boundary' cliffordEndpoint' groupWord'
+          spinEndpoint' ledger' bundle pkg ->
+        hsame cliffordEndpoint cliffordEndpoint' ->
+          hsame groupWord groupWord' ->
+            Cont spinEndpoint actionEndpoint fiberLedger ->
+              Cont spinEndpoint' actionEndpoint fiberLedger' ->
+                hsame spinEndpoint spinEndpoint' ∧ hsame fiberLedger fiberLedger' ∧
+                  PkgSig bundle ledger pkg ∧ PkgSig bundle ledger' pkg := by
+  intro carrier carrier' sameClifford sameGroup fiberRow fiberRow'
+  have scope := SpinGroupRootCarrier_source_scope carrier
+  have scope' := SpinGroupRootCarrier_source_scope carrier'
+  have sameSpin : hsame spinEndpoint spinEndpoint' :=
+    cont_respects_hsame sameClifford sameGroup scope.right.right.right.left
+      scope'.right.right.right.left
+  have sameFiber : hsame fiberLedger fiberLedger' :=
+    cont_respects_hsame sameSpin (hsame_refl actionEndpoint) fiberRow fiberRow'
+  exact And.intro sameSpin
+    (And.intro sameFiber
+      (And.intro scope.right.right.right.right scope'.right.right.right.right))
 
 end BEDC.Derived.SpinGroupUp
