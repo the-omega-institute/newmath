@@ -189,7 +189,7 @@ tail -F $REPO/papers/bedc/scripts/logs/orchestrator.log \
        $REPO/scripts/logs/sync_daemon.log \
        $REPO/scripts/logs/auto_heal.log \
   | grep -E --line-buffered \
-      'Round FAILED|Merge failed —|3 consecutive failures|Codex did not complete|Codex could not resolve|\[recovery\]\s+(queued|picking|RECOVERED|unrecoverable|codex crashed|stopped)|Pre-merge hard gate failed|STALE MARKER|SHALLOW GROWTH|Phase B failed:|Phase C failed:|Phase D failed:|Traceback|^[^:]+:\s+\bException:|builder.*FAIL|deps_ready_relaxed.*[Tt]rue|closure_mark|memory_guard.*PAUSE|\[sync\] .*(codex could not resolve|push origin codex-auto-dev failed|merge failed without conflicts)|\[heal\] .*(detected|committed|push failed)'
+      'Round FAILED|Merge failed —|3 consecutive failures|Codex did not complete|Codex could not resolve|\[recovery\]\s+(queued|picking|RECOVERED|unrecoverable|codex crashed|stopped)|Pre-merge hard gate failed|STALE MARKER|SHALLOW GROWTH|Phase B failed:|Phase C failed:|Phase D failed:|Traceback|^[^:]+:\s+\bException:|builder.*FAIL|deps_ready_relaxed.*[Tt]rue|closure_mark|memory_guard.*PAUSE|Session complete:|draining [0-9]+ in-flight workers|Pipeline PID token is not current|\[sync\] .*(codex could not resolve|push origin codex-auto-dev failed|merge failed without conflicts)|\[heal\] .*(detected|committed|push failed)'
 ```
 
 Use `persistent: true`. Describe as `BEDC active error watch`.
@@ -210,8 +210,71 @@ What each pattern means and the cheapest fix:
 | `deps_ready_relaxed: True` | critical_path auto-relaxed `deps_ready_threshold` because strict yielded empty — informational |
 | `closure_mark` | Paper review proposed a `\closureat` for a chapter — positive signal that closure machinery is working |
 | `memory_guard.*PAUSE` | Lean orchestrator paused workers due to memory pressure — drop `lean_lake` or `lean` in `.pipeline_parallel.json` |
+| `Session complete: N succeeded, M failed` / `draining N in-flight workers` / `Pipeline PID token is not current` | **Orchestrator exited or got swapped out.** Under `--continuous`, neither side should ever print these — they mean the loop terminated and no one will dispatch new rounds. Run the liveness check below and, if a daemon is missing, restart it (see "Start" / "Stop" sections). This is the single most disruptive silent failure mode: paper-side keeps crunching closure_mark while lean side hasn't moved in hours, and `closed_horizons` totals can still drift up from paper alone, masking the outage. |
 
 If you need verbose per-phase visibility for a debugging session, swap the filter to `'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Merge conflict|Merging|Merged|[PR][0-9]+'`. Don't leave the verbose filter on a long-running monitor — it produces 20+ events/min during steady state and burns transcript tokens.
+
+### Liveness health check (run at every status query)
+
+Whenever the user asks `状态如何` / `现在如何` / `进展` / `report`, **before** computing closure deltas, run a one-shot daemon liveness probe. Three daemons must each appear with `PPID=1`:
+
+```bash
+ps -axo pid,ppid,etime,command \
+  | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py' \
+  | grep -v grep
+```
+
+Expected:
+
+- one `codex_revise.py --continuous` (paper)
+- one `codex_formalize.py --continuous` (lean)
+- one `sync_with_auto_dev.py` loop wrapper (sync)
+
+If any of the three is missing, **mention the absence in the same status report** and either restart it or escalate. Do not paper over a missing daemon by reporting only the closure totals — totals can keep climbing from one side alone (e.g. paper publishing closure_mark while lean has been dead for hours), and the user trusts your status replies to catch this.
+
+Symptom that should always trigger an immediate `ps` check:
+
+- **`paper=N>0, lean=0` for ≥30 min** in your hourly Round-SUCCESS counts. Paper proposing closure marks while lean produces zero rounds is the canonical signature of a dead lean orchestrator. Do not rationalize this as "work pool排空" without first verifying the lean process is actually alive — historical incident 2026-05-09: lean orchestrator naturally exited at 03:10 (`Session complete: 46 succeeded, 14 failed` after a PID-token swap), no one noticed for ~10h, multiple status replies kept saying "lean 端 work pool 长期排空" while the process was simply gone. Only the user's "并发数如何？" query at 13:10 prompted the `ps` that surfaced the outage.
+
+The active error watch grep above now includes `Session complete:` / `draining N in-flight workers` / `Pipeline PID token is not current` so this signal arrives in the monitor as soon as it happens — but if you missed it or the monitor was offline, the per-status liveness probe is the safety net.
+
+### Always run a second monitor: daemon liveness change watch
+
+Log-stream monitors only see what the orchestrators *write* — when an orchestrator silently exits, its log goes quiet and the log-stream monitor produces zero events (silence ≠ healthy). Pair the active error watch with a second persistent monitor that polls `ps` every 60s and emits **only on liveness state change**:
+
+```bash
+prev=""
+while true; do
+  ps_out=$(ps -axo pid,ppid,command 2>/dev/null \
+    | grep -E 'codex_revise\.py|codex_formalize\.py|sync_with_auto_dev\.py' \
+    | grep -v grep || true)
+  p=$(echo "$ps_out" | grep -c 'codex_revise\.py')
+  l=$(echo "$ps_out" | grep -c 'codex_formalize\.py')
+  s=$(echo "$ps_out" | grep -c 'sync_with_auto_dev\.py')
+  pa=$([ "$p" -ge 1 ] && echo 1 || echo 0)
+  la=$([ "$l" -ge 1 ] && echo 1 || echo 0)
+  sa=$([ "$s" -ge 1 ] && echo 1 || echo 0)
+  cur="paper=$pa lean=$la sync=$sa"
+  if [ "$cur" != "$prev" ]; then
+    ts=$(date '+%Y-%m-%d %H:%M:%S')
+    if [ "$pa" -eq 0 ] || [ "$la" -eq 0 ] || [ "$sa" -eq 0 ]; then
+      echo "[$ts] DAEMON DOWN — $cur (raw paper=$p lean=$l sync=$s; was: $prev)"
+    else
+      echo "[$ts] daemon liveness OK — $cur (raw paper=$p lean=$l sync=$s; was: $prev)"
+    fi
+    prev=$cur
+  fi
+  sleep 60
+done
+```
+
+Compare alive-as-boolean (≥1 process matches → 1, else 0), not raw counts. The paper bash wrapper makes `codex_revise.py` match twice; the sync wrapper periodically spawns a Python child that pushes the sync count from 1 to 2 for a few seconds every 600s. Comparing raw counts emits a no-op `liveness OK` event every 10 minutes during steady state. Comparing alive-booleans stays silent and only fires when a daemon actually disappears.
+
+`persistent: true`. Description: `BEDC daemon liveness change (paper/lean/sync)`.
+
+The `[ "$cur" != "$prev" ]` guard means it stays silent during steady-state (one event at boot to confirm initial state, then nothing until a change). When a daemon dies, you get a `DAEMON DOWN` notification within 60s — the missing log signal becomes a positive `ps` signal.
+
+Always run **both** monitors in parallel after starting the pipelines: log-stream (active error watch) + ps-based (daemon liveness change). The two cover orthogonal failure modes — log-stream catches loud failures (Tracebacks, recovery activity, `Session complete:` etc.); ps-based catches silent disappearance (process killed by OS, exit before flushing log, parent shell SIGHUP edge cases). Either alone misses an entire category.
 
 Because Monitor no longer holds the orchestrator, you can freely change the `grep` filter, kill the Monitor, or re-launch it with a different filter without affecting any in-flight round.
 
