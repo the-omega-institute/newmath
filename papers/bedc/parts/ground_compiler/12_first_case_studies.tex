@@ -318,6 +318,7 @@ Add and fold skeletons are source-level motifs. Derived interfaces such as $\Add
 
 \begin{definition}[List spine skeleton]
 \label{def:case-studies-list-spine}
+\leandef{BEDC.GroundCompiler.CaseStudies.ListSpineSkeleton}
 Given a source event $a$, define the list-spine skeleton
 $$
   S_{\mathrm{ListSkel}}(a,k)
@@ -329,11 +330,13 @@ Its explanatory reading is one-element spine, two-element spine, three-element s
 
 \begin{definition}[List constructor ledger motif]
 \label{def:case-studies-list-constructor-ledger}
+\leandef{BEDC.GroundCompiler.CaseStudies.ListConstructorLedgerMotif}
 A \emph{list constructor ledger motif} is ledger structure over a finite spine motif recording nil or cons shape, length, payload source, payload classifier, and constructor decomposition. This motif is not provided by bare finite repetition; it must be recognized by a list recognizer flow.
 \end{definition}
 
 \begin{proposition}[List spine skeleton shares finite repetition with Nat-like skeleton]
 \label{prop:case-studies-list-shares-repetition-with-nat}
+\leanchecked{BEDC.GroundCompiler.CaseStudies.list\_spine\_shares\_repetition\_with\_nat}
 If $a=0$, then
 $$
   S_{\mathrm{ListSkel}}(0,k)=S_{\mathrm{rep}}^{(k)}.

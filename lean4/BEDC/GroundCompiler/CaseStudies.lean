@@ -130,6 +130,58 @@ theorem fold_reuses_add :
   · exact fold_skeleton_extends_add
   · exact Or.inl ⟨[[BMark.b0], [BMark.b0, BMark.b0]], [], rfl⟩
 
+def ListSpineSkeleton (a : RawEvent) (k : Nat) : EventFlow :=
+  FiniteRepetitionPrefix a k
+
+def ListConstructorLedgerMotif
+    (R S spine ledger payloadSource payloadClassifier decomposition :
+      EventFlow) :
+    Prop :=
+  RecognizesMotif R S spine ReuseRole /\
+    Subflow ledger S /\
+    Subflow payloadSource S /\
+    Subflow payloadClassifier S /\
+    Subflow decomposition S /\
+    NonemptyEventFlow ledger
+
+theorem zero_run_append (k : Nat) :
+    List.append (ZeroRunEvent k) [BMark.b0] =
+      BMark.b0 :: ZeroRunEvent k := by
+  induction k with
+  | zero =>
+      rfl
+  | succ k ih =>
+      change
+        BMark.b0 :: List.append (ZeroRunEvent k) [BMark.b0] =
+        BMark.b0 :: BMark.b0 :: ZeroRunEvent k
+      exact congrArg (fun xs => BMark.b0 :: xs) ih
+
+theorem zero_repeat_raw_event (k : Nat) :
+    RepeatRawEvent [BMark.b0] k = ZeroRunEvent k := by
+  induction k with
+  | zero =>
+      rfl
+  | succ k ih =>
+      simp only [RepeatRawEvent]
+      rw [ih, zero_run_append]
+      rfl
+
+theorem list_spine_shares_repetition_with_nat (k : Nat) :
+    ListSpineSkeleton [BMark.b0] k = FiniteRepetitionSkeleton k := by
+  induction k with
+  | zero =>
+      rfl
+  | succ k ih =>
+      change
+        List.append (FiniteRepetitionPrefix [BMark.b0] k)
+          [RepeatRawEvent [BMark.b0] k] =
+        List.append (FiniteRepetitionSkeleton k) [ZeroRunEvent k]
+      rw [zero_repeat_raw_event k]
+      change
+        List.append (ListSpineSkeleton [BMark.b0] k) [ZeroRunEvent k] =
+        List.append (FiniteRepetitionSkeleton k) [ZeroRunEvent k]
+      rw [ih]
+
 structure CompletionMotifRecord where
   stage : EventFlow
   threadFlow : EventFlow
