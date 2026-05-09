@@ -109,7 +109,8 @@ import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
-import BEDC.Derived.DeRhamUp
+import BEDC.Derived.RegulatorUp
+import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
