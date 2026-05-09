@@ -790,6 +790,8 @@ import BEDC.Derived.S1Up.SharedPointComponent
 import BEDC.Derived.S1Up.VisibleSourceUnitEquationPackage
 import BEDC.Derived.S1Up.LedgerObligationSurface
 import BEDC.Derived.S1Up.EquationTransportObligationSurface
+import BEDC.Derived.S1Up.PublicConstructorPacket
+import BEDC.Derived.S1Up.PublicEndpointExactness
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.SingletonEquationSolver
 import BEDC.Derived.GroupUp.ConjugationParameter
