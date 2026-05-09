@@ -141,3 +141,21 @@ A zero-spine history is either \(\emp\) or has the form \(\Ezero(h)\); a unary h
 \begin{remark}[Bridge instead of identification]
 The kernel-distinct theorem above ensures that any identification of \(\AxisNatUp\) with \(\NatUp\) must come from a separately certified bridge, not from internal kernel reasoning. Such a bridge is the subject of Chapter~\ref{ch:concrete-instances-unary-direction-bridge}.
 \end{remark}
+
+\begin{theorem}[Zero-spine source shape exhaustion]
+\label{thm:zero-spine-source-shape-exhaustion}
+For every history $h:\mathsf{BHist}$, if $\mathsf{ZeroSpine}(h)$, then
+$$
+\HSame(h,\emp)\vee
+\exists h_{\mathrm{pred}}:\mathsf{BHist}.\;
+\HSame(h,\Ezero(h_{\mathrm{pred}}))\land
+\mathsf{ZeroSpine}(h_{\mathrm{pred}}).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the displayed generation of $\mathsf{ZeroSpine}(h)$ from \autoref{def:zero-spine-history-judgment}.
+
+In the empty-generator case, $h$ is $\emp$. The left disjunct follows from the empty generator for $\HSame(\emp,\emp)$.
+
+In the zero-extension generator case, the derivation has the displayed form $h=\Ezero(p)$ together with a predecessor derivation $\mathsf{ZeroSpine}(p)$. Choose $h_{\mathrm{pred}}:=p$ in the right disjunct. The history-sameness component is $\HSame(\Ezero(p),\Ezero(p))$, obtained by applying the $\Ezero$ history-sameness constructor to reflexivity on $p$, and the remaining component is exactly the predecessor derivation $\mathsf{ZeroSpine}(p)$.
+\end{proof}
