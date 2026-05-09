@@ -466,6 +466,7 @@ import BEDC.Derived.TopGroupUp.JointSourceDeterminacy
 import BEDC.Derived.TopGroupUp.RootDownstreamContinuityObligation
 import BEDC.Derived.TopGroupUp.ExportBoundary
 import BEDC.Derived.TopGroupUp.SourceFiberExportExactness
+import BEDC.Derived.TopGroupUp.RootSourceFiberExportExactness
 import BEDC.Derived.TopGroupUp.RootSourceFiberExportPacket
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
@@ -813,6 +814,7 @@ import BEDC.Derived.QuotientGroupUp.AbelianTerminalProjectionUniqueness
 import BEDC.Derived.QuotientGroupUp.IdentityFiberSaturation
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
+import BEDC.Derived.HomologyUp.StdBridge
 import BEDC.Derived.HomotopyUp
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.RingUp
