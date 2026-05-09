@@ -13,6 +13,29 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def FftBHistSourceCore
+    (complex fourier stage schedule factor ledger endpoint : BHist)
+    (bundle : ProbeBundle BHist) : Prop :=
+  UnaryHistory complex ∧ UnaryHistory fourier ∧ UnaryHistory factor ∧ InBundle stage bundle ∧
+    Cont complex fourier schedule ∧ Cont schedule factor ledger ∧ Cont ledger stage endpoint
+
+theorem FftBHistSourcePacket_butterfly_schedule_obligation
+    {complex fourier stage schedule factor ledger endpoint : BHist}
+    {bundle : ProbeBundle BHist} :
+    FftBHistSourceCore complex fourier stage schedule factor ledger endpoint bundle ->
+      InBundle stage bundle ∧ Cont complex fourier schedule ∧ Cont schedule factor ledger ∧
+        Cont ledger stage endpoint ∧ UnaryHistory schedule ∧ UnaryHistory ledger := by
+  intro packet
+  have scheduleUnary : UnaryHistory schedule :=
+    unary_cont_closed packet.left packet.right.left packet.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scheduleUnary packet.right.right.left
+      packet.right.right.right.right.right.left
+  exact
+    ⟨packet.right.right.right.left, packet.right.right.right.right.left,
+      packet.right.right.right.right.right.left, packet.right.right.right.right.right.right,
+      scheduleUnary, ledgerUnary⟩
+
 def FftBHistSourcePacket [AskSetup] [PackageSetup]
     (complex fourier stage butterfly factorization ledger endpoint : BHist)
     (stageName : ProbeName) (schedule : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
