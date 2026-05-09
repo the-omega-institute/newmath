@@ -284,7 +284,8 @@ such that $c\in\mathsf{LegalZStream}$, $P$ is a recognized analysis protocol flo
 
 \begin{theorem}[Well-formed analysis run is source-determined]
 \label{thm:analysis-pipeline-source-determined}
-If $(c,P,O)$ is a well-formed analysis run and $S=\mathsf{Decode}(c)$, then $O$ is determined by $S$, $P$, and the recognizer family recognized inside $P$.
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.well\_formed\_analysis\_run\_source\_determined}
+If $(c,P,O)$ is a well-formed analysis run and $S=\mathsf{Decode}(c)$, then the formal output descriptor of the run is determined by $S$, $P$, and the recognizer family recognized inside $P$.
 \end{theorem}
 
 \begin{proof}
@@ -293,16 +294,18 @@ Stages 0 and 1 uniquely decode $c$ into $S$. Stage 2 fixes the recognized protoc
 
 \begin{corollary}[Same decoded flow and protocol give same output]
 \label{cor:analysis-pipeline-same-decoded-same-output}
-If $\mathsf{Decode}(c)=\mathsf{Decode}(c')$ and both runs use the same recognized protocol flow $P$, then well-formed analysis runs produce the same output.
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.same\_decoded\_same\_protocol\_same\_output}
+If $\mathsf{Decode}(c)=\mathsf{Decode}(c')$ and both runs use the same recognized protocol flow $P$ and recognizer family, then the formal analysis output descriptors agree.
 \end{corollary}
 
 \begin{theorem}[Pipeline is invariant under compile-decode round trip]
 \label{thm:analysis-pipeline-roundtrip-invariant}
-If $c=\mathsf{Compile}(S)$, then for any recognized protocol flow $P$,
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.analysis\_roundtrip\_invariant}
+If $c=\mathsf{Compile}(S)$, then for any recognized protocol flow $P$ and recognizer family, the descriptor obtained from the code is the descriptor obtained from the decoded source:
 $$
-  \mathsf{Analyze}(c,P)
+  \mathsf{DescriptorFromCode}(\mathsf{Compile}(S),P,\mathcal R_P)
   =
-  \mathsf{Analyze}(\mathsf{Compile}(\mathsf{Decode}(c)),P).
+  \mathsf{CanonicalDescriptor}(S,P,\mathcal R_P).
 $$
 \end{theorem}
 

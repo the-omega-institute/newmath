@@ -312,6 +312,27 @@ structure WellFormedAnalysisRun where
     forall entry : CannotClaimEntry,
       List.Mem entry requiredClaims -> List.Mem entry claims
 
+structure AnalysisOutputDescriptor where
+  source : EventFlow
+  protocol : AnalysisProtocolCandidateFlow
+  recognizerFamily : List GeneratedRecognizer
+  stages : List AnalysisStage
+
+def CanonicalAnalysisOutput
+    (S : EventFlow) (P : AnalysisProtocolCandidateFlow)
+    (Rfam : List GeneratedRecognizer) : AnalysisOutputDescriptor where
+  source := S
+  protocol := P
+  recognizerFamily := Rfam
+  stages := AnalysisPipelineStages
+
+def AnalysisDescriptorFromCode
+    (c : List DisplayAlphabet) (P : AnalysisProtocolCandidateFlow)
+    (Rfam : List GeneratedRecognizer) : Option AnalysisOutputDescriptor :=
+  match Decode c with
+  | some S => some (CanonicalAnalysisOutput S P Rfam)
+  | none => none
+
 inductive FormalAnalysisProtocol :
     AnalysisProtocolCandidateFlow -> Prop where
   | recognized {R : GeneratedAnalysisProtocolRecognizer}
@@ -341,5 +362,26 @@ theorem metric_weights_require_protocol_flow
   cases hFormal with
   | protocol hRecorded =>
       exact hMissing hRecorded
+
+theorem well_formed_analysis_run_source_determined
+    (run : WellFormedAnalysisRun) :
+    AnalysisDescriptorFromCode run.code run.protocol run.recognizerFamily =
+      some
+        (CanonicalAnalysisOutput run.decoded run.protocol
+          run.recognizerFamily) := by
+  rw [AnalysisDescriptorFromCode, run.decodedByCode]
+
+theorem same_decoded_same_protocol_same_output
+    {c c' : List DisplayAlphabet} {S P Rfam}
+    (hc : Decode c = some S) (hc' : Decode c' = some S) :
+    AnalysisDescriptorFromCode c P Rfam =
+      AnalysisDescriptorFromCode c' P Rfam := by
+  rw [AnalysisDescriptorFromCode, hc, AnalysisDescriptorFromCode, hc']
+
+theorem analysis_roundtrip_invariant
+    (S P Rfam) :
+    AnalysisDescriptorFromCode (FlowEncoding S) P Rfam =
+      some (CanonicalAnalysisOutput S P Rfam) := by
+  rw [AnalysisDescriptorFromCode, flow_level_round_trip]
 
 end BEDC.GroundCompiler.AnalysisPipeline
