@@ -63,6 +63,36 @@ theorem p5_no_package_object_input :
 def PackageCandidate (S P : EventFlow) : Prop :=
   BEDC.GroundCompiler.NameCertGenerated.SourceSubflow P S
 
+def RecognizedPackageFlow
+    (R : GeneratedPackageRecognizer) (S P : EventFlow) : Prop :=
+  PackageCandidate S P /\
+    BEDC.GroundCompiler.PackageGenerated.PackageRecognitionRelation R P
+
+inductive PackageRoleKind : Type where
+  | source
+  | visible
+  | pattern
+  | classifier
+  | ledger
+  | seal
+
+def PackageRoleSubflow
+    (R : GeneratedPackageRecognizer) (S P part : EventFlow)
+    (_role : PackageRoleKind) : Prop :=
+  RecognizedPackageFlow R S P /\
+    PackageCandidate P part /\
+    NonemptyEventFlow part
+
+def CompletePackageRecognition
+    (R : GeneratedPackageRecognizer) (S P : EventFlow) : Prop :=
+  exists source visible pattern classifier ledger sealFlow : EventFlow,
+    PackageRoleSubflow R S P source PackageRoleKind.source /\
+      PackageRoleSubflow R S P visible PackageRoleKind.visible /\
+      PackageRoleSubflow R S P pattern PackageRoleKind.pattern /\
+      PackageRoleSubflow R S P classifier PackageRoleKind.classifier /\
+      PackageRoleSubflow R S P ledger PackageRoleKind.ledger /\
+      PackageRoleSubflow R S P sealFlow PackageRoleKind.seal
+
 theorem package_candidate_has_ambient_decomposition
     {S P : EventFlow} :
     PackageCandidate S P ->
