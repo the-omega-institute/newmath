@@ -123,11 +123,13 @@ as the number of recognized $\mu$-role occurrences listed in the recognized moti
 
 \begin{definition}[Candidate motif count]
 \label{def:metric-report-candidate-motif-count}
+\leandef{BEDC.GroundCompiler.MetricsFlow.CandidateMotifCount}
 The \emph{candidate motif count} for role $\mu$ is the number of $\mu$-like candidates listed in the candidate section. It is distinct from recognized motif count.
 \end{definition}
 
 \begin{proposition}[Candidate count is weaker than recognized count]
 \label{prop:metric-report-candidate-count-weaker}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.candidate\_count\_weaker}
 Candidate motif count cannot replace recognized motif count.
 \end{proposition}
 
@@ -137,6 +139,7 @@ Candidate count records shape or candidate policy. Recognized count requires gen
 
 \begin{corollary}[Missing recognizer does not imply zero]
 \label{cor:metric-report-missing-not-zero}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.missing\_recognizer\_not\_zero}
 If a motif recognizer is missing, the corresponding recognized motif count is undefined or recognizer-missing. It is not zero.
 \end{corollary}
 

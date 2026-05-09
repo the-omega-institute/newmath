@@ -180,6 +180,43 @@ def RecognizedMotifCount (profile : List MotifOccurrence) (role : EventFlow) :
     Nat :=
   MotifMultiplicity profile role
 
+def CandidateMotifCount (candidates : List MotifOccurrence) (role : EventFlow) :
+    Nat :=
+  MotifMultiplicity candidates role
+
+inductive MotifCountStatus : Type where
+  | recognized (count : Nat)
+  | undefined
+  | recognizerMissing
+  deriving DecidableEq
+
+def RecognizedMotifCountStatus
+    (profile : Option (List MotifOccurrence)) (role : EventFlow) :
+    MotifCountStatus :=
+  match profile with
+  | some recognized => MotifCountStatus.recognized (RecognizedMotifCount recognized role)
+  | none => MotifCountStatus.recognizerMissing
+
+theorem candidate_count_weaker :
+    exists candidates recognized : List MotifOccurrence,
+      exists role : EventFlow,
+        Not (CandidateMotifCount candidates role =
+          RecognizedMotifCount recognized role) := by
+  refine
+    ⟨[{ role := [],
+        support := [],
+        ledger := [],
+        recognizer := [] }],
+      [], [], ?_⟩
+  intro h
+  change 1 = 0 at h
+  cases h
+
+theorem missing_recognizer_not_zero {role : EventFlow} :
+    Not (RecognizedMotifCountStatus none role = MotifCountStatus.recognized 0) := by
+  intro h
+  cases h
+
 def SealDepth (profile : List MotifOccurrence) (sealRole : EventFlow) : Nat :=
   MotifMultiplicity profile sealRole
 
