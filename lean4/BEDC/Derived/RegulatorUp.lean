@@ -1,5 +1,6 @@
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.NumFieldUp
+import BEDC.Derived.RatUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
@@ -17,7 +18,9 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.DirichletUnitUp
+open BEDC.Derived.FieldExtUp
 open BEDC.Derived.NumFieldUp
+open BEDC.Derived.RatUp
 
 inductive RegulatorLedgerSpine : List BHist -> BHist -> Prop where
   | nil {endpoint : BHist} : UnaryHistory endpoint -> RegulatorLedgerSpine [] endpoint
@@ -146,5 +149,63 @@ theorem RegulatorRootInputPacket_root_namecert_threshold [AskSetup] [PackageSetu
     unary_cont_closed boundary.right.right.right.right.right.left
       boundary.right.right.right.right.left thresholdCont
   exact And.intro thresholdUnary (And.intro thresholdCont packet)
+
+theorem RegulatorRootInputPacket_numfield_finite_basis_boundary [AskSetup] [PackageSetup]
+    {duSource unit inverse law unitLedger lawLedger duProvenance nfSource rank layout provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegulatorRootInputPacket duSource unit inverse law unitLedger lawLedger duProvenance
+        nfSource rank layout provenance endpoint bundle pkg ->
+      NumFieldRatReflexiveCarrier nfSource ∧
+        RatHistoryCarrier (BHist.e1 BHist.Empty) ∧
+          Cont nfSource (BHist.e1 BHist.Empty) (append nfSource (BHist.e1 BHist.Empty)) ∧
+            RatHistoryClassifier (append nfSource (BHist.e1 BHist.Empty))
+              (append (FieldExtSingletonEmbedding nfSource) (BHist.e1 BHist.Empty)) ∧
+              UnaryHistory endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have boundary :=
+    RegulatorRootInputPacket_dirichletunit_input_boundary
+      (duSource := duSource) (unit := unit) (inverse := inverse) (law := law)
+      (unitLedger := unitLedger) (lawLedger := lawLedger) (duProvenance := duProvenance)
+      (nfSource := nfSource) (rank := rank) (layout := layout) (provenance := provenance)
+      (endpoint := endpoint) (bundle := bundle) (pkg := pkg) packet
+  have basisRows := NumFieldRatReflexive_finite_basis_witness boundary.right.left
+  exact And.intro boundary.right.left
+    (And.intro basisRows.left
+      (And.intro basisRows.right.left
+        (And.intro basisRows.right.right
+          (And.intro boundary.right.right.right.right.right.left
+            boundary.right.right.right.right.right.right.right.right))))
+
+theorem RegulatorRootInputPacket_dependency_ledger_factorization [AskSetup] [PackageSetup]
+    {duSource unit inverse law unitLedger lawLedger duProvenance nfSource rank layout provenance
+      endpoint determinant determinantLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegulatorRootInputPacket duSource unit inverse law unitLedger lawLedger duProvenance
+        nfSource rank layout provenance endpoint bundle pkg ->
+      RegulatorRootLedgerPacket duSource nfSource unit inverse rank layout determinant provenance
+        endpoint bundle pkg ->
+        Cont layout determinant determinantLedger ->
+          DirichletUnitHistoryCarrier duSource unit inverse law unitLedger lawLedger
+              duProvenance ∧
+            NumFieldRatReflexiveCarrier nfSource ∧ UnaryHistory determinantLedger ∧
+              hsame determinantLedger (append layout determinant) ∧ PkgSig bundle endpoint pkg := by
+  intro inputPacket ledgerPacket determinantLedgerCont
+  have inputBoundary :=
+    RegulatorRootInputPacket_dirichletunit_input_boundary
+      (duSource := duSource) (unit := unit) (inverse := inverse) (law := law)
+      (unitLedger := unitLedger) (lawLedger := lawLedger) (duProvenance := duProvenance)
+      (nfSource := nfSource) (rank := rank) (layout := layout) (provenance := provenance)
+      (endpoint := endpoint) (bundle := bundle) (pkg := pkg) inputPacket
+  have ledgerExact :=
+    RegulatorRootInputPacket_ledger_exactness
+      (dirichlet := duSource) (numfield := nfSource) (unit := unit) (inverse := inverse)
+      (rank := rank) (basis := layout) (determinant := determinant)
+      (provenance := provenance) (endpoint := endpoint) (determinantLedger := determinantLedger)
+      (bundle := bundle) (pkg := pkg) ledgerPacket determinantLedgerCont
+  exact And.intro inputBoundary.left
+    (And.intro inputBoundary.right.left
+      (And.intro ledgerExact.left
+        (And.intro ledgerExact.right.left ledgerExact.right.right.right)))
 
 end BEDC.Derived.RegulatorUp
