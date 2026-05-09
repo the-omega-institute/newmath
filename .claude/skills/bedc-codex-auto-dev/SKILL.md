@@ -238,6 +238,39 @@ Symptom that should always trigger an immediate `ps` check:
 
 The active error watch grep above now includes `Session complete:` / `draining N in-flight workers` / `Pipeline PID token is not current` so this signal arrives in the monitor as soon as it happens — but if you missed it or the monitor was offline, the per-status liveness probe is the safety net.
 
+### Always run a second monitor: daemon liveness change watch
+
+Log-stream monitors only see what the orchestrators *write* — when an orchestrator silently exits, its log goes quiet and the log-stream monitor produces zero events (silence ≠ healthy). Pair the active error watch with a second persistent monitor that polls `ps` every 60s and emits **only on liveness state change**:
+
+```bash
+prev=""
+while true; do
+  ps_out=$(ps -axo pid,ppid,command 2>/dev/null \
+    | grep -E 'codex_revise\.py|codex_formalize\.py|sync_with_auto_dev\.py' \
+    | grep -v grep || true)
+  paper=$(echo "$ps_out" | grep -c 'codex_revise\.py')
+  lean=$(echo "$ps_out"  | grep -c 'codex_formalize\.py')
+  sync=$(echo  "$ps_out" | grep -c 'sync_with_auto_dev\.py')
+  cur="paper=$paper lean=$lean sync=$sync"
+  if [ "$cur" != "$prev" ]; then
+    ts=$(date '+%Y-%m-%d %H:%M:%S')
+    if [ "$paper" -eq 0 ] || [ "$lean" -eq 0 ] || [ "$sync" -eq 0 ]; then
+      echo "[$ts] DAEMON DOWN — $cur (was: $prev)"
+    else
+      echo "[$ts] daemon liveness OK — $cur (was: $prev)"
+    fi
+    prev=$cur
+  fi
+  sleep 60
+done
+```
+
+`persistent: true`. Description: `BEDC daemon liveness change (paper/lean/sync)`.
+
+The `[ "$cur" != "$prev" ]` guard means it stays silent during steady-state (one event at boot to confirm initial state, then nothing until a change). When a daemon dies, you get a `DAEMON DOWN` notification within 60s — the missing log signal becomes a positive `ps` signal.
+
+Always run **both** monitors in parallel after starting the pipelines: log-stream (active error watch) + ps-based (daemon liveness change). The two cover orthogonal failure modes — log-stream catches loud failures (Tracebacks, recovery activity, `Session complete:` etc.); ps-based catches silent disappearance (process killed by OS, exit before flushing log, parent shell SIGHUP edge cases). Either alone misses an entire category.
+
 Because Monitor no longer holds the orchestrator, you can freely change the `grep` filter, kill the Monitor, or re-launch it with a different filter without affecting any in-flight round.
 
 ## 3-hour open-ended self-check loop
