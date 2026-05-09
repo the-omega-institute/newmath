@@ -152,6 +152,40 @@ and has no quotient, completion, $\mathsf{Classical}$ datum,
 metric-completeness certificate, or standard bridge to inspect.
 \end{proof}
 
+\begin{theorem}[RealUp StreamName-RegSeqRat reindexed ledger handoff]
+\label{thm:realup-streamname-regseqrat-reindexed-ledger-handoff}
+Let $\mathcal{W}$ be a $\StreamNameUp$--$\RegSeqRat$ reindexed window package
+whose selected rational classifier rows feed a finite $\RealUp$ observation
+window $W$. Then the package exposes exactly the $\RealUp$ finite seal ledger
+boundary for $W$: the selected unary observation row, the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the endpoint denominator
+rows, and the $\RegSeqRat$ dyadic source rows selected by the finite window. It
+exposes no host $\mathsf{Nat}$ index, host function, quotient, completion
+object, or unrecorded infinite stream.
+\end{theorem}
+\begin{proof}
+Start with the displayed reindexed window package. Apply
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion} to decompose its
+visible rows into the selected unary observation, the transported
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the endpoint denominator
+rows, and the $\RegSeqRat$ source rows supplied by the package.
+
+Next use \autoref{thm:streamname-real-regseq-finite-window-handoff}. It is the
+common handoff from the StreamName finite-window face to the RegSeqRat dyadic
+source face, so the selected rational classifier rows are the same rows read by
+the finite $\RealUp$ observation.
+
+Now apply \autoref{thm:realup-streamname-finite-window-ledger-boundary}. The
+RealUp seal boundary admits exactly the selected unary observation, the finite
+StreamName classifier row, the endpoint denominator rows, and the dyadic source
+rows as public ledger entries.
+
+Finally use \autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import}.
+It excludes the host index, host map, quotient, completion object, and
+unrecorded stream data from the reindexed package, so the package and the
+$\RealUp$ finite seal expose the same finite boundary.
+\end{proof}
+
 \begin{theorem}[RealUp finite-window exhaustion subwindow closure]
 \label{thm:realup-finite-window-exhaustion-subwindow-closure}
 Whenever a $\RealUp$ finite-window exhaustion package is exposed for a
