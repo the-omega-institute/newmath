@@ -78,4 +78,23 @@ theorem no_derivcert_without_six_fields
   intro h
   exact h.right.right.right
 
+theorem derivcert_seal_is_source_subflow
+    {R : GeneratedDerivCertRecognizer} {D : DerivCertCandidateFlow}
+    {sealFlow : EventFlow} :
+    DerivCertSealSubflow R D sealFlow ->
+      DerivCertSourceSubflow sealFlow D := by
+  intro hSeal
+  exact hSeal.right
+
+theorem incomplete_derivcert_does_not_support_export
+    {D : DerivCertCandidateFlow} {N s : EventFlow} :
+    (forall R : GeneratedDerivCertRecognizer,
+      RecognizesDerivCert R D N s ->
+        Not (CompleteSixFieldDerivCertRecognition R D)) ->
+      Not (DerivCertFlow D N s) := by
+  intro hIncomplete hFlow
+  cases hFlow with
+  | intro R hRecognizes =>
+      exact hIncomplete R hRecognizes hRecognizes.right.right.right
+
 end BEDC.GroundCompiler.DerivCertGenerated

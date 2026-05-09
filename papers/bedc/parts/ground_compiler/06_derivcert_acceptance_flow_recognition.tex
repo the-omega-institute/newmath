@@ -199,6 +199,7 @@ The field names source, classifier, exactness, ledger, stability, and strength a
 
 \begin{definition}[DerivCert-seal subflow]
 \label{def:derivcert-generated-seal-subflow}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.DerivCertSealSubflow}
 If $\mathsf{RecognizesDerivCert}(R_D,D,N,s)$ and $R_D$ recognizes a terminal subflow $\sigma_D$ of $D$ as expressing derivation-certificate completion, then $\sigma_D$ is a \emph{DerivCert-seal subflow}, written
 $$
   \mathsf{DerivCertSeal}_{R_D}(D,\sigma_D).
@@ -225,6 +226,7 @@ $$
 
 \begin{proposition}[DerivCert seal is not the channel terminator]
 \label{prop:derivcert-generated-seal-not-channel-terminator}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.derivcert\_seal\_is\_source\_subflow}
 If $\mathsf{DerivCertSeal}_{R_D}(D,\sigma_D)$, then $\sigma_D$ is a source-level subflow and not the channel-level terminator $11$.
 \end{proposition}
 
@@ -240,6 +242,7 @@ A recognized derivation-certificate flow must have complete six-field recognitio
 
 \begin{theorem}[Incomplete DerivCert flow does not support export]
 \label{thm:derivcert-generated-incomplete-does-not-support-export}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.incomplete\_derivcert\_does\_not\_support\_export}
 If an event flow $D$ lacks any one of the recognized source, classifier, exactness, ledger, stability, or strength field subflows, then $D$ cannot serve as a recognized derivation-certificate flow for $N$ at $s$.
 \end{theorem}
 
