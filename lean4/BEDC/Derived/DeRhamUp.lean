@@ -63,6 +63,17 @@ theorem DeRhamBoundary_zero_endpoint_transport {d : BHist -> BHist} {b b' : BHis
         (Exists.intro preimage (hsame_trans sameBoundary samePreimage))
         (hsame_trans sameBoundary sameZero)
 
+theorem DeRhamBoundary_hsame_transport_with_empty_endpoint
+    {d : BHist -> BHist} {b b' : BHist} :
+    DeRhamBoundary d b -> hsame b' b ->
+      DeRhamBoundary d b' ∧ (hsame b BHist.Empty -> hsame b' BHist.Empty) := by
+  intro boundary sameBoundary
+  cases boundary with
+  | intro preimage samePreimage =>
+      exact And.intro
+        (Exists.intro preimage (hsame_trans sameBoundary samePreimage))
+        (fun sameEmpty => hsame_trans sameBoundary sameEmpty)
+
 def DeRhamDoubleExteriorPacket
     (d : BHist -> BHist) (omega eta theta zero : BHist) : Prop :=
   hsame eta (d omega) ∧ hsame theta (d eta) ∧
@@ -201,6 +212,27 @@ theorem DeRhamStandardBoundaryBridgePacket_boundary_preimage_threshold
   exact And.intro boundary.right.left
     (And.intro boundary.left (And.intro boundary.right.right packet.right))
 
+theorem DeRhamStandardBoundaryBridgePacket_classifier_transport
+    {d : BHist -> BHist} {omega eta theta theta' zero provenance bridge bridge' : BHist} :
+    DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
+      hsame theta' theta ->
+        Cont provenance theta' bridge' ->
+          DeRhamBoundary d theta' ∧ hsame theta' zero ∧ hsame (d eta) BHist.Empty ∧
+            hsame bridge bridge' := by
+  intro packet sameTheta' bridgeRow'
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
+  cases boundary.right.left with
+  | intro preimage sameThetaPreimage =>
+      have boundaryTheta' : DeRhamBoundary d theta' :=
+        Exists.intro preimage (hsame_trans sameTheta' sameThetaPreimage)
+      have sameTheta'Zero : hsame theta' zero :=
+        hsame_trans sameTheta' boundary.left
+      have sameBridge : hsame bridge bridge' :=
+        cont_respects_hsame (hsame_refl provenance) (hsame_symm sameTheta') packet.right
+          bridgeRow'
+      exact And.intro boundaryTheta'
+        (And.intro sameTheta'Zero (And.intro boundary.right.right sameBridge))
+
 theorem DeRhamBoundarySourceLedgerPacket_endpoint_transport
     {d : BHist -> BHist} {omega eta theta theta' zero graphLedger endpointLedger : BHist} :
     DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger ->
@@ -290,5 +322,26 @@ theorem DeRhamBoundarySourcePacket_stability
             Exists.intro preimage (hsame_trans sameTheta boundaryTheta)
           exact And.intro (And.intro boundaryTheta' zeroEmpty)
             (And.intro boundaryTheta' zeroEmpty)
+
+theorem DeRhamBoundarySourcePacket_consumer_exactness
+    {d : BHist -> BHist} {omega eta theta theta' zero : BHist} :
+    DeRhamDoubleExteriorPacket d omega eta theta zero ->
+      hsame theta' theta ->
+        DeRhamBoundarySourcePacket d theta' zero ∧ DeRhamBoundary d theta' ∧
+          hsame theta' zero ∧ hsame (d eta) BHist.Empty ∧ hsame zero BHist.Empty := by
+  intro packet sameTheta'
+  have boundaryRows := DeRhamDoubleExteriorPacket_boundary packet
+  have boundaryTheta' : DeRhamBoundary d theta' := by
+    cases boundaryRows.right.left with
+    | intro preimage sameThetaPreimage =>
+        exact Exists.intro preimage (hsame_trans sameTheta' sameThetaPreimage)
+  have theta'Zero : hsame theta' zero :=
+    hsame_trans sameTheta' boundaryRows.left
+  have zeroEmpty : hsame zero BHist.Empty :=
+    packet.right.right.right.right
+  exact And.intro (And.intro boundaryTheta' zeroEmpty)
+    (And.intro boundaryTheta'
+      (And.intro theta'Zero
+        (And.intro boundaryRows.right.right zeroEmpty)))
 
 end BEDC.Derived.DeRhamUp
