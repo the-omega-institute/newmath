@@ -219,6 +219,27 @@ def BridgeMotif
     NonemptyEventFlow noHostLeakLedger /\
     NonemptyEventFlow bridgeSeal
 
+def BridgeCandidateMotif
+    (R : GeneratedMotifRecognizer)
+    (S M sourceFlow targetLikeFlow motifOverlap translationCandidate
+      missingSoundnessFlow missingReflectionFlow noHostLeakLedger : EventFlow) :
+    Prop :=
+  RecognizesMotif R S M BridgeRole /\
+    Subflow sourceFlow M /\
+    Subflow targetLikeFlow M /\
+    Subflow motifOverlap M /\
+    Subflow translationCandidate M /\
+    Subflow missingSoundnessFlow M /\
+    Subflow missingReflectionFlow M /\
+    Subflow noHostLeakLedger M /\
+    NonemptyEventFlow sourceFlow /\
+    NonemptyEventFlow targetLikeFlow /\
+    NonemptyEventFlow motifOverlap /\
+    NonemptyEventFlow translationCandidate /\
+    NonemptyEventFlow missingSoundnessFlow /\
+    NonemptyEventFlow missingReflectionFlow /\
+    NonemptyEventFlow noHostLeakLedger
+
 theorem no_external_motif_input
     {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
     MotifOccurrence R S M mu ->
