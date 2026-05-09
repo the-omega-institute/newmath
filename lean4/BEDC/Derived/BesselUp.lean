@@ -139,4 +139,64 @@ theorem BesselRootPacket_holomorphic_consumer_boundary [AskSetup] [PackageSetup]
         (And.intro holomorphicRow
           (And.intro endpointRow pkgSig))))
 
+theorem BesselRootPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {ode holomorphic order sourceEndpoint targetEndpoint recurrence transport provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BesselRootPacket ode holomorphic order sourceEndpoint targetEndpoint recurrence transport
+        provenance endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) (fun row : BHist => hsame row endpoint)
+          hsame ∧
+        UnaryHistory ode ∧ UnaryHistory holomorphic ∧ UnaryHistory recurrence ∧
+          UnaryHistory transport ∧ UnaryHistory endpoint ∧
+            hsame recurrence (append sourceEndpoint targetEndpoint) ∧
+              hsame transport (append recurrence order) ∧
+                hsame endpoint (append transport provenance) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have rows := BesselRootPacket_root_ode_source_obligation packet
+  have holomorphicUnary : UnaryHistory holomorphic :=
+    packet.right.left
+  have endpointRow : Cont transport provenance endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed rows.right.right.right.right.right.left provenanceUnary endpointRow
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) (fun row : BHist => hsame row endpoint)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (hsame_refl endpoint)
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows carrierRow
+        exact hsame_trans (hsame_symm sameRows) carrierRow
+    }
+    pattern_sound := by
+      intro _row carrier
+      exact carrier
+    ledger_sound := by
+      intro _row carrier
+      exact carrier
+  }
+  exact And.intro cert
+    (And.intro rows.left
+      (And.intro holomorphicUnary
+        (And.intro rows.right.right.right.right.left
+          (And.intro rows.right.right.right.right.right.left
+            (And.intro endpointUnary
+              (And.intro rows.right.right.right.right.right.right.left
+                (And.intro rows.right.right.right.right.right.right.right.left
+                  (And.intro endpointRow rows.right.right.right.right.right.right.right.right))))))))
+
 end BEDC.Derived.BesselUp
