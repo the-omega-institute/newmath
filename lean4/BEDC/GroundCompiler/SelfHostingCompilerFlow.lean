@@ -1,11 +1,13 @@
 import BEDC.GroundCompiler.ChannelEncoding
 import BEDC.GroundCompiler.EventFlow
+import BEDC.GroundCompiler.TheoremGenerated
 
 namespace BEDC.GroundCompiler.SelfHostingCompilerFlow
 
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.ChannelEncoding
 open BEDC.GroundCompiler.EventFlow
+open BEDC.GroundCompiler.TheoremGenerated
 
 def CompilerCandidateFlow : Type := EventFlow
 
@@ -340,6 +342,30 @@ theorem invisible_bootstrap_blocks_certification {C : CompilerCandidateFlow} :
         Not (RemainingBootstrapBoundary C) := by
   intro _hUndischarged hNotRecorded hBoundary
   exact hNotRecorded hBoundary.right
+
+inductive CompilerTheoremTopic : Type where
+  | channelRoundTrip
+  | decodeEncode
+  | recognizerSoundness
+  | recognizerCompleteness
+  | compilerSelfHosting
+  | bootstrapDischarge
+
+def CompilerTheoremPackage (T : TheoremCandidateFlow) : Prop :=
+  TheoremFlow T /\ exists _topic : CompilerTheoremTopic, NonemptyEventFlow T
+
+theorem compiler_theorem_code_is_theorem_code
+    {T : TheoremCandidateFlow} :
+    CompilerTheoremPackage T -> TheoremCode T = FlowEncoding T := by
+  intro hPackage
+  exact theorem_code_not_separate hPackage.left
+
+theorem self_hosting_channel_bijection_independent :
+    (forall S : EventFlow, Decode (FlowEncoding S) = some S) /\
+      (forall c : List DisplayAlphabet,
+        LegalZStream c ->
+          exists S : EventFlow, Decode c = some S /\ FlowEncoding S = c) := by
+  exact channel_encoding_bijection
 
 def P9CompilerCandidate (S C : EventFlow) : Prop :=
   P9Subflow S C

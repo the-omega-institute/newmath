@@ -438,11 +438,13 @@ A component in the bootstrap boundary depends on external implementation or unpr
 
 \begin{definition}[Compiler theorem package]
 \label{def:self-hosting-compiler-theorem-package}
-A \emph{compiler theorem package} is a theorem flow whose statement concerns compiler behavior. Examples include channel round-trip theorems, decode-encode theorems, recognizer soundness theorems, recognizer completeness theorems, compiler self-hosting theorems, and bootstrap discharge theorems. Each such package must be a recognized theorem flow in the sense of \autoref{ch:ground-compiler-theorem-flow-recognition}.
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerTheoremPackage}
+A \emph{compiler theorem package} is a recognized theorem flow whose statement is witnessed as belonging to a compiler-theorem topic. The topic may be channel round trip, decode-encode behavior, recognizer soundness, recognizer completeness, compiler self-hosting, or bootstrap discharge. Each such package must be a recognized theorem flow in the sense of \autoref{ch:ground-compiler-theorem-flow-recognition}.
 \end{definition}
 
 \begin{proposition}[Compiler theorem code is theorem-flow code]
 \label{prop:self-hosting-compiler-theorem-code}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.compiler\_theorem\_code\_is\_theorem\_code}
 The code of a compiler theorem is
 $$
   \mathsf{Compile}(T),
@@ -471,6 +473,7 @@ A self-hosting theorem flow may state $\mathsf{SelfHosting}(C)$. Its dependencie
 
 \begin{theorem}[Self-hosting theorem is not required for channel bijection]
 \label{thm:self-hosting-compiler-channel-bijection-independent}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.self\_hosting\_channel\_bijection\_independent}
 The channel bijection
 $$
   \mathsf{EventFlow}\cong\mathsf{LegalZStream}
