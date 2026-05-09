@@ -479,12 +479,105 @@ rows determine the stated $\NameCert_{\BrownianUp}$ boundary and nothing
 outside the displayed packet.
 \end{proof}
 
+\begin{theorem}[Brownian carrier-classifier obligation package]
+\label{thm:brownian-carrier-classifier-obligation-package}
+For every displayed Brownian packet
+$\mathcal{B}=(M,C,T,I,N,P,\rho,\lambda)$, the carrier of
+\autoref{def:brownian-bhist-process-packet}, the classifier of
+\autoref{def:brownian-step-continuity-classifier}, the stability row of
+\autoref{thm:brownian-classifier-stability}, and the joint martingale--path
+classifier of \autoref{thm:brownian-continuity-martingale-joint-classifier}
+form the carrier/classifier obligation row for $\BrownianUp$. This row binds
+only the displayed $\mathsf{BHist}$ carrier, the $\UnaryHistory$ time row, the
+two dependency certificates, the shared $\Pkg$ provenance, and the finite
+$\Cont/\hsame$ transport ledger.
+\end{theorem}
+\begin{proof}
+Read the carrier from \autoref{def:brownian-bhist-process-packet}. Its
+coordinates are precisely $M,C,T,I,N,P,\rho,\lambda$, with no additional host
+probability-space, stochastic-process, or path-equality coordinate.
+
+Attach the classifier of \autoref{def:brownian-step-continuity-classifier}.
+The comparison is componentwise over the displayed rows, so the classifier has
+the same carrier boundary as the packet it compares.
+
+Use \autoref{thm:brownian-classifier-stability} for transport across $\hsame$
+and \autoref{thm:brownian-continuity-martingale-joint-classifier} for the
+joint martingale--continuous-map face. Together they show that $M$ and $C$
+move under the same Brownian classifier as the time, step, continuity,
+provenance, and ledger rows. This is exactly the carrier/classifier obligation
+row.
+\end{proof}
+
+\begin{theorem}[Brownian dependency-ledger obligation exactness]
+\label{thm:brownian-dependency-ledger-obligation-exactness}
+For every displayed Brownian packet
+$\mathcal{B}=(M,C,T,I,N,P,\rho,\lambda)$, the dependency surface of
+\autoref{thm:brownian-martingale-continuousmap-dependency-surface}, the step
+transport of \autoref{thm:brownian-step-ledger-transport}, the path-continuity
+ledger exactness of \autoref{thm:brownian-path-continuity-ledger-exactness},
+and the Brownian ledger exactness of \autoref{thm:brownian-ledger-exactness}
+form the dependency-ledger obligation row for $\BrownianUp$. Every dependency
+read is through $M$ or $C$, and every ledger read is through
+$T,I,N,P,\rho,\lambda$ and the displayed $\Cont/\hsame$ witnesses.
+\end{theorem}
+\begin{proof}
+First project the dependency rows with
+\autoref{thm:brownian-martingale-continuousmap-dependency-surface}. The
+martingale surface is read through $M$, and the continuous-path surface is read
+through $C$.
+
+Next attach the step ledger. Theorem~\ref{thm:brownian-step-ledger-transport}
+keeps adjacent-step and normal-step information on the displayed time,
+provenance, and finite transport rows.
+
+For the path face, use
+\autoref{thm:brownian-path-continuity-ledger-exactness}. It identifies the
+continuity display with $C$, $P$, and the same ledger $\lambda$.
+
+Finally apply \autoref{thm:brownian-ledger-exactness}. Since every public
+ledger coordinate is one of the displayed packet rows or a row already scoped
+by $M$ or $C$, the dependency-ledger row is exact.
+\end{proof}
+
+\begin{theorem}[Brownian obligation closure boundary]
+\label{thm:brownian-obligation-closure-boundary}
+The Brownian obligation surface is exactly the union of the carrier/classifier
+row of \autoref{thm:brownian-carrier-classifier-obligation-package}, the
+dependency-ledger row of
+\autoref{thm:brownian-dependency-ledger-obligation-exactness}, the NameCert
+surface of \autoref{thm:brownian-namecert-obligation-surface}, and the
+step-path boundary of
+\autoref{thm:brownian-step-path-namecert-closure-boundary}. Thus the
+$\BrownianUp$ obligation boundary exports precisely the displayed
+$M,C,T,I,N,P,\rho,\lambda$ packet, its $\NameCert_{\MartingaleUp}$ and
+$\NameCert_{\ContinuousMapUp}$ dependencies, its $\mathsf{BHist}$ and
+$\UnaryHistory$ rows, its $\Pkg$ provenance, and its finite $\Cont/\hsame$
+ledger.
+\end{theorem}
+\begin{proof}
+The carrier/classifier package supplies the admitted packet and the comparison
+surface over the displayed rows. It fixes the public object language in which a
+Brownian consumer may read $M,C,T,I,N,P,\rho,\lambda$.
+
+The dependency-ledger package supplies the exact dependency reads and the exact
+finite ledger reads. It prevents any extra host probability-space,
+stochastic-process, or path-equality row from entering through $M$, $C$, or the
+time-step and path-continuity ledgers.
+
+The NameCert surface identifies the public Brownian certificate over these
+same rows, and the step-path boundary identifies the common consumer boundary
+for Gaussian steps and path continuity. Combining the four rows gives the
+stated obligation surface, and each cited row has the same displayed packet as
+its boundary.
+\end{proof}
+
 \begin{closurestatus}{\BrownianUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope binds the Brownian step-continuity packet to the MartingaleUp dependency row, ContinuousMapUp path row, time/path rows, normal-step row, shared provenance, and finite ledger BHist rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope binds the Brownian step-continuity packet to the MartingaleUp dependency row, ContinuousMapUp path row, time/path rows, normal-step row, shared provenance, and finite ledger BHist rows.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.BrownianUp.BrownianStepContinuityClassifier\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \notclaimed{No standard Brownian motion, Gaussian measure construction, stochastic calculus, path-space completeness, or probability-space completeness theorem is claimed here.}
-  \upgradepath{Consolidated obligation closure requires carrier, classifier, stability, exactness, provenance, and ledger rows under one Brownian public boundary.}
+  \upgradepath{Scoped closure next binds each obligation row to the displayed MartingaleUp, ContinuousMapUp, BHist, UnaryHistory, Pkg, Cont, and hsame dependencies.}
 \end{closurestatus}
