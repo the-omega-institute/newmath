@@ -281,4 +281,19 @@ theorem encoder_totality_obligation (S : EventFlow) :
     exists c : List DisplayAlphabet, ExecutableEncoder S = c /\ Compiles S c := by
   exact ⟨FlowEncoding S, rfl, rfl⟩
 
+theorem decoder_completeness_obligation {c : List DisplayAlphabet}
+    {S : EventFlow} :
+    LegalZStream c -> Decodes c S ->
+      ExecutableDecoder c = DecoderOutcome.decoded S := by
+  intro _ h
+  unfold ExecutableDecoder
+  have hDecode : Decode c = some S := by
+    rw [h]
+    exact flow_level_round_trip S
+  rw [hDecode]
+
+theorem encoder_no_internal_terminator_obligation (w : RawEvent) :
+    NoAdjacentOneOne (BodyEncoding w) := by
+  exact body_encoding_no_adjacent_11 w
+
 end BEDC.GroundCompiler.ImplementationInterface
