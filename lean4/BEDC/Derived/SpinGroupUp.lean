@@ -174,4 +174,24 @@ theorem SpinGroupRootCarrier_root_namecert_obligation_surface [AskSetup] [Packag
         (And.intro scope.right.right.right.left
           (And.intro scope.right.right.left scope.right.right.right.right))))
 
+theorem SpinGroupRootCarrier_public_consumer_boundary_exhaustion [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger row : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      hsame row spinEndpoint ->
+        UnaryHistory row ∧ UnaryHistory spinEndpoint ∧ Cont cliffordEndpoint groupWord
+          spinEndpoint ∧ PkgSig bundle ledger pkg := by
+  intro carrier sameRowSpin
+  have sourceScope :
+      CliffordCarrierPackage unit vector product boundary cliffordEndpoint ∧
+        GroupSingletonCarrier groupWord ∧ UnaryHistory spinEndpoint ∧
+          Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg :=
+    SpinGroupRootCarrier_source_scope carrier
+  have rowUnary : UnaryHistory row :=
+    unary_transport sourceScope.right.right.left (hsame_symm sameRowSpin)
+  exact And.intro rowUnary
+    (And.intro sourceScope.right.right.left
+      (And.intro sourceScope.right.right.right.left sourceScope.right.right.right.right))
+
 end BEDC.Derived.SpinGroupUp
