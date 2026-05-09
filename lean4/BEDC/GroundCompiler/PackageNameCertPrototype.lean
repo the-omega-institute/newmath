@@ -38,6 +38,13 @@ inductive P5ReportDatum : Type where
 def P5Output : Type :=
   List P5ReportDatum
 
+def PackageReport : Type :=
+  P5Output
+
+inductive P5Artifact : Type where
+  | input (x : P5FormalInput)
+  | output (x : P5Output)
+
 structure PkgNameCertPrototype : Type where
   run : P5FormalInput -> P5Output
   packageRecognizer : GeneratedPackageRecognizer
@@ -113,6 +120,20 @@ def MissingPackageRole
   (forall sealFlow : EventFlow,
     Not (PackageRoleSubflow R S P sealFlow PackageRoleKind.seal))
 
+def VisibleOnlyPackageEvidence
+    (R : GeneratedPackageRecognizer) (S P visible : EventFlow) : Prop :=
+  PackageRoleSubflow R S P visible PackageRoleKind.visible /\
+    (forall source : EventFlow,
+      Not (PackageRoleSubflow R S P source PackageRoleKind.source)) /\
+    (forall pattern : EventFlow,
+      Not (PackageRoleSubflow R S P pattern PackageRoleKind.pattern)) /\
+    (forall classifier : EventFlow,
+      Not (PackageRoleSubflow R S P classifier PackageRoleKind.classifier)) /\
+    (forall ledger : EventFlow,
+      Not (PackageRoleSubflow R S P ledger PackageRoleKind.ledger)) /\
+    (forall sealFlow : EventFlow,
+      Not (PackageRoleSubflow R S P sealFlow PackageRoleKind.seal))
+
 theorem complete_package_recognition_has_ledger
     {R : GeneratedPackageRecognizer} {S P : EventFlow} :
     CompletePackageRecognition R S P -> PackageHasLedger R S P := by
@@ -173,6 +194,19 @@ theorem incomplete_package_not_package
                                           | inr hNoSeal =>
                                               exact hNoSeal sealFlow
                                                 hFields.right.right.right.right.right
+
+theorem visible_token_alone_not_package
+    {R : GeneratedPackageRecognizer} {S P visible : EventFlow} :
+    VisibleOnlyPackageEvidence R S P visible ->
+      Not (CompletePackageRecognition R S P) := by
+  intro hVisibleOnly
+  exact incomplete_package_not_package (Or.inl hVisibleOnly.right.left)
+
+theorem package_report_output_not_input
+    (report : PackageReport) (input : P5FormalInput) :
+    Not (P5Artifact.output report = P5Artifact.input input) := by
+  intro h
+  cases h
 
 theorem package_candidate_has_ambient_decomposition
     {S P : EventFlow} :

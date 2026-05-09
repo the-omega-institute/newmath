@@ -171,16 +171,19 @@ Complete package recognition requires all six recognized role subflows. If any i
 
 \begin{corollary}[Visible token alone is not a package]
 \label{cor:pkg-namecert-visible-token-not-package}
-A visible token or short event such as $01$, $011$, $100$, or $001$ is not by itself a package flow. Source, pattern, classifier, ledger, and seal data are required.
+\leanchecked{BEDC.GroundCompiler.PackageNameCertPrototype.visible\_token\_alone\_not\_package}
+A visible token or short event such as $01$, $011$, $100$, or $001$ is not by itself a complete package flow. A visible-only witness has a visible subflow but no recognized source, pattern, classifier, ledger, or seal subflow. Complete package recognition requires those role subflows, so visible-only evidence cannot be used as a complete recognized package flow.
 \end{corollary}
 
 \begin{definition}[Package report]
 \label{def:pkg-namecert-package-report}
+\leandef{BEDC.GroundCompiler.PackageNameCertPrototype.PackageReport}
 A \emph{package report} is a $P_5$ output view containing package candidates, recognized package flows, package source subflows, visible subflows, pattern subflows, classifier subflows, ledger subflows, seal subflows, missing package fields, package failure cases, and package cannot-claim annotations.
 \end{definition}
 
 \begin{principle}[Package report is output]
 \label{prin:pkg-namecert-package-report-output}
+\leanchecked{BEDC.GroundCompiler.PackageNameCertPrototype.package\_report\_output\_not\_input}
 A package report is an output view, not an input structure. Later stages must continue from decoded event flows and recognizer judgments, not from a report treated as a package object.
 \end{principle}
 
