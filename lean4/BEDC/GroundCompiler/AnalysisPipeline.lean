@@ -244,6 +244,74 @@ def StageCannotClaimAudit
     forall entry : CannotClaimEntry,
       List.Mem entry required -> List.Mem entry claims
 
+inductive BridgeObligationKind : Type where
+  | strongMotifOverlapWithoutBridgeFlow
+  | reuseLikeSourceWithoutReuseCert
+  | normalAddressWithoutClassifierExactness
+
+structure BridgeObligationCandidate where
+  kind : BridgeObligationKind
+  support : EventFlow
+  evidence : EventFlow
+
+def StageBridgeObligationDiscovery
+    (P policyFlow S : AnalysisProtocolCandidateFlow)
+    (candidates : List BridgeObligationCandidate) : Prop :=
+  (exists R : GeneratedAnalysisProtocolRecognizer,
+    AnalysisProtocolSubflow R P policyFlow
+      AnalysisProtocolRole.bridgeObligationPolicy) /\
+    forall candidate : BridgeObligationCandidate,
+      List.Mem candidate candidates ->
+        EventSubflow candidate.support S /\
+          EventSubflow candidate.evidence S /\
+          NonemptyEventFlow candidate.support
+
+inductive AnalysisReportKind : Type where
+  | motifReport
+  | metricReport
+  | ledgerAuditReport
+  | cannotClaimReport
+  | bridgeObligationReport
+  | distanceMatrix
+  | summaryVisualization
+
+structure AnalysisReportItem where
+  kind : AnalysisReportKind
+  support : EventFlow
+
+def StageReportGeneration
+    (P reportPolicyFlow O : AnalysisProtocolCandidateFlow)
+    (items : List AnalysisReportItem) : Prop :=
+  (exists R : GeneratedAnalysisProtocolRecognizer,
+    AnalysisProtocolSubflow R P reportPolicyFlow
+      AnalysisProtocolRole.reportPolicy) /\
+    NonemptyEventFlow O /\
+    forall item : AnalysisReportItem,
+      List.Mem item items -> EventSubflow item.support O
+
+structure WellFormedAnalysisRun where
+  code : List DisplayAlphabet
+  protocol : AnalysisProtocolCandidateFlow
+  output : EventFlow
+  decoded : EventFlow
+  familyFlow : AnalysisProtocolCandidateFlow
+  recognizerFamily : List GeneratedRecognizer
+  reportPolicyFlow : AnalysisProtocolCandidateFlow
+  reportItems : List AnalysisReportItem
+  requiredClaims : List CannotClaimEntry
+  claims : List CannotClaimEntry
+  legalCode : LegalZStream code
+  decodedByCode : Decode code = some decoded
+  recognizedProtocol : RecognizedAnalysisProtocolFlow protocol
+  familyExtracted :
+    exists R : GeneratedAnalysisProtocolRecognizer,
+      StageRecognizerFamilyExtraction R protocol familyFlow recognizerFamily
+  reportGenerated :
+    StageReportGeneration protocol reportPolicyFlow output reportItems
+  claimsRecorded :
+    forall entry : CannotClaimEntry,
+      List.Mem entry requiredClaims -> List.Mem entry claims
+
 inductive FormalAnalysisProtocol :
     AnalysisProtocolCandidateFlow -> Prop where
   | recognized {R : GeneratedAnalysisProtocolRecognizer}
