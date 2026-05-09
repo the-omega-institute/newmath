@@ -133,6 +133,44 @@ theorem JonesSkeinLedgerPacket_local_skein_window_composition
     (And.intro positiveRow
       (And.intro negativeRow smoothingRow))
 
+theorem JonesSkeinLedgerPacket_classifier_obligation
+    {diagram positive negative smoothing endpoint provenance contLedger diagram' positive'
+      negative' smoothing' endpoint' provenance' contLedger' : BHist}
+    {left right : ProbeBundle JonesSkeinBoundaryTag} :
+    JonesSkeinLedgerPacket diagram positive negative smoothing endpoint provenance contLedger left ->
+      JonesSkeinLedgerPacket diagram' positive' negative' smoothing' endpoint' provenance'
+          contLedger' right ->
+        hsame diagram diagram' ->
+          hsame positive positive' ->
+            hsame negative negative' ->
+              hsame endpoint endpoint' ->
+                hsame smoothing smoothing' ∧ hsame provenance provenance' ∧
+                  hsame contLedger contLedger' ∧
+                    InBundle JonesSkeinBoundaryTag.positive (bundleAppend left right) ∧
+                      InBundle JonesSkeinBoundaryTag.negative (bundleAppend left right) ∧
+                        InBundle JonesSkeinBoundaryTag.smoothing
+                          (bundleAppend left right) := by
+  intro leftPacket rightPacket sameDiagram samePositive sameNegative sameEndpoint
+  have sameSmoothing : hsame smoothing smoothing' :=
+    cont_respects_hsame samePositive sameNegative leftPacket.right.right.right.right.right.left
+      rightPacket.right.right.right.right.right.left
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameDiagram sameEndpoint
+      leftPacket.right.right.right.right.right.right.left
+      rightPacket.right.right.right.right.right.right.left
+  have sameLedger : hsame contLedger contLedger' :=
+    cont_respects_hsame sameProvenance sameEndpoint
+      leftPacket.right.right.right.right.right.right.right
+      rightPacket.right.right.right.right.right.right.right
+  have positiveRow : InBundle JonesSkeinBoundaryTag.positive (bundleAppend left right) :=
+    Iff.mpr inBundle_bundleAppend_iff (Or.inl leftPacket.right.left)
+  have negativeRow : InBundle JonesSkeinBoundaryTag.negative (bundleAppend left right) :=
+    Iff.mpr inBundle_bundleAppend_iff (Or.inl leftPacket.right.right.left)
+  have smoothingRow : InBundle JonesSkeinBoundaryTag.smoothing (bundleAppend left right) :=
+    Iff.mpr inBundle_bundleAppend_iff (Or.inl leftPacket.right.right.right.left)
+  exact And.intro sameSmoothing (And.intro sameProvenance (And.intro sameLedger
+    (And.intro positiveRow (And.intro negativeRow smoothingRow))))
+
 theorem JonesSkeinLedgerPacket_skein_boundary_no_confusion
     {diagram positive negative smoothing endpoint provenance contLedger : BHist}
     {skeinLedger : ProbeBundle JonesSkeinBoundaryTag} :
@@ -214,6 +252,53 @@ theorem JonesSkeinLedgerPacket_skein_classifier_determinacy
       (And.intro transported.right.right
         (And.intro transportedLedger
           transported.left.right.right.right.right.left)))
+
+def JonesSkeinLedgerPacket_classifier
+    (diagram positive negative smoothing endpoint provenance contLedger diagram' positive' negative'
+      smoothing' endpoint' provenance' contLedger' : BHist)
+    (skeinLedger skeinLedger' : ProbeBundle JonesSkeinBoundaryTag) : Prop :=
+  JonesSkeinLedgerPacket diagram positive negative smoothing endpoint provenance contLedger
+      skeinLedger ∧
+    JonesSkeinLedgerPacket diagram' positive' negative' smoothing' endpoint' provenance'
+        contLedger' skeinLedger' ∧
+      hsame diagram diagram' ∧ hsame positive positive' ∧ hsame negative negative' ∧
+        hsame smoothing smoothing' ∧ hsame endpoint endpoint' ∧
+          hsame provenance provenance' ∧ hsame contLedger contLedger'
+
+theorem JonesSkeinLedgerPacket_classifier_transport
+    {diagram positive negative smoothing endpoint provenance contLedger diagram' positive' negative'
+      smoothing' endpoint' endpoint'' provenance' provenance'' contLedger' contLedger'' : BHist}
+    {skeinLedger skeinLedger' : ProbeBundle JonesSkeinBoundaryTag} :
+    JonesSkeinLedgerPacket_classifier diagram positive negative smoothing endpoint provenance
+        contLedger diagram' positive' negative' smoothing' endpoint' provenance' contLedger'
+        skeinLedger skeinLedger' ->
+      hsame endpoint' endpoint'' ->
+        Cont diagram' endpoint'' provenance'' ->
+          Cont provenance'' endpoint'' contLedger'' ->
+            JonesSkeinLedgerPacket_classifier diagram positive negative smoothing endpoint provenance
+                contLedger diagram' positive' negative' smoothing' endpoint'' provenance''
+                contLedger'' skeinLedger skeinLedger' ∧
+              hsame provenance' provenance'' ∧ hsame contLedger' contLedger'' := by
+  intro classifier sameEndpoint transportedProvenance transportedLedger
+  have transported :=
+    JonesSkeinLedgerPacket_reidemeister_transport classifier.right.left (hsame_refl diagram')
+      sameEndpoint transportedProvenance transportedLedger
+  have sameEndpointBase : hsame endpoint endpoint'' :=
+    hsame_trans classifier.right.right.right.right.right.right.left sameEndpoint
+  have sameProvenanceBase : hsame provenance provenance'' :=
+    hsame_trans classifier.right.right.right.right.right.right.right.left transported.right.left
+  have sameLedgerBase : hsame contLedger contLedger'' :=
+    hsame_trans classifier.right.right.right.right.right.right.right.right transported.right.right
+  exact And.intro
+    (And.intro classifier.left
+      (And.intro transported.left
+        (And.intro classifier.right.right.left
+          (And.intro classifier.right.right.right.left
+            (And.intro classifier.right.right.right.right.left
+              (And.intro classifier.right.right.right.right.right.left
+                (And.intro sameEndpointBase
+                  (And.intro sameProvenanceBase sameLedgerBase))))))))
+    (And.intro transported.right.left transported.right.right)
 
 theorem JonesSkeinLedgerPacket_endpoint_classifier_exhaustion
     {diagram positive negative smoothing endpoint provenance contLedger : BHist}
@@ -318,6 +403,59 @@ theorem JonesSkeinLedgerPacket_namecert_obligation_surface
           (And.intro packet.right.right.right.left
             (And.intro packet.right.right.right.right.left
               (And.intro packet.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.left
+                  packet.right.right.right.right.right.right.right)))))))
+
+theorem JonesSkeinLedgerPacket_carrier_obligation
+    {diagram positive negative smoothing endpoint provenance contLedger : BHist}
+    {skeinLedger : ProbeBundle JonesSkeinBoundaryTag} :
+    JonesSkeinLedgerPacket diagram positive negative smoothing endpoint provenance contLedger
+        skeinLedger ->
+      SemanticNameCert (fun row : BHist => hsame row provenance)
+          (fun row : BHist => hsame row provenance)
+          (fun row : BHist => hsame row provenance) hsame ∧
+        InBundle JonesSkeinBoundaryTag.diagram skeinLedger ∧
+          InBundle JonesSkeinBoundaryTag.positive skeinLedger ∧
+            InBundle JonesSkeinBoundaryTag.negative skeinLedger ∧
+              InBundle JonesSkeinBoundaryTag.smoothing skeinLedger ∧
+                InBundle JonesSkeinBoundaryTag.endpoint skeinLedger ∧
+                  Cont diagram endpoint provenance ∧
+                    hsame provenance (append diagram endpoint) ∧
+                      Cont provenance endpoint contLedger := by
+  intro packet
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row provenance)
+          (fun row : BHist => hsame row provenance)
+          (fun row : BHist => hsame row provenance) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro provenance (hsame_refl provenance)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row other target sameRO sameOT
+        exact hsame_trans sameRO sameOT
+      carrier_respects_equiv := by
+        intro row other sameRO source
+        exact hsame_trans (hsame_symm sameRO) source
+    }
+    pattern_sound := by
+      intro row source
+      exact source
+    ledger_sound := by
+      intro row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro packet.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.right.left
                 (And.intro packet.right.right.right.right.right.right.left
                   packet.right.right.right.right.right.right.right)))))))
 

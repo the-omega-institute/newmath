@@ -115,6 +115,7 @@ import BEDC.Derived.CurvatureUp.SourceEnvelopeProjection
 import BEDC.Derived.CurvatureUp.CarrierBoundaryRow
 import BEDC.Derived.CurvatureUp.ManifoldBaseDependencyRow
 import BEDC.Derived.CurvatureUp.BundleFibreDependencyRow
+import BEDC.Derived.CurvatureUp.ConnectionDerivativeDependencyRow
 import BEDC.Derived.CurvatureUp.ExportDeterminacy
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
@@ -465,6 +466,8 @@ import BEDC.Derived.TopGroupUp.JointSourceDeterminacy
 import BEDC.Derived.TopGroupUp.RootDownstreamContinuityObligation
 import BEDC.Derived.TopGroupUp.ExportBoundary
 import BEDC.Derived.TopGroupUp.SourceFiberExportExactness
+import BEDC.Derived.TopGroupUp.RootSourceFiberExportExactness
+import BEDC.Derived.TopGroupUp.RootSourceFiberExportPacket
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -811,6 +814,7 @@ import BEDC.Derived.QuotientGroupUp.AbelianTerminalProjectionUniqueness
 import BEDC.Derived.QuotientGroupUp.IdentityFiberSaturation
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
+import BEDC.Derived.HomologyUp.StdBridge
 import BEDC.Derived.HomotopyUp
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.RingUp
