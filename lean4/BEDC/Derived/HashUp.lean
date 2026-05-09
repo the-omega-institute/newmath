@@ -10,6 +10,19 @@ open BEDC.FKernel.Cont
 def HashEvalTranscript (MsgCarrier DigCarrier : BHist -> Prop) (m d row : BHist) : Prop :=
   MsgCarrier m ∧ DigCarrier d ∧ Cont m d row
 
+theorem HashEvalTranscript_determinacy {MsgCarrier DigCarrier : BHist -> Prop}
+    {m d d' row row' : BHist} :
+    HashEvalTranscript MsgCarrier DigCarrier m d row ->
+      HashEvalTranscript MsgCarrier DigCarrier m d' row' ->
+        hsame row row' -> Cont m d row ∧ Cont m d' row' ∧ hsame d d' := by
+  intro transcript transcript' sameRows
+  have row'AtRow : Cont m d' row :=
+    cont_result_hsame_transport transcript'.right.right sameRows.symm
+  have sameDigest : hsame d d' :=
+    cont_left_cancel transcript.right.right row'AtRow
+  exact And.intro transcript.right.right
+    (And.intro transcript'.right.right sameDigest)
+
 def HashSecondPreimageSuccess
     (HashEval : BHist -> BHist -> Prop)
     (MsgClassifier DigClassifier : BHist -> BHist -> Prop)

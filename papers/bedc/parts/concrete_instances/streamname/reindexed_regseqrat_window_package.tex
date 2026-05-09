@@ -217,6 +217,61 @@ row, quotient row, or host index equality, the four selected source families are
 the whole common input surface for the two downstream consumers.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat reindexed window composition normal form]
+\label{thm:streamname-regseqrat-reindexed-window-composition-normal-form}
+Let
+$$
+\begin{gathered}
+W_0 \xrightarrow{\rho_1} W_1 \xrightarrow{\rho_2} \cdots
+\xrightarrow{\rho_n} W_n
+\end{gathered}
+$$
+be a finite chain of certified unary reindexers between $\StreamNameUp$ finite
+windows, and let $\rho_n\circ\cdots\circ\rho_1$ denote the composite reindexer
+carried by the displayed unary-history continuations. The package obtained by
+iterating the reindexed $\StreamNameUp$--$\RegSeqRat$ finite-window handoff along
+the chain exposes the same selected $\mathsf{RatHistoryClassifier}$ rows,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$, finite
+$\hsame/\Cont$, and downstream $\RegSeqRat$ handoff surface as the single
+package formed from the composite reindexer.
+
+No regularity witness, seal classifier, completion datum, quotient datum, or
+host index-equality row is imported by passing from the chain to the composite
+package.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite chain of certified unary reindexers.
+
+In the empty-chain case, apply
+\autoref{thm:streamname-regseqrat-reindexed-window-identity-handoff}. The
+identity package exposes exactly the unreindexed selected
+$\mathsf{RatHistoryClassifier}$ rows together with the visible
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$, finite
+$\hsame/\Cont$, and $\RegSeqRat$ handoff rows.
+
+For the induction step, assume the initial chain has already been repacked as
+the composite reindexer. Apply
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion} to the next
+one-step package and to the composite package. Both surfaces are exhausted by
+the displayed StreamName finite-window row, the selected rational-history
+classifier rows, the bundle and membership rows, the unary observations, and the
+downstream handoff ledger.
+
+Next use
+\autoref{thm:streamname-regseqrat-reindexed-window-consumer-determinacy}. Since
+the composite reindexer and the one-step extension display the same finite
+source rows after the carried $\hsame$ and $\Cont$ transports, every downstream
+consumer reads the same package surface.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-reindexed-window-selected-classifier-handoff}
+to identify the common selected classifier rows with the downstream
+$\RegSeqRat$ handoff surface. The boundary is exactly
+\autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import}: the normal
+form imports no regularity witness, seal classifier, completion datum, quotient
+datum, or host index-equality row.
+\end{proof}
+
 \begin{theorem}[StreamName RealUp subwindow ledger determinacy]
 \label{thm:streamname-realup-subwindow-ledger-determinacy}
 Let $\Omega$ and $\Omega'$ be two reindexed
