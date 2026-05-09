@@ -291,6 +291,49 @@ metric-completeness, order, arithmetic, standard bridge, or hidden selector row
 appears in the glued surface.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-classifier descent exactness]
+\label{thm:regseqrat-tail-classifier-descent-exactness}
+Let $\{W_i\}_{i\in I}$ be a finite family of selected finite $\RealUp$
+observation-window packages with compatible local selected $\RegSeqRat$
+tail-classifier rows on every certified overlap. Let $\rho$ be a certified
+unary $\StreamNameUp$ reindexing schedule from the displayed finite union
+window to a refined finite-window surface. Suppose $\rho$ preserves the
+displayed $\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows at each certified stage.
+
+Then the glued global $\RegSeqRat$ tail row descends uniquely through the
+reindexed finite-window surface. Every local selected row is the pullback of
+that descended row along its member-window readback, and the descent surface
+contains no quotient, completion, Classical representative, metric-completeness,
+arithmetic or order row, standard-bridge row, or hidden selector row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-tail-classifier-finite-cover-sheaf}. The compatible
+local selected tail-classifier rows glue to a unique global selected
+$\RegSeqRat$ tail row on the finite union window, and every local row is its
+pullback.
+
+Next transport that global row along the certified schedule. For one unary
+reindexing step use
+\autoref{thm:regseqrat-tail-classifier-reindexing-stability}; for a finite
+schedule use
+\autoref{thm:regseqrat-tail-classifier-reindexing-composition}. The displayed
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows are therefore the same rows seen on the
+refined finite-window surface.
+
+Finally apply
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness}. A second descended
+tail row with the same local pullbacks would pull back through the same
+displayed finite readback rows, so it is the transported global row. The same
+row inventory excludes quotient, completion, Classical representative,
+metric-completeness, arithmetic, order, standard-bridge, and hidden selector
+data.
+\end{proof}
+
 \begin{theorem}[RegSeqRat tail-classifier reindexing stability]
 \label{thm:regseqrat-tail-classifier-reindexing-stability}
 Let $W_0$ and $W_1$ be finite $\RealUp$ observation-window packages, and let
