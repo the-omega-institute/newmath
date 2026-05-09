@@ -1,10 +1,16 @@
 import BEDC.GroundCompiler.ChannelEncoding
+import BEDC.GroundCompiler.DerivCertGenerated
+import BEDC.GroundCompiler.TheoremGenerated
+import BEDC.GroundCompiler.ChapterFlow
 
 namespace BEDC.GroundCompiler.RecognizerFlows
 
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.ChannelEncoding
+open BEDC.GroundCompiler.DerivCertGenerated
 open BEDC.GroundCompiler.EventFlow
+open BEDC.GroundCompiler.TheoremGenerated
+open BEDC.GroundCompiler.ChapterFlow
 
 def RecognizerCertCandidateFlow : Type :=
   EventFlow
@@ -101,6 +107,28 @@ def PackageRecognizerLevel
   CertifiedRecognizer R rho /\
     forall S : EventFlow,
       RecognizesPkg R S -> FormalRecognitionEvidence R rho S
+
+def CertificateRecognizerLevel
+    (R : RecognizerCandidateFlow) (rho : RecognitionRole) : Prop :=
+  CertifiedRecognizer R rho /\
+    (forall S : EventFlow,
+      RecognizesNameCert R S -> FormalRecognitionEvidence R rho S) /\
+    (forall D N s : EventFlow,
+      DerivCertFlow D N s -> FormalRecognitionEvidence R rho D) /\
+    (forall A N s : EventFlow,
+      AcceptedFlow A N s -> FormalRecognitionEvidence R rho A)
+
+def TheoremRecognizerLevel
+    (R : RecognizerCandidateFlow) (rho : RecognitionRole) : Prop :=
+  CertifiedRecognizer R rho /\
+    forall T : TheoremCandidateFlow,
+      TheoremRecognitionRelation R T -> FormalRecognitionEvidence R rho T
+
+def ChapterRecognizerLevel
+    (R : RecognizerCandidateFlow) (rho : RecognitionRole) : Prop :=
+  CertifiedRecognizer R rho /\
+    forall C : ChapterCandidateFlow,
+      RecognizesChapter R C -> FormalRecognitionEvidence R rho C
 
 theorem formal_recognition_evidence_requires_certified
     {R : RecognizerCandidateFlow} {rho : RecognitionRole} {S : EventFlow} :
