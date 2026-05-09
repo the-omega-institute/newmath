@@ -64,6 +64,37 @@ def RingOfIntegersEquationLedgerCarrier [AskSetup] [PackageSetup]
     UnaryHistory ledger ∧ UnaryHistory classifier ∧ Cont embedding ledger controw ∧
       Cont controw classifier pkgrow ∧ PkgSig bundle pkgrow pkg
 
+theorem RingOfIntegersEquationLedgerCarrier_finite_ledger_readback [AskSetup] [PackageSetup]
+    {numfield introw embedding ledger classifier controw pkgrow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RingOfIntegersEquationLedgerCarrier numfield introw embedding ledger classifier controw
+        pkgrow bundle pkg ->
+      UnaryHistory controw ∧ UnaryHistory pkgrow ∧ hsame controw (append embedding ledger) ∧
+        hsame pkgrow (append controw classifier) ∧ PkgSig bundle pkgrow pkg := by
+  intro carrier
+  cases carrier with
+  | intro _numfieldUnary rest =>
+      cases rest with
+      | intro _introwUnary rest =>
+          cases rest with
+          | intro embeddingUnary rest =>
+              cases rest with
+              | intro ledgerUnary rest =>
+                  cases rest with
+                  | intro classifierUnary rest =>
+                      cases rest with
+                      | intro contLedger rest =>
+                          cases rest with
+                          | intro pkgLedger pkgSig =>
+                              have controwUnary : UnaryHistory controw :=
+                                unary_cont_closed embeddingUnary ledgerUnary contLedger
+                              have pkgrowUnary : UnaryHistory pkgrow :=
+                                unary_cont_closed controwUnary classifierUnary pkgLedger
+                              exact And.intro controwUnary
+                                (And.intro pkgrowUnary
+                                  (And.intro contLedger
+                                    (And.intro pkgLedger pkgSig)))
+
 theorem RingOfIntegersDedekindSourceCarrier_equation_ledger_transport_closure
     [AskSetup] [PackageSetup]
     {numfield introw embedding ledger classifier controw pkgrow ledger' classifier' controw'
