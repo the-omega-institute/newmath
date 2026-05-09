@@ -4,6 +4,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -16,6 +17,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -80,6 +82,56 @@ theorem SpinGroupRootCarrier_group_law_transport [AskSetup] [PackageSetup]
         (And.intro group'
           (And.intro spinCont carrier.right.right.right)))
       sameSpin
+
+theorem SpinGroupRootCarrier_root_namecert_threshold_package [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row spinEndpoint)
+          (fun row : BHist => hsame row spinEndpoint)
+          (fun row : BHist => hsame row spinEndpoint) hsame ∧
+        UnaryHistory spinEndpoint ∧ Cont cliffordEndpoint groupWord spinEndpoint ∧
+          PkgSig bundle ledger pkg := by
+  intro carrier
+  have sourceScope :
+      CliffordCarrierPackage unit vector product boundary cliffordEndpoint ∧
+        GroupSingletonCarrier groupWord ∧ UnaryHistory spinEndpoint ∧
+          Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg :=
+    SpinGroupRootCarrier_source_scope carrier
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row spinEndpoint)
+          (fun row : BHist => hsame row spinEndpoint)
+          (fun row : BHist => hsame row spinEndpoint) hsame := by
+    refine {
+      core := ?core
+      pattern_sound := ?pattern_sound
+      ledger_sound := ?ledger_sound
+    }
+    · refine {
+        carrier_inhabited := ?carrier_inhabited
+        equiv_refl := ?equiv_refl
+        equiv_symm := ?equiv_symm
+        equiv_trans := ?equiv_trans
+        carrier_respects_equiv := ?carrier_respects_equiv
+      }
+      · exact Exists.intro spinEndpoint (hsame_refl spinEndpoint)
+      · intro row _source
+        exact hsame_refl row
+      · intro row other sameRows
+        exact hsame_symm sameRows
+      · intro row other third sameFirst sameSecond
+        exact hsame_trans sameFirst sameSecond
+      · intro row other sameRows rowSource
+        exact hsame_trans (hsame_symm sameRows) rowSource
+    · intro row source
+      exact source
+    · intro row source
+      exact source
+  exact
+    And.intro cert
+      (And.intro sourceScope.right.right.left
+        (And.intro sourceScope.right.right.right.left sourceScope.right.right.right.right))
 
 theorem SpinGroupRootCarrier_public_consumer_boundary_coverage [AskSetup] [PackageSetup]
     {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger : BHist}
