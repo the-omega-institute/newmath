@@ -335,6 +335,48 @@ finite union surface contains no completion, quotient, host-index, or
 RealUp-completeness datum.
 \end{proof}
 
+\begin{theorem}[StreamName Real-RegSeq common-window consumer determinacy]
+\label{thm:streamname-real-regseq-common-window-consumer-determinacy}
+Let $\mathcal{W}_0$ and $\mathcal{W}_1$ be public $\StreamNameUp$
+finite-window packages restricting to a certified finite overlap $K$. Suppose
+that the restrictions agree on every pointwise $\mathsf{RatStreamNameCarrier}$
+observation, every pointwise $\mathsf{RatStreamNameClassifier}$ observation,
+the finite $\mathsf{ProbeBundle}$ ledger, the $\mathsf{InBundle}$ membership
+rows, the certified $\mathsf{UnaryHistory}$ observations, the displayed
+$\hsame$ rows, and the consumed DyadicRatCore finite ledger over $K$.
+
+Then every induced $\RegSeqRat$ handoff and every finite-window $\RealUp$
+handoff determined by those packages has the same consumer-facing finite
+$\mathsf{BHist}$ surface on $K$. That surface is exhausted by the public
+$\StreamNameUp$ rows together with the $\RegSeqRat$ and DyadicRatCore finite
+rows named above, and it contains no quotient datum, completion datum, host
+index equality, metric-completeness row, Classical datum, or standard-bridge
+datum.
+\end{theorem}
+\begin{proof}
+First identify the source. Apply
+\autoref{thm:streamname-real-regseq-overlap-unique-source} to the two public
+finite-window restrictions on $K$. The hypotheses list the same pointwise
+carrier rows, classifier rows, bundle ledger, membership rows, unary
+observations, and displayed $\hsame$ comparisons, so both packages expose one
+source-facing StreamName surface on the overlap.
+
+Next stabilize the seal classifier rows. Apply
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability}. The common
+DyadicRatCore finite ledger is exactly the downstream input used by the
+induced $\RegSeqRat$ handoffs, so the finite-window $\RealUp$ seal rows agree
+pointwise over the same overlap.
+
+Finally exhaust the consumer surface with
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. Every row a
+$\RegSeqRat$ or finite-window $\RealUp$ consumer can read is one of the public
+StreamName point rows, the bundle and membership rows, the unary observation
+rows, the displayed $\hsame$ rows, or the shared DyadicRatCore ledger rows.
+The exclusion clause of that theorem rules out any remaining quotient,
+completion, host-index, metric-completeness, Classical, or standard-bridge
+datum.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat pointwise handoff exhaustion]
 \label{thm:streamname-regseqrat-pointwise-handoff-exhaustion}
 Every finite-window row handed from $\StreamNameUp$ to a $\RegSeqRat$ consumer
