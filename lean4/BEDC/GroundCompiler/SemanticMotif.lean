@@ -470,6 +470,69 @@ def RecognizedMotifSection
   forall item : MotifProfileItem,
     List.Mem item items -> MotifProfile Rfam S item.1 item.2.1 item.2.2
 
+def RecognizerFamilyFlow : Type := EventFlow
+
+def RecognizesRecognizerFamily
+    (F : RecognizerFamilyFlow) (members : List GeneratedMotifRecognizer) :
+    Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow F) /\
+    forall R : GeneratedMotifRecognizer,
+      List.Mem R members -> FormalCompilerInput (CompilerDatum.eventFlow R)
+
+inductive MotifFamilySource : Type where
+  | recognizedFlow
+      (F : RecognizerFamilyFlow) (members : List GeneratedMotifRecognizer)
+  | hardcodedFiniteRepetition
+  | hardcodedCarry
+  | hardcodedSeal
+  | hardcodedReuse
+
+inductive FormalRecognizerFamilySource : MotifFamilySource -> Prop where
+  | recognizedFlow {F : RecognizerFamilyFlow}
+      {members : List GeneratedMotifRecognizer} :
+      RecognizesRecognizerFamily F members ->
+        FormalRecognizerFamilySource
+          (MotifFamilySource.recognizedFlow F members)
+
+def RecognizedMotifSectionFromFamily
+    (members : List GeneratedMotifRecognizer) (S : EventFlow)
+    (items : List MotifProfileItem) : Prop :=
+  exists F : RecognizerFamilyFlow,
+    exists Rfam : GeneratedMotifRecognizer -> Prop,
+      RecognizesRecognizerFamily F members /\
+        (forall R : GeneratedMotifRecognizer, Rfam R -> List.Mem R members) /\
+        RecognizedMotifSection Rfam S items
+
+theorem no_hardcoded_motif_family :
+    Not (FormalRecognizerFamilySource
+      MotifFamilySource.hardcodedFiniteRepetition) /\
+    Not (FormalRecognizerFamilySource MotifFamilySource.hardcodedCarry) /\
+    Not (FormalRecognizerFamilySource MotifFamilySource.hardcodedSeal) /\
+    Not (FormalRecognizerFamilySource MotifFamilySource.hardcodedReuse) := by
+  constructor
+  · intro h
+    cases h
+  · constructor
+    · intro h
+      cases h
+    · constructor
+      · intro h
+        cases h
+      · intro h
+        cases h
+
+theorem without_family_candidate_only
+    {members : List GeneratedMotifRecognizer} {S : EventFlow}
+    {items : List MotifProfileItem} :
+    Not (exists F : RecognizerFamilyFlow, RecognizesRecognizerFamily F members) ->
+      Not (RecognizedMotifSectionFromFamily members S items) := by
+  intro hMissing hSection
+  cases hSection with
+  | intro F hRest =>
+      cases hRest with
+      | intro _ hFields =>
+          exact hMissing ⟨F, hFields.left⟩
+
 theorem motif_report_soundness
     {Rfam : GeneratedMotifRecognizer -> Prop} {S : EventFlow}
     {items : List MotifProfileItem} {item : MotifProfileItem} :

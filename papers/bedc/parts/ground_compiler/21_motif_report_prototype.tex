@@ -304,6 +304,7 @@ Recognizer selection cannot come from an external table. It must come from a rec
 
 \begin{definition}[Recognizer family flow]
 \label{def:motif-report-recognizer-family-flow}
+\leandef{BEDC.GroundCompiler.SemanticMotif.RecognizerFamilyFlow}
 A \emph{recognizer family flow} is an event flow
 $$
   F_R\in\mathsf{EventFlow}
@@ -317,11 +318,13 @@ Without a recognized recognizer-family flow, $P_3$ can generate only candidate m
 
 \begin{principle}[No hardcoded motif family]
 \label{prin:motif-report-no-hardcoded-family}
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.no\_hardcoded\_motif\_family}
 The finite-repetition, carry, seal, and reuse recognizers may not be hardcoded as a formal recognizer family. They must come from recognized recognizer-family flow or be recorded as bootstrap obligations.
 \end{principle}
 
 \begin{theorem}[Without recognizer family, $P_3$ is candidate-only]
 \label{thm:motif-report-without-family-candidate-only}
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.without\_family\_candidate\_only}
 If $P_3$ has no recognized recognizer-family flow, then it can output only a candidate motif section, not a recognized motif section.
 \end{theorem}
 
