@@ -311,6 +311,25 @@ theorem DeRhamBoundarySourceLedgerPacket_bridge_ledger_source_scope
       (And.intro packet.right.right.left
         (And.intro packet.right.right.right.left packet.right.right.right.right)))
 
+theorem DeRhamRootUnblock_threshold_surface
+    {d : BHist -> BHist} {omega eta theta theta' zero graphLedger endpointLedger : BHist} :
+    DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger ->
+      hsame theta' theta ->
+        DeRhamBoundary d theta ∧ DeRhamBoundary d theta' ∧ hsame zero BHist.Empty ∧
+          hsame (d eta) BHist.Empty ∧
+            ∃ graphLedger' endpointLedger' : BHist,
+              Cont theta' zero graphLedger' ∧ Cont graphLedger' eta endpointLedger' ∧
+                hsame graphLedger graphLedger' ∧ hsame endpointLedger endpointLedger' := by
+  intro packet sameTheta'
+  have sourceRows :=
+    DeRhamBoundarySourceLedgerPacket_bridge_ledger_source_scope packet
+  have endpointRows :=
+    DeRhamBoundarySourceLedgerPacket_endpoint_transport packet sameTheta'
+  exact And.intro sourceRows.left
+    (And.intro endpointRows.left
+      (And.intro sourceRows.right.left
+        (And.intro sourceRows.right.right.left endpointRows.right.right.right)))
+
 theorem DeRhamBoundary_semanticNameCert {d : BHist -> BHist} {axis : BHist}
     (axisBoundary : DeRhamBoundary d axis) :
     SemanticNameCert (DeRhamBoundary d) (DeRhamBoundary d) (DeRhamBoundary d) hsame := by
