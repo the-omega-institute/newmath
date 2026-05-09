@@ -470,6 +470,7 @@ the raw prefix overlap is $0\mid 00$. A recognized shared finite-source motif ex
 
 \begin{definition}[$P_4$ audit checklist]
 \label{def:metric-report-p4-audit}
+\leandef{BEDC.GroundCompiler.MetricsFlow.P4AuditChecklist}
 A $P_4$ prototype must satisfy:
 \begin{enumerate}
 \item all $P_3$ audit requirements;
@@ -489,6 +490,7 @@ A $P_4$ prototype must satisfy:
 
 \begin{theorem}[$P_4$ adequacy theorem]
 \label{thm:metric-report-p4-adequacy}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.p4\_adequacy}
 If a prototype satisfies the $P_4$ audit checklist, uses sound $P_3$ reports, and computes only admissible metrics under recognized metric protocol flow, then it is adequate as a metric-report prototype.
 \end{theorem}
 
@@ -498,7 +500,8 @@ The checklist ensures that metrics are computed only from recognized event-flow 
 
 \begin{corollary}[$P_4$ adequacy does not imply higher adequacy]
 \label{cor:metric-report-p4-not-higher}
-A $P_4$ prototype does not recognize packages, name certificates, derivation certificates, theorems, chapters, or accepted objects unless those recognizers are separately supplied.
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.p4\_adequacy\_not\_higher}
+There exists an adequate $P_4$ metric-report prototype whose source flow is not an accepted object flow. Thus $P_4$ adequacy alone is not higher-layer adequacy; package, name-certificate, derivation-certificate, theorem, chapter, and accepted-object status require separate recognition or acceptance evidence.
 \end{corollary}
 
 \begin{theorem}[$P_4$ is conservative over the finite kernel]
