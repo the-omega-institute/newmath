@@ -211,3 +211,42 @@ the same DyadicRatCore, dyadic-ledger, and $\StreamNameUp$ rows, so no further
 quotient, completion, metric, Classical, $\RealUp$ completeness, or bridge data
 can enter the seal interface.
 \end{proof}
+
+\begin{theorem}[Phase Real seal consumer exactness]
+\label{thm:real-phase-seal-consumer-exactness}
+Let $s:\Hist\to\Hist$ carry a $\RegSeqRat$ rational-observation stream spine,
+and let $\mathcal{P}:\mathsf{ProbeBundle}$ be a certified finite-window package.
+Every consumer-facing row of the $\RealUp$ seal over $\mathcal{P}$ factors
+through exactly four displayed surfaces: the DyadicRatCore endpoint observation
+family of \autoref{def:dyadic-rat-core-observation-row}, the $\StreamNameUp$
+finite-window classifier rows, the $\RegSeqRat$ regularity ledger, and the
+$\Eone$-sealed $\RealUp$ observation row. Conversely, those four surfaces
+assemble the consumer-facing seal package for the same finite window.
+
+Thus the Phase Real seal consumer reads precisely the endpoint carrier,
+positive-denominator, dyadic-radius, stream-name finite-window, regularity
+ledger, and $\Eone$ seal rows exposed by the certified spine. It does not read a
+quotient carrier, completion object, Classical choice row, metric-completeness
+row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+For a consumed seal row, first apply
+\autoref{thm:regseqrat-finite-window-seal-exactness}. The row is therefore
+drawn from the DyadicRatCore endpoint family and the $\StreamNameUp$
+finite-window classifier rows in the same certified window.
+
+The DyadicRatCore component is the observation family named by
+\autoref{def:dyadic-rat-core-observation-row} and scoped by
+\autoref{thm:dyadic-rat-core-scoped-source-package}. The stream-name component
+is supplied by the public rational-stream interface of
+\autoref{thm:regseqrat-public-rational-stream-interface}, which also carries the
+$\RegSeqRat$ regularity ledger and the $\Eone$ seal row consumed by $\RealUp$.
+
+For the converse direction, start with exactly those four surfaces over
+$\mathcal{P}$. The public rational-stream interface packages the endpoint
+carrier, classifier, stability, and regularity rows; the finite-window seal
+exactness theorem then assembles them as the consumer-facing $\RealUp$ seal
+package. Since every cited surface is part of this finite BEDC ledger, no
+quotient, completion, Classical, metric-completeness, or ambient completeness
+row can be consumed.
+\end{proof}
