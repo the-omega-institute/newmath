@@ -391,6 +391,38 @@ theorem DeRhamStandardBoundaryBridgePacket_classifier_transport
       exact And.intro boundaryTheta'
         (And.intro sameTheta'Zero (And.intro boundary.right.right sameBridge))
 
+theorem DeRhamStandardBoundaryBridgePacket_cocycle_ledger_threshold
+    {d : BHist -> BHist} {omega eta theta zero provenance bridge : BHist} :
+    DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
+      DeRhamBoundary d eta ∧ hsame (d eta) BHist.Empty ∧ DeRhamBoundary d theta ∧
+        hsame theta zero ∧ Cont provenance theta bridge := by
+  intro packet
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
+  have etaBoundary : DeRhamBoundary d eta :=
+    Exists.intro omega packet.left.left
+  exact And.intro etaBoundary
+    (And.intro boundary.right.right
+      (And.intro boundary.right.left (And.intro boundary.left packet.right)))
+
+theorem DeRhamStandardBoundaryGraphLedger_consumer_readback_boundary
+    {d : BHist -> BHist}
+    {omega eta theta zero provenance bridge endpoint : BHist} {rows : List BHist} :
+    DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
+      DeRhamStandardBoundaryGraphLedger d rows endpoint ->
+        (forall row : BHist, List.Mem row rows ->
+          DeRhamBoundary d row ∧
+            exists preimage : BHist, hsame row (d preimage) ∧
+              hsame (d preimage) BHist.Empty) ∧
+          DeRhamBoundary d theta ∧ hsame (d eta) BHist.Empty ∧
+            Cont provenance theta bridge := by
+  intro packet ledger
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
+  exact And.intro
+    (by
+      intro row rowMem
+      exact DeRhamStandardBoundaryGraphLedger_finite_graph_completeness ledger rowMem)
+    (And.intro boundary.right.left (And.intro boundary.right.right packet.right))
+
 theorem DeRhamStandardBoundaryBridgePacket_consumer_readback
     {d : BHist -> BHist} {omega eta theta zero provenance bridge consumer : BHist} :
     DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->

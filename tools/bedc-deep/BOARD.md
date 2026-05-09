@@ -18,152 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-564 - AxisAdd zero-spine result inversion: prefix and suffix inherit zero-spine
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | AxisAdd zero-spine result inversion: prefix and suffix inherit zero-spine |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 8/10 |
-
-Problem:
-If ContR(h, k, r) and ZeroSpine(r) hold, then both ZeroSpine(h) and ZeroSpine(k) hold.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/255_axisadd_namecert_construction.tex`
-
-Rationale:
-Converse of `thm:axisadd-cont-preserves-zerospine` (line 86). Forward direction is ZS(h)∧ZS(k)∧Cont(h,k,r) → ZS(r); the inversion ZS(r)∧Cont(h,k,r) → ZS(h)∧ZS(k) is missing. Constructor-inversion / no-confusion lemma against the Ezero generator. Closes the source/result classification round-trip on AxisAddUp without invoking AddUp bridge. Distinct from B-553 (which lives in axisnat and concerns source shape exhaustion). Lands in 255_axisadd_namecert_construction.tex (134 lines).
-
----
-
-### B-567 - Hash second-preimage success is irreflexive on the message
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | Hash second-preimage success is irreflexive on the message |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-Under message-classifier reflexivity, HashSecondPreimageSuccess_{mathcal H}(x, x) is impossible: no transcript can witness a second-preimage with itself.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/220_hash_namecert_construction.tex`
-
-Rationale:
-Direct analogue of B-523 (collision irreflexivity at line 293-326) for second-preimage success. The transcript predicate requires neg sigma(x,x') as part of definition, so reflexivity of sigma forces irreflexivity. Distinct from B-489 (collision-freeness excludes second-preimage — that's the resistance direction, not the diagonal-impossibility direction). The dual is mentioned nowhere in the existing 220_hash file. Sits comfortably alongside the existing irreflexivity / induces-direction / boundary theorems. 413 lines, well below cap.
-
----
-
-### B-568 - Banach identity bounded-linear operator carrier construction
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Banach identity bounded-linear operator carrier construction |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 8/10 |
-
-Problem:
-If C is a BanachUp candidate, then BanachBLOp(C, C, id_C, 1_RealUp, I_C) is carried, where id_C is the source identity map and I_C records the reflexivity, multiplicative-unit, RealUp non-negativity, and norm rows used by the carrier definition.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex`
-- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
-
-Rationale:
-The Banach bounded-operator carrier is defined at papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex:1-31 with four carrier rows (classifier-respect, additivity, scalar action, RealUp bound). The zero operator carrier is constructed as a theorem at the same file, line 145 (B-480 on the BOARD). The IDENTITY operator carrier, by contrast, is only referenced as a hypothesis at bounded_linear_operator_composition.tex:319 ('Assume also that the source and target identity maps carry the unit bound: BanachBLOp(C,C,id_C,1_RealUp,I_C)'); no theorem CONSTRUCTS this carrier from the BanachUp axioms. A grep for `Banach.*identity.*operator.*carrier` returns no theorem-environment match across papers/bedc/parts/, and no Lean target named BanachIdentityBoundedLinearOperator_carrier or similar exists under lean4/BEDC/. The construction is a concrete one-shot proof using Banach C's classifier reflexivity, the RealUp multiplicative-identity row 1·r ~ r, and 1 ≥ 0; it parallels the zero-operator carrier proof at bounded_linear_operator_obligations.tex:163-194 in shape but uses different scalar-row witnesses, so it is not a parameter echo. Filling this gap also discharges the unit-ledger hypothesis hand-waved at line 319 of the composition file.
-
----
-
-### B-569 - Banach bounded operator zero right-composition annihilation
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Banach bounded operator zero right-composition annihilation |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-If T : H_0 -> H_1 is a carried BanachBLOp row and 0_{H_1,H_2} : H_1 -> H_2 is the carried zero operator on (H_1, H_2), then 0_{H_1,H_2} ∘ T is carried as BanachBLOp(H_0, H_2, 0_{H_1,H_2} ∘ T, 0_RealUp · L, Lambda_{12} ⋆ Gamma) and is classified with the zero representative on (H_0, H_2).
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
-- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex`
-
-Rationale:
-papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex:368 carries `thm:banach-bounded-linear-operator-left-zero-annihilation` (BOARD B-522), which composes T : H_1 -> H_2 with the input-side zero 0_{H_0,H_1} to get the (H_0,H_2) zero. The DUAL — composing T : H_0 -> H_1 with the output-side zero 0_{H_1,H_2} — is structurally absent. A grep for `[Bb]anach.*[Rr]ight.*[Zz]ero.*[Aa]nnihilat`, `right-composition`, and `Banach.*right.*zero` across papers/bedc/parts/ returns zero theorem matches; the only hit is the in-proof phrase 'right-zero multiplication comparison' at line 443 of the same file, used as a RealUp identity, not as a separate theorem. By contrast, papers/bedc/parts/concrete_instances/154_abeliancat_namecert_construction.tex:435 carries `thm:abeliancat-zero-morphism-right-composition-absorption` and BOARD entries B-518 (left-absorbing) and B-531 (right-absorbing) appear as a paired set for AbelianCat — the asymmetry on the Banach side is therefore a real gap, not a deliberate scope cut. The proof structurally differs from B-522: zero ∘ T evaluates to 0 by the output-zero map's defining row, not via T's homogeneity, so it is not just symmetry on existing arguments.
-
----
-
-### B-570 - Polynomial multiplication has right zero absorption
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Polynomial multiplication has right zero absorption |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 6/10 |
-
-Problem:
-For every CommRingUp scalar source R and finite coefficient spine p over R, the raw Cauchy product PolyMul_R(p, nil) is PolySame_R-classified with nil.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_algebra.tex`
-
-Rationale:
-The chapter already proves the LEFT version `thm:polynomial-multiplication-left-zero-absorption` at 25_polynomial_literal_addtrim_algebra.tex:203, and proves multiplicative commutativity over commring scalars at 25_polynomial_literal_addtrim_algebra.tex:134 (`thm:polynomial-raw-multiplication-commutativity-from-commring-scalars`). Hence right-zero absorption follows by composing the two: PolyMul(p, nil) ~ PolyMul(nil, p) ~ nil. Standard textbook (Hungerford Algebra Ch.III §6, Lang Algebra Ch.IV §1: polynomial ring zero element is two-sided absorbing). No matching label in BOARD index. The file is 242 lines (well below the 760-line cap). Closes in 1 round: a 5-line proof citing two existing labels.
-
----
-
-### B-571 - AffineSpace action by the zero vector classifies with the carried point
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | AffineSpace action by the zero vector classifies with the carried point |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-If p is a carried point row in an AffineSpaceUp history-torsor carrier and 0_V is the vector zero supplied by its VecSpaceUp dependency certificate, then the action endpoint act(p, 0_V) and p are AffCls-classified by the identity case of the translation classifier.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/184_affinespace_namecert_construction.tex`
-
-Rationale:
-The chapter proves the converse direction `thm:affinespace-separation-obligation` at 184_affinespace_namecert_construction.tex:84 ('if zero-translation acts sending p to ~q, then AffCls identifies p, q'), but the forward fact 'act(p, 0_V) ~ p' is not stated. Standard textbook (Berger Geometry I Ch.II §2.1, Audin Geometry §I.1: translation by 0 is the identity action). The proof reuses `thm:affinespace-action-closure-obligation` to carry the endpoint and `thm:affinespace-separation-obligation` to convert the zero-translation hsame witness into AffCls identity classification. File is 209 lines. Closes in 1-2 rounds; no oracle escalation needed because all infrastructure is already in this file.
-
----
-
 ### B-572 - ConvexSet pointwise (Minkowski) sum closes under the binary affine combination row
 
 | field | value |
@@ -188,26 +42,74 @@ The chapter has intersection (`thm:convexset-pointwise-intersection-affine-combi
 
 ---
 
-### B-573 - InnerProduct norm-squared of scalar action factors as scalar self-product times norm-squared
+### B-575 - Quadrature singleton-node sum equals weight times integrand evaluation
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
 | Source | bedc-deep topic discovery |
-| Object | InnerProduct norm-squared of scalar action factors as scalar self-product times norm-squared |
+| Object | Quadrature singleton-node sum equals weight times integrand evaluation |
 | Layer | adjacent |
 | Route | proof |
 | Risk | unknown |
-| Fit | 8/10 |
+| Fit | 9/10 |
 | Novelty | 7/10 |
 
 Problem:
-For every carried scalar r and carried vector x in an InnerProductUp BHist source, the norm-squared endpoint ||r ·_V x||²_I is classified by the retained scalar classifier with (r ·_K conj_K(r)) ·_K ||x||²_I.
+If $Q=(xs,\alpha,\omega,\mathcal{I}_Q)$ is a finite weighted $\QuadratureUp$ rule over the scalar carrier $R$ in the sense of `def:quadrature-finite-weighted-exactness-degree`, and the $\FinSetUp$ node spine $xs$ enumerates exactly one position $i_0$, then for every finite polynomial-code spine $p:\mathsf{ListCarrier}(R)$, $\mathsf{QSum}_Q(p)\sim_R \omega_{i_0}\cdot \mathsf{Eval}_{\alpha_{i_0},R}(p)$.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/innerproduct/norm_metric_seed.tex`
+- `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
 
 Rationale:
-The chapter proves `thm:innerproduct-norm-squared-carrier-row` (carrier transport, 25_polynomial_literal_addtrim_eval would not be, this is innerproduct/norm_metric_seed.tex:25) and the linearity row `thm:innerproduct-vecspace-linearity-row` (innerproduct/core_surface.tex:121) handles both additive and scalar-action arguments with the conjugate handling promised on the conjugate-linear side. Polarization-difference and parallelogram are in the parallelogram seed. But the explicit norm-scaling identity ||r·x||²_I ~ (r·conj(r))·||x||²_I is missing — standard textbook (Folland Real Analysis Ch.5 §5.5, Conway Functional Analysis I §I.1.5: 'inner product is conjugate-bilinear, hence ||rx||² = |r|²||x||²'). Proof: apply linearity at left slot to extract r, then linearity at right slot with conjugation to extract conj(r), then scalar associativity. File norm_metric_seed.tex is only 101 lines. Closes in 2-3 rounds; the only nontrivial step is checking the conjugate-linearity clause of the existing linearity row at the right argument, which the row explicitly promises (core_surface.tex:140, 'the conjugate argument handled by the displayed conjugation row when the source uses that side as the conjugate-linear argument').
+The Quadrature chapter (`papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`, 291 lines) handles the empty-node-spine case in `thm:quadrature-empty-node-sum-zero` (B-538), the degree-zero exactness/weight-sum equivalence in B-542, and degree-bound preorder (transitivity B-? line 173, reflexivity B-? line 204, weakening line 124, equivalence stability line 149). The singleton-node case — the simplest non-empty quadrature rule — has no companion theorem and is a clean direct unfold of `\mathsf{QSum}_Q(p)` using the singleton clause of `def:finite-additive-scalar-fold` and `lem:quadrature-empty-position-fold-zero` (already present at line 469). It mirrors the existing empty-node closure-status proof and gives downstream numerical-analysis chapters the n=1 base case for inductive arguments over node count.
+
+---
+
+### B-576 - Banach scalar-action of bounded operator distributes over composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Banach scalar-action of bounded operator distributes over composition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If $T:H_0\to H_1$ is a carried $\BanachBLOp$ row with bound $L_T:\RealUp$, $S:H_1\to H_2$ is a carried $\BanachBLOp$ row with bound $L_S:\RealUp$, and $c:\RealUp$ is a carried scalar with $\NonNeg_{\RealUp}(c)$, then the composite $S\circ(c\cdot T)$ is a carried $\BanachBLOp$ row from $H_0$ to $H_2$ with bound $c\cdot L_T\cdot L_S$ and is $\BanachBLOp$-classifier equal to $c\cdot(S\circ T)$ over the same source/target Banach carriers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.tex`
+
+Rationale:
+The Banach BLO sub-directory has thoroughly developed composition algebra: associativity (line 231), identity units (B-481 line 303), left-zero annihilation (B-522 line 368), right-zero annihilation (B-569 in flight, line 453), composition-Lipschitz (line 24), composition-Cauchy preservation (line 60). The companion file `bounded_linear_operator_obligations.tex` adds scalar-multiple bound (B-541, line 398) and pointwise sum closure (B-532, line 223). What is conspicuously absent is the scalar-action × composition interaction `(c\cdot T)\circ S` or `S\circ(c\cdot T)` — the standard `\mathcal{L}(H_1,H_2)$-bimodule structure over scalars. With both ingredients on hand (scalar-multiple bound and composition closure), this is a direct ledger composition that closes the bilinearity-of-composition gap. File at 514/800 lines has ~280 lines of room.
+
+---
+
+### B-577 - RandomVar preimage symmetric-difference exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RandomVar preimage symmetric-difference exactness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For a carried $\RandomVarUp$ measurable map $f:\Omega\to\Omega'$ and target events $A,B\in\mathcal{A}'$ with classifier-stable measurable preimages and difference rows, the preimage of the symmetric difference $A\triangle B := (A\setminus B)\cup(B\setminus A)$ is classifier-equal to the symmetric difference of the preimages: $f^{-1}(A\triangle B)\sim f^{-1}(A)\triangle f^{-1}(B)$ in the source $\sigma$-algebra.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/randomvar/preimage_exactness.tex`
+
+Rationale:
+The randomvar chapter has expanded its preimage-exactness palette substantially: union exactness (B-419), relative-difference exactness (B-434, file line 60), complement-and-relative-difference exactness (B-439, line 113), empty-event exactness (B-456, line 184), countable union exactness (B-474), countable intersection exactness (B-524), disjoint binary union exactness (line 13). The symmetric-difference case is the natural composition of two of those rows (relative difference applied twice and then unioned) but has no dedicated theorem. It is the standard structural row that downstream measure-theoretic preimage manipulation expects, and the proof factors directly through the existing union (B-419) and relative-difference (B-434) theorems. File `randomvar/preimage_exactness.tex` at 220 lines has room.
 
 ---
