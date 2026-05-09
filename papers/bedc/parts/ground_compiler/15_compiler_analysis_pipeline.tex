@@ -201,6 +201,7 @@ holds. If the protocol is not recognized, the pipeline rejects the analysis run.
 
 \begin{definition}[Stage 3: recognizer-family extraction]
 \label{def:analysis-pipeline-stage-recognizer-family}
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.StageRecognizerFamilyExtraction}
 Stage 3 identifies the recognizer-family subflow
 $$
   \mathsf{ProtRecognizerFamily}_{R_P}(P,P_1).
@@ -214,6 +215,7 @@ Each $R_i$ must be certified. If an $R_i$ is not certified, the pipeline rejects
 
 \begin{definition}[Stage 4: motif extraction]
 \label{def:analysis-pipeline-stage-motif-extraction}
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.StageMotifExtraction}
 Stage 4 computes
 $$
   \mathsf{MotifProfile}_{\mathcal R_P}(S),
@@ -229,6 +231,7 @@ Motif recognition without a required ledger is recorded as a failure or cannot-c
 
 \begin{definition}[Stage 5: metric computation]
 \label{def:analysis-pipeline-stage-metrics}
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.StageMetricComputation}
 Stage 5 computes the admissible metrics selected by the protocol: prefix profile, motif profile, seal depth, carry index, ledger depth, classifier compression ratio, reuse depth, bridge depth, normal-address distance, or theory-flow distance. If a metric requires a recognizer or ledger that is missing, the metric is undefined or blocked; the pipeline may not output a misleading numerical value.
 \end{definition}
 

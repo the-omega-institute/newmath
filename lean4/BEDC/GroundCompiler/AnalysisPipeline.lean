@@ -1,9 +1,13 @@
 import BEDC.GroundCompiler.ChannelEncoding
+import BEDC.GroundCompiler.SemanticMotif
+import BEDC.GroundCompiler.MetricsFlow
 
 namespace BEDC.GroundCompiler.AnalysisPipeline
 
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.ChannelEncoding
+open BEDC.GroundCompiler.SemanticMotif
+open BEDC.GroundCompiler.MetricsFlow
 
 inductive AnalysisInput : Type where
   | channel (c : List DisplayAlphabet) : LegalZStream c -> AnalysisInput
@@ -145,6 +149,44 @@ def StageProtocol
     (R : GeneratedAnalysisProtocolRecognizer)
     (P : AnalysisProtocolCandidateFlow) : Prop :=
   RecognizesAnalysisProtocol R P
+
+def CertifiedOrBootstrapRecognizer
+    (R cert : GeneratedRecognizer) : Prop :=
+  NonemptyEventFlow R /\
+    FormalCompilerInput (CompilerDatum.recognizedFlow cert R)
+
+def StageRecognizerFamilyExtraction
+    (R : GeneratedAnalysisProtocolRecognizer)
+    (P familyFlow : AnalysisProtocolCandidateFlow)
+    (Rfam : List GeneratedRecognizer) : Prop :=
+  AnalysisProtocolSubflow R P familyFlow AnalysisProtocolRole.recognizerFamily /\
+    forall Ri : GeneratedRecognizer,
+      List.Mem Ri Rfam ->
+        exists cert : GeneratedRecognizer, CertifiedOrBootstrapRecognizer Ri cert
+
+structure PipelineMotifEntry where
+  recognizer : GeneratedMotifRecognizer
+  support : EventFlow
+  role : MotifRole
+  ledger : EventFlow
+
+def StageMotifExtraction
+    (Rfam : List GeneratedMotifRecognizer) (S : EventFlow)
+    (profile : List PipelineMotifEntry) : Prop :=
+  forall entry : PipelineMotifEntry,
+    List.Mem entry profile ->
+      List.Mem entry.recognizer Rfam /\
+        RecognizesMotif entry.recognizer S entry.support entry.role /\
+        MotifLedger entry.recognizer S entry.support entry.role entry.ledger
+
+def MetricSelectedByProtocol
+    (P metricFlow : AnalysisProtocolCandidateFlow) : Prop :=
+  exists R : GeneratedAnalysisProtocolRecognizer,
+    AnalysisProtocolSubflow R P metricFlow AnalysisProtocolRole.metricSelection
+
+def StageMetricComputation
+    (P metricFlow : AnalysisProtocolCandidateFlow) (spec : MetricSpec) : Prop :=
+  MetricSelectedByProtocol P metricFlow /\ MetricAdmissible spec
 
 inductive FormalAnalysisProtocol :
     AnalysisProtocolCandidateFlow -> Prop where
