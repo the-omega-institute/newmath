@@ -104,6 +104,14 @@ theorem FullAxisSeal_real_route_separation_obligation {h k r : BHist} :
     exact zeroSpine_no_e1_extension boundarySpine
   exact And.intro resultSpine boundaryExcluded
 
+theorem FullAxisSeal_not_real_horizon {h r : BHist} :
+    fullAxis_namecert.source h -> Cont h boundary_01 r ->
+      FullAxisSourceSpec zeroSpinePrefixThread r -> False := by
+  intro _sourceH route sourceR
+  unfold boundary_01 at route
+  cases route
+  exact zeroSpine_no_e1_extension sourceR
+
 theorem FullAxisSeal_object_name_alignment {h k : BHist} :
     fullAxis_namecert.source h -> fullAxis_namecert.classifier h k ->
       hsame boundary_01 (BHist.e1 (BHist.e0 BHist.Empty)) ∧

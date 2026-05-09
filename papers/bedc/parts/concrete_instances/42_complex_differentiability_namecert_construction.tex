@@ -692,6 +692,52 @@ rows are precisely the transport and ledger obligations left by the semantic
 certificate.
 \end{proof}
 
+\begin{theorem}[ComplexDiffUp finite obligation inventory complete]
+\label{thm:complexdiff-finite-obligation-inventory-complete}
+The finite obligation inventory for $\ComplexDiffUp$ is exactly the
+carrier/source surface, quotient-pattern surface, transport and ledger
+surface, uniqueness and $\hsame$ transport rows, closure-law rows, and
+Cauchy--Riemann coupling rows displayed in this chapter. Thus the inventory is
+the union of \autoref{thm:cplx-diff-carrier-obligation-surface},
+\autoref{thm:cplx-diff-quotient-pattern-obligation-surface},
+\autoref{thm:cplx-diff-transport-ledger-obligation-surface},
+\autoref{lem:cplx-diff-at-unique},
+\autoref{lem:cplx-diff-at-full-hsame-transport},
+\autoref{lem:cplx-diff-sum}--\autoref{lem:cplx-diff-chain}, and
+\autoref{lem:cauchy-riemann-iff}. It contains no host complex equality, no
+quotient witness, and no non-constructive case analysis.
+\end{theorem}
+\begin{proof}
+First collect the three displayed surfaces. The carrier/source surface is
+\autoref{thm:cplx-diff-carrier-obligation-surface}, the quotient-pattern
+surface is \autoref{thm:cplx-diff-quotient-pattern-obligation-surface}, and
+the transport and ledger surface is
+\autoref{thm:cplx-diff-transport-ledger-obligation-surface}. These three
+blocks already name the finite $\mathsf{BHist}$ rows, explicit modulus rows,
+visible quotient rows, and ledger rows used by downstream consumers.
+
+The remaining rows are the rows that identify and move those surfaces.
+Uniqueness of the derivative slot is \autoref{lem:cplx-diff-at-unique}, and
+full transport through the public classifier is
+\autoref{lem:cplx-diff-at-full-hsame-transport}. These statements keep the
+inventory inside $\hsame$ transport rather than host equality of complex
+functions or derivatives.
+
+The closure-law rows are exactly
+\autoref{lem:cplx-diff-sum}--\autoref{lem:cplx-diff-chain}. The
+Cauchy--Riemann coupling is recorded by \autoref{lem:cauchy-riemann-iff} and
+the forward and backward rows cited by
+\autoref{thm:cplx-diff-transport-ledger-obligation-surface}. Each row is a
+named constructive ledger entry.
+
+No further case split is available to the public surface. The quotient pattern
+is exposed only through the visible-step rows of the quotient surface, and the
+semantic certificate exports $\mathsf{CplxDiffAt}$, $\mathsf{CplxDiffQuot}$,
+$\hsame$ transport, closure, and ledger rows. Hence host complex equality,
+quotient witnesses, and non-constructive case analysis are outside the finite
+obligation inventory.
+\end{proof}
+
 \closureat{ComplexDiffUp}{seedStr}
 \begin{closurestatus}{\ComplexDiffUp}
   \theoryclosure{\seedClosure}
