@@ -237,8 +237,10 @@ import BEDC.Derived.PinGroupUp
 import BEDC.Derived.SpinGroupUp
 import BEDC.Derived.SpinGroupUp.BoundaryConsumerExactness
 import BEDC.Derived.SpinGroupUp.CliffordUnitCarrierObligation
+import BEDC.Derived.SpinGroupUp.GroupInterfaceBoundary
 import BEDC.Derived.SpinGroupUp.LiftParityLedger
 import BEDC.Derived.SpinGroupUp.ConjugationActionReadback
+import BEDC.Derived.SpinGroupUp.PublicBoundaryNoExtraRow
 import BEDC.Derived.SpinGroupUp.PublicConsumerNamecertBoundary
 import BEDC.Derived.SpinGroupUp.Transport
 import BEDC.Derived.SpinGroupUp.EvenWordClassifierInversion
@@ -415,6 +417,7 @@ import BEDC.Derived.TopGroupUp.ClassifierContinuityTransport
 import BEDC.Derived.TopGroupUp.SourceFiberClassifierDeterminacy
 import BEDC.Derived.TopGroupUp.RootOperationSourceContinuityCoupling
 import BEDC.Derived.TopGroupUp.DownstreamLedgerObligation
+import BEDC.Derived.TopGroupUp.RootThresholdDownstreamPackage
 import BEDC.Derived.TopGroupUp.ContinuityObligations
 import BEDC.Derived.TopGroupUp.ContinuityLedgerCoverage
 import BEDC.Derived.TopGroupUp.DownstreamProvenanceTransport
@@ -429,6 +432,7 @@ import BEDC.Derived.TopGroupUp.NamecertObligationSurface
 import BEDC.Derived.TopGroupUp.ContinuityConsumerExhaustion
 import BEDC.Derived.TopGroupUp.CarrierClassifierObligation
 import BEDC.Derived.TopGroupUp.RootDownstreamOperationTransport
+import BEDC.Derived.TopGroupUp.SourceProjectionNamecertCompatibility
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
