@@ -54,4 +54,28 @@ theorem JonesSkeinLedgerPacket_reidemeister_transport
                 (And.intro transportedProvenance transportedLedger)))))))
     (And.intro sameProvenance sameLedger)
 
+theorem JonesSkeinLedgerPacket_obligation_surface
+    {diagram positive negative smoothing endpoint provenance contLedger : BHist}
+    {skeinLedger : ProbeBundle JonesSkeinBoundaryTag} :
+    JonesSkeinLedgerPacket diagram positive negative smoothing endpoint provenance contLedger
+      skeinLedger ->
+      InBundle JonesSkeinBoundaryTag.diagram skeinLedger ∧
+        InBundle JonesSkeinBoundaryTag.positive skeinLedger ∧
+          InBundle JonesSkeinBoundaryTag.negative skeinLedger ∧
+            InBundle JonesSkeinBoundaryTag.smoothing skeinLedger ∧
+              InBundle JonesSkeinBoundaryTag.endpoint skeinLedger ∧
+                Cont positive negative smoothing ∧ Cont diagram endpoint provenance ∧
+                  Cont provenance endpoint contLedger ∧
+                    hsame contLedger (append provenance endpoint) := by
+  intro packet
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.left
+        (And.intro packet.right.right.right.left
+          (And.intro packet.right.right.right.right.left
+            (And.intro packet.right.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.right
+                  packet.right.right.right.right.right.right.right)))))))
+
 end BEDC.Derived.JonesPolynomialUp
