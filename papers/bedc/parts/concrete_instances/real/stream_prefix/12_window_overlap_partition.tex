@@ -546,3 +546,59 @@ hypothesis certifies every remaining coarse segment. Combining the head
 certificate with the tail certificates gives the claimed refinement
 transitivity.
 \end{proof}
+
+\begin{theorem}[Real stream finite-window common refinement exactness]
+\label{thm:real-stream-window-common-refinement-exactness}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a total anchor $n$,
+a total bound $w$, and certified finite partition spines $P,Q$ over $(n,w)$,
+suppose every segment of $P$ and every segment of $Q$ carries
+$\mathsf{RealStreamWindowClassifier}(x,y,-,-)$. Then there is a certified
+finite partition spine $R$ over $(n,w)$ such that:
+\begin{enumerate}
+  \item every segment of $R$ carries
+  $\mathsf{RealStreamWindowClassifier}(x,y,-,-)$;
+  \item folding the $R$-segments over each $P$-block recovers the $P$
+  presentation, and folding the $R$-segments over each $Q$-block recovers the
+  $Q$ presentation;
+  \item the public endpoint rows read from the $P$, $Q$, and $R$
+  presentations are exactly the same $\RatUp$, $\mathsf{DyadicRatCore}$,
+  $\RegSeqRat$, $\StreamNameUp$, $\mathsf{UnaryHistory}$, $\hsame$, and finite
+  $\Cont$ ledger rows.
+\end{enumerate}
+Thus two independent certified finite-window presentations of the same
+RealUp window admit a common refinement whose fold and visible read surface
+are exact for both presentations.
+\end{theorem}
+\begin{proof}
+Build $R$ by simultaneous induction on the two certified finite spines. The
+base case is the singleton overlap of the two total-window spines, where the
+given classifier row is already the required segment row.
+
+In the induction step, compare the first remaining $P$-segment and
+$Q$-segment by their unary endpoint ledgers. If one endpoint is earlier, split
+the longer current segment at that displayed endpoint; if the endpoints agree,
+take their common terminal segment. The construction uses only the unary
+radius histories, accumulated anchors, and $\Cont$ rows already present in the
+two certified spines, so the resulting list is again a certified finite
+partition spine over $(n,w)$.
+
+For each refined block, apply
+\autoref{thm:real-stream-window-finite-partition-fold}. It folds the
+$R$-segments contained in a displayed $P$-block back to the corresponding
+$P$-segment classifier, and the same argument folds the $R$-segments contained
+in a displayed $Q$-block back to the corresponding $Q$-segment classifier.
+
+Next apply
+\autoref{thm:real-stream-window-partition-refinement-transitivity} from $R$
+to $P$ and from $R$ to $Q$. These two refinement readings show that replacing
+either original presentation by the common refinement does not add or remove
+any classifier row at the visible boundary.
+
+Finally apply \autoref{thm:realup-window-partition-read-surface} to the three
+presentations and
+\autoref{thm:realup-window-partition-stability-package} to transport the
+stability rows across the two fold comparisons. The read surfaces are
+therefore the same endpoint $\RatUp$, $\mathsf{DyadicRatCore}$,
+$\RegSeqRat$, $\StreamNameUp$, $\mathsf{UnaryHistory}$, $\hsame$, and finite
+$\Cont$ ledger rows, which is the asserted exactness.
+\end{proof}
