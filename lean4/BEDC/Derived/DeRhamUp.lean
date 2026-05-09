@@ -191,6 +191,16 @@ theorem DeRhamStandardBoundaryBridgePacket_classifier_compatibility
   have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
   exact And.intro boundary.right.left (And.intro boundary.right.right packet.right)
 
+theorem DeRhamStandardBoundaryBridgePacket_boundary_preimage_threshold
+    {d : BHist -> BHist} {omega eta theta zero provenance bridge : BHist} :
+    DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
+      (exists preimage : BHist, hsame theta (d preimage)) ∧ hsame theta zero ∧
+        hsame (d eta) BHist.Empty ∧ Cont provenance theta bridge := by
+  intro packet
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
+  exact And.intro boundary.right.left
+    (And.intro boundary.left (And.intro boundary.right.right packet.right))
+
 theorem DeRhamBoundarySourceLedgerPacket_endpoint_transport
     {d : BHist -> BHist} {omega eta theta theta' zero graphLedger endpointLedger : BHist} :
     DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger ->
