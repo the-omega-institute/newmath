@@ -33,6 +33,12 @@ def ContinuationRole : MotifRole := [[BMark.b0, BMark.b0]]
 
 def SealRole : MotifRole := [[BMark.b0, BMark.b1]]
 
+def CarryRole : MotifRole := [[BMark.b1, BMark.b0]]
+
+def ClassifierQuotientRole : MotifRole := [[BMark.b1, BMark.b0, BMark.b0]]
+
+def LedgerCompressionRole : MotifRole := [[BMark.b1, BMark.b0, BMark.b1]]
+
 def SourceLevelMotifArgs (S M : EventFlow) (mu : MotifRole) : Prop :=
   FormalCompilerInput (CompilerDatum.eventFlow S) /\
     FormalCompilerInput (CompilerDatum.eventFlow M) /\
@@ -95,6 +101,48 @@ def SealMotif
     Subflow ledgerFlow M /\
     NonemptyEventFlow sealFlow /\
     NonemptyEventFlow ledgerFlow
+
+def CarryMotif
+    (R : GeneratedMotifRecognizer)
+    (S M preNormal normal ledgerFlow : EventFlow) : Prop :=
+  RecognizesMotif R S M CarryRole /\
+    Subflow preNormal M /\
+    Subflow normal M /\
+    Subflow ledgerFlow M /\
+    NonemptyEventFlow preNormal /\
+    NonemptyEventFlow normal /\
+    NonemptyEventFlow ledgerFlow
+
+def ClassifierQuotientMotif
+    (R : GeneratedMotifRecognizer)
+    (S M leftFlow rightFlow classifierFlow exactnessFlow
+      failureFlow : EventFlow) : Prop :=
+  RecognizesMotif R S M ClassifierQuotientRole /\
+    Subflow leftFlow M /\
+    Subflow rightFlow M /\
+    Subflow classifierFlow M /\
+    Subflow exactnessFlow M /\
+    Subflow failureFlow M /\
+    NonemptyEventFlow leftFlow /\
+    NonemptyEventFlow rightFlow /\
+    NonemptyEventFlow classifierFlow /\
+    NonemptyEventFlow exactnessFlow
+
+def LedgerCompressionMotif
+    (R : GeneratedMotifRecognizer)
+    (S M visibleFlow hiddenFlow ledgerFlow sourceMapFlow
+      compressionSealFlow : EventFlow) : Prop :=
+  RecognizesMotif R S M LedgerCompressionRole /\
+    Subflow visibleFlow M /\
+    Subflow hiddenFlow M /\
+    Subflow ledgerFlow M /\
+    Subflow sourceMapFlow M /\
+    Subflow compressionSealFlow M /\
+    NonemptyEventFlow visibleFlow /\
+    NonemptyEventFlow hiddenFlow /\
+    NonemptyEventFlow ledgerFlow /\
+    NonemptyEventFlow sourceMapFlow /\
+    NonemptyEventFlow compressionSealFlow
 
 theorem no_external_motif_input
     {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
