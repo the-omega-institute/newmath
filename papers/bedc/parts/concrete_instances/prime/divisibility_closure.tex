@@ -70,6 +70,30 @@ divisor $d$ through $q$ into $z$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_mul\_left\_closed}
 
+\begin{theorem}[Divisibility is closed under displayed unary products]
+\label{thm:nat-divides-product-closed}
+For unary $\mathsf{BHist}$ data $d,e,x,y,p,z$, if
+$\mathsf{NatDivides}(d,x)$, $\mathsf{NatDivides}(e,y)$,
+$\mathsf{NatMul}(d,e,p)$, and $\mathsf{NatMul}(x,y,z)$ all hold, then
+$\mathsf{NatDivides}(p,z)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the two divisor witnesses. Thus $x$ is displayed as $d$ multiplied by a
+unary quotient $q$, and $y$ is displayed as $e$ multiplied by a unary quotient
+$r$.
+
+Unary multiplication totality supplies a displayed product $s$ of the two
+quotients $q$ and $r$. Use associativity of $\mathsf{NatMul}$ up to $\hsame$ to
+compare the product of $x$ and $y$ with the iterated product of $d$, $e$, $q$,
+and $r$.
+
+Commutativity up to $\hsame$ moves the displayed factorization so that the
+given product $p$ of $d$ and $e$ is the left factor and $s$ is the quotient
+factor. The resulting display witnesses $\mathsf{NatDivides}(p,z)$ after
+transporting the dividend along the final $\hsame$ comparison with the given
+$\mathsf{NatMul}(x,y,z)$ row.
+\end{proof}
+
 \begin{lemma}[Divisors of a nonempty unary product are bounded by the result]
 \label{lem:natdivides-result-boundary}
 If $\mathsf{NatDivides}(d,n)$, $n$ is unary, and $n\not\hsame\emp$, then
