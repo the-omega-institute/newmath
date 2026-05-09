@@ -477,6 +477,7 @@ import BEDC.Derived.NumFieldUp.EmbeddingCoordinateProductCompatibility
 import BEDC.Derived.NumFieldUp.SingletonBasisSupport
 import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
 import BEDC.Derived.QuadratureUp
+import BEDC.Derived.RegulatorUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
@@ -484,6 +485,7 @@ import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.QuantumChannelUp
 import BEDC.Derived.IdealUp
 import BEDC.Derived.IdealClassUp
+import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.IdealUp.AbsorptionClosure
 import BEDC.Derived.IdealUp.AmbientCarrier
 import BEDC.Derived.IdealUp.QuotientKernel

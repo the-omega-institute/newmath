@@ -1,7 +1,9 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 
 namespace BEDC.Derived.DeRhamUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 
 theorem DeRhamDoubleExteriorDerivative_boundary {d : BHist -> BHist}
@@ -48,5 +50,33 @@ theorem DeRhamDoubleExteriorPacket_boundary
     hsame_trans sameDEtaDDOmega (packet.right.right.right.left omega)
   exact And.intro sameThetaZero
     (And.intro boundaryTheta (hsame_trans sameDEtaZero packet.right.right.right.right))
+
+inductive DeRhamStandardBoundaryGraphLedger (d : BHist -> BHist) :
+    List BHist -> BHist -> Prop where
+  | nil {endpoint : BHist} :
+      hsame endpoint BHist.Empty -> DeRhamStandardBoundaryGraphLedger d [] endpoint
+  | cons {omega eta theta zero tail endpoint : BHist} {rest : List BHist} :
+      DeRhamDoubleExteriorPacket d omega eta theta zero ->
+        DeRhamStandardBoundaryGraphLedger d rest tail -> Cont theta tail endpoint ->
+          DeRhamStandardBoundaryGraphLedger d (theta :: rest) endpoint
+
+theorem DeRhamStandardBoundaryGraphLedger_finite_graph_completeness
+    {d : BHist -> BHist} {rows : List BHist} {endpoint row : BHist} :
+    DeRhamStandardBoundaryGraphLedger d rows endpoint -> List.Mem row rows ->
+      DeRhamBoundary d row ∧
+        exists preimage : BHist, hsame row (d preimage) ∧
+          hsame (d preimage) BHist.Empty := by
+  intro ledger rowMem
+  induction ledger with
+  | nil _ =>
+      cases rowMem
+  | cons packet _ _ ih =>
+      cases rowMem with
+      | head =>
+          have boundary := DeRhamDoubleExteriorPacket_boundary packet
+          exact And.intro boundary.right.left
+            (Exists.intro _ (And.intro packet.right.left boundary.right.right))
+      | tail _ restMem =>
+          exact ih restMem
 
 end BEDC.Derived.DeRhamUp
