@@ -106,6 +106,12 @@ theorem chapter_code_not_new_code {C : ChapterCandidateFlow} :
   intro _
   rfl
 
+theorem no_chapter_without_complete_recognition {C : ChapterCandidateFlow} :
+    ChapterFlow C ->
+      exists R : GeneratedChapterRecognizer, CompleteChapterRecognition R C := by
+  intro hChapter
+  exact hChapter
+
 theorem incomplete_chapter_flow_not_chapter {C : ChapterCandidateFlow} :
     (forall R : GeneratedChapterRecognizer,
       Not (CompleteChapterRecognition R C)) ->
