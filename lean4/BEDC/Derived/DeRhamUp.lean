@@ -292,4 +292,25 @@ theorem DeRhamBoundarySourcePacket_stability
           exact And.intro (And.intro boundaryTheta' zeroEmpty)
             (And.intro boundaryTheta' zeroEmpty)
 
+theorem DeRhamBoundarySourcePacket_consumer_exactness
+    {d : BHist -> BHist} {omega eta theta theta' zero : BHist} :
+    DeRhamDoubleExteriorPacket d omega eta theta zero ->
+      hsame theta' theta ->
+        DeRhamBoundarySourcePacket d theta' zero ∧ DeRhamBoundary d theta' ∧
+          hsame theta' zero ∧ hsame (d eta) BHist.Empty ∧ hsame zero BHist.Empty := by
+  intro packet sameTheta'
+  have boundaryRows := DeRhamDoubleExteriorPacket_boundary packet
+  have boundaryTheta' : DeRhamBoundary d theta' := by
+    cases boundaryRows.right.left with
+    | intro preimage sameThetaPreimage =>
+        exact Exists.intro preimage (hsame_trans sameTheta' sameThetaPreimage)
+  have theta'Zero : hsame theta' zero :=
+    hsame_trans sameTheta' boundaryRows.left
+  have zeroEmpty : hsame zero BHist.Empty :=
+    packet.right.right.right.right
+  exact And.intro (And.intro boundaryTheta' zeroEmpty)
+    (And.intro boundaryTheta'
+      (And.intro theta'Zero
+        (And.intro boundaryRows.right.right zeroEmpty)))
+
 end BEDC.Derived.DeRhamUp
