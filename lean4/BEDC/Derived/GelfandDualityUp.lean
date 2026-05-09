@@ -56,4 +56,41 @@ theorem GelfandDualitySpectrumPairingCarrier_source_obligation [AskSetup] [Packa
       carrier.right.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right.left⟩
 
+theorem GelfandDualitySpectrumPairingCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {A X character evaluation rhoA rhoX provenance ledger endpoint A' X' character'
+      evaluation' provenance' ledger' endpoint' : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    GelfandDualitySpectrumPairingCarrier A X character evaluation rhoA rhoX provenance ledger
+        endpoint bundle pkg ->
+      hsame A A' -> hsame X X' -> hsame character character' ->
+        hsame evaluation evaluation' -> hsame provenance provenance' ->
+          Cont character' evaluation' ledger' -> Cont ledger' provenance' endpoint' ->
+            Cont provenance' ledger' endpoint' -> PkgSig bundle endpoint' pkg ->
+              GelfandDualitySpectrumPairingCarrier A' X' character' evaluation' rhoA rhoX
+                  provenance' ledger' endpoint' bundle pkg ∧ hsame ledger ledger' ∧
+                hsame endpoint endpoint' := by
+  intro carrier sameA sameX sameCharacter sameEvaluation sameProvenance ledgerCont'
+    endpointCont' provenanceEndpointCont' pkgSig'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameCharacter sameEvaluation
+      carrier.right.right.right.right.right.right.right.left ledgerCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger sameProvenance
+      carrier.right.right.right.right.right.right.right.right.left endpointCont'
+  have transported :
+      GelfandDualitySpectrumPairingCarrier A' X' character' evaluation' rhoA rhoX
+          provenance' ledger' endpoint' bundle pkg :=
+    ⟨unary_transport carrier.left sameA,
+      unary_transport carrier.right.left sameX,
+      unary_transport carrier.right.right.left sameCharacter,
+      unary_transport carrier.right.right.right.left sameEvaluation,
+      unary_transport carrier.right.right.right.right.left sameProvenance,
+      hsame_trans carrier.right.right.right.right.right.left sameA,
+      hsame_trans carrier.right.right.right.right.right.right.left sameX,
+      ledgerCont',
+      endpointCont',
+      provenanceEndpointCont',
+      pkgSig'⟩
+  exact And.intro transported (And.intro sameLedger sameEndpoint)
+
 end BEDC.Derived.GelfandDualityUp
