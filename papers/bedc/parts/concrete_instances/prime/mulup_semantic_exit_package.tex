@@ -73,6 +73,34 @@ object to consume $\mathsf{MulUp}$ as a single semantic package.
   \upgradepath{$\matureClosure$ requires the multiplication package to be connected with $\AddUp$ and $\OrderUp$ through the remaining distribution, cancellation, and order-side laws where appropriate, and a standard-model bridge.}
 \end{closurestatus}
 
+\begin{theorem}[MulUp semantic exit audit row coverage]
+\label{thm:mulup-semantic-exit-audit-row-coverage}
+The concrete unary multiplication package over $\mathsf{BHist}$ is
+audit-covered by the semantic exit theorem, the
+$\mathsf{SemanticNameCert}$ result row, the two $\AddUp$ distributivity
+surfaces, and the unary-prefix $\OrderUp$ monotonicity row. All rows are read
+through $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, $\mathsf{NatMul}$, and
+$\mathsf{PreorderPrefixLE}$, so the displayed surface is a single consumption
+point for the full natural-arithmetic phase.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unary-multiplication-mulup-semantic-exit-package}. It
+packages the carrier, classifier, multiplication relation, and
+$\mathsf{SemanticNameCert}$ result row over the displayed unary histories.
+
+The additive interaction rows are
+\autoref{thm:natmul-additive-right-distributivity-surface} and
+\autoref{thm:natmul-additive-left-distributivity-surface}. They use the same
+$\Cont$ presentation of unary addition and return to the same
+$\mathsf{NatMul}$ relation.
+
+For the order-facing row, use
+\autoref{thm:natmul-unary-prefix-order-monotone}. Finally,
+\autoref{thm:mulup-add-order-phase-interaction-package} records that these
+additive and order rows share the same concrete carrier and classifier
+surface, so the coverage package introduces no additional BEDC object.
+\end{proof}
+
 \begin{theorem}[Unary multiplication preserves unary-prefix order]
 \label{thm:natmul-unary-prefix-order-monotone}
 Let $d,q,q',n,n':\Hist$ be unary histories. If
