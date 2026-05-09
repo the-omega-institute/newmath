@@ -49,6 +49,13 @@ theorem ZNormal_adjacent_one_inversion {h : BHist} :
     | e1_after_e0 _tailNormal =>
         cases hk
 
+theorem ZNormal_zero_extension_inversion {h : BHist} :
+    ZNormal (BHist.e0 h) -> ZNormal h := by
+  intro normal
+  cases normal with
+  | e0 tailNormal =>
+      exact tailNormal
+
 theorem ZNormal_normal_form_coverage :
     ZNormal BHist.Empty ∧ (∀ {h : BHist}, ZNormal h -> ZNormal (BHist.e0 h)) ∧
       ZNormal (BHist.e1 BHist.Empty) ∧
