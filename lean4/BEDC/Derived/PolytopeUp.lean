@@ -410,4 +410,34 @@ theorem PolytopeBHistFacePacket_convex_finset_dependency_readback [AskSetup] [Pa
                                                             (And.intro endpointCont
                                                               endpointPkg)))))
 
+theorem PolytopeBHistFacePacket_downstream_boundary_transport [AskSetup] [PackageSetup]
+    {convex finset halfspaces vertices edges faces ledger provenance endpoint halfspaces'
+      vertices' edges' faces' ledger' endpoint' consumer consumer' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolytopeBHistFacePacket convex finset halfspaces vertices edges faces ledger provenance
+        endpoint bundle pkg ->
+      hsame halfspaces halfspaces' ->
+        hsame vertices vertices' ->
+          hsame edges edges' ->
+            hsame faces faces' ->
+              Cont halfspaces' vertices' edges' ->
+                Cont edges' faces' ledger' ->
+                  Cont provenance ledger' endpoint' ->
+                    PkgSig bundle endpoint' pkg ->
+                      Cont endpoint consumer consumer' ->
+                        PolytopeBHistFacePacket convex finset halfspaces' vertices' edges'
+                            faces' ledger' provenance endpoint' bundle pkg ∧
+                          hsame endpoint endpoint' ∧ hsame consumer' (append endpoint consumer) := by
+  intro packet sameHalfspaces sameVertices sameEdges sameFaces edgeCont ledgerCont endpointCont
+    endpointPkg consumerCont
+  have transported :=
+    PolytopeBHistFacePacket_halfspace_face_carrier_stability
+      (convex := convex) (finset := finset) (halfspaces := halfspaces)
+      (vertices := vertices) (edges := edges) (faces := faces) (ledger := ledger)
+      (provenance := provenance) (endpoint := endpoint) (halfspaces' := halfspaces')
+      (vertices' := vertices') (edges' := edges') (faces' := faces') (ledger' := ledger')
+      (endpoint' := endpoint') (bundle := bundle) (pkg := pkg) packet sameHalfspaces
+      sameVertices sameEdges sameFaces edgeCont ledgerCont endpointCont endpointPkg
+  exact And.intro transported.left (And.intro transported.right.right consumerCont)
+
 end BEDC.Derived.PolytopeUp
