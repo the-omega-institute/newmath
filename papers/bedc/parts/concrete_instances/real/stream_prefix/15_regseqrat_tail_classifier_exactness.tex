@@ -77,6 +77,50 @@ same selected tail, and $T$ is the unique selected $\RegSeqRat$ tail
 classifier available at the finite-window seal.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-classifier union exhaustion]
+\label{thm:regseqrat-tail-classifier-union-exhaustion}
+Let $\{W_i\}_{i\in I}$ be a finite family of selected finite $\RealUp$
+observation-window packages. Assume that every certified common subwindow used
+by the finite cover displays the same $\StreamNameUp$ row, the same
+$\RegSeqRat$ spine row, the same DyadicRatCore observation row, matching
+endpoint $\hsame$ transports, and the same finite $\Cont$ ledger entries. Also
+assume that these certified common subwindows cover the union of the visible
+windows. Then the union window exposes one selected $\RegSeqRat$
+tail-classifier row.
+
+Moreover, any candidate $\RegSeqRat$ tail row whose pullback agrees with the
+selected tail row on every member window factors uniquely through the selected
+tail-classifier row on the union window. The union read surface adds no
+quotient row, completion row, Classical representative, metric-completeness
+certificate, arithmetic or order row, standard-bridge row, or hidden
+regular-sequence selector.
+\end{theorem}
+\begin{proof}
+First restrict the family to a certified common subwindow. By
+\autoref{thm:regseqrat-tail-classifier-exactness}, the shared
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, endpoint-transport, and finite
+ledger rows determine the same selected tail classifier on that subwindow.
+
+Next compare two overlaps in the finite cover. Apply
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} to the two
+restricted readback surfaces. Any mediator that pulls back to both selected
+tails has no independent row outside the displayed finite readback inventory,
+so the overlap contributes the same mediating tail row.
+
+Now exhaust the finite union. Use
+\autoref{thm:realup-finite-window-exhaustion-overlap-closure} to repack the
+certified common subwindows into one finite $\RealUp$ union surface, and use
+\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy} to keep the
+StreamName and RegSeqRat handoff rows fixed across the cover. The repacked
+surface therefore carries a single selected tail classifier.
+
+Finally let a candidate tail row pull back to every member window. The previous
+overlap comparison identifies all of its member-window pullbacks with the same
+selected row, and the union repacking has no further tail-classifier slot. Thus
+the candidate factors uniquely through the selected $\RegSeqRat$ tail row on
+the finite union window.
+\end{proof}
+
 \begin{theorem}[RegSeqRat tail-classifier reindexing stability]
 \label{thm:regseqrat-tail-classifier-reindexing-stability}
 Let $W_0$ and $W_1$ be finite $\RealUp$ observation-window packages, and let
