@@ -117,4 +117,26 @@ theorem SpinGroupRootCarrier_public_consumer_boundary_coverage [AskSetup] [Packa
                       (And.intro sourceScope.right.right.right.left
                         sourceScope.right.right.right.right)))))))))
 
+theorem SpinGroupRootCarrier_unit_lift [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger unitEndpoint
+      unitLedger : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      Cont unit BHist.Empty unitEndpoint ->
+        Cont unitEndpoint groupWord unitLedger ->
+          SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord
+              spinEndpoint ledger bundle pkg ∧
+            UnaryHistory unitEndpoint ∧ UnaryHistory unitLedger ∧ hsame unitEndpoint unit ∧
+              hsame unitLedger (append unitEndpoint groupWord) := by
+  intro carrier unitEndpointCont unitLedgerCont
+  have unitEndpointUnary : UnaryHistory unitEndpoint :=
+    unary_cont_closed carrier.left.left unary_empty unitEndpointCont
+  have groupUnary : UnaryHistory groupWord :=
+    unary_transport unary_empty (hsame_symm carrier.right.left)
+  have unitLedgerUnary : UnaryHistory unitLedger :=
+    unary_cont_closed unitEndpointUnary groupUnary unitLedgerCont
+  exact
+    ⟨carrier, unitEndpointUnary, unitLedgerUnary, cont_right_unit_result unitEndpointCont,
+      unitLedgerCont⟩
+
 end BEDC.Derived.SpinGroupUp
