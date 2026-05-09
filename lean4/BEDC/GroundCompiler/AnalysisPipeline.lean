@@ -141,6 +141,11 @@ def StageLegality (c : List DisplayAlphabet) : Prop :=
 def StageDecode (c : List DisplayAlphabet) (S : EventFlow) : Prop :=
   Decode c = some S
 
+def StageProtocol
+    (R : GeneratedAnalysisProtocolRecognizer)
+    (P : AnalysisProtocolCandidateFlow) : Prop :=
+  RecognizesAnalysisProtocol R P
+
 inductive FormalAnalysisProtocol :
     AnalysisProtocolCandidateFlow -> Prop where
   | recognized {R : GeneratedAnalysisProtocolRecognizer}
