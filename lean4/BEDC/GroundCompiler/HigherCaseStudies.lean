@@ -126,4 +126,54 @@ theorem functor_extends_category {S : EventFlow} :
   | intro M hM =>
       exact ⟨M.sourceCategory, M.targetCategory, hM.left, hM.right.left⟩
 
+structure NaturalTransformationMotifRecord where
+  sourceFunctor : FunctorMotifRecord
+  targetFunctor : FunctorMotifRecord
+  componentFamily : EventFlow
+  naturalitySquareProof : EventFlow
+  componentLedger : EventFlow
+
+def RecognizedNaturalTransformationMotifRecord
+    (S : EventFlow) (M : NaturalTransformationMotifRecord) : Prop :=
+  RecognizedFunctorMotifRecord S M.sourceFunctor /\
+    RecognizedFunctorMotifRecord S M.targetFunctor /\
+    Subflow M.componentFamily S /\
+    Subflow M.naturalitySquareProof S /\
+    Subflow M.componentLedger S /\
+    NonemptyEventFlow M.componentLedger
+
+def NaturalTransformationMotif (S : EventFlow) : Prop :=
+  exists M : NaturalTransformationMotifRecord,
+    RecognizedNaturalTransformationMotifRecord S M
+
+theorem natural_transformation_extends_functor {S : EventFlow} :
+    NaturalTransformationMotif S ->
+      exists F G : FunctorMotifRecord,
+        RecognizedFunctorMotifRecord S F /\
+          RecognizedFunctorMotifRecord S G := by
+  intro h
+  cases h with
+  | intro M hM =>
+      exact ⟨M.sourceFunctor, M.targetFunctor, hM.left, hM.right.left⟩
+
+structure ChainComplexMotifRecord where
+  gradedObject : EventFlow
+  boundaryMap : EventFlow
+  boundaryComposition : EventFlow
+  zeroCompositionProof : EventFlow
+  chainLedger : EventFlow
+
+def RecognizedChainComplexMotifRecord
+    (S : EventFlow) (M : ChainComplexMotifRecord) : Prop :=
+  Subflow M.gradedObject S /\
+    Subflow M.boundaryMap S /\
+    Subflow M.boundaryComposition S /\
+    Subflow M.zeroCompositionProof S /\
+    Subflow M.chainLedger S /\
+    NonemptyEventFlow M.chainLedger
+
+def ChainComplexMotif (S : EventFlow) : Prop :=
+  exists M : ChainComplexMotifRecord,
+    RecognizedChainComplexMotifRecord S M
+
 end BEDC.GroundCompiler.CaseStudies
