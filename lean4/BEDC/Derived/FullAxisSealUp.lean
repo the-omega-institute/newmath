@@ -74,4 +74,17 @@ theorem FullAxisPrefixThread_obligation_inventory {h k : BHist} :
         (And.intro classifiedHK
           (And.intro inventory.right.right.left inventory.right.right.right))))
 
+theorem FullAxisBoundaryMarker_finite_obligation :
+    hsame boundary_01 (BHist.e1 (BHist.e0 BHist.Empty)) ∧
+      (FullAxisSourceSpec zeroSpinePrefixThread boundary_01 -> False) ∧
+        (FullAxisPatternSpec zeroSpinePrefixThread boundary_01 -> False) ∧
+          (FullAxisLedgerPolicy zeroSpinePrefixThread boundary_01 -> False) := by
+  constructor
+  · rfl
+  · constructor
+    · exact boundary_01_not_zeroSpine
+    · constructor
+      · exact boundary_01_not_zeroSpine
+      · exact boundary_01_not_zeroSpine
+
 end BEDC.Derived.AxisZeckendorf.FullAxis
