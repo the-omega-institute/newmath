@@ -182,6 +182,45 @@ theorem TopGroupRootThresholdPackage_export_boundary_certificate
   }
   exact And.intro cert provenanceEmpty
 
+theorem TopGroupRootPublicThreshold_namecert_surface
+    {groupSource topologySource product inverse neighbourhood ledger classifier provenance :
+      BHist} :
+    TopGroupRootPublicThresholdPacket groupSource topologySource product inverse neighbourhood
+        ledger classifier provenance ->
+      SemanticNameCert (fun h : BHist => hsame h provenance)
+        (fun h : BHist => hsame h provenance)
+        (fun h : BHist => hsame h provenance) hsame ∧ hsame provenance BHist.Empty := by
+  intro packet
+  have provenanceSelf : hsame provenance provenance :=
+    hsame_refl provenance
+  have cert :
+      SemanticNameCert (fun h : BHist => hsame h provenance)
+        (fun h : BHist => hsame h provenance)
+        (fun h : BHist => hsame h provenance) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro provenance provenanceSelf
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK carrierH
+        exact hsame_trans (hsame_symm sameHK) carrierH
+    }
+    pattern_sound := by
+      intro h carrier
+      exact carrier
+    ledger_sound := by
+      intro h carrier
+      exact carrier
+  }
+  exact And.intro cert packet.right.right.right.right.right
+
 theorem TopGroupRootThreshold_product_inverse_empty_scope
     {group topology product inverse neighborhood ledger provenance : BHist} :
     TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->

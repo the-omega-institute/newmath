@@ -122,4 +122,22 @@ theorem LPDualityObjectiveFiber_sandwich_closure
         (PreorderPrefixLE_of_hsame sameMixtures)
         (PreorderPrefixLE_of_hsame (hsame_symm sameMixtures))))
 
+theorem LPDualityDualObjective_binary_affine_readback
+    {alpha beta dual dual' left right affine : BHist} :
+    UnaryHistory alpha -> UnaryHistory beta -> UnaryHistory dual -> UnaryHistory dual' ->
+      Cont alpha dual left -> Cont beta dual' right -> Cont left right affine ->
+        UnaryHistory affine ∧ hsame affine (append (append alpha dual) (append beta dual')) := by
+  intro alphaUnary betaUnary dualUnary dualUnary' leftRow rightRow affineRow
+  have leftUnary : UnaryHistory left :=
+    unary_cont_closed alphaUnary dualUnary leftRow
+  have rightUnary : UnaryHistory right :=
+    unary_cont_closed betaUnary dualUnary' rightRow
+  exact And.intro
+    (unary_cont_closed leftUnary rightUnary affineRow)
+    (by
+      cases leftRow
+      cases rightRow
+      cases affineRow
+      rfl)
+
 end BEDC.Derived.LPDualityUp
