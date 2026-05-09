@@ -14827,3 +14827,51 @@ Rationale:
 Distinct from B-454 (Weyl reflection words preserve roots) which is preservation under reflection words, not the order-2 involution row itself. 122_rootsystem has reflection-closure and Cartan-ledger but no theorem that s_alpha is involutive. Without it the WeylGroup bridge consumption theorem is incomplete — Weyl-group involutions are unwitnessed. Constructor inversion / determinism lemma at the most-cited level.
 
 ---
+
+### B-584 - ModelTheoryUp elementary-equivalence reflexivity transport row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | ModelTheoryUp elementary-equivalence reflexivity transport row |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For every admitted ModelTheoryUp source packet, Elem classifies the displayed structure A with itself under the trivial hsame transport, with reflexivity witnessed by the satisfaction-exactness row applied to identical formula and assignment endpoints, and no host model identity is invoked.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/176_modeltheory_namecert_construction.tex`
+
+Rationale:
+176_modeltheory has elementary-transport (preservation under hsame) but no reflexivity row for Elem itself — the foundational equivalence-relation closure missing for the model classifier, analogous to saturated reflexivity rows already present for InnerProduct and ProbSpace. Every classifier needs reflexivity; the chapter is its own closure (438 lines, well under cap) and the proof is one application of satisfaction-exactness on identical endpoints.
+
+---
+
+### B-585 - AffineVarUp singleton-equation family zero-locus exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AffineVarUp singleton-equation family zero-locus exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For any polynomial code p and the singleton finite-spine cons(p, nil), V_{R,n}(cons(p,nil))(x) holds iff AffPoint_{R,n}(x) and PolyEvalZero_{R,n}(p,x) both hold.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/132_affinevar_namecert_construction.tex`
+
+Rationale:
+132_affinevar has empty-family, concatenation, inclusion-reversal, duplicate-insertion, and mutual-inclusion rows but no canonical singleton (one-equation hypersurface) base case. This is the bridge case every downstream affine-variety consumer needs. Clean composite of empty-family-iff plus concatenation reading cons(p,nil) = cons(p, nil). Missing constructor case for the zero-locus carrier.
+
+---
