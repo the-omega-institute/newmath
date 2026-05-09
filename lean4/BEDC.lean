@@ -74,6 +74,8 @@ import BEDC.Derived.IntUp.StdBridge
 import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.EllipticCurveUp
+import BEDC.Derived.EntanglementUp
+import BEDC.Derived.EntropyUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.GaloisExtUp
