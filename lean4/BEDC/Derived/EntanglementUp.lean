@@ -69,4 +69,39 @@ theorem EntanglementBHistSourceSurface_namecert_obligation_surface [AskSetup] [P
   }
   exact And.intro cert surface
 
+theorem EntanglementBHistSourceSurface_source_factor_boundary [AskSetup] [PackageSetup]
+    {quantumState leftFactor rightFactor obstruction stateTransport leftTransport rightTransport
+      provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EntanglementBHistSourceSurface quantumState leftFactor rightFactor obstruction stateTransport
+        leftTransport rightTransport provenance endpoint bundle pkg ->
+      UnaryHistory leftFactor ∧ UnaryHistory rightFactor ∧ UnaryHistory endpoint ∧
+        UnaryHistory obstruction ∧ hsame stateTransport quantumState ∧
+          hsame leftTransport leftFactor ∧ hsame rightTransport rightFactor ∧
+            Cont quantumState obstruction provenance ∧ Cont leftFactor rightFactor endpoint ∧
+              PkgSig bundle endpoint pkg := by
+  intro surface
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed surface.right.left surface.right.right.left
+      surface.right.right.right.right.right.right.right.right.left
+  constructor
+  · exact surface.right.left
+  constructor
+  · exact surface.right.right.left
+  constructor
+  · exact endpointUnary
+  constructor
+  · exact surface.right.right.right.left
+  constructor
+  · exact surface.right.right.right.right.left
+  constructor
+  · exact surface.right.right.right.right.right.left
+  constructor
+  · exact surface.right.right.right.right.right.right.left
+  constructor
+  · exact surface.right.right.right.right.right.right.right.left
+  constructor
+  · exact surface.right.right.right.right.right.right.right.right.left
+  · exact surface.right.right.right.right.right.right.right.right.right
+
 end BEDC.Derived.EntanglementUp
