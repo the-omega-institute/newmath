@@ -138,6 +138,19 @@ def RecognizerSelfDescriptionFlow
 def CompilerRecognizerFlow (C : EventFlow) : Prop :=
   RecognizedCompilerFlow C
 
+def CompilerBehaviorClassifier (C C' : EventFlow) : Prop :=
+  exists behavior : CompilerBehavior, behavior C C' /\ behavior C' C
+
+def CompilesCompilerFlow (C S T : EventFlow) : Prop :=
+  CompilerRecognizerFlow C /\
+    FormalCompilerInput (CompilerDatum.eventFlow S) /\
+    FormalCompilerInput (CompilerDatum.eventFlow T)
+
+def SelfHostingCompilerFlow (C : EventFlow) : Prop :=
+  CompilerRecognizerFlow C /\
+    exists C' : EventFlow,
+      CompilesCompilerFlow C C C' /\ CompilerBehaviorClassifier C' C
+
 theorem formal_recognition_evidence_requires_certified
     {R : RecognizerCandidateFlow} {rho : RecognitionRole} {S : EventFlow} :
     FormalRecognitionEvidence R rho S -> CertifiedRecognizer R rho := by
@@ -206,5 +219,12 @@ theorem external_views_inadmissible :
           structural_hidden_not_formal
             StructuralHiddenInput.hostTheoremIdentifier
       · exact structural_hidden_not_formal StructuralHiddenInput.hostPkg
+
+theorem self_hosting_projects_behavior_classifier {C : EventFlow} :
+    SelfHostingCompilerFlow C ->
+      exists C' : EventFlow,
+        CompilesCompilerFlow C C C' /\ CompilerBehaviorClassifier C' C := by
+  intro h
+  exact h.right
 
 end BEDC.GroundCompiler.RecognizerFlows

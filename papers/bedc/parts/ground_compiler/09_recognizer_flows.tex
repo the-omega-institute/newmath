@@ -350,6 +350,7 @@ $$
 
 \begin{definition}[Compiler behavior classifier]
 \label{def:recognizer-generated-compiler-behavior-classifier}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.CompilerBehaviorClassifier}
 Define the compiler behavior classifier by
 $$
   C\equiv_{\mathrm{comp}} C'
@@ -359,6 +360,7 @@ when $C$ and $C'$ produce the same recognized outputs on all recognized event-fl
 
 \begin{definition}[Self-hosting compiler flow]
 \label{def:recognizer-generated-self-hosting-compiler-flow}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.SelfHostingCompilerFlow}
 A compiler recognizer flow $C$ is \emph{self-hosting} when $\mathsf{RecognizesCompiler}(C)$, $C$ compiles its own compiler flow to some $C'$, the result is behaviorally equivalent to $C$, and the self-compilation ledger records raw $C$, compiled code, decoded $C'$, and the behavior-classifier witness. Formally, $\mathsf{SelfHosting}(C)$ holds when there exists $C'$ such that
 $$
   \mathsf{Compiles}_C(C,C')
@@ -369,7 +371,12 @@ $$
 
 \begin{proposition}[Self-hosting is not kernel equality]
 \label{prop:recognizer-generated-self-hosting-not-kernel-equality}
-If $\mathsf{SelfHosting}(C)$, then it establishes compiler-behavior stability, not raw event-flow equality and not kernel-level sameness.
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.self\_hosting\_projects\_behavior\_classifier}
+If $\mathsf{SelfHosting}(C)$, then there exists a compiled flow $C'$ together with a formal self-compilation judgment $\mathsf{Compiles}_C(C,C')$ and a compiler-behavior classifier witness
+$$
+  C'\equiv_{\mathrm{comp}}C.
+$$
+Thus self-hosting records compiler-behavior stability through a classifier witness; it does not record raw event-flow equality or kernel-level sameness as the self-hosting datum.
 \end{proposition}
 
 \begin{proof}
