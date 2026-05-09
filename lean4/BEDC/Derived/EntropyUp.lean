@@ -165,4 +165,45 @@ theorem EntropySourceSurface_namecert_obligation_surface [AskSetup] [PackageSetu
                     (And.intro surface.right.right.right.right.right.right.right.right.left
                       surface.right.right.right.right.right.right.right.right.right)))))))))
 
+theorem EntropyBHistMeasureSourceSurface_log_weight_transport_determinacy [AskSetup] [PackageSetup]
+    {distribution integral logWeight transport provenance observationLedger endpoint
+      distribution' integral' logWeight' transport' observationLedger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EntropyBHistMeasureSourceSurface distribution integral logWeight transport provenance
+        observationLedger endpoint bundle pkg ->
+      hsame distribution distribution' ->
+      hsame integral integral' ->
+      hsame logWeight logWeight' ->
+      Cont distribution' integral' observationLedger' ->
+      Cont observationLedger' logWeight' endpoint' ->
+      Cont endpoint' provenance transport' ->
+      PkgSig bundle transport' pkg ->
+      EntropyBHistMeasureSourceSurface distribution' integral' logWeight' transport' provenance
+          observationLedger' endpoint' bundle pkg ∧
+        hsame observationLedger observationLedger' ∧
+          hsame endpoint endpoint' ∧ hsame logWeight logWeight' := by
+  intro surface sameDistribution sameIntegral sameLogWeight distributionIntegral'
+    ledgerLog' endpointProvenance' packageTransport'
+  have distribution'Unary : UnaryHistory distribution' :=
+    unary_transport surface.left sameDistribution
+  have integral'Unary : UnaryHistory integral' :=
+    unary_transport surface.right.left sameIntegral
+  have logWeight'Unary : UnaryHistory logWeight' :=
+    unary_transport surface.right.right.left sameLogWeight
+  have sameObservationLedger : hsame observationLedger observationLedger' :=
+    cont_respects_hsame sameDistribution sameIntegral surface.right.right.right.right.left
+      distributionIntegral'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameObservationLedger sameLogWeight
+      surface.right.right.right.right.right.left ledgerLog'
+  exact And.intro
+    (And.intro distribution'Unary
+      (And.intro integral'Unary
+        (And.intro logWeight'Unary
+          (And.intro surface.right.right.right.left
+            (And.intro distributionIntegral'
+              (And.intro ledgerLog'
+                (And.intro endpointProvenance' packageTransport')))))))
+    (And.intro sameObservationLedger (And.intro sameEndpoint sameLogWeight))
+
 end BEDC.Derived.EntropyUp
