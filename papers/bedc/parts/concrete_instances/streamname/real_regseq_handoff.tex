@@ -386,6 +386,58 @@ RealUp-completeness data, so the union consumer surface is exhausted exactly by
 the stated rows.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat three-window seal coherence]
+\label{thm:streamname-regseqrat-three-window-seal-coherence}
+Let $\mathcal{W}_0$, $\mathcal{W}_1$, and $\mathcal{W}_2$ be certified finite
+$\StreamNameUp$ windows with certified finite pairwise overlaps. Suppose that
+on every displayed overlap the selected $\mathsf{RatHistoryClassifier}$ rows,
+$\mathsf{ProbeBundle}$ ledger rows, $\mathsf{InBundle}$ membership rows,
+$\mathsf{UnaryHistory}$ observations, displayed $\hsame$ comparisons, and
+DyadicRatCore finite ledger rows are compatible. Then the finite-window
+$\RealUp$ seal source surface obtained by pasting
+$(\mathcal{W}_0 \cup \mathcal{W}_1) \cup \mathcal{W}_2$ is the same source
+surface as the one obtained by pasting
+$\mathcal{W}_0 \cup (\mathcal{W}_1 \cup \mathcal{W}_2)$.
+
+The common surface is exhausted by the displayed finite StreamName,
+$\RegSeqRat$, and DyadicRatCore rows. No completion datum, quotient datum, host
+index equality, metric-completeness row, Classical principle, or ambient
+model datum enters the comparison.
+\end{theorem}
+\begin{proof}
+First compare the sources on each pairwise overlap. Apply
+\autoref{thm:streamname-real-regseq-overlap-unique-source} to the certified
+restrictions of $\mathcal{W}_0$ and $\mathcal{W}_1$, then to the restrictions
+of $\mathcal{W}_1$ and $\mathcal{W}_2$, and then to the restrictions of
+$\mathcal{W}_0$ and $\mathcal{W}_2$. Each comparison is witnessed by the same
+displayed unary observations, selected classifier rows, bundle rows,
+membership rows, and $\hsame$ rows carried by the pairwise overlap.
+
+Next stabilize the seal rows pointwise. Use
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability} on each overlap.
+The shared DyadicRatCore finite ledger rows force the induced $\RealUp$ seal
+rows to agree wherever two windows meet.
+
+Now paste in the left-associated order. Apply
+\autoref{thm:streamname-regseqrat-pointwise-seal-pasting} to
+$\mathcal{W}_0$ and $\mathcal{W}_1$, and then apply the same theorem to the
+pasted surface and $\mathcal{W}_2$. The second application uses the pairwise
+overlap identifications already obtained to identify every row in
+$(\mathcal{W}_0 \cup \mathcal{W}_1) \cap \mathcal{W}_2$.
+
+Paste in the right-associated order by the symmetric construction. The same
+pasting theorem first combines $\mathcal{W}_1$ with $\mathcal{W}_2$ and then
+combines $\mathcal{W}_0$ with that surface. Because every overlap row has
+already been identified by source uniqueness and pointwise seal stability, no
+new row can distinguish the two bracketings.
+
+Finally exhaust both pasted surfaces. Apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion} to the
+left-associated surface and again to the right-associated surface. Both
+surfaces contain exactly the displayed finite rows listed in the theorem and
+therefore present the same source-facing $\RealUp$ seal surface.
+\end{proof}
+
 \begin{theorem}[StreamName Real-RegSeq common-window consumer determinacy]
 \label{thm:streamname-real-regseq-common-window-consumer-determinacy}
 Let $\mathcal{W}_0$ and $\mathcal{W}_1$ be public $\StreamNameUp$
@@ -600,6 +652,42 @@ same restricted source surface. Therefore the StreamName window package, the
 RegSeqRat pointwise seal package, and the RealUp endpoint seal determine one
 public read exactly in the stated agreement conditions, and the reverse
 direction reads the same four families of rows back into the three packages.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat finite-window cover determinacy]
+\label{thm:streamname-regseqrat-finite-window-cover-determinacy}
+Let $\{W_i\}_{i\in I}$ be a finite public $\StreamNameUp$ cover of rational
+windows feeding the same $\RegSeqRat$ finite-window consumer and the same
+finite-window $\RealUp$ handoff surface. Suppose every displayed pairwise
+overlap satisfies the overlap-source and nested-window determinacy hypotheses
+for the StreamName source rows, and suppose every three-way overlap is
+compatible in the triple seal cover. Then the induced $\RegSeqRat$ seal rows
+and finite-window $\RealUp$ handoff rows determine one cover-indexed source
+surface: the selected $\mathsf{RatHistoryClassifier}$ rows, the
+$\mathsf{ProbeBundle}$ ledger, the $\mathsf{InBundle}$ membership rows,
+$\mathsf{UnaryHistory}$ observations, and the displayed $\hsame$ comparisons.
+
+The determined surface contains no completion datum, quotient datum, host
+index equality, RegSeqRat regularity claim outside the finite seal rows, or
+$\RealUp$ seal classifier outside the displayed ledger boundary.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:streamname-real-regseq-finite-overlap-source-stability} and
+\autoref{thm:streamname-real-regseq-overlap-unique-source} on each displayed
+pairwise overlap. They identify the source row, unary observation, bundle
+membership, and $\hsame$ comparison read by the two windows.
+
+Induct over the finite cover. The empty and singleton cases are just the
+displayed window rows. In the step case, apply
+\autoref{thm:streamname-regseqrat-nested-window-seal-determinacy} to paste the
+new window into the already determined finite surface along the pairwise
+overlap.
+
+For compatibility of the pasted overlaps, use
+\autoref{thm:streamname-regseqrat-realup-triple-seal-cover}. The triple cover
+keeps the StreamName, RegSeqRat, and RealUp reads on the same finite ledger, so
+no completion, quotient, host-index, external regularity, or off-ledger
+classifier row is introduced.
 \end{proof}
 
 \begin{theorem}[StreamName-RegSeqRat uniform finite-window seal]
