@@ -64,6 +64,27 @@ def LedgerCompleteNameCertFlow
       NameCertRecognitionRelation R S N /\
         NameCertFieldSubflow R S NameCertFieldRole.ledger ledger
 
+def NameCertSoundnessEvent
+    (_R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
+    (part : EventFlow) : Prop :=
+  SourceSubflow part S
+
+def SoundRecognizedNameCertFlow
+    (R : GeneratedNameCertRecognizer) (S : NameCertCandidateFlow)
+    (N : NameCandidateFlow) : Prop :=
+  NameCertRecognitionRelation R S N /\
+    exists source pattern classifier stability ledger : EventFlow,
+      NameCertFieldSubflow R S NameCertFieldRole.source source /\
+        NameCertSoundnessEvent R S source /\
+        NameCertFieldSubflow R S NameCertFieldRole.pattern pattern /\
+        NameCertSoundnessEvent R S pattern /\
+        NameCertFieldSubflow R S NameCertFieldRole.classifier classifier /\
+        NameCertSoundnessEvent R S classifier /\
+        NameCertFieldSubflow R S NameCertFieldRole.stability stability /\
+        NameCertSoundnessEvent R S stability /\
+        NameCertFieldSubflow R S NameCertFieldRole.ledger ledger /\
+        NameCertSoundnessEvent R S ledger
+
 def NameCertCode (S : NameCertCandidateFlow) (_N : NameCandidateFlow) :
     List DisplayAlphabet :=
   FlowEncoding S
@@ -230,5 +251,20 @@ theorem channel_compilation_preserves_namecert_recognition :
     NameCertRecognitionPreservingCompilation := by
   intro R S N hRecognizes
   exact ⟨S, flow_level_round_trip S, hRecognizes⟩
+
+theorem sound_namecert_flow_licenses_name
+    {R : GeneratedNameCertRecognizer} {S : NameCertCandidateFlow}
+    {N : NameCandidateFlow} :
+    SoundRecognizedNameCertFlow R S N -> LicensedName N := by
+  intro hSound
+  exact ⟨S, R, hSound.left⟩
+
+theorem namecert_flow_recognition_conservativity
+    {S : NameCertCandidateFlow} {N : NameCandidateFlow} {w : RawEvent}
+    {m : DisplayAlphabet} :
+    NameCertFlow S N -> List.Mem w S -> List.Mem m w ->
+      m = BEDC.FKernel.Mark.BMark.b0 \/ m = BEDC.FKernel.Mark.BMark.b1 := by
+  intro _ hw hm
+  exact event_flow_conservativity hw hm
 
 end BEDC.GroundCompiler.NameCertGenerated
