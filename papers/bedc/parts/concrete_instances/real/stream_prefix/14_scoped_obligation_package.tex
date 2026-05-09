@@ -351,6 +351,51 @@ same transported endpoint data, hence their endpoint, denominator, dyadic
 source, and $\RealUp$ seal rows classify together by $\hsame$.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat RealUp common handoff cover]
+\label{thm:streamname-regseqrat-realup-common-handoff-cover}
+For two public $\StreamNameUp$ finite-window packages with a certified common
+refinement, let a $\RegSeqRat$ handoff package and a finite-window $\RealUp$
+read surface be induced from the same displayed restrictions. Then all
+consumer-facing rows factor through one common source package consisting
+exactly of the selected $\mathsf{RatStreamNameCarrier}$ rows, the selected
+$\mathsf{RatStreamNameClassifier}$ rows, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, $\mathsf{UnaryHistory}$, the displayed $\hsame$ rows, the
+dyadic ledger rows consumed by the $\RegSeqRat$ seal, and the finite $\RealUp$
+ledger boundary.
+
+The cover contains no quotient data, no completion data, no host index
+equality, no metric-completeness data, and no standard-bridge data. Thus the
+StreamName source, the $\RegSeqRat$ handoff, and the finite-window $\RealUp$
+read surface have a single common BEDC handoff boundary.
+\end{theorem}
+\begin{proof}
+Start with the two public $\StreamNameUp$ finite-window packages. Apply
+\autoref{thm:streamname-real-regseq-overlap-unique-source}. It identifies the
+selected $\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ rows as the unique stream-name source for
+the overlapping $\RegSeqRat$ handoff surface.
+
+Next apply \autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}.
+Every $\RegSeqRat$ handoff row consumed downstream is exhausted by the
+selected stream-name rows, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\mathsf{UnaryHistory}$, the displayed $\hsame$ transports, and the dyadic
+ledger rows used by the seal.
+
+For the finite-window $\RealUp$ side, use
+\autoref{thm:realup-finite-window-exhaustion-obligation}. It reads the public
+finite-window ledger only from the same observation restrictions, endpoint
+rows, unary-history witnesses, dyadic rows, and displayed transports.
+
+Finally use \autoref{thm:realup-finite-window-common-refinement-determinacy}.
+The certified common refinement prevents the two finite-window packages from
+exposing a second endpoint, denominator, dyadic source, or $\RealUp$ seal row.
+Repacking the StreamName source, the exhausted $\RegSeqRat$ handoff rows, and
+the finite $\RealUp$ ledger boundary gives one common source package. Since
+none of the cited surfaces exports quotient representatives, completion
+objects, host index equality, metric-completeness witnesses, or standard-bridge
+rows, the common cover excludes exactly those data.
+\end{proof}
+
 \begin{theorem}[RealUp selected finite-window certificate boundary]
 \label{thm:realup-selected-window-certificate-boundary}
 A selected $\RealUp$ finite-window certificate for

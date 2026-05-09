@@ -679,6 +679,88 @@ projection of the shared packet's endpoints, neighbourhood row, $\hsame$
 transports, and finite ledger entry.
 \end{proof}
 
+\begin{theorem}[TopGroupUp obligation inventory]
+\label{thm:topgroup-obligation-inventory}
+The $\TopGroupUp$ certificate has exactly the following public obligations:
+the shared carrier obligation for the displayed $\GroupUp$ and $\TopologyUp$
+rows, the classifier-transport obligation over their componentwise $\hsame$
+rows, the multiplication-continuity obligation, the inversion-continuity
+obligation, the source-compatibility obligation, and the finite ledger
+obligation for the displayed $\Cont$ rows.
+
+No ambient topological-group object, no third operation-continuity family, and
+no operation row outside the carried product and inverse graphs belongs to the
+certificate boundary.
+\end{theorem}
+\begin{proof}
+First bind the source side by
+\autoref{thm:topgroup-source-projection-namecert-compatibility}. It gives the
+shared $\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$ carrier endpoints,
+classifier rows, componentwise $\hsame$ transports, and one $\mathsf{Pkg}$
+provenance packet.
+
+Next bind the operation side by
+\autoref{thm:topgroup-product-inverse-obligation-triad}. The operation surface
+has exactly carrier compatibility, product-neighbourhood transport, and
+inverse-neighbourhood transport.
+
+Finally use \autoref{thm:topgroup-cont-ledger-operation-exhaustion}. The finite
+$\Cont$ ledger is exhausted by the product and inverse continuity families, and
+\autoref{thm:topgroup-public-consumer-minimality} excludes every ambient row
+outside the displayed source, operation, ledger, and provenance surface.
+\end{proof}
+
+\begin{theorem}[TopGroupUp carrier-classifier obligation]
+\label{thm:topgroup-carrier-classifier-obligation}
+Carrier and classifier transport for a $\TopGroupUp$ certificate is exactly
+componentwise $\hsame$ over the shared $\GroupUp$ and $\TopologyUp$ source rows,
+together with one $\mathsf{Pkg}$ provenance packet. The transport does not
+split into separate group and topology carriers and does not import any
+external topological-group classifier.
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet through \autoref{def:topgroup-bhist-carrier}. The
+displayed group source, topology source, product graph, inverse graph,
+neighbourhood row, finite ledger, and provenance row are coordinates of one
+carried $\mathsf{BHist}$ packet.
+
+Apply \autoref{thm:topgroup-root-source-compatibility}. It identifies the
+$\GroupUp$ and $\TopologyUp$ source certificates as projections over the same
+carried endpoints, with classifier transport supplied by the componentwise
+$\hsame$ rows.
+
+The same projection is recorded by
+\autoref{thm:topgroup-source-projection-namecert-compatibility}. Hence the
+carrier-classifier obligation is precisely componentwise $\hsame$ over the two
+shared source rows plus the single $\mathsf{Pkg}$ provenance packet, with no
+independent classifier source remaining.
+\end{proof}
+
+\begin{theorem}[TopGroupUp operation ledger obligation]
+\label{thm:topgroup-operation-ledger-obligation}
+The multiplication and inverse continuity obligations of a $\TopGroupUp$
+certificate are exactly the two operation-continuity ledger families supplied
+by the finite $\Cont$ ledger: product-neighbourhood transport and
+inverse-neighbourhood transport. There is no third operation row in the public
+certificate boundary.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:topgroup-continuity-ledger-coverage}. Every public continuity
+row over the accepted packet is covered by the finite $\Cont$ ledger and is one
+of the product or inverse neighbourhood transport rows.
+
+\autoref{thm:topgroup-cont-ledger-operation-exhaustion} identifies those two
+families with the product and inverse components of
+\autoref{def:topgroup-bhist-continuity-obligation-triple}. It also excludes
+ambient continuity predicates and any operation outside the carried product and
+inverse graphs.
+
+Finally apply \autoref{thm:topgroup-product-inverse-obligation-triad}. The
+public operation surface repacks the same two continuity families with the
+shared carrier compatibility row. Therefore the operation ledger obligation has
+exactly two operation families and no third operation row.
+\end{proof}
+
 \closureat{TopGroupUp}{seedStr}
 \begin{closurestatus}{\TopGroupUp}
   \theoryclosure{\seedClosure}
