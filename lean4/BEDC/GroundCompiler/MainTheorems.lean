@@ -1,6 +1,7 @@
 import BEDC.GroundCompiler.ChannelEncoding
 import BEDC.GroundCompiler.ChapterFlow
 import BEDC.GroundCompiler.DerivCertGenerated
+import BEDC.GroundCompiler.MetricsFlow
 import BEDC.GroundCompiler.RecognizerFlows
 import BEDC.GroundCompiler.SemanticMotif
 import BEDC.GroundCompiler.SelfHostingCompilerFlow
@@ -334,5 +335,35 @@ theorem declared_bootstrap_boundary
       BEDC.GroundCompiler.SelfHostingCompilerFlow.BootstrapRecorded C := by
   exact
     BEDC.GroundCompiler.SelfHostingCompilerFlow.remaining_bootstrap_boundary_visible
+
+theorem motif_analysis
+    {R : SemanticMotif.GeneratedMotifRecognizer} {S M : EventFlow}
+    {mu : SemanticMotif.MotifRole} :
+    SemanticMotif.MotifOccurrence R S M mu ->
+      FormalCompilerInput (CompilerDatum.eventFlow R) /\
+        exists L : EventFlow, SemanticMotif.MotifLedger R S M mu L := by
+  intro h
+  exact ⟨h.left, SemanticMotif.no_motif_without_ledger h⟩
+
+theorem metric_conservativity :
+    (forall report : MetricsFlow.MetricReport,
+      forall S : EventFlow,
+      forall w : RawEvent,
+      forall m : DisplayAlphabet,
+        List.Mem S report.sourceFlows ->
+          List.Mem w S ->
+            List.Mem m w -> m = BMark.b0 \/ m = BMark.b1) /\
+      exists report : MetricsFlow.MetricReport, exists S : EventFlow,
+        List.Mem S report.sourceFlows /\ Not (AcceptedObjectFlow S) := by
+  constructor
+  · intro report S w m hS hw hm
+    exact MetricsFlow.metrics_conservativity hS hw hm
+  · exact MetricsFlow.metrics_cannot_replace_certificates
+
+theorem similarity_not_identity :
+    exists Rfam : SemanticMotif.GeneratedMotifRecognizer -> Prop,
+      exists S T mu M L : EventFlow,
+        SemanticMotif.MotifOverlap Rfam S T mu M L /\ Not (S = T) := by
+  exact SemanticMotif.motif_similarity_not_object_equality
 
 end BEDC.GroundCompiler.MainTheorems
