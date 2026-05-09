@@ -540,3 +540,82 @@ Finally repack that common source-Frobenius ledger through
 therefore read from the same carried rows in both packets, so the two exported
 endpoints are related by $\hsame$.
 \end{proof}
+
+\begin{theorem}[InducedRepUp source classifier obligation]
+\label{thm:inducedrep-source-classifier-obligation}
+For an $\InducedRepUp$ carrier packet
+$\mathcal{I}=(S,R,i,r,F,\eta,\epsilon,\rho,\lambda)$, the public classifier
+is determined by the SubgroupUp source row $S$, the RepresentationRingUp
+source row $R$, the induction endpoint $i$, the restriction endpoint $r$,
+and the displayed $\hsame$ transport rows of
+\autoref{def:inducedrep-restriction-induction-classifier}. No classifier
+read may use a host subgroup, representation category, or functor equality
+outside those carried rows.
+\end{theorem}
+\begin{proof}
+Project the carrier through
+\autoref{thm:inducedrep-subgroup-representationring-consumer-boundary}. The
+consumer sees the SubgroupUp and RepresentationRingUp source rows only
+through $S$ and $R$, together with the induction and restriction endpoints.
+
+Apply \autoref{thm:inducedrep-consumer-boundary}. It identifies the visible
+classifier rows as $H_{\leq},H_{\mathrm{rep}},H_{\uparrow}$, and
+$H_{\downarrow}$ together with the public Frobenius and continuation rows.
+
+Finally apply \autoref{thm:inducedrep-frobenius-source-row-determinacy}. Once
+the source rows, endpoints, Frobenius rows, $\Cont$ ledger, and $\Pkg$
+provenance are fixed, the exported classifier endpoints are related by
+$\hsame$, so no outside classifier datum is available.
+\end{proof}
+
+\begin{theorem}[InducedRepUp ledger exactness obligation]
+\label{thm:inducedrep-ledger-exactness-obligation}
+The visible Frobenius ledger reads of an $\InducedRepUp$ carrier are exactly
+the rows recorded by the $\Cont$ ledger $\lambda$ and the $\Pkg$ provenance
+packet $\rho$ for the consumed source certificates, induction endpoint,
+restriction endpoint, and Frobenius rows $F,\eta,\epsilon$. Every visible
+read is on that finite ledger, and every listed row repacks into the public
+carrier.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:inducedrep-frobenius-ledger-boundary}. It restricts
+Frobenius reads to $F,\eta,\epsilon,\lambda$ with endpoints $i$ and $r$ over
+the consumed source packets $S$ and $R$.
+
+Use \autoref{thm:inducedrep-cont-ledger-closure}. It shows that finite
+continuations among source reads, endpoint reads, Frobenius reads, provenance
+reads, and public continuation reads remain inside $\lambda$.
+
+Apply \autoref{thm:inducedrep-pkg-provenance-exactness}. The provenance rows
+are precisely those recorded by $\rho$ or $\lambda$ for the source,
+endpoint, and Frobenius roles. The reverse projection repacks each listed
+row into the carrier, so the ledger is exact.
+\end{proof}
+
+\begin{theorem}[InducedRepUp NameCert threshold witness]
+\label{thm:inducedrep-namecert-threshold-witness}
+The dependency-ready $\InducedRepUp$ obligation surface is the finite
+$\mathsf{BHist}$ packet consisting of the source classifier obligation of
+\autoref{thm:inducedrep-source-classifier-obligation}, the ledger exactness
+obligation of \autoref{thm:inducedrep-ledger-exactness-obligation}, and the
+source-Frobenius consumption boundary of
+\autoref{thm:inducedrep-source-frobenius-exact-consumption}. It supplies
+downstream consumers exactly the carried source, endpoint, Frobenius,
+classifier, $\Cont$, and $\Pkg$ rows.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:inducedrep-source-classifier-obligation}. It fixes the
+public classifier from the two source certificates, the induction endpoint,
+the restriction endpoint, and the displayed $\hsame$ transport rows.
+
+Next use \autoref{thm:inducedrep-ledger-exactness-obligation}. It fixes the
+visible ledger reads as the rows in $\lambda$ and $\rho$ for the source,
+endpoint, and Frobenius roles.
+
+Finally apply \autoref{thm:inducedrep-source-frobenius-exact-consumption}.
+It states that downstream consumption is exactly the finite list of source,
+endpoint, Frobenius, provenance, and continuation rows. Repacking those
+three surfaces gives the dependency-ready $\NameCert_{\InducedRepUp}$
+threshold, with no host category, functor equality, adjunction object, or
+external bridge row.
+\end{proof}

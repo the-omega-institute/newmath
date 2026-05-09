@@ -1,0 +1,81 @@
+\section{StreamName constant finite-window boundary}
+\label{sec:streamname-constant-window-boundary}
+
+\begin{theorem}[StreamName constant subwindow exactness]
+\label{thm:streamname-constant-window-subwindow-exactness}
+Let $a,b:\Hist$ be rational-history endpoints and let
+$I\subseteq J$ be inhabited finite unary observation windows. For the
+constant rational stream window package on $J$, the restricted package on
+$I$ recovers exactly the same $\mathsf{RatHistoryClassifier}(a,b)$ row. No
+extra stream classifier, completion witness, or host equality row is read by
+the subwindow.
+\end{theorem}
+\begin{proof}
+Project the finite constant stream window on $J$ through
+\autoref{thm:rat-stream-name-finite-window-subwindow-restriction}. This gives
+the same constant-stream carrier and classifier rows over the inhabited
+subwindow $I$.
+
+Apply
+\autoref{thm:rat-stream-name-finite-window-constant-exactness} to the
+restricted window. Because every observation in the window reads the same two
+constant endpoints, the window classifier collapses to the single underlying
+$\mathsf{RatHistoryClassifier}(a,b)$ row.
+
+Finally use
+\autoref{thm:streamname-public-finite-window-interface} to identify the
+subwindow package as a public $\StreamNameUp$ finite-window interface. The
+interface contributes only the displayed carrier, classifier, and ledger rows,
+so no additional comparison or completion row is introduced.
+\end{proof}
+
+\begin{theorem}[StreamName constant RealUp boundary]
+\label{thm:streamname-constant-window-real-boundary}
+A finite-window $\RealUp$ consumer of the constant rational stream package may
+read only the $\RatUp$ point classifier row
+$\mathsf{RatHistoryClassifier}(a,b)$ and the finite $\mathsf{ProbeBundle}$ ledger
+carried by the $\StreamNameUp$ window. It does not obtain a completeness
+claim, a Cauchy-modulus row, or any equality beyond the displayed rational
+point classifier.
+\end{theorem}
+\begin{proof}
+Start with the public finite-window interface of
+\autoref{thm:streamname-public-finite-window-interface}. It exposes the
+window carrier, classifier, and finite $\mathsf{ProbeBundle}$ ledger as the only rows
+available to a downstream consumer.
+
+For a constant rational stream window, apply
+\autoref{thm:streamname-constant-window-subwindow-exactness}. The classifier
+read by any inhabited subwindow is exactly the point classifier
+$\mathsf{RatHistoryClassifier}(a,b)$.
+
+Thus a $\RealUp$ finite-window consumer can depend on the rational point row
+and on the ledger naming the observed probes. The cited interface contains no
+regularity, convergence, or completion field, so those obligations remain
+outside this boundary.
+\end{proof}
+
+\begin{theorem}[StreamName constant RegSeqRat boundary]
+\label{thm:streamname-constant-window-regseq-boundary}
+A $\RegSeqRat$ construction may consume the same constant $\StreamNameUp$
+finite-window evidence as a source of rational point-classifier and
+$\mathsf{ProbeBundle}$ ledger data, while the regularity rows of $\RegSeqRat$ remain
+separate obligations not supplied by the constant-window package.
+\end{theorem}
+\begin{proof}
+Read the finite-window evidence through
+\autoref{thm:streamname-public-finite-window-interface}. The rows available at
+the boundary are the carried observations, the stream-name classifier, and the
+finite ledger.
+
+For constant rational streams, combine
+\autoref{thm:rat-stream-name-finite-window-subwindow-restriction} with
+\autoref{thm:rat-stream-name-finite-window-constant-exactness}. Any inhabited
+subwindow keeps the same endpoints and therefore recovers the same
+$\mathsf{RatHistoryClassifier}(a,b)$ row.
+
+Repack these rows as the StreamName input to $\RegSeqRat$. Since none of the
+cited window theorems asserts a regularity modulus, bounded variation row, or
+sequence-comparison law, those rows must be supplied by the $\RegSeqRat$
+certificate itself.
+\end{proof}
