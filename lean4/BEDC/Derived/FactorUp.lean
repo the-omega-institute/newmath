@@ -1,0 +1,46 @@
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary.History
+
+namespace BEDC.Derived.FactorUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def FactorBHistSourcePacket [AskSetup] [PackageSetup]
+    (algebra centre witness typeRow transport ledger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory algebra ∧ UnaryHistory centre ∧ UnaryHistory typeRow ∧ UnaryHistory transport ∧
+    Cont algebra centre witness ∧
+      Cont witness typeRow ledger ∧ Cont ledger transport endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem FactorBHistSourcePacket_carrier_trivial_centre_obligation [AskSetup] [PackageSetup]
+    {algebra centre witness typeRow transport ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FactorBHistSourcePacket algebra centre witness typeRow transport ledger endpoint bundle pkg ->
+      UnaryHistory algebra ∧ UnaryHistory centre ∧ UnaryHistory witness ∧ UnaryHistory typeRow ∧
+        UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont algebra centre witness ∧
+          Cont witness typeRow ledger ∧ Cont ledger transport endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have centreUnary : UnaryHistory centre := packet.right.left
+  have witnessUnary : UnaryHistory witness :=
+    unary_cont_closed packet.left centreUnary packet.right.right.right.right.left
+  have typeRowUnary : UnaryHistory typeRow := packet.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed witnessUnary typeRowUnary packet.right.right.right.right.right.left
+  have transportUnary : UnaryHistory transport := packet.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary transportUnary packet.right.right.right.right.right.right.left
+  exact
+    ⟨packet.left, centreUnary, witnessUnary, typeRowUnary, ledgerUnary, endpointUnary,
+      packet.right.right.right.right.left, packet.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right⟩
+
+end BEDC.Derived.FactorUp
