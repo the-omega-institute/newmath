@@ -457,6 +457,7 @@ import BEDC.Derived.TopGroupUp.SourceFiberProductCarrier
 import BEDC.Derived.TopGroupUp.RootOperationSourcePacket
 import BEDC.Derived.TopGroupUp.SourceRowsEmptyCoupled
 import BEDC.Derived.TopGroupUp.RootSourcePairExactness
+import BEDC.Derived.TopGroupUp.SourceCoupledCarrierScope
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
