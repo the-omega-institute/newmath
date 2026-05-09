@@ -199,6 +199,7 @@ import BEDC.Derived.ObservableUp.SemanticCertificate
 import BEDC.Derived.ObservableUp.ObligationSurface
 import BEDC.Derived.ObservableUp.NameCertObligationSurface
 import BEDC.Derived.ObservableUp.SpectralStateSource
+import BEDC.Derived.ObservableUp.ExpectationInterface
 import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
@@ -399,6 +400,7 @@ import BEDC.Derived.TopologyUp.PublicWitnesses
 import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.TopGroupUp
 import BEDC.Derived.TopGroupUp.ClassifierContinuityTransport
+import BEDC.Derived.TopGroupUp.SourceCompatibility
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius

@@ -101,4 +101,30 @@ theorem LambdaCalcBHistTermPacketCarrier_public_endpoint_transport
         (And.intro endpointUnary' endpointRow'))
   exact And.intro carrier' (And.intro endpointRow' endpointUnary')
 
+theorem LambdaCalcBHistTermCarrier_constructor_source_disjointness
+    {i hVar hAbs hApp : BHist} :
+    UnaryHistory i ->
+      hsame hVar (append (BHist.e1 BHist.Empty) i) ->
+        hsame hAbs (append (BHist.e0 BHist.Empty) i) ->
+          hsame hApp (append (BHist.e1 (BHist.e1 BHist.Empty)) i) ->
+            (hsame hVar hAbs -> False) ∧ (hsame hAbs hApp -> False) := by
+  intro _indexUnary sameVar sameAbs sameApp
+  constructor
+  · intro mixed
+    have sourcesSame :
+        hsame (append (BHist.e1 BHist.Empty) i) (append (BHist.e0 BHist.Empty) i) :=
+      hsame_trans (hsame_symm sameVar) (hsame_trans mixed sameAbs)
+    have tagsSame : hsame (BHist.e1 BHist.Empty) (BHist.e0 BHist.Empty) :=
+      append_right_cancel (k := i) sourcesSame
+    exact not_hsame_e1_e0 tagsSame
+  · intro mixed
+    have sourcesSame :
+        hsame (append (BHist.e0 BHist.Empty) i)
+          (append (BHist.e1 (BHist.e1 BHist.Empty)) i) :=
+      hsame_trans (hsame_symm sameAbs) (hsame_trans mixed sameApp)
+    have tagsSame :
+        hsame (BHist.e0 BHist.Empty) (BHist.e1 (BHist.e1 BHist.Empty)) :=
+      append_right_cancel (k := i) sourcesSame
+    exact not_hsame_e0_e1 tagsSame
+
 end BEDC.Derived.LambdaCalcUp
