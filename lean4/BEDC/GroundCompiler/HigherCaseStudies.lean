@@ -370,6 +370,43 @@ theorem complex_reuse_depth (rec : ComplexReuseDepthRecord) :
   rw [rec.complexDepth_eq]
   exact Nat.le_refl _
 
+def ComplexMotifOnlyFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b1, BMark.b0, BMark.b1]]
+
+def ComplexAnalysisSupportFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b0, BMark.b1, BMark.b0]]
+
+def ComplexMotifOnlyProfile (S : EventFlow) : Prop :=
+  Subflow ComplexMotifOnlyFlow S /\
+    NonemptyEventFlow ComplexMotifOnlyFlow
+
+def ComplexAnalysisSupport (S : EventFlow) : Prop :=
+  Subflow ComplexAnalysisSupportFlow S /\
+    NonemptyEventFlow ComplexAnalysisSupportFlow
+
+theorem complex_analysis_support_not_in_complex_profile :
+    Not (Subflow ComplexAnalysisSupportFlow ComplexMotifOnlyFlow) := by
+  intro h
+  have hMem :
+      List.Mem [BMark.b1, BMark.b1, BMark.b0, BMark.b1, BMark.b0]
+        ComplexMotifOnlyFlow :=
+    subflow_mem h (List.Mem.head [])
+  unfold ComplexMotifOnlyFlow at hMem
+  cases hMem with
+  | tail _ htail => cases htail
+
+theorem complex_not_analysis :
+    exists S : EventFlow,
+      ComplexMotifOnlyProfile S /\ Not (ComplexAnalysisSupport S) := by
+  refine ⟨ComplexMotifOnlyFlow, ?_, ?_⟩
+  · constructor
+    · exact subflow_self ComplexMotifOnlyFlow
+    · exact
+        ⟨[BMark.b0, BMark.b0, BMark.b1, BMark.b0, BMark.b1], [],
+          rfl⟩
+  · intro h
+    exact complex_analysis_support_not_in_complex_profile h.left
+
 structure CategoryCompositionMotifRecord where
   objectSource : EventFlow
   morphismSource : EventFlow
@@ -459,6 +496,43 @@ theorem natural_transformation_extends_functor {S : EventFlow} :
   | intro M hM =>
       exact ⟨M.sourceFunctor, M.targetFunctor, hM.left, hM.right.left⟩
 
+def CompositionMotifOnlyFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b1, BMark.b0, BMark.b1]]
+
+def CategorySortingSupportFlow : EventFlow :=
+  [[BMark.b1, BMark.b0, BMark.b1, BMark.b0, BMark.b1]]
+
+def CompositionMotifOnlyProfile (S : EventFlow) : Prop :=
+  Subflow CompositionMotifOnlyFlow S /\
+    NonemptyEventFlow CompositionMotifOnlyFlow
+
+def CategorySortingSupport (S : EventFlow) : Prop :=
+  Subflow CategorySortingSupportFlow S /\
+    NonemptyEventFlow CategorySortingSupportFlow
+
+theorem category_sorting_support_not_in_composition_profile :
+    Not (Subflow CategorySortingSupportFlow CompositionMotifOnlyFlow) := by
+  intro h
+  have hMem :
+      List.Mem [BMark.b1, BMark.b0, BMark.b1, BMark.b0, BMark.b1]
+        CompositionMotifOnlyFlow :=
+    subflow_mem h (List.Mem.head [])
+  unfold CompositionMotifOnlyFlow at hMem
+  cases hMem with
+  | tail _ htail => cases htail
+
+theorem composition_not_category :
+    exists S : EventFlow,
+      CompositionMotifOnlyProfile S /\ Not (CategorySortingSupport S) := by
+  refine ⟨CompositionMotifOnlyFlow, ?_, ?_⟩
+  · constructor
+    · exact subflow_self CompositionMotifOnlyFlow
+    · exact
+        ⟨[BMark.b0, BMark.b1, BMark.b1, BMark.b0, BMark.b1], [],
+          rfl⟩
+  · intro h
+    exact category_sorting_support_not_in_composition_profile h.left
+
 structure ChainComplexMotifRecord where
   gradedObject : EventFlow
   boundaryMap : EventFlow
@@ -526,6 +600,43 @@ theorem homology_has_classifier_compression {S : EventFlow} :
   cases h with
   | intro M hM =>
       exact ⟨M.cycleBoundaryClassifier, hM.right.left⟩
+
+def ChainComplexMotifOnlyFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b1, BMark.b1, BMark.b0]]
+
+def HomologyQuotientSupportFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b0, BMark.b0, BMark.b1]]
+
+def ChainComplexMotifOnlyProfile (S : EventFlow) : Prop :=
+  Subflow ChainComplexMotifOnlyFlow S /\
+    NonemptyEventFlow ChainComplexMotifOnlyFlow
+
+def HomologyQuotientSupport (S : EventFlow) : Prop :=
+  Subflow HomologyQuotientSupportFlow S /\
+    NonemptyEventFlow HomologyQuotientSupportFlow
+
+theorem homology_quotient_support_not_in_chain_complex_profile :
+    Not (Subflow HomologyQuotientSupportFlow ChainComplexMotifOnlyFlow) := by
+  intro h
+  have hMem :
+      List.Mem [BMark.b1, BMark.b1, BMark.b0, BMark.b0, BMark.b1]
+        ChainComplexMotifOnlyFlow :=
+    subflow_mem h (List.Mem.head [])
+  unfold ChainComplexMotifOnlyFlow at hMem
+  cases hMem with
+  | tail _ htail => cases htail
+
+theorem chain_complex_not_homology :
+    exists S : EventFlow,
+      ChainComplexMotifOnlyProfile S /\ Not (HomologyQuotientSupport S) := by
+  refine ⟨ChainComplexMotifOnlyFlow, ?_, ?_⟩
+  · constructor
+    · exact subflow_self ChainComplexMotifOnlyFlow
+    · exact
+        ⟨[BMark.b0, BMark.b0, BMark.b1, BMark.b1, BMark.b0], [],
+          rfl⟩
+  · intro h
+    exact homology_quotient_support_not_in_chain_complex_profile h.left
 
 structure CrossDomainMotifComparison where
   recognizers : MetricRecognizerFamily
