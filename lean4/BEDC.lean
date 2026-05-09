@@ -236,6 +236,7 @@ import BEDC.Derived.CliffordUp
 import BEDC.Derived.PinGroupUp
 import BEDC.Derived.SpinGroupUp
 import BEDC.Derived.SpinGroupUp.PublicConsumerNamecertBoundary
+import BEDC.Derived.SpinGroupUp.EvenWordClassifierInversion
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
 import BEDC.Derived.DerivativeUp
@@ -417,6 +418,7 @@ import BEDC.Derived.TopGroupUp.RootCarrierObligations
 import BEDC.Derived.TopGroupUp.PublicNamecertReadbackExactness
 import BEDC.Derived.TopGroupUp.SourceFiberContinuityObligation
 import BEDC.Derived.TopGroupUp.ContinuityConsumerExhaustion
+import BEDC.Derived.TopGroupUp.CarrierClassifierObligation
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
