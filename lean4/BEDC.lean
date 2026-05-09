@@ -239,6 +239,7 @@ import BEDC.Derived.SpinGroupUp.BoundaryConsumerExactness
 import BEDC.Derived.SpinGroupUp.CliffordUnitCarrierObligation
 import BEDC.Derived.SpinGroupUp.LiftParityLedger
 import BEDC.Derived.SpinGroupUp.ConjugationActionReadback
+import BEDC.Derived.SpinGroupUp.DoubleCoverLedgerObligation
 import BEDC.Derived.SpinGroupUp.PublicConsumerNamecertBoundary
 import BEDC.Derived.SpinGroupUp.Transport
 import BEDC.Derived.SpinGroupUp.EvenWordClassifierInversion
