@@ -367,4 +367,44 @@ theorem SpinGroupRootCarrier_public_consumer_boundary_exhaustion [AskSetup] [Pac
     (And.intro sourceScope.right.right.left
       (And.intro sourceScope.right.right.right.left sourceScope.right.right.right.right))
 
+theorem SpinGroupRootCarrier_spin_boundary_inclusion_transport [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint cliffordEndpoint' groupWord groupWord'
+      spinEndpoint spinEndpoint' ledger ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      hsame cliffordEndpoint cliffordEndpoint' ->
+        hsame groupWord groupWord' ->
+          Cont product boundary cliffordEndpoint' ->
+            Cont cliffordEndpoint' groupWord' spinEndpoint' ->
+              PkgSig bundle ledger' pkg ->
+                SpinGroupRootCarrier unit vector product boundary cliffordEndpoint' groupWord'
+                    spinEndpoint' ledger' bundle pkg ∧
+                  hsame spinEndpoint spinEndpoint' ∧ UnaryHistory spinEndpoint' := by
+  intro carrier sameClifford sameGroup productBoundary spinCont packageSig
+  have clifford' :
+      CliffordCarrierPackage unit vector product boundary cliffordEndpoint' :=
+    And.intro carrier.left.left
+      (And.intro carrier.left.right.left
+        (And.intro carrier.left.right.right.left
+          (And.intro carrier.left.right.right.right.left productBoundary)))
+  have group' : GroupSingletonCarrier groupWord' :=
+    hsame_trans (hsame_symm sameGroup) carrier.right.left
+  have transported :
+      SpinGroupRootCarrier unit vector product boundary cliffordEndpoint' groupWord'
+        spinEndpoint' ledger' bundle pkg :=
+    And.intro clifford' (And.intro group' (And.intro spinCont packageSig))
+  have sameSpin : hsame spinEndpoint spinEndpoint' :=
+    cont_respects_hsame sameClifford sameGroup carrier.right.right.left spinCont
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed clifford'.right.left clifford'.right.left clifford'.right.right.right.left
+  have cliffordEndpointUnary' : UnaryHistory cliffordEndpoint' :=
+    unary_cont_closed productUnary clifford'.right.right.left
+      clifford'.right.right.right.right
+  have groupUnary' : UnaryHistory groupWord' :=
+    unary_transport unary_empty (hsame_symm group')
+  have spinEndpointUnary' : UnaryHistory spinEndpoint' :=
+    unary_cont_closed cliffordEndpointUnary' groupUnary' spinCont
+  exact And.intro transported (And.intro sameSpin spinEndpointUnary')
+
 end BEDC.Derived.SpinGroupUp
