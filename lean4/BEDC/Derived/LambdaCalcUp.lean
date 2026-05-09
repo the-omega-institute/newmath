@@ -302,4 +302,41 @@ theorem LambdaCalcBHistTermPacketCarrier_namecert_substitution_ledger
   }
   exact And.intro cert scope
 
+theorem LambdaCalcBHistTermPacketCarrier_substitution_composition_carrier_closure
+    {graph edge connected acyclic tag payload endpoint substTag substPayload substEndpoint
+      replTag replPayload replEndpoint varIndex firstLedger firstResult secondLedger : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic substTag substPayload
+          substEndpoint ->
+        LambdaCalcBHistTermPacketCarrier graph edge connected acyclic replTag replPayload
+            replEndpoint ->
+          UnaryHistory varIndex ->
+            Cont endpoint substEndpoint firstLedger ->
+              Cont firstLedger varIndex firstResult ->
+                Cont firstResult replEndpoint secondLedger ->
+                  UnaryHistory firstLedger ∧ UnaryHistory firstResult ∧
+                    UnaryHistory secondLedger ∧
+                      hsame firstLedger (append endpoint substEndpoint) ∧
+                        hsame firstResult (append (append endpoint substEndpoint) varIndex) ∧
+                          hsame secondLedger
+                            (append (append (append endpoint substEndpoint) varIndex)
+                              replEndpoint) := by
+  intro packet substPacket replPacket varUnary firstLedgerRow firstResultRow secondLedgerRow
+  have scope :=
+    LambdaCalcBHistTermPacketCarrier_substitution_ledger_scope packet substPacket
+      varUnary firstLedgerRow firstResultRow
+  have secondLedgerUnary : UnaryHistory secondLedger :=
+    unary_cont_closed scope.right.left replPacket.right.right.left secondLedgerRow
+  have secondLedgerReadback :
+      hsame secondLedger
+        (append (append (append endpoint substEndpoint) varIndex) replEndpoint) := by
+    cases firstLedgerRow
+    cases firstResultRow
+    exact secondLedgerRow
+  exact And.intro scope.left
+    (And.intro scope.right.left
+        (And.intro secondLedgerUnary
+          (And.intro scope.right.right.left
+          (And.intro scope.right.right.right secondLedgerReadback))))
+
 end BEDC.Derived.LambdaCalcUp
