@@ -315,11 +315,18 @@ At the motif-profile layer, the fold or MulSeed skeleton reuses the Add skeleton
 
 \begin{theorem}[Add and fold skeletons do not license $\AddUp$ or $\MulUp$]
 \label{thm:case-studies-add-fold-not-license}
-Recognizing $S_{\mathrm{AddSkel}}$ as an additive recursion motif or $S_{\mathrm{FoldSkel}}$ as a fold completion motif does not imply $\AddUp$ or $\MulUp$.
+\leanchecked{BEDC.GroundCompiler.CaseStudies.add\_fold\_not\_license}
+There exist Add-like and fold-like case-study readings whose flows are
+$$
+  S_{\mathrm{AddSkel}}
+  \quad\text{and}\quad
+  S_{\mathrm{FoldSkel}},
+$$
+with $S_{\mathrm{AddSkel}}$ a prefix subflow of $S_{\mathrm{FoldSkel}}$, while their case-study targets are distinct. Thus recognizing additive or fold motifs does not by itself license $\AddUp$ or $\MulUp$.
 \end{theorem}
 
 \begin{proof}
-Add and fold skeletons are source-level motifs. Derived interfaces such as $\AddUp$ and $\MulUp$ require recognized $\NameCert$ flows; mature export further requires derivation-certificate and acceptance-gate flows. Motif recognition supplies none of these certificates.
+Add and fold skeletons are source-level motifs. The formal witness is the pair of case-study flows tagged by distinct Add-like and fold-like target readings, together with the prefix inclusion of $S_{\mathrm{AddSkel}}$ in $S_{\mathrm{FoldSkel}}$. Derived interfaces such as $\AddUp$ and $\MulUp$ require recognized $\NameCert$ flows; mature export further requires derivation-certificate and acceptance-gate flows. Motif recognition supplies none of these certificates.
 \end{proof}
 
 \section{List-like skeleton}
@@ -602,7 +609,8 @@ Take the empty source-flow report. Its source flow is readable as an event flow,
 
 \begin{corollary}[Skeleton comparison cannot replace proof]
 \label{cor:case-studies-comparison-not-proof}
-Even if two skeletons have high motif overlap, any claim of theorem equivalence, object equivalence, bridge, morphism, or reuse relation still requires explicit certificate flow.
+\leanchecked{BEDC.GroundCompiler.CaseStudies.comparison\_not\_proof}
+There exist two skeleton flows with shared raw prefix length $2$ that are not equal as event flows. Thus raw skeleton comparison alone cannot replace a proof of theorem equivalence, object equivalence, bridge, morphism, or certified reuse relation.
 \end{corollary}
 
 \section{Conservativity}
@@ -610,11 +618,12 @@ Even if two skeletons have high motif overlap, any claim of theorem equivalence,
 
 \begin{theorem}[Case-study analysis is conservative over the finite kernel]
 \label{thm:case-studies-conservativity}
-Adding the case-study skeletons, motif reports, and cross-skeleton comparisons of this chapter does not add new raw marks, history constructors, sameness rules, continuation rules, derived-interface formation rules, or accepted-object export rules.
+\leanchecked{BEDC.GroundCompiler.CaseStudies.case\_studies\_conservativity}
+The concrete Add, fold, and Completion skeletons in this chapter use only display marks from the finite alphabet $\{\bzero,\bone\}$. Adding these case-study skeletons, motif reports, and cross-skeleton comparisons therefore does not add new raw marks, history constructors, sameness rules, continuation rules, derived-interface formation rules, or accepted-object export rules.
 \end{theorem}
 
 \begin{proof}
-All case-study skeletons are event flows. Motif reports and comparisons are source-level analyses of event flows. They do not generate new $\bzero$ or $\bone$, add $\msame$, $\hsame$, or $\psame$ rules, change $\ExtR$ or $\ContR$, license derived interfaces, or export accepted objects. Hence this analysis layer is conservative over the finite kernel.
+All case-study skeletons are event flows over $\bzero$ and $\bone$. Motif reports and comparisons are source-level analyses of event flows. They do not generate new $\bzero$ or $\bone$, add $\msame$, $\hsame$, or $\psame$ rules, change $\ExtR$ or $\ContR$, license derived interfaces, or export accepted objects. Hence this analysis layer is conservative over the finite kernel.
 \end{proof}
 
 \begin{remark}[Outlook]

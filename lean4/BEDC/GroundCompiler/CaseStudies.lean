@@ -13,6 +13,8 @@ def PrefixSubflow (M S : EventFlow) : Prop :=
 
 inductive CaseStudyTarget : Type where
   | finiteRepetition
+  | addLike
+  | foldLike
   | addFold
   | completion
   | listLike
@@ -140,6 +142,24 @@ theorem fold_reuses_add :
   constructor
   · exact fold_skeleton_extends_add
   · exact Or.inl ⟨[[BMark.b0], [BMark.b0, BMark.b0]], [], rfl⟩
+
+theorem add_fold_not_license :
+    exists A B : CaseStudyFlow,
+      A.flow = AddSkeleton /\
+        B.flow = FoldSkeleton /\
+        PrefixSubflow A.flow B.flow /\
+        Not (A.target = B.target) := by
+  refine
+    ⟨{ flow := AddSkeleton, target := CaseStudyTarget.addLike },
+      { flow := FoldSkeleton, target := CaseStudyTarget.foldLike }, ?_⟩
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · exact fold_skeleton_extends_add
+      · intro h
+        cases h
 
 def ListSpineSkeleton (a : RawEvent) (k : Nat) : EventFlow :=
   FiniteRepetitionPrefix a k
@@ -399,5 +419,37 @@ theorem skeleton_reports_not_certificates :
         metricFlow := [] },
       FormalCompilerInput.eventFlow [],
       empty_not_accepted_object_flow⟩
+
+def CaseStudyFlowUsesOnlyDisplayAlphabet (S : EventFlow) : Prop :=
+  forall w : RawEvent, List.Mem w S ->
+    forall m : DisplayAlphabet, List.Mem m w -> m = BMark.b0 \/ m = BMark.b1
+
+theorem comparison_not_proof :
+    exists S T : EventFlow,
+      PrefixLen S T = 2 /\ Not (S = T) := by
+  refine ⟨FoldSkeleton, CompletionSkeleton, fold_completion_prefix, ?_⟩
+  intro h
+  have hPrefix : PrefixSubflow FoldSkeleton CompletionSkeleton :=
+    ⟨[], by simp [h]⟩
+  exact fold_completion_split.right.left hPrefix
+
+theorem case_studies_conservativity :
+    CaseStudyFlowUsesOnlyDisplayAlphabet AddSkeleton /\
+      CaseStudyFlowUsesOnlyDisplayAlphabet FoldSkeleton /\
+      CaseStudyFlowUsesOnlyDisplayAlphabet CompletionSkeleton := by
+  constructor
+  · intro _ _ m _
+    cases m with
+    | b0 => exact Or.inl rfl
+    | b1 => exact Or.inr rfl
+  · constructor
+    · intro _ _ m _
+      cases m with
+      | b0 => exact Or.inl rfl
+      | b1 => exact Or.inr rfl
+    · intro _ _ m _
+      cases m with
+      | b0 => exact Or.inl rfl
+      | b1 => exact Or.inr rfl
 
 end BEDC.GroundCompiler.CaseStudies
