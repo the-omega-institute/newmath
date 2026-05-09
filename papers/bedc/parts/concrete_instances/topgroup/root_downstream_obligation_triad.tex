@@ -103,3 +103,87 @@ package. Since those are exactly the coordinates of
 \autoref{def:topgroup-root-downstream-obligation-triad}, the finite ledger and
 $\Pkg$ provenance exhaust the root downstream surface.
 \end{proof}
+
+\begin{theorem}[TopGroupUp root downstream continuity obligation]
+\label{thm:topgroup-root-downstream-continuity-obligation}
+For an accepted $\TopGroupUp$ root downstream obligation triad, every product
+continuity read is exactly a row of the finite $\Cont$ ledger $C_{\mu}$ and
+every inverse continuity read is exactly a row of the finite $\Cont$ ledger
+$C_{\iota}$, transported only by the displayed $\hsame$ rows in $H$.
+Conversely, the rows of $C_{\mu}$ and $C_{\iota}$ with their displayed
+$\hsame$ transports repack as the whole continuity-facing downstream surface
+of $\mathcal{D}_{\TopGroupUp}$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:topgroup-root-downstream-obligation-triad}. Its continuity
+coordinates are precisely $C_{\mu}$ and $C_{\iota}$, with no separate host
+continuity object.
+
+Apply \autoref{thm:topgroup-root-downstream-operation-obligation}. It identifies
+the product and inverse boundaries with the operation rows together with the
+finite continuity ledgers and their displayed $\hsame$ rows. Then apply
+\autoref{thm:topgroup-root-downstream-ledger-obligation}, which rules out any
+downstream root read outside the listed finite ledger, transport, source, and
+provenance rows.
+
+For the converse, insert any row of $C_{\mu}$ or $C_{\iota}$ and its matching
+row of $H$ back into the defining packet. The acceptance clauses are exactly
+the finite $\Cont$ ledger clauses of the root operation source packet, so the
+same rows recover the continuity-facing boundary.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root downstream provenance obligation]
+\label{thm:topgroup-root-downstream-provenance-obligation}
+Every carrier, operation, continuity, and ledger read of an accepted
+$\TopGroupUp$ root downstream obligation triad is tied to the same package
+provenance row $\Pi:\Pkg$. In particular, no downstream read may exchange the
+carrier source, operation row, $\Cont$ ledger row, or displayed $\hsame$
+transport for a row with a different provenance package.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:topgroup-root-downstream-carrier-obligation} for the carrier
+side: the visible carrier rows are the shared $\NameCert_{\GroupUp}$,
+$\NameCert_{\TopologyUp}$, and neighbourhood rows, all projected from the same
+accepted packet.
+
+Use \autoref{thm:topgroup-root-downstream-operation-obligation} and
+\autoref{thm:topgroup-root-downstream-continuity-obligation} for the operation
+and continuity sides. Their reads are the product row, inverse row, finite
+$\Cont$ ledgers, and displayed $\hsame$ transports already present in
+$\mathcal{D}_{\TopGroupUp}$.
+
+Finally apply \autoref{thm:topgroup-root-downstream-ledger-obligation}. It says
+that the finite ledger rows and the single package provenance row
+$\Pi:\Pkg$ exhaust the remaining downstream reads. Since all the cited rows are
+coordinates of the same packet, their provenance is the same $\Pi$.
+\end{proof}
+
+\begin{theorem}[TopGroupUp root downstream threshold exactness]
+\label{thm:topgroup-root-downstream-threshold-exactness}
+The public threshold row of the $\TopGroupUp$ root downstream package
+authorizes exactly the carrier rows, operation rows, continuity rows, displayed
+$\hsame$ rows, ledger rows, and package provenance row listed in
+$\mathcal{D}_{\TopGroupUp}$. It authorizes no group-law, completion, quotient,
+standard-bridge, or ambient topological-group datum outside those rows.
+\end{theorem}
+\begin{proof}
+First unpack $\mathcal{D}_{\TopGroupUp}$ by
+\autoref{def:topgroup-root-downstream-obligation-triad}. The displayed packet
+contains the two source certificates, product and inverse rows, neighbourhood
+rows, two finite $\Cont$ ledgers, the transport family $H$, and the provenance
+row $\Pi$.
+
+The carrier boundary is exactly the one isolated in
+\autoref{thm:topgroup-root-downstream-carrier-obligation}. The operation
+boundary is exactly the one isolated in
+\autoref{thm:topgroup-root-downstream-operation-obligation}. The continuity
+boundary is exactly the one isolated in
+\autoref{thm:topgroup-root-downstream-continuity-obligation}.
+
+Apply \autoref{thm:topgroup-root-downstream-ledger-obligation} to include the
+finite ledger and provenance rows. Then apply
+\autoref{thm:topgroup-root-threshold-consumer-exhaustion}: the public threshold
+package admits no downstream consumer row beyond this displayed finite family.
+Thus the threshold row is exact for the listed root downstream surface.
+\end{proof}
