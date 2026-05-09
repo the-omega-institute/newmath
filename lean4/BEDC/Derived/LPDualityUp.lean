@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont.Units
+import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.PreorderUp
 
 namespace BEDC.Derived.LPDualityUp
@@ -6,6 +7,7 @@ namespace BEDC.Derived.LPDualityUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
+open BEDC.Derived.ConvexSetUp
 open BEDC.Derived.PreorderUp
 
 theorem LPDualityComplementarySlackness_objective_hsame {primal bridge dual : BHist} :
@@ -71,5 +73,27 @@ theorem LPDualityComplementarySlackness_objective_equality
     LPDualityWeakDualityEquality_optimality
       objective.left competitorBound dualBound domainBound
   exact And.intro objective.left optimality
+
+theorem LPDualityOptimalPrimalFace_binary_convex_closure
+    {primal primal' mixture optimum : BHist} :
+    hsame primal optimum -> hsame primal' optimum -> hsame optimum BHist.Empty ->
+      Cont primal primal' mixture ->
+        hsame mixture optimum ∧ PreorderPrefixLE mixture optimum ∧
+          PreorderPrefixLE optimum mixture := by
+  intro primalOpt primalOpt' optimumEmpty mixtureRow
+  have primalEmpty : hsame primal BHist.Empty :=
+    hsame_trans primalOpt optimumEmpty
+  have primalEmpty' : hsame primal' BHist.Empty :=
+    hsame_trans primalOpt' optimumEmpty
+  have mixtureEmpty :
+      ConvexSetSingletonAffineSpine [primal, primal'] mixture ∧
+        hsame mixture BHist.Empty :=
+    ConvexSetSingletonAffineSpine_midpoint_closure primalEmpty primalEmpty' mixtureRow
+  have mixtureOpt : hsame mixture optimum :=
+    hsame_trans mixtureEmpty.right (hsame_symm optimumEmpty)
+  exact And.intro mixtureOpt
+    (And.intro
+      (PreorderPrefixLE_of_hsame mixtureOpt)
+      (PreorderPrefixLE_of_hsame (hsame_symm mixtureOpt)))
 
 end BEDC.Derived.LPDualityUp

@@ -52,6 +52,7 @@ import BEDC.BaseReflection
 import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
 import BEDC.Derived.AdjointRepUp
+import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp

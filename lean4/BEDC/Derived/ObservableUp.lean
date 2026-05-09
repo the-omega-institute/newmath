@@ -386,6 +386,59 @@ theorem ObservableBHistOperatorCarrier_operator_row_classifier_determinacy [AskS
       carrier'.right.right.right.right.right.right.right.right.left
   exact And.intro sameExpectation (And.intro sameLedger sameEndpoint)
 
+theorem ObservableBHistOperatorCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {hilbert operator operator' spectrum spectrum' expectation expectation' witness witness'
+      provenance provenance' ledger ledger' endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservableBHistOperatorCarrier hilbert operator spectrum expectation witness provenance ledger
+        endpoint bundle pkg ->
+      hsame operator operator' ->
+        hsame spectrum spectrum' ->
+          hsame witness witness' ->
+            hsame provenance provenance' ->
+              Cont operator' spectrum' expectation' ->
+                Cont hilbert witness' ledger' ->
+                  Cont provenance' ledger' endpoint' ->
+                    PkgSig bundle endpoint' pkg ->
+                      ObservableBHistOperatorCarrier hilbert operator' spectrum' expectation'
+                          witness' provenance' ledger' endpoint' bundle pkg ∧
+                        hsame expectation expectation' ∧ hsame ledger ledger' ∧
+                          hsame endpoint endpoint' := by
+  intro carrier sameOperator sameSpectrum sameWitness sameProvenance expectationRow' ledgerRow'
+    endpointRow' pkgSig'
+  have operatorUnary' : UnaryHistory operator' :=
+    unary_transport carrier.right.left sameOperator
+  have spectrumUnary' : UnaryHistory spectrum' :=
+    unary_transport carrier.right.right.left sameSpectrum
+  have witnessUnary' : UnaryHistory witness' :=
+    unary_transport carrier.right.right.right.right.left sameWitness
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport carrier.right.right.right.right.right.left sameProvenance
+  have expectationUnary' : UnaryHistory expectation' :=
+    unary_cont_closed operatorUnary' spectrumUnary' expectationRow'
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed carrier.left witnessUnary' ledgerRow'
+  have sameExpectation : hsame expectation expectation' :=
+    cont_respects_hsame sameOperator sameSpectrum
+      carrier.right.right.right.right.right.right.left expectationRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame (hsame_refl hilbert) sameWitness
+      carrier.right.right.right.right.right.right.right.left ledgerRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameLedger
+      carrier.right.right.right.right.right.right.right.right.left endpointRow'
+  exact And.intro
+    (And.intro carrier.left
+      (And.intro operatorUnary'
+        (And.intro spectrumUnary'
+          (And.intro expectationUnary'
+            (And.intro witnessUnary'
+              (And.intro provenanceUnary'
+                (And.intro expectationRow'
+                  (And.intro ledgerRow'
+                    (And.intro endpointRow' pkgSig')))))))))
+    (And.intro sameExpectation (And.intro sameLedger sameEndpoint))
+
 theorem ObservableBHistOperatorCarrier_hilbert_spectral_ledger_exactness [AskSetup]
     [PackageSetup]
     {hilbert operator spectrum expectation witness provenance ledger endpoint spectralEndpoint :
