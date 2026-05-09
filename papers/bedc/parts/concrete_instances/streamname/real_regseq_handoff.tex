@@ -95,3 +95,44 @@ Read the RealUp part last. The seal classifier is supplied by
 row is accounted for by exactly one side of the handoff, and no completion or
 host equality row is imported from the finite StreamName package.
 \end{proof}
+
+\begin{theorem}[StreamName Real-RegSeq finite-overlap source stability]
+\label{thm:streamname-real-regseq-finite-overlap-source-stability}
+Let $\mathcal{W}_0$ and $\mathcal{W}_1$ be public $\StreamNameUp$
+finite-window packages whose observation windows restrict to a certified common
+finite overlap $K$. Suppose the two restrictions expose the same
+$\mathsf{RatHistoryClassifier}$ rows, the same finite
+$\mathsf{ProbeBundle}$ ledger, the same $\mathsf{InBundle}$ membership rows,
+the same $\mathsf{UnaryHistory}$ observation rows, and the same displayed
+$\mathsf{hsame}$ comparisons on $K$. Then any $\RegSeqRat$ handoff package, and
+any finite-window $\RealUp$ handoff package, induced by the two restrictions
+has the same source surface on $K$.
+
+The common source surface is only the restricted $\StreamNameUp$ finite-window
+surface over those rows. It excludes every $\RegSeqRat$ regularity row, the
+$\RealUp$ seal classifier, completion data, quotient data, and host index
+equality.
+\end{theorem}
+\begin{proof}
+First restrict both public StreamName packages to $K$. By
+\autoref{thm:streamname-real-regseq-finite-window-handoff}, each restricted
+handoff exposes only the selected rational-history classifier, finite
+$\mathsf{ProbeBundle}$ ledger, $\mathsf{InBundle}$ rows, and
+$\mathsf{UnaryHistory}$ rows.
+
+The assumed overlap equality identifies exactly those rows through the
+displayed $\mathsf{hsame}$ comparisons. In the constant source case,
+\autoref{thm:streamname-constant-window-overlap-exactness} gives the same
+identification from the shared constant rational endpoint row; for a general
+finite RealUp overlap, the overlap boundary is the one recorded by
+\autoref{thm:realup-finite-window-exhaustion-overlap-closure}.
+
+Now apply \autoref{thm:streamname-real-regseq-obligation-separation}. The
+RegSeqRat regularity rows and the RealUp seal classifier are downstream
+obligations, while completion data, quotient data, and host index equality are
+not exported by the finite StreamName side.
+
+Repacking the two restricted inputs therefore gives the same source handoff
+surface on $K$ for either downstream consumer, with all non-source rows kept
+outside the overlap package.
+\end{proof}

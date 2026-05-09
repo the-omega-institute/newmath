@@ -620,12 +620,51 @@ threshold, with no host category, functor equality, adjunction object, or
 external bridge row.
 \end{proof}
 
+\begin{theorem}[InducedRepUp obligation closure package]
+\label{thm:inducedrep-obligation-closure-package}
+The explicit obligation set for $\InducedRepUp$ is the conjunction of the
+carried $\mathsf{BHist}$ packet of \autoref{def:inducedrep-bhist-carrier}, the
+SubgroupUp source boundary, the RepresentationRingUp action boundary, the
+Frobenius classifier, the source classifier obligation, the ledger exactness
+obligation, and the consumer boundary. Each row is scoped through the displayed
+$\hsame$ transport rows, the finite $\Cont$ ledger, and the shared $\Pkg$
+provenance packet. This package exports no host representation category, host
+functor equality, adjunction object, character formula, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First read the carrier and source boundaries. The carrier packet lists exactly
+$S$, $R$, $i$, $r$, $F$, $\eta$, $\epsilon$, $\rho$, and $\lambda$, while
+\autoref{thm:inducedrep-subgroup-representationring-consumer-boundary} fixes
+the SubgroupUp source row and the RepresentationRingUp action row consumed by
+the package.
+
+Next attach the classifier rows. Use
+\autoref{thm:inducedrep-consumer-boundary} for the Frobenius classifier
+surface and \autoref{thm:inducedrep-source-classifier-obligation} for the
+source classifier obligation. These rows are componentwise $\hsame$ transport
+over the displayed subgroup, representation-ring, induction, restriction, and
+Frobenius endpoints.
+
+Now use \autoref{thm:inducedrep-ledger-exactness-obligation}. It says that
+the visible reads are exactly the rows recorded by $\rho$ and $\lambda$ for
+the consumed source certificates, endpoints, Frobenius rows, provenance rows,
+and continuation rows.
+
+Finally apply \autoref{thm:inducedrep-source-frobenius-exact-consumption} and
+\autoref{thm:inducedrep-namecert-threshold-witness}. Together they repack the
+listed carrier, classifier, source, ledger, and consumer rows into the public
+$\NameCert_{\InducedRepUp}$ obligation package. Since every exported row has
+already been accounted for in that finite package, no host category, functor
+equality, adjunction object, character formula, or standard bridge row is
+exported.
+\end{proof}
+
 \begin{closurestatus}{\InducedRepUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed boundary binds the $\SubgroupUp$ and $\RepresentationRingUp$ source rows, induction and restriction endpoint rows, Frobenius ledger, $\hsame$, $\Cont$, and $\Pkg$ rows carried by the displayed $\InducedRepUp$ packet.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:inducedrep-obligation-closure-package} binds the carried $\mathsf{BHist}$ packet, SubgroupUp source boundary, RepresentationRingUp action boundary, Frobenius classifier, source classifier obligation, ledger exactness obligation, consumer boundary, $\hsame$, $\Cont$, and $\Pkg$ rows.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.InducedRepUp.InducedRepCarrierPacket\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \notclaimed{This does not close external representation categories, functor equality, adjunction objects, character formulas, or standard bridge rows.}
-  \upgradepath{Obligation closure requires the explicit carrier, classifier, stability, exactness, and ledger obligation set for the $\InducedRepUp$ interface.}
+  \upgradepath{Scoped closure requires a consumer projection theorem showing that downstream RepresentationRingUp and InducedRepUp users read only the displayed obligation package.}
 \end{closurestatus}

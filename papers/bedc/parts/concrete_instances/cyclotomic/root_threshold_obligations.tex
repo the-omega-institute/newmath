@@ -86,3 +86,91 @@ It remains to identify the consumers. Apply
 that $\IwasawaUp$, $\ClassFieldUp$, and $\RegulatorUp$ all factor through the
 same finite root boundary.
 \end{proof}
+
+\begin{theorem}[Cyclotomic source triad readback completeness]
+\label{thm:cyclotomic-source-triad-readback-completeness}
+For an accepted $\CyclotomicUp$ root packet, every downstream readback of the
+source triad is complete from the displayed $\mathsf{BHist}$ rows: the
+$\NameCert_{\NumFieldUp}$ row, the $\NameCert_{\SplittingFieldUp}$ row over the
+rational polynomial ledger for $X^n-1$, and the primitive endpoint row. The
+readback uses only the carried $\hsame$ comparisons, finite $\Cont$ acceptance,
+$\mathsf{Pkg}$ provenance, and the $\NameCert_{\CyclotomicUp}$ classifier rows
+listed by \autoref{thm:cyclotomic-source-triad-obligation}.
+\end{theorem}
+\begin{proof}
+Start with the source triad of
+\autoref{thm:cyclotomic-source-triad-obligation}. It names the NumFieldUp
+source, SplittingFieldUp source, and primitive endpoint as the entire
+cyclotomic source family over the carrier of
+\autoref{def:cyclotomic-root-carrier}.
+
+Use \autoref{thm:cyclotomic-downstream-source-exactness} to identify every
+downstream source read with the same displayed $\mathsf{BHist}$, $\Cont$,
+$\hsame$, and $\mathsf{Pkg}$ support. Then use
+\autoref{thm:cyclotomic-polynomial-ledger-exactness} for the polynomial ledger
+and \autoref{thm:cyclotomic-primitive-root-endpoint-transport} for the
+primitive endpoint.
+
+These projections repack the whole $\NameCert_{\CyclotomicUp}$ source triad.
+There is no fourth source row, because the cited obligation surface has no
+coordinate outside the displayed carrier, classifier, acceptance, and
+provenance rows.
+\end{proof}
+
+\begin{theorem}[Cyclotomic downstream valuation exclusion]
+\label{thm:cyclotomic-downstream-valuation-exclusion}
+At the $\CyclotomicUp$ root threshold, a downstream $\PadicUp$,
+$\IwasawaUp$, or $\ClassFieldUp$ consumer may cite the
+$\NameCert_{\CyclotomicUp}$ source triad only through the displayed
+$\mathsf{BHist}$ carrier, $\hsame$ transport, finite $\Cont$ acceptance,
+$\mathsf{Pkg}$ provenance, and $\NameCert$ rows. The threshold exports no
+valuation row, completion row, measure row, reciprocity map, local symbol, or
+host field equality.
+\end{theorem}
+\begin{proof}
+Read the downstream interface through
+\autoref{thm:cyclotomic-padic-completion-input-boundary} and
+\autoref{thm:cyclotomic-classfield-source-interface}. Both boundaries allow
+the cyclotomic packet to serve only as source data for later certificates.
+
+Apply \autoref{thm:cyclotomic-polynomial-ledger-exactness}. The polynomial
+ledger is the $X^n-1$ row attached to the same SplittingFieldUp source, not a
+valuation or completion datum. Apply
+\autoref{thm:cyclotomic-primitive-root-endpoint-transport} to keep primitive
+endpoint transport inside the carried $\hsame$ and $\Cont$ rows.
+
+Finally use \autoref{thm:cyclotomic-downstream-source-exactness}. Since the
+downstream source surface is exhausted by the displayed $\mathsf{BHist}$,
+$\Cont$, $\hsame$, $\mathsf{Pkg}$, and $\NameCert$ rows, all valuation,
+completion, measure, reciprocity, local-symbol, and host-equality data must
+come from another certificate.
+\end{proof}
+
+\begin{theorem}[Cyclotomic root-layer consumer threshold]
+\label{thm:cyclotomic-root-layer-consumer-threshold}
+The root-layer consumer threshold for $\CyclotomicUp$ is exactly the source
+triad readback, polynomial-ledger exactness, and primitive endpoint transport
+surface over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows. Once these rows are fixed, $\IwasawaUp$, $\PadicUp$, and
+$\ClassFieldUp$ consumers have all cyclotomic source data they may read, and no
+analytic, quotient, valuation, or host-equality row is supplied by the
+cyclotomic certificate.
+\end{theorem}
+\begin{proof}
+First collect the complete source triad from
+\autoref{thm:cyclotomic-source-triad-readback-completeness}. This supplies the
+NumFieldUp source, the SplittingFieldUp source, and the primitive endpoint over
+the displayed carrier and classifier support.
+
+Next attach the ledger and endpoint controls. The polynomial row is exact by
+\autoref{thm:cyclotomic-polynomial-ledger-exactness}, and primitive endpoint
+transport is exactly the transported endpoint surface of
+\autoref{thm:cyclotomic-primitive-root-endpoint-transport}.
+
+The consumer side is then bounded by
+\autoref{thm:cyclotomic-root-obligation-threshold} and
+\autoref{thm:cyclotomic-downstream-valuation-exclusion}. Together they show
+that the listed source rows are sufficient for the root-layer consumers and
+that the excluded analytic, quotient, valuation, and host-equality rows remain
+outside the $\CyclotomicUp$ certificate.
+\end{proof}
