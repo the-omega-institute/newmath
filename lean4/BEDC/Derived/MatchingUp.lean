@@ -83,6 +83,21 @@ theorem MatchingEdgeSet_compatible_union_closed
                 | inr inNE' =>
                     exact incidentN inNE inNE' vertV incVE incVE'
 
+theorem MatchingEdgeSet_abstract_subpredicate_closed
+    {Vert Edge : BHist -> Prop} {Inc EdgeRel : BHist -> BHist -> Prop}
+    {M N : BHist -> Prop} :
+    MatchingEdgeSet Vert Edge Inc EdgeRel M ->
+      (forall {e : BHist}, N e -> M e) ->
+        MatchingEdgeSet Vert Edge Inc EdgeRel N := by
+  intro matching subset
+  cases matching with
+  | intro edgeRow incidentRow =>
+      constructor
+      · intro e inN
+        exact edgeRow (subset inN)
+      · intro e e' v inN inN' vertV incVE incVE'
+        exact incidentRow (subset inN) (subset inN') vertV incVE incVE'
+
 theorem MatchingEdgeSet_singleton_classifier_closed
     {Vert Edge : BHist -> Prop} {Inc EdgeRel : BHist -> BHist -> Prop}
     (edgeCert : NameCert Edge EdgeRel) {edgeStar : BHist} :

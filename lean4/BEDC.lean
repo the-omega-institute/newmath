@@ -56,6 +56,7 @@ import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AxisZeckendorf
+import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.BesselUp
 import BEDC.Derived.EqtypeUp
@@ -299,6 +300,7 @@ import BEDC.Derived.CondExpUp
 import BEDC.Derived.MartingaleUp
 import BEDC.Derived.RepresentationRingUp
 import BEDC.Derived.RepresentationRingUp.InducedConsumerBoundary
+import BEDC.Derived.RepresentationRingUp.OperationLedgerCoverage
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.SeparableExtUp
@@ -814,6 +816,7 @@ import BEDC.Derived.QuotientGroupUp.AbelianTerminalProjectionUniqueness
 import BEDC.Derived.QuotientGroupUp.IdentityFiberSaturation
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
+import BEDC.Derived.HomologyUp.StdBridge
 import BEDC.Derived.HomotopyUp
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.RingUp
