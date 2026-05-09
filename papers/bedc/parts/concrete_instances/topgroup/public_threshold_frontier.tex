@@ -99,3 +99,94 @@ certificate boundary is exhausted by the displayed BEDC rows. Hence the
 frontier threshold is exactly this finite packet over
 $\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$.
 \end{proof}
+
+\begin{definition}[TopGroupUp final public threshold packet]
+\label{def:topgroup-root-public-threshold-final-packet}
+The final $\TopGroupUp$ public threshold packet is the finite
+$\mathsf{BHist}$ packet extending
+\autoref{def:topgroup-root-public-threshold-packet} by making all public
+projections explicit:
+$$
+\Theta^{\mathsf{pub}}_{\TopGroupUp}=(G,T,m,i,n,\lambda,\tau,\rho).
+$$
+The source projections are the displayed $\NameCert_{\GroupUp}$ row $G$ and
+the displayed $\NameCert_{\TopologyUp}$ row $T$. The operation projections are
+the product row $m$ and inverse row $i$. The neighbourhood projection is $n$,
+the finite ledger projection is $\lambda$, the classifier projection is $\tau$,
+and the provenance projection is the $\Pkg$ row $\rho$.
+\end{definition}
+
+\begin{theorem}[TopGroupUp public threshold exhaustion]
+\label{thm:topgroup-root-public-threshold-exhaustion}
+Every public threshold read of the root $\NameCert_{\TopGroupUp}$ surface
+projects to the source, operation, neighbourhood, finite ledger, classifier,
+and provenance rows of
+\autoref{def:topgroup-root-public-threshold-final-packet}. Conversely, those
+rows repack as the same final public threshold packet over
+$\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$.
+\end{theorem}
+\begin{proof}
+Project the final packet to the root public threshold packet of
+\autoref{def:topgroup-root-public-threshold-packet}. Its carrier part supplies
+the two source rows, the product and inverse operation rows, the neighbourhood
+row, the finite $\Cont$ ledger, and the $\Pkg$ provenance row.
+
+Apply \autoref{thm:topgroup-root-product-inverse-joint-continuity-scope}. The
+operation-facing public scope is exactly the joint product-inverse scope, so no
+third operation row or ambient continuity predicate is available.
+
+Now use \autoref{thm:topgroup-root-source-ledger-public-threshold} and
+\autoref{thm:topgroup-root-namecert-frontier-threshold}. These theorems bind
+the source pair, ledger, classifier, and provenance into the public
+$\NameCert_{\TopGroupUp}$ threshold. Repacking the listed projections gives the
+final packet and exhausts the public read.
+\end{proof}
+
+\begin{theorem}[TopGroupUp public threshold transport]
+\label{thm:topgroup-root-public-threshold-transport}
+Componentwise $\hsame$ transport of the $\NameCert_{\GroupUp}$ source,
+$\NameCert_{\TopologyUp}$ source, product row, inverse row, neighbourhood row,
+classifier row, and provenance row, together with finite $\Cont$ transport of
+the ledger row, preserves the final $\TopGroupUp$ public threshold packet.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:topgroup-root-public-threshold-final-packet}. Each public
+projection is one displayed row of the finite $\mathsf{BHist}$ packet, so
+componentwise $\hsame$ transport acts on the source, operation,
+neighbourhood, classifier, and provenance projections without changing the
+packet shape.
+
+Use \autoref{thm:topgroup-root-source-ledger-public-threshold} for the ledger
+part. The finite $\Cont$ comparison is the same ledger comparison that binds
+the source pair and operation rows into one public threshold surface.
+
+Finally apply \autoref{thm:topgroup-root-namecert-frontier-threshold}. Its
+classifier clause is precisely the componentwise transport just displayed, and
+therefore the transported rows repack as the same final public threshold
+packet.
+\end{proof}
+
+\begin{theorem}[TopGroupUp public threshold NameCert surface]
+\label{thm:topgroup-root-public-threshold-namecert-surface}
+The rows of
+\autoref{def:topgroup-root-public-threshold-final-packet} form the root public
+$\NameCert_{\TopGroupUp}$ surface over the two source certificates
+$\NameCert_{\GroupUp}$ and $\NameCert_{\TopologyUp}$. This surface is exactly
+the source pair, product and inverse rows, neighbourhood row, finite
+$\Cont$ ledger, classifier row, and $\Pkg$ provenance row.
+\end{theorem}
+\begin{proof}
+Begin with the final threshold packet and project its source pair
+$G,T$. These are the displayed $\NameCert_{\GroupUp}$ and
+$\NameCert_{\TopologyUp}$ rows, so the root certificate is explicitly over the
+two source certificates.
+
+Apply \autoref{thm:topgroup-root-product-inverse-joint-continuity-scope} to
+identify the product, inverse, neighbourhood, and ledger rows as the complete
+operation-continuity scope.
+
+Then apply \autoref{thm:topgroup-root-namecert-frontier-threshold}. The
+frontier theorem packages the same componentwise classifier and provenance rows
+as the public $\NameCert_{\TopGroupUp}$ threshold, giving exactly the stated
+NameCert surface.
+\end{proof}
