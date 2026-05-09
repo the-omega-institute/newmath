@@ -167,3 +167,27 @@ Rationale:
 
 ---
 
+### B-586 - ClassFieldUp public interface theorem aggregating Artin / Frobenius / ledger obligations
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ClassFieldUp public interface theorem aggregating Artin / Frobenius / ledger obligations |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a package satisfies \autoref{thm:classfield-obligation-carrier-classifier}, \autoref{thm:classfield-obligation-artin-frobenius-stability}, and \autoref{thm:classfield-obligation-ledger-exactness}, then those three rows assemble into a single exported $\NameCert_{\ClassFieldUp}$ public interface certificate over the $\NumFieldUp$/$\AdeleUp$ source rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/236_classfield_namecert_construction.tex`
+
+Rationale:
+papers/bedc/parts/concrete_instances/236_classfield_namecert_construction.tex declares upgradepath "Public closure requires a single exported $\ClassFieldUp$ public interface theorem or a checked bridge over the scoped certificate rows." File at 106 lines, with three obligation theorems clearly visible at lines 12, 24, 36 (verified by direct read). Notclaimed enumerates Artin reciprocity etc as out of scope, leaving only the aggregator. Grep `thm:classfield.*public` returns 0 hits. Single-implication aggregator over three explicitly-named obligation theorems — same B-565 pattern.
+
+---
+
