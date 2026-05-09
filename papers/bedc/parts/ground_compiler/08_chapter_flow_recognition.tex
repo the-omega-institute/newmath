@@ -67,9 +67,9 @@ Define
 $$
   \mathsf{ChapterFlow}(C)
   \;:\Longleftrightarrow\;
-  \exists R_C,\ \mathsf{RecognizesChapter}(R_C,C).
+  \exists R_C,\ \mathsf{CompleteChapterRecognition}(R_C,C).
 $$
-Thus $C$ is a recognized chapter flow exactly when some generated chapter recognizer recognizes it in that role.
+Thus $C$ is a recognized chapter flow exactly when some generated chapter recognizer recognizes it with the complete chapter-role structure recorded below.
 \end{definition}
 
 \begin{principle}[No external chapter input]
@@ -114,6 +114,7 @@ is the channel code of the same event flow $C$, not the output of a separate cha
 
 \begin{definition}[Recognized chapter subflows]
 \label{def:chapter-generated-subflows}
+\leandef{BEDC.GroundCompiler.ChapterFlow.ChapterSubflows}
 If $\mathsf{RecognizesChapter}(R_C,C)$, then $R_C$ may recognize subflows of $C$ as chapter roles:
 $$
 \begin{array}{ll}
@@ -140,6 +141,7 @@ The words chapter-start, dependencies, definitions, lemmas, theorems, proofs, ce
 
 \begin{definition}[Complete chapter-flow recognition]
 \label{def:chapter-generated-complete-recognition}
+\leandef{BEDC.GroundCompiler.ChapterFlow.CompleteChapterRecognition}
 The judgment $\mathsf{RecognizesChapter}(R_C,C)$ has \emph{complete chapter-flow recognition} when there exist subflows
 $$
   C_0,C_1,\ldots,C_9,\sigma_C
@@ -169,18 +171,23 @@ A recognized chapter flow must have complete chapter-flow recognition. Thus
 $$
   \mathsf{ChapterFlow}(C)
   \Longrightarrow
-  \exists R_C,\ \mathsf{RecognizesChapter}(R_C,C),
+  \exists R_C,\ \mathsf{CompleteChapterRecognition}(R_C,C),
 $$
 with recognized chapter-start, dependency, definition, lemma, theorem, proof, certificate, ledger, cannot-claim, status, and seal subflows.
 \end{principle}
 
 \begin{theorem}[Incomplete chapter flow is not a chapter flow]
 \label{thm:chapter-generated-incomplete-not-chapter}
-If an event flow $C$ lacks any one of the recognized chapter-start, dependency, definition, lemma, theorem, proof, certificate, ledger, cannot-claim, status, or chapter-seal subflows, then $C$ cannot be used as a recognized chapter flow.
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.incomplete\_chapter\_flow\_not\_chapter}
+If, for every generated chapter recognizer $R_C$, the complete recognition judgment
+$$
+  \mathsf{CompleteChapterRecognition}(R_C,C)
+$$
+fails, then $C$ cannot be used as a recognized chapter flow. In particular, an event flow that lacks any one of the recognized chapter-start, dependency, definition, lemma, theorem, proof, certificate, ledger, cannot-claim, status, or chapter-seal subflows for every candidate recognizer is not a chapter flow.
 \end{theorem}
 
 \begin{proof}
-By \autoref{prin:chapter-generated-no-incomplete-chapter}, a recognized chapter flow must have complete chapter-flow recognition. If any required subflow is absent, complete recognition fails. Therefore $\mathsf{ChapterFlow}(C)$ cannot be used for that incomplete flow.
+By definition, $\mathsf{ChapterFlow}(C)$ means that some generated recognizer $R_C$ supplies $\mathsf{CompleteChapterRecognition}(R_C,C)$. If every such complete recognition judgment fails, the existential witness required for $\mathsf{ChapterFlow}(C)$ cannot exist.
 \end{proof}
 
 \begin{corollary}[Title alone is not a chapter]
