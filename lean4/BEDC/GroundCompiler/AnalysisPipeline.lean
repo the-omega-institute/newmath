@@ -188,6 +188,62 @@ def StageMetricComputation
     (P metricFlow : AnalysisProtocolCandidateFlow) (spec : MetricSpec) : Prop :=
   MetricSelectedByProtocol P metricFlow /\ MetricAdmissible spec
 
+def StageNormalAddressAnalysis
+    (P policyFlow : AnalysisProtocolCandidateFlow)
+    (Rfam : MetricRecognizerFamily) (S : EventFlow)
+    (records : List NormalAddressRecord) : Prop :=
+  (exists R : GeneratedAnalysisProtocolRecognizer,
+    AnalysisProtocolSubflow R P policyFlow
+      AnalysisProtocolRole.normalizationPolicy) /\
+    NormalAddressMap Rfam S records
+
+inductive LedgerAuditFailureKind : Type where
+  | motifWithoutLedger
+  | packageWithoutLedger
+  | nameCertWithoutLedger
+  | completionWithoutTailLedger
+  | carryWithoutPreNormalLedger
+  | bridgeWithoutNoHostLeakLedger
+
+structure LedgerAuditFailureItem where
+  kind : LedgerAuditFailureKind
+  support : EventFlow
+
+def StageLedgerAudit
+    (profile : List PipelineMotifEntry)
+    (failures : List LedgerAuditFailureItem) : Prop :=
+  forall entry : PipelineMotifEntry,
+    List.Mem entry profile ->
+      NonemptyEventFlow entry.ledger \/
+        exists failure : LedgerAuditFailureItem,
+          List.Mem failure failures /\
+            failure.kind = LedgerAuditFailureKind.motifWithoutLedger /\
+            failure.support = entry.support
+
+inductive CannotClaimKind : Type where
+  | motifOverlapObjectEquality
+  | signatureVectorTheoremEquivalence
+  | carryMotifDimension
+  | sealMotifCompletionObject
+  | completionMotifReal
+  | topologyMotifContinuity
+  | complexMotifComplexAnalysis
+  | bridgeCandidateBridgeCertificate
+  | codeExistenceAcceptanceGate
+
+structure CannotClaimEntry where
+  kind : CannotClaimKind
+  support : EventFlow
+
+def StageCannotClaimAudit
+    (P policyFlow : AnalysisProtocolCandidateFlow)
+    (required claims : List CannotClaimEntry) : Prop :=
+  (exists R : GeneratedAnalysisProtocolRecognizer,
+    AnalysisProtocolSubflow R P policyFlow
+      AnalysisProtocolRole.cannotClaimPolicy) /\
+    forall entry : CannotClaimEntry,
+      List.Mem entry required -> List.Mem entry claims
+
 inductive FormalAnalysisProtocol :
     AnalysisProtocolCandidateFlow -> Prop where
   | recognized {R : GeneratedAnalysisProtocolRecognizer}

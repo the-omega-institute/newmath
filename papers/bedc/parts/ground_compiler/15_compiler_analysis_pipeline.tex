@@ -237,6 +237,7 @@ Stage 5 computes the admissible metrics selected by the protocol: prefix profile
 
 \begin{definition}[Stage 6: normal-address analysis]
 \label{def:analysis-pipeline-stage-normal-address}
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.StageNormalAddressAnalysis}
 Stage 6 uses the protocol's normalization-policy flow to recognize source-level normal-address records
 $$
   (w,v,L_{w\to v}).
@@ -246,11 +247,13 @@ For example, $011\mid 100$ may be recognized as raw-to-normal carry ledger. This
 
 \begin{definition}[Stage 7: ledger audit]
 \label{def:analysis-pipeline-stage-ledger-audit}
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.StageLedgerAudit}
 Stage 7 checks whether recognized motifs, packages, certificates, theorem flows, and bridge candidates carry their required ledgers. It emits ledger-audit failure items for motif without ledger, package without ledger, $\NameCert$ without ledger, completion without tail ledger, carry without pre-normal ledger, and bridge without no-host-leak ledger.
 \end{definition}
 
 \begin{definition}[Stage 8: cannot-claim audit]
 \label{def:analysis-pipeline-stage-cannot-claim-audit}
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.StageCannotClaimAudit}
 Stage 8 uses the cannot-claim policy flow to attach required cannot-claim entries. Typical entries include: motif overlap does not imply object equality, same signature vector does not imply theorem equivalence, carry motif does not imply dimension, seal motif does not imply completion object, completion motif does not imply $\RealUp$, topology motif does not prove continuity, complex motif does not imply complex analysis, bridge candidate does not imply bridge certificate, and code existence does not imply acceptance gate.
 \end{definition}
 
