@@ -287,6 +287,56 @@ concatenated $\mathsf{BHist}$ window together with the displayed endpoint
 classifiers and the finite scheduling ledger.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat RealUp shared finite-window cover]
+\label{thm:streamname-regseqrat-shared-window-cover}
+For observation maps $s,t:\Hist\to\Hist$ and unary histories
+$a,w,r,q:\Hist$, suppose the three adjacent $\mathsf{BHist}$ pieces satisfy the
+public finite-window $\StreamNameUp$ classifier rows of
+\autoref{thm:streamname-public-finite-window-interface}, the
+$\RegSeqRat$ finite-window seal source coverage rows of
+\autoref{thm:regseqrat-seal-finite-window-source-coverage}, and the
+$\RealUp$ finite-window feed rows of
+\autoref{thm:realup-window-concatenation-streamname-feed}. Then the
+concatenated finite window
+$$
+\mathsf{append}(\mathsf{append}(w,\mathsf{BHist.e1}(r)),
+\mathsf{BHist.e1}(q))
+$$
+determines one shared public observation package for the three interfaces.
+
+The package surface consists exactly of the StreamName finite-window classifier,
+the selected $\RatUp$ endpoint classifier rows, the finite
+$\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ ledger rows, the
+$\UnaryHistory$ rows, the displayed $\hsame$ endpoint comparisons, the shared
+$\Cont$ transports, and the finite dyadic source rows read by $\RegSeqRat$.
+The $\RegSeqRat$ seal consumer and the $\RealUp$ finite-window feed therefore
+read the same bounded observations from the same concatenated
+$\mathsf{BHist}$ window.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:realup-window-concatenation-streamname-feed}. The three adjacent
+StreamName-scheduled finite windows are repacked into the displayed
+concatenated $\mathsf{BHist}$ window, and the RealUp feed keeps the same
+endpoint classifiers, $\hsame$ transports, unary-history rows, and finite
+$\Cont$ ledger.
+
+Next apply \autoref{thm:streamname-public-finite-window-interface}. Its
+structural laws and selected readback rows identify the public StreamName
+finite-window surface carried by the concatenated window: the classifier, probe
+bundle, membership rows, unary observations, endpoint comparisons, and finite
+stability rows are all read from the same ledger.
+
+Finally apply
+\autoref{thm:regseqrat-seal-finite-window-source-coverage}. The RegSeqRat seal
+uses exactly the StreamName finite-window interface rows, the dyadic source
+ledger, and the RealUp finite-window exhaustion rows already exposed by the
+same concatenated window. Since both downstream consumers cite the same
+$\hsame$, $\Cont$, $\UnaryHistory$, finite ledger, and endpoint readback rows,
+there is only one public observation package, with no quotient representative,
+completion object, host stream carrier, or extra regularity datum.
+\end{proof}
+
 The ten-field fit is: traditional target nested finite observation-window
 concatenation; BEDC source RealUp finite windows over StreamNameUp observation
 schedules $s,t:\Hist\to\Hist$; carrier unary $\mathsf{BHist}$ anchors and

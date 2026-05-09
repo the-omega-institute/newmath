@@ -246,3 +246,46 @@ Since the RealUp boundary reads the same certified overlap and the StreamName
 source has already been fixed there, both induced consumer packages inherit
 one source handoff surface on $K$.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat pointwise handoff exhaustion]
+\label{thm:streamname-regseqrat-pointwise-handoff-exhaustion}
+Every finite-window row handed from $\StreamNameUp$ to a $\RegSeqRat$ consumer
+or to a finite-window $\RealUp$ consumer is exhausted by the pointwise
+$\mathsf{RatStreamNameCarrier}$ and $\mathsf{RatStreamNameClassifier}$
+observations at certified $\mathsf{UnaryHistory}$ indices, together with the
+finite $\mathsf{ProbeBundle}$ ledger and the $\mathsf{InBundle}$ membership
+rows naming the selected observations. Conversely, those pointwise observations
+and finite ledger rows repack into the same handoff surface.
+
+The StreamName side contributes no host index equality, quotient data,
+completion data, $\RegSeqRat$ regularity row, or $\RealUp$ seal classifier.
+\end{theorem}
+\begin{proof}
+First project the public finite-window handoff. By
+\autoref{thm:streamname-real-regseq-finite-window-handoff}, the rows visible to
+either downstream consumer are the selected rational-history classifier rows,
+the finite $\mathsf{ProbeBundle}$ ledger, the $\mathsf{InBundle}$ membership
+rows, and the certified $\mathsf{UnaryHistory}$ observation rows.
+
+Now identify those rows pointwise. The carrier and classifier definitions
+\autoref{def:rat-stream-name-carrier} and
+\autoref{def:rat-stream-name-classifier} read each certified unary index as a
+single rational-history carrier or classifier observation. The finite-window
+coverage theorem \autoref{thm:rat-stream-name-finite-window-from-classifier}
+restricts the full stream classifier to the selected bundle, while
+\autoref{thm:rat-stream-name-finite-window-exhausts-classifier} repacks the
+singleton windows back into the pointwise stream classifier.
+
+The downstream split is fixed by
+\autoref{thm:streamname-real-regseq-obligation-separation}. Thus the pointwise
+carrier/classifier observations and the finite bundle ledger are exactly the
+StreamName source rows; $\RegSeqRat$ regularity and the $\RealUp$ seal
+classifier are downstream obligations rather than source data.
+
+Finally use \autoref{thm:streamname-real-regseq-overlap-unique-source}. It
+prevents two finite overlaps with the same pointwise rows and the same finite
+ledger from producing different StreamName source surfaces. The same theorem
+also keeps quotient data, completion data, and host index equality outside the
+handoff, so the reverse repacking returns precisely the original finite-window
+surface.
+\end{proof}

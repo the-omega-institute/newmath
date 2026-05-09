@@ -1,0 +1,113 @@
+\begin{definition}[Cyclotomic root obligation packet]
+\label{def:cyclotomic-root-obligation-packet}
+The $\CyclotomicUp$ root obligation packet is the finite row family
+$$
+(\mathcal{N},n,p,\mathcal{S},\zeta,\alpha,\lambda,\rho),
+$$
+where $\mathcal{N}$ is the $\NameCert_{\NumFieldUp}$ source row, $n$ is the
+positive unary $\mathsf{BHist}$ exponent, $p$ is the rational polynomial ledger
+for $X^n-1$, $\mathcal{S}$ is the $\NameCert_{\SplittingFieldUp}$ source over
+$p$, $\zeta$ is the primitive-root endpoint, $\alpha$ is the finite $\Cont$
+acceptance and factorization ledger, $\lambda$ is the transported $\hsame$
+comparison between source base rows, and $\rho$ is the $\mathsf{Pkg}$
+provenance for the paired source certificates.
+
+The packet is a row package for downstream consumers. It is not a host
+cyclotomic field, not a quotient of roots, and not a class-field, valuation, or
+completion object.
+\end{definition}
+
+\begin{theorem}[Cyclotomic root source row exhaustion]
+\label{thm:cyclotomic-root-source-row-exhaustion}
+Every source row of the $\CyclotomicUp$ root boundary is exhausted by the root
+obligation packet of \autoref{def:cyclotomic-root-obligation-packet}. Conversely,
+the displayed packet repacks into the root carrier, classifier transport,
+polynomial ledger, primitive endpoint, and threshold surface of the accepted
+cyclotomic root interface.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:cyclotomic-root-carrier}. Its visible
+coordinates are exactly the NumFieldUp source, exponent, polynomial,
+SplittingFieldUp source, primitive endpoint, acceptance, comparison, and
+provenance rows displayed in
+\autoref{def:cyclotomic-root-obligation-packet}.
+
+Apply \autoref{thm:cyclotomic-root-layer-classifier-transport}. It transports
+those carrier rows componentwise through $\hsame$, while keeping the $\Cont$
+acceptance and $\mathsf{Pkg}$ provenance attached to the same finite packet.
+
+Use \autoref{thm:cyclotomic-polynomial-ledger-exactness} for the polynomial
+row and \autoref{thm:cyclotomic-primitive-root-endpoint-transport} for the
+primitive endpoint. These theorems account for the source ledger and endpoint
+readback without adding a quotient root or ambient field equality.
+
+Finally apply \autoref{thm:cyclotomic-root-obligation-threshold}. It repacks
+the carrier, classifier transport, exact ledger, endpoint, $\Cont$, $\hsame$,
+and $\mathsf{Pkg}$ rows as the threshold surface. Since no other source
+coordinate occurs in the carrier or threshold theorem, the packet is exhaustive.
+\end{proof}
+
+\begin{theorem}[Cyclotomic primitive-root ledger transport]
+\label{thm:cyclotomic-primitive-root-ledger-transport}
+For accepted $\CyclotomicUp$ carriers related by the rational-polynomial
+classifier, the primitive-root endpoint, its polynomial ledger for $X^n-1$, the
+SplittingFieldUp factorization rows, the $\Cont$ acceptance row, and the
+$\mathsf{Pkg}$ provenance are transported as the same root obligation packet.
+No transported row becomes a host-field equality, quotient of primitive roots,
+or independent minimal-order datum.
+\end{theorem}
+\begin{proof}
+Project the related carriers through
+\autoref{def:cyclotomic-rational-polynomial-classifier}. The classifier exposes
+only the displayed source, exponent, polynomial, splitting-field, endpoint,
+acceptance, comparison, and provenance rows.
+
+Use \autoref{thm:cyclotomic-root-layer-classifier-transport} to move those rows
+componentwise through the available $\hsame$ comparisons. The finite $\Cont$
+and $\mathsf{Pkg}$ rows remain attached to the transported endpoint and source
+certificates.
+
+Apply \autoref{thm:cyclotomic-polynomial-ledger-exactness} and
+\autoref{thm:cyclotomic-primitive-root-endpoint-transport}. The polynomial
+ledger and primitive endpoint are therefore the transported rows of the same
+packet, not new algebraic objects.
+
+Repack the transported family by
+\autoref{def:cyclotomic-root-obligation-packet} and the threshold theorem
+\autoref{thm:cyclotomic-root-obligation-threshold}. The exclusions follow from
+the carrier definition and the threshold surface, both of which name no host
+field equality, root quotient, or separate order witness.
+\end{proof}
+
+\begin{theorem}[Cyclotomic SplittingField consumer boundary]
+\label{thm:cyclotomic-splittingfield-consumer-boundary}
+A downstream $\SplittingFieldUp$ consumer of $\NameCert_{\CyclotomicUp}$ may
+read exactly the splitting-field source row $\mathcal{S}$, the polynomial row
+$p$, the primitive endpoint $\zeta$, the factorization and acceptance row
+$\alpha$, the transported $\hsame$ comparisons, and the $\mathsf{Pkg}$
+provenance contained in the root obligation packet. It receives no extra
+splitting field object, host equality of fields, valuation row, class-field
+operation, or completion datum from $\CyclotomicUp$ alone.
+\end{theorem}
+\begin{proof}
+Begin with the SplittingField-facing coordinates of
+\autoref{def:cyclotomic-root-obligation-packet}: $\mathcal{S}$, $p$, $\zeta$,
+$\alpha$, $\lambda$, and $\rho$. These are the only rows of the packet addressed
+to a splitting-field consumer.
+
+Apply \autoref{thm:cyclotomic-splitting-polynomial-classifier-transport}. It
+transports the polynomial and splitting-field source rows through the displayed
+classifier support. Then use
+\autoref{thm:cyclotomic-factorization-ledger-exactness} to identify the
+factorization rows as the ledger covered by $\mathcal{S}$.
+
+The primitive endpoint is controlled by
+\autoref{thm:cyclotomic-primitive-root-endpoint-transport}, and the root
+threshold is fixed by \autoref{thm:cyclotomic-root-obligation-threshold}. These
+results repack exactly the displayed splitting-field consumer rows.
+
+No remaining coordinate of \autoref{def:cyclotomic-root-obligation-packet}
+names a second splitting field, ambient field equality, valuation, class-field
+operation, or completion object. Therefore a SplittingFieldUp consumer is
+bounded by the listed packet rows.
+\end{proof}

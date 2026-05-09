@@ -659,12 +659,107 @@ equality, adjunction object, character formula, or standard bridge row is
 exported.
 \end{proof}
 
+\begin{theorem}[InducedRepUp Subgroup source-consumer scope]
+\label{thm:inducedrep-subgroup-coset-source-scope}
+Every downstream consumer of the SubgroupUp source used by
+$\InducedRepUp$ reads that source only through the displayed subgroup row of
+\autoref{def:inducedrep-bhist-carrier}, the source classifier of
+\autoref{thm:inducedrep-source-classifier-obligation}, the continuation rows
+carried by $\Cont$, and the provenance rows carried by $\Pkg$. In particular,
+the consumer surface exposes no independent coset carrier, subgroup inclusion
+object, orbit classifier, or host-group equality beyond the source row already
+bounded by \autoref{thm:inducedrep-subgroup-source-boundary}.
+\end{theorem}
+\begin{proof}
+Start with the finite carrier packet of
+\autoref{def:inducedrep-bhist-carrier}. Its SubgroupUp input is the single
+source row $S$, together with the endpoint rows that connect $S$ to the
+induction and restriction data.
+
+Apply \autoref{thm:inducedrep-subgroup-source-boundary}. It identifies the
+subgroup source consumed by $\InducedRepUp$ as the displayed row, not as a
+second subgroup certificate or an external coset object. Then use
+\autoref{thm:inducedrep-source-classifier-obligation} to read the classifier
+attached to that source row.
+
+Finally apply \autoref{thm:inducedrep-ledger-exactness-obligation} and
+\autoref{thm:inducedrep-obligation-closure-package}. The ledger says that the
+visible reads are exactly the recorded $\Cont$ and $\Pkg$ rows, and the closure
+package accounts for every exported source obligation. Hence a consumer can
+read the SubgroupUp source only through the listed source, classifier,
+continuation, and provenance rows.
+\end{proof}
+
+\begin{theorem}[InducedRepUp RepresentationRing action scope]
+\label{thm:inducedrep-representationring-action-scope}
+Every downstream consumer of the RepresentationRingUp action used by
+$\InducedRepUp$ reads that action only through the displayed representation row
+of \autoref{def:inducedrep-bhist-carrier}, the induction and restriction
+endpoints, the Frobenius row, and the finite ledger rows carried by $\rho$ and
+$\lambda$. The consumer surface does not expose a separate representation
+category, action functor equality, adjunction object, or character formula
+beyond the boundary fixed by
+\autoref{thm:inducedrep-representation-ring-action-boundary}.
+\end{theorem}
+\begin{proof}
+Read first the representation component of
+\autoref{def:inducedrep-bhist-carrier}. The relevant data are the row $R$, the
+induction endpoint $i$, the restriction endpoint $r$, and the Frobenius row
+$F$; no ambient representation category is introduced by the carrier.
+
+Apply \autoref{thm:inducedrep-representation-ring-action-boundary}. It fixes
+the RepresentationRingUp action source as the displayed representation row
+together with the induction and restriction endpoints. Then apply
+\autoref{thm:inducedrep-source-classifier-obligation} to keep the classifier
+read tied to those endpoint rows.
+
+Use \autoref{thm:inducedrep-ledger-exactness-obligation} for the ledger. The
+ledger projection permits only the reads recorded by $\rho$ and $\lambda$ for
+the representation, endpoint, Frobenius, continuation, and provenance rows.
+Combining this with \autoref{thm:inducedrep-obligation-closure-package}
+exhausts the action surface visible to consumers.
+\end{proof}
+
+\begin{theorem}[InducedRepUp consumer obligation exhaustion]
+\label{thm:inducedrep-consumer-obligation-exhaustion}
+The downstream consumer interface exported by $\InducedRepUp$ is exactly the
+union of the SubgroupUp source rows scoped in
+\autoref{thm:inducedrep-subgroup-coset-source-scope}, the
+RepresentationRingUp action rows scoped in
+\autoref{thm:inducedrep-representationring-action-scope}, and the displayed
+Frobenius, continuation, and package rows of the obligation closure package.
+No consumer receives an additional host category, coset carrier, action
+transport, adjunction, character formula, or standard bridge row.
+\end{theorem}
+\begin{proof}
+The SubgroupUp contribution is exactly the source row, source classifier,
+$\Cont$ rows, and $\Pkg$ provenance supplied by
+\autoref{thm:inducedrep-subgroup-coset-source-scope}. The
+RepresentationRingUp contribution is exactly the representation row, induction
+endpoint, restriction endpoint, Frobenius row, and ledger projection supplied
+by \autoref{thm:inducedrep-representationring-action-scope}.
+
+It remains to compare this union with the chapter's finite obligation package.
+Apply \autoref{thm:inducedrep-source-classifier-obligation} for the classifier
+rows and \autoref{thm:inducedrep-ledger-exactness-obligation} for the recorded
+ledger reads. These two obligations identify the classifier and ledger pieces
+with rows already present in \autoref{def:inducedrep-bhist-carrier}.
+
+Finally apply \autoref{thm:inducedrep-obligation-closure-package}. It repacks
+the source, action, Frobenius, continuation, and provenance rows into the
+single exported $\NameCert_{\InducedRepUp}$ obligation surface. Since every
+row in either scoped source theorem is a row of that package, and every row of
+the package is one of those scoped rows or a displayed Frobenius,
+continuation, or provenance row, the downstream consumer interface is exactly
+the stated union.
+\end{proof}
+
 \begin{closurestatus}{\InducedRepUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:inducedrep-obligation-closure-package} binds the carried $\mathsf{BHist}$ packet, SubgroupUp source boundary, RepresentationRingUp action boundary, Frobenius classifier, source classifier obligation, ledger exactness obligation, consumer boundary, $\hsame$, $\Cont$, and $\Pkg$ rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:inducedrep-consumer-obligation-exhaustion} binds downstream reads to the carried $\mathsf{BHist}$ packet, SubgroupUp source rows, RepresentationRingUp action rows, Frobenius rows, $\hsame$, $\Cont$, and $\Pkg$ provenance.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.InducedRepUp.InducedRepCarrierPacket\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \notclaimed{This does not close external representation categories, functor equality, adjunction objects, character formulas, or standard bridge rows.}
-  \upgradepath{Scoped closure requires a consumer projection theorem showing that downstream RepresentationRingUp and InducedRepUp users read only the displayed obligation package.}
+  \upgradepath{Public closure requires one exported public-facing InducedRepUp certificate theorem consumed by RepresentationRingUp and InducedRepUp users.}
 \end{closurestatus}
