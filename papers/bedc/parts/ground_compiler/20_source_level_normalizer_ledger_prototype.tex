@@ -46,6 +46,7 @@ the adjacent pairs are $0\mid 00$, $00\mid 000$, $000\mid 01$, $01\mid 011$, and
 
 \begin{definition}[Candidate normalizer pair]
 \label{def:source-normalizer-candidate-pair}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.CandNormPair}
 A \emph{candidate normalizer pair} is a source-level adjacent pair $(w,v)$ reported as a possible pre-normal event followed by a possible normal-address event. Write
 $$
   \mathsf{CandNormPair}(w,v).
@@ -92,6 +93,7 @@ $$
 
 \begin{definition}[Generated normalizer recognizer]
 \label{def:source-normalizer-generated-recognizer}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.GeneratedNormalizerRecognizer}
 A \emph{generated normalizer recognizer} is an event flow
 $$
   R_N\in\mathsf{EventFlow}
@@ -158,6 +160,7 @@ By definition, $\mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v)$ means $\mathsf{Adj
 
 \begin{corollary}[Candidate normalizer does not erase pre-normal event]
 \label{cor:source-normalizer-candidate-does-not-erase}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.candidate\_does\_not\_erase\_pre\_normal}
 If $P_2$ reports $011\mid 100$, then both $011$ and $100$ remain in the decoded event flow. The event $011$ is not deleted.
 \end{corollary}
 

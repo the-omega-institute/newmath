@@ -10,10 +10,23 @@ inductive AdjPair : EventFlow -> Nat -> RawEvent -> RawEvent -> Prop where
   | there (x : RawEvent) {S : EventFlow} {i : Nat} {w v : RawEvent} :
       AdjPair S i w v -> AdjPair (x :: S) (i + 1) w v
 
+def CandNormPair
+    (candidate : RawEvent -> RawEvent -> Prop)
+    (w v : RawEvent) : Prop :=
+  candidate w v
+
 def NormCand
     (candidate : RawEvent -> RawEvent -> Prop)
     (S : EventFlow) (i : Nat) (w v : RawEvent) : Prop :=
-  AdjPair S i w v /\ candidate w v
+  AdjPair S i w v /\ CandNormPair candidate w v
+
+def GeneratedNormalizerRecognizer : Type :=
+  EventFlow
+
+def RecognizesNormalizer
+    (_R : GeneratedNormalizerRecognizer) (S : EventFlow)
+    (i : Nat) (w v : RawEvent) : Prop :=
+  AdjPair S i w v
 
 theorem adj_pair_events_mem {S : EventFlow} {i : Nat} {w v : RawEvent} :
     AdjPair S i w v -> List.Mem w S /\ List.Mem v S := by
@@ -34,5 +47,12 @@ theorem candidate_preserves_raw
     NormCand candidate S i w v -> List.Mem w S /\ List.Mem v S := by
   intro h
   exact adj_pair_events_mem h.left
+
+theorem candidate_does_not_erase_pre_normal
+    {candidate : RawEvent -> RawEvent -> Prop}
+    {S : EventFlow} {i : Nat} {w v : RawEvent} :
+    NormCand candidate S i w v -> List.Mem w S := by
+  intro h
+  exact (candidate_preserves_raw h).left
 
 end BEDC.GroundCompiler.SourceNormalizer
