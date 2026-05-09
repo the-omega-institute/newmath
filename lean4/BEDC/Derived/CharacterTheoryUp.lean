@@ -4,6 +4,7 @@ import BEDC.Derived.VecSpaceUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
@@ -132,5 +133,115 @@ theorem CharacterTheoryRootBHistSurface_carrier_obligation [AskSetup] [PackageSe
                   (And.intro surface.right.right.right.right.left
                     (And.intro surface.right.right.right.right.right.left
                       surface.right.right.right.right.right.right))))))))
+
+theorem CharacterTheoryRootBHistSurface_source_compatibility_obligation [AskSetup]
+    [PackageSetup]
+    {group group' vector vector' action action' trace trace' orthLedger orthLedger' endpoint
+      endpoint' : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CharacterTheoryRootBHistSurface group vector action trace orthLedger endpoint bundle pkg ->
+      hsame group group' ->
+        hsame vector vector' ->
+          hsame trace trace' ->
+            Cont group' vector' action' ->
+              Cont action' trace' orthLedger' ->
+                Cont orthLedger' trace' endpoint' ->
+                  PkgSig bundle endpoint' pkg ->
+                    CharacterTheoryRootBHistSurface group' vector' action' trace' orthLedger'
+                        endpoint' bundle pkg ∧
+                      hsame action action' ∧ hsame orthLedger orthLedger' := by
+  intro surface sameGroup sameVector sameTrace actionRow' orthLedgerRow' endpointRow' endpointPkg'
+  have groupUnary' : UnaryHistory group' :=
+    unary_transport surface.left sameGroup
+  have vectorUnary' : UnaryHistory vector' :=
+    unary_transport surface.right.left sameVector
+  have traceUnary' : UnaryHistory trace' :=
+    unary_transport surface.right.right.right.left sameTrace
+  have actionSame : hsame action action' :=
+    cont_respects_hsame sameGroup sameVector surface.right.right.left actionRow'
+  have orthLedgerSame : hsame orthLedger orthLedger' :=
+    cont_respects_hsame actionSame sameTrace surface.right.right.right.right.left
+      orthLedgerRow'
+  have transportedSurface :
+      CharacterTheoryRootBHistSurface group' vector' action' trace' orthLedger' endpoint'
+        bundle pkg :=
+    And.intro groupUnary'
+      (And.intro vectorUnary'
+        (And.intro actionRow'
+          (And.intro traceUnary'
+            (And.intro orthLedgerRow'
+              (And.intro endpointRow' endpointPkg')))))
+  exact And.intro transportedSurface
+    (And.intro actionSame orthLedgerSame)
+
+theorem CharacterTheoryRootBHistSurface_classifier_obligation [AskSetup] [PackageSetup]
+    {group group' vector vector' action action' trace trace' orthLedger orthLedger' endpoint
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CharacterTheoryRootBHistSurface group vector action trace orthLedger endpoint bundle pkg ->
+      hsame group group' ->
+        hsame vector vector' ->
+          hsame trace trace' ->
+            Cont group' vector' action' ->
+              Cont action' trace' orthLedger' ->
+                Cont orthLedger' trace' endpoint' ->
+                  hsame action action' ∧ hsame orthLedger orthLedger' ∧
+                    hsame endpoint endpoint' ∧ UnaryHistory action' ∧
+                      UnaryHistory orthLedger' ∧ UnaryHistory endpoint' := by
+  intro surface sameGroup sameVector sameTrace actionRow' orthLedgerRow' endpointRow'
+  have actionSame : hsame action action' :=
+    cont_respects_hsame sameGroup sameVector surface.right.right.left actionRow'
+  have groupUnary' : UnaryHistory group' :=
+    unary_transport surface.left sameGroup
+  have vectorUnary' : UnaryHistory vector' :=
+    unary_transport surface.right.left sameVector
+  have traceUnary' : UnaryHistory trace' :=
+    unary_transport surface.right.right.right.left sameTrace
+  have actionUnary' : UnaryHistory action' :=
+    unary_cont_closed groupUnary' vectorUnary' actionRow'
+  have orthLedgerSame : hsame orthLedger orthLedger' :=
+    cont_respects_hsame actionSame sameTrace surface.right.right.right.right.left
+      orthLedgerRow'
+  have orthLedgerUnary' : UnaryHistory orthLedger' :=
+    unary_cont_closed actionUnary' traceUnary' orthLedgerRow'
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame orthLedgerSame sameTrace surface.right.right.right.right.right.left
+      endpointRow'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed orthLedgerUnary' traceUnary' endpointRow'
+  exact And.intro actionSame
+    (And.intro orthLedgerSame
+      (And.intro endpointSame
+        (And.intro actionUnary'
+          (And.intro orthLedgerUnary' endpointUnary'))))
+
+theorem CharacterTheoryRootBHistSurface_trace_transport_stability [AskSetup] [PackageSetup]
+    {group vector action trace orthLedger endpoint trace' orthLedger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CharacterTheoryRootBHistSurface group vector action trace orthLedger endpoint bundle pkg ->
+      hsame trace trace' ->
+        Cont action trace' orthLedger' ->
+          Cont orthLedger' trace' endpoint' ->
+            PkgSig bundle endpoint' pkg ->
+              CharacterTheoryRootBHistSurface group vector action trace' orthLedger' endpoint'
+                bundle pkg ∧ hsame orthLedger orthLedger' ∧ hsame endpoint endpoint' := by
+  intro surface sameTrace orthLedgerRow' endpointRow' pkgRow'
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed surface.left surface.right.left surface.right.right.left
+  have traceUnary' : UnaryHistory trace' :=
+    unary_transport surface.right.right.right.left sameTrace
+  have orthLedgerSame : hsame orthLedger orthLedger' :=
+    cont_respects_hsame (hsame_refl action) sameTrace surface.right.right.right.right.left
+      orthLedgerRow'
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame orthLedgerSame sameTrace surface.right.right.right.right.right.left
+      endpointRow'
+  have transportedSurface :
+      CharacterTheoryRootBHistSurface group vector action trace' orthLedger' endpoint' bundle pkg :=
+    And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro surface.right.right.left
+            (And.intro traceUnary'
+              (And.intro orthLedgerRow' (And.intro endpointRow' pkgRow')))))
+  exact And.intro transportedSurface (And.intro orthLedgerSame endpointSame)
 
 end BEDC.Derived.CharacterTheoryUp
