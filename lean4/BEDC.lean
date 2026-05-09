@@ -118,6 +118,7 @@ import BEDC.Derived.CurvatureUp.ManifoldBaseDependencyRow
 import BEDC.Derived.CurvatureUp.BundleFibreDependencyRow
 import BEDC.Derived.CurvatureUp.ConnectionDerivativeDependencyRow
 import BEDC.Derived.CurvatureUp.ExportDeterminacy
+import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
@@ -450,6 +451,7 @@ import BEDC.Derived.TopGroupUp.OperationSourceContinuity
 import BEDC.Derived.TopGroupUp.OperationContinuityLedgerScope
 import BEDC.Derived.TopGroupUp.OperationLedgerConsumerBoundary
 import BEDC.Derived.TopGroupUp.SourceCompatibility
+import BEDC.Derived.TopGroupUp.ObligationSurfaceCertificate
 import BEDC.Derived.TopGroupUp.RootSourceCompatibility
 import BEDC.Derived.TopGroupUp.RootCarrierObligations
 import BEDC.Derived.TopGroupUp.PublicNamecertReadbackExactness

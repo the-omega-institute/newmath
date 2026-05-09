@@ -193,6 +193,45 @@ and has no quotient, completion, $\mathsf{Classical}$ datum,
 metric-completeness certificate, or standard bridge to inspect.
 \end{proof}
 
+\begin{theorem}[RealUp StreamName reindexing composition boundary]
+\label{thm:realup-streamname-reindexing-composition-boundary}
+Let $W$ be a selected finite $\RealUp$ observation window admitted through the
+$\StreamNameUp$ finite-window seal ledger. Suppose two certified
+$\StreamNameUp$ unary reindexers are applied successively to $W$, and suppose
+the same selected endpoint package is also read through the single certified
+composite reindexer. Then the successive read and the composite read expose the
+same finite seal ledger: selected unary observation rows, the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, endpoint $\RatUp$
+denominator rows, positive denominator witnesses, common e-one tail readback,
+$\mathsf{DyadicRatCore}$ source rows, $\hsame$ transport, and the finite
+$\mathsf{RealLedgerPolicy}$.
+
+In particular, the composite surface has no additional quotient, completion,
+host $\mathsf{Nat}$ index, host function, unrecorded stream object,
+$\mathsf{Classical}$ datum, metric-completeness certificate, or standard bridge
+beyond the rows already exposed by the two successive unary transports.
+\end{theorem}
+\begin{proof}
+Start with the two certified unary reindexers. Apply
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} to each reindexing
+step, and use the $\StreamNameUp$ reindexing composition law to identify the
+successive selected unary observation rows with the rows selected by the single
+composite reindexer.
+
+Next apply
+\autoref{thm:realup-finite-window-reindexed-classifier-transport} to the first
+transported window and again to the second transported window. The finite
+classifier, endpoint denominator package, common e-one tail readback, and
+$\mathsf{DyadicRatCore}$ source rows are carried componentwise through the same
+$\hsame$ transport ledger.
+
+Finally compare both transported reads with
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. That boundary
+lists the whole finite $\RealUp$ seal ledger, so the successive read and the
+composite read have the same public rows and no further host-level reindexing
+datum to inspect.
+\end{proof}
+
 \begin{theorem}[RealUp StreamName-RegSeqRat reindexed ledger handoff]
 \label{thm:realup-streamname-regseqrat-reindexed-ledger-handoff}
 Let $\mathcal{W}$ be a $\StreamNameUp$--$\RegSeqRat$ reindexed window package
