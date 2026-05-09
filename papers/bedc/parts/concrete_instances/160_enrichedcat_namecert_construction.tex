@@ -195,3 +195,30 @@ continuations are available only through the listed $\Cont$ rows. Repacking
 these rows gives the same public readback packet, so the consumer boundary is
 exactly the displayed surface.
 \end{proof}
+
+\begin{theorem}[EnrichedCat public packet source boundary]\label{thm:enrichedcat-public-packet-source-boundary}
+For an accepted $\EnrichedCatUp$ carrier, the public packet exposes exactly the
+consumed $\CategoryUp$ object boundary, the consumed $\MonoidalCatUp$ tensor
+boundary, the hom-object rows, identity rows, composition rows, componentwise
+$\hsame$ transports, $\mathsf{Pkg}$ provenance, and finite $\Cont$ readbacks
+of \autoref{def:enrichedcat-bhist-packet}. Every $\FunctorUp$ or
+$\NatTransUp$ consumer factors its public read through these rows and through
+no additional host enriched-category datum.
+\end{theorem}
+\begin{proof}
+Start from the packet of \autoref{def:enrichedcat-bhist-packet}. Its first two
+coordinates are the consumed $\CategoryUp$ and $\MonoidalCatUp$ boundaries, so
+the available source rows are constrained by
+\autoref{thm:enrichedcat-source-obligation}.
+
+The remaining coordinates are the enriched rows themselves. Classifier movement
+is componentwise by \autoref{thm:enrichedcat-classifier-transport-obligation},
+and the monoidal dependency is the displayed tensor boundary isolated by
+\autoref{thm:enrichedcat-monoidal-category-boundary}.
+
+Finally apply \autoref{thm:enrichedcat-consumer-readback-boundary}. It already
+identifies the $\FunctorUp$ and $\NatTransUp$ readback surface with the object,
+hom-object, identity, composition, transport, provenance, and finite
+continuation rows. Repacking those projections gives the same public packet,
+so every such consumer factors through exactly the listed boundary.
+\end{proof}
