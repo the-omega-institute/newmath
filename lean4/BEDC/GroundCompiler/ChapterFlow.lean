@@ -13,6 +13,65 @@ def ChapterCandidateFlow : Type :=
 def GeneratedChapterRecognizer : Type :=
   EventFlow
 
+def DefinitionCandidateFlow : Type :=
+  EventFlow
+
+def GeneratedDefinitionRecognizer : Type :=
+  EventFlow
+
+def DefCand (S D : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow S) /\
+    FormalCompilerInput (CompilerDatum.eventFlow D)
+
+def RecognizesDefinition
+    (R : GeneratedDefinitionRecognizer) (S D : DefinitionCandidateFlow) :
+    Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R D) /\
+    DefCand S D /\
+    NonemptyEventFlow D
+
+def DefinitionFlow
+    (R : GeneratedDefinitionRecognizer) (S D : DefinitionCandidateFlow) :
+    Prop :=
+  RecognizesDefinition R S D
+
+def DefinitionDependencySound
+    (R : GeneratedDefinitionRecognizer) (S D : DefinitionCandidateFlow) :
+    Prop :=
+  DefinitionFlow R S D
+
+def DefinitionCertificateSupported
+    (R : GeneratedDefinitionRecognizer) (S D : DefinitionCandidateFlow) :
+    Prop :=
+  DefinitionFlow R S D /\ exists N : EventFlow, RecognizedNameCertFlow N
+
+def DefinitionLedgerRecorded
+    (_R : GeneratedDefinitionRecognizer) (S _D : DefinitionCandidateFlow) :
+    Prop :=
+  NonemptyEventFlow S
+
+def DefinitionCandidateOnlyMarked
+    (_R : GeneratedDefinitionRecognizer) (_S D : DefinitionCandidateFlow) :
+    Prop :=
+  NonemptyEventFlow D
+
+def DefinitionNoHostNameInput : Prop :=
+  Not (FormalCompilerInput CompilerDatum.hostObjectName)
+
+def DefinitionSoundness
+    (R : GeneratedDefinitionRecognizer) (S D : DefinitionCandidateFlow) :
+    Prop :=
+  DefinitionDependencySound R S D /\
+    DefinitionCertificateSupported R S D /\
+    DefinitionLedgerRecorded R S D /\
+    DefinitionCandidateOnlyMarked R S D /\
+    DefinitionNoHostNameInput
+
+def SoundChapterDefinitionSubflow
+    (R : GeneratedDefinitionRecognizer) (S D : DefinitionCandidateFlow) :
+    Prop :=
+  DefinitionFlow R S D /\ DefinitionSoundness R S D
+
 def RecognizesChapter
     (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
   FormalCompilerInput (CompilerDatum.recognizedFlow R C) /\
@@ -305,6 +364,13 @@ theorem yaml_may_report {C : ChapterCandidateFlow} :
   constructor
   · exact hChapter
   · exact structural_hidden_not_formal StructuralHiddenInput.hostYAML
+
+theorem unsound_definition_blocks
+    {R : GeneratedDefinitionRecognizer} {S D : DefinitionCandidateFlow} :
+    Not (DefinitionSoundness R S D) ->
+      Not (SoundChapterDefinitionSubflow R S D) := by
+  intro hUnsound hSubflow
+  exact hUnsound hSubflow.right
 
 theorem no_chapter_without_complete_recognition {C : ChapterCandidateFlow} :
     ChapterFlow C ->
