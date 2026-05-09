@@ -591,3 +591,54 @@ $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
 $\mathsf{RealLedgerPolicy}$ rows, leaving no slot for the excluded host or
 completion data.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier atlas descent]
+\label{thm:regseqrat-tail-classifier-atlas-descent}
+Let $\mathcal{A}=\{W_i\}_{i\in I}$ be a finite atlas of selected finite
+$\RealUp$ observation-window packages. Suppose every pairwise overlap
+$W_i\cap W_j$ and every triple overlap $W_i\cap W_j\cap W_k$ preserves the
+displayed $\StreamNameUp$, $\RegSeqRat$, DyadicRatCore,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+Then the atlas exposes a single selected $\RegSeqRat$ tail-classifier row on
+the finite union of its windows. For every chart $W_i$, the chartwise selected
+tail-classifier row factors through this atlas row, and this factorisation is
+unique among finite-window mediators preserving the displayed rows. The
+descent surface exports no quotient, completion, Classical representative,
+metric-completeness row, arithmetic or order row, standard-bridge row, or
+hidden selector row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-classifier-exactness} to each selected chart.
+This identifies the chartwise tail-classifier row with the displayed
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, unary-history, probe-bundle,
+membership, transport, continuation, provenance, and ledger inventory.
+
+Next form the finite atlas union. By
+\autoref{thm:regseqrat-tail-classifier-union-exhaustion}, the union consumes
+exactly the rows contributed by the selected windows and their certified
+overlaps. No additional host row is introduced while passing from the chart
+family to the finite union.
+
+Now decompose the atlas by its chart partition. The coherence result
+\autoref{thm:regseqrat-tail-classifier-partition-coherence} says that the
+selected row obtained from the union is the same row obtained by assembling the
+partition pieces with their displayed overlap transports.
+
+Triple refinements are handled by
+\autoref{thm:regseqrat-tail-classifier-nested-cover-associativity}. It
+identifies the staged gluing over pairwise overlaps with the flattened finite
+cover over all chart and triple-overlap pieces, so the resulting atlas row is
+independent of the order in which the certified finite overlaps are read.
+
+It remains to show the universal factorisation claim. A chartwise selected
+tail pulls back from the atlas row by construction. If another finite-window
+mediator has the same pullback on every chart while preserving the displayed
+rows, then
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} identifies that
+mediator with the atlas row. Thus each chartwise tail factors uniquely through
+the displayed atlas descent row, and the excluded quotient, completion,
+Classical, metric, arithmetic, order, bridge, and hidden-selector data have no
+projection in the construction.
+\end{proof}
