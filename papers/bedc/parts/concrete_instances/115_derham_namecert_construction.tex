@@ -465,6 +465,91 @@ surface contains no de Rham isomorphism row and no quotient-cohomology
 surface.
 \end{proof}
 
+\begin{theorem}[De Rham bridge input source scope]
+\label{thm:derham-bridge-input-source-scope}
+The bridge input rows for the $\DeRhamUp$ public boundary surface are exactly
+the $\DiffFormUp$ carried-form rows, the $\CohomologyUp$ cochain differential
+rows, the $\mathsf{BHist}$ endpoints, and the displayed square-zero row
+$d_{\mathrm{dR}}(d_{\mathrm{dR}}\omega)=0$ read through
+\autoref{def:derham-double-exterior-derivative-packet}. No host smooth
+manifold, quotient-cohomology representative, de Rham isomorphism, or external
+chain-complex carrier is part of this input scope.
+\end{theorem}
+\begin{proof}
+Start from the De Rham packet
+\autoref{def:derham-double-exterior-derivative-packet}. It displays the
+carried $\DiffFormUp$ row, the two cochain graph rows, the intermediate
+$\mathsf{BHist}$ endpoint, and the zero endpoint for the second differential.
+
+Apply \autoref{thm:derham-double-exterior-derivative-boundary}. The theorem
+turns the packet into the boundary row and records the square-zero endpoint
+seen by the public surface.
+
+Use \autoref{thm:derham-boundary-zero-endpoint-transport} and
+\autoref{thm:derham-cocycle-readback} to keep the visible endpoint and cocycle
+readback inside the same displayed packet. The root ledger and public
+classifier exactness theorems,
+\autoref{thm:derham-root-ledger-exactness} and
+\autoref{thm:derham-boundary-public-classifier-exactness}, then repackage
+only these input rows, so no outside manifold, quotient, or carrier row is
+exported.
+\end{proof}
+
+\begin{theorem}[De Rham bridge classifier source scope]
+\label{thm:derham-bridge-classifier-source-scope}
+All classifier movement in the $\DeRhamUp$ public boundary surface is by
+$\hsame$ and by the cochain differential stability row of
+\autoref{thm:derham-boundary-zero-endpoint-transport}. The classifier source
+scope contains no equality of quotient cohomology classes, no chosen
+representative of a cohomology class, and no analytic comparison beyond the
+displayed $\mathsf{BHist}$ endpoint transport.
+\end{theorem}
+\begin{proof}
+Project the classifier from
+\autoref{thm:derham-boundary-public-classifier-exactness}. Its visible
+predicate is $\mathsf{DeRhamBoundary}_{d_{\mathrm{dR}}}$ over the boundary row
+of \autoref{def:derham-chain-complex-boundary-row}.
+
+The only allowed movement of that predicate is the $\hsame$ endpoint
+transport in \autoref{thm:derham-boundary-zero-endpoint-transport}. The
+preimage cochain is kept fixed, and the transported endpoint stays in the same
+boundary predicate.
+
+The packet exactness theorem
+\autoref{thm:derham-double-exterior-derivative-boundary}, the cocycle
+readback theorem \autoref{thm:derham-cocycle-readback}, and the root ledger
+exactness theorem \autoref{thm:derham-root-ledger-exactness} add no classifier
+movement beyond that stability row. Thus the classifier source scope is
+precisely $\hsame$ transport plus cochain differential stability.
+\end{proof}
+
+\begin{theorem}[De Rham bridge ledger source scope]
+\label{thm:derham-bridge-ledger-source-scope}
+The $\DeRhamUp$ bridge ledger exports only the boundary preimage, the zero
+endpoint, the cocycle readback, the finite graph rows, and the package
+provenance named by the public source packet. It does not export a host
+cochain complex, a quotient carrier, an isomorphism theorem, or any ledger row
+not already displayed by the De Rham packet and boundary source surface.
+\end{theorem}
+\begin{proof}
+Read the ledger entries from
+\autoref{def:derham-boundary-source-packet}. They are the boundary preimage,
+the double-exterior packet, the cocycle row, and the finite source rows over
+$\DiffFormUp$, $\CohomologyUp$, and $\mathsf{BHist}$.
+
+Apply \autoref{thm:derham-root-ledger-exactness}. It identifies the exported
+ledger with exactly the boundary row, zero endpoint, cocycle readback, and
+displayed source rows.
+
+Finally use
+\autoref{thm:derham-boundary-public-classifier-exactness} to move that finite
+ledger into the public classifier surface. The boundary theorem
+\autoref{thm:derham-double-exterior-derivative-boundary}, endpoint transport
+\autoref{thm:derham-boundary-zero-endpoint-transport}, and cocycle readback
+\autoref{thm:derham-cocycle-readback} account for every row, so the ledger has
+no remaining branch for external chain-complex, quotient, or isomorphism data.
+\end{proof}
+
 \closureat{DeRhamUp}{publicStr}[BEDC.Derived.DeRhamUp.DeRhamDoubleExteriorPacket\_boundary]
 
 \begin{closurestatus}{\DeRhamUp}
