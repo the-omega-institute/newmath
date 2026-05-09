@@ -74,6 +74,7 @@ import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
+import BEDC.Derived.GaloisExtUp.PublicLedgerCoverage
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
@@ -119,7 +120,6 @@ import BEDC.Derived.DeRhamUp.RootCocycleLedgerThreshold
 import BEDC.Derived.DeRhamUp.RootObligations
 import BEDC.Derived.DeRhamUp.DoubleExteriorObligations
 import BEDC.Derived.DeRhamUp.BridgeInputSource
-import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
@@ -269,7 +269,6 @@ import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.BrownianUp
-import BEDC.Derived.BayesianUp
 import BEDC.Derived.CondExpUp
 import BEDC.Derived.MartingaleUp
 import BEDC.Derived.RepresentationRingUp
@@ -403,9 +402,17 @@ import BEDC.Derived.TopologyUp.PublicWitness
 import BEDC.Derived.TopologyUp.PublicWitnesses
 import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.TopGroupUp
+import BEDC.Derived.TopGroupUp.LedgerExactnessObligation
 import BEDC.Derived.TopGroupUp.RootLedgerSemanticExactness
 import BEDC.Derived.TopGroupUp.ClassifierContinuityTransport
+import BEDC.Derived.TopGroupUp.SourceFiberClassifierDeterminacy
+import BEDC.Derived.TopGroupUp.RootOperationSourceContinuityCoupling
+import BEDC.Derived.TopGroupUp.DownstreamLedgerObligation
+import BEDC.Derived.TopGroupUp.ContinuityObligations
 import BEDC.Derived.TopGroupUp.SourceCompatibility
+import BEDC.Derived.TopGroupUp.RootCarrierObligations
+import BEDC.Derived.TopGroupUp.PublicNamecertReadbackExactness
+import BEDC.Derived.TopGroupUp.SourceFiberContinuityObligation
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -501,7 +508,6 @@ import BEDC.Derived.NumFieldUp.EmbeddingCoordinateProductCompatibility
 import BEDC.Derived.NumFieldUp.SingletonBasisSupport
 import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
 import BEDC.Derived.QuadratureUp
-import BEDC.Derived.RegulatorUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
@@ -509,7 +515,6 @@ import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.QuantumChannelUp
 import BEDC.Derived.IdealUp
 import BEDC.Derived.IdealClassUp
-import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.IdealUp.AbsorptionClosure
 import BEDC.Derived.IdealUp.AmbientCarrier
 import BEDC.Derived.IdealUp.QuotientKernel
@@ -614,7 +619,6 @@ import BEDC.Derived.ManifoldUp.StdBridge
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.PolynomialUp.StdBridge
-import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface

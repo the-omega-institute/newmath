@@ -1,6 +1,7 @@
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.TreeUp
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.CurryHowardUp
 
@@ -8,6 +9,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
@@ -192,5 +194,83 @@ theorem CurryHowardCutBetaPacket_source_obligation_surface [AskSetup] [PackageSe
       (And.intro proofProgramRow
         (And.intro provenanceRow
           (And.intro conclusionPkg bridgePkg))))
+
+theorem CurryHowardCutBetaPacket_public_namecert_boundary [AskSetup] [PackageSetup]
+    {symbolSource treeSource variableLedger relationSymbol functionSymbol treeEndpoint
+      formulaEndpoint formulaProvenance deductionStep conclusion conclusionProvenance graph edge
+      connected acyclic funTag funPayload funEndpoint argTag argPayload argEndpoint appPayload appTag
+      appEndpoint proofProgram provenance bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FirstOrderBHistSyntaxCarrier symbolSource treeSource variableLedger relationSymbol functionSymbol
+        treeEndpoint formulaEndpoint formulaProvenance bundle pkg ->
+      UnaryHistory deductionStep ->
+        Cont formulaEndpoint deductionStep conclusion ->
+          SigRel bundle conclusion conclusionProvenance ->
+            PkgSig bundle conclusionProvenance pkg ->
+              LambdaCalcBHistTermPacketCarrier graph edge connected acyclic funTag funPayload
+                  funEndpoint ->
+                LambdaCalcBHistTermPacketCarrier graph edge connected acyclic argTag argPayload
+                    argEndpoint ->
+                  Cont funEndpoint argEndpoint appPayload ->
+                    TreeBHistCarrier graph edge connected acyclic appTag appEndpoint ->
+                      Cont appTag appPayload appEndpoint ->
+                        Cont conclusion appEndpoint proofProgram ->
+                          Cont provenance proofProgram bridge ->
+                            PkgSig bundle bridge pkg ->
+                              SemanticNameCert (fun h : BHist => hsame h proofProgram)
+                                  (fun h : BHist => hsame h proofProgram)
+                                  (fun h : BHist => hsame h proofProgram) hsame ∧
+                                UnaryHistory conclusion ∧
+                                  LambdaCalcBHistTermPacketCarrier graph edge connected acyclic
+                                    appTag appPayload appEndpoint ∧
+                                    hsame proofProgram (append conclusion appEndpoint) ∧
+                                      PkgSig bundle bridge pkg := by
+  intro firstOrderCarrier deductionStepUnary conclusionRow conclusionSig conclusionPkg funCarrier
+    argCarrier appPayloadRow appTree appEndpointRow proofProgramRow provenanceRow bridgePkg
+  have bridgeRows :=
+    CurryHowardCutBetaPacket_bridge_obligation
+      (symbolSource := symbolSource) (treeSource := treeSource)
+      (variableLedger := variableLedger) (relationSymbol := relationSymbol)
+      (functionSymbol := functionSymbol) (treeEndpoint := treeEndpoint)
+      (formulaEndpoint := formulaEndpoint) (formulaProvenance := formulaProvenance)
+      (deductionStep := deductionStep) (conclusion := conclusion)
+      (conclusionProvenance := conclusionProvenance) (graph := graph) (edge := edge)
+      (connected := connected) (acyclic := acyclic) (funTag := funTag)
+      (funPayload := funPayload) (funEndpoint := funEndpoint) (argTag := argTag)
+      (argPayload := argPayload) (argEndpoint := argEndpoint) (appPayload := appPayload)
+      (appTag := appTag) (appEndpoint := appEndpoint) (proofProgram := proofProgram)
+      (provenance := provenance) (bridge := bridge) (bundle := bundle) (pkg := pkg)
+      firstOrderCarrier deductionStepUnary conclusionRow conclusionSig conclusionPkg funCarrier
+      argCarrier appPayloadRow appTree appEndpointRow proofProgramRow provenanceRow bridgePkg
+  have cert :
+      SemanticNameCert (fun h : BHist => hsame h proofProgram)
+        (fun h : BHist => hsame h proofProgram)
+        (fun h : BHist => hsame h proofProgram) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro proofProgram (hsame_refl proofProgram)
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK carrierH
+        exact hsame_trans (hsame_symm sameHK) carrierH
+    }
+    pattern_sound := by
+      intro h carrier
+      exact carrier
+    ledger_sound := by
+      intro h carrier
+      exact carrier
+  }
+  exact And.intro cert
+    (And.intro bridgeRows.left
+      (And.intro bridgeRows.right.left
+        (And.intro bridgeRows.right.right.left bridgeRows.right.right.right)))
 
 end BEDC.Derived.CurryHowardUp
