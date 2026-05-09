@@ -42,56 +42,6 @@ papers/bedc/parts/proof_obligations/gap_policy.tex defines the classifier-preser
 
 ---
 
-### B-552 - ZNormal predicate is closed under HSame transport
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | ZNormal predicate is closed under HSame transport |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-If ZNormal(h) and HSame(h, k), then ZNormal(k).
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/257_zeckendorf_normal_namecert_construction.tex`
-
-Rationale:
-Sister chapter 254 (axisnat) explicitly proves the parallel HSame-transport lemma for ZeroSpine; the structurally analogous ZNormal predicate in 257 (Zeckendorf) is missing it. The chapter's classifier specification defines the classifier as HSame restricted to the carrier, which is logically distinct from the predicate itself being closed under HSame transport — closure is a structural induction over the ZNormal derivation, not a definitional unfolding. Fills a clear asymmetry gap a referee would flag, lands cleanly in a 203-line file, and proof is by induction on ZNormal(h) with HSame constructor inversion.
-
----
-
-
-### B-553 - Zero-spine source shape exhaustion
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | Zero-spine source shape exhaustion |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 7/10 |
-| Novelty | 6/10 |
-
-Problem:
-For every history h with ZeroSpine(h), either HSame(h, empty) or there exists h_pred with HSame(h, E0(h_pred)) and ZeroSpine(h_pred).
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/254_axisnat_namecert_construction.tex`
-
-Rationale:
-Chapter 254 has the empty base, closure under E0, E0-inversion, no-E1-extension, and HSame-transport for ZeroSpine, but no constructor-exhaustion theorem giving a binary case-disjunction over arbitrary ZeroSpine witnesses. Distinct from E0-inversion (which assumes the form E0(h_pred)) and from no-E1-extension (a negative result on a different constructor). Used downstream wherever ZeroSpine is consumed by case analysis without an explicit exhaustion citation. 144-line file is safe; theorem is one structural induction.
-
----
-
-
 ### B-554 - NetworkFlow zero feasible flow has minimum value among feasible flows
 
 | field | value |
@@ -139,4 +89,3 @@ Rationale:
 Hungerford / Atiyah-Macdonald characterize ideal lattice with both meets (intersection) as GLB and joins (sum) as LUB. The chapter has `thm:ideal-sum-least-upper-bound` (line 157) but no matching greatest-lower-bound theorem for intersection — only `thm:ideal-intersection-closure` (line 47). The proof unfolds intersection (Definition line 39) and inclusion (Definition line 93) directly: (I∩J)(x) ⇒ I(x) ∧ J(x), so projection laws are immediate; for the universal property, K(x) ⇒ I(x) and K(x) ⇒ J(x) jointly give K(x) ⇒ I(x) ∧ J(x). 1 round closure. Lands in 02_lattice_sum_surface.tex (270 lines).
 
 ---
-

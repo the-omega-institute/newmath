@@ -14051,3 +14051,51 @@ Rationale:
 Pairs naturally with B-504 (n-fold composite pullback) by supplying the unit element of the same composition operation, completing the monoid structure of classifier-preserving pullback ledgers in proof_obligations/gap_policy.tex. The file already states the binary composite (thm:composite-pullback-gap-policy at lines 197-267) but no identity/unit theorem exists in the file (grep found no 'id_D' / 'unit' / 'identity' occurrences). BOARD precedent supports identity-unit companion theorems in the same lane (B-481 Banach identity units, B-484 QuantumChannel identity composition units, B-520 Sheaf identity refinement, B-391 Quantum channel identity closure), so this is consistent with existing granularity. Proof is largely definitional (source preservation by reflexivity; classifier-preservation iff collapses), which is why fit/novelty are at threshold rather than higher. File is 267 lines, well under the 800-line cap, safe to land.
 
 ---
+
+### B-552 - ZNormal predicate is closed under HSame transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | ZNormal predicate is closed under HSame transport |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If ZNormal(h) and HSame(h, k), then ZNormal(k).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/257_zeckendorf_normal_namecert_construction.tex`
+
+Rationale:
+Sister chapter 254 (axisnat) explicitly proves the parallel HSame-transport lemma for ZeroSpine; the structurally analogous ZNormal predicate in 257 (Zeckendorf) is missing it. The chapter's classifier specification defines the classifier as HSame restricted to the carrier, which is logically distinct from the predicate itself being closed under HSame transport — closure is a structural induction over the ZNormal derivation, not a definitional unfolding. Fills a clear asymmetry gap a referee would flag, lands cleanly in a 203-line file, and proof is by induction on ZNormal(h) with HSame constructor inversion.
+
+---
+
+### B-553 - Zero-spine source shape exhaustion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Zero-spine source shape exhaustion |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+For every history h with ZeroSpine(h), either HSame(h, empty) or there exists h_pred with HSame(h, E0(h_pred)) and ZeroSpine(h_pred).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/254_axisnat_namecert_construction.tex`
+
+Rationale:
+Chapter 254 has the empty base, closure under E0, E0-inversion, no-E1-extension, and HSame-transport for ZeroSpine, but no constructor-exhaustion theorem giving a binary case-disjunction over arbitrary ZeroSpine witnesses. Distinct from E0-inversion (which assumes the form E0(h_pred)) and from no-E1-extension (a negative result on a different constructor). Used downstream wherever ZeroSpine is consumed by case analysis without an explicit exhaustion citation. 144-line file is safe; theorem is one structural induction.
+
+---
