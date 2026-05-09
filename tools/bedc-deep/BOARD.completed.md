@@ -14779,3 +14779,51 @@ Rationale:
 Closes a missing 'shared public key implies decryption equivalence class' invariant for PublicKeyUp. Distinct from B-490 (single-key uniqueness): this ranges over two distinct secret keys for a shared public key, a clean composite of decrypt-encrypt-correctness applied twice plus namecert-equivalence-transitivity. The 221_publickey chapter has decrypt-encrypt-correctness and ciphertext-plaintext uniqueness rows but no theorem covering distinct sk witnesses, leaving the cryptographic correctness story incomplete.
 
 ---
+
+### B-581 - AdjointRepUp multiplicative homomorphism row Ad(gh) ~ Ad(g) o Ad(h)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AdjointRepUp multiplicative homomorphism row Ad(gh) ~ Ad(g) o Ad(h) |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For carried Lie-group histories g,h and any carried algebra history t, Ad_{gh}(t) is classified by the LieAlgebraUp endomap classifier with the composite Ad_g(Ad_h(t)) without invoking a host group action.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/121_adjointrep_namecert_construction.tex`
+
+Rationale:
+Fills the defining 'Ad is a representation' law inside 121_adjointrep. The chapter has conjugation-carrier, differential-action, automorphism-target, classifier-stability obligations but no homomorphism law on the action row itself. This is the canonical fact downstream representation-ring chapters cite, and is a trivial composite of LieGroupUp's multiplication ledger plus Ad's carrier-row construction.
+
+---
+
+### B-582 - RootSystemUp reflection involution s_alpha(s_alpha(beta)) ~ beta
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | RootSystemUp reflection involution s_alpha(s_alpha(beta)) ~ beta |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For any carried root histories alpha and beta in a RootSystem BHist certificate, the displayed double reflection row s_alpha applied to s_alpha(beta) returns to a vector classified with beta under the InnerProductUp vector classifier, generated entirely from the displayed reflection Cont route and the Cartan integer endpoint.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/122_rootsystem_namecert_construction.tex`
+
+Rationale:
+Distinct from B-454 (Weyl reflection words preserve roots) which is preservation under reflection words, not the order-2 involution row itself. 122_rootsystem has reflection-closure and Cartan-ledger but no theorem that s_alpha is involutive. Without it the WeylGroup bridge consumption theorem is incomplete — Weyl-group involutions are unwitnessed. Constructor inversion / determinism lemma at the most-cited level.
+
+---
