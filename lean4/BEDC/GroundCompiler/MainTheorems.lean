@@ -1,4 +1,5 @@
 import BEDC.GroundCompiler.ChannelEncoding
+import BEDC.GroundCompiler.ChapterFlow
 import BEDC.GroundCompiler.DerivCertGenerated
 import BEDC.GroundCompiler.RecognizerFlows
 import BEDC.GroundCompiler.SemanticMotif
@@ -217,5 +218,38 @@ theorem theorem_code_not_proof :
             (forall R : TheoremGenerated.GeneratedTheoremRecognizer,
               Not (TheoremGenerated.ProofSoundTheoremRecognition R T)) := by
   exact TheoremGenerated.theorem_code_is_not_proof
+
+def CanonicalChapterFlow (C : EventFlow) : Prop :=
+  exists R : ChapterFlow.GeneratedChapterRecognizer,
+    ChapterFlow.SoundRecognizedChapterFlow R C
+
+def ChapterCode (C : EventFlow) : List DisplayAlphabet :=
+  ChapterFlow.ChapterCode C
+
+def LegalCanonicalChapterCode (c : List DisplayAlphabet) : Prop :=
+  exists C : EventFlow, CanonicalChapterFlow C /\ c = ChapterCode C
+
+theorem chapter_code_bijection :
+    (forall C : EventFlow,
+      CanonicalChapterFlow C -> LegalCanonicalChapterCode (ChapterCode C)) /\
+      (forall C D : EventFlow,
+        CanonicalChapterFlow C ->
+          CanonicalChapterFlow D -> ChapterCode C = ChapterCode D -> C = D) /\
+      (forall c : List DisplayAlphabet,
+        LegalCanonicalChapterCode c ->
+          exists C : EventFlow,
+            CanonicalChapterFlow C /\ Decode c = some C /\ ChapterCode C = c) := by
+  constructor
+  · intro C hCanonical
+    exact ⟨C, hCanonical, rfl⟩
+  · constructor
+    · intro C D _ _ hCode
+      exact ChapterFlow.chapter_code_injective hCode
+    · intro c hLegal
+      cases hLegal with
+      | intro C hC =>
+          refine ⟨C, hC.left, ?_, hC.right.symm⟩
+          rw [hC.right]
+          exact ChapterFlow.chapter_code_round_trip C
 
 end BEDC.GroundCompiler.MainTheorems
