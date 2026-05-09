@@ -288,4 +288,88 @@ theorem p2_no_channel_rewrite
   intro hRelation
   exact recognized_normalizer_relation_source_level hRelation
 
+def P2FiniteKernelConservative : Prop :=
+  forall {candidate : RawEvent -> RawEvent -> Prop}
+    {S : EventFlow} {i : Nat} {w v : RawEvent} {m : DisplayAlphabet},
+    NormCand candidate S i w v ->
+      (List.Mem m w \/ List.Mem m v) ->
+      m = BMark.b0 \/ m = BMark.b1
+
+theorem p2_conservative_over_finite_kernel :
+    P2FiniteKernelConservative := by
+  intro candidate S i w v m _ _
+  cases m with
+  | b0 => exact Or.inl rfl
+  | b1 => exact Or.inr rfl
+
+def P2BelowHigherRecognition : Prop :=
+  forall {R : GeneratedNormalizerRecognizer} {S : EventFlow}
+    {i : Nat} {w v : RawEvent},
+    InducedNormalizes R S i w v ->
+      Not (FormalCompilerInput CompilerDatum.hostPkg) /\
+      Not (FormalCompilerInput CompilerDatum.hostNameCert) /\
+      Not (FormalCompilerInput CompilerDatum.hostDerivCert) /\
+      Not (FormalCompilerInput CompilerDatum.hostTheoremIdentifier) /\
+      Not (FormalCompilerInput CompilerDatum.hostClosureCert)
+
+theorem p2_below_higher_recognition :
+    P2BelowHigherRecognition := by
+  intro R S i w v _
+  constructor
+  · intro h
+    cases h
+  · constructor
+    · intro h
+      cases h
+    · constructor
+      · intro h
+        cases h
+      · constructor
+        · intro h
+          cases h
+        · intro h
+          cases h
+
+structure P2AuditChecklist where
+  allAdjacentPairsListable :
+    forall {S : EventFlow} {i : Nat} {w v : RawEvent},
+      AdjPair S i w v -> LiteralAdjacentPairListing S i w v
+  literalCandidateSeparated :
+    forall {candidate : RawEvent -> RawEvent -> Prop}
+      {S : EventFlow} {i : Nat} {w v : RawEvent},
+      NormCand candidate S i w v ->
+        (forall R : GeneratedNormalizerRecognizer,
+          Not (RecognizesNormalizer R S i w v)) ->
+        Not (exists R : GeneratedNormalizerRecognizer,
+          InducedNormalizes R S i w v)
+  candidateMarkingHasPolicy :
+    forall {R : GeneratedCandidatePolicyRecognizer}
+      {P : CandidatePolicyFlow} {S : EventFlow}
+      {i : Nat} {w v : RawEvent},
+      CandidateMarkedByPolicy R P S i w v ->
+        RecognizesCandidatePolicy R P
+  recognizedRelationsSound :
+    forall {R : GeneratedNormalizerRecognizer} {S : EventFlow}
+      {i : Nat} {w v : RawEvent},
+      NormalizerSoundness R ->
+        RecognizesNormalizer R S i w v ->
+        InducedNormalizes R S i w v
+  preNormalPreserved :
+    forall {candidate : RawEvent -> RawEvent -> Prop}
+      {S : EventFlow} {i : Nat} {w v : RawEvent},
+      NormCand candidate S i w v -> List.Mem w S
+  channelRewriteRejected :
+    forall {R : GeneratedNormalizerRecognizer} {S : EventFlow}
+      {i : Nat} {w v : RawEvent},
+      InducedNormalizes R S i w v -> AdjPair S i w v
+  hiddenPackageRejected :
+    Not (FormalCompilerInput CompilerDatum.hostPkg)
+  hiddenNameCertRejected :
+    Not (FormalCompilerInput CompilerDatum.hostNameCert)
+  acceptedExportHasCertificates :
+    forall {S : EventFlow},
+      AcceptedObjectFlow S ->
+        exists N C : EventFlow,
+          RecognizedNameCertFlow N /\ RecognizedClosureCertFlow C
+
 end BEDC.GroundCompiler.SourceNormalizer
