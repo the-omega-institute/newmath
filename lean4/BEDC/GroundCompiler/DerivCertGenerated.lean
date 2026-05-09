@@ -11,6 +11,9 @@ open BEDC.GroundCompiler.NameCertGenerated
 def GeneratedDerivCertRecognizer : Type :=
   GeneratedRecognizer
 
+def P6GeneratedDerivCertRecognizer : Type :=
+  GeneratedDerivCertRecognizer
+
 def GeneratedAcceptGateRecognizer : Type :=
   GeneratedRecognizer
 
@@ -132,6 +135,10 @@ def CompleteSixFieldDerivCertRecognition
       DerivCertFieldSubflow R D DerivCertFieldRole.stability stability /\
       DerivCertFieldSubflow R D DerivCertFieldRole.strength strength /\
       DerivCertSealSubflow R D sealFlow
+
+def P6CompleteDerivCertRecognition
+    (R : P6GeneratedDerivCertRecognizer) (D : DerivCertCandidateFlow) : Prop :=
+  CompleteSixFieldDerivCertRecognition R D
 
 def RecognizesDerivCert
     (R : GeneratedDerivCertRecognizer) (D N s : EventFlow) : Prop :=
@@ -299,6 +306,15 @@ theorem incomplete_derivcert_does_not_support_export
   cases hFlow with
   | intro R hRecognizes =>
       exact hIncomplete R hRecognizes hRecognizes.right.right.right
+
+theorem p6_incomplete_derivcert_candidate_no_export
+    {D : DerivCertCandidateFlow} {N s : EventFlow} :
+    (forall R : P6GeneratedDerivCertRecognizer,
+      RecognizesDerivCert R D N s ->
+        Not (P6CompleteDerivCertRecognition R D)) ->
+      Not (DerivCertFlow D N s) := by
+  intro hIncomplete
+  exact incomplete_derivcert_does_not_support_export hIncomplete
 
 theorem strength_flow_alone_insufficient
     {D : DerivCertCandidateFlow} {N s : EventFlow} :
