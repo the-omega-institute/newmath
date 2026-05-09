@@ -578,3 +578,47 @@ visible finite packet left over $U$ is the shared $\mathsf{BHist}$ packet, and
 the only finite ledger row exposed by that packet is the same
 $\mathsf{RealLedgerPolicy}$ row.
 \end{proof}
+
+\begin{theorem}[RealUp StreamName RegSeqRat cover seal associativity]
+\label{thm:realup-streamname-regseqrat-cover-seal-associativity}
+Let $K_0$, $K_1$, and $K_2$ be certified finite $\RealUp$ observation windows
+with certified $\StreamNameUp$ finite-window restrictions
+$K_0\leftarrow K_1\leftarrow K_2$. Assume that the displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the induced $\RegSeqRat$
+seal rows, and the finite $\Cont/\hsame/\Pkg$ ledgers are composable over these
+two restrictions. Then the $\RealUp$ finite-window seal obtained by first
+pulling the displayed $\mathsf{BHist}$ seal surface back from $K_2$ to $K_1$ and
+then from $K_1$ to $K_0$ is the same displayed $\mathsf{BHist}$ seal surface as
+the direct pullback from $K_2$ to $K_0$.
+
+The statement uses only the displayed $\StreamNameUp$, $\RegSeqRat$, $\RealUp$,
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and finite-window ledger rows. It includes
+no completion, quotient, metric-completeness, Classical, arithmetic, order, or
+standard bridge datum.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-streamname-regseqrat-common-window-pullback} to the
+restriction $K_2\to K_1$ and then to the restriction $K_1\to K_0$. The two
+applications identify the intermediate seal with displayed
+$\StreamNameUp$ classifier rows, $\RegSeqRat$ spine rows, endpoint witnesses,
+and the finite $\Cont/\hsame/\Pkg$ ledger on $K_1$ and $K_0$.
+
+Apply the same common-window pullback theorem directly to the composed
+restriction $K_2\to K_0$. Its input rows are exactly the rows obtained by
+composing the two certified restrictions: the same StreamName finite-window
+classifier, the same induced RegSeqRat seal rows, and the same finite transport
+ledger displayed over $K_0$.
+
+The common-refinement determinacy theorem
+\autoref{thm:realup-finite-window-common-refinement-determinacy} compares the
+two displayed packets over the common finite window $K_0$. Since their
+StreamName, RegSeqRat, endpoint, transport, and provenance rows agree, the
+visible $\RealUp$ seal surface is unique up to the recorded $\hsame$ transports.
+
+Finally use the tail-reindexing stability of
+\autoref{thm:streamname-regseqrat-tail-reindexing-stability}. It says that the
+tail rows introduced by the nested restriction are the same pointwise rows as
+those introduced by the composed restriction. Thus the two pullback routes
+display the same finite $\mathsf{BHist}$ seal surface and the same finite
+ledger rows.
+\end{proof}
