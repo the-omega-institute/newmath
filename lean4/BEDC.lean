@@ -52,6 +52,8 @@ import BEDC.BaseReflection
 import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
 import BEDC.Derived.AdjointRepUp
+import BEDC.Derived.AlgClosureUp
+import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
@@ -73,6 +75,7 @@ import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InducedRepUp
+import BEDC.Derived.IwasawaUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
@@ -458,6 +461,7 @@ import BEDC.Derived.FieldExtUp.RatReflexiveCertificateObligations
 import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.SplittingFieldUp
+import BEDC.Derived.CurryHowardUp
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.FullAxisSealUp
