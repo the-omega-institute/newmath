@@ -1,6 +1,7 @@
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
 
@@ -10,6 +11,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -94,6 +96,36 @@ theorem GeomQuantizationBHistSourcePacket_polarisation_classifier_stability
         readbackCont', metaplecticCont', endpointCont', pkgSig'⟩,
       sameReadback, sameMetaplectic, sameEndpoint⟩
 
+theorem GeomQuantizationBHistSourcePacket_ledger_exactness [AskSetup] [PackageSetup]
+    {symplectic hilbert line polarisation metaplectic readback transport provenance endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeomQuantizationBHistSourcePacket symplectic hilbert line polarisation metaplectic
+        readback transport provenance endpoint bundle pkg ->
+      UnaryHistory symplectic ∧ UnaryHistory hilbert ∧ UnaryHistory line ∧
+        UnaryHistory polarisation ∧ UnaryHistory metaplectic ∧ UnaryHistory readback ∧
+          UnaryHistory endpoint ∧ hsame readback (append symplectic line) ∧
+            hsame metaplectic (append readback polarisation) ∧
+              hsame endpoint (append provenance metaplectic) ∧
+                PkgSig bundle endpoint pkg := by
+  intro packet
+  have lineUnary : UnaryHistory line := packet.right.right.left
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed packet.left lineUnary packet.right.right.right.right.right.right.left
+  have polarisationUnary : UnaryHistory polarisation := packet.right.right.right.left
+  have metaplecticUnary : UnaryHistory metaplectic :=
+    unary_cont_closed readbackUnary polarisationUnary
+      packet.right.right.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance := packet.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary metaplecticUnary
+      packet.right.right.right.right.right.right.right.right.left
+  exact
+    ⟨packet.left, packet.right.left, lineUnary, polarisationUnary, metaplecticUnary,
+      readbackUnary, endpointUnary, packet.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right⟩
 theorem GeomQuantizationBHistSourcePacket_line_ledger_transport_determinacy
     [AskSetup] [PackageSetup]
     {symplectic hilbert line line' polarisation metaplectic metaplectic' readback readback'
@@ -129,5 +161,56 @@ theorem GeomQuantizationBHistSourcePacket_line_ledger_transport_determinacy
   exact
     ⟨sameReadback, sameMetaplectic, sameEndpoint, lineUnary', readbackUnary',
       metaplecticUnary', endpointUnary'⟩
+
+theorem GeomQuantizationBHistSourcePacket_namecert_obligation_surface
+    [AskSetup] [PackageSetup]
+    {symplectic hilbert line polarisation metaplectic readback transport provenance endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeomQuantizationBHistSourcePacket symplectic hilbert line polarisation metaplectic
+        readback transport provenance endpoint bundle pkg ->
+      (let Source := fun h : BHist => hsame h endpoint;
+        SemanticNameCert Source Source Source hsame) ∧ UnaryHistory readback ∧
+        UnaryHistory metaplectic ∧ UnaryHistory endpoint ∧ Cont symplectic line readback ∧
+          Cont readback polarisation metaplectic ∧ Cont provenance metaplectic endpoint ∧
+            PkgSig bundle endpoint pkg := by
+  intro packet
+  have rows :=
+    GeomQuantizationBHistSourcePacket_source_dependency_surface packet
+  have cert :
+      SemanticNameCert (fun h : BHist => hsame h endpoint)
+        (fun h : BHist => hsame h endpoint) (fun h : BHist => hsame h endpoint)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (hsame_refl endpoint)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        exact hsame_trans (hsame_symm sameRows) sourceRow
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro rows.right.right.right.right.right.right.left
+      (And.intro rows.right.right.right.right.right.right.right.left
+        (And.intro rows.right.right.right.right.right.right.right.right.left
+          (And.intro rows.right.right.right.right.right.right.right.right.right.left
+            (And.intro rows.right.right.right.right.right.right.right.right.right.right.left
+              (And.intro
+                rows.right.right.right.right.right.right.right.right.right.right.right.left
+                rows.right.right.right.right.right.right.right.right.right.right.right.right))))))
 
 end BEDC.Derived.GeomQuantizationUp
