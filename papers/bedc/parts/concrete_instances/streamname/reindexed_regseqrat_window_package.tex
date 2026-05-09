@@ -1,0 +1,91 @@
+\begin{definition}[StreamName RegSeqRat reindexed window package]
+\label{def:streamname-regseqrat-reindexed-window-package}
+A $\StreamNameUp$--$\RegSeqRat$ reindexed window package is a finite public
+handoff row with the following displayed components:
+\begin{enumerate}
+  \item a finite-window $\StreamNameUp$ row over rational histories, with its
+  public carrier and selected $\mathsf{RatStreamNameClassifier}$ row;
+  \item a certified unary reindexer $\rho$ between the source unary window and
+  the consumer unary window;
+  \item the reindexed $\mathsf{RatHistoryClassifier}$ rows obtained by reading
+  the selected StreamName observations through $\rho$;
+  \item the finite $\mathsf{ProbeBundle}$ ledger, the
+  $\mathsf{InBundle}$ membership rows, and the $\mathsf{UnaryHistory}$
+  observation rows for both the source window and the reindexed consumer
+  window;
+  \item the downstream $\RegSeqRat$ finite-window seal input rows whose source
+  side is exactly the reindexed rational-history classifier rows and their
+  displayed bundle membership evidence.
+\end{enumerate}
+The package has no hidden carrier. Its public surface is only the finite
+StreamName row, the unary reindexer, the reindexed rational-history classifier
+rows, the bundle and membership rows, the unary observation rows, and the
+displayed downstream finite-window input rows.
+\end{definition}
+
+\begin{theorem}[StreamName RegSeqRat reindexed window exhaustion]
+\label{thm:streamname-regseqrat-reindexed-window-exhaustion}
+Every consumer row of the reindexed window package of
+\autoref{def:streamname-regseqrat-reindexed-window-package} is projected from
+one of the following three sources: the StreamName reindexing and map-stability
+row of \autoref{thm:rat-stream-name-reindexing-and-map-stability}, the
+finite-window reindexed map coverage row of
+\autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage}, or the
+finite-window RegSeqRat handoff row of
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. Conversely, those
+three rows repack into the displayed package and determine its whole consumer
+surface.
+\end{theorem}
+\begin{proof}
+First project the reindexing spine. Apply
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} to the certified
+unary reindexer $\rho$. This gives the transported StreamName carrier row and
+the selected rational-history classifier rows after reindexing.
+
+Next project the finite window. Apply
+\autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage}. It gives
+the matching $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+$\mathsf{UnaryHistory}$ rows on the source and consumer windows, and it
+identifies the reindexed classifier rows as the only rows visible on the
+consumer window.
+
+Finally project the downstream handoff. Apply
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. It says that the
+RegSeqRat finite-window consumer reads exactly the selected rational-history
+classifier rows together with the displayed bundle, membership, and unary
+observation rows.
+
+For the converse direction, repack those three projections in the order listed
+in the definition: the public finite-window StreamName row, the certified
+unary reindexer, the reindexed rational-history classifier rows, the bundle
+ledger rows, and the downstream finite-window input rows. No additional row is
+available after these projections, so the repacked package is exhaustive.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat reindexed window imports no seal]
+\label{thm:streamname-regseqrat-reindexed-window-no-seal-import}
+The reindexed window package of
+\autoref{def:streamname-regseqrat-reindexed-window-package} exports no
+$\RegSeqRat$ regularity witness, no $\RealUp$ seal classifier, no completion
+object, no host index equality, and no quotient row. Any such row must be
+supplied by the downstream $\RegSeqRat$ or $\RealUp$ certificate rather than by
+the finite reindexed StreamName window.
+\end{theorem}
+\begin{proof}
+Read the package by the exhaustion theorem
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion}. Its three
+sources are the reindexing spine, the finite-window reindexed map coverage,
+and the finite-window StreamName handoff.
+
+The first two sources only transport and cover StreamName observation rows.
+They mention the unary reindexer, rational-history classifier rows,
+$\mathsf{ProbeBundle}$ membership, and $\mathsf{UnaryHistory}$ observations.
+
+The handoff source is separated by
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. That theorem
+places regularity, seal classifiers, completion objects, host equalities, and
+quotient rows outside the finite StreamName source.
+
+Therefore projecting and repacking the package cannot introduce any of those
+excluded rows. They remain obligations of the downstream consumer surface.
+\end{proof}
