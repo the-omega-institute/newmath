@@ -132,6 +132,7 @@ evidence, and visible type rows $T$ and $T'$, then the certificate ledger
 identifies $T$ and $T'$ as the same row among $\mathrm{I}$, $\mathrm{II}_1$,
 $\mathrm{II}_\infty$, and $\mathrm{III}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_type\_row\_no\_confusion}
 \begin{proof}
 Project the accepted packet through
 \autoref{thm:factor-carrier-trivial-centre-obligation}. The projection gives one
@@ -230,4 +231,34 @@ dependency, centre, trivial-centre, classifier, $\hsame$, and $\Cont$ entries.
 The root threshold surface packages these rows for downstream consumers, so the
 public $\NameCert_{\FactorUp}$ surface contains precisely those entries and no
 representation-theoretic, spectral, measure-class, or bridge datum.
+\end{proof}
+
+\begin{theorem}[FactorUp public bridge boundary]
+\label{thm:factor-public-bridge-boundary}
+The public $\NameCert_{\FactorUp}$ surface is exactly the BEDC-side boundary
+available to any later standard bridge packet. It exposes the
+$\NameCert_{\VonNeumannAlgUp}$ dependency, the centre row, the trivial-centre
+witness, the factor-type classifier, the $\hsame/\Cont$ transport rows, and the
+ledger exclusions.
+
+It exposes no representation data, spectral decomposition, measure-class data,
+ambient Hilbert-space equality, or bridge row unless those data are supplied by
+a separate bridge packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:factor-public-namecert-export}. The exported public surface
+already packages the von Neumann algebra dependency, centre row,
+trivial-centre witness, classifier, transport provenance, and ledger
+exclusions.
+
+Next apply \autoref{thm:factor-vonneumann-dependency-consumer-boundary} to any
+consumer that reads the certificate as the input face of a standard bridge. The
+consumer boundary permits exactly the displayed dependency and centre surface
+and blocks representation, spectral, measure-class, and Hilbert-space equality
+data.
+
+Finally apply \autoref{thm:factor-ledger-exactness-obligation}. Ledger
+exactness says that no additional public row is available inside the
+$\FactorUp$ source packet. Hence bridge data can enter only through a separate
+bridge packet, not through the public $\NameCert_{\FactorUp}$ surface itself.
 \end{proof}
