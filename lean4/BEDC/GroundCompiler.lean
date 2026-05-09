@@ -5,6 +5,7 @@ import BEDC.GroundCompiler.SourceChannel
 import BEDC.GroundCompiler.SourceNormalizer
 import BEDC.GroundCompiler.PackageGenerated
 import BEDC.GroundCompiler.NameCertGenerated
+import BEDC.GroundCompiler.PackageNameCertPrototype
 import BEDC.GroundCompiler.DerivCertGenerated
 import BEDC.GroundCompiler.TheoremGenerated
 import BEDC.GroundCompiler.ChapterFlow
