@@ -379,11 +379,17 @@ theorem accepted_flow_recognition_conservativity
   | b1 => exact Or.inr rfl
 
 theorem source_subflow_self (S : EventFlow) : SourceSubflow S S := by
-  exact ⟨[], [], by simp⟩
+  let rec appendNilRight : (xs : EventFlow) -> xs = [].append (List.append xs [])
+    | [] => rfl
+    | w :: rest => congrArg (List.cons w) (appendNilRight rest)
+  exact ⟨[], [], appendNilRight S⟩
 
 theorem derivcert_source_subflow_self (S : EventFlow) :
     DerivCertSourceSubflow S S := by
-  exact ⟨[], [], by simp⟩
+  let rec appendNilRight : (xs : EventFlow) -> xs = [].append (List.append xs [])
+    | [] => rfl
+    | w :: rest => congrArg (List.cons w) (appendNilRight rest)
+  exact ⟨[], [], appendNilRight S⟩
 
 theorem singleton_flow_nonempty (w : RawEvent) :
     NonemptyEventFlow [w] := by
@@ -478,7 +484,7 @@ theorem accepted_object_code_weaker_than_object_equality :
         (singleton_flow_nonempty [BMark.b0, BMark.b1])
         ⟨[], [[BMark.b1], [BMark.b0, BMark.b1]], rfl⟩
         ⟨[[BMark.b0]], [[BMark.b0, BMark.b1]], rfl⟩
-        ⟨[[BMark.b0], [BMark.b1]], [], by simp⟩
+        ⟨[[BMark.b0], [BMark.b1]], [], rfl⟩
   constructor
   · exact
       accepted_flow_from_components
@@ -487,7 +493,7 @@ theorem accepted_object_code_weaker_than_object_equality :
         (singleton_flow_nonempty [BMark.b1])
         ⟨[], [[BMark.b0], [BMark.b1]], rfl⟩
         ⟨[[BMark.b0, BMark.b1]], [[BMark.b1]], rfl⟩
-        ⟨[[BMark.b0, BMark.b1], [BMark.b0]], [], by simp⟩
+        ⟨[[BMark.b0, BMark.b1], [BMark.b0]], [], rfl⟩
   constructor
   · rfl
   · intro hEqual
