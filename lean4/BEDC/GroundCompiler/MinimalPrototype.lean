@@ -142,6 +142,13 @@ structure DecodeReport where
   rejectionReason : Option RejectReason
   warnings : List ReportWarning
 
+structure EncodeReport where
+  inputFlow : EventFlow
+  eventCodes : List (List DisplayAlphabet)
+  outputStream : List DisplayAlphabet
+  roundTripSucceeded : Bool
+  warnings : List ReportWarning
+
 def PrototypeDecoder
     (c : List DisplayAlphabet) : PrototypeDecoderOutput -> Prop
   | PrototypeDecoderOutput.decoded S => Decodes c S
@@ -200,6 +207,24 @@ inductive HigherPrototypeClaim : InterfaceDatum -> Prop where
       HigherPrototypeClaim InterfaceDatum.metricReport
   | bridgeObligation :
       HigherPrototypeClaim InterfaceDatum.bridgeObligation
+
+inductive AllowedCLICommand : Type where
+  | encode
+  | decode
+  | check
+  | roundtrip
+  | report
+
+inductive ForbiddenP0CLIMeaning : Type where
+  | nameCertificateRecognition
+  | theoremRecognition
+  | objectAcceptance
+  | proof
+  | bridge
+  | dimensionInference
+  | realObjectInference
+  | circleObjectInference
+  | channelLevelCarryNormalization
 
 theorem reference_prototype_not_full_compiler
     {publicSurface : InterfaceDatum -> Prop} {d : InterfaceDatum} :

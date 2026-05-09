@@ -328,6 +328,7 @@ A \emph{decode report} is human-readable output containing the input channel str
 
 \begin{definition}[Encode report]
 \label{def:minimal-prototype-encode-report}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.EncodeReport}
 An \emph{encode report} is human-readable output containing the input event-flow display, per-event encoding, final channel stream, round-trip check result, and warnings. It is an output view, not a formal proof.
 \end{definition}
 
@@ -469,6 +470,7 @@ Even if a decoded event flow contains apparent certificate-like segments, $P_0$ 
 
 \begin{definition}[Allowed CLI commands]
 \label{def:minimal-prototype-allowed-cli}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.AllowedCLICommand}
 A reference implementation may provide commands named encode, decode, check, roundtrip, and report. Their meanings are implementation conveniences:
 \begin{center}
 \begin{tabular}{ll}
@@ -484,6 +486,7 @@ These commands are not BEDC formal operators.
 
 \begin{definition}[Forbidden CLI meanings at $P_0$]
 \label{def:minimal-prototype-forbidden-cli}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.ForbiddenP0CLIMeaning}
 At $P_0$, the prototype must not provide commands implying higher recognition: name-certificate recognition, theorem recognition, object acceptance, proof, bridge, dimension inference, real-object inference, circle-object inference, or channel-level carry normalization. If such commands exist as stubs, they must report that they require higher recognizer flows.
 \end{definition}
 
