@@ -93,6 +93,83 @@ signed product as an empty classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_commuted\_signed\_product\_zero}
 
+\begin{theorem}[CommRing scoped multiplication commutativity source]
+\label{thm:commring-scoped-multiplication-commutativity-source}
+In the concrete $\CommRingUp$ zero-linear-factor surface over
+$\mathsf{BHist}$, the multiplicative commutativity input is read only as the
+$\hsame$-stable $\mathsf{BHist}$ row that reverses the $\RingUp$
+multiplication classifier. The zero-linear signed-product consumers may use
+that row to exchange $(a+b)\cdot(a+(-b))$ with $(a+(-b))\cdot(a+b)$, but they
+do not receive an additional host commutative-ring carrier, a quotient
+classifier, or an inverse operation.
+\end{theorem}
+\begin{proof}
+Project the $\CommRingUp$ input named in
+\autoref{thm:commring-difference-of-squares-zero-exact}. Its commutativity
+field is a classifier row over the same $\mathsf{BHist}$ multiplication used by
+$\RingUp$, and the surrounding hypotheses already supply the $\hsame$
+transport needed to keep that row stable.
+
+Apply
+\autoref{thm:commring-zero-linear-factor-commuted-signed-product-zero}. The
+only new read beyond the $\RingUp$ zero-linear proof is the displayed reversal
+of the multiplication classifier. Since the theorem still concludes inside
+$\hsame$ over $\mathsf{BHist}$, the source package contributes no external
+carrier or field structure.
+\end{proof}
+
+\begin{theorem}[CommRing scoped RingUp dependency source]
+\label{thm:commring-scoped-ring-dependency-source}
+Every zero-linear and quadratic consumer in this $\CommRingUp$ chapter factors
+through the already cited $\RingUp$ additive laws, addition and multiplication
+congruence rows, distributivity rows, and negative-product laws, together with
+the single scoped commutativity row of
+\autoref{thm:commring-scoped-multiplication-commutativity-source}. No consumer
+in the zero-linear or quadratic packet reads a primitive host commutative ring
+operation outside those rows.
+\end{theorem}
+\begin{proof}
+For zero-linear consumers, use
+\autoref{thm:commring-zero-linear-factor-annihilator-branch},
+\autoref{thm:commring-zero-linear-factor-signed-product-zero}, and
+\autoref{thm:commring-zero-linear-factor-commuted-signed-product-zero}. Their
+hypotheses list exactly the $\RingUp$ additive, congruence, distributive, and
+negative-product rows, with the commutativity field used only for the reversed
+orientation.
+
+For quadratic consumers, use
+\autoref{thm:commring-quadratic-polarization-package},
+\autoref{thm:commring-equal-squares-signed-product-annihilator}, and
+\autoref{thm:commring-equal-squares-commuted-signed-factor-zero}. These
+package the same zero-linear source rows with the quadratic readback rows, so
+the quadratic exit has the same scoped dependency surface.
+\end{proof}
+
+\begin{theorem}[CommRing scoped ledger source for FieldUp exits]
+\label{thm:commring-scoped-ledger-source}
+The downstream $\FieldUp$ exit rows referenced by the $\CommRingUp$
+zero-linear and quadratic packets read only the $\Cont$ and $\Pkg$ ledger rows
+named by those packets: the $\RingUp$ source ledgers, the
+$\CommRingUp$ multiplication-commutativity ledger, the zero-linear
+annihilator ledgers, and the quadratic readback ledgers. The exit package does
+not acquire field inverse data, cancellation outside the displayed classifier
+rows, or a bridge to a standard algebraic carrier.
+\end{theorem}
+\begin{proof}
+Project the zero-linear ledger from
+\autoref{thm:commring-zero-linear-factor-two-sided-signed-product-zero} and
+the annihilator packages that follow it. These rows give the $\Cont$ witnesses
+for both signed-product orientations and the $\Pkg$ provenance for the
+$\RingUp$ and $\CommRingUp$ sources.
+
+Project the quadratic ledger from
+\autoref{thm:commring-quadratic-zero-linear-bridge-package} and
+\autoref{thm:commring-zero-linear-field-exit-consumer-surface}. The
+downstream consumer receives those named rows as its readback surface, so its
+exit data is confined to the packet ledgers and cannot read inverse,
+cancellation, or standard-carrier structure absent from them.
+\end{proof}
+
 \begin{theorem}[CommRing zero linear factor two-sided signed product zero]
 \label{thm:commring-zero-linear-factor-two-sided-signed-product-zero}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
