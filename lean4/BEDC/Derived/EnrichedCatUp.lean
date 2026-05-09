@@ -253,4 +253,54 @@ theorem EnrichedCatPublicRows_classifier_transport_obligation [AskSetup] [Packag
               (And.intro sameEndpoint
                 (And.intro sameTensorFromRows pkgSig')))))))
 
+theorem EnrichedCatPublicPacket_classifier_transport_obligation [AskSetup] [PackageSetup]
+    {categoryBoundary monoidalBoundary homObject identity composition transport provenance ledger
+      endpoint categoryBoundary' monoidalBoundary' homObject' identity' composition' transport'
+      provenance' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EnrichedCatPublicPacket categoryBoundary monoidalBoundary homObject identity composition
+        transport provenance ledger endpoint bundle pkg ->
+      hsame categoryBoundary categoryBoundary' ->
+        hsame monoidalBoundary monoidalBoundary' ->
+          hsame homObject homObject' ->
+            hsame identity identity' ->
+              hsame transport transport' ->
+                hsame provenance provenance' ->
+                  Cont homObject' identity' composition' ->
+                    Cont transport' provenance' ledger' ->
+                      Cont ledger' monoidalBoundary' endpoint' ->
+                        PkgSig bundle endpoint' pkg ->
+                          EnrichedCatPublicPacket categoryBoundary' monoidalBoundary' homObject'
+                              identity' composition' transport' provenance' ledger' endpoint'
+                              bundle pkg ∧
+                            hsame composition composition' ∧ hsame ledger ledger' ∧
+                              hsame endpoint endpoint' := by
+  intro packet sameCategory sameMonoidal sameHom sameIdentity sameTransport sameProvenance
+    homIdentityCont' transportProvenanceCont' ledgerMonoidalCont' pkgSig'
+  have sameComposition : hsame composition composition' :=
+    cont_respects_hsame sameHom sameIdentity
+      packet.right.right.right.right.right.right.left homIdentityCont'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameTransport sameProvenance
+      packet.right.right.right.right.right.right.right.left transportProvenanceCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger sameMonoidal
+      packet.right.right.right.right.right.right.right.right.left ledgerMonoidalCont'
+  have transported :
+      EnrichedCatPublicPacket categoryBoundary' monoidalBoundary' homObject' identity'
+          composition' transport' provenance' ledger' endpoint' bundle pkg :=
+    ⟨unary_transport packet.left sameCategory,
+      unary_transport packet.right.left sameMonoidal,
+      unary_transport packet.right.right.left sameHom,
+      unary_transport packet.right.right.right.left sameIdentity,
+      unary_cont_closed (unary_transport packet.right.right.left sameHom)
+        (unary_transport packet.right.right.right.left sameIdentity) homIdentityCont',
+      unary_transport packet.right.right.right.right.right.left sameTransport,
+      homIdentityCont',
+      transportProvenanceCont',
+      ledgerMonoidalCont',
+      pkgSig'⟩
+  exact And.intro transported
+    (And.intro sameComposition (And.intro sameLedger sameEndpoint))
+
 end BEDC.Derived.EnrichedCatUp
