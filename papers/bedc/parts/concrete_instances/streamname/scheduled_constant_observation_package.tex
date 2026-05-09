@@ -109,6 +109,50 @@ introduces no quotient, completion object, external metric primitive, or
 RealUp completeness datum.
 \end{proof}
 
+\begin{theorem}[Scheduled subwindow constant observation coherence]
+\label{thm:streamname-scheduled-subwindow-constant-observation-coherence}
+Let $d,e:\Hist$ be seed histories, let $r,q:\Hist\to\Hist$ be observation
+schedules, and let $U:\mathsf{ProbeBundle}$ be a finite observation window
+accepted by the public StreamName finite-window interface of
+\autoref{thm:streamname-public-finite-window-interface}. Let
+$V:\mathsf{ProbeBundle}$ be a certified subwindow whose rows are only
+$\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ rows, and
+pointwise $\hsame$ rows inherited from $U$. Then the package obtained by
+restricting
+$$
+\mathsf{SchedConstObs}(d,e,r,q)
+$$
+directly to $V$ exposes the same $\mathsf{RatHistoryCarrier}(d)$,
+$\mathsf{RatHistoryClassifier}(d,e)$, $\mathsf{RatStreamNameCarrier}$, and
+$\mathsf{RatStreamNameClassifier}$ rows as the package first read over $U$ and
+then restricted to $V$. Only the displayed schedule rows are restricted; the
+RatUp seed rows and the pointwise classifier rows are identical in the two
+readings.
+\end{theorem}
+\begin{proof}
+Unfold the package of
+\autoref{def:streamname-constant-scheduled-observation-package}. Reading the
+package over $U$ records the seed carrier rows for $d$ and $e$, the seed
+classifier row for $(d,e)$, and the two scheduled constant StreamName rows.
+
+Apply \autoref{thm:streamname-public-finite-window-interface} to the certified
+subwindow $V$. Its public rows are inherited $\mathsf{InBundle}$,
+$\mathsf{UnaryHistory}$, and pointwise $\hsame$ rows, so restricting from $U$
+to $V$ does not create a host index, quotient representative, or completion
+datum.
+
+Now apply
+\autoref{thm:streamname-constant-scheduled-observation-exactness}. On either
+reading, the StreamName carrier and classifier rows reduce to the same RatUp
+seed carrier and seed classifier rows for $d$ and $e$.
+
+It remains only to compare the schedule coordinates. Direct restriction to
+$V$ and restriction through $U$ select the same unary-history and pointwise
+$\hsame$ rows from the finite-window interface, so the schedule rows are the
+only rows whose displayed domain changes. The exposed RatUp seed and
+pointwise classifier rows are therefore coherent for the subwindow.
+\end{proof}
+
 \begin{theorem}[Scheduled window RealUp feed]
 \label{thm:streamname-scheduled-window-realup-feed}
 Let $d,e:\Hist$ be seed histories, let $r,q:\Hist\to\Hist$ be observation
