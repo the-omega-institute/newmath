@@ -575,6 +575,7 @@ A target $M$ is \emph{retroactively promoted} when its accepted strength is clai
 
 \begin{principle}[No retroactive promotion]
 \label{prin:derivcert-generated-no-retroactive-promotion}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.no\_retroactive\_promotion}
 A flow accepted at strength $s$ does not automatically become accepted at a higher strength $s'>s$ merely because its dependencies are later accepted at higher strength. Promoting $M$ requires a recognized higher-strength flow for $M$ itself.
 \end{principle}
 
@@ -593,7 +594,8 @@ These relations assert certificate recognition, export recognition, and bookkeep
 
 \begin{corollary}[Accepted object code is weaker than object equality]
 \label{cor:derivcert-generated-code-weaker-than-object-equality}
-If two accepted object codes are identified by a classifier or bridge as the same mature object, that does not imply equality of their raw acceptance flows. Raw-flow equality is controlled by channel code equality; mature-object sameness is controlled by classifier and bridge structure.
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.accepted\_object\_code\_weaker\_than\_object\_equality}
+If two accepted object codes are identified by a classifier or bridge as the same mature object, that does not imply equality of their raw acceptance flows. Equivalently, a classifier may identify distinct accepted flows by a coarser event-flow reading. Raw-flow equality is controlled by channel code equality; mature-object sameness is controlled by classifier and bridge structure.
 \end{corollary}
 
 \begin{example}[$\AxisNatUp$ acceptance flow]

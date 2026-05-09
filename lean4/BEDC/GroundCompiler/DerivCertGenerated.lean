@@ -98,6 +98,9 @@ def RetroactivePromotion
     (M oldStrength newStrength : EventFlow) : Prop :=
   AcceptGateFlow M oldStrength /\ Not (AcceptGateFlow M newStrength)
 
+def ClassifierObjectSame (A B : EventFlow) : Prop :=
+  erase A = erase B
+
 def DerivCertCode (D _N _s : EventFlow) : List DisplayAlphabet :=
   FlowEncoding D
 
@@ -337,6 +340,12 @@ theorem reuse_does_not_erase_obligations {M s : EventFlow} :
       exists C D : EventFlow, NameCertFlow C M /\ DerivCertFlow D M s :=
   accepted_requires_namecert_derivcert
 
+theorem no_retroactive_promotion {M oldStrength newStrength : EventFlow} :
+    RetroactivePromotion M oldStrength newStrength ->
+      Not (AcceptGateFlow M newStrength) := by
+  intro hPromotion
+  exact hPromotion.right
+
 theorem accepted_flow_recognition_conservativity
     {A N s : EventFlow} {w : RawEvent} {m : DisplayAlphabet} :
     AcceptedFlow A N s -> List.Mem w A -> List.Mem m w ->
@@ -345,5 +354,120 @@ theorem accepted_flow_recognition_conservativity
   cases m with
   | b0 => exact Or.inl rfl
   | b1 => exact Or.inr rfl
+
+theorem source_subflow_self (S : EventFlow) : SourceSubflow S S := by
+  exact ⟨[], [], by simp⟩
+
+theorem derivcert_source_subflow_self (S : EventFlow) :
+    DerivCertSourceSubflow S S := by
+  exact ⟨[], [], by simp⟩
+
+theorem singleton_flow_nonempty (w : RawEvent) :
+    NonemptyEventFlow [w] := by
+  exact ⟨w, [], rfl⟩
+
+theorem namecert_flow_self (C N : EventFlow) : NameCertFlow C N := by
+  refine ⟨[], ?_⟩
+  constructor
+  · exact FormalCompilerInput.recognizedFlow [] C
+  constructor
+  · exact FormalCompilerInput.eventFlow N
+  · refine ⟨C, C, C, C, C, C, ?_⟩
+    constructor
+    · exact ⟨FormalCompilerInput.recognizedFlow [] C, source_subflow_self C⟩
+    constructor
+    · exact ⟨FormalCompilerInput.recognizedFlow [] C, source_subflow_self C⟩
+    constructor
+    · exact ⟨FormalCompilerInput.recognizedFlow [] C, source_subflow_self C⟩
+    constructor
+    · exact ⟨FormalCompilerInput.recognizedFlow [] C, source_subflow_self C⟩
+    constructor
+    · exact ⟨FormalCompilerInput.recognizedFlow [] C, source_subflow_self C⟩
+    · exact ⟨FormalCompilerInput.recognizedFlow [] C, source_subflow_self C⟩
+
+theorem strength_event_flow_self (s : EventFlow) : StrengthEventFlow s := by
+  exact ⟨[], StrengthRole.seed, FormalCompilerInput.recognizedFlow [] s⟩
+
+theorem derivcert_flow_self (D N s : EventFlow) : DerivCertFlow D N s := by
+  refine ⟨[], ?_⟩
+  constructor
+  · exact FormalCompilerInput.recognizedFlow [] D
+  constructor
+  · exact FormalCompilerInput.eventFlow N
+  constructor
+  · exact strength_event_flow_self s
+  · refine ⟨D, D, D, D, D, D, D, ?_⟩
+    constructor
+    · exact
+        ⟨FormalCompilerInput.recognizedFlow [] D,
+          derivcert_source_subflow_self D⟩
+    constructor
+    · exact
+        ⟨FormalCompilerInput.recognizedFlow [] D,
+          derivcert_source_subflow_self D⟩
+    constructor
+    · exact
+        ⟨FormalCompilerInput.recognizedFlow [] D,
+          derivcert_source_subflow_self D⟩
+    constructor
+    · exact
+        ⟨FormalCompilerInput.recognizedFlow [] D,
+          derivcert_source_subflow_self D⟩
+    constructor
+    · exact
+        ⟨FormalCompilerInput.recognizedFlow [] D,
+          derivcert_source_subflow_self D⟩
+    constructor
+    · exact
+        ⟨FormalCompilerInput.recognizedFlow [] D,
+          derivcert_source_subflow_self D⟩
+    · exact
+        ⟨FormalCompilerInput.recognizedFlow [] D,
+          derivcert_source_subflow_self D⟩
+
+theorem accepted_flow_from_components
+    {A C D sealFlow N s : EventFlow}
+    (hC : NonemptyEventFlow C) (hD : NonemptyEventFlow D)
+    (hSeal : NonemptyEventFlow sealFlow)
+    (hCSub : DerivCertSourceSubflow C A)
+    (hDSub : DerivCertSourceSubflow D A)
+    (hSealSub : DerivCertSourceSubflow sealFlow A) :
+    AcceptedFlow A N s := by
+  exact
+    ⟨C, D, sealFlow, namecert_flow_self C N, derivcert_flow_self D N s,
+      hC, hD, hSeal, hCSub, hDSub, hSealSub⟩
+
+theorem accepted_object_code_weaker_than_object_equality :
+    exists A B N M s t : EventFlow,
+      AcceptedFlow A N s /\
+        AcceptedFlow B M t /\
+        ClassifierObjectSame A B /\
+        Not (A = B) := by
+  refine
+    ⟨[[BMark.b0], [BMark.b1], [BMark.b0, BMark.b1]],
+      [[BMark.b0, BMark.b1], [BMark.b0], [BMark.b1]],
+      [], [], [], [], ?_⟩
+  constructor
+  · exact
+      accepted_flow_from_components
+        (singleton_flow_nonempty [BMark.b0])
+        (singleton_flow_nonempty [BMark.b1])
+        (singleton_flow_nonempty [BMark.b0, BMark.b1])
+        ⟨[], [[BMark.b1], [BMark.b0, BMark.b1]], rfl⟩
+        ⟨[[BMark.b0]], [[BMark.b0, BMark.b1]], rfl⟩
+        ⟨[[BMark.b0], [BMark.b1]], [], by simp⟩
+  constructor
+  · exact
+      accepted_flow_from_components
+        (singleton_flow_nonempty [BMark.b0, BMark.b1])
+        (singleton_flow_nonempty [BMark.b0])
+        (singleton_flow_nonempty [BMark.b1])
+        ⟨[], [[BMark.b0], [BMark.b1]], rfl⟩
+        ⟨[[BMark.b0, BMark.b1]], [[BMark.b1]], rfl⟩
+        ⟨[[BMark.b0, BMark.b1], [BMark.b0]], [], by simp⟩
+  constructor
+  · rfl
+  · intro hEqual
+    cases hEqual
 
 end BEDC.GroundCompiler.DerivCertGenerated
