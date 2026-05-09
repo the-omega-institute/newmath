@@ -441,6 +441,42 @@ objects, host index equality, metric-completeness witnesses, or standard-bridge
 rows, the common cover excludes exactly those data.
 \end{proof}
 
+\begin{theorem}[RealUp StreamName regular observation envelope]
+\label{thm:realup-streamname-regular-observation-envelope}
+Any selected finite-window $\RealUp$ certificate boundary read through the
+StreamName--RegSeqRat common handoff factors through one
+$\mathsf{BHist}$-anchored observation envelope. The envelope consists exactly
+of finite-window StreamName classifier rows, RegSeqRat pointwise seal rows,
+selected denominator endpoint rows, and bundle-membership rows. It contains no
+full $\RealUp$ completeness row, no trichotomy row, no quotient-class row, and
+no open-cover compactness row.
+\end{theorem}
+\begin{proof}
+Begin with the common handoff cover of
+\autoref{thm:streamname-regseqrat-realup-common-handoff-cover}. It binds the
+selected StreamName rows, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\mathsf{UnaryHistory}$, displayed $\hsame$ transports, RegSeqRat dyadic ledger
+rows, and finite $\RealUp$ ledger boundary into one BEDC source package.
+
+Apply \autoref{thm:realup-selected-window-certificate-boundary}. The selected
+certificate boundary can read only certified StreamName observations,
+RegSeqRat dyadic source exhaustion, the finite-window ledger boundary,
+certified subwindow closure, and common-refinement determinacy.
+
+Now use the pointwise StreamName handoff: the finite classifier rows are those
+of \autoref{thm:streamname-regseqrat-pointwise-handoff}, their restriction is
+stable by \autoref{thm:streamname-regseqrat-observation-stability}, and the
+singleton reads are the diagonal packets of
+\autoref{thm:streamname-regseqrat-singleton-diagonal-handoff}. Thus every
+selected endpoint and denominator row is anchored in the same
+$\mathsf{BHist}$ observation envelope.
+
+The cited rows exhaust the available finite evidence. Full completeness,
+trichotomy, quotient classes, and open-cover compactness are not fields of the
+StreamName handoff, the RegSeqRat pointwise packet, or the selected
+finite-window $\RealUp$ boundary, so none is imported by the factorization.
+\end{proof}
+
 \begin{theorem}[RealUp selected finite-window certificate boundary]
 \label{thm:realup-selected-window-certificate-boundary}
 A selected $\RealUp$ finite-window certificate for
