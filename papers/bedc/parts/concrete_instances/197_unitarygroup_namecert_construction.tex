@@ -112,3 +112,17 @@ Completeness repacks a package with exactly these entries as the public obligati
   \notclaimed{This chapter does not close a Lean verification target, a public certificate theorem, group-law completion, or a standard bridge.}
   \upgradepath{Public closure requires one exported $\UnitaryGroupUp$ certificate theorem consuming the four scoped obligation rows displayed in this chapter.}
 \end{closurestatus}
+
+\begin{theorem}[UnitaryGroupUp public NameCert export]
+\label{thm:unitarygroup-public-namecert-export}
+The carrier-classifier row of \autoref{thm:unitarygroup-carrier-classifier-obligation}, the product, inverse, and identity stability rows of \autoref{thm:unitarygroup-operation-stability-obligation}, the inner-product preservation row of \autoref{thm:unitarygroup-inner-product-preservation-obligation}, and the ledger exactness row of \autoref{thm:unitarygroup-ledger-exactness-obligation} assemble the public $\NameCert_{\UnitaryGroupUp}$ export over the source certificates $\NameCert_{\HilbertUp}$ and $\NameCert_{\LieGroupUp}$. The exported surface consists exactly of restricted Hilbert-carrier-preserving Lie-group automorphisms, their inherited group-operation rows, the displayed Hilbert inner-product-preservation witness, classifier transport for those rows, and the two dependency rows. It exports no spectral theorem, operator-algebra theorem, quantum-channel row, or standard bridge claim.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unitarygroup-carrier-classifier-obligation}. This fixes the public carrier as the $\HilbertUp$ carrier together with the restricted $\LieGroupUp$ automorphism row whose source and target remain classifier-compatible Hilbert carriers. It also fixes the public classifier componentwise from the Hilbert carrier classifier and the Lie-group automorphism classifier, with the Hilbert source and target restrictions retained as visible rows.
+
+Apply \autoref{thm:unitarygroup-operation-stability-obligation}. The only product, inverse, and identity rows available to the exported object are the inherited $\LieGroupUp$ operation rows after restriction to the carrier just fixed. Their stability witnesses say precisely that each operation result remains a Hilbert-carrier-preserving automorphism and that the operation witnesses transport through the public classifier.
+
+Apply \autoref{thm:unitarygroup-inner-product-preservation-obligation}. This supplies the additional unitary condition: every carried automorphism transports the $\HilbertUp$ inner-product classifier to itself, and the preservation row is stable when the Hilbert carrier and the restricted Lie-group automorphism are replaced by classifier-equivalent representatives. Thus the public group operations do not merely preserve the carrier; they preserve the displayed Hilbert inner-product row that defines the unitary subcarrier.
+
+Apply \autoref{thm:unitarygroup-ledger-exactness-obligation}. Coverage projects any accepted $\UnitaryGroupUp$ row to the Hilbert carrier and classifier rows, the restricted Lie-group operation rows, the product, inverse, identity, inner-product-preservation, classifier-transport, and dependency rows. Soundness repacks exactly those rows as an accepted unitary-group package. Completeness excludes every row not listed in that ledger. Therefore the four obligation rows assemble the public $\NameCert_{\UnitaryGroupUp}$ export surface over $\NameCert_{\HilbertUp}$ and $\NameCert_{\LieGroupUp}$, with no additional analytic or bridge component.
+\end{proof}
