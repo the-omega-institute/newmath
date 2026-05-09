@@ -30,6 +30,19 @@ def PolytopeBHistFacePacket [AskSetup] [PackageSetup]
                       Cont edges faces ledger ∧
                         Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg
 
+def PolytopeFaceClassifier [AskSetup] [PackageSetup]
+    (convex finset halfspaces vertices edges faces ledger provenance endpoint
+      halfspaces' vertices' edges' faces' ledger' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  PolytopeBHistFacePacket convex finset halfspaces vertices edges faces ledger provenance
+      endpoint bundle pkg ∧
+    PolytopeBHistFacePacket convex finset halfspaces' vertices' edges' faces' ledger'
+      provenance endpoint' bundle pkg ∧
+      hsame halfspaces halfspaces' ∧
+        hsame vertices vertices' ∧
+          hsame edges edges' ∧
+            hsame faces faces' ∧ hsame ledger ledger' ∧ hsame endpoint endpoint'
+
 theorem PolytopeBHistFacePacket_halfspace_face_carrier_stability [AskSetup]
     [PackageSetup]
     {convex finset halfspaces vertices edges faces ledger provenance endpoint halfspaces'
@@ -158,6 +171,96 @@ theorem PolytopeBHistFacePacket_vertex_edge_ledger_readback [AskSetup] [PackageS
                                                             (And.intro ledgerCont
                                                               (And.intro endpointCont
                                                                 endpointPkg))))))
+
+theorem PolytopeFaceClassifier_transport [AskSetup] [PackageSetup]
+    {convex finset halfspaces vertices edges faces ledger provenance endpoint halfspaces'
+      vertices' edges' faces' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolytopeBHistFacePacket convex finset halfspaces vertices edges faces ledger provenance
+        endpoint bundle pkg ->
+      hsame halfspaces halfspaces' ->
+        hsame vertices vertices' ->
+          hsame edges edges' ->
+            hsame faces faces' ->
+              Cont halfspaces' vertices' edges' ->
+                Cont edges' faces' ledger' ->
+                  Cont provenance ledger' endpoint' ->
+                    PkgSig bundle endpoint' pkg ->
+                      PolytopeFaceClassifier convex finset halfspaces vertices edges faces
+                        ledger provenance endpoint halfspaces' vertices' edges' faces' ledger'
+                        endpoint' bundle pkg := by
+  intro packet sameHalfspaces sameVertices sameEdges sameFaces edgeCont ledgerCont endpointCont
+    endpointPkg
+  have transported :=
+    PolytopeBHistFacePacket_halfspace_face_carrier_stability
+      (convex := convex) (finset := finset) (halfspaces := halfspaces)
+      (vertices := vertices) (edges := edges) (faces := faces) (ledger := ledger)
+      (provenance := provenance) (endpoint := endpoint) (halfspaces' := halfspaces')
+      (vertices' := vertices') (edges' := edges') (faces' := faces') (ledger' := ledger')
+      (endpoint' := endpoint') (bundle := bundle) (pkg := pkg) packet sameHalfspaces
+      sameVertices sameEdges sameFaces edgeCont ledgerCont endpointCont endpointPkg
+  exact And.intro packet
+    (And.intro transported.left
+      (And.intro sameHalfspaces
+        (And.intro sameVertices
+          (And.intro sameEdges
+            (And.intro sameFaces
+              (And.intro transported.right.left transported.right.right))))))
+
+theorem PolytopeBHistFacePacket_obligation_boundary_exhaustion [AskSetup] [PackageSetup]
+    {convex finset halfspaces vertices edges faces ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolytopeBHistFacePacket convex finset halfspaces vertices edges faces ledger provenance
+        endpoint bundle pkg ->
+      SemanticNameCert (fun h : BHist => hsame h endpoint)
+        (fun h : BHist => hsame h endpoint)
+        (fun h : BHist => hsame h endpoint) hsame ∧
+        UnaryHistory halfspaces ∧ UnaryHistory vertices ∧ UnaryHistory edges ∧
+          UnaryHistory faces ∧ Cont halfspaces vertices edges ∧ Cont edges faces ledger ∧
+            Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have readback := PolytopeBHistFacePacket_vertex_edge_ledger_readback packet
+  have endpointSelf : hsame endpoint endpoint :=
+    hsame_refl endpoint
+  have halfspacesUnary : UnaryHistory halfspaces :=
+    packet.right.right.left
+  have endpointCont : Cont provenance ledger endpoint :=
+    readback.right.right.right.right.right.right.left
+  have cert :
+      SemanticNameCert (fun h : BHist => hsame h endpoint)
+        (fun h : BHist => hsame h endpoint)
+        (fun h : BHist => hsame h endpoint) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointSelf
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK carrierH
+        exact hsame_trans (hsame_symm sameHK) carrierH
+    }
+    pattern_sound := by
+      intro h carrierH
+      exact carrierH
+    ledger_sound := by
+      intro h carrierH
+      exact carrierH
+  }
+  exact And.intro cert
+    (And.intro halfspacesUnary
+      (And.intro readback.left
+        (And.intro readback.right.left
+          (And.intro readback.right.right.left
+            (And.intro readback.right.right.right.left
+              (And.intro readback.right.right.right.right.left
+                (And.intro endpointCont
+                  readback.right.right.right.right.right.right.right)))))))
 
 theorem PolytopeBHistFacePacket_convex_finset_dependency_readback [AskSetup] [PackageSetup]
     {convex finset halfspaces vertices edges faces ledger provenance endpoint : BHist}
