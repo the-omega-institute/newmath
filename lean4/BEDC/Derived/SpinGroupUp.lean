@@ -397,4 +397,24 @@ theorem SpinGroupRootCarrier_public_consumer_boundary_exhaustion [AskSetup] [Pac
     (And.intro sourceScope.right.right.left
       (And.intro sourceScope.right.right.right.left sourceScope.right.right.right.right))
 
+theorem SpinGroupRootCarrier_spin_double_cover_boundary [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger coverEndpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      Cont spinEndpoint BHist.Empty coverEndpoint ->
+        UnaryHistory spinEndpoint ∧ UnaryHistory coverEndpoint ∧ hsame coverEndpoint spinEndpoint ∧
+          Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg := by
+  intro carrier coverRow
+  have sourceScope := SpinGroupRootCarrier_source_scope carrier
+  have coverUnary : UnaryHistory coverEndpoint :=
+    unary_cont_closed sourceScope.right.right.left unary_empty coverRow
+  have sameCoverSpin : hsame coverEndpoint spinEndpoint :=
+    cont_right_unit_result coverRow
+  exact And.intro sourceScope.right.right.left
+    (And.intro coverUnary
+      (And.intro sameCoverSpin
+        (And.intro sourceScope.right.right.right.left sourceScope.right.right.right.right)))
+
 end BEDC.Derived.SpinGroupUp

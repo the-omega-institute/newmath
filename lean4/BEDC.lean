@@ -405,6 +405,7 @@ import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.TopGroupUp
 import BEDC.Derived.TopGroupUp.RootLedgerSemanticExactness
 import BEDC.Derived.TopGroupUp.ClassifierContinuityTransport
+import BEDC.Derived.TopGroupUp.RootOperationSourceContinuityCoupling
 import BEDC.Derived.TopGroupUp.SourceCompatibility
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
