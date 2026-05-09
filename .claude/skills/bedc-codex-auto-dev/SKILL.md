@@ -248,22 +248,27 @@ while true; do
   ps_out=$(ps -axo pid,ppid,command 2>/dev/null \
     | grep -E 'codex_revise\.py|codex_formalize\.py|sync_with_auto_dev\.py' \
     | grep -v grep || true)
-  paper=$(echo "$ps_out" | grep -c 'codex_revise\.py')
-  lean=$(echo "$ps_out"  | grep -c 'codex_formalize\.py')
-  sync=$(echo  "$ps_out" | grep -c 'sync_with_auto_dev\.py')
-  cur="paper=$paper lean=$lean sync=$sync"
+  p=$(echo "$ps_out" | grep -c 'codex_revise\.py')
+  l=$(echo "$ps_out" | grep -c 'codex_formalize\.py')
+  s=$(echo "$ps_out" | grep -c 'sync_with_auto_dev\.py')
+  pa=$([ "$p" -ge 1 ] && echo 1 || echo 0)
+  la=$([ "$l" -ge 1 ] && echo 1 || echo 0)
+  sa=$([ "$s" -ge 1 ] && echo 1 || echo 0)
+  cur="paper=$pa lean=$la sync=$sa"
   if [ "$cur" != "$prev" ]; then
     ts=$(date '+%Y-%m-%d %H:%M:%S')
-    if [ "$paper" -eq 0 ] || [ "$lean" -eq 0 ] || [ "$sync" -eq 0 ]; then
-      echo "[$ts] DAEMON DOWN — $cur (was: $prev)"
+    if [ "$pa" -eq 0 ] || [ "$la" -eq 0 ] || [ "$sa" -eq 0 ]; then
+      echo "[$ts] DAEMON DOWN — $cur (raw paper=$p lean=$l sync=$s; was: $prev)"
     else
-      echo "[$ts] daemon liveness OK — $cur (was: $prev)"
+      echo "[$ts] daemon liveness OK — $cur (raw paper=$p lean=$l sync=$s; was: $prev)"
     fi
     prev=$cur
   fi
   sleep 60
 done
 ```
+
+Compare alive-as-boolean (≥1 process matches → 1, else 0), not raw counts. The paper bash wrapper makes `codex_revise.py` match twice; the sync wrapper periodically spawns a Python child that pushes the sync count from 1 to 2 for a few seconds every 600s. Comparing raw counts emits a no-op `liveness OK` event every 10 minutes during steady state. Comparing alive-booleans stays silent and only fires when a daemon actually disappears.
 
 `persistent: true`. Description: `BEDC daemon liveness change (paper/lean/sync)`.
 
