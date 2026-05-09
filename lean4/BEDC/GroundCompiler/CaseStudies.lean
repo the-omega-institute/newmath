@@ -70,6 +70,34 @@ theorem nat_like_extends_repetition (k : Nat) :
     PrefixSubflow (FiniteRepetitionSkeleton k) (NatLikeSkeleton k) := by
   exact ⟨[[BMark.b0, BMark.b1]], rfl⟩
 
+theorem prefix_subflow_subflow {M S : EventFlow} :
+    PrefixSubflow M S -> Subflow M S := by
+  intro h
+  cases h with
+  | intro tail ht =>
+      exact Or.inl ⟨[], tail, by simpa using ht⟩
+
+theorem nat_repetition_share_prefix
+    {R : GeneratedMotifRecognizer} (hR : CertifiedFiniteRepetitionRecognizer R)
+    (k : Nat) :
+    FiniteRepetitionMotifRecognition R (NatLikeSkeleton (k + 1))
+      (FiniteRepetitionSkeleton (k + 1)) /\
+    FiniteRepetitionMotifRecognition R
+      (FiniteRepetitionSkeleton (k + 1)) (FiniteRepetitionSkeleton (k + 1)) := by
+  constructor
+  · constructor
+    · exact hR
+    · constructor
+      · exact hR
+      · constructor
+        · constructor
+          · exact FormalCompilerInput.eventFlow (NatLikeSkeleton (k + 1))
+          · constructor
+            · exact FormalCompilerInput.eventFlow (FiniteRepetitionSkeleton (k + 1))
+            · exact FormalCompilerInput.eventFlow FiniteRepetitionRole
+        · exact prefix_subflow_subflow (nat_like_extends_repetition (k + 1))
+  · exact repetition_skeleton_has_motif hR k
+
 def AddSkeleton : EventFlow :=
   [[BMark.b0], [BMark.b0, BMark.b0], [BMark.b0, BMark.b0, BMark.b1]]
 
@@ -81,11 +109,26 @@ def FoldSkeleton : EventFlow :=
     [[BMark.b0, BMark.b0, BMark.b1, BMark.b1],
       [BMark.b0, BMark.b1, BMark.b0, BMark.b0]]
 
+def FoldCompletionSegment : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b1],
+    [BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+    [BMark.b0, BMark.b1, BMark.b0, BMark.b0]]
+
+def FoldCompletionMotif (S : EventFlow) : Prop :=
+  Subflow FoldCompletionSegment S
+
 theorem fold_skeleton_extends_add :
     PrefixSubflow AddSkeleton FoldSkeleton := by
   exact
     ⟨[[BMark.b0, BMark.b0, BMark.b1, BMark.b1],
       [BMark.b0, BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+
+theorem fold_reuses_add :
+    AdditiveRecursionMotif FoldSkeleton /\
+      FoldCompletionMotif FoldSkeleton := by
+  constructor
+  · exact fold_skeleton_extends_add
+  · exact Or.inl ⟨[[BMark.b0], [BMark.b0, BMark.b0]], [], rfl⟩
 
 structure CompletionMotifRecord where
   stage : EventFlow
