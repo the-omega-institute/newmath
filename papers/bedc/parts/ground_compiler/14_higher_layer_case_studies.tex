@@ -51,6 +51,7 @@ where the initial segment records finite stages, $01$ is a thread witness, $011$
 
 \begin{definition}[Completion motif record]
 \label{def:higher-case-completion-record}
+\leandef{BEDC.GroundCompiler.CaseStudies.CompletionMotifRecord}
 A \emph{completion motif record} is a tuple
 $$
   (M_{\mathrm{stage}},M_{\mathrm{thread}},M_{\mathrm{classifier}},M_{\mathrm{seal}},M_{\mathrm{ledger}})
@@ -60,7 +61,12 @@ where the entries are finite-stage support flow, compatible-thread support flow,
 
 \begin{proposition}[Completion skeleton is seal-heavy]
 \label{prop:higher-case-completion-seal-heavy}
-If an event flow $S$ contains a recognized completion motif record, then
+\leanchecked{BEDC.GroundCompiler.CaseStudies.completion\_skeleton\_seal\_heavy}
+If an event flow $S$ contains a recognized completion motif record
+$$
+  (M_{\mathrm{stage}},M_{\mathrm{thread}},M_{\mathrm{classifier}},M_{\mathrm{seal}},M_{\mathrm{ledger}}),
+$$
+then $M_{\mathrm{seal}}$ is a nonempty recognized seal subflow of $S$. In the metric language of \autoref{ch:ground-compiler-theory-metrics-flow-invariants}, this witnesses
 $$
   \mathsf{SealDepth}_{\mathcal R}(S)\geq 1.
 $$
@@ -72,7 +78,8 @@ A completion motif record contains a seal witness flow $M_{\mathrm{seal}}$. If t
 
 \begin{proposition}[Completion skeleton is ledger-dependent]
 \label{prop:higher-case-completion-ledger-dependent}
-If a completion motif in $S$ lacks a tail ledger flow, it is not admissible as a completion motif.
+\leanchecked{BEDC.GroundCompiler.CaseStudies.completion\_skeleton\_ledger\_dependent}
+If a candidate completion motif record in $S$ has no nonempty tail ledger flow $M_{\mathrm{ledger}}$, then it is not admissible as a recognized completion motif record.
 \end{proposition}
 
 \begin{proof}
