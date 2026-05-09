@@ -294,6 +294,27 @@ def ReportFlow (O : EventFlow) : Prop :=
     exists items : List AnalysisReportItem,
       StageReportGeneration P reportPolicyFlow O items
 
+inductive AnalysisFailureKind : Type where
+  | illegalChannelStream
+  | unrecognizedProtocol
+  | uncertifiedRecognizer
+  | missingLedger
+  | missingCannotClaimEntry
+  | undefinedMetric
+  | missingClassifierExactness
+  | missingBridgeCertificate
+  | normalizationWithoutRawLedger
+  | sourceChannelConfusion
+
+structure AnalysisFailureItem where
+  kind : AnalysisFailureKind
+  support : EventFlow
+
+def FailureCompleteReport
+    (required recorded : List AnalysisFailureItem) : Prop :=
+  forall item : AnalysisFailureItem,
+    List.Mem item required -> List.Mem item recorded
+
 structure WellFormedAnalysisRun where
   code : List DisplayAlphabet
   protocol : AnalysisProtocolCandidateFlow
@@ -399,5 +420,14 @@ theorem analysis_pipeline_conservativity
   cases m with
   | b0 => exact Or.inl rfl
   | b1 => exact Or.inr rfl
+
+theorem non_failure_complete_inadmissible
+    {required recorded : List AnalysisFailureItem}
+    {item : AnalysisFailureItem} :
+    List.Mem item required ->
+      Not (List.Mem item recorded) ->
+        Not (FailureCompleteReport required recorded) := by
+  intro hRequired hOmitted hComplete
+  exact hOmitted (hComplete item hRequired)
 
 end BEDC.GroundCompiler.AnalysisPipeline

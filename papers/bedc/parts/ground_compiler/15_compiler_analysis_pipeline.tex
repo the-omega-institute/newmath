@@ -375,17 +375,20 @@ Bridge-obligation discovery may guide later work, but it does not establish corr
 
 \begin{definition}[Analysis failure item]
 \label{def:analysis-pipeline-failure-item}
-An \emph{analysis failure item} is an event subflow in a report flow recording failure at some pipeline stage. Common failures include illegal channel stream, unrecognized protocol, uncertified recognizer, missing ledger, missing cannot-claim entry, undefined metric, missing classifier exactness, missing bridge certificate, normalization without raw ledger, and source/channel layer confusion.
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.AnalysisFailureItem}
+An \emph{analysis failure item} is an event subflow in a report flow recording failure at some pipeline stage, together with a failure kind. Common failure kinds include illegal channel stream, unrecognized protocol, uncertified recognizer, missing ledger, missing cannot-claim entry, undefined metric, missing classifier exactness, missing bridge certificate, normalization without raw ledger, and source/channel layer confusion.
 \end{definition}
 
 \begin{definition}[Failure-complete report]
 \label{def:analysis-pipeline-failure-complete-report}
-A report flow is \emph{failure-complete} when every pipeline failure is recorded as an analysis failure item.
+\leandef{BEDC.GroundCompiler.AnalysisPipeline.FailureCompleteReport}
+For a list $F_{\mathrm{req}}$ of required analysis failure items and a list $F_{\mathrm{rec}}$ of recorded analysis failure items, a report flow is \emph{failure-complete} when every item of $F_{\mathrm{req}}$ occurs in $F_{\mathrm{rec}}$.
 \end{definition}
 
 \begin{theorem}[Non-failure-complete report is inadmissible]
 \label{thm:analysis-pipeline-non-failure-complete-inadmissible}
-If an analysis run encounters a failure but its report flow omits the corresponding failure item, then the report is not admissible.
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.non\_failure\_complete\_inadmissible}
+If an analysis run requires a failure item $f\in F_{\mathrm{req}}$ and its report omits $f$ from $F_{\mathrm{rec}}$, then the report is not failure-complete and is not admissible as a failure-complete report.
 \end{theorem}
 
 \begin{proof}
