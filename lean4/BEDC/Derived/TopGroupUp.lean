@@ -10,6 +10,13 @@ open BEDC.FKernel.Unary
 open BEDC.Derived.GroupUp
 open BEDC.Derived.TopologyUp
 
+def TopGroupRootPublicThresholdPacket
+    (groupSource topologySource product inverse neighbourhood ledger classifier provenance :
+      BHist) : Prop :=
+  GroupSingletonCarrier groupSource ∧ TopologySingletonCarrier topologySource ∧
+    Cont product inverse ledger ∧ hsame neighbourhood BHist.Empty ∧
+      hsame classifier ledger ∧ hsame provenance BHist.Empty
+
 def TopGroupRootThresholdPackage
     (group topology product inverse neighborhood ledger provenance : BHist) : Prop :=
   GroupSingletonCarrier group ∧ TopologySingletonCarrier topology ∧ UnaryHistory neighborhood ∧
