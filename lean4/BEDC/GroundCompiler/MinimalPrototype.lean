@@ -29,6 +29,10 @@ def PrototypeLevelRank : PrototypeLevel -> Nat
 def PrototypeLevelLE (a b : PrototypeLevel) : Prop :=
   PrototypeLevelRank a <= PrototypeLevelRank b
 
+inductive PrototypeInputRepresentation : Type where
+  | eventFlowDisplay (S : EventFlow)
+  | channelStreamDisplay (c : List DisplayAlphabet)
+
 def PrototypeEncoder (S : EventFlow) (c : List DisplayAlphabet) : Prop :=
   Compiles S c
 
@@ -43,6 +47,15 @@ inductive RejectReason : Type where
 structure RejectReport where
   stream : List DisplayAlphabet
   reason : RejectReason
+
+structure DecoderState where
+  currentEvent : RawEvent
+  completedEvents : EventFlow
+  position : Nat
+  rejectionReason : Option RejectReason
+
+def PrototypeStreamDecoder (c : List DisplayAlphabet) : Option EventFlow :=
+  Decode c
 
 inductive PrototypeDecoderOutput : Type where
   | decoded (S : EventFlow)

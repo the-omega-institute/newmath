@@ -53,6 +53,7 @@ This chapter specifies $P_0$ and optional $P_1$ output views.
 
 \begin{definition}[Prototype input representations]
 \label{def:minimal-prototype-input-representations}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.PrototypeInputRepresentation}
 At implementation level, $P_0$ may accept two display representations:
 \begin{enumerate}
 \item an event-flow display, such as
@@ -190,6 +191,7 @@ $$
 
 \begin{definition}[Prototype stream decoder]
 \label{def:minimal-prototype-stream-decoder}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.PrototypeStreamDecoder}
 The prototype decoder scans channel bits left to right using:
 $$
   0\mapsto \text{append raw }0,
@@ -203,6 +205,7 @@ It rejects dangling $1$, unclosed event body under the chosen display policy, an
 
 \begin{definition}[Decoder state]
 \label{def:minimal-prototype-decoder-state}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.DecoderState}
 An implementation may use host-level decoder state containing current event bits, completed events, position, and rejection reason. These are implementation internals. Formal behavior is captured by the source-level relation $\mathsf{Decodes}(c,S)$.
 \end{definition}
 
