@@ -224,6 +224,32 @@ theorem PinGroupReflectionParityLedgerSurface_reflection_ledger_closure
     And.intro carrier' endpointRow'
   exact And.intro surface' (PinGroupReflectionParityLedgerSurface_exhaustion surface')
 
+theorem PinGroupReflectionParityCarrier_source_projection_no_confusion
+    {spin reflection product endpoint : BHist} :
+    PinGroupReflectionParityCarrier spin reflection product endpoint ->
+      (hsame spin product -> False) ->
+        ((hsame endpoint spin ∧ hsame endpoint product) -> False) ∧
+          ((Cont spin reflection product ∧ hsame endpoint product) ->
+            hsame endpoint spin -> False) := by
+  intro carrier spinProductSeparated
+  cases carrier with
+  | inl _spinBranch =>
+      constructor
+      · intro simultaneous
+        exact spinProductSeparated
+          (hsame_trans (hsame_symm simultaneous.left) simultaneous.right)
+      · intro productProjection endpointSpin
+        exact spinProductSeparated
+          (hsame_trans (hsame_symm endpointSpin) productProjection.right)
+  | inr _reflectionBranch =>
+      constructor
+      · intro simultaneous
+        exact spinProductSeparated
+          (hsame_trans (hsame_symm simultaneous.left) simultaneous.right)
+      · intro productProjection endpointSpin
+        exact spinProductSeparated
+          (hsame_trans (hsame_symm endpointSpin) productProjection.right)
+
 theorem PinGroupReflectionParityCarrier_namecert_obligation_surface
     {spin reflection product endpoint ledger carried : BHist} :
     PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
