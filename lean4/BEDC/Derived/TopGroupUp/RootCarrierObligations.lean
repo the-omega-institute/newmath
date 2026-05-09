@@ -52,4 +52,21 @@ theorem TopGroupRootThresholdPackage_root_source_fiber_carrier_obligation
           (And.intro sourceFiberUnary
             (And.intro sourceFiberCont package.right.right.right.right.right.right)))))
 
+theorem TopGroupRootThresholdPackage_source_pair_carrier_obligation
+    {group topology product inverse neighborhood ledger provenance : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      GroupSingletonCarrier group ∧ TopologySingletonCarrier topology ∧ UnaryHistory group ∧
+        UnaryHistory topology ∧ Cont group topology product ∧ Cont product inverse ledger ∧
+          hsame provenance ledger := by
+  intro package
+  have scope := TopGroupRootThreshold_carrier_scope package
+  have rows := TopGroupRootThresholdPackage_shared_source_rows package
+  exact
+    And.intro scope.left
+      (And.intro scope.right.left
+        (And.intro scope.right.right.left
+          (And.intro scope.right.right.right.left
+            (And.intro rows.left
+              (And.intro rows.right.left scope.right.right.right.right.right.right)))))
+
 end BEDC.Derived.TopGroupUp
