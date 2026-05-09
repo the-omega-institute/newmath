@@ -170,6 +170,87 @@ row family listed in the statement.
 \section{The certificate}
 \label{sec:algclosure-certificate}
 
+\begin{theorem}[AlgClosureUp root carrier obligation surface]
+\label{thm:algclosure-root-carrier-obligation-surface}
+An $\AlgClosureUp$ carrier row is exactly a $\FieldExtUp$ source row together
+with a $\PolynomialUp$ root-ledger row over the BEDC primitives
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$. The carrier exposes the base
+and extension histories, the nonconstant polynomial request, the displayed
+root endpoint, the transported classifier row, the finite satisfaction ledger,
+and the package provenance, and it exposes no ambient algebraic-closure
+carrier outside those rows.
+\end{theorem}
+\begin{proof}
+Unpack the seed carrier packet. Its first projection is the consumed
+$\FieldExtUp$ source, so the base-field and extension histories are already
+fixed as displayed $\mathsf{BHist}$ rows with their classifier transport.
+
+Project the polynomial side next. The consumed $\PolynomialUp$ request supplies
+the finite coefficient ledger and the nonconstant-row witness over the same
+field-extension source, while the root endpoint and satisfaction row are
+carried as finite histories connected by the displayed $\hsame$ and $\Cont$
+data.
+
+Repack these projections with the single $\Pkg$ provenance row. The packet has
+no constructor for a host algebraic closure or unlisted root carrier, so the
+listed $\FieldExtUp$ and $\PolynomialUp$ rows are the whole carrier obligation
+surface.
+\end{proof}
+
+\begin{theorem}[AlgClosureUp polynomial root ledger obligation]
+\label{thm:algclosure-polynomial-root-ledger-obligation}
+Every admitted polynomial-root row in an $\AlgClosureUp$ packet projects to
+the displayed $\PolynomialUp$ coefficient ledger, the inherited $\FieldUp$
+operation rows carried by the $\FieldExtUp$ source, and the $\hsame$ transport
+that relates the displayed root endpoint to the polynomial satisfaction row.
+The projection preserves the same finite $\mathsf{BHist}$ ledger and the same
+$\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+Start from the admitted root row and read it through
+\autoref{thm:algclosure-carrier-source-obligation}. This gives the
+$\FieldExtUp$ source, the $\PolynomialUp$ request, the endpoint, transport,
+ledger, and provenance coordinates.
+
+The $\PolynomialUp$ projection is the coefficient ledger for the requested
+nonconstant polynomial. Since that request is over the displayed field
+extension, its scalar operations are exactly the inherited $\FieldUp$ rows
+available through the $\FieldExtUp$ source rather than operations from a host
+field object.
+
+Finally project the root endpoint and satisfaction row from the finite ledger.
+The $\hsame$ coordinate transports the endpoint along the classifier
+comparison, and the ledger repacks with the same $\mathsf{BHist}$ rows and
+$\Pkg$ provenance. No quotient root or choice-selected representative is read
+by this projection.
+\end{proof}
+
+\begin{theorem}[AlgClosureUp FieldExt consumer boundary]
+\label{thm:algclosure-fieldext-consumer-boundary}
+Downstream $\FieldExtUp$ and $\PolynomialUp$ consumers of an accepted
+$\AlgClosureUp$ packet read only the displayed field-extension rows,
+polynomial coefficient ledgers, root endpoint rows, satisfaction ledgers,
+$\hsame$ transports, finite $\Cont$ readbacks, and $\Pkg$ provenance. They do
+not receive a quotient field, a classical algebraic closure, or a
+choice-picked root outside the displayed BEDC rows.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:algclosure-root-carrier-obligation-surface}. This
+confines every consumer-facing carrier read to the consumed $\FieldExtUp$
+source, the polynomial request, the displayed endpoint, transport, ledger, and
+provenance rows.
+
+Next apply \autoref{thm:algclosure-polynomial-root-ledger-obligation}. It
+identifies the coefficient ledger, inherited $\FieldUp$ operations, root
+satisfaction row, and $\hsame$ transport available to polynomial consumers.
+
+The remaining consumer read is a boundary question. Use
+\autoref{thm:algclosure-downstream-consumer-obligation} to repack the
+projected rows as the exported surface. Since each projection came from the
+finite packet coordinates, no quotient field, classical algebraic closure, or
+choice-picked root is present.
+\end{proof}
+
 \closureat{AlgClosureUp}{seedStr}[BEDC.Derived.AlgClosureUp.AlgClosureCarrierPacket\_source\_obligation]
 
 \begin{closurestatus}{\AlgClosureUp}

@@ -34,4 +34,27 @@ theorem SpinGroupRootCarrier_clifford_unit_carrier_obligation [AskSetup] [Packag
           (And.intro unitLedgerSame
             (And.intro scope.right.right.right.left scope.right.right.right.right))))
 
+theorem SpinGroupRootCarrier_clifford_unit_source_obligation [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger unitLedger :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      Cont unit groupWord unitLedger ->
+        CliffordCarrierPackage unit vector product boundary cliffordEndpoint ∧
+          GroupSingletonCarrier groupWord ∧ UnaryHistory unit ∧ UnaryHistory unitLedger ∧
+            hsame unitLedger (append unit groupWord) ∧ PkgSig bundle ledger pkg := by
+  intro carrier unitCont
+  have scope := SpinGroupRootCarrier_source_scope carrier
+  have groupUnary : UnaryHistory groupWord :=
+    unary_transport unary_empty (hsame_symm scope.right.left)
+  have unitLedgerUnary : UnaryHistory unitLedger :=
+    unary_cont_closed scope.left.left groupUnary unitCont
+  exact
+    And.intro scope.left
+      (And.intro scope.right.left
+        (And.intro scope.left.left
+          (And.intro unitLedgerUnary
+            (And.intro unitCont scope.right.right.right.right))))
+
 end BEDC.Derived.SpinGroupUp
