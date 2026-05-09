@@ -219,6 +219,18 @@ theorem classified_chapter_objects_not_code_bijective
           intro hCode
           exact hD.right.right.left (chapter_code_injective hCode)
 
+theorem chapter_flow_object_layer_differ {rel : ChapterClassifierRelation} :
+    ClassifierCollapsesDistinctChapterCode rel ->
+      exists C D : ChapterCandidateFlow,
+        Not (ChapterCode C = ChapterCode D) /\
+          ChapterClassifierQuotient rel C D := by
+  intro hCollapse
+  cases hCollapse with
+  | intro C hC =>
+      cases hC with
+      | intro D hD =>
+          exact ⟨C, D, hD.right.right.left, hD.right.right.right⟩
+
 theorem compile_decode_preserves_chapter_recognition
     {R : GeneratedChapterRecognizer} {C : ChapterCandidateFlow} :
     RecognizesChapter R C -> RecognizesChapterCode R (ChapterCode C) := by
@@ -281,6 +293,10 @@ theorem chapter_yaml_input_hidden_structure :
   · exact StructuralHiddenInput.hostYAML
   · exact structural_hidden_not_formal StructuralHiddenInput.hostYAML
 
+theorem chapter_yaml_output_not_input :
+    Not (FormalCompilerInput CompilerDatum.hostYAML) :=
+  structural_hidden_not_formal StructuralHiddenInput.hostYAML
+
 theorem chapter_seal_is_event_flow
     {R : GeneratedChapterRecognizer} {C sigmaC : ChapterCandidateFlow} :
     ChapSeal R C sigmaC ->
@@ -288,5 +304,14 @@ theorem chapter_seal_is_event_flow
         NonemptyEventFlow sigmaC := by
   intro hSeal
   exact hSeal.right
+
+theorem chapter_flow_conservativity {C : ChapterCandidateFlow} {w : RawEvent}
+    {m : DisplayAlphabet} :
+    ChapterFlow C -> List.Mem w C -> List.Mem m w ->
+      m = BEDC.FKernel.Mark.BMark.b0 \/ m = BEDC.FKernel.Mark.BMark.b1 := by
+  intro _ _ _
+  cases m with
+  | b0 => exact Or.inl rfl
+  | b1 => exact Or.inr rfl
 
 end BEDC.GroundCompiler.ChapterFlow
