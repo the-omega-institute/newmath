@@ -237,6 +237,32 @@ theorem TopGroupRootThreshold_product_inverse_empty_scope
       (And.intro ledgerEmpty
         (hsame_trans package.right.right.right.right.right.right ledgerEmpty)))
 
+theorem TopGroupRootThresholdPackage_source_ledger_empty_spine
+    {group topology product inverse neighborhood ledger provenance : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      hsame (append (append group topology) (append ledger provenance)) BHist.Empty ∧
+        Cont group topology product ∧ Cont product inverse ledger ∧ hsame provenance ledger := by
+  intro package
+  have productEmpty : hsame product BHist.Empty :=
+    hsame_trans package.right.right.right.left
+      (append_eq_empty_iff.mpr (And.intro package.left package.right.left))
+  have ledgerEmpty : hsame ledger BHist.Empty :=
+    hsame_trans package.right.right.right.right.right.left
+      (append_eq_empty_iff.mpr (And.intro productEmpty package.right.right.right.right.left))
+  have provenanceEmpty : hsame provenance BHist.Empty :=
+    hsame_trans package.right.right.right.right.right.right ledgerEmpty
+  have leftEmpty : hsame (append group topology) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro package.left package.right.left)
+  have rightEmpty : hsame (append ledger provenance) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro ledgerEmpty provenanceEmpty)
+  have spineEmpty : hsame (append (append group topology) (append ledger provenance))
+      BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro leftEmpty rightEmpty)
+  exact And.intro spineEmpty
+    (And.intro package.right.right.right.left
+      (And.intro package.right.right.right.right.right.left
+        package.right.right.right.right.right.right))
+
 theorem TopGroupRootThreshold_classifier_ledger_transport_packet
     {group topology product inverse neighborhood ledger provenance ledger' provenance' : BHist} :
     TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
