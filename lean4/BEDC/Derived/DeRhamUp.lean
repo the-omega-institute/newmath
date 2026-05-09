@@ -137,6 +137,36 @@ theorem DeRhamStandardBoundaryGraphLedger_finite_graph_completeness
       | tail _ restMem =>
           exact ih restMem
 
+theorem DeRhamStandardBoundaryGraphLedger_source_exhaustion
+    {d : BHist -> BHist} {rows : List BHist} {endpoint : BHist} :
+    DeRhamStandardBoundaryGraphLedger d rows endpoint ->
+      (forall row : BHist, List.Mem row rows -> DeRhamBoundary d row) ∧
+        (rows = [] -> hsame endpoint BHist.Empty) := by
+  intro ledger
+  induction ledger with
+  | nil sameEndpoint =>
+      exact And.intro
+        (by
+          intro row rowMem
+          cases rowMem)
+        (by
+          intro _rowsEmpty
+          exact sameEndpoint)
+  | cons packet _ _ ih =>
+      have headBoundary : DeRhamBoundary d _ :=
+        (DeRhamDoubleExteriorPacket_boundary packet).right.left
+      exact And.intro
+        (by
+          intro row rowMem
+          cases rowMem with
+          | head =>
+              exact headBoundary
+          | tail _ restMem =>
+              exact ih.left row restMem)
+        (by
+          intro rowsEmpty
+          cases rowsEmpty)
+
 theorem DeRhamBoundary_packet_classifier_transport
     {d : BHist -> BHist} {omega eta theta zero theta' : BHist} :
     DeRhamDoubleExteriorPacket d omega eta theta zero ->
