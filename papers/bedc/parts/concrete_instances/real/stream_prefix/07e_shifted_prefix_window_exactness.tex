@@ -23,6 +23,43 @@ are exactly $x(n+k)$ and $y(n+k)$. Repacking the same bounded endpoint
 classifiers is precisely $\mathsf{RealStreamWindowClassifier}(x,y,n,m)$.
 \end{proof}
 
+\begin{theorem}[Real stream shifted prefix-window seal pullback]
+\label{thm:real-stream-shifted-prefix-window-seal-pullback}
+Let $x,y:\mathbb{N}\to\Hist$ be rational-observation streams, let
+$x_n(k)=x(n+k)$ and $y_n(k)=y(n+k)$, and fix a finite radius $m$. Suppose two
+downstream $\RealUp$ finite-window seal uses are restricted to the same shifted
+window $(x_n,y_n,0,m)$. If their restricted surfaces agree on the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the $\RegSeqRat$ spine
+rows, the $\mathsf{DyadicRatCoreObservationRow}$ endpoint observations, and the
+displayed $\hsame/\Cont/\Pkg/\mathsf{RealLedgerPolicy}$ rows, then the shifted
+prefix packet over $(x_n,y_n,m)$ and the unshifted window packet over
+$(x,y,n,m)$ expose the same finite $\mathsf{BHist}$ source surface for both
+seal uses.
+
+The pullback is only a finite source-surface statement. It exports no quotient
+data, completion data, metric-completeness row, arithmetic or order closure,
+Classical representative, or standard bridge datum.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-shifted-prefix-window-exactness}. It identifies
+the shifted prefix classifier over $(x_n,y_n,m)$ with the unshifted finite
+window classifier over $(x,y,n,m)$, so both presentations name the same bounded
+endpoint rows.
+
+Next apply \autoref{thm:regseqrat-finite-window-seal-source-pullback} to the two
+downstream seal uses over the shifted window. The hypotheses give the required
+matching $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, $\RegSeqRat$ spine
+rows, DyadicRatCore endpoints, and displayed $\hsame/\Cont/\Pkg$ provenance
+over that finite packet.
+
+Finally apply \autoref{thm:realup-streamname-regseqrat-common-window-pullback}.
+The shared finite $\mathsf{RealLedgerPolicy}$ row identifies the induced
+$\RealUp$ readback packet with the same finite $\mathsf{BHist}$ source surface.
+The preceding exactness step transports this packet back to the unshifted window
+over $(x,y,n,m)$, and the negative boundary is inherited from the two pullback
+theorems.
+\end{proof}
+
 The ten-field fit is: traditional target shifted finite RealUp observation
 windows; BEDC source RealUp prefix/window classifiers plus RatUp endpoints;
 carrier rational-observation streams; classifier the displayed equivalence;
