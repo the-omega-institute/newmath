@@ -191,6 +191,27 @@ theorem DeRhamStandardBoundaryBridgePacket_classifier_compatibility
   have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
   exact And.intro boundary.right.left (And.intro boundary.right.right packet.right)
 
+theorem DeRhamStandardBoundaryBridgePacket_classifier_transport
+    {d : BHist -> BHist} {omega eta theta theta' zero provenance bridge bridge' : BHist} :
+    DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
+      hsame theta' theta ->
+        Cont provenance theta' bridge' ->
+          DeRhamBoundary d theta' ∧ hsame theta' zero ∧ hsame (d eta) BHist.Empty ∧
+            hsame bridge bridge' := by
+  intro packet sameTheta' bridgeRow'
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
+  cases boundary.right.left with
+  | intro preimage sameThetaPreimage =>
+      have boundaryTheta' : DeRhamBoundary d theta' :=
+        Exists.intro preimage (hsame_trans sameTheta' sameThetaPreimage)
+      have sameTheta'Zero : hsame theta' zero :=
+        hsame_trans sameTheta' boundary.left
+      have sameBridge : hsame bridge bridge' :=
+        cont_respects_hsame (hsame_refl provenance) (hsame_symm sameTheta') packet.right
+          bridgeRow'
+      exact And.intro boundaryTheta'
+        (And.intro sameTheta'Zero (And.intro boundary.right.right sameBridge))
+
 theorem DeRhamBoundarySourceLedgerPacket_endpoint_transport
     {d : BHist -> BHist} {omega eta theta theta' zero graphLedger endpointLedger : BHist} :
     DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger ->
