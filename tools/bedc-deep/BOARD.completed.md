@@ -14924,3 +14924,27 @@ Rationale:
 B-579 records ONLY the right distributivity row (`(x+y)*z ~ x*z + y*z`) for raw polynomial multiplication; the dual `x*(y+z) ~ x*y + x*z` is not in BOARD nor in `25_polynomial_literal_multiplication.tex` (the file lists Cauchy coefficient formula at line 19, associativity at line 55, and singleton evaluation at line 77, with no left-distributivity row). Both polynomial-multiplication zero-absorptions (left at line 202, right at line 244) appear in the algebra sibling, so the symmetric pair is published for zero-absorption but is asymmetric for distributivity. The file is 103 lines, far below the 800 cap, and a clean coefficient-fold proof is available via `lem:scalar-product-distributes-across-finite-additive-folds` already used in associativity (line 50).
 
 ---
+
+### B-583 - CliffordUp polarization identity uv + vu ~ q(u+v) - q(u) - q(v)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CliffordUp polarization identity uv + vu ~ q(u+v) - q(u) - q(v) |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+For accepted vector histories u,v in the shared VecSpaceUp source, the Clifford classifier identifies u*v + v*u with q(u+v) - q(u) - q(v) via the displayed quadratic-relation row applied to u+v together with bilinearity transport from BilinFormUp.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/125_clifford_namecert_construction.tex`
+
+Rationale:
+125_clifford has the diagonal quadratic-relation v*v ~ q(v)*1 and product-stability/confluence rows, but the universal symmetric polarization formula relating two distinct vectors is not derived. Polarization is the unique fact that distinguishes Clifford from a free tensor algebra and what downstream Spin/Pin certificates need to anchor double-cover constructions. Polarization shows up only in commring/innerproduct chapters elsewhere, never in Clifford. Frontier algebra capstone.
+
+---
