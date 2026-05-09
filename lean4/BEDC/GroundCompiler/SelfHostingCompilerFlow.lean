@@ -75,6 +75,28 @@ def BootstrapObligation
     (B : EventFlow) (C : CompilerCandidateFlow) (rho : BootstrapRole) : Prop :=
   NonemptyEventFlow B /\ P9Subflow B C /\ BootstrapCompiler C rho
 
+def CompilerBehaviorClassifier
+    (behavior : CompilerBehaviorRelation)
+    (C' C : CompilerCandidateFlow) : Prop :=
+  CertifiedCompiler C /\
+    CertifiedCompiler C' /\
+    (forall S T : EventFlow, behavior C S T -> behavior C' S T) /\
+    (forall S T : EventFlow, behavior C' S T -> behavior C S T)
+
+def SelfCompiles
+    (behavior : CompilerBehaviorRelation) (C : CompilerCandidateFlow) : Prop :=
+  exists C' : CompilerCandidateFlow,
+    behavior C C C' /\ CompilerBehaviorClassifier behavior C' C
+
+def SelfHostingCompilerFlow
+    (behavior : CompilerBehaviorRelation) (C : CompilerCandidateFlow) : Prop :=
+  CertifiedCompiler C /\
+    (exists RC : EventFlow, CompilerRecognitionRelation RC C) /\
+    exists C' L : EventFlow,
+      behavior C C C' /\
+        CompilerBehaviorClassifier behavior C' C /\
+        NonemptyEventFlow L
+
 def P9CompilerCandidate (S C : EventFlow) : Prop :=
   P9Subflow S C
 
