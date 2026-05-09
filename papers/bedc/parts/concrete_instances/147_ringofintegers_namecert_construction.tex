@@ -6,5 +6,76 @@ The ring-of-integers interface $\RingOfIntegersUp$ packages the integral closure
 \section{Carrier definition}
 \label{sec:ringofintegers-carrier}
 
+\begin{definition}[RingOfIntegers Dedekind-source carrier]\label{def:ringofintegers-dedekind-source-carrier}
+A $\RingOfIntegersUp$ Dedekind-source carrier is a finite displayed
+$\mathsf{BHist}$ packet
+$$
+\mathcal O=(\mathcal N,\mathcal Z,\eta,E,\kappa,\tau,\rho)
+$$
+over $\NameCert_{\NumFieldUp}$ and $\NameCert_{\IntUp}$. The row
+$\mathcal N$ is the accepted number-field carrier row, and $\mathcal Z$ is the
+accepted embedded integer row read through $\NameCert_{\IntUp}$ inside the same
+field-operation boundary. The row $\eta$ records the displayed embedding
+provenance from the integer source into the number-field source.
+
+The finite ledger $E$ lists integral-equation rows over the visible field
+addition, multiplication, zero, one, and negation operations supplied by
+$\mathcal N$, with coefficients read from $\mathcal Z$. The classifier row
+$\kappa$ records the $\hsame$ transports for the number-field carrier, embedded
+integer rows, field-operation endpoints, and every equation row in $E$. The row
+$\tau$ is the finite $\Cont$ provenance tying the equation ledger to the two
+dependency certificates, and $\rho$ is the shared $\Pkg$ provenance. No host
+quotient of algebraic integers, host polynomial equality, or ambient choice of a
+number-field model is a field of the carrier.
+\end{definition}
+
 \section{The certificate}
 \label{sec:ringofintegers-certificate}
+
+\begin{theorem}[RingOfIntegers integral-closure obligation surface]\label{thm:ringofintegers-integral-closure-obligation-surface}
+The $\RingOfIntegersUp$ root obligation surface consists of the
+Dedekind-source carrier of
+\autoref{def:ringofintegers-dedekind-source-carrier}, its classifier
+$\kappa$, the finite integral-equation ledger $E$, the transport rows for
+$\mathcal N$, $\mathcal Z$, $\eta$, and $E$, and the no-host-quotient ledger
+recording that integral closure is read only from displayed $\mathsf{BHist}$,
+$\hsame$, $\Cont$, and $\Pkg$ data. These rows form the root
+$\NameCert_{\RingOfIntegersUp}$ obligation surface over
+$\NameCert_{\NumFieldUp}$ and $\NameCert_{\IntUp}$.
+
+Every accepted root row projects to the number-field carrier row, the embedded
+integer row, the integral-equation ledger, classifier transport, continuation
+provenance, and package provenance listed above. Conversely, any finite row
+family with exactly these fields repacks as a $\RingOfIntegersUp$ obligation
+surface.
+\end{theorem}
+\begin{proof}
+Read the two dependency certificates first. The $\NumFieldUp$ certificate
+supplies the visible field carrier and operation endpoints used by
+$\mathcal N$, while the $\IntUp$ certificate supplies the embedded integer row
+and the coefficient rows used by $\mathcal Z$ and $\eta$.
+
+Project the carrier of
+\autoref{def:ringofintegers-dedekind-source-carrier}. Its visible fields are
+precisely $\mathcal N$, $\mathcal Z$, $\eta$, the integral-equation ledger
+$E$, the classifier row $\kappa$, the continuation row $\tau$, and the package
+row $\rho$. The no-host-quotient clause in the definition excludes any additional
+ambient quotient or host polynomial-equality witness.
+
+It remains to check the equation ledger. Induct over the finite ledger $E$. The
+empty ledger contributes no integral equation and leaves only the dependency,
+classifier, continuation, and package rows. In the cons step, the head equation
+is projected to its displayed field-operation endpoints and integer-coefficient
+rows, while the induction hypothesis projects the tail ledger.
+
+The same induction gives the reverse packaging. Given the listed rows, rebuild
+the empty ledger immediately, and in the cons case attach the displayed head
+equation to the carrier already rebuilt for the tail. The transport rows for
+$\mathcal N$, $\mathcal Z$, $\eta$, and $E$ supply exactly the classifier
+stability required by $\kappa$.
+
+Collecting these fields yields the stated $\NameCert_{\RingOfIntegersUp}$
+obligation surface. Since every field has been projected from, or repacked into,
+the displayed finite packet, the surface has no hidden host quotient or detached
+integral-closure carrier.
+\end{proof}
