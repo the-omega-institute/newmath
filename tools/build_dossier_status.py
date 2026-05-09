@@ -628,6 +628,7 @@ def collect_closure_per_region() -> dict[str, dict]:
             scope_closed = _macro_arg(body, "scopeclosed")
             not_claimed = _macro_arg(body, "notclaimed")
             upgrade_path = _macro_arg(body, "upgradepath")
+            constructive_story = _macro_arg(body, "constructivestory")
 
             current = {
                 "theory_closure": theory_closure,
@@ -637,6 +638,7 @@ def collect_closure_per_region() -> dict[str, dict]:
                 "scope_closed": scope_closed,
                 "not_claimed": not_claimed,
                 "upgrade_path": upgrade_path,
+                "constructive_story": constructive_story or None,
             }
             prev = out.get(region)
             if prev is None:
@@ -664,6 +666,8 @@ def collect_closure_per_region() -> dict[str, dict]:
                     prev["not_claimed"] = not_claimed
                 if prev.get("upgrade_path") is None and upgrade_path:
                     prev["upgrade_path"] = upgrade_path
+                if prev.get("constructive_story") is None and constructive_story:
+                    prev["constructive_story"] = constructive_story
     return out
 
 
@@ -738,6 +742,11 @@ def build_dependency_graph() -> dict:
             "upgrade_path": (
                 closure_per_region.get(nid) or {}
             ).get("upgrade_path"),
+            # Bottom-up construction story (paper EN). ZH counterpart is
+            # injected at glossary-merge time below.
+            "constructive_story_en": (
+                closure_per_region.get(nid) or {}
+            ).get("constructive_story"),
             # Namecert-theorem-grounded data (kept for the detail panel,
             # NOT used for proven/progress classification; closure is).
             "namecert_theorems": namecerts,
@@ -813,6 +822,9 @@ def main() -> int:
             }
         node["label_en"] = glossary[nid]["en"]["label"]
         node["label_zh"] = glossary[nid]["zh"]["label"]
+        # Bottom-up construction story (ZH; optional). EN was attached
+        # from the paper closurestatus block in build_dependency_graph.
+        node["constructive_story_zh"] = glossary[nid].get("constructive_story_zh") or None
 
     total_thms = sum(r["theorems"] for r in region_thms.values())
     valid_region_ids = {n["id"] for n in deps["nodes"]}

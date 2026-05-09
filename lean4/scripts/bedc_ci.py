@@ -444,7 +444,7 @@ CLOSURESTATUS_BEGIN_RE = re.compile(
 CLOSURESTATUS_END_RE = re.compile(r"\\end\{closurestatus\}")
 CLOSURESTATUS_FIELD_RE = re.compile(
     r"\\(theoryclosure|formalstatus|leantarget|bridgestatus"
-    r"|scopeclosed|notclaimed|upgradepath)\{([^}]+)\}"
+    r"|scopeclosed|notclaimed|upgradepath|constructivestory)\{([^}]*)\}"
 )
 
 VALID_CLOSURE_GRADES = {
@@ -532,6 +532,7 @@ def collect_closurestatus_blocks(part_root: Path) -> list[dict]:
                     "has_scope": False,
                     "has_notclaimed": False,
                     "has_upgradepath": False,
+                    "has_constructive_story": False,
                 })
                 continue
             body = tail[:end_match.start()]
@@ -554,6 +555,7 @@ def collect_closurestatus_blocks(part_root: Path) -> list[dict]:
                 "has_scope": "scopeclosed" in fields,
                 "has_notclaimed": "notclaimed" in fields,
                 "has_upgradepath": "upgradepath" in fields,
+                "has_constructive_story": "constructivestory" in fields,
             })
     return out
 
@@ -589,6 +591,10 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
         issues.append(f"{where}: missing \\notclaimed (claims off the table)")
     if not block.get("has_upgradepath"):
         issues.append(f"{where}: missing \\upgradepath (next-grade obligation)")
+    if not block.get("has_constructive_story"):
+        issues.append(
+            f"{where}: missing \\constructivestory (bottom-up construction story; empty arg ok)"
+        )
     return issues
 
 

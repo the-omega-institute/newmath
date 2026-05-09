@@ -512,6 +512,7 @@
 \newcommand{\bridgestatus}{\mathsf{bridgestatus}}
 \newcommand{\notclaimed}{\mathsf{notclaimed}}
 \newcommand{\upgradepath}{\mathsf{upgradepath}}
+\newcommand{\constructivestory}{\mathsf{constructivestory}}
 
 % --- Standard-bridge structural macros (paper bridge, separate from
 % the bridgeCheckedV verification token above) ---------------------------
@@ -547,6 +548,7 @@
   \begingroup%
     \footnotesize\sffamily\color{purple!55!black}%
     \textbf{Closure status for $\NameCert_{#1}$.}\par
+    \def\constructivestory##1{\ifx\\##1\\\else\par\textbf{Constructive story:} ##1\par\fi}%
     \def\theoryclosure##1{\par\textbf{Theory closure:} $\TheoryGate(\NameCert_{#1},\,##1)$\par}%
     \def\scopeclosed##1{\textbf{Scope closed:} ##1\par}%
     \def\formalstatus##1{\textbf{Formal verification:} $\FormalStatus(\NameCert_{#1},\,##1)$\par}%
