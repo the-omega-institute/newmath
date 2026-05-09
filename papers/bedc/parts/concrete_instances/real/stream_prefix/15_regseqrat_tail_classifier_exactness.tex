@@ -1,0 +1,44 @@
+\begin{theorem}[RegSeqRat tail-classifier exactness]
+\label{thm:regseqrat-tail-classifier-exactness}
+Let $W_0$ and $W_1$ be selected finite $\RealUp$ observation-window packages.
+Assume that they have matching $\StreamNameUp$ finite-window classifier rows,
+matching $\RegSeqRat$ spine rows, matching DyadicRatCore observation rows, and
+the same finite $\Cont/\hsame$ ledger over the visible endpoint and transport
+entries. Then the selected $\RegSeqRat$ tail classifier extracted from $W_0$
+is exactly the same selected $\RegSeqRat$ tail classifier extracted from
+$W_1$ as a finite-window readback row, after the displayed $\hsame$ transports
+in the common ledger are applied.
+
+The exact classifier surface is only the finite $\StreamNameUp$ row, the
+$\RegSeqRat$ spine, the DyadicRatCore observation rows, the endpoint transport
+ledger, and the shared $\mathsf{RealLedgerPolicy}$ provenance. It exposes no
+quotient row, completion row, Classical representative, metric-completeness
+certificate, arithmetic or order operation, standard-bridge row, or external
+regular-sequence selector.
+\end{theorem}
+\begin{proof}
+Project both selected windows through the finite-window readback package of
+\autoref{thm:realup-finite-window-streamname-readback-package}. This places
+the $\StreamNameUp$ classifier row, the $\RegSeqRat$ spine rows, the
+DyadicRatCore observation rows, the endpoint classifiers, the finite
+$\Cont/\hsame$ ledger, and the $\mathsf{RealLedgerPolicy}$ row in one visible
+finite package.
+
+Apply
+\autoref{thm:realup-streamname-regseqrat-tail-selector-determinacy}. The
+matching stream-name, regular-sequence, dyadic, endpoint, and ledger rows force
+the two selected tail readbacks to agree up to the displayed $\hsame$
+transports, and the same argument identifies the exposed
+$\mathsf{RealLedgerPolicy}$ row.
+
+It remains to record that this agreement is exact on the selected
+$\RegSeqRat$ classifier surface. Use
+\autoref{thm:realup-scoped-finite-window-read-surface} together with the
+finite-window readback package to list every row visible to a consumer. The
+list is precisely the finite stream-name row, the regular-sequence spine, the
+dyadic observation rows, the endpoint transport ledger, and the shared
+provenance; the same scoped surface excludes quotient, completion, Classical,
+metric-completeness, arithmetic, order, standard-bridge, and external selector
+data. Hence the selected tail classifier is determined exactly by the common
+finite rows.
+\end{proof}
