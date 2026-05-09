@@ -125,3 +125,59 @@ regularity witnesses, $\RealUp$ seal classifiers, completion data, quotient
 rows, and host index equalities from the package surface, so no extra row can
 separate $\Omega$ from $\Omega'$ for a finite-window consumer.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat reindexed window identity handoff]
+\label{thm:streamname-regseqrat-reindexed-window-identity-handoff}
+Assume that the certified unary reindexer in a
+$\StreamNameUp$--$\RegSeqRat$ reindexed window package is the identity on every
+displayed $\mathsf{UnaryHistory}$ observation. Then the package of
+\autoref{def:streamname-regseqrat-reindexed-window-package} exposes exactly the
+unreindexed $\StreamNameUp$ finite-window row and the same $\RegSeqRat$
+finite-window handoff rows. It exposes no additional regularity row, seal row,
+completion row, quotient row, or host index-equality row.
+
+The associated ten-field fit is:
+\begin{enumerate}
+\item the traditional target is identity reindexing for countable names;
+\item the BEDC source is $\StreamNameUp$ together with the $\RegSeqRat$
+finite-window handoff;
+\item the carrier is the finite rational-observation window;
+\item the classifier consists of the selected $\mathsf{RatHistoryClassifier}$
+rows;
+\item stability is identity reindexing together with the displayed $\hsame$
+transports;
+\item the ledger consists of the $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$ rows;
+\item the core theorem is this identity handoff;
+\item exactness is equality with the same finite-window rows;
+\item the ordinary bridge is finite prefix readback;
+\item the status is a paper theorem awaiting a formal target.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rat-stream-name-reindexing-and-map-stability} to the
+certified unary reindexer. Under the identity assumption on every displayed
+$\mathsf{UnaryHistory}$ observation, the transported StreamName carrier row and
+the source carrier row have the same finite observations after the displayed
+$\hsame$ transports.
+
+Apply \autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage}. The
+finite-window coverage row identifies the reindexed
+$\mathsf{RatHistoryClassifier}$ entries with the selected entries already read
+from the unreindexed StreamName window. The $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, and $\mathsf{UnaryHistory}$ ledger rows are therefore the
+same displayed finite rows.
+
+Next use \autoref{thm:streamname-real-regseq-finite-window-handoff}. The
+$\RegSeqRat$ finite-window consumer reads only those selected rational-history
+classifier rows together with the visible bundle, membership, unary-observation,
+and handoff rows, so the identity reindexer supplies exactly the unreindexed
+handoff surface.
+
+The exhaustion theorem
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion} shows that no
+other consumer row is present in the package. Finally
+\autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import} excludes
+regularity, seal, completion, quotient, and host index-equality rows. Hence the
+identity case is precisely the unreindexed finite-window handoff.
+\end{proof}
