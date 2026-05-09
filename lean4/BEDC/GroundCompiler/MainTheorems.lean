@@ -173,4 +173,49 @@ def CanonicalTheoremFlow (T : EventFlow) : Prop :=
 def TheoremCode (T : EventFlow) : List DisplayAlphabet :=
   FlowEncoding T
 
+def LegalCanonicalTheoremCode (c : List DisplayAlphabet) : Prop :=
+  exists T : EventFlow, CanonicalTheoremFlow T /\ c = TheoremCode T
+
+theorem theorem_code_bijection :
+    (forall T : EventFlow,
+      CanonicalTheoremFlow T -> LegalCanonicalTheoremCode (TheoremCode T)) /\
+      (forall T U : EventFlow,
+        CanonicalTheoremFlow T ->
+          CanonicalTheoremFlow U -> TheoremCode T = TheoremCode U -> T = U) /\
+      (forall c : List DisplayAlphabet,
+        LegalCanonicalTheoremCode c ->
+          exists T : EventFlow,
+            CanonicalTheoremFlow T /\ Decode c = some T /\ TheoremCode T = c) := by
+  constructor
+  · intro T hCanonical
+    exact ⟨T, hCanonical, rfl⟩
+  · constructor
+    · intro T U _ _ hCode
+      exact channel_code_lossless hCode
+    · intro c hLegal
+      cases hLegal with
+      | intro T hT =>
+          refine ⟨T, hT.left, ?_, hT.right.symm⟩
+          rw [hT.right]
+          exact flow_level_round_trip T
+
+theorem proposition_not_theorem_code :
+    exists R : TheoremGenerated.GeneratedTheoremRecognizer,
+      exists statement T U : TheoremGenerated.TheoremCandidateFlow,
+        Not (T = U) /\
+          TheoremGenerated.TheoremRoleSubflow R T statement
+            TheoremGenerated.TheoremRole.statement /\
+          TheoremGenerated.TheoremRoleSubflow R U statement
+            TheoremGenerated.TheoremRole.statement := by
+  exact TheoremGenerated.same_statement_multiple_flows
+
+theorem theorem_code_not_proof :
+    exists c : List DisplayAlphabet,
+      TheoremGenerated.LegalTheoremCode c /\
+        exists T : TheoremGenerated.TheoremCandidateFlow,
+          Decode c = some T /\
+            (forall R : TheoremGenerated.GeneratedTheoremRecognizer,
+              Not (TheoremGenerated.ProofSoundTheoremRecognition R T)) := by
+  exact TheoremGenerated.theorem_code_is_not_proof
+
 end BEDC.GroundCompiler.MainTheorems
