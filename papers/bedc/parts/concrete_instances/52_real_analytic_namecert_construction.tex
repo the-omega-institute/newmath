@@ -556,3 +556,46 @@ $$
 $$
 \end{proof}
 \leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticCosAdd\_local\_product\_difference\_unary}
+
+\begin{lemma}[Cosine partial sums at classified empty input]
+\label{lem:real-analytic-cospart-empty-constant-one}
+Let $x$ be a $\RealUp$-history with $\RealClassifier(x,\emp)$. Assume supplied $\RealAlgOrder$ rows for the powers $x^{2k}$, the convention $x^0=\Eone(\emp)$, classifier-stability of multiplication along $\RealClassifier$, the positive-power vanishing rows
+$$
+k\geq \Eone(\emp)\Longrightarrow \RealClassifier(x^{2k},\emp),
+$$
+and the unary factorial-denominator rows for $(2k)!$. Then for every unary index $n$, every partial-sum witness $\mathsf{CosPart}(x,n,C_n)$ is classified with the constant-one endpoint:
+$$
+\RealClassifier(C_n,\Eone(\emp)).
+$$
+\end{lemma}
+\begin{proof}
+Proceed by unary induction on the displayed partial-sum recursion of \autoref{def:real-analytic-trig-part}. At $n=\emp$, the only cosine term is
+$$
+(-1)^0\frac{x^0}{0!}.
+$$
+The supplied zero-power convention gives $x^0=\Eone(\emp)$, the unary factorial row gives $0!=\Eone(\emp)$, and the sign row gives $(-1)^0=\Eone(\emp)$. The multiplication and denominator rows in the $\RealAlgOrder$ interface therefore classify the base partial sum with $\Eone(\emp)$.
+
+For the successor step, write the next partial sum as the previous partial sum plus the term
+$$
+(-1)^{m+1}\frac{x^{2m+2}}{(2m+2)!}.
+$$
+The exponent $2m+2$ is positive for every unary $m$. The positive-power vanishing row, obtained from the displayed classifier $\RealClassifier(x,\emp)$ by multiplication stability, classifies $x^{2m+2}$ with $\emp$. Multiplication by the supplied sign and factorial-denominator endpoints preserves that zero classifier, so the added term is classified with $\emp$.
+
+By the induction hypothesis the previous partial sum is classified with $\Eone(\emp)$. The $\RealAlgOrder$ addition row and classifier stability for adding the zero endpoint classify the successor partial sum with the same $\Eone(\emp)$ endpoint. Hence every unary cosine partial sum at an input classified with $\emp$ is the constant-one partial sum.
+\end{proof}
+
+\begin{theorem}[Cosine at classified empty input]
+\label{thm:real-analytic-cos-empty-constant-one}
+Let $x$ be a $\RealUp$-history with $\RealClassifier(x,\emp)$, and let $c$ be a supplied endpoint with $\mathsf{Cos}(x,c)$ in the sense of \autoref{def:real-analytic-sin-cos}. Assume the algebraic rows of \autoref{lem:real-analytic-cospart-empty-constant-one}, the $\RegSeqRat$ row for the constant-one rational stream $n\mapsto \Eone(\emp)$, the $\RealUp$ limit witness naming that stream by $\Eone(\emp)$, and supplied limit-uniqueness classifier rows comparing the $\mathsf{CosPart}(x,\cdot,\cdot)$ stream with this constant-one stream. Then
+$$
+\RealClassifier(c,\Eone(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+The supplied $\mathsf{Cos}(x,c)$ witness exposes the regular rational stream of cosine partial sums from \autoref{def:real-analytic-trig-part}, with the Cauchy modulus supplied by \autoref{lem:real-analytic-trig-cauchy}. By \autoref{lem:real-analytic-cospart-empty-constant-one}, every unary partial sum in that stream is classified with the corresponding value of the constant-one stream.
+
+Thus the two regular rational streams have the same values at every unary precision up to the displayed $\RealClassifier$ comparison. The constant-one stream has the supplied $\RealUp$ limit witness whose endpoint is $\Eone(\emp)$. The cosine witness gives $c$ as the $\RealUp$ limit of the cosine partial-sum stream. Applying the supplied limit-uniqueness classifier row to these two classified regular streams gives
+$$
+\RealClassifier(c,\Eone(\emp)).
+$$
+\end{proof}
