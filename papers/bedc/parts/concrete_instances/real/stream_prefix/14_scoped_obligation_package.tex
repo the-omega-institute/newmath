@@ -393,3 +393,50 @@ clauses follow because none of the cited rows exports host $\mathsf{Nat}$
 data, quotient representatives, completeness data, metric witnesses, or
 standard-bridge structure.
 \end{proof}
+
+\begin{theorem}[RealUp selected finite-window consumer stability]
+\label{thm:realup-selected-window-consumer-stability}
+Let a selected $\mathsf{RealStreamWindowClassifier}(x,y,n,w)$ certificate
+boundary be fixed by
+\autoref{thm:realup-selected-window-certificate-boundary}. Any
+$\RegSeqRat$ handoff consumer and any finite-window $\RealUp$ consumer that
+read the same selected $\StreamNameUp$ rows, $\RegSeqRat$ dyadic rows,
+endpoint $\RatUp$ rows, unary witnesses, $\Cont$ ledger entries, and
+$\hsame$ transports must expose classifier-equivalent endpoint rows, positive
+denominator rows, dyadic source rows, finite ledger rows, and $\RealUp$ seal
+rows.
+
+The stability claim is confined to this selected finite BEDC surface. It does
+not identify host indices, does not pass to quotient representatives or
+completion objects, does not use metric-completeness data, does not import
+Classical data, and does not add standard-bridge rows.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:realup-selected-window-certificate-boundary}. It reduces both
+downstream reads to the same selected finite boundary: certified
+$\StreamNameUp$ observations, $\RegSeqRat$ dyadic source exhaustion, endpoint
+$\RatUp$ rows, unary witnesses, finite $\Cont$ entries, and carried $\hsame$
+transports.
+
+Next apply
+\autoref{thm:streamname-real-regseq-obligation-separation}. The
+$\RegSeqRat$ handoff consumer can read the stream-name source and dyadic
+obligation rows only through the separated BEDC handoff surface, so its
+visible dyadic and stream rows remain tied to the selected classifier.
+
+Use
+\autoref{thm:regseqrat-carrier-classifier-export-package} for the carrier
+export. It identifies the positive denominator rows and dyadic source rows
+available to the handoff consumer with the classifier rows carried by the
+same finite package.
+
+Finally compare the finite-window $\RealUp$ consumer by
+\autoref{thm:realup-finite-window-common-refinement-determinacy}. Any
+certified refinement reading the selected rows exposes classifier-equivalent
+endpoint, denominator, dyadic source, finite-ledger, and seal rows. Since both
+consumers are projections of the selected boundary, the resulting public
+surfaces are equivalent by the displayed $\hsame$ transports, with no
+quotient, completion, metric-completeness, host-index, Classical, or
+standard-bridge row available for alteration.
+\end{proof}
