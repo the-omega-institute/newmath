@@ -368,3 +368,59 @@ upper bound.
 These three cases construct the carried selector and verify both upper-bound
 rows and the least-upper property.
 \end{proof}
+
+\begin{theorem}[Unary prefix least-upper selector successor transport]
+\label{thm:totalorder-prefix-least-upper-successor-transport}
+For carried unary histories $h,k$ in $\mathsf{Carrier}_{\mathsf{u}}$, suppose
+$u$ is the selected least upper endpoint supplied by
+\autoref{thm:totalorder-prefix-least-upper-selector}. Then applying the same
+unary successor context to all three endpoints transports the selector: the
+endpoints $\Eone(h)$ and $\Eone(k)$ have selected least upper endpoint
+$\Eone(u)$, up to $\hsame$. More precisely, the transported package exposes
+$$
+\Eone(h)\le_{\mathsf{u}}\Eone(u),
+\qquad
+\Eone(k)\le_{\mathsf{u}}\Eone(u),
+$$
+and, for every carried unary history $r$,
+$$
+\bigl(\Eone(h)\le_{\mathsf{u}}r\land\Eone(k)\le_{\mathsf{u}}r\bigr)
+\Rightarrow
+\Eone(u)\le_{\mathsf{u}}r,
+$$
+where the successor context is the unary $\Cont$ row determined by $\Eone$.
+The construction uses only the concrete prefix preorder, $\Eone$ context
+transport, and $\hsame$ transitivity; it introduces no external endpoint
+identification.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:totalorder-prefix-least-upper-selector} to $h$ and $k$, and keep
+the same three selector cases as in its proof. The strict-left case selects
+$u=k$, the same case selects an endpoint $\hsame$-equivalent to either input,
+and the strict-right case selects $u=h$.
+
+For the upper-bound rows after transport, use prefix context monotonicity.
+The successor row $\Eone$ is a unary left context, so
+\autoref{thm:preorder-prefix-left-context-monotonicity} carries
+$h\le_{\mathsf{u}}u$ to
+$\Eone(h)\le_{\mathsf{u}}\Eone(u)$ and carries
+$k\le_{\mathsf{u}}u$ to
+$\Eone(k)\le_{\mathsf{u}}\Eone(u)$. Endpoint-shape carriage is transported by
+the same $\Cont$ row.
+
+It remains to show leastness. In the strict-left case, $u=k$; any transported
+common upper bound already contains the row
+$\Eone(k)\le_{\mathsf{u}}r$, which is the required comparison from
+$\Eone(u)$ to $r$. The strict-right case is symmetric with $u=h$.
+
+In the same case, the exactness row of
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} gives
+$h\le_{\mathsf{u}}k$ and $k\le_{\mathsf{u}}h$. Transporting those comparisons
+through the same successor context and composing them with the two upper-bound
+premises by the transitivity row of
+\autoref{thm:concrete-unary-prefix-preorder-laws} gives the comparison from
+$\Eone(u)$ to $r$. Any endpoint-name mismatch is absorbed by symmetry and
+transitivity of $\hsame$, so the transported selected endpoint is
+$\Eone(u)$ up to $\hsame$.
+\end{proof}
