@@ -253,6 +253,34 @@ theorem LambdaCalcBHistTermPacketCarrier_alpha_beta_carrier_transport
     cont_respects_hsame sameLedger (hsame_refl varIndex) resultRow resultRow'
   exact And.intro resultUnary' (And.intro sameResult sameLedger)
 
+theorem LambdaCalcBHistTermPacketCarrier_beta_reduction_classifier_obligation
+    {graph edge connected acyclic tag tag' payload endpoint endpoint' substTag substPayload
+      substEndpoint substEndpoint' ledger ledger' varIndex result result' : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic substTag substPayload
+          substEndpoint ->
+        hsame tag tag' ->
+          hsame endpoint endpoint' ->
+            hsame substEndpoint substEndpoint' ->
+              UnaryHistory varIndex ->
+                Cont endpoint substEndpoint ledger ->
+                  Cont endpoint' substEndpoint' ledger' ->
+                    Cont ledger varIndex result ->
+                      Cont ledger' varIndex result' ->
+                        LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag'
+                            payload endpoint' ∧
+                          UnaryHistory result' ∧ hsame result result' ∧ hsame ledger ledger' := by
+  intro packet substPacket sameTag sameEndpoint sameSubstEndpoint varUnary ledgerRow ledgerRow'
+    resultRow resultRow'
+  have transportedPacket :=
+    LambdaCalcBHistTermPacketCarrier_public_endpoint_transport packet sameTag sameEndpoint
+  have transportedLedger :=
+    LambdaCalcBHistTermPacketCarrier_alpha_beta_carrier_transport packet substPacket sameTag
+      sameEndpoint sameSubstEndpoint varUnary ledgerRow ledgerRow' resultRow resultRow'
+  exact And.intro transportedPacket.left
+    (And.intro transportedLedger.left
+      (And.intro transportedLedger.right.left transportedLedger.right.right))
+
 theorem LambdaCalcBHistTermPacketCarrier_namecert_substitution_ledger
     {graph edge connected acyclic tag payload endpoint substTag substPayload substEndpoint
       varIndex ledger result : BHist} :
