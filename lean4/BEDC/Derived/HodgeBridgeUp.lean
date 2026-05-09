@@ -93,6 +93,35 @@ theorem HodgeBridgeBHistSourcePacket_harmonic_projector_classifier_stability
         readbackCont', lefschetzCont', endpointCont', pkgSig'⟩,
       sameReadback, sameLefschetz, sameEndpoint⟩
 
+theorem HodgeBridgeBHistSourcePacket_public_certificate_handoff [AskSetup] [PackageSetup]
+    {derham derham' cohomology projector projector' bidegree bidegree'
+      lefschetz lefschetz' readback readback' transport provenance provenance'
+      endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz
+        readback transport provenance endpoint bundle pkg ->
+      hsame derham derham' ->
+      hsame projector projector' ->
+      hsame bidegree bidegree' ->
+      hsame provenance provenance' ->
+      Cont derham' projector' readback' ->
+      Cont readback' bidegree' lefschetz' ->
+      Cont provenance' lefschetz' endpoint' ->
+      PkgSig bundle endpoint' pkg ->
+      HodgeBridgeBHistSourcePacket derham' cohomology projector' bidegree'
+          lefschetz' readback' transport provenance' endpoint' bundle pkg ∧
+        hsame readback readback' ∧ hsame lefschetz lefschetz' ∧
+          hsame endpoint endpoint' ∧ PkgSig bundle endpoint pkg := by
+  intro packet sameDerham sameProjector sameBidegree sameProvenance readbackCont'
+    lefschetzCont' endpointCont' pkgSig'
+  have stability :=
+    HodgeBridgeBHistSourcePacket_harmonic_projector_classifier_stability
+      packet sameDerham sameProjector sameBidegree sameProvenance readbackCont'
+      lefschetzCont' endpointCont' pkgSig'
+  exact
+    ⟨stability.left, stability.right.left, stability.right.right.left,
+      stability.right.right.right, packet.right.right.right.right.right.right.right.right.right⟩
+
 theorem HodgeBridgeBHistSourcePacket_shared_projector_readback_exactness
     [AskSetup] [PackageSetup]
     {derham derham' cohomology projector projector' bidegree bidegree' lefschetz
@@ -126,5 +155,39 @@ theorem HodgeBridgeBHistSourcePacket_shared_projector_readback_exactness
       stability.right.right.right, surface.right.right.right.right.right.right.left,
       surface.right.right.right.right.right.right.right.left,
       surface.right.right.right.right.right.right.right.right.left⟩
+
+theorem HodgeBridgeBHistSourcePacket_ledger_exactness [AskSetup] [PackageSetup]
+    {derham cohomology projector bidegree lefschetz readback transport provenance endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz readback
+        transport provenance endpoint bundle pkg ->
+      UnaryHistory readback ∧ UnaryHistory lefschetz ∧ UnaryHistory endpoint ∧
+        Cont derham projector readback ∧ Cont readback bidegree lefschetz ∧
+          Cont provenance lefschetz endpoint ∧ hsame readback (append derham projector) ∧
+            hsame lefschetz (append readback bidegree) ∧
+              hsame endpoint (append provenance lefschetz) ∧
+                PkgSig bundle endpoint pkg := by
+  intro packet
+  have projectorUnary : UnaryHistory projector := packet.right.right.left
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed packet.left projectorUnary packet.right.right.right.right.right.right.left
+  have bidegreeUnary : UnaryHistory bidegree := packet.right.right.right.left
+  have lefschetzUnary : UnaryHistory lefschetz :=
+    unary_cont_closed readbackUnary bidegreeUnary
+      packet.right.right.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance := packet.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary lefschetzUnary
+      packet.right.right.right.right.right.right.right.right.left
+  exact
+    ⟨readbackUnary, lefschetzUnary, endpointUnary,
+      packet.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.HodgeBridgeUp
