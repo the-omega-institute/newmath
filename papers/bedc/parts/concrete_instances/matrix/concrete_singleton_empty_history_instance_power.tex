@@ -595,3 +595,59 @@ supplies $\rho_{\emp}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_succ\_endpoint\_exactness}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_successor\_endpoint\_exactness}
+
+\begin{definition}[Matrix singleton identity-power concrete instance]
+\label{def:matrix-singleton-identity-power-concrete-instance}
+The concrete identity-power schema for $\MatrixUp$ uses
+$\mathsf{MatrixSingletonCarrier}$ as carrier,
+$\mathsf{MatrixSingletonClassifier}$ as classifier, $\mathsf{UnaryHistory}$ as
+the exponent carrier, and $\mathsf{MatrixSingletonPow}$ as the action. Its
+source rows are the singleton matrix carrier row for the base, the unary
+history row for the exponent, the empty-exponent identity row, and the
+successor-step multiplication row over the singleton power ledger.
+\end{definition}
+
+\begin{theorem}[Matrix singleton identity-power law]
+\label{thm:matrix-singleton-identity-power-law}
+For the concrete instance of
+\autoref{def:matrix-singleton-identity-power-concrete-instance}, the empty
+exponent acts as the singleton identity endpoint, unary exponents preserve the
+singleton matrix carrier, and the successor exponent is classified by the
+displayed multiplication step:
+$$
+\begin{gathered}
+\mathsf{MatrixSingletonClassifier}
+  (\mathsf{MatrixSingletonPow}(M,\emp),h)
+\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(h),\\
+\mathsf{MatrixSingletonCarrier}(M)\land\mathsf{UnaryHistory}(e)
+\Longrightarrow
+\mathsf{MatrixSingletonCarrier}(\mathsf{MatrixSingletonPow}(M,e)),\\
+\mathsf{MatrixSingletonCarrier}(M)\land\mathsf{UnaryHistory}(e)
+\Longrightarrow
+\mathsf{MatrixSingletonClassifier}
+  (\mathsf{MatrixSingletonPow}(M,\Eone(e)),
+   \mathsf{MatrixSingletonMul}(\mathsf{MatrixSingletonPow}(M,e),M)).
+\end{gathered}
+$$
+Thus the singleton power rows expose a concrete $\mathsf{BHist}$ carrier and
+action surface for $\MatrixUp$ rather than only an abstract operator schema.
+\end{theorem}
+\begin{proof}
+The empty-exponent identity row is exactly
+\autoref{thm:matrix-singleton-pow-empty-exponent-classifier-iff}. It unfolds
+the empty branch of $\mathsf{MatrixSingletonPow}$ to the singleton identity
+endpoint and identifies its classifier with the carrier condition on the
+comparison endpoint.
+
+Carrier closure under unary exponents is
+\autoref{thm:matrix-singleton-pow-carrier-closed}. It gives the carried power
+ledger from a singleton-carried base and a unary exponent, so the action stays
+inside $\mathsf{MatrixSingletonCarrier}$.
+
+The successor step is
+\autoref{thm:matrix-singleton-pow-succ-classifier}, strengthened by
+\autoref{thm:matrix-singleton-pow-successor-endpoint-exactness}. These rows
+classify the one-headed exponent ledger by the displayed singleton
+multiplication endpoint, completing the concrete carrier/action schema.
+\end{proof}
