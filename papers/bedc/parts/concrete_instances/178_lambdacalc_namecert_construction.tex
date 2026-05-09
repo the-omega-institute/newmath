@@ -681,5 +681,71 @@ successive endpoint transports. The endpoint is therefore read only from the
 displayed traversal and its $\Cont$ provenance.
 \end{proof}
 
+\begin{definition}[LambdaCalc root constructor readback packet]
+\label{def:lambdacalc-root-constructor-readback-packet}
+A LambdaCalc root constructor readback packet is the finite $\mathsf{BHist}$
+packet consisting of the visible $\TreeUp$ syntax row, the $\NatUp$ binder or
+variable-index row when the root tag carries one, the constructor tag
+$\mathsf{lamVar}$, $\mathsf{lamAbs}$, or $\mathsf{lamApp}$, the
+constructor-preserving $\Cont$ provenance, the root $\hsame$ readback row, and
+the $\Pkg$ provenance tying those rows to
+$\mathsf{LambdaCalcBHistTermCarrier}$. No host syntax tree, ambient variable
+set, or quotient alpha-class is part of the packet.
+\end{definition}
+
+\begin{theorem}[LambdaCalc root constructor readback exhaustion]
+\label{thm:lambdacalc-root-constructor-readback-exhaustion}
+Every accepted variable, abstraction, or application row of
+$\mathsf{LambdaCalcBHistTermCarrier}$ projects to exactly one constructor case
+of \autoref{def:lambdacalc-root-constructor-readback-packet}. The projection
+uses only the displayed $\TreeUp$ row, the visible $\NatUp$ index rows,
+$\Cont$, $\hsame$, and $\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+For a variable row, apply
+\autoref{thm:lambdacalc-variable-constructor-carrier}. The unary index is the
+visible $\NatUp$ payload and the root readback row is the displayed
+$\mathsf{lamVar}$ tag.
+
+For abstraction and application rows, use
+\autoref{thm:lambdacalc-abstraction-application-carrier-closure}. The theorem
+keeps the binder row, body row, and two application subtrees inside the
+visible $\TreeUp$ spine with constructor-preserving $\Cont$ transport.
+
+The case split is exhausted by
+\autoref{thm:lambdacalc-constructor-case-exhaustion}. Repacking each case with
+the shared $\Pkg$ provenance gives exactly one readback packet and introduces
+no extra equality relation.
+\end{proof}
+
+\begin{theorem}[LambdaCalc root beta-alpha consumer threshold]
+\label{thm:lambdacalc-root-beta-alpha-consumer-threshold}
+Every beta-redex, alpha-renaming, and substitution consumer for
+$\LambdaCalcUp$ reads its root data from
+\autoref{def:lambdacalc-root-constructor-readback-packet} together with the
+finite substitution ledger of
+\autoref{thm:lambdacalc-namecert-substitution-ledger}. Thus the consumer
+surface uses only $\mathsf{BHist}$ constructor packets, $\Cont$, $\hsame$, and
+$\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+First project each consumed root through
+\autoref{thm:lambdacalc-root-constructor-readback-exhaustion}. This supplies
+the visible constructor tag, TreeUp syntax row, NatUp index row when present,
+and the root readback provenance.
+
+Next attach the free-variable and capture-avoidance ledgers. Apply
+\autoref{thm:lambdacalc-free-variable-ledger-coverage} and
+\autoref{thm:lambdacalc-capture-avoidance-cont-closure}; these keep the
+substitution endpoint inside the displayed carrier and record the route as
+$\Cont$ data.
+
+Finally transport alpha and beta endpoints by
+\autoref{thm:lambdacalc-alpha-beta-carrier-transport}. The finite ledger of
+\autoref{thm:lambdacalc-namecert-substitution-ledger} supplies the remaining
+substitution provenance, so beta, alpha, and substitution consumers cross the
+root boundary only through the displayed packets.
+\end{proof}
+
 \input{parts/concrete_instances/lambdacalc/root_frontier}
 \input{parts/concrete_instances/lambdacalc/namecert_public_boundary}

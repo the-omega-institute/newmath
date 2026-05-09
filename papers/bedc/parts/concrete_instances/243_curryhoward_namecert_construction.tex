@@ -42,6 +42,46 @@ Finally apply \autoref{thm:lambdacalc-beta-reduction-classifier-obligation}. The
 For accepted shared cut-beta packets $\mathcal H$ and $\mathcal H'$ as in \autoref{def:curryhoward-shared-cut-beta-packet}, the CurryHowardUp endpoint classifier relates $\mathcal H$ and $\mathcal H'$ when the following rows hold simultaneously. The $\FirstOrderUp$ deduction classifier relates the displayed deduction ledgers $D_1,D_2,D_{\mathsf{cut}}$ of $\mathcal H$ with the corresponding ledgers $D'_1,D'_2,D'_{\mathsf{cut}}$ of $\mathcal H'$. The $\LambdaCalcUp$ beta/substitution classifier relates the displayed term packets, beta-redex rows, substitution ledgers, and output endpoints $u,u'$. The shared endpoint rows satisfy the displayed $\hsame$ clauses for the proof-program endpoint $P$, the cut-formula/type endpoint $A$, and the conclusion-type endpoint $B$. The finite provenance row $\rho$ records the common dependence on $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\LambdaCalcUp}$, with no host proof equality, host lambda equality, or quotient of alpha classes.
 \end{definition}
 
+\begin{theorem}[CurryHoward cut-beta source row separation]\label{thm:curryhoward-cut-beta-source-row-separation}
+For every accepted shared cut-beta packet $\mathcal H$ for $\CurryHowardUp$,
+the $\FirstOrderUp$ deduction rows $D_1,D_2,D_{\mathsf{cut}}$ and the
+$\LambdaCalcUp$ beta/substitution rows $L,r,s,u$ project into disjoint source
+slots. The only common public rows are the proof-program $\mathsf{BHist}$
+endpoint, the displayed $\hsame$ endpoint clauses, the finite $\Cont$
+provenance, and the two source rows $\NameCert_{\FirstOrderUp}$ and
+$\NameCert_{\LambdaCalcUp}$.
+
+Consequently the cut-beta bridge identifies neither host proof trees with host
+lambda terms nor host deduction syntax with host term syntax. It relates the
+two source rows only through the displayed CurryHoward endpoint and provenance
+surface.
+\end{theorem}
+\begin{proof}
+Unpack the shared cut-beta packet of
+\autoref{def:curryhoward-shared-cut-beta-packet}. Its $\FirstOrderUp$ rows are
+the deduction ledgers $D_1,D_2,D_{\mathsf{cut}}$, while its $\LambdaCalcUp$
+rows are the term packet, beta-redex row, substitution ledger, and output
+endpoint. These rows occupy different named fields of the displayed
+$\mathsf{BHist}$ tuple.
+
+Now unfold the endpoint classifier of
+\autoref{def:curryhoward-endpoint-classifier}. The classifier has one
+$\FirstOrderUp$ deduction clause, one $\LambdaCalcUp$ beta/substitution clause,
+shared $\hsame$ endpoint clauses, and the finite provenance row over the two
+source certificates. It contains no clause equating a host proof tree with a
+host lambda term.
+
+Apply \autoref{thm:curryhoward-classifier-endpoint-transport}. The common
+information transported by the bridge is the proof-program endpoint under the
+displayed $\hsame$ and $\Cont$ rows.
+
+Finally use \autoref{thm:curryhoward-cut-beta-classifier-exhaustion}. It says
+that the classifier surface is exhausted by those displayed deduction,
+beta/substitution, endpoint, transport, provenance, and source-certificate
+rows. Hence the source rows remain separated except at the stated public
+endpoint and provenance surface.
+\end{proof}
+
 \begin{theorem}[CurryHowardUp classifier endpoint transport]\label{thm:curryhoward-classifier-endpoint-transport}
 Let $\mathcal H$ and $\mathcal H'$ be accepted shared cut-beta packets for $\CurryHowardUp$. If the CurryHowardUp endpoint classifier of \autoref{def:curryhoward-endpoint-classifier} relates $\mathcal H$ and $\mathcal H'$, then the cut-eliminated deduction endpoint and the beta-substitution endpoint transport to the same proof-program endpoint under the shared $\hsame$ rows.
 \end{theorem}
