@@ -180,3 +180,40 @@ $$
 $$
 Since $n$ was arbitrary, \autoref{lem:padded-coefficient-extensionality-polynomial-classifier} gives the displayed $\mathsf{PolySame}_R$ comparison. A normalized polynomial representative is a finite coefficient spine by \autoref{def:polynomial-carrier}, so the final sentence is the same statement restricted to those representatives.
 \end{proof}
+
+\begin{theorem}[Polynomial raw multiplication has singleton-one left identity]
+\label{thm:polynomial-raw-multiplication-singleton-one-left-identity}
+Let $R$ carry a $\RingUp(R)$ certificate with classifier $\sim_R$, scalar certificate $\mathsf{cert}_R:\NameCert(R,\sim_R)$, zero endpoint $0_R$, multiplicative unit endpoint $1_R$, addition $+$, multiplication $\cdot$, canonical trim $\mathsf{trim}_R$, and the raw operations $\mathsf{radd}_R$, $\mathsf{rscale}_R$, $\mathsf{shift}_R$, and $\mathsf{rmul}_R$ from \autoref{def:polynomial-raw-add-comparison-data} and \autoref{def:polynomial-raw-cauchy-product}. For every finite coefficient spine $p:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{PolySame}_R\bigl(\mathsf{rmul}_R(\mathsf{cons}(1_R,\mathsf{nil}),p),p\bigr).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{lem:padded-coefficient-extensionality-polynomial-classifier}, it is enough to prove equality under the padded scalar classifier at every coefficient index. Unfolding the cons clause and the nil clause of raw multiplication in \autoref{def:polynomial-raw-cauchy-product} gives
+$$
+\mathsf{rmul}_R(\mathsf{cons}(1_R,\mathsf{nil}),p)
+=
+\mathsf{radd}_R(\mathsf{rscale}_R(1_R,p),\mathsf{cons}(0_R,\mathsf{nil})).
+$$
+Thus the product is the raw sum of the coefficientwise scalar multiple by $1_R$ and the one-place shift of the empty recursive product.
+
+First, for every finite coefficient spine $u$ and every index $n:\NatUp$,
+$$
+\mathsf{radd}_R(u,\mathsf{cons}(0_R,\mathsf{nil}))[n]\sim_Ru[n].
+$$
+This is induction on $u$. If $u=\mathsf{nil}$, the only displayed head is $0_R+0_R$, classified with $0_R$ by the additive zero rows in \autoref{def:ring-stability-certificate}; all later coefficients are padding coefficients $0_R$. If $u=\mathsf{cons}(a,u')$, the head comparison is $(a+0_R)\sim_Ra$ by the additive right-zero row, while the tail comparison is the raw-addition right-nil induction that repeatedly classifies $b+0_R$ with $b$ and ends at the padding coefficient. These steps use additive congruence, zero self-classification, and classifier transitivity from $\mathsf{cert}_R$.
+
+Second, for every finite coefficient spine $p$ and every index $n:\NatUp$,
+$$
+\mathsf{rscale}_R(1_R,p)[n]\sim_Rp[n].
+$$
+Induct on $p$. In the nil case both padded coefficients are $0_R$. In the cons case, the exposed head is $1_R\cdot a$, classified with $a$ by the multiplicative left-unit row retained in \autoref{def:ring-stability-certificate}, and the tail is supplied by the induction hypothesis. After the displayed spine ends, both sides are again the padding coefficient $0_R$.
+
+Apply the first coefficient comparison to $u=\mathsf{rscale}_R(1_R,p)$ and compose it with the second comparison. For every $n:\NatUp$ this gives
+$$
+\mathsf{rmul}_R(\mathsf{cons}(1_R,\mathsf{nil}),p)[n]
+\sim_R
+p[n].
+$$
+The padded coefficient extensionality lemma \autoref{lem:padded-coefficient-extensionality-polynomial-classifier} converts these pointwise scalar comparisons into the displayed $\mathsf{PolySame}_R$ statement.
+\end{proof}
