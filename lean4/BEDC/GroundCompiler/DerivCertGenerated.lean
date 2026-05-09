@@ -76,6 +76,15 @@ def RecognizesAcceptanceCode
     (c : List DisplayAlphabet) (N s : EventFlow) : Prop :=
   exists A : EventFlow, Decode c = some A /\ AcceptedFlow A N s
 
+def StrengthMonotonicityAtFlowLevel : Prop :=
+  forall N high low A : EventFlow,
+    AcceptedFlow A N high ->
+      (exists Dlow : EventFlow,
+        DerivCertFlow Dlow N low /\
+          NonemptyEventFlow Dlow /\
+          DerivCertSourceSubflow Dlow A) ->
+        AcceptedFlow A N low
+
 def DerivCertCode (D _N _s : EventFlow) : List DisplayAlphabet :=
   FlowEncoding D
 
@@ -283,6 +292,29 @@ theorem acceptance_recognition_invariant {A N s : EventFlow} :
         Decode (FlowEncoding A) = some A' /\ A' = A /\ AcceptedFlow A' N s := by
   intro hAccepted
   exact ⟨A, flow_level_round_trip A, rfl, hAccepted⟩
+
+theorem gate_monotone_strength : StrengthMonotonicityAtFlowLevel := by
+  intro N high low A hAccepted hLower
+  cases hAccepted with
+  | intro C hAccepted =>
+      cases hAccepted with
+      | intro D hAccepted =>
+          cases hAccepted with
+          | intro sealFlow hAccepted =>
+              cases hLower with
+              | intro Dlow hLower =>
+                  exact
+                    ⟨C, Dlow, sealFlow, hAccepted.left, hLower.left,
+                      hAccepted.right.right.left, hLower.right.left,
+                      hAccepted.right.right.right.right.left,
+                      hAccepted.right.right.right.right.right.left,
+                      hLower.right.right,
+                      hAccepted.right.right.right.right.right.right.right⟩
+
+theorem reuse_does_not_erase_obligations {M s : EventFlow} :
+    AcceptGateFlow M s ->
+      exists C D : EventFlow, NameCertFlow C M /\ DerivCertFlow D M s :=
+  accepted_requires_namecert_derivcert
 
 theorem accepted_flow_recognition_conservativity
     {A N s : EventFlow} {w : RawEvent} {m : DisplayAlphabet} :

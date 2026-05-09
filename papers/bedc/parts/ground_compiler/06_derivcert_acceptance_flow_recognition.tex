@@ -480,17 +480,20 @@ For every accepted flow, compiling to a channel stream and decoding back to an e
 
 \begin{definition}[Strength monotonicity at flow level]
 \label{def:derivcert-generated-strength-monotonicity}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.StrengthMonotonicityAtFlowLevel}
 The flow-level acceptance gate is \emph{monotone in strength} when, for strength flows $s' \leq s$,
 $$
   \mathsf{AcceptGateFlow}(N,s)
   \Longrightarrow
   \mathsf{AcceptGateFlow}(N,s').
 $$
+At event-flow level, the comparison $s' \leq s$ is witnessed by a recognized derivation-certificate flow for $N$ at $s'$ that occurs as a subflow of the same accepted flow that witnesses acceptance at $s$.
 \end{definition}
 
 \begin{theorem}[Flow-level gate is monotone in strength]
 \label{thm:derivcert-generated-gate-monotone-strength}
-Assume recognized strength flows satisfy
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.gate\_monotone\_strength}
+Assume recognized strength flows are ordered by
 $$
   \mathrm{seed}
   <
@@ -502,16 +505,23 @@ $$
 $$
 and each higher-strength derivation-certificate flow contains the corresponding lower-strength derivation-certificate flow as a recognized subflow. Then
 $$
-  s' \leq s
+  \mathsf{AcceptFlow}(A,N,s)
   \wedge
-  \mathsf{AcceptGateFlow}(N,s)
+  \exists D'\,
+  \big(
+    \mathsf{DerivCertFlow}(D',N,s')
+    \wedge
+    D' \neq \epsilon
+    \wedge
+    \mathsf{DerivCertSourceSubflow}(D',A)
+  \big)
   \Longrightarrow
   \mathsf{AcceptGateFlow}(N,s').
 $$
 \end{theorem}
 
 \begin{proof}
-From $\mathsf{AcceptGateFlow}(N,s)$, take an accepted flow containing a sound $\NameCert$ flow and a sound derivation-certificate flow at strength $s$. The naming certificate is independent of the strength comparison. By the hypothesis on strength nesting, the higher-strength derivation-certificate flow contains the lower-strength derivation-certificate flow as recognized substructure. Using that lower-strength subflow gives the accepted flow at $s'$.
+From $\mathsf{AcceptFlow}(A,N,s)$, take the recognized $\NameCert$ flow, derivation-certificate flow, and acceptance-seal subflow contained in $A$. The naming certificate and seal are independent of the strength comparison. By the hypothesis on strength nesting, $A$ also contains a nonempty recognized derivation-certificate flow $D'$ for $N$ at $s'$. Replacing the strength-$s$ derivation-certificate component by $D'$ gives an accepted flow for $N$ at $s'$, hence $\mathsf{AcceptGateFlow}(N,s')$.
 \end{proof}
 
 \begin{definition}[Reuse flow]
@@ -540,7 +550,19 @@ Each input $N_i$ has an accepted flow at strength $s_i$. The reuse flow supplies
 
 \begin{corollary}[Reuse does not erase target certificate obligations]
 \label{cor:derivcert-generated-reuse-does-not-erase-obligations}
-Even if all inputs $N_i$ are accepted, the target $M$ must still supply its own source, classifier, exactness, ledger, stability, and strength flows. Reuse cannot replace $M$'s derivation-certificate flow.
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.reuse\_does\_not\_erase\_obligations}
+Even if all inputs $N_i$ are accepted, any accepted target $M$ must still supply its own recognized $\NameCert$ flow and its own recognized derivation-certificate flow:
+$$
+  \mathsf{AcceptGateFlow}(M,s)
+  \Longrightarrow
+  \exists C,D\,
+  \big(
+    \mathsf{NameCertFlow}(C,M)
+    \wedge
+    \mathsf{DerivCertFlow}(D,M,s)
+  \big).
+$$
+Reuse cannot replace $M$'s derivation-certificate flow.
 \end{corollary}
 
 \begin{definition}[Retroactive promotion]
