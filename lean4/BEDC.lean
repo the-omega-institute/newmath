@@ -532,6 +532,7 @@ import BEDC.Derived.DiffFormUp.RootConsumerExport
 import BEDC.Derived.DiffFormUp.RootConsumerFace
 import BEDC.Derived.DiffFormUp.RootConsumerFactorization
 import BEDC.Derived.DiffFormUp.RootConsumerEntry
+import BEDC.Derived.DiffFormUp.RootConsumerReadablePackage
 import BEDC.Derived.DiffFormUp.RootConsumerSourceProjection
 import BEDC.Derived.DiffFormUp.RootNameCertSurface
 import BEDC.Derived.DiffFormUp.RootObligationSurface
