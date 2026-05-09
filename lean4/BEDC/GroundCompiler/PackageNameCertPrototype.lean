@@ -453,6 +453,20 @@ inductive P5CannotClaimKind : Type where
 def P5CannotClaimAnnotations : Type :=
   P5CannotClaimKind -> EventFlow -> Prop
 
+theorem missing_field_report_not_negative_theorem :
+    exists output : P5Output,
+      exists C N : EventFlow,
+        List.Mem (P5ReportDatum.missingNameCertField C N) output /\
+          exists R : GeneratedNameCertRecognizer,
+            List.Mem (P5ReportDatum.recognizedNameCert R C N) output := by
+  exact
+    ⟨[P5ReportDatum.missingNameCertField [] [],
+      P5ReportDatum.recognizedNameCert [] [] []],
+      [], [],
+      And.intro
+        (List.Mem.head _)
+        ⟨[], List.Mem.tail _ (List.Mem.head _)⟩⟩
+
 def PackageFieldStatus : Type :=
   EventFlow -> PackageRoleKind -> FieldStatus
 
@@ -676,5 +690,18 @@ theorem p5_license_weaker_than_export :
 theorem p5_licensed_not_accepted_export :
     exists S N : EventFlow, LicensedNameP5 S N /\ Not (AcceptedObjectFlow S) :=
   p5_license_weaker_than_export
+
+theorem p5_adequacy_not_higher
+    {prototype : PkgNameCertPrototype} {report : P5Report} :
+    P5Adequate prototype report ->
+      exists S N : EventFlow, LicensedNameP5 S N /\ Not (AcceptedObjectFlow S) := by
+  intro _
+  exact p5_license_weaker_than_export
+
+theorem p5_conservative_over_finite_kernel
+    {S : EventFlow} {w : RawEvent} {m : DisplayAlphabet} :
+    List.Mem w S -> List.Mem m w -> m = BMark.b0 \/ m = BMark.b1 := by
+  intro hEvent hMark
+  exact event_flow_conservativity hEvent hMark
 
 end BEDC.GroundCompiler.PackageNameCertPrototype
