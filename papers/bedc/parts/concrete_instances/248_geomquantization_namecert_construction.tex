@@ -6,5 +6,64 @@ The geometric-quantization interface $\GeomQuantizationUp$ packages the construc
 \section{Carrier definition}
 \label{sec:geomquantization-carrier}
 
+\begin{definition}[GeomQuantization BHist source packet]
+\label{def:geomquantization-bhist-source-packet}
+A $\GeomQuantizationUp$ source packet is a finite $\mathsf{BHist}$ package
+$$
+\mathcal{G}=(\mathcal{S},\mathcal{H},L,\Pi,\mu,\rho,\lambda,\tau)
+$$
+where $\mathcal{S}$ is a dependency row certified by $\NameCert_{\SymplecticUp}$, $\mathcal{H}$ is a dependency row certified by $\NameCert_{\HilbertUp}$, $L:\mathsf{BHist}$ is the prequantum line-bundle row over the symplectic source, $\Pi:\mathsf{BHist}$ is the polarisation classifier row, $\mu:\mathsf{BHist}$ is the metaplectic-correction ledger row, $\rho$ records the $\mathsf{Pkg}$ provenance of the symplectic and Hilbert dependency packets, $\lambda$ is the finite $\Cont$ readback from $(\mathcal{S},L,\Pi,\mu)$ to the Hilbert carrier row, and $\tau$ is the family of $\hsame$ transports preserving the source, line-bundle, polarisation, metaplectic, and Hilbert endpoint rows.
+
+The packet is accepted only when all listed rows project from one displayed $\mathsf{Pkg}$ provenance package. Thus $\GeomQuantizationUp$ carries a finite history surface from a certified symplectic source to a certified Hilbert target; it does not export an ambient quantization functor, a host Hilbert construction, or uncarried symplectic geometry.
+\end{definition}
+
+\begin{theorem}[GeomQuantization source dependency surface]
+\label{thm:geomquantization-source-dependency-surface}
+For every packet of \autoref{def:geomquantization-bhist-source-packet}, the $\NameCert_{\SymplecticUp}$ projection and the $\NameCert_{\HilbertUp}$ projection are rows of the same $\mathsf{BHist}$ package. The prequantum line-bundle row, polarisation classifier row, metaplectic ledger row, finite $\Cont$ readback, $\hsame$ transports, and $\mathsf{Pkg}$ provenance are therefore shared dependency data rather than separate certificates.
+\end{theorem}
+\begin{proof}
+Project the tuple $\mathcal{G}$. Its first two components are the symplectic and Hilbert dependency rows, and its provenance component $\rho$ records both rows inside one package.
+
+The remaining components are read from that package: $L$ gives the prequantum line-bundle row, $\Pi$ gives the polarisation classifier, $\mu$ gives the metaplectic ledger, $\lambda$ gives the finite continuation to the Hilbert endpoint, and $\tau$ gives the history transports.
+
+Repacking these projections returns the same source packet. Since the construction never leaves the displayed $\mathsf{BHist}$ package, the two dependency projections share one BEDC carrier surface.
+\end{proof}
+
+\begin{theorem}[GeomQuantization polarisation classifier stability]
+\label{thm:geomquantization-polarisation-classifier-stability}
+If two packets of \autoref{def:geomquantization-bhist-source-packet} are related by the carried $\hsame$ transports on their $\NameCert_{\SymplecticUp}$ source rows and by the same $\mathsf{Pkg}$ provenance, then transport of the polarisation classifier preserves the prequantum line-bundle row and the polarisation row, and the finite $\Cont$ readback lands in the transported $\NameCert_{\HilbertUp}$ row.
+\end{theorem}
+\begin{proof}
+Begin with the transported symplectic source rows. The packet lists $\tau$ as the transport family, so the source comparison is a BEDC history comparison rather than an equality of external symplectic manifolds.
+
+Apply the same transport family to the line-bundle row $L$ and the polarisation row $\Pi$. Because both rows are components of the same package, their transported versions remain attached to the transported source.
+
+Finally read the ledger $\lambda$. It is the finite $\Cont$ path from the transported source, line-bundle, polarisation, and metaplectic rows to the Hilbert endpoint. Repacking that endpoint through the $\NameCert_{\HilbertUp}$ dependency row proves classifier stability.
+\end{proof}
+
+\begin{theorem}[GeomQuantization ledger exactness]
+\label{thm:geomquantization-ledger-exactness}
+The $\GeomQuantizationUp$ ledger is exact for exactly the rows listed in \autoref{def:geomquantization-bhist-source-packet}: the $\NameCert_{\SymplecticUp}$ source row, the $\NameCert_{\HilbertUp}$ endpoint row, the prequantum line-bundle row, the polarisation classifier row, the metaplectic-correction ledger row, the finite $\Cont$ readback, the $\hsame$ transports, and the $\mathsf{Pkg}$ provenance. Coverage, soundness, and completeness range only over those rows and exclude host Hilbert-space construction and uncarried symplectic geometry.
+\end{theorem}
+\begin{proof}
+Coverage is projection from an accepted packet. Each accepted packet displays the two dependency rows, the line-bundle row, the polarisation row, the metaplectic ledger, the continuation readback, the transport family, and the provenance row.
+
+For soundness, take exactly such displayed rows with the dependency certificates attached. Repack them as the tuple $\mathcal{G}$, and the carrier definition accepts the resulting package.
+
+For completeness, suppose a public $\GeomQuantizationUp$ row is accepted. The carrier definition has no projection for a host Hilbert construction and no projection for uncarried symplectic data. Hence every public row is generated by the listed source, classifier, ledger, transport, continuation, and provenance rows.
+\end{proof}
+
+\begin{theorem}[GeomQuantization NameCert obligation surface]
+\label{thm:geomquantization-namecert-obligation-surface}
+The paper-side $\NameCert_{\GeomQuantizationUp}$ obligation surface consists of the carrier packet of \autoref{def:geomquantization-bhist-source-packet}, the shared dependency surface of \autoref{thm:geomquantization-source-dependency-surface}, the polarisation classifier stability row of \autoref{thm:geomquantization-polarisation-classifier-stability}, and the ledger exactness row of \autoref{thm:geomquantization-ledger-exactness}. Downstream consumers may project the symplectic dependency, Hilbert dependency, prequantum, polarisation, metaplectic, $\Cont$, $\hsame$, and $\mathsf{Pkg}$ rows, but no stronger geometric-quantization bridge is part of this surface.
+\end{theorem}
+\begin{proof}
+Assemble the carrier first. The definition supplies a finite $\mathsf{BHist}$ packet with the two dependency certificates, the prequantum row, the polarisation row, the metaplectic row, continuation readback, transport data, and provenance.
+
+Next use \autoref{thm:geomquantization-source-dependency-surface} to bind the $\NameCert_{\SymplecticUp}$ and $\NameCert_{\HilbertUp}$ projections to the same package. Use \autoref{thm:geomquantization-polarisation-classifier-stability} to keep the classifier stable under the carried $\hsame$ transports.
+
+Finally apply \autoref{thm:geomquantization-ledger-exactness}. Its coverage, soundness, and completeness clauses say that the public certificate is exhausted by the displayed rows. Repacking these rows gives the $\NameCert_{\GeomQuantizationUp}$ obligation surface and rules out any unlisted bridge data.
+\end{proof}
+
 \section{The certificate}
 \label{sec:geomquantization-certificate}

@@ -9,4 +9,33 @@ The matrix interface \(\MatrixUp\) has certificate obligations over a scalar rin
 \input{parts/concrete_instances/matrix/concrete_singleton_addmul_right_continuation}
 \input{parts/concrete_instances/matrix/orienting_paragraph}
 \input{parts/concrete_instances/matrix/the_certificate}
+
+\begin{theorem}[Matrix singleton empty public constructor surface]
+\label{thm:matrix-singleton-empty-public-constructor-surface}
+The singleton empty-history $\MatrixUp$ package exports the public constructor
+and readback rows for zero, identity, addition, multiplication, unit,
+associativity, congruence, and visible-factor exclusion over $A_{\emp}$,
+$\rho_{\emp}$, $\mathsf{BHist}$, $\Cont$, and $\hsame$. These rows are exactly
+the public surface available from the singleton certificate, and they expose no
+general finite-dimensional table API.
+\end{theorem}
+\begin{proof}
+Read the singleton data from
+\autoref{def:singleton-empty-history-matrix-instance}. It fixes the carrier
+$A_{\emp}$ over $\mathsf{BHist}$, the classifier $\rho_{\emp}$, and the
+empty-history endpoint used by the public readback rows.
+
+Apply \autoref{thm:singleton-empty-history-matrix-laws}. Its zero, identity,
+addition, multiplication, unit, associativity, and congruence rows are stated on
+the same $A_{\emp}$ and $\rho_{\emp}$ surface, with $\Cont$ and $\hsame$ carrying
+the endpoint transport. The visible-factor exclusion row is the same singleton
+classifier exclusion already recorded in the MatrixUp certificate surface.
+
+Finally use the MatrixUp closure block grounded at
+$\mathsf{BEDC.Derived.MatrixUp.MatrixSingletonCarrier\_semanticNameCert}$. That
+block identifies the chapter boundary as the singleton empty-history certificate
+and explicitly withholds a general finite-dimensional matrix carrier, so the
+public constructor surface is precisely the listed rows and no table API beyond
+them.
+\end{proof}
 \input{parts/concrete_instances/matrix/finite_fold_multiplication_laws}
