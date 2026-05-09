@@ -28,6 +28,23 @@ the character rows, and the evaluation rows. The finite ledger $\lambda$ is
 the $\Cont$ route containing only those displayed rows and their endpoint
 readbacks.
 \end{definition}
+\leandef{BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrumPairingCarrier}
+
+\begin{definition}[GelfandDuality spectrum transport package]
+\label{def:gelfandduality-spectrum-transport-package}
+A $\GelfandDualityUp$ spectrum transport package for
+\autoref{def:gelfandduality-spectrum-pairing-carrier} is the displayed
+$\mathsf{BHist}$ packet
+$$
+\mathcal{T}_{\mathcal{G}}=(A,X,\chi,\varepsilon,\rho_{A},\rho_{X},P,\lambda).
+$$
+The rows $A$ and $X$ are the transported algebra and compact-spectrum faces,
+$\chi$ and $\varepsilon$ are the transported character and evaluation rows,
+$\rho_{A}$ and $\rho_{X}$ are the two componentwise $\hsame$ transport rows,
+$P$ is the $\mathsf{Pkg}$ provenance for the shared spectrum pairing, and
+$\lambda$ is the $\Cont$ route carrying exactly those transported readbacks.
+The package exposes transport only through these displayed rows.
+\end{definition}
 
 \section{The certificate}
 \label{sec:gelfandduality-certificate}
@@ -42,6 +59,8 @@ the consumed $\NameCert_{\TopologyUp}$ row $X$, the character-evaluation
 rows, the componentwise $\hsame$ rows $\rho_{A},\rho_{X}$, the $\mathsf{Pkg}$
 row $P$, and the finite $\Cont$ route $\lambda$.
 \end{theorem}
+\leanchecked{BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrum\_source\_obligation}
+\leanvariant{BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrumPairingCarrier\_source\_obligation}
 \begin{proof}
 Project an accepted carrier to the tuple
 $\mathcal{G}=(A,X,\chi,\varepsilon,\rho_{A},\rho_{X},P,\lambda)$. The carrier
@@ -110,6 +129,61 @@ Since the carrier has no further topology row, no additional compact
 Hausdorff space or open-set basis can be imported by the consumer. The
 boundary is the displayed $\mathsf{BHist}$ spectrum face and its recorded
 $\NameCert_{\CStarAlgUp}$ dependency.
+\end{proof}
+
+\begin{theorem}[GelfandDuality spectrum transport exactness]
+\label{thm:gelfandduality-spectrum-transport-exactness}
+Every accepted transport of the spectrum pairing of
+\autoref{def:gelfandduality-spectrum-transport-package} projects exactly to the
+algebra face $A$, the topology face $X$, the character rows $\chi$, the
+evaluation rows $\varepsilon$, the two $\hsame$ rows $\rho_{A}$ and
+$\rho_{X}$, the $\mathsf{Pkg}$ provenance row $P$, and the continuation route
+$\lambda$. Conversely, those displayed rows repack as the transported
+$\GelfandDualityUp$ spectrum-pairing surface, with no second spectrum carrier,
+no hidden transform row, and no host compact-Hausdorff theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted transport to the tuple
+$\mathcal{T}_{\mathcal{G}}=(A,X,\chi,\varepsilon,\rho_{A},\rho_{X},P,\lambda)$.
+By \autoref{def:gelfandduality-spectrum-transport-package}, these are exactly
+the rows carried by the transport package.
+
+The algebraic projection is checked against
+\autoref{thm:gelfandduality-cstaralgebra-consumer-boundary}, and the
+topological projection is checked against
+\autoref{thm:gelfandduality-topology-consumer-boundary}. These two boundaries
+force the character and evaluation rows to remain attached to the shared
+algebra-topology packet.
+
+For the reverse direction, repack the displayed projections into the transport
+package. The provenance and continuation rows are already $P$ and $\lambda$,
+so there is no remaining public slot for an external spectrum construction.
+\end{proof}
+
+\begin{theorem}[GelfandDuality evaluation ledger determinacy]
+\label{thm:gelfandduality-evaluation-ledger-determinacy}
+Let two accepted evaluation reads in a $\GelfandDualityUp$ spectrum transport
+package have the same transported algebra row $A$, the same topology point row
+inside $X$, the same character row in $\chi$, and the same endpoint readback in
+$\varepsilon$. Then the public spectrum-pairing classifier identifies the two
+evaluation rows through the displayed $\hsame$ transport rows
+$\rho_{A},\rho_{X}$ and the finite $\Cont$ route $\lambda$. No second
+evaluation ledger can be exposed at that same transported slot.
+\end{theorem}
+\begin{proof}
+Project both evaluation reads through
+\autoref{def:gelfandduality-spectrum-transport-package}. The shared algebra
+row, topology point row, character row, and endpoint readback place both reads
+in the same displayed $\varepsilon$ slot.
+
+Apply \autoref{thm:gelfandduality-spectrum-transport-exactness}. Every accepted
+evaluation read is one of the evaluation rows in the transported package, and
+the only available comparison rows are $\rho_{A}$, $\rho_{X}$, and the
+readback route $\lambda$.
+
+Repacking those comparisons gives the public classifier identification. A
+second evaluation ledger would require another public row outside
+$\mathcal{T}_{\mathcal{G}}$, which the exactness theorem excludes.
 \end{proof}
 
 \begin{theorem}[GelfandDuality NameCert obligation surface]

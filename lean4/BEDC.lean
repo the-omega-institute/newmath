@@ -59,6 +59,7 @@ import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.BesselUp
+import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
@@ -80,6 +81,7 @@ import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
 import BEDC.Derived.GaloisExtUp.PublicLedgerCoverage
 import BEDC.Derived.GaloisExtUp.SourceClassifier
+import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
@@ -118,6 +120,7 @@ import BEDC.Derived.CurvatureUp.ManifoldBaseDependencyRow
 import BEDC.Derived.CurvatureUp.BundleFibreDependencyRow
 import BEDC.Derived.CurvatureUp.ConnectionDerivativeDependencyRow
 import BEDC.Derived.CurvatureUp.ExportDeterminacy
+import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
@@ -450,6 +453,7 @@ import BEDC.Derived.TopGroupUp.OperationSourceContinuity
 import BEDC.Derived.TopGroupUp.OperationContinuityLedgerScope
 import BEDC.Derived.TopGroupUp.OperationLedgerConsumerBoundary
 import BEDC.Derived.TopGroupUp.SourceCompatibility
+import BEDC.Derived.TopGroupUp.ObligationSurfaceCertificate
 import BEDC.Derived.TopGroupUp.RootSourceCompatibility
 import BEDC.Derived.TopGroupUp.RootCarrierObligations
 import BEDC.Derived.TopGroupUp.PublicNamecertReadbackExactness
@@ -499,6 +503,7 @@ import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.ContourIntegralUp
+import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.TensorProductUp
