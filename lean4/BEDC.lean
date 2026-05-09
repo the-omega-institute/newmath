@@ -64,6 +64,7 @@ import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.IntUp.ZeroRepresentative
 import BEDC.Derived.IntUp.StdBridge
+import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.ErrorCodeUp
@@ -110,8 +111,6 @@ import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
-import BEDC.Derived.RegulatorUp
-import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
@@ -240,7 +239,6 @@ import BEDC.Derived.ComplexLimitUp.SourceSpec
 import BEDC.Derived.MeasureUp
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralTheoremUp
-import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.IntegralUp
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
@@ -384,6 +382,7 @@ import BEDC.Derived.TopologyUp.PublicWitness
 import BEDC.Derived.TopologyUp.PublicWitnesses
 import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.TopgroupUp
+import BEDC.Derived.TopGroupUp
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -428,7 +427,6 @@ import BEDC.Derived.DiffFormUp.ZeroDegreeEmptyProbe
 import BEDC.Derived.DiffFormUp.ExteriorInputRootClosure
 import BEDC.Derived.DiffFormUp.SemanticCertificate
 import BEDC.Derived.DiffFormUp.ZeroDegreeConsumerNeutrality
-import BEDC.Derived.DeRhamUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
@@ -460,11 +458,10 @@ import BEDC.Derived.FieldExtUp.RatReflexiveSourcePattern
 import BEDC.Derived.FieldExtUp.RatReflexiveCertificateObligations
 import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
+import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.FullAxisSealUp
-import BEDC.Derived.SeparableExtUp
-import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.SeparabilityObligationRow
 import BEDC.Derived.GaloisExtUp.SharedCarrierCoverage
 import BEDC.Derived.GaloisGroupUp
@@ -479,8 +476,8 @@ import BEDC.Derived.NumFieldUp.DegreeOneBasis
 import BEDC.Derived.NumFieldUp.EmbeddingCoordinateProductCompatibility
 import BEDC.Derived.NumFieldUp.SingletonBasisSupport
 import BEDC.Derived.NumFieldUp.DegreeOneCoordinate
-import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.QuadratureUp
+import BEDC.Derived.RegulatorUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.PublicKeyUp
@@ -488,6 +485,7 @@ import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.QuantumChannelUp
 import BEDC.Derived.IdealUp
 import BEDC.Derived.IdealClassUp
+import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.IdealUp.AbsorptionClosure
 import BEDC.Derived.IdealUp.AmbientCarrier
 import BEDC.Derived.IdealUp.QuotientKernel
@@ -503,7 +501,6 @@ import BEDC.Derived.ModNUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
-import BEDC.Derived.GaloisGroupUp
 import BEDC.Derived.FilterUp
 import BEDC.Derived.ContinuousUp.SemanticCertificate
 import BEDC.Derived.ContinuousMapUp.PublicExport
@@ -593,13 +590,10 @@ import BEDC.Derived.ManifoldUp.StdBridge
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.PolynomialUp.StdBridge
-import BEDC.Derived.SeparableExtUp
-import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
 import BEDC.Derived.HilbertUp.ProjectionBridge
-import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.FpsUp.CauchyProductSemigroup
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy

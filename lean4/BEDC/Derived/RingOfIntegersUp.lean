@@ -1,3 +1,4 @@
+import BEDC.Derived.IntUp
 import BEDC.Derived.NumFieldUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
@@ -9,13 +10,14 @@ import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.RingOfIntegersUp
 
+open BEDC.Derived.IntUp
+open BEDC.Derived.NumFieldUp
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
-open BEDC.Derived.NumFieldUp
 
 def RingOfIntegersDedekindSourceCarrier [AskSetup] [PackageSetup]
     (numfield embeddedInt embedding equationLedger classifier provenance contLedger endpoint : BHist)
@@ -110,5 +112,47 @@ theorem RingOfIntegersDedekindSourceCarrier_equation_ledger_transport_closure
                                             (And.intro targetLedgerCont
                                               (And.intro targetPkgCont targetPkgSig)))))))
                                 (And.intro sameControw samePkgrow)
+
+def RingOfIntegersClassifierTransportCarrier [AskSetup] [PackageSetup]
+    (num embedded embedding equation classifier contRow provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  IntCarrier BEDC.FKernel.Mark.BMark.b0 embedded ∧ Cont embedded num embedding ∧
+    Cont embedding equation contRow ∧ hsame classifier contRow ∧
+      Cont provenance contRow endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem RingOfIntegersDedekindSourceCarrier_classifier_transport [AskSetup] [PackageSetup]
+    {num embedded embedding equation classifier contRow provenance endpoint embedded'
+      embedding' contRow' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RingOfIntegersClassifierTransportCarrier num embedded embedding equation classifier contRow
+        provenance endpoint bundle pkg ->
+      hsame embedded embedded' ->
+        Cont embedded' num embedding' ->
+          Cont embedding' equation contRow' ->
+            Cont provenance contRow' endpoint' ->
+              PkgSig bundle endpoint' pkg ->
+                RingOfIntegersClassifierTransportCarrier num embedded' embedding' equation
+                    classifier contRow' provenance endpoint' bundle pkg ∧
+                  hsame embedding embedding' ∧ hsame contRow contRow' := by
+  intro carrier sameEmbedded embeddingCont' contRowCont' endpointCont' pkgSig'
+  have embeddedCarrier' :
+      IntCarrier BEDC.FKernel.Mark.BMark.b0 embedded' :=
+    IntCarrier_magnitude_hsame_transport carrier.left sameEmbedded
+  have sameEmbedding : hsame embedding embedding' :=
+    cont_respects_hsame sameEmbedded (hsame_refl num) carrier.right.left embeddingCont'
+  have sameContRow : hsame contRow contRow' :=
+    cont_respects_hsame sameEmbedding (hsame_refl equation) carrier.right.right.left
+      contRowCont'
+  have sameClassifierContRow' : hsame classifier contRow' :=
+    hsame_trans carrier.right.right.right.left sameContRow
+  have carrier' :
+      RingOfIntegersClassifierTransportCarrier num embedded' embedding' equation classifier
+        contRow' provenance endpoint' bundle pkg :=
+    And.intro embeddedCarrier'
+      (And.intro embeddingCont'
+        (And.intro contRowCont'
+          (And.intro sameClassifierContRow'
+            (And.intro endpointCont' pkgSig'))))
+  exact And.intro carrier' (And.intro sameEmbedding sameContRow)
 
 end BEDC.Derived.RingOfIntegersUp

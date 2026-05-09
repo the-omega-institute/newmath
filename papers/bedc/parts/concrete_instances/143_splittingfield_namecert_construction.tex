@@ -55,6 +55,7 @@ classifier. Since no carrier field names a quotient field, algebraic
 closure, or host root outside $R$, those objects cannot be public classifier
 data.
 \end{proof}
+\leanchecked{BEDC.Derived.SplittingFieldUp.SplittingFieldRootCarrierPacket\_classifier\_obligation}
 
 \begin{theorem}[SplittingFieldUp root ledger obligation]
 \label{thm:splittingfield-root-ledger-obligation}
@@ -142,6 +143,7 @@ transport row $H$ along $\hsame$. The transported classifier keeps the same
 factorization ledger $C$ and the same provenance packet $\Pi$, and it exports
 no quotient field, algebraic closure, or host polynomial-root object.
 \end{theorem}
+\leanchecked{BEDC.Derived.SplittingFieldUp.SplittingFieldRootCarrierPacket\_root\_classifier\_transport}
 \begin{proof}
 Project the classifier through
 \autoref{thm:splittingfield-root-classifier-obligation}. Its public data are
@@ -187,7 +189,6 @@ transport, continuation, and provenance entries, then repack through
 \autoref{def:splittingfield-root-carrier-packet}. The result is the same
 public factorization packet and adds no host-level factor source.
 \end{proof}
-
 \begin{theorem}[SplittingFieldUp Cyclotomic consumer source boundary]
 \label{thm:splittingfield-cyclotomic-consumer-source-boundary}
 A $\CyclotomicUp$ consumer reading from $\SplittingFieldUp$ may consume exactly
@@ -219,13 +220,13 @@ field, algebraic closure, host root set, or host factorization source is
 available unless it is represented by one of $E,P,R,F,C,H,\Pi$.
 \end{proof}
 
-\closureat{SplittingFieldUp}{obligationStr}
+\closureat{SplittingFieldUp}{scopedStr}
 
 \begin{closurestatus}{\SplittingFieldUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope consists of the root carrier packet, FieldExtUp source row, PolynomialUp row, root endpoints, factor rows, $\Cont$ factorization ledger, $\hsame$ transport, and $\Pkg$ provenance.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The closed scope is exactly the FieldExtUp source row, PolynomialUp row, root endpoints, factor rows, $\Cont$ factorization ledger, $\hsame$ transport, $\Pkg$ provenance, and the Cyclotomic and algebraic-field consumer boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{No quotient-field carrier, algebraic-closure carrier, host root set, or standard bridge is claimed.}
-  \upgradepath{Scoped closure requires binding these obligations to the exact consumer scope for CyclotomicUp and algebraic-field users.}
+  \upgradepath{Public closure requires a public SplittingFieldUp interface theorem exported from the scoped root and consumer rows.}
 \end{closurestatus}

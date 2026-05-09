@@ -195,4 +195,52 @@ theorem CyclotomicRootClassifier_trans [AskSetup] [PackageSetup]
             · exact hsame_trans classified01.right.right.right.right.right.right
                 classified12.right.right.right.right.right.right
 
+theorem CyclotomicRootClassifier_downstream_consumer_transport [AskSetup] [PackageSetup]
+    {numField0 exponent0 polynomial0 splittingField0 primitiveRoot0 acceptance0 comparison0
+      provenance0 ledger0 numField1 exponent1 polynomial1 splittingField1 primitiveRoot1
+      acceptance1 comparison1 provenance1 ledger1 action0 action1 : BHist}
+    {bundle0 bundle1 : ProbeBundle ProbeName} {pkg0 pkg1 : Pkg} :
+    CyclotomicRootClassifier numField0 exponent0 polynomial0 splittingField0 primitiveRoot0
+        acceptance0 comparison0 provenance0 ledger0 numField1 exponent1 polynomial1
+        splittingField1 primitiveRoot1 acceptance1 comparison1 provenance1 ledger1 bundle0 bundle1
+        pkg0 pkg1 ->
+      Cont ledger0 provenance0 action0 ->
+        Cont ledger1 provenance1 action1 ->
+          UnaryHistory action0 ∧ UnaryHistory action1 ∧ hsame action0 action1 ∧
+            PkgSig bundle0 ledger0 pkg0 ∧ PkgSig bundle1 ledger1 pkg1 := by
+  intro classified actionCont0 actionCont1
+  have sourceRows0 :=
+    CyclotomicRootCarrier_source_triad_obligation (bundle := bundle0) (pkg := pkg0)
+      classified.left
+  have sourceRows1 :=
+    CyclotomicRootCarrier_source_triad_obligation (bundle := bundle1) (pkg := pkg1)
+      classified.right.left
+  have sameProvenance : hsame provenance0 provenance1 :=
+    cont_respects_hsame classified.right.right.left
+      classified.right.right.right.right.right.left
+      classified.left.right.right.right.right.right.left
+      classified.right.left.right.right.right.right.right.left
+  have sameAcceptance : hsame acceptance0 acceptance1 :=
+    cont_respects_hsame classified.right.right.right.left
+      classified.right.right.right.right.left
+      classified.left.right.right.right.right.right.right.left
+      classified.right.left.right.right.right.right.right.right.left
+  have sameLedger : hsame ledger0 ledger1 :=
+    cont_respects_hsame sameAcceptance classified.right.right.right.right.right.right
+      classified.left.right.right.right.right.right.right.right.left
+      classified.right.left.right.right.right.right.right.right.right.left
+  have action0Unary : UnaryHistory action0 :=
+    unary_cont_closed sourceRows0.right.right.right.right.right.left
+      sourceRows0.right.right.right.left actionCont0
+  have action1Unary : UnaryHistory action1 :=
+    unary_cont_closed sourceRows1.right.right.right.right.right.left
+      sourceRows1.right.right.right.left actionCont1
+  have sameAction : hsame action0 action1 :=
+    cont_respects_hsame sameLedger sameProvenance actionCont0 actionCont1
+  exact And.intro action0Unary
+    (And.intro action1Unary
+      (And.intro sameAction
+        (And.intro sourceRows0.right.right.right.right.right.right.right.right.right
+          sourceRows1.right.right.right.right.right.right.right.right.right)))
+
 end BEDC.Derived.CyclotomicUp
