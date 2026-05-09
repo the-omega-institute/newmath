@@ -15,6 +15,7 @@ $$
 
 \begin{definition}[Metric recognizer family]
 \label{def:metrics-recognizer-family}
+\leandef{BEDC.GroundCompiler.MetricsFlow.MetricRecognizerFamily}
 A \emph{metric recognizer family} is a finite family of generated recognizer flows
 $$
   \mathcal R=(R_1,\ldots,R_k),
@@ -24,7 +25,8 @@ where each $R_i$ is certified for some structure used by the metric, such as fin
 
 \begin{definition}[Metric admissibility]
 \label{def:metrics-admissibility}
-A metric $M$ is \emph{admissible} for a recognizer family $\mathcal R$ when $M(S)$ depends only on:
+\leandef{BEDC.GroundCompiler.MetricsFlow.MetricAdmissible}
+A metric specification records a finite list of data sources. A metric $M$ is \emph{admissible} for a recognizer family $\mathcal R$ when every recorded source for $M(S)$ is one of:
 \begin{enumerate}
 \item the decoded source event flow $S$;
 \item motif occurrences recognized by $\mathcal R$;
@@ -39,6 +41,7 @@ It may not depend on channel-substring search, external object names, YAML field
 
 \begin{principle}[No external metric input]
 \label{prin:metrics-no-external-input}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.no\_external\_metric\_input}
 Every theory metric must be event-flow-derived. A metric depending on external object names, host tags, YAML fields, manual theorem grouping, or unrecognized semantic labels is not a BEDC-admissible metric.
 \end{principle}
 
