@@ -145,3 +145,40 @@ rather than analytic values. Repacking the carrier, dependency, classifier,
 ledger, readback, and provenance rows gives the stated root threshold, with no
 additional host determinant, logarithm, or bridge row to export.
 \end{proof}
+
+\begin{theorem}[Regulator dependency-ledger factorization]
+\label{thm:regulator-dependency-ledger-factorization}
+Every public read of the root $\NameCert_{\RegulatorUp}$ threshold factors
+through exactly three rows: the $\DirichletUnitUp$ projection of
+\autoref{thm:regulator-dirichletunit-input-boundary}, the $\NumFieldUp$
+projection of \autoref{thm:regulator-numfield-carrier-boundary}, and the
+finite determinant/logarithm layout ledger of
+\autoref{thm:regulator-ledger-exactness}. The factorization exports the
+finite $\mathsf{BHist}$, $\Cont$, $\hsame$, $\NameCert$, and $\mathsf{Pkg}$
+rows of those three sources, and it excludes analytic regulator values, host
+determinant evaluation, host logarithm equality, and standard bridge rows.
+\end{theorem}
+\begin{proof}
+Project the packet fields from \autoref{def:regulator-root-input-packet}. The
+root threshold reads the two dependency certificates, the visible unit-facing
+entries, the number-field source entries, the determinant-layout entry, the
+finite readbacks, and the package provenance.
+
+Apply \autoref{thm:regulator-dirichletunit-input-boundary} and
+\autoref{thm:regulator-numfield-carrier-boundary}. These two boundary
+theorems identify the dependency-facing rows that can be read from the packet:
+the $\DirichletUnitUp$ unit, inverse, rank, logarithmic, readback, and
+provenance rows, and the $\NumFieldUp$ carrier, classifier,
+finite-extension, singleton-basis, scalar-action, exactness, ledger, and
+provenance rows.
+
+Now apply \autoref{thm:regulator-ledger-exactness}. It isolates the remaining
+determinant/logarithm information as the finite displayed layout over the
+Dirichlet-unit rank and logarithmic rows and the number-field source ledger.
+
+Repack the three projected sources as the public threshold surface. Since
+\autoref{def:regulator-root-input-packet} has no field for an analytic
+regulator value, host determinant evaluation, host logarithm equality, or
+standard bridge, no public read of $\NameCert_{\RegulatorUp}$ can factor
+through such a row.
+\end{proof}
