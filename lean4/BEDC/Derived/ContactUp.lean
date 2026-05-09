@@ -117,7 +117,35 @@ theorem ContactCarrierClassifierSurface_top_wedge_transport_with_wedge
       (And.intro surface.right.left
         (And.intro surface.right.right.left
           (And.intro surface.right.right.right.left topRow))))
-      (And.intro topUnary topWedge)
+    (And.intro topUnary topWedge)
+
+theorem ContactCarrierClassifierSurface_public_namecert_export
+    {manifold form derivative wedge top top' tail : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      hsame top top' ->
+        hsame wedge (BHist.e1 tail) ->
+          ContactCarrierClassifierSurface manifold form derivative wedge top' ∧
+            UnaryHistory form ∧ UnaryHistory derivative ∧ UnaryHistory wedge ∧
+              UnaryHistory top' ∧ hsame top' wedge ∧
+                (hsame top' BHist.Empty -> False) := by
+  intro surface sameTop sameWedgeVisible
+  have transported :=
+    ContactCarrierClassifierSurface_top_wedge_transport_with_wedge surface sameTop
+  have rows :=
+    ContactCarrierClassifierSurface_form_row_obligation transported.left
+  have topNonempty : hsame top' BHist.Empty -> False := by
+    intro topEmpty
+    have wedgeEmpty : hsame wedge BHist.Empty :=
+      hsame_trans (hsame_symm transported.right.right) topEmpty
+    have visibleEmpty : hsame (BHist.e1 tail) BHist.Empty :=
+      hsame_trans (hsame_symm sameWedgeVisible) wedgeEmpty
+    exact not_hsame_e1_empty visibleEmpty
+  exact And.intro transported.left
+    (And.intro rows.right.right.left
+      (And.intro rows.right.right.right.left
+        (And.intro rows.right.right.right.right.left
+          (And.intro transported.right.left
+            (And.intro transported.right.right topNonempty)))))
 
 theorem ContactCarrierClassifierSurface_top_wedge_transport
     {manifold form derivative wedge top top' : BHist} :
