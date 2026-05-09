@@ -321,6 +321,9 @@ def ListContains {α : Type} [DecidableEq α] (x : α) : List α -> Bool
   | [] => false
   | y :: ys => if x = y then true else ListContains x ys
 
+def MotifOverlap (left right : List MotifOccurrence) : List MotifOccurrence :=
+  left.filter (fun occ => ListContains occ right)
+
 def ListIntersectionCount {α : Type} [DecidableEq α] (xs ys : List α) : Nat :=
   (xs.filter (fun x => ListContains x ys)).length
 
@@ -600,12 +603,24 @@ theorem cannot_claims_required_for_nontrivial_reports {report : MetricReport} :
   intro hGuard hNontrivial
   exact hGuard hNontrivial
 
+theorem metric_report_requires_cannot_claim_sections {report : MetricReport} :
+    CannotClaimGuardedReport report ->
+      NontrivialMetricReport report ->
+        ReportHasCannotClaimEntry report :=
+  cannot_claims_required_for_nontrivial_reports
+
 theorem metrics_conservativity {_report : MetricReport} {S : EventFlow}
     {w : RawEvent} {m : DisplayAlphabet} :
     List.Mem S _report.sourceFlows -> List.Mem w S -> List.Mem m w ->
       m = BMark.b0 \/ m = BMark.b1 := by
   intro _ hEvent hMark
   exact event_flow_conservativity hEvent hMark
+
+theorem p4_conservative_over_finite_kernel {_report : MetricReport}
+    {S : EventFlow} {w : RawEvent} {m : DisplayAlphabet} :
+    List.Mem S _report.sourceFlows -> List.Mem w S -> List.Mem m w ->
+      m = BMark.b0 \/ m = BMark.b1 :=
+  metrics_conservativity
 
 theorem metrics_cannot_replace_certificates :
     exists report : MetricReport, exists S : EventFlow,
