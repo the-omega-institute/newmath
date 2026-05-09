@@ -212,6 +212,7 @@ is the largest $k$ such that $s_i=t_i$ for every $0\le i<k$.
 
 \begin{definition}[Recognized prefix overlap]
 \label{def:metric-report-recognized-prefix-overlap}
+\leandef{BEDC.GroundCompiler.MetricsFlow.RecognizedPrefixOverlap}
 The \emph{recognized prefix overlap} of $S$ and $T$ is the set of shared recognized prefix motif records. Sharing requires the same support shape, same motif role, ledger-compatible evidence, and either the same recognizer family or recognized compatible recognizers.
 \end{definition}
 
@@ -316,6 +317,7 @@ $$
 
 \begin{definition}[Undefined metric item]
 \label{def:metric-report-undefined-item}
+\leandef{BEDC.GroundCompiler.MetricsFlow.UndefinedMetricItem}
 An \emph{undefined metric item} records why a metric is undefined: recognizer missing, ledger missing, classifier exactness missing, normalizer missing, division by zero unresolved by protocol, candidate-only evidence, or unresolved bootstrap obligation.
 \end{definition}
 
@@ -326,6 +328,7 @@ If a metric is inadmissible or undefined, the report must record an undefined me
 
 \begin{theorem}[Silent zero is unsound]
 \label{thm:metric-report-silent-zero-unsound}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.silent\_zero\_unsound}
 If a metric is undefined because a recognizer is missing, but the report records it as $0$, then the metric report is unsound.
 \end{theorem}
 

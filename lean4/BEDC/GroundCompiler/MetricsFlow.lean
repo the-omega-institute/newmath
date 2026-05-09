@@ -190,6 +190,16 @@ inductive MotifCountStatus : Type where
   | recognizerMissing
   deriving DecidableEq
 
+inductive UndefinedMetricItem : Type where
+  | recognizerMissing
+  | ledgerMissing
+  | classifierExactnessMissing
+  | normalizerMissing
+  | divisionByZeroUnresolved
+  | candidateOnlyEvidence
+  | unresolvedBootstrapObligation
+  deriving DecidableEq
+
 def RecognizedMotifCountStatus
     (profile : Option (List MotifOccurrence)) (role : EventFlow) :
     MotifCountStatus :=
@@ -216,6 +226,10 @@ theorem missing_recognizer_not_zero {role : EventFlow} :
     Not (RecognizedMotifCountStatus none role = MotifCountStatus.recognized 0) := by
   intro h
   cases h
+
+theorem silent_zero_unsound {role : EventFlow} :
+    Not (RecognizedMotifCountStatus none role = MotifCountStatus.recognized 0) :=
+  missing_recognizer_not_zero
 
 def SealDepth (profile : List MotifOccurrence) (sealRole : EventFlow) : Nat :=
   MotifMultiplicity profile sealRole
