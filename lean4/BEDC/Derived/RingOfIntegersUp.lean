@@ -251,4 +251,34 @@ theorem RingOfIntegersDedekindSourceCarrier_classifier_transport [AskSetup] [Pac
             (And.intro endpointCont' pkgSig'))))
   exact And.intro carrier' (And.intro sameEmbedding sameContRow)
 
+theorem RingOfIntegersDedekindSourceCarrier_scoped_bhist_source_binding [AskSetup]
+    [PackageSetup]
+    {numfield embeddedInt embedding equationLedger classifier provenance contLedger endpoint
+      embeddedInt' embedding' contLedger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RingOfIntegersClassifierTransportCarrier numfield embeddedInt embedding equationLedger
+        classifier contLedger provenance endpoint bundle pkg ->
+      hsame embeddedInt embeddedInt' ->
+        Cont embeddedInt' numfield embedding' ->
+          Cont embedding' equationLedger contLedger' ->
+            Cont provenance contLedger' endpoint' ->
+              PkgSig bundle endpoint' pkg ->
+                IntCarrier BEDC.FKernel.Mark.BMark.b0 embeddedInt' ∧
+                  hsame embedding embedding' ∧ hsame contLedger contLedger' ∧
+                    hsame endpoint endpoint' := by
+  intro carrier sameEmbedded embeddingRow' contLedgerRow' endpointRow' _pkgSig'
+  have embeddedCarrier' :
+      IntCarrier BEDC.FKernel.Mark.BMark.b0 embeddedInt' :=
+    IntCarrier_magnitude_hsame_transport carrier.left sameEmbedded
+  have sameEmbedding : hsame embedding embedding' :=
+    cont_respects_hsame sameEmbedded (hsame_refl numfield) carrier.right.left embeddingRow'
+  have sameContLedger : hsame contLedger contLedger' :=
+    cont_respects_hsame sameEmbedding (hsame_refl equationLedger) carrier.right.right.left
+      contLedgerRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameContLedger
+      carrier.right.right.right.right.left endpointRow'
+  exact And.intro embeddedCarrier'
+    (And.intro sameEmbedding (And.intro sameContLedger sameEndpoint))
+
 end BEDC.Derived.RingOfIntegersUp

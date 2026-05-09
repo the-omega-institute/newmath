@@ -258,6 +258,19 @@ theorem DeRhamStandardBoundaryBridgePacket_classifier_transport
       exact And.intro boundaryTheta'
         (And.intro sameTheta'Zero (And.intro boundary.right.right sameBridge))
 
+theorem DeRhamStandardBoundaryBridgePacket_consumer_readback
+    {d : BHist -> BHist} {omega eta theta zero provenance bridge consumer : BHist} :
+    DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
+      Cont bridge zero consumer ->
+        DeRhamBoundary d theta ∧ hsame theta zero ∧ hsame (d eta) BHist.Empty ∧
+          hsame consumer (append bridge zero) ∧ Cont provenance theta bridge := by
+  intro packet consumerRow
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
+  exact And.intro boundary.right.left
+    (And.intro boundary.left
+      (And.intro boundary.right.right
+        (And.intro consumerRow packet.right)))
+
 theorem DeRhamBoundarySourceLedgerPacket_endpoint_transport
     {d : BHist -> BHist} {omega eta theta theta' zero graphLedger endpointLedger : BHist} :
     DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger ->
