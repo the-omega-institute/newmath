@@ -517,6 +517,51 @@ metric-completeness, Classical, and standard-bridge data, a downstream use of
 the seal cannot consume any such row.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window seal source pullback]
+\label{thm:regseqrat-finite-window-seal-source-pullback}
+Let two downstream L10 seal uses of $\RealUp$ cite
+\autoref{thm:realup-public-certificate-export}. Suppose both uses restrict
+their public seal to the same certified finite $\StreamNameUp$ window $U$ and
+there carry matching $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows,
+matching $\RegSeqRat$ spine rows, matching endpoint
+$\mathsf{DyadicRatCoreObservationRow}$ witnesses, and matching displayed
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows. Then the
+finite $\RegSeqRat$ seal-source package induced by either use and the finite
+$\RealUp$ readback packet induced by either use are the same public
+$\mathsf{BHist}$
+source surface over $U$.
+
+This pullback uses only DyadicRatCore observation rows, the certified
+$\StreamNameUp$ finite window, the $\RegSeqRat$ spine rows, displayed
+$\hsame/\Cont/\Pkg$ provenance, and the finite $\RealUp$ ledger boundary. It
+does not export quotient data, completion data, metric-completeness rows,
+arithmetic rows, order rows, Classical representatives, or standard-bridge
+rows.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:realup-public-seal-source-determinacy} to both
+downstream seal uses. Each use can read only the displayed DyadicRatCore,
+$\StreamNameUp$, $\RegSeqRat$, and named $\RealUp$ rows from
+\autoref{thm:realup-public-certificate-export}.
+
+Next factor the common stream-name restriction through
+\autoref{thm:streamname-real-regseq-overlap-unique-source}. The matching
+finite-window classifier rows, probe window, endpoint observation rows, and
+displayed $\hsame$ transports identify one $\StreamNameUp$ source surface on
+$U$ for every induced $\RegSeqRat$ handoff.
+
+Now apply \autoref{thm:realup-streamname-regseqrat-common-window-pullback}.
+The matching $\RegSeqRat$ spine, DyadicRatCore endpoints, $\Cont/\Pkg$
+provenance, and finite $\mathsf{RealLedgerPolicy}$ rows identify the two
+restricted $\RealUp$ readback packets with that same finite $\mathsf{BHist}$
+packet.
+
+The finite ledger boundary then repacks the common packet as the public source
+surface read by both L10 consumers. Since every step has already excluded
+quotient, completion, metric-completeness, arithmetic, order, Classical, and
+standard-bridge rows, no additional source row is available in the pullback.
+\end{proof}
+
 \begin{theorem}[RealUp public export through the StreamNameUp public interface]
 \label{thm:realup-public-export-through-streamname-public-interface}
 The public $\NameCert_{\RealUp}$ surface of
