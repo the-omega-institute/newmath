@@ -14220,3 +14220,27 @@ Rationale:
 Preorder (27_, 772 lines, near cap) has only the existing `preorder/terminal_endpoint_order_surface.tex` (85 lines) and `preorder/closure_status.tex` (9 lines) child files. The hub establishes the abstract preorder opposite construction (line 700-719) and the terminal endpoint-order surface (line 721-769); no theorem instantiates the opposite construction on the terminal endpoint-order surface. Single-implication, follows from the surface's symmetric definition $\preceq_{\emp}(h,k) \Leftrightarrow A_{\emp}(h) \land A_{\emp}(k)$ being unchanged under endpoint swap. Should be added as a new sibling file `preorder/opposite_terminal_endpoint_order.tex` rather than appending to the near-cap hub. Fills the 'op-instance' gap that demonstrates the opposite construction is well-defined on the closed surface.
 
 ---
+
+### B-559 - RealAnalytic CosPart at empty input is identically the constant-one stream
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RealAnalytic CosPart at empty input is identically the constant-one stream |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+If a $\RealUp$ history $x$ is classified to $\emp$ and supplied limit witness $\mathsf{Cos}(x,c)$ together with limit-uniqueness rows comparing $\mathsf{CosPart}(x,\cdot,\cdot)$ with the constant-one rational stream are present, then $\mathsf{RealClassifier}(c, \Eone(\emp))$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/52_real_analytic_namecert_construction.tex`
+
+Rationale:
+Belongs to the Real Analytic chapter. Textbook standard: Apostol, *Mathematical Analysis*, §8.21 (cosine series) treats $\cos 0=1$ as the very first trigonometric value; Rudin *Principles of Mathematical Analysis*, §8.7 likewise. Currently the chapter only states the addition formula (line 535-558), the Pythagorean identity (line 387-395), and sin-pi-multiples (line 397-405) — and the latter explicitly assumes 'supplied limit-uniqueness classifier rows for the base values $\sin(0)$ and $\sin(\mathsf{Pi})$' (line 399), confirming neither base value is internally established. Closes in 1-3 codex rounds: at $x=\emp$, the recursive definition of $\mathsf{CosPart}$ (line 369-371) gives $C_0 = 1$, and every successor term contains the factor $x^{2k} = 0$ for $k\ge 1$ (zero-power vanishing under $\RealAlgOrder$ multiplication rows already cited in line 326). Infrastructure already present: $\RealAlgOrder$ rows for products and powers, unary factorial denominators, supplied $\RealUp$ limit and uniqueness rows. The lemma uses the same shape as the existing exp-additivity (line 324) and Pythagorean (line 387) theorems.
+
+---
