@@ -1,6 +1,7 @@
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
 
@@ -10,6 +11,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -158,5 +160,67 @@ theorem HypergeometricBHistSourcePacket_root_ledger [AskSetup] [PackageSetup]
       packet.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right.right⟩
+
+theorem HypergeometricBHistSourcePacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {complex gamma numerator denominator coeff readback provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HypergeometricBHistSourcePacket complex gamma numerator denominator coeff readback provenance
+        ledger endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) (fun row : BHist => hsame row endpoint)
+          hsame ∧
+        UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont numerator denominator coeff ∧
+          Cont coeff readback ledger ∧ Cont provenance ledger endpoint ∧
+            PkgSig bundle endpoint pkg := by
+  intro packet
+  have rows := HypergeometricBHistSourcePacket_root_ledger packet
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) (fun row : BHist => hsame row endpoint)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (hsame_refl endpoint)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        exact hsame_trans (hsame_symm sameRows) sourceRow
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact
+    ⟨cert, rows.right.left, rows.right.right.left, rows.right.right.right.left,
+      rows.right.right.right.right.left, rows.right.right.right.right.right.left,
+      rows.right.right.right.right.right.right.right.right⟩
+
+theorem HypergeometricBHistSourcePacket_signature_gap_boundary [AskSetup] [PackageSetup]
+    {complex gamma numerator denominator coeff readback provenance ledger endpoint gap : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HypergeometricBHistSourcePacket complex gamma numerator denominator coeff readback provenance
+        ledger endpoint bundle pkg ->
+      Cont endpoint ledger gap ->
+        UnaryHistory gap ∧ hsame gap (append endpoint ledger) ∧
+          hsame ledger (append coeff readback) ∧ hsame endpoint (append provenance ledger) ∧
+            PkgSig bundle endpoint pkg := by
+  intro packet gapRow
+  have rows := HypergeometricBHistSourcePacket_root_ledger packet
+  have gapUnary : UnaryHistory gap :=
+    unary_cont_closed rows.right.right.left rows.right.left gapRow
+  exact
+    ⟨gapUnary, gapRow, rows.right.right.right.right.right.right.left,
+      rows.right.right.right.right.right.right.right.left,
+      rows.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.HypergeometricUp
