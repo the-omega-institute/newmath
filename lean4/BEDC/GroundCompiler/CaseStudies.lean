@@ -238,4 +238,55 @@ theorem completion_skeleton_ledger_dependent
   intro hNoLedger hRecognized
   exact hNoLedger hRecognized.right.right.right.right.right.right
 
+def sameDisplayMark : DisplayAlphabet -> DisplayAlphabet -> Bool
+  | BMark.b0, BMark.b0 => true
+  | BMark.b1, BMark.b1 => true
+  | _, _ => false
+
+def sameRawEvent : RawEvent -> RawEvent -> Bool
+  | [], [] => true
+  | m :: ms, n :: ns =>
+      match sameDisplayMark m n with
+      | true => sameRawEvent ms ns
+      | false => false
+  | _, _ => false
+
+def PrefixLen : EventFlow -> EventFlow -> Nat
+  | [], _ => 0
+  | _, [] => 0
+  | w :: ws, v :: vs =>
+      match sameRawEvent w v with
+      | true => Nat.succ (PrefixLen ws vs)
+      | false => 0
+
+def RecognizedMotifOverlap
+    (S T : EventFlow) (R : GeneratedMotifRecognizer) (M : EventFlow)
+    (mu : MotifRole) : Prop :=
+  RecognizesMotif R S M mu /\ RecognizesMotif R T M mu
+
+structure SkeletonOverlap (S T : EventFlow) where
+  rawPrefixOverlap : Nat
+  rawPrefixOverlap_eq : rawPrefixOverlap = PrefixLen S T
+  motifOverlap : GeneratedMotifRecognizer -> EventFlow -> MotifRole -> Prop
+  motifOverlap_iff :
+    forall R M mu, motifOverlap R M mu <-> RecognizedMotifOverlap S T R M mu
+
+def skeletonOverlap (S T : EventFlow) : SkeletonOverlap S T where
+  rawPrefixOverlap := PrefixLen S T
+  rawPrefixOverlap_eq := rfl
+  motifOverlap := RecognizedMotifOverlap S T
+  motifOverlap_iff := by
+    intro R M mu
+    rfl
+
+theorem fold_completion_prefix :
+    PrefixLen FoldSkeleton CompletionSkeleton = 2 := by
+  rfl
+
+theorem nat_prefix_completion :
+    PrefixSubflow (NatLikeSkeleton 3) CompletionSkeleton := by
+  exact
+    ⟨[[BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+
 end BEDC.GroundCompiler.CaseStudies
