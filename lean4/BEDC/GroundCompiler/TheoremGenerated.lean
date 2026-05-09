@@ -49,6 +49,26 @@ def CompleteTheoremFlowRecognition
       TheoremRoleSubflow R T canonicalSite TheoremRole.canonicalSite /\
       TheoremRoleSubflow R T sealFlow TheoremRole.closingSeal
 
+def GeneratedProofCheckerFlow : Type :=
+  EventFlow
+
+def ChecksProof
+    (R : GeneratedProofCheckerFlow)
+    (statement dependencies proof : TheoremCandidateFlow) : Prop :=
+  NonemptyEventFlow R /\
+    NonemptyEventFlow statement /\
+    NonemptyEventFlow dependencies /\
+    NonemptyEventFlow proof
+
+def ProofSoundTheoremRecognition
+    (R : GeneratedTheoremRecognizer) (T : TheoremCandidateFlow) : Prop :=
+  exists statement dependencies proof : TheoremCandidateFlow,
+    exists proofChecker : GeneratedProofCheckerFlow,
+      TheoremRoleSubflow R T statement TheoremRole.statement /\
+        TheoremRoleSubflow R T dependencies TheoremRole.dependencies /\
+        TheoremRoleSubflow R T proof TheoremRole.proof /\
+        ChecksProof proofChecker statement dependencies proof
+
 theorem no_external_theorem_input :
     Not (FormalCompilerInput CompilerDatum.hostTheoremIdentifier) :=
   structural_hidden_not_formal StructuralHiddenInput.hostTheoremIdentifier
