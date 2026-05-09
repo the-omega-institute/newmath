@@ -228,11 +228,13 @@ A motif report is not formal input. It cannot replace recognizer flow, certifica
 
 \begin{definition}[Candidate motif section]
 \label{def:motif-report-candidate-section}
+\leandef{BEDC.GroundCompiler.SemanticMotif.CandidateMotifSection}
 A motif report may contain a candidate motif section listing candidate finite repetition, continuation, seal, carry, reuse, and bridge structures. Every entry in that section must be marked candidate-only and requiring recognizer flow for recognition.
 \end{definition}
 
 \begin{definition}[Recognized motif section]
 \label{def:motif-report-recognized-section}
+\leandef{BEDC.GroundCompiler.SemanticMotif.RecognizedMotifSection}
 The recognized motif section may list only motif occurrences satisfying both
 $$
   \mathsf{RecognizesMotif}(R_M,S,M,\mu)
@@ -250,6 +252,7 @@ A motif report must clearly separate candidate motifs from recognized motifs. It
 
 \begin{theorem}[Motif report soundness]
 \label{thm:motif-report-soundness}
+\leanchecked{BEDC.GroundCompiler.SemanticMotif.motif\_report\_soundness}
 If a motif report claims that $M$ is a recognized motif in $S$, then there exist $R_M$, $\mu$, and $L_M$ such that
 $$
   \mathsf{RecognizesMotif}(R_M,S,M,\mu)

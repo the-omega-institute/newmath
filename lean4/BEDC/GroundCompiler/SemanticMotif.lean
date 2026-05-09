@@ -440,6 +440,26 @@ def MotifDistance
 def MotifReport : Type :=
   EventFlow × GeneratedMotifRecognizer × List MotifProfileItem × List EventFlow
 
+def CandidateMotifSection (S : EventFlow) (items : List EventFlow) : Prop :=
+  forall M : EventFlow, List.Mem M items -> MotifCandidate M S
+
+def RecognizedMotifSection
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (items : List MotifProfileItem) : Prop :=
+  forall item : MotifProfileItem,
+    List.Mem item items -> MotifProfile Rfam S item.1 item.2.1 item.2.2
+
+theorem motif_report_soundness
+    {Rfam : GeneratedMotifRecognizer -> Prop} {S : EventFlow}
+    {items : List MotifProfileItem} {item : MotifProfileItem} :
+    RecognizedMotifSection Rfam S items ->
+      List.Mem item items ->
+        exists R : GeneratedMotifRecognizer,
+          Rfam R /\ RecognizesMotif R S item.2.1 item.1 /\
+            MotifLedger R S item.2.1 item.1 item.2.2 := by
+  intro hSection hMem
+  exact hSection item hMem
+
 inductive MotifAnalysisDatum : Type where
   | sourceFlow (S : EventFlow)
   | motifReport (Q : MotifReport)
