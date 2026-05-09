@@ -310,6 +310,30 @@ theorem RealAnalyticCosAdd_local_product_difference_unary {zero n sx cx sy cy pa
     (And.intro rightProdUnary
       (unary_cont_closed leftProdUnary rightProdUnary diffCont))
 
+theorem RealAnalyticPythagorean_local_square_sum_unary
+    {zero n sx cx pair squareSin squareCos total : BHist}
+    {sinTerm cosTerm : BHist -> BHist}
+    (zeroUnary : UnaryHistory zero)
+    (sinUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (sinTerm m))
+    (cosUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (cosTerm m)) :
+    RealAnalyticTrigPart zero sinTerm cosTerm n sx cx pair ->
+      Cont sx sx squareSin ->
+        Cont cx cx squareCos ->
+          Cont squareSin squareCos total ->
+            UnaryHistory squareSin ∧ UnaryHistory squareCos ∧ UnaryHistory total := by
+  intro trigPart squareSinCont squareCosCont totalCont
+  have trigRows :=
+    RealAnalyticTrigPart_pair_index_result_unary zeroUnary sinUnary cosUnary trigPart
+  have sxUnary : UnaryHistory sx := trigRows.right.left
+  have cxUnary : UnaryHistory cx := trigRows.right.right.left
+  have squareSinUnary : UnaryHistory squareSin :=
+    unary_cont_closed sxUnary sxUnary squareSinCont
+  have squareCosUnary : UnaryHistory squareCos :=
+    unary_cont_closed cxUnary cxUnary squareCosCont
+  exact And.intro squareSinUnary
+    (And.intro squareCosUnary
+      (unary_cont_closed squareSinUnary squareCosUnary totalCont))
+
 theorem RealAnalyticComplexPartSum_closed_pointwise_index_result_unary_transport {zero zero' : BHist}
     {c d : BHist -> BHist} {n S T : BHist}
     (zeroUnary : UnaryHistory zero)
