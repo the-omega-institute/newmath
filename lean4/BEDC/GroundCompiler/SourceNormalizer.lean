@@ -55,6 +55,10 @@ def RecognizesCandidatePolicy
     (R : GeneratedCandidatePolicyRecognizer) (P : CandidatePolicyFlow) : Prop :=
   NonemptyEventFlow R /\ NonemptyEventFlow P
 
+def LiteralAdjacentPairListing
+    (S : EventFlow) (i : Nat) (w v : RawEvent) : Prop :=
+  AdjPair S i w v
+
 inductive P2Warning : Type where
   | candidateOnly
   | recognizerMissing
@@ -99,6 +103,12 @@ theorem candidate_does_not_erase_pre_normal
     NormCand candidate S i w v -> List.Mem w S := by
   intro h
   exact (candidate_preserves_raw h).left
+
+theorem literal_listing_policy_free
+    {S : EventFlow} {i : Nat} {w v : RawEvent} :
+    AdjPair S i w v -> LiteralAdjacentPairListing S i w v := by
+  intro h
+  exact h
 
 theorem no_normalization_without_recognizer
     {candidate : RawEvent -> RawEvent -> Prop}
