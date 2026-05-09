@@ -222,6 +222,12 @@ structure DerivAcceptPrototype where
 def AcceptedObjectCode (A _N _s : EventFlow) : List DisplayAlphabet :=
   FlowEncoding A
 
+def P6AcceptedObjectFlow (A N s : EventFlow) : Prop :=
+  AcceptedFlow A N s
+
+def P6AcceptedObjectCode (A N s : EventFlow) : List DisplayAlphabet :=
+  AcceptedObjectCode A N s
+
 def RecognizesAcceptanceCode
     (c : List DisplayAlphabet) (N s : EventFlow) : Prop :=
   exists A : EventFlow, Decode c = some A /\ AcceptedFlow A N s
@@ -527,6 +533,12 @@ theorem accepted_object_code_injective
   rw [hB] at hA
   cases hA
   rfl
+
+theorem p6_accepted_object_code_injective_raw_flows
+    {A B N M s t : EventFlow} :
+    P6AcceptedObjectCode A N s = P6AcceptedObjectCode B M t -> A = B := by
+  intro h
+  exact accepted_object_code_injective h
 
 theorem no_acceptance_recognition_by_channel_substring
     {c : List DisplayAlphabet} {N s : EventFlow} :
