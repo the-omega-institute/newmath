@@ -511,3 +511,32 @@ through $\rho$ and $\lambda$. The four cited boundaries together reconstruct
 the same $\InducedRepUp$ public packet, so every listed row is visible to the
 consumer and no outside host-level datum is added.
 \end{proof}
+
+\begin{theorem}[InducedRepUp Frobenius source-row determinacy]
+\label{thm:inducedrep-frobenius-source-row-determinacy}
+Let
+$\mathcal{I}_0=(S,R,i,r,F,\eta,\epsilon,\rho_0,\lambda_0)$ and
+$\mathcal{I}_1=(S,R,i,r,F,\eta,\epsilon,\rho_1,\lambda_1)$ be two
+$\InducedRepUp$ packets with the same SubgroupUp source row, the same
+RepresentationRingUp source row, the same induction and restriction endpoint
+rows, the same Frobenius rows $F,\eta,\epsilon$, the same public $\Cont$
+ledger rows, and the same $\Pkg$ provenance rows. Then the public classifier
+endpoints exported by $\mathcal{I}_0$ and $\mathcal{I}_1$ are related by
+$\hsame$.
+\end{theorem}
+\begin{proof}
+Project both packets through the restriction-induction classifier. The source
+rows are the common SubgroupUp and RepresentationRingUp rows, and the endpoint
+rows are the common induction and restriction histories $i$ and $r$.
+
+Apply \autoref{thm:inducedrep-source-frobenius-exact-consumption}. It rules out
+any consumed public row outside the common source rows, endpoint rows,
+Frobenius rows, $\Cont$ ledger, and $\Pkg$ provenance. Thus both packets expose
+the same finite public ledger.
+
+Finally repack that common source-Frobenius ledger through
+\autoref{thm:inducedrep-frobenius-ledger-boundary} and
+\autoref{thm:inducedrep-pkg-provenance-exactness}. The classifier endpoint is
+therefore read from the same carried rows in both packets, so the two exported
+endpoints are related by $\hsame$.
+\end{proof}
