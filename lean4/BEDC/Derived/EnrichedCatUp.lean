@@ -303,4 +303,39 @@ theorem EnrichedCatPublicPacket_classifier_transport_obligation [AskSetup] [Pack
   exact And.intro transported
     (And.intro sameComposition (And.intro sameLedger sameEndpoint))
 
+theorem EnrichedCatPublicPacket_ledger_exactness_obligation [AskSetup] [PackageSetup]
+    {categoryBoundary monoidalBoundary homObject identity composition transport provenance ledger
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EnrichedCatPublicPacket categoryBoundary monoidalBoundary homObject identity composition
+        transport provenance ledger endpoint bundle pkg ->
+      UnaryHistory homObject ∧ UnaryHistory identity ∧ UnaryHistory composition ∧
+        UnaryHistory transport ∧ hsame composition (append homObject identity) ∧
+          hsame ledger (append transport provenance) ∧
+            hsame endpoint (append ledger monoidalBoundary) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have homUnary : UnaryHistory homObject :=
+    packet.right.right.left
+  have identityUnary : UnaryHistory identity :=
+    packet.right.right.right.left
+  have compositionUnary : UnaryHistory composition :=
+    packet.right.right.right.right.left
+  have transportUnary : UnaryHistory transport :=
+    packet.right.right.right.right.right.left
+  have compositionRow : Cont homObject identity composition :=
+    packet.right.right.right.right.right.right.left
+  have ledgerRow : Cont transport provenance ledger :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointRow : Cont ledger monoidalBoundary endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right
+  exact And.intro homUnary
+    (And.intro identityUnary
+      (And.intro compositionUnary
+        (And.intro transportUnary
+          (And.intro compositionRow
+            (And.intro ledgerRow
+              (And.intro endpointRow pkgSig))))))
+
 end BEDC.Derived.EnrichedCatUp
