@@ -29,6 +29,24 @@ theorem znormal_word_011_absurd : ZNormal word_011 → False := by
   intro h
   cases h
 
+theorem ZNormal_adjacent_one_inversion {h : BHist} :
+    ZNormal (BHist.e1 h) ->
+      (h = BHist.Empty ∨ ∃ k : BHist, h = BHist.e0 k ∧ ZNormal (BHist.e0 k)) ∧
+        (∀ k : BHist, h = BHist.e1 k -> False) := by
+  intro normal
+  constructor
+  · cases normal with
+    | e1_after_empty =>
+        exact Or.inl rfl
+    | e1_after_e0 tailNormal =>
+        exact Or.inr (Exists.intro _ (And.intro rfl tailNormal))
+  · intro k hk
+    cases normal with
+    | e1_after_empty =>
+        cases hk
+    | e1_after_e0 _tailNormal =>
+        cases hk
+
 def ZNormalSourceSpec (h : BHist) : Prop := ZNormal h
 
 def ZNormalPatternSpec (h : BHist) : Prop := ZNormal h
