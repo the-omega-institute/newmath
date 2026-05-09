@@ -396,3 +396,52 @@ same $\Cont/\hsame$ ledger and the same $\mathsf{RealLedgerPolicy}$ boundary,
 the transported tail classifiers coincide up to $\hsame$, and the exposed
 $\mathsf{RealLedgerPolicy}$ rows are identical as public finite-window rows.
 \end{proof}
+
+\begin{theorem}[RealUp finite-window StreamName readback uniformity]
+\label{thm:realup-finite-window-streamname-readback-uniformity}
+Let $W$ be a certified finite $\mathsf{ProbeBundle}$ window supporting a public
+$\RealUp$ finite-window readback through a $\StreamNameUp$ source, and let
+$U$ be either a certified finite subwindow of $W$ or a certified finite common
+refinement of two such windows. Assume that the restriction to $U$ carries the
+same public $\StreamNameUp$ finite-window row, the same $\RegSeqRat$ spine rows,
+the same DyadicRatCore observation rows, and the restricted $\Cont/\hsame$
+ledger displayed over $U$. Then the $\RealUp$ readback packet over $W$
+restricts over $U$ to the same visible $\RatUp$ endpoint rows and to the same
+finite $\mathsf{RealLedgerPolicy}$ row.
+
+Equivalently, certified passage to a displayed finite subwindow or common
+finite refinement preserves the public endpoint readback and the real-ledger
+row determined by the StreamName-RegSeqRat-DyadicRatCore surface. The assertion
+does not identify quotient completions, metric completions, global Cauchy
+moduli, arithmetic operations, order operations, Classical representatives, or
+standard bridge data.
+\end{theorem}
+\begin{proof}
+Start with the selected $\RealUp$ read over $W$ and apply
+\autoref{thm:realup-finite-window-streamname-readback-package}. This displays a
+single finite $\mathsf{BHist}$ packet containing the public $\StreamNameUp$
+finite-window row, the $\RegSeqRat$ spine, the DyadicRatCore observations, the
+visible $\RatUp$ endpoints, the restricted $\Cont/\hsame$ ledger, the
+$\Pkg$ provenance, and the finite $\mathsf{RealLedgerPolicy}$ row.
+
+Restrict this displayed packet along the certified subwindow $U$, or along the
+certified common refinement when two windows are present. The common-refinement
+determinacy theorem
+\autoref{thm:realup-finite-window-common-refinement-determinacy} says that any
+two displayed packets with the same public rows over the refinement determine
+the same finite surface up to the recorded $\hsame$ transports.
+
+The source rows remaining after restriction are exactly the public stream-name
+row, the regular-sequence spine, and the dyadic observation rows named in the
+hypotheses. This is the source-exhaustion equivalence of
+\autoref{thm:realup-streamname-source-exhaustion-equivalence}, while
+\autoref{thm:streamname-public-finite-window-interface} identifies the
+restricted stream-name row as the same public finite-window interface row
+rather than an ambient stream equality.
+
+With the stream-name source and the restricted transport ledger fixed, the
+readback package has no remaining displayed choice for the $\RatUp$ endpoints
+or for the finite $\mathsf{RealLedgerPolicy}$ row. Hence the packet over $W$
+restricts to the same visible endpoint rows and the same real-ledger row over
+$U$.
+\end{proof}

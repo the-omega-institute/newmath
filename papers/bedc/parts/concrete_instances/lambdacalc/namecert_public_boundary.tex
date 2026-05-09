@@ -1,0 +1,41 @@
+\begin{theorem}[LambdaCalc NameCert public boundary]
+\label{thm:lambdacalc-namecert-public-boundary}
+The public $\NameCert_{\LambdaCalcUp}$ boundary is exactly the constructor frontier, substitution ledger, beta ledger, alpha ledger, $\hsame$ endpoint comparisons, $\Cont$ continuation rows, and $\Pkg$ provenance exposed by the carried $\mathsf{BHist}$ term packets. Thus a public read of a LambdaCalc endpoint is sourced by the visible $\TreeUp$ constructor root, the relevant $\NatUp$ binder or variable rows, the substitution and beta rows attached to that root, and the listed BEDC transport rows.
+\end{theorem}
+\begin{proof}
+Begin with the carried term packet. The carrier rows are supplied by \autoref{thm:lambdacalc-variable-constructor-carrier} and \autoref{thm:lambdacalc-abstraction-application-carrier-closure}, while \autoref{thm:lambdacalc-root-constructor-frontier} exhausts the public root by the three visible $\TreeUp$ constructors.
+
+For substitution reads, apply \autoref{thm:lambdacalc-namecert-substitution-ledger} and \autoref{thm:lambdacalc-root-substitution-frontier}. These identify the displayed $\Cont$ ledger, the relevant $\NatUp$ binder and free-variable rows, and the same $\Pkg$ provenance as the only substitution source.
+
+For beta and alpha reads, apply \autoref{thm:lambdacalc-alpha-beta-carrier-transport} and \autoref{thm:lambdacalc-root-beta-ledger-frontier}. The public endpoint is transported componentwise by $\hsame$ after the alpha ledger, beta-redex ledger, substitution ledger, and constructor rows have been fixed.
+
+Repacking these rows gives the stated public boundary. No host syntax equality, unrecorded variable set, or quotient alpha-class is available outside the displayed $\mathsf{BHist}$, $\Cont$, $\hsame$, and $\Pkg$ rows.
+\end{proof}
+
+\begin{theorem}[LambdaCalc NameCert classifier boundary]
+\label{thm:lambdacalc-namecert-classifier-boundary}
+Classifier movement for $\NameCert_{\LambdaCalcUp}$ is componentwise over the $\TreeUp$ syntax root, the $\NatUp$ binder and variable rows, the substitution $\Cont$ ledger, the beta-redex ledger, the alpha ledger, the endpoint $\hsame$ comparisons, and the carried $\Pkg$ provenance. Two accepted classifier endpoints therefore agree only by transporting each displayed component of this boundary; no ambient syntax conversion is admitted as an additional classifier step.
+\end{theorem}
+\begin{proof}
+First align the constructor root. The classifier stability supplied by \autoref{thm:lambdacalc-alpha-beta-carrier-transport} transports the carried LambdaCalc endpoint over the visible $\TreeUp$ syntax row and the $\NatUp$ binder rows.
+
+Next align substitution. Use \autoref{thm:lambdacalc-substitution-source-coverage} to isolate the constructor branch and \autoref{thm:lambdacalc-root-substitution-frontier} to keep the substitution endpoint attached to the displayed $\Cont$ ledger and package provenance.
+
+Finally align beta and alpha. The determinacy theorem \autoref{thm:lambdacalc-alpha-beta-ledger-determinacy}, together with \autoref{thm:lambdacalc-root-beta-ledger-frontier}, says that shared syntax, binder, alpha, beta, substitution, and $\Pkg$ rows determine the same public endpoint by $\hsame$.
+
+Thus classifier movement is exactly the componentwise transport of the named boundary rows.
+\end{proof}
+
+\begin{theorem}[LambdaCalc NameCert ledger exactness]
+\label{thm:lambdacalc-namecert-ledger-exactness}
+Every accepted public LambdaCalc read is exhausted by the constructor rows, substitution rows, beta rows, alpha rows, $\hsame$ endpoint comparisons, $\Cont$ continuation rows, and $\Pkg$ provenance displayed in the carried $\mathsf{BHist}$ packet. In particular, the public ledger contains no host syntax equality, no implicit capture-avoidance equality outside the substitution ledger, and no quotient alpha-class.
+\end{theorem}
+\begin{proof}
+Project the accepted read to the visible constructor spine. By \autoref{thm:lambdacalc-constructor-source-disjointness} and \autoref{thm:lambdacalc-root-constructor-frontier}, the read chooses exactly one variable, abstraction, or application root and inherits only the slots assigned to that root.
+
+The substitution part is exact by \autoref{thm:lambdacalc-substitution-source-coverage}. Every substitution endpoint is sourced from the chosen constructor branch, the named $\NatUp$ rows, the displayed $\Cont$ ledger, and the same $\Pkg$ provenance.
+
+The beta and alpha parts are exact by \autoref{thm:lambdacalc-alpha-beta-ledger-determinacy} and \autoref{thm:lambdacalc-root-beta-ledger-frontier}. Once the syntax, binder, alpha, beta, substitution, and provenance rows are fixed, the remaining public endpoint comparison is the recorded $\hsame$ row.
+
+Combining these projections exhausts the public ledger and excludes any host-level syntax equality or quotient alpha-class from the accepted boundary.
+\end{proof}
