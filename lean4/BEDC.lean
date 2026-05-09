@@ -74,6 +74,7 @@ import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
+import BEDC.Derived.GaloisExtUp.PublicLedgerCoverage
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
