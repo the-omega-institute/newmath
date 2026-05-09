@@ -252,4 +252,26 @@ theorem chapter_code_bijection :
           rw [hC.right]
           exact ChapterFlow.chapter_code_round_trip C
 
+def RawFlowCodeLayer (S : EventFlow) (c : List DisplayAlphabet) : Prop :=
+  c = FlowEncoding S
+
+def ClassifiedObjectLayer
+    (classifier : EventFlow -> EventFlow -> Prop) (S T : EventFlow) : Prop :=
+  classifier S T
+
+def ErasureClassifier (S T : EventFlow) : Prop :=
+  erase S = erase T
+
+theorem classifier_quotient_many_to_one :
+    exists S T : EventFlow,
+      Not (S = T) /\ ClassifiedObjectLayer ErasureClassifier S T := by
+  refine
+    ⟨[[BMark.b0], [BMark.b0, BMark.b0], [BMark.b0, BMark.b0, BMark.b0]],
+      [[BMark.b0, BMark.b0], [BMark.b0, BMark.b0, BMark.b0, BMark.b0]],
+      ?_⟩
+  constructor
+  · intro h
+    cases h
+  · rfl
+
 end BEDC.GroundCompiler.MainTheorems

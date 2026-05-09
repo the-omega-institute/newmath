@@ -324,22 +324,35 @@ An abstract chapter topic is not in bijection with chapter code. Chapter code co
 
 \begin{definition}[Raw-flow code layer]
 \label{def:main-theorems-raw-flow-code-layer}
-The \emph{raw-flow code layer} is the bijection
+\leandef{BEDC.GroundCompiler.MainTheorems.RawFlowCodeLayer}
+The \emph{raw-flow code layer} is the graph of the channel coding relation:
 $$
-  \mathsf{EventFlow}\cong\mathsf{LegalZStream}.
+  \mathsf{RawFlowCodeLayer}(S,c)
+  \quad\Longleftrightarrow\quad
+  c=\mathsf{Compile}(S).
 $$
+The channel bijection theorem identifies this graph with the lossless
+correspondence $\mathsf{EventFlow}\cong\mathsf{LegalZStream}$.
 \end{definition}
 
 \begin{definition}[Classified object layer]
 \label{def:main-theorems-classified-object-layer}
-Given a classifier $\sim$ on event flows, a classified object is an equivalence class
+\leandef{BEDC.GroundCompiler.MainTheorems.ClassifiedObjectLayer}
+Given a classifier $\sim$ on event flows, the classified-object layer records the
+co-classification relation between event flows:
 $$
-  [S]_{\sim}.
+  \mathsf{ClassifiedObjectLayer}(\sim,S,T)
+  \quad\Longleftrightarrow\quad
+  S\sim T.
 $$
+This is the constructive representative of the class notation $[S]_{\sim}$:
+membership in the class is expressed by a classifier witness rather than by a
+primitive quotient object.
 \end{definition}
 
 \begin{theorem}[Classifier quotient is generally many-to-one]
 \label{thm:main-theorems-classifier-quotient-many-to-one}
+\leanchecked{BEDC.GroundCompiler.MainTheorems.classifier\_quotient\_many\_to\_one}
 The projection
 $$
   S\longmapsto [S]_{\sim}
@@ -348,7 +361,17 @@ is generally not injective. Hence the classified object layer is generally not i
 \end{theorem}
 
 \begin{proof}
-If $S\ne T$ but $S\sim T$, then $[S]_{\sim}=[T]_{\sim}$. Thus distinct raw flows map to the same classified object. For example, a source-level Zeckendorf carry may classify $011$ and $100$ together while keeping them distinct as raw events.
+Take the classifier that identifies event flows with the same boundary-erased
+display string. The distinct flows
+$$
+  (0,00,000)
+  \qquad\text{and}\qquad
+  (00,0000)
+$$
+both erase to $000000$, so they are co-classified by this classifier while
+remaining distinct raw event flows. Thus distinct raw flows may map to the same
+classified object. A source-level Zeckendorf carry can likewise classify $011$
+and $100$ together while keeping them distinct as raw events.
 \end{proof}
 
 \begin{corollary}[Normal address requires ledger]
