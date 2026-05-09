@@ -6,5 +6,57 @@ The entropy interface $\EntropyUp$ packages the Shannon entropy $-\sum p_i \log 
 \section{Carrier definition}
 \label{sec:entropy-carrier}
 
+\begin{definition}[EntropyUp BHist measure source surface]
+\label{def:entropy-bhist-measure-source-surface}
+An $\EntropyUp$ BHist measure source surface consists of a
+$\DistributionUp$ pushforward row, an $\IntegralUp$ finite or integral readback
+row, a log-weight observation row treated as a certified BHist endpoint,
+$\hsame$ transport rows for the distribution, integral, and log-weight
+endpoints, $\Cont$ ledger rows connecting the displayed observations, and
+$\Pkg$ provenance for the whole package.
+\end{definition}
+
+\begin{theorem}[Entropy distribution-integral boundary]
+\label{thm:entropy-distribution-integral-boundary}
+Consumers of the $\EntropyUp$ source surface read exactly the
+$\DistributionUp$ pushforward row, the $\IntegralUp$ readback row, the
+log-weight endpoint, the $\hsame$ transport rows, the $\Cont$ ledger rows, and
+the $\Pkg$ provenance from
+\autoref{def:entropy-bhist-measure-source-surface}. Analytic convergence,
+measure-theoretic completeness, and host-level entropy equality are not part of
+this boundary.
+\end{theorem}
+\begin{proof}
+Project the distribution row, integral readback row, and log-weight endpoint
+from the displayed BHist source surface. These are the only numerical
+observation rows exported by the package.
+
+Next project the $\hsame$ transport rows and the $\Cont$ ledger rows. Repacking
+these rows through $\Pkg$ gives the consumer boundary, and no analytic
+completion claim can be derived without additional convergence or
+measure-theoretic rows.
+\end{proof}
+
 \section{The certificate}
 \label{sec:entropy-certificate}
+
+\begin{theorem}[EntropyUp NameCert obligation surface]
+\label{thm:entropy-namecert-obligation-surface}
+The $\EntropyUp$ NameCert obligation surface for
+\autoref{def:entropy-bhist-measure-source-surface} is the package containing
+the $\DistributionUp$ pushforward row, the $\IntegralUp$ readback row, the
+certified log-weight endpoint, the $\hsame$ transport rows, the $\Cont$ ledger
+rows, and the $\Pkg$ provenance. It certifies the displayed BEDC source package
+without asserting analytic convergence or measure-theoretic completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:entropy-distribution-integral-boundary} to obtain the exact
+rows that consumers may inspect. The carrier field is the displayed log-weight
+BHist endpoint over the distribution and integral sources.
+
+The dependency fields are the $\DistributionUp$ and $\IntegralUp$ rows, the
+stability fields are the $\hsame$ transports, and the ledger fields are the
+$\Cont$ rows with their $\Pkg$ provenance. Repacking these finite rows supplies
+the NameCert obligation surface and leaves stronger analytic claims outside the
+certificate.
+\end{proof}
