@@ -40,3 +40,31 @@ one-extension endpoints at index $n$, so the one-tail pair readback theorem
 returns the two unary tail witnesses and $\hsame(a,b)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_hsame\_e1\_pair\_readback}
+
+\begin{theorem}[Real stream prefix certificate boundary]
+\label{thm:real-stream-prefix-certificate-boundary}
+For rational-observation streams transported by pointwise $\hsame$, the finite
+prefix classifier supplies a closed BEDC certificate boundary. The same prefix
+surface gives transitive prefix comparison, one-extension endpoint unary
+tails, and transported tail $\hsame$ readback.
+
+This boundary uses only the displayed finite prefix surface. It does not read
+host index equality, quotient structure, completion data, $\RealUp$
+completeness, metric structure, order structure, or any standard bridge row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-prefix-classifier-trans} to close the comparison
+surface under transitive prefix composition at the displayed observation
+index.
+
+Apply \autoref{thm:real-stream-prefix-e1-pair-readback} to read the selected
+left and right one-extension endpoints back to unary tails and their internal
+$\hsame$ comparison.
+
+Finally apply
+\autoref{thm:real-stream-prefix-classifier-hsame-e1-pair-readback}. The
+pointwise $\hsame$ hypotheses transport the same finite prefix certificate to
+the displayed endpoint streams, so the certificate boundary survives the
+transport without adding any host-side equality, analytic completion, metric,
+order, or bridge datum.
+\end{proof}
