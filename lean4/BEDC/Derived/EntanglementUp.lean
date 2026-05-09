@@ -186,6 +186,38 @@ theorem EntanglementSourceSurface_factor_boundary [AskSetup] [PackageSetup]
             (And.intro rightTransportFactor
               (And.intro factorLedgerRow
                 (And.intro endpointLedgerRow
-                  (And.intro endpointRow pkgSig))))))))
+                (And.intro endpointRow pkgSig))))))))
+
+theorem EntanglementSourceFactorBoundary_cont_ledger [AskSetup] [PackageSetup]
+    {state factorLeft factorRight endpoint obstruction ledger provenance endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory state ->
+      UnaryHistory factorLeft ->
+        UnaryHistory factorRight ->
+          UnaryHistory endpoint ->
+            UnaryHistory obstruction ->
+              UnaryHistory provenance ->
+                Cont endpoint obstruction ledger ->
+                  Cont provenance ledger endpoint' ->
+                    PkgSig bundle endpoint' pkg ->
+                      UnaryHistory factorLeft ∧ UnaryHistory factorRight ∧
+                        UnaryHistory endpoint ∧ UnaryHistory obstruction ∧
+                          UnaryHistory ledger ∧ hsame ledger (append endpoint obstruction) ∧
+                            UnaryHistory endpoint' ∧ hsame endpoint' (append provenance ledger) ∧
+                              PkgSig bundle endpoint' pkg := by
+  intro _stateUnary factorLeftUnary factorRightUnary endpointUnary obstructionUnary
+    provenanceUnary endpointObstructionLedger provenanceLedgerEndpoint pkgSig
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed endpointUnary obstructionUnary endpointObstructionLedger
+  have endpointPrimeUnary : UnaryHistory endpoint' :=
+    unary_cont_closed provenanceUnary ledgerUnary provenanceLedgerEndpoint
+  exact And.intro factorLeftUnary
+    (And.intro factorRightUnary
+      (And.intro endpointUnary
+        (And.intro obstructionUnary
+          (And.intro ledgerUnary
+            (And.intro endpointObstructionLedger
+              (And.intro endpointPrimeUnary
+                (And.intro provenanceLedgerEndpoint pkgSig)))))))
 
 end BEDC.Derived.EntanglementUp
