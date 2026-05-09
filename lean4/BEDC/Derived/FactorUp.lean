@@ -64,4 +64,34 @@ theorem FactorBHistSourcePacket_carrier_trivial_centre_obligation [AskSetup] [Pa
       packet.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right⟩
 
+theorem FactorBHistSourcePacket_type_classifier_stability_obligation [AskSetup] [PackageSetup]
+    {algebra centre witness typeRow transport ledger endpoint typeRow' ledger' endpoint' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FactorBHistSourcePacket algebra centre witness typeRow transport ledger endpoint bundle pkg ->
+      hsame typeRow' typeRow -> Cont witness typeRow' ledger' ->
+        Cont ledger' transport endpoint' ->
+          UnaryHistory typeRow' ∧ UnaryHistory ledger' ∧ UnaryHistory endpoint' ∧
+            hsame ledger ledger' ∧ hsame endpoint endpoint' ∧ PkgSig bundle endpoint pkg := by
+  intro packet sameTypeRow witnessTypeRow' ledgerTransport'
+  have witnessUnary : UnaryHistory witness :=
+    unary_cont_closed packet.left packet.right.left packet.right.right.right.right.left
+  have typeRowUnary : UnaryHistory typeRow := packet.right.right.left
+  have typeRowUnary' : UnaryHistory typeRow' :=
+    unary_transport typeRowUnary (hsame_symm sameTypeRow)
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed witnessUnary typeRowUnary' witnessTypeRow'
+  have transportUnary : UnaryHistory transport := packet.right.right.right.left
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed ledgerUnary' transportUnary ledgerTransport'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame (hsame_refl witness) (hsame_symm sameTypeRow)
+      packet.right.right.right.right.right.left witnessTypeRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger (hsame_refl transport)
+      packet.right.right.right.right.right.right.left ledgerTransport'
+  exact
+    ⟨typeRowUnary', ledgerUnary', endpointUnary', sameLedger, sameEndpoint,
+      packet.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.FactorUp
