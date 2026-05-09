@@ -546,3 +546,43 @@ interface by excluding $\RegSeqRat$ regularity, completion, quotient,
 host-index equality, and $\RealUp$ seal data. Therefore the listed rows are
 exactly the consumer-facing handoff surface.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat pointwise hsame closure]
+\label{thm:streamname-regseqrat-pointwise-hsame-closure}
+Let $s,t,s',t':\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows and let
+$\mathcal P:\mathsf{ProbeBundle}$ be finite. Suppose the handoff for
+$(s,t)$ is the exact pointwise package of
+\autoref{thm:streamname-regseqrat-pointwise-classifier-handoff-exactness},
+and suppose every certified bundled observation carries
+$\hsame(s(n),s'(n))$ and $\hsame(t(n),t'(n))$. Then the handoff for
+$(s',t')$ is exhausted by the same StreamName carrier rows, restricted
+finite-window classifier rows, $\UnaryHistory$ rows, $\mathsf{InBundle}$ rows,
+pointwise $\hsame$ rows, and pointwise $\mathsf{RatHistoryClassifier}$ rows.
+It accepts no $\RegSeqRat$ regularity, completion, quotient, host-index
+equality, or $\RealUp$ seal row.
+\end{theorem}
+\begin{proof}
+Start with the source packet from
+\autoref{thm:streamname-regseqrat-pointwise-classifier-handoff-exactness}.
+That theorem gives exactly the carrier, finite-window classifier, bundle,
+unary-history, pointwise $\hsame$, and rational-history classifier rows for
+the displayed $(s,t)$ handoff.
+
+Transport each certified bundled observation along the given pointwise
+$\hsame$ rows. By
+\autoref{thm:streamname-regseqrat-observation-stability}, this transport
+preserves the unary observations, bundle membership witnesses, and pointwise
+rational-history classifier rows, and it does not create any row outside the
+StreamName observation surface.
+
+For a restricted finite window, apply
+\autoref{thm:streamname-regseqrat-finite-window-restriction-handoff}. The
+restriction keeps the same finite carrier rows and classifier rows over the
+sub-bundle, now read through $(s',t')$.
+
+Finally use \autoref{thm:streamname-regseqrat-observation-envelope}. The
+envelope excludes $\RegSeqRat$ regularity, completion, quotient, host-index
+equality, and $\RealUp$ seal data from the observation handoff, so the
+transported packet is closed under pointwise $\hsame$ exactly on the listed
+consumer interface.
+\end{proof}

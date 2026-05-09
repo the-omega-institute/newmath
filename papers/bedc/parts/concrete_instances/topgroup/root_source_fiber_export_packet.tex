@@ -151,3 +151,39 @@ For the reverse direction, each row of
 public rows named by the carrier, continuity, and ledger theorems above. Thus
 the packet exports exactly the source-fiber surface and nothing outside it.
 \end{proof}
+
+\begin{theorem}[TopGroupUp root source-fiber export exactness]
+\label{thm:topgroup-root-source-fiber-export-exactness}
+Every accepted $\TopGroupUp$ root source-fiber export packet is exact for
+public consumers: a consumer read factors through the packet if and only if it
+is one of the shared $\NameCert_{\GroupUp}$ and
+$\NameCert_{\TopologyUp}$ source rows, product rows, inverse rows,
+componentwise $\hsame$ rows, finite $\Cont$ ledger entries, or shared
+$\mathsf{Pkg}$ provenance rows. No order row, detached topology row, third
+operation, or ambient topological-group carrier is accepted by the export
+surface.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:topgroup-root-source-fiber-export-carrier}. It fixes
+the exported root source fiber over the shared
+$\NameCert_{\GroupUp}$--$\NameCert_{\TopologyUp}$ source rows, the product
+and inverse rows, componentwise $\hsame$ transport, and the shared package
+provenance.
+
+Next apply \autoref{thm:topgroup-root-source-fiber-export-continuity} and
+\autoref{thm:topgroup-root-source-fiber-export-ledger}. These theorems bind
+the product and inverse continuity rows to the displayed finite $\Cont$
+ledger, so every accepted continuation read is one of the listed ledger
+entries.
+
+The common ledger theorem,
+\autoref{thm:topgroup-root-source-fiber-export-common-cont-ledger}, identifies
+the product and inverse rows as a single shared finite continuation ledger
+rather than two detached operation ledgers.
+
+Finally apply
+\autoref{thm:topgroup-root-source-fiber-export-consumer-boundary}. The
+consumer boundary gives both directions of the factorization statement and
+excludes order rows, detached topology rows, any third operation, and any
+ambient topological-group carrier outside the exported packet.
+\end{proof}
