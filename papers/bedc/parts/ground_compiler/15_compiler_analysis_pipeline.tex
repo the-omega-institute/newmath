@@ -403,6 +403,7 @@ A report that omits failures hides analysis obligations. It may make a metric ap
 
 \begin{corollary}[Missing data cannot be silently treated as zero]
 \label{cor:analysis-pipeline-missing-data-not-zero}
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.missing\_data\_not\_zero}
 If a metric is undefined because a recognizer or ledger is missing, the pipeline may not set it to zero by default. It must record a failure or undefined-metric item.
 \end{corollary}
 
@@ -449,6 +450,7 @@ The proof is contained in the proof flow and checked by proof recognizer or proo
 
 \begin{proposition}[Chapter-code analysis does not validate all chapter claims]
 \label{prop:analysis-pipeline-chapter-analysis-not-validation}
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.chapter\_code\_analysis\_not\_validation}
 The analysis $\mathsf{Analyze}(c_C,P)$ does not automatically validate every claim in the chapter.
 \end{proposition}
 
@@ -500,6 +502,7 @@ the raw prefix overlap is $0\mid 00$. A report may say that both share finite-so
 
 \begin{theorem}[Analysis is deterministic relative to protocol]
 \label{thm:analysis-pipeline-deterministic-relative-protocol}
+\leanchecked{BEDC.GroundCompiler.AnalysisPipeline.analysis\_deterministic\_relative\_protocol}
 If $c\in\mathsf{LegalZStream}$, $P$ is a recognized analysis protocol flow, and all recognizers selected by $P$ are deterministic on the decoded input domain, then $\mathsf{Analyze}(c,P)$ is uniquely determined.
 \end{theorem}
 

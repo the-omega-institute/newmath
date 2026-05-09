@@ -377,6 +377,10 @@ def FailureCompleteReport
   forall item : AnalysisFailureItem,
     List.Mem item required -> List.Mem item recorded
 
+inductive MetricComputationOutcome : Type where
+  | value (n : Nat)
+  | undefined (failure : AnalysisFailureItem)
+
 def TheoremCodeAnalysis
     (T : TheoremCandidateFlow) (P : AnalysisProtocolCandidateFlow) :
     List AnalysisStage :=
@@ -430,6 +434,12 @@ def AnalysisDescriptorFromCode
   match Decode c with
   | some S => some (CanonicalAnalysisOutput S P Rfam)
   | none => none
+
+def AnalysisResultDetermined
+    (c : List DisplayAlphabet) (P : AnalysisProtocolCandidateFlow)
+    (Rfam : List GeneratedRecognizer)
+    (descriptor : AnalysisOutputDescriptor) : Prop :=
+  AnalysisDescriptorFromCode c P Rfam = some descriptor
 
 inductive FormalAnalysisProtocol :
     AnalysisProtocolCandidateFlow -> Prop where
@@ -502,6 +512,14 @@ theorem non_failure_complete_inadmissible
   intro hRequired hOmitted hComplete
   exact hOmitted (hComplete item hRequired)
 
+theorem missing_data_not_zero {failure : AnalysisFailureItem} :
+    failure.kind = AnalysisFailureKind.undefinedMetric ->
+      Not
+        (MetricComputationOutcome.undefined failure =
+          MetricComputationOutcome.value 0) := by
+  intro _ h
+  cases h
+
 theorem theorem_code_analysis_not_reprove :
     exists c : List DisplayAlphabet,
       LegalTheoremCode c /\
@@ -515,6 +533,45 @@ theorem theorem_code_analysis_not_reprove :
   · exact
       ⟨[], theorem_code_round_trip [], rfl,
         empty_not_proof_sound⟩
+
+theorem empty_not_complete_chapter_recognition
+    (R : GeneratedChapterRecognizer) :
+    Not (CompleteChapterRecognition R []) := by
+  intro h
+  exact empty_not_nonempty_event_flow h.left.right
+
+theorem empty_not_chapter_flow :
+    Not (ChapterFlow []) := by
+  intro h
+  cases h with
+  | intro R hComplete =>
+      exact empty_not_complete_chapter_recognition R hComplete
+
+theorem chapter_code_analysis_not_validation :
+    exists c : List DisplayAlphabet,
+      LegalChapterCode c /\
+        exists C : ChapterCandidateFlow,
+          Decode c = some C /\
+            ChapterCodeAnalysis C [] = Analyze c [] /\
+            Not (ChapterFlow C) := by
+  refine ⟨ChapterCode [], ?_, ?_⟩
+  · exact ⟨[], rfl⟩
+  · exact ⟨[], chapter_code_round_trip [], rfl, empty_not_chapter_flow⟩
+
+theorem analysis_deterministic_relative_protocol
+    {c : List DisplayAlphabet} {P : AnalysisProtocolCandidateFlow}
+    {Rfam : List GeneratedRecognizer}
+    {d1 d2 : AnalysisOutputDescriptor} :
+    LegalZStream c ->
+      RecognizedAnalysisProtocolFlow P ->
+      AnalysisResultDetermined c P Rfam d1 ->
+      AnalysisResultDetermined c P Rfam d2 ->
+        d1 = d2 := by
+  intro _ _ h1 h2
+  unfold AnalysisResultDetermined at h1 h2
+  rw [h1] at h2
+  cases h2
+  rfl
 
 theorem bridge_obligation_not_bridge
     (candidate : BridgeObligationCandidate) :
