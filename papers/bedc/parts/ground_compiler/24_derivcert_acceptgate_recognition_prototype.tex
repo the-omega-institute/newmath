@@ -77,6 +77,7 @@ It is not yet recognized as a strength flow. Explanatory strength levels include
 
 \begin{definition}[Generated strength recognizer]
 \label{def:deriv-accept-generated-strength-recognizer}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.GeneratedStrengthRecognizerFlow}
 A \emph{generated strength recognizer} is an event flow
 $$
   R_s\in\mathsf{EventFlow}
@@ -103,6 +104,7 @@ $$
 
 \begin{definition}[Strength order witness]
 \label{def:deriv-accept-strength-order-witness}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.StrengthOrderWitness}
 A \emph{strength order witness} is an event subflow $o$ recognizing the hierarchy
 $$
   \mathrm{seed}<\mathrm{paperCert}<\mathrm{checkedCert}<\mathrm{bridgeCert}.
@@ -116,6 +118,7 @@ The witness is not an external comparison function.
 
 \begin{principle}[No strength enum input]
 \label{prin:deriv-accept-no-strength-enum}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.no\_strength\_enum\_input}
 Strength labels such as seed, paper certificate, checked certificate, and bridge certificate are not host enum inputs. They appear only as recognized strength flows.
 \end{principle}
 

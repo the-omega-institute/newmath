@@ -14,6 +14,9 @@ def GeneratedDerivCertRecognizer : Type :=
 def GeneratedAcceptGateRecognizer : Type :=
   GeneratedRecognizer
 
+def GeneratedStrengthRecognizerFlow : Type :=
+  EventFlow
+
 inductive P6FormalInput : Type where
   | channel (c : List DisplayAlphabet) (h : LegalZStream c)
   | eventFlow (S : EventFlow)
@@ -22,6 +25,7 @@ inductive P6ExternalInput : Type where
   | acceptedObject
   | derivCertStruct
   | acceptGateStruct
+  | strengthEnum
 
 inductive P6InputRepresentation : Type where
   | formal (x : P6FormalInput)
@@ -67,11 +71,26 @@ theorem p6_external_inputs_not_formal :
   · intro x h
     cases h
 
+theorem no_strength_enum_input :
+    forall x : P6FormalInput,
+      Not (P6InputRepresentation.external P6ExternalInput.strengthEnum =
+        P6InputRepresentation.formal x) := by
+  intro x h
+  cases h
+
 def DerivCertSourceSubflow (part whole : EventFlow) : Prop :=
   exists before after : EventFlow, whole = List.append before (List.append part after)
 
 def StrengthCandidateFlow (S s : EventFlow) : Prop :=
   DerivCertSourceSubflow s S
+
+def StrengthOrderWitness
+    (R : GeneratedStrengthRecognizerFlow) (S o : EventFlow) : Prop :=
+  DerivCertSourceSubflow o S /\
+    FormalCompilerInput (CompilerDatum.recognizedFlow R o) /\
+    StrengthRoleLT StrengthRole.seed StrengthRole.paperCert /\
+    StrengthRoleLT StrengthRole.paperCert StrengthRole.checkedCert /\
+    StrengthRoleLT StrengthRole.checkedCert StrengthRole.bridgeCert
 
 def RecognizedStrengthFlow
     (R : GeneratedStrengthRecognizer) (S s : EventFlow)
