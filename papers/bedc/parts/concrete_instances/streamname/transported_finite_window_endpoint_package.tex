@@ -619,3 +619,56 @@ exclusion, and one-tail rows are identified by the same $\hsame$ rows that
 identify the selected transported endpoints. No completion object, metric
 witness, regularity datum, or standard bridge row is exported.
 \end{proof}
+
+\begin{theorem}[StreamName transported window RegSeqRat RealUp feed]
+\label{thm:streamname-transported-window-regseqrat-realup-feed}
+Let $s,t,s',t':\Hist\to\Hist$ be certified rational StreamName observation
+maps, and let $\mathcal{P}:\mathsf{ProbeBundle}$ be a selected transported
+finite-window request. Suppose its public endpoint readback is supplied by one
+of
+\autoref{thm:streamname-transported-window-public-readback},
+\autoref{thm:streamname-transported-window-composite-public-readback}, or
+\autoref{thm:streamname-successor-transported-common-refinement-readback}.
+Then the exported transported rows form exactly the downstream finite-window
+feed consumed by \autoref{thm:regseqrat-finite-window-seal-exactness},
+\autoref{thm:realup-finite-window-exhaustion-obligation}, and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}.
+
+The feed consists of the selected $\mathsf{RatHistoryClassifier}$ row, the
+positive unary denominator rows, the unary endpoint-shape rows, the empty and
+zero-headed endpoint exclusions, the one-tail agreement row, the selected
+$\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ membership row, and the finite
+$\Cont$ and $\hsame$ transport ledger. These are precisely the RegSeqRat seal
+inputs and the RealUp finite-window boundary inputs. No host $\mathsf{Nat}$
+index, quotient representative, completion object, metric witness, or
+$\RealUp$ completeness datum is exported.
+\end{theorem}
+\begin{proof}
+Project the public endpoint rows from the chosen StreamName transported
+readback theorem. In the direct public case these rows are read from
+\autoref{thm:streamname-transported-window-public-readback}; in the composite
+case they are read from
+\autoref{thm:streamname-transported-window-composite-public-readback}; in the
+successor common-refinement case they are read from
+\autoref{thm:streamname-successor-transported-common-refinement-readback}.
+
+In each case the projected packet has the same finite-window shape: a selected
+$\mathsf{ProbeBundle}$, its $\mathsf{InBundle}$ membership row, a
+$\mathsf{RatHistoryClassifier}$ endpoint row, positive unary denominator rows,
+unary endpoint-shape rows, empty and zero-headed exclusions, and one-tail
+agreement. The $\Cont$ acceptance row and the pointwise $\hsame$ comparisons
+remain attached as the transport ledger.
+
+Pass that packet through
+\autoref{thm:regseqrat-finite-window-seal-exactness}. The seal reads the
+finite-window classifier and selected bundle row together with the displayed
+endpoint and denominator rows, so it introduces no host index or quotient
+representative.
+
+Finally repack the same sealed packet through
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. These RealUp
+boundary theorems consume only the finite StreamName packet and its
+transport ledger, so no completion object, metric witness, or completeness
+datum is added.
+\end{proof}
