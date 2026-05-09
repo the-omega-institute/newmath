@@ -311,6 +311,7 @@ Complete theorem-flow recognition supplies statement, dependency, proof, certifi
 
 \begin{definition}[Theorem code]
 \label{def:theorem-generated-theorem-code}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.TheoremCode}
 If $T$ is a sound recognized theorem flow, define
 $$
   \mathsf{TheoremCode}(T):=\mathsf{Compile}(T).
@@ -320,6 +321,7 @@ This code is the channel compilation of $T$. It is not a proof, theorem object, 
 
 \begin{proposition}[Theorem code is injective on raw theorem flows]
 \label{prop:theorem-generated-code-injective}
+\leanchecked{BEDC.GroundCompiler.TheoremGenerated.theorem\_code\_injective}
 If $T$ and $U$ are sound recognized theorem flows and
 $$
   \mathsf{TheoremCode}(T)=\mathsf{TheoremCode}(U),
@@ -337,12 +339,14 @@ By the channel bijection of \autoref{cor:channel-encoding-bijection}, $\mathsf{C
 
 \begin{corollary}[Raw theorem flows and theorem codes are bijective]
 \label{cor:theorem-generated-flow-code-bijective}
-Sound recognized theorem flows, considered as raw event flows, are in bijection with their theorem codes:
+\leanchecked{BEDC.GroundCompiler.TheoremGenerated.theorem\_code\_bijective}
+The theorem-flow carrier, considered at the raw event-flow layer, is in bijection with its theorem codes:
 $$
-  \mathsf{SoundTheoremFlow}
+  \mathsf{TheoremCandidateFlow}
   \cong
   \mathsf{LegalTheoremCode}_{01}.
 $$
+Sound recognition is an additional source-level predicate on this carrier; it does not change the underlying channel code map.
 \end{corollary}
 
 \begin{remark}[Abstract propositions are not theorem flows]

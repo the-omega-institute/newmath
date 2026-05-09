@@ -21,6 +21,9 @@ def TheoremFlow (T : TheoremCandidateFlow) : Prop :=
 def TheoremCode (T : TheoremCandidateFlow) : List DisplayAlphabet :=
   FlowEncoding T
 
+def LegalTheoremCode (c : List DisplayAlphabet) : Prop :=
+  exists T : TheoremCandidateFlow, c = TheoremCode T
+
 inductive TheoremRole : Type where
   | statement
   | dependencies
@@ -116,6 +119,36 @@ theorem theorem_code_not_separate {T : TheoremCandidateFlow} :
     TheoremFlow T -> TheoremCode T = FlowEncoding T := by
   intro _
   rfl
+
+theorem theorem_code_round_trip (T : TheoremCandidateFlow) :
+    Decode (TheoremCode T) = some T :=
+  flow_level_round_trip T
+
+theorem theorem_code_injective {T U : TheoremCandidateFlow} :
+    TheoremCode T = TheoremCode U -> T = U := by
+  intro h
+  have hDecode : Decode (TheoremCode T) = Decode (TheoremCode U) :=
+    congrArg Decode h
+  rw [theorem_code_round_trip T, theorem_code_round_trip U] at hDecode
+  cases hDecode
+  rfl
+
+theorem theorem_code_bijective :
+    (forall T : TheoremCandidateFlow, Decode (TheoremCode T) = some T) /\
+      (forall c : List DisplayAlphabet,
+        LegalTheoremCode c ->
+          exists T : TheoremCandidateFlow,
+            Decode c = some T /\ TheoremCode T = c) := by
+  constructor
+  · intro T
+    exact theorem_code_round_trip T
+  · intro c h
+    cases h with
+    | intro T hT =>
+        refine ⟨T, ?_, ?_⟩
+        · rw [hT]
+          exact theorem_code_round_trip T
+        · exact hT.symm
 
 theorem sound_theorem_flow_establishes_theoremhood
     {R : GeneratedTheoremRecognizer} {T : TheoremCandidateFlow} :
