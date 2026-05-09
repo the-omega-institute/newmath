@@ -11,6 +11,16 @@ open BEDC.GroundCompiler.SemanticMotif
 def PrefixSubflow (M S : EventFlow) : Prop :=
   exists tail : EventFlow, S = List.append M tail
 
+inductive CaseStudyTarget : Type where
+  | finiteRepetition
+  | addFold
+  | completion
+  | listLike
+
+structure CaseStudyFlow where
+  flow : EventFlow
+  target : CaseStudyTarget
+
 def SkeletonCode (S : EventFlow) : List DisplayAlphabet :=
   FlowEncoding S
 
@@ -53,12 +63,18 @@ theorem repetition_skeleton_has_motif
 def NatLikeSkeleton (k : Nat) : EventFlow :=
   List.append (FiniteRepetitionSkeleton k) [[BMark.b0, BMark.b1]]
 
+def RepeatRuleMotif (S : EventFlow) : Prop :=
+  PrefixSubflow (NatLikeSkeleton 3) S
+
 theorem nat_like_extends_repetition (k : Nat) :
     PrefixSubflow (FiniteRepetitionSkeleton k) (NatLikeSkeleton k) := by
   exact ⟨[[BMark.b0, BMark.b1]], rfl⟩
 
 def AddSkeleton : EventFlow :=
   [[BMark.b0], [BMark.b0, BMark.b0], [BMark.b0, BMark.b0, BMark.b1]]
+
+def AdditiveRecursionMotif (S : EventFlow) : Prop :=
+  PrefixSubflow AddSkeleton S
 
 def FoldSkeleton : EventFlow :=
   List.append AddSkeleton
