@@ -293,3 +293,54 @@ function, variable-set primitive, or quotient class is exported.
   \notclaimed{This frontier does not close host lambda syntax equality, alpha quotienting, beta quotienting, or a complete LambdaCalc standard bridge.}
   \upgradepath{$\publicClosure$ requires a single exported $\LambdaCalcUp$ public endpoint theorem for the scoped root packet.}
 \end{closurestatus}
+
+\begin{theorem}[LambdaCalc alpha classifier transitivity]
+\label{thm:lambdacalc-alpha-classifier-transitive}
+Let $s,t,u:\Hist$ be accepted $\LambdaCalcUp$ term packets whose visible
+term data are carried by the displayed $\TreeUp$ syntax skeletons, $\NatUp$
+binder-index ledgers, $\Cont$ alpha-renaming routes, endpoint $\hsame$ rows,
+and common $\Pkg$ provenance. If an accepted alpha-classifier row relates
+$(s,t)$ and an accepted alpha-classifier row relates $(t,u)$ over the same
+middle packet $t$, then the composed alpha-classifier row relates $(s,u)$.
+The composed row is obtained by keeping the two endpoint carriers, reversing
+only those carried $\hsame$ rows whose displayed orientation points into the
+middle packet, concatenating the resulting $\TreeUp$ skeleton comparisons and
+$\NatUp$ binder-index comparisons, and repacking the concatenated alpha ledger
+with the same $\Cont$ and $\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+Project the two accepted alpha-classifier rows through
+\autoref{thm:lambdacalc-namecert-classifier-boundary}. Each row is a
+componentwise comparison of the visible $\TreeUp$ syntax skeleton, the visible
+$\NatUp$ binder and variable-index rows, the alpha-renaming ledger, the
+endpoint $\hsame$ rows, and the carried $\Pkg$ provenance. No host syntax
+conversion or quotient alpha-class is available as an extra step.
+
+Use \autoref{thm:lambdacalc-alpha-classifier-symmetric} only to orient the
+carried comparisons at the common middle packet. Thus every component has a
+row from the $s$-packet to the displayed middle $t$-packet and a row from that
+same middle packet to the $u$-packet. The middle syntax skeleton and middle
+binder ledger are the same displayed rows in the two hypotheses, so no
+additional matching datum is required.
+
+Concatenate the two oriented $\hsame$ comparisons on the $\TreeUp$ skeletons.
+Do the same for each $\NatUp$ binder or variable-index row named by the alpha
+ledger. The alpha-renaming routes are finite $\Cont$ rows attached to those
+same visible components, so their carried provenance concatenates along the
+middle packet while preserving constructor tags and binder positions.
+
+Apply \autoref{thm:lambdacalc-alpha-renaming-freshness-transport} to the
+concatenated alpha route. It keeps the endpoint inside
+$\mathsf{LambdaCalcBHistTermCarrier}$, preserves the free-variable packet, and
+records the transported syntax and binder rows by the concatenated $\hsame$
+comparisons. Apply \autoref{thm:lambdacalc-alpha-beta-carrier-transport} to
+read the resulting endpoints as LambdaCalc carrier data over the displayed
+syntax and binder ledgers.
+
+Finally repack the concatenated syntax comparison, concatenated binder-index
+comparison, concatenated alpha-renaming $\Cont$ route, endpoint $\hsame$ rows,
+and common $\Pkg$ provenance. By
+\autoref{thm:lambdacalc-namecert-ledger-exactness}, these are exactly the rows
+an accepted public LambdaCalc alpha read may consume. Hence the repacked row is
+an accepted alpha-classifier row relating $(s,u)$.
+\end{proof}
