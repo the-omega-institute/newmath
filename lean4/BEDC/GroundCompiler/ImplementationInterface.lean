@@ -31,6 +31,10 @@ inductive InterfaceDatum : Type where
   | recognizesChapter
   | recognizesCompiler
   | acceptFlow
+  | motifReport
+  | metricReport
+  | cannotClaim
+  | bridgeObligation
 
 inductive ImplementationRepresentation : InterfaceDatum -> Prop where
   | hostBoolList :
@@ -178,11 +182,66 @@ def RecognizerCoreModule (publicSurface : InterfaceDatum -> Prop) : Prop :=
     publicSurface InterfaceDatum.certifiedRecognizer /\
     NoHostLeakCondition publicSurface
 
+inductive CertificateRecognizerPublic : InterfaceDatum -> Prop where
+  | recognizesPkg :
+      CertificateRecognizerPublic InterfaceDatum.recognizesPkg
+  | recognizesNameCert :
+      CertificateRecognizerPublic InterfaceDatum.recognizesNameCert
+  | recognizesDerivCert :
+      CertificateRecognizerPublic InterfaceDatum.recognizesDerivCert
+  | acceptFlow :
+      CertificateRecognizerPublic InterfaceDatum.acceptFlow
+  | recognizesTheorem :
+      CertificateRecognizerPublic InterfaceDatum.recognizesTheorem
+  | recognizesChapter :
+      CertificateRecognizerPublic InterfaceDatum.recognizesChapter
+  | recognizesCompiler :
+      CertificateRecognizerPublic InterfaceDatum.recognizesCompiler
+
+def CertificateRecognizerModules (publicSurface : InterfaceDatum -> Prop) :
+    Prop :=
+  (forall d, publicSurface d -> CertificateRecognizerPublic d) /\
+    publicSurface InterfaceDatum.recognizesPkg /\
+    publicSurface InterfaceDatum.recognizesNameCert /\
+    publicSurface InterfaceDatum.recognizesDerivCert /\
+    publicSurface InterfaceDatum.acceptFlow /\
+    publicSurface InterfaceDatum.recognizesTheorem /\
+    publicSurface InterfaceDatum.recognizesChapter /\
+    publicSurface InterfaceDatum.recognizesCompiler /\
+    NoHostLeakCondition publicSurface
+
+inductive AnalysisPublic : InterfaceDatum -> Prop where
+  | motifReport :
+      AnalysisPublic InterfaceDatum.motifReport
+  | metricReport :
+      AnalysisPublic InterfaceDatum.metricReport
+  | cannotClaim :
+      AnalysisPublic InterfaceDatum.cannotClaim
+  | bridgeObligation :
+      AnalysisPublic InterfaceDatum.bridgeObligation
+
+def AnalysisModules (publicSurface : InterfaceDatum -> Prop) : Prop :=
+  (forall d, publicSurface d -> AnalysisPublic d) /\
+    publicSurface InterfaceDatum.motifReport /\
+    publicSurface InterfaceDatum.metricReport /\
+    publicSurface InterfaceDatum.cannotClaim /\
+    publicSurface InterfaceDatum.bridgeObligation /\
+    NoHostLeakCondition publicSurface
+
 def DecodesEvent (c : List DisplayAlphabet) (w : RawEvent) : Prop :=
   EncodesEvent w c
 
 def Decodes (c : List DisplayAlphabet) (S : EventFlow) : Prop :=
   Compiles S c
+
+inductive DecoderOutcome : Type where
+  | decoded (S : EventFlow)
+  | rejected (r : EventFlow)
+
+def ExecutableDecoder (c : List DisplayAlphabet) : DecoderOutcome :=
+  match Decode c with
+  | some S => DecoderOutcome.decoded S
+  | none => DecoderOutcome.rejected []
 
 def ExecutableEncoder : EventFlow -> List DisplayAlphabet :=
   FlowEncoding

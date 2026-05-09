@@ -190,6 +190,7 @@ $$
 
 \begin{definition}[Certificate recognizer modules]
 \label{def:implementation-interface-certificate-recognizer-modules}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.CertificateRecognizerModules}
 The certificate and structure recognizer modules expose only event-flow recognition relations. Suitable module names include
 $$
 \begin{gathered}
@@ -206,6 +207,7 @@ $$
 
 \begin{definition}[Analysis modules]
 \label{def:implementation-interface-analysis-modules}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.AnalysisModules}
 Analysis modules include motif, metric, report, cannot-claim, and bridge-obligation modules. They must maintain the rules that reports are output views, metrics are protocol-relative, motif recognition requires generated recognizers, and analysis is conservative.
 \end{definition}
 
@@ -307,6 +309,7 @@ By the definition of $\mathsf{Compiles}$, both $c$ and $d$ are the concatenated 
 
 \begin{definition}[Executable decoder]
 \label{def:implementation-interface-executable-decoder}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ExecutableDecoder}
 An \emph{executable decoder} is an implementation-layer procedure that consumes a bit stream and returns either an event flow or a rejection reason. The formal public statements do not expose host result types or host rejection enums as BEDC primitives.
 
 Its obligations are decoder soundness, decoder completeness on the legal-stream domain, and rejection soundness.
