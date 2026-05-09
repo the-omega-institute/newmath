@@ -15,6 +15,7 @@ import BEDC.GroundCompiler.SelfHostingCompilerFlow
 import BEDC.GroundCompiler.SemanticMotif
 import BEDC.GroundCompiler.CaseStudies
 import BEDC.GroundCompiler.MetricsFlow
+import BEDC.GroundCompiler.HigherCaseStudies
 import BEDC.GroundCompiler.AnalysisPipeline
 import BEDC.GroundCompiler.MainTheorems
 import BEDC.GroundCompiler.ProgrammaticRealization
