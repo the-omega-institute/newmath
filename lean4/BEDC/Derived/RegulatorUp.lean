@@ -1,6 +1,12 @@
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.NumFieldUp
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
 import BEDC.FKernel.Package.Core
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.RegulatorUp
 
@@ -53,5 +59,49 @@ theorem RegulatorRootInputPacket_dirichletunit_input_boundary [AskSetup] [Packag
               (And.intro packet.right.right.right.right.left
                 (And.intro packet.right.right.right.right.right.left
                   packet.right.right.right.right.right.right)))))))
+
+def RegulatorRootLedgerPacket [AskSetup] [PackageSetup]
+    (dirichlet numfield unit inverse rank basis determinant provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory dirichlet ∧ UnaryHistory numfield ∧ UnaryHistory unit ∧
+    UnaryHistory inverse ∧ UnaryHistory rank ∧ UnaryHistory basis ∧
+      UnaryHistory determinant ∧ UnaryHistory provenance ∧
+        Cont provenance determinant endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem RegulatorRootInputPacket_ledger_exactness [AskSetup] [PackageSetup]
+    {dirichlet numfield unit inverse rank basis determinant provenance endpoint
+      determinantLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegulatorRootLedgerPacket dirichlet numfield unit inverse rank basis determinant provenance
+        endpoint bundle pkg ->
+      Cont basis determinant determinantLedger ->
+        UnaryHistory determinantLedger ∧ hsame determinantLedger (append basis determinant) ∧
+          hsame endpoint (append provenance determinant) ∧ PkgSig bundle endpoint pkg := by
+  intro packet determinantLedgerCont
+  cases packet with
+  | intro _ rest =>
+      cases rest with
+      | intro _ rest =>
+          cases rest with
+          | intro _ rest =>
+              cases rest with
+              | intro _ rest =>
+                  cases rest with
+                  | intro _ rest =>
+                      cases rest with
+                      | intro basisUnary rest =>
+                          cases rest with
+                          | intro determinantUnary rest =>
+                              cases rest with
+                              | intro provenanceUnary rest =>
+                                  cases rest with
+                                  | intro endpointCont endpointPkg =>
+                                      have determinantLedgerUnary :
+                                          UnaryHistory determinantLedger :=
+                                        unary_cont_closed basisUnary determinantUnary
+                                          determinantLedgerCont
+                                      exact And.intro determinantLedgerUnary
+                                        (And.intro determinantLedgerCont
+                                          (And.intro endpointCont endpointPkg))
 
 end BEDC.Derived.RegulatorUp
