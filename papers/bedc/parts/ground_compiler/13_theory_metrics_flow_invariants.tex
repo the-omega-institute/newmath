@@ -209,6 +209,7 @@ If $S$ contains recognized bridge motifs, its \emph{bridge depth} $\mathsf{Bridg
 
 \begin{definition}[Normal-address map]
 \label{def:metrics-normal-address-map}
+\leandef{BEDC.GroundCompiler.MetricsFlow.NormalAddressMap}
 Given a source-level normalizer recognizer in $\mathcal R$, if $S$ contains a ledger-preserving normalization
 $$
   w\leadsto v,
@@ -222,6 +223,7 @@ where $L_{w\to v}$ is the normalization ledger. The normal-address map $\mathsf{
 
 \begin{definition}[Normal-address distance]
 \label{def:metrics-normal-address-distance}
+\leandef{BEDC.GroundCompiler.MetricsFlow.NormalAddressDistance}
 For event flows $S$ and $T$, define a normal-address distance by
 $$
   \mathsf{NormDist}_{\mathcal R}(S,T)
@@ -294,6 +296,7 @@ If $c\in\mathsf{LegalZStream}$, one may first compute $S=\mathsf{Decode}(c)$ and
 
 \begin{proposition}[Channel substring metrics are inadmissible]
 \label{prop:metrics-channel-substring-inadmissible}
+\leanchecked{BEDC.GroundCompiler.MetricsFlow.channel\_substring\_metrics\_inadmissible}
 Any metric that directly counts channel substrings such as $011$, $100$, or $11$ is inadmissible unless it first decodes the channel stream and turns the result into source-level event-flow recognition.
 \end{proposition}
 

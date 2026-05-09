@@ -190,6 +190,48 @@ structure BridgeChain where
 def BridgeDepth (chains : List BridgeChain) : Nat :=
   (chains.map (fun chain => chain.steps.length)).foldr Nat.max 0
 
+structure NormalAddressRecord where
+  sourceFlow : EventFlow
+  normalFlow : EventFlow
+  ledgerFlow : EventFlow
+  deriving DecidableEq
+
+def NormalAddressMap
+    (Rfam : MetricRecognizerFamily) (S : EventFlow)
+    (records : List NormalAddressRecord) : Prop :=
+  forall rec : NormalAddressRecord,
+    List.Mem rec records ->
+      EventSubflow S rec.sourceFlow /\
+        EventSubflow S rec.normalFlow /\
+        EventSubflow S rec.ledgerFlow /\
+        exists R : GeneratedRecognizer,
+          List.Mem R Rfam /\
+            FormalCompilerInput
+              (CompilerDatum.recognizedFlow R rec.sourceFlow) /\
+            FormalCompilerInput
+              (CompilerDatum.recognizedFlow R rec.normalFlow) /\
+            FormalCompilerInput
+              (CompilerDatum.recognizedFlow R rec.ledgerFlow)
+
+def ListContains {α : Type} [DecidableEq α] (x : α) : List α -> Bool
+  | [] => false
+  | y :: ys => if x = y then true else ListContains x ys
+
+def ListIntersectionCount {α : Type} [DecidableEq α] (xs ys : List α) : Nat :=
+  (xs.filter (fun x => ListContains x ys)).length
+
+def ListUnionCount {α : Type} [DecidableEq α] (xs ys : List α) : Nat :=
+  xs.length + (ys.filter (fun y => not (ListContains y xs))).length
+
+def JaccardDistanceRatio {α : Type} [DecidableEq α] (xs ys : List α) :
+    Nat × Nat :=
+  let unionCount := ListUnionCount xs ys
+  (unionCount - ListIntersectionCount xs ys, unionCount)
+
+def NormalAddressDistance
+    (left right : List NormalAddressRecord) : Nat × Nat :=
+  JaccardDistanceRatio left right
+
 theorem external_metric_input_not_allowed {d : MetricDataKind} :
     MetricExternalInput d -> Not (MetricAllowedData d) := by
   intro hExternal hAllowed
@@ -234,5 +276,14 @@ theorem external_object_name_metric_inadmissible :
     external_metric_input_not_allowed
       MetricExternalInput.externalObjectName
       (hAdmissible MetricDataKind.externalObjectName (List.Mem.head []))
+
+theorem channel_substring_metrics_inadmissible :
+    Not (MetricAdmissible
+      { sources := [MetricDataKind.channelSubstring] }) := by
+  intro hAdmissible
+  exact
+    external_metric_input_not_allowed
+      MetricExternalInput.channelSubstring
+      (hAdmissible MetricDataKind.channelSubstring (List.Mem.head []))
 
 end BEDC.GroundCompiler.MetricsFlow
