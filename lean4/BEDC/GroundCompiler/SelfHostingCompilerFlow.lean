@@ -205,6 +205,20 @@ theorem self_hosting_yields_behavior_classifier
       | intro _L hLedger =>
           exact ⟨C', hLedger.right.left⟩
 
+theorem self_hosting_not_kernel_equality
+    {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :
+    SelfHostingCompilerFlow behavior C ->
+      exists C' : CompilerCandidateFlow, exists L : EventFlow,
+        behavior C C C' /\
+          CompilerBehaviorClassifier behavior C' C /\
+          SelfHostingLedger C L := by
+  intro hSelf
+  cases hSelf.right.right with
+  | intro C' hC' =>
+      cases hC' with
+      | intro L hLedger =>
+          exact ⟨C', L, hLedger.left, hLedger.right.left, hLedger.right.right⟩
+
 theorem self_hosting_requires_ledger
     {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :
     SelfHostingCompilerFlow behavior C ->
@@ -366,6 +380,22 @@ theorem self_hosting_channel_bijection_independent :
         LegalZStream c ->
           exists S : EventFlow, Decode c = some S /\ FlowEncoding S = c) := by
   exact channel_encoding_bijection
+
+theorem channel_correctness_separate :
+    ((forall S : EventFlow, Decode (FlowEncoding S) = some S) /\
+      (forall c : List DisplayAlphabet,
+        LegalZStream c ->
+          exists S : EventFlow, Decode c = some S /\ FlowEncoding S = c)) /\
+      Not (ChannelFullCompiler ChannelCompiler) := by
+  constructor
+  · exact self_hosting_channel_bijection_independent
+  · exact channel_compiler_not_full
+
+theorem compiler_flow_recognition_conservativity
+    {C : CompilerCandidateFlow} {w : RawEvent} {m : DisplayAlphabet} :
+    List.Mem w C -> List.Mem m w -> m = BMark.b0 \/ m = BMark.b1 := by
+  intro hEvent hMark
+  exact event_flow_conservativity hEvent hMark
 
 def P9CompilerCandidate (S C : EventFlow) : Prop :=
   P9Subflow S C
