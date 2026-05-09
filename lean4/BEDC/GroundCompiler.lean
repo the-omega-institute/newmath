@@ -14,6 +14,7 @@ import BEDC.GroundCompiler.ChapterFlow
 import BEDC.GroundCompiler.SelfHostingCompilerFlow
 import BEDC.GroundCompiler.SemanticMotif
 import BEDC.GroundCompiler.MotifReportCounts
+import BEDC.GroundCompiler.MotifReportPrototype
 import BEDC.GroundCompiler.CaseStudies
 import BEDC.GroundCompiler.MetricsFlow
 import BEDC.GroundCompiler.HigherCaseStudies
