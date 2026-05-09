@@ -57,6 +57,20 @@ theorem nat_like_extends_repetition (k : Nat) :
     PrefixSubflow (FiniteRepetitionSkeleton k) (NatLikeSkeleton k) := by
   exact ⟨[[BMark.b0, BMark.b1]], rfl⟩
 
+def AddSkeleton : EventFlow :=
+  [[BMark.b0], [BMark.b0, BMark.b0], [BMark.b0, BMark.b0, BMark.b1]]
+
+def FoldSkeleton : EventFlow :=
+  List.append AddSkeleton
+    [[BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b0, BMark.b1, BMark.b0, BMark.b0]]
+
+theorem fold_skeleton_extends_add :
+    PrefixSubflow AddSkeleton FoldSkeleton := by
+  exact
+    ⟨[[BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b0, BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+
 structure CompletionMotifRecord where
   stage : EventFlow
   threadFlow : EventFlow
