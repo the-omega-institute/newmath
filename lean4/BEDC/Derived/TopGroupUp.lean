@@ -244,6 +244,31 @@ theorem TopGroupRootThresholdPackage_continuity_ledger_scope
     (And.intro ledgerUnary
       (And.intro provenanceUnary rows.right.right.right.right.right.right))
 
+theorem TopGroupRootThresholdPackage_continuity_classifier_stability
+    {group topology product inverse neighborhood ledger provenance product' inverse' ledger' :
+      BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      hsame product product' ->
+        hsame inverse inverse' ->
+          Cont product' inverse' ledger' ->
+            hsame ledger ledger' ∧ UnaryHistory product' ∧ UnaryHistory inverse' ∧
+              UnaryHistory ledger' := by
+  intro package sameProduct sameInverse ledgerCont'
+  have boundary :=
+    TopGroupRootThresholdPackage_source_coupled_continuity_boundary package
+  have ledgerCont : Cont product inverse ledger :=
+    package.right.right.right.right.right.left
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameProduct sameInverse ledgerCont ledgerCont'
+  have productUnary' : UnaryHistory product' :=
+    unary_transport boundary.right.right.left sameProduct
+  have inverseUnary' : UnaryHistory inverse' :=
+    unary_transport boundary.right.right.right.left sameInverse
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed productUnary' inverseUnary' ledgerCont'
+  exact And.intro sameLedger
+    (And.intro productUnary' (And.intro inverseUnary' ledgerUnary'))
+
 theorem TopGroupRootPublicThreshold_transport
     {G G' T T' product product' inverse inverse' neighborhood neighborhood'
       classifier classifier' provenance provenance' ledger ledger' ledgerOut ledgerOut' : BHist} :
