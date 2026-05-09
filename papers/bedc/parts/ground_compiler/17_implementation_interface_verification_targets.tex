@@ -317,6 +317,7 @@ Its obligations are decoder soundness, decoder completeness on the legal-stream 
 
 \begin{theorem}[Decoder soundness obligation]
 \label{thm:implementation-interface-decoder-soundness-obligation}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.decoder\_soundness\_obligation}
 If the implementation decoder returns success with event flow $S$ on input $c$, then
 $$
   \mathsf{Decodes}(c,S)
@@ -340,11 +341,16 @@ A legal stream lies in $((0\mid 10)^{\ast}11)^{\ast}$. The scanner therefore enc
 
 \begin{theorem}[Reject soundness obligation]
 \label{thm:implementation-interface-reject-soundness-obligation}
-If the implementation decoder rejects input $c$, then either $c\notin\mathsf{LegalZStream}$ or the rejection is allowed by an explicitly recorded implementation-domain policy.
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.reject\_soundness\_obligation}
+If the reference executable decoder rejects input $c$ with event-flow reason $r$, then
+$$
+  c\notin\mathsf{LegalZStream}.
+$$
+Any implementation-domain rejection policy must be expressed as its own event-flow relation before it can appear in the public formal interface.
 \end{theorem}
 
 \begin{proof}
-Each rejection branch must correspond to an event-flow syntax failure, such as dangling $1$, unfinished event body, invalid host character, noncanonical input representation, or a resource-bound condition. Resource-bound rejections must be recorded in the implementation ledger or bootstrap-obligation ledger.
+If $c\in\mathsf{LegalZStream}$, then $c=\mathsf{Compile}(S)$ for some event flow $S$. By the channel round-trip theorem, decoding $c$ returns success with $S$. This contradicts rejection by the reference executable decoder.
 \end{proof}
 
 \begin{definition}[Executable encoder]

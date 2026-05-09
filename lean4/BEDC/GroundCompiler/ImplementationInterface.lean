@@ -2,6 +2,7 @@ import BEDC.GroundCompiler.ChannelEncoding
 
 namespace BEDC.GroundCompiler.ImplementationInterface
 
+open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.ChannelEncoding
 open BEDC.GroundCompiler.EventFlow
 
@@ -287,6 +288,109 @@ def ExecutableDecoder (c : List DisplayAlphabet) : DecoderOutcome :=
 def ExecutableEncoder : EventFlow -> List DisplayAlphabet :=
   FlowEncoding
 
+theorem dec_event_sound {c : List DisplayAlphabet} {w : RawEvent}
+    {remaining : List DisplayAlphabet} :
+    DecEvent c = some (w, remaining) ->
+      c = EventEncoding w ++ remaining := by
+  induction c generalizing w remaining with
+  | nil =>
+      intro h
+      cases h
+  | cons m rest ih =>
+      cases m with
+      | b0 =>
+          intro h
+          simp [DecEvent] at h
+          cases hDec : DecEvent rest with
+          | none =>
+              rw [hDec] at h
+              cases h
+          | some pair =>
+              cases pair with
+              | mk tail remainingTail =>
+                  rw [hDec] at h
+                  have hRest :
+                      rest = EventEncoding tail ++ remainingTail :=
+                    ih hDec
+                  cases h
+                  rw [hRest]
+                  rfl
+      | b1 =>
+          intro h
+          cases rest with
+          | nil =>
+              cases h
+          | cons n restTail =>
+              cases n with
+              | b0 =>
+                  simp [DecEvent] at h
+                  cases hDec : DecEvent restTail with
+                  | none =>
+                      rw [hDec] at h
+                      cases h
+                  | some pair =>
+                      cases pair with
+                      | mk tail remainingTail =>
+                          rw [hDec] at h
+                          have hRest :
+                              BMark.b0 :: restTail =
+                                EventEncoding (BMark.b0 :: tail) ++
+                                  remainingTail :=
+                            ih (by simp [DecEvent, hDec])
+                          cases h
+                          rw [hRest]
+                          rfl
+              | b1 =>
+                  cases h
+                  rfl
+
+theorem decode_fuel_sound {fuel : Nat} {c : List DisplayAlphabet}
+    {S : EventFlow} :
+    DecodeFuel fuel c = some S -> c = FlowEncoding S := by
+  induction fuel generalizing c S with
+  | zero =>
+      intro h
+      cases c with
+      | nil =>
+          cases h
+          rfl
+      | cons m rest =>
+          cases h
+  | succ fuel ih =>
+      intro h
+      unfold DecodeFuel at h
+      cases hDec : DecEvent c with
+      | none =>
+          simp [hDec] at h
+          cases c with
+          | nil =>
+              cases h
+              rfl
+          | cons m rest =>
+              cases h
+      | some pair =>
+          cases pair with
+          | mk w remaining =>
+              simp [hDec] at h
+              cases hRest : DecodeFuel fuel remaining with
+              | none =>
+                  rw [hRest] at h
+                  cases h
+              | some tail =>
+                  rw [hRest] at h
+                  cases h
+                  have hRemaining : remaining = FlowEncoding tail :=
+                    ih hRest
+                  have hCode : c = EventEncoding w ++ remaining :=
+                    dec_event_sound hDec
+                  rw [hCode, hRemaining]
+                  rfl
+
+theorem decode_sound {c : List DisplayAlphabet} {S : EventFlow} :
+    Decode c = some S -> c = FlowEncoding S := by
+  intro h
+  exact decode_fuel_sound h
+
 theorem host_representation_not_structure {d : InterfaceDatum} :
     ImplementationRepresentation d -> Not (PublicFormalInterface d) := by
   intro hImplementation hPublic
@@ -312,6 +416,20 @@ theorem decoder_functional {c : List DisplayAlphabet} {S T : EventFlow} :
   cases hDecodeT
   rfl
 
+theorem decoder_soundness_obligation {c : List DisplayAlphabet}
+    {S : EventFlow} :
+    ExecutableDecoder c = DecoderOutcome.decoded S -> Decodes c S := by
+  intro h
+  unfold ExecutableDecoder at h
+  cases hDecode : Decode c with
+  | none =>
+      rw [hDecode] at h
+      cases h
+  | some T =>
+      rw [hDecode] at h
+      cases h
+      exact decode_sound hDecode
+
 theorem encoder_soundness_obligation {S : EventFlow}
     {c : List DisplayAlphabet} :
     ExecutableEncoder S = c -> Compiles S c := by
@@ -332,6 +450,19 @@ theorem decoder_completeness_obligation {c : List DisplayAlphabet}
     rw [h]
     exact flow_level_round_trip S
   rw [hDecode]
+
+theorem reject_soundness_obligation {c : List DisplayAlphabet}
+    {r : EventFlow} :
+    ExecutableDecoder c = DecoderOutcome.rejected r ->
+      Not (LegalZStream c) := by
+  intro hReject hLegal
+  cases legal_stream_completeness hLegal with
+  | intro S hS =>
+      cases hS with
+      | intro hDecode _ =>
+          unfold ExecutableDecoder at hReject
+          rw [hDecode] at hReject
+          cases hReject
 
 theorem encoder_no_internal_terminator_obligation (w : RawEvent) :
     NoAdjacentOneOne (BodyEncoding w) := by
