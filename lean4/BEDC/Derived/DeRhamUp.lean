@@ -227,6 +227,57 @@ theorem DeRhamStandardBoundaryBridgePacket_consumer_ledger_exhaustion
       (And.intro boundary.right.right
         (And.intro packet.left.right.right.right.right packet.right)))
 
+theorem DeRhamStandardBoundaryBridgePacket_source_exhaustion
+    {d : BHist -> BHist} {omega eta theta zero provenance bridge : BHist} :
+    DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
+      exists graphLedger endpointLedger : BHist,
+        DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger ∧
+          DeRhamBoundary d theta ∧ hsame theta zero ∧ hsame (d eta) BHist.Empty ∧
+            Cont theta zero graphLedger ∧ Cont graphLedger eta endpointLedger ∧
+              hsame bridge (append provenance theta) := by
+  intro packet
+  let graphLedger := append theta zero
+  let endpointLedger := append graphLedger eta
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
+  have graphCont : Cont theta zero graphLedger := by
+    rfl
+  have endpointCont : Cont graphLedger eta endpointLedger := by
+    rfl
+  have ledgerPacket :
+      DeRhamBoundarySourceLedgerPacket d omega eta theta zero graphLedger endpointLedger :=
+    And.intro packet.left
+      (And.intro boundary.right.left
+        (And.intro boundary.right.right (And.intro graphCont endpointCont)))
+  have bridgeSource : hsame bridge (append provenance theta) := by
+    exact packet.right
+  exact Exists.intro graphLedger
+    (Exists.intro endpointLedger
+      (And.intro ledgerPacket
+        (And.intro boundary.right.left
+          (And.intro boundary.left
+            (And.intro boundary.right.right
+              (And.intro graphCont (And.intro endpointCont bridgeSource)))))))
+
+theorem DeRhamStandardBoundaryBridgePacket_zero_cocycle_example
+    {d : BHist -> BHist} {omega eta theta zero provenance bridge : BHist} :
+    DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
+      exists zeroLedger : BHist,
+        Cont zero (d eta) zeroLedger ∧ hsame zeroLedger BHist.Empty ∧
+          hsame zero BHist.Empty ∧ hsame (d eta) BHist.Empty ∧ DeRhamBoundary d theta := by
+  intro packet
+  let zeroLedger := append zero (d eta)
+  have boundary := DeRhamDoubleExteriorPacket_boundary packet.left
+  have zeroCont : Cont zero (d eta) zeroLedger := by
+    rfl
+  have zeroLedgerEmpty : hsame zeroLedger BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro packet.left.right.right.right.right boundary.right.right)
+  exact Exists.intro zeroLedger
+    (And.intro zeroCont
+      (And.intro zeroLedgerEmpty
+        (And.intro packet.left.right.right.right.right
+          (And.intro boundary.right.right boundary.right.left))))
+
 theorem DeRhamStandardBoundaryBridgePacket_boundary_preimage_threshold
     {d : BHist -> BHist} {omega eta theta zero provenance bridge : BHist} :
     DeRhamStandardBoundaryBridgePacket d omega eta theta zero provenance bridge ->
