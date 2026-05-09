@@ -1,0 +1,87 @@
+\begin{theorem}[PinGroup scoped reflection-parity source]
+\label{thm:pingroup-scoped-reflection-parity-source}
+The scoped reflection-parity source of $\PinGroupUp$ is exactly the finite
+carrier surface consisting of the reflection-parity carrier of
+\autoref{def:pingroup-reflection-parity-carrier}, the inherited
+$\SpinGroupUp$ inclusion row, the $\CliffordUp$ reflection product row, the
+displayed $\hsame$ transports, the finite $\Cont$ routes, and the $\Pkg$
+provenance rows supplied by $\NameCert_{\SpinGroupUp}$ and
+$\NameCert_{\CliffordUp}$.
+
+Every accepted consumer read of the parity source factors through those rows,
+and any packet with those rows repacks as the same scoped $\PinGroupUp$
+reflection-parity source. No host orthogonal group, quotient Clifford unit,
+matrix representation, or third source row is part of the scoped source.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:pingroup-parity-source-scope-package}. It identifies
+the source rows as the inherited Spin branch, the Clifford reflection branch,
+the carried $\mathsf{BHist}$ histories, and the displayed transport and
+provenance rows.
+
+Then apply \autoref{thm:pingroup-parity-carrier-inversion}. The inversion
+record attaches each accepted parity-carrier row to exactly one of the two
+source projections and carries the same $\hsame$, $\Cont$, and $\Pkg$ data.
+
+Finally use \autoref{thm:pingroup-parity-namecert-obligation-surface}. It
+repackages the listed rows as the scoped $\NameCert_{\PinGroupUp}$ obligation
+surface and excludes host orthogonal, matrix, quotient, and third-source data.
+\end{proof}
+
+\begin{theorem}[PinGroup scoped Spin-Clifford boundary]
+\label{thm:pingroup-scoped-spin-clifford-boundary}
+The scoped Spin-Clifford boundary of $\PinGroupUp$ is the common finite
+boundary between the inherited $\SpinGroupUp$ inclusion row and the
+$\CliffordUp$ reflection product row. It is determined by the Spin boundary
+row, the Clifford reflection product row, the reflection-parity classifier row,
+the $\hsame$ endpoint transports, the finite $\Cont$ ledger, and the shared
+$\Pkg$ provenance.
+
+Two scoped boundary packets determine the same public boundary exactly when
+those rows agree. The boundary exports no independent Pin carrier datum beyond
+the reflection-parity carrier and no host full-orthogonal action beyond the
+displayed Clifford action row.
+\end{theorem}
+\begin{proof}
+First read the inherited Spin side through
+\autoref{thm:pingroup-spin-subrow-classifier-readback}. It shows that a Spin
+source row contributes only the inherited classifier and the identity
+reflection ledger.
+
+Next read the Clifford side through
+\autoref{thm:pingroup-reflection-ledger-scope-package}. The Clifford product
+and reflection ledger are exactly the carried reflection entries, the finite
+transport ledger, and the source certificate rows.
+
+Finally combine these rows using
+\autoref{thm:pingroup-parity-transport-ledger-exhaustion}. The exhaustion
+statement fixes the shared parity classifier, endpoint transports, ledger
+routes, and provenance, so agreement on those rows is precisely agreement of
+the scoped Spin-Clifford boundary.
+\end{proof}
+
+\begin{theorem}[PinGroup scoped consumer projection exhaustion]
+\label{thm:pingroup-scoped-consumer-projection-exhaustion}
+Every scoped consumer projection from $\PinGroupUp$ is exhausted by the
+consumer readback packet of
+\autoref{def:pingroup-consumer-readback-packet}, the reflection-parity carrier,
+the Spin inclusion row, the Clifford reflection product row, the Clifford
+action row, the $\hsame$ transports, the finite $\Cont$ routes, and the $\Pkg$
+provenance rows. Conversely, any finite packet carrying exactly those rows is
+the public scoped consumer surface for later $\PinGroupUp$ consumers.
+\end{theorem}
+\begin{proof}
+Project the consumer through
+\autoref{thm:pingroup-consumer-boundary-scope-package}. It records precisely the
+reflection ledger, Clifford action row, Spin boundary row, source projections,
+transport rows, witnesses, provenance, and source certificates.
+
+Then apply \autoref{thm:pingroup-downstream-unblock-package}. The downstream
+package exports the same finite consumer rows and does not import a host
+orthogonal group, quotient Clifford unit, or matrix model.
+
+Finally use \autoref{thm:pingroup-root-downstream-threshold-surface}. It
+identifies the root-facing consumer threshold packet with the same scoped
+rows, so every later consumer projection is exhausted by the displayed
+readback packet and every such packet repacks as the scoped public surface.
+\end{proof}

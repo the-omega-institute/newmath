@@ -467,3 +467,47 @@ The exclusion clauses in that exhaustion theorem and in the finite-window
 handoff theorem keep regularity, seal, completion, quotient, and host-index
 data outside the common surface.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp triple seal cover]
+\label{thm:streamname-regseqrat-realup-triple-seal-cover}
+Let $\mathcal{S}$ be an accepted finite $\StreamNameUp$ rational-window
+package, let $\mathcal{R}$ be the $\RegSeqRat$ pointwise seal package read from
+the same certified unary indices, and let $\mathcal{E}$ be the $\RealUp$
+sealing endpoint reached by the finite-window consumer. Then $\mathcal{S}$,
+$\mathcal{R}$, and $\mathcal{E}$ determine the same public read exactly when
+their unary observation rows, finite $\Cont$ ledger, $\hsame$ endpoint
+transports, and $\Pkg$ provenance rows agree.
+
+Equivalently, the three-way cover contains only the pointwise
+$\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ observations, the accepted
+$\RegSeqRat$ pointwise seal rows, the $\RealUp$ endpoint seal row, the finite
+transport ledger, and the shared provenance package. It contains no quotient
+representative, completion modulus, host index equality, or additional
+regularity datum beyond those rows.
+\end{theorem}
+\begin{proof}
+First compare the $\StreamNameUp$ and $\RegSeqRat$ sides pointwise. By
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability}, agreement of the
+unary observations, $\hsame$ transports, finite $\Cont$ rows, and $\Pkg$
+provenance preserves the accepted seal row at each certified index.
+
+Next paste the pointwise seals. Apply
+\autoref{thm:streamname-regseqrat-pointwise-seal-pasting} to the certified
+finite window. The pasted package has exactly the pointwise rows and the shared
+finite ledger, so it is independent of any extra quotient or completion
+representative.
+
+Now exhaust the visible handoff. By
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}, every public
+row read by the RegSeqRat consumer is one of the displayed unary observation,
+transport, ledger, or provenance rows. Thus the RegSeqRat package contributes
+no additional public datum once those rows agree.
+
+Finally use \autoref{thm:streamname-regseqrat-nested-window-handoff}. It
+identifies the finite-window route to the $\RealUp$ sealing endpoint with the
+same restricted source surface. Therefore the StreamName window package, the
+RegSeqRat pointwise seal package, and the RealUp endpoint seal determine one
+public read exactly in the stated agreement conditions, and the reverse
+direction reads the same four families of rows back into the three packages.
+\end{proof}
