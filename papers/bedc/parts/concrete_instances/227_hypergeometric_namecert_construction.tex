@@ -248,3 +248,31 @@ gap row must be consumed through the finite packet surface already listed, so
 the signature gap has exactly that boundary.
 \end{proof}
 \leanchecked{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_signature\_gap\_boundary}
+
+\begin{theorem}[HypergeometricUp public certificate handoff]
+\label{thm:hypergeometric-public-certificate-handoff}
+The public $\NameCert_{\HypergeometricUp}$ handoff consists exactly of the
+finite $\mathsf{BHist}$ source packet of
+\autoref{def:hypergeometric-bhist-source-packet}, $\Cont$, $\hsame$, $\Pkg$, the
+$\ComplexAnalyticUp$ dependency row, the $\GammaUp$ dependency row, the
+parameter rows, the coefficient-ratio row, the finite readback row, and the
+signature-gap exclusion of
+\autoref{thm:hypergeometric-signature-gap-boundary}. It exports no analytic
+continuation, monodromy, singularity classification, host differential
+equation, or host special-function equality.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:hypergeometric-namecert-obligation-surface}. It
+packages the finite source packet with exactly the continuation, transport,
+provenance, dependency, parameter, coefficient-ratio, and readback rows required
+by the public name certificate.
+
+Next apply \autoref{thm:hypergeometric-signature-gap-boundary}. The same finite
+rows are the only rows visible through a token gap, and the excluded analytic
+objects have no coordinate in the accepted packet.
+
+Combining the obligation surface with the gap boundary gives the consumer
+handoff. A downstream chapter may cite this theorem to receive the displayed
+finite $\mathsf{BHist}$ packet and the stated exclusions without importing any
+host analytic continuation or special-function equality.
+\end{proof}
