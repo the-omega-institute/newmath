@@ -24,6 +24,7 @@ Thus $011\mid 100$ is not $011=100$, not $\hsame(011,100)$, and not a Zeckendorf
 
 \begin{definition}[Source-level adjacent pair]
 \label{def:source-normalizer-adjacent-pair}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.AdjPair}
 Given an event flow
 $$
   S=(w_0,w_1,\ldots,w_{n-1}),
@@ -58,7 +59,12 @@ does not imply $011\leadsto 100$.
 
 \begin{definition}[Normalizer ledger candidate]
 \label{def:source-normalizer-ledger-candidate}
-Given an event flow $S$, a \emph{normalizer ledger candidate} is a tuple
+\leandef{BEDC.GroundCompiler.SourceNormalizer.NormCand}
+Given an event flow $S$ and a candidate-reporting predicate
+$$
+  P_{\mathrm{cand}}(w,v),
+$$
+a \emph{normalizer ledger candidate} is a tuple
 $$
   (i,w,v)
 $$
@@ -66,9 +72,9 @@ such that
 $$
   \mathsf{AdjPair}(S,i)=(w,v)
 $$
-and the pair is reported by $P_2$ as a candidate normalizer pair. Write
+and the pair is reported by $P_2$ as a candidate normalizer pair according to $P_{\mathrm{cand}}$. Write
 $$
-  \mathsf{NormCand}(S,i,w,v).
+  \mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v).
 $$
 \end{definition}
 
@@ -76,7 +82,7 @@ $$
 \label{rem:source-normalizer-candidate-not-recognition}
 The judgment
 $$
-  \mathsf{NormCand}(S,i,w,v)
+  \mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v)
 $$
 is not the relation $w\leadsto v$. It says only that $w\mid v$ occurs at positions $i,i+1$ in $S$ and is recorded as a candidate normalization ledger. A genuine source-level normalization relation requires a generated normalizer recognizer flow $R_N$ and a judgment
 $$
@@ -138,15 +144,16 @@ $$
 
 \begin{proposition}[Candidate pair preserves raw events]
 \label{prop:source-normalizer-candidate-preserves-raw}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.candidate\_preserves\_raw}
 If
 $$
-  \mathsf{NormCand}(S,i,w,v),
+  \mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v),
 $$
 then $w$ and $v$ are both retained as source events in $S$.
 \end{proposition}
 
 \begin{proof}
-By definition, $\mathsf{NormCand}(S,i,w,v)$ means $\mathsf{AdjPair}(S,i)=(w,v)$. Hence $w=w_i$ and $v=w_{i+1}$, so both are source events in $S$.
+By definition, $\mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v)$ means $\mathsf{AdjPair}(S,i)=(w,v)$ together with candidate reporting. Hence $w=w_i$ and $v=w_{i+1}$, so both are source events in $S$.
 \end{proof}
 
 \begin{corollary}[Candidate normalizer does not erase pre-normal event]
@@ -156,7 +163,7 @@ If $P_2$ reports $011\mid 100$, then both $011$ and $100$ remain in the decoded 
 
 \begin{definition}[Pre-normal and normal-address events]
 \label{def:source-normalizer-pre-normal-normal-address}
-If $\mathsf{NormCand}(S,i,w,v)$ or $\mathsf{NormLedger}_{R_N}(S,i,w,v)$, then $w$ is the \emph{pre-normal event} of the pair and $v$ is the \emph{normal-address event}. The normal-address role is a ledger role, not object identity, equality target, or mature object.
+If $\mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v)$ or $\mathsf{NormLedger}_{R_N}(S,i,w,v)$, then $w$ is the \emph{pre-normal event} of the pair and $v$ is the \emph{normal-address event}. The normal-address role is a ledger role, not object identity, equality target, or mature object.
 \end{definition}
 
 \begin{definition}[$P_2$ normalizer ledger report]
@@ -177,7 +184,7 @@ A $P_2$ report must distinguish candidate normalizer pairs from recognized norma
 \label{thm:source-normalizer-candidate-not-relation}
 If $P_2$ reports only
 $$
-  \mathsf{NormCand}(S,i,w,v)
+  \mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v)
 $$
 and no judgment
 $$
