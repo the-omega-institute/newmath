@@ -382,11 +382,12 @@ a candidate report may show the shared finite spine $0\mid 00\mid 000$, the extr
 
 \begin{definition}[$P_3$ motif count]
 \label{def:motif-report-motif-count}
+\leandef{BEDC.GroundCompiler.MotifReportCounts.MotifCountP3}
 Given a recognized motif report, define
 $$
   \mathsf{MotifCount}_{P_3}(S,\mu)
 $$
-as the number of recognized motif occurrences of role $\mu$ in the report. If the report has only a candidate section and no recognized motifs, the motif count is undefined, not zero.
+as the count status for role $\mu$ in the report: it is $\mathsf{count}(n)$ when the recognized section supplies the list of $n$ recognized motif occurrences of role $\mu$, and it is $\mathsf{undefined}$ when the report has only a candidate section and no recognized motif list for $\mu$. Undefined count status is not the same datum as $\mathsf{count}(0)$.
 \end{definition}
 
 \begin{definition}[$P_3$ carry count]
@@ -401,7 +402,8 @@ The $P_3$ seal count is the number of recognized seal motif occurrences. Candida
 
 \begin{proposition}[Candidate count and recognized count differ]
 \label{prop:motif-report-candidate-recognized-count-differ}
-Candidate motif count cannot replace recognized motif count.
+\leanchecked{BEDC.GroundCompiler.MotifReportCounts.candidate\_recognized\_count\_differ}
+Candidate motif count cannot replace recognized motif count: there is a report state with one candidate motif occurrence and no recognized motif list for the same role, so the recognized motif count is undefined rather than $\mathsf{count}(1)$.
 \end{proposition}
 
 \begin{proof}
@@ -410,6 +412,7 @@ Candidate count depends on shape or candidate policy. Recognized count depends o
 
 \begin{corollary}[Missing recognizer does not imply zero motif]
 \label{cor:motif-report-missing-not-zero}
+\leanchecked{BEDC.GroundCompiler.MotifReportCounts.missing\_recognizer\_not\_zero}
 If a motif recognizer is missing, the recognized count for that motif is undefined or recognizer-missing, not zero. Otherwise absence of recognition would be mistaken for absence of structure.
 \end{corollary}
 
