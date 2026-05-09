@@ -14487,3 +14487,27 @@ Rationale:
 The Banach bounded-operator carrier is defined at papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_obligations.tex:1-31 with four carrier rows (classifier-respect, additivity, scalar action, RealUp bound). The zero operator carrier is constructed as a theorem at the same file, line 145 (B-480 on the BOARD). The IDENTITY operator carrier, by contrast, is only referenced as a hypothesis at bounded_linear_operator_composition.tex:319 ('Assume also that the source and target identity maps carry the unit bound: BanachBLOp(C,C,id_C,1_RealUp,I_C)'); no theorem CONSTRUCTS this carrier from the BanachUp axioms. A grep for `Banach.*identity.*operator.*carrier` returns no theorem-environment match across papers/bedc/parts/, and no Lean target named BanachIdentityBoundedLinearOperator_carrier or similar exists under lean4/BEDC/. The construction is a concrete one-shot proof using Banach C's classifier reflexivity, the RealUp multiplicative-identity row 1·r ~ r, and 1 ≥ 0; it parallels the zero-operator carrier proof at bounded_linear_operator_obligations.tex:163-194 in shape but uses different scalar-row witnesses, so it is not a parameter echo. Filling this gap also discharges the unit-ledger hypothesis hand-waved at line 319 of the composition file.
 
 ---
+
+### B-570 - Polynomial multiplication has right zero absorption
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial multiplication has right zero absorption |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+For every CommRingUp scalar source R and finite coefficient spine p over R, the raw Cauchy product PolyMul_R(p, nil) is PolySame_R-classified with nil.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_algebra.tex`
+
+Rationale:
+The chapter already proves the LEFT version `thm:polynomial-multiplication-left-zero-absorption` at 25_polynomial_literal_addtrim_algebra.tex:203, and proves multiplicative commutativity over commring scalars at 25_polynomial_literal_addtrim_algebra.tex:134 (`thm:polynomial-raw-multiplication-commutativity-from-commring-scalars`). Hence right-zero absorption follows by composing the two: PolyMul(p, nil) ~ PolyMul(nil, p) ~ nil. Standard textbook (Hungerford Algebra Ch.III §6, Lang Algebra Ch.IV §1: polynomial ring zero element is two-sided absorbing). No matching label in BOARD index. The file is 242 lines (well below the 760-line cap). Closes in 1 round: a 5-line proof citing two existing labels.
+
+---

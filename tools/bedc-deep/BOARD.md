@@ -43,30 +43,6 @@ papers/bedc/parts/concrete_instances/banach/bounded_linear_operator_composition.
 
 ---
 
-### B-570 - Polynomial multiplication has right zero absorption
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Polynomial multiplication has right zero absorption |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 6/10 |
-
-Problem:
-For every CommRingUp scalar source R and finite coefficient spine p over R, the raw Cauchy product PolyMul_R(p, nil) is PolySame_R-classified with nil.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_algebra.tex`
-
-Rationale:
-The chapter already proves the LEFT version `thm:polynomial-multiplication-left-zero-absorption` at 25_polynomial_literal_addtrim_algebra.tex:203, and proves multiplicative commutativity over commring scalars at 25_polynomial_literal_addtrim_algebra.tex:134 (`thm:polynomial-raw-multiplication-commutativity-from-commring-scalars`). Hence right-zero absorption follows by composing the two: PolyMul(p, nil) ~ PolyMul(nil, p) ~ nil. Standard textbook (Hungerford Algebra Ch.III §6, Lang Algebra Ch.IV §1: polynomial ring zero element is two-sided absorbing). No matching label in BOARD index. The file is 242 lines (well below the 760-line cap). Closes in 1 round: a 5-line proof citing two existing labels.
-
----
-
 ### B-571 - AffineSpace action by the zero vector classifies with the carried point
 
 | field | value |
