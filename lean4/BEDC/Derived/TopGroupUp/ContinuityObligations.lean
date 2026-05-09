@@ -107,4 +107,28 @@ theorem TopGroupRootThresholdPackage_product_continuity_obligation
           (And.intro boundary.right.right.right.right.right.right.left
             boundary.right.right.right.right.right.right.right))))
 
+theorem TopGroupRootThresholdPackage_inverse_continuity_obligation
+    {group topology product inverse neighborhood ledger provenance inverseLedger transportedInverse
+      transportedNeighborhood transportedLedger : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      hsame inverse transportedInverse ->
+        hsame neighborhood transportedNeighborhood ->
+          Cont inverse neighborhood inverseLedger ->
+            Cont transportedInverse transportedNeighborhood transportedLedger ->
+              hsame inverseLedger transportedLedger ∧ UnaryHistory transportedInverse ∧
+                UnaryHistory transportedNeighborhood ∧ UnaryHistory transportedLedger ∧
+                  hsame ledger (append product inverse) ∧ hsame provenance ledger := by
+  intro package sameInverse sameNeighborhood inverseCont transportedCont
+  have transported :=
+    TopGroupRootThresholdPackage_inverse_neighborhood_transport package sameInverse
+      sameNeighborhood inverseCont transportedCont
+  have boundary :=
+    TopGroupRootThresholdPackage_source_coupled_continuity_boundary package
+  exact And.intro transported.left
+    (And.intro transported.right.left
+      (And.intro transported.right.right.left
+        (And.intro transported.right.right.right.left
+          (And.intro boundary.right.right.right.right.right.right.left
+            boundary.right.right.right.right.right.right.right))))
+
 end BEDC.Derived.TopGroupUp
