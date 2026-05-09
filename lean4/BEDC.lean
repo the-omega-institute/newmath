@@ -240,6 +240,7 @@ import BEDC.Derived.SpinGroupUp.CliffordUnitCarrierObligation
 import BEDC.Derived.SpinGroupUp.LiftParityLedger
 import BEDC.Derived.SpinGroupUp.ConjugationActionReadback
 import BEDC.Derived.SpinGroupUp.PublicConsumerNamecertBoundary
+import BEDC.Derived.SpinGroupUp.Transport
 import BEDC.Derived.SpinGroupUp.EvenWordClassifierInversion
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
