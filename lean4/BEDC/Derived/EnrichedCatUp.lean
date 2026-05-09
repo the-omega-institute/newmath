@@ -341,6 +341,48 @@ theorem EnrichedCatPublicPacket_ledger_exactness_obligation [AskSetup] [PackageS
             (And.intro ledgerRow
               (And.intro endpointRow pkgSig))))))
 
+theorem EnrichedCatPublicPacket_source_boundary [AskSetup] [PackageSetup]
+    {categoryBoundary monoidalBoundary homObject identity composition transport provenance ledger
+      endpoint functorConsumer natTransConsumer functorReadback natTransReadback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EnrichedCatPublicPacket categoryBoundary monoidalBoundary homObject identity composition
+        transport provenance ledger endpoint bundle pkg ->
+      UnaryHistory functorConsumer -> UnaryHistory natTransConsumer ->
+        Cont endpoint functorConsumer functorReadback ->
+          Cont endpoint natTransConsumer natTransReadback ->
+            UnaryHistory categoryBoundary ∧ UnaryHistory monoidalBoundary ∧
+              UnaryHistory homObject ∧ UnaryHistory identity ∧ UnaryHistory composition ∧
+                UnaryHistory transport ∧ UnaryHistory provenance ∧
+                  UnaryHistory functorReadback ∧ UnaryHistory natTransReadback ∧
+                    hsame functorReadback (append endpoint functorConsumer) ∧
+                      hsame natTransReadback (append endpoint natTransConsumer) ∧
+                        PkgSig bundle endpoint pkg := by
+  intro packet functorUnary natTransUnary functorRow natTransRow
+  have source := EnrichedCatPublicPacket_source_obligation packet
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed source.right.right.right.right.right.left
+      source.right.right.right.right.right.right.left
+      source.right.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary source.right.left
+      source.right.right.right.right.right.right.right.right.right.left
+  have functorReadbackUnary : UnaryHistory functorReadback :=
+    unary_cont_closed endpointUnary functorUnary functorRow
+  have natTransReadbackUnary : UnaryHistory natTransReadback :=
+    unary_cont_closed endpointUnary natTransUnary natTransRow
+  exact And.intro source.left
+    (And.intro source.right.left
+      (And.intro source.right.right.left
+        (And.intro source.right.right.right.left
+          (And.intro source.right.right.right.right.left
+            (And.intro source.right.right.right.right.right.left
+              (And.intro source.right.right.right.right.right.right.left
+                (And.intro functorReadbackUnary
+                  (And.intro natTransReadbackUnary
+                    (And.intro functorRow
+                      (And.intro natTransRow
+                        source.right.right.right.right.right.right.right.right.right.right))))))))))
+
 theorem EnrichedCatPublicPacket_monoidal_category_boundary [AskSetup] [PackageSetup]
     {categoryBoundary monoidalBoundary homObject identity composition transport provenance ledger
       endpoint tensorReadback consumerReadback : BHist}
