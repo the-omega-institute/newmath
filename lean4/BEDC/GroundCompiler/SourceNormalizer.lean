@@ -81,6 +81,11 @@ def NormalizerSoundness (R : GeneratedNormalizerRecognizer) : Prop :=
   forall {S : EventFlow} {i : Nat} {w v : RawEvent},
     RecognizesNormalizer R S i w v -> InducedNormalizes R S i w v
 
+def LedgerPreservingNormalizer (R : GeneratedNormalizerRecognizer) : Prop :=
+  forall {S : EventFlow} {i : Nat} {w v : RawEvent},
+    RecognizesNormalizer R S i w v ->
+      NormLedger R S i w v /\ List.Mem w S /\ List.Mem v S
+
 inductive P2Warning : Type where
   | candidateOnly
   | recognizerMissing
@@ -229,5 +234,28 @@ theorem recognized_stronger_than_candidate
   constructor
   · exact hSound hRecognized
   · exact adj_pair_events_mem hRecognized.left
+
+theorem recognized_normalizer_ledger_preserving
+    (R : GeneratedNormalizerRecognizer) :
+    LedgerPreservingNormalizer R := by
+  intro S i w v hRecognized
+  constructor
+  · exact hRecognized
+  · exact adj_pair_events_mem hRecognized.left
+
+theorem ledger_preserving_no_collapse
+    {R : GeneratedNormalizerRecognizer} {S : EventFlow}
+    {i : Nat} {w v : RawEvent} :
+    LedgerPreservingNormalizer R ->
+      RecognizesNormalizer R S i w v -> List.Mem w S /\ List.Mem v S := by
+  intro hLedger hRecognized
+  exact (hLedger hRecognized).right
+
+theorem recognized_normalizer_relation_source_level
+    {R : GeneratedNormalizerRecognizer} {S : EventFlow}
+    {i : Nat} {w v : RawEvent} :
+    InducedNormalizes R S i w v -> AdjPair S i w v := by
+  intro hRelation
+  exact hRelation.left
 
 end BEDC.GroundCompiler.SourceNormalizer
