@@ -37,4 +37,17 @@ theorem TopGroupRootPublicThreshold_frontier_threshold
           (And.intro packet.right.right.right.right.left
             packet.right.right.right.right.right))))
 
+theorem TopGroupRootPublicThresholdPacket_joint_source_determinacy
+    {groupSource topologySource product inverse neighbourhood ledger classifier provenance
+      ledgerOut : BHist} :
+    TopGroupRootPublicThresholdPacket groupSource topologySource product inverse neighbourhood
+        ledger classifier provenance ->
+      Cont ledger classifier ledgerOut ->
+        hsame ledgerOut (append ledger classifier) ∧ hsame groupSource BHist.Empty ∧
+          hsame topologySource BHist.Empty ∧ hsame provenance BHist.Empty := by
+  intro packet ledgerReadback
+  exact And.intro ledgerReadback
+    (And.intro packet.left
+      (And.intro packet.right.left packet.right.right.right.right.right))
+
 end BEDC.Derived.TopGroupUp
