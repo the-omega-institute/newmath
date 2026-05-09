@@ -101,6 +101,71 @@ source certificates. Repacking these rows gives the stated obligation surface
 and excludes analytic main-conjecture data from the certificate.
 \end{proof}
 
+\begin{theorem}[Iwasawa transition ledger exactness]
+\label{thm:iwasawa-transition-ledger-exactness}
+For the carrier of \autoref{def:iwasawa-cyclotomic-tower-carrier}, the accepted
+transition rows are exactly the adjacent-level $\Cont$ ledger entries between
+the displayed cyclotomic rows and the displayed ideal-class rows. Soundness
+means that every accepted transition row has matching unary endpoints,
+compatible $\hsame$ transport, and the $\mathsf{Pkg}$ provenance tying it to
+the same cyclotomic and ideal-class packet. Completeness means that every
+adjacent pair of displayed levels carrying those cyclotomic rows, ideal-class
+endpoint rows, $\hsame$ transports, and $\mathsf{Pkg}$ provenance determines an
+accepted transition ledger row and no additional transition source.
+\end{theorem}
+\begin{proof}
+For soundness, start with an accepted transition row. By
+\autoref{def:iwasawa-cyclotomic-tower-carrier}, it is carried as a $\Cont$
+ledger between successive displayed unary levels and is packaged with the same
+cyclotomic source, ideal-class source, and provenance row.
+
+Apply \autoref{thm:iwasawa-transition-ledger-stability}. The transported ledger
+remains accepted over the transported cyclotomic and ideal-class rows, and the
+same $\mathsf{Pkg}$ provenance scope is preserved.
+
+For completeness, begin with adjacent displayed levels equipped with the
+cyclotomic source rows of
+\autoref{thm:cyclotomic-iwasawa-source-boundary}, the ideal-class rows of
+\autoref{thm:idealclass-scoped-source-certificate}, compatible $\hsame$
+transport, and one provenance packet. Repack these rows using
+\autoref{thm:iwasawa-source-obligation-surface}; the only transition slot in
+that surface is the adjacent-level $\Cont$ ledger. Hence the resulting row is
+accepted, and the source inventory leaves no second transition kind.
+\end{proof}
+
+\begin{theorem}[Iwasawa downstream consumer boundary]
+\label{thm:iwasawa-downstream-consumer-boundary}
+Every downstream consumer of the finite $\IwasawaUp$ tower window may read only
+the cyclotomic source rows, ideal-class endpoint and classifier rows, unary
+level indices, accepted adjacent-level transition ledgers, $\hsame$ transport
+rows, and $\mathsf{Pkg}$ provenance of
+\autoref{thm:iwasawa-source-obligation-surface}. No downstream consumer row is a
+projective-limit quotient, an analytic main-conjecture row, or a direct
+$p$-adic $L$-function equality row.
+\end{theorem}
+\begin{proof}
+First project any downstream read through
+\autoref{thm:iwasawa-source-obligation-surface}. The theorem lists exactly the
+finite carrier, classifier, stability, exactness, and ledger-readback rows that
+belong to the source surface.
+
+The cyclotomic portion is bounded by
+\autoref{thm:cyclotomic-iwasawa-source-boundary}. It supplies only the
+displayed source rows, primitive-root endpoint, factorization ledger, and
+provenance package consumed by the tower packet.
+
+The ideal-class portion is bounded by
+\autoref{thm:idealclass-scoped-source-certificate}. It supplies the endpoint
+and classifier rows needed at the displayed levels, again through the finite
+$\mathsf{BHist}$, $\hsame$, and $\mathsf{Pkg}$ surface.
+
+Finally use \autoref{thm:iwasawa-transition-ledger-exactness}. Transition reads
+are exactly adjacent-level $\Cont$ ledger rows between the already displayed
+sources. Therefore the consumer boundary is exhausted by the listed finite rows
+and cannot contain projective-limit quotient data, analytic main-conjecture
+data, or $p$-adic $L$-function equality data.
+\end{proof}
+
 \closureat{IwasawaUp}{seedStr}
 \begin{closurestatus}{\IwasawaUp}
   \theoryclosure{\seedClosure}
