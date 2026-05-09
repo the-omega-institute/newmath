@@ -69,6 +69,37 @@ $$
 $$
 \end{definition}
 
+\begin{theorem}[LPDuality root obligation surface]
+\label{thm:lpduality-root-obligation-surface}
+The root certificate surface for $\LPDualityUp$ consists of a
+$\ConvexSetUp$ feasible-region carrier, $\FieldUp$ scalar objective rows,
+$\PolytopeUp$ face and witness rows, $\TotalOrderUp$ comparison rows, $\hsame$
+classifier transport, $\Cont$ ledger movement, and $\Pkg$ provenance. Every
+admitted dual-certificate row projects to these fields: primal and dual
+feasibility are read from the feasible-region and polytope rows, scalar
+objective endpoints are read from the ordered-field rows, comparisons are read
+from the total-order rows, and all transport is recorded by the displayed
+$\hsame$, $\Cont$, and $\Pkg$ ledgers. No host linear-programming primitive,
+ambient matrix equality, or quotient vector space is exported by this surface.
+\end{theorem}
+\begin{proof}
+Project an admitted dual-certificate row through
+\autoref{def:lpduality-finite-ordered-field-feasibility-row}. The finite row
+and column carriers, feasible predicates, scalar sums, and objective endpoints
+are exactly the displayed certificate fields.
+
+The feasible-region and face witnesses are read through the cited
+$\ConvexSetUp$ and $\PolytopeUp$ certificates, while scalar operations and
+objective comparisons are read through the $\FieldUp$ and $\TotalOrderUp$
+rows. Classifier movement uses the explicit $\hsame$ stability rows, and
+ledger movement uses the displayed $\Cont$ and $\Pkg$ provenance rows.
+
+Repacking these projections gives a finite $\mathsf{BHist}$ surface with no
+additional constructor. Since the definition exposes no host optimization
+solver, matrix equality primitive, or quotient-space row, every admitted
+dual-certificate row is exhausted by the listed BEDC fields.
+\end{proof}
+
 \begin{theorem}[LPDuality feasible weak duality]
 \label{thm:lpduality-feasible-weak-duality}
 Let an $\LPDualityUp$ row over an ordered field be given as in \autoref{def:lpduality-finite-ordered-field-feasibility-row}. If $x$ is primal feasible and $y$ is dual feasible,
