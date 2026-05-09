@@ -317,33 +317,7 @@ matrix or Lie-group equality.
 \end{proof}
 \leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_clifford\_unit\_carrier\_obligation}
 
-\begin{theorem}[SpinGroupUp Clifford--Group consumer boundary]
-\label{thm:spingroup-clifford-group-consumer-boundary}
-A downstream consumer of a $\SpinGroupUp$ certificate may read only the
-$\CliffordUp$ source rows, the $\GroupUp$ source rows, the cover row, the
-subgroup row, the action row, the generated classifier row, the $\hsame$ and
-$\Cont$ transport witnesses, and the $\Pkg$ provenance rows appearing in
-\autoref{def:spingroup-bhist-carrier-packet}. In particular, every consumer
-request name factors through those rows and no request may inspect a host Lie
-group, a quotient representative, or an analytic connected-component object.
-\end{theorem}
-\begin{proof}
-Unpack a consumer request against the displayed carrier packet. The only
-source rows named by the packet are the Clifford rows from
-\autoref{ch:concrete-instances-clifford-namecert} and the Group rows from
-\autoref{ch:concrete-instances-group-namecert}.
-
-The cover and action requests are finite ledger reads: the cover row names
-the induced action on vector histories, while the action row records
-conjugation by carried spin histories. Both rows retain their $\Pkg$
-provenance and use the generated classifier for transport.
-
-For a product or classifier request, the consumer must use the same finite
-$\Cont$ spine and $\hsame$ endpoint transport carried by the packet. Since no
-other row is present, the public surface exposes exactly the Clifford source,
-Group source, cover, action, subgroup, classifier, transport, and provenance
-rows listed in the statement.
-\end{proof}
+\input{parts/concrete_instances/spingroup/clifford_group_consumer_boundary}
 
 \begin{theorem}[SpinGroupUp ledger exclusion]
 \label{thm:spingroup-ledger-exclusion}
