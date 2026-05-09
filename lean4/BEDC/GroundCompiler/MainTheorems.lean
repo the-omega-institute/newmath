@@ -43,4 +43,28 @@ theorem no_hidden_input
   intro hHidden
   exact C.hidden_excluded d hHidden
 
+theorem channel_bijection :
+    (forall S : EventFlow, Decode (FlowEncoding S) = some S) /\
+      (forall c : List DisplayAlphabet,
+        LegalZStream c ->
+          exists S : EventFlow, Decode c = some S /\ FlowEncoding S = c) := by
+  exact channel_encoding_bijection
+
+theorem channel_code_lossless {S T : EventFlow} :
+    FlowEncoding S = FlowEncoding T -> S = T := by
+  intro h
+  have hS : Decode (FlowEncoding S) = some S := flow_level_round_trip S
+  have hT : Decode (FlowEncoding T) = some T := flow_level_round_trip T
+  rw [h] at hS
+  have hSome : some S = some T := Eq.trans (Eq.symm hS) hT
+  cases hSome
+  rfl
+
+theorem code_not_proof :
+    exists c : List DisplayAlphabet,
+      LegalZStream c /\
+        Not (exists S : EventFlow,
+          c = FlowEncoding S /\ RecognizedTheoremFlow S) := by
+  exact legal_stream_not_theoremhood
+
 end BEDC.GroundCompiler.MainTheorems
