@@ -175,6 +175,15 @@ def AcceptedFlow (A N s : EventFlow) : Prop :=
       DerivCertSourceSubflow D A /\
       DerivCertSourceSubflow sealFlow A
 
+def RecognizesAcceptGate
+    (R : GeneratedAcceptGateRecognizer) (_S A N s : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R A) /\
+    AcceptedFlow A N s
+
+def P6RecognizedAcceptGateFlow
+    (R : GeneratedAcceptGateRecognizer) (S A N s : EventFlow) : Prop :=
+  AcceptGateCandidate S A N s /\ RecognizesAcceptGate R S A N s
+
 def AcceptGateFlow (N s : EventFlow) : Prop :=
   exists A : EventFlow, AcceptedFlow A N s
 
@@ -400,6 +409,13 @@ theorem accepted_requires_namecert_derivcert {N s : EventFlow} :
               cases hAccepted with
               | intro _ hAccepted =>
                   exact ⟨C, D, hAccepted.left, hAccepted.right.left⟩
+
+theorem p6_acceptgate_requires_namecert_derivcert
+    {R : GeneratedAcceptGateRecognizer} {S A N s : EventFlow} :
+    P6RecognizedAcceptGateFlow R S A N s ->
+      exists C D : EventFlow, NameCertFlow C N /\ DerivCertFlow D N s := by
+  intro hGate
+  exact accepted_requires_namecert_derivcert ⟨A, hGate.right.right⟩
 
 theorem nonempty_not_derivcert_subflow_of_empty {part : EventFlow} :
     NonemptyEventFlow part -> Not (DerivCertSourceSubflow part []) := by
