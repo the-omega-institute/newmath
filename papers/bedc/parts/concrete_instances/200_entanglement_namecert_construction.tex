@@ -38,6 +38,38 @@ package. Repacking these projections through $\Pkg$ gives exactly the visible
 consumer boundary, while completeness principles about Schmidt rank or entropy
 would require rows absent from the displayed source surface.
 \end{proof}
+\leanchecked{BEDC.Derived.EntanglementUp.EntanglementBHistSourceSurface\_factor\_boundary}
+
+\begin{theorem}[Entanglement obstruction transport stability]
+\label{thm:entanglement-obstruction-transport-stability}
+Let two $\EntanglementUp$ BHist source surfaces have $\hsame$-related
+bipartite endpoints, $\hsame$-related factor endpoints, the same displayed
+factorization-obstruction row transported through the package, and the same
+$\Pkg$ provenance. Then consumers of the two surfaces read the same
+obstruction boundary.
+
+The stable boundary is only the displayed obstruction row together with its
+transport and provenance data. It does not classify Schmidt rank, compute
+entanglement entropy, or decide completeness of all tensor-product
+factorizations.
+\end{theorem}
+\begin{proof}
+Unpack the two source surfaces using
+\autoref{def:entanglement-bhist-source-surface}. Their visible data consist of
+the bipartite endpoint row, the two factor rows, the obstruction row,
+$\hsame$ transports for the state and factor endpoints, and $\Pkg$ provenance.
+
+Use the assumed $\hsame$ rows to transport the bipartite and factor endpoints
+inside the same package provenance. Because the displayed obstruction row is
+also transported through that package, the consumer sees one obstruction
+boundary rather than two independent host-level negations.
+
+Reapply \autoref{thm:entanglement-source-factor-boundary}. That boundary
+permits consumers to read exactly the transported obstruction, endpoint,
+factor, transport, and provenance rows. Since Schmidt-rank completeness and
+entropy classification are absent from the source surface, the stability claim
+does not depend on them.
+\end{proof}
 
 \section{The certificate}
 \label{sec:entanglement-certificate}

@@ -17,27 +17,25 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def EntropyBHistMeasureSourceSurface [AskSetup] [PackageSetup]
-    (distribution integral logWeight distributionTransport integralTransport logTransport ledger
-      endpoint : BHist)
+    (distribution integral logWeight transport provenance observationLedger endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory distribution ∧ UnaryHistory integral ∧ UnaryHistory logWeight ∧
-    hsame distributionTransport distribution ∧ hsame integralTransport integral ∧
-      hsame logTransport logWeight ∧ Cont distribution integral ledger ∧
-        Cont ledger logWeight endpoint ∧ PkgSig bundle endpoint pkg
+    UnaryHistory provenance ∧ Cont distribution integral observationLedger ∧
+      Cont observationLedger logWeight endpoint ∧ Cont endpoint provenance transport ∧
+        PkgSig bundle transport pkg
 
 theorem EntropyBHistMeasureSourceSurface_namecert_obligation_surface [AskSetup] [PackageSetup]
-    {distribution integral logWeight distributionTransport integralTransport logTransport ledger
-      endpoint : BHist}
+    {distribution integral logWeight transport provenance observationLedger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    EntropyBHistMeasureSourceSurface distribution integral logWeight distributionTransport
-        integralTransport logTransport ledger endpoint bundle pkg ->
+    EntropyBHistMeasureSourceSurface distribution integral logWeight transport provenance
+        observationLedger endpoint bundle pkg ->
       SemanticNameCert (fun row : BHist => hsame row endpoint)
           (fun row : BHist => hsame row endpoint) (fun row : BHist => hsame row endpoint)
           hsame ∧
         UnaryHistory distribution ∧ UnaryHistory integral ∧ UnaryHistory logWeight ∧
-          hsame distributionTransport distribution ∧ hsame integralTransport integral ∧
-            hsame logTransport logWeight ∧ Cont distribution integral ledger ∧
-              Cont ledger logWeight endpoint ∧ PkgSig bundle endpoint pkg := by
+          UnaryHistory provenance ∧ Cont distribution integral observationLedger ∧
+            Cont observationLedger logWeight endpoint ∧ Cont endpoint provenance transport ∧
+              PkgSig bundle transport pkg := by
   intro surface
   have cert :
       SemanticNameCert (fun row : BHist => hsame row endpoint)
@@ -66,6 +64,43 @@ theorem EntropyBHistMeasureSourceSurface_namecert_obligation_surface [AskSetup] 
       exact carrier
   }
   exact And.intro cert surface
+
+theorem EntropyBHistMeasureSourceSurface_distribution_integral_boundary [AskSetup]
+    [PackageSetup]
+    {distribution integral logWeight transport provenance observationLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EntropyBHistMeasureSourceSurface distribution integral logWeight transport provenance
+        observationLedger endpoint bundle pkg ->
+      UnaryHistory distribution ∧ UnaryHistory integral ∧ UnaryHistory observationLedger ∧
+        hsame observationLedger (append distribution integral) ∧ UnaryHistory endpoint ∧
+          hsame endpoint (append observationLedger logWeight) ∧
+            hsame transport (append endpoint provenance) ∧ PkgSig bundle transport pkg := by
+  intro surface
+  have distributionUnary : UnaryHistory distribution :=
+    surface.left
+  have integralUnary : UnaryHistory integral :=
+    surface.right.left
+  have logWeightUnary : UnaryHistory logWeight :=
+    surface.right.right.left
+  have observationLedgerRow : Cont distribution integral observationLedger :=
+    surface.right.right.right.right.left
+  have endpointRow : Cont observationLedger logWeight endpoint :=
+    surface.right.right.right.right.right.left
+  have transportRow : Cont endpoint provenance transport :=
+    surface.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle transport pkg :=
+    surface.right.right.right.right.right.right.right
+  have observationLedgerUnary : UnaryHistory observationLedger :=
+    unary_cont_closed distributionUnary integralUnary observationLedgerRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed observationLedgerUnary logWeightUnary endpointRow
+  exact And.intro distributionUnary
+    (And.intro integralUnary
+      (And.intro observationLedgerUnary
+        (And.intro observationLedgerRow
+          (And.intro endpointUnary
+            (And.intro endpointRow
+              (And.intro transportRow pkgSig))))))
 
 def EntropySourceSurface [AskSetup] [PackageSetup]
     (distribution integral logWeight distributionTransport integralTransport logTransport
@@ -119,7 +154,7 @@ theorem EntropySourceSurface_namecert_obligation_surface [AskSetup] [PackageSetu
       exact source
   }
   exact And.intro cert
-    (And.intro surface.left
+     (And.intro surface.left
       (And.intro surface.right.left
         (And.intro surface.right.right.left
           (And.intro surface.right.right.right.left
