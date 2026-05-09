@@ -2,6 +2,7 @@ import BEDC.GroundCompiler.ImplementationInterface
 
 namespace BEDC.GroundCompiler.MinimalPrototype
 
+open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.ImplementationInterface
 open BEDC.GroundCompiler.ChannelEncoding
 open BEDC.GroundCompiler.EventFlow
@@ -48,6 +49,35 @@ structure RejectReport where
   stream : List DisplayAlphabet
   reason : RejectReason
 
+def RequiredUnitTestVectors : List (RawEvent × List DisplayAlphabet) :=
+  [ ([], [BMark.b1, BMark.b1]),
+    ([BMark.b0], [BMark.b0, BMark.b1, BMark.b1]),
+    ([BMark.b1], [BMark.b1, BMark.b0, BMark.b1, BMark.b1]),
+    ([BMark.b0, BMark.b0], [BMark.b0, BMark.b0, BMark.b1, BMark.b1]),
+    ([BMark.b0, BMark.b1],
+      [BMark.b0, BMark.b1, BMark.b0, BMark.b1, BMark.b1]),
+    ([BMark.b1, BMark.b0],
+      [BMark.b1, BMark.b0, BMark.b0, BMark.b1, BMark.b1]),
+    ([BMark.b1, BMark.b1],
+      [BMark.b1, BMark.b0, BMark.b1, BMark.b0, BMark.b1, BMark.b1]),
+    ([BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b0, BMark.b1, BMark.b0, BMark.b1, BMark.b0,
+        BMark.b1, BMark.b1]),
+    ([BMark.b1, BMark.b0, BMark.b0],
+      [BMark.b1, BMark.b0, BMark.b0, BMark.b0, BMark.b1,
+        BMark.b1]),
+    ([BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b0, BMark.b0, BMark.b1, BMark.b0, BMark.b1,
+        BMark.b0, BMark.b1, BMark.b1]) ]
+
+def RequiredRejectTestVectors : List (List DisplayAlphabet × RejectReason) :=
+  [ ([BMark.b1], RejectReason.danglingOne),
+    ([BMark.b0, BMark.b1, BMark.b1, BMark.b1],
+      RejectReason.danglingOne),
+    ([BMark.b0, BMark.b1, BMark.b0], RejectReason.unfinishedEvent),
+    ([BMark.b1, BMark.b0, BMark.b1], RejectReason.danglingOne),
+    ([BMark.b0, BMark.b0, BMark.b0], RejectReason.unfinishedEvent) ]
+
 structure DecoderState where
   currentEvent : RawEvent
   completedEvents : EventFlow
@@ -65,6 +95,16 @@ def PrototypeDecoder
     (c : List DisplayAlphabet) : PrototypeDecoderOutput -> Prop
   | PrototypeDecoderOutput.decoded S => Decodes c S
   | PrototypeDecoderOutput.rejected report => report.stream = c
+
+inductive SyntacticRejectReason : RejectReason -> Prop where
+  | danglingOne : SyntacticRejectReason RejectReason.danglingOne
+  | unfinishedEvent : SyntacticRejectReason RejectReason.unfinishedEvent
+  | nonBinaryCharacter :
+      SyntacticRejectReason RejectReason.nonBinaryCharacter
+
+def PrototypeSyntacticReject
+    (c : List DisplayAlphabet) (reason : RejectReason) : Prop :=
+  PrototypeStreamDecoder c = none /\ SyntacticRejectReason reason
 
 inductive ReferencePrototypePublic : InterfaceDatum -> Prop where
   | compiles :
@@ -141,5 +181,18 @@ theorem prototype_decoder_completeness_on_legal_streams
       cases hS with
       | intro hDecode hFlow =>
           exact ⟨S, hDecode, hFlow.symm⟩
+
+theorem prototype_reject_soundness {c : List DisplayAlphabet}
+    {reason : RejectReason} :
+    PrototypeSyntacticReject c reason -> Not (LegalZStream c) := by
+  intro hReject hLegal
+  cases hReject with
+  | intro hNone _ =>
+      cases prototype_decoder_completeness_on_legal_streams hLegal with
+      | intro S hS =>
+          cases hS with
+          | intro hSome _ =>
+              rw [hSome] at hNone
+              cases hNone
 
 end BEDC.GroundCompiler.MinimalPrototype

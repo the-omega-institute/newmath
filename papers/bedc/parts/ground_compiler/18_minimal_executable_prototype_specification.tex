@@ -244,6 +244,7 @@ The decoder reads $10$ as raw $1$, then $10$ as raw $1$, then $11$ as event term
 
 \begin{definition}[Required unit tests]
 \label{def:minimal-prototype-required-unit-tests}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.RequiredUnitTestVectors}
 The reference prototype must pass the following event-level encoding tests:
 $$
 \begin{array}{rcl}
@@ -294,6 +295,7 @@ $$
 
 \begin{definition}[Required reject tests]
 \label{def:minimal-prototype-required-reject-tests}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.RequiredRejectTestVectors}
 The reference prototype must reject, or explicitly classify by implementation policy, the displays
 $$
   1,\qquad
@@ -406,11 +408,16 @@ A legal stream lies in $((0\mid 10)^{\ast}11)^{\ast}$, hence is a concatenation 
 
 \begin{theorem}[Prototype reject soundness]
 \label{thm:minimal-prototype-reject-soundness}
-If the reference decoder rejects $c$ with a syntactic reject reason, then
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.prototype\_reject\_soundness}
+If the reference decoder rejects $c$ with a syntactic reject reason, formally
+$$
+  \mathsf{PrototypeSyntacticReject}(c,r),
+$$
+then
 $$
   c\notin\mathsf{LegalZStream},
 $$
-unless the rejection reason is explicitly marked as implementation-domain policy.
+where implementation-domain policy reasons are not syntactic reject reasons.
 \end{theorem}
 
 \begin{proof}
