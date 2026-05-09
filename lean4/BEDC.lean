@@ -81,6 +81,8 @@ import BEDC.Derived.ErgodicUp
 import BEDC.Derived.EstimatorUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
+import BEDC.Derived.FactorUp
+import BEDC.Derived.FftUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
