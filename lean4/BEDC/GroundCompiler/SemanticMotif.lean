@@ -48,8 +48,7 @@ theorem subflow_mem {M S : EventFlow} {w : RawEvent} :
           cases hright with
           | intro right heq =>
               rw [heq]
-              exact List.mem_append.mpr
-                (Or.inr (List.mem_append.mpr (Or.inl hmem)))
+              exact List.mem_append_right left (List.mem_append_left right hmem)
   | inr hi =>
       exact indexed_subflow_mem hi hmem
 

@@ -85,7 +85,13 @@ def FiniteRepetitionMotifRecognition
     RecognizesMotif R S M FiniteRepetitionRole
 
 theorem subflow_self (S : EventFlow) : Subflow S S := by
-  exact Or.inl ⟨[], [], by simp⟩
+  have hAppendNil : S = List.append S [] := by
+    induction S with
+    | nil =>
+        rfl
+    | cons w ws ih =>
+        exact congrArg (fun xs => w :: xs) ih
+  exact Or.inl ⟨[], [], hAppendNil⟩
 
 theorem repetition_skeleton_has_motif
     {R : GeneratedMotifRecognizer} (hR : CertifiedFiniteRepetitionRecognizer R)
@@ -130,7 +136,13 @@ theorem prefix_subflow_subflow {M S : EventFlow} :
 
 theorem prefix_subflow_self (S : EventFlow) :
     PrefixSubflow S S := by
-  exact ⟨[], by simp⟩
+  have hAppendNil : S = List.append S [] := by
+    induction S with
+    | nil =>
+        rfl
+    | cons w ws ih =>
+        exact congrArg (fun xs => w :: xs) ih
+  exact ⟨[], hAppendNil⟩
 
 theorem nat_repetition_share_prefix
     {R : GeneratedMotifRecognizer} (hR : CertifiedFiniteRepetitionRecognizer R)
@@ -744,8 +756,10 @@ theorem comparison_not_proof :
       PrefixLen S T = 2 /\ Not (S = T) := by
   refine ⟨FoldSkeleton, CompletionSkeleton, fold_completion_prefix, ?_⟩
   intro h
+  have hAppendNil : FoldSkeleton = List.append FoldSkeleton [] := by
+    rfl
   have hPrefix : PrefixSubflow FoldSkeleton CompletionSkeleton :=
-    ⟨[], by simp [h]⟩
+    ⟨[], Eq.trans h.symm hAppendNil⟩
   exact fold_completion_split.right.left hPrefix
 
 theorem case_studies_conservativity :
