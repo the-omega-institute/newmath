@@ -264,6 +264,41 @@ def MotifOverlap
     (mu M L : EventFlow) : Prop :=
   MotifProfile Rfam S mu M L /\ MotifProfile Rfam T mu M L
 
+def MotifProfileWitnessList
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (mu : MotifRole) (occurrences : List (EventFlow × EventFlow)) :
+    Prop :=
+  List.Nodup occurrences /\
+    forall occurrence : EventFlow × EventFlow,
+      List.Mem occurrence occurrences ->
+        MotifProfile Rfam S mu occurrence.1 occurrence.2
+
+def SealDepth
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (n : Nat) : Prop :=
+  exists occurrences : List (EventFlow × EventFlow),
+    MotifProfileWitnessList Rfam S SealRole occurrences /\
+      occurrences.length = n
+
+def CarryIndex
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (n : Nat) : Prop :=
+  exists occurrences : List (EventFlow × EventFlow),
+    MotifProfileWitnessList Rfam S CarryRole occurrences /\
+      occurrences.length = n
+
+def LedgerDepth
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (n : Nat) : Prop :=
+  exists ledgers : List EventFlow,
+    List.Nodup ledgers /\
+      (forall L : EventFlow,
+        List.Mem L ledgers ->
+          exists R : GeneratedMotifRecognizer,
+            exists M mu : EventFlow,
+              Rfam R /\ MotifLedger R S M mu L) /\
+      ledgers.length = n
+
 def EventCommonPrefixLength (S T : EventFlow) (k : Nat) : Prop :=
   k <= S.length /\ k <= T.length /\ S.take k = T.take k
 
