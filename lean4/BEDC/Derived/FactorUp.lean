@@ -94,6 +94,61 @@ theorem FactorBHistSourcePacket_type_classifier_stability_obligation [AskSetup] 
     ⟨typeRowUnary', ledgerUnary', endpointUnary', sameLedger, sameEndpoint,
       packet.right.right.right.right.right.right.right⟩
 
+theorem FactorBHistSourcePacket_ledger_exactness_obligation [AskSetup] [PackageSetup]
+    {algebra centre witness typeRow transport ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FactorBHistSourcePacket algebra centre witness typeRow transport ledger endpoint bundle pkg ->
+      UnaryHistory algebra ∧ UnaryHistory centre ∧ UnaryHistory witness ∧ UnaryHistory typeRow ∧
+        UnaryHistory ledger ∧ UnaryHistory endpoint ∧ hsame ledger (append witness typeRow) ∧
+          hsame endpoint (append ledger transport) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have centreUnary : UnaryHistory centre := packet.right.left
+  have witnessUnary : UnaryHistory witness :=
+    unary_cont_closed packet.left centreUnary packet.right.right.right.right.left
+  have typeRowUnary : UnaryHistory typeRow := packet.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed witnessUnary typeRowUnary packet.right.right.right.right.right.left
+  have transportUnary : UnaryHistory transport := packet.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary transportUnary packet.right.right.right.right.right.right.left
+  exact
+    ⟨packet.left, centreUnary, witnessUnary, typeRowUnary, ledgerUnary, endpointUnary,
+      packet.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right⟩
+theorem FactorBHistSourcePacket_centre_ledger_transport_determinacy
+    [AskSetup] [PackageSetup]
+    {algebra centre centre' witness witness' typeRow transport ledger ledger' endpoint endpoint' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FactorBHistSourcePacket algebra centre witness typeRow transport ledger endpoint bundle pkg ->
+      hsame centre' centre -> Cont algebra centre' witness' ->
+        Cont witness' typeRow ledger' -> Cont ledger' transport endpoint' ->
+          hsame witness witness' ∧ hsame ledger ledger' ∧ hsame endpoint endpoint' ∧
+            UnaryHistory witness' ∧ UnaryHistory ledger' ∧ UnaryHistory endpoint' := by
+  intro packet sameCentre algebraCentre' witnessTypeRow' ledgerTransport'
+  have centreUnary' : UnaryHistory centre' :=
+    unary_transport packet.right.left (hsame_symm sameCentre)
+  have witnessUnary' : UnaryHistory witness' :=
+    unary_cont_closed packet.left centreUnary' algebraCentre'
+  have typeRowUnary : UnaryHistory typeRow := packet.right.right.left
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed witnessUnary' typeRowUnary witnessTypeRow'
+  have transportUnary : UnaryHistory transport := packet.right.right.right.left
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed ledgerUnary' transportUnary ledgerTransport'
+  have sameWitness : hsame witness witness' :=
+    cont_respects_hsame (hsame_refl algebra) (hsame_symm sameCentre)
+      packet.right.right.right.right.left algebraCentre'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameWitness (hsame_refl typeRow)
+      packet.right.right.right.right.right.left witnessTypeRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger (hsame_refl transport)
+      packet.right.right.right.right.right.right.left ledgerTransport'
+  exact
+    ⟨sameWitness, sameLedger, sameEndpoint, witnessUnary', ledgerUnary', endpointUnary'⟩
+
 theorem FactorBHistSourcePacket_type_row_no_confusion [AskSetup] [PackageSetup]
     {algebra centre witness typeRow transport ledger endpoint typeRowA typeRowB ledgerA ledgerB
       endpointA endpointB : BHist}

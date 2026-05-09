@@ -90,6 +90,7 @@ import BEDC.Derived.GaloisExtUp.PublicLedgerCoverage
 import BEDC.Derived.GaloisExtUp.SourceClassifier
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
+import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.HypergeometricUp
