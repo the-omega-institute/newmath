@@ -142,6 +142,15 @@ def MotifProfile
 def MotifMultiplicity (profile : List MotifOccurrence) (role : EventFlow) : Nat :=
   (profile.filter (fun occ => decide (occ.role = role))).length
 
+def SealDepth (profile : List MotifOccurrence) (sealRole : EventFlow) : Nat :=
+  MotifMultiplicity profile sealRole
+
+def CarryIndex (profile : List MotifOccurrence) (carryRole : EventFlow) : Nat :=
+  MotifMultiplicity profile carryRole
+
+def LedgerDepth (ledgerDepths : List Nat) : Nat :=
+  ledgerDepths.foldr Nat.max 0
+
 theorem external_metric_input_not_allowed {d : MetricDataKind} :
     MetricExternalInput d -> Not (MetricAllowedData d) := by
   intro hExternal hAllowed
