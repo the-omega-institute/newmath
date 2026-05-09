@@ -1,6 +1,7 @@
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
 
@@ -10,6 +11,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -220,5 +222,51 @@ theorem FftBHistSourcePacket_root_threshold_unblock_surface [AskSetup] [PackageS
       packet.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.left, packet.left,
       packet.right.right.right.right.right.right.right.right⟩
+
+theorem FftBHistSourcePacket_schedule_public_namecert_export [AskSetup] [PackageSetup]
+    {complex fourier stage butterfly factorization ledger endpoint consumer : BHist}
+    {stageName : ProbeName} {schedule : ProbeBundle ProbeName} {pkg : Pkg} :
+    FftBHistSourcePacket complex fourier stage butterfly factorization ledger endpoint
+        stageName schedule pkg ->
+      Cont endpoint factorization consumer ->
+        SemanticNameCert (fun h : BHist => hsame h endpoint)
+            (fun h : BHist => hsame h endpoint) (fun h : BHist => hsame h endpoint)
+            hsame ∧
+          InBundle stageName schedule ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+            UnaryHistory consumer ∧ hsame consumer (append endpoint factorization) ∧
+              PkgSig schedule endpoint pkg := by
+  intro packet consumerCont
+  have rows := FftBHistSourcePacket_ledger_exactness_obligation packet
+  have cert :
+      SemanticNameCert (fun h : BHist => hsame h endpoint)
+          (fun h : BHist => hsame h endpoint) (fun h : BHist => hsame h endpoint)
+          hsame := by
+    constructor
+    · constructor
+      · exact Exists.intro endpoint (hsame_refl endpoint)
+      · intro h _
+        exact hsame_refl h
+      · intro h k same
+        exact hsame_symm same
+      · intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      · intro h k sameHK sameEndpoint
+        exact hsame_trans (hsame_symm sameHK) sameEndpoint
+    · intro h source
+      exact source
+    · intro h source
+      exact source
+  have ledgerUnary : UnaryHistory ledger :=
+    rows.right.right.right.right.right.right.left
+  have factorizationUnary : UnaryHistory factorization :=
+    rows.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    rows.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig schedule endpoint pkg :=
+    rows.right.right.right.right.right.right.right.right.right.right.right
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary factorizationUnary consumerCont
+  exact
+    ⟨cert, rows.left, ledgerUnary, endpointUnary, consumerUnary, consumerCont, pkgSig⟩
 
 end BEDC.Derived.FftUp
