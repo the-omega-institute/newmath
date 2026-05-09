@@ -4,6 +4,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -16,6 +17,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -146,5 +148,102 @@ theorem SpinGroupRootCarrier_threshold_obligation_triple [AskSetup] [PackageSetu
                 (And.intro cliffordExact.right.right.right.right.right.right.right.left
                   (And.intro sourceScope.right.right.right.left
                     (And.intro thresholdCont sourceScope.right.right.right.right)))))))))
+
+theorem SpinGroupRootCarrier_unit_lift [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger unitEndpoint
+      unitLedger : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      Cont unit BHist.Empty unitEndpoint ->
+        Cont unitEndpoint groupWord unitLedger ->
+          SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord
+              spinEndpoint ledger bundle pkg ∧
+            UnaryHistory unitEndpoint ∧ UnaryHistory unitLedger ∧ hsame unitEndpoint unit ∧
+              hsame unitLedger (append unitEndpoint groupWord) := by
+  intro carrier unitEndpointCont unitLedgerCont
+  have unitEndpointUnary : UnaryHistory unitEndpoint :=
+    unary_cont_closed carrier.left.left unary_empty unitEndpointCont
+  have groupUnary : UnaryHistory groupWord :=
+    unary_transport unary_empty (hsame_symm carrier.right.left)
+  have unitLedgerUnary : UnaryHistory unitLedger :=
+    unary_cont_closed unitEndpointUnary groupUnary unitLedgerCont
+  exact
+    ⟨carrier, unitEndpointUnary, unitLedgerUnary, cont_right_unit_result unitEndpointCont,
+      unitLedgerCont⟩
+
+theorem SpinGroupRootCarrier_root_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row spinEndpoint)
+          (fun row : BHist => hsame row spinEndpoint)
+          (fun row : BHist => hsame row spinEndpoint)
+          (fun row other : BHist =>
+            hsame row other ∧ hsame row spinEndpoint ∧ hsame other spinEndpoint) ∧
+        CliffordCarrierPackage unit vector product boundary cliffordEndpoint ∧
+          GroupSingletonCarrier groupWord ∧ Cont cliffordEndpoint groupWord spinEndpoint ∧
+            UnaryHistory spinEndpoint ∧ PkgSig bundle ledger pkg := by
+  intro carrier
+  have scope := SpinGroupRootCarrier_source_scope carrier
+  have endpointSelf : hsame spinEndpoint spinEndpoint :=
+    hsame_refl spinEndpoint
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row spinEndpoint)
+          (fun row : BHist => hsame row spinEndpoint)
+          (fun row : BHist => hsame row spinEndpoint)
+          (fun row other : BHist =>
+            hsame row other ∧ hsame row spinEndpoint ∧ hsame other spinEndpoint) := {
+    core := {
+      carrier_inhabited := Exists.intro spinEndpoint endpointSelf
+      equiv_refl := by
+        intro row source
+        exact And.intro (hsame_refl row) (And.intro source source)
+      equiv_symm := by
+        intro row other classified
+        exact And.intro (hsame_symm classified.left)
+          (And.intro classified.right.right classified.right.left)
+      equiv_trans := by
+        intro row other target classifiedRO classifiedOT
+        have sameRT : hsame row target :=
+          hsame_trans classifiedRO.left classifiedOT.left
+        exact And.intro sameRT
+          (And.intro classifiedRO.right.left classifiedOT.right.right)
+      carrier_respects_equiv := by
+        intro row other classified _source
+        exact classified.right.right
+    }
+    pattern_sound := by
+      intro row source
+      exact source
+    ledger_sound := by
+      intro row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro scope.left
+      (And.intro scope.right.left
+        (And.intro scope.right.right.right.left
+          (And.intro scope.right.right.left scope.right.right.right.right))))
+
+theorem SpinGroupRootCarrier_public_consumer_boundary_exhaustion [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger row : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      hsame row spinEndpoint ->
+        UnaryHistory row ∧ UnaryHistory spinEndpoint ∧ Cont cliffordEndpoint groupWord
+          spinEndpoint ∧ PkgSig bundle ledger pkg := by
+  intro carrier sameRowSpin
+  have sourceScope :
+      CliffordCarrierPackage unit vector product boundary cliffordEndpoint ∧
+        GroupSingletonCarrier groupWord ∧ UnaryHistory spinEndpoint ∧
+          Cont cliffordEndpoint groupWord spinEndpoint ∧ PkgSig bundle ledger pkg :=
+    SpinGroupRootCarrier_source_scope carrier
+  have rowUnary : UnaryHistory row :=
+    unary_transport sourceScope.right.right.left (hsame_symm sameRowSpin)
+  exact And.intro rowUnary
+    (And.intro sourceScope.right.right.left
+      (And.intro sourceScope.right.right.right.left sourceScope.right.right.right.right))
 
 end BEDC.Derived.SpinGroupUp

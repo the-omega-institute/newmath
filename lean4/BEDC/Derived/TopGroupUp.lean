@@ -72,6 +72,23 @@ theorem TopGroupRootThresholdPackage_source_coupled_continuity_boundary
               (And.intro scope.right.right.right.right.right.left
                 scope.right.right.right.right.right.right))))))
 
+theorem TopGroupRootThresholdPackage_multiplication_continuity_carrier
+    {group topology product inverse neighborhood ledger provenance productLedger : BHist} :
+    TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
+      Cont product neighborhood productLedger ->
+        GroupSingletonCarrier group ∧ TopologySingletonCarrier topology ∧ UnaryHistory product ∧
+          UnaryHistory neighborhood ∧ UnaryHistory productLedger ∧
+            Cont product neighborhood productLedger ∧ hsame productLedger (append product neighborhood) ∧
+              hsame provenance ledger := by
+  intro package productLedgerCont
+  have boundary := TopGroupRootThresholdPackage_source_coupled_continuity_boundary package
+  exact
+    ⟨boundary.left, boundary.right.left, boundary.right.right.left,
+      boundary.right.right.right.right.left,
+      unary_cont_closed boundary.right.right.left boundary.right.right.right.right.left
+        productLedgerCont,
+      productLedgerCont, productLedgerCont, boundary.right.right.right.right.right.right.right⟩
+
 theorem TopGroupRootThresholdPackage_operation_scope
     {group topology product inverse neighborhood ledger provenance : BHist} :
     TopGroupRootThresholdPackage group topology product inverse neighborhood ledger provenance ->
