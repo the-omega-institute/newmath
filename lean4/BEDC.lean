@@ -181,6 +181,7 @@ import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.JonesPolynomialUp
+import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.LocalFieldUp
