@@ -156,6 +156,27 @@ theorem PontryaginDualityCharacterCarrier_source_boundary [AskSetup] [PackageSet
       carrier.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right⟩
 
+theorem PontryaginDualityCharacterCarrier_operation_ledger_boundary [AskSetup]
+    [PackageSetup]
+    {topSource abSource circleTarget character productRow inverseRow sourceLedger
+      characterLedger endpoint operationLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PontryaginDualityCharacterCarrier topSource abSource circleTarget character productRow
+        inverseRow sourceLedger characterLedger endpoint bundle pkg ->
+      Cont productRow inverseRow operationLedger ->
+        UnaryHistory productRow ∧ UnaryHistory inverseRow ∧ UnaryHistory operationLedger ∧
+          hsame operationLedger (append productRow inverseRow) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier operationRow
+  have operationUnary : UnaryHistory operationLedger :=
+    unary_cont_closed carrier.right.right.right.right.left
+      carrier.right.right.right.right.right.left operationRow
+  exact
+    ⟨carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      operationUnary,
+      operationRow,
+      carrier.right.right.right.right.right.right.right.right.right⟩
+
 theorem PontryaginDualityCharacterCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     {topSource abSource circleTarget character productRow inverseRow sourceLedger
       characterLedger endpoint : BHist}
