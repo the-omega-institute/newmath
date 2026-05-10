@@ -222,6 +222,14 @@ def P7CompleteTheoremRecognition
     P7TheoremSubflows R T statement dependencies proof certificates ledger
       status canonicalSite sealFlow
 
+def P7TheoremSoundnessComponents
+    (R : P7GeneratedTheoremRecognizer) (T : TheoremCandidateFlow) : Prop :=
+  ProofSoundTheoremRecognition R T /\
+    CertificateSoundTheoremRecognition R T /\
+    LedgerSoundTheoremRecognition R T /\
+    StatusSoundTheoremRecognition R T /\
+    SiteSoundTheoremRecognition R T
+
 theorem complete_theorem_recognition_to_p7
     {R : P7GeneratedTheoremRecognizer} {T : TheoremCandidateFlow} :
     CompleteTheoremFlowRecognition R T -> P7CompleteTheoremRecognition R T := by
@@ -246,6 +254,16 @@ theorem complete_theorem_recognition_to_p7
                                     ⟨statement, dependencies, proof,
                                       certificates, ledger, status,
                                       canonicalSite, sealFlow, hSubflows⟩
+
+theorem no_theorem_without_eight_subflows
+    {T : TheoremCandidateFlow} :
+    TheoremFlow T ->
+      exists R : P7GeneratedTheoremRecognizer,
+        TheoremRecognitionRelation R T /\ P7CompleteTheoremRecognition R T := by
+  intro h
+  cases h with
+  | intro R hR =>
+      exact ⟨R, hR.left, complete_theorem_recognition_to_p7 hR.right⟩
 
 theorem p7_incomplete_theorem_candidate_not_theorem
     {S T : EventFlow} :
