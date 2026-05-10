@@ -129,4 +129,65 @@ theorem TuringMachineObligationSurface_bounded_trace_ledger
     ⟨configurationUnary, traceUnary, readbackUnary, boundedUnary, endpointUnary, configurationRow,
       traceRow, readbackRow, boundedRow, endpointRow⟩
 
+theorem TuringMachineBoundedReadback_soundness
+    {trace tape head readback bound bounded output : BHist} :
+    UnaryHistory trace ->
+      UnaryHistory tape ->
+        UnaryHistory head ->
+          UnaryHistory bound ->
+            Cont tape head readback ->
+              Cont trace readback bounded ->
+                Cont bounded bound output ->
+                  UnaryHistory readback ∧ UnaryHistory bounded ∧ UnaryHistory output ∧
+                    hsame readback (append tape head) ∧
+                      hsame bounded (append trace readback) ∧
+                        hsame output (append bounded bound) := by
+  intro traceUnary tapeUnary headUnary boundUnary readbackRow boundedRow outputRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed tapeUnary headUnary readbackRow
+  have boundedUnary : UnaryHistory bounded :=
+    unary_cont_closed traceUnary readbackUnary boundedRow
+  have outputUnary : UnaryHistory output :=
+    unary_cont_closed boundedUnary boundUnary outputRow
+  exact
+    ⟨readbackUnary, boundedUnary, outputUnary, readbackRow, boundedRow, outputRow⟩
+
+theorem TuringMachineHaltedTrace_ledger_exactness {halted : BHist} {rows : List BHist}
+    {endpoint ledger : BHist} :
+    TuringMachineHaltedTrace halted rows endpoint -> UnaryHistory halted ->
+      Cont endpoint halted ledger ->
+        (forall row : BHist, List.Mem row rows -> hsame row halted) ∧
+          UnaryHistory endpoint ∧ UnaryHistory ledger ∧
+            hsame ledger (append endpoint halted) := by
+  intro haltedTrace haltedUnary ledgerRow
+  have repeatedRows :=
+    TuringMachineHaltedTrace_repeat_obligation haltedTrace haltedUnary
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed repeatedRows.right haltedUnary ledgerRow
+  exact ⟨repeatedRows.left, repeatedRows.right, ledgerUnary, ledgerRow⟩
+
+theorem TuringMachineObligationSurface_rows
+    {state tape head bound configuration trace endpoint halted readback finalLedger : BHist}
+    {haltRows : List BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory bound ->
+      Cont state tape configuration -> Cont configuration head trace -> Cont trace bound endpoint ->
+        TuringMachineHaltedTrace halted haltRows endpoint -> Cont endpoint readback finalLedger ->
+          UnaryHistory readback -> UnaryHistory halted ->
+            UnaryHistory configuration ∧ UnaryHistory trace ∧ UnaryHistory endpoint ∧
+              UnaryHistory finalLedger ∧
+                (forall row : BHist, List.Mem row haltRows -> hsame row halted) ∧
+                  hsame finalLedger (append endpoint readback) := by
+  intro stateUnary tapeUnary headUnary boundUnary configurationRow traceRow endpointRow
+  intro haltedTrace finalLedgerRow readbackUnary haltedUnary
+  have configurationSurface :=
+    TuringMachineConfigurationTraceCarrier_configuration_trace_surface stateUnary tapeUnary
+      headUnary boundUnary configurationRow traceRow endpointRow
+  have repeatedRows :=
+    TuringMachineHaltedTrace_repeat_obligation haltedTrace haltedUnary
+  have finalLedgerUnary : UnaryHistory finalLedger :=
+    unary_cont_closed configurationSurface.right.right.left readbackUnary finalLedgerRow
+  exact
+    ⟨configurationSurface.left, configurationSurface.right.left,
+      configurationSurface.right.right.left, finalLedgerUnary, repeatedRows.left, finalLedgerRow⟩
+
 end BEDC.Derived.TuringMachineUp
