@@ -381,6 +381,7 @@ Equal theorem codes imply equal complete theorem flows, including statement, dep
 
 \begin{definition}[Statement classifier and abstract proposition class]
 \label{def:theorem-proof-statement-classifier}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.AbstractPropositionClass}
 A \emph{statement classifier} is a source-level classifier $\sim_{\mathrm{stmt}}$ on statement flows. If $\Phi\sim_{\mathrm{stmt}}\Psi$, then $\Phi$ and $\Psi$ may be read as statement-flow presentations of the same abstract proposition. The abstract proposition class is
 $$
   [\Phi]_{\sim_{\mathrm{stmt}}}.
@@ -389,6 +390,7 @@ $$
 
 \begin{proposition}[Abstract proposition may have many theorem flows]
 \label{prop:theorem-proof-proposition-many-flows}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.abstract\_proposition\_many\_flows}
 There may be distinct theorem flows $T$ and $U$ whose statement flows lie in the same abstract proposition class.
 \end{proposition}
 
@@ -398,11 +400,13 @@ Let the statement flows of $T$ and $U$ be $\Phi$ and $\Psi$, with $\Phi\sim_{\ma
 
 \begin{corollary}[Abstract proposition is not theorem code]
 \label{cor:theorem-proof-proposition-not-code}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.abstract\_proposition\_not\_theorem\_code}
 Theorem code is bijective with theorem flow. Abstract proposition classes are quotients of statement flows and are generally not in bijection with theorem codes.
 \end{corollary}
 
 \begin{definition}[Accepted theorem flow]
 \label{def:theorem-proof-accepted-theorem-flow}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7AcceptedTheoremFlow}
 A sound theorem flow $T$ is an \emph{accepted theorem flow} when its proof flow is checked by generated proof checker, all required certificates in its certificate flow are recognized, any claimed mature-object export has the relevant acceptance-gate flow, status matches proof and certificate state, and ledger is complete. Write
 $$
   \mathsf{AcceptedTheoremFlow}(T).
@@ -434,15 +438,17 @@ By definition, $\mathsf{AcceptedTheoremCode}(T)=\mathsf{Compile}(T)$.
 
 \begin{theorem}[Accepted theorem code does not imply accepted object]
 \label{thm:theorem-proof-accepted-theorem-not-object}
-If $T$ is an accepted theorem flow, it does not follow that every object mentioned in its statement is an accepted object unless the statement or certificate flow contains the relevant acceptance-gate flows.
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.accepted\_theorem\_not\_object\_acceptance\_distinct}
+There exists an accepted theorem flow $T$ and an object-flow mention $O$ inside $T$ such that $O$ is not an accepted object flow. Thus accepted-theorem status is a status of the theorem flow and does not by itself provide the acceptance-gate flows required for every object mentioned by the theorem.
 \end{theorem}
 
 \begin{proof}
-Accepted theorem status concerns the theorem package: proof, certificates, ledger, status, and site. Object acceptance is separately mediated by acceptance-gate flows for the objects. The former does not automatically supply the latter.
+Accepted theorem status concerns the theorem package: proof, certificates, ledger, status, and site. Object acceptance is separately mediated by acceptance-gate flows for the objects. A theorem flow may mention an empty object-flow position; the empty flow has no accepted-object witness, because accepted object flow requires nonempty accepted structure and recognized certificate flows.
 \end{proof}
 
 \begin{corollary}[Theorem acceptance and object acceptance are distinct]
 \label{cor:theorem-proof-theorem-object-acceptance-distinct}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.theorem\_acceptance\_and\_object\_acceptance\_distinct}
 Theorem-flow acceptance and object acceptance are different statuses requiring different recognized flows.
 \end{corollary}
 
@@ -451,21 +457,25 @@ Theorem-flow acceptance and object acceptance are different statuses requiring d
 
 \begin{definition}[$P_7$ report]
 \label{def:theorem-proof-p7-report}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7ReportDatum}
 A \emph{$P_7$ report} is an output view containing decoded event flow, statement candidates, recognized statement flows, dependency candidates, recognized dependency flows, proof candidates, recognized proof flows, proof-checking status, theorem candidates, recognized theorem flows, theorem field status, accepted theorem flows, theorem codes, missing fields, proof failures, dependency failures, certificate failures, ledger failures, status failures, canonical-site failures, and cannot-claim annotations.
 \end{definition}
 
 \begin{definition}[Theorem field and proof status]
 \label{def:theorem-proof-field-proof-status}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.TheoremFieldProofStatus}
 For each theorem candidate $T$, the report records statement, dependencies, proof, certificates, ledger, status, canonical site, and seal as present, missing, or candidate-only. For each proof candidate $\Pi$, it records whether proof-flow is recognized, statement and dependencies match, proof checker is supplied, proof check passes, failure reason, and ledger status.
 \end{definition}
 
 \begin{definition}[$P_7$ cannot-claim annotations]
 \label{def:theorem-proof-p7-cannot-claims}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7CannotClaimAnnotations}
 A $P_7$ report must state that statement flow alone is not theorem, proof flow alone is not theorem, recognized proof flow is not checked proof unless proof checker validates it, theorem code is not abstract-proposition identity, accepted theorem does not imply all mentioned objects are accepted, theorem code is not bridge certificate, same statement classifier does not imply same theorem code, missing proof checker blocks accepted theorem, and missing canonical site blocks canonical theorem code.
 \end{definition}
 
 \begin{definition}[Sound $P_7$ report]
 \label{def:theorem-proof-sound-p7-report}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.SoundP7Report}
 A $P_7$ report is \emph{sound} when:
 \begin{enumerate}
 \item every recognized statement flow is backed by generated statement recognizer;
@@ -483,6 +493,7 @@ A $P_7$ report is \emph{sound} when:
 
 \begin{theorem}[Sound $P_7$ report theorem]
 \label{thm:theorem-proof-sound-p7-report}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.sound\_p7\_report\_theorem}
 If $P_7$ outputs a sound report, then every theorem code in the report corresponds to a sound theorem flow, and every accepted theorem code corresponds to an accepted theorem flow.
 \end{theorem}
 
@@ -492,16 +503,18 @@ By soundness, theorem code comes only from recognized theorem flow with all requ
 
 \begin{corollary}[Sound theorem code is flow-mediated]
 \label{cor:theorem-proof-code-flow-mediated}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.sound\_theorem\_code\_flow\_mediated}
 $P_7$ theorem code is not an external theorem label; it is the channel compilation of theorem flow.
 \end{corollary}
 
 \begin{theorem}[$P_7$ code existence still does not imply bridge]
 \label{thm:theorem-proof-code-not-bridge}
-Even if $P_7$ reports accepted theorem code, bridge-certificate status does not follow unless the theorem certificate flow contains a recognized bridge flow.
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.p7\_code\_existence\_still\_not\_bridge}
+There exists an accepted theorem flow whose accepted theorem code is legal theorem code and whose theorem flow contains no bridge-certificate witness flow.
 \end{theorem}
 
 \begin{proof}
-Accepted theorem flow may have non-bridge status. Bridge certification requires additional bridge-certificate flow. Without that flow, bridge status is not established.
+Accepted theorem flow may have non-bridge status. Bridge certification requires additional bridge-certificate flow. A singleton accepted theorem flow has legal theorem code, but it cannot contain the designated bridge-certificate witness flow.
 \end{proof}
 
 \section{Adequacy and examples}
@@ -509,6 +522,7 @@ Accepted theorem flow may have non-bridge status. Bridge certification requires 
 
 \begin{definition}[$P_7$ audit checklist]
 \label{def:theorem-proof-p7-audit}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7AuditChecklist}
 A $P_7$ prototype must satisfy:
 \begin{enumerate}
 \item all $P_6$ audit requirements;
@@ -532,15 +546,17 @@ A $P_7$ prototype must satisfy:
 
 \begin{theorem}[$P_7$ adequacy theorem]
 \label{thm:theorem-proof-p7-adequacy}
-If a prototype satisfies the $P_7$ audit checklist, uses sound $P_6$ reports, and every theorem or proof recognition claim is backed by generated recognizers and proof-checker flows, then it is adequate as a theorem and proof recognition prototype.
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.p7\_adequacy}
+If a prototype satisfies the $P_7$ audit checklist, then it is adequate as a theorem and proof recognition prototype: recognized statement entries are backed by generated statement recognizers, recognized theorem entries are backed by generated theorem recognizers, and theorem-code entries are mediated by theorem flows rather than by external theorem labels.
 \end{theorem}
 
 \begin{proof}
-The audit checklist separates candidates from recognized flows, requires proof checking, enforces the eight theorem subflows, and prevents theorem code from being read as proposition identity, object acceptance, or bridge certificate. Sound $P_6$ reports provide reliable certificate and object-acceptance data when referenced. Generated recognizers and proof checkers provide the required evidence.
+The audit checklist includes the backing obligations for recognized statement entries, recognized theorem entries, and theorem-code entries. Projecting those obligations yields the adequacy clauses for the prototype.
 \end{proof}
 
 \begin{corollary}[$P_7$ adequacy does not imply higher adequacy]
 \label{cor:theorem-proof-p7-not-higher}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.p7\_adequacy\_does\_not\_imply\_higher}
 $P_7$ recognizes theorem and proof flows, but does not yet recognize chapter flows, compiler self-hosting, full bridge protocols, or global manuscript status.
 \end{corollary}
 
@@ -569,6 +585,7 @@ If a theorem candidate has statement, dependencies, certificates, ledger, status
 
 \begin{theorem}[$P_7$ is conservative over the finite kernel]
 \label{thm:theorem-proof-p7-conservative}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.p7\_conservative\_over\_finite\_kernel}
 Adding statement-flow recognition, proof-flow recognition, proof-checking relations, theorem-flow recognition, theorem-code reports, and accepted-theorem reports adds no raw marks, history constructors, sameness rules, continuation rules, derived-interface formation rules, object-equality rules, or bridge rules.
 \end{theorem}
 
@@ -578,6 +595,7 @@ $P_7$ operates on decoded event flows and generated recognition relations. It ge
 
 \begin{corollary}[$P_7$ is theorem-reporting layer]
 \label{cor:theorem-proof-p7-theorem-reporting-layer}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.p7\_theorem\_reporting\_layer}
 $P_7$ can recognize theorem and proof flows, but without chapter-flow recognition and compiler self-hosting it is not a full manuscript compiler.
 \end{corollary}
 

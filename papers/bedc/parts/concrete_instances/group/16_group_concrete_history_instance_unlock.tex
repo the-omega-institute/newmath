@@ -1,0 +1,87 @@
+\section{Group concrete history instance surface}
+\label{sec:group-concrete-history-instance-unlock}
+
+\begin{definition}[Concrete GroupUp history instance]
+\label{def:group-concrete-history-instance}
+The concrete $\GroupUp$ history instance is the singleton empty-history package
+of \autoref{def:group-singleton-empty-history-instance} read as a direct
+$\mathsf{BHist}$ surface. Its carrier is
+$$
+A_{\emp}(h) := \hsame(h,\emp).
+$$
+Its classifier is $R_{\emp}$, its multiplication is the append continuation
+row
+$$
+\mathsf{mul}_{\emp}(h,k):=\mathsf{append}(h,k),
+$$
+its unit is $e_{\emp}:=\emp$, and its inverse sends every carried endpoint to
+the constant empty endpoint
+$$
+\mathsf{inv}_{\emp}(h):=\emp.
+$$
+Thus the instance is not an abstract carrier with external operations. It is
+the displayed $\mathsf{BHist}$ singleton carrier, append $\Cont$ ledger,
+empty endpoint, $\hsame$ classifier, and constant inverse row.
+\end{definition}
+
+\begin{theorem}[Group concrete inverse surface]
+\label{thm:group-concrete-inverse-surface}
+For the concrete $\GroupUp$ history instance of
+\autoref{def:group-concrete-history-instance}, inverse closure and the two
+inverse laws are read entirely from the singleton empty-history laws and the
+append unit rows. If $A_{\emp}(h)$, then
+$A_{\emp}(\mathsf{inv}_{\emp}(h))$ holds, and both products
+$\mathsf{mul}_{\emp}(\mathsf{inv}_{\emp}(h),h)$ and
+$\mathsf{mul}_{\emp}(h,\mathsf{inv}_{\emp}(h))$ classify with the unit
+$e_{\emp}$ through $R_{\emp}$.
+\end{theorem}
+\begin{proof}
+Start from the concrete definition. The inverse endpoint is the constant
+empty history, so inverse closure is the reflexive row
+$\hsame(\emp,\emp)$.
+
+For the left inverse law, expand
+$\mathsf{mul}_{\emp}(\mathsf{inv}_{\emp}(h),h)$ as
+$\mathsf{append}(\emp,h)$. The left append unit row identifies this endpoint
+with $h$, and the carrier witness $A_{\emp}(h)$ identifies $h$ with $\emp$.
+These two $\hsame$ rows package the required $R_{\emp}$ comparison with
+$e_{\emp}$.
+
+For the right inverse law, expand
+$\mathsf{mul}_{\emp}(h,\mathsf{inv}_{\emp}(h))$ as
+$\mathsf{append}(h,\emp)$. The right append unit row identifies this endpoint
+with $h$, and the same carrier witness repacks it as an $R_{\emp}$ comparison
+with the unit.
+
+These are exactly the inverse rows already included in
+\autoref{thm:group-singleton-empty-history-laws}; the concrete surface only
+names the $\mathsf{BHist}$ rows that carry them.
+\end{proof}
+
+\begin{theorem}[Group concrete instance schema surface]
+\label{thm:group-concrete-instance-schema-unlock}
+The concrete $\GroupUp$ history instance of
+\autoref{def:group-concrete-history-instance} supplies a non-parametric target
+surface for the algebra hierarchy. Its carrier, classifier, multiplication,
+unit, inverse, closure rows, unit rows, associativity row, congruence row, and
+inverse rows are all the displayed singleton $\mathsf{BHist}$, append
+$\Cont$, $\hsame$, and empty-endpoint rows of
+\autoref{thm:group-singleton-empty-history-laws}. No external carrier family,
+operation table, quotient presentation, or host-level group object is part of
+the target surface.
+\end{theorem}
+\begin{proof}
+Read the certificate rows from
+\autoref{thm:group-singleton-empty-history-namecert}. The semantic carrier and
+classifier are $A_{\emp}$ and $R_{\emp}$, and the algebraic fields are the
+append multiplication, empty unit, and constant empty inverse.
+
+Apply \autoref{thm:group-singleton-empty-history-laws}. It supplies
+inhabitance, multiplication closure, the two unit laws, associativity,
+congruence, inverse closure, and the two inverse laws for these exact rows.
+
+Finally apply \autoref{thm:group-concrete-inverse-surface} to make the inverse
+rows visible as part of the concrete $\mathsf{BHist}$ surface. Since every
+field has been read from the singleton carrier and append ledger, the target
+is the concrete instance itself rather than a parameterized group schema.
+\end{proof}
