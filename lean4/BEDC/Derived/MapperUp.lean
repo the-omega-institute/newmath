@@ -3,6 +3,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
+import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.MapperUp
@@ -13,6 +14,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 
 def MapperCoverPreimageCarrier [AskSetup] [PackageSetup]
@@ -23,6 +25,35 @@ def MapperCoverPreimageCarrier [AskSetup] [PackageSetup]
       Cont cluster incidence simplex ∧
         Cont cover (append preimage (append cluster incidence)) ledger ∧
           PkgSig bundle ledger pkg
+
+theorem MapperCoverPreimageCarrier_source_readback [AskSetup] [PackageSetup]
+    {cover preimage cluster incidence simplex ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MapperCoverPreimageCarrier cover preimage cluster incidence simplex ledger bundle pkg ->
+      UnaryHistory simplex ∧ UnaryHistory ledger ∧ hsame cluster (append cover preimage) ∧
+        hsame simplex (append cluster incidence) ∧
+          hsame ledger (append cover (append preimage (append cluster incidence))) ∧
+            PkgSig bundle ledger pkg := by
+  intro carrier
+  have simplexUnary : UnaryHistory simplex :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have clusterIncidenceUnary : UnaryHistory (append cluster incidence) :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      (rfl : Cont cluster incidence (append cluster incidence))
+  have preimageClusterIncidenceUnary :
+      UnaryHistory (append preimage (append cluster incidence)) :=
+    unary_cont_closed carrier.right.left clusterIncidenceUnary
+      (rfl : Cont preimage (append cluster incidence)
+        (append preimage (append cluster incidence)))
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.left preimageClusterIncidenceUnary
+      carrier.right.right.right.right.right.right.left
+  exact
+    ⟨simplexUnary, ledgerUnary, carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right⟩
 
 theorem MapperCoverPreimageCarrier_cluster_classifier_stability [AskSetup] [PackageSetup]
     {cover preimage cluster incidence simplex ledger cover' preimage' cluster' incidence'
@@ -92,6 +123,37 @@ theorem MapperCoverPreimageCarrier_simplicial_ledger_exactness [AskSetup] [Packa
   exact
     ⟨clusterUnary, skeletonUnary, endpointUnary, clusterRow, skeletonRow, endpointRow, pkgSig⟩
 
+theorem MapperCoverPreimageCarrier_topology_boundary_exclusions [AskSetup] [PackageSetup]
+    {cover preimage cluster incidence simplex ledger consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MapperCoverPreimageCarrier cover preimage cluster incidence simplex ledger bundle pkg ->
+      Cont simplex ledger consumer ->
+        UnaryHistory consumer ∧ hsame consumer (append simplex ledger) ∧
+          hsame simplex (append cluster incidence) ∧
+            hsame ledger (append cover (append preimage (append cluster incidence))) ∧
+              PkgSig bundle ledger pkg := by
+  intro carrier consumerCont
+  have clusterIncidenceUnary : UnaryHistory (append cluster incidence) :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      (rfl : Cont cluster incidence (append cluster incidence))
+  have preimageClusterIncidenceUnary :
+      UnaryHistory (append preimage (append cluster incidence)) :=
+    unary_cont_closed carrier.right.left clusterIncidenceUnary
+      (rfl : Cont preimage (append cluster incidence)
+        (append preimage (append cluster incidence)))
+  have simplexUnary : UnaryHistory simplex :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.left preimageClusterIncidenceUnary
+      carrier.right.right.right.right.right.right.left
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed simplexUnary ledgerUnary consumerCont
+  exact
+    ⟨consumerUnary, consumerCont, carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right⟩
+
 theorem MapperCoverPreimageCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     {cover preimage cluster incidence simplex ledger : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -145,5 +207,30 @@ theorem MapperCoverPreimageCarrier_namecert_obligation_surface [AskSetup] [Packa
       intro _h sourceH
       exact sourceH
   }
+
+theorem MapperNameCert_obligation_surface [AskSetup] [PackageSetup]
+    {cover preimage cluster incidence simplex ledger certificate : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MapperCoverPreimageCarrier cover preimage cluster incidence simplex ledger bundle pkg ->
+      Cont ledger simplex certificate -> SigRel bundle ledger certificate ->
+        PkgSig bundle certificate pkg ->
+          UnaryHistory certificate ∧ hsame certificate (append ledger simplex) ∧
+            MapperCoverPreimageCarrier cover preimage cluster incidence simplex ledger bundle pkg ∧
+              SigRel bundle ledger certificate ∧ PkgSig bundle certificate pkg := by
+  intro carrier certificateRow signatureRow certificatePkg
+  have simplexUnary : UnaryHistory simplex :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have ledgerTailUnary :
+      UnaryHistory (append preimage (append cluster incidence)) :=
+    unary_append_closed carrier.right.left
+      (unary_append_closed carrier.right.right.left carrier.right.right.right.left)
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.left ledgerTailUnary
+      carrier.right.right.right.right.right.right.left
+  have certificateUnary : UnaryHistory certificate :=
+    unary_cont_closed ledgerUnary simplexUnary certificateRow
+  exact
+    ⟨certificateUnary, certificateRow, carrier, signatureRow, certificatePkg⟩
 
 end BEDC.Derived.MapperUp

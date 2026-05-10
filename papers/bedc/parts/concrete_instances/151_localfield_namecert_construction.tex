@@ -113,5 +113,31 @@ Therefore the boundary records only the displayed BEDC valued-field surface.
 \end{proof}
 \leanchecked{BEDC.Derived.LocalFieldUp.LocalFieldValuedBHistCarrier\_bridge\_boundary\_exclusions}
 
+\begin{theorem}[LocalField valued-field consumer threshold]
+\label{thm:localfield-valued-field-consumer-threshold}
+Any consumer of $\NameCert_{\LocalFieldUp}$ may project only the displayed
+$\FieldUp$ row, the $\PadicUp$ valuation row, the unit row, the residue row,
+the completeness-witness ledger row, endpoint data, and visible
+$\hsame/\Cont/\Pkg$ provenance from
+\autoref{thm:localfield-namecert-obligation-surface}. No arbitrary
+completion, quotient field, reciprocity structure, external local-field
+model, or standard bridge becomes available.
+\end{theorem}
+\begin{proof}
+Project the $\FieldUp$ and $\PadicUp$ dependency certificates from the
+obligation surface. These projections give the field row, valuation row, unit
+row, completeness-witness ledger row, endpoint data, and displayed provenance
+without adding a host carrier.
+
+Use \autoref{thm:localfield-residue-ledger-exactness} to read the residue row
+as finite ledger data. The readable residue entries are therefore exactly the
+ones already present in the valued $\mathsf{BHist}$ packet.
+
+Finally apply \autoref{thm:localfield-bridge-boundary-exclusions}. The excluded
+host completions, quotient fields, reciprocity structures, external models,
+and standard bridges are outside the certificate exported to downstream
+consumers.
+\end{proof}
+
 \section{The certificate}
 \label{sec:localfield-certificate}

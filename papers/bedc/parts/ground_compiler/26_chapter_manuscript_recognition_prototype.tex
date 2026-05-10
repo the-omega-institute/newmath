@@ -18,6 +18,7 @@ Thus $P_8$ does not accept chapter manifests, manuscript manifests, LaTeX sectio
 
 \begin{definition}[Chapter and manuscript recognition prototype]
 \label{def:chapter-manuscript-p8-prototype}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.ChapterManuscriptPrototype}
 A \emph{chapter and manuscript recognition prototype} is an executable prototype $P_8$ satisfying:
 \begin{enumerate}
 \item $P_8$ includes all $P_7$ functions;
@@ -44,6 +45,7 @@ $$
 
 \begin{principle}[Chapter and manuscript are not inputs]
 \label{prin:chapter-manuscript-not-input}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.chapter\_manuscript\_not\_input}
 There is no formal input
 $$
   \mathsf{ChapterPkg}\to\mathsf{Code}
@@ -55,11 +57,13 @@ The only formal input remains $\mathsf{EventFlow}$ or $\mathsf{LegalZStream}$. I
 
 \begin{definition}[$P_8$ input]
 \label{def:chapter-manuscript-p8-input}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.P8FormalInput}
 The input to $P_8$ is displayed as channel stream $c$ or event flow $S$. If the input is $c$, then $P_8$ first requires $c\in\mathsf{LegalZStream}$ and decodes it. If $c\notin\mathsf{LegalZStream}$, $P_8$ rejects and produces no chapter report or manuscript report.
 \end{definition}
 
 \begin{definition}[$P_8$ output]
 \label{def:chapter-manuscript-p8-output}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.P8Output}
 The output of $P_8$ is a report flow or human-readable report containing decoded event flow, chapter candidates, recognized chapter flows, chapter field status, definition-flow lists, lemma-flow lists, theorem-flow lists, proof-flow lists, certificate-flow lists, chapter ledger flow, chapter cannot-claim registry, chapter status flow, chapter seal flow, manuscript candidates, recognized manuscript flows, manuscript dependency order, global cannot-claim registry, global status table, manuscript seal flow, missing fields, warnings, and cannot-claim annotations.
 \end{definition}
 
@@ -103,6 +107,7 @@ A sound chapter-flow must not inject hidden input or uncertified mature objects 
 
 \begin{definition}[Lemma candidate and recognizer]
 \label{def:chapter-manuscript-lemma-candidate-recognizer}
+\leandef{BEDC.GroundCompiler.ChapterFlow.LemmaFlow}
 A \emph{lemma candidate} is an event subflow $L_{\mathrm{lem}}\subseteq S$ not yet recognized as a lemma flow. A \emph{generated lemma recognizer} is an event flow $R_{\mathrm{lem}}\in\mathsf{EventFlow}$ supporting
 $$
   \mathsf{RecognizesLemma}(R_{\mathrm{lem}},S,L_{\mathrm{lem}}).
@@ -112,6 +117,7 @@ If this holds, $L_{\mathrm{lem}}$ is a recognized lemma flow.
 
 \begin{proposition}[Lemma-flow is theorem-like but site-local]
 \label{prop:chapter-manuscript-lemma-site-local}
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.lemma\_site\_local}
 If $L_{\mathrm{lem}}$ is a recognized lemma-flow, then it has theorem-like subflow structure, while its canonical-site flow may be chapter-local rather than global.
 \end{proposition}
 
@@ -124,6 +130,9 @@ A lemma is a proof package used as a supporting result inside a chapter. It ther
 
 \begin{definition}[Chapter candidate and recognizer]
 \label{def:chapter-manuscript-chapter-candidate-recognizer}
+\leandef{BEDC.GroundCompiler.ChapterFlow.ChapterCandidateFlow}
+\leandef{BEDC.GroundCompiler.ChapterFlow.GeneratedChapterRecognizer}
+\leandef{BEDC.GroundCompiler.ChapterFlow.RecognizesChapter}
 A \emph{chapter candidate} is an event subflow
 $$
   C\subseteq S
@@ -138,6 +147,7 @@ $$
 
 \begin{definition}[Chapter subflows]
 \label{def:chapter-manuscript-chapter-subflows}
+\leandef{BEDC.GroundCompiler.ChapterFlow.ChapterSubflows}
 If $\mathsf{RecognizesChapter}(R_C,S,C)$, then $R_C$ may identify:
 $$
 \begin{aligned}
@@ -159,16 +169,19 @@ These are source-level subflow roles, not external fields from a table of conten
 
 \begin{definition}[Complete chapter recognition]
 \label{def:chapter-manuscript-complete-chapter-recognition}
+\leandef{BEDC.GroundCompiler.ChapterFlow.CompleteChapterRecognition}
 The recognition $\mathsf{RecognizesChapter}(R_C,S,C)$ is \emph{complete} when all chapter subflows in \autoref{def:chapter-manuscript-chapter-subflows} are recognized.
 \end{definition}
 
 \begin{principle}[No chapter without complete chapter subflows]
 \label{prin:chapter-manuscript-no-incomplete-chapter}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.no\_incomplete\_chapter}
 A chapter-flow must contain recognized start, dependencies, definitions, lemmas, theorems, proofs, certificates, ledger, cannot-claims, status, and seal. If any required subflow is missing, the flow remains a chapter candidate.
 \end{principle}
 
 \begin{theorem}[Incomplete chapter candidate cannot be chapter-flow]
 \label{thm:chapter-manuscript-incomplete-chapter-not-flow}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.incomplete\_chapter\_candidate\_not\_flow}
 If a chapter candidate $C$ lacks any required chapter subflow, then $C$ cannot become a recognized chapter-flow.
 \end{theorem}
 
@@ -178,11 +191,13 @@ Recognized chapter-flow requires complete chapter recognition. Missing any requi
 
 \begin{corollary}[Title alone is not chapter]
 \label{cor:chapter-manuscript-title-alone-not-chapter}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.title\_alone\_not\_chapter}
 A chapter-title-like event or chapter-start-flow alone is not a chapter-flow.
 \end{corollary}
 
 \begin{corollary}[Theorem list alone is not chapter]
 \label{cor:chapter-manuscript-theorem-list-not-chapter}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.theorem\_list\_alone\_not\_chapter}
 A recognized theorem-flow list alone is not a chapter-flow. Dependencies, definitions, proofs, certificates, ledger, cannot-claims, status, and seal are also required.
 \end{corollary}
 
@@ -191,6 +206,7 @@ A recognized theorem-flow list alone is not a chapter-flow. Dependencies, defini
 
 \begin{definition}[Chapter soundness clauses]
 \label{def:chapter-manuscript-chapter-soundness-clauses}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.ChapterSoundnessClauses}
 For a recognized chapter-flow:
 \begin{itemize}
 \item dependency soundness requires each dependency to be generated earlier, generated in an earlier chapter of the same manuscript-flow, generated earlier inside the same chapter, marked deferred, or listed as an open obligation;
@@ -206,11 +222,13 @@ For a recognized chapter-flow:
 
 \begin{definition}[Sound chapter-flow]
 \label{def:chapter-manuscript-sound-chapter-flow}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.SoundChapterFlow}
 A recognized chapter-flow $C$ is \emph{sound} when complete chapter recognition holds and the dependency, definition, theorem, proof, certificate, ledger, cannot-claim, and status soundness clauses all hold.
 \end{definition}
 
 \begin{theorem}[Sound chapter-flow establishes chapter code]
 \label{thm:chapter-manuscript-sound-chapter-code}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.sound\_chapter\_code}
 If $C$ is a sound chapter-flow, then one may define
 $$
   \mathsf{ChapterCode}(C):=\mathsf{Compile}(C),
@@ -224,6 +242,7 @@ The flow $C$ is an event subflow, so $\mathsf{Compile}(C)$ is defined. By the ch
 
 \begin{theorem}[Chapter code is injective on raw chapter-flows]
 \label{thm:chapter-manuscript-chapter-code-injective}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.chapter\_code\_injective}
 If $C$ and $D$ are sound chapter-flows and
 $$
   \mathsf{ChapterCode}(C)=\mathsf{ChapterCode}(D),
@@ -237,6 +256,7 @@ By definition, the equality is $\mathsf{Compile}(C)=\mathsf{Compile}(D)$. Inject
 
 \begin{corollary}[Chapter code equality is stronger than topic equivalence]
 \label{cor:chapter-manuscript-chapter-code-not-topic}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.chapter\_code\_not\_topic}
 Equal chapter codes imply equal raw chapter-flows. Two chapters with the same topic, such as NameCert, need not have equal chapter codes.
 \end{corollary}
 
@@ -245,6 +265,9 @@ Equal chapter codes imply equal raw chapter-flows. Two chapters with the same to
 
 \begin{definition}[Manuscript candidate and recognizer]
 \label{def:chapter-manuscript-manuscript-candidate-recognizer}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.ManuscriptCandidateFlow}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.GeneratedManuscriptRecognizer}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.RecognizesManuscript}
 A \emph{manuscript candidate} is an event subflow $M\subseteq S$ not yet recognized as a manuscript-flow. A \emph{generated manuscript recognizer} is an event flow $R_M\in\mathsf{EventFlow}$ supporting
 $$
   \mathsf{RecognizesManuscript}(R_M,S,M).
@@ -253,6 +276,7 @@ $$
 
 \begin{definition}[Manuscript subflows]
 \label{def:chapter-manuscript-manuscript-subflows}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.ManuscriptSubflows}
 If $\mathsf{RecognizesManuscript}(R_M,S,M)$, then $R_M$ may identify:
 $$
 \begin{aligned}
@@ -273,16 +297,19 @@ $$
 
 \begin{definition}[Complete manuscript recognition]
 \label{def:chapter-manuscript-complete-manuscript-recognition}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.CompleteManuscriptRecognition}
 The recognition $\mathsf{RecognizesManuscript}(R_M,S,M)$ is \emph{complete} when all manuscript subflows in \autoref{def:chapter-manuscript-manuscript-subflows} are recognized.
 \end{definition}
 
 \begin{principle}[No manuscript without complete manuscript subflows]
 \label{prin:chapter-manuscript-no-incomplete-manuscript}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.no\_incomplete\_manuscript}
 A manuscript-flow must contain recognized start, chapter sequence, global dependencies, notation, certificates, ledger, cannot-claims, status, bridge obligations, implementation targets, and seal. If any required subflow is missing, the flow remains a manuscript candidate.
 \end{principle}
 
 \begin{theorem}[Incomplete manuscript candidate cannot be manuscript-flow]
 \label{thm:chapter-manuscript-incomplete-manuscript-not-flow}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.incomplete\_manuscript\_flow\_not\_manuscript}
 If a manuscript candidate $M$ lacks any required manuscript subflow, then $M$ cannot become a recognized manuscript-flow.
 \end{theorem}
 
@@ -292,6 +319,7 @@ Manuscript-flow recognition requires complete manuscript recognition. Missing an
 
 \begin{corollary}[Table of contents alone is not manuscript]
 \label{cor:chapter-manuscript-toc-not-manuscript}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.table\_of\_contents\_alone\_not\_manuscript}
 A chapter sequence or table-of-contents-like flow alone is not a manuscript-flow.
 \end{corollary}
 
@@ -300,6 +328,7 @@ A chapter sequence or table-of-contents-like flow alone is not a manuscript-flow
 
 \begin{definition}[Manuscript soundness clauses]
 \label{def:chapter-manuscript-manuscript-soundness-clauses}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.ManuscriptSoundnessClauses}
 For a recognized manuscript-flow:
 \begin{itemize}
 \item chapter soundness requires every chapter-flow to be sound or explicitly marked as pending or cannot-claim chapter;
@@ -315,11 +344,13 @@ For a recognized manuscript-flow:
 
 \begin{definition}[Sound manuscript-flow]
 \label{def:chapter-manuscript-sound-manuscript-flow}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.SoundManuscriptFlow}
 A recognized manuscript-flow $M$ is \emph{sound} when complete manuscript recognition holds and the chapter, dependency, notation, certificate, ledger, cannot-claim, status, and implementation soundness clauses all hold.
 \end{definition}
 
 \begin{theorem}[Sound manuscript-flow establishes manuscript code]
 \label{thm:chapter-manuscript-sound-manuscript-code}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.sound\_manuscript\_code}
 If $M$ is a sound manuscript-flow, then one may define
 $$
   \mathsf{ManuscriptCode}(M):=\mathsf{Compile}(M),
@@ -333,6 +364,7 @@ The flow $M$ is an event subflow, so $\mathsf{Compile}(M)$ is defined. The chann
 
 \begin{theorem}[Manuscript code is injective on raw manuscript-flows]
 \label{thm:chapter-manuscript-manuscript-code-injective}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.manuscript\_code\_injective}
 If $M$ and $N$ are sound manuscript-flows and
 $$
   \mathsf{ManuscriptCode}(M)=\mathsf{ManuscriptCode}(N),
@@ -346,6 +378,7 @@ By definition, the equality is $\mathsf{Compile}(M)=\mathsf{Compile}(N)$. Inject
 
 \begin{corollary}[Manuscript code equality is stronger than topic equivalence]
 \label{cor:chapter-manuscript-code-not-topic}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.manuscript\_code\_not\_topic}
 Equal manuscript codes imply equal raw manuscript-flows. Two manuscripts that discuss the same compiler topic need not have equal manuscript codes.
 \end{corollary}
 
@@ -354,26 +387,31 @@ Equal manuscript codes imply equal raw manuscript-flows. Two manuscripts that di
 
 \begin{definition}[$P_8$ report]
 \label{def:chapter-manuscript-p8-report}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.P8Report}
 A $P_8$ report is an output view containing decoded event flow, chapter candidates, recognized chapter-flows, chapter field status, soundness status per chapter, chapter codes, manuscript candidates, recognized manuscript-flows, manuscript field status, manuscript soundness status, manuscript code, missing fields, dependency failures, ledger failures, cannot-claim gaps, status inconsistencies, implementation target gaps, warnings, and cannot-claim annotations.
 \end{definition}
 
 \begin{definition}[Chapter and manuscript field status]
 \label{def:chapter-manuscript-field-status}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.P8FieldStatus}
 For each chapter candidate, the report records status for start, dependencies, definitions, lemmas, theorems, proofs, certificates, ledger, cannot-claims, status, and seal as present, missing, or candidate-only. For each manuscript candidate, the report records status for start, chapters, dependencies, notation, certificates, ledger, cannot-claims, status, bridge obligations, implementation targets, and seal as present, missing, or candidate-only.
 \end{definition}
 
 \begin{definition}[$P_8$ cannot-claim annotations]
 \label{def:chapter-manuscript-cannot-claims}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.CompleteP8CannotClaimAnnotations}
 A $P_8$ report must include cannot-claim annotations stating that chapter title alone is not chapter, theorem list alone is not chapter, table of contents alone is not manuscript, chapter code is not theorem proof, manuscript code does not imply all claims accepted, sound chapter does not imply all objects mentioned in the chapter accepted, sound manuscript does not imply all bridge obligations discharged, missing global cannot-claim registry blocks manuscript soundness, implementation target list is not checked implementation, and manuscript topic equality does not imply manuscript code equality.
 \end{definition}
 
 \begin{definition}[Sound $P_8$ report]
 \label{def:chapter-manuscript-sound-p8-report}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.SoundP8Report}
 A $P_8$ report is \emph{sound} when every recognized chapter-flow is backed by a generated chapter recognizer, every recognized chapter-flow satisfies complete recognition, every sound chapter-flow claim satisfies chapter soundness, every chapter code is $\mathsf{Compile}(C)$ for the corresponding chapter-flow, every recognized manuscript-flow is backed by a generated manuscript recognizer, every recognized manuscript-flow satisfies complete recognition, every sound manuscript-flow claim satisfies manuscript soundness, manuscript code is $\mathsf{Compile}(M)$ for the corresponding manuscript-flow, missing fields and failures are explicit, and candidate-only entries are not reported as recognized.
 \end{definition}
 
 \begin{theorem}[Sound $P_8$ report theorem]
 \label{thm:chapter-manuscript-sound-p8-report}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.sound\_p8\_report}
 If $P_8$ outputs a sound $P_8$ report, then every chapter code in the report corresponds to a sound chapter-flow, and every manuscript code in the report corresponds to a sound manuscript-flow.
 \end{theorem}
 
@@ -383,6 +421,7 @@ By soundness of the report, chapter code may only be reported from a sound recog
 
 \begin{corollary}[Sound manuscript code is flow-mediated]
 \label{cor:chapter-manuscript-code-flow-mediated}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.manuscript\_code\_flow\_mediated}
 Manuscript code is not a file name, article title, or table of contents. It is the channel compilation of a sound manuscript-flow.
 \end{corollary}
 
@@ -391,6 +430,7 @@ Manuscript code is not a file name, article title, or table of contents. It is t
 
 \begin{definition}[$P_8$ audit checklist]
 \label{def:chapter-manuscript-p8-audit}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.P8AuditChecklist}
 A $P_8$ prototype must satisfy:
 \begin{enumerate}
 \item all $P_7$ audit requirements;
@@ -415,6 +455,7 @@ A $P_8$ prototype must satisfy:
 
 \begin{theorem}[$P_8$ adequacy theorem]
 \label{thm:chapter-manuscript-p8-adequacy}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.p8\_adequacy}
 If a prototype satisfies the $P_8$ audit checklist, uses sound $P_7$ reports, and every chapter or manuscript recognition claim is backed by generated recognizers and soundness evidence, then it is adequate as a chapter and manuscript recognition prototype.
 \end{theorem}
 
@@ -424,6 +465,7 @@ The audit checklist separates candidates from recognized flows, requires generat
 
 \begin{corollary}[$P_8$ adequacy does not imply higher adequacy]
 \label{cor:chapter-manuscript-p8-not-higher}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.p8\_adequacy\_not\_higher}
 A $P_8$ prototype recognizes chapter and manuscript flows, but it is not yet a self-hosting compiler, full bridge-certifier, or global implementation verifier unless those recognizers and certificates are supplied.
 \end{corollary}
 
@@ -455,6 +497,7 @@ A sound manuscript-flow may contain manuscript start, the chapter sequence for t
 
 \begin{theorem}[$P_8$ is conservative over the finite kernel]
 \label{thm:chapter-manuscript-p8-conservative}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.p8\_conservative\_over\_finite\_kernel}
 Adding chapter-flow recognition, manuscript-flow recognition, chapter codes, manuscript codes, chapter reports, manuscript reports, and global status, cannot-claim, and ledger reports does not add new raw marks, history constructors, sameness rules, continuation rules, object-equality rules, bridge rules, or mature-object export rules.
 \end{theorem}
 
@@ -464,6 +507,7 @@ $P_8$ operates on decoded event flows and generated recognition relations. It do
 
 \begin{corollary}[$P_8$ is not full self-hosting compiler]
 \label{cor:chapter-manuscript-p8-not-self-hosting}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.p8\_not\_full\_self\_hosting}
 $P_8$ can recognize chapters and manuscripts, but without compiler self-hosting and global implementation verification it is not a fully self-hosted compiler.
 \end{corollary}
 
