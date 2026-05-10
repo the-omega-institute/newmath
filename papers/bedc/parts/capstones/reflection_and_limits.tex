@@ -72,12 +72,13 @@ Let $T$ be a closed inductive type with constructors $c_1, \dots, c_n$ over inpu
 
 \begin{theorem}[Inductive types as classifier closures]
 \label{thm:inductive-as-classifier-closure}
-Every closed inductive type expressible in the host calculus of inductive constructions is naturally isomorphic, as an algebra of its constructor signature, to the generator-closure classifier of \autoref{def:generator-closure-classifier} formed inside the BEDC layer. The isomorphism is initial in the category of constructor-signature algebras over the same generators, mirroring the Lambek initial F-algebra characterisation of inductive types.
-\leanstmt{BEDC.Reflection.inductive\_as\_classifier\_closure}
+Every BEDC carrier equipped with a naming certificate, a constructor-step carrier law, and classifier preservation of generated extension membership has a stable generator closure. If $\mathsf{ConstructorClosed}(h)$ is exactly the subpredicate of carrier elements that arise as one $\Ext$ step from some source, then $\mathsf{ConstructorClosed}$ is preserved by the classifier, and every carrier element has a primitive constructor successor in $\mathsf{ConstructorClosed}$. This is the kernel-level classifier closure underlying the interpretation of closed inductive types as generated classifier closures.
+\leanchecked{BEDC.Reflection.inductive\_as\_classifier\_closure\_proof}
+\leanvariant{BEDC.Reflection.inductive\_as\_classifier\_closure}
 \end{theorem}
 
 \begin{proof}[Sketch]
-The constructor signature of $T$ defines a functor $F_T$ on the category of BEDC carriers. The generator-closure classifier is the initial $F_T$-algebra constructed inside BEDC; initiality is a closure law of the underlying naming certificate. The inductive type $T$ in the host calculus is also an initial $F_T$-algebra, in the host's category of types. Initial $F_T$-algebras are unique up to isomorphism, so the two coincide structurally. The base case of the induction on $T$'s constructor depth is the form of distinction itself (\autoref{thm:form-of-distinction-irreducible}).
+Unfold $\mathsf{ConstructorClosed}(h)$ as $\mathsf{Carrier}(h)$ together with an $\Ext$ witness into $h$. Classifier stability follows by combining the naming certificate's carrier transport with the explicit preservation of generated $\Ext$ membership. The constructor successor clause follows from the carrier's constructor-step law and the generated rules $\Ext(h,\bzero,\Ezero(h))$ and $\Ext(h,\bone,\Eone(h))$. The categorical reading is that the constructor-generated part of the carrier is the BEDC classifier closure used to interpret the inductive signature.
 \end{proof}
 
 \section{BEDC describing its own meta-system}
