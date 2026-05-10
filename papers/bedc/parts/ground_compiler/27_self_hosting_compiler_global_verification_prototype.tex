@@ -210,6 +210,7 @@ $$
 
 \begin{principle}[No invisible bootstrap]
 \label{prin:self-hosting-no-invisible-bootstrap}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.no\_invisible\_bootstrap}
 Every undisclosed or undischarged bootstrap component used by a formal judgment must have bootstrap-obligation flow. No bootstrap assumption may hide inside host implementation.
 \end{principle}
 
@@ -258,6 +259,7 @@ A self-compilation claim requires self-compilation ledger. Thus $\mathsf{SelfCom
 
 \begin{theorem}[Self-compilation flow preserves compiler provenance]
 \label{thm:self-hosting-self-compilation-provenance}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.self\_compilation\_preserves\_provenance}
 If $\mathsf{SelfCompilationFlow}(SC,C,C')$ holds and its ledger is sound, then the raw compiler $C$, compiled output $C'$, and compilation provenance are traceable from the ledger.
 \end{theorem}
 
@@ -270,11 +272,12 @@ The self-compilation ledger records $C$, $C'$, the behavior record, failure bran
 
 \begin{definition}[Compiler behavior equivalence]
 \label{def:self-hosting-behavior-equivalence}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9BehaviorEquivalent}
 Write
 $$
   C\equiv_{\mathrm{comp}}C'
 $$
-when there exists a recognized behavior-equivalence flow recording the same input domain, output domain, successful compilation behavior, rejection behavior, ledger behavior, failure-flow behavior, recognizer hierarchy behavior, no-host-leak obligations, and kernel-conservativity behavior for $C$ and $C'$.
+when a compiler-behavior classifier witnesses both compiler certificates and the two directional behavior implications between $C$ and $C'$ for all event-flow inputs and outputs.
 
 This is a compiler-behavior classifier. It is not raw event-flow equality, not $\hsame$, and not kernel equality.
 \end{definition}

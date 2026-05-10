@@ -182,6 +182,13 @@ theorem invisible_bootstrap_invalidates_full_claim
       Not (NoHiddenCompilerUse Compiles C S T) := by
   exact hidden_bootstrap_violates
 
+theorem no_invisible_bootstrap
+    {Compiles : CompilerBehaviorRelation}
+    {C : CompilerCandidateFlow} {S T : EventFlow} :
+    HiddenBootstrapUse Compiles C S T ->
+      Not (NoHiddenCompilerUse Compiles C S T) := by
+  exact hidden_bootstrap_violates
+
 def CompilerBehaviorClassifier
     (behavior : CompilerBehaviorRelation)
     (C' C : CompilerCandidateFlow) : Prop :=
@@ -518,6 +525,22 @@ theorem no_self_compilation_without_ledger
           cases hBC with
           | intro LSC hLSC =>
               exact ⟨LSC, hLSC.right⟩
+
+theorem self_compilation_preserves_provenance
+    {SC C C' : EventFlow} :
+    SelfCompilationFlow SC C C' ->
+      NonemptyEventFlow SC /\
+        P9Subflow SC C /\
+        P9Subflow SC C' /\
+        exists LSC : EventFlow, SelfCompilationLedger LSC C C' := by
+  intro hFlow
+  exact
+    ⟨hFlow.left, hFlow.right.left, hFlow.right.right.left,
+      no_self_compilation_without_ledger hFlow⟩
+
+def P9BehaviorEquivalent
+    (behavior : CompilerBehaviorRelation) (C' C : EventFlow) : Prop :=
+  CompilerBehaviorClassifier behavior C' C
 
 theorem p9_formal_use_requires_complete_certificate
     {Compiles : CompilerBehaviorRelation}
