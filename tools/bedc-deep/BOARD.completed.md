@@ -15145,3 +15145,27 @@ Rationale:
 Structural companion to existing GaloisGroup inverse-closure and inverse-cancellation rows; the involution row is genuinely absent. Pattern-consistent with already-accepted instance-level involution targets (B-582 RootSystem reflection involution, B-588 HomotopyUp reversal involution): each was accepted as a per-Up structural row, not flagged as parameter echo, because the transport involves the carrier-specific endpoint classifier (here GaloisExtUp). Lands in composition_and_inverse_laws.tex (184 lines, room). Novelty borderline but distinct carrier.
 
 ---
+
+### B-595 - Contact top-wedge nondegeneracy excludes integrable distributions on the same carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Contact top-wedge nondegeneracy excludes integrable distributions on the same carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a ContactUp surface displaying $\alpha$, $d\alpha$ and the carried top-wedge nondegeneracy row $\alpha \wedge (d\alpha)^n \not\sim 0$, no displayed integrable-distribution row $\mathcal{D}$ on the same ManifoldUp carrier whose annihilator equals $\alpha$ is admitted.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/117_contact_namecert_construction.tex`
+
+Rationale:
+This is a category-10 obstruction theorem that closes an explicit \notclaimed gap in 117_contact_namecert_construction.tex (the chapter disclaims a proved nonintegrability theorem). Single-implication contradiction-form result wiring existing ContactUp wedge-nondegeneracy rows against a hypothetical Frobenius-integrable distribution. No comparable BOARD entry (B-566 is exterior-derivative two-step composability, structurally different). Landing file at 189 lines has ample room. Strong editorial hit because the gap is announced in the chapter itself.
+
+---

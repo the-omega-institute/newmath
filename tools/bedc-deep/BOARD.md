@@ -18,30 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-595 - Contact top-wedge nondegeneracy excludes integrable distributions on the same carrier
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | Contact top-wedge nondegeneracy excludes integrable distributions on the same carrier |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 8/10 |
-
-Problem:
-For a ContactUp surface displaying $\alpha$, $d\alpha$ and the carried top-wedge nondegeneracy row $\alpha \wedge (d\alpha)^n \not\sim 0$, no displayed integrable-distribution row $\mathcal{D}$ on the same ManifoldUp carrier whose annihilator equals $\alpha$ is admitted.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/117_contact_namecert_construction.tex`
-
-Rationale:
-This is a category-10 obstruction theorem that closes an explicit \notclaimed gap in 117_contact_namecert_construction.tex (the chapter disclaims a proved nonintegrability theorem). Single-implication contradiction-form result wiring existing ContactUp wedge-nondegeneracy rows against a hypothetical Frobenius-integrable distribution. No comparable BOARD entry (B-566 is exterior-derivative two-step composability, structurally different). Landing file at 189 lines has ample room. Strong editorial hit because the gap is announced in the chapter itself.
-
----
-
 ### B-596 - Holomorphic strict iterated chain length cancellation determinacy
 
 | field | value |
