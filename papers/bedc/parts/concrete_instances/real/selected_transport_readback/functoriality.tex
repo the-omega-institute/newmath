@@ -80,6 +80,48 @@ operation, standard-bridge datum, or hidden selector row, and the composite
 transport is formed inside the displayed unary-context ledger.
 \end{proof}
 
+\begin{theorem}[Real selected transport readback identity]
+\label{thm:real-selected-transport-readback-identity}
+Let $W$ be a finite $\RealUp$ observation window with finite probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$ and selected bundled observation
+$n:\Hist$ with $\mathsf{InBundle}(n,\mathcal{P})$. Suppose the displayed
+unary-context transport
+$$
+\mathcal{I}_W:W\to W
+$$
+is identity on the visible $\StreamNameUp$, $\RegSeqRat$, DyadicRatCore,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows at this
+selected finite window.
+
+Then the selected readback through $\mathcal{I}_W$ exposes exactly the
+original finite $\RegSeqRat$ tail-classifier row attached to $n$ in $W$.
+The readback exports no quotient, completion, metric-completeness, standard
+bridge, arithmetic or order structure, hidden selector, or additional endpoint
+row beyond the displayed finite-window ledger.
+\end{theorem}
+\begin{proof}
+Specialize \autoref{thm:real-selected-transport-readback-functoriality} to the
+identity composite $\mathcal{I}_W=\mathcal{I}_W\circ\mathcal{I}_W$. The
+identity hypotheses make the composite packet and the stagewise packet use the
+same visible $\StreamNameUp/\RegSeqRat$/DyadicRatCore surface and the same
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+The endpoint package, contextual package, common-shape envelope, cancellation
+envelope, and selected-tail exactness rows cited in the functoriality theorem
+therefore read back the endpoint package already present at $W$. Since
+selected-tail exactness identifies a selected readback only through the
+displayed e-one tail class and its finite $\RegSeqRat$ classifier, the
+identity transport cannot change the tail-classifier row.
+
+The exclusion clause is inherited from the same finite ledger projections.
+Each cited package is a projection of the finite observation window and none
+contains a quotient carrier, completion object, metric-completeness
+certificate, standard bridge, arithmetic or order operation, hidden selector,
+or additional endpoint row.
+\end{proof}
+
 Fit: traditional target functoriality of selected finite-window readback for
 RealUp transports; BEDC source $\RealUp$ selected transport, RatUp endpoint
 readback, StreamNameUp finite-window rows, RegSeqRat tail classifiers, and
