@@ -26,6 +26,52 @@ def RamseyColouringCarrier [AskSetup] [PackageSetup]
           Cont witnessRows transportRows provenance ∧
             Cont provenance transportRows endpoint ∧ PkgSig bundle endpoint pkg
 
+theorem RamseyColouringCarrier_witness_scope [AskSetup] [PackageSetup]
+    {vertex subset colour witnessRows transportRows lookup provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RamseyColouringCarrier vertex subset colour witnessRows transportRows lookup provenance
+        endpoint bundle pkg ->
+      UnaryHistory vertex ∧ UnaryHistory subset ∧ UnaryHistory colour ∧
+        UnaryHistory transportRows ∧ UnaryHistory provenance ∧ UnaryHistory lookup ∧
+          UnaryHistory witnessRows ∧ UnaryHistory endpoint ∧ Cont vertex subset lookup ∧
+            Cont lookup colour witnessRows ∧ Cont witnessRows transportRows provenance ∧
+              Cont provenance transportRows endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have vertexUnary : UnaryHistory vertex := carrier.left
+  have subsetUnary : UnaryHistory subset := carrier.right.left
+  have colourUnary : UnaryHistory colour := carrier.right.right.left
+  have transportUnary : UnaryHistory transportRows := carrier.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance := carrier.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint := carrier.right.right.right.right.right.left
+  have lookupRoute : Cont vertex subset lookup :=
+    carrier.right.right.right.right.right.right.left
+  have witnessRoute : Cont lookup colour witnessRows :=
+    carrier.right.right.right.right.right.right.right.left
+  have provenanceRoute : Cont witnessRows transportRows provenance :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have endpointRoute : Cont provenance transportRows endpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.left
+  have endpointPkg : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right
+  have lookupUnary : UnaryHistory lookup :=
+    unary_cont_closed vertexUnary subsetUnary lookupRoute
+  have witnessUnary : UnaryHistory witnessRows :=
+    unary_cont_closed lookupUnary colourUnary witnessRoute
+  exact
+    ⟨vertexUnary,
+      subsetUnary,
+      colourUnary,
+      transportUnary,
+      provenanceUnary,
+      lookupUnary,
+      witnessUnary,
+      endpointUnary,
+      lookupRoute,
+      witnessRoute,
+      provenanceRoute,
+      endpointRoute,
+      endpointPkg⟩
+
 theorem RamseyColouringCarrier_monochrome_classifier_stability [AskSetup] [PackageSetup]
     {vertex subset colour lookup provenance endpoint vertex' subset' colour' lookup'
       provenance' endpoint' : BHist}
@@ -77,6 +123,39 @@ theorem RamseyColouringCarrier_monochrome_classifier_stability [AskSetup] [Packa
       provenanceEndpoint',
       endpointPkg'⟩
   exact And.intro transportedCarrier (And.intro sameLookup sameEndpoint)
+
+theorem RamseyColouringCarrier_monochrome_witness_scope [AskSetup] [PackageSetup]
+    {vertex subset colour lookup provenance endpoint witness consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RamseyColouringCarrier vertex subset colour endpoint BHist.Empty lookup provenance
+        endpoint bundle pkg ->
+      UnaryHistory witness ->
+        Cont endpoint witness consumer ->
+          UnaryHistory lookup ∧ UnaryHistory endpoint ∧ UnaryHistory consumer ∧
+            hsame lookup (append vertex subset) ∧ hsame endpoint (append lookup colour) ∧
+              hsame consumer (append endpoint witness) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier witnessUnary consumerRow
+  have vertexUnary : UnaryHistory vertex := carrier.left
+  have subsetUnary : UnaryHistory subset := carrier.right.left
+  have colourUnary : UnaryHistory colour := carrier.right.right.left
+  have lookupRow : Cont vertex subset lookup :=
+    carrier.right.right.right.right.right.right.left
+  have endpointRow : Cont lookup colour endpoint :=
+    carrier.right.right.right.right.right.right.right.left
+  have lookupUnary : UnaryHistory lookup :=
+    unary_cont_closed vertexUnary subsetUnary lookupRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed lookupUnary colourUnary endpointRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary witnessUnary consumerRow
+  exact
+    ⟨lookupUnary,
+      endpointUnary,
+      consumerUnary,
+      lookupRow,
+      endpointRow,
+      consumerRow,
+      carrier.right.right.right.right.right.right.right.right.right.right⟩
 
 theorem RamseyColouringCarrier_obligation_surface [AskSetup] [PackageSetup]
     {vertexSpine subsetSpine colorEndpoint lookupLedger provenance endpoint : BHist}
