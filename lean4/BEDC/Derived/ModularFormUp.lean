@@ -1,10 +1,12 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.ModularFormUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem ModularFormAutomorphicTransport_stability
@@ -66,5 +68,50 @@ theorem ModularFormQExpansionCarrier_holomorphic_source_scope
         (And.intro carrier.right.right.left
           (And.intro carrier.right.right.right.right.left
             carrier.right.right.right.right.right.left)))
+
+theorem ModularFormQExpansionCarrier_namecert_obligation_surface
+    {holomorphic automorphic coefficient transform provenance ledger endpoint : BHist} :
+    ModularFormQExpansionCarrier holomorphic automorphic coefficient transform provenance ledger ->
+      Cont provenance ledger endpoint ->
+        SemanticNameCert (fun h : BHist => hsame h endpoint)
+          (fun h : BHist => hsame h endpoint ∧ UnaryHistory h)
+          (fun h : BHist =>
+            hsame h endpoint ∧ Cont holomorphic coefficient provenance ∧
+              Cont automorphic transform ledger ∧ Cont provenance ledger endpoint)
+          hsame := by
+  intro carrier endpointRow
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed carrier.left carrier.right.right.left carrier.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary ledgerUnary endpointRow
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (hsame_refl endpoint)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row other target sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows rowSource
+        exact hsame_trans (hsame_symm sameRows) rowSource
+    }
+    pattern_sound := by
+      intro row source
+      exact And.intro source (unary_transport endpointUnary (hsame_symm source))
+    ledger_sound := by
+      intro row source
+      exact
+        And.intro source
+          (And.intro carrier.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right.left endpointRow))
+  }
 
 end BEDC.Derived.ModularFormUp
