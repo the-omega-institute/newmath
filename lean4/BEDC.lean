@@ -463,6 +463,8 @@ import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.CoverCompatibilityLocality
 import BEDC.Derived.SheafUp.RootNameCertFieldInventory
 import BEDC.Derived.SetUp
+import BEDC.Derived.SpanningTreeUp
+import BEDC.Derived.StackUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.CarrierClassifierObligation
 import BEDC.Derived.TreeUp.ObligationSurface
@@ -658,6 +660,7 @@ import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.FieldExtUp.StdBridge
 import BEDC.Derived.SplittingFieldUp
+import BEDC.Derived.StackUp
 import BEDC.Derived.CurryHowardUp
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
@@ -964,7 +967,10 @@ import BEDC.Derived.RingUp.SubtractionDistributivity
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingUp.NegEndpoint
 import BEDC.Derived.RingUp.StdBridge
+import BEDC.Derived.SpanningTreeUp
+import BEDC.Derived.StackUp
 import BEDC.Derived.MatrixUp.ZeroMatrixMultiplication
+import BEDC.Derived.MatrixUp.PublicConstructorSurface
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.NegEndpoint
 import BEDC.Derived.CommRingUp.EmptyLinearFactor
