@@ -1,114 +1,74 @@
-\chapter{Compactness Implies Uniform Continuity}
+\chapter{Naming Certificate for $\mathsf{CompactUniformContinuityUp}$}
 \label{ch:concrete-instances-compact-uniform-continuity}
 
-A continuous function on a compact metric space is uniformly continuous, constructively. This chapter assembles the components already isolated in the kernel: the metric carrier with its located distance (\autoref{ch:concrete-instances-metric-namecert}), the pointwise modulus chain encoded by $\Cont$ on continuous naming certificates (\autoref{ch:concrete-instances-continuous-namecert}), and the compactness witness packaged as subset $+$ located $+$ finite $\varepsilon$-net $+$ intermediate $+$ compact (\autoref{ch:concrete-instances-compact-namecert}). The argument identifies the compactness data as a finite cover indexed by a $\mathsf{ProbeBundle}$, folds the finitely many $\NameCert_{\RatUp}$ radius histories through a certified lower-bound ledger, and reads off a uniform-modulus relation depending only on the tolerance history. The main theorem states this in BEDC form: from a continuous naming certificate together with a compact naming certificate on the same metric carrier, the kernel produces a uniform-continuity ledger, with no appeal to $\mathsf{Classical.choice}$ and no excluded middle.
+The compact uniform-continuity interface $\mathsf{CompactUniformContinuityUp}$ names the constructive Heine--Cantor bridge: a continuous map over a compact metric carrier determines a uniform-modulus ledger. Its source is the shared $\ContinuousMapUp$ and $\CompactMetricUp$ certificate data, and its public object is the uniform precision row kept inside the BEDC history layer.
 
-\section{Uniform modulus from located finite covers}
-\label{sec:compact-uniform-continuity-uniform-modulus}
+\section{Source spec for $\mathsf{CompactUniformContinuityUp}$}
+\label{sec:concrete-instances-compact-uniform-continuity-source-spec}
 
-\begin{definition}[Pointwise modulus on $\NameCert_{\ContinuousFunctionUp}$]
-\label{def:compact-uniform-pointwise-modulus}
-Let $X, Y$ be metric naming certificates and let $\NameCert_f$ be a continuous-function naming certificate witnessing $f \colon X \to Y$. A \emph{pointwise modulus ledger} for $\NameCert_f$ is the BEDC relation on histories
+\begin{definition}[Source rows of $\mathsf{CompactUniformContinuityUp}$]
+\label{def:concrete-instances-compact-uniform-continuity-source-rows}
+A source row for $\mathsf{CompactUniformContinuityUp}$ is a finite BEDC packet
 $$
-(x,\varepsilon,\delta,\mathsf{cert})
+(\mathsf{source},\mathsf{map},\mathsf{target},\mathsf{modulus},\mathsf{cert},
+\mathsf{distance},\varepsilon,\mathcal{P}_{\varepsilon},s,M,\ell,
+\mu_{\varepsilon},\mathsf{u}_{\varepsilon})
 $$
-whose accepted rows carry a source-point history $x$, a positive $\NameCert_{\RatUp}$ tolerance history $\varepsilon$, a positive $\NameCert_{\RatUp}$ precision history $\delta$, and a certificate history $\mathsf{cert}$. The certificate row is carried by $\mathsf{ContinuousModulusWitness}(x,\delta,\mathsf{cert})$ together with the surrounding $\Cont$ rows of $\NameCert_f$: whenever $\mathsf{MetricDistanceWitness}(x,x',d)$ certifies a source distance bounded by $\delta$, the graph and target-metric ledgers certify a target distance bounded by $\varepsilon$. The public datum is this certified relation, not a map from external points and tolerances to external rationals.
+where the first six histories are the $\ContinuousMapUp$ carrier row, $\varepsilon$ is the positive tolerance history, $\mathcal{P}_{\varepsilon}$ is the compact-metric $\mathsf{ProbeBundle}$ net at that tolerance, $s,M,\ell$ are the compact-metric stream, modulus, and limit witnesses, and $\mu_{\varepsilon},\mathsf{u}_{\varepsilon}$ are the produced uniform precision history and its ledger certificate.
 \end{definition}
+\leandef{BEDC.Derived.CompactUniformContinuityUp.SourceRows}
 
-\begin{definition}[Uniform modulus]
-\label{def:compact-uniform-uniform-modulus}
-A \emph{uniform modulus ledger} for $f \colon X \to Y$ is a $\mathsf{BHist}$ relation
+\section{Pattern spec}
+\label{sec:concrete-instances-compact-uniform-continuity-pattern}
+
+\begin{definition}[Pattern witness for $\mathsf{CompactUniformContinuityUp}$]
+\label{def:concrete-instances-compact-uniform-continuity-pattern}
+The pattern of a compact uniform-continuity row is the conjunction of three visible certificate clauses: the continuous graph is accepted by $\ContinuousMapUp$, the shared source is accepted by $\CompactMetricUp$ through the displayed finite-net and complete-limit rows, and the tolerance history continues by $\Cont$ to the uniform precision certificate
 $$
-\mathsf{UniformModulusLedger}(\varepsilon,\delta,\mathsf{u})
+\Cont(\varepsilon,\mu_{\varepsilon},\mathsf{u}_{\varepsilon}).
 $$
-from positive $\NameCert_{\RatUp}$ tolerance histories to positive $\NameCert_{\RatUp}$ precision histories. An accepted row carries a ledger certificate $\mathsf{u}$ such that, for every pair of source-point histories $x,x'$ and every distance history $d$ with $\mathsf{MetricDistanceWitness}(x,x',d)$ bounded by $\delta$, the graph ledger for $f$ and the target metric certificate produce a target-distance history bounded by $\varepsilon$. The precision is therefore selected by a BEDC relation over histories and classifiers, rather than by an external selector.
+Thus the uniform modulus is named by a ledger relation on histories, not by an external selector from tolerances to radii.
 \end{definition}
+\leandef{BEDC.Derived.CompactUniformContinuityUp.Pattern}
 
-\begin{definition}[Located finite $\varepsilon$-net]
-\label{def:compact-uniform-finite-net}
-A \emph{located finite $\varepsilon$-net} for a metric carrier $X$ is a $\mathsf{ProbeBundle}$-indexed family of center histories. For a positive $\NameCert_{\RatUp}$ tolerance history $\varepsilon$, the compact certificate supplies a bundle $\mathcal{P}_\varepsilon$, a center history $c_p$ for every probe name $p$ with $\mathsf{InBundle}(p,\mathcal{P}_\varepsilon)$, and coverage rows saying that every source-point history $x$ has some bundled probe $p$ with a distance history $\mathsf{MetricDistanceWitness}(x,c_p,d_p)$ certified below $\varepsilon$. The finite carrier is the closed inductive $\mathsf{ProbeBundle}$ together with its coverage witnesses; no external enumeration is exposed.
+\section{Classifier spec}
+\label{sec:concrete-instances-compact-uniform-continuity-classifier}
+
+\begin{definition}[Classifier for $\mathsf{CompactUniformContinuityUp}$]
+\label{def:concrete-instances-compact-uniform-continuity-classifier}
+Two source rows classify as the same $\mathsf{CompactUniformContinuityUp}$ object when their continuous-map histories, compact-metric tolerance and limit histories, stream and stream-modulus families, uniform precision histories, and uniform ledger certificates agree by the displayed $\hsame$ rows. The classifier therefore identifies presentations that expose the same compact subset, the same continuous graph, and the same uniform-modulus ledger up to BEDC history sameness.
 \end{definition}
+\leandef{BEDC.Derived.CompactUniformContinuityUp.Classifier}
 
-\section{The kernel construction}
-\label{sec:compact-uniform-continuity-construction}
+\section{Stability certificate}
+\label{sec:concrete-instances-compact-uniform-continuity-stability}
 
-\begin{lemma}[Subordinate finite modulus cover]
-\label{lem:compact-uniform-subordinate-modulus-cover}
-Let $X$ be a compact metric carrier and let $f \colon X \to Y$ have the pointwise modulus ledger of \autoref{def:compact-uniform-pointwise-modulus}. For every positive $\NameCert_{\RatUp}$ tolerance history $\varepsilon$, the compact certificate supplies a nonempty $\mathsf{ProbeBundle}$ $\mathcal{P}_\varepsilon$ and, for every bundled probe $p$, histories
-$$
-(c_p,\rho_p,\delta_p,\mathsf{cert}_p)
-$$
-such that $\rho_p$ and $\delta_p$ are positive $\NameCert_{\RatUp}$ histories, $(c_p,\varepsilon/3,\delta_p,\mathsf{cert}_p)$ is accepted by the pointwise modulus ledger, $\rho_p$ is certified below $\delta_p$, and every source-point history $x$ has a bundled probe $p$ whose center satisfies the certified half-radius coverage row $d_X(x,c_p)<\rho_p/2$.
-\end{lemma}
-
-\begin{proof}[Certificate reading]
-Apply compactness to the located positive-radius ledger whose member at $x$ is supplied by an accepted pointwise-modulus row for tolerance $\varepsilon/3$. The finite-cover certificate returns a $\mathsf{ProbeBundle}$, center histories, radius histories, and subordination rows already tied to those pointwise rows, so the comparisons $\rho_p \le \delta_p$ are part of the returned data.
-
-The located half-radius clause is the cover witness used by the kernel construction below: for each input point $x$, it produces a bundled probe name $p$ with $d_X(x,c_p)<\rho_p/2$. No scale depending on the eventual uniform-modulus ledger is used to obtain this bundle.
-\end{proof}
-
-\begin{theorem}[Capstone: finite BEDC fold supports compact uniform modulus]
-\label{thm:compact-uniform-finite-minimum-certificate}
-Let $X$ and $Y$ be metric BEDC carriers whose distance rows are supplied by $\mathsf{MetricDistanceWitness}$, and let a BEDC history carry
-$$
-\mathsf{CompactWitnessCarrier}(\mathsf{subset},\mathsf{located},\mathsf{finite},\mathsf{intermediate},\mathsf{compact})
-$$
-for $X$. Let another history carry
-$$
-\mathsf{ContinuousFunctionCarrier}(\mathsf{source},\mathsf{map},\mathsf{target},\mathsf{modulus},\mathsf{cert})
-$$
-for a graph $f \colon X \to Y$ over the same source metric. For each positive $\NameCert_{\RatUp}$ tolerance history $\varepsilon$, suppose \autoref{lem:compact-uniform-subordinate-modulus-cover} returns a nonempty $\mathsf{ProbeBundle}$ spine
-$$
-\mathcal{P}_\varepsilon
-$$
-whose bundled probes carry positive $\RatUp$ radius histories, center histories, pointwise-modulus rows, and subordinate half-radius cover rows. Then primitive recursion over $\mathcal{P}_\varepsilon$, using the $\RatUp$ order readback of \autoref{thm:totalorder-prefix-finite-minimum-selector} at each successor step, produces a unary precision history $\mu_\varepsilon$ and a fold certificate saying that $\mu_\varepsilon$ is classifier-stably below every bundled half-radius ledger. The row $\mathsf{UniformModulusLedger}(\varepsilon,\mu_\varepsilon,\mathsf{u}_\varepsilon)$ of \autoref{def:compact-uniform-uniform-modulus} is then certified for the same continuous graph.
+\begin{theorem}[Stability of $\mathsf{CompactUniformContinuityUp}$]
+\label{thm:concrete-instances-compact-uniform-continuity-stability}
+If a source row satisfies the compact uniform-continuity pattern, then every classified presentation of the same row also satisfies the pattern. In particular, the continuous-map carrier transports componentwise, the compact-metric finite-net and complete-limit certificate transports along the tolerance, stream, modulus, and limit classifiers, and the uniform precision ledger remains a $\Cont$ row after classifier transport. This is the bridge closure needed for restriction to a compact subcarrier: the compact source and continuous graph may be re-presented through classified histories without changing the named uniform-modulus object.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompactUniformContinuityUp.stability}
 
-\begin{proof}[Certificate assembly]
-Read the finite cover from the compact witness: the $\mathsf{finite}$ and $\mathsf{located}$ rows give a nonempty $\mathsf{ProbeBundle}$ of centers, positive $\RatUp$ radius histories, and for every point of $X$ a bundled probe whose center lies within the displayed half-radius.
-
-Transport the radius histories through the $\RatUp$ total-order readback. Since the bundle is nonempty and every entry is carried by the rational positive-radius certificate, primitive recursion over $\mathcal{P}_\varepsilon$ compares the accumulator with the next half-radius ledger and keeps a certified lower-bound history. The uniqueness row of \autoref{def:totalorder-prefix-finite-minimum-witness} makes this fold stable under the classifier, so the selected lower bound is a BEDC history rather than an external choice.
-
-At each bundled center, the $\mathsf{ContinuousFunctionCarrier}$ modulus row reads back the local implication from the graph certificate: a distance bounded by the selected radius below $\delta_p$ gives output distance below $\varepsilon/3$. The subordinate-cover rows guarantee that the same center can be used for any input point, and the fold certificate guarantees that the proposed uniform precision is below the chosen local radius.
-
-Finally apply the metric semantic certificate: symmetry converts $d_X(x,x')$ to the orientation needed at the center, and the triangle row combines $d_X(x,c_p)$ with $d_X(x,x')$ to put $x'$ inside the same local ball. Applying the target-metric triangle row to $f(x)$, $f(c_p)$, and $f(x')$ yields the displayed uniform estimate. Thus $\mathsf{UniformModulusLedger}(\varepsilon,\mu_\varepsilon,\mathsf{u}_\varepsilon)$ is certified by the finite BEDC rational-fold ledger.
+\begin{proof}
+Unfold the pattern row. The first component is the $\ContinuousMapUp$ carrier, so componentwise $\hsame$ transport of source, graph, target, modulus, certificate, and distance preserves the same carrier row. The second component is the $\CompactMetricUp$ certificate, and its checked transport theorem preserves the finite-net and complete-limit package under the displayed tolerance, stream, modulus, and limit classifiers. The final component is the uniform precision ledger; transporting $\varepsilon$, $\mu_{\varepsilon}$, and $\mathsf{u}_{\varepsilon}$ by $\hsame$ preserves the same $\Cont$ row.
 \end{proof}
 
-\begin{theorem}[Continuous on compact yields uniform modulus]
-\label{thm:compact-uniform-continuity}
-Let $X$ be a metric carrier with a compact naming certificate $\NameCert_X$ exposing the $\mathsf{ProbeBundle}$ finite-net witness of \autoref{def:compact-uniform-finite-net}, and let $f \colon X \to Y$ be witnessed by a continuous naming certificate $\NameCert_f$ over $X$ exposing the pointwise modulus ledger of \autoref{def:compact-uniform-pointwise-modulus}. For every positive $\NameCert_{\RatUp}$ tolerance history $\varepsilon$, primitive recursion over the compact bundle and the certified $\RatUp$ lower-bound fold produces histories $\delta_\varepsilon$ and $\mathsf{u}_\varepsilon$ such that
-$$
-\mathsf{UniformModulusLedger}(\varepsilon,\delta_\varepsilon,\mathsf{u}_\varepsilon)
-$$
-holds for $f$. The conclusion is a certified uniform-modulus ledger from tolerance histories to precision histories, not an external modulus selector.
-\end{theorem}
+\section{Ledger policy}
+\label{sec:concrete-instances-compact-uniform-continuity-ledger}
 
-\begin{proof}[Sketch]
-Fix a positive tolerance history $\varepsilon$. Invoke \autoref{lem:compact-uniform-subordinate-modulus-cover} to obtain a nonempty $\mathsf{ProbeBundle}$ $\mathcal{P}_\varepsilon$ whose probes carry centers $c_p$, pointwise precision histories $\delta_p$, subordinate radius histories $\rho_p$, and half-radius coverage rows. Then \autoref{thm:compact-uniform-finite-minimum-certificate} supplies the classifier-stable rational-fold ledger $\mu_\varepsilon$ below every bundled half-radius ledger.
+\begin{definition}[Ledger for $\mathsf{CompactUniformContinuityUp}$]
+\label{def:concrete-instances-compact-uniform-continuity-ledger}
+The ledger keeps the entire source row: the continuous-map carrier histories, the compact-metric tolerance and $\mathsf{ProbeBundle}$ net, the stream, stream-modulus, and limit witnesses, and the uniform precision and certificate histories. Traceability is therefore local to the finite compact-subset enumeration and the pointwise-continuity data from which the uniform modulus is read back; no subsequence selector, open-cover choice function, or external modulus function is recorded.
+\end{definition}
+\leandef{BEDC.Derived.CompactUniformContinuityUp.Ledger}
 
-Let $x,x'$ be source-point histories with source distance certified below $\mu_\varepsilon$. The subordinate cover gives a bundled probe $p$ with $d_X(x,c_p)<\rho_p/2$. Because the fold ledger certifies $\mu_\varepsilon \le \rho_p/2$, the triangle row gives
-$$
-d_X(x',c_p) \le d_X(x',x)+d_X(x,c_p) < \rho_p.
-$$
-Also $d_X(x,c_p)<\rho_p/2<\rho_p$.
-
-The bound $\rho_p \le \delta_p$ lets the pointwise modulus row at $c_p$ apply to both $x$ and $x'$. Hence $d_Y(f\,c_p,f\,x)<\varepsilon/3$ and $d_Y(f\,c_p,f\,x')<\varepsilon/3$. The triangle inequality on $Y$ gives $d_Y(f\,x,f\,x')<\varepsilon$. The construction uses only the finite subordinate cover, primitive recursion over $\mathsf{ProbeBundle}$, the certified finite-fold rational ledger over $\NameCert_{\RatUp}$, and the metric certificates.
-\end{proof}
-
-\section{Axiom-purity of the uniform-modulus construction}
-\label{sec:compact-uniform-continuity-axiom-purity}
-
-\begin{remark}[No appeal to non-constructive principles]
-\label{rem:compact-uniform-axiom-purity}
-The construction in \autoref{thm:compact-uniform-continuity} uses only primitive recursion on the finite net (a $\Cont$-shaped ledger over the closed inductive $\mathsf{ProbeBundle}$ of centers), arithmetic on $\mathbb{Q}_{>0}$ (rational addition, multiplication, and division by $2$, all kernel-level operations on $\NameCert_{\RatUp}$ from \autoref{ch:concrete-instances-rat-namecert}), and the located-distance comparison built into $\NameCert_{\MetricSpaceUp}$. None of these operations passes through $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, or $\mathsf{propext}$. The chapter therefore falls under the same axiom-purity gate as the rest of the manuscript.
-\end{remark}
-
-\begin{remark}[Heine--Cantor as a kernel theorem]
-\label{rem:compact-uniform-heine-cantor}
-\autoref{thm:compact-uniform-continuity} is the BEDC form of the Heine--Cantor theorem of classical analysis. The classical proof uses sequential compactness and an extracted convergent subsequence; the BEDC proof uses the located finite $\varepsilon$-net and a certified lower-bound fold over its $\mathsf{ProbeBundle}$ radius ledger. The two routes deliver the same uniform modulus relation when the metric carrier is taken as $\NameCert_{\RealUp}$ restricted to a closed bounded interval (\autoref{ch:concrete-instances-interval-namecert}), making the classical result a derived corollary of the kernel-level statement and not the other way around.
-\end{remark}
-
-\begin{remark}[Composition with the real-completeness capstone]
-\label{rem:compact-uniform-real-completeness-composition}
-The construction composes with the real-completeness capstone (\autoref{ch:concrete-instances-real-completeness}): once $\NameCert_{\RealUp}$ is upgraded to a regular Cauchy carrier, every closed bounded interval $[a, b] \subset \RealUp$ inherits a compact naming certificate via the standard located $\varepsilon$-net of dyadic rationals at scale $\lceil 1/\varepsilon \rceil$, and \autoref{thm:compact-uniform-continuity} then gives uniform continuity of every continuous $f \colon [a, b] \to \RealUp$ with an explicit uniform-modulus ledger. The chapter is therefore the canonical bridge from the analytic certificate layer to the constructive analysis literature.
-\end{remark}
+\begin{closurestatus}{\mathsf{CompactUniformContinuityUp}}
+  \constructivestory{A compact uniform-continuity packet is generated by taking one $\ContinuousMapUp$ row for the graph and one $\CompactMetricUp$ row whose compact carrier is the same source up to $\hsame$. The source keeps the continuous-map histories, the tolerance, the finite $\mathsf{ProbeBundle}$ net, the compact stream, modulus, and limit witnesses, and the produced uniform precision and certificate histories. The pattern accepts exactly the rows where these components form a continuous-map carrier, a compact-metric certificate over the shared source, and a $\Cont$ ledger from tolerance to uniform precision certificate. Two packets classify together by componentwise $\hsame$ on the continuous-map fields, compact tolerance and limit fields, stream and stream-modulus families, and uniform ledger fields, with the same finite bundle spine. Stability is the checked transport theorem: classified presentations preserve the continuous-map carrier, the compact-metric finite-net and complete-limit certificate, and the uniform precision continuation row. The ledger retains the raw finite-net enumeration and uniform-modulus certificate needed for downstream Heine--Cantor consumers, while adding no open-cover selector, subsequence extractor, or external modulus function.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped closure binds the ContinuousMapUp row, the CompactMetricUp finite-net and complete-limit row, the classified uniform precision ledger, and their componentwise history transport.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CompactUniformContinuityUp.stability}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a general external Heine--Cantor theorem, open-cover compactness, subsequence extraction, or a choice-based modulus selector.}
+  \upgradepath{Public closure requires downstream bridgeChecked consumers that instantiate this ledger on concrete compact carriers such as closed real intervals.}
+\end{closurestatus}
