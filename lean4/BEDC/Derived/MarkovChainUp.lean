@@ -234,6 +234,52 @@ theorem MarkovChainKernelClassifier_endpoint_confluence [AskSetup] [PackageSetup
     ⟨hsame_trans (hsame_symm sameControwA) sameControwB,
       hsame_trans (hsame_symm sameEndpointA) sameEndpointB⟩
 
+theorem MarkovChainBHistTransitionCarrier_adjacent_transition_transport
+    [AskSetup] [PackageSetup]
+    {prob random law transition controw provenance endpoint random' law' transition'
+      controw' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MarkovChainBHistTransitionCarrier prob random law transition controw provenance endpoint
+        bundle pkg ->
+      hsame random random' ->
+        hsame law law' ->
+          hsame transition transition' ->
+            Cont random' transition' controw' ->
+              Cont provenance controw' endpoint' ->
+                MarkovChainBHistTransitionCarrier prob random' law' transition' controw'
+                    provenance endpoint' bundle pkg ∧
+                  hsame controw controw' ∧ hsame endpoint endpoint' := by
+  intro carrier sameRandom sameLaw sameTransition controwRow' endpointRow'
+  have sameControw : hsame controw controw' :=
+    cont_respects_hsame sameRandom sameTransition
+      carrier.right.right.right.right.right.right.right.left controwRow'
+  have oldProvenanceRow : Cont prob law provenance :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have provenanceRow' : Cont prob law' provenance := by
+    cases sameLaw
+    exact oldProvenanceRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameControw
+      carrier.right.right.right.right.right.right.right.right.right.left endpointRow'
+  have transportedPkg : PkgSig bundle endpoint' pkg := by
+    cases sameEndpoint
+    exact carrier.right.right.right.right.right.right.right.right.right.right
+  have transportedCarrier :
+      MarkovChainBHistTransitionCarrier prob random' law' transition' controw' provenance
+        endpoint' bundle pkg :=
+    ⟨carrier.left,
+      unary_transport carrier.right.left sameRandom,
+      unary_transport carrier.right.right.left sameLaw,
+      unary_transport carrier.right.right.right.left sameTransition,
+      unary_transport carrier.right.right.right.right.left sameControw,
+      carrier.right.right.right.right.right.left,
+      unary_transport carrier.right.right.right.right.right.right.left sameEndpoint,
+      controwRow',
+      provenanceRow',
+      endpointRow',
+      transportedPkg⟩
+  exact And.intro transportedCarrier (And.intro sameControw sameEndpoint)
+
 def MarkovChainTransitionPacket
     (source time current next law transition provenance ledger : BHist) : Prop :=
   ProbSpacePublicEventPacket source source current next law ∧ UnaryHistory time ∧
