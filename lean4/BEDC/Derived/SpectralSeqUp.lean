@@ -303,4 +303,49 @@ theorem SpectralSeqBHistPageCarrier_convergence_boundary [AskSetup] [PackageSetu
               (And.intro targetRow
                 carrier.right.right.right.right.right.right.right.right.right))))))
 
+theorem SpectralSeqBHistPageCarrier_page_boundary_exhaustion [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+        transition provenance endpoint bundle pkg ->
+      Cont readback provenance boundary ->
+        UnaryHistory page ∧ UnaryHistory differential ∧ UnaryHistory readback ∧
+          UnaryHistory boundary ∧ Cont page differential readback ∧
+            hsame boundary (append readback provenance) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier boundaryRow
+  have readbackRow : Cont page differential readback :=
+    carrier.right.right.right.right.right.right.left
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left readbackRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed readbackUnary carrier.right.right.right.right.right.left boundaryRow
+  exact And.intro carrier.right.right.left
+    (And.intro carrier.right.right.right.left
+      (And.intro readbackUnary
+        (And.intro boundaryUnary
+          (And.intro readbackRow
+            (And.intro boundaryRow
+              carrier.right.right.right.right.right.right.right.right.right)))))
+
+theorem SpectralSeqBHistPageCarrier_abutment_readback_boundary [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      abutment : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+        transition provenance endpoint bundle pkg ->
+      Cont convergence provenance abutment ->
+        UnaryHistory convergence ∧ UnaryHistory abutment ∧
+          hsame abutment (append convergence provenance) ∧
+            hsame transition (append readback convergence) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier abutmentRow
+  have abutmentUnary : UnaryHistory abutment :=
+    unary_cont_closed carrier.right.right.right.right.left
+      carrier.right.right.right.right.right.left abutmentRow
+  exact And.intro carrier.right.right.right.right.left
+    (And.intro abutmentUnary
+      (And.intro abutmentRow
+        (And.intro carrier.right.right.right.right.right.right.right.left
+          carrier.right.right.right.right.right.right.right.right.right)))
+
 end BEDC.Derived.SpectralSeqUp
