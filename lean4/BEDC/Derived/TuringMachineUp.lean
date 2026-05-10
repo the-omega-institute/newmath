@@ -129,6 +129,29 @@ theorem TuringMachineObligationSurface_bounded_trace_ledger
     ⟨configurationUnary, traceUnary, readbackUnary, boundedUnary, endpointUnary, configurationRow,
       traceRow, readbackRow, boundedRow, endpointRow⟩
 
+theorem TuringMachineBoundedReadback_soundness
+    {trace tape head readback bound bounded output : BHist} :
+    UnaryHistory trace ->
+      UnaryHistory tape ->
+        UnaryHistory head ->
+          UnaryHistory bound ->
+            Cont tape head readback ->
+              Cont trace readback bounded ->
+                Cont bounded bound output ->
+                  UnaryHistory readback ∧ UnaryHistory bounded ∧ UnaryHistory output ∧
+                    hsame readback (append tape head) ∧
+                      hsame bounded (append trace readback) ∧
+                        hsame output (append bounded bound) := by
+  intro traceUnary tapeUnary headUnary boundUnary readbackRow boundedRow outputRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed tapeUnary headUnary readbackRow
+  have boundedUnary : UnaryHistory bounded :=
+    unary_cont_closed traceUnary readbackUnary boundedRow
+  have outputUnary : UnaryHistory output :=
+    unary_cont_closed boundedUnary boundUnary outputRow
+  exact
+    ⟨readbackUnary, boundedUnary, outputUnary, readbackRow, boundedRow, outputRow⟩
+
 theorem TuringMachineHaltedTrace_ledger_exactness {halted : BHist} {rows : List BHist}
     {endpoint ledger : BHist} :
     TuringMachineHaltedTrace halted rows endpoint -> UnaryHistory halted ->
@@ -188,5 +211,80 @@ theorem TuringMachineSourceClassifierObligation_source_classifier_surface
   exact
     ⟨sourceUnary, traceUnary, readbackUnary, transportedUnary, sourceRow, traceRow, readbackRow,
       transportedRow⟩
+
+theorem TuringMachineSourceClassifierObligation_cont_transport
+    {state state' tape tape' head head' bound bound' configuration configuration' trace trace'
+      endpoint endpoint' : BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory bound ->
+      Cont state tape configuration -> Cont configuration head trace ->
+        Cont trace bound endpoint -> hsame state state' -> hsame tape tape' ->
+          hsame head head' -> hsame bound bound' -> Cont state' tape' configuration' ->
+            Cont configuration' head' trace' -> Cont trace' bound' endpoint' ->
+              UnaryHistory configuration ∧ UnaryHistory trace ∧ UnaryHistory endpoint ∧
+                UnaryHistory configuration' ∧ UnaryHistory trace' ∧ UnaryHistory endpoint' ∧
+                  hsame configuration configuration' ∧ hsame trace trace' ∧
+                    hsame endpoint endpoint' := by
+  intro stateUnary tapeUnary headUnary boundUnary configurationRow traceRow endpointRow sameState
+    sameTape sameHead sameBound configurationRow' traceRow' endpointRow'
+  have configurationUnary : UnaryHistory configuration :=
+    unary_cont_closed stateUnary tapeUnary configurationRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed configurationUnary headUnary traceRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed traceUnary boundUnary endpointRow
+  have stateUnary' : UnaryHistory state' :=
+    unary_transport stateUnary sameState
+  have tapeUnary' : UnaryHistory tape' :=
+    unary_transport tapeUnary sameTape
+  have headUnary' : UnaryHistory head' :=
+    unary_transport headUnary sameHead
+  have boundUnary' : UnaryHistory bound' :=
+    unary_transport boundUnary sameBound
+  have configurationUnary' : UnaryHistory configuration' :=
+    unary_cont_closed stateUnary' tapeUnary' configurationRow'
+  have traceUnary' : UnaryHistory trace' :=
+    unary_cont_closed configurationUnary' headUnary' traceRow'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed traceUnary' boundUnary' endpointRow'
+  have sameConfiguration : hsame configuration configuration' :=
+    cont_respects_hsame sameState sameTape configurationRow configurationRow'
+  have sameTrace : hsame trace trace' :=
+    cont_respects_hsame sameConfiguration sameHead traceRow traceRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameTrace sameBound endpointRow endpointRow'
+  exact
+    ⟨configurationUnary, traceUnary, endpointUnary, configurationUnary', traceUnary',
+      endpointUnary', sameConfiguration, sameTrace, sameEndpoint⟩
+
+theorem TuringMachineBoundedReadbackSoundness_endpoint_transport
+    {tape tape' head head' readback readback' trace trace' bounded bounded' : BHist} :
+    UnaryHistory tape -> UnaryHistory head -> UnaryHistory trace -> Cont tape head readback ->
+      Cont trace readback bounded -> hsame tape tape' -> hsame head head' ->
+        hsame trace trace' -> Cont tape' head' readback' ->
+          Cont trace' readback' bounded' ->
+            UnaryHistory readback ∧ UnaryHistory bounded ∧ UnaryHistory readback' ∧
+              UnaryHistory bounded' ∧ hsame readback readback' ∧ hsame bounded bounded' := by
+  intro tapeUnary headUnary traceUnary readbackRow boundedRow sameTape sameHead sameTrace
+    readbackRow' boundedRow'
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed tapeUnary headUnary readbackRow
+  have boundedUnary : UnaryHistory bounded :=
+    unary_cont_closed traceUnary readbackUnary boundedRow
+  have tapeUnary' : UnaryHistory tape' :=
+    unary_transport tapeUnary sameTape
+  have headUnary' : UnaryHistory head' :=
+    unary_transport headUnary sameHead
+  have traceUnary' : UnaryHistory trace' :=
+    unary_transport traceUnary sameTrace
+  have readbackUnary' : UnaryHistory readback' :=
+    unary_cont_closed tapeUnary' headUnary' readbackRow'
+  have boundedUnary' : UnaryHistory bounded' :=
+    unary_cont_closed traceUnary' readbackUnary' boundedRow'
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame sameTape sameHead readbackRow readbackRow'
+  have sameBounded : hsame bounded bounded' :=
+    cont_respects_hsame sameTrace sameReadback boundedRow boundedRow'
+  exact
+    ⟨readbackUnary, boundedUnary, readbackUnary', boundedUnary', sameReadback, sameBounded⟩
 
 end BEDC.Derived.TuringMachineUp
