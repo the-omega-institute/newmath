@@ -16280,3 +16280,27 @@ Rationale:
 124_bilinform_namecert_construction.tex (343 lines) has 14 theorems including bilinearity transport, dual symmetry, nondegeneracy ledger, and root rows. The forward direction `B(0_V, y) = 0_K` (an immediate consequence of left-additivity at 0 + 0 = 0) is missing — the file only contains the *converse* nondegeneracy readback (lines 233, 319) saying `if pairing ends at zero for all partners, then x is the zero vector`. The forward zero-vector vanishing row is a strictly weaker single-implication and a standard preliminary used by Clifford/InnerProduct downstream. No completed BOARD entry on bilinform vanishing; closest is B-583 CliffordUp polarization. File at 343/800.
 
 ---
+
+### B-643 - Modular-form empty-coefficient q-expansion carrier classifies under shared source rows
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Modular-form empty-coefficient q-expansion carrier classifies under shared source rows |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+Two ModularFormUp q-expansion carrier rows whose q-expansion coefficient observation rows are both the empty BHist row and that share the same HolomorphicUp source row and AutomorphicUp source row over the same weight and congruence-subgroup context are classified by the modular-form congruence classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/230_modularform_namecert_construction.tex`
+
+Rationale:
+230_modularform_namecert_construction.tex (74 lines, 3 theorems: holomorphic source scope, automorphic transport stability, namecert obligation surface) defines def:modularform-bhist-qexpansion-carrier with a 'finite q-expansion coefficient observation row' but never writes the empty-coefficient base case despite it being the natural inhabitation witness. ModularForm has zero BOARD targets. This is the same shape as B-538 (Quadrature empty-node sum is zero) and B-527 (Independence empty index family) — exposed empty-case classifier inhabitation in an obligation-only chapter.
+
+---
