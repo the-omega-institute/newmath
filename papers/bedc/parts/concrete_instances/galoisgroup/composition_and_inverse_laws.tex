@@ -233,3 +233,75 @@ inverse faces recorded in the packet. Repacking these comparisons with
 $\rho$ and $\lambda$ gives the claimed GaloisGroupUp classifier row between
 $(x^{-1})^{-1}$ and $x$.
 \end{proof}
+
+\begin{theorem}[GaloisGroupUp inverse of composition row]
+\label{thm:galoisgroup-inverse-of-composition-row}
+Let $x$ and $y$ be accepted fixed-base automorphism-action rows of an
+automorphism-action packet
+$(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}. Suppose the target
+endpoint of $y$ is $\hsame$-classified with the source endpoint of $x$, so that
+$ x\circ y $ is an accepted composite by
+\autoref{thm:galoisgroup-composition-closure}. Let $(x\circ y)^{-1}$ be the
+inverse row supplied by \autoref{thm:galoisgroup-inverse-closure}, and let
+$x^{-1}$ and $y^{-1}$ be the inverse rows of $x$ and $y$. Then the row
+$y^{-1}\circ x^{-1}$ is accepted by the same packet and is classified with
+$(x\circ y)^{-1}$ by the public GaloisGroupUp classifier. The comparison is the
+inverse-of-product row of the inherited $\NameCert_{\GroupUp}$ surface,
+transported through the endpoint classifier of the public
+$\NameCert_{\GaloisExtUp}$ boundary.
+\end{theorem}
+\begin{proof}
+Unpack $x$ and $y$ through
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}. Their source and
+target endpoints are public GaloisExtUp endpoints from $E$, their operation
+endpoints are public GroupUp endpoints from $G$, and the displayed middle
+endpoint comparison is an $\hsame$ row in the finite ledger $\lambda$.
+
+Apply \autoref{thm:galoisgroup-composition-closure} to the composable pair
+$y$ followed by $x$. This gives the accepted composite $x\circ y$, with source
+endpoint the source of $y$, target endpoint the target of $x$, fixed-base
+witness obtained by composing the two fixed-base witnesses, and operation
+endpoint read through the multiplication row $m$ of $G$.
+
+Apply \autoref{thm:galoisgroup-inverse-closure} to this composite. The row
+$(x\circ y)^{-1}$ is accepted, has the reversed outer endpoints, and carries
+the inverse operation endpoint of the GroupUp product underlying $x\circ y$.
+Apply the same inverse-closure row separately to $x$ and to $y$. The target
+endpoint of $x^{-1}$ and the source endpoint of $y^{-1}$ are the same middle
+endpoint comparison, read in the reversed direction through the public boundary
+of \autoref{thm:galoisext-public-obligation-boundary}. Hence another use of
+\autoref{thm:galoisgroup-composition-closure} accepts the composite
+$y^{-1}\circ x^{-1}$ over the same reversed outer endpoints as
+$(x\circ y)^{-1}$.
+
+On the GroupUp side, let the operation endpoints of $x$ and $y$ be read as
+$g_x$ and $g_y$ inside the packet $G$. The composition row $m$ reads the
+operation endpoint of $x\circ y$ as the product $g_x g_y$, while the inverse
+row $i$ reads the operation endpoints of $x^{-1}$ and $y^{-1}$ as $g_x^{-1}$
+and $g_y^{-1}$. The inherited inverse-of-product law
+\autoref{thm:group-inverse-mul-reverse} gives the internal classifier row
+$$
+\hsame((g_x g_y)^{-1},g_y^{-1}g_x^{-1}).
+$$
+Thus the GroupUp operation endpoint carried by $(x\circ y)^{-1}$ is classified
+with the GroupUp operation endpoint carried by $y^{-1}\circ x^{-1}$.
+
+Transport this GroupUp classifier comparison through the GaloisExtUp endpoint
+classifier. The source endpoint of $(x\circ y)^{-1}$ and the source endpoint of
+$y^{-1}\circ x^{-1}$ are both the target endpoint of $x$, and their target
+endpoints are both the source endpoint of $y$, up to the displayed $\hsame$
+rows from $E$. The fixed-base witnesses also match: inverse closure preserves
+the fixed-base comparison for each row, and composition closure composes those
+fixed-base comparisons along the same middle endpoint transport.
+
+Finally use the classifier surface described in
+\autoref{thm:galoisgroup-fixed-base-classifier}. Its clauses compare exactly
+the dependency classifiers, extension endpoints, fixed-base rows, action rows,
+composition rows, inverse rows, and $\Pkg$ provenance recorded by
+$(E,G,b,a,m,i,c,\rho,\lambda)$. Repacking the endpoint transports, the
+GroupUp inverse-of-product classifier, the two composition ledgers, the
+fixed-base witnesses, and the shared provenance row $\rho$ gives the claimed
+GaloisGroupUp classifier row between $(x\circ y)^{-1}$ and
+$y^{-1}\circ x^{-1}$.
+\end{proof}

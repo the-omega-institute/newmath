@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Glossary completeness gate.
 
-Three gates run on every CI invocation:
+Four gates run on every CI invocation:
 
   Gate 1 -- region coverage:
       Every region id appearing as a node in the auto-derived
@@ -23,9 +23,17 @@ Three gates run on every CI invocation:
       listed in ``_meta.label_identical_ok`` (technical identifiers with
       no Chinese rendering).
 
+  Gate 4 -- constructive-story bilingual:
+      Whenever a dependency-graph node carries a non-empty
+      ``constructive_story_en`` (extracted from a paper closurestatus
+      block), the corresponding glossary entry must supply a non-empty
+      ``constructive_story_zh`` so the dossier ZH view does not silently
+      fall back to English.
+
 This script holds NO domain data of its own; everything it gates on
-lives in ``docs/dossier/data_source/glossary.json`` and in the
-auto-derived dependency graph. Edit the JSON to add / fix entries.
+lives in ``docs/dossier/data_source/glossary/`` (one TOML file per
+term plus ``_meta.toml``) and in the auto-derived dependency graph.
+Edit the per-term TOML to add / fix entries.
 """
 
 from __future__ import annotations
@@ -35,8 +43,10 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _glossary_loader import GLOSSARY_DIR, load_glossary  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[1]
-GLOSSARY_SRC = ROOT / "docs" / "dossier" / "data_source" / "glossary.json"
 DEP_DATA = ROOT / "docs" / "dossier" / "data" / "dependency.json"
 PREAMBLE = ROOT / "papers" / "bedc" / "preamble.tex"
 
@@ -53,12 +63,11 @@ def parse_preamble_macros(preamble: Path) -> set[str]:
 
 
 def main() -> int:
-    if not GLOSSARY_SRC.exists():
-        print(f"[check-glossary] glossary source missing: {GLOSSARY_SRC}", file=sys.stderr)
+    if not GLOSSARY_DIR.is_dir():
+        print(f"[check-glossary] glossary source dir missing: {GLOSSARY_DIR}", file=sys.stderr)
         return 1
 
-    with GLOSSARY_SRC.open(encoding="utf-8") as fh:
-        glossary = json.load(fh)
+    glossary = load_glossary()
 
     meta = glossary.get("_meta", {})
     exempt_macros: set[str] = set(meta.get("exempt_macros", []))
@@ -84,6 +93,7 @@ def main() -> int:
     missing_regions: list[str] = []
     missing_macros: list[str] = []
     bilingual_issues: list[str] = []
+    missing_zh_stories: list[str] = []
 
     # ---- Gate 1: region coverage ----
     if DEP_DATA.exists():
@@ -115,6 +125,28 @@ def main() -> int:
     else:
         print(f"[check-glossary] preamble not found: {PREAMBLE}", file=sys.stderr)
 
+    # ---- Gate 4: constructive-story bilingual ----
+    # Look at every dependency-graph node that has a non-empty
+    # constructive_story_en. The matching glossary entry must supply
+    # constructive_story_zh.
+    if DEP_DATA.exists():
+        with DEP_DATA.open(encoding="utf-8") as fh:
+            dep = json.load(fh)
+        for node in dep.get("nodes", []):
+            en = (node.get("constructive_story_en") or "").strip()
+            if not en:
+                continue
+            nid = node.get("id", "")
+            target = entries.get(nid)
+            if target is None and nid in alias_to_key:
+                target = entries.get(alias_to_key[nid])
+            if target is None:
+                # already counted as missing-region above
+                continue
+            zh = (target.get("constructive_story_zh") or "").strip()
+            if not zh:
+                missing_zh_stories.append(nid)
+
     # ---- Gate 3: bilingual completeness ----
     for key, entry in entries.items():
         en_label = entry.get("en", {}).get("label", "")
@@ -132,7 +164,7 @@ def main() -> int:
     # Glossary completeness is advisory: missing entries do NOT block CI.
     # The dossier still renders without them — unknown nodes just show
     # their raw region id instead of a bilingual label.
-    total = len(missing_regions) + len(missing_macros) + len(bilingual_issues)
+    total = len(missing_regions) + len(missing_macros) + len(bilingual_issues) + len(missing_zh_stories)
     if total:
         print(
             f"[check-glossary] WARN: {total} issues (advisory; not blocking)",
@@ -159,10 +191,17 @@ def main() -> int:
             )
             for s in bilingual_issues:
                 print(f"    - {s}", file=sys.stderr)
+        if missing_zh_stories:
+            print(
+                f"  Missing zh constructive stories ({len(missing_zh_stories)}):",
+                file=sys.stderr,
+            )
+            for nid in sorted(missing_zh_stories):
+                print(f"    - {nid}", file=sys.stderr)
         print(
-            "\n[check-glossary] hint: edit docs/dossier/data_source/glossary.json "
-            "to add missing entries, or update _meta.exempt_macros / "
-            "_meta.label_identical_ok if a term is intentionally not in scope.",
+            "\n[check-glossary] hint: edit docs/dossier/data_source/glossary/<key>.toml "
+            "to add or fix entries, or update _meta.toml's exempt_macros / "
+            "label_identical_ok if a term is intentionally not in scope.",
             file=sys.stderr,
         )
         return 0
