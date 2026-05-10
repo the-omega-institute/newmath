@@ -398,4 +398,25 @@ theorem InfCatBHistSourcePacket_stability_exactness_ledger_obligations [AskSetup
     ⟨transported.left, transported.right.left, transported.right.right, sameConsumer,
       sameBoundary, consumerUnary', boundaryUnary'⟩
 
+theorem InfCatBHistSourcePacket_obligation_inventory_fields [AskSetup] [PackageSetup]
+    {simplicial category horn lift provenance transport boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    InfCatBHistSourcePacket simplicial category horn lift provenance transport bundle pkg ->
+      Cont horn transport boundary ->
+        UnaryHistory simplicial ∧ UnaryHistory category ∧ UnaryHistory horn ∧
+          UnaryHistory lift ∧ UnaryHistory provenance ∧ UnaryHistory transport ∧
+            UnaryHistory boundary ∧ Cont simplicial horn lift ∧ Cont provenance lift transport ∧
+              hsame boundary (append horn transport) ∧ PkgSig bundle transport pkg := by
+  intro packet boundaryRow
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed packet.right.right.right.right.left packet.right.right.right.left
+      packet.right.right.right.right.right.right.left
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed packet.right.right.left transportUnary boundaryRow
+  exact
+    ⟨packet.left, packet.right.left, packet.right.right.left, packet.right.right.right.left,
+      packet.right.right.right.right.left, transportUnary, boundaryUnary,
+      packet.right.right.right.right.right.left, packet.right.right.right.right.right.right.left,
+      boundaryRow, packet.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.InfCatUp
