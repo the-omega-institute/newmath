@@ -93,4 +93,23 @@ theorem DirichletUnitHistoryCarrier_classifier_transport
               (And.intro targetLawCont targetProvenanceCont))))))
     (And.intro sameUnitLedger (And.intro sameLawLedger sameProvenance))
 
+theorem DirichletUnitHistoryCarrier_abgroup_dependency_obligation
+    {source unit inverse law unitLedger lawLedger provenance lawConsumer lawReadback : BHist} :
+    DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger provenance ->
+      UnaryHistory lawConsumer ->
+        Cont law lawConsumer lawReadback ->
+          UnaryHistory lawReadback ∧ hsame lawReadback (append law lawConsumer) ∧
+            UnaryHistory law ∧ Cont inverse law lawLedger ∧
+              Cont unitLedger lawLedger provenance := by
+  intro carrier consumerUnary readbackRow
+  have lawUnary : UnaryHistory law :=
+    carrier.right.right.right.left
+  have readbackUnary : UnaryHistory lawReadback :=
+    unary_cont_closed lawUnary consumerUnary readbackRow
+  exact And.intro readbackUnary
+    (And.intro readbackRow
+      (And.intro lawUnary
+        (And.intro carrier.right.right.right.right.right.left
+          carrier.right.right.right.right.right.right)))
+
 end BEDC.Derived.DirichletUnitUp
