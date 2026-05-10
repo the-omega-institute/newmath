@@ -170,6 +170,29 @@ theorem CyclotomicRootCarrier_consumer_boundary [AskSetup] [PackageSetup]
           (And.intro sourceRows.right.right.right.right.right.right.right.right.left
             sourceRows.right.right.right.right.right.right.right.right.right))))
 
+theorem CyclotomicRootCarrier_iwasawa_source_boundary [AskSetup] [PackageSetup]
+    {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
+      ledger consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CyclotomicRootCarrier numField exponent polynomial splittingField primitiveRoot acceptance
+        comparison provenance ledger bundle pkg ->
+      Cont ledger comparison consumer ->
+        UnaryHistory numField ∧ UnaryHistory exponent ∧ UnaryHistory primitiveRoot ∧
+          UnaryHistory consumer ∧ hsame acceptance (append exponent polynomial) ∧
+            hsame ledger (append acceptance primitiveRoot) ∧ PkgSig bundle ledger pkg := by
+  intro carrier consumerRow
+  have sourceRows :=
+    CyclotomicRootCarrier_source_triad_obligation (bundle := bundle) (pkg := pkg) carrier
+  have consumerBoundary :=
+    CyclotomicRootCarrier_consumer_boundary (bundle := bundle) (pkg := pkg) carrier consumerRow
+  exact And.intro sourceRows.left
+    (And.intro carrier.right.left
+      (And.intro sourceRows.right.right.left
+        (And.intro consumerBoundary.left
+          (And.intro sourceRows.right.right.right.right.right.right.right.left
+            (And.intro sourceRows.right.right.right.right.right.right.right.right.left
+              sourceRows.right.right.right.right.right.right.right.right.right)))))
+
 theorem CyclotomicRootCarrier_positive_exponent_row_coverage [AskSetup] [PackageSetup]
     {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
       ledger exponentRead : BHist}
