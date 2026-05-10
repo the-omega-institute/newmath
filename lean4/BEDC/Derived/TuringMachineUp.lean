@@ -287,4 +287,33 @@ theorem TuringMachineBoundedReadbackSoundness_endpoint_transport
   exact
     ⟨readbackUnary, boundedUnary, readbackUnary', boundedUnary', sameReadback, sameBounded⟩
 
+theorem TuringMachineSourceClassifier_obligation
+    {state tape head table configuration trace next readback bounded source : BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory table ->
+      Cont state tape configuration -> Cont configuration head trace -> Cont trace table next ->
+        Cont tape head readback -> Cont next readback bounded -> Cont trace bounded source ->
+          UnaryHistory configuration ∧ UnaryHistory trace ∧ UnaryHistory next ∧
+            UnaryHistory readback ∧ UnaryHistory bounded ∧ UnaryHistory source ∧
+              hsame configuration (append state tape) ∧ hsame trace (append configuration head) ∧
+                hsame next (append trace table) ∧ hsame readback (append tape head) ∧
+                  hsame bounded (append next readback) ∧
+                    hsame source (append trace bounded) := by
+  intro stateUnary tapeUnary headUnary tableUnary
+  intro configurationRow traceRow nextRow readbackRow boundedRow sourceRow
+  have configurationUnary : UnaryHistory configuration :=
+    unary_cont_closed stateUnary tapeUnary configurationRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed configurationUnary headUnary traceRow
+  have nextUnary : UnaryHistory next :=
+    unary_cont_closed traceUnary tableUnary nextRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed tapeUnary headUnary readbackRow
+  have boundedUnary : UnaryHistory bounded :=
+    unary_cont_closed nextUnary readbackUnary boundedRow
+  have sourceUnary : UnaryHistory source :=
+    unary_cont_closed traceUnary boundedUnary sourceRow
+  exact
+    ⟨configurationUnary, traceUnary, nextUnary, readbackUnary, boundedUnary, sourceUnary,
+      configurationRow, traceRow, nextRow, readbackRow, boundedRow, sourceRow⟩
+
 end BEDC.Derived.TuringMachineUp

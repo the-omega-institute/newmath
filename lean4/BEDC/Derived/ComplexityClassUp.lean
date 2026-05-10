@@ -52,4 +52,27 @@ theorem ComplexityClassBoundedAcceptanceCarrier_bounded_trace_surface
     ⟨resourceUnary, traceUnary, verdictUnary, acceptedUnary, resourceRow, traceRow, verdictRow,
       acceptedRow⟩
 
+theorem ComplexityClassBoundedAcceptance_carrier
+    {input length acceptor modulus trace budget verdict package : BHist} :
+    UnaryHistory input -> UnaryHistory length -> UnaryHistory acceptor -> UnaryHistory modulus ->
+      Cont input length trace -> Cont length modulus budget -> Cont trace budget verdict ->
+        Cont acceptor verdict package ->
+          UnaryHistory trace ∧ UnaryHistory budget ∧ UnaryHistory verdict ∧
+            UnaryHistory package ∧ hsame trace (append input length) ∧
+              hsame budget (append length modulus) ∧ hsame verdict (append trace budget) ∧
+                hsame package (append acceptor verdict) := by
+  intro inputUnary lengthUnary acceptorUnary modulusUnary
+  intro traceRow budgetRow verdictRow packageRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed inputUnary lengthUnary traceRow
+  have budgetUnary : UnaryHistory budget :=
+    unary_cont_closed lengthUnary modulusUnary budgetRow
+  have verdictUnary : UnaryHistory verdict :=
+    unary_cont_closed traceUnary budgetUnary verdictRow
+  have packageUnary : UnaryHistory package :=
+    unary_cont_closed acceptorUnary verdictUnary packageRow
+  exact
+    ⟨traceUnary, budgetUnary, verdictUnary, packageUnary, traceRow, budgetRow, verdictRow,
+      packageRow⟩
+
 end BEDC.Derived.ComplexityClassUp
