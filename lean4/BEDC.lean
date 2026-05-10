@@ -284,6 +284,7 @@ import BEDC.Derived.SpinGroupUp.CliffordGroupConsumerBoundary
 import BEDC.Derived.SpinGroupUp.LedgerExclusion
 import BEDC.Derived.SpinGroupUp.SpinBoundaryInclusionTransport
 import BEDC.Derived.ContactUp
+import BEDC.Derived.InfCatUp
 import BEDC.Derived.ConnectionUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.RealAlgOrderUp
