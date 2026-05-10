@@ -1,4 +1,8 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -8,46 +12,67 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def ShortestPathBHistWeightedGraphCarrier [AskSetup] [PackageSetup]
-    (vertices edges weights source target path incidenceLedger weightLedger endpoint : BHist)
+def ShortestPathWeightedGraphCarrier [AskSetup] [PackageSetup]
+    (vertices edges weights source target path incidence weightedPath endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory vertices ∧ UnaryHistory edges ∧ UnaryHistory weights ∧
     UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory path ∧
-      Cont vertices edges incidenceLedger ∧ Cont weights path weightLedger ∧
-        Cont incidenceLedger weightLedger endpoint ∧ PkgSig bundle endpoint pkg
+      Cont vertices edges incidence ∧ Cont incidence weights weightedPath ∧
+        Cont weightedPath path endpoint ∧ PkgSig bundle endpoint pkg
 
-theorem ShortestPathBHistWeightedGraphCarrier_visible_path_ledger [AskSetup] [PackageSetup]
-    {vertices edges weights source target path incidenceLedger weightLedger endpoint : BHist}
+theorem ShortestPathWeightedGraphCarrier_visible_path_ledger [AskSetup] [PackageSetup]
+    {vertices edges weights source target path incidence weightedPath endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    ShortestPathBHistWeightedGraphCarrier vertices edges weights source target path
-        incidenceLedger weightLedger endpoint bundle pkg ->
-      UnaryHistory vertices ∧ UnaryHistory edges ∧ UnaryHistory weights ∧
-        UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory path ∧
-          UnaryHistory incidenceLedger ∧ UnaryHistory weightLedger ∧
-            UnaryHistory endpoint ∧ hsame incidenceLedger (append vertices edges) ∧
-              hsame weightLedger (append weights path) ∧
-                hsame endpoint (append incidenceLedger weightLedger) ∧
-                  PkgSig bundle endpoint pkg := by
+    ShortestPathWeightedGraphCarrier vertices edges weights source target path incidence
+        weightedPath endpoint bundle pkg ->
+      UnaryHistory incidence ∧ UnaryHistory weightedPath ∧ UnaryHistory endpoint ∧
+        hsame incidence (append vertices edges) ∧ hsame weightedPath (append incidence weights) ∧
+          hsame endpoint (append weightedPath path) ∧ PkgSig bundle endpoint pkg := by
   intro carrier
-  have incidenceLedgerUnary : UnaryHistory incidenceLedger :=
+  have incidenceUnary : UnaryHistory incidence :=
     unary_cont_closed carrier.left carrier.right.left
       carrier.right.right.right.right.right.right.left
-  have weightLedgerUnary : UnaryHistory weightLedger :=
-    unary_cont_closed carrier.right.right.left carrier.right.right.right.right.right.left
+  have weightedPathUnary : UnaryHistory weightedPath :=
+    unary_cont_closed incidenceUnary carrier.right.right.left
       carrier.right.right.right.right.right.right.right.left
   have endpointUnary : UnaryHistory endpoint :=
-    unary_cont_closed incidenceLedgerUnary weightLedgerUnary
+    unary_cont_closed weightedPathUnary carrier.right.right.right.right.right.left
       carrier.right.right.right.right.right.right.right.right.left
   exact
-    ⟨carrier.left, carrier.right.left, carrier.right.right.left,
-      carrier.right.right.right.left, carrier.right.right.right.right.left,
-      carrier.right.right.right.right.right.left, incidenceLedgerUnary, weightLedgerUnary,
-      endpointUnary, carrier.right.right.right.right.right.right.left,
+    ⟨incidenceUnary, weightedPathUnary, endpointUnary,
+      carrier.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right⟩
+
+theorem ShortestPathVisiblePathLedger [AskSetup] [PackageSetup]
+    {vertices edges weights source target incidence path weightLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory vertices -> UnaryHistory edges -> UnaryHistory weights -> UnaryHistory source ->
+      UnaryHistory target -> Cont vertices edges incidence -> Cont incidence weights path ->
+        Cont source target weightLedger -> Cont path weightLedger endpoint ->
+          PkgSig bundle endpoint pkg ->
+            UnaryHistory incidence ∧ UnaryHistory path ∧ UnaryHistory weightLedger ∧
+              UnaryHistory endpoint ∧ hsame incidence (append vertices edges) ∧
+                hsame path (append incidence weights) ∧
+                  hsame weightLedger (append source target) ∧
+                    hsame endpoint (append path weightLedger) ∧ PkgSig bundle endpoint pkg := by
+  intro verticesUnary edgesUnary weightsUnary sourceUnary targetUnary incidenceRow pathRow
+    weightLedgerRow endpointRow pkgSig
+  have incidenceUnary : UnaryHistory incidence :=
+    unary_cont_closed verticesUnary edgesUnary incidenceRow
+  have pathUnary : UnaryHistory path :=
+    unary_cont_closed incidenceUnary weightsUnary pathRow
+  have weightLedgerUnary : UnaryHistory weightLedger :=
+    unary_cont_closed sourceUnary targetUnary weightLedgerRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed pathUnary weightLedgerUnary endpointRow
+  exact
+    ⟨incidenceUnary, pathUnary, weightLedgerUnary, endpointUnary, incidenceRow, pathRow,
+      weightLedgerRow, endpointRow, pkgSig⟩
 
 end BEDC.Derived.ShortestPathUp
