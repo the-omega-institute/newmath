@@ -27,6 +27,43 @@ def NewtonIterationCarrier
       Cont derivativeLedger point derivative ∧ Cont derivative inverseRow stepLedger ∧
         Cont point stepLedger nextStep ∧ Cont derivativeLedger stepLedger banachLedger
 
+theorem NewtonIterationBHistCarrier_finite_prefix_restriction_carrier
+    {derivative banach point derivativeRow inverse next stepLedger stepLedger' next' provenance
+      endpoint endpoint' : BHist} :
+    NewtonIterationBHistCarrier derivative banach point derivativeRow inverse next stepLedger
+        provenance endpoint ->
+      hsame stepLedger stepLedger' ->
+        Cont point derivativeRow stepLedger' ->
+          Cont stepLedger' inverse next' ->
+            Cont provenance next' endpoint' ->
+              NewtonIterationBHistCarrier derivative banach point derivativeRow inverse next'
+                  stepLedger' provenance endpoint' ∧
+                hsame next next' ∧ hsame endpoint endpoint' := by
+  intro carrier sameStepLedger prefixStepRow prefixNextRow prefixEndpointRow
+  have sameNext : hsame next next' :=
+    cont_respects_hsame sameStepLedger (hsame_refl inverse)
+      carrier.right.right.right.right.right.right.right.left prefixNextRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameNext
+      carrier.right.right.right.right.right.right.right.right prefixEndpointRow
+  have stepLedgerUnary : UnaryHistory stepLedger' :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left prefixStepRow
+  have nextUnary : UnaryHistory next' :=
+    unary_cont_closed stepLedgerUnary carrier.right.right.right.right.left prefixNextRow
+  have restrictedCarrier :
+      NewtonIterationBHistCarrier derivative banach point derivativeRow inverse next'
+        stepLedger' provenance endpoint' :=
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      prefixStepRow,
+      prefixNextRow,
+      prefixEndpointRow⟩
+  exact ⟨restrictedCarrier, sameNext, sameEndpoint⟩
+
 theorem NewtonIterationBHistCarrier_banach_derivative_source_scope
     {derivative banach point derivativeRow inverse next stepLedger provenance endpoint : BHist} :
     NewtonIterationBHistCarrier derivative banach point derivativeRow inverse next stepLedger
