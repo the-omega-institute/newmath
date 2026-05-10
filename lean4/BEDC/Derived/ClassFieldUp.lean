@@ -125,6 +125,29 @@ theorem ClassFieldSourceCarrier_semantic_name_certificate
       exact sourceH
   }
 
+theorem ClassFieldSourceCarrier_scoped_carrier_classifier
+    {numField adele extension classifier ledger endpoint : BHist} :
+    ClassFieldSourceCarrier numField adele extension classifier ledger ->
+      Cont extension ledger endpoint ->
+        UnaryHistory numField ∧ UnaryHistory adele ∧ UnaryHistory ledger ∧
+          Cont numField adele extension ∧ hsame classifier extension ∧
+            UnaryHistory endpoint ∧ hsame endpoint (append extension ledger) := by
+  intro source endpointRow
+  have extensionUnary : UnaryHistory extension :=
+    unary_cont_closed source.left source.right.left source.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed extensionUnary source.right.right.right.right endpointRow
+  have endpointReadback : hsame endpoint (append extension ledger) := by
+    exact endpointRow
+  exact
+    ⟨source.left,
+      source.right.left,
+      source.right.right.right.right,
+      source.right.right.left,
+      source.right.right.right.left,
+      endpointUnary,
+      endpointReadback⟩
+
 def ClassFieldArtinFrobeniusRows
     (base idele extension artin frob : BHist) : Prop :=
   UnaryHistory base ∧ UnaryHistory idele ∧ UnaryHistory artin ∧

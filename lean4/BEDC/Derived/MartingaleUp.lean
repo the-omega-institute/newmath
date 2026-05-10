@@ -252,4 +252,32 @@ theorem MartingaleAdaptedSequencePacket_filtration_ledger_exactness
               (hsame_trans packet.right.right.right.right
                 (congrArg (fun h => append h previous) packet.right.right.right.left)))))))
 
+theorem MartingaleAdaptedSequencePacket_finite_prefix_restriction
+    {targetTotal sourceTotal chosenPreimage integrable projected residual previous filtration
+      stepEndpoint ledger prefixFiltration prefixStep prefixLedger : BHist} :
+    MartingaleAdaptedSequencePacket targetTotal sourceTotal chosenPreimage integrable projected
+        residual previous filtration stepEndpoint ledger ->
+      hsame filtration prefixFiltration ->
+        Cont integrable prefixFiltration prefixStep ->
+          Cont prefixStep previous prefixLedger ->
+            MartingaleAdaptedSequencePacket targetTotal sourceTotal chosenPreimage integrable
+                projected residual previous prefixFiltration prefixStep prefixLedger ∧
+              hsame stepEndpoint prefixStep ∧ hsame ledger prefixLedger := by
+  intro packet sameFiltration prefixStepRow prefixLedgerRow
+  have prefixFiltrationUnary : UnaryHistory prefixFiltration :=
+    unary_transport packet.right.right.left sameFiltration
+  have sameStep : hsame stepEndpoint prefixStep :=
+    cont_respects_hsame (hsame_refl integrable) sameFiltration packet.right.right.right.left
+      prefixStepRow
+  have sameLedger : hsame ledger prefixLedger :=
+    cont_respects_hsame sameStep (hsame_refl previous) packet.right.right.right.right
+      prefixLedgerRow
+  have prefixPacket :
+      MartingaleAdaptedSequencePacket targetTotal sourceTotal chosenPreimage integrable projected
+        residual previous prefixFiltration prefixStep prefixLedger :=
+    And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro prefixFiltrationUnary (And.intro prefixStepRow prefixLedgerRow)))
+  exact And.intro prefixPacket (And.intro sameStep sameLedger)
+
 end BEDC.Derived.MartingaleUp

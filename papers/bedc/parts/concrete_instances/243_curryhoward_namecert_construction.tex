@@ -353,3 +353,59 @@ ledger surface is exhausted by the displayed proof-program rows.
   \notclaimed{This chapter does not close a full Curry-Howard equivalence, normalization theorem, host proof equality, host lambda-term equality, alpha quotient, categorical semantics, or standard bridge data.}
   \upgradepath{The next paper-axis step is a public CurryHowardUp export theorem over the displayed cut-beta source, classifier, endpoint, and proof-program ledger rows.}
 \end{closurestatus}
+
+\begin{theorem}[CurryHoward cut-beta endpoint classifier reflexivity]
+\label{thm:curryhoward-cut-beta-endpoint-classifier-reflexive}
+Let
+$$
+\mathcal H=(P,A,B,D_1,D_2,D_{\mathsf{cut}},x,a,b,u,L,r,s,\chi,\rho)
+$$
+be an accepted shared cut-beta packet for $\CurryHowardUp$ as in
+\autoref{def:curryhoward-shared-cut-beta-packet}. Then the CurryHowardUp
+endpoint classifier of \autoref{def:curryhoward-endpoint-classifier} relates
+$\mathcal H$ to itself. The witnessing classifier row is obtained from the
+rowwise reflexive $\hsame$ comparisons on $P,A,B,D_1,D_2,D_{\mathsf{cut}},L,r,s,u$
+together with the unchanged finite $\Cont$ and provenance row $\rho$.
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet of \autoref{def:curryhoward-shared-cut-beta-packet}.
+Its first-order coordinates are the accepted deduction ledgers
+$D_1,D_2,D_{\mathsf{cut}}$ over the same carried syntax packet, and its lambda
+coordinates are the accepted term packet $L$, the displayed beta-redex row $r$,
+the substitution ledger $s$, and the endpoint $u$.
+
+For the first-order classifier clause, apply the rowwise classifier of
+\autoref{def:firstorder-deduction-ledger-classifier} to the pairs
+$(D_1,D_1)$, $(D_2,D_2)$, and $(D_{\mathsf{cut}},D_{\mathsf{cut}})$. The symbol
+rows, parse-tree rows, formula endpoints, premise endpoints, conclusion
+endpoints, and deduction-step ledgers are the same displayed rows on the two
+sides. Hence the required transports are the componentwise reflexive $\hsame$
+rows, with the same $\SetUp$ and $\TreeUp$ certificate provenance and the same
+finite $\Cont$ ledgers.
+
+For the lambda classifier clause, use the accepted term packet
+$L$ of \autoref{def:lambdacalc-term-packet-carrier}. The source redex is the
+same displayed row
+$$
+\mathsf{lamApp}(\mathsf{lamAbs}(x,b),a),
+$$
+and the substitution ledger is the same ledger $s$ with output endpoint $u$.
+Apply \autoref{thm:lambdacalc-beta-reduction-classifier-obligation} with
+reflexive $\hsame$ transport on the carried $\TreeUp$ syntax row, the carried
+$\NatUp$ binder-index row, the redex row, the substitution endpoint, and the
+$\Pkg$ provenance. The transported beta/substitution row therefore repacks as
+the original beta/substitution row.
+
+The shared endpoint clauses of
+\autoref{def:curryhoward-endpoint-classifier} are filled by the reflexive
+$\hsame$ rows on the proof-program endpoint $P$, the cut-formula/type endpoint
+$A$, and the conclusion-type endpoint $B$. The provenance clause is the same
+finite row $\rho$ over $\NameCert_{\FirstOrderUp}$ and
+$\NameCert_{\LambdaCalcUp}$.
+
+Repacking these four families of rows gives exactly the CurryHoward endpoint
+classifier witness from $\mathcal H$ to $\mathcal H$. Since every component is
+projected from the accepted packet and returned through the displayed
+$\hsame$, $\Cont$, and provenance fields, the reflexive classifier row exports
+no host proof equality, host lambda equality, or quotient of alpha classes.
+\end{proof}

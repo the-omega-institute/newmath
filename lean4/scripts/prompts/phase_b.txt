@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v5.14 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.16 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## TOP-LEVEL HARD GATE — never emit empty targets; formal_axis_top is the safety net
 
@@ -25,6 +25,8 @@ If after the full waterfall you genuinely have ZERO valid candidates (extremely 
 - `formal_axis_top[*]`: chapters whose paper closurestatus block records a non-trivial `theory_grade` but whose `formal_grade` token is below `theoremCheckedV` (i.e. paper is ahead, lean needs to catch up). Surface in priority order: `matureClosure` first, then `bridgedClosure`, etc.
 
 **HARD GATE — formal axis rotation**: AT LEAST 1 of your N proposed targets MUST advance the formal axis. Pick from the following sources, in priority order:
+
+0. **AI-origin chapter without TasteGate file (HIGHEST PRIORITY, overrides 1-3)**: run `grep -lE '\\\\origin\{ai\}' papers/bedc/parts/concrete_instances/*.tex` to find every `\origin{ai}` chapter. For each result, derive the chapter slug from the filename (`<NN>_<slug>_namecert_construction.tex`) and the schema name from the closurestatus region (`\begin{closurestatus}{\<X>Up}` → `<X>Up`). Check whether `lean4/BEDC/Derived/<X>Up/TasteGate.lean` exists. If ANY ai-origin chapter has NO TasteGate file, that chapter is your top priority — pick it as target slot 1, even if it would not otherwise appear in `bridge_candidates` or `formal_axis_top`. The `target_file` is `lean4/BEDC/Derived/<X>Up/TasteGate.lean` (create the directory + file). The Phase-C implementation must follow the single-carrier hard schema (phase_c.txt §"AI chapter single-carrier alignment"): `inductive <X>Up : Type` with constructors carrying the chapter's BHist rows + `instance : BHistCarrier <X>Up` + `instance taste_gate : ChapterTasteGate <X>Up`. Commit subject: `R<N>: implement <X>Up TasteGate (ai-origin Lean realization)`. Rationale: ai-origin chapters start at `formalTargetV` and never enter `formal_axis_top` until their TasteGate exists, so without this priority bucket they would be permanently deprioritized — the very chapters the project most wants verified would never be picked. After this round commits, paper P-round will detect the new TasteGate and advance the chapter from `seedClosure` to `obligationClosure` + `formalstatus` from `formalTargetV` to `theoremCheckedV`.
 
 1. **`bridge_candidates[0..2]`**: highest leverage. The chapter has done all the lower-grade work; the bridge theorem is the last upgrade. The target's `target_file` is the entry's `file_lean`; the new declaration name should be `<X>Up_StdBridge` or `<X>Up_concrete_to_schema` (verify via grep + LSP that the name is unused). The theorem's statement should be `<existing concrete proposition> ↔ <abstract schema predicate applied to the witness>` or a constructive `<concrete> → <abstract>` map. Use existing kernel theorems (`NameCert.transport`, `BHist`, `hsame`) — no Classical.choice / Quot.sound / propext. After commit, paper P-round will detect the bridge and advance `\bridgestatus{none}` to `\bridgestatus{bridgeChecked}` + `\formalstatus{\bridgeCheckedV}`.
 

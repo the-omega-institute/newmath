@@ -3,6 +3,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.BeliefUp.TasteGate
 
 namespace BEDC.Derived.BeliefUp
 
@@ -14,8 +15,10 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def BeliefObservationUpdateCarrier [AskSetup] [PackageSetup]
-    (prior observation updateTrace probability evidence posterior : BHist)
-    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+    (packet : BeliefUp) (posterior : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  match packet with
+  | BeliefUp.mk prior observation updateTrace probability evidence =>
   UnaryHistory prior ∧ UnaryHistory observation ∧ UnaryHistory updateTrace ∧
     UnaryHistory probability ∧ Cont prior observation updateTrace ∧
       Cont updateTrace probability posterior ∧
@@ -26,15 +29,16 @@ theorem BeliefObservationUpdateCarrier_transport_obligation [AskSetup] [PackageS
     {prior observation updateTrace probability evidence posterior prior' observation' updateTrace'
       probability' evidence' posterior' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    BeliefObservationUpdateCarrier prior observation updateTrace probability evidence posterior
+    BeliefObservationUpdateCarrier (BeliefUp.mk prior observation updateTrace probability evidence) posterior
         bundle pkg ->
       hsame prior' prior -> hsame observation' observation -> hsame updateTrace' updateTrace ->
         hsame probability' probability -> Cont prior' observation' updateTrace' ->
           Cont updateTrace' probability' posterior' ->
             Cont prior' (append observation' (append updateTrace' probability')) evidence' ->
               PkgSig bundle evidence' pkg ->
-                BeliefObservationUpdateCarrier prior' observation' updateTrace' probability'
-                    evidence' posterior' bundle pkg ∧
+                BeliefObservationUpdateCarrier
+                    (BeliefUp.mk prior' observation' updateTrace' probability' evidence')
+                    posterior' bundle pkg ∧
                   hsame updateTrace updateTrace' ∧ hsame posterior posterior' ∧
                     hsame evidence evidence' := by
   intro carrier samePrior' sameObservation' sameUpdate' sameProbability' updateRow'
@@ -79,15 +83,16 @@ theorem BeliefObservationUpdateCarrier_classifier_transport [AskSetup] [PackageS
     {prior prior' observation observation' updateTrace updateTrace' probability probability'
       evidence evidence' posterior posterior' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    BeliefObservationUpdateCarrier prior observation updateTrace probability evidence posterior
+    BeliefObservationUpdateCarrier (BeliefUp.mk prior observation updateTrace probability evidence) posterior
         bundle pkg ->
       hsame prior prior' -> hsame observation observation' -> hsame updateTrace updateTrace' ->
         hsame probability probability' -> Cont prior' observation' updateTrace' ->
           Cont updateTrace' probability' posterior' ->
             Cont prior' (append observation' (append updateTrace' probability')) evidence' ->
               PkgSig bundle evidence' pkg ->
-                BeliefObservationUpdateCarrier prior' observation' updateTrace' probability'
-                    evidence' posterior' bundle pkg ∧
+                BeliefObservationUpdateCarrier
+                    (BeliefUp.mk prior' observation' updateTrace' probability' evidence')
+                    posterior' bundle pkg ∧
                   hsame posterior posterior' ∧ hsame evidence evidence' := by
   intro carrier samePrior sameObservation sameUpdate sameProbability updateRow'
   intro posteriorRow' evidenceRow' pkgSig'
@@ -101,15 +106,16 @@ theorem BeliefObservationUpdateCarrier_posterior_trace_transport [AskSetup] [Pac
     {prior observation updateTrace probability evidence posterior prior' observation' updateTrace'
       probability' evidence' posterior' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    BeliefObservationUpdateCarrier prior observation updateTrace probability evidence posterior
+    BeliefObservationUpdateCarrier (BeliefUp.mk prior observation updateTrace probability evidence) posterior
         bundle pkg ->
       hsame prior prior' -> hsame observation observation' -> hsame probability probability' ->
         Cont prior' observation' updateTrace' ->
           Cont updateTrace' probability' posterior' ->
             Cont prior' (append observation' (append updateTrace' probability')) evidence' ->
               PkgSig bundle evidence' pkg ->
-                BeliefObservationUpdateCarrier prior' observation' updateTrace' probability'
-                    evidence' posterior' bundle pkg ∧
+                BeliefObservationUpdateCarrier
+                    (BeliefUp.mk prior' observation' updateTrace' probability' evidence')
+                    posterior' bundle pkg ∧
                   hsame updateTrace' (append prior' observation') ∧
                     hsame posterior' (append updateTrace' probability') ∧
                       hsame evidence'
@@ -131,7 +137,7 @@ theorem BeliefObservationUpdateCarrier_posterior_trace_transport [AskSetup] [Pac
 theorem BeliefObservationUpdateCarrier_ledger_exactness [AskSetup] [PackageSetup]
     {prior observation trace probability ledger posterior : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    BeliefObservationUpdateCarrier prior observation trace probability ledger posterior
+    BeliefObservationUpdateCarrier (BeliefUp.mk prior observation trace probability ledger) posterior
         bundle pkg ->
       UnaryHistory ledger ∧
         hsame ledger (append prior (append observation (append trace probability))) ∧
@@ -161,7 +167,7 @@ theorem BeliefObservationUpdateCarrier_ledger_exactness [AskSetup] [PackageSetup
 theorem BeliefObservationUpdateCarrier_tastegate_carrier_recognition [AskSetup] [PackageSetup]
     {prior observation updateTrace probability evidence posterior : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    BeliefObservationUpdateCarrier prior observation updateTrace probability evidence posterior
+    BeliefObservationUpdateCarrier (BeliefUp.mk prior observation updateTrace probability evidence) posterior
         bundle pkg ->
       UnaryHistory prior ∧ UnaryHistory observation ∧ UnaryHistory updateTrace ∧
         UnaryHistory probability ∧ UnaryHistory posterior ∧ UnaryHistory evidence ∧
@@ -191,7 +197,7 @@ theorem BeliefObservationUpdateCarrier_tastegate_carrier_recognition [AskSetup] 
 theorem BeliefObservationUpdateCarrier_finite_evidence_ledger_coverage [AskSetup]
     [PackageSetup] {prior observation updateTrace probability evidence posterior : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    BeliefObservationUpdateCarrier prior observation updateTrace probability evidence posterior
+    BeliefObservationUpdateCarrier (BeliefUp.mk prior observation updateTrace probability evidence) posterior
         bundle pkg ->
       UnaryHistory posterior ∧ UnaryHistory evidence ∧
         hsame updateTrace (append prior observation) ∧
@@ -210,6 +216,38 @@ theorem BeliefObservationUpdateCarrier_finite_evidence_ledger_coverage [AskSetup
   exact
     ⟨posteriorUnary, ledgerExact.left, ledgerExact.right.right.left,
       ledgerExact.right.right.right, ledgerExact.right.left,
+      carrier.right.right.right.right.right.right.right⟩
+
+theorem BeliefFiniteEvidenceLedger_coverage [AskSetup] [PackageSetup]
+    {prior observation updateTrace probability evidence posterior : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BeliefObservationUpdateCarrier (BeliefUp.mk prior observation updateTrace probability evidence) posterior
+        bundle pkg ->
+      UnaryHistory prior ∧ UnaryHistory observation ∧ UnaryHistory updateTrace ∧
+        UnaryHistory probability ∧ UnaryHistory posterior ∧ UnaryHistory evidence ∧
+          Cont prior observation updateTrace ∧ Cont updateTrace probability posterior ∧
+            Cont prior (append observation (append updateTrace probability)) evidence ∧
+              PkgSig bundle evidence pkg := by
+  intro carrier
+  have posteriorUnary : UnaryHistory posterior :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have updateProbabilityUnary : UnaryHistory (append updateTrace probability) :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      (rfl : Cont updateTrace probability (append updateTrace probability))
+  have evidenceTailUnary :
+      UnaryHistory (append observation (append updateTrace probability)) :=
+    unary_cont_closed carrier.right.left updateProbabilityUnary
+      (rfl : Cont observation (append updateTrace probability)
+        (append observation (append updateTrace probability)))
+  have evidenceUnary : UnaryHistory evidence :=
+    unary_cont_closed carrier.left evidenceTailUnary
+      carrier.right.right.right.right.right.right.left
+  exact
+    ⟨carrier.left, carrier.right.left, carrier.right.right.left, carrier.right.right.right.left,
+      posteriorUnary, evidenceUnary, carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.BeliefUp

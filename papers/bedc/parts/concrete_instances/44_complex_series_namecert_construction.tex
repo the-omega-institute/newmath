@@ -707,6 +707,46 @@ Transitivity with the comparison for $S_\oplus$ and the middle-four comparison g
 Finally, let $T$ be any closed partial sum of $c\oplus d$ at $n$. The determinacy theorem \autoref{lem:complex-part-sum-well-defined} compares $T$ with the constructed $S_\oplus$; transitivity with the comparison already proved gives $T\hsame\mathsf{append}(S_c,S_d)$.
 \end{proof}
 
+\begin{theorem}[ComplexSeries NameCert obligation surface]
+\label{thm:complexseries-namecert-obligation-surface}
+The ComplexTermSeq carrier transport, closed partial sums, Cauchy and absolute
+convergence predicates, comparison-test rows, ratio-test and root-test rows,
+Cauchy-product rows, and downstream boundary exclusions assemble the local
+$\NameCert_{\ComplexSeriesUp}$ obligation surface. This surface is read over
+$\ComplexLimitUp$, $\RealUp$, unary histories, $\hsame$, $\Cont$, and finite
+ledger provenance, and its consumer rows are exactly the rows displayed by
+\autoref{def:complex-series-obligation-inventory},
+\autoref{thm:complex-series-obligation-inventory-stability}, and
+\autoref{thm:complex-series-downstream-consumer-boundary}. It contains no host
+infinite-sum operator, no choice of limits, no analytic-continuation datum, and
+no standard complex-analysis bridge data.
+\end{theorem}
+\begin{proof}
+Start with the carrier and recursion rows. The term carrier is transported by
+\autoref{lem:complex-term-seq-carrier-hsame-transport}, while the partial-sum
+surface is supplied by \autoref{def:complex-part-sum},
+\autoref{lem:complex-part-sum-exists-unique}, and
+\autoref{lem:complex-part-sum-well-defined}.
+
+Next add the convergence and test rows. The Cauchy and absolute-convergence
+predicates are the rows of \autoref{def:complex-series-conv} and
+\autoref{def:abs-conv}; the comparison, ratio, and root tests are the local
+finite rows of \autoref{thm:comparison-test}, \autoref{thm:ratio-test}, and
+\autoref{lem:root-test}.
+
+The product and ledger faces are already present in the same chapter. The
+Cauchy-product row is \autoref{def:cauchy-product} together with
+\autoref{thm:cauchy-product-conv}, and the source, pattern, classifier,
+stability, and ledger fields are the five rows assembled in
+\autoref{thm:complex-series-semantic-namecert}.
+
+Finally apply the finite inventory and downstream boundary theorems. They
+repack the listed rows as the local $\NameCert_{\ComplexSeriesUp}$ surface over
+$\ComplexLimitUp$, $\RealUp$, unary histories, $\hsame$, $\Cont$, and finite
+ledger provenance, while leaving host infinite sums, selected limits, analytic
+continuation, and standard bridge data outside the exported surface.
+\end{proof}
+
 \closureat{ComplexSeriesUp}{seedStr}
 
 \begin{closurestatus}{\ComplexSeriesUp}

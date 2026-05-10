@@ -6,5 +6,85 @@ The Markov-chain interface $\MarkovChainUp$ packages a sequence of random variab
 \section{Carrier definition}
 \label{sec:markovchain-carrier}
 
+\begin{definition}[MarkovChain BHist transition carrier]
+\label{def:markovchain-bhist-transition-carrier}
+A $\MarkovChainUp$ carrier is a finite $\mathsf{BHist}$ transition-row packet over a source $\ProbSpaceUp$ carrier. It consists of a unary time ledger, carried $\RandomVarUp$ rows $X_n:S\to E$ for each displayed time row, $\DistributionUp$ rows for the laws of those random variables, transition rows $K_n(e,-)$ whose endpoints are probability distributions on the next-state event family, and the visible $\hsame/\Cont/\Pkg$ provenance tying each transition row to the adjacent pair $X_n,X_{n+1}$.
+
+The packet is accepted only when the $\Cont$ ledger records that the next-step distribution read for $X_{n+1}$ is sourced from the current-state endpoint of $X_n$ and the displayed transition row $K_n$. The carrier contains no host stochastic-process object, no filtration, no conditional-expectation primitive, and no standard Markov-kernel bridge; those may be named only by later certificates that consume this finite transition ledger.
+\end{definition}
+\leandef{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier}
+
+\begin{theorem}[MarkovChain kernel classifier stability]
+\label{thm:markovchain-kernel-classifier-stability}
+Let two $\MarkovChainUp$ transition packets have the same displayed unary time ledger. Suppose their $\ProbSpaceUp$ sources, $\RandomVarUp$ rows, $\DistributionUp$ law rows, and transition rows are related componentwise by $\hsame$, and suppose the transition $\Cont$ ledgers and $\Pkg$ provenance rows are transported along those comparisons. Then the transported rows form an accepted $\MarkovChainUp$ carrier, and the transition classifier has the same current-state to next-law shape.
+\end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainKernelClassifier\_stability}
+\begin{proof}
+Use the classifier field of the roadmap ten-field template. The source rows are the $\ProbSpaceUp$ carrier, the displayed $\RandomVarUp$ sequence, and the $\DistributionUp$ law rows; the carrier row is the finite $\mathsf{BHist}$ packet of \autoref{def:markovchain-bhist-transition-carrier}.
+
+Transport each source row through the displayed $\hsame$ comparison. The $\RandomVarUp$ rows keep their domain in the same probability-space packet, and the $\DistributionUp$ rows keep the law endpoints attached to the transported random-variable rows.
+
+Finally transport the transition $\Cont$ ledger and $\Pkg$ provenance. Since acceptance asks only that the next-step law be read through the adjacent carried rows and the displayed transition row, the transported packet satisfies the same carrier predicate without importing a host stochastic-process equality.
+\end{proof}
+\begin{theorem}[MarkovChain transition ledger exactness]
+\label{thm:markovchain-transition-ledger-exactness}
+For every accepted $\MarkovChainUp$ carrier, the transition ledger exposes exactly the $\mathsf{BHist}$ rows for the $\ProbSpaceUp$ source, the time-indexed $\RandomVarUp$ rows, the corresponding $\DistributionUp$ law rows, the transition rows $K_n$, and their $\hsame/\Cont/\Pkg$ provenance. It does not expose a host Markov process, a filtration, a conditional-expectation row, or a standard kernel bridge.
+\end{theorem}
+\begin{proof}
+Inspect the carrier definition. Its accepted rows are precisely the source probability-space row, the displayed random-variable rows, the displayed distribution rows, the transition rows, and the provenance entries that bind adjacent time steps.
+
+The ledger field of the ten-field template is the finite $\Cont$ display explaining how $X_{n+1}$ is read from $X_n$ through $K_n$. Projecting the ledger therefore returns only those named rows and their package provenance.
+
+No constructor in the carrier produces a filtration, a conditional-expectation object, or a host stochastic-process carrier. Hence none of those external stochastic objects is exported by the transition ledger.
+\end{proof}
+
+\begin{theorem}[MarkovChain probability-random-variable source boundary]
+\label{thm:markovchain-probspace-randomvar-source-boundary}
+The $\MarkovChainUp$ source boundary is the joint BEDC packet consisting of the underlying $\ProbSpaceUp$ event-and-measure rows, the time-indexed $\RandomVarUp$ measurable-preimage rows, and the $\DistributionUp$ pushforward rows for the laws of the displayed random variables. Every transition row in an accepted carrier must read its source event through that packet, and no transition row may replace it with an external probability space, external random variable, or host distribution object.
+\end{theorem}
+\begin{proof}
+Project the source field of the ten-field template. The probability-space source is the displayed $\ProbSpaceUp$ packet, and every random-variable row is carried over that same source packet.
+
+Next project the law rows through $\DistributionUp$. Each law endpoint is a pushforward row for the corresponding $\RandomVarUp$ map, so the row remains inside the BEDC source boundary.
+
+The transition row may consume those source, random-variable, and law rows through $\Cont$ and $\Pkg$ provenance only. This gives the stated boundary and excludes host probability spaces, host random variables, and host distribution objects.
+\end{proof}
+
+\begin{theorem}[MarkovChain NameCert obligation surface]
+\label{thm:markovchain-namecert-obligation-surface}
+The local $\NameCert_{\MarkovChainUp}$ obligation surface is the transition carrier of \autoref{def:markovchain-bhist-transition-carrier}, the componentwise kernel classifier of \autoref{thm:markovchain-kernel-classifier-stability}, the transition ledger exactness row of \autoref{thm:markovchain-transition-ledger-exactness}, and the probability-random-variable source boundary of \autoref{thm:markovchain-probspace-randomvar-source-boundary}. The surface names only $\mathsf{BHist}$ rows, $\hsame$ comparisons, $\Cont$ transition displays, and $\Pkg$ provenance over $\ProbSpaceUp$, $\RandomVarUp$, and $\DistributionUp$ dependency certificates.
+\end{theorem}
+\begin{proof}
+Assemble the obligation surface by the roadmap ten-field template. The traditional target is a discrete-time Markov chain; the BEDC source is the probability-space, random-variable, and distribution dependency packet; the carrier is the finite transition packet.
+
+The classifier and stability fields are supplied by \autoref{thm:markovchain-kernel-classifier-stability}. The ledger and exactness fields are supplied by \autoref{thm:markovchain-transition-ledger-exactness}.
+
+The source-boundary field is \autoref{thm:markovchain-probspace-randomvar-source-boundary}. Together these rows give the named $\NameCert_{\MarkovChainUp}$ obligation surface while keeping host stochastic-process structure outside the certificate.
+\end{proof}
+
+\begin{theorem}[MarkovChain scoped kernel dependency package]
+\label{thm:markovchain-scoped-kernel-dependency-package}
+The $\NameCert_{\MarkovChainUp}$ obligation surface of \autoref{thm:markovchain-namecert-obligation-surface} is scoped exactly by the $\ProbSpaceUp$, $\RandomVarUp$, and $\DistributionUp$ dependency certificates, the finite unary time ledger, the transition rows $K_n$, $\mathsf{BHist}$ rows, $\hsame$ comparisons, $\Cont$ displays, and $\mathsf{Pkg}$ provenance. No filtration, conditional-expectation primitive, host stochastic process, or standard Markov kernel is read by this scoped package.
+\end{theorem}
+\begin{proof}
+Project the carrier row from \autoref{def:markovchain-bhist-transition-carrier}. Its constructors expose only the source probability-space packet, the carried random-variable rows, the law rows, the unary time ledger, transition rows, and the displayed provenance.
+
+Next use \autoref{thm:markovchain-kernel-classifier-stability} and \autoref{thm:markovchain-transition-ledger-exactness}. These identify the classifier transport and ledger reads with componentwise $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows over the same finite packet.
+
+Finally apply \autoref{thm:markovchain-probspace-randomvar-source-boundary} together with \autoref{thm:markovchain-namecert-obligation-surface}. The dependency rows consumed by those projections are exactly the $\ProbSpaceUp$, $\RandomVarUp$, and $\DistributionUp$ certificates and the finite transition ledger, so the excluded stochastic-process, filtration, conditional-expectation, and standard-kernel objects remain outside the scoped package.
+\end{proof}
+
 \section{The certificate}
 \label{sec:markovchain-certificate}
+
+\closureat{MarkovChainUp}{obligationStr}
+
+\begin{closurestatus}{\MarkovChainUp}
+  \constructivestory{A Markov-chain packet is generated from a displayed $\ProbSpaceUp$ source, a unary time ledger, carried $\RandomVarUp$ rows, $\DistributionUp$ law rows, transition rows, $\Cont$ displays, $\hsame$ transport, and $\mathsf{Pkg}$ provenance. The carrier accepts only finite transition ledgers whose next-law rows are sourced from the adjacent carried random-variable rows, so host stochastic-process objects, filtrations, conditional-expectation primitives, and standard kernel bridges remain outside the certificate.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation surface is exactly the $\mathsf{BHist}$ transition carrier, kernel classifier stability, transition ledger exactness, and probability-random-variable source boundary over $\ProbSpaceUp$, $\RandomVarUp$, $\DistributionUp$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{No host stochastic-process carrier, filtration, conditional-expectation construction, stationary law, martingale property, or standard kernel bridge is claimed.}
+  \upgradepath{The next grade requires Lean theorem sites for the transition carrier, kernel classifier stability, transition ledger exactness, source boundary, and assembled NameCert obligation surface.}
+\end{closurestatus}

@@ -133,6 +133,7 @@ the prior row, observation row, update trace, probability row, and posterior
 endpoint. No additional likelihood row, hidden prior source, external
 observation stream, or host update primitive is exported by the ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.BeliefUp.BeliefFiniteEvidenceLedger\_coverage}
 \begin{proof}
 Inspect the carrier rows. Acceptance places the prior, observation, update
 trace, probability row, and posterior endpoint in one finite $\mathsf{BHist}$
@@ -148,11 +149,11 @@ ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.BeliefUp.BeliefObservationUpdateCarrier\_finite\_evidence\_ledger\_coverage}
 
-\closureat{BeliefUp}{obligationStr}
+\closureat{BeliefUp}{scopedStr}[BEDC.Derived.BeliefUp.taste\_gate]
 
 \begin{closurestatus}{\BeliefUp}
   \constructivestory{}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation scope binds the observation-update carrier
   definition together with the classifier-transport and ledger-exactness
   obligations for the displayed prior, observation, update trace, probability,
@@ -161,8 +162,9 @@ ledger.
   \leantarget{BEDC.Derived.BeliefUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{Scoped closure, a full $\NameCert_{\BeliefUp}$ surface, and
-  bridge claims remain open.}
-  \upgradepath{Scoped closure requires binding the carrier, classifier,
-  stability, ledger, and TasteGate rows to explicit BEDC primitives.}
+  \notclaimed{The full $\NameCert_{\BeliefUp}$ surface and bridge claims remain
+  outside this chapter scope.}
+  \upgradepath{Public closure requires a single exported
+  $\NameCert_{\BeliefUp}$ surface over the displayed carrier, classifier,
+  stability, ledger, TasteGate, $\hsame$, $\Cont$, and $\Pkg$ rows.}
 \end{closurestatus}

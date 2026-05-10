@@ -196,3 +196,53 @@ standard-bridge data. The consumer therefore sees only the shared StreamName
 denominator selector and the transported endpoint denominator package displayed
 above.
 \end{proof}
+
+\begin{theorem}[RealUp StreamName tail selector transport determinacy]
+\label{thm:realup-streamname-tail-selector-transport-determinacy}
+Let $H_0$ and $H_1$ be two $\RealUp$ StreamName tail-denominator selector
+handoffs over the same StreamName endpoints $s,t:\mathsf{BHist}\to
+\mathsf{BHist}$, the same finite $\mathsf{ProbeBundle}$ window $\mathcal P$,
+and the same accepted $\RegSeqRat$ spine row. Suppose both handoffs read their
+public denominator selector through
+\autoref{thm:streamname-regseqrat-realup-tail-denominator-selector}. Suppose
+the first handoff exposes transported Real stream-prefix endpoints $u_0,v_0$
+and the second exposes transported Real stream-prefix endpoints $u_1,v_1$ from
+the same finite row.
+
+Then the two exposed endpoint denominator packages are classified by the same
+$\mathsf{RatHistoryClassifier}$ row and expose the same positive-unary
+denominator rows, unary endpoint rows, and nonempty-endpoint exclusions. In
+particular the consumer cannot distinguish $H_0$ from $H_1$ by changing the
+endpoint package: both handoffs reduce to the shared StreamName selector, the
+same $\RegSeqRat$ finite spine, and the same transported package over
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$. No quotient, completion,
+arithmetic or order row, standard bridge row, or external selector row can
+separate the two handoffs at this boundary.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:realup-streamname-tail-denominator-selector-handoff} to $H_0$.
+The result identifies the public consumer boundary of the first handoff with
+the StreamName denominator selector selected by
+\autoref{thm:streamname-regseqrat-realup-tail-denominator-selector} and with
+the transported finite-tail endpoint denominator package supplied by
+\autoref{thm:real-stream-prefix-finite-tail-transported-endpoint-denominator-package}.
+
+Apply the same handoff theorem to $H_1$. The hypotheses have not changed: the
+StreamName endpoints, the finite $\mathsf{ProbeBundle}$ window, and the
+accepted $\RegSeqRat$ spine row are the same, and the public selector is read
+through the same StreamName theorem. Thus the second endpoint package is read
+from the same finite-tail denominator package rows as the first.
+
+The endpoint-package theorem records exactly the
+$\mathsf{RatHistoryClassifier}$ row, the positive-unary denominator witnesses,
+the unary endpoint rows, and the two nonempty-endpoint exclusions. Since both
+handoffs consume that same row data, replacing $H_0$ by $H_1$ leaves each of
+those rows fixed at the consumer boundary.
+
+Finally the handoff theorem states the negative boundary: no quotient,
+completion object, arithmetic or order certificate, standard bridge, or
+external selector is added. Hence no such row can distinguish the two handoffs,
+and the exposed endpoint denominator package is determined by the shared
+StreamName selector and the shared $\RegSeqRat$ finite row.
+\end{proof}

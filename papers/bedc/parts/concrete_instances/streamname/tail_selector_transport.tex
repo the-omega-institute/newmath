@@ -77,6 +77,52 @@ from $W_0$ is the same selected readback as the one read from $W_1$, and the
 scoped exactness theorem supplies the stated exclusions.
 \end{proof}
 
+\begin{theorem}[StreamName tail-selector pointwise transport]
+\label{thm:streamname-tail-selector-pointwise-transport}
+Let $W_0$ and $W_1$ be selected finite $\RealUp$ observation-window packages
+over public $\StreamNameUp$ rational stream endpoints
+$s,t:\mathsf{BHist}\to\mathsf{BHist}$ and the same finite
+$\mathsf{ProbeBundle}$ window $\mathcal P$. Suppose an accepted StreamName
+RegSeqRat RealUp tail-selector transport packet connects $W_0$ and $W_1$. Then
+for every certified observation $n$ in $\mathcal P$, the transported pointwise
+row handed from the StreamName window to the $\RegSeqRat$ finite-window
+consumer is exactly the tuple
+$$
+\begin{gathered}
+\mathsf{UnaryHistory}(n),\quad
+\mathsf{InBundle}(n,\mathcal P),\quad
+\mathsf{RatHistoryClassifier}(s(n),t(n)).
+\end{gathered}
+$$
+
+This tuple is the only rowwise data supplied to the $\RegSeqRat$ finite-window
+consumer at $n$. The handoff supplies no quotient row, no completion row, no
+host-index equality row, no arithmetic or order row, and no selector external
+to the displayed packet.
+\end{theorem}
+\begin{proof}
+First fix a certified observation $n$ in $\mathcal P$. Apply
+\autoref{thm:streamname-regseqrat-observation-stability} to the accepted
+transport packet. The StreamName observation row at $n$ is therefore stable as
+the bundled $\mathsf{UnaryHistory}(n)$ and $\mathsf{InBundle}(n,\mathcal P)$
+data together with the pointwise rational-history classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Next apply \autoref{thm:streamname-regseqrat-pointwise-handoff} to that stable
+row. Its handoff clause is rowwise: the $\RegSeqRat$ finite-window consumer
+receives the named unary-history row, the named bundle-membership row, and the
+named rational-history classifier row for the same observation $n$.
+
+Finally use
+\autoref{thm:streamname-regseqrat-realup-tail-selector-transport}. The
+transport theorem fixes the finite-window agreement connecting $W_0$ and
+$W_1$, so the rowwise handoff just identified is the pointwise component of
+the transported window agreement. Since the three cited theorems expose only
+the displayed StreamName and $\RegSeqRat$ rows, quotient rows, completion rows,
+host-index equality rows, arithmetic or order rows, and external selector rows
+remain outside the handoff.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat tail-selector handoff exactness]
 \label{thm:streamname-regseqrat-tail-selector-handoff-exactness}
 Let $W_0$ and $W_1$ be selected finite $\RealUp$ observation-window packages
@@ -504,4 +550,97 @@ The displayed ledger comparison is
 It identifies the visible $\Cont/\hsame/\Pkg$ rows and the finite public rows
 read by both bracketings. This gives the stated selector from $W_0$ to $W_3$
 and the stated exclusions.
+\end{proof}
+
+\begin{theorem}[StreamName RealUp tail-selector public interface]
+\label{thm:streamname-realup-tail-selector-public-interface}
+Let $W$ be a public $\StreamNameUp$ package with an accepted $\RegSeqRat$
+spine row, a finite $\mathsf{ProbeBundle}$ observation window, a public
+denominator-window selector, and compatible selected $\RealUp$ observation
+windows over the same endpoints. Then the package exports exactly the finite
+consumer interface available to downstream $\RealUp$ and $\RegSeqRat$ sites:
+the $\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the
+$\mathsf{UnaryHistory}$ rows, the $\mathsf{InBundle}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine, the
+DyadicRatCore endpoint rows, and the visible
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ ledger.
+
+The exported interface contains no quotient row, completion object, Classical
+representative, metric-completeness certificate, arithmetic or order row,
+standard bridge row, or hidden selector.
+\end{theorem}
+\begin{proof}
+First read the source boundary through the public $\StreamNameUp$ interface.
+Apply \autoref{thm:streamname-public-interface-export-package}. It restricts
+the countable-name and finite-window rows to the visible public StreamName
+surface.
+
+Next decompose the Real-and-Completion handoff. Apply
+\autoref{thm:streamname-regseqrat-tail-selector-handoff-exactness}. The
+handoff rows are exactly the finite StreamName classifier rows, the bundled
+window observations, the pointwise rational-history rows, the accepted
+$\RegSeqRat$ spine, the DyadicRatCore endpoint rows, and the finite
+$\RealUp$ ledger.
+
+Now read the selected denominator coordinates. Apply
+\autoref{thm:streamname-regseqrat-realup-tail-denominator-selector}. The
+selector visible to the consumer is the public denominator-window selector
+carried by the same finite handoff ledger.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-realup-tail-selector-associative-readback}.
+It makes the transport readback independent of bracketing, so every compatible
+selected $\RealUp$ observation window exports the same finite consumer
+interface. The exclusion clauses are inherited from the public interface,
+handoff exactness, selector readback, and associative readback theorems.
+\end{proof}
+
+\begin{theorem}[StreamName RealUp tail-selector public interface descent]
+\label{thm:streamname-realup-tail-selector-public-interface-descent}
+Let a downstream $\RealUp$ or $\RegSeqRat$ consumer request factor through the
+public interface of
+\autoref{thm:streamname-realup-tail-selector-public-interface}. Suppose the
+selected $\RealUp$ windows in that request are compatible over the same
+DyadicRatCore endpoints and are replaced by an accepted
+StreamName--$\RegSeqRat$--$\RealUp$ tail-selector transport packet. Then the
+replacement preserves exactly the exported finite rows visible to the consumer:
+the $\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the
+$\mathsf{UnaryHistory}$ rows, the $\mathsf{InBundle}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine, the
+DyadicRatCore endpoint rows, and the visible
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ ledger.
+
+The descent exports no quotient row, completion object, Classical
+representative, metric-completeness data, arithmetic or order row, standard
+bridge row, or hidden selector. Thus any downstream request that is already
+expressed through the public interface reads the same finite StreamName,
+$\RegSeqRat$, DyadicRatCore, and $\RealUp$ ledger rows after transport, and no
+additional row is made available by the replacement.
+\end{theorem}
+\begin{proof}
+First reduce the downstream request to the public StreamName surface. Apply
+\autoref{thm:streamname-realup-tail-selector-public-interface}. Since the
+request factors through that interface, its observable inputs are exactly the
+finite classifier, bundle, accepted spine, endpoint, and visible ledger rows
+listed there.
+
+Next read the transport packet through the handoff theorem. Apply
+\autoref{thm:streamname-regseqrat-tail-selector-handoff-exactness}. It
+identifies the StreamName finite-window classifier, bundled observations,
+pointwise rational-history rows, accepted $\RegSeqRat$ spine, DyadicRatCore
+endpoint rows, and finite $\RealUp$ ledger carried by the packet.
+
+Now select the denominator-window coordinates. Apply
+\autoref{thm:streamname-regseqrat-realup-tail-denominator-selector}. The
+selected $\RealUp$ windows and the accepted spine are read from the same
+finite handoff ledger, so compatible endpoint windows expose the same
+consumer-visible denominator data.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-realup-tail-selector-associative-readback}.
+The readback is independent of the bracketing used to assemble the accepted
+packet. Combining this with the public interface gives exactly the exported
+finite rows and only those rows; the excluded quotient, completion,
+representative, metric, arithmetic, order, bridge, and hidden-selector data are
+absent from every cited surface.
 \end{proof}

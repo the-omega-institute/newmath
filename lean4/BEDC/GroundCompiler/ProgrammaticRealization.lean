@@ -145,4 +145,393 @@ def referenceExecutableP0Realization : ExecutableP0Realization where
     intro S
     exact flow_level_round_trip S
 
+def AdjacentPairReport : EventFlow -> List (RawEvent × RawEvent)
+  | [] => []
+  | [_] => []
+  | first :: second :: rest =>
+      (first, second) :: AdjacentPairReport (second :: rest)
+
+structure ExecutableReportLayer where
+  sourceReport : EventFlow -> EventFlow
+  adjacentPairReport : EventFlow -> List (RawEvent × RawEvent)
+  motifCandidateReport : EventFlow -> List EventFlow
+  metricReport : EventFlow -> List Nat
+
+def referenceExecutableReportLayer : ExecutableReportLayer where
+  sourceReport := fun S => S
+  adjacentPairReport := AdjacentPairReport
+  motifCandidateReport := fun S => List.map (fun w => [w]) S
+  metricReport := fun S => [S.length]
+
+inductive ReportClassification : Type where
+  | candidateShape (S : EventFlow)
+  | recognizedStructure (R : GeneratedRecognizer) (S : EventFlow)
+
+def EvidenceBackedReport (j : ReportClassification) : Prop :=
+  exists R : GeneratedRecognizer, exists S : EventFlow,
+    j = ReportClassification.recognizedStructure R S /\
+      FormalCompilerInput (CompilerDatum.recognizedFlow R S)
+
+theorem programs_do_not_upgrade_candidates (S : EventFlow) :
+    Not (EvidenceBackedReport (ReportClassification.candidateShape S)) := by
+  intro h
+  cases h with
+  | intro R hR =>
+      cases hR with
+      | intro T hT =>
+          cases hT.left
+
+theorem p1_p4_executable :
+    exists L : ExecutableReportLayer,
+      L.sourceReport [] = [] /\
+        L.adjacentPairReport [[BMark.b0], [BMark.b1], [BMark.b0]] =
+          [([BMark.b0], [BMark.b1]), ([BMark.b1], [BMark.b0])] /\
+        L.motifCandidateReport [[BMark.b0], [BMark.b1]] =
+          [[[BMark.b0]], [[BMark.b1]]] /\
+        L.metricReport [[BMark.b0], [BMark.b1]] = [2] := by
+  refine ⟨referenceExecutableReportLayer, ?_⟩
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · rfl
+
+structure RecognizerVMInput where
+  ambient : EventFlow
+  recognizer : GeneratedRecognizer
+  support : Option EventFlow
+
+inductive RecognizerVMOutputDatum : Type where
+  | recognitionJudgment (R : GeneratedRecognizer) (S : EventFlow)
+  | ledgerRecord (S : EventFlow)
+  | missingFieldRecord (S : EventFlow)
+  | failureRecord (S : EventFlow)
+  | cannotClaimAnnotation (S : EventFlow)
+
+structure RecognizerVirtualMachine where
+  run : RecognizerVMInput -> List RecognizerVMOutputDatum
+
+def referenceRecognizerVirtualMachine : RecognizerVirtualMachine where
+  run := fun input =>
+    [RecognizerVMOutputDatum.recognitionJudgment input.recognizer input.ambient]
+
+inductive RecognizerProgramArtifact : Type where
+  | hostInterpreter (M : RecognizerVirtualMachine)
+  | eventFlowRecognizer (R : GeneratedRecognizer) (S : EventFlow)
+  | recognizerCertificate (C : EventFlow)
+  | recognizerLedger (L : EventFlow)
+  | recognizerFailureBehavior (F : EventFlow)
+
+inductive FormalRecognizerEvidence : RecognizerProgramArtifact -> Prop where
+  | eventFlowRecognizer
+      (R : GeneratedRecognizer) (S : EventFlow) :
+      FormalCompilerInput (CompilerDatum.recognizedFlow R S) ->
+        FormalRecognizerEvidence
+          (RecognizerProgramArtifact.eventFlowRecognizer R S)
+  | recognizerCertificate (C : EventFlow) :
+      FormalCompilerInput (CompilerDatum.eventFlow C) ->
+        FormalRecognizerEvidence
+          (RecognizerProgramArtifact.recognizerCertificate C)
+  | recognizerLedger (L : EventFlow) :
+      FormalCompilerInput (CompilerDatum.eventFlow L) ->
+        FormalRecognizerEvidence
+          (RecognizerProgramArtifact.recognizerLedger L)
+  | recognizerFailureBehavior (F : EventFlow) :
+      FormalCompilerInput (CompilerDatum.eventFlow F) ->
+        FormalRecognizerEvidence
+          (RecognizerProgramArtifact.recognizerFailureBehavior F)
+
+def RecognizerVMDiscipline (_M : RecognizerVirtualMachine) : Prop :=
+  (forall d : CompilerDatum,
+    StructuralHiddenInput d -> Not (FormalCompilerInput d)) /\
+    (forall S : EventFlow,
+      Not (EvidenceBackedReport (ReportClassification.candidateShape S)))
+
+def RecognizerVMRealizesP5P8Interface
+    (M : RecognizerVirtualMachine) : Prop :=
+  RecognizerVMDiscipline M /\
+    Not (FormalCompilerInput CompilerDatum.hostPkg) /\
+    Not (FormalCompilerInput CompilerDatum.hostNameCert) /\
+    Not (FormalCompilerInput CompilerDatum.hostTheoremIdentifier) /\
+    Not (FormalCompilerInput CompilerDatum.hostChapterPkg) /\
+    Not (FormalCompilerInput CompilerDatum.hostManifest)
+
+theorem vm_not_evidence (M : RecognizerVirtualMachine) :
+    Not
+      (FormalRecognizerEvidence
+        (RecognizerProgramArtifact.hostInterpreter M)) := by
+  intro h
+  cases h
+
+theorem vm_realizes_p5_p8 :
+    RecognizerVMRealizesP5P8Interface referenceRecognizerVirtualMachine := by
+  constructor
+  · constructor
+    · intro _ hHidden
+      exact structural_hidden_not_formal hHidden
+    · intro S
+      exact programs_do_not_upgrade_candidates S
+  · constructor
+    · exact structural_hidden_not_formal StructuralHiddenInput.hostPkg
+    · constructor
+      · exact structural_hidden_not_formal StructuralHiddenInput.hostNameCert
+      · constructor
+        · exact structural_hidden_not_formal
+            StructuralHiddenInput.hostTheoremIdentifier
+        · constructor
+          · exact structural_hidden_not_formal StructuralHiddenInput.hostChapterPkg
+          · exact structural_hidden_not_formal StructuralHiddenInput.hostManifest
+
+structure CertificateCheckerLayer where
+  checksNameCert : EventFlow -> Prop
+  checksDerivCert : EventFlow -> Prop
+  checksAcceptGate : EventFlow -> Prop
+  checksTheoremProof : EventFlow -> Prop
+  checksChapterManuscript : EventFlow -> Prop
+  checksCompilerGlobal : EventFlow -> Prop
+
+inductive CheckerLayerArtifact : Type where
+  | hostChecker (L : CertificateCheckerLayer)
+  | certificateFlow (C : EventFlow)
+  | proofFlow (P : EventFlow)
+  | acceptedObjectFlow (S : EventFlow)
+  | theoremFlow (T : EventFlow)
+
+inductive FormalCheckerEvidence : CheckerLayerArtifact -> Prop where
+  | certificateFlow (C : EventFlow) :
+      FormalCompilerInput (CompilerDatum.eventFlow C) ->
+        FormalCheckerEvidence (CheckerLayerArtifact.certificateFlow C)
+  | proofFlow (P : EventFlow) :
+      FormalCompilerInput (CompilerDatum.eventFlow P) ->
+        FormalCheckerEvidence (CheckerLayerArtifact.proofFlow P)
+  | acceptedObjectFlow (S : EventFlow) :
+      AcceptedObjectFlow S ->
+        FormalCheckerEvidence (CheckerLayerArtifact.acceptedObjectFlow S)
+  | theoremFlow (T : EventFlow) :
+      RecognizedTheoremFlow T ->
+        FormalCheckerEvidence (CheckerLayerArtifact.theoremFlow T)
+
+theorem checker_program_not_certificate_evidence
+    (L : CertificateCheckerLayer) :
+    Not (FormalCheckerEvidence (CheckerLayerArtifact.hostChecker L)) := by
+  intro h
+  cases h
+
+inductive ProgramAcceptedEmission : EventFlow -> Prop where
+  | objectCode {S : EventFlow} :
+      AcceptedObjectFlow S -> ProgramAcceptedEmission S
+  | theoremCode {T : EventFlow} :
+      RecognizedTheoremFlow T -> ProgramAcceptedEmission T
+
+theorem acceptance_certificate_mediated {S : EventFlow} :
+    ProgramAcceptedEmission S ->
+      AcceptedObjectFlow S \/ RecognizedTheoremFlow S := by
+  intro h
+  cases h with
+  | objectCode hObj =>
+      exact Or.inl hObj
+  | theoremCode hThm =>
+      exact Or.inr hThm
+
+structure ProgrammaticSelfHostingRoute where
+  hostReferenceRuntime : EventFlow
+  channelAndRecognizerRules : EventFlow
+  recognizerVMFlow : EventFlow
+  compilerRecognitionFlow : EventFlow
+  compilerCertificateFlow : EventFlow
+  selfCompilationFlow : EventFlow
+  behaviorEquivalenceFlow : EventFlow
+  bootstrapObligationFlow : EventFlow
+
+inductive SelfHostingClaimArtifact : Type where
+  | hostExecution (runtime compilerDescription : EventFlow)
+  | certifiedRoute (route : ProgrammaticSelfHostingRoute)
+
+inductive CompleteSelfHostingEvidence : SelfHostingClaimArtifact -> Prop where
+  | certifiedRoute (route : ProgrammaticSelfHostingRoute) :
+      FormalCompilerInput (CompilerDatum.eventFlow route.compilerRecognitionFlow) ->
+        FormalCompilerInput (CompilerDatum.eventFlow route.compilerCertificateFlow) ->
+          FormalCompilerInput (CompilerDatum.eventFlow route.selfCompilationFlow) ->
+            FormalCompilerInput
+              (CompilerDatum.eventFlow route.behaviorEquivalenceFlow) ->
+              FormalCompilerInput
+                (CompilerDatum.eventFlow route.bootstrapObligationFlow) ->
+                CompleteSelfHostingEvidence
+                  (SelfHostingClaimArtifact.certifiedRoute route)
+
+theorem self_hosting_not_execution (runtime compilerDescription : EventFlow) :
+    Not
+      (CompleteSelfHostingEvidence
+        (SelfHostingClaimArtifact.hostExecution runtime compilerDescription)) := by
+  intro h
+  cases h
+
+structure P9CompilerEvidence where
+  route : ProgrammaticSelfHostingRoute
+  compilerIdentity :
+    FormalCompilerInput
+      (CompilerDatum.eventFlow route.compilerRecognitionFlow)
+  compilerBehavior :
+    FormalCompilerInput
+      (CompilerDatum.eventFlow route.compilerCertificateFlow)
+  selfCompilation :
+    FormalCompilerInput
+      (CompilerDatum.eventFlow route.selfCompilationFlow)
+  behaviorEquivalence :
+    FormalCompilerInput
+      (CompilerDatum.eventFlow route.behaviorEquivalenceFlow)
+  bootstrapObligations :
+    FormalCompilerInput
+      (CompilerDatum.eventFlow route.bootstrapObligationFlow)
+  noHostLeakAudit : FormalCompilerInput (CompilerDatum.eventFlow route.recognizerVMFlow)
+  globalVerificationStatus :
+    FormalCompilerInput
+      (CompilerDatum.eventFlow route.channelAndRecognizerRules)
+
+inductive ProgrammaticP9Status : Type where
+  | reached (evidence : P9CompilerEvidence)
+
+theorem programmatic_realization_reaches_p9_with_evidence :
+    ProgrammaticP9Status -> exists evidence : P9CompilerEvidence,
+      CompleteSelfHostingEvidence
+        (SelfHostingClaimArtifact.certifiedRoute evidence.route) := by
+  intro status
+  cases status with
+  | reached evidence =>
+      exact
+        ⟨evidence,
+          CompleteSelfHostingEvidence.certifiedRoute evidence.route
+            evidence.compilerIdentity
+            evidence.compilerBehavior
+            evidence.selfCompilation
+            evidence.behaviorEquivalence
+            evidence.bootstrapObligations⟩
+
+inductive ImplementationLayer : Type where
+  | executableRuntime
+  | formalRelation
+  | recognizerCertificate
+  | selfHostingGlobalVerification
+
+def FourImplementationLayers : List ImplementationLayer :=
+  [ImplementationLayer.executableRuntime,
+    ImplementationLayer.formalRelation,
+    ImplementationLayer.recognizerCertificate,
+    ImplementationLayer.selfHostingGlobalVerification]
+
+inductive ImplementationModule : Type where
+  | channelEncodingDecoding
+  | reportAndMetric
+  | recognizerVM
+  | recognizerFamily
+  | certificateLedgerAudit
+  | selfHostingGlobalVerification
+
+def ImplementationModulePartition : List ImplementationModule :=
+  [ImplementationModule.channelEncodingDecoding,
+    ImplementationModule.reportAndMetric,
+    ImplementationModule.recognizerVM,
+    ImplementationModule.recognizerFamily,
+    ImplementationModule.certificateLedgerAudit,
+    ImplementationModule.selfHostingGlobalVerification]
+
+inductive AutomaticComputationResult : Type where
+  | channelRoundTrip
+  | sourceReport
+  | candidateListing
+  | fieldStatusReport
+  | missingFieldReport
+  | undefinedMetricItem
+  | cannotClaimAnnotation
+  | recognizedJudgment (R : GeneratedRecognizer) (S : EventFlow)
+  | mathematicalIdentity
+  | objectAcceptance
+  | theoremhood
+  | bridgeCertification
+  | fullSelfHostingStatus
+
+inductive AutomaticallyComputable : AutomaticComputationResult -> Prop where
+  | channelRoundTrip :
+      AutomaticallyComputable AutomaticComputationResult.channelRoundTrip
+  | sourceReport :
+      AutomaticallyComputable AutomaticComputationResult.sourceReport
+  | candidateListing :
+      AutomaticallyComputable AutomaticComputationResult.candidateListing
+  | fieldStatusReport :
+      AutomaticallyComputable AutomaticComputationResult.fieldStatusReport
+  | missingFieldReport :
+      AutomaticallyComputable AutomaticComputationResult.missingFieldReport
+  | undefinedMetricItem :
+      AutomaticallyComputable AutomaticComputationResult.undefinedMetricItem
+  | cannotClaimAnnotation :
+      AutomaticallyComputable AutomaticComputationResult.cannotClaimAnnotation
+  | recognizedJudgment (R : GeneratedRecognizer) (S : EventFlow) :
+      FormalCompilerInput (CompilerDatum.recognizedFlow R S) ->
+        AutomaticallyComputable
+          (AutomaticComputationResult.recognizedJudgment R S)
+
+inductive BareHighAuthorityClaim : AutomaticComputationResult -> Prop where
+  | mathematicalIdentity :
+      BareHighAuthorityClaim AutomaticComputationResult.mathematicalIdentity
+  | objectAcceptance :
+      BareHighAuthorityClaim AutomaticComputationResult.objectAcceptance
+  | theoremhood :
+      BareHighAuthorityClaim AutomaticComputationResult.theoremhood
+  | bridgeCertification :
+      BareHighAuthorityClaim AutomaticComputationResult.bridgeCertification
+  | fullSelfHostingStatus :
+      BareHighAuthorityClaim AutomaticComputationResult.fullSelfHostingStatus
+
+theorem automatic_computation_bounded_authority
+    {r : AutomaticComputationResult} :
+    AutomaticallyComputable r -> Not (BareHighAuthorityClaim r) := by
+  intro hAuto hHigh
+  cases hAuto <;> cases hHigh
+
+inductive ExecutableDeliverableStage : Type where
+  | channelRoundTrip
+  | sourceEventReport
+  | sourceNormalizerReport
+  | motifCandidateReport
+  | metricProtocolReport
+  | packageNameCertRecognizer
+  | derivCertAcceptGateRecognizer
+  | theoremProofRecognizer
+  | chapterFlowRecognizer
+  | compilerSelfHostingScaffold
+
+def ExecutableDeliverableLadder : List ExecutableDeliverableStage :=
+  [ExecutableDeliverableStage.channelRoundTrip,
+    ExecutableDeliverableStage.sourceEventReport,
+    ExecutableDeliverableStage.sourceNormalizerReport,
+    ExecutableDeliverableStage.motifCandidateReport,
+    ExecutableDeliverableStage.metricProtocolReport,
+    ExecutableDeliverableStage.packageNameCertRecognizer,
+    ExecutableDeliverableStage.derivCertAcceptGateRecognizer,
+    ExecutableDeliverableStage.theoremProofRecognizer,
+    ExecutableDeliverableStage.chapterFlowRecognizer,
+    ExecutableDeliverableStage.compilerSelfHostingScaffold]
+
+inductive DeliverableCompletionArtifact : Type where
+  | executableCompletion (ladder : List ExecutableDeliverableStage)
+  | certificateCompletion (route : ProgrammaticSelfHostingRoute)
+
+inductive CertificateCompleteDeliverable :
+    DeliverableCompletionArtifact -> Prop where
+  | certificateCompletion (route : ProgrammaticSelfHostingRoute) :
+      CompleteSelfHostingEvidence
+        (SelfHostingClaimArtifact.certifiedRoute route) ->
+        CertificateCompleteDeliverable
+          (DeliverableCompletionArtifact.certificateCompletion route)
+
+theorem executable_not_certificate_complete :
+    Not
+      (CertificateCompleteDeliverable
+        (DeliverableCompletionArtifact.executableCompletion
+          ExecutableDeliverableLadder)) := by
+  intro h
+  cases h
+
 end BEDC.GroundCompiler.ProgrammaticRealization

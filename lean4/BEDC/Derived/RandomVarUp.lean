@@ -187,6 +187,30 @@ theorem RandomVarPreimage_relative_difference_exactness
     cont_left_cancel targetDifference sourceAtTarget
   exact hsame_trans sameDiffTarget targetDiffSourceDiff
 
+theorem RandomVarPreimage_symmetric_difference_exactness
+    {A B diffAB diffBA deltaT preA preB preDiffAB preDiffBA preDelta sourceDiffAB
+      sourceDiffBA sourceDelta : BHist} :
+    hsame preA A -> hsame preB B -> hsame preDiffAB diffAB -> hsame preDiffBA diffBA ->
+      hsame preDelta deltaT -> Cont B diffAB A -> Cont A diffBA B ->
+        Cont diffAB diffBA deltaT -> Cont preB sourceDiffAB preA ->
+          Cont preA sourceDiffBA preB -> Cont sourceDiffAB sourceDiffBA sourceDelta ->
+            (hsame diffAB diffBA -> False) ->
+              hsame preDelta sourceDelta ∧ (hsame sourceDiffAB sourceDiffBA -> False) := by
+  intro samePreA samePreB samePreDiffAB samePreDiffBA samePreDelta targetDiffAB
+    targetDiffBA targetDelta sourceDiffABRow sourceDiffBARow sourceDeltaRow targetDisjoint
+  have sourceDiffABExact : hsame preDiffAB sourceDiffAB :=
+    RandomVarPreimage_relative_difference_exactness samePreA samePreB samePreDiffAB
+      targetDiffAB sourceDiffABRow
+  have sourceDiffBAExact : hsame preDiffBA sourceDiffBA :=
+    RandomVarPreimage_relative_difference_exactness samePreB samePreA samePreDiffBA
+      targetDiffBA sourceDiffBARow
+  have sourceDiffABTarget : hsame sourceDiffAB diffAB :=
+    hsame_trans (hsame_symm sourceDiffABExact) samePreDiffAB
+  have sourceDiffBATarget : hsame sourceDiffBA diffBA :=
+    hsame_trans (hsame_symm sourceDiffBAExact) samePreDiffBA
+  exact RandomVarPreimage_disjoint_binary_union_exactness sourceDiffABTarget sourceDiffBATarget
+    samePreDelta targetDelta sourceDeltaRow targetDisjoint
+
 theorem RandomVarPreimage_complement_difference_exactness
     {omegaT omegaS preOmega B BTComp BS BComp preComp : BHist} :
     RandomVarTotalReadbackCertificate omegaT omegaS preOmega -> hsame BS B ->
@@ -283,5 +307,22 @@ theorem RandomVarTerminalPreimage_exactness_coverage_iff
   · intro chosenExact
     intro h gap _unaryH sourceCoverage
     exact cont_result_hsame_transport sourceCoverage (hsame_symm chosenExact)
+
+theorem RandomVarPreimage_binary_intersection_exactness
+    {targetLeft targetRight targetIntersection sourceLeft sourceRight sourceIntersection
+      sourcePreimageIntersection : BHist} :
+    hsame sourceLeft targetLeft -> hsame sourceRight targetRight ->
+      hsame sourcePreimageIntersection targetIntersection ->
+        hsame targetIntersection (append targetLeft targetRight) ->
+          Cont sourceLeft sourceRight sourceIntersection ->
+            hsame sourcePreimageIntersection sourceIntersection ∧
+              hsame sourceIntersection (append sourceLeft sourceRight) := by
+  intro sameLeft sameRight samePreimage targetIntersectionReadback sourceIntersectionCont
+  have targetIntersectionCont : Cont targetLeft targetRight targetIntersection :=
+    targetIntersectionReadback
+  have sameTargetSourceIntersection : hsame targetIntersection sourceIntersection :=
+    cont_respects_hsame (hsame_symm sameLeft) (hsame_symm sameRight) targetIntersectionCont
+      sourceIntersectionCont
+  exact And.intro (hsame_trans samePreimage sameTargetSourceIntersection) sourceIntersectionCont
 
 end BEDC.Derived.RandomVarUp

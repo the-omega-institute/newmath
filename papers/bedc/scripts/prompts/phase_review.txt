@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.9 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.11 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Multi-target round emission (HARD GATE — minimum 5 candidates)
 
@@ -165,7 +165,59 @@ synthesize ≥ 2 capstones. The two gates compose; an ordinary-capstone
 target (flavor=capstone) and a meta-capstone target (flavor=meta_capstone)
 are distinct kinds and can coexist in a multi-target round.
 
-## SOFT SIGNAL — human-known chapter extension (NO HARD GATE)
+## HARD GATE — human-known chapter extension when frontier saturates
+
+When `closed_horizons / open_horizons > 2.0` AND
+`len(critical_path.top) <= 2`, the frontier is saturated. You (the
+reviewer) MUST emit at least ONE `human_chapter_extension` target in
+the round, alongside any closure_mark / theory_extension you also
+emit. Emitting only closure_mark in a saturated state is INVALID —
+drop one closure_mark and emit the extension.
+
+Rationale: the existing 261-chapter inventory was assembled by
+discovering canonical mathematical neighbors of what was already there
+(`ls papers/bedc/parts/concrete_instances/` to see the slug list).
+When `top` empties out, only this discovery work moves the frontier;
+closure_mark and drift sync just polish what exists.
+
+How to identify the missing chapter:
+1. Run `python3 tools/dag_brief.py --frontier` to dump the live
+   chapter DAG (~70 KB, 261 nodes, 438 edges) plus the top-40
+   "frontier" chapters (mature leaves with downstream <= 1). The
+   tool reads paper sources directly — no dossier dependency, no
+   stale cache. Each node has: id, label, theoryclosure,
+   formalstatus, origin, thms, depends_on[], downstream.
+2. Pick a frontier chapter and reason about what canonical textbook
+   neighbour is missing from its dependency neighbourhood. The
+   neighbour should be a recognised mathematical object whose
+   carrier is naturally one or two BHist rows beyond what the
+   frontier chapter already binds.
+3. Cross-check against the slug list: the slug must NOT already be
+   present in the dag_brief output (case-insensitive).
+4. Verify the chapter is formalisable under BEDC zero-axiom: no
+   Classical.choice, no Lebesgue measure, no Hahn-Banach strong
+   form. If unsure, skip and pick a different gap.
+5. Cite a textbook / paper reference (Hartshorne / Kobayashi /
+   Pierce / Pearl / Boyd-Vandenberghe / Russell-Norvig / etc) in
+   the `proposed_change` body, OR — when the proposed chapter is
+   a genuinely new BEDC-kernel-anchored object without external
+   textbook precedent — substitute the citation with a
+   self-contained justification (carrier-row count, classifier
+   shape, ledger obligation surface, dependency anchors) that
+   shows the chapter is non-vacuous under BEDC discipline.
+
+Illustrative examples (do not pick mechanically; derive from the
+*actual* dag_brief output):
+     NumFieldUp        →  EtaleCohomologyUp
+     ConnectionUp      →  HolonomyUp
+     TensorProductUp   →  GradedTensorUp
+     LambdaCalcUp      →  SystemFOmegaUp
+     ProbSpaceUp       →  MartingaleConvergenceUp
+     HilbertUp         →  SpectralMeasureUp
+
+The full rule-set for human_chapter_extension targets follows below.
+
+## SOFT SIGNAL — human-known chapter extension (rule-set)
 
 The 280+ concrete-instance chapters cover most of the algebra / analysis /
 geometry / category-theory / number-theory / quantum-physics / logic
@@ -191,11 +243,14 @@ horizon is saturated and the remaining open chapters are slow-burn),
 you MAY propose a `kind = "theory_extension"` with `notes.flavor =
 "human_chapter_extension"`. Rules:
 
-1. The proposed chapter MUST be a recognised mathematical object with
-   a textbook reference. Cite at least one standard text (e.g.
-   "Fulton-Harris 1991", "Boyd-Vandenberghe 2004", "Pearl 2009").
-   Self-invented or AI-named objects do NOT belong here — those go
-   through `phase_propose.txt` with `\origin{ai}`.
+1. The proposed chapter MUST be a non-vacuous BEDC-kernel-anchored
+   object. Justify it via either: (a) a textbook reference (e.g.
+   "Fulton-Harris 1991", "Boyd-Vandenberghe 2004", "Pearl 2009") for
+   recognised mathematical objects; OR (b) a self-contained BEDC
+   carrier sketch (carrier rows, classifier shape, ledger structure,
+   dependency anchors) for genuinely new objects without external
+   precedent. Either way, vacuous parameter-echo "abstract widget over
+   carrier `A` and classifier `~A`" naming is rejected at Phase D.
 2. The chapter MUST be formalisable under BEDC zero-axiom discipline.
    Anything requiring measure-theoretic completion, ultrafilter
    construction, Hahn-Banach in its strong form, or the full axiom
@@ -209,10 +264,14 @@ you MAY propose a `kind = "theory_extension"` with `notes.flavor =
 5. `proposed_change` MUST contain: chapter title, carrier sketch
    (one paragraph in BEDC vocabulary: BHist, hsame, Cont, Pkg,
    source, classifier, ledger, transport, NameCert), dependency
-   list, textbook reference, and a five-row NameCert obligation
-   sketch. The output of phase REVISE will be a seed-stub chapter
-   at `\seedClosure / \unformalizedV` with `\origin{human}` (NOT
-   `\origin{ai}` — TasteGate is for AI-proposed only).
+   list, justification (textbook reference OR self-contained BEDC
+   sketch per rule 1), and a five-row NameCert obligation sketch.
+   The output of phase REVISE will be a seed-stub chapter at
+   `\seedClosure / \unformalizedV`. Set `\origin{human}` when rule 1
+   was satisfied via textbook citation; set `\origin{ai}` when rule 1
+   was satisfied via self-contained BEDC sketch — `\origin{ai}`
+   commits the chapter to the TasteGate single-carrier discipline
+   (phase_c.txt §AI chapter single-carrier alignment).
 6. Pipeline will then advance the chapter through paper / lean
    rounds via the standard closure_mark flow, exactly the same
    path that brought TuringMachineUp / AbelRuffiniUp / etc. into
@@ -229,8 +288,8 @@ DO NOT use this path for:
   check). Use closure_mark / theory_extension on the existing one.
 - Renames or synonyms of existing chapters (e.g. "PrimeIdealUp" when
   `IdealUp + PrimeUp` already exists).
-- Speculative AI-discovered objects without textbook backing — those
-  go through `phase_propose.txt` with the TasteGate gate.
+- Speculative AI-discovered objects with no concrete BEDC anchoring —
+  if the carrier-row sketch is hand-waved, skip the round.
 - Chapters whose carrier requires content that contradicts the
   zero-axiom discipline (skip and explain in `notes`).
 
