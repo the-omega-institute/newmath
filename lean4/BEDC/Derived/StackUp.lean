@@ -6,6 +6,8 @@ import BEDC.FKernel.Package
 import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
+import BEDC.Derived.SchemeUp
+import BEDC.Derived.SheafUp
 
 namespace BEDC.Derived.StackUp
 
@@ -16,6 +18,8 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
+open BEDC.Derived.SchemeUp
+open BEDC.Derived.SheafUp
 
 def StackCarrierPacket [AskSetup] [PackageSetup]
     (site objectRows arrowRows transportRows restrictionRows descentRows representabilityRows
@@ -65,49 +69,51 @@ theorem StackCarrierPacket_descent_transport [AskSetup] [PackageSetup]
       sameEndpoint⟩
 
 def StackBHistCarrier [AskSetup] [PackageSetup]
-    (site groupoid objects arrows restriction descent representability provenance endpoint :
-      BHist)
+    (site object arrow restriction descent provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory site ∧ UnaryHistory groupoid ∧ UnaryHistory arrows ∧ UnaryHistory descent ∧
-    UnaryHistory provenance ∧ Cont site groupoid objects ∧ Cont objects arrows restriction ∧
-      Cont restriction descent representability ∧ Cont representability provenance endpoint ∧
-        PkgSig bundle endpoint pkg
+  SheafBHistPointGermLedger site object arrow descent ∧
+    UnaryHistory arrow ∧ UnaryHistory restriction ∧ Cont descent restriction endpoint ∧
+      UnaryHistory provenance ∧ PkgSig bundle provenance pkg
 
 theorem StackBHistCarrier_descent_obligation [AskSetup] [PackageSetup]
-    {site groupoid objects arrows restriction descent representability provenance endpoint descent'
-      representability' endpoint' : BHist}
+    {site object arrow restriction descent provenance endpoint descent' endpoint' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    StackBHistCarrier site groupoid objects arrows restriction descent representability provenance
-        endpoint bundle pkg ->
+    StackBHistCarrier site object arrow restriction descent provenance endpoint bundle pkg ->
       hsame descent descent' ->
-      Cont restriction descent' representability' ->
-      Cont representability' provenance endpoint' ->
-      PkgSig bundle endpoint' pkg ->
-      StackBHistCarrier site groupoid objects arrows restriction descent' representability'
-          provenance endpoint' bundle pkg ∧
-        hsame representability representability' ∧ hsame endpoint endpoint' := by
-  intro carrier sameDescent representabilityCont' endpointCont' pkgSig'
-  have descentUnary' : UnaryHistory descent' :=
-    unary_transport carrier.right.right.right.left sameDescent
-  have sameRepresentability : hsame representability representability' :=
-    cont_respects_hsame (hsame_refl restriction) sameDescent
-      carrier.right.right.right.right.right.right.right.left representabilityCont'
+        Cont descent' restriction endpoint' ->
+          StackBHistCarrier site object arrow restriction descent' provenance endpoint'
+              bundle pkg ∧
+            hsame endpoint endpoint' := by
+  intro carrier sameDescent endpointCont'
+  have descentCont' : Cont object arrow descent' :=
+    cont_result_hsame_transport carrier.left.right.right sameDescent
   have sameEndpoint : hsame endpoint endpoint' :=
-    cont_respects_hsame sameRepresentability (hsame_refl provenance)
-      carrier.right.right.right.right.right.right.right.right.left endpointCont'
+    cont_respects_hsame sameDescent (hsame_refl restriction)
+      carrier.right.right.right.left endpointCont'
   exact
-    ⟨⟨carrier.left,
+    ⟨⟨⟨carrier.left.left, carrier.left.right.left, descentCont'⟩,
         carrier.right.left,
         carrier.right.right.left,
-        descentUnary',
-        carrier.right.right.right.right.left,
-        carrier.right.right.right.right.right.left,
-        carrier.right.right.right.right.right.right.left,
-        representabilityCont',
         endpointCont',
-        pkgSig'⟩,
-      sameRepresentability,
+        carrier.right.right.right.right.left,
+        carrier.right.right.right.right.right⟩,
       sameEndpoint⟩
+
+theorem StackBHistCarrier_obligation_surface [AskSetup] [PackageSetup]
+    {site object arrow restriction descent provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StackBHistCarrier site object arrow restriction descent provenance endpoint bundle pkg ->
+      SheafBHistPointGermLedger site object arrow descent ∧
+        Cont descent restriction endpoint ∧ UnaryHistory endpoint ∧
+          PkgSig bundle provenance pkg := by
+  intro carrier
+  have descentUnary : UnaryHistory descent :=
+    unary_cont_closed carrier.left.right.left carrier.right.left carrier.left.right.right
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed descentUnary carrier.right.right.left carrier.right.right.right.left
+  exact And.intro carrier.left
+    (And.intro carrier.right.right.right.left
+      (And.intro endpointUnary carrier.right.right.right.right.right))
 
 theorem StackDescent_obligation_surface [AskSetup] [PackageSetup]
     {site objectRows arrowRows descentLedger carrierRow : BHist}
@@ -154,5 +160,58 @@ theorem StackCarrierPacket_public_surface [AskSetup] [PackageSetup]
       (And.intro siteSheafCarrier
         (And.intro objectArrowTransport
           (And.intro carrierRestrictionEndpoint endpointPkg))))
+
+theorem StackCarrierPacket_descent_obligation [AskSetup] [PackageSetup]
+    {site sheaf object arrow transport restriction provenance carrier endpoint
+      descentEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory site ->
+      UnaryHistory sheaf ->
+        UnaryHistory object ->
+          UnaryHistory arrow ->
+            UnaryHistory transport ->
+              UnaryHistory restriction ->
+                UnaryHistory provenance ->
+                  Cont site sheaf carrier ->
+                    Cont object arrow transport ->
+                      Cont carrier restriction endpoint ->
+                        Cont transport restriction descentEndpoint ->
+                          PkgSig bundle endpoint pkg ->
+                            UnaryHistory carrier ∧ UnaryHistory endpoint ∧
+                              UnaryHistory descentEndpoint ∧ hsame carrier (append site sheaf) ∧
+                                hsame transport (append object arrow) ∧
+                                  hsame endpoint (append carrier restriction) ∧
+                                    hsame descentEndpoint (append transport restriction) ∧
+                                      PkgSig bundle endpoint pkg := by
+  intro siteUnary sheafUnary objectUnary arrowUnary _ restrictionUnary _ siteSheafCarrier
+  intro objectArrowTransport carrierRestrictionEndpoint transportRestrictionDescent endpointPkg
+  have carrierUnary : UnaryHistory carrier :=
+    unary_cont_closed siteUnary sheafUnary siteSheafCarrier
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed objectUnary arrowUnary objectArrowTransport
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrierUnary restrictionUnary carrierRestrictionEndpoint
+  have descentUnary : UnaryHistory descentEndpoint :=
+    unary_cont_closed transportUnary restrictionUnary transportRestrictionDescent
+  exact
+    ⟨carrierUnary, endpointUnary, descentUnary, siteSheafCarrier, objectArrowTransport,
+      carrierRestrictionEndpoint, transportRestrictionDescent, endpointPkg⟩
+
+theorem StackCarrier_obligation_surface
+    {point openHist «section» germ site object arrow restriction package : BHist} :
+    SchemeSingletonPackage point openHist «section» germ site object arrow restriction ->
+      SheafBHistPointGermLedger point openHist «section» germ ->
+        Cont restriction arrow package ->
+          hsame package (append restriction arrow) ->
+            UnaryHistory point ∧ SheafBHistPointGermLedger point openHist «section» germ ∧
+              SchemeSingletonPackage point openHist «section» germ site object arrow restriction ∧
+                Cont restriction arrow package ∧ hsame package (append restriction arrow) := by
+  intro schemePackage sheafLedger restrictionRow _samePackage
+  have packageReadback : hsame package (append restriction arrow) :=
+    restrictionRow
+  exact And.intro sheafLedger.left
+    (And.intro sheafLedger
+      (And.intro schemePackage
+        (And.intro restrictionRow packageReadback)))
 
 end BEDC.Derived.StackUp
