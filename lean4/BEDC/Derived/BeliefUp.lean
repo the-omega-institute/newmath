@@ -97,4 +97,34 @@ theorem BeliefObservationUpdateCarrier_classifier_transport [AskSetup] [PackageS
       updateRow' posteriorRow' evidenceRow' pkgSig'
   exact ⟨transported.left, transported.right.right.left, transported.right.right.right⟩
 
+theorem BeliefObservationUpdateCarrier_ledger_exactness [AskSetup] [PackageSetup]
+    {prior observation trace probability ledger posterior : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BeliefObservationUpdateCarrier prior observation trace probability ledger posterior
+        bundle pkg ->
+      UnaryHistory ledger ∧
+        hsame ledger (append prior (append observation (append trace probability))) ∧
+          hsame trace (append prior observation) ∧
+            hsame posterior (append trace probability) := by
+  intro carrier
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.right.left
+  have posteriorUnary : UnaryHistory posterior :=
+    unary_cont_closed traceUnary carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have traceProbabilityUnary : UnaryHistory (append trace probability) :=
+    unary_cont_closed traceUnary carrier.right.right.right.left
+      (rfl : Cont trace probability (append trace probability))
+  have evidenceTailUnary :
+      UnaryHistory (append observation (append trace probability)) :=
+    unary_cont_closed carrier.right.left traceProbabilityUnary
+      (rfl : Cont observation (append trace probability)
+        (append observation (append trace probability)))
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.left evidenceTailUnary
+      carrier.right.right.right.right.right.right.left
+  exact
+    ⟨ledgerUnary, carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.left, carrier.right.right.right.right.right.left⟩
+
 end BEDC.Derived.BeliefUp
