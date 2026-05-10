@@ -75,4 +75,35 @@ theorem RiemannHilbertBHistBridgePacket_source_boundary [AskSetup] [PackageSetup
       rfl,
       pkgSig⟩
 
+theorem RiemannHilbertBHistBridgePacket_sheaf_gluing_exactness [AskSetup] [PackageSetup]
+    {derivedSource sheafTarget regularBranch deRhamReadback localSystem gluing gluing'
+      endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannHilbertBHistBridgePacket derivedSource sheafTarget regularBranch
+      deRhamReadback localSystem gluing endpoint bundle pkg ->
+      hsame gluing gluing' -> Cont gluing' regularBranch endpoint' ->
+        RiemannHilbertBHistBridgePacket derivedSource sheafTarget regularBranch
+          deRhamReadback localSystem gluing' endpoint' bundle pkg ∧ hsame endpoint endpoint' := by
+  intro packet sameGluing glued
+  have localGluing : Cont deRhamReadback localSystem gluing :=
+    packet.right.right.right.right.right.left
+  have originalEndpoint : Cont gluing regularBranch endpoint :=
+    packet.right.right.right.right.right.right.left
+  have transportedLocalGluing : Cont deRhamReadback localSystem gluing' :=
+    cont_result_hsame_transport localGluing sameGluing
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameGluing (hsame_refl regularBranch) originalEndpoint glued
+  cases sameEndpoint
+  constructor
+  · exact
+      ⟨packet.left,
+        packet.right.left,
+        packet.right.right.left,
+        packet.right.right.right.left,
+        packet.right.right.right.right.left,
+        transportedLocalGluing,
+        glued,
+        packet.right.right.right.right.right.right.right⟩
+  · exact hsame_refl endpoint
+
 end BEDC.Derived.RiemannHilbertUp
