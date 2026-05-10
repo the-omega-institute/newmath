@@ -176,6 +176,49 @@ The seal consumer exports exactly the RealUp observation classifier named by
 \autoref{def:real-classifier-specification}.
 \end{proof}
 
+\begin{theorem}[RegSeqRat stream classifier transport composition]
+\label{thm:regseqrat-stream-classifier-transport-composition}
+Let $s,t,s',t',s'',t'':\Hist\to\Hist$ be rational-observation maps. Suppose
+$s$ and $t$ carry $\RegSeqRat$ stream certificate spines, and suppose the row
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ is recorded. If the two successive
+endpoint-transport layers are pointwise over every certified unary observation,
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n)),
+\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)),
+$$
+and
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s'(n),s''(n)),
+\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(t'(n),t''(n)),
+$$
+then $s''$ and $t''$ carry $\RegSeqRat$ stream certificate spines and export
+$\mathsf{RatStreamNameClassifier}(s'',t'')$. Moreover, any $\RealUp$ seal over
+$s''$ and $t''$ whose stream comparison row is the twice-transported row
+exports the RealUp observation classifier required by
+\autoref{def:real-classifier-specification}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-spine-pointwise-hsame-transport} to the original
+$\RegSeqRat$ stream certificate spines, the recorded
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ row, and the first pointwise
+$\hsame$ transport layer. This produces transported spines for $s'$ and $t'$
+and the row $\mathsf{RatStreamNameClassifier}(s',t')$.
+
+Use those transported spines as the input data for a second application of
+\autoref{thm:regseqrat-spine-pointwise-hsame-transport}. The second pointwise
+$\hsame$ layer carries the endpoint histories from $s',t'$ to $s'',t''$, so
+the conclusion gives $\RegSeqRat$ stream certificate spines for $s''$ and
+$t''$ and the row $\mathsf{RatStreamNameClassifier}(s'',t'')$.
+
+Finally compose only the named endpoint rows that the two applications expose:
+the StreamName classifier row is the transported row returned by the second
+application, and the RealUp classifier row is exported by applying the same
+seal consumer to the twice-transported stream comparison. No additional
+quotient, completion, or host equality principle is introduced.
+\end{proof}
+
 \begin{theorem}[RegSeqRat seal finite-window transport package]
 \label{thm:regseqrat-seal-finite-window-transport-package}
 Let $s,t,s',t':\Hist\to\Hist$ be certified rational-observation maps, let
