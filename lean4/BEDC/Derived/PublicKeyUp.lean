@@ -158,4 +158,33 @@ theorem PublicKeyCertifiedCiphertext_plaintext_uniqueness
             msgCert.core.equiv_trans sameMD sameDE
           exact msgCert.core.equiv_trans sameME rowsE.right.right
 
+theorem PublicKeySharedPublicKey_decryption_consistency
+    {Msg Pub Ciph : BHist -> Prop}
+    {MsgRel : BHist -> BHist -> Prop}
+    {PKKeyGen : BHist -> BHist -> Prop}
+    {PKEncrypt PKDecrypt : BHist -> BHist -> BHist -> Prop}
+    (msgCert : SemanticNameCert Msg Msg Msg MsgRel)
+    (exactness :
+      PublicKeyDecryptEncryptExact Msg MsgRel Pub Ciph PKKeyGen PKEncrypt PKDecrypt)
+    (determinacy :
+      forall pk sk c d e : BHist,
+        PKKeyGen pk sk -> PKDecrypt sk c d -> PKDecrypt sk c e -> MsgRel d e)
+    {pk sk1 sk2 m c d1 d2 : BHist} :
+    PKKeyGen pk sk1 ->
+      PKKeyGen pk sk2 ->
+        PublicKeyCertifiedEnc Msg Pub Ciph PKEncrypt pk m c ->
+          PKDecrypt sk1 c d1 -> PKDecrypt sk2 c d2 -> MsgRel d1 d2 := by
+  intro keypairOne keypairTwo certified decryptedOne decryptedTwo
+  have decryptOne :
+      Msg d1 ∧ MsgRel d1 m :=
+    PublicKeyCertifiedEncryption_arbitrary_decryption msgCert exactness determinacy
+      keypairOne certified decryptedOne
+  have decryptTwo :
+      Msg d2 ∧ MsgRel d2 m :=
+    PublicKeyCertifiedEncryption_arbitrary_decryption msgCert exactness determinacy
+      keypairTwo certified decryptedTwo
+  have sameMD2 : MsgRel m d2 :=
+    NameCert.equiv_symm msgCert.core decryptTwo.right
+  exact NameCert.equiv_trans msgCert.core decryptOne.right sameMD2
+
 end BEDC.Derived.PublicKeyUp
