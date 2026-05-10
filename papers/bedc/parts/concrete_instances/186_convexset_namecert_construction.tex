@@ -345,18 +345,6 @@ $$
 which is exactly the endpoint named by the binary-extension clause. Therefore every local bracketing witness over $f[C]_{\sim_W}$ has its endpoint in the same classifier image carrier, and the original endpoint $z$ satisfies $f[C]_{\sim_W}(z)$.
 \end{proof}
 
-\closureat{ConvexSetUp}{scopedStr}[BEDC.Derived.ConvexSetUp.ConvexSetLinearImage\_finite\_affine\_spine\_closure]
-\begin{closurestatus}{\ConvexSetUp}
-  \constructivestory{A convex set here is generated inside already certified affine and vector-space data: start with carried points, attach nonnegative scalar histories from the field source whose finite sum is classified as the scalar unit, and build the endpoint by repeated affine-combination rows. The carrier accepts endpoints that are presented by this convex predicate, by finite affine spines, by pointwise intersections, or by classifier images along carried linear maps; data missing the affine source, scalar nonnegativity, unit-sum comparison, or carried linear-map witness remain outside the scoped surface. Two displayed endpoints are compared only through the ambient vector classifiers and the witness rows attached to the source convex predicate, so linear images use a source point plus a codomain classifier comparison rather than an external image set. The source is the displayed convex carrier predicate over $\AffineSpaceUp$, $\VecSpaceUp$, $\FieldUp$, and $\LinearMapUp$, the pattern records binary affine closure, midpoint closure, order symmetry, finite bracketing, intersection closure, and linear image closure, and the ledger keeps the raw points, weights, scalar comparisons, affine endpoints, linear-map outputs, and package rows visible. The name-certificate obligations at this scoped level are read from the accepted carrier rows: inhabited examples supply the carrier witness, the inherited classifiers give reflexivity, symmetry, and transitivity, and the closure theorems repack any classified affine combination, intersection member, or image endpoint back into the carrier. A history $h$ lies in the signature gap of a $\ConvexSetUp$ token $p$ when the source-domain accepts the displayed convex packet, the signature relation pairs it with an answer carrier row and evidence ledger, and the token-introduction relation names that answer as $p$; concretely, every affine-combination and finite-spine endpoint recorded by $p$ is carried by the same visible predicate. The chapter registers this affine-combination construction under the name $\ConvexSetUp$; it supplies a scoped convex surface, with no public ConvexSetUp NameCert, separation theorem, compactness theorem, finite-dimensional theory, or standard bridge introduced.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped boundary is the carrier predicate, binary affine row, midpoint and order-symmetry rows, finite affine spine, pointwise intersection, linear image, linear preimage, and dependency inventory bound to $\AffineSpaceUp$, $\VecSpaceUp$, $\FieldUp$, $\LinearMapUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$.}
-  \formalstatus{\auditCleanV}
-  \leantarget{BEDC.Derived.ConvexSetUp.ConvexSetLinearImage\_finite\_affine\_spine\_closure}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close a public ConvexSetUp NameCert, finite-dimensional convexity theory, separation theorem, compactness theorem, or standard bridge.}
-  \upgradepath{Public closure requires a single exported $\NameCert_{\ConvexSetUp}$ theorem.}
-\end{closurestatus}
-
 \begin{definition}[ConvexSet linear preimage carrier]
 \label{def:convexset-linear-preimage-carrier}
 Let $F$ carry a $\FieldUp(F)$ certificate, let $V$ and $W$ carry $\VecSpaceUp(F,V)$ and $\VecSpaceUp(F,W)$ certificates over the same scalar source, and let $D:W\to\mathsf{Prop}$ be the convex carrier of a $\ConvexSetUp$ certificate on $W$. Let $f:V\to W$ be a carried $\LinearMapUp(V,W)$ map. The source-side preimage of $D$ along $f$ is the predicate $f^{-1}[D]:V\to\mathsf{Prop}$ on carried source points defined by
@@ -514,3 +502,58 @@ C(z)\land D(z),
 $$
 which is exactly $K(z)$ by \autoref{def:convexset-pointwise-intersection-carrier}. Therefore every common lower bound $E$ factors through $K$, and the two projection bounds make $K$ the greatest lower bound of $C$ and $D$ for pointwise inclusion.
 \end{proof}
+
+\begin{theorem}[ConvexSetUp public NameCert export]
+\label{thm:convexset-public-namecert-export}
+The carrier predicate, binary affine-combination row, midpoint and
+order-symmetry rows, finite affine spine, pointwise intersection, linear image,
+and linear preimage rows form the public
+$\NameCert_{\ConvexSetUp}$ export over the displayed $\AffineSpaceUp$,
+$\VecSpaceUp$, $\FieldUp$, $\LinearMapUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$,
+and $\Pkg$ surfaces. In this export, the public carrier accepts exactly the
+endpoints presented by the convex predicate, finite affine bracketing,
+intersection witnesses, linear image witnesses, or linear preimage witnesses;
+the public classifier is the ambient vector classifier transported through the
+carried package rows; and the public ledger records the visible points,
+weights, scalar comparisons, affine endpoints, linear-map rows, and package
+provenance.
+\end{theorem}
+\begin{proof}
+The carrier and binary affine-combination rows are the displayed
+$\ConvexSetUp$ certificate rows. The midpoint and order-symmetry rows are
+specialisations of the same binary affine row, with the scalar hypotheses and
+ambient classifier comparisons carried by the $\FieldUp$ and $\VecSpaceUp$
+surfaces.
+
+The finite affine spine is public because
+\autoref{thm:convexset-linear-image-finite-affine-spine-closure} proves that
+any finite codomain spine over a carried linear image repacks into the same
+image carrier. Pointwise intersection is public by
+\autoref{thm:convexset-pointwise-intersection-affine-combination-closure},
+\autoref{thm:convexset-pointwise-intersection-carrier-commutative}, and
+\autoref{thm:convexset-pointwise-intersection-inclusion-meet}; these rows keep
+the two component carrier witnesses and no external set former.
+
+Linear images are public by
+\autoref{thm:convexset-linear-image-affine-combination-closure} and the finite
+spine theorem above. Linear preimages are public by
+\autoref{thm:convexset-linear-preimage-affine-combination-closure}; the source
+endpoint is accepted exactly when its carried image is accepted by the codomain
+convex carrier.
+
+Together these rows expose the requested public $\NameCert_{\ConvexSetUp}$
+surface. The export contains no separation theorem, compactness theorem,
+finite-dimensional theory, or standard bridge.
+\end{proof}
+
+\closureat{ConvexSetUp}{publicStr}[BEDC.Derived.ConvexSetUp.ConvexSetLinearImage\_finite\_affine\_spine\_closure]
+\begin{closurestatus}{\ConvexSetUp}
+  \constructivestory{A convex set here is generated inside already certified affine and vector-space data: start with carried points, attach nonnegative scalar histories from the field source whose finite sum is classified as the scalar unit, and build the endpoint by repeated affine-combination rows. The carrier accepts endpoints that are presented by this convex predicate, by finite affine spines, by pointwise intersections, by classifier images along carried linear maps, or by classifier preimages along carried linear maps; data missing the affine source, scalar nonnegativity, unit-sum comparison, or carried linear-map witness remain outside the public surface. Two displayed endpoints are compared only through the ambient vector classifiers and the witness rows attached to the source convex predicate, so linear images use a source point plus a codomain classifier comparison rather than an external image set. The source is the displayed convex carrier predicate over $\AffineSpaceUp$, $\VecSpaceUp$, $\FieldUp$, and $\LinearMapUp$, the pattern records binary affine closure, midpoint closure, order symmetry, finite bracketing, intersection closure, linear image closure, and linear preimage closure, and the ledger keeps the raw points, weights, scalar comparisons, affine endpoints, linear-map outputs, and package rows visible. The name-certificate obligations at this public level are read from the accepted carrier rows: inhabited examples supply the carrier witness, the inherited classifiers give reflexivity, symmetry, and transitivity, and the closure theorems repack any classified affine combination, intersection member, image endpoint, or preimage endpoint back into the carrier. A history $h$ lies in the signature gap of a $\ConvexSetUp$ token $p$ when the source-domain accepts the displayed convex packet, the signature relation pairs it with an answer carrier row and evidence ledger, and the token-introduction relation names that answer as $p$; concretely, every affine-combination, finite-spine, image, and preimage endpoint recorded by $p$ is carried by the same visible predicate. The chapter registers this affine-combination construction under the name $\ConvexSetUp$; it supplies a public convex surface, with no separation theorem, compactness theorem, finite-dimensional theory, or standard bridge introduced.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public boundary is the carrier predicate, binary affine row, midpoint and order-symmetry rows, finite affine spine, pointwise intersection, linear image, linear preimage, and dependency inventory bound to $\AffineSpaceUp$, $\VecSpaceUp$, $\FieldUp$, $\LinearMapUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ConvexSetUp.ConvexSetLinearImage\_finite\_affine\_spine\_closure}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close finite-dimensional convexity theory, separation theorem, compactness theorem, or standard bridge.}
+  \upgradepath{Bridged closure requires a standard $\ConvexSetUp$ bridge.}
+\end{closurestatus}
