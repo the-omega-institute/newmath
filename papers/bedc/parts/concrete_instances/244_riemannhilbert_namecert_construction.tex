@@ -47,6 +47,7 @@ The remaining carrier coordinates are comparison, continuation, and package rows
 \label{thm:riemannhilbert-flat-connection-classifier}
 The flat-connection branch of a $\RiemannHilbertUp$ packet is classified only through the regular-holonomic source classifier, the local-system sheaf row, and the displayed $\hsame$ transports between the derived source, de Rham readback, and sheaf target. If two accepted packets agree on those rows, then they have the same visible flat-connection classifier surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannHilbertUp.RiemannHilbertBHistBridgePacket\_flat\_connection\_classifier}
 \begin{proof}
 Read the regular-holonomic classifier coordinate from \autoref{def:riemannhilbert-bhist-bridge-packet}. It is the only row that marks the differential source branch and it is already tied to the derived-functor packet.
 
@@ -83,7 +84,6 @@ Project the $\SheafUp$ locality and gluing coordinates from the target row. Comp
 
 After gluing, project the comparison and provenance coordinates again. They still name the same derived-functor source, regular-holonomic classifier, $\hsame$ transports, continuation routes, and dependency packages, so the glued target remains inside the original $\RiemannHilbertUp$ carrier.
 \end{proof}
-
 \begin{theorem}[Riemann-Hilbert de Rham readback scope]
 \label{thm:riemannhilbert-de-rham-readback-scope}
 Every de Rham readback row in an accepted $\RiemannHilbertUp$ bridge packet is sourced only from the displayed $\DerivedFunctorUp$ source row, the regular-holonomic classifier row, the $\SheafUp$ target row, the local-system ledger, the displayed $\hsame$ transports, the $\Cont$ provenance, and the $\mathsf{Pkg}$ dependency rows. It exports no analytic solution functor, monodromy equivalence, host derived-category quotient, or external perverse-sheaf equivalence.
@@ -95,3 +95,13 @@ Next use \autoref{thm:riemannhilbert-local-system-ledger} to bind the local-syst
 
 Finally inspect the constructors of \autoref{def:riemannhilbert-bhist-bridge-packet}. The carrier has slots only for the displayed source, classifier, target, transport, continuation, and package rows, so a de Rham readback row cannot export an analytic solution functor, monodromy equivalence, host derived-category quotient, or external perverse-sheaf equivalence.
 \end{proof}
+
+\begin{closurestatus}{\RiemannHilbertUp}
+  \constructivestory{}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope binds the $\DerivedFunctorUp$ and $\SheafUp$ dependency rows, regular-holonomic source rows, $\hsame$ transport, $\Cont$ provenance, and $\mathsf{Pkg}$ dependency rows of the displayed bridge packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close external derived categories, analytic $\mathcal{D}$-module models, monodromy equivalence, or a host-level Riemann-Hilbert theorem.}
+  \upgradepath{Obligation closure requires checked carrier, classifier, source, ledger, soundness, and gluing rows.}
+\end{closurestatus}
