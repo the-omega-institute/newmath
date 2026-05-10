@@ -82,4 +82,34 @@ theorem RecursiveFnBoundedMinimisationLedger_exactness
     ⟨testedTraceUnary, outputUnary, ledgerUnary, testedTraceRow, outputRow, ledgerRow,
       witnessNonempty⟩
 
+theorem RecursiveFnNatInputStability_obligation
+    {constructor x y baseStep traceX traceY outputX outputY finalGraph : BHist} :
+    UnaryHistory constructor -> UnaryHistory x -> UnaryHistory baseStep -> hsame x y ->
+      Cont constructor x traceX -> Cont constructor y traceY -> Cont traceX baseStep outputX ->
+        Cont traceY baseStep outputY -> Cont outputY baseStep finalGraph ->
+          UnaryHistory y ∧ UnaryHistory traceX ∧ UnaryHistory traceY ∧ UnaryHistory outputX ∧
+            UnaryHistory outputY ∧ UnaryHistory finalGraph ∧ hsame traceX traceY ∧
+              hsame outputX outputY ∧ hsame finalGraph (append outputY baseStep) := by
+  intro constructorUnary xUnary baseStepUnary sameXY traceXRow traceYRow outputXRow
+  intro outputYRow finalGraphRow
+  have yUnary : UnaryHistory y :=
+    unary_transport xUnary sameXY
+  have traceXUnary : UnaryHistory traceX :=
+    unary_cont_closed constructorUnary xUnary traceXRow
+  have traceYUnary : UnaryHistory traceY :=
+    unary_cont_closed constructorUnary yUnary traceYRow
+  have outputXUnary : UnaryHistory outputX :=
+    unary_cont_closed traceXUnary baseStepUnary outputXRow
+  have outputYUnary : UnaryHistory outputY :=
+    unary_cont_closed traceYUnary baseStepUnary outputYRow
+  have finalGraphUnary : UnaryHistory finalGraph :=
+    unary_cont_closed outputYUnary baseStepUnary finalGraphRow
+  have traceSame : hsame traceX traceY :=
+    cont_respects_hsame (hsame_refl constructor) sameXY traceXRow traceYRow
+  have outputSame : hsame outputX outputY :=
+    cont_respects_hsame traceSame (hsame_refl baseStep) outputXRow outputYRow
+  exact
+    ⟨yUnary, traceXUnary, traceYUnary, outputXUnary, outputYUnary, finalGraphUnary,
+      traceSame, outputSame, finalGraphRow⟩
+
 end BEDC.Derived.RecursiveFnUp
