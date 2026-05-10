@@ -16088,3 +16088,195 @@ Rationale:
 BOARD 有 union-of-equations zero-locus = intersection (B-609) 和 singleton zero-locus exactness (B-585), 但通用 inclusion → 反向 inclusion 的 antitone 定理未列。它是零点集分类的核心 order bridge, 比 union 公式更结构化, 证明短且不重复 union 路径: 对 E 中任一方程经 inclusion 转到 F, 再用 F-zero witness。
 
 ---
+
+### B-635 - BusyBeaver per-machine halted-readback determinism on empty tape
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | BusyBeaver per-machine halted-readback determinism on empty tape |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If two accepted BusyBeaverUp witnesses share a finite enumeration E and both record a halted branch for the same entry M in E, then their halted output rows, step-count rows, and finite TuringMachineUp transition traces from the empty tape are hsame-equal in the carrier ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/264_busybeaver_namecert_construction.tex`
+
+Rationale:
+Genuine no-confusion gap. The chapter premises deterministic Turing-machine codes (264:9) and the existing thm:busybeaver-per-machine-readback-exactness only reads back one accepted packet. The deterministic-code hypothesis should force any two halted branches for the same M to agree on output, step count, and transition trace — but no current theorem makes that comparison. Fits the determinism/uniqueness keeper category cleanly: not a parameter echo of bound monotonicity (264:70-96) or of the non-halting exclusion row (264:99-125). Landing file is 197 lines, far below the cap, with a clear sibling slot adjacent to the existing readback-exactness theorem.
+
+---
+
+### B-636 - SpinGroup conjugation action classifier congruence row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | SpinGroup conjugation action classifier congruence row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $S$ is an accepted SpinGroupUp packet and $s,s'$ are visible Clifford-unit endpoints of $S$ with $s\sim_{\CliffordUp}s'$, and $v,v'$ are Clifford-vector rows accepted by the same NameCert_CliffordUp source with $v\sim_{\CliffordUp}v'$, then $\mathsf{Act}_{s}(v)\sim_{\CliffordUp}\mathsf{Act}_{s'}(v')$ inside the same packet.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/spingroup/boundary_consumer_exactness.tex`
+
+Rationale:
+File `concrete_instances/spingroup/boundary_consumer_exactness.tex` (327 lines) currently has a product law (line 78), an identity law (line 160), and an inverse-involution law (line 233) for the conjugation action `Act_s(v):=(s·v)·s^{-1}`. It has the *readback* theorem (line 27) but NO `congruence`/`stability` row showing the action is well-defined under classifier transport of either argument. A grep across `papers/bedc/parts/concrete_instances/spingroup/` for `(action.*congruence|spingroup-action-congru)` returned 0 hits. BOARD covers SpinGroup conjugation identity (B-612), inverse-involution (B-620), and multiplicative (B-600) laws — none of which is the bilinear/two-argument classifier-respect statement. The proof is short: the readback word `(s·v)·s^{-1}` is built from Clifford product rows and inverse rows; congruence follows from `\autoref{thm:clifford-product-stability-obligation}` applied twice plus inverse congruence from `def:group-stability-certificate`, no new ledger row needed.
+
+---
+
+### B-637 - TopGroupUp left-translation continuity row by a fixed group element
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | TopGroupUp left-translation continuity row by a fixed group element |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For an accepted TopGroupUp packet and a carried group element g of its source-fiber product, the left-translation row L_g(h)=g\cdot h is a sound continuity row through the displayed product graph, target neighbourhood, hsame transports, and finite Cont ledger of the carrier — without introducing a new operation source or external translation predicate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/topgroup/continuity_obligations.tex`
+
+Rationale:
+The continuity_obligations.tex file (185 lines) closes product-of-pairs continuity (line 1, thm:topgroup-inverse-cont-ledger-soundness; line 53 thm:topgroup-operation-continuity-obligation) and inverse continuity, but never the unary left-translation specialization L_g — a basic and downstream-load-bearing row in any topological-group theory. Searching `translation`, `left.*mult`, `right.*mult` across topgroup/*.tex and 182_topgroup_namecert_construction.tex returns zero hits. No completed BOARD entry covers it: B-505/B-503 are NetworkFlow/ProbSpace, no completed target touches topgroup specifically (state grep shows only 1 topgroup hit, on 182_topgroup_namecert_construction.tex). File at 184/800 has plenty of room.
+
+---
+
+### B-639 - PermutationUp permutation on a singleton FinSet classifies with the identity row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | PermutationUp permutation on a singleton FinSet classifies with the identity row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If the underlying NameCert_{FinSetUp} of a PermutationUp packet has exactly one carried position (singleton FinSet endpoint row), then any accepted PermutationUp graph row classifies with the identity bijection row read through \autoref{thm:permutation-composition-inverse-action-obligation}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/94_permutation_namecert_construction.tex`
+
+Rationale:
+The file 94_permutation_namecert_construction.tex (128 lines) has 4 theorems — carrier obligation, classifier, composition/inverse/action, public surface — but no specific finite-cardinality witness. SymGroup (95) similarly has only 4 abstract theorems. The completed BOARD has B-507 EnumPerm composition associativity and B-94/symgroup-unit-uniqueness laws inherited via group-up, but no finitary-instance theorem like singleton uniqueness; grep for `singleton` in both files returns zero. Single-implication concrete claim grounded in the existing FinSetUp source carrier; file at 128/800.
+
+---
+
+### B-638 - HopfAlgUp antipode fixes the unit row of the bialgebra
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | HopfAlgUp antipode fixes the unit row of the bialgebra |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For an accepted HopfAlgUp bialgebra packet of \autoref{def:hopfalg-bhist-bialgebra-carrier} with displayed antipode row S, the antipode of the unit endpoint η(1) classifies (\sim_{HopfAlgUp}) with η(1) itself, read through the convolution-inverse obligation rows of \autoref{thm:hopfalg-antipode-convolution-inverse-obligation}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/158_hopfalg_namecert_construction.tex`
+
+Rationale:
+File 158_hopfalg_namecert_construction.tex (336 lines) has 13 theorems but the canonical Hopf-algebra fact `S(1) = 1` is missing. grep for `S(1)|antipode unit|antipode of the unit|antipode applied to` finds only mentions of unit-counit endpoints in convolution context, never the elementary endpoint identity. The completed BOARD has B-529 HopfAlgUp antipode uniqueness from convolution-inverse witnesses but not antipode-on-unit, which is a strictly weaker, single-implication consequence of the convolution-inverse rows already exported in lines 63–82. Within scope, single implication, no host equality.
+
+---
+
+### B-640 - MatroidUp restriction to empty subset has only the empty independent family
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | MatroidUp restriction to empty subset has only the empty independent family |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+For a MatroidUp independent-set certificate over ground predicate E with naming certificate cert and a restriction subset K of \autoref{def:certified-matroid-restriction-rows} taken as the empty predicate λz.⊥, the restricted independent family Ind_{M|K} accepts only the empty independent set λz.⊥, exposed by the same finite-spine ledger that records empty_M.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/180_matroid_namecert_construction.tex`
+
+Rationale:
+180_matroid_namecert_construction.tex (381 lines) has only 3 theorems: intersection-preserves-independence, restriction certificate, and restrictions compose. The boundary case `restrict to ∅` — a degenerate, single-implication concrete instance — is missing. grep for `empty subset|emptyset|restriction.*to.*empty` shows only the global `empty_M` axiom row, never an empty-restriction theorem. Restriction is one of the few combinatorial operations BEDC has registered for matroids, but only the structure-preservation and composition theorems exist, not boundary-input concrete instances. File at 381/800.
+
+---
+
+### B-641 - FftUp length-one schedule classifies with the input row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FftUp length-one schedule classifies with the input row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a FftUp packet of \autoref{def:fft-namecert-construction} whose carrier butterfly schedule has length-one (singleton index family from the dependent NameCert_{FourierUp}/NameCert_{ComplexUp}), the FFT output row classifies (\sim_{ComplexUp}) with the input row, read through the butterfly obligation and ledger exactness rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/204_fft_namecert_construction.tex`
+
+Rationale:
+204_fft_namecert_construction.tex (175 lines) has 5 abstract theorems (butterfly obligation, factorization stability, ledger exactness, threshold unblock, public NameCert export) but no boundary-instance result. grep for `FFT.*length|FFT.*single|FFT.*size.*one|FFT.*identity` returns zero. The length-one DFT-equals-input row is the single most basic concrete FFT instance and is exactly the kind of boundary-cardinality theorem the loop has produced for sibling areas (cf. B-538 Quadrature empty-node sum is zero, B-575 Quadrature singleton-node sum, B-553 Zero-spine source shape exhaustion). FFT is missing this slot. File at 175/800.
+
+---
+
+### B-642 - BilinFormUp pairing of the zero vector with any carried partner classifies with the zero scalar
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | BilinFormUp pairing of the zero vector with any carried partner classifies with the zero scalar |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For an accepted BilinFormUp pairing of \autoref{def:bilinform-module-pairing-source-row} on a module-and-vector-space source, every carried right vector-source row y satisfies BilinPair_{B}(0_V, y, ν) classified with the scalar zero endpoint, read through the bilinearity transport row \autoref{thm:bilinform-bilinearity-transport-row} alone.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/124_bilinform_namecert_construction.tex`
+
+Rationale:
+124_bilinform_namecert_construction.tex (343 lines) has 14 theorems including bilinearity transport, dual symmetry, nondegeneracy ledger, and root rows. The forward direction `B(0_V, y) = 0_K` (an immediate consequence of left-additivity at 0 + 0 = 0) is missing — the file only contains the *converse* nondegeneracy readback (lines 233, 319) saying `if pairing ends at zero for all partners, then x is the zero vector`. The forward zero-vector vanishing row is a strictly weaker single-implication and a standard preliminary used by Clifford/InnerProduct downstream. No completed BOARD entry on bilinform vanishing; closest is B-583 CliffordUp polarization. File at 343/800.
+
+---
