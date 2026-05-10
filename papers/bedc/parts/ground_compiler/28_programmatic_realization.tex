@@ -125,6 +125,7 @@ $P_1$ reads decoded events and their channel segments. $P_2$ enumerates adjacent
 
 \begin{definition}[Recognizer virtual machine]
 \label{def:programmatic-recognizer-vm}
+\leandef{BEDC.GroundCompiler.ProgrammaticRealization.RecognizerVirtualMachine}
 A \emph{recognizer virtual machine} is an executable interpreter whose formal inputs are:
 \begin{enumerate}
 \item an ambient decoded event flow $S$;
@@ -136,11 +137,13 @@ Its output is a report containing recognition judgments, ledger records, missing
 
 \begin{principle}[Recognizer programs are not recognizer evidence]
 \label{prin:programmatic-vm-not-evidence}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.vm\_not\_evidence}
 The host interpreter for a recognizer virtual machine is not itself formal recognizer evidence. Formal recognition evidence is the event-flow recognizer, its certificate, its ledger, and its failure behavior. Host execution is an implementation vehicle until covered by compiler certificates or bootstrap obligations.
 \end{principle}
 
 \begin{definition}[Recognizer VM discipline]
 \label{def:programmatic-recognizer-vm-discipline}
+\leandef{BEDC.GroundCompiler.ProgrammaticRealization.RecognizerVMDiscipline}
 The recognizer virtual machine must enforce the following discipline:
 \begin{enumerate}
 \item no external structured input replaces decoded event flow;
@@ -153,6 +156,7 @@ The recognizer virtual machine must enforce the following discipline:
 
 \begin{theorem}[Recognizer VM realizes the $P_5$ through $P_8$ interface]
 \label{thm:programmatic-vm-realizes-p5-p8}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.vm\_realizes\_p5\_p8}
 A recognizer virtual machine satisfying \autoref{def:programmatic-recognizer-vm-discipline} can implement the executable interface of $P_5$ through $P_8$ without accepting external package objects, certificate objects, theorem labels, chapter trees, or manuscript files as formal input.
 \end{theorem}
 

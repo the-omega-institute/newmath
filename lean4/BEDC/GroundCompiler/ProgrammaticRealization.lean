@@ -198,4 +198,90 @@ theorem p1_p4_executable :
       · rfl
       · rfl
 
+structure RecognizerVMInput where
+  ambient : EventFlow
+  recognizer : GeneratedRecognizer
+  support : Option EventFlow
+
+inductive RecognizerVMOutputDatum : Type where
+  | recognitionJudgment (R : GeneratedRecognizer) (S : EventFlow)
+  | ledgerRecord (S : EventFlow)
+  | missingFieldRecord (S : EventFlow)
+  | failureRecord (S : EventFlow)
+  | cannotClaimAnnotation (S : EventFlow)
+
+structure RecognizerVirtualMachine where
+  run : RecognizerVMInput -> List RecognizerVMOutputDatum
+
+def referenceRecognizerVirtualMachine : RecognizerVirtualMachine where
+  run := fun input =>
+    [RecognizerVMOutputDatum.recognitionJudgment input.recognizer input.ambient]
+
+inductive RecognizerProgramArtifact : Type where
+  | hostInterpreter (M : RecognizerVirtualMachine)
+  | eventFlowRecognizer (R : GeneratedRecognizer) (S : EventFlow)
+  | recognizerCertificate (C : EventFlow)
+  | recognizerLedger (L : EventFlow)
+  | recognizerFailureBehavior (F : EventFlow)
+
+inductive FormalRecognizerEvidence : RecognizerProgramArtifact -> Prop where
+  | eventFlowRecognizer
+      (R : GeneratedRecognizer) (S : EventFlow) :
+      FormalCompilerInput (CompilerDatum.recognizedFlow R S) ->
+        FormalRecognizerEvidence
+          (RecognizerProgramArtifact.eventFlowRecognizer R S)
+  | recognizerCertificate (C : EventFlow) :
+      FormalCompilerInput (CompilerDatum.eventFlow C) ->
+        FormalRecognizerEvidence
+          (RecognizerProgramArtifact.recognizerCertificate C)
+  | recognizerLedger (L : EventFlow) :
+      FormalCompilerInput (CompilerDatum.eventFlow L) ->
+        FormalRecognizerEvidence
+          (RecognizerProgramArtifact.recognizerLedger L)
+  | recognizerFailureBehavior (F : EventFlow) :
+      FormalCompilerInput (CompilerDatum.eventFlow F) ->
+        FormalRecognizerEvidence
+          (RecognizerProgramArtifact.recognizerFailureBehavior F)
+
+def RecognizerVMDiscipline (_M : RecognizerVirtualMachine) : Prop :=
+  (forall d : CompilerDatum,
+    StructuralHiddenInput d -> Not (FormalCompilerInput d)) /\
+    (forall S : EventFlow,
+      Not (EvidenceBackedReport (ReportClassification.candidateShape S)))
+
+def RecognizerVMRealizesP5P8Interface
+    (M : RecognizerVirtualMachine) : Prop :=
+  RecognizerVMDiscipline M /\
+    Not (FormalCompilerInput CompilerDatum.hostPkg) /\
+    Not (FormalCompilerInput CompilerDatum.hostNameCert) /\
+    Not (FormalCompilerInput CompilerDatum.hostTheoremIdentifier) /\
+    Not (FormalCompilerInput CompilerDatum.hostChapterPkg) /\
+    Not (FormalCompilerInput CompilerDatum.hostManifest)
+
+theorem vm_not_evidence (M : RecognizerVirtualMachine) :
+    Not
+      (FormalRecognizerEvidence
+        (RecognizerProgramArtifact.hostInterpreter M)) := by
+  intro h
+  cases h
+
+theorem vm_realizes_p5_p8 :
+    RecognizerVMRealizesP5P8Interface referenceRecognizerVirtualMachine := by
+  constructor
+  · constructor
+    · intro _ hHidden
+      exact structural_hidden_not_formal hHidden
+    · intro S
+      exact programs_do_not_upgrade_candidates S
+  · constructor
+    · exact structural_hidden_not_formal StructuralHiddenInput.hostPkg
+    · constructor
+      · exact structural_hidden_not_formal StructuralHiddenInput.hostNameCert
+      · constructor
+        · exact structural_hidden_not_formal
+            StructuralHiddenInput.hostTheoremIdentifier
+        · constructor
+          · exact structural_hidden_not_formal StructuralHiddenInput.hostChapterPkg
+          · exact structural_hidden_not_formal StructuralHiddenInput.hostManifest
+
 end BEDC.GroundCompiler.ProgrammaticRealization
