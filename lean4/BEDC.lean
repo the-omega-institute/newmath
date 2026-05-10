@@ -664,6 +664,7 @@ import BEDC.Derived.GaloisGroupUp.IdentityRowClosure
 import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
 import BEDC.Derived.LambdaCalcUp.ConstructorTransport
+import BEDC.Derived.LambdaCalcUp.NameCertCarrierObligation
 import BEDC.Derived.LambdaCalcUp.RootConstructorScope
 import BEDC.Derived.LambdaCalcUp.SubstitutionLedgerObligation
 import BEDC.Derived.NumFieldUp
