@@ -87,4 +87,33 @@ theorem ModelCatBHistSourcePacket_weak_equivalence_classifier_laws [AskSetup] [P
   }
   exact ⟨cert, weakUnary, pkgSig⟩
 
+theorem ModelCatBHistSourcePacket_factorization_ledger_determinacy [AskSetup] [PackageSetup]
+    {category cof fib weak lift factor provenance rho lambda fib' weak' factor' provenance'
+      lambda' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelCatBHistSourcePacket category cof fib weak lift factor provenance rho lambda bundle
+        pkg ->
+      hsame fib fib' -> hsame weak weak' -> hsame provenance provenance' ->
+        Cont fib' weak' factor' -> Cont provenance' factor' lambda' ->
+          PkgSig bundle lambda' pkg ->
+            ModelCatBHistSourcePacket category cof fib' weak' lift factor' provenance' rho
+                lambda' bundle pkg ∧
+              hsame factor factor' ∧ hsame lambda lambda' := by
+  intro packet sameFib sameWeak sameProvenance factorCont' lambdaCont' pkgSig'
+  obtain ⟨categoryUnary, cofUnary, fibUnary, weakUnary, provenanceUnary, rhoUnary,
+    liftCont, factorCont, lambdaCont, _pkgSig⟩ := packet
+  have fibUnary' : UnaryHistory fib' := unary_transport fibUnary sameFib
+  have weakUnary' : UnaryHistory weak' := unary_transport weakUnary sameWeak
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have sameFactor : hsame factor factor' :=
+    cont_respects_hsame sameFib sameWeak factorCont factorCont'
+  have sameLambda : hsame lambda lambda' :=
+    cont_respects_hsame sameProvenance sameFactor lambdaCont lambdaCont'
+  exact
+    ⟨⟨categoryUnary, cofUnary, fibUnary', weakUnary', provenanceUnary', rhoUnary, liftCont,
+        factorCont', lambdaCont', pkgSig'⟩,
+      sameFactor,
+      sameLambda⟩
+
 end BEDC.Derived.ModelCatUp

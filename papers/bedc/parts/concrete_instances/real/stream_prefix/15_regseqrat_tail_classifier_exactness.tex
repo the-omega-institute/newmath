@@ -693,3 +693,52 @@ the displayed atlas descent row, and the excluded quotient, completion,
 Classical, metric, arithmetic, order, bridge, and hidden-selector data have no
 projection in the construction.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier subatlas restriction exactness]
+\label{thm:regseqrat-tail-classifier-subatlas-restriction-exactness}
+Let $\mathcal{A}=\{W_i\}_{i\in I}$ be a finite atlas of selected finite
+$\RealUp$ observation-window packages satisfying the atlas-descent hypotheses
+of \autoref{thm:regseqrat-tail-classifier-atlas-descent}. Let
+$\mathcal{B}=\{W_j\}_{j\in J}$ be a certified finite subatlas whose union is a
+certified subwindow of the union of $\mathcal{A}$, and suppose each chart of
+$\mathcal{B}$ is obtained by restricting one chart of $\mathcal{A}$ along the
+displayed finite-window inclusion ledger.
+
+Then the selected $\RegSeqRat$ tail-classifier row obtained by restricting the
+atlas row of $\mathcal{A}$ to the charts of $\mathcal{B}$ is exactly the row
+obtained by applying finite-cover descent directly to $\mathcal{B}$. This
+restriction surface preserves precisely the displayed $\StreamNameUp$,
+$\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows. It exports no quotient, completion,
+Classical representative, metric-completeness row, arithmetic or order row,
+standard-bridge row, or hidden-selector row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-classifier-atlas-descent} to the ambient
+atlas $\mathcal{A}$. This supplies a single selected atlas row whose pullback
+to each ambient chart is the chartwise $\RegSeqRat$ tail-classifier row over
+the displayed $\StreamNameUp$, DyadicRatCore, unary-history, probe-bundle,
+membership, transport, continuation, provenance, and ledger data.
+
+Restrict those pullbacks along the certified inclusions defining the subatlas
+$\mathcal{B}$. Since each subatlas chart is a finite-window restriction of an
+ambient chart, the restricted pullbacks still expose only the displayed
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+Now apply \autoref{thm:regseqrat-tail-classifier-finite-cover-sheaf} directly
+to the certified finite cover $\mathcal{B}$. The pairwise compatibility
+required on $\mathcal{B}$ is inherited from the ambient pairwise and triple
+overlap hypotheses, so the finite-cover theorem produces a selected
+$\RegSeqRat$ tail-classifier row on the subwindow union.
+
+It remains to compare the restricted ambient row with the row constructed
+directly on $\mathcal{B}$. Both rows pull back to the same selected
+tail-classifier on every chart $W_j$ of the subatlas and both preserve the
+same displayed inventory. Therefore
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} identifies them.
+The comparison has no projection to quotient, completion, Classical, metric,
+arithmetic, order, standard-bridge, or hidden-selector data because neither
+construction contains such a row.
+\end{proof}
