@@ -668,6 +668,47 @@ operator equality and external spectral primitives from the paper surface.
 \end{proof}
 \leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_namecert\_obligation\_surface\_complete}
 
+\begin{theorem}[ObservableUp public surface bridge boundary]
+\label{thm:observable-public-surface-bridge-boundary}
+The complete paper-side $\NameCert_{\ObservableUp}$ inventory of
+\autoref{thm:observable-namecert-obligation-surface-complete} determines the
+bridge boundary to the standard observable schema by reading the Hilbert
+source row, operator endpoint, self-adjointness witness, spectral row,
+expectation input rows, $\hsame$ transports, $\Cont$ routes, and $\Pkg$
+provenance from the concrete $\mathsf{BHist}$ packet
+$(H,A,S,E,W,\rho,\lambda)$.
+
+This boundary records exactly the standard-observable input faces exposed by
+the public surface. It does not claim a checked standard bridge, host operator
+equality, ambient Hilbert equality, or an external spectral primitive.
+\end{theorem}
+\begin{proof}
+Project the complete obligation surface of
+\autoref{thm:observable-namecert-obligation-surface-complete}. The projection
+exposes the carrier packet, classifier, public row family, dependency rows,
+transport rows, provenance row, and readback rows of the concrete
+$\mathsf{BHist}$ presentation.
+
+Use \autoref{thm:observable-hilbert-source-boundary},
+\autoref{thm:observable-spectral-data-ledger},
+\autoref{thm:observable-quantumstate-expectation-boundary}, and
+\autoref{thm:observable-hilbert-spectral-ledger-exactness}. These rows make
+the Hilbert source, spectral dependency, expectation pairing, and dependency
+exactness ledger explicit.
+
+Finally use \autoref{thm:observable-expectation-pairing-boundary},
+\autoref{thm:observable-spectral-row-consumer-coverage}, and
+\autoref{thm:observable-expectation-row-transport-composition}. They exhaust
+the public consumer faces and show that transport and readback remain inside
+the displayed rows $H,A,S,E,W,\rho,\lambda$.
+
+The resulting boundary is therefore the standard-observable input surface and
+nothing beyond it. Since each cited row is stated without host operator
+equality, ambient Hilbert equality, or an external spectral primitive, the
+boundary also preserves those exclusions and leaves the checked bridge as a
+separate obligation.
+\end{proof}
+
 \closureat{ObservableUp}{scopedStr}[BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier]
 \closureat{ObservableUp}{publicStr}[BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier]
 
