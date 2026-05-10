@@ -197,6 +197,38 @@ operation, or an extra quotient surface.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_unary\_mulup\_certificate}
 
+\begin{theorem}[MulUp unary standard bridge boundary]
+\label{thm:mulup-unary-standard-bridge-boundary}
+The unary-history $\MulUp$ package admits a paper bridge to finite unary-word
+multiplication by reading each $\mathsf{NatMul}(d,q,n)$ ledger as repeated unary
+continuation. The carrier remains $\mathsf{UnaryHistory}$, the classifier remains
+$\hsame$, and the result row remains the displayed $\mathsf{NatMul}$ row. This
+reading uses the checked law audit package of
+\autoref{thm:mulup-checked-law-audit-package}, the Full Nat Arithmetic phase-exit
+boundary of \autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary}, and the
+window-exhaustion boundary of
+\autoref{thm:mulup-full-nat-arithmetic-window-exhaustion}.
+\end{theorem}
+\begin{proof}
+Start with the phase-exit boundary. It already supplies the totality,
+functionality, unit-law, associativity, and commutativity rows for the displayed
+$\mathsf{NatMul}$ relation over $\mathsf{UnaryHistory}$, and
+\autoref{thm:mulup-checked-law-audit-package} identifies those rows as the
+checked unary NatMul package.
+
+Next project the rows that connect multiplication to the surrounding arithmetic
+window. The same boundary carries the $\AddUp$ distributivity rows,
+$\OrderUp$ monotonicity row, and divisibility rows; the exhaustion statement of
+\autoref{thm:mulup-full-nat-arithmetic-window-exhaustion} says that a consumer
+has no further Full Nat Arithmetic row to read inside this phase.
+
+The external unary-word reading consumes only these displayed rows. It interprets
+each $\mathsf{NatMul}(d,q,n)$ ledger as a finite repeated-unary continuation and
+reads back to the same $\mathsf{UnaryHistory}$ endpoint, the same $\hsame$
+classifier, and the same $\mathsf{NatMul}$ result row, without adding host
+multiplication, quotient equality, or cancellation beyond the displayed package.
+\end{proof}
+
 \begin{theorem}[MulUp Full Nat Arithmetic audit surface]
 \label{thm:mulup-full-nat-arithmetic-audit-surface}
 Over $\mathsf{BHist}$ and the carrier $\mathsf{UnaryHistory}$, a Full Nat
