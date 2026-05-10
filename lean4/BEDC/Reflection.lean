@@ -185,8 +185,29 @@ def computation_as_continuation_correspondence : Prop :=
     NameCert Terminates Behavior →
       (∀ h k : BHist, Step h k ↔ ∃ tail : BHist, Cont h tail k) →
         (∀ {h k : BHist}, Step h k → ∃ tail : BHist, Cont h tail k) ∧
-          (∀ {h k : BHist}, Behavior h k → Terminates h → Terminates k) ∧
-            (∀ {h k : BHist}, hsame h k → Behavior h k)
+          (∀ {h k : BHist}, (∃ tail : BHist, Cont h tail k) → Step h k) ∧
+            (∀ {h k : BHist}, Behavior h k → Terminates h → Terminates k) ∧
+              (∀ {h : BHist}, Terminates h → Behavior h h) ∧
+                (∀ {h k : BHist}, hsame h k → Terminates h → Behavior h k)
+
+theorem computation_as_continuation_correspondence_proof :
+    computation_as_continuation_correspondence := by
+  intro Terminates Step Behavior cert step_cont
+  constructor
+  · intro h k step
+    exact (step_cont h k).mp step
+  · constructor
+    · intro h k cont
+      exact (step_cont h k).mpr cont
+    · constructor
+      · intro h k behavior terminates_h
+        exact NameCert.carrier_respects_equiv cert behavior terminates_h
+      · constructor
+        · intro h terminates_h
+          exact NameCert.equiv_refl cert terminates_h
+        · intro h k same terminates_h
+          cases same
+          exact NameCert.equiv_refl cert terminates_h
 
 /-- Type checking as Ext membership. -/
 def type_checking_as_ext_membership : Prop :=
