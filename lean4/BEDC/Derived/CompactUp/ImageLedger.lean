@@ -98,4 +98,29 @@ theorem ImageLocatedRefinementLedger_hsame_transport
     (And.intro finalCarrier (And.intro finalCarrier.right.right.right.left
       finalCarrier.right.right.right.right))
 
+theorem ImageFiniteNetLedger_located_refinement_compact_carrier
+    {source map target modulus epsilon delta imageSubset imageLocated imageFinite
+      imageIntermediate imageCompact finalImageLocated finalImageIntermediate finalImageCompact :
+      BHist} {sourceBundle targetBundle : ProbeBundle BHist} :
+    ImageFiniteNetLedger source map target delta epsilon sourceBundle targetBundle imageFinite ->
+      ImageLocatedRefinementLedger source map target modulus epsilon delta imageSubset imageLocated
+        imageFinite imageIntermediate imageCompact finalImageLocated finalImageIntermediate
+        finalImageCompact ->
+        InBundle source sourceBundle ∧ InBundle target targetBundle ∧ UnaryHistory delta ∧
+          UnaryHistory epsilon ∧ UnaryHistory imageFinite ∧
+            CompactWitnessCarrier imageSubset finalImageLocated imageFinite
+              finalImageIntermediate finalImageCompact ∧
+              Cont finalImageIntermediate imageFinite finalImageCompact := by
+  intro finiteLedger locatedLedger
+  have finalCarrier :
+      CompactWitnessCarrier imageSubset finalImageLocated imageFinite finalImageIntermediate
+        finalImageCompact :=
+    ImageLocatedRefinementLedger_compact_carrier locatedLedger
+  exact And.intro finiteLedger.left
+    (And.intro finiteLedger.right.left
+      (And.intro finiteLedger.right.right.left
+        (And.intro finiteLedger.right.right.right.left
+          (And.intro finiteLedger.right.right.right.right.left
+            (And.intro finalCarrier finalCarrier.right.right.right.right)))))
+
 end BEDC.Derived.CompactUp

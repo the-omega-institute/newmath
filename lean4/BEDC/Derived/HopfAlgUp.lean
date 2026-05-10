@@ -170,6 +170,21 @@ theorem HopfAlgBialgCarrier_namecert_obligation_surface
     }
   · exact And.intro carrier.right.right.left carrier.right.right.right.left
 
+theorem HopfAlgBialgCarrier_source_consumer_readback
+    {bialg tensor mul comul unit counit : BHist} :
+    HopfAlgBialgCarrier bialg tensor mul comul unit counit ->
+      RingSingletonCarrier bialg ∧ TensorProductSingletonCarrier tensor ∧
+        Cont tensor mul bialg ∧ Cont tensor comul bialg ∧
+          Cont unit RingSingletonOne bialg ∧ Cont counit RingSingletonOne bialg ∧
+            hsame bialg BHist.Empty := by
+  intro carrier
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro carrier.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right carrier.left)))))
+
 theorem HopfAlgBialgCarrier_antipode_convolution_inverse_unique
     {bialg tensor mul comul unit counit antipode antipode' left left' endpoint endpoint' :
       BHist} :
@@ -263,6 +278,70 @@ theorem HopfAlgAntipodeClassifier_ledger_obligation
     HopfAlgAntipodeClassifier_convolution_inverse_unique carrier leftConv leftEndpointRow
       rightConv rightEndpointRow sameEndpoint
   exact And.intro sameEndpoint classifier
+
+theorem HopfAlgAntipodeClassifier_endpoint_ledger_exhaustion
+    {bialg tensor mul comul unit counit antipode left leftEndpoint right rightEndpoint
+      unitEndpoint : BHist} :
+    HopfAlgBialgCarrier bialg tensor mul comul unit counit ->
+      Cont comul antipode left ->
+        Cont left mul leftEndpoint ->
+          Cont antipode comul right ->
+            Cont right mul rightEndpoint ->
+              Cont unit counit unitEndpoint ->
+                hsame leftEndpoint unitEndpoint ->
+                  hsame rightEndpoint unitEndpoint ->
+                    hsame leftEndpoint rightEndpoint ∧
+                      HopfAlgAntipodeClassifier bialg tensor antipode unit counit bialg
+                        tensor antipode unit counit := by
+  intro carrier leftRow leftEndpointRow rightRow rightEndpointRow unitEndpointRow
+    leftEndpointSame rightEndpointSame
+  have endpointSame : hsame leftEndpoint rightEndpoint :=
+    hsame_trans leftEndpointSame (hsame_symm rightEndpointSame)
+  have sameBialg : hsame bialg bialg :=
+    hsame_trans carrier.left (hsame_symm carrier.left)
+  have tensorEmpty : hsame tensor BHist.Empty :=
+    TensorProductSingletonCarrier_empty_iff.mp carrier.right.left
+  have sameTensor : hsame tensor tensor :=
+    hsame_trans tensorEmpty (hsame_symm tensorEmpty)
+  have sameAntipode : hsame antipode antipode :=
+    hsame_refl antipode
+  have sameUnit : hsame unit unit :=
+    cont_right_cancel carrier.right.right.right.right.left
+      carrier.right.right.right.right.left
+  have sameCounit : hsame counit counit :=
+    cont_right_cancel carrier.right.right.right.right.right
+      carrier.right.right.right.right.right
+  have comulEmpty : hsame comul BHist.Empty :=
+    (cont_empty_result_inversion
+      (cont_result_hsame_transport carrier.right.right.right.left carrier.left)).right
+  have leftAsAntipode : hsame left antipode := by
+    have movedLeft : Cont BHist.Empty antipode left :=
+      cont_hsame_transport comulEmpty (hsame_refl antipode) (hsame_refl left) leftRow
+    exact cont_left_unit_result movedLeft
+  have mulEmpty : hsame mul BHist.Empty :=
+    (cont_empty_result_inversion
+      (cont_result_hsame_transport carrier.right.right.left carrier.left)).right
+  have leftEndpointAsLeft : hsame leftEndpoint left := by
+    have movedEndpoint : Cont left BHist.Empty leftEndpoint :=
+      cont_hsame_transport (hsame_refl left) mulEmpty (hsame_refl leftEndpoint) leftEndpointRow
+    exact cont_right_unit_result movedEndpoint
+  have rightAsAntipode : hsame right antipode := by
+    have movedRight : Cont antipode BHist.Empty right :=
+      cont_hsame_transport (hsame_refl antipode) comulEmpty (hsame_refl right) rightRow
+    exact cont_right_unit_result movedRight
+  have rightEndpointAsRight : hsame rightEndpoint right := by
+    have movedEndpoint : Cont right BHist.Empty rightEndpoint :=
+      cont_hsame_transport (hsame_refl right) mulEmpty (hsame_refl rightEndpoint)
+        rightEndpointRow
+    exact cont_right_unit_result movedEndpoint
+  have endpointByCarrier : hsame leftEndpoint rightEndpoint :=
+    hsame_trans leftEndpointAsLeft
+      (hsame_trans leftAsAntipode
+        (hsame_trans (hsame_symm rightAsAntipode) (hsame_symm rightEndpointAsRight)))
+  exact And.intro endpointByCarrier
+    (And.intro sameBialg
+      (And.intro sameTensor
+        (And.intro sameAntipode (And.intro sameUnit sameCounit))))
 
 theorem HopfAlgAntipodeClassifier_unit_row_fixed
     {bialg tensor mul comul unit counit antipode conv endpoint : BHist} :
