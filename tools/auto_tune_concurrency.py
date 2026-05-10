@@ -46,15 +46,15 @@ CONFIG = REPO_ROOT / ".pipeline_parallel.json"
 # non-overlapping. As top grows (paper unlocks new chapters),
 # lean grows to match.
 LEAN_BUFFER = 0
-LEAN_MIN = 3
-LEAN_MAX = 12
+LEAN_MIN = 10
+LEAN_MAX = 14
 
 PAPER_BUFFER = 4
-PAPER_MIN = 3
-PAPER_MAX = 10
+PAPER_MIN = 10
+PAPER_MAX = 12
 
 LAKE_DIVISOR = 5
-LAKE_MIN = 1
+LAKE_MIN = 2
 LAKE_MAX = 3
 
 
@@ -68,9 +68,21 @@ def compute_target(cp_data: dict) -> dict:
     sum_eff = sum(t.get("sibling_effective_unmarked", 0) for t in top)
     root_unblocks = cp_data.get("top_root_unblocks", [])
     root_unblock_count = len(root_unblocks)
+    # Fallback signals when `top` is empty (frontier saturated): the
+    # pipeline still has work to do — drift sync, bridge sync, formal-
+    # axis catch-up, rotation transitions. Floor the worker count by
+    # these so the cluster keeps producing rounds.
+    drift = cp_data.get("drift_chapters_total", 0)
+    bridge = cp_data.get("bridge_candidates_total", 0)
+    bridge_sync = cp_data.get("bridge_sync_pending_total", 0)
+    formal_top = cp_data.get("formal_axis_top_total", 0)
+    fallback_demand = drift + bridge + bridge_sync + formal_top
 
-    lean = clamp(top_size + LEAN_BUFFER, LEAN_MIN, LEAN_MAX)
-    paper = clamp(root_unblock_count + PAPER_BUFFER, PAPER_MIN, PAPER_MAX)
+    lean_demand = max(top_size, fallback_demand // 5)
+    paper_demand = max(root_unblock_count, fallback_demand // 3)
+
+    lean = clamp(lean_demand + LEAN_BUFFER, LEAN_MIN, LEAN_MAX)
+    paper = clamp(paper_demand + PAPER_BUFFER, PAPER_MIN, PAPER_MAX)
     lean_lake = clamp(lean // LAKE_DIVISOR, LAKE_MIN, LAKE_MAX)
 
     return {
@@ -82,6 +94,10 @@ def compute_target(cp_data: dict) -> dict:
             "sum_effective_unmarked": sum_eff,
             "root_unblock_count": root_unblock_count,
             "open_horizons": cp_data.get("open_horizons", 0),
+            "drift_chapters_total": drift,
+            "bridge_candidates_total": bridge,
+            "bridge_sync_pending_total": bridge_sync,
+            "formal_axis_top_total": formal_top,
         },
     }
 
