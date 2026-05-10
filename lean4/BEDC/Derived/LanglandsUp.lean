@@ -321,6 +321,46 @@ theorem LanglandsBHistCorrespondenceCarrier_source_rows [AskSetup] [PackageSetup
       carrier.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right⟩
 
+theorem LanglandsBHistCorrespondenceCarrier_public_surface [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
+      ledger endpoint galoisSource' automorphicSource' galoisAnswer' automorphicAnswer'
+      localFactor' provenance' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsBHistCorrespondenceCarrier galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor provenance ledger endpoint bundle pkg ->
+      LanglandsLFactorClassifier galoisSource automorphicSource galoisAnswer
+          automorphicAnswer localFactor provenance ledger endpoint galoisSource'
+          automorphicSource' galoisAnswer' automorphicAnswer' localFactor' provenance' ledger'
+          endpoint' bundle pkg ->
+        Cont galoisAnswer' automorphicAnswer' localFactor' ->
+          Cont galoisSource' automorphicSource' ledger' ->
+            Cont provenance' ledger' endpoint' ->
+              UnaryHistory galoisSource ∧ UnaryHistory automorphicSource ∧
+                UnaryHistory galoisAnswer ∧ UnaryHistory automorphicAnswer ∧
+                  UnaryHistory localFactor' ∧ UnaryHistory ledger' ∧
+                    UnaryHistory endpoint' ∧ hsame localFactor localFactor' ∧
+                      hsame ledger ledger' ∧ hsame endpoint endpoint' ∧
+                        PkgSig bundle endpoint' pkg := by
+  intro carrier classified localFactorRow' ledgerRow' endpointRow'
+  have stable :=
+    LanglandsLFactorClassifier_local_factor_stability classified localFactorRow' ledgerRow'
+      endpointRow'
+  have transportedCarrier := stable.left
+  have generatedRows :=
+    LanglandsBHistCorrespondenceCarrier_generated_rows_unary transportedCarrier
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      generatedRows.left,
+      generatedRows.right.left,
+      generatedRows.right.right,
+      stable.right.left,
+      stable.right.right.left,
+      stable.right.right.right,
+      transportedCarrier.right.right.right.right.right.right.right.right⟩
+
 theorem LanglandsBHistCorrespondenceCarrier_visible_packet_boundary [AskSetup] [PackageSetup]
     {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance ledger
       endpoint : BHist}
