@@ -1,4 +1,5 @@
 import BEDC.Derived.DiffFormUp.RootConsumerSourceProjection
+import BEDC.Derived.DiffFormUp.DownstreamExteriorInput
 
 namespace BEDC.Derived.DiffFormUp
 
@@ -65,5 +66,42 @@ theorem DiffFormExteriorConsumer_boundary {ScalarCarrier : BHist -> Prop}
       wedgeBoundary.right.right.right.right.right,
       consumerRows.right.right.right.right.right.right.right.right.right,
       degreeBoundary.right.right.right⟩
+
+theorem DiffFormDownstreamConsumer_boundary {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier)
+    {degree probe tensor scalar antisym ledger dplus outDegree rightLedger tensorLedger omega
+      domega probePrime tensorPrime scalarPrime : BHist}
+    {probes : ProbeBundle BHist} :
+    InBundle probe probes ->
+      ScalarCarrier scalar ->
+      UnaryHistory degree ->
+      UnaryHistory probe ->
+      UnaryHistory antisym ->
+      Cont degree probe tensor ->
+      Cont tensor antisym scalar ->
+      hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+      DiffFormWedgeDegreeLedger degree dplus outDegree ledger rightLedger tensorLedger ->
+      DiffFormExteriorDerivativeLedger omega domega degree dplus probe probePrime tensor
+        tensorPrime scalar scalarPrime antisym ledger ->
+        UnaryHistory omega ∧ UnaryHistory domega ∧ UnaryHistory degree ∧ UnaryHistory dplus ∧
+          Cont degree dplus outDegree ∧ Cont degree (BHist.e1 BHist.Empty) dplus ∧
+            hsame ledger rightLedger ∧ (hsame dplus BHist.Empty -> False) := by
+  intro probeIn scalarCarrier degreeUnary probeUnary antisymUnary tensorRoute scalarRoute
+    ledgerRoute wedgeLedger derivativeLedger
+  have consumerBoundary :=
+    DiffFormExteriorConsumer_boundary scalarCert probeIn scalarCarrier degreeUnary probeUnary
+      antisymUnary tensorRoute scalarRoute ledgerRoute wedgeLedger derivativeLedger
+  have exteriorInput :=
+    DiffFormExteriorDerivativeLedger_downstream_input_obligation derivativeLedger
+  exact
+    ⟨exteriorInput.left,
+      exteriorInput.right.left,
+      consumerBoundary.left,
+      consumerBoundary.right.left,
+      consumerBoundary.right.right.right.left,
+      exteriorInput.right.right.right.right.left,
+      consumerBoundary.right.right.right.right.left,
+      exteriorInput.right.right.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.DiffFormUp
