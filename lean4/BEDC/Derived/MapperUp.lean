@@ -26,6 +26,35 @@ def MapperCoverPreimageCarrier [AskSetup] [PackageSetup]
         Cont cover (append preimage (append cluster incidence)) ledger ∧
           PkgSig bundle ledger pkg
 
+theorem MapperCoverPreimageCarrier_source_readback [AskSetup] [PackageSetup]
+    {cover preimage cluster incidence simplex ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MapperCoverPreimageCarrier cover preimage cluster incidence simplex ledger bundle pkg ->
+      UnaryHistory simplex ∧ UnaryHistory ledger ∧ hsame cluster (append cover preimage) ∧
+        hsame simplex (append cluster incidence) ∧
+          hsame ledger (append cover (append preimage (append cluster incidence))) ∧
+            PkgSig bundle ledger pkg := by
+  intro carrier
+  have simplexUnary : UnaryHistory simplex :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have clusterIncidenceUnary : UnaryHistory (append cluster incidence) :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      (rfl : Cont cluster incidence (append cluster incidence))
+  have preimageClusterIncidenceUnary :
+      UnaryHistory (append preimage (append cluster incidence)) :=
+    unary_cont_closed carrier.right.left clusterIncidenceUnary
+      (rfl : Cont preimage (append cluster incidence)
+        (append preimage (append cluster incidence)))
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.left preimageClusterIncidenceUnary
+      carrier.right.right.right.right.right.right.left
+  exact
+    ⟨simplexUnary, ledgerUnary, carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right⟩
+
 theorem MapperCoverPreimageCarrier_cluster_classifier_stability [AskSetup] [PackageSetup]
     {cover preimage cluster incidence simplex ledger cover' preimage' cluster' incidence'
       simplex' ledger' : BHist}
