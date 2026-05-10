@@ -22,6 +22,15 @@ def ModelCatBHistSourcePacket [AskSetup] [PackageSetup]
     UnaryHistory provenance ∧ UnaryHistory rho ∧ Cont category cof lift ∧
       Cont fib weak factor ∧ Cont provenance factor lambda ∧ PkgSig bundle lambda pkg
 
+def ModelCatNameCertObligationPackage [AskSetup] [PackageSetup]
+    (category cof fib weak lift factor provenance rho lambda : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  ModelCatBHistSourcePacket category cof fib weak lift factor provenance rho lambda bundle pkg ∧
+    SemanticNameCert (fun row : BHist => hsame row lambda)
+      (fun row : BHist => hsame row lambda) (fun row : BHist => hsame row lambda) hsame ∧
+      Cont category cof lift ∧ Cont fib weak factor ∧ Cont provenance factor lambda ∧
+        PkgSig bundle lambda pkg
+
 theorem ModelCatBHistSourcePacket_root_obligation_surface [AskSetup] [PackageSetup]
     {category cof fib weak lift factor provenance rho lambda : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
