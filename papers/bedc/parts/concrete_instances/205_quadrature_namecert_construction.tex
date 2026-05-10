@@ -346,3 +346,143 @@ $$
 $$
 The endpoint map $\mathcal I_Q$ and the exactness predicate $\mathsf{QExact}_Q$ do not enter this boundary calculation, because the claim concerns only the finite weighted quadrature fold.
 \end{proof}
+
+\begin{lemma}[Finite additive fold decomposes over spine append]
+\label{lem:finite-additive-fold-append-decomposition}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite additive fold $\mathsf{fold}_{+,R}$ from \autoref{def:finite-additive-scalar-fold}. Assume the classifier equivalence rows, additive congruence, additive associativity, and additive left-zero row retained in \autoref{def:ring-stability-certificate}. For finite carried scalar spines $xs,ys:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{fold}_{+,R}(xs{++}ys)
+\sim_R
+\mathsf{fold}_{+,R}(xs)+_R\mathsf{fold}_{+,R}(ys).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the finite spine $xs$.
+
+If $xs=\mathsf{nil}$, then $xs{++}ys=ys$ and \autoref{def:finite-additive-scalar-fold} identifies $\mathsf{fold}_{+,R}(xs)$ with $0_R$. The additive left-zero row classifies $0_R+_R\mathsf{fold}_{+,R}(ys)$ with $\mathsf{fold}_{+,R}(ys)$, and classifier symmetry reverses that comparison. Hence
+$$
+\mathsf{fold}_{+,R}(ys)
+\sim_R
+0_R+_R\mathsf{fold}_{+,R}(ys),
+$$
+which is the displayed claim in the nil case.
+
+For the cons case, write $xs=\mathsf{cons}(a,xs_0)$. The fold clauses give
+$$
+\mathsf{fold}_{+,R}(\mathsf{cons}(a,xs_0){++}ys)
+=
+a+_R\mathsf{fold}_{+,R}(xs_0{++}ys)
+$$
+and
+$$
+\mathsf{fold}_{+,R}(\mathsf{cons}(a,xs_0))
+=
+a+_R\mathsf{fold}_{+,R}(xs_0).
+$$
+The induction hypothesis supplies
+$$
+\mathsf{fold}_{+,R}(xs_0{++}ys)
+\sim_R
+\mathsf{fold}_{+,R}(xs_0)+_R\mathsf{fold}_{+,R}(ys).
+$$
+Additive congruence, using classifier reflexivity on $a$, classifies
+$$
+a+_R\mathsf{fold}_{+,R}(xs_0{++}ys)
+$$
+with
+$$
+a+_R(\mathsf{fold}_{+,R}(xs_0)+_R\mathsf{fold}_{+,R}(ys)).
+$$
+Additive associativity then classifies this endpoint with
+$$
+(a+_R\mathsf{fold}_{+,R}(xs_0))+_R\mathsf{fold}_{+,R}(ys),
+$$
+which is exactly
+$$
+\mathsf{fold}_{+,R}(\mathsf{cons}(a,xs_0))+_R\mathsf{fold}_{+,R}(ys).
+$$
+Classifier transitivity composes these comparisons and proves the cons case.
+\end{proof}
+
+\begin{theorem}[Quadrature node-list append sum decomposition]
+\label{thm:quadrature-node-list-append-sum-decomposition}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, multiplication $\cdot_R$, canonical trim, and Horner evaluation as in \autoref{def:quadrature-finite-weighted-exactness-degree}. Assume the additive rows required by \autoref{lem:finite-additive-fold-append-decomposition}. Let $A$ and $B$ be finite $\FinSetUp$ node spines, and set
+$$
+L=A{++}B.
+$$
+Let
+$$
+Q_L=(L,\alpha,\omega,\mathcal I_Q)
+$$
+be a finite weighted $\QuadratureUp$ rule. Let $Q_A$ and $Q_B$ be the restricted rules obtained from the same node, weight, and integral endpoint data along the left and right position injections of the finite-position append ledger:
+$$
+Q_A=(A,\alpha|_{\mathsf{Pos}(A)},\omega|_{\mathsf{Pos}(A)},\mathcal I_Q),
+\qquad
+Q_B=(B,\alpha|_{\mathsf{Pos}(B)},\omega|_{\mathsf{Pos}(B)},\mathcal I_Q).
+$$
+Then every finite polynomial-code spine $p:\mathsf{ListCarrier}(R)$ satisfies
+$$
+\mathsf{QSum}_{Q_L}(p)
+\sim_R
+\mathsf{QSum}_{Q_A}(p)+_R\mathsf{QSum}_{Q_B}(p).
+$$
+\end{theorem}
+\begin{proof}
+Fix $p:\mathsf{ListCarrier}(R)$. For a node position $i$, write the quadrature summand as
+$$
+s_p(i):=\omega_i\cdot_R\mathsf{Eval}_{\alpha_i,R}(p).
+$$
+Unfolding \autoref{def:quadrature-finite-weighted-exactness-degree} gives
+$$
+\mathsf{QSum}_{Q_L}(p)
+:=
+\mathsf{fold}_{+_R,\mathsf{Pos}(L)}(i\mapsto s_p(i)),
+$$
+with the analogous formulas for $Q_A$ and $Q_B$ over $\mathsf{Pos}(A)$ and $\mathsf{Pos}(B)$.
+
+By the finite-position ledger of \autoref{def:finset-namecert-obligation-packet}, together with the append split underlying \autoref{lem:finset-enummem-append-split}, the positions of $L=A{++}B$ are read as the left positions of $A$ followed by the right positions of $B$. Therefore the scalar spine enumerated by the summand family $s_p$ over $\mathsf{Pos}(L)$ is the concatenation
+$$
+S_A(p){++}S_B(p),
+$$
+where
+$$
+S_A(p)=\bigl(i\in\mathsf{Pos}(A)\mapsto
+\omega_i\cdot_R\mathsf{Eval}_{\alpha_i,R}(p)\bigr)
+$$
+and
+$$
+S_B(p)=\bigl(j\in\mathsf{Pos}(B)\mapsto
+\omega_j\cdot_R\mathsf{Eval}_{\alpha_j,R}(p)\bigr).
+$$
+The same position readback identifies
+$$
+\mathsf{QSum}_{Q_A}(p)
+\sim_R
+\mathsf{fold}_{+,R}(S_A(p))
+$$
+and
+$$
+\mathsf{QSum}_{Q_B}(p)
+\sim_R
+\mathsf{fold}_{+,R}(S_B(p)),
+$$
+while the appended rule is read as
+$$
+\mathsf{QSum}_{Q_L}(p)
+\sim_R
+\mathsf{fold}_{+,R}(S_A(p){++}S_B(p)).
+$$
+Applying \autoref{lem:finite-additive-fold-append-decomposition} to the two carried scalar spines $S_A(p)$ and $S_B(p)$ gives
+$$
+\mathsf{fold}_{+,R}(S_A(p){++}S_B(p))
+\sim_R
+\mathsf{fold}_{+,R}(S_A(p))+_R\mathsf{fold}_{+,R}(S_B(p)).
+$$
+Classifier transitivity and additive congruence transport the two restricted-rule readbacks through the right-hand side, yielding
+$$
+\mathsf{QSum}_{Q_L}(p)
+\sim_R
+\mathsf{QSum}_{Q_A}(p)+_R\mathsf{QSum}_{Q_B}(p).
+$$
+The endpoint map $\mathcal I_Q$ is shared by the three rules but is not used in this fold identity; the calculation concerns only the finite weighted quadrature sum.
+\end{proof}
