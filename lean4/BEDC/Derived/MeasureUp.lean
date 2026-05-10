@@ -468,4 +468,29 @@ theorem MeasureZeroBHistPrefix_classifier_stability (events values : Nat -> BHis
         hsame_trans leftZero (hsame_symm rightZero)
       exact And.intro leftZero (And.intro rightZero samePrefixes)
 
+theorem MeasureZeroBHist_terminal_standard_bridge {h event union value sum endpoint : BHist} :
+    MeasureZeroBHistCarrier h ->
+      MeasureZeroBHistClassifier event BHist.Empty ->
+        hsame union BHist.Empty ->
+          hsame value BHist.Empty ->
+            hsame sum BHist.Empty ->
+              Cont value sum endpoint ->
+                MeasureZeroBHistCarrier endpoint ∧
+                  MeasureZeroBHistClassifier event BHist.Empty ∧
+                    MeasureZeroBHistClassifier union BHist.Empty ∧
+                      MeasureZeroBHistClassifier value sum ∧
+                        SemanticNameCert MeasureZeroBHistCarrier MeasureZeroBHistCarrier
+                          MeasureZeroBHistCarrier MeasureZeroBHistClassifier := by
+  intro _carrier eventClassified unionZero valueZero sumZero endpointCont
+  have root :=
+    MeasureRootBHist_real_endpoint_threshold eventClassified valueZero sumZero unionZero
+      endpointCont
+  have cert : SemanticNameCert MeasureZeroBHistCarrier MeasureZeroBHistCarrier
+      MeasureZeroBHistCarrier MeasureZeroBHistClassifier :=
+    MeasureZeroBHist_semantic_name_certificate
+  exact
+    And.intro root.right.right.right
+      (And.intro root.left
+        (And.intro root.right.left (And.intro root.right.right.left cert)))
+
 end BEDC.Derived.MeasureUp
