@@ -71,6 +71,10 @@ def _git_stdout(repo: Path, args: list[str], *, timeout: int = 120) -> str:
     return result.stdout.strip()
 
 
+def _git_quiet(repo: Path, args: list[str], *, timeout: int = 120) -> None:
+    _git(repo, args, timeout=timeout)
+
+
 def current_branch(repo: Path) -> str:
     return _git_stdout(repo, ["branch", "--show-current"], timeout=30)
 
@@ -307,6 +311,7 @@ def merge_back_to_bedc(config: dict[str, Any], gate_results: list[dict[str, Any]
     source_commit = _git_stdout(REPO_ROOT, ["rev-parse", source_ref], timeout=30)
     result = _git(target, ["merge", "--no-edit", source_commit], timeout=1200)
     if result.returncode != 0:
+        _git_quiet(target, ["merge", "--abort"], timeout=120)
         return {
             "status": "merge_failed",
             "target_worktree": str(target),
@@ -315,18 +320,6 @@ def merge_back_to_bedc(config: dict[str, Any], gate_results: list[dict[str, Any]
             "reason": (result.stderr or result.stdout).strip()[:1000],
         }
     after = _git_stdout(target, ["rev-parse", "HEAD"], timeout=30)
-    pushed = False
-    if bool(cfg.get("push", False)):
-        push = _git(target, ["push", "origin", target_branch], timeout=1200)
-        if push.returncode != 0:
-            return {
-                "status": "merged_push_failed",
-                "target_worktree": str(target),
-                "before": before,
-                "after": after,
-                "reason": (push.stderr or push.stdout).strip()[:1000],
-            }
-        pushed = True
     return {
         "status": "merged" if before != after else "up_to_date",
         "target_worktree": str(target),
@@ -335,7 +328,7 @@ def merge_back_to_bedc(config: dict[str, Any], gate_results: list[dict[str, Any]
         "source_commit": source_commit,
         "before": before,
         "after": after,
-        "pushed": pushed,
+        "pushed": False,
     }
 
 
