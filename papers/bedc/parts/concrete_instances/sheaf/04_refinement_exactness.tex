@@ -186,3 +186,44 @@ $$
 $$
 Its second leg is the original cover inclusion $h_a:\iota(a)\le_{\mathcal{T}} i$, because $\mathrm{id}_A(a)=a$. Therefore the refinement data are exactly the identity selector together with the reflexive inclusion witnesses, and these satisfy the compatibility clause required in \autoref{thm:sheaf-cover-refinement-obligation}. Hence $\mathcal{U}$ is a displayed refinement of itself.
 \end{proof}
+
+\begin{theorem}[Sheaf identity-refinement pullback identity]
+\label{thm:sheaf-identity-refinement-pullback-identity}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed open cover of $i:\mathsf{OpenIx}$, and let $s_a:\mathsf{Sec}(\iota(a))$ be a local family over $\mathcal{U}$. Use the identity displayed refinement of $\mathcal{U}$ through itself from \autoref{thm:sheaf-cover-self-refinement}, and write its pulled-back family as
+$$
+t_a:=\rho_{\iota(\mathrm{id}_A(a)),\iota(a)}(s_{\mathrm{id}_A(a)}).
+$$
+Then for every $a:A$,
+$$
+t_a\sim_{\iota(a)}s_a.
+$$
+In particular, for every compatible family over $\mathcal{U}$, pullback along the identity refinement is pointwise the original family in the section classifier:
+$$
+\rho_{\iota(a),\iota(a)}(s_a)\sim_{\iota(a)}s_a.
+$$
+\end{theorem}
+\begin{proof}
+Fix $a:A$. By \autoref{thm:sheaf-cover-self-refinement}, the identity refinement chooses the selector $\mathrm{id}_A:A\to A$ and the reflexive inclusion witness
+$$
+\iota(a)\le_{\mathcal{T}}\iota(\mathrm{id}_A(a)).
+$$
+Since $\mathrm{id}_A(a)=a$, this is exactly the reflexive inclusion
+$$
+\iota(a)\le_{\mathcal{T}}\iota(a).
+$$
+Thus the pulled-back row at $a$ is the identity restriction of the same local section:
+$$
+t_a=\rho_{\iota(a),\iota(a)}(s_a)
+$$
+inside the section carrier indexed by $\iota(a)$.
+
+The identity field of the indexed section presheaf carrier in \autoref{def:sheaf-indexed-section-presheaf-carrier} gives, for every section $s:\mathsf{Sec}(\iota(a))$,
+$$
+\rho_{\iota(a),\iota(a)}(s)\sim_{\iota(a)}s.
+$$
+Applying this field to $s_a$ gives
+$$
+\rho_{\iota(a),\iota(a)}(s_a)\sim_{\iota(a)}s_a.
+$$
+Substituting the displayed description of $t_a$ gives $t_a\sim_{\iota(a)}s_a$. The argument is pointwise in $a$ and does not use any overlap clause, so it applies in particular when the family $s_a$ is compatible over $\mathcal{U}$ in the sense of \autoref{def:sheaf-indexed-cover-compatibility-locality}.
+\end{proof}

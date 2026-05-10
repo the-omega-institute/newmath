@@ -290,3 +290,31 @@ $$
 (r\cdot_V x)\perp_I y.
 $$
 \end{proof}
+
+\begin{theorem}[InnerProduct orthogonality left additive-inverse closure]
+\label{thm:innerproduct-orthogonality-left-additive-inverse-closure}
+Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in
+\autoref{def:innerproduct-bhist-carrier}. For carried vector endpoints
+$x,y:C_V$, if $x\perp_I y$, then the displayed additive inverse $-_V x$ is
+carried and
+$$
+(-_V x)\perp_I y.
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{thm:innerproduct-orthogonality-symmetry-row}, the hypothesis
+$x\perp_I y$ gives
+$$
+y\perp_I x.
+$$
+Apply \autoref{thm:innerproduct-orthogonal-additive-inverse-closure} to the
+carried pair $(y,x)$. It carries the displayed inverse $-_V x$ and gives
+$$
+y\perp_I(-_V x).
+$$
+A final application of \autoref{thm:innerproduct-orthogonality-symmetry-row},
+now to the carried pair $y$ and $-_V x$, gives
+$$
+(-_V x)\perp_I y.
+$$
+\end{proof}
