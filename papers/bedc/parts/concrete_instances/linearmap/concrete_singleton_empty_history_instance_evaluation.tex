@@ -182,6 +182,77 @@ $\emp$ through the same continuation ledger and left-unit append equation,
 and the two singleton carrier witnesses assemble the restricted classifier.
 \end{proof}
 
+\begin{definition}[Concrete singleton linear-map evaluation graph carrier]
+\label{def:linearmap-singleton-evaluation-graph-carrier}
+For the concrete singleton empty-history $\LinearMapUp$ instance, the
+evaluation graph row is the $\mathsf{BHist}$-anchored visible triple
+$(f,x,y)$ satisfying
+$$
+L_{\emp}(f)\land A_{\emp}(x)\land
+\rho_{\emp}(\mathsf{LinearMapSingletonEval}(f,x),y).
+$$
+Its ledger exposes exactly the map-code row $f$, the input-vector row $x$, the
+output endpoint $y$, and the continuation provenance row that relates
+$\mathsf{LinearMapSingletonEval}(f,x)$ to $y$ through $\ContR$ when such a
+continuation is displayed. No host function equality or quotient witness is
+part of the graph carrier.
+\end{definition}
+
+\begin{theorem}[Singleton linear-map evaluation graph package]
+\label{thm:linearmap-singleton-evaluation-graph-package}
+For the evaluation graph carrier of
+\autoref{def:linearmap-singleton-evaluation-graph-carrier}, the following
+finite singleton package holds.
+\begin{enumerate}
+  \item Output closure: every graph row has $A_{\emp}(y)$, and every admitted
+  $L_{\emp}(f)$ and $A_{\emp}(x)$ determines the singleton output row
+  $\rho_{\emp}(\mathsf{LinearMapSingletonEval}(f,x),\emp)$.
+  \item Pointwise classifier transport: replacing $f$, $x$, or $y$ along
+  $\lambda_{\emp}$ and $\rho_{\emp}$ preserves the graph row and its
+  continuation provenance.
+  \item Identity and zero-map evaluation collapse: for every carried input
+  $x$, the identity and zero-map codes evaluate to the same singleton endpoint
+  and classify with the displayed $x$-row.
+  \item Composition evaluation collapse: if $f$, $g$, and $x$ are carried, the
+  graph row for
+  $\mathsf{LinearMapSingletonEval}(\mathsf{LinearMapSingletonComp}(g,f),x)$
+  and the graph row read through the continuation of
+  $\mathsf{LinearMapSingletonEval}(f,x)$ by $g$ expose the same singleton
+  endpoint classifier.
+\end{enumerate}
+The package exports no host function equality, no quotient row, and no hidden
+selector row.
+\end{theorem}
+\begin{proof}
+The carrier row is built over the same singleton empty-history table as
+\autoref{thm:singleton-empty-history-linearmap-laws}. Output closure follows
+because every evaluation endpoint is definitionally $\emp$, while
+\autoref{thm:singleton-empty-history-linearmap-public-code-exactness} supplies
+the public code, identity-code, zero-code, composite-code, and endpoint
+exactness rows.
+
+For pointwise transport, use the existing singleton evaluation classifier
+readbacks in this file. They reduce each transported endpoint classifier to
+the same singleton carrier obligations for the visible map code, input vector,
+and output endpoint.
+
+The identity and zero-map clauses are the identity and zero-map rows of the
+public-code exactness theorem, read through the graph definition. The
+continuation classifier
+\autoref{thm:linearmap-singleton-eval-continuation-classifier} repackages the
+same output endpoint as a continuation provenance row when a continuation is
+displayed.
+
+For composition, apply
+\autoref{thm:singleton-empty-history-linearmap-laws} to the singleton
+composition operation and then apply the existing composition continuation
+classifier in this file. Both the direct composite evaluation and the
+stagewise continuation evaluation reduce to $\emp$, so the endpoint classifier
+is the singleton $\rho_{\emp}$ row. Since the construction only reads the
+finite $\mathsf{BHist}$ graph ledger, no host function equality, quotient
+carrier, or hidden selector can be exported.
+\end{proof}
+
 \begin{theorem}[Singleton evaluation composition continuation classifier]
 \label{thm:linearmap-singleton-eval-comp-continuation-classifier}
 If $g,f,x$ lie in the singleton linear-map carrier and

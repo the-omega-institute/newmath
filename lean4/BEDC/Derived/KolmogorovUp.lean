@@ -174,4 +174,23 @@ theorem KolmogorovDecodedReadback_exactness
   exact
     ⟨traceUnary', readbackUnary', carrierUnary', traceSame, readbackSame, carrierSame⟩
 
+theorem KolmogorovDecodedReadbackExactness_ledger_surface
+    {description decoder output trace readback decoded ledger : BHist} :
+    UnaryHistory description -> UnaryHistory decoder -> UnaryHistory output ->
+      Cont decoder description trace -> Cont trace output readback ->
+        Cont description readback decoded -> Cont decoded output ledger ->
+          UnaryHistory trace ∧ UnaryHistory readback ∧ UnaryHistory decoded ∧
+            UnaryHistory ledger ∧ hsame decoded (append description readback) ∧
+              hsame ledger (append decoded output) := by
+  intro descriptionUnary decoderUnary outputUnary traceRow readbackRow decodedRow ledgerRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed decoderUnary descriptionUnary traceRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed traceUnary outputUnary readbackRow
+  have decodedUnary : UnaryHistory decoded :=
+    unary_cont_closed descriptionUnary readbackUnary decodedRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed decodedUnary outputUnary ledgerRow
+  exact ⟨traceUnary, readbackUnary, decodedUnary, ledgerUnary, decodedRow, ledgerRow⟩
+
 end BEDC.Derived.KolmogorovUp
