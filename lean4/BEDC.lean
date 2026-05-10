@@ -99,6 +99,7 @@ import BEDC.Derived.GaloisExtUp.SourceClassifier
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GoedelIncompletenessUp
+import BEDC.Derived.HaltingDistinctionLimitUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.InterpolationUp
