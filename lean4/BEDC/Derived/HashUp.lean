@@ -23,6 +23,20 @@ theorem HashEvalTranscript_determinacy {MsgCarrier DigCarrier : BHist -> Prop}
   exact And.intro transcript.right.right
     (And.intro transcript'.right.right sameDigest)
 
+theorem HashEvalTranscript_digest_classifier_stability {MsgCarrier DigCarrier : BHist -> Prop}
+    {m d d' row row' : BHist} :
+    HashEvalTranscript MsgCarrier DigCarrier m d row ->
+      DigCarrier d' ->
+        hsame d d' ->
+          Cont m d' row' ->
+            HashEvalTranscript MsgCarrier DigCarrier m d' row' ∧ hsame row row' := by
+  intro transcript digestCarrier sameDigest targetRow
+  have sameRows : hsame row row' :=
+    cont_respects_hsame (hsame_refl m) sameDigest transcript.right.right targetRow
+  exact And.intro
+    (And.intro transcript.left (And.intro digestCarrier targetRow))
+    sameRows
+
 def HashSecondPreimageSuccess
     (HashEval : BHist -> BHist -> Prop)
     (MsgClassifier DigClassifier : BHist -> BHist -> Prop)
