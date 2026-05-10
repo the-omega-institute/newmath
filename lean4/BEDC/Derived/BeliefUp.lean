@@ -43,4 +43,22 @@ theorem BeliefObservationUpdateCarrier_transport_obligation
     ⟨⟨priorUnary', observationUnary', probabilityUnary', traceRow', posteriorRow', ledgerRow'⟩,
       sameTrace, samePosterior, sameLedger⟩
 
+theorem BeliefObservationUpdateCarrier_ledger_exactness
+    {prior observation trace probability ledger posterior : BHist} :
+    BeliefObservationUpdateCarrier prior observation trace probability ledger posterior ->
+      UnaryHistory ledger ∧ hsame ledger (append prior posterior) ∧
+        hsame trace (append prior observation) ∧
+          hsame posterior (append trace probability) := by
+  intro carrier
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.left
+  have posteriorUnary : UnaryHistory posterior :=
+    unary_cont_closed traceUnary carrier.right.right.left
+      carrier.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.left posteriorUnary carrier.right.right.right.right.right
+  exact
+    ⟨ledgerUnary, carrier.right.right.right.right.right, carrier.right.right.right.left,
+      carrier.right.right.right.right.left⟩
+
 end BEDC.Derived.BeliefUp
