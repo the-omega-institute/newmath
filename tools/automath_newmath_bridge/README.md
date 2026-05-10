@@ -142,11 +142,15 @@ One pass does this:
 1. Verifies the current branch from config:
    `bridge/newmath-automath-consumption`.
 2. Fetches latest refs for Automath and NewMath unless `--no-fetch` is passed.
-3. Discovers new or changed artifacts from both repos.
-4. Synthesizes readiness from both repo contents.
-5. Writes a local inbox, synthesis report, and transfer plan.
-6. Runs deterministic gates.
-7. Optionally writes local review packets if `--apply-writeback-packets` is
+3. Merges `origin/auto-dev` into the NewMath bridge branch unless
+   `--no-auto-dev-sync` is passed.
+4. Discovers new or changed artifacts from both repos.
+5. Synthesizes readiness from both repo contents.
+6. Writes a local inbox, synthesis report, and transfer plan.
+7. Runs deterministic gates.
+8. Optionally merges the gated bridge branch back to
+   `bedc-claim-packet-pipeline` if `--merge-back-after-gates` is passed.
+9. Optionally writes local review packets if `--apply-writeback-packets` is
    passed.
 
 Continuous mode:
@@ -167,8 +171,10 @@ The supervisor follows the local distillation/oracle pattern:
 - fixed branch guard;
 - stop file;
 - fetch before each pass;
+- merge `origin/auto-dev` into the bridge branch before scanning;
 - dry local runtime artifacts;
 - deterministic gates before local packet writes;
+- local merge-back into the BEDC branch only after all bridge gates pass;
 - no push;
 - no external send;
 - no direct durable paper / Lean / docs writes.
@@ -204,6 +210,22 @@ python3 tools/automath_newmath_bridge/bridge_supervisor.py \
 
 These packets are review material only. They do not authorize destination
 writes.
+
+To merge the gated bridge branch back to the local BEDC branch after gates:
+
+```bash
+python3 tools/automath_newmath_bridge/bridge_supervisor.py \
+  --once \
+  --merge-back-after-gates
+```
+
+The configured target is `../newmath` on `bedc-claim-packet-pipeline`. The
+merge-back step is intentionally conservative:
+
+- it runs only after all bridge gates pass;
+- it checks the target worktree is on `bedc-claim-packet-pipeline`;
+- it skips if the target has tracked or untracked changes;
+- it does not push unless the config explicitly sets `push: true`.
 
 ## Commands
 

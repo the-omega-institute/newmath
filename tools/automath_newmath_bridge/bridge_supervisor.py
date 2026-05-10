@@ -6,8 +6,10 @@ The supervisor mirrors the local distillation/oracle pipeline style:
 - require the expected branch;
 - honor a stop file;
 - fetch the latest refs for both repos;
+- optionally merge the NewMath bridge branch with origin/auto-dev;
 - run the bridge discovery pipeline;
 - run deterministic gates;
+- optionally merge the gated bridge branch back to the configured BEDC branch;
 - optionally write local review packets;
 - keep runtime artifacts local-only and ignored by Git.
 
@@ -95,6 +97,11 @@ def tracked_dirty_lines(repo: Path) -> list[str]:
     return [line for line in output.splitlines() if line.strip()]
 
 
+def worktree_dirty_lines(repo: Path) -> list[str]:
+    output = _git_stdout(repo, ["status", "--porcelain"], timeout=30)
+    return [line for line in output.splitlines() if line.strip() and not line.startswith("!!")]
+
+
 def _load_config(path: Path) -> dict[str, Any]:
     data = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
@@ -143,6 +150,51 @@ def fetch_repositories(config_path: Path) -> list[dict[str, Any]]:
         if isinstance(repo_cfg, dict):
             results.append(fetch_repo(str(repo_key), repo_cfg, config_path))
     return results
+
+
+def sync_bridge_from_auto_dev(config: dict[str, Any]) -> dict[str, Any]:
+    """Merge origin/auto-dev into this bridge branch before scanning.
+
+    This mirrors the NewMath BEDC supervisor habit of syncing from the
+    integration branch before generating new work. It never pushes. Conflicts
+    are surfaced as a hard stop so gates do not run on a half-merged worktree.
+    """
+    cfg = config.get("sync_from_auto_dev")
+    if not isinstance(cfg, dict) or not cfg.get("enabled", False):
+        return {"status": "disabled"}
+
+    source_ref = str(cfg.get("source_ref") or "origin/auto-dev")
+    before = _git_stdout(REPO_ROOT, ["rev-parse", "HEAD"], timeout=30)
+    current_branch_name = current_branch(REPO_ROOT)
+    expected = str(config.get("required_branch") or current_branch_name)
+    if current_branch_name != expected:
+        raise RuntimeError(f"sync_from_auto_dev expected branch {expected!r}, got {current_branch_name!r}")
+
+    merge_base = _git_stdout(REPO_ROOT, ["merge-base", "HEAD", source_ref], timeout=30)
+    source_commit = _git_stdout(REPO_ROOT, ["rev-parse", source_ref], timeout=30)
+    if before == source_commit or merge_base == source_commit:
+        return {
+            "status": "up_to_date",
+            "source_ref": source_ref,
+            "before": before,
+            "after": before,
+        }
+
+    merge_args = [str(item) for item in cfg.get("merge_args", ["--no-edit"]) if isinstance(item, str)]
+    result = _git(REPO_ROOT, ["merge", *merge_args, source_ref], timeout=1200)
+    if result.returncode != 0:
+        raise RuntimeError(
+            "sync_from_auto_dev merge failed; resolve conflicts manually before rerunning. "
+            + (result.stderr or result.stdout).strip()
+        )
+    after = _git_stdout(REPO_ROOT, ["rev-parse", "HEAD"], timeout=30)
+    return {
+        "status": "merged",
+        "source_ref": source_ref,
+        "before": before,
+        "after": after,
+        "stdout": result.stdout.strip()[:500],
+    }
 
 
 def run_command(args: list[str], *, timeout: int = 600) -> subprocess.CompletedProcess[str]:
@@ -213,6 +265,80 @@ def run_gates(config_path: Path, *, allow_publication_risk: bool) -> list[dict[s
     return results
 
 
+def merge_back_to_bedc(config: dict[str, Any], gate_results: list[dict[str, Any]], config_path: Path) -> dict[str, Any]:
+    """Merge the gated bridge branch back to the configured BEDC branch.
+
+    This is local-only and conservative. It only runs after all bridge gates
+    pass, the target worktree is on the expected branch, and the target worktree
+    has no tracked or untracked changes. Runtime artifacts remain ignored and
+    are not pushed.
+    """
+    cfg = config.get("merge_back_after_gates")
+    if not isinstance(cfg, dict) or not cfg.get("enabled", False):
+        return {"status": "disabled"}
+    if any(item.get("gate_status") != "gate_passed" for item in gate_results):
+        return {"status": "skipped_gate_blocked"}
+
+    target_raw = str(cfg.get("target_worktree") or "")
+    if not target_raw:
+        raise RuntimeError("merge_back_after_gates.target_worktree is required")
+    target = _resolve_repo_path(target_raw, config_path)
+    target_branch = str(cfg.get("target_branch") or "bedc-claim-packet-pipeline")
+    source_ref = str(cfg.get("source_ref") or current_branch(REPO_ROOT))
+
+    actual_branch = current_branch(target)
+    if actual_branch != target_branch:
+        return {
+            "status": "skipped_wrong_branch",
+            "target_worktree": str(target),
+            "expected_branch": target_branch,
+            "actual_branch": actual_branch,
+        }
+    dirty = worktree_dirty_lines(target)
+    if dirty:
+        return {
+            "status": "skipped_dirty_target",
+            "target_worktree": str(target),
+            "dirty_count": len(dirty),
+            "sample": dirty[:10],
+        }
+
+    before = _git_stdout(target, ["rev-parse", "HEAD"], timeout=30)
+    source_commit = _git_stdout(REPO_ROOT, ["rev-parse", source_ref], timeout=30)
+    result = _git(target, ["merge", "--no-edit", source_commit], timeout=1200)
+    if result.returncode != 0:
+        return {
+            "status": "merge_failed",
+            "target_worktree": str(target),
+            "source_ref": source_ref,
+            "source_commit": source_commit,
+            "reason": (result.stderr or result.stdout).strip()[:1000],
+        }
+    after = _git_stdout(target, ["rev-parse", "HEAD"], timeout=30)
+    pushed = False
+    if bool(cfg.get("push", False)):
+        push = _git(target, ["push", "origin", target_branch], timeout=1200)
+        if push.returncode != 0:
+            return {
+                "status": "merged_push_failed",
+                "target_worktree": str(target),
+                "before": before,
+                "after": after,
+                "reason": (push.stderr or push.stdout).strip()[:1000],
+            }
+        pushed = True
+    return {
+        "status": "merged" if before != after else "up_to_date",
+        "target_worktree": str(target),
+        "target_branch": target_branch,
+        "source_ref": source_ref,
+        "source_commit": source_commit,
+        "before": before,
+        "after": after,
+        "pushed": pushed,
+    }
+
+
 def _packet_name(result: dict[str, Any]) -> str:
     raw = str(result.get("id") or result.get("artifact_key") or result.get("source_path") or "packet")
     safe = "".join(ch if ch.isalnum() or ch in "._-" else "_" for ch in raw)
@@ -253,6 +379,7 @@ def write_local_packets(gate_results: list[dict[str, Any]], *, limit: int) -> li
 
 def supervisor_pass(args: argparse.Namespace) -> bool:
     config_path = Path(args.config).resolve()
+    config = _load_config(config_path)
     ensure_branch(expected_branch_from_config(config_path, args.branch))
     if tracked_dirty_lines(REPO_ROOT) and not args.allow_dirty:
         raise RuntimeError("Tracked worktree changes present; pass --allow-dirty only for local runtime/debug work")
@@ -264,6 +391,10 @@ def supervisor_pass(args: argparse.Namespace) -> bool:
         if any(item.get("status") == "fetch_failed" for item in fetch_results):
             return False
 
+    if not args.no_auto_dev_sync:
+        sync_result = sync_bridge_from_auto_dev(config)
+        _log(f"sync_from_auto_dev: {sync_result}")
+
     run_pipeline(
         config_path,
         include_unchanged=args.include_unchanged,
@@ -272,6 +403,12 @@ def supervisor_pass(args: argparse.Namespace) -> bool:
     )
     run_synthesis_report(config_path)
     gate_results = run_gates(config_path, allow_publication_risk=args.allow_publication_risk)
+
+    if args.merge_back_after_gates:
+        merge_back = merge_back_to_bedc(config, gate_results, config_path)
+        _log(f"merge_back_after_gates: {merge_back}")
+    else:
+        _log("merge_back_after_gates: disabled; pass --merge-back-after-gates to merge into configured BEDC branch")
 
     if args.apply_writeback_packets:
         written = write_local_packets(gate_results, limit=args.packet_limit)
@@ -288,6 +425,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--once", action="store_true", help="Run one pass")
     parser.add_argument("--poll-interval", type=int, default=300, help="Seconds between passes")
     parser.add_argument("--no-fetch", action="store_true", help="Do not fetch origin for configured repos")
+    parser.add_argument("--no-auto-dev-sync", action="store_true", help="Do not merge origin/auto-dev into the bridge branch before scanning")
     parser.add_argument("--include-unchanged", action="store_true", help="Emit already-seen artifacts")
     parser.add_argument("--update-state", action="store_true", help="Persist seen artifacts to ignored local state")
     parser.add_argument("--allow-dirty", action="store_true", help="Allow tracked dirty worktree before running")
@@ -299,6 +437,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Write local ignored review packets for gate-passed candidates",
     )
     parser.add_argument("--packet-limit", type=int, default=25)
+    parser.add_argument(
+        "--merge-back-after-gates",
+        action="store_true",
+        help="After all gates pass, merge this bridge branch into the configured local BEDC branch",
+    )
     return parser
 
 

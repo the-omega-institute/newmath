@@ -6,6 +6,19 @@
   "inbox_path": "tools/automath_newmath_bridge/inbox/bridge_inbox.jsonl",
   "transfer_plan_path": "tools/automath_newmath_bridge/out/bridge_transfer_plan.md",
   "synthesis_report_path": "tools/automath_newmath_bridge/out/bridge_synthesis_report.md",
+  "sync_from_auto_dev": {
+    "enabled": true,
+    "source_ref": "origin/auto-dev",
+    "strategy": "merge",
+    "merge_args": ["--no-edit"]
+  },
+  "merge_back_after_gates": {
+    "enabled": true,
+    "target_worktree": "../newmath",
+    "target_branch": "bedc-claim-packet-pipeline",
+    "source_ref": "bridge/newmath-automath-consumption",
+    "push": false
+  },
   "repositories": {
     "automath": {
       "repo": "the-omega-institute/automath",

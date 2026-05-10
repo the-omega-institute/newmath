@@ -28,10 +28,12 @@ The recurring bridge supervisor is:
 
 `tools/automath_newmath_bridge/bridge_supervisor.py`
 
-It periodically fetches Automath and NewMath refs, discovers new or changed
-artifacts, synthesizes cross-repo readiness, runs bridge gates, and writes
-local-only review packets when explicitly enabled. Runtime outputs are ignored
-by Git and must not be uploaded.
+It periodically fetches Automath and NewMath refs, merges the NewMath bridge
+branch with `origin/auto-dev`, discovers new or changed artifacts, synthesizes
+cross-repo readiness, runs bridge gates, optionally merges the gated bridge
+branch back to `bedc-claim-packet-pipeline`, and writes local-only review
+packets when explicitly enabled. Runtime outputs are ignored by Git and must
+not be uploaded.
 
 ## Current bridge directions
 
@@ -161,10 +163,12 @@ distillation, NewMath BEDC supervisor, and loning/oracle pipelines:
 | fixed branch guard | `--branch bridge/automath-newmath-consumption` |
 | stop file | `tools/automath_newmath_bridge/.bridge_supervisor.stop` |
 | fetch before pass | fetch Automath and NewMath configured refs |
+| auto-dev sync | merge `origin/auto-dev` into the NewMath bridge branch before scanning |
 | dashboard/log file | `tools/automath_newmath_bridge/logs/bridge_supervisor.log` |
 | source queue / runtime state | ignored `inbox/`, `out/`, and `state/` |
 | deterministic policy gate | `bridge_gates.py` |
 | cross-repo readiness synthesis | `bridge_synthesis.py` |
+| merge-back after gates | optional local merge into `bedc-claim-packet-pipeline` |
 | review packet before writeback | ignored `inbox/writeback_packets/*.json` |
 | publication / review gates | no public-facing use without explicit approval |
 
@@ -219,6 +223,19 @@ python3 tools/automath_newmath_bridge/bridge_supervisor.py \
   --update-state \
   --apply-writeback-packets
 ```
+
+Merge the gated NewMath bridge branch back to the local BEDC branch:
+
+```bash
+python3 tools/automath_newmath_bridge/bridge_supervisor.py \
+  --once \
+  --merge-back-after-gates
+```
+
+The merge-back target is configured in `bridge_pipeline_config.json` as
+`../newmath` on `bedc-claim-packet-pipeline`. The merge is local-only and
+skips if the target worktree is on a different branch, has uncommitted changes,
+or any bridge gate is blocked.
 
 ## Future AI commit analysis
 
