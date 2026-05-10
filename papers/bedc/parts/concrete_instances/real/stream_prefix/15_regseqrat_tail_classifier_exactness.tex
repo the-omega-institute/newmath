@@ -43,6 +43,57 @@ data. Hence the selected tail classifier is determined exactly by the common
 finite rows.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-classifier atlas refinement invariance]
+\label{thm:regseqrat-tail-classifier-atlas-refinement-invariance}
+Let $\mathcal{A}=\{W_i\}_{i\in I}$ be a finite atlas of selected finite
+$\RealUp$ observation-window packages, and let
+$\mathcal{B}=\{V_a\}_{a\in A}$ be a finite atlas refining $\mathcal{A}$.
+Suppose each refined chart $V_a$ is certified inside some chart $W_{i(a)}$,
+and suppose the refinement maps, refined overlaps, and comparison pullbacks
+preserve the displayed $\StreamNameUp$, $\RegSeqRat$, DyadicRatCore,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+Then the selected $\RegSeqRat$ tail-classifier row descended from
+$\mathcal{B}$ factors through the selected row descended from
+$\mathcal{A}$. On the finite union covered by the two atlases these two
+rows agree after readback to the displayed StreamName and RegSeqRat finite
+window surface. The comparison uses no quotient, completion, Classical
+representative, metric-completeness row, arithmetic or order row,
+standard-bridge row, or hidden selector row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-classifier-atlas-descent} to
+$\mathcal{A}$ and to $\mathcal{B}$. This gives one selected atlas row on each
+finite union, with chartwise pullback uniqueness for every selected chart.
+
+Next use
+\autoref{thm:regseqrat-tail-classifier-reindexed-cover-compatibility} on the
+certified inclusions $V_a\hookrightarrow W_{i(a)}$. The preservation
+hypotheses identify each refined selected row with the pullback of the
+coarse chart row along the displayed finite-window refinement map.
+
+Now group the refined charts by their coarse chart and apply
+\autoref{thm:regseqrat-tail-classifier-nested-cover-associativity}. The
+descent obtained by first gluing the refined charts inside each $W_i$ and
+then gluing the coarse atlas is the same row as the descent obtained by
+flattening all refined charts and gluing $\mathcal{B}$ directly.
+
+The partition comparison is supplied by
+\autoref{thm:regseqrat-tail-classifier-partition-coherence}: both atlas rows
+read the same displayed StreamName, RegSeqRat, DyadicRatCore, unary-history,
+probe, membership, transport, continuation, package, and policy rows on the
+common finite union.
+
+It remains to identify the mediator. Both the factored row from
+$\mathcal{A}$ and the row descended from $\mathcal{B}$ pull back to the same
+selected $\RegSeqRat$ tail classifier on every refined chart $V_a$. Hence
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} identifies them
+on the union. Since every step used only the displayed rows just named, the
+excluded quotient, completion, Classical, metric, arithmetic, order, bridge,
+and hidden-selector data have no projection into the comparison.
+\end{proof}
+
 \begin{theorem}[RegSeqRat tail-classifier reindexing normal form]
 \label{thm:regseqrat-tail-classifier-reindexing-normal-form}
 Let $W$ be a finite $\RealUp$ observation-window package, and let

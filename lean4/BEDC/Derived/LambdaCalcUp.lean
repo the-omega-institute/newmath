@@ -541,4 +541,25 @@ theorem LambdaCalcBHistTermPacketCarrier_alpha_beta_ledger_separation
       (And.intro betaLedgerUnary
         (And.intro alphaLedgerRow betaLedgerRow)))
 
+theorem LambdaCalcBHistTermPacketCarrier_alpha_renaming_freshness_transport
+    {graph edge connected acyclic tag tag' payload endpoint endpoint' freeVariable freeLedger
+      freeLedger' : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag payload endpoint ->
+      UnaryHistory freeVariable ->
+        hsame tag tag' ->
+          hsame endpoint endpoint' ->
+            Cont endpoint freeVariable freeLedger ->
+              Cont endpoint' freeVariable freeLedger' ->
+                LambdaCalcBHistTermPacketCarrier graph edge connected acyclic tag' payload
+                    endpoint' ∧
+                  UnaryHistory freeLedger' ∧ hsame freeLedger freeLedger' := by
+  intro packet freeVariableUnary sameTag sameEndpoint freeLedgerCont freeLedgerCont'
+  have transportedPacket :=
+    LambdaCalcBHistTermPacketCarrier_public_endpoint_transport packet sameTag sameEndpoint
+  have freeLedgerUnary' : UnaryHistory freeLedger' :=
+    unary_cont_closed transportedPacket.right.right freeVariableUnary freeLedgerCont'
+  have sameFreeLedger : hsame freeLedger freeLedger' :=
+    cont_respects_hsame sameEndpoint (hsame_refl freeVariable) freeLedgerCont freeLedgerCont'
+  exact And.intro transportedPacket.left (And.intro freeLedgerUnary' sameFreeLedger)
+
 end BEDC.Derived.LambdaCalcUp
