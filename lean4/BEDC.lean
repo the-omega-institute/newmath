@@ -162,6 +162,7 @@ import BEDC.Derived.CurvatureUp.ConnectionDerivativeDependencyRow
 import BEDC.Derived.CurvatureUp.ExportDeterminacy
 import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
+import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
