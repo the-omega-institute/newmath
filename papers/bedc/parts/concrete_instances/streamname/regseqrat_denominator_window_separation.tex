@@ -459,3 +459,48 @@ same downstream dyadic observation coverage. The separation clauses from the
 gluing, pullback, and inherited packets exclude all non-visible regularity,
 sealing, completion, quotient, and host-index fields.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat denominator refinement descent]
+\label{thm:streamname-regseqrat-denominator-refinement-descent}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be the carried StreamName rows, let
+$\mathcal P_0$ and $\mathcal P_1$ be finite observation bundles, and let
+$\mathcal Q$ be a common-refinement bundle for them. Suppose a refinement
+packet over $\mathcal Q$ has endpoint rows satisfying the denominator-window
+classifier, and suppose the selected overlap rows are the rows named by the
+shared $\mathsf{ProbeBundle}$. Then this refinement descends to stable
+denominator-window evidence over each original window $\mathcal P_i$. The
+descended packets preserve the pulled-back $\mathsf{BHist}$ denominator
+endpoints under $\hsame$, and their overlap restrictions agree on the rows
+selected by the shared $\mathsf{ProbeBundle}$.
+\end{theorem}
+\begin{proof}
+Project the common-refinement packet to each original window. The existence of
+the refinement bundle and its visible coordinates are supplied by
+\autoref{thm:streamname-regseqrat-denominator-common-refinement}, while
+\autoref{thm:streamname-regseqrat-denominator-window-separation} identifies
+the only denominator-window rows available to those projections.
+
+Next inherit the packet along the displayed inclusions. Apply
+\autoref{thm:streamname-regseqrat-denominator-window-subbundle-inheritance} to
+read the $\mathcal Q$ packet as a subbundle packet over each $\mathcal P_i$,
+and then apply
+\autoref{thm:streamname-regseqrat-denominator-subwindow-transport} to move the
+finite-window classifier, unary row, bundle-membership row, pointwise
+rational-history classifier, and downstream dyadic coverage back to the
+original windows.
+
+The pulled-back endpoints are stable because
+\autoref{thm:streamname-regseqrat-denominator-pullback-coverage} gives the
+same $\mathsf{BHist}$ denominator endpoints on the finite-window $\RealUp$
+consumer boundary. The transported packets therefore compare these endpoints
+by the inherited $\hsame$ rows rather than by a host-index equality.
+
+Finally compare the two descended packets on the shared rows. Use
+\autoref{thm:streamname-regseqrat-denominator-overlap-gluing} to identify the
+overlap selected by the common $\mathsf{ProbeBundle}$, and use
+\autoref{thm:streamname-regseqrat-denominator-window-union-stability} to keep
+the two original-window packets stable when they are read together. The
+separation theorem excludes any additional regularity, completion, quotient,
+or sealing field, so the descended evidence is exactly the stable
+original-window evidence carried by those visible rows.
+\end{proof}

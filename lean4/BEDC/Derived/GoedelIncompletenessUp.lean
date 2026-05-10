@@ -1,4 +1,6 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Package
+import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.GoedelIncompletenessUp
@@ -10,6 +12,66 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
+
+theorem GoedelIncompletenessProofCheckerLedger_verdict_nonempty_surface
+    {axiomEnum decoder proofRow verdict proofLedger syntaxLedger sourceSurface tail : BHist} :
+    UnaryHistory axiomEnum -> UnaryHistory decoder -> UnaryHistory proofRow ->
+      UnaryHistory verdict -> Cont axiomEnum decoder proofLedger ->
+        Cont proofRow verdict syntaxLedger -> Cont proofLedger syntaxLedger sourceSurface ->
+          hsame verdict (BHist.e1 tail) ->
+            UnaryHistory proofLedger ∧ UnaryHistory syntaxLedger ∧ UnaryHistory sourceSurface ∧
+              hsame proofLedger (append axiomEnum decoder) ∧
+                hsame syntaxLedger (append proofRow verdict) ∧
+                  hsame sourceSurface (append proofLedger syntaxLedger) ∧
+                    (hsame verdict BHist.Empty -> False) := by
+  intro axiomUnary decoderUnary proofUnary verdictUnary proofLedgerRow syntaxLedgerRow
+    sourceSurfaceRow verdictE1
+  have proofLedgerUnary : UnaryHistory proofLedger :=
+    unary_cont_closed axiomUnary decoderUnary proofLedgerRow
+  have syntaxLedgerUnary : UnaryHistory syntaxLedger :=
+    unary_cont_closed proofUnary verdictUnary syntaxLedgerRow
+  have sourceSurfaceUnary : UnaryHistory sourceSurface :=
+    unary_cont_closed proofLedgerUnary syntaxLedgerUnary sourceSurfaceRow
+  have verdictNonempty : hsame verdict BHist.Empty -> False := by
+    intro verdictEmpty
+    exact not_hsame_e1_empty (hsame_trans (hsame_symm verdictE1) verdictEmpty)
+  exact And.intro proofLedgerUnary
+    (And.intro syntaxLedgerUnary
+      (And.intro sourceSurfaceUnary
+        (And.intro proofLedgerRow
+          (And.intro syntaxLedgerRow
+            (And.intro sourceSurfaceRow verdictNonempty)))))
+
+theorem GoedelIncompletenessFixedPointLedger_obligation
+    {formula numbering proofChecker provability fixedPoint ledger : BHist} :
+    UnaryHistory formula ->
+      UnaryHistory numbering ->
+        UnaryHistory proofChecker ->
+          Cont formula numbering fixedPoint ->
+            Cont proofChecker fixedPoint provability ->
+              Cont fixedPoint provability ledger ->
+                UnaryHistory fixedPoint ∧ UnaryHistory provability ∧ UnaryHistory ledger ∧
+                  hsame fixedPoint (append formula numbering) ∧
+                    hsame provability (append proofChecker fixedPoint) ∧
+                      hsame ledger (append fixedPoint provability) := by
+  intro formulaUnary numberingUnary proofCheckerUnary fixedPointRow provabilityRow ledgerRow
+  have fixedPointUnary : UnaryHistory fixedPoint :=
+    unary_cont_closed formulaUnary numberingUnary fixedPointRow
+  have provabilityUnary : UnaryHistory provability :=
+    unary_cont_closed proofCheckerUnary fixedPointUnary provabilityRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed fixedPointUnary provabilityUnary ledgerRow
+  constructor
+  · exact fixedPointUnary
+  constructor
+  · exact provabilityUnary
+  constructor
+  · exact ledgerUnary
+  constructor
+  · exact fixedPointRow
+  constructor
+  · exact provabilityRow
+  · exact ledgerRow
 
 def GoedelIncompletenessWitnessPacket [AskSetup] [PackageSetup]
     (axiomEnum proofChecker formulaRow goedelNumber provabilityRow fixedPointRow noProofRow
