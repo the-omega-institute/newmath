@@ -169,6 +169,7 @@ distillation, NewMath BEDC supervisor, and loning/oracle pipelines:
 | deterministic policy gate | `bridge_gates.py` |
 | cross-repo readiness synthesis | `bridge_synthesis.py` |
 | merge-back after gates | optional local merge into `bedc-claim-packet-pipeline` |
+| BEDC BOARD ingest | `bridge_to_bedc_board.py` calls `tools/bedc-deep/board_spawn.py` |
 | review packet before writeback | ignored `inbox/writeback_packets/*.json` |
 | publication / review gates | no public-facing use without explicit approval |
 
@@ -203,6 +204,25 @@ when required, and blocks durable paper / Lean / docs / outreach-state writes.
 Approved local packet writes are still only "needs operator review" packets.
 They are not accepted or consumed manifest entries.
 
+Automath-to-NewMath durable transfer has one allowed write path on this branch:
+
+```text
+Automath source evidence
+  -> bridge discovery
+  -> bridge_synthesis readiness
+  -> bridge_gates
+  -> tools/automath_newmath_bridge/review_packets/*.json
+  -> tools/bedc-deep/board_spawn.py
+  -> tools/bedc-deep/BOARD.md
+  -> merge back to bedc-claim-packet-pipeline when target is clean
+  -> BEDC supervisor owns paper/Lean/push
+```
+
+The bridge adapter does not write BEDC paper or Lean files. It also does not
+copy a simplified BOARD writer; `board_spawn` remains the only append gate, so
+fit, novelty, dedup, paper coverage, and Claude judge behavior stay native to
+NewMath.
+
 Run one supervised pass:
 
 ```bash
@@ -222,6 +242,14 @@ python3 tools/automath_newmath_bridge/bridge_supervisor.py \
   --once \
   --update-state \
   --apply-writeback-packets
+```
+
+Apply BEDC BOARD ingest for eligible Automath-to-NewMath records:
+
+```bash
+python3 tools/automath_newmath_bridge/bridge_supervisor.py \
+  --once \
+  --apply-bedc-board-ingest
 ```
 
 After gates pass, the NewMath bridge supervisor attempts to merge the gated

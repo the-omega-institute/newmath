@@ -9,11 +9,14 @@ The supervisor mirrors the local distillation/oracle pipeline style:
 - optionally merge the NewMath bridge branch with origin/auto-dev;
 - run the bridge discovery pipeline;
 - run deterministic gates;
+- optionally hand gate-passed Automath-to-NewMath candidates to BEDC
+  `board_spawn`;
 - optionally merge the gated bridge branch back to the configured BEDC branch;
 - optionally write local review packets;
 - keep runtime artifacts local-only and ignored by Git.
 
 It never pushes, sends, publishes, submits, or directly edits paper/Lean files.
+BEDC paper/Lean writes remain owned by the BEDC board/supervisor pipeline.
 """
 
 from __future__ import annotations
@@ -269,6 +272,46 @@ def run_gates(config_path: Path, *, allow_publication_risk: bool) -> list[dict[s
     return results
 
 
+def ingest_to_bedc_board(config: dict[str, Any], *, apply: bool) -> dict[str, Any]:
+    cfg = config.get("bedc_board_ingest")
+    if not isinstance(cfg, dict) or not cfg.get("enabled", False):
+        return {"status": "disabled"}
+
+    cmd = [
+        sys.executable,
+        str(SCRIPT_DIR / "bridge_to_bedc_board.py"),
+        "--gate-results",
+        str(REPO_ROOT / str(cfg.get("gate_results_path") or "tools/automath_newmath_bridge/out/bridge_gate_results.jsonl")),
+        "--packet-dir",
+        str(REPO_ROOT / str(cfg.get("review_packet_dir") or "tools/automath_newmath_bridge/review_packets")),
+        "--limit",
+        str(int(cfg.get("max_candidates_per_pass") or 3)),
+        "--fit-threshold",
+        str(int(cfg.get("fit_threshold") or 7)),
+        "--novelty-threshold",
+        str(int(cfg.get("novelty_threshold") or 6)),
+    ]
+    if apply:
+        cmd.append("--apply")
+    result = run_command(cmd, timeout=900 if apply else 120)
+    payload = result.stdout.strip()
+    if result.returncode != 0:
+        return {
+            "status": "failed",
+            "apply": apply,
+            "reason": (result.stderr or result.stdout).strip()[:1000],
+        }
+    try:
+        data = json.loads(payload) if payload else {}
+    except json.JSONDecodeError:
+        data = {"raw": payload[:1000]}
+    return {
+        "status": "applied" if apply else "dry_run",
+        "apply": apply,
+        **data,
+    }
+
+
 def merge_back_to_bedc(config: dict[str, Any], gate_results: list[dict[str, Any]], config_path: Path) -> dict[str, Any]:
     """Merge the gated bridge branch back to the configured BEDC branch.
 
@@ -397,6 +440,13 @@ def supervisor_pass(args: argparse.Namespace) -> bool:
     run_synthesis_report(config_path)
     gate_results = run_gates(config_path, allow_publication_risk=args.allow_publication_risk)
 
+    board_apply = bool(args.apply_bedc_board_ingest or config.get("bedc_board_ingest", {}).get("apply_by_default", False))
+    if not args.no_bedc_board_ingest:
+        board_result = ingest_to_bedc_board(config, apply=board_apply)
+        _log(f"bedc_board_ingest: {board_result}")
+    else:
+        _log("bedc_board_ingest: disabled by --no-bedc-board-ingest")
+
     if not args.no_merge_back_after_gates:
         merge_back = merge_back_to_bedc(config, gate_results, config_path)
         _log(f"merge_back_after_gates: {merge_back}")
@@ -424,6 +474,16 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--allow-dirty", action="store_true", help="Allow tracked dirty worktree before running")
     parser.add_argument("--allow-publication-risk", action="store_true", help="Suppress publication-risk gate warnings")
     parser.add_argument("--limit-per-rule", type=int, default=50)
+    parser.add_argument(
+        "--apply-bedc-board-ingest",
+        action="store_true",
+        help="Run BEDC board_spawn for eligible Automath-to-NewMath bridge candidates",
+    )
+    parser.add_argument(
+        "--no-bedc-board-ingest",
+        action="store_true",
+        help="Skip the NewMath-side BEDC BOARD bridge adapter",
+    )
     parser.add_argument(
         "--apply-writeback-packets",
         action="store_true",

@@ -29,9 +29,13 @@ content.
 - `bridge_gates.py` runs deterministic local gates over the bridge inbox.
 - `bridge_supervisor.py` periodically fetches both repos, runs discovery, runs
   gates, and can write local ignored review packets.
+- `bridge_to_bedc_board.py` converts gate-passed Automath-to-NewMath records
+  into BEDC-native BOARD candidates by calling `tools/bedc-deep/board_spawn.py`.
 - `validate_bridge_manifest.py` validates manifest or packet JSONL records.
 - `render_bridge_report.py` renders manifest or packet JSONL as Markdown for
   human and AI review.
+- `review_packets/` contains durable bridge review packets that may be cited
+  from BEDC BOARD entries. These are not runtime artifacts.
 - `inbox/`, `out/`, `state/`, and `logs/` are runtime directories. Generated
   contents are ignored by Git and should not be uploaded.
 
@@ -148,9 +152,11 @@ One pass does this:
 5. Synthesizes readiness from both repo contents.
 6. Writes a local inbox, synthesis report, and transfer plan.
 7. Runs deterministic gates.
-8. Merges the gated bridge branch back to `bedc-claim-packet-pipeline` unless
+8. Dry-runs the Automath-to-NewMath BEDC BOARD adapter, or applies it with
+   `--apply-bedc-board-ingest`.
+9. Merges the gated bridge branch back to `bedc-claim-packet-pipeline` unless
    `--no-merge-back-after-gates` is passed.
-9. Optionally writes local review packets if `--apply-writeback-packets` is
+10. Optionally writes local review packets if `--apply-writeback-packets` is
    passed.
 
 Continuous mode:
@@ -174,6 +180,7 @@ The supervisor follows the local distillation/oracle pattern:
 - merge `origin/auto-dev` into the bridge branch before scanning;
 - dry local runtime artifacts;
 - deterministic gates before local packet writes;
+- Automath-to-NewMath candidates enter BEDC only through `board_spawn`;
 - local merge-back into the BEDC branch only after all bridge gates pass;
 - no push;
 - no external send;
@@ -192,6 +199,13 @@ Local runtime outputs:
 
 Those files are intentionally ignored. Durable project decisions belong in
 `bridge_manifest.jsonl`, not in runtime artifacts.
+
+Durable BOARD review packets live under:
+
+- `tools/automath_newmath_bridge/review_packets/*.json`
+
+Those files are tracked because BEDC BOARD entries need stable `Local inputs`.
+They still do not authorize paper or Lean writes.
 
 To persist "already seen" local state:
 
@@ -233,6 +247,18 @@ python3 tools/automath_newmath_bridge/bridge_supervisor.py \
   --once \
   --no-merge-back-after-gates
 ```
+
+To actually hand eligible Automath-to-NewMath records to BEDC `board_spawn`:
+
+```bash
+python3 tools/automath_newmath_bridge/bridge_supervisor.py \
+  --once \
+  --apply-bedc-board-ingest
+```
+
+This may append to `tools/bedc-deep/BOARD.md` only if BEDC's native candidate
+inbox, dedup, fit/novelty, and Claude judge accept the candidate. BEDC paper
+and Lean writes remain owned by the BEDC supervisor after BOARD dispatch.
 
 ## Commands
 
