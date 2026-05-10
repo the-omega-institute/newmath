@@ -6,5 +6,110 @@ The Mapper interface $\MapperUp$ packages, for a continuous function from a topo
 \section{Carrier definition}
 \label{sec:mapper-carrier}
 
+\begin{definition}[Mapper cover-preimage carrier]
+\label{def:mapper-cover-preimage-carrier}
+A $\MapperUp$ carrier is a finite $\mathsf{BHist}$ packet consisting of a
+$\TopologyUp$ open-cover row, displayed preimage rows for the cover elements,
+clustering ledger rows on those preimages, incidence rows recording when
+clusters meet, and a $\SimplicialComplexUp$ skeleton row whose simplices are
+read from the incidence ledger. The packet also carries the visible endpoint
+data and $\hsame/\Cont/\Pkg$ provenance for the cover, preimage, cluster, and
+simplex rows.
+
+The carrier is the finite cover-preimage packet. It contains no host
+clustering algorithm, no metric convergence assertion, no arbitrary
+compactness principle for open covers, and no standard bridge object.
+\end{definition}
+
+\begin{theorem}[Mapper cluster classifier stability]
+\label{thm:mapper-cluster-classifier-stability}
+Let two $\MapperUp$ carrier packets have open-cover rows, displayed preimage
+rows, and clustering ledger rows related by displayed $\hsame$ classifiers. If
+the incidence rows and simplicial skeleton row are read only from those
+transported cover, preimage, and cluster rows, then the transported packet is
+again an accepted $\MapperUp$ carrier with the same cluster-incidence shape.
+\end{theorem}
+\begin{proof}
+Project the $\TopologyUp$ dependency certificate. It transports the open-cover
+row and the displayed preimage rows attached to the cover elements.
+
+Transport the clustering ledger rows along the same endpoint comparisons. The
+cluster rows retain their source preimages because the preimage endpoints are
+part of the transported cover packet.
+
+Replay the incidence ledger on the transported clusters. Since the simplicial
+skeleton row is read from incidence and simplex rows already in the finite
+packet, it repacks over the transported data with the same shape.
+\end{proof}
+
+\begin{theorem}[Mapper simplicial ledger exactness]
+\label{thm:mapper-simplicial-ledger-exactness}
+For every accepted $\MapperUp$ carrier, the simplicial skeleton ledger exposes
+exactly the cover row, preimage rows, cluster rows, incidence rows, and simplex
+rows listed in the finite packet. It does not expose a host clustering
+algorithm, metric convergence theorem, arbitrary open-cover compactness
+principle, or standard bridge claim.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:mapper-cover-preimage-carrier}. Its
+accepted rows are cover, preimage, cluster, incidence, and skeleton rows, with
+their displayed provenance.
+
+Project the skeleton row through the $\SimplicialComplexUp$ dependency
+certificate. The simplices are exactly those read from the incidence rows
+already present in the packet.
+
+Since the packet has no constructor for algorithmic clustering, metric limits,
+compactness, or a bridge object, none of those host claims is exported by the
+simplicial ledger.
+\end{proof}
+
+\begin{theorem}[Mapper NameCert obligation surface]
+\label{thm:mapper-namecert-obligation-surface}
+The local $\NameCert_{\MapperUp}$ surface consists of the cover-preimage
+carrier of \autoref{def:mapper-cover-preimage-carrier}, the cluster classifier
+over displayed $\TopologyUp$ rows, the stability clause of
+\autoref{thm:mapper-cluster-classifier-stability}, the simplicial ledger
+exactness clause of \autoref{thm:mapper-simplicial-ledger-exactness}, and the
+source coverage assertion that every accepted Mapper row is read from the
+finite cover, preimage, cluster, incidence, and simplex rows.
+\end{theorem}
+\begin{proof}
+Use the cover-preimage carrier as the source predicate. It lists precisely the
+rows that may enter the local naming certificate.
+
+The classifier is the displayed comparison of cover, preimage, and cluster
+rows. Its transport obligation is
+\autoref{thm:mapper-cluster-classifier-stability}.
+
+The ledger exactness and source coverage obligations are supplied by
+\autoref{thm:mapper-simplicial-ledger-exactness} and the carrier definition.
+Together they expose the Mapper skeleton as a finite BEDC packet and rule out
+host analytic or algorithmic assertions.
+\end{proof}
+
+\begin{theorem}[Mapper topology boundary exclusions]
+\label{thm:mapper-topology-boundary-exclusions}
+The $\MapperUp$ boundary supplies only the BEDC cover-preimage and simplicial
+skeleton surface over $\NameCert_{\TopologyUp}$ and
+$\NameCert_{\SimplicialComplexUp}$. It does not assert host clustering
+algorithms, metric convergence, arbitrary open-cover compactness, or standard
+bridge claims.
+\end{theorem}
+\begin{proof}
+Read the boundary through
+\autoref{thm:mapper-namecert-obligation-surface}. The exported data are the
+carrier, classifier, stability, skeleton ledger, exactness, and source
+coverage rows.
+
+Each exported row factors through the finite carrier of
+\autoref{def:mapper-cover-preimage-carrier}. That carrier records only cover,
+preimage, cluster, incidence, and simplex rows with their displayed
+provenance.
+
+Therefore the topology boundary is exactly the stated BEDC packet and carries
+none of the excluded host claims.
+\end{proof}
+
 \section{The certificate}
 \label{sec:mapper-certificate}
