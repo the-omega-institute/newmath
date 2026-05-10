@@ -47,8 +47,34 @@ def definition_classifier_correspondence : Prop :=
       (∀ h : BHist, Definition h ↔
         Carrier h ∧ ∃ s : BHist, ∃ r : BHist, ∃ m : BMark,
           Ext s m h ∧ Cont s h r) →
-        (∀ {h k : BHist}, Classifier h k → Definition h → Definition k) ∧
-          (∀ {h k : BHist}, Definition h → Definition k → hsame h k → Classifier h k)
+        (∀ {h k : BHist}, Classifier h k →
+          (∃ s : BHist, ∃ r : BHist, ∃ m : BMark, Ext s m h ∧ Cont s h r) →
+            ∃ s : BHist, ∃ r : BHist, ∃ m : BMark, Ext s m k ∧ Cont s k r) →
+          (∀ {h k : BHist}, Classifier h k → Definition h → Definition k) ∧
+            (∀ {h k : BHist}, Definition h → Definition k → hsame h k → Classifier h k)
+
+theorem definition_classifier_correspondence_proof :
+    definition_classifier_correspondence := by
+  intro Carrier Definition Classifier cert definition_iff data_transport
+  constructor
+  · intro h k classified defined_h
+    have h_data :
+        Carrier h ∧ ∃ s : BHist, ∃ r : BHist, ∃ m : BMark,
+          Ext s m h ∧ Cont s h r :=
+      (definition_iff h).mp defined_h
+    have carrier_k : Carrier k :=
+      BEDC.FKernel.NameCert.NameCert.carrier_respects_equiv cert classified h_data.left
+    have k_data :
+        ∃ s : BHist, ∃ r : BHist, ∃ m : BMark, Ext s m k ∧ Cont s k r :=
+      data_transport classified h_data.right
+    exact (definition_iff k).mpr (And.intro carrier_k k_data)
+  · intro h k defined_h _defined_k same
+    cases same
+    have h_data :
+        Carrier h ∧ ∃ s : BHist, ∃ r : BHist, ∃ m : BMark,
+          Ext s m h ∧ Cont s h r :=
+      (definition_iff h).mp defined_h
+    exact BEDC.FKernel.NameCert.NameCert.equiv_refl cert h_data.left
 
 /-- Inductive types as classifier closures (statement scaffold). -/
 def inductive_as_classifier_closure : Prop :=
