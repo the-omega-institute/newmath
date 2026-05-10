@@ -321,4 +321,50 @@ theorem AdjointRepMultiplicativeAction_row {g h x gh hx ghx iter : BHist} :
     (And.intro ghxEmpty
       (And.intro iterEmpty (And.intro ghxUnary iterUnary)))
 
+theorem AdjointRepActionEndpoint_multiplicative_row {s t x left right : BHist} :
+    LieGroupSingletonCarrier s ->
+      LieGroupSingletonCarrier t ->
+        LieGroupSingletonCarrier x ->
+          hsame left (append (append s (append (append t x) BHist.Empty)) BHist.Empty) ->
+            hsame right (append (append (append s t) x) BHist.Empty) ->
+              AdjointRepActionEndpoint s x (append s x) ∧
+                AdjointRepActionEndpoint t x (append t x) ∧
+                  LieGroupSingletonClassifier left right := by
+  intro carrierS carrierT carrierX sameLeft sameRight
+  have algebraX : LieAlgebraSingletonCarrier x := carrierX
+  have actionS : AdjointRepActionEndpoint s x (append s x) :=
+    And.intro carrierS
+      (And.intro algebraX
+        (Exists.intro (append s x)
+          (And.intro rfl (hsame_refl (append s x)))))
+  have actionT : AdjointRepActionEndpoint t x (append t x) :=
+    And.intro carrierT
+      (And.intro algebraX
+        (Exists.intro (append t x)
+          (And.intro rfl (hsame_refl (append t x)))))
+  have txEmpty : hsame (append t x) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro carrierT carrierX)
+  have txxEmpty : hsame (append (append t x) BHist.Empty) BHist.Empty :=
+    hsame_trans (cont_right_unit_result (cont_right_unit (append t x))) txEmpty
+  have leftReadbackEmpty :
+      hsame (append (append s (append (append t x) BHist.Empty)) BHist.Empty) BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro (append_eq_empty_iff.mpr (And.intro carrierS txxEmpty)) rfl)
+  have rightReadbackEmpty :
+      hsame (append (append (append s t) x) BHist.Empty) BHist.Empty :=
+    append_eq_empty_iff.mpr
+      (And.intro
+        (append_eq_empty_iff.mpr
+          (And.intro (append_eq_empty_iff.mpr (And.intro carrierS carrierT)) carrierX))
+        rfl)
+  have leftCarrier : LieGroupSingletonCarrier left :=
+    hsame_trans sameLeft leftReadbackEmpty
+  have rightCarrier : LieGroupSingletonCarrier right :=
+    hsame_trans sameRight rightReadbackEmpty
+  exact
+    And.intro actionS
+      (And.intro actionT
+        (And.intro leftCarrier
+          (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))))
+
 end BEDC.Derived.AdjointRepUp

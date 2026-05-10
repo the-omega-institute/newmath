@@ -241,6 +241,29 @@ theorem HopfAlgAntipodeClassifier_transport
     (And.intro sameTensor
       (And.intro sameAntipode (And.intro sameUnit sameCounit)))
 
+theorem HopfAlgAntipodeClassifier_ledger_obligation
+    {bialg tensor mul comul unit counit antipode left right leftEndpoint rightEndpoint :
+      BHist} :
+    HopfAlgBialgCarrier bialg tensor mul comul unit counit ->
+      Cont comul antipode left ->
+        Cont left mul leftEndpoint ->
+          Cont comul antipode right ->
+            Cont right mul rightEndpoint ->
+              Cont unit counit leftEndpoint ->
+                Cont unit counit rightEndpoint ->
+                  hsame leftEndpoint rightEndpoint ∧
+                    HopfAlgAntipodeClassifier bialg tensor antipode unit counit bialg
+                      tensor antipode unit counit := by
+  intro carrier leftConv leftEndpointRow rightConv rightEndpointRow unitLeft unitRight
+  have sameEndpoint : hsame leftEndpoint rightEndpoint :=
+    cont_deterministic unitLeft unitRight
+  have classifier :
+      HopfAlgAntipodeClassifier bialg tensor antipode unit counit bialg tensor antipode
+        unit counit :=
+    HopfAlgAntipodeClassifier_convolution_inverse_unique carrier leftConv leftEndpointRow
+      rightConv rightEndpointRow sameEndpoint
+  exact And.intro sameEndpoint classifier
+
 theorem HopfAlgAntipodeClassifier_unit_row_fixed
     {bialg tensor mul comul unit counit antipode conv endpoint : BHist} :
     HopfAlgBialgCarrier bialg tensor mul comul unit counit ->
