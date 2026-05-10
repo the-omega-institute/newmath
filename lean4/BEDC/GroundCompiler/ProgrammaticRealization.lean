@@ -409,4 +409,85 @@ theorem programmatic_realization_reaches_p9_with_evidence :
             evidence.behaviorEquivalence
             evidence.bootstrapObligations⟩
 
+inductive ImplementationLayer : Type where
+  | executableRuntime
+  | formalRelation
+  | recognizerCertificate
+  | selfHostingGlobalVerification
+
+def FourImplementationLayers : List ImplementationLayer :=
+  [ImplementationLayer.executableRuntime,
+    ImplementationLayer.formalRelation,
+    ImplementationLayer.recognizerCertificate,
+    ImplementationLayer.selfHostingGlobalVerification]
+
+inductive ImplementationModule : Type where
+  | channelEncodingDecoding
+  | reportAndMetric
+  | recognizerVM
+  | recognizerFamily
+  | certificateLedgerAudit
+  | selfHostingGlobalVerification
+
+def ImplementationModulePartition : List ImplementationModule :=
+  [ImplementationModule.channelEncodingDecoding,
+    ImplementationModule.reportAndMetric,
+    ImplementationModule.recognizerVM,
+    ImplementationModule.recognizerFamily,
+    ImplementationModule.certificateLedgerAudit,
+    ImplementationModule.selfHostingGlobalVerification]
+
+inductive AutomaticComputationResult : Type where
+  | channelRoundTrip
+  | sourceReport
+  | candidateListing
+  | fieldStatusReport
+  | missingFieldReport
+  | undefinedMetricItem
+  | cannotClaimAnnotation
+  | recognizedJudgment (R : GeneratedRecognizer) (S : EventFlow)
+  | mathematicalIdentity
+  | objectAcceptance
+  | theoremhood
+  | bridgeCertification
+  | fullSelfHostingStatus
+
+inductive AutomaticallyComputable : AutomaticComputationResult -> Prop where
+  | channelRoundTrip :
+      AutomaticallyComputable AutomaticComputationResult.channelRoundTrip
+  | sourceReport :
+      AutomaticallyComputable AutomaticComputationResult.sourceReport
+  | candidateListing :
+      AutomaticallyComputable AutomaticComputationResult.candidateListing
+  | fieldStatusReport :
+      AutomaticallyComputable AutomaticComputationResult.fieldStatusReport
+  | missingFieldReport :
+      AutomaticallyComputable AutomaticComputationResult.missingFieldReport
+  | undefinedMetricItem :
+      AutomaticallyComputable AutomaticComputationResult.undefinedMetricItem
+  | cannotClaimAnnotation :
+      AutomaticallyComputable AutomaticComputationResult.cannotClaimAnnotation
+  | recognizedJudgment (R : GeneratedRecognizer) (S : EventFlow) :
+      FormalCompilerInput (CompilerDatum.recognizedFlow R S) ->
+        AutomaticallyComputable
+          (AutomaticComputationResult.recognizedJudgment R S)
+
+inductive BareHighAuthorityClaim : AutomaticComputationResult -> Prop where
+  | mathematicalIdentity :
+      BareHighAuthorityClaim AutomaticComputationResult.mathematicalIdentity
+  | objectAcceptance :
+      BareHighAuthorityClaim AutomaticComputationResult.objectAcceptance
+  | theoremhood :
+      BareHighAuthorityClaim AutomaticComputationResult.theoremhood
+  | bridgeCertification :
+      BareHighAuthorityClaim AutomaticComputationResult.bridgeCertification
+  | fullSelfHostingStatus :
+      BareHighAuthorityClaim AutomaticComputationResult.fullSelfHostingStatus
+
+theorem automatic_computation_bounded_authority
+    {r : AutomaticComputationResult} :
+    AutomaticallyComputable r -> Not (BareHighAuthorityClaim r) := by
+  intro hAuto hHigh
+  cases hAuto <;> cases hHigh
+
 end BEDC.GroundCompiler.ProgrammaticRealization
