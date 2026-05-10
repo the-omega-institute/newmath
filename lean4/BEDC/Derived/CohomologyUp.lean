@@ -7,6 +7,9 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 
+def CohomologyCocycle (d : BHist -> BHist) (h : BHist) : Prop :=
+  hsame (d h) BHist.Empty
+
 theorem CohomologyCocycle_semanticNameCert {d : BHist -> BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
     SemanticNameCert (fun h : BHist => hsame (d h) BHist.Empty)
