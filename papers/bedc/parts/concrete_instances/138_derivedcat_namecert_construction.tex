@@ -91,16 +91,51 @@ The composite $r\circ\mathsf{id}_X$ is symmetric at the source endpoint. Apply \
 \end{proof}
 \leanchecked{BEDC.Derived.DerivedCatUp.DerivedCatVisibleLocalizationClassifier\_roof\_identity\_units}
 
+\begin{theorem}[DerivedCatUp localization example boundary]
+\label{thm:derivedcat-localization-example-boundary}
+The visible localization classifier of
+\autoref{def:derivedcat-namecert-obligation-surface} supplies two finite
+example roofs inside the displayed $\DerivedCatUp$ package: the identity-roof
+example at a chain-complex object and the one-step quasi-isomorphism roof
+example for a displayed quasi-isomorphism. Both examples use only the displayed
+chain-complex carrier, quasi-isomorphism classifier, roof identity and unit
+rows, and $\Pkg$ provenance. They export no host localization, quotient object,
+or derived functor calculus.
+\end{theorem}
+\begin{proof}
+The carrier rows come from
+\autoref{thm:derivedcat-localization-carrier-obligation}. At an object $X$, the
+identity roof uses the displayed category identity row as its category leg and
+the cohomology identity quasi-isomorphism witness as its weak-equivalence leg.
+The unit laws of
+\autoref{thm:derivedcat-roof-identity-unit-laws} classify this roof with the
+visible identity representative.
+
+For a displayed quasi-isomorphism row, use
+\autoref{thm:derivedcat-quasi-isomorphism-classifier-obligation}. The
+one-step roof has that quasi-isomorphism as its weak-equivalence leg and the
+displayed category morphism row as its other leg. Its classifier witness is a
+single generator in the finite zigzag closure.
+
+The obligation surface of
+\autoref{def:derivedcat-namecert-obligation-surface} records both examples in
+the same $\Pkg$ provenance ledger. Since each construction uses only carrier
+rows, quasi-isomorphism generators, roof identity/unit rows, and package
+provenance, neither example creates a host localization, quotient object, or
+derived functor operation.
+\end{proof}
+
 \closureat{DerivedCatUp}{publicStr}[BEDC.Derived.DerivedCatUp.DerivedCatVisibleLocalizationClassifier\_name\_certificate]
 \closureat{DerivedCatUp}{bridgedStr}[BEDC.Derived.DerivedCatUp.DerivedCatVisibleLocalizationClassifier\_name\_certificate]
+\closureat{DerivedCatUp}{matureStr}[BEDC.Derived.DerivedCatUp.DerivedCatVisibleLocalizationClassifier\_name\_certificate]
 
 \begin{closurestatus}{\DerivedCatUp}
   \constructivestory{A derived-category object is built by pairing a $\CategoryUp$ presentation of chain-complex objects and morphism histories with a $\CohomologyUp$ row that marks the quasi-isomorphism witnesses used for localization. The carrier accepts only the displayed package of chain-complex object rows, homotopy-class morphism rows, roof ledgers, cone and cohomology rows, and quasi-isomorphism witnesses; it excludes a primitive quotient category, unlabelled weak equivalences, and any standard bridge row. Two displayed representatives classify together by a finite zigzag generated from category morphism classifiers and cohomology quasi-isomorphism witnesses, with symmetry given by reversing the zigzag and transitivity by concatenating it. The source specification is the paired category/cohomology localization surface, the pattern records roof formation, identity roof units, composition descent, and visible exactness, and the ledger keeps roofs, weak-equivalence witnesses, cone/cohomology rows, and composition witnesses visible as finite data. The five naming-certificate obligations hold because empty zigzags and identity roofs give carrier witnesses and reflexivity, zigzag reversal and concatenation give symmetry and transitivity, and carrier transport plus composition descent keep every classified roof inside the accepted localization surface. A history $h$ lies in the signature gap of a $\DerivedCatUp$ token $p$ when the source domain accepts this visible localization packet, the signature relation pairs it with an answer packet and evidence ledger, and token introduction names that answer as $p$; unfolded, the finite zigzag through the category and cohomology rows is exactly the localization evidence encoded by $p$. The chapter registers this generated-zigzag localization under $\DerivedCatUp$; it adds no quotient constructor, no unrecorded weak-equivalence oracle, and no standard derived-category bridge.}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{The public certificate surface is the visible $\CategoryUp/\CohomologyUp$ localization classifier together with the roof identity rows, roof composition descent, exactness readback, ledger rows, and absent bridge row.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.DerivedCatUp.DerivedCatVisibleLocalizationClassifier\_name\_certificate}
   \bridgestatus{paperBridge}
   \notclaimed{This chapter does not close standard bridges for derived categories or full localization maturity beyond the displayed certificate rows.}
-  \upgradepath{Mature closure requires localization examples and completeness rows beyond the paper bridge.}
+  \upgradepath{No further paper theory-axis grade remains for this displayed derived-category localization package.}
 \end{closurestatus}

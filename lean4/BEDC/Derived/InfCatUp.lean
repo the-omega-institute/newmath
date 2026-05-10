@@ -144,6 +144,29 @@ theorem InfCatBHistSourcePacket_consumer_boundary [AskSetup] [PackageSetup]
   exact ⟨consumerUnary, consumerRow, transportUnary,
     packet.right.right.right.right.right.right.right⟩
 
+theorem InfCatBHistSourcePacket_provenance_transport_spine [AskSetup] [PackageSetup]
+    {simplicial category horn lift provenance transport consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    InfCatBHistSourcePacket simplicial category horn lift provenance transport bundle pkg ->
+      Cont lift transport consumer ->
+        hsame consumer (append lift (append provenance lift)) ∧ UnaryHistory consumer ∧
+          PkgSig bundle transport pkg := by
+  intro packet consumerRow
+  have liftUnary : UnaryHistory lift := packet.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance := packet.right.right.right.right.left
+  have provenanceLiftTransport : Cont provenance lift transport :=
+    packet.right.right.right.right.right.right.left
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed provenanceUnary liftUnary provenanceLiftTransport
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed liftUnary transportUnary consumerRow
+  have sameSpine : hsame consumer (append lift (append provenance lift)) := by
+    cases provenanceLiftTransport
+    cases consumerRow
+    rfl
+  exact And.intro sameSpine
+    (And.intro consumerUnary packet.right.right.right.right.right.right.right)
+
 theorem InfCatBHistSourcePacket_inner_horn_consumer_determinacy [AskSetup] [PackageSetup]
     {simplicial category horn lift provenance transport simplicial' category' horn' lift'
       provenance' transport' consumer consumer' : BHist}
