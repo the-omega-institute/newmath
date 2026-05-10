@@ -241,4 +241,51 @@ theorem HopfAlgAntipodeClassifier_transport
     (And.intro sameTensor
       (And.intro sameAntipode (And.intro sameUnit sameCounit)))
 
+theorem HopfAlgAntipodeClassifier_unit_row_fixed
+    {bialg tensor mul comul unit counit antipode conv endpoint : BHist} :
+    HopfAlgBialgCarrier bialg tensor mul comul unit counit ->
+      Cont comul antipode conv ->
+        Cont conv mul endpoint ->
+          Cont unit counit endpoint ->
+            HopfAlgAntipodeClassifier bialg tensor antipode unit counit bialg tensor unit unit
+              counit := by
+  intro carrier antipodeConv convEndpoint unitEndpoint
+  have unitEndpointEmpty : hsame endpoint BHist.Empty := by
+    cases carrier.left
+    cases carrier.right.right.right.right.left
+    cases carrier.right.right.right.right.right
+    exact unitEndpoint
+  have sameEndpoint : hsame endpoint bialg :=
+    hsame_trans unitEndpointEmpty (hsame_symm carrier.left)
+  have sameConv : hsame conv tensor :=
+    cont_common_suffix_cancellation convEndpoint carrier.right.right.left sameEndpoint
+  have tensorEmpty : hsame tensor BHist.Empty :=
+    TensorProductSingletonCarrier_empty_iff.mp carrier.right.left
+  have comulEmpty : hsame comul BHist.Empty :=
+    (cont_empty_result_inversion
+      (cont_result_hsame_transport carrier.right.right.right.left carrier.left)).right
+  have convAsAntipode : hsame conv antipode := by
+    have movedConv : Cont BHist.Empty antipode conv :=
+      cont_hsame_transport comulEmpty (hsame_refl antipode) (hsame_refl conv) antipodeConv
+    exact cont_left_unit_result movedConv
+  have unitEmpty : hsame unit BHist.Empty :=
+    (cont_empty_result_inversion
+      (cont_result_hsame_transport carrier.right.right.right.right.left carrier.left)).left
+  have sameAntipode : hsame antipode unit :=
+    hsame_trans (hsame_symm convAsAntipode)
+      (hsame_trans sameConv (hsame_trans tensorEmpty (hsame_symm unitEmpty)))
+  have sameBialg : hsame bialg bialg :=
+    hsame_trans carrier.left (hsame_symm carrier.left)
+  have sameTensor : hsame tensor tensor :=
+    hsame_trans tensorEmpty (hsame_symm tensorEmpty)
+  have sameUnit : hsame unit unit :=
+    cont_right_cancel carrier.right.right.right.right.left
+      carrier.right.right.right.right.left
+  have sameCounit : hsame counit counit :=
+    cont_right_cancel carrier.right.right.right.right.right
+      carrier.right.right.right.right.right
+  exact And.intro sameBialg
+    (And.intro sameTensor
+      (And.intro sameAntipode (And.intro sameUnit sameCounit)))
+
 end BEDC.Derived.HopfAlgUp
