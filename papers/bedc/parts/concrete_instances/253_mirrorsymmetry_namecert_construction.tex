@@ -27,6 +27,7 @@ The classifier is generated only by source transport, categorical answer transpo
 \label{thm:mirrorsymmetry-source-certificate-scope}
 Every $\MirrorSymmetryUp$ carrier row has exactly one $\NameCert_{\SymplecticUp}$ A-model source and one $\NameCert_{\DerivedCatUp}$ B-model source, and every other accepted field is a finite categorical answer history or a transport witness named by $\hsame$, $\Cont$, or $\Pkg$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MirrorSymmetryUp.MirrorSymmetryPairCarrier\_source\_certificate\_scope}
 \begin{proof}
 Invert the carrier definition. The first source field is the symplectic certificate, the second source field is the derived-category certificate, and the remaining fields are indexed by the finite observed pairing ledger.
 
@@ -37,7 +38,7 @@ The classifier of \autoref{def:mirrorsymmetry-categorical-classifier} can replac
 \label{thm:mirrorsymmetry-categorical-stability}
 Classified $\MirrorSymmetryUp$ packets remain classified after replacing either source certificate by a NameCert-classified representative and after transporting any displayed categorical answer row through $\hsame$, $\Cont$, or $\Pkg$.
 \end{theorem}
-\leanchecked{BEDC.Derived.MirrorSymmetryUp.MirrorSymmetryCategoricalClassifier\_categorical\_stability}
+\leanchecked{BEDC.Derived.MirrorSymmetryUp.MirrorSymmetryCategorical\_stability}
 \begin{proof}
 Transport the A-model and B-model sources first. The source certificates give the two NameCert-level comparison rows, and the carrier repacks the transported representatives as the same finite pair packet.
 
@@ -48,20 +49,21 @@ For each displayed categorical answer, use the stored $\hsame$ row to replace en
 \label{thm:mirrorsymmetry-pairing-obligation-package}
 The $\MirrorSymmetryUp$ chapter exports a finite pairing obligation package consisting of the paired $\mathsf{BHist}$ carrier, the categorical classifier, the two source $\NameCert$ rows, and the statement that the ledger hides only the observed A-model and B-model matching rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.MirrorSymmetryUp.MirrorSymmetryCategoricalClassifier\_endpoint\_confluence}
 \begin{proof}
 Start from a carrier row and a classifier witness. The carrier supplies the two source certificates and the finite list of paired categorical answer rows; the classifier supplies only the source transports and answer transports allowed in \autoref{def:mirrorsymmetry-categorical-classifier}.
 
 Ledger exactness follows by induction over the finite observed pair list. Each item is either an A-model answer, a B-model answer, or one of the named transport witnesses. Therefore the obligation package records a BEDC pairing surface and does not assert a full external mirror-equivalence theorem.
 \end{proof}
 
-\closureat{MirrorSymmetryUp}{seedStr}
+\closureat{MirrorSymmetryUp}{obligationStr}
 
 \begin{closurestatus}{\MirrorSymmetryUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope is the finite paired $\mathsf{BHist}$ ledger over $\NameCert_{\SymplecticUp}$, $\NameCert_{\DerivedCatUp}$, visible A-model and B-model categorical rows, $\hsame$, $\Cont$, $\Pkg$, and the displayed source certificate rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope is the finite paired $\mathsf{BHist}$ ledger over $\NameCert_{\SymplecticUp}$, $\NameCert_{\DerivedCatUp}$, visible A-model and B-model categorical rows, $\hsame$, $\Cont$, $\Pkg$, and the displayed source certificate rows.}
   \constructivestory{A $\MirrorSymmetryUp$ packet is built from one displayed symplectic source certificate, one displayed derived-category source certificate, and a finite ledger of paired categorical answer rows whose admissible movements are exactly the source-certificate, history, continuation, and package transports named by the classifier.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a full Fukaya category, derived equivalence, Hodge-number theorem, Calabi-Yau moduli theorem, or standard bridge.}
-  \upgradepath{Obligation closure requires Lean theorem sites for the paired carrier, categorical classifier, source scope, categorical stability, and finite obligation package.}
+  \upgradepath{Scoped closure requires pinning the paired A-model and B-model carrier, classifier, source certificate scope, stability, and finite ledger rows to the BEDC kernel primitives.}
 \end{closurestatus}

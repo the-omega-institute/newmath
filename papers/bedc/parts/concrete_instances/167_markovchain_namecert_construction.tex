@@ -30,6 +30,7 @@ Finally transport the transition $\Cont$ ledger and $\Pkg$ provenance. Since acc
 \label{thm:markovchain-transition-ledger-exactness}
 For every accepted $\MarkovChainUp$ carrier, the transition ledger exposes exactly the $\mathsf{BHist}$ rows for the $\ProbSpaceUp$ source, the displayed $\RandomVarUp$ rows, the corresponding $\DistributionUp$ law rows, the transition rows $K_n$, the continuation row from the random-variable and transition rows, the provenance row from the probability-space and law rows, the endpoint row from provenance and transition-continuation rows, and the package provenance. It does not expose a host Markov process, a filtration, a conditional-expectation row, or a standard kernel bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_ledger\_exactness}
 \begin{proof}
 Inspect the carrier definition. Its accepted rows are precisely the source probability-space row, the displayed random-variable rows, the displayed distribution rows, the transition rows, and the provenance entries that bind adjacent time steps.
 
@@ -67,6 +68,7 @@ The source-boundary field is \autoref{thm:markovchain-probspace-randomvar-source
 \label{thm:markovchain-scoped-kernel-dependency-package}
 The $\NameCert_{\MarkovChainUp}$ obligation surface of \autoref{thm:markovchain-namecert-obligation-surface} is scoped exactly by the $\ProbSpaceUp$, $\RandomVarUp$, and $\DistributionUp$ dependency certificates, the finite unary time ledger, the transition rows $K_n$, $\mathsf{BHist}$ rows, $\hsame$ comparisons, $\Cont$ displays, and $\mathsf{Pkg}$ provenance. No filtration, conditional-expectation primitive, host stochastic process, or standard Markov kernel is read by this scoped package.
 \end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainKernelClassifier\_endpoint\_confluence}
 \begin{proof}
 Project the carrier row from \autoref{def:markovchain-bhist-transition-carrier}. Its constructors expose only the source probability-space packet, the carried random-variable rows, the law rows, the unary time ledger, transition rows, and the displayed provenance.
 
@@ -89,3 +91,76 @@ Finally apply \autoref{thm:markovchain-probspace-randomvar-source-boundary} toge
   \notclaimed{No host stochastic-process carrier, filtration, conditional-expectation construction, stationary law, martingale property, or standard kernel bridge is claimed.}
   \upgradepath{The next grade requires Lean theorem sites for the transition carrier, kernel classifier stability, transition ledger exactness, source boundary, and assembled NameCert obligation surface.}
 \end{closurestatus}
+
+\begin{definition}[MarkovChain finite-prefix restriction]
+\label{def:markovchain-finite-prefix-restriction}
+Let $P$ be a displayed $\MarkovChainUp$ transition packet over a unary time ledger with transition-time rows $0,\ldots,n+k-1$ and endpoint rows $0,\ldots,n+k$. The finite-prefix restriction $P_{\le n}$ is the subpacket obtained by keeping the same $\ProbSpaceUp$ source, the endpoint rows $X_0,\ldots,X_n$, the $\DistributionUp$ law rows read by the first $n$ transitions, the transition rows $K_0,\ldots,K_{n-1}$, and exactly the $\hsame/\Cont/\Pkg$ provenance entries whose adjacent endpoints both lie in $X_0,\ldots,X_n$.
+
+No row with transition index at least $n$ is copied into $P_{\le n}$, and no row is reindexed except by the evident inclusion of the prefix ledger into the original unary ledger.
+\end{definition}
+
+\begin{theorem}[MarkovChain finite-prefix restriction carrier]
+\label{thm:markovchain-finite-prefix-restriction-carrier}
+Let $P$ be an accepted $\MarkovChainUp$ transition packet in the sense of \autoref{def:markovchain-bhist-transition-carrier}. Suppose its unary time ledger has length $n+k$, with endpoint rows $X_0,\ldots,X_{n+k}$ and transition rows $K_0,\ldots,K_{n+k-1}$. Then the finite-prefix restriction $P_{\le n}$ of \autoref{def:markovchain-finite-prefix-restriction}, consisting of the same $\ProbSpaceUp$ source, the first $n+1$ displayed $\RandomVarUp$ endpoint rows, the first $n$ next-law $\DistributionUp$ rows, the first $n$ transition rows, and the inherited adjacent $\hsame/\Cont/\Pkg$ provenance, is again an accepted $\MarkovChainUp$ carrier.
+\end{theorem}
+\begin{proof}
+The carrier predicate of \autoref{def:markovchain-bhist-transition-carrier} is local along adjacent transition rows. It asks for a finite unary time ledger, carried $\RandomVarUp$ endpoint rows on that ledger, the displayed $\DistributionUp$ law rows read by the transition rows, and for each adjacent pair $X_i,X_{i+1}$ a $\Cont$ ledger and $\Pkg$ provenance row recording that the next-step distribution for $X_{i+1}$ is sourced from the current-state endpoint of $X_i$ through the displayed transition row $K_i$.
+
+The prefix ledger $0,\ldots,n$ is finite because it is obtained by induction on the first $n$ successors of the original unary ledger. Its endpoint rows $X_0,\ldots,X_n$ are carried $\RandomVarUp$ rows because each is one of the carried endpoint rows of $P$. The retained next-law rows are $\DistributionUp$ rows for the same reason: each retained law row is one of the law rows already accepted in the original packet and is attached to the same adjacent transition where it is read.
+
+It remains only to check the transition obligations. Fix a prefix transition index $i<n$. Since the original packet has length $n+k$, the same index also satisfies $i<n+k$. Acceptance of $P$ therefore supplies the transition row $K_i$ together with the displayed $\Cont$ ledger witnessing that the next-law row for $X_{i+1}$ is read from the current-state endpoint of $X_i$ through $K_i$, and the corresponding $\Pkg$ provenance. Both endpoints $X_i$ and $X_{i+1}$ lie in the retained endpoint list, and $K_i$ lies among the retained transition rows, so this exact $\Cont/\Pkg$ entry is a well-formed adjacent transition entry of $P_{\le n}$.
+
+Every transition obligation of $P_{\le n}$ is obtained in this way from a unique transition obligation of $P$, and the restriction introduces no additional transition row whose source, target, law, or provenance would need a separate witness. The source-boundary statement of \autoref{thm:markovchain-probspace-randomvar-source-boundary} also remains unchanged, because the restricted packet keeps the same $\ProbSpaceUp$ source and only discards later rows. Thus all fields required by the MarkovChain transition carrier predicate are present in the restricted finite packet, so $P_{\le n}$ is an accepted $\MarkovChainUp$ carrier.
+\end{proof}
+
+\begin{theorem}[MarkovChain transition-packet concatenation closure]
+\label{thm:markovchain-transition-packet-concatenation-closure}
+Let $P_1$ be an accepted $\MarkovChainUp$ transition packet of length $n$ over a unary time ledger $T_1$, with displayed random-variable rows
+$$
+X_0,X_1,\ldots,X_n
+$$
+source law rows $\mu^X_0,\mu^X_1,\ldots,\mu^X_n$, transition rows $K^X_0,\ldots,K^X_{n-1}$, and transition provenance ledgers accepted by \autoref{def:markovchain-bhist-transition-carrier}. Let $P_2$ be an accepted $\MarkovChainUp$ transition packet of length $m$ over a unary time ledger $T_2$, over the same displayed $\ProbSpaceUp$ source, with displayed random-variable rows
+$$
+Y_0,Y_1,\ldots,Y_m
+$$
+source law rows $\mu^Y_0,\mu^Y_1,\ldots,\mu^Y_m$, transition rows $K^Y_0,\ldots,K^Y_{m-1}$, and accepted transition provenance ledgers. Suppose the shared endpoint is displayed by a $\RandomVarUp$ classifier row
+$$
+\hsame(X_n,Y_0)
+$$
+over that same $\ProbSpaceUp$ source, and let the induced $\DistributionUp$ law comparison identify the endpoint law rows $\mu^X_n$ and $\mu^Y_0$. If the unary ledgers are displayed with a concatenation row
+$$
+\Cont(T_1,T_2,T_{12})
+$$
+so that $T_{12}$ is the unary ledger of length $n+m$, then the end-to-end displayed packet $P_{12}$ is an accepted $\MarkovChainUp$ transition packet over $T_{12}$. Its random-variable row at time $i$ is $X_i$ for $0\leq i\leq n$ and $Y_j$ for $i=n+j$ with $1\leq j\leq m$; its transition rows are $K^X_i$ for $0\leq i<n$ and the shifted rows $K^Y_j$ for $0\leq j<m$, with the first shifted row read across the splice comparison $\hsame(X_n,Y_0)$.
+\end{theorem}
+\begin{proof}
+Unpack the accepted carrier condition in \autoref{def:markovchain-bhist-transition-carrier}. The first packet supplies the common $\ProbSpaceUp$ source, the random-variable rows $X_i$, the law rows $\mu^X_i$, the transition rows $K^X_i$, and for every $0\leq i<n$ a displayed $\Cont/\Pkg$ provenance ledger certifying that the next-step law for $X_{i+1}$ is read from the current-state endpoint of $X_i$ through $K^X_i$. The second packet supplies the same kind of data for $Y_j$, $\mu^Y_j$, and $K^Y_j$ for $0\leq j<m$ over the same probability source.
+
+Define the displayed concatenated row sequence by
+$$
+Z_i:=X_i\quad(0\leq i\leq n),
+\qquad
+Z_{n+j}:=Y_j\quad(1\leq j\leq m).
+$$
+Define its law rows by
+$$
+\lambda_i:=\mu^X_i\quad(0\leq i\leq n),
+\qquad
+\lambda_{n+j}:=\mu^Y_j\quad(1\leq j\leq m).
+$$
+The endpoint law at the splice is well-defined on the displayed carrier because the hypothesis $\hsame(X_n,Y_0)$ is a $\RandomVarUp$ comparison over the shared $\ProbSpaceUp$ source, and the pushforward classifier of \autoref{def:distribution-pushforward-classifier} transports the law row of $Y_0$ to the law row already carried by $X_n$.
+
+The transition rows of $P_{12}$ are the visible list
+$$
+K^X_0,\ldots,K^X_{n-1},K^Y_0,\ldots,K^Y_{m-1}.
+$$
+For indices $i<n$, the required adjacent provenance row from $Z_i$ to $Z_{i+1}$ is exactly the accepted provenance row of $P_1$. For indices $i=n+j$ with $1\leq j<m$, the required adjacent provenance row from $Z_{n+j}=Y_j$ to $Z_{n+j+1}=Y_{j+1}$ is exactly the accepted provenance row of $P_2$.
+
+It remains to check the splice transition, the row using $K^Y_0$ from time $n$ to time $n+1$. In $P_2$, acceptance says that the next-step law for $Y_1$ is read from the current-state endpoint $Y_0$ through $K^Y_0$, with its displayed $\Cont/\Pkg$ provenance. Transport the current-state endpoint and its law row along
+$$
+\hsame(X_n,Y_0).
+$$
+By \autoref{thm:markovchain-kernel-classifier-stability}, this componentwise transport preserves acceptance of the transition row and preserves the current-state to next-law classifier shape. Therefore the transported splice row reads the same next-step law $\mu^Y_1$ from the concatenated current row $Z_n=X_n$ through $K^Y_0$.
+
+The time ledger is finite and unary because $T_1$ and $T_2$ are unary and the displayed continuation row $\Cont(T_1,T_2,T_{12})$ is the finite BEDC concatenation of those two ledgers. The transition provenance ledgers concatenate in the same order: rows internal to $P_1$ and $P_2$ are inherited, and the single boundary row is the transported splice row just constructed. The carrier definition asks for no host stochastic process, filtration, conditional expectation, or standard kernel bridge; it asks only for these displayed random-variable rows, law rows, transition rows, and $\hsame/\Cont/\Pkg$ provenance. Hence the assembled packet satisfies the accepted $\MarkovChainUp$ carrier predicate over the unary ledger $T_{12}$ of length $n+m$.
+\end{proof}
