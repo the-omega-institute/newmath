@@ -200,6 +200,67 @@ theorem proof_flow_not_checking :
 def TheoremCandidate (S T : EventFlow) : Prop :=
   TheoremSourceSubflow T S
 
+def P7GeneratedTheoremRecognizer : Type :=
+  GeneratedTheoremRecognizer
+
+def P7TheoremSubflows
+    (R : P7GeneratedTheoremRecognizer) (T statement dependencies proof
+      certificates ledger status canonicalSite sealFlow : EventFlow) : Prop :=
+  TheoremRoleSubflow R T statement TheoremRole.statement /\
+    TheoremRoleSubflow R T dependencies TheoremRole.dependencies /\
+    TheoremRoleSubflow R T proof TheoremRole.proof /\
+    TheoremRoleSubflow R T certificates TheoremRole.certificates /\
+    TheoremRoleSubflow R T ledger TheoremRole.ledger /\
+    TheoremRoleSubflow R T status TheoremRole.status /\
+    TheoremRoleSubflow R T canonicalSite TheoremRole.canonicalSite /\
+    TheoremRoleSubflow R T sealFlow TheoremRole.closingSeal
+
+def P7CompleteTheoremRecognition
+    (R : P7GeneratedTheoremRecognizer) (T : TheoremCandidateFlow) : Prop :=
+  exists statement dependencies proof certificates ledger status canonicalSite
+      sealFlow : EventFlow,
+    P7TheoremSubflows R T statement dependencies proof certificates ledger
+      status canonicalSite sealFlow
+
+theorem complete_theorem_recognition_to_p7
+    {R : P7GeneratedTheoremRecognizer} {T : TheoremCandidateFlow} :
+    CompleteTheoremFlowRecognition R T -> P7CompleteTheoremRecognition R T := by
+  intro h
+  cases h with
+  | intro statement hStatement =>
+      cases hStatement with
+      | intro dependencies hDependencies =>
+          cases hDependencies with
+          | intro proof hProof =>
+              cases hProof with
+              | intro certificates hCertificates =>
+                  cases hCertificates with
+                  | intro ledger hLedger =>
+                      cases hLedger with
+                      | intro status hStatus =>
+                          cases hStatus with
+                          | intro canonicalSite hSite =>
+                              cases hSite with
+                              | intro sealFlow hSubflows =>
+                                  exact
+                                    ⟨statement, dependencies, proof,
+                                      certificates, ledger, status,
+                                      canonicalSite, sealFlow, hSubflows⟩
+
+theorem p7_incomplete_theorem_candidate_not_theorem
+    {S T : EventFlow} :
+    TheoremCandidate S T ->
+      (forall R : P7GeneratedTheoremRecognizer,
+        TheoremRecognitionRelation R T ->
+          Not (P7CompleteTheoremRecognition R T)) ->
+        Not (TheoremFlow T) := by
+  intro _ hIncomplete hFlow
+  cases hFlow with
+  | intro R hRecognized =>
+      exact
+        hIncomplete R hRecognized.left
+          (complete_theorem_recognition_to_p7 hRecognized.right)
+
 inductive P7ReportDatum : Type where
   | decodedEventFlow (S : EventFlow)
   | statementCandidate (S Phi : EventFlow)

@@ -251,6 +251,7 @@ $$
 
 \begin{definition}[Generated theorem recognizer]
 \label{def:theorem-proof-generated-theorem-recognizer}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7GeneratedTheoremRecognizer}
 A \emph{generated theorem recognizer} is an event flow
 $$
   R_T\in\mathsf{EventFlow}
@@ -292,9 +293,10 @@ $$
 
 \begin{definition}[Complete theorem recognition]
 \label{def:theorem-proof-complete-theorem-recognition}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7CompleteTheoremRecognition}
 The judgment
 $$
-  \mathsf{RecognizesTheorem}(R_T,S,T)
+  \mathsf{P7CompleteTheoremRecognition}(R_T,T)
 $$
 is \emph{complete theorem recognition} when statement, dependency, proof, certificate, ledger, status, canonical-site, and seal subflows are all recognized.
 \end{definition}
@@ -306,6 +308,7 @@ A theorem flow must have recognized statement, dependencies, proof, certificates
 
 \begin{theorem}[Incomplete theorem candidate cannot be theorem flow]
 \label{thm:theorem-proof-incomplete-not-theorem}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.p7\_incomplete\_theorem\_candidate\_not\_theorem}
 If a theorem candidate $T$ lacks any required recognized subflow, then $T$ cannot be used as recognized theorem flow.
 \end{theorem}
 
