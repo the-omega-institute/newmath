@@ -109,6 +109,7 @@ import BEDC.Derived.MapperUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
+import BEDC.Derived.InterHistLocalityUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.ModelCatUp
