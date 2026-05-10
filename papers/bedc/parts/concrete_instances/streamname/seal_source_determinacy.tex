@@ -1,0 +1,44 @@
+\begin{theorem}[StreamName RegSeqRat RealUp seal source determinacy]
+\label{thm:streamname-regseqrat-realup-seal-source-determinacy}
+Let $W$ be a finite public $\StreamNameUp$ rational observation window, and
+let $\mathcal{E}_0$ and $\mathcal{E}_1$ be finite-window $\RealUp$ seal
+packages induced from $W$. Suppose both packages read the same accepted
+$\RegSeqRat$ spine over $W$, the same DyadicRatCore endpoint ledger, the same
+$\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ rows, the same unary
+observation rows, the same finite $\Cont$ ledger, the same displayed $\hsame$
+endpoint transports, and the same $\Pkg$ provenance. Then $\mathcal{E}_0$ and
+$\mathcal{E}_1$ have the same visible seal source.
+
+That source is exactly the public StreamName finite-window row, the accepted
+$\RegSeqRat$ finite-window seal row, the dyadic endpoint rows, and the shared
+ledger boundary. It contains no completion row, quotient row, host index
+equality, or off-ledger $\RealUp$ classifier.
+\end{theorem}
+\begin{proof}
+First exhaust the scheduled seal package. Apply
+\autoref{thm:streamname-regseqrat-scheduled-seal-exhaustion}. Both induced
+packages project to the same scheduled StreamName row, accepted $\RegSeqRat$
+finite-window seal row, and finite-window $\RealUp$ ledger boundary, because
+the listed public window, spine, dyadic endpoint, bundle, transport, and
+provenance rows agree.
+
+Next compare the pointwise seal rows. Use
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability} at each certified
+unary observation of $W$. The shared DyadicRatCore endpoint ledger fixes the
+pointwise seal classifier rows under the displayed $\hsame$ transports, so the
+two packages cannot choose different visible rational endpoints.
+
+Now pass from pointwise rows to the whole finite window. By
+\autoref{thm:streamname-regseqrat-uniform-finite-window-seal}, the public
+StreamName window, the scheduled $\RegSeqRat$ seal, and every nested handoff
+select one finite observation packet with the same $\mathsf{ProbeBundle}$,
+$\Cont$, $\hsame$, and $\Pkg$ rows.
+
+Finally apply \autoref{thm:streamname-realup-seal-boundary}. Every
+finite-window $\RealUp$ seal read arising from this handoff factors through
+the same StreamName row, accepted $\RegSeqRat$ seal row, dyadic endpoint rows,
+and shared ledger boundary. Since none of the cited boundary theorems exports
+completion rows, quotient rows, host index equality, or off-ledger classifiers,
+the visible seal source of $\mathcal{E}_0$ and $\mathcal{E}_1$ is determined
+by the stated handoff data.
+\end{proof}
