@@ -289,4 +289,52 @@ theorem HypergeometricBHistSourcePacket_endpoint_ledger_determinacy [AskSetup] [
       sameGap,
       gapUnary⟩
 
+theorem HypergeometricBHistSourcePacket_public_certificate_handoff [AskSetup] [PackageSetup]
+    {complex gamma numerator denominator coeff readback provenance ledger endpoint handoff :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HypergeometricBHistSourcePacket complex gamma numerator denominator coeff readback
+        provenance ledger endpoint bundle pkg ->
+      Cont endpoint ledger handoff ->
+        SemanticNameCert (fun row : BHist => hsame row endpoint)
+            (fun row : BHist => hsame row endpoint) (fun row : BHist => hsame row endpoint)
+            hsame ∧
+          UnaryHistory handoff ∧ hsame handoff (append endpoint ledger) ∧
+            hsame ledger (append coeff readback) ∧ hsame endpoint (append provenance ledger) ∧
+              PkgSig bundle endpoint pkg := by
+  intro packet handoffCont
+  have rows := HypergeometricBHistSourcePacket_root_ledger packet
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) (fun row : BHist => hsame row endpoint)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (hsame_refl endpoint)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        exact hsame_trans (hsame_symm sameRows) sourceRow
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed rows.right.right.left rows.right.left handoffCont
+  exact
+    ⟨cert, handoffUnary, handoffCont, rows.right.right.right.right.right.right.left,
+      rows.right.right.right.right.right.right.right.left,
+      rows.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.HypergeometricUp
