@@ -42,11 +42,13 @@ Project the accepted packet to its first two carrier coordinates. The definition
 
 The remaining carrier coordinates are comparison, continuation, and package rows attached to those two projections. Since the carrier has no coordinate for an ambient derived category, analytic solution functor, or host sheaf quotient, the source boundary is exactly the displayed pair of BEDC rows.
 \end{proof}
+\leanchecked{BEDC.Derived.RiemannHilbertUp.RiemannHilbertDerivedSheafSource\_composite\_boundary}
 
 \begin{theorem}[Riemann-Hilbert flat-connection classifier]
 \label{thm:riemannhilbert-flat-connection-classifier}
 The flat-connection branch of a $\RiemannHilbertUp$ packet is classified only through the regular-holonomic source classifier, the local-system sheaf row, and the displayed $\hsame$ transports between the derived source, de Rham readback, and sheaf target. If two accepted packets agree on those rows, then they have the same visible flat-connection classifier surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannHilbertUp.RiemannHilbertBHistBridgePacket\_flat\_connection\_classifier}
 \begin{proof}
 Read the regular-holonomic classifier coordinate from \autoref{def:riemannhilbert-bhist-bridge-packet}. It is the only row that marks the differential source branch and it is already tied to the derived-functor packet.
 
@@ -63,6 +65,7 @@ Project the local-system branch from the sheaf target and continuation coordinat
 Constructor inspection of the displayed packet gives the exclusion claim. The rows generate local-system information only through $\SheafUp$ sections, restrictions, locality, gluing, and $\Cont$ provenance; there is no constructor slot for a monodromy representation, covering-space quotient, or external equivalence.
 \end{proof}
 \leanchecked{BEDC.Derived.RiemannHilbertUp.RiemannHilbertBHistBridgePacket\_local\_system\_ledger}
+\leanchecked{BEDC.Derived.RiemannHilbertUp.RiemannHilbertLocalSystemLedger\_continuation\_closure}
 
 \begin{theorem}[Riemann-Hilbert regular-holonomic soundness]
 \label{thm:riemannhilbert-regular-holonomic-soundness}
@@ -84,7 +87,6 @@ Project the $\SheafUp$ locality and gluing coordinates from the target row. Comp
 
 After gluing, project the comparison and provenance coordinates again. They still name the same derived-functor source, regular-holonomic classifier, $\hsame$ transports, continuation routes, and dependency packages, so the glued target remains inside the original $\RiemannHilbertUp$ carrier.
 \end{proof}
-
 \begin{theorem}[Riemann-Hilbert de Rham readback scope]
 \label{thm:riemannhilbert-de-rham-readback-scope}
 Every de Rham readback row in an accepted $\RiemannHilbertUp$ bridge packet is sourced only from the displayed $\DerivedFunctorUp$ source row, the regular-holonomic classifier row, the $\SheafUp$ target row, the local-system ledger, the displayed $\hsame$ transports, the $\Cont$ provenance, and the $\mathsf{Pkg}$ dependency rows. It exports no analytic solution functor, monodromy equivalence, host derived-category quotient, or external perverse-sheaf equivalence.
@@ -96,3 +98,13 @@ Next use \autoref{thm:riemannhilbert-local-system-ledger} to bind the local-syst
 
 Finally inspect the constructors of \autoref{def:riemannhilbert-bhist-bridge-packet}. The carrier has slots only for the displayed source, classifier, target, transport, continuation, and package rows, so a de Rham readback row cannot export an analytic solution functor, monodromy equivalence, host derived-category quotient, or external perverse-sheaf equivalence.
 \end{proof}
+
+\begin{closurestatus}{\RiemannHilbertUp}
+  \constructivestory{}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope binds the $\DerivedFunctorUp$ and $\SheafUp$ dependency rows, regular-holonomic source rows, $\hsame$ transport, $\Cont$ provenance, and $\mathsf{Pkg}$ dependency rows of the displayed bridge packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close external derived categories, analytic $\mathcal{D}$-module models, monodromy equivalence, or a host-level Riemann-Hilbert theorem.}
+  \upgradepath{Obligation closure requires checked carrier, classifier, source, ledger, soundness, and gluing rows.}
+\end{closurestatus}
