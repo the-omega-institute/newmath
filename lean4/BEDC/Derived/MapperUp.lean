@@ -92,6 +92,37 @@ theorem MapperCoverPreimageCarrier_simplicial_ledger_exactness [AskSetup] [Packa
   exact
     ⟨clusterUnary, skeletonUnary, endpointUnary, clusterRow, skeletonRow, endpointRow, pkgSig⟩
 
+theorem MapperCoverPreimageCarrier_topology_boundary_exclusions [AskSetup] [PackageSetup]
+    {cover preimage cluster incidence simplex ledger consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MapperCoverPreimageCarrier cover preimage cluster incidence simplex ledger bundle pkg ->
+      Cont simplex ledger consumer ->
+        UnaryHistory consumer ∧ hsame consumer (append simplex ledger) ∧
+          hsame simplex (append cluster incidence) ∧
+            hsame ledger (append cover (append preimage (append cluster incidence))) ∧
+              PkgSig bundle ledger pkg := by
+  intro carrier consumerCont
+  have clusterIncidenceUnary : UnaryHistory (append cluster incidence) :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      (rfl : Cont cluster incidence (append cluster incidence))
+  have preimageClusterIncidenceUnary :
+      UnaryHistory (append preimage (append cluster incidence)) :=
+    unary_cont_closed carrier.right.left clusterIncidenceUnary
+      (rfl : Cont preimage (append cluster incidence)
+        (append preimage (append cluster incidence)))
+  have simplexUnary : UnaryHistory simplex :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.left preimageClusterIncidenceUnary
+      carrier.right.right.right.right.right.right.left
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed simplexUnary ledgerUnary consumerCont
+  exact
+    ⟨consumerUnary, consumerCont, carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right⟩
+
 theorem MapperCoverPreimageCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     {cover preimage cluster incidence simplex ledger : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
