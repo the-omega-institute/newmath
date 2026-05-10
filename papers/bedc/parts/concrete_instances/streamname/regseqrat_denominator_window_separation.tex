@@ -50,3 +50,42 @@ classifier, completion structure, quotient structure, and host-index equality
 outside the StreamName source packet, so the denominator window has exactly
 the stated dependency surface.
 \end{proof}
+
+\begin{theorem}[StreamName RealUp denominator-window normal form]
+\label{thm:streamname-realup-denominator-window-normal-form}
+A denominator window handed from $\StreamNameUp$ to both $\RegSeqRat$ and a
+finite-window $\RealUp$ consumer has the following normal form and no other
+public coordinates:
+$$
+\begin{gathered}
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P),\qquad
+\mathsf{UnaryHistory}(n),\qquad
+\mathsf{InBundle}(n,\mathcal P),\\
+\mathsf{RatHistoryClassifier}(s(n),t(n)),\qquad
+\text{the downstream dyadic observation coverage row.}
+\end{gathered}
+$$
+The normal form is exactly the finite StreamName classifier, certified unary
+history, bundle-membership row, pointwise rational-history classifier, and the
+dyadic observation row consumed downstream. It excludes $\RegSeqRat$
+regularity, the $\RealUp$ seal classifier, completion structure, quotient
+structure, and host-index equality.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:streamname-regseqrat-denominator-window-separation}. It projects a
+certified observation $n$ in the finite bundle $\mathcal P$ to the finite
+StreamName classifier, the unary-history certificate, bundle membership, and
+the pointwise rational-history classifier.
+
+Next read the downstream dyadic observation through
+\autoref{thm:regseqrat-finite-window-dyadic-observation-coverage}. That theorem
+uses the exposed pointwise rational row as the finite observation consumed by
+the $\RegSeqRat$ side of the handoff.
+
+Finally apply
+\autoref{thm:streamname-finite-observation-realup-seal-scope}. It keeps
+regularity, the $\RealUp$ seal classifier, completion, quotienting, and
+host-index equality outside the finite StreamName window. The remaining rows
+are precisely the displayed tuple, which is the claimed normal form.
+\end{proof}
