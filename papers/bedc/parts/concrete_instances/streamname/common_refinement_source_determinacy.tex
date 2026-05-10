@@ -105,3 +105,52 @@ left route and the right route compose to the same downstream
 $\RegSeqRat/\RealUp$ source surface, with no completion, quotient,
 metric-completeness, host-index, or seal-classifier row added to that surface.
 \end{proof}
+
+\begin{theorem}[StreamName common-refinement source triple confluence]
+\label{thm:streamname-common-refinement-source-triple-confluence}
+Let $\mathcal W_1$, $\mathcal W_2$, and $\mathcal W_3$ be public
+finite-window $\StreamNameUp$ packages over the same certified endpoint maps
+$s,t$, and let $\mathcal R$ be a certified common-refinement package whose
+generated window restricts to all three selected windows. For every pair
+$(i,j)$, the route
+$$
+\mathcal R\longrightarrow \mathcal W_i\longrightarrow \RegSeqRat
+\longrightarrow \RealUp
+$$
+and the route
+$$
+\mathcal R\longrightarrow \mathcal W_j\longrightarrow \RegSeqRat
+\longrightarrow \RealUp
+$$
+read the same source tuple from the common refinement. That tuple is the
+restricted $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal R)$
+row, the displayed $\mathsf{ProbeBundle}$ row, the $\mathsf{InBundle}$
+membership rows, the selected $\mathsf{UnaryHistory}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, and the displayed
+$\hsame/\Cont/\Pkg$ ledger rows carried by $\mathcal R$.
+
+Thus the three finite-window handoffs are confluent on the source surface
+used by $\RegSeqRat$ and by finite-window $\RealUp$ readback. No
+$\RegSeqRat$ regularity row, seal classifier, completion data, quotient row,
+metric row, or host index equality is introduced by the triple comparison.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-common-refinement-source-determinacy} to the
+pairs $(\mathcal W_1,\mathcal W_2)$, $(\mathcal W_2,\mathcal W_3)$, and
+$(\mathcal W_1,\mathcal W_3)$. Each application reads the two selected
+windows as restrictions of the same certified common-refinement packet
+$\mathcal R$.
+
+For each pair, use
+\autoref{thm:streamname-common-refinement-source-confluence}. It identifies
+the downstream $\RegSeqRat/\RealUp$ source surface with the already displayed
+StreamName tuple, rather than with any route-specific regularity, completion,
+quotient, metric, host-index, or seal row.
+
+The displayed common-refinement ledger is the same ledger in all three
+pairwise comparisons. Transitivity of the ledger equalities for the
+restricted finite-window classifier, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, $\mathsf{UnaryHistory}$, pointwise
+$\mathsf{RatHistoryClassifier}$, and $\hsame/\Cont/\Pkg$ rows therefore gives
+one source tuple for all three routes.
+\end{proof}
