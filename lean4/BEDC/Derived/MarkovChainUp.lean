@@ -201,4 +201,30 @@ theorem MarkovChainTransitionPacket_kernel_classifier_stability
           (And.intro readback' (And.intro transportedProvenance transportedLedger))))
   exact And.intro transportedPacket (And.intro sameProvenance sameLedger)
 
+theorem MarkovChainBHistTransitionCarrier_transition_ledger_exactness
+    [AskSetup] [PackageSetup]
+    {prob random law transition controw provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MarkovChainBHistTransitionCarrier prob random law transition controw provenance endpoint
+        bundle pkg ->
+      UnaryHistory prob ∧ UnaryHistory random ∧ UnaryHistory law ∧
+        UnaryHistory transition ∧ UnaryHistory controw ∧ UnaryHistory provenance ∧
+          UnaryHistory endpoint ∧ Cont random transition controw ∧
+            Cont prob law provenance ∧ Cont provenance controw endpoint ∧
+              PkgSig bundle endpoint pkg ∧ hsame endpoint (append provenance controw) := by
+  intro carrier
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right,
+      carrier.right.right.right.right.right.right.right.right.right.left⟩
+
 end BEDC.Derived.MarkovChainUp
