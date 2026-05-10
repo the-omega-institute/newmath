@@ -125,4 +125,45 @@ theorem LanglandsCorrespondenceLedger_source_certificate_scope [AskSetup] [Packa
                                           sourceCont, answerCont, observationCont,
                                           endpointCont, packageSig⟩
 
+theorem LanglandsLFactorClassifier_endpoint_confluence [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
+      ledger endpoint galoisSourceA automorphicSourceA galoisAnswerA automorphicAnswerA
+      localFactorA provenanceA ledgerA endpointA galoisSourceB automorphicSourceB
+      galoisAnswerB automorphicAnswerB localFactorB provenanceB ledgerB endpointB : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsLFactorClassifier galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor provenance ledger endpoint galoisSourceA
+        automorphicSourceA galoisAnswerA automorphicAnswerA localFactorA provenanceA ledgerA
+        endpointA bundle pkg ->
+      Cont galoisAnswerA automorphicAnswerA localFactorA ->
+        Cont galoisSourceA automorphicSourceA ledgerA ->
+          Cont provenanceA ledgerA endpointA ->
+            LanglandsLFactorClassifier galoisSource automorphicSource galoisAnswer
+                automorphicAnswer localFactor provenance ledger endpoint galoisSourceB
+                automorphicSourceB galoisAnswerB automorphicAnswerB localFactorB provenanceB
+                ledgerB endpointB bundle pkg ->
+              Cont galoisAnswerB automorphicAnswerB localFactorB ->
+                Cont galoisSourceB automorphicSourceB ledgerB ->
+                  Cont provenanceB ledgerB endpointB ->
+                    hsame localFactorA localFactorB ∧ hsame ledgerA ledgerB ∧
+                      hsame endpointA endpointB := by
+  intro classifiedA localFactorRowA ledgerRowA endpointRowA classifiedB localFactorRowB
+    ledgerRowB endpointRowB
+  have branchA :=
+    LanglandsLFactorClassifier_local_factor_stability classifiedA localFactorRowA ledgerRowA
+      endpointRowA
+  have branchB :=
+    LanglandsLFactorClassifier_local_factor_stability classifiedB localFactorRowB ledgerRowB
+      endpointRowB
+  have sameLocalFactorA : hsame localFactor localFactorA := branchA.right.left
+  have sameLedgerA : hsame ledger ledgerA := branchA.right.right.left
+  have sameEndpointA : hsame endpoint endpointA := branchA.right.right.right
+  have sameLocalFactorB : hsame localFactor localFactorB := branchB.right.left
+  have sameLedgerB : hsame ledger ledgerB := branchB.right.right.left
+  have sameEndpointB : hsame endpoint endpointB := branchB.right.right.right
+  exact
+    ⟨hsame_trans (hsame_symm sameLocalFactorA) sameLocalFactorB,
+      hsame_trans (hsame_symm sameLedgerA) sameLedgerB,
+      hsame_trans (hsame_symm sameEndpointA) sameEndpointB⟩
+
 end BEDC.Derived.LanglandsUp
