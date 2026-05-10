@@ -84,6 +84,7 @@ category dependency row $C$, the $\hsame$ transport ledger, and the $\Pkg$
 provenance row $P$; they do not import a host localization, a quotient
 category, or an external weak-equivalence calculus.
 \end{theorem}
+\leanchecked{BEDC.Derived.ModelCatUp.ModelCatBHistSourcePacket\_weak\_equivalence\_classifier\_laws}
 \begin{proof}
 Project the admitted packet and read its weak-equivalence coordinate
 $\mathsf{W}$. By \autoref{def:modelcat-bhist-source-packet}, this coordinate is
@@ -163,3 +164,72 @@ classifier rows.
 
 \section{The certificate}
 \label{sec:modelcat-certificate}
+
+\begin{definition}[ModelCatUp NameCert obligation package]
+\label{def:modelcat-namecert-obligation-package}
+The $\ModelCatUp$ $\NameCert$ obligation package is the ten-field package whose
+source is the $\mathsf{BHist}$ source packet of
+\autoref{def:modelcat-bhist-source-packet}. Its pattern is the displayed
+$\CategoryUp$ dependency together with $\mathsf{Cof}$, $\mathsf{Fib}$,
+$\mathsf{W}$, $\mathsf{Lift}$, and $\mathsf{Fact}$. Its classifier is the
+weak-equivalence row transported by $\Cont/\hsame$. Its stability fields are
+the classifier laws of
+\autoref{thm:modelcat-weak-equivalence-classifier-laws}, the lifting boundary
+of \autoref{thm:modelcat-lifting-square-boundary}, and the factorisation
+determinacy of
+\autoref{thm:modelcat-factorization-ledger-determinacy}. Its ledger field is
+$P$ together with the displayed lifting and factorisation ledgers.
+\end{definition}
+
+\begin{theorem}[ModelCatUp NameCert obligation surface]
+\label{thm:modelcat-namecert-obligation-surface}
+Every admitted $\ModelCatUp$ $\NameCert$ obligation package exposes exactly the
+$\CategoryUp$ row, the cofibration classifier row, the fibration classifier
+row, the weak-equivalence classifier row, the lifting ledger, the
+factorisation ledger, package provenance, and rowwise $\Cont/\hsame$
+transport. It exposes no host localization, quotient category, derived mapping
+space, or external weak-equivalence calculus.
+\end{theorem}
+\begin{proof}
+Begin with the root obligation surface of
+\autoref{thm:modelcat-root-obligation-surface}. It enumerates the only carrier
+fields available from an admitted source packet: the $\CategoryUp$ dependency,
+the three morphism-classifier rows, the two finite ledgers, the package
+provenance, and rowwise transport.
+
+Apply the weak-equivalence classifier laws, the lifting square boundary, and
+the factorisation ledger determinacy. These three results identify the
+stability supplied to the obligation package: classifier transport is read
+through $\mathsf{W}$, lifting reads through $\mathsf{Lift}$ and the displayed
+classifier rows, and factorisation reads through $\mathsf{Fact}$ and the same
+transport ledgers.
+
+Repack those projections as the ten-field package of
+\autoref{def:modelcat-namecert-obligation-package}. Since the source packet has
+no coordinate for localization, quotienting, derived mapping spaces, or an
+external weak-equivalence calculus, none of those objects can appear in the
+obligation surface.
+\end{proof}
+
+\begin{theorem}[ModelCatUp CategoryUp dependency boundary]
+\label{thm:modelcat-category-dependency-boundary}
+Every $\ModelCatUp$ consumer reads objects, morphisms, identities, and
+composition only through the $C$ coordinate of the source packet in
+\autoref{def:modelcat-bhist-source-packet}. The $\ModelCatUp$ package has no
+ambient category field outside that dependency coordinate.
+\end{theorem}
+\begin{proof}
+Project an admitted source packet
+$\mathcal{M}=(C,\mathsf{Cof},\mathsf{Fib},\mathsf{W},\mathsf{Lift},\mathsf{Fact},P,\rho,\lambda)$.
+The first coordinate is the consumed $\NameCert_{\CategoryUp}$ row, and
+\autoref{def:modelcat-bhist-source-packet} assigns object, morphism, identity,
+composition, and morphism-classifier reads to that coordinate.
+
+All remaining coordinates classify morphism classes, lifting ledgers,
+factorisation ledgers, provenance, and rowwise transport over the same
+dependency. They do not introduce a second category carrier.
+
+Thus any consumer that asks for categorical structure must project $C$ first.
+Because no ambient category field occurs in the packet, there is no alternative
+source from which objects, morphisms, identities, or composition can be read.
+\end{proof}
