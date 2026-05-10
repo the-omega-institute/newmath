@@ -28,7 +28,6 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import fcntl
 import json
 import logging
 import os
@@ -41,7 +40,6 @@ import textwrap
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed, wait, FIRST_COMPLETED, Future
-from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -1727,85 +1725,26 @@ def _added_lines_per_file(wt: WorktreeInfo, rel_path: str) -> list[tuple[int, st
 
 
 
-PDF_BUILD_GATE_DIR = REPO_ROOT / ".pdf-build-gate"
-PDF_BUILD_PERMITS = 2
-
-
-@contextmanager
-def _pdf_build_slot(*, wait_timeout: int = 600):
-    """Cross-process bounded semaphore for pdflatex invocations.
-
-    Caps concurrent `make` calls across every paper worktree + the
-    main checkout at PDF_BUILD_PERMITS. Without this, parallel
-    paper rounds dogpile pdflatex and individual builds time out
-    under CPU saturation (Load avg > 60 on a 16-core MBP, single-
-    build time stretches from ~75s to >600s). The slot files live
-    under the main repo (.pdf-build-gate/slotN.lock), so every
-    worker process sees the same gate regardless of worktree.
-    """
-    PDF_BUILD_GATE_DIR.mkdir(parents=True, exist_ok=True)
-    deadline = time.time() + wait_timeout
-    backoff = 0.5
-    while True:
-        for i in range(PDF_BUILD_PERMITS):
-            slot = PDF_BUILD_GATE_DIR / f"slot{i}.lock"
-            fd = os.open(str(slot), os.O_RDWR | os.O_CREAT, 0o644)
-            try:
-                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            except BlockingIOError:
-                os.close(fd)
-                continue
-            try:
-                yield i
-            finally:
-                try:
-                    fcntl.flock(fd, fcntl.LOCK_UN)
-                finally:
-                    os.close(fd)
-            return
-        if time.time() >= deadline:
-            raise TimeoutError(
-                f"could not acquire one of {PDF_BUILD_PERMITS} pdf-build "
-                f"slots within {wait_timeout}s — pipeline overloaded"
-            )
-        time.sleep(backoff)
-        backoff = min(backoff * 1.5, 5.0)
-
-
 def run_pdf_build(wt: WorktreeInfo, *, timeout: int = 600) -> tuple[bool, str]:
-    """Run `make` in the worktree's papers/bedc directory and return (ok, tail).
-
-    Serialised through `_pdf_build_slot` (file-locked gate in the main
-    repo) so at most PDF_BUILD_PERMITS pdflatex invocations run
-    concurrently across all worktrees.
-    """
+    """Run `make` in the worktree's papers/bedc directory and return (ok, tail)."""
     paper_dir = wt.path / "papers" / "bedc"
     if not paper_dir.exists():
         return False, "papers/bedc/ missing in worktree"
     log_path = LOG_DIR / f"pdf_build_P{wt.round_number}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-    waited_for_slot = time.time()
     try:
-        with _pdf_build_slot(wait_timeout=max(timeout, 1200)) as slot_idx:
-            wait_secs = time.time() - waited_for_slot
-            try:
-                with open(log_path, "w", encoding="utf-8") as lf:
-                    lf.write(
-                        f"# make at {datetime.now().isoformat()} cwd={paper_dir} "
-                        f"slot={slot_idx} wait={wait_secs:.1f}s\n\n"
-                    )
-                    lf.flush()
-                    r = subprocess.run(
-                        ["make"], cwd=str(paper_dir),
-                        stdout=lf, stderr=subprocess.STDOUT,
-                        timeout=timeout, stdin=subprocess.DEVNULL,
-                    )
-                    ok = r.returncode == 0
-            except subprocess.TimeoutExpired:
-                return False, f"make timed out after {timeout}s (log={log_path.name}, slot={slot_idx}, wait={wait_secs:.1f}s)"
-            except Exception as exc:
-                return False, f"make raised {exc!r}"
-    except TimeoutError as exc:
-        return False, f"pdf-build slot wait timed out: {exc}"
+        with open(log_path, "w", encoding="utf-8") as lf:
+            lf.write(f"# make at {datetime.now().isoformat()} cwd={paper_dir}\n\n")
+            lf.flush()
+            r = subprocess.run(
+                ["make"], cwd=str(paper_dir),
+                stdout=lf, stderr=subprocess.STDOUT,
+                timeout=timeout, stdin=subprocess.DEVNULL,
+            )
+            ok = r.returncode == 0
+    except subprocess.TimeoutExpired:
+        return False, f"make timed out after {timeout}s (log={log_path.name})"
+    except Exception as exc:
+        return False, f"make raised {exc!r}"
     try:
         tail = "\n".join(log_path.read_text(encoding="utf-8").splitlines()[-30:])
     except Exception:
