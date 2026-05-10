@@ -68,4 +68,26 @@ theorem MapperCoverPreimageCarrier_cluster_classifier_stability [AskSetup] [Pack
     ⟨⟨coverUnary', preimageUnary', clusterUnary', incidenceUnary',
         clusterRow', simplexRow', ledgerRow', pkgSig'⟩, sameSimplex, sameLedger⟩
 
+theorem MapperCoverPreimageCarrier_simplicial_ledger_exactness [AskSetup] [PackageSetup]
+    {cover preimage cluster incidence skeleton provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory cover -> UnaryHistory preimage -> UnaryHistory incidence ->
+      UnaryHistory provenance -> Cont cover preimage cluster ->
+        Cont cluster incidence skeleton -> Cont provenance skeleton endpoint ->
+          PkgSig bundle endpoint pkg ->
+            UnaryHistory cluster ∧ UnaryHistory skeleton ∧ UnaryHistory endpoint ∧
+              hsame cluster (append cover preimage) ∧
+                hsame skeleton (append cluster incidence) ∧
+                  hsame endpoint (append provenance skeleton) ∧ PkgSig bundle endpoint pkg := by
+  intro coverUnary preimageUnary incidenceUnary provenanceUnary clusterRow skeletonRow endpointRow
+    pkgSig
+  have clusterUnary : UnaryHistory cluster :=
+    unary_cont_closed coverUnary preimageUnary clusterRow
+  have skeletonUnary : UnaryHistory skeleton :=
+    unary_cont_closed clusterUnary incidenceUnary skeletonRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary skeletonUnary endpointRow
+  exact
+    ⟨clusterUnary, skeletonUnary, endpointUnary, clusterRow, skeletonRow, endpointRow, pkgSig⟩
+
 end BEDC.Derived.MapperUp
