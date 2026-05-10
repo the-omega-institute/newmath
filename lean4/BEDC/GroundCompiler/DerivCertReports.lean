@@ -76,4 +76,16 @@ theorem sound_p6_report
   exact ⟨entry.nameCertFlow, entry.derivCertFlow, entry.nameCert,
     entry.derivCert⟩
 
+theorem sound_accepted_code_certificate_mediated
+    {report : SoundP6Report} {entry : P6AcceptedCodeEvidence} :
+    List.Mem entry report.acceptedCodeEvidence ->
+      exists C D : EventFlow,
+        NameCertFlow C entry.name /\
+          DerivCertFlow D entry.name entry.strength :=
+  sound_p6_report
+
+theorem p6_code_not_theoremhood {report : SoundP6Report} :
+    List.Mem P6CannotClaimKind.codeProof report.cannotClaims := by
+  exact report.completeCannotClaims.right.right.right.right.left
+
 end BEDC.GroundCompiler.DerivCertReports

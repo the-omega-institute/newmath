@@ -515,6 +515,7 @@ For each derivation-certificate candidate $D$, the report records source, classi
 
 \begin{definition}[$P_6$ cannot-claim annotations]
 \label{def:deriv-accept-p6-cannot-claims}
+\leandef{BEDC.GroundCompiler.DerivCertReports.CompleteP6CannotClaimAnnotations}
 A $P_6$ report must state that \NameCert\ flow alone does not imply accepted export, derivation-certificate flow alone does not imply accepted export, strength flow alone does not imply derivation certificate, accepted flow code is not object equality, accepted object code is not proof of later theorems, accepted object code is not bridge certificate, retroactive promotion is not allowed, classifier equivalence may identify distinct accepted flows, and report is not proof unless theorem-flow recognition is supplied separately.
 \end{definition}
 
@@ -547,12 +548,14 @@ By report soundness, accepted object code can come only from recognized acceptan
 
 \begin{corollary}[Sound accepted code is certificate-mediated]
 \label{cor:deriv-accept-code-certificate-mediated}
+\leanchecked{BEDC.GroundCompiler.DerivCertReports.sound\_accepted\_code\_certificate\_mediated}
 Every sound $P_6$ accepted object code is certificate-mediated, not bare-code export.
 \end{corollary}
 
 \begin{theorem}[$P_6$ code existence still does not imply theoremhood]
 \label{thm:deriv-accept-code-not-theoremhood}
-Even if $P_6$ reports an accepted object code, no theorem about the object follows unless a recognized theorem flow and proof flow are supplied.
+\leanchecked{BEDC.GroundCompiler.DerivCertReports.p6\_code\_not\_theoremhood}
+In a sound $P_6$ report, accepted object code is recorded together with the cannot-claim annotation that accepted object code is not proof of later theorems. Thus no theorem about the object follows unless a recognized theorem flow and proof flow are supplied.
 \end{theorem}
 
 \begin{proof}
