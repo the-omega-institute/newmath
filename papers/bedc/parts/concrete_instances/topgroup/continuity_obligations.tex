@@ -182,3 +182,57 @@ shared carrier compatibility row. Therefore the operation ledger obligation has
 exactly two operation families and no third operation row.
 \end{proof}
 \leanchecked{BEDC.Derived.TopGroupUp.TopGroupRootThresholdPackage\_operation\_ledger\_consumer\_boundary}
+
+\begin{theorem}[TopGroupUp fixed left-translation continuity row]
+\label{thm:topgroup-fixed-left-translation-continuity-row}
+For an accepted $\TopGroupUp$ packet and a carried group endpoint $g$ in its
+source-fiber product, the row $L_g$ defined on carried endpoints by the displayed
+product graph,
+$$
+L_g(h)=z \quad \text{exactly when the packet displays } m(g,h,z),
+$$
+is a sound continuity row through the same product graph, target neighbourhood
+row, componentwise $\hsame$ transports, and finite $\Cont$ ledger entry used for
+multiplication. The fixed endpoint $g$ does not create a separate unary operation
+source, a separate topology carrier, or an external translation-continuity
+predicate.
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet by
+\autoref{thm:topgroup-source-fiber-product-carrier}. The shared carrier supplies
+the displayed $\NameCert_{\GroupUp}$ source row, the displayed
+$\NameCert_{\TopologyUp}$ source row, the product graph $m$, the neighbourhood
+row, the componentwise $\hsame$ classifier rows, the finite $\Cont$ ledger, and
+the $\Pkg$ provenance row.
+
+Fix a carried group endpoint $g$. For a carried endpoint $h$ and a displayed
+product endpoint $z$ with $m(g,h,z)$, regard the left-translation read $L_g(h)=z$
+as the product-neighbourhood row whose first input has been fixed to the carried
+endpoint $g$. This specialization keeps the same product graph and the same
+target neighbourhood row; it merely restricts the two-input product read to the
+fiber over $g$.
+
+Apply \autoref{thm:topgroup-product-neighbourhood-transport} to the product row
+$m(g,h,z)$. The fixed endpoint $g$, the variable endpoint $h$, and the product
+endpoint $z$ are transported only by the displayed componentwise $\hsame$ rows.
+The target neighbourhood is transported inside the displayed topology source,
+and the continuity step is recorded in the finite $\Cont$ ledger already carried
+by the packet.
+
+Now apply \autoref{thm:topgroup-product-cont-ledger-soundness}. It identifies
+soundness of the product-continuity row exactly with the packet projections just
+listed: the input endpoints, product endpoint, target neighbourhood,
+componentwise $\hsame$ transports, and finite ledger entry. Since the
+left-translation row is this product row with the first input fixed to $g$, its
+continuity soundness is inherited from the same ledger entry and no additional
+operation source is introduced.
+
+For exhaustiveness, use \autoref{thm:topgroup-continuity-ledger-coverage}. Every
+accepted product-neighbourhood continuity read is already one of the product
+entries in the finite ledger. Finally,
+\autoref{thm:topgroup-public-consumer-minimality} rules out any ambient
+translation predicate or detached topological-group carrier. Hence the fixed
+left-translation row is sound exactly through the displayed product graph,
+target neighbourhood, $\hsame$ transports, and finite $\Cont$ ledger of the
+accepted $\TopGroupUp$ packet.
+\end{proof}

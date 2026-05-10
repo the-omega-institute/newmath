@@ -64,6 +64,7 @@ import BEDC.Derived.BayesianUp
 import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
+import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
@@ -111,14 +112,11 @@ import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TuringMachineUp
-import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
-import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IwasawaUp
-import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.UnitaryGroupUp
@@ -180,19 +178,16 @@ import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
-import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.JonesPolynomialUp
-import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.LanglandsUp
 import BEDC.Derived.MarkovChainUp
+import BEDC.Derived.MarkovChainUp.FinitePrefixRestriction
 import BEDC.Derived.MarkovChainUp.FinitePrefix
 import BEDC.Derived.MarkovChainUp.FiniteSuffix
-import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.OptionUp
-import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
 import BEDC.Derived.OptionUp.Determinism
@@ -219,6 +214,7 @@ import BEDC.Derived.OptionUp.SourceWeakening
 import BEDC.Derived.OptionUp.TaggedPayload
 import BEDC.Derived.OptionUp.TaggedCarrier
 import BEDC.Derived.OptionUp.CarrierReadback
+import BEDC.Derived.PontryaginDualityUp
 import BEDC.Derived.OptionUp.Readback
 import BEDC.Derived.OptionUp.PayloadDescent
 import BEDC.Derived.OptionUp.PayloadDescentCanonicalIntermediate
@@ -371,7 +367,6 @@ import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeriesUp
-import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SheafUp
 import BEDC.Derived.SheafUp.ConsumerAccessTraceSource
 import BEDC.Derived.SheafUp.ConsumerAccessTrace
@@ -612,15 +607,11 @@ import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
-import BEDC.Derived.PartitionUp
-import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.RandomVarUp
-import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
-import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
@@ -628,7 +619,6 @@ import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
-import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
 import BEDC.Derived.FieldExtUp.RatReflexive
@@ -646,7 +636,6 @@ import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.FieldExtUp.StdBridge
 import BEDC.Derived.SplittingFieldUp
-import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.CurryHowardUp
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
@@ -658,7 +647,6 @@ import BEDC.Derived.GaloisGroupUp.AssociativeActionRow
 import BEDC.Derived.GaloisGroupUp.FixedBasePublicSurface
 import BEDC.Derived.GaloisGroupUp.ActionRows
 import BEDC.Derived.GaloisGroupUp.IdentityRowClosure
-import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
 import BEDC.Derived.LambdaCalcUp.ConstructorTransport
@@ -762,7 +750,6 @@ import BEDC.Derived.MonoidUp.StdBridge
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.LPDualityUp
 import BEDC.Derived.NetworkFlowUp
-import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.LieAlgebraUp
