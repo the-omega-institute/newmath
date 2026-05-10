@@ -156,6 +156,40 @@ theorem PontryaginDualityCharacterCarrier_source_boundary [AskSetup] [PackageSet
       carrier.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right⟩
 
+theorem PontryaginDualityCharacterCarrier_dependency_source_boundary [AskSetup] [PackageSetup]
+    {topSource abSource circleTarget character productRow inverseRow sourceLedger
+      characterLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PontryaginDualityCharacterCarrier topSource abSource circleTarget character productRow
+        inverseRow sourceLedger characterLedger endpoint bundle pkg ->
+      UnaryHistory topSource ∧ UnaryHistory abSource ∧ UnaryHistory circleTarget ∧
+        UnaryHistory character ∧ UnaryHistory sourceLedger ∧ UnaryHistory characterLedger ∧
+          UnaryHistory endpoint ∧ Cont topSource abSource sourceLedger ∧
+            Cont circleTarget character characterLedger ∧
+              Cont sourceLedger characterLedger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have sourceLedgerUnary : UnaryHistory sourceLedger :=
+    unary_cont_closed carrier.left carrier.right.left
+      carrier.right.right.right.right.right.right.left
+  have characterLedgerUnary : UnaryHistory characterLedger :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed sourceLedgerUnary characterLedgerUnary
+      carrier.right.right.right.right.right.right.right.right.left
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      sourceLedgerUnary,
+      characterLedgerUnary,
+      endpointUnary,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right⟩
+
 theorem PontryaginDualityCharacterCarrier_operation_ledger_boundary [AskSetup]
     [PackageSetup]
     {topSource abSource circleTarget character productRow inverseRow sourceLedger
