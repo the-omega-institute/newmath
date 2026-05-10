@@ -121,4 +121,30 @@ theorem ComplexityClassBoundedAcceptance_carrier
     ⟨traceUnary, budgetUnary, verdictUnary, packageUnary, traceRow, budgetRow, verdictRow,
       packageRow⟩
 
+theorem ComplexityClassBoundedSimulation_soundness
+    {input length acceptor resource trace budget verdict accepted endpoint : BHist} :
+    UnaryHistory input -> UnaryHistory length -> UnaryHistory acceptor -> UnaryHistory resource ->
+      Cont input length trace -> Cont acceptor trace budget -> Cont budget resource verdict ->
+        Cont input verdict accepted -> Cont accepted resource endpoint ->
+          UnaryHistory trace ∧ UnaryHistory budget ∧ UnaryHistory verdict ∧
+            UnaryHistory accepted ∧ UnaryHistory endpoint ∧ hsame trace (append input length) ∧
+              hsame budget (append acceptor trace) ∧ hsame verdict (append budget resource) ∧
+                hsame accepted (append input verdict) ∧
+                  hsame endpoint (append accepted resource) := by
+  intro inputUnary lengthUnary acceptorUnary resourceUnary traceRow budgetRow verdictRow
+    acceptedRow endpointRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed inputUnary lengthUnary traceRow
+  have budgetUnary : UnaryHistory budget :=
+    unary_cont_closed acceptorUnary traceUnary budgetRow
+  have verdictUnary : UnaryHistory verdict :=
+    unary_cont_closed budgetUnary resourceUnary verdictRow
+  have acceptedUnary : UnaryHistory accepted :=
+    unary_cont_closed inputUnary verdictUnary acceptedRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed acceptedUnary resourceUnary endpointRow
+  exact
+    ⟨traceUnary, budgetUnary, verdictUnary, acceptedUnary, endpointUnary, traceRow, budgetRow,
+      verdictRow, acceptedRow, endpointRow⟩
+
 end BEDC.Derived.ComplexityClassUp

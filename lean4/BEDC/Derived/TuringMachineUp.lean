@@ -389,4 +389,37 @@ theorem TuringMachineSourceClassifier_obligation
     ⟨configurationUnary, traceUnary, nextUnary, readbackUnary, boundedUnary, sourceUnary,
       configurationRow, traceRow, nextRow, readbackRow, boundedRow, sourceRow⟩
 
+theorem TuringMachineNameCertSurface_obligation
+    {state tape head bound configuration trace endpoint halted readback finalLedger boundary
+      source : BHist}
+    {haltRows : List BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory bound ->
+      Cont state tape configuration -> Cont configuration head trace -> Cont trace bound endpoint ->
+        TuringMachineHaltedTrace halted haltRows endpoint -> Cont endpoint readback finalLedger ->
+          Cont finalLedger halted boundary -> Cont configuration boundary source ->
+            UnaryHistory readback -> UnaryHistory halted ->
+              UnaryHistory configuration ∧ UnaryHistory trace ∧ UnaryHistory endpoint ∧
+                UnaryHistory finalLedger ∧ UnaryHistory boundary ∧ UnaryHistory source ∧
+                  (forall row : BHist, List.Mem row haltRows -> hsame row halted) ∧
+                    hsame finalLedger (append endpoint readback) ∧
+                      hsame boundary (append finalLedger halted) ∧
+                        hsame source (append configuration boundary) := by
+  intro stateUnary tapeUnary headUnary boundUnary configurationRow traceRow endpointRow
+  intro haltedTrace finalLedgerRow boundaryRow sourceRow readbackUnary haltedUnary
+  have configurationSurface :=
+    TuringMachineConfigurationTraceCarrier_configuration_trace_surface stateUnary tapeUnary
+      headUnary boundUnary configurationRow traceRow endpointRow
+  have haltedRowsSurface :=
+    TuringMachineHaltedTrace_repeat_obligation haltedTrace haltedUnary
+  have finalLedgerUnary : UnaryHistory finalLedger :=
+    unary_cont_closed configurationSurface.right.right.left readbackUnary finalLedgerRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed finalLedgerUnary haltedUnary boundaryRow
+  have sourceUnary : UnaryHistory source :=
+    unary_cont_closed configurationSurface.left boundaryUnary sourceRow
+  exact
+    ⟨configurationSurface.left, configurationSurface.right.left,
+      configurationSurface.right.right.left, finalLedgerUnary, boundaryUnary, sourceUnary,
+      haltedRowsSurface.left, finalLedgerRow, boundaryRow, sourceRow⟩
+
 end BEDC.Derived.TuringMachineUp
