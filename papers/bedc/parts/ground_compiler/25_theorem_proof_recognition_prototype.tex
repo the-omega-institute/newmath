@@ -18,6 +18,7 @@ Thus $P_7$ does not accept theorem objects, theorem labels, Lean theorem names, 
 
 \begin{definition}[Theorem and proof recognition prototype]
 \label{def:theorem-proof-p7-prototype}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.TheoremProofPrototype}
 A \emph{theorem and proof recognition prototype} is an executable prototype $P_7$ satisfying:
 \begin{enumerate}
 \item $P_7$ includes all $P_6$ functions;
@@ -42,6 +43,7 @@ $$
 
 \begin{principle}[Theorem is not input]
 \label{prin:theorem-proof-theorem-not-input}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.theorem\_proof\_objects\_not\_formal}
 There is no formal input
 $$
   \mathsf{TheoremObject}\to\mathsf{Code}
@@ -53,6 +55,7 @@ The only formal input remains $\mathsf{EventFlow}$ or $\mathsf{LegalZStream}$. I
 
 \begin{definition}[$P_7$ input]
 \label{def:theorem-proof-p7-input}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7FormalInput}
 The input to $P_7$ is displayed as channel stream $c$ or event flow $S$. If $c\notin\mathsf{LegalZStream}$, $P_7$ rejects and produces no theorem report.
 \end{definition}
 
