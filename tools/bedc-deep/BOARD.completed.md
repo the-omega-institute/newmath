@@ -15726,3 +15726,99 @@ Rationale:
 165_independence_namecert_construction.tex:367 proves thm:independence-empty-index-factorization-row (B-527 / B-587 area); line 416 proves thm:independence-singleton-index-factorization-row (B-591 in board). The two-element case is the *first* arity where a real product fold actually multiplies two distinct factors, and is genuinely missing: grep 'two-element\|binary.factorisation\|pair.factorisation\|two.position' across papers/ shows no Independence two-element row. Builds on the pushforward rows already used in the singleton proof plus the binary RealUp product fold (used elsewhere in concrete_instances/). File 471 lines, room available. Concrete arity step: requires a real factorisation calculation, not just a transport.
 
 ---
+
+### B-620 - SpinGroup conjugation action inverse-involution row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | SpinGroup conjugation action inverse-involution row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+For an accepted SpinGroupUp packet S with visible Clifford-unit endpoint s and any accepted Clifford-vector row v, the iterated action endpoint Act_{s^{-1}}(Act_s(v)) is an accepted Clifford-vector row in the same packet and is classifier-equal to v under the generated CliffordUp classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/spingroup/boundary_consumer_exactness.tex`
+
+Rationale:
+spingroup/boundary_consumer_exactness.tex:78 proves thm:spingroup-conjugation-action-product-law (B-600 in board) and line 160 proves thm:spingroup-conjugation-action-identity-law (B-612). The natural composition s^{-1}\cdot s = e route — Act_{s^{-1}}(Act_s(v)) ~ Act_e(v) ~ v — is not stated as its own theorem: grep 'spingroup.*inverse.action\|conjugation.action.inverse\|conjugation.*inverse.law' across papers/ returns nothing. The proof composes product-law (with t=s^{-1}) and identity-law plus the GroupUp inverse field already named in carrier_and_basic_laws.tex pattern. Concrete inversion-cancellation identity over the displayed Clifford ledger, not transport. File 231 lines, ample room.
+
+---
+
+### B-621 - Newton-iteration carrier finite-step concatenation closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Newton-iteration carrier finite-step concatenation closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If R1 and R2 are accepted NewtonIterationUp carrier rows over the same DerivativeUp/BanachUp source pair with R1's next-step answer hsame R2's source-point answer, then their displayed concatenation is an accepted NewtonIterationUp carrier row whose source point is R1's source point, whose next-step answer is R2's next-step answer, and whose finite step ledger is the concatenation of the two displayed step ledgers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/201_newtoniteration_namecert_construction.tex`
+
+Rationale:
+Fills a clear companion gap in 201_newtoniteration_namecert_construction.tex: the carrier inductively allows finite list-of-steps but the existing three theorems only handle a single step row plus source/classifier transport. Concatenation-along-shared-endpoint is a textbook closure obligation downstream Banach fixed-point and contraction-mapping consumers will need. The landing file is short (56 lines), well below the 800 cap, and the proof is a clean induction on the BHist Cont ledger using hsame transport at the splice point. No BOARD entry covers this; not paraphrased by any existing concatenation/closure target (B-507 EnumPerm, B-505 Sheaf refinement) since they live in different chapters with different carriers.
+
+---
+
+### B-622 - MarkovChain transition packet finite-prefix restriction is a MarkovChain carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MarkovChain transition packet finite-prefix restriction is a MarkovChain carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a finite MarkovChain BHist transition packet over a unary time ledger of length n+k is accepted by the MarkovChainUp carrier, then its restriction to the first n displayed time rows (with the first n+1 RandomVarUp rows, n DistributionUp law rows, n transition rows, and inherited Cont/Pkg provenance) is again an accepted MarkovChainUp carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/167_markovchain_namecert_construction.tex`
+
+Rationale:
+The MarkovChain carrier is inductive on a unary time ledger but the chapter exposes only kernel-classifier stability, transition-ledger exactness, source boundary, and obligation-surface theorems — no prefix-truncation closure. Future Martingale/Brownian-compatibility and hitting-time consumers need it. Distinct from B-511 Independence finite subfamily projection (different carrier: independence index family vs time ledger). Lands cleanly in the existing 167_markovchain file with a unary-ledger induction; the proof is structural, not deep.
+
+---
+
+### B-623 - MarkovChain transition packet end-to-end concatenation closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MarkovChain transition packet end-to-end concatenation closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If P1 is an accepted MarkovChainUp transition packet over time ledger of length n with terminal RandomVarUp row X_n and P2 is an accepted MarkovChainUp transition packet over time ledger of length m starting from a RandomVarUp row Y_0 with X_n hsame Y_0 over a shared ProbSpaceUp source, then their displayed concatenation along that shared endpoint is an accepted MarkovChainUp transition packet over a unary time ledger of length n+m.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/167_markovchain_namecert_construction.tex`
+
+Rationale:
+Strict companion to the prefix-restriction proposal but technically distinct (gluing along shared endpoint vs prefix truncation). Together they make MarkovChainUp carriers a true list-with-restriction-and-concatenation closure. The Newton concatenation candidate has the same proof skeleton in a different chapter, so this is a parallel, not duplicate, work item. No paper coverage of the gluing law and no BOARD dedup; the kernel-classifier-stability theorem alone is insufficient for downstream sub-chain construction. Codex_close-shaped: splice ledgers, reapply kernel classifier stability at the splice index.
+
+---
