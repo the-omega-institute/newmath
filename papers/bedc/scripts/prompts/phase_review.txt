@@ -179,6 +179,16 @@ reviewer) MUST:
    under saturation the new chapter dominates.
 3. Emit `targets[0]` matching that rank-1 candidate (`candidate_id =
    C1`). closure_mark / drift / bridge as Target 2-N.
+4. Set `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble.tex"]`
+   (NOT the not-yet-created chapter file). The review_gate rejects
+   any `paper_files` entry that does not already exist on disk, so
+   writing `papers/bedc/parts/concrete_instances/271_<slug>_namecert_construction.tex`
+   in paper_files will drop the target — even though that file is
+   exactly what you intend to create. Put the new-file path in
+   `proposed_change` instead, listing the exact filename, the
+   `\input{...}` line to add to `main.tex` after the highest
+   existing `\input{parts/concrete_instances/...}` line, and the
+   `\newcommand{\<X>Up}{...}` macro to add to `preamble.tex`.
 
 The orchestrator review_gate matches `targets[0].candidate_id`
 against the candidate_pool selection_rank=1 entry; mismatch skips
