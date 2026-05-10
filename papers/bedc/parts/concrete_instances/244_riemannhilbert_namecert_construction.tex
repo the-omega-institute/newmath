@@ -82,6 +82,7 @@ Use \autoref{thm:riemannhilbert-flat-connection-classifier} for the classifier t
 \label{thm:riemannhilbert-sheaf-gluing-exactness}
 For a $\RiemannHilbertUp$ bridge packet, compatible local-system rows glue exactly through the $\SheafUp$ target ledger carried in \autoref{def:riemannhilbert-bhist-bridge-packet}. The resulting global sheaf row remains tied to the same derived-functor source, regular-holonomic classifier, $\hsame$ transport rows, $\Cont$ provenance, and $\mathsf{Pkg}$ dependency rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannHilbertUp.RiemannHilbertBHistBridgePacket\_sheaf\_gluing\_exactness}
 \begin{proof}
 Project the $\SheafUp$ locality and gluing coordinates from the target row. Compatible local-system rows are sheaf rows in this packet, so gluing is performed by the displayed sheaf exactness ledger rather than by an external sheafification operation.
 
@@ -91,13 +92,27 @@ After gluing, project the comparison and provenance coordinates again. They stil
 \label{thm:riemannhilbert-de-rham-readback-scope}
 Every de Rham readback row in an accepted $\RiemannHilbertUp$ bridge packet is sourced only from the displayed $\DerivedFunctorUp$ source row, the regular-holonomic classifier row, the $\SheafUp$ target row, the local-system ledger, the displayed $\hsame$ transports, the $\Cont$ provenance, and the $\mathsf{Pkg}$ dependency rows. It exports no analytic solution functor, monodromy equivalence, host derived-category quotient, or external perverse-sheaf equivalence.
 \end{theorem}
-\leanchecked{BEDC.Derived.RiemannHilbertUp.RiemannHilbertBHistBridgePacket\_de\_Rham\_readback\_scope}
+\leanchecked{BEDC.Derived.RiemannHilbertUp.RiemannHilbertBHistBridgePacket\_de\_rham\_readback\_scope}
+\leanchecked{BEDC.Derived.RiemannHilbertUp.RiemannHilbertBHistBridgePacket\_deRham\_readback\_scope}
+\leanvariant{BEDC.Derived.RiemannHilbertUp.RiemannHilbertBHistBridgePacket\_de\_Rham\_readback\_scope}
 \begin{proof}
 Use \autoref{thm:riemannhilbert-derived-sheaf-source} to identify the dependency rows available to the packet: the $\DerivedFunctorUp$ source row and the $\SheafUp$ target row with their displayed provenance. Use \autoref{thm:riemannhilbert-flat-connection-classifier} for the regular-holonomic classifier and its de Rham transport row.
 
 Next use \autoref{thm:riemannhilbert-local-system-ledger} to bind the local-system ledger to the same sheaf target, horizontal-section read rows, $\hsame$ comparisons, and $\Cont/\mathsf{Pkg}$ provenance. Use \autoref{thm:riemannhilbert-sheaf-gluing-exactness} to keep those rows stable under sheaf gluing.
 
 Finally inspect the constructors of \autoref{def:riemannhilbert-bhist-bridge-packet}. The carrier has slots only for the displayed source, classifier, target, transport, continuation, and package rows, so a de Rham readback row cannot export an analytic solution functor, monodromy equivalence, host derived-category quotient, or external perverse-sheaf equivalence.
+\end{proof}
+
+\begin{theorem}[Riemann-Hilbert public certificate export]
+\label{thm:riemannhilbert-public-certificate-export}
+The bridge packet of \autoref{def:riemannhilbert-bhist-bridge-packet} exports exactly the derived-functor source row, the sheaf target row, the regular-holonomic classifier row, the local-system ledger, the de Rham readback scope, the displayed $\hsame$ transports, the $\Cont$ provenance, and the $\mathsf{Pkg}$ dependency rows listed in \autoref{thm:riemannhilbert-derived-sheaf-source}, \autoref{thm:riemannhilbert-regular-holonomic-soundness}, \autoref{thm:riemannhilbert-local-system-ledger}, \autoref{thm:riemannhilbert-sheaf-gluing-exactness}, and \autoref{thm:riemannhilbert-de-rham-readback-scope}. These rows form the public $\NameCert_{\RiemannHilbertUp}$ surface. No host derived-category quotient, analytic solution functor, monodromy equivalence, or external perverse-sheaf equivalence is exported.
+\end{theorem}
+\begin{proof}
+Project the bridge packet to the derived-functor and sheaf coordinates. By \autoref{thm:riemannhilbert-derived-sheaf-source}, these projections give the displayed source row and target row with their exact-triangle, section, restriction, locality, and gluing provenance.
+
+Next project the classifier, local-system, and gluing rows. The regular-holonomic classifier is the one isolated by \autoref{thm:riemannhilbert-regular-holonomic-soundness}; the local-system ledger is the one isolated by \autoref{thm:riemannhilbert-local-system-ledger}; and the gluing stability is the row supplied by \autoref{thm:riemannhilbert-sheaf-gluing-exactness}.
+
+Finally add the de Rham readback projection from \autoref{thm:riemannhilbert-de-rham-readback-scope}. Repacking these projections gives the public $\NameCert_{\RiemannHilbertUp}$ surface, and constructor inspection of the same packet shows that no additional host derived-category quotient or analytic solution functor has a row to export.
 \end{proof}
 
 \begin{closurestatus}{\RiemannHilbertUp}
