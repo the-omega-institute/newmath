@@ -170,6 +170,62 @@ theorem TannakaKreinFiberFunctorCarrier_source_boundary [AskSetup] [PackageSetup
                         (And.intro provenanceCont
                           (And.intro endpointCont pkgSig))))))))))))
 
+theorem TannakaKreinFiberFunctorCarrier_endpoint_expanded_boundary [AskSetup] [PackageSetup]
+    {lieGroup monoidalCat fiberFunctor representation unitRow tensorProduct
+      reconstructionLedger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TannakaKreinFiberFunctorCarrier lieGroup monoidalCat fiberFunctor representation unitRow
+        tensorProduct reconstructionLedger provenance endpoint bundle pkg ->
+      hsame endpoint
+          (append (append unitRow (append fiberFunctor representation))
+            (append lieGroup monoidalCat)) ∧
+        PkgSig bundle endpoint pkg := by
+  intro carrier
+  have reconstructionLedgerCont : Cont lieGroup monoidalCat reconstructionLedger :=
+    carrier.right.right.right.right.right.left
+  have tensorProductCont : Cont fiberFunctor representation tensorProduct :=
+    carrier.right.right.right.right.right.right.left
+  have provenanceCont : Cont unitRow tensorProduct provenance :=
+    carrier.right.right.right.right.right.right.right.left
+  have endpointCont : Cont provenance reconstructionLedger endpoint :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right
+  cases reconstructionLedgerCont
+  cases tensorProductCont
+  cases provenanceCont
+  cases endpointCont
+  exact And.intro rfl pkgSig
+
+theorem TannakaKreinFiberFunctorCarrier_endpoint_deterministic [AskSetup] [PackageSetup]
+    {lieGroup monoidalCat fiberFunctor representation unitRow tensorProduct
+      reconstructionLedger provenance endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TannakaKreinFiberFunctorCarrier lieGroup monoidalCat fiberFunctor representation unitRow
+        tensorProduct reconstructionLedger provenance endpoint bundle pkg ->
+      Cont provenance reconstructionLedger endpoint' ->
+        PkgSig bundle endpoint' pkg ->
+          TannakaKreinFiberFunctorCarrier lieGroup monoidalCat fiberFunctor representation
+              unitRow tensorProduct reconstructionLedger provenance endpoint' bundle pkg ∧
+            hsame endpoint endpoint' := by
+  intro carrier endpointCont endpointPkg
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_deterministic carrier.right.right.right.right.right.right.right.right.left endpointCont
+  have transportedCarrier :
+      TannakaKreinFiberFunctorCarrier lieGroup monoidalCat fiberFunctor representation unitRow
+        tensorProduct reconstructionLedger provenance endpoint' bundle pkg :=
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      endpointCont,
+      endpointPkg⟩
+  exact And.intro transportedCarrier sameEndpoint
+
 theorem TannakaKreinFiberFunctorCarrier_reconstruction_ledger_exactness
     [AskSetup] [PackageSetup]
     {lieGroup monoidalCat fiberFunctor representation unitRow tensorProduct
@@ -328,5 +384,35 @@ theorem TannakaKreinFiberFunctorCarrier_semantic_name_certificate
       provenanceUnary,
       endpointUnary,
       pkgSig⟩
+
+theorem TannakaKreinFiberFunctorCarrier_dependency_endpoint_readback
+    [AskSetup] [PackageSetup]
+    {lieGroup monoidalCat fiberFunctor representation unitRow tensorProduct
+      reconstructionLedger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TannakaKreinFiberFunctorCarrier lieGroup monoidalCat fiberFunctor representation unitRow
+        tensorProduct reconstructionLedger provenance endpoint bundle pkg ->
+      Cont lieGroup monoidalCat reconstructionLedger ∧
+        Cont fiberFunctor representation tensorProduct ∧
+          Cont unitRow tensorProduct provenance ∧
+            Cont provenance reconstructionLedger endpoint ∧
+              hsame endpoint (append provenance reconstructionLedger) ∧
+                PkgSig bundle endpoint pkg := by
+  intro carrier
+  have reconstructionLedgerCont : Cont lieGroup monoidalCat reconstructionLedger :=
+    carrier.right.right.right.right.right.left
+  have tensorProductCont : Cont fiberFunctor representation tensorProduct :=
+    carrier.right.right.right.right.right.right.left
+  have provenanceCont : Cont unitRow tensorProduct provenance :=
+    carrier.right.right.right.right.right.right.right.left
+  have endpointCont : Cont provenance reconstructionLedger endpoint :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right
+  exact
+    And.intro reconstructionLedgerCont
+      (And.intro tensorProductCont
+        (And.intro provenanceCont
+          (And.intro endpointCont (And.intro endpointCont pkgSig))))
 
 end BEDC.Derived.TannakaKreinUp
