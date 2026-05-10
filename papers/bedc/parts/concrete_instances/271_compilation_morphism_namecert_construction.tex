@@ -1,66 +1,79 @@
-\chapter{Compilation as Naming-Certificate Morphism}
+\chapter{Naming Certificate for $\mathsf{CompilationMorphismUp}$}
 \label{ch:concrete-instances-compilation-as-namecert-morphism}
 
-A compiler from source language $S$ to target language $T$ is a structure-preserving translation that respects the semantics of both. In BEDC terms, $S$ and $T$ each carry a naming certificate (\autoref{ch:concrete-instances-type-checking-as-classifier-membership}, \autoref{ch:concrete-instances-computation-as-continuation}); a compiler is a morphism between the two certificates that preserves the classifier; compiler correctness is the assertion that the morphism preserves $\hsame$. The chapter records this identification and locates compositional compilation, optimisation correctness, and decompilation in the same framework.
+The compilation-morphism interface $\mathsf{CompilationMorphismUp}$ names a classifier-preserving translation from a source naming certificate to a target naming certificate. Its public object is the finite BEDC row that records source and target observations, the translated endpoint, and the correctness ledger tying the two presentations together.
 
-\section{Compiler as classifier-preserving morphism}
-\label{sec:compilation-as-namecert-morphism-compiler}
+\section{Source spec for $\mathsf{CompilationMorphismUp}$}
+\label{sec:concrete-instances-compilation-morphism-source-spec}
 
-\begin{definition}[Naming-certificate morphism]
-\label{def:compilation-namecert-morphism}
-A \emph{morphism} from $\NameCert_S$ to $\NameCert_T$ is a kernel-level function $\Phi$ on the carriers of $S$ and $T$ together with two preservation witnesses: $\Phi$ sends every $\Ext_S$-marked source history to an $\Ext_T$-marked target history, and $\Phi$ commutes with the continuation chains, $\Phi(\Cont_S\,h\,m\,h') = \Cont_T\,(\Phi h)\,m'\,(\Phi h')$ for an explicit mark translation $m \mapsto m'$. The morphism preserves \emph{classifier membership} because every classifier-decided fact about $h$ becomes a classifier-decided fact about $\Phi h$ via the preservation witnesses.
+\begin{definition}[Source rows of $\mathsf{CompilationMorphismUp}$]
+\label{def:concrete-instances-compilation-morphism-source-rows}
+A source row for $\mathsf{CompilationMorphismUp}$ is a finite tuple
+$$
+(\mathsf{sourceHistory},\mathsf{targetHistory},
+\mathsf{sourceEndpoint},\mathsf{targetEndpoint},
+\mathsf{sourceMark},\mathsf{targetMark},
+\mathsf{morphismLedger},\mathsf{correctnessLedger})
+$$
+where the source and target histories are the carried presentations in the two naming certificates, the two endpoint histories expose the observed source and target classifier rows, the two marks record the visible extension steps, and the two ledgers record the morphism transport and the correctness comparison. This source row is a BEDC history packet, not a host-level compiler function.
 \end{definition}
+\leandef{BEDC.Derived.CompilationMorphismUp.SourceRows}
 
-\begin{definition}[Compiler]
-\label{def:compilation-compiler}
-A \emph{compiler} from $S$ to $T$ is a naming-certificate morphism $\Phi \colon \NameCert_S \to \NameCert_T$ together with the additional witness that $\Phi$ preserves $\hsame$: if two source histories are $\hsame$-equivalent, their images are $\hsame$-equivalent in the target.
+\section{Pattern spec}
+\label{sec:concrete-instances-compilation-morphism-pattern}
+
+\begin{definition}[Pattern witness for $\mathsf{CompilationMorphismUp}$]
+\label{def:concrete-instances-compilation-morphism-pattern}
+The pattern of a compilation-morphism row is the conjunction of four visible relations:
+$$
+\begin{aligned}
+&\Ext(\mathsf{sourceHistory},\mathsf{sourceMark},\mathsf{sourceEndpoint}),\\
+&\Ext(\mathsf{targetHistory},\mathsf{targetMark},\mathsf{targetEndpoint}),\\
+&\Cont(\mathsf{sourceEndpoint},\mathsf{morphismLedger},\mathsf{targetEndpoint}),\\
+&\Cont(\mathsf{sourceHistory},\mathsf{correctnessLedger},\mathsf{targetHistory}).
+\end{aligned}
+$$
+The first two rows expose the source and target certificate observations. The two continuation rows say that the target observation is reached by a named morphism ledger and that the source presentation is tied to the target presentation by a correctness ledger.
 \end{definition}
+\leandef{BEDC.Derived.CompilationMorphismUp.Pattern}
 
-\begin{theorem}[Compilation as naming-certificate morphism]
-\label{thm:compilation-as-namecert-morphism}
-For every pair of naming certificates $(\NameCert_{S}, \NameCert_{T})$, every compiler from $S$ to $T$ that preserves $\hsame$ corresponds to a naming-certificate morphism $\NameCert_{S} \to \NameCert_{T}$ in the natural category of certificates. Compiler correctness is the assertion that this morphism is a $\hsame$-preserving classifier morphism. Sequential composition of correct compilers is composition of morphisms in this category; an optimisation is an endomorphism whose source and target certificates coincide.
-\leanstmt{BEDC.Reflection.compilation\_as\_namecert\_morphism}
+\section{Classifier spec}
+\label{sec:concrete-instances-compilation-morphism-classifier}
+
+\begin{definition}[Classifier for $\mathsf{CompilationMorphismUp}$]
+\label{def:concrete-instances-compilation-morphism-classifier}
+Two source rows classify as the same $\mathsf{CompilationMorphismUp}$ object when their source histories, target histories, source endpoints, target endpoints, morphism ledgers, and correctness ledgers agree by $\hsame$, and their source and target marks agree by $\msame$. Thus the classifier identifies different presentations only when they expose the same BEDC morphism packet componentwise; it does not quotient compilers by an external semantic equality.
+\end{definition}
+\leandef{BEDC.Derived.CompilationMorphismUp.Classifier}
+
+\section{Stability certificate}
+\label{sec:concrete-instances-compilation-morphism-stability}
+
+\begin{theorem}[Stability of $\mathsf{CompilationMorphismUp}$]
+\label{thm:concrete-instances-compilation-morphism-stability}
+If a compilation-morphism source row satisfies the pattern, then every classified presentation of the same row also satisfies the pattern. Equivalently, the extension witnesses for the source and target observations, the morphism continuation ledger, and the correctness continuation ledger are stable under the componentwise $\hsame$ and $\msame$ classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompilationMorphismUp.stability}
 
-\begin{proof}[Sketch]
-The forward direction is the unfolding of \autoref{def:compilation-compiler}: a compiler is, by definition, the data of a naming-certificate morphism plus the $\hsame$-preservation witness. The backward direction observes that a naming-certificate morphism is precisely a translation of source histories into target histories that respects $\Ext$ and $\Cont$, which is the operational reading of a compiler. Sequential composition of compilers $\Phi_2 \circ \Phi_1$ inherits the preservation witnesses by composing them, and the resulting $\hsame$-preservation is a kernel-level conjunction of the two component witnesses.
+\begin{proof}
+Unfold the classifier. Each classifier component is an internal BEDC sameness row, so eliminating these rows identifies the two presentations component by component. The four pattern witnesses for the first presentation are then the four pattern witnesses for the classified presentation.
 \end{proof}
 
-\section{Compositional compilation}
-\label{sec:compilation-compositional}
+\section{Ledger policy}
+\label{sec:concrete-instances-compilation-morphism-ledger}
 
-\begin{theorem}[Composition of correct compilers is correct]
-\label{thm:compilation-composition-correct}
-Given correct compilers $\Phi_1 \colon \NameCert_S \to \NameCert_M$ and $\Phi_2 \colon \NameCert_M \to \NameCert_T$, the composition $\Phi_2 \circ \Phi_1 \colon \NameCert_S \to \NameCert_T$ is a correct compiler from $S$ to $T$.
-\end{theorem}
-
-\begin{proof}[Sketch]
-Both $\Ext$-preservation and $\Cont$-commutation are closed under function composition: applying $\Phi_2$ to the output of $\Phi_1$ produces a target-marked, target-continuing image of every source-marked, source-continuing input. $\hsame$-preservation composes by transitivity of $\hsame$.
-\end{proof}
-
-\section{Optimisation and decompilation}
-\label{sec:compilation-optimisation-decompilation}
-
-\begin{definition}[Optimisation]
-\label{def:compilation-optimisation}
-An \emph{optimisation} on $\NameCert_S$ is an endomorphism $\Phi \colon \NameCert_S \to \NameCert_S$ in the sense of \autoref{def:compilation-namecert-morphism} that preserves $\hsame$.
+\begin{definition}[Ledger for $\mathsf{CompilationMorphismUp}$]
+\label{def:concrete-instances-compilation-morphism-ledger}
+The ledger keeps the full source row: both certificate-side histories, both exposed endpoints, both marks, the morphism ledger, and the correctness ledger. This is enough to replay the classifier-preserving transport and the $\hsame$-preservation claim at the BEDC boundary while keeping optimisation strategies, intermediate-representation schedules, decompilation choices, and host-language semantics outside the public carrier.
 \end{definition}
+\leandef{BEDC.Derived.CompilationMorphismUp.Ledger}
 
-\begin{theorem}[Optimisation correctness as endomorphism preservation]
-\label{thm:compilation-optimisation-correct}
-An optimisation $\Phi$ on $\NameCert_S$ is correct exactly when, for every source history $h$, $\hsame(h, \Phi h)$ holds. Equivalently, $\Phi$ acts as the identity in the category of naming certificates modulo $\hsame$.
-\end{theorem}
-
-\begin{proof}[Sketch]
-The endomorphism condition $\hsame(h, \Phi h)$ is the assertion that the optimisation's output is observationally identical to the input under the certificate's classifier. By \autoref{def:compilation-namecert-morphism}, this preserves $\Ext$ and $\Cont$, so the kernel-level behaviour is unchanged.
-\end{proof}
-
-\begin{definition}[Decompilation]
-\label{def:compilation-decompilation}
-A \emph{decompilation} from $\NameCert_T$ to $\NameCert_S$ is a naming-certificate morphism $\Psi \colon \NameCert_T \to \NameCert_S$ such that $\Phi \circ \Psi$ is an optimisation on $\NameCert_T$ in the sense of \autoref{def:compilation-optimisation}, where $\Phi$ is the compiler from $S$ to $T$. Decompilation is therefore not always available; when $\Phi$ has no morphism right-inverse modulo $\hsame$, decompilation does not exist.
-\end{definition}
-
-\begin{remark}[Compiler category]
-\label{rem:compilation-category}
-The naming certificates over a fixed mark alphabet, together with the morphisms of \autoref{def:compilation-namecert-morphism}, form a category by \autoref{ch:concrete-instances-kernel-as-category}: identities are kernel identity functions, composition is function composition, and the laws follow from $\Cont$ associativity and unit. Compilers are the $\hsame$-preserving morphisms, optimisations are the endomorphisms, and decompilations are the partial right-inverses. The framework subsumes intermediate-representation pipelines (chains $\Phi_n \circ \cdots \circ \Phi_1$) and source-to-source transformations (loops in the morphism graph).
-\end{remark}
+\begin{closurestatus}{\mathsf{CompilationMorphismUp}}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped closure covers the finite source and target observation rows, their extension witnesses, the morphism continuation ledger, the correctness ledger, and componentwise classifier transport.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CompilationMorphismUp.stability}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove semantic compiler correctness for a concrete language, optimisation completeness, or existence of decompilers.}
+  \upgradepath{Public closure requires concrete source and target naming certificates together with checked compiler rows that instantiate the morphism and correctness ledgers.}
+\end{closurestatus}
