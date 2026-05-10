@@ -51,6 +51,51 @@ metric-completeness certificates, arithmetic or order rows, or standard
 bridge rows.
 \end{proof}
 
+\begin{theorem}[StreamName common-refinement terminal route determinacy]
+\label{thm:streamname-common-refinement-terminal-route-determinacy}
+Let $C$ be a certified $\StreamNameUp$ common-refinement package. Suppose two
+finite-window $\RealUp$ terminal seal consumers are reached from $C$ by
+choosing possibly different common-refinement routes, then passing through the
+same StreamName finite-window restriction and $\RegSeqRat$ handoff interface.
+Then the two terminal reads expose the same source tuple:
+\begin{enumerate}
+  \item the restricted
+  $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows;
+  \item the common $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+  $\mathsf{UnaryHistory}$ rows;
+  \item the pointwise $\mathsf{RatHistoryClassifier}$ rows;
+  \item the accepted $\RegSeqRat$ spine selected by those rows;
+  \item the displayed dyadic endpoint rows; and
+  \item the displayed $\hsame$, $\Cont$, and $\Pkg$ provenance rows.
+\end{enumerate}
+The terminal tuple contains no quotient row, completion object, host-index
+equality, metric-completeness datum, or additional $\RealUp$ seal classifier
+outside the packet just listed.
+\end{theorem}
+\begin{proof}
+Start with the certified common-refinement package $C$. Apply
+\autoref{thm:streamname-common-refinement-source-confluence}. The two routes
+therefore determine the same StreamName source packet and the same displayed
+common-refinement provenance rows.
+
+Next restrict that packet to the terminal finite window. By
+\autoref{thm:streamname-tail-window-cover-common-refinement}, both route reads
+use the same finite-window classifier rows, the same $\mathsf{ProbeBundle}$ and
+$\mathsf{InBundle}$ entries, and the same unary-history window.
+
+Now apply \autoref{thm:streamname-regseqrat-pointwise-handoff}. The restricted
+StreamName packet hands off to one pointwise rational-history packet, one
+accepted $\RegSeqRat$ spine, and the same dyadic endpoint rows, with the
+displayed $\hsame$, $\Cont$, and $\Pkg$ provenance carried along unchanged.
+
+Finally use \autoref{thm:realup-terminal-regseqrat-source-coverage}. A terminal
+finite-window $\RealUp$ seal consumer reads exactly that RegSeqRat source
+surface and no larger host structure. Since both routes feed the same packet
+into this coverage theorem, the two terminal reads expose the same listed
+source tuple and exclude quotient rows, completion objects, host-index
+equalities, metric-completeness data, and any extra $\RealUp$ seal classifier.
+\end{proof}
+
 \begin{theorem}[RealUp terminal RegSeqRat source coverage]
 \label{thm:realup-terminal-regseqrat-source-coverage}
 Every terminal finite-window $\RealUp$ seal consumer factors through exactly
