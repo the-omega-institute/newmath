@@ -224,18 +224,19 @@ python3 tools/automath_newmath_bridge/bridge_supervisor.py \
   --apply-writeback-packets
 ```
 
-Merge the gated NewMath bridge branch back to the local BEDC branch:
+After gates pass, the NewMath bridge supervisor attempts to merge the gated
+bridge branch back to the local BEDC branch:
 
 ```bash
-python3 tools/automath_newmath_bridge/bridge_supervisor.py \
-  --once \
-  --merge-back-after-gates
+python3 tools/automath_newmath_bridge/bridge_supervisor.py --once
 ```
 
 The merge-back target is configured in `bridge_pipeline_config.json` as
 `../newmath` on `bedc-claim-packet-pipeline`. The merge is local-only and
 skips if the target worktree is on a different branch, has uncommitted changes,
 or any bridge gate is blocked.
+
+Pass `--no-merge-back-after-gates` to run observation/gates only.
 
 ## Future AI commit analysis
 

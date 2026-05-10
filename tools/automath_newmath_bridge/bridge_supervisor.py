@@ -404,11 +404,11 @@ def supervisor_pass(args: argparse.Namespace) -> bool:
     run_synthesis_report(config_path)
     gate_results = run_gates(config_path, allow_publication_risk=args.allow_publication_risk)
 
-    if args.merge_back_after_gates:
+    if not args.no_merge_back_after_gates:
         merge_back = merge_back_to_bedc(config, gate_results, config_path)
         _log(f"merge_back_after_gates: {merge_back}")
     else:
-        _log("merge_back_after_gates: disabled; pass --merge-back-after-gates to merge into configured BEDC branch")
+        _log("merge_back_after_gates: disabled by --no-merge-back-after-gates")
 
     if args.apply_writeback_packets:
         written = write_local_packets(gate_results, limit=args.packet_limit)
@@ -438,9 +438,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--packet-limit", type=int, default=25)
     parser.add_argument(
-        "--merge-back-after-gates",
+        "--no-merge-back-after-gates",
         action="store_true",
-        help="After all gates pass, merge this bridge branch into the configured local BEDC branch",
+        help="Do not merge this bridge branch into the configured local BEDC branch after gates pass",
     )
     return parser
 

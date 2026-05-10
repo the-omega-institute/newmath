@@ -148,8 +148,8 @@ One pass does this:
 5. Synthesizes readiness from both repo contents.
 6. Writes a local inbox, synthesis report, and transfer plan.
 7. Runs deterministic gates.
-8. Optionally merges the gated bridge branch back to
-   `bedc-claim-packet-pipeline` if `--merge-back-after-gates` is passed.
+8. Merges the gated bridge branch back to `bedc-claim-packet-pipeline` unless
+   `--no-merge-back-after-gates` is passed.
 9. Optionally writes local review packets if `--apply-writeback-packets` is
    passed.
 
@@ -211,12 +211,11 @@ python3 tools/automath_newmath_bridge/bridge_supervisor.py \
 These packets are review material only. They do not authorize destination
 writes.
 
-To merge the gated bridge branch back to the local BEDC branch after gates:
+By default, a successful gated run attempts to merge the bridge branch back to
+the local BEDC branch:
 
 ```bash
-python3 tools/automath_newmath_bridge/bridge_supervisor.py \
-  --once \
-  --merge-back-after-gates
+python3 tools/automath_newmath_bridge/bridge_supervisor.py --once
 ```
 
 The configured target is `../newmath` on `bedc-claim-packet-pipeline`. The
@@ -226,6 +225,14 @@ merge-back step is intentionally conservative:
 - it checks the target worktree is on `bedc-claim-packet-pipeline`;
 - it skips if the target has tracked or untracked changes;
 - it does not push unless the config explicitly sets `push: true`.
+
+Skip merge-back explicitly:
+
+```bash
+python3 tools/automath_newmath_bridge/bridge_supervisor.py \
+  --once \
+  --no-merge-back-after-gates
+```
 
 ## Commands
 
