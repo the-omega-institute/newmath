@@ -180,6 +180,21 @@ theorem KnotDiagramPacket_homotopy_ledger_boundary [AskSetup] [PackageSetup]
                 (And.intro endpointCont
                   packet.right.right.right.right.right.right.right.right.right.right)))))))
 
+theorem KnotReidemeisterLedgerClassifier_empty_reflexive [AskSetup] [PackageSetup]
+    {sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KnotDiagramPacket sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger
+        endpoint bundle pkg ->
+      Cont endpoint BHist.Empty endpoint ->
+        UnaryHistory endpoint ∧ hsame endpoint endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet emptyLedger
+  have sourceRows :=
+    KnotDiagramPacket_sone_source_boundary packet
+  have endpointSame : hsame endpoint endpoint :=
+    cont_deterministic emptyLedger (cont_right_unit endpoint)
+  exact And.intro sourceRows.right.right.left
+    (And.intro endpointSame sourceRows.right.right.right.right.right.right)
+
 theorem KnotDiagramPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
