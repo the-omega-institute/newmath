@@ -30,6 +30,16 @@ def form_of_distinction_irreducible : Prop :=
             ∃ s : BHist, ∃ m : BMark, Ext s m h) ∧
             (msame BMark.b0 BMark.b1 → False)
 
+theorem form_of_distinction_irreducible_proof : form_of_distinction_irreducible := by
+  intro Carrier Primitive Classifier _cert carrier_ext
+  constructor
+  · intro h s t m n _carrier_h left right
+    exact ext_result_injective_pair left right
+  · constructor
+    · intro h _primitive_h carrier_h
+      exact (carrier_ext h).mp carrier_h
+    · exact not_msame_b0_b1
+
 /-- Definition-classifier correspondence (statement scaffold). -/
 def definition_classifier_correspondence : Prop :=
   ∀ (Carrier Definition : BHist → Prop) (Classifier : BHist → BHist → Prop),
