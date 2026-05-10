@@ -75,4 +75,36 @@ theorem InterpolationEvaluationLedger_transport [AskSetup] [PackageSetup]
     ⟨sampleLedgerUnary', endpointUnary', provenanceUnary', sameSampleLedger, sameEndpoint,
       sameProvenance⟩
 
+theorem InterpolationEvaluationLedger_stability [AskSetup] [PackageSetup]
+    {node target polynomial node' target' polynomial' sample sample' endpoint endpoint'
+      provenance provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory node -> UnaryHistory target -> UnaryHistory polynomial ->
+      Cont node target endpoint -> Cont endpoint polynomial provenance ->
+        Cont node' target' endpoint' -> Cont endpoint' polynomial' provenance' ->
+          hsame node node' -> hsame target target' -> hsame polynomial polynomial' ->
+            hsame sample endpoint -> hsame sample' endpoint' ->
+              SigRel bundle sample provenance -> PkgSig bundle provenance pkg ->
+                UnaryHistory endpoint' ∧ UnaryHistory provenance' ∧ hsame sample sample' ∧
+                  hsame provenance provenance' ∧ SigRel bundle sample provenance ∧
+                    PkgSig bundle provenance pkg := by
+  intro nodeUnary targetUnary polynomialUnary endpointRow provenanceRow endpointRow'
+  intro provenanceRow' sameNode sameTarget samePolynomial sameSampleEndpoint
+  intro sameSampleEndpoint' sigRel pkgSig
+  have nodeUnary' : UnaryHistory node' := unary_transport nodeUnary sameNode
+  have targetUnary' : UnaryHistory target' := unary_transport targetUnary sameTarget
+  have polynomialUnary' : UnaryHistory polynomial' :=
+    unary_transport polynomialUnary samePolynomial
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed nodeUnary' targetUnary' endpointRow'
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_cont_closed endpointUnary' polynomialUnary' provenanceRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameNode sameTarget endpointRow endpointRow'
+  have sameSample : hsame sample sample' :=
+    hsame_trans sameSampleEndpoint (hsame_trans sameEndpoint (hsame_symm sameSampleEndpoint'))
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameEndpoint samePolynomial provenanceRow provenanceRow'
+  exact ⟨endpointUnary', provenanceUnary', sameSample, sameProvenance, sigRel, pkgSig⟩
+
 end BEDC.Derived.InterpolationUp
