@@ -181,3 +181,57 @@ selector read from $W_1$ have the same public coordinates. The exclusion clauses
 in the transport, separation, normal-form, and determinacy statements give the
 stated boundary.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp tail denominator selector subwindow]
+\label{thm:streamname-regseqrat-realup-tail-denominator-selector-subwindow}
+Let $W_0$ and $W_1$ be selected finite $\RealUp$ observation-window packages over
+the same StreamName endpoints $s,t:\mathsf{BHist}\to\mathsf{BHist}$, the same
+finite $\mathsf{ProbeBundle}$ window $\mathcal P$, and the same accepted
+$\RegSeqRat$ spine row. Suppose a StreamName RegSeqRat RealUp tail-selector
+transport packet carries the public denominator-window selector from $W_0$ to
+$W_1$. Let $\mathcal Q$ be a certified subwindow of $\mathcal P$. Then the
+restrictions of $W_0$, $W_1$, and the transport packet to $\mathcal Q$ carry the
+same public denominator-window selector on $\mathcal Q$.
+
+For each certified selected observation $n$ with $\mathsf{UnaryHistory}(n)$ and
+$\mathsf{InBundle}(n,\mathcal Q)$, the subwindow selector conclusion reads only
+$$
+\begin{gathered}
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal Q),\qquad
+\mathsf{UnaryHistory}(n),\qquad
+\mathsf{InBundle}(n,\mathcal Q),\\
+\mathsf{RatHistoryClassifier}(s(n),t(n)),\qquad
+\text{the accepted }\RegSeqRat\text{ spine},\qquad
+\text{the finite }\RealUp\text{ ledger restricted to }\mathcal Q .
+\end{gathered}
+$$
+It introduces no observation outside $\mathcal Q$, quotient row, completion
+object, Classical representative, metric-completeness certificate, arithmetic or
+order row, standard bridge row, or external selector.
+\end{theorem}
+\begin{proof}
+First restrict the two selected $\RealUp$ windows. Apply
+\autoref{thm:real-stream-window-subwindow-extraction} to the finite
+$\mathsf{ProbeBundle}$ inclusion $\mathcal Q\subseteq\mathcal P$. The result is
+a selected finite-window package for each $W_i$ whose visible ledger is precisely
+the $\RealUp$ ledger over the certified observations in $\mathcal Q$.
+
+Next restrict the StreamName finite-window face of the packet. The handoff rows
+\autoref{thm:rat-stream-name-finite-window-subwindow-restriction} and
+\autoref{thm:streamname-transported-subwindow-public-readback} replace the
+ambient classifier over $\mathcal P$ by
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal Q)$ and keep only the
+rows whose unary index lies in $\mathsf{InBundle}(-,\mathcal Q)$.
+
+Now apply
+\autoref{thm:streamname-regseqrat-realup-tail-denominator-selector} to the
+restricted packet. The accepted $\RegSeqRat$ spine is unchanged, while the
+denominator selector is read through the restricted StreamName classifier and
+the restricted finite $\RealUp$ ledger.
+
+The displayed conclusion follows because every coordinate it reads is one of
+$\mathsf{RatStreamNameFiniteWindowClassifier}$, $\mathsf{UnaryHistory}$,
+$\mathsf{InBundle}$, pointwise $\mathsf{RatHistoryClassifier}$, the accepted
+$\RegSeqRat$ spine, or the finite $\RealUp$ ledger on $\mathcal Q$. No row from
+the complement of $\mathcal Q$ remains available after the subwindow extraction.
+\end{proof}

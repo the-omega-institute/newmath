@@ -49,3 +49,43 @@ readback theorem then returns the two unary tail rows and their $\hsame$
 comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_endpoint\_common\_e1\_tail\_readback}
+
+\begin{theorem}[Real stream prefix probe endpoint determinacy]
+\label{thm:real-stream-prefix-probe-endpoint-determinacy}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, let
+$\mathcal P$ be a finite certified $\mathsf{ProbeBundle}$ window and let
+$n$ be a unary observation with $\mathsf{InBundle}(n,\mathcal P)$. Suppose the
+window supplies $\mathsf{RealStreamPrefixClassifier}(x,y,n)$ and, for every
+displayed tail row selected by $\mathcal P$ after $n$, the finite row
+$\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))$ is present. Then every consumer
+endpoint selected from $\mathcal P$ has a unique
+$\mathsf{RatHistoryClassifier}$ readback, and its endpoint admits the same
+common e-one tail witness after $\hsame$ transport:
+$$
+\mathsf{InBundle}(n,\mathcal P)\Longrightarrow
+\forall j,\ \mathsf{InBundle}(j,\mathcal P)\Longrightarrow
+\exists a,b,\ \hsame(x(j),\Eone(a))\land \hsame(y(j),\Eone(b))\land
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+The statement reads only the displayed finite rows of $\mathcal P$; no
+observation outside the certified probe window is used.
+\end{theorem}
+\begin{proof}
+Restrict the finite $\mathsf{ProbeBundle}$ to the selected prefix through $n$
+and to the displayed consumer endpoint $j$. The membership rows
+$\mathsf{InBundle}(n,\mathcal P)$ and $\mathsf{InBundle}(j,\mathcal P)$ are
+exactly the evidence that these two observations lie inside the certified
+window.
+
+Apply \autoref{thm:real-stream-prefix-tail-endpoint-projection} to the selected
+prefix and the finite tail rows displayed by $\mathcal P$. This gives the
+endpoint $\mathsf{RatHistoryClassifier}$ readback for the consumer endpoint,
+and uniqueness follows because the readback is selected from the same finite
+bundle row rather than from an external observation.
+
+Finally apply
+\autoref{thm:real-stream-prefix-truncated-endpoint-common-e1-tail-readback} to
+the resulting classified prefix. The $\hsame$ transport keeps the two endpoint
+histories in the same rational-observation class, so the e-one tail witnesses
+are the common tail witnesses recorded by the finite probe window.
+\end{proof}
