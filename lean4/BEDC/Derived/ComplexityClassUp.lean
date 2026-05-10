@@ -174,4 +174,45 @@ theorem ComplexityClassNameCertObligationSurface_public_rows
     ⟨resourceUnary, traceUnary, verdictUnary, acceptedUnary, ledgerUnary, publicSurfaceUnary,
       publicSurfaceRow⟩
 
+theorem ComplexityClassResourceModulusMonotonicity_bound_enlargement
+    {input length length' acceptor budget budget' trace trace' verdict verdict' accepted
+      accepted' : BHist} :
+    UnaryHistory input -> UnaryHistory length -> UnaryHistory acceptor -> hsame length length' ->
+      Cont input length budget -> Cont input length' budget' -> Cont acceptor budget trace ->
+        Cont acceptor budget' trace' -> Cont trace budget verdict ->
+          Cont trace' budget' verdict' -> Cont input verdict accepted ->
+            Cont input verdict' accepted' ->
+              UnaryHistory length' ∧ UnaryHistory budget' ∧ UnaryHistory trace' ∧
+                UnaryHistory verdict' ∧ UnaryHistory accepted' ∧ hsame budget budget' ∧
+                  hsame trace trace' ∧ hsame verdict verdict' ∧ hsame accepted accepted' := by
+  intro inputUnary lengthUnary acceptorUnary sameLength budgetRow budgetRow'
+  intro traceRow traceRow' verdictRow verdictRow' acceptedRow acceptedRow'
+  have lengthUnary' : UnaryHistory length' :=
+    unary_transport lengthUnary sameLength
+  have budgetUnary : UnaryHistory budget :=
+    unary_cont_closed inputUnary lengthUnary budgetRow
+  have budgetUnary' : UnaryHistory budget' :=
+    unary_cont_closed inputUnary lengthUnary' budgetRow'
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed acceptorUnary budgetUnary traceRow
+  have traceUnary' : UnaryHistory trace' :=
+    unary_cont_closed acceptorUnary budgetUnary' traceRow'
+  have verdictUnary : UnaryHistory verdict :=
+    unary_cont_closed traceUnary budgetUnary verdictRow
+  have verdictUnary' : UnaryHistory verdict' :=
+    unary_cont_closed traceUnary' budgetUnary' verdictRow'
+  have acceptedUnary' : UnaryHistory accepted' :=
+    unary_cont_closed inputUnary verdictUnary' acceptedRow'
+  have sameBudget : hsame budget budget' :=
+    cont_respects_hsame (hsame_refl input) sameLength budgetRow budgetRow'
+  have sameTrace : hsame trace trace' :=
+    cont_respects_hsame (hsame_refl acceptor) sameBudget traceRow traceRow'
+  have sameVerdict : hsame verdict verdict' :=
+    cont_respects_hsame sameTrace sameBudget verdictRow verdictRow'
+  have sameAccepted : hsame accepted accepted' :=
+    cont_respects_hsame (hsame_refl input) sameVerdict acceptedRow acceptedRow'
+  exact
+    ⟨lengthUnary', budgetUnary', traceUnary', verdictUnary', acceptedUnary', sameBudget,
+      sameTrace, sameVerdict, sameAccepted⟩
+
 end BEDC.Derived.ComplexityClassUp

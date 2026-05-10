@@ -108,4 +108,27 @@ theorem BusyBeaverBoundMonotonicity_bound_transport
     ⟨boundUnary', outputBoundUnary, outputBoundUnary', stepBoundUnary, stepBoundUnary',
       ledgerUnary, ledgerUnary', outputBoundSame, stepBoundSame, ledgerSame⟩
 
+theorem BusyBeaverEnumerationCompleteness_finite_coverage
+    {stateCount machine enumeration listed branch coverage publicLedger : BHist} :
+    UnaryHistory stateCount -> UnaryHistory machine -> UnaryHistory enumeration ->
+      Cont stateCount machine listed -> Cont enumeration listed branch ->
+        Cont machine branch coverage -> Cont coverage enumeration publicLedger ->
+          UnaryHistory listed ∧ UnaryHistory branch ∧ UnaryHistory coverage ∧
+            UnaryHistory publicLedger ∧ hsame listed (append stateCount machine) ∧
+              hsame branch (append enumeration listed) ∧ hsame coverage (append machine branch) ∧
+                hsame publicLedger (append coverage enumeration) := by
+  intro stateCountUnary machineUnary enumerationUnary listedRow branchRow coverageRow
+  intro publicLedgerRow
+  have listedUnary : UnaryHistory listed :=
+    unary_cont_closed stateCountUnary machineUnary listedRow
+  have branchUnary : UnaryHistory branch :=
+    unary_cont_closed enumerationUnary listedUnary branchRow
+  have coverageUnary : UnaryHistory coverage :=
+    unary_cont_closed machineUnary branchUnary coverageRow
+  have publicLedgerUnary : UnaryHistory publicLedger :=
+    unary_cont_closed coverageUnary enumerationUnary publicLedgerRow
+  exact
+    ⟨listedUnary, branchUnary, coverageUnary, publicLedgerUnary, listedRow, branchRow,
+      coverageRow, publicLedgerRow⟩
+
 end BEDC.Derived.BusyBeaverUp
