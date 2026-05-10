@@ -460,6 +460,19 @@ theorem PinGroupReflectionParityCarrier_root_reflection_threshold_exactness
             (And.intro reflectionRows.right.right.right.left
               reflectionRows.right.right.right.right))))
 
+theorem PinGroupReflectionParityCarrier_parity_classifier_obligation
+    {spin reflection product endpoint endpoint' ledger carried carried' : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      PinGroupReflectionParityCarrier spin reflection product endpoint' ->
+        hsame endpoint endpoint' ->
+          Cont endpoint' ledger carried' ->
+            PinGroupReflectionParityCarrier spin reflection product endpoint' ∧
+              hsame carried carried' ∧ hsame carried' (append endpoint' ledger) := by
+  intro surface classifier sameEndpoint endpointLedger'
+  have sameCarried : hsame carried carried' :=
+    cont_respects_hsame sameEndpoint (hsame_refl ledger) surface.right endpointLedger'
+  exact And.intro classifier (And.intro sameCarried endpointLedger')
+
 theorem PinGroupReflectionGenerator_transport_closure
     {spin reflection product endpoint ledger carried spin' reflection' product' endpoint' ledger'
       carried' : BHist} :

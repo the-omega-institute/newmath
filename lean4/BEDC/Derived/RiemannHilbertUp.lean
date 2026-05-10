@@ -264,4 +264,46 @@ theorem RiemannHilbertLocalSystemLedger_continuation_closure
     rfl
   exact ⟨localUnary, localSystemUnary, compareUnary, ledgerUnary, ledgerReadback⟩
 
+theorem RiemannHilbertBHistBridgePacket_flat_connection_classifier_boundary
+    [AskSetup] [PackageSetup]
+    {derivedSource sheafTarget regularBranch deRhamReadback localSystem gluing transport
+      provenance endpoint localClassifier flatSurface tail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannHilbertBHistBridgePacket derivedSource sheafTarget regularBranch
+        deRhamReadback localSystem gluing transport provenance endpoint bundle pkg ->
+      hsame regularBranch (BHist.e1 tail) ->
+        Cont regularBranch localSystem localClassifier ->
+          Cont localClassifier deRhamReadback flatSurface ->
+            UnaryHistory flatSurface ∧ (hsame flatSurface BHist.Empty -> False) ∧
+              PkgSig bundle endpoint pkg := by
+  intro packet regularBranchVisible localClassifierCont flatSurfaceCont
+  have regularUnary : UnaryHistory regularBranch := packet.right.right.left
+  have derivedUnary : UnaryHistory derivedSource := packet.left
+  have sheafUnary : UnaryHistory sheafTarget := packet.right.left
+  have localSystemUnary : UnaryHistory localSystem := packet.right.right.right.left
+  have deRhamCont : Cont derivedSource sheafTarget deRhamReadback :=
+    packet.right.right.right.right.right.left
+  have deRhamUnary : UnaryHistory deRhamReadback :=
+    unary_cont_closed derivedUnary sheafUnary deRhamCont
+  have localClassifierUnary : UnaryHistory localClassifier :=
+    unary_cont_closed regularUnary localSystemUnary localClassifierCont
+  have flatSurfaceUnary : UnaryHistory flatSurface :=
+    unary_cont_closed localClassifierUnary deRhamUnary flatSurfaceCont
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right
+  constructor
+  · exact flatSurfaceUnary
+  · constructor
+    · intro flatSurfaceEmpty
+      have localClassifierNonempty : hsame localClassifier BHist.Empty -> False := by
+        intro localClassifierEmpty
+        have regularBranchEmpty : hsame regularBranch BHist.Empty :=
+          append_eq_empty_iff.mp (localClassifierCont.symm.trans localClassifierEmpty) |>.left
+        exact not_hsame_e1_empty
+          (hsame_trans (hsame_symm regularBranchVisible) regularBranchEmpty)
+      have localClassifierEmpty : hsame localClassifier BHist.Empty :=
+        append_eq_empty_iff.mp (flatSurfaceCont.symm.trans flatSurfaceEmpty) |>.left
+      exact localClassifierNonempty localClassifierEmpty
+    · exact pkgSig
+
 end BEDC.Derived.RiemannHilbertUp
