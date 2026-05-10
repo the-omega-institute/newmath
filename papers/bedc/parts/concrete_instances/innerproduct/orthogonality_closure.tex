@@ -318,3 +318,28 @@ $$
 (-_V x)\perp_I y.
 $$
 \end{proof}
+
+\begin{theorem}[InnerProduct orthogonality right additive closure]
+\label{thm:innerproduct-orthogonality-right-additive-closure}
+Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in
+\autoref{def:innerproduct-bhist-carrier}. For carried vector endpoints
+$x,y,z:C_V$, if $x\perp_I y$ and $x\perp_I z$, then the displayed vector sum
+$y+_V z$ is carried and
+$$
+x\perp_I (y+_V z).
+$$
+\end{theorem}
+\begin{proof}
+The carried endpoints $y$ and $z$ lie in the embedded $\VecSpaceUp$ row of
+\autoref{def:innerproduct-bhist-carrier}. Its additive $\AbGroupUp$ reduct
+therefore carries the displayed sum $y+_V z$.
+
+Apply \autoref{thm:innerproduct-orthogonal-additivity-row} to the same
+inner-product carrier and to the carried triple $(x,y,z)$. The two hypotheses
+$x\perp_I y$ and $x\perp_I z$ are exactly its orthogonality inputs, so its
+conclusion gives the scalar-zero row for the right additive endpoint:
+$$
+x\perp_I (y+_V z).
+$$
+This is the asserted right additive closure.
+\end{proof}
