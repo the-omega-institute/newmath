@@ -226,6 +226,73 @@ $\mathsf{RatStreamNameFiniteWindowClassifier}
 \lambda n.\,t(\mathsf{append}(a,n)),\mathcal{P})$.
 \end{proof}
 
+\begin{theorem}[Real unary window finite-probe determinacy]
+\label{thm:real-unary-window-finite-probe-determinacy}
+For observation maps $s,t:\Hist\to\Hist$, a unary anchor $a:\Hist$, a bound
+$w:\Hist$, and probe bundles
+$\mathcal{P},\mathcal{Q}:\mathsf{ProbeBundle}$, suppose
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)
+$$
+and suppose every bundled certified unary observation of $\mathcal{P}$ lies
+below the window bound:
+$$
+\forall n:\Hist,
+\mathsf{InBundle}(n,\mathcal{P})\to
+\mathsf{UnaryHistory}(n)\to
+\mathsf{UnaryOffsetLe}(n,w).
+$$
+Suppose also that $\mathcal{P}$ and $\mathcal{Q}$ have the same membership rows
+on certified unary histories:
+$$
+\forall n:\Hist,\ \mathsf{UnaryHistory}(n)\to
+(\mathsf{InBundle}(n,\mathcal{P})\Longleftrightarrow
+\mathsf{InBundle}(n,\mathcal{Q})).
+$$
+Then the shifted StreamName finite-window surface is independent of the chosen
+presentation:
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}
+(\lambda n.\,s(\mathsf{append}(a,n)),
+\lambda n.\,t(\mathsf{append}(a,n)),
+\mathcal{P})
+\Longleftrightarrow
+\mathsf{RatStreamNameFiniteWindowClassifier}
+(\lambda n.\,s(\mathsf{append}(a,n)),
+\lambda n.\,t(\mathsf{append}(a,n)),
+\mathcal{Q}).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-finite-window-classifier}. For the
+forward direction, fix a bundled certified unary observation $n$ of
+$\mathcal{Q}$. The membership-equivalence hypothesis sends its
+$\mathsf{InBundle}(n,\mathcal{Q})$ row to an
+$\mathsf{InBundle}(n,\mathcal{P})$ row.
+
+The $\mathcal{P}$ boundedness hypothesis now gives
+$\mathsf{UnaryOffsetLe}(n,w)$. Apply
+\autoref{lem:real-unary-stream-window-endpoint-projection} to the shared Real
+unary window classifier and this bounded-offset witness. The result is the
+required point row
+$$
+\mathsf{RatHistoryClassifier}
+(s(\mathsf{append}(a,n)),t(\mathsf{append}(a,n))).
+$$
+
+For the reverse direction, fix a bundled certified unary observation $n$ of
+$\mathcal{P}$. The same membership-equivalence row also identifies it as a
+bundled observation of $\mathcal{Q}$, so both presentations expose the same
+finite probe site.
+
+The boundedness hypothesis for $\mathcal{P}$ supplies
+$\mathsf{UnaryOffsetLe}(n,w)$. Applying
+\autoref{lem:real-unary-stream-window-endpoint-projection} again to the shared
+Real unary window classifier gives the RatUp endpoint classifier at
+$\mathsf{append}(a,n)$, which is exactly the required
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row for $\mathcal{P}$.
+\end{proof}
+
 The ten-field fit is: traditional target finite observation-window bridge;
 BEDC source $\mathsf{RealUp}$ plus $\mathsf{StreamNameUp}$ plus
 $\mathsf{RatUp}$ plus $\mathsf{ProbeBundle}$; carrier the shifted observation
