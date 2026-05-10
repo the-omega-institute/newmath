@@ -83,6 +83,15 @@ inductive P9SelfHostingStatusKind : Type where
   | selfHostingWithObligations
   | fullyDischarged
 
+inductive P9CompilerStatusTag : Type where
+  | compilerCandidate
+  | recognizedCompilerFlow
+  | certifiedCompilerFlow
+  | selfCompilingCompilerFlow
+  | selfHostingCompilerFlow
+  | selfHostingWithObligations
+  | fullyDischargedCompilerFlow
+
 structure P9SelfHostingStatusRecord where
   compilerFlow : EventFlow
   selfCompilationFlow : EventFlow
@@ -178,6 +187,27 @@ theorem sound_p9_report_full_claim_requires_empty_obligations
         P9FullNoHiddenSupport report := by
   intro hSound hFull
   exact hSound.fullyDischargedOnlyWhenEmpty hFull
+
+theorem p9_statuses_distinct :
+    Not (P9CompilerStatusTag.compilerCandidate =
+      P9CompilerStatusTag.recognizedCompilerFlow) /\
+    Not (P9CompilerStatusTag.recognizedCompilerFlow =
+      P9CompilerStatusTag.certifiedCompilerFlow) /\
+    Not (P9CompilerStatusTag.certifiedCompilerFlow =
+      P9CompilerStatusTag.selfCompilingCompilerFlow) /\
+    Not (P9CompilerStatusTag.selfCompilingCompilerFlow =
+      P9CompilerStatusTag.selfHostingCompilerFlow) /\
+    Not (P9CompilerStatusTag.selfHostingCompilerFlow =
+      P9CompilerStatusTag.selfHostingWithObligations) /\
+    Not (P9CompilerStatusTag.selfHostingWithObligations =
+      P9CompilerStatusTag.fullyDischargedCompilerFlow) := by
+  exact
+    ⟨(fun h => nomatch h),
+      (fun h => nomatch h),
+      (fun h => nomatch h),
+      (fun h => nomatch h),
+      (fun h => nomatch h),
+      (fun h => nomatch h)⟩
 
 def P9AdequacySupport
     (checklist : P9AuditChecklist) (report : P9Report) : Prop :=
