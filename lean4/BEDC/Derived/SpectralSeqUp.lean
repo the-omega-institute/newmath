@@ -100,6 +100,37 @@ theorem SpectralSeqBHistPageCarrier_successor_page_closure [AskSetup] [PackageSe
                     (And.intro successorEndpoint pkgSig')))))))))
     (And.intro sameReadback sameTransition)
 
+theorem SpectralSeqBHistPageCarrier_filtration_transport [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint page'
+      differential' readback' transition' endpoint' filtrationExtension : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence transition
+        provenance endpoint bundle pkg ->
+      hsame page page' ->
+        hsame differential differential' ->
+          Cont page' differential' readback' ->
+            Cont readback' convergence transition' ->
+              Cont provenance transition' endpoint' ->
+                Cont transition' convergence filtrationExtension ->
+                  SpectralSeqBHistPageCarrier abelian homology page' differential' readback'
+                      convergence transition' provenance endpoint' bundle pkg ∧
+                    UnaryHistory filtrationExtension ∧
+                      hsame filtrationExtension (append transition' convergence) ∧
+                        hsame readback readback' ∧ hsame transition transition' := by
+  intro carrier samePage sameDifferential successorReadback successorTransition successorEndpoint
+    filtrationRow
+  have successor :=
+    SpectralSeqBHistPageCarrier_successor_page_closure carrier samePage sameDifferential
+      successorReadback successorTransition successorEndpoint
+  have obligation := SpectralSeqBHistPageCarrier_obligation_surface successor.left
+  have filtrationUnary : UnaryHistory filtrationExtension :=
+    unary_cont_closed obligation.right.right.right.left
+      successor.left.right.right.right.right.left filtrationRow
+  exact And.intro successor.left
+    (And.intro filtrationUnary
+      (And.intro filtrationRow
+        (And.intro successor.right.left successor.right.right)))
+
 theorem SpectralSeqBHistPageCarrier_zero_page_carrier [AskSetup] [PackageSetup]
     {source provenance : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     UnaryHistory source ->
@@ -138,5 +169,34 @@ theorem SpectralSeqBHistPageCarrier_derivedfunctor_consumer_surface [AskSetup] [
       (And.intro obligation.right.right.right.left
         (And.intro obligation.right.right.right.right.right.right.right.left
           obligation.right.right.right.right.right.right.right.right)))
+
+theorem SpectralSeqBHistPageCarrier_visible_target_filtration_coverage
+    [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint target :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence transition
+        provenance endpoint bundle pkg ->
+      Cont transition endpoint target ->
+        UnaryHistory target ∧ hsame target (append transition endpoint) ∧
+          hsame transition (append readback convergence) ∧
+            hsame endpoint (append provenance transition) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier targetRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  have transitionUnary : UnaryHistory transition :=
+    unary_cont_closed readbackUnary carrier.right.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.right.right.right.right.right.left transitionUnary
+      carrier.right.right.right.right.right.right.right.right.left
+  have targetUnary : UnaryHistory target :=
+    unary_cont_closed transitionUnary endpointUnary targetRow
+  exact And.intro targetUnary
+    (And.intro targetRow
+      (And.intro carrier.right.right.right.right.right.right.right.left
+        (And.intro carrier.right.right.right.right.right.right.right.right.left
+          carrier.right.right.right.right.right.right.right.right.right)))
 
 end BEDC.Derived.SpectralSeqUp

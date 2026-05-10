@@ -9,6 +9,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.Meta.TasteGate
 
 theorem PolicyUp_taste_gate_source_scope [AskSetup] [PackageSetup]
@@ -121,6 +122,55 @@ theorem PolicyActionLedgerCarrier_action_classifier_stability [AskSetup] [Packag
       (And.intro carrier.right.right.right.right.right.right.right.right.right.left
         (And.intro carrier.right.right.right.right.right.right.right.right.right.right.left
           carrier.right.right.right.right.right.right.right.right.right.right.right)))
+
+theorem PolicyActionLedgerCarrier_selected_action_determinacy [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decisionP ledgerP provenanceP endpointP decisionQ ledgerQ
+      provenanceQ endpointQ : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decisionP ledgerP provenanceP
+        endpointP bundle pkg ->
+      PolicyActionLedgerCarrier belief markov randomvar estimator decisionQ ledgerQ provenanceQ
+        endpointQ bundle pkg ->
+        hsame decisionP decisionQ ->
+          hsame endpointP endpointQ := by
+  intro carrierP carrierQ sameDecision
+  have sameLedger : hsame ledgerP ledgerQ :=
+    cont_respects_hsame (hsame_refl belief) (hsame_refl markov)
+      carrierP.right.right.right.right.right.right.right.right.left
+      carrierQ.right.right.right.right.right.right.right.right.left
+  have sameProvenance : hsame provenanceP provenanceQ :=
+    cont_respects_hsame sameLedger (hsame_refl estimator)
+      carrierP.right.right.right.right.right.right.right.right.right.left
+      carrierQ.right.right.right.right.right.right.right.right.right.left
+  exact
+    cont_respects_hsame sameProvenance sameDecision
+      carrierP.right.right.right.right.right.right.right.right.right.right.left
+      carrierQ.right.right.right.right.right.right.right.right.right.right.left
+
+theorem PolicyActionLedgerCarrier_dependency_source_exactness [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance endpoint
+        bundle pkg ->
+      UnaryHistory belief ∧ UnaryHistory markov ∧ UnaryHistory randomvar ∧
+        UnaryHistory estimator ∧ UnaryHistory decision ∧ UnaryHistory ledger ∧
+          UnaryHistory provenance ∧ UnaryHistory endpoint ∧ hsame ledger (append belief markov) ∧
+            hsame provenance (append ledger estimator) ∧
+              hsame endpoint (append provenance decision) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.right⟩
 
 theorem PolicyActionLedgerCarrier_tastegate_scoped_package [AskSetup] [PackageSetup]
     {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
