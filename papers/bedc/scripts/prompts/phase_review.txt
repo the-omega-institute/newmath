@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.10 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.11 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Multi-target round emission (HARD GATE — minimum 5 candidates)
 
@@ -181,22 +181,36 @@ When `top` empties out, only this discovery work moves the frontier;
 closure_mark and drift sync just polish what exists.
 
 How to identify the missing chapter:
-1. Run `ls papers/bedc/parts/concrete_instances/ | grep _namecert`
-   to read the current slug list.
-2. Pick a textbook neighbor of an existing chapter that has NOT been
-   added. Illustrative examples (do not pick from this list mechanically;
-   derive your own gap from the *current* inventory):
+1. Run `python3 tools/dag_brief.py --frontier` to dump the live
+   chapter DAG (~70 KB, 261 nodes, 438 edges) plus the top-40
+   "frontier" chapters (mature leaves with downstream <= 1). The
+   tool reads paper sources directly — no dossier dependency, no
+   stale cache. Each node has: id, label, theoryclosure,
+   formalstatus, origin, thms, depends_on[], downstream.
+2. Pick a frontier chapter and reason about what canonical textbook
+   neighbour is missing from its dependency neighbourhood. The
+   neighbour should be a recognised mathematical object whose
+   carrier is naturally one or two BHist rows beyond what the
+   frontier chapter already binds.
+3. Cross-check against the slug list: the slug must NOT already be
+   present in the dag_brief output (case-insensitive).
+4. Verify the chapter is formalisable under BEDC zero-axiom: no
+   Classical.choice, no Lebesgue measure, no Hahn-Banach strong
+   form. If unsure, skip and pick a different gap.
+5. Cite a textbook / paper reference (Hartshorne / Kobayashi /
+   Pierce / Pearl / Boyd-Vandenberghe / Russell-Norvig / etc) in
+   the `proposed_change` body. Self-named or AI-invented chapters
+   are NOT human_chapter_extension targets — those go through
+   `phase_propose.txt` with `\origin{ai}`.
+
+Illustrative examples (do not pick mechanically; derive from the
+*actual* dag_brief output):
      NumFieldUp        →  EtaleCohomologyUp
      ConnectionUp      →  HolonomyUp
      TensorProductUp   →  GradedTensorUp
      LambdaCalcUp      →  SystemFOmegaUp
      ProbSpaceUp       →  MartingaleConvergenceUp
      HilbertUp         →  SpectralMeasureUp
-3. Verify the slug is not already present (case-insensitive find).
-4. Verify the chapter is formalisable under BEDC zero-axiom (not
-   Classical.choice / Lebesgue / Hahn-Banach strong).
-5. Cite the textbook reference (Hartshorne / Kobayashi / Pierce / etc)
-   in the `proposed_change` body.
 
 The full rule-set for human_chapter_extension targets follows below.
 
