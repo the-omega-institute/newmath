@@ -117,6 +117,38 @@ theorem AbGroupTorsionSubgroup_singleton_closure :
     · intro a torsionA
       exact hsame_refl BHist.Empty
 
+theorem AbGroupUp_StdBridge :
+    SemanticNameCert BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonClassifier ∧
+      BEDC.Derived.GroupUp.GroupSingletonCarrier BHist.Empty ∧
+      (forall {h k : BHist}, BEDC.Derived.GroupUp.GroupSingletonCarrier h ->
+        BEDC.Derived.GroupUp.GroupSingletonCarrier k ->
+          BEDC.Derived.GroupUp.GroupSingletonClassifier (append h k) (append k h)) ∧
+      (forall {h : BHist}, BEDC.Derived.GroupUp.GroupSingletonCarrier h ->
+        BEDC.Derived.GroupUp.GroupSingletonClassifier h BHist.Empty) := by
+  have laws := BEDC.Derived.GroupUp.GroupSingletonHistory_laws
+  have emptyCarrier : BEDC.Derived.GroupUp.GroupSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  have commutative :
+      forall {h k : BHist}, BEDC.Derived.GroupUp.GroupSingletonCarrier h ->
+        BEDC.Derived.GroupUp.GroupSingletonCarrier k ->
+          BEDC.Derived.GroupUp.GroupSingletonClassifier (append h k) (append k h) := by
+    intro h k carrierH carrierK
+    have leftCarrier : BEDC.Derived.GroupUp.GroupSingletonCarrier (append h k) :=
+      append_eq_empty_iff.mpr (And.intro carrierH carrierK)
+    have rightCarrier : BEDC.Derived.GroupUp.GroupSingletonCarrier (append k h) :=
+      append_eq_empty_iff.mpr (And.intro carrierK carrierH)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+  have terminal :
+      forall {h : BHist}, BEDC.Derived.GroupUp.GroupSingletonCarrier h ->
+        BEDC.Derived.GroupUp.GroupSingletonClassifier h BHist.Empty := by
+    intro h carrierH
+    exact And.intro carrierH (And.intro emptyCarrier carrierH)
+  exact And.intro laws.left (And.intro emptyCarrier (And.intro commutative terminal))
+
 theorem abgroup_mul_left_right_swap {mul : BHist -> BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
     (commC : forall x y : BHist, hsame (mul x y) (mul y x))
