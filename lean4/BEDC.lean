@@ -102,6 +102,7 @@ import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.KolmogorovUp
+import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
@@ -173,6 +174,7 @@ import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KnotUp
+import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
