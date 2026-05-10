@@ -43,3 +43,59 @@ with the displayed histories $z_X$ and $z_Y$. Repack the tail readback, endpoint
 classifier, denominator rows, nonempty exclusions, and zero-headed exclusions
 into the displayed existential envelope.
 \end{proof}
+
+\begin{theorem}[RealUp StreamName-RegSeqRat common e-one window envelope]
+\label{thm:realup-streamname-regseqrat-common-eone-window-envelope}
+Let $x,x',y,y':\mathbb{N}\to\Hist$ be rational-observation streams, let
+$n:\Hist$ be a certified unary index, and let
+$\mathcal{P}:\mathsf{ProbeBundle}$ be a finite bundle with
+$\mathsf{InBundle}(n,\mathcal{P})$. Suppose the pointwise transport rows and
+stream classifier hypotheses of
+\autoref{thm:real-stream-classifier-transport-selected-common-e1-certified-shape-envelope}
+hold at the selected observation, and suppose the finite-window
+$\StreamNameUp$--$\RegSeqRat$ handoff rows over $\mathcal{P}$ are present.
+Then the extracted common e-one witnesses $a,b:\Hist$ form exactly the finite
+consumer packet
+\begin{enumerate}
+  \item $\mathsf{UnaryHistory}(n)$ and
+  $\mathsf{InBundle}(n,\mathcal{P})$;
+  \item the transported
+  $\mathsf{RatHistoryClassifier}(x'(n),y'(n))$ row;
+  \item positive unary denominator rows for $x'(n)$ and $y'(n)$;
+  \item the endpoint exclusions
+  $\hsame(x'(n),\emp)\to\mathsf{False}$,
+  $\hsame(y'(n),\emp)\to\mathsf{False}$,
+  $\hsame(x'(n),\Ezero(a))\to\mathsf{False}$, and
+  $\hsame(y'(n),\Ezero(b))\to\mathsf{False}$;
+  \item the endpoint readbacks $\hsame(x'(n),\Eone(a))$ and
+  $\hsame(y'(n),\Eone(b))$, the unary tail rows
+  $\mathsf{UnaryHistory}(a)$ and $\mathsf{UnaryHistory}(b)$, and the shared
+  tail comparison $\hsame(a,b)$.
+\end{enumerate}
+The packet exports no quotient, completion, Classical representative,
+metric-completeness row, arithmetic or order row, standard bridge row, or
+hidden selector.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-classifier-transport-selected-common-e1-certified-shape-envelope}.
+It supplies the witnesses $a$ and $b$, their e-one endpoint readbacks, their
+unary tail rows, the shared $\hsame(a,b)$ comparison, the transported rational
+classifier, positive unary denominator rows, unary endpoint rows, and the
+empty and zero-headed endpoint exclusions.
+
+Next read the same selected observation through
+\autoref{thm:streamname-regseqrat-pointwise-handoff}. The handoff contributes
+only the bundled unary-history row, the displayed
+$\mathsf{InBundle}(n,\mathcal{P})$ membership, and the pointwise rational
+classifier row consumed by $\RegSeqRat$.
+
+Finally apply \autoref{thm:realup-scoped-finite-window-read-surface} to the
+selected $\RealUp$ finite window. Its read surface identifies the listed
+finite packet as a boundary over $\mathsf{BHist}$, $\mathsf{ProbeBundle}$,
+$\mathsf{UnaryHistory}$, $\RatUp$, $\StreamNameUp$, $\RegSeqRat$, and
+$\hsame$. The exclusion clauses supplied by the envelope rule out empty and
+zero-headed endpoints, so the repacked packet has no slot for quotient,
+completion, Classical representative, metric completeness, arithmetic, order,
+standard bridge, or hidden selection data.
+\end{proof}

@@ -101,6 +101,57 @@ packet. The transported subwindow packet is exactly the displayed public
 surface and no larger.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat denominator-window union stability]
+\label{thm:streamname-regseqrat-denominator-window-union-stability}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, and let
+$\mathcal P,\mathcal Q:\mathsf{ProbeBundle}$ be finite observation windows.
+Suppose denominator-window packets are accepted over both $\mathcal P$ and
+$\mathcal Q$. Then they assemble over the certified union window
+$\mathsf{bundleAppend}(\mathcal P,\mathcal Q)$, and every certified
+observation $n$ in that union has exactly the public coordinates
+$$
+\begin{gathered}
+\mathsf{RatStreamNameFiniteWindowClassifier}
+(s,t,\mathsf{bundleAppend}(\mathcal P,\mathcal Q)),\\
+\mathsf{UnaryHistory}(n),\qquad
+\mathsf{InBundle}(n,\mathsf{bundleAppend}(\mathcal P,\mathcal Q)),\qquad
+\mathsf{RatHistoryClassifier}(s(n),t(n)),\\
+\text{the downstream dyadic observation coverage row.}
+\end{gathered}
+$$
+The assembled packet exports no $\RegSeqRat$ regularity row, $\RealUp$ seal
+classifier, completion datum, quotient row, or host-index equality.
+\end{theorem}
+\begin{proof}
+First form the union classifier. The two accepted denominator-window packets
+expose $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$ and
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal Q)$ by
+\autoref{thm:streamname-regseqrat-denominator-window-separation}. The union
+case of \autoref{thm:rat-stream-name-finite-window-structural-laws} assembles
+these two rows into the classifier over
+$\mathsf{bundleAppend}(\mathcal P,\mathcal Q)$.
+
+Now fix a certified observation $n$ in the union window. Applying
+\autoref{thm:streamname-regseqrat-denominator-window-separation} to the union
+classifier exposes $\mathsf{UnaryHistory}(n)$, the displayed
+$\mathsf{InBundle}(n,\mathsf{bundleAppend}(\mathcal P,\mathcal Q))$ row, and
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+The subwindow direction is inherited by
+\autoref{thm:streamname-regseqrat-denominator-subwindow-transport}. It says
+that any consumer that later restricts the certified union packet back to
+$\mathcal P$ or $\mathcal Q$ sees exactly the same public denominator-window
+surface, with no additional host-coordinate witness.
+
+Finally apply
+\autoref{thm:regseqrat-finite-window-dyadic-observation-coverage} to read the
+downstream dyadic observation row, and use
+\autoref{thm:streamname-finite-observation-realup-seal-scope} to bracket the
+consumer boundary. Those two rows keep $\RegSeqRat$ regularity, $\RealUp$ seal
+classifiers, completion data, quotient rows, and host-index equality outside
+the assembled StreamName packet.
+\end{proof}
+
 \begin{theorem}[StreamName RealUp denominator-window normal form]
 \label{thm:streamname-realup-denominator-window-normal-form}
 A denominator window handed from $\StreamNameUp$ to both $\RegSeqRat$ and a
