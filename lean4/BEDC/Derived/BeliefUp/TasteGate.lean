@@ -35,10 +35,18 @@ def beliefToEventFlow : BeliefUp → EventFlow
 
 /-- Inverse readback. The chapter accepts only the two specific event flows
 its display can emit. -/
+def beliefFromRawEvent : RawEvent → Option BeliefUp
+  | [] => none
+  | m :: [] =>
+      match m with
+      | BMark.b0 => none
+      | BMark.b1 => some BeliefUp.observed
+  | _ :: _ :: _ => none
+
 def beliefFromEventFlow : EventFlow → Option BeliefUp
   | [] => some BeliefUp.empty
-  | [[BMark.b1]] => some BeliefUp.observed
-  | _ => none
+  | w :: [] => beliefFromRawEvent w
+  | _ :: _ :: _ => none
 
 instance beliefBHistCarrier : BHistCarrier BeliefUp where
   toEventFlow := beliefToEventFlow
