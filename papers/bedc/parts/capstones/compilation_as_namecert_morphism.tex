@@ -9,6 +9,8 @@ A compiler from source language $S$ to target language $T$ is a structure-preser
 \begin{definition}[Naming-certificate morphism]
 \label{def:compilation-namecert-morphism}
 A \emph{morphism} from $\NameCert_S$ to $\NameCert_T$ is a kernel-level function $\Phi$ on the carriers of $S$ and $T$ together with two preservation witnesses: $\Phi$ sends every $\Ext_S$-marked source history to an $\Ext_T$-marked target history, and $\Phi$ commutes with the continuation chains, $\Phi(\Cont_S\,h\,m\,h') = \Cont_T\,(\Phi h)\,m'\,(\Phi h')$ for an explicit mark translation $m \mapsto m'$. The morphism preserves \emph{classifier membership} because every classifier-decided fact about $h$ becomes a classifier-decided fact about $\Phi h$ via the preservation witnesses.
+
+In the Lean kernel this is expressed relationally by a compiler graph $G(h,k)$. The graph is a certificate morphism when every graph edge starts in the source carrier and lands in the target carrier, every source-classified input has a lifted graph edge, and paired graph edges transport source classifier membership to target classifier membership.
 \end{definition}
 
 \begin{definition}[Compiler]
@@ -18,12 +20,13 @@ A \emph{compiler} from $S$ to $T$ is a naming-certificate morphism $\Phi \colon 
 
 \begin{theorem}[Compilation as naming-certificate morphism]
 \label{thm:compilation-as-namecert-morphism}
-For every pair of naming certificates $(\NameCert_{S}, \NameCert_{T})$, every compiler from $S$ to $T$ that preserves $\hsame$ corresponds to a naming-certificate morphism $\NameCert_{S} \to \NameCert_{T}$ in the natural category of certificates. Compiler correctness is the assertion that this morphism is a $\hsame$-preserving classifier morphism. Sequential composition of correct compilers is composition of morphisms in this category; an optimisation is an endomorphism whose source and target certificates coincide.
-\leanstmt{BEDC.Reflection.compilation\_as\_namecert\_morphism}
+For every pair of naming certificates $(\NameCert_{S}, \NameCert_{T})$, every compiler graph from $S$ to $T$ whose edges land in the certified carriers, lift along source classifier membership, and preserve classifier membership across paired edges is a naming-certificate morphism $\NameCert_{S} \to \NameCert_{T}$. Compiler correctness is the assertion that this morphism is a $\hsame$-preserving classifier morphism. Sequential composition of correct compilers is composition of morphisms in this category; an optimisation is an endomorphism whose source and target certificates coincide.
+\leanchecked{BEDC.Reflection.compilation\_as\_namecert\_morphism\_proof}
+\leanvariant{BEDC.Reflection.compilation\_as\_namecert\_morphism}
 \end{theorem}
 
 \begin{proof}[Sketch]
-The forward direction is the unfolding of \autoref{def:compilation-compiler}: a compiler is, by definition, the data of a naming-certificate morphism plus the $\hsame$-preservation witness. The backward direction observes that a naming-certificate morphism is precisely a translation of source histories into target histories that respects $\Ext$ and $\Cont$, which is the operational reading of a compiler. Sequential composition of compilers $\Phi_2 \circ \Phi_1$ inherits the preservation witnesses by composing them, and the resulting $\hsame$-preservation is a kernel-level conjunction of the two component witnesses.
+The forward direction is the unfolding of \autoref{def:compilation-compiler}: a compiler is, by definition, the data of a naming-certificate morphism plus the $\hsame$-preservation witness. In the graph presentation, source classifier membership supplies a lifted output edge, and the morphism witness turns the paired source edges into a target classifier edge. Target carrier preservation then follows from the target naming certificate's carrier transport field. Sequential composition of compilers $\Phi_2 \circ \Phi_1$ inherits the preservation witnesses by composing them, and the resulting $\hsame$-preservation is a kernel-level conjunction of the two component witnesses.
 \end{proof}
 
 \section{Compositional compilation}
