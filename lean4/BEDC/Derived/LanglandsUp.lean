@@ -235,6 +235,42 @@ theorem LanglandsBHistCorrespondenceCarrier_generated_rows_unary [AskSetup] [Pac
       carrier.right.right.right.right.right.right.right.left
   exact And.intro localFactorUnary (And.intro ledgerUnary endpointUnary)
 
+theorem LanglandsBHistCorrespondenceCarrier_source_rows [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
+      ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsBHistCorrespondenceCarrier galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor provenance ledger endpoint bundle pkg ->
+      UnaryHistory galoisSource ∧ UnaryHistory automorphicSource ∧
+        UnaryHistory galoisAnswer ∧ UnaryHistory automorphicAnswer ∧
+          UnaryHistory provenance ∧ UnaryHistory localFactor ∧ UnaryHistory ledger ∧
+            UnaryHistory endpoint ∧ hsame localFactor (append galoisAnswer automorphicAnswer) ∧
+              hsame ledger (append galoisSource automorphicSource) ∧
+                hsame endpoint (append provenance ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have localFactorUnary : UnaryHistory localFactor :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.left carrier.right.left
+      carrier.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.right.right.right.right.left ledgerUnary
+      carrier.right.right.right.right.right.right.right.left
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      localFactorUnary,
+      ledgerUnary,
+      endpointUnary,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right⟩
+
 theorem LanglandsLFactorClassifier_endpoint_confluence [AskSetup] [PackageSetup]
     {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
       ledger endpoint galoisSourceA automorphicSourceA galoisAnswerA automorphicAnswerA
