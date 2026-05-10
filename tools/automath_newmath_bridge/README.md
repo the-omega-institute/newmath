@@ -34,8 +34,10 @@ content.
 - `validate_bridge_manifest.py` validates manifest or packet JSONL records.
 - `render_bridge_report.py` renders manifest or packet JSONL as Markdown for
   human and AI review.
-- `review_packets/` contains durable bridge review packets that may be cited
-  from BEDC BOARD entries. These are not runtime artifacts.
+- `review_packets/` is an operator handoff area for bridge review packets.
+  Generated JSON packets are ignored; durable decisions must be summarized in
+  commit messages and, when accepted, in `bridge_manifest.jsonl` or native
+  BEDC records.
 - `inbox/`, `out/`, `state/`, and `logs/` are runtime directories. Generated
   contents are ignored by Git and should not be uploaded.
 
@@ -199,12 +201,13 @@ Local runtime outputs:
 Those files are intentionally ignored. Durable project decisions belong in
 `bridge_manifest.jsonl`, not in runtime artifacts.
 
-Durable BOARD review packets live under:
+Operator review packets may be generated under:
 
 - `tools/automath_newmath_bridge/review_packets/*.json`
 
-Those files are tracked because BEDC BOARD entries need stable `Local inputs`.
-They still do not authorize paper or Lean writes.
+Those generated files are ignored. If a packet becomes part of a durable BEDC
+decision, record the decision in `bridge_manifest.jsonl`, `BOARD.md`, or the
+native receiving artifact; do not commit the intermediate packet itself.
 
 To persist "already seen" local state:
 
@@ -359,9 +362,27 @@ Audit boundary:
 - Lean build required: no
 - external publication/send: no
 
+Runtime artifacts excluded from git:
+- tools/automath_newmath_bridge/inbox/**
+- tools/automath_newmath_bridge/out/**
+- tools/automath_newmath_bridge/state/**
+- tools/automath_newmath_bridge/logs/**
+- tools/automath_newmath_bridge/review_packets/*.json
+
+Gates:
+- <command>: <passed/failed/skipped and reason>
+
+Follow-up:
+- <remaining risk, if any>
+
 AI-analysis note:
 - Future agents should infer that this commit records protocol and candidate
   observation only; it does not accept, consume, publish, or synchronize content.
 ```
 
 For `automath_to_newmath` commits, reverse the Source and Destination blocks.
+
+Every bridge commit should include enough provenance to reconstruct the work
+without committing runtime artifacts. Do not commit generated inbox, out, state,
+log, or review-packet JSON files. They may be regenerated from the committed
+config, manifest, source refs, and commit message trail.
