@@ -131,4 +131,33 @@ theorem BusyBeaverEnumerationCompleteness_finite_coverage
     ⟨listedUnary, branchUnary, coverageUnary, publicLedgerUnary, listedRow, branchRow,
       coverageRow, publicLedgerRow⟩
 
+theorem BusyBeaverEnumerationCompleteness_append_coverage
+    {left right : List BHist} {machine bound ledger : BHist} :
+    List.Mem machine (left ++ right) ->
+      (forall m : BHist, List.Mem m left -> UnaryHistory m) ->
+        (forall m : BHist, List.Mem m right -> UnaryHistory m) ->
+          UnaryHistory bound -> Cont machine bound ledger ->
+            UnaryHistory machine ∧ UnaryHistory ledger ∧ hsame ledger (append machine bound) := by
+  intro machineMem leftCoverage rightCoverage boundUnary ledgerRow
+  induction left with
+  | nil =>
+      have machineUnary : UnaryHistory machine :=
+        rightCoverage machine machineMem
+      have ledgerUnary : UnaryHistory ledger :=
+        unary_cont_closed machineUnary boundUnary ledgerRow
+      exact ⟨machineUnary, ledgerUnary, ledgerRow⟩
+  | cons head tail ih =>
+      cases machineMem with
+      | head =>
+          have machineUnary : UnaryHistory machine :=
+            leftCoverage machine (List.Mem.head tail)
+          have ledgerUnary : UnaryHistory ledger :=
+            unary_cont_closed machineUnary boundUnary ledgerRow
+          exact ⟨machineUnary, ledgerUnary, ledgerRow⟩
+      | tail _ tailMem =>
+          have tailCoverage : forall m : BHist, List.Mem m tail -> UnaryHistory m := by
+            intro m memTail
+            exact leftCoverage m (List.Mem.tail head memTail)
+          exact ih tailMem tailCoverage
+
 end BEDC.Derived.BusyBeaverUp
