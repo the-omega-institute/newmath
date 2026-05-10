@@ -162,4 +162,39 @@ theorem RamseyColouringCarrier_classifier_stability [AskSetup] [PackageSetup]
     (And.intro sameLookup
       (And.intro sameWitness (And.intro sameProvenance sameEndpoint)))
 
+theorem RamseyColouringCarrier_finite_ledger_exactness [AskSetup] [PackageSetup]
+    {vertex subset colour witnessRows transportRows lookup provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RamseyColouringCarrier vertex subset colour witnessRows transportRows lookup provenance
+        endpoint bundle pkg ->
+      UnaryHistory vertex ∧ UnaryHistory subset ∧ UnaryHistory colour ∧
+        UnaryHistory transportRows ∧ UnaryHistory lookup ∧ UnaryHistory witnessRows ∧
+          UnaryHistory provenance ∧ UnaryHistory endpoint ∧
+            hsame lookup (append vertex subset) ∧
+              hsame witnessRows (append lookup colour) ∧
+                hsame provenance (append witnessRows transportRows) ∧
+                  hsame endpoint (append provenance transportRows) ∧
+                    PkgSig bundle endpoint pkg := by
+  intro carrier
+  have lookupUnary : UnaryHistory lookup :=
+    unary_cont_closed carrier.left carrier.right.left
+      carrier.right.right.right.right.right.right.left
+  have witnessUnary : UnaryHistory witnessRows :=
+    unary_cont_closed lookupUnary carrier.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      lookupUnary,
+      witnessUnary,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.RamseyUp
