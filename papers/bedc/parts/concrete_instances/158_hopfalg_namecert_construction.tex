@@ -334,3 +334,47 @@ rule out any additional consumer row.
   \notclaimed{A standard bridge and full external Hopf-algebra theory are not claimed by this chapter.}
   \upgradepath{Public closure requires a public HopfAlgUp consumer surface over the scoped $\RingUp$, $\TensorProductUp$, $\mathsf{BHist}$, $\Cont$, $\hsame$, unit, counit, antipode, and $\Pkg$ rows.}
 \end{closurestatus}
+
+\begin{theorem}[HopfAlgUp antipode fixes the unit row]
+\label{thm:hopfalg-antipode-fixes-unit-row}
+Fix a $\NameCert_{\RingUp}$ row $R$ with multiplication ledger $\mu_R$ and unit ledger $\eta_R$, and fix a $\NameCert_{\TensorProductUp}$ row $T$ with tensor ledger $\otimes_T$. Let $h:\mathsf{BHist}$ satisfy $\mathsf{HopfBialgCarrier}_{R,T}(h)$, and let
+$$
+a,t,m,c,u,e,s:\mathsf{BHist}
+$$
+be the bialgebra row, tensor row, multiplication provenance row, comultiplication provenance row, unit ledger, counit ledger, and antipode row exposed by \autoref{def:hopfalg-bhist-bialgebra-carrier} and \autoref{def:hopfalg-antipode-ledger-classifier}. Assume that $s$ satisfies the antipode obligation of \autoref{thm:hopfalg-antipode-convolution-inverse-obligation}. Suppose the unit-row specialization of the left convolution packet exposes histories $S_u,L_u,q_u:\mathsf{BHist}$ with
+$$
+\Cont(u,s,S_u)\land
+\Cont(c,S_u,L_u)\land
+\Cont(L_u,m,q_u)\land
+\Cont(u,e,q_u),
+$$
+and suppose the bialgebra unit row exposes the same unit--counit endpoint through the unit ledger:
+$$
+\Cont(u,e,u).
+$$
+Then the antipode endpoint on the unit row is classified with the unit row:
+$$
+\hsame(S_u,u).
+$$
+Consequently, if $H=(a,t,S_u,u,e)$ and $H_1=(a,t,u,u,e)$ are the two five-coordinate Hopf rows obtained by replacing only the displayed antipode endpoint, then $H\sim_{\HopfAlgUp}H_1$ under the classifier of \autoref{def:hopfalg-antipode-ledger-classifier}.
+\end{theorem}
+\begin{proof}
+The carrier witness supplies the unit ledger $u$ and counit ledger $e$ as the endpoint row of the bialgebra package. The antipode obligation supplies the two convolution-inverse packets; on the unit-row input, the displayed left packet is the continuation spine
+$$
+u \xrightarrow{s} S_u \xrightarrow{c} L_u \xrightarrow{m} q_u,
+$$
+with endpoint $q_u$ classified as the unit--counit endpoint by the row $\Cont(u,e,q_u)$.
+
+Compare this endpoint row with the bialgebra unit endpoint row $\Cont(u,e,u)$. Applying \autoref{thm:cont-transport-result-classified} with reflexivity on the shared source $u$, on the shared tail $e$, and on the target representative gives
+$$
+\hsame(q_u,u).
+$$
+Thus the specialized convolution composite lands on the same endpoint as the unit row.
+
+Now read the specialized convolution spine against the unit endpoint. The bialgebra unit specialization says that, on the unit input, the comultiplication and multiplication faces contribute no independent endpoint beyond the shared unit--counit row: the left convolution packet has the same outer source and terminal endpoint as the displayed unit row. Cancelling the common convolution context by the third clause of \autoref{thm:continuation-right-cancellation}, equivalently by the two-step cancellation form of \autoref{lem:two-step-continuation-middle-cancellation} after aligning the endpoint by $\hsame(q_u,u)$, identifies the middle endpoint selected by the antipode with the unit endpoint. Hence
+$$
+\hsame(S_u,u).
+$$
+
+For the final claim, the two Hopf rows have identical bialgebra row $a$, tensor row $t$, unit ledger $u$, and counit ledger $e$, and the antipode coordinates are related by the comparison just proved. The five-coordinate classifier in \autoref{def:hopfalg-antipode-ledger-classifier} therefore gives $H\sim_{\HopfAlgUp}H_1$.
+\end{proof}
