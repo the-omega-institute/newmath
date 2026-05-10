@@ -16136,3 +16136,51 @@ Rationale:
 File `concrete_instances/spingroup/boundary_consumer_exactness.tex` (327 lines) currently has a product law (line 78), an identity law (line 160), and an inverse-involution law (line 233) for the conjugation action `Act_s(v):=(s·v)·s^{-1}`. It has the *readback* theorem (line 27) but NO `congruence`/`stability` row showing the action is well-defined under classifier transport of either argument. A grep across `papers/bedc/parts/concrete_instances/spingroup/` for `(action.*congruence|spingroup-action-congru)` returned 0 hits. BOARD covers SpinGroup conjugation identity (B-612), inverse-involution (B-620), and multiplicative (B-600) laws — none of which is the bilinear/two-argument classifier-respect statement. The proof is short: the readback word `(s·v)·s^{-1}` is built from Clifford product rows and inverse rows; congruence follows from `\autoref{thm:clifford-product-stability-obligation}` applied twice plus inverse congruence from `def:group-stability-certificate`, no new ledger row needed.
 
 ---
+
+### B-637 - TopGroupUp left-translation continuity row by a fixed group element
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | TopGroupUp left-translation continuity row by a fixed group element |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For an accepted TopGroupUp packet and a carried group element g of its source-fiber product, the left-translation row L_g(h)=g\cdot h is a sound continuity row through the displayed product graph, target neighbourhood, hsame transports, and finite Cont ledger of the carrier — without introducing a new operation source or external translation predicate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/topgroup/continuity_obligations.tex`
+
+Rationale:
+The continuity_obligations.tex file (185 lines) closes product-of-pairs continuity (line 1, thm:topgroup-inverse-cont-ledger-soundness; line 53 thm:topgroup-operation-continuity-obligation) and inverse continuity, but never the unary left-translation specialization L_g — a basic and downstream-load-bearing row in any topological-group theory. Searching `translation`, `left.*mult`, `right.*mult` across topgroup/*.tex and 182_topgroup_namecert_construction.tex returns zero hits. No completed BOARD entry covers it: B-505/B-503 are NetworkFlow/ProbSpace, no completed target touches topgroup specifically (state grep shows only 1 topgroup hit, on 182_topgroup_namecert_construction.tex). File at 184/800 has plenty of room.
+
+---
+
+### B-639 - PermutationUp permutation on a singleton FinSet classifies with the identity row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | PermutationUp permutation on a singleton FinSet classifies with the identity row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If the underlying NameCert_{FinSetUp} of a PermutationUp packet has exactly one carried position (singleton FinSet endpoint row), then any accepted PermutationUp graph row classifies with the identity bijection row read through \autoref{thm:permutation-composition-inverse-action-obligation}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/94_permutation_namecert_construction.tex`
+
+Rationale:
+The file 94_permutation_namecert_construction.tex (128 lines) has 4 theorems — carrier obligation, classifier, composition/inverse/action, public surface — but no specific finite-cardinality witness. SymGroup (95) similarly has only 4 abstract theorems. The completed BOARD has B-507 EnumPerm composition associativity and B-94/symgroup-unit-uniqueness laws inherited via group-up, but no finitary-instance theorem like singleton uniqueness; grep for `singleton` in both files returns zero. Single-implication concrete claim grounded in the existing FinSetUp source carrier; file at 128/800.
+
+---

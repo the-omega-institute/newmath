@@ -18,31 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-637 - TopGroupUp left-translation continuity row by a fixed group element
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | TopGroupUp left-translation continuity row by a fixed group element |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 8/10 |
-
-Problem:
-For an accepted TopGroupUp packet and a carried group element g of its source-fiber product, the left-translation row L_g(h)=g\cdot h is a sound continuity row through the displayed product graph, target neighbourhood, hsame transports, and finite Cont ledger of the carrier — without introducing a new operation source or external translation predicate.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/topgroup/continuity_obligations.tex`
-
-Rationale:
-The continuity_obligations.tex file (185 lines) closes product-of-pairs continuity (line 1, thm:topgroup-inverse-cont-ledger-soundness; line 53 thm:topgroup-operation-continuity-obligation) and inverse continuity, but never the unary left-translation specialization L_g — a basic and downstream-load-bearing row in any topological-group theory. Searching `translation`, `left.*mult`, `right.*mult` across topgroup/*.tex and 182_topgroup_namecert_construction.tex returns zero hits. No completed BOARD entry covers it: B-505/B-503 are NetworkFlow/ProbSpace, no completed target touches topgroup specifically (state grep shows only 1 topgroup hit, on 182_topgroup_namecert_construction.tex). File at 184/800 has plenty of room.
-
----
-
-
 ### B-638 - HopfAlgUp antipode fixes the unit row of the bialgebra
 
 | field | value |
@@ -66,32 +41,6 @@ Rationale:
 File 158_hopfalg_namecert_construction.tex (336 lines) has 13 theorems but the canonical Hopf-algebra fact `S(1) = 1` is missing. grep for `S(1)|antipode unit|antipode of the unit|antipode applied to` finds only mentions of unit-counit endpoints in convolution context, never the elementary endpoint identity. The completed BOARD has B-529 HopfAlgUp antipode uniqueness from convolution-inverse witnesses but not antipode-on-unit, which is a strictly weaker, single-implication consequence of the convolution-inverse rows already exported in lines 63–82. Within scope, single implication, no host equality.
 
 ---
-
-
-### B-639 - PermutationUp permutation on a singleton FinSet classifies with the identity row
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | PermutationUp permutation on a singleton FinSet classifies with the identity row |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 7/10 |
-| Novelty | 7/10 |
-
-Problem:
-If the underlying NameCert_{FinSetUp} of a PermutationUp packet has exactly one carried position (singleton FinSet endpoint row), then any accepted PermutationUp graph row classifies with the identity bijection row read through \autoref{thm:permutation-composition-inverse-action-obligation}.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/94_permutation_namecert_construction.tex`
-
-Rationale:
-The file 94_permutation_namecert_construction.tex (128 lines) has 4 theorems — carrier obligation, classifier, composition/inverse/action, public surface — but no specific finite-cardinality witness. SymGroup (95) similarly has only 4 abstract theorems. The completed BOARD has B-507 EnumPerm composition associativity and B-94/symgroup-unit-uniqueness laws inherited via group-up, but no finitary-instance theorem like singleton uniqueness; grep for `singleton` in both files returns zero. Single-implication concrete claim grounded in the existing FinSetUp source carrier; file at 128/800.
-
----
-
 
 ### B-640 - MatroidUp restriction to empty subset has only the empty independent family
 
@@ -117,7 +66,6 @@ Rationale:
 
 ---
 
-
 ### B-641 - FftUp length-one schedule classifies with the input row
 
 | field | value |
@@ -142,7 +90,6 @@ Rationale:
 
 ---
 
-
 ### B-642 - BilinFormUp pairing of the zero vector with any carried partner classifies with the zero scalar
 
 | field | value |
@@ -166,4 +113,3 @@ Rationale:
 124_bilinform_namecert_construction.tex (343 lines) has 14 theorems including bilinearity transport, dual symmetry, nondegeneracy ledger, and root rows. The forward direction `B(0_V, y) = 0_K` (an immediate consequence of left-additivity at 0 + 0 = 0) is missing — the file only contains the *converse* nondegeneracy readback (lines 233, 319) saying `if pairing ends at zero for all partners, then x is the zero vector`. The forward zero-vector vanishing row is a strictly weaker single-implication and a standard preliminary used by Clifford/InnerProduct downstream. No completed BOARD entry on bilinform vanishing; closest is B-583 CliffordUp polarization. File at 343/800.
 
 ---
-
