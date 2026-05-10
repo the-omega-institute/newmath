@@ -18,54 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-638 - HopfAlgUp antipode fixes the unit row of the bialgebra
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | HopfAlgUp antipode fixes the unit row of the bialgebra |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 8/10 |
-
-Problem:
-For an accepted HopfAlgUp bialgebra packet of \autoref{def:hopfalg-bhist-bialgebra-carrier} with displayed antipode row S, the antipode of the unit endpoint η(1) classifies (\sim_{HopfAlgUp}) with η(1) itself, read through the convolution-inverse obligation rows of \autoref{thm:hopfalg-antipode-convolution-inverse-obligation}.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/158_hopfalg_namecert_construction.tex`
-
-Rationale:
-File 158_hopfalg_namecert_construction.tex (336 lines) has 13 theorems but the canonical Hopf-algebra fact `S(1) = 1` is missing. grep for `S(1)|antipode unit|antipode of the unit|antipode applied to` finds only mentions of unit-counit endpoints in convolution context, never the elementary endpoint identity. The completed BOARD has B-529 HopfAlgUp antipode uniqueness from convolution-inverse witnesses but not antipode-on-unit, which is a strictly weaker, single-implication consequence of the convolution-inverse rows already exported in lines 63–82. Within scope, single implication, no host equality.
-
----
-
-### B-640 - MatroidUp restriction to empty subset has only the empty independent family
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | MatroidUp restriction to empty subset has only the empty independent family |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 7/10 |
-| Novelty | 7/10 |
-
-Problem:
-For a MatroidUp independent-set certificate over ground predicate E with naming certificate cert and a restriction subset K of \autoref{def:certified-matroid-restriction-rows} taken as the empty predicate λz.⊥, the restricted independent family Ind_{M|K} accepts only the empty independent set λz.⊥, exposed by the same finite-spine ledger that records empty_M.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/180_matroid_namecert_construction.tex`
-
-Rationale:
-180_matroid_namecert_construction.tex (381 lines) has only 3 theorems: intersection-preserves-independence, restriction certificate, and restrictions compose. The boundary case `restrict to ∅` — a degenerate, single-implication concrete instance — is missing. grep for `empty subset|emptyset|restriction.*to.*empty` shows only the global `empty_M` axiom row, never an empty-restriction theorem. Restriction is one of the few combinatorial operations BEDC has registered for matroids, but only the structure-preservation and composition theorems exist, not boundary-input concrete instances. File at 381/800.
-
----
-
 ### B-641 - FftUp length-one schedule classifies with the input row
 
 | field | value |
