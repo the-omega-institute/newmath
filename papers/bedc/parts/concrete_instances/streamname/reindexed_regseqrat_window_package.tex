@@ -584,3 +584,43 @@ composite-boundary theorem, so no quotient, completion, host-index equality,
 regularity witness, standard bridge row, or hidden stream row is available to
 distinguish the three routes.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat reindexed window triple terminal seal determinacy]
+\label{thm:streamname-regseqrat-reindexed-window-triple-terminal-seal-determinacy}
+Let $\mathcal R_0$, $\mathcal R_1$, and $\mathcal R_2$ be three certified
+composable reindexing routes from one finite $\StreamNameUp$ source window to
+one terminal finite-window $\RealUp$ seal consumer. Suppose the routes share the
+displayed selected $\mathsf{RatHistoryClassifier}$ rows, $\RegSeqRat$ handoff
+rows, endpoint rows, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows. Then every terminal seal consumer of the
+three routes reads the same finite $\RealUp$ source boundary.
+
+No quotient, completion object, host-index equality, regularity witness,
+standard bridge row, or hidden stream row distinguishes the three routes at
+the terminal seal. The terminal consumer can therefore observe only the common
+finite StreamName boundary transported through the $\RegSeqRat$ handoff and
+the displayed finite-window $\RealUp$ endpoint rows.
+\end{theorem}
+\begin{proof}
+First put the three routes into the common finite-window normal form. Apply
+\autoref{thm:streamname-regseqrat-reindexed-window-triple-diamond-normal-form}
+to the shared classifier, handoff, probe, membership, unary-history,
+transport, continuation, package, and real-ledger-policy rows. This gives one
+finite source boundary for the three certified routes.
+
+Next read that boundary as a finite $\RealUp$ boundary. The composite-boundary
+theorem
+\autoref{thm:streamname-regseqrat-reindexed-window-composite-realup-boundary}
+identifies the selected StreamName classifier surface and the $\RegSeqRat$
+handoff rows with the finite $\RealUp$ source boundary available to the
+endpoint consumer.
+
+Finally pass from the endpoint boundary to the terminal seal. Apply
+\autoref{thm:streamname-realup-terminal-seal-boundary} to the finite
+$\RealUp$ boundary just obtained. The terminal seal reads exactly that
+boundary, and
+\autoref{thm:streamname-regseqrat-reindexed-window-no-seal-import} excludes
+quotient, completion, host-index, regularity, standard-bridge, and hidden
+stream rows from the seal interface.
+\end{proof}
