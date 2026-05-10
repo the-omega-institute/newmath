@@ -117,6 +117,7 @@ import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
+import BEDC.Derived.RamseyUp
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.UnitaryGroupUp
@@ -602,6 +603,7 @@ import BEDC.Derived.DiffFormUp.SemanticCertificate
 import BEDC.Derived.DiffFormUp.ZeroDegreeConsumerNeutrality
 import BEDC.Derived.DiffFormUp.ExteriorWedgeCommonRows
 import BEDC.Derived.DiffFormUp.DownstreamExteriorInput
+import BEDC.Derived.RamseyUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
