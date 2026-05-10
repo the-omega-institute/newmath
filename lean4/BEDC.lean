@@ -106,6 +106,7 @@ import BEDC.Derived.InterpolationUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.MapperUp
+import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
