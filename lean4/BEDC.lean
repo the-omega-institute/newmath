@@ -747,6 +747,7 @@ import BEDC.Derived.MonoidUp.StdBridge
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.LPDualityUp
 import BEDC.Derived.NetworkFlowUp
+import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.LieAlgebraUp
