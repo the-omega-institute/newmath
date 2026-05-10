@@ -370,4 +370,27 @@ theorem NetworkFlowEmptyBackwardAccounting_cut_flow_below_value {V B X : BHist} 
     cont_right_unit_result transported
   exact PreorderPrefixLE_of_hsame sameXV
 
+theorem NetworkFlow_zero_edge_flow_feasible {source sink capacity : BHist}
+    {edges forwardCut backwardCut : ProbeBundle BHist} :
+    UnaryHistory source -> UnaryHistory sink -> UnaryHistory capacity ->
+      NetworkFlowFiniteFlowCutData source sink BHist.Empty BHist.Empty BHist.Empty capacity
+        edges forwardCut backwardCut := by
+  intro sourceUnary sinkUnary capacityUnary
+  have constantCapacitySpine :
+      forall xs : ProbeBundle BHist,
+        NetworkFlowUProbeBundleSumSpineUnary (fun _edge : BHist => capacity) xs := by
+    intro xs
+    induction xs with
+    | Bnil =>
+        exact unary_empty
+    | Bcons _edge tail ih =>
+        exact And.intro capacityUnary ih
+  exact
+    ⟨sourceUnary,
+      sinkUnary,
+      unary_empty,
+      constantCapacitySpine forwardCut,
+      constantCapacitySpine backwardCut,
+      cont_right_unit BHist.Empty⟩
+
 end BEDC.Derived.NetworkFlowUp
