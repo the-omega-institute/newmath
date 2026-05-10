@@ -348,4 +348,33 @@ theorem SpectralSeqBHistPageCarrier_abutment_readback_boundary [AskSetup] [Packa
         (And.intro carrier.right.right.right.right.right.right.right.left
           carrier.right.right.right.right.right.right.right.right.right)))
 
+def SpectralSeqPageClassifier [AskSetup] [PackageSetup]
+    (abelian homology page differential readback convergence transition provenance endpoint
+      abelian' homology' page' differential' readback' convergence' transition' provenance'
+      endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+      transition provenance endpoint bundle pkg ∧
+    SpectralSeqBHistPageCarrier abelian' homology' page' differential' readback'
+      convergence' transition' provenance' endpoint' bundle pkg ∧
+      hsame abelian abelian' ∧ hsame homology homology' ∧ hsame page page' ∧
+        hsame differential differential' ∧ hsame readback readback' ∧
+          hsame convergence convergence' ∧ hsame transition transition' ∧
+            hsame provenance provenance' ∧ hsame endpoint endpoint'
+
+theorem SpectralSeqPageClassifier_no_confusion [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      abelian' homology' page' differential' readback' convergence' transition' provenance'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqPageClassifier abelian homology page differential readback convergence transition
+        provenance endpoint abelian' homology' page' differential' readback' convergence'
+        transition' provenance' endpoint' bundle pkg ->
+      hsame abelian abelian' ∧ hsame homology homology' ∧ hsame page page' ∧
+        hsame differential differential' ∧ hsame readback readback' ∧
+          hsame convergence convergence' ∧ hsame transition transition' ∧
+            hsame provenance provenance' ∧ hsame endpoint endpoint' := by
+  intro classifier
+  exact classifier.right.right
+
 end BEDC.Derived.SpectralSeqUp
