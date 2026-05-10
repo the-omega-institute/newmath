@@ -782,6 +782,72 @@ def build_glossary() -> dict:
     return out
 
 
+PREAMBLE_PATH = ROOT / "papers" / "bedc" / "preamble.tex"
+
+# Drop these macro names: structural / non-math / multi-line bodies that
+# are unsafe to expose to MathJax even though they are syntactically simple
+# `\newcommand{\Foo}{...}` forms.
+_MACRO_BODY_FORBIDDEN = (
+    "\\par", "\\noindent", "\\color", "\\textsf{Lean",
+    "\\StrSubstitute", "\\quad", "\\fancyhf", "\\rhead", "\\lhead",
+    "\\cfoot",
+)
+
+
+def _extract_braced(text: str, start: int) -> tuple[str, int]:
+    """Read a brace-balanced group starting at index of '{'. Returns
+    (inner_content, index_after_closing_brace). Honors `\\{` `\\}`."""
+    if text[start] != "{":
+        raise ValueError("not a brace start")
+    depth = 1
+    i = start + 1
+    while i < len(text):
+        c = text[i]
+        if c == "\\" and i + 1 < len(text):
+            i += 2
+            continue
+        if c == "{":
+            depth += 1
+        elif c == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start + 1:i], i + 1
+        i += 1
+    raise ValueError("unbalanced braces")
+
+
+def extract_mathjax_macros() -> dict[str, str]:
+    """Parse `papers/bedc/preamble.tex` and return a {name: body} dict of
+    arg-less `\\newcommand`s safe for MathJax. Strips `\\ensuremath{...}`
+    wrappers; drops macros whose body contains LaTeX-only constructs that
+    MathJax cannot render."""
+    text = PREAMBLE_PATH.read_text(encoding="utf-8")
+    pat = re.compile(r"\\newcommand\{\\([A-Za-z]+)\}\s*\{")
+    macros: dict[str, str] = {}
+    for m in pat.finditer(text):
+        name = m.group(1)
+        try:
+            body, _ = _extract_braced(text, m.end() - 1)
+        except ValueError:
+            continue
+        # arg-less only: skip macros declared with [N]
+        # (the regex doesn't match `\newcommand{\Foo}[1]{...}` because of the
+        # `\s*\{` lookahead; this is just defense)
+        if "#" in body:
+            continue
+        if "\n" in body:
+            continue
+        if any(tok in body for tok in _MACRO_BODY_FORBIDDEN):
+            continue
+        # `\ensuremath{...}` wrapper: in MathJax we are always in math mode,
+        # so unwrap to the inner body.
+        e = re.match(r"^\\ensuremath\{(.+)\}$", body)
+        if e:
+            body = e.group(1)
+        macros[name] = body
+    return macros
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -856,16 +922,20 @@ def main() -> int:
         "granularity": cp.get("granularity", "chapter"),
     }
 
+    print("[build-dossier-status] extracting MathJax macros from preamble...", file=sys.stderr)
+    mathjax_macros = extract_mathjax_macros()
+
     (DATA_DIR / "status.json").write_text(json.dumps(status, indent=2), encoding="utf-8")
     (DATA_DIR / "glossary.json").write_text(json.dumps(glossary, indent=2, ensure_ascii=False), encoding="utf-8")
     (DATA_DIR / "dependency.json").write_text(json.dumps(deps, indent=2, ensure_ascii=False), encoding="utf-8")
+    (DATA_DIR / "mathjax_macros.json").write_text(json.dumps(mathjax_macros, indent=2, ensure_ascii=False), encoding="utf-8")
     if args.output:
         args.output.write_text(json.dumps(deps, indent=2, ensure_ascii=False), encoding="utf-8")
 
     print(
-        f"[build-dossier-status] wrote {DATA_DIR.relative_to(ROOT)}/{{status,glossary,dependency}}.json "
+        f"[build-dossier-status] wrote {DATA_DIR.relative_to(ROOT)}/{{status,glossary,dependency,mathjax_macros}}.json "
         f"-- {total_thms} theorems, {len(deps['nodes'])} nodes, {len(deps['edges'])} edges, "
-        f"{len(glossary)} glossary entries",
+        f"{len(glossary)} glossary entries, {len(mathjax_macros)} mathjax macros",
         file=sys.stderr,
     )
     return 0
