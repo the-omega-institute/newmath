@@ -18,8 +18,8 @@ content.
   candidate packet records.
 - `scan_bridge_sources.py` observes configured paths and writes candidate JSONL.
 - `bridge_pipeline_config.json` defines dynamic discovery rules for growing
-  Automath and NewMath refs. In this worktree, NewMath is `.` and Automath is
-  read from the sibling Automath bridge worktree.
+  Automath and NewMath refs. In the normal local layout, NewMath is `.` and
+  Automath is read from the sibling `../automath` checkout.
 - `run_bridge_pipeline.py` discovers new or changed bridgeable artifacts from
   both repos, synthesizes cross-repo readiness, and renders a local transfer
   plan.
@@ -154,8 +154,7 @@ One pass does this:
 7. Runs deterministic gates.
 8. Dry-runs the Automath-to-NewMath BEDC BOARD adapter, or applies it with
    `--apply-bedc-board-ingest`.
-9. Merges the gated bridge branch back to `bedc-claim-packet-pipeline` unless
-   `--no-merge-back-after-gates` is passed.
+9. Leaves merge-back disabled unless `--merge-back-after-gates` is passed.
 10. Optionally writes local review packets if `--apply-writeback-packets` is
    passed.
 
@@ -181,7 +180,7 @@ The supervisor follows the local distillation/oracle pattern:
 - dry local runtime artifacts;
 - deterministic gates before local packet writes;
 - Automath-to-NewMath candidates enter BEDC only through `board_spawn`;
-- local merge-back into the BEDC branch only after all bridge gates pass;
+- optional local merge-back into the BEDC branch only after all bridge gates pass;
 - no push;
 - no external send;
 - no direct durable paper / Lean / docs writes.
@@ -213,6 +212,19 @@ To persist "already seen" local state:
 python3 tools/automath_newmath_bridge/bridge_supervisor.py --once --update-state
 ```
 
+To test the supervisor from a local audit branch without changing the
+production branch guard in config:
+
+```bash
+python3 tools/automath_newmath_bridge/bridge_supervisor.py \
+  --once \
+  --allow-current-branch \
+  --no-synthesis \
+  --scan-limit-per-rule 2
+```
+
+Omit `--no-synthesis` for the full cross-repo readiness scan.
+
 To write local review packets for gate-passed candidates:
 
 ```bash
@@ -225,22 +237,24 @@ python3 tools/automath_newmath_bridge/bridge_supervisor.py \
 These packets are review material only. They do not authorize destination
 writes.
 
-By default, a successful gated run attempts to merge the bridge branch back to
-the local BEDC branch:
+By default, a successful gated run does not merge the bridge branch back to the
+local BEDC branch. To opt in:
 
 ```bash
-python3 tools/automath_newmath_bridge/bridge_supervisor.py --once
+python3 tools/automath_newmath_bridge/bridge_supervisor.py \
+  --once \
+  --merge-back-after-gates
 ```
 
-The configured target is `../newmath` on `bedc-claim-packet-pipeline`. The
-merge-back step is intentionally conservative:
+The configured target is `../newmath` on `bedc-claim-packet-pipeline`. When
+enabled, the merge-back step is intentionally conservative:
 
 - it runs only after all bridge gates pass;
 - it checks the target worktree is on `bedc-claim-packet-pipeline`;
 - it skips if the target has tracked or untracked changes;
-- it does not push unless the config explicitly sets `push: true`.
+- it does not push.
 
-Skip merge-back explicitly:
+Skip merge-back explicitly, even if config enables it:
 
 ```bash
 python3 tools/automath_newmath_bridge/bridge_supervisor.py \

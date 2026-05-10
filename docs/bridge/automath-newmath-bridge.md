@@ -252,11 +252,13 @@ python3 tools/automath_newmath_bridge/bridge_supervisor.py \
   --apply-bedc-board-ingest
 ```
 
-After gates pass, the NewMath bridge supervisor attempts to merge the gated
-bridge branch back to the local BEDC branch:
+After gates pass, the NewMath bridge supervisor leaves merge-back disabled
+unless the operator explicitly opts in:
 
 ```bash
-python3 tools/automath_newmath_bridge/bridge_supervisor.py --once
+python3 tools/automath_newmath_bridge/bridge_supervisor.py \
+  --once \
+  --merge-back-after-gates
 ```
 
 The merge-back target is configured in `bridge_pipeline_config.json` as
@@ -264,7 +266,8 @@ The merge-back target is configured in `bridge_pipeline_config.json` as
 skips if the target worktree is on a different branch, has uncommitted changes,
 or any bridge gate is blocked.
 
-Pass `--no-merge-back-after-gates` to run observation/gates only.
+Pass `--no-merge-back-after-gates` to run observation/gates only even when a
+local config enables merge-back.
 
 ## Future AI commit analysis
 

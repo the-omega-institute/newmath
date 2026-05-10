@@ -183,6 +183,7 @@ def discover_records(
     *,
     include_unchanged: bool,
     limit_per_rule: int,
+    scan_limit_per_rule: int,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     repos = _repo_meta(config, config_path)
     rules = config.get("discovery_rules")
@@ -230,6 +231,8 @@ def discover_records(
         matched: list[str] = []
         skipped_content = 0
         for path in paths:
+            if scan_limit_per_rule > 0 and len(matched) >= scan_limit_per_rule:
+                break
             if include_globs and not _matches_any(path, include_globs):
                 continue
             if exclude_globs and _matches_any(path, exclude_globs):
@@ -434,6 +437,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--config", default=str(DEFAULT_CONFIG), help="pipeline config JSON")
     parser.add_argument("--include-unchanged", action="store_true", help="emit records already seen in bridge state")
     parser.add_argument("--limit-per-rule", type=int, default=50, help="maximum emitted records per discovery rule")
+    parser.add_argument(
+        "--scan-limit-per-rule",
+        type=int,
+        default=0,
+        help="maximum matched paths to scan per discovery rule; 0 keeps the full scan",
+    )
     parser.add_argument("--update-state", action="store_true", help="persist observed artifacts to local bridge state")
     parser.add_argument("--no-synthesis", action="store_true", help="skip cross-repo readiness synthesis")
     parser.add_argument("--inbox", help="override inbox JSONL output path")
@@ -456,6 +465,7 @@ def main(argv: list[str] | None = None) -> int:
         state,
         include_unchanged=args.include_unchanged,
         limit_per_rule=max(1, args.limit_per_rule),
+        scan_limit_per_rule=max(0, args.scan_limit_per_rule),
     )
     if not args.no_synthesis:
         snapshot = build_repo_snapshot(config, config_path)
