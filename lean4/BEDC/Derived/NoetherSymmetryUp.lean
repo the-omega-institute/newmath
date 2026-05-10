@@ -66,4 +66,44 @@ theorem NoetherSymmetryConservationLedgerCarrier_stability [AskSetup] [PackageSe
                 (And.intro conservationCont' (And.intro endpointCont' endpointPkg')))))))
   exact And.intro transportedCarrier endpointSame
 
+theorem NoetherSymmetryConservationLedgerCarrier_lie_pde_source_boundary
+    [AskSetup] [PackageSetup]
+    {lieSource pdeSource field current lieLedger pdeLedger conservation endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current lieLedger
+        pdeLedger conservation endpoint bundle pkg ->
+      UnaryHistory lieSource ∧ UnaryHistory pdeSource ∧ UnaryHistory field ∧
+        UnaryHistory current ∧ UnaryHistory lieLedger ∧ UnaryHistory pdeLedger ∧
+          UnaryHistory conservation ∧ UnaryHistory endpoint ∧
+            Cont lieSource field lieLedger ∧ Cont pdeSource field pdeLedger ∧
+              Cont lieLedger pdeLedger conservation ∧ Cont conservation current endpoint ∧
+                PkgSig bundle endpoint pkg := by
+  intro carrier
+  have lieLedgerUnary : UnaryHistory lieLedger :=
+    unary_cont_closed carrier.left carrier.right.right.left
+      carrier.right.right.right.right.left
+  have pdeLedgerUnary : UnaryHistory pdeLedger :=
+    unary_cont_closed carrier.right.left carrier.right.right.left
+      carrier.right.right.right.right.right.left
+  have conservationUnary : UnaryHistory conservation :=
+    unary_cont_closed lieLedgerUnary pdeLedgerUnary
+      carrier.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed conservationUnary carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      lieLedgerUnary,
+      pdeLedgerUnary,
+      conservationUnary,
+      endpointUnary,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.NoetherSymmetryUp
