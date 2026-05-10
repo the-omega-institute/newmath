@@ -19,6 +19,12 @@ def DefinitionCandidateFlow : Type :=
 def GeneratedDefinitionRecognizer : Type :=
   EventFlow
 
+def LemmaCandidateFlow : Type :=
+  EventFlow
+
+def GeneratedLemmaRecognizer : Type :=
+  EventFlow
+
 def DefCand (S D : EventFlow) : Prop :=
   FormalCompilerInput (CompilerDatum.eventFlow S) /\
     FormalCompilerInput (CompilerDatum.eventFlow D)
@@ -71,6 +77,23 @@ def SoundChapterDefinitionSubflow
     (R : GeneratedDefinitionRecognizer) (S D : DefinitionCandidateFlow) :
     Prop :=
   DefinitionFlow R S D /\ DefinitionSoundness R S D
+
+def LemmaTheoremLikeSubflow
+    (R : GeneratedLemmaRecognizer) (_S L : LemmaCandidateFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R L) /\
+    NonemptyEventFlow L
+
+def LemmaChapterLocalSite
+    (_R : GeneratedLemmaRecognizer) (_S _L : LemmaCandidateFlow) : Prop :=
+  exists site : EventFlow, FormalCompilerInput (CompilerDatum.eventFlow site)
+
+def RecognizesLemma
+    (R : GeneratedLemmaRecognizer) (S L : LemmaCandidateFlow) : Prop :=
+  LemmaTheoremLikeSubflow R S L /\ LemmaChapterLocalSite R S L
+
+def LemmaFlow
+    (R : GeneratedLemmaRecognizer) (S L : LemmaCandidateFlow) : Prop :=
+  RecognizesLemma R S L
 
 def RecognizesChapter
     (R : GeneratedChapterRecognizer) (C : ChapterCandidateFlow) : Prop :=
@@ -371,6 +394,13 @@ theorem unsound_definition_blocks
       Not (SoundChapterDefinitionSubflow R S D) := by
   intro hUnsound hSubflow
   exact hUnsound hSubflow.right
+
+theorem lemma_site_local
+    {R : GeneratedLemmaRecognizer} {S L : LemmaCandidateFlow} :
+    LemmaFlow R S L ->
+      LemmaTheoremLikeSubflow R S L /\ LemmaChapterLocalSite R S L := by
+  intro hLemma
+  exact hLemma
 
 theorem no_chapter_without_complete_recognition {C : ChapterCandidateFlow} :
     ChapterFlow C ->

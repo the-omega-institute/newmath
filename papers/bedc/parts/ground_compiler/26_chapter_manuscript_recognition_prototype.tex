@@ -63,6 +63,7 @@ The input to $P_8$ is displayed as channel stream $c$ or event flow $S$. If the 
 
 \begin{definition}[$P_8$ output]
 \label{def:chapter-manuscript-p8-output}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.P8Output}
 The output of $P_8$ is a report flow or human-readable report containing decoded event flow, chapter candidates, recognized chapter flows, chapter field status, definition-flow lists, lemma-flow lists, theorem-flow lists, proof-flow lists, certificate-flow lists, chapter ledger flow, chapter cannot-claim registry, chapter status flow, chapter seal flow, manuscript candidates, recognized manuscript flows, manuscript dependency order, global cannot-claim registry, global status table, manuscript seal flow, missing fields, warnings, and cannot-claim annotations.
 \end{definition}
 
@@ -106,6 +107,7 @@ A sound chapter-flow must not inject hidden input or uncertified mature objects 
 
 \begin{definition}[Lemma candidate and recognizer]
 \label{def:chapter-manuscript-lemma-candidate-recognizer}
+\leandef{BEDC.GroundCompiler.ChapterFlow.LemmaFlow}
 A \emph{lemma candidate} is an event subflow $L_{\mathrm{lem}}\subseteq S$ not yet recognized as a lemma flow. A \emph{generated lemma recognizer} is an event flow $R_{\mathrm{lem}}\in\mathsf{EventFlow}$ supporting
 $$
   \mathsf{RecognizesLemma}(R_{\mathrm{lem}},S,L_{\mathrm{lem}}).
@@ -115,6 +117,7 @@ If this holds, $L_{\mathrm{lem}}$ is a recognized lemma flow.
 
 \begin{proposition}[Lemma-flow is theorem-like but site-local]
 \label{prop:chapter-manuscript-lemma-site-local}
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.lemma\_site\_local}
 If $L_{\mathrm{lem}}$ is a recognized lemma-flow, then it has theorem-like subflow structure, while its canonical-site flow may be chapter-local rather than global.
 \end{proposition}
 
