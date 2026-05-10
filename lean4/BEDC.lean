@@ -320,6 +320,7 @@ import BEDC.Derived.ComplexSeriesUp.NameCertificate
 import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
+import BEDC.Derived.ComplexityClassUp
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.CondExpUp

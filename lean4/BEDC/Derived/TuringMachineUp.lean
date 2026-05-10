@@ -167,4 +167,26 @@ theorem TuringMachineObligationSurface_rows
     ⟨configurationSurface.left, configurationSurface.right.left,
       configurationSurface.right.right.left, finalLedgerUnary, repeatedRows.left, finalLedgerRow⟩
 
+theorem TuringMachineSourceClassifierObligation_source_classifier_surface
+    {state tape head table trace readback source transported : BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory table ->
+      Cont state tape source -> Cont source head trace -> Cont tape head readback ->
+        Cont trace table transported ->
+          UnaryHistory source ∧ UnaryHistory trace ∧ UnaryHistory readback ∧
+            UnaryHistory transported ∧ hsame source (append state tape) ∧
+              hsame trace (append source head) ∧ hsame readback (append tape head) ∧
+                hsame transported (append trace table) := by
+  intro stateUnary tapeUnary headUnary tableUnary sourceRow traceRow readbackRow transportedRow
+  have sourceUnary : UnaryHistory source :=
+    unary_cont_closed stateUnary tapeUnary sourceRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed sourceUnary headUnary traceRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed tapeUnary headUnary readbackRow
+  have transportedUnary : UnaryHistory transported :=
+    unary_cont_closed traceUnary tableUnary transportedRow
+  exact
+    ⟨sourceUnary, traceUnary, readbackUnary, transportedUnary, sourceRow, traceRow, readbackRow,
+      transportedRow⟩
+
 end BEDC.Derived.TuringMachineUp
