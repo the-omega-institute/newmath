@@ -124,6 +124,8 @@ import BEDC.Derived.RamseyUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
+import BEDC.Derived.SpanningTreeUp
+import BEDC.Derived.StackUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
