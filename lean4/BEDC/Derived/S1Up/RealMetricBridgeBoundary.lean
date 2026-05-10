@@ -47,4 +47,29 @@ theorem SOneRegSeqRatMetricObservationBoundary_public_rows
     (And.intro metricRows.right.right.left
       (And.intro metricRows.right.right.right readback.right.right))
 
+theorem SOneStandardTopologicalBridgeBoundary_component_rows
+    {x y equation point bridge : BHist} :
+    SOneHistoryCarrier x y equation point -> Cont point equation bridge ->
+      ∃ dx dy : BHist,
+        hsame x (BHist.e1 dx) ∧ RatHistoryCarrier dx ∧ hsame y (BHist.e1 dy) ∧
+          RatHistoryCarrier dy ∧ SOneProductHistoryCarrier point ∧
+            hsame equation SOneUnitHistory ∧ UnaryHistory bridge ∧
+              hsame bridge (append point equation) := by
+  intro carrier bridgeRow
+  have readback := SOneHistoryCarrier_public_readback carrier
+  have bridgeBoundary := SOneRealMetricBridgeBoundary_public_rows carrier bridgeRow
+  cases readback.right.right with
+  | intro dx dxRows =>
+      cases dxRows with
+      | intro dy dyRows =>
+          exact Exists.intro dx
+            (Exists.intro dy
+              (And.intro dyRows.left
+                (And.intro dyRows.right.left
+                  (And.intro dyRows.right.right.left
+                    (And.intro dyRows.right.right.right.left
+                      (And.intro bridgeBoundary.right.right.left
+                        (And.intro bridgeBoundary.right.right.right
+                          (And.intro bridgeBoundary.left bridgeBoundary.right.left))))))))
+
 end BEDC.Derived.S1Up
