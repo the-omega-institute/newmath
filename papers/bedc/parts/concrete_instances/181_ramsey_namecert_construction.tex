@@ -48,6 +48,47 @@ function, a consumer can only read the listed $\mathsf{BHist}$ rows. Repacking
 those rows gives the stated carrier surface.
 \end{proof}
 
+\begin{theorem}[Ramsey public projection package]
+\label{thm:ramsey-public-projection-package}
+The checked rows
+\autoref{thm:ramsey-colouring-carrier-obligation},
+\autoref{thm:ramsey-monochrome-classifier-stability},
+\autoref{thm:ramsey-monochrome-witness-scope}, and
+\autoref{thm:ramsey-finite-ledger-exactness} assemble a public projection
+package for $\RamseyUp$. FinSetUp and GraphUp consumers receive only the
+vertex spine, subset spine, colour endpoint rows, witness rows, component
+$\hsame$ transports, finite $\Cont$ lookup routes, and shared $\Pkg$
+provenance displayed by the finite $\mathsf{BHist}$ ledger.
+
+The package exports no host finite-set enumeration, no host colouring
+function, no graph equality primitive, and no ambient graph object.
+\end{theorem}
+\begin{proof}
+Project first through the carrier rows of
+\autoref{thm:ramsey-colouring-carrier-obligation}. This identifies the public
+source available to a FinSetUp or GraphUp consumer with the displayed vertex
+spine, subset spine, colour table, witness rows, finite lookup routes,
+transport rows, and provenance rows.
+
+Apply the classifier stability row of
+\autoref{thm:ramsey-monochrome-classifier-stability} to transport the
+monochrome classifier across component $\hsame$ witnesses. The transported
+classifier still reads the same finite colour endpoints through the same
+$\Cont$ routes.
+
+Use the witness scope row
+\autoref{thm:ramsey-monochrome-witness-scope} for every downstream dependency
+read. It restricts finset and graph consumers to the displayed dependency
+certificates and prevents any read from leaving the finite packet.
+
+Finally combine ledger exactness from
+\autoref{thm:ramsey-finite-ledger-exactness} with the downstream boundary of
+\autoref{thm:ramsey-downstream-boundary}. Together they give both inclusions:
+all exported public rows are the listed ledger rows, and the excluded host
+enumeration, colouring function, graph equality primitive, and ambient graph
+object have no carrier coordinate to project.
+\end{proof}
+
 \begin{theorem}[Ramsey monochrome classifier stability]
 \label{thm:ramsey-monochrome-classifier-stability}
 Let $\mathcal C$ and $\mathcal C'$ be carried $\RamseyUp$ colouring rows over
