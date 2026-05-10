@@ -192,6 +192,41 @@ theorem BanachSingleton_standard_bridge_soundness {h : BHist} {s M : BHist -> BH
         (And.intro distanceWitness (And.intro continuation (modulusClassified nUnary)))
   exact And.intro classified (And.intro carrierH.right limitWitness)
 
+theorem BanachUp_StdBridge {h : BHist} {s M : BHist -> BHist} :
+    BanachSingletonCarrier h ->
+      (forall {n : BHist}, UnaryHistory n -> hsame (s n) BHist.Empty) ->
+        (forall {n : BHist}, UnaryHistory n -> RatHistoryClassifier BHist.Empty (M n)) ->
+          BanachSingletonClassifier h BHist.Empty ∧
+            CompleteMetricLimitWitness BanachSingletonCarrier s M BHist.Empty ∧
+              SemanticNameCert BanachSingletonCarrier BanachSingletonCarrier
+                BanachSingletonCarrier BanachSingletonClassifier := by
+  intro carrierH streamEmpty modulusClassified
+  have bridge :=
+    BanachSingleton_standard_bridge_soundness carrierH streamEmpty modulusClassified
+  exact And.intro bridge.left
+    (And.intro bridge.right.right BanachSingletonCarrier_semanticNameCert)
+
+theorem BanachSingleton_standard_bridge_roundtrip {h : BHist} :
+    BanachSingletonCarrier h ->
+      BanachSingletonClassifier h BHist.Empty ∧
+        BanachSingletonClassifier BHist.Empty h ∧
+          MetricDistanceWitness h BHist.Empty BHist.Empty := by
+  intro carrierH
+  have emptyMetric : MetricDistanceWitness BHist.Empty BHist.Empty BHist.Empty :=
+    MetricDistanceWitness_empty_distance_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have emptyCarrier : BanachSingletonCarrier BHist.Empty :=
+    And.intro (hsame_refl BHist.Empty) emptyMetric
+  have distance :
+      MetricDistanceWitness h BHist.Empty BHist.Empty :=
+    MetricDistanceWitness_empty_distance_iff.mpr
+      (And.intro carrierH.left (hsame_refl BHist.Empty))
+  have forward : BanachSingletonClassifier h BHist.Empty :=
+    And.intro carrierH (And.intro emptyCarrier carrierH.left)
+  have backward : BanachSingletonClassifier BHist.Empty h :=
+    And.intro emptyCarrier (And.intro carrierH (hsame_symm carrierH.left))
+  exact And.intro forward (And.intro backward distance)
+
 theorem BanachSingleton_zero_sequence_limit_obligation {s M : BHist -> BHist} :
     (forall {n : BHist}, UnaryHistory n -> hsame (s n) BHist.Empty) ->
       (forall {n : BHist}, UnaryHistory n ->
