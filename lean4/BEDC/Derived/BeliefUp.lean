@@ -127,4 +127,28 @@ theorem BeliefObservationUpdateCarrier_ledger_exactness [AskSetup] [PackageSetup
     ⟨ledgerUnary, carrier.right.right.right.right.right.right.left,
       carrier.right.right.right.right.left, carrier.right.right.right.right.right.left⟩
 
+theorem BeliefObservationUpdateCarrier_finite_evidence_ledger_coverage [AskSetup]
+    [PackageSetup] {prior observation updateTrace probability evidence posterior : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BeliefObservationUpdateCarrier prior observation updateTrace probability evidence posterior
+        bundle pkg ->
+      UnaryHistory posterior ∧ UnaryHistory evidence ∧
+        hsame updateTrace (append prior observation) ∧
+          hsame posterior (append updateTrace probability) ∧
+            hsame evidence (append prior (append observation (append updateTrace probability))) ∧
+              PkgSig bundle evidence pkg := by
+  intro carrier
+  have ledgerExact :=
+    BeliefObservationUpdateCarrier_ledger_exactness
+      (prior := prior) (observation := observation) (trace := updateTrace)
+      (probability := probability) (ledger := evidence) (posterior := posterior)
+      (bundle := bundle) (pkg := pkg) carrier
+  have posteriorUnary : UnaryHistory posterior :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  exact
+    ⟨posteriorUnary, ledgerExact.left, ledgerExact.right.right.left,
+      ledgerExact.right.right.right, ledgerExact.right.left,
+      carrier.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.BeliefUp
