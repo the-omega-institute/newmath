@@ -52,3 +52,56 @@ equalities, $\RegSeqRat$ regularity rows, and $\RealUp$ seal classifiers have
 no constructor in that source packet, so they cannot be part of the determined
 source surface.
 \end{proof}
+
+\begin{theorem}[StreamName common-refinement source confluence]
+\label{thm:streamname-common-refinement-source-confluence}
+Let $\mathcal W_L$ and $\mathcal W_R$ be public finite-window
+$\StreamNameUp$ packages over the same certified endpoint maps $s,t$, and let
+$\mathcal R$ be a certified common-refinement package whose generated window
+restricts to both selected windows. Consider the two finite-window routes
+$$
+\mathcal R\longrightarrow \mathcal W_L\longrightarrow \RegSeqRat
+\quad\text{and}\quad
+\mathcal R\longrightarrow \mathcal W_R\longrightarrow \RegSeqRat,
+$$
+followed by the finite-window $\RealUp$ handoff that reads the induced
+regular rational sequence rows. The two routes expose the same downstream
+source tuple: the row
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal R)$, the displayed
+$\mathsf{ProbeBundle}$, the $\mathsf{InBundle}$ membership rows, the selected
+$\mathsf{UnaryHistory}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, and the displayed
+$\hsame/\Cont/\Pkg$ rows carried by the refinement ledger.
+
+Consequently the induced finite-window $\RealUp$ handoffs read the same
+$\DyadicRatCore$ endpoint rows. They do not add completion data, quotient
+data, metric-completeness data, host-index equality, or a seal classifier to
+the source surface determined by the common refinement.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-common-refinement-source-determinacy}. It identifies
+the StreamName source tuple seen from the left selected window with the tuple
+seen from the right selected window, because both are restrictions of the one
+certified common-refinement packet $\mathcal R$.
+
+Next apply
+\autoref{thm:streamname-tail-window-cover-common-refinement}. The generated
+tail-window packet over $\mathcal R$ has the same displayed
+$\mathsf{ProbeBundle}$ row, the same $\mathsf{InBundle}$ membership rows, the
+same selected $\mathsf{UnaryHistory}$ rows, and the same pointwise rational
+history classifier rows on both routes.
+
+Now apply \autoref{thm:streamname-regseqrat-pointwise-handoff}. The
+$\RegSeqRat$ boundary consumes exactly those pointwise rational rows and the
+displayed $\hsame/\Cont/\Pkg$ ledger rows; it does not introduce an additional
+route-dependent source coordinate.
+
+Finally apply \autoref{thm:streamname-real-regseq-obligation-separation}. The
+finite-window $\RealUp$ handoff reads the induced $\DyadicRatCore$ endpoint
+rows from the already identified regular rational sequence surface, while the
+seal obligation remains separate from the StreamName source tuple. Thus the
+left route and the right route compose to the same downstream
+$\RegSeqRat/\RealUp$ source surface, with no completion, quotient,
+metric-completeness, host-index, or seal-classifier row added to that surface.
+\end{proof}

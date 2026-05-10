@@ -18,104 +18,100 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-617 - Module LinearMap pointwise sum associativity
+### B-624 - Matrix transpose of the zero matrix is the zero matrix with swapped dimensions
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Module LinearMap pointwise sum associativity |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-If LinearMapCert_R(M,N;f), LinearMapCert_R(M,N;g), and LinearMapCert_R(M,N;h) all hold over common ModuleUp(R,M),ModuleUp(R,N) certificates, then the pointwise sums (f+g)+h and f+(g+h) carry LinearMapUp(M,N) certificates and are pointwise-classifier-equal.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
-- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
-
-Rationale:
-The commutativity counterpart is at module_linearmap_kernel_image_and_zero.tex:101 (thm:module-linearmap-pointwise-sum-commutativity) and the binary pointwise-sum certificate is at module_linearmap_certificates.tex:344 (thm:module-linearmap-pointwise-sum-certificate). Composition associativity exists at module_linearmap_certificates.tex:238, but pointwise *sum* associativity does not: grep 'pointwise-sum-assoc\|pointwise.*sum.*associat' across papers/ returns only composition-assoc and FPS pointwise-additive-group-laws references. Build from two applications of pointwise-sum-certificate plus the target module's additive associativity (via prop:module-forgets-abgroup-certificate). Landing file 182 lines, ample room. Concrete classifier comparison, not parameter echo.
-
----
-
-
-### B-618 - GaloisGroupUp inverse-of-composition antimultiplicative row
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | GaloisGroupUp inverse-of-composition antimultiplicative row |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-For accepted automorphism-action rows x and y in a GaloisGroupUp packet, the inverse of the composed row x \circ y is classifier-equal to y^{-1} \circ x^{-1} via the public GaloisExtUp endpoint classifier and the inherited GroupUp surface.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/galoisgroup/composition_and_inverse_laws.tex`
-- `papers/bedc/parts/concrete_instances/galoisgroup/group_law_package.tex`
-
-Rationale:
-composition_and_inverse_laws.tex contains thm:galoisgroup-composition-associativity-row (line 2), thm:galoisgroup-inverse-cancellation-rows (line 43), and thm:galoisgroup-inverse-involution-row (line 187), plus thm:galoisgroup-composition-classifier-congruence (line 116). The antimultiplicative inverse rule (g h)^{-1} ~ h^{-1} g^{-1}, the natural completion of the composition+inverse algebra, is missing: grep 'inverse-of-composition\|composition-inverse\|inverse-product' across the galoisgroup/ subdirectory returns no hits. Built from inverse-closure (carrier_and_basic_laws.tex:146) plus the GroupUp dependency's inverse-of-product law (referenced as thm:group-inverse-mul-reverse, used in spingroup/boundary_consumer_exactness.tex:127). File 235 lines, ample room. Concrete inversion identity, not transport.
-
----
-
-
-### B-619 - Independence two-element index family carries the finite factorisation row
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Independence two-element index family carries the finite factorisation row |
-| Layer | adjacent |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Matrix transpose of the zero matrix is the zero matrix with swapped dimensions |
+| Layer | concrete_instances |
 | Route | proof |
 | Risk | unknown |
 | Fit | 9/10 |
 | Novelty | 8/10 |
 
 Problem:
-If a finite-family IndependenceUp carrier has exactly two certified positions i_0, i_1, with the displayed product-cylinder ledger reducing the joint endpoint to mu_{i_0}(B_{i_0}) \cdot_R mu_{i_1}(B_{i_1}) and the two-element RealUp product fold evaluating to the same product, then for every measurable two-position event family B the displayed data carry the finite factorisation row of def:independence-finite-factorisation-row.
+Over a scalar RingUp carrier with classifier sim_R and zero endpoint 0_R, the transpose of the carried zero matrix Z_{n,m} is classified pointwise as the zero matrix Z_{m,n} via def:matrix-transpose-certified-scalar-carrier.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/165_independence_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_transpose.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_zero_matrix_absorption.tex`
 
 Rationale:
-165_independence_namecert_construction.tex:367 proves thm:independence-empty-index-factorization-row (B-527 / B-587 area); line 416 proves thm:independence-singleton-index-factorization-row (B-591 in board). The two-element case is the *first* arity where a real product fold actually multiplies two distinct factors, and is genuinely missing: grep 'two-element\|binary.factorisation\|pair.factorisation\|two.position' across papers/ shows no Independence two-element row. Builds on the pushforward rows already used in the singleton proof plus the binary RealUp product fold (used elsewhere in concrete_instances/). File 471 lines, room available. Concrete arity step: requires a real factorisation calculation, not just a transport.
+The matrix chapter has both transpose and zero-matrix data plus extensive transpose laws (transpose-reverses-product, double-readback involution, preserves-addition) but no transpose/zero interaction lemma. This is the most basic missing companion law and its absence is the kind of referee-flagged gap that propagates into Banach/Hilbert operator chapters. Pointwise unfold + classifier substitution; clean codex_close. Distinct from the identity-matrix transpose candidate which has a different proof shape (Kronecker delta symmetry).
 
 ---
 
-
-### B-620 - SpinGroup conjugation action inverse-involution row
+### B-625 - Matrix transpose of the identity matrix is the identity matrix
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | SpinGroup conjugation action inverse-involution row |
-| Layer | adjacent |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Matrix transpose of the identity matrix is the identity matrix |
+| Layer | concrete_instances |
 | Route | proof |
 | Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 6/10 |
+| Fit | 9/10 |
+| Novelty | 8/10 |
 
 Problem:
-For an accepted SpinGroupUp packet S with visible Clifford-unit endpoint s and any accepted Clifford-vector row v, the iterated action endpoint Act_{s^{-1}}(Act_s(v)) is an accepted Clifford-vector row in the same packet and is classifier-equal to v under the generated CliffordUp classifier.
+Over a scalar RingUp carrier with classifier sim_R, multiplicative unit 1_R, and zero endpoint 0_R, the transpose of the finite-fold identity matrix I_n is classified pointwise as the same identity matrix I_n via def:matrix-transpose-certified-scalar-carrier.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/spingroup/boundary_consumer_exactness.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_transpose.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_laws_fold_identity.tex`
 
 Rationale:
-spingroup/boundary_consumer_exactness.tex:78 proves thm:spingroup-conjugation-action-product-law (B-600 in board) and line 160 proves thm:spingroup-conjugation-action-identity-law (B-612). The natural composition s^{-1}\cdot s = e route — Act_{s^{-1}}(Act_s(v)) ~ Act_e(v) ~ v — is not stated as its own theorem: grep 'spingroup.*inverse.action\|conjugation.action.inverse\|conjugation.*inverse.law' across papers/ returns nothing. The proof composes product-law (with t=s^{-1}) and identity-law plus the GroupUp inverse field already named in carrier_and_basic_laws.tex pattern. Concrete inversion-cancellation identity over the displayed Clifford ledger, not transport. File 231 lines, ample room.
+Genuinely distinct from the transpose-zero candidate: the proof relies on Kronecker-delta symmetry at (i,j) vs (j,i), not zero pointwise. Together with transpose-zero this completes the elementary transpose/distinguished-matrix lemmas that downstream Hermitian/orthogonal/unitary consumers expect. No BOARD entry; not in the paper's existing transpose theorem list. Clean codex_close on entrywise readback.
 
 ---
 
+### B-626 - InnerProduct two-vector Gram diagonal scalar-nonnegativity row exposure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | InnerProduct two-vector Gram diagonal scalar-nonnegativity row exposure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For the InnerProductUp two-vector Gram source of def:innerproduct-two-vector-gram-source with carried vectors x,y, the diagonal scalar endpoints langle x,x rangle and langle y,y rangle satisfy 0_scal le_scal langle x,x rangle and 0_scal le_scal langle y,y rangle under the inherited scalar order, derived from the Gram source's retained diagonal positivity rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/two_vector_gram_boundary.tex`
+
+Rationale:
+The Gram source explicitly retains diagonal positivity rows and the consumer boundary cites them, but no theorem reads them back as a public scalar-order inequality. Hilbert / Riemannian / RootSystem certificates need this exposed. Distinct from B-528 ternary Pythagoras, B-573 norm-sq scalar factoring, and B-507/B-514 polarization-difference identities — none of those expose diagonal nonnegativity through the scalar order namecert. Oracle_likely flag from candidate is appropriate; bridge between InnerProductUp positivity predicate and scalar-order namecert may need small interface work but the claim itself is concrete.
+
+---
+
+### B-627 - Brownian path-step carrier finite-prefix restriction is a BrownianUp carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Brownian path-step carrier finite-prefix restriction is a BrownianUp carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an accepted BrownianUp BHist process packet of def:brownian-bhist-process-packet over a unary time ledger of length n+k is given, then restricting the displayed time-step rows, increment ledger entries, continuity rows, and Cont/Pkg provenance to the first n time steps yields a finite BHist process packet that is again accepted by the BrownianUp carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/169_brownian_namecert_construction.tex`
+
+Rationale:
+Carrier-level prefix closure for Brownian. Genuinely distinct from the MarkovChain prefix candidate: Brownian carries a continuity row and Gaussian-increment ledger that the MarkovChain transition row does not, so the projection step is non-trivially different (continuity-ledger truncation must preserve modulus-of-continuity witnesses). Future Martingale-Brownian compatibility consumers (cf. paper line 416) demand it. No BOARD or paper coverage. Codex_close on unary-ledger induction with continuity-row reprojection.
+
+---

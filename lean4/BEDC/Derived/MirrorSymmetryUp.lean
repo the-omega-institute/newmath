@@ -35,6 +35,15 @@ def MirrorSymmetryCategoricalClassifier [AskSetup] [PackageSetup]
       hsame aModelAnswer aModelAnswer' ∧ hsame bModelAnswer bModelAnswer' ∧
         hsame provenance provenance' ∧ PkgSig bundle endpoint' pkg
 
+def MirrorSymmetryPairCarrier [AskSetup] [PackageSetup]
+    (symplecticSource derivedSource aModelAnswer bModelAnswer pairLedger transportLedger
+      endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory symplecticSource ∧ UnaryHistory derivedSource ∧ UnaryHistory aModelAnswer ∧
+    UnaryHistory bModelAnswer ∧ Cont symplecticSource derivedSource transportLedger ∧
+      Cont aModelAnswer bModelAnswer pairLedger ∧ Cont transportLedger pairLedger endpoint ∧
+        PkgSig bundle endpoint pkg
+
 theorem MirrorSymmetryCategoricalClassifier_categorical_stability [AskSetup] [PackageSetup]
     {symplecticSource derivedSource aModelAnswer bModelAnswer pairedAnswer provenance ledger
       endpoint symplecticSource' derivedSource' aModelAnswer' bModelAnswer' pairedAnswer'
@@ -126,5 +135,37 @@ theorem MirrorSymmetryCategorical_stability [AskSetup] [PackageSetup]
       pairedAnswerRow', ledgerRow', endpointRow', pkgSig'⟩
   exact
     ⟨classified, transportedCarrier, samePairedAnswer, sameLedger, sameEndpoint⟩
+
+theorem MirrorSymmetryPairCarrier_source_certificate_scope [AskSetup] [PackageSetup]
+    {symplecticSource derivedSource aModelAnswer bModelAnswer pairLedger transportLedger
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MirrorSymmetryPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+        pairLedger transportLedger endpoint bundle pkg ->
+      UnaryHistory symplecticSource ∧ UnaryHistory derivedSource ∧ UnaryHistory aModelAnswer ∧
+        UnaryHistory bModelAnswer ∧ Cont symplecticSource derivedSource transportLedger ∧
+          Cont aModelAnswer bModelAnswer pairLedger ∧
+            Cont transportLedger pairLedger endpoint ∧
+              hsame endpoint (append transportLedger pairLedger) ∧
+                PkgSig bundle endpoint pkg := by
+  intro ledger
+  cases ledger with
+  | intro symplecticUnary rest =>
+      cases rest with
+      | intro derivedUnary rest =>
+          cases rest with
+          | intro aModelUnary rest =>
+              cases rest with
+              | intro bModelUnary rest =>
+                  cases rest with
+                  | intro sourceTransport rest =>
+                      cases rest with
+                      | intro pairTransport rest =>
+                          cases rest with
+                          | intro endpointTransport packageSig =>
+                              exact
+                                ⟨symplecticUnary, derivedUnary, aModelUnary, bModelUnary,
+                                  sourceTransport, pairTransport, endpointTransport,
+                                  endpointTransport, packageSig⟩
 
 end BEDC.Derived.MirrorSymmetryUp
