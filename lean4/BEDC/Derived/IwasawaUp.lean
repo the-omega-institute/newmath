@@ -104,4 +104,32 @@ theorem IwasawaTransitionLedger_transition_hsame_transport
                   (And.intro rowData.right.left
                     (cont_result_hsame_transport rowData.right.right sameRow))))
 
+theorem IwasawaTransitionLedger_source_obligation_surface
+    {transitions : List BHist} {provenance row boundary : BHist} :
+    IwasawaTransitionLedger transitions provenance ->
+      List.Mem row transitions ->
+        UnaryHistory provenance ->
+          Cont row provenance boundary ->
+            (exists level next : BHist, UnaryHistory level ∧ UnaryHistory next ∧
+                Cont level next row) ∧
+              UnaryHistory boundary ∧ hsame boundary (append row provenance) := by
+  intro ledger rowMem provenanceUnary boundaryCont
+  have rowExact :=
+    IwasawaTransitionLedger_finite_window_exactness ledger rowMem
+  cases rowExact with
+  | intro level exactRest =>
+      cases exactRest with
+      | intro next rowData =>
+          have rowUnary : UnaryHistory row :=
+            unary_cont_closed rowData.left rowData.right.left rowData.right.right
+          have boundaryUnary : UnaryHistory boundary :=
+            unary_cont_closed rowUnary provenanceUnary boundaryCont
+          exact
+            And.intro
+              (Exists.intro level
+                (Exists.intro next
+                  (And.intro rowData.left
+                    (And.intro rowData.right.left rowData.right.right))))
+              (And.intro boundaryUnary boundaryCont)
+
 end BEDC.Derived.IwasawaUp
