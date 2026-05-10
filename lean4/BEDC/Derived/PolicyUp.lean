@@ -9,6 +9,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.Meta.TasteGate
 
 theorem PolicyUp_taste_gate_source_scope [AskSetup] [PackageSetup]
     {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
@@ -120,5 +121,32 @@ theorem PolicyActionLedgerCarrier_action_classifier_stability [AskSetup] [Packag
       (And.intro carrier.right.right.right.right.right.right.right.right.right.left
         (And.intro carrier.right.right.right.right.right.right.right.right.right.right.left
           carrier.right.right.right.right.right.right.right.right.right.right.right)))
+
+theorem PolicyActionLedgerCarrier_tastegate_scoped_package [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      ChapterTasteGate PolicyUp ∧
+        SemanticNameCert
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          hsame ∧
+        (exists sourceLedger actionLedger : BHist,
+          Cont belief markov sourceLedger ∧ Cont sourceLedger estimator actionLedger ∧
+            hsame sourceLedger ledger ∧ hsame actionLedger provenance) := by
+  intro carrier
+  constructor
+  · exact inferInstance
+  · constructor
+    · exact PolicyActionLedgerCarrier_semantic_name_certificate carrier
+    · exact (PolicyUp_taste_gate_source_scope carrier).left
 
 end BEDC.Derived.PolicyUp
