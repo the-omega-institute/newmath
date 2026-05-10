@@ -235,3 +235,58 @@ $\mathsf{InBundle}$, pointwise $\mathsf{RatHistoryClassifier}$, the accepted
 $\RegSeqRat$ spine, or the finite $\RealUp$ ledger on $\mathcal Q$. No row from
 the complement of $\mathcal Q$ remains available after the subwindow extraction.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp tail denominator selector composition]
+\label{thm:streamname-regseqrat-realup-tail-denominator-selector-composition}
+Let $W_0$, $W_1$, and $W_2$ be selected finite $\RealUp$ observation-window
+packages over the same public StreamName endpoints $s,t:\mathsf{BHist}\to
+\mathsf{BHist}$ and the same accepted $\RegSeqRat$ spine row. Suppose the
+$W_0$ to $W_1$ packet and the $W_1$ to $W_2$ packet are compatible StreamName
+RegSeqRat RealUp tail-selector transport packets, and suppose each packet
+carries the public denominator-window selector between its endpoints. Then the
+two packets compose to carry the same public denominator-window selector from
+$W_0$ to $W_2$.
+
+The composed readback is entirely finite-window data. It reads only the
+displayed $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the bundled
+$\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine, and the
+finite $\RealUp$ ledger carried by the compatible packets and their certified
+subwindows. It introduces no quotient row, completion row, Classical
+representative, metric-completeness certificate, arithmetic or order row,
+standard bridge row, or hidden selector row.
+\end{theorem}
+\begin{proof}
+First compose the underlying tail-selector transport packets. Apply
+\autoref{thm:streamname-regseqrat-realup-tail-selector-transport-composition}
+to the compatible $W_0$ to $W_1$ and $W_1$ to $W_2$ packets. The result is a
+visible finite transport packet from $W_0$ to $W_2$ over the same displayed
+StreamName classifier rows, accepted $\RegSeqRat$ spine, and finite $\RealUp$
+ledger.
+
+Next identify the denominator selector transported by the first leg. Apply
+\autoref{thm:streamname-regseqrat-realup-tail-denominator-selector} to the
+$W_0$ to $W_1$ packet. This makes the public denominator-window selector read
+from $W_0$ the same selector as the one exposed at $W_1$.
+
+Now identify the denominator selector transported by the second leg. Apply
+\autoref{thm:streamname-regseqrat-realup-tail-denominator-selector} to the
+$W_1$ to $W_2$ packet. Compatibility says that the $W_1$ selector consumed by
+this leg is the same finite public selector produced by the first leg.
+
+It remains to check that no extra selector coordinates appear when the two
+windows are read through smaller certified faces. Apply
+\autoref{thm:streamname-regseqrat-realup-tail-denominator-selector-subwindow}
+to each certified shared subwindow. The conclusion restricts every intermediate
+readback to $\mathsf{RatStreamNameFiniteWindowClassifier}$,
+$\mathsf{UnaryHistory}$, $\mathsf{InBundle}$, pointwise
+$\mathsf{RatHistoryClassifier}$, the accepted $\RegSeqRat$ spine, and the
+finite $\RealUp$ ledger.
+
+Combining these finite identifications gives a single public
+denominator-window selector transported from $W_0$ to $W_2$. The exclusions
+come from the three cited transport, denominator-selector, and subwindow
+statements: no quotient, completion, Classical representative,
+metric-completeness, arithmetic or order, standard bridge, or hidden selector
+row is available in the composed readback.
+\end{proof}
