@@ -18,6 +18,15 @@ def NewtonIterationBHistCarrier
       Cont point derivativeRow stepLedger ∧ Cont stepLedger inverse next ∧
         Cont provenance next endpoint
 
+def NewtonIterationContractionClassifier
+    (derivative banach point derivativeRow inverse next stepLedger provenance endpoint point'
+      derivativeRow' inverse' next' stepLedger' endpoint' : BHist) : Prop :=
+  NewtonIterationBHistCarrier derivative banach point derivativeRow inverse next stepLedger
+      provenance endpoint ∧
+    hsame point point' ∧ hsame derivativeRow derivativeRow' ∧ hsame inverse inverse' ∧
+      Cont point' derivativeRow' stepLedger' ∧ Cont stepLedger' inverse' next' ∧
+        Cont provenance next' endpoint'
+
 def NewtonIterationCarrier
     (derivativeSource banachSource point derivative inverseRow nextStep derivativeLedger
       banachLedger stepLedger : BHist) :
@@ -105,6 +114,35 @@ theorem NewtonIterationBHistCarrier_banach_derivative_source_scope
       stepInverse,
       provenanceNext,
       provenanceNext⟩
+
+theorem NewtonIterationBHistCarrier_scoped_kernel_dependency_boundary
+    {derivative banach point derivativeRow inverse next stepLedger provenance endpoint endpoint' :
+      BHist} :
+    NewtonIterationBHistCarrier derivative banach point derivativeRow inverse next stepLedger
+        provenance endpoint ->
+      Cont provenance next endpoint' ->
+        UnaryHistory stepLedger ∧ UnaryHistory next ∧ UnaryHistory endpoint ∧
+          UnaryHistory endpoint' ∧ hsame endpoint endpoint' ∧
+            hsame endpoint (append provenance next) := by
+  intro carrier endpointRow'
+  have scope :=
+    NewtonIterationBHistCarrier_banach_derivative_source_scope carrier
+  have provenanceUnary : UnaryHistory provenance :=
+    carrier.right.right.right.right.right.left
+  have nextUnary : UnaryHistory next :=
+    scope.right.right.right.right.right.right.left
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed provenanceUnary nextUnary endpointRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) (hsame_refl next)
+      scope.right.right.right.right.right.right.right.right.right.right.left endpointRow'
+  exact
+    ⟨scope.right.right.right.right.right.left,
+      nextUnary,
+      scope.right.right.right.right.right.right.right.left,
+      endpointUnary',
+      sameEndpoint,
+      scope.right.right.right.right.right.right.right.right.right.right.right⟩
 
 theorem NewtonIterationBHistCarrier_finite_step_concatenation_closure
     {derivative banach x0 derivativeRow1 inverse1 x1 ledger1 provenance1 endpoint1
@@ -312,6 +350,22 @@ theorem NewtonIterationBHistCarrier_step_endpoint_transport
       endpointRow'⟩
   exact And.intro transportedCarrier
     (And.intro sameStepLedger (And.intro sameNext sameEndpoint))
+
+theorem NewtonIterationContractionClassifier_transport
+    {derivative banach point point' derivativeRow derivativeRow' inverse inverse' next next'
+      stepLedger stepLedger' provenance endpoint endpoint' : BHist} :
+    NewtonIterationContractionClassifier derivative banach point derivativeRow inverse next
+        stepLedger provenance endpoint point' derivativeRow' inverse' next' stepLedger'
+        endpoint' ->
+      NewtonIterationBHistCarrier derivative banach point' derivativeRow' inverse' next'
+          stepLedger' provenance endpoint' ∧
+        hsame stepLedger stepLedger' ∧ hsame next next' ∧ hsame endpoint endpoint' := by
+  intro classifier
+  exact
+    NewtonIterationBHistCarrier_step_endpoint_transport classifier.left classifier.right.left
+      classifier.right.right.left classifier.right.right.right.left
+      classifier.right.right.right.right.left classifier.right.right.right.right.right.left
+      classifier.right.right.right.right.right.right
 
 theorem NewtonIterationBHistCarrier_semantic_name_certificate
     {derivative banach point derivativeRow inverse next stepLedger provenance endpoint : BHist} :
