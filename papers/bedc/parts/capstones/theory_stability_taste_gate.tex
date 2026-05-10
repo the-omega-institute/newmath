@@ -21,8 +21,8 @@ The discipline reuses the conservativity, no-hidden-input, round-trip,
 and source-channel-separation theorems already established in the
 ground compiler chapters
 (\autoref{ch:ground-compiler-event-flow},
- \autoref{ch:ground-compiler-zeckendorf-channel},
- \autoref{ch:ground-compiler-source-channel-separation},
+ \autoref{ch:ground-compiler-zeckendorf-safe-channel-encoding},
+ \autoref{ch:ground-compiler-source-channel-layer-separation},
  \autoref{ch:ground-compiler-main-theorems-cannot-claims}). It elevates
 those compiler-internal invariants into a chapter-level taste gate.
 
@@ -54,7 +54,7 @@ representation-only metadata enters as a primitive carrier row.
 \label{def:taste-gate-round-trip}
 The round-trip obligation for $X$ asserts that the chapter's display
 readback composed with reconstruction is the identity on tokens, in the
-sense of \autoref{ch:ground-compiler-zeckendorf-channel}'s
+sense of \autoref{ch:ground-compiler-zeckendorf-safe-channel-encoding}'s
 \texttt{flow\_level\_round\_trip}. Display does not lose information.
 \end{definition}
 
@@ -63,7 +63,7 @@ sense of \autoref{ch:ground-compiler-zeckendorf-channel}'s
 The layer-separation obligation for $X$ asserts that the chapter's
 source role, channel role, and display role do not collapse into one
 another, in the sense of
-\autoref{ch:ground-compiler-source-channel-separation}'s
+\autoref{ch:ground-compiler-source-channel-layer-separation}'s
 \texttt{source\_channel\_separation}. The chapter does not paper over
 the source/channel/display distinction by treating one as a renaming of
 another.
