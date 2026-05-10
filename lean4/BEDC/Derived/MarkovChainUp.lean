@@ -158,6 +158,20 @@ def MarkovChainTransitionPacket
       RandomVarTotalReadbackCertificate current next transition ∧ Cont current transition provenance ∧
         Cont provenance law ledger
 
+theorem MarkovChainTransitionPacket_ledger_exactness
+    {source time current next law transition provenance ledger : BHist} :
+    MarkovChainTransitionPacket source time current next law transition provenance ledger ->
+      UnaryHistory time ∧ DistributionPushforwardSourceSpec law ∧
+        RandomVarTotalReadbackCertificate current next transition ∧
+          Cont current transition provenance ∧ Cont provenance law ledger := by
+  intro packet
+  exact
+    ⟨packet.right.left,
+      packet.right.right.left,
+      packet.right.right.right.left,
+      packet.right.right.right.right.left,
+      packet.right.right.right.right.right⟩
+
 theorem MarkovChainTransitionPacket_kernel_classifier_stability
     {source time current next law transition provenance ledger source' time' current' next'
       law' transition' provenance' ledger' : BHist} :
