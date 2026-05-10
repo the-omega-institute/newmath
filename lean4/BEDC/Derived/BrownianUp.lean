@@ -378,6 +378,34 @@ theorem BrownianStepContinuityClassifier_path_continuity_ledger_exactness
         (And.intro endpointUnary
           (And.intro pathRow endpointRow))))
 
+theorem BrownianStepContinuityClassifier_ledger_exactness
+    {martingale continuous time path step normal provenance ledger publicRow : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      Cont ledger path publicRow ->
+        UnaryHistory step ∧ UnaryHistory provenance ∧ UnaryHistory ledger ∧
+          UnaryHistory publicRow ∧ hsame step (append continuous path) ∧
+            hsame provenance (append martingale step) ∧ hsame ledger (append provenance normal) ∧
+              hsame publicRow (append ledger path) := by
+  intro classified publicRowCont
+  have stepUnary : UnaryHistory step :=
+    unary_cont_closed classified.right.left classified.right.right.right.left
+      classified.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed classified.left stepUnary
+      classified.right.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed provenanceUnary classified.right.right.right.right.left
+      classified.right.right.right.right.right.right.right
+  have publicRowUnary : UnaryHistory publicRow :=
+    unary_cont_closed ledgerUnary classified.right.right.right.left publicRowCont
+  exact And.intro stepUnary
+    (And.intro provenanceUnary
+      (And.intro ledgerUnary
+        (And.intro publicRowUnary
+          (And.intro classified.right.right.right.right.right.left
+            (And.intro classified.right.right.right.right.right.right.left
+              (And.intro classified.right.right.right.right.right.right.right publicRowCont))))))
+
 theorem BrownianStepContinuityClassifier_continuous_path_projection
     {martingale continuous time path step normal provenance ledger pathLedger endpoint : BHist} :
     BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
@@ -402,8 +430,8 @@ theorem BrownianStepContinuityClassifier_continuous_path_projection
           (And.intro pathExact.right.right.right.left
             (And.intro pathRow
               (And.intro endpointRow
-                (And.intro pathExact.right.right.right.right.left
-                  (And.intro pathExact.right.right.right.right.right
-                    surface.right.right.right.right.right.right.right.right.right.left))))))))
+                 (And.intro pathExact.right.right.right.right.left
+                   (And.intro pathExact.right.right.right.right.right
+                     surface.right.right.right.right.right.right.right.right.right.left))))))))
 
 end BEDC.Derived.BrownianUp
