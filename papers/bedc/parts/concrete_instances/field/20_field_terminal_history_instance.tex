@@ -66,6 +66,37 @@ and the singleton append rows read those append endpoints back to the same
 terminal carrier.
 \end{proof}
 
+\begin{theorem}[Terminal history FieldUp schema laws]
+\label{thm:field-terminal-history-schema-laws}
+The terminal history instance $\mathcal F_{\emp}$ supplies the $\FieldUp$
+schema surface: the carrier $A_{\emp}$ carries a semantic certificate, the
+empty endpoint cannot be a displayed nonzero row, nonzero rows transport along
+$R_{\emp}$, the inverse endpoint remains in the carrier, inverse endpoints are
+congruent under $R_{\emp}$, and both products
+$h^{-1}_{\emp}\cdot_{\emp}h$ and $h\cdot_{\emp}h^{-1}_{\emp}$ classify
+against $1_{\emp}$ whenever the displayed nonzero boundary row for $h$ is
+present.
+\end{theorem}
+\begin{proof}
+Read the carrier and classifier from
+\autoref{def:field-terminal-history-field-instance}. The carrier is the
+terminal $\hsame$ row against $\emp$, so the singleton endpoint reduction used
+in \autoref{thm:field-terminal-history-field-laws} gives the semantic
+certificate and all classifier transports.
+
+The displayed nonzero predicate has no row over the empty endpoint except the
+certified unit-boundary endpoint, and that endpoint reduces to the same
+terminal carrier. Hence the empty endpoint is not a separate nonzero object,
+and transporting a nonzero row across $R_{\emp}$ keeps the same displayed
+boundary data.
+
+Finally, the inverse operation always returns $\emp$. By
+\autoref{thm:field-terminal-history-field-laws}, both inverse-product rows
+therefore reduce through the singleton classifier to $1_{\emp}=\emp$, and the
+same terminal reduction proves inverse carrier closure and inverse classifier
+congruence.
+\end{proof}
+
 \begin{theorem}[Terminal FieldUp nonzero boundary]
 \label{thm:field-terminal-nonzero-boundary}
 Any $\FieldUp$ inverse consumer of
