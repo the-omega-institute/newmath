@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -23,6 +25,44 @@ def MirrorSymmetryBHistPairCarrier [AskSetup] [PackageSetup]
       Cont aModelAnswer bModelAnswer pairedAnswer ∧
         Cont symplecticSource derivedSource ledger ∧
           Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem MirrorSymmetryPairCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} (token : PkgSig bundle BHist.Empty pkg) :
+    let SourceSpec : BHist -> Prop := fun endpoint =>
+      exists symplecticSource derivedSource aModelAnswer bModelAnswer pairedAnswer provenance
+        ledger : BHist,
+        MirrorSymmetryBHistPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+          pairedAnswer provenance ledger endpoint bundle pkg
+    SemanticNameCert SourceSpec SourceSpec SourceSpec
+      (fun h k : BHist => SourceSpec h ∧ SourceSpec k ∧ hsame h k) := by
+  let SourceSpec : BHist -> Prop := fun endpoint =>
+    exists symplecticSource derivedSource aModelAnswer bModelAnswer pairedAnswer provenance
+      ledger : BHist,
+      MirrorSymmetryBHistPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+        pairedAnswer provenance ledger endpoint bundle pkg
+  have emptySource : SourceSpec BHist.Empty := by
+    exact
+      ⟨BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+        BHist.Empty,
+        ⟨unary_empty, unary_empty, unary_empty, unary_empty, unary_empty, rfl, rfl, rfl,
+          token⟩⟩
+  constructor
+  · constructor
+    · exact ⟨BHist.Empty, emptySource⟩
+    · intro h source
+      exact ⟨source, source, hsame_refl h⟩
+    · intro h k classified
+      exact ⟨classified.right.left, classified.left, hsame_symm classified.right.right⟩
+    · intro h k r classifiedHK classifiedKR
+      exact
+        ⟨classifiedHK.left, classifiedKR.right.left,
+          hsame_trans classifiedHK.right.right classifiedKR.right.right⟩
+    · intro h k classified _source
+      exact classified.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
 
 def MirrorSymmetryCategoricalClassifier [AskSetup] [PackageSetup]
     (symplecticSource derivedSource aModelAnswer bModelAnswer pairedAnswer provenance ledger
