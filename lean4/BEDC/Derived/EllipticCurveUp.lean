@@ -275,6 +275,48 @@ theorem EllipticCurveCarrierPacket_classifier_transport_obligation
   · exact And.intro sameFieldLedger
       (And.intro sameProjectiveLedger sameProvenance)
 
+theorem EllipticCurveCarrierPacket_field_projective_source_compatibility
+    {field field' projective projective' coeffs coeffs' cubic cubic' smooth smooth'
+      basePoint basePoint' fieldLedger fieldLedger' projectiveLedger projectiveLedger'
+      provenance provenance' scalarLedger scalarLedger' : BHist} :
+    EllipticCurveCarrierPacket field projective coeffs cubic smooth basePoint fieldLedger
+        projectiveLedger provenance ->
+      hsame field field' ->
+        hsame projective projective' ->
+          hsame coeffs coeffs' ->
+            hsame cubic cubic' ->
+              hsame smooth smooth' ->
+                hsame basePoint basePoint' ->
+                  UnaryHistory cubic' ->
+                    Cont field' projective' fieldLedger' ->
+                      Cont coeffs' cubic' projectiveLedger' ->
+                        Cont smooth' basePoint' provenance' ->
+                          Cont fieldLedger' projectiveLedger' scalarLedger' ->
+                            EllipticCurveCarrierPacket field' projective' coeffs' cubic'
+                                smooth' basePoint' fieldLedger' projectiveLedger'
+                                provenance' ∧
+                              UnaryHistory scalarLedger' ∧ hsame fieldLedger fieldLedger' ∧
+                                hsame projectiveLedger projectiveLedger' ∧
+                                  hsame provenance provenance' ∧
+                                    hsame scalarLedger'
+                                      (append fieldLedger' projectiveLedger') := by
+  intro packet sameField sameProjective sameCoeffs sameCubic sameSmooth sameBasePoint
+    cubicUnary' fieldLedgerCont' projectiveLedgerCont' provenanceCont' scalarLedgerCont'
+  have _scalarLedgerSelf : hsame scalarLedger scalarLedger := hsame_refl scalarLedger
+  have transported :=
+    EllipticCurveCarrierPacket_classifier_transport_obligation packet sameField sameProjective
+      sameCoeffs sameCubic sameSmooth sameBasePoint fieldLedgerCont' projectiveLedgerCont'
+      provenanceCont'
+  have fieldLedgerUnary' : UnaryHistory fieldLedger' :=
+    unary_cont_closed transported.left.left transported.left.right.left fieldLedgerCont'
+  have projectiveLedgerUnary' : UnaryHistory projectiveLedger' :=
+    unary_cont_closed transported.left.right.right.left cubicUnary' projectiveLedgerCont'
+  have scalarLedgerUnary' : UnaryHistory scalarLedger' :=
+    unary_cont_closed fieldLedgerUnary' projectiveLedgerUnary' scalarLedgerCont'
+  exact
+    ⟨transported.left, scalarLedgerUnary', transported.right.left,
+      transported.right.right.left, transported.right.right.right, scalarLedgerCont'⟩
+
 theorem EllipticCurveCarrierPacket_semantic_name_certificate
     {field projective coeffs cubic smooth basePoint fieldLedger projectiveLedger provenance :
       BHist} :
