@@ -338,11 +338,13 @@ The soundness components for a theorem flow are:
 
 \begin{definition}[Sound theorem flow]
 \label{def:theorem-proof-sound-theorem-flow}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7SoundTheoremFlow}
 A recognized theorem flow $T$ is \emph{sound} when complete theorem recognition holds and all soundness components of \autoref{def:theorem-proof-soundness-components} hold.
 \end{definition}
 
 \begin{theorem}[Sound theorem flow establishes theorem code]
 \label{thm:theorem-proof-sound-flow-theorem-code}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.sound\_theorem\_flow\_establishes\_theorem\_code}
 If $T$ is a sound theorem flow, define
 $$
   \mathsf{TheoremCode}(T):=\mathsf{Compile}(T).
@@ -356,6 +358,7 @@ The theorem flow $T$ is an event-flow subflow, so $\mathsf{Compile}(T)$ is defin
 
 \begin{theorem}[Theorem code is injective on raw theorem flows]
 \label{thm:theorem-proof-code-injective}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.p7\_theorem\_code\_injective}
 If $T$ and $U$ are sound theorem flows and
 $$
   \mathsf{TheoremCode}(T)=\mathsf{TheoremCode}(U),

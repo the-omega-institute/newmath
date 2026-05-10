@@ -230,6 +230,10 @@ def P7TheoremSoundnessComponents
     StatusSoundTheoremRecognition R T /\
     SiteSoundTheoremRecognition R T
 
+def P7SoundTheoremFlow
+    (R : P7GeneratedTheoremRecognizer) (T : TheoremCandidateFlow) : Prop :=
+  P7CompleteTheoremRecognition R T /\ P7TheoremSoundnessComponents R T
+
 theorem complete_theorem_recognition_to_p7
     {R : P7GeneratedTheoremRecognizer} {T : TheoremCandidateFlow} :
     CompleteTheoremFlowRecognition R T -> P7CompleteTheoremRecognition R T := by
@@ -278,6 +282,23 @@ theorem p7_incomplete_theorem_candidate_not_theorem
       exact
         hIncomplete R hRecognized.left
           (complete_theorem_recognition_to_p7 hRecognized.right)
+
+theorem sound_theorem_flow_establishes_theorem_code
+    {R : P7GeneratedTheoremRecognizer} {T : TheoremCandidateFlow} :
+    P7SoundTheoremFlow R T ->
+      TheoremCode T = FlowEncoding T /\ Decode (TheoremCode T) = some T := by
+  intro _
+  constructor
+  · rfl
+  · exact theorem_code_round_trip T
+
+theorem p7_theorem_code_injective
+    {RT RU : P7GeneratedTheoremRecognizer} {T U : TheoremCandidateFlow} :
+    P7SoundTheoremFlow RT T ->
+      P7SoundTheoremFlow RU U ->
+        TheoremCode T = TheoremCode U -> T = U := by
+  intro _ _ hCode
+  exact theorem_code_injective hCode
 
 inductive P7ReportDatum : Type where
   | decodedEventFlow (S : EventFlow)
