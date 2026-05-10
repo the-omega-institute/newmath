@@ -58,3 +58,45 @@ assembled. In particular, there is no source slot for a standard semiring
 carrier, a host multiplication operation, a host order relation, or a quotient
 carrier.
 \end{proof}
+
+\begin{theorem}[MulUp audit-clean result NameCert handoff]
+\label{thm:mulup-audit-clean-result-namecert-handoff}
+The audit-clean consumer boundary of
+\autoref{def:mulup-audit-clean-consumer-boundary} factors through the concrete
+$\mathsf{NatMul}$ result semantic certificate, the checked-law audit package of
+\autoref{thm:mulup-checked-law-audit-package}, the window-exhaustion boundary
+of \autoref{thm:mulup-natmul-window-exhaustion}, and the
+divisibility-order source exactness of
+\autoref{thm:mulup-divisibility-order-source-exactness}. The resulting handoff
+exposes only $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$,
+$\mathsf{NatMul}$, $\mathsf{NatDivides}$, $\mathsf{PreorderPrefixLE}$, the
+$\AddUp$ continuation rows, and the $\OrderUp$ unary-prefix row.
+
+No output slot of the handoff exports host multiplication, host order,
+quotient carriers, or standard semiring data.
+\end{theorem}
+\begin{proof}
+Start with the concrete $\mathsf{NatMul}$ result semantic certificate. It is the
+only result-side name certificate in the handoff, so the multiplication output
+is read as a $\mathsf{BHist}$ result row over unary inputs and the displayed
+$\mathsf{NatMul}$ relation.
+
+Apply \autoref{thm:mulup-checked-law-audit-package}. This contributes the
+checked multiplication laws through the already visible $\mathsf{BHist}$,
+$\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, and $\mathsf{NatMul}$ rows, with
+the $\AddUp$ continuation rows and $\OrderUp$ unary-prefix row kept as named
+dependencies rather than as ambient arithmetic structure.
+
+Next use \autoref{thm:mulup-natmul-window-exhaustion}. Window exhaustion says
+that the audit package has no remaining consumer-facing multiplication row
+outside the concrete $\mathsf{NatMul}$ window and its displayed continuation
+ledger.
+
+Finally apply \autoref{thm:mulup-divisibility-order-source-exactness}. It
+identifies the order-facing source as exactly $\mathsf{NatDivides}$,
+$\mathsf{PreorderPrefixLE}$, and the cited $\AddUp$ and $\OrderUp$ boundary
+rows. Since each cited component is already listed in
+\autoref{def:mulup-audit-clean-consumer-boundary}, their composite handoff
+cannot expose host multiplication, host order, quotient carriers, or standard
+semiring data.
+\end{proof}

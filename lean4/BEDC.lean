@@ -190,6 +190,7 @@ import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.OptionUp
+import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
 import BEDC.Derived.OptionUp.Determinism
