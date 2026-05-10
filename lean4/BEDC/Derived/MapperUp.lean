@@ -3,6 +3,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
+import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.MapperUp
@@ -13,6 +14,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 
 def MapperCoverPreimageCarrier [AskSetup] [PackageSetup]
@@ -176,5 +178,30 @@ theorem MapperCoverPreimageCarrier_namecert_obligation_surface [AskSetup] [Packa
       intro _h sourceH
       exact sourceH
   }
+
+theorem MapperNameCert_obligation_surface [AskSetup] [PackageSetup]
+    {cover preimage cluster incidence simplex ledger certificate : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MapperCoverPreimageCarrier cover preimage cluster incidence simplex ledger bundle pkg ->
+      Cont ledger simplex certificate -> SigRel bundle ledger certificate ->
+        PkgSig bundle certificate pkg ->
+          UnaryHistory certificate ∧ hsame certificate (append ledger simplex) ∧
+            MapperCoverPreimageCarrier cover preimage cluster incidence simplex ledger bundle pkg ∧
+              SigRel bundle ledger certificate ∧ PkgSig bundle certificate pkg := by
+  intro carrier certificateRow signatureRow certificatePkg
+  have simplexUnary : UnaryHistory simplex :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have ledgerTailUnary :
+      UnaryHistory (append preimage (append cluster incidence)) :=
+    unary_append_closed carrier.right.left
+      (unary_append_closed carrier.right.right.left carrier.right.right.right.left)
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.left ledgerTailUnary
+      carrier.right.right.right.right.right.right.left
+  have certificateUnary : UnaryHistory certificate :=
+    unary_cont_closed ledgerUnary simplexUnary certificateRow
+  exact
+    ⟨certificateUnary, certificateRow, carrier, signatureRow, certificatePkg⟩
 
 end BEDC.Derived.MapperUp
