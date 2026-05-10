@@ -156,4 +156,112 @@ theorem RiemannHilbertBHistBridgePacket_regular_holonomic_soundness
       (And.intro soundnessCont
         (And.intro deRhamCont (And.intro gluingCont pkgSig)))
 
+theorem RiemannHilbertBHistBridgePacket_local_system_ledger [AskSetup] [PackageSetup]
+    {derivedSource sheafTarget regularBranch deRhamReadback localSystem gluing transport
+      provenance endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannHilbertBHistBridgePacket derivedSource sheafTarget regularBranch
+        deRhamReadback localSystem gluing transport provenance endpoint bundle pkg ->
+      Cont localSystem endpoint consumer ->
+        UnaryHistory gluing ∧ UnaryHistory transport ∧ UnaryHistory endpoint ∧
+          UnaryHistory consumer ∧
+          hsame gluing (append deRhamReadback localSystem) ∧
+            hsame transport (append regularBranch gluing) ∧
+              hsame endpoint (append transport provenance) ∧
+                hsame consumer (append localSystem endpoint) ∧ PkgSig bundle endpoint pkg := by
+  intro packet consumerRow
+  have localSystemUnary : UnaryHistory localSystem :=
+    packet.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.left
+  have gluingRow : Cont deRhamReadback localSystem gluing :=
+    packet.right.right.right.right.right.right.left
+  have transportRow : Cont regularBranch gluing transport :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointRow : Cont transport provenance endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have gluingUnary : UnaryHistory gluing :=
+    unary_cont_closed
+      (unary_cont_closed packet.left packet.right.left packet.right.right.right.right.right.left)
+      localSystemUnary gluingRow
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed packet.right.right.left gluingUnary transportRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary provenanceUnary endpointRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed localSystemUnary endpointUnary consumerRow
+  exact
+    ⟨gluingUnary,
+      transportUnary,
+      endpointUnary,
+      consumerUnary,
+      gluingRow,
+      transportRow,
+      endpointRow,
+      consumerRow,
+      packet.right.right.right.right.right.right.right.right.right⟩
+
+theorem RiemannHilbertDerivedSheafSource_composite_boundary
+    {derived sheaf regular deRham localRow transport sourceTarget localLedger publicBoundary :
+      BHist} :
+    Cont derived sheaf sourceTarget -> Cont regular deRham transport ->
+      Cont localRow transport localLedger -> Cont sourceTarget localLedger publicBoundary ->
+        UnaryHistory derived -> UnaryHistory sheaf -> UnaryHistory regular ->
+          UnaryHistory deRham -> UnaryHistory localRow ->
+            UnaryHistory sourceTarget ∧ UnaryHistory transport ∧ UnaryHistory localLedger ∧
+              UnaryHistory publicBoundary ∧
+                hsame publicBoundary
+                  (append (append derived sheaf) (append localRow (append regular deRham))) := by
+  intro sourceRoute transportRoute localRoute boundaryRoute derivedUnary sheafUnary regularUnary
+    deRhamUnary localUnary
+  have sourceUnary : UnaryHistory sourceTarget :=
+    unary_cont_closed derivedUnary sheafUnary sourceRoute
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed regularUnary deRhamUnary transportRoute
+  have localLedgerUnary : UnaryHistory localLedger :=
+    unary_cont_closed localUnary transportUnary localRoute
+  have boundaryUnary : UnaryHistory publicBoundary :=
+    unary_cont_closed sourceUnary localLedgerUnary boundaryRoute
+  have boundaryReadback :
+      hsame publicBoundary
+        (append (append derived sheaf) (append localRow (append regular deRham))) := by
+    cases sourceRoute
+    cases transportRoute
+    cases localRoute
+    cases boundaryRoute
+    rfl
+  exact
+    ⟨sourceUnary, transportUnary, localLedgerUnary, boundaryUnary, boundaryReadback⟩
+
+theorem RiemannHilbertLocalSystemLedger_continuation_closure
+    {sheaf horizontal localRow deRham localSystem derived compare provenance ledger : BHist} :
+    Cont sheaf horizontal localRow -> Cont localRow deRham localSystem ->
+      Cont derived localSystem compare -> Cont compare provenance ledger ->
+        UnaryHistory sheaf -> UnaryHistory horizontal -> UnaryHistory deRham ->
+          UnaryHistory derived -> UnaryHistory provenance ->
+            UnaryHistory localRow ∧ UnaryHistory localSystem ∧ UnaryHistory compare ∧
+              UnaryHistory ledger ∧
+                hsame ledger
+                  (append (append derived (append (append sheaf horizontal) deRham))
+                    provenance) := by
+  intro localRoute localSystemRoute compareRoute ledgerRoute sheafUnary horizontalUnary
+    deRhamUnary derivedUnary provenanceUnary
+  have localUnary : UnaryHistory localRow :=
+    unary_cont_closed sheafUnary horizontalUnary localRoute
+  have localSystemUnary : UnaryHistory localSystem :=
+    unary_cont_closed localUnary deRhamUnary localSystemRoute
+  have compareUnary : UnaryHistory compare :=
+    unary_cont_closed derivedUnary localSystemUnary compareRoute
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed compareUnary provenanceUnary ledgerRoute
+  have ledgerReadback :
+      hsame ledger
+        (append (append derived (append (append sheaf horizontal) deRham)) provenance) := by
+    cases localRoute
+    cases localSystemRoute
+    cases compareRoute
+    cases ledgerRoute
+    rfl
+  exact ⟨localUnary, localSystemUnary, compareUnary, ledgerUnary, ledgerReadback⟩
+
 end BEDC.Derived.RiemannHilbertUp
