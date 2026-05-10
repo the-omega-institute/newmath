@@ -145,4 +145,57 @@ def referenceExecutableP0Realization : ExecutableP0Realization where
     intro S
     exact flow_level_round_trip S
 
+def AdjacentPairReport : EventFlow -> List (RawEvent × RawEvent)
+  | [] => []
+  | [_] => []
+  | first :: second :: rest =>
+      (first, second) :: AdjacentPairReport (second :: rest)
+
+structure ExecutableReportLayer where
+  sourceReport : EventFlow -> EventFlow
+  adjacentPairReport : EventFlow -> List (RawEvent × RawEvent)
+  motifCandidateReport : EventFlow -> List EventFlow
+  metricReport : EventFlow -> List Nat
+
+def referenceExecutableReportLayer : ExecutableReportLayer where
+  sourceReport := fun S => S
+  adjacentPairReport := AdjacentPairReport
+  motifCandidateReport := fun S => List.map (fun w => [w]) S
+  metricReport := fun S => [S.length]
+
+inductive ReportClassification : Type where
+  | candidateShape (S : EventFlow)
+  | recognizedStructure (R : GeneratedRecognizer) (S : EventFlow)
+
+def EvidenceBackedReport (j : ReportClassification) : Prop :=
+  exists R : GeneratedRecognizer, exists S : EventFlow,
+    j = ReportClassification.recognizedStructure R S /\
+      FormalCompilerInput (CompilerDatum.recognizedFlow R S)
+
+theorem programs_do_not_upgrade_candidates (S : EventFlow) :
+    Not (EvidenceBackedReport (ReportClassification.candidateShape S)) := by
+  intro h
+  cases h with
+  | intro R hR =>
+      cases hR with
+      | intro T hT =>
+          cases hT.left
+
+theorem p1_p4_executable :
+    exists L : ExecutableReportLayer,
+      L.sourceReport [] = [] /\
+        L.adjacentPairReport [[BMark.b0], [BMark.b1], [BMark.b0]] =
+          [([BMark.b0], [BMark.b1]), ([BMark.b1], [BMark.b0])] /\
+        L.motifCandidateReport [[BMark.b0], [BMark.b1]] =
+          [[[BMark.b0]], [[BMark.b1]]] /\
+        L.metricReport [[BMark.b0], [BMark.b1]] = [2] := by
+  refine ⟨referenceExecutableReportLayer, ?_⟩
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · rfl
+
 end BEDC.GroundCompiler.ProgrammaticRealization
