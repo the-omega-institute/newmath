@@ -631,6 +631,7 @@ import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
 import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
+import BEDC.Derived.LinearMapUp.EvaluationGraphPackage
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
 import BEDC.Derived.FieldExtUp
@@ -881,6 +882,7 @@ import BEDC.Derived.S1Up.PublicEndpointExactness
 import BEDC.Derived.S1Up.RealMetricBridgeBoundary
 import BEDC.Derived.S1Up.StandardTopologicalBridgeBoundary
 import BEDC.Derived.S1Up.StandardTopologicalCircleAcceptance
+import BEDC.Derived.S1Up.ComponentwiseTransportStability
 import BEDC.Derived.S1Up.PublicNameCertBoundary
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.SingletonEquationSolver

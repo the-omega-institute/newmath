@@ -174,6 +174,29 @@ theorem UnitaryGroupPublicNameCert_export {hilbert automorphism source target en
   exact And.intro endpointCert
     (And.intro endpointUnary (And.intro sourceReadback targetReadback))
 
+theorem UnitaryGroupUp_StdBridge
+    {hilbert automorphism source target endpoint bridgeLedger : BHist} :
+    VecSpaceSingletonCarrier hilbert -> LieGroupSingletonCarrier automorphism ->
+      Cont hilbert automorphism source -> Cont automorphism hilbert target ->
+        Cont source target endpoint -> Cont endpoint automorphism bridgeLedger ->
+          SemanticNameCert (fun row : BHist => hsame row endpoint)
+            (fun row : BHist => hsame row endpoint)
+            (fun row : BHist => hsame row endpoint) hsame ∧
+            UnaryHistory bridgeLedger ∧ hsame source hilbert ∧
+              hsame target automorphism ∧
+                hsame bridgeLedger (append endpoint automorphism) := by
+  intro hilbertCarrier automorphismCarrier sourceRow targetRow endpointRow bridgeLedgerRow
+  have exported :=
+    UnitaryGroupPublicNameCert_export hilbertCarrier automorphismCarrier sourceRow targetRow
+      endpointRow
+  have automorphismUnary : UnaryHistory automorphism :=
+    unary_transport unary_empty (hsame_symm automorphismCarrier)
+  have bridgeLedgerUnary : UnaryHistory bridgeLedger :=
+    unary_cont_closed exported.right.left automorphismUnary bridgeLedgerRow
+  exact
+    ⟨exported.left, bridgeLedgerUnary, exported.right.right.left,
+      exported.right.right.right, bridgeLedgerRow⟩
+
 theorem UnitaryGroupInnerProduct_preservation_obligation
     {hilbert hilbert' automorphism automorphism' inner inner' transported transported' :
       BHist} :
