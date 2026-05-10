@@ -83,6 +83,34 @@ theorem MatchingEdgeSet_compatible_union_closed
                 | inr inNE' =>
                     exact incidentN inNE inNE' vertV incVE incVE'
 
+theorem MatchingAugmentation_symmetric_difference_decomposition
+    {Vert Edge : BHist -> Prop} {Inc EdgeRel : BHist -> BHist -> Prop}
+    {M N : BHist -> Prop} :
+    MatchingEdgeSet Vert Edge Inc EdgeRel M ->
+      MatchingEdgeSet Vert Edge Inc EdgeRel N ->
+        (forall {e : BHist}, M e ∨ N e -> Edge e) ∧
+          (forall {e e' v : BHist}, M e -> M e' -> Vert v -> Inc v e -> Inc v e' ->
+            EdgeRel e e') ∧
+            (forall {e e' v : BHist}, N e -> N e' -> Vert v -> Inc v e -> Inc v e' ->
+              EdgeRel e e') := by
+  intro matchingM matchingN
+  cases matchingM with
+  | intro edgeM incidentM =>
+      cases matchingN with
+      | intro edgeN incidentN =>
+          constructor
+          · intro e selected
+            cases selected with
+            | inl inM =>
+                exact edgeM inM
+            | inr inN =>
+                exact edgeN inN
+          · constructor
+            · intro e e' v inM inM' vertV incVE incVE'
+              exact incidentM inM inM' vertV incVE incVE'
+            · intro e e' v inN inN' vertV incVE incVE'
+              exact incidentN inN inN' vertV incVE incVE'
+
 theorem MatchingEdgeSet_abstract_subpredicate_closed
     {Vert Edge : BHist -> Prop} {Inc EdgeRel : BHist -> BHist -> Prop}
     {M N : BHist -> Prop} :
