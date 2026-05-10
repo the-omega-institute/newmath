@@ -396,6 +396,58 @@ parenthesizations, with no extra regularity, seal-classifier, quotient, or
 host-index data.
 \end{proof}
 
+\begin{theorem}[RealUp StreamName RegSeqRat triple-window cocycle]
+\label{thm:realup-streamname-regseqrat-triple-window-cocycle}
+For observation maps $s,t:\Hist\to\Hist$ and four adjacent public
+$\StreamNameUp$ finite windows over $\mathsf{BHist}$ anchors
+$a,w,r,q,u:\Hist$, assume each consecutive triple satisfies the hypotheses of
+\autoref{thm:streamname-regseqrat-shared-window-cover} and
+\autoref{thm:streamname-regseqrat-realup-joined-window-consumer-coherence}. Then
+the two public observation routes obtained by first reassociating the left
+triple and then the right triple, or by first reassociating the right triple and
+then the left triple, induce the same $\StreamNameUp$ finite-window rows, the
+same $\RegSeqRat$ seal rows, the same $\RealUp$ feed rows, and the same
+$\RatUp$ endpoint classifiers.
+
+The common four-window consumer surface also keeps one
+$\mathsf{ProbeBundle}/\mathsf{InBundle}$ ledger, one family of $\UnaryHistory$
+rows, the displayed $\hsame$ transports, the finite $\Cont$ ledger, and the
+$\Pkg$ provenance for the shared source package at each intermediate joined
+window. No $\RegSeqRat$ regularity witness, $\RealUp$ completeness row,
+quotient row, host index equality, or standard bridge data is imported.
+\end{theorem}
+\begin{proof}
+Start with the left triple. Apply
+\autoref{thm:streamname-regseqrat-realup-joined-window-consumer-coherence} to
+the three windows $(w,r,q)$. The result is a single joined consumer package for
+the two parenthesizations of that triple, with the same StreamName rows,
+RegSeqRat seal rows, RealUp feed rows, endpoint classifiers, finite ledger,
+$\hsame$ transports, $\Cont$ rows, and $\Pkg$ provenance.
+
+Use \autoref{thm:streamname-regseqrat-shared-window-cover} on that joined left
+package and the fourth window. The shared-window cover identifies the package
+seen by the next joined-window consumer as the same source package already
+selected by the left triple, now extended only by the adjacent public
+finite-window rows.
+
+For the other route, first apply
+\autoref{thm:streamname-regseqrat-realup-joined-window-consumer-coherence} to
+the right triple $(r,q,u)$. Then apply
+\autoref{thm:streamname-regseqrat-shared-window-cover} to attach the remaining
+left window. This produces the same kind of joined package, with the same
+visible rows and no additional source object.
+
+Finally compare the two intermediate source packages. At the overlap, each was
+obtained by applying the same joined-window consumer coherence to one
+consecutive triple and the same shared-window cover to the adjacent triple.
+Those two clauses identify the common source package at both steps, so the
+finite StreamName rows, RegSeqRat rows, RealUp rows, endpoint classifiers,
+bundle ledger, unary-history rows, $\hsame$ transports, $\Cont$ ledger, and
+$\Pkg$ provenance agree. Since neither theorem imports regularity,
+completeness, quotient, host-index, or bridge data, the four-window cocycle has
+exactly the stated negative boundary.
+\end{proof}
+
 \begin{theorem}[Real completion boundary unique observation route]
 \label{thm:real-completion-boundary-unique-observation-route}
 For observation maps $s,t:\Hist\to\Hist$ and adjacent unary $\mathsf{BHist}$
