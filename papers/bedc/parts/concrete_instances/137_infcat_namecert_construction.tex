@@ -69,6 +69,7 @@ exactly the fields listed in
 $\hsame/\Cont$ transport across the displayed packet coordinates. They include
 no host quasicategory coordinate and no localization coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_source\_classifier\_obligations}
 \begin{proof}
 The source side is obtained by unfolding
 \autoref{def:infcat-bhist-source-packet}: every admissible source read is one
@@ -84,6 +85,7 @@ Since neither the packet definition nor the classifier surface supplies a host
 quasicategory or localization slot, neither kind of coordinate can appear among
 the source or classifier obligations.
 \end{proof}
+\leanchecked{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_source\_classifier\_obligation\_surface}
 
 \begin{theorem}[InfCatUp stability, exactness, and ledger obligations]
 \label{thm:infcat-stability-exactness-ledger-obligations}
@@ -331,14 +333,14 @@ localization, or simplicial mapping object, those data remain unavailable at
 the root threshold.
 \end{proof}
 
-\closureat{InfCatUp}{obligationStr}[BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_consumer\_boundary]
+\closureat{InfCatUp}{scopedStr}[BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_consumer\_boundary]
 \begin{closurestatus}{\InfCatUp}
   \constructivestory{An InfCat packet is generated from consumed $\SimplicialSetUp$ and $\CategoryUp$ certificate rows, finite inner-horn and lifting ledgers, one provenance package, and rowwise $\Cont/\hsame$ transport. The checked consumer boundary exposes only those displayed packet rows to downstream category consumers.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The seed scope is limited to the consumed $\SimplicialSetUp$ and $\CategoryUp$ rows, finite inner-horn and lifting ledgers, $\mathsf{ProbeBundle}$, $\Cont$, $\hsame$, and $\Pkg$ rows displayed by the accepted source packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the consumed $\SimplicialSetUp$ and $\CategoryUp$ rows, finite inner-horn and lifting ledgers, $\mathsf{ProbeBundle}$, $\Cont$, $\hsame$, and $\Pkg$ rows displayed by the accepted source packet in \autoref{thm:infcat-inner-horn-ledger-boundary}, \autoref{thm:infcat-quasicategory-classifier-surface}, \autoref{thm:infcat-namecert-obligation-surface}, and \autoref{thm:infcat-consumer-boundary}.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_consumer\_boundary}
   \bridgestatus{none}
   \notclaimed{Host quasicategories, localization, and simplicial mapping objects are not closed.}
-  \upgradepath{Scoped closure requires binding each obligation to the consumed $\SimplicialSetUp$ and $\CategoryUp$ rows, finite horn and lifting ledgers, $\mathsf{ProbeBundle}$, $\Cont$, $\hsame$, and $\Pkg$.}
+  \upgradepath{Public closure requires an exported $\NameCert_{\InfCatUp}$ public boundary beyond the scoped consumer surface.}
 \end{closurestatus}

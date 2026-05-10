@@ -28,6 +28,7 @@ configuration components are therefore visible source rows, while
 $\NameCert_{\ComputableUp}$ supplies the bounded deterministic trace format
 that keeps the program code, bound, and endpoint readback in the ledger.
 \end{proof}
+\leanchecked{BEDC.Derived.TuringMachineUp.TuringMachineConfigurationTraceCarrier\_configuration\_trace\_surface}
 
 \begin{theorem}[TuringMachine deterministic step transport]
 \label{thm:turingmachine-deterministic-step-transport}
@@ -89,12 +90,191 @@ readback row, and the trace ledger records the accessed cell without adding an
 unbounded external tape carrier.
 \end{proof}
 
+\begin{theorem}[TuringMachine obligation surface]
+\label{thm:turingmachine-obligation-surface}
+The complete $\TuringMachineUp$ obligation surface over $\mathsf{BHist}$ is
+formed by the configuration trace carrier, the $\hsame$ classifier on
+configuration traces, the deterministic transition row, the halted-repetition
+row, the finite tape readback row, and the bounded $\ComputableUp$ simulation
+trace rows. These rows consume exactly the displayed $\NatUp$ unary time and
+head-position witnesses, the $\SeqUp$ configuration trace, $\Cont$
+trace-extension data, and the ledger rows for initial configurations,
+transition steps, halted repetitions, and bounded readback.
+\end{theorem}
+\begin{proof}
+Collect the carrier rows from
+\autoref{thm:turingmachine-configuration-trace-carrier} and the finite readback
+rows from \autoref{thm:turingmachine-finite-tape-readback-carrier}. These
+identify the accepted histories as $\mathsf{BHist}$ configuration rows indexed
+by the consumed $\NatUp$ and $\SeqUp$ sources.
+
+Next add the deterministic and halted parts. The step transport theorem
+supplies the deterministic transition row and its $\Cont/\hsame$ stability,
+while the halted-repetition theorem supplies the exact repeated suffix.
+
+Finally include the bounded $\ComputableUp$ trace row. Since the carrier exposes
+only the displayed initial row, transition step, halted repetition, finite
+readback, and bounded-simulation ledger entries, the listed rows exhaust the
+obligation surface.
+\end{proof}
+
+\begin{theorem}[TuringMachine source-classifier obligation]
+\label{thm:turingmachine-source-classifier-obligation}
+The $\TuringMachineUp$ source reads exactly the finite state alphabet, finite
+tape alphabet with blank row, unary time rows, unary head-position rows,
+$\SeqUp$ configuration trace, deterministic transition table, and
+$\ComputableUp$ bounded trace. Classifier transport is $\hsame$ on
+configuration trace rows, with the deterministic transition table and finite
+readback rows transported only through the displayed $\Cont$ trace-extension
+surface.
+\end{theorem}
+\begin{proof}
+Project a token to its source rows. The alphabets, transition table, time
+indices, head positions, configuration trace, and bounded trace are explicit
+coordinates of the accepted package.
+
+The classifier has no separate host-machine equality. It compares configuration
+trace rows by $\hsame$, then transports transition and readback rows along the
+same displayed $\Cont$ extension data.
+
+Because no other source coordinate is available in the package, every admitted
+classifier transport is obtained from those rows and no oracle, universal
+machine, or external computation predicate can enter the source.
+\end{proof}
+
+\begin{theorem}[TuringMachine ledger exactness obligation]
+\label{thm:turingmachine-ledger-exactness-obligation}
+The $\TuringMachineUp$ ledger is exhausted by initial-row, transition-step,
+halted-repetition, finite tape readback, and bounded-simulation rows. It
+contains no oracle transcript, nondeterministic branch row, universal-machine
+row, or halting-decision data.
+\end{theorem}
+\begin{proof}
+Read the ledger fields of an accepted $\TuringMachineUp$ token. The initial row
+starts the $\SeqUp$ trace, transition-step rows append deterministic successors,
+and halted-repetition rows append the fixed halted configuration.
+
+Finite tape readback is the projection of a displayed configuration row through
+the head-position witness, and bounded simulation is the consumed
+$\ComputableUp$ trace prefix.
+
+These are all ledger constructors named by the carrier. Since the package has
+no field for oracles, branch choice, universal-machine coding, or halting
+decision, those data are excluded from ledger exactness.
+\end{proof}
+
+\section{The certificate}
+\label{sec:turingmachine-certificate}
+
+\begin{theorem}[TuringMachine trace source obligation]
+\label{thm:turingmachine-trace-source-obligation}
+The $\TuringMachineUp$ trace source is a $\SeqUp$ configuration carrier over
+$\mathsf{BHist}$ whose rows are finite triples
+$(\mathsf{state},\mathsf{tape},\mathsf{head})$. Its public source surface is
+the $\NatUp$ unary time row, the $\NatUp$ head-position row, the $\SeqUp$
+configuration trace row, the finite state and tape alphabets, and the
+$\ComputableUp$ bounded deterministic-trace row.
+\end{theorem}
+\begin{proof}
+Project the accepted machine token to its trace coordinate. The trace coordinate
+is already a $\SeqUp$ row, and each entry is a triple of BEDC histories, so the
+carrier is a finite $\mathsf{BHist}$ configuration sequence rather than a
+host-level execution.
+
+The visible indices are supplied by the consumed $\NatUp$ rows. The finite
+alphabets and the bounded deterministic-trace row are ledger coordinates of the
+same token, so every source row in the theorem is obtained by projection from
+the displayed carrier package.
+\end{proof}
+
+\begin{theorem}[TuringMachine deterministic step stability]
+\label{thm:turingmachine-deterministic-step-stability}
+For a $\TuringMachineUp$ trace, one-step transition rows are stable under the
+displayed $\Cont$ and $\hsame$ transport. If current configurations, transition
+table rows, and head-position witnesses are transported by the public
+classifier, then the next configurations produced by the deterministic step row
+are again $\hsame$.
+\end{theorem}
+\begin{proof}
+Read the current configurations through the $\hsame$ classifier on the
+$\SeqUp$ trace. The transition table is a visible ledger row, so its transported
+copy determines the same state update, tape write, and head movement over the
+transported current configuration.
+
+Apply the $\Cont$ row for trace extension. Determinism gives a single next row
+for the transported data, and the $\SeqUp$ classifier records the two extended
+traces as $\hsame$ at the next time index.
+\end{proof}
+
+\begin{theorem}[TuringMachine halted repeat obligation]
+\label{thm:turingmachine-halted-repeat-obligation}
+If a $\TuringMachineUp$ configuration row is marked halted, every accepted
+later trace row repeats that halted configuration up to $\hsame$. The repeated
+suffix exposes only the halted configuration, its tape row, its head-position
+witness, and the halted ledger entry.
+\end{theorem}
+\begin{proof}
+Use the halted-row clause of the carrier. Once the halted predicate is visible,
+the accepted trace-extension field cites the halted configuration as its source
+instead of reopening the transition table.
+
+The repeated suffix is then built by the same $\Cont$ extension row. Since each
+later entry is classified with the halted configuration by $\hsame$, the ledger
+contains no additional branch, oracle query, or tape update beyond the repeated
+halted row.
+\end{proof}
+
+\begin{theorem}[TuringMachine bounded readback soundness]
+\label{thm:turingmachine-bounded-readback-soundness}
+Every $\ComputableUp$ bounded readback consumed by $\TuringMachineUp$ is read
+from the displayed finite trace prefix. The readback endpoint is the tape value
+addressed by the $\NatUp$ head-position witness inside the current
+configuration row, and no infinite tape carrier or halting-decision row is
+exported.
+\end{theorem}
+\begin{proof}
+Project the bounded readback row from the consumed $\ComputableUp$ surface. Its
+bound is a finite trace prefix, and each trace entry is a $\SeqUp$
+configuration row with a visible tape component and head-position witness.
+
+The endpoint readback therefore evaluates the displayed tape row at the
+displayed finite head witness. Transport by $\hsame$ preserves that bounded
+endpoint, while the absence of an infinite tape coordinate prevents the
+readback from exporting any stronger host computation claim.
+\end{proof}
+
+\begin{theorem}[TuringMachine NameCert surface obligation]
+\label{thm:turingmachine-namecert-surface-obligation}
+The public $\NameCert_{\TuringMachineUp}$ surface is obtained by repacking the
+configuration trace carrier, deterministic transition classifier, $\Cont$ and
+$\hsame$ stability rows, halted-repeat exactness, bounded readback exactness,
+and deterministic transition ledger. This surface binds only the listed
+$\mathsf{BHist}$, $\SeqUp$, $\NatUp$, $\ComputableUp$, $\Cont$, $\hsame$, and
+ledger rows.
+\end{theorem}
+\begin{proof}
+First collect the carrier rows from
+\autoref{thm:turingmachine-trace-source-obligation}. These provide the finite
+configuration trace, time index, head-position witness, alphabets, and bounded
+deterministic-trace source.
+
+Next add the stability and exactness rows. The deterministic-step row is stable
+by \autoref{thm:turingmachine-deterministic-step-stability}, halted suffixes
+are exact by \autoref{thm:turingmachine-halted-repeat-obligation}, and bounded
+readback is exact by \autoref{thm:turingmachine-bounded-readback-soundness}.
+
+Finally repack those rows as the naming certificate ledger. The package has no
+field for nondeterminism, oracle queries, parallel execution, a universal
+machine theorem, or a halting-decision classifier, so the public surface is
+exactly the listed finite-row obligation surface.
+\end{proof}
+
 \begin{closurestatus}{\TuringMachineUp}
   \constructivestory{A $\TuringMachineUp$ token names a deterministic finite-state transition table over a finite tape alphabet with a designated blank symbol. A configuration history is built from a $\SeqUp$ trace of (state, tape, head-position) rows whose initial row is the boot configuration on a $\NatUp$-encoded input, whose one-step rows follow the transition function, and whose halted rows repeat the halted configuration. The classifier is $\hsame$ on the configuration trace, transport repacks the trace through the deterministic transition table, and the source binds finite-alphabet, finite-state, finite-trace, and finite-head-displacement rows. The pattern records the initial-row, transition-step, halted-repetition, and finite-tape-readback rows; the ledger keeps the deterministic transition table, head movement, and tape values visible. The five name-certificate obligations follow: the inhabited identity certificate is the boot trace at length zero; classifier stability is reflexive, symmetric, and transitive $\hsame$ on traces; transport repacks configurations through the transition function; ledger exactness identifies the accepted history with the bounded simulation row in the sense of \autoref{ch:concrete-instances-computable-namecert}; the extension boundary fixes the halted-repetition rule. A history $h$ lies in the signature gap of a $\TuringMachineUp$ token $p$ when the source-domain accepts a configuration trace with the right transition table, the signature relation pairs it with the halted output, and token introduction names that output as $p$. The chapter registers this finite-trace machine surface under the name $\TuringMachineUp$; it is a deterministic-transition-table object with no oracle, nondeterminism, parallelism, halting decision, or universal-machine claim.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope binds the deterministic transition table, the finite state and tape alphabets, the $\SeqUp$ configuration trace, the head-position witness, and the halted-repetition row. Hidden exact running times, oracle queries, and nondeterministic branching are excluded.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope is the surface in \autoref{thm:turingmachine-obligation-surface}, \autoref{thm:turingmachine-source-classifier-obligation}, and \autoref{thm:turingmachine-ledger-exactness-obligation}, grounded by \autoref{thm:turingmachine-configuration-trace-carrier}, \autoref{thm:turingmachine-deterministic-step-transport}, \autoref{thm:turingmachine-halted-repetition-ledger-exactness}, and \autoref{thm:turingmachine-finite-tape-readback-carrier}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{The chapter does not close halting decidability, universal-machine theorems, oracle Turing machines, parallel/nondeterministic machines, or a standard-model bridge to classical computability.}
-  \upgradepath{Obligation closure requires a checked $\TuringMachineUp$ deterministic-transition obligation theorem covering the configuration trace, halted-repetition, and bounded readback rows.}
+  \upgradepath{Scoped closure requires binding these obligations to the named BEDC primitives and the consumed $\NatUp$, $\SeqUp$, and $\ComputableUp$ rows.}
 \end{closurestatus}

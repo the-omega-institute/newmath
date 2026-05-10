@@ -1,4 +1,5 @@
 import BEDC.Derived.CompleteMetricUp
+import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.MetricUp
 import BEDC.FKernel.NameCert
@@ -10,6 +11,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 open BEDC.Derived.CompleteMetricUp
+open BEDC.Derived.ContinuousMapUp
 open BEDC.Derived.TotallyBoundedUp
 open BEDC.Derived.MetricUp
 open BEDC.Derived.RatUp
@@ -442,5 +444,29 @@ theorem CompactMetricCertificate_complete_field_projection {X : BHist -> Prop}
     CompleteMetricLimitWitness_hsame_transport carrierTransport streamTransport
       modulusTransport sameLimit certificate.right
   exact And.intro transportedLimit transportedLimit.left
+
+theorem CompactMetricCertificate_continuousmap_consumption_boundary {X : BHist -> Prop}
+    {eps source target n : BHist} {bundle : ProbeBundle BHist} {s M : BHist -> BHist}
+    {limit map modulus cert distance consumer : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> X (s n) -> UnaryHistory n ->
+      ContinuousMapCarrier source map target modulus cert distance ->
+        Cont distance limit consumer ->
+          TotallyBoundedProbeBundleNet X eps bundle ∧ CompleteMetricLimitWitness X s M limit ∧
+            UnaryHistory consumer ∧ hsame consumer (append distance limit) ∧
+              exists limitDist : BHist,
+                MetricDistanceWitness (s n) limit limitDist ∧ Cont (s n) limit limitDist ∧
+                  RatHistoryClassifier limitDist (M n) := by
+  intro certificate streamSource nUnary mapCarrier consumerRow
+  cases certificate with
+  | intro net complete =>
+      cases complete.right nUnary streamSource with
+      | intro limitDist limitDistance =>
+          have limitUnary : UnaryHistory limit :=
+            limitDistance.left.right.left
+          have consumerUnary : UnaryHistory consumer :=
+            unary_cont_closed mapCarrier.right.right.right.left limitUnary consumerRow
+          exact
+            ⟨net, complete, consumerUnary, consumerRow, limitDist, limitDistance.left,
+              limitDistance.right.left, limitDistance.right.right⟩
 
 end BEDC.Derived.CompactMetricUp
