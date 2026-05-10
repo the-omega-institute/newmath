@@ -190,6 +190,44 @@ theorem TuringMachineObligationSurface_rows
     ⟨configurationSurface.left, configurationSurface.right.left,
       configurationSurface.right.right.left, finalLedgerUnary, repeatedRows.left, finalLedgerRow⟩
 
+theorem TuringMachineTraceSourceObligation_source_rows
+    {state tape head bound alphabet configuration trace endpoint source : BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory bound ->
+      UnaryHistory alphabet -> Cont state tape configuration -> Cont configuration head trace ->
+        Cont trace bound endpoint -> Cont alphabet endpoint source ->
+          UnaryHistory configuration ∧ UnaryHistory trace ∧ UnaryHistory endpoint ∧
+            UnaryHistory source ∧ hsame configuration (append state tape) ∧
+              hsame trace (append configuration head) ∧ hsame endpoint (append trace bound) ∧
+                hsame source (append alphabet endpoint) := by
+  intro stateUnary tapeUnary headUnary boundUnary alphabetUnary configurationRow traceRow endpointRow
+    sourceRow
+  have configurationSurface :=
+    TuringMachineConfigurationTraceCarrier_configuration_trace_surface stateUnary tapeUnary
+      headUnary boundUnary configurationRow traceRow endpointRow
+  have sourceUnary : UnaryHistory source :=
+    unary_cont_closed alphabetUnary configurationSurface.right.right.left sourceRow
+  exact
+    ⟨configurationSurface.left, configurationSurface.right.left,
+      configurationSurface.right.right.left, sourceUnary, configurationSurface.right.right.right.left,
+      configurationSurface.right.right.right.right.left,
+      configurationSurface.right.right.right.right.right, sourceRow⟩
+
+theorem TuringMachineLedgerExactnessObligation_rows_and_boundary
+    {halted endpoint readback ledger boundary : BHist} {haltRows : List BHist} :
+    TuringMachineHaltedTrace halted haltRows endpoint -> UnaryHistory halted ->
+      UnaryHistory readback -> Cont endpoint readback ledger -> Cont ledger halted boundary ->
+        (forall row : BHist, List.Mem row haltRows -> hsame row halted) ∧
+          UnaryHistory endpoint ∧ UnaryHistory ledger ∧ UnaryHistory boundary ∧
+            hsame ledger (append endpoint readback) ∧ hsame boundary (append ledger halted) := by
+  intro haltedTrace haltedUnary readbackUnary ledgerRow boundaryRow
+  have repeatedRows :=
+    TuringMachineHaltedTrace_repeat_obligation haltedTrace haltedUnary
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed repeatedRows.right readbackUnary ledgerRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed ledgerUnary haltedUnary boundaryRow
+  exact ⟨repeatedRows.left, repeatedRows.right, ledgerUnary, boundaryUnary, ledgerRow, boundaryRow⟩
+
 theorem TuringMachineSourceClassifierObligation_source_classifier_surface
     {state tape head table trace readback source transported : BHist} :
     UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory table ->

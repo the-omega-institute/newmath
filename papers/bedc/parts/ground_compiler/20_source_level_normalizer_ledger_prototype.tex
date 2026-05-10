@@ -24,6 +24,7 @@ Thus $011\mid 100$ is not $011=100$, not $\hsame(011,100)$, and not a Zeckendorf
 
 \begin{definition}[Source-level adjacent pair]
 \label{def:source-normalizer-adjacent-pair}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.AdjPair}
 Given an event flow
 $$
   S=(w_0,w_1,\ldots,w_{n-1}),
@@ -45,6 +46,7 @@ the adjacent pairs are $0\mid 00$, $00\mid 000$, $000\mid 01$, $01\mid 011$, and
 
 \begin{definition}[Candidate normalizer pair]
 \label{def:source-normalizer-candidate-pair}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.CandNormPair}
 A \emph{candidate normalizer pair} is a source-level adjacent pair $(w,v)$ reported as a possible pre-normal event followed by a possible normal-address event. Write
 $$
   \mathsf{CandNormPair}(w,v).
@@ -58,7 +60,12 @@ does not imply $011\leadsto 100$.
 
 \begin{definition}[Normalizer ledger candidate]
 \label{def:source-normalizer-ledger-candidate}
-Given an event flow $S$, a \emph{normalizer ledger candidate} is a tuple
+\leandef{BEDC.GroundCompiler.SourceNormalizer.NormCand}
+Given an event flow $S$ and a candidate-reporting predicate
+$$
+  P_{\mathrm{cand}}(w,v),
+$$
+a \emph{normalizer ledger candidate} is a tuple
 $$
   (i,w,v)
 $$
@@ -66,9 +73,9 @@ such that
 $$
   \mathsf{AdjPair}(S,i)=(w,v)
 $$
-and the pair is reported by $P_2$ as a candidate normalizer pair. Write
+and the pair is reported by $P_2$ as a candidate normalizer pair according to $P_{\mathrm{cand}}$. Write
 $$
-  \mathsf{NormCand}(S,i,w,v).
+  \mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v).
 $$
 \end{definition}
 
@@ -76,7 +83,7 @@ $$
 \label{rem:source-normalizer-candidate-not-recognition}
 The judgment
 $$
-  \mathsf{NormCand}(S,i,w,v)
+  \mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v)
 $$
 is not the relation $w\leadsto v$. It says only that $w\mid v$ occurs at positions $i,i+1$ in $S$ and is recorded as a candidate normalization ledger. A genuine source-level normalization relation requires a generated normalizer recognizer flow $R_N$ and a judgment
 $$
@@ -86,6 +93,7 @@ $$
 
 \begin{definition}[Generated normalizer recognizer]
 \label{def:source-normalizer-generated-recognizer}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.GeneratedNormalizerRecognizer}
 A \emph{generated normalizer recognizer} is an event flow
 $$
   R_N\in\mathsf{EventFlow}
@@ -99,6 +107,7 @@ It reads as: $R_N$ recognizes the adjacent pair $w\mid v$ at position $i$ in $S$
 
 \begin{definition}[Recognized normalizer ledger]
 \label{def:source-normalizer-recognized-ledger}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.NormLedger}
 If
 $$
   \mathsf{RecognizesNormalizer}(R_N,S,i,w,v),
@@ -111,6 +120,7 @@ $$
 
 \begin{definition}[Recognizer-induced normalization relation]
 \label{def:source-normalizer-induced-relation}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.InducedNormalizes}
 If
 $$
   \mathsf{NormLedger}_{R_N}(S,i,w,v)
@@ -124,7 +134,8 @@ The relation $\leadsto_{R_N}$ is induced by the recognizer $R_N$.
 
 \begin{principle}[No normalization without recognizer]
 \label{prin:source-normalizer-no-normalization-without-recognizer}
-Candidate pairs do not produce normalization relations. Only recognized normalizer ledgers, together with recognizer soundness, can support
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.no\_normalization\_without\_recognizer}
+Candidate pairs do not produce normalization relations. A recognizer-induced normalization relation contains a recognized normalizer ledger as its ground witness. Only recognized normalizer ledgers, together with recognizer soundness, can support
 $$
   w\leadsto v.
 $$
@@ -138,29 +149,33 @@ $$
 
 \begin{proposition}[Candidate pair preserves raw events]
 \label{prop:source-normalizer-candidate-preserves-raw}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.candidate\_preserves\_raw}
 If
 $$
-  \mathsf{NormCand}(S,i,w,v),
+  \mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v),
 $$
 then $w$ and $v$ are both retained as source events in $S$.
 \end{proposition}
 
 \begin{proof}
-By definition, $\mathsf{NormCand}(S,i,w,v)$ means $\mathsf{AdjPair}(S,i)=(w,v)$. Hence $w=w_i$ and $v=w_{i+1}$, so both are source events in $S$.
+By definition, $\mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v)$ means $\mathsf{AdjPair}(S,i)=(w,v)$ together with candidate reporting. Hence $w=w_i$ and $v=w_{i+1}$, so both are source events in $S$.
 \end{proof}
 
 \begin{corollary}[Candidate normalizer does not erase pre-normal event]
 \label{cor:source-normalizer-candidate-does-not-erase}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.candidate\_does\_not\_erase\_pre\_normal}
 If $P_2$ reports $011\mid 100$, then both $011$ and $100$ remain in the decoded event flow. The event $011$ is not deleted.
 \end{corollary}
 
 \begin{definition}[Pre-normal and normal-address events]
 \label{def:source-normalizer-pre-normal-normal-address}
-If $\mathsf{NormCand}(S,i,w,v)$ or $\mathsf{NormLedger}_{R_N}(S,i,w,v)$, then $w$ is the \emph{pre-normal event} of the pair and $v$ is the \emph{normal-address event}. The normal-address role is a ledger role, not object identity, equality target, or mature object.
+\leandef{BEDC.GroundCompiler.SourceNormalizer.PreNormalNormalAddressRoles}
+If $\mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v)$ or $\mathsf{NormLedger}_{R_N}(S,i,w,v)$, then $w$ is the \emph{pre-normal event} of the pair and $v$ is the \emph{normal-address event}. The normal-address role is a ledger role, not object identity, equality target, or mature object.
 \end{definition}
 
 \begin{definition}[$P_2$ normalizer ledger report]
 \label{def:source-normalizer-p2-report}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.P2Report}
 Given a legal channel stream $c$ with
 $$
   S=\mathsf{Decode}(c),
@@ -170,14 +185,16 @@ a \emph{$P_2$ normalizer ledger report} contains at least the input channel stre
 
 \begin{principle}[$P_2$ separates candidate and recognized status]
 \label{prin:source-normalizer-candidate-recognized-separated}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.candidate\_recognized\_separated}
 A $P_2$ report must distinguish candidate normalizer pairs from recognized normalizer ledgers. It must not display a candidate pair as a proved relation.
 \end{principle}
 
 \begin{theorem}[Candidate normalizer report does not establish source relation]
 \label{thm:source-normalizer-candidate-not-relation}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.candidate\_not\_relation}
 If $P_2$ reports only
 $$
-  \mathsf{NormCand}(S,i,w,v)
+  \mathsf{NormCand}(P_{\mathrm{cand}},S,i,w,v)
 $$
 and no judgment
 $$
@@ -195,6 +212,7 @@ By \autoref{prin:source-normalizer-no-normalization-without-recognizer}, a norma
 
 \begin{corollary}[$011\mid 100$ candidate does not prove carry]
 \label{cor:source-normalizer-011-100-not-carry}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.source011\_100\_not\_carry}
 If $P_2$ reports $011\mid 100$ but no generated carry recognizer flow is supplied, one cannot infer a Zeckendorf-carry relation or a classifier equivalence between $011$ and $100$.
 \end{corollary}
 
@@ -203,6 +221,7 @@ If $P_2$ reports $011\mid 100$ but no generated carry recognizer flow is supplie
 
 \begin{definition}[Candidate policy flow]
 \label{def:source-normalizer-candidate-policy}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.CandidatePolicyFlow}
 A \emph{candidate policy flow} is an event flow
 $$
   P_{\mathrm{cand}}\in\mathsf{EventFlow}
@@ -212,6 +231,7 @@ specifying which adjacent pairs $P_2$ may report as candidate normalizer pairs. 
 
 \begin{definition}[Generated candidate-policy recognizer]
 \label{def:source-normalizer-candidate-policy-recognizer}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.GeneratedCandidatePolicyRecognizer}
 A \emph{generated candidate-policy recognizer} is an event flow
 $$
   R_{\mathrm{cand}}\in\mathsf{EventFlow}
@@ -225,11 +245,13 @@ Without a recognized candidate policy, $P_2$ may list literal adjacent pairs but
 
 \begin{principle}[No hardcoded normalizer table]
 \label{prin:source-normalizer-no-hardcoded-table}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.no\_hardcoded\_table}
 The pairs $011\mid 100$, $0011\mid 0100$, and $10011\mid 10100$ may be examples, but they must not be hardcoded as formal normalizer candidates. Formal candidate marking requires recognized candidate policy flow.
 \end{principle}
 
 \begin{definition}[Literal adjacent-pair listing]
 \label{def:source-normalizer-literal-listing}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.LiteralAdjacentPairListing}
 Without recognized candidate policy, $P_2$ may still output every adjacent pair
 $$
   (w_i,w_{i+1})
@@ -239,6 +261,7 @@ as a \emph{literal adjacent-pair listing}. This is not normalizer candidate reco
 
 \begin{proposition}[Literal listing is policy-free]
 \label{prop:source-normalizer-literal-listing-policy-free}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.literal\_listing\_policy\_free}
 Literal adjacent-pair listing does not require candidate policy.
 \end{proposition}
 
@@ -248,6 +271,7 @@ For $S=(w_0,\ldots,w_{n-1})$, the adjacent pairs $(w_i,w_{i+1})$ are determined 
 
 \begin{corollary}[Candidate marking requires policy]
 \label{cor:source-normalizer-candidate-marking-requires-policy}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.candidate\_marking\_requires\_policy}
 $P_2$ may list adjacent pairs without policy, but marking a pair as a candidate normalizer pair requires recognized candidate policy flow.
 \end{corollary}
 
@@ -256,14 +280,16 @@ $P_2$ may list adjacent pairs without policy, but marking a pair as a candidate 
 
 \begin{definition}[Normalizer recognizer certificate]
 \label{def:source-normalizer-recognizer-certificate}
-A certificate flow for a normalizer recognizer $R_N$ contains domain flow, candidate-policy flow, pre-normal criterion flow, normal-address criterion flow, relation-soundness flow, ledger flow, failure flow, stability flow, and seal flow. Write
+\leandef{BEDC.GroundCompiler.SourceNormalizer.NormalizerRecognizerCert}
+A normalizer recognizer certificate is a record whose public fields are a certificate flow $K_N$, a generated normalizer recognizer $R_N$, a domain flow, a candidate-policy flow, a pre-normal criterion flow, a normal-address criterion flow, a relation-soundness flow, a ledger flow, a failure flow, a stability flow, and a seal flow. Write
 $$
-  \mathsf{NormalizerRecognizerCert}(K_N,R_N).
+  \mathsf{NormalizerRecognizerCert}.
 $$
 \end{definition}
 
 \begin{definition}[Normalizer soundness]
 \label{def:source-normalizer-soundness}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.NormalizerSoundness}
 A normalizer recognizer $R_N$ is \emph{sound} when
 $$
   \mathsf{RecognizesNormalizer}(R_N,S,i,w,v)
@@ -280,6 +306,7 @@ implies:
 
 \begin{theorem}[Sound normalizer recognizer establishes source relation]
 \label{thm:source-normalizer-sound-recognizer-establishes-relation}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.sound\_recognizer\_establishes\_relation}
 If $R_N$ is a sound normalizer recognizer and
 $$
   \mathsf{RecognizesNormalizer}(R_N,S,i,w,v),
@@ -296,11 +323,13 @@ By soundness, the relation-soundness flow supports $w\leadsto_{R_N}v$.
 
 \begin{corollary}[Recognized carry is stronger than candidate carry]
 \label{cor:source-normalizer-recognized-stronger-than-candidate}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.recognized\_stronger\_than\_candidate}
 A recognized normalizer ledger with a sound normalizer recognizer can establish a source-level relation. A candidate pair only reports shape.
 \end{corollary}
 
 \begin{definition}[Ledger-preserving normalizer]
 \label{def:source-normalizer-ledger-preserving}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.LedgerPreservingNormalizer}
 A normalizer recognizer $R_N$ is \emph{ledger-preserving} when every judgment
 $$
   \mathsf{RecognizesNormalizer}(R_N,S,i,w,v)
@@ -310,6 +339,7 @@ has ledger flow recording source flow $S$, position $i$, pre-normal event $w$, n
 
 \begin{theorem}[Ledger-preserving normalizer does not collapse raw events]
 \label{thm:source-normalizer-ledger-preserving-no-collapse}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.ledger\_preserving\_no\_collapse}
 If $R_N$ is ledger-preserving and
 $$
   \mathsf{RecognizesNormalizer}(R_N,S,i,w,v),
@@ -385,6 +415,7 @@ is established.
 
 \begin{definition}[$P_2$ report]
 \label{def:source-normalizer-p2-report-format}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.P2ReportFormat}
 A $P_2$ report extends a $P_1$ report with an adjacent-pair table, candidate-policy status, candidate normalizer pairs, recognized normalizer ledgers if supplied, pre-normal and normal-address display, candidate-only warnings, and normalizer cannot-claims.
 \end{definition}
 
@@ -427,7 +458,8 @@ It still may not claim $011=100$ as raw equality or $\hsame(011,100)$ unless a s
 
 \begin{theorem}[$P_2$ candidate report is conservative]
 \label{thm:source-normalizer-candidate-report-conservative}
-Adding candidate normalizer reporting does not add source-level normalization relations.
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.p2\_candidate\_report\_conservative}
+Adding candidate normalizer reporting does not add source-level normalization relations: a candidate adjacent pair, without any generated normalizer recognizer recognizing the same source position, cannot produce an induced normalization relation.
 \end{theorem}
 
 \begin{proof}
@@ -436,6 +468,7 @@ Candidate reporting records adjacent source events and marks them according to c
 
 \begin{theorem}[Recognized normalizer relation is source-level]
 \label{thm:source-normalizer-relation-source-level}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.recognized\_normalizer\_relation\_source\_level}
 If $R_N$ establishes
 $$
   w\leadsto_{R_N}v,
@@ -449,11 +482,13 @@ The relation $\leadsto_{R_N}$ is defined through $\mathsf{RecognizesNormalizer}(
 
 \begin{corollary}[$P_2$ does not permit channel rewrite]
 \label{cor:source-normalizer-no-channel-rewrite}
-Even recognized normalizer relations cannot be applied directly to channel strings. The correct path is decode, source normalizer ledger, and compile.
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.p2\_no\_channel\_rewrite}
+Every recognized normalizer relation still returns an adjacent pair in the decoded event flow. It is therefore a source-level ledger relation, not a direct rewrite rule on channel strings. The correct path is decode, source normalizer ledger, and compile.
 \end{corollary}
 
 \begin{theorem}[$P_2$ is conservative over the finite kernel]
 \label{thm:source-normalizer-p2-conservative}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.p2\_conservative\_over\_finite\_kernel}
 Adding $P_2$ candidate normalizer reports, candidate policies, normalizer recognizer relations, and normalizer ledgers adds no raw marks, history constructors, sameness rules, continuation rules, derived-interface formation rules, theorem rules, or accepted-object export rules.
 \end{theorem}
 
@@ -463,11 +498,13 @@ $P_2$ operates on decoded event flows. Candidate reporting records adjacent even
 
 \begin{corollary}[$P_2$ remains below package recognition]
 \label{cor:source-normalizer-p2-below-package}
-Even with recognized normalizer ledgers, $P_2$ does not recognize packages, name certificates, derivation certificates, theorems, chapters, motif profiles, metric reports, or accepted objects unless additional recognizers are supplied.
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.p2\_below\_higher\_recognition}
+Even with recognized normalizer ledgers, $P_2$ does not turn host package, name-certificate, derivation-certificate, theorem-identifier, or closure-certificate data into primitive formal compiler inputs. Package, certificate, theorem, chapter, motif, metric, and accepted-object readings require additional generated recognizers.
 \end{corollary}
 
 \begin{definition}[$P_2$ audit checklist]
 \label{def:source-normalizer-p2-audit}
+\leandef{BEDC.GroundCompiler.SourceNormalizer.P2AuditChecklist}
 A $P_2$ prototype must satisfy:
 \begin{enumerate}
 \item all $P_1$ audit requirements;
@@ -485,6 +522,7 @@ A $P_2$ prototype must satisfy:
 
 \begin{theorem}[$P_2$ adequacy theorem]
 \label{thm:source-normalizer-p2-adequacy}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.p2\_adequacy}
 If a prototype satisfies the $P_2$ audit checklist, has sound $P_1$ reports, and every recognized normalizer relation is backed by a sound generated normalizer recognizer, then it is adequate as a source-level normalizer ledger prototype.
 \end{theorem}
 
@@ -494,6 +532,7 @@ The checklist ensures that the prototype reports adjacent source events, candida
 
 \begin{corollary}[$P_2$ adequacy does not imply higher adequacy]
 \label{cor:source-normalizer-p2-not-higher}
+\leanchecked{BEDC.GroundCompiler.SourceNormalizer.p2\_adequacy\_not\_higher}
 A $P_2$ prototype is not a motif analyzer, package recognizer, theorem recognizer, name-certificate recognizer, or accepted-object compiler.
 \end{corollary}
 

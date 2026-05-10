@@ -68,6 +68,7 @@ The output of $P_8$ is a report flow or human-readable report containing decoded
 
 \begin{definition}[Definition candidate and recognizer]
 \label{def:chapter-manuscript-definition-candidate-recognizer}
+\leandef{BEDC.GroundCompiler.ChapterFlow.DefinitionFlow}
 A \emph{definition candidate} is an event subflow
 $$
   D_{\mathrm{def}}\subseteq S
@@ -86,12 +87,14 @@ $$
 
 \begin{definition}[Definition soundness]
 \label{def:chapter-manuscript-definition-soundness}
+\leandef{BEDC.GroundCompiler.ChapterFlow.DefinitionSoundness}
 A definition flow is \emph{sound} when it only cites generated or deferred dependencies, does not introduce uncertified mature objects, includes or cites a NameCert-flow whenever it proposes a derived name, marks candidate-only definitions as candidate-only, records source events and hidden material in ledger flow, and does not treat host-level names as BEDC primitives.
 \end{definition}
 
 \begin{theorem}[Unsound definition cannot enter chapter-flow]
 \label{thm:chapter-manuscript-unsound-definition-blocks}
-If a definition candidate $D_{\mathrm{def}}$ does not satisfy definition soundness, then it cannot serve as a definition subflow of a sound chapter-flow.
+\leanchecked{BEDC.GroundCompiler.ChapterFlow.unsound\_definition\_blocks}
+Let $\mathsf{DefinitionSoundness}(R_{\mathrm{def}},S,D_{\mathrm{def}})$ record the dependency, certificate, ledger, candidate-only, and no-host-name clauses for a recognized definition flow. If a definition candidate $D_{\mathrm{def}}$ does not satisfy $\mathsf{DefinitionSoundness}(R_{\mathrm{def}},S,D_{\mathrm{def}})$, then it cannot serve as a sound chapter definition subflow.
 \end{theorem}
 
 \begin{proof}

@@ -33,6 +33,7 @@ The chapter does not perform any source-level rewrite. The Zeckendorf normal-for
 
 \begin{definition}[Zeckendorf-safe body encoding]
 \label{def:channel-encoding-body-encoding}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.BodyEncoding}
 The \emph{body encoding} is the function
 $$
   \zeta \colon \Sigma^{*} \longrightarrow \Sigma^{*}
@@ -50,6 +51,7 @@ On individual glyphs, $\zeta$ acts by the substitution $0 \mapsto 0$ and $1 \map
 
 \begin{definition}[Event terminator]
 \label{def:channel-encoding-event-terminator}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.EventTerminator}
 The \emph{event terminator} is the glyph pair
 $$
   \mathrm{End} \;:=\; 11.
@@ -59,6 +61,7 @@ The event terminator is a channel-level marker. It signals only that the encodin
 
 \begin{definition}[Event encoding]
 \label{def:channel-encoding-event-encoding}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.EventEncoding}
 The \emph{event encoding} of a raw event $w \in \mathsf{RawEvent}$ is
 $$
   \mathsf{Ev}(w) \;:=\; \zeta(w)\,11 \;\in\; \Sigma^{*}.
@@ -110,6 +113,7 @@ producing $\mathsf{Ev}(1) = 0111$. Read from left to right, the decoder would pa
 
 \begin{proposition}[Body encoding contains no adjacent terminator pattern]
 \label{prop:channel-encoding-no-adjacent-11-in-body}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.body\_encoding\_no\_adjacent\_11}
 For every raw event $w \in \mathsf{RawEvent}$, the encoded body $\zeta(w)$ contains no adjacent pair $11$ as a substring.
 \end{proposition}
 
@@ -129,6 +133,7 @@ producing the local strings $00$, $010$, $100$, and $1010$ respectively, none of
 
 \begin{corollary}[The first $11$ is the event terminator]
 \label{cor:channel-encoding-first-11-is-terminator}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.first\_11\_is\_terminator}
 For every raw event $w$, the leftmost adjacent pair $11$ in $\mathsf{Ev}(w) = \zeta(w)\,11$ is the appended terminator.
 \end{corollary}
 
@@ -141,6 +146,7 @@ By \autoref{prop:channel-encoding-no-adjacent-11-in-body}, the body $\zeta(w)$ c
 
 \begin{definition}[Legal event code language]
 \label{def:channel-encoding-legal-event}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.LegalEvent}
 The \emph{legal event code language} is
 $$
   \mathsf{LegalEvent} \;:=\; (0 \mid 10)^{*}\,11 \;\subseteq\; \Sigma^{*}.
@@ -150,6 +156,7 @@ Equivalently, a glyph string $c \in \Sigma^{*}$ is a legal event code iff there 
 
 \begin{definition}[Flow encoding]
 \label{def:channel-encoding-flow-encoding}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.FlowEncoding}
 The \emph{flow encoding} is the function
 $$
   \mathsf{Compile} \colon \mathsf{EventFlow} \longrightarrow \Sigma^{*}
@@ -165,6 +172,7 @@ On the empty event flow, $\mathsf{Compile}(\,) = \epsilon$.
 
 \begin{definition}[Legal channel-stream language]
 \label{def:channel-encoding-legal-zstream}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.LegalZStream}
 The \emph{legal channel-stream language} is
 $$
   \mathsf{LegalZStream}
@@ -227,29 +235,33 @@ again with one terminator per event code. As recorded in \autoref{ex:ground-even
 
 \begin{definition}[Channel-level decoder for one event]
 \label{def:channel-encoding-decoder-event}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.DecEvent}
 The \emph{single-event decoder}
 $$
-  \mathsf{DecEv} \colon \mathsf{LegalEvent} \longrightarrow \mathsf{RawEvent}
+  \mathsf{DecEv} \colon \Sigma^{*} \longrightarrow
+  \mathsf{Option}(\mathsf{RawEvent} \times \Sigma^{*})
 $$
-is defined by left-to-right scan: starting with empty raw output,
+is defined by left-to-right scan. On success it returns the decoded raw event together with the unconsumed suffix immediately after the terminator; on malformed input it rejects. Starting with empty raw output,
 \begin{enumerate}
   \item if the next glyph is $0$, emit raw $0$ and advance one glyph;
   \item if the next glyph is $1$, inspect the following glyph. If it is $0$, emit raw $1$ and advance two glyphs; if it is $1$, the event is complete; if no further glyph exists, the input is rejected.
 \end{enumerate}
-The procedure terminates with success on every $c \in \mathsf{LegalEvent}$ and yields a raw event in $\mathsf{RawEvent}$.
+The procedure terminates with success on every generated event code $\mathsf{Ev}(w)$ and consumes exactly that event code.
 \end{definition}
 
 \begin{definition}[Channel-level decoder for streams]
 \label{def:channel-encoding-decoder-stream}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.Decode}
 The \emph{stream decoder}
 $$
-  \mathsf{Decode} \colon \mathsf{LegalZStream} \longrightarrow \mathsf{EventFlow}
+  \mathsf{Decode} \colon \Sigma^{*} \longrightarrow \mathsf{Option}(\mathsf{EventFlow})
 $$
-applies $\mathsf{DecEv}$ repeatedly: on input $c \in \mathsf{LegalZStream}$, scan glyphs left-to-right and run $\mathsf{DecEv}$ until its terminator is reached, recording the resulting raw event; then begin a fresh single-event scan from the position immediately after the terminator. The output is the sequence of raw events produced by successive single-event scans, in order. If the scan produces an isolated $1$ with no following glyph, or any local prefix outside $(0 \mid 10)^{*}\,11$, the input is rejected.
+applies $\mathsf{DecEv}$ repeatedly: on input $c$, scan glyphs left-to-right and run $\mathsf{DecEv}$ until its terminator is reached, recording the resulting raw event; then begin a fresh single-event scan from the position immediately after the terminator. The output is the sequence of raw events produced by successive single-event scans, in order. If the scan produces an isolated $1$ with no following glyph, or any local prefix outside $(0 \mid 10)^{*}\,11$, the input is rejected.
 \end{definition}
 
 \begin{proposition}[The string $0111$ is illegal]
 \label{prop:channel-encoding-0111-illegal}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.channel\_encoding\_0111\_illegal}
 The glyph string $0111$ is not a legal channel stream.
 \end{proposition}
 
@@ -259,9 +271,10 @@ Scanning left-to-right, the leading $0$ is consumed as raw $0$. The remaining gl
 
 \begin{theorem}[Event-level round trip]
 \label{thm:channel-encoding-event-round-trip}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.event\_level\_round\_trip}
 For every raw event $w \in \mathsf{RawEvent}$,
 $$
-  \mathsf{DecEv}(\mathsf{Ev}(w)) \;=\; w.
+  \mathsf{DecEv}(\mathsf{Ev}(w)) \;=\; \mathsf{some}(w,\epsilon).
 $$
 \end{theorem}
 
@@ -277,9 +290,10 @@ By induction on the length of $w$.
 
 \begin{theorem}[Flow-level round trip]
 \label{thm:channel-encoding-flow-round-trip}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.flow\_level\_round\_trip}
 For every event flow $S \in \mathsf{EventFlow}$,
 $$
-  \mathsf{Decode}(\mathsf{Compile}(S)) \;=\; S.
+  \mathsf{Decode}(\mathsf{Compile}(S)) \;=\; \mathsf{some}(S).
 $$
 \end{theorem}
 
@@ -295,9 +309,13 @@ By \autoref{cor:channel-encoding-first-11-is-terminator}, the leftmost $11$ in e
 
 \begin{theorem}[Legal-stream completeness]
 \label{thm:channel-encoding-legal-stream-completeness}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.legal\_stream\_completeness}
 For every legal channel stream $c \in \mathsf{LegalZStream}$,
+there exists an event flow $S \in \mathsf{EventFlow}$ such that
 $$
-  \mathsf{Compile}(\mathsf{Decode}(c)) \;=\; c.
+  \mathsf{Decode}(c) \;=\; \mathsf{some}(S)
+  \qquad\text{and}\qquad
+  \mathsf{Compile}(S) \;=\; c.
 $$
 \end{theorem}
 
@@ -318,6 +336,7 @@ $$
 
 \begin{corollary}[Bijection between event flows and legal channel streams]
 \label{cor:channel-encoding-bijection}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.channel\_encoding\_bijection}
 The map $\mathsf{Compile} \colon \mathsf{EventFlow} \to \mathsf{LegalZStream}$ is a bijection with inverse $\mathsf{Decode}$:
 $$
   \mathsf{EventFlow} \;\cong\; \mathsf{LegalZStream}
@@ -334,6 +353,7 @@ $$
 
 \begin{proposition}[Channel encoder is streaming]
 \label{prop:channel-encoding-encoder-streaming}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.encoder\_streaming}
 The map $\mathsf{Compile}$ is streaming on its input: while reading raw events left-to-right, the encoder emits the corresponding glyphs immediately upon seeing each raw glyph and emits the terminator $11$ immediately upon seeing each event boundary.
 \end{proposition}
 
@@ -343,6 +363,7 @@ The local rules of \autoref{def:channel-encoding-body-encoding} are $0 \mapsto 0
 
 \begin{proposition}[Channel decoder is streaming with one-glyph lookahead]
 \label{prop:channel-encoding-decoder-streaming}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.decoder\_streaming\_one\_glyph\_lookahead}
 The map $\mathsf{Decode}$ is streaming on its input with at most one-glyph lookahead.
 \end{proposition}
 
@@ -352,6 +373,7 @@ By \autoref{def:channel-encoding-decoder-event}, the decoder advances on the cur
 
 \begin{corollary}[No tree, no manifest, no table]
 \label{cor:channel-encoding-no-tree-no-manifest}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.no\_tree\_no\_manifest\_no\_table}
 Channel-level encoding and decoding can be carried out without an AST, a $\Pkg$ object, a recognized $\NameCert$ flow, a recognized theorem flow, a YAML manifest, an external arity table, or any other structural hidden input.
 \end{corollary}
 
@@ -378,12 +400,16 @@ In short: source-level relations live on recognized history flows; channel-level
 
 \begin{principle}[Channel code does not imply theoremhood]
 \label{prin:channel-encoding-not-theoremhood}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.legal\_stream\_not\_theoremhood}
 Membership $c \in \mathsf{LegalZStream}$ asserts only that $c$ is a self-delimiting display of an event flow. It does not assert that $c$ encodes a theorem, a proof, a recognized $\NameCert$, a recognized $\ClosureCert$, an accepted object flow, or a derived interface. Mature object export is governed by the verification gate $\VerifiedGate(N, c, v)$ of \autoref{def:ground-event-flow-accepted-object-flow}, not by channel encodability.
+
+In particular, the empty channel stream is legal because it is the encoding of the empty event flow, but it does not carry a recognized theorem flow.
 \end{principle}
 
 \begin{theorem}[Channel conservativity]
 \label{thm:channel-encoding-conservativity}
-Adjoining the channel-level encoder $\mathsf{Compile}$, the decoder $\mathsf{Decode}$, the legal event language $\mathsf{LegalEvent}$, and the legal-stream language $\mathsf{LegalZStream}$ to the BEDC compiler discipline does not add new BEDC kernel objects, new mark-sameness rules, new history-sameness rules, new $\ExtR$ or $\ContR$ rules, new derived interfaces, or new recognizer relations.
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.channel\_conservativity}
+Every displayed mark occurring in $\mathsf{Compile}(S)$ for an event flow $S$ is one of the two existing kernel marks $\bzero$ and $\bone$. Adjoining the channel-level encoder $\mathsf{Compile}$, the decoder $\mathsf{Decode}$, the legal event language $\mathsf{LegalEvent}$, and the legal-stream language $\mathsf{LegalZStream}$ to the BEDC compiler discipline therefore introduces no third channel glyph and does not add new BEDC kernel objects, new mark-sameness rules, new history-sameness rules, new $\ExtR$ or $\ContR$ rules, new derived interfaces, or new recognizer relations.
 \end{theorem}
 
 \begin{proof}
@@ -394,4 +420,3 @@ The channel-level objects of this chapter operate exclusively on the external di
 \label{rem:channel-encoding-outlook}
 The next chapter strengthens the layer-separation discipline of \autoref{rem:channel-encoding-layer-separation}. It records that source-level relations on recognized history flows---in particular the carry classifier of \autoref{ch:concrete-instances-zeckendorf-carry-classifier} and any future fold or completion classifier---may not be applied to channel streams, and that channel-level rewrites may not be transported to histories without a bridge whose source is a recognized $\NameCert$ flow and whose target is a recognized channel-encoded event flow.
 \end{remark}
-
