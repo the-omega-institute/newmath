@@ -366,4 +366,54 @@ theorem MarkovChainBHistTransitionCarrier_probspace_randomvar_source_boundary
               carrier.right.right.right.right.right.right.right.right.right.left))
   }
 
+theorem MarkovChainBHistTransitionCarrier_transition_concat_closure [AskSetup] [PackageSetup]
+    {prob random law transition controw provenance endpoint transitionExtra transitionPacked
+      controwPacked endpointPacked : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MarkovChainBHistTransitionCarrier prob random law transition controw provenance endpoint
+        bundle pkg ->
+      UnaryHistory transitionExtra ->
+        Cont transition transitionExtra transitionPacked ->
+          Cont random transitionPacked controwPacked ->
+            Cont provenance controwPacked endpointPacked ->
+              PkgSig bundle endpointPacked pkg ->
+                MarkovChainBHistTransitionCarrier prob random law transitionPacked controwPacked
+                    provenance endpointPacked bundle pkg ∧
+                  UnaryHistory transitionPacked ∧ UnaryHistory controwPacked ∧
+                    UnaryHistory endpointPacked ∧ hsame transitionPacked
+                      (append transition transitionExtra) ∧
+                      hsame controwPacked (append random transitionPacked) ∧
+                        hsame endpointPacked (append provenance controwPacked) := by
+  intro carrier transitionExtraUnary transitionPackedRow controwPackedRow endpointPackedRow
+    endpointPackedSig
+  have transitionPackedUnary : UnaryHistory transitionPacked :=
+    unary_cont_closed carrier.right.right.right.left transitionExtraUnary transitionPackedRow
+  have controwPackedUnary : UnaryHistory controwPacked :=
+    unary_cont_closed carrier.right.left transitionPackedUnary controwPackedRow
+  have endpointPackedUnary : UnaryHistory endpointPacked :=
+    unary_cont_closed carrier.right.right.right.right.right.left controwPackedUnary
+      endpointPackedRow
+  have packedCarrier :
+      MarkovChainBHistTransitionCarrier prob random law transitionPacked controwPacked provenance
+        endpointPacked bundle pkg :=
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      transitionPackedUnary,
+      controwPackedUnary,
+      carrier.right.right.right.right.right.left,
+      endpointPackedUnary,
+      controwPackedRow,
+      carrier.right.right.right.right.right.right.right.right.left,
+      endpointPackedRow,
+      endpointPackedSig⟩
+  exact
+    ⟨packedCarrier,
+      transitionPackedUnary,
+      controwPackedUnary,
+      endpointPackedUnary,
+      transitionPackedRow,
+      controwPackedRow,
+      endpointPackedRow⟩
+
 end BEDC.Derived.MarkovChainUp
