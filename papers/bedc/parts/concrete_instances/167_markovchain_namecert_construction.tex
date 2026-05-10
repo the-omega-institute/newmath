@@ -159,12 +159,13 @@ paper obligations.
 
 \begin{closurestatus}{\MarkovChainUp}
   \constructivestory{A Markov-chain packet is generated from a displayed $\ProbSpaceUp$ source, a unary time ledger, carried $\RandomVarUp$ rows, $\DistributionUp$ law rows, transition rows, $\Cont$ displays, $\hsame$ transport, and $\mathsf{Pkg}$ provenance. The carrier accepts only finite transition ledgers whose next-law rows are sourced from the adjacent carried random-variable rows, so host stochastic-process objects, filtrations, conditional-expectation primitives, and standard kernel bridges remain outside the certificate.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation surface is exactly the $\mathsf{BHist}$ transition carrier, kernel classifier stability, transition ledger exactness, and probability-random-variable source boundary over $\ProbSpaceUp$, $\RandomVarUp$, $\DistributionUp$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.MarkovChainUp.MarkovChainTransitionCarrier\_semantic\_name\_certificate}
   \bridgestatus{none}
   \notclaimed{No host stochastic-process carrier, filtration, conditional-expectation construction, stationary law, martingale property, or standard kernel bridge is claimed.}
-  \upgradepath{The next grade requires separate Lean rows for ledger exactness, source boundary, and assembled NameCert obligation surface beyond the checked transition-packet carrier/classifier transport theorem.}
+  \upgradepath{The next paper-grade step is a public MarkovChainUp export theorem or a standard-kernel bridge boundary, beyond the scoped transition NameCert package recorded here.}
 \end{closurestatus}
 
 \begin{definition}[MarkovChain finite-prefix restriction]
@@ -173,6 +174,7 @@ Let $P$ be a displayed $\MarkovChainUp$ transition packet over a unary time ledg
 
 No row with transition index at least $n$ is copied into $P_{\le n}$, and no row is reindexed except by the evident inclusion of the prefix ledger into the original unary ledger.
 \end{definition}
+\leandef{BEDC.Derived.MarkovChainUp.MarkovChainFinitePrefixRestriction}
 
 \begin{theorem}[MarkovChain finite-prefix restriction carrier]
 \label{thm:markovchain-finite-prefix-restriction-carrier}
@@ -187,6 +189,7 @@ It remains only to check the transition obligations. Fix a prefix transition ind
 
 Every transition obligation of $P_{\le n}$ is obtained in this way from a unique transition obligation of $P$, and the restriction introduces no additional transition row whose source, target, law, or provenance would need a separate witness. The source-boundary statement of \autoref{thm:markovchain-probspace-randomvar-source-boundary} also remains unchanged, because the restricted packet keeps the same $\ProbSpaceUp$ source and only discards later rows. Thus all fields required by the MarkovChain transition carrier predicate are present in the restricted finite packet, so $P_{\le n}$ is an accepted $\MarkovChainUp$ carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier\_finite\_prefix\_restriction\_carrier}
 
 \begin{theorem}[MarkovChain transition-packet concatenation closure]
 \label{thm:markovchain-transition-packet-concatenation-closure}
@@ -208,6 +211,7 @@ $$
 $$
 so that $T_{12}$ is the unary ledger of length $n+m$, then the end-to-end displayed packet $P_{12}$ is an accepted $\MarkovChainUp$ transition packet over $T_{12}$. Its random-variable row at time $i$ is $X_i$ for $0\leq i\leq n$ and $Y_j$ for $i=n+j$ with $1\leq j\leq m$; its transition rows are $K^X_i$ for $0\leq i<n$ and the shifted rows $K^Y_j$ for $0\leq j<m$, with the first shifted row read across the splice comparison $\hsame(X_n,Y_0)$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier\_transition\_concat\_closure}
 \leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier\_adjacent\_transition\_transport}
 \begin{proof}
 Unpack the accepted carrier condition in \autoref{def:markovchain-bhist-transition-carrier}. The first packet supplies the common $\ProbSpaceUp$ source, the random-variable rows $X_i$, the law rows $\mu^X_i$, the transition rows $K^X_i$, and for every $0\leq i<n$ a displayed $\Cont/\Pkg$ provenance ledger certifying that the next-step law for $X_{i+1}$ is read from the current-state endpoint of $X_i$ through $K^X_i$. The second packet supplies the same kind of data for $Y_j$, $\mu^Y_j$, and $K^Y_j$ for $0\leq j<m$ over the same probability source.

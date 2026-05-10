@@ -194,3 +194,50 @@ entry in the inventory above, so the packet repacks into the terminal seal
 source surface and leaves all excluded quotient, completion, host, Classical,
 metric, arithmetic, order, and bridge rows unread.
 \end{proof}
+
+\begin{theorem}[RealUp terminal common-refinement splice uniqueness]
+\label{thm:realup-terminal-common-refinement-splice-uniqueness}
+Let $C$ be a certified $\StreamNameUp$ common-refinement packet whose displayed
+source tuple consists of a fixed $\StreamNameUp$ source name, a fixed accepted
+$\RegSeqRat$ finite-window spine, and fixed $\mathsf{DyadicRatCore}$ source
+rows. Suppose two terminal finite-window $\RealUp$ seal consumers are reached
+from $C$ through possibly different common-refinement splices. If both splices
+use the same StreamName finite-window restriction and the same $\RegSeqRat$
+handoff interface, then the two terminal consumers expose the same finite
+tuple:
+\begin{enumerate}
+  \item the $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows;
+  \item the $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+  $\mathsf{UnaryHistory}$ rows;
+  \item the pointwise $\mathsf{RatHistoryClassifier}$ rows;
+  \item the accepted $\RegSeqRat$ spine;
+  \item the $\mathsf{DyadicRatCore}$ observation rows; and
+  \item the visible $\Cont$, $\hsame$, $\Pkg$, and
+  $\mathsf{RealLedgerPolicy}$ rows.
+\end{enumerate}
+This uniqueness statement is only about that terminal source tuple. It does
+not identify or expose quotient rows, host $\mathsf{Nat}$ indices, host
+functions, $\mathsf{Classical}$ data, metric-completeness rows,
+arithmetic/order rows, or standard bridge rows.
+\end{theorem}
+\begin{proof}
+First compare the two splice routes before the terminal consumer reads them.
+Apply
+\autoref{thm:streamname-common-refinement-terminal-route-determinacy}. The
+possibly different common-refinement routes through $C$ determine one terminal
+StreamName source packet, one restricted finite-window classifier, one bundled
+probe and unary-history packet, one pointwise rational-history packet, one
+accepted $\RegSeqRat$ spine, and one displayed dyadic source surface.
+
+Next pass that route-confluent packet through the terminal $\RealUp$ seal.
+Apply \autoref{thm:realup-terminal-regseqrat-source-coverage}. The terminal
+consumer factors through exactly the listed $\RegSeqRat$ source surface, and
+any packet carrying exactly those rows repacks into the same terminal source
+surface.
+
+Both consumers therefore have the same displayed source tuple as their entire
+terminal read boundary. Since the coverage theorem also excludes all rows
+outside that packet, the uniqueness conclusion contains no quotient row, host
+index, host function, $\mathsf{Classical}$ datum, metric-completeness row,
+arithmetic or order row, or standard bridge row.
+\end{proof}
