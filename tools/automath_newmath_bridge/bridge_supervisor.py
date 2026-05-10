@@ -163,7 +163,7 @@ def fetch_repositories(config_path: Path) -> list[dict[str, Any]]:
     return results
 
 
-def sync_bridge_from_auto_dev(config: dict[str, Any]) -> dict[str, Any]:
+def sync_bridge_from_auto_dev(config: dict[str, Any], *, allow_current_branch: bool = False) -> dict[str, Any]:
     """Merge origin/auto-dev into this bridge branch before scanning.
 
     This mirrors the NewMath BEDC supervisor habit of syncing from the
@@ -179,7 +179,13 @@ def sync_bridge_from_auto_dev(config: dict[str, Any]) -> dict[str, Any]:
     current_branch_name = current_branch(REPO_ROOT)
     expected = str(config.get("required_branch") or current_branch_name)
     if current_branch_name != expected:
-        raise RuntimeError(f"sync_from_auto_dev expected branch {expected!r}, got {current_branch_name!r}")
+        if allow_current_branch:
+            _log(
+                f"sync_from_auto_dev branch guard bypassed for local audit branch {current_branch_name!r}; "
+                f"configured production branch is {expected!r}"
+            )
+        else:
+            raise RuntimeError(f"sync_from_auto_dev expected branch {expected!r}, got {current_branch_name!r}")
 
     merge_base = _git_stdout(REPO_ROOT, ["merge-base", "HEAD", source_ref], timeout=30)
     source_commit = _git_stdout(REPO_ROOT, ["rev-parse", source_ref], timeout=30)
@@ -455,7 +461,7 @@ def supervisor_pass(args: argparse.Namespace) -> bool:
             return False
 
     if not args.no_auto_dev_sync:
-        sync_result = sync_bridge_from_auto_dev(config)
+        sync_result = sync_bridge_from_auto_dev(config, allow_current_branch=args.allow_current_branch)
         _log(f"sync_from_auto_dev: {sync_result}")
 
     run_pipeline(
