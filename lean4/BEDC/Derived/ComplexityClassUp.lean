@@ -296,6 +296,62 @@ theorem ComplexityClassResourceModulusMonotonicity_bound_transport
     ⟨lengthUnary', modulusUnary', traceUnary, traceUnary', budgetUnary, budgetUnary',
       traceSame, budgetSame, verdictSame, acceptedSame⟩
 
+theorem ComplexityClassResourceLedger_membership_exactness
+    {left right : List BHist}
+    {input length acceptor modulus resource trace verdict accepted ledger publicSurface : BHist} :
+    List.Mem input (left ++ right) ->
+      (forall x : BHist, List.Mem x left -> UnaryHistory x) ->
+        (forall x : BHist, List.Mem x right -> UnaryHistory x) ->
+          UnaryHistory length ->
+            UnaryHistory acceptor ->
+              UnaryHistory modulus ->
+                Cont input length resource ->
+                  Cont acceptor resource trace ->
+                    Cont trace modulus verdict ->
+                      Cont input verdict accepted ->
+                        Cont accepted trace ledger ->
+                          Cont ledger modulus publicSurface ->
+                            UnaryHistory input ∧ UnaryHistory resource ∧ UnaryHistory trace ∧
+                              UnaryHistory verdict ∧ UnaryHistory accepted ∧ UnaryHistory ledger ∧
+                                UnaryHistory publicSurface ∧
+                                  hsame resource (append input length) ∧
+                                    hsame trace (append acceptor resource) ∧
+                                      hsame verdict (append trace modulus) ∧
+                                        hsame accepted (append input verdict) ∧
+                                          hsame ledger (append accepted trace) ∧
+                                            hsame publicSurface (append ledger modulus) := by
+  intro inputMem leftCoverage rightCoverage lengthUnary acceptorUnary modulusUnary resourceRow
+  intro traceRow verdictRow acceptedRow ledgerRow publicSurfaceRow
+  have inputUnary : UnaryHistory input := by
+    induction left with
+    | nil =>
+        exact rightCoverage input inputMem
+    | cons head tail ih =>
+        cases inputMem with
+        | head =>
+            exact leftCoverage input (List.Mem.head tail)
+        | tail _ tailMem =>
+            have tailCoverage : forall x : BHist, List.Mem x tail -> UnaryHistory x := by
+              intro x memTail
+              exact leftCoverage x (List.Mem.tail head memTail)
+            exact ih tailMem tailCoverage
+  have resourceUnary : UnaryHistory resource :=
+    unary_cont_closed inputUnary lengthUnary resourceRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed acceptorUnary resourceUnary traceRow
+  have verdictUnary : UnaryHistory verdict :=
+    unary_cont_closed traceUnary modulusUnary verdictRow
+  have acceptedUnary : UnaryHistory accepted :=
+    unary_cont_closed inputUnary verdictUnary acceptedRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed acceptedUnary traceUnary ledgerRow
+  have publicSurfaceUnary : UnaryHistory publicSurface :=
+    unary_cont_closed ledgerUnary modulusUnary publicSurfaceRow
+  exact
+    ⟨inputUnary, resourceUnary, traceUnary, verdictUnary, acceptedUnary, ledgerUnary,
+      publicSurfaceUnary, resourceRow, traceRow, verdictRow, acceptedRow, ledgerRow,
+      publicSurfaceRow⟩
+
 theorem ComplexityClassResourceLedgerExactness_visible_transport
     {input length length' acceptor modulus modulus' trace trace' budget budget' verdict verdict'
       accepted accepted' ledger ledger' publicSurface publicSurface' : BHist} :
