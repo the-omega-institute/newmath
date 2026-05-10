@@ -291,3 +291,45 @@ It remains to prove maximality among lower bounds. Let $L$ be an $\IdealUp$ pred
 
 The first inclusion sends this witness to $I(x)$, and the second inclusion sends the same witness to $J(x)$. Pairing these two memberships gives $I(x)\land J(x)$, which is exactly $K(x)$ by \autoref{def:ideal-intersection-predicate}. Therefore $L\preceq_RK$ by \autoref{def:ideal-inclusion-predicate}.
 \end{proof}
+
+\begin{theorem}[Ideal sum commutativity as a carried predicate]
+\label{thm:ideal-sum-commutativity}
+Let $R$ carry a $\RingUp$ certificate as in \autoref{ch:concrete-instances-ring-namecert}, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ predicates over the same $\RingUp$ certificate, with the rows specified in \autoref{sec:ideal-certificate}. Define
+$$
+K_{I,J}:=I+_RJ,
+\qquad
+K_{J,I}:=J+_RI
+$$
+using \autoref{def:ideal-sum-predicate}. Then $K_{I,J}$ and $K_{J,I}$ are $\IdealUp$ predicates over the same ambient $\RingUp$ certificate by \autoref{thm:ideal-sum-closure}, and they have the same membership predicate:
+$$
+\forall z:\mathsf{BHist}.\; K_{I,J}(z)\Longleftrightarrow K_{J,I}(z).
+$$
+The comparison keeps the ambient carrier row $C$ fixed, swaps only the two additive-decomposition membership witnesses, and preserves the same $\Pkg$ provenance rows attached to the ambient $\RingUp$ certificate and the two input $\IdealUp$ certificates.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ideal-sum-closure} first to the ordered pair $(I,J)$ and then to the ordered pair $(J,I)$. This gives $K_{I,J}$ and $K_{J,I}$ as $\IdealUp$ predicates over the same carrier $C$, classifier $\sim_R$, and ring operations.
+
+Fix $z:\mathsf{BHist}$. For the forward implication, assume $K_{I,J}(z)$. By \autoref{def:ideal-sum-predicate}, choose witnesses $x,y:\mathsf{BHist}$ such that
+$$
+I(x)\land J(y)\land z\sim_R x+_R y.
+$$
+The additive commutativity row contained in the additive abelian-group part of the $\RingUp$ stability certificate gives
+$$
+x+_R y\sim_R y+_R x.
+$$
+Classifier transitivity composes the displayed decomposition for $z$ with this commutativity row, giving
+$$
+z\sim_R y+_R x.
+$$
+Now the witness pair $(y,x)$, together with $J(y)$, $I(x)$, and the last classifier comparison, is exactly a witness for $K_{J,I}(z)$ under \autoref{def:ideal-sum-predicate}.
+
+The reverse implication is the same argument with $I$ and $J$ interchanged. If $K_{J,I}(z)$ is witnessed by $J(y)\land I(x)\land z\sim_R y+_R x$, additive commutativity gives $y+_R x\sim_R x+_R y$, and classifier transitivity gives $z\sim_R x+_R y$. The witness pair $(x,y)$ therefore proves $K_{I,J}(z)$.
+
+The ambient carrier consequence is unchanged in both directions. Since both sum predicates are $\IdealUp$ predicates over the same $\RingUp$ certificate, the carrier-support row of \autoref{def:ideal-carried-predicate-rows} reads
+$$
+K_{I,J}(z)\Longrightarrow C(z),
+\qquad
+K_{J,I}(z)\Longrightarrow C(z).
+$$
+The equivalence just proved keeps the endpoint $z$ fixed and changes only the internal decomposition ledger: $I(x)$ and $J(y)$ are reused in the opposite witness slots, while the decomposition row is adjusted by the additive commutativity row already present in \autoref{def:ring-stability-certificate}. No ambient carrier, classifier, operation, ideal certificate, or package provenance row is replaced.
+\end{proof}
