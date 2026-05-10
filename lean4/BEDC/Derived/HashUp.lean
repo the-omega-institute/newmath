@@ -1,11 +1,13 @@
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.HashUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 
 def HashEvalTranscript (MsgCarrier DigCarrier : BHist -> Prop) (m d row : BHist) : Prop :=
   MsgCarrier m ∧ DigCarrier d ∧ Cont m d row
@@ -36,6 +38,24 @@ theorem HashEvalTranscript_digest_classifier_stability {MsgCarrier DigCarrier : 
   exact And.intro
     (And.intro transcript.left (And.intro digestCarrier targetRow))
     sameRows
+
+theorem HashEvalTranscript_compression_round_carrier {MsgCarrier DigCarrier : BHist -> Prop}
+    {m d row compression : BHist} :
+    HashEvalTranscript MsgCarrier DigCarrier m d row ->
+      UnaryHistory m ->
+        UnaryHistory d ->
+          Cont row d compression ->
+            UnaryHistory row ∧ UnaryHistory compression ∧ Cont m d row ∧
+              Cont row d compression ∧ hsame row (append m d) ∧
+                hsame compression (append row d) := by
+  intro transcript messageUnary digestUnary compressionRow
+  have rowUnary : UnaryHistory row :=
+    unary_cont_closed messageUnary digestUnary transcript.right.right
+  have compressionUnary : UnaryHistory compression :=
+    unary_cont_closed rowUnary digestUnary compressionRow
+  exact
+    ⟨rowUnary, compressionUnary, transcript.right.right, compressionRow, transcript.right.right,
+      compressionRow⟩
 
 def HashSecondPreimageSuccess
     (HashEval : BHist -> BHist -> Prop)
