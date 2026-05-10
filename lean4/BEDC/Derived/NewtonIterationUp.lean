@@ -18,6 +18,15 @@ def NewtonIterationBHistCarrier
       Cont point derivativeRow stepLedger ∧ Cont stepLedger inverse next ∧
         Cont provenance next endpoint
 
+def NewtonIterationContractionClassifier
+    (derivative banach point derivativeRow inverse next stepLedger provenance endpoint point'
+      derivativeRow' inverse' next' stepLedger' endpoint' : BHist) : Prop :=
+  NewtonIterationBHistCarrier derivative banach point derivativeRow inverse next stepLedger
+      provenance endpoint ∧
+    hsame point point' ∧ hsame derivativeRow derivativeRow' ∧ hsame inverse inverse' ∧
+      Cont point' derivativeRow' stepLedger' ∧ Cont stepLedger' inverse' next' ∧
+        Cont provenance next' endpoint'
+
 def NewtonIterationCarrier
     (derivativeSource banachSource point derivative inverseRow nextStep derivativeLedger
       banachLedger stepLedger : BHist) :
@@ -312,6 +321,22 @@ theorem NewtonIterationBHistCarrier_step_endpoint_transport
       endpointRow'⟩
   exact And.intro transportedCarrier
     (And.intro sameStepLedger (And.intro sameNext sameEndpoint))
+
+theorem NewtonIterationContractionClassifier_transport
+    {derivative banach point point' derivativeRow derivativeRow' inverse inverse' next next'
+      stepLedger stepLedger' provenance endpoint endpoint' : BHist} :
+    NewtonIterationContractionClassifier derivative banach point derivativeRow inverse next
+        stepLedger provenance endpoint point' derivativeRow' inverse' next' stepLedger'
+        endpoint' ->
+      NewtonIterationBHistCarrier derivative banach point' derivativeRow' inverse' next'
+          stepLedger' provenance endpoint' ∧
+        hsame stepLedger stepLedger' ∧ hsame next next' ∧ hsame endpoint endpoint' := by
+  intro classifier
+  exact
+    NewtonIterationBHistCarrier_step_endpoint_transport classifier.left classifier.right.left
+      classifier.right.right.left classifier.right.right.right.left
+      classifier.right.right.right.right.left classifier.right.right.right.right.right.left
+      classifier.right.right.right.right.right.right
 
 theorem NewtonIterationBHistCarrier_semantic_name_certificate
     {derivative banach point derivativeRow inverse next stepLedger provenance endpoint : BHist} :

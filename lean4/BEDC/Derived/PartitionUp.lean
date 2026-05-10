@@ -25,6 +25,17 @@ def PartitionBHistCarrier [AskSetup] [PackageSetup]
       Cont decreaseRows boundary provenance ∧ Cont route provenance endpoint ∧
         PkgSig bundle endpoint pkg
 
+def PartitionYoungLedgerClassifier [AskSetup] [PackageSetup]
+    (listRow partRows sumRow decreaseRows boundary route provenance endpoint listRow' partRows'
+      sumRow' decreaseRows' boundary' route' provenance' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  PartitionBHistCarrier listRow partRows sumRow decreaseRows boundary route provenance endpoint
+      bundle pkg ∧
+    hsame listRow listRow' ∧ hsame partRows partRows' ∧ hsame sumRow sumRow' ∧
+      hsame decreaseRows decreaseRows' ∧ hsame boundary boundary' ∧
+        Cont listRow' sumRow' route' ∧ Cont decreaseRows' boundary' provenance' ∧
+          Cont route' provenance' endpoint'
+
 theorem PartitionBHistCarrier_obligation [AskSetup] [PackageSetup]
     {listRow partRows sumRow decreaseRows boundary route provenance endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -144,6 +155,26 @@ theorem PartitionBHistCarrier_classifier_stability [AskSetup] [PackageSetup]
   exact
     And.intro transportedCarrier
       (And.intro routeSame (And.intro provenanceSame endpointSame))
+
+theorem PartitionYoungLedgerClassifier_transport [AskSetup] [PackageSetup]
+    {listRow partRows sumRow decreaseRows boundary route provenance endpoint listRow' partRows'
+      sumRow' decreaseRows' boundary' route' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PartitionYoungLedgerClassifier listRow partRows sumRow decreaseRows boundary route
+        provenance endpoint listRow' partRows' sumRow' decreaseRows' boundary' route'
+        provenance' endpoint' bundle pkg ->
+      PkgSig bundle endpoint' pkg ->
+        PartitionBHistCarrier listRow' partRows' sumRow' decreaseRows' boundary' route'
+            provenance' endpoint' bundle pkg ∧
+          hsame route route' ∧ hsame provenance provenance' ∧ hsame endpoint endpoint' := by
+  intro classifier endpointPkg'
+  exact
+    PartitionBHistCarrier_classifier_stability classifier.left classifier.right.left
+      classifier.right.right.left classifier.right.right.right.left
+      classifier.right.right.right.right.left classifier.right.right.right.right.right.left
+      classifier.right.right.right.right.right.right.left
+      classifier.right.right.right.right.right.right.right.left
+      classifier.right.right.right.right.right.right.right.right endpointPkg'
 
 theorem PartitionBHistCarrier_young_boundary_package [AskSetup] [PackageSetup]
     {listRow partRows sumRow decreaseRows boundary route provenance endpoint routeBoundary
