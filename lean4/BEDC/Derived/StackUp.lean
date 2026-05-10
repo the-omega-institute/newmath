@@ -178,4 +178,30 @@ theorem StackCarrier_obligation_surface
       (And.intro schemePackage
         (And.intro restrictionRow packageReadback)))
 
+theorem StackCarrierPacket_representability_obligation [AskSetup] [PackageSetup]
+    {site objectRows arrowRows transportRows restrictionRows descentRows representabilityRows
+      provenance ledger endpoint atlasRead diagonalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StackCarrierPacket site objectRows arrowRows transportRows restrictionRows descentRows
+        representabilityRows provenance ledger endpoint bundle pkg ->
+      Cont representabilityRows restrictionRows atlasRead ->
+        Cont atlasRead descentRows diagonalRead ->
+          UnaryHistory atlasRead ∧ UnaryHistory diagonalRead ∧
+            hsame atlasRead (append representabilityRows restrictionRows) ∧
+              hsame diagonalRead (append atlasRead descentRows) ∧
+                UnaryHistory representabilityRows ∧ PkgSig bundle endpoint pkg := by
+  intro packet atlasRow diagonalRow
+  obtain ⟨_siteUnary, _objectUnary, _arrowUnary, _transportUnary, restrictionUnary,
+    descentUnary, representabilityUnary, _provenanceUnary, _ledgerUnary, _endpointUnary,
+    _ledgerCont, _endpointCont, pkgSig⟩ := packet
+  have atlasUnary : UnaryHistory atlasRead :=
+    unary_cont_closed representabilityUnary restrictionUnary atlasRow
+  have diagonalUnary : UnaryHistory diagonalRead :=
+    unary_cont_closed atlasUnary descentUnary diagonalRow
+  exact And.intro atlasUnary
+    (And.intro diagonalUnary
+      (And.intro atlasRow
+        (And.intro diagonalRow
+          (And.intro representabilityUnary pkgSig))))
+
 end BEDC.Derived.StackUp
