@@ -76,4 +76,31 @@ theorem MirrorSymmetryCategoricalClassifier_categorical_stability [AskSetup] [Pa
         pairedAnswerRow', ledgerRow', endpointRow', pkgSig'⟩,
       samePairedAnswer, sameLedger, sameEndpoint⟩
 
+theorem MirrorSymmetrySourceCertificate_scope_transport
+    {symplecticSource derivedSource aRows bRows pairLedger witnessLedger endpoint
+      symplecticSourceNext derivedSourceNext aRowsNext bRowsNext pairLedgerNext
+      witnessLedgerNext endpointNext : BHist} :
+    Cont symplecticSource aRows pairLedger ->
+      Cont derivedSource bRows witnessLedger ->
+        Cont pairLedger witnessLedger endpoint ->
+          hsame symplecticSource symplecticSourceNext ->
+            hsame derivedSource derivedSourceNext ->
+              hsame aRows aRowsNext ->
+                hsame bRows bRowsNext ->
+                  Cont symplecticSourceNext aRowsNext pairLedgerNext ->
+                    Cont derivedSourceNext bRowsNext witnessLedgerNext ->
+                      Cont pairLedgerNext witnessLedgerNext endpointNext ->
+                        hsame pairLedger pairLedgerNext ∧
+                          hsame witnessLedger witnessLedgerNext ∧
+                            hsame endpoint endpointNext := by
+  intro symplecticRows derivedRows pairedRows sameSymplectic sameDerived sameARows sameBRows
+    symplecticRowsNext derivedRowsNext pairedRowsNext
+  have samePairLedger : hsame pairLedger pairLedgerNext :=
+    cont_respects_hsame sameSymplectic sameARows symplecticRows symplecticRowsNext
+  have sameWitnessLedger : hsame witnessLedger witnessLedgerNext :=
+    cont_respects_hsame sameDerived sameBRows derivedRows derivedRowsNext
+  have sameEndpoint : hsame endpoint endpointNext :=
+    cont_respects_hsame samePairLedger sameWitnessLedger pairedRows pairedRowsNext
+  exact And.intro samePairLedger (And.intro sameWitnessLedger sameEndpoint)
+
 end BEDC.Derived.MirrorSymmetryUp
