@@ -227,4 +227,24 @@ theorem MarkovChainBHistTransitionCarrier_transition_ledger_exactness
       carrier.right.right.right.right.right.right.right.right.right.right,
       carrier.right.right.right.right.right.right.right.right.right.left⟩
 
+theorem MarkovChainTransitionPacket_dependency_unary_closure
+    {source time current next law transition provenance ledger : BHist} :
+    MarkovChainTransitionPacket source time current next law transition provenance ledger ->
+      UnaryHistory law ∧ UnaryHistory transition ∧ UnaryHistory provenance ∧ UnaryHistory ledger := by
+  intro packet
+  have lawBounds :
+      hsame law source ∧ UnaryHistory law ∧ Cont current next law ∧
+        BEDC.Derived.PreorderUp.PreorderPrefixLE current source :=
+    ProbSpacePublicEventPacket_normalization_bounds packet.left
+  have transitionExact :
+      UnaryHistory transition ∧ hsame transition next :=
+    RandomVarTotalReadbackCertificate_total_event_preimage_exactness packet.left.right.left
+      packet.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed packet.left.left transitionExact.left packet.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed provenanceUnary lawBounds.right.left packet.right.right.right.right.right
+  exact And.intro lawBounds.right.left
+    (And.intro transitionExact.left (And.intro provenanceUnary ledgerUnary))
+
 end BEDC.Derived.MarkovChainUp
