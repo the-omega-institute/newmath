@@ -37,6 +37,7 @@ The classifier of \autoref{def:mirrorsymmetry-categorical-classifier} can replac
 \label{thm:mirrorsymmetry-categorical-stability}
 Classified $\MirrorSymmetryUp$ packets remain classified after replacing either source certificate by a NameCert-classified representative and after transporting any displayed categorical answer row through $\hsame$, $\Cont$, or $\Pkg$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MirrorSymmetryUp.MirrorSymmetryCategoricalClassifier\_categorical\_stability}
 \begin{proof}
 Transport the A-model and B-model sources first. The source certificates give the two NameCert-level comparison rows, and the carrier repacks the transported representatives as the same finite pair packet.
 
@@ -52,3 +53,15 @@ Start from a carrier row and a classifier witness. The carrier supplies the two 
 
 Ledger exactness follows by induction over the finite observed pair list. Each item is either an A-model answer, a B-model answer, or one of the named transport witnesses. Therefore the obligation package records a BEDC pairing surface and does not assert a full external mirror-equivalence theorem.
 \end{proof}
+
+\closureat{MirrorSymmetryUp}{seedStr}
+
+\begin{closurestatus}{\MirrorSymmetryUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope is the finite paired $\mathsf{BHist}$ ledger over $\NameCert_{\SymplecticUp}$, $\NameCert_{\DerivedCatUp}$, visible A-model and B-model categorical rows, $\hsame$, $\Cont$, $\Pkg$, and the displayed source certificate rows.}
+  \constructivestory{A $\MirrorSymmetryUp$ packet is built from one displayed symplectic source certificate, one displayed derived-category source certificate, and a finite ledger of paired categorical answer rows whose admissible movements are exactly the source-certificate, history, continuation, and package transports named by the classifier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a full Fukaya category, derived equivalence, Hodge-number theorem, Calabi-Yau moduli theorem, or standard bridge.}
+  \upgradepath{Obligation closure requires Lean theorem sites for the paired carrier, categorical classifier, source scope, categorical stability, and finite obligation package.}
+\end{closurestatus}
