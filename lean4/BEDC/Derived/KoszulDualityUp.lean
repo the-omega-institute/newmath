@@ -104,6 +104,52 @@ theorem KoszulDualityBHistExtCarrier_ext_classifier_stability [AskSetup] [Packag
         pkgSig'⟩,
       sameExt, sameDual, sameProvenance⟩
 
+theorem KoszulDualityBHistExtCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {derived tensor variance ext dual provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KoszulDualityBHistExtCarrier derived tensor variance ext dual provenance bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row provenance)
+          (fun row : BHist => hsame row provenance)
+          (fun row : BHist => hsame row provenance) hsame ∧
+        UnaryHistory ext ∧ UnaryHistory dual ∧ hsame ext (append derived tensor) ∧
+          hsame dual (append ext variance) ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  have ledger :=
+    KoszulDualityDerivedTensorLedger_exactness
+      (derivedRow := derived) (tensorRow := tensor) (extClassifier := ext)
+      (varianceLedger := variance) (endpoint := dual)
+      ⟨carrier.left, carrier.right.left, carrier.right.right.left,
+        carrier.right.right.right.left, carrier.right.right.right.right.left⟩
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row provenance)
+          (fun row : BHist => hsame row provenance)
+          (fun row : BHist => hsame row provenance) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro provenance (hsame_refl provenance)
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows carrierRow
+        exact hsame_trans (hsame_symm sameRows) carrierRow
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact
+    ⟨cert, ledger.left, ledger.right.left, ledger.right.right.left,
+      ledger.right.right.right, carrier.right.right.right.right.right.right⟩
+
 theorem KoszulDualityExtCarrier_semantic_name_certificate
     {derivedRow tensorRow extClassifier varianceLedger endpoint : BHist} :
     KoszulDualityExtCarrier derivedRow tensorRow extClassifier varianceLedger endpoint ->
@@ -140,5 +186,31 @@ theorem KoszulDualityExtCarrier_semantic_name_certificate
   }
   exact And.intro cert
     (And.intro rows.left (And.intro rows.right.left rows.right.right.right))
+
+theorem KoszulDualityBHistExtCarrier_bridge_boundary_exclusions [AskSetup] [PackageSetup]
+    {derived tensor variance ext dual provenance bridgeProbe bridgeSurface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KoszulDualityBHistExtCarrier derived tensor variance ext dual provenance bundle pkg ->
+      UnaryHistory bridgeProbe -> Cont provenance bridgeProbe bridgeSurface ->
+        UnaryHistory derived ∧ UnaryHistory tensor ∧ UnaryHistory variance ∧ UnaryHistory ext ∧
+          UnaryHistory dual ∧ UnaryHistory bridgeSurface ∧
+            hsame ext (append derived tensor) ∧ hsame dual (append ext variance) ∧
+              hsame bridgeSurface (append provenance bridgeProbe) ∧
+                PkgSig bundle provenance pkg := by
+  intro carrier bridgeProbeUnary bridgeRow
+  have ledger :=
+    KoszulDualityDerivedTensorLedger_exactness
+      (derivedRow := derived) (tensorRow := tensor) (extClassifier := ext)
+      (varianceLedger := variance) (endpoint := dual)
+      ⟨carrier.left, carrier.right.left, carrier.right.right.left,
+        carrier.right.right.right.left, carrier.right.right.right.right.left⟩
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed carrier.left ledger.right.left carrier.right.right.right.right.right.left
+  have bridgeSurfaceUnary : UnaryHistory bridgeSurface :=
+    unary_cont_closed provenanceUnary bridgeProbeUnary bridgeRow
+  exact
+    ⟨carrier.left, carrier.right.left, carrier.right.right.left, ledger.left, ledger.right.left,
+      bridgeSurfaceUnary, ledger.right.right.left, ledger.right.right.right, bridgeRow,
+      carrier.right.right.right.right.right.right⟩
 
 end BEDC.Derived.KoszulDualityUp
