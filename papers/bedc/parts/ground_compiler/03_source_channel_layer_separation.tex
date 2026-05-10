@@ -20,6 +20,7 @@ This chapter records the discipline that follows from this difference. The centr
 
 \begin{definition}[Source layer]
 \label{def:source-channel-source-layer}
+\leandef{BEDC.GroundCompiler.SourceChannel.SourceLayer}
 The \emph{source layer} consists of raw events and event flows of \autoref{ch:ground-compiler-event-flow}:
 $$
   \mathsf{RawEvent} \;=\; \Sigma^{*},
@@ -31,6 +32,7 @@ A glyph string in the source layer, e.g.\ $011$, denotes the raw event $011 \in 
 
 \begin{definition}[Channel layer]
 \label{def:source-channel-channel-layer}
+\leandef{BEDC.GroundCompiler.SourceChannel.ChannelLayer}
 The \emph{channel layer} consists of compiled glyph strings:
 $$
   \mathsf{LegalZStream} \;=\; \big(\, (0 \mid 10)^{*}\,11 \,\big)^{*}.
@@ -45,6 +47,7 @@ A glyph string written on the page may be read at either layer, but never at bot
 
 \begin{definition}[Source-level relation]
 \label{def:source-channel-source-level-relation}
+\leandef{BEDC.GroundCompiler.SourceChannel.SourceLevelRelation}
 A \emph{source-level relation} is a binary relation
 $$
   (\leadsto) \;\subseteq\; \mathsf{RawEvent} \times \mathsf{RawEvent}
@@ -60,6 +63,7 @@ read as: ``$011$ is a pre-normal source event whose Zeckendorf-normal source eve
 
 \begin{definition}[Source carry ledger]
 \label{def:source-channel-carry-ledger}
+\leandef{BEDC.GroundCompiler.SourceChannel.SourceCarryLedger}
 Given a source-level relation $w \leadsto v$, the corresponding \emph{ledger flow} is the event flow
 $$
   (w, v) \;\in\; \mathsf{EventFlow}.
@@ -78,6 +82,7 @@ The compiled stream records both events; it does not erase the pre-normal event 
 
 \begin{principle}[No channel-level source rewrite]
 \label{prin:source-channel-no-channel-rewrite}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.no\_channel\_level\_source\_rewrite}
 For every source-level relation $w \leadsto v$, it is not admissible to rewrite the displayed substring $w$ to $v$ inside the channel string $\mathsf{Ev}(w)$ or inside the compiled stream $\mathsf{Compile}(S)$. In particular, the source-level pair $011 \leadsto_{Z} 100$ is not a channel-layer string-rewriting rule.
 \end{principle}
 
@@ -99,6 +104,7 @@ Decoding the result of this rewrite glyph-by-glyph, per \autoref{def:channel-enc
 
 \begin{proposition}[Channel-level source rewrite may destroy legality]
 \label{prop:source-channel-rewrite-may-destroy-legality}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.channel\_level\_source\_rewrite\_may\_destroy\_legality}
 There exists a legal channel stream $c \in \mathsf{LegalZStream}$ and a displayed source-level rewrite $w \leadsto v$ such that the result of replacing the displayed substring $w$ in $c$ by $v$ is not a legal channel stream.
 \end{proposition}
 
@@ -108,11 +114,12 @@ Take $c = \mathsf{Ev}(011) = 0101011$, which lies in $\mathsf{LegalZStream}$ by 
 
 \begin{corollary}[A source normalizer is not a channel transducer]
 \label{cor:source-channel-normalizer-not-channel-transducer}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.normalizer\_output\_factors\_through\_decoding}
 A source-level normalizer
 $$
   N \colon \mathsf{EventFlow} \longrightarrow \mathsf{EventFlow}
 $$
-does not lift to a glyph-level transducer $\Sigma^{*} \to \Sigma^{*}$ obtained by rewriting displayed substrings of channel streams. To apply $N$ to an already-compiled channel stream, the only admissible procedure is to decode first, normalize on the resulting event flow, and recompile.
+does not lift to a glyph-level transducer $\Sigma^{*} \to \Sigma^{*}$ obtained by rewriting displayed substrings of channel streams. To apply $N$ to an already-compiled channel stream, the admissible procedure is to decode first, normalize on the resulting event flow, and recompile: whenever the channel normalizer returns an output $o$ on a channel string $c$, there is an event flow $S$ such that $\mathsf{Decode}(c)=\mathsf{some}(S)$ and $o=\mathsf{Compile}(N(S))$.
 \end{corollary}
 
 \section{Decode-normalize-compile pipeline}
@@ -120,6 +127,7 @@ does not lift to a glyph-level transducer $\Sigma^{*} \to \Sigma^{*}$ obtained b
 
 \begin{definition}[Decode-normalize-compile pipeline]
 \label{def:source-channel-decode-normalize-compile}
+\leandef{BEDC.GroundCompiler.SourceChannel.NormalizeChannel}
 Given a source-level normalizer $N \colon \mathsf{EventFlow} \to \mathsf{EventFlow}$, the \emph{decode-normalize-compile pipeline} is the composition
 $$
   \mathsf{NormalizeChannel}_{N}
@@ -136,11 +144,12 @@ read as
   $\xrightarrow{\mathsf{Compile}}$ channel stream.
 \end{tabular}
 \end{center}
-By construction the pipeline forbids any direct rewrite on channel glyphs.
+On an arbitrary channel glyph string the same operation is partial: it rejects malformed input when $\mathsf{Decode}$ rejects, and otherwise returns $\mathsf{Compile}(N(S))$ for the decoded event flow $S$. Restricted to $\mathsf{LegalZStream}$, it is the displayed map above. By construction the pipeline forbids any direct rewrite on channel glyphs.
 \end{definition}
 
 \begin{theorem}[The pipeline preserves channel legality]
 \label{thm:source-channel-pipeline-preserves-legality}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.normalize\_channel\_preserves\_legality}
 For every channel stream $c \in \mathsf{LegalZStream}$ and every total source-level normalizer $N \colon \mathsf{EventFlow} \to \mathsf{EventFlow}$,
 $$
   \mathsf{NormalizeChannel}_{N}(c) \;\in\; \mathsf{LegalZStream}.
@@ -156,16 +165,27 @@ By \autoref{cor:channel-encoding-bijection}, $\mathsf{Decode}(c) \in \mathsf{Eve
 
 \begin{definition}[Ledger-preserving source relation]
 \label{def:source-channel-ledger-preserving}
-A source-level relation $w \leadsto v$ is \emph{ledger-preserving} when its action on event flows records the pair $(w, v)$ rather than deletes the pre-normal event. The ledger-preserving form of $w \leadsto v$ is the event flow $w \mid v$ of \autoref{def:source-channel-carry-ledger}, not the singleton flow $v$ alone.
+\leandef{BEDC.GroundCompiler.SourceChannel.LedgerPreserving}
+Given a source-level relation $w \leadsto v$, a recording operation
+$$
+  L \colon \mathsf{RawEvent} \times \mathsf{RawEvent} \longrightarrow \mathsf{EventFlow}
+$$
+is \emph{ledger-preserving} when every witnessed pair is recorded as the ordered event flow
+$$
+  L(w, v) \;=\; w \mid v.
+$$
+The ledger-preserving form of $w \leadsto v$ is the event flow $w \mid v$ of \autoref{def:source-channel-carry-ledger}, not the singleton flow $v$ alone.
 \end{definition}
 
 \begin{principle}[Normal address does not erase the raw event]
 \label{prin:source-channel-no-raw-erasure}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.normal\_address\_does\_not\_erase\_raw\_event}
 For any source-level relation $w \leadsto v$, the right-hand event $v$ may be displayed as a normal address, but the left-hand event $w$ must remain present in the recorded ledger flow. The flow $w \mid v$ is admissible; deleting $w$ in favor of the singleton flow $v$ is not. This discipline is the source-layer specialization of \autoref{prin:compression-requires-memory}: any compression of generated material requires a ledger that tracks the hidden material; composite ledgers must keep the source map rather than only the visible interface.
 \end{principle}
 
 \begin{proposition}[Ledger records distinguish ordered pairs]
 \label{prop:source-channel-ledger-injective}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.ledger\_records\_distinguish\_ordered\_pairs}
 The ledger-record map $w, v \mapsto (w, v)$ is injective on its arguments: if $(w, v) = (w', v')$, then $w = w'$ and $v = v'$.
 \end{proposition}
 
@@ -175,37 +195,43 @@ Equality of ordered pairs is componentwise. The conclusion is immediate.
 
 \begin{corollary}[Quotient may be many-to-one; ledger flow is lossless]
 \label{cor:source-channel-quotient-vs-ledger}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.quotient\_may\_be\_many\_to\_one\_ledger\_lossless}
 A source-level classifier may identify multiple raw events as one classified object, but the ledger flow recording the carry events remains lossless. In particular, even when a classifier asserts $w \sim v$, the ledger flow $w \mid v$ continues to distinguish the pre-normal event $w$ from the normal event $v$.
 \end{corollary}
 
 \begin{definition}[Source-level classified object]
 \label{def:source-channel-classified-object}
-For a source-level equivalence relation $\sim$ on raw events or event flows, a \emph{classified object} is an equivalence class $[w]_{\sim}$. For the Zeckendorf carry classifier $\sim_{Z}$ of \autoref{ch:concrete-instances-zeckendorf-carry-classifier}, $011 \sim_{Z} 100$ identifies $[011]_{\sim_{Z}} = [100]_{\sim_{Z}}$, while at the raw-event layer $011 \neq 100$ remains.
+\leandef{BEDC.GroundCompiler.SourceChannel.SourceLevelClassifier}
+A \emph{source-level classifier} consists of a carrier of classified objects and a classification map
+$$
+  q \colon \mathsf{RawEvent} \longrightarrow \mathsf{ClassifiedObject}.
+$$
+A classified object is an element of this carrier. For the Zeckendorf carry reading of \autoref{ch:concrete-instances-zeckendorf-carry-classifier}, the pre-normal event $011$ and the normal event $100$ may be sent to the same classified object, while at the raw-event layer the two raw events remain distinct.
 \end{definition}
 
 \begin{proposition}[Classified-object map is generally not injective]
 \label{prop:source-channel-classified-not-injective}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.classified\_object\_map\_not\_injective}
 The natural map
 $$
-  q_{\sim} \colon \mathsf{RawEvent} \longrightarrow \mathsf{RawEvent}/\!\sim,
-  \qquad
-  q_{\sim}(w) = [w]_{\sim},
+  q \colon \mathsf{RawEvent} \longrightarrow \mathsf{ClassifiedObject}
 $$
 is generally not injective.
 \end{proposition}
 
 \begin{proof}
-If there exist distinct raw events $w \neq v$ with $w \sim v$, then $q_{\sim}(w) = [w]_{\sim} = [v]_{\sim} = q_{\sim}(v)$, so $q_{\sim}$ identifies $w$ and $v$. The Zeckendorf instance is $011 \neq 100$ but $011 \sim_{Z} 100$, hence $q_{\sim_{Z}}(011) = q_{\sim_{Z}}(100)$.
+It suffices to exhibit one source-level classifier that identifies two distinct raw events. Let the classifier carrier have a carry class, and send both $011$ and $100$ to that class. The raw events $011$ and $100$ are different finite sequences of raw marks, but their classified images coincide. Hence a classified-object map need not be injective.
 \end{proof}
 
 \begin{corollary}[Bijection is unconditional only at the raw-flow layer]
 \label{cor:source-channel-bijection-only-at-raw-layer}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.bijection\_only\_at\_raw\_layer}
 The unconditional bijection supplied by channel encoding is between raw event flows and legal channel streams,
 $$
   \mathsf{EventFlow} \;\cong\; \mathsf{LegalZStream}
   \quad\text{(\autoref{cor:channel-encoding-bijection}).}
 $$
-The composite map $\mathsf{EventFlow} \to \mathsf{EventFlow}/\!\sim$ to a classifier quotient is generally not injective. Therefore, when a downstream argument speaks of a bijection between ``theory'' and ``code,'' the theory side must be the canonical raw-event flow, not an abstract classified proposition.
+The composite map from raw event data to classified objects is generally not injective. Therefore, when a downstream argument speaks of a bijection between ``theory'' and ``code,'' the theory side must be the canonical raw-event flow, not an abstract classified proposition.
 \end{corollary}
 
 \section{Encoding and decoding examples for ledger flows}
@@ -248,6 +274,7 @@ which is in $\mathsf{LegalZStream}$ by \autoref{cor:channel-encoding-bijection}.
 
 \begin{theorem}[Source-level normalization is conservative over channel decoding]
 \label{thm:source-channel-conservative-over-decoding}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.source\_normalization\_conservative\_over\_decoding}
 For every source-level normalizer $N \colon \mathsf{EventFlow} \to \mathsf{EventFlow}$, the diagram
 $$
   \mathsf{LegalZStream}
@@ -270,6 +297,7 @@ The first arrow is well-defined by \autoref{cor:channel-encoding-bijection}; the
 
 \begin{proposition}[Channel terminator is not the source event $11$]
 \label{prop:source-channel-terminator-not-source-event-11}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.channel\_terminator\_not\_source\_event\_11}
 The channel-layer terminator $11$ of \autoref{def:channel-encoding-event-terminator} is not the source raw event $11 \in \mathsf{RawEvent}$.
 \end{proposition}
 
@@ -286,16 +314,19 @@ whereas the channel terminator is the literal glyph pair $11$. If the channel te
 
 \begin{corollary}[The source raw event $11$ encodes unambiguously]
 \label{cor:source-channel-source-event-11-unambiguous}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.source\_event\_11\_unambiguous}
 The source raw event $11$ encodes as the channel string $\mathsf{Ev}(11) = 101011$. The decoder of \autoref{def:channel-encoding-decoder-event} reads this as $10 \to \mathrm{raw}\ 1$, $10 \to \mathrm{raw}\ 1$, $11 \to \mathrm{event\ end}$, recovering $11 \in \mathsf{RawEvent}$ without ambiguity.
 \end{corollary}
 
 \begin{principle}[No channel proof by substring]
 \label{prin:source-channel-no-proof-by-substring}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.no\_channel\_proof\_by\_substring}
 The appearance of a displayed substring $u$ inside a channel stream $c \in \mathsf{LegalZStream}$ does not entail that the source event $u$ appears in $\mathsf{Decode}(c)$. Source-event analysis is admissible only on the output of $\mathsf{Decode}$.
 \end{principle}
 
 \begin{proposition}[Channel substrings are not source events]
 \label{prop:source-channel-substring-not-source-event}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.channel\_substring\_not\_source\_event}
 There exists a channel stream $c \in \mathsf{LegalZStream}$ and a displayed substring $u$ of $c$ such that $u$ is not any source event of $\mathsf{Decode}(c)$.
 \end{proposition}
 
@@ -305,6 +336,7 @@ Take $c = \mathsf{Ev}(1) = 1011$. The displayed substring $u = 011$ occurs at po
 
 \begin{corollary}[Source analysis must begin after decoding]
 \label{cor:source-channel-analysis-after-decoding}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.source\_analysis\_after\_decoding}
 Any source-level analysis---finite repetition, completion witness, Zeckendorf carry, $\NameCert$ source pattern, theorem event, ledger event---is admissible only after $\mathsf{Decode}$ has been applied to the channel stream. Source-level analyses applied directly to channel glyphs are not admissible.
 \end{corollary}
 
@@ -313,6 +345,7 @@ Any source-level analysis---finite repetition, completion witness, Zeckendorf ca
 
 \begin{theorem}[Layer separation theorem]
 \label{thm:source-channel-layer-separation}
+\leanchecked{BEDC.GroundCompiler.SourceChannel.layer\_separation}
 The source layer and the channel layer satisfy the following seven separation conditions:
 \begin{enumerate}
   \item source events are elements of $\mathsf{RawEvent}$;

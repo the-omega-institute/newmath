@@ -18,6 +18,7 @@ Host representations such as lists, arrays, strings, parser states, Lean structu
 
 \begin{definition}[Implementation representation]
 \label{def:implementation-interface-representation}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ImplementationRepresentation}
 An \emph{implementation representation} is a host-language data structure used temporarily to represent event flows, bit streams, recognition results, or reports. Examples include host lists of booleans, arrays of bits, strings, vectors, parser states, JSON objects, Lean structures, Rust structs, and Python dataclasses.
 
 Such representations may be used in engineering implementations, but they are not BEDC public mathematical objects.
@@ -25,6 +26,7 @@ Such representations may be used in engineering implementations, but they are no
 
 \begin{definition}[Public formal interface]
 \label{def:implementation-interface-public-formal-interface}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.PublicFormalInterface}
 A \emph{public formal interface} is an interface stated only in BEDC event-flow relations. Allowed public forms include
 $$
   \mathsf{IsRawEvent}(x),\quad
@@ -54,11 +56,13 @@ Disallowed public forms include maps from host package structures to strings, pa
 
 \begin{principle}[Host representation is not BEDC structure]
 \label{prin:implementation-interface-host-representation-not-structure}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.host\_representation\_not\_structure}
 Host representation may implement BEDC relations, but it must not become BEDC public structure. A host list may implement an event-flow representation, but $\mathsf{EventFlow}$ is not a mathematical primitive defined by host lists. A parser state may implement decoding, but a parser state is not a source-level theorem witness.
 \end{principle}
 
 \begin{definition}[Implementation soundness]
 \label{def:implementation-interface-implementation-soundness}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ImplementationSoundness}
 Let an implementation function or program $f_{\mathrm{impl}}$ claim to implement a formal relation $\mathcal R$. The implementation is \emph{sound} for $\mathcal R$ when every success returned by $f_{\mathrm{impl}}$ implies the corresponding formal relation.
 
 For example, if an implementation decoder returns success with output $S$ on input $c$, then one must have
@@ -69,6 +73,7 @@ $$
 
 \begin{definition}[Implementation completeness]
 \label{def:implementation-interface-implementation-completeness}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ImplementationCompleteness}
 An implementation $f_{\mathrm{impl}}$ is \emph{complete relative to a domain $D$} for a formal relation $\mathcal R$ when every instance of $\mathcal R$ on input in $D$ is returned by the implementation.
 
 For example, if $c\in\mathsf{LegalZStream}$ and $\mathsf{Decodes}(c,S)$, then a complete decoder over the legal-stream domain returns success with output $S$. Completeness is always domain-relative.
@@ -76,6 +81,7 @@ For example, if $c\in\mathsf{LegalZStream}$ and $\mathsf{Decodes}(c,S)$, then a 
 
 \begin{definition}[No-host-leak condition]
 \label{def:implementation-interface-no-host-leak-condition}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.NoHostLeakCondition}
 An implementation satisfies the \emph{no-host-leak condition} when its public theorem statements, certificate statements, and compiler claims do not expose host-level primitives as BEDC objects. In particular, the public surface may not treat host natural numbers, booleans, lists, strings, equality, quotients, function spaces, parser states, ASTs, theorem identifiers, file paths, YAML, JSON, choice, or classical oracles as BEDC objects.
 
 These devices may appear inside implementation proofs as tools, but not as the BEDC public surface.
@@ -83,11 +89,12 @@ These devices may appear inside implementation proofs as tools, but not as the B
 
 \begin{theorem}[Host leak invalidates no-hidden-input status]
 \label{thm:implementation-interface-host-leak-invalidates}
-If an implementation's public interface depends on host-level structure as BEDC object input, then the implementation cannot claim no-hidden-input compiler status.
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.host\_leak\_invalidates}
+If an implementation's public interface contains a datum that is both public input and an implementation representation, then the implementation cannot claim no-hidden-input compiler status.
 \end{theorem}
 
 \begin{proof}
-The formal input of the no-hidden-input compiler is event flow. If a public interface accepts host-level structure as BEDC input, then the fields, boundaries, types, and readings of that structure are supplied by the host system rather than by $\bzero,\bone$ event flows and generated recognizers. This is hidden input. Hence the no-hidden-input claim fails.
+The no-hidden-input status includes the no-host-leak condition for the public surface. A public datum that is also an implementation representation is exactly a witness that the no-host-leak condition fails. Hence the no-hidden-input claim fails.
 \end{proof}
 
 \section{Core implementation modules}
@@ -95,6 +102,7 @@ The formal input of the no-hidden-input compiler is event flow. If a public inte
 
 \begin{definition}[Channel core module]
 \label{def:implementation-interface-channel-core}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ChannelCoreModule}
 The \emph{channel core module} implements the channel-layer definitions
 $$
   \zeta(0)=0,\qquad \zeta(1)=10,
@@ -116,6 +124,7 @@ Executable functions may exist internally, but theorem statements should align w
 
 \begin{definition}[Decoder core module]
 \label{def:implementation-interface-decoder-core}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.DecoderCoreModule}
 The \emph{decoder core module} implements the scan rules:
 $$
   0\mapsto \text{raw }0,\qquad
@@ -136,6 +145,7 @@ $$
 
 \begin{definition}[Round-trip module]
 \label{def:implementation-interface-roundtrip-module}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.RoundTripModule}
 The \emph{round-trip module} proves
 $$
   \mathsf{Decodes}(\mathsf{Compile}(S),S)
@@ -154,6 +164,7 @@ $$
 
 \begin{definition}[Layer-separation module]
 \label{def:implementation-interface-layer-separation-module}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.LayerSeparationModule}
 The \emph{layer-separation module} proves that source-level events are not channel substrings, that the channel terminator $11$ is not the source event $11$, and that source normalization acts only after decoding. A suitable module name is
 $$
   \mathrm{BEDC.Compiler.LayerSeparation}.
@@ -162,6 +173,7 @@ $$
 
 \begin{definition}[Recognizer core module]
 \label{def:implementation-interface-recognizer-core-module}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.RecognizerCoreModule}
 The \emph{recognizer core module} supplies the general recognition relation
 $$
   \mathsf{Recognizes}(R,\rho,S)
@@ -178,6 +190,7 @@ $$
 
 \begin{definition}[Certificate recognizer modules]
 \label{def:implementation-interface-certificate-recognizer-modules}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.CertificateRecognizerModules}
 The certificate and structure recognizer modules expose only event-flow recognition relations. Suitable module names include
 $$
 \begin{gathered}
@@ -194,6 +207,7 @@ $$
 
 \begin{definition}[Analysis modules]
 \label{def:implementation-interface-analysis-modules}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.AnalysisModules}
 Analysis modules include motif, metric, report, cannot-claim, and bridge-obligation modules. They must maintain the rules that reports are output views, metrics are protocol-relative, motif recognition requires generated recognizers, and analysis is conservative.
 \end{definition}
 
@@ -202,6 +216,7 @@ Analysis modules include motif, metric, report, cannot-claim, and bridge-obligat
 
 \begin{definition}[Event encoder specification]
 \label{def:implementation-interface-event-encoder-spec}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.EncodesEvent}
 The event encoding specification is the relation
 $$
   \mathsf{EncodesEvent}(w,c)
@@ -214,6 +229,7 @@ $$
 
 \begin{definition}[Flow compiler specification]
 \label{def:implementation-interface-flow-compiler-spec}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.Compiles}
 The flow encoding specification is the relation
 $$
   \mathsf{Compiles}(S,c)
@@ -230,6 +246,7 @@ $$
 
 \begin{definition}[Event decoder specification]
 \label{def:implementation-interface-event-decoder-spec}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.DecodesEvent}
 The event decoding specification is the relation
 $$
   \mathsf{DecodesEvent}(c,w)
@@ -243,6 +260,7 @@ This is a specification-level relation. An implementation may scan the input, bu
 
 \begin{definition}[Stream decoder specification]
 \label{def:implementation-interface-stream-decoder-spec}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.Decodes}
 The stream decoding specification is the relation
 $$
   \mathsf{Decodes}(c,S)
@@ -256,6 +274,7 @@ Thus the executable decoder must prove soundness and completeness with respect t
 
 \begin{proposition}[Specification-level decoder is functional]
 \label{prop:implementation-interface-decoder-functional}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.decoder\_functional}
 If
 $$
   \mathsf{Decodes}(c,S)
@@ -271,6 +290,7 @@ By the definition of $\mathsf{Decodes}$, both $S$ and $T$ compile to $c$. The ch
 
 \begin{proposition}[Specification-level compiler is functional]
 \label{prop:implementation-interface-compiler-functional}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.compiles\_functional}
 If
 $$
   \mathsf{Compiles}(S,c)
@@ -289,6 +309,7 @@ By the definition of $\mathsf{Compiles}$, both $c$ and $d$ are the concatenated 
 
 \begin{definition}[Executable decoder]
 \label{def:implementation-interface-executable-decoder}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ExecutableDecoder}
 An \emph{executable decoder} is an implementation-layer procedure that consumes a bit stream and returns either an event flow or a rejection reason. The formal public statements do not expose host result types or host rejection enums as BEDC primitives.
 
 Its obligations are decoder soundness, decoder completeness on the legal-stream domain, and rejection soundness.
@@ -296,6 +317,7 @@ Its obligations are decoder soundness, decoder completeness on the legal-stream 
 
 \begin{theorem}[Decoder soundness obligation]
 \label{thm:implementation-interface-decoder-soundness-obligation}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.decoder\_soundness\_obligation}
 If the implementation decoder returns success with event flow $S$ on input $c$, then
 $$
   \mathsf{Decodes}(c,S)
@@ -309,6 +331,7 @@ The implementation proof must establish scanner invariants: the already-read pre
 
 \begin{theorem}[Decoder completeness obligation]
 \label{thm:implementation-interface-decoder-completeness-obligation}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.decoder\_completeness\_obligation}
 If $c\in\mathsf{LegalZStream}$ and $\mathsf{Decodes}(c,S)$, then the implementation decoder must return success with event flow $S$.
 \end{theorem}
 
@@ -318,20 +341,27 @@ A legal stream lies in $((0\mid 10)^{\ast}11)^{\ast}$. The scanner therefore enc
 
 \begin{theorem}[Reject soundness obligation]
 \label{thm:implementation-interface-reject-soundness-obligation}
-If the implementation decoder rejects input $c$, then either $c\notin\mathsf{LegalZStream}$ or the rejection is allowed by an explicitly recorded implementation-domain policy.
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.reject\_soundness\_obligation}
+If the reference executable decoder rejects input $c$ with event-flow reason $r$, then
+$$
+  c\notin\mathsf{LegalZStream}.
+$$
+Any implementation-domain rejection policy must be expressed as its own event-flow relation before it can appear in the public formal interface.
 \end{theorem}
 
 \begin{proof}
-Each rejection branch must correspond to an event-flow syntax failure, such as dangling $1$, unfinished event body, invalid host character, noncanonical input representation, or a resource-bound condition. Resource-bound rejections must be recorded in the implementation ledger or bootstrap-obligation ledger.
+If $c\in\mathsf{LegalZStream}$, then $c=\mathsf{Compile}(S)$ for some event flow $S$. By the channel round-trip theorem, decoding $c$ returns success with $S$. This contradicts rejection by the reference executable decoder.
 \end{proof}
 
 \begin{definition}[Executable encoder]
 \label{def:implementation-interface-executable-encoder}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ExecutableEncoder}
 An \emph{executable encoder} is an implementation-layer procedure from event-flow representation to bit-stream representation. Its formal obligations are encoder soundness, encoder totality over event flows, and absence of internal event terminators inside encoded event bodies.
 \end{definition}
 
 \begin{theorem}[Encoder soundness obligation]
 \label{thm:implementation-interface-encoder-soundness-obligation}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.encoder\_soundness\_obligation}
 If the implementation encoder returns $c$ on event flow $S$, then
 $$
   \mathsf{Compiles}(S,c)
@@ -345,6 +375,7 @@ The implementation must show that each raw event is encoded by $\zeta$ and follo
 
 \begin{theorem}[Encoder totality obligation]
 \label{thm:implementation-interface-encoder-totality-obligation}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.encoder\_totality\_obligation}
 For every $S\in\mathsf{EventFlow}$, the implementation encoder returns some $c$ such that
 $$
   \mathsf{Compiles}(S,c).
@@ -357,6 +388,7 @@ Each raw event is finite, so applying $\zeta$ to its finite body and appending $
 
 \begin{theorem}[Encoder no-internal-terminator obligation]
 \label{thm:implementation-interface-encoder-no-internal-terminator}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.encoder\_no\_internal\_terminator\_obligation}
 For every raw event $w$, the event body $\zeta(w)$ contains no adjacent $11$.
 \end{theorem}
 
@@ -369,6 +401,7 @@ Each source $0$ contributes channel $0$, and each source $1$ contributes channel
 
 \begin{definition}[Package recognition public interface]
 \label{def:implementation-interface-package-recognition-public}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.PackageRecognitionPublicInterface}
 The package recognition public interface is
 $$
   \mathsf{RecognizesPkg}(R,S).
@@ -378,6 +411,7 @@ Host AST package parsers and YAML package parsers are not public formal inputs.
 
 \begin{definition}[Name-certificate recognition public interface]
 \label{def:implementation-interface-namecert-public}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.NameCertRecognitionPublicInterface}
 The name-certificate recognition public interface is
 $$
   \mathsf{RecognizesNameCert}(R,S,N).
@@ -387,6 +421,7 @@ Host name-certificate records are not formal inputs.
 
 \begin{definition}[Derivation-certificate recognition public interface]
 \label{def:implementation-interface-derivcert-public}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.DerivCertRecognitionPublicInterface}
 The derivation-certificate recognition public interface is
 $$
   \mathsf{RecognizesDerivCert}(R,D,N,s).
@@ -396,6 +431,7 @@ Host derivation-certificate structures and host strength enums are not formal in
 
 \begin{definition}[Theorem recognition public interface]
 \label{def:implementation-interface-theorem-public}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.TheoremRecognitionPublicInterface}
 The theorem recognition public interface is
 $$
   \mathsf{RecognizesTheorem}(R,T).
@@ -405,6 +441,7 @@ Theorem names as strings, Lean theorem identifiers, proof ASTs, and host proof o
 
 \begin{definition}[Chapter recognition public interface]
 \label{def:implementation-interface-chapter-public}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ChapterRecognitionPublicInterface}
 The chapter recognition public interface is
 $$
   \mathsf{RecognizesChapter}(R,C).
@@ -414,6 +451,7 @@ Chapter YAML, chapter manifests, Markdown ASTs, and LaTeX section trees are not 
 
 \begin{definition}[Compiler recognition public interface]
 \label{def:implementation-interface-compiler-public}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.CompilerRecognitionPublicInterface}
 The compiler recognition public interface consists of relations such as
 $$
   \mathsf{RecognizesCompiler}(R,C),
@@ -432,6 +470,7 @@ Host executable paths, binary hashes, and build scripts may be implementation-le
 
 \begin{definition}[Host-leak audit item]
 \label{def:implementation-interface-host-leak-audit-item}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.HostLeakAuditItem}
 A \emph{host-leak audit item} is an event flow recording the occurrence of host-level input in an implementation statement. It contains at least a location, the host construct, why it is a leak, the replacement relation, status, and ledger.
 
 Examples include a host list exposed as BEDC event flow, a host natural number exposed as raw length, YAML used as package input, or a string theorem label used as theorem identity.
@@ -439,6 +478,7 @@ Examples include a host list exposed as BEDC event flow, a host natural number e
 
 \begin{definition}[No-host-leak audit]
 \label{def:implementation-interface-no-host-leak-audit}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.NoHostLeakAudit}
 An implementation module passes \emph{no-host-leak audit} when:
 \begin{enumerate}
 \item all public statements use only event-flow relations;
@@ -450,6 +490,7 @@ An implementation module passes \emph{no-host-leak audit} when:
 
 \begin{theorem}[No-host-leak audit is required for compiler certification]
 \label{thm:implementation-interface-no-host-leak-required}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.no\_host\_leak\_required}
 If an implementation module fails the no-host-leak audit, then it cannot be a certified no-hidden-input compiler component.
 \end{theorem}
 
@@ -462,6 +503,7 @@ Failure of the audit means that host-level structure has entered the public inte
 
 \begin{definition}[Core Lean target set]
 \label{def:implementation-interface-core-lean-targets}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.CoreLeanTargetSet}
 The first Lean target set should cover only the channel and layer-separation layers:
 $$
 \begin{gathered}
@@ -485,6 +527,7 @@ $$
 
 \begin{definition}[Recognizer Lean target set]
 \label{def:implementation-interface-recognizer-lean-targets}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.RecognizerLeanTargetSet}
 The second Lean target set covers the recognizer abstraction layer:
 $$
 \begin{gathered}
@@ -504,6 +547,7 @@ $$
 
 \begin{definition}[Certificate Lean target set]
 \label{def:implementation-interface-certificate-lean-targets}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.CertificateLeanTargetSet}
 The third Lean target set covers complete certificate recognition and acceptance:
 $$
 \begin{gathered}
@@ -520,6 +564,7 @@ $$
 
 \begin{definition}[Analysis Lean target set]
 \label{def:implementation-interface-analysis-lean-targets}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.AnalysisLeanTargetSet}
 The fourth Lean target set covers motif and metric analysis:
 $$
 \begin{gathered}
@@ -543,11 +588,13 @@ The first implementation targets should not be definitions of infinity, dimensio
 
 \begin{definition}[Reference executable]
 \label{def:implementation-interface-reference-executable}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ReferenceExecutable}
 A \emph{reference executable} is a runnable program satisfying the channel encoder and decoder specifications. Its tasks are to encode event flows, decode channel streams, check legal streams, and generate human-readable reports from decoded flows. It is not a proof checker or certificate recognizer unless the corresponding recognizer flows and certificates are supplied.
 \end{definition}
 
 \begin{proposition}[Reference executable alone is not a formal compiler]
 \label{prop:implementation-interface-reference-not-formal-compiler}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.reference\_executable\_not\_formal\_compiler}
 Even if a reference executable passes all encode/decode tests, it is not a full no-hidden-input compiler unless the recognizer hierarchy, certificate flows, and bootstrap obligations are also handled.
 \end{proposition}
 
@@ -557,6 +604,7 @@ Encode/decode tests establish channel behavior. A full compiler also needs packa
 
 \begin{definition}[Reference executable test suite]
 \label{def:implementation-interface-reference-test-suite}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ReferenceTestSuite}
 The minimal reference test suite contains event encoding cases
 $$
 \begin{array}{rcl}
@@ -610,6 +658,7 @@ Decoding that stream should return the original event flow.
 
 \begin{definition}[Implementation report]
 \label{def:implementation-interface-implementation-report}
+\leandef{BEDC.GroundCompiler.ImplementationInterface.ImplementationReport}
 An \emph{implementation report} is an output view generated by a reference executable or formal module. It records module name, implemented relations, test cases, round-trip results, rejection cases, host-leak audit items, bootstrap obligations, proof status, and Lean target status.
 
 An implementation report is output, not formal input.
@@ -617,11 +666,13 @@ An implementation report is output, not formal input.
 
 \begin{principle}[Implementation reports are not certificates]
 \label{prin:implementation-interface-reports-not-certificates}
+\leanchecked{BEDC.GroundCompiler.ImplementationInterface.implementation\_reports\_not\_certificates}
 An implementation report is not a name-certificate flow, derivation-certificate flow, acceptance-gate flow, or theorem proof-flow. Unless the report flow is separately recognized as a certificate flow, it cannot discharge certificate obligations.
 \end{principle}
 
 \begin{theorem}[Implementation adequacy theorem]
 \label{thm:implementation-interface-adequacy}
+\leanchecked{BEDC.GroundCompiler.ImplementationAdequacy.implementation\_adequacy}
 An implementation $I$ may serve as an implementation of a no-hidden-input compiler component exactly when:
 \begin{enumerate}
 \item every public relation implemented by $I$ has a formal specification;
@@ -643,6 +694,7 @@ Sufficiency: if all eight conditions hold, every formal output is supported by e
 
 \begin{corollary}[Passing tests is weaker than implementation adequacy]
 \label{cor:implementation-interface-tests-weaker-than-adequacy}
+\leanchecked{BEDC.GroundCompiler.ImplementationAdequacy.passing\_tests\_weaker\_than\_adequacy}
 Passing reference executable tests is weaker than implementation adequacy. Tests can support sanity checks and partial soundness evidence, but they cannot replace formal specifications, no-host-leak audit, recognizer certificates, or self-hosting ledger.
 \end{corollary}
 

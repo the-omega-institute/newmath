@@ -190,4 +190,101 @@ theorem TuringMachineObligationSurface_rows
     ⟨configurationSurface.left, configurationSurface.right.left,
       configurationSurface.right.right.left, finalLedgerUnary, repeatedRows.left, finalLedgerRow⟩
 
+theorem TuringMachineSourceClassifierObligation_source_classifier_surface
+    {state tape head table trace readback source transported : BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory table ->
+      Cont state tape source -> Cont source head trace -> Cont tape head readback ->
+        Cont trace table transported ->
+          UnaryHistory source ∧ UnaryHistory trace ∧ UnaryHistory readback ∧
+            UnaryHistory transported ∧ hsame source (append state tape) ∧
+              hsame trace (append source head) ∧ hsame readback (append tape head) ∧
+                hsame transported (append trace table) := by
+  intro stateUnary tapeUnary headUnary tableUnary sourceRow traceRow readbackRow transportedRow
+  have sourceUnary : UnaryHistory source :=
+    unary_cont_closed stateUnary tapeUnary sourceRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed sourceUnary headUnary traceRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed tapeUnary headUnary readbackRow
+  have transportedUnary : UnaryHistory transported :=
+    unary_cont_closed traceUnary tableUnary transportedRow
+  exact
+    ⟨sourceUnary, traceUnary, readbackUnary, transportedUnary, sourceRow, traceRow, readbackRow,
+      transportedRow⟩
+
+theorem TuringMachineSourceClassifierObligation_cont_transport
+    {state state' tape tape' head head' bound bound' configuration configuration' trace trace'
+      endpoint endpoint' : BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory bound ->
+      Cont state tape configuration -> Cont configuration head trace ->
+        Cont trace bound endpoint -> hsame state state' -> hsame tape tape' ->
+          hsame head head' -> hsame bound bound' -> Cont state' tape' configuration' ->
+            Cont configuration' head' trace' -> Cont trace' bound' endpoint' ->
+              UnaryHistory configuration ∧ UnaryHistory trace ∧ UnaryHistory endpoint ∧
+                UnaryHistory configuration' ∧ UnaryHistory trace' ∧ UnaryHistory endpoint' ∧
+                  hsame configuration configuration' ∧ hsame trace trace' ∧
+                    hsame endpoint endpoint' := by
+  intro stateUnary tapeUnary headUnary boundUnary configurationRow traceRow endpointRow sameState
+    sameTape sameHead sameBound configurationRow' traceRow' endpointRow'
+  have configurationUnary : UnaryHistory configuration :=
+    unary_cont_closed stateUnary tapeUnary configurationRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed configurationUnary headUnary traceRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed traceUnary boundUnary endpointRow
+  have stateUnary' : UnaryHistory state' :=
+    unary_transport stateUnary sameState
+  have tapeUnary' : UnaryHistory tape' :=
+    unary_transport tapeUnary sameTape
+  have headUnary' : UnaryHistory head' :=
+    unary_transport headUnary sameHead
+  have boundUnary' : UnaryHistory bound' :=
+    unary_transport boundUnary sameBound
+  have configurationUnary' : UnaryHistory configuration' :=
+    unary_cont_closed stateUnary' tapeUnary' configurationRow'
+  have traceUnary' : UnaryHistory trace' :=
+    unary_cont_closed configurationUnary' headUnary' traceRow'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed traceUnary' boundUnary' endpointRow'
+  have sameConfiguration : hsame configuration configuration' :=
+    cont_respects_hsame sameState sameTape configurationRow configurationRow'
+  have sameTrace : hsame trace trace' :=
+    cont_respects_hsame sameConfiguration sameHead traceRow traceRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameTrace sameBound endpointRow endpointRow'
+  exact
+    ⟨configurationUnary, traceUnary, endpointUnary, configurationUnary', traceUnary',
+      endpointUnary', sameConfiguration, sameTrace, sameEndpoint⟩
+
+theorem TuringMachineBoundedReadbackSoundness_endpoint_transport
+    {tape tape' head head' readback readback' trace trace' bounded bounded' : BHist} :
+    UnaryHistory tape -> UnaryHistory head -> UnaryHistory trace -> Cont tape head readback ->
+      Cont trace readback bounded -> hsame tape tape' -> hsame head head' ->
+        hsame trace trace' -> Cont tape' head' readback' ->
+          Cont trace' readback' bounded' ->
+            UnaryHistory readback ∧ UnaryHistory bounded ∧ UnaryHistory readback' ∧
+              UnaryHistory bounded' ∧ hsame readback readback' ∧ hsame bounded bounded' := by
+  intro tapeUnary headUnary traceUnary readbackRow boundedRow sameTape sameHead sameTrace
+    readbackRow' boundedRow'
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed tapeUnary headUnary readbackRow
+  have boundedUnary : UnaryHistory bounded :=
+    unary_cont_closed traceUnary readbackUnary boundedRow
+  have tapeUnary' : UnaryHistory tape' :=
+    unary_transport tapeUnary sameTape
+  have headUnary' : UnaryHistory head' :=
+    unary_transport headUnary sameHead
+  have traceUnary' : UnaryHistory trace' :=
+    unary_transport traceUnary sameTrace
+  have readbackUnary' : UnaryHistory readback' :=
+    unary_cont_closed tapeUnary' headUnary' readbackRow'
+  have boundedUnary' : UnaryHistory bounded' :=
+    unary_cont_closed traceUnary' readbackUnary' boundedRow'
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame sameTape sameHead readbackRow readbackRow'
+  have sameBounded : hsame bounded bounded' :=
+    cont_respects_hsame sameTrace sameReadback boundedRow boundedRow'
+  exact
+    ⟨readbackUnary, boundedUnary, readbackUnary', boundedUnary', sameReadback, sameBounded⟩
+
 end BEDC.Derived.TuringMachineUp

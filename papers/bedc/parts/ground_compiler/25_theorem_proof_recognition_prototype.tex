@@ -18,6 +18,7 @@ Thus $P_7$ does not accept theorem objects, theorem labels, Lean theorem names, 
 
 \begin{definition}[Theorem and proof recognition prototype]
 \label{def:theorem-proof-p7-prototype}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.TheoremProofPrototype}
 A \emph{theorem and proof recognition prototype} is an executable prototype $P_7$ satisfying:
 \begin{enumerate}
 \item $P_7$ includes all $P_6$ functions;
@@ -42,6 +43,7 @@ $$
 
 \begin{principle}[Theorem is not input]
 \label{prin:theorem-proof-theorem-not-input}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.theorem\_proof\_objects\_not\_formal}
 There is no formal input
 $$
   \mathsf{TheoremObject}\to\mathsf{Code}
@@ -53,11 +55,13 @@ The only formal input remains $\mathsf{EventFlow}$ or $\mathsf{LegalZStream}$. I
 
 \begin{definition}[$P_7$ input]
 \label{def:theorem-proof-p7-input}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7FormalInput}
 The input to $P_7$ is displayed as channel stream $c$ or event flow $S$. If $c\notin\mathsf{LegalZStream}$, $P_7$ rejects and produces no theorem report.
 \end{definition}
 
 \begin{definition}[$P_7$ output]
 \label{def:theorem-proof-p7-output}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7Output}
 The output of $P_7$ is a report flow or human-readable report containing decoded event flow, statement candidates, recognized statement flows, dependency candidates, recognized dependency flows, proof candidates, recognized proof flows, proof-checking results, theorem candidates, recognized theorem flows, theorem code, theorem field status, missing fields, proof failures, certificate failures, ledger failures, status failures, canonical-site failures, warnings, and cannot-claim annotations.
 \end{definition}
 
@@ -66,6 +70,7 @@ The output of $P_7$ is a report flow or human-readable report containing decoded
 
 \begin{definition}[Statement candidate]
 \label{def:theorem-proof-statement-candidate}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.StatementCandidate}
 A \emph{statement candidate} is an event subflow
 $$
   \Phi\subseteq S
@@ -78,6 +83,7 @@ $$
 
 \begin{definition}[Generated statement recognizer]
 \label{def:theorem-proof-generated-statement-recognizer}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.GeneratedStatementRecognizer}
 A \emph{generated statement recognizer} is an event flow
 $$
   R_{\Phi}\in\mathsf{EventFlow}
@@ -90,6 +96,7 @@ $$
 
 \begin{definition}[Recognized statement flow]
 \label{def:theorem-proof-recognized-statement-flow}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.RecognizedStatementFlow}
 If
 $$
   \mathsf{RecognizesStatement}(R_{\Phi},S,\Phi),
@@ -107,6 +114,7 @@ A statement flow is a statement structure inside an event flow. It is not an ext
 
 \begin{definition}[Dependency candidate and recognizer]
 \label{def:theorem-proof-dependency-candidate-recognizer}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.RecognizedDependencyFlow}
 A \emph{dependency candidate} is an event subflow
 $$
   D_{\mathrm{dep}}\subseteq S
@@ -120,16 +128,18 @@ If this holds, $D_{\mathrm{dep}}$ is a recognized dependency flow.
 
 \begin{definition}[Dependency soundness]
 \label{def:theorem-proof-dependency-soundness}
-A dependency flow $D_{\mathrm{dep}}$ is \emph{sound} when every dependency it records is one of: generated in an earlier event flow, proved in an earlier theorem flow, recognized in an earlier certificate flow, local to the same theorem flow, explicitly marked as deferred obligation, or explicitly listed as cannot-claim or open obligation. A reference to a future ungenerated object with no deferred marker is unsound.
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.DependencySoundness}
+A dependency flow $D_{\mathrm{dep}}$ is \emph{sound} when every raw dependency entry it records has a dependency status among: generated in an earlier event flow, proved in an earlier theorem flow, recognized in an earlier certificate flow, local to the same theorem flow, explicitly marked as deferred obligation, explicitly listed as cannot-claim, or explicitly listed as open obligation. A dependency entry whose status is future-ungenerated is unsound.
 \end{definition}
 
 \begin{theorem}[Unsound dependency blocks theorem recognition]
 \label{thm:theorem-proof-unsound-dependency-blocks}
-If a theorem candidate has unsound dependency flow, it cannot become a sound theorem flow.
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.unsound\_dependency\_blocks\_theorem\_recognition}
+If a theorem candidate has a recognized dependency subflow whose dependency soundness predicate fails, then that candidate cannot become a sound theorem flow with that dependency subflow.
 \end{theorem}
 
 \begin{proof}
-The proof flow of a theorem must establish the statement under the recorded dependencies. If the dependency flow invokes material that has not been generated, recognized, proved, or marked deferred, the proof environment is not established. Hence theorem recognition cannot be sound.
+The sound theorem-flow predicate includes dependency soundness for the recognized dependency subflow. If dependency soundness fails for that subflow, the conjunction required for sound theorem recognition cannot be constructed.
 \end{proof}
 
 \section{Proof-flow recognition and checking}
@@ -137,6 +147,7 @@ The proof flow of a theorem must establish the statement under the recorded depe
 
 \begin{definition}[Proof candidate]
 \label{def:theorem-proof-proof-candidate}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.ProofCandidate}
 A \emph{proof candidate} is an event subflow
 $$
   \Pi\subseteq S
@@ -149,6 +160,7 @@ $$
 
 \begin{definition}[Generated proof-flow recognizer]
 \label{def:theorem-proof-generated-proof-recognizer}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.GeneratedProofFlowRecognizer}
 A \emph{generated proof-flow recognizer} is an event flow
 $$
   R_{\Pi}\in\mathsf{EventFlow}
@@ -161,6 +173,7 @@ $$
 
 \begin{definition}[Recognized proof flow]
 \label{def:theorem-proof-recognized-proof-flow}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.RecognizedProofFlow}
 If
 $$
   \mathsf{RecognizesProofFlow}(R_{\Pi},S,\Pi),
@@ -173,6 +186,7 @@ $$
 
 \begin{definition}[Generated proof checker]
 \label{def:theorem-proof-generated-checker}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.GeneratedProofChecker}
 A \emph{generated proof checker} is an event flow
 $$
   R_{\mathrm{chk}}\in\mathsf{EventFlow}
@@ -186,6 +200,7 @@ This says that $R_{\mathrm{chk}}$ checks proof-flow $\Pi$ as a proof of statemen
 
 \begin{definition}[Proof soundness]
 \label{def:theorem-proof-proof-soundness}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.ProofSoundness}
 A proof flow $\Pi$ is \emph{sound} for statement flow $\Phi$ and dependency flow $D_{\mathrm{dep}}$ when there exists a generated proof checker $R_{\mathrm{chk}}$ such that
 $$
   \mathsf{ChecksProof}(R_{\mathrm{chk}},\Phi,D_{\mathrm{dep}},\Pi).
@@ -194,7 +209,12 @@ $$
 
 \begin{theorem}[Proof candidate alone is insufficient]
 \label{thm:theorem-proof-candidate-insufficient}
-If $\Pi$ is only a proof candidate, and no proof-flow recognition and proof-checking judgment are supplied, then $\Pi$ cannot be used as a theorem proof.
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.proof\_candidate\_alone\_insufficient}
+If $\Pi$ is a proof candidate in an event flow $S$, no generated proof-flow recognizer recognizes $\Pi$ in $S$, and no generated proof checker establishes
+$$
+  \mathsf{ChecksProof}(R_{\mathrm{chk}},\Phi,D_{\mathrm{dep}},\Pi),
+$$
+then $\Pi$ cannot be used as a theorem proof for statement flow $\Phi$ and dependency flow $D_{\mathrm{dep}}$.
 \end{theorem}
 
 \begin{proof}
@@ -203,11 +223,13 @@ A proof candidate is just an event subflow. To serve as theorem proof, it must f
 
 \begin{corollary}[Code is not proof flow]
 \label{cor:theorem-proof-code-not-proof-flow}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.code\_not\_proof\_flow}
 A channel code may decode to an event flow, but it does not thereby become proof flow. Proof-flow recognition is required.
 \end{corollary}
 
 \begin{corollary}[Proof flow is not proof checking]
 \label{cor:theorem-proof-proof-flow-not-checking}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.proof\_flow\_not\_checking}
 Recognized proof flow does not by itself prove a statement. A $\mathsf{ChecksProof}$ judgment is required.
 \end{corollary}
 
@@ -216,6 +238,7 @@ Recognized proof flow does not by itself prove a statement. A $\mathsf{ChecksPro
 
 \begin{definition}[Theorem candidate]
 \label{def:theorem-proof-theorem-candidate}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.TheoremCandidate}
 A \emph{theorem candidate} is an event subflow
 $$
   T\subseteq S
@@ -228,6 +251,7 @@ $$
 
 \begin{definition}[Generated theorem recognizer]
 \label{def:theorem-proof-generated-theorem-recognizer}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7GeneratedTheoremRecognizer}
 A \emph{generated theorem recognizer} is an event flow
 $$
   R_T\in\mathsf{EventFlow}
@@ -240,6 +264,7 @@ $$
 
 \begin{definition}[Theorem subflows]
 \label{def:theorem-proof-theorem-subflows}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7TheoremSubflows}
 If
 $$
   \mathsf{RecognizesTheorem}(R_T,S,T),
@@ -269,20 +294,23 @@ $$
 
 \begin{definition}[Complete theorem recognition]
 \label{def:theorem-proof-complete-theorem-recognition}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7CompleteTheoremRecognition}
 The judgment
 $$
-  \mathsf{RecognizesTheorem}(R_T,S,T)
+  \mathsf{P7CompleteTheoremRecognition}(R_T,T)
 $$
 is \emph{complete theorem recognition} when statement, dependency, proof, certificate, ledger, status, canonical-site, and seal subflows are all recognized.
 \end{definition}
 
 \begin{principle}[No theorem without eight subflows]
 \label{prin:theorem-proof-no-theorem-without-eight}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.no\_theorem\_without\_eight\_subflows}
 A theorem flow must have recognized statement, dependencies, proof, certificates, ledger, status, canonical site, and seal. If any is missing, the flow remains a theorem candidate.
 \end{principle}
 
 \begin{theorem}[Incomplete theorem candidate cannot be theorem flow]
 \label{thm:theorem-proof-incomplete-not-theorem}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.p7\_incomplete\_theorem\_candidate\_not\_theorem}
 If a theorem candidate $T$ lacks any required recognized subflow, then $T$ cannot be used as recognized theorem flow.
 \end{theorem}
 
@@ -295,6 +323,7 @@ Theorem-flow recognition requires complete theorem recognition. Missing any of t
 
 \begin{definition}[Theorem-flow soundness components]
 \label{def:theorem-proof-soundness-components}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7TheoremSoundnessComponents}
 The soundness components for a theorem flow are:
 \begin{enumerate}
 \item statement soundness: the statement is recognized and every symbol, dependency, and object reference has a source in the dependency or certificate flow;
@@ -309,11 +338,13 @@ The soundness components for a theorem flow are:
 
 \begin{definition}[Sound theorem flow]
 \label{def:theorem-proof-sound-theorem-flow}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7SoundTheoremFlow}
 A recognized theorem flow $T$ is \emph{sound} when complete theorem recognition holds and all soundness components of \autoref{def:theorem-proof-soundness-components} hold.
 \end{definition}
 
 \begin{theorem}[Sound theorem flow establishes theorem code]
 \label{thm:theorem-proof-sound-flow-theorem-code}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.sound\_theorem\_flow\_establishes\_theorem\_code}
 If $T$ is a sound theorem flow, define
 $$
   \mathsf{TheoremCode}(T):=\mathsf{Compile}(T).
@@ -327,6 +358,7 @@ The theorem flow $T$ is an event-flow subflow, so $\mathsf{Compile}(T)$ is defin
 
 \begin{theorem}[Theorem code is injective on raw theorem flows]
 \label{thm:theorem-proof-code-injective}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.p7\_theorem\_code\_injective}
 If $T$ and $U$ are sound theorem flows and
 $$
   \mathsf{TheoremCode}(T)=\mathsf{TheoremCode}(U),
@@ -340,6 +372,7 @@ Both theorem codes are compiled event-flow codes. Equality gives $\mathsf{Compil
 
 \begin{corollary}[Theorem code equality is stronger than statement equivalence]
 \label{cor:theorem-proof-code-stronger-than-statement}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.theorem\_code\_stronger\_than\_statement}
 Equal theorem codes imply equal complete theorem flows, including statement, dependencies, proof, certificates, ledger, status, and canonical site. Statement-flow equivalence alone does not imply theorem-code equality.
 \end{corollary}
 
@@ -378,6 +411,7 @@ $$
 
 \begin{definition}[Accepted theorem code]
 \label{def:theorem-proof-accepted-theorem-code}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.AcceptedTheoremCode}
 If
 $$
   \mathsf{AcceptedTheoremFlow}(T),
@@ -390,6 +424,7 @@ $$
 
 \begin{proposition}[Accepted theorem code is theorem-flow code with acceptance status]
 \label{prop:theorem-proof-accepted-code-same-code}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.accepted\_theorem\_code\_same\_code}
 Accepted theorem code is not a new encoding function. It is theorem-flow code for a theorem flow satisfying accepted-theorem conditions.
 \end{proposition}
 

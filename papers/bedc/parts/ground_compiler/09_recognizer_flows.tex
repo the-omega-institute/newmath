@@ -14,6 +14,7 @@ Package recognizers, $\NameCert$ recognizers, derivation-certificate recognizers
 
 \begin{definition}[Recognizer candidate flow]
 \label{def:recognizer-generated-candidate-flow}
+\leandef{BEDC.GroundCompiler.EventFlow.RecognizerCandidateFlow}
 A \emph{recognizer candidate flow} is an event flow
 $$
   R\in\mathsf{EventFlow}.
@@ -23,6 +24,7 @@ It has not yet been accepted as a recognizer. Thus $R\in\mathsf{EventFlow}$ does
 
 \begin{definition}[Recognizer role]
 \label{def:recognizer-generated-role}
+\leandef{BEDC.GroundCompiler.EventFlow.RecognitionRole}
 A \emph{recognizer role} is a source-level description of a recognition task. Explanatory examples include package recognition, $\NameCert$ recognition, derivation-certificate recognition, theorem recognition, chapter recognition, compiler recognition, proof checking, status recognition, and ledger recognition.
 
 These role names are metalanguage. Formally, a role is not a host enum input; it must be represented and recognized inside the relevant recognizer-certificate flow.
@@ -30,6 +32,7 @@ These role names are metalanguage. Formally, a role is not a host enum input; it
 
 \begin{definition}[Recognition relation schema]
 \label{def:recognizer-generated-relation-schema}
+\leandef{BEDC.GroundCompiler.EventFlow.Recognizes}
 Given a recognizer candidate flow $R$, a target event flow $S$, and a recognition role $\rho$ represented by event-flow structure, the generic recognition judgment is written
 $$
   \mathsf{Recognizes}(R,\rho,S).
@@ -60,6 +63,7 @@ The judgment $\mathsf{Recognizes}(R,\rho,S)$ does not mean that a host parser ha
 
 \begin{definition}[Recognizer certificate candidate]
 \label{def:recognizer-generated-cert-candidate}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecognizerCertCandidateFlow}
 A \emph{recognizer certificate candidate} is an event flow
 $$
   C_R\in\mathsf{EventFlow}.
@@ -69,6 +73,7 @@ It claims to supply recognition-capability evidence for a recognizer candidate $
 
 \begin{definition}[Recognizer certificate recognition]
 \label{def:recognizer-generated-cert-recognition}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecognizesRecognizerCert}
 The recognizer-certificate recognition relation is written
 $$
   \mathsf{RecognizesRecognizerCert}(Q,C_R,R,\rho),
@@ -89,6 +94,7 @@ where the lower layers cover channel decoding and basic event-flow recognition, 
 
 \begin{definition}[Certified recognizer flow]
 \label{def:recognizer-generated-certified-recognizer}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.CertifiedRecognizer}
 A recognizer candidate flow $R$ is a \emph{certified recognizer flow} for role $\rho$, written
 $$
   \mathsf{CertifiedRecognizer}(R,\rho),
@@ -102,6 +108,7 @@ and $C_R$ is a sound recognizer-certificate flow.
 
 \begin{definition}[Recognizer certificate fields]
 \label{def:recognizer-generated-certificate-fields}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecognizerCertificateFields}
 If
 $$
   \mathsf{RecognizesRecognizerCert}(Q,C_R,R,\rho),
@@ -125,6 +132,7 @@ These are not external field labels. They are subflow roles recognized by $Q$ in
 
 \begin{definition}[Recognizer soundness]
 \label{def:recognizer-generated-soundness}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecSound}
 A recognizer $R$ is \emph{sound} for role $\rho$ when every flow it recognizes under that role satisfies the structure required by the role:
 $$
   \mathsf{RecSound}(R,\rho)
@@ -136,6 +144,7 @@ For example, a sound $\NameCert$ recognizer may recognize only flows that contai
 
 \begin{definition}[Recognizer completeness]
 \label{def:recognizer-generated-completeness}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecComplete}
 A recognizer $R$ is \emph{complete relative to a domain} $D$ for role $\rho$ when
 $$
   \mathsf{RoleOK}(\rho,S)\wedge S\in D
@@ -147,6 +156,7 @@ Completeness is always relative to a recognized domain flow. No finite recognize
 
 \begin{definition}[Recognizer failure ledger]
 \label{def:recognizer-generated-failure-ledger}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecFailureLedger}
 A recognizer-certificate flow must contain a failure flow
 $$
   \mathsf{RecFailure}_Q(C_R,F)
@@ -156,6 +166,7 @@ recording why candidate flows are rejected: format failure, missing field, missi
 
 \begin{definition}[Recognizer ledger]
 \label{def:recognizer-generated-ledger}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecLedger}
 A recognizer-certificate flow must contain a ledger flow
 $$
   \mathsf{RecLedger}_Q(C_R,L)
@@ -165,19 +176,22 @@ recording the source events used by $R$, the subflows assigned to roles, the sou
 
 \begin{principle}[No recognizer without certificate]
 \label{prin:recognizer-generated-no-recognizer-without-cert}
-A recognizer flow may be used as a formal recognizer only when it is certified for the relevant role. Before the judgment
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.formal\_recognition\_evidence\_requires\_certified}
+A recognizer flow may be used as a formal recognizer only when it is certified for the relevant role. Formal recognition evidence is the paired datum consisting of the recognition judgment
 $$
   \mathsf{Recognizes}(R,\rho,S)
 $$
-is used as formal evidence, the system must have
+and the certificate judgment
 $$
   \mathsf{CertifiedRecognizer}(R,\rho).
 $$
+Hence any formal recognition evidence for $R$, $\rho$, and $S$ projects to $\mathsf{CertifiedRecognizer}(R,\rho)$.
 \end{principle}
 
 \begin{theorem}[Uncertified recognizer cannot license recognition]
 \label{thm:recognizer-generated-uncertified-cannot-license}
-If $\neg\mathsf{CertifiedRecognizer}(R,\rho)$, then the system cannot use
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.uncertified\_cannot\_license}
+If $\neg\mathsf{CertifiedRecognizer}(R,\rho)$, then there is no formal recognition evidence for $R$, $\rho$, and $S$. Equivalently, the system cannot use the bare judgment
 $$
   \mathsf{Recognizes}(R,\rho,S)
 $$
@@ -190,6 +204,7 @@ By \autoref{prin:recognizer-generated-no-recognizer-without-cert}, formal recogn
 
 \begin{corollary}[Host parser output is inadmissible]
 \label{cor:recognizer-generated-host-parser-inadmissible}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.host\_parser\_output\_inadmissible}
 Recognition supplied only by a host parser, YAML schema, external grammar, Lean meta-level elaborator, or file manifest is not admissible as a BEDC recognition judgment unless it is backed by a certified recognizer flow.
 \end{corollary}
 
@@ -198,11 +213,13 @@ Recognition supplied only by a host parser, YAML schema, external grammar, Lean 
 
 \begin{definition}[Recognizer conservativity]
 \label{def:recognizer-generated-conservativity}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecognizerConservative}
 A certified recognizer $R$ is \emph{kernel-conservative} for role $\rho$ when $\mathsf{Recognizes}(R,\rho,S)$ does not add new raw marks, history constructors, sameness rules, continuation rules, or derived-interface formation rules.
 \end{definition}
 
 \begin{theorem}[Certified recognizers are recognition-only]
 \label{thm:recognizer-generated-certified-recognition-only}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.certified\_recognition\_only}
 If $\mathsf{CertifiedRecognizer}(R,\rho)$ and its certificate contains a kernel-conservativity subflow, then the recognition judgments of $R$ do not change the finite kernel.
 \end{theorem}
 
@@ -212,6 +229,7 @@ The kernel-conservativity subflow records that $R$ recognizes structure inside s
 
 \begin{definition}[Recognizer hierarchy]
 \label{def:recognizer-generated-hierarchy}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecognizerHierarchy}
 A \emph{recognizer hierarchy} is a finite list of event flows
 $$
   R_0,R_1,\ldots,R_n
@@ -225,6 +243,7 @@ such that $R_0$ handles channel decoding and event-flow recognition, each recogn
 
 \begin{definition}[Bootstrap base recognizer]
 \label{def:recognizer-generated-bootstrap-base}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.BootstrapBaseRecognizer}
 The \emph{bootstrap base recognizer} $R_0$ recognizes legal channel streams and event flows:
 $$
   \mathsf{RecognizesLegalZStream}(R_0,c),
@@ -240,6 +259,7 @@ Its role covers event boundaries, raw $0$, raw $1$, legal event codes, and legal
 
 \begin{proposition}[Bootstrap base does not recognize mathematical structure]
 \label{prop:recognizer-generated-base-no-math-structure}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.bootstrap\_base\_no\_math\_structure}
 The base recognizer $R_0$ recognizes only channel legality and event-flow structure. It does not recognize packages, $\NameCert$ flows, theorem flows, chapter flows, proof flows, accepted objects, or mature interfaces.
 \end{proposition}
 
@@ -249,6 +269,7 @@ The role of $R_0$ is channel grammar and event-flow decoding. Packages, certific
 
 \begin{definition}[Package recognizer level]
 \label{def:recognizer-generated-package-level}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.PackageRecognizerLevel}
 A \emph{package recognizer level} is a level $R_i$ in a recognizer hierarchy whose role is package recognition. It supports judgments of the form
 $$
   \mathsf{RecognizesPkg}(R_i,S),
@@ -258,6 +279,7 @@ but only after $\mathsf{CertifiedRecognizer}(R_i,\rho_{\mathrm{pkg}})$ has been 
 
 \begin{definition}[Certificate recognizer level]
 \label{def:recognizer-generated-certificate-level}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.CertificateRecognizerLevel}
 A \emph{certificate recognizer level} is a level $R_i$ in a recognizer hierarchy that recognizes $\NameCert$ flows, derivation-certificate flows, or acceptance flows. It supports judgments such as
 $$
 \begin{gathered}
@@ -270,6 +292,7 @@ $$
 
 \begin{definition}[Theorem recognizer level]
 \label{def:recognizer-generated-theorem-level}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.TheoremRecognizerLevel}
 A \emph{theorem recognizer level} is a level $R_i$ in a recognizer hierarchy that recognizes theorem flows:
 $$
   \mathsf{RecognizesTheorem}(R_i,T).
@@ -279,6 +302,7 @@ Its certificate records soundness for statement, proof, dependency, certificate,
 
 \begin{definition}[Chapter recognizer level]
 \label{def:recognizer-generated-chapter-level}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.ChapterRecognizerLevel}
 A \emph{chapter recognizer level} is a level $R_i$ in a recognizer hierarchy that recognizes chapter flows:
 $$
   \mathsf{RecognizesChapter}(R_i,C).
@@ -288,6 +312,7 @@ Its certificate records soundness for definitions, lemmas, theorems, proofs, cer
 
 \begin{theorem}[Recognizer hierarchy removes structural hidden input]
 \label{thm:recognizer-generated-hierarchy-removes-hidden-input}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.recognizer\_hierarchy\_removes\_hidden\_input}
 If the recognition judgments for package, $\NameCert$, derivation-certificate, theorem, and chapter structures are supplied by certified recognizers in a recognizer hierarchy, then these structures are not hidden structural inputs.
 \end{theorem}
 
@@ -297,6 +322,7 @@ Hidden structural input is structure that enters the system without being genera
 
 \begin{corollary}[YAML, ASTs, and theorem labels remain inadmissible]
 \label{cor:recognizer-generated-external-views-inadmissible}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.external\_views\_inadmissible}
 Even in the presence of a recognizer hierarchy, YAML files, ASTs, external theorem labels, and external package records remain inadmissible as formal inputs. They may at most be human-readable output views generated from decoded event flows.
 \end{corollary}
 
@@ -305,6 +331,7 @@ Even in the presence of a recognizer hierarchy, YAML files, ASTs, external theor
 
 \begin{definition}[Recognizer self-description flow]
 \label{def:recognizer-generated-self-description}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.RecognizerSelfDescriptionFlow}
 A \emph{self-description flow} for a recognizer $R$ is an event flow
 $$
   D_R\in\mathsf{EventFlow}
@@ -314,6 +341,7 @@ recording which role $R$ recognizes, which domain it requires, which recognition
 
 \begin{definition}[Compiler recognizer flow]
 \label{def:recognizer-generated-compiler-recognizer-flow}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.CompilerRecognizerFlow}
 A \emph{compiler recognizer flow} is an event flow $C$ that recognizes channel compiler definitions, event encoder and decoder structure, the recognizer hierarchy, recognizer certificates, theorem and chapter code construction, and self-description flows. This is written
 $$
   \mathsf{RecognizesCompiler}(C).
@@ -322,6 +350,7 @@ $$
 
 \begin{definition}[Compiler behavior classifier]
 \label{def:recognizer-generated-compiler-behavior-classifier}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.CompilerBehaviorClassifier}
 Define the compiler behavior classifier by
 $$
   C\equiv_{\mathrm{comp}} C'
@@ -331,6 +360,7 @@ when $C$ and $C'$ produce the same recognized outputs on all recognized event-fl
 
 \begin{definition}[Self-hosting compiler flow]
 \label{def:recognizer-generated-self-hosting-compiler-flow}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.SelfHostingCompilerFlow}
 A compiler recognizer flow $C$ is \emph{self-hosting} when $\mathsf{RecognizesCompiler}(C)$, $C$ compiles its own compiler flow to some $C'$, the result is behaviorally equivalent to $C$, and the self-compilation ledger records raw $C$, compiled code, decoded $C'$, and the behavior-classifier witness. Formally, $\mathsf{SelfHosting}(C)$ holds when there exists $C'$ such that
 $$
   \mathsf{Compiles}_C(C,C')
@@ -341,7 +371,12 @@ $$
 
 \begin{proposition}[Self-hosting is not kernel equality]
 \label{prop:recognizer-generated-self-hosting-not-kernel-equality}
-If $\mathsf{SelfHosting}(C)$, then it establishes compiler-behavior stability, not raw event-flow equality and not kernel-level sameness.
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.self\_hosting\_projects\_behavior\_classifier}
+If $\mathsf{SelfHosting}(C)$, then there exists a compiled flow $C'$ together with a formal self-compilation judgment $\mathsf{Compiles}_C(C,C')$ and a compiler-behavior classifier witness
+$$
+  C'\equiv_{\mathrm{comp}}C.
+$$
+Thus self-hosting records compiler-behavior stability through a classifier witness; it does not record raw event-flow equality or kernel-level sameness as the self-hosting datum.
 \end{proposition}
 
 \begin{proof}
@@ -350,6 +385,7 @@ If $\mathsf{SelfHosting}(C)$, then it establishes compiler-behavior stability, n
 
 \begin{theorem}[Self-hosting removes compiler-as-hidden-input]
 \label{thm:recognizer-generated-self-hosting-removes-hidden-input}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.self\_hosting\_removes\_compiler\_as\_hidden\_input}
 If there is a self-hosting compiler flow $C$, and its recognizer hierarchy recognizes package, $\NameCert$, derivation-certificate, theorem, chapter, and compiler flows, then the compiler is not a host-level hidden input.
 \end{theorem}
 
@@ -359,16 +395,19 @@ Under self-hosting, the compiler $C$ is itself an event flow and its compiler st
 
 \begin{corollary}[Full no-hidden-input needs self-hosting or a bootstrap boundary]
 \label{cor:recognizer-generated-self-hosting-or-bootstrap-boundary}
-Before a self-hosting compiler flow is available, the system must explicitly record a bootstrap boundary. A full no-hidden-input claim requires either a self-hosting compiler flow or open bootstrap assumptions marked as obligations or cannot-claims.
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.full\_no\_hidden\_input\_needs\_self\_hosting}
+Before a self-hosting compiler flow is available, the system cannot assert a full no-hidden-input self-hosting claim. A full no-hidden-input claim must include a self-hosting compiler flow; any remaining external compiler dependence belongs in the bootstrap-obligation layer.
 \end{corollary}
 
 \begin{definition}[Bootstrap obligation]
 \label{def:recognizer-generated-bootstrap-obligation}
+\leandef{BEDC.GroundCompiler.RecognizerFlows.BootstrapObligation}
 A \emph{bootstrap obligation} is a cannot-claim style record saying that a recognizer or compiler component still depends on an external implementation or on structure not yet discharged by self-hosting event flow. It records claim text, status, why the obligation is not discharged, and the required upgrade.
 \end{definition}
 
 \begin{theorem}[Bootstrap obligation blocks full self-hosting claim]
 \label{thm:recognizer-generated-bootstrap-obligation-blocks-claim}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.bootstrap\_obligation\_blocks\_full\_self\_hosting\_claim}
 If any bootstrap obligation remains undischarged, the system cannot claim that the compiler is fully no-hidden-input self-hosting.
 \end{theorem}
 
@@ -401,6 +440,7 @@ A chapter recognizer certificate records chapter-candidate flows, recognized cha
 
 \begin{theorem}[Recognizer flows are conservative over the finite kernel]
 \label{thm:recognizer-generated-conservative-over-kernel}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.recognizer\_flows\_conservative\_over\_kernel}
 Adding certified recognizer flows, recognizer-certificate flows, and self-hosting compiler flows does not add new raw marks, history constructors, sameness rules, continuation rules, or kernel-level equalities.
 \end{theorem}
 
@@ -415,6 +455,7 @@ The existence of a recognizer flow $R$ does not imply the existence of an event 
 
 \begin{corollary}[Recognition does not imply acceptance]
 \label{cor:recognizer-generated-recognition-not-acceptance}
+\leanchecked{BEDC.GroundCompiler.RecognizerFlows.recognition\_not\_acceptance}
 Even if $R$ recognizes $S$ as a package, $\NameCert$, theorem, or chapter flow, acceptance of mature objects still requires recognized $\NameCert$ flow, recognized derivation-certificate flow, and acceptance-gate flow where applicable.
 \end{corollary}
 
