@@ -98,8 +98,33 @@ theorem DiffGaloisPicardVessiotPacket_solution_space_obligation [AskSetup] [Pack
       (And.intro endpointUnary
         (And.intro packet.right.right.right.right.right.right.left
           (And.intro packet.right.right.right.right.right.right.right.left
-            (And.intro packet.right.right.right.right.right.right.right.right.left
-              (And.intro packet.right.right.right.right.right.right.right.right.right.left
-                packet.right.right.right.right.right.right.right.right.right.right))))))
+              (And.intro packet.right.right.right.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.right.right.right.left
+                  packet.right.right.right.right.right.right.right.right.right.right))))))
+
+theorem DiffGaloisPicardVessiotPacket_faithful_action_obligation [AskSetup] [PackageSetup]
+    {differentialField operatorCoefficients seqBasis fundamentalSolution galoisAction
+      constantField solutionLedger actionLedger endpoint provenance faithfulActionLedger
+      fixedFieldLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiffGaloisPicardVessiotPacket differentialField operatorCoefficients seqBasis
+      fundamentalSolution galoisAction constantField solutionLedger actionLedger endpoint
+      provenance bundle pkg ->
+        Cont galoisAction seqBasis faithfulActionLedger ->
+          Cont faithfulActionLedger constantField fixedFieldLedger ->
+            UnaryHistory faithfulActionLedger ∧ UnaryHistory fixedFieldLedger ∧
+              hsame faithfulActionLedger (append galoisAction seqBasis) ∧
+                hsame fixedFieldLedger (append faithfulActionLedger constantField) ∧
+                  SigRel bundle endpoint provenance ∧ PkgSig bundle provenance pkg := by
+  intro packet faithfulActionRow fixedFieldRow
+  have faithfulActionUnary : UnaryHistory faithfulActionLedger :=
+    unary_cont_closed packet.right.right.right.right.left packet.right.right.left
+      faithfulActionRow
+  have fixedFieldUnary : UnaryHistory fixedFieldLedger :=
+    unary_cont_closed faithfulActionUnary packet.right.right.right.right.right.left fixedFieldRow
+  exact
+    ⟨faithfulActionUnary, fixedFieldUnary, faithfulActionRow, fixedFieldRow,
+      packet.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.DiffGaloisUp

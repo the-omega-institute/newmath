@@ -10,8 +10,71 @@ $\NameCert_{\NatUp}$, $\NameCert_{\SeqUp}$, $\NameCert_{\ProbSpaceUp}$.
 \section{Carrier definition}
 \label{sec:belief-carrier}
 
-(Stub. The full carrier obligation is supplied by subsequent paper
-rounds following the proposal's NameCert sketch.)
+A finite $\BeliefUp$ packet is the observation-update carrier suggested by
+\texttt{BEDC.Derived.BeliefUp.taste\_gate}; the Lean touchpoint fixes the
+chapter name and TasteGate carrier, while the paper surface below records the
+certificate obligations without marking them as checked.
+
+\begin{definition}[Belief observation-update carrier]
+\label{def:belief-observation-update-carrier}
+A $\BeliefUp$ observation-update carrier is a finite packet over
+$\mathsf{BHist}$ consisting of the following rows.
+\begin{enumerate}
+\item A prior row naming the displayed belief state before the observation.
+\item An observation row naming the finite evidence read by the update.
+\item An update trace recording the visible constructor route from the prior
+row and observation row to the posterior row.
+\item A probability row supplied by $\NameCert_{\ProbSpaceUp}$ and classified
+only through the displayed probability certificate.
+\item An evidence ledger that exposes exactly the prior, observation, update
+trace, and probability rows used by the packet.
+\end{enumerate}
+The packet is accepted when those rows are present in the same finite
+$\mathsf{BHist}$ ledger, the update trace is a $\SeqUp$ row, and the posterior
+belief row is the row named by that trace.
+\end{definition}
+
+\begin{theorem}[Belief classifier transport obligation]
+\label{thm:belief-classifier-transport-obligation}
+Let $p$ be an accepted $\BeliefUp$ packet with prior row, observation row,
+update trace, and probability row displayed in its evidence ledger. If
+$\hsame$ transports each of those four rows to corresponding displayed rows,
+then the transported rows repack as an accepted $\BeliefUp$ packet with the
+same update-trace shape and a posterior row classified by the transported
+probability certificate.
+\end{theorem}
+\begin{proof}
+Read the accepted packet through its finite $\mathsf{BHist}$ ledger. The prior
+and observation rows are transported first, so the update trace has the same
+source rows after transport.
+
+Next transport the update trace as a $\SeqUp$ row. Since the trace records a
+visible constructor route, the posterior row is obtained by replaying the same
+finite route on the transported prior and observation rows.
+
+Finally transport the probability row through the displayed
+$\NameCert_{\ProbSpaceUp}$ certificate. The four transported rows fill the same
+carrier fields, so the packet is accepted with no hidden evidence row.
+\end{proof}
+
+\begin{theorem}[Belief ledger exactness obligation]
+\label{thm:belief-ledger-exactness-obligation}
+For every accepted $\BeliefUp$ packet, the evidence ledger exposes exactly the
+prior row, observation row, update trace, and probability row admitted by the
+carrier. A downstream consumer may read those four rows and the posterior row
+named by the update trace, but no additional hidden evidence, prior source, or
+probability witness is part of the packet.
+\end{theorem}
+\begin{proof}
+Inspect the carrier definition. Acceptance requires the prior row, observation
+row, update trace, probability row, and evidence ledger to be displayed in the
+same finite $\mathsf{BHist}$ packet.
+
+The ledger exactness clause then identifies every exported evidence entry with
+one of those four carrier rows. The posterior is readable only as the endpoint
+of the displayed update trace, so it does not add an independent hidden
+evidence coordinate.
+\end{proof}
 
 \begin{closurestatus}{\BeliefUp}
   \constructivestory{}
