@@ -61,6 +61,7 @@ import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.BesselUp
+import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
