@@ -444,7 +444,7 @@ CLOSURESTATUS_BEGIN_RE = re.compile(
 CLOSURESTATUS_END_RE = re.compile(r"\\end\{closurestatus\}")
 CLOSURESTATUS_FIELD_RE = re.compile(
     r"\\(theoryclosure|formalstatus|leantarget|bridgestatus"
-    r"|scopeclosed|notclaimed|upgradepath|constructivestory)\{([^}]*)\}"
+    r"|scopeclosed|notclaimed|upgradepath|constructivestory|origin)\{([^}]*)\}"
 )
 
 VALID_CLOSURE_GRADES = {
@@ -1038,6 +1038,121 @@ def cmd_manifest_check(args: argparse.Namespace) -> int:
     return 0 if not failures else 1
 
 
+def cmd_conservativity_audit(args: argparse.Namespace) -> int:
+    """Verify that ai-proposed chapters do not leak into baseline imports.
+
+    Lean 4 enforces module-level isolation: a theorem in module M can only
+    depend on declarations in modules that M (transitively) imports. So if
+    no baseline (\\origin=human) chapter imports any ai-proposed
+    (\\origin=ai) chapter's module, baseline theorem provability is
+    unaffected by adding ai chapters. This is the machine version of
+    metalogical conservativity.
+
+    Implementation:
+      1. read closurestatus blocks, group chapters by \\origin
+      2. for each ai chapter, determine its lean module prefix
+         (BEDC.Derived.<X>Up.* by convention; also BEDC.Meta.* for
+         framework files chapter authors might co-locate)
+      3. grep "import <ai_module>" in every lean file outside ai-chapter
+         modules; any hit is a conservativity violation
+    """
+    blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
+    ai_chapters: list[str] = []
+    for b in blocks:
+        if b.get("origin") == "ai":
+            region = b.get("region")
+            if region:
+                ai_chapters.append(region)
+    ai_chapters = sorted(set(ai_chapters))
+
+    if not ai_chapters:
+        msg = "[bedc-ci] conservativity-audit: no \\origin=ai chapters; gate vacuous"
+        if args.json:
+            print(json.dumps({"ai_chapters": [], "violations": [], "passed": True}, indent=2))
+        else:
+            print(msg)
+        return 0
+
+    # ai chapter -> module prefixes that count as "owned" by this chapter.
+    # The region recovered from \begin{closurestatus}{\<X>Up} is `<X>` (no Up
+    # suffix); the lean module convention is `BEDC.Derived.<X>Up.*`.
+    ai_prefixes: dict[str, list[str]] = {}
+    for region in ai_chapters:
+        ai_prefixes[region] = [f"BEDC.Derived.{region}Up"]
+
+    flat_prefixes = [p for ps in ai_prefixes.values() for p in ps]
+
+    def _is_ai_owned_module(module_name: str) -> bool:
+        return any(
+            module_name == p or module_name.startswith(p + ".")
+            for p in flat_prefixes
+        )
+
+    violations: list[dict[str, object]] = []
+    baseline_files_scanned = 0
+    for lean_file in BEDC_ROOT.rglob("*.lean"):
+        rel = lean_file.relative_to(LEAN_ROOT)
+        module = ".".join(rel.with_suffix("").parts)
+        if _is_ai_owned_module(module):
+            continue  # ai chapter file may import other ai chapters
+        baseline_files_scanned += 1
+        try:
+            text = lean_file.read_text()
+        except OSError:
+            continue
+        for line_no, raw in enumerate(text.splitlines(), start=1):
+            stripped = raw.strip()
+            if not stripped.startswith("import "):
+                continue
+            imported = stripped[len("import "):].split("--", 1)[0].strip()
+            for region, prefixes in ai_prefixes.items():
+                for p in prefixes:
+                    if imported == p or imported.startswith(p + "."):
+                        violations.append({
+                            "baseline_module": module,
+                            "baseline_file": str(rel),
+                            "line": line_no,
+                            "imports": imported,
+                            "leaks_from_ai_chapter": region,
+                        })
+                        break
+
+    passed = len(violations) == 0
+    if args.json:
+        payload = {
+            "ai_chapters": ai_chapters,
+            "ai_module_prefixes": flat_prefixes,
+            "baseline_files_scanned": baseline_files_scanned,
+            "violations": violations,
+            "violation_count": len(violations),
+            "passed": passed,
+        }
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print(
+            f"[bedc-ci] conservativity-audit:"
+            f" ai_chapters={len(ai_chapters)}"
+            f" baseline_files_scanned={baseline_files_scanned}"
+            f" violations={len(violations)}"
+            f" passed={passed}"
+        )
+        if args.verbose:
+            for region in ai_chapters:
+                prefixes = ai_prefixes[region]
+                print(f"  ai chapter {region} -> {prefixes}")
+        if violations:
+            print(f"[bedc-ci] conservativity-audit FAIL: {len(violations)} baseline import(s) of ai chapters")
+            for v in violations[:30]:
+                print(
+                    f"  {v['baseline_file']}:{v['line']}"
+                    f" imports {v['imports']}"
+                    f" (ai chapter: {v['leaks_from_ai_chapter']})"
+                )
+            if len(violations) > 30:
+                print(f"  ... and {len(violations) - 30} more")
+    return 0 if passed else 1
+
+
 def cmd_axiom_purity(args: argparse.Namespace) -> int:
     """Check that every BEDC theorem's transitive axiom dependency set is
     contained within the allowed Lean stdlib subset.
@@ -1262,6 +1377,14 @@ def parser() -> argparse.ArgumentParser:
     verify_p = sub.add_parser("verify-files", help="Run lake env lean on selected files")
     verify_p.add_argument("paths", nargs="+", help="Lean file paths, relative to lean4/")
     verify_p.set_defaults(func=cmd_verify_files)
+
+    conservativity_p = sub.add_parser(
+        "conservativity-audit",
+        help="Verify ai-proposed chapters do not leak into baseline imports (machine conservativity gate)",
+    )
+    conservativity_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    conservativity_p.add_argument("--verbose", "-v", action="store_true", help="Show per-chapter detail")
+    conservativity_p.set_defaults(func=cmd_conservativity_audit)
     return p
 
 
