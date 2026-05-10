@@ -15992,3 +15992,51 @@ Rationale:
 BOARD 已有 prefix restriction (B-622) 与 end-to-end concatenation closure (B-623), 但 suffix restriction 与 prefix 不是同义改写: 初始状态被换成中间端点, 边界条件需要重新对齐。这是时间局部到全局链 readback 的另一半 coverage 定理。Landing file 不在 near-cap 列表中。
 
 ---
+
+### B-631 - NewtonIteration finite-prefix restriction carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | NewtonIteration finite-prefix restriction carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 NewtonIteration finite-step carrier setup 下, 若 accepted packet 记录 n+k 步 Newton recurrence, 则截取前 n 步的迭代行、函数值行与导数非零 ledger 仍构成 NewtonIterationUp carrier。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/201_newtoniteration_namecert_construction.tex`
+
+Rationale:
+BOARD 有 Newton finite-step concatenation closure (B-621), 但缺 prefix restriction. 它是拼接闭包的对偶 prerequisite: 长迭代证书的有限前缀可独立读回为同一对象, 证明只需限制 recurrence 与 nonzero-denominator ledger, 与 concatenation 走相反方向。Landing file 安全。
+
+---
+
+### B-632 - Brownian path-step carrier finite-suffix restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Brownian path-step carrier finite-suffix restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+在 BrownianUp BHist process-packet setup 下, 若长度 n+k 的 accepted packet 给出路径步、时间步与增量 ledger, 则从第 n 步边界端点起的后 k 步 shift-restriction 仍是 BrownianUp carrier。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/169_brownian_namecert_construction.tex`
+
+Rationale:
+BOARD 有 prefix restriction (B-627), suffix restriction 是真正不同的局部化方向: 源端点和时间 ledger 都要重置到中间边界。比 Brownian 跨段 concatenation 更安全 — 只需限制已有增量、连续性与分布 ledger, 不需要构造跨段独立性新证据。Landing file 不在 near-cap 列表。
+
+---
