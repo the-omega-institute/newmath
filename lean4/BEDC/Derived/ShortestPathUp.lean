@@ -24,6 +24,16 @@ def ShortestPathWeightedGraphCarrier [AskSetup] [PackageSetup]
       Cont vertices edges incidence ∧ Cont incidence weights weightedPath ∧
         Cont weightedPath path endpoint ∧ PkgSig bundle endpoint pkg
 
+def ShortestPathRelaxationLedgerCarrier [AskSetup] [PackageSetup]
+    (vertices edges weights source target path incidence weightedPath endpoint before after
+      predecessor relaxationStep relaxationLedger certificate : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  ShortestPathWeightedGraphCarrier vertices edges weights source target path incidence
+      weightedPath endpoint bundle pkg ∧
+    UnaryHistory before ∧ UnaryHistory after ∧ UnaryHistory predecessor ∧
+      Cont before predecessor relaxationStep ∧ Cont endpoint relaxationStep relaxationLedger ∧
+        Cont relaxationLedger after certificate ∧ PkgSig bundle certificate pkg
+
 theorem ShortestPathWeightedGraphCarrier_visible_path_ledger [AskSetup] [PackageSetup]
     {vertices edges weights source target path incidence weightedPath endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -100,6 +110,52 @@ theorem ShortestPathWeightedGraphCarrier_relaxation_certificate_scope [AskSetup]
       relaxationRow,
       certificateRow,
       carrier.right.right.right.right.right.right.right.right.right⟩
+
+theorem ShortestPathRelaxationLedgerCarrier_continuation_closure [AskSetup] [PackageSetup]
+    {vertices edges weights source target path incidence weightedPath endpoint before after
+      predecessor relaxationStep relaxationLedger certificate : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ShortestPathWeightedGraphCarrier vertices edges weights source target path incidence
+        weightedPath endpoint bundle pkg ->
+      UnaryHistory before ->
+        UnaryHistory after ->
+          UnaryHistory predecessor ->
+            Cont before predecessor relaxationStep ->
+              Cont endpoint relaxationStep relaxationLedger ->
+                Cont relaxationLedger after certificate ->
+                  PkgSig bundle certificate pkg ->
+                    ShortestPathRelaxationLedgerCarrier vertices edges weights source target
+                        path incidence weightedPath endpoint before after predecessor
+                        relaxationStep relaxationLedger certificate bundle pkg ∧
+                      UnaryHistory relaxationStep ∧ UnaryHistory relaxationLedger ∧
+                        UnaryHistory certificate ∧
+                          hsame relaxationStep (append before predecessor) ∧
+                            hsame relaxationLedger (append endpoint relaxationStep) ∧
+                              hsame certificate (append relaxationLedger after) := by
+  intro carrier beforeUnary afterUnary predecessorUnary relaxationStepRow relaxationLedgerRow
+    certificateRow certificateSig
+  have pathLedger := ShortestPathWeightedGraphCarrier_visible_path_ledger carrier
+  have endpointUnary : UnaryHistory endpoint := pathLedger.right.right.left
+  have relaxationStepUnary : UnaryHistory relaxationStep :=
+    unary_cont_closed beforeUnary predecessorUnary relaxationStepRow
+  have relaxationLedgerUnary : UnaryHistory relaxationLedger :=
+    unary_cont_closed endpointUnary relaxationStepUnary relaxationLedgerRow
+  have certificateUnary : UnaryHistory certificate :=
+    unary_cont_closed relaxationLedgerUnary afterUnary certificateRow
+  have relaxationCarrier :
+      ShortestPathRelaxationLedgerCarrier vertices edges weights source target path incidence
+        weightedPath endpoint before after predecessor relaxationStep relaxationLedger certificate
+        bundle pkg :=
+    ⟨carrier, beforeUnary, afterUnary, predecessorUnary, relaxationStepRow, relaxationLedgerRow,
+      certificateRow, certificateSig⟩
+  exact
+    ⟨relaxationCarrier,
+      relaxationStepUnary,
+      relaxationLedgerUnary,
+      certificateUnary,
+      relaxationStepRow,
+      relaxationLedgerRow,
+      certificateRow⟩
 
 theorem ShortestPathVisiblePathLedger [AskSetup] [PackageSetup]
     {vertices edges weights source target incidence path weightLedger endpoint : BHist}
