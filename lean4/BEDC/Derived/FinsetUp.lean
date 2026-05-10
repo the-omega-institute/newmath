@@ -59,6 +59,69 @@ theorem FinsetEnumerationCarrier_membership_exactness
             (NameCert.equiv_symm cert memberAndSame.right) sourceX
         exact And.intro sourceA (Exists.intro x memberAndSame)
 
+theorem FinsetEnumerationCarrier_classifier_transport
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    (cert : NameCert A Rel) {bundle : ProbeBundle BHist} {a b : BHist} :
+    FinsetEnumerationCarrier A Rel bundle a -> Rel a b ->
+      FinsetEnumerationCarrier A Rel bundle b := by
+  intro carried classified
+  cases carried with
+  | intro sourceA witness =>
+      have sourceB : A b :=
+        NameCert.carrier_respects_equiv cert classified sourceA
+      cases witness with
+      | intro x memberAndRel =>
+          have relBA : Rel b a := NameCert.equiv_symm cert classified
+          have relBX : Rel b x := NameCert.equiv_trans cert relBA memberAndRel.right
+          exact And.intro sourceB (Exists.intro x (And.intro memberAndRel.left relBX))
+
+def FinsetProjectionStableReadback
+    (A : BHist -> Prop) (Rel : BHist -> BHist -> Prop)
+    (bundle : ProbeBundle BHist) (project : BHist -> BHist) (a : BHist) : Prop :=
+  FinsetEnumerationCarrier A Rel bundle a /\ hsame (project a) a
+
+theorem FinsetProjectionStableReadback_membership_iff
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    {bundle : ProbeBundle BHist} {project : BHist -> BHist}
+    (stable : forall z : BHist,
+      FinsetEnumerationCarrier A Rel bundle z <-> hsame (project z) z)
+    {a : BHist} :
+    FinsetProjectionStableReadback A Rel bundle project a <->
+      FinsetEnumerationCarrier A Rel bundle a := by
+  constructor
+  · intro readback
+    exact readback.left
+  · intro carried
+    exact And.intro carried (Iff.mp (stable a) carried)
+
+theorem FinsetProjectionStableReadback_stability_iff
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    {bundle : ProbeBundle BHist} {project : BHist -> BHist}
+    (stable : forall z : BHist,
+      FinsetEnumerationCarrier A Rel bundle z <-> hsame (project z) z)
+    {a : BHist} :
+    FinsetProjectionStableReadback A Rel bundle project a <->
+      hsame (project a) a := by
+  constructor
+  · intro readback
+    exact readback.right
+  · intro fixed
+    exact And.intro (Iff.mpr (stable a) fixed) fixed
+
+theorem FinsetProjectionStableReadback_classifier_transport
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    (cert : NameCert A Rel) {bundle : ProbeBundle BHist}
+    {project : BHist -> BHist}
+    (stable : forall z : BHist,
+      FinsetEnumerationCarrier A Rel bundle z <-> hsame (project z) z)
+    {a b : BHist} :
+    Rel a b -> hsame (project a) a -> hsame (project b) b := by
+  intro classified fixedA
+  have carriedA : FinsetEnumerationCarrier A Rel bundle a := Iff.mpr (stable a) fixedA
+  have carriedB : FinsetEnumerationCarrier A Rel bundle b :=
+    FinsetEnumerationCarrier_classifier_transport cert carriedA classified
+  exact Iff.mp (stable b) carriedB
+
 theorem FinsetEnumerationClassifier_duplicate_insert
     {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
     {bundle : ProbeBundle BHist} {x y : BHist}
