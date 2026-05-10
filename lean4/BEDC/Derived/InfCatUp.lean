@@ -123,4 +123,23 @@ theorem InfCatBHistSourcePacket_quasicategory_classifier_surface [AskSetup] [Pac
       pkgRow'⟩
   exact And.intro targetPacket (And.intro liftSame transportSame)
 
+theorem InfCatBHistSourcePacket_consumer_boundary [AskSetup] [PackageSetup]
+    {simplicial category horn lift provenance transport consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    InfCatBHistSourcePacket simplicial category horn lift provenance transport bundle pkg ->
+      Cont lift transport consumer ->
+        UnaryHistory consumer ∧ hsame consumer (append lift transport) ∧
+          UnaryHistory transport ∧ PkgSig bundle transport pkg := by
+  intro packet consumerRow
+  have liftUnary : UnaryHistory lift := packet.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance := packet.right.right.right.right.left
+  have provenanceLiftTransport : Cont provenance lift transport :=
+    packet.right.right.right.right.right.right.left
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed provenanceUnary liftUnary provenanceLiftTransport
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed liftUnary transportUnary consumerRow
+  exact ⟨consumerUnary, consumerRow, transportUnary,
+    packet.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.InfCatUp

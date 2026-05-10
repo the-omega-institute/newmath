@@ -138,6 +138,7 @@ transport ledger $\lambda$. Conversely those rows supply the complete
 consumer boundary for the root, and no consumer obtains a host
 quasicategory, localization, or simplicial mapping object.
 \end{theorem}
+\leanchecked{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_consumer\_boundary}
 \begin{proof}
 Project any accepted consumer read to the packet coordinates. A simplicial
 read factors through $S$, an ordinary categorical source read factors through
@@ -221,4 +222,34 @@ only the consumed certificate rows, the finite horn and lifting ledgers,
 provenance, and $\Cont/\hsame$ transport. A host quasicategory, localization,
 or simplicial mapping-object coordinate is therefore not available to affect
 the read.
+\end{proof}
+
+\begin{theorem}[InfCatUp root-threshold obligation triad]
+\label{thm:infcat-root-threshold-obligation-triad}
+Every accepted $\InfCatUp$ source packet supplies exactly three downstream root
+surfaces: the consumed $\NameCert_{\SimplicialSetUp}$ row, the consumed
+$\NameCert_{\CategoryUp}$ row, and the finite inner-horn plus lifting-ledger
+surface carried by $\mathsf{ProbeBundle}$, $\Cont$, $\hsame$, and $\Pkg$ rows.
+Host quasicategory, localization, and simplicial mapping-object data are not
+available to downstream category consumers at this root threshold.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as
+$\mathcal{I}=(S,C,H,L,\rho,\lambda)$. The two consumed certificate rows are
+the $S$ and $C$ coordinates, and the finite obligation surface is read through
+the horn and lifting ledgers $H$ and $L$ with provenance $\rho$ and transport
+$\lambda$.
+
+Apply \autoref{thm:infcat-inner-horn-ledger-boundary} to identify the finite
+inner-horn side of the surface. Apply
+\autoref{thm:infcat-quasicategory-classifier-surface} to see that the
+classifier compares only displayed packet coordinates and the componentwise
+$\hsame/\Cont$ rows.
+
+Now use \autoref{thm:infcat-namecert-obligation-surface} and
+\autoref{thm:infcat-consumer-boundary}. Together they repackage the two
+consumed NameCert rows and the horn-plus-lifting ledger as the full downstream
+consumer boundary. Since no projected coordinate names a host quasicategory,
+localization, or simplicial mapping object, those data remain unavailable at
+the root threshold.
 \end{proof}
