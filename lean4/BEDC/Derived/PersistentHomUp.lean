@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -133,5 +135,105 @@ theorem PersistentHomFiltrationCarrier_classifier_stability [AskSetup] [PackageS
       endpointPkg'⟩
   exact
     ⟨transportedCarrier, routeSame, persistenceSame, provenanceSame, endpointSame⟩
+
+theorem PersistentHomFiltrationCarrier_local_namecert_surface [AskSetup] [PackageSetup]
+    {indexSpine complexRows homologyRows boundaryRows persistenceRows route provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PersistentHomFiltrationCarrier indexSpine complexRows homologyRows boundaryRows
+        persistenceRows route provenance endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            PersistentHomFiltrationCarrier indexSpine complexRows homologyRows boundaryRows
+                persistenceRows route provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PersistentHomFiltrationCarrier indexSpine complexRows homologyRows boundaryRows
+                persistenceRows route provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PersistentHomFiltrationCarrier indexSpine complexRows homologyRows boundaryRows
+                persistenceRows route provenance endpoint bundle pkg ∧ hsame row endpoint)
+          hsame ∧
+        PkgSig bundle endpoint pkg := by
+  intro carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            PersistentHomFiltrationCarrier indexSpine complexRows homologyRows boundaryRows
+                persistenceRows route provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PersistentHomFiltrationCarrier indexSpine complexRows homologyRows boundaryRows
+                persistenceRows route provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PersistentHomFiltrationCarrier indexSpine complexRows homologyRows boundaryRows
+                persistenceRows route provenance endpoint bundle pkg ∧ hsame row endpoint)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm sameRows) sourceRow.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert carrier.right.right.right.right.right.right.right.right
+
+theorem PersistentHomFiltrationCarrier_obligation_surface [AskSetup] [PackageSetup]
+    {indexSpine complexRows homologyRows boundaryRows persistenceRows route provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PersistentHomFiltrationCarrier indexSpine complexRows homologyRows boundaryRows
+        persistenceRows route provenance endpoint bundle pkg ->
+      UnaryHistory indexSpine ∧ UnaryHistory complexRows ∧ UnaryHistory homologyRows ∧
+        UnaryHistory boundaryRows ∧ UnaryHistory persistenceRows ∧ UnaryHistory route ∧
+          UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont indexSpine complexRows route ∧
+            Cont boundaryRows homologyRows persistenceRows ∧ Cont route persistenceRows provenance ∧
+              Cont provenance persistenceRows endpoint ∧ hsame route (append indexSpine complexRows) ∧
+                hsame persistenceRows (append boundaryRows homologyRows) ∧
+                  hsame provenance (append route persistenceRows) ∧
+                    hsame endpoint (append provenance persistenceRows) ∧
+                      PkgSig bundle endpoint pkg := by
+  intro carrier
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.right.left
+  have persistenceUnary : UnaryHistory persistenceRows :=
+    unary_cont_closed carrier.right.right.right.left carrier.right.right.left
+      carrier.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed routeUnary persistenceUnary carrier.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary persistenceUnary
+      carrier.right.right.right.right.right.right.right.left
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      persistenceUnary,
+      routeUnary,
+      provenanceUnary,
+      endpointUnary,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.PersistentHomUp

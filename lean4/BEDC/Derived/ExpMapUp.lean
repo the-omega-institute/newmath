@@ -160,6 +160,27 @@ theorem ExpMapFlowLedger_carrier_obligation_surface {tangent endpoint flow : BHi
         (And.intro sameFlowEndpoint
           (And.intro tangentUnary (And.intro endpointUnary flowUnary)))))
 
+theorem ExpMapUp_StdBridge {tangent endpoint flow sourceCert targetCert : BHist} :
+    ExpMapFlowLedger tangent endpoint flow -> hsame sourceCert tangent ->
+      hsame targetCert endpoint ->
+        ExpMapCertifiedInterfaceCarrier tangent endpoint flow sourceCert targetCert ∧
+          hsame flow endpoint ∧ UnaryHistory flow := by
+  intro ledger sameSourceCert sameTargetCert
+  have surface := ExpMapFlowLedger_carrier_obligation_surface ledger
+  have flowRow : Cont tangent BHist.Empty flow :=
+    cont_result_hsame_transport ledger.right.right.left
+      (hsame_symm surface.right.right.right.left)
+  have graph : ExpMapGraphCarrier tangent endpoint flow :=
+    And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro flowRow surface.right.right.right.left))
+  have certified :
+      ExpMapCertifiedInterfaceCarrier tangent endpoint flow sourceCert targetCert :=
+    And.intro graph
+      (And.intro sameSourceCert (And.intro sameTargetCert flowRow))
+  exact And.intro certified
+    (And.intro surface.right.right.right.left surface.right.right.right.right.right.right)
+
 theorem ExpMapFlowLedger_dependency_exactness {tangent endpoint endpoint' flow : BHist} :
     ExpMapFlowLedger tangent endpoint flow ->
       hsame endpoint endpoint' ->
