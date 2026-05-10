@@ -75,4 +75,105 @@ theorem chapter_manuscript_not_input :
   · intro x h
     cases h
 
+def ManuscriptCandidateFlow : Type :=
+  EventFlow
+
+def GeneratedManuscriptRecognizer : Type :=
+  EventFlow
+
+def RecognizesManuscript
+    (R : GeneratedManuscriptRecognizer) (M : ManuscriptCandidateFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R M) /\
+    NonemptyEventFlow M
+
+def ManuscriptRole
+    (R : GeneratedManuscriptRecognizer) (M X : ManuscriptCandidateFlow) : Prop :=
+  RecognizesManuscript R M /\
+    FormalCompilerInput (CompilerDatum.eventFlow X) /\
+    NonemptyEventFlow X
+
+def MsStart
+    (R : GeneratedManuscriptRecognizer) (M X : ManuscriptCandidateFlow) : Prop :=
+  ManuscriptRole R M X
+
+def MsChapters
+    (R : GeneratedManuscriptRecognizer) (M X : ManuscriptCandidateFlow) : Prop :=
+  ManuscriptRole R M X
+
+def MsDependencies
+    (R : GeneratedManuscriptRecognizer) (M X : ManuscriptCandidateFlow) : Prop :=
+  ManuscriptRole R M X
+
+def MsNotation
+    (R : GeneratedManuscriptRecognizer) (M X : ManuscriptCandidateFlow) : Prop :=
+  ManuscriptRole R M X
+
+def MsCertificates
+    (R : GeneratedManuscriptRecognizer) (M X : ManuscriptCandidateFlow) : Prop :=
+  ManuscriptRole R M X
+
+def MsLedger
+    (R : GeneratedManuscriptRecognizer) (M X : ManuscriptCandidateFlow) : Prop :=
+  ManuscriptRole R M X
+
+def MsCannotClaims
+    (R : GeneratedManuscriptRecognizer) (M X : ManuscriptCandidateFlow) : Prop :=
+  ManuscriptRole R M X
+
+def MsStatus
+    (R : GeneratedManuscriptRecognizer) (M X : ManuscriptCandidateFlow) : Prop :=
+  ManuscriptRole R M X
+
+def MsBridgeObligations
+    (R : GeneratedManuscriptRecognizer) (M X : ManuscriptCandidateFlow) : Prop :=
+  ManuscriptRole R M X
+
+def MsImplementationTargets
+    (R : GeneratedManuscriptRecognizer) (M X : ManuscriptCandidateFlow) : Prop :=
+  ManuscriptRole R M X
+
+def MsSeal
+    (R : GeneratedManuscriptRecognizer) (M X : ManuscriptCandidateFlow) : Prop :=
+  ManuscriptRole R M X
+
+def ManuscriptSubflows
+    (R : GeneratedManuscriptRecognizer) (M : ManuscriptCandidateFlow) : Prop :=
+  exists M0 M1 M2 M3 M4 M5 M6 M7 M8 M9 sigmaM : ManuscriptCandidateFlow,
+    MsStart R M M0 /\
+    MsChapters R M M1 /\
+    MsDependencies R M M2 /\
+    MsNotation R M M3 /\
+    MsCertificates R M M4 /\
+    MsLedger R M M5 /\
+    MsCannotClaims R M M6 /\
+    MsStatus R M M7 /\
+    MsBridgeObligations R M M8 /\
+    MsImplementationTargets R M M9 /\
+    MsSeal R M sigmaM
+
+def CompleteManuscriptRecognition
+    (R : GeneratedManuscriptRecognizer) (M : ManuscriptCandidateFlow) : Prop :=
+  RecognizesManuscript R M /\ ManuscriptSubflows R M
+
+def ManuscriptFlow (M : ManuscriptCandidateFlow) : Prop :=
+  exists R : GeneratedManuscriptRecognizer, CompleteManuscriptRecognition R M
+
+theorem incomplete_manuscript_flow_not_manuscript {M : ManuscriptCandidateFlow} :
+    (forall R : GeneratedManuscriptRecognizer,
+      Not (CompleteManuscriptRecognition R M)) ->
+    Not (ManuscriptFlow M) := by
+  intro hIncomplete hManuscript
+  cases hManuscript with
+  | intro R hComplete =>
+      exact hIncomplete R hComplete
+
+theorem table_of_contents_alone_not_manuscript
+    {R : GeneratedManuscriptRecognizer} {M T : ManuscriptCandidateFlow} :
+    MsChapters R M T ->
+      (forall R' : GeneratedManuscriptRecognizer,
+        Not (CompleteManuscriptRecognition R' M)) ->
+      Not (ManuscriptFlow M) := by
+  intro _ hIncomplete
+  exact incomplete_manuscript_flow_not_manuscript hIncomplete
+
 end BEDC.GroundCompiler.ChapterManuscript

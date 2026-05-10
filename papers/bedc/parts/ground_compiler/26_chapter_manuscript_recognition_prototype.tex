@@ -256,6 +256,9 @@ Equal chapter codes imply equal raw chapter-flows. Two chapters with the same to
 
 \begin{definition}[Manuscript candidate and recognizer]
 \label{def:chapter-manuscript-manuscript-candidate-recognizer}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.ManuscriptCandidateFlow}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.GeneratedManuscriptRecognizer}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.RecognizesManuscript}
 A \emph{manuscript candidate} is an event subflow $M\subseteq S$ not yet recognized as a manuscript-flow. A \emph{generated manuscript recognizer} is an event flow $R_M\in\mathsf{EventFlow}$ supporting
 $$
   \mathsf{RecognizesManuscript}(R_M,S,M).
@@ -264,6 +267,7 @@ $$
 
 \begin{definition}[Manuscript subflows]
 \label{def:chapter-manuscript-manuscript-subflows}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.ManuscriptSubflows}
 If $\mathsf{RecognizesManuscript}(R_M,S,M)$, then $R_M$ may identify:
 $$
 \begin{aligned}
@@ -284,6 +288,7 @@ $$
 
 \begin{definition}[Complete manuscript recognition]
 \label{def:chapter-manuscript-complete-manuscript-recognition}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.CompleteManuscriptRecognition}
 The recognition $\mathsf{RecognizesManuscript}(R_M,S,M)$ is \emph{complete} when all manuscript subflows in \autoref{def:chapter-manuscript-manuscript-subflows} are recognized.
 \end{definition}
 
