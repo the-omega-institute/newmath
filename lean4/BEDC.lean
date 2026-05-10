@@ -94,6 +94,7 @@ import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.HypergeometricUp
+import BEDC.Derived.InfCatUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
@@ -552,6 +553,7 @@ import BEDC.Derived.DiffFormUp.RootObligationSurface
 import BEDC.Derived.DiffFormUp.RootRowBoundary
 import BEDC.Derived.DiffFormUp.RootUnblockObligations
 import BEDC.Derived.DiffFormUp.SourceScope
+import BEDC.Derived.DiffFormUp.StdBridge
 import BEDC.Derived.DiffFormUp.VisibleInputPackage
 import BEDC.Derived.DiffFormUp.WedgeAssociator
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
@@ -815,6 +817,7 @@ import BEDC.Derived.S1Up.LedgerObligationSurface
 import BEDC.Derived.S1Up.EquationTransportObligationSurface
 import BEDC.Derived.S1Up.PublicConstructorPacket
 import BEDC.Derived.S1Up.PublicEndpointExactness
+import BEDC.Derived.S1Up.RealMetricBridgeBoundary
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.SingletonEquationSolver
 import BEDC.Derived.GroupUp.ConjugationParameter

@@ -14,6 +14,7 @@ the unit-equation witness, the componentwise classifier, and equation
 transport. It does not expose angle parametrisation, winding data, covering
 quotients, compactness, or connectedness.
 \end{theorem}
+\leanchecked{BEDC.Derived.S1Up.SOneRealMetricBridgeBoundary\_public\_rows}
 \begin{proof}
 Read the carrier through the child file
 \autoref{sec:s1-carrier}. The carrier readbacks expose the two real component
@@ -90,6 +91,32 @@ winding data, covering quotients, compactness, and connectedness, and the
 second also excludes quotient-circle presentation and metric-completeness rows,
 the certificate has exactly the displayed RealUp-pair, equation, classifier,
 transport, and finite-window read surface.
+\end{proof}
+
+\begin{theorem}[SOne standard topological bridge boundary]
+\label{thm:sone-standard-topological-bridge-boundary}
+Any standard topological-circle bridge for $\SOneUp$ may read only the two
+$\RealUp$ component finite-window surfaces, the product ledger, the
+unit-equation witness, the componentwise classifier, and equation transport.
+Compactness, connectedness, angle parametrisation, winding data, quotient-circle
+presentation, and metric-completeness rows remain outside the bridge.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:sone-real-metric-bridge-boundary}. It confines a public
+circle bridge to the two real component rows, product carrier ledger,
+unit-equation witness, componentwise classifier, and equation transport.
+
+Refine the two component reads through
+\autoref{thm:sone-regseqrat-metric-observation-boundary}. The real components
+may be consumed through their finite-window $\RegSeqRat$ read surfaces, but
+that refinement still does not expose compactness, connectedness, angle data,
+winding data, quotient presentation, or metric-completeness rows.
+
+Finally apply \autoref{thm:sone-public-certificate-boundary}. It identifies the
+public certificate boundary with the same RealUp-pair, product, equation,
+classifier, transport, and finite-window read rows. Therefore the standard
+topological bridge boundary has exactly those readable rows and no topology
+data outside the displayed certificate surface.
 \end{proof}
 
 \closureat{SOneUp}{scopedStr}[BEDC.Derived.S1Up.sone\_history\_semantic\_name\_certificate]
