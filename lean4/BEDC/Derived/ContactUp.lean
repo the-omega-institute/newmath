@@ -53,6 +53,11 @@ def ContactCarrierClassifierSurface (manifold form derivative wedge top : BHist)
   ManifoldSingletonCarrier manifold ∧ UnaryHistory form ∧ UnaryHistory derivative ∧
     Cont form derivative wedge ∧ Cont wedge BHist.Empty top
 
+def ContactCoannihilatingIntegrabilityRow
+    (manifold form derivative wedge top collapse : BHist) : Prop :=
+  ContactCarrierClassifierSurface manifold form derivative wedge top ∧ hsame collapse top ∧
+    hsame collapse BHist.Empty
+
 theorem ContactCarrierClassifierSurface_form_row_obligation
     {manifold form derivative wedge top : BHist} :
     ContactCarrierClassifierSurface manifold form derivative wedge top ->
@@ -95,6 +100,19 @@ theorem ContactCarrierClassifierSurface_nondegeneracy_obligation
   exact And.intro
     topUnary
     (And.intro topSameWedge topNonempty)
+
+theorem ContactCarrierClassifierSurface_top_wedge_excludes_coannihilating_integrability
+    {manifold form derivative wedge top collapse tail : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      hsame wedge (BHist.e1 tail) ->
+        ContactCoannihilatingIntegrabilityRow manifold form derivative wedge top collapse ->
+          False := by
+  intro surface sameWedgeVisible row
+  have nondegenerate :=
+    ContactCarrierClassifierSurface_nondegeneracy_obligation surface sameWedgeVisible
+  have topEmpty : hsame top BHist.Empty :=
+    hsame_trans (hsame_symm row.right.left) row.right.right
+  exact nondegenerate.right.right topEmpty
 
 theorem ContactCarrierClassifierSurface_top_wedge_transport_with_wedge
     {manifold form derivative wedge top top' : BHist} :

@@ -181,4 +181,28 @@ theorem ModelCatBHistSourcePacket_lifting_square_boundary [AskSetup] [PackageSet
   }
   exact ⟨cert, cofUnary, fibUnary, weakUnary, liftUnary, liftCont, liftCont, pkgSig⟩
 
+theorem ModelCatBHistSourcePacket_finite_factorization_transport_surface [AskSetup] [PackageSetup]
+    {category cof fib weak lift factor provenance rho lambda fib' weak' factor' provenance'
+      lambda' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelCatBHistSourcePacket category cof fib weak lift factor provenance rho lambda bundle
+        pkg ->
+      hsame fib fib' -> hsame weak weak' -> hsame provenance provenance' ->
+        Cont fib' weak' factor' -> Cont provenance' factor' lambda' ->
+          PkgSig bundle lambda' pkg ->
+            ModelCatBHistSourcePacket category cof fib' weak' lift factor' provenance' rho
+                lambda' bundle pkg ∧
+              hsame factor factor' ∧ hsame lambda lambda' ∧
+                Cont category cof lift ∧ PkgSig bundle lambda' pkg := by
+  intro packet sameFib sameWeak sameProvenance factorCont' lambdaCont' pkgSig'
+  have transported :=
+    ModelCatBHistSourcePacket_factorization_ledger_determinacy packet sameFib sameWeak
+      sameProvenance factorCont' lambdaCont' pkgSig'
+  exact
+    ⟨transported.left,
+      transported.right.left,
+      transported.right.right,
+      packet.right.right.right.right.right.right.left,
+      pkgSig'⟩
+
 end BEDC.Derived.ModelCatUp
