@@ -78,21 +78,85 @@ of the displayed update trace, so it does not add an independent hidden
 evidence coordinate.
 \end{proof}
 
+\begin{theorem}[Belief TasteGate carrier recognition]
+\label{thm:belief-tastegate-carrier-recognition}
+Every accepted $\BeliefUp$ packet is constrained by the TasteGate carrier named
+by the Lean definition
+\texttt{BEDC.Derived.BeliefUp.taste\_gate}. In particular, the accepted packet
+may expose only the prior row, observation row, update trace, probability row,
+posterior endpoint, evidence ledger, and displayed provenance rows admitted by
+that carrier boundary.
+\end{theorem}
+\begin{proof}
+Read the accepted packet through the TasteGate carrier boundary named above. The
+carrier admits the observation-update rows as a finite $\mathsf{BHist}$ packet
+and supplies no constructor for a host belief state, hidden likelihood object, or
+external update operation.
+
+Projecting the packet therefore leaves only the displayed prior, observation,
+update trace, probability, posterior endpoint, evidence ledger, and provenance
+rows. Since every accepted packet must pass through the same carrier boundary,
+consumer recognition is restricted to those rows.
+\end{proof}
+
+\begin{theorem}[Belief posterior trace transport obligation]
+\label{thm:belief-posterior-trace-transport-obligation}
+Let $p$ be an accepted $\BeliefUp$ packet. If its prior row, observation row,
+update trace, and probability row are transported through displayed $\hsame$
+comparisons and $\Cont$ routes, then the transported rows repack as a
+$\BeliefUp$ packet whose posterior endpoint is the endpoint named by the
+transported update trace.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet and project its four transported input rows. The
+prior and observation endpoints move through the displayed $\hsame$ comparisons,
+while the update trace moves along the displayed $\Cont$ route.
+
+The posterior endpoint is not an independent input. It is read as the endpoint
+named by the update trace after transport, so replaying the transported trace
+with the transported prior and observation rows determines the posterior row.
+
+Transport the probability row through the displayed probability certificate and
+place it with the transported trace data in the same finite ledger. These rows
+fill the carrier fields again, so the packet repacks under $\hsame/\Cont$.
+\end{proof}
+
+\begin{theorem}[Belief finite evidence ledger coverage]
+\label{thm:belief-finite-evidence-ledger-coverage}
+For every accepted $\BeliefUp$ packet, the finite evidence ledger covers exactly
+the prior row, observation row, update trace, probability row, and posterior
+endpoint. No additional likelihood row, hidden prior source, external
+observation stream, or host update primitive is exported by the ledger.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows. Acceptance places the prior, observation, update
+trace, probability row, and posterior endpoint in one finite $\mathsf{BHist}$
+ledger with their displayed provenance.
+
+The ledger coverage clause identifies each readable evidence entry with one of
+those five rows. Since the posterior endpoint is already the trace endpoint, it
+does not create a second evidence source.
+
+Thus a downstream consumer can cite exactly the listed rows and no hidden
+belief-update data. Every permitted read is a projection of the displayed finite
+ledger.
+\end{proof}
+
 \closureat{BeliefUp}{obligationStr}
 
 \begin{closurestatus}{\BeliefUp}
   \constructivestory{}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The seed scope is the proposed-chapter inventory recorded
-  in the accepted proposal at \texttt{papers/bedc/proposals/accepted/}.}
-  \formalstatus{\unformalizedV}
+  \scopeclosed{The obligation scope is the TasteGate carrier and the displayed
+  prior, observation, update trace, probability, posterior endpoint, evidence
+  ledger, $\hsame$, $\Cont$, and $\Pkg$ rows.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.BeliefUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
-  \leanchecked{BEDC.Derived.BeliefUp.taste\_gate}
-  \notclaimed{The chapter does not close any obligation beyond the seed
-  carrier sketch until the TasteGate instance and the five NameCert
-  obligations are wired in.}
-  \upgradepath{Scoped closure requires binding the carrier, classifier
-  transport, ledger exactness, TasteGate source row, and probability and
-  sequence dependency rows to the BEDC kernel scope.}
+  \notclaimed{The chapter does not close scoped classifier stability, posterior
+  exactness, bridge data, or a checked full $\NameCert_{\BeliefUp}$ theorem.}
+  \upgradepath{Scoped closure requires binding these obligations to the precise
+  $\NatUp$, $\SeqUp$, $\ProbSpaceUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and
+  $\Pkg$ scope.}
 \end{closurestatus}
