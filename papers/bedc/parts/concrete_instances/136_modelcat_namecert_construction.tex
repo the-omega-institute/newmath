@@ -276,3 +276,44 @@ Thus any consumer that asks for categorical structure must project $C$ first.
 Because no ambient category field occurs in the packet, there is no alternative
 source from which objects, morphisms, identities, or composition can be read.
 \end{proof}
+\leanchecked{BEDC.Derived.ModelCatUp.ModelCatBHistSourcePacket\_category\_dependency\_boundary}
+
+\begin{theorem}[ModelCatUp root-threshold obligation triad]
+\label{thm:modelcat-root-threshold-obligation-triad}
+Every admitted $\ModelCatUp$ source packet supplies exactly three downstream
+root surfaces. The first is the consumed $\CategoryUp$ dependency boundary,
+read through the $C$ coordinate. The second is the three morphism-classifier
+rows, together with weak-equivalence classifier transport through
+$\mathsf{W}$. The third is the finite lifting and factorisation ledger surface,
+transported by the displayed $\Cont/\hsame$ rows and by $\Pkg$ provenance.
+
+These three surfaces are the only rows available to downstream consumers of
+the root packet. The packet exposes no host localization, quotient category,
+derived mapping space, external weak-equivalence calculus, or bridge row.
+\end{theorem}
+\begin{proof}
+Project an admitted packet by
+\autoref{def:modelcat-bhist-source-packet}. Its coordinates are the consumed
+$\CategoryUp$ dependency, the three classifier rows, the two finite ledgers,
+package provenance, and rowwise $\Cont/\hsame$ transport.
+
+The carrier part is the root surface of
+\autoref{thm:modelcat-root-obligation-surface}. The classifier part is
+transported by
+\autoref{thm:modelcat-weak-equivalence-classifier-laws}, which isolates the
+weak-equivalence classifier as the only weak-equivalence row exposed by the
+packet.
+
+For the finite ledger surface, apply
+\autoref{thm:modelcat-lifting-square-boundary} to the lifting coordinate and
+\autoref{thm:modelcat-factorization-ledger-determinacy} to the factorisation
+coordinate. Both results read their data through the displayed classifier
+rows, package provenance, and rowwise transport.
+
+It remains to identify the threshold through which categorical structure can
+be consumed. By \autoref{thm:modelcat-category-dependency-boundary}, objects,
+morphisms, identities, and composition are forced through the $C$ coordinate.
+Since no coordinate for localization, quotienting, derived mapping spaces,
+external weak-equivalence calculus, or bridges occurs in the source packet,
+none of those rows is available downstream.
+\end{proof}

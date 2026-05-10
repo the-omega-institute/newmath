@@ -116,6 +116,27 @@ theorem ModelCatBHistSourcePacket_factorization_ledger_determinacy [AskSetup] [P
       sameFactor,
       sameLambda⟩
 
+theorem ModelCatBHistSourcePacket_category_dependency_boundary [AskSetup] [PackageSetup]
+    {category category' cof cof' fib weak lift lift' factor provenance rho lambda : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelCatBHistSourcePacket category cof fib weak lift factor provenance rho lambda bundle
+        pkg ->
+      hsame category category' -> hsame cof cof' -> Cont category' cof' lift' ->
+        UnaryHistory category' ∧ UnaryHistory cof' ∧ UnaryHistory lift' ∧ hsame lift lift' ∧
+          PkgSig bundle lambda pkg := by
+  intro packet sameCategory sameCof transportedLift
+  obtain ⟨categoryUnary, cofUnary, _fibUnary, _weakUnary, _provenanceUnary, _rhoUnary,
+    liftCont, _factorCont, _lambdaCont, pkgSig⟩ := packet
+  have categoryUnary' : UnaryHistory category' :=
+    unary_transport categoryUnary sameCategory
+  have cofUnary' : UnaryHistory cof' :=
+    unary_transport cofUnary sameCof
+  have liftUnary' : UnaryHistory lift' :=
+    unary_cont_closed categoryUnary' cofUnary' transportedLift
+  have sameLift : hsame lift lift' :=
+    cont_respects_hsame sameCategory sameCof liftCont transportedLift
+  exact ⟨categoryUnary', cofUnary', liftUnary', sameLift, pkgSig⟩
+
 theorem ModelCatBHistSourcePacket_lifting_square_boundary [AskSetup] [PackageSetup]
     {category cof fib weak lift factor provenance rho lambda : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
