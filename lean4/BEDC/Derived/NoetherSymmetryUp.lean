@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -66,6 +68,65 @@ theorem NoetherSymmetryConservationLedgerCarrier_stability [AskSetup] [PackageSe
                 (And.intro conservationCont' (And.intro endpointCont' endpointPkg')))))))
   exact And.intro transportedCarrier endpointSame
 
+theorem NoetherSymmetryConservationLedgerCarrier_namecert_obligation_surface [AskSetup]
+    [PackageSetup]
+    {lieSource pdeSource field current lieLedger pdeLedger conservation endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current lieLedger
+        pdeLedger conservation endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current
+                lieLedger pdeLedger conservation endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current
+                lieLedger pdeLedger conservation endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current
+                lieLedger pdeLedger conservation endpoint bundle pkg ∧ hsame row endpoint)
+          hsame ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have endpointSource :
+      NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current lieLedger
+          pdeLedger conservation endpoint bundle pkg ∧ hsame endpoint endpoint :=
+    And.intro carrier (hsame_refl endpoint)
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current
+                lieLedger pdeLedger conservation endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current
+                lieLedger pdeLedger conservation endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current
+                lieLedger pdeLedger conservation endpoint bundle pkg ∧ hsame row endpoint)
+          hsame :=
+    {
+      core := {
+        carrier_inhabited := Exists.intro endpoint endpointSource
+        equiv_refl := by
+          intro h _source
+          exact hsame_refl h
+        equiv_symm := by
+          intro _h _k classified
+          exact hsame_symm classified
+        equiv_trans := by
+          intro _h _k _r classifiedHK classifiedKR
+          exact hsame_trans classifiedHK classifiedKR
+        carrier_respects_equiv := by
+          intro h k sameHK sourceH
+          exact And.intro sourceH.left (hsame_trans (hsame_symm sameHK) sourceH.right)
+      }
+      pattern_sound := by
+        intro _h source
+        exact source
+      ledger_sound := by
+        intro _h source
+        exact source
+    }
+  exact And.intro cert carrier.right.right.right.right.right.right.right.right
+
 theorem NoetherSymmetryConservationLedgerCarrier_source_boundary [AskSetup] [PackageSetup]
     {lieSource pdeSource field current lieLedger pdeLedger conservation endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -95,8 +156,8 @@ theorem NoetherSymmetryConservationLedgerCarrier_source_boundary [AskSetup] [Pac
           (And.intro endpointUnary
             (And.intro carrier.right.right.right.right.left
               (And.intro carrier.right.right.right.right.right.left
-                (And.intro carrier.right.right.right.right.right.right.left
-                  (And.intro carrier.right.right.right.right.right.right.right.left
-                    carrier.right.right.right.right.right.right.right.right)))))))
+                  (And.intro carrier.right.right.right.right.right.right.left
+                    (And.intro carrier.right.right.right.right.right.right.right.left
+                      carrier.right.right.right.right.right.right.right.right)))))))
 
 end BEDC.Derived.NoetherSymmetryUp
