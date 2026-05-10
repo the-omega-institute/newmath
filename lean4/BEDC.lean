@@ -269,6 +269,7 @@ import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.PolytopeUp
+import BEDC.Derived.PontryaginDualityUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.ProjectiveSpaceUp
