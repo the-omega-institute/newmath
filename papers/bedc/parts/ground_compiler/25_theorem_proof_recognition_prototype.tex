@@ -61,6 +61,7 @@ The input to $P_7$ is displayed as channel stream $c$ or event flow $S$. If $c\n
 
 \begin{definition}[$P_7$ output]
 \label{def:theorem-proof-p7-output}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7Output}
 The output of $P_7$ is a report flow or human-readable report containing decoded event flow, statement candidates, recognized statement flows, dependency candidates, recognized dependency flows, proof candidates, recognized proof flows, proof-checking results, theorem candidates, recognized theorem flows, theorem code, theorem field status, missing fields, proof failures, certificate failures, ledger failures, status failures, canonical-site failures, warnings, and cannot-claim annotations.
 \end{definition}
 
@@ -113,6 +114,7 @@ A statement flow is a statement structure inside an event flow. It is not an ext
 
 \begin{definition}[Dependency candidate and recognizer]
 \label{def:theorem-proof-dependency-candidate-recognizer}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.RecognizedDependencyFlow}
 A \emph{dependency candidate} is an event subflow
 $$
   D_{\mathrm{dep}}\subseteq S
@@ -126,16 +128,18 @@ If this holds, $D_{\mathrm{dep}}$ is a recognized dependency flow.
 
 \begin{definition}[Dependency soundness]
 \label{def:theorem-proof-dependency-soundness}
-A dependency flow $D_{\mathrm{dep}}$ is \emph{sound} when every dependency it records is one of: generated in an earlier event flow, proved in an earlier theorem flow, recognized in an earlier certificate flow, local to the same theorem flow, explicitly marked as deferred obligation, or explicitly listed as cannot-claim or open obligation. A reference to a future ungenerated object with no deferred marker is unsound.
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.DependencySoundness}
+A dependency flow $D_{\mathrm{dep}}$ is \emph{sound} when every raw dependency entry it records has a dependency status among: generated in an earlier event flow, proved in an earlier theorem flow, recognized in an earlier certificate flow, local to the same theorem flow, explicitly marked as deferred obligation, explicitly listed as cannot-claim, or explicitly listed as open obligation. A dependency entry whose status is future-ungenerated is unsound.
 \end{definition}
 
 \begin{theorem}[Unsound dependency blocks theorem recognition]
 \label{thm:theorem-proof-unsound-dependency-blocks}
-If a theorem candidate has unsound dependency flow, it cannot become a sound theorem flow.
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.unsound\_dependency\_blocks\_theorem\_recognition}
+If a theorem candidate has a recognized dependency subflow whose dependency soundness predicate fails, then that candidate cannot become a sound theorem flow with that dependency subflow.
 \end{theorem}
 
 \begin{proof}
-The proof flow of a theorem must establish the statement under the recorded dependencies. If the dependency flow invokes material that has not been generated, recognized, proved, or marked deferred, the proof environment is not established. Hence theorem recognition cannot be sound.
+The sound theorem-flow predicate includes dependency soundness for the recognized dependency subflow. If dependency soundness fails for that subflow, the conjunction required for sound theorem recognition cannot be constructed.
 \end{proof}
 
 \section{Proof-flow recognition and checking}

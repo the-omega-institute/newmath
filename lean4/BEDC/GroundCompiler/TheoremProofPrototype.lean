@@ -49,6 +49,63 @@ def RecognizedStatementFlow
     (R : GeneratedStatementRecognizer) (S Phi : EventFlow) : Prop :=
   RecognizesStatement R S Phi
 
+def DependencyCandidate (S D : EventFlow) : Prop :=
+  TheoremSourceSubflow D S
+
+def GeneratedDependencyRecognizer : Type :=
+  GeneratedRecognizer
+
+def RecognizesDependencies
+    (R : GeneratedDependencyRecognizer) (S D : EventFlow) : Prop :=
+  DependencyCandidate S D /\
+    NonemptyEventFlow D /\
+    Recognizes R S D
+
+def RecognizedDependencyFlow
+    (R : GeneratedDependencyRecognizer) (S D : EventFlow) : Prop :=
+  RecognizesDependencies R S D
+
+inductive DependencyStatus : Type where
+  | earlierGenerated
+  | earlierTheorem
+  | earlierCertificate
+  | localTheorem
+  | deferredObligation
+  | cannotClaim
+  | openObligation
+  | futureUngenerated
+
+def DependencyStatusSound (status : DependencyStatus) : Prop :=
+  Not (status = DependencyStatus.futureUngenerated)
+
+def DependencySoundness
+    (D : EventFlow) (statusOf : RawEvent -> DependencyStatus) : Prop :=
+  forall dep : RawEvent, List.Mem dep D -> DependencyStatusSound (statusOf dep)
+
+def SoundTheoremWithDependencies
+    (R : GeneratedTheoremRecognizer) (T D : TheoremCandidateFlow)
+    (statusOf : RawEvent -> DependencyStatus) : Prop :=
+  TheoremRoleSubflow R T D TheoremRole.dependencies /\
+    DependencySoundness D statusOf
+
+theorem future_ungenerated_dependency_unsound
+    {D : EventFlow} {statusOf : RawEvent -> DependencyStatus}
+    {dep : RawEvent} :
+    List.Mem dep D ->
+      statusOf dep = DependencyStatus.futureUngenerated ->
+        Not (DependencySoundness D statusOf) := by
+  intro hMem hStatus hSound
+  exact hSound dep hMem hStatus
+
+theorem unsound_dependency_blocks_theorem_recognition
+    {R : GeneratedTheoremRecognizer} {T D : TheoremCandidateFlow}
+    {statusOf : RawEvent -> DependencyStatus} :
+    TheoremRoleSubflow R T D TheoremRole.dependencies ->
+      Not (DependencySoundness D statusOf) ->
+        Not (SoundTheoremWithDependencies R T D statusOf) := by
+  intro _ hUnsound hSound
+  exact hUnsound hSound.right
+
 inductive P7ReportDatum : Type where
   | decodedEventFlow (S : EventFlow)
   | statementCandidate (S Phi : EventFlow)
