@@ -135,6 +135,26 @@ def ProofUsableAsTheoremProof
     exists Rchk : GeneratedProofChecker,
       RecognizedProofFlow RPi S Pi /\ ProofSoundness Rchk Phi Ddep Pi
 
+theorem nonempty_not_source_subflow_empty {Pi : EventFlow} :
+    NonemptyEventFlow Pi -> Not (TheoremSourceSubflow Pi []) := by
+  intro hNonempty hSource
+  cases hNonempty with
+  | intro w hRest =>
+      cases hRest with
+      | intro rest hPi =>
+          cases hSource with
+          | intro before hAfter =>
+              cases hAfter with
+              | intro after hWhole =>
+                  cases hPi
+                  cases before <;> cases hWhole
+
+theorem empty_not_recognized_proof_flow
+    {R : GeneratedProofFlowRecognizer} {Pi : EventFlow} :
+    Not (RecognizedProofFlow R [] Pi) := by
+  intro h
+  exact nonempty_not_source_subflow_empty h.right.left h.left
+
 theorem proof_candidate_alone_insufficient
     {S Phi Ddep Pi : EventFlow} :
     ProofCandidate S Pi ->
@@ -149,6 +169,36 @@ theorem proof_candidate_alone_insufficient
       cases hChecker with
       | intro _ hPair =>
           exact hNoRecognized RPi hPair.left
+
+theorem code_not_proof_flow :
+    exists c : List DisplayAlphabet,
+      exists S : EventFlow,
+        Decode c = some S /\
+          (forall RPi : GeneratedProofFlowRecognizer,
+            forall Pi : EventFlow, Not (RecognizedProofFlow RPi S Pi)) := by
+  exact ⟨[], [], rfl, fun _ _ hProof => empty_not_recognized_proof_flow hProof⟩
+
+theorem proof_flow_not_checking :
+    exists RPi : GeneratedProofFlowRecognizer,
+      exists S Pi Phi Ddep : EventFlow,
+        RecognizedProofFlow RPi S Pi /\
+          (forall Rchk : GeneratedProofChecker,
+            Not (ProofSoundness Rchk Phi Ddep Pi)) := by
+  refine
+    ⟨[], [[BEDC.FKernel.Mark.BMark.b0]],
+      [[BEDC.FKernel.Mark.BMark.b0]], [], [], ?_⟩
+  constructor
+  · constructor
+    · exact ⟨[], [], rfl⟩
+    · constructor
+      · exact ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩
+      · exact FormalCompilerInput.recognizedFlow []
+          [[BEDC.FKernel.Mark.BMark.b0]]
+  · intro _ hCheck
+    exact empty_not_nonempty_event_flow hCheck.right.left
+
+def TheoremCandidate (S T : EventFlow) : Prop :=
+  TheoremSourceSubflow T S
 
 inductive P7ReportDatum : Type where
   | decodedEventFlow (S : EventFlow)
