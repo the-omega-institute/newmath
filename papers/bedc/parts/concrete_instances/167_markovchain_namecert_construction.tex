@@ -74,6 +74,74 @@ Next use \autoref{thm:markovchain-kernel-classifier-stability} and \autoref{thm:
 Finally apply \autoref{thm:markovchain-probspace-randomvar-source-boundary} together with \autoref{thm:markovchain-namecert-obligation-surface}. The dependency rows consumed by those projections are exactly the $\ProbSpaceUp$, $\RandomVarUp$, and $\DistributionUp$ certificates and the finite transition ledger, so the excluded stochastic-process, filtration, conditional-expectation, and standard-kernel objects remain outside the scoped package.
 \end{proof}
 
+\begin{theorem}[MarkovChain transition-packet scope]
+\label{thm:markovchain-transition-packet-scope}
+The paper scope of $\mathsf{MarkovChainTransitionPacket}$ is the finite
+$\mathsf{BHist}$ packet consisting of
+$\mathsf{ProbSpacePublicEventPacket}$ source rows,
+$\mathsf{DistributionPushforwardSourceSpec}$ law rows,
+$\mathsf{RandomVarTotalReadbackCertificate}$ current-to-next readback rows,
+$\Cont$ provenance rows, $\hsame$ transport rows, and the visible
+$\mathsf{BHist}$ time, current-state, next-state, transition, provenance, and
+ledger endpoints. It introduces no host stochastic-process carrier, filtration,
+conditional-expectation primitive, or standard Markov-kernel object.
+\end{theorem}
+\begin{proof}
+Unfold the transition-packet rows. The source field is the public probability
+event packet, the law field is the distribution pushforward source
+specification, and the readback field is the random-variable total readback
+certificate.
+
+The remaining rows are the two displayed $\Cont$ ledgers: one from the current
+state and transition row to the provenance endpoint, and one from that
+provenance endpoint and law row to the ledger endpoint. The only transport
+allowed across the packet is componentwise $\hsame$ on those displayed
+$\mathsf{BHist}$ rows, so the external stochastic objects listed above are not
+part of the scope.
+\end{proof}
+
+\begin{theorem}[MarkovChain Lean target surface]
+\label{thm:markovchain-lean-target-surface}
+The checked
+$\mathsf{MarkovChainTransitionPacket\_kernel\_classifier\_stability}$ theorem
+states that componentwise $\hsame$ transport of the source, time, current,
+next, law, and transition rows, together with transported $\Cont$ provenance
+and ledger rows, preserves the $\mathsf{MarkovChainTransitionPacket}$ carrier
+and returns $\hsame$ comparisons for the provenance and ledger endpoints.
+\end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_kernel\_classifier\_stability}
+\begin{proof}
+Read the checked theorem as the transition-packet classifier transport row.
+The inputs are precisely the rows isolated in
+\autoref{thm:markovchain-transition-packet-scope}.
+
+The theorem transports the probability source, unary time row,
+random-variable current and next endpoints, law row, and transition row by
+$\hsame$. It then rebuilds the two $\Cont$ ledgers at the transported
+endpoints, producing both the transported carrier packet and the displayed
+provenance and ledger endpoint comparisons.
+\end{proof}
+
+\begin{theorem}[MarkovChain scoped obligation package]
+\label{thm:markovchain-scoped-obligation-package}
+The transition-packet stability theorem of
+\autoref{thm:markovchain-lean-target-surface} supplies the scoped
+carrier/classifier transport row for $\MarkovChainUp$. Ledger exactness and the
+assembled $\NameCert_{\MarkovChainUp}$ remain paper obligations until their
+corresponding rows are separately formalized.
+\end{theorem}
+\begin{proof}
+Combine \autoref{thm:markovchain-transition-packet-scope} with
+\autoref{thm:markovchain-lean-target-surface}. The former fixes the visible
+carrier rows, and the latter proves that the classifier transport preserves
+that packet.
+
+The remaining fields of the local name certificate are not consequences of the
+transport theorem alone. They require the ledger exactness row and the final
+assembly of the $\NameCert_{\MarkovChainUp}$ surface, so they stay as stated
+paper obligations.
+\end{proof}
+
 \section{The certificate}
 \label{sec:markovchain-certificate}
 
@@ -86,5 +154,5 @@ Finally apply \autoref{thm:markovchain-probspace-randomvar-source-boundary} toge
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{No host stochastic-process carrier, filtration, conditional-expectation construction, stationary law, martingale property, or standard kernel bridge is claimed.}
-  \upgradepath{The next grade requires Lean theorem sites for the transition carrier, kernel classifier stability, transition ledger exactness, source boundary, and assembled NameCert obligation surface.}
+  \upgradepath{The next grade requires separate Lean rows for ledger exactness, source boundary, and assembled NameCert obligation surface beyond the checked transition-packet carrier/classifier transport theorem.}
 \end{closurestatus}
