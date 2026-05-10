@@ -192,4 +192,38 @@ theorem ProbSpaceBinaryCoverDifferenceLedger_inclusion_exclusion_identity
     congrArg (append event) outsideSwap
   exact hsame_trans lhsReadback (hsame_trans sameCanonical (hsame_symm rhsReadback))
 
+theorem ProbSpaceBinaryCoverDifferenceLedger_inclusion_exclusion_balance
+    {A I D U B muA muI muD muU muB leftTotal rightTotal : BHist} :
+    UnaryHistory I -> UnaryHistory D -> Cont A D U -> Cont I D B -> hsame muA A ->
+      hsame muI I -> hsame muD D -> hsame muU U -> hsame muB B ->
+        Cont muU muI leftTotal -> Cont muA muB rightTotal ->
+          hsame leftTotal rightTotal := by
+  intro iUnary dUnary coverAD coverID sameMuA sameMuI sameMuD sameMuU sameMuB leftRow
+    rightRow
+  have uAD : hsame U (append A D) := coverAD
+  have bID : hsame B (append I D) := coverID
+  have muUAD : hsame muU (append A D) := hsame_trans sameMuU uAD
+  have muBID : hsame muB (append I D) := hsame_trans sameMuB bID
+  have muIUnary : UnaryHistory muI := unary_transport iUnary (hsame_symm sameMuI)
+  have muDUnary : UnaryHistory muD := unary_transport dUnary (hsame_symm sameMuD)
+  have muBAD : hsame muB (append muI muD) :=
+    hsame_trans muBID
+      (hsame_trans
+        (congrArg (fun h => append h D) (hsame_symm sameMuI))
+        (congrArg (fun h => append muI h) (hsame_symm sameMuD)))
+  have rightAsAID : hsame rightTotal (append muA (append muI muD)) := by
+    exact hsame_trans rightRow (congrArg (fun h => append muA h) muBAD)
+  have leftAsADI : hsame leftTotal (append (append muA muD) muI) := by
+    exact hsame_trans leftRow
+      (hsame_trans
+        (congrArg (fun h => append h muI) (hsame_trans muUAD
+          (hsame_trans
+            (congrArg (fun h => append h D) (hsame_symm sameMuA))
+            (congrArg (fun h => append muA h) (hsame_symm sameMuD)))))
+        (hsame_refl (append (append muA muD) muI)))
+  have adIToAID : hsame (append (append muA muD) muI) (append muA (append muI muD)) :=
+    hsame_trans (append_assoc muA muD muI)
+      (congrArg (fun h => append muA h) (unary_append_comm_hsame muDUnary muIUnary))
+  exact hsame_trans leftAsADI (hsame_trans adIToAID (hsame_symm rightAsAID))
+
 end BEDC.Derived.ProbSpaceUp

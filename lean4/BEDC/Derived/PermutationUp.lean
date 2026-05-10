@@ -275,4 +275,27 @@ theorem PermutationBijectionSourceRow_public_name_certificate [AskSetup] [Packag
       unary_transport surface.right.right.right.left sameLedger
     exact unary_no_zero_extension zeroUnary
 
+theorem PermutationBijectionSourceRow_bridged_surface_completeness [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger bridge symLedger : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle tgtBundle
+        srcPkg tgtPkg ->
+      Cont ledger BHist.Empty symLedger ->
+        Cont symLedger bridge symLedger ->
+          hsame bridge BHist.Empty ->
+            UnaryHistory symLedger ∧ hsame symLedger ledger ∧
+              PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle
+                tgtBundle srcPkg tgtPkg := by
+  intro row ledgerToSym bridgeLoop bridgeEmpty
+  have surface := PermutationBijectionSourceRow_carrier_surface row
+  have emptyUnary : UnaryHistory BHist.Empty := unary_empty
+  have symLedgerUnary : UnaryHistory symLedger :=
+    unary_cont_closed surface.right.right.right.left emptyUnary ledgerToSym
+  have sameSymLedger : hsame symLedger ledger :=
+    Iff.mp cont_right_unit_iff ledgerToSym
+  have _bridgeLoopClosed : hsame symLedger symLedger :=
+    cont_respects_hsame (hsame_refl symLedger) bridgeEmpty bridgeLoop
+      (cont_right_unit symLedger)
+  exact And.intro symLedgerUnary (And.intro sameSymLedger row)
+
 end BEDC.Derived.PermutationUp
