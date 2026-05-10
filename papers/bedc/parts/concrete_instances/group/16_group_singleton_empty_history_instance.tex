@@ -1,0 +1,83 @@
+\section{Concrete singleton empty-history group instance}
+\label{sec:group-concrete-singleton-empty-history-instance}
+
+\begin{definition}[Group singleton empty-history instance]
+\label{def:group-singleton-empty-history-instance}
+Let $A_{\emp}$ be the singleton history source at the empty endpoint:
+$$
+A_{\emp}(h) := \hsame(h,\emp).
+$$
+The classifier, multiplication, unit, and inverse are
+$$
+R_{\emp}(h,k) := A_{\emp}(h)\land A_{\emp}(k)\land \hsame(h,k),
+\qquad
+\mathsf{mul}_{\emp}(h,k):=\mathsf{append}(h,k),
+\qquad
+e_{\emp}:=\emp,
+\qquad
+\mathsf{inv}_{\emp}(h):=\emp.
+$$
+Equivalently, because both endpoints of the carrier are classified with
+$\emp$, the multiplication may be read through its classified empty endpoint.
+The displayed append row is the operational ledger, and the constant empty
+endpoint is the inverse row.
+\end{definition}
+
+\begin{theorem}[Group singleton empty-history laws]
+\label{thm:group-singleton-empty-history-laws}
+The data of Definition~\ref{def:group-singleton-empty-history-instance}
+satisfy the concrete $\GroupUp$ laws over $\mathsf{BHist}$: carrier
+inhabitance, multiplication closure, left and right unit laws, associativity
+and multiplication congruence from the continuation rows, inverse closure, and
+left and right inverse laws against $e_{\emp}$.
+\end{theorem}
+\begin{proof}
+Carrier inhabitance is the reflexive row $\hsame(\emp,\emp)$, so
+$A_{\emp}(\emp)$ holds.
+
+For multiplication closure, suppose $A_{\emp}(h)$ and $A_{\emp}(k)$. The
+continuation append row for $\mathsf{append}(h,k)$ composes the two displayed
+paths to $\emp$ with the empty endpoint laws, giving
+$A_{\emp}(\mathsf{mul}_{\emp}(h,k))$.
+
+The left and right unit laws are the two empty-endpoint continuation laws for
+append. They identify $\mathsf{append}(\emp,h)$ and
+$\mathsf{append}(h,\emp)$ with $h$; composing with the carrier witness
+$A_{\emp}(h)$ classifies both products against the same singleton endpoint.
+
+Associativity and multiplication congruence are inherited from the existing
+continuation rows for append. The carrier side conditions collapse all four
+endpoints into $A_{\emp}$, and the $\hsame$ equivalence rows repack the result
+as an $R_{\emp}$ classifier statement.
+
+Inverse closure is immediate because $\mathsf{inv}_{\emp}(h)$ is $\emp$. The
+left and right inverse laws reduce to the same two unit laws:
+$\mathsf{append}(\emp,h)$ and $\mathsf{append}(h,\emp)$ are classified with
+$e_{\emp}$ by the carrier witness for $h$.
+\end{proof}
+
+\begin{theorem}[Group singleton empty-history NameCert]
+\label{thm:group-singleton-empty-history-namecert}
+The carrier $A_{\emp}$, classifier $R_{\emp}$, append multiplication, empty
+unit, and constant empty inverse package the laws of
+\autoref{thm:group-singleton-empty-history-laws} as a concrete
+$\NameCert_{\GroupUp}$ surface. The certificate exports only the singleton
+$\mathsf{BHist}$ carrier, the displayed continuation ledger for append, the
+empty endpoint, the constant inverse row, and the $\hsame$ classifier.
+\end{theorem}
+\begin{proof}
+The semantic carrier and classifier fields are supplied directly by
+Definition~\ref{def:group-singleton-empty-history-instance}. Reflexivity,
+symmetry, and transitivity of the classifier are the corresponding $\hsame$
+rows, with the two carrier side conditions retained in the package ledger.
+
+The algebraic fields are exactly the rows proved in
+\autoref{thm:group-singleton-empty-history-laws}. Multiplication closure, unit
+laws, associativity, and congruence come from the append continuation ledger;
+inverse closure and the inverse laws come from the constant empty inverse row.
+
+Repacking these fields gives the concrete $\NameCert_{\GroupUp}$ surface. No
+abstract carrier, external operation table, quotient presentation, or
+host-level group object is exported beyond the singleton history data named
+above.
+\end{proof}

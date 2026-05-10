@@ -74,6 +74,43 @@ Soundness reads every accepted public row back to that list. A carried extension
 Completeness is the reverse packaging. Given exactly those dependency rows and provenance rows, the ten-field template assembles a $\SeparableExtUp$ certificate row, and \autoref{thm:separableext-classifier-stability} supplies the classifier transport needed to keep the row stable under certified comparison.
 \end{proof}
 
+\begin{theorem}[Separable-extension mature example-family completeness]
+\label{thm:separableext-mature-example-family}
+Any carried separable-extension example assembled from a $\FieldExtUp$ source
+packet, a $\PolynomialUp$ minimal-polynomial packet, shared
+$\mathsf{BHist}$ and $\mathsf{Pkg}$ provenance, and a simple-root derivative
+or gcd row is completely read by the five surfaces of this chapter: source
+dependency, carrier and classifier, simple-root obligation, classifier
+stability, and ledger exactness. The resulting family is mature at this
+certificate boundary because every accepted example is recovered from those
+five surfaces, and every such package reassembles the same
+$\NameCert_{\SeparableExtUp}$ row.
+\end{theorem}
+\begin{proof}
+First read the example through
+\autoref{thm:separableext-fieldext-polynomial-source}. This identifies the
+two dependency packets and forces their base-field, extension-field,
+generator, and minimal-polynomial histories to share the same $\mathsf{BHist}$
+and $\mathsf{Pkg}$ provenance.
+
+Next apply \autoref{thm:separableext-carrier-classifier-surface} and
+\autoref{thm:separableext-simple-root-obligation}. These two surfaces expose
+the carried extension row, the displayed minimal-polynomial row, and the
+derivative or gcd-style simple-root witness without adding a host-field root
+predicate.
+
+Then use \autoref{thm:separableext-classifier-stability} to transport the
+simple-root row across the inherited $\FieldExtUp$ and $\PolynomialUp$
+classifiers. The derivative or gcd ledger, the continuation row, the $\hsame$
+transports, and the package provenance remain inside the same carried
+surface.
+
+Finally apply \autoref{thm:separableext-ledger-exactness}. Its coverage,
+soundness, and completeness clauses say that the five surfaces enumerate
+exactly the public $\SeparableExtUp$ certificate rows. Root sets, splitting
+fields, and Galois actions are not exported by this family.
+\end{proof}
+
 \closureat{SeparableExtUp}{bridgedStr}[BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_semantic\_name\_certificate]
 
 \begin{closurestatus}{\SeparableExtUp}
