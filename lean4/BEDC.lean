@@ -875,6 +875,7 @@ import BEDC.Derived.QuotientGroupUp.CentralizerCosetProduct
 import BEDC.Derived.QuotientGroupUp.EmptyRepresentativeVisible
 import BEDC.Derived.QuotientGroupUp.AbelianTerminalProjectionUniqueness
 import BEDC.Derived.QuotientGroupUp.IdentityFiberSaturation
+import BEDC.Derived.QuotientGroupUp.StdBridge
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
 import BEDC.Derived.HomologyUp.StdBridge
