@@ -120,6 +120,8 @@ inductive BootstrapRole : Type where
   | eventFlowRecognizer
   | recognizerCertificateChecker
 
+def BootstrapComponent : Type := BootstrapRole
+
 def BootstrapCompiler
     (C : CompilerCandidateFlow) (_rho : BootstrapRole) : Prop :=
   FormalCompilerInput (CompilerDatum.eventFlow C)
@@ -127,6 +129,11 @@ def BootstrapCompiler
 def BootstrapObligation
     (B : EventFlow) (C : CompilerCandidateFlow) (rho : BootstrapRole) : Prop :=
   NonemptyEventFlow B /\ P9Subflow B C /\ BootstrapCompiler C rho
+
+def BootstrapObligationFlow
+    (B : EventFlow) (C : CompilerCandidateFlow) (rho : BootstrapComponent) :
+    Prop :=
+  BootstrapObligation B C rho
 
 def BootstrapRecorded (C : CompilerCandidateFlow) : Prop :=
   exists B : EventFlow, exists rho : BootstrapRole, BootstrapObligation B C rho
@@ -167,6 +174,13 @@ theorem hidden_bootstrap_violates
       exact hHidden.right.left hCertified
   | inr hBootstrap =>
       exact hHidden.right.right hBootstrap
+
+theorem invisible_bootstrap_invalidates_full_claim
+    {Compiles : CompilerBehaviorRelation}
+    {C : CompilerCandidateFlow} {S T : EventFlow} :
+    HiddenBootstrapUse Compiles C S T ->
+      Not (NoHiddenCompilerUse Compiles C S T) := by
+  exact hidden_bootstrap_violates
 
 def CompilerBehaviorClassifier
     (behavior : CompilerBehaviorRelation)
@@ -354,6 +368,10 @@ theorem remaining_bootstrap_boundary_visible {C : CompilerCandidateFlow} :
     RemainingBootstrapBoundary C -> BootstrapRecorded C := by
   intro hBoundary
   exact hBoundary.right
+
+theorem bootstrap_boundary_reportable {C : CompilerCandidateFlow} :
+    RemainingBootstrapBoundary C -> BootstrapRecorded C := by
+  exact remaining_bootstrap_boundary_visible
 
 theorem invisible_bootstrap_blocks_certification {C : CompilerCandidateFlow} :
     BootstrapUndischarged C ->

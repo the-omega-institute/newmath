@@ -195,11 +195,13 @@ Sound behavior records contain the compiler, input, output, compilation relation
 
 \begin{definition}[Bootstrap component]
 \label{def:self-hosting-bootstrap-component}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.BootstrapComponent}
 A \emph{bootstrap component} is an implementation component not yet fully generated or verified by self-hosting compiler-flow. Examples include initial channel encoders, initial decoders, initial recognizer-certificate checkers, proof-checker bridges, host executables, and kernel reliance.
 \end{definition}
 
 \begin{definition}[Bootstrap-obligation flow]
 \label{def:self-hosting-bootstrap-obligation-flow}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.BootstrapObligationFlow}
 A \emph{bootstrap-obligation flow} is an event subflow $B$ recording the bootstrap component, its role, why it is needed, what is not internally generated yet, what would discharge it, current status, ledger, and cannot-claim entries. Write
 $$
   \mathsf{BootstrapObligationFlow}(B).
@@ -213,6 +215,7 @@ Every undisclosed or undischarged bootstrap component used by a formal judgment 
 
 \begin{theorem}[Invisible bootstrap invalidates full no-hidden-input claim]
 \label{thm:self-hosting-invisible-bootstrap-invalid}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.invisible\_bootstrap\_invalidates\_full\_claim}
 If a formal judgment depends on a bootstrap component $B$ but no corresponding bootstrap-obligation flow exists, then the system cannot claim full no-hidden-input compiler status.
 \end{theorem}
 
@@ -222,6 +225,7 @@ Full no-hidden-input status requires every used structure to come from event flo
 
 \begin{corollary}[Bootstrap boundary must be reportable]
 \label{cor:self-hosting-bootstrap-boundary-reportable}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.bootstrap\_boundary\_reportable}
 Every $P_9$ report must list all remaining bootstrap obligations.
 \end{corollary}
 
