@@ -132,6 +132,57 @@ theorems exports quotient data, completion data, metric completeness,
 arithmetic or order operations, or additional selectors.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat tail-selector RealUp window factorization]
+\label{thm:streamname-regseqrat-tail-selector-real-window-factorization}
+Let $W$ be a selected finite $\RealUp$ observation-window package over public
+$\StreamNameUp$ rational stream endpoints $s,t:\mathsf{BHist}\to\mathsf{BHist}$
+and a finite $\mathsf{ProbeBundle}$ window $\mathcal P$. If $W$ is accepted
+through a StreamName RegSeqRat RealUp tail-selector transport packet, then every
+consumer-facing $\RealUp$ row exposed by $W$ factors through exactly the finite
+public surface consisting of:
+\begin{enumerate}
+\item the displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$ row;
+\item for each selected observation $n$, the bundled
+$\mathsf{UnaryHistory}(n)$ and $\mathsf{InBundle}(n,\mathcal P)$ rows;
+\item the pointwise $\mathsf{RatHistoryClassifier}(s(n),t(n))$ rows;
+\item the accepted $\RegSeqRat$ spine row selected by those pointwise rational
+history rows;
+\item the DyadicRatCore endpoint rows read from that same accepted spine; and
+\item the finite $\Cont$, $\hsame$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ ledger over the selected window.
+\end{enumerate}
+
+Thus the Real-and-Completion boundary sees only this finite factorization. The
+factorization exposes no quotient row, completion row, Classical representative,
+metric-completeness certificate, arithmetic or order operation, standard bridge
+row, or hidden selector row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-tail-selector-handoff-exactness} to the
+accepted transport packet. The handoff exactness result displays the packet as
+precisely the StreamName finite-window classifier, the selected
+$\mathsf{UnaryHistory}/\mathsf{InBundle}$ observations, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine, the
+DyadicRatCore endpoint rows, and the finite $\RealUp$ ledger.
+
+Next apply
+\autoref{thm:realup-streamname-regseqrat-uniform-window-readback} to that
+displayed handoff surface. This reads every selected $\RealUp$ observation
+through the same finite StreamName-to-RegSeqRat window and identifies the
+consumer-facing rows with the DyadicRatCore endpoint readback and the
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ ledger.
+
+Finally apply \autoref{thm:regseqrat-tail-classifier-exactness}. The selected
+tail row is therefore the same finite public surface already named by the
+accepted $\RegSeqRat$ spine and its pointwise rational-history classifier rows.
+Since each cited exactness theorem exports only the listed finite rows, no
+quotient, completion, Classical representative, metric-completeness,
+arithmetic or order, standard-bridge, or hidden-selector row can appear in the
+factorization.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat RealUp tail-selector transport composition]
 \label{thm:streamname-regseqrat-realup-tail-selector-transport-composition}
 Let $W_0$, $W_1$, and $W_2$ be selected finite $\RealUp$ observation-window
