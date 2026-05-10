@@ -392,6 +392,7 @@ Global verification-flow records system status. It does not add new theorems, ne
 
 \begin{definition}[$P_9$ report]
 \label{def:self-hosting-p9-report}
+\leandef{BEDC.GroundCompiler.SelfHostingReports.P9Report}
 A $P_9$ report is an output view containing decoded event flow, compiler candidates, recognized compiler-flows, compiler certificate status, behavior records, self-compilation candidates, recognized self-compilation flows, behavior-equivalence status, self-hosting ledger, bootstrap obligations, fully discharged status, global verification-flow status, no-host-leak audit, implementation target audit, remaining obligations, warnings, and cannot-claim annotations.
 \end{definition}
 
@@ -409,11 +410,14 @@ A $P_9$ report must include cannot-claim annotations stating that recognized com
 
 \begin{definition}[Sound $P_9$ report]
 \label{def:self-hosting-sound-p9-report}
+\leandef{BEDC.GroundCompiler.SelfHostingReports.SoundP9Report}
 A $P_9$ report is \emph{sound} when every recognized compiler-flow is backed by generated compiler recognizer, every certified compiler claim has complete compiler certificate-flow, every behavior record satisfies behavior soundness, every self-compilation claim has self-compilation ledger, every behavior-equivalence claim has recognized behavior-equivalence flow, all bootstrap obligations are listed, fully discharged status appears only when remaining obligations are empty, global verification-flow claims have soundness evidence, no-host-leak audit either passes or lists failed items, and cannot-claim annotations are complete.
 \end{definition}
 
 \begin{theorem}[Sound $P_9$ report theorem]
 \label{thm:self-hosting-sound-p9-report}
+\leanchecked{BEDC.GroundCompiler.SelfHostingReports.sound\_p9\_report\_supports\_self\_hosting}
+\leanvariant{BEDC.GroundCompiler.SelfHostingReports.sound\_p9\_report\_full\_claim\_requires\_empty\_obligations}
 If $P_9$ outputs a sound $P_9$ report, then every self-hosting claim is backed by certified compiler-flow, self-compilation-flow, behavior-equivalence-flow, and self-hosting ledger; every full no-hidden-input claim requires no remaining bootstrap obligations.
 \end{theorem}
 
