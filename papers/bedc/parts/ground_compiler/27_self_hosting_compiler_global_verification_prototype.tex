@@ -234,6 +234,7 @@ Every $P_9$ report must list all remaining bootstrap obligations.
 
 \begin{definition}[Self-compilation flow]
 \label{def:self-hosting-self-compilation-flow}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.SelfCompilationFlow}
 A \emph{self-compilation flow} is a recognized event flow $SC$ containing compiler-flow $C$, input flow $C$, compiled output flow $C'$, behavior record $C:C\mapsto C'$, and self-compilation ledger. Write
 $$
   \mathsf{SelfCompilationFlow}(SC,C,C').
@@ -242,6 +243,7 @@ $$
 
 \begin{definition}[Self-compilation ledger]
 \label{def:self-hosting-self-compilation-ledger}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.SelfCompilationLedger}
 A \emph{self-compilation ledger} is an event subflow $L_{SC}$ recording raw compiler-flow $C$, channel code $\mathsf{Compile}(C)$, decoded or output compiler-flow $C'$, behavior record, failure branches, bootstrap obligations used, bootstrap obligations discharged, and remaining bootstrap obligations. Write
 $$
   \mathsf{SelfCompilationLedger}(L_{SC},C,C').
@@ -250,6 +252,7 @@ $$
 
 \begin{principle}[No self-compilation without ledger]
 \label{prin:self-hosting-no-self-compilation-without-ledger}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.no\_self\_compilation\_without\_ledger}
 A self-compilation claim requires self-compilation ledger. Thus $\mathsf{SelfCompilationFlow}(SC,C,C')$ must include $\mathsf{SelfCompilationLedger}(L_{SC},C,C')$.
 \end{principle}
 

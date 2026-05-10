@@ -492,6 +492,33 @@ def P9CompleteFormalCompilationJudgment
     (C S T : EventFlow) : Prop :=
   P9CompleteCertifiedCompiler C /\ Compiles C S T
 
+def SelfCompilationLedger (LSC C C' : EventFlow) : Prop :=
+  NonemptyEventFlow LSC /\
+    P9Subflow LSC C /\
+    P9Subflow LSC C'
+
+def SelfCompilationFlow (SC C C' : EventFlow) : Prop :=
+  NonemptyEventFlow SC /\
+    P9Subflow SC C /\
+    P9Subflow SC C' /\
+    exists Compiles : CompilerBehaviorRelation,
+      exists BC LSC : EventFlow,
+        P9BehaviorRecord Compiles BC C C C' /\
+          SelfCompilationLedger LSC C C'
+
+theorem no_self_compilation_without_ledger
+    {SC C C' : EventFlow} :
+    SelfCompilationFlow SC C C' ->
+      exists LSC : EventFlow, SelfCompilationLedger LSC C C' := by
+  intro hFlow
+  cases hFlow.right.right.right with
+  | intro _Compiles hCompiles =>
+      cases hCompiles with
+      | intro _BC hBC =>
+          cases hBC with
+          | intro LSC hLSC =>
+              exact ⟨LSC, hLSC.right⟩
+
 theorem p9_formal_use_requires_complete_certificate
     {Compiles : CompilerBehaviorRelation}
     {C S T : EventFlow} :
