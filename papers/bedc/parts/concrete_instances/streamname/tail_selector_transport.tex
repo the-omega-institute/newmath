@@ -291,6 +291,55 @@ metric-completeness, arithmetic or order, standard bridge, or hidden selector
 row is available in the composed readback.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat RealUp tail-selector ledger associativity]
+\label{thm:streamname-regseqrat-realup-tail-selector-ledger-associativity}
+Let $W_0,W_1,W_2,W_3$ be selected finite $\RealUp$ observation-window
+packages over the same public StreamName endpoints
+$s,t:\mathsf{BHist}\to\mathsf{BHist}$ and the same accepted $\RegSeqRat$
+spine row. Suppose the $W_0$ to $W_1$, $W_1$ to $W_2$, and $W_2$ to $W_3$
+legs are compatible StreamName RegSeqRat RealUp tail-selector transport
+packets. Then the left and right bracketings of these three legs expose the
+same finite ledger: the displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the
+$\mathsf{UnaryHistory}$ rows, the $\mathsf{InBundle}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine, the
+finite $\RealUp$ ledger, and the visible $\Cont/\hsame/\Pkg$ rows carried by
+the three compatible legs and their certified shared subwindows.
+
+The ledger identification adds no quotient row, completion row, Classical
+representative, metric-completeness certificate, arithmetic or order row,
+standard bridge row, or hidden selector row.
+\end{theorem}
+\begin{proof}
+First compare the composed transport packets. Apply
+\autoref{thm:streamname-regseqrat-realup-tail-selector-transport-composition}
+to the $W_0$ to $W_1$ and $W_1$ to $W_2$ legs, and then to the resulting
+$W_0$ to $W_2$ packet and the $W_2$ to $W_3$ leg. Apply the same theorem to
+the $W_1$ to $W_2$ and $W_2$ to $W_3$ legs, and then to the $W_0$ to $W_1$
+leg and the resulting $W_1$ to $W_3$ packet. Both constructions expose the
+same endpoint rows and the same three named visible legs.
+
+Next compare the public denominator-window coordinates. Apply
+\autoref{thm:streamname-regseqrat-realup-tail-denominator-selector-composition}
+to the two bracketings. The selector rows in the two resulting readbacks are
+therefore the selectors produced from the same three compatible packets.
+
+Now restrict the comparison to every certified shared face. Apply
+\autoref{thm:streamname-regseqrat-realup-tail-denominator-selector-subwindow}
+on each subwindow. This identifies the displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}$, $\mathsf{UnaryHistory}$,
+$\mathsf{InBundle}$, pointwise $\mathsf{RatHistoryClassifier}$, accepted
+$\RegSeqRat$ spine, and finite $\RealUp$ ledger rows read by both
+bracketings.
+
+It remains to compare the visible kernel rows. The $\hsame$ rows compose
+associatively on StreamName observations, on the accepted $\RegSeqRat$ spine,
+and on the dyadic endpoint rows; the $\Cont$ routes concatenate
+associatively; and the $\Pkg$ provenance rows name the same three visible
+legs in either bracketing. Transitivity of these displayed comparisons gives
+the stated finite-ledger identification and the stated exclusions.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat RealUp tail selector associative readback]
 \label{thm:streamname-regseqrat-realup-tail-selector-associative-readback}
 Let $W_0,W_1,W_2,W_3$ be selected finite $\RealUp$ observation-window
@@ -344,11 +393,9 @@ $\mathsf{RatStreamNameFiniteWindowClassifier}$, $\mathsf{UnaryHistory}$,
 $\mathsf{InBundle}$, pointwise $\mathsf{RatHistoryClassifier}$, accepted
 $\RegSeqRat$ spine, and finite $\RealUp$ ledger rows.
 
-It remains only to compare the displayed ledgers. The $\hsame$ rows compose
-associatively on StreamName observations, on the accepted $\RegSeqRat$ spine,
-and on the dyadic endpoint rows; the $\Cont$ routes concatenate
-associatively; and the $\Pkg$ provenance rows name the same three visible
-legs in either bracketing. Transitivity of these displayed comparisons
-identifies the two public readbacks, giving the stated selector from $W_0$ to
-$W_3$ and the stated exclusions.
+The displayed ledger comparison is
+\autoref{thm:streamname-regseqrat-realup-tail-selector-ledger-associativity}.
+It identifies the visible $\Cont/\hsame/\Pkg$ rows and the finite public rows
+read by both bracketings. This gives the stated selector from $W_0$ to $W_3$
+and the stated exclusions.
 \end{proof}
