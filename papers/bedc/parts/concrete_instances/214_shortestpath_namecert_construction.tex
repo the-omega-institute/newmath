@@ -6,5 +6,76 @@ The shortest-path interface $\ShortestPathUp$ packages, on a weighted graph carr
 \section{Carrier definition}
 \label{sec:shortestpath-carrier}
 
+\begin{definition}[Shortest-path weighted graph carrier]
+\label{def:shortestpath-bhist-weighted-graph-carrier}
+A $\ShortestPathUp$ carrier is a finite $\mathsf{BHist}$ weighted-graph
+packet. Its visible rows consist of vertex rows, directed or undirected edge
+rows, nonnegative $\RealUp$ weight rows attached to the displayed edges, source
+and target endpoint rows, a finite path ledger, and the $\Pkg$ provenance row
+that records which graph and weight packet the ledger reads from.
+
+The carrier does not include a completed metric space, an infinite graph, an
+unstated host ordering on vertices, or an external minimization oracle. Every
+comparison row is read from the finite graph packet, the $\RealUp$ weight
+certificates, the endpoint rows, and the displayed path ledger.
+\end{definition}
+
 \section{The certificate}
 \label{sec:shortestpath-certificate}
+
+\begin{theorem}[Shortest-path visible path ledger]
+\label{thm:shortestpath-visible-path-ledger}
+For any accepted $\ShortestPathUp$ packet, the readable path data are exactly
+the finite vertex sequence in the path ledger, the edge-incidence rows
+certifying that consecutive vertices are connected, the nonnegative $\RealUp$
+weight rows for those edges, the source and target endpoint rows, and the
+$\Pkg$ provenance row tying the ledger to the weighted-graph carrier.
+
+No row of the certificate asserts an unseen edge, a hidden lower-weight path,
+a completed real metric, or a host-index equality between vertices.
+\end{theorem}
+\begin{proof}
+Unpack the weighted-graph carrier of
+\autoref{def:shortestpath-bhist-weighted-graph-carrier}. The only graph rows it
+exports are the finite vertex rows, edge rows, endpoint rows, weight rows,
+path-ledger rows, and package provenance.
+
+Read the path ledger pointwise. Each adjacent pair in the displayed vertex
+sequence is checked by one visible edge-incidence row, and each such edge
+contributes its displayed nonnegative $\RealUp$ weight row.
+
+The source and target constraints are the endpoint rows at the first and last
+ledger positions. Since the carrier has no generator for unseen edges,
+completed metrics, host-index equalities, or external minimization oracles, the
+listed rows are exactly the visible path ledger.
+\end{proof}
+
+\begin{theorem}[Shortest-path relaxation certificate scope]
+\label{thm:shortestpath-relaxation-certificate-scope}
+Dijkstra and Bellman-Ford readback for $\ShortestPathUp$ remains a finite
+$\mathsf{BHist}$ ledger obligation. The certificate surface consists of the
+weighted-graph carrier, the source and target endpoint rows, nonnegative
+$\RealUp$ edge-weight rows, finite relaxation rows comparing displayed path
+weights, predecessor or path-ledger rows, and the $\Pkg$ provenance row.
+
+The certificate does not assert an ambient choice of shortest path, a total
+ordering of all host vertices, an infinite relaxation process, or a completed
+real-analysis object.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. It fixes a finite graph packet, a finite
+family of nonnegative $\RealUp$ weight rows, and the package provenance used by
+the path ledger.
+
+For a Dijkstra readback, each settled-step claim is a row comparing visible
+candidate path weights over the finite frontier named by the packet. For a
+Bellman-Ford readback, each relaxation claim is a finite edge row together
+with the displayed before-and-after path-weight comparison.
+
+In both readings the predecessor or path-ledger row supplies the reconstructed
+path, and \autoref{thm:shortestpath-visible-path-ledger} identifies the
+readable endpoint and incidence rows. Thus the certificate surface is a finite
+$\mathsf{BHist}$ ledger obligation over the named graph and weight rows, with
+no ambient choice principle, host-vertex ordering, infinite process, or
+completed real object.
+\end{proof}

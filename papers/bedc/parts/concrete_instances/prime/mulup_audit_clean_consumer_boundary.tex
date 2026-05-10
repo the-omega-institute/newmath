@@ -100,3 +100,44 @@ rows. Since each cited component is already listed in
 cannot expose host multiplication, host order, quotient carriers, or standard
 semiring data.
 \end{proof}
+
+\begin{theorem}[MulUp audit-clean boundary row exhaustion]
+\label{thm:mulup-audit-clean-boundary-row-exhaustion}
+Every row readable from the $\MulUp$ audit-clean consumer boundary of
+\autoref{def:mulup-audit-clean-consumer-boundary} is one of the displayed rows
+$\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$,
+$\mathsf{NatMul}$, $\mathsf{NatDivides}$, $\mathsf{PreorderPrefixLE}$, the
+cited $\AddUp$ boundary of
+\autoref{thm:mulup-add-order-phase-interaction-package}, or the cited
+$\OrderUp$ boundary of
+\autoref{thm:unary-prefix-orderup-phase-exit-package}.
+
+Conversely, each listed row is supplied by the concrete semantic exit, the
+checked-law audit package, the NatMul window-exhaustion theorem, and the
+divisibility-order source exactness theorem. Thus the boundary has no readable
+row for host multiplication, host order, quotient carriers, semiring
+primitives, or any additional arithmetic source.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:mulup-audit-clean-consumer-boundary}. Its displayed list is
+the consumer-facing row interface, so any readable row must be one of the
+listed carrier, classifier, continuation, multiplication, divisibility,
+unary-prefix, $\AddUp$, or $\OrderUp$ entries.
+
+For the converse direction, apply
+\autoref{thm:mulup-audit-clean-result-namecert-handoff}. The handoff factors
+the boundary through the concrete $\mathsf{NatMul}$ semantic certificate and
+the checked-law audit package, so the $\mathsf{BHist}$,
+$\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, and $\mathsf{NatMul}$ rows are
+available as the named result-side surface.
+
+Next apply \autoref{thm:mulup-natmul-window-exhaustion}. It exhausts the
+consumer-facing multiplication window, leaving no host multiplication slot and
+no semiring primitive outside the concrete $\mathsf{NatMul}$ ledger.
+
+Finally use \autoref{thm:mulup-divisibility-order-source-exactness}. It
+identifies the remaining order-facing rows as exactly $\mathsf{NatDivides}$,
+$\mathsf{PreorderPrefixLE}$, and the cited $\AddUp$ and $\OrderUp$ boundaries.
+Since no cited theorem introduces a quotient carrier or host order primitive,
+the displayed rows exhaust the audit-clean boundary.
+\end{proof}
