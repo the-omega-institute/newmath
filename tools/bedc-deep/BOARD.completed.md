@@ -15822,3 +15822,53 @@ Rationale:
 Strict companion to the prefix-restriction proposal but technically distinct (gluing along shared endpoint vs prefix truncation). Together they make MarkovChainUp carriers a true list-with-restriction-and-concatenation closure. The Newton concatenation candidate has the same proof skeleton in a different chapter, so this is a parallel, not duplicate, work item. No paper coverage of the gluing law and no BOARD dedup; the kernel-classifier-stability theorem alone is insufficient for downstream sub-chain construction. Codex_close-shaped: splice ledgers, reapply kernel classifier stability at the splice index.
 
 ---
+
+### B-624 - Matrix transpose of the zero matrix is the zero matrix with swapped dimensions
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Matrix transpose of the zero matrix is the zero matrix with swapped dimensions |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Over a scalar RingUp carrier with classifier sim_R and zero endpoint 0_R, the transpose of the carried zero matrix Z_{n,m} is classified pointwise as the zero matrix Z_{m,n} via def:matrix-transpose-certified-scalar-carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_transpose.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_zero_matrix_absorption.tex`
+
+Rationale:
+The matrix chapter has both transpose and zero-matrix data plus extensive transpose laws (transpose-reverses-product, double-readback involution, preserves-addition) but no transpose/zero interaction lemma. This is the most basic missing companion law and its absence is the kind of referee-flagged gap that propagates into Banach/Hilbert operator chapters. Pointwise unfold + classifier substitution; clean codex_close. Distinct from the identity-matrix transpose candidate which has a different proof shape (Kronecker delta symmetry).
+
+---
+
+### B-625 - Matrix transpose of the identity matrix is the identity matrix
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Matrix transpose of the identity matrix is the identity matrix |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Over a scalar RingUp carrier with classifier sim_R, multiplicative unit 1_R, and zero endpoint 0_R, the transpose of the finite-fold identity matrix I_n is classified pointwise as the same identity matrix I_n via def:matrix-transpose-certified-scalar-carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_transpose.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_laws_fold_identity.tex`
+
+Rationale:
+Genuinely distinct from the transpose-zero candidate: the proof relies on Kronecker-delta symmetry at (i,j) vs (j,i), not zero pointwise. Together with transpose-zero this completes the elementary transpose/distinguished-matrix lemmas that downstream Hermitian/orthogonal/unitary consumers expect. No BOARD entry; not in the paper's existing transpose theorem list. Clean codex_close on entrywise readback.
+
+---
