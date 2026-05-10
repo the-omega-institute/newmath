@@ -100,6 +100,23 @@ theorem abgroup_singleton_terminal_standard_bridge :
     exact laws.right.right.right.right carrierH carrierK
   exact And.intro laws.left (And.intro emptyCarrier (And.intro terminal terminalPair))
 
+theorem AbGroupTorsionSubgroup_singleton_closure :
+    let Carrier : BHist -> Prop := BEDC.Derived.GroupUp.GroupSingletonCarrier
+    let Torsion : BHist -> Prop := fun h => Carrier h
+    Torsion BHist.Empty ∧
+      (forall {a b : BHist}, Torsion a -> Torsion b -> Torsion (append a b)) ∧
+      (forall {a : BHist}, Torsion a -> Torsion BHist.Empty) := by
+  dsimp [BEDC.Derived.GroupUp.GroupSingletonCarrier]
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · intro a b torsionA torsionB
+      cases torsionA
+      cases torsionB
+      exact hsame_refl BHist.Empty
+    · intro a torsionA
+      exact hsame_refl BHist.Empty
+
 theorem abgroup_mul_left_right_swap {mul : BHist -> BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
     (commC : forall x y : BHist, hsame (mul x y) (mul y x))
