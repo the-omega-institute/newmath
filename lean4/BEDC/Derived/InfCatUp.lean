@@ -51,4 +51,36 @@ theorem InfCatBHistSourcePacket_inner_horn_ledger_boundary [AskSetup] [PackageSe
                   (And.intro provenanceLiftTransport
                     packet.right.right.right.right.right.right.right))))))))
 
+theorem InfCatBHistSourcePacket_quasicategory_classifier_surface [AskSetup] [PackageSetup]
+    {simplicial category horn lift provenance transport simplicial' category' horn' lift'
+      provenance' transport' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    InfCatBHistSourcePacket simplicial category horn lift provenance transport bundle pkg ->
+      hsame simplicial simplicial' -> hsame category category' -> hsame horn horn' ->
+        hsame provenance provenance' -> Cont simplicial' horn' lift' ->
+          Cont provenance' lift' transport' -> PkgSig bundle transport' pkg ->
+            InfCatBHistSourcePacket simplicial' category' horn' lift' provenance' transport'
+                bundle pkg ∧
+              hsame lift lift' ∧ hsame transport transport' := by
+  intro packet sameSimplicial sameCategory sameHorn sameProvenance liftRow' transportRow'
+    pkgRow'
+  have liftSame : hsame lift lift' :=
+    cont_respects_hsame sameSimplicial sameHorn packet.right.right.right.right.right.left
+      liftRow'
+  have transportSame : hsame transport transport' :=
+    cont_respects_hsame sameProvenance liftSame packet.right.right.right.right.right.right.left
+      transportRow'
+  have targetPacket :
+      InfCatBHistSourcePacket simplicial' category' horn' lift' provenance' transport'
+        bundle pkg := by
+    exact ⟨unary_transport packet.left sameSimplicial,
+      unary_transport packet.right.left sameCategory,
+      unary_transport packet.right.right.left sameHorn,
+      unary_transport packet.right.right.right.left liftSame,
+      unary_transport packet.right.right.right.right.left sameProvenance,
+      liftRow',
+      transportRow',
+      pkgRow'⟩
+  exact And.intro targetPacket (And.intro liftSame transportSame)
+
 end BEDC.Derived.InfCatUp
