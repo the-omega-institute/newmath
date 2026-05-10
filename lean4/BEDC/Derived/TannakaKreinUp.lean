@@ -246,6 +246,33 @@ theorem TannakaKreinFiberFunctorCarrier_reconstruction_ledger_exactness
               (And.intro reconstructionLedgerCont
                 (And.intro provenanceCont (And.intro endpointCont pkgSig)))))))
 
+theorem TannakaKreinFiberFunctorCarrier_reconstruction_provenance_endpoint_confluence
+    [AskSetup] [PackageSetup]
+    {lieGroup monoidalCat fiberFunctor representation unitRow tensorProduct
+      reconstructionLedger provenance endpoint tensorProduct' reconstructionLedger' provenance'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TannakaKreinFiberFunctorCarrier lieGroup monoidalCat fiberFunctor representation unitRow
+        tensorProduct reconstructionLedger provenance endpoint bundle pkg ->
+      Cont lieGroup monoidalCat reconstructionLedger' ->
+        Cont fiberFunctor representation tensorProduct' ->
+          Cont unitRow tensorProduct' provenance' ->
+            Cont provenance' reconstructionLedger' endpoint' ->
+              hsame endpoint endpoint' := by
+  intro carrier reconstructionLedgerCont tensorProductCont provenanceCont endpointCont
+  have sameReconstructionLedger : hsame reconstructionLedger reconstructionLedger' :=
+    cont_respects_hsame (hsame_refl lieGroup) (hsame_refl monoidalCat)
+      carrier.right.right.right.right.right.left reconstructionLedgerCont
+  have sameTensorProduct : hsame tensorProduct tensorProduct' :=
+    cont_respects_hsame (hsame_refl fiberFunctor) (hsame_refl representation)
+      carrier.right.right.right.right.right.right.left tensorProductCont
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame (hsame_refl unitRow) sameTensorProduct
+      carrier.right.right.right.right.right.right.right.left provenanceCont
+  exact
+    cont_respects_hsame sameProvenance sameReconstructionLedger
+      carrier.right.right.right.right.right.right.right.right.left endpointCont
+
 theorem TannakaKreinFiberFunctorCarrier_semantic_name_certificate
     [AskSetup] [PackageSetup]
     {lieGroup monoidalCat fiberFunctor representation unitRow tensorProduct
