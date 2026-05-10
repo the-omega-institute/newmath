@@ -111,12 +111,49 @@ cannot read off a global Noether correspondence or an analytic variational
 calculus from this certificate alone.
 \end{proof}
 
+\begin{theorem}[Noether-symmetry finite-current public export]
+\label{thm:noethersymmetry-finite-current-public-export}
+The accepted finite conservation-current package for $\NoetherSymmetryUp$
+exports exactly the $\mathsf{BHist}$ conservation-ledger carrier of
+\autoref{def:noethersymmetry-conservation-ledger-carrier}, the current
+classifier of \autoref{def:noethersymmetry-current-classifier}, the
+Lie-PDE source boundary of
+\autoref{thm:noethersymmetry-lie-pde-source-boundary}, the stability row of
+\autoref{thm:noethersymmetry-conservation-ledger-stability}, and the
+$\NameCert$ obligation surface of
+\autoref{thm:noethersymmetry-namecert-obligation-surface}.
+
+The exported public row exposes only $\Cont$, $\hsame$, $\Pkg$,
+$\NameCert$, the finite Lie source, the finite PDE field row, and the
+conservation-current ledger. It does not expose variational calculus,
+analytic PDE regularity, smooth manifold data, or a standard Noether
+theorem.
+\end{theorem}
+\begin{proof}
+Project the five displayed rows. The carrier projection gives the finite
+$\mathsf{BHist}$ conservation ledger, the classifier projection gives the
+current comparison rule, and the source-boundary projection gives the
+finite Lie source together with the finite PDE field row.
+
+Next use the stability theorem to keep the projected carrier fixed under
+the allowed $\hsame$, $\Cont$, and $\Pkg$ transports. Use the obligation
+surface theorem to retain exactly the $\NameCert$ rows and dependency
+ledgers already named by the package.
+
+Repack these projections as the public consumer boundary. Since every
+component of the repacked boundary is one of the five projected rows, and
+since no projected row contains variational calculus, analytic PDE
+regularity, smooth manifold data, or a standard Noether theorem, the public
+export has precisely the stated finite-current surface.
+\end{proof}
+
 \closureat{NoetherSymmetryUp}{obligationStr}[BEDC.Derived.NoetherSymmetryUp.NoetherSymmetryConservationLedgerCarrier\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\NoetherSymmetryUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The seed scope is the finite conservation-ledger carrier over the $\LieAlgebraUp$ and $\PdeUp$ source rows, the current classifier, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.}
+  \scopeclosed{The obligation scope is the finite conservation-ledger carrier over the $\LieAlgebraUp$ and $\PdeUp$ source rows, the current classifier, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.}
   \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.NoetherSymmetryUp.NoetherSymmetryConservationLedgerCarrier\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \constructivestory{A finite conservation-ledger packet is assembled from the displayed Lie-algebra row, PDE row, current classifier row, transport witnesses, and one provenance packet; accepted consumers read only those finite current rows.}
   \notclaimed{This chapter does not claim a full Noether theorem, variational calculus, analytic PDE regularity, smooth manifold data, or standard bridge.}
