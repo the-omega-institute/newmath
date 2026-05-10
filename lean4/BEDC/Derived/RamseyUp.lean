@@ -415,4 +415,35 @@ theorem RamseyColouringCarrier_public_projection_package [AskSetup] [PackageSetu
       consumerRoute,
       finiteExact.right.right.right.right.right.right.right.right.right.right.right.right⟩
 
+def RamseyMonochromeWitnessCarrier [AskSetup] [PackageSetup]
+    (vertexSpine subsetSpine colourTable witnessRows transportRows lookupRoutes provenance
+      endpoint witness consumer : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  RamseyColouringCarrier vertexSpine subsetSpine colourTable witnessRows transportRows
+      lookupRoutes provenance endpoint bundle pkg ∧
+    UnaryHistory witness ∧ Cont endpoint witness consumer
+
+theorem RamseyMonochromeWitnessCarrier_packet_rows [AskSetup] [PackageSetup]
+    {vertexSpine subsetSpine colourTable witnessRows transportRows lookupRoutes provenance endpoint
+      witness consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RamseyMonochromeWitnessCarrier vertexSpine subsetSpine colourTable witnessRows transportRows
+        lookupRoutes provenance endpoint witness consumer bundle pkg ->
+      RamseyColouringCarrier vertexSpine subsetSpine colourTable witnessRows transportRows
+          lookupRoutes provenance endpoint bundle pkg ∧
+        UnaryHistory witness ∧ UnaryHistory consumer ∧ Cont endpoint witness consumer ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier
+  have colouringRows :=
+    RamseyColouringCarrier_finite_ledger_exactness carrier.left
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed colouringRows.right.right.right.right.right.right.right.left
+      carrier.right.left carrier.right.right
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      consumerUnary,
+      carrier.right.right,
+      colouringRows.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.RamseyUp
