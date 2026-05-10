@@ -562,4 +562,30 @@ theorem LambdaCalcBHistTermPacketCarrier_alpha_renaming_freshness_transport
     cont_respects_hsame sameEndpoint (hsame_refl freeVariable) freeLedgerCont freeLedgerCont'
   exact And.intro transportedPacket.left (And.intro freeLedgerUnary' sameFreeLedger)
 
+theorem LambdaCalcBetaRedexPacket_exactness
+    {graph edge connected acyclic appTag appPayload appEndpoint absTag absPayload
+      absEndpoint argTag argPayload argEndpoint substEndpoint endpoint provenance : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic appTag appPayload
+        appEndpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic absTag absPayload
+          absEndpoint ->
+        LambdaCalcBHistTermPacketCarrier graph edge connected acyclic argTag argPayload
+            argEndpoint ->
+          Cont absEndpoint argEndpoint substEndpoint ->
+            Cont appEndpoint substEndpoint endpoint ->
+              hsame provenance endpoint ->
+                UnaryHistory substEndpoint ∧ UnaryHistory endpoint ∧
+                  hsame substEndpoint (append absEndpoint argEndpoint) ∧
+                    hsame endpoint (append appEndpoint substEndpoint) ∧
+                      hsame provenance endpoint := by
+  intro appPacket absPacket argPacket substRow endpointRow provenanceReadback
+  have substUnary : UnaryHistory substEndpoint :=
+    unary_cont_closed absPacket.right.right.left argPacket.right.right.left substRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed appPacket.right.right.left substUnary endpointRow
+  exact And.intro substUnary
+    (And.intro endpointUnary
+      (And.intro substRow
+        (And.intro endpointRow provenanceReadback)))
+
 end BEDC.Derived.LambdaCalcUp
