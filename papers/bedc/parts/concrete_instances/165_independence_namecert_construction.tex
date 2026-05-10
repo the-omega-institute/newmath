@@ -469,3 +469,73 @@ This is exactly the factorisation clause of \autoref{def:independence-finite-fac
 
 If the displayed hypotheses hold for every measurable singleton event family, the same argument applies to each $B$. The carrier already supplies the product-cylinder ledger, marginal distribution spine, finite product fold, and joint endpoint required by \autoref{def:independence-finite-factorisation-row}; hence the singleton index family carries the finite factorisation row.
 \end{proof}
+
+\begin{theorem}[Independence two-element index family satisfies the finite factorisation row]
+\label{thm:independence-two-element-index-factorization-row}
+Let $R$ be a finite-family carrier for $\IndependenceUp$ as in \autoref{def:independence-finite-family-carrier}, with carried source $S$, finite index carrier $I$, random-variable spine $(X_i)_{i\in I}$, marginal endpoints $(\mu_i)_{i\in I}$, displayed joint endpoint $\mu_X^J$, and finite $\RealUp$ product fold $\Pi_R$. Assume that $I$ has exactly two certified positions $i_0$ and $i_1$, and let $B$ be a measurable target-event family on $I$. Suppose:
+\begin{enumerate}
+\item the two-position index certificate identifies every quantified index in the cylinder ledger with exactly one of $i_0$ and $i_1$;
+\item the product-cylinder readback for $R$ reduces at $B$ to the binary component event, so for every carried source point $s$,
+$$
+s\in X^{-1}(\operatorname{Cyl}_X(B))
+\Longleftrightarrow
+\bigl(X_{i_0}(s)\in B_{i_0}\bigr)\land\bigl(X_{i_1}(s)\in B_{i_1}\bigr);
+$$
+\item the displayed product-cylinder ledger together with the $\DistributionUp$ pushforward rows reads the joint cylinder endpoint as the binary product of the two marginal endpoints,
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))
+\sim_R
+\mu_{i_0}(B_{i_0})\cdot_R\mu_{i_1}(B_{i_1});
+$$
+\item the two-element $\RealUp$ product fold evaluates the marginal spine in the certified order as
+$$
+\Pi_R(\mathsf{MargSp}_X(B))
+\sim_R
+\mu_{i_0}(B_{i_0})\cdot_R\mu_{i_1}(B_{i_1}).
+$$
+\end{enumerate}
+Then the displayed two-position data satisfy the factorisation clause
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))\sim_R\Pi_R(\mathsf{MargSp}_X(B)).
+$$
+Consequently, when the four displayed hypotheses hold for every measurable two-position event family $B$, these data carry the finite factorisation row of \autoref{def:independence-finite-factorisation-row} for the two-element index family.
+\end{theorem}
+\begin{proof}
+Fix the measurable two-position event family $B$. Since $I$ has exactly the certified positions $i_0$ and $i_1$, the universal clause in the product-cylinder ledger has no component other than those two positions. Hence the cylinder readback reduces to
+$$
+s\in X^{-1}(\operatorname{Cyl}_X(B))
+\Longleftrightarrow
+\bigl(X_{i_0}(s)\in B_{i_0}\bigr)\land\bigl(X_{i_1}(s)\in B_{i_1}\bigr).
+$$
+The joint endpoint hypothesis states that the displayed cylinder, after being read through the $\DistributionUp$ pushforward rows, is classified with the product of the two marginal masses:
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))
+\sim_R
+\mu_{i_0}(B_{i_0})\cdot_R\mu_{i_1}(B_{i_1}).
+$$
+The marginal spine has exactly the two certified entries
+$$
+\mathsf{MargSp}_X(B)(i_0)=\mu_{i_0}(B_{i_0}),
+\qquad
+\mathsf{MargSp}_X(B)(i_1)=\mu_{i_1}(B_{i_1}).
+$$
+By the two-element fold hypothesis, the finite $\RealUp$ product fold evaluates this spine as
+$$
+\Pi_R(\mathsf{MargSp}_X(B))
+\sim_R
+\mu_{i_0}(B_{i_0})\cdot_R\mu_{i_1}(B_{i_1}).
+$$
+Symmetry of the $\RealUp$ classifier from \autoref{def:real-classifier-specification} reverses the fold comparison and gives
+$$
+\mu_{i_0}(B_{i_0})\cdot_R\mu_{i_1}(B_{i_1})
+\sim_R
+\Pi_R(\mathsf{MargSp}_X(B)).
+$$
+Transitivity of the same classifier composes the joint-to-product comparison with this reversed fold comparison, yielding
+$$
+\mu_X^J(\operatorname{Cyl}_X(B))\sim_R\Pi_R(\mathsf{MargSp}_X(B)).
+$$
+This is exactly the factorisation clause of \autoref{def:independence-finite-factorisation-row} at the two-position event family $B$.
+
+If the displayed hypotheses hold for every measurable two-position event family, the same argument applies to each $B$. The finite-family carrier already supplies the product-cylinder ledger, marginal distribution spine, finite product fold, and joint endpoint required by \autoref{def:independence-finite-factorisation-row}; therefore the two-element index family carries the stated finite factorisation row.
+\end{proof}
