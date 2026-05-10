@@ -30,6 +30,7 @@ Full no-hidden-input status may be claimed only under self-hosting with no remai
 
 \begin{definition}[Self-hosting compiler prototype]
 \label{def:self-hosting-p9-prototype}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.SelfHostingPrototype}
 A \emph{self-hosting compiler prototype} is an executable prototype $P_9$ satisfying:
 \begin{enumerate}
 \item $P_9$ includes all $P_8$ functions;
@@ -53,6 +54,7 @@ $$
 
 \begin{principle}[Compiler is not input]
 \label{prin:self-hosting-compiler-not-input}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.host\_compiler\_identity\_not\_input}
 There is no formal input
 $$
   \mathsf{HostCompiler}\to\mathsf{Code},
@@ -102,6 +104,7 @@ $$
 
 \begin{definition}[Compiler certificate subflows]
 \label{def:self-hosting-compiler-cert-subflows}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9CompilerCertificateSubflows}
 If $\mathsf{RecognizesCompilerCert}(R_K,S,K_C,C)$, then $R_K$ may identify:
 $$
 \begin{aligned}
@@ -123,11 +126,13 @@ $$
 
 \begin{definition}[Complete compiler certificate recognition]
 \label{def:self-hosting-complete-compiler-cert}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9CompleteCompilerCertificate}
 The recognition $\mathsf{RecognizesCompilerCert}(R_K,S,K_C,C)$ is \emph{complete} when all compiler certificate subflows in \autoref{def:self-hosting-compiler-cert-subflows} are recognized.
 \end{definition}
 
 \begin{principle}[No compiler without certificate]
 \label{prin:self-hosting-no-compiler-without-cert}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.p9\_no\_compiler\_without\_complete\_certificate}
 A compiler-flow cannot be used as a formal compiler unless it has complete compiler certificate-flow. Recognizing $\mathsf{CompilerFlow}_{R_C}(S,C)$ alone is insufficient for formal compilation judgments.
 \end{principle}
 
@@ -143,7 +148,8 @@ Formal compilation requires event-flow evidence for input domain, output domain,
 
 \begin{corollary}[Recognized compiler-flow is weaker than certified compiler]
 \label{cor:self-hosting-recognized-weaker-than-certified}
-Recognizing compiler-flow only shows compiler-shaped structure. Formal compiler use requires compiler certificate-flow.
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.p9\_certified\_compiler\_has\_recognized\_flow}
+Certified compiler status includes recognized compiler-flow, but recognized compiler-flow by itself records only compiler-shaped event-flow structure. Formal compiler use requires compiler certificate-flow.
 \end{corollary}
 
 \section{Compiler behavior-flow}
@@ -151,6 +157,7 @@ Recognizing compiler-flow only shows compiler-shaped structure. Formal compiler 
 
 \begin{definition}[Compiler behavior relation]
 \label{def:self-hosting-p9-compiler-behavior-relation}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerBehaviorRelation}
 The relation
 $$
   \mathsf{Compiles}_{C}(X,Y)
@@ -160,6 +167,7 @@ has $C,X,Y\in\mathsf{EventFlow}$ and reads: compiler-flow $C$ compiles input eve
 
 \begin{definition}[Behavior record]
 \label{def:self-hosting-behavior-record}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9BehaviorRecord}
 A \emph{behavior record} is an event subflow $B_C$ recording compiler-flow $C$, input flow $X$, output flow $Y$, the compilation relation $C:X\mapsto Y$, failure branches, and ledger. Write
 $$
   \mathsf{BehaviorRecord}(B_C,C,X,Y).
@@ -168,11 +176,13 @@ $$
 
 \begin{definition}[Behavior soundness]
 \label{def:self-hosting-behavior-soundness}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9BehaviorSoundness}
 A behavior record $B_C$ is \emph{sound} when its recorded $\mathsf{Compiles}_{C}(X,Y)$ relation agrees with the encoding, decoding, and recognition rules in $C$'s compiler certificate-flow, and when failure-flow and ledger-flow are complete.
 \end{definition}
 
 \begin{theorem}[Sound behavior record establishes compiler action]
 \label{thm:self-hosting-sound-behavior-record}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.p9\_sound\_behavior\_record\_establishes\_action}
 If $B_C$ is a sound behavior record for $(C,X,Y)$, then $\mathsf{Compiles}_{C}(X,Y)$ may be used formally.
 \end{theorem}
 
@@ -185,11 +195,13 @@ Sound behavior records contain the compiler, input, output, compilation relation
 
 \begin{definition}[Bootstrap component]
 \label{def:self-hosting-bootstrap-component}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.BootstrapComponent}
 A \emph{bootstrap component} is an implementation component not yet fully generated or verified by self-hosting compiler-flow. Examples include initial channel encoders, initial decoders, initial recognizer-certificate checkers, proof-checker bridges, host executables, and kernel reliance.
 \end{definition}
 
 \begin{definition}[Bootstrap-obligation flow]
 \label{def:self-hosting-bootstrap-obligation-flow}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.BootstrapObligationFlow}
 A \emph{bootstrap-obligation flow} is an event subflow $B$ recording the bootstrap component, its role, why it is needed, what is not internally generated yet, what would discharge it, current status, ledger, and cannot-claim entries. Write
 $$
   \mathsf{BootstrapObligationFlow}(B).
@@ -198,11 +210,13 @@ $$
 
 \begin{principle}[No invisible bootstrap]
 \label{prin:self-hosting-no-invisible-bootstrap}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.no\_invisible\_bootstrap}
 Every undisclosed or undischarged bootstrap component used by a formal judgment must have bootstrap-obligation flow. No bootstrap assumption may hide inside host implementation.
 \end{principle}
 
 \begin{theorem}[Invisible bootstrap invalidates full no-hidden-input claim]
 \label{thm:self-hosting-invisible-bootstrap-invalid}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.invisible\_bootstrap\_invalidates\_full\_claim}
 If a formal judgment depends on a bootstrap component $B$ but no corresponding bootstrap-obligation flow exists, then the system cannot claim full no-hidden-input compiler status.
 \end{theorem}
 
@@ -212,6 +226,7 @@ Full no-hidden-input status requires every used structure to come from event flo
 
 \begin{corollary}[Bootstrap boundary must be reportable]
 \label{cor:self-hosting-bootstrap-boundary-reportable}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.bootstrap\_boundary\_reportable}
 Every $P_9$ report must list all remaining bootstrap obligations.
 \end{corollary}
 
@@ -220,6 +235,7 @@ Every $P_9$ report must list all remaining bootstrap obligations.
 
 \begin{definition}[Self-compilation flow]
 \label{def:self-hosting-self-compilation-flow}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.SelfCompilationFlow}
 A \emph{self-compilation flow} is a recognized event flow $SC$ containing compiler-flow $C$, input flow $C$, compiled output flow $C'$, behavior record $C:C\mapsto C'$, and self-compilation ledger. Write
 $$
   \mathsf{SelfCompilationFlow}(SC,C,C').
@@ -228,6 +244,7 @@ $$
 
 \begin{definition}[Self-compilation ledger]
 \label{def:self-hosting-self-compilation-ledger}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.SelfCompilationLedger}
 A \emph{self-compilation ledger} is an event subflow $L_{SC}$ recording raw compiler-flow $C$, channel code $\mathsf{Compile}(C)$, decoded or output compiler-flow $C'$, behavior record, failure branches, bootstrap obligations used, bootstrap obligations discharged, and remaining bootstrap obligations. Write
 $$
   \mathsf{SelfCompilationLedger}(L_{SC},C,C').
@@ -236,11 +253,13 @@ $$
 
 \begin{principle}[No self-compilation without ledger]
 \label{prin:self-hosting-no-self-compilation-without-ledger}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.no\_self\_compilation\_without\_ledger}
 A self-compilation claim requires self-compilation ledger. Thus $\mathsf{SelfCompilationFlow}(SC,C,C')$ must include $\mathsf{SelfCompilationLedger}(L_{SC},C,C')$.
 \end{principle}
 
 \begin{theorem}[Self-compilation flow preserves compiler provenance]
 \label{thm:self-hosting-self-compilation-provenance}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.self\_compilation\_preserves\_provenance}
 If $\mathsf{SelfCompilationFlow}(SC,C,C')$ holds and its ledger is sound, then the raw compiler $C$, compiled output $C'$, and compilation provenance are traceable from the ledger.
 \end{theorem}
 
@@ -253,26 +272,35 @@ The self-compilation ledger records $C$, $C'$, the behavior record, failure bran
 
 \begin{definition}[Compiler behavior equivalence]
 \label{def:self-hosting-behavior-equivalence}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9BehaviorEquivalent}
 Write
 $$
   C\equiv_{\mathrm{comp}}C'
 $$
-when there exists a recognized behavior-equivalence flow recording the same input domain, output domain, successful compilation behavior, rejection behavior, ledger behavior, failure-flow behavior, recognizer hierarchy behavior, no-host-leak obligations, and kernel-conservativity behavior for $C$ and $C'$.
+when a compiler-behavior classifier witnesses both compiler certificates and the two directional behavior implications between $C$ and $C'$ for all event-flow inputs and outputs.
 
 This is a compiler-behavior classifier. It is not raw event-flow equality, not $\hsame$, and not kernel equality.
 \end{definition}
 
 \begin{proposition}[Behavior equivalence is weaker than raw equality]
 \label{prop:self-hosting-behavior-equivalence-weaker}
-Raw equality $C=C'$ usually permits $C\equiv_{\mathrm{comp}}C'$, but $C\equiv_{\mathrm{comp}}C'$ does not imply $C=C'$.
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.p9\_behavior\_equivalence\_not\_raw\_equality}
+There exist compiler-flow candidates $C$ and $C'$ and a compiler-behavior classifier such that
+$$
+  C'\equiv_{\mathrm{comp}}C
+  \qquad\text{and}\qquad
+  C'\neq C.
+$$
+Thus behavior equivalence is a behavior-level relation and is not raw event-flow equality.
 \end{proposition}
 
 \begin{proof}
-Raw equality gives identical behavior under the same interpretation. Conversely, different event flows may implement the same behavior with different internal proofs, ledgers, orderings, or implementation details. Behavior equivalence identifies behavior, not raw flow identity.
+Take two distinct certified event flows and a behavior relation that ignores raw compiler identity while preserving the same input-output behavior under both certified flows. The classifier records certificates and the two directional behavior implications. Since the two underlying event flows remain distinct, the behavior-equivalence judgment does not collapse to raw equality.
 \end{proof}
 
 \begin{corollary}[Self-hosting is behavior-level stability]
 \label{cor:self-hosting-behavior-level-stability}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.p9\_self\_hosting\_behavior\_level\_stability}
 Self-hosting proves $C'\equiv_{\mathrm{comp}}C$, not raw equality $C'=C$.
 \end{corollary}
 
@@ -281,6 +309,7 @@ Self-hosting proves $C'\equiv_{\mathrm{comp}}C$, not raw equality $C'=C$.
 
 \begin{definition}[Self-hosting compiler-flow]
 \label{def:self-hosting-p9-compiler-flow}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9SelfHostingCompiler}
 A compiler-flow $C$ is \emph{self-hosting} when there exist $C'$, a self-compilation flow $SC$, a behavior-equivalence flow, and a self-compilation ledger $L_{SC}$ such that:
 \begin{enumerate}
 \item $C$ is certified compiler-flow;
@@ -296,7 +325,8 @@ Write $\mathsf{SelfHostingCompiler}(C)$.
 
 \begin{theorem}[Self-hosting removes compiler-as-hidden-input up to obligations]
 \label{thm:self-hosting-removes-hidden-compiler}
-If $\mathsf{SelfHostingCompiler}(C)$, then compiler $C$ is not an unrecorded host-level hidden input. Every remaining external dependency must occur among the remaining bootstrap obligations.
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.self\_hosting\_removes\_hidden\_compiler}
+If $\mathsf{SelfHostingCompiler}(C)$ holds and the recognizer hierarchy covers the compiler tower, then the compiler is no longer a hidden input: $C$ is represented by self-hosting event-flow evidence, the compiler tower is recognized, and a self-hosting ledger exists. Every remaining external dependency must occur among the remaining bootstrap obligations.
 \end{theorem}
 
 \begin{proof}
@@ -305,17 +335,20 @@ Self-hosting represents the compiler as event flow $C$ and supplies compiler cer
 
 \begin{corollary}[Remaining obligations block full discharge]
 \label{cor:self-hosting-obligations-block-full-discharge}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.remaining\_obligations\_block\_full\_discharge}
 If $\mathsf{SelfHostingCompiler}(C)$ holds but remaining bootstrap obligations are nonempty, then the system may claim self-hosting with declared obligations, but not fully discharged no-hidden-input compiler status.
 \end{corollary}
 
 \begin{definition}[Fully discharged compiler-flow]
 \label{def:self-hosting-fully-discharged}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.FullyDischargedCompiler}
 A self-hosting compiler-flow $C$ is \emph{fully discharged} when $\mathsf{SelfHostingCompiler}(C)$ holds and the remaining bootstrap-obligation list is empty. Write $\mathsf{FullyDischargedCompiler}(C)$.
 \end{definition}
 
 \begin{theorem}[Fully discharged compiler supports full no-hidden-input claim]
 \label{thm:self-hosting-fully-discharged-supports-full-claim}
-If $\mathsf{FullyDischargedCompiler}(C)$, then $C$ supports the full no-hidden-input compiler claim.
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.fully\_discharged\_supports\_full\_claim}
+If $\mathsf{FullyDischargedCompiler}(C)$, then $C$ supports the full no-hidden-input compiler claim: the compiler is no longer a hidden input and there is no remaining recorded bootstrap boundary.
 \end{theorem}
 
 \begin{proof}
@@ -327,6 +360,7 @@ Fully discharged compiler-flow is self-hosting and has no remaining bootstrap ob
 
 \begin{definition}[Global verification-flow]
 \label{def:self-hosting-global-verification-flow}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.GlobalVerificationFlow}
 A \emph{global verification-flow} is a recognized event flow $G$ containing manuscript-flow, chapter-flow list, theorem-flow list, accepted-object-flow list, compiler-flow, self-hosting status, bootstrap-obligation registry, cannot-claim registry, implementation target status, no-host-leak audit, global ledger, and global status seal. Write
 $$
   \mathsf{GlobalVerificationFlow}(G).
@@ -335,11 +369,13 @@ $$
 
 \begin{definition}[Global verification soundness]
 \label{def:self-hosting-global-verification-soundness}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.GlobalVerificationSoundness}
 A global verification-flow $G$ is \emph{sound} when the manuscript-flow is sound, all chapter-flow statuses are recorded, all theorem-flow statuses are recorded, all accepted-object-flow statuses are recorded, compiler-flow is recognized, self-hosting status is recorded, bootstrap obligations are complete, cannot-claim registry is complete, implementation targets are audited, no-host-leak audit is complete, global ledger is complete, and global seal is present.
 \end{definition}
 
 \begin{theorem}[Sound global verification-flow establishes system status]
 \label{thm:self-hosting-global-verification-status}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.sound\_global\_verification\_status}
 If $G$ is a sound global verification-flow, then it may serve as the global status certificate-flow for the compiler and manuscript system.
 \end{theorem}
 
@@ -349,6 +385,7 @@ Global verification-flow records manuscript, chapters, theorems, objects, compil
 
 \begin{corollary}[Global verification adds no new mathematics]
 \label{cor:self-hosting-global-verification-no-new-math}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.global\_verification\_no\_new\_math}
 Global verification-flow records system status. It does not add new theorems, new objects, or new kernel rules.
 \end{corollary}
 
@@ -357,11 +394,14 @@ Global verification-flow records system status. It does not add new theorems, ne
 
 \begin{definition}[$P_9$ report]
 \label{def:self-hosting-p9-report}
+\leandef{BEDC.GroundCompiler.SelfHostingReports.P9Report}
 A $P_9$ report is an output view containing decoded event flow, compiler candidates, recognized compiler-flows, compiler certificate status, behavior records, self-compilation candidates, recognized self-compilation flows, behavior-equivalence status, self-hosting ledger, bootstrap obligations, fully discharged status, global verification-flow status, no-host-leak audit, implementation target audit, remaining obligations, warnings, and cannot-claim annotations.
 \end{definition}
 
 \begin{definition}[Compiler field and self-hosting status]
 \label{def:self-hosting-field-status}
+\leandef{BEDC.GroundCompiler.SelfHostingReports.P9CompilerFieldStatus}
+\leandef{BEDC.GroundCompiler.SelfHostingReports.P9SelfHostingStatusRecord}
 For each compiler candidate $C$, the report records recognized compiler-flow status, compiler certificate-flow status, input-domain flow, output-domain flow, encoding-rule flow, decoding-rule flow, round-trip proof flow, recognizer-hierarchy flow, ledger flow, failure flow, no-host-leak flow, kernel-conservativity flow, self-description flow, and seal flow.
 
 Self-hosting status records compiler-flow $C$, self-compilation flow $SC$, output compiler-flow $C'$, behavior-equivalence $C'\equiv_{\mathrm{comp}}C$, self-compilation ledger, discharged obligations, remaining obligations, no-host-leak audit result, and status as not self-hosting, self-hosting with obligations, or fully discharged.
@@ -369,16 +409,20 @@ Self-hosting status records compiler-flow $C$, self-compilation flow $SC$, outpu
 
 \begin{definition}[$P_9$ cannot-claim annotations]
 \label{def:self-hosting-p9-cannot-claims}
+\leandef{BEDC.GroundCompiler.SelfHostingReports.P9CannotClaimAnnotations}
 A $P_9$ report must include cannot-claim annotations stating that recognized compiler-flow alone is not certified compiler, certified compiler alone is not self-hosting, self-compilation alone is not behavior equivalence, behavior equivalence is not raw equality, self-hosting with obligations is not fully discharged, host executable is not compiler identity, binary hash is not compiler-flow, global verification-flow is not a new theorem, implementation report is not proof, and full no-hidden-input claim requires no remaining obligations.
 \end{definition}
 
 \begin{definition}[Sound $P_9$ report]
 \label{def:self-hosting-sound-p9-report}
+\leandef{BEDC.GroundCompiler.SelfHostingReports.SoundP9Report}
 A $P_9$ report is \emph{sound} when every recognized compiler-flow is backed by generated compiler recognizer, every certified compiler claim has complete compiler certificate-flow, every behavior record satisfies behavior soundness, every self-compilation claim has self-compilation ledger, every behavior-equivalence claim has recognized behavior-equivalence flow, all bootstrap obligations are listed, fully discharged status appears only when remaining obligations are empty, global verification-flow claims have soundness evidence, no-host-leak audit either passes or lists failed items, and cannot-claim annotations are complete.
 \end{definition}
 
 \begin{theorem}[Sound $P_9$ report theorem]
 \label{thm:self-hosting-sound-p9-report}
+\leanchecked{BEDC.GroundCompiler.SelfHostingReports.sound\_p9\_report\_supports\_self\_hosting}
+\leanvariant{BEDC.GroundCompiler.SelfHostingReports.sound\_p9\_report\_full\_claim\_requires\_empty\_obligations}
 If $P_9$ outputs a sound $P_9$ report, then every self-hosting claim is backed by certified compiler-flow, self-compilation-flow, behavior-equivalence-flow, and self-hosting ledger; every full no-hidden-input claim requires no remaining bootstrap obligations.
 \end{theorem}
 
@@ -388,6 +432,7 @@ Sound $P_9$ report requires compiler certificate, self-compilation ledger, and b
 
 \begin{corollary}[Sound $P_9$ report distinguishes compiler statuses]
 \label{cor:self-hosting-statuses-distinct}
+\leanchecked{BEDC.GroundCompiler.SelfHostingReports.p9\_statuses\_distinct}
 A sound $P_9$ report distinguishes compiler candidate, recognized compiler-flow, certified compiler-flow, self-compiling compiler-flow, self-hosting compiler-flow, self-hosting with obligations, and fully discharged compiler-flow.
 \end{corollary}
 
@@ -396,6 +441,7 @@ A sound $P_9$ report distinguishes compiler candidate, recognized compiler-flow,
 
 \begin{definition}[$P_9$ audit checklist]
 \label{def:self-hosting-p9-audit}
+\leandef{BEDC.GroundCompiler.SelfHostingReports.P9AuditChecklist}
 A $P_9$ prototype must satisfy:
 \begin{enumerate}
 \item all $P_8$ audit requirements;
@@ -419,6 +465,7 @@ A $P_9$ prototype must satisfy:
 
 \begin{theorem}[$P_9$ adequacy theorem]
 \label{thm:self-hosting-p9-adequacy}
+\leanchecked{BEDC.GroundCompiler.SelfHostingReports.p9\_adequacy}
 If a prototype satisfies the $P_9$ audit checklist, uses sound $P_8$ reports, and every compiler, self-hosting, and global verification claim is backed by generated recognizers, certificates, ledgers, and bootstrap accounting, then it is adequate as a self-hosting compiler and global verification prototype.
 \end{theorem}
 
@@ -428,6 +475,7 @@ The audit checklist enforces separation of candidate, recognized, certified, sel
 
 \begin{corollary}[$P_9$ adequacy is top prototype adequacy]
 \label{cor:self-hosting-p9-top-adequacy}
+\leanchecked{BEDC.GroundCompiler.SelfHostingReports.p9\_top\_adequacy}
 Within this prototype ladder, $P_9$ is the first level capable of supporting a full no-hidden-input compiler claim, provided remaining bootstrap obligations are empty.
 \end{corollary}
 
@@ -464,6 +512,7 @@ A report may show certified compiler $C$, self-compilation, behavior equivalence
 
 \begin{theorem}[$P_9$ is conservative over the finite kernel]
 \label{thm:self-hosting-p9-conservative}
+\leanchecked{BEDC.GroundCompiler.SelfHostingReports.p9\_conservative\_over\_finite\_kernel}
 Adding compiler-flow recognition, compiler certificate-flow, bootstrap-obligation-flow, self-compilation-flow, behavior-equivalence-flow, self-hosting ledger, global verification-flow, and $P_9$ reports does not add new raw marks, history constructors, sameness rules, continuation rules, object-equality rules, theorem rules, or bridge rules.
 \end{theorem}
 
@@ -473,11 +522,13 @@ All $P_9$ structures are event flows or relations over event flows. Compiler beh
 
 \begin{corollary}[$P_9$ is verification layer]
 \label{cor:self-hosting-p9-verification-layer}
+\leanchecked{BEDC.GroundCompiler.SelfHostingReports.p9\_verification\_layer}
 $P_9$ verifies compiler status and no-hidden-input conditions. It does not create new BEDC kernel objects or mature mathematical objects.
 \end{corollary}
 
 \begin{theorem}[Prototype ladder theorem]
 \label{thm:self-hosting-prototype-ladder}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.prototype\_ladder}
 The prototype ladder
 $$
   P_0\to P_1\to P_2\to P_3\to P_4\to P_5\to P_6\to P_7\to P_8\to P_9
@@ -491,6 +542,7 @@ Each prototype level was defined as the previous level plus explicitly stated re
 
 \begin{corollary}[Full compiler claim is $P_9$-level]
 \label{cor:self-hosting-full-claim-p9-level}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.full\_claim\_p9\_level}
 A system below $P_9$ cannot claim full self-hosting no-hidden-input compiler status. It may only claim the capabilities of its achieved prototype level.
 \end{corollary}
 
