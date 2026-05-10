@@ -24,6 +24,19 @@ def NoetherSymmetryConservationLedgerCarrier [AskSetup] [PackageSetup]
       Cont pdeSource field pdeLedger ∧ Cont lieLedger pdeLedger conservation ∧
         Cont conservation current endpoint ∧ PkgSig bundle endpoint pkg
 
+def NoetherSymmetryCurrentClassifier [AskSetup] [PackageSetup]
+    (lieSource pdeSource field current lieLedger pdeLedger conservation endpoint lieSource'
+      pdeSource' field' current' lieLedger' pdeLedger' conservation' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current lieLedger
+      pdeLedger conservation endpoint bundle pkg ∧
+    NoetherSymmetryConservationLedgerCarrier lieSource' pdeSource' field' current'
+        lieLedger' pdeLedger' conservation' endpoint' bundle pkg ∧
+      hsame lieSource lieSource' ∧ hsame pdeSource pdeSource' ∧ hsame field field' ∧
+        hsame current current' ∧ hsame lieLedger lieLedger' ∧
+          hsame pdeLedger pdeLedger' ∧ hsame conservation conservation' ∧
+            hsame endpoint endpoint'
+
 theorem NoetherSymmetryConservationLedgerCarrier_stability [AskSetup] [PackageSetup]
     {lieSource pdeSource field current lieLedger pdeLedger conservation endpoint lieSource'
       pdeSource' field' current' lieLedger' pdeLedger' conservation' endpoint' : BHist}
