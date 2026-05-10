@@ -117,6 +117,32 @@ theorem NewtonIterationBHistCarrier_finite_step_concatenation_closure
     unary_cont_closed provenance1Unary spliceUnary combinedRow
   exact ⟨spliceUnary, combinedUnary, combinedRow⟩
 
+theorem NewtonIterationBHistCarrier_splice_source_determinacy
+    {derivative banach x0 derivativeRow1 inverse1 x1 ledger1 provenance1 endpoint1 y1
+      derivativeRow2 inverse2 x2 ledger2 provenance2 endpoint2 spliceLedger combinedEndpoint
+      combinedEndpoint' : BHist} :
+    NewtonIterationBHistCarrier derivative banach x0 derivativeRow1 inverse1 x1 ledger1
+        provenance1 endpoint1 ->
+      NewtonIterationBHistCarrier derivative banach y1 derivativeRow2 inverse2 x2 ledger2
+          provenance2 endpoint2 ->
+        hsame x1 y1 ->
+          Cont endpoint1 endpoint2 spliceLedger ->
+            Cont provenance1 spliceLedger combinedEndpoint ->
+              Cont provenance1 spliceLedger combinedEndpoint' ->
+                UnaryHistory combinedEndpoint ∧ UnaryHistory combinedEndpoint' ∧
+                  hsame combinedEndpoint combinedEndpoint' := by
+  intro first second sameSplice endpointSplice combinedRow combinedRow'
+  have firstBranch :=
+    NewtonIterationBHistCarrier_finite_step_concatenation_closure first second sameSplice
+      endpointSplice combinedRow
+  have secondBranch :=
+    NewtonIterationBHistCarrier_finite_step_concatenation_closure first second sameSplice
+      endpointSplice combinedRow'
+  have sameCombined : hsame combinedEndpoint combinedEndpoint' :=
+    cont_respects_hsame (hsame_refl provenance1) (hsame_refl spliceLedger) combinedRow
+      combinedRow'
+  exact ⟨firstBranch.right.left, secondBranch.right.left, sameCombined⟩
+
 theorem NewtonIterationStep_stability
     {derivative derivative' banach banach' point point' inverse inverse' next next' step
       step' ledger ledger' : BHist} :

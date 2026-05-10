@@ -1,16 +1,98 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.PolicyUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive PolicyUp : Type where
   | mk : (belief markov randomvar estimator decision ledger : BHist) → PolicyUp
   deriving DecidableEq
+
+def PolicyActionLedgerCarrier [AskSetup] [PackageSetup]
+    (belief markov randomvar estimator decision ledger provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory belief ∧ UnaryHistory markov ∧ UnaryHistory randomvar ∧
+    UnaryHistory estimator ∧ UnaryHistory decision ∧ UnaryHistory ledger ∧
+      UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont belief markov ledger ∧
+        Cont ledger estimator provenance ∧ Cont provenance decision endpoint ∧
+          PkgSig bundle endpoint pkg
+
+theorem PolicyActionLedgerCarrier_local_action_transport [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint belief' markov'
+      randomvar' estimator' decision' ledger' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      hsame belief belief' ->
+        hsame markov markov' ->
+          hsame randomvar randomvar' ->
+            hsame estimator estimator' ->
+              hsame decision decision' ->
+                Cont belief' markov' ledger' ->
+                  Cont ledger' estimator' provenance' ->
+                    Cont provenance' decision' endpoint' ->
+                      PkgSig bundle endpoint' pkg ->
+                        PolicyActionLedgerCarrier belief' markov' randomvar' estimator'
+                            decision' ledger' provenance' endpoint' bundle pkg ∧
+                          hsame ledger ledger' ∧ hsame provenance provenance' ∧
+                            hsame endpoint endpoint' := by
+  intro carrier sameBelief sameMarkov sameRandomvar sameEstimator sameDecision ledgerRow
+    provenanceRow endpointRow endpointPkg
+  have beliefUnary' : UnaryHistory belief' :=
+    unary_transport carrier.left sameBelief
+  have markovUnary' : UnaryHistory markov' :=
+    unary_transport carrier.right.left sameMarkov
+  have randomvarUnary' : UnaryHistory randomvar' :=
+    unary_transport carrier.right.right.left sameRandomvar
+  have estimatorUnary' : UnaryHistory estimator' :=
+    unary_transport carrier.right.right.right.left sameEstimator
+  have decisionUnary' : UnaryHistory decision' :=
+    unary_transport carrier.right.right.right.right.left sameDecision
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameBelief sameMarkov
+      carrier.right.right.right.right.right.right.right.right.left ledgerRow
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed beliefUnary' markovUnary' ledgerRow
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameLedger sameEstimator
+      carrier.right.right.right.right.right.right.right.right.right.left provenanceRow
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_cont_closed ledgerUnary' estimatorUnary' provenanceRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameDecision
+      carrier.right.right.right.right.right.right.right.right.right.right.left endpointRow
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed provenanceUnary' decisionUnary' endpointRow
+  exact
+    ⟨⟨beliefUnary',
+        markovUnary',
+        randomvarUnary',
+        estimatorUnary',
+        decisionUnary',
+        ledgerUnary',
+        provenanceUnary',
+        endpointUnary',
+        ledgerRow,
+        provenanceRow,
+        endpointRow,
+        endpointPkg⟩,
+      sameLedger,
+      sameProvenance,
+      sameEndpoint⟩
 
 private def encodeBHist : BHist → RawEvent
   | BHist.Empty => []
