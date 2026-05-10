@@ -414,4 +414,54 @@ theorem manuscript_code_not_topic {M N : ManuscriptCandidateFlow} :
   intro hCode
   exact manuscript_code_injective hCode
 
+def SoundP8Report (report : P8Report) : Prop :=
+  (forall C code,
+    List.Mem (P8ReportDatum.chapterCode C code) report.outputView ->
+      exists R : ChapterFlow.GeneratedChapterRecognizer,
+        SoundChapterFlow R C /\ code = ChapterFlow.ChapterCode C) /\
+    (forall M code,
+      List.Mem (P8ReportDatum.manuscriptCode M code) report.outputView ->
+        exists R : GeneratedManuscriptRecognizer,
+          SoundManuscriptFlow R M /\ code = ManuscriptCode M) /\
+    (forall R C,
+      List.Mem (P8ReportDatum.recognizedChapterFlow R C) report.outputView ->
+        ChapterFlow.CompleteChapterRecognition R C) /\
+    (forall R M,
+      List.Mem (P8ReportDatum.recognizedManuscriptFlow R M) report.outputView ->
+        CompleteManuscriptRecognition R M)
+
+theorem sound_p8_report {report : P8Report} :
+    SoundP8Report report ->
+      (forall C code,
+        List.Mem (P8ReportDatum.chapterCode C code) report.outputView ->
+          exists R : ChapterFlow.GeneratedChapterRecognizer,
+            SoundChapterFlow R C /\ code = ChapterFlow.ChapterCode C) /\
+        (forall M code,
+          List.Mem (P8ReportDatum.manuscriptCode M code) report.outputView ->
+            exists R : GeneratedManuscriptRecognizer,
+              SoundManuscriptFlow R M /\ code = ManuscriptCode M) := by
+  intro hSound
+  exact ⟨hSound.left, hSound.right.left⟩
+
+theorem manuscript_code_flow_mediated
+    {report : P8Report} {M : ManuscriptCandidateFlow}
+    {code : List DisplayAlphabet} :
+    SoundP8Report report ->
+      List.Mem (P8ReportDatum.manuscriptCode M code) report.outputView ->
+        exists R : GeneratedManuscriptRecognizer,
+          SoundManuscriptFlow R M /\
+            code = FlowEncoding M /\
+            Decode code = some M := by
+  intro hSound hMem
+  have hReport :=
+    hSound.right.left M code hMem
+  cases hReport with
+  | intro R hR =>
+      cases hR with
+      | intro hFlow hCode =>
+          refine ⟨R, hFlow, ?_, ?_⟩
+          · exact hCode
+          · cases hCode
+            exact manuscript_code_round_trip M
+
 end BEDC.GroundCompiler.ChapterManuscript

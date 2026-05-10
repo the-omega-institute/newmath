@@ -405,11 +405,13 @@ A $P_8$ report must include cannot-claim annotations stating that chapter title 
 
 \begin{definition}[Sound $P_8$ report]
 \label{def:chapter-manuscript-sound-p8-report}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.SoundP8Report}
 A $P_8$ report is \emph{sound} when every recognized chapter-flow is backed by a generated chapter recognizer, every recognized chapter-flow satisfies complete recognition, every sound chapter-flow claim satisfies chapter soundness, every chapter code is $\mathsf{Compile}(C)$ for the corresponding chapter-flow, every recognized manuscript-flow is backed by a generated manuscript recognizer, every recognized manuscript-flow satisfies complete recognition, every sound manuscript-flow claim satisfies manuscript soundness, manuscript code is $\mathsf{Compile}(M)$ for the corresponding manuscript-flow, missing fields and failures are explicit, and candidate-only entries are not reported as recognized.
 \end{definition}
 
 \begin{theorem}[Sound $P_8$ report theorem]
 \label{thm:chapter-manuscript-sound-p8-report}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.sound\_p8\_report}
 If $P_8$ outputs a sound $P_8$ report, then every chapter code in the report corresponds to a sound chapter-flow, and every manuscript code in the report corresponds to a sound manuscript-flow.
 \end{theorem}
 
@@ -419,6 +421,7 @@ By soundness of the report, chapter code may only be reported from a sound recog
 
 \begin{corollary}[Sound manuscript code is flow-mediated]
 \label{cor:chapter-manuscript-code-flow-mediated}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.manuscript\_code\_flow\_mediated}
 Manuscript code is not a file name, article title, or table of contents. It is the channel compilation of a sound manuscript-flow.
 \end{corollary}
 
