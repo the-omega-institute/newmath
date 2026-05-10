@@ -504,6 +504,7 @@ This is the defining projection from the upgrade-flow predicate: the prior accep
 
 \begin{definition}[$P_6$ report]
 \label{def:deriv-accept-p6-report}
+\leandef{BEDC.GroundCompiler.DerivCertReports.P6Report}
 A \emph{$P_6$ report} is an output view containing decoded event flow, recognized \NameCert\ flows, derivation-certificate candidates, recognized derivation-certificate flows, derivation-certificate field status, strength-flow status, acceptance-gate candidates, recognized acceptance-gate flows, accepted object flows, accepted object codes, missing fields, upgrade status, warnings, and cannot-claim annotations.
 \end{definition}
 
@@ -567,6 +568,7 @@ Accepted object code records that an acceptance gate has been recognized for an 
 
 \begin{definition}[$P_6$ audit checklist]
 \label{def:deriv-accept-p6-audit}
+\leandef{BEDC.GroundCompiler.DerivCertReports.P6AuditChecklist}
 A $P_6$ prototype must satisfy:
 \begin{enumerate}
 \item all $P_5$ audit requirements;
@@ -589,6 +591,7 @@ A $P_6$ prototype must satisfy:
 
 \begin{theorem}[$P_6$ adequacy theorem]
 \label{thm:deriv-accept-p6-adequacy}
+\leanchecked{BEDC.GroundCompiler.DerivCertReports.p6\_adequacy}
 If a prototype satisfies the $P_6$ audit checklist, uses sound $P_5$ reports, and every recognized derivation-certificate or acceptance-gate flow is backed by generated recognizers and field soundness, then it is adequate as a DerivCert and AcceptGate recognition prototype.
 \end{theorem}
 
