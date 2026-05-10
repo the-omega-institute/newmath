@@ -435,4 +435,40 @@ theorem LanglandsCorrespondenceLedger_obligation_package [AskSetup] [PackageSetu
       ledger.right.right.right.right.right.right.right.right.left,
       ledger.right.right.right.right.right.right.right.right.right⟩
 
+theorem LanglandsCorrespondenceLedger_public_endpoint_boundary [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor packageLedger
+      observationLedger endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsCorrespondenceLedger galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor packageLedger observationLedger endpoint bundle pkg ->
+      Cont endpoint packageLedger consumer ->
+        UnaryHistory packageLedger ∧ UnaryHistory observationLedger ∧ UnaryHistory endpoint ∧
+          UnaryHistory consumer ∧ hsame packageLedger (append galoisSource automorphicSource) ∧
+            hsame localFactor (append galoisAnswer automorphicAnswer) ∧
+              hsame observationLedger (append packageLedger localFactor) ∧
+                hsame endpoint (append observationLedger localFactor) ∧
+                  hsame consumer (append endpoint packageLedger) ∧
+                    PkgSig bundle endpoint pkg := by
+  intro ledger consumerRow
+  have packageRows :=
+    LanglandsCorrespondenceLedger_obligation_package
+      (galoisSource := galoisSource) (automorphicSource := automorphicSource)
+      (galoisAnswer := galoisAnswer) (automorphicAnswer := automorphicAnswer)
+      (localFactor := localFactor) (packageLedger := packageLedger)
+      (observationLedger := observationLedger) (endpoint := endpoint) (bundle := bundle)
+      (pkg := pkg) ledger
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed packageRows.right.right.left packageRows.left consumerRow
+  exact
+    ⟨packageRows.left,
+      packageRows.right.left,
+      packageRows.right.right.left,
+      consumerUnary,
+      packageRows.right.right.right.left,
+      packageRows.right.right.right.right.left,
+      packageRows.right.right.right.right.right.left,
+      packageRows.right.right.right.right.right.right.left,
+      consumerRow,
+      packageRows.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.LanglandsUp
