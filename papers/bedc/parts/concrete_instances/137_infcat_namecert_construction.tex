@@ -154,3 +154,40 @@ consumer-facing obligation. Since no projected coordinate names a host
 quasicategory, localization, or simplicial mapping object, no downstream
 consumer can read one from this root.
 \end{proof}
+
+\begin{theorem}[InfCatUp inner-horn consumer determinacy]
+\label{thm:infcat-inner-horn-consumer-determinacy}
+For any accepted $\InfCatUp$ packet
+$\mathcal{I}=(S,C,H,L,\rho,\lambda)$, every downstream consumer read of an
+inner-horn or lifting obligation is determined entirely by the displayed
+$\mathsf{BHist}$ rows $(S,C,H,L,\rho,\lambda)$, the consumed
+$\NameCert_{\SimplicialSetUp}$ and $\NameCert_{\CategoryUp}$ rows, the finite
+$\mathsf{ProbeBundle}$ horn and lifting ledger entries, $\Pkg$ provenance, and
+$\Cont/\hsame$ transport. No host quasicategory, localization, or simplicial
+mapping-object coordinate can change the read.
+\end{theorem}
+\begin{proof}
+Project the consumer through \autoref{thm:infcat-consumer-boundary}. Any
+inner-horn read is already a read of $S$, $H$, $\rho$, and $\lambda$, while any
+lifting-obligation read is already a read of $S$, $C$, $L$, $\rho$, and
+$\lambda$.
+
+Restrict the inner-horn part by
+\autoref{thm:infcat-inner-horn-ledger-boundary}. The horn boundary, missing
+face, filler endpoint, and comparison rows are finite ledger entries carried by
+$H$, with provenance supplied by $\rho$ and displayed transport supplied by
+$\lambda$.
+
+Transport equality of consumer reads through
+\autoref{thm:infcat-quasicategory-classifier-surface}. Since the classifier
+compares only the six packet coordinates and their consumed certificate rows,
+equal displayed packets give equal downstream reads of the horn and lifting
+surfaces.
+
+Finally repack the exact surface by
+\autoref{thm:infcat-namecert-obligation-surface}. The repacked surface contains
+only the consumed certificate rows, the finite horn and lifting ledgers,
+provenance, and $\Cont/\hsame$ transport. A host quasicategory, localization,
+or simplicial mapping-object coordinate is therefore not available to affect
+the read.
+\end{proof}
