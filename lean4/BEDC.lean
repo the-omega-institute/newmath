@@ -138,6 +138,7 @@ import BEDC.Derived.CurvatureUp.ConnectionDerivativeDependencyRow
 import BEDC.Derived.CurvatureUp.ExportDeterminacy
 import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
+import BEDC.Derived.ComplexityClassUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
@@ -320,6 +321,7 @@ import BEDC.Derived.ComplexSeriesUp.NameCertificate
 import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
+import BEDC.Derived.ComplexityClassUp
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.CondExpUp
