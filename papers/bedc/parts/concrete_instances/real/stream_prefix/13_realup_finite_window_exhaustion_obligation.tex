@@ -118,6 +118,48 @@ carrier, classifier, stability, and finite ledger rows, the two windows have
 the same exposed RealUp seal ledger.
 \end{proof}
 
+\begin{theorem}[RealUp finite-window coverage and determinacy package]
+\label{thm:realup-finite-window-coverage-determinacy-package}
+Every finite $\RealUp$ observation admitted through the $\StreamNameUp$
+finite-window seal factors through one package of public rows: the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the selected
+$\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ rows, the
+$\mathsf{UnaryHistory}$ observation, the endpoint $\RatUp$ denominator rows,
+the $\mathsf{DyadicRatCore}$ source rows, the displayed $\hsame$ ledger, and
+the finite $\mathsf{RealLedgerPolicy}$ boundary. Moreover, if two admitted
+reads use the same selected unary observation and the same endpoint package,
+then their exposed dyadic source rows agree up to that displayed $\hsame$
+ledger; and any certified unary reindexing of the selected observation
+preserves exactly the same package.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:realup-finite-window-exhaustion-obligation}. It
+reduces an admitted finite $\RealUp$ window to the endpoint denominator rows,
+the common e-one tail readback, and the $\mathsf{DyadicRatCore}$ source rows
+visible through the finite seal.
+
+Next apply \autoref{thm:realup-streamname-finite-window-ledger-boundary}. This
+identifies the StreamName face of the same window: the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, selected probe and bundle
+rows, unary-history observation, endpoint $\RatUp$ denominator rows, dyadic
+source rows, and finite $\mathsf{RealLedgerPolicy}$ all sit on the same
+displayed $\hsame$ ledger.
+
+For two reads with the same selected unary observation and endpoint package,
+use \autoref{thm:realup-streamname-window-determinacy-boundary}. The shared
+StreamName package fixes the endpoint classifiers, denominator witnesses,
+common e-one tail readbacks, and dyadic source rows up to the displayed
+$\hsame$ ledger.
+
+Finally apply
+\autoref{thm:realup-finite-window-reindexed-classifier-transport}. Certified
+unary reindexing transports the selected observation and classifier row while
+repacking the same endpoint, source, ledger, and finite policy rows. Since no
+quotient, completion object, host index, or choice datum is exported by these
+four boundaries, the package is exactly the finite-window coverage and
+determinacy surface stated above.
+\end{proof}
+
 \begin{theorem}[RealUp StreamName finite-window ledger boundary]
 \label{thm:realup-streamname-finite-window-ledger-boundary}
 Every finite-window observation admitted by the $\RealUp$ seal factors through
