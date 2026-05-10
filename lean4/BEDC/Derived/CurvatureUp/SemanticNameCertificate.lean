@@ -55,4 +55,47 @@ theorem CurvatureChernWeilSourceEnvelope_semantic_name_certificate [AskSetup] [P
   · intro h source
     exact source
 
+theorem CurvatureChernWeilSourceEnvelope_visible_class_boundary [AskSetup] [PackageSetup]
+    {curvatureLedger derham provenance connectionLedger classifier : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance connectionLedger classifier
+        bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row curvatureLedger)
+          (fun row : BHist => hsame row curvatureLedger)
+          (fun row : BHist => hsame row curvatureLedger) hsame ∧
+        UnaryHistory curvatureLedger ∧ Cont curvatureLedger derham provenance ∧
+          Cont provenance connectionLedger classifier ∧ PkgSig bundle classifier pkg := by
+  intro envelope
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row curvatureLedger)
+          (fun row : BHist => hsame row curvatureLedger)
+          (fun row : BHist => hsame row curvatureLedger) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro curvatureLedger (hsame_refl curvatureLedger)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        exact hsame_trans (hsame_symm sameRows) sourceRow
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro envelope.left
+      (And.intro envelope.right.right.right.right.right.left
+        (And.intro envelope.right.right.right.right.right.right.left
+          envelope.right.right.right.right.right.right.right.right)))
+
 end BEDC.Derived.CurvatureUp
