@@ -162,6 +162,7 @@ import BEDC.Derived.DeRhamUp.BridgeInputSource
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
+import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KnotUp
@@ -341,6 +342,7 @@ import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeriesUp
+import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SheafUp
 import BEDC.Derived.SheafUp.ConsumerAccessTraceSource
 import BEDC.Derived.SheafUp.ConsumerAccessTrace
@@ -607,6 +609,7 @@ import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.FieldExtUp.StdBridge
 import BEDC.Derived.SplittingFieldUp
+import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.CurryHowardUp
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
