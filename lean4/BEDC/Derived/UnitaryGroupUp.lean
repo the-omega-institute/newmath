@@ -50,6 +50,25 @@ theorem UnitaryGroupCarrier_classifier_obligation
   exact And.intro unaryHilbert'
     (And.intro unaryAutomorphism' (And.intro sameSource sameTarget))
 
+theorem UnitaryGroupSourceClassifier_obligation
+    {hilbert automorphism preservation source endpoint : BHist} :
+    VecSpaceSingletonCarrier hilbert -> LieGroupSingletonCarrier automorphism ->
+      UnaryHistory preservation -> Cont hilbert automorphism source ->
+        Cont source preservation endpoint ->
+          UnaryHistory endpoint ∧ hsame source hilbert ∧
+            hsame endpoint (append source preservation) := by
+  intro hilbertCarrier automorphismCarrier preservationUnary sourceRow endpointRow
+  have sourceReadback : hsame source hilbert := by
+    cases automorphismCarrier
+    exact cont_right_unit_result sourceRow
+  have hilbertUnary : UnaryHistory hilbert :=
+    unary_transport unary_empty (hsame_symm hilbertCarrier)
+  have sourceUnary : UnaryHistory source :=
+    unary_transport hilbertUnary (hsame_symm sourceReadback)
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed sourceUnary preservationUnary endpointRow
+  exact And.intro endpointUnary (And.intro sourceReadback endpointRow)
+
 theorem UnitaryGroupOperation_stability_obligation
     {left left' right right' product product' inverse inverse' identity identity' : BHist} :
     hsame inverse inverse' -> hsame identity identity' -> hsame right right' ->

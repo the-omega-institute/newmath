@@ -297,4 +297,28 @@ theorem AdjointRepAutomorphismTarget_obligation
             (And.intro appendInverseEmpty
               (And.intro appendCompositeSame compositeUnary))))
 
+theorem AdjointRepMultiplicativeAction_row {g h x gh hx ghx iter : BHist} :
+    LieGroupSingletonCarrier g -> LieGroupSingletonCarrier h -> LieAlgebraSingletonCarrier x ->
+      Cont g h gh -> Cont h x hx -> Cont gh x ghx -> Cont g hx iter ->
+        hsame ghx iter ∧ LieAlgebraSingletonCarrier ghx ∧ LieAlgebraSingletonCarrier iter ∧
+          UnaryHistory ghx ∧ UnaryHistory iter := by
+  intro carrierG carrierH carrierX ghRow hxRow ghxRow iterRow
+  have ghEmpty : hsame gh BHist.Empty :=
+    cont_respects_hsame carrierG carrierH ghRow (cont_left_unit BHist.Empty)
+  have hxEmpty : hsame hx BHist.Empty :=
+    cont_respects_hsame carrierH carrierX hxRow (cont_left_unit BHist.Empty)
+  have ghxEmpty : hsame ghx BHist.Empty :=
+    cont_respects_hsame ghEmpty carrierX ghxRow (cont_left_unit BHist.Empty)
+  have iterEmpty : hsame iter BHist.Empty :=
+    cont_respects_hsame carrierG hxEmpty iterRow (cont_left_unit BHist.Empty)
+  have sameEndpoints : hsame ghx iter :=
+    hsame_trans ghxEmpty (hsame_symm iterEmpty)
+  have ghxUnary : UnaryHistory ghx :=
+    unary_transport unary_empty (hsame_symm ghxEmpty)
+  have iterUnary : UnaryHistory iter :=
+    unary_transport unary_empty (hsame_symm iterEmpty)
+  exact And.intro sameEndpoints
+    (And.intro ghxEmpty
+      (And.intro iterEmpty (And.intro ghxUnary iterUnary)))
+
 end BEDC.Derived.AdjointRepUp

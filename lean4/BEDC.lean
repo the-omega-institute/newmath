@@ -135,6 +135,7 @@ import BEDC.Derived.BilinFormUp.ObligationSurfaceEmptyLedger
 import BEDC.Derived.BilinFormUp.EmptyLedgerInversion
 import BEDC.Derived.BilinFormUp.SemanticNameCertificate
 import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
+import BEDC.Derived.BilinFormUp.ZeroLeftPairing
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.ChernWeilUp.NameCertObligationSurface
 import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
