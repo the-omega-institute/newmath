@@ -12,6 +12,7 @@ Fix a $\NameCert_{\GaloisGroupUp}$ source row, a $\NameCert_{\AutomorphicUp}$ so
 
 The carrier records only the observed packet. It does not assert an all-place correspondence, irreducibility, analytic continuation, functoriality, or uniqueness beyond the displayed finite $\mathsf{BHist}$ ledger.
 \end{definition}
+\leanchecked{BEDC.Derived.LanglandsUp.LanglandsBHistCorrespondenceCarrier\_source\_rows}
 
 \begin{definition}[Langlands local factor classifier]
 \label{def:langlands-lfactor-classifier}
@@ -55,6 +56,43 @@ The $\LanglandsUp$ chapter exports a finite correspondence obligation package: a
 Build the package from a carried row and its classifier witness. The carrier supplies the observed Galois answer rows, automorphic answer rows, local package rows, and $\Cont$ links. The classifier supplies the source transport and the visible place-by-place package comparisons.
 
 Ledger exactness is obtained by inverting these two displayed structures. Every accepted datum is either one of the two source certificates, a finite answer history, a local factor package row, or a transport witness already named by $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$. Hence the package contains no hidden all-place bijection or analytic assertion.
+\end{proof}
+
+\begin{theorem}[Langlands finite local-factor public surface]
+\label{thm:langlands-finite-local-factor-public-surface}
+The public surface exported by $\LanglandsUp$ is exactly the finite local
+$L$-factor packet of \autoref{thm:langlands-correspondence-obligation-package}.
+A downstream consumer may read the two source certificates, the observed
+Galois and automorphic answer histories, the local $L$-factor package rows,
+and the displayed $\hsame$, $\Cont$, and $\Pkg$ witnesses connecting those
+rows. The same consumer cannot read an all-place bijection, irreducibility,
+analytic continuation, functoriality, or uniqueness from this surface.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:langlands-source-certificate-scope}. It projects any
+accepted packet to the two named source certificates and to the finite answer
+and package rows carried at the observed places.
+
+Next apply \autoref{thm:langlands-local-factor-stability}. Source
+replacement and visible local-answer transport preserve the classified
+$L$-factor packet through the displayed $\hsame$, $\Cont$, and $\Pkg$ rows.
+
+Finally use \autoref{thm:langlands-correspondence-obligation-package}. Its
+ledger exactness clause says that every readable row is already one of the
+listed certificate, history, local package, or witness rows, so the excluded
+global and analytic assertions have no carrier coordinate in the public
+surface.
+\end{proof}
+
+\begin{theorem}[Langlands generated rows are unary]
+\label{thm:langlands-generated-rows-unary}
+Every generated row of $\mathsf{LanglandsBHistCorrespondenceCarrier}$ is a finite unary $\mathsf{BHist}$ row. The two source certificate rows, the visible Galois and automorphic answer rows, the local factor package rows, and the $\Cont/\Pkg$ ledger rows are all read through the displayed finite observation packet of \autoref{def:langlands-bhist-correspondence-carrier}.
+\end{theorem}
+\leanchecked{BEDC.Derived.LanglandsUp.LanglandsBHistCorrespondenceCarrier\_generated\_rows\_unary}
+\begin{proof}
+Unpack \autoref{def:langlands-bhist-correspondence-carrier}. The carrier has two source certificate entries and then a finite list of observed-place entries. By \autoref{thm:langlands-source-certificate-scope}, those source entries are exactly the $\NameCert_{\GaloisGroupUp}$ and $\NameCert_{\AutomorphicUp}$ rows, while each observed place contributes only the displayed answer histories and the local package rows read from them.
+
+Apply \autoref{thm:langlands-correspondence-obligation-package} to the same packet. The obligation package exposes no further generator: its remaining entries are the $\hsame$, $\Cont$, and $\Pkg$ rows already named by the finite ledger. Projecting each ledger entry therefore gives one unary $\mathsf{BHist}$ row, and finite ledger projection exhausts the generated carrier rows.
 \end{proof}
 
 \closureat{LanglandsUp}{obligationStr}

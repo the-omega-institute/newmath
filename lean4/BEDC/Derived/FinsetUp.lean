@@ -29,6 +29,27 @@ theorem FinsetEnumerationBundle_member_source_carried {A : BHist -> Prop} {x : B
           | inr tailMember =>
               exact ih spineYS tailMember
 
+theorem FinsetBundleMember_position_readback {bundle : ProbeBundle BHist} {member : BHist} :
+    InBundle member bundle ->
+      exists pref : ProbeBundle BHist, exists suff : ProbeBundle BHist,
+        bundle = bundleAppend pref (ProbeBundle.Bcons member suff) := by
+  intro memberIn
+  induction bundle with
+  | Bnil =>
+      cases memberIn
+  | Bcons head tail ih =>
+      cases memberIn with
+      | inl sameHead =>
+          cases sameHead
+          exact Exists.intro ProbeBundle.Bnil (Exists.intro tail rfl)
+      | inr tailMember =>
+          cases ih tailMember with
+          | intro pref prefData =>
+              cases prefData with
+              | intro suff tailSplit =>
+                  cases tailSplit
+                  exact Exists.intro (ProbeBundle.Bcons head pref) (Exists.intro suff rfl)
+
 def FinsetEnumerationCarrier
     (A : BHist -> Prop) (Rel : BHist -> BHist -> Prop)
     (bundle : ProbeBundle BHist) (a : BHist) : Prop :=
