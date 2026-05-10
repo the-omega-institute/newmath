@@ -89,3 +89,60 @@ the resulting classified prefix. The $\hsame$ transport keeps the two endpoint
 histories in the same rational-observation class, so the e-one tail witnesses
 are the common tail witnesses recorded by the finite probe window.
 \end{proof}
+
+\begin{theorem}[Real stream prefix two-probe endpoint coherence]
+\label{thm:real-stream-prefix-two-probe-endpoint-coherence}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, let
+$\mathcal P$ and $\mathcal Q$ be finite certified $\mathsf{ProbeBundle}$
+windows. Suppose the same unary observation $j$ satisfies
+$\mathsf{InBundle}(j,\mathcal P)$ and $\mathsf{InBundle}(j,\mathcal Q)$, and
+suppose both windows supply the $\mathsf{RealStreamPrefixClassifier}$ row and
+the finite $\mathsf{RatHistoryClassifier}$ tail rows required by
+\autoref{thm:real-stream-prefix-probe-endpoint-determinacy} for the selected
+endpoint $j$. Then the endpoint readbacks
+$\mathsf{RatHistoryClassifier}(x(j),y(j))$ obtained through $\mathcal P$ and
+through $\mathcal Q$ are the same up to $\hsame$, and their common e-one tail
+witnesses agree up to $\hsame$ transport:
+$$
+\begin{aligned}
+&\mathsf{InBundle}(j,\mathcal P)\land
+\mathsf{InBundle}(j,\mathcal Q) \\
+&\qquad \text{and the two displayed endpoint-determinacy packets at } j \\
+&\qquad \text{determine histories } a_{\mathcal P},b_{\mathcal P},
+a_{\mathcal Q},b_{\mathcal Q} \text{ with} \\
+&\qquad \hsame(a_{\mathcal P},a_{\mathcal Q})\land
+\hsame(b_{\mathcal P},b_{\mathcal Q})\land
+\hsame(x(j),\Eone(a_{\mathcal P}))\land
+\hsame(x(j),\Eone(a_{\mathcal Q})) \\
+&\qquad \land\ \hsame(y(j),\Eone(b_{\mathcal P}))\land
+\hsame(y(j),\Eone(b_{\mathcal Q})).
+\end{aligned}
+$$
+Ten-field fit: traditional target finite RealUp two-window endpoint coherence;
+BEDC source RealUp stream prefixes over RatUp point classifiers; carrier the
+two certified $\mathsf{ProbeBundle}$ windows over the same streams; classifier
+$\mathsf{RealStreamPrefixClassifier}$ at the selected unary observation;
+stability by $\hsame$ transitivity across the two endpoint readbacks; ledger
+the two window memberships, prefix classifiers, tail rows, endpoint row, and
+common e-one witnesses; core theorem this two-probe coherence statement;
+exactness the fixed endpoint row $j$; standard bridge StreamName and RegSeqRat
+finite observation readback; status $\mathsf{ProofTarget}$. No observation
+outside the two certified probe windows is used.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-prefix-probe-endpoint-determinacy} to
+$\mathcal P$ at the selected observation $j$. The window membership row and
+the displayed classifier and tail rows return the endpoint
+$\mathsf{RatHistoryClassifier}(x(j),y(j))$ together with common e-one tail
+witnesses $a_{\mathcal P}$ and $b_{\mathcal P}$.
+
+Apply the same theorem to $\mathcal Q$ at the same selected observation $j$.
+This gives the endpoint readback through the second finite window and common
+e-one tail witnesses $a_{\mathcal Q}$ and $b_{\mathcal Q}$.
+
+Both applications read the fixed endpoint row $j$ of the same streams $x$ and
+$y$. Transitivity of $\hsame$ identifies the two rational endpoint readbacks,
+and the same transport identifies the e-one tail witnesses. Since every row
+used in the argument is selected from either $\mathcal P$ or $\mathcal Q$, no
+external observation enters the comparison.
+\end{proof}

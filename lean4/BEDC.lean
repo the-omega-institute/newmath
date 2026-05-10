@@ -60,6 +60,7 @@ import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.BayesianUp
+import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CstaralgebraUp
@@ -95,13 +96,16 @@ import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
+import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TuringMachineUp
+import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
+import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
@@ -141,7 +145,6 @@ import BEDC.Derived.CurvatureUp.ConnectionDerivativeDependencyRow
 import BEDC.Derived.CurvatureUp.ExportDeterminacy
 import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
-import BEDC.Derived.ComplexityClassUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
@@ -158,8 +161,8 @@ import BEDC.Derived.DeRhamUp.BridgeInputSource
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
-import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.JonesPolynomialUp
+import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
@@ -324,7 +327,6 @@ import BEDC.Derived.ComplexSeriesUp.NameCertificate
 import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
-import BEDC.Derived.ComplexityClassUp
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.CondExpUp
@@ -575,7 +577,6 @@ import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
-import BEDC.Derived.HypothesisUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.HypothesisTestUp
