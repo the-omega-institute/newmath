@@ -171,11 +171,12 @@
 ## 完整本地验证
 
 ```bash
-cd lean4 && lake build                            # 0 axiom, 0 sorry, build OK
-cd papers/bedc && make                            # pdflatex 双趟, 生成 PDF (~75s)
-python3 tools/check-axioms.py                     # 源代码 axiom 禁用审计
-python3 lean4/scripts/bedc_ci.py audit            # paper ↔ Lean drift 审计
-python3 lean4/scripts/bedc_ci.py axiom-purity     # 传递依赖审计 (禁 Classical.choice / Quot.sound)
+cd lean4 && lake build                                  # 0 axiom, 0 sorry, build OK
+cd papers/bedc && make                                  # pdflatex 双趟, 生成 PDF (~75s)
+python3 tools/check-axioms.py                           # 源代码 axiom 禁用审计
+python3 lean4/scripts/bedc_ci.py audit                  # paper ↔ Lean drift 审计
+python3 lean4/scripts/bedc_ci.py axiom-purity           # 传递依赖审计 (禁 Classical.choice / Quot.sound)
+python3 lean4/scripts/bedc_ci.py conservativity-audit   # ai-proposed 章节不泄漏到 baseline import (元逻辑 conservativity gate)
 ```
 
 上述命令全部 exit 0 才算 ship 标准.
