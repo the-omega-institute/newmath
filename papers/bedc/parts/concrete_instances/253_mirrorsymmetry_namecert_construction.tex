@@ -87,6 +87,7 @@ two source certificates, the paired A-model and B-model categorical answer
 rows, the source-transport rows, the answer-transport rows, and the package
 provenance row. No other row is readable from the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.MirrorSymmetryUp.MirrorSymmetryPairCarrier\_local\_pairing\_ledger\_exactness}
 \begin{proof}
 Unpack the paired history carrier of
 \autoref{def:mirrorsymmetry-bhist-pair-carrier}. Its fields are the two source
@@ -127,6 +128,39 @@ finite BEDC pairing surface and leaves derived equivalence, Fukaya category
 completeness, Hodge theory, and standard bridge data unclaimed.
 \end{proof}
 \leanchecked{BEDC.Derived.MirrorSymmetryUp.MirrorSymmetryPairCarrier\_namecert\_obligation\_inventory}
+
+\begin{theorem}[Mirror-symmetry scoped kernel surface]
+\label{thm:mirrorsymmetry-scoped-kernel-scope}
+The carrier, categorical classifier, HMS source boundary, stability row, and
+local pairing ledger of $\NameCert_{\MirrorSymmetryUp}$ are scoped entirely by
+the two source $\NameCert$ rows, the finite $\mathsf{BHist}$ paired answer
+rows, $\hsame$, $\Cont$, and $\Pkg$.
+
+This scoped surface contains no full Fukaya category, derived equivalence,
+Hodge theorem, Calabi-Yau moduli datum, or standard bridge.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:mirrorsymmetry-source-certificate-scope}. It fixes the
+only external sources as the symplectic and derived-category $\NameCert$ rows,
+and it leaves every remaining accepted field inside the finite observed
+pairing ledger.
+
+Apply \autoref{thm:mirrorsymmetry-categorical-stability}. The only admissible
+movements of source and answer rows are the displayed $\NameCert$ transports
+and the $\hsame$, $\Cont$, and $\Pkg$ witnesses, so the classifier remains
+within the same kernel surface.
+
+Next use \autoref{thm:mirrorsymmetry-local-pairing-ledger-exactness}. It reads
+the local ledger as exactly the two source certificates, paired categorical
+answer rows, source transports, answer transports, and package provenance.
+
+Finally apply
+\autoref{thm:mirrorsymmetry-namecert-obligation-inventory}. The inventory
+contains precisely the carrier, categorical classifier, HMS source boundary,
+stability row, and local ledger exactness row. Hence the scoped kernel surface
+is the listed finite BEDC packet and excludes full Fukaya categories, derived
+equivalence, Hodge theory, Calabi-Yau moduli, and standard bridges.
+\end{proof}
 
 \closureat{MirrorSymmetryUp}{obligationStr}
 

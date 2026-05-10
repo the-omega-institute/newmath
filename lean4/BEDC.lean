@@ -64,6 +64,7 @@ import BEDC.Derived.BayesianUp
 import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
+import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
@@ -212,6 +213,7 @@ import BEDC.Derived.OptionUp.SourceWeakening
 import BEDC.Derived.OptionUp.TaggedPayload
 import BEDC.Derived.OptionUp.TaggedCarrier
 import BEDC.Derived.OptionUp.CarrierReadback
+import BEDC.Derived.PontryaginDualityUp
 import BEDC.Derived.OptionUp.Readback
 import BEDC.Derived.OptionUp.PayloadDescent
 import BEDC.Derived.OptionUp.PayloadDescentCanonicalIntermediate
