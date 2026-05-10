@@ -170,6 +170,35 @@ theorem TannakaKreinFiberFunctorCarrier_source_boundary [AskSetup] [PackageSetup
                         (And.intro provenanceCont
                           (And.intro endpointCont pkgSig))))))))))))
 
+theorem TannakaKreinFiberFunctorCarrier_endpoint_deterministic [AskSetup] [PackageSetup]
+    {lieGroup monoidalCat fiberFunctor representation unitRow tensorProduct
+      reconstructionLedger provenance endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TannakaKreinFiberFunctorCarrier lieGroup monoidalCat fiberFunctor representation unitRow
+        tensorProduct reconstructionLedger provenance endpoint bundle pkg ->
+      Cont provenance reconstructionLedger endpoint' ->
+        PkgSig bundle endpoint' pkg ->
+          TannakaKreinFiberFunctorCarrier lieGroup monoidalCat fiberFunctor representation
+              unitRow tensorProduct reconstructionLedger provenance endpoint' bundle pkg ∧
+            hsame endpoint endpoint' := by
+  intro carrier endpointCont endpointPkg
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_deterministic carrier.right.right.right.right.right.right.right.right.left endpointCont
+  have transportedCarrier :
+      TannakaKreinFiberFunctorCarrier lieGroup monoidalCat fiberFunctor representation unitRow
+        tensorProduct reconstructionLedger provenance endpoint' bundle pkg :=
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      endpointCont,
+      endpointPkg⟩
+  exact And.intro transportedCarrier sameEndpoint
+
 theorem TannakaKreinFiberFunctorCarrier_reconstruction_ledger_exactness
     [AskSetup] [PackageSetup]
     {lieGroup monoidalCat fiberFunctor representation unitRow tensorProduct
