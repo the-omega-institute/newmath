@@ -624,3 +624,50 @@ boundary, and
 quotient, completion, host-index, regularity, standard-bridge, and hidden
 stream rows from the seal interface.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp common-window seal]
+\label{thm:streamname-regseqrat-realup-common-window-seal}
+Let $W$ be a reindexed finite $\StreamNameUp$ window equipped with selected
+$\mathsf{RatHistoryClassifier}$ rows, $\mathsf{ProbeBundle}$ rows,
+$\mathsf{InBundle}$ witnesses, $\mathsf{UnaryHistory}$ rows, $\hsame$
+transport rows, $\Cont$ rows, $\Pkg$ rows, displayed $\RegSeqRat$ handoff
+rows, displayed $\DyadicRatCore$ endpoint rows, and a finite
+$\mathsf{RealLedgerPolicy}$ ledger. Suppose the $\RegSeqRat$ finite-window
+seal consumer and the finite-window $\RealUp$ terminal seal consumer are read
+through certified reindexing routes using exactly these displayed rows. Then
+the two consumers read the same finite source boundary: the selected
+$\StreamNameUp$ classifier surface transported through the displayed
+$\RegSeqRat$ handoff, $\DyadicRatCore$ endpoint, probe, membership,
+unary-history, continuation, package, and real-ledger-policy rows.
+
+This common boundary contains no quotient datum, completion object, host-index
+equality, hidden stream row, or independent regularity row. In particular, the
+$\RegSeqRat$ finite-window seal and the $\RealUp$ terminal seal are consumers
+of one finite source boundary, not two separately supplied boundary packages.
+\end{theorem}
+\begin{proof}
+First identify the $\RegSeqRat$ side of the boundary. Apply
+\autoref{thm:streamname-regseqrat-reindexed-window-selected-classifier-handoff}
+to the selected classifier rows, bundle rows, membership witnesses, unary
+history, $\hsame$ transport, continuation, package, and displayed handoff
+rows. The finite $\RegSeqRat$ consumer therefore sees only the selected
+$\StreamNameUp$ source surface transported through the displayed handoff
+ledger.
+
+Next compare the terminal routes for the finite $\RealUp$ seal. Apply
+\autoref{thm:streamname-regseqrat-reindexed-window-triple-terminal-seal-determinacy}
+to the route that reads the $\RegSeqRat$ seal boundary, the route that reads
+the displayed $\DyadicRatCore$ endpoint rows, and the route that reads the
+finite $\RealUp$ terminal seal. The shared classifier, handoff, endpoint,
+probe, membership, unary-history, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows force a single finite source boundary for
+all three consumers.
+
+Finally read that same boundary at the terminal seal. Use
+\autoref{thm:streamname-realup-terminal-seal-boundary} to identify the
+finite-window $\RealUp$ consumer with the boundary already selected by the
+$\RegSeqRat$ handoff and endpoint rows. The no-import clause in the terminal
+determinacy theorem excludes quotient, completion, host-index equality,
+hidden stream, and independent regularity rows, so the two seal consumers
+share exactly the displayed finite source boundary.
+\end{proof}
