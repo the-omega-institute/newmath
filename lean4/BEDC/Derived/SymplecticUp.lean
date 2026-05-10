@@ -204,6 +204,18 @@ theorem SymplecticCarrierClassifierSurface_closed_two_form_obligation
       (And.intro obligations.right.right.right.left
         (And.intro closedUnary surface.right.right.right.left)))
 
+theorem SymplecticObligationBoundary_mature_consumer_completeness
+    {manifold form derivative degree degreePlus probe probe' tensor tensor' scalar scalar'
+      antisym source closedWitness pairing ledger consumer : BHist} :
+    SymplecticCarrierClassifierSurface manifold form derivative degree degreePlus probe probe'
+      tensor tensor' scalar scalar' antisym source closedWitness pairing ledger ->
+      Cont ledger closedWitness consumer ->
+        hsame consumer (append ledger closedWitness) ∧ hsame derivative BHist.Empty ∧
+          hsame closedWitness BHist.Empty ∧ Cont form pairing ledger := by
+  intro surface consumerRow
+  have obligations := SymplecticCarrierClassifierSurface_closed_two_form_obligation surface
+  exact ⟨consumerRow, obligations.left, obligations.right.left, obligations.right.right.right.right⟩
+
 theorem SymplecticCarrierClassifierSurface_semantic_name_certificate
     {manifold form derivative degree degreePlus probe probe' tensor tensor' scalar scalar'
       antisym source closedWitness pairing ledger : BHist} :

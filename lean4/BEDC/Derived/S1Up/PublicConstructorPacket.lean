@@ -41,4 +41,18 @@ theorem SOnePublicConstructorPacket_scope
                 (And.intro classifier.right.left.right.right.right
                   publicLedgerRow)))))))
 
+theorem SOneUp_StdBridge {x y e p x' y' e' p' provenance publicLedger bridge : BHist} :
+    SOnePublicConstructorPacket x y e p x' y' e' p' provenance publicLedger ->
+      Cont publicLedger p' bridge ->
+        SOneComponentClassifier x y e p x' y' e' p' ∧
+          SOneProductHistoryCarrier p ∧ SOneProductHistoryCarrier p' ∧
+            hsame e SOneUnitHistory ∧ hsame e' SOneUnitHistory ∧
+              hsame publicLedger (append provenance p') ∧
+                hsame bridge (append publicLedger p') := by
+  intro packet bridgeRow
+  have scope := SOnePublicConstructorPacket_scope packet
+  exact ⟨scope.left, scope.right.left, scope.right.right.left,
+    scope.right.right.right.left, scope.right.right.right.right.left,
+    scope.right.right.right.right.right.right.right.right, bridgeRow⟩
+
 end BEDC.Derived.S1Up
