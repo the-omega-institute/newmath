@@ -333,3 +333,35 @@ K_{J,I}(z)\Longrightarrow C(z).
 $$
 The equivalence just proved keeps the endpoint $z$ fixed and changes only the internal decomposition ledger: $I(x)$ and $J(y)$ are reused in the opposite witness slots, while the decomposition row is adjusted by the additive commutativity row already present in \autoref{def:ring-stability-certificate}. No ambient carrier, classifier, operation, ideal certificate, or package provenance row is replaced.
 \end{proof}
+
+\begin{theorem}[Ideal sum monotonicity in ideal inclusion]
+\label{thm:ideal-sum-inclusion-monotone}
+Let $R$ carry a $\RingUp$ certificate as in \autoref{ch:concrete-instances-ring-namecert}, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I,I',J,J'$ be $\IdealUp$ predicates over the same $\RingUp$ certificate, with the rows specified in \autoref{sec:ideal-certificate}. Define
+$$
+K:=I+_RJ,
+\qquad
+K':=I'+_RJ'
+$$
+using \autoref{def:ideal-sum-predicate}. Then $K$ and $K'$ are $\IdealUp$ predicates over the same ambient certificate by \autoref{thm:ideal-sum-closure}, and ideal inclusion is monotone through the sum constructor:
+$$
+(I\preceq_R I')\land(J\preceq_R J')
+\Longrightarrow
+K\preceq_R K'.
+$$
+Equivalently, for every $z:\mathsf{BHist}$, any additive-decomposition witness for $(I+_RJ)(z)$ is sent to an additive-decomposition witness for $(I'+_RJ')(z)$ by applying the two inclusion implications to the two membership entries and leaving the decomposition row unchanged.
+\end{theorem}
+\begin{proof}
+The two sum predicates are $\IdealUp$ predicates by \autoref{thm:ideal-sum-closure}, applied first to $(I,J)$ and then to $(I',J')$. Thus the comparison $K\preceq_RK'$ is an instance of the ideal-inclusion predicate from \autoref{def:ideal-inclusion-predicate}.
+
+Assume $I\preceq_R I'$ and $J\preceq_R J'$. To prove $K\preceq_R K'$, fix $z:\mathsf{BHist}$ and assume $K(z)$. By \autoref{def:ideal-sum-predicate}, choose witnesses $x,y:\mathsf{BHist}$ with
+$$
+I(x)\land J(y)\land z\sim_R x+_R y.
+$$
+The first inclusion, unpacked through \autoref{def:ideal-inclusion-predicate}, sends the witness $I(x)$ to $I'(x)$. The second inclusion sends the witness $J(y)$ to $J'(y)$.
+
+Now keep the same endpoints $x$ and $y$ and keep the same additive-decomposition row $z\sim_R x+_R y$. The data
+$$
+I'(x)\land J'(y)\land z\sim_R x+_R y
+$$
+are exactly a witness for $K'(z)$ under \autoref{def:ideal-sum-predicate}. Since $z$ was arbitrary, \autoref{def:ideal-inclusion-predicate} gives $K\preceq_RK'$.
+\end{proof}
