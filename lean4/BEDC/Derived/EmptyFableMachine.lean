@@ -9,7 +9,7 @@ Every BHist is the finite selector ledger of the b0/b1 marks enacted above
 kernel objects: it derives `singletonTail`, `EmptyStep`, `Trace`, `SelStep`,
 and `FableLedger` over the existing `BMark`, `BHist`, and `Ext` surface.
 -/
-namespace BEDC.Capstone.EmptyFableMachine
+namespace BEDC.Derived.EmptyFableMachine
 
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Hist
@@ -370,4 +370,4 @@ theorem empty_fable_synthesis_unique :
   have lk : FableLedger k xs := forward xs lh
   exact fable_ledger_unique_up_to_hsame lh lk
 
-end BEDC.Capstone.EmptyFableMachine
+end BEDC.Derived.EmptyFableMachine

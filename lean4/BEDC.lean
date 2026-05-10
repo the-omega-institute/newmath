@@ -79,6 +79,7 @@ import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.IntUp.ZeroRepresentative
 import BEDC.Derived.IntUp.StdBridge
 import BEDC.Derived.RingOfIntegersUp
+import BEDC.Derived.EmptyFableMachine
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.EllipticCurveUp
@@ -979,5 +980,3 @@ import BEDC.Derived.FieldUp.RatDenominatorExternalUnitNormalForm
 import BEDC.Derived.FieldUp.ContextualActionThreefold
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Reflection
-/- Capstone formalizations. -/
-import BEDC.Capstone
