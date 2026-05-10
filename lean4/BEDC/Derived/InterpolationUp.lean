@@ -209,4 +209,27 @@ theorem InterpolationDownstreamThreshold_surface [AskSetup] [PackageSetup]
       surface.right.right.right.right.right.right.left,
       surface.right.right.right.right.right.right.right⟩
 
+theorem InterpolationDownstreamThresholdPackage_threshold_surface [AskSetup] [PackageSetup]
+    {finsetMembership polynomialEval node target polynomial sampleLedger endpoint provenance
+      downstream : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory finsetMembership -> UnaryHistory polynomialEval -> UnaryHistory node ->
+      UnaryHistory target -> UnaryHistory polynomial ->
+        Cont finsetMembership polynomialEval sampleLedger -> Cont node target endpoint ->
+          Cont endpoint polynomial provenance -> Cont sampleLedger provenance downstream ->
+            SigRel bundle sampleLedger provenance -> PkgSig bundle provenance pkg ->
+              UnaryHistory downstream ∧ hsame downstream (append sampleLedger provenance) ∧
+                SigRel bundle sampleLedger provenance ∧ PkgSig bundle provenance pkg := by
+  intro finsetUnary polynomialEvalUnary nodeUnary targetUnary polynomialUnary sampleLedgerRow
+  intro endpointRow provenanceRow downstreamRow sigRel pkgSig
+  have sampleLedgerUnary : UnaryHistory sampleLedger :=
+    unary_cont_closed finsetUnary polynomialEvalUnary sampleLedgerRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed nodeUnary targetUnary endpointRow
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed endpointUnary polynomialUnary provenanceRow
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed sampleLedgerUnary provenanceUnary downstreamRow
+  exact ⟨downstreamUnary, downstreamRow, sigRel, pkgSig⟩
+
 end BEDC.Derived.InterpolationUp
