@@ -199,9 +199,12 @@ How to identify the missing chapter:
    form. If unsure, skip and pick a different gap.
 5. Cite a textbook / paper reference (Hartshorne / Kobayashi /
    Pierce / Pearl / Boyd-Vandenberghe / Russell-Norvig / etc) in
-   the `proposed_change` body. Self-named or AI-invented chapters
-   are NOT human_chapter_extension targets — those go through
-   `phase_propose.txt` with `\origin{ai}`.
+   the `proposed_change` body, OR — when the proposed chapter is
+   a genuinely new BEDC-kernel-anchored object without external
+   textbook precedent — substitute the citation with a
+   self-contained justification (carrier-row count, classifier
+   shape, ledger obligation surface, dependency anchors) that
+   shows the chapter is non-vacuous under BEDC discipline.
 
 Illustrative examples (do not pick mechanically; derive from the
 *actual* dag_brief output):
@@ -240,11 +243,14 @@ horizon is saturated and the remaining open chapters are slow-burn),
 you MAY propose a `kind = "theory_extension"` with `notes.flavor =
 "human_chapter_extension"`. Rules:
 
-1. The proposed chapter MUST be a recognised mathematical object with
-   a textbook reference. Cite at least one standard text (e.g.
-   "Fulton-Harris 1991", "Boyd-Vandenberghe 2004", "Pearl 2009").
-   Self-invented or AI-named objects do NOT belong here — those go
-   through `phase_propose.txt` with `\origin{ai}`.
+1. The proposed chapter MUST be a non-vacuous BEDC-kernel-anchored
+   object. Justify it via either: (a) a textbook reference (e.g.
+   "Fulton-Harris 1991", "Boyd-Vandenberghe 2004", "Pearl 2009") for
+   recognised mathematical objects; OR (b) a self-contained BEDC
+   carrier sketch (carrier rows, classifier shape, ledger structure,
+   dependency anchors) for genuinely new objects without external
+   precedent. Either way, vacuous parameter-echo "abstract widget over
+   carrier `A` and classifier `~A`" naming is rejected at Phase D.
 2. The chapter MUST be formalisable under BEDC zero-axiom discipline.
    Anything requiring measure-theoretic completion, ultrafilter
    construction, Hahn-Banach in its strong form, or the full axiom
@@ -258,10 +264,14 @@ you MAY propose a `kind = "theory_extension"` with `notes.flavor =
 5. `proposed_change` MUST contain: chapter title, carrier sketch
    (one paragraph in BEDC vocabulary: BHist, hsame, Cont, Pkg,
    source, classifier, ledger, transport, NameCert), dependency
-   list, textbook reference, and a five-row NameCert obligation
-   sketch. The output of phase REVISE will be a seed-stub chapter
-   at `\seedClosure / \unformalizedV` with `\origin{human}` (NOT
-   `\origin{ai}` — TasteGate is for AI-proposed only).
+   list, justification (textbook reference OR self-contained BEDC
+   sketch per rule 1), and a five-row NameCert obligation sketch.
+   The output of phase REVISE will be a seed-stub chapter at
+   `\seedClosure / \unformalizedV`. Set `\origin{human}` when rule 1
+   was satisfied via textbook citation; set `\origin{ai}` when rule 1
+   was satisfied via self-contained BEDC sketch — `\origin{ai}`
+   commits the chapter to the TasteGate single-carrier discipline
+   (phase_c.txt §AI chapter single-carrier alignment).
 6. Pipeline will then advance the chapter through paper / lean
    rounds via the standard closure_mark flow, exactly the same
    path that brought TuringMachineUp / AbelRuffiniUp / etc. into
@@ -278,8 +288,8 @@ DO NOT use this path for:
   check). Use closure_mark / theory_extension on the existing one.
 - Renames or synonyms of existing chapters (e.g. "PrimeIdealUp" when
   `IdealUp + PrimeUp` already exists).
-- Speculative AI-discovered objects without textbook backing — those
-  go through `phase_propose.txt` with the TasteGate gate.
+- Speculative AI-discovered objects with no concrete BEDC anchoring —
+  if the carrier-row sketch is hand-waved, skip the round.
 - Chapters whose carrier requires content that contradicts the
   zero-axiom discipline (skip and explain in `notes`).
 
