@@ -115,6 +115,36 @@ theorem StackBHistCarrier_obligation_surface [AskSetup] [PackageSetup]
     (And.intro carrier.right.right.right.left
       (And.intro endpointUnary carrier.right.right.right.right.right))
 
+theorem StackRepresentability_boundary [AskSetup] [PackageSetup]
+    {site object arrow restriction descent provenance endpoint representability atlas
+      boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StackBHistCarrier site object arrow restriction descent provenance endpoint bundle pkg ->
+      Cont descent restriction representability ->
+        Cont representability site atlas ->
+          Cont atlas provenance boundary ->
+            UnaryHistory representability ∧ UnaryHistory atlas ∧ UnaryHistory boundary ∧
+              hsame representability (append descent restriction) ∧
+                hsame atlas (append representability site) ∧
+                  hsame boundary (append atlas provenance) ∧ PkgSig bundle provenance pkg := by
+  intro carrier representabilityCont atlasCont boundaryCont
+  have descentUnary : UnaryHistory descent :=
+    unary_cont_closed carrier.left.right.left carrier.right.left carrier.left.right.right
+  have representabilityUnary : UnaryHistory representability :=
+    unary_cont_closed descentUnary carrier.right.right.left representabilityCont
+  have atlasUnary : UnaryHistory atlas :=
+    unary_cont_closed representabilityUnary carrier.left.left atlasCont
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed atlasUnary carrier.right.right.right.right.left boundaryCont
+  exact
+    ⟨representabilityUnary,
+      atlasUnary,
+      boundaryUnary,
+      representabilityCont,
+      atlasCont,
+      boundaryCont,
+      carrier.right.right.right.right.right⟩
+
 theorem StackDescent_obligation_surface [AskSetup] [PackageSetup]
     {site objectRows arrowRows descentLedger carrierRow : BHist}
     {schemeBundle sheafBundle : ProbeBundle ProbeName} {schemePkg sheafPkg : Pkg} :

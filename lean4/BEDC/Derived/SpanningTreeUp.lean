@@ -95,6 +95,27 @@ theorem SpanningTreeBHistCarrier_classifier_obligation [AskSetup] [PackageSetup]
       sameIncidence,
       sameEndpoint⟩
 
+theorem SpanningTreeAcyclicMaximality_surface [AskSetup] [PackageSetup]
+    {graph tree incidence reachability acyclic provenance endpoint maximality : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpanningTreeBHistCarrier graph tree incidence reachability acyclic provenance endpoint
+        bundle pkg ->
+      Cont reachability acyclic maximality ->
+        UnaryHistory maximality ∧ hsame maximality (append reachability acyclic) ∧
+          hsame acyclic BHist.Empty ∧ hsame endpoint (append acyclic provenance) ∧
+            PkgSig bundle endpoint pkg := by
+  intro carrier maximalityCont
+  have acyclicUnary : UnaryHistory acyclic :=
+    unary_transport unary_empty (hsame_symm carrier.right.right.left)
+  have maximalityUnary : UnaryHistory maximality :=
+    unary_cont_closed carrier.right.left acyclicUnary maximalityCont
+  exact
+    ⟨maximalityUnary,
+      maximalityCont,
+      carrier.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right⟩
+
 theorem SpanningTreeCarrier_obligation_surface [AskSetup] [PackageSetup]
     {graphEdges treeEdges incidence reachability provenance carrierRow : BHist}
     {graphBundle treeBundle : ProbeBundle ProbeName} {graphPkg treePkg : Pkg} :
