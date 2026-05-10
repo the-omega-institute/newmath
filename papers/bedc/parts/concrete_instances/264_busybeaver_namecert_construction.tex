@@ -20,6 +20,7 @@ records the halted step-count row, and compares both rows with $B$ through the
 $\NatUp$ order surface.
 \end{theorem}
 \leanchecked{BEDC.Derived.BusyBeaverUp.BusyBeaverHaltedBound\_admissibility}
+\leanchecked{BEDC.Derived.BusyBeaverUp.BusyBeaverHaltedBoundAdmissibility\_halted\_trace\_surface}
 \begin{proof}
 Project the accepted $\BusyBeaverUp$ packet to its finite enumeration and
 halted-step ledger. Membership of $M$ in $E$ is a displayed finite row, and the
@@ -90,6 +91,7 @@ comparisons yields an accepted $\BusyBeaverUp$ witness at $B'$, with no new
 halting oracle and no computability claim about the global busy-beaver
 function.
 \end{proof}
+\leanchecked{BEDC.Derived.BusyBeaverUp.BusyBeaverBoundMonotonicity\_bound\_transport}
 
 \begin{closurestatus}{\BusyBeaverUp}
   \constructivestory{A $\BusyBeaverUp$ token names a unary state-count $n$ together with a finite enumeration of $n$-state two-symbol $\TuringMachineUp$ codes, a candidate unary output bound $B$, and a halted-step ledger row. The carrier accepts a witness when every code in the enumeration that halts on the empty tape, in the sense of $\NameCert_{\ComputableUp}$, has its halted output and step count bounded by $B$; non-halting codes are recorded in the non-halting witness row. The classifier is $\hsame$ on output bounds at fixed unary state count; the source covers the unary state count, the finite machine enumeration, the unary output bound, the halted-step ledger, and the non-halting witness; the pattern records halted bound admissibility, finite enumeration completeness, non-halting exclusion, bound monotonicity, and per-machine-readback exactness rows; the ledger keeps the enumeration, the halted bound $B$, the per-machine readback, and the non-halting witness rows visible. The five name-certificate obligations are supplied by the bounded-simulation certificate plus enumeration-finiteness: the inhabited identity certificate is the trivial $n=0$ certificate; classifier stability is reflexive, symmetric, and transitive $\hsame$ at fixed state count; transport repacks bounded simulations through machine enumeration; ledger exactness identifies the accepted row with the displayed halted bound; the extension boundary fixes bound monotonicity in the unary state count. A history $h$ lies in the signature gap of a $\BusyBeaverUp$ token $p$ when the source-domain accepts the enumeration-bounded readback, the signature relation pairs it with the halted maximum, and token introduction names that maximum as $p$. The chapter registers this enumeration-bounded halting surface under the name $\BusyBeaverUp$; it is a finite-state-bounded maximum object with no actual computability claim about the busy-beaver function, no asymptotic growth-rate claim, and no halting-decidability bridge.}

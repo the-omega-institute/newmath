@@ -544,6 +544,7 @@ def collect_closurestatus_blocks(part_root: Path) -> list[dict]:
             lt = fields.get("leantarget")
             if lt is not None:
                 lt = lt.replace("\\_", "_").strip()
+            origin = (fields.get("origin") or "human").strip().lower()
             out.append({
                 "file": str(tex.relative_to(part_root.parent.parent.parent)),
                 "line": line,
@@ -552,6 +553,8 @@ def collect_closurestatus_blocks(part_root: Path) -> list[dict]:
                 "formal_status": fs or None,
                 "lean_target": lt,
                 "bridge_status": fields.get("bridgestatus"),
+                "origin": origin,
+                "raw_body": body,
                 "has_scope": "scopeclosed" in fields,
                 "has_notclaimed": "notclaimed" in fields,
                 "has_upgradepath": "upgradepath" in fields,
@@ -595,6 +598,23 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
         issues.append(
             f"{where}: missing \\constructivestory (bottom-up construction story; empty arg ok)"
         )
+    origin = block.get("origin", "human")
+    if origin not in {"human", "ai"}:
+        issues.append(
+            f"{where}: \\origin='{origin}' is not in {{human, ai}}"
+        )
+    if origin == "ai":
+        body = block.get("raw_body") or ""
+        # AI-proposed chapters past seedClosure must witness a TasteGate instance.
+        non_seed = tc and tc != "seedClosure"
+        region = block.get("region") or ""
+        instance_marker = f"BEDC.Derived.{region}Up.taste_gate"
+        marker_present = instance_marker.replace("_", "\\_") in body or instance_marker in body
+        if non_seed and not marker_present:
+            issues.append(
+                f"{where}: \\origin=ai chapter at theoryclosure={tc} requires "
+                f"\\leanchecked{{{instance_marker}}} (TasteGate instance) before leaving seedClosure"
+            )
     return issues
 
 
