@@ -48,6 +48,7 @@ import BEDC.FKernel.NameCert.Descent
 import BEDC.FKernel.NameCert.StabilityMode
 import BEDC.FKernel.Unary
 import BEDC.BaseReflection
+import BEDC.GroundCompiler
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
@@ -115,6 +116,7 @@ import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ClebschGordanUp
+import BEDC.Derived.ComplexityClassUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.Bridge
 import BEDC.Derived.CurvatureUp.ConsumerRowCoverage
