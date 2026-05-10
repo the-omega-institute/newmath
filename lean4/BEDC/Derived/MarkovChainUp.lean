@@ -301,6 +301,21 @@ theorem MarkovChainTransitionPacket_ledger_exactness
       packet.right.right.right.right.left,
       packet.right.right.right.right.right⟩
 
+theorem MarkovChainTransitionPacket_source_boundary
+    {source time current next law transition provenance ledger : BHist} :
+    MarkovChainTransitionPacket source time current next law transition provenance ledger ->
+      ProbSpacePublicEventPacket source source current next law ∧
+        DistributionPushforwardSourceSpec law ∧
+          RandomVarTotalReadbackCertificate current next transition ∧
+            Cont current transition provenance ∧ Cont provenance law ledger := by
+  intro packet
+  exact
+    ⟨packet.left,
+      packet.right.right.left,
+      packet.right.right.right.left,
+      packet.right.right.right.right.left,
+      packet.right.right.right.right.right⟩
+
 theorem MarkovChainTransitionPacket_kernel_classifier_stability
     {source time current next law transition provenance ledger source' time' current' next'
       law' transition' provenance' ledger' : BHist} :
