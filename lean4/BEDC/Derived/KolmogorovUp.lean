@@ -143,4 +143,35 @@ theorem KolmogorovPrefixFreeCarrier_obligation_surface
     ⟨fixedClassifierUnary, traceUnary, readbackUnary, carrierUnary, fixedClassifierRow,
       traceRow, readbackRow, carrierRow⟩
 
+theorem KolmogorovDecodedReadback_exactness
+    {description budget decoder trace trace' output output' readback readback'
+      fixedClassifier carrier carrier' : BHist} :
+    UnaryHistory description -> UnaryHistory budget -> UnaryHistory decoder -> UnaryHistory output ->
+      Cont description budget fixedClassifier -> Cont decoder description trace ->
+        Cont trace output readback -> Cont fixedClassifier readback carrier ->
+          Cont decoder description trace' -> Cont trace' output' readback' ->
+            Cont fixedClassifier readback' carrier' -> hsame output output' ->
+              UnaryHistory trace' ∧ UnaryHistory readback' ∧ UnaryHistory carrier' ∧
+                hsame trace trace' ∧ hsame readback readback' ∧ hsame carrier carrier' := by
+  intro descriptionUnary budgetUnary decoderUnary outputUnary fixedClassifierRow traceRow
+  intro readbackRow carrierRow traceRow' readbackRow' carrierRow' outputSame
+  have outputUnary' : UnaryHistory output' :=
+    unary_transport outputUnary outputSame
+  have fixedClassifierUnary : UnaryHistory fixedClassifier :=
+    unary_cont_closed descriptionUnary budgetUnary fixedClassifierRow
+  have traceUnary' : UnaryHistory trace' :=
+    unary_cont_closed decoderUnary descriptionUnary traceRow'
+  have readbackUnary' : UnaryHistory readback' :=
+    unary_cont_closed traceUnary' outputUnary' readbackRow'
+  have carrierUnary' : UnaryHistory carrier' :=
+    unary_cont_closed fixedClassifierUnary readbackUnary' carrierRow'
+  have traceSame : hsame trace trace' :=
+    cont_respects_hsame (hsame_refl decoder) (hsame_refl description) traceRow traceRow'
+  have readbackSame : hsame readback readback' :=
+    cont_respects_hsame traceSame outputSame readbackRow readbackRow'
+  have carrierSame : hsame carrier carrier' :=
+    cont_respects_hsame (hsame_refl fixedClassifier) readbackSame carrierRow carrierRow'
+  exact
+    ⟨traceUnary', readbackUnary', carrierUnary', traceSame, readbackSame, carrierSame⟩
+
 end BEDC.Derived.KolmogorovUp
