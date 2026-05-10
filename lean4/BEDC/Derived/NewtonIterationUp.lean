@@ -16,6 +16,15 @@ def NewtonIterationBHistCarrier
       Cont point derivativeRow stepLedger ∧ Cont stepLedger inverse next ∧
         Cont provenance next endpoint
 
+def NewtonIterationCarrier
+    (derivativeSource banachSource point derivative inverseRow nextStep derivativeLedger
+      banachLedger stepLedger : BHist) :
+    Prop :=
+  Cont derivativeSource banachSource derivativeLedger ∧ UnaryHistory point ∧
+    UnaryHistory derivative ∧ UnaryHistory inverseRow ∧ UnaryHistory nextStep ∧
+      Cont derivativeLedger point derivative ∧ Cont derivative inverseRow stepLedger ∧
+        Cont point stepLedger nextStep ∧ Cont derivativeLedger stepLedger banachLedger
+
 theorem NewtonIterationBHistCarrier_banach_derivative_source_scope
     {derivative banach point derivativeRow inverse next stepLedger provenance endpoint : BHist} :
     NewtonIterationBHistCarrier derivative banach point derivativeRow inverse next stepLedger
@@ -96,5 +105,66 @@ theorem NewtonIterationStep_stability
       (And.intro nextUnary'
         (And.intro sameStep
           (And.intro sameLedger sameNext))))
+
+theorem NewtonIterationCarrier_obligation_package
+    {derivativeSource banachSource point derivative inverseRow nextStep derivativeLedger
+      banachLedger stepLedger derivativeSourceNext banachSourceNext pointNext derivativeNext
+      inverseRowNext nextStepNext derivativeLedgerNext banachLedgerNext stepLedgerNext :
+        BHist} :
+    NewtonIterationCarrier derivativeSource banachSource point derivative inverseRow nextStep
+        derivativeLedger banachLedger stepLedger ->
+      hsame derivativeSource derivativeSourceNext ->
+        hsame banachSource banachSourceNext ->
+          hsame point pointNext ->
+            hsame derivative derivativeNext ->
+              hsame inverseRow inverseRowNext ->
+                Cont derivativeSourceNext banachSourceNext derivativeLedgerNext ->
+                  Cont derivativeLedgerNext pointNext derivativeNext ->
+                    Cont derivativeNext inverseRowNext stepLedgerNext ->
+                      Cont pointNext stepLedgerNext nextStepNext ->
+                        Cont derivativeLedgerNext stepLedgerNext banachLedgerNext ->
+                          NewtonIterationCarrier derivativeSourceNext banachSourceNext
+                              pointNext derivativeNext inverseRowNext nextStepNext
+                              derivativeLedgerNext banachLedgerNext stepLedgerNext ∧
+                            hsame derivativeLedger derivativeLedgerNext ∧
+                              hsame stepLedger stepLedgerNext ∧
+                                hsame nextStep nextStepNext ∧
+                                  hsame banachLedger banachLedgerNext := by
+  intro carrier sameDerivativeSource sameBanachSource samePoint sameDerivative sameInverseRow
+    sourceRows derivativeRows stepRows nextRows banachRows
+  have pointUnary : UnaryHistory pointNext :=
+    unary_transport carrier.right.left samePoint
+  have derivativeUnary : UnaryHistory derivativeNext :=
+    unary_transport carrier.right.right.left sameDerivative
+  have inverseRowUnary : UnaryHistory inverseRowNext :=
+    unary_transport carrier.right.right.right.left sameInverseRow
+  have stepLedgerUnary : UnaryHistory stepLedgerNext :=
+    unary_cont_closed derivativeUnary inverseRowUnary stepRows
+  have nextStepUnary : UnaryHistory nextStepNext :=
+    unary_cont_closed pointUnary stepLedgerUnary nextRows
+  have sameDerivativeLedger : hsame derivativeLedger derivativeLedgerNext :=
+    cont_respects_hsame sameDerivativeSource sameBanachSource carrier.left sourceRows
+  have sameStepLedger : hsame stepLedger stepLedgerNext :=
+    cont_respects_hsame sameDerivative sameInverseRow
+      carrier.right.right.right.right.right.right.left stepRows
+  have sameNextStep : hsame nextStep nextStepNext :=
+    cont_respects_hsame samePoint sameStepLedger
+      carrier.right.right.right.right.right.right.right.left nextRows
+  have sameBanachLedger : hsame banachLedger banachLedgerNext :=
+    cont_respects_hsame sameDerivativeLedger sameStepLedger
+      carrier.right.right.right.right.right.right.right.right banachRows
+  exact
+    And.intro
+      (And.intro sourceRows
+        (And.intro pointUnary
+          (And.intro derivativeUnary
+            (And.intro inverseRowUnary
+              (And.intro nextStepUnary
+                (And.intro derivativeRows
+                  (And.intro stepRows
+                    (And.intro nextRows banachRows))))))))
+      (And.intro sameDerivativeLedger
+        (And.intro sameStepLedger
+          (And.intro sameNextStep sameBanachLedger)))
 
 end BEDC.Derived.NewtonIterationUp
