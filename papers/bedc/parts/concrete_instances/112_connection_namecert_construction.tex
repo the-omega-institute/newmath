@@ -112,6 +112,41 @@ listed rows repack as the whole consumer surface for
 $\NameCert_{\ConnectionUp}$.
 \end{proof}
 
+\begin{theorem}[ConnectionUp standard bridge boundary]
+\label{thm:connection-standard-bridge-boundary}
+The public $\NameCert_{\ConnectionUp}$ packet determines a bridge-facing
+boundary consisting exactly of the section-linearity row, the
+parallel-transport row, the curvature-boundary row, and the stability-ledger
+exactness row displayed in this chapter. Any standard connection
+interpretation may read those rows together with their $\mathsf{BHist}$,
+$\Cont$, $\mathsf{Pkg}$, and $\hsame$ provenance, but it may not import a
+coordinate connection, smooth atlas, or host bundle operation.
+\end{theorem}
+\begin{proof}
+Start from the public consumer surface of
+\autoref{thm:connection-public-certificate-consumer-surface}. It allows a
+consumer to project only the displayed carrier, classifier, dependency, and
+certificate rows of $\NameCert_{\ConnectionUp}$.
+
+Now select the four rows that face a standard interpretation. The
+section-linearity row is \autoref{thm:connection-section-linearity-obligation},
+the parallel-transport row is
+\autoref{thm:connection-parallel-transport-obligation}, the curvature-boundary
+row is \autoref{thm:connection-curvature-boundary-obligation}, and the
+stability row is
+\autoref{thm:connection-stability-ledger-exactness-obligation}.
+
+These four rows form a finite row family. Their proofs already project all
+permitted $\mathsf{BHist}$ endpoints, $\Cont$ ledgers, $\mathsf{Pkg}$
+provenance, and $\hsame$ comparisons from the public packet, so a bridge can
+read exactly that provenance without adding another row sort.
+
+The exclusion clause follows from the same consumer-surface and ledger
+exactness statements. Since no coordinate connection, smooth atlas, or host
+bundle operation is among the projected public rows, none is part of the
+bridge-facing boundary.
+\end{proof}
+
 \closureat{ConnectionUp}{publicStr}[BEDC.Derived.ConnectionUp.ConnectionCarrierPacket\_stability\_ledger\_exactness\_obligation]
 
 \begin{closurestatus}{\ConnectionUp}
