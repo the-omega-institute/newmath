@@ -117,6 +117,7 @@ import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
+import BEDC.Derived.RamseyUp
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.UnitaryGroupUp
@@ -161,6 +162,7 @@ import BEDC.Derived.CurvatureUp.ConnectionDerivativeDependencyRow
 import BEDC.Derived.CurvatureUp.ExportDeterminacy
 import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
+import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
@@ -271,6 +273,7 @@ import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.PolytopeUp
+import BEDC.Derived.PontryaginDualityUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.ProjectiveSpaceUp
@@ -602,6 +605,7 @@ import BEDC.Derived.DiffFormUp.SemanticCertificate
 import BEDC.Derived.DiffFormUp.ZeroDegreeConsumerNeutrality
 import BEDC.Derived.DiffFormUp.ExteriorWedgeCommonRows
 import BEDC.Derived.DiffFormUp.DownstreamExteriorInput
+import BEDC.Derived.RamseyUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
