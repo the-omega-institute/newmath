@@ -106,6 +106,7 @@ import BEDC.Derived.InterpolationUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.MapperUp
+import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
@@ -120,6 +121,7 @@ import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RecursiveFnUp
+import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
@@ -163,6 +165,7 @@ import BEDC.Derived.CurvatureUp.ConnectionDerivativeDependencyRow
 import BEDC.Derived.CurvatureUp.ExportDeterminacy
 import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
+import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
@@ -189,6 +192,7 @@ import BEDC.Derived.MarkovChainUp.FinitePrefixRestriction
 import BEDC.Derived.MarkovChainUp.FinitePrefix
 import BEDC.Derived.MarkovChainUp.FiniteSuffix
 import BEDC.Derived.NoetherSymmetryUp
+import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
@@ -273,6 +277,7 @@ import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.PolytopeUp
+import BEDC.Derived.PontryaginDualityUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.ProjectiveSpaceUp
@@ -347,6 +352,7 @@ import BEDC.Derived.MeasureUp
 import BEDC.Derived.MeasureUp.RootConsumer
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralTheoremUp
+import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.IntegralUp
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
