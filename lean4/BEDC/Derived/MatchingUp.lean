@@ -111,6 +111,40 @@ theorem MatchingAugmentation_symmetric_difference_decomposition
             · intro e e' v inN inN' vertV incVE incVE'
               exact incidentN inN inN' vertV incVE incVE'
 
+theorem MatchingEdgeSet_bipartite_cover_consumer_boundary
+    {Vert Edge : BHist -> Prop} {Inc EdgeRel : BHist -> BHist -> Prop}
+    {M N : BHist -> Prop} :
+    MatchingEdgeSet Vert Edge Inc EdgeRel M ->
+      MatchingEdgeSet Vert Edge Inc EdgeRel N ->
+        (forall {e e' v : BHist}, ((M e ∧ N e') ∨ (N e ∧ M e')) -> Vert v ->
+          Inc v e -> Inc v e' -> EdgeRel e e') ->
+          (forall {e : BHist}, M e ∨ N e -> Edge e) ∧
+            (forall {e e' v : BHist}, M e -> M e' -> Vert v -> Inc v e -> Inc v e' ->
+              EdgeRel e e') ∧
+              (forall {e e' v : BHist}, N e -> N e' -> Vert v -> Inc v e -> Inc v e' ->
+                EdgeRel e e') ∧
+                MatchingEdgeSet Vert Edge Inc EdgeRel (fun e : BHist => M e ∨ N e) := by
+  intro matchingM matchingN crossCompatible
+  cases matchingM with
+  | intro edgeM incidentM =>
+      cases matchingN with
+      | intro edgeN incidentN =>
+          constructor
+          · intro e selected
+            cases selected with
+            | inl inM =>
+                exact edgeM inM
+            | inr inN =>
+                exact edgeN inN
+          · constructor
+            · intro e e' v inM inM' vertV incVE incVE'
+              exact incidentM inM inM' vertV incVE incVE'
+            · constructor
+              · intro e e' v inN inN' vertV incVE incVE'
+                exact incidentN inN inN' vertV incVE incVE'
+              · exact MatchingEdgeSet_compatible_union_closed
+                  (And.intro edgeM incidentM) (And.intro edgeN incidentN) crossCompatible
+
 theorem MatchingEdgeSet_abstract_subpredicate_closed
     {Vert Edge : BHist -> Prop} {Inc EdgeRel : BHist -> BHist -> Prop}
     {M N : BHist -> Prop} :
