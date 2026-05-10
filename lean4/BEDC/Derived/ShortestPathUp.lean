@@ -75,4 +75,60 @@ theorem ShortestPathVisiblePathLedger [AskSetup] [PackageSetup]
     ⟨incidenceUnary, pathUnary, weightLedgerUnary, endpointUnary, incidenceRow, pathRow,
       weightLedgerRow, endpointRow, pkgSig⟩
 
+theorem ShortestPathRelaxationCertificate_scope [AskSetup] [PackageSetup]
+    {vertices edges weights source target incidence path weightLedger endpoint relaxation
+      relaxationEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory vertices ->
+      UnaryHistory edges ->
+        UnaryHistory weights ->
+          UnaryHistory source ->
+            UnaryHistory target ->
+              Cont vertices edges incidence ->
+                Cont incidence weights path ->
+                  Cont source target weightLedger ->
+                    Cont path weightLedger endpoint ->
+                      Cont path endpoint relaxation ->
+                        Cont relaxation weights relaxationEndpoint ->
+                          PkgSig bundle relaxationEndpoint pkg ->
+                            UnaryHistory incidence ∧ UnaryHistory path ∧
+                              UnaryHistory weightLedger ∧ UnaryHistory endpoint ∧
+                                UnaryHistory relaxation ∧ UnaryHistory relaxationEndpoint ∧
+                                  hsame incidence (append vertices edges) ∧
+                                    hsame path (append incidence weights) ∧
+                                      hsame weightLedger (append source target) ∧
+                                        hsame endpoint (append path weightLedger) ∧
+                                          hsame relaxation (append path endpoint) ∧
+                                            hsame relaxationEndpoint
+                                              (append relaxation weights) ∧
+                                              PkgSig bundle relaxationEndpoint pkg := by
+  intro verticesUnary edgesUnary weightsUnary sourceUnary targetUnary incidenceRow pathRow
+    weightLedgerRow endpointRow relaxationRow relaxationEndpointRow pkgSig
+  have incidenceUnary : UnaryHistory incidence :=
+    unary_cont_closed verticesUnary edgesUnary incidenceRow
+  have pathUnary : UnaryHistory path :=
+    unary_cont_closed incidenceUnary weightsUnary pathRow
+  have weightLedgerUnary : UnaryHistory weightLedger :=
+    unary_cont_closed sourceUnary targetUnary weightLedgerRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed pathUnary weightLedgerUnary endpointRow
+  have relaxationUnary : UnaryHistory relaxation :=
+    unary_cont_closed pathUnary endpointUnary relaxationRow
+  have relaxationEndpointUnary : UnaryHistory relaxationEndpoint :=
+    unary_cont_closed relaxationUnary weightsUnary relaxationEndpointRow
+  exact
+    ⟨incidenceUnary,
+      pathUnary,
+      weightLedgerUnary,
+      endpointUnary,
+      relaxationUnary,
+      relaxationEndpointUnary,
+      incidenceRow,
+      pathRow,
+      weightLedgerRow,
+      endpointRow,
+      relaxationRow,
+      relaxationEndpointRow,
+      pkgSig⟩
+
 end BEDC.Derived.ShortestPathUp
