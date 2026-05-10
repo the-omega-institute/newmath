@@ -155,4 +155,39 @@ theorem StackCarrierPacket_public_surface [AskSetup] [PackageSetup]
         (And.intro objectArrowTransport
           (And.intro carrierRestrictionEndpoint endpointPkg))))
 
+theorem StackLedger_obligation_surface [AskSetup] [PackageSetup]
+    {site cover objectRows arrowRows descentRows representabilityRows routes provenance
+      ledger : BHist}
+    {schemeBundle sheafBundle : ProbeBundle ProbeName} {schemePkg sheafPkg : Pkg} :
+    UnaryHistory site -> UnaryHistory cover -> UnaryHistory objectRows -> UnaryHistory arrowRows ->
+      UnaryHistory representabilityRows -> Cont site cover routes ->
+        Cont objectRows arrowRows descentRows ->
+          Cont descentRows representabilityRows provenance -> Cont routes provenance ledger ->
+            PkgSig schemeBundle routes schemePkg -> PkgSig sheafBundle provenance sheafPkg ->
+              UnaryHistory descentRows ∧ UnaryHistory provenance ∧ UnaryHistory ledger ∧
+                hsame routes (append site cover) ∧
+                  hsame descentRows (append objectRows arrowRows) ∧
+                    hsame provenance (append descentRows representabilityRows) ∧
+                      hsame ledger (append routes provenance) ∧
+                        PkgSig schemeBundle routes schemePkg ∧
+                          PkgSig sheafBundle provenance sheafPkg := by
+  intro siteUnary coverUnary objectRowsUnary arrowRowsUnary representabilityRowsUnary siteCover
+  intro objectArrow descentRepresentability routesProvenance schemePkgSig sheafPkgSig
+  have descentUnary : UnaryHistory descentRows :=
+    unary_cont_closed objectRowsUnary arrowRowsUnary objectArrow
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed descentUnary representabilityRowsUnary descentRepresentability
+  have routesUnary : UnaryHistory routes :=
+    unary_cont_closed siteUnary coverUnary siteCover
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed routesUnary provenanceUnary routesProvenance
+  exact And.intro descentUnary
+    (And.intro provenanceUnary
+      (And.intro ledgerUnary
+        (And.intro siteCover
+          (And.intro objectArrow
+            (And.intro descentRepresentability
+              (And.intro routesProvenance
+                (And.intro schemePkgSig sheafPkgSig)))))))
+
 end BEDC.Derived.StackUp

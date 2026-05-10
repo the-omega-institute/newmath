@@ -163,8 +163,31 @@ theorem SpanningTreeCarrierPacket_dependency_surface [AskSetup] [PackageSetup]
       (And.intro ledgerUnary
         (And.intro endpointUnary
           (And.intro edgeIncidence
-            (And.intro rootReachability
-              (And.intro reachabilityLedger
-                (And.intro provenanceEndpoint endpointPkg)))))))
+              (And.intro rootReachability
+                (And.intro reachabilityLedger
+                  (And.intro provenanceEndpoint endpointPkg)))))))
+
+theorem SpanningTreeAcyclicMaximality_obligation_surface
+    {treeEdge incidence root reachability acyclicity candidate ledger : BHist} :
+    UnaryHistory treeEdge -> UnaryHistory incidence -> UnaryHistory root ->
+      UnaryHistory acyclicity -> Cont root incidence reachability ->
+        Cont treeEdge reachability candidate -> Cont candidate acyclicity ledger ->
+          UnaryHistory reachability ∧ UnaryHistory candidate ∧ UnaryHistory ledger ∧
+            hsame reachability (append root incidence) ∧
+              hsame candidate (append treeEdge reachability) ∧
+                hsame ledger (append candidate acyclicity) := by
+  intro treeEdgeUnary incidenceUnary rootUnary acyclicityUnary rootIncidence
+  intro treeReachability candidateAcyclicity
+  have reachabilityUnary : UnaryHistory reachability :=
+    unary_cont_closed rootUnary incidenceUnary rootIncidence
+  have candidateUnary : UnaryHistory candidate :=
+    unary_cont_closed treeEdgeUnary reachabilityUnary treeReachability
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed candidateUnary acyclicityUnary candidateAcyclicity
+  exact And.intro reachabilityUnary
+    (And.intro candidateUnary
+      (And.intro ledgerUnary
+        (And.intro rootIncidence
+          (And.intro treeReachability candidateAcyclicity))))
 
 end BEDC.Derived.SpanningTreeUp
