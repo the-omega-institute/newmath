@@ -149,6 +149,34 @@ theorem PermutationBijectionSourceRow_composition_action_ledger_scope [AskSetup]
     exact hsame_refl (append (append graph invGraph) (append src graph))
   exact And.intro compScope (And.intro actionScope (hsame_trans ledgerScope expandedLedger))
 
+theorem PermutationBijectionSourceRow_singleton_identity_classifier [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    PermutationBijectionSourceRow src tgt graph invGraph comp action ledger srcBundle tgtBundle
+        srcPkg tgtPkg ->
+      hsame src BHist.Empty -> hsame tgt BHist.Empty ->
+        hsame graph BHist.Empty ∧ hsame invGraph BHist.Empty ∧ hsame comp BHist.Empty ∧
+          hsame action BHist.Empty ∧ hsame ledger BHist.Empty := by
+  intro row sameSrc sameTgt
+  cases sameSrc
+  cases sameTgt
+  have graphEmpty : hsame graph BHist.Empty := row.right.right.left
+  have invGraphEmpty : hsame invGraph BHist.Empty := row.right.right.right.left
+  have compEmpty : hsame comp BHist.Empty := by
+    cases graphEmpty
+    cases invGraphEmpty
+    exact row.right.right.right.right.left
+  have actionEmpty : hsame action BHist.Empty := by
+    cases graphEmpty
+    exact row.right.right.right.right.right.left
+  have ledgerEmpty : hsame ledger BHist.Empty := by
+    cases compEmpty
+    cases actionEmpty
+    exact row.right.right.right.right.right.right.left
+  exact And.intro graphEmpty
+    (And.intro invGraphEmpty
+      (And.intro compEmpty (And.intro actionEmpty ledgerEmpty)))
+
 theorem PermutationBijectionSourceRow_semantic_name_certificate [AskSetup] [PackageSetup]
     {src tgt graph invGraph comp action ledger : BHist}
     {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
