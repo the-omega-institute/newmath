@@ -588,3 +588,81 @@ its boundary.
   \notclaimed{No standard Brownian motion, Gaussian measure construction, stochastic calculus, path-space completeness, or probability-space completeness theorem is claimed here.}
   \upgradepath{Bridge closure requires an explicit Brownian bridge boundary over the displayed MartingaleUp, ContinuousMapUp, BHist, UnaryHistory, Pkg, Cont, and hsame rows.}
 \end{closurestatus}
+
+\begin{theorem}[Brownian finite-prefix carrier restriction]
+\label{thm:brownian-finite-prefix-carrier-restriction}
+Let
+$$
+\mathcal{B}=(M,C,T,I,N,P,\rho,\lambda)
+$$
+be an admitted $\BrownianUp$ process packet in the sense of
+\autoref{def:brownian-bhist-process-packet}. Suppose the displayed unary time
+row $T$ has length $n+k$, and choose the initial finite subledger $T_{\leq n}$
+containing exactly the first $n$ adjacent time faces. Let $I_{\leq n}$,
+$N_{\leq n}$, $P_{\leq n}$, $\rho_{\leq n}$, and $\lambda_{\leq n}$ be the
+subrows of the adjacent-step ledger, normal-step display, path-continuity
+display, provenance row, and finite $\Cont/\hsame$ ledger whose displayed
+faces lie entirely over $T_{\leq n}$. Let $M_{\leq n}$ be the finite-prefix
+restriction of the consumed $\NameCert_{\MartingaleUp}$ row $M$, and keep the
+same consumed $\NameCert_{\ContinuousMapUp}$ path row $C$.
+
+Then
+$$
+\mathcal{B}_{\leq n}=(M_{\leq n},C,T_{\leq n},I_{\leq n},N_{\leq n},P_{\leq n},\rho_{\leq n},\lambda_{\leq n})
+$$
+is again an admitted $\BrownianUp$ process packet. In particular, restricting
+the Brownian path-step carrier to the first $n$ displayed time steps preserves
+the carrier boundary and introduces no host probability-space row, host
+stochastic-process row, or host path-equality row.
+\end{theorem}
+\begin{proof}
+Unpack the Brownian carrier of
+\autoref{def:brownian-bhist-process-packet}. The admitted packet is a finite
+displayed tuple whose public rows are exactly $M,C,T,I,N,P,\rho,\lambda$.
+The time row is a finite $\UnaryHistory$ row, so its initial subledger
+$T_{\leq n}$ is again a finite displayed unary time row. The rows
+$I_{\leq n}$ and $N_{\leq n}$ are obtained by retaining precisely the adjacent
+faces of $I$ and $N$ whose endpoints remain in $T_{\leq n}$; no boundary face
+crossing from the prefix into the omitted tail is retained.
+
+For the martingale dependency, apply
+\autoref{thm:martingale-finite-prefix-restriction} to $M$. It gives the
+accepted finite-prefix martingale packet $M_{\leq n}$ over the same displayed
+initial horizon. Thus all adaptedness, conditional-expectation, filtration,
+provenance, and finite $\Cont$ rows read through the Brownian martingale input
+remain licensed by $\NameCert_{\MartingaleUp}$ after the time-prefix
+restriction.
+
+For the Gaussian-step face, use
+\autoref{thm:brownian-gaussian-step-ledger-coverage}. Every public adjacent
+Gaussian-step consumer reads only the unary time row, the adjacent-step ledger,
+the normal-step display, the provenance row, the finite transport ledger, and
+the corresponding $\UnaryHistory$ and $\Cont/\hsame$ witnesses. The restriction
+keeps exactly those witnesses for the retained adjacent faces, so the
+Gaussian-step surface over $T_{\leq n}$ is still displayed inside the finite
+packet.
+
+For the path-continuity face, use
+\autoref{thm:brownian-path-continuity-ledger-exactness}. Every public
+path-continuity row is projected from the consumed $\NameCert_{\ContinuousMapUp}$
+row $C$ together with the displayed continuity row $P$ and the finite ledger
+$\lambda$. The restricted row $P_{\leq n}$ contains the same modulus and
+certificate witnesses that the original packet displayed on the retained time
+faces, and $\lambda_{\leq n}$ contains exactly the transport entries needed by
+those retained witnesses. Since $C$ is unchanged, the continuous-map dependency
+surface still supplies the path-continuity rows read by the prefix packet.
+
+It remains to repack the provenance and exactness boundary. The rows
+$\rho_{\leq n}$ and $\lambda_{\leq n}$ are finite subledgers of the original
+shared $\Pkg$ provenance and $\Cont/\hsame$ ledger, restricted to the retained
+martingale, time-step, Gaussian, and path-continuity faces. By
+\autoref{thm:brownian-ledger-exactness} and
+\autoref{thm:brownian-dependency-ledger-obligation-exactness}, every public
+row of the restricted tuple is either one of its displayed coordinates or a
+row already scoped by $M_{\leq n}$ or $C$. Finally
+\autoref{thm:brownian-namecert-obligation-surface} identifies these displayed
+carrier, dependency, classifier, and ledger rows as the public
+$\NameCert_{\BrownianUp}$ obligation surface. Therefore
+$\mathcal{B}_{\leq n}$ satisfies the Brownian carrier definition with no
+additional host-level data.
+\end{proof}
