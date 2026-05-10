@@ -19,6 +19,33 @@ def DerivedFunctorCarrier
     (functor resolution homology degree resolved endpoint : BHist) : Prop :=
   UnaryHistory degree ∧ Cont functor resolution resolved ∧ Cont resolved homology endpoint
 
+def DerivedFunctorResolutionSpineCarrier
+    (abelian homology object spine cycle boundary functor degree provenance endpoint : BHist) :
+    Prop :=
+  UnaryHistory degree ∧ Cont functor spine object ∧ Cont object homology endpoint ∧
+    Cont cycle boundary homology ∧ hsame provenance (append (append abelian homology) endpoint)
+
+theorem DerivedFunctorResolutionSpineCarrier_obligation
+    {abelian homology object spine cycle boundary functor degree provenance endpoint : BHist} :
+    UnaryHistory degree ->
+      Cont functor spine object ->
+        Cont object homology endpoint ->
+          Cont cycle boundary homology ->
+            hsame provenance (append (append abelian homology) endpoint) ->
+              DerivedFunctorResolutionSpineCarrier abelian homology object spine cycle boundary
+                  functor degree provenance endpoint ∧
+                hsame endpoint (append (append functor spine) homology) ∧
+                  UnaryHistory degree := by
+  intro degreeUnary spineRow endpointRow boundaryRow provenanceRow
+  have objectReadback : hsame object (append functor spine) := spineRow
+  have endpointReadback : hsame endpoint (append (append functor spine) homology) :=
+    hsame_trans endpointRow (congrArg (fun h => append h homology) objectReadback)
+  exact And.intro
+    (And.intro degreeUnary
+      (And.intro spineRow
+        (And.intro endpointRow (And.intro boundaryRow provenanceRow))))
+    (And.intro endpointReadback degreeUnary)
+
 theorem DerivedFunctorCarrier_resolution_append_readback
     {functor resolution homology degree resolved endpoint : BHist} :
     DerivedFunctorCarrier functor resolution homology degree resolved endpoint ->

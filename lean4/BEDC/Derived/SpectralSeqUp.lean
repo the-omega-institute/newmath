@@ -348,4 +348,65 @@ theorem SpectralSeqBHistPageCarrier_abutment_readback_boundary [AskSetup] [Packa
         (And.intro carrier.right.right.right.right.right.right.right.left
           carrier.right.right.right.right.right.right.right.right.right)))
 
+def SpectralSeqPageClassifier [AskSetup] [PackageSetup]
+    (abelian homology page differential readback convergence transition provenance endpoint
+      abelian' homology' page' differential' readback' convergence' transition' provenance'
+      endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+      transition provenance endpoint bundle pkg ∧
+    SpectralSeqBHistPageCarrier abelian' homology' page' differential' readback'
+      convergence' transition' provenance' endpoint' bundle pkg ∧
+      hsame abelian abelian' ∧ hsame homology homology' ∧ hsame page page' ∧
+        hsame differential differential' ∧ hsame readback readback' ∧
+          hsame convergence convergence' ∧ hsame transition transition' ∧
+            hsame provenance provenance' ∧ hsame endpoint endpoint'
+
+theorem SpectralSeqPageClassifier_no_confusion [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      abelian' homology' page' differential' readback' convergence' transition' provenance'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqPageClassifier abelian homology page differential readback convergence transition
+        provenance endpoint abelian' homology' page' differential' readback' convergence'
+        transition' provenance' endpoint' bundle pkg ->
+      hsame abelian abelian' ∧ hsame homology homology' ∧ hsame page page' ∧
+        hsame differential differential' ∧ hsame readback readback' ∧
+          hsame convergence convergence' ∧ hsame transition transition' ∧
+            hsame provenance provenance' ∧ hsame endpoint endpoint' := by
+  intro classifier
+  exact classifier.right.right
+
+theorem SpectralSeqBHistPageCarrier_page_transition_bridge [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      successor bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+        transition provenance endpoint bundle pkg ->
+      Cont page readback successor ->
+        Cont successor transition bridge ->
+          UnaryHistory successor ∧ UnaryHistory bridge ∧
+            hsame successor (append page readback) ∧
+              hsame bridge (append successor transition) ∧
+                hsame transition (append readback convergence) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro carrier successorRow bridgeRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  have transitionRow : Cont readback convergence transition :=
+    carrier.right.right.right.right.right.right.right.left
+  have transitionUnary : UnaryHistory transition :=
+    unary_cont_closed readbackUnary carrier.right.right.right.right.left transitionRow
+  have successorUnary : UnaryHistory successor :=
+    unary_cont_closed carrier.right.right.left readbackUnary successorRow
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed successorUnary transitionUnary bridgeRow
+  exact And.intro successorUnary
+    (And.intro bridgeUnary
+        (And.intro successorRow
+          (And.intro bridgeRow
+            (And.intro transitionRow
+              carrier.right.right.right.right.right.right.right.right.right))))
+
 end BEDC.Derived.SpectralSeqUp
