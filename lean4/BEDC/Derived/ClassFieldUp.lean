@@ -125,6 +125,29 @@ theorem ClassFieldSourceCarrier_semantic_name_certificate
       exact sourceH
   }
 
+theorem ClassFieldSourceCarrier_scoped_carrier_classifier
+    {numField adele extension classifier ledger endpoint : BHist} :
+    ClassFieldSourceCarrier numField adele extension classifier ledger ->
+      Cont extension ledger endpoint ->
+        UnaryHistory numField ∧ UnaryHistory adele ∧ UnaryHistory ledger ∧
+          Cont numField adele extension ∧ hsame classifier extension ∧
+            UnaryHistory endpoint ∧ hsame endpoint (append extension ledger) := by
+  intro source endpointRow
+  have extensionUnary : UnaryHistory extension :=
+    unary_cont_closed source.left source.right.left source.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed extensionUnary source.right.right.right.right endpointRow
+  have endpointReadback : hsame endpoint (append extension ledger) := by
+    exact endpointRow
+  exact
+    ⟨source.left,
+      source.right.left,
+      source.right.right.right.right,
+      source.right.right.left,
+      source.right.right.right.left,
+      endpointUnary,
+      endpointReadback⟩
+
 def ClassFieldArtinFrobeniusRows
     (base idele extension artin frob : BHist) : Prop :=
   UnaryHistory base ∧ UnaryHistory idele ∧ UnaryHistory artin ∧
@@ -282,5 +305,37 @@ theorem ClassField_public_namecert_interface
       transported.right.right.right.right.left,
       transported.right.right.right.right.right.left,
       transported.right.right.right.right.right.right⟩
+
+theorem ClassField_reciprocity_boundary
+    {base idele extension classifier ledger artin frob ideleRep localPrime frobRep
+      extensionPresentation classifierPrime ledgerPrime : BHist} :
+    ClassFieldSourceCarrier base idele extension classifier ledger ->
+      ClassFieldArtinFrobeniusRows base idele extension artin frob ->
+        Cont idele frob ideleRep ->
+          Cont base ideleRep localPrime ->
+            Cont localPrime frobRep extensionPresentation ->
+              hsame frobRep frob ->
+                hsame classifier classifierPrime ->
+                  hsame ledger ledgerPrime ->
+                    ClassFieldSourceCarrier base idele extension classifierPrime ledgerPrime ∧
+                      ClassFieldArtinFrobeniusRows base idele extension artin frob ∧
+                        UnaryHistory ideleRep ∧ UnaryHistory localPrime ∧
+                          UnaryHistory extensionPresentation ∧ hsame (append idele artin) frob ∧
+                            hsame (append base frob) extension := by
+  intro source rows ideleRepRoute localPrimeRoute presentationRoute sameFrob sameClassifier
+    sameLedger
+  have transported :=
+    ClassFieldLedgerExactnessRows_transport source rows ideleRepRoute localPrimeRoute
+      presentationRoute sameFrob sameClassifier sameLedger
+  have exactRows :=
+    ClassFieldArtinFrobeniusRows_ledger_exactness rows
+  exact
+    ⟨transported.left,
+      transported.right.left,
+      transported.right.right.left,
+      transported.right.right.right.left,
+      transported.right.right.right.right.left,
+      exactRows.right.right.right.right.right.left,
+      exactRows.right.right.right.right.right.right⟩
 
 end BEDC.Derived.ClassFieldUp

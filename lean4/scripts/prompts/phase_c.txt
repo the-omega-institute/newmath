@@ -3,7 +3,7 @@ Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Comp
 Lean rounds primarily advance the verification axis: a new theorem registered with `\leanchecked` is evidence for `\theoremCheckedV`, but it does not by itself raise the paper-side theoryclosure grade. Any `closurestatus` block belongs to the paper discipline and must keep theoryclosure × formalstatus independent.
 
 ## Prompts version
-v5.14 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v5.16 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -220,6 +220,51 @@ from BEDC.Derived.TopgroupUp
 ```
 
 Lean's import resolver treats the two casings as DISTINCT modules but the OS hands back the SAME file twice, so identical declarations get registered twice and the build fails. R3806 spent a full round renaming `TopgroupUp.lean` → `TopGroupUp.lean` to canonicalize the casing; R3809 then re-introduced the lowercase variant in the same hour, triggering the failure again. Do not repeat this — always run the case-insensitive find before adding a new chapter file. If you find an existing chapter under any casing, **use that exact casing** for both the filename and every `import` / `namespace` reference; never create a sibling file with a different case.
+
+### HARD GATE — AI chapter carrier alignment (single carrier, not two)
+
+If the target touches an `\origin{ai}` chapter (currently `BeliefUp`; in
+the future, any chapter whose paper closurestatus block carries
+`\origin{ai}`), the chapter MUST have a SINGLE Lean carrier `Type` that
+serves both the paper-side carrier definition and the
+`ChapterTasteGate` instance. A chapter with two parallel carriers
+("the real one in `<X>Up.lean`, the placeholder in
+`<X>Up/TasteGate.lean`") is a structural defect that causes the
+TasteGate to gate the placeholder while the real mathematics is gated
+by nothing. Empirically observed on `BeliefUp` (commit `a43da0c58` lean
+side and onwards): the real carrier `BeliefObservationUpdateCarrier`
+on `BHist` was unrelated to the placeholder `BeliefUp` `Type` that the
+`ChapterTasteGate` instance used.
+
+How to satisfy the gate:
+
+1. Define ONE Lean `Type` (or `inductive Type`) that is the chapter's
+   carrier — call it `<X>Up` (matching the paper macro `\<X>Up`).
+2. Provide `BHistCarrier <X>Up` with `toEventFlow : <X>Up → EventFlow`
+   and `fromEventFlow : EventFlow → Option <X>Up`. The `toEventFlow`
+   embedding must encode the carrier's actual rows (prior /
+   observation / classifier rows etc), not a constructor-name
+   placeholder.
+3. Provide `ChapterTasteGate <X>Up` with a real `round_trip` proof
+   (`fromEventFlow ∘ toEventFlow = some` on every chapter token) and a
+   real `layer_separation` proof (distinct tokens → distinct
+   `EventFlow`s).
+4. The chapter's other Lean theorems (transport / ledger exactness /
+   carrier obligations) must operate on the SAME `<X>Up` `Type`. Do
+   not declare a separate `<X>ObservationUpdateCarrier` predicate or
+   relation that lives in parallel — extend `<X>Up`'s constructors or
+   add member theorems instead.
+
+If the round adds a new theorem to an `\origin=ai` chapter and the
+chapter currently has the two-carrier defect, the round MUST include
+the unification: drop one of the carriers (whichever has fewer
+downstream callers) and migrate its theorems onto the other.
+
+This gate is what makes "AI chapters use the compiler formalisation"
+mean something concrete: the same `Type` flows through ground
+compiler `EventFlow`, through `BHistCarrier`, into `ChapterTasteGate`,
+and through the chapter's own obligations. Without the alignment,
+TasteGate is decorative.
 
 ## Step 3: Paper marker registration
 After `lake build` passes:

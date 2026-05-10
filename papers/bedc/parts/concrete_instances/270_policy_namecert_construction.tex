@@ -1,0 +1,293 @@
+\chapter{A Concrete Naming Certificate for $\PolicyUp$}
+\label{ch:concrete-instances-policy-namecert}
+
+The $\PolicyUp$ interface is an AI-proposed BEDC chapter. Its carrier
+sketch and dependency anchors come from the proposal at
+\texttt{papers/bedc/proposals/accepted/}; the seed-stub here records
+the closurestatus block. Dependencies cited by the proposal:
+$\NameCert_{\BeliefUp}$, $\NameCert_{\MarkovChainUp}$, $\NameCert_{\RandomVarUp}$, $\NameCert_{\EstimatorUp}$.
+\leandef{BEDC.Derived.PolicyUp.taste\_gate}
+
+\section{Carrier definition}
+\label{sec:policy-carrier}
+
+\begin{definition}[Policy action-ledger carrier]
+\label{def:policy-action-ledger-carrier}
+A $\PolicyUp$ carrier is a finite $\mathsf{BHist}$ action-ledger packet over
+$\NameCert_{\BeliefUp}$, $\NameCert_{\MarkovChainUp}$,
+$\NameCert_{\RandomVarUp}$, and $\NameCert_{\EstimatorUp}$. Its rows are
+belief-state rows, Markov transition rows, estimator-score rows, selected
+action rows, the $\hsame$ transport rows comparing corresponding ledger
+entries, the $\Cont$ provenance rows explaining how each selected action is
+read from the displayed belief, transition, and estimator rows, and the
+$\mathsf{Pkg}$ source rows naming the four dependency certificates.
+
+The carrier accepts only packets whose selected-action row is sourced from the
+displayed dependency rows through the visible $\Cont$ ledger. It contains no
+host Markov decision process, utility function, optimizer, or external policy
+object.
+\end{definition}
+\begin{theorem}[Policy TasteGate source scope]
+\label{thm:policy-tastegate-source-scope}
+Every accepted $\PolicyUp$ action-ledger packet exposes exactly the four
+dependency certificates $\NameCert_{\BeliefUp}$,
+$\NameCert_{\MarkovChainUp}$, $\NameCert_{\RandomVarUp}$, and
+$\NameCert_{\EstimatorUp}$ together with the finite action ledger of
+\autoref{def:policy-action-ledger-carrier}. No host Markov decision process,
+utility function, optimizer, or external policy object is exported by the
+packet.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of
+\autoref{def:policy-action-ledger-carrier}. The source rows are precisely the
+four named dependency certificates and the finite $\mathsf{BHist}$ action
+ledger whose entries display belief states, transition rows, estimator scores,
+selected actions, $\hsame$ comparisons, $\Cont$ provenance, and
+$\mathsf{Pkg}$ source rows.
+
+The acceptance condition reads a selected action only through those displayed
+rows. Since the carrier definition has no constructor for a host Markov
+decision process, utility function, optimizer, or external policy object, no
+accepted packet can expose such a row.
+\end{proof}
+\leanchecked{BEDC.Derived.PolicyUp.PolicyActionLedger\_source\_scope}
+
+\begin{theorem}[Policy local action transport]
+\label{thm:policy-local-action-transport}
+Let two finite $\PolicyUp$ action-ledger packets have componentwise $\hsame$
+comparisons between their belief-state rows, Markov transition rows,
+estimator-score rows, and selected-action rows. If the $\Cont$ provenance and
+$\mathsf{Pkg}$ source rows are transported along those comparisons, then the
+transported rows again form an accepted local $\PolicyUp$ carrier packet over
+the same four dependency certificates.
+\end{theorem}
+\leanchecked{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_local\_action\_transport}
+\begin{proof}
+Transport the four dependency rows componentwise through the displayed
+$\hsame$ comparisons. The belief, transition, estimator, and selected-action
+entries remain inside the same finite $\mathsf{BHist}$ ledger shape.
+
+Next transport the $\Cont$ provenance rows and the $\mathsf{Pkg}$ source rows.
+The carrier acceptance condition only asks that the selected-action row be read
+from the transported belief, transition, and estimator rows through that
+visible provenance ledger. Therefore the transported packet satisfies the same
+local carrier predicate.
+\end{proof}
+
+\begin{theorem}[Policy action classifier stability]
+\label{thm:policy-action-classifier-stability}
+Let $P$ and $P'$ be accepted $\PolicyUp$ action-ledger packets over the same
+four displayed dependency certificates. Suppose the belief-state rows, Markov
+transition rows, random-variable rows, estimator-score rows, selected-action
+rows, $\Cont$ provenance rows, and $\mathsf{Pkg}$ source rows of $P$ are
+transported componentwise to the corresponding rows of $P'$ by displayed
+$\hsame$ comparisons. Then the transported packet is again accepted by the
+PolicyUp action-ledger carrier of
+\autoref{def:policy-action-ledger-carrier}, and the selected-action
+classifier reads the same visible BEDC ledger surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_action\_classifier\_stability}
+\begin{proof}
+Inspect the finite action-ledger carrier. Its acceptance predicate names only
+the displayed dependency certificates, the belief, transition,
+random-variable, estimator, and selected-action rows, and the visible
+$\hsame/\Cont/\mathsf{Pkg}$ provenance attached to those rows.
+
+Transport each listed coordinate along the supplied $\hsame$ rows. The
+transport preserves the finite $\mathsf{BHist}$ ledger shape and leaves the
+source certificates inside the same four dependency packets.
+
+The selected-action classifier has no access to any row outside that carrier.
+After the $\Cont$ and $\mathsf{Pkg}$ rows are transported, the classifier
+therefore reads the selected action through the transported visible ledger and
+accepts the packet again.
+\end{proof}
+
+\begin{theorem}[Policy visible continuation provenance coverage]
+\label{thm:policy-visible-cont-provenance-coverage}
+Every selected-action row in an accepted $\PolicyUp$ packet is read through the
+visible $\Cont$ provenance from the displayed $\BeliefUp$,
+$\MarkovChainUp$, $\RandomVarUp$, and $\EstimatorUp$ source rows. The packet
+exposes no host Markov decision process, optimizer, utility function, or
+external policy object.
+\end{theorem}
+\leanchecked{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_visible\_cont\_provenance\_coverage}
+\begin{proof}
+Project an accepted packet to the rows named by
+\autoref{def:policy-action-ledger-carrier}. The selected-action coordinate is
+accepted only when a visible $\Cont$ row relates it to the displayed belief,
+transition, random-variable, and estimator rows, with $\mathsf{Pkg}$
+provenance naming the four source certificates.
+
+No other source is present in the carrier. A host Markov decision process,
+optimizer, utility function, or external policy object would require an
+additional readable coordinate, but the carrier has no such coordinate.
+\end{proof}
+
+\begin{theorem}[Policy NameCert obligation surface]
+\label{thm:policy-namecert-obligation-surface}
+The local $\NameCert_{\PolicyUp}$ obligation surface consists of the
+action-ledger carrier of \autoref{def:policy-action-ledger-carrier}, the
+TasteGate source scope of \autoref{thm:policy-tastegate-source-scope}, action
+classifier stability from
+\autoref{thm:policy-action-classifier-stability}, visible continuation
+provenance coverage from
+\autoref{thm:policy-visible-cont-provenance-coverage}, and local action
+transport from \autoref{thm:policy-local-action-transport}.
+\end{theorem}
+\leanchecked{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_semantic\_name\_certificate}
+\leanvariant{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_namecert\_obligation\_surface}
+\begin{proof}
+Use the action-ledger carrier as the source predicate. It fixes the finite
+$\mathsf{BHist}$ rows and the four displayed dependency certificates.
+
+Use the TasteGate source-scope theorem to bound the exported sources. Use
+classifier stability to transport the accepted action classifier along
+componentwise $\hsame$ rows, and use visible provenance coverage to identify
+the exact $\Cont$ rows through which selected actions are read.
+
+Finally apply local action transport to repack transported rows as another
+accepted carrier. These clauses provide exactly the local BEDC surface named
+by $\NameCert_{\PolicyUp}$, without adding host MDP, optimizer, utility, or
+external policy data.
+\end{proof}
+
+\begin{theorem}[Policy selected-action determinacy]
+\label{thm:policy-selected-action-determinacy}
+Let $P$ and $Q$ be accepted $\PolicyUp$ action-ledger packets over the same
+transported $\NameCert_{\BeliefUp}$, $\NameCert_{\MarkovChainUp}$,
+$\NameCert_{\RandomVarUp}$, and $\NameCert_{\EstimatorUp}$ rows. Suppose their
+belief-state, Markov transition, random-variable, estimator, $\Cont$, and
+$\mathsf{Pkg}$ rows are matched componentwise by displayed $\hsame$ transport,
+and suppose each selected-action row is accepted only through those displayed
+rows. Then the selected-action classifier assigns $P$ and $Q$ to the same
+visible selected-action row.
+\end{theorem}
+\leanchecked{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_selected\_action\_determinacy}
+\begin{proof}
+Project both accepted packets to the finite action-ledger carrier of
+\autoref{def:policy-action-ledger-carrier}. The carrier exposes the four
+dependency rows, the local ledger rows, and the $\hsame/\Cont/\mathsf{Pkg}$
+transport data, so these are the only coordinates available to the classifier.
+
+Use the supplied componentwise $\hsame$ comparisons to transport the displayed
+belief-state, Markov transition, random-variable, estimator, $\Cont$, and
+$\mathsf{Pkg}$ rows from $P$ to $Q$. By
+\autoref{thm:policy-action-classifier-stability}, the transported packet remains
+accepted by the same local carrier and the selected-action classifier reads the
+same visible ledger surface.
+
+It remains to rule out a second action source. The carrier contains no host MDP,
+optimizer, utility, or external policy coordinate, and
+\autoref{thm:policy-visible-cont-provenance-coverage} makes the visible
+$\Cont$ route exhaustive. Hence two accepted packets with the same transported
+dependency and provenance rows classify the same selected-action row.
+\end{proof}
+
+\begin{theorem}[Policy dependency source exactness]
+\label{thm:policy-dependency-source-exactness}
+Every consumer-visible row of an accepted $\PolicyUp$ action-ledger packet is
+one of the four dependency certificate rows
+$\NameCert_{\BeliefUp}$, $\NameCert_{\MarkovChainUp}$,
+$\NameCert_{\RandomVarUp}$, and $\NameCert_{\EstimatorUp}$, the selected-action
+row, an $\hsame$ transport row, a $\Cont$ provenance row, or a $\mathsf{Pkg}$
+source row naming one of the four displayed certificates.
+\end{theorem}
+\leanchecked{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_dependency\_source\_exactness}
+\begin{proof}
+Unfold the carrier in \autoref{def:policy-action-ledger-carrier}. Its public
+packet is a finite $\mathsf{BHist}$ ledger whose readable coordinates are the
+four dependency rows, selected-action entries, $\hsame$ comparisons, $\Cont$
+provenance, and $\mathsf{Pkg}$ source rows.
+
+Apply \autoref{thm:policy-tastegate-source-scope} to the source side. The
+source projection exposes exactly the four named dependency certificates and no
+host MDP, optimizer, utility, or external policy object.
+
+Apply \autoref{thm:policy-visible-cont-provenance-coverage} to the action side.
+Each selected action is read through visible $\Cont$ provenance from the
+displayed dependency rows, with $\mathsf{Pkg}$ rows naming those sources.
+Therefore every consumer-visible row belongs to the listed inventory.
+\end{proof}
+
+\begin{theorem}[Policy TasteGate scoped package]
+\label{thm:policy-tastegate-scoped-package}
+The action-ledger carrier, TasteGate source scope, action classifier stability,
+visible continuation provenance coverage, local action transport, and
+$\texttt{BEDC.Derived.PolicyUp.taste\_gate}$ together form the scoped
+$\PolicyUp$ BEDC package. This package excludes host Markov decision processes,
+optimizers, utility functions, and external policy objects from the exported
+surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_tastegate\_scoped\_package}
+\begin{proof}
+Start with the five local obligations enumerated in
+\autoref{thm:policy-namecert-obligation-surface}. They provide the carrier, the
+bounded source inventory, classifier stability, $\Cont$ coverage, and transport
+closure for accepted action-ledger packets.
+
+Use the TasteGate object
+$\texttt{BEDC.Derived.PolicyUp.taste\_gate}$ as the chapter-level admission
+gate. It packages the local carrier obligations without adding a new
+consumer-visible row, so the available projections remain the rows already
+listed in \autoref{thm:policy-dependency-source-exactness}.
+
+Finally combine source exactness with selected-action determinacy. The
+transported dependency, $\Cont$, and $\mathsf{Pkg}$ rows determine the visible
+selected action, while the carrier has no constructor for a host MDP,
+optimizer, utility, or external policy object. Thus the TasteGate package is a
+scoped BEDC surface and nothing beyond that surface is exported.
+\end{proof}
+
+\begin{theorem}[Policy kernel scope boundary]
+\label{thm:policy-kernel-scope-boundary}
+The five local obligations of $\NameCert_{\PolicyUp}$ are scoped exactly to
+the finite $\mathsf{BHist}$ action-ledger carrier of
+\autoref{def:policy-action-ledger-carrier}, the four dependency certificates
+$\NameCert_{\BeliefUp}$, $\NameCert_{\MarkovChainUp}$,
+$\NameCert_{\RandomVarUp}$, and $\NameCert_{\EstimatorUp}$, and the displayed
+$\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows. No host Markov decision process,
+optimizer, utility function, external policy object, hidden state space, or
+unlogged action source is readable by those obligations.
+\end{theorem}
+\leanchecked{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_kernel\_scope\_boundary}
+\begin{proof}
+Start from the action-ledger carrier of
+\autoref{def:policy-action-ledger-carrier}. Its rows are the finite
+$\mathsf{BHist}$ ledger, the four dependency certificate rows, the visible
+$\hsame$ transport rows, the $\Cont$ provenance rows, and the $\mathsf{Pkg}$
+source rows.
+
+The source side is bounded by
+\autoref{thm:policy-tastegate-source-scope}. The classifier and transported
+carrier reads are bounded by
+\autoref{thm:policy-local-action-transport} and
+\autoref{thm:policy-action-classifier-stability}. The selected-action
+provenance is bounded by
+\autoref{thm:policy-visible-cont-provenance-coverage}.
+
+Finally, \autoref{thm:policy-namecert-obligation-surface} says that these are
+exactly the five local obligations named by $\NameCert_{\PolicyUp}$. Since
+each source, classifier, transport, and ledger read has already been accounted
+for by the listed rows, no host MDP, optimizer, utility, external policy
+object, hidden state space, or unlogged action source is exposed.
+\end{proof}
+
+\begin{closurestatus}{\PolicyUp}
+  \constructivestory{}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The local paper obligations are the action-ledger carrier,
+  TasteGate source scope, action classifier stability, visible continuation
+  provenance coverage, and local action transport over the four displayed
+  dependency certificates.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_kernel\_scope\_boundary}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{The chapter does not claim a host Markov decision process,
+  optimizer, utility function, external policy object, or public standard
+  bridge.}
+  \upgradepath{Public closure requires an exported public $\PolicyUp$
+  interface over the already scoped
+  \texttt{BEDC.Derived.PolicyUp.taste\_gate} and action-ledger package.}
+\end{closurestatus}

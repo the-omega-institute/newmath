@@ -459,3 +459,98 @@ same downstream dyadic observation coverage. The separation clauses from the
 gluing, pullback, and inherited packets exclude all non-visible regularity,
 sealing, completion, quotient, and host-index fields.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat denominator refinement descent]
+\label{thm:streamname-regseqrat-denominator-refinement-descent}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be the carried StreamName rows, let
+$\mathcal P_0$ and $\mathcal P_1$ be finite observation bundles, and let
+$\mathcal Q$ be a common-refinement bundle for them. Suppose a refinement
+packet over $\mathcal Q$ has endpoint rows satisfying the denominator-window
+classifier, and suppose the selected overlap rows are the rows named by the
+shared $\mathsf{ProbeBundle}$. Then this refinement descends to stable
+denominator-window evidence over each original window $\mathcal P_i$. The
+descended packets preserve the pulled-back $\mathsf{BHist}$ denominator
+endpoints under $\hsame$, and their overlap restrictions agree on the rows
+selected by the shared $\mathsf{ProbeBundle}$.
+\end{theorem}
+\begin{proof}
+Project the common-refinement packet to each original window. The existence of
+the refinement bundle and its visible coordinates are supplied by
+\autoref{thm:streamname-regseqrat-denominator-common-refinement}, while
+\autoref{thm:streamname-regseqrat-denominator-window-separation} identifies
+the only denominator-window rows available to those projections.
+
+Next inherit the packet along the displayed inclusions. Apply
+\autoref{thm:streamname-regseqrat-denominator-window-subbundle-inheritance} to
+read the $\mathcal Q$ packet as a subbundle packet over each $\mathcal P_i$,
+and then apply
+\autoref{thm:streamname-regseqrat-denominator-subwindow-transport} to move the
+finite-window classifier, unary row, bundle-membership row, pointwise
+rational-history classifier, and downstream dyadic coverage back to the
+original windows.
+
+The pulled-back endpoints are stable because
+\autoref{thm:streamname-regseqrat-denominator-pullback-coverage} gives the
+same $\mathsf{BHist}$ denominator endpoints on the finite-window $\RealUp$
+consumer boundary. The transported packets therefore compare these endpoints
+by the inherited $\hsame$ rows rather than by a host-index equality.
+
+Finally compare the two descended packets on the shared rows. Use
+\autoref{thm:streamname-regseqrat-denominator-overlap-gluing} to identify the
+overlap selected by the common $\mathsf{ProbeBundle}$, and use
+\autoref{thm:streamname-regseqrat-denominator-window-union-stability} to keep
+the two original-window packets stable when they are read together. The
+separation theorem excludes any additional regularity, completion, quotient,
+or sealing field, so the descended evidence is exactly the stable
+original-window evidence carried by those visible rows.
+\end{proof}
+
+\begin{theorem}[RegSeqRat denominator-window dyadic source exactness]
+\label{thm:regseqrat-denominator-window-dyadic-source-exactness}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be the carried StreamName rows, let
+$\mathcal P_0$ and $\mathcal P_1$ be finite denominator observation bundles,
+and let $\mathcal Q$ be a displayed common-refinement bundle selected by a
+shared $\mathsf{ProbeBundle}$. Suppose the refinement packet over
+$\mathcal Q$ descends to stable denominator-window evidence for the two
+original windows. Then the descended evidence exposes precisely the two
+selected DyadicRatCore observation endpoint rows consumed by $\RegSeqRat$,
+the StreamName classifier row
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal Q)$, the unary
+index row $\mathsf{UnaryHistory}(n)$, and the membership row
+$\mathsf{InBundle}(n,\mathcal Q)$ for the shared $\mathsf{ProbeBundle}$.
+
+No $\RealUp$ seal, completion object, quotient row, or host-index equality is
+readable from the descended denominator-window evidence.
+\end{theorem}
+\begin{proof}
+Start with denominator-window separation. By
+\autoref{thm:streamname-regseqrat-denominator-window-separation}, every
+accepted denominator packet exposes only the finite StreamName classifier, the
+unary observation row, the bundle-membership row, the pointwise rational row,
+and the downstream dyadic observation rows.
+
+Next use pullback coverage and the common-refinement theorem. The pullback
+coverage result
+\autoref{thm:streamname-regseqrat-denominator-pullback-coverage} identifies
+the two DyadicRatCore endpoint observations on the finite-window consumer
+boundary, while
+\autoref{thm:streamname-regseqrat-denominator-common-refinement} places those
+rows on the displayed common bundle $\mathcal Q$ together with the StreamName
+classifier and the selected observation rows.
+
+Now inherit along the subbundle inclusions. Apply
+\autoref{thm:streamname-regseqrat-denominator-window-subbundle-inheritance} to
+keep the $\mathcal Q$ rows stable when read as descendants of the original
+windows, and apply
+\autoref{thm:streamname-pointwise-denominator-window-determinacy} to force the
+pointwise rational-history row to be the one determined by the same selected
+endpoint observations.
+
+Finally apply the refinement descent theorem
+\autoref{thm:streamname-regseqrat-denominator-refinement-descent}. Descent
+preserves the two dyadic endpoint rows, the finite StreamName classifier, the
+unary index row, and the $\mathsf{ProbeBundle}$ membership row. The separation
+and pullback clauses exclude every $\RealUp$ seal, completion, quotient, and
+host-index equality, so the listed rows are exactly the source rows consumed
+by $\RegSeqRat$.
+\end{proof}

@@ -1,0 +1,143 @@
+\begin{definition}[MulUp audit-clean consumer boundary]
+\label{def:mulup-audit-clean-consumer-boundary}
+The audit-clean consumer boundary exported by $\MulUp$ for the full natural
+arithmetic phase is exactly the following concrete surface:
+\begin{enumerate}
+\item the carrier rows $\mathsf{BHist}$ and $\mathsf{UnaryHistory}$;
+\item the classifier and continuation rows $\hsame$ and $\Cont$;
+\item the multiplication and divisibility rows $\mathsf{NatMul}$ and
+$\mathsf{NatDivides}$;
+\item the unary-prefix order row $\mathsf{PreorderPrefixLE}$;
+\item the $\AddUp$ continuation boundary cited in
+\autoref{thm:mulup-add-order-phase-interaction-package};
+\item the $\OrderUp$ unary-prefix boundary cited in
+\autoref{thm:unary-prefix-orderup-phase-exit-package}.
+\end{enumerate}
+No consumer-facing row in this boundary is a host multiplication primitive,
+host order primitive, standard semiring carrier, or quotient carrier.
+\end{definition}
+
+\begin{theorem}[MulUp divisibility-order source exactness]
+\label{thm:mulup-divisibility-order-source-exactness}
+Every consumer of the $\MulUp$ divisibility-order boundary of
+\autoref{def:mulup-audit-clean-consumer-boundary} factors through exactly the
+four displayed package rows
+\autoref{thm:unary-multiplication-mulup-semantic-exit-package},
+\autoref{thm:mulup-add-order-phase-interaction-package},
+\autoref{thm:nat-divides-partial-order-certificate}, and
+\autoref{thm:mulup-divisibility-order-consumer-package}. Equivalently, a
+consumer may read $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$,
+$\mathsf{NatMul}$, $\mathsf{NatDivides}$, $\mathsf{PreorderPrefixLE}$, and the
+cited $\AddUp$ and $\OrderUp$ package boundaries, and no additional standard
+semiring, host order, or quotient carrier source is available.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:unary-multiplication-mulup-semantic-exit-package}.
+It supplies the carrier $\mathsf{BHist}$, unary predicate
+$\mathsf{UnaryHistory}$, classifier $\hsame$, continuation row $\Cont$, and
+the displayed product relation $\mathsf{NatMul}$ as the semantic exit package
+for multiplication results.
+
+Next apply \autoref{thm:mulup-add-order-phase-interaction-package}. This
+records the only phase interaction rows used by the boundary: additive
+continuation distribution through $\AddUp$ and the successor-product lower
+bound through the $\OrderUp$ unary-prefix relation
+$\mathsf{PreorderPrefixLE}$.
+
+The divisibility order itself is supplied by
+\autoref{thm:nat-divides-partial-order-certificate}, which bundles reflexive,
+transitive, and antisymmetric readback for $\mathsf{NatDivides}$ over unary
+histories. Finally,
+\autoref{thm:mulup-divisibility-order-consumer-package} combines those order
+rows with multiplication closure and successor-product prefix lower bounds into
+the single consumer package.
+
+The definition of the boundary lists no other rows. Hence any consumer whose
+source is this boundary can project only through the four package rows just
+assembled. In particular, there is no source slot for a standard semiring
+carrier, a host multiplication operation, a host order relation, or a quotient
+carrier.
+\end{proof}
+
+\begin{theorem}[MulUp audit-clean result NameCert handoff]
+\label{thm:mulup-audit-clean-result-namecert-handoff}
+The audit-clean consumer boundary of
+\autoref{def:mulup-audit-clean-consumer-boundary} factors through the concrete
+$\mathsf{NatMul}$ result semantic certificate, the checked-law audit package of
+\autoref{thm:mulup-checked-law-audit-package}, the window-exhaustion boundary
+of \autoref{thm:mulup-natmul-window-exhaustion}, and the
+divisibility-order source exactness of
+\autoref{thm:mulup-divisibility-order-source-exactness}. The resulting handoff
+exposes only $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$,
+$\mathsf{NatMul}$, $\mathsf{NatDivides}$, $\mathsf{PreorderPrefixLE}$, the
+$\AddUp$ continuation rows, and the $\OrderUp$ unary-prefix row.
+
+No output slot of the handoff exports host multiplication, host order,
+quotient carriers, or standard semiring data.
+\end{theorem}
+\begin{proof}
+Start with the concrete $\mathsf{NatMul}$ result semantic certificate. It is the
+only result-side name certificate in the handoff, so the multiplication output
+is read as a $\mathsf{BHist}$ result row over unary inputs and the displayed
+$\mathsf{NatMul}$ relation.
+
+Apply \autoref{thm:mulup-checked-law-audit-package}. This contributes the
+checked multiplication laws through the already visible $\mathsf{BHist}$,
+$\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, and $\mathsf{NatMul}$ rows, with
+the $\AddUp$ continuation rows and $\OrderUp$ unary-prefix row kept as named
+dependencies rather than as ambient arithmetic structure.
+
+Next use \autoref{thm:mulup-natmul-window-exhaustion}. Window exhaustion says
+that the audit package has no remaining consumer-facing multiplication row
+outside the concrete $\mathsf{NatMul}$ window and its displayed continuation
+ledger.
+
+Finally apply \autoref{thm:mulup-divisibility-order-source-exactness}. It
+identifies the order-facing source as exactly $\mathsf{NatDivides}$,
+$\mathsf{PreorderPrefixLE}$, and the cited $\AddUp$ and $\OrderUp$ boundary
+rows. Since each cited component is already listed in
+\autoref{def:mulup-audit-clean-consumer-boundary}, their composite handoff
+cannot expose host multiplication, host order, quotient carriers, or standard
+semiring data.
+\end{proof}
+
+\begin{theorem}[MulUp audit-clean boundary row exhaustion]
+\label{thm:mulup-audit-clean-boundary-row-exhaustion}
+Every row readable from the $\MulUp$ audit-clean consumer boundary of
+\autoref{def:mulup-audit-clean-consumer-boundary} is one of the displayed rows
+$\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$,
+$\mathsf{NatMul}$, $\mathsf{NatDivides}$, $\mathsf{PreorderPrefixLE}$, the
+cited $\AddUp$ boundary of
+\autoref{thm:mulup-add-order-phase-interaction-package}, or the cited
+$\OrderUp$ boundary of
+\autoref{thm:unary-prefix-orderup-phase-exit-package}.
+
+Conversely, each listed row is supplied by the concrete semantic exit, the
+checked-law audit package, the NatMul window-exhaustion theorem, and the
+divisibility-order source exactness theorem. Thus the boundary has no readable
+row for host multiplication, host order, quotient carriers, semiring
+primitives, or any additional arithmetic source.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:mulup-audit-clean-consumer-boundary}. Its displayed list is
+the consumer-facing row interface, so any readable row must be one of the
+listed carrier, classifier, continuation, multiplication, divisibility,
+unary-prefix, $\AddUp$, or $\OrderUp$ entries.
+
+For the converse direction, apply
+\autoref{thm:mulup-audit-clean-result-namecert-handoff}. The handoff factors
+the boundary through the concrete $\mathsf{NatMul}$ semantic certificate and
+the checked-law audit package, so the $\mathsf{BHist}$,
+$\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, and $\mathsf{NatMul}$ rows are
+available as the named result-side surface.
+
+Next apply \autoref{thm:mulup-natmul-window-exhaustion}. It exhausts the
+consumer-facing multiplication window, leaving no host multiplication slot and
+no semiring primitive outside the concrete $\mathsf{NatMul}$ ledger.
+
+Finally use \autoref{thm:mulup-divisibility-order-source-exactness}. It
+identifies the remaining order-facing rows as exactly $\mathsf{NatDivides}$,
+$\mathsf{PreorderPrefixLE}$, and the cited $\AddUp$ and $\OrderUp$ boundaries.
+Since no cited theorem introduces a quotient carrier or host order primitive,
+the displayed rows exhaust the audit-clean boundary.
+\end{proof}

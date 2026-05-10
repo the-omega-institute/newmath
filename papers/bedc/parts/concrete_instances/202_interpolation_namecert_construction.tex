@@ -1,10 +1,188 @@
 \chapter{A Concrete Naming Certificate for $\InterpolationUp$}
 \label{ch:concrete-instances-interpolation-namecert}
 
-The polynomial-interpolation interface $\InterpolationUp$ packages, for a finite set of distinct points and target values, the unique polynomial of degree below the count that hits each target. It depends on $\NameCert_{\PolynomialUp}$ (\autoref{ch:concrete-instances-polynomial-namecert}) and $\NameCert_{\FinSetUp}$ (\autoref{ch:concrete-instances-finset-namecert}).
+The polynomial-interpolation interface $\InterpolationUp$ packages, for a
+finite set of selected nodes and target values, the polynomial row whose
+displayed evaluations hit those targets. It depends on
+$\NameCert_{\PolynomialUp}$ (\autoref{ch:concrete-instances-polynomial-namecert})
+and $\NameCert_{\FinSetUp}$ (\autoref{ch:concrete-instances-finset-namecert}).
 
 \section{Carrier definition}
 \label{sec:interpolation-carrier}
 
+\begin{definition}[Interpolation BHist node carrier]
+\label{def:interpolation-bhist-node-carrier}
+An $\InterpolationUp$ carrier row is a finite $\mathsf{BHist}$ package
+consisting of:
+\begin{enumerate}
+\item a $\FinSetUp$ finite-spine membership ledger selecting the interpolation
+nodes;
+\item for every selected node, a carried target-value row with its
+$\mathsf{BHist}$ endpoint;
+\item a $\PolynomialUp$ candidate row whose coefficient spine is carried by
+the polynomial certificate;
+\item for every selected node, a polynomial-evaluation row comparing the
+candidate row at that node with the displayed target value; and
+\item a sample ledger recording the $\hsame$, $\Cont$, and $\Pkg$ provenance
+used by those membership, target-value, polynomial, and evaluation rows.
+\end{enumerate}
+The carrier is the finite package itself; it is not a host polynomial function,
+a quotient representative, a field-completeness witness, or a uniqueness claim
+over an external field.
+\end{definition}
+
+\begin{theorem}[Interpolation sample ledger surface]
+\label{thm:interpolation-sample-ledger-surface}
+Every accepted sample in the carrier of
+\autoref{def:interpolation-bhist-node-carrier} is readable from only the
+$\FinSetUp$ membership row for the selected node, the $\PolynomialUp$
+evaluation row at that node, the $\mathsf{BHist}$ endpoints for the node,
+target value, and polynomial candidate, the displayed $\hsame$ comparisons,
+the displayed $\Cont$ routes, and the displayed $\Pkg$ provenance.
+
+No accepted sample exposes a host evaluation function, a quotient polynomial
+class, field completeness, a global interpolation algorithm, or uniqueness over
+an external field.
+\end{theorem}
+\leanchecked{BEDC.Derived.InterpolationUp.InterpolationSampleLedger\_surface}
+\begin{proof}
+Unpack the carrier row of
+\autoref{def:interpolation-bhist-node-carrier}. A sample is accepted only when
+its node occurs in the displayed finite-spine membership ledger and when the
+candidate polynomial has the displayed evaluation row at that same node.
+
+Project the two dependency certificates. The finite-set side contributes only
+membership in the selected finite spine, while the polynomial side contributes
+only the named evaluation row and the coefficient-spine carrier row already
+present in the package.
+
+The remaining data are bookkeeping rows: the node endpoint, target-value
+endpoint, candidate-polynomial endpoint, $\hsame$ comparisons, $\Cont$ routes,
+and $\Pkg$ provenance. Since the carrier contains no other constructor, no
+host evaluation function, quotient row, completeness witness, global algorithm,
+or external uniqueness field can be read from an accepted sample.
+\end{proof}
+
+\begin{theorem}[Interpolation evaluation stability]
+\label{thm:interpolation-evaluation-stability}
+Let two interpolation carrier rows share the same $\FinSetUp$ selected-node
+spine and the same $\PolynomialUp$ candidate surface up to displayed $\hsame$
+transport. If each selected node endpoint, target-value endpoint, and
+polynomial endpoint row is transported by the displayed $\hsame$ comparisons
+and the corresponding $\Cont/\Pkg$ routes, then the interpolation evaluation
+ledger is preserved sample by sample.
+
+Equivalently, every transported selected node reads the same membership row and
+the same target-hit evaluation row through the transported polynomial endpoint.
+\end{theorem}
+\leanchecked{BEDC.Derived.InterpolationUp.InterpolationEvaluationLedger\_sample\_transport}
+\begin{proof}
+Fix an accepted sample in the first carrier row. By
+\autoref{thm:interpolation-sample-ledger-surface}, the sample is completely
+described by finite-set membership, a polynomial evaluation row, the three
+visible endpoints, and the displayed transport provenance.
+
+Transport the selected node through the finite-set classifier rows. The
+membership ledger is stable because the node endpoint is carried along the
+displayed $\hsame$ comparison and the finite-spine row is the same selected
+surface.
+
+Transport the candidate polynomial and target value through their endpoint
+comparisons. The $\PolynomialUp$ evaluation row is stable under the displayed
+polynomial endpoint transport and target-value transport, so the target-hit
+comparison is rebuilt at the transported sample.
+
+The converse transport uses the same rows in the opposite direction, using
+symmetry of the displayed $\hsame$ comparisons and the reverse listed
+provenance routes. Hence the evaluation ledger is preserved sample by sample.
+\end{proof}
+
+\begin{theorem}[Interpolation NameCert obligation surface]
+\label{thm:interpolation-namecert-obligation-surface}
+The local $\NameCert_{\InterpolationUp}$ surface consists exactly of the
+carrier row of \autoref{def:interpolation-bhist-node-carrier}, the classifier
+that compares two packages by the same selected-node membership rows, candidate
+polynomial rows, target-value rows, sample ledgers, and evaluation rows, the
+stability row of \autoref{thm:interpolation-evaluation-stability}, the sample
+ledger surface of \autoref{thm:interpolation-sample-ledger-surface}, and the
+exactness rows saying that every accepted package has all displayed selected
+samples and every displayed selected sample is read from those rows.
+
+This is a finite $\mathsf{BHist}$ obligation surface over
+$\NameCert_{\FinSetUp}$ and $\NameCert_{\PolynomialUp}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.InterpolationUp.InterpolationNameCert\_obligation\_surface}
+\begin{proof}
+Start with the carrier row. Its fields list exactly the finite selected-node
+spine, target values, candidate polynomial row, sample ledger, and evaluation
+rows, so it supplies the source predicate for the local certificate.
+
+Define the classifier by fieldwise comparison of those visible rows. Reflexive,
+symmetric, and transitive classifier witnesses are obtained by the corresponding
+$\hsame$ ledger laws on endpoints and by the already displayed classifier rows
+from the $\FinSetUp$ and $\PolynomialUp$ dependency certificates.
+
+The stability obligation is precisely
+\autoref{thm:interpolation-evaluation-stability}. The ledger and exactness
+obligations are precisely
+\autoref{thm:interpolation-sample-ledger-surface} together with the carrier
+definition: an accepted package contains no sample except one read through the
+finite membership and evaluation rows, and each listed sample is accepted by
+those rows.
+\end{proof}
+
+\begin{theorem}[Interpolation downstream threshold package]
+\label{thm:interpolation-downstream-threshold-package}
+$\PolynomialUp$ and $\FinSetUp$ consumers may cite the interpolation carrier,
+classifier, stability, sample-ledger, and exactness rows of
+\autoref{thm:interpolation-namecert-obligation-surface}. Such a citation gives
+only the finite $\mathsf{BHist}$ package of selected nodes, target values,
+candidate polynomial rows, evaluation rows, and visible $\hsame/\Cont/\Pkg$
+provenance.
+
+It gives no host polynomial function, no quotient representative, no field
+completeness principle, and no uniqueness statement over external fields.
+\end{theorem}
+\leanchecked{BEDC.Derived.InterpolationUp.InterpolationDownstreamThresholdPackage\_boundary}
+\leanvariant{BEDC.Derived.InterpolationUp.InterpolationDownstreamThresholdPackage\_threshold\_surface}
+\leanvariant{BEDC.Derived.InterpolationUp.InterpolationDownstreamThreshold\_surface}
+\begin{proof}
+Unpack the obligation surface from
+\autoref{thm:interpolation-namecert-obligation-surface}. The rows available to
+a downstream consumer are the five displayed certificate rows: carrier,
+classifier, stability, sample ledger, and exactness.
+
+Project those rows to a $\PolynomialUp$ consumer. The consumer sees the
+candidate polynomial endpoint and the evaluation rows already carried by the
+polynomial certificate, together with their $\hsame/\Cont/\Pkg$ provenance.
+
+Project the same rows to a $\FinSetUp$ consumer. The consumer sees the
+selected finite-spine membership ledger and the node endpoints, again with only
+the displayed provenance rows.
+
+Since neither projection adds a constructor to the interpolation carrier, the
+consumer receives no host function, quotient representative, completeness
+principle, or external-field uniqueness statement. The package is exactly the
+finite $\mathsf{BHist}$ threshold surface stated above.
+\end{proof}
+
 \section{The certificate}
 \label{sec:interpolation-certificate}
+
+\closureat{InterpolationUp}{scopedStr}[BEDC.Derived.InterpolationUp.InterpolationNameCert\_obligation\_surface]
+
+\begin{closurestatus}{\InterpolationUp}
+  \constructivestory{InterpolationUp is a finite selected-node spine over $\FinSetUp$, target-value rows, a $\PolynomialUp$ candidate row, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance. The displayed sample, evaluation, NameCert, and downstream-threshold rows bind that spine to BEDC histories only, so the chapter exports no host polynomial function and no field-completeness claim.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The visible scope is the finite selected-node spine,
+  target-value rows, $\PolynomialUp$ candidate row, $\FinSetUp$ membership
+  ledger, $\hsame$, $\Cont$, and $\Pkg$ provenance recorded by the local
+  carrier and sample ledger.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.InterpolationUp.InterpolationNameCert\_obligation\_surface}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close host polynomial functions, quotient
+  representatives, field completeness, global interpolation algorithms, or
+  external uniqueness.}
+  \upgradepath{Public closure requires an exported $\InterpolationUp$ NameCert surface over the same finite-node and polynomial-evaluation rows.}
+\end{closurestatus}

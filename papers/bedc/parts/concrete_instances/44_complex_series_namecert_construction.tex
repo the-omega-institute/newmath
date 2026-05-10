@@ -563,6 +563,46 @@ The concrete certificate of \autoref{thm:complex-series-namecert} satisfies the 
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
 \end{proof}
 
+\begin{definition}[ComplexSeriesUp finite obligation inventory]
+\label{def:complex-series-obligation-inventory}
+The finite obligation inventory for $\ComplexSeriesUp$ consists of the following rows over $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\Cont$, $\hsame$, $\Pkg$, $\NameCert_{\ComplexLimitUp}$, and $\NameCert_{\RealUp}$:
+\begin{enumerate}
+  \item a carrier row saying that a complex term family supplies $\ComplexUp$ histories at every unary index and closed partial sums by $\Cont$ recursion;
+  \item a classifier row saying that two accepted packages classify together exactly when their displayed $\NameCert_{\ComplexLimitUp}$ limits agree componentwise under $\hsame$;
+  \item a stability row transporting term histories, partial sums, convergence moduli, and the displayed limit through pointwise $\hsame$;
+  \item a convergence row exposing the regular Cauchy partial-sum package consumed by $\NameCert_{\ComplexLimitUp}$;
+  \item an absolute-sum row exposing the $\NameCert_{\RealUp}$ modulus partial sums used by $\mathsf{AbsConv}$;
+  \item a Cauchy-product row exposing the two absolute-convergence inputs and the product partial-sum package;
+  \item a ledger row recording the source term family, partial sums, limit, absolute-modulus sums, product construction, and provenance witnesses.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[ComplexSeriesUp obligation inventory stability]
+\label{thm:complex-series-obligation-inventory-stability}
+Let $\mathcal P$ and $\mathcal Q$ be two finite $\ComplexSeriesUp$ obligation inventories with pointwise $\hsame$ transport on the source term family, the closed partial-sum rows, the convergence package, the absolute-modulus package, and the displayed complex limit. If $\mathcal P$ is accepted by the inventory of \autoref{def:complex-series-obligation-inventory}, then $\mathcal Q$ is accepted by the same inventory and has the same classifier result.
+\end{theorem}
+\begin{proof}
+First transport the term-sequence row pointwise. The carrier transport is exactly the local term-history transport used by \autoref{lem:complex-term-seq-carrier-hsame-transport}, so every unary index remains inside the complex term carrier.
+
+Next transport the partial-sum recursion. The determinacy and successor-transport rows \autoref{lem:complex-part-sum-pointwise-hsame-deterministic} and \autoref{lem:complex-part-sum-term-hsame-deterministic} repack the closed partial sums through the same $\Cont$ spine.
+
+For convergence and the displayed limit, apply the checked convergence transport row named after \autoref{def:complex-series-source-spec}. It carries the regular Cauchy partial-sum package to the transported term family and preserves the $\NameCert_{\ComplexLimitUp}$ classifier on the limit.
+
+Finally, the absolute-modulus and Cauchy-product rows are visible ledger rows. Their transport uses \autoref{lem:complex-abs-partsum-modulus-hsame-transport} and the Cauchy-product construction of \autoref{thm:cauchy-product-conv}, so the downstream ledger is repacked without adding a new analytic principle.
+\end{proof}
+
+\begin{theorem}[ComplexSeriesUp downstream consumer boundary]
+\label{thm:complex-series-downstream-consumer-boundary}
+A downstream consumer of a $\ComplexSeriesUp$ certificate may read exactly the term-sequence row, the closed partial-sum row, the displayed $\NameCert_{\ComplexLimitUp}$ limit row, the absolute-modulus row over $\NameCert_{\RealUp}$, the Cauchy-product row when the two absolute-convergence inputs are present, and the provenance ledger. No consumer row exports a completeness theorem for arbitrary complex-series carriers or an analytic-continuation rule.
+\end{theorem}
+\begin{proof}
+Read the source, pattern, classifier, stability, and ledger fields in \autoref{thm:complex-series-semantic-namecert}. The source and pattern expose the term family and partial-sum convergence package; the classifier exposes only the displayed limit comparison.
+
+The absolute-modulus and Cauchy-product surfaces are the explicit rows of \autoref{def:complex-series-ledger-policy}. They give consumers the real modulus sums and the constructed product package only when the corresponding witnesses are already present.
+
+There is no row in the inventory of \autoref{def:complex-series-obligation-inventory} whose target is a completion object, an arbitrary carrier-selection rule, or an analytic-continuation datum. Therefore every consumer read factors through one of the listed rows.
+\end{proof}
+
 \begin{lemma}[Pointwise sum is a complex term sequence]
 \label{lem:complex-term-seq-pointwise-addition}
 Let $c,d:\Hist\to\Hist$ be complex term sequences in the sense of \autoref{def:complex-term-seq}, and define their pointwise sum by
@@ -667,6 +707,46 @@ Transitivity with the comparison for $S_\oplus$ and the middle-four comparison g
 Finally, let $T$ be any closed partial sum of $c\oplus d$ at $n$. The determinacy theorem \autoref{lem:complex-part-sum-well-defined} compares $T$ with the constructed $S_\oplus$; transitivity with the comparison already proved gives $T\hsame\mathsf{append}(S_c,S_d)$.
 \end{proof}
 
+\begin{theorem}[ComplexSeries NameCert obligation surface]
+\label{thm:complexseries-namecert-obligation-surface}
+The ComplexTermSeq carrier transport, closed partial sums, Cauchy and absolute
+convergence predicates, comparison-test rows, ratio-test and root-test rows,
+Cauchy-product rows, and downstream boundary exclusions assemble the local
+$\NameCert_{\ComplexSeriesUp}$ obligation surface. This surface is read over
+$\ComplexLimitUp$, $\RealUp$, unary histories, $\hsame$, $\Cont$, and finite
+ledger provenance, and its consumer rows are exactly the rows displayed by
+\autoref{def:complex-series-obligation-inventory},
+\autoref{thm:complex-series-obligation-inventory-stability}, and
+\autoref{thm:complex-series-downstream-consumer-boundary}. It contains no host
+infinite-sum operator, no choice of limits, no analytic-continuation datum, and
+no standard complex-analysis bridge data.
+\end{theorem}
+\begin{proof}
+Start with the carrier and recursion rows. The term carrier is transported by
+\autoref{lem:complex-term-seq-carrier-hsame-transport}, while the partial-sum
+surface is supplied by \autoref{def:complex-part-sum},
+\autoref{lem:complex-part-sum-exists-unique}, and
+\autoref{lem:complex-part-sum-well-defined}.
+
+Next add the convergence and test rows. The Cauchy and absolute-convergence
+predicates are the rows of \autoref{def:complex-series-conv} and
+\autoref{def:abs-conv}; the comparison, ratio, and root tests are the local
+finite rows of \autoref{thm:comparison-test}, \autoref{thm:ratio-test}, and
+\autoref{lem:root-test}.
+
+The product and ledger faces are already present in the same chapter. The
+Cauchy-product row is \autoref{def:cauchy-product} together with
+\autoref{thm:cauchy-product-conv}, and the source, pattern, classifier,
+stability, and ledger fields are the five rows assembled in
+\autoref{thm:complex-series-semantic-namecert}.
+
+Finally apply the finite inventory and downstream boundary theorems. They
+repack the listed rows as the local $\NameCert_{\ComplexSeriesUp}$ surface over
+$\ComplexLimitUp$, $\RealUp$, unary histories, $\hsame$, $\Cont$, and finite
+ledger provenance, while leaving host infinite sums, selected limits, analytic
+continuation, and standard bridge data outside the exported surface.
+\end{proof}
+
 \closureat{ComplexSeriesUp}{seedStr}
 
 \begin{closurestatus}{\ComplexSeriesUp}
@@ -676,5 +756,5 @@ Finally, let $T$ be any closed partial sum of $c\oplus d$ at $n$. The determinac
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{The chapter does not close completeness of complex series carriers or analytic continuation results.}
-  \upgradepath{The next grade requires a finite obligation inventory for classifier stability and downstream consumer boundaries.}
+  \upgradepath{The next grade requires Lean theorem sites for the finite obligation inventory, classifier stability, and downstream consumer boundary.}
 \end{closurestatus}

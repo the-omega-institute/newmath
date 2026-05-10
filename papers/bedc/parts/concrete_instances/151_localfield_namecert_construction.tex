@@ -6,5 +6,154 @@ The local-field interface $\LocalFieldUp$ packages a complete discretely valued 
 \section{Carrier definition}
 \label{sec:localfield-carrier}
 
+\begin{definition}[LocalField valued BHist carrier]
+\label{def:localfield-valued-bhist-carrier}
+A $\LocalFieldUp$ carrier is a finite $\mathsf{BHist}$ packet consisting of a
+displayed $\FieldUp$ row, a $\PadicUp$ valuation row on the same field
+endpoint, a finite residue row, a completeness-witness ledger row, and the
+visible endpoint data for the valued field, valuation, unit surface, and
+residue surface. The packet is accepted only when these rows are present in
+one finite ledger and the valuation row supplies the route from field elements
+to residue data through the displayed dependency certificates.
+
+The carrier is the visible valued-field packet. It does not include arbitrary
+completions, quotient fields, class-field reciprocity data, or a standard
+bridge object.
+\end{definition}
+\leandef{BEDC.Derived.LocalFieldUp.LocalFieldValuedBHistCarrier}
+
+\begin{theorem}[LocalField valuation classifier stability]
+\label{thm:localfield-valuation-classifier-stability}
+Let two $\LocalFieldUp$ carrier packets have $\FieldUp$ rows and $\PadicUp$
+valuation rows related by displayed $\hsame$ classifiers. If the residue row,
+unit row, and completeness-witness ledger are read only through those
+transported field and valuation rows, then the transported endpoints repack as
+an accepted $\LocalFieldUp$ carrier with the same valued-field ledger shape.
+\end{theorem}
+\leanchecked{BEDC.Derived.LocalFieldUp.LocalFieldValuationClassifier\_stability}
+\begin{proof}
+Project the $\FieldUp$ dependency certificate. It transports the displayed
+field endpoint and the field rows used by the local-field packet.
+
+Project the $\PadicUp$ dependency certificate. The valuation endpoint is
+transported together with the visible valuation row, so the residue and unit
+rows still have their valuation source after transport.
+
+Replay the carrier ledger on the transported rows. Since the completeness
+witness is a ledger row tied to the same field and valuation endpoints, it is
+read from the transported packet without adding a new host completion.
+\end{proof}
+
+\begin{theorem}[LocalField residue ledger exactness]
+\label{thm:localfield-residue-ledger-exactness}
+For every accepted $\LocalFieldUp$ carrier, the residue ledger exposes exactly
+the valuation row, unit row, residue row, and their displayed endpoint data.
+It does not expose an arbitrary completion, quotient field, class-field
+reciprocity structure, or external local-field model.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:localfield-valued-bhist-carrier}. The
+residue side of the packet consists of the valuation row, unit row, residue
+row, and endpoints recorded in the finite $\mathsf{BHist}$ ledger.
+
+The completeness witness is a ledger entry for the same displayed endpoint
+data. It certifies that the local packet has the advertised finite surface, but
+it does not introduce a host completion or quotient field.
+
+Thus every readable residue datum is one of the listed rows, and none of the
+excluded host structures is part of the accepted packet.
+\end{proof}
+\leanchecked{BEDC.Derived.LocalFieldUp.LocalFieldValuedBHistCarrier\_residue\_ledger\_exactness}
+
+\begin{theorem}[LocalField NameCert obligation surface]
+\label{thm:localfield-namecert-obligation-surface}
+The local $\NameCert_{\LocalFieldUp}$ surface is the carrier of
+\autoref{def:localfield-valued-bhist-carrier}, the valuation classifier over
+the displayed $\FieldUp$ and $\PadicUp$ rows, the stability clause of
+\autoref{thm:localfield-valuation-classifier-stability}, the residue ledger
+exactness clause of \autoref{thm:localfield-residue-ledger-exactness}, and the
+source coverage assertion that every accepted local-field row is read from
+those finite packet rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.LocalFieldUp.LocalFieldValuedBHistCarrier\_namecert\_obligation\_surface}
+\begin{proof}
+Use the valued $\mathsf{BHist}$ carrier as the source predicate. The carrier
+lists the field, valuation, residue, completeness, and endpoint rows allowed in
+the local certificate.
+
+The classifier is the displayed comparison of field and valuation rows. Its
+transport obligation is exactly
+\autoref{thm:localfield-valuation-classifier-stability}.
+
+The ledger and exactness obligations are exactly
+\autoref{thm:localfield-residue-ledger-exactness} together with the carrier
+definition. These rows cover every accepted local-field packet and exclude all
+host structures outside the finite ledger.
+\end{proof}
+
+\begin{theorem}[LocalField bridge boundary exclusions]
+\label{thm:localfield-bridge-boundary-exclusions}
+The $\LocalFieldUp$ boundary supplies only the BEDC valued-field packet over
+the displayed $\FieldUp$ and $\PadicUp$ dependency rows. It does not assert
+arbitrary completions, quotient fields, full local class field theory, or
+standard-model bridge claims.
+\end{theorem}
+\begin{proof}
+Read the boundary through
+\autoref{thm:localfield-namecert-obligation-surface}. The exported rows are
+the carrier, classifier, stability, residue ledger, exactness, and source
+coverage rows.
+
+Each exported row factors through the finite packet of
+\autoref{def:localfield-valued-bhist-carrier}. That packet has no constructor
+for host completions, quotient fields, reciprocity theory, or a standard-model
+bridge.
+
+Therefore the boundary records only the displayed BEDC valued-field surface.
+\end{proof}
+\leanchecked{BEDC.Derived.LocalFieldUp.LocalFieldValuedBHistCarrier\_bridge\_boundary\_exclusions}
+
+\begin{theorem}[LocalField valued-field consumer threshold]
+\label{thm:localfield-valued-field-consumer-threshold}
+Any consumer of $\NameCert_{\LocalFieldUp}$ may project only the displayed
+$\FieldUp$ row, the $\PadicUp$ valuation row, the unit row, the residue row,
+the completeness-witness ledger row, endpoint data, and visible
+$\hsame/\Cont/\Pkg$ provenance from
+\autoref{thm:localfield-namecert-obligation-surface}. No arbitrary
+completion, quotient field, reciprocity structure, external local-field
+model, or standard bridge becomes available.
+\end{theorem}
+\begin{proof}
+Project the $\FieldUp$ and $\PadicUp$ dependency certificates from the
+obligation surface. These projections give the field row, valuation row, unit
+row, completeness-witness ledger row, endpoint data, and displayed provenance
+without adding a host carrier.
+
+Use \autoref{thm:localfield-residue-ledger-exactness} to read the residue row
+as finite ledger data. The readable residue entries are therefore exactly the
+ones already present in the valued $\mathsf{BHist}$ packet.
+
+Finally apply \autoref{thm:localfield-bridge-boundary-exclusions}. The excluded
+host completions, quotient fields, reciprocity structures, external models,
+and standard bridges are outside the certificate exported to downstream
+consumers.
+\end{proof}
+\leanchecked{BEDC.Derived.LocalFieldUp.LocalFieldValuedBHistCarrier\_valued\_field\_consumer\_threshold}
+
 \section{The certificate}
 \label{sec:localfield-certificate}
+
+\closureat{LocalFieldUp}{seedStr}[BEDC.Derived.LocalFieldUp.LocalFieldValuedBHistCarrier\_namecert\_obligation\_surface]
+\closureat{LocalFieldUp}{obligationStr}[BEDC.Derived.LocalFieldUp.LocalFieldValuedBHistCarrier\_namecert\_obligation\_surface]
+\closureat{LocalFieldUp}{scopedStr}[BEDC.Derived.LocalFieldUp.LocalFieldValuedBHistCarrier\_namecert\_obligation\_surface]
+
+\begin{closurestatus}{\LocalFieldUp}
+  \constructivestory{A local-field packet is generated from a valued $\mathsf{BHist}$ carrier whose displayed $\FieldUp$ row, $\PadicUp$ valuation row, residue row, completeness-witness ledger, endpoint data, $\hsame$ transport, $\Cont$ displays, and $\mathsf{Pkg}$ provenance are all visible in one finite certificate surface. The valuation classifier, residue ledger, and bridge-boundary exclusions keep arbitrary host completions, quotient local fields, reciprocity data, external models, and standard bridges outside the exported carrier.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The obligation scope consists of the valued $\mathsf{BHist}$ carrier, valuation classifier stability, residue ledger exactness, bridge-boundary exclusions, and valued-field consumer threshold over $\FieldUp$, $\PadicUp$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.LocalFieldUp.LocalFieldValuedBHistCarrier\_namecert\_obligation\_surface}
+  \bridgestatus{none}
+  \notclaimed{No host completion, quotient local field, reciprocity theorem, external local-field model, or standard bridge is claimed.}
+  \upgradepath{Public closure requires one exported LocalFieldUp consumer certificate row.}
+\end{closurestatus}

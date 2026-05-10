@@ -152,6 +152,24 @@ theorem CompactMetricCertificate_metric_distance_transport {X : BHist -> Prop}
   exact And.intro transportedX
     (And.intro transportedY (And.intro sameDistance rightDistance))
 
+theorem CompactMetricCertificate_metric_source_obligation {X : BHist -> Prop}
+    {eps x y d d' : BHist} {bundle : ProbeBundle BHist} {s M : BHist -> BHist}
+    {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit ->
+      X x ->
+        X y ->
+          MetricDistanceWitness x y d ->
+            MetricDistanceWitness x y d' ->
+              TotallyBoundedProbeBundleNet X eps bundle ∧
+                CompleteMetricLimitWitness X s M limit ∧
+                  MetricDistanceWitness x y d ∧ hsame d d' := by
+  intro certificate _source _target leftDistance rightDistance
+  have sameDistance : hsame d d' :=
+    MetricDistanceWitness_hsame_result_deterministic (hsame_refl x) (hsame_refl y)
+      leftDistance rightDistance
+  exact And.intro certificate.left
+    (And.intro certificate.right (And.intro leftDistance sameDistance))
+
 theorem CompactMetricTotallyBoundedNet_obligation {X : BHist -> Prop} {eps eps' x : BHist}
     {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
     CompactMetricCertificate X eps bundle s M limit -> hsame eps eps' -> X x ->
@@ -468,5 +486,49 @@ theorem CompactMetricCertificate_continuousmap_consumption_boundary {X : BHist -
           exact
             ⟨net, complete, consumerUnary, consumerRow, limitDist, limitDistance.left,
               limitDistance.right.left, limitDistance.right.right⟩
+
+theorem CompactMetricProbeBundleNetFamily_obligation {X : BHist -> Prop} {eps eps' x : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> hsame eps eps' -> X x ->
+      TotallyBoundedProbeBundleNet X eps bundle ∧
+        TotallyBoundedProbeBundleNet X eps' bundle ∧
+          exists center : BHist, InBundle center bundle ∧ X center ∧
+            exists d : BHist, MetricDistanceWitness x center d ∧
+              RatHistoryClassifier d eps' := by
+  intro certificate sameEps source
+  have transportedNet : TotallyBoundedProbeBundleNet X eps' bundle :=
+    TotallyBoundedProbeBundleNet_coverage_hsame_transport sameEps certificate.left
+  constructor
+  · exact certificate.left
+  · constructor
+    · exact transportedNet
+    · cases transportedNet.right.right source with
+      | intro center centerData =>
+          exact Exists.intro center
+            (And.intro centerData.left
+              (And.intro (transportedNet.right.left centerData.left) centerData.right))
+
+theorem CompactMetricLimitWitnessFamily_obligation {X : BHist -> Prop} {eps n : BHist}
+    {bundle : ProbeBundle BHist} {s s' M M' : BHist -> BHist} {limit limit' : BHist} :
+    (forall {h k : BHist}, hsame h k -> X h -> X k) ->
+      (forall {m : BHist}, UnaryHistory m -> hsame (s m) (s' m)) ->
+        (forall {m : BHist}, UnaryHistory m -> hsame (M m) (M' m)) ->
+          hsame limit limit' -> CompactMetricCertificate X eps bundle s M limit ->
+            UnaryHistory n -> X (s n) ->
+              CompleteMetricLimitWitness X s M limit ∧
+                CompleteMetricLimitWitness X s' M' limit' ∧
+                  exists d : BHist,
+                    MetricDistanceWitness (s n) limit d ∧ Cont (s n) limit d ∧
+                      RatHistoryClassifier d (M n) ∧ PositiveUnaryDenominator d ∧
+                        PositiveUnaryDenominator (M n) := by
+  intro carrierTransport streamTransport modulusTransport sameLimit certificate nUnary source
+  have transportedCertificate :
+      CompactMetricCertificate X eps bundle s' M' limit' :=
+    CompactMetricCertificate_hsame_transport carrierTransport (hsame_refl eps) streamTransport
+      modulusTransport sameLimit certificate
+  have limitRows :=
+    CompactMetricCompleteLimit_obligation certificate nUnary source
+  exact And.intro certificate.right
+    (And.intro transportedCertificate.right limitRows.right.right)
 
 end BEDC.Derived.CompactMetricUp

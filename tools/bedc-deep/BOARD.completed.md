@@ -15484,3 +15484,799 @@ Rationale:
 Extends B-585 (singleton-equation exactness) to the family-coverage level. This is the canonical inversion/coverage bridge for AffineVarUp's equation-family layer and is required for any further variety-intersection or component-level work. Direct unfolding of equation-family membership and zero-locus predicate; no external algebraic geometry.
 
 ---
+
+### B-611 - InnerProduct orthogonality left additive closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | InnerProduct orthogonality left additive closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For carried vectors x,y,z:C_V, if x \perp_I z and y \perp_I z then (x +_V y) \perp_I z.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/orthogonality_closure.tex`
+
+Rationale:
+Mirrored companion to thm:innerproduct-orthogonal-additivity-row (right-additive). Left-additive form is independently used by sublattice-of-orthogonals arguments; not currently stated. Proof: symmetry -> right-additivity -> symmetry. Distinct from the left-scalar and left-inverse candidates (different slot symmetry). Lands cleanly.
+
+---
+
+### B-610 - InnerProduct orthogonality left scalar-action closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | InnerProduct orthogonality left scalar-action closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For carried vectors x,y:C_V and a carried scalar r, if x \perp_I y then (r \cdot_V x) \perp_I y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/orthogonality_closure.tex`
+
+Rationale:
+Direct missing companion to thm:innerproduct-orthogonality-right-scalar-action-closure (orthogonality_closure.tex:139). Symmetric left-slot version is not stated. Proof routes through orthogonality symmetry plus the existing right-scalar closure. Concrete BEDC closure target, lands in a 230-line file well under cap. Not paraphrase of any existing BOARD entry (B-573 is about norm-squared scalar factoring, distinct).
+
+---
+
+### B-612 - SpinGroup conjugation action identity law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | SpinGroup conjugation action identity law |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For SpinGroupUp packet S with Clifford-unit endpoint = identity e, every Clifford-vector row v satisfies Act_e(v) ~_CliffordUp v.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/spingroup/boundary_consumer_exactness.tex`
+
+Rationale:
+Complements B-600 (conjugation multiplicativity). Together with the multiplicative law it makes the conjugation row a group action; the unit law is currently the missing half. Proof is a one-shot Clifford left/right unit collapse. Distinct from all existing SpinGroup BOARD entries.
+
+---
+
+### B-613 - Sheaf identity-refinement pullback identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Sheaf identity-refinement pullback identity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Pulling back a compatible family along the identity refinement returns the original family up to local section equivalence: rho_{iota(a),iota(a)}(s_a) ~_{iota(a)} s_a for every a.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/sheaf/04_refinement_exactness.tex`
+
+Rationale:
+Distinct from B-520 (which only states that identity refinement is a refinement). This new target says the pullback functor evaluated at the identity refinement is the identity on compatible families. One-step proof from def:sheaf-indexed-section-presheaf-carrier identity-restriction field; underpins downstream gluing-uniqueness arguments that currently inline this step.
+
+---
+
+### B-614 - Measure head-tail iterated finite-prefix readback
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Measure head-tail iterated finite-prefix readback |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a MeasureUp surface, measurable sequence E_*, and unary history n, Sigma_mu(E_*) ~_R mu(E_0) +_R ... +_R mu(E_{n-1}) +_R Sigma_mu(E_{*+n}).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/measure/head_tail_tail_scope.tex`
+
+Rationale:
+Strict generalisation of thm:measure-head-tail-tail-countable-sum-scope (single step). N-step iterated form is the version downstream finite-additivity / countable-additivity prefix arguments actually consume. Finite induction on unary index using the existing single-step readback plus R-classifier transitivity. Distinct from B-598/B-530 (binary/ternary union subadditivity) and B-538 (empty-node sum).
+
+---
+
+### B-615 - InnerProduct orthogonality left additive-inverse closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | InnerProduct orthogonality left additive-inverse closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+For carried vectors x,y:C_V, if x \perp_I y then (-_V x) \perp_I y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/orthogonality_closure.tex`
+
+Rationale:
+Companion to thm:innerproduct-orthogonal-additive-inverse-closure (right slot). Left-slot symmetric version not stated; consumed together with right slot by signed-sum and sublattice-of-orthogonals constructions. Independent from the left-scalar and left-additive candidates: different slot symmetry (additive inverse). All three live in the 230-line orthogonality_closure.tex.
+
+---
+
+### B-616 - CurryHoward cut-beta endpoint classifier reflexivity row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | CurryHoward cut-beta endpoint classifier reflexivity row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Every accepted shared cut-beta packet H is related to itself by the CurryHoward endpoint classifier of Definition curryhoward-endpoint-classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/243_curryhoward_namecert_construction.tex`
+
+Rationale:
+243_curryhoward_namecert_construction.tex (355 lines, 10 theorems) has classifier endpoint transport (line 87), source row separation (line 46), classifier exhaustion (line 135), endpoint exactness (line 179), and proof-program determinacy (line 113) — but no reflexivity statement for the cut-beta endpoint classifier. Other concrete classifier surfaces (RandomVar, FirstOrder, Sheaf) all carry an explicit reflexivity row; CurryHoward is the conspicuous omission. Single-implication form: accepted packet ⇒ classifier H≈H. Within an existing chapter (no Lean axiom), file far below cap, no sibling on BOARD.
+
+---
+
+### B-617 - Module LinearMap pointwise sum associativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Module LinearMap pointwise sum associativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If LinearMapCert_R(M,N;f), LinearMapCert_R(M,N;g), and LinearMapCert_R(M,N;h) all hold over common ModuleUp(R,M),ModuleUp(R,N) certificates, then the pointwise sums (f+g)+h and f+(g+h) carry LinearMapUp(M,N) certificates and are pointwise-classifier-equal.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+
+Rationale:
+The commutativity counterpart is at module_linearmap_kernel_image_and_zero.tex:101 (thm:module-linearmap-pointwise-sum-commutativity) and the binary pointwise-sum certificate is at module_linearmap_certificates.tex:344 (thm:module-linearmap-pointwise-sum-certificate). Composition associativity exists at module_linearmap_certificates.tex:238, but pointwise *sum* associativity does not: grep 'pointwise-sum-assoc\|pointwise.*sum.*associat' across papers/ returns only composition-assoc and FPS pointwise-additive-group-laws references. Build from two applications of pointwise-sum-certificate plus the target module's additive associativity (via prop:module-forgets-abgroup-certificate). Landing file 182 lines, ample room. Concrete classifier comparison, not parameter echo.
+
+---
+
+### B-618 - GaloisGroupUp inverse-of-composition antimultiplicative row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | GaloisGroupUp inverse-of-composition antimultiplicative row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For accepted automorphism-action rows x and y in a GaloisGroupUp packet, the inverse of the composed row x \circ y is classifier-equal to y^{-1} \circ x^{-1} via the public GaloisExtUp endpoint classifier and the inherited GroupUp surface.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/galoisgroup/composition_and_inverse_laws.tex`
+- `papers/bedc/parts/concrete_instances/galoisgroup/group_law_package.tex`
+
+Rationale:
+composition_and_inverse_laws.tex contains thm:galoisgroup-composition-associativity-row (line 2), thm:galoisgroup-inverse-cancellation-rows (line 43), and thm:galoisgroup-inverse-involution-row (line 187), plus thm:galoisgroup-composition-classifier-congruence (line 116). The antimultiplicative inverse rule (g h)^{-1} ~ h^{-1} g^{-1}, the natural completion of the composition+inverse algebra, is missing: grep 'inverse-of-composition\|composition-inverse\|inverse-product' across the galoisgroup/ subdirectory returns no hits. Built from inverse-closure (carrier_and_basic_laws.tex:146) plus the GroupUp dependency's inverse-of-product law (referenced as thm:group-inverse-mul-reverse, used in spingroup/boundary_consumer_exactness.tex:127). File 235 lines, ample room. Concrete inversion identity, not transport.
+
+---
+
+### B-619 - Independence two-element index family carries the finite factorisation row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Independence two-element index family carries the finite factorisation row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a finite-family IndependenceUp carrier has exactly two certified positions i_0, i_1, with the displayed product-cylinder ledger reducing the joint endpoint to mu_{i_0}(B_{i_0}) \cdot_R mu_{i_1}(B_{i_1}) and the two-element RealUp product fold evaluating to the same product, then for every measurable two-position event family B the displayed data carry the finite factorisation row of def:independence-finite-factorisation-row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/165_independence_namecert_construction.tex`
+
+Rationale:
+165_independence_namecert_construction.tex:367 proves thm:independence-empty-index-factorization-row (B-527 / B-587 area); line 416 proves thm:independence-singleton-index-factorization-row (B-591 in board). The two-element case is the *first* arity where a real product fold actually multiplies two distinct factors, and is genuinely missing: grep 'two-element\|binary.factorisation\|pair.factorisation\|two.position' across papers/ shows no Independence two-element row. Builds on the pushforward rows already used in the singleton proof plus the binary RealUp product fold (used elsewhere in concrete_instances/). File 471 lines, room available. Concrete arity step: requires a real factorisation calculation, not just a transport.
+
+---
+
+### B-620 - SpinGroup conjugation action inverse-involution row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | SpinGroup conjugation action inverse-involution row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+For an accepted SpinGroupUp packet S with visible Clifford-unit endpoint s and any accepted Clifford-vector row v, the iterated action endpoint Act_{s^{-1}}(Act_s(v)) is an accepted Clifford-vector row in the same packet and is classifier-equal to v under the generated CliffordUp classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/spingroup/boundary_consumer_exactness.tex`
+
+Rationale:
+spingroup/boundary_consumer_exactness.tex:78 proves thm:spingroup-conjugation-action-product-law (B-600 in board) and line 160 proves thm:spingroup-conjugation-action-identity-law (B-612). The natural composition s^{-1}\cdot s = e route — Act_{s^{-1}}(Act_s(v)) ~ Act_e(v) ~ v — is not stated as its own theorem: grep 'spingroup.*inverse.action\|conjugation.action.inverse\|conjugation.*inverse.law' across papers/ returns nothing. The proof composes product-law (with t=s^{-1}) and identity-law plus the GroupUp inverse field already named in carrier_and_basic_laws.tex pattern. Concrete inversion-cancellation identity over the displayed Clifford ledger, not transport. File 231 lines, ample room.
+
+---
+
+### B-621 - Newton-iteration carrier finite-step concatenation closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Newton-iteration carrier finite-step concatenation closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If R1 and R2 are accepted NewtonIterationUp carrier rows over the same DerivativeUp/BanachUp source pair with R1's next-step answer hsame R2's source-point answer, then their displayed concatenation is an accepted NewtonIterationUp carrier row whose source point is R1's source point, whose next-step answer is R2's next-step answer, and whose finite step ledger is the concatenation of the two displayed step ledgers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/201_newtoniteration_namecert_construction.tex`
+
+Rationale:
+Fills a clear companion gap in 201_newtoniteration_namecert_construction.tex: the carrier inductively allows finite list-of-steps but the existing three theorems only handle a single step row plus source/classifier transport. Concatenation-along-shared-endpoint is a textbook closure obligation downstream Banach fixed-point and contraction-mapping consumers will need. The landing file is short (56 lines), well below the 800 cap, and the proof is a clean induction on the BHist Cont ledger using hsame transport at the splice point. No BOARD entry covers this; not paraphrased by any existing concatenation/closure target (B-507 EnumPerm, B-505 Sheaf refinement) since they live in different chapters with different carriers.
+
+---
+
+### B-622 - MarkovChain transition packet finite-prefix restriction is a MarkovChain carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MarkovChain transition packet finite-prefix restriction is a MarkovChain carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a finite MarkovChain BHist transition packet over a unary time ledger of length n+k is accepted by the MarkovChainUp carrier, then its restriction to the first n displayed time rows (with the first n+1 RandomVarUp rows, n DistributionUp law rows, n transition rows, and inherited Cont/Pkg provenance) is again an accepted MarkovChainUp carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/167_markovchain_namecert_construction.tex`
+
+Rationale:
+The MarkovChain carrier is inductive on a unary time ledger but the chapter exposes only kernel-classifier stability, transition-ledger exactness, source boundary, and obligation-surface theorems — no prefix-truncation closure. Future Martingale/Brownian-compatibility and hitting-time consumers need it. Distinct from B-511 Independence finite subfamily projection (different carrier: independence index family vs time ledger). Lands cleanly in the existing 167_markovchain file with a unary-ledger induction; the proof is structural, not deep.
+
+---
+
+### B-623 - MarkovChain transition packet end-to-end concatenation closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MarkovChain transition packet end-to-end concatenation closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If P1 is an accepted MarkovChainUp transition packet over time ledger of length n with terminal RandomVarUp row X_n and P2 is an accepted MarkovChainUp transition packet over time ledger of length m starting from a RandomVarUp row Y_0 with X_n hsame Y_0 over a shared ProbSpaceUp source, then their displayed concatenation along that shared endpoint is an accepted MarkovChainUp transition packet over a unary time ledger of length n+m.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/167_markovchain_namecert_construction.tex`
+
+Rationale:
+Strict companion to the prefix-restriction proposal but technically distinct (gluing along shared endpoint vs prefix truncation). Together they make MarkovChainUp carriers a true list-with-restriction-and-concatenation closure. The Newton concatenation candidate has the same proof skeleton in a different chapter, so this is a parallel, not duplicate, work item. No paper coverage of the gluing law and no BOARD dedup; the kernel-classifier-stability theorem alone is insufficient for downstream sub-chain construction. Codex_close-shaped: splice ledgers, reapply kernel classifier stability at the splice index.
+
+---
+
+### B-624 - Matrix transpose of the zero matrix is the zero matrix with swapped dimensions
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Matrix transpose of the zero matrix is the zero matrix with swapped dimensions |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Over a scalar RingUp carrier with classifier sim_R and zero endpoint 0_R, the transpose of the carried zero matrix Z_{n,m} is classified pointwise as the zero matrix Z_{m,n} via def:matrix-transpose-certified-scalar-carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_transpose.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_zero_matrix_absorption.tex`
+
+Rationale:
+The matrix chapter has both transpose and zero-matrix data plus extensive transpose laws (transpose-reverses-product, double-readback involution, preserves-addition) but no transpose/zero interaction lemma. This is the most basic missing companion law and its absence is the kind of referee-flagged gap that propagates into Banach/Hilbert operator chapters. Pointwise unfold + classifier substitution; clean codex_close. Distinct from the identity-matrix transpose candidate which has a different proof shape (Kronecker delta symmetry).
+
+---
+
+### B-625 - Matrix transpose of the identity matrix is the identity matrix
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Matrix transpose of the identity matrix is the identity matrix |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Over a scalar RingUp carrier with classifier sim_R, multiplicative unit 1_R, and zero endpoint 0_R, the transpose of the finite-fold identity matrix I_n is classified pointwise as the same identity matrix I_n via def:matrix-transpose-certified-scalar-carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_transpose.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_laws_fold_identity.tex`
+
+Rationale:
+Genuinely distinct from the transpose-zero candidate: the proof relies on Kronecker-delta symmetry at (i,j) vs (j,i), not zero pointwise. Together with transpose-zero this completes the elementary transpose/distinguished-matrix lemmas that downstream Hermitian/orthogonal/unitary consumers expect. No BOARD entry; not in the paper's existing transpose theorem list. Clean codex_close on entrywise readback.
+
+---
+
+### B-626 - InnerProduct two-vector Gram diagonal scalar-nonnegativity row exposure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | InnerProduct two-vector Gram diagonal scalar-nonnegativity row exposure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For the InnerProductUp two-vector Gram source of def:innerproduct-two-vector-gram-source with carried vectors x,y, the diagonal scalar endpoints langle x,x rangle and langle y,y rangle satisfy 0_scal le_scal langle x,x rangle and 0_scal le_scal langle y,y rangle under the inherited scalar order, derived from the Gram source's retained diagonal positivity rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/two_vector_gram_boundary.tex`
+
+Rationale:
+The Gram source explicitly retains diagonal positivity rows and the consumer boundary cites them, but no theorem reads them back as a public scalar-order inequality. Hilbert / Riemannian / RootSystem certificates need this exposed. Distinct from B-528 ternary Pythagoras, B-573 norm-sq scalar factoring, and B-507/B-514 polarization-difference identities — none of those expose diagonal nonnegativity through the scalar order namecert. Oracle_likely flag from candidate is appropriate; bridge between InnerProductUp positivity predicate and scalar-order namecert may need small interface work but the claim itself is concrete.
+
+---
+
+### B-627 - Brownian path-step carrier finite-prefix restriction is a BrownianUp carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Brownian path-step carrier finite-prefix restriction is a BrownianUp carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an accepted BrownianUp BHist process packet of def:brownian-bhist-process-packet over a unary time ledger of length n+k is given, then restricting the displayed time-step rows, increment ledger entries, continuity rows, and Cont/Pkg provenance to the first n time steps yields a finite BHist process packet that is again accepted by the BrownianUp carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/169_brownian_namecert_construction.tex`
+
+Rationale:
+Carrier-level prefix closure for Brownian. Genuinely distinct from the MarkovChain prefix candidate: Brownian carries a continuity row and Gaussian-increment ledger that the MarkovChain transition row does not, so the projection step is non-trivially different (continuity-ledger truncation must preserve modulus-of-continuity witnesses). Future Martingale-Brownian compatibility consumers (cf. paper line 416) demand it. No BOARD or paper coverage. Codex_close on unary-ledger induction with continuity-row reprojection.
+
+---
+
+### B-628 - Matrix transpose involution on carried matrices
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Matrix transpose involution on carried matrices |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 Mat↑ finite-fold transpose setup 下, 若 A 是 n×m 的 carried matrix, 则 transpose(transpose(A)) 在所有索引点上被 scalar classifier 分类为 A。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_transpose.tex`
+
+Rationale:
+BOARD 已有 transpose-of-identity (B-625) 和 transpose-of-zero (B-624) 两个端点目标, 但 transpose 接口的核心刚性定理 — involution — 尚未在 BOARD 或 paper 上落地。这是 Mat↑ 上的 inversion/determinacy 主结构定理, 不是字段搬运: 证明需要双重索引交换并经 scalar classifier reflexivity 闭合。Landing file 不在 near-cap 列表中, 风险低。
+
+---
+
+### B-629 - InnerProduct orthogonality right additive closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | InnerProduct orthogonality right additive closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+在 InnerProductUp 正交闭合 setup 下, 若 Orth(x,y) 且 Orth(x,z), 则 Orth(x,y+z)。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/orthogonality_closure.tex`
+
+Rationale:
+BOARD 已覆盖左侧 additive (B-611), 左侧 scalar (B-610), 左侧 additive-inverse (B-615) 三个左闭合, 但右侧 additive closure 显式缺失。这是双边闭合的对偶完成, 在双线性接口上是必备的 closure 定理而非字段搬运; novelty 略低因为是对偶但仍是独立 theorem 块, 证明可由 right linearity 或对称性 + 已有左闭合直接闭合。
+
+---
+
+### B-630 - MarkovChain finite-suffix restriction carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | MarkovChain finite-suffix restriction carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 MarkovChain transition-packet setup 下, 若长度 n+k 的 accepted packet 给出状态列与转移 ledger, 则从第 n 个边界状态起截取后 k 步的 suffix packet 仍是 MarkovChainUp carrier。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/167_markovchain_namecert_construction.tex`
+
+Rationale:
+BOARD 已有 prefix restriction (B-622) 与 end-to-end concatenation closure (B-623), 但 suffix restriction 与 prefix 不是同义改写: 初始状态被换成中间端点, 边界条件需要重新对齐。这是时间局部到全局链 readback 的另一半 coverage 定理。Landing file 不在 near-cap 列表中。
+
+---
+
+### B-631 - NewtonIteration finite-prefix restriction carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | NewtonIteration finite-prefix restriction carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 NewtonIteration finite-step carrier setup 下, 若 accepted packet 记录 n+k 步 Newton recurrence, 则截取前 n 步的迭代行、函数值行与导数非零 ledger 仍构成 NewtonIterationUp carrier。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/201_newtoniteration_namecert_construction.tex`
+
+Rationale:
+BOARD 有 Newton finite-step concatenation closure (B-621), 但缺 prefix restriction. 它是拼接闭包的对偶 prerequisite: 长迭代证书的有限前缀可独立读回为同一对象, 证明只需限制 recurrence 与 nonzero-denominator ledger, 与 concatenation 走相反方向。Landing file 安全。
+
+---
+
+### B-632 - Brownian path-step carrier finite-suffix restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Brownian path-step carrier finite-suffix restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+在 BrownianUp BHist process-packet setup 下, 若长度 n+k 的 accepted packet 给出路径步、时间步与增量 ledger, 则从第 n 步边界端点起的后 k 步 shift-restriction 仍是 BrownianUp carrier。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/169_brownian_namecert_construction.tex`
+
+Rationale:
+BOARD 有 prefix restriction (B-627), suffix restriction 是真正不同的局部化方向: 源端点和时间 ledger 都要重置到中间边界。比 Brownian 跨段 concatenation 更安全 — 只需限制已有增量、连续性与分布 ledger, 不需要构造跨段独立性新证据。Landing file 不在 near-cap 列表。
+
+---
+
+### B-633 - Sheaf pullback along composite refinements is associative
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Sheaf pullback along composite refinements is associative |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 Sheaf refinement exactness setup 下, 若 r:U→V 与 s:V→W 是 accepted refinements 且 σ 是 W 上的 carried section, 则 pullback_r(pullback_s(σ)) 被 section classifier 分类为 pullback_{s∘r}(σ)。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/sheaf/04_refinement_exactness.tex`
+
+Rationale:
+BOARD 仅覆盖 identity-refinement pullback identity (B-613), 但 sheaf refinement 接口还缺 composite refinement 的 associativity / coherence 主结构定理。这是局部限制操作的 bridge 定理, 不是 carrier 字段搬运: 证明需要 refinement 组合 + pullback exactness + section classifier 三步闭合。Landing file 安全。
+
+---
+
+### B-634 - AffineVar zero-locus is antitone under equation inclusion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | AffineVar zero-locus is antitone under equation inclusion |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+在 AffineVarUp equation-family setup 下, 若方程族 E 的每个方程都出现在 F 中且点 x 落在 F 的 zero-locus, 则 x 落在 E 的 zero-locus。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/132_affinevar_namecert_construction.tex`
+
+Rationale:
+BOARD 有 union-of-equations zero-locus = intersection (B-609) 和 singleton zero-locus exactness (B-585), 但通用 inclusion → 反向 inclusion 的 antitone 定理未列。它是零点集分类的核心 order bridge, 比 union 公式更结构化, 证明短且不重复 union 路径: 对 E 中任一方程经 inclusion 转到 F, 再用 F-zero witness。
+
+---
+
+### B-635 - BusyBeaver per-machine halted-readback determinism on empty tape
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | BusyBeaver per-machine halted-readback determinism on empty tape |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If two accepted BusyBeaverUp witnesses share a finite enumeration E and both record a halted branch for the same entry M in E, then their halted output rows, step-count rows, and finite TuringMachineUp transition traces from the empty tape are hsame-equal in the carrier ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/264_busybeaver_namecert_construction.tex`
+
+Rationale:
+Genuine no-confusion gap. The chapter premises deterministic Turing-machine codes (264:9) and the existing thm:busybeaver-per-machine-readback-exactness only reads back one accepted packet. The deterministic-code hypothesis should force any two halted branches for the same M to agree on output, step count, and transition trace — but no current theorem makes that comparison. Fits the determinism/uniqueness keeper category cleanly: not a parameter echo of bound monotonicity (264:70-96) or of the non-halting exclusion row (264:99-125). Landing file is 197 lines, far below the cap, with a clear sibling slot adjacent to the existing readback-exactness theorem.
+
+---
+
+### B-636 - SpinGroup conjugation action classifier congruence row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | SpinGroup conjugation action classifier congruence row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $S$ is an accepted SpinGroupUp packet and $s,s'$ are visible Clifford-unit endpoints of $S$ with $s\sim_{\CliffordUp}s'$, and $v,v'$ are Clifford-vector rows accepted by the same NameCert_CliffordUp source with $v\sim_{\CliffordUp}v'$, then $\mathsf{Act}_{s}(v)\sim_{\CliffordUp}\mathsf{Act}_{s'}(v')$ inside the same packet.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/spingroup/boundary_consumer_exactness.tex`
+
+Rationale:
+File `concrete_instances/spingroup/boundary_consumer_exactness.tex` (327 lines) currently has a product law (line 78), an identity law (line 160), and an inverse-involution law (line 233) for the conjugation action `Act_s(v):=(s·v)·s^{-1}`. It has the *readback* theorem (line 27) but NO `congruence`/`stability` row showing the action is well-defined under classifier transport of either argument. A grep across `papers/bedc/parts/concrete_instances/spingroup/` for `(action.*congruence|spingroup-action-congru)` returned 0 hits. BOARD covers SpinGroup conjugation identity (B-612), inverse-involution (B-620), and multiplicative (B-600) laws — none of which is the bilinear/two-argument classifier-respect statement. The proof is short: the readback word `(s·v)·s^{-1}` is built from Clifford product rows and inverse rows; congruence follows from `\autoref{thm:clifford-product-stability-obligation}` applied twice plus inverse congruence from `def:group-stability-certificate`, no new ledger row needed.
+
+---
+
+### B-637 - TopGroupUp left-translation continuity row by a fixed group element
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | TopGroupUp left-translation continuity row by a fixed group element |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For an accepted TopGroupUp packet and a carried group element g of its source-fiber product, the left-translation row L_g(h)=g\cdot h is a sound continuity row through the displayed product graph, target neighbourhood, hsame transports, and finite Cont ledger of the carrier — without introducing a new operation source or external translation predicate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/topgroup/continuity_obligations.tex`
+
+Rationale:
+The continuity_obligations.tex file (185 lines) closes product-of-pairs continuity (line 1, thm:topgroup-inverse-cont-ledger-soundness; line 53 thm:topgroup-operation-continuity-obligation) and inverse continuity, but never the unary left-translation specialization L_g — a basic and downstream-load-bearing row in any topological-group theory. Searching `translation`, `left.*mult`, `right.*mult` across topgroup/*.tex and 182_topgroup_namecert_construction.tex returns zero hits. No completed BOARD entry covers it: B-505/B-503 are NetworkFlow/ProbSpace, no completed target touches topgroup specifically (state grep shows only 1 topgroup hit, on 182_topgroup_namecert_construction.tex). File at 184/800 has plenty of room.
+
+---
+
+### B-639 - PermutationUp permutation on a singleton FinSet classifies with the identity row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | PermutationUp permutation on a singleton FinSet classifies with the identity row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If the underlying NameCert_{FinSetUp} of a PermutationUp packet has exactly one carried position (singleton FinSet endpoint row), then any accepted PermutationUp graph row classifies with the identity bijection row read through \autoref{thm:permutation-composition-inverse-action-obligation}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/94_permutation_namecert_construction.tex`
+
+Rationale:
+The file 94_permutation_namecert_construction.tex (128 lines) has 4 theorems — carrier obligation, classifier, composition/inverse/action, public surface — but no specific finite-cardinality witness. SymGroup (95) similarly has only 4 abstract theorems. The completed BOARD has B-507 EnumPerm composition associativity and B-94/symgroup-unit-uniqueness laws inherited via group-up, but no finitary-instance theorem like singleton uniqueness; grep for `singleton` in both files returns zero. Single-implication concrete claim grounded in the existing FinSetUp source carrier; file at 128/800.
+
+---
+
+### B-638 - HopfAlgUp antipode fixes the unit row of the bialgebra
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | HopfAlgUp antipode fixes the unit row of the bialgebra |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For an accepted HopfAlgUp bialgebra packet of \autoref{def:hopfalg-bhist-bialgebra-carrier} with displayed antipode row S, the antipode of the unit endpoint η(1) classifies (\sim_{HopfAlgUp}) with η(1) itself, read through the convolution-inverse obligation rows of \autoref{thm:hopfalg-antipode-convolution-inverse-obligation}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/158_hopfalg_namecert_construction.tex`
+
+Rationale:
+File 158_hopfalg_namecert_construction.tex (336 lines) has 13 theorems but the canonical Hopf-algebra fact `S(1) = 1` is missing. grep for `S(1)|antipode unit|antipode of the unit|antipode applied to` finds only mentions of unit-counit endpoints in convolution context, never the elementary endpoint identity. The completed BOARD has B-529 HopfAlgUp antipode uniqueness from convolution-inverse witnesses but not antipode-on-unit, which is a strictly weaker, single-implication consequence of the convolution-inverse rows already exported in lines 63–82. Within scope, single implication, no host equality.
+
+---
+
+### B-640 - MatroidUp restriction to empty subset has only the empty independent family
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | MatroidUp restriction to empty subset has only the empty independent family |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+For a MatroidUp independent-set certificate over ground predicate E with naming certificate cert and a restriction subset K of \autoref{def:certified-matroid-restriction-rows} taken as the empty predicate λz.⊥, the restricted independent family Ind_{M|K} accepts only the empty independent set λz.⊥, exposed by the same finite-spine ledger that records empty_M.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/180_matroid_namecert_construction.tex`
+
+Rationale:
+180_matroid_namecert_construction.tex (381 lines) has only 3 theorems: intersection-preserves-independence, restriction certificate, and restrictions compose. The boundary case `restrict to ∅` — a degenerate, single-implication concrete instance — is missing. grep for `empty subset|emptyset|restriction.*to.*empty` shows only the global `empty_M` axiom row, never an empty-restriction theorem. Restriction is one of the few combinatorial operations BEDC has registered for matroids, but only the structure-preservation and composition theorems exist, not boundary-input concrete instances. File at 381/800.
+
+---
+
+### B-641 - FftUp length-one schedule classifies with the input row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FftUp length-one schedule classifies with the input row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a FftUp packet of \autoref{def:fft-namecert-construction} whose carrier butterfly schedule has length-one (singleton index family from the dependent NameCert_{FourierUp}/NameCert_{ComplexUp}), the FFT output row classifies (\sim_{ComplexUp}) with the input row, read through the butterfly obligation and ledger exactness rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/204_fft_namecert_construction.tex`
+
+Rationale:
+204_fft_namecert_construction.tex (175 lines) has 5 abstract theorems (butterfly obligation, factorization stability, ledger exactness, threshold unblock, public NameCert export) but no boundary-instance result. grep for `FFT.*length|FFT.*single|FFT.*size.*one|FFT.*identity` returns zero. The length-one DFT-equals-input row is the single most basic concrete FFT instance and is exactly the kind of boundary-cardinality theorem the loop has produced for sibling areas (cf. B-538 Quadrature empty-node sum is zero, B-575 Quadrature singleton-node sum, B-553 Zero-spine source shape exhaustion). FFT is missing this slot. File at 175/800.
+
+---
+
+### B-642 - BilinFormUp pairing of the zero vector with any carried partner classifies with the zero scalar
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | BilinFormUp pairing of the zero vector with any carried partner classifies with the zero scalar |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For an accepted BilinFormUp pairing of \autoref{def:bilinform-module-pairing-source-row} on a module-and-vector-space source, every carried right vector-source row y satisfies BilinPair_{B}(0_V, y, ν) classified with the scalar zero endpoint, read through the bilinearity transport row \autoref{thm:bilinform-bilinearity-transport-row} alone.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/124_bilinform_namecert_construction.tex`
+
+Rationale:
+124_bilinform_namecert_construction.tex (343 lines) has 14 theorems including bilinearity transport, dual symmetry, nondegeneracy ledger, and root rows. The forward direction `B(0_V, y) = 0_K` (an immediate consequence of left-additivity at 0 + 0 = 0) is missing — the file only contains the *converse* nondegeneracy readback (lines 233, 319) saying `if pairing ends at zero for all partners, then x is the zero vector`. The forward zero-vector vanishing row is a strictly weaker single-implication and a standard preliminary used by Clifford/InnerProduct downstream. No completed BOARD entry on bilinform vanishing; closest is B-583 CliffordUp polarization. File at 343/800.
+
+---

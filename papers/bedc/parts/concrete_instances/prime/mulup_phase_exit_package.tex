@@ -95,6 +95,46 @@ boundary. No host natural-number multiplication, quotient object, or
 multiplication operation outside the unary-history package is used.
 \end{proof}
 
+\begin{theorem}[MulUp Full Nat Arithmetic finite-window exhaustion]
+\label{thm:mulup-full-nat-arithmetic-window-exhaustion}
+Every finite Full Nat Arithmetic consumer window whose entries are restricted
+to the boundary of
+\autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary} factors through
+exactly the displayed $\mathsf{UnaryHistory}$ carrier, the $\hsame$
+classifier, the $\mathsf{NatMul}$ ledger, the unit, totality, result-closure,
+functionality, unit-law, commutativity, and associativity rows, the two
+$\AddUp$ distributivity rows, the $\OrderUp$ monotonicity row, and the
+reflexive, transitive, and antisymmetric unary divisibility-order rows.
+Conversely each listed row contributes one admissible entry to such a finite
+window.
+\end{theorem}
+\begin{proof}
+Project the phase-exit boundary of
+\autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary}. It names the
+carrier $\mathsf{UnaryHistory}$, the classifier $\hsame$, the
+$\mathsf{NatMul}$ ledger, and the exact algebraic, additive, order, and
+divisibility-order row list available to the consumer window.
+
+Apply the semantic-exit package and audit surface from
+\autoref{thm:mulup-semantic-exit-and-divisibility-order-phase-package} and
+\autoref{thm:mulup-full-nat-arithmetic-audit-surface}. These identify every
+window entry as one of the displayed rows, since the window is finite and each
+entry must be read through the same $\mathsf{BHist}$ endpoint and the same
+$\hsame$ classifier.
+
+For the reverse reading, take any row in the displayed list. The package
+theorems already expose that row as part of the boundary, so it gives an
+admissible finite-window entry with the same carrier, classifier, and ledger.
+
+It remains to exclude extra entries. The L7 Add/Order handoff and the mature
+boundary,
+\autoref{thm:mulup-l7-add-order-audit-handoff} and
+\autoref{thm:mulup-full-nat-arithmetic-mature-boundary}, rule out host
+multiplication, quotient carriers, semiring primitives, and cancellation rows
+not displayed in the phase-exit boundary. Hence the finite window is exhausted
+by the listed unary-history rows.
+\end{proof}
+
 \begin{theorem}[MulUp Full Nat Arithmetic hsame transport boundary]
 \label{thm:mulup-full-nat-arithmetic-hsame-transport-boundary}
 Let two unary-history presentations over $\mathsf{BHist}$ be related
@@ -127,6 +167,34 @@ comparisons, and $\mathsf{NatMul}$ witnesses, so the consumer receives the
 same phase-exit package and no new exported surface.
 \end{proof}
 
+\begin{theorem}[MulUp successor cancellation boundary]
+\label{thm:mulup-successor-cancellation-boundary}
+Let $d$ and $q$ be unary histories, and let
+$\mathsf{NatMul}(d,\Eone(q),n')$ be a product row over $\mathsf{BHist}$. Then
+successor inversion produces a unary predecessor $n$ with
+$\mathsf{NatMul}(d,q,n)$ and $\Cont(n,d,n')$. Moreover, if another unary
+history $m$ satisfies $\mathsf{NatMul}(d,q,m)$ and $\Cont(m,d,n')$, then
+$n\hsame m$. The cancellation reads only the predecessor product rows and the
+displayed continuation witnesses; it does not add a second carrier, quotient
+surface, or host multiplication row.
+\end{theorem}
+\begin{proof}
+Apply $\mathsf{BEDC.Derived.PrimeUp.NatMul\_succ\_inversion}$ to the displayed
+successor product row. This gives the predecessor product $n$, the row
+$\mathsf{NatMul}(d,q,n)$, and the final continuation ledger $\Cont(n,d,n')$.
+
+Now take another predecessor $m$ with $\mathsf{NatMul}(d,q,m)$ and
+$\Cont(m,d,n')$. The two predecessor products have the same unary multiplicand
+$d$ and multiplier $q$, so
+$\mathsf{BEDC.Derived.PrimeUp.NatMul\_functional}$ identifies their results by
+$n\hsame m$.
+
+The continuation rows are retained as ledger witnesses for the displayed
+successor endpoint $n'$. They are not additional result carriers and play no
+role in the comparison beyond recording that both predecessor rows append the
+same visible copy of $d$ to reach the same endpoint.
+\end{proof}
+
 \begin{theorem}[MulUp checked law audit package]
 \label{thm:mulup-checked-law-audit-package}
 Over $\mathsf{BHist}$ and the carrier $\mathsf{UnaryHistory}$, the checked
@@ -156,6 +224,38 @@ the L7 boundary, without adding a second carrier, a host multiplication
 operation, or an extra quotient surface.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_unary\_mulup\_certificate}
+
+\begin{theorem}[MulUp unary standard bridge boundary]
+\label{thm:mulup-unary-standard-bridge-boundary}
+The unary-history $\MulUp$ package admits a paper bridge to finite unary-word
+multiplication by reading each $\mathsf{NatMul}(d,q,n)$ ledger as repeated unary
+continuation. The carrier remains $\mathsf{UnaryHistory}$, the classifier remains
+$\hsame$, and the result row remains the displayed $\mathsf{NatMul}$ row. This
+reading uses the checked law audit package of
+\autoref{thm:mulup-checked-law-audit-package}, the Full Nat Arithmetic phase-exit
+boundary of \autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary}, and the
+window-exhaustion boundary of
+\autoref{thm:mulup-full-nat-arithmetic-window-exhaustion}.
+\end{theorem}
+\begin{proof}
+Start with the phase-exit boundary. It already supplies the totality,
+functionality, unit-law, associativity, and commutativity rows for the displayed
+$\mathsf{NatMul}$ relation over $\mathsf{UnaryHistory}$, and
+\autoref{thm:mulup-checked-law-audit-package} identifies those rows as the
+checked unary NatMul package.
+
+Next project the rows that connect multiplication to the surrounding arithmetic
+window. The same boundary carries the $\AddUp$ distributivity rows,
+$\OrderUp$ monotonicity row, and divisibility rows; the exhaustion statement of
+\autoref{thm:mulup-full-nat-arithmetic-window-exhaustion} says that a consumer
+has no further Full Nat Arithmetic row to read inside this phase.
+
+The external unary-word reading consumes only these displayed rows. It interprets
+each $\mathsf{NatMul}(d,q,n)$ ledger as a finite repeated-unary continuation and
+reads back to the same $\mathsf{UnaryHistory}$ endpoint, the same $\hsame$
+classifier, and the same $\mathsf{NatMul}$ result row, without adding host
+multiplication, quotient equality, or cancellation beyond the displayed package.
+\end{proof}
 
 \begin{theorem}[MulUp Full Nat Arithmetic audit surface]
 \label{thm:mulup-full-nat-arithmetic-audit-surface}

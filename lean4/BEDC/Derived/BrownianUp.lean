@@ -60,6 +60,52 @@ theorem BrownianStepContinuityClassifier_step_ledger_transport
               (And.intro stepRow (And.intro provenanceRow ledgerRow)))))))
     (And.intro sameProvenance sameLedger)
 
+theorem BrownianStepContinuityClassifier_classifier_stability
+    {martingale continuous time path step normal provenance ledger martingale' continuous' time'
+      path' step' normal' provenance' ledger' : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      hsame martingale martingale' ->
+        hsame continuous continuous' ->
+          hsame time time' ->
+            hsame path path' ->
+              hsame normal normal' ->
+                Cont continuous' path' step' ->
+                  Cont martingale' step' provenance' ->
+                    Cont provenance' normal' ledger' ->
+                      BrownianStepContinuityClassifier martingale' continuous' time' path' step'
+                          normal' provenance' ledger' ∧
+                        hsame step step' ∧ hsame provenance provenance' ∧
+                          hsame ledger ledger' := by
+  intro classified sameMartingale sameContinuous sameTime samePath sameNormal stepRow provenanceRow
+    ledgerRow
+  have martingaleUnary : UnaryHistory martingale' :=
+    unary_transport classified.left sameMartingale
+  have continuousUnary : UnaryHistory continuous' :=
+    unary_transport classified.right.left sameContinuous
+  have timeUnary : UnaryHistory time' :=
+    unary_transport classified.right.right.left sameTime
+  have pathUnary : UnaryHistory path' :=
+    unary_transport classified.right.right.right.left samePath
+  have normalUnary : UnaryHistory normal' :=
+    unary_transport classified.right.right.right.right.left sameNormal
+  have sameStep : hsame step step' :=
+    cont_respects_hsame sameContinuous samePath classified.right.right.right.right.right.left
+      stepRow
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameMartingale sameStep classified.right.right.right.right.right.right.left
+      provenanceRow
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameProvenance sameNormal
+      classified.right.right.right.right.right.right.right ledgerRow
+  exact And.intro
+    (And.intro martingaleUnary
+      (And.intro continuousUnary
+        (And.intro timeUnary
+          (And.intro pathUnary
+            (And.intro normalUnary
+              (And.intro stepRow (And.intro provenanceRow ledgerRow)))))))
+    (And.intro sameStep (And.intro sameProvenance sameLedger))
+
 theorem BrownianStepContinuityClassifier_joint_classifier_transport
     {martingale continuous time path step normal provenance ledger martingale' continuous' time'
       path' step' normal' provenance' ledger' : BHist} :
@@ -304,5 +350,32 @@ theorem BrownianStepContinuityClassifier_gaussian_step_ledger_coverage
         (And.intro sameStep
           (And.intro sameProvenance
             (And.intro sameLedger (And.intro stepRow ledgerRow))))))
+
+theorem BrownianStepContinuityClassifier_path_continuity_ledger_exactness
+    {martingale continuous time path step normal provenance ledger pathLedger endpoint : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      Cont continuous path pathLedger ->
+        Cont pathLedger ledger endpoint ->
+          UnaryHistory continuous ∧ UnaryHistory path ∧ UnaryHistory pathLedger ∧
+            UnaryHistory endpoint ∧ hsame pathLedger (append continuous path) ∧
+              hsame endpoint (append pathLedger ledger) := by
+  intro classified pathRow endpointRow
+  have pathLedgerUnary : UnaryHistory pathLedger :=
+    unary_cont_closed classified.right.left classified.right.right.right.left pathRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed
+      (unary_cont_closed classified.left
+        (unary_cont_closed classified.right.left classified.right.right.right.left
+          classified.right.right.right.right.right.left)
+        classified.right.right.right.right.right.right.left)
+      classified.right.right.right.right.left
+      classified.right.right.right.right.right.right.right
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed pathLedgerUnary ledgerUnary endpointRow
+  exact And.intro classified.right.left
+    (And.intro classified.right.right.right.left
+      (And.intro pathLedgerUnary
+        (And.intro endpointUnary
+          (And.intro pathRow endpointRow))))
 
 end BEDC.Derived.BrownianUp

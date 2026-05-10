@@ -1,0 +1,156 @@
+\section{StreamName Common-Refinement Source Determinacy}
+\label{sec:streamname-common-refinement-source-determinacy}
+
+\begin{theorem}[StreamName common-refinement source determinacy]
+\label{thm:streamname-common-refinement-source-determinacy}
+Let $\mathcal W_L$ and $\mathcal W_R$ be public finite-window
+$\StreamNameUp$ packages over certified observation maps $s,t$, and let
+$\mathcal R$ be a certified common-refinement package whose
+$\mathsf{ProbeBundle}$ window restricts to the selected windows of
+$\mathcal W_L$ and $\mathcal W_R$. Then every $\RegSeqRat$ handoff and every
+finite-window $\RealUp$ handoff read from $\mathcal R$ has the same
+StreamName source tuple, namely the restricted
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal R)$ row, the
+displayed $\mathsf{ProbeBundle}$ row, the $\mathsf{InBundle}$ membership rows,
+the selected $\mathsf{UnaryHistory}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, and the displayed
+$\hsame/\Cont/\Pkg$ rows carried by the refinement ledger.
+
+This source tuple is independent of whether the handoff is reached through
+$\mathcal W_L$ or through $\mathcal W_R$. It contains no completion data, no
+quotient row, no host index equality, no $\RegSeqRat$ regularity row, and no
+$\RealUp$ seal classifier.
+\end{theorem}
+\begin{proof}
+First read the common refinement at the public StreamName boundary. Apply
+\autoref{thm:streamname-finite-window-common-refinement-export}; its
+restriction clauses identify the same finite-window classifier over the
+common refinement with the two component windows. Then apply
+\autoref{thm:streamname-window-common-refinement-readback} to each selected
+observation in the refinement. The selected endpoint rows are exactly the
+pointwise $\mathsf{RatHistoryClassifier}$ rows and the finite endpoint
+readback rows displayed by the common refinement.
+
+Next pass from the public refinement to the tail-window packet. Apply
+\autoref{thm:streamname-tail-window-cover-common-refinement}. The packet over
+the generated common window restricts to the two selected subbundles and keeps
+the same $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\mathsf{UnaryHistory}$, pointwise classifier, $\hsame$, $\Cont$, and $\Pkg$
+ledger rows.
+
+Now read the downstream handoff. Apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff} to the selected
+pointwise rows and then apply
+\autoref{thm:streamname-real-regseq-obligation-separation}. These two
+theorems separate the StreamName source rows from the $\RegSeqRat$ regularity
+obligations and from the finite-window $\RealUp$ seal obligation.
+
+The same source tuple is therefore obtained along the left route and along the
+right route, because both routes are restrictions of the one displayed
+common-refinement packet. Completion objects, quotient rows, host index
+equalities, $\RegSeqRat$ regularity rows, and $\RealUp$ seal classifiers have
+no constructor in that source packet, so they cannot be part of the determined
+source surface.
+\end{proof}
+
+\begin{theorem}[StreamName common-refinement source confluence]
+\label{thm:streamname-common-refinement-source-confluence}
+Let $\mathcal W_L$ and $\mathcal W_R$ be public finite-window
+$\StreamNameUp$ packages over the same certified endpoint maps $s,t$, and let
+$\mathcal R$ be a certified common-refinement package whose generated window
+restricts to both selected windows. Consider the two finite-window routes
+$$
+\mathcal R\longrightarrow \mathcal W_L\longrightarrow \RegSeqRat
+\quad\text{and}\quad
+\mathcal R\longrightarrow \mathcal W_R\longrightarrow \RegSeqRat,
+$$
+followed by the finite-window $\RealUp$ handoff that reads the induced
+regular rational sequence rows. The two routes expose the same downstream
+source tuple: the row
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal R)$, the displayed
+$\mathsf{ProbeBundle}$, the $\mathsf{InBundle}$ membership rows, the selected
+$\mathsf{UnaryHistory}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, and the displayed
+$\hsame/\Cont/\Pkg$ rows carried by the refinement ledger.
+
+Consequently the induced finite-window $\RealUp$ handoffs read the same
+$\DyadicRatCore$ endpoint rows. They do not add completion data, quotient
+data, metric-completeness data, host-index equality, or a seal classifier to
+the source surface determined by the common refinement.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-common-refinement-source-determinacy}. It identifies
+the StreamName source tuple seen from the left selected window with the tuple
+seen from the right selected window, because both are restrictions of the one
+certified common-refinement packet $\mathcal R$.
+
+Next apply
+\autoref{thm:streamname-tail-window-cover-common-refinement}. The generated
+tail-window packet over $\mathcal R$ has the same displayed
+$\mathsf{ProbeBundle}$ row, the same $\mathsf{InBundle}$ membership rows, the
+same selected $\mathsf{UnaryHistory}$ rows, and the same pointwise rational
+history classifier rows on both routes.
+
+Now apply \autoref{thm:streamname-regseqrat-pointwise-handoff}. The
+$\RegSeqRat$ boundary consumes exactly those pointwise rational rows and the
+displayed $\hsame/\Cont/\Pkg$ ledger rows; it does not introduce an additional
+route-dependent source coordinate.
+
+Finally apply \autoref{thm:streamname-real-regseq-obligation-separation}. The
+finite-window $\RealUp$ handoff reads the induced $\DyadicRatCore$ endpoint
+rows from the already identified regular rational sequence surface, while the
+seal obligation remains separate from the StreamName source tuple. Thus the
+left route and the right route compose to the same downstream
+$\RegSeqRat/\RealUp$ source surface, with no completion, quotient,
+metric-completeness, host-index, or seal-classifier row added to that surface.
+\end{proof}
+
+\begin{theorem}[StreamName common-refinement source triple confluence]
+\label{thm:streamname-common-refinement-source-triple-confluence}
+Let $\mathcal W_1$, $\mathcal W_2$, and $\mathcal W_3$ be public
+finite-window $\StreamNameUp$ packages over the same certified endpoint maps
+$s,t$, and let $\mathcal R$ be a certified common-refinement package whose
+generated window restricts to all three selected windows. For every pair
+$(i,j)$, the route
+$$
+\mathcal R\longrightarrow \mathcal W_i\longrightarrow \RegSeqRat
+\longrightarrow \RealUp
+$$
+and the route
+$$
+\mathcal R\longrightarrow \mathcal W_j\longrightarrow \RegSeqRat
+\longrightarrow \RealUp
+$$
+read the same source tuple from the common refinement. That tuple is the
+restricted $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal R)$
+row, the displayed $\mathsf{ProbeBundle}$ row, the $\mathsf{InBundle}$
+membership rows, the selected $\mathsf{UnaryHistory}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, and the displayed
+$\hsame/\Cont/\Pkg$ ledger rows carried by $\mathcal R$.
+
+Thus the three finite-window handoffs are confluent on the source surface
+used by $\RegSeqRat$ and by finite-window $\RealUp$ readback. No
+$\RegSeqRat$ regularity row, seal classifier, completion data, quotient row,
+metric row, or host index equality is introduced by the triple comparison.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-common-refinement-source-determinacy} to the
+pairs $(\mathcal W_1,\mathcal W_2)$, $(\mathcal W_2,\mathcal W_3)$, and
+$(\mathcal W_1,\mathcal W_3)$. Each application reads the two selected
+windows as restrictions of the same certified common-refinement packet
+$\mathcal R$.
+
+For each pair, use
+\autoref{thm:streamname-common-refinement-source-confluence}. It identifies
+the downstream $\RegSeqRat/\RealUp$ source surface with the already displayed
+StreamName tuple, rather than with any route-specific regularity, completion,
+quotient, metric, host-index, or seal row.
+
+The displayed common-refinement ledger is the same ledger in all three
+pairwise comparisons. Transitivity of the ledger equalities for the
+restricted finite-window classifier, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, $\mathsf{UnaryHistory}$, pointwise
+$\mathsf{RatHistoryClassifier}$, and $\hsame/\Cont/\Pkg$ rows therefore gives
+one source tuple for all three routes.
+\end{proof}

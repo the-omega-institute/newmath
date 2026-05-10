@@ -56,31 +56,6 @@ $$
 The pointwise matrix classifier of \autoref{def:matrix-classifier-specification} packages these scalar comparisons as the displayed $\MatrixUp$ classification over $R^{\mathrm{op}}$. The row-column swap and the unchanged scalar source are recorded by the dimension and scalar ledger of \autoref{def:matrix-ledger-policy}.
 \end{proof}
 
-\begin{theorem}[Matrix transpose double-readback involution]
-\label{thm:matrix-transpose-double-readback-involution}
-Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, and let $n,m:\NatUp$. Consider the $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. If
-$$
-X:\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R
-$$
-is a carried matrix, then $(X^{\mathsf{T}})^{\mathsf{T}}$ is carried as an $n\times m$ $\MatrixUp$ matrix, and
-$$
-(X^{\mathsf{T}})^{\mathsf{T}}\sim_{\mathrm{Mat}}X.
-$$
-\end{theorem}
-\begin{proof}
-By \autoref{def:matrix-transpose-certified-scalar-carrier}, the first transpose $X^{\mathsf{T}}$ is carried over $\mathsf{Fin}(m)\times\mathsf{Fin}(n)$: at an index $(j,i)$ its scalar witness is the witness for $X_{i,j}$ supplied by the matrix pattern of \autoref{def:matrix-pattern-specification}. Applying the same transpose carrier rule once more carries $(X^{\mathsf{T}})^{\mathsf{T}}$ over $\mathsf{Fin}(n)\times\mathsf{Fin}(m)$. At an index $(i,j)$ the second carriedness witness is the first-transpose witness for $(X^{\mathsf{T}})_{j,i}$, which is exactly the original scalar witness for $X_{i,j}$.
-
-It remains to prove the pointwise classifier comparison. Fix $i:\mathsf{Fin}(n)$ and $j:\mathsf{Fin}(m)$. Expanding \autoref{def:matrix-transpose-certified-scalar-carrier} twice gives
-$$
-((X^{\mathsf{T}})^{\mathsf{T}})_{i,j}=(X^{\mathsf{T}})_{j,i}=X_{i,j}.
-$$
-The original carried matrix supplies a scalar carrier witness for $X_{i,j}$, and the scalar classifier reflexivity row retained by the certified $\RingUp$ carrier gives
-$$
-((X^{\mathsf{T}})^{\mathsf{T}})_{i,j}\sim_R X_{i,j}.
-$$
-Since $i$ and $j$ were arbitrary, the pointwise classifier of \autoref{def:matrix-classifier-specification} packages these scalar comparisons as $(X^{\mathsf{T}})^{\mathsf{T}}\sim_{\mathrm{Mat}}X$. The dimension and scalar-source ledger is unchanged after the two coordinate swaps, as recorded by \autoref{def:matrix-ledger-policy}.
-\end{proof}
-
 \begin{theorem}[Matrix transpose preserves matrix addition]
 \label{thm:matrix-transpose-preserves-addition}
 Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$ and addition $+_R$. Let $n,m:\NatUp$, and consider the $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. For carried matrices
@@ -118,5 +93,54 @@ $$
 Since $j$ and $i$ were arbitrary, the pointwise classifier of \autoref{def:matrix-classifier-specification} packages these scalar comparisons as
 $$
 (A+B)^{\mathsf{T}}\sim_{\mathrm{Mat}}A^{\mathsf{T}}+B^{\mathsf{T}}.
+$$
+\end{proof}
+
+\begin{theorem}[Matrix transpose fixes the finite-fold identity matrix]
+\label{thm:matrix-transpose-fixes-finite-fold-identity}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint
+$0_R$, and unit endpoint $1_R$. Let $n:\NatUp$, and let $I_n$ be the
+finite-fold identity matrix of \autoref{def:finite-fold-matrix-identity-data}.
+Consider the square $\MatrixUp$ carrier over
+$\mathsf{Fin}(n)\times\mathsf{Fin}(n)$ from \autoref{def:matrix-carrier}, with
+pointwise classifier from \autoref{def:matrix-classifier-specification}. Then
+$I_n^{\mathsf{T}}$ is carried and
+$$
+I_n^{\mathsf{T}}\sim_{\mathrm{Mat}} I_n.
+$$
+\end{theorem}
+\begin{proof}
+The identity datum of \autoref{def:finite-fold-matrix-identity-data} carries
+$I_n$ pointwise: each entry is the scalar endpoint $1_R$ on the diagonal and
+$0_R$ off the diagonal. Applying
+\autoref{def:matrix-transpose-certified-scalar-carrier} to this carried square
+matrix carries $I_n^{\mathsf{T}}$ over the same finite row and column carrier,
+since the transposed index pair again lies in
+$\mathsf{Fin}(n)\times\mathsf{Fin}(n)$.
+
+It remains to compare entries. Fix $i,j:\mathsf{Fin}(n)$. By transpose
+readback,
+$$
+(I_n^{\mathsf{T}})_{i,j}=(I_n)_{j,i}.
+$$
+By the identity-matrix definition, $(I_n)_{j,i}$ is classified with the
+Kronecker endpoint $\delta_{j,i}$ and $(I_n)_{i,j}$ is classified with
+$\delta_{i,j}$. The finite-index equality certificate is symmetric: if $j$ and
+$i$ are identified, then $i$ and $j$ are identified as well, so both
+Kronecker endpoints are $1_R$; if they are not identified, both Kronecker
+endpoints are $0_R$. Scalar classifier reflexivity for the carried endpoints
+$1_R$ and $0_R$, followed by the scalar classifier symmetry and transitivity
+fields, therefore gives
+$$
+(I_n)_{j,i}\sim_R (I_n)_{i,j}.
+$$
+Combining this comparison with the transpose readback yields
+$$
+(I_n^{\mathsf{T}})_{i,j}\sim_R (I_n)_{i,j}.
+$$
+Since the indices $i$ and $j$ were arbitrary, the pointwise matrix classifier
+packages these scalar comparisons as
+$$
+I_n^{\mathsf{T}}\sim_{\mathrm{Mat}} I_n.
 $$
 \end{proof}

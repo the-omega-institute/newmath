@@ -1,0 +1,199 @@
+\begin{theorem}[Real selected transport readback functoriality]
+\label{thm:real-selected-transport-readback-functoriality}
+Let $W_0$ be a finite $\RealUp$ observation window with finite probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$ and selected bundled observation
+$n:\Hist$ with $\mathsf{InBundle}(n,\mathcal{P})$. Suppose two displayed
+unary-context transports
+$$
+\mathcal{T}_{01}:W_0\to W_1,\qquad
+\mathcal{T}_{12}:W_1\to W_2
+$$
+are composable over the same selected $\StreamNameUp$ source, and suppose their
+composite transport $\mathcal{T}_{02}$ is the displayed unary-context
+composition of $\mathcal{T}_{01}$ and $\mathcal{T}_{12}$. Assume each of
+$\mathcal{T}_{01}$, $\mathcal{T}_{12}$, and $\mathcal{T}_{02}$ preserves the
+visible $\StreamNameUp$, $\RegSeqRat$, DyadicRatCore,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows at the selected
+finite window.
+
+Then the selected readback after $\mathcal{T}_{02}$ is the same finite
+$\RegSeqRat$ tail-classifier row as the stagewise readback obtained by first
+reading after $\mathcal{T}_{01}$ and then reading after $\mathcal{T}_{12}$.
+Equivalently, the following two displayed packets expose one selected
+tail-classifier row:
+\begin{enumerate}
+  \item the endpoint package, contextual package, appended e-one tail package,
+  common e-one certified-shape envelope, cancellation envelope, and selected
+  tail-class exactness read after $\mathcal{T}_{02}$;
+  \item the same six readback packages read after $\mathcal{T}_{01}$ and then
+  transported through $\mathcal{T}_{12}$.
+\end{enumerate}
+The common row is determined only by the displayed
+$\StreamNameUp/\RegSeqRat$/DyadicRatCore finite-window surface, the
+$\mathsf{UnaryHistory}$ and $\mathsf{ProbeBundle}$ membership rows, the
+$\hsame/\Cont/\Pkg$ ledger, and the finite $\mathsf{RealLedgerPolicy}$ row. It
+exports no quotient, completion, Classical representative,
+metric-completeness, arithmetic or order, standard-bridge, or hidden selector
+row.
+\end{theorem}
+\begin{proof}
+First read the selected endpoints through the composite transport. Apply the
+selected endpoint package
+\autoref{thm:real-stream-classifier-transport-selected-endpoint-common-e1-tail-readback}
+and the transported contextual package
+\autoref{thm:real-stream-classifier-transported-contextual-full-endpoint-package}
+to $\mathcal{T}_{02}$. These give the transported selected endpoint rows, the
+contextual continuation rows, and the common e-one tail comparison at $W_2$.
+
+Next enrich that composite readback with the displayed endpoint certificates.
+Use
+\autoref{thm:real-stream-classifier-transported-contextual-displayed-e1-appended-tail-exclusion-package}
+and
+\autoref{thm:real-stream-classifier-transport-selected-common-e1-certified-shape-envelope}
+to attach the appended-tail exclusions, positive-denominator rows, unary
+endpoint rows, and the common certified-shape envelope. Apply
+\autoref{thm:real-stream-classifier-transported-selected-certified-e1-tail-cancellation-envelope}
+to identify the displayed appended e-one denominator heads.
+
+Now perform the same read in two stages. The first transport
+$\mathcal{T}_{01}$ supplies the same endpoint and contextual rows at $W_1$.
+The second transport $\mathcal{T}_{12}$ preserves exactly the same
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows, so the stagewise packet has the same six
+certificate faces as the composite packet.
+
+Finally apply
+\autoref{thm:real-stream-classifier-transported-selected-tail-class-exactness}
+to both packets. Tail-class exactness says that a selected readback is
+classified only by the displayed e-one tail class and its finite
+$\RegSeqRat$ classifier row. Since the endpoint, contextual, appended-tail,
+common-shape, cancellation, and selected-tail exactness faces agree under the
+preserved ledger, the composite readback and the stagewise readback expose the
+same finite tail-classifier row.
+
+The exclusion clause follows from the same readback surface. None of the cited
+packages contains a quotient carrier, completion object, Classical
+representative, metric-completeness certificate, arithmetic or order
+operation, standard-bridge datum, or hidden selector row, and the composite
+transport is formed inside the displayed unary-context ledger.
+\end{proof}
+
+\begin{theorem}[Real selected transport readback identity]
+\label{thm:real-selected-transport-readback-identity}
+Let $W$ be a finite $\RealUp$ observation window with finite probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$ and selected bundled observation
+$n:\Hist$ with $\mathsf{InBundle}(n,\mathcal{P})$. Suppose the displayed
+unary-context transport
+$$
+\mathcal{I}_W:W\to W
+$$
+is identity on the visible $\StreamNameUp$, $\RegSeqRat$, DyadicRatCore,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows at this
+selected finite window.
+
+Then the selected readback through $\mathcal{I}_W$ exposes exactly the
+original finite $\RegSeqRat$ tail-classifier row attached to $n$ in $W$.
+The readback exports no quotient, completion, metric-completeness, standard
+bridge, arithmetic or order structure, hidden selector, or additional endpoint
+row beyond the displayed finite-window ledger.
+\end{theorem}
+\begin{proof}
+Specialize \autoref{thm:real-selected-transport-readback-functoriality} to the
+identity composite $\mathcal{I}_W=\mathcal{I}_W\circ\mathcal{I}_W$. The
+identity hypotheses make the composite packet and the stagewise packet use the
+same visible $\StreamNameUp/\RegSeqRat$/DyadicRatCore surface and the same
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+The endpoint package, contextual package, common-shape envelope, cancellation
+envelope, and selected-tail exactness rows cited in the functoriality theorem
+therefore read back the endpoint package already present at $W$. Since
+selected-tail exactness identifies a selected readback only through the
+displayed e-one tail class and its finite $\RegSeqRat$ classifier, the
+identity transport cannot change the tail-classifier row.
+
+The exclusion clause is inherited from the same finite ledger projections.
+Each cited package is a projection of the finite observation window and none
+contains a quotient carrier, completion object, metric-completeness
+certificate, standard bridge, arithmetic or order operation, hidden selector,
+or additional endpoint row.
+\end{proof}
+
+\begin{theorem}[Real selected transport readback pullback uniqueness]
+\label{thm:real-selected-transport-readback-pullback-uniqueness}
+Let $K$ be a certified common finite $\RealUp$ source window with finite
+probe bundle $\mathcal{P}:\mathsf{ProbeBundle}$ and selected bundled
+observation $n:\Hist$ with $\mathsf{InBundle}(n,\mathcal{P})$. Let
+$$
+\mathcal{T}_1:K\to W_1,\qquad
+\mathcal{T}_2:K\to W_2
+$$
+be two selected unary-context transports into observation windows $W_1$ and
+$W_2$. Suppose their restrictions over $K$ expose the same
+$\StreamNameUp$ classifier rows, the same $\RegSeqRat$ tail-classifier rows,
+the same DyadicRatCore endpoint rows, and the same
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ ledger.
+
+Then the selected readback packets in $W_1$ and $W_2$ expose one common finite
+$\RegSeqRat$ tail-classifier row on $K$. The row is determined by the shared
+finite source surface alone: the two readbacks may be viewed as pullbacks of
+the same selected source readback, and their endpoint, contextual,
+appended-tail, common-shape, cancellation, and selected-tail exactness faces
+agree after restriction to $K$.
+
+No quotient carrier, completion object, Classical representative,
+metric-completeness certificate, arithmetic or order structure, standard
+bridge, or hidden selector is part of this uniqueness statement.
+\end{theorem}
+\begin{proof}
+First restrict both transported packets to the certified finite source window
+$K$. The hypothesis identifies the visible $\StreamNameUp$ classifier rows,
+the $\RegSeqRat$ tail classifiers, the DyadicRatCore endpoint rows, and the
+$\mathsf{ProbeBundle}/\mathsf{InBundle}/\mathsf{UnaryHistory}$ membership
+surface used by the selected readback.
+
+Next apply
+\autoref{thm:real-selected-transport-readback-identity} on $K$. It says that
+the identity readback over the shared source surface exposes exactly the
+original finite $\RegSeqRat$ tail-classifier row attached to $n$.
+
+Now apply
+\autoref{thm:real-selected-transport-readback-functoriality} separately to
+the identity transport on $K$ followed by $\mathcal{T}_1$, and to the identity
+transport on $K$ followed by $\mathcal{T}_2$. Since the two restrictions carry
+the same $\hsame/\Cont/\Pkg$ ledger and the same
+$\mathsf{RealLedgerPolicy}$ row, the two transported packets read back the
+same row as the identity packet when pulled to $K$.
+
+Finally use
+\autoref{thm:real-stream-classifier-transported-selected-tail-class-exactness}
+on the two selected packets. Tail-class exactness leaves only the displayed
+e-one tail class and its finite $\RegSeqRat$ classifier row. Those rows are
+the same by the common-source hypotheses, so the two selected readbacks expose
+one finite tail-classifier row on $K$.
+
+The exclusions follow because every cited result is stated inside the
+finite-window readback ledger. None introduces quotient representatives,
+completion, Classical choice, metric completeness, arithmetic or order
+operations, or bridge data.
+\end{proof}
+
+Fit: traditional target functoriality of selected finite-window readback for
+RealUp transports; BEDC source $\RealUp$ selected transport, RatUp endpoint
+readback, StreamNameUp finite-window rows, RegSeqRat tail classifiers, and
+DyadicRatCore source rows; carrier $\mathsf{BHist}$ histories with
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, and $\mathsf{InBundle}$;
+classifier selected $\RegSeqRat$ tail-classifier row; stability displayed
+unary-context composition through $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows; ledger selected finite observation, two
+stagewise transports, their composite transport, endpoint packages, contextual
+packages, appended-tail exclusions, common-shape envelope, cancellation
+envelope, and selected-tail exactness; core theorem
+\autoref{thm:real-selected-transport-readback-functoriality}; exactness the
+composite and stagewise selected readbacks expose the same finite
+$\RegSeqRat$ tail-classifier row; standard bridge none; status
+$\mathsf{ProofTarget}$.

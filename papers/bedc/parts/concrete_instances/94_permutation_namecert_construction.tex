@@ -106,6 +106,7 @@ The $\SymGroupUp$ carrier and classifier obligations of \autoref{ch:concrete-ins
 \begin{theorem}[Permutation bridged surface completeness]\label{thm:permutation-bridged-surface-completeness}
 The public $\PermutationUp$ surface of \autoref{thm:permutation-public-namecert-surface}, together with the $\SymGroupUp$ consumer bridge of \autoref{thm:permutation-symgroup-composition-bridge}, exhausts the visible BEDC fields of the bridged permutation interface. The exhausted fields are carrier, classifier, identity, composition, inverse, action, and ledger boundary. The finite enumeration witness and order witness remain hidden in the ledger and are not exported as additional visible fields.
 \end{theorem}
+\leanchecked{BEDC.Derived.PermutationUp.PermutationBijectionSourceRow\_bridged\_surface\_completeness}
 \begin{proof}
 Apply \autoref{thm:permutation-finset-carrier-obligation}, \autoref{thm:permutation-classifier-obligation}, and \autoref{thm:permutation-composition-inverse-action-obligation}. These three obligation theorems provide the carrier row, the pointwise classifier row, and the identity, composition, inverse, action, and ledger rows over the fixed finite-set source certificate.
 
@@ -125,3 +126,37 @@ Apply \autoref{thm:permutation-symgroup-composition-bridge}. The bridge consumes
   \notclaimed{This chapter does not claim machine-checked $\StdBridge$ coverage or full $\SymGroupUp$ closure.}
   \upgradepath{No further paper-side theory upgrade is required; machine-checked standard-bridge verification is the remaining formal-axis target.}
 \end{closurestatus}
+
+\begin{theorem}[Permutation singleton FinSet identity classifier]
+\label{thm:permutation-singleton-finset-identity-classifier}
+Fix a $\NameCert_{\FinSetUp}$ presented by $\mathsf{FinSetEnumCarrier}_{A,\sim_A}$ and $\mathsf{FinSetEnumClassifier}_{A,\sim_A}$ on a finite enumeration spine $xs$. Suppose the endpoint row is singleton at a displayed position $s:\mathsf{Pos}(xs)$, in the sense that every carried position of the finite-spine endpoint is that position:
+$$
+\forall i:\mathsf{Pos}(xs).\; i=s.
+$$
+Let $G$ be any accepted carried $\PermutationUp$ graph row over this source certificate, with certified finite-position self-bijection
+$$
+\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(xs)
+$$
+read from its ledger as in \autoref{thm:permutation-finset-carrier-obligation}. Then $G$ is classified by the identity $\PermutationUp$ row. Equivalently, for every carried source endpoint, the action output of $G$ and the action output of the certified identity row are compared by $\mathsf{FinSetEnumClassifier}_{A,\sim_A}$ through the composition, inverse, and action row of \autoref{thm:permutation-composition-inverse-action-obligation}.
+\end{theorem}
+\begin{proof}
+Unpack the accepted graph row using \autoref{thm:permutation-finset-carrier-obligation}. Its visible graph, inverse graph, and inverse-witness rows are exactly the ledger reading of a certified finite-position self-bijection on $\mathsf{Pos}(xs)$, together with the pointwise carrier-and-classifier field for matched entries.
+
+Fix a source position $i:\mathsf{Pos}(xs)$. The singleton hypothesis gives
+$$
+i=s.
+$$
+Applying the same hypothesis to the target position $\pi(i)$ gives
+$$
+\pi(i)=s.
+$$
+Thus $i$ and $\pi(i)$ are the same displayed singleton position. The action of $G$ at $i$ therefore reads the same finite-spine endpoint as the identity action at $i$, namely the endpoint represented by $s$. The pointwise preservation field already attached to $G$ supplies the carrier witness for that target entry and the comparison
+$$
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{xs}(\pi(i)).
+$$
+After substituting $i=s$ and $\pi(i)=s$, this is the reflexive singleton endpoint comparison read through the source classifier.
+
+By \autoref{thm:enumperm-identity-reflexivity}, the identity $\PermutationUp$ row is represented by the certified identity bijection on $\mathsf{Pos}(xs)$. Since both $G$ and the identity row send every source position to the same singleton target position, their action outputs agree pointwise through $\mathsf{FinSetEnumClassifier}_{A,\sim_A}$. Applying the classifier obligation of \autoref{thm:permutation-classifier-obligation} repacks this pointwise comparison as the $\PermutationUp$ classifier relation between $G$ and the identity row.
+
+Finally, \autoref{thm:permutation-composition-inverse-action-obligation} identifies the identity, inverse, and action rows as ledger readings of the same finite-position facts. The inverse witness of $G$ therefore adds no second target position: $G^{-1}\circ G$ reads as the identity graph on the singleton endpoint, and the already established pointwise action comparison is precisely the classification of $G$ with the identity row.
+\end{proof}

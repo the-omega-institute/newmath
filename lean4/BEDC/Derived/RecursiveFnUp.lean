@@ -1,0 +1,151 @@
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.RecursiveFnUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
+
+theorem RecursiveFnCompositionPrimitiveRecursion_obligation_surface
+    {constructorHistory input innerTrace outerTrace baseStep seqTrace finalGraph : BHist} :
+    UnaryHistory constructorHistory -> UnaryHistory input -> UnaryHistory baseStep ->
+      Cont constructorHistory input innerTrace -> Cont innerTrace baseStep outerTrace ->
+        Cont constructorHistory baseStep seqTrace -> Cont outerTrace seqTrace finalGraph ->
+          ∃ repackedInput repackedGraph : BHist,
+            Cont input baseStep repackedInput ∧ Cont constructorHistory repackedInput repackedGraph ∧
+              UnaryHistory innerTrace ∧ UnaryHistory outerTrace ∧ UnaryHistory seqTrace ∧
+                UnaryHistory finalGraph ∧ UnaryHistory repackedInput ∧ UnaryHistory repackedGraph ∧
+                  hsame outerTrace repackedGraph ∧ hsame finalGraph (append outerTrace seqTrace) := by
+  intro constructorUnary inputUnary baseStepUnary innerTraceRow outerTraceRow seqTraceRow
+  intro finalGraphRow
+  have innerTraceUnary : UnaryHistory innerTrace :=
+    unary_cont_closed constructorUnary inputUnary innerTraceRow
+  have outerTraceUnary : UnaryHistory outerTrace :=
+    unary_cont_closed innerTraceUnary baseStepUnary outerTraceRow
+  have seqTraceUnary : UnaryHistory seqTrace :=
+    unary_cont_closed constructorUnary baseStepUnary seqTraceRow
+  have finalGraphUnary : UnaryHistory finalGraph :=
+    unary_cont_closed outerTraceUnary seqTraceUnary finalGraphRow
+  cases cont_assoc_left_exists innerTraceRow outerTraceRow with
+  | intro repackedInput repackedRows =>
+      have repackedInputUnary : UnaryHistory repackedInput :=
+        unary_cont_closed inputUnary baseStepUnary repackedRows.left
+      have repackedGraphUnary : UnaryHistory outerTrace :=
+        unary_cont_closed constructorUnary repackedInputUnary repackedRows.right
+      have outerTraceSame : hsame outerTrace outerTrace :=
+        hsame_refl outerTrace
+      exact
+        ⟨repackedInput, outerTrace, repackedRows.left, repackedRows.right, innerTraceUnary,
+          outerTraceUnary, seqTraceUnary, finalGraphUnary, repackedInputUnary, repackedGraphUnary,
+          outerTraceSame, finalGraphRow⟩
+
+theorem RecursiveFnZeroSuccessorProjection_obligation_surface
+    {constructor input zeroOutput successorOutput projectionOutput baseSurface : BHist} :
+    UnaryHistory constructor -> UnaryHistory input -> UnaryHistory zeroOutput ->
+      Cont constructor zeroOutput successorOutput -> Cont input zeroOutput projectionOutput ->
+        Cont successorOutput projectionOutput baseSurface ->
+          UnaryHistory successorOutput ∧ UnaryHistory projectionOutput ∧ UnaryHistory baseSurface ∧
+            hsame successorOutput (append constructor zeroOutput) ∧
+              hsame projectionOutput (append input zeroOutput) ∧
+                hsame baseSurface (append successorOutput projectionOutput) := by
+  intro constructorUnary inputUnary zeroOutputUnary successorRow projectionRow baseSurfaceRow
+  have successorUnary : UnaryHistory successorOutput :=
+    unary_cont_closed constructorUnary zeroOutputUnary successorRow
+  have projectionUnary : UnaryHistory projectionOutput :=
+    unary_cont_closed inputUnary zeroOutputUnary projectionRow
+  have baseSurfaceUnary : UnaryHistory baseSurface :=
+    unary_cont_closed successorUnary projectionUnary baseSurfaceRow
+  exact
+    ⟨successorUnary, projectionUnary, baseSurfaceUnary, successorRow, projectionRow,
+      baseSurfaceRow⟩
+
+theorem RecursiveFnBoundedMinimisationLedger_exactness
+    {constructor bound testedTrace witness output ledger : BHist} {failureTail : BHist} :
+    UnaryHistory constructor -> UnaryHistory bound -> UnaryHistory witness ->
+      Cont constructor bound testedTrace -> Cont testedTrace witness output ->
+        Cont bound output ledger -> hsame witness (BHist.e1 failureTail) ->
+          UnaryHistory testedTrace ∧ UnaryHistory output ∧ UnaryHistory ledger ∧
+            hsame testedTrace (append constructor bound) ∧ hsame output (append testedTrace witness) ∧
+              hsame ledger (append bound output) ∧ (hsame witness BHist.Empty -> False) := by
+  intro constructorUnary boundUnary witnessUnary testedTraceRow outputRow ledgerRow witnessFailure
+  have testedTraceUnary : UnaryHistory testedTrace :=
+    unary_cont_closed constructorUnary boundUnary testedTraceRow
+  have outputUnary : UnaryHistory output :=
+    unary_cont_closed testedTraceUnary witnessUnary outputRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed boundUnary outputUnary ledgerRow
+  have witnessNonempty : hsame witness BHist.Empty -> False := by
+    intro witnessEmpty
+    exact not_hsame_e1_empty (witnessFailure.symm.trans witnessEmpty)
+  exact
+    ⟨testedTraceUnary, outputUnary, ledgerUnary, testedTraceRow, outputRow, ledgerRow,
+      witnessNonempty⟩
+
+theorem RecursiveFnNatInputStability_obligation
+    {constructor x y baseStep traceX traceY outputX outputY finalGraph : BHist} :
+    UnaryHistory constructor -> UnaryHistory x -> UnaryHistory baseStep -> hsame x y ->
+      Cont constructor x traceX -> Cont constructor y traceY -> Cont traceX baseStep outputX ->
+        Cont traceY baseStep outputY -> Cont outputY baseStep finalGraph ->
+          UnaryHistory y ∧ UnaryHistory traceX ∧ UnaryHistory traceY ∧ UnaryHistory outputX ∧
+            UnaryHistory outputY ∧ UnaryHistory finalGraph ∧ hsame traceX traceY ∧
+              hsame outputX outputY ∧ hsame finalGraph (append outputY baseStep) := by
+  intro constructorUnary xUnary baseStepUnary sameXY traceXRow traceYRow outputXRow
+  intro outputYRow finalGraphRow
+  have yUnary : UnaryHistory y :=
+    unary_transport xUnary sameXY
+  have traceXUnary : UnaryHistory traceX :=
+    unary_cont_closed constructorUnary xUnary traceXRow
+  have traceYUnary : UnaryHistory traceY :=
+    unary_cont_closed constructorUnary yUnary traceYRow
+  have outputXUnary : UnaryHistory outputX :=
+    unary_cont_closed traceXUnary baseStepUnary outputXRow
+  have outputYUnary : UnaryHistory outputY :=
+    unary_cont_closed traceYUnary baseStepUnary outputYRow
+  have finalGraphUnary : UnaryHistory finalGraph :=
+    unary_cont_closed outputYUnary baseStepUnary finalGraphRow
+  have traceSame : hsame traceX traceY :=
+    cont_respects_hsame (hsame_refl constructor) sameXY traceXRow traceYRow
+  have outputSame : hsame outputX outputY :=
+    cont_respects_hsame traceSame (hsame_refl baseStep) outputXRow outputYRow
+  exact
+    ⟨yUnary, traceXUnary, traceYUnary, outputXUnary, outputYUnary, finalGraphUnary,
+      traceSame, outputSame, finalGraphRow⟩
+
+theorem RecursiveFnConstructorLedger_coverage_obligation
+    {constructor input baseStep innerTrace outerTrace seqTrace finalGraph boundedTrace witness
+      output boundedLedger accepted : BHist} {failureTail : BHist} :
+    UnaryHistory constructor -> UnaryHistory input -> UnaryHistory baseStep ->
+      UnaryHistory witness -> Cont constructor input innerTrace ->
+        Cont innerTrace baseStep outerTrace -> Cont constructor baseStep seqTrace ->
+          Cont outerTrace seqTrace finalGraph -> Cont constructor baseStep boundedTrace ->
+            Cont boundedTrace witness output -> Cont baseStep output boundedLedger ->
+              hsame witness (BHist.e1 failureTail) -> hsame accepted outerTrace ->
+                hsame accepted boundedLedger ->
+                  UnaryHistory finalGraph ∧ UnaryHistory boundedLedger ∧
+                    (hsame witness BHist.Empty -> False) ∧
+                      hsame finalGraph (append outerTrace seqTrace) := by
+  intro constructorUnary inputUnary baseStepUnary witnessUnary innerTraceRow outerTraceRow
+  intro seqTraceRow finalGraphRow boundedTraceRow outputRow boundedLedgerRow witnessFailure
+  intro acceptedOuter acceptedBoundedLedger
+  have compositionRows :=
+    RecursiveFnCompositionPrimitiveRecursion_obligation_surface constructorUnary inputUnary
+      baseStepUnary innerTraceRow outerTraceRow seqTraceRow finalGraphRow
+  have boundedRows :=
+    RecursiveFnBoundedMinimisationLedger_exactness constructorUnary baseStepUnary witnessUnary
+      boundedTraceRow outputRow boundedLedgerRow witnessFailure
+  cases compositionRows with
+  | intro repackedInput compositionTail =>
+      cases compositionTail with
+      | intro repackedGraph compositionData =>
+          have outerTraceUnary : UnaryHistory outerTrace :=
+            compositionData.right.right.right.left
+          have finalGraphUnary : UnaryHistory finalGraph :=
+            compositionData.right.right.right.right.right.left
+          have boundedLedgerUnary : UnaryHistory boundedLedger :=
+            unary_transport outerTraceUnary (acceptedOuter.symm.trans acceptedBoundedLedger)
+          exact
+            ⟨finalGraphUnary, boundedLedgerUnary, boundedRows.right.right.right.right.right.right,
+              compositionData.right.right.right.right.right.right.right.right.right⟩
+
+end BEDC.Derived.RecursiveFnUp

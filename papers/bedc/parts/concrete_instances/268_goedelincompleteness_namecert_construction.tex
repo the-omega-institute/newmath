@@ -8,12 +8,98 @@ The Gödel-incompleteness interface $\GoedelIncompletenessUp$ packages an arithm
 
 A $\GoedelIncompletenessUp$ token carries: a recursively-enumerated axiom set $T$ over the language of arithmetic, an arithmetised provability predicate $\Prov_T(x)$ via a $\NameCert_{\ComputableUp}$ proof-checking decoder, a Gödel numbering $\ulcorner\cdot\urcorner$ on formulas, and a fixed-point row $G$ with $T\vdash G\leftrightarrow\neg\Prov_T(\ulcorner G\urcorner)$. The carrier accepts an incompleteness witness when $T$ is consistent and $G$ is neither provable nor refutable in $T$. The classifier is $\hsame$ on the fixed-point rows; the ledger keeps the axiom enumeration, the proof-checker, the Gödel numbering, and the fixed-point row visible.
 
+\begin{theorem}[GoedelIncompleteness proof-checker obligation]
+\label{thm:goedelincompleteness-proof-checker-obligation}
+An accepted $\GoedelIncompletenessUp$ witness exposes a recursively enumerated
+axiom row, a $\ComputableUp$ proof-checker decoder, and the finite
+proof-verdict ledger over $\mathsf{BHist}$. The carrier reads a proof row only
+through the displayed decoder and records its verdict as a visible
+$\FirstOrderUp$ syntactic row.
+
+The obligation is syntactic and finite-ledger local. It does not assert
+semantic completeness, second incompleteness, or a set-theoretic foundations
+bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.GoedelIncompletenessUp.GoedelIncompletenessProofCheckerLedger\_verdict\_nonempty\_surface}
+\begin{proof}
+Project the accepted packet to its axiom-enumeration coordinate. That row
+supplies the recursively enumerated theory data in the displayed
+$\FirstOrderUp$ language.
+
+Read the proof-checker coordinate through the $\ComputableUp$ decoder. Each
+candidate proof is consumed by this finite decoder row, and the result is the
+visible proof-verdict ledger over $\mathsf{BHist}$.
+
+Repacking these coordinates gives the proof-checker obligation. No semantic
+model argument, second-incompleteness claim, or external foundations bridge is
+used.
+\end{proof}
+\leanchecked{BEDC.Derived.GoedelIncompletenessUp.GoedelIncompletenessWitnessPacket\_proof\_checker\_obligation}
+
+\begin{theorem}[GoedelIncompleteness fixed-point obligation]
+\label{thm:goedelincompleteness-fixed-point-obligation}
+The fixed-point row in an accepted $\GoedelIncompletenessUp$ witness carries
+the displayed $\FirstOrderUp$ formula, its Gödel-number row, and the
+provability-predicate row for the fixed proof-checker decoder. The classifier
+$\hsame$ compares fixed-point histories only at the displayed numbering and
+does not identify formulas across a different coding surface.
+
+This obligation records the finite fixed-point ledger. It does not assert the
+Löb conditions, semantic completeness, or a second-incompleteness theorem.
+\end{theorem}
+\begin{proof}
+Start with the fixed-point coordinate of the accepted packet. It exposes the
+$\FirstOrderUp$ formula row and its Gödel-number row in the same finite
+ledger.
+
+Next read the provability-predicate coordinate. It is tied to the displayed
+proof-checker decoder, so the predicate row refers to the fixed numbering
+rather than to an ambient coding theorem.
+
+The $\hsame$ classifier is then applied only at that fixed numbering. This
+gives the stated fixed-point obligation without importing semantic or
+metatheoretic closure beyond the visible rows.
+\end{proof}
+\leanchecked{BEDC.Derived.GoedelIncompletenessUp.GoedelIncompletenessFixedPointLedger\_obligation}
+
+\begin{theorem}[GoedelIncompleteness undecidable row obligation]
+\label{thm:goedelincompleteness-undecidable-row-obligation}
+Conditionally on the consistency row displayed by an accepted
+$\GoedelIncompletenessUp$ witness, the witness ledger contains both the
+no-proof row and the no-refutation row for the displayed fixed-point formula.
+The no-proof row is checked against $\Prov_T(\ulcorner G\urcorner)$, and the
+no-refutation row is checked against the displayed negation row in the same
+$\FirstOrderUp$ syntax.
+
+The statement is only the accepted finite undecidability ledger. It does not
+claim second incompleteness, semantic completeness, $\omega$-consistency, or
+the Löb conditions.
+\end{theorem}
+\begin{proof}
+Read the consistency coordinate, the fixed-point formula, and the
+proof-checker verdict ledger from the accepted packet. They share the same
+Gödel numbering and the same $\ComputableUp$ decoder.
+
+For the no-proof side, inspect the verdict rows attached to
+$\Prov_T(\ulcorner G\urcorner)$. The accepted packet records that no displayed
+proof row verifies the fixed-point formula.
+
+For the no-refutation side, inspect the verdict rows attached to the displayed
+negation of $G$. The same proof-checker ledger records that no displayed proof
+row verifies the refutation. Repacking the two rows gives the conditional
+undecidable-row obligation.
+\end{proof}
+
+\closureat{GoedelIncompletenessUp}{obligationStr}
+\closureat{GoedelIncompletenessUp}{scopedStr}[BEDC.Derived.GoedelIncompletenessUp.GoedelIncompletenessFixedPointLedger\_obligation]
+
 \begin{closurestatus}{\GoedelIncompletenessUp}
   \constructivestory{A $\GoedelIncompletenessUp$ token names a recursively-enumerated axiom set $T$ over the language of arithmetic, an arithmetised provability predicate $\Prov_T(x)$ realised by a $\NameCert_{\ComputableUp}$ proof-checking decoder, a Gödel numbering $\ulcorner\cdot\urcorner$ on formulas, and a self-referential fixed-point row $G$ such that $T\vdash G\leftrightarrow\neg\Prov_T(\ulcorner G\urcorner)$. The carrier accepts an incompleteness witness when $T$ is consistent in the sense that no proof-checker run yields $\bot$, and $G$ is neither provable nor refutable in $T$. The classifier is $\hsame$ on the fixed-point rows at fixed Gödel numbering; the source covers the axiom enumeration, the proof-checker decoder, Gödel-number rows, fixed-point rows, and provability witnesses; the pattern records consistency admissibility, fixed-point admissibility, derivability admissibility, refutability admissibility, and recursive-axiomatisation admissibility rows; the ledger keeps the axiom enumeration, the proof-checker, the Gödel numbering, and the fixed-point row visible. The five name-certificate obligations are supplied by $\NameCert_{\ComputableUp}$ for the proof-checker plus $\NameCert_{\FirstOrderUp}$ and $\NameCert_{\ModelTheoryUp}$ for the syntactic carrier: the inhabited identity certificate is the empty axiom system over the language of arithmetic; classifier stability is reflexive, symmetric, and transitive $\hsame$ on fixed-point rows; transport repacks proof-checks through Gödel-number transport; ledger exactness identifies the accepted witness with the fixed-point identity; the extension boundary fixes the recursive-axiomatisation rule. A history $h$ lies in the signature gap of a $\GoedelIncompletenessUp$ token $p$ when the source-domain accepts the consistent recursively-axiomatised theory, the signature relation pairs it with the undecidable fixed-point row, and token introduction names that fixed point as $p$. The chapter registers this self-referential incompleteness surface under the name $\GoedelIncompletenessUp$; it is a finite-axiomatisation incompleteness object with no semantic-completeness theorem, no second-incompleteness theorem ($\neg\Prov_T(\bot)$ unprovability), no $\omega$-consistency claim, and no standard set-theoretic foundations bridge.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope binds the recursively-enumerated axiom set, the proof-checker decoder, the Gödel numbering, the fixed-point row $G$, and the consistency witness for the theory.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The obligation scope binds the proof-checker decoder row, fixed-point formula and numbering row, and conditional no-proof plus no-refutation rows over the displayed $\FirstOrderUp$, $\ModelTheoryUp$, $\ComputableUp$, and $\hsame$ surfaces.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.GoedelIncompletenessUp.GoedelIncompletenessFixedPointLedger\_obligation}
   \bridgestatus{none}
   \notclaimed{The chapter does not close the second-incompleteness theorem, $\omega$-consistency, semantic-completeness, the Löb conditions, or a standard set-theoretic foundations bridge.}
-  \upgradepath{Obligation closure requires a checked $\GoedelIncompletenessUp$ fixed-point obligation theorem covering consistency, fixed-point identity, and undecidability of $G$.}
+  \upgradepath{Public closure requires one exported $\NameCert_{\GoedelIncompletenessUp}$ theorem consumed by $\FirstOrderUp$, $\ModelTheoryUp$, and $\ComputableUp$ users.}
 \end{closurestatus}

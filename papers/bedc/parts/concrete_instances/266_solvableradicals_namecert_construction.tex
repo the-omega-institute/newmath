@@ -8,12 +8,98 @@ The radical-tower interface $\SolvableRadicalsUp$ packages a tower of radical ex
 
 A $\SolvableRadicalsUp$ token carries a finite tower depth $r$, a $\SeqUp$-typed sequence of intermediate field rows $K_0,\ldots,K_r$, a sequence of root indices $n_0,\ldots,n_{r-1}$, and a sequence of radicand witnesses $\alpha_i$ with $\alpha_i^{n_i}\in K_i$. The carrier accepts a polynomial $P$ when $P$ splits in $K_r$ and each step is genuinely radical. The classifier is $\hsame$ on the tower depth and intermediate-field rows; the ledger keeps the depth $r$, the root indices, the radicand witnesses, and the splitting verdict visible.
 
+\begin{theorem}[SolvableRadicals tower-step obligation]
+\label{thm:solvableradicals-tower-step-obligation}
+Every accepted $\SolvableRadicalsUp$ radical-tower row exposes the finite
+$\SeqUp$ tower depth, the root-index rows, the radicand witnesses, and the
+$\FieldExtUp$ radical-step certificate for each adjacent pair of intermediate
+field rows. For each displayed step $K_i\subseteq K_{i+1}$, the ledger records
+the row $\alpha_i^{n_i}\in K_i$ and the corresponding extension row for
+$K_{i+1}=K_i(\alpha_i)$.
+
+The obligation is only the finite tower-step surface. It does not assert a
+Galois-correspondence theorem, abstract solvable-group classification, or a
+radical-closure bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.SolvableRadicalsUp.SolvableRadicalsTowerStepLedger\_assoc\_surface}
+\begin{proof}
+Project the accepted packet to its tower-depth coordinate and intermediate
+field sequence. These rows give the finite $\SeqUp$ spine
+$K_0,\ldots,K_r$.
+
+For each adjacent pair, read the root-index and radicand coordinates. The
+$\FieldExtUp$ certificate attached to that pair records the radical-step
+witness and the equation $\alpha_i^{n_i}\in K_i$ in the same ledger.
+
+Repacking the displayed adjacent-step rows gives the tower-step obligation.
+No classification of solvable groups or radical closures is invoked.
+\end{proof}
+\leanchecked{BEDC.Derived.SolvableRadicalsUp.SolvableRadicalsTowerStep\_obligation}
+
+\begin{theorem}[SolvableRadicals intermediate-field stability]
+\label{thm:solvableradicals-intermediate-field-stability}
+For $\SolvableRadicalsUp$, $\hsame$ transport of fixed-depth intermediate
+field rows preserves the displayed radical-step ledger. If two tower
+presentations have the same finite depth and their corresponding intermediate
+field rows are related by the fixed classifier, then each root-index,
+radicand, and $\FieldExtUp$ radical-step certificate transports to the
+matching adjacent field row.
+
+The statement is a fixed-depth stability obligation. It does not identify
+abstract Galois groups or claim a full Galois correspondence.
+\end{theorem}
+\begin{proof}
+Start with two accepted tower rows of the same displayed depth. The classifier
+relates corresponding intermediate field rows by $\hsame$ and keeps the
+finite index positions fixed.
+
+At each adjacent position, transport the root-index, radicand, and
+$\FieldExtUp$ radical-step certificate along the corresponding field-row
+classifiers. Since the positions are fixed by the tower depth, no new step is
+created and no step is omitted.
+
+The transported packet therefore has the same radical-step ledger at the
+matching positions. The argument is finite ledger transport rather than a
+Galois-correspondence or solvable-group classification result.
+\end{proof}
+\leanchecked{BEDC.Derived.SolvableRadicalsUp.SolvableRadicalsTowerPacket\_intermediate\_field\_stability}
+
+\begin{theorem}[SolvableRadicals splitting ledger exactness]
+\label{thm:solvableradicals-splitting-ledger-exactness}
+In an accepted $\SolvableRadicalsUp$ packet, the accepted polynomial row is
+identified with the displayed splitting verdict in the top field $K_r$. The
+ledger reads the polynomial over $K_0$, transports it through the finite tower,
+and records the top-field factor rows exactly as the carrier's splitting
+verdict.
+
+This exactness statement does not assert a Galois-correspondence theorem,
+abstract solvable-group classification, transcendental methods, or a standard
+radical-closure bridge.
+\end{theorem}
+\begin{proof}
+Read the polynomial coordinate over the base field row $K_0$ and the finite
+tower coordinate ending at $K_r$. Both are part of the accepted packet.
+
+Next inspect the splitting verdict. Its factor rows live in the displayed top
+field, and the ledger ties them to the original polynomial row through the
+finite tower already exposed by the carrier.
+
+Thus the accepted polynomial row and the top-field splitting verdict are the
+same ledger surface. No additional correspondence theorem, solvable-group
+classification, or transcendental method is projected from the packet.
+\end{proof}
+\leanchecked{BEDC.Derived.SolvableRadicalsUp.SolvableRadicalsTowerPacket\_splitting\_ledger\_exactness}
+
+\closureat{SolvableRadicalsUp}{obligationStr}
+\closureat{SolvableRadicalsUp}{scopedStr}[BEDC.Derived.SolvableRadicalsUp.SolvableRadicalsTowerPacket\_intermediate\_field\_stability]
+
 \begin{closurestatus}{\SolvableRadicalsUp}
   \constructivestory{A $\SolvableRadicalsUp$ token names a finite tower depth $r$, a $\SeqUp$-typed sequence of intermediate field rows $K_0,\ldots,K_r$, a sequence of root indices $n_0,\ldots,n_{r-1}$, and a sequence of radicand witnesses $\alpha_i\in K_{i+1}$ with $\alpha_i^{n_i}\in K_i$. The carrier accepts a separable polynomial $P$ over $K_0$ when each step $K_{i+1}=K_i(\alpha_i)$ is genuinely radical in the sense of $\NameCert_{\FieldExtUp}$ and $P$ splits in $K_r$. The classifier is $\hsame$ on the tower depth and intermediate-field rows; the source covers field carriers, root indices, radicand witnesses, splitting witnesses, and tower-depth rows; the pattern records radical-step admissibility, splitting admissibility, tower-depth admissibility, root-of-unity availability, and intermediate-field-stability rows; the ledger keeps the depth $r$, the root indices, the radicand witnesses, and the splitting verdict visible. The five name-certificate obligations are supplied by the $\FieldExtUp$ tower together with $\GaloisGroupUp$ solvability: the inhabited identity certificate is the trivial $r=0$ tower; classifier stability is reflexive, symmetric, and transitive $\hsame$ on towers of fixed depth; transport repacks radical extensions through field-isomorphism transport; ledger exactness identifies the accepted polynomial with its splitting in $K_r$; the extension boundary fixes the radical-step rule. A history $h$ lies in the signature gap of a $\SolvableRadicalsUp$ token $p$ when the source-domain accepts the radical-tower-splitting witness, the signature relation pairs it with the splitting verdict, and token introduction names that verdict as $p$. The chapter registers this radical-tower surface under the name $\SolvableRadicalsUp$; it is a finite-tower polynomial-splitting object with no Galois-correspondence claim, no general solvable-group identification, no transcendental methods, and no standard radical-closure bridge.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope binds the tower depth $r$, the intermediate field rows, the root indices, the radicand witnesses, and the splitting verdict for the polynomial $P$.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The obligation scope binds the radical tower-step rows, fixed-depth intermediate-field stability under $\hsame$, and top-field splitting ledger exactness over the displayed $\SeqUp$, $\FieldExtUp$, $\GaloisGroupUp$, $\NumFieldUp$, and polynomial rows.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.SolvableRadicalsUp.SolvableRadicalsTowerPacket\_intermediate\_field\_stability}
   \bridgestatus{none}
   \notclaimed{The chapter does not close the Galois-correspondence theorem, abstract solvable-group classification, transcendental methods, or a standard radical-closure bridge.}
-  \upgradepath{Obligation closure requires a checked $\SolvableRadicalsUp$ tower-step obligation theorem covering radical-step admissibility, intermediate-field stability, and splitting in the top field.}
+  \upgradepath{Public closure requires one exported $\NameCert_{\SolvableRadicalsUp}$ theorem consumed by $\AbelRuffiniUp$ and Galois-side users.}
 \end{closurestatus}

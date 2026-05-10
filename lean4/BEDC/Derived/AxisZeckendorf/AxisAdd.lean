@@ -162,6 +162,25 @@ theorem AxisAddCont_commutative_zeroSpine {h k rHK rKH : BHist} :
   cases contKH
   exact AxisAddCont_commutative_zeroSpine_append spineH spineK
 
+theorem AxisAddCont_zeroSpine_result_inversion {h k r : BHist} :
+    Cont h k r -> ZeroSpine r -> ZeroSpine h ∧ ZeroSpine k := by
+  intro contHK
+  induction k generalizing r with
+  | Empty =>
+      intro spineR
+      cases contHK
+      exact And.intro spineR ZeroSpine.empty
+  | e0 kTail ih =>
+      intro spineR
+      cases contHK
+      have tailSpine : ZeroSpine (append h kTail) := zeroSpine_e0_inversion spineR
+      have sourceSpines := ih rfl tailSpine
+      exact And.intro sourceSpines.left (ZeroSpine.step sourceSpines.right)
+  | e1 kTail =>
+      intro spineR
+      cases contHK
+      exact False.elim (zeroSpine_no_e1_extension spineR)
+
 theorem AxisAdd_semantic_name_certificate {h k : BHist} :
     AxisAddSourceSpec h k ->
       SemanticNameCert (AxisAddPatternSpec h k) (AxisAddPatternSpec h k)

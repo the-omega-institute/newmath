@@ -142,4 +142,89 @@ theorem AbelRuffiniNonradicalBoundary_obligation
     ⟨sourceSurfaceUnary, subgroupUnary, nextUnary, boundaryUnary, sourceSurfaceRow, subgroupRow,
       nextRow, boundaryRow⟩
 
+theorem AbelRuffiniPublicCertificate_export
+    {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger seed
+      publicSurface : BHist} {derivedRows : List BHist} :
+    UnaryHistory polynomial ->
+      UnaryHistory base ->
+        UnaryHistory splittingField ->
+          UnaryHistory galoisRow ->
+            UnaryHistory s5Row ->
+              UnaryHistory seed ->
+                (forall row : BHist, List.Mem row derivedRows -> UnaryHistory row) ->
+                  Cont polynomial base coefficientLedger ->
+                    Cont splittingField galoisRow galoisLedger ->
+                      Cont coefficientLedger galoisLedger seed ->
+                        Cont (List.foldl append seed derivedRows) s5Row publicSurface ->
+                          UnaryHistory coefficientLedger ∧ UnaryHistory galoisLedger ∧
+                            UnaryHistory (List.foldl append seed derivedRows) ∧
+                              UnaryHistory publicSurface ∧
+                                hsame publicSurface
+                                  (append (List.foldl append seed derivedRows) s5Row) := by
+  intro polynomialUnary baseUnary splittingFieldUnary galoisRowUnary s5RowUnary seedUnary
+  intro derivedUnary coefficientRow galoisLedgerRow seedRow publicSurfaceRow
+  have coefficientUnary : UnaryHistory coefficientLedger :=
+    unary_cont_closed polynomialUnary baseUnary coefficientRow
+  have galoisLedgerUnary : UnaryHistory galoisLedger :=
+    unary_cont_closed splittingFieldUnary galoisRowUnary galoisLedgerRow
+  let rec foldUnaryClosed (current : BHist) :
+      (rows : List BHist) ->
+        UnaryHistory current ->
+          (forall row : BHist, List.Mem row rows -> UnaryHistory row) ->
+            UnaryHistory (List.foldl append current rows)
+    | [], currentUnary, _ => currentUnary
+    | head :: tail, currentUnary, rowsUnary =>
+        have headUnary : UnaryHistory head :=
+          rowsUnary head (List.Mem.head tail)
+        have nextUnary : UnaryHistory (append current head) :=
+          unary_cont_closed currentUnary headUnary rfl
+        have tailUnary : forall row : BHist, List.Mem row tail -> UnaryHistory row := by
+          intro row rowMem
+          exact rowsUnary row (List.Mem.tail head rowMem)
+        foldUnaryClosed (append current head) tail nextUnary tailUnary
+  have foldUnary : UnaryHistory (List.foldl append seed derivedRows) := by
+    exact foldUnaryClosed seed derivedRows seedUnary derivedUnary
+  have publicSurfaceUnary : UnaryHistory publicSurface :=
+    unary_cont_closed foldUnary s5RowUnary publicSurfaceRow
+  exact ⟨coefficientUnary, galoisLedgerUnary, foldUnary, publicSurfaceUnary, publicSurfaceRow⟩
+
+theorem AbelRuffiniPublicCertificateExport_namecert_surface
+    {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger
+      sourceSurface subgroup commutator next obstruction endpoint boundary publicSurface : BHist} :
+    UnaryHistory polynomial -> UnaryHistory base -> UnaryHistory splittingField ->
+      UnaryHistory galoisRow -> UnaryHistory s5Row -> UnaryHistory commutator ->
+        UnaryHistory obstruction -> Cont polynomial base coefficientLedger ->
+          Cont splittingField galoisRow galoisLedger ->
+            Cont coefficientLedger galoisLedger sourceSurface ->
+              Cont galoisRow s5Row subgroup -> Cont subgroup commutator next ->
+                Cont next obstruction endpoint -> Cont sourceSurface endpoint boundary ->
+                  Cont boundary s5Row publicSurface ->
+                    UnaryHistory coefficientLedger ∧ UnaryHistory galoisLedger ∧
+                      UnaryHistory sourceSurface ∧ UnaryHistory endpoint ∧ UnaryHistory boundary ∧
+                        UnaryHistory publicSurface ∧
+                          hsame sourceSurface (append coefficientLedger galoisLedger) ∧
+                            hsame endpoint (append next obstruction) ∧
+                              hsame boundary (append sourceSurface endpoint) ∧
+                                hsame publicSurface (append boundary s5Row) := by
+  intro polynomialUnary baseUnary splittingFieldUnary galoisRowUnary s5RowUnary
+  intro commutatorUnary obstructionUnary coefficientRow galoisLedgerRow sourceSurfaceRow
+  intro subgroupRow nextRow endpointRow boundaryRow publicSurfaceRow
+  have sourceData :=
+    AbelRuffiniPolynomialGaloisObligation_source_surface (s5Row := s5Row) polynomialUnary baseUnary
+      splittingFieldUnary galoisRowUnary coefficientRow galoisLedgerRow sourceSurfaceRow
+  have subgroupUnary : UnaryHistory subgroup :=
+    unary_cont_closed galoisRowUnary s5RowUnary subgroupRow
+  have endpointData :=
+    AbelRuffiniDerivedSeriesLedger_finite_transport galoisRowUnary s5RowUnary
+      subgroupUnary commutatorUnary obstructionUnary subgroupRow nextRow endpointRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed sourceData.right.right.left endpointData.right.left boundaryRow
+  have publicSurfaceUnary : UnaryHistory publicSurface :=
+    unary_cont_closed boundaryUnary s5RowUnary publicSurfaceRow
+  exact
+    ⟨sourceData.left, sourceData.right.left, sourceData.right.right.left,
+      endpointData.right.left, boundaryUnary, publicSurfaceUnary,
+      sourceData.right.right.right.right.right, endpointData.right.right.right.right,
+      boundaryRow, publicSurfaceRow⟩
+
 end BEDC.Derived.AbelRuffiniUp

@@ -54,6 +54,33 @@ read from this ledger rather than from an imported abstract solvability theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.AbelRuffiniUp.AbelRuffiniDerivedSeriesLedger\_assoc\_surface}
 
+\begin{theorem}[AbelRuffini derived-series finite transport]
+\label{thm:abelruffini-derived-series-finite-transport}
+A displayed Galois row, $S_5$ row, subgroup row, commutator row,
+obstruction row, and continuation chain repack into a finite
+$\AbelRuffiniUp$ BEDC transport ledger. The ledger has a unary next row for
+each displayed commutator step and an endpoint row for the obstruction, with
+$\hsame$ comparisons for the subgroup row, the unary next row, and the
+endpoint row.
+\end{theorem}
+\begin{proof}
+Start with the finite derived-series ledger from
+\autoref{thm:abelruffini-derived-series-ledger-obligation}. It supplies the
+displayed subgroup rows, the commutator successor rows, and the obstruction row
+as finite $\mathsf{BHist}$ data.
+
+Project unary closure through the three continuation rows: first from the
+Galois row to the displayed $S_5$ row, then from the current subgroup row to
+the unary next commutator row, and finally from the obstruction row to the
+endpoint row.
+
+The three $\hsame$ comparisons are read from these same projections. Repacking
+the subgroup comparison, next-row comparison, and endpoint comparison gives the
+finite transport ledger without importing a separate radical-tower or
+solvable-group theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.AbelRuffiniUp.AbelRuffiniDerivedSeriesLedger\_finite\_transport}
+
 \begin{theorem}[AbelRuffini non-radical boundary obligation]
 \label{thm:abelruffini-nonradical-boundary-obligation}
 The $\AbelRuffiniUp$ non-solvability-by-radicals boundary is read only from the
@@ -91,6 +118,7 @@ general degree-$n$ Galois solvability, an $A_5$ simplicity proof,
 transcendental methods, abstract solvable-group theory, and a standard
 radical-tower bridge outside its scope.
 \end{theorem}
+\leanchecked{BEDC.Derived.AbelRuffiniUp.AbelRuffiniPublicCertificate\_export}
 \begin{proof}
 First apply
 \autoref{thm:abelruffini-polynomial-galois-obligation}. This supplies the
@@ -109,6 +137,7 @@ identification, and finite derived-series rows. Repacking these three
 obligations yields the public $\NameCert_{\AbelRuffiniUp}$ export and preserves
 all stated non-claims.
 \end{proof}
+\leanchecked{BEDC.Derived.AbelRuffiniUp.AbelRuffiniPublicCertificateExport\_namecert\_surface}
 
 \begin{closurestatus}{\AbelRuffiniUp}
   \constructivestory{An $\AbelRuffiniUp$ token names a separable monic polynomial $P$ of degree five over a $\NumFieldUp$ base $K$ together with three witnesses: an irreducibility row, a non-trivial-rational-root row, and a Galois-group identification row $\Gal(P/K)\cong S_5$. The carrier accepts a non-solvability-by-radicals certificate when $\Gal(P/K)$ is isomorphic to $S_5$ in the sense of $\NameCert_{\GaloisGroupUp}$ and $\NameCert_{\SymGroupUp}$, and the derived series of $S_5$ stops at $A_5$ without reaching the trivial subgroup. The classifier is $\hsame$ on the Galois group identification rows; the source covers polynomial coefficient histories, splitting field carrier rows, Galois group elements, derived-series subgroups, and rational-root exclusion rows; the pattern records irreducibility admissibility, $S_5$ identification, derived-series exactness, non-radical-tower exclusion, and degree-five admissibility rows; the ledger keeps the polynomial coefficients, the irreducibility witness, the $S_5$ identification, and the derived-series ledger visible. The five name-certificate obligations are supplied by the $\GaloisGroupUp$ chain plus solvable-group structure: the inhabited identity certificate is a fixed polynomial $x^5-x-1$ over $\mathbb{Q}$; classifier stability is reflexive, symmetric, and transitive $\hsame$ on Galois group identifications; transport repacks Galois actions through polynomial transport; ledger exactness identifies the carrier row with the $S_5$ derived-series ledger; the extension boundary fixes the non-radical-tower row. A history $h$ lies in the signature gap of an $\AbelRuffiniUp$ token $p$ when the source-domain accepts the polynomial-coefficient history, the signature relation pairs it with the non-solvable Galois identification, and token introduction names that identification as $p$. The chapter registers this finite Galois-group-based non-solvability surface under the name $\AbelRuffiniUp$; it is a degree-five $S_5$-Galois object with no general degree-$n$ classification, no $A_5$ simplicity proof, no resolvent reduction, no transcendental method, and no standard radical-tower bridge.}

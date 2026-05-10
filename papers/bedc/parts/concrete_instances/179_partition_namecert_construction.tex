@@ -6,5 +6,179 @@ The integer-partition interface $\PartitionUp$ packages weakly decreasing sequen
 \section{Carrier definition}
 \label{sec:partition-carrier}
 
+\begin{definition}[PartitionUp BHist carrier]
+\label{def:partition-bhist-carrier}
+A $\PartitionUp$ carrier is a finite $\mathsf{BHist}$ packet consisting of a
+$\ListUp$ row whose entries are $\NatUp$ positive-part rows, a unary sum ledger
+row for the displayed entries, weak-decrease comparison rows between adjacent
+parts, endpoint rows for the total and each part, finite $\Cont$ routes tying
+the list, sum, and comparison rows into one ledger, and $\mathsf{Pkg}$
+provenance for the whole packet. The packet is accepted only through these
+visible rows.
+
+The carrier records an integer partition as BEDC data. It does not include a
+host integer partition set, a symmetric-function basis, a representation
+theory object, or an external Young-diagram model.
+\end{definition}
+\leandef{BEDC.Derived.PartitionUp.PartitionBHistCarrier}
+
+\begin{definition}[PartitionUp Young-ledger classifier]
+\label{def:partition-young-ledger-classifier}
+The Young-ledger classifier compares two accepted $\PartitionUp$ carriers by
+the displayed $\hsame$ transport of their $\ListUp$ rows, their component
+$\NatUp$ positive-part rows, their unary sum rows, their weak-decrease rows,
+and their boundary ledgers. A classifier witness must transport the same
+finite Young boundary through the list and sum ledgers and must preserve
+$\mathsf{Pkg}$ provenance for the packet.
+\end{definition}
+\leandef{BEDC.Derived.PartitionUp.PartitionYoungLedgerClassifier}
+
 \section{The certificate}
 \label{sec:partition-certificate}
+
+\begin{theorem}[Partition carrier obligation]
+\label{thm:partition-carrier-obligation}
+Every accepted $\PartitionUp$ carrier is read from the packet of
+\autoref{def:partition-bhist-carrier}: the $\ListUp$ row of $\NatUp$ positive
+parts, the unary sum ledger, the weak-decrease comparison rows, the Young
+boundary ledger, the finite $\Cont$ routes, and the $\mathsf{Pkg}$ provenance.
+No additional partition object is available to a consumer of the carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.PartitionUp.PartitionBHistCarrier\_obligation}
+\begin{proof}
+Project the finite $\mathsf{BHist}$ packet to its list, part, sum,
+comparison, boundary, route, and provenance coordinates. These are the only
+rows named by the carrier definition.
+
+The $\ListUp$ dependency supplies the finite row spine, and the $\NatUp$
+dependency supplies the positive unary part rows. The remaining rows are
+ordinary ledgers attached to that spine by $\Cont$ and packaged by
+$\mathsf{Pkg}$.
+
+Since the carrier has no coordinate for a host partition set or external
+Young-diagram model, every accepted consumer stops at the displayed ledger
+surface.
+\end{proof}
+
+\begin{theorem}[Partition classifier stability]
+\label{thm:partition-classifier-stability}
+Let $\mathcal P$ and $\mathcal P'$ be accepted $\PartitionUp$ carriers. If the
+classifier of \autoref{def:partition-young-ledger-classifier} relates their
+$\ListUp$ rows, component $\NatUp$ positive-part rows, unary sum rows,
+weak-decrease rows, and Young boundary ledgers by displayed $\hsame$
+transport, then the transported rows repack as an accepted $\PartitionUp$
+carrier with the same finite certificate surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.PartitionUp.PartitionBHistCarrier\_classifier\_stability}
+\begin{proof}
+Begin with the $\ListUp$ row. Its classifier transports the finite spine and
+therefore fixes the positions at which the part rows are read.
+
+Next transport the component $\NatUp$ rows and the unary sum ledger along the
+displayed $\hsame$ witnesses. The positive-part condition and the total row
+remain visible because they are ledger entries, not external arithmetic
+objects.
+
+Finally transport the weak-decrease and boundary rows and concatenate the
+finite $\Cont$ routes in the same order. The original $\mathsf{Pkg}$
+provenance then repacks the transported rows as an accepted carrier.
+\end{proof}
+
+\begin{theorem}[Partition ledger exactness]
+\label{thm:partition-ledger-exactness}
+For every accepted $\PartitionUp$ carrier, the readable ledger consists
+exactly of the $\ListUp$ row, the $\NatUp$ positive-part rows, the unary sum
+row, the weak-decrease comparison rows, the Young boundary ledger, the
+displayed $\hsame$ transports, the finite $\Cont$ routes, and the
+$\mathsf{Pkg}$ provenance. It exposes no host partition enumeration, hook
+formula, symmetric-function identity, or representation-theoretic datum.
+\end{theorem}
+\leanchecked{BEDC.Derived.PartitionUp.PartitionBHistCarrier\_ledger\_exactness}
+\begin{proof}
+Use \autoref{thm:partition-carrier-obligation} to reduce a consumer readback to
+the visible packet rows.
+
+The exactness direction is by projection: each listed row is a coordinate of
+the carrier packet and is therefore readable. The converse direction is by
+constructor inspection: the carrier definition has no constructor for any row
+outside the listed ledger.
+
+The exclusions follow from the same inspection. A host enumeration, hook
+formula, symmetric-function identity, or representation-theoretic datum would
+require an additional coordinate, and none is present.
+\end{proof}
+
+\begin{theorem}[Partition finite NameCert surface]
+\label{thm:partition-finite-namecert-surface}
+The finite $\NameCert_{\PartitionUp}$ surface consists of the
+$\mathsf{BHist}$ carrier of \autoref{def:partition-bhist-carrier}, the
+Young-ledger classifier of
+\autoref{def:partition-young-ledger-classifier}, classifier stability from
+\autoref{thm:partition-classifier-stability}, ledger exactness from
+\autoref{thm:partition-ledger-exactness}, and the source coverage assertion
+that every accepted partition row is read through the displayed
+$\ListUp/\NatUp$ packet with $\Cont$ routes and $\mathsf{Pkg}$ provenance.
+\end{theorem}
+\begin{proof}
+Use the carrier as the source predicate. It displays the list spine, positive
+parts, sum row, weak-decrease rows, Young boundary row, route ledger, and
+package provenance in one finite packet.
+
+Use the Young-ledger classifier as the comparison predicate. Its transport
+obligation is exactly \autoref{thm:partition-classifier-stability}.
+
+The exactness and coverage clauses are supplied by
+\autoref{thm:partition-ledger-exactness} and
+\autoref{thm:partition-carrier-obligation}. These clauses cover the finite
+surface and exclude all host-level partition structures outside the packet.
+\end{proof}
+\leanchecked{BEDC.Derived.PartitionUp.PartitionBHistCarrier\_semantic\_name\_certificate}
+\leanchecked{BEDC.Derived.PartitionUp.PartitionBHistCarrier\_finite\_namecert\_surface}
+
+\begin{theorem}[Partition Young boundary package]
+\label{thm:partition-young-boundary-package}
+The Young-diagram boundary exported by $\PartitionUp$ is the finite ledger
+whose rows are the positive-part list, the unary row sums, the adjacent
+weak-decrease comparisons, and the boundary route obtained by concatenating
+the displayed $\Cont$ rows. The boundary is stable under the classifier of
+\autoref{def:partition-young-ledger-classifier} and is packaged only through
+the carrier's $\mathsf{Pkg}$ provenance.
+\end{theorem}
+\begin{proof}
+Read the boundary rows from the carrier packet. The positive-part list gives
+the row lengths, the unary sum ledger gives the total size, and the
+weak-decrease comparisons give the Young boundary order.
+
+Concatenate the displayed $\Cont$ routes from the list row to the sum row and
+from the comparison rows to the boundary ledger. This produces the visible
+boundary route without adding a host diagram.
+
+Apply classifier stability to transport the same boundary route across
+$\hsame$-related packets. The transported route is repackaged by the same
+$\mathsf{Pkg}$ provenance surface, so the exported Young boundary remains a
+finite BEDC ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.PartitionUp.PartitionBHistCarrier\_young\_boundary\_package}
+
+\closureat{PartitionUp}{seedStr}[BEDC.Derived.PartitionUp.PartitionBHistCarrier\_young\_boundary\_package]
+\closureat{PartitionUp}{obligationStr}[BEDC.Derived.PartitionUp.PartitionBHistCarrier\_young\_boundary\_package]
+\closureat{PartitionUp}{scopedStr}[BEDC.Derived.PartitionUp.PartitionBHistCarrier\_young\_boundary\_package]
+
+\begin{closurestatus}{\PartitionUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The visible seed scope is the finite $\mathsf{BHist}$ carrier,
+  the Young-ledger classifier, the $\ListUp/\NatUp$ source packet, and the
+  displayed $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.}
+  \constructivestory{A partition packet is generated from a finite list-source
+  row, unary size rows, adjacent weak-decrease checks, displayed boundary
+  continuations, $\hsame$ transport, and $\mathsf{Pkg}$ provenance; no host
+  enumeration or representation-theoretic object is part of the carrier.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.PartitionUp.PartitionBHistCarrier\_young\_boundary\_package}
+  \bridgestatus{none}
+  \notclaimed{No host partition enumeration, hook formula,
+  symmetric-function identity, or representation-theoretic datum is claimed.}
+  \upgradepath{Public closure requires a single exported $\PartitionUp$
+  certificate theorem over the scoped carrier, classifier, ledger exactness,
+  $\ListUp/\NatUp$ source rows, $\hsame$, $\Cont$, and $\Pkg$ fields.}
+\end{closurestatus}

@@ -6,5 +6,144 @@ The Koszul-duality interface $\KoszulDualityUp$ packages the contravariant deriv
 \section{Carrier definition}
 \label{sec:koszulduality-carrier}
 
+\begin{definition}[KoszulDuality BHist Ext carrier]
+\label{def:koszulduality-bhist-ext-carrier}
+A $\KoszulDualityUp$ carrier is a finite $\mathsf{BHist}$ package consisting
+of four visible rows. The first row is a $\DerivedCatUp$ object row naming the
+source graded algebra object and its displayed derived-category endpoint. The
+second row is a $\TensorProductUp$ graded tensor row naming the tensor surface
+used to form the dual algebra side. The third row is the displayed
+$\mathrm{Ext}$-classifier row comparing the derived object row with the graded
+tensor row through their certificate dependencies. The fourth row is a variance
+ledger recording that the dual row reverses source and target order
+contravariantly.
+
+The carrier is this finite packet of rows and endpoint data. It contains no
+quotient derived category, no chosen representative, no external equivalence
+object, and no host-level model of Koszul duality outside the displayed
+$\mathsf{BHist}$ ledger.
+\end{definition}
+\leandef{BEDC.Derived.KoszulDualityUp.KoszulDualityBHistExtCarrier}
+
+\begin{theorem}[KoszulDuality Ext classifier stability]
+\label{thm:koszulduality-ext-classifier-stability}
+Let two $\KoszulDualityUp$ carrier packets have derived-category rows and
+graded tensor rows related by displayed $\hsame$ classifiers from
+$\NameCert_{\DerivedCatUp}$ and $\NameCert_{\TensorProductUp}$. If the
+$\mathrm{Ext}$-classifier row in the first packet is read only through those
+two dependency certificates and the visible variance ledger, then the same
+$\mathrm{Ext}$-classifier package repacks over the transported rows, and the
+contravariant dual row is accepted in the transported packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.KoszulDualityUp.KoszulDualityExtCarrier\_classifier\_stability}
+\begin{proof}
+Project the derived-category dependency certificate from the source packet.
+It transports the source object endpoint and all displayed derived rows through
+the listed $\hsame$ comparison.
+
+Project the graded tensor dependency certificate in the same way. The tensor
+surface is transported as a certificate row, so the target-side endpoint used
+by the dual algebra surface is still available after transport.
+
+Replay the $\mathrm{Ext}$-classifier ledger with these two transported rows.
+The classifier has no independent carrier beyond the two projected dependency
+rows and the variance tag, so it repacks over the transported endpoints.
+
+Finally read the contravariant tag. Since the tag records only reversal of
+source and target order, the transported dual row is accepted by the same
+finite ledger with the order reversed.
+\end{proof}
+\leanchecked{BEDC.Derived.KoszulDualityUp.KoszulDualityBHistExtCarrier\_ext\_classifier\_stability}
+
+\begin{theorem}[KoszulDuality derived tensor ledger exactness]
+\label{thm:koszulduality-derived-tensor-ledger-exactness}
+For every accepted $\KoszulDualityUp$ carrier, the ledger exposes exactly the
+$\DerivedCatUp$ object row, the $\TensorProductUp$ graded tensor row, the
+displayed $\mathrm{Ext}$-classifier row, and the variance tag recording
+contravariant source-target reversal. No quotient category, chosen
+representative, external equivalence object, triangulated enhancement, or
+model-category localization is exported by the carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.KoszulDualityUp.KoszulDualityDerivedTensorLedger\_exactness}
+\begin{proof}
+Inspect the carrier of
+\autoref{def:koszulduality-bhist-ext-carrier}. Its accepted rows are the
+derived object row, graded tensor row, $\mathrm{Ext}$-classifier row, and
+variance ledger.
+
+The dependency certificates may be projected only through the rows named in
+the packet. The derived side contributes the object endpoint, and the tensor
+side contributes the graded tensor endpoint.
+
+The $\mathrm{Ext}$ row is then a displayed classifier between those projected
+endpoints. Since no further constructor is present in the packet, none of the
+excluded host objects can be read from the accepted carrier.
+\end{proof}
+
+\begin{theorem}[KoszulDuality NameCert obligation surface]
+\label{thm:koszulduality-namecert-obligation-surface}
+The local $\NameCert_{\KoszulDualityUp}$ surface is the package consisting of
+the carrier of \autoref{def:koszulduality-bhist-ext-carrier}, the displayed
+$\mathrm{Ext}$ classifier, the stability clause of
+\autoref{thm:koszulduality-ext-classifier-stability}, the exact ledger of
+\autoref{thm:koszulduality-derived-tensor-ledger-exactness}, and the source
+coverage assertion that every accepted duality row is read from the displayed
+derived-category row, graded tensor row, classifier row, and variance tag.
+\end{theorem}
+\leanchecked{BEDC.Derived.KoszulDualityUp.KoszulDualityBHistExtCarrier\_namecert\_obligation\_surface}
+\leanchecked{BEDC.Derived.KoszulDualityUp.KoszulDualityExtCarrier\_semantic\_name\_certificate}
+\begin{proof}
+Use the carrier definition as the source predicate for the local certificate.
+It supplies precisely the finite $\mathsf{BHist}$ rows that the certificate is
+allowed to classify.
+
+The classifier row is the displayed $\mathrm{Ext}$ row. Its transport
+obligation is supplied by
+\autoref{thm:koszulduality-ext-classifier-stability}, which repacks the same
+classifier after the two dependency certificates transport their rows.
+
+The ledger and source-coverage obligations are supplied by
+\autoref{thm:koszulduality-derived-tensor-ledger-exactness}. Together they say
+that every accepted row is visible in the finite package and that no host
+duality structure is added by the certificate boundary.
+\end{proof}
+
+\begin{theorem}[KoszulDuality bridge boundary exclusions]
+\label{thm:koszulduality-bridge-boundary-exclusions}
+The $\KoszulDualityUp$ boundary supplies only the BEDC
+$\mathrm{Ext}$-classifier correspondence between the displayed
+$\DerivedCatUp$ and $\TensorProductUp$ rows. It does not assert a full derived
+equivalence, a triangulated enhancement, a model-category localization, or a
+standard bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.KoszulDualityUp.KoszulDualityBHistExtCarrier\_bridge\_boundary\_exclusions}
+\begin{proof}
+Read the public boundary through
+\autoref{thm:koszulduality-namecert-obligation-surface}. The available data
+are carrier, classifier, stability, ledger exactness, and source coverage.
+
+Each of those rows factors through the finite
+\autoref{def:koszulduality-bhist-ext-carrier} packet. That packet contains the
+dependency rows and the variance tag, but it contains no object representing a
+host derived equivalence or any localization apparatus.
+
+Therefore the boundary exports the stated BEDC classifier correspondence and
+nothing beyond the displayed rows.
+\end{proof}
+
 \section{The certificate}
 \label{sec:koszulduality-certificate}
+
+\closureat{KoszulDualityUp}{obligationStr}[BEDC.Derived.KoszulDualityUp.KoszulDualityExtCarrier\_semantic\_name\_certificate]
+\closureat{KoszulDualityUp}{scopedStr}[BEDC.Derived.KoszulDualityUp.KoszulDualityExtCarrier\_semantic\_name\_certificate]
+
+\begin{closurestatus}{\KoszulDualityUp}
+  \constructivestory{A $\KoszulDualityUp$ seed packet is generated from a displayed $\DerivedCatUp$ source row, a displayed $\TensorProductUp$ graded tensor row, an $\mathrm{Ext}$-classifier row tying those dependencies together, and a variance ledger recording contravariant source-target reversal. The carrier reads only this finite $\mathsf{BHist}$ packet; classifier stability, ledger exactness, and source coverage are paper-side obligations over the same rows, while quotient derived categories, host equivalences, triangulated enhancements, model-category localizations, and standard bridge data are absent from the exported surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the $\mathsf{BHist}/\mathrm{Ext}$ carrier, classifier stability, derived tensor ledger exactness, semantic certificate rows, and the $\DerivedCatUp/\TensorProductUp/\NameCert/\hsame/\Cont/\Pkg$ dependency packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.KoszulDualityUp.KoszulDualityExtCarrier\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a full derived equivalence, a triangulated or model-category presentation, a standard bridge, or a mature $\KoszulDualityUp$ public surface.}
+  \upgradepath{Scoped closure requires explicit kernel dependency binding for $\DerivedCatUp$, $\TensorProductUp$, the $\mathrm{Ext}$ classifier, variance ledger, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+\end{closurestatus}
