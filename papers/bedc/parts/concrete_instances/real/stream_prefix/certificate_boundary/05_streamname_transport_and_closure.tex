@@ -157,6 +157,77 @@ $\mathsf{RatStreamNameClassifier}(s',t')$, which is the final row of the
 scoped $\RegSeqRat$ interface package.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window seal coverage]
+\label{thm:regseqrat-finite-window-seal-coverage}
+Let $s,t:\Hist\to\Hist$ be certified rational stream names and let
+$W:\mathsf{ProbeBundle}$ be a finite unary-observation window. The rows
+exported by
+\autoref{thm:streamname-public-finite-window-interface}, the scoped
+$\RegSeqRat$ interface of
+\autoref{thm:regseqrat-streamname-scoped-interface}, and the DyadicRatCore
+observation rows assemble the finite-window seal side consumed by $\RealUp$.
+The assembled package records the bundled unary observations of $W$, the
+pointwise $\RatUp$ classifier rows for $s$ and $t$, the dyadic observation
+witnesses, and the $\RegSeqRat$ spine ledger. It claims no $\RealUp$
+completeness, quotient carrier, arithmetic closure, order closure, metric
+completion, or standard bridge.
+\end{theorem}
+\begin{proof}
+First project the finite classifier rows from the StreamNameUp finite-window
+interface. For every bundled unary observation in $W$,
+\autoref{thm:streamname-public-finite-window-interface} supplies the carried
+stream-name endpoints and the pointwise $\RatUp$ classifier row visible at
+that observation.
+
+Next apply
+\autoref{thm:regseqrat-streamname-scoped-interface}. Its scoped package
+recovers the stream-name transport rows, the pointwise endpoint carrier rows,
+the transported StreamNameUp classifier, and the $\RegSeqRat$ spine rows over
+the same certified names.
+
+Finally attach the DyadicRatCore observation witnesses as the seal ledger.
+These witnesses are indexed by the same finite window $W$, so the bundled
+unary observations, pointwise classifier rows, dyadic observations, and spine
+ledger repack as exactly the finite boundary consumed by the later $\RealUp$
+seal theorem.
+\end{proof}
+
+\begin{theorem}[RegSeqRat finite-window RealUp seal interface]
+\label{thm:regseqrat-finite-window-real-seal-interface}
+Let $s,t:\Hist\to\Hist$ be certified rational stream names and let
+$W:\mathsf{ProbeBundle}$ be a finite unary-observation window. The
+StreamNameUp finite-window interface, the scoped $\RegSeqRat$ interface, the
+DyadicRatCore observation rows, and the public $\RealUp$ seal rows assemble one
+$\mathsf{BHist}$-anchored $\RealUp$ finite-window seal package. Its carrier row
+is $\mathsf{RatStreamNameCarrier}$ for $s$ and $t$; its classifier rows are
+$\mathsf{RatStreamNameClassifier}$ and the finite-window classifier over $W$;
+its observation face is the finite family of dyadic comparison rows; its spine
+ledger is the $\RegSeqRat$ stream-name ledger; and its consumer face is the
+public $\RealUp$ seal row. The package asserts no completeness theorem, quotient
+carrier, arithmetic closure, order closure, metric completion, Classical data,
+or trichotomy.
+\end{theorem}
+\begin{proof}
+First read the finite observation boundary. By
+\autoref{thm:streamname-public-finite-window-interface}, the certified stream
+names $s$ and $t$ supply the StreamNameUp carrier rows, the
+$\mathsf{RatStreamNameClassifier}$ row, and the finite-window classifier row
+for every bundled unary observation in $W$.
+
+Next read the scoped regular-sequence spine. Theorem~\ref{thm:regseqrat-streamname-scoped-interface}
+packages the same stream-name rows as the $\RegSeqRat$ interface, while
+\autoref{thm:regseqrat-finite-window-seal-coverage} attaches the dyadic
+observation witnesses and the finite spine ledger over the same window.
+
+Finally consume the public seal. Theorem~\ref{thm:realup-public-certificate-export}
+identifies the $\RealUp$ consumer row whose visible inputs are precisely the
+carrier, classifier, dyadic observation, and $\RegSeqRat$ ledger rows already
+assembled. Since none of these sources introduces quotient formation,
+arithmetic or order closure, metric-completion data, Classical data, or
+trichotomy, the resulting package is exactly the stated finite-window seal
+interface.
+\end{proof}
+
 The ten-field fit is: traditional target transport of a unary real stream-name
 classifier; BEDC source StreamNameUp read through the RealUp unary classifier;
 carrier the transported RatUp endpoint carrier rows for $s'$ and $t'$;
@@ -395,6 +466,102 @@ chapters may cite this theorem as the public $\RealUp$ certificate boundary
 without reconstructing the package.
 \end{proof}
 
+\begin{theorem}[RealUp public seal source determinacy]
+\label{thm:realup-public-seal-source-determinacy}
+Let a downstream L10 use of a sealed $\RealUp$ candidate cite
+\autoref{thm:realup-public-certificate-export} as its public seal. Then the
+source rows consumed from that seal are exactly the DyadicRatCore public
+observation package, the $\StreamNameUp$ public countable-name interface and
+finite-window interface, the $\RegSeqRat$ stream-name scoped interface, and the
+named $\RealUp$ rows
+$\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$.
+
+No quotient representative, completion object, metric-completeness row,
+arithmetic or order row, Classical datum, or standard bridge may be read from
+that public seal. Thus a downstream argument using the seal is source
+determinate over the displayed DyadicRatCore, $\StreamNameUp$, $\RegSeqRat$, and
+$\RealUp$ rows alone.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:realup-public-certificate-export}. It identifies the
+public seal as the scoped $\RealUp$ certificate boundary, the selected
+finite-window read surface, the $\RegSeqRat$ stream-name interface, the
+DyadicRatCore observation rows, and the named carrier, classifier, unary-stream,
+and ledger rows.
+
+Factor the countable-name and finite-window faces through the public stream-name
+interfaces. Apply
+\autoref{thm:realup-public-export-through-streamname-public-interface}; its
+factorization sends the countable-name part through
+\autoref{thm:streamname-public-interface-export-package} and the finite-window
+part through \autoref{thm:streamname-public-finite-window-interface}.
+
+Project the remaining source rows. Apply
+\autoref{thm:dyadicratcore-public-observation-package} for the dyadic finite
+observation package, and apply
+\autoref{thm:regseqrat-streamname-scoped-interface} for the regular
+rational-stream spine with its transported stream-name rows. The only
+non-factorized $\RealUp$ rows left by the public export are the displayed
+$\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+Finally compare this list with the roadmap ten-field template. The traditional
+target, BEDC source, carrier, classifier, stability, ledger, core theorem list,
+exactness, standard-bridge field, and status field are all read from the four
+public packages and named $\RealUp$ rows above. Since the cited public export and
+its factorizations explicitly withhold quotient, completion, arithmetic, order,
+metric-completeness, Classical, and standard-bridge data, a downstream use of
+the seal cannot consume any such row.
+\end{proof}
+
+\begin{theorem}[RegSeqRat finite-window seal source pullback]
+\label{thm:regseqrat-finite-window-seal-source-pullback}
+Let two downstream L10 seal uses of $\RealUp$ cite
+\autoref{thm:realup-public-certificate-export}. Suppose both uses restrict
+their public seal to the same certified finite $\StreamNameUp$ window $U$ and
+there carry matching $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows,
+matching $\RegSeqRat$ spine rows, matching endpoint
+$\mathsf{DyadicRatCoreObservationRow}$ witnesses, and matching displayed
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows. Then the
+finite $\RegSeqRat$ seal-source package induced by either use and the finite
+$\RealUp$ readback packet induced by either use are the same public
+$\mathsf{BHist}$
+source surface over $U$.
+
+This pullback uses only DyadicRatCore observation rows, the certified
+$\StreamNameUp$ finite window, the $\RegSeqRat$ spine rows, displayed
+$\hsame/\Cont/\Pkg$ provenance, and the finite $\RealUp$ ledger boundary. It
+does not export quotient data, completion data, metric-completeness rows,
+arithmetic rows, order rows, Classical representatives, or standard-bridge
+rows.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:realup-public-seal-source-determinacy} to both
+downstream seal uses. Each use can read only the displayed DyadicRatCore,
+$\StreamNameUp$, $\RegSeqRat$, and named $\RealUp$ rows from
+\autoref{thm:realup-public-certificate-export}.
+
+Next factor the common stream-name restriction through
+\autoref{thm:streamname-real-regseq-overlap-unique-source}. The matching
+finite-window classifier rows, probe window, endpoint observation rows, and
+displayed $\hsame$ transports identify one $\StreamNameUp$ source surface on
+$U$ for every induced $\RegSeqRat$ handoff.
+
+Now apply \autoref{thm:realup-streamname-regseqrat-common-window-pullback}.
+The matching $\RegSeqRat$ spine, DyadicRatCore endpoints, $\Cont/\Pkg$
+provenance, and finite $\mathsf{RealLedgerPolicy}$ rows identify the two
+restricted $\RealUp$ readback packets with that same finite $\mathsf{BHist}$
+packet.
+
+The finite ledger boundary then repacks the common packet as the public source
+surface read by both L10 consumers. Since every step has already excluded
+quotient, completion, metric-completeness, arithmetic, order, Classical, and
+standard-bridge rows, no additional source row is available in the pullback.
+\end{proof}
+
 \begin{theorem}[RealUp public export through the StreamNameUp public interface]
 \label{thm:realup-public-export-through-streamname-public-interface}
 The public $\NameCert_{\RealUp}$ surface of
@@ -444,7 +611,132 @@ unfactored rows are precisely the displayed $\RealUp$ carrier, classifier,
 transport, endpoint, history, and ledger rows.
 \end{proof}
 
+\begin{theorem}[RealUp Phase Real and Completion boundary]
+\label{thm:realup-phase-real-completion-boundary}
+The Phase Real and Completion paper boundary is exactly the composite of the
+following four public packages:
+\begin{enumerate}
+  \item the DyadicRatCore public observation package of
+  \autoref{thm:dyadicratcore-public-observation-package};
+  \item the $\StreamNameUp$ public countable-name export package of
+  \autoref{thm:streamname-public-interface-export-package} together with the
+  finite-window interface of
+  \autoref{thm:streamname-public-finite-window-interface};
+  \item the $\RegSeqRat$ stream-name scoped interface of
+  \autoref{thm:regseqrat-streamname-scoped-interface};
+  \item the $\RealUp$ public certificate export of
+  \autoref{thm:realup-public-certificate-export} after factorization through
+  the $\StreamNameUp$ public interface in
+  \autoref{thm:realup-public-export-through-streamname-public-interface}.
+\end{enumerate}
+Equivalently, its roadmap ten-field row has traditional target regular real
+completion by dyadic rational streams; BEDC source the DyadicRatCore,
+$\StreamNameUp$, $\RegSeqRat$, and $\RealUp$ packages listed above; carrier the
+DyadicRatCore observations, rational stream names, regular stream spine, and
+$\mathsf{RealConstantHistoryCarrier}$ rows; classifier the public
+$\StreamNameUp$ classifier, the transported $\RegSeqRat$ stream classifier, and
+$\mathsf{RealConstantHistoryClassifier}$ with
+$\mathsf{RealUnaryStreamClassifier}$; stability the $\hsame$, endpoint,
+stream-name, finite-window, and unary-stream transport rows exposed by those
+packages; ledger the finite dyadic observation rows and
+$\mathsf{RealLedgerPolicy}$; core theorem list exactly the six displayed
+source theorems; exactness finite-window and public-export exactness only up to
+the named classifiers; standard bridge absent; status paper-level phase
+boundary for the future namespace $\mathsf{BEDC.Derived.RealUp}$.
+
+The boundary contains no $\RealUp$ completeness theorem, no full $\RealUp$
+arithmetic or order closure, no metric-completeness certificate, no quotient
+construction, no Classical datum, and no standard bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealUp.RealUp\_concrete\_to\_schema}
+\begin{proof}
+First collect the four public package faces. Apply
+\autoref{thm:dyadicratcore-public-observation-package} for the finite dyadic
+observation source. Apply
+\autoref{thm:streamname-public-interface-export-package} and
+\autoref{thm:streamname-public-finite-window-interface} for the public
+countable-name and finite-window surfaces. Apply
+\autoref{thm:regseqrat-streamname-scoped-interface} for the regular
+rational-stream spine.
+
+Next attach the $\RealUp$ export. Apply
+\autoref{thm:realup-public-certificate-export} to read the scoped $\RealUp$
+certificate boundary as a public downstream package. Apply
+\autoref{thm:realup-public-export-through-streamname-public-interface} to
+factor its countable-name and finite-window components through the public
+$\StreamNameUp$ interfaces, leaving precisely the dyadic, regular-stream,
+endpoint, unary-history, $\hsame$, carrier, classifier, and ledger rows named
+in the statement.
+
+Finally repack the collected rows using the roadmap ten-field template. The
+traditional target, BEDC source, carrier, classifier, stability, ledger, core
+theorem list, exactness, standard-bridge field, and status field are all read
+from the cited public packages. Since each cited package explicitly withholds
+quotient, completion, arithmetic, order, metric-completeness, Classical, and
+standard-bridge data, the composite phase boundary withholds exactly those data
+as well.
+\end{proof}
+
+\begin{theorem}[RealUp completion phase interface exhaustion]
+\label{thm:realup-completion-phase-interface-exhaustion}
+Every public consumer row for the Phase Real and Completion package of
+\autoref{thm:realup-phase-real-completion-boundary} factors through exactly one
+of the four displayed BEDC surfaces: DyadicRatCore public observation rows,
+$\StreamNameUp$ pointwise finite-window rows, $\RegSeqRat$ regular-spine and
+dyadic-tolerance rows, or the $\RealUp$ seal and readback rows. The exhaustion
+is exclusive at the consumer boundary: dyadic observations are read only
+through \autoref{thm:dyadicratcore-public-observation-package},
+stream-name windows only through the public $\StreamNameUp$ rows of
+\autoref{thm:streamname-public-interface-export-package} and
+\autoref{thm:streamname-public-finite-window-interface}, regular-spine and
+dyadic-tolerance data only through
+\autoref{thm:regseqrat-streamname-scoped-interface}, and seal/readback data
+only through the $\RealUp$ export and seal interfaces of
+\autoref{thm:realup-public-certificate-export},
+\autoref{thm:realup-public-export-through-streamname-public-interface},
+\autoref{thm:realup-public-seal-source-determinacy}, and
+\autoref{thm:regseqrat-finite-window-real-seal-interface}.
+
+No public consumer row in this phase may read completion data, quotient
+representatives, host stream equality, or a direct $\RealUp$ read that bypasses
+the $\StreamNameUp$--$\RegSeqRat$ handoff.
+\end{theorem}
+\begin{proof}
+Begin with the composite boundary of
+\autoref{thm:realup-phase-real-completion-boundary}. Its four cases are the
+only rows placed in the phase package, so a public consumer row must be
+dyadic, stream-name finite-window, regular-spine with dyadic tolerance, or
+$\RealUp$ seal/readback data.
+
+In the dyadic case, apply
+\autoref{thm:dyadicratcore-public-observation-package}. It accounts for the
+public observation rows and exposes no completion, quotient, host equality, or
+direct $\RealUp$ read.
+
+In the stream-name case, apply
+\autoref{thm:streamname-public-interface-export-package} together with
+\autoref{thm:streamname-public-finite-window-interface}. These theorems bind
+pointwise finite windows through the public $\StreamNameUp$ surface and do not
+introduce regular-spine or seal rows.
+
+In the regular-spine case, apply
+\autoref{thm:regseqrat-streamname-scoped-interface} and then
+\autoref{thm:regseqrat-finite-window-real-seal-interface} for the dyadic
+tolerance rows that hand the finite window to the $\RealUp$ seal. This is the
+only path from a stream-name read to a $\RealUp$ readback row.
+
+In the seal/readback case, apply
+\autoref{thm:realup-public-certificate-export},
+\autoref{thm:realup-public-export-through-streamname-public-interface}, and
+\autoref{thm:realup-public-seal-source-determinacy}. The export factors
+through the public stream-name interface, and seal-source determinacy prevents
+any second source from serving the same public read. The excluded completion,
+quotient, host-equality, and direct-read data are absent from each cited
+surface, hence absent from the exhausted consumer boundary.
+\end{proof}
+
 \begin{closurestatus}{\RegSeqRat}
+  \constructivestory{A regular rational-sequence row is assembled from a $\StreamNameUp$ rational observation stream and a regularity ledger over certified unary observation histories, with each observed endpoint read through $\RatUp$ and each tolerance request recorded by the dyadic side of the real boundary. The carrier accepts streams only when the pointwise rational-history carrier is available at every unary observation and the regularity witness is stable under the real unary stream classifier; a raw sequence with no StreamName carrier, no pointwise RatUp rows, or no dyadic-tolerance ledger is outside this spine. Two accepted spines are classified when the same unary observations carry pointwise $\RatUp$ classifier rows and the resulting $\mathsf{RealUnaryStreamClassifier}$ transports endpoint histories by $\hsame$, rather than by a quotient of Cauchy sequences. The source specification is the $\StreamNameUp$ carrier plus DyadicRatCore observation surface, the pattern specification records pointwise classifier stability, reflexivity, symmetry, transitivity, endpoint carrier readback, transported stream-name classification, finite-window seal coverage, and the $\RealUp$ seal handoff, and the ledger keeps observation indices, point classifiers, finite windows, regularity requests, and dyadic tolerances visible. The five name-certificate obligations follow from the stream and point classifiers: an admitted spine supplies carrier inhabitation, pointwise RatUp equivalence gives reflexive, symmetric, and transitive classification, and endpoint $\hsame$ transport repacks the same regular stream row. A stream packet $h$ lies in the signature gap of a $\RegSeqRat$ token $p$ when the source-domain accepts its rational observations and regularity ledger, the signature relation pairs it with an answer spine and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, the finite windows, pointwise rational classifiers, and dyadic tolerance rows are the entries encoded by $p$. The block registers this rational-stream certificate spine as $\RegSeqRat$; it supplies only the visible interface consumed by the real seal, with no real completeness theorem, arithmetic/order closure, metric completion, quotient carrier, or standard bridge introduced.}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The rational-stream certificate spine binds $\RatUp$, $\StreamNameUp$, $\mathsf{UnaryHistory}$, $\hsame$ transport, $\mathsf{RealUnaryStreamClassifier}$, the dyadic-tolerance ledger, and the $\RealUp$ seal as the visible $\RegSeqRat$ scope.}
   \formalstatus{\theoremCheckedV}
@@ -454,12 +746,14 @@ transport, endpoint, history, and ledger rows.
   \upgradepath{A stronger closure grade requires public $\RealUp$ arithmetic, order, completeness, and standard-bridge certificates beyond this rational-stream certificate boundary.}
 \end{closurestatus}
 
+\closureat{RealUp}{matureStr}[BEDC.Derived.RealUp.RealConstant\_rational\_embedding\_certificate]
 \begin{closurestatus}{\RealUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{thm:realup-scoped-certificate-boundary} and \autoref{thm:realup-public-certificate-export} witness the public $\RealUp$ certificate export over DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, $\RatUp$, $\mathsf{UnaryHistory}$, $\hsame$ transport, $\mathsf{RealConstantHistoryCarrier}$, $\mathsf{RealConstantHistoryClassifier}$, $\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$, while \autoref{thm:real-constant-rational-embedding-certificate} supplies the constant rational standard bridge over RatUp, StreamNameUp, and RealUp.}
+  \constructivestory{The real-number boundary is built by joining four already displayed surfaces: DyadicRatCore public observations, $\StreamNameUp$ countable names and finite windows, the $\RegSeqRat$ regular stream spine, and the scoped $\RealUp$ seal/readback rows. The carrier accepts only this composite package of dyadic observations, rational stream names, regularity spine, constant-history rows, endpoint transports, and finite-window ledgers; a completion object, quotient carrier, host equality, arithmetic package, order package, or metric-completeness row is not part of the accepted boundary. Two accepted real packets are classified by the public stream-name classifier, the transported regular-stream classifier, and the real constant/history classifier over the same unary observation and ledger rows, rather than by identifying external Cauchy classes. The source specification is the four-package phase boundary, the pattern specification records dyadic observation transport, public StreamName export, finite-window exactness, regular-spine seal consumption, public real export, endpoint determinacy, and consumer-boundary exhaustion, and the ledger keeps each dyadic, stream, regularity, seal, endpoint, and provenance row visible. The five name-certificate obligations are read through these component certificates: a displayed constant rational embedding inhabits the boundary, the component classifiers provide reflexivity, symmetry, and transitivity, and $\hsame$, endpoint, stream-name, and finite-window transports keep the composite package inside the same boundary. A packet $h$ lies in the signature gap of a $\RealUp$ token $p$ when the source-domain accepts one of the four public package faces, the signature relation pairs it with an answer real-boundary packet and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, the dyadic observations, rational stream-name rows, regularity spine, and seal/readback entries match the rows encoded by $p$. The checked bridge marker attaches only to the constant rational embedding and boundary package recorded here; the chapter registers this phase-real construction under $\RealUp$ without closing completeness, full arithmetic, full order, metric completeness, quotient construction, Classical data, or a standard-model bridge.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:realup-phase-real-completion-boundary} is the mature paper boundary over DyadicRatCore, $\StreamNameUp$, $\RegSeqRat$, and $\RealUp$, binding the dyadic observations, rational stream names, regular stream spine, public $\RealUp$ certificate export, endpoint and finite-window transports, and finite-window ledger.}
   \formalstatus{\bridgeCheckedV}
-  \leantarget{BEDC.Derived.RealUp.RealConstant\_rational\_embedding\_certificate}
+  \leantarget{BEDC.Derived.RealUp.RealUp\_StdBridge}
   \bridgestatus{bridgeChecked}
-  \notclaimed{This block does not close $\RealUp$ completeness, full arithmetic or order, metric completeness, topology, or nonconstant $\RegSeqRat$ bridge rows.}
-  \upgradepath{$\matureClosure$ requires additional nonconstant $\RegSeqRat$ bridge rows and examples beyond the constant rational embedding.}
+  \notclaimed{This block does not close $\RealUp$ completeness, full arithmetic or order, metric completeness, quotient construction, Classical data, or a checked standard-model bridge.}
+  \upgradepath{No further upgrade -- chapter at top of formal axis.}
 \end{closurestatus}

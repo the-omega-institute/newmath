@@ -116,3 +116,245 @@ $$
 \mu(A)\le_R1_R.
 $$
 \end{proof}
+
+\begin{definition}[ProbSpace public event packet]
+\label{def:probspace-public-event-packet}
+For a $\ProbSpaceUp$ carrier obtained from the probability substrate of \autoref{thm:measure-probability-substrate-obligations}, the public event packet is the tuple whose carrier entries are the $\MeasureUp$ measurable-event family $\mathcal{A}$, the total event $\Omega$, the $\RealUp$-valued measure map $\mu$, and the selected endpoint $1_R$. Its classifier entries are the displayed measurable-event readback classifier inherited from $\MeasureUp$, the $\RealUp$ classifier $\sim_R$, the RealAlgOrder comparison row $\le_R$, and the classifier-stability fields for addition, order, complement, and relative difference. Its ledger entries are the underlying $\mathsf{BHist}$ histories, the carried package row $\mathsf{Pkg}$, the $\NameCert_{\MeasureUp}$ and $\NameCert_{\RealUp}$ rows read by the probability substrate, and the $\NameCert_{\ProbSpaceUp}$ row that records the total-mass comparison
+$$
+\mu(\Omega)\sim_R1_R.
+$$
+The packet is public when these entries are exposed as named BEDC rows, with no appeal to a host probability-space axiom outside the displayed $\mathsf{BHist}$, $\mathsf{Pkg}$, and $\NameCert$ ledger.
+\end{definition}
+\leandef{BEDC.Derived.ProbSpaceUp.ProbSpacePublicEventPacket}
+
+\begin{theorem}[ProbSpace total event normalization row]
+\label{thm:probspace-total-event-normalization-row}
+For the public event packet of \autoref{def:probspace-public-event-packet}, the displayed total-mass comparison
+$$
+\mu(\Omega)\sim_R1_R
+$$
+is exported as a $\ProbSpaceUp$ BEDC row. It is a row of the carried certificate surface, not an assertion that the ambient host theory supplies probability normalization for arbitrary outside measures.
+\end{theorem}
+\begin{proof}
+Project the total-mass entry from the $\NameCert_{\ProbSpaceUp}$ ledger in \autoref{def:probspace-public-event-packet}. The projected row has left endpoint $\mu(\Omega)$, right endpoint $1_R$, and classifier $\sim_R$.
+
+The classifier is the same $\RealUp$ classifier used in \autoref{def:real-classifier-specification}. Hence the row is read as the BEDC comparison $\mu(\Omega)\sim_R1_R$ inside the carried package, and no host normalization principle is introduced.
+\end{proof}
+\leanchecked{BEDC.Derived.ProbSpaceUp.ProbSpacePublicEventPacket\_normalization\_bounds}
+
+\begin{theorem}[ProbSpace event classifier transport row]
+\label{thm:probspace-event-classifier-transport-row}
+For the public event packet of \autoref{def:probspace-public-event-packet}, measurable-event readback transport together with $\RealUp$ classifier transport preserves the measure endpoint, the complement packet, and the relative-difference rows used by \autoref{thm:probspace-monotone-event-bounds}. In particular, if displayed events $A$ and $B$ are transported along the inherited event readback classifier and their measured endpoints are transported along $\sim_R$, then the rows presenting $A^\complement$, $B\setminus A$, $\mu(A)$, $\mu(B)$, $\mu(A^\complement)$, and $\mu(B\setminus A)$ remain rows of the same public packet.
+\end{theorem}
+\begin{proof}
+Start with the MeasureUp complement and relative-difference row of \autoref{def:measure-complement-difference-row}. It is one of the inherited entries of the public event packet, so event readback transport keeps the displayed complement and relative-difference events in the same measurable-event family $\mathcal{A}$.
+
+The measured endpoints are carried by the $\RealUp$-valued measure map $\mu$. Apply the same $\RealUp$ classifier transport used in \autoref{thm:probspace-monotone-event-bounds}; it transports endpoint comparisons without changing the named packet entries.
+
+Combining these two transports preserves the complement packet, the relative-difference packet, and the RealAlgOrder rows used for monotonicity. Thus the transported rows remain available on the public $\ProbSpaceUp$ surface.
+\end{proof}
+\leanchecked{BEDC.Derived.ProbSpaceUp.ProbSpacePublicEventPacket\_transport\_rows}
+
+\begin{theorem}[ProbSpace public certificate export]
+\label{thm:probspace-public-certificate-export}
+The public event packet of \autoref{def:probspace-public-event-packet} exports the probability-space certificate surface $\NameCert_{\ProbSpaceUp}$. The exported surface contains the complement-mass additivity row of \autoref{thm:probspace-complement-mass-additivity}, the one-minus complement row of \autoref{thm:probspace-complement-mass-one-minus}, the monotone event-bounds row of \autoref{thm:probspace-monotone-event-bounds}, the total event normalization row of \autoref{thm:probspace-total-event-normalization-row}, and the event classifier transport row of \autoref{thm:probspace-event-classifier-transport-row}. Consequently, downstream $\RandomVarUp$, $\DistributionUp$, $\IndependenceUp$, and $\CondExpUp$ objects may cite this single $\NameCert_{\ProbSpaceUp}$ surface for probability-space rows rather than reconstructing those rows from separate consequences.
+\end{theorem}
+\leanchecked{BEDC.Derived.ProbSpaceUp.ProbSpacePublicEventPacket\_public\_certificate\_export}
+\begin{proof}
+The packet already carries the $\MeasureUp$ measurable-event family, complement and relative-difference rows, the $\RealUp$ classifier and order rows, the total event, the measure map, and the unit endpoint. By \autoref{thm:probspace-total-event-normalization-row}, its total-mass comparison is a named certificate row.
+
+Add the three scoped consequences already proved in this section. The complement-mass additivity row comes from \autoref{thm:probspace-complement-mass-additivity}; the one-minus row comes from \autoref{thm:probspace-complement-mass-one-minus}; and the monotone event-bounds row comes from \autoref{thm:probspace-monotone-event-bounds}.
+
+It remains to make these rows stable under the event and endpoint classifiers read by downstream objects. This is exactly \autoref{thm:probspace-event-classifier-transport-row}, so the rows assemble into one public $\NameCert_{\ProbSpaceUp}$ surface.
+\end{proof}
+
+\closureat{ProbSpaceUp}{matureStr}[BEDC.Derived.ProbSpaceUp.ProbSpaceMonotoneEvent\_bounds]
+\begin{closurestatus}{\ProbSpaceUp}
+  \constructivestory{A probability space is obtained by taking a carried $\MeasureUp$ packet, keeping its measurable-event family $\mathcal A$, total event $\Omega$, and $\RealUp$-valued measure row $\mu$, and then adding the displayed normalization row that classifies $\mu(\Omega)$ with the selected unit endpoint $1_R$. The carrier admits only those event packets whose measure, complement, relative-difference, order, and additive rows are already visible through the $\MeasureUp$, $\RealUp$, and $\AbGroupUp$ surfaces; two packets are the same when the inherited event readback classifier and the $\RealUp$ classifier transport all measured endpoints, order comparisons, complements, and differences to matching rows. The source therefore covers the public event packet, the pattern records total-mass normalization, complement additivity, one-minus readback, and monotone bounds, and the ledger keeps the raw $\mathsf{BHist}$ histories, $\Pkg$ provenance, and consumed $\NameCert$ rows aligned with the visible probability rows. Since the underlying measure and real classifiers are equivalence relations and the transported event packet keeps the same carrier entries, an admitted normalized packet supplies the nonempty witness, reflexive, symmetric, and transitive classifier comparisons, and carrier closure under classifier replacement. A history packet $h$ lies in the signature gap of a $\ProbSpaceUp$ token $p$ when the source-domain accepts the displayed event-and-measure packet, the signature relation pairs it with an answer packet and evidence ledger, and token introduction names that answer as $p$; unfolded, this says that $h$ is exactly the normalized MeasureUp packet whose total event has mass $1_R$, with the same complement, difference, and order rows that $p$ exposes. The paper bridge is conservative: it reads the ordinary probability-space surface only through the displayed event classifier and $\RealUp$ endpoint comparisons, never through a host probability-space axiom. The chapter registers this normalized-measure construction under the name $\ProbSpaceUp$; probability is the MeasureUp ledger plus one total-mass row, with no independent random-variable, distribution, conditional-expectation, or standard-space primitive introduced.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public packet of \autoref{thm:probspace-public-certificate-export} exports the MeasureUp event rows, RealUp classifier and order transport, AbGroupUp additive inverse rows, BHist histories, hsame transport, Pkg provenance, and NameCert ledger rows.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ProbSpaceUp.ProbSpaceMonotoneEvent\_bounds}
+  \bridgestatus{paperBridge}
+  \notclaimed{This obligation packet does not close random variables, distributions, independence, conditional expectation, martingales, standard probability spaces, or any standard bridge.}
+  \upgradepath{No further theory-axis upgrade remains; standard bridge checking remains a separate formal-axis matter.}
+\end{closurestatus}
+
+\noindent\textbf{Obligation binders invoked by the following definition.}
+\begin{enumerate}
+\item \textbf{closure: RESOLVED.} The displayed binary-union, intersection, and relative-difference event rows are the finite-event closure rows of the $\mathrm{Measure}^{\uparrow}$ surface, specifically the finite disjoint event envelope of Chapter 94.15 and the event-value closure surface of Chapter 94.16.
+\item \textbf{coverage: RESOLVED.} The outside-piece decomposition is the public relative-difference coverage row of Theorem 94.100, read through the same event classifier rather than through host event equality.
+\item \textbf{bridge: RESOLVED.} The $\mathrm{ProbSpace}^{\uparrow}$ consumer inherits the finite $\mathrm{Measure}^{\uparrow}$ event surface by the probability-substrate row of Theorem 94.70.
+\end{enumerate}
+
+\begin{definition}[Binary cover-difference ledger]
+\label{def:probspace-binary-cover-difference-ledger}
+Let $P$ be a $\mathrm{ProbSpace}^{\uparrow}$ carrier obtained from the probability substrate of a $\mathrm{Measure}^{\uparrow}$ carrier. Write $\mathcal A$ for the displayed measurable-event family inherited from the underlying $\mathrm{Measure}^{\uparrow}$ carrier, write $\mu$ for the $\RealUp$-valued measure map, and write $E \sim_{\mathcal A} F$ for the public measurable-event classifier. For displayed events $A,B \in \mathcal A$, a binary cover-difference ledger for $(A,B)$ consists of displayed events
+$$
+U,I,D \in \mathcal A
+$$
+and public rows saying that $U$ is the displayed binary union of $A$ and $B$, $I$ is the displayed binary intersection of $A$ and $B$, and $D$ is the displayed outside-$A$ part of $B$, together with the two disjoint cover readbacks
+$$
+A \perp D,\qquad A \cup D \sim_{\mathcal A} U,
+$$
+and
+$$
+I \perp D,\qquad I \cup D \sim_{\mathcal A} B.
+$$
+The ledger is a $\BEDC$ event-surface object: it records measurable closure, disjointness, and classifier readback rows, and it does not add host set subtraction or quotient equality of events.
+\end{definition}
+
+\noindent\textbf{Obligation binders invoked by the following theorem.}
+\begin{enumerate}
+\item \textbf{closure: RESOLVED.} The measurable union and value-transport steps are supplied by the $\mathrm{Measure}^{\uparrow}$ finite disjoint event envelope of Chapter 94.15, the event-value closure surface of Chapter 94.16, and the finite disjoint-union additivity row of Theorem 94.26.
+\item \textbf{coverage: RESOLVED.} The two cover decompositions consumed in the proof are exactly the two cover rows packaged in \autoref{def:probspace-binary-cover-difference-ledger}, whose outside-piece source is the relative-difference disjoint decomposition of Theorem 94.100.
+\item \textbf{bridge: RESOLVED.} The use of these $\mathrm{Measure}^{\uparrow}$ rows inside a $\mathrm{ProbSpace}^{\uparrow}$ carrier is discharged by Theorem 94.70, which states that the probability consumer adds only the total-event and unit-mass rows on top of the inherited measure substrate.
+\end{enumerate}
+
+\begin{theorem}[ProbSpace binary inclusion-exclusion identity]
+\label{thm:probspace-binary-inclusion-exclusion-identity}
+Let $P$ be a $\mathrm{ProbSpace}^{\uparrow}$ carrier obtained from the probability substrate of a $\mathrm{Measure}^{\uparrow}$ carrier. Write $\mathcal A$ for its displayed measurable-event family, write $\mu$ for its $\RealUp$-valued measure map, and write $x \sim_R y$ for the $\RealUp$ classifier. Let $A,B \in \mathcal A$ be displayed events in one carried fiber. Suppose that $(A,B)$ has a binary cover-difference ledger with displayed events $U,I,D$ in the sense of \autoref{def:probspace-binary-cover-difference-ledger}. Suppose also that the finite disjoint-union additivity row applies to the disjoint pairs $(A,D)$ and $(I,D)$, and that the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row. Then
+$$
+\mu(U)+\mu(I)\sim_R\mu(A)+\mu(B).
+$$
+Consequently, when the public notation $A\cup B$ names the displayed event $U$ and the public notation $A\cap B$ names the displayed event $I$, one obtains
+$$
+\mu(A\cup B)+\mu(A\cap B)\sim_R\mu(A)+\mu(B).
+$$
+\end{theorem}
+\begin{proof}
+The first disjoint cover row in the ledger gives $A \perp D$ and
+$$
+A\cup D \sim_{\mathcal A} U.
+$$
+Apply the finite disjoint-union additivity row to the displayed disjoint pair $(A,D)$. This gives
+$$
+\mu(A\cup D)\sim_R\mu(A)+\mu(D).
+$$
+The event-value transport row carries the event classifier comparison $A\cup D \sim_{\mathcal A} U$ to the $\RealUp$ endpoint classifier. Composing that transport with the displayed finite-additivity comparison gives
+$$
+\mu(U)\sim_R\mu(A)+\mu(D).
+$$
+The second disjoint cover row in the ledger gives $I \perp D$ and
+$$
+I\cup D \sim_{\mathcal A} B.
+$$
+Apply the same finite disjoint-union additivity row to the displayed disjoint pair $(I,D)$. This gives
+$$
+\mu(I\cup D)\sim_R\mu(I)+\mu(D).
+$$
+Transporting the left endpoint through $I\cup D \sim_{\mathcal A} B$ and composing in the $\RealUp$ classifier gives
+$$
+\mu(B)\sim_R\mu(I)+\mu(D).
+$$
+Now compute in the additive $\AbGroupUp$ row carried by the target $\RealUp$ endpoint surface. Addition congruence applied to the comparison
+$$
+\mu(U)\sim_R\mu(A)+\mu(D)
+$$
+gives
+$$
+\mu(U)+\mu(I)\sim_R(\mu(A)+\mu(D))+\mu(I).
+$$
+Associativity gives
+$$
+(\mu(A)+\mu(D))+\mu(I)\sim_R\mu(A)+(\mu(D)+\mu(I)).
+$$
+Commutativity gives
+$$
+\mu(D)+\mu(I)\sim_R\mu(I)+\mu(D).
+$$
+The earlier comparison
+$$
+\mu(B)\sim_R\mu(I)+\mu(D)
+$$
+therefore gives, by symmetry, transitivity, and addition congruence with the fixed left summand $\mu(A)$,
+$$
+\mu(A)+(\mu(D)+\mu(I))\sim_R\mu(A)+\mu(B).
+$$
+Transitivity of the $\RealUp$ classifier composes the displayed chain:
+$$
+\mu(U)+\mu(I)\sim_R\mu(A)+\mu(B).
+$$
+Substituting the public displayed representatives $U=A\cup B$ and $I=A\cap B$ gives
+$$
+\mu(A\cup B)+\mu(A\cap B)\sim_R\mu(A)+\mu(B).
+$$
+\end{proof}
+
+\begin{definition}[Ternary inclusion-exclusion ledger]
+\label{def:probspace-ternary-inclusion-exclusion-ledger}
+Let $P$ be a $\ProbSpaceUp$ carrier obtained from the probability substrate of a $\MeasureUp$ carrier. Write $\mathcal A$ for the displayed measurable-event family inherited from the underlying $\MeasureUp$ carrier, write $\mu$ for the $\RealUp$-valued measure map, and write $E\sim_{\mathcal A}F$ for the public measurable-event classifier. For displayed events $A,B,C\in\mathcal A$, a ternary inclusion-exclusion ledger for $(A,B,C)$ consists of displayed events
+$$
+U,V,I_{AB},I_{AC},I_{BC},K,T\in\mathcal A
+$$
+and the following public rows:
+\begin{enumerate}
+\item binary cover-difference ledgers for the original pairs $(A,B)$, $(A,C)$, and $(B,C)$ in the sense of \autoref{def:probspace-binary-cover-difference-ledger}, whose displayed intersections are respectively $I_{AB}$, $I_{AC}$, and $I_{BC}$, and whose displayed union for $(B,C)$ is $V$;
+\item a binary cover-difference ledger for $(A,V)$ whose displayed union is $U$ and whose displayed intersection is $K$;
+\item a binary cover-difference ledger for $(I_{AB},I_{AC})$ whose displayed union is $K$ and whose displayed intersection is $T$.
+\end{enumerate}
+Thus $U$ is the displayed ternary union of $A,B,C$, $K$ is the displayed event $A\cap(B\cup C)$, and $T$ is the displayed triple intersection read as $(A\cap B)\cap(A\cap C)$ on the carried event surface. The ledger records these as measurable-event rows and classifier readbacks, not as host set-theoretic equalities outside the $\BEDC$ event surface.
+\end{definition}
+
+\begin{theorem}[ProbSpace ternary inclusion-exclusion identity]
+\label{thm:probspace-ternary-inclusion-exclusion-identity}
+Let $P$ be a $\ProbSpaceUp$ carrier obtained from the probability substrate of a $\MeasureUp$ carrier. Write $\mathcal A$ for its displayed measurable-event family, write $\mu$ for its $\RealUp$-valued measure map, and write $x\sim_R y$ for the $\RealUp$ classifier. Let $A,B,C\in\mathcal A$ be displayed events in one carried fiber, and suppose that $(A,B,C)$ has a ternary inclusion-exclusion ledger with displayed events
+$$
+U,V,I_{AB},I_{AC},I_{BC},K,T
+$$
+in the sense of \autoref{def:probspace-ternary-inclusion-exclusion-ledger}. Suppose also that the finite disjoint-union additivity row applies to the disjoint pairs consumed by the three binary cover-difference ledgers $(B,C)$, $(A,V)$, and $(I_{AB},I_{AC})$, and that the target $\RealUp$ addition is carried by its additive $\AbGroupUp$ row. Then, with four-term sums read in the displayed left-associated bracketing,
+$$
+((\mu(U)+\mu(I_{AB}))+\mu(I_{AC}))+\mu(I_{BC})\sim_R((\mu(A)+\mu(B))+\mu(C))+\mu(T).
+$$
+Consequently, when the public notation $A\cup B\cup C$ names $U$, $A\cap B$ names $I_{AB}$, $A\cap C$ names $I_{AC}$, $B\cap C$ names $I_{BC}$, and $A\cap B\cap C$ names $T$, one obtains
+$$
+\mu(A\cup B\cup C)+\mu(A\cap B)+\mu(A\cap C)+\mu(B\cap C)\sim_R\mu(A)+\mu(B)+\mu(C)+\mu(A\cap B\cap C).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:probspace-binary-inclusion-exclusion-identity} to the binary cover-difference ledger for $(B,C)$. Its displayed union is $V$ and its displayed intersection is $I_{BC}$, so
+$$
+\mu(V)+\mu(I_{BC})\sim_R\mu(B)+\mu(C).
+$$
+Apply the same theorem to the binary cover-difference ledger for $(A,V)$. Its displayed union is $U$ and its displayed intersection is $K$, so
+$$
+\mu(U)+\mu(K)\sim_R\mu(A)+\mu(V).
+$$
+Apply the same theorem a third time to the binary cover-difference ledger for $(I_{AB},I_{AC})$. Its displayed union is $K$ and its displayed intersection is $T$, so
+$$
+\mu(K)+\mu(T)\sim_R\mu(I_{AB})+\mu(I_{AC}).
+$$
+Use addition congruence in the additive $\AbGroupUp$ row to add $\mu(I_{BC})$ to the comparison for $(A,V)$:
+$$
+(\mu(U)+\mu(K))+\mu(I_{BC})\sim_R(\mu(A)+\mu(V))+\mu(I_{BC}).
+$$
+Associativity rewrites the right endpoint as $\mu(A)+(\mu(V)+\mu(I_{BC}))$. Addition congruence with the fixed left summand $\mu(A)$ and the comparison for $(B,C)$ gives
+$$
+\mu(A)+(\mu(V)+\mu(I_{BC}))\sim_R\mu(A)+(\mu(B)+\mu(C)).
+$$
+Associativity rewrites the right endpoint as $(\mu(A)+\mu(B))+\mu(C)$. By transitivity of $\sim_R$,
+$$
+(\mu(U)+\mu(K))+\mu(I_{BC})\sim_R(\mu(A)+\mu(B))+\mu(C).
+$$
+Add $\mu(T)$ to both sides by addition congruence:
+$$
+((\mu(U)+\mu(K))+\mu(I_{BC}))+\mu(T)\sim_R((\mu(A)+\mu(B))+\mu(C))+\mu(T).
+$$
+It remains only to replace the middle event $K$ by the two displayed pairwise intersections, with the triple intersection carried to the right endpoint. Associativity and commutativity in the additive $\AbGroupUp$ row give
+$$
+((\mu(U)+\mu(K))+\mu(I_{BC}))+\mu(T)\sim_R(\mu(U)+(\mu(K)+\mu(T)))+\mu(I_{BC}).
+$$
+Addition congruence with the comparison for $(I_{AB},I_{AC})$ gives
+$$
+(\mu(U)+(\mu(K)+\mu(T)))+\mu(I_{BC})\sim_R(\mu(U)+(\mu(I_{AB})+\mu(I_{AC})))+\mu(I_{BC}).
+$$
+A final associativity rewrite gives
+$$
+(\mu(U)+(\mu(I_{AB})+\mu(I_{AC})))+\mu(I_{BC})\sim_R((\mu(U)+\mu(I_{AB}))+\mu(I_{AC}))+\mu(I_{BC}).
+$$
+Symmetry and transitivity of the $\RealUp$ classifier compose these displayed comparisons with the preceding four-term comparison, yielding
+$$
+((\mu(U)+\mu(I_{AB}))+\mu(I_{AC}))+\mu(I_{BC})\sim_R((\mu(A)+\mu(B))+\mu(C))+\mu(T).
+$$
+Substituting the public displayed representatives $U=A\cup B\cup C$, $I_{AB}=A\cap B$, $I_{AC}=A\cap C$, $I_{BC}=B\cap C$, and $T=A\cap B\cap C$ gives the stated public form.
+\end{proof}

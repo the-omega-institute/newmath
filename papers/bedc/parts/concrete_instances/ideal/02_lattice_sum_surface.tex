@@ -154,32 +154,6 @@ These rows are exactly the carrier, additive sub-rng, multiplicative sub-rng, cl
 \end{proof}
 \leanchecked{BEDC.Derived.IdealUp.IdealSum\_ideal\_closure\_rows}
 
-\begin{theorem}[Ideal sum least upper bound]
-\label{thm:ideal-sum-least-upper-bound}
-Let $R$ carry a $\RingUp$ certificate as in \autoref{ch:concrete-instances-ring-namecert}, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ predicates over the same $\RingUp$ certificate, with the rows specified in \autoref{sec:ideal-certificate}. Let $K:=I+_RJ$ as in \autoref{def:ideal-sum-predicate}. Then $K$ is an $\IdealUp$ predicate by \autoref{thm:ideal-sum-closure}, and $K$ is the least upper bound of $I$ and $J$ for $\preceq_R$:
-$$
-I\preceq_RK,\qquad J\preceq_RK,
-$$
-and, for every $\IdealUp$ predicate $L$ over the same $\RingUp$ certificate,
-$$
-(I\preceq_RL)\land(J\preceq_RL)\Longrightarrow K\preceq_RL.
-$$
-\end{theorem}
-\begin{proof}
-The predicate $K$ is an $\IdealUp$ predicate by \autoref{thm:ideal-sum-closure}, because it is built from the same two ideal certificates and the same ambient $\RingUp$ rows.
-
-For the first upper-bound inclusion, assume $I(x)$. Use the sum witness pair $(x,0_R)$. The zero-membership row of $J$ gives $J(0_R)$, and the additive-unit row of the ring certificate identifies $x$ with $x+_R0_R$ up to $\sim_R$. Classifier symmetry orients this comparison as the displayed decomposition required by \autoref{def:ideal-sum-predicate}, and classifier transport supplies the corresponding $K(x)$ witness.
-
-For the second upper-bound inclusion, assume $J(x)$. Use the witness pair $(0_R,x)$. The zero-membership row of $I$ gives $I(0_R)$, the additive-unit row gives $x\sim_R0_R+_Rx$ with the needed orientation after classifier symmetry, and the same classifier-transport row gives $K(x)$.
-
-It remains to prove minimality. Assume $I\preceq_RL$ and $J\preceq_RL$, and suppose $K(z)$. Unpack the sum witness:
-$$
-\exists x,y:\mathsf{BHist}.\; I(x)\land J(y)\land z\sim_Rx+_Ry.
-$$
-
-The two inclusions into $L$ transport $I(x)$ and $J(y)$ to $L(x)$ and $L(y)$. Additive closure in the $\IdealUp$ certificate for $L$ gives $L(x+_R y)$. Finally, classifier symmetry turns the displayed decomposition into $x+_R y\sim_R z$, and classifier transport for $L$ yields $L(z)$. Thus $K\preceq_R L$.
-\end{proof}
-
 \begin{theorem}[Ideal sum quotient-ring kernel scope]
 \label{thm:ideal-sum-quotientring-kernel-scope}
 Let $R$ carry a $\RingUp$ certificate and let $I$ and $J$ be $\IdealUp$ carried predicates over $R$. Let $K:=I+_RJ$ be the ideal-sum predicate of \autoref{def:ideal-sum-predicate}, and let $Q_K$ be the quotient-kernel source package of \autoref{def:ideal-quotient-kernel-source-package}. The package $Q_K$ has the same diagonal and endpoint-transport scope as the quotient-kernel packages built from any other $\IdealUp$ predicate, so $\QuotientRingUp$ may consume ideal sums without adding quotient primitives.
@@ -267,4 +241,175 @@ First apply \autoref{thm:ideal-sum-closure} to the two input ideal certificates.
 Next instantiate \autoref{thm:ideal-quotientring-export-surface} with this predicate $K$. That theorem supplies the five generic quotient-ring rows: diagonal exactness, endpoint transport, additive descent, negation descent, and multiplication descent for the concrete relation $Q_K(x,y)\Longleftrightarrow C(x)\land C(y)\land K(x-_R y)$.
 
 Finally apply \autoref{thm:ideal-sum-quotient-kernel-absorption-closure}. Its conclusion is exactly the ambient left and right multiplication closure row for $Q_K$, using the same subtraction package and the same specialized ideal-sum predicate $K$.
+\end{proof}
+
+\begin{theorem}[Ideal intersection greatest lower bound]
+\label{thm:ideal-intersection-greatest-lower-bound}
+Let $R$ carry a $\RingUp$ certificate as in \autoref{ch:concrete-instances-ring-namecert}, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ predicates over the same $\RingUp$ certificate, with the rows specified in \autoref{sec:ideal-certificate}. Let $K:=I\cap_RJ$ as in \autoref{def:ideal-intersection-predicate}. Then $K$ is an $\IdealUp$ predicate by \autoref{thm:ideal-intersection-closure}, and $K$ is the greatest lower bound of $I$ and $J$ for $\preceq_R$:
+$$
+K\preceq_RI,\qquad K\preceq_RJ,
+$$
+and, for every $\IdealUp$ predicate $L$ over the same $\RingUp$ certificate,
+$$
+(L\preceq_RI)\land(L\preceq_RJ)\Longrightarrow L\preceq_RK.
+$$
+\end{theorem}
+\begin{proof}
+The predicate $K$ is an $\IdealUp$ predicate by \autoref{thm:ideal-intersection-closure}, because it is built from the same two ideal certificates and the same ambient $\RingUp$ rows.
+
+For the first lower-bound inclusion, assume $K(x)$. By \autoref{def:ideal-intersection-predicate}, this means $I(x)\land J(x)$. Projecting the first component gives $I(x)$, so \autoref{def:ideal-inclusion-predicate} gives $K\preceq_RI$.
+
+For the second lower-bound inclusion, the same unpacking of $K(x)$ gives the second component $J(x)$. Hence $K\preceq_RJ$.
+
+It remains to prove maximality among lower bounds. Let $L$ be an $\IdealUp$ predicate over the same $\RingUp$ certificate, and assume $L\preceq_RI$ and $L\preceq_RJ$. To prove $L\preceq_RK$, fix $x:\mathsf{BHist}$ and assume $L(x)$.
+
+The first inclusion sends this witness to $I(x)$, and the second inclusion sends the same witness to $J(x)$. Pairing these two memberships gives $I(x)\land J(x)$, which is exactly $K(x)$ by \autoref{def:ideal-intersection-predicate}. Therefore $L\preceq_RK$ by \autoref{def:ideal-inclusion-predicate}.
+\end{proof}
+
+\begin{theorem}[Ideal sum commutativity as a carried predicate]
+\label{thm:ideal-sum-commutativity}
+Let $R$ carry a $\RingUp$ certificate as in \autoref{ch:concrete-instances-ring-namecert}, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ predicates over the same $\RingUp$ certificate, with the rows specified in \autoref{sec:ideal-certificate}. Define
+$$
+K_{I,J}:=I+_RJ,
+\qquad
+K_{J,I}:=J+_RI
+$$
+using \autoref{def:ideal-sum-predicate}. Then $K_{I,J}$ and $K_{J,I}$ are $\IdealUp$ predicates over the same ambient $\RingUp$ certificate by \autoref{thm:ideal-sum-closure}, and they have the same membership predicate:
+$$
+\forall z:\mathsf{BHist}.\; K_{I,J}(z)\Longleftrightarrow K_{J,I}(z).
+$$
+The comparison keeps the ambient carrier row $C$ fixed, swaps only the two additive-decomposition membership witnesses, and preserves the same $\Pkg$ provenance rows attached to the ambient $\RingUp$ certificate and the two input $\IdealUp$ certificates.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ideal-sum-closure} first to the ordered pair $(I,J)$ and then to the ordered pair $(J,I)$. This gives $K_{I,J}$ and $K_{J,I}$ as $\IdealUp$ predicates over the same carrier $C$, classifier $\sim_R$, and ring operations.
+
+Fix $z:\mathsf{BHist}$. For the forward implication, assume $K_{I,J}(z)$. By \autoref{def:ideal-sum-predicate}, choose witnesses $x,y:\mathsf{BHist}$ such that
+$$
+I(x)\land J(y)\land z\sim_R x+_R y.
+$$
+The additive commutativity row contained in the additive abelian-group part of the $\RingUp$ stability certificate gives
+$$
+x+_R y\sim_R y+_R x.
+$$
+Classifier transitivity composes the displayed decomposition for $z$ with this commutativity row, giving
+$$
+z\sim_R y+_R x.
+$$
+Now the witness pair $(y,x)$, together with $J(y)$, $I(x)$, and the last classifier comparison, is exactly a witness for $K_{J,I}(z)$ under \autoref{def:ideal-sum-predicate}.
+
+The reverse implication is the same argument with $I$ and $J$ interchanged. If $K_{J,I}(z)$ is witnessed by $J(y)\land I(x)\land z\sim_R y+_R x$, additive commutativity gives $y+_R x\sim_R x+_R y$, and classifier transitivity gives $z\sim_R x+_R y$. The witness pair $(x,y)$ therefore proves $K_{I,J}(z)$.
+
+The ambient carrier consequence is unchanged in both directions. Since both sum predicates are $\IdealUp$ predicates over the same $\RingUp$ certificate, the carrier-support row of \autoref{def:ideal-carried-predicate-rows} reads
+$$
+K_{I,J}(z)\Longrightarrow C(z),
+\qquad
+K_{J,I}(z)\Longrightarrow C(z).
+$$
+The equivalence just proved keeps the endpoint $z$ fixed and changes only the internal decomposition ledger: $I(x)$ and $J(y)$ are reused in the opposite witness slots, while the decomposition row is adjusted by the additive commutativity row already present in \autoref{def:ring-stability-certificate}. No ambient carrier, classifier, operation, ideal certificate, or package provenance row is replaced.
+\end{proof}
+
+\begin{theorem}[Ideal sum monotonicity in ideal inclusion]
+\label{thm:ideal-sum-inclusion-monotone}
+Let $R$ carry a $\RingUp$ certificate as in \autoref{ch:concrete-instances-ring-namecert}, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I,I',J,J'$ be $\IdealUp$ predicates over the same $\RingUp$ certificate, with the rows specified in \autoref{sec:ideal-certificate}. Define
+$$
+K:=I+_RJ,
+\qquad
+K':=I'+_RJ'
+$$
+using \autoref{def:ideal-sum-predicate}. Then $K$ and $K'$ are $\IdealUp$ predicates over the same ambient certificate by \autoref{thm:ideal-sum-closure}, and ideal inclusion is monotone through the sum constructor:
+$$
+(I\preceq_R I')\land(J\preceq_R J')
+\Longrightarrow
+K\preceq_R K'.
+$$
+Equivalently, for every $z:\mathsf{BHist}$, any additive-decomposition witness for $(I+_RJ)(z)$ is sent to an additive-decomposition witness for $(I'+_RJ')(z)$ by applying the two inclusion implications to the two membership entries and leaving the decomposition row unchanged.
+\end{theorem}
+\begin{proof}
+The two sum predicates are $\IdealUp$ predicates by \autoref{thm:ideal-sum-closure}, applied first to $(I,J)$ and then to $(I',J')$. Thus the comparison $K\preceq_RK'$ is an instance of the ideal-inclusion predicate from \autoref{def:ideal-inclusion-predicate}.
+
+Assume $I\preceq_R I'$ and $J\preceq_R J'$. To prove $K\preceq_R K'$, fix $z:\mathsf{BHist}$ and assume $K(z)$. By \autoref{def:ideal-sum-predicate}, choose witnesses $x,y:\mathsf{BHist}$ with
+$$
+I(x)\land J(y)\land z\sim_R x+_R y.
+$$
+The first inclusion, unpacked through \autoref{def:ideal-inclusion-predicate}, sends the witness $I(x)$ to $I'(x)$. The second inclusion sends the witness $J(y)$ to $J'(y)$.
+
+Now keep the same endpoints $x$ and $y$ and keep the same additive-decomposition row $z\sim_R x+_R y$. The data
+$$
+I'(x)\land J'(y)\land z\sim_R x+_R y
+$$
+are exactly a witness for $K'(z)$ under \autoref{def:ideal-sum-predicate}. Since $z$ was arbitrary, \autoref{def:ideal-inclusion-predicate} gives $K\preceq_RK'$.
+\end{proof}
+
+\begin{theorem}[Ideal sum associativity as a carried predicate]
+\label{thm:ideal-sum-associativity}
+Let $R$ carry a $\RingUp$ certificate as in \autoref{ch:concrete-instances-ring-namecert}, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$, $J$, and $K$ be $\IdealUp$ predicates over the same $\RingUp$ certificate, with the rows specified in \autoref{sec:ideal-certificate}. Define
+$$
+A_L:=(I+_RJ)+_RK,
+\qquad
+A_R:=I+_R(J+_RK)
+$$
+using \autoref{def:ideal-sum-predicate}. Then $A_L$ and $A_R$ are $\IdealUp$ predicates over the same ambient $\RingUp$ certificate by \autoref{thm:ideal-sum-closure}, and they have the same membership predicate:
+$$
+\forall z:\mathsf{BHist}.\; A_L(z)\Longleftrightarrow A_R(z).
+$$
+The comparison keeps the ambient carrier row $C$ fixed, regroups only the three additive-decomposition witnesses by the additive associativity row in the $\RingUp$ stability certificate, and preserves the same $\Pkg$ provenance rows attached to the ambient $\RingUp$ certificate and the three input $\IdealUp$ certificates.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ideal-sum-closure} to $(I,J)$, to $(J,K)$, to $((I+_RJ),K)$, and to $(I,(J+_RK))$. Thus the two iterated sums are carried $\IdealUp$ predicates over the same carrier $C$, classifier $\sim_R$, and ring operations. The proof of equality of predicates is therefore a direct comparison of the displayed membership witnesses in \autoref{def:ideal-sum-predicate}.
+
+Fix $z:\mathsf{BHist}$. For the forward implication, assume $A_L(z)$. Unpacking the outer sum gives histories $s,k:\mathsf{BHist}$ with
+$$
+(I+_RJ)(s)\land K(k)\land z\sim_R s+_R k.
+$$
+Unpacking the inner sum gives histories $i,j:\mathsf{BHist}$ with
+$$
+I(i)\land J(j)\land s\sim_R i+_R j.
+$$
+Use $j+_R k$ as the inner right-sum endpoint. The witness pair $(j,k)$, the memberships $J(j)$ and $K(k)$, and classifier reflexivity at $j+_R k$ prove $(J+_RK)(j+_R k)$ by \autoref{def:ideal-sum-predicate}.
+
+It remains to supply the outer decomposition for $A_R(z)$ with witness pair $(i,j+_R k)$. Addition congruence, applied to $s\sim_R i+_R j$ and classifier reflexivity at $k$, gives
+$$
+s+_R k\sim_R (i+_R j)+_R k.
+$$
+The additive associativity row contained in the additive abelian-group part of \autoref{def:ring-stability-certificate} gives
+$$
+(i+_R j)+_R k\sim_R i+_R(j+_R k).
+$$
+Classifier transitivity composes the displayed decomposition $z\sim_Rs+_Rk$ with these two comparisons, yielding
+$$
+z\sim_R i+_R(j+_R k).
+$$
+Together with $I(i)$ and $(J+_RK)(j+_R k)$, this is exactly a witness for $A_R(z)$.
+
+For the reverse implication, assume $A_R(z)$. Unpacking the outer sum gives histories $i,t:\mathsf{BHist}$ with
+$$
+I(i)\land (J+_RK)(t)\land z\sim_R i+_R t.
+$$
+Unpacking the inner sum gives histories $j,k:\mathsf{BHist}$ with
+$$
+J(j)\land K(k)\land t\sim_R j+_R k.
+$$
+Use $i+_R j$ as the inner left-sum endpoint. The witness pair $(i,j)$, the memberships $I(i)$ and $J(j)$, and classifier reflexivity at $i+_R j$ prove $(I+_RJ)(i+_R j)$ by \autoref{def:ideal-sum-predicate}.
+
+Addition congruence, applied to classifier reflexivity at $i$ and to $t\sim_R j+_R k$, gives
+$$
+i+_R t\sim_R i+_R(j+_R k).
+$$
+The same additive associativity row, read with classifier symmetry, gives
+$$
+i+_R(j+_R k)\sim_R (i+_R j)+_R k.
+$$
+Classifier transitivity composes these comparisons with $z\sim_Ri+_Rt$, yielding
+$$
+z\sim_R (i+_R j)+_R k.
+$$
+Together with $(I+_RJ)(i+_R j)$ and $K(k)$, this is exactly a witness for $A_L(z)$.
+
+The carrier consequence is identical on both sides. Since both predicates are obtained from \autoref{thm:ideal-sum-closure} over the same ambient $\RingUp$ certificate, their carrier-support rows read
+$$
+A_L(z)\Longrightarrow C(z),
+\qquad
+A_R(z)\Longrightarrow C(z).
+$$
+The equivalence keeps the endpoint $z$ fixed and changes only the parenthesization of the internal decomposition ledger: the same three memberships $I(i)$, $J(j)$, and $K(k)$ are reused, while the classifier decomposition is adjusted by addition congruence, classifier transitivity, classifier symmetry in the reverse direction, and the additive associativity row already present in \autoref{def:ring-stability-certificate}. No ambient carrier, classifier, operation, ideal certificate, or package provenance row is replaced.
 \end{proof}

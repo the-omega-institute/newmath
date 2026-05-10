@@ -1,0 +1,787 @@
+\begin{theorem}[RegSeqRat tail-classifier exactness]
+\label{thm:regseqrat-tail-classifier-exactness}
+Let $W_0$ and $W_1$ be selected finite $\RealUp$ observation-window packages.
+Assume that they have matching $\StreamNameUp$ finite-window classifier rows,
+matching $\RegSeqRat$ spine rows, matching DyadicRatCore observation rows, and
+the same finite $\Cont/\hsame$ ledger over the visible endpoint and transport
+entries. Then the selected $\RegSeqRat$ tail classifier extracted from $W_0$
+is exactly the same selected $\RegSeqRat$ tail classifier extracted from
+$W_1$ as a finite-window readback row, after the displayed $\hsame$ transports
+in the common ledger are applied.
+
+The exact classifier surface is only the finite $\StreamNameUp$ row, the
+$\RegSeqRat$ spine, the DyadicRatCore observation rows, the endpoint transport
+ledger, and the shared $\mathsf{RealLedgerPolicy}$ provenance. It exposes no
+quotient row, completion row, Classical representative, metric-completeness
+certificate, arithmetic or order operation, standard-bridge row, or external
+regular-sequence selector.
+\end{theorem}
+\begin{proof}
+Project both selected windows through the finite-window readback package of
+\autoref{thm:realup-finite-window-streamname-readback-package}. This places
+the $\StreamNameUp$ classifier row, the $\RegSeqRat$ spine rows, the
+DyadicRatCore observation rows, the endpoint classifiers, the finite
+$\Cont/\hsame$ ledger, and the $\mathsf{RealLedgerPolicy}$ row in one visible
+finite package.
+
+Apply
+\autoref{thm:realup-streamname-regseqrat-tail-selector-determinacy}. The
+matching stream-name, regular-sequence, dyadic, endpoint, and ledger rows force
+the two selected tail readbacks to agree up to the displayed $\hsame$
+transports, and the same argument identifies the exposed
+$\mathsf{RealLedgerPolicy}$ row.
+
+It remains to record that this agreement is exact on the selected
+$\RegSeqRat$ classifier surface. Use
+\autoref{thm:realup-scoped-finite-window-read-surface} together with the
+finite-window readback package to list every row visible to a consumer. The
+list is precisely the finite stream-name row, the regular-sequence spine, the
+dyadic observation rows, the endpoint transport ledger, and the shared
+provenance; the same scoped surface excludes quotient, completion, Classical,
+metric-completeness, arithmetic, order, standard-bridge, and external selector
+data. Hence the selected tail classifier is determined exactly by the common
+finite rows.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier atlas refinement invariance]
+\label{thm:regseqrat-tail-classifier-atlas-refinement-invariance}
+Let $\mathcal{A}=\{W_i\}_{i\in I}$ be a finite atlas of selected finite
+$\RealUp$ observation-window packages, and let
+$\mathcal{B}=\{V_a\}_{a\in A}$ be a finite atlas refining $\mathcal{A}$.
+Suppose each refined chart $V_a$ is certified inside some chart $W_{i(a)}$,
+and suppose the refinement maps, refined overlaps, and comparison pullbacks
+preserve the displayed $\StreamNameUp$, $\RegSeqRat$, DyadicRatCore,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+Then the selected $\RegSeqRat$ tail-classifier row descended from
+$\mathcal{B}$ factors through the selected row descended from
+$\mathcal{A}$. On the finite union covered by the two atlases these two
+rows agree after readback to the displayed StreamName and RegSeqRat finite
+window surface. The comparison uses no quotient, completion, Classical
+representative, metric-completeness row, arithmetic or order row,
+standard-bridge row, or hidden selector row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-classifier-atlas-descent} to
+$\mathcal{A}$ and to $\mathcal{B}$. This gives one selected atlas row on each
+finite union, with chartwise pullback uniqueness for every selected chart.
+
+Next use
+\autoref{thm:regseqrat-tail-classifier-reindexed-cover-compatibility} on the
+certified inclusions $V_a\hookrightarrow W_{i(a)}$. The preservation
+hypotheses identify each refined selected row with the pullback of the
+coarse chart row along the displayed finite-window refinement map.
+
+Now group the refined charts by their coarse chart and apply
+\autoref{thm:regseqrat-tail-classifier-nested-cover-associativity}. The
+descent obtained by first gluing the refined charts inside each $W_i$ and
+then gluing the coarse atlas is the same row as the descent obtained by
+flattening all refined charts and gluing $\mathcal{B}$ directly.
+
+The partition comparison is supplied by
+\autoref{thm:regseqrat-tail-classifier-partition-coherence}: both atlas rows
+read the same displayed StreamName, RegSeqRat, DyadicRatCore, unary-history,
+probe, membership, transport, continuation, package, and policy rows on the
+common finite union.
+
+It remains to identify the mediator. Both the factored row from
+$\mathcal{A}$ and the row descended from $\mathcal{B}$ pull back to the same
+selected $\RegSeqRat$ tail classifier on every refined chart $V_a$. Hence
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} identifies them
+on the union. Since every step used only the displayed rows just named, the
+excluded quotient, completion, Classical, metric, arithmetic, order, bridge,
+and hidden-selector data have no projection into the comparison.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier directed-refinement normal form]
+\label{thm:regseqrat-tail-classifier-directed-refinement-normal-form}
+Let $\{\mathcal{A}_r\}_{r\in R}$ be a finite directed family of finite atlases
+of selected $\RealUp$ observation-window packages. Suppose every transition
+$\mathcal{A}_r\to\mathcal{A}_s$ with $r\leq s$, every displayed cofinal
+refinement, and every comparison pullback preserves the displayed
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows. Choose any cofinal refined atlas row and read
+its selected $\RegSeqRat$ tail classifier.
+
+Then that selected classifier agrees with the normal-form tail row on the
+directed union. The comparison is the unique finite-window row whose pullback
+to every selected tail window is the displayed chart classifier, and it uses no
+quotient, completion, Classical representative, metric-completeness
+certificate, arithmetic or order row, standard-bridge row, or hidden selector.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-classifier-atlas-descent} to each finite atlas
+in the directed family. The directed hypotheses give a chartwise selected row
+on every stage, and each such row is built only from the displayed
+StreamName, RegSeqRat, dyadic, unary-history, probe, membership, transport,
+package, and policy data.
+
+For a transition $r\leq s$, use
+\autoref{thm:regseqrat-tail-classifier-atlas-refinement-invariance} and
+\autoref{thm:regseqrat-tail-classifier-reindexed-cover-compatibility}. They
+identify the selected row on $\mathcal{A}_s$ with the pullback of the selected
+row on $\mathcal{A}_r$ along the displayed finite refinement.
+
+Cofinal changes of the directed atlas are reduced to one finite comparison by
+\autoref{thm:regseqrat-tail-classifier-nested-cover-associativity}, and
+\autoref{thm:regseqrat-tail-classifier-subatlas-restriction-exactness} removes
+the charts outside the selected cofinal row. Thus both the cofinal read and the
+directed-union normal form have the same pullback on every selected tail window.
+
+Finally apply \autoref{thm:regseqrat-tail-classifier-pullback-uniqueness}. The
+two finite-window rows are equal because their chart pullbacks agree, and the
+preserved row inventory listed in the hypotheses leaves no projection for the
+excluded quotient, completion, Classical, metric, arithmetic, order, bridge, or
+hidden-selector data.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier reindexing normal form]
+\label{thm:regseqrat-tail-classifier-reindexing-normal-form}
+Let $W$ be a finite $\RealUp$ observation-window package, and let
+$\rho_1,\ldots,\rho_n$ be a finite certified unary reindexing schedule whose
+adjacent stages preserve the displayed $\StreamNameUp$, $\RegSeqRat$,
+DyadicRatCore, $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows. At every stage, read the selected
+$\RegSeqRat$ tail classifier from the displayed finite-window surface.
+
+Then the selected tail row read after any adjacent certified stage, the row
+read after the composite schedule $\rho_n\circ\cdots\circ\rho_1$, and the row
+read directly from the normal-form finite-window surface of $W$ are the same
+finite-window $\RegSeqRat$ tail-classifier row. This normal-form comparison
+uses only the displayed finite readback rows and introduces no quotient row,
+completion row, Classical representative, metric-completeness certificate,
+arithmetic or order row, standard-bridge row, or hidden regular-sequence
+selector.
+\end{theorem}
+\begin{proof}
+Induct on the finite certified schedule. In the empty schedule case, the
+normal-form read is the direct finite-window read of $W$; apply
+\autoref{thm:regseqrat-tail-classifier-exactness} to obtain the selected
+$\RegSeqRat$ tail row from the displayed StreamName, RegSeqRat, DyadicRatCore,
+endpoint-transport, ledger, package, and provenance rows.
+
+For the cons step, assume the statement for the initial schedule and append one
+certified unary reindexer. The induction hypothesis identifies the selected
+tail row after the initial schedule with the direct normal-form read. Apply
+\autoref{thm:regseqrat-tail-classifier-reindexing-stability} to the appended
+stage, using the preserved $\StreamNameUp$, $\RegSeqRat$, DyadicRatCore,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+The composite schedule has the same public readback as the stagewise schedule
+by \autoref{thm:regseqrat-tail-classifier-reindexing-composition}. Therefore
+the row read after the composite schedule agrees with each stagewise selected
+tail row and with the normal-form finite-window row.
+
+Finally apply
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness}. Any candidate
+tail row compatible with all stagewise pullbacks factors through the same
+displayed finite-window surface, so there is only one selected tail classifier.
+\autoref{thm:realup-scoped-finite-window-read-surface} supplies the exclusion
+boundary: quotient, completion, Classical, metric-completeness, arithmetic,
+order, standard-bridge, and hidden selector rows are outside the scoped finite
+surface.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier normal-form tail coverage]
+\label{thm:regseqrat-tail-classifier-normal-form-tail-coverage}
+Let $W$ be a finite $\RealUp$ observation-window package, and let
+$\rho_1,\ldots,\rho_n$ be a finite certified unary reindexing schedule whose
+adjacent stages preserve the displayed $\StreamNameUp$, $\RegSeqRat$,
+DyadicRatCore, $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows. For each stagewise read, for the read after
+the composite schedule $\rho_n\circ\cdots\circ\rho_1$, and for the direct
+normal-form finite-window read of $W$, the selected tail row is covered by one
+and the same selected $\RegSeqRat$ classifier row.
+
+The covering row is the finite-window classifier row exposed by the displayed
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, endpoint-transport,
+continuation-ledger, package, and $\mathsf{RealLedgerPolicy}$ data. The
+coverage statement has no quotient row, completion row, Classical
+representative, metric-completeness certificate, arithmetic or order row,
+standard-bridge row, or hidden selector row.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-tail-classifier-reindexing-normal-form}. It identifies
+the selected tail row read at each certified stage, the selected row read after
+the composite schedule, and the selected row read directly from the normal-form
+finite-window surface.
+
+Now use \autoref{thm:regseqrat-tail-classifier-exactness} on that common
+finite-window surface. The exactness theorem says that the selected tail is not
+a separate row but the displayed $\RegSeqRat$ classifier row read from the
+shared StreamName, RegSeqRat, DyadicRatCore, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ data.
+
+It remains to rule out a second mediator for one of the reads. Apply
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness}. Any candidate row
+compatible with the stagewise, composite, and direct pullbacks factors through
+the same selected finite-window classifier row, so all selected tails are
+covered by that single row.
+
+The exclusion boundary is inherited from the exact finite read surface: quotient
+data, completion data, Classical representatives, metric-completeness
+certificates, arithmetic or order structure, standard-bridge data, and hidden
+selector rows are not part of the scoped package.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier pullback uniqueness]
+\label{thm:regseqrat-tail-classifier-pullback-uniqueness}
+Let $W_0$ and $W_1$ be finite-window $\RealUp$ packages whose displayed
+$\StreamNameUp$ classifier rows, $\RegSeqRat$ spine rows, DyadicRatCore
+observation rows, endpoint $\hsame$ transports, and finite $\Cont$ ledger
+entries agree as in
+\autoref{thm:regseqrat-tail-classifier-exactness}. Suppose a candidate
+tail-classifier row $T$ pulls back to the selected tail of $W_0$ and also
+pulls back to the selected tail of $W_1$ through exactly those displayed
+rows. Then $T$ is identified with the unique selected $\RegSeqRat$ tail
+classifier determined by the common finite-window readback data. No second
+tail-classifier surface can mediate the finite-window $\RealUp$ seal while
+remaining invisible to the displayed $\StreamNameUp$, $\RegSeqRat$,
+DyadicRatCore, $\hsame$, and $\Cont$ rows.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:regseqrat-tail-classifier-exactness}, the two selected tails
+of $W_0$ and $W_1$ are the same $\RegSeqRat$ tail classifier after the
+displayed endpoint transports in the shared ledger are applied.
+
+It remains to exclude a hidden mediator. The scoped read surface of
+\autoref{thm:realup-scoped-finite-window-read-surface} lists every row that a
+finite-window $\RealUp$ consumer may read: the stream-name classifier row, the
+regular-sequence spine, the dyadic observation rows, the endpoint transport
+ledger, and the finite continuation ledger.
+
+Finally, \autoref{thm:realup-finite-window-streamname-readback-package}
+packages exactly that surface as the readback boundary. Since $T$ pulls back
+through no rows other than those displayed rows, it has no independent slot in
+the finite package. Therefore the two pullbacks of $T$ factor through the
+same selected tail, and $T$ is the unique selected $\RegSeqRat$ tail
+classifier available at the finite-window seal.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier union exhaustion]
+\label{thm:regseqrat-tail-classifier-union-exhaustion}
+Let $\{W_i\}_{i\in I}$ be a finite family of selected finite $\RealUp$
+observation-window packages. Assume that every certified common subwindow used
+by the finite cover displays the same $\StreamNameUp$ row, the same
+$\RegSeqRat$ spine row, the same DyadicRatCore observation row, matching
+endpoint $\hsame$ transports, and the same finite $\Cont$ ledger entries. Also
+assume that these certified common subwindows cover the union of the visible
+windows. Then the union window exposes one selected $\RegSeqRat$
+tail-classifier row.
+
+Moreover, any candidate $\RegSeqRat$ tail row whose pullback agrees with the
+selected tail row on every member window factors uniquely through the selected
+tail-classifier row on the union window. The union read surface adds no
+quotient row, completion row, Classical representative, metric-completeness
+certificate, arithmetic or order row, standard-bridge row, or hidden
+regular-sequence selector.
+\end{theorem}
+\begin{proof}
+First restrict the family to a certified common subwindow. By
+\autoref{thm:regseqrat-tail-classifier-exactness}, the shared
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, endpoint-transport, and finite
+ledger rows determine the same selected tail classifier on that subwindow.
+
+Next compare two overlaps in the finite cover. Apply
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} to the two
+restricted readback surfaces. Any mediator that pulls back to both selected
+tails has no independent row outside the displayed finite readback inventory,
+so the overlap contributes the same mediating tail row.
+
+Now exhaust the finite union. Use
+\autoref{thm:realup-finite-window-exhaustion-overlap-closure} to repack the
+certified common subwindows into one finite $\RealUp$ union surface, and use
+\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy} to keep the
+StreamName and RegSeqRat handoff rows fixed across the cover. The repacked
+surface therefore carries a single selected tail classifier.
+
+Finally let a candidate tail row pull back to every member window. The previous
+overlap comparison identifies all of its member-window pullbacks with the same
+selected row, and the union repacking has no further tail-classifier slot. Thus
+the candidate factors uniquely through the selected $\RegSeqRat$ tail row on
+the finite union window.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier partition coherence]
+\label{thm:regseqrat-tail-classifier-partition-coherence}
+Let $\{W_i\}_{i\in I}$ be a finite family of selected finite $\RealUp$
+observation-window packages, and let the certified subwindows of this family
+cover a displayed finite window $W$. Assume that each pairwise overlap displays
+the same $\StreamNameUp$ row, the same $\RegSeqRat$ spine row, the same
+DyadicRatCore observation row, matching endpoint $\hsame$ transports, matching
+finite $\Cont$ rows, matching $\Pkg$ provenance, and the same
+$\mathsf{RealLedgerPolicy}$ rows.
+
+Then the assembled finite partition exposes the same selected $\RegSeqRat$
+tail-classifier row as the direct selected read of $W$. Moreover, any local
+$\RegSeqRat$ tail row whose pullbacks are compatible on all member windows
+factors uniquely through that direct selected tail. This partition read
+introduces no quotient representative, completion row, host stream datum,
+metric-completeness certificate, arithmetic or order row, standard-bridge row,
+or hidden regular-sequence selector.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-finite-window-partition-exactness} to the certified
+finite cover. The public finite $\mathsf{BHist}$ partition surface and the
+direct finite-window read of $W$ therefore have the same displayed
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, endpoint $\hsame$, finite
+$\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+Next apply \autoref{thm:regseqrat-tail-classifier-union-exhaustion} to the
+same finite family. Since the overlap hypotheses keep the selected tail row
+fixed on every certified subwindow, the finite union carries one selected
+$\RegSeqRat$ tail classifier.
+
+Finally use \autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} on the
+overlap readback surfaces. A local tail row compatible on all member windows
+has no extra mediator outside the displayed partition rows, so it factors
+uniquely through the direct selected $\RegSeqRat$ tail of $W$.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier finite-cover sheaf condition]
+\label{thm:regseqrat-tail-classifier-finite-cover-sheaf}
+Let $\{W_i\}_{i\in I}$ be a finite family of selected finite $\RealUp$
+observation-window packages. Suppose every certified overlap displays the same
+$\StreamNameUp$ finite-window row, the same selected $\RegSeqRat$ spine row, the
+same DyadicRatCore observation row, the same $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, and $\mathsf{InBundle}$ rows, and matching finite
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows. If the local
+selected $\RegSeqRat$ tail-classifier rows are compatible on all certified
+overlaps, then they glue to a unique selected global tail row on the finite
+union window. Each local selected row is the pullback of this global row.
+
+The glued surface contains only the displayed finite readback rows. It imports
+no quotient, completion, Classical representative, metric-completeness, order,
+arithmetic, standard bridge, or hidden selector row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-tail-classifier-exactness} on each member
+window. The selected local tail row is thereby determined by the displayed
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows.
+
+Next use \autoref{thm:regseqrat-tail-classifier-union-exhaustion}. The finite
+family has a displayed union readback surface, and every local selected tail row
+is read through that surface after restriction to its member window.
+
+Compatibility on overlaps is the partition condition of
+\autoref{thm:regseqrat-tail-classifier-partition-coherence}. It identifies the
+member-window restrictions with the direct selected read of the finite union, so
+the union surface carries one candidate global tail row.
+
+Finally apply \autoref{thm:regseqrat-tail-classifier-pullback-uniqueness}. Any
+other global row with the same member-window pullbacks has no additional
+mediator outside the displayed finite union rows, hence it is the same selected
+global tail row. The exclusion sentence follows from the exactness and union
+exhaustion boundaries: no quotient, completion, Classical representative,
+metric-completeness, order, arithmetic, standard bridge, or hidden selector row
+appears in the glued surface.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier descent exactness]
+\label{thm:regseqrat-tail-classifier-descent-exactness}
+Let $\{W_i\}_{i\in I}$ be a finite family of selected finite $\RealUp$
+observation-window packages with compatible local selected $\RegSeqRat$
+tail-classifier rows on every certified overlap. Let $\rho$ be a certified
+unary $\StreamNameUp$ reindexing schedule from the displayed finite union
+window to a refined finite-window surface. Suppose $\rho$ preserves the
+displayed $\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows at each certified stage.
+
+Then the glued global $\RegSeqRat$ tail row descends uniquely through the
+reindexed finite-window surface. Every local selected row is the pullback of
+that descended row along its member-window readback, and the descent surface
+contains no quotient, completion, Classical representative, metric-completeness,
+arithmetic or order row, standard-bridge row, or hidden selector row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-tail-classifier-finite-cover-sheaf}. The compatible
+local selected tail-classifier rows glue to a unique global selected
+$\RegSeqRat$ tail row on the finite union window, and every local row is its
+pullback.
+
+Next transport that global row along the certified schedule. For one unary
+reindexing step use
+\autoref{thm:regseqrat-tail-classifier-reindexing-stability}; for a finite
+schedule use
+\autoref{thm:regseqrat-tail-classifier-reindexing-composition}. The displayed
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows are therefore the same rows seen on the
+refined finite-window surface.
+
+Finally apply
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness}. A second descended
+tail row with the same local pullbacks would pull back through the same
+displayed finite readback rows, so it is the transported global row. The same
+row inventory excludes quotient, completion, Classical representative,
+metric-completeness, arithmetic, order, standard-bridge, and hidden selector
+data.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier reindexing stability]
+\label{thm:regseqrat-tail-classifier-reindexing-stability}
+Let $W_0$ and $W_1$ be finite $\RealUp$ observation-window packages, and let
+$\rho$ be a certified unary reindexer between their displayed
+$\StreamNameUp$ windows. Suppose the two packages have matching
+$\StreamNameUp$ finite-window classifier rows after reindexing by $\rho$,
+matching $\RegSeqRat$ spine rows, matching DyadicRatCore observation rows,
+matching $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, and
+$\mathsf{InBundle}$ membership rows, and matching finite $\hsame$, $\Cont$,
+$\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+Then the $\RegSeqRat$ tail classifier selected after reindexing is the same
+finite-window readback row for $W_0$ and $W_1$. This stability statement uses
+only the displayed finite rows. It imports no quotient row, completion row,
+Classical representative, metric-completeness certificate, arithmetic or order
+row, standard-bridge row, or hidden regular-sequence selector.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion} to the displayed
+$\StreamNameUp$--$\RegSeqRat$ handoff surface. The certified unary reindexer
+$\rho$ identifies the reindexed StreamName classifier rows together with the
+visible $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, and
+$\mathsf{InBundle}$ membership rows.
+
+Next apply
+\autoref{thm:streamname-regseqrat-reindexed-window-consumer-determinacy}. Since
+the reindexed classifier rows and the finite handoff rows match, every
+downstream $\RegSeqRat$ finite-window consumer reads the same source surface and
+the same selected input rows from both packages.
+
+Now use \autoref{thm:regseqrat-tail-classifier-exactness}. The common
+StreamName, RegSeqRat, DyadicRatCore, endpoint-transport, ledger, and provenance
+rows determine one selected $\RegSeqRat$ tail classifier. Then
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} rules out a second
+tail row pulling back through the same displayed finite readback surface.
+
+Finally close the surface with
+\autoref{thm:realup-scoped-finite-window-read-surface}. Its row inventory is
+exactly the visible finite-window readback inventory, so quotient, completion,
+Classical, metric-completeness, arithmetic, order, standard-bridge, and hidden
+selector rows have no slot in the stabilized reindexed package.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier reindexing composition]
+\label{thm:regseqrat-tail-classifier-reindexing-composition}
+Let $W_0$ and $W_1$ be finite $\RealUp$ observation-window packages. Let
+$\rho$ be a certified unary reindexer from the displayed window of $W_0$ to an
+intermediate displayed $\StreamNameUp$ window, and let $\sigma$ be a certified
+unary reindexer from that intermediate window to the displayed window of
+$W_1$. Suppose the two packages have matching $\StreamNameUp$ finite-window
+classifier rows after first reindexing by $\rho$ and then by $\sigma$, matching
+$\RegSeqRat$ spine rows, matching DyadicRatCore observation rows, matching
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, and $\mathsf{InBundle}$
+membership rows, and matching finite $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows at both displayed reindexing stages.
+
+Then the $\RegSeqRat$ tail classifier selected after the composite
+reindexing schedule $\sigma \circ \rho$ is the same finite-window readback row
+as the classifier obtained by applying the two certified reindexing steps
+successively. The composition surface is only the displayed finite readback
+surface; it introduces no quotient row, completion row, Classical
+representative, metric-completeness certificate, arithmetic or order row,
+standard-bridge row, or hidden regular-sequence selector.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion} to the
+$\rho$-reindexed handoff surface. The displayed $\StreamNameUp$ classifier,
+$\RegSeqRat$ spine, $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, and
+$\mathsf{InBundle}$ membership rows form the intermediate finite readback
+boundary.
+
+Apply the same exhaustion theorem to the $\sigma$-reindexed handoff surface.
+The intermediate boundary is thereby transported to the final displayed
+finite-window boundary with the same RegSeqRat spine, DyadicRatCore
+observation rows, endpoint $\hsame$ transports, finite $\Cont$ ledger, $\Pkg$
+row, and $\mathsf{RealLedgerPolicy}$ provenance.
+
+Next use
+\autoref{thm:streamname-regseqrat-reindexed-window-consumer-determinacy}. A
+consumer reading after $\sigma \circ \rho$ sees exactly the same displayed
+StreamName and RegSeqRat source rows as a consumer that reads after $\rho$ and
+then after $\sigma$. Thus both schedules feed the tail selector with the same
+finite-window row inventory.
+
+Now invoke
+\autoref{thm:regseqrat-tail-classifier-reindexing-stability} for the
+$\rho$-stage and again for the $\sigma$-stage. Each stage preserves the
+selected $\RegSeqRat$ tail classifier on the displayed finite rows, so the
+successive readback row agrees with the row exposed by the composite
+reindexing schedule.
+
+It remains to show that this agreement is the exact public surface. Apply
+\autoref{thm:regseqrat-tail-classifier-exactness} to the common StreamName,
+RegSeqRat, DyadicRatCore, endpoint-transport, ledger, package, and provenance
+rows. Then
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} excludes any
+second tail-classifier row pulling back through the two-stage schedule.
+
+Finally use \autoref{thm:realup-scoped-finite-window-read-surface}. The scoped
+row inventory contains only the finite-window readback rows displayed above,
+so quotient, completion, Classical, metric-completeness, arithmetic, order,
+standard-bridge, and hidden selector data have no slot in the composite
+surface.
+\end{proof}
+
+\begin{theorem}[RealUp RegSeqRat tail-window reindexing boundary]
+\label{thm:realup-regseqrat-tail-window-reindexing-boundary}
+Let $W$ be a finite $\RealUp$ observation-window package and let $\rho$ be a
+certified unary tail map from its displayed window to a reindexed
+$\StreamNameUp$ finite window. Suppose the reindexed source rows match the
+tail-window normal forms: the $\StreamNameUp$ finite-window classifier rows,
+the selected $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ membership rows,
+the $\mathsf{UnaryHistory}$ observations, the $\RegSeqRat$ spine and
+tail-classifier rows, the DyadicRatCore observation rows, the finite
+$\hsame$ and $\Cont$ ledger, the $\Pkg$ provenance row, and the displayed
+$\mathsf{RealLedgerPolicy}$ row.
+
+Then the finite $\RealUp$ observation window reindexed through $\rho$ consumes
+exactly those rows. Its handoff boundary is the StreamName finite-window
+classifier surface together with the RegSeqRat tail-classifier surface
+transported by the certified unary tail map. It imports no $\RealUp$ seal
+classifier, completion object, quotient row, host-index equality,
+Classical representative, metric-completeness witness, arithmetic or order
+row, standard-bridge row, or hidden regular-sequence selector.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-reindexed-window-exhaustion}. The reindexed
+window is therefore exhausted by the displayed $\StreamNameUp$ classifier,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+$\RegSeqRat$ spine, and finite ledger rows.
+
+Next use
+\autoref{thm:regseqrat-tail-classifier-reindexing-stability} and
+\autoref{thm:regseqrat-tail-classifier-reindexing-composition}. These two
+results identify the row obtained by the certified unary tail map with the
+same selected $\RegSeqRat$ tail classifier carried by the displayed
+tail-window normal form.
+
+Now apply
+\autoref{thm:regseqrat-tail-classifier-reindexed-cover-compatibility}. It
+shows that the same projection remains valid after finite-window cover
+gluing, so the reindexed boundary does not depend on a hidden choice of local
+tail classifier.
+
+Finally combine the StreamName side with
+\autoref{thm:streamname-regseqrat-pointwise-handoff} and
+\autoref{thm:streamname-transported-window-regseqrat-realup-feed}. These
+handoff theorems expose exactly the finite StreamName rows that a
+$\RegSeqRat$ or $\RealUp$ consumer may read. Repacking those rows with the
+RegSeqRat tail normal form gives the stated $\RealUp$ boundary and leaves no
+slot for seal, completion, quotient, host-index, order, arithmetic, bridge, or
+hidden selector data.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier reindexed finite-cover compatibility]
+\label{thm:regseqrat-tail-classifier-reindexed-cover-compatibility}
+Let $\{W_i\}_{i\in I}$ be a finite family of selected finite $\RealUp$
+observation-window packages with compatible local selected $\RegSeqRat$
+tail-classifier rows on every certified overlap. Let $\rho_i$ be certified
+unary reindexers for the member windows, and let $\rho$ be the certified unary
+reindexer induced on the displayed finite union window. Suppose these
+reindexers preserve the displayed $\StreamNameUp$, $\RegSeqRat$,
+DyadicRatCore, $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, finite $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows, and suppose the transported overlap rows are
+the same rows as the overlaps of the reindexed member windows.
+
+Then the selected $\RegSeqRat$ tail classifier obtained by first gluing the
+finite cover and then reindexing by $\rho$ is the same finite-window readback
+row as the classifier obtained by reindexing each member window by $\rho_i$
+and then applying finite-cover gluing to the reindexed cover. The compatibility
+surface contains no quotient, completion, Classical representative,
+metric-completeness, arithmetic or order row, standard-bridge row, or hidden
+regular-sequence selector row.
+\end{theorem}
+\begin{proof}
+First glue the original cover with
+\autoref{thm:regseqrat-tail-classifier-finite-cover-sheaf}. The compatible
+local selected rows determine a unique global selected tail row on the
+displayed finite union, and each member row is its pullback.
+
+Next transport this global row along $\rho$. The one-step case is
+\autoref{thm:regseqrat-tail-classifier-reindexing-stability}, and the
+finite-window schedule is handled by
+\autoref{thm:regseqrat-tail-classifier-reindexing-composition}. Thus the
+glue-then-reindex construction has a displayed selected row on the reindexed
+finite union.
+
+Now reindex each member window by $\rho_i$. The same stability theorem
+identifies every transported local classifier with the selected classifier on
+the corresponding reindexed member window, and the transported overlap
+hypothesis gives the compatibility condition required by
+\autoref{thm:regseqrat-tail-classifier-finite-cover-sheaf}. Therefore the
+reindexed cover also glues to a selected global tail row.
+
+It remains to compare the two global rows. On each reindexed member window,
+both constructions pull back to the same transported local selected
+$\RegSeqRat$ tail classifier. Apply
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} on the reindexed
+finite cover to identify the two global rows. The row inventory used in each
+step is exactly the displayed $\StreamNameUp$, $\RegSeqRat$, DyadicRatCore,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ inventory, so the
+listed quotient, completion, Classical, metric-completeness, arithmetic,
+order, standard-bridge, and hidden selector rows are excluded.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier nested-cover associativity]
+\label{thm:regseqrat-tail-classifier-nested-cover-associativity}
+Let $\{W_i\}_{i\in I}$ be a finite family of selected finite $\RealUp$
+observation-window packages. For each $i$, let $\{W_{ij}\}_{j\in J_i}$ be a
+finite certified subcover of $W_i$ by selected finite windows, and suppose
+all first-level and second-level overlaps preserve the displayed
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows.
+
+Then the selected $\RegSeqRat$ tail-classifier row obtained by first gluing
+each subcover $\{W_{ij}\}_{j\in J_i}$, then gluing the resulting member
+windows $\{W_i\}_{i\in I}$, is the same finite-window row as the selected
+classifier obtained by flattening the family $\{W_{ij}\}_{i,j}$ and gluing
+that single certified finite cover once. The associativity surface exports no
+quotient, completion, Classical representative, metric-completeness,
+arithmetic or order row, standard-bridge row, or hidden regular-sequence
+selector row.
+\end{theorem}
+\begin{proof}
+First glue each certified subcover $\{W_{ij}\}_{j\in J_i}$. By
+\autoref{thm:regseqrat-tail-classifier-finite-cover-sheaf}, every compatible
+subfamily determines a unique selected tail-classifier row on $W_i$, and the
+pullback of that row to each $W_{ij}$ is the displayed local classifier.
+
+Next glue the resulting family of member windows. The same finite-cover
+theorem gives a selected global row over the finite union of the $W_i$, and
+the overlap hypotheses ensure that its pullback to each $W_i$ is the row
+obtained from the corresponding subcover.
+
+Now flatten the two-level family to the certified finite cover
+$\{W_{ij}\}_{i,j}$. Apply
+\autoref{thm:regseqrat-tail-classifier-reindexed-cover-compatibility} to
+identify the flattened cover with the same displayed finite-window inventory
+used by the staged construction; the reindexing data here is only the
+certified inclusion and ordering of the flattened subwindows.
+
+It remains to compare the staged row with the flattened row. Both pull back
+to the same selected $\RegSeqRat$ tail-classifier row on every certified
+subwindow $W_{ij}$, so
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} identifies the
+two global rows. Each step used only the displayed $\StreamNameUp$,
+$\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows, leaving no slot for the excluded host or
+completion data.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier atlas descent]
+\label{thm:regseqrat-tail-classifier-atlas-descent}
+Let $\mathcal{A}=\{W_i\}_{i\in I}$ be a finite atlas of selected finite
+$\RealUp$ observation-window packages. Suppose every pairwise overlap
+$W_i\cap W_j$ and every triple overlap $W_i\cap W_j\cap W_k$ preserves the
+displayed $\StreamNameUp$, $\RegSeqRat$, DyadicRatCore,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+Then the atlas exposes a single selected $\RegSeqRat$ tail-classifier row on
+the finite union of its windows. For every chart $W_i$, the chartwise selected
+tail-classifier row factors through this atlas row, and this factorisation is
+unique among finite-window mediators preserving the displayed rows. The
+descent surface exports no quotient, completion, Classical representative,
+metric-completeness row, arithmetic or order row, standard-bridge row, or
+hidden selector row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-classifier-exactness} to each selected chart.
+This identifies the chartwise tail-classifier row with the displayed
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, unary-history, probe-bundle,
+membership, transport, continuation, provenance, and ledger inventory.
+
+Next form the finite atlas union. By
+\autoref{thm:regseqrat-tail-classifier-union-exhaustion}, the union consumes
+exactly the rows contributed by the selected windows and their certified
+overlaps. No additional host row is introduced while passing from the chart
+family to the finite union.
+
+Now decompose the atlas by its chart partition. The coherence result
+\autoref{thm:regseqrat-tail-classifier-partition-coherence} says that the
+selected row obtained from the union is the same row obtained by assembling the
+partition pieces with their displayed overlap transports.
+
+Triple refinements are handled by
+\autoref{thm:regseqrat-tail-classifier-nested-cover-associativity}. It
+identifies the staged gluing over pairwise overlaps with the flattened finite
+cover over all chart and triple-overlap pieces, so the resulting atlas row is
+independent of the order in which the certified finite overlaps are read.
+
+It remains to show the universal factorisation claim. A chartwise selected
+tail pulls back from the atlas row by construction. If another finite-window
+mediator has the same pullback on every chart while preserving the displayed
+rows, then
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} identifies that
+mediator with the atlas row. Thus each chartwise tail factors uniquely through
+the displayed atlas descent row, and the excluded quotient, completion,
+Classical, metric, arithmetic, order, bridge, and hidden-selector data have no
+projection in the construction.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-classifier subatlas restriction exactness]
+\label{thm:regseqrat-tail-classifier-subatlas-restriction-exactness}
+Let $\mathcal{A}=\{W_i\}_{i\in I}$ be a finite atlas of selected finite
+$\RealUp$ observation-window packages satisfying the atlas-descent hypotheses
+of \autoref{thm:regseqrat-tail-classifier-atlas-descent}. Let
+$\mathcal{B}=\{W_j\}_{j\in J}$ be a certified finite subatlas whose union is a
+certified subwindow of the union of $\mathcal{A}$, and suppose each chart of
+$\mathcal{B}$ is obtained by restricting one chart of $\mathcal{A}$ along the
+displayed finite-window inclusion ledger.
+
+Then the selected $\RegSeqRat$ tail-classifier row obtained by restricting the
+atlas row of $\mathcal{A}$ to the charts of $\mathcal{B}$ is exactly the row
+obtained by applying finite-cover descent directly to $\mathcal{B}$. This
+restriction surface preserves precisely the displayed $\StreamNameUp$,
+$\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows. It exports no quotient, completion,
+Classical representative, metric-completeness row, arithmetic or order row,
+standard-bridge row, or hidden-selector row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-classifier-atlas-descent} to the ambient
+atlas $\mathcal{A}$. This supplies a single selected atlas row whose pullback
+to each ambient chart is the chartwise $\RegSeqRat$ tail-classifier row over
+the displayed $\StreamNameUp$, DyadicRatCore, unary-history, probe-bundle,
+membership, transport, continuation, provenance, and ledger data.
+
+Restrict those pullbacks along the certified inclusions defining the subatlas
+$\mathcal{B}$. Since each subatlas chart is a finite-window restriction of an
+ambient chart, the restricted pullbacks still expose only the displayed
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+Now apply \autoref{thm:regseqrat-tail-classifier-finite-cover-sheaf} directly
+to the certified finite cover $\mathcal{B}$. The pairwise compatibility
+required on $\mathcal{B}$ is inherited from the ambient pairwise and triple
+overlap hypotheses, so the finite-cover theorem produces a selected
+$\RegSeqRat$ tail-classifier row on the subwindow union.
+
+It remains to compare the restricted ambient row with the row constructed
+directly on $\mathcal{B}$. Both rows pull back to the same selected
+tail-classifier on every chart $W_j$ of the subatlas and both preserve the
+same displayed inventory. Therefore
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness} identifies them.
+The comparison has no projection to quotient, completion, Classical, metric,
+arithmetic, order, standard-bridge, or hidden-selector data because neither
+construction contains such a row.
+\end{proof}

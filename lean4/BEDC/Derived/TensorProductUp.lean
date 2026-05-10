@@ -160,6 +160,23 @@ theorem TensorProductSingletonCarrier_factor_witness {tensor : BHist} :
                               (cont_left_unit BHist.Empty))))
                         (cont_left_unit BHist.Empty)))
 
+theorem TensorProductSingletonCarrier_source_pattern_iff {tensor : BHist} :
+    TensorProductSingletonCarrier tensor ↔
+      exists left right : BHist,
+        TensorProductSingletonFactor left right tensor ∧ Cont left right tensor := by
+  constructor
+  · intro carrier
+    exact TensorProductSingletonCarrier_factor_witness carrier
+  · intro witness
+    cases witness with
+    | intro left rest =>
+        cases rest with
+        | intro right data =>
+            exact Exists.intro left
+              (Exists.intro right
+                (And.intro data.left.left
+                  (And.intro data.left.right.left data.right)))
+
 theorem TensorProductSingletonFactor_hsame_transport
     {left left' right right' tensor tensor' : BHist} :
     TensorProductSingletonFactor left right tensor ->
@@ -240,5 +257,35 @@ theorem TensorProductSingletonFactor_tensor_semanticNameCert {left right tensor 
     exact source
   · intro h source
     exact source
+
+theorem TensorProductSingletonFactor_classifier_stability_obligation
+    {left left' right right' tensor tensor' : BHist} :
+    TensorProductSingletonFactor left right tensor ->
+      hsame left left' -> hsame right right' -> hsame tensor tensor' ->
+        TensorProductSingletonFactor left' right' tensor' ∧ Cont left' right' tensor' ∧
+          SemanticNameCert (fun t : BHist => TensorProductSingletonFactor left' right' t)
+            (fun t : BHist => TensorProductSingletonFactor left' right' t)
+            (fun t : BHist => TensorProductSingletonFactor left' right' t) hsame := by
+  intro factor sameLeft sameRight sameTensor
+  have transported :=
+    TensorProductSingletonFactor_hsame_transport factor sameLeft sameRight sameTensor
+  exact And.intro transported.left
+    (And.intro transported.right
+      (TensorProductSingletonFactor_tensor_semanticNameCert transported.left))
+
+theorem TensorProductSingletonFactor_ledger_exactness_obligation {left right tensor : BHist} :
+    TensorProductSingletonFactor left right tensor ->
+      ModuleSingletonCarrier left ∧ ModuleSingletonCarrier right ∧
+        ModuleSingletonCarrier tensor ∧ Cont left right tensor ∧
+          (forall {tensor' : BHist}, TensorProductSingletonFactor left right tensor' ->
+            hsame tensor tensor') := by
+  intro factor
+  exact And.intro factor.left
+    (And.intro factor.right.left
+      (And.intro factor.right.right.left
+        (And.intro factor.right.right.right
+          (by
+            intro tensor' factor'
+            exact (TensorProductSingletonFactor_classifier_uniqueness factor factor').left))))
 
 end BEDC.Derived.TensorProductUp

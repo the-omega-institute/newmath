@@ -140,18 +140,16 @@ DEPS_READY_THRESHOLD = DEFAULT_DEPS_READY_THRESHOLD
 # guaranteed to fail. Keep them out of `top` until the paper side adds a
 # concrete `mul := λ h k => ...` definition.
 SCHEMA_ONLY_HORIZONS: set[str] = {
-    # abgroup / group / monoid / ring / commring / field / module / vecspace /
-    # linearmap / matrix / polynomial / fps / lattice were originally banned
-    # because their paper schema wrote laws as parametric operators. Paper
-    # rounds P699-P811 (prompt v2.1 schema-only unlock HARD GATE) added
-    # concrete singleton-history instances (Carrier := UnaryHistory, mul :=
-    # Cont, e := BHist.Empty, smul := emp, etc.) that pin every abstract symbol
-    # to a specific BHist function. Lean rounds can now produce BHist-anchored
-    # proofs about these concrete instances rather than parameter-echo schema,
-    # so they are out of the ban list. The remaining 3 order-theoretic
-    # chapters still need the same paper-side unlock — they currently lack the
-    # concrete singleton pinning of meet/join/le on a specific BHist value.
-    "totalorder", "preorder", "poset",
+    # All previously banned chapters (abgroup / group / monoid / ring /
+    # commring / field / module / vecspace / linearmap / matrix /
+    # polynomial / fps / lattice / totalorder / preorder / poset)
+    # have been verified to carry concrete singleton-history pinning
+    # (Carrier := UnaryHistory, mul := Cont, le := PreorderPrefixLE,
+    # etc.) so the pipeline can produce BHist-anchored proofs without
+    # reverting to parametric-operator schema. phase_d_lint.py +
+    # parameter-echo gates catch regressions, so re-banning is
+    # unnecessary. The set stays empty until a NEW chapter is added
+    # that genuinely lacks concrete pinning.
 }
 
 NAME_RE = re.compile(r"^\d+_([a-z][a-z0-9_]*?)_namecert_construction\.tex$")
@@ -166,6 +164,7 @@ CLOSURESTATUS_END_RE = re.compile(r"\\end\{closurestatus\}")
 THEORYCLOSURE_RE = re.compile(r"\\theoryclosure\{\\(\w+)\}")
 FORMALSTATUS_RE = re.compile(r"\\formalstatus\{\\(\w+)\}")
 LEANTARGET_RE = re.compile(r"\\leantarget\{([^}]+)\}")
+BRIDGESTATUS_RE = re.compile(r"\\bridgestatus\{(\w+)\}")
 INPUT_RE = re.compile(r"\\input\{([^}]+)\}")
 PAPER_ROOT_DIR = ROOT / "papers" / "bedc"
 
@@ -186,6 +185,106 @@ def _grade_at_or_above(grade: str | None, threshold: str, order: list[str]) -> b
     if grade is None or grade not in order or threshold not in order:
         return False
     return order.index(grade) >= order.index(threshold)
+
+
+def _grade_max(a: str | None, b: str | None, order: list[str]) -> str | None:
+    """Pick the higher of two grade tokens by order index. None counts as below."""
+    def idx(g):
+        if g is None or g not in order:
+            return -1
+        return order.index(g)
+    return a if idx(a) >= idx(b) else b
+
+
+def _git_head_short() -> str:
+    try:
+        out = subprocess.run(
+            ["git", "rev-parse", "--short=12", "HEAD"],
+            cwd=str(ROOT), capture_output=True, text=True, check=False,
+        )
+        return out.stdout.strip() or "nohead"
+    except Exception:
+        return "nohead"
+
+
+_objective_grades_cache: dict[str, str] | None = None
+
+
+def load_objective_formal_grades() -> dict[str, str]:
+    """Map each Lean qualified name to its OBJECTIVE formal grade derived
+    from build artifacts (axiom-purity --strict + declaration inventory),
+    NOT from closurestatus tokens written into the paper.
+
+    Returns: {qualified_name: grade_token}. Grades reflect:
+      - axiomCleanV  : in `pure` set of axiom-purity --strict --json
+      - auditCleanV  : declared as theorem/lemma but not in pure set
+      - encodedDefV  : declared as def / inductive / structure / class
+      - formalTargetV: declared but kind unknown
+      - (absent) -> caller treats as unformalizedV / no objective
+
+    Cached per git HEAD under /tmp/bedc_objective_grades_<HEAD>.json so
+    repeated codex rounds don't re-pay the cost of `lake env lean
+    #print axioms` for 6000+ targets.
+    """
+    global _objective_grades_cache
+    if _objective_grades_cache is not None:
+        return _objective_grades_cache
+
+    import tempfile
+    head = _git_head_short()
+    cache_path = Path(tempfile.gettempdir()) / f"bedc_objective_grades_{head}.json"
+    if cache_path.exists():
+        try:
+            data = json.loads(cache_path.read_text(encoding="utf-8"))
+            if isinstance(data, dict):
+                _objective_grades_cache = data
+                return data
+        except Exception:
+            pass
+
+    try:
+        result = subprocess.run(
+            ["python3", "lean4/scripts/bedc_ci.py",
+             "axiom-purity", "--strict", "--json"],
+            cwd=str(ROOT), capture_output=True, text=True, check=False,
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            payload = json.loads(result.stdout)
+            pure_set = set(payload.get("pure", []))
+        else:
+            pure_set = set()
+    except Exception:
+        pure_set = set()
+
+    # Reuse bedc_ci's declaration inventory to know each target's kind.
+    try:
+        sys_path_addition = str((ROOT / "lean4" / "scripts").resolve())
+        import sys as _sys
+        if sys_path_addition not in _sys.path:
+            _sys.path.insert(0, sys_path_addition)
+        from bedc_ci import build_declaration_inventory  # type: ignore
+        declarations, _fields = build_declaration_inventory()
+    except Exception:
+        declarations = []
+
+    grades: dict[str, str] = {}
+    for d in declarations:
+        qn = d.qualified_name
+        if qn in pure_set:
+            grades[qn] = "axiomCleanV"
+        elif d.kind in ("theorem", "lemma"):
+            grades[qn] = "auditCleanV"
+        elif d.kind in ("def", "inductive", "structure", "class", "abbrev"):
+            grades[qn] = "encodedDefV"
+        else:
+            grades[qn] = "formalTargetV"
+
+    _objective_grades_cache = grades
+    try:
+        cache_path.write_text(json.dumps(grades), encoding="utf-8")
+    except Exception:
+        pass
+    return grades
 
 
 def normalize_name(stem: str) -> str:
@@ -241,7 +340,20 @@ def _read_chapter_recursive(chapter_path: Path,
 
 def is_chapter_retired_from_horizon(
     chapter_text: str, name: str
-) -> tuple[bool, str | None, str | None, str | None]:
+) -> tuple[bool, str | None, str | None, str | None, str | None, bool]:
+    """Returns (retired, theory_token, formal_token, lean_target,
+                  objective_formal_grade, formalstatus_drift,
+                  bridge_token).
+
+    `formal_token` is what the closurestatus block literally writes;
+    `objective_formal_grade` is what the lean_target deserves under the
+    current build (axiom-purity --strict pure -> axiomCleanV; declared
+    theorem -> auditCleanV; def -> encodedDefV; etc.). When the token is
+    strictly below the objective, the chapter is in `formalstatus_drift`
+    and is NOT retired — codex needs to write the token up to match the
+    objective so the paper labels reflect reality.
+    """
+    objective_grades = load_objective_formal_grades()
     for m in CLOSURESTATUS_BEGIN_RE.finditer(chapter_text):
         if m.group(1).lower() != name.lower():
             continue
@@ -251,18 +363,38 @@ def is_chapter_retired_from_horizon(
         tc_match = THEORYCLOSURE_RE.search(body)
         fs_match = FORMALSTATUS_RE.search(body)
         lt_match = LEANTARGET_RE.search(body)
+        br_match = BRIDGESTATUS_RE.search(body)
         tc = tc_match.group(1) if tc_match else None
         fs = fs_match.group(1) if fs_match else None
         lt = (
             lt_match.group(1).replace("\\_", "_").strip()
             if lt_match else None
         )
+        br = br_match.group(1).strip() if br_match else None
+        objective_fs = objective_grades.get(lt) if lt else None
+        token_idx = (FORMAL_GRADE_ORDER.index(fs)
+                     if fs in FORMAL_GRADE_ORDER else -1)
+        obj_idx = (FORMAL_GRADE_ORDER.index(objective_fs)
+                   if objective_fs in FORMAL_GRADE_ORDER else -1)
+        drift = obj_idx > token_idx
+        effective_fs = _grade_max(fs, objective_fs, FORMAL_GRADE_ORDER)
+        # Drift (token < objective) is informational ONLY; do NOT block
+        # retire on it. A chapter that satisfies the closure + formal
+        # thresholds is retired regardless of whether its written
+        # `formalstatus` token is exactly equal to the objective grade.
+        # Token-vs-objective sync is handled by a separate drift-fix
+        # pass; coupling it to retire caused the entire retired set to
+        # collapse to zero when objectives moved up to axiomCleanV
+        # globally (since paper-side tokens are uniformly theoremCheckedV).
         retired = (
-            _grade_at_or_above(tc, RETIREMENT_CLOSURE_THRESHOLD, CLOSURE_GRADE_ORDER)
-            and _grade_at_or_above(fs, RETIREMENT_FORMAL_THRESHOLD, FORMAL_GRADE_ORDER)
+            _grade_at_or_above(tc, RETIREMENT_CLOSURE_THRESHOLD,
+                                CLOSURE_GRADE_ORDER)
+            and _grade_at_or_above(effective_fs,
+                                    RETIREMENT_FORMAL_THRESHOLD,
+                                    FORMAL_GRADE_ORDER)
         )
-        return (retired, tc, fs, lt)
-    return (False, None, None, None)
+        return (retired, tc, fs, lt, objective_fs, drift, br)
+    return (False, None, None, None, None, False, None)
 
 
 def extract_horizons() -> dict[str, dict]:
@@ -294,7 +426,9 @@ def extract_horizons() -> dict[str, dict]:
         # in dep-blocked limbo.
         labels = len({f"{m.group(1)}:{m.group(2)}"
                       for m in PAPER_LABEL_FULL_RE.finditer(full_text)})
-        retired, theory_grade, formal_grade, lean_target = (
+        (retired, theory_grade, formal_grade, lean_target,
+         objective_formal_grade, formalstatus_drift,
+         bridge_token) = (
             is_chapter_retired_from_horizon(full_text, name)
         )
         closed_at = [theory_grade, formal_grade] if retired else None
@@ -302,7 +436,10 @@ def extract_horizons() -> dict[str, dict]:
         # pick the right "level transition" target shape for the round.
         theory_next = _next_grade(theory_grade, CLOSURE_GRADE_ORDER)
         formal_next = _next_grade(formal_grade, FORMAL_GRADE_ORDER)
-        next_axis = _select_next_axis(theory_grade, formal_grade)
+        if formalstatus_drift:
+            next_axis = "formalstatus_sync"
+        else:
+            next_axis = _select_next_axis(theory_grade, formal_grade)
         camel = derive_lean_camel_case(name, text)
         lean_file = DERIVED_DIR / f"{camel}Up.lean"
         siblings = _collect_siblings(tex, name, camel, lean_file)
@@ -319,9 +456,13 @@ def extract_horizons() -> dict[str, dict]:
             "formal_grade": formal_grade,
             "theory_grade_next": theory_next,
             "formal_grade_next": formal_next,
+            "objective_formal_grade": objective_formal_grade,
+            "formalstatus_drift": formalstatus_drift,
+            "bridge_token": bridge_token,
             "next_axis": next_axis,
             "next_grade_transition": _format_transition(
-                theory_grade, formal_grade, theory_next, formal_next, next_axis
+                theory_grade, formal_grade, theory_next, formal_next, next_axis,
+                objective_formal_grade, formalstatus_drift
             ),
             "file_paper": str(tex.relative_to(ROOT)),
             "file_lean": str(lean_file.relative_to(ROOT)),
@@ -365,8 +506,12 @@ def _select_next_axis(theory: str | None, formal: str | None) -> str:
     return "theory_closure" if t_lag > f_lag else "formal_status"
 
 
-def _format_transition(theory_cur, formal_cur, theory_next, formal_next, axis) -> str:
+def _format_transition(theory_cur, formal_cur, theory_next, formal_next, axis,
+                          objective_formal_grade=None, formalstatus_drift=False) -> str:
     """Human-readable string codex can plan against."""
+    if axis == "formalstatus_sync":
+        return (f"formalstatus_sync: token={formal_cur or '(none)'}"
+                f" -> objective={objective_formal_grade or '(none)'}")
     if axis == "theory_closure":
         return f"theory: {theory_cur or '(none)'} -> {theory_next or '(top)'}"
     return f"formal: {formal_cur or '(none)'} -> {formal_next or '(top)'}"
@@ -627,6 +772,8 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
                 "formal_grade": info.get("formal_grade"),
                 "theory_grade_next": info.get("theory_grade_next"),
                 "formal_grade_next": info.get("formal_grade_next"),
+                "objective_formal_grade": info.get("objective_formal_grade"),
+                "formalstatus_drift": info.get("formalstatus_drift", False),
                 "next_axis": info.get("next_axis"),
                 "next_grade_transition": info.get("next_grade_transition"),
                 "chapter_grade_lag": chapter_lag,
@@ -717,6 +864,45 @@ def _inflight_paper_attack_chapters() -> set[str]:
             m = pat.search(path)
             if m:
                 chapters.add(m.group(1))
+    return chapters
+
+
+def _inflight_lean_attack_chapters() -> set[str]:
+    """Same as _inflight_paper_attack_chapters but scans
+    `.worktrees/round_R*/` for lean-side worktree edits to lean4/BEDC/
+    or to paper closurestatus blocks. Used by bridge_candidates +
+    formal_axis_top to avoid dispatching multiple lean rounds at the
+    same chapter.
+    """
+    chapters: set[str] = set()
+    worktrees_dir = ROOT / ".worktrees"
+    if not worktrees_dir.is_dir():
+        return chapters
+    # Lean target name like BEDC.Derived.SheafUp or BEDC.Derived.SheafUp.X
+    lean_pat = re.compile(r"lean4/BEDC/(?:[\w/]*?)/?(\w+)Up")
+    paper_pat = re.compile(
+        r"concrete_instances/(?:\d+_)?([a-z][a-z0-9_]*?)(?:_namecert|/|\.tex)"
+    )
+    for wt in worktrees_dir.glob("round_R*"):
+        try:
+            out = subprocess.run(
+                ["git", "status", "--porcelain"],
+                cwd=str(wt), capture_output=True, text=True,
+                check=False, timeout=5,
+            ).stdout
+        except Exception:
+            continue
+        for line in out.splitlines():
+            parts = line.strip().split(None, 1)
+            if len(parts) != 2:
+                continue
+            path = parts[1]
+            m = lean_pat.search(path)
+            if m:
+                chapters.add(m.group(1).lower())
+            m2 = paper_pat.search(path)
+            if m2:
+                chapters.add(m2.group(1))
     return chapters
 
 
@@ -856,6 +1042,71 @@ def compute_root_unblocks(horizons: dict[str, dict],
     return candidates
 
 
+def compute_empty_roots(horizons: dict[str, dict],
+                        downstream: dict[str, int],
+                        *, recent_attack_threshold: int = 1) -> list[dict]:
+    """Identify open chapters whose paper schema is fully empty
+    (`max(thms, labels) == 0`) — i.e. root-of-tree stubs that no paper
+    round has ever populated. These are the chapters that block the
+    largest TRANSITIVE fan-outs from ever becoming `deps_ready`, and
+    `compute_root_unblocks` cannot surface them when the dep tree has
+    mutual-blocker structure (each root has multiple `thms=0` peers, so
+    no root is a SINGLE-blocker for any downstream).
+
+    Empirically (2026-05-08): when `top` collapses to 0, all 10 entries
+    in `top_root_unblocks` have `unblock_count=1` because the bottom
+    layer (affinespace, bilinform, chernweil, …) is mutually-blocking.
+    The existing `unblock_count >= 3` GATE in phase_review.txt then
+    skips, so paper rounds never attack these stubs and the pipeline
+    stalls on closure-axis bookkeeping.
+
+    `top_empty_roots` ranks by transitive_downstream (how many chapters
+    transitively depend on this one) — directly measures "writing a
+    schema here unblocks N downstream paths."
+
+    Filters: open + not SCHEMA_ONLY + `max(thms, labels) == 0` + not
+    in-flight + `recent_attacks < threshold` (30-min window, default 1).
+    Sort: descending by `transitive_downstream`, then `direct_downstream`,
+    then name.
+    """
+    recent = _recent_paper_attack_chapter_counts(window_minutes=30)
+    inflight = _inflight_paper_attack_chapters()
+    candidates: list[dict] = []
+    # Compute direct downstream count (one hop) for tie-breaking.
+    direct: dict[str, int] = {n: 0 for n in horizons}
+    for n, info in horizons.items():
+        for d in info.get("deps", []):
+            if d in direct:
+                direct[d] += 1
+    for n, info in horizons.items():
+        if info.get("closed"):
+            continue
+        if n in SCHEMA_ONLY_HORIZONS:
+            continue
+        thms = info.get("thms", 0) or 0
+        labels = info.get("labels", 0) or 0
+        if max(thms, labels) > 0:
+            continue
+        if n in inflight:
+            continue
+        recent_count = recent.get(n, 0)
+        if recent_count >= recent_attack_threshold:
+            continue
+        candidates.append({
+            "name": n,
+            "thms": thms,
+            "labels": labels,
+            "deps": info.get("deps", []),
+            "transitive_downstream": downstream.get(n, 0),
+            "direct_downstream": direct.get(n, 0),
+            "recent_attacks": recent_count,
+            "file_paper": info.get("file_paper"),
+        })
+    candidates.sort(key=lambda r: (-r["transitive_downstream"],
+                                    -r["direct_downstream"], r["name"]))
+    return candidates
+
+
 # `theory_closure` upgrade chain. Each entry is a `(from_grade, to_grade)`
 # transition that paper P-rounds drive via `closure_mark` targets. The
 # upgrade chain has historically stalled past `scopedClosure` because
@@ -908,6 +1159,570 @@ def compute_transition_candidates(horizons: dict[str, dict],
     return candidates[:max_results]
 
 
+def compute_capstone_overlap_map() -> dict:
+    """Build a discovery board of capstone-to-capstone shared coverage.
+
+    For each pair (and triple) of capstone chapters in
+    `papers/bedc/parts/capstones/`, compute the intersection of the
+    Lean targets they cite via \\leanchecked, \\leanvariant,
+    \\leandef, \\leanstmt, \\leansorryd, \\leantarget markers — and
+    the kernel-object namespace prefixes those targets fall under.
+
+    A pair (or triple) whose intersection is non-empty is an open
+    META-CAPSTONE SLOT unless a fourth capstone already \\autorefs
+    both/all sources and overlaps the shared targets — in which case
+    the slot is marked unified_by that fourth capstone.
+
+    This is a SOFT signal for paper P-rounds, not a HARD GATE.
+    Discovery of non-trivial unifying structure is not mechanizable.
+    """
+    from itertools import combinations
+
+    capstone_dir = ROOT / "papers/bedc/parts/capstones"
+    marker_re = re.compile(
+        r"\\(?:leanchecked|leanvariant|leandef|leanstmt|leansorryd|leantarget)\{([^}]+)\}"
+    )
+    autoref_re = re.compile(
+        r"\\autoref\{(?:ch|sec|thm|def|cor|rem|lem):capstones-([a-zA-Z0-9_-]+)"
+    )
+    kernel_object_patterns = [
+        (re.compile(r"(?:\\mathsf\{BHist\}|\\Hist\b|\bBHist\b|\\hsame\b|\bhsame\b)"),
+         "BEDC.FKernel.Hist"),
+        (re.compile(r"(?:\\mathsf\{BMark\}|\\Mark\b|\bBMark\b|\\msame\b|\bmsame\b)"),
+         "BEDC.FKernel.Mark"),
+        (re.compile(r"(?:\\Cont\b|\bCont\b)"), "BEDC.FKernel.Cont"),
+        (re.compile(r"(?:\\Ext\b|\bExt\b)"), "BEDC.FKernel.Ext"),
+        (re.compile(r"(?:\\NameCert\b|\bNameCert\b)"), "BEDC.FKernel.NameCert"),
+    ]
+
+    paths = [
+        path for path in capstone_dir.glob("*.tex")
+        if path.name not in {"index.tex", "_index_files.tex"}
+    ]
+    stems = sorted(path.stem for path in paths)
+    stem_set = set(stems)
+    records = {}
+
+    for path in paths:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        targets = {
+            match.group(1).replace("\\_", "_")
+            for match in marker_re.finditer(text)
+        }
+        prefixes = set()
+        for target in targets:
+            parts = target.split(".")
+            if len(parts) >= 3 and target.startswith("BEDC."):
+                prefixes.add(".".join(parts[:3]))
+        for pattern, prefix in kernel_object_patterns:
+            if pattern.search(text):
+                prefixes.add(prefix)
+        autorefs = {
+            match.group(1).replace("-", "_")
+            for match in autoref_re.finditer(text)
+        }
+        records[path.stem] = {
+            "targets": targets,
+            "prefixes": prefixes,
+            "autorefs": autorefs & stem_set,
+        }
+
+    pairs_list = []
+    for a, b in combinations(stems, 2):
+        shared_targets = records[a]["targets"] & records[b]["targets"]
+        shared_kernel_objects = records[a]["prefixes"] & records[b]["prefixes"]
+        if not shared_kernel_objects:
+            continue
+        unified_by = None
+        for c in stems:
+            if c in {a, b}:
+                continue
+            if a not in records[c]["autorefs"] or b not in records[c]["autorefs"]:
+                continue
+            if shared_targets:
+                coverage = len(records[c]["targets"] & shared_targets)
+                if coverage < 0.5 * len(shared_targets):
+                    continue
+            unified_by = c
+            break
+        pairs_list.append({
+            "a": a,
+            "b": b,
+            "shared_kernel_objects": sorted(shared_kernel_objects),
+            "shared_lean_targets": sorted(shared_targets),
+            "unified_by": unified_by,
+            "a_autorefs_b": b in records[a]["autorefs"],
+            "b_autorefs_a": a in records[b]["autorefs"],
+        })
+
+    triples_list = []
+    for a, b, c in combinations(stems, 3):
+        kernel_isect = (
+            records[a]["prefixes"] & records[b]["prefixes"] & records[c]["prefixes"]
+        )
+        if not kernel_isect:
+            continue
+        target_isect = (
+            records[a]["targets"] & records[b]["targets"] & records[c]["targets"]
+        )
+        unified_by = None
+        for d in stems:
+            if d in {a, b, c}:
+                continue
+            if (
+                a in records[d]["autorefs"]
+                and b in records[d]["autorefs"]
+                and c in records[d]["autorefs"]
+            ):
+                unified_by = d
+                break
+        triples_list.append({
+            "a": a,
+            "b": b,
+            "c": c,
+            "shared_kernel_objects": sorted(kernel_isect),
+            "shared_lean_targets": sorted(target_isect),
+            "unified_by": unified_by,
+        })
+
+    pairs_list.sort(
+        key=lambda item: (
+            item["unified_by"] is not None,
+            -len(item["shared_kernel_objects"]),
+            -len(item["shared_lean_targets"]),
+            item["a"],
+            item["b"],
+        )
+    )
+    triples_list.sort(
+        key=lambda item: (
+            item["unified_by"] is not None,
+            -len(item["shared_kernel_objects"]),
+            -len(item["shared_lean_targets"]),
+            item["a"],
+            item["b"],
+            item["c"],
+        )
+    )
+
+    return {
+        "pairs": pairs_list,
+        "triples": triples_list,
+        "capstone_count": len(stems),
+        "open_pairs_total": sum(1 for item in pairs_list if item["unified_by"] is None),
+        "open_triples_total": sum(1 for item in triples_list if item["unified_by"] is None),
+    }
+
+
+# === Theorem-level discovery (D-1, additive — does not affect existing surfaces) ===
+#
+# Scans main.tex reverse-traversal closure for every \begin{theorem|lemma|...}
+# environment, extracts (kind, label, file, line, nearby lean marker), classifies
+# its zone by path prefix, and assigns an anchor_status. Used to build a
+# `theorem_inventory` summary so workers can eventually consume a paper-wide
+# unformalized theorem stream regardless of which zone (horizon / capstones /
+# core / ground_compiler / proof_obligations / ...) the theorem lives in.
+
+THEOREM_ENV_RE = re.compile(
+    r"\\begin\{(theorem|lemma|definition|proposition|corollary)\}",
+    re.MULTILINE,
+)
+LABEL_INSIDE_RE = re.compile(r"\\label\{((?:thm|def|lem|prop|cor):[^}]+)\}")
+ALL_MARKERS_RE = re.compile(
+    r"\\(leanchecked|leanvariant|leandef|leanstmt|leansorryd|leantarget)\{([^}]+)\}"
+)
+# Kernel objects already implemented in BEDC.FKernel.* — appearance in a
+# theorem body marks it as "directly formalisable now", no new namespace needed.
+KERNEL_OBJECT_RE = re.compile(
+    r"\\(?:BHist|BMark|Cont|Ext|Mark|hsame|msame|Hist|Pkg|NameCert|Sig|Bundle|"
+    r"Gap|Ask|InGap|InBundle|sameSig|psame|Settled|Unary|"
+    r"DerivCert|ClosureCert|TheoryGate|FormalStatus)\b"
+)
+# Paper-wide cross-reference patterns. Both \autoref and \ref count toward
+# downstream_refs (a label cited by N other places is N times more impactful
+# to formalise — its anchor will be re-used).
+AUTOREF_OR_REF_RE = re.compile(
+    r"\\(?:autoref|ref|cref|Cref)\{((?:thm|def|lem|prop|cor):[^}]+)\}"
+)
+
+# Per-zone weight in unformalized_top score. Capstones get a >1 boost because
+# each capstone bridge unifies ≥3 horizons, so its formalisation has supra-
+# linear leverage; ground_compiler is < 1 to prevent its 995 unwritten from
+# crowding the top 50 out, but kernel-grounded entries inside ground_compiler
+# get their weight ×2 (handled in score formula). Zones not listed default to
+# 0.4 (neither boosted nor crushed).
+ZONE_WEIGHTS: dict[str, float] = {
+    "horizon":                       1.0,
+    "narrative.capstones":           1.2,
+    "narrative.core":                0.8,
+    "narrative.proof_obligations":   0.7,
+    "narrative.proof_sprint":        0.6,
+    "narrative.proof_standing":      0.6,
+    "narrative.ground_compiler":     0.5,
+    "narrative.formalization":       0.5,
+    "narrative.hardening":           0.5,
+    "narrative.concrete_hardening":  0.5,
+    "narrative.acceptance":          0.3,
+}
+
+# Per-zone default Lean namespace prefix. None means the zone is intentionally
+# never formalised (governance / frontmatter / appendices). Suggestions are a
+# starting point for workers; workers may override.
+ZONE_LEAN_PREFIX: dict[str, str | None] = {
+    "horizon":                       "BEDC.Derived",
+    "narrative.core":                "BEDC.FKernel",
+    "narrative.ground_compiler":     "BEDC.Compiler",
+    "narrative.capstones":           "BEDC.Capstones",
+    "narrative.proof_obligations":   "BEDC.ProofObligation",
+    "narrative.proof_sprint":        "BEDC.ProofSprint",
+    "narrative.proof_standing":      "BEDC.ProofStanding",
+    "narrative.formalization":       "BEDC.Formalization",
+    "narrative.acceptance":          "BEDC.Acceptance",
+    "narrative.hardening":           "BEDC.Hardening",
+    "narrative.concrete_hardening":  "BEDC.ConcreteHardening",
+    "narrative.project_governance":  None,
+    "narrative.frontmatter":         None,
+    "narrative.appendices":          None,
+    "meta":                          None,
+}
+
+
+def _discover_paper_files() -> list[Path]:
+    """main.tex \\input{} closure, recursively."""
+    in_pdf: set[Path] = set()
+    main = PAPER_ROOT_DIR / "main.tex"
+
+    def follow(p: Path) -> None:
+        p = p.resolve()
+        if p in in_pdf or not p.exists():
+            return
+        in_pdf.add(p)
+        try:
+            text = p.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            return
+        for m in INPUT_RE.finditer(text):
+            rel = m.group(1).strip()
+            if not rel.endswith(".tex"):
+                rel = rel + ".tex"
+            child = (PAPER_ROOT_DIR / rel).resolve()
+            follow(child)
+
+    follow(main)
+    return sorted(in_pdf)
+
+
+def _classify_zone(file_path: Path) -> str:
+    """Path-prefix based zone. Returns 'horizon' / 'narrative.<dir>' / 'meta' / 'unknown'."""
+    try:
+        rel = file_path.relative_to(PAPER_ROOT_DIR.resolve())
+    except ValueError:
+        return "unknown"
+    parts = rel.parts
+    if parts and parts[0] in ("main.tex", "preamble.tex"):
+        return "meta"
+    if len(parts) >= 2 and parts[0] == "parts":
+        zone_dir = parts[1]
+        if zone_dir == "concrete_instances":
+            return "horizon"
+        return f"narrative.{zone_dir}"
+    if len(parts) == 1 and parts[0].endswith(".tex"):
+        # parts/<zone>.tex hub files (e.g. parts/core.tex)
+        zone_dir = parts[0][:-4]
+        if zone_dir == "concrete_instances":
+            return "horizon"
+        return f"narrative.{zone_dir}"
+    return "unknown"
+
+
+def _slug_to_camel(slug: str) -> str:
+    """thm:nat-zero-classifier-uniqueness → NatZeroClassifierUniqueness."""
+    if ":" in slug:
+        slug = slug.split(":", 1)[1]
+    parts = re.split(r"[-_]+", slug)
+    return "".join(p[:1].upper() + p[1:] for p in parts if p)
+
+
+def _infer_lean_anchor(file_path: Path, label: str | None,
+                        zone: str) -> str | None:
+    """Suggest a default BEDC namespace + identifier for a paper label.
+
+    Returns None for zones not eligible for formalisation, or when label is
+    missing. Result is a SUGGESTION — workers may override. Used so downstream
+    surfaces can hint a Lean target name when paper writes \\begin{theorem}
+    without a \\leanchecked / \\leandef marker.
+    """
+    prefix = ZONE_LEAN_PREFIX.get(zone)
+    if prefix is None or not label:
+        return None
+    try:
+        rel = file_path.relative_to(PAPER_ROOT_DIR.resolve())
+    except ValueError:
+        return None
+    parts = rel.parts
+    suffix = _slug_to_camel(label)
+
+    if zone == "horizon":
+        m = re.match(r"\d+_([a-z][a-z0-9_]*?)_namecert", parts[-1])
+        if m:
+            chapter = m.group(1)
+            return f"{prefix}.{chapter[:1].upper()}{chapter[1:]}Up.{suffix}"
+        # sub-dir sibling: parts/concrete_instances/<theme>/<sib>.tex
+        if len(parts) >= 4 and parts[1] == "concrete_instances":
+            chapter = parts[2]
+            return f"{prefix}.{chapter[:1].upper()}{chapter[1:]}Up.{suffix}"
+        return f"{prefix}.{suffix}"
+
+    if zone.startswith("narrative."):
+        chapter_stem = parts[-1].replace(".tex", "")
+        # Strip leading numeric prefix (00_ / 14_ / 256_ etc.)
+        chapter_stem = re.sub(r"^\d+[a-z]?_", "", chapter_stem)
+        sub = _slug_to_camel(chapter_stem)
+        if sub:
+            return f"{prefix}.{sub}.{suffix}"
+        return f"{prefix}.{suffix}"
+
+    return None
+
+
+def _build_declared_set() -> set[str]:
+    """Set of qualified Lean names actually declared in lean4/BEDC/.
+    Reuses bedc_ci's inventory via dynamic import."""
+    try:
+        sys_path_addition = str((ROOT / "lean4" / "scripts").resolve())
+        import sys as _sys
+        if sys_path_addition not in _sys.path:
+            _sys.path.insert(0, sys_path_addition)
+        from bedc_ci import build_declaration_inventory  # type: ignore
+        declarations, _ = build_declaration_inventory()
+        return {d.qualified_name for d in declarations}
+    except Exception:
+        return set()
+
+
+def _count_paper_wide_autorefs(files: list[Path]) -> dict[str, int]:
+    """Count how many times each \\label is cited via \\autoref / \\ref / \\cref
+    across all .tex files reachable from main.tex. Returns {label: count}.
+    Used to compute downstream_refs for the unformalized_top score: a theorem
+    cited by N other places is N× more impactful to formalise."""
+    counts: dict[str, int] = {}
+    for f in files:
+        try:
+            text = f.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            continue
+        for m in AUTOREF_OR_REF_RE.finditer(text):
+            label = m.group(1)
+            counts[label] = counts.get(label, 0) + 1
+    return counts
+
+
+def discover_all_theorems() -> list[dict]:
+    """Scan paper-wide tree (from main.tex) for every theorem environment.
+
+    For each \\begin{theorem|lemma|definition|proposition|corollary} env, look
+    forward up to 4000 chars for a \\label{} and any \\leanchecked/\\leandef/
+    etc. marker. Classify zone by file path prefix. Compute anchor_status:
+      - one of objective FORMAL_GRADE_ORDER tokens if marker target exists
+      - 'stale'      if marker target exists in source but not declared in build
+      - 'unwritten'  if no marker present
+
+    Each row also carries:
+      - statement_preview (first 200 chars of body, newlines collapsed)
+      - has_kernel_object (body mentions \\BHist / \\NameCert / etc — already
+                           formalised, can attack now without new namespace)
+      - downstream_refs   (paper-wide \\autoref / \\ref / \\cref count)
+      - zone_weight       (per-zone multiplier in score)
+      - score             (downstream_refs * zone_weight; ground_compiler
+                           kernel-grounded gets weight ×2)
+    """
+    files = _discover_paper_files()
+    objective_grades = load_objective_formal_grades()
+    declared_set = _build_declared_set()
+    autoref_counts = _count_paper_wide_autorefs(files)
+
+    rows: list[dict] = []
+    for f in files:
+        zone = _classify_zone(f)
+        if zone in ("unknown", "meta"):
+            continue
+        try:
+            text = f.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            continue
+        try:
+            file_rel = str(f.relative_to(ROOT))
+        except ValueError:
+            file_rel = str(f)
+        # Chapter inference for grouping: the namecert hub name when in horizon,
+        # otherwise the file stem stripped of leading numeric prefix.
+        try:
+            rel = f.relative_to(PAPER_ROOT_DIR.resolve())
+            parts = rel.parts
+        except ValueError:
+            parts = ()
+        if zone == "horizon" and parts:
+            m_chap = re.match(r"\d+_([a-z][a-z0-9_]*?)_namecert", parts[-1])
+            if m_chap:
+                chapter = m_chap.group(1)
+            elif len(parts) >= 4 and parts[1] == "concrete_instances":
+                chapter = parts[2]
+            else:
+                chapter = parts[-1].replace(".tex", "")
+        elif parts:
+            stem = parts[-1].replace(".tex", "")
+            chapter = re.sub(r"^\d+[a-z]?_", "", stem)
+        else:
+            chapter = None
+
+        for m in THEOREM_ENV_RE.finditer(text):
+            kind = m.group(1)
+            start = m.start()
+            line_start = text.count("\n", 0, start) + 1
+            window = text[start:start + 4000]
+            label_m = LABEL_INSIDE_RE.search(window)
+            label = label_m.group(1) if label_m else None
+            marker_m = ALL_MARKERS_RE.search(window)
+            actual_anchor = (
+                marker_m.group(2).replace("\\_", "_").strip()
+                if marker_m else None
+            )
+            marker_kind = marker_m.group(1) if marker_m else None
+
+            if actual_anchor:
+                # Skip placeholder targets like `BEDC.<...>.<theorem>` —
+                # paper uses `<...>` as template syntax in didactic
+                # examples (e.g. acceptance/01_derivation_acceptance_gate),
+                # not as a real Lean target. They're not drift.
+                if "<" in actual_anchor and ">" in actual_anchor:
+                    anchor_status = "placeholder"
+                elif actual_anchor in declared_set:
+                    grade = objective_grades.get(actual_anchor, "encodedDefV")
+                    anchor_status = grade
+                else:
+                    anchor_status = "stale"
+                suggested = None
+            else:
+                anchor_status = "unwritten"
+                suggested = _infer_lean_anchor(f, label, zone)
+
+            # statement_preview: first 200 chars of the env body, newlines
+            # collapsed. Used by workers to decide if the statement is
+            # actually formalisable without opening the file.
+            body_window = window[:1200]
+            statement_preview = re.sub(r"\s+", " ", body_window).strip()[:200]
+            has_kernel = bool(KERNEL_OBJECT_RE.search(body_window))
+
+            # Score formula: paper-wide cross-reference count, weighted by
+            # zone. ground_compiler kernel-grounded entries get a ×2 boost so
+            # the ~101 "attackable now" theorems can rise above the ~894
+            # "needs new namespace" peers within the same zone.
+            base_weight = ZONE_WEIGHTS.get(zone, 0.4)
+            if zone == "narrative.ground_compiler" and has_kernel:
+                weight = base_weight * 2.0
+            else:
+                weight = base_weight
+            downstream = autoref_counts.get(label or "", 0)
+            score = downstream * weight
+
+            rows.append({
+                "id": label or f"unlabeled:{f.name}:{line_start}",
+                "kind": kind,
+                "file": file_rel,
+                "line": line_start,
+                "zone": zone,
+                "chapter": chapter,
+                "label": label,
+                "anchor_actual": actual_anchor,
+                "anchor_suggested": suggested,
+                "marker_kind": marker_kind,
+                "anchor_status": anchor_status,
+                "statement_preview": statement_preview,
+                "has_kernel_object": has_kernel,
+                "downstream_refs": downstream,
+                "zone_weight": round(weight, 2),
+                "score": round(score, 2),
+            })
+    return rows
+
+
+def compute_unformalized_top(rows: list[dict], max_n: int = 50) -> list[dict]:
+    """Rank unwritten theorems paper-wide by score desc, return top max_n.
+    Strips per-row fields not useful at the top level (chapter / id stay)."""
+    candidates = [r for r in rows if r["anchor_status"] == "unwritten"]
+    candidates.sort(key=lambda r: (
+        -r["score"], -r["downstream_refs"], r["zone"], r["file"], r["line"]
+    ))
+    out = []
+    for r in candidates[:max_n]:
+        out.append({
+            "id": r["id"],
+            "kind": r["kind"],
+            "file": r["file"],
+            "line": r["line"],
+            "zone": r["zone"],
+            "chapter": r["chapter"],
+            "label": r["label"],
+            "anchor_suggested": r["anchor_suggested"],
+            "statement_preview": r["statement_preview"],
+            "has_kernel_object": r["has_kernel_object"],
+            "downstream_refs": r["downstream_refs"],
+            "zone_weight": r["zone_weight"],
+            "score": r["score"],
+        })
+    return out
+
+
+def compute_drift_top(rows: list[dict], max_n: int = 50) -> list[dict]:
+    """Theorems whose paper-side \\leanchecked/\\leandef target does not
+    resolve to a declared Lean identifier (rename / move / typo). Each is a
+    1-line fix: edit the marker to point at the current canonical name. Sort
+    by downstream_refs desc — fix the most-cited drift first."""
+    candidates = [r for r in rows if r["anchor_status"] == "stale"]
+    candidates.sort(key=lambda r: (-r["downstream_refs"], r["file"], r["line"]))
+    out = []
+    for r in candidates[:max_n]:
+        out.append({
+            "id": r["id"],
+            "kind": r["kind"],
+            "file": r["file"],
+            "line": r["line"],
+            "zone": r["zone"],
+            "chapter": r["chapter"],
+            "label": r["label"],
+            "anchor_actual": r["anchor_actual"],   # what paper currently writes
+            "marker_kind": r["marker_kind"],
+            "statement_preview": r["statement_preview"],
+            "downstream_refs": r["downstream_refs"],
+        })
+    return out
+
+
+def summarize_theorem_inventory(rows: list[dict]) -> dict:
+    """Aggregate a theorem-list into headline counters for baseline reporting."""
+    from collections import Counter
+    by_zone = Counter(r["zone"] for r in rows)
+    by_anchor = Counter(r["anchor_status"] for r in rows)
+    by_kind = Counter(r["kind"] for r in rows)
+    by_chapter = Counter((r["zone"], r["chapter"]) for r in rows if r["chapter"])
+    # Per-zone unwritten count (the ground-truth "what's left to formalise"
+    # surface, broken down by zone — D-1 baseline metric).
+    by_zone_unwritten = Counter(
+        r["zone"] for r in rows if r["anchor_status"] == "unwritten"
+    )
+    return {
+        "total": len(rows),
+        "by_kind": dict(by_kind.most_common()),
+        "by_zone": dict(by_zone.most_common()),
+        "by_anchor_status": dict(by_anchor.most_common()),
+        "by_zone_unwritten": dict(by_zone_unwritten.most_common()),
+        "top_chapters_by_density": [
+            {"zone": z, "chapter": c, "count": n}
+            for (z, c), n in by_chapter.most_common(20)
+        ],
+    }
+
+
 def main() -> int:
     horizons = extract_horizons()
     downstream = transitive_downstream(horizons)
@@ -915,18 +1730,41 @@ def main() -> int:
     # Read the strict threshold from .pipeline_parallel.json (default 5).
     strict = read_deps_ready_threshold()
 
-    # Adaptive: try strict first; if empty, drop the threshold by 1 each
-    # iteration down to 1. Avoids the "wedged at empty top" failure mode
-    # where every pending horizon needs deps_ready=False because its single
-    # dep is just shy of the cap (e.g. field needed commring=5 but had 4).
+    # Adaptive two-stage relax:
+    #   Stage 1 — supply-aware: walk strict → THRESHOLD_FLOOR (default 3),
+    #     pick the highest threshold whose ranked output is >= MIN_TOP_SIZE.
+    #     This keeps quality high (dep >= 3 thms still required) but
+    #     ensures lean has at least MIN_TOP_SIZE sibling fronts to claim,
+    #     avoiding the supply-starved state where lean=top_size is forced
+    #     down to 1-2 workers.
+    #   Stage 2 — emergency: if even THRESHOLD_FLOOR yields empty, descend
+    #     to 1 (the legacy "wedged at empty top" rescue).
+    MIN_TOP_SIZE = 5
+    THRESHOLD_FLOOR = 3
+
     relaxed_at = None
     ranked: list[dict] = []
-    for t in range(strict, 0, -1):
-        ranked = _rank_at_threshold(horizons, downstream, t)
-        if ranked:
+    for t in range(strict, THRESHOLD_FLOOR - 1, -1):
+        candidate = _rank_at_threshold(horizons, downstream, t)
+        if len(candidate) >= MIN_TOP_SIZE:
+            ranked = candidate
             if t < strict:
                 relaxed_at = t
             break
+        # Keep the best non-empty seen so far (largest top), to use if no
+        # threshold reaches MIN_TOP_SIZE.
+        if len(candidate) > len(ranked):
+            ranked = candidate
+            relaxed_at = t if t < strict else None
+
+    # Stage 2: if nothing at all from THRESHOLD_FLOOR..strict, fall through.
+    if not ranked:
+        for t in range(THRESHOLD_FLOOR - 1, 0, -1):
+            candidate = _rank_at_threshold(horizons, downstream, t)
+            if candidate:
+                ranked = candidate
+                relaxed_at = t
+                break
 
     rolled = _claim_top_with_cooldown(ranked)
 
@@ -945,6 +1783,7 @@ def main() -> int:
     # actually filtered against.
     effective_threshold = relaxed_at if relaxed_at is not None else strict
     root_unblocks = compute_root_unblocks(horizons, effective_threshold)
+    empty_roots = compute_empty_roots(horizons, downstream)
 
     # Theory-closure transition chain: 6 transitions from (none) →
     # seedClosure all the way to bridgedClosure → matureClosure. Each
@@ -962,6 +1801,197 @@ def main() -> int:
             horizons, downstream, from_grade, to_grade,
         )
 
+    # drift_chapters: chapters where the closurestatus block writes
+    # a `\formalstatus{X}` token that is strictly LOWER than the
+    # objective grade derivable from build artifacts (axiom-purity
+    # --strict / declaration kind). The chapter is functionally fine
+    # but its paper-side label undersells what Lean has actually
+    # achieved. Paper P-rounds should sync the token to the objective
+    # via a `closure_mark` target that rewrites the `\formalstatus{...}`
+    # line. Currently the bulk are `theoremCheckedV` tokens whose
+    # Lean targets are in fact `axiomCleanV` (no Classical.choice /
+    # Quot.sound / propext anywhere in the dependency closure).
+    # Anti-dogpile: a 1-line drift sync target on the same chapter
+    # cannot be safely run by 5 concurrent paper workers — every later
+    # round produces an identical merge conflict. Reuse the existing
+    # in-flight + recent-attack filters used for top_root_unblocks.
+    inflight_paper = _inflight_paper_attack_chapters()
+    recent_paper = _recent_paper_attack_chapter_counts(window_minutes=15)
+    drift_chapters_full = []
+    for info in horizons.values():
+        if not info.get("formalstatus_drift"):
+            continue
+        n = info["name"]
+        if n in inflight_paper:
+            continue
+        if recent_paper.get(n, 0) >= 1:
+            continue
+        drift_chapters_full.append({
+            "name": n,
+            "file_paper": info["file_paper"],
+            "file_lean": info["file_lean"],
+            "lean_target": info.get("lean_target"),
+            "theory_grade": info.get("theory_grade"),
+            "formal_grade_token": info.get("formal_grade"),
+            "objective_formal_grade": info.get("objective_formal_grade"),
+            "thms": info.get("thms", 0),
+        })
+    # Rank: prefer chapters with higher objective grade (axiomCleanV
+    # over auditCleanV), then by thms (richer chapters first).
+    _OBJ_RANK = {"axiomCleanV": 4, "auditCleanV": 3,
+                 "encodedDefV": 2, "formalTargetV": 1}
+    drift_chapters_full.sort(
+        key=lambda c: (_OBJ_RANK.get(c.get("objective_formal_grade") or "", 0),
+                       c.get("thms", 0)),
+        reverse=True,
+    )
+    # Anti-dogpile via per-call shuffle of the surfaced top-25. With
+    # 10 paper workers all calling critical_path within a few seconds,
+    # the deterministic top-N collapses every round to picking the
+    # same 1-2 chapters; the dedup machinery then drops 9/10 rounds.
+    # Seeded by os.urandom so different paper-round dispatches see
+    # different orderings, while a single round's call sees a stable
+    # ordering inside its own JSON.
+    import random as _rand
+    surfaced = drift_chapters_full[:25]
+    _rand.Random().shuffle(surfaced)
+    drift_chapters = surfaced
+
+    # bridge_candidates: chapters that have reached the top of the
+    # theory axis (matureClosure) AND whose Lean target is already at
+    # axiomCleanV objective, but whose `closurestatus.\bridgestatus`
+    # field is still `none` (or absent). These chapters are ready for
+    # the final lean upgrade — write a `StdBridge` Lean theorem
+    # connecting the chapter's concrete BHist instance to its abstract
+    # `<X>Up` schema, then paper P-rounds flip `\bridgestatus{none}` to
+    # `\bridgestatus{bridgeChecked}` and update `\formalstatus` to
+    # `\bridgeCheckedV`. Lean R-rounds should preferentially pick
+    # bridge_candidates[0..2] when no urgent formal-axis work in `top`
+    # is left.
+    # Detect existing <X>Up_StdBridge theorems already written under
+    # lean4/BEDC/Derived/. A chapter whose StdBridge exists in the
+    # build is "lean-side bridged"; the only remaining work is the
+    # paper-side closurestatus sync.
+    stdbridge_lean_chapters: set[str] = set()
+    for d in (ROOT / "lean4" / "BEDC" / "Derived").rglob("*.lean"):
+        try:
+            text = d.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            continue
+        for m in re.finditer(
+            r"^\s*(?:theorem|lemma)\s+(\w+)Up_StdBridge\b",
+            text, flags=re.MULTILINE,
+        ):
+            stdbridge_lean_chapters.add(m.group(1).lower())
+
+    bridge_candidates_full = []
+    bridge_sync_pending_full = []
+    for info in horizons.values():
+        tg = info.get("theory_grade")
+        obj = info.get("objective_formal_grade")
+        br = info.get("bridge_token")
+        n = info["name"]
+        if tg != "matureClosure":
+            continue
+        # Already fully done on both sides.
+        if br in ("bridgeChecked", "bridgeCheckedV"):
+            continue
+        entry = {
+            "name": n,
+            "file_paper": info["file_paper"],
+            "file_lean": info["file_lean"],
+            "lean_target": info.get("lean_target"),
+            "bridge_token": br,
+            "thms": info.get("thms", 0),
+        }
+        if n in stdbridge_lean_chapters:
+            # Lean side already has <X>Up_StdBridge. Paper just needs to
+            # update bridgestatus + formalstatus to bridgeCheckedV.
+            # No objective gate here — the StdBridge theorem itself is
+            # the verification that work is done.
+            entry["lean_stdbridge_present"] = True
+            bridge_sync_pending_full.append(entry)
+        elif obj == "axiomCleanV":
+            # Lean target is already axiomCleanV but no StdBridge yet —
+            # this is real lean work to do (write the StdBridge theorem).
+            bridge_candidates_full.append(entry)
+        # else: lean target below axiomCleanV AND no StdBridge — not a
+        # bridge candidate yet (drift sync / formal_axis_top first).
+    # Same lesson as bridge_sync_pending: do NOT inflight-filter
+    # bridge_candidates. With ~40 mature/axiomClean chapters and
+    # 12+ concurrent lean rounds, the filter empties the surface
+    # within one dispatch wave; the lean orchestrator then sees
+    # surface=[], runs phase B with empty top, and emits
+    # `{"targets": []}` triggering cooldown. Letting in-flight
+    # chapters stay in surface lets the merge-time dedup handle
+    # rate limiting naturally and keeps lean rounds productive.
+    inflight_lean = _inflight_lean_attack_chapters()  # used by formal_axis_top below
+    bridge_candidates_full.sort(key=lambda c: c.get("thms", 0), reverse=True)
+    # Per-call shuffle to disperse 12-worker dogpile.
+    import random as _rand_bc
+    _surface_bc = bridge_candidates_full[:10]
+    _rand_bc.Random().shuffle(_surface_bc)
+    bridge_candidates = _surface_bc
+
+    # NOTE: do NOT inflight-filter bridge_sync_pending. With only ~5
+    # candidates total, the inflight filter empties the surface within
+    # one round-dispatch wave; new rounds then see surface=[] but
+    # codex remembers <X>Up_StdBridge by self-grep and re-proposes
+    # CommRingUp / AddUp / FieldUp from memory, dedup drops, no
+    # progress. Allowing in-flight chapters into the surface lets new
+    # rounds pick the same chapter as a sibling and the merge layer's
+    # dedup correctly drops one of the duplicates after the first
+    # successful merge — natural rate limiting, not lock-out.
+    bridge_sync_pending_full.sort(key=lambda c: c.get("thms", 0), reverse=True)
+    # Per-call shuffle stays — disperses 10-worker simultaneous
+    # selection of the same top-1 across the candidate set.
+    _surface_bsp = bridge_sync_pending_full[:10]
+    import random as _rand2
+    _rand2.Random().shuffle(_surface_bsp)
+    bridge_sync_pending = _surface_bsp
+
+    # formal_axis_top: chapters whose theory axis is mature OR whose
+    # paper closurestatus block records a non-trivial theory_grade,
+    # but whose formal_grade token is < theoremCheckedV (i.e. lean
+    # really hasn't done the work yet — distinct from drift_chapters
+    # where lean HAS done it but paper undersells). Lean rounds should
+    # advance these chapters' formal axis. Currently mostly chapters
+    # where paper wrote `\formalstatus{\unformalizedV}` while having a
+    # mature theory body (sheaf, projectivespace, etc.).
+    formal_axis_top_full = []
+    _BELOW_TC = {"unformalizedV", "formalTargetV",
+                 "encodedDefV", "scaffoldCheckedV"}
+    for info in horizons.values():
+        tg = info.get("theory_grade")
+        fg = info.get("formal_grade")
+        if not tg:
+            continue  # no closurestatus block — covered by main `top`
+        if fg not in _BELOW_TC:
+            continue
+        formal_axis_top_full.append({
+            "name": info["name"],
+            "file_paper": info["file_paper"],
+            "file_lean": info["file_lean"],
+            "theory_grade": tg,
+            "formal_grade_token": fg,
+            "thms": info.get("thms", 0),
+            "labels": info.get("labels", 0),
+        })
+    formal_axis_top_full = [
+        c for c in formal_axis_top_full
+        if c["name"] not in inflight_lean
+    ]
+    # Rank: chapters with high theory grade + many labels first
+    _TG_RANK = {"matureClosure": 6, "bridgedClosure": 5,
+                "publicClosure": 4, "scopedClosure": 3,
+                "obligationClosure": 2, "seedClosure": 1}
+    formal_axis_top_full.sort(
+        key=lambda c: (_TG_RANK.get(c.get("theory_grade") or "", 0),
+                       c.get("labels", 0)),
+        reverse=True,
+    )
+    formal_axis_top = formal_axis_top_full[:10]
+
     payload = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
         "deps_ready_threshold": strict,
@@ -969,11 +1999,29 @@ def main() -> int:
         "deps_ready_relaxed": relaxed_at is not None,
         "closed_horizons": closed_count,
         "open_horizons": open_count,
+        "drift_chapters_total": len(drift_chapters_full),
+        "bridge_candidates_total": len(bridge_candidates_full),
+        "bridge_sync_pending_total": len(bridge_sync_pending_full),
+        "bridge_sync_pending": bridge_sync_pending,
+        "formal_axis_top_total": len(formal_axis_top_full),
         "granularity": "sibling",
         "top": rolled[:25],
         "top_root_unblocks": root_unblocks[:10],
+        "top_empty_roots_total": len(empty_roots),
+        "top_empty_roots": empty_roots[:10],
         "top_transitions": top_transitions,
+        "drift_chapters": drift_chapters,
+        "bridge_candidates": bridge_candidates,
+        "formal_axis_top": formal_axis_top,
+        "capstone_overlap_map": compute_capstone_overlap_map(),
     }
+    # Theorem-level surfaces (D-1 inventory + D-2 unformalized_top / drift_top).
+    # Compute discover_all_theorems() once and reuse — the scan is the heaviest
+    # call in the whole script (touches ~1100 .tex files paper-wide).
+    theorem_rows = discover_all_theorems()
+    payload["theorem_inventory"] = summarize_theorem_inventory(theorem_rows)
+    payload["unformalized_top"] = compute_unformalized_top(theorem_rows, max_n=50)
+    payload["drift_top"] = compute_drift_top(theorem_rows, max_n=50)
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
 

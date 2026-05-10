@@ -261,6 +261,22 @@ theorem ProdHistoryLedgerChain_componentwise_classifier_endpoint_equivalence
       exact ProdComponentHistoryClassifier_hsame_transport
         (hsame_refl w) (hsame_symm sameRhoZ) classifier
 
+theorem ProdHistoryLedgerChain_concatenation_componentwise_endpoints
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop} {rho v z : BHist} :
+    ProdHistoryLedgerChain Left Right rho v ->
+      ProdHistoryLedgerChain Left Right v z ->
+        ProdHistoryLedgerChain Left Right rho z ∧
+          (forall w : BHist,
+            (ProdComponentHistoryClassifier Left Right LeftEq RightEq rho w <->
+              ProdComponentHistoryClassifier Left Right LeftEq RightEq z w) ∧
+              (ProdComponentHistoryClassifier Left Right LeftEq RightEq w rho <->
+                ProdComponentHistoryClassifier Left Right LeftEq RightEq w z)) := by
+  intro first second
+  have concatenated : ProdHistoryLedgerChain Left Right rho z :=
+    ProdHistoryLedgerChain_trans first second
+  exact And.intro concatenated
+    (ProdHistoryLedgerChain_componentwise_classifier_endpoint_equivalence concatenated)
+
 theorem ProdHistoryLedgerChain_public_certificate_component_readback
     {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
     (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)

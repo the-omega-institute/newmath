@@ -6,5 +6,187 @@ The conditional-expectation interface $\CondExpUp$ packages the $L^2$ projection
 \section{Carrier definition}
 \label{sec:condexp-carrier}
 
+\begin{theorem}[CondExp carrier obligation]
+\label{thm:condexp-carrier-obligation}
+Let $\omega_T,\omega_S,\operatorname{pre}_X,x,p,r:\mathsf{BHist}$. A
+total-readback certificate
+$\mathsf{RandomVarTotalReadbackCertificate}(\omega_T,\omega_S,\operatorname{pre}_X)$,
+a Hilbert singleton projection witness
+$\mathsf{HilbertSingletonProjectionWitness}(x,p)$, and a continuation ledger
+$\Cont(p,r,x)$ jointly form the carrier packet for the singleton
+$\CondExpUp$ interface. The visible packet is
+$$
+(\omega_T,\omega_S,\operatorname{pre}_X,x,p,r,
+ \mathsf{RandomVarTotalReadbackCertificate}(\omega_T,\omega_S,\operatorname{pre}_X),
+ \mathsf{HilbertSingletonProjectionWitness}(x,p),
+ \Cont(p,r,x)).
+$$
+It records the target total event, the source total event, the chosen
+readback endpoint, the integrable-history endpoint, the projected endpoint,
+the residual history, the total-preimage certificate, the projection witness,
+and the residual continuation row.
+\end{theorem}
+\leanchecked{BEDC.Derived.CondExpUp.CondExpCarrier\_packet}
+\leanvariant{BEDC.Derived.CondExpUp.CondExpCarrier\_obligation}
+\begin{proof}
+Unpack the total-readback certificate through
+\autoref{def:randomvar-total-readback-certificate}. Its carried-total bridge
+and chosen-readback clause place $\operatorname{pre}_X$ on the
+$\RandomVarUp$ source side over the displayed endpoints $\omega_T$ and
+$\omega_S$.
+
+Unpack the Hilbert projection witness through
+\autoref{def:hilbert-singleton-projection-witness}. It supplies the carried
+endpoint $x$, the projected endpoint $p$, and the singleton classifier row
+for $p$.
+
+The remaining field is not a hidden analytic object: it is the displayed
+kernel continuation $\Cont(p,r,x)$. Repacking these three rows gives exactly
+the carrier packet stated above.
+\end{proof}
+
 \section{The certificate}
 \label{sec:condexp-certificate}
+
+\begin{theorem}[CondExp classifier obligation]
+\label{thm:condexp-classifier-obligation}
+Consider two singleton $\CondExpUp$ carrier packets with histories
+$(\omega_T,\omega_S,\operatorname{pre}_X,x,p,r)$ and
+$(\omega_T',\omega_S',\operatorname{pre}_X',x',p',r')$. If their source
+random-variable endpoints satisfy
+$\hsame(\omega_T,\omega_T')$, $\hsame(\omega_S,\omega_S')$, and
+$\hsame(\operatorname{pre}_X,\operatorname{pre}_X')$, and their projection
+endpoints satisfy $\hsame(x,x')$ and $\hsame(p,p')$, then the
+$\CondExpUp$ classifier identifies the two carrier packets. Carrier
+transport is exhausted by terminal readback uniqueness for the
+$\RandomVarUp$ endpoint and by the Hilbert singleton projection transport and
+idempotence rows for the projected endpoint.
+\end{theorem}
+\leanchecked{BEDC.Derived.CondExpUp.CondExpClassifier\_obligation}
+\begin{proof}
+First compare the random-variable side. Apply
+\autoref{thm:randomvar-terminal-readback-uniqueness-total-event} to the two
+readback certificates over the total target endpoints. The source endpoints
+are therefore in the same $\hsame$ class after the total-preimage row is
+read through the carried certificate.
+
+Next compare the Hilbert side. The projected endpoints are carried by the
+same singleton carrier from
+\autoref{def:hilbert-singleton-projection-witness}, and
+\autoref{thm:hilbert-singleton-projection-idempotent} says that projecting a
+projected endpoint stays in the same singleton classifier class.
+
+Finally repack the two transported sides with the visible continuation
+rows. Since the carrier packet of
+\autoref{thm:condexp-carrier-obligation} contains no further hidden field,
+these transported rows are exactly the classifier comparison for the two
+$\CondExpUp$ packets.
+\end{proof}
+
+\begin{theorem}[CondExp projection obligation]
+\label{thm:condexp-projection-obligation}
+For every carried singleton Hilbert endpoint $x:\mathsf{BHist}$, the
+$\HilbertUp$ rows
+\autoref{thm:hilbert-singleton-projection-existence},
+\autoref{thm:hilbert-singleton-projection-idempotent}, and
+\autoref{thm:hilbert-singleton-projection-orthogonal-zero} supply the
+singleton $\CondExpUp$ projection row, its idempotence row, and its residual
+orthogonality row. Thus the conditional-expectation projection surface is the
+Hilbert singleton projection surface restricted to the displayed
+$\RandomVarUp$ total-readback carrier packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.CondExpUp.CondExpProjection\_obligation}
+\begin{proof}
+Start with the carried endpoint $x$. By
+\autoref{thm:hilbert-singleton-projection-existence}, it admits a projected
+endpoint in the Hilbert singleton carrier, with the projection witness needed
+by \autoref{thm:condexp-carrier-obligation}.
+
+The idempotence row is exactly
+\autoref{thm:hilbert-singleton-projection-idempotent}. It states that the
+projected endpoint remains in its singleton classifier class after a second
+projection.
+
+The residual row is exactly
+\autoref{thm:hilbert-singleton-projection-orthogonal-zero}. Reading that row
+inside the carrier packet gives the residual orthogonality package required
+for the singleton conditional-expectation interface.
+\end{proof}
+
+\begin{theorem}[CondExp ledger and exactness obligation]
+\label{thm:condexp-ledger-exactness-obligation}
+In the singleton $\CondExpUp$ carrier packet of
+\autoref{thm:condexp-carrier-obligation}, the only hidden ledger fields are
+the $\RandomVarUp$ terminal-preimage exactness row and the $\HilbertUp$
+residual-zero exactness row. Consequently the visible packet gives coverage
+and exactness for the singleton conditional-expectation interface: the source
+event readback is classifier-exact over the source total event, the projected
+endpoint is the Hilbert singleton projection endpoint, and the residual
+orthogonality row is the constant-zero inner-product row.
+\end{theorem}
+\leanchecked{BEDC.Derived.CondExpUp.CondExpCarrierPacket\_ledger\_exactness}
+\leanvariant{BEDC.Derived.CondExpUp.CondExpLedgerExactness\_obligation}
+\begin{proof}
+The random-variable ledger is
+\autoref{thm:randomvar-total-event-preimage-exactness}. It gives
+source-measurability for the chosen total-target preimage and identifies that
+chosen preimage with the source total event by the source classifier.
+
+The Hilbert ledger is
+\autoref{thm:hilbert-singleton-projection-orthogonal-zero}. It reads every
+residual inner-product against a carried endpoint as the constant RealUp zero
+row.
+
+Combine these two ledger rows with the carrier packet. There is no extra
+field in the packet beyond the total-readback certificate, the Hilbert
+projection witness, and the displayed continuation row, so the same two
+exactness rows give the claimed coverage for the singleton
+$\CondExpUp$ interface.
+\end{proof}
+
+\begin{theorem}[CondExp singleton standard bridge boundary]
+\label{thm:condexp-singleton-standard-bridge-boundary}
+The singleton $\CondExpUp$ carrier packet of
+\autoref{thm:condexp-carrier-obligation}, the classifier obligation of
+\autoref{thm:condexp-classifier-obligation}, the projection obligation of
+\autoref{thm:condexp-projection-obligation}, and the ledger exactness theorem of
+\autoref{thm:condexp-ledger-exactness-obligation} give a conservative bridge
+from the BEDC packet
+$(\mathsf{RandomVarTotalReadbackCertificate},
+\mathsf{HilbertSingletonProjectionWitness}, \Cont)$ to the standard singleton
+conditional-expectation interface. The bridge exports exactly the displayed
+total-readback source event, Hilbert singleton projection endpoint, residual
+continuation row, classifier transport, and ledger exactness rows. It does not
+export tower properties, non-total sub-$\sigma$-algebra measurability, or full
+conditional-expectation theory.
+\end{theorem}
+\leanchecked{BEDC.Derived.CondExpUp.CondExpSingleton\_standard\_bridge\_boundary}
+\begin{proof}
+Use the carrier packet to expose the three concrete BEDC inputs: the
+$\RandomVarUp$ total-readback certificate, the $\HilbertUp$ singleton
+projection witness, and the continuation row.
+
+The classifier obligation transports equality of displayed carrier data into
+the singleton $\CondExpUp$ classifier. The projection obligation supplies the
+singleton projection, idempotence, and residual rows from the Hilbert
+singleton surface.
+
+Finally, the ledger exactness theorem identifies the only hidden bookkeeping
+with the terminal-preimage exactness row and the residual-zero row. Repacking
+only these rows yields the standard singleton interface, while every tower,
+non-total measurability, and unrestricted conditional-expectation clause
+remains outside the bridge boundary.
+\end{proof}
+
+\closureat{CondExpUp}{matureStr}[BEDC.Derived.CondExpUp.CondExpCarrierPacket\_ledger\_exactness]
+
+\begin{closurestatus}{\CondExpUp}
+  \constructivestory{A conditional expectation in this scoped chapter is the singleton packet obtained by joining three displayed rows: a $\RandomVarUp$ total-readback certificate for the source and target total events, a $\HilbertUp$ singleton projection witness for an integrable endpoint $x$ and projected endpoint $p$, and a continuation row $\Cont(p,r,x)$ recording the residual history. The carrier accepts only packets with those three witnesses and their six visible histories, while the classifier identifies two packets when the total-readback histories, integrable endpoints, projected endpoints, and residual rows are transported by $\hsame$ and by the consumed $\RandomVarUp$ and $\HilbertUp$ certificates. The source therefore covers only the total-readback endpoint of a carried random variable, the pattern is Hilbert singleton projection with idempotence and residual-zero orthogonality, and the ledger keeps the terminal-preimage exactness row and the residual-zero inner-product row as the hidden explanation for the visible projection. Since terminal readback uniqueness, singleton projection transport, and history-sameness are stable under the displayed comparisons, a carried singleton packet supplies the nonempty witness, the classifier is reflexive, symmetric, and transitive, and carrier membership survives classifier replacement. A packet $h$ lies in the signature gap of a $\CondExpUp$ token $p_0$ when the source-domain accepts the total-readback and projection packet, the signature relation pairs it with an answer packet and evidence ledger, and token introduction names that answer as $p_0$; after unfolding, the projected endpoint is the Hilbert singleton projection of the displayed integrable endpoint and the residual row is the constant-zero orthogonality witness. The standard bridge is deliberately narrow, exporting only this singleton conditional-expectation boundary and not tower laws or non-total sub-$\sigma$-algebra measurability. The chapter registers this singleton-projection construction under the name $\CondExpUp$; conditional expectation is a RandomVarUp readback plus a Hilbert projection ledger, with no unrestricted host conditional-expectation operator introduced.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{This chapter binds the carrier packet, classifier obligation, projection obligation, ledger exactness rows, and singleton standard bridge boundary as the conservative singleton $\CondExpUp$ bridge.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.CondExpUp.CondExpCarrierPacket\_ledger\_exactness}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not claim tower properties, sub-$\sigma$-algebra measurability beyond the total-readback endpoint, Lean-side standard-bridge verification, or full conditional-expectation theory.}
+  \upgradepath{No further theory-axis grade is above matureClosure; bridgeChecked verification remains a separate formal-axis target.}
+\end{closurestatus}

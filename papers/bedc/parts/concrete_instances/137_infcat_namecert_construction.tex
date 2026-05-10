@@ -6,5 +6,341 @@ The $\infty$-category interface $\InfCatUp$ packages a simplicial-set carrier sa
 \section{Carrier definition}
 \label{sec:infcat-carrier}
 
+\begin{definition}[InfCatUp BHist source packet]
+\label{def:infcat-bhist-source-packet}
+An $\InfCatUp$ $\mathsf{BHist}$ source packet is a finite tuple
+$$
+\mathcal{I}=(S,C,H,L,\rho,\lambda)
+$$
+whose coordinates are all displayed BEDC rows. The row $S$ is the consumed
+$\NameCert_{\SimplicialSetUp}$ row, carrying the simplicial carrier, face and
+degeneracy rows, and the simplicial classifier surface. The row $C$ is the
+consumed $\NameCert_{\CategoryUp}$ row used for ordinary categorical source
+faces read by downstream consumers.
+
+The row $H$ is the inner-horn ledger. It records finite horn-boundary rows,
+the missing inner face, the displayed filler endpoint, and the $\hsame$
+comparisons that identify the filler boundary with the named horn boundary
+inside the simplicial-set carrier $S$. The row $L$ is the lifting-witness
+ledger: each lifting entry is a finite $\mathsf{ProbeBundle}$ row whose source
+and target faces are read through $S$, whose ordinary categorical endpoint is
+read through $C$ when present, and whose continuation endpoint is recorded by
+$\Cont$.
+
+The row $\rho$ is the $\Pkg$ provenance row for the consumed simplicial-set
+and category certificates, the horn ledger, and the lifting ledger. The row
+$\lambda$ is the $\Cont/\hsame$ transport ledger comparing the simplicial
+faces, horn boundaries, fillers, lifting witnesses, and provenance entries
+under rowwise replacement. The packet has no coordinate for a host
+quasicategory, a localization, or a simplicial mapping object.
+\end{definition}
+\leanchecked{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_provenance\_transport\_spine}
+
 \section{The certificate}
 \label{sec:infcat-certificate}
+
+\begin{theorem}[InfCatUp obligation inventory fields]
+\label{thm:infcat-obligation-inventory-fields}
+Every accepted $\InfCatUp$ $\mathsf{BHist}$ source packet contains exactly the
+displayed inventory needed by the next obligation layer: the consumed
+$\NameCert_{\SimplicialSetUp}$ row, the consumed $\NameCert_{\CategoryUp}$ row,
+the finite inner-horn ledger, the lifting ledger, the $\mathsf{ProbeBundle}$
+rows supporting the lifting entries, the $\Cont$ transport rows, the $\hsame$
+comparison rows, and the $\Pkg$ provenance fields.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:infcat-bhist-source-packet}. An accepted packet is the
+tuple $\mathcal{I}=(S,C,H,L,\rho,\lambda)$, where $S$ and $C$ are precisely the
+consumed simplicial-set and category certificate rows.
+
+The ledgers are also displayed tuple fields. The horn ledger $H$ records the
+finite inner-horn rows, while the lifting ledger $L$ records the lifting
+entries and their $\mathsf{ProbeBundle}$ support. The remaining tuple fields
+$\rho$ and $\lambda$ provide the $\Pkg$ provenance and the $\Cont/\hsame$
+transport rows. No additional coordinate is present, so this list is the full
+inventory.
+\end{proof}
+
+\begin{theorem}[InfCatUp source and classifier obligations]
+\label{thm:infcat-source-and-classifier-obligations}
+The source and classifier obligations of an accepted $\InfCatUp$ packet are
+exactly the fields listed in
+\autoref{thm:infcat-obligation-inventory-fields}, together with componentwise
+$\hsame/\Cont$ transport across the displayed packet coordinates. They include
+no host quasicategory coordinate and no localization coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_source\_classifier\_obligations}
+\begin{proof}
+The source side is obtained by unfolding
+\autoref{def:infcat-bhist-source-packet}: every admissible source read is one
+of $S$, $C$, $H$, $L$, $\rho$, or $\lambda$, or a finite row projected from the
+horn or lifting ledgers.
+
+For the classifier side, apply
+\autoref{thm:infcat-quasicategory-classifier-surface}. The classifier compares
+the same packet coordinates through the consumed dependency classifiers,
+componentwise $\hsame$, $\Cont$ transport, and shared $\Pkg$ provenance.
+
+Since neither the packet definition nor the classifier surface supplies a host
+quasicategory or localization slot, neither kind of coordinate can appear among
+the source or classifier obligations.
+\end{proof}
+\leanchecked{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_source\_classifier\_obligation\_surface}
+
+\begin{theorem}[InfCatUp stability, exactness, and ledger obligations]
+\label{thm:infcat-stability-exactness-ledger-obligations}
+For an accepted $\InfCatUp$ packet, the stability, exactness, ledger, and
+downstream-consumer obligations are discharged by the inner-horn ledger
+boundary, the quasicategory classifier surface, the NameCert obligation
+surface, and the consumer boundary stated in this chapter.
+\end{theorem}
+\begin{proof}
+Begin with the ledger part. The inner-horn ledger boundary theorem
+\autoref{thm:infcat-inner-horn-ledger-boundary} restricts every horn read to
+the displayed simplicial-set row, finite horn ledger, provenance row, and
+transport ledger.
+
+Next use the classifier surface of
+\autoref{thm:infcat-quasicategory-classifier-surface}. It supplies the
+componentwise $\hsame/\Cont$ transport needed for stability under displayed
+replacement of the packet coordinates.
+
+The exact obligation package is then read through
+\autoref{thm:infcat-namecert-obligation-surface}. Finally,
+\autoref{thm:infcat-consumer-boundary} identifies the downstream consumer
+boundary with the same consumed certificate rows, finite ledgers, provenance,
+and transport fields. These cited surfaces together exhaust the claimed
+obligation families.
+\end{proof}
+
+\begin{theorem}[InfCatUp inner-horn ledger boundary]
+\label{thm:infcat-inner-horn-ledger-boundary}
+Every accepted $\InfCatUp$ source packet of
+\autoref{def:infcat-bhist-source-packet} exposes its inner-horn data only
+through the consumed $\NameCert_{\SimplicialSetUp}$ row $S$, the finite
+inner-horn ledger $H$, the $\Pkg$ provenance row $\rho$, and the
+$\Cont/\hsame$ transport ledger $\lambda$. Thus a consumer of the
+inner-horn boundary cannot read a host quasicategory, a localization, or a
+simplicial mapping object.
+\end{theorem}
+\leanchecked{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_inner\_horn\_ledger\_boundary}
+\begin{proof}
+Project an accepted packet
+$\mathcal{I}=(S,C,H,L,\rho,\lambda)$. The horn boundary, missing inner face,
+filler endpoint, and boundary comparison rows are exactly the entries of
+$H$, and each of those entries is scoped by the simplicial-set carrier and
+classifier rows supplied by $S$.
+
+The provenance and transport reads are also displayed. The row $\rho$ records
+which packet face supplied the horn entry, while $\lambda$ transports the
+horn boundary, filler endpoint, and comparison rows through $\Cont$ and
+$\hsame$.
+
+No other tuple coordinate is available for an inner-horn read. In particular,
+the category dependency $C$ and lifting ledger $L$ are not host
+quasicategory data, and the tuple has no localization or simplicial
+mapping-object slot. Repacking the projected rows gives exactly the stated
+boundary.
+\end{proof}
+
+\begin{theorem}[InfCatUp quasicategory classifier surface]
+\label{thm:infcat-quasicategory-classifier-surface}
+For two $\InfCatUp$ source packets, the quasicategory classifier surface
+compares only the displayed $\mathsf{BHist}$ rows $S$, $C$, $H$, $L$,
+$\rho$, and $\lambda$ by the simplicial-set classifier, the category
+classifier, componentwise $\hsame$, $\Cont$ transport, and shared $\Pkg$
+provenance. It supplies no classifier for a host quasicategory, a
+localization, or a simplicial mapping object.
+\end{theorem}
+\leanchecked{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_quasicategory\_classifier\_surface}
+\leanvariant{BEDC.Derived.InfCatUp.InfCatQuasicategoryClassifierSurface\_transport}
+\begin{proof}
+Begin with the two consumed certificate rows. The simplicial-set dependency
+classifies simplicial carrier, face, degeneracy, and simplex rows, while the
+category dependency classifies the ordinary categorical source faces that
+are explicitly present in the packet.
+
+Next compare the horn and lifting ledgers. The entries of $H$ and $L$ are
+finite $\mathsf{BHist}$ rows, so their comparisons are componentwise
+$\hsame$ rows carried by the ledger $\lambda$. Continuation endpoints move
+through the displayed $\Cont$ entries, and the package row $\rho$ keeps the
+same provenance attached to the transported packet.
+
+Repack these comparisons as the classifier surface. Since every compared
+coordinate is one of $S$, $C$, $H$, $L$, $\rho$, or $\lambda$, there is no
+remaining field from which a host quasicategory classifier, localization
+classifier, or mapping-object classifier could be read.
+\end{proof}
+
+\begin{theorem}[InfCatUp NameCert obligation surface]
+\label{thm:infcat-namecert-obligation-surface}
+The $\NameCert_{\InfCatUp}$ obligation surface of an accepted packet
+$\mathcal{I}=(S,C,H,L,\rho,\lambda)$ consists exactly of the
+$\mathsf{BHist}$ source packet of
+\autoref{def:infcat-bhist-source-packet}, the inner-horn ledger boundary of
+\autoref{thm:infcat-inner-horn-ledger-boundary}, and the quasicategory
+classifier surface of
+\autoref{thm:infcat-quasicategory-classifier-surface}. Its rows are the
+consumed $\NameCert_{\SimplicialSetUp}$ row, the consumed
+$\NameCert_{\CategoryUp}$ row, the inner-horn ledger, the lifting witness
+ledger, the $\Pkg$ provenance row, and the $\Cont/\hsame$ transport ledger,
+with no host quasicategory, localization, or simplicial mapping object.
+\end{theorem}
+\leanchecked{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_namecert\_obligation\_surface}
+\begin{proof}
+Soundness is by projection from the source packet. The carrier row exposes
+only $S$, $C$, $H$, $L$, $\rho$, and $\lambda$, the horn theorem reads the
+inner-horn boundary from $S$, $H$, $\rho$, and $\lambda$, and the classifier
+theorem compares those same displayed packet coordinates.
+
+Completeness is the reverse reading. Any row used by carrier admission,
+classifier transport, horn filling, lifting witness readback, provenance, or
+continuation transport is one of the six packet coordinates or a projected
+entry of $H$, $L$, $\rho$, or $\lambda$.
+
+Therefore the naming-certificate obligation surface is exactly the displayed
+finite packet and its projected horn and classifier rows. The proof never
+opens a host quasicategory, localization, or simplicial mapping-object
+coordinate, because the packet has no such coordinate.
+\end{proof}
+
+\begin{theorem}[InfCatUp consumer boundary]
+\label{thm:infcat-consumer-boundary}
+Every downstream consumer of the $\InfCatUp$ root reads through the displayed
+$\mathsf{BHist}$ packet $(S,C,H,L,\rho,\lambda)$, the two consumed
+$\NameCert$ rows $S$ and $C$, the finite inner-horn and lifting ledgers
+$H$ and $L$, the $\Pkg$ provenance row $\rho$, and the $\Cont/\hsame$
+transport ledger $\lambda$. Conversely those rows supply the complete
+consumer boundary for the root, and no consumer obtains a host
+quasicategory, localization, or simplicial mapping object.
+\end{theorem}
+\leanchecked{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_consumer\_boundary}
+\begin{proof}
+Project any accepted consumer read to the packet coordinates. A simplicial
+read factors through $S$, an ordinary categorical source read factors through
+$C$, an inner-horn read factors through $H$, and a lifting-witness read
+factors through $L$.
+
+The remaining consumer information is provenance and transport. The package
+row $\rho$ records which dependency or ledger supplies the read, and the
+ledger $\lambda$ records the $\Cont$ and $\hsame$ movements needed to keep the
+read stable under displayed replacement.
+
+For the converse, repack these projected rows into the source packet and use
+\autoref{thm:infcat-namecert-obligation-surface}. It identifies the same rows
+as the complete naming-certificate surface, so they already supply every
+consumer-facing obligation. Since no projected coordinate names a host
+quasicategory, localization, or simplicial mapping object, no downstream
+consumer can read one from this root.
+\end{proof}
+
+\begin{theorem}[InfCatUp public certificate boundary]
+\label{thm:infcat-public-certificate-boundary}
+The public $\NameCert_{\InfCatUp}$ surface is exactly the consumed
+$\NameCert_{\SimplicialSetUp}$ row, the consumed $\NameCert_{\CategoryUp}$ row,
+the finite inner-horn ledger, the lifting ledger, the package provenance row,
+and the $\Cont/\hsame$ transport ledger. No host quasicategory, localization,
+or simplicial mapping object is part of the public certificate boundary.
+\end{theorem}
+\leanchecked{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_public\_certificate\_boundary}
+\begin{proof}
+First project the finite horn part by
+\autoref{thm:infcat-inner-horn-ledger-boundary}. The inner-horn boundary is read
+through the consumed simplicial-set row, the horn ledger, provenance, and
+displayed transport.
+
+Next use \autoref{thm:infcat-quasicategory-classifier-surface}. The classifier
+surface compares only the displayed packet coordinates and their componentwise
+$\hsame$ and $\Cont$ rows, so it adds no host quasicategory, localization, or
+mapping-object coordinate.
+
+Now apply \autoref{thm:infcat-namecert-obligation-surface}. It identifies the
+NameCert obligations with the consumed simplicial-set and category rows,
+inner-horn ledger, lifting ledger, package provenance, and transport ledger.
+
+Finally read the downstream boundary through
+\autoref{thm:infcat-consumer-boundary}. Its converse direction repacks exactly
+those rows as the complete consumer surface, so the public certificate boundary
+is precisely the displayed finite packet surface and nothing outside it.
+\end{proof}
+
+\begin{theorem}[InfCatUp inner-horn consumer determinacy]
+\label{thm:infcat-inner-horn-consumer-determinacy}
+For any accepted $\InfCatUp$ packet
+$\mathcal{I}=(S,C,H,L,\rho,\lambda)$, every downstream consumer read of an
+inner-horn or lifting obligation is determined entirely by the displayed
+$\mathsf{BHist}$ rows $(S,C,H,L,\rho,\lambda)$, the consumed
+$\NameCert_{\SimplicialSetUp}$ and $\NameCert_{\CategoryUp}$ rows, the finite
+$\mathsf{ProbeBundle}$ horn and lifting ledger entries, $\Pkg$ provenance, and
+$\Cont/\hsame$ transport. No host quasicategory, localization, or simplicial
+mapping-object coordinate can change the read.
+\end{theorem}
+\begin{proof}
+Project the consumer through \autoref{thm:infcat-consumer-boundary}. Any
+inner-horn read is already a read of $S$, $H$, $\rho$, and $\lambda$, while any
+lifting-obligation read is already a read of $S$, $C$, $L$, $\rho$, and
+$\lambda$.
+
+Restrict the inner-horn part by
+\autoref{thm:infcat-inner-horn-ledger-boundary}. The horn boundary, missing
+face, filler endpoint, and comparison rows are finite ledger entries carried by
+$H$, with provenance supplied by $\rho$ and displayed transport supplied by
+$\lambda$.
+
+Transport equality of consumer reads through
+\autoref{thm:infcat-quasicategory-classifier-surface}. Since the classifier
+compares only the six packet coordinates and their consumed certificate rows,
+equal displayed packets give equal downstream reads of the horn and lifting
+surfaces.
+
+Finally repack the exact surface by
+\autoref{thm:infcat-namecert-obligation-surface}. The repacked surface contains
+only the consumed certificate rows, the finite horn and lifting ledgers,
+provenance, and $\Cont/\hsame$ transport. A host quasicategory, localization,
+or simplicial mapping-object coordinate is therefore not available to affect
+the read.
+\end{proof}
+\leanchecked{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_inner\_horn\_consumer\_determinacy}
+
+\begin{theorem}[InfCatUp root-threshold obligation triad]
+\label{thm:infcat-root-threshold-obligation-triad}
+Every accepted $\InfCatUp$ source packet supplies exactly three downstream root
+surfaces: the consumed $\NameCert_{\SimplicialSetUp}$ row, the consumed
+$\NameCert_{\CategoryUp}$ row, and the finite inner-horn plus lifting-ledger
+surface carried by $\mathsf{ProbeBundle}$, $\Cont$, $\hsame$, and $\Pkg$ rows.
+Host quasicategory, localization, and simplicial mapping-object data are not
+available to downstream category consumers at this root threshold.
+\end{theorem}
+\leanchecked{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_root\_threshold\_obligation\_triad}
+\begin{proof}
+Project the accepted packet as
+$\mathcal{I}=(S,C,H,L,\rho,\lambda)$. The two consumed certificate rows are
+the $S$ and $C$ coordinates, and the finite obligation surface is read through
+the horn and lifting ledgers $H$ and $L$ with provenance $\rho$ and transport
+$\lambda$.
+
+Apply \autoref{thm:infcat-inner-horn-ledger-boundary} to identify the finite
+inner-horn side of the surface. Apply
+\autoref{thm:infcat-quasicategory-classifier-surface} to see that the
+classifier compares only displayed packet coordinates and the componentwise
+$\hsame/\Cont$ rows.
+
+Now use \autoref{thm:infcat-namecert-obligation-surface} and
+\autoref{thm:infcat-consumer-boundary}. Together they repackage the two
+consumed NameCert rows and the horn-plus-lifting ledger as the full downstream
+consumer boundary. Since no projected coordinate names a host quasicategory,
+localization, or simplicial mapping object, those data remain unavailable at
+the root threshold.
+\end{proof}
+
+\closureat{InfCatUp}{scopedStr}[BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_consumer\_boundary]
+\begin{closurestatus}{\InfCatUp}
+  \constructivestory{An InfCat packet is generated from consumed $\SimplicialSetUp$ and $\CategoryUp$ certificate rows, finite inner-horn and lifting ledgers, one provenance package, and rowwise $\Cont/\hsame$ transport. The checked consumer boundary exposes only those displayed packet rows to downstream category consumers.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the consumed $\SimplicialSetUp$ and $\CategoryUp$ rows, finite inner-horn and lifting ledgers, $\mathsf{ProbeBundle}$, $\Cont$, $\hsame$, and $\Pkg$ rows displayed by the accepted source packet in \autoref{thm:infcat-inner-horn-ledger-boundary}, \autoref{thm:infcat-quasicategory-classifier-surface}, \autoref{thm:infcat-namecert-obligation-surface}, and \autoref{thm:infcat-consumer-boundary}.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.InfCatUp.InfCatBHistSourcePacket\_consumer\_boundary}
+  \bridgestatus{none}
+  \notclaimed{Host quasicategories, localization, and simplicial mapping objects are not closed.}
+  \upgradepath{Public closure requires an exported $\NameCert_{\InfCatUp}$ public boundary beyond the scoped consumer surface.}
+\end{closurestatus}

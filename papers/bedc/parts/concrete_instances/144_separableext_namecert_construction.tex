@@ -8,3 +8,118 @@ The separable-extension interface $\SeparableExtUp$ packages a field extension w
 
 \section{The certificate}
 \label{sec:separableext-certificate}
+
+\begin{theorem}[Separable-extension FieldExt and Polynomial source surface]
+\label{thm:separableext-fieldext-polynomial-source}
+A $\SeparableExtUp$ source row is the joint BEDC source consisting of a $\FieldExtUp$ extension packet, a $\PolynomialUp$ minimal-polynomial packet over that extension, and shared provenance rows in $\mathsf{BHist}$ and $\mathsf{Pkg}$. The two dependency witnesses are scoped by $\NameCert_{\FieldExtUp}$ and $\NameCert_{\PolynomialUp}$, and the shared provenance requires the displayed base-field, extension-field, generator, and minimal-polynomial histories to be compared by $\hsame$ inside the same package ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceRow\_fieldext\_polynomial\_source}
+\begin{proof}
+Project the $\FieldExtUp$ dependency certificate to obtain the base row, extension row, extension classifier, and package provenance. Project the $\PolynomialUp$ dependency certificate to obtain the polynomial carrier, coefficient ledger, and polynomial classifier over the displayed extension row.
+
+The source row for $\SeparableExtUp$ is then the common pullback of these two projections over $\mathsf{BHist}$ and $\mathsf{Pkg}$. The $\hsame$ rows identify the base and extension histories seen by the polynomial packet with the histories supplied by the field-extension packet, so the two dependencies describe one BEDC source rather than two unrelated presentations.
+\end{proof}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtJointSource\_fieldext\_polynomial\_source}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_dependency\_ledger\_closure}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceRow\_classifier\_stability}
+
+\begin{theorem}[Separable-extension carrier and classifier surface]
+\label{thm:separableext-carrier-classifier-surface}
+The carrier surface for separable-extension histories consists of the joint source row of \autoref{thm:separableext-fieldext-polynomial-source} together with the displayed generator and minimal-polynomial histories. Two such carrier rows are classified by the inherited $\FieldExtUp$ classifier on the extension packet and by the $\PolynomialUp$ equality classifier on the displayed minimal-polynomial rows, with the shared $\mathsf{BHist}$ and $\mathsf{Pkg}$ provenance transported along $\hsame$.
+\end{theorem}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceRow\_carrier\_classifier\_surface}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtJointSource\_carrier\_classifier\_surface}
+\begin{proof}
+Unpack a carried row into its extension packet, polynomial packet, generator history, minimal-polynomial history, and package ledger. The field-extension component supplies the comparison of base and extension histories, while the polynomial component supplies comparison of coefficient and polynomial rows.
+
+For classification, compare the extension projections using the $\FieldExtUp$ classifier and compare the minimal-polynomial projections using the $\PolynomialUp$ equality classifier. The remaining carrier fields are provenance fields, so they move by the $\hsame$ transports recorded in the joint package ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_carrier\_classifier\_surface}
+
+\begin{theorem}[Separable-extension simple-root obligation]
+\label{thm:separableext-simple-root-obligation}
+The separability row for $\SeparableExtUp$ is a displayed $\PolynomialUp$ witness that the minimal-polynomial row has only simple roots. Concretely, the row records a derivative or gcd-style witness in $\mathsf{BHist}$, continuation evidence in $\Cont$, classifier transports in $\hsame$, and package provenance in $\mathsf{Pkg}$; it does not assert an uncarried host-algebra separability predicate.
+\end{theorem}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSimpleRoot\_obligation}
+\begin{proof}
+Start from the minimal-polynomial packet supplied by \autoref{thm:separableext-fieldext-polynomial-source}. Its $\PolynomialUp$ ledger exposes the polynomial row, the derivative row or equivalent gcd-style comparison row, and the coefficient histories over the same extension packet.
+
+The simple-root obligation is the package row that stores these displayed histories together with the $\Cont$ evidence computing the derivative or gcd comparison. Soundness is only a BEDC soundness statement: every accepted separability row is one of these displayed polynomial ledgers, transported by $\hsame$ and scoped by the shared $\mathsf{Pkg}$ provenance.
+\end{proof}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_simple\_root\_obligation}
+
+\begin{theorem}[Separable-extension classifier stability]
+\label{thm:separableext-classifier-stability}
+The simple-root row is stable under the classifier of \autoref{thm:separableext-carrier-classifier-surface}. Transport along the inherited $\FieldExtUp$ classifier and the inherited $\PolynomialUp$ minimal-polynomial classifier carries the derivative or gcd-style witness, the $\Cont$ computation row, the $\hsame$ transports, and the $\mathsf{Pkg}$ provenance to the classified target carrier row.
+\end{theorem}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_classifier\_stability}
+\begin{proof}
+Transport the field-extension part first. The $\FieldExtUp$ classifier identifies the base, extension, and generator histories seen by the source row, so the minimal-polynomial packet remains over the transported extension packet.
+
+Next transport the polynomial part. The $\PolynomialUp$ equality classifier carries the minimal-polynomial row and its displayed derivative or gcd-style witness to the target packet. The $\Cont$ computation row is stable under the transported input and output histories, and the $\hsame$ witnesses compose with the package provenance to repack the same simple-root obligation at the target.
+\end{proof}
+
+\begin{theorem}[Separable-extension ledger exactness]
+\label{thm:separableext-ledger-exactness}
+The $\SeparableExtUp$ ledger has coverage, soundness, and completeness for exactly the carried extension row, minimal-polynomial row, simple-root row, classifier-stability row, ledger row, and dependency rows supplied by $\FieldExtUp$, $\PolynomialUp$, $\NameCert$, $\mathsf{BHist}$, $\Cont$, $\hsame$, and $\mathsf{Pkg}$. No additional host-field algebra, root set, splitting-field data, or Galois action is part of this certificate surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_ledger\_exactness}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_semantic\_name\_certificate}
+\leanchecked{BEDC.Derived.SeparableExtUp.SeparableExtSourceRow\_semantic\_name\_certificate}
+\begin{proof}
+Coverage follows by reading the roadmap ten-field template. The traditional target is separability of a field extension; the BEDC sources are the $\FieldExtUp$ and $\PolynomialUp$ certificates; the carrier, classifier, stability, ledger, theorem-list, exactness, bridge, and status slots are the rows named in the four preceding theorems, with the bridge slot empty.
+
+Soundness reads every accepted public row back to that list. A carried extension row comes from the field-extension dependency, a minimal-polynomial row comes from the polynomial dependency, and the simple-root row is the displayed derivative or gcd-style package with its $\Cont$, $\hsame$, and $\mathsf{Pkg}$ provenance.
+
+Completeness is the reverse packaging. Given exactly those dependency rows and provenance rows, the ten-field template assembles a $\SeparableExtUp$ certificate row, and \autoref{thm:separableext-classifier-stability} supplies the classifier transport needed to keep the row stable under certified comparison.
+\end{proof}
+
+\begin{theorem}[Separable-extension mature example-family completeness]
+\label{thm:separableext-mature-example-family}
+Any carried separable-extension example assembled from a $\FieldExtUp$ source
+packet, a $\PolynomialUp$ minimal-polynomial packet, shared
+$\mathsf{BHist}$ and $\mathsf{Pkg}$ provenance, and a simple-root derivative
+or gcd row is completely read by the five surfaces of this chapter: source
+dependency, carrier and classifier, simple-root obligation, classifier
+stability, and ledger exactness. The resulting family is mature at this
+certificate boundary because every accepted example is recovered from those
+five surfaces, and every such package reassembles the same
+$\NameCert_{\SeparableExtUp}$ row.
+\end{theorem}
+\begin{proof}
+First read the example through
+\autoref{thm:separableext-fieldext-polynomial-source}. This identifies the
+two dependency packets and forces their base-field, extension-field,
+generator, and minimal-polynomial histories to share the same $\mathsf{BHist}$
+and $\mathsf{Pkg}$ provenance.
+
+Next apply \autoref{thm:separableext-carrier-classifier-surface} and
+\autoref{thm:separableext-simple-root-obligation}. These two surfaces expose
+the carried extension row, the displayed minimal-polynomial row, and the
+derivative or gcd-style simple-root witness without adding a host-field root
+predicate.
+
+Then use \autoref{thm:separableext-classifier-stability} to transport the
+simple-root row across the inherited $\FieldExtUp$ and $\PolynomialUp$
+classifiers. The derivative or gcd ledger, the continuation row, the $\hsame$
+transports, and the package provenance remain inside the same carried
+surface.
+
+Finally apply \autoref{thm:separableext-ledger-exactness}. Its coverage,
+soundness, and completeness clauses say that the five surfaces enumerate
+exactly the public $\SeparableExtUp$ certificate rows. Root sets, splitting
+fields, and Galois actions are not exported by this family.
+\end{proof}
+
+\closureat{SeparableExtUp}{matureStr}[BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_semantic\_name\_certificate]
+
+\begin{closurestatus}{\SeparableExtUp}
+  \constructivestory{A separable extension is built by putting a $\FieldExtUp$ extension packet beside a $\PolynomialUp$ minimal-polynomial packet over the same displayed generator, then adding the simple-root row that is witnessed by a derivative or gcd-style finite history computation. The carrier accepts only this joint source surface with shared $\mathsf{BHist}$ and $\mathsf{Pkg}$ provenance, excluding uncarried host-field algebra, external root sets, splitting-field data, and Galois actions. Two accepted rows classify together by the inherited FieldExt classifier on the extension packet, the inherited Polynomial classifier on the minimal-polynomial row, and the recorded $\hsame$ transports for generator, derivative, simple-root, and provenance faces. The source specification is the FieldExt-plus-Polynomial dependency row, the pattern specification is the visible minimal-polynomial simple-root witness, and the ledger keeps the raw derivative or gcd computation aligned with its public separability face through $\Cont$ and package rows. The five naming-certificate obligations are supplied at this scoped surface because an accepted joint row gives an inhabitant, $\hsame$ supplies the three equivalence moves, and classifier stability transports the simple-root witness back into the same carrier. A history $h$ lies in the signature GAP of a $\SeparableExtUp$ token $p$ when the source accepts $h$, the signature relation pairs it with an answer row and evidence ledger, and token introduction identifies the answer as $p$; after projection, this says that $h$ is the shared extension-and-minimal-polynomial endpoint whose simple-root witness is exactly the displayed polynomial ledger. The chapter registers this construction as $\SeparableExtUp$ without closing a public separability theorem, any FieldExt or Polynomial bridge, a Galois bridge, or a standard bridge.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature example-family scope is exactly the carried $\FieldExtUp$ source packet, $\PolynomialUp$ minimal-polynomial surface, simple-root derivative or gcd witness, classifier-stability rows, ledger exactness, shared $\mathsf{BHist}$, $\Cont$, $\hsame$, $\mathsf{Pkg}$, and $\NameCert$ provenance named in Theorems~\ref{thm:separableext-fieldext-polynomial-source}--\ref{thm:separableext-mature-example-family}.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.SeparableExtUp.SeparableExtSourceSurface\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a scoped separable-extension carrier, public separability theorem, FieldExtUp bridge, PolynomialUp bridge, standard bridge, GaloisExtUp bridge, or Lean verification target.}
+  \upgradepath{No further paper theory-axis grade is recorded for this chapter.}
+\end{closurestatus}

@@ -119,4 +119,44 @@ theorem RealConstantHistoryClassifier_transported_inner_empty_endpoint_absurd {h
                     exact (RealConstantHistoryClassifier_e1_empty_endpoint_absurd
                       (d := d)).right transported
 
+theorem RealConstantHistoryClassifier_transported_malformed_inner_denominator_absurd
+    {h k pH zH pK zK : BHist} :
+    RealConstantHistoryClassifier h k ->
+      ((hsame h (BHist.e1 BHist.Empty) -> False) ∧
+        (hsame k (BHist.e1 BHist.Empty) -> False)) ∧
+        ((hsame h (BHist.e1 (append pH (BHist.e0 zH))) -> False) ∧
+          (hsame k (BHist.e1 (append pK (BHist.e0 zK))) -> False)) := by
+  intro classified
+  have emptyExclusions :
+      (hsame h (BHist.e1 BHist.Empty) -> False) ∧
+        (hsame k (BHist.e1 BHist.Empty) -> False) :=
+    RealConstantHistoryClassifier_transported_inner_empty_endpoint_absurd classified
+  cases classified with
+  | intro d rest =>
+      cases rest with
+      | intro e data =>
+          cases data with
+          | intro sameH rest =>
+              cases rest with
+              | intro sameK ratClassified =>
+                  constructor
+                  · exact emptyExclusions
+                  · constructor
+                    · intro sameMalformed
+                      have transported :
+                          RealConstantHistoryClassifier
+                            (BHist.e1 (append pH (BHist.e0 zH))) (BHist.e1 e) :=
+                        RealConstantHistoryClassifier_endpoint_transport sameMalformed sameK
+                          ⟨d, e, sameH, sameK, ratClassified⟩
+                      exact (RealConstantHistoryClassifier_e1_append_e0_endpoint_absurd
+                        (head := pH) (tail := zH) (d := e)).left transported
+                    · intro sameMalformed
+                      have transported :
+                          RealConstantHistoryClassifier (BHist.e1 d)
+                            (BHist.e1 (append pK (BHist.e0 zK))) :=
+                        RealConstantHistoryClassifier_endpoint_transport sameH sameMalformed
+                          ⟨d, e, sameH, sameK, ratClassified⟩
+                      exact (RealConstantHistoryClassifier_e1_append_e0_endpoint_absurd
+                        (head := pK) (tail := zK) (d := d)).right transported
+
 end BEDC.Derived.RealUp

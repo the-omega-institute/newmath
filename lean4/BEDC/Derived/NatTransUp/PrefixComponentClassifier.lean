@@ -1,6 +1,7 @@
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyComponentOpposite
 import BEDC.Derived.NatTransUp.EmptyVertComp
+import BEDC.Derived.NatTransUp.UnaryObjectSuffix
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.NatTransUp
@@ -519,5 +520,59 @@ theorem NatTransPrefixComponentClassifier_empty_result_opposite_package
     (And.intro rightOpposite
       (And.intro componentData.right.right.right.right.left
         componentData.right.right.right.right.right))
+
+theorem NatTransPrefixComponentClassifier_stability_certificate_fields
+    {p q r a eta eta' theta theta' c c' : BHist} :
+    (forall {x : BHist}, NatTransPrefixComponentCarrier p q a x ->
+      NatTransPrefixComponentClassifier p q a x x) ∧
+      (NatTransPrefixComponentClassifier p q a eta eta' ->
+        NatTransPrefixComponentClassifier p q a eta' eta) ∧
+        (NatTransPrefixComponentClassifier p q a eta eta' ->
+          NatTransPrefixComponentClassifier p q a eta' theta ->
+            NatTransPrefixComponentClassifier p q a eta theta) ∧
+          (hsame p q -> hsame eta eta' ->
+            NatTransPrefixComponentClassifier p q a eta theta ->
+              NatTransPrefixComponentClassifier q p a eta' theta) ∧
+            (NatTransPrefixComponentClassifier p q a eta eta' ->
+              NatTransPrefixComponentClassifier q r a theta theta' ->
+                Cont eta theta c -> Cont eta' theta' c' ->
+                  NatTransPrefixComponentClassifier p r a c c') := by
+  have fields := NatTransPrefixComponentClassifier_equivalence_fields (p := p) (q := q) (a := a)
+  exact
+    And.intro fields.left
+      (And.intro fields.right.left
+        (And.intro fields.right.right.left
+          (And.intro
+            (fun samePQ sameEta classified =>
+              (NatTransPrefixComponentClassifier_hsame_transport
+                (p := p) (p' := q) (q := q) (q' := p) (a := a) (a' := a)
+                (eta := eta) (eta' := eta') (theta := theta) (theta' := theta)
+                samePQ (hsame_symm samePQ) (hsame_refl a) sameEta (hsame_refl theta)
+                classified).left)
+            (fun left right comp comp' =>
+              NatTransPrefixComponentClassifier_vert_comp_congr left right comp comp'))))
+
+theorem NatTransPrefixComponentClassifier_standard_bridge_fields {p q a eta theta : BHist} :
+    NatTransPrefixComponentClassifier p q a eta theta ->
+      UnaryHistory a ∧ CategoryHomCarrier p q eta ∧ CategoryHomCarrier p q theta ∧
+        hsame eta theta := by
+  intro classified
+  have etaComponent : NatTransPrefixComponentCarrier p q a eta :=
+    And.intro classified.left
+      (And.intro classified.right.left
+        (And.intro classified.right.right.left classified.right.right.right.left))
+  have thetaComponent : NatTransPrefixComponentCarrier p q a theta :=
+    And.intro classified.left
+      (And.intro classified.right.left
+        (And.intro classified.right.right.left classified.right.right.right.right.left))
+  have etaData :=
+    (NatTransPrefixComponentCarrier_unary_object_suffix_iff
+      (p := p) (q := q) (a := a) (eta := eta)).mp etaComponent
+  have thetaData :=
+    (NatTransPrefixComponentCarrier_unary_object_suffix_iff
+      (p := p) (q := q) (a := a) (eta := theta)).mp thetaComponent
+  exact And.intro etaData.left
+    (And.intro etaData.right
+      (And.intro thetaData.right classified.right.right.right.right.right))
 
 end BEDC.Derived.NatTransUp

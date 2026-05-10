@@ -1,3 +1,4 @@
+import BEDC.Derived.PolynomialUp
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Hist
 
@@ -5,6 +6,7 @@ namespace BEDC.Derived.AffineVarUp
 
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
+open BEDC.Derived.PolynomialUp
 
 def AffineFiniteFamilyZeroLocus (AffPoint : BHist -> Prop)
     (PolyEvalZero : BHist -> BHist -> Prop) (family : ProbeBundle BHist) (x : BHist) :
@@ -103,6 +105,22 @@ theorem AffineFiniteFamilyZeroLocus_duplicate_head_insert {AffPoint : BHist -> P
         | inr memberTail =>
             exact locus.right memberTail)
 
+theorem AffineFiniteFamilyZeroLocus_head_insert_equation_rows {F : ProbeBundle BHist}
+    {p x : BHist} :
+    InBundle p F ->
+      AffineFiniteFamilyZeroLocus PolynomialSingletonCarrier PolynomialSingletonClassifier F x ->
+        AffineFiniteFamilyZeroLocus PolynomialSingletonCarrier PolynomialSingletonClassifier
+          (AffineEquationHeadInsertion p F) x ∧
+            PolynomialSingletonClassifier p x ∧ PolynomialSingletonCarrier x := by
+  intro memberP locus
+  have inserted :
+      AffineFiniteFamilyZeroLocus PolynomialSingletonCarrier PolynomialSingletonClassifier
+        (AffineEquationHeadInsertion p F) x :=
+    Iff.mpr (AffineFiniteFamilyZeroLocus_duplicate_head_insert memberP) locus
+  have row : PolynomialSingletonClassifier p x :=
+    AffineFiniteFamilyZeroLocus_occurred_equation_row memberP locus
+  exact And.intro inserted (And.intro row row.right.left)
+
 theorem AffineFiniteFamilyZeroLocus_empty_family_iff {AffPoint : BHist -> Prop}
     {PolyEvalZero : BHist -> BHist -> Prop} {x : BHist} :
     AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero ProbeBundle.Bnil x <-> AffPoint x := by
@@ -127,5 +145,20 @@ theorem AffineFiniteFamilyZeroLocus_mutual_inclusion_iff {AffPoint : BHist -> Pr
     exact AffineFiniteFamilyZeroLocus_inclusion_contravariant inclGF locusF
   · intro locusG
     exact AffineFiniteFamilyZeroLocus_inclusion_contravariant inclFG locusG
+
+theorem AffineFiniteFamilyZeroLocus_standard_zero_locus_bridge {AffPoint : BHist -> Prop}
+    {PolyEvalZero : BHist -> BHist -> Prop} {F G : ProbeBundle BHist} {x : BHist} :
+    AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero F x ->
+      AffineFiniteFamilyEquationInclusion F G ->
+        AffineFiniteFamilyEquationInclusion G F ->
+          AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero G x ∧
+            (AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero F x <->
+              AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero G x) := by
+  intro locusF inclFG inclGF
+  have sameLocus :
+      AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero F x <->
+        AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero G x :=
+    AffineFiniteFamilyZeroLocus_mutual_inclusion_iff inclFG inclGF
+  exact And.intro (Iff.mp sameLocus locusF) sameLocus
 
 end BEDC.Derived.AffineVarUp

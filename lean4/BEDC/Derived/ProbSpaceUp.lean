@@ -1,4 +1,5 @@
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.Derived.GroupUp
 import BEDC.Derived.PreorderUp
 
@@ -10,12 +11,64 @@ open BEDC.FKernel.Unary
 open BEDC.Derived.GroupUp
 open BEDC.Derived.PreorderUp
 
+def ProbSpacePublicEventPacket (omega one event complement sum : BHist) : Prop :=
+  UnaryHistory event ∧
+    UnaryHistory complement ∧
+      Cont event complement sum ∧
+        hsame omega one ∧
+          hsame omega sum
+
 theorem ProbSpaceComplementMass_additive_readback {omega one event complement sum : BHist} :
     UnaryHistory event -> UnaryHistory complement -> Cont event complement sum ->
       hsame omega sum -> hsame omega one -> hsame sum one ∧ UnaryHistory sum := by
   intro eventCarrier complementCarrier sumRel sameOmegaSum sameOmegaOne
   exact And.intro (hsame_trans (hsame_symm sameOmegaSum) sameOmegaOne)
     (unary_cont_closed eventCarrier complementCarrier sumRel)
+
+theorem ProbSpacePublicEventPacket_normalization_bounds {omega one event complement sum : BHist} :
+    ProbSpacePublicEventPacket omega one event complement sum ->
+      hsame sum one ∧ UnaryHistory sum ∧ Cont event complement sum ∧
+        PreorderPrefixLE event one := by
+  intro packet
+  have readback : hsame sum one ∧ UnaryHistory sum :=
+    ProbSpaceComplementMass_additive_readback packet.left packet.right.left
+      packet.right.right.left packet.right.right.right.right packet.right.right.right.left
+  have eventSum : PreorderPrefixLE event sum :=
+    Exists.intro complement (And.intro packet.right.left packet.right.right.left)
+  have sumOne : PreorderPrefixLE sum one :=
+    PreorderPrefixLE_of_hsame readback.left
+  exact And.intro readback.left
+    (And.intro readback.right
+      (And.intro packet.right.right.left (PreorderPrefixLE_trans eventSum sumOne)))
+
+theorem ProbSpacePublicEventPacket_transport_rows
+    {omega one omega' one' event event' complement complement' sum sum' : BHist} :
+    hsame omega omega' -> hsame one one' -> hsame event event' ->
+      hsame complement complement' -> hsame sum sum' ->
+        ProbSpacePublicEventPacket omega one event complement sum ->
+          ProbSpacePublicEventPacket omega' one' event' complement' sum' ∧
+            UnaryHistory event' ∧ UnaryHistory complement' ∧ Cont event' complement' sum' ∧
+              hsame omega' one' ∧ hsame omega' sum' := by
+  intro sameOmega sameOne sameEvent sameComplement sameSum packet
+  have eventUnary : UnaryHistory event' :=
+    unary_transport packet.left sameEvent
+  have complementUnary : UnaryHistory complement' :=
+    unary_transport packet.right.left sameComplement
+  have transportedCont : Cont event' complement' sum' :=
+    cont_hsame_transport sameEvent sameComplement sameSum packet.right.right.left
+  have omegaOne : hsame omega' one' :=
+    hsame_trans (hsame_symm sameOmega)
+      (hsame_trans packet.right.right.right.left sameOne)
+  have omegaSum : hsame omega' sum' :=
+    hsame_trans (hsame_symm sameOmega)
+      (hsame_trans packet.right.right.right.right sameSum)
+  have transportedPacket :
+      ProbSpacePublicEventPacket omega' one' event' complement' sum' :=
+    And.intro eventUnary
+      (And.intro complementUnary (And.intro transportedCont (And.intro omegaOne omegaSum)))
+  exact And.intro transportedPacket
+    (And.intro eventUnary
+      (And.intro complementUnary (And.intro transportedCont (And.intro omegaOne omegaSum))))
 
 theorem ProbSpaceComplementMass_right_solution
     {omega one event complement sum inverseEvent target : BHist} :
@@ -72,5 +125,38 @@ theorem ProbSpaceMonotoneEvent_bounds {event gap middle rest omega one : BHist} 
   exact And.intro eventMiddleLE
     (And.intro middleOneLE
       (And.intro eventOneLE (And.intro middleUnary omegaUnary)))
+
+theorem ProbSpacePublicEventPacket_public_certificate_export
+    {omega one event complement sum omega' one' event' complement' sum' : BHist} :
+    ProbSpacePublicEventPacket omega one event complement sum ->
+    hsame omega omega' ->
+    hsame one one' ->
+    hsame event event' ->
+    hsame complement complement' ->
+    hsame sum sum' ->
+      hsame sum one ∧ PreorderPrefixLE event one ∧
+        ProbSpacePublicEventPacket omega' one' event' complement' sum' ∧ hsame sum' one' ∧
+          PreorderPrefixLE event' one' := by
+  intro packet sameOmega sameOne sameEvent sameComplement sameSum
+  have bounds :
+      hsame sum one ∧ UnaryHistory sum ∧ Cont event complement sum ∧
+        PreorderPrefixLE event one :=
+    ProbSpacePublicEventPacket_normalization_bounds packet
+  have transported :
+      ProbSpacePublicEventPacket omega' one' event' complement' sum' ∧
+        UnaryHistory event' ∧ UnaryHistory complement' ∧ Cont event' complement' sum' ∧
+          hsame omega' one' ∧ hsame omega' sum' :=
+    ProbSpacePublicEventPacket_transport_rows sameOmega sameOne sameEvent sameComplement sameSum
+      packet
+  have transportedBounds :
+      hsame sum' one' ∧ UnaryHistory sum' ∧ Cont event' complement' sum' ∧
+        PreorderPrefixLE event' one' :=
+    ProbSpacePublicEventPacket_normalization_bounds transported.left
+  exact
+    ⟨bounds.left,
+      bounds.right.right.right,
+      transported.left,
+      transportedBounds.left,
+      transportedBounds.right.right.right⟩
 
 end BEDC.Derived.ProbSpaceUp

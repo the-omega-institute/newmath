@@ -392,4 +392,138 @@ theorem BundleLocalTrivPkg_trivialization_scope {base total projection fibre led
         (Or.inr
           (Iff.mpr inBundle_bundleAppend_iff (Or.inl memberTriv)))))
 
+theorem BundleLocalTrivPkg_projection_fibre_source_scope
+    {base total projection fiber ledger : BHist} {trivs transitions : ProbeBundle BHist} :
+    BundleLocalTrivPackage base total projection fiber trivs transitions ledger ->
+      InBundle projection (BundleLocalTrivPkgRows base total projection fiber ledger trivs
+        transitions) ∧
+        InBundle fiber (BundleLocalTrivPkgRows base total projection fiber ledger trivs
+          transitions) ∧
+          InBundle ledger (BundleLocalTrivPkgRows base total projection fiber ledger trivs
+            transitions) ∧
+            UnaryHistory projection ∧ UnaryHistory fiber ∧ UnaryHistory ledger := by
+  intro package
+  exact And.intro
+    (Or.inr (Or.inr (Or.inl rfl)))
+    (And.intro
+      (Or.inr (Or.inr (Or.inr (Or.inl rfl))))
+      (And.intro
+        (Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Iff.mpr inBundle_bundleAppend_iff
+                  (Or.inr (Or.inl rfl)))))))
+        (And.intro package.right.right.left
+          (And.intro package.right.right.right.left package.right.right.right.right.left))))
+
+theorem BundleLocalTrivPkg_transition_ledger_scope
+    {base total projection fibre ledger transition row : BHist}
+    {triv transitions : ProbeBundle BHist} :
+    BundleLocalTrivPackage base total projection fibre triv transitions ledger ->
+      InBundle transition transitions ->
+      InBundle row (ProbeBundle.Bcons transition (ProbeBundle.Bcons ledger ProbeBundle.Bnil)) ->
+        InBundle row (BundleLocalTrivPkgRows base total projection fibre ledger triv transitions) ∧
+          (row = transition ∨ row = ledger) ∧ UnaryHistory ledger := by
+  intro package transitionMember rowMember
+  have ledgerUnary : UnaryHistory ledger :=
+    package.right.right.right.right.left
+  have transitionInRows :
+      InBundle transition (BundleLocalTrivPkgRows base total projection fibre ledger triv
+        transitions) :=
+    Or.inr
+      (Or.inr
+        (Or.inr
+          (Or.inr
+            (Iff.mpr inBundle_bundleAppend_iff
+              (Or.inr (Or.inr transitionMember))))))
+  have ledgerInRows :
+      InBundle ledger (BundleLocalTrivPkgRows base total projection fibre ledger triv
+        transitions) :=
+    Or.inr
+      (Or.inr
+        (Or.inr
+          (Or.inr
+            (Iff.mpr inBundle_bundleAppend_iff
+              (Or.inr (Or.inl rfl))))))
+  cases rowMember with
+  | inl sameTransition =>
+      cases sameTransition
+      exact And.intro transitionInRows
+        (And.intro (Or.inl rfl) ledgerUnary)
+  | inr ledgerTail =>
+      cases ledgerTail with
+      | inl sameLedger =>
+          cases sameLedger
+          exact And.intro ledgerInRows
+            (And.intro (Or.inr rfl) ledgerUnary)
+      | inr emptyMember =>
+          exact False.elim emptyMember
+
+theorem BundleLocalTrivPkgRows_scoped_unary_coverage_member_unary
+    {row : BHist} {rows : ProbeBundle BHist} :
+    BundleRowsUnary rows -> InBundle row rows -> UnaryHistory row := by
+  intro unaryRows member
+  induction rows with
+  | Bnil =>
+      exact False.elim member
+  | Bcons head tail ih =>
+      cases member with
+      | inl sameHead =>
+          cases sameHead
+          exact unaryRows.left
+      | inr tailMember =>
+          exact ih unaryRows.right tailMember
+
+theorem BundleLocalTrivPkgRows_scoped_unary_coverage
+    {base total projection fiber ledger row : BHist} {trivs transitions : ProbeBundle BHist} :
+    BundleLocalTrivPackage base total projection fiber trivs transitions ledger ->
+      InBundle row (BundleLocalTrivPkgRows base total projection fiber ledger trivs transitions) ->
+        UnaryHistory row ∧
+          (row = base ∨ row = total ∨ row = projection ∨ row = fiber ∨ InBundle row trivs ∨
+            row = ledger ∨ InBundle row transitions) := by
+  intro package member
+  have rows :
+      row = base ∨ row = total ∨ row = projection ∨ row = fiber ∨ InBundle row trivs ∨
+        row = ledger ∨ InBundle row transitions :=
+    BundleLocalTrivPkg_projection_rows member
+  have projection :
+      UnaryHistory base ∧ UnaryHistory total ∧ UnaryHistory projection ∧ UnaryHistory fiber ∧
+        UnaryHistory ledger ∧ BundleRowsUnary trivs ∧ BundleRowsUnary transitions :=
+    BundleLocalTrivPackage_carrier_projection package
+  have rowUnary : UnaryHistory row := by
+    cases rows with
+    | inl sameBase =>
+        cases sameBase
+        exact projection.left
+    | inr rest =>
+        cases rest with
+        | inl sameTotal =>
+            cases sameTotal
+            exact projection.right.left
+        | inr rest =>
+            cases rest with
+            | inl sameProjection =>
+                cases sameProjection
+                exact projection.right.right.left
+            | inr rest =>
+                cases rest with
+                | inl sameFiber =>
+                    cases sameFiber
+                    exact projection.right.right.right.left
+                | inr rest =>
+                    cases rest with
+                    | inl memberTrivs =>
+                        exact BundleLocalTrivPkgRows_scoped_unary_coverage_member_unary
+                          projection.right.right.right.right.right.left memberTrivs
+                    | inr rest =>
+                        cases rest with
+                        | inl sameLedger =>
+                            cases sameLedger
+                            exact projection.right.right.right.right.left
+                        | inr memberTransitions =>
+                            exact BundleLocalTrivPkgRows_scoped_unary_coverage_member_unary
+                              projection.right.right.right.right.right.right memberTransitions
+  exact And.intro rowUnary rows
+
 end BEDC.Derived.BundleUp

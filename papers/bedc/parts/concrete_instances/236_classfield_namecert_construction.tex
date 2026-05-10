@@ -8,3 +8,115 @@ The class-field-theory interface $\ClassFieldUp$ packages the maximal abelian ex
 
 \section{The certificate}
 \label{sec:classfield-certificate}
+
+\begin{theorem}[ClassField carrier and classifier obligations]\label{thm:classfield-obligation-carrier-classifier}
+A $\ClassFieldUp$ certificate must provide a $\mathsf{BHist}$ carrier packaging a $\NumFieldUp$ base source, an $\AdeleUp$ idele-class source, an abelian-extension history row, and a classifier stable under the source $\NameCert$ classifiers and $\hsame$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClassFieldUp.ClassFieldSourceCarrier\_semantic\_name\_certificate}
+
+\begin{proof}
+Unpack the roadmap ten-field template for $\ClassFieldUp$. The visible carrier row names the base source, the idele-class source, and the abelian-extension history row.
+
+Then read the $\NumFieldUp$ and $\AdeleUp$ certificates as the two named dependency certificates. Their classifiers supply source replacement, while the $\ClassFieldUp$ row records the remaining classifier as an obligation rather than as a closed field.
+\end{proof}
+\leanchecked{BEDC.Derived.ClassFieldUp.ClassFieldCarrierClassifier\_obligation}
+
+\begin{theorem}[ClassField Artin and Frobenius stability obligations]\label{thm:classfield-obligation-artin-frobenius-stability}
+The Artin-map relation and Frobenius endpoint rows of a $\ClassFieldUp$ certificate must transport along the $\AdeleUp$ classifier, the $\NumFieldUp$ classifier, and $\mathsf{BHist}$ $\hsame$, and they must be compatible with the chosen extension classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClassFieldUp.ClassFieldArtinFrobeniusRows\_stability}
+
+\begin{proof}
+Carrier transport in the dependency $\NameCert$ objects supplies source replacement for the $\NumFieldUp$ and $\AdeleUp$ rows. The $\mathsf{BHist}$ comparison supplies the remaining history replacement.
+
+The Artin relation and the Frobenius endpoints are then listed as stability obligations for the class-field classifier. Compatibility with the extension classifier is part of that obligation surface, not a reciprocity theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.ClassFieldUp.ClassFieldArtinFrobenius\_stability\_obligation}
+
+\begin{theorem}[ClassField ledger and exactness obligations]\label{thm:classfield-obligation-ledger-exactness}
+The $\ClassFieldUp$ ledger records the hidden idele representative, the local-prime and Frobenius representative, and the extension presentation. Exactness consists of coverage, soundness, and completeness for the Artin-Frobenius classifier, without claiming reciprocity.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClassFieldUp.ClassFieldArtinFrobeniusRows\_ledger\_exactness}
+\leanchecked{BEDC.Derived.ClassFieldUp.ClassFieldLedgerExactnessRows\_transport}
+
+\begin{proof}
+Separate visible classifier data from hidden representative data. The visible side contains the classifier row and the Artin-Frobenius comparison; the hidden side records the idele representative, local-prime representative, Frobenius representative, and extension presentation.
+
+Identify the three ExactGlobalize-style rows that must be supplied: coverage of the classifier, soundness of accepted Artin-Frobenius rows, and completeness for the visible rows that the classifier is meant to cover. These rows state the obligation surface and do not assert reciprocity.
+\end{proof}
+
+\begin{theorem}[ClassField scoped carrier classifier]\label{thm:classfield-scoped-carrier-classifier}
+The carrier and classifier obligations of $\ClassFieldUp$ are scoped exactly over $\mathsf{BHist}$ rows for the number-field source, adele source, abelian-extension carrier, classifier, and ledger, the $\mathsf{UnaryHistory}$ witnesses on the source rows, $\Cont$ composition from the $\NumFieldUp$ row through the $\AdeleUp$ row to the extension row, $\hsame$ transport from the classifier row to the extension row, and the two dependency certificates $\NameCert_{\NumFieldUp}$ and $\NameCert_{\AdeleUp}$.
+\end{theorem}
+
+\begin{proof}
+Unpack \autoref{thm:classfield-obligation-carrier-classifier}. Its source side names exactly two dependency certificates: $\NameCert_{\NumFieldUp}$ for the base number-field row and $\NameCert_{\AdeleUp}$ for the idele-class row. The class-field carrier is therefore not a free ambient object; it is a $\mathsf{BHist}$ package whose visible projections are supplied by those two certificates.
+
+The remaining carrier row is the abelian-extension history. It is still a $\mathsf{BHist}$ row, so its comparison data is not an external equality relation. The classifier obligation is the restricted $\hsame$ transport that keeps the base row, idele-class row, and extension row inside the same carried package.
+
+Thus every carrier/classifier witness used by the certificate is named by $\NameCert_{\NumFieldUp}$, $\NameCert_{\AdeleUp}$, $\mathsf{BHist}$, or $\hsame$. No extra classifier or host-level carrier is part of the scoped surface.
+\end{proof}
+
+\begin{theorem}[ClassField scoped Artin-Frobenius stability]\label{thm:classfield-scoped-artin-frobenius-stability}
+The Artin-map and Frobenius stability obligations of $\ClassFieldUp$ are scoped exactly over the predicate $\mathsf{ClassFieldArtinFrobeniusRows}$ on base, idele, extension, Artin, and Frobenius $\mathsf{BHist}$ rows, the $\Cont$ transports from idele to Artin to Frobenius and from base to Frobenius to extension, $\hsame$ transport of idele, Artin, Frobenius, and extension rows, and the dependency classifiers supplied by $\NameCert_{\AdeleUp}$ and $\NameCert_{\NumFieldUp}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClassFieldUp.ClassFieldArtinFrobenius\_scope}
+
+\begin{proof}
+Begin with \autoref{thm:classfield-obligation-artin-frobenius-stability}. The Artin relation reads its source through the $\AdeleUp$ classifier and its base through the $\NumFieldUp$ classifier. Transport along either source is therefore the transport field already exposed by the corresponding dependency $\NameCert$.
+
+The Frobenius endpoint and the abelian-extension presentation are carried histories. Their replacement step is not a separate Galois-theoretic principle; it is the $\hsame$ transport on the named $\mathsf{BHist}$ endpoint rows.
+
+After these transports are named, the stability row has a fixed dependency profile: $\NameCert_{\AdeleUp}$ for idele-class replacement, $\NameCert_{\NumFieldUp}$ for base-field replacement, and $\hsame$ for endpoint and extension-history replacement. Compatibility with the extension classifier is precisely this repackaging of transported rows.
+\end{proof}
+
+\begin{theorem}[ClassField scoped ledger exactness]\label{thm:classfield-scoped-ledger-exactness}
+The ledger exactness obligations of $\ClassFieldUp$ are scoped exactly over hidden idele representatives, local-prime representatives, Frobenius representatives, extension-presentation representatives, and the $\mathsf{ExactGlobalizeBase}$ coverage, soundness, and completeness rows for the visible Artin-Frobenius classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClassFieldUp.ClassFieldScopedLedger\_exactness}
+
+\begin{proof}
+Unpack \autoref{thm:classfield-obligation-ledger-exactness}. The visible side of the ledger is the Artin-Frobenius classifier over the scoped source rows. The hidden side consists of the idele representative, local-prime representative, Frobenius representative, and extension presentation.
+
+Coverage says that each accepted visible Artin-Frobenius row has one such hidden witness tuple. Soundness says that any row produced from the hidden tuple is accepted by the visible classifier. Completeness says that the accepted visible rows are exhausted by those witness tuples.
+
+These are exactly the three ExactGlobalize rows used here: coverage, soundness, and completeness. They bind the ledger to the named source certificates and $\mathsf{BHist}$ representatives without asserting reciprocity or maximal abelian exactness beyond the displayed classifier surface.
+\end{proof}
+
+\begin{theorem}[ClassField reciprocity boundary]\label{thm:classfield-reciprocity-boundary}
+Coverage, soundness, and completeness for the Artin-Frobenius classifier do not assert class-field reciprocity, uniqueness of the maximal abelian extension, or a standard bridge for $\ClassFieldUp$.
+\end{theorem}
+
+\begin{proof}
+Read the ledger exactness statement in \autoref{thm:classfield-obligation-ledger-exactness} as an ExactGlobalize-style certificate. It names the visible rows covered by the classifier and the hidden representatives used to witness those rows.
+
+Coverage, soundness, and completeness only relate accepted classifier rows to the recorded representatives. They do not identify the classifier with the classical reciprocity map, prove uniqueness of the maximal abelian extension, or supply the bridge object required for a standard bridge.
+\end{proof}
+
+\closureat{ClassFieldUp}{scopedStr}[BEDC.Derived.ClassFieldUp.ClassFieldSourceCarrier\_semantic\_name\_certificate]
+
+\begin{closurestatus}{\ClassFieldUp}
+  \constructivestory{A class field is carried by a source packet whose visible rows are a $\NumFieldUp$ base, an $\AdeleUp$ idele-class source, an abelian-extension history, a chosen classifier row, and a ledger row, all connected by unary history evidence and $\Cont$ composition. The carrier accepts exactly those histories in which the base and idele dependency certificates supply the first two rows and the extension endpoint is the continuation result, while reciprocity maps, maximal abelian extension exactness, and standard bridges are not fields of the packet. Its classifier is $\hsame$ on the carried extension endpoint together with the dependency classifiers for the number-field and adele rows, so Artin and Frobenius data transport only by the named source classifiers and endpoint history comparisons. The source specification is the NumField-plus-Adele carrier surface, the pattern specification is the Artin-Frobenius row with idele, local-prime, Frobenius, and extension-presentation representatives, and the ledger separates visible classifier rows from those hidden representatives through coverage, soundness, and completeness obligations. The five naming-certificate obligations are supplied by the semantic source carrier: the displayed extension endpoint inhabits the carrier, $\hsame$ gives reflexivity, symmetry, and transitivity, and result transport along $\hsame$ rebuilds the same source carrier at a classified endpoint. A history $h$ lies in the signature GAP of a $\ClassFieldUp$ token $p$ when the source accepts $h$, the signature relation pairs it with an answer extension row and evidence ledger, and token introduction names that answer as $p$; here that means the base, idele, extension, Artin, Frobenius, classifier, hidden representatives, and ExactGlobalize rows all line up inside the displayed packet. The chapter registers this construction as $\ClassFieldUp$ without closing Artin-map laws, class-field reciprocity, maximal abelian extension uniqueness, or a standard bridge.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public interface of \autoref{thm:classfield-public-namecert-interface} exports the displayed carrier, stability, exactness, and boundary obligations over $\NameCert_{\NumFieldUp}$ and $\NameCert_{\AdeleUp}$, together with $\mathsf{BHist}$, $\hsame$, the chosen extension classifier, and the ExactGlobalize coverage, soundness, and completeness rows.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ClassFieldUp.ClassFieldSourceCarrier\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the Artin map laws, maximal abelian extension exactness, reciprocity, or a standard bridge.}
+  \upgradepath{$\bridgedClosure$ requires a bridge theorem over the public $\ClassFieldUp$ interface, without adding reciprocity, maximal-abelian uniqueness, or standard bridge data as hidden packet fields.}
+\end{closurestatus}
+
+\begin{theorem}[ClassFieldUp public NameCert interface]
+\label{thm:classfield-public-namecert-interface}
+The carrier-classifier row of \autoref{thm:classfield-obligation-carrier-classifier}, the Artin-Frobenius stability row of \autoref{thm:classfield-obligation-artin-frobenius-stability}, and the ledger exactness row of \autoref{thm:classfield-obligation-ledger-exactness} assemble the public $\NameCert_{\ClassFieldUp}$ interface over the source certificates $\NameCert_{\NumFieldUp}$ and $\NameCert_{\AdeleUp}$. The exported surface consists exactly of the base number-field source row, the idele-class source row, the abelian-extension history row, the extension classifier, the Artin-map relation row, the Frobenius endpoint rows, the hidden idele representative, the local-prime representative, the Frobenius representative, the extension-presentation representative, and the ExactGlobalize coverage, soundness, and completeness rows for the visible Artin-Frobenius classifier. It exports no class-field reciprocity theorem, no uniqueness theorem for the maximal abelian extension, and no standard bridge.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:classfield-obligation-carrier-classifier}. This fixes the public source side of the certificate: a $\NumFieldUp$ base row, an $\AdeleUp$ idele-class row, an abelian-extension history row, and the classifier comparing extension presentations after replacement through the two dependency certificates and $\hsame$. Therefore the carrier and classifier slots of $\NameCert_{\ClassFieldUp}$ are not ambient host objects; they are the displayed $\mathsf{BHist}$ rows together with the two named source certificates.
+
+Apply \autoref{thm:classfield-obligation-artin-frobenius-stability}. The Artin relation and Frobenius endpoints are the only operation-like rows added to that carrier surface. Their stability is exactly the transport through the $\AdeleUp$ classifier on the idele side, the $\NumFieldUp$ classifier on the base side, and $\hsame$ on the extension, Artin, and Frobenius history rows. Thus the stability slot of the public certificate is filled by those displayed Artin-Frobenius rows, with compatibility to the chosen extension classifier and no additional reciprocity law.
+
+Apply \autoref{thm:classfield-obligation-ledger-exactness}. Coverage projects every accepted public Artin-Frobenius classifier row to a hidden tuple consisting of an idele representative, a local-prime representative, a Frobenius representative, and an extension-presentation representative. Soundness repacks any such displayed tuple as an accepted public row. Completeness says that the accepted public rows are exhausted by those tuples. Hence the ledger and exactness slots of $\NameCert_{\ClassFieldUp}$ are precisely the listed ExactGlobalize rows.
+
+The forward projection from any public $\NameCert_{\ClassFieldUp}$ read therefore lands in one of the carrier, classifier, stability, representative, or ExactGlobalize rows just named. Conversely, a packet containing exactly those rows repacks through the three cited obligations into the same public interface. Since none of the three obligations introduces a classifier for reciprocity, maximal-abelian uniqueness, or a standard bridge, those objects are outside the exported surface.
+\end{proof}
+\leanchecked{BEDC.Derived.ClassFieldUp.ClassField\_public\_namecert\_interface}

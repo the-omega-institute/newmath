@@ -1,17 +1,17 @@
 \begin{theorem}[Functor hom-carrier codomain evaluation]
 \label{thm:functor-hom-carrier-codomain-evaluation}
 Let \(C\) and \(E\) be certified categories, and let \(H:C\to E\) be a certified functor with object map \(H_0\). Write \(\mathsf{FunctorHomCarrier}_{H}(x,y)\) for the predicate on codomain morphism candidates \(m\) abbreviated by
-\[
+$$
 \mathsf{FunctorHomCarrier}_{H}(x,y,m)
 \equiv
 \mathsf{HomCarrier}_{E}(H_0(x),H_0(y),m).
-\]
+$$
 Then for every pair of source objects \(x,y\) and every codomain morphism candidate \(m\), the functor-indexed hom-carrier classifier at \(x,y\) evaluates to the codomain category hom-carrier classifier at the image endpoints:
-\[
+$$
 \mathsf{FunctorHomCarrier}_{H}(x,y,m)
 \quad\Longleftrightarrow\quad
 \mathsf{HomCarrier}_{E}(H_0(x),H_0(y),m).
-\]
+$$
 \end{theorem}
 \begin{proof}
 The functor carrier of \autoref{def:functor-carrier} supplies the object map \(H_0\). The category carrier of \autoref{def:category-carrier} supplies, in the codomain category \(E\), a hom-carrier classifier for each ordered pair of codomain objects. Applying that category classifier to the image pair \(H_0(x),H_0(y)\) is exactly the displayed abbreviation for \(\mathsf{FunctorHomCarrier}_{H}(x,y,-)\). The pointwise classifier discipline in \autoref{def:functor-classifier-specification} and \autoref{rem:functor-zero-axiom-note} reads classifier equality at the morphism argument \(m\), so unfolding the abbreviation gives the stated biconditional.
@@ -20,11 +20,11 @@ The functor carrier of \autoref{def:functor-carrier} supplies the object map \(H
 \begin{theorem}[Functor composite preservation witnesses]
 \label{thm:functor-composite-preservation-witnesses}
 Let \(C,D,E\) be certified categories. Let \(F:C\to D\) and \(G:D\to E\) be certified \(\FunctorUp\) carriers with object maps \(F_0,G_0\) and morphism maps \(F_1,G_1\). Write \(H\) for the composite pair with
-\[
+$$
 H_0(x)=G_0(F_0(x)),
 \qquad
 H_1(u)=G_1(F_1(u)).
-\]
+$$
 Then \(H\) has identity and composition preservation witnesses under the morphism classifier of \(E\): for every object \(x\) of \(C\), \(H_1(\mathsf{id}_x)\) is classified with \(\mathsf{id}_{H_0(x)}\), and for every composable pair \(u:x\to y\), \(v:y\to z\) in \(C\), \(H_1(v\circ_C u)\) is classified with \(H_1(v)\circ_E H_1(u)\).
 \end{theorem}
 \begin{proof}
@@ -98,6 +98,7 @@ contradicting the displayed non-respect premise. Thus the composite identity wit
 
 The comparison supplied by $F$ is only a $D$-morphism classifier witness between $F_1(\mathsf{id}_x)$ and $\mathsf{id}_{F_0(x)}$. To use the raw identity ledger for $G$, that witness must be transported through $G_1$. This is exactly the classifier-replacement stability field in \autoref{def:functor-stability-certificate} and the step used in \autoref{thm:functor-composite-preservation-witnesses}. Raw composition preservation does not supply this transport, so it cannot restore identity preservation for $G\circ F$.
 \end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorComposition\_identity\_sameness\_respect\_required}
 
 \begin{theorem}[Raw functor hom-carrier landing obstruction]\label{thm:raw-functor-hom-carrier-landing-obstruction}
 There are finite two-object certified categories $C$ and $D$, together with an object map $F_0$, a raw morphism map $F_1$, and strict raw identity and composition preservation ledgers, such that a displayed source hom is not carried to the endpoint-indexed codomain hom-carrier required by $\FunctorUp$. Take object and morphism classifiers in both categories to be literal equality.
@@ -303,6 +304,7 @@ $$
 \mathsf{FunctorHomCarrier}_{L}(a,b,m).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_empty\_prefix\_identity\_unit\_laws}
 \begin{proof}
 The identity certificates are available by
 \autoref{thm:identity-functor-namecert}. Applying
@@ -384,6 +386,7 @@ $$
 \mathsf{FunctorHomCarrier}_{B}(a,b,m).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_append\_assoc\_comp\_public\_readback}
 \begin{proof}
 Apply \autoref{thm:functor-composite-preservation-witnesses} to $F$ and $G$
 to obtain the preservation witnesses for $G\circ F$, and apply the same theorem
@@ -491,7 +494,9 @@ The proof uses the following ten-field roadmap.
 \autoref{thm:functor-composition-identity-unit-laws}, and
 \autoref{thm:functor-composition-associativity-classifier-law};
 \item exactness = hom-carrier pointwise classifier agreement;
-\item standard bridge = ordinary functor-category laws;
+\item standard bridge row = not claimed by this composition package; ordinary
+functor-category laws are only the external comparison target named by the
+upgrade path;
 \item status = paper proof target.
 \end{enumerate}
 
@@ -529,15 +534,46 @@ claimed classifier-respected composition package for certified $\FunctorUp$
 carriers.
 \end{proof}
 
-\begin{closurestatus}{\FunctorUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public fixed-prefix $\FunctorUp$ export is closed over the prefix functor semantic certificate, public object and morphism maps, identity and composition preservation, certified functor composition laws, category-facing endpoint exactness, exact hom-carrier readback, and no-hidden-leakage for the fixed-prefix ledger.}
-  \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_semanticNameCert}
-  \bridgestatus{none}
-  \notclaimed{General functor theory: arbitrary functor categories, natural transformations as a complete theory, adjunctions, Kan extensions, limits preservation, or equivalence of categories.}
-  \upgradepath{$\bridgedClosure$ requires a standard bridge relating this public $\FunctorUp$ surface to an external functor interface, with no host equality or primitive category universe entering the BEDC public surface.}
-\end{closurestatus}
+\begin{theorem}[Functor prefix standard bridge]
+\label{thm:functor-prefix-standard-bridge}
+For every unary history $p$, the BEDC fixed-prefix $\FunctorUp$ certificate
+with object map $a\mapsto \mathsf{append}(p,a)$ and identity morphism map
+conservatively reads as the ordinary fixed-prefix endofunctor on the
+unary-continuation $\CategoryUp$. Its identity, composition, unit,
+associativity, and hom-carrier laws are exactly the rows cited in
+\autoref{thm:functor-prefix-semantic-namecert} and
+\autoref{thm:functor-composition-classifier-category-package}, read through
+$\CategoryUp$ classifiers rather than host equality.
+\end{theorem}
+\begin{proof}
+The fixed-prefix certificate in
+\autoref{thm:functor-prefix-semantic-namecert} supplies the public object map
+$a\mapsto \mathsf{append}(p,a)$, the identity morphism map, the preservation
+ledger, and the semantic NameCert rows for the unary-continuation
+$\CategoryUp$. Reading those rows externally gives the ordinary fixed-prefix
+endofunctor data, because every comparison is mediated by the object and
+morphism classifiers of $\CategoryUp$.
+
+The functor-category laws are supplied by
+\autoref{thm:functor-composition-classifier-category-package}. Its cited core
+rows are \autoref{thm:functor-composite-preservation-witnesses},
+\autoref{thm:functor-composite-hom-carrier-classifier},
+\autoref{thm:identity-functor-namecert},
+\autoref{thm:functor-composition-identity-unit-laws}, and
+\autoref{thm:functor-composition-associativity-classifier-law}. These rows give
+closed composition, certified identities, unit classifiers, associativity
+classifiers, and exact pointwise hom-carrier transport for certified
+$\FunctorUp$ carriers.
+
+Specializing that package to the fixed-prefix carrier gives the standard
+endofunctor bridge. The hom-carrier readback is the exact readback already used
+in the package proof: the composite preservation row, the composite
+hom-carrier classifier row, the identity-functor NameCert row, the unit-law
+row, and the associativity classifier row. Thus the external functor reading
+uses the same classifier rows as the BEDC certificate; no host category
+universe, quotient, or primitive function space enters the bridge.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorUp\_StdBridge}
 
 \begin{definition}[Two-point classifier-transport obstruction data]
 \label{def:two-point-classifier-transport-obstruction-data}
@@ -673,3 +709,14 @@ $r_u\sim_{\mathcal C}r_v$, and the comparison $r_v\sim_{\mathcal C}v$.
 Therefore $u\sim_{\mathcal C}v$ at the endpoint pair $(x,a)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.CategorySplitMonomorphism\_left\_cancellative}
+
+\begin{closurestatus}{\FunctorUp}
+  \constructivestory{A functor in this public construction is a certified carrier between already licensed $\CategoryUp$ packages, and the concrete bridge specializes it to the fixed-prefix endofunctor that sends a unary object $a$ to $\mathsf{append}(p,a)$ while carrying morphism tails through the corresponding endpoint-indexed hom carrier. The carrier accepts only those object and morphism maps whose images land in the codomain object and hom carriers and whose identity and composition preservation rows are witnessed under the codomain classifiers; raw maps that merely preserve unclassified composites are excluded by the finite obstruction rows. Two functor presentations classify together pointwise: their object images are compared by the target object classifier and their morphism images by the target hom classifier at the transported endpoints, so no host function equality or functor quotient is formed. The source, pattern, and ledger rows record the source and target category certificates, the object and morphism maps, identity and composition preservation, classifier-replacement stability, and the composite functor ledgers used for identity, unit, and associativity laws. The five name-certificate obligations follow from inhabited fixed-prefix data, pointwise reflexivity, symmetry, and transitivity of the category classifiers, and carrier transport supplied by the same pointwise classifier rows. A displayed functor row $h$ lies in the signature gap of a $\FunctorUp$ token $p$ when the source-domain accepts the source and target category data, the signature relation pairs the object/morphism-map package with an answer carrier and preservation ledger, and token introduction names that answer as $p$; concretely, the fixed prefix, all image objects, and all image morphisms must be the ones encoded by the token. The standard bridge reads this as the ordinary fixed-prefix endofunctor and its certified composition package, then reads back only the same $\CategoryUp$ classifier data. The chapter registers this classifier-respecting map construction under the name $\FunctorUp$; functoriality is a ledger of landing and preservation rows, not an imported functor category, host map equality, adjunction theory, or Kan-extension surface.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public fixed-prefix $\FunctorUp$ export is closed over the semantic certificate, certified composition package, standard prefix bridge, finite classifier-transport obstruction, and split-monomorphism downstream category consumption.}
+  \formalstatus{\bridgeCheckedV}
+  \leantarget{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_semanticNameCert}
+  \bridgestatus{bridgeChecked}
+  \notclaimed{Arbitrary functor categories, adjunctions, Kan extensions, limits preservation, equivalence of categories, and machine-checked bridge data are not closed here.}
+  \upgradepath{no further upgrade -- chapter at top of formal axis.}
+\end{closurestatus}

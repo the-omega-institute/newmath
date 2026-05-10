@@ -489,11 +489,13 @@ For the ledger, \autoref{def:vecspace-ledger-policy} records module ledgers toge
 
 Thus the retained carrier, source, pattern, classifier, stability, and ledger fields satisfy \autoref{def:module-certificate-obligations}. Every retained operation, carrier, classifier, exactness predicate, and non-inverse ledger row is copied from the original $\VecSpaceUp(F,V)$ certificate, so the projected $\ModuleUp(F_{\mathsf{Ring}},V)$ certificate has the same module fragment.
 \end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingleton\_module\_fragment\_projection}
 
 \begin{corollary}[VecSpace additive carrier projection]
 \label{cor:vecspace-additive-carrier-projection}
 Let $F$ carry a $\FieldUp(F)$ certificate. Let $F_{\mathsf{Ring}}$ be the scalar certificate obtained from it by first taking the commutative-ring reduct and then the ring reduct. Let $V$ carry a $\VecSpaceUp(F,V)$ certificate with vector carrier $C_V$, vector classifier $\sim_V$, vector addition $+_V$, vector zero $0_V$, vector negation $(-)_V$, and scalar action $\odot:F\times V\to V$. If the vector-space certificate is first read through the module-fragment projection of \autoref{prop:vecspace-module-fragment-projection}, and the resulting module certificate is then read through the additive reduct of \autoref{prop:module-forgets-abgroup-certificate}, the retained vector-side data form an $\AbGroupUp(V)$ certificate. The carrier $C_V$, classifier $\sim_V$, vector addition $+_V$, vector zero $0_V$, and vector negation $(-)_V$ are unchanged from the original $\VecSpaceUp(F,V)$ certificate.
 \end{corollary}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingleton\_additive\_carrier\_projection}
 \begin{proof}
 Apply \autoref{prop:vecspace-module-fragment-projection} to the given vector-space certificate. It supplies a $\ModuleUp(F_{\mathsf{Ring}},V)$ certificate after deleting only the apartness predicate, proof-indexed scalar inverse operation, inverse-indexed stability rows, and inverse-witness ledger rows. The proposition states that this module certificate keeps the original vector carrier $C_V$, vector classifier $\sim_V$, vector addition, vector zero, vector negation, and scalar action.
 
@@ -501,12 +503,14 @@ Now apply \autoref{prop:module-forgets-abgroup-certificate} to that $\ModuleUp(F
 
 By \autoref{def:abgroup-certificate-obligations}, those retained fields are the obligations for an $\AbGroupUp(V)$ certificate. The first projection did not alter the vector-side additive data, and the second projection explicitly keeps the additive carrier data of the module certificate. Therefore the final $\AbGroupUp(V)$ certificate is over the same carrier $C_V$ with the same classifier $\sim_V$, addition $+_V$, zero $0_V$, and additive inverse $(-)_V$ carried by the original vector-space certificate.
 \end{proof}
+\closureat{VecSpaceUp}{matureStr}[BEDC.Derived.VecSpaceUp.VecSpaceSingleton\_semanticNameCert]
 \begin{closurestatus}{\VecSpaceUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{Singleton empty-history vector-space semantic certificate over the displayed BEDC carrier and field classifier.}
-  \formalstatus{\theoremCheckedV}
+  \constructivestory{The vector-space package keeps the singleton scalar-vector pair from $\ModuleUp$ and changes the scalar certificate from $\RingUp$ to $\FieldUp$. A pair $(s,v)$ enters only when both entries are history-equal to $\emp$, the action again sends every carried pair to $\emp$, and the pair classifier now uses the $\FieldUp$ classifier on the scalar side together with the singleton vector classifier. The source is the singleton-pair predicate, the pattern records scalar action, the projection back to $\ModuleUp$, the $\AbGroupUp$ additive carrier projection, and the scalar-action image semantic certificate, while the ledger keeps the visible pair aligned with the raw endpoint pair. Because both sides are singleton certificates, $(\emp,\emp)$ witnesses nonemptiness, the pair classifier is reflexive, symmetric, and transitive, and recognized scalar-vector pairs remain admitted. A pair $(s,v)$ lies in the signature gap of a $\VecSpaceUp$ token $p$ when the source-domain accepts the pair, the signature relation pairs it with an answer pair and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, both entries are history-equal to $\emp$ and $p$ is the singleton vector-space token. The terminal one-object bridge data row reads this as the one-object external vector space, while inverse-indexed scalar reasoning is vacuous because the singleton has no nonzero witness domain to inspect. The chapter registers this terminal singleton package under the name $\VecSpaceUp$; the carrier is the same endpoint pair under field-scalar discipline, with no finite-dimensional coordinate theory, basis package, analytic vector space, or non-singleton vector-space claim introduced.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{Singleton empty-history vector-space package binding the carrier $A_{\emp}$, classifier $\rho_{\emp}$, scalar action, semantic NameCert, scalar-action image semantic certificate, terminal one-object vector-space bridge data, $\ModuleUp$ projection, and $\AbGroupUp$ additive carrier projection.}
+  \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.VecSpaceUp.VecSpaceSingleton\_semanticNameCert}
-  \bridgestatus{none}
-  \notclaimed{General vector spaces, finite-dimensional vector spaces over $\RatUp$ or $\RealUp$, bases, dimension, linear independence, rank-nullity, spectral theory, Banach/Hilbert spaces.}
-  \upgradepath{$\publicClosure$ requires public vector-space constructors, basis readback, dimension theorem, and a no-hidden-leakage statement bracketing the public surface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{Arbitrary vector spaces, finite-dimensional spaces over $\RatUp$ or $\RealUp$, bases outside the singleton terminal case, spectral theory, Banach/Hilbert spaces, and Lean-side bridge verification are not closed by this mature singleton package.}
+  \upgradepath{The remaining next step is $\auditCleanV$ or $\bridgeCheckedV$ on Lean-side audit and bridge targets, or a non-singleton vector-space family treatment.}
 \end{closurestatus}

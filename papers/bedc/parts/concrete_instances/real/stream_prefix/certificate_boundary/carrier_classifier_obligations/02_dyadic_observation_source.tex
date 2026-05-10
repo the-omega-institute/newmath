@@ -7,6 +7,7 @@ $\RegSeqRat$ regularity check. Its classifier face is inherited from
 $\mathsf{RatHistoryClassifier}$, together with $\hsame$ transport of the
 positive-denominator row.
 \end{definition}
+\leandef{BEDC.Derived.RealUp.DyadicRatCoreObservationRow}
 
 \begin{theorem}[DyadicRatCore observation-row classifier transport]
 \label{thm:dyadic-rat-core-observation-row-classifier-transport}
@@ -44,6 +45,7 @@ dyadic-tolerance tokens, so no completion or quotient datum is introduced.
 Repacking the transported carrier, denominator, token, and classifier rows
 gives the stated DyadicRatCore observation-row transport.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.DyadicRatCoreObservationRow\_classifier\_transport}
 
 The fit is as follows: traditional target dyadic rational observation
 transport; BEDC source RatUp plus RegSeqRat unary requests over
@@ -93,6 +95,34 @@ Thus the source package has precisely the stated carrier, classifier,
 stability, and finite ledger faces over $\Hist$.
 \end{proof}
 
+\begin{theorem}[Phase Real dyadic stream RegSeq scope]
+\label{thm:real-phase-dyadic-stream-regseq-scope}
+Every DyadicRatCore request consumed by the Phase Real $\RegSeqRat$ spine is
+exactly a $\mathsf{DyadicRatCoreObservationRow}$ over $\mathsf{BHist}$. Its
+carrier, positive-denominator, dyadic-radius, classifier, and ledger faces are
+read from the $\RatUp$ carrier and classifier transports together with the
+$\RegSeqRat$ unary observation request. No $\RealUp$ completeness row, quotient
+row, completion object, metric-completeness row, Classical datum, or standard
+bridge row is part of this DyadicRatCore source scope.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:dyadic-rat-core-observation-row}. A consumed endpoint row is
+the rational-history carrier, positive unary denominator, and dyadic-radius
+token attached to the certified unary observation entry of the $\RegSeqRat$
+spine.
+
+Apply \autoref{thm:dyadic-rat-core-scoped-source-package}. Its carrier face is
+the endpoint $\RatUp$ row, its classifier face is the
+$\mathsf{RatHistoryClassifier}$ comparison, and its stability face is the same
+$\hsame$ transport used by the $\RegSeqRat$ pointwise classifier obligation.
+
+The remaining ledger component is the finite dyadic-tolerance request already
+named by the $\RegSeqRat$ carrier and classifier obligations. Repacking these
+faces gives exactly the Phase Real DyadicRatCore request scope, and there is no
+slot in that package for quotient, completion, metric, Classical, or $\RealUp$
+completeness data.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore observation row hsame transport]
 \label{thm:dyadic-rat-core-observation-row-hsame-transport}
 Let $d,e:\Hist$. If $d$ has a DyadicRatCore observation row in the sense of
@@ -130,6 +160,51 @@ to the same certified observation ledger entry used by the source package.
 Thus the transported carrier row, the transported positive-denominator row,
 and the unchanged ledger token repack as a DyadicRatCore observation row for
 $e$.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore observation source transport determinacy]
+\label{thm:dyadic-observation-source-transport-determinacy}
+Let $d,e:\Hist$, and suppose $\hsame(d,e)$ is displayed. Fix one certified
+$\RegSeqRat$ unary observation request whose source surface at $d$ is a
+DyadicRatCore observation row. If two transported source packages are obtained
+at $e$ by carrying that row along the same $\hsame(d,e)$ display through that
+same certified request, then the two packages expose the same
+$\mathsf{RatHistoryCarrier}(e)$ face, the same
+$\mathsf{PositiveUnaryDenominator}(e)$ face, the same dyadic-radius token, and
+the same $\mathsf{RatHistoryClassifier}$ face. No quotient row, completion row,
+metric-completeness row, Classical datum, or standard bridge row can separate
+the two transported source surfaces.
+\end{theorem}
+\begin{proof}
+Unpack Definition~\ref{def:dyadic-rat-core-observation-row}. The source row at
+$d$ consists only of the rational-history carrier, the positive unary
+denominator row, and the dyadic-radius token attached to the named certified
+$\RegSeqRat$ unary observation request.
+
+Apply \autoref{thm:dyadic-rat-core-observation-row-hsame-transport} to each
+transport along the displayed $\hsame(d,e)$ row. Both transported packages
+therefore read their $\mathsf{RatHistoryCarrier}(e)$ and
+$\mathsf{PositiveUnaryDenominator}(e)$ components from the same carrier
+transport and the same positive-denominator transport.
+
+Next identify the public source faces by
+\autoref{thm:dyadic-rat-core-scoped-source-package}. Its carrier,
+classifier, stability, and ledger faces are exactly the RatUp endpoint spine,
+the positive-denominator transport row, and the finite dyadic request ledger;
+there is no further source face available for a second transported package to
+choose.
+
+For the classifier face, use
+\autoref{thm:dyadic-rat-core-observation-row-classifier-transport}. Since both
+packages use the same displayed $\hsame(d,e)$ row and the same certified
+$\RegSeqRat$ request, the transported $\mathsf{RatHistoryClassifier}$ face is
+the same face in both packages.
+
+The dyadic-radius token remains attached to the original certified unary
+observation ledger entry throughout the transport. Repacking these common
+carrier, denominator, token, and classifier faces gives determinacy of the
+transported source surface, and the excluded quotient, completion, metric,
+Classical, and bridge rows have no slot in the scoped source package.
 \end{proof}
 
 The intended Lean target shape for this boundary is

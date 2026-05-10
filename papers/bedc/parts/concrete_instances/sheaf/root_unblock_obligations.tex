@@ -17,6 +17,9 @@ The root-unblock source for $\SheafUp$ is the ten-field certificate surface cons
 \item The surface contains no quotient of cover presentations and no equality of host powersets of opens.
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.SheafUp.SheafRootUnblockBEDCSource}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootUnblockBEDCSource\_member\_point\_germ}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootUnblockBEDCSource\_cover\_membership}
 
 \begin{theorem}[Sheaf root-unblock cover membership obligation]
 \label{thm:sheaf-root-unblock-cover-membership-obligation}
@@ -36,6 +39,7 @@ For overlap rows, use the finite-intersection field of the indexed topology carr
 
 History transport is then read from the $\mathsf{BHist}$ cover-nerve ledger of \autoref{def:sheaf-bhist-cover-nerve-ledger}. That ledger admits only $\hsame$-stable membership transport, so the exported cover-membership row stays internal to indexed opens and history cells.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootUnblockCoverMembership\_obligation}
 
 \begin{theorem}[Sheaf root-unblock restriction stability obligation]
 \label{thm:sheaf-root-unblock-restriction-stability-obligation}
@@ -49,6 +53,10 @@ s\sim_i t\Longrightarrow \rho_{i,j}(s)\sim_j\rho_{i,j}(t),
 $$
 are the classifier-preserving route rows exposed to downstream certificates.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootUnblockRestrictionStability\_semantic\_name\_certificate}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootUnblock\_restriction\_stability\_rows}
+\leanchecked{BEDC.Derived.SheafUp.SheafBHistPointGermLedger\_route\_history\_target\_classifier\_stability}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootUnblock\_restriction\_stability\_surface}
 \begin{proof}
 The identity and composition rows are fields of the indexed section presheaf carrier in \autoref{def:sheaf-indexed-section-presheaf-carrier}. The one-step classifier preservation row is the stable restriction row of \autoref{def:sheaf-stable-restriction-row}, also cited as \autoref{thm:sheaf-restriction-classifier-transport}.
 
@@ -68,6 +76,8 @@ The uniqueness half is locality. If two global readbacks restrict to classifier-
 
 Refinement and presentation changes are handled by the existing refinement rows \autoref{thm:sheaf-refinement-gluing-descent}, \autoref{thm:sheaf-refined-cover-exactness-obligation}, \autoref{thm:sheaf-common-refinement-gluing-invariance}, and \autoref{thm:sheaf-cover-presentation-exactness}. Each row uses displayed cover maps, common refinements, restriction stability, $\Cont$ route histories when present, and $\hsame$-stable membership; none introduces a quotient of cover presentations.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootUnblock\_locality\_gluing\_faces}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootFaceRead\_locality\_gluing\_refinement\_inversion}
 
 \begin{definition}[Sheaf root cover-nerve export surface]
 \label{def:sheaf-root-cover-nerve-export-surface}
@@ -85,6 +95,7 @@ The root cover-nerve export surface for $\SheafUp$ is the three-row $\mathsf{BHi
 \item There is no standard bridge in this surface.
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.SheafUp.SheafRootCoverNerveExportSurface}
 
 \begin{theorem}[Sheaf root cover-nerve membership exhaustion]
 \label{thm:sheaf-root-cover-nerve-membership-exhaustion}
@@ -97,6 +108,7 @@ $$
 $$
 and for every second member $a':A$ the ledger also contains the finite-intersection row for $\iota(a)\wedge_{\TopologyUp}\iota(a')$ with its two projections to the participating members.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootCoverNerve\_membership\_exhaustion}
 \begin{proof}
 Apply the cover-membership obligation of \autoref{thm:sheaf-root-unblock-cover-membership-obligation}. It reads the accepted cover row as a $\mathsf{BHist}$-indexed implication from an ambient displayed cell to a cover-member witness, so every $\mathsf{OpenAt}(i,b)$ cell is exhausted by a displayed member $\iota(a)$.
 
@@ -117,6 +129,7 @@ s\sim_i t
 $$
 for every displayed chain $k\le_{\mathcal{T}}j\le_{\mathcal{T}}i$. Optional $\Cont$ route histories compare route witnesses only and do not alter the target classifier $\sim_j$ or $\sim_k$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafBHistCoverNerveLedger\_route\_hsame\_transport}
 \begin{proof}
 The first displayed row is the restriction classifier-transport field of \autoref{def:sheaf-indexed-section-presheaf-carrier}. It is also the one-step stability clause isolated by \autoref{thm:sheaf-root-unblock-restriction-stability-obligation}.
 
@@ -137,4 +150,22 @@ The cover part is fixed by \autoref{def:sheaf-bhist-cover-nerve-ledger} and \aut
 The exactness part is the union of the three root obligations. Cover membership comes from \autoref{thm:sheaf-root-unblock-cover-membership-obligation}; restriction route stability comes from \autoref{thm:sheaf-root-unblock-restriction-stability-obligation}; locality and gluing come from \autoref{thm:sheaf-root-unblock-locality-gluing-obligation}.
 
 Those cited rows are precisely the rows listed in \autoref{def:sheaf-root-cover-nerve-export-surface}. Since none of them introduces host cover equality, a cover quotient, a stalk quotient, or an external sheafification operation, no downstream consumer obtains such a row from this export surface.
+\end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootCoverNerve\_downstream\_coverage}
+
+\begin{theorem}[Sheaf root cover-nerve exact globalization package]
+\label{thm:sheaf-root-cover-nerve-exact-globalize-package}
+The root cover-nerve export surface of \autoref{def:sheaf-root-cover-nerve-export-surface} forms an $\ExactGlobalizeBase$-style package over the indexed-open $\mathsf{BHist}$ cover nerve. Its coverage face is \autoref{thm:sheaf-root-cover-nerve-membership-exhaustion}; its base soundness face is \autoref{thm:sheaf-root-cover-nerve-restriction-route-stability}; its base completeness and exactness face is the locality-gluing row of \autoref{thm:sheaf-root-unblock-locality-gluing-obligation}. Hence $\RingedSpaceUp$ and $\SchemeUp$ may consume one classifier-exact cover-nerve package, with no host cover equality, cover quotient, stalk quotient, or external sheafification operation.
+\end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootCoverNerve\_exact\_globalize\_package}
+\begin{proof}
+Unpack \autoref{def:sheaf-root-cover-nerve-export-surface}. The carrier is the indexed family $\mathsf{Sec}(i)$ over $\mathsf{BHist}$ opens, the classifier is the displayed relation $\sim_i$, and the ledger is the cover nerve of \autoref{def:sheaf-bhist-cover-nerve-ledger}.
+
+The coverage face is exactly \autoref{thm:sheaf-root-cover-nerve-membership-exhaustion}. It sends each displayed $\mathsf{OpenAt}(i,b)$ cell to a cover member and records the pair-overlap rows needed by downstream restriction routes.
+
+The base soundness face is \autoref{thm:sheaf-root-cover-nerve-restriction-route-stability}. One-step restriction, two-step restriction, classifier transport, and optional $\Cont$ route histories preserve the section classifier on the target indexed open.
+
+The base completeness and exactness face is \autoref{thm:sheaf-root-unblock-locality-gluing-obligation}. Gluing constructs the global readback from compatible local rows, and locality identifies any two global readbacks whose restrictions agree on the accepted cover.
+
+These are precisely the coverage, soundness, and completeness fields required by the exact-globalization constructor of \autoref{thm:exact-globalize-base-target}, with the relation field constrained as in \autoref{def:exact-globalize-base}. Repacking the three displayed faces therefore gives the single classifier-exact cover-nerve package consumed by the downstream chapters, and \autoref{thm:sheaf-root-cover-nerve-downstream-coverage} fixes that no quotient or external sheafification row is exported.
 \end{proof}

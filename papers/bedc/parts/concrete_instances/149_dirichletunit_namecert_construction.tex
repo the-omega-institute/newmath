@@ -6,5 +6,391 @@ The Dirichlet-unit interface $\DirichletUnitUp$ packages the structure of the un
 \section{Carrier definition}
 \label{sec:dirichletunit-carrier}
 
+\begin{definition}[DirichletUnit carrier packet]
+\label{def:dirichletunit-carrier-packet}
+A $\DirichletUnitUp$ carrier packet is a displayed $\mathsf{BHist}$ tuple
+$$
+\mathcal{D}=(\mathcal{O},\mathcal{A},u,\iota,\nu,\beta,\rho)
+$$
+whose entries are read as follows. The row $\mathcal{O}$ is the dependency $\NameCert_{\RingOfIntegersUp}$, the row $\mathcal{A}$ is the dependency $\NameCert_{\AbGroupUp}$, the row $u$ is a visible unit row over $\mathcal{O}$, the row $\iota$ records the inverse and unit-product witnesses for $u$, the row $\nu$ is a unary free-rank witness, the row $\beta$ is the finite basis and logarithmic ledger row, and the row $\rho$ is the $\mathsf{Pkg}$ provenance tying these entries to the two dependency certificates. The packet also carries the finite $\Cont$ readbacks from $\mathcal{O}$ to $u$ and $\iota$, from $\mathcal{A}$ to the public abelian-group law rows, and from $\rho$ to every exported dependency slot.
+
+The packet is a history-facing carrier. It exposes no host-level unit type, no analytic logarithm equality, no determinant, and no standard bridge; it exposes only the named rows, their readback ledgers, and their package provenance.
+\end{definition}
+\leandef{BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier}
+
+\begin{theorem}[DirichletUnit visible unit row obligation]
+\label{thm:dirichletunit-visible-unit-row-obligation}
+Every accepted $\DirichletUnitUp$ carrier packet exposes the visible unit row $u$ and the inverse/unit-product row $\iota$ as carried $\mathsf{BHist}$ rows over the dependency certificate $\NameCert_{\RingOfIntegersUp}$. These rows are exported only through the finite $\Cont$ readback and $\mathsf{Pkg}$ provenance of \autoref{def:dirichletunit-carrier-packet}; they are not host units and do not assert host-level multiplication outside the displayed history.
+\end{theorem}
+\leanchecked{BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier\_visible\_unit\_rows}
+\begin{proof}
+Project an accepted packet to its tuple entries. The rows $\mathcal{O}$, $u$, and $\iota$ are named components of the same displayed $\mathsf{BHist}$ packet, and the carrier definition includes the $\Cont$ readback from $\mathcal{O}$ to the two unit-facing rows.
+
+The provenance row $\rho$ records that the readback is part of the same package. Repacking these projections gives exactly the exported unit and inverse surface, with no additional host carrier available to inspect.
+\end{proof}
+
+\begin{theorem}[DirichletUnit classifier obligation]
+\label{thm:dirichletunit-classifier-obligation}
+Classifier transport for $\DirichletUnitUp$ carrier packets is componentwise $\hsame$ together with dependency provenance transport. If packets $\mathcal{D}$ and $\mathcal{D}'$ are classified, then $\hsame$ transports the visible unit rows, inverse/unit-product rows, rank witness rows, finite basis/log-ledger rows, and package provenance rows, while the dependency slots remain tied to $\NameCert_{\RingOfIntegersUp}$ and $\NameCert_{\AbGroupUp}$ by their displayed $\mathsf{Pkg}$ rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier\_classifier\_transport}
+\begin{proof}
+Unpack the classifier as comparisons between the corresponding displayed rows of $\mathcal{D}$ and $\mathcal{D}'$. Each comparison is an $\hsame$ witness at a named projection of the carrier packet.
+
+Transport the unit and inverse rows through the $\RingOfIntegersUp$ readback, then transport the rank and basis/log-ledger rows through their own packet projections. The package row transports the dependency provenance at the same time.
+
+Repack the transported rows with the target packet's readback ledgers. The result is componentwise classifier transport for the whole Dirichlet-unit surface.
+\end{proof}
+
+\begin{theorem}[DirichletUnit free-rank witness ledger]
+\label{thm:dirichletunit-free-rank-witness-ledger}
+The free-rank witness $\nu$ and the finite basis/logarithmic ledger row $\beta$ of a $\DirichletUnitUp$ carrier packet are visible ledger rows. Their stability under accepted carrier comparison is carried by $\Cont$, $\hsame$, and $\mathsf{Pkg}$ provenance, and does not assert equality of analytic logarithms or equality of regulator values.
+\end{theorem}
+\begin{proof}
+Project the rank and basis/log-ledger entries from the carrier packet. They are listed as displayed $\mathsf{BHist}$ rows, so their visibility is part of the packet rather than a theorem about an external analytic object.
+
+For a classified pair, apply componentwise $\hsame$ to the rank row and to the ledger row. The $\Cont$ entries preserve the finite readback pattern, and $\rho$ supplies the package provenance tying those rows to the same dependency boundary.
+
+The proof stops at the ledger boundary. Since no analytic logarithm map or determinant row is a component of the packet, no such equality can be projected from this obligation.
+\end{proof}
+
+\begin{theorem}[DirichletUnit abelian-group dependency obligation]
+\label{thm:dirichletunit-abgroup-dependency-obligation}
+The public abelian-group laws used by $\DirichletUnitUp$ are inherited through the dependency certificate $\NameCert_{\AbGroupUp}$ and are restricted to unit rows accepted by the $\NameCert_{\RingOfIntegersUp}$ dependency. Thus the group-law surface is available only where the ring-of-integers certificate supplies the visible unit and inverse rows of \autoref{def:dirichletunit-carrier-packet}.
+\end{theorem}
+\begin{proof}
+Project the dependency row $\mathcal{A}$ and its $\Cont$ readback from the carrier packet. This is the only source of the public abelian-group law rows.
+
+Project the ring-of-integers row $\mathcal{O}$ together with $u$ and $\iota$. The law rows from $\mathcal{A}$ are paired with these unit-facing rows by the same package provenance row $\rho$.
+
+Repack the dependency projections. The inherited law surface is therefore confined to accepted unit rows over $\mathcal{O}$, rather than a free-standing group law on an ambient host type.
+\end{proof}
+
+\begin{theorem}[DirichletUnit NameCert surface obligation]
+\label{thm:dirichletunit-namecert-surface-obligation}
+The public $\NameCert_{\DirichletUnitUp}$ surface is assembled from the carrier packet of \autoref{def:dirichletunit-carrier-packet}, the componentwise classifier of \autoref{thm:dirichletunit-classifier-obligation}, the dependency certificates $\NameCert_{\RingOfIntegersUp}$ and $\NameCert_{\AbGroupUp}$, the visible unit and inverse rows, the rank and finite basis/log-ledger rows, the $\Cont$ stability rows, the $\mathsf{Pkg}$ provenance rows, and the exactness claim that every exported Dirichlet-unit row is one of these displayed packet entries.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier packet. Its displayed entries give the carrier, dependency, unit, inverse, rank, ledger, and provenance rows.
+
+Use the classifier obligation to supply transport for comparisons between accepted packets. Use the visible-unit obligation and the abelian-group dependency obligation to bind the unit-facing rows to $\NameCert_{\RingOfIntegersUp}$ and the law-facing rows to $\NameCert_{\AbGroupUp}$.
+
+The exactness statement is obtained by projection and repacking. Any exported certificate row must be one of the packet entries or one of the finite readbacks named in the packet, and those entries repack as the public $\NameCert_{\DirichletUnitUp}$ surface.
+\end{proof}
+
+\begin{theorem}[DirichletUnit Regulator consumer boundary]
+\label{thm:dirichletunit-regulator-consumer-boundary}
+A downstream $\RegulatorUp$ certificate may consume from $\DirichletUnitUp$ only the visible unit rows, inverse/unit-product rows, unary rank witness, finite basis/logarithmic ledger rows, dependency rows, $\Cont$ readbacks, and $\mathsf{Pkg}$ provenance rows described above. It may not read a determinant, an analytic regulator value, or a standard bridge from $\DirichletUnitUp$ alone.
+\end{theorem}
+\begin{proof}
+Project the public $\NameCert_{\DirichletUnitUp}$ surface from \autoref{thm:dirichletunit-namecert-surface-obligation}. The listed consumer inputs are exactly the rows present in that surface.
+
+Inspect the carrier packet: determinant rows, analytic regulator values, and standard bridge rows are not entries of $\mathcal{D}$, nor are they reachable by the finite $\Cont$ readbacks named by the packet.
+
+Therefore a $\RegulatorUp$ construction can cite the unit, inverse, rank, ledger, dependency, readback, and provenance rows. Any determinant or analytic regulator row must come from a separate regulator-side construction.
+\end{proof}
+
+\begin{theorem}[DirichletUnit Regulator unit-row source exhaustion]
+\label{thm:dirichletunit-regulator-unit-row-source-exhaustion}
+Every $\RegulatorUp$ consumer read of a $\DirichletUnitUp$ unit row or inverse
+row factors through the visible unit row $u$, the inverse/unit-product row
+$\iota$, the ring-of-integers dependency row $\mathcal{O}$, the finite
+$\Cont$ readback, and the $\Pkg$ provenance of
+\autoref{def:dirichletunit-carrier-packet}. No other unit-facing source is
+exported by the carrier packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:dirichletunit-carrier-packet}. The only unit-facing entries are
+$u$ and $\iota$, and their source dependency is the displayed row
+$\mathcal{O}$.
+
+Apply \autoref{thm:dirichletunit-namecert-surface-obligation} to pass from
+packet entries to public certificate rows. Then apply
+\autoref{thm:dirichletunit-unit-abgroup-projection} where the read asks for
+the inherited inverse or product law row.
+
+The finite $\Cont$ readback and the provenance row $\rho$ are the remaining
+packet entries tying these unit-facing rows to the exported surface. Repacking
+these projections gives the stated source exhaustion for every
+$\RegulatorUp$ unit-row read.
+\end{proof}
+
+\begin{theorem}[DirichletUnit Regulator rank-ledger source]
+\label{thm:dirichletunit-regulator-rank-ledger-source}
+Every $\RegulatorUp$ read of a $\DirichletUnitUp$ rank row, basis row, or
+logarithmic-ledger row factors through the unary rank witness $\nu$ and the
+finite ledger row $\beta$ of \autoref{def:dirichletunit-carrier-packet}. The
+factorization asserts no determinant, analytic logarithm equality, or
+regulator value.
+\end{theorem}
+\begin{proof}
+Project the carrier packet. Its rank-facing component is the unary witness
+$\nu$, and its basis or logarithm-facing component is the finite ledger row
+$\beta$.
+
+Apply \autoref{thm:dirichletunit-unit-rank-ledger}. This identifies the rank
+row as a $\mathsf{UnaryHistory}$ ledger and keeps the visible expression inside
+finite readback.
+
+Finally apply \autoref{thm:dirichletunit-namecert-surface-obligation} to read
+these two rows as public $\NameCert_{\DirichletUnitUp}$ entries. Since
+\autoref{def:dirichletunit-carrier-packet} contains no determinant or analytic
+logarithm equality row, the consumer read cannot project either one from
+$\DirichletUnitUp$ alone.
+\end{proof}
+
+\begin{theorem}[DirichletUnit Regulator consumer threshold package]
+\label{thm:dirichletunit-regulator-consumer-threshold-package}
+The exact $\DirichletUnitUp$ threshold package available to
+$\RegulatorUp$ consists of the unit-row source surface of
+\autoref{thm:dirichletunit-regulator-unit-row-source-exhaustion}, the
+rank-ledger source surface of
+\autoref{thm:dirichletunit-regulator-rank-ledger-source}, and the exclusion
+boundary of \autoref{thm:dirichletunit-regulator-consumer-boundary}. Thus a
+$\RegulatorUp$ construction may consume visible unit and inverse rows, the
+unary rank witness, finite basis/logarithmic ledger rows, dependency rows,
+$\Cont$ readbacks, and $\Pkg$ provenance, but not determinant, analytic
+regulator, or standard-bridge rows from $\DirichletUnitUp$ alone.
+\end{theorem}
+\begin{proof}
+First project the unit-facing surface. Apply
+\autoref{thm:dirichletunit-regulator-unit-row-source-exhaustion}; this gives
+the rows $u$, $\iota$, $\mathcal{O}$, their finite readback, and their package
+provenance.
+
+Next project the rank-facing surface. Apply
+\autoref{thm:dirichletunit-regulator-rank-ledger-source}; this gives the
+unary witness $\nu$ and the finite ledger row $\beta$, without analytic
+determinant or logarithm equality.
+
+Finally apply \autoref{thm:dirichletunit-regulator-consumer-boundary}. It
+excludes every regulator-facing row not listed by the two source projections.
+Repacking the surviving rows gives exactly the threshold package stated above.
+\end{proof}
+
+\begin{theorem}[Dirichlet-unit rank ledger]
+\label{thm:dirichletunit-unit-rank-ledger}
+Every accepted carrier of \autoref{def:dirichletunit-carrier-packet} contains a
+rank witness as a $\mathsf{UnaryHistory}$ row recording the visible ledger
+expression $r_1+r_2-1$. This row is stable under the row classifier of
+\autoref{thm:dirichletunit-classifier-obligation}, and it asserts no host arithmetic
+beyond finite ledger readback.
+\end{theorem}
+\begin{proof}
+Project the finite package underlying the carrier. The rank row is read as a
+unary history from the same source certificate that supplies the ring of
+integers and its real and complex place-count ledgers.
+
+The visible expression $r_1+r_2-1$ is therefore a ledger label: its content is
+the displayed finite readback row, not an assertion about an external
+arithmetic object. The $\mathsf{UnaryHistory}$ witness records exactly that
+visible row.
+
+The classifier compares the source, unit, inverse, law, and provenance rows
+through finite $\Cont$ readback. Hence the same unary rank row remains attached
+to every classified carrier.
+\end{proof}
+
+\begin{theorem}[Dirichlet-unit AbGroup projection]
+\label{thm:dirichletunit-unit-abgroup-projection}
+Every accepted $\DirichletUnitUp$ carrier projects to the $\AbGroupUp$
+operation, inverse, identity, and classifier rows carried by its dependency
+certificate. The Dirichlet-unit carrier adds the ring-of-integers unit source,
+the unit and inverse rows, and the finite readback ledgers, but it does not
+replace the inherited abelian-group interface.
+\end{theorem}
+\begin{proof}
+Unpack the tuple of \autoref{def:dirichletunit-carrier-packet}. Its
+$\mathcal{A}$ projection is the dependency row from
+$\NameCert_{\AbGroupUp}$.
+
+Read $\mathcal{A}$ through the abelian-group certificate. This exposes the
+operation row, inverse row, identity row, and classifier row for the inherited
+finitely generated abelian carrier.
+
+The remaining projections $\mathcal{O}$, $u$, $u^{-1}$, $\lambda$, $\mu$, and
+$\rho$ witness that the inherited row is being used as a unit group for the
+ring-of-integers source. Repacking with $\mathcal{A}$ therefore gives exactly
+the $\AbGroupUp$ projection fields, with the unit rows retained as additional
+dependency data.
+\end{proof}
+
 \section{The certificate}
 \label{sec:dirichletunit-certificate}
+\closureat{DirichletUnitUp}{scopedStr}[BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier\_visible\_unit\_rows]
+\closureat{DirichletUnitUp}{publicStr}[BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier\_visible\_unit\_rows]
+\closureat{DirichletUnitUp}{bridgedStr}[BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier\_visible\_unit\_rows]
+\closureat{DirichletUnitUp}{matureStr}[BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier\_visible\_unit\_rows]
+
+\begin{theorem}[DirichletUnit inherited unit-product closure]
+\label{thm:dirichletunit-inherited-unit-product-closure}
+Let
+$$
+\mathcal{D}_0=(\mathcal{O},\mathcal{A},u_0,\iota_0,\nu,\beta,\rho)
+\qquad\text{and}\qquad
+\mathcal{D}_1=(\mathcal{O},\mathcal{A},u_1,\iota_1,\nu,\beta,\rho)
+$$
+be accepted $\DirichletUnitUp$ carrier packets with the same $\NameCert_{\RingOfIntegersUp}$ dependency row $\mathcal{O}$, the same $\NameCert_{\AbGroupUp}$ dependency row $\mathcal{A}$, and the same $\Pkg$ provenance row $\rho$. Let $u_0$ and $u_1$ be their visible unit rows, and let $\iota_0$ and $\iota_1$ be the inverse/unit-product witness rows supplied by the carrier packets. If $u_0\star_{\mathcal{A}}u_1$ denotes the endpoint of the inherited $\AbGroupUp$ operation row projected from $\mathcal{A}$, then $u_0\star_{\mathcal{A}}u_1$ is again a visible $\DirichletUnitUp$ unit row over $\mathcal{O}$. Its inverse/unit-product witness is the displayed row obtained by applying the same inherited operation to the two inverse endpoints in $\iota_0$ and $\iota_1$, and its public provenance is exactly the shared $\Cont$ and $\Pkg$ provenance of $\mathcal{D}_0$ and $\mathcal{D}_1$.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through \autoref{def:dirichletunit-carrier-packet}. The two projections expose the same dependency rows $\mathcal{O}$ and $\mathcal{A}$, the same structural rows $\nu$ and $\beta$, and the same provenance row $\rho$. By \autoref{thm:dirichletunit-visible-unit-row-obligation}, the rows $u_0,u_1$ and their witness rows $\iota_0,\iota_1$ are visible unit-facing history rows over $\mathcal{O}$, read only through finite $\Cont$ entries and the shared $\Pkg$ provenance.
+
+Project the abelian-group operation from $\mathcal{A}$ using \autoref{thm:dirichletunit-unit-abgroup-projection}. The restriction clause in \autoref{thm:dirichletunit-abgroup-dependency-obligation} says that this operation is available precisely on unit rows accepted by the $\RingOfIntegersUp$ dependency. Since $u_0$ and $u_1$ are accepted unit rows over the same $\mathcal{O}$, the inherited operation has a displayed endpoint $u_0\star_{\mathcal{A}}u_1$ inside the same dependency boundary.
+
+It remains to read this endpoint as a $\DirichletUnitUp$ unit row rather than as a detached abelian-group product. The witness rows $\iota_0$ and $\iota_1$ give inverse endpoints $u_0^{-1}$ and $u_1^{-1}$ together with the unit-product comparisons for $u_0$ and $u_1$. Apply the inherited operation row of $\mathcal{A}$ to these inverse endpoints. The $\AbGroupUp$ stability certificate contains multiplication congruence, associativity, inverse laws, and commutativity, and \autoref{thm:abgroup-mul-inverse-pair-collapse} packages exactly the resulting comparison
+$$
+(u_0\star_{\mathcal{A}}u_1)\star_{\mathcal{A}}(u_0^{-1}\star_{\mathcal{A}}u_1^{-1})\hsame e_{\mathcal{A}}.
+$$
+Thus the product endpoint carries its own inverse/unit-product witness row, built only from $\iota_0$, $\iota_1$, and the operation rows already projected from $\mathcal{A}$.
+
+Repack the endpoint $u_0\star_{\mathcal{A}}u_1$ with this inverse/unit-product witness, the unchanged dependency rows $\mathcal{O}$ and $\mathcal{A}$, the unchanged structural rows $\nu$ and $\beta$, and the same provenance row $\rho$. This is exactly the visible unit-row slot described in \autoref{def:dirichletunit-carrier-packet}: the ring-of-integers readback still points to $\mathcal{O}$, the group-law readback still points to $\mathcal{A}$, and the exported row is still tied to the same $\Cont$ and $\Pkg$ ledgers. No host-level multiplication, analytic logarithm equality, determinant row, or standard bridge is introduced.
+\end{proof}
+
+\begin{theorem}[DirichletUnit root inverse-row inversion]
+\label{thm:dirichletunit-root-inverse-row-inversion}
+Let $\mathcal{D}=(\mathcal{O},\mathcal{A},u,\iota,\nu,\beta,\rho)$ be an accepted $\DirichletUnitUp$ carrier packet. Any accepted inverse row read from $\mathcal{D}$ is uniquely projected to the visible unit row $u$, the $\NameCert_{\RingOfIntegersUp}$ dependency row $\mathcal{O}$, the inherited $\AbGroupUp$ inverse row carried by $\mathcal{A}$, the finite $\Cont$ readback tying these rows together, and the $\Pkg$ provenance row $\rho$. No other inverse source is available at the root boundary.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:dirichletunit-carrier-packet}. The tuple exposes exactly one visible unit row $u$, exactly one inverse/unit-product witness row $\iota$, and the dependency rows $\mathcal{O}$ and $\mathcal{A}$ to which they are attached.
+
+Read $\mathcal{A}$ through \autoref{thm:dirichletunit-unit-abgroup-projection}. The inherited inverse row is the only abelian-group inverse row exported to $\DirichletUnitUp$, and \autoref{thm:dirichletunit-abgroup-dependency-obligation} restricts it to unit rows accepted by $\mathcal{O}$.
+
+The $\Cont$ readback and $\Pkg$ provenance are the remaining packet entries that bind the inverse witness to the visible unit row. Repacking these projections gives the stated inversion surface, and the carrier packet contains no second inverse row, host unit carrier, or analytic witness from which a competing root inverse source could be read.
+\end{proof}
+
+\begin{theorem}[DirichletUnit root product-witness inversion]
+\label{thm:dirichletunit-root-product-witness-inversion}
+Let $\mathcal{D}_0=(\mathcal{O},\mathcal{A},u_0,\iota_0,\nu,\beta,\rho)$ and $\mathcal{D}_1=(\mathcal{O},\mathcal{A},u_1,\iota_1,\nu,\beta,\rho)$ be accepted $\DirichletUnitUp$ carrier packets over the same $\NameCert_{\RingOfIntegersUp}$ and $\NameCert_{\AbGroupUp}$ dependency rows. A product witness in the inherited $\AbGroupUp$ row is a valid $\DirichletUnitUp$ product witness exactly at the packet boundary where both visible unit rows $u_0,u_1$, both inverse/unit-product witnesses $\iota_0,\iota_1$, the inherited operation row, the shared $\Cont$ readbacks, and the shared $\Pkg$ provenance are present over $\mathcal{O}$.
+\end{theorem}
+\begin{proof}
+For the forward reading, start from a product witness accepted as a $\DirichletUnitUp$ product row. Inverting the packet definition exposes the two visible unit rows and their inverse/unit-product witness rows, and \autoref{thm:dirichletunit-root-inverse-row-inversion} identifies their inverse evidence with the inherited inverse row of $\mathcal{A}$ over the same $\mathcal{O}$.
+
+Project the inherited operation row from $\mathcal{A}$ using \autoref{thm:dirichletunit-unit-abgroup-projection}. Its availability is restricted by \autoref{thm:dirichletunit-abgroup-dependency-obligation}, so a product witness cannot be detached from the two visible unit rows accepted by the ring-of-integers dependency.
+
+Conversely, assume the two visible unit rows, their inverse/unit-product witnesses, the inherited operation row, the shared $\Cont$ readbacks, and the shared $\Pkg$ provenance are all present over the same $\mathcal{O}$. Apply \autoref{thm:dirichletunit-inherited-unit-product-closure} to repack the inherited product endpoint as a visible $\DirichletUnitUp$ unit row with its own inverse/unit-product witness.
+
+These two readings use the same rows and the same dependency boundary. Hence validity of the inherited product witness for $\DirichletUnitUp$ is exactly the presence of the listed packet data over the shared $\RingOfIntegersUp$ dependency.
+\end{proof}
+
+\begin{theorem}[DirichletUnit root Regulator input exhaustion]
+\label{thm:dirichletunit-root-regulator-input-exhaustion}
+Every $\RegulatorUp$ consumer reading from a $\DirichletUnitUp$ root packet can read only the unary rank witness $\nu$, the finite basis and logarithmic ledger row $\beta$, visible unit rows, inverse rows, inherited product rows, the $\NameCert_{\RingOfIntegersUp}$ and $\NameCert_{\AbGroupUp}$ dependency rows, finite $\Cont$ readbacks, and $\Pkg$ provenance. It cannot read a determinant, analytic regulator value, host logarithm equality, or standard bridge from $\DirichletUnitUp$ alone.
+\end{theorem}
+\begin{proof}
+Project the consumer surface from \autoref{thm:dirichletunit-regulator-consumer-boundary}. The only rank-facing input is the unary rank witness $\nu$, and the only basis or logarithm-facing input is the finite ledger row $\beta$ carried by \autoref{def:dirichletunit-carrier-packet}.
+
+Next project the unit-facing rows. The visible unit rows and inverse rows are supplied by \autoref{thm:dirichletunit-visible-unit-row-obligation} and inverted by \autoref{thm:dirichletunit-root-inverse-row-inversion}; inherited product rows are available exactly under \autoref{thm:dirichletunit-root-product-witness-inversion}.
+
+Finally inspect the dependency and provenance boundary. The packet exposes $\mathcal{O}$, $\mathcal{A}$, finite $\Cont$ readbacks, and $\rho$ as $\Pkg$ provenance, and no other rows. A determinant, analytic regulator value, host logarithm equality, or standard bridge is therefore outside the $\DirichletUnitUp$ root input surface and must be supplied by a regulator-side certificate.
+\end{proof}
+
+\begin{theorem}[DirichletUnit Regulator row exclusion]
+\label{thm:dirichletunit-regulator-row-exclusion}
+Let $\mathcal{D}=(\mathcal{O},\mathcal{A},u,\iota,\nu,\beta,\rho)$ be an
+accepted $\DirichletUnitUp$ carrier packet. A $\RegulatorUp$ consumer whose
+input is read from $\mathcal{D}$ cannot project a determinant row, an analytic
+regulator value row, a host logarithm equality row, or a standard bridge row
+from that packet. The only regulator-facing rows available at the packet
+boundary are the visible unit rows, inverse/unit-product rows, unary rank row,
+finite basis/log ledger row, dependency rows, finite $\Cont$ readbacks, and
+$\Pkg$ provenance named in
+\autoref{thm:dirichletunit-root-regulator-input-exhaustion}.
+\end{theorem}
+\begin{proof}
+Project $\mathcal{D}$ through
+\autoref{def:dirichletunit-carrier-packet}. Its named entries are
+$\mathcal{O}$, $\mathcal{A}$, $u$, $\iota$, $\nu$, $\beta$, and $\rho$, together
+with the finite $\Cont$ readbacks attached to those entries.
+
+Use \autoref{thm:dirichletunit-root-product-witness-inversion} to identify the
+product-facing part of the packet. The inherited product witness is available
+only where the two dependency certificates, visible unit rows, inverse rows,
+finite readbacks, and package provenance are simultaneously present.
+
+Finally apply
+\autoref{thm:dirichletunit-root-regulator-input-exhaustion}. That theorem
+lists the complete root input surface for a $\RegulatorUp$ consumer. Since
+determinants, analytic regulator values, host logarithm equalities, and
+standard bridge rows are absent from both the carrier packet and the exhausted
+consumer surface, no such row can be projected from $\mathcal{D}$.
+\end{proof}
+
+\begin{theorem}[DirichletUnit visible rank-ledger projection]
+\label{thm:dirichletunit-visible-rank-ledger-projection}
+For an accepted $\DirichletUnitUp$ carrier packet
+$\mathcal{D}=(\mathcal{O},\mathcal{A},u,\iota,\nu,\beta,\rho)$, the unary rank
+witness $\nu$ and the finite basis/log ledger $\beta$ are the only
+rank-facing rows exposed to $\RegulatorUp$. Every rank-side readback factors
+through these two rows, the finite $\Cont$ ledgers of the packet, and the
+shared $\Pkg$ provenance $\rho$.
+\end{theorem}
+\begin{proof}
+Project the rank-facing entries from
+\autoref{def:dirichletunit-carrier-packet}. The packet has exactly one unary
+rank witness slot $\nu$ and exactly one finite basis/log ledger slot $\beta$;
+the dependency rows and provenance rows scope these slots but do not create a
+second rank source.
+
+The visibility theorem
+\autoref{thm:dirichletunit-free-rank-witness-ledger} identifies $\nu$ and
+$\beta$ as displayed $\mathsf{BHist}$ rows stable under componentwise
+$\hsame$, finite $\Cont$ readback, and package provenance. Thus the rank-side
+consumer reads a finite ledger surface rather than a host rank computation.
+
+Apply \autoref{thm:dirichletunit-root-regulator-input-exhaustion} to the same
+packet. Its exhausted $\RegulatorUp$ surface includes no rank-facing row
+besides $\nu$ and $\beta$, so every accepted rank readback factors through
+those two displayed rows and the shared provenance $\rho$.
+\end{proof}
+
+\begin{theorem}[DirichletUnit unit-product consumer scope]
+\label{thm:dirichletunit-unit-product-consumer-scope}
+Let
+$$
+\mathcal{D}_0=(\mathcal{O},\mathcal{A},u_0,\iota_0,\nu,\beta,\rho)
+\qquad\text{and}\qquad
+\mathcal{D}_1=(\mathcal{O},\mathcal{A},u_1,\iota_1,\nu,\beta,\rho)
+$$
+be accepted $\DirichletUnitUp$ carrier packets over the same dependency and
+provenance rows. The inherited product and inverse witnesses are consumable by
+a $\RegulatorUp$ reader only at the packet boundary carrying the shared
+$\NameCert_{\RingOfIntegersUp}$ row $\mathcal{O}$, the shared
+$\NameCert_{\AbGroupUp}$ row $\mathcal{A}$, the finite $\Cont$ readbacks, and
+the shared $\Pkg$ row $\rho$.
+\end{theorem}
+\begin{proof}
+Project the two packets through
+\autoref{def:dirichletunit-carrier-packet}. The visible unit rows $u_0,u_1$,
+their inverse/unit-product rows $\iota_0,\iota_1$, and the dependency rows
+$\mathcal{O},\mathcal{A}$ are all components of the same displayed boundary.
+
+Apply \autoref{thm:dirichletunit-root-product-witness-inversion}. It states
+that a product witness in the inherited $\AbGroupUp$ row is valid for
+$\DirichletUnitUp$ exactly where both visible unit rows, both inverse rows, the
+inherited operation row, the shared finite readbacks, and the shared package
+provenance are present over $\mathcal{O}$.
+
+The inverse side is controlled by
+\autoref{thm:dirichletunit-root-inverse-row-inversion}. It projects every
+accepted inverse row back to the visible unit, the
+$\NameCert_{\RingOfIntegersUp}$ dependency, the inherited $\AbGroupUp$ inverse
+row, the finite readback, and $\rho$.
+
+Combining these projections with
+\autoref{thm:dirichletunit-root-regulator-input-exhaustion} gives the stated
+consumer scope. A $\RegulatorUp$ reader can consume product and inverse
+evidence only as packet-boundary evidence tied to the two shared dependency
+certificates, $\Cont$, and $\Pkg$.
+\end{proof}
+
+\begin{closurestatus}{\DirichletUnitUp}
+  \constructivestory{A Dirichlet unit is carried by a finite packet whose entries are a $\RingOfIntegersUp$ dependency row, an $\AbGroupUp$ law row, a visible unit row, an inverse and unit-product witness row, a unary rank witness, a finite basis or logarithmic ledger row, and package provenance. The carrier accepts only packets whose unit-facing rows read back through the ring-of-integers dependency and whose law-facing rows read back through the abelian-group dependency, excluding host unit types, analytic logarithm equalities, determinant rows, regulator values, and bridge rows. Its classifier is componentwise $\hsame$ on the visible unit, inverse, law, rank, basis-ledger, readback, and provenance rows, with dependency provenance transported at the same time. The source specification is the RingOfIntegers-plus-AbGroup packet, the pattern specification is the visible unit group with inverse, product, rank, and finite basis/log-ledger rows, and the ledger keeps raw unit evidence, group-law evidence, and rank evidence visible through the named $\Cont$ readbacks. The five naming-certificate obligations come from the accepted packet as inhabitant, the equivalence laws of $\hsame$, and the classifier-transport theorem that rebuilds the packet after each component has moved to a classified endpoint. A history $h$ lies in the signature GAP of a $\DirichletUnitUp$ token $p$ when the source accepts $h$, the signature relation pairs it with an answer unit packet and evidence ledger, and token introduction names that answer as $p$; unpacked here, $h$ is exactly the packet endpoint whose visible unit, inverse/product row, unary rank row, finite ledger, dependency rows, and package provenance all line up. The chapter registers this construction as $\DirichletUnitUp$ without closing analytic regulator values, determinant formulas, logarithmic embeddings, or a standard bridge.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The visible-unit carrier, inverse and product witnesses, rank-ledger, $\RegulatorUp$ consumer boundary, and unsupported-feature boundary rows are closed as the mature $\DirichletUnitUp$ package surface.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier\_visible\_unit\_rows}
+  \bridgestatus{none}
+  \notclaimed{This does not close analytic regulator values, determinant formulas, logarithmic embeddings, or standard bridge rows.}
+  \upgradepath{Mature closure requires completeness examples and explicit unsupported-feature boundaries for analytic regulator values, determinant formulas, logarithmic embeddings, and standard bridge rows.}
+\end{closurestatus}

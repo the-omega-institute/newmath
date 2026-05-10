@@ -28,4 +28,18 @@ theorem NatTransPrefixComponentCarrier_prefix_vert_comp_closed {u p q r a eta th
         (CategoryHomCarrier_hsame_transport sourceSame targetSame (hsame_refl composite)
           prefixedComposite)))
 
+theorem NatTransPrefixComponentCarrier_prefix_whiskering_vert_comp_public_readback
+    {u p q r a eta theta composite displayed : BHist} :
+    UnaryHistory u -> NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta -> Cont eta theta composite ->
+        NatTransPrefixComponentCarrier (append u p) (append u r) a displayed ->
+          hsame composite displayed := by
+  intro prefixCarrier left right composition displayedCarrier
+  have compositeCarrier :
+      NatTransPrefixComponentCarrier (append u p) (append u r) a composite :=
+    NatTransPrefixComponentCarrier_prefix_vert_comp_closed
+      prefixCarrier left right composition
+  exact CategoryHomCarrier_morphism_deterministic
+    compositeCarrier.right.right.right displayedCarrier.right.right.right
+
 end BEDC.Derived.NatTransUp

@@ -6,5 +6,110 @@ The projective-space interface $\ProjectiveSpaceUp$ packages the quotient of a p
 \section{Carrier definition}
 \label{sec:projectivespace-carrier}
 
+\begin{theorem}[ProjectiveSpaceUp punctured carrier obligation]
+\label{thm:projectivespace-punctured-carrier-obligation}
+The $\ProjectiveSpaceUp$ carrier is the $\VecSpaceUp$ carrier of
+\autoref{def:vecspace-carrier} equipped with the $\FieldUp$ nonzero-vector
+guard supplied by \autoref{def:field-source-specification} and the certified
+scalar-action rows required by \autoref{def:vecspace-certificate-obligations}.
+A carried projective endpoint is therefore a vector-space row whose
+representative is guarded as nonzero over the field source, together with the
+ledger entries recording the scalar source, vector source, and scalar-action
+certificate used to read that row.
+\end{theorem}
+\leanchecked{BEDC.Derived.ProjectiveSpaceUp.ProjectiveSpacePuncturedCarrier\_obligation}
+\begin{proof}
+Start with the vector carrier row from \autoref{def:vecspace-carrier}. The
+certificate obligations in \autoref{def:vecspace-certificate-obligations}
+provide the scalar-action closure and congruence rows over the same scalar
+source.
+
+The field source specification in \autoref{def:field-source-specification}
+supplies the nonzero guard and the proof-indexed inverse operations available
+for guarded scalars. Attaching that guard to the vector representative removes
+the zero row from the visible projective carrier while leaving the underlying
+$\VecSpaceUp$ provenance unchanged.
+
+Thus the carrier predicate is exactly the punctured vector-space row together
+with the field and scalar-action certificate rows. No host quotient carrier or
+external projective-point object is introduced.
+\end{proof}
+\leanchecked{BEDC.Derived.ProjectiveSpaceUp.ProjectiveSpacePuncturedCarrier\_empty\_boundary}
+\leanchecked{BEDC.Derived.ProjectiveSpaceUp.ProjectiveSpaceSingletonPuncturedCarrier\_obligation}
+
+\begin{theorem}[ProjectiveSpaceUp scaling-orbit classifier obligation]
+\label{thm:projectivespace-scaling-orbit-classifier-obligation}
+Two carried $\ProjectiveSpaceUp$ rows classify exactly when a certified
+nonzero $\FieldUp$ scalar transports one guarded representative to the other
+by the $\VecSpaceUp$ scalar action. The classifier is reflexive by scalar
+one, symmetric by the proof-indexed inverse of the scaling scalar, and
+transitive by field multiplication together with scalar-action associativity.
+\end{theorem}
+\begin{proof}
+For reflexivity, use the scalar one row from the field source and the
+$\VecSpaceUp$ scalar unit law from
+\autoref{def:vecspace-certificate-obligations}. Acting by one leaves the
+guarded representative in the same vector classifier row.
+
+For symmetry, suppose a nonzero scalar transports representative $v$ to
+representative $w$. The field source supplies the proof-indexed inverse for
+that scalar, and the vector-space scalar-action rows identify inverse action
+as the return route from $w$ to $v$ inside the same carried surface.
+
+For transitivity, compose two certified nonzero scaling witnesses by field
+multiplication. The scalar-action associativity row in the vector-space
+certificate identifies the double action with action by the product scalar,
+so the resulting witness transports the first representative to the third.
+\end{proof}
+\leanchecked{BEDC.Derived.ProjectiveSpaceUp.ProjectiveSpaceSingletonScalingOrbitClassifier\_obligation}
+
+\begin{theorem}[ProjectiveSpaceUp ledger and exactness obligation]
+\label{thm:projectivespace-ledger-and-exactness-obligation}
+For $\ProjectiveSpaceUp$, representative choice, nonzero scalar witnesses,
+and scaling-chain provenance remain ledger data. The visible exactness
+predicate is exactly the scaling-orbit classifier on punctured
+$\VecSpaceUp$ rows: consumers may see the carrier of
+\autoref{thm:projectivespace-punctured-carrier-obligation} and the classifier
+of \autoref{thm:projectivespace-scaling-orbit-classifier-obligation}, but
+they cannot inspect a chosen representative or a chosen scaling chain as
+public carrier data.
+\end{theorem}
+\leanchecked{BEDC.Derived.ProjectiveSpaceUp.ProjectiveSpaceSingletonScalingOrbitClassifier\_ledger\_exactness\_obligation}
+\leanchecked{BEDC.Derived.ProjectiveSpaceUp.ProjectiveSpaceSingletonPuncturedCarrier\_action\_determinacy}
+\begin{proof}
+Project the certificate ledger into three hidden fields: the selected
+punctured representative, each nonzero scalar witness used to compare
+representatives, and the chain of scalar-action steps witnessing a composite
+comparison. These entries are consumed by the carrier and classifier rows but
+are not themselves part of the visible endpoint predicate.
+
+Exactness is then read at the boundary. Soundness says every visible
+classification comes from a certified nonzero scalar-action route between
+punctured vector rows. Completeness says every such certified route repacks as
+the displayed projective classifier.
+
+Hence the public surface exposes precisely punctured-carrier membership and
+scaling-orbit classification. All representative and route choices remain
+ledger provenance.
+\end{proof}
+
 \section{The certificate}
 \label{sec:projectivespace-certificate}
+
+\closureat{ProjectiveSpaceUp}{seedStr}
+\closureat{ProjectiveSpaceUp}{obligationStr}
+\closureat{ProjectiveSpaceUp}{scopedStr}[BEDC.Derived.ProjectiveSpaceUp.ProjectiveSpaceSingletonScalingOrbitClassifier\_ledger\_exactness\_obligation]
+\closureat{ProjectiveSpaceUp}{publicStr}[BEDC.Derived.ProjectiveSpaceUp.ProjectiveSpaceSingletonScalingOrbitClassifier\_ledger\_exactness\_obligation]
+\closureat{ProjectiveSpaceUp}{bridgedStr}[BEDC.Derived.ProjectiveSpaceUp.ProjectiveSpaceSingletonScalingOrbitClassifier\_ledger\_exactness\_obligation]
+\closureat{ProjectiveSpaceUp}{matureStr}[BEDC.Derived.ProjectiveSpaceUp.ProjectiveSpaceSingletonScalingOrbitClassifier\_ledger\_exactness\_obligation]
+
+\begin{closurestatus}{\ProjectiveSpaceUp}
+  \constructivestory{A projective point begins as a vector-space history accepted by $\VecSpaceUp$, then passes through the $\FieldUp$ nonzero guard so that the zero representative is excluded before any scaling comparison is considered. The carrier therefore accepts punctured vector rows equipped with scalar-source, vector-source, and scalar-action ledger entries, while a zero row or an unguarded vector representative never becomes a projective endpoint. Two accepted representatives name the same projective point when a certified nonzero scalar transports one to the other by the $\VecSpaceUp$ scalar action; scalar one gives reflexivity, the proof-indexed inverse gives symmetry, and field multiplication with scalar-action associativity gives transitivity. The source covered by the certificate is the punctured vector carrier, the pattern is the scaling-orbit presentation with nonzero scalar witnesses and action chains, and the ledger keeps representative choice, scalar witnesses, and scaling-chain provenance as evidence rather than as public carrier data. The five name-certificate obligations are supplied by an accepted punctured representative for nonemptiness, by the scaling classifier for reflexive, symmetric, and transitive comparison, and by scalar-action transport for closure of the punctured carrier under classified replacements. A history $h$ lies in the signature gap of a $\ProjectiveSpaceUp$ token $p$ when the source-domain accepts $h$ as a guarded vector representative, the signature relation pairs it with an answer representative and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, $h$ is a nonzero vector row in the same certified scaling orbit as the representative encoded by $p$. The paper bridge reads this surface as the ordinary punctured-vector modulo nonzero-scaling presentation and reads back through the same representative and scalar-action ledger; the chapter registers it under the name $\ProjectiveSpaceUp$, without closing full projective geometry or bridgeChecked verification.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public $\ProjectiveSpaceUp$ surface exports the punctured carrier, scaling-orbit classifier, ledger provenance, and exactness boundary from Theorems~\ref{thm:projectivespace-punctured-carrier-obligation}, \ref{thm:projectivespace-scaling-orbit-classifier-obligation}, and \ref{thm:projectivespace-ledger-and-exactness-obligation}.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ProjectiveSpaceUp.ProjectiveSpaceSingletonScalingOrbitClassifier\_ledger\_exactness\_obligation}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close full projective geometry or bridgeChecked verification.}
+  \upgradepath{The paper-side theory axis is at the top grade; bridgeChecked verification remains a separate verification-axis obligation.}
+\end{closurestatus}

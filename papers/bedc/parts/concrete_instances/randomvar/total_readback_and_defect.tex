@@ -1,0 +1,440 @@
+\begin{definition}[Total-readback certificate for a carried RandomVarUp]
+\label{def:randomvar-total-readback-certificate}
+Let $S,T$ be BEDC event interfaces with event carriers $\mathcal E_S,\mathcal E_T$, event classifiers
+$$
+A\simeq_S A',\qquad B\simeq_T B',
+$$
+measurability predicates $\mathsf{Meas}_S,\mathsf{Meas}_T$, and total events
+$$
+\Omega_S\in\mathcal E_S,\qquad \Omega_T\in\mathcal E_T.
+$$
+A carried $\RandomVarUp$ map $X:S\to T$ is said to carry a total-readback certificate if it is equipped with a BEDC preimage readback relation
+$$
+\mathsf{Pre}_X(B,A)
+\qquad
+(B\in\mathcal E_T,\ A\in\mathcal E_S)
+$$
+and a chosen readback endpoint $\operatorname{pre}_X(B)\in\mathcal E_S$ satisfying
+$$
+\mathsf{Pre}_X(B,\operatorname{pre}_X(B))
+$$
+for each target event $B$, together with the following four clauses:
+$$
+\begin{aligned}
+&\text{\emph{target-total measurability:}}
+&&\mathsf{Meas}_T(\Omega_T),\\
+&\text{\emph{measurable-preimage readback:}}
+&&\mathsf{Meas}_T(B)\wedge \mathsf{Pre}_X(B,A)\Longrightarrow \mathsf{Meas}_S(A),\\
+&\text{\emph{classifier-determinacy of readback:}}
+&&B\simeq_T C,\ \mathsf{Pre}_X(B,A),\ \mathsf{Pre}_X(C,A')
+   \Longrightarrow A\simeq_S A',\\
+&\text{\emph{carried-total bridge:}}
+&&\mathsf{Pre}_X(\Omega_T,\Omega_S).
+\end{aligned}
+$$
+The object $\operatorname{pre}_X(\Omega_T)$ is the BEDC source endpoint denoted informally by
+$$
+X^{-1}(\Omega_T).
+$$
+\end{definition}
+\leanstmt{BEDC.Derived.RandomVarUp.RandomVarTotalReadbackCertificate}
+
+\begin{theorem}[RandomVar total-event preimage exactness]
+\label{thm:randomvar-total-event-preimage-exactness}
+Under the total-readback certificate of \autoref{def:randomvar-total-readback-certificate}, the chosen total-target preimage is source-measurable and source-event-classifier equal to the source total event:
+$$
+\mathsf{Meas}_S\bigl(\operatorname{pre}_X(\Omega_T)\bigr)
+\quad\text{and}\quad
+\operatorname{pre}_X(\Omega_T)\simeq_S \Omega_S.
+$$
+\end{theorem}
+\begin{proof}
+The chosen readback clause gives
+$$
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)).
+$$
+Since $\mathsf{Meas}_T(\Omega_T)$, measurable-preimage readback yields
+$$
+\mathsf{Meas}_S\bigl(\operatorname{pre}_X(\Omega_T)\bigr).
+$$
+For classifier exactness, apply classifier-determinacy to the reflexive target-classifier witness
+$$
+\Omega_T\simeq_T\Omega_T,
+$$
+the chosen readback
+$$
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)),
+$$
+and the carried-total bridge
+$$
+\mathsf{Pre}_X(\Omega_T,\Omega_S).
+$$
+The conclusion is precisely
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+\end{proof}
+\leanchecked{BEDC.Derived.RandomVarUp.RandomVarTotalReadbackCertificate\_total\_event\_preimage\_exactness}
+
+\begin{theorem}[Terminal readback uniqueness over the target total event]
+\label{thm:randomvar-terminal-readback-uniqueness-total-event}
+Assume the total-readback certificate of \autoref{def:randomvar-total-readback-certificate}. If $A\in\mathcal E_S$ is any source event satisfying
+$$
+\mathsf{Pre}_X(\Omega_T,A),
+$$
+then
+$$
+A\simeq_S\Omega_S.
+$$
+Consequently, if $A,A'$ are two source events with
+$$
+\mathsf{Pre}_X(\Omega_T,A),\qquad \mathsf{Pre}_X(\Omega_T,A'),
+$$
+then
+$$
+A\simeq_S A'.
+$$
+\end{theorem}
+\begin{proof}
+Apply classifier-determinacy to
+$$
+\Omega_T\simeq_T\Omega_T,
+\qquad
+\mathsf{Pre}_X(\Omega_T,A),
+\qquad
+\mathsf{Pre}_X(\Omega_T,\Omega_S).
+$$
+This gives $A\simeq_S\Omega_S$. The same argument gives $A'\simeq_S\Omega_S$. By symmetry and transitivity of the source event-classifier,
+$$
+A\simeq_S\Omega_S\simeq_S A',
+$$
+hence $A\simeq_SA'$.
+\end{proof}
+\leanchecked{BEDC.Derived.RandomVarUp.RandomVarTotalReadbackCertificate\_terminal\_readback\_uniqueness}
+
+\begin{proposition}[Exactness and the carried-total bridge under source-endpoint closure]
+\label{prop:randomvar-total-exactness-carried-bridge-equivalence}
+Assume the data of \autoref{def:randomvar-total-readback-certificate} except possibly the carried-total bridge. Suppose moreover that the readback relation is closed under source-event classifier replacement:
+$$
+\mathsf{Pre}_X(B,A)\wedge A\simeq_S A'
+\Longrightarrow
+\mathsf{Pre}_X(B,A').
+$$
+Then the following are equivalent:
+$$
+\mathsf{Pre}_X(\Omega_T,\Omega_S)
+\quad\Longleftrightarrow\quad
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+\end{proposition}
+\leanchecked{BEDC.Derived.RandomVarUp.RandomVarTotalReadbackCertificate\_carried\_bridge\_chosen\_preimage\_exactness\_iff}
+\begin{proof}
+The forward implication is the classifier part of \autoref{thm:randomvar-total-event-preimage-exactness}.
+Conversely, suppose
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+The chosen readback clause supplies
+$$
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)).
+$$
+By source-endpoint closure of $\mathsf{Pre}_X$ along the displayed classifier witness, with source-event transport read through \autoref{thm:semantic-namecert-pattern-ledger-transport}, this readback transports to
+$$
+\mathsf{Pre}_X(\Omega_T,\Omega_S).
+$$
+Thus the carried-total bridge is not an additional hidden axiom once the chosen total preimage is already classifier-exact and readback is closed under source-classifier replacement.
+\end{proof}
+
+\begin{theorem}[Minimal obstruction to total-event exactness]
+\label{thm:randomvar-minimal-obstruction-total-event-exactness}
+Assume $X:S\to T$ has chosen readbacks and classifier-determinacy of readback. If
+$$
+\mathsf{Meas}_T(\Omega_T),\qquad
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)),\qquad
+\mathsf{Pre}_X(\Omega_T,\Omega_S)
+$$
+all hold, then
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+Equivalently, any failure of
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S
+$$
+forces failure of at least one of the following three certificate components:
+$$
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)),\qquad
+\mathsf{Pre}_X(\Omega_T,\Omega_S),\qquad
+\text{classifier-determinacy of }\mathsf{Pre}_X.
+$$
+If in addition measurable-preimage readback is available, then failure of
+$$
+\mathsf{Meas}_S\bigl(\operatorname{pre}_X(\Omega_T)\bigr)
+$$
+forces failure of at least one of
+$$
+\mathsf{Meas}_T(\Omega_T),\qquad
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)),\qquad
+\text{measurable-preimage readback}.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.RandomVarUp.RandomVarTotalReadbackCertificate\_minimal\_obstruction}
+\begin{proof}
+The first assertion is exactly the classifier-determinacy argument of \autoref{thm:randomvar-total-event-preimage-exactness}, stripped to its minimal hypotheses. Its contrapositive is the stated obstruction claim.
+For the measurability assertion, if
+$$
+\mathsf{Meas}_T(\Omega_T)
+\quad\text{and}\quad
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T))
+$$
+hold, measurable-preimage readback gives
+$$
+\mathsf{Meas}_S\bigl(\operatorname{pre}_X(\Omega_T)\bigr).
+$$
+Therefore failure of this conclusion forces failure of one of the three displayed premises.
+\end{proof}
+
+\begin{theorem}[Composition preserves total-event preimage exactness with a composite ledger]
+\label{thm:randomvar-composition-preserves-total-event-preimage-exactness}
+Let
+$$
+X:S\to T,
+\qquad
+Y:T\to U
+$$
+be carried $\RandomVarUp$ maps with preimage readback relations
+$$
+\mathsf{Pre}_X,
+\qquad
+\mathsf{Pre}_Y.
+$$
+Define the composite readback ledger by
+$$
+\mathsf{Pre}_{Y\circ X}(C,A)
+\quad:\Longleftrightarrow\quad
+\exists B\in\mathcal E_T\
+\bigl(\mathsf{Pre}_Y(C,B)\wedge \mathsf{Pre}_X(B,A)\bigr).
+$$
+Assume:
+$$
+\mathsf{Pre}_Y(\Omega_U,\Omega_T),
+\qquad
+\mathsf{Pre}_X(\Omega_T,\Omega_S),
+$$
+both component readbacks satisfy classifier-determinacy, and both satisfy measurable-preimage readback. If
+$$
+\mathsf{Meas}_U(\Omega_U),
+$$
+then
+$$
+\mathsf{Meas}_S\bigl(\operatorname{pre}_{Y\circ X}(\Omega_U)\bigr)
+\quad\text{and}\quad
+\operatorname{pre}_{Y\circ X}(\Omega_U)\simeq_S\Omega_S.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.RandomVarUp.RandomVarTotalPreimage\_composition\_exactness}
+\leanvariant{BEDC.Derived.RandomVarUp.RandomVarTotalReadbackCertificate\_composition\_total\_event\_preimage\_exactness}
+\begin{proof}
+Let
+$$
+A:=\operatorname{pre}_{Y\circ X}(\Omega_U).
+$$
+By chosen composite readback,
+$$
+\mathsf{Pre}_{Y\circ X}(\Omega_U,A).
+$$
+Hence there exists $B\in\mathcal E_T$ such that
+$$
+\mathsf{Pre}_Y(\Omega_U,B),
+\qquad
+\mathsf{Pre}_X(B,A).
+$$
+Since $\mathsf{Meas}_U(\Omega_U)$, measurable-preimage readback for $Y$ gives
+$$
+\mathsf{Meas}_T(B).
+$$
+Then measurable-preimage readback for $X$ gives
+$$
+\mathsf{Meas}_S(A).
+$$
+It remains to prove classifier exactness. The displayed carried-total bridges produce a composite total bridge:
+$$
+\mathsf{Pre}_{Y\circ X}(\Omega_U,\Omega_S)
+$$
+with intermediate witness $B=\Omega_T$.
+We first record composite classifier-determinacy. Suppose
+$$
+\mathsf{Pre}_{Y\circ X}(C,A_1),
+\qquad
+\mathsf{Pre}_{Y\circ X}(C,A_2).
+$$
+Choose intermediate witnesses $B_1,B_2$ with
+$$
+\mathsf{Pre}_Y(C,B_1),\quad \mathsf{Pre}_X(B_1,A_1),
+$$
+$$
+\mathsf{Pre}_Y(C,B_2),\quad \mathsf{Pre}_X(B_2,A_2).
+$$
+Classifier-determinacy for $Y$, applied to $C\simeq_U C$, gives
+$$
+B_1\simeq_T B_2.
+$$
+Classifier-determinacy for $X$, applied to this target-event classifier witness and the two $X$-readbacks, gives
+$$
+A_1\simeq_S A_2.
+$$
+Thus the composite readback is classifier-deterministic.
+Apply this composite classifier-determinacy to
+$$
+\mathsf{Pre}_{Y\circ X}(\Omega_U,A)
+\quad\text{and}\quad
+\mathsf{Pre}_{Y\circ X}(\Omega_U,\Omega_S).
+$$
+The result is
+$$
+A\simeq_S\Omega_S,
+$$
+that is,
+$$
+\operatorname{pre}_{Y\circ X}(\Omega_U)\simeq_S\Omega_S.
+$$
+\end{proof}
+
+\begin{definition}[Total-defect event of a RandomVarUp]
+\label{def:randomvar-total-defect-event}
+Assume the source event interface carries BEDC Boolean event operations
+$$
+\bot_S,
+\qquad
+A\mapsto A^{\complement},
+\qquad
+A\wedge A'
+$$
+with classifier-stable Boolean exactness. For a carried $\RandomVarUp$ map $X:S\to T$, define the total-defect event
+$$
+\mathfrak D_X
+:=
+\Omega_S\wedge\bigl(\operatorname{pre}_X(\Omega_T)\bigr)^{\complement}.
+$$
+It is the source-side ledger of histories for which the target-total readback fails to cover the source total event.
+\end{definition}
+\leandef{BEDC.Derived.RandomVarUp.RandomVarTotalDefectEvent}
+
+\begin{theorem}[Total-event exactness is equivalent to vanishing total defect]
+\label{thm:randomvar-total-event-exactness-vanishing-total-defect}
+Assume the source Boolean event interface satisfies the classifier-exact total-complement law
+$$
+A\simeq_S\Omega_S
+\quad\Longleftrightarrow\quad
+\Omega_S\wedge A^{\complement}\simeq_S\bot_S
+$$
+for every source-measurable event $A$. If
+$$
+\mathsf{Meas}_S\bigl(\operatorname{pre}_X(\Omega_T)\bigr),
+$$
+then
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S
+\quad\Longleftrightarrow\quad
+\mathfrak D_X\simeq_S\bot_S.
+$$
+In particular, under the hypotheses of \autoref{thm:randomvar-total-event-preimage-exactness},
+$$
+\mathfrak D_X\simeq_S\bot_S.
+$$
+\end{theorem}
+\leanvariant{BEDC.Derived.RandomVarUp.RandomVarTotalDefectEvent\_vanishing\_total\_exactness\_iff}
+\begin{proof}
+Put
+$$
+A=\operatorname{pre}_X(\Omega_T).
+$$
+By definition,
+$$
+\mathfrak D_X=\Omega_S\wedge A^{\complement}.
+$$
+Since $A$ is source-measurable, the classifier-exact total-complement law applies and gives
+$$
+A\simeq_S\Omega_S
+\quad\Longleftrightarrow\quad
+\Omega_S\wedge A^{\complement}\simeq_S\bot_S.
+$$
+Substituting the definition of $\mathfrak D_X$ gives the asserted equivalence. Under \autoref{thm:randomvar-total-event-preimage-exactness}, $A\simeq_S\Omega_S$; hence $\mathfrak D_X\simeq_S\bot_S$.
+\end{proof}
+
+\begin{theorem}[Total-target reflection criterion]
+\label{thm:randomvar-total-target-reflection-criterion}
+Let $X:S\to T$ satisfy the total-readback certificate of \autoref{def:randomvar-total-readback-certificate}. Suppose $X$ is target-total reflective, meaning that for every target-measurable event $B$,
+$$
+\operatorname{pre}_X(B)\simeq_S\Omega_S
+\Longrightarrow
+B\simeq_T\Omega_T.
+$$
+Then, for every target-measurable $B$,
+$$
+\operatorname{pre}_X(B)\simeq_S\Omega_S
+\quad\Longleftrightarrow\quad
+B\simeq_T\Omega_T.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.RandomVarUp.RandomVarTotalReadbackCertificate\_total\_target\_reflection\_criterion}
+\begin{proof}
+The forward implication is exactly target-total reflectivity.
+Conversely, assume $B\simeq_T\Omega_T$. The chosen readbacks provide
+$$
+\mathsf{Pre}_X(B,\operatorname{pre}_X(B)),
+\qquad
+\mathsf{Pre}_X(\Omega_T,\operatorname{pre}_X(\Omega_T)).
+$$
+Classifier-determinacy of readback applied to $B\simeq_T\Omega_T$ yields
+$$
+\operatorname{pre}_X(B)\simeq_S\operatorname{pre}_X(\Omega_T).
+$$
+By \autoref{thm:randomvar-total-event-preimage-exactness},
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+Transitivity of $\simeq_S$ gives
+$$
+\operatorname{pre}_X(B)\simeq_S\Omega_S.
+$$
+\end{proof}
+
+\begin{theorem}[Source coverage induced by total-event exactness]
+\label{thm:randomvar-source-coverage-induced-by-total-event-exactness}
+Let $\Vdash_S(h,A)$ denote source-event incidence of a carried source history $h$ in a source event $A$. Assume incidence respects the source event classifier:
+$$
+A\simeq_S A'\ \wedge\ \Vdash_S(h,A)
+\Longrightarrow
+\Vdash_S(h,A'),
+$$
+and assume the source total event covers every carried source history:
+$$
+\mathsf{Src}_S(h)\Longrightarrow \Vdash_S(h,\Omega_S).
+$$
+Under the total-readback certificate of \autoref{def:randomvar-total-readback-certificate},
+$$
+\mathsf{Src}_S(h)
+\Longrightarrow
+\Vdash_S\bigl(h,\operatorname{pre}_X(\Omega_T)\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.RandomVarUp.RandomVarTotalReadbackCertificate\_source\_coverage}
+\begin{proof}
+Let $\mathsf{Src}_S(h)$. By total coverage,
+$$
+\Vdash_S(h,\Omega_S).
+$$
+By \autoref{thm:randomvar-total-event-preimage-exactness},
+$$
+\operatorname{pre}_X(\Omega_T)\simeq_S\Omega_S.
+$$
+Symmetry gives
+$$
+\Omega_S\simeq_S\operatorname{pre}_X(\Omega_T).
+$$
+Incidence transport along this classifier witness, read through \autoref{thm:semantic-namecert-pattern-ledger-transport}, yields
+$$
+\Vdash_S\bigl(h,\operatorname{pre}_X(\Omega_T)\bigr).
+$$
+\end{proof}

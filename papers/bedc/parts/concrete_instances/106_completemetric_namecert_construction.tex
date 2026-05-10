@@ -279,16 +279,6 @@ zero-distance exactness field of the separated metric carrier therefore returns
 $\ell_0\sim_X\ell_1$.
 \end{proof}
 
-\begin{closurestatus}{\CompleteMetricUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The complete-metric certificate is closed over the displayed MetricSpaceUp carrier, StreamNameUp regular-Cauchy observations, explicit modulus and limit histories, MetricDistanceWitness convergence rows, and RatUp comparison ledgers.}
-  \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_name\_certificate}
-  \bridgestatus{none}
-  \notclaimed{General metric completion, Banach-space completion, RealUp completeness, compactness, or an external standard bridge.}
-  \upgradepath{$\publicClosure$ requires a public complete-metric interface with limit-selector readback, separated-limit exactness, operation descent, and no-hidden-leakage for convergence ledgers.}
-\end{closurestatus}
-
 \begin{theorem}[Complete metric limit witness tolerance weakening]
 \label{thm:completemetric-limit-witness-tolerance-weakening}
 Let $X$ be a certified $\MetricSpaceUp$ carrier over $\mathsf{BHist}$ whose
@@ -366,3 +356,89 @@ family $L^\Theta$ is a complete metric limit witness for the same stream,
 modulus, and limit.
 \end{proof}
 \leanchecked{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_tolerance\_weakening}
+
+\begin{theorem}[CompleteMetricUp limit-witness standard bridge]
+\label{thm:completemetric-limit-witness-standard-bridge}
+The public $\CompleteMetricUp$ limit-witness interface of
+\autoref{def:completemetric-limit-witness} and
+\autoref{thm:completemetric-limit-witness-namecert-target} admits a
+conservative standard interpretation as explicit Bishop complete-metric
+convergence data over the same $\mathsf{BHist}$ carrier. Under this bridge, a
+BEDC row
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L)
+$$
+is read as the displayed datum consisting of the stream $s$, modulus $\mu$,
+limit $\ell$, the convergence rows
+$$
+\mathsf{MetricDistanceWitness}(s(n),\ell,d_{n,\varepsilon}),
+$$
+positive denominator and budget rows for the $\RatUp$ tolerances, tolerance
+weakening rows, and separated-limit uniqueness. Conversely, any displayed
+standard convergence datum with exactly these BEDC rows and no additional
+host primitive repacks as
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L).
+$$
+The bridge asserts only this bidirectional reading of the displayed convergence
+rows. It does not assert RealUp completeness, Banach completion, compactness,
+operation descent, host-level quotient equality, or choice.
+\end{theorem}
+\leanchecked{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_standard\_bridge\_row\_package}
+\begin{proof}
+For the forward reading, start with the public row
+$\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L)$. The NameCert target
+\autoref{thm:completemetric-limit-witness-namecert-target} identifies the
+carrier, classifier, and ledger policy: the stream observations, modulus
+history, carried limit, threshold histories, distance histories, and $\RatUp$
+comparison rows are exactly the public fields of the witness.
+
+Unpacking \autoref{def:completemetric-limit-witness} therefore gives the
+Bishop-style convergence data without changing carrier. For each positive
+tolerance history $\varepsilon$, the package supplies a threshold displayed by
+$\mu$; for each late observation it supplies the metric-distance row from
+$s(n)$ to $\ell$ and the rational budget row
+$d_{n,\varepsilon}\le_{\RatUp}\varepsilon$. The positive-denominator and budget
+readbacks are part of the same visible $\RatUp$ ledger surface.
+
+The standard bridge fields are conservative because their stability and
+comparison behavior are already supplied inside the public interface.
+\autoref{thm:completemetric-limit-witness-stability} transports the whole
+package along $\hsame$-compatible stream, modulus, limit, threshold, distance,
+and rational comparison rows.
+\autoref{thm:completemetric-limit-witness-tolerance-weakening} supplies the
+tolerance-weakening component by repacking source tolerance branches through
+displayed $\RatUp$ comparison rows. For separated carriers,
+\autoref{thm:completemetric-limit-witness-uniqueness} gives the uniqueness of
+the displayed limit in the point classifier.
+
+For the reverse reading, assume a displayed Bishop complete-metric convergence
+datum over the same $\mathsf{BHist}$ carrier whose entries are precisely the
+stream $s$, modulus $\mu$, limit $\ell$, positive tolerance rows, thresholds,
+late-observation metric-distance rows, and $\RatUp$ budget rows just listed.
+Place those rows in the five fields of
+\autoref{def:completemetric-limit-witness}: stream, modulus, carried limit,
+tolerance thresholds, and late-observation distance comparisons. Since no
+extra host equality, quotient, compactness, completion, or selection principle
+is used, the repacked object is exactly
+$\mathsf{CompleteMetricLimitWitness}(X,s,\mu,\ell,L)$.
+
+Thus encode and decode are identity-on-rows readings of the same finite BEDC
+ledger surface. Their round trips are immediate row repackings, theorem
+preservation is limited to stability, uniqueness, and tolerance weakening as
+cited above, and the no-host-leak condition holds at paper level because the
+bridge introduces no public carrier or theorem field beyond those BEDC rows.
+\end{proof}
+\leanchecked{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_standard\_bridge}
+
+\closureat{CompleteMetricUp}{matureStr}[BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_name\_certificate]
+\begin{closurestatus}{\CompleteMetricUp}
+  \constructivestory{A complete metric witness is generated over an already certified $\MetricSpaceUp$ carrier by displaying a regular $\StreamNameUp$ Cauchy stream, a modulus history, a carried limit history, and for every positive $\RatUp$ tolerance a threshold with late-observation distance and bound ledgers. The carrier accepts exactly those packages whose observations stay in the metric carrier and whose late observations have visible $\mathsf{MetricDistanceWitness}$ rows to the proposed limit below the requested tolerance; a stream without its modulus, carried limit, threshold row, distance row, or rational comparison is not part of the surface. The classifier is componentwise transport of the stream observations, modulus, limit, thresholds, distances, and rational comparisons by $\hsame$ and the $\RatUp$ classifier, so two witnesses are identified only when the displayed convergence ledger can be repacked field by field. The source is the metric carrier with its stream observations, the pattern is explicit Cauchy convergence to a named limit, and the ledger keeps the observation rows, modulus, thresholds, late distances, and tolerance budgets visible rather than forming a completion quotient. The five name-certificate obligations are supplied by the singleton carrier at $\emp$ for inhabitation, by the equivalence laws of history-equality and rational comparison for the classifier, and by limit-witness stability for closure under classified replacements. A package $h$ lies in the signature gap of a $\CompleteMetricUp$ token $p$ when the source-domain accepts its regular stream and limit witness, the signature relation pairs it with an answer convergence package and evidence ledger, and the token-introduction relation names that answer as $p$; concretely, $p$ records the same stream, modulus, limit, and late-distance bounds. The standard bridge reads this finite ledger as Bishop-style complete-metric convergence data and reads it back without adding choice, host completion, quotient equality, compactness, or Banach structure; the chapter registers the construction under the name $\CompleteMetricUp$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature CompleteMetricUp paper-side boundary is bound to the limit-witness NameCert target, the singleton complete metric instance, the singleton limit-selector readback, separated-limit uniqueness, tolerance weakening, StreamNameUp observations, MetricDistanceWitness convergence rows, RatUp comparison ledgers, and the displayed standard bridge for the same finite ledger surface.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.CompleteMetricUp.CompleteMetricLimitWitness\_name\_certificate}
+  \bridgestatus{paperBridge}
+  \notclaimed{RealUp completeness, Banach completion, compactness, operation descent, host-level quotient equality, choice, or bridgeChecked verification.}
+  \upgradepath{Only a stronger verification grade requires bridgeChecked audit verification for the paper bridge; no further paper closure grade is asserted here.}
+\end{closurestatus}

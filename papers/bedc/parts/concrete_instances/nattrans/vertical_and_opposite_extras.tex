@@ -142,21 +142,21 @@ visible continuation ledger.
 \begin{theorem}[NatTrans vertical composition naturality]
 \label{thm:nattrans-vertical-composition-naturality}
 Let \(F\), \(G\), and \(H\) be certified \(\FunctorUp\) carriers with the same certified source category and target category. Let \(\alpha:F\Rightarrow G\) and \(\beta:G\Rightarrow H\) be admitted \(\NatTransUp\) carriers. For every source morphism \(f:C\to C'\), the vertical component family \((\beta\circ\alpha)_X=\beta_X\circ\alpha_X\) satisfies the target morphism-classifier naturality square
-\[
+$$
   H(f)\circ(\beta\circ\alpha)_C
   \sim
   (\beta\circ\alpha)_{C'}\circ F(f).
-\]
+$$
 \end{theorem}
 \begin{proof}
 The shared source and target categories are part of the \(\NatTransUp\) source specification in \autoref{def:nattrans-source-specification}. By the functor carrier definition in \autoref{def:functor-carrier}, the symbols \(F(f)\), \(G(f)\), and \(H(f)\) denote the corresponding target-category morphism images. By \autoref{def:nattrans-carrier}, each admitted natural transformation is an object-indexed component family with a naturality witness for every source morphism.
 
 The \(\NatTransUp\) stability certificate in \autoref{def:nattrans-stability-certificate} includes vertical composition closure. Applying that field to \(\alpha\) and \(\beta\) gives an admitted \(\NatTransUp\) carrier from \(F\) to \(H\) whose component at \(X\) is \(\beta_X\circ\alpha_X\). The same stability certificate lists naturality square validity for every source morphism, so applying that naturality field to this composite carrier and to \(f:C\to C'\) gives
-\[
+$$
   H(f)\circ(\beta\circ\alpha)_C
   \sim
   (\beta\circ\alpha)_{C'}\circ F(f).
-\]
+$$
 This is the displayed classifier witness for the composite component family.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentFamilyCarrier\_vert\_comp\_closed}
@@ -305,6 +305,7 @@ F_1(u)\circ_{\mathcal D}(\mathsf{id}_F)_X
 (\mathsf{id}_F)_Y\circ_{\mathcal D}F_1(u).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentFamilyCarrier\_identity\_unit\_laws}
 \begin{proof}
 The source row of \autoref{def:nattrans-source-specification} is the pair $(F,F)$, and the two entries have the same certified source $\mathcal C$ and target $\mathcal D$ by the displayed $\FunctorUp$ certificate for $F$. The pattern row of \autoref{def:nattrans-pattern-specification} is component-family formation over objects of $\mathcal C$.
 
@@ -710,6 +711,7 @@ K_1(\beta_X\circ_{\mathcal D}\alpha_X)
 K_1(\beta_X)\circ_{\mathcal E}K_1(\alpha_X).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_prefix\_whiskering\_vert\_comp\_public\_readback}
 \begin{proof}
 Apply \autoref{thm:functor-composite-preservation-witnesses} to the pairs $(F,K)$, $(G,K)$, and $(H,K)$. This reads $K\circ F$, $K\circ G$, and $K\circ H$ as certified $\FunctorUp$ carriers from $\mathcal C$ to $\mathcal E$, with object maps $K_0(F_0(-))$, $K_0(G_0(-))$, and $K_0(H_0(-))$ and morphism maps $K_1(F_1(-))$, $K_1(G_1(-))$, and $K_1(H_1(-))$.
 
@@ -789,12 +791,3 @@ $$
 
 The carrier fields of \autoref{def:nattrans-carrier} make $\alpha_{L_0(X)}$ and $\beta_{L_0(X)}$ composable displayed morphisms in $\mathcal D$, and the category stability field of \autoref{def:category-stability-certificate} gives reflexivity of the morphism classifier on their displayed composite. The componentwise classifier specification of \autoref{def:nattrans-classifier-specification} therefore classifies the two prewhiskering routes together at every object $X$.
 \end{proof}
-\begin{closurestatus}{\NatTransUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The prefix natural-transformation component classifier semantic certificate, with vertical composition, opposite component transport, whiskering rows, and componentwise classifier exactness.}
-  \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_semanticNameCert}
-  \bridgestatus{none}
-  \notclaimed{General natural-transformation theory: arbitrary component families, natural isomorphisms, functor-category laws, horizontal/vertical interchange as a complete package, adjunction units, or counits.}
-  \upgradepath{$\publicClosure$ requires public component-family data, naturality readback, identity, vertical and horizontal composition laws, whiskering exactness, and no-hidden-leakage.}
-\end{closurestatus}

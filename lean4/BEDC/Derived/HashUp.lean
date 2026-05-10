@@ -10,6 +10,19 @@ open BEDC.FKernel.Cont
 def HashEvalTranscript (MsgCarrier DigCarrier : BHist -> Prop) (m d row : BHist) : Prop :=
   MsgCarrier m ∧ DigCarrier d ∧ Cont m d row
 
+theorem HashEvalTranscript_determinacy {MsgCarrier DigCarrier : BHist -> Prop}
+    {m d d' row row' : BHist} :
+    HashEvalTranscript MsgCarrier DigCarrier m d row ->
+      HashEvalTranscript MsgCarrier DigCarrier m d' row' ->
+        hsame row row' -> Cont m d row ∧ Cont m d' row' ∧ hsame d d' := by
+  intro transcript transcript' sameRows
+  have row'AtRow : Cont m d' row :=
+    cont_result_hsame_transport transcript'.right.right sameRows.symm
+  have sameDigest : hsame d d' :=
+    cont_left_cancel transcript.right.right row'AtRow
+  exact And.intro transcript.right.right
+    (And.intro transcript'.right.right sameDigest)
+
 def HashSecondPreimageSuccess
     (HashEval : BHist -> BHist -> Prop)
     (MsgClassifier DigClassifier : BHist -> BHist -> Prop)
@@ -93,6 +106,19 @@ theorem HashCollisionSuccess_symmetric
               (And.intro transcript.left
                 (And.intro msgDistinct digestSymm))))
 
+theorem HashCollisionFree_symmetric
+    {HashEval : BHist -> BHist -> Prop}
+    {MsgCarrier DigCarrier : BHist -> Prop}
+    {MsgClassifier DigClassifier : BHist -> BHist -> Prop}
+    (msgCert : SemanticNameCert MsgCarrier MsgCarrier MsgCarrier MsgClassifier)
+    (digestCert : SemanticNameCert DigCarrier DigCarrier DigCarrier DigClassifier)
+    {x x' : BHist} :
+    HashCollisionFree HashEval MsgClassifier DigClassifier x x' ->
+      HashCollisionFree HashEval MsgClassifier DigClassifier x' x := by
+  intro collisionFree reversedSuccess
+  exact collisionFree
+    (HashCollisionSuccess_symmetric msgCert digestCert reversedSuccess)
+
 theorem HashCollisionSuccess_induces_reversed_second_preimage
     {HashEval : BHist -> BHist -> Prop}
     {MsgCarrier : BHist -> Prop}
@@ -115,6 +141,26 @@ theorem HashCollisionSuccess_induces_reversed_second_preimage
                 (And.intro transcript.left
                   (And.intro msgDistinct transcript.right.right.right))))
 
+theorem HashCollisionSuccess_induces_same_direction_second_preimage
+    {HashEval : BHist -> BHist -> Prop}
+    {DigCarrier : BHist -> Prop}
+    {MsgClassifier DigClassifier : BHist -> BHist -> Prop}
+    (digestCert : SemanticNameCert DigCarrier DigCarrier DigCarrier DigClassifier)
+    {x x' : BHist} :
+    HashCollisionSuccess HashEval MsgClassifier DigClassifier x x' ->
+      HashSecondPreimageSuccess HashEval MsgClassifier DigClassifier x x' := by
+  intro success
+  cases success with
+  | intro d successD =>
+      cases successD with
+      | intro d' transcript =>
+          exact Exists.intro d
+            (Exists.intro d'
+              (And.intro transcript.left
+                (And.intro transcript.right.left
+                  (And.intro transcript.right.right.left
+                    (digestCert.core.equiv_symm transcript.right.right.right)))))
+
 theorem HashCollisionTranscript_symmetric
     {HashEval : BHist -> BHist -> Prop}
     {MsgCarrier DigCarrier : BHist -> Prop}
@@ -133,5 +179,33 @@ theorem HashCollisionTranscript_symmetric
   exact And.intro evalRight
     (And.intro evalLeft
       (And.intro msgDistinctSymm (digestCert.core.equiv_symm digestSame)))
+
+theorem HashCollisionSuccess_irreflexive_on_message
+    {HashEval : BHist -> BHist -> Prop}
+    {MsgCarrier : BHist -> Prop}
+    {MsgClassifier DigClassifier : BHist -> BHist -> Prop}
+    (msgCert : SemanticNameCert MsgCarrier MsgCarrier MsgCarrier MsgClassifier)
+    {x : BHist} :
+    MsgCarrier x -> HashCollisionSuccess HashEval MsgClassifier DigClassifier x x -> False := by
+  intro msgCarrier success
+  cases success with
+  | intro d successD =>
+      cases successD with
+      | intro d' transcript =>
+          exact transcript.right.right.left (msgCert.core.equiv_refl msgCarrier)
+
+theorem HashSecondPreimageSuccess_irreflexive_on_message
+    {HashEval : BHist -> BHist -> Prop}
+    {MsgCarrier : BHist -> Prop}
+    {MsgClassifier DigClassifier : BHist -> BHist -> Prop}
+    (msgCert : SemanticNameCert MsgCarrier MsgCarrier MsgCarrier MsgClassifier)
+    {x : BHist} :
+    MsgCarrier x -> HashSecondPreimageSuccess HashEval MsgClassifier DigClassifier x x -> False := by
+  intro msgCarrier success
+  cases success with
+  | intro d successD =>
+      cases successD with
+      | intro d' transcript =>
+          exact transcript.right.right.left (msgCert.core.equiv_refl msgCarrier)
 
 end BEDC.Derived.HashUp

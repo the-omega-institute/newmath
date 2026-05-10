@@ -2,12 +2,14 @@ import BEDC.Derived.CategoryUp
 import BEDC.Derived.GroupUp
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.AbelianCatUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.CategoryUp
 open BEDC.Derived.GroupUp
@@ -337,5 +339,153 @@ theorem AbelianCatZeroBiproductKernelSurface_zero_object_boundary
     unary_transport unary_empty (hsame_symm S.add_carrier)
   exact And.intro S.zero_hom
     (And.intro zeroUnary (And.intro S.add_carrier (And.intro addUnary S.kernel_row)))
+
+theorem AbelianCatZeroBiproductKernelSurface_additive_hom_boundary
+    (S : AbelianCatZeroBiproductKernelSurface) {zeroAdd addFactor : BHist} :
+    Cont S.zero S.add zeroAdd ->
+      Cont zeroAdd S.cokernel addFactor ->
+        CategoryHomCarrier S.source S.target S.zero ∧ GroupSingletonCarrier S.add ∧
+          UnaryHistory S.zero ∧ UnaryHistory S.add ∧ UnaryHistory zeroAdd ∧
+            Cont S.zero S.add zeroAdd ∧ hsame zeroAdd S.kernel ∧
+              Cont zeroAdd S.cokernel S.factor ∧ hsame addFactor S.factor := by
+  intro zeroAddRow addFactorRow
+  have boundary := AbelianCatZeroBiproductKernelSurface_zero_object_boundary S
+  have zeroUnary : UnaryHistory S.zero := boundary.right.left
+  have addUnary : UnaryHistory S.add := boundary.right.right.right.left
+  have zeroAddUnary : UnaryHistory zeroAdd :=
+    unary_cont_closed zeroUnary addUnary zeroAddRow
+  have zeroAddKernel : hsame zeroAdd S.kernel :=
+    cont_deterministic zeroAddRow S.kernel_row
+  have transportedFactor : Cont zeroAdd S.cokernel S.factor := by
+    cases zeroAddKernel
+    exact S.factor_row
+  have addFactorSame : hsame addFactor S.factor :=
+    cont_deterministic addFactorRow transportedFactor
+  exact And.intro S.zero_hom
+    (And.intro S.add_carrier
+      (And.intro zeroUnary
+        (And.intro addUnary
+          (And.intro zeroAddUnary
+            (And.intro zeroAddRow
+              (And.intro zeroAddKernel
+                (And.intro transportedFactor addFactorSame)))))))
+
+theorem AbelianCatZeroBiproductKernelSurface_semantic_name_certificate :
+    SemanticNameCert
+      (fun h : BHist =>
+        exists S : AbelianCatZeroBiproductKernelSurface, hsame h S.zero)
+      (fun h : BHist =>
+        exists S : AbelianCatZeroBiproductKernelSurface, hsame h S.kernel ∧
+          Cont S.zero S.add S.kernel)
+      (fun h : BHist =>
+        exists S : AbelianCatZeroBiproductKernelSurface, hsame h S.zero ∧
+          Cont S.kernel S.cokernel S.factor)
+      (fun h k : BHist => hsame h k) := by
+  have zeroHom : CategoryHomCarrier BHist.Empty BHist.Empty BHist.Empty :=
+    CategoryHomCarrier_empty_identity unary_empty
+  have emptyMetricCarrier : GroupSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  have emptyKernelRow : Cont BHist.Empty BHist.Empty BHist.Empty :=
+    cont_left_unit BHist.Empty
+  have emptyFactorRow : Cont BHist.Empty BHist.Empty BHist.Empty :=
+    cont_left_unit BHist.Empty
+  let S : AbelianCatZeroBiproductKernelSurface := {
+    source := BHist.Empty
+    target := BHist.Empty
+    zero := BHist.Empty
+    add := BHist.Empty
+    kernel := BHist.Empty
+    cokernel := BHist.Empty
+    factor := BHist.Empty
+    carrier := And.intro zeroHom
+      (And.intro emptyMetricCarrier
+        (And.intro unary_empty
+          (And.intro unary_empty
+            (And.intro unary_empty (And.intro emptyKernelRow emptyFactorRow)))))
+    zero_hom := zeroHom
+    add_carrier := emptyMetricCarrier
+    kernel_row := emptyKernelRow
+    factor_row := emptyFactorRow
+  }
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty
+        (Exists.intro S (hsame_refl BHist.Empty))
+      equiv_refl := by
+        intro h _source
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k sameHK
+        exact hsame_symm sameHK
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK sourceH
+        cases sourceH with
+        | intro T sameHZero =>
+            exact Exists.intro T (hsame_trans (hsame_symm sameHK) sameHZero)
+    }
+    pattern_sound := by
+      intro h sourceH
+      cases sourceH with
+      | intro T sameHZero =>
+          have kernelZero : hsame T.kernel T.zero :=
+            cont_respects_hsame (hsame_refl T.zero) T.add_carrier T.kernel_row
+              (cont_right_unit T.zero)
+          exact Exists.intro T
+            (And.intro (hsame_trans sameHZero (hsame_symm kernelZero)) T.kernel_row)
+    ledger_sound := by
+      intro h sourceH
+      cases sourceH with
+      | intro T sameHZero =>
+          exact Exists.intro T (And.intro sameHZero T.factor_row)
+  }
+
+theorem AbelianCatZeroBiproductKernelSurface_factor_tail_transport
+    (S : AbelianCatZeroBiproductKernelSurface) {zeroAdd addFactor factorTail : BHist} :
+    Cont S.zero S.add zeroAdd ->
+      Cont zeroAdd S.cokernel addFactor ->
+        Cont addFactor BHist.Empty factorTail ->
+          hsame factorTail S.factor ∧ UnaryHistory factorTail ∧
+            Cont zeroAdd S.cokernel S.factor ∧ hsame zeroAdd S.kernel := by
+  intro zeroAddRow addFactorRow factorTailRow
+  have boundary :
+      CategoryHomCarrier S.source S.target S.zero ∧ GroupSingletonCarrier S.add ∧
+        UnaryHistory S.zero ∧ UnaryHistory S.add ∧ UnaryHistory zeroAdd ∧
+          Cont S.zero S.add zeroAdd ∧ hsame zeroAdd S.kernel ∧
+            Cont zeroAdd S.cokernel S.factor ∧ hsame addFactor S.factor :=
+    AbelianCatZeroBiproductKernelSurface_additive_hom_boundary S zeroAddRow addFactorRow
+  have tailAddFactor : hsame factorTail addFactor :=
+    cont_right_unit_result factorTailRow
+  have tailFactor : hsame factorTail S.factor :=
+    hsame_trans tailAddFactor boundary.right.right.right.right.right.right.right.right
+  have factorUnary : UnaryHistory S.factor :=
+    S.carrier.right.right.right.right.left
+  have tailUnary : UnaryHistory factorTail :=
+    unary_transport factorUnary (hsame_symm tailFactor)
+  exact And.intro tailFactor
+    (And.intro tailUnary
+      (And.intro boundary.right.right.right.right.right.right.right.left
+        boundary.right.right.right.right.right.right.left))
+
+theorem AbelianCatHomZeroMorphism_uniqueness
+    (S : AbelianCatZeroBiproductKernelSurface) {u left right : BHist} :
+    CategoryHomCarrier S.source S.target u ->
+      Cont u S.add left ->
+        Cont S.zero S.add right ->
+          hsame left S.add ->
+            hsame right S.add ->
+              hsame u S.zero ∧ UnaryHistory u ∧ UnaryHistory S.zero := by
+  intro uCarrier leftRow rightRow leftAdd rightAdd
+  have zeroUnary : UnaryHistory S.zero := S.zero_hom.right.right.left
+  have uUnary : UnaryHistory u := uCarrier.right.right.left
+  have addEmptyFromLeft : hsame u BHist.Empty :=
+    append_left_unit_iff.mp (leftRow.symm.trans leftAdd)
+  have addEmptyFromRight : hsame S.zero BHist.Empty :=
+    append_left_unit_iff.mp (rightRow.symm.trans rightAdd)
+  have sameUZero : hsame u S.zero :=
+    hsame_trans addEmptyFromLeft (hsame_symm addEmptyFromRight)
+  exact And.intro sameUZero (And.intro uUnary zeroUnary)
 
 end BEDC.Derived.AbelianCatUp

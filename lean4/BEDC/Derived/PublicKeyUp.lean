@@ -1,8 +1,10 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.PublicKeyUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 
 def PKCertifiedEnc
@@ -59,6 +61,16 @@ def PublicKeyDecryptEncryptExact
     PKKeyGen pk sk ->
       PublicKeyCertifiedEnc Msg Pub Ciph PKEncrypt pk m c ->
         exists d : BHist, PKDecrypt sk c d ∧ MsgRel d m
+
+def PKDecryptOutputDetRow
+    (MsgRel : BHist -> BHist -> Prop)
+    (PKKeyGen : BHist -> BHist -> Prop)
+    (PKDecrypt : BHist -> BHist -> BHist -> Prop) : Prop :=
+  forall pk sk c d e : BHist,
+    PKKeyGen pk sk ->
+      PKDecrypt sk c d ->
+        PKDecrypt sk c e ->
+          MsgRel d e ∧ hsame (append d BHist.Empty) (append e BHist.Empty)
 
 theorem PublicKeyDecryptEncrypt_correctness
     {Msg Pub Ciph : BHist -> Prop}

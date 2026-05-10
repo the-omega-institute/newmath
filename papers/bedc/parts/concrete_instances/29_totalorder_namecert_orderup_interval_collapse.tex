@@ -73,3 +73,93 @@ uniqueness clauses returned by
 classifies $m'$ with $m$ by $\rho_{\mathsf{u}}(m,m')$, and the maximum row
 classifies $M'$ with $M$ by $\rho_{\mathsf{u}}(M,M')$.
 \end{proof}
+
+\begin{theorem}[Unary prefix OrderUp interval endpoint transport]
+\label{thm:unary-prefix-orderup-interval-transport}
+Let $L$ and $L'$ be nonempty finite $\mathsf{BHist}$ spines carried by
+$\mathsf{Carrier}_{\mathsf{u}}$. Suppose their entries are paired by
+$\rho_{\mathsf{u}}$: every displayed membership row $x\in L$ has a displayed
+membership row $x'\in L'$ with $\rho_{\mathsf{u}}(x,x')$, and conversely.
+Let $(m,M)$ and $(m',M')$ be the selected finite extrema supplied by
+\autoref{thm:totalorder-prefix-finite-extrema-certificate} for $L$ and $L'$.
+Then the selected endpoints transport through the classifier,
+$$
+\rho_{\mathsf{u}}(m,m')
+\land
+\rho_{\mathsf{u}}(M,M'),
+$$
+and the bounded-interval membership row of
+\autoref{thm:unary-prefix-orderup-bounded-interval-collapse} is preserved
+under the paired spine.
+\end{theorem}
+\begin{proof}
+First read both carried finite spines through
+\autoref{thm:unary-prefix-totalorder-supplies-arithmetic-orderup}. The
+consumer relation is $\le_{\mathsf{u}}$, and the consumer classifier is
+$\rho_{\mathsf{u}}$ on the same displayed histories.
+
+Apply \autoref{thm:totalorder-prefix-finite-extrema-certificate} to $L$ and
+to $L'$. This supplies minimum and maximum witness rows for $m,M$ and for
+$m',M'$, together with classifier uniqueness for competing selected extrema.
+
+Use the entrywise $\rho_{\mathsf{u}}$ pairing to transport lower-bound and
+upper-bound comparisons from the witness rows for $L$ to the corresponding
+rows on $L'$. The transported lower-bound packet makes $m'$ a classified
+minimum witness for the image of $m$, and the transported upper-bound packet
+makes $M'$ a classified maximum witness for the image of $M$.
+
+The uniqueness clauses from the finite extrema certificate then classify the
+selected endpoints, giving $\rho_{\mathsf{u}}(m,m')$ and
+$\rho_{\mathsf{u}}(M,M')$.
+
+Finally invoke \autoref{thm:unary-prefix-orderup-bounded-interval-collapse}
+on the transported membership rows. Each paired entry stays between the
+transported endpoints, so the bounded-interval membership row is preserved
+through $\rho_{\mathsf{u}}$.
+\end{proof}
+
+\begin{theorem}[Unary prefix OrderUp interval witness coverage]
+\label{thm:unary-prefix-orderup-interval-witness-coverage}
+Let $L:\mathsf{ListCarrier}(\mathsf{BHist})$ be a nonempty finite carried spine
+and let $m,M$ be the selected extrema supplied by
+\autoref{thm:totalorder-prefix-finite-extrema-certificate}.  For every entry
+$x\in L$, every displayed lower-row and upper-row pair
+$$
+\ell\le_{\mathsf{u}}x
+\qquad
+\text{and}
+\qquad
+x\le_{\mathsf{u}}u
+$$
+that presents $x$ as lying in a unary prefix OrderUp interval factors through
+the minimum and maximum witness records for $m$ and $M$.  Any competing
+displayed interval endpoints $\ell$ and $u$ satisfying the finite-bound witness
+rows are classified by $\rho_{\mathsf{u}}$ with the selected endpoints:
+$$
+\rho_{\mathsf{u}}(m,\ell)
+\land
+\rho_{\mathsf{u}}(M,u).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:totalorder-prefix-finite-extrema-certificate} to the
+nonempty carried spine $L$.  It provides the minimum witness record for $m$,
+the maximum witness record for $M$, and classifier uniqueness for any
+competing minimum or maximum witness records.
+
+Use \autoref{thm:unary-prefix-orderup-bounded-interval-collapse}.  For each
+membership row $x\in L$, the selected minimum witness supplies
+$m\le_{\mathsf{u}}x$ and the selected maximum witness supplies
+$x\le_{\mathsf{u}}M$, so the displayed interval row for $x$ factors through
+the selected extrema.
+
+If the displayed endpoints $\ell$ and $u$ are carried as competing finite-bound
+witness rows, invoke the uniqueness clauses from the finite extrema
+certificate.  They classify $\ell$ with $m$ and $u$ with $M$ by
+$\rho_{\mathsf{u}}$.
+
+Finally apply \autoref{thm:unary-prefix-orderup-interval-transport}.  The
+endpoint classifications transport the lower and upper interval rows across
+the displayed $\rho_{\mathsf{u}}$ pairing, so every interval witness row is
+accounted for by the finite-extrema rows.
+\end{proof}

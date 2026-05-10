@@ -8,3 +8,77 @@ The Fourier interface $\FourierUp$ packages the constructive Fourier series and 
 
 \section{The certificate}
 \label{sec:fourier-certificate}
+
+\begin{theorem}[Fourier carrier obligation]\label{thm:fourier-carrier-obligation}
+A $\FourierUp$ certificate supplies a $\mathsf{BHist}$-indexed carrier of certified Fourier data over the named $\NameCert_{\SOneUp}$, $\NameCert_{\RealUp}$, $\NameCert_{\InnerProductUp}$, and $\NameCert_{\IntegralUp}$ sources. Every finite observation of a coefficient, transform sample, inner-product probe, or integral witness is exposed through $\mathsf{ProbeBundle}$ and $\mathsf{SigRel}$ packages rather than through host-level functions.
+\end{theorem}
+\leanchecked{BEDC.Derived.FourierUp.FourierFiniteObservation\_carrier\_obligation}
+\begin{proof}
+Unpack the four source certificates named by the chapter introduction. The roadmap ten-field template first asks for the carrier over which the later classifier, stability, ledger, and exactness rows are read.
+
+For Fourier data this carrier can only be observed through finite coefficient and transform probes. Therefore the obligation surface records those probes as $\mathsf{ProbeBundle}$ entries with $\mathsf{SigRel}$ evidence, leaving analytic completion statements outside the carrier row.
+\end{proof}
+
+\begin{theorem}[Fourier classifier obligation]\label{thm:fourier-classifier-obligation}
+The $\FourierUp$ classifier identifies two Fourier data histories exactly when every certified finite coefficient observation and every certified finite transform observation are related by the source classifiers and are packaged through $\sameSig$ and $\Pkg$. The classifier is therefore determined by the visible finite Fourier packages and not by an external equality of functions.
+\end{theorem}
+\leanchecked{BEDC.Derived.FourierUp.FourierFiniteObservation\_classifier\_obligation}
+\begin{proof}
+Apply the classifier field of the roadmap ten-field template to the carrier row in \autoref{thm:fourier-carrier-obligation}. Each observable Fourier datum has already been forced into a finite signature package, so classifier comparison is read at the level of source-certified signatures.
+
+The $\SOneUp$, $\RealUp$, $\InnerProductUp$, and $\IntegralUp$ classifiers provide the component comparisons. Packaging through $\sameSig$ and $\Pkg$ records that the Fourier classifier is an internal BEDC classifier, not a host equality on functions or transforms.
+\end{proof}
+
+\begin{theorem}[Fourier stability obligation]\label{thm:fourier-stability-obligation}
+The $\FourierUp$ stability row requires reflexivity, symmetry, transitivity, carrier transport, and stability under certified reindexing and integration rows inherited from $\NameCert_{\SOneUp}$, $\NameCert_{\RealUp}$, $\NameCert_{\InnerProductUp}$, and $\NameCert_{\IntegralUp}$. These stability clauses must act on the finite Fourier packages of the classifier row.
+\end{theorem}
+\leanchecked{BEDC.Derived.FourierUp.FourierFiniteObservation\_stability\_obligation}
+\begin{proof}
+Start from the classifier obligation in \autoref{thm:fourier-classifier-obligation}. Reflexivity, symmetry, and transitivity are the equivalence duties for the displayed classifier, while carrier transport states that the same certified observations remain readable after classifier-related history transport.
+
+The reindexing and integration clauses are not independent analytic principles. They are inherited stability rows from the four named source certificates and are applied only to the finite packages exposed by the Fourier carrier.
+\end{proof}
+
+\begin{theorem}[Fourier ledger obligation]\label{thm:fourier-ledger-obligation}
+The $\FourierUp$ ledger records hidden truncation bounds, coefficient windows, orthogonality probes, integration witnesses, and convergence-modulus data. Each ledger item is attached to the finite package that uses it, and no item may be replaced by an unrecorded analytic convention.
+\end{theorem}
+\leanchecked{BEDC.Derived.FourierUp.FourierFiniteObservation\_ledger\_obligation}
+\begin{proof}
+The ledger field of the roadmap ten-field template lists the data that can affect a certified observation without being the observation itself. Fourier coefficients and transforms carry truncation, window, orthogonality, integration, and modulus choices of exactly this kind.
+
+Recording these choices beside the finite packages makes the later exactness row inspectable. It also fixes the boundary between certified Fourier data and analytic claims that have not been closed in this chapter.
+\end{proof}
+
+\begin{theorem}[Fourier exactness obligation]\label{thm:fourier-exactness-obligation}
+The $\FourierUp$ exactness row requires coverage, soundness, and completeness for the finite observation packages of \autoref{thm:fourier-carrier-obligation} through \autoref{thm:fourier-ledger-obligation}. It does not claim Plancherel, inversion, or convergence closure.
+\end{theorem}
+\leanchecked{BEDC.Derived.FourierUp.FourierFiniteObservation\_exactness\_obligation}
+\begin{proof}
+Unpack the exactness field of the roadmap ten-field template after the carrier, classifier, stability, and ledger rows have been fixed. Coverage says that each certified finite Fourier observation has a package, soundness says that package equality respects the displayed source classifiers, and completeness says that classifier-related finite observations are represented by internally same packages.
+
+These are finite-observation obligations only. Plancherel, inversion, and convergence require additional analytic closure rows and are therefore named as outside the exactness surface recorded here.
+\end{proof}
+
+\begin{theorem}[Fourier finite-observation standard bridge]\label{thm:fourier-finite-observation-standard-bridge}
+The five checked finite-observation rows assemble a paper-side bridge from BEDC Fourier packages over $\mathsf{BHist}$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $\sameSig$, and $\Pkg$ to the standard finite Fourier observation interface over $\NameCert_{\SOneUp}$, $\NameCert_{\RealUp}$, $\NameCert_{\InnerProductUp}$, and $\NameCert_{\IntegralUp}$. This bridge preserves only finite coefficient and transform observations, and keeps truncation windows, integration witnesses, and convergence-modulus data in the ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.FourierUp.FourierFiniteObservation\_standard\_bridge}
+\begin{proof}
+Use \autoref{thm:fourier-carrier-obligation} to read each observable coefficient, transform sample, inner-product probe, and integral witness as a finite BEDC package over $\mathsf{BHist}$, $\mathsf{ProbeBundle}$, and $\mathsf{SigRel}$. Then use \autoref{thm:fourier-classifier-obligation} to transport the comparison of those packages through $\sameSig$ and $\Pkg$ into the source classifiers of $\NameCert_{\SOneUp}$, $\NameCert_{\RealUp}$, $\NameCert_{\InnerProductUp}$, and $\NameCert_{\IntegralUp}$.
+
+Next apply \autoref{thm:fourier-stability-obligation} to make the transport stable under certified reindexing and integration rows. Apply \autoref{thm:fourier-ledger-obligation} to retain all truncation windows, integration witnesses, orthogonality probes, and convergence-modulus data beside the finite observation that uses them.
+
+Finally apply \autoref{thm:fourier-exactness-obligation}. Its coverage, soundness, and completeness clauses identify exactly the finite observations carried across the bridge, while Plancherel, inversion, and convergence closure remain outside the preserved interface.
+\end{proof}
+
+\closureat{FourierUp}{matureStr}[BEDC.Derived.FourierUp.FourierFiniteObservation\_exactness\_obligation]
+\begin{closurestatus}{\FourierUp}
+  \constructivestory{A Fourier datum is carried only through finite observations over the named $\SOneUp$, $\RealUp$, $\InnerProductUp$, and $\IntegralUp$ sources: coefficient probes, transform samples, inner-product probes, and integral witnesses appear as $\mathsf{ProbeBundle}$ entries tied to $\mathsf{SigRel}$ evidence. The classifier compares two carried Fourier histories by checking that every finite observation package is related through the relevant source classifiers and through $\sameSig$ and $\Pkg$, rather than by asserting equality of host functions or transforms. The source is the finite-observation package surface, the pattern records carrier, classifier, reindexing, integration-stability, and exactness obligations, and the ledger stores truncation bounds, coefficient windows, orthogonality probes, integration witnesses, and convergence-modulus data next to the finite package that uses them. Nonemptiness is provided whenever a source policy supplies an observable probe package, the classifier rows give reflexivity, symmetry, and transitivity through the finite signatures, and carrier transport follows because the same certified observations remain readable after source-classifier transport. A history $h$ lies in the signature gap of a $\FourierUp$ token $p$ when the source-domain accepts its finite Fourier package, the signature relation pairs it with an answer observation and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, $h$ supplies exactly the coefficient or transform observations encoded by the token and the ledger records the windows and integration rows used to obtain them. The paper standard bridge reads the same packages as the ordinary finite Fourier observation interface while preserving only those finite observations. The chapter registers this finite-observation construction under the name $\FourierUp$; it introduces no Plancherel theorem, inversion theorem, convergence closure, or Lean-checked standard bridge.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature paper boundary is the finite-observation Fourier interface exported by the five checked rows and \autoref{thm:fourier-finite-observation-standard-bridge} over $\SOneUp$, $\RealUp$, $\InnerProductUp$, $\IntegralUp$, $\mathsf{BHist}$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $\sameSig$, and $\Pkg$.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.FourierUp.FourierFiniteObservation\_exactness\_obligation}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close Plancherel, inversion, convergence closure, bridgeChecked verification, or a Lean StdBridge theorem.}
+  \upgradepath{No stronger paper-side theory grade remains for this finite-observation boundary; only independent Lean-side bridgeChecked verification can raise the formal axis.}
+\end{closurestatus}

@@ -28,6 +28,7 @@ This is the two-point instance of the convex closure advertised in the
 $\ConvexSetUp$ carrier description, using the scalar and action data supplied
 by the $\VecSpaceUp$ and $\AffineSpaceUp$ dependencies.
 \end{definition}
+\leandef{BEDC.Derived.ConvexSetUp.ConvexSetBinaryAffineCombinationRow}
 
 \begin{theorem}[ConvexSet midpoint closure from affine-combination row]
 \label{thm:convexset-midpoint-affine-combination-closure}
@@ -77,6 +78,7 @@ $$
 C\bigl((b\odot y)+_V(a\odot x)\bigr).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.ConvexSetUp.ConvexSetSingletonAffineSpine\_order\_symmetric}
 \begin{proof}
 The scalar part of the field certificate retains the additive abelian-group
 rows listed through \autoref{def:ring-stability-certificate} and
@@ -242,6 +244,7 @@ f[C]_{\sim_W}(w)\Longleftrightarrow
 $$
 The witness records a source point carried by the convex carrier and a codomain classifier comparison from its $f$-output to the displayed codomain endpoint.
 \end{definition}
+\leandef{BEDC.Derived.ConvexSetUp.ConvexSetLinearImageCarrier}
 
 \begin{theorem}[ConvexSet linear image affine-combination closure]
 \label{thm:convexset-linear-image-affine-combination-closure}
@@ -257,7 +260,7 @@ f[C]_{\sim_W}\bigl((a\odot_W u)+_W(b\odot_W v)\bigr).
 $$
 Thus the pointwise classifier image $f[C]_{\sim_W}$ satisfies the same binary nonnegative unit-sum affine-combination closure row in the codomain vector-space carrier.
 \end{theorem}
-\leanchecked{BEDC.Derived.ConvexSetUp.ConvexSetLinearImage\_affine\_combination\_closure}
+\leanchecked{BEDC.Derived.ConvexSetUp.ConvexSetLinearImageCarrier\_affine\_combination\_closure}
 \begin{proof}
 Unpack \autoref{def:convexset-linear-image-carrier} for the two image hypotheses. Choose source points $x,y:V$ with
 $$
@@ -320,6 +323,7 @@ f[C]_{\sim_W}(z).
 $$
 Thus the classifier image carrier is closed under every finite affine spine whose weights are nonnegative and whose finite scalar sum is classified as $1_F$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ConvexSetUp.ConvexSetLinearImage\_finite\_affine\_spine\_closure}
 \begin{proof}
 By \autoref{thm:convexset-linear-image-affine-combination-closure}, the image carrier $f[C]_{\sim_W}$ satisfies the codomain binary affine-combination row
 $$
@@ -339,4 +343,174 @@ $$
 f[C]_{\sim_W}\bigl((a\odot_Wu)+_W(b\odot_Wv)\bigr),
 $$
 which is exactly the endpoint named by the binary-extension clause. Therefore every local bracketing witness over $f[C]_{\sim_W}$ has its endpoint in the same classifier image carrier, and the original endpoint $z$ satisfies $f[C]_{\sim_W}(z)$.
+\end{proof}
+
+\closureat{ConvexSetUp}{scopedStr}[BEDC.Derived.ConvexSetUp.ConvexSetLinearImage\_finite\_affine\_spine\_closure]
+\begin{closurestatus}{\ConvexSetUp}
+  \constructivestory{A convex set here is generated inside already certified affine and vector-space data: start with carried points, attach nonnegative scalar histories from the field source whose finite sum is classified as the scalar unit, and build the endpoint by repeated affine-combination rows. The carrier accepts endpoints that are presented by this convex predicate, by finite affine spines, by pointwise intersections, or by classifier images along carried linear maps; data missing the affine source, scalar nonnegativity, unit-sum comparison, or carried linear-map witness remain outside the scoped surface. Two displayed endpoints are compared only through the ambient vector classifiers and the witness rows attached to the source convex predicate, so linear images use a source point plus a codomain classifier comparison rather than an external image set. The source is the displayed convex carrier predicate over $\AffineSpaceUp$, $\VecSpaceUp$, $\FieldUp$, and $\LinearMapUp$, the pattern records binary affine closure, midpoint closure, order symmetry, finite bracketing, intersection closure, and linear image closure, and the ledger keeps the raw points, weights, scalar comparisons, affine endpoints, linear-map outputs, and package rows visible. The name-certificate obligations at this scoped level are read from the accepted carrier rows: inhabited examples supply the carrier witness, the inherited classifiers give reflexivity, symmetry, and transitivity, and the closure theorems repack any classified affine combination, intersection member, or image endpoint back into the carrier. A history $h$ lies in the signature gap of a $\ConvexSetUp$ token $p$ when the source-domain accepts the displayed convex packet, the signature relation pairs it with an answer carrier row and evidence ledger, and the token-introduction relation names that answer as $p$; concretely, every affine-combination and finite-spine endpoint recorded by $p$ is carried by the same visible predicate. The chapter registers this affine-combination construction under the name $\ConvexSetUp$; it supplies a scoped convex surface, with no public ConvexSetUp NameCert, separation theorem, compactness theorem, finite-dimensional theory, or standard bridge introduced.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped boundary is the carrier predicate, binary affine row, midpoint and order-symmetry rows, finite affine spine, pointwise intersection, linear image, linear preimage, and dependency inventory bound to $\AffineSpaceUp$, $\VecSpaceUp$, $\FieldUp$, $\LinearMapUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ConvexSetUp.ConvexSetLinearImage\_finite\_affine\_spine\_closure}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a public ConvexSetUp NameCert, finite-dimensional convexity theory, separation theorem, compactness theorem, or standard bridge.}
+  \upgradepath{Public closure requires a single exported $\NameCert_{\ConvexSetUp}$ theorem.}
+\end{closurestatus}
+
+\begin{definition}[ConvexSet linear preimage carrier]
+\label{def:convexset-linear-preimage-carrier}
+Let $F$ carry a $\FieldUp(F)$ certificate, let $V$ and $W$ carry $\VecSpaceUp(F,V)$ and $\VecSpaceUp(F,W)$ certificates over the same scalar source, and let $D:W\to\mathsf{Prop}$ be the convex carrier of a $\ConvexSetUp$ certificate on $W$. Let $f:V\to W$ be a carried $\LinearMapUp(V,W)$ map. The source-side preimage of $D$ along $f$ is the predicate $f^{-1}[D]:V\to\mathsf{Prop}$ on carried source points defined by
+$$
+f^{-1}[D](x)\Longleftrightarrow D(f(x)).
+$$
+Thus membership in the preimage carrier is read by evaluating the carried linear map and testing the codomain convex carrier at the displayed output.
+\end{definition}
+
+\begin{theorem}[ConvexSet linear preimage affine-combination closure]
+\label{thm:convexset-linear-preimage-affine-combination-closure}
+Let the data be as in \autoref{def:convexset-linear-preimage-carrier}. Write $\sim_F$, $+_F$, $1_F$, and $\mathsf{NonNeg}_F$ for the scalar classifier, scalar addition, scalar unit, and nonnegative predicate. Write $+_V$ and $\odot_V$ for the source vector addition and scalar action, and write $+_W$, $\odot_W$, and $\sim_W$ for the codomain vector addition, scalar action, and classifier. Assume the codomain $\ConvexSetUp$ certificate supplies the binary affine-combination row of \autoref{def:convexset-binary-affine-combination-row}. For carried scalars $a,b:F$ and carried source points $x,y:V$, if
+$$
+f^{-1}[D](x)\land f^{-1}[D](y)\land
+\mathsf{NonNeg}_F(a)\land\mathsf{NonNeg}_F(b)\land
+(a+_F b)\sim_F1_F,
+$$
+then
+$$
+f^{-1}[D]\bigl((a\odot_V x)+_V(b\odot_V y)\bigr).
+$$
+Thus the source-side preimage carrier satisfies the same binary nonnegative unit-sum affine-combination closure row over the source vector-space carrier.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:convexset-linear-preimage-carrier} for the two preimage hypotheses. They are exactly
+$$
+D(f(x)),
+\qquad
+D(f(y)).
+$$
+Since the codomain convex carrier is a subset of the codomain $\VecSpaceUp$ carrier, these hypotheses make $f(x)$ and $f(y)$ carried codomain inputs. Applying the codomain binary affine-combination row of \autoref{def:convexset-binary-affine-combination-row} to the points $f(x),f(y)$ and the coefficients $a,b$ gives
+$$
+D\bigl((a\odot_W f(x))+_W(b\odot_W f(y))\bigr).
+$$
+
+Set
+$$
+s:=(a\odot_V x)+_V(b\odot_V y).
+$$
+Because $x$ and $y$ are carried source inputs, source scalar-action closure and source additive closure make the two summands of $s$ and the endpoint $s$ itself carried in $V$. The carried $\LinearMapUp(V,W)$ map supplies additive preservation and scalar compatibility through \autoref{def:linearmap-carrier} and \autoref{def:module-linearmap-certificate-package}. Therefore
+$$
+f(s)\sim_W f(a\odot_V x)+_W f(b\odot_V y)
+$$
+and
+$$
+f(a\odot_V x)\sim_W a\odot_W f(x),
+\qquad
+f(b\odot_V y)\sim_W b\odot_W f(y).
+$$
+The target additive congruence row from \autoref{def:module-stability-certificate} transports these two comparisons to
+$$
+f(a\odot_V x)+_W f(b\odot_V y)
+\sim_W
+(a\odot_W f(x))+_W(b\odot_W f(y)).
+$$
+Classifier transitivity, as packaged by \autoref{thm:namecert-equivalence-transitivity}, composes this with the additive-preservation comparison and yields
+$$
+f(s)\sim_W(a\odot_W f(x))+_W(b\odot_W f(y)).
+$$
+Classifier symmetry from \autoref{def:lean-carrier-naming-certificate} reverses this comparison, so
+$$
+(a\odot_W f(x))+_W(b\odot_W f(y))\sim_W f(s).
+$$
+The codomain convex carrier inherits carrier transport along its classifier from the naming-certificate core in \autoref{def:lean-carrier-naming-certificate}. Transporting the codomain carrier witness above across this reversed comparison gives
+$$
+D(f(s)).
+$$
+Substituting the definition of $s$ and folding \autoref{def:convexset-linear-preimage-carrier} gives
+$$
+f^{-1}[D]\bigl((a\odot_V x)+_V(b\odot_V y)\bigr),
+$$
+which is the claimed source-side affine-combination closure.
+\end{proof}
+
+\begin{theorem}[ConvexSet pointwise intersection carrier commutativity]
+\label{thm:convexset-pointwise-intersection-carrier-commutative}
+Let two $\ConvexSetUp$ certificates be given as in \autoref{def:convexset-pointwise-intersection-carrier}. Write $C,D:V\to\mathsf{Prop}$ for their convex carriers, and write
+$$
+K_{CD}:=C\cap_{\ConvexSetUp}D,
+\qquad
+K_{DC}:=D\cap_{\ConvexSetUp}C.
+$$
+For every endpoint $z:V$, the two pointwise intersection carriers agree:
+$$
+K_{CD}(z)\Longleftrightarrow K_{DC}(z).
+$$
+Equivalently, a carrier witness for $C\cap_{\ConvexSetUp}D$ at $z$ is exactly a pair consisting of a $C(z)$ witness and a $D(z)$ witness, and the corresponding carrier witness for $D\cap_{\ConvexSetUp}C$ is obtained by interchanging those two components. The scalar classifier $\sim_F$, scalar addition $+_F$, scalar unit $1_F$, nonnegative predicate $\mathsf{NonNeg}_F$, scalar action $\odot$, and vector addition $+_V$ are the common rows named in \autoref{def:convexset-pointwise-intersection-carrier}, so this interchange does not alter any displayed scalar, addition, or affine-combination row.
+\end{theorem}
+\begin{proof}
+Fix an endpoint $z:V$. Unfold \autoref{def:convexset-pointwise-intersection-carrier} for the ordered pair of carriers $(C,D)$. The hypothesis $K_{CD}(z)$ is precisely
+$$
+C(z)\land D(z).
+$$
+Projecting its two components and pairing them in the opposite order gives
+$$
+D(z)\land C(z),
+$$
+which is exactly $K_{DC}(z)$ after unfolding the same definition for the ordered pair $(D,C)$.
+
+Conversely, unfold the definition for $(D,C)$. The hypothesis $K_{DC}(z)$ is precisely
+$$
+D(z)\land C(z).
+$$
+Projecting its two components and pairing them in the opposite order gives
+$$
+C(z)\land D(z),
+$$
+which is exactly $K_{CD}(z)$ after folding the definition for $(C,D)$. The two folds use the same ambient $\FieldUp(F)$ and $\VecSpaceUp(F,V)$ data named in \autoref{def:convexset-pointwise-intersection-carrier}; only the two carrier-support components at the fixed endpoint are swapped.
+\end{proof}
+
+\begin{theorem}[ConvexSet pointwise intersection inclusion meet]
+\label{thm:convexset-pointwise-intersection-inclusion-meet}
+Let two $\ConvexSetUp$ certificates be given as in \autoref{def:convexset-pointwise-intersection-carrier}. Write $C,D:V\to\mathsf{Prop}$ for their convex carriers and write
+$$
+K:=C\cap_{\ConvexSetUp}D.
+$$
+On convex carriers over the same ambient $\FieldUp(F)$ and $\VecSpaceUp(F,V)$ data, write
+$$
+E\preceq_{\ConvexSetUp}G
+\Longleftrightarrow
+\forall z:V.\;E(z)\to G(z)
+$$
+for pointwise inclusion. Then $K$ is the greatest lower bound of $C$ and $D$ in this inclusion preorder:
+$$
+K\preceq_{\ConvexSetUp}C,
+\qquad
+K\preceq_{\ConvexSetUp}D,
+$$
+and, for every third $\ConvexSetUp$ convex carrier $E:V\to\mathsf{Prop}$ over the same ambient data,
+$$
+(E\preceq_{\ConvexSetUp}C)\land(E\preceq_{\ConvexSetUp}D)
+\Longrightarrow
+E\preceq_{\ConvexSetUp}K.
+$$
+The carrier $K$ is therefore the meet of $C$ and $D$ among convex carriers ordered by inclusion, with its convex closure supplied by \autoref{thm:convexset-pointwise-intersection-affine-combination-closure}.
+\end{theorem}
+\begin{proof}
+The pointwise intersection carrier is the predicate specified in \autoref{def:convexset-pointwise-intersection-carrier}:
+$$
+K(z)\Longleftrightarrow C(z)\land D(z).
+$$
+For the first projection bound, fix $z:V$ and assume $K(z)$. Unfolding the definition gives $C(z)\land D(z)$, and projecting the first component gives $C(z)$. Hence $K\preceq_{\ConvexSetUp}C$.
+
+For the second projection bound, the same unfolding of $K(z)$ gives $C(z)\land D(z)$, and projecting the second component gives $D(z)$. Hence $K\preceq_{\ConvexSetUp}D$.
+
+It remains to prove the universal lower-bound property. Let $E:V\to\mathsf{Prop}$ be the convex carrier of a third $\ConvexSetUp$ certificate over the same ambient data, and assume
+$$
+E\preceq_{\ConvexSetUp}C,
+\qquad
+E\preceq_{\ConvexSetUp}D.
+$$
+To prove $E\preceq_{\ConvexSetUp}K$, fix $z:V$ and assume $E(z)$. The first inclusion sends this witness to $C(z)$, and the second inclusion sends the same witness to $D(z)$. Pairing the two conclusions gives
+$$
+C(z)\land D(z),
+$$
+which is exactly $K(z)$ by \autoref{def:convexset-pointwise-intersection-carrier}. Therefore every common lower bound $E$ factors through $K$, and the two projection bounds make $K$ the greatest lower bound of $C$ and $D$ for pointwise inclusion.
 \end{proof}

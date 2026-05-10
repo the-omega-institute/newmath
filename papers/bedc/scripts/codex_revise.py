@@ -123,32 +123,101 @@ def _target_id(t: dict) -> str:
     return f"{'+'.join(files)}::{anchor}"
 
 
+def _chapter_keys(t: dict) -> set[str]:
+    """Derive chapter-level lock keys from a target's paper_files.
+
+    A chapter directory is `papers/bedc/parts/<theme>/<chapter_or_subdir>`.
+    Two targets are chapter-overlapping when their paper_files share the
+    same chapter directory — even if the specific .tex files differ.
+    This catches the multi-round race where round_A writes
+    `\\label{thm:opposite-poset-cert}` in `28_poset_opposite_and_finite_chain.tex`
+    and round_B writes the SAME label in `poset/opposite_and_quotient.tex`:
+    git merge does not detect the LaTeX-level duplicate, so both commits
+    survive into BASE and the audit gate fails.
+    """
+    keys: set[str] = set()
+    for f in t.get("paper_files") or []:
+        # f looks like: papers/bedc/parts/<theme>/[<sub>/]<file>.tex
+        parts = f.split("/")
+        # collapse to the smallest directory under parts/<theme>/ that
+        # contains a per-chapter unit. For namecert chapter hubs at
+        # parts/concrete_instances/<NN>_<name>_namecert_construction.tex
+        # we use the chapter slug from the filename as the key.
+        if len(parts) >= 3 and parts[0] == "papers" and parts[1] == "bedc" and parts[2] == "parts":
+            theme = parts[3] if len(parts) >= 4 else ""
+            # subdirectory under the theme (hub child files)
+            if len(parts) >= 6:
+                # parts/bedc/parts/<theme>/<subdir>/<file>.tex
+                keys.add(f"{theme}/{parts[4]}")
+            elif len(parts) >= 5:
+                # top-level theme file. Use the chapter slug (drop digits prefix).
+                stem = parts[4].rsplit(".", 1)[0]
+                # e.g. "28_poset_opposite_and_finite_chain" -> "poset"
+                m = re.match(r"^\d+_([a-z][a-z0-9_]*?)(?:_namecert.*|_.*|$)", stem)
+                slug = m.group(1) if m else stem
+                keys.add(f"{theme}/{slug}")
+            else:
+                keys.add(theme)
+    return keys
+
+
+# Chapter-level lock: prevents round_A and round_B from concurrently
+# writing into the same chapter directory. Wider than _active_targets
+# (which keys on individual file+anchor) and catches the dup-label
+# race described in `_chapter_keys`.
+_active_chapters_lock = threading.Lock()
+_active_chapters: dict[int, set[str]] = {}
+
+
 def claim_targets(round_num: int, targets: list[dict]) -> tuple[list[dict], list[str]]:
     kept: list[dict] = []
     dropped: list[str] = []
-    with _active_targets_lock:
+    with _active_targets_lock, _active_chapters_lock:
         taken: set[str] = set()
         for s in _active_targets.values():
             taken |= s
+        # Chapters owned by other in-flight rounds (this round's own
+        # entry — if any — is excluded so re-entrant calls are idempotent).
+        chapter_taken: set[str] = set()
+        for r, s in _active_chapters.items():
+            if r != round_num:
+                chapter_taken |= s
         keep_ids: set[str] = set()
+        keep_chapters: set[str] = set()
         for t in targets:
             tid = _target_id(t)
+            chap_keys = _chapter_keys(t)
+            # Chapter-level lock check: if any chapter the target touches
+            # is owned by another in-flight round, drop the target. This
+            # prevents the chapter-write race that produces dup labels.
+            chapter_conflict = chap_keys & chapter_taken
+            if chapter_conflict:
+                dropped.append(
+                    f"{tid} [chapter-locked: {','.join(sorted(chapter_conflict))}]"
+                )
+                continue
             if not tid.strip("::+"):
                 kept.append(t)  # unkeyable; proceed without dedup
+                keep_chapters |= chap_keys
                 continue
             if tid in taken or tid in keep_ids:
                 dropped.append(tid)
                 continue
             keep_ids.add(tid)
+            keep_chapters |= chap_keys
             kept.append(t)
         if keep_ids:
             _active_targets[round_num] = keep_ids
+        if keep_chapters:
+            _active_chapters[round_num] = keep_chapters
     return kept, dropped
 
 
 def release_targets(round_num: int) -> None:
     with _active_targets_lock:
         _active_targets.pop(round_num, None)
+    with _active_chapters_lock:
+        _active_chapters.pop(round_num, None)
 
 
 # ---------------------------------------------------------------------------

@@ -6,6 +6,18 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.Derived.NatTransUp
 
+def AdjunctionCompositionPastingData
+    (p1 q1 a1 u1 c1 l1 r1 p2 q2 a2 u2 c2 l2 r2 p21 q21 su sc a tu1 tu2 tc1 tc2
+      u21 c21 l21 r21 : BHist) : Prop :=
+  AdjunctionUnitCounitCarrier p1 q1 a1 u1 c1 l1 r1 ∧
+    AdjunctionUnitCounitCarrier p2 q2 a2 u2 c2 l2 r2 ∧
+      NatTransPrefixComponentCarrier p21 su a tu1 ∧
+        NatTransPrefixComponentCarrier su q21 a tu2 ∧
+          NatTransPrefixComponentCarrier q21 sc a tc1 ∧
+            NatTransPrefixComponentCarrier sc p21 a tc2 ∧
+              Cont tu1 tu2 u21 ∧ Cont tc1 tc2 c21 ∧
+                Cont u21 c21 l21 ∧ Cont c21 u21 r21
+
 theorem AdjunctionCompositionPasting_unit_counit_carrier
     {p21 q21 su sc a tu1 tu2 tc1 tc2 u21 c21 l21 r21 : BHist} :
     NatTransPrefixComponentCarrier p21 su a tu1 ->

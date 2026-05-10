@@ -1,0 +1,118 @@
+\begin{definition}[Cyclotomic root downstream consumer surface]
+\label{def:cyclotomic-root-unblock-consumer-surface}
+The downstream consumer surface of $\NameCert_{\CyclotomicUp}$ is the tuple of
+rows already present in \autoref{def:cyclotomic-root-carrier}: the
+$\mathsf{BHist}$ entries $\mathcal{N}$, $n$, $p$, $\mathcal{S}$, and $\zeta$,
+the $\Cont$ acceptance row $\alpha$, the $\hsame$ comparison row $\lambda$, and
+the $\mathsf{Pkg}$ provenance row $\rho$.  A consumer may address this tuple
+through the $\NameCert_{\NumFieldUp}$ and $\NameCert_{\SplittingFieldUp}$
+projections, the carrier/classifier rows of \autoref{def:cyclotomic-root-carrier}
+and \autoref{def:cyclotomic-rational-polynomial-classifier}, and the certificate
+surface of \autoref{thm:cyclotomic-namecert-obligation-surface}.  No host
+field equality, quotient of roots, valuation row, class-group row, or
+class-field operation is part of this surface.
+\end{definition}
+
+\begin{theorem}[Cyclotomic root carrier classifier scope]
+\label{thm:cyclotomic-root-carrier-classifier-scope}
+For every accepted $\CyclotomicUp$ carrier, the classifier scope available to
+downstream consumers is exactly the componentwise $\hsame$ transport on the
+$\mathsf{BHist}$ rows of \autoref{def:cyclotomic-root-unblock-consumer-surface},
+together with the displayed $\Cont$ and $\mathsf{Pkg}$ ledgers.  In particular,
+the $\NameCert_{\NumFieldUp}$ and $\NameCert_{\SplittingFieldUp}$ projections
+remain the only source certificates visible to an $\IwasawaUp$ or
+$\ClassFieldUp$ consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cyclotomic-root-carrier}.  The visible
+rows are precisely $\mathcal{N}$, $n$, $p$, $\mathcal{S}$, $\zeta$, $\alpha$,
+$\lambda$, and $\rho$.
+
+Apply \autoref{def:cyclotomic-rational-polynomial-classifier} and
+\autoref{thm:cyclotomic-root-layer-classifier-transport}.  They transport the
+source, exponent, polynomial, splitting-field, and endpoint rows by $\hsame$
+and keep the endpoint acceptance and provenance attached by $\Cont$ and
+$\mathsf{Pkg}$.
+
+The two projected source certificates are therefore the only certificates
+available at the root boundary.  Since no other coordinate appears in the
+carrier or classifier, downstream consumers receive no host equality or
+quotient-root datum.
+\end{proof}
+
+\begin{theorem}[Cyclotomic root ledger stability package]
+\label{thm:cyclotomic-root-ledger-stability-package}
+The ledger package on the cyclotomic root surface is stable under classifier
+transport: the rational polynomial ledger for $X^n-1$, the primitive endpoint
+readback, the splitting-field root and factorization rows, and the
+$\NameCert_{\NumFieldUp}$ provenance remain the same public rows after
+transport through $\hsame$, $\Cont$, and $\mathsf{Pkg}$ support.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cyclotomic-polynomial-ledger-exactness} for the polynomial
+ledger and \autoref{thm:cyclotomic-primitive-root-readback-exactness} for the
+endpoint readback.  These identify the public root rows as projections of the
+same accepted carrier.
+
+Next apply \autoref{thm:cyclotomic-splittingfield-stability} and
+\autoref{thm:cyclotomic-numfield-embedding-ledger}.  The first transports the
+splitting-field root and factorization rows, while the second preserves the
+NumFieldUp provenance ledger.
+
+Repack those projections into the surface of
+\autoref{def:cyclotomic-root-unblock-consumer-surface}.  The repacking uses
+only the listed carrier and certificate rows, so it adds no host equality,
+valuation, or class-field row.
+\end{proof}
+
+\begin{theorem}[Cyclotomic root downstream unblock package]
+\label{thm:cyclotomic-root-downstream-unblock-package}
+The pair consisting of \autoref{thm:cyclotomic-root-carrier-classifier-scope}
+and \autoref{thm:cyclotomic-root-ledger-stability-package} supplies the complete
+root obligation surface needed by downstream $\IwasawaUp$ and $\ClassFieldUp$
+fronts: a $\mathsf{BHist}$ carrier tuple, $\hsame$ classifier transport, the
+$\Cont$ acceptance ledger, the $\mathsf{Pkg}$ provenance row, and the two source
+$\NameCert$ projections for $\NumFieldUp$ and $\SplittingFieldUp$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier/classifier scope theorem.  It fixes the exported rows
+and the only allowed transport mechanism for each projected root component.
+
+Use the ledger stability package to carry the polynomial, primitive endpoint,
+splitting-field, factorization, and NumFieldUp provenance rows through that
+transport.  These rows are exactly the rows listed in
+\autoref{def:cyclotomic-root-unblock-consumer-surface}.
+
+Therefore an $\IwasawaUp$ or $\ClassFieldUp$ consumer can cite the cyclotomic
+root surface as a stable source package.  The cited package still contains no
+tower transition map, class group, reciprocity map, local symbol, completion
+row, quotient root, or equality of ambient fields.
+\end{proof}
+
+\begin{theorem}[Cyclotomic root Iwasawa and ClassField consumer boundary]
+\label{thm:cyclotomic-root-iwasawa-classfield-consumer-boundary}
+When $\IwasawaUp$ or $\ClassFieldUp$ consumes $\NameCert_{\CyclotomicUp}$, the
+consumed data are exactly the root downstream unblock package of
+\autoref{thm:cyclotomic-root-downstream-unblock-package}.  $\IwasawaUp$ may read
+the cyclotomic layer as source data for later tower rows, and $\ClassFieldUp$
+may read the same layer as source data for later reciprocity rows, but neither
+consumer receives tower maps, class groups, reciprocity maps, local symbols,
+completion data, quotient-root carriers, or host-field equality from
+$\NameCert_{\CyclotomicUp}$ alone.
+\end{theorem}
+\begin{proof}
+For the Iwasawa side, apply \autoref{thm:cyclotomic-iwasawa-source-boundary}
+and \autoref{thm:cyclotomic-iwasawa-tower-source-readback}.  They read the
+cyclotomic carrier as a layer source while keeping tower transition and measure
+rows outside the cyclotomic packet.
+
+For the class-field side, apply
+\autoref{thm:cyclotomic-classfield-source-interface}.  It reads the same
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows as
+source data and leaves class-field operations to their own certificate.
+
+Both projections factor through
+\autoref{thm:cyclotomic-root-downstream-unblock-package}.  Hence the downstream
+boundary is shared and exact, with no extra root quotient or ambient-field
+equality introduced by either consumer.
+\end{proof}

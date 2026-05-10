@@ -72,6 +72,7 @@ reverse readback direction. The displayed Real constant classifier comparison
 is therefore the same rational classifier datum that RatUp classifier transport
 uses for stability of the source carrier and classifier rows.
 \end{proof}
+\leanchecked{BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstantCarrier\_classifier\_obligations}
 
 \begin{theorem}[RealAlgOrder constant algebra row obligations]
 \label{thm:realalgorder-constant-algebra-row-obligations}
@@ -111,6 +112,7 @@ the RatUp classifier comparison required by RatUp classifier transport, and the
 embedding certificate repacks the transported witness as the corresponding
 $\RealAlgOrder$ algebra row.
 \end{proof}
+\leanchecked{BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_algebra\_row\_obligations}
 
 \begin{theorem}[RealAlgOrder constant order and apartness obligations]
 \label{thm:realalgorder-constant-order-apartness-obligations}
@@ -150,6 +152,7 @@ transport, so stability of nonnegative and apartness rows is inherited only on
 the constant-rational boundary. No trichotomy or completeness datum is present
 in the transported rows.
 \end{proof}
+\leanchecked{BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_order\_apartness\_obligations}
 
 \begin{theorem}[Constant rational RealAlgOrder boundary]
 \label{thm:realalgorder-constant-rational-order-boundary}
@@ -195,6 +198,7 @@ transport moves the chosen algebra or order witness along the exposed rational
 comparison, and the constant rational embedding certificate repacks the result
 as the corresponding RealUp constant row.
 \end{proof}
+\leanchecked{BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_order\_boundary}
 
 The intended Lean target shape for this boundary is
 \texttt{BEDC.Derived.RealAlgOrderUp.constant\_rational\_order\_boundary}.
@@ -256,11 +260,13 @@ the RatUp classifier comparison required by the projected carrier,
 classifier, algebra, order, and apartness rows, and no proof step asks for
 completeness, trichotomy, metric structure, topology, or a standard bridge.
 \end{proof}
+\leanchecked{BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate}
 
 The intended Lean target shape for this certificate is
 \texttt{BEDC.Derived.RealAlgOrderUp.constant\_rational\_scoped\_certificate}.
 
 \begin{closurestatus}{\RealAlgOrder}
+  \constructivestory{A constant-rational real is obtained by taking a $\RatUp$ denominator history $d$ and placing one b1 boundary over it, so the admitted real histories are exactly those of the form $\Eone(d)$ coming from the rational embedding. Two such real histories name the same constant rational when the rational classifier already identifies their underlying denominators; the real layer does not add a second comparison beyond that transported rational one. The source is the constant-rational predicate, the pattern records the b1-embedded shape together with the addition, multiplication, order, and apartness rows, and the ledger keeps the visible real endpoint tied to the rational witness from which it came. Because the rational classifier is an equivalence and the embedding is injective on representatives, the embedded rational supplies the carrier witness, the transported classifier is reflexive, symmetric, and transitive, and any recognized representative remains in the constant-rational subcarrier. A real history $h$ lies in the signature gap of a $\RealAlgOrder$ token $p$ when the source-domain accepts $h$, the signature relation pairs it with a rational witness and evidence ledger, and the token-introduction relation names that witness as $p$; after unfolding, $h$ is $\Eone(d)$ for a rational $d$ classified as the rational value encoded by $p$. Each algebra or order row is read by going down to the rational witness, applying the matching $\RatUp$ row, and embedding the result back upward, as in $\Eone(d)+\Eone(e)$ being computed by $d+e$ before re-embedding. The chapter registers this transport-through-rational construction under the name $\RealAlgOrder$; these rows are inherited through the rational embedding, with no full non-constant real arithmetic, completeness, or standard bridge introduced here.}
   \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{thm:realalgorder-constant-rational-scoped-certificate} binds RatUp, StreamNameUp, RealUp constant rational endpoints, $\mathsf{BHist}$, $\hsame$, and classifier transport for carrier, classifier, algebra, order, and apartness rows.}
   \formalstatus{\unformalizedV}

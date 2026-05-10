@@ -49,3 +49,100 @@ readback theorem then returns the two unary tail rows and their $\hsame$
 comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_endpoint\_common\_e1\_tail\_readback}
+
+\begin{theorem}[Real stream prefix probe endpoint determinacy]
+\label{thm:real-stream-prefix-probe-endpoint-determinacy}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, let
+$\mathcal P$ be a finite certified $\mathsf{ProbeBundle}$ window and let
+$n$ be a unary observation with $\mathsf{InBundle}(n,\mathcal P)$. Suppose the
+window supplies $\mathsf{RealStreamPrefixClassifier}(x,y,n)$ and, for every
+displayed tail row selected by $\mathcal P$ after $n$, the finite row
+$\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))$ is present. Then every consumer
+endpoint selected from $\mathcal P$ has a unique
+$\mathsf{RatHistoryClassifier}$ readback, and its endpoint admits the same
+common e-one tail witness after $\hsame$ transport:
+$$
+\mathsf{InBundle}(n,\mathcal P)\Longrightarrow
+\forall j,\ \mathsf{InBundle}(j,\mathcal P)\Longrightarrow
+\exists a,b,\ \hsame(x(j),\Eone(a))\land \hsame(y(j),\Eone(b))\land
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+The statement reads only the displayed finite rows of $\mathcal P$; no
+observation outside the certified probe window is used.
+\end{theorem}
+\begin{proof}
+Restrict the finite $\mathsf{ProbeBundle}$ to the selected prefix through $n$
+and to the displayed consumer endpoint $j$. The membership rows
+$\mathsf{InBundle}(n,\mathcal P)$ and $\mathsf{InBundle}(j,\mathcal P)$ are
+exactly the evidence that these two observations lie inside the certified
+window.
+
+Apply \autoref{thm:real-stream-prefix-tail-endpoint-projection} to the selected
+prefix and the finite tail rows displayed by $\mathcal P$. This gives the
+endpoint $\mathsf{RatHistoryClassifier}$ readback for the consumer endpoint,
+and uniqueness follows because the readback is selected from the same finite
+bundle row rather than from an external observation.
+
+Finally apply
+\autoref{thm:real-stream-prefix-truncated-endpoint-common-e1-tail-readback} to
+the resulting classified prefix. The $\hsame$ transport keeps the two endpoint
+histories in the same rational-observation class, so the e-one tail witnesses
+are the common tail witnesses recorded by the finite probe window.
+\end{proof}
+
+\begin{theorem}[Real stream prefix two-probe endpoint coherence]
+\label{thm:real-stream-prefix-two-probe-endpoint-coherence}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, let
+$\mathcal P$ and $\mathcal Q$ be finite certified $\mathsf{ProbeBundle}$
+windows. Suppose the same unary observation $j$ satisfies
+$\mathsf{InBundle}(j,\mathcal P)$ and $\mathsf{InBundle}(j,\mathcal Q)$, and
+suppose both windows supply the $\mathsf{RealStreamPrefixClassifier}$ row and
+the finite $\mathsf{RatHistoryClassifier}$ tail rows required by
+\autoref{thm:real-stream-prefix-probe-endpoint-determinacy} for the selected
+endpoint $j$. Then the endpoint readbacks
+$\mathsf{RatHistoryClassifier}(x(j),y(j))$ obtained through $\mathcal P$ and
+through $\mathcal Q$ are the same up to $\hsame$, and their common e-one tail
+witnesses agree up to $\hsame$ transport:
+$$
+\begin{aligned}
+&\mathsf{InBundle}(j,\mathcal P)\land
+\mathsf{InBundle}(j,\mathcal Q) \\
+&\qquad \text{and the two displayed endpoint-determinacy packets at } j \\
+&\qquad \text{determine histories } a_{\mathcal P},b_{\mathcal P},
+a_{\mathcal Q},b_{\mathcal Q} \text{ with} \\
+&\qquad \hsame(a_{\mathcal P},a_{\mathcal Q})\land
+\hsame(b_{\mathcal P},b_{\mathcal Q})\land
+\hsame(x(j),\Eone(a_{\mathcal P}))\land
+\hsame(x(j),\Eone(a_{\mathcal Q})) \\
+&\qquad \land\ \hsame(y(j),\Eone(b_{\mathcal P}))\land
+\hsame(y(j),\Eone(b_{\mathcal Q})).
+\end{aligned}
+$$
+Ten-field fit: traditional target finite RealUp two-window endpoint coherence;
+BEDC source RealUp stream prefixes over RatUp point classifiers; carrier the
+two certified $\mathsf{ProbeBundle}$ windows over the same streams; classifier
+$\mathsf{RealStreamPrefixClassifier}$ at the selected unary observation;
+stability by $\hsame$ transitivity across the two endpoint readbacks; ledger
+the two window memberships, prefix classifiers, tail rows, endpoint row, and
+common e-one witnesses; core theorem this two-probe coherence statement;
+exactness the fixed endpoint row $j$; standard bridge StreamName and RegSeqRat
+finite observation readback; status $\mathsf{ProofTarget}$. No observation
+outside the two certified probe windows is used.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-prefix-probe-endpoint-determinacy} to
+$\mathcal P$ at the selected observation $j$. The window membership row and
+the displayed classifier and tail rows return the endpoint
+$\mathsf{RatHistoryClassifier}(x(j),y(j))$ together with common e-one tail
+witnesses $a_{\mathcal P}$ and $b_{\mathcal P}$.
+
+Apply the same theorem to $\mathcal Q$ at the same selected observation $j$.
+This gives the endpoint readback through the second finite window and common
+e-one tail witnesses $a_{\mathcal Q}$ and $b_{\mathcal Q}$.
+
+Both applications read the fixed endpoint row $j$ of the same streams $x$ and
+$y$. Transitivity of $\hsame$ identifies the two rational endpoint readbacks,
+and the same transport identifies the e-one tail witnesses. Since every row
+used in the argument is selected from either $\mathcal P$ or $\mathcal Q$, no
+external observation enters the comparison.
+\end{proof}

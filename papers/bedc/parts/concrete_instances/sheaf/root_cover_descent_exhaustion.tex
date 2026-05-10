@@ -4,11 +4,13 @@ The $\SheafUp$ root cover-descent source is the following $\mathsf{BHist}$-scope
 
 The source admits only these displayed data: $\mathsf{BHist}$ histories, indexed open membership, cover-member witnesses, member and overlap inclusions, restriction-route witnesses, compatible-family overlap equalities, locality, gluing, and section classifiers. It excludes stalks, quotient carriers, host powerset equality of covers, and external sheafification.
 \end{definition}
+\leandef{BEDC.Derived.SheafUp.SheafRootCoverDescentSource}
 
 \begin{theorem}[Sheaf root cover-descent carrier exactness]
 \label{thm:sheaf-root-cover-descent-carrier-exactness}
 The source of \autoref{def:sheaf-root-cover-descent-source} exposes exactly $\mathsf{BHist}$, $\mathsf{OpenAt}$, cover membership, restriction maps, finite-intersection overlap rows, and section classifiers. In particular, every carrier or classifier row visible to cover descent is one of the indexed-open carrier rows of $\TopologyUp$, the indexed section rows of $\SheafUp$, or the compatible-family and locality rows of the sheaf cover surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootCoverDescent\_carrier\_exactness}
 \begin{proof}
 Unfold \autoref{def:sheaf-root-cover-descent-source}. The topology component contributes only $\mathsf{BHist}$, indexed opens, $\mathsf{OpenAt}$, inclusion witnesses, and finite-intersection rows. These are exactly the displayed carrier and membership rows of \autoref{def:topology-indexed-open-carrier}.
 
@@ -21,6 +23,7 @@ Finally unfold the cover and local-family component through \autoref{def:sheaf-i
 \label{thm:sheaf-root-cover-descent-gluing-exhaustion}
 Every root cover-descent comparison route for the source of \autoref{def:sheaf-root-cover-descent-source} factors through a cover member or a displayed common refinement, then through restriction-route exactness, and finally through the locality or gluing classifier row. Thus the cover-descent route surface is exhausted by cover membership, finite-intersection overlap rows, restriction transport, point-germ readback, and gluing uniqueness.
 \end{theorem}
+\leanvariant{BEDC.Derived.SheafUp.SheafBHistPointGermLedger\_cover\_descent\_exhaustion}
 \begin{proof}
 First apply the cover law $\gamma$ in the indexed cover $\mathcal{U}$. Each history cell $b:\mathsf{BHist}$ lying in the ambient open is sent to a member $a:A$ with $\mathsf{OpenAt}(\iota(a),b)$, and the finite-intersection rows of \autoref{def:topology-indexed-open-carrier} supply the displayed overlaps used for pairwise comparison.
 
@@ -28,11 +31,13 @@ Next route the comparison through the sheaf restriction surface. Apply \autoref{
 
 It remains to read the local family through gluing. Apply \autoref{thm:sheaf-bhist-point-germ-gluing-readback} for the memberwise readback of a glued section, and apply \autoref{thm:sheaf-gluing-uniqueness-from-locality} to identify any two global readbacks that agree on all displayed members. The route therefore ends at the existing locality or gluing classifier row and introduces no further carrier or classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootCoverDescent\_common\_refinement\_germ\_exactness}
 
 \begin{theorem}[Sheaf root cover-descent downstream interface]
 \label{thm:sheaf-root-cover-descent-downstream-interface}
 The $\RingedSpaceUp$, $\SchemeUp$, and topology pullback consumers may consume only the cover-descent source of \autoref{def:sheaf-root-cover-descent-source}, the carrier exactness row of \autoref{thm:sheaf-root-cover-descent-carrier-exactness}, the gluing exhaustion row of \autoref{thm:sheaf-root-cover-descent-gluing-exhaustion}, and the downstream exactness coverage row of \autoref{thm:sheaf-root-downstream-consumer-exactness-coverage}. They receive no additional sheaf carrier and no additional sheaf classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootCoverDescent\_downstream\_interface}
 \begin{proof}
 For the ringed-space consumer, apply \autoref{thm:sheaf-ringedspace-local-ring-row}. Its sheaf-side data are section carriers, classifiers, restriction stability, point-germ readback, and local compatibility rows, all already present in the cover-descent source and its carrier exactness row.
 

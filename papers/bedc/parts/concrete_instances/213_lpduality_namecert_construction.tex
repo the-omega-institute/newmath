@@ -69,6 +69,37 @@ $$
 $$
 \end{definition}
 
+\begin{theorem}[LPDuality root obligation surface]
+\label{thm:lpduality-root-obligation-surface}
+The root certificate surface for $\LPDualityUp$ consists of a
+$\ConvexSetUp$ feasible-region carrier, $\FieldUp$ scalar objective rows,
+$\PolytopeUp$ face and witness rows, $\TotalOrderUp$ comparison rows, $\hsame$
+classifier transport, $\Cont$ ledger movement, and $\Pkg$ provenance. Every
+admitted dual-certificate row projects to these fields: primal and dual
+feasibility are read from the feasible-region and polytope rows, scalar
+objective endpoints are read from the ordered-field rows, comparisons are read
+from the total-order rows, and all transport is recorded by the displayed
+$\hsame$, $\Cont$, and $\Pkg$ ledgers. No host linear-programming primitive,
+ambient matrix equality, or quotient vector space is exported by this surface.
+\end{theorem}
+\begin{proof}
+Project an admitted dual-certificate row through
+\autoref{def:lpduality-finite-ordered-field-feasibility-row}. The finite row
+and column carriers, feasible predicates, scalar sums, and objective endpoints
+are exactly the displayed certificate fields.
+
+The feasible-region and face witnesses are read through the cited
+$\ConvexSetUp$ and $\PolytopeUp$ certificates, while scalar operations and
+objective comparisons are read through the $\FieldUp$ and $\TotalOrderUp$
+rows. Classifier movement uses the explicit $\hsame$ stability rows, and
+ledger movement uses the displayed $\Cont$ and $\Pkg$ provenance rows.
+
+Repacking these projections gives a finite $\mathsf{BHist}$ surface with no
+additional constructor. Since the definition exposes no host optimization
+solver, matrix equality primitive, or quotient-space row, every admitted
+dual-certificate row is exhausted by the listed BEDC fields.
+\end{proof}
+
 \begin{theorem}[LPDuality feasible weak duality]
 \label{thm:lpduality-feasible-weak-duality}
 Let an $\LPDualityUp$ row over an ordered field be given as in \autoref{def:lpduality-finite-ordered-field-feasibility-row}. If $x$ is primal feasible and $y$ is dual feasible,
@@ -81,6 +112,7 @@ $$
 $$
 Equivalently, the $\TotalOrderUp$ comparison between the two objective endpoints cannot select the strict-right branch.
 \end{theorem}
+\leanchecked{BEDC.Derived.LPDualityUp.LPDualityFeasibleWeakDuality\_prefix\_order}
 \begin{proof}
 Unpack the feasibility predicates of \autoref{def:lpduality-finite-ordered-field-feasibility-row}. From primal feasibility, for each row position $i\in I$ there is a constraint comparison
 $$
@@ -185,6 +217,7 @@ $$
 $$
 Since $y'$ was arbitrary, the second universal clause follows.
 \end{proof}
+\leanchecked{BEDC.Derived.LPDualityUp.LPDualityWeakDualityEquality\_optimality}
 
 \begin{theorem}[LPDuality complementary slackness gives objective equality]
 \label{thm:lpduality-complementary-slackness-objective-equality}
@@ -215,6 +248,7 @@ $$
 \mathsf{DuObj}_{b}(y)\preceq_F\mathsf{DuObj}_{b}(y').
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.LPDualityUp.LPDualityComplementarySlackness\_objective\_equality}
 \begin{proof}
 For each column position $j\in J$, order reflexivity gives
 $$
@@ -271,3 +305,335 @@ $$
 
 The feasibility hypotheses and this objective equality are precisely the hypotheses of \autoref{cor:lpduality-weak-duality-equality-optimality}. Applying that corollary gives the stated primal and dual optimality clauses.
 \end{proof}
+
+\begin{theorem}[LPDuality dual feasibility binary convex closure]
+\label{thm:lpduality-dual-feasibility-binary-convex-closure}
+Let an $\LPDualityUp$ row over an ordered field be given as in \autoref{def:lpduality-finite-ordered-field-feasibility-row}. Let $y,y':I\to F$ be dual feasible witnesses, and let $\lambda,\mu:F$ be scalar coefficients such that
+$$
+\mathsf{DuFeas}_{A,b,c}(y)
+\land
+\mathsf{DuFeas}_{A,b,c}(y')
+\land
+\mathsf{NonNeg}_F(\lambda)
+\land
+\mathsf{NonNeg}_F(\mu)
+\land
+(\lambda+_F\mu)\sim_F1_F.
+$$
+Define $\eta:I\to F$ componentwise by
+$$
+\eta_i:=\lambda\cdot_F y_i+_F\mu\cdot_F y'_i
+\qquad (i\in I).
+$$
+Then
+$$
+\mathsf{DuFeas}_{A,b,c}(\eta).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two dual-feasibility hypotheses from \autoref{def:lpduality-finite-ordered-field-feasibility-row}. They give
+$$
+\forall i\in I.\; \mathsf{NonNeg}_F(y_i),
+\qquad
+\forall i\in I.\; \mathsf{NonNeg}_F(y'_i),
+$$
+and
+$$
+\forall j\in J.\; c_j\preceq_F\beta_j(y),
+\qquad
+\forall j\in J.\; c_j\preceq_F\beta_j(y').
+$$
+We verify the two clauses of $\mathsf{DuFeas}_{A,b,c}(\eta)$.
+
+First fix $i\in I$. Since $\mathsf{NonNeg}_F(y_i)$ and $\mathsf{NonNeg}_F(y'_i)$ mean $0_F\preceq_F y_i$ and $0_F\preceq_F y'_i$, left multiplication monotonicity by the nonnegative scalars $\lambda$ and $\mu$ gives
+$$
+\lambda\cdot_F0_F\preceq_F\lambda\cdot_F y_i,
+\qquad
+\mu\cdot_F0_F\preceq_F\mu\cdot_F y'_i.
+$$
+Apply finite-sum monotonicity over a two-point carrier to these two comparisons. This yields
+$$
+(\lambda\cdot_F0_F)+_F(\mu\cdot_F0_F)
+\preceq_F
+(\lambda\cdot_F y_i)+_F(\mu\cdot_F y'_i).
+$$
+The field rows from \autoref{ch:concrete-instances-field-namecert} identify the left endpoint with $0_F$, using zero multiplication and the additive unit law. By the definition of $\eta_i$, the right endpoint is $\eta_i$. Classifier stability of $\preceq_F$ therefore gives
+$$
+0_F\preceq_F\eta_i.
+$$
+Thus $\mathsf{NonNeg}_F(\eta_i)$ holds for every $i\in I$.
+
+Next fix $j\in J$. Dual feasibility of $y$ and $y'$ gives
+$$
+c_j\preceq_F\beta_j(y),
+\qquad
+c_j\preceq_F\beta_j(y').
+$$
+Left multiplication monotonicity by the nonnegative scalars $\lambda$ and $\mu$ yields
+$$
+\lambda\cdot_F c_j\preceq_F\lambda\cdot_F\beta_j(y),
+\qquad
+\mu\cdot_F c_j\preceq_F\mu\cdot_F\beta_j(y').
+$$
+Finite-sum monotonicity over a two-point carrier gives
+$$
+(\lambda\cdot_F c_j)+_F(\mu\cdot_F c_j)
+\preceq_F
+(\lambda\cdot_F\beta_j(y))+_F(\mu\cdot_F\beta_j(y')).
+$$
+On the left, distributivity and the coefficient-sum hypothesis give the classifier chain
+$$
+(\lambda\cdot_F c_j)+_F(\mu\cdot_F c_j)
+\sim_F
+(\lambda+_F\mu)\cdot_F c_j
+\sim_F
+1_F\cdot_F c_j
+\sim_F
+c_j.
+$$
+On the right, expand the definition of $\beta_j$ and use distributivity, associativity, and finite-sum compatibility with the scalar classifier from \autoref{ch:concrete-instances-field-namecert}:
+$$
+(\lambda\cdot_F\beta_j(y))+_F(\mu\cdot_F\beta_j(y'))
+\sim_F
+\sum_{i\in I}(\lambda\cdot_F y_i)\cdot_F A_{ij}
++_F
+\sum_{i\in I}(\mu\cdot_F y'_i)\cdot_F A_{ij}
+$$
+and hence
+$$
+(\lambda\cdot_F\beta_j(y))+_F(\mu\cdot_F\beta_j(y'))
+\sim_F
+\sum_{i\in I}(\lambda\cdot_F y_i+_F\mu\cdot_F y'_i)\cdot_F A_{ij}
+=
+\beta_j(\eta).
+$$
+Classifier stability of $\preceq_F$ transports the displayed order comparison along these left and right classifier equalities, yielding
+$$
+c_j\preceq_F\beta_j(\eta).
+$$
+Thus the dual constraint clause holds for every $j\in J$.
+
+We have shown both
+$$
+\forall i\in I.\; \mathsf{NonNeg}_F(\eta_i)
+$$
+and
+$$
+\forall j\in J.\; c_j\preceq_F\beta_j(\eta).
+$$
+By the definition of dual feasibility in \autoref{def:lpduality-finite-ordered-field-feasibility-row}, this is exactly
+$$
+\mathsf{DuFeas}_{A,b,c}(\eta).
+$$
+\end{proof}
+
+\begin{theorem}[B-516: $\LPDualityUp$ primal feasibility binary convex closure]
+\label{thm:lpduality-primal-feasibility-binary-convex-closure}
+Let $F$ be the ordered-field scalar interface carried by a finite $\LPDualityUp$ row certificate as in \autoref{def:lpduality-finite-ordered-field-feasibility-row}. Let $J$ be the finite column index object, let $I_0$ be any finite family of certified primal rows, let
+$$
+A:I_0\times J\to F,
+\qquad
+b:I_0\to F
+$$
+be the row-coefficient and right-hand-side data, and let
+$$
+x,x':J\to F
+$$
+be two primal vectors. Write
+$$
+\mathsf{Row}_{i}(z):=\sum_{j\in J} A_{ij}\cdot_F z_j
+$$
+for the finite row evaluation, and define
+$$
+\mathsf{PrFeas}_{A,b}^{I_0}(z)
+\quad:\Longleftrightarrow\quad
+\forall i\in I_0,\; \mathsf{Row}_{i}(z)\preceq_F b_i .
+$$
+Assume
+$$
+\mathsf{PrFeas}_{A,b}^{I_0}(x),
+\qquad
+\mathsf{PrFeas}_{A,b}^{I_0}(x'),
+$$
+and let $\alpha,\beta:F$ satisfy
+$$
+\mathsf{NonNeg}_F(\alpha),
+\qquad
+\mathsf{NonNeg}_F(\beta),
+\qquad
+\alpha+_F\beta\sim_F 1_F .
+$$
+Define the componentwise binary affine mixture
+$$
+\lambda_j:=\alpha\cdot_F x_j+_F\beta\cdot_F x'_j,
+\qquad
+j\in J .
+$$
+The finite row certificate records the row-affine-linearity comparison for this mixture:
+$$
+\mathsf{Row}_{i}(\lambda)
+\sim_F
+\alpha\cdot_F \mathsf{Row}_{i}(x)+_F\beta\cdot_F \mathsf{Row}_{i}(x')
+\qquad
+(i\in I_0).
+$$
+The scalar order portion of the same certificate records binary order-addition monotonicity, the two-point finite-sum monotonicity instance of \autoref{def:lpduality-finite-ordered-field-feasibility-row}:
+$$
+p\preceq_F q
+\land
+r\preceq_F s
+\Longrightarrow
+p+_F r\preceq_F q+_F s .
+$$
+Then
+$$
+\mathsf{PrFeas}_{A,b}^{I_0}(\lambda).
+$$
+Moreover, the closure is row-local and coefficient-sign-free: no hypothesis of the form $\mathsf{NonNeg}_F(A_{ij})$ is required for any row coefficient.
+\end{theorem}
+\begin{proof}
+Fix a row $i\in I_0$. By the definition of $\lambda$, field distributivity, commutativity of scalar multiplication, and the finite-sum linearity certificate over the finite column object $J$ recorded by the row-affine-linearity field displayed in the theorem statement,
+$$
+\begin{aligned}
+\mathsf{Row}_{i}(\lambda)
+&=\sum_{j\in J} A_{ij}\cdot_F(\alpha\cdot_F x_j+_F\beta\cdot_F x'_j)\\
+&\sim_F
+\sum_{j\in J}\bigl(\alpha\cdot_F(A_{ij}\cdot_F x_j)+_F
+\beta\cdot_F(A_{ij}\cdot_F x'_j)\bigr)\\
+&\sim_F
+\alpha\cdot_F\sum_{j\in J}A_{ij}\cdot_F x_j
++_F
+\beta\cdot_F\sum_{j\in J}A_{ij}\cdot_F x'_j\\
+&=
+\alpha\cdot_F \mathsf{Row}_{i}(x)+_F\beta\cdot_F \mathsf{Row}_{i}(x').
+\end{aligned}
+$$
+The two feasibility assumptions give
+$$
+\mathsf{Row}_{i}(x)\preceq_F b_i,
+\qquad
+\mathsf{Row}_{i}(x')\preceq_F b_i .
+$$
+Since $\alpha$ and $\beta$ are nonnegative, the multiplication-monotonicity row of \autoref{def:lpduality-finite-ordered-field-feasibility-row} yields
+$$
+\alpha\cdot_F\mathsf{Row}_{i}(x)\preceq_F \alpha\cdot_F b_i,
+\qquad
+\beta\cdot_F\mathsf{Row}_{i}(x')\preceq_F \beta\cdot_F b_i .
+$$
+The binary order-addition monotonicity row displayed in the theorem statement gives
+$$
+\alpha\cdot_F\mathsf{Row}_{i}(x)+_F\beta\cdot_F\mathsf{Row}_{i}(x')
+\preceq_F
+\alpha\cdot_F b_i+_F\beta\cdot_F b_i .
+$$
+By right distributivity and the convex-weight certificate,
+$$
+\alpha\cdot_F b_i+_F\beta\cdot_F b_i
+\sim_F
+(\alpha+_F\beta)\cdot_F b_i
+\sim_F
+1_F\cdot_F b_i
+\sim_F
+b_i .
+$$
+The classifier-stability row for $\preceq_F$ recorded in \autoref{def:lpduality-finite-ordered-field-feasibility-row}, applied to the row-evaluation classifier comparison above and to the final scalar classifier comparison, yields
+$$
+\mathsf{Row}_{i}(\lambda)\preceq_F b_i .
+$$
+Because $i\in I_0$ was arbitrary, $\mathsf{PrFeas}_{A,b}^{I_0}(\lambda)$ follows.
+The proof used only finite-sum linearity, commutative-field distributivity, ordered-field monotonicity under nonnegative scalar multiplication, additive monotonicity of the order through the displayed two-point finite-sum row, and classifier stability for $\preceq_F$ from \autoref{def:lpduality-finite-ordered-field-feasibility-row}. The entries $A_{ij}$ were never compared with $0_F$. Hence the closure is local in the chosen row ledger $I_0$ and does not require any coefficient-sign side condition.
+\end{proof}
+
+\begin{theorem}[LPDuality feasible-region face exhaustion]
+\label{thm:lpduality-feasible-region-face-exhaustion}
+Every displayed feasible-region face row read by an $\LPDualityUp$ consumer is
+generated by either the primal binary convex closure row of
+\autoref{thm:lpduality-primal-feasibility-binary-convex-closure} or the dual
+binary convex closure row of
+\autoref{thm:lpduality-dual-feasibility-binary-convex-closure}, together with
+the ordered-field prefix order and the finite $\mathsf{BHist}$ ledger of
+\autoref{def:lpduality-finite-ordered-field-feasibility-row}. The consumer
+surface has no coordinate for host convex geometry, ambient polyhedra,
+topological faces, separation theorems, or external linear-programming
+objects.
+\end{theorem}
+\begin{proof}
+Start with a displayed feasible-region face row in the $\LPDualityUp$ consumer
+surface. The finite ordered-field row of
+\autoref{def:lpduality-finite-ordered-field-feasibility-row} presents such a
+row only through the primal feasibility predicate, the dual feasibility
+predicate, the ordered-field prefix comparison, and the finite
+$\mathsf{BHist}$ ledger.
+
+For a primal face row, apply
+\autoref{thm:lpduality-primal-feasibility-binary-convex-closure}. It shows
+that binary convex motion inside any certified finite family of primal rows is
+generated by the carried field operations, order monotonicity, classifier
+stability, and the displayed finite-sum ledger.
+
+For a dual face row, apply
+\autoref{thm:lpduality-dual-feasibility-binary-convex-closure}. The same
+finite ordered-field rows generate the nonnegative dual coordinates and the
+dual constraint comparisons, again without leaving the displayed ledger.
+
+The remaining comparison between primal and dual consumer rows is the
+weak-duality prefix-order theorem
+\autoref{thm:lpduality-feasible-weak-duality}. It relates the two generated
+surfaces only through the ordered-field prefix order. Since every cited row is
+drawn from the finite $\mathsf{BHist}$ ledger, no host convex geometry or
+external linear-programming object is available to generate an additional
+feasible-region face.
+\end{proof}
+
+\begin{lemma}[LPDuality primal objective binary affine readback]
+\label{lem:lpduality-primal-objective-binary-affine-readback}
+Let an $\LPDualityUp$ row over an ordered field be given as in \autoref{def:lpduality-finite-ordered-field-feasibility-row}. Let $x,x':J\to F$ be primal vectors, let $\alpha,\beta:F$ be scalar coefficients, and define $\lambda:J\to F$ componentwise by
+$$
+\lambda_j:=\alpha\cdot_F x_j+_F\beta\cdot_F x'_j
+\qquad (j\in J).
+$$
+Then the primal objective is affine over this binary mixture:
+$$
+\mathsf{PrObj}_{A,c}(\lambda)
+\sim_F
+\alpha\cdot_F\mathsf{PrObj}_{A,c}(x)+_F
+\beta\cdot_F\mathsf{PrObj}_{A,c}(x').
+$$
+\end{lemma}
+\begin{proof}
+Expand the objective endpoint from \autoref{def:lpduality-finite-ordered-field-feasibility-row}. By the definition of $\lambda$, distributivity in the carried $\FieldUp$ row, commutativity and associativity of multiplication, and finite-sum compatibility with the scalar classifier, one has
+$$
+\begin{aligned}
+\mathsf{PrObj}_{A,c}(\lambda)
+&=\sum_{j\in J}c_j\cdot_F(\alpha\cdot_F x_j+_F\beta\cdot_F x'_j)\\
+&\sim_F
+\sum_{j\in J}\bigl(\alpha\cdot_F(c_j\cdot_Fx_j)+_F
+\beta\cdot_F(c_j\cdot_Fx'_j)\bigr)\\
+&\sim_F
+\alpha\cdot_F\sum_{j\in J}c_j\cdot_Fx_j
++_F
+\beta\cdot_F\sum_{j\in J}c_j\cdot_Fx'_j\\
+&=
+\alpha\cdot_F\mathsf{PrObj}_{A,c}(x)+_F
+\beta\cdot_F\mathsf{PrObj}_{A,c}(x').
+\end{aligned}
+$$
+This is the asserted classifier equality.
+\end{proof}
+
+\input{parts/concrete_instances/lpduality/dual_faces_and_objective_fibers}
+
+\closureat{LPDualityUp}{seedStr}[BEDC.Derived.LPDualityUp.LPDualityFeasibleWeakDuality\_prefix\_order]
+\closureat{LPDualityUp}{obligationStr}[BEDC.Derived.LPDualityUp.LPDualityFeasibleWeakDuality\_prefix\_order]
+\closureat{LPDualityUp}{scopedStr}[BEDC.Derived.LPDualityUp.LPDualityFeasibleWeakDuality\_prefix\_order]
+
+\begin{closurestatus}{\LPDualityUp}
+  \constructivestory{A linear-programming duality row begins with finite row and column carriers, a $\FieldUp$ scalar surface equipped with a $\TotalOrderUp$ comparison, and displayed coefficient, right-hand-side, and cost rows from which primal feasibility, dual feasibility, and objective endpoints are computed by finite sums. The carrier accepts only packets whose feasible-region rows come through $\ConvexSetUp$ and $\PolytopeUp$, whose scalar operations and comparisons come through the ordered-field surface, and whose weak-duality, complementary-slackness, face, and objective-fiber data are kept as finite $\mathsf{BHist}$ rows. Two accepted packets classify together by componentwise $\hsame$ transport of scalar endpoints, feasible witnesses, objective values, finite-sum ledgers, face witnesses, and consumer rows, never by ambient matrix equality or quotient vector-space equality. The source specification is the finite ordered-field feasibility row plus the convex and polytope dependency rows, the pattern specification records weak-duality comparison and complementary-slackness equality, and the ledger keeps nonnegativity, finite-sum monotonicity, objective readbacks, convex closure, and face-fiber rows visible. The five name-certificate obligations are supplied by an admitted feasible packet, the inherited equivalence and order-stability rows, and the finite transport proofs that rebuild each primal, dual, objective, and ledger row after classified replacement. A packet history $h$ lies in the signature gap of an $\LPDualityUp$ token $p$ when the source-domain accepts its ordered-field primal-dual surface, the signature relation pairs it with an answer duality packet and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, the feasibility rows, weak-duality comparison, and any complementary-slackness equality are exactly those encoded by $p$. The chapter registers this finite ordered-field duality construction under the name $\LPDualityUp$; it introduces no optimization solver, no strong-duality existence theorem, no separation theorem, and no standard bridge.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped boundary binds the finite ordered-field feasibility row, ConvexSetUp feasible-region rows, PolytopeUp face and witness rows, FieldUp scalar operations, TotalOrderUp comparison rows, weak-duality comparison, complementary-slackness equality, convex closure rows, classifier transport, finite-sum ledgers, and consumer rows.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.LPDualityUp.LPDualityFeasibleWeakDuality\_prefix\_order}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full strong duality, existence of optima, separation theorems, or a standard bridge.}
+  \upgradepath{Public closure requires a single exported LPDualityUp certificate theorem and consumer interface.}
+\end{closurestatus}

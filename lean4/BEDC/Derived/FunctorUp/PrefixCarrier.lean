@@ -144,4 +144,34 @@ theorem PrefixFunctorCarrier_comp_right_factor_endpoint_deterministic {p a b b' 
   have sameTail : hsame g g' := cont_left_cancel comp comp'
   exact And.intro sameEndpoint sameTail
 
+theorem PrefixFunctorCarrier_append_assoc_comp_public_readback
+    {p q r a b c f g fg leftDisplayed rightDisplayed : BHist} :
+    PrefixFunctorCarrier p -> PrefixFunctorCarrier q -> PrefixFunctorCarrier r ->
+      CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+        CategoryHomCarrier (append (append (append p q) r) a)
+          (append (append (append p q) r) c) leftDisplayed ->
+          CategoryHomCarrier (append (append p (append q r)) a)
+            (append (append p (append q r)) c) rightDisplayed ->
+            hsame leftDisplayed rightDisplayed := by
+  intro prefixP prefixQ prefixR left right comp leftCarrier rightCarrier
+  have prefixPQ : PrefixFunctorCarrier (append p q) :=
+    BEDC.Derived.FunctorUp.PrefixFunctorCarrier_from_unary_prefix
+      (unary_append_closed prefixP.prefix_unary prefixQ.prefix_unary)
+  have prefixQR : PrefixFunctorCarrier (append q r) :=
+    BEDC.Derived.FunctorUp.PrefixFunctorCarrier_from_unary_prefix
+      (unary_append_closed prefixQ.prefix_unary prefixR.prefix_unary)
+  have leftComposite :
+      CategoryHomCarrier (append (append (append p q) r) a)
+        (append (append (append p q) r) c) fg :=
+    PrefixFunctorCarrier_append_comp_preserves prefixPQ prefixR left right comp
+  have rightComposite :
+      CategoryHomCarrier (append (append p (append q r)) a)
+        (append (append p (append q r)) c) fg :=
+    PrefixFunctorCarrier_append_comp_preserves prefixP prefixQR left right comp
+  have sameLeft : hsame fg leftDisplayed :=
+    CategoryHomCarrier_morphism_deterministic leftComposite leftCarrier
+  have sameRight : hsame fg rightDisplayed :=
+    CategoryHomCarrier_morphism_deterministic rightComposite rightCarrier
+  exact hsame_trans (hsame_symm sameLeft) sameRight
+
 end BEDC.Derived.FunctorUp

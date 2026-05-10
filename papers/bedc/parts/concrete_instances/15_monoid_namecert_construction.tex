@@ -32,6 +32,7 @@ The concrete instance of \autoref{def:concrete-history-monoid-instance} has:
   $\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.MonoidUp.concrete\_history\_monoid\_laws}
 \begin{proof}
 The left-unit and right-unit clauses are the BEDC continuation unit laws
 \texttt{BEDC.FKernel.Cont.cont\_left\_unit} and
@@ -535,15 +536,6 @@ The identity element inhabits the carrier. The monoid classifier records source 
 
 \paragraph{Primitive boundary.}
 \(\MonoidUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
-\begin{closurestatus}{\MonoidUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The concrete unary-history monoid semantic certificate with displayed carrier, classifier, multiplication, identity, associativity, unit laws, and multiplication closure.}
-  \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.MonoidUp.monoid\_history\_semantic\_name\_certificate}
-  \bridgestatus{none}
-  \notclaimed{General monoid theory: arbitrary monoids, monoid homomorphisms, submonoids, free monoids, presentations, cancellative monoids, or category-of-monoids structure.}
-  \upgradepath{$\publicClosure$ requires a public carrier and operation surface with expression readback, endpoint exactness, associativity/unit normal forms, and no-hidden-leakage for operation data.}
-\end{closurestatus}
 
 \begin{definition}[Opposite monoid certificate data]
 \label{def:opposite-monoid-certificate-data}
@@ -672,3 +664,15 @@ component identities identify the double opposite monoid certificate data with
 the monoid data of $D$.
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_double\_opposite\_data\_identity}
+
+\closureat{MonoidUp}{matureStr}[BEDC.Derived.MonoidUp.monoid\_history\_semantic\_name\_certificate]
+\begin{closurestatus}{\MonoidUp}
+  \constructivestory{The unary spine already carries a monoid operation: put one unary history after another by kernel continuation, and unary closure says the result is still on the spine while $\emp$ acts as the empty tail on both sides. Two carried elements are the same just when the underlying histories are history-equal inside the unary carrier, so the operation never leaves the history surface for an imported algebraic set. The source is the unary predicate itself, the pattern records binary append, the two unit laws with $\emp$, and associativity of three continued spines, and the ledger keeps each visible monoid element aligned with the raw unary history that realizes it. Because history-equality is an equivalence and unary histories are closed under continuation, $\emp$ supplies the carrier witness, the classifier is reflexive, symmetric, and transitive, and recognized representatives remain admitted. A unary history $h$ lies in the signature gap of a $\MonoidUp$ token $p$ when the source-domain accepts $h$, the signature relation pairs it with an answer history and evidence ledger, and the token-introduction relation names that answer as $p$; concretely, $h$ is unary and history-equal to the spine encoded by $p$. The same package also exposes the inverse obstruction, unique factor readback up to history-equality, the opposite monoid, and the double-opposite identity as consequences of continuation. The chapter registers this unary-append construction under the name $\MonoidUp$; the monoid laws are theorems about the existing kernel continuation, with no imported algebraic carrier, inverse primitive, or host monoid structure introduced.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature unary-history monoid package binds the concrete history monoid laws, semantic $\NameCert$, inverse-obstruction and factor-exactness rows, opposite certificate, and double-opposite data identity for the append/$\Cont$ surface.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.MonoidUp.monoid\_history\_semantic\_name\_certificate}
+  \bridgestatus{paperBridge}
+  \notclaimed{The chapter does not close arbitrary host monoids, homomorphism theory, category-of-monoids structure, or $\bridgeCheckedV$ verification.}
+  \upgradepath{Further strengthening belongs to audited standard-bridge verification or downstream algebra consumers, not to a stronger primitive monoid assumption.}
+\end{closurestatus}

@@ -2,6 +2,7 @@
 \label{def:sheaf-root-threshold-certificate-source}
 The $\SheafUp$ root threshold certificate source is the $\mathsf{BHist}$-indexed package consisting of the $\TopologyUp$ topology carrier, the $\PreSheafUp$ presheaf restriction carrier, the open-indexed section classifier family, the cover-nerve ledger, the point-germ ledger, the restricted-open ledger, the displayed base-change rows, and the refinement and common-refinement exactness rows. It is a source of threshold certificates only through indexed opens, $\mathsf{BHist}$ membership, section classifiers, restriction maps, displayed refinements, displayed base-change squares, restricted-open slices, and $\hsame$-stable transport.
 \end{definition}
+\leandef{BEDC.Derived.SheafUp.SheafRootThresholdCertificateSource}
 
 \begin{theorem}[Sheaf root threshold carrier and classifier obligation]
 \label{thm:sheaf-root-threshold-carrier-classifier-obligation}
@@ -14,6 +15,8 @@ Read the history side from \autoref{def:sheaf-bhist-cover-nerve-ledger}. Its cov
 
 For pointwise readback, use \autoref{def:sheaf-bhist-point-germ-ledger}. A point-germ row chooses an indexed neighborhood containing the history cell and compares sections by restricting to displayed common neighborhoods, so it adds no host point, stalk quotient, or external carrier beyond the classifier and restriction rows already named.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootThreshold\_carrier\_classifier\_semantic\_certificate}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootThreshold\_semantic\_name\_certificate}
 
 \begin{theorem}[Sheaf root threshold gluing and refinement obligation]
 \label{thm:sheaf-root-threshold-gluing-refinement-obligation}
@@ -26,6 +29,7 @@ The restricted-open part is read in the same package from the restricted common-
 
 For movement across a displayed source and target, apply \autoref{thm:sheaf-base-change-namecert-obligation-surface}. Its cover-pullback, gluing-pullback, and common-refinement rows reuse the same exactness package after the displayed base-change square identifies the relevant source opens and pulled-back cover members.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootThreshold\_gluing\_refinement\_obligation}
 
 \begin{theorem}[Sheaf root threshold downstream coverage obligation]
 \label{thm:sheaf-root-threshold-downstream-coverage-obligation}
@@ -38,3 +42,4 @@ For $\SchemeUp$, apply \autoref{thm:sheaf-scheme-consumption-obligation}. Each a
 
 For topology pullback consumers, apply \autoref{thm:sheaf-topology-pullback-cover-row}. The pulled-back cover rows are displayed base-change rows over the same indexed-open and $\mathsf{BHist}$ ledgers, so they are covered by the threshold source without adding a host powerset cover comparison or external sheaf model.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootThreshold\_downstream\_coverage\_obligation}

@@ -247,13 +247,80 @@ transformation classifier is supplied by
 with the semantic family certificate above, these identify $Y_p(q)$ with prefix
 identity and leave no additional displayed component choice.
 \end{proof}
+\leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_prefix\_empty\_component\_full\_faithfulness}
+
+\begin{theorem}[Prefix Yoneda empty-component standard bridge]
+\label{thm:yoneda-prefix-empty-component-standard-bridge}
+For unary histories $p$ and $q$, the BEDC predicate
+$$
+Y_p(q) :\Longleftrightarrow
+\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)
+$$
+has a paper-side conservative bridge to the external unary-prefix presheaf
+readback. The decode map reads $q$ as its finite unary prefix, and the encode
+map sends an external unary word back to its BEDC unary history. Bridge
+exactness identifies equality of external unary readbacks with $\HSame(p,q)$
+under the carrier $Y_p(q)$, and the displayed component choice is unique up to
+$\HSame$.
+\end{theorem}
+\begin{proof}
+The source of the bridge is the semantic prefix certificate of
+\autoref{thm:functor-prefix-semantic-namecert}. The component classifier used
+by the readback is the natural-transformation certificate of
+\autoref{thm:nattrans-prefix-component-classifier-semantic-namecert}.
+
+Carrier exactness is exactly
+\autoref{thm:yoneda-representable-empty-component-family-iff}: under the unary
+hypotheses, $Y_p(q)$ is equivalent to $\HSame(p,q)$. Thus decoding $q$ to its
+external unary prefix and encoding an external unary word back to a BEDC unary
+history preserve and reflect the same prefix equality.
+
+For displayed components, apply
+\autoref{thm:yoneda-representable-component-family-displayed-deterministic}.
+Any two component choices over the same unary source and target histories are
+identified by $\HSame$, so the external readback has no additional component
+choice beyond the BEDC classifier.
+\end{proof}
+
+\begin{theorem}[Prefix Yoneda empty-component mature interface]
+\label{thm:yoneda-prefix-empty-component-mature-interface}
+For unary histories $p$ and $q$, the mature scoped interface of the prefix
+Yoneda object is exactly the prefix empty-component skeleton. Its carrier is
+$Y_p(q)$, its classifier is $\HSame$, its full-faithfulness clause is
+Theorem~\ref{thm:yoneda-prefix-empty-component-full-faithfulness}, its
+conservative paper bridge is
+Theorem~\ref{thm:yoneda-prefix-empty-component-standard-bridge}, and its
+semantic certificate is
+Theorem~\ref{thm:yoneda-representable-empty-component-family-semantic-namecert}.
+The scope is restricted to unary prefix histories and empty components.
+\end{theorem}
+\begin{proof}
+The carrier and classifier are fixed by the semantic certificate in
+Theorem~\ref{thm:yoneda-representable-empty-component-family-semantic-namecert}:
+the family $Y_p(q)$ is the empty-component representable family, and the
+classifier it exposes is $\HSame$.
+
+The fully faithful part is
+Theorem~\ref{thm:yoneda-prefix-empty-component-full-faithfulness}. It identifies
+the object-indexed carrier over all unary objects with $\HSame(p,q)$ and makes
+the displayed component history unique up to $\HSame$.
+
+The bridge part is
+Theorem~\ref{thm:yoneda-prefix-empty-component-standard-bridge}. Its encode and
+decode readings are conservative for the same unary-prefix carrier, so composing
+the semantic certificate, the full-faithfulness clause, and this bridge gives
+the stated mature interface without enlarging the domain. No step ranges beyond
+unary prefix histories or beyond empty components.
+\end{proof}
 
 \begin{closurestatus}{\YonedaUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The representable empty-component-family semantic certificate, tying the prefix functor source and prefix natural-transformation classifier to the displayed identity component family.}
-  \formalstatus{\theoremCheckedV}
+  \constructivestory{The scoped Yoneda object is built from unary prefixes by asking for an empty natural-transformation component over every unary object: for prefixes $p$ and $q$, the displayed family $Y_p(q)$ is admitted exactly when those prefixes are unary and history-same. The carrier therefore accepts the empty-component family and excludes arbitrary component choices or non-unary presheaf data, while the classifier is $\HSame$ on the prefix histories and determinacy theorems force any displayed component family back to the same empty component. The source is the semantic prefix functor surface together with the prefix natural-transformation component certificate, the pattern records the empty-component characterization, source and target determinacy, boundary transport, and prefix full-faithfulness, and the ledger keeps the component family and its evaluated component histories visible. Since $\emp$ supplies the component choice and $\HSame$ is reflexive, symmetric, and transitive on histories, the name-certificate obligations are carried by the semantic certificate, with closure under the classifier given by the boundary transport rows. A history $h$ lies in the signature gap of a $\YonedaUp$ token $p_0$ when the source-domain accepts $h$ as an empty-component family, the signature relation pairs it with an answer prefix and evidence ledger, and token introduction names that answer as $p_0$; unfolded, every unary object sees the empty component and the target prefix is $\HSame$ to the representing prefix encoded by $p_0$. The paper bridge decodes a BEDC unary prefix to an external finite unary word and encodes such a word back to the same unary history, so equality of external readbacks is conservative for the same prefix classifier. The chapter registers this prefix empty-component skeleton under the name $\YonedaUp$; it gives the fully faithful representable fragment without introducing a general presheaf category, arbitrary Yoneda lemma, or external natural-isomorphism carrier.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature paper scope is exactly the checked semantic certificate, full-faithfulness, and paper bridge for the prefix empty-component skeleton.}
+  \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_semanticNameCert}
-  \bridgestatus{none}
-  \notclaimed{Full Yoneda lemma: arbitrary representables, natural bijection with elements, presheaf categories, natural isomorphism uniqueness, density, or enriched variants.}
-  \upgradepath{$\publicClosure$ requires public representable functors, hom-family readback, naturality in both variables, Yoneda bijection exactness, and no-hidden-leakage.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close the arbitrary Yoneda lemma, general presheaf categories, enriched variants, density, or checked bridge targets.}
+  \upgradepath{The next verification work is $\bridgeCheckedV$ for the bridge and non-prefix representables, not additional paper closure for this scoped skeleton.}
 \end{closurestatus}

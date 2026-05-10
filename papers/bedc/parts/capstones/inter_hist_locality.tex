@@ -176,3 +176,16 @@ This capstone is not a derivation of relativity, of quantum mechanics, or of any
 \label{rem:closing-physics-from-locality}
 The capstone makes one structural argument. In a configuration of independent Hists with no global frame, all physical content lives in observer-symmetric inter-Hist invariants, and the maximum cross-Hist causal rate must be observer-independent. This is the BEDC-derived skeleton of the relativistic structure of physics. The current chapter does not produce that physics; it identifies the interface that a future BEDC physics chain would close. Whether closure is possible inside the axiom-purity gate is the next research question. The chapter falls under the project's axiom-purity gate, and the road-map question of whether physics can be constructively closed inside that gate is itself open. \autoref{rem:falsification-surfaces} catalogues the specific surfaces along which the road-map can fail informatively; the answer to the road-map question will be assembled from a sequence of step-by-step constructive successes or step-localized failures, not declared in advance.
 \end{remark}
+
+\begin{lemma}[Zero max-rate forbids cross-Hist dependence --- SCHEMA-ONLY]
+\label{lem:zero-max-rate-forbids-causal-dependence}
+Assume two histories $h_a, h_b$ and slot $k$. If
+$\mathsf{max\_causal\_rate}(h_a,h_b,k)=0$, then $\neg\textsf{CrossHistCausal}(h_a,h_b,k)$.
+\begin{proof}
+Assume $\textsf{CrossHistCausal}(h_a,h_b,k)$. By 
+\autoref{def:cross-hist-causal-schema}, this is a genuine cross-Hist causal dependence, so its witness contributes at least one affected target step and therefore a positive dependence ratio.
+By 
+\autoref{def:max-causal-rate-schema}, every such ratio is bounded above by
+$\mathsf{max\_causal\_rate}(h_a,h_b,k)$. If that bound is $0$, the positive ratio cannot exist. Contradiction.
+\end{proof}
+\end{lemma}

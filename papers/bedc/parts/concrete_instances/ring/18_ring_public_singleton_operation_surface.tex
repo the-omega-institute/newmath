@@ -1,0 +1,117 @@
+\begin{theorem}[RingUp public singleton operation surface]
+\label{thm:ringup-public-singleton-operation-surface}
+For the concrete singleton history ring instance of
+Definition~\ref{def:concrete-singleton-history-ring-instance}, the public
+surface consists of the singleton carrier $A_{\emp}$, the classifier
+$R_{\emp}$, and the five displayed operations
+$$
+\mathsf{add}(h,k):=\mathsf{append}(h,k),\qquad
+\mathsf{neg}(h):=\emp,\qquad
+0:=\emp,
+$$
+together with
+$$
+\mathsf{mul}(h,k):=\mathsf{append}(h,k),\qquad
+1:=\emp.
+$$
+On carried endpoints this surface is closed under addition, negation,
+multiplication, zero, and one; append endpoints have exact singleton
+classifier readback; multiplication continuations classify exactly through the
+singleton continuation row; multiplication by zero is absorbed; and the exposed
+ledger contains only the operation tree plus singleton endpoint witnesses, so
+the zero-classifier ideal package contributes no hidden endpoint channel.
+\end{theorem}
+\begin{proof}
+The carrier, classifier, and operation rows are those displayed in
+Definition~\ref{def:concrete-singleton-history-ring-instance}. The
+RingUp laws of Theorem~\ref{thm:concrete-singleton-history-ring-laws} supply
+the additive group rows, multiplicative monoid rows, congruence rows, and both
+distributivity rows for this same tuple.
+
+Endpoint exactness is read from the singleton classifier lemmas. The append
+commutation row of
+Theorem~\ref{thm:ring-singleton-classifier-append-comm} exposes no data beyond
+the two singleton endpoint witnesses, while
+Theorem~\ref{thm:ring-singleton-classifier-mul-continuation-classifier}
+records that continuation readback after multiplication is again exactly the
+singleton carrier condition on the continuation input and output.
+
+The zero boundary is public for the same reason. The
+zero-factor absorption of Theorem~\ref{thm:ring-mul-zero-absorption} prevents a
+zero multiplication branch from producing a visible endpoint, and
+Theorem~\ref{thm:ring-zero-classifier-two-sided-ideal-package} packages
+addition, negation, and two-sided multiplication closure for zero-classified
+inputs. Thus the public ledger exposes precisely the operation tree and the
+singleton endpoint certificates already named above, with no additional
+history data available behind the classifier.
+\end{proof}
+
+\begin{theorem}[RingUp singleton operation table exhaustion]
+\label{thm:ring-singleton-operation-table-exhaustion}
+Every public $\RingUp$ consumer read from the concrete singleton certificate is
+exhausted by the five operation rows
+$\mathsf{add}$, $\mathsf{neg}$, $0$, $\mathsf{mul}$, and $1$, together with
+their singleton endpoint witnesses. No read of the public certificate exposes
+an additional history endpoint, quotient carrier, polynomial row, module row,
+or non-singleton multiplication table.
+\end{theorem}
+\begin{proof}
+Begin with the public singleton operation surface of
+\autoref{thm:ringup-public-singleton-operation-surface}. It lists the carrier
+$A_{\emp}$, classifier $R_{\emp}$, and exactly the five displayed operation
+rows.
+
+The operation laws come from
+\autoref{thm:concrete-singleton-history-ring-laws}. Since every carried
+endpoint is classified with $\emp$, each addition, negation, zero,
+multiplication, and one read returns the same singleton endpoint witness.
+
+The remaining public boundary does not add a sixth operation row.
+\autoref{thm:ring-mul-zero-absorption} controls the zero-multiplication branch,
+and \autoref{thm:ring-zero-classifier-two-sided-ideal-package} keeps the
+zero-classifier package inside the same singleton endpoint. Thus every public
+consumer read is one of the five operation-table rows.
+\end{proof}
+
+\begin{theorem}[RingUp singleton public certificate scope]
+\label{thm:ring-singleton-public-certificate-scope}
+The public scope of the concrete singleton $\RingUp$ certificate consists of
+ten fields: the BEDC source $\mathsf{BHist}$, the carrier $A_{\emp}$, the
+classifier $R_{\emp}$, stability under singleton transport, the public
+$\mathsf{add}$ row, the public $\mathsf{neg}$ row, the public $0$ row, the
+public $\mathsf{mul}$ row, the public $1$ row, and the standard bridge to the
+terminal ring. The five operation fields form the visible ledger table, and
+their endpoint exactness says precisely that a consumer row is present iff its
+endpoint is the singleton $\emp$ endpoint.
+\end{theorem}
+\begin{proof}
+Project the singleton source and algebraic laws from
+\autoref{thm:concrete-singleton-history-ring-laws}. The source is the displayed
+$\mathsf{BHist}$ row, while $A_{\emp}$ and $R_{\emp}$ give the carrier and
+classifier over the same endpoint.
+
+Next read the public operation table through
+\autoref{thm:ringup-public-singleton-operation-surface} and
+\autoref{thm:ring-singleton-operation-table-exhaustion}. These rows account for
+addition, negation, zero, multiplication, and one, and each read carries the
+singleton endpoint iff supplied by the classifier.
+
+Finally apply \autoref{thm:ring-mul-zero-absorption} and
+\autoref{thm:ring-zero-classifier-two-sided-ideal-package} to keep the zero and
+multiplication boundary inside the same public table. Repacking these rows with
+the checked standard bridge exposes the terminal ring and no additional
+consumer channel.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.RingUp\_StdBridge}
+
+\closureat{RingUp}{matureStr}[BEDC.Derived.RingUp.RingSingletonEmptyHistory\_laws]
+\begin{closurestatus}{\RingUp}
+  \constructivestory{The ring surface reuses one empty-history endpoint twice, letting the same singleton carry both the additive and multiplicative roles. A history is admitted only when it is history-equal to $\emp$, and the classifier is the corresponding singleton relation, so addition by continuation, negation, zero, multiplication by continuation, and one all land back at the same endpoint. The source is the singleton predicate, the pattern records those operation rows together with distributivity, zero absorption, and the signed-square and subtraction packages, and the ledger keeps every visible singleton aligned with its raw history. Since a one-element history class is inhabited by $\emp$ and history-equality is an equivalence that preserves the class, the five name-certificate obligations hold without any separate algebraic carrier. A history $h$ lies in the signature gap of a $\RingUp$ token $p$ when the source-domain accepts $h$, the signature relation pairs it with an answer history and evidence ledger, and the token-introduction relation names that answer as $p$; after unfolding, $h$ is history-equal to $\emp$ and $p$ is the singleton ring element. The public operation surface and terminal bridge expose this same endpoint table to downstream consumers, including the opposite-ring certificate. The chapter registers this two-operation singleton construction under the name $\RingUp$; addition and multiplication share one classifier on one endpoint, with no polynomial, quotient, field, or non-singleton ring structure introduced.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{This chapter binds the mature singleton RingUp package consisting of the carrier $A_{\emp}$, classifier $R_{\emp}$, displayed addition, negation, zero, multiplication, one, distributivity, zero-absorption, signed-square and subtraction packages, opposite-ring certificate, and public singleton operation surface.}
+  \formalstatus{\bridgeCheckedV}
+  \leantarget{BEDC.Derived.RingUp.RingSingletonEmptyHistory\_laws}
+  \bridgestatus{bridgeChecked}
+  \notclaimed{It does not close arbitrary non-singleton rings, polynomial rings, fields, modules, quotient-ring theory, or machine-checked standard bridge data.}
+  \upgradepath{No further upgrade: the chapter is at the top of the formal axis.}
+\end{closurestatus}

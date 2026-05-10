@@ -1,0 +1,103 @@
+\begin{theorem}[PinGroup parity carrier inversion]
+\label{thm:pingroup-parity-carrier-inversion}
+Every accepted row of the reflection-parity carrier of
+\autoref{def:pingroup-reflection-parity-carrier} has a finite inversion record
+inside the public $\NameCert_{\PinGroupUp}$ surface. The record is a
+$\mathsf{BHist}$ row whose source projection is either the inherited
+$\NameCert_{\SpinGroupUp}$ Spin row or the $\NameCert_{\CliffordUp}$ Clifford
+reflection row, together with the public parity classifier, the displayed
+$\Cont$ transport ledger, the matching $\hsame$ witness, and the $\Pkg$
+provenance row. No accepted parity-carrier row has a third source projection.
+\end{theorem}
+\leanchecked{BEDC.Derived.PinGroupUp.PinGroupReflectionParityCarrier\_parity\_carrier\_inversion}
+\begin{proof}
+Begin with \autoref{thm:pingroup-reflection-parity-boundary}. It factors every
+public $\PinGroupUp$ row through the inherited Spin branch or the Clifford
+reflection branch of the displayed parity carrier.
+
+Use \autoref{thm:pingroup-reflection-parity-exactness}. The exactness theorem
+identifies the accepted branch with the public parity classifier and keeps the
+transported row inside the $\mathsf{BHist}$ carrier data.
+
+Finally apply \autoref{thm:pingroup-source-projection-obligation} and
+\autoref{thm:pingroup-source-projection-no-confusion}. These results attach
+the $\Cont$, $\hsame$, and $\Pkg$ rows to the same source projection and exclude
+any source beyond the consumed $\NameCert_{\SpinGroupUp}$ and
+$\NameCert_{\CliffordUp}$ rows.
+\end{proof}
+
+\begin{theorem}[PinGroup parity transport ledger exhaustion]
+\label{thm:pingroup-parity-transport-ledger-exhaustion}
+The finite transport ledger visible to the $\NameCert_{\PinGroupUp}$
+reflection-parity surface is exhausted by the inherited $\NameCert_{\SpinGroupUp}$
+inclusion row, the $\NameCert_{\CliffordUp}$ Clifford reflection product row,
+the parity classifier row, the source-projection rows, and the consumer rows
+exported by the displayed $\mathsf{BHist}$ packet. Its public witnesses are
+exactly the listed $\hsame$, $\Cont$, and $\Pkg$ rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.PinGroupUp.PinGroupReflectionParityLedgerSurface\_exhaustion}
+\begin{proof}
+Start from \autoref{thm:pingroup-source-ledger-coverage}. It places each public
+source read in the Spin or Clifford source ledger and records the same
+$\mathsf{BHist}$ histories for the carrier-facing packet.
+
+Apply \autoref{thm:pingroup-spin-subrow-classifier-readback} to identify the
+Spin inclusion row, and apply
+\autoref{thm:pingroup-clifford-action-ledger-obligation} to identify the
+Clifford reflection product and action rows.
+
+Next use \autoref{thm:pingroup-parity-classifier-obligation} and
+\autoref{thm:pingroup-source-projection-obligation}. They fix the parity
+classifier and source projections as the only classifier-facing source rows.
+
+Finally apply \autoref{thm:pingroup-downstream-unblock-package}. It exports
+the same consumer rows with their $\hsame$, $\Cont$, and $\Pkg$ witnesses, so
+no further transport ledger remains.
+\end{proof}
+
+\begin{theorem}[PinGroup parity NameCert obligation surface]
+\label{thm:pingroup-parity-namecert-obligation-surface}
+The $\PinGroupUp$ obligationClosure surface is the finite
+$\mathsf{BHist}$ package obtained from the parity carrier inversion of
+\autoref{thm:pingroup-parity-carrier-inversion}, the transport-ledger
+exhaustion of \autoref{thm:pingroup-parity-transport-ledger-exhaustion}, the
+source ledger coverage of \autoref{thm:pingroup-source-ledger-coverage}, and
+the parity exactness of \autoref{thm:pingroup-reflection-parity-exactness}.
+It consists exactly of the inherited $\NameCert_{\SpinGroupUp}$ rows, the
+$\NameCert_{\CliffordUp}$ reflection rows, the parity classifier, the displayed
+$\hsame$ and $\Cont$ transport rows, the $\Pkg$ provenance rows, and the
+exported consumer rows of $\NameCert_{\PinGroupUp}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.PinGroupUp.PinGroupReflectionParityCarrier\_namecert\_obligation\_surface}
+\begin{proof}
+First use \autoref{thm:pingroup-parity-carrier-inversion}. It gives the
+row-wise inversion data and restricts every accepted parity-carrier row to the
+Spin or Clifford source projections.
+
+Then use \autoref{thm:pingroup-parity-transport-ledger-exhaustion}. This fixes
+the finite ledger as the Spin inclusion, Clifford reflection product, parity
+classifier, source projections, and exported consumer rows.
+
+Combine those two statements with
+\autoref{thm:pingroup-source-ledger-coverage} and
+\autoref{thm:pingroup-reflection-parity-exactness}. The source theorem fixes
+the two certificate inputs, while the exactness theorem fixes the branch
+classifier and its transport behavior.
+
+Apply \autoref{thm:pingroup-downstream-unblock-package} to repack the same
+$\mathsf{BHist}$ rows as the public $\NameCert_{\PinGroupUp}$ consumer surface.
+The resulting package is the full obligation surface and contains no host
+orthogonal group, quotient algebra, matrix model, or third source.
+\end{proof}
+
+\closureat{PinGroupUp}{scopedStr}[BEDC.Derived.PinGroupUp.PinGroupReflectionParityCarrier\_stability]
+\begin{closurestatus}{\PinGroupUp}
+  \constructivestory{A Pin-group parity row is generated from two already certified sources: the inherited $\SpinGroupUp$ branch and the $\CliffordUp$ reflection branch, displayed as a finite $\mathsf{BHist}$ packet with a parity classifier, $\Cont$ transport ledger, matching $\hsame$ witness, and $\Pkg$ provenance. The carrier accepts exactly the two branch shapes: either the endpoint is the transported Spin row, or the endpoint is the product of the Spin row with the displayed Clifford reflection row; no third source projection is admitted. Two accepted parity rows classify together when the branch source, product row, endpoint, and reflection row transport through the listed $\hsame$ comparisons and the displayed continuation product is preserved, so the source specification is the Spin-or-Clifford branch packet and the pattern specification is reflection parity through the finite product ledger. The ledger keeps the raw Spin inclusion, Clifford reflection product, parity classifier, branch source projection, transported endpoint, continuation rows, and provenance visible to consumers, rather than replacing them with a host orthogonal group or quotient algebra. The five name-certificate obligations close branchwise: an accepted Spin or reflection product row inhabits the carrier, inherited $\hsame$ supplies reflexivity, symmetry, and transitivity for the visible endpoint comparison, and the stability theorem transports either branch back into the same two-source carrier. A history $h$ lies in the signature gap of a $\PinGroupUp$ token $p$ when the source-domain accepts $h$ as one of those parity-carrier rows, the signature relation pairs it with an answer parity row and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, $h$ is either the Spin branch or the Clifford-reflection product branch encoded by $p$, with its $\Cont$, $\hsame$, and $\Pkg$ rows present. The chapter registers this reflection-parity obligation surface under the name $\PinGroupUp$; it introduces no host orthogonal-group equality, quotient algebra structure, matrix model, standard bridge, or source beyond the SpinGroup and Clifford rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the displayed $\NameCert_{\SpinGroupUp}$ and $\NameCert_{\CliffordUp}$ source rows, parity classifier, $\mathsf{BHist}$ carrier rows, $\hsame$ comparisons, $\Cont$ transport rows, and $\Pkg$ provenance rows of the PinGroupUp parity obligation surface.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.PinGroupUp.PinGroupReflectionParityCarrier\_stability}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not claim host orthogonal-group equality, quotient algebra structure, matrix models, standard bridge data, or any source beyond the SpinGroup and Clifford rows.}
+  \upgradepath{Public closure requires a public PinGroupUp consumer surface that exports the scoped parity carrier without importing host orthogonal-group structure.}
+\end{closurestatus}

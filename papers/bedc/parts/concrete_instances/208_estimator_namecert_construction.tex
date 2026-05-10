@@ -6,5 +6,186 @@ The estimator interface $\EstimatorUp$ packages a sequence of measurable functio
 \section{Carrier definition}
 \label{sec:estimator-carrier}
 
+\begin{definition}[EstimatorUp BHist source surface]
+\label{def:estimator-bhist-source-surface}
+The $\EstimatorUp$ $\mathsf{BHist}$ source surface consists of displayed
+$\RandomVarUp$ sample rows, an $\IndependenceUp$ sample-family row, estimator
+endpoint rows, bias and variance witness rows, componentwise $\hsame$
+transport, finite $\Cont$ readback ledgers, and $\Pkg$ provenance naming the
+source certificates. A carried estimator packet is accepted only through these
+rows: the sample rows expose the random-variable inputs, the independence row
+records the finite sample-family boundary, the endpoint rows name the
+estimator outputs, and the bias and variance witnesses are read by finite
+continuation ledgers from the same packet.
+\end{definition}
+\leandef{BEDC.Derived.EstimatorUp.EstimatorBHistSourceSurface}
+
 \section{The certificate}
 \label{sec:estimator-certificate}
+
+\begin{theorem}[EstimatorUp source obligation]
+\label{thm:estimator-source-obligation}
+Every $\EstimatorUp$ $\mathsf{BHist}$ source packet is sourced exactly by the
+$\RandomVarUp$ sample rows, the $\IndependenceUp$ sample-family row, the
+estimator endpoint rows, the bias and variance witness rows, finite $\Cont$
+readback, and $\Pkg$ provenance of
+\autoref{def:estimator-bhist-source-surface}. It includes no host
+probability-space equality, no asymptotic normality row, and no completed
+statistical convergence claim.
+\end{theorem}
+\begin{proof}
+Unpack the source surface definition. Its sample coordinates are displayed
+$\RandomVarUp$ rows, and its family coordinate is the single
+$\IndependenceUp$ row that relates those samples inside $\mathsf{BHist}$.
+
+The estimator endpoint, bias, and variance rows are then read by the listed
+finite $\Cont$ ledgers. The $\Pkg$ provenance names exactly the certificates
+used for those reads, so there is no separate source from an ambient
+probability space.
+
+Repacking those rows gives the whole source packet. Since the definition
+contains no row for host probability-space equality, asymptotic normality, or
+completed statistical convergence, none is exported by the source obligation.
+\end{proof}
+
+\leanchecked{BEDC.Derived.EstimatorUp.EstimatorBHistSourceSurface\_source\_obligation}
+
+\begin{theorem}[EstimatorUp transport obligation]
+\label{thm:estimator-transport-obligation}
+The classifier transport obligation for $\EstimatorUp$ is componentwise
+$\hsame$ transport of the displayed $\RandomVarUp$ samples, the
+$\IndependenceUp$ sample-family row, the estimator endpoint rows, the bias and
+variance witness rows, and the finite $\Cont$ ledgers of
+\autoref{def:estimator-bhist-source-surface}. Transport preserves the same
+$\Pkg$ provenance and does not identify host probability spaces, derive
+asymptotic normality, or complete any statistical convergence argument.
+\end{theorem}
+\begin{proof}
+Start with two displayed estimator packets related componentwise by $\hsame$.
+The sample rows transport through their $\RandomVarUp$ certificates, while the
+sample-family row transports through the $\IndependenceUp$ certificate.
+
+Next transport the endpoint, bias, and variance rows along the listed
+component comparisons. The finite $\Cont$ ledgers are stable under the same
+endpoint replacement, so the readback packet remains a $\mathsf{BHist}$
+estimator packet with unchanged $\Pkg$ provenance.
+
+The transported witness is therefore still built only from the source surface.
+No step introduces host probability-space equality, asymptotic normality, or a
+completed convergence theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.EstimatorUp.EstimatorBHistSourceSurface\_transport\_obligation}
+
+\begin{theorem}[EstimatorUp finite Cont-readback determinacy]
+\label{thm:estimator-finite-cont-readback-determinacy}
+Let $E_0$ and $E_1$ be accepted $\EstimatorUp$ $\mathsf{BHist}$ packets. Suppose
+they display the same $\RandomVarUp$ sample rows, the same $\IndependenceUp$
+sample-family row, matching estimator endpoint, bias, and variance witness
+rows, componentwise $\hsame$ transport, the same finite $\Cont$ ledgers, and
+the same $\Pkg$ provenance from
+\autoref{def:estimator-bhist-source-surface}. Then every public estimator
+readback row is identical after the displayed transports. No asymptotic
+normality row and no completed convergence row can mediate this readback.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through
+\autoref{thm:estimator-source-obligation}. The only source rows exposed are the
+displayed sample rows, sample-family row, endpoint rows, bias and variance
+witness rows, finite continuation ledgers, and package provenance listed in
+\autoref{def:estimator-bhist-source-surface}.
+
+Next apply \autoref{thm:estimator-transport-obligation} componentwise. The
+matching $\hsame$ transports identify the sample, independence, endpoint, bias,
+and variance rows while preserving the same finite $\Cont$ ledgers and the same
+$\Pkg$ provenance.
+
+Compare the finite continuation ledgers row-by-row. Since the ledgers are the
+same and their endpoints have already been transported into the same displayed
+rows, every public readback entry of $E_0$ agrees with the corresponding entry
+of $E_1$.
+
+Repack the common rows using
+\autoref{thm:estimator-namecert-obligation-surface}. The public
+$\NameCert_{\EstimatorUp}$ surface has no field for asymptotic normality or
+completed statistical convergence, so neither can act as an intermediate
+readback witness.
+\end{proof}
+\leanchecked{BEDC.Derived.EstimatorUp.EstimatorBHistSourceSurface\_finite\_cont\_readback\_determinacy}
+
+\begin{theorem}[EstimatorUp bias and variance ledger exclusion]
+\label{thm:estimator-bias-variance-ledger-exclusion}
+Let $E$ be an accepted $\EstimatorUp$ $\mathsf{BHist}$ packet. If $E$ exposes
+a public bias witness row or a public variance witness row, that row factors
+through the bias or variance coordinate of
+\autoref{def:estimator-bhist-source-surface}, the finite $\Cont$ readback
+ledgers displayed there, and the same $\Pkg$ provenance naming the source
+certificates. No host probability-space equality, asymptotic normality row,
+completed convergence theorem, or external statistical model supplies a
+public bias or variance witness for $\NameCert_{\EstimatorUp}$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{thm:estimator-source-obligation}. The projection lists the displayed
+sample rows, the sample-family row, estimator endpoint rows, bias and
+variance witness rows, finite continuation ledgers, and package provenance as
+the complete source surface for $E$.
+
+Transport this projected packet by
+\autoref{thm:estimator-transport-obligation}. Componentwise $\hsame$ movement
+keeps the bias and variance coordinates inside the same displayed packet and
+preserves the finite $\Cont$ ledgers together with their $\Pkg$ provenance.
+
+Now compare public readback rows using
+\autoref{thm:estimator-finite-cont-readback-determinacy}. Any exposed bias or
+variance witness row is determined by the displayed finite ledger row after
+the listed transports, so it cannot be replaced by a row outside the source
+surface.
+
+The source surface has no coordinate for host probability-space equality,
+asymptotic normality, completed convergence, or an external statistical
+model. Hence none of those data can enter the public
+$\NameCert_{\EstimatorUp}$ witness boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.EstimatorUp.EstimatorBHistSourceSurface\_bias\_variance\_ledger\_exclusion}
+
+\begin{theorem}[EstimatorUp NameCert obligation surface]
+\label{thm:estimator-namecert-obligation-surface}
+The public $\NameCert_{\EstimatorUp}$ obligation surface is precisely the
+$\mathsf{BHist}$ source surface of
+\autoref{def:estimator-bhist-source-surface}, the source obligation of
+\autoref{thm:estimator-source-obligation}, and the transport obligation of
+\autoref{thm:estimator-transport-obligation}. Its public reads expose only
+sample, independence, endpoint, bias, variance, $\hsame$, $\Cont$, and $\Pkg$
+rows, and exclude host probability-space equality, asymptotic normality, and
+completed statistical convergence.
+\end{theorem}
+\begin{proof}
+The carrier row is the displayed source surface. By
+\autoref{thm:estimator-source-obligation}, every accepted estimator packet
+unpacks into the named sample, independence, endpoint, bias, variance,
+continuation, and provenance rows.
+
+The classifier and stability rows are supplied by
+\autoref{thm:estimator-transport-obligation}. Componentwise $\hsame$ moves the
+visible rows and preserves the finite ledgers, so the transported packet
+reassembles under the same $\NameCert_{\EstimatorUp}$ interface.
+
+Combining these two obligations gives the exact public surface. The surface is
+anchored in $\mathsf{BHist}$ and contains no field for host probability-space
+equality, asymptotic normality, or completed statistical convergence.
+\end{proof}
+\leanchecked{BEDC.Derived.EstimatorUp.EstimatorBHistSourceSurface\_namecert\_obligation\_surface}
+
+\closureat{EstimatorUp}{seedStr}[BEDC.Derived.EstimatorUp.EstimatorBHistSourceSurface\_namecert\_obligation\_surface]
+\closureat{EstimatorUp}{obligationStr}[BEDC.Derived.EstimatorUp.EstimatorBHistSourceSurface\_namecert\_obligation\_surface]
+\closureat{EstimatorUp}{scopedStr}[BEDC.Derived.EstimatorUp.EstimatorBHistSourceSurface\_namecert\_obligation\_surface]
+\begin{closurestatus}{\EstimatorUp}
+  \constructivestory{An estimator row is seeded by consuming $\RandomVarUp$ and $\IndependenceUp$ source packets, then displaying the sample rows, sample-family row, estimator endpoint rows, bias and variance witness rows, finite continuation ledgers, and shared $\mathsf{Pkg}$ provenance in one $\mathsf{BHist}$ source surface. The checked obligation theorem records this source surface as the visible $\NameCert_{\EstimatorUp}$ boundary; host probability equality, asymptotic normality, completed convergence, and external statistical-model data are not fields of the seed packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The obligation scope binds the displayed $\RandomVarUp$, $\IndependenceUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, estimator source, transport, bias, variance, and readback rows to the checked obligation theorem.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.EstimatorUp.EstimatorBHistSourceSurface\_namecert\_obligation\_surface}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host probability equality, asymptotic normality, or completed convergence.}
+  \upgradepath{The next theory-axis step is a public exported $\EstimatorUp$ certificate theorem.}
+\end{closurestatus}

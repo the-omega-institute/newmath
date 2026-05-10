@@ -208,6 +208,7 @@ Thus no host function is part of the scoped comparison. The fibre and
 projection data remain named histories, and the ledger records their sources in
 the same $\mathsf{BHist}$ vocabulary.
 \end{proof}
+\leanchecked{BEDC.Derived.BundleUp.BundleLocalTrivPkg\_projection\_fibre\_source\_scope}
 
 \begin{theorem}[Bundle trivialization ProbeBundle scope]
 \label{thm:bundle-trivialization-probebundle-scope}
@@ -246,6 +247,7 @@ $\NameCert_{\ManifoldUp}$ classifier only for the base and total manifold rows;
 overlap transitions and ledger entries remain bundle-specific
 $\mathsf{BHist}$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.BundleUp.BundleLocalTrivPkg\_transition\_ledger\_scope}
 \begin{proof}
 Start with two transported trivialization rows. By
 \autoref{thm:bundle-trivialization-transition-stability}, their overlap row is
@@ -274,6 +276,7 @@ all bundle-specific data are $\mathsf{BHist}$ rows compared by componentwise
 $\hsame$, and the only retained external classifier is
 $\NameCert_{\ManifoldUp}$ on the base and total manifold rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.BundleUp.BundleLocalTrivPkgRows\_scoped\_unary\_coverage}
 \begin{proof}
 First assemble the carrier rows using
 \autoref{thm:bundle-carrier-projection-obligation}. This supplies the base,
@@ -291,3 +294,18 @@ $\NameCert_{\BundleUp}$ fields are exactly the displayed carrier, classifier,
 stability, transition ledger, readback, and absent-bridge rows. Therefore the
 scoped rows above repack into the stated kernel-facing obligation package.
 \end{proof}
+
+\closureat{BundleUp}{scopedStr}[BEDC.Derived.BundleUp.BundleLocalTrivPkgRows\_scoped\_unary\_coverage]
+\closureat{BundleUp}{publicStr}[BEDC.Derived.BundleUp.BundleLocalTrivPkg\_semantic\_name\_certificate]
+\closureat{BundleUp}{bridgedStr}[BEDC.Derived.BundleUp.BundleLocalTrivPkg\_semantic\_name\_certificate]
+
+\begin{closurestatus}{\BundleUp}
+  \constructivestory{A bundle is built as a visible local-trivialization package: base and total manifold rows from $\ManifoldUp$, a projection history, a fibre-model history, a finite $\mathsf{ProbeBundle}$ of trivialization witnesses, transition histories on overlaps, and a source ledger. The carrier accepts exactly these $\mathsf{BundleLocalTrivPkg}$ packages and has no second branch; the base and total rows are compared by the retained manifold classifier, while projection, fibre, trivialization, transition, and ledger rows are compared componentwise by $\hsame$. The source is the manifold certificate together with the displayed bundle histories, the pattern records projection compatibility, finite trivialization scope, transition congruence and cocycle-style ledger closure, and visible exactness, while the ledger keeps each carrier, projection, trivialization, fibre, and transition source entry aligned with its transported row. The scoped name-certificate obligations are read from those projections: an accepted package inhabits the carrier, the retained manifold classifier and componentwise $\hsame$ supply reflexivity, symmetry, and transitivity, and carrier transport plus ledger descent keep the package admitted after classified replacement. A history $h$ lies in the signature gap of a $\BundleUp$ token $p$ when the source-domain accepts $h$ as this local-trivialization package, the signature relation pairs it with an answer package and evidence ledger, and token introduction names that answer as $p$; unfolded, the projection, finite probes, transitions, and source ledger are the exact rows encoded by $p$. No standard bridge row is present, so no ordinary bundle equivalence is exported. The chapter registers this local-trivialization package under the name $\BundleUp$; bundle structure is a finite BEDC history ledger over $\ManifoldUp$, with no host bundle object, tangent-bundle primitive, or external transition-function library introduced.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The bridged paper surface binds exactly the finite local-trivialization certificate surface: carrier projection, projection--fibre source scope, finite $\mathsf{ProbeBundle}$ trivialization scope, transition-ledger descent, visible exactness rows, $\mathsf{BHist}$ carrier histories, componentwise $\hsame$ comparisons, and retained $\NameCert_{\ManifoldUp}$ classifier named in this chapter.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.BundleUp.BundleLocalTrivPkg\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{Standard bundle equivalence, tangent and cotangent bundles, frame bundles, bridgeChecked verification, and mature bundle examples remain outside this block.}
+  \upgradepath{The next verification step is bridgeChecked coverage for the finite local-trivialization certificate surface, with mature bundle examples handled separately.}
+\end{closurestatus}

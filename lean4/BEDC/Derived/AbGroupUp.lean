@@ -73,6 +73,33 @@ theorem singleton_empty_history_abgroup_laws :
         · intro _x _y _carrierX _carrierY
           exact emptyClassified
 
+theorem abgroup_singleton_terminal_standard_bridge :
+    SemanticNameCert BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonCarrier
+        BEDC.Derived.GroupUp.GroupSingletonClassifier ∧
+      BEDC.Derived.GroupUp.GroupSingletonCarrier BHist.Empty ∧
+      (forall {h : BHist}, BEDC.Derived.GroupUp.GroupSingletonCarrier h ->
+        BEDC.Derived.GroupUp.GroupSingletonClassifier h BHist.Empty) ∧
+      (forall {h k : BHist}, BEDC.Derived.GroupUp.GroupSingletonCarrier h ->
+        BEDC.Derived.GroupUp.GroupSingletonCarrier k ->
+          BEDC.Derived.GroupUp.GroupSingletonClassifier BHist.Empty BHist.Empty) := by
+  have laws := singleton_empty_history_abgroup_laws
+  have emptyCarrier : BEDC.Derived.GroupUp.GroupSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  have terminal :
+      forall {h : BHist}, BEDC.Derived.GroupUp.GroupSingletonCarrier h ->
+        BEDC.Derived.GroupUp.GroupSingletonClassifier h BHist.Empty := by
+    intro h carrierH
+    exact And.intro carrierH (And.intro emptyCarrier carrierH)
+  have terminalPair :
+      forall {h k : BHist}, BEDC.Derived.GroupUp.GroupSingletonCarrier h ->
+        BEDC.Derived.GroupUp.GroupSingletonCarrier k ->
+          BEDC.Derived.GroupUp.GroupSingletonClassifier BHist.Empty BHist.Empty := by
+    intro h k carrierH carrierK
+    exact laws.right.right.right.right carrierH carrierK
+  exact And.intro laws.left (And.intro emptyCarrier (And.intro terminal terminalPair))
+
 theorem abgroup_mul_left_right_swap {mul : BHist -> BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
     (commC : forall x y : BHist, hsame (mul x y) (mul y x))

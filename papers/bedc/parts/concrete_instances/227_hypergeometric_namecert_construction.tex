@@ -6,5 +6,285 @@ The hypergeometric-function interface $\HypergeometricUp$ packages the analytic 
 \section{Carrier definition}
 \label{sec:hypergeometric-carrier}
 
+\begin{definition}[HypergeometricUp BHist source packet]
+\label{def:hypergeometric-bhist-source-packet}
+A $\HypergeometricUp$ source packet is a finite $\mathsf{BHist}$ tuple
+$(C,G,A,B,R,S,\rho,\lambda)$. The row $C$ is the consumed
+$\ComplexAnalyticUp$ dependency packet, and the row $G$ is the consumed
+$\GammaUp$ dependency packet. The rows $A$ and $B$ record the visible numerator
+and denominator parameter lists for the $_pF_q$ series, the row $R$ records the
+ascending-factorial coefficient-ratio boundary, and the row $S$ records the
+finite series-readback boundary over the displayed complex-analytic carrier.
+The row $\rho$ is the $\Pkg$ provenance linking the two dependency packets to
+the hypergeometric name, and $\lambda$ is the finite $\Cont$ ledger storing the
+$\hsame$ transports among parameters, coefficient ratios, and readback rows.
+
+Acceptance is exactly this finite packet. It carries no analytic continuation
+theorem, no host power-series object, no monodromy data, no differential
+equation, and no external equality of special functions.
+\end{definition}
+
+\begin{theorem}[HypergeometricUp root carrier]
+\label{thm:hypergeometric-root-carrier}
+Every accepted $\HypergeometricUp$ carrier row projects to the
+$\ComplexAnalyticUp$ dependency row, the $\GammaUp$ dependency row, the
+parameter rows $A$ and $B$, the coefficient-ratio row $R$, the finite readback
+row $S$, the $\Pkg$ provenance $\rho$, and the $\Cont$ ledger $\lambda$ of
+\autoref{def:hypergeometric-bhist-source-packet}. Conversely, those rows repack
+as an accepted carrier packet when their displayed $\hsame$ transports are the
+ones recorded by $\lambda$.
+\end{theorem}
+\begin{proof}
+Project an accepted packet by its displayed tuple coordinates. The first two
+coordinates expose the complex-analytic and Gamma dependency packets, while the
+parameter, coefficient-ratio, readback, provenance, and ledger coordinates are
+read directly from the finite $\mathsf{BHist}$ packet.
+
+For the converse, place the same displayed rows back into the tuple constructor
+and use the stored $\Cont$ ledger as the acceptance evidence. The construction
+does not inspect a host series or an analytic continuation theorem, because no
+such coordinate occurs in the packet.
+\end{proof}
+\leanchecked{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_root\_carrier}
+
+\begin{theorem}[HypergeometricUp root classifier]
+\label{thm:hypergeometric-root-classifier}
+For two $\HypergeometricUp$ source packets, the root classifier compares only
+the consumed $\ComplexAnalyticUp$ and $\GammaUp$ dependency rows, the numerator
+and denominator parameter rows, the coefficient-ratio row, the finite readback
+row, the $\Pkg$ provenance row, and the finite $\Cont$ and $\hsame$ ledger.
+Transport along those rows preserves the accepted carrier and supplies no
+analytic-continuation classifier outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start with the dependency comparisons. The carried
+$\ComplexAnalyticUp$ and $\GammaUp$ rows supply the only classifiers available
+for the analytic carrier and Gamma-derived parameter faces.
+
+Next transport the parameter rows, the coefficient-ratio row, and the finite
+series-readback row through the displayed $\hsame$ comparisons stored in
+$\lambda$. The $\Pkg$ row records that the transported faces belong to the same
+hypergeometric packet.
+
+Repack the transported rows by
+\autoref{thm:hypergeometric-root-carrier}. Since the classifier has compared
+every packet coordinate and no continuation classifier is present, the result is
+exactly the root classifier surface.
+\end{proof}
+\leanchecked{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_root\_classifier}
+
+\begin{theorem}[HypergeometricUp root ledger]
+\label{thm:hypergeometric-root-ledger}
+The $\HypergeometricUp$ root ledger is exact: its rows are precisely the
+$\ComplexAnalyticUp$ dependency, the $\GammaUp$ dependency, the two parameter
+lists, the coefficient-ratio boundary, the finite $\Cont$ readback, the
+$\hsame$ transports, and the $\Pkg$ provenance of
+\autoref{def:hypergeometric-bhist-source-packet}. No analytic continuation,
+singularity classification, monodromy representation, differential-equation
+solution, or host-function equality is part of this ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_root\_ledger}
+\begin{proof}
+Coverage follows by projecting the accepted source packet. Each ledger entry is
+one of the displayed tuple coordinates or one of the transport rows stored in
+the finite $\Cont$ ledger.
+
+Soundness is the reverse projection. Given exactly those rows, the source packet
+constructor rebuilds the same accepted $\HypergeometricUp$ carrier and the same
+classifier surface.
+
+Completeness follows from the packet inventory. There is no coordinate for
+analytic continuation, singularity data, monodromy, a host differential
+equation, or external function equality, so none of those rows can be consumed
+from the root ledger.
+\end{proof}
+
+\begin{theorem}[HypergeometricUp root stability]
+\label{thm:hypergeometric-root-stability}
+If a $\HypergeometricUp$ source packet is transported by the displayed
+$\hsame$ rows on its $\ComplexAnalyticUp$ dependency, $\GammaUp$ dependency,
+parameter lists, coefficient-ratio boundary, finite readback row, and
+$\Pkg$ provenance, then the transported packet is again accepted by the same
+root carrier and classified by the same root classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_root\_stability}
+\begin{proof}
+Read the carrier rows using
+\autoref{thm:hypergeometric-root-carrier}. The hypotheses give an $\hsame$
+transport for every visible coordinate of the packet.
+
+Use the finite $\Cont$ ledger to move the coefficient-ratio and readback rows
+with the parameter transports. The dependency rows move through their own
+displayed $\NameCert$ classifiers, and the $\Pkg$ provenance remains attached
+to the transported packet.
+
+Apply \autoref{thm:hypergeometric-root-classifier} to the transported row
+inventory. It compares exactly the rows just transported, so the accepted packet
+and its classifier are stable without using analytic continuation as an
+uncarried host theorem.
+\end{proof}
+
+\begin{theorem}[HypergeometricUp endpoint ledger determinacy]
+\label{thm:hypergeometric-endpoint-ledger-determinacy}
+Let two $\HypergeometricUp$ source packets share the
+$\ComplexAnalyticUp$ dependency row and the $\GammaUp$ dependency row. Suppose
+their numerator-parameter, denominator-parameter, finite readback, and
+$\Pkg$ provenance rows are compared rowwise by $\hsame$, and suppose their
+coefficient-ratio, finite ledger, and endpoint rows are carried by compatible
+$\Cont$ rows over those comparisons. Then the transported endpoint, the
+coefficient-ratio row, and the finite ledger are determined up to $\hsame$ by
+the common $\mathsf{BHist}$ packet rows.
+
+Equivalently, any downstream consumer that sees only those dependency rows,
+parameter comparisons, readback rows, provenance rows, and compatible $\Cont$
+entries cannot distinguish two different transported endpoints,
+coefficient-ratio rows, or finite ledgers inside the root surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_endpoint\_ledger\_determinacy}
+\begin{proof}
+First apply \autoref{thm:hypergeometric-root-classifier}. The classifier
+compares exactly the $\ComplexAnalyticUp$ dependency, the $\GammaUp$ dependency,
+the numerator and denominator parameter rows, the readback rows, and the
+$\Pkg$ provenance rows, so the two packets have the same root-facing
+classification data.
+
+Next apply \autoref{thm:hypergeometric-root-stability}. The compatible $\Cont$
+rows transport the coefficient-ratio boundary, finite ledger, and endpoint
+through the already matched parameter and dependency rows, keeping the
+transported packet inside the same root carrier and classifier surface.
+
+Finally apply \autoref{thm:hypergeometric-root-ledger}. Ledger exactness says
+that no further row is available to decide an endpoint, coefficient-ratio
+boundary, or finite ledger. The conclusion therefore uses only the finite
+$\mathsf{BHist}$ packet, $\Cont$, $\hsame$, and $\Pkg$ rows; it does not use
+analytic continuation or host special-function equality.
+\end{proof}
+
+\begin{theorem}[HypergeometricUp root consumer boundary]
+\label{thm:hypergeometric-root-consumer-boundary}
+A downstream consumer of the $\HypergeometricUp$ root may read exactly the
+$\mathsf{BHist}$ source packet of
+\autoref{def:hypergeometric-bhist-source-packet}, the carrier projection of
+\autoref{thm:hypergeometric-root-carrier}, the classifier stability of
+\autoref{thm:hypergeometric-root-classifier}, the exact ledger of
+\autoref{thm:hypergeometric-root-ledger}, and the transport stability of
+\autoref{thm:hypergeometric-root-stability}. It may consume the displayed
+complex-analytic dependency, Gamma dependency, parameter rows,
+coefficient-ratio row, finite readback, $\Cont$, $\hsame$, and $\Pkg$
+provenance; it may not consume analytic continuation as an uncarried host
+theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_root\_consumer\_boundary}
+\begin{proof}
+First project the source packet. The carrier theorem lists every row available
+to the consumer and repacks exactly those rows as the accepted
+$\HypergeometricUp$ root.
+
+Next apply the classifier and stability theorems. They show that all comparisons
+and transports remain inside the same dependency, parameter, coefficient-ratio,
+readback, provenance, and ledger surface.
+
+Finally apply ledger exactness. Since the ledger has no coordinate for analytic
+continuation or for any external special-function equality, the consumer
+boundary is precisely the displayed finite $\mathsf{BHist}$ packet.
+\end{proof}
+
 \section{The certificate}
 \label{sec:hypergeometric-certificate}
+
+\begin{theorem}[HypergeometricUp NameCert obligation surface]
+\label{thm:hypergeometric-namecert-obligation-surface}
+The source packet of \autoref{def:hypergeometric-bhist-source-packet} together
+with \autoref{thm:hypergeometric-root-carrier},
+\autoref{thm:hypergeometric-root-classifier},
+\autoref{thm:hypergeometric-root-ledger},
+\autoref{thm:hypergeometric-root-stability}, and
+\autoref{thm:hypergeometric-root-consumer-boundary} supplies the paper-side
+$\NameCert_{\HypergeometricUp}$ obligation surface. Its rows are exactly the
+$\mathsf{BHist}$ source packet, $\Cont$, $\hsame$, $\Pkg$, the
+$\ComplexAnalyticUp$ dependency row, the $\GammaUp$ dependency row, the
+parameter rows, the coefficient-ratio row, and the finite readback row.
+\end{theorem}
+\begin{proof}
+Start with the source packet definition. It displays the carrier coordinates:
+the two dependency packets, numerator and denominator parameter rows, the
+coefficient-ratio row, the finite readback row, package provenance, and the
+finite continuation ledger.
+
+Apply the root carrier, classifier, ledger, and stability theorems. They show
+that these displayed coordinates are enough for habitation, rowwise
+classification, ledger exactness, and transport stability of the
+$\HypergeometricUp$ packet.
+
+Finally use the root consumer-boundary theorem. It states that downstream reads
+factor through the same displayed rows, so the five local theorems assemble the
+paper-side $\NameCert_{\HypergeometricUp}$ obligation surface without adding an
+analytic-continuation row.
+\end{proof}
+\leanchecked{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_namecert\_obligation\_surface}
+
+\begin{theorem}[HypergeometricUp signature-gap boundary]
+\label{thm:hypergeometric-signature-gap-boundary}
+Any $\HypergeometricUp$ token gap may expose only the rows of
+\autoref{thm:hypergeometric-namecert-obligation-surface}: the finite
+$\mathsf{BHist}$ packet, $\Cont$, $\hsame$, $\Pkg$, the
+$\ComplexAnalyticUp$ and $\GammaUp$ dependency rows, parameter rows, the
+coefficient-ratio row, and the finite readback row. It never exposes analytic
+continuation, monodromy, singularity classification, host differential
+equations, or host special-function equality.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligation surface to enumerate the only rows accepted and
+transported by the certificate. The carrier and classifier theorems keep token
+gap reads inside those finite packet coordinates.
+
+The ledger and stability theorems exclude additional coordinates from the
+transport surface. In particular, analytic continuation, monodromy, singularity
+classification, host differential equations, and host special-function equality
+are not fields of the packet and cannot be recovered by $\hsame$ or $\Cont$.
+
+The consumer-boundary theorem gives the downstream direction. Any exposed token
+gap row must be consumed through the finite packet surface already listed, so
+the signature gap has exactly that boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_signature\_gap\_boundary}
+
+\begin{theorem}[HypergeometricUp public certificate handoff]
+\label{thm:hypergeometric-public-certificate-handoff}
+The public $\NameCert_{\HypergeometricUp}$ handoff consists exactly of the
+finite $\mathsf{BHist}$ source packet of
+\autoref{def:hypergeometric-bhist-source-packet}, $\Cont$, $\hsame$, $\Pkg$, the
+$\ComplexAnalyticUp$ dependency row, the $\GammaUp$ dependency row, the
+parameter rows, the coefficient-ratio row, the finite readback row, and the
+signature-gap exclusion of
+\autoref{thm:hypergeometric-signature-gap-boundary}. It exports no analytic
+continuation, monodromy, singularity classification, host differential
+equation, or host special-function equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_public\_certificate\_handoff}
+\begin{proof}
+First apply \autoref{thm:hypergeometric-namecert-obligation-surface}. It
+packages the finite source packet with exactly the continuation, transport,
+provenance, dependency, parameter, coefficient-ratio, and readback rows required
+by the public name certificate.
+
+Next apply \autoref{thm:hypergeometric-signature-gap-boundary}. The same finite
+rows are the only rows visible through a token gap, and the excluded analytic
+objects have no coordinate in the accepted packet.
+
+Combining the obligation surface with the gap boundary gives the consumer
+handoff. A downstream chapter may cite this theorem to receive the displayed
+finite $\mathsf{BHist}$ packet and the stated exclusions without importing any
+host analytic continuation or special-function equality.
+\end{proof}
+
+\begin{closurestatus}{\HypergeometricUp}
+  \constructivestory{A hypergeometric packet is assembled from the finite $\mathsf{BHist}$ source packet, the $\ComplexAnalyticUp$ and $\GammaUp$ dependency rows, the parameter rows, the coefficient-ratio row, the finite readback row, and the displayed $\NameCert$ obligation surface. The carrier accepts only these rows together with $\Cont$, $\hsame$, and $\Pkg$ provenance, so downstream consumers receive the public certificate handoff while analytic continuation, differential-equation semantics, asymptotics, and standard special-function bridges remain outside the displayed packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the root carrier, classifier, ledger, stability, $\NameCert$ obligation, and signature-gap rows displayed by the finite hypergeometric packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_namecert\_obligation\_surface}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close analytic continuation, differential equations, asymptotics, standard hypergeometric identities, or standard bridge rows.}
+  \upgradepath{The next paper-axis grade requires a public bridge or mature package boundary for the displayed hypergeometric certificate surface.}
+\end{closurestatus}

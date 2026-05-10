@@ -99,4 +99,21 @@ theorem ContinuousFunctionCarrier_certificate_semanticNameCert
   · intro _c displayed
     exact displayed
 
+theorem ContinuousUp_StdBridge {source map target modulus cert : BHist} :
+    ContinuousFunctionCarrier source map target modulus cert ->
+      ContinuousSourceSpec source ∧
+        ContinuousFunctionPatternSpec source map target modulus cert ∧
+          SemanticNameCert
+            (fun c : BHist => ContinuousFunctionCarrier source map target modulus c)
+            (fun c : BHist => ContinuousFunctionCarrier source map target modulus c)
+            (fun c : BHist => ContinuousFunctionCarrier source map target modulus c) hsame := by
+  intro carrier
+  have certCarrier : UnaryHistory cert :=
+    unary_cont_closed carrier.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right
+  have patternSpec : ContinuousFunctionPatternSpec source map target modulus cert :=
+    (ContinuousFunctionPatternSpec_function_carrier_iff.mpr (And.intro carrier certCarrier))
+  exact And.intro (ContinuousFunctionCarrier_sourceSpec_readback carrier)
+    (And.intro patternSpec (ContinuousFunctionCarrier_certificate_semanticNameCert carrier))
+
 end BEDC.Derived.ContinuousUp

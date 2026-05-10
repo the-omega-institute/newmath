@@ -491,4 +491,82 @@ theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_present_i
                                                                                                               relXY,
                                                                                                               exclusions⟩
 
+theorem TaggedOptionPayloadDescentImageClassifier_composite_normalized_unique_intermediate_factor_coverage
+    {S T U : BHist -> Prop} {RelS RelT RelU : BHist -> BHist -> Prop}
+    (delta : DescentCertificate BHist BHist RelS RelT)
+    (epsilon : DescentCertificate BHist BHist RelT RelU)
+    (rhoD : forall a : BHist, S a -> T (delta.map a))
+    (rhoE : forall b : BHist, T b -> U (epsilon.map b))
+    (epsilon_hsame : forall x y : BHist, T x -> T y -> hsame x y ->
+      hsame (epsilon.map x) (epsilon.map y))
+    (certS : NameCert S RelS)
+    (certT : NameCert T RelT)
+    (certU : NameCert U RelU)
+    (source_hsame : TaggedOptionSourceHsameCompatible S RelS)
+    (middle_hsame : TaggedOptionSourceHsameCompatible T RelT)
+    (target_hsame : TaggedOptionSourceHsameCompatible U RelU)
+    (reflects : TaggedOptionPayloadDescentReflectsSource T epsilon) {m m' u u' : BHist} :
+    TaggedOptionPayloadDescentImageClassifier S U (TaggedOptionDescentComp delta epsilon) m m' ->
+      hsame m u ->
+        hsame m' u' ->
+          exists k k' : BHist,
+            TaggedOptionPayloadDescentImageClassifier S T delta k k' ∧
+              TaggedOptionMapRel T U epsilon k u ∧
+                TaggedOptionMapRel T U epsilon k' u' ∧
+                  TaggedOptionHistoryClassifier T RelT k k' ∧
+                    (forall l l' : BHist, TaggedOptionMapRel T U epsilon l u ->
+                      TaggedOptionMapRel T U epsilon l' u' ->
+                        TaggedOptionHistoryClassifier T RelT k l ∧
+                          TaggedOptionHistoryClassifier T RelT k' l') ∧
+                    ((hsame u BHist.Empty ∧ hsame u' BHist.Empty) ∨
+                      exists x y : BHist, U x ∧ U y ∧ hsame u (BHist.e1 x) ∧
+                        hsame u' (BHist.e1 y)) := by
+  intro image sameMU sameM'U'
+  have covered :=
+    TaggedOptionPayloadDescentImageClassifier_composite_normalized_intermediate_classifier_coverage
+      delta epsilon rhoD rhoE epsilon_hsame certS certT certU source_hsame middle_hsame
+      target_hsame image sameMU sameM'U'
+  cases covered with
+  | intro k covered =>
+      cases covered with
+      | intro k' data =>
+          have competing :
+              forall l l' : BHist, TaggedOptionMapRel T U epsilon l u ->
+                TaggedOptionMapRel T U epsilon l' u' ->
+                  TaggedOptionHistoryClassifier T RelT k l ∧
+                    TaggedOptionHistoryClassifier T RelT k' l' := by
+            intro l l' mapLU mapL'U'
+            exact
+              TaggedOptionPayloadDescentImageClassifier_composite_normalized_intermediate_factor_coherence
+                epsilon reflects data.right.left mapLU data.right.right.left mapL'U'
+          have transported :
+              TaggedOptionPayloadDescentImageClassifier S U (TaggedOptionDescentComp delta epsilon)
+                u u' :=
+            TaggedOptionPayloadDescentImageClassifier_hsame_transport
+              (TaggedOptionDescentComp delta epsilon) certS source_hsame image sameMU sameM'U'
+          have branch :=
+            (TaggedOptionPayloadDescentImageClassifier_branch_exactness
+              (TaggedOptionDescentComp delta epsilon) certS source_hsame).mp transported
+          have publicShape :
+              (hsame u BHist.Empty ∧ hsame u' BHist.Empty) ∨
+                exists x y : BHist, U x ∧ U y ∧ hsame u (BHist.e1 x) ∧
+                  hsame u' (BHist.e1 y) := by
+            cases branch with
+            | inl absent =>
+                exact Or.inl absent
+            | inr present =>
+                cases present with
+                | intro a present =>
+                    cases present with
+                    | intro b rows =>
+                        exact Or.inr
+                          ⟨epsilon.map (delta.map a), epsilon.map (delta.map b),
+                            rows.right.right.right.left,
+                            rows.right.right.right.right.left,
+                            rows.right.right.right.right.right.left,
+                            rows.right.right.right.right.right.right⟩
+          exact
+            ⟨k, k', data.left, data.right.left, data.right.right.left,
+              data.right.right.right, competing, publicShape⟩
+
 end BEDC.Derived.OptionUp

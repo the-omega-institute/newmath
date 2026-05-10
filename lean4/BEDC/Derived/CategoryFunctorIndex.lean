@@ -39,6 +39,7 @@ import BEDC.Derived.CategoryUp.TargetDescent
 import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CategoryUp.HomContinuationTail
 import BEDC.Derived.CategoryUp.ContinuationBridge
+import BEDC.Derived.CategoryUp.StdBridge
 import BEDC.Derived.CategoryUp.EndomorphismTail
 import BEDC.Derived.CategoryUp.VisibleTailResult
 import BEDC.Derived.CategoryUp.RightVisibleTailEmpty
@@ -121,6 +122,7 @@ import BEDC.Derived.NatTransUp.UnaryObjectSuffix
 import BEDC.Derived.NatTransUp.VertCompNonemptyResultTargetVisible
 import BEDC.Derived.NatTransUp.VertCompCycleBoundary
 import BEDC.Derived.NatTransUp.VerticalWhisker
+import BEDC.Derived.NatTransUp.NaturalIso
 import BEDC.Derived.AdjunctionUp
 import BEDC.Derived.AdjunctionUp.CarrierSwap
 import BEDC.Derived.AdjunctionUp.TriangleComponents

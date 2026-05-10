@@ -493,7 +493,13 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
 
     # ---- Codex track ----
     codex_summary: dict = cursor.get("codex_track") or {}
-    codex_already_ran = bool(codex_summary) or bool(turns) or raw_latex_path.exists()
+    codex_summary_verdict = str(codex_summary.get("verdict") or "").lower()
+    codex_infra_error = (codex_summary_verdict == "error")
+    codex_already_ran = (
+        (bool(codex_summary) and not codex_infra_error)
+        or bool(turns)
+        or raw_latex_path.exists()
+    )
     codex_close_path = bool(codex_summary.get("close_path", False))
     # Resume case: cursor was written under v1 Stage 0 (key: "stage0") with
     # accept verdict OR raw_oracle_latex.md exists from prior closed run.
@@ -543,6 +549,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
         write_text(out_dir / "codex_track_result.json", json.dumps(codex_summary, ensure_ascii=False, indent=2))
         cursor["codex_track"] = codex_summary
         cursor["codex_board_candidates"] = codex_board_candidates
+        codex_infra_error = (ct.verdict == "error")
         save_cursor(target, {
             "turns": turns,
             "started_at": started_at,
@@ -583,6 +590,24 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
     # these up via `claim_next_for_oracle`. This decouples the codex
     # parallelism (high) from the oracle parallelism (capped at tab count).
     role = (getattr(args, "worker_role", "all") or "all").lower()
+    if verdict == "open" and codex_infra_error:
+        release_oracle_pending(target)
+        reason = str(codex_summary.get("reason") or codex_summary.get("error") or "")
+        print(
+            f"[v2 codex-infra] {target.target_id} codex_track returned 'error' "
+            f"({reason[:200] or 'no reason'}); leaving unmarked for codex retry",
+            flush=True,
+        )
+        return {
+            "target_id": target.target_id,
+            "title": target.title,
+            "codex_track": codex_summary,
+            "codex_board_candidates": codex_board_candidates,
+            "queued_for_oracle": False,
+            "infra_retry": True,
+            "started_at": started_at,
+            "completed_at": None,
+        }
     if role == "codex" and verdict == "open":
         pending = oracle_pending_marker(target)
         pending.parent.mkdir(parents=True, exist_ok=True)
@@ -1131,6 +1156,36 @@ def oracle_pending_marker(target: BedcTarget) -> Path:
     return STATE_DIR / target.slug / ".oracle_pending"
 
 
+def clear_infra_failure_pending() -> int:
+    hints = ("rc=", "usage limit", "unreachable", "connection", "timeout")
+    cleared = 0
+    for pending in STATE_DIR.glob("*/.oracle_pending"):
+        try:
+            data = json.loads(pending.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        summary = data.get("codex_summary") or {}
+        if not isinstance(summary, dict):
+            continue
+        verdict = str(summary.get("verdict") or "").lower()
+        error = str(summary.get("error") or "")
+        reason = str(summary.get("reason") or data.get("reason") or "")
+        if verdict != "error" and not any(h in error.lower() for h in hints):
+            continue
+        try:
+            pending.unlink()
+        except OSError:
+            continue
+        cleared += 1
+        print(
+            f"[v2 codex-infra-cleanup] cleared {pending.parent.name}: "
+            f"{(reason or error or verdict)[:200]}",
+            flush=True,
+        )
+    print(f"[v2 codex-infra-cleanup] total cleared {cleared}", flush=True)
+    return cleared
+
+
 def release_oracle_pending(target: BedcTarget) -> None:
     p = oracle_pending_marker(target)
     if p.exists():
@@ -1422,6 +1477,7 @@ def _run_loop_two_pool(args: argparse.Namespace,
         f"oracle_parallel={oracle_parallel}",
         flush=True,
     )
+    clear_infra_failure_pending()
 
     codex_args = copy.copy(args)
     codex_args.worker_role = "codex"

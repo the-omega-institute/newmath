@@ -46,6 +46,7 @@ from pathlib import Path
 from typing import Optional
 
 import board_context
+import paper_gap_scanner
 import paper_index
 
 
@@ -174,6 +175,21 @@ def build_refill_prompt() -> str:
         board_content=_safe(board),
         paper_labels=_safe(paper_coverage),
     )
+
+
+def _paper_gap_candidates() -> list[dict]:
+    try:
+        candidates = paper_gap_scanner.generate_candidates()
+    except Exception as exc:
+        print(f"[board_refill] WARN: paper_gap_scanner failed: {exc}", flush=True)
+        return []
+    tagged = []
+    for candidate in candidates:
+        if isinstance(candidate, dict):
+            tagged.append({**candidate, "source": "paper_gap_scanner"})
+    print(f"[board_refill] paper_gap_scanner returned {len(tagged)} raw candidates",
+          flush=True)
+    return tagged
 
 
 # ---------------------------------------------------------------------------
@@ -350,7 +366,10 @@ def main() -> int:
         if isinstance(c, dict):
             c["source"] = "oracle_board_refill"
 
-    print(f"[board_refill] oracle returned {len(candidates)} raw candidates",
+    gap_candidates = _paper_gap_candidates()
+    candidates.extend(gap_candidates)
+
+    print(f"[board_refill] oracle returned {len(candidates) - len(gap_candidates)} raw candidates",
           flush=True)
     if not candidates:
         print("[board_refill] empty candidate list — oracle declined to suggest anything",

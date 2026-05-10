@@ -1,0 +1,764 @@
+\chapter{A Concrete Naming Certificate for $\POSetUp$}
+\label{ch:concrete-instances-poset-namecert}
+
+The partially ordered set interface $\POSetUp$ extends \autoref{ch:concrete-instances-preorder-namecert} with the antisymmetry field: if $a \le b$ and $b \le a$ then $a$ and $b$ are classified the same by the carrier. The integer order from \autoref{ch:concrete-instances-int-namecert} is the canonical concrete instance.
+
+\begin{remark}[$\POSetUp$ interface scope]
+\label{rem:concrete-instances-poset-namecert-scope}
+This chapter records the $\POSetUp$ licensing target. The concrete prefix
+antisymmetry theorem is linked to the unary preorder classifier, and the
+certificate fields are specified below.
+\end{remark}
+
+\section{Carrier definition}
+
+\begin{definition}[POSet carrier]
+\label{def:poset-carrier}
+Use a preorder setup extended with antisymmetry under the carrier classifier.
+\end{definition}
+
+\begin{theorem}[POSetUp BHist carrier transport obligation]
+\label{thm:poset-bhist-carrier-transport-obligation}
+Let $h$ and $k$ be carried $\mathsf{BHist}$ endpoints in the concrete unary
+prefix preorder carrier.  If $h\hsame k$, the preorder carrier transport row
+is present, and the $\POSetUp$ antisymmetry row is carried with that preorder
+package, then transporting the endpoint from $h$ to $k$ leaves it in the
+$\POSetUp$ carrier.  The transported package keeps the preorder carrier row
+and repacks the same antisymmetry field; it does not introduce a quotient
+carrier or a representative class.
+\end{theorem}
+\begin{proof}
+Apply the carrier transport row of
+\autoref{thm:preorder-prefix-order-laws-hsame}.  It transports the displayed
+unary $\mathsf{BHist}$ carrier along the classifier row $h\hsame k$, so the
+preorder carrier component remains available at the target endpoint.
+
+The $\POSetUp$ carrier of \autoref{def:poset-carrier} is precisely that
+preorder carrier together with an antisymmetry row under the same classifier.
+Repack the transported preorder carrier with the displayed antisymmetry field.
+The endpoint remains a carried $\mathsf{BHist}$ endpoint, and no host quotient
+object is used.
+\end{proof}
+
+\begin{theorem}[POSetUp classifier exactness obligation]
+\label{thm:poset-classifier-exactness-obligation}
+For carried unary $\mathsf{BHist}$ histories $h$ and $k$, the $\POSetUp$
+classifier row between them is exact for the bidirectional prefix comparison:
+the classifier holds exactly when the classifier row is present and the two
+directed preorder comparison rows $h\le_{\mathsf{pref}}k$ and
+$k\le_{\mathsf{pref}}h$ collapse by the antisymmetry field.  The reverse
+comparison rows are obtained from preorder reflexivity and transport along the
+classifier.
+\end{theorem}
+\begin{proof}
+For the forward comparison-to-classifier direction, assume the two directed
+prefix witnesses.  The antisymmetry field of
+\autoref{thm:poset-prefix-antisymmetry} collapses them to $\hsame(h,k)$, which
+is the carrier classifier named by \autoref{def:poset-carrier}.
+
+For the classifier-to-comparison direction, assume $\hsame(h,k)$.  The
+preorder package of \autoref{thm:preorder-prefix-order-laws-hsame} supplies
+reflexivity at each carried endpoint and transports comparison endpoints along
+the classifier.  Transport the reflexive comparison at $h$ to obtain
+$h\le_{\mathsf{pref}}k$, and transport the reflexive comparison at $k$ to
+obtain $k\le_{\mathsf{pref}}h$.
+
+These two constructions identify the classifier boundary with the
+bidirectional comparison boundary, with antisymmetry providing the collapse
+and the preorder rows providing the transported reflexive comparisons.
+\end{proof}
+
+\begin{theorem}[POSetUp antisymmetry ledger obligation]
+\label{thm:poset-ledger-antisymmetry-obligation}
+An antisymmetry use in the concrete $\POSetUp$ ledger records exactly the two
+comparison witnesses $h\le_{\mathsf{pref}}k$ and
+$k\le_{\mathsf{pref}}h$, their carried $\mathsf{BHist}$ endpoints, and the
+resulting $\hsame(h,k)$ classifier row.  The ledger contains no host quotient,
+chosen class representative, or external equality witness.
+\end{theorem}
+\begin{proof}
+Project the two comparison witnesses from the preorder ledger supplied by
+\autoref{thm:preorder-prefix-order-laws-hsame}.  Their endpoints are the same
+carried unary $\mathsf{BHist}$ histories used by the $\POSetUp$ carrier.
+
+Apply the antisymmetry row
+\autoref{thm:poset-prefix-antisymmetry} to the projected comparison pair.  It
+produces the classifier row $\hsame(h,k)$ and no additional object.
+
+Repack the ledger entry as the ordered pair of comparison witnesses, the two
+displayed endpoints, and the resulting classifier row.  This is exactly the
+ledger policy described by the $\POSetUp$ certificate surface.
+\end{proof}
+
+\begin{theorem}[POSet root carrier obligation]
+\label{thm:poset-root-carrier-obligation}
+The root $\POSetUp$ carrier obligation is a $\PreorderUp$ carrier over
+$\mathsf{BHist}$, equipped with the same prefix relation and with an
+antisymmetry row under the carrier classifier. No quotient carrier is added:
+the carried endpoints remain displayed $\mathsf{BHist}$ histories, and the
+only collapse allowed by the partial-order field is the classifier conclusion
+$\hsame(h,k)$.
+\end{theorem}
+\begin{proof}
+The carrier clause is exactly \autoref{def:poset-carrier}: start with the
+preorder carrier and add the antisymmetry field as an extra row, not as a new
+endpoint space.
+
+For the concrete root instance, \autoref{thm:preorder-prefix-order-laws-hsame}
+supplies the $\mathsf{BHist}$ carrier, the prefix preorder relation, and the
+$\hsame$ classifier boundary. The partial-order coordinate is supplied by
+\autoref{thm:poset-prefix-antisymmetry}, which turns opposing prefix
+comparisons into $\hsame(h,k)$.
+
+Thus the carrier remains the inherited preorder carrier, while the
+antisymmetry data is an obligation row attached to that carrier.
+\end{proof}
+
+\begin{theorem}[POSet root classifier obligation]
+\label{thm:poset-root-classifier-obligation}
+The root $\POSetUp$ classifier is the inherited $\hsame$-based classifier on
+carried $\mathsf{BHist}$ endpoints, and it is stable under the preorder
+relation: classifier-equivalent endpoints may be read through the same prefix
+comparison rows without changing the carried $\POSetUp$ object.
+\end{theorem}
+\begin{proof}
+By \autoref{def:poset-carrier}, a $\POSetUp$ object does not replace the
+preorder classifier. It extends the preorder package by demanding
+antisymmetry under that classifier.
+
+Apply \autoref{thm:preorder-prefix-order-laws-hsame} to obtain the inherited
+$\hsame$ classifier together with the prefix-order stability rows. Those rows
+are the classifier transport surface for comparison endpoints.
+
+The additional $\POSetUp$ row from \autoref{thm:poset-prefix-antisymmetry} is
+compatible with the same classifier, because its conclusion is again
+$\hsame(h,k)$. Hence classifier transport remains the inherited preorder
+transport.
+\end{proof}
+
+\begin{theorem}[POSet root exactness obligation]
+\label{thm:poset-root-exactness-obligation}
+For carried unary prefix endpoints $h$ and $k$, the opposing comparison rows
+$h\le_{\mathsf{pref}}k$ and $k\le_{\mathsf{pref}}h$ are exactly the
+$\POSetUp$ classifier row on those endpoints: the forward direction is
+antisymmetry, and the reverse direction is the inherited reflexive prefix row
+transported along $\hsame$.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the two comparison rows. The concrete
+antisymmetry theorem \autoref{thm:poset-prefix-antisymmetry} collapses the
+opposing prefix witnesses to $\hsame(h,k)$, which is the classifier row
+specified by \autoref{def:poset-carrier}.
+
+For the reverse direction, assume the classifier row $\hsame(h,k)$. The
+preorder law package of \autoref{thm:preorder-prefix-order-laws-hsame}
+provides reflexive prefix comparisons on carried endpoints and transports
+comparison endpoints along $\hsame$.
+
+Transporting the reflexive comparison on $h$ gives $h\le_{\mathsf{pref}}k$,
+and transporting the reflexive comparison on $k$ gives
+$k\le_{\mathsf{pref}}h$. The two directions identify the exact comparison
+boundary of the root $\POSetUp$ row.
+\end{proof}
+
+\section{Concrete unary prefix POSet instance}
+\label{sec:poset-concrete-unary-prefix-instance}
+
+\begin{definition}[Concrete unary prefix POSet instance]
+\label{def:concrete-unary-prefix-poset-instance}
+The concrete unary prefix POSet instance is the following ten-field tuple.
+\begin{enumerate}
+  \item The traditional target is the finite unary-word prefix partial order.
+  \item The BEDC source is $\mathsf{BHist}$ restricted to unary histories.
+  \item The carrier is $\mathsf{PreorderCarrier}=\mathsf{UnaryHistory}$.
+  \item The classifier is the carrier-aware specification $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})$, whose equality content is $\hsame$.
+  \item The relation is $\mathsf{PreorderPrefixLE}$.
+  \item Stability consists of classifier reflexivity, classifier transitivity, relation reflexivity, relation transitivity, relation congruence, and antisymmetry under the classifier.
+  \item The ledger records both comparison-tail witnesses used for $h\le k$ and $k\le h$.
+  \item The core theorem list is the concrete prefix stability certificate together with prefix antisymmetry.
+  \item Exactness is the bidirectional prefix collapse: two opposing prefix comparisons collapse exactly to the classifier relation.
+  \item The standard bridge identifies $\mathsf{PreorderPrefixLE}$ with the initial-segment order on finite unary words, and the status is $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Concrete unary prefix POSet laws]
+\label{thm:concrete-unary-prefix-poset-laws}
+The tuple in \autoref{def:concrete-unary-prefix-poset-instance} satisfies the $\POSetUp$ carrier field, the preorder fields for $\mathsf{PreorderPrefixLE}$, classifier congruence for $\hsame$, and antisymmetry under the carrier classifier.
+\end{theorem}
+\begin{proof}
+The carrier and classifier fields are the concrete preorder fields: the carrier is $\mathsf{PreorderCarrier}=\mathsf{UnaryHistory}$, and the classifier is $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})$.
+
+The preorder and classifier-congruence fields are supplied by the concrete prefix stability certificate in \autoref{def:preorder-prefix-stability-certificate}. Equivalently, \autoref{thm:preorder-prefix-order-laws-hsame} records the reflexive and transitive prefix laws together with the history-sameness classifier boundary.
+
+It remains to supply the partial-order field. Apply \autoref{thm:poset-prefix-antisymmetry}: opposing $\mathsf{PreorderPrefixLE}$ witnesses provide the two comparison tails, and the theorem collapses them to $\hsame(h,k)$, which is exactly antisymmetry under the carrier classifier.
+\end{proof}
+
+\begin{definition}[Concrete singleton empty POSet instance]
+\label{def:concrete-singleton-empty-poset-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define the
+restricted classifier by
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Define the carrier-guarded restricted order by
+$$
+h\le_{\emp}k:=
+A_{\emp}(h)\land A_{\emp}(k)\land \mathsf{PreorderPrefixLE}(h,k).
+$$
+The concrete POSet package is the fixed $\mathsf{BHist}$ tuple
+$(A_{\emp},\rho_{\emp},\le_{\emp})$.
+\end{definition}
+
+\begin{theorem}[Singleton empty POSet laws]
+\label{thm:singleton-empty-poset-laws}
+For the concrete package of
+\autoref{def:concrete-singleton-empty-poset-instance}, the carrier is
+inhabited by $\emp$, carrier membership transports along $\hsame$, and
+$\le_{\emp}$ has preorder reflexivity, transitivity, and endpoint congruence
+inherited from the singleton empty preorder laws. The package also satisfies
+antisymmetry under $\rho_{\emp}$. For all histories $h,k:\mathsf{BHist}$, the
+classifier is exact:
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+(h\le_{\emp}k\land k\le_{\emp}h).
+$$
+\end{theorem}
+\begin{proof}
+The carrier and preorder fields are those of
+\autoref{thm:singleton-empty-preorder-laws}. Inhabitance is witnessed by
+$\emp$, carrier transport is transport along $\hsame$, and the reflexive,
+transitive, and endpoint-congruent behavior of $\le_{\emp}$ is the restricted
+$\mathsf{PreorderPrefixLE}$ package on the singleton source.
+
+For antisymmetry, suppose $h$ and $k$ are carried and that
+$h\le_{\emp}k$ and $k\le_{\emp}h$. Project the opposing
+$\mathsf{PreorderPrefixLE}$ witnesses from the guarded comparisons, so
+$\mathsf{PreorderPrefixLE\_antisymm\_hsame}$ gives $\hsame(h,k)$. Pair this
+with the carrier witnesses for $h$ and $k$ to obtain $\rho_{\emp}(h,k)$.
+
+For exactness, first assume $\rho_{\emp}(h,k)$. The classifier supplies the
+two carrier witnesses and the endpoint witness $\hsame(h,k)$. Apply
+$\mathsf{PreorderPrefixLE\_of\_hsame}$ to this witness and to its symmetric
+orientation, then repack the two carrier witnesses with the resulting prefix
+comparisons to obtain $h\le_{\emp}k$ and $k\le_{\emp}h$.
+
+Conversely, assume the two guarded comparisons. Project the carrier witnesses
+and the opposing prefix witnesses from them. Apply
+$\mathsf{PreorderPrefixLE\_antisymm\_hsame}$ to the prefix witnesses to recover
+$\hsame(h,k)$, and recombine this endpoint witness with the carrier witnesses
+to get $\rho_{\emp}(h,k)$.
+\end{proof}
+
+\begin{theorem}[Singleton empty POSet terminal interval collapse]
+\label{thm:poset-singleton-empty-terminal-interval-collapse}
+For the concrete package of
+\autoref{def:concrete-singleton-empty-poset-instance}, let
+$h,k,r:\mathsf{BHist}$ be carried by $A_{\emp}$. If the displayed terminal
+chain supplies $h\le_{\emp}k$ and $k\le_{\emp}r$, then all three endpoints
+collapse inside the singleton interval:
+$$
+\rho_{\emp}(h,k)\land \rho_{\emp}(k,r)\land \rho_{\emp}(h,r)\land
+h\le_{\emp}r\land r\le_{\emp}h.
+$$
+The ten-field fit is: traditional target one-point partial order interval
+collapse; BEDC source singleton $\mathsf{BHist}$; carrier $A_{\emp}$;
+classifier $\rho_{\emp}$; relation $\le_{\emp}$; stability from singleton
+transport, preorder transitivity, and POSet antisymmetry; ledger the two chain
+comparisons plus carried endpoints; core theorem this block; exactness
+terminal classifier collapse; standard bridge one-point poset; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the singleton carrier $A_{\emp}$. Each carried endpoint transports
+through the empty history $\emp$, so the endpoint classifier witnesses
+$\rho_{\emp}(h,k)$, $\rho_{\emp}(k,r)$, and $\rho_{\emp}(h,r)$ are obtained by
+pairing the two relevant carrier witnesses with the corresponding
+$\hsame$ endpoint comparison.
+
+The comparison $h\le_{\emp}r$ is inherited from preorder transitivity for the
+restricted prefix relation: compose the displayed witnesses
+$h\le_{\emp}k$ and $k\le_{\emp}r$.
+
+For the reverse comparison, the same singleton endpoint comparison identifies
+$r$ with $h$ inside $A_{\emp}$. Apply the exactness direction of
+\autoref{thm:singleton-empty-poset-laws} to the classifier witness
+$\rho_{\emp}(h,r)$, then read off $r\le_{\emp}h$ from the opposing comparison.
+The five displayed conjuncts therefore repack the terminal interval collapse.
+\end{proof}
+
+\begin{theorem}[POSet singleton prefix-chain collapse]
+\label{thm:poset-prefix-chain-collapse}
+For the concrete package of
+\autoref{def:concrete-singleton-empty-poset-instance}, let
+$h_0,\ldots,h_n:\mathsf{BHist}$ be carried by $A_{\emp}$ and suppose the
+finite guarded chain supplies $h_j\le_{\emp}h_{j+1}$ for each adjacent pair.
+Then every adjacent comparison, every endpoint comparison obtained by
+transitivity, and every reverse endpoint comparison needed by the singleton
+interval collapses to the restricted classifier $\rho_{\emp}$. Equivalently,
+the finite chain is recorded entirely by $\mathsf{BHist}$ endpoints, $\hsame$
+transport, and guarded prefix witnesses, with no host order or quotient row.
+\end{theorem}
+\begin{proof}
+Induct over the displayed finite guarded chain. The base case is the
+one-point chain: the carried endpoint lies in $A_{\emp}$, so
+\autoref{thm:singleton-empty-poset-laws} supplies reflexivity and the
+classifier exactness row for the endpoint against itself.
+
+For the step, assume the prefix chain has already collapsed through the
+current endpoint and append one guarded comparison. Transitivity from
+\autoref{thm:singleton-empty-poset-laws} gives the forward endpoint
+comparison across the longer chain, while its antisymmetry and exactness rows
+collapse the adjacent comparison to $\rho_{\emp}$.
+
+For any three consecutive endpoints, apply
+\autoref{thm:poset-singleton-empty-terminal-interval-collapse}. This supplies
+the reverse endpoint comparison required by the singleton interval and
+identifies each endpoint pair by the same restricted classifier.
+
+Repack the induction data as a finite ledger of carried $\mathsf{BHist}$
+endpoints, $\hsame$ transports, and guarded prefix witnesses. Since each
+collapse row comes from $\rho_{\emp}$ and the singleton laws, no additional
+order structure is used.
+\end{proof}
+
+This concrete $\mathsf{BHist}$ tuple is the $\POSetUp$ schema instance used by
+machine checking.
+
+\begin{theorem}[Concrete singleton empty $\POSetUp$ naming certificate]
+\label{thm:concrete-singleton-empty-poset-namecert}
+The tuple $(A_{\emp},\rho_{\emp},\le_{\emp})$ of
+\autoref{def:concrete-singleton-empty-poset-instance} supplies the source,
+pattern, classifier, stability, ledger, and exactness rows for a concrete
+$\NameCert$ licensing $\POSetUp$ over $\mathsf{BHist}$. On carried histories,
+the exactness row is
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow(h\le_{\emp}k\land k\le_{\emp}h).
+$$
+\end{theorem}
+\begin{proof}
+The source row is the singleton history source $A_{\emp}$ anchored at $\emp$,
+and the classifier row is the restricted carrier classifier $\rho_{\emp}$ from
+\autoref{def:concrete-singleton-empty-poset-instance}. The pattern row is the
+restricted prefix comparison $h\le_{\emp}k$ on carried histories.
+
+The preorder, antisymmetry, and stability rows are exactly the concrete law
+package of \autoref{thm:singleton-empty-poset-laws}. Its preorder fields give
+reflexivity, transitivity, and endpoint congruence for the restricted prefix
+relation, while its antisymmetry field collapses opposing comparisons to
+$\rho_{\emp}$.
+
+The ledger records the two comparison witnesses used by antisymmetry,
+$h\le_{\emp}k$ and $k\le_{\emp}h$, together with the carried endpoints. The
+displayed equivalence is the exactness row supplied by the same law package, so
+the concrete tuple repacks as the public $\NameCert$ for $\POSetUp$.
+\end{proof}
+
+\begin{theorem}[Singleton empty $\POSetUp$ schema instantiation]
+\label{thm:poset-singleton-schema-instantiated}
+The tuple $(A_{\emp},\rho_{\emp},\le_{\emp})$ of
+\autoref{def:concrete-singleton-empty-poset-instance} instantiates the
+$\POSetUp$ schema over the fixed BEDC history carrier $\mathsf{BHist}$. Its
+carrier row is $A_{\emp}$, its classifier row is $\rho_{\emp}$, and its
+relation row is $\le_{\emp}$. Its preorder reflexivity, preorder
+transitivity, relation congruence, antisymmetry, and exactness rows are exactly
+the rows certified in \autoref{thm:singleton-empty-poset-laws}. Its concrete
+$\NameCert$ packaging is the certificate of
+\autoref{thm:concrete-singleton-empty-poset-namecert}.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:concrete-singleton-empty-poset-instance}. The carrier is
+the singleton history source $A_{\emp}$ inside $\mathsf{BHist}$, the classifier
+is the restricted history classifier $\rho_{\emp}$, and the relation is the
+carrier-guarded restricted prefix comparison $\le_{\emp}$.
+
+The law rows are supplied without changing carrier. Apply
+\autoref{thm:singleton-empty-poset-laws}: it gives the singleton inhabitance
+and carrier transport, the preorder reflexivity and transitivity rows for
+$\le_{\emp}$, endpoint congruence for the guarded relation, antisymmetry under
+$\rho_{\emp}$, and the displayed exactness between $\rho_{\emp}$ and the two
+opposing guarded comparisons.
+
+Finally apply
+\autoref{thm:concrete-singleton-empty-poset-namecert}. That theorem packages
+the same source, pattern, classifier, stability, ledger, and exactness fields
+as a concrete $\NameCert$ licensing $\POSetUp$ over $\mathsf{BHist}$. Therefore
+the schema instance is pinned to the concrete history carrier and not obtained
+by transporting an abstract parameter schema.
+\end{proof}
+
+\begin{theorem}[POSet singleton carrier-classifier obligation]
+\label{thm:poset-carrier-classifier-obligation}
+The concrete singleton $\POSetUp$ package of
+\autoref{def:concrete-singleton-empty-poset-instance} has carrier
+$A_{\emp}$ and classifier $\rho_{\emp}$ over the fixed BEDC carrier
+$\mathsf{BHist}$. Carrier transport is exactly transport by $\hsame$ inside the
+singleton source, and the package exports no quotient carrier, host equality,
+or abstract replacement carrier.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:concrete-singleton-empty-poset-instance}. Its displayed
+carrier coordinate is the singleton history source $A_{\emp}$, and its
+classifier coordinate is the restricted classifier $\rho_{\emp}$ on histories
+of $\mathsf{BHist}$.
+
+Apply \autoref{thm:singleton-empty-poset-laws}. The law package gives carrier
+inhabitance at $\emp$ and carrier transport along $\hsame$, with no change of
+carrier. The certificate theorem
+\autoref{thm:concrete-singleton-empty-poset-namecert} then repacks those rows
+as the concrete $\POSetUp$ naming certificate.
+\end{proof}
+
+\begin{theorem}[POSet singleton antisymmetry exactness obligation]
+\label{thm:poset-antisymmetry-exactness-obligation}
+For the concrete singleton $\POSetUp$ package of
+\autoref{def:concrete-singleton-empty-poset-instance}, opposing guarded
+comparisons $h\le_{\emp}k$ and $k\le_{\emp}h$ are exactly the classifier row
+$\rho_{\emp}(h,k)$. Thus antisymmetry is exposed as an exactness predicate on
+the concrete $\mathsf{BHist}$ rows, not as an external host-order law.
+\end{theorem}
+\begin{proof}
+Unfold the guarded relation and classifier of
+\autoref{def:concrete-singleton-empty-poset-instance}. The relation
+$\le_{\emp}$ is the carrier-guarded prefix comparison, and $\rho_{\emp}$
+records the two singleton carrier endpoints together with $\hsame(h,k)$.
+
+Apply \autoref{thm:singleton-empty-poset-laws}. Its antisymmetry row collapses
+the two guarded comparisons to the classifier, and its exactness row reads the
+classifier back as the same opposing comparison pair. The certificate theorem
+\autoref{thm:concrete-singleton-empty-poset-namecert} exposes this row as the
+singleton $\POSetUp$ exactness obligation.
+\end{proof}
+
+\begin{theorem}[POSet singleton ledger obligation]
+\label{thm:poset-ledger-obligation}
+The ledger for the concrete singleton $\POSetUp$ certificate of
+\autoref{thm:concrete-singleton-empty-poset-namecert} consists exactly of the
+two guarded comparison witnesses $h\le_{\emp}k$ and $k\le_{\emp}h$, together
+with the carried endpoints in $A_{\emp}$. It exports no totality, lattice,
+host-order, quotient, or non-singleton carrier data.
+\end{theorem}
+\begin{proof}
+Read the source tuple from
+\autoref{def:concrete-singleton-empty-poset-instance}: the only visible
+endpoints are histories carried by $A_{\emp}$, and the only relation witnesses
+are guarded comparisons for $\le_{\emp}$.
+
+Apply \autoref{thm:singleton-empty-poset-laws} to identify the two opposing
+comparison witnesses as precisely the data used by antisymmetry and exactness.
+Then apply \autoref{thm:concrete-singleton-empty-poset-namecert}. Its ledger
+row is the repackaging of those two witnesses with the carried endpoints, so
+no additional order-theoretic or quotient field is exported.
+\end{proof}
+
+\begin{theorem}[POSet prefix ledger row exhaustion]
+\label{thm:poset-prefix-ledger-row-exhaustion}
+For the concrete singleton $\POSetUp$ certificate of
+\autoref{thm:concrete-singleton-empty-poset-namecert}, every public ledger row
+is exhausted by a tuple
+$(h,k,A_{\emp}(h),A_{\emp}(k),h\le_{\emp}k,k\le_{\emp}h,\rho_{\emp}(h,k))$.
+Conversely, any tuple of this form repacks as a public ledger row of that
+certificate. The ten-field fit is: target ledger exhaustion for the one-point
+$\POSetUp$ ledger; BEDC source the singleton $\mathsf{BHist}$ carrier; carrier
+$A_{\emp}$; classifier $\rho_{\emp}$; relation $\le_{\emp}$; stability from
+singleton transport and exactness; ledger the two guarded comparisons; core
+theorem this row-exhaustion statement; exactness the bidirectional repacking;
+standard bridge the one-point poset; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:concrete-singleton-empty-poset-instance}. Its public
+source rows have histories in the singleton $\mathsf{BHist}$ carrier
+$A_{\emp}$, the guarded relation $\le_{\emp}$, and the classifier
+$\rho_{\emp}$ on those carried endpoints.
+
+For the forward direction, start with an arbitrary public ledger row of the
+certificate. Apply \autoref{thm:poset-ledger-obligation}: the row contains only
+the carried endpoints and the two guarded comparisons
+$h\le_{\emp}k$ and $k\le_{\emp}h$.
+
+Apply \autoref{thm:singleton-empty-poset-laws}. Its singleton transport keeps
+the endpoints inside $A_{\emp}$, and its exactness row identifies
+$\rho_{\emp}(h,k)$ with the opposing comparison pair. Thus the row has the
+displayed tuple form.
+
+For the reverse direction, begin with such a tuple. The endpoint entries give
+the carried singleton histories, the comparison entries give the two ledger
+witnesses, and the classifier entry is exact for the same pair by
+\autoref{thm:singleton-empty-poset-laws}.
+
+Finally apply \autoref{thm:concrete-singleton-empty-poset-namecert}. It
+packages precisely these endpoint, comparison, transport, and exactness rows
+as the concrete singleton $\POSetUp$ certificate, while
+\autoref{thm:poset-ledger-obligation} rules out any totality, lattice,
+host-order, quotient, or non-singleton carrier row.
+\end{proof}
+
+\begin{theorem}[POSet singleton comparison endpoint determinacy]
+\label{thm:poset-singleton-comparison-endpoint-determinacy}
+For the concrete singleton $\POSetUp$ package of
+\autoref{def:concrete-singleton-empty-poset-instance}, any two guarded
+singleton comparisons over $A_{\emp}$ determine the same endpoint classifier
+$\rho_{\emp}$. There is no second endpoint row besides the carried singleton
+endpoint and its $\hsame$ transport.
+\end{theorem}
+\begin{proof}
+Read the comparison rows from
+\autoref{def:concrete-singleton-empty-poset-instance}. Their endpoints are
+required to lie in the singleton carrier $A_{\emp}$, so both comparisons have
+the same displayed carrier boundary.
+
+Apply \autoref{thm:singleton-empty-poset-laws}. The singleton laws collapse
+carrier membership to the empty-history endpoint and identify every guarded
+comparison with the classifier row $\rho_{\emp}$ on that endpoint.
+
+Finally apply \autoref{thm:concrete-singleton-empty-poset-namecert}. The
+certificate exposes exactly this classifier as the $\POSetUp$ endpoint row,
+so the two guarded comparisons cannot generate a second endpoint
+classification.
+\end{proof}
+
+\begin{theorem}[POSet singleton antichain terminality]
+\label{thm:poset-singleton-antichain-terminality}
+Every antichain subcarrier of the concrete singleton $\POSetUp$ package is
+terminal: each carried member is classified with $\emp$, and every comparison
+between carried members collapses by
+\autoref{thm:singleton-empty-poset-laws}. No nontrivial incomparable pair is
+exported.
+\end{theorem}
+\begin{proof}
+Fix an antichain subcarrier inside the carrier of
+\autoref{def:concrete-singleton-empty-poset-instance}. Any carried member is
+already a member of $A_{\emp}$, hence the singleton carrier law classifies it
+with $\emp$.
+
+For a comparison between two carried members, apply
+\autoref{thm:singleton-empty-poset-laws}. The law package identifies both
+endpoints with the singleton endpoint and collapses the guarded comparison to
+the displayed classifier row.
+
+Use \autoref{thm:concrete-singleton-empty-poset-namecert} to read this row as
+the concrete $\POSetUp$ certificate boundary. An antichain subcarrier
+therefore has only the terminal singleton member and no exported nontrivial
+comparison data.
+\end{proof}
+
+\begin{theorem}[POSet singleton ledger exhaustion]
+\label{thm:poset-singleton-ledger-exhaustion}
+The concrete singleton $\POSetUp$ ledger is exhausted by the two guarded
+comparison witnesses $h\le_{\emp}k$ and $k\le_{\emp}h$ together with the two
+carried endpoints in $A_{\emp}$. It contains no total-order row, lattice row,
+quotient row, host-order row, or additional carrier row.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:poset-ledger-obligation}. Its ledger description
+names exactly the two guarded comparison witnesses and the carried endpoints
+as the visible data of the singleton certificate.
+
+Apply \autoref{thm:singleton-empty-poset-laws} to the comparison witnesses.
+They supply antisymmetry and exactness only through the singleton classifier
+boundary, so no totality, lattice operation, quotient representative, or
+ambient host order can be read from them.
+
+The certificate theorem
+\autoref{thm:concrete-singleton-empty-poset-namecert} repackages precisely
+those rows as the concrete $\POSetUp$ naming certificate. Hence the ledger is
+fully exhausted by the displayed comparison and endpoint rows.
+\end{proof}
+
+\begin{theorem}[POSet unary prefix standard bridge boundary]
+\label{thm:poset-unary-prefix-standard-bridge-boundary}
+The concrete unary-prefix and singleton-empty $\POSetUp$ packages bridge to the
+finite unary-prefix partial order by reading $A_{\emp}$ and
+$\mathsf{UnaryHistory}$ as the carried finite-word endpoints,
+$\rho_{\emp}$ and $\hsame$ as classifier equality, and
+$\le_{\emp}$ together with $\mathsf{PreorderPrefixLE}$ as initial-segment
+comparison. The bridge exports exactly the concrete carrier, classifier,
+antisymmetry, exactness, and ledger rows named in
+\autoref{thm:concrete-unary-prefix-poset-laws},
+\autoref{thm:singleton-empty-poset-laws},
+\autoref{thm:concrete-singleton-empty-poset-namecert}, and
+\autoref{thm:poset-singleton-ledger-exhaustion}; it exports no total-order,
+lattice, quotient, or host-order row.
+\end{theorem}
+\begin{proof}
+First read the unary-prefix carrier and comparison from
+\autoref{thm:concrete-unary-prefix-poset-laws}. This identifies
+$\mathsf{UnaryHistory}$ with finite unary-word endpoints and reads
+$\mathsf{PreorderPrefixLE}$ as initial-segment comparison.
+
+Next read the singleton-empty endpoint package through
+\autoref{thm:singleton-empty-poset-laws}. The singleton carrier $A_{\emp}$,
+classifier $\rho_{\emp}$, and $\hsame$ transport give the classifier-equality
+boundary for the carried endpoint.
+
+Finally apply \autoref{thm:concrete-singleton-empty-poset-namecert} and
+\autoref{thm:poset-singleton-ledger-exhaustion}. They package exactly the
+carrier, classifier, antisymmetry, exactness, and finite ledger rows available
+to the concrete $\POSetUp$ surface, and they rule out total-order, lattice,
+quotient, and host-order data.
+\end{proof}
+
+\begin{theorem}[POSet unary prefix bridged closure package]
+\label{thm:poset-unary-prefix-bridged-closure-package}
+The unary-prefix and singleton-empty $\POSetUp$ packages, together with the
+finite-chain endpoint classifier coverage and selector boundary, form the
+bridge package from the concrete $\mathsf{BHist}$ $\POSetUp$ surface to the
+finite unary-prefix partial order. The package exports only the carried
+unary-prefix endpoints, singleton endpoint classifier, guarded prefix
+comparisons, finite-chain endpoint classifiers, and selector-consumer boundary;
+it exports no host order, quotient representative, total-order row, or lattice
+operation.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:poset-unary-prefix-standard-bridge-boundary}. It reads
+the concrete unary-prefix and singleton-empty packages as the finite
+unary-prefix partial order interface, with carrier, classifier, comparison,
+antisymmetry, exactness, and ledger rows coming only from the displayed
+$\POSetUp$ surface.
+
+Next apply \autoref{thm:poset-singleton-ledger-exhaustion}. This removes any
+extra host-order, quotient, total-order, or lattice field from the singleton
+ledger, so the bridge package has no additional exported structure beyond the
+concrete endpoint and comparison rows.
+
+Finally compose
+\autoref{thm:poset-prefix-finite-chain-endpoint-classifier-coverage} with
+\autoref{thm:poset-prefix-chain-totalorder-selector-consumer-boundary}. The
+first theorem supplies the finite-chain endpoint classifier rows, and the
+second restricts selectors to those carried chain rows. Hence the bridge
+package is consumable by the finite unary-prefix partial order boundary and
+exports exactly the rows named in the statement.
+\end{proof}
+
+\begin{theorem}[POSet finite-chain endpoint classifier coverage]
+\label{thm:poset-prefix-finite-chain-endpoint-classifier-coverage}
+For the concrete singleton $\POSetUp$ package of
+\autoref{def:concrete-singleton-empty-poset-instance}, let
+$h_0,\ldots,h_n:\mathsf{BHist}$ be a finite guarded chain whose entries are
+carried by $A_{\emp}$ and whose adjacent rows supply
+$h_j\le_{\emp}h_{j+1}$. Then every endpoint pair $h_i,h_j$ with
+$0\le i\le j\le n$ is classified by $\rho_{\emp}$, and every public
+chain-ledger row repacks from carried $\mathsf{BHist}$ endpoints, adjacent
+guarded comparisons, transitive prefix witnesses, and the classifier rows of
+\autoref{thm:singleton-empty-poset-laws}.
+
+The ten-field fit is: downstream target $\OrderUp$ finite interval coverage
+for chains read through the singleton $\POSetUp$ boundary; BEDC source
+$\mathsf{BHist}$; carrier $A_{\emp}$; classifier $\rho_{\emp}$; relation
+$\le_{\emp}$; stability from singleton carrier transport, guarded-prefix
+transitivity, and antisymmetry exactness; ledger adjacent comparisons plus
+endpoint classifiers; core theorem this finite-chain endpoint coverage
+statement; exactness classifier repacking from
+\autoref{thm:singleton-empty-poset-laws}; standard bridge the singleton
+finite interval seen by $\TotalOrderUp$ and $\OrderUp$ consumers; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on the finite guarded chain. In the one-endpoint case, the carried row
+$A_{\emp}(h_0)$ is a singleton carrier row. Apply
+\autoref{thm:singleton-empty-poset-laws} to obtain the reflexive guarded
+comparison, the endpoint classifier $\rho_{\emp}(h_0,h_0)$, and the exactness
+row that reads this classifier as the public singleton ledger entry.
+
+For the step, suppose the prefix ending at $h_m$ already has endpoint
+classifier coverage and append the adjacent guarded comparison
+$h_m\le_{\emp}h_{m+1}$. The singleton laws keep $h_{m+1}$ inside $A_{\emp}$ and
+classify the adjacent endpoint pair through $\rho_{\emp}$.
+
+Now take any earlier endpoint $h_i$. The induction hypothesis supplies the
+endpoint comparison from $h_i$ to $h_m$ and the classifier row for that pair.
+Compose this comparison with $h_m\le_{\emp}h_{m+1}$ by transitivity in
+\autoref{thm:singleton-empty-poset-laws}. Apply
+\autoref{thm:poset-singleton-empty-terminal-interval-collapse} to the triple
+$h_i,h_m,h_{m+1}$, and use
+\autoref{thm:poset-prefix-chain-collapse} to read the resulting endpoint
+comparison as the singleton classifier $\rho_{\emp}(h_i,h_{m+1})$.
+
+It remains to identify the public ledger row. The induction data provide the
+carried $\mathsf{BHist}$ endpoints and all adjacent guarded comparisons, while
+the preceding paragraph supplies the transitive endpoint witnesses and
+classifier rows for the newly exposed endpoint pairs. Repack the pairwise rows
+by \autoref{thm:poset-prefix-ledger-row-exhaustion}, and then apply
+\autoref{thm:poset-singleton-ledger-exhaustion} to rule out any additional
+total-order, lattice, quotient, host-order, or non-singleton carrier field.
+Thus the whole finite chain is covered by the concrete singleton endpoint
+classifier package that downstream $\TotalOrderUp$ and $\OrderUp$ consumers
+cite.
+\end{proof}
+
+\begin{theorem}[POSet prefix chain OrderUp interval coverage]
+\label{thm:poset-prefix-chain-orderup-interval-coverage}
+Every finite guarded $\POSetUp$ chain over carried $\mathsf{BHist}$ endpoints
+supplies the $\OrderUp$ finite-interval carrier, endpoint classifier, and
+adjacent comparison ledger rows needed by the unary-prefix order phase. The
+carrier rows are the carried endpoint rows, the endpoint classifier rows are
+those of
+\autoref{thm:poset-prefix-finite-chain-endpoint-classifier-coverage}, and the
+interval ledger is exhausted by adjacent guarded comparisons together with
+the collapse rows of \autoref{thm:poset-prefix-chain-collapse}.
+\end{theorem}
+\begin{proof}
+Start with a finite guarded chain. Apply
+\autoref{thm:poset-prefix-finite-chain-endpoint-classifier-coverage} to obtain
+classifier coverage for every endpoint pair of the chain.
+
+Next apply \autoref{thm:poset-prefix-chain-collapse}. It reads the adjacent
+guarded comparisons as the transitive finite-chain comparison rows, so the
+endpoint pairs form the finite interval consumed by $\OrderUp$.
+
+Finally use \autoref{thm:poset-singleton-ledger-exhaustion}. The ledger has no
+entry beyond carried endpoints, adjacent comparisons, transitive endpoint
+witnesses, and classifier rows. These are exactly the finite-interval carrier,
+endpoint classifier, and adjacent comparison rows asserted above.
+\end{proof}
+
+\begin{theorem}[POSet prefix chain TotalOrder selector consumer boundary]
+\label{thm:poset-prefix-chain-totalorder-selector-consumer-boundary}
+A $\TotalOrderUp$ selector consuming a finite guarded $\POSetUp$ chain may use
+only the carried endpoints, the branch comparison rows obtained from the
+chain, the endpoint classifier rows, and the finite-chain ledger supplied by
+\autoref{thm:poset-prefix-finite-chain-endpoint-classifier-coverage}. It may
+not consume host order, quotient representatives, lattice operations, or any
+comparison datum outside the carried $\mathsf{BHist}$ chain.
+\end{theorem}
+\begin{proof}
+Read the consumer rows from
+\autoref{thm:poset-prefix-finite-chain-endpoint-classifier-coverage}. They are
+carried $\mathsf{BHist}$ endpoints, adjacent guarded comparisons, transitive
+prefix witnesses, and endpoint classifier rows.
+
+Apply \autoref{thm:poset-prefix-chain-collapse} to turn the adjacent rows into
+the branch comparison data visible to a selector. The result still lives over
+the same carried endpoints and does not introduce a host comparison.
+
+Apply \autoref{thm:poset-singleton-ledger-exhaustion} at the boundary. It
+rules out total-order data, quotient representatives, lattice operations, and
+host-order rows. Therefore the selector boundary is exactly the carried chain
+data listed in the statement.
+\end{proof}
+
+\begin{theorem}[POSet prefix selector classifier determinacy]
+\label{thm:poset-prefix-selector-classifier-determinacy}
+For a finite guarded $\POSetUp$ chain over carried $\mathsf{BHist}$ endpoints,
+any two $\TotalOrderUp$ or $\OrderUp$ selectors that use the same chain ledger,
+the same adjacent comparison rows, and the same endpoint classifier coverage
+select endpoints related by the classifier rows supplied by the chain package.
+The conclusion is a classifier-equivalent endpoint boundary inside the finite
+chain, not a host order comparison or quotient representative.
+\end{theorem}
+\begin{proof}
+Project endpoint coverage by
+\autoref{thm:poset-prefix-finite-chain-endpoint-classifier-coverage}. It gives
+classifier rows for every endpoint pair named by the shared guarded chain.
+
+Next apply \autoref{thm:poset-prefix-chain-collapse}. The adjacent comparison
+rows collapse to the same finite-chain boundary rows for both selectors,
+because the chain ledger and adjacent comparisons are shared.
+
+Finally use \autoref{thm:poset-singleton-ledger-exhaustion}. It excludes any
+selector data outside the carried endpoints, adjacent comparisons, transitive
+witnesses, and endpoint classifiers. Hence both selectors read the same
+finite-chain classifier boundary, so their selected endpoints are related by
+the chain package classifier rows.
+\end{proof}

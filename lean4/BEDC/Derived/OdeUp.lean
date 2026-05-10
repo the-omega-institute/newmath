@@ -31,6 +31,22 @@ theorem OdeLocalFlow_endpoint_classifier_deterministic
     cont_respects_hsame picardSame vectorSame step step'
   exact cont_respects_hsame (hsame_refl t1) localSame endpoint endpoint'
 
+theorem OdeLocalFlowRow_concatenation_endpoint_determinacy
+    {t0 x0 t2 x2 y vComp pComp ellComp vDirect pDirect ellDirect : BHist} :
+    OdeLocalFlowRow t0 x0 t2 x2 vComp pComp ellComp ->
+      OdeLocalFlowRow t0 x0 t2 y vDirect pDirect ellDirect ->
+        hsame vComp vDirect -> hsame x2 y := by
+  intro compRow directRow vectorSame
+  exact
+    OdeLocalFlow_endpoint_classifier_deterministic
+      compRow.left
+      directRow.left
+      vectorSame
+      compRow.right.left
+      directRow.right.left
+      compRow.right.right
+      directRow.right.right
+
 def OdeLocalFlowSource (t0 x0 p v ell t1 x1 : BHist) : Prop :=
   UnaryHistory t0 ∧ UnaryHistory x0 ∧ UnaryHistory p ∧ UnaryHistory v ∧
     UnaryHistory ell ∧ UnaryHistory t1 ∧ UnaryHistory x1 ∧
@@ -103,5 +119,27 @@ theorem OdeLocalFlowSource_picard_continuation_scope
                                                                               p2Unary,
                                                                               x1Unary,
                                                                               x2Unary⟩
+
+theorem OdeLocalFlowSource_concatenation_route_scope
+    {t0 x0 p v ell t1 x1 t2 x2 p2 v2 ell2 route final : BHist} :
+    OdeLocalFlowSource t0 x0 p v ell t1 x1 ->
+      OdeLocalFlowSource t1 x1 p2 v2 ell2 t2 x2 ->
+        Cont ell ell2 route ->
+          Cont t2 route final ->
+            UnaryHistory route ∧ UnaryHistory final ∧ hsame route (append ell ell2) ∧
+              Cont t2 (append ell ell2) final := by
+  intro first second routeRow finalRow
+  have ellUnary : UnaryHistory ell := first.right.right.right.right.left
+  have ell2Unary : UnaryHistory ell2 := second.right.right.right.right.left
+  have t2Unary : UnaryHistory t2 := second.right.right.right.right.right.left
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed ellUnary ell2Unary routeRow
+  have finalUnary : UnaryHistory final :=
+    unary_cont_closed t2Unary routeUnary finalRow
+  have finalAppend : Cont t2 (append ell ell2) final := by
+    cases routeRow
+    exact finalRow
+  exact And.intro routeUnary
+    (And.intro finalUnary (And.intro routeRow finalAppend))
 
 end BEDC.Derived.OdeUp

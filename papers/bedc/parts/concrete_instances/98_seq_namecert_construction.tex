@@ -58,14 +58,30 @@ Fix a unary index $n$. Project the pointwise classifier witness of \autoref{def:
 
 The named transport obligation uses only the carrier-transport field of the point certificate. Apply carrier transport in $\NameCert(A,\sim_A)$ to the carried source endpoint $A(s(n))$ and the classifier witness $s(n)\sim_A t(n)$. The result is $A(t(n))$.
 \end{proof}
+\leanchecked{BEDC.Derived.SeqUp.SeqPointwiseClassifier\_target\_source}
 
 \begin{theorem}[SeqUp downstream boundary]
 \label{thm:sequp-downstream-boundary}
 Every downstream consumer of $\SeqUp$, including $\SeriesUp$, $\ConvergenceRadiusUp$, and analytic-limit certificates, may read only the following data from a $\SeqUp$ source: point observations $s(n)$, unary index evidence $\mathsf{UnaryHistory}(n)$, pointwise classifier transport along $\sim_{\SeqUp(A)}$, and the optional modulus or boundedness ledger named in \autoref{def:sequp-root-bhist-source}. Such a consumer may not infer convergence, summability, holomorphicity, completeness, or any host-function principle from $\SeqUp$ alone.
 \end{theorem}
+\leanchecked{BEDC.Derived.SeqUp.SeqRootSource\_downstream\_boundary}
 
 \begin{proof}
 Unfold the carrier definition and classifier definition. The carrier exposes a BHist observation function, unary-index evidence, point carrier evidence, and an optional unary-valued ledger; the classifier exposes exactly the pointwise source-classifier witnesses.
 
 The analytic properties listed in the statement are absent from the ten-field fit: exactness is point observation equality up to $\sim_A$, the standard bridge is absent, and the ledger is limited to index and modulus or boundedness evidence. Therefore any consumer requiring convergence, summability, holomorphicity, completeness, or a host-function principle must introduce that requirement in its own certificate rather than extracting it from $\SeqUp$.
 \end{proof}
+
+\closureat{SeqUp}{publicStr}[BEDC.Derived.SeqUp.SeqPointwiseClassifier\_rows]
+\closureat{SeqUp}{bridgedStr}[BEDC.Derived.SeqUp.SeqPointwiseClassifier\_rows]
+
+\begin{closurestatus}{\SeqUp}
+  \constructivestory{A sequence over a certified point carrier is carried as a visible observation function from unary histories to point histories: each admitted index must be a $\NatUp$ unary history, and each observed value must be accepted by the fixed point carrier. The classifier is pointwise rather than extensional over host functions: two sequence sources classify together when every unary index has carrier witnesses on both sides and the two observations are related by the point certificate's classifier. The source covers exactly these $\mathsf{BHist}$ observation functions with unary-index evidence, point-carrier evidence, and an optional unary modulus or boundedness row, while the pattern records indexwise projection, pointwise comparison, pointwise transport, and the downstream boundary read by series and analytic-limit certificates. The ledger keeps the unary index witnesses, point carrier witnesses, and optional modulus entries visible, so nonemptiness is inherited from any carried source, reflexivity, symmetry, and transitivity are inherited index by index from the point certificate, and carrier closure is just point-carrier transport at each unary index. A history package $h$ lies in the signature gap of a $\SeqUp$ token $p$ when the source-domain accepts its observation source, the signature relation pairs its pointwise observations and modulus ledger with an answer package, and the token-introduction relation names that package as $p$; unfolded, every unary index must expose the point value and optional modulus encoded by the token. The chapter registers this pointwise observation construction under the name $\SeqUp$; it introduces no convergence, summability, completeness, holomorphicity, or host-function extensionality.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public scope exports the root $\mathsf{BHist}$ source, pointwise classifier, pointwise transport, optional modulus ledger, and downstream consumer boundary of \autoref{thm:sequp-carrier-classifier-obligations}, \autoref{thm:sequp-pointwise-transport-obligation}, and \autoref{thm:sequp-downstream-boundary}.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.SeqUp.SeqPointwiseClassifier\_rows}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close convergence, summability, completeness, or host-function extensionality for sequence objects.}
+  \upgradepath{No further paper theory-axis upgrade is recorded for this chapter; bridge verification remains a separate formal-axis matter.}
+\end{closurestatus}

@@ -233,3 +233,172 @@ For the reverse implication, assume $\mathsf{V}_{R,n}(G)(x)$. Apply \autoref{thm
 The two implications together give the displayed equivalence for the fixed $x$, and $x$ was arbitrary.
 \end{proof}
 \leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_mutual\_inclusion\_iff}
+
+\begin{theorem}[AffineVarUp public zero-locus certificate]
+\label{thm:affinevar-public-zero-locus-namecert}
+The public $\NameCert_{\AffineVarUp}$ export is the finite-family zero-locus interface of \autoref{def:affine-finite-family-zero-locus} together with equation inclusion, row restriction, concatenation as intersection, empty-family ambient-space exactness, duplicate insertion invariance, and mutual-inclusion classification. Its exact exported rows are the carrier predicate $\mathsf{V}_{R,n}(F)$, the finite equation-ledger positions of $F$, the inclusion relation $\mathsf{EqFamIncl}$ from \autoref{def:affine-finite-family-equation-inclusion}, and the zero-locus transport and classifier rows proved in this chapter.
+\end{theorem}
+\begin{proof}
+The carrier row is \autoref{def:affine-finite-family-zero-locus}. It exposes exactly the ambient affine-point witness and the finite equation-row ledger indexed by positions of the polynomial-family spine.
+
+The stability rows are supplied by the checked zero-locus clauses in this chapter. Apply \autoref{thm:affine-zero-locus-intersection-equation-concatenation} for concatenation as intersection, \autoref{thm:affine-empty-family-zero-locus-full-space} for empty-family ambient-space exactness, \autoref{lem:affine-equation-rows-restrict-along-family-inclusion} for row restriction along equation inclusion, and \autoref{thm:affine-duplicate-equation-insertion-invariance} for duplicate insertion invariance.
+
+The public classifier row is the mutual-inclusion exactness theorem \autoref{thm:affine-mutual-family-inclusion-equal-zero-loci}. Together with the equation-inclusion definition, it identifies precisely when two finite affine equation presentations export the same zero-locus predicate. These rows repack the finite-family interface as the public $\NameCert_{\AffineVarUp}$ certificate surface; projective consumer, scheme consumer, and full $\AffineVarUp$ $\NameCert$ fields remain outside this finite-family surface.
+\end{proof}
+\leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_head\_insert\_equation\_rows}
+
+\begin{theorem}[Affine finite-family standard zero-locus bridge]
+\label{thm:affinevar-finite-family-standard-zero-locus-bridge}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, the BEDC finite-family zero-locus carrier $\mathsf{V}_{R,n}(F)$, together with equation inclusion $\mathsf{EqFamIncl}$ from \autoref{def:affine-finite-family-equation-inclusion} and the mutual-inclusion classifier of \autoref{thm:affine-mutual-family-inclusion-equal-zero-loci}, interprets as the standard finite polynomial zero-locus predicate on affine points. Conversely, every standard finite-family zero-locus membership row is represented by the same $\mathsf{HistSpine}$ positions and the same $\mathsf{PolyEvalZero}$ rows used by $\mathsf{V}_{R,n}(F)$.
+\end{theorem}
+\begin{proof}
+Read $\mathsf{V}_{R,n}(F)$ by \autoref{def:affine-finite-family-zero-locus}. A BEDC member is an affine point $x$ together with one zero-evaluation row for each finite position $i:\mathsf{Pos}(F)$. The readback $\mathsf{entry}_{F}(i)$ is exactly the polynomial equation at that position, so the BEDC carrier gives the usual standard statement that every equation in the finite family vanishes at $x$.
+
+Conversely, suppose a standard finite-family zero-locus row is given for the same family spine $F$. For each position $i:\mathsf{Pos}(F)$, read the polynomial equation as $\mathsf{entry}_{F}(i)$ and place the standard vanishing datum in the corresponding $\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(i),x)$ row. Together with the ambient affine-point row, these finite-position rows repack as $\mathsf{V}_{R,n}(F)(x)$ by the same definition.
+
+The equation-inclusion bridge is positional rather than quotient-based. By \autoref{def:affine-finite-family-equation-inclusion}, $\mathsf{EqFamIncl}(F,G)$ is exactly the assertion that every equation position of $F$ has a readback match in $G$. Applying \autoref{lem:affine-equation-rows-restrict-along-family-inclusion} projects the standard zero rows along this inclusion, and \autoref{thm:affine-mutual-family-inclusion-equal-zero-loci} gives equality of the represented zero-locus predicates under mutual inclusion. No quotienting of presentations and no host equality of carriers is used.
+\end{proof}
+\leanchecked{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_standard\_zero\_locus\_bridge}
+
+\closureat{AffineVarUp}{matureStr}[BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_mutual\_inclusion\_iff]
+
+\begin{closurestatus}{\AffineVarUp}
+  \constructivestory{An affine variety here is built from a commutative-ring certificate, an affine point carrier, and a finite $\mathsf{HistSpine}$ of polynomial-code histories, with a point history accepted precisely when it is an affine point and every displayed equation position evaluates to the scalar zero row. The carrier $\mathsf{V}_{R,n}(F)$ includes the affine points satisfying all equations in the finite family and excludes points lacking the ambient row, polynomial codes outside the normalized finite sequence substrate, and presentations not accounted for by finite positions. Two finite equation presentations classify the same zero locus when their equation families include one another position by position, so the classifier is mutual equation inclusion plus the induced equivalence of zero-locus predicates rather than host equality of varieties. The source specification covers the affine point row, polynomial-code row, zero-evaluation witness, and finite family spine, while the pattern records empty-family exactness, intersection by concatenation, row restriction, duplicate head insertion, and mutual-inclusion exactness. The ledger keeps equation positions, readback entries, polynomial evaluation rows, and the affine point witness visible, so membership is aligned with the finite family that generated it; the five obligations then come from the ambient carrier and empty-family case, mutual inclusion as a reflexive, symmetric, and transitive classifier, and row restriction keeping transported finite families inside the carrier. A history $h$ lies in the signature gap of an $\AffineVarUp$ token $p$ when the source domain accepts $h$ as such a finite zero-locus packet, the signature relation pairs it with an answer packet and evidence ledger, and token introduction names that answer as $p$; concretely, each equation position in $p$ has a zero-evaluation row at the affine point represented by $h$. The standard zero-locus bridge reads the BEDC rows as the finite polynomial vanishing predicate and reads a standard membership row back into the same positions, so the chapter registers this finite-equation construction under $\AffineVarUp$ without quotienting presentations or adding a host variety primitive.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature paper-side surface consists of the finite-family carrier $\mathsf{V}_{R,n}(F)$, the equation-inclusion classifier $\mathsf{EqFamIncl}$, row restriction, intersection by concatenation, empty-family exactness, duplicate insertion, mutual-inclusion exactness, the finite-position ledger, and the paper standard zero-locus bridge.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.AffineVarUp.AffineFiniteFamilyZeroLocus\_mutual\_inclusion\_iff}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close projective-variety consumer certificates, scheme-level consumer certificates, the full $\AffineVarUp$ $\NameCert$, or machine-checked bridge closure.}
+  \upgradepath{The next verification step is bridgeCheckedV and audit packaging for the same finite-family bridge, not a stronger paper closure claim.}
+\end{closurestatus}
+
+\begin{theorem}[Affine singleton-equation zero-locus exactness]
+\label{thm:affine-singleton-equation-zero-locus-exactness}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $p:\mathsf{BHist}$ be a polynomial-code history and let $\mathsf{cons}(p,\mathsf{nil}):\mathsf{HistSpine}$ be the singleton polynomial-family spine. For every point history $x:\mathsf{BHist}$,
+$$
+\mathsf{V}_{R,n}(\mathsf{cons}(p,\mathsf{nil}))(x)
+\Longleftrightarrow
+\mathsf{AffPoint}_{R,n}(x)\land
+\mathsf{PolyEvalZero}_{R,n}(p,x).
+$$
+Thus the one-equation affine finite-family zero-locus is exactly the ambient affine-point predicate together with vanishing of the displayed polynomial code.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:affine-finite-family-zero-locus}. A witness of
+$$
+\mathsf{V}_{R,n}(\mathsf{cons}(p,\mathsf{nil}))(x)
+$$
+is a pair consisting of
+$$
+\mathsf{AffPoint}_{R,n}(x)
+$$
+and an equation row
+$$
+\forall i:\mathsf{Pos}(\mathsf{cons}(p,\mathsf{nil})).\;
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{\mathsf{cons}(p,\mathsf{nil})}(i),x).
+$$
+By the cons-spine position clauses of \autoref{def:list-spine-representation}, the singleton spine has one head position and no tail positions, since the tail is $\mathsf{nil}$. At the head position, the readback is $p$.
+
+For the forward implication, assume $\mathsf{V}_{R,n}(\mathsf{cons}(p,\mathsf{nil}))(x)$. The first projection gives $\mathsf{AffPoint}_{R,n}(x)$. Evaluating the displayed equation row at the head position of $\mathsf{cons}(p,\mathsf{nil})$ gives
+$$
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{\mathsf{cons}(p,\mathsf{nil})}(\mathsf{head}),x).
+$$
+The singleton head readback identifies $\mathsf{entry}_{\mathsf{cons}(p,\mathsf{nil})}(\mathsf{head})$ with $p$, so this is exactly $\mathsf{PolyEvalZero}_{R,n}(p,x)$. Pairing these two projections gives the right-hand side.
+
+For the reverse implication, assume
+$$
+\mathsf{AffPoint}_{R,n}(x)\land
+\mathsf{PolyEvalZero}_{R,n}(p,x).
+$$
+The affine-point component of $\mathsf{V}_{R,n}(\mathsf{cons}(p,\mathsf{nil}))(x)$ is the first component of this pair. It remains to verify the equation row for every position of $\mathsf{cons}(p,\mathsf{nil})$. Such a position is the head position or a tail position inherited from $\mathsf{nil}$. In the head case, the readback is $p$, and the second component supplies $\mathsf{PolyEvalZero}_{R,n}(p,x)$. In the tail case there is no position to check, because $\mathsf{nil}$ has no positions. Hence the equation row is complete.
+
+Combining the ambient affine-point witness with this singleton equation row repacks as $\mathsf{V}_{R,n}(\mathsf{cons}(p,\mathsf{nil}))(x)$ by \autoref{def:affine-finite-family-zero-locus}.
+\end{proof}
+
+\begin{definition}[Affine finite-family equation union presentation]
+\label{def:affine-finite-family-equation-union-presentation}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $F,G,U:\mathsf{HistSpine}$ be finite polynomial-family spines over the same affine $n$-space. Say that $U$ presents the finite equation-family union of $F$ and $G$, and write $\mathsf{EqFamUnion}(F,G;U)$, when the following three clauses hold:
+$$
+\mathsf{EqFamIncl}(F,U),
+\qquad
+\mathsf{EqFamIncl}(G,U),
+$$
+and
+$$
+\forall k:\mathsf{Pos}(U).\;
+\left(\exists i:\mathsf{Pos}(F).\;
+\mathsf{entry}_{U}(k)=\mathsf{entry}_{F}(i)\right)
+\lor
+\left(\exists j:\mathsf{Pos}(G).\;
+\mathsf{entry}_{U}(k)=\mathsf{entry}_{G}(j)\right).
+$$
+The first two clauses say that every displayed equation occurrence of $F$ and $G$ occurs in the union presentation. The last clause says that every displayed equation occurrence of $U$ comes from one of the two input families. Thus the definition is an exact finite-position union presentation rather than an ambient host-set quotient.
+\end{definition}
+
+\begin{theorem}[Affine zero-locus of an equation-family union]
+\label{thm:affine-zero-locus-union-is-intersection}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $F,G,U:\mathsf{HistSpine}$ be finite polynomial-family spines over the same affine $n$-space. If $\mathsf{EqFamUnion}(F,G;U)$ holds, then for every point history $x:\mathsf{BHist}$,
+$$
+\mathsf{V}_{R,n}(U)(x)
+\Longleftrightarrow
+\mathsf{V}_{R,n}(F)(x)\land\mathsf{V}_{R,n}(G)(x).
+$$
+Consequently, membership in the affine zero-locus of the displayed finite equation-family union is exactly simultaneous membership in the two affine zero-loci.
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{EqFamUnion}(F,G;U)$, and write its three components as
+$$
+\mathsf{EqFamIncl}(F,U),
+\qquad
+\mathsf{EqFamIncl}(G,U),
+$$
+and the union-coverage row
+$$
+\forall k:\mathsf{Pos}(U).\;
+\left(\exists i:\mathsf{Pos}(F).\;
+\mathsf{entry}_{U}(k)=\mathsf{entry}_{F}(i)\right)
+\lor
+\left(\exists j:\mathsf{Pos}(G).\;
+\mathsf{entry}_{U}(k)=\mathsf{entry}_{G}(j)\right).
+$$
+
+For the forward implication, assume $\mathsf{V}_{R,n}(U)(x)$. Apply \autoref{thm:affine-finite-family-inclusion-reverses-zero-loci} to $\mathsf{EqFamIncl}(F,U)$ to obtain $\mathsf{V}_{R,n}(F)(x)$, and apply the same theorem to $\mathsf{EqFamIncl}(G,U)$ to obtain $\mathsf{V}_{R,n}(G)(x)$. Pairing these two projected zero-locus witnesses gives
+$$
+\mathsf{V}_{R,n}(F)(x)\land\mathsf{V}_{R,n}(G)(x).
+$$
+
+For the reverse implication, assume
+$$
+\mathsf{V}_{R,n}(F)(x)\land\mathsf{V}_{R,n}(G)(x).
+$$
+Unfold \autoref{def:affine-finite-family-zero-locus}. The affine-point witness for $\mathsf{V}_{R,n}(U)(x)$ is the affine-point component of $\mathsf{V}_{R,n}(F)(x)$. It remains to verify every equation row of $U$. Fix $k:\mathsf{Pos}(U)$. By the union-coverage row, $k$ is covered by one of the two input families.
+
+In the first case, choose $i:\mathsf{Pos}(F)$ with
+$$
+\mathsf{entry}_{U}(k)=\mathsf{entry}_{F}(i).
+$$
+The equation row of $\mathsf{V}_{R,n}(F)(x)$ at $i$ gives
+$$
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(i),x).
+$$
+Transporting this predicate along the displayed readback equality gives
+$$
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{U}(k),x).
+$$
+
+In the second case, choose $j:\mathsf{Pos}(G)$ with
+$$
+\mathsf{entry}_{U}(k)=\mathsf{entry}_{G}(j).
+$$
+The equation row of $\mathsf{V}_{R,n}(G)(x)$ at $j$ gives
+$$
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{G}(j),x),
+$$
+and transport along the displayed readback equality gives the required predicate
+$$
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{U}(k),x).
+$$
+
+Since $k$ was arbitrary, every equation row of $U$ vanishes at $x$. Pairing this row with the affine-point witness repacks as $\mathsf{V}_{R,n}(U)(x)$ by \autoref{def:affine-finite-family-zero-locus}. The two implications give the displayed equivalence.
+\end{proof}

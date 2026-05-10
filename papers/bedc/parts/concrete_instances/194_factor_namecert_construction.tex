@@ -6,5 +6,278 @@ The factor interface $\FactorUp$ packages a von Neumann algebra with trivial cen
 \section{Carrier definition}
 \label{sec:factor-carrier}
 
+\begin{definition}[Factor BHist source packet]
+\label{def:factor-bhist-source-packet}
+A $\FactorUp$ source packet is a $\mathsf{BHist}$ row carrying a
+$\VonNeumannAlgUp$ dependency row, a displayed centre row, a trivial-centre
+witness, and a factor-type classifier row with value in
+$\mathrm{I}$, $\mathrm{II}_1$, $\mathrm{II}_\infty$, or $\mathrm{III}$. The
+carrier accepts exactly those packets whose algebra component is accepted by
+$\NameCert_{\VonNeumannAlgUp}$, whose centre witness is transported by the
+same $\hsame$ evidence, and whose type row is recorded in the visible ledger.
+\end{definition}
+
+\begin{theorem}[Factor carrier trivial-centre obligation]
+\label{thm:factor-carrier-trivial-centre-obligation}
+Every accepted $\FactorUp$ carrier row projects to a
+$\VonNeumannAlgUp$ carrier row together with a centre witness whose only
+visible carrier is the scalar endpoint of the source algebra. Conversely, a
+$\VonNeumannAlgUp$ carrier row, a displayed centre row, and a trivial-centre
+witness transported through the same $\hsame$ comparison repack as a
+$\FactorUp$ carrier row. No host equality of algebras or ambient Hilbert-space
+realization is read by this obligation.
+\end{theorem}
+\leanchecked{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_trivial\_centre\_obligation}
+\leanchecked{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_carrier\_trivial\_centre\_obligation}
+\begin{proof}
+Project the dependency row from the source packet of
+\autoref{def:factor-bhist-source-packet}. The $\NameCert_{\VonNeumannAlgUp}$
+row supplies the algebra carrier and the classifier used to compare its
+visible history.
+
+The trivial-centre field is then read as a displayed witness over that same
+history. Transport along $\hsame$ preserves the centre row because the packet
+stores the centre witness beside the algebra dependency rather than as a host
+property.
+
+For the converse direction, place the algebra dependency, centre row, and
+trivial-centre witness into the packet constructor and apply $\Cont$ to the
+shared history comparison. The result is exactly the factor carrier surface.
+\end{proof}
+
+\begin{theorem}[Factor type classifier stability obligation]
+\label{thm:factor-type-classifier-stability-obligation}
+The factor-type classifier row of a $\FactorUp$ packet is stable under
+accepted $\hsame$ replacement of the underlying $\VonNeumannAlgUp$ history.
+If two source packets compare through the algebra classifier, the transported
+trivial-centre witnesses determine the same displayed type row among
+$\mathrm{I}$, $\mathrm{II}_1$, $\mathrm{II}_\infty$, and $\mathrm{III}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_type\_classifier\_stability\_obligation}
+\begin{proof}
+Start with the algebra comparison supplied by
+$\NameCert_{\VonNeumannAlgUp}$. It transports the carrier, operation, and
+classifier rows of the source von Neumann algebra through the accepted
+$\hsame$ evidence.
+
+The factor packet keeps the type classifier in the same ledger as the
+trivial-centre witness. Therefore the transported centre witness is read
+before the type row is compared, so the classification cannot change without
+leaving the displayed packet.
+
+Repacking the transported algebra row, centre witness, and type row gives the
+same $\FactorUp$ classifier surface for the target packet.
+\end{proof}
+
+\begin{theorem}[Factor ledger exactness obligation]
+\label{thm:factor-ledger-exactness-obligation}
+The $\FactorUp$ ledger consists exactly of the
+$\NameCert_{\VonNeumannAlgUp}$ dependency row, the $\mathsf{BHist}$ algebra
+carrier row, the centre row, the trivial-centre witness row, the factor-type
+classifier row, and their $\hsame$ and $\Cont$ transport evidence. Coverage,
+soundness, and completeness hold for precisely those rows; spectral
+decomposition theorems, representation theorems, measure-class data, and
+standard bridge rows are excluded.
+\end{theorem}
+\begin{proof}
+Coverage projects an accepted packet into its visible ledger entries: the
+von Neumann algebra dependency, the algebra carrier, the centre row, the
+trivial-centre witness, the factor-type row, and the transport witnesses.
+
+Soundness reads those entries back through the packet constructor. The
+dependency certificate justifies the algebra component, while $\hsame$ and
+$\Cont$ carry the centre and type rows across the accepted history comparison.
+
+Completeness follows because the packet has no ledger coordinate for spectral
+decomposition, representation, measure class, or bridge data. Any accepted row
+therefore exposes exactly the listed entries and no larger analytic surface.
+\end{proof}
+\leanchecked{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_ledger\_exactness\_obligation}
+
+\begin{theorem}[Factor root threshold unblock surface]
+\label{thm:factor-root-threshold-unblock-surface}
+The rows of \autoref{def:factor-bhist-source-packet},
+\autoref{thm:factor-carrier-trivial-centre-obligation},
+\autoref{thm:factor-type-classifier-stability-obligation}, and
+\autoref{thm:factor-ledger-exactness-obligation} form the dependency-ready
+surface for $\FactorUp$. A downstream certificate may consume the
+$\mathsf{BHist}$ carrier, $\NameCert_{\VonNeumannAlgUp}$ dependency,
+trivial-centre witness, factor-type classifier, and exact ledger exclusions,
+but it must supply any standard bridge or analytic classification theorem
+separately.
+\end{theorem}
+\leanchecked{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_root\_threshold\_unblock\_surface}
+\begin{proof}
+The definition fixes the source packet and names every row that can enter the
+factor certificate. The carrier obligation recovers the algebra dependency
+and the trivial-centre witness from any accepted packet.
+
+The stability obligation gives the classifier transport needed by downstream
+NameCert rows. The ledger exactness obligation then closes the readback by
+excluding every row outside the displayed packet.
+
+Combining these three obligations gives a concrete finite-history interface
+over $\mathsf{BHist}$ rather than an empty chapter shell. Later bridges may
+attach to this surface, but they are not part of the factor packet itself.
+\end{proof}
+
 \section{The certificate}
 \label{sec:factor-certificate}
+
+\begin{theorem}[Factor type row no-confusion]
+\label{thm:factor-type-row-no-confusion}
+An accepted $\FactorUp$ packet cannot expose two distinct visible factor-type
+rows under the same transported trivial-centre witness. If the packet carries a
+$\NameCert_{\VonNeumannAlgUp}$ dependency, a $\mathsf{BHist}$ algebra carrier,
+a centre row, a trivial-centre witness transported by the displayed $\hsame$
+evidence, and visible type rows $T$ and $T'$, then the certificate ledger
+identifies $T$ and $T'$ as the same row among $\mathrm{I}$, $\mathrm{II}_1$,
+$\mathrm{II}_\infty$, and $\mathrm{III}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_type\_row\_no\_confusion}
+\begin{proof}
+Project the accepted packet through
+\autoref{thm:factor-carrier-trivial-centre-obligation}. The projection gives one
+von Neumann algebra dependency and one transported trivial-centre witness over
+the displayed centre row.
+
+Now read the type coordinates through
+\autoref{thm:factor-type-classifier-stability-obligation}. The classifier row is
+stored in the same ledger as the transported centre witness, so two visible type
+rows under that witness must be compared by the same $\hsame$ evidence.
+
+Finally apply \autoref{thm:factor-ledger-exactness-obligation}. Since the ledger
+has exactly one factor-type coordinate and no hidden representation or spectral
+coordinate, the two displayed type rows are the same certificate row.
+\end{proof}
+
+\begin{theorem}[Factor centre ledger transport determinacy]
+\label{thm:factor-center-ledger-transport-determinacy}
+For a $\FactorUp$ packet, $\hsame$ transport of the
+$\NameCert_{\VonNeumannAlgUp}$ dependency, the $\mathsf{BHist}$ algebra carrier,
+the centre row, the trivial-centre witness, and the $\Cont$ provenance
+determines the transported $\FactorUp$ centre ledger. No additional
+representation row, spectral row, or ambient Hilbert-space equality can change
+the transported ledger.
+\end{theorem}
+\begin{proof}
+Start from the dependency row named by
+\autoref{def:factor-bhist-source-packet}. Its $\NameCert_{\VonNeumannAlgUp}$
+component transports the algebra carrier through the displayed $\hsame$ evidence.
+
+Transport the centre row and the trivial-centre witness along the same history
+comparison. The $\Cont$ provenance records that these rows move together as one
+factor packet rather than as independent host data.
+
+The ledger exactness theorem
+\autoref{thm:factor-ledger-exactness-obligation} then leaves no further centre
+coordinate to choose. The transported dependency, carrier, centre,
+trivial-centre witness, and $\Cont$ provenance therefore determine the
+transported centre ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_centre\_ledger\_transport\_determinacy}
+
+\begin{theorem}[Factor VonNeumann dependency consumer boundary]
+\label{thm:factor-vonneumann-dependency-consumer-boundary}
+Every downstream consumer of the $\FactorUp$ certificate may read only the
+$\NameCert_{\VonNeumannAlgUp}$ dependency, the $\mathsf{BHist}$ algebra carrier,
+the centre row, the trivial-centre witness, the factor-type classifier, and the
+$\hsame/\Cont$ ledger. It may not read representation data, spectral
+decomposition data, measure-class data, ambient Hilbert-space equality, or any
+row not displayed by the factor source packet.
+\end{theorem}
+\begin{proof}
+The source packet of \autoref{def:factor-bhist-source-packet} lists the complete
+visible input surface: dependency, carrier, centre, trivial-centre witness, type
+classifier, and transport provenance.
+
+Apply \autoref{thm:factor-ledger-exactness-obligation} to the consumer read. The
+coverage direction supplies exactly those visible rows, while soundness and
+completeness repack only rows of the same listed kinds.
+
+The excluded analytic data have no coordinate in the packet and no entry in the
+ledger. Hence a consumer that remains inside the $\FactorUp$ certificate can read
+the displayed dependency and centre surface, but cannot inspect representation
+or spectral information.
+\end{proof}
+\leanchecked{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_vonneumann\_dependency\_consumer\_boundary}
+
+\begin{theorem}[FactorUp public NameCert export]
+\label{thm:factor-public-namecert-export}
+The source packet of \autoref{def:factor-bhist-source-packet}, the
+trivial-centre carrier obligation of
+\autoref{thm:factor-carrier-trivial-centre-obligation}, the classifier
+stability obligation of
+\autoref{thm:factor-type-classifier-stability-obligation}, the ledger
+exactness obligation of \autoref{thm:factor-ledger-exactness-obligation}, and
+the root threshold surface of \autoref{thm:factor-root-threshold-unblock-surface}
+together export the public $\NameCert_{\FactorUp}$ surface.
+
+Consumers of this certificate may read only the
+$\NameCert_{\VonNeumannAlgUp}$ dependency row, the centre row, the
+trivial-centre witness, the factor-type classifier, the $\hsame/\Cont$
+transport rows, and the ledger exclusions listed by the packet. Representation
+theory, spectral decomposition, measure-class data, and standard bridge rows
+remain outside the certificate.
+\end{theorem}
+\begin{proof}
+The source packet fixes the only rows available to $\FactorUp$: a
+$\VonNeumannAlgUp$ dependency, a displayed centre row, a trivial-centre
+witness, a factor-type classifier, and the shared transport ledger.
+
+Apply the trivial-centre carrier obligation to project an accepted packet to
+the von Neumann algebra carrier and its scalar-centre witness. Apply the
+classifier stability obligation to transport the displayed factor type along
+the same $\hsame$ comparison.
+
+The ledger exactness obligation then says that the visible rows are exactly the
+dependency, centre, trivial-centre, classifier, $\hsame$, and $\Cont$ entries.
+The root threshold surface packages these rows for downstream consumers, so the
+public $\NameCert_{\FactorUp}$ surface contains precisely those entries and no
+representation-theoretic, spectral, measure-class, or bridge datum.
+\end{proof}
+\leanchecked{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_public\_namecert\_export}
+
+\begin{theorem}[FactorUp public bridge boundary]
+\label{thm:factor-public-bridge-boundary}
+The public $\NameCert_{\FactorUp}$ surface is exactly the BEDC-side boundary
+available to any later standard bridge packet. It exposes the
+$\NameCert_{\VonNeumannAlgUp}$ dependency, the centre row, the trivial-centre
+witness, the factor-type classifier, the $\hsame/\Cont$ transport rows, and the
+ledger exclusions.
+
+It exposes no representation data, spectral decomposition, measure-class data,
+ambient Hilbert-space equality, or bridge row unless those data are supplied by
+a separate bridge packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:factor-public-namecert-export}. The exported public surface
+already packages the von Neumann algebra dependency, centre row,
+trivial-centre witness, classifier, transport provenance, and ledger
+exclusions.
+
+Next apply \autoref{thm:factor-vonneumann-dependency-consumer-boundary} to any
+consumer that reads the certificate as the input face of a standard bridge. The
+consumer boundary permits exactly the displayed dependency and centre surface
+and blocks representation, spectral, measure-class, and Hilbert-space equality
+data.
+
+Finally apply \autoref{thm:factor-ledger-exactness-obligation}. Ledger
+exactness says that no additional public row is available inside the
+$\FactorUp$ source packet. Hence bridge data can enter only through a separate
+bridge packet, not through the public $\NameCert_{\FactorUp}$ surface itself.
+\end{proof}
+\leanchecked{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_public\_bridge\_boundary}
+
+\closureat{FactorUp}{scopedStr}[BEDC.Derived.FactorUp.FactorBHistSourcePacket\_public\_bridge\_boundary]
+
+\begin{closurestatus}{\FactorUp}
+  \constructivestory{A $\FactorUp$ row is built as a finite $\mathsf{BHist}$ packet whose visible coordinates are the $\NameCert_{\VonNeumannAlgUp}$ dependency, the algebra carrier, the centre row, the transported trivial-centre witness, the factor-type classifier, and the shared $\hsame/\Cont$ ledger. The carrier theorem reads the dependency and trivial-centre witness directly from that packet, while the surrounding certificate theorems record classifier stability, ledger exactness, consumer boundaries, and the public bridge-facing surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface is the listed $\mathsf{BHist}$ source packet, trivial-centre carrier, classifier, $\VonNeumannAlgUp$ consumer rows, and the cited Lean target.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_public\_bridge\_boundary}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close spectral decomposition, representation theorems, measure-class data, or standard bridge rows.}
+  \upgradepath{Public closure requires an exported public $\FactorUp$ certificate surface.}
+\end{closurestatus}

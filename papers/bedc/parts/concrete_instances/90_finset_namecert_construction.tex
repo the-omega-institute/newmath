@@ -95,6 +95,7 @@ The position $i$ therefore witnesses $\mathsf{EnumMem}_{A,\sim_A}(z,xs)$.
 
 The two implications hold for every query history $z$, so the two enumeration-induced predicates are pointwise equivalent. By \autoref{def:finset-enumeration-membership}, this is exactly $\mathsf{FinSetEnumClassifier}_{A,\sim_A}(xs,ys)$.
 \end{proof}
+\leanchecked{BEDC.Derived.FinsetUp.FinsetEnumerationClassifier\_permutation\_invariant}
 
 \begin{definition}[Finite-spine occurrence]
 \label{def:finite-spine-occurrence}
@@ -241,6 +242,7 @@ $$
 $$
 Together with the displayed carrier witnesses, this is exactly the pointwise preservation clause for the composite certified bijection. Repacking the composite bijection and this field gives $\mathsf{EnumPerm}_{A,\sim_A}(xs,zs)$.
 \end{proof}
+\leanchecked{BEDC.Derived.FinsetUp.FinsetEnumerationPermutation\_trans}
 
 \begin{lemma}[Pointwise enumeration membership equivalences compose]
 \label{lem:finset-enummem-pointwise-equivalence-composition}
@@ -520,6 +522,7 @@ $$
 $$
 Thus $j$ satisfies the pointwise carrier-and-classifier clause required for the inverse map $\pi^{-1}$. Since $j$ was arbitrary, the inverse certified bijection and this pointwise field repack as $\mathsf{EnumPerm}_{A,\sim_A}(ys,xs)$.
 \end{proof}
+\leanchecked{BEDC.Derived.FinsetUp.FinsetEnumerationPermutation\_symm}
 
 \begin{theorem}[EnumPerm identity reflexivity]
 \label{thm:enumperm-identity-reflexivity}
@@ -551,4 +554,200 @@ A(\mathsf{entry}_{xs}(i))\land
 \mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{xs}(i).
 $$
 Since $i$ was arbitrary, the identity certified bijection has the required pointwise preservation field. Repacking these data proves $\mathsf{EnumPerm}_{A,\sim_A}(xs,xs)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FinsetUp.FinsetEnumerationPermutation\_refl}
+
+\begin{definition}[FinSet NameCert obligation packet]
+\label{def:finset-namecert-obligation-packet}
+The finite-set certificate obligation packet for $\FinSetUp$ consists of the following ten fields:
+\begin{enumerate}
+  \item a traditional finite subset predicate $U:\mathsf{BHist}\to\mathsf{Prop}$;
+  \item a BEDC source certificate $\NameCert_{\SetUp}$ with carrier $A$ and classifier $\sim_A$;
+  \item a $\NameCert_{\ListUp}$ finite spine $xs:\mathsf{HistSpine}$ satisfying $\mathsf{ListSpineRep}_A(e,xs)$;
+  \item the carrier $\mathsf{FinSetEnumCarrier}_{A,\sim_A}(xs)$ from \autoref{def:finset-enumeration-carrier};
+  \item the classifier $\mathsf{FinSetEnumClassifier}_{A,\sim_A}$ from \autoref{def:finset-enumeration-membership};
+  \item the stability rows for certified enumeration permutation, duplicate insertion, classifier transitivity, classifier symmetry, and append-union concatenation;
+  \item the finite-position ledger $\mathsf{Pos}(xs)$ with readback $\mathsf{entry}_{xs}$ and certified bijections between position carriers;
+  \item the exactness predicate comparing $\mathsf{FinSetEnumCarrier}_{A,\sim_A}(xs)(a)$ with finite-spine occurrence modulo $\sim_A$;
+  \item the standard finite-set bridge that reads the enumerated predicate $U$ through $\mathsf{FinSetSpineEnumerates}_{A,\sim_A}(xs,U)$;
+  \item the status assertion that the listed fields are obligations for $\NameCert_{\FinSetUp}$ rather than a closed public finite-set API.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[FinSet carrier obligation]
+\label{thm:finset-carrier-obligation}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the source carrier of a fixed $\NameCert_{\SetUp}$, let $\sim_A$ be its classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and let $e$ and $xs$ satisfy $\mathsf{ListSpineRep}_A(e,xs)$. Then the carrier field of \autoref{def:finset-namecert-obligation-packet} is exact: for every history $a$, membership in $\mathsf{FinSetEnumCarrier}_{A,\sim_A}(xs)$ is precisely finite-spine occurrence in $xs$ modulo $\sim_A$.
+\end{theorem}
+\begin{proof}
+The carrier field of the packet is definitionally the carrier in \autoref{def:finset-enumeration-carrier}. The required exactness statement is exactly the bidirectional membership statement of \autoref{thm:finset-enumeration-membership-exactness}, with the displayed $\mathsf{ListSpineRep}_A(e,xs)$ witness supplying the finite-spine source condition.
+
+Thus the packet records no additional carrier structure beyond the source certificate, the finite spine, and the exactness row already proved for $\mathsf{FinSetEnumCarrier}_{A,\sim_A}$.
+\end{proof}
+
+\begin{theorem}[FinSet classifier obligation rows]
+\label{thm:finset-classifier-obligation}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the source carrier of a fixed $\NameCert_{\SetUp}$, let $\sim_A$ be its classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. The classifier field of \autoref{def:finset-namecert-obligation-packet} carries the finite-set obligation rows for certified enumeration permutation, duplicate insertion, append-union enumeration, and equivalence closure.
+\end{theorem}
+\begin{proof}
+The permutation row is \autoref{thm:finset-classifier-enumeration-permutation-invariant}: a certified finite-position bijection preserving $A$ and $\sim_A$ pointwise leaves $\mathsf{FinSetEnumClassifier}_{A,\sim_A}$ unchanged.
+
+The duplicate row is \autoref{thm:finset-duplicate-insertion-invariant}: a source-carried head entry already represented in the spine is invisible to the classifier. The append-union row is \autoref{thm:finset-spine-concatenation-enumerates-union}: concatenating finite spines enumerates the union predicate.
+
+The equivalence rows are \autoref{thm:finset-enumeration-classifier-transitivity} and \autoref{thm:finset-enumeration-classifier-symmetry}. Together with the reflexive identity row proved above, these rows give the classifier obligation surface needed by the packet.
+\end{proof}
+
+\begin{theorem}[FinSet stability exactness ledger and bridge obligations]
+\label{thm:finset-stability-exactness-ledger-obligation}
+For any packet as in \autoref{def:finset-namecert-obligation-packet}, the displayed local rows jointly determine the finite-set stability, exactness, ledger, and bridge obligations over the BEDC source $\NameCert_{\SetUp}$ and the finite-spine source $\NameCert_{\ListUp}$.
+\end{theorem}
+\begin{proof}
+First, the exactness obligation is the carrier equivalence supplied by \autoref{thm:finset-carrier-obligation}, whose proof rests on \autoref{thm:finset-enumeration-membership-exactness}. This binds ordinary finite-spine occurrence to the BEDC carrier field through the fixed source classifier.
+
+Next, the stability obligations are the classifier rows collected in \autoref{thm:finset-classifier-obligation}: certified permutation, duplicate insertion, transitivity, symmetry, and append-union concatenation. These cite \autoref{thm:finset-classifier-enumeration-permutation-invariant}, \autoref{thm:finset-duplicate-insertion-invariant}, \autoref{thm:finset-enumeration-classifier-transitivity}, \autoref{thm:finset-enumeration-classifier-symmetry}, and \autoref{thm:finset-spine-concatenation-enumerates-union}.
+
+Finally, the ledger obligation is the finite position carrier $\mathsf{Pos}(xs)$ with readback $\mathsf{entry}_{xs}$, used by the same permutation and occurrence rows. The bridge obligation is the predicate enumeration clause $\mathsf{FinSetSpineEnumerates}_{A,\sim_A}(xs,U)$ together with the append-union row, which identifies the standard finite-set surface without asserting the larger finite-set API.
+\end{proof}
+\leanchecked{BEDC.Derived.FinsetUp.FinsetEnumeration\_semantic\_name\_certificate}
+
+\closureat{FinSetUp}{matureStr}[BEDC.Derived.FinsetUp.FinsetEnumeration\_semantic\_name\_certificate]
+\begin{closurestatus}{\FinSetUp}
+  \constructivestory{A finite set is generated by taking a $\SetUp$ carrier $A$ and displaying a finite $\ListUp$ spine $xs$ whose entries are BEDC histories carried by $A$. A query history $z$ belongs to the finite-set carrier exactly when $A(z)$ holds and some finite position of $xs$ has an entry classified with $z$ by the set classifier; histories outside the source carrier or absent from the spine up to that classifier are excluded. Two finite-spine presentations classify together when they have the same enumeration membership predicate for every query history, so certified permutations of positions and duplicate insertions are invisible while the spine and its positions remain explicit ledger data. The source is the fixed $\SetUp$ certificate plus the finite spine, the pattern records occurrence, position readback, permutation invariance, duplicate insertion, and append-union rows, and the ledger keeps $\mathsf{Pos}(xs)$, entries, enumeration witnesses, and classifier evidence visible enough for downstream consumers. The five name-certificate obligations follow from the displayed finite spine and source certificate for inhabitation, from pointwise reflexivity, symmetry, and transitivity of enumeration membership equivalence, and from carrier transport through the underlying set classifier. A spine $xs$ lies in the signature gap of a $\FinSetUp$ token $p$ when the source-domain accepts the set carrier and finite-list representation, the signature relation pairs the enumeration with an answer spine and evidence ledger, and token introduction names that answer as $p$; unfolded, exactly the classifier-classes enumerated by $xs$ are those encoded by the token. The standard bridge is the finite-spine enumeration bridge: it reads a finite set as the predicate enumerated by the spine and reads back through the same positions, entries, duplicate, permutation, and union rows. The chapter registers this finite-spine construction under the name $\FinSetUp$; finiteness is an explicit enumeration ledger, not cardinality theory, power sets, host finite sets, or hidden order data promoted to the carrier.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The FinSetUp bridge scope is the finite-spine enumeration bridge over $\NameCert_{\SetUp}$ and $\NameCert_{\ListUp}$, binding $\mathsf{FinSetEnumCarrier}_{A,\sim_A}$, $\mathsf{FinSetEnumClassifier}_{A,\sim_A}$, $\mathsf{EnumPerm}$, the $\mathsf{Pos}$ and entry ledger, duplicate, permutation, symmetry, transitivity, append-union rows, and $\mathsf{FinSetSpineEnumerates}_{A,\sim_A}$ as the standard finite-set bridge surface.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.FinsetUp.FinsetEnumeration\_semantic\_name\_certificate}
+  \bridgestatus{paperBridge}
+  \notclaimed{Cardinality, decidable membership, power set, graph finiteness, and Lean-side bridge verification remain outside this finite-spine bridge.}
+  \upgradepath{There is no stronger paper-side closure grade for this finite-spine bridge; remaining work is verification-axis bridge checking and optional APIs outside the stated surface.}
+\end{closurestatus}
+
+\begin{theorem}[EnumPerm composition associativity]
+\label{thm:enumperm-composition-associativity}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a fixed $\SetUp$ certificate, let $\sim_A$ be its classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. For finite BEDC-history spines $xs$, $ys$, $zs$, and $ws$, assume
+$$
+\mathsf{EnumPerm}_{A,\sim_A}(xs,ys)
+\qquad\text{and}\qquad
+\mathsf{EnumPerm}_{A,\sim_A}(ys,zs)
+\qquad\text{and}\qquad
+\mathsf{EnumPerm}_{A,\sim_A}(zs,ws).
+$$
+After choosing certified bijections from these three rows, the two parenthesized composite witnesses from $xs$ to $ws$ obtained from
+$$
+(\sigma\circ\rho)\circ\pi
+$$
+and from
+$$
+\sigma\circ(\rho\circ\pi)
+$$
+coincide at the level of the $\mathsf{EnumPerm}$ witness data: their forward position maps agree pointwise, their inverse position maps agree pointwise, and one and the same pointwise carrier-classifier clause certifies both bracketings. In particular,
+$$
+((\sigma\circ\rho)\circ\pi)(i)=\bigl(\sigma\circ(\rho\circ\pi)\bigr)(i)
+$$
+for every $i:\mathsf{Pos}(xs)$, and
+$$
+\bigl(\pi^{-1}\circ(\rho^{-1}\circ\sigma^{-1})\bigr)(k)=\bigl((\pi^{-1}\circ\rho^{-1})\circ\sigma^{-1}\bigr)(k)
+$$
+for every $k:\mathsf{Pos}(ws)$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:finset-classifier-preserving-enumeration-permutation}. Choose a certified bijection
+$$
+\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(ys)
+$$
+with pointwise preservation field
+$$
+P_\pi(i):
+A(\mathsf{entry}_{xs}(i))\land
+A(\mathsf{entry}_{ys}(\pi(i)))\land
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ys}(\pi(i)).
+$$
+Choose a certified bijection
+$$
+\rho:\mathsf{Pos}(ys)\cong\mathsf{Pos}(zs)
+$$
+with pointwise preservation field
+$$
+P_\rho(j):
+A(\mathsf{entry}_{ys}(j))\land
+A(\mathsf{entry}_{zs}(\rho(j)))\land
+\mathsf{entry}_{ys}(j)\sim_A\mathsf{entry}_{zs}(\rho(j)).
+$$
+Choose a certified bijection
+$$
+\sigma:\mathsf{Pos}(zs)\cong\mathsf{Pos}(ws)
+$$
+with pointwise preservation field
+$$
+P_\sigma(k):
+A(\mathsf{entry}_{zs}(k))\land
+A(\mathsf{entry}_{ws}(\sigma(k)))\land
+\mathsf{entry}_{zs}(k)\sim_A\mathsf{entry}_{ws}(\sigma(k)).
+$$
+
+By two applications of \autoref{lem:finset-enum-position-bijection-composition}, the left bracketing first gives the certified bijection
+$$
+\sigma\circ\rho:\mathsf{Pos}(ys)\cong\mathsf{Pos}(ws)
+$$
+with inverse position map $\rho^{-1}\circ\sigma^{-1}$, and then gives the certified bijection
+$$
+(\sigma\circ\rho)\circ\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(ws)
+$$
+with inverse position map $\pi^{-1}\circ(\rho^{-1}\circ\sigma^{-1})$. The right bracketing first gives the certified bijection
+$$
+\rho\circ\pi:\mathsf{Pos}(xs)\cong\mathsf{Pos}(zs)
+$$
+with inverse position map $\pi^{-1}\circ\rho^{-1}$, and then gives the certified bijection
+$$
+\sigma\circ(\rho\circ\pi):\mathsf{Pos}(xs)\cong\mathsf{Pos}(ws)
+$$
+with inverse position map $(\pi^{-1}\circ\rho^{-1})\circ\sigma^{-1}$.
+
+For every $i:\mathsf{Pos}(xs)$,
+$$
+((\sigma\circ\rho)\circ\pi)(i)
+=(\sigma\circ\rho)(\pi(i))
+=\sigma(\rho(\pi(i)))
+=\sigma((\rho\circ\pi)(i))
+=\bigl(\sigma\circ(\rho\circ\pi)\bigr)(i).
+$$
+Thus the two forward position maps agree pointwise. Likewise, for every $k:\mathsf{Pos}(ws)$,
+$$
+\bigl(\pi^{-1}\circ(\rho^{-1}\circ\sigma^{-1})\bigr)(k)
+=\pi^{-1}(\rho^{-1}(\sigma^{-1}(k)))
+=(\pi^{-1}\circ\rho^{-1})(\sigma^{-1}(k))
+=\bigl((\pi^{-1}\circ\rho^{-1})\circ\sigma^{-1}\bigr)(k).
+$$
+Thus the two inverse position maps also agree pointwise.
+
+It remains to verify a common pointwise carrier-classifier clause for the two bracketings. Fix $i:\mathsf{Pos}(xs)$. From $P_\pi(i)$ we obtain
+$$
+A(\mathsf{entry}_{xs}(i))
+\qquad\text{and}\qquad
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ys}(\pi(i)).
+$$
+From $P_\rho(\pi(i))$ we obtain
+$$
+A(\mathsf{entry}_{zs}(\rho(\pi(i))))
+\qquad\text{and}\qquad
+\mathsf{entry}_{ys}(\pi(i))\sim_A\mathsf{entry}_{zs}(\rho(\pi(i))).
+$$
+From $P_\sigma(\rho(\pi(i)))$ we obtain
+$$
+A(\mathsf{entry}_{ws}(\sigma(\rho(\pi(i)))))
+\qquad\text{and}\qquad
+\mathsf{entry}_{zs}(\rho(\pi(i)))\sim_A\mathsf{entry}_{ws}(\sigma(\rho(\pi(i)))).
+$$
+Applying the classifier transitivity of $\mathsf{cert}$, equivalently \autoref{thm:namecert-equivalence-transitivity}, first to the comparisons from $xs$ to $ys$ and from $ys$ to $zs$, and then to the resulting comparison from $xs$ to $zs$ and the comparison from $zs$ to $ws$, yields
+$$
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ws}(\sigma(\rho(\pi(i)))).
+$$
+Therefore
+$$
+A(\mathsf{entry}_{xs}(i))\land
+A(\mathsf{entry}_{ws}(\sigma(\rho(\pi(i)))))\land
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{ws}(\sigma(\rho(\pi(i)))).
+$$
+By the forward-map equality already proved, this is exactly the pointwise preservation clause required for both $((\sigma\circ\rho)\circ\pi)(i)$ and $\bigl(\sigma\circ(\rho\circ\pi)\bigr)(i)$.
+
+Hence the two bracketings have the same forward position map, the same inverse position map, and the same pointwise carrier-classifier certification. They therefore present the same $\mathsf{EnumPerm}_{A,\sim_A}(xs,ws)$ witness data required by \autoref{def:finset-classifier-preserving-enumeration-permutation}.
 \end{proof}

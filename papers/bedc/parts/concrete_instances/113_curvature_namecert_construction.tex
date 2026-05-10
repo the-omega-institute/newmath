@@ -6,5 +6,685 @@ The curvature interface $\CurvatureUp$ packages the antisymmetric bracket of a c
 \section{Carrier definition}
 \label{sec:curvature-carrier}
 
+\begin{definition}[Curvature bracket carrier]
+\label{def:curvature-bhist-bracket-carrier}
+A $\CurvatureUp$ carrier packet is a displayed $\mathsf{BHist}$ tuple
+$$
+\mathcal{R}=(\mathcal{C},b,f,s,u,v,d_{uv},d_{vu},\kappa,\beta,\rho)
+$$
+where $\mathcal{C}$ is a source $\NameCert_{\ConnectionUp}$ packet, $b:\mathsf{BHist}$ is the base row, $f:\mathsf{BHist}$ is the fibre row over $b$, $s:\mathsf{BHist}$ is the section row, $u,v:\mathsf{BHist}$ are the two tangent-direction rows, $d_{uv},d_{vu}:\mathsf{BHist}$ are the two iterated derivative endpoint rows, $\kappa:\mathsf{BHist}$ is the displayed commutator boundary supplied by \autoref{thm:connection-curvature-boundary-obligation}, $\beta$ is the finite $\Cont$ ledger reading that boundary from the two derivative orders, and $\rho$ records the $\mathsf{Pkg}$ provenance of the connection packet.
+
+The carrier is accepted only when the base, fibre, section, tangent, derivative endpoint, commutator-boundary, ledger, and provenance rows all project from the same connection certificate. Thus curvature is a bracket package over $\NameCert_{\ConnectionUp}$, not an ambient tensor object added beside the BEDC history rows.
+\end{definition}
+\leandef{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier}
+
+\begin{theorem}[Curvature boundary source obligation]
+\label{thm:curvature-boundary-source-obligation}
+A $\CurvatureUp$ source row is read from a $\ConnectionUp$ carrier packet, two tangent-direction $\mathsf{BHist}$ rows, the two ordered derivative-composite $\Cont$ ledgers, and the commutator-boundary $\hsame$ row exposed by \autoref{thm:connection-curvature-boundary-obligation}. The resulting source packet carries no coordinate chart and no host curvature operator; it is exactly the displayed boundary row together with its connection, tangent, derivative, ledger, and $\mathsf{Pkg}$ provenance projections.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_boundary\_source\_obligation}
+\begin{proof}
+Project the source connection packet through \autoref{thm:connection-curvature-boundary-obligation}. This gives the base, fibre, section, tangent-pair, derivative-endpoint, commutator-boundary, and provenance rows already accepted by the connection certificate.
+
+Read the two derivative orderings as the ordered $\Cont$ ledgers carried by the same connection packet. Their displayed endpoint comparison is the commutator-boundary $\hsame$ row.
+
+Repack these projected rows as the $\CurvatureUp$ source packet. Since every component is obtained by projection from the connection boundary obligation, the curvature carrier adds no independent coordinate datum and no further quotient of the history ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBoundarySource\_connection\_projection}
+
+\begin{theorem}[Curvature connection classifier stability]
+\label{thm:curvature-connection-classifier-stability}
+Transport of the source connection packet by $\mathsf{ConnCls}$, together with $\ManifoldUp$ transport of the tangent pair, transports the $\CurvatureUp$ boundary source row componentwise by $\hsame$. In particular, classified replacements of the connection packet and of the two tangent-direction rows preserve the two derivative-composite ledgers and the commutator boundary endpoint row read by $\CurvatureUp$.
+\end{theorem}
+\begin{proof}
+Start with the $\mathsf{ConnCls}$ comparison between the two connection packets. It transports the base, fibre, section, derivative endpoint, and provenance components by the classifier rows already exposed by $\NameCert_{\ConnectionUp}$.
+
+Use the $\ManifoldUp$ classifier on the two tangent-direction rows. Componentwise transport sends the ordered tangent pair to the classified ordered tangent pair, so both derivative composites retain the same source and target projections after the connection transport.
+
+Apply endpoint transport to the two $\Cont$ ledgers and then to the displayed commutator boundary. The result is an $\hsame$ comparison of the transported boundary rows, which is exactly the classifier stability required of the $\CurvatureUp$ source packet.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_connection\_classifier\_stability}
+
+\begin{theorem}[Curvature carrier boundary row]
+\label{thm:curvature-carrier-boundary-row}
+Every accepted $\CurvatureUp$ endpoint is exactly a displayed $\mathsf{BHist}$ commutator-boundary row inherited from \autoref{thm:connection-curvature-boundary-obligation}. Conversely, every curvature carrier packet of \autoref{def:curvature-bhist-bracket-carrier} whose two derivative endpoints are accepted by the source $\NameCert_{\ConnectionUp}$ determines an accepted curvature endpoint with the same base, fibre, section, tangent-direction, $\Cont$, and $\mathsf{Pkg}$ provenance rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_carrier\_boundary\_row}
+\begin{proof}
+Project an accepted curvature endpoint to its carrier packet. By the carrier definition, the endpoint component is the row $\kappa$, and $\kappa$ is declared only as the commutator boundary read from the two derivative orders of the source connection packet.
+
+Apply \autoref{thm:connection-curvature-boundary-obligation} to the displayed tangent rows $u$ and $v$ of that packet. The theorem supplies a $\mathsf{BHist}$ boundary whose source data are precisely the base, fibre, section, tangent-pair, derivative-endpoint, and $\mathsf{Pkg}$ rows already present in the curvature source row.
+
+For the converse, start with such a carrier packet and the two accepted derivative endpoints. The connection boundary theorem produces $\kappa$; repack $\kappa$ together with the unchanged $\mathsf{Pkg}$ and $\Cont$ ledger as the curvature endpoint. No coordinate curvature object is introduced, because the endpoint is only the displayed boundary row.
+\end{proof}
+
+\begin{theorem}[Curvature classifier transport row]
+\label{thm:curvature-classifier-transport-row}
+Let $\mathcal{R}$ and $\mathcal{R}'$ be curvature carrier packets over connection packets $\mathcal{C}$ and $\mathcal{C}'$. If the inherited $\NameCert_{\ConnectionUp}$ classifier transports the base, fibre, section, tangent-direction, and derivative-endpoint rows of $\mathcal{C}$ to those of $\mathcal{C}'$, if the two commutator boundaries are related by $\hsame$, and if both rows carry the same $\mathsf{Pkg}$ provenance through a finite $\Cont$ reassociation ledger, then the $\CurvatureUp$ classifier transports the curvature endpoint of $\mathcal{R}$ to the curvature endpoint of $\mathcal{R}'$.
+\end{theorem}
+\begin{proof}
+Unpack the two curvature carrier packets. The connection classifier supplies the comparisons for the base, fibre, section, tangent-direction, and derivative-endpoint components, while the common provenance row supplies the package comparison.
+
+Reassociate the finite $\Cont$ ledger so that the two derivative orders are read with the same source grouping. This reassociation does not change any endpoint; it only exposes the two commutator-boundary rows as comparable $\mathsf{BHist}$ entries in the same provenance context.
+
+Use the assumed $\hsame$ comparison between the two boundary rows. Repack the transported connection classifier rows, the boundary $\hsame$ witness, and the provenance ledger as the curvature classifier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_classifier\_transport\_row}
+
+\begin{theorem}[Curvature Bianchi ledger row]
+\label{thm:curvature-bianchi-ledger-row}
+For any cyclic triple of tangent-direction rows $u,v,w:\mathsf{BHist}$ over the same curvature carrier packet, the three commutator boundaries for $(u,v)$, $(v,w)$, and $(w,u)$ carry a visible $\mathsf{SigRel}$ ledger witnessing the Bianchi boundary. This ledger is a finite $\Cont$ consequence of the three inherited connection boundary rows and their shared $\mathsf{Pkg}$ provenance, and it does not assert coordinate equality, exterior-calculus equality, or a host-level curvature identity.
+\end{theorem}
+\begin{proof}
+Read $u$, $v$, and $w$ through the same source connection packet and the same finite $\Cont$ spine. For each cyclic ordered pair, apply \autoref{thm:connection-curvature-boundary-obligation} to obtain the displayed commutator boundary row with the common base, fibre, section, and provenance projections.
+
+Collect the three boundary rows into the signature ledger whose entries are the cyclic boundary readings. The $\mathsf{SigRel}$ witness records that the three readings belong to one finite certificate surface, while the $\Cont$ ledger records the append order of the boundary rows.
+
+The Bianchi row is this ledger. It is visible because every entry is a carried $\mathsf{BHist}$ or $\mathsf{SigRel}$ row, and it is conservative because no equality outside those displayed rows is used.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_bianchi\_ledger\_row}
+
+\begin{theorem}[Curvature tensorial section-change row]
+\label{thm:curvature-tensorial-section-change-row}
+Replacing the section row or fibre representative of a curvature carrier packet through the inherited $\NameCert_{\ConnectionUp}$ classifier transports the curvature endpoint through the same $\mathsf{BHist}$ boundary row and $\mathsf{Pkg}$ ledger. The derivative endpoint rows, the commutator boundary, and the cyclic $\mathsf{SigRel}$ ledger are carried along by the corresponding $\hsame$ and $\Cont$ witnesses, so the transported carrier packet presents the same $\CurvatureUp$ classifier class.
+\end{theorem}
+\begin{proof}
+Begin with the source connection classifier witness for the section or fibre replacement. It identifies the displayed base, fibre, section, tangent, and derivative endpoint rows by the inherited component classifiers and exposes the needed $\hsame$ rows.
+
+Transport the two derivative endpoint rows along those component comparisons. Applying the connection curvature-boundary theorem to the transported derivative orders gives the same boundary construction in the transported provenance context.
+
+Finally carry the cyclic $\mathsf{SigRel}$ ledger through the same $\Cont$ and $\hsame$ witnesses. Repacking these rows yields the transported curvature carrier packet, and the endpoint remains in the same classifier class because the boundary and package ledgers have not changed their source certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_tensorial\_section\_change\_row}
+
+\begin{theorem}[Curvature public obligation surface]
+\label{thm:curvature-public-obligation-surface}
+The public $\NameCert_{\CurvatureUp}$ obligation surface over $\NameCert_{\ConnectionUp}$ consists exactly of the carrier packet of \autoref{def:curvature-bhist-bracket-carrier}, the boundary row of \autoref{thm:curvature-carrier-boundary-row}, the classifier transport row of \autoref{thm:curvature-classifier-transport-row}, the Bianchi ledger row of \autoref{thm:curvature-bianchi-ledger-row}, and the tensorial section-change row of \autoref{thm:curvature-tensorial-section-change-row}. A downstream certificate such as $\ChernWeilUp$ may consume these rows as $\mathsf{BHist}$, $\Cont$, $\hsame$, $\mathsf{Pkg}$, and $\mathsf{SigRel}$ data, but it may not assume any additional coordinate curvature form or standard bridge from $\CurvatureUp$ alone.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_public\_obligation\_surface}
+\begin{proof}
+Assemble the carrier by projecting the source connection packet, the tangent rows, the derivative endpoint rows, the commutator boundary, the package provenance, and the finite ledger from \autoref{def:curvature-bhist-bracket-carrier}.
+
+The boundary theorem identifies the accepted endpoint; the classifier theorem transports it under inherited connection classification; the Bianchi theorem records the cyclic signature ledger; and the section-change theorem carries the endpoint through replacement of the section or fibre representative.
+
+Conversely, every row exposed by the public surface appears in one of those five clauses. Thus the obligation surface is exact: it provides a concrete certificate surface for downstream geometry while leaving coordinate curvature forms, de Rham representatives, and standard bridges to their own certificate chapters.
+\end{proof}
+
+\begin{theorem}[Curvature connection-boundary source projection]
+\label{thm:curvature-connection-boundary-source-projection}
+Every $\mathsf{BHist}$ curvature-boundary row accepted from the $\NameCert_{\ConnectionUp}$ source of \autoref{thm:connection-curvature-boundary-obligation} projects to the visible rows required by the $\CurvatureUp$ source surface: the base row supplied by $\ManifoldUp$, the fibre row supplied by $\BundleUp$, the section row, the ordered tangent-pair rows, the two derivative-endpoint rows, and the $\mathsf{Pkg}$ provenance rows of the $\BundleUp$ and $\ManifoldUp$ dependency certificates. The projection is a finite $\Cont$ readback from the accepted boundary row; it does not inspect host-level equality of base points, fibres, sections, tangent directions, or derivative endpoints.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureCarrierPacket\_connection\_boundary\_source\_projection}
+\begin{proof}
+Read the boundary row through the $\NameCert_{\ConnectionUp}$ packet. Its construction in \autoref{thm:connection-curvature-boundary-obligation} already lists the base, fibre, section, tangent-pair, derivative-endpoint, and dependency rows used to build the commutator ledger.
+
+Project those entries one at a time along the finite $\Cont$ readback. The base component is the $\ManifoldUp$ point row, the fibre and section components are the $\BundleUp$ rows, and the derivative endpoints are the two $\mathsf{BHist}$ endpoint rows compared by the boundary.
+
+The $\mathsf{Pkg}$ entries are retained rather than recomputed. Thus the $\CurvatureUp$ source receives exactly the connection boundary surface, with all comparison data still mediated by $\hsame$ and the dependency classifiers.
+\end{proof}
+
+\begin{theorem}[Curvature antisymmetric boundary classifier]
+\label{thm:curvature-antisymmetric-boundary-classifier}
+For a $\NameCert_{\ConnectionUp}$ boundary row whose ordered tangent pair is $(t_1,t_2)$, swapping the displayed tangent rows to $(t_2,t_1)$ reverses the commutator boundary classifier by the inherited $\hsame$ endpoint comparisons and the $\mathsf{SigRel}$ orientation row. The reversed row has the same base, fibre, section, derivative-endpoint carrier rows, and $\mathsf{Pkg}$ provenance rows, but its classifier is the opposite boundary relation in $\mathsf{SigRel}$, not a judgmental or host equality between the two commutator histories.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_antisymmetric\_boundary\_classifier}
+\begin{proof}
+Start with the two finite $\Cont$ composites that define the accepted boundary: first $t_1$ then $t_2$, and first $t_2$ then $t_1$. Swapping the tangent rows interchanges these two composites while leaving their base, fibre, section, and provenance rows unchanged.
+
+Use symmetry of $\hsame$ on the derivative endpoint comparison to reverse the displayed endpoint relation. The reversal is recorded as a $\mathsf{SigRel}$ orientation row attached to the boundary classifier.
+
+Repack the same source rows with the opposite $\mathsf{SigRel}$ classifier. Since no host equality of histories is asserted, the antisymmetry belongs to the BEDC classifier data exposed by $\NameCert_{\ConnectionUp}$ and consumed by $\CurvatureUp$.
+\end{proof}
+
+\begin{theorem}[Curvature tensorial section transport]
+\label{thm:curvature-tensorial-section-transport}
+Let a $\NameCert_{\ConnectionUp}$ curvature-boundary row be accepted over a section row and fibre row carried by the $\BundleUp$ source. If the section classifier and fibre classifier are transported inside the same $\NameCert_{\ConnectionUp}$ dependency by finite $\Cont$ ledgers, then the transported section and fibre rows preserve the accepted $\mathsf{BHist}$ curvature boundary row. The transported boundary has the same $\ManifoldUp$ base row, tangent-pair rows, derivative-endpoint comparison up to $\hsame$, and $\mathsf{Pkg}$ provenance rows, so $\CurvatureUp$ reads it as the same tensorial source boundary.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_tensorial\_section\_transport}
+\begin{proof}
+Apply the $\BundleUp$ fibre and section classifiers supplied inside the $\NameCert_{\ConnectionUp}$ dependency. These classifiers transport the fibre and section rows by finite $\Cont$ ledgers while keeping the $\ManifoldUp$ base row and tangent-pair rows fixed.
+
+Transport the two derivative endpoint rows along those ledgers and compare the transported endpoints by $\hsame$. The commutator boundary row is therefore carried to a boundary row with the same ordered tangent pair and the same source provenance.
+
+The $\mathsf{Pkg}$ rows of the dependency certificates are copied through the transport. Hence the $\CurvatureUp$ source surface sees tensorial section and fibre transport as classifier-preserving readback, not as a change of the underlying boundary object.
+\end{proof}
+
 \section{The certificate}
 \label{sec:curvature-certificate}
+\begin{theorem}[Curvature manifold-base dependency row]
+\label{thm:curvature-manifold-base-dependency-row}
+For every $\CurvatureUp$ carrier packet $\mathcal{R}$ of \autoref{def:curvature-bhist-bracket-carrier}, the displayed base row $b$ and tangent rows $u,v$ are exactly the $\ManifoldUp$ $\mathsf{BHist}$ dependency rows read from the source $\NameCert_{\ConnectionUp}$ packet. Any accepted transport of these rows is mediated by the inherited $\hsame$ endpoint comparisons and finite $\Cont$ ledgers, and no further base or tangent carrier is available to the curvature certificate.
+\end{theorem}
+\begin{proof}
+Unpack $\mathcal{R}=(\mathcal{C},b,f,s,u,v,d_{uv},d_{vu},\kappa,\beta,\rho)$ as a curvature bracket carrier. The components $b,u,v$ occur there only as source rows of the connection certificate $\mathcal{C}$.
+
+Project the $\ManifoldUp$ dependency rows through the source $\NameCert_{\ConnectionUp}$ packet. The same projection supplies the endpoint $\hsame$ comparisons and the finite $\Cont$ ledgers used when those rows are transported.
+
+Conversely, every base or tangent row exposed by the curvature surface must be one of $b,u,v$ in the carrier tuple. Repacking the projected rows therefore gives the exact $\ManifoldUp$ consumption row for $\CurvatureUp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_manifold\_base\_dependency\_row}
+
+\begin{theorem}[Curvature bundle-fibre dependency row]
+\label{thm:curvature-bundle-fibre-dependency-row}
+For every $\CurvatureUp$ carrier packet over a fixed base packet, the fibre row $f$ and section row $s$ are exactly the $\BundleUp$ dependency rows supplied by the same source $\NameCert_{\ConnectionUp}$ packet. Their accepted transports are the inherited bundle classifier transports over the already fixed $\ManifoldUp$ base row, recorded as $\hsame$ comparisons and finite $\Cont$ ledger entries inside the curvature packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_bundle\_fibre\_dependency\_row}
+\begin{proof}
+Keep the base row $b$ fixed through the previous dependency row. In the carrier tuple of \autoref{def:curvature-bhist-bracket-carrier}, the rows $f$ and $s$ are read from the same connection certificate $\mathcal{C}$ over that base.
+
+Project the $\BundleUp$ fibre and section dependencies from $\mathcal{C}$. The connection certificate carries their classifier transport ledgers, so curvature receives the transported fibre and section rows by readback rather than by constructing a new bundle object.
+
+For the reverse containment, inspect the curvature packet. The only fibre and section entries visible to downstream certificates are $f$ and $s$, together with their inherited $\hsame$ and $\Cont$ data, so the bundle dependency surface is exact.
+\end{proof}
+
+\begin{theorem}[Curvature connection-derivative dependency row]
+\label{thm:curvature-connection-derivative-dependency-row}
+For every $\CurvatureUp$ carrier packet, the derivative endpoint rows $d_{uv}$ and $d_{vu}$ and the commutator boundary row $\kappa$ are projected from $\NameCert_{\ConnectionUp}$ by \autoref{thm:connection-curvature-boundary-obligation}. The curvature packet may repackage these rows with its boundary ledger $\beta$, but it does not add an independent derivative operator, endpoint equality, or commutator carrier outside that connection boundary obligation.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_connection\_derivative\_dependency\_row}
+\begin{proof}
+Apply \autoref{thm:connection-curvature-boundary-obligation} to the source connection packet $\mathcal{C}$ and the ordered tangent rows $u,v$. It supplies the two ordered derivative endpoint rows and the displayed commutator boundary in $\mathsf{BHist}$ form.
+
+Read $d_{uv}$, $d_{vu}$, and $\kappa$ from that boundary surface through the finite ledger $\beta$. The ledger records the two derivative orders and the endpoint comparison used by the curvature packet.
+
+Repack these three rows as curvature data. Since each row is obtained by projection from the connection boundary theorem, any downstream use of the derivative surface factors through $\NameCert_{\ConnectionUp}$.
+\end{proof}
+
+\begin{theorem}[Curvature ChernWeil export dependency row]
+\label{thm:curvature-chernweil-export-dependency-row}
+The complete $\ChernWeilUp$ export surface of a $\CurvatureUp$ packet consists of the $\mathsf{BHist}$ curvature boundary row $\kappa$, the cyclic ledger recorded by the Bianchi $\mathsf{SigRel}$ rows, the classifier rows exposed by the curvature transport obligations, and the $\mathsf{Pkg}$ provenance $\rho$ already listed in \autoref{def:curvature-bhist-bracket-carrier}. No additional coordinate form, host tensor equality, or exterior-calculus representative is exported from $\CurvatureUp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_chernweil\_export\_dependency\_surface}
+\begin{proof}
+Project the boundary row $\kappa$ and package provenance $\rho$ from the curvature carrier. The same carrier exposes the finite $\Cont$ ledger $\beta$ that downstream certificates use to read the boundary from the ordered derivative endpoints.
+
+Add the cyclic Bianchi ledger and classifier rows from the existing curvature obligation rows. These rows are already presented as $\mathsf{SigRel}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ data, so they can be consumed by $\ChernWeilUp$ without changing the carrier.
+
+Conversely, inspect the public curvature obligation surface. Every row named for downstream consumption is one of the boundary, cyclic ledger, classifier, or provenance rows just listed, and no theorem in the packet grants a coordinate curvature form or host tensor equality.
+\end{proof}
+
+\begin{theorem}[Curvature source row coverage]
+\label{thm:curvature-source-row-coverage}
+Every accepted $\CurvatureUp$ carrier packet projects exactly the source $\NameCert_{\ConnectionUp}$ packet, the $\ManifoldUp$ base row, the $\BundleUp$ fibre and section rows, the ordered tangent-pair rows, the two derivative endpoint rows, the commutator-boundary row, the finite $\Cont$ ledger reading that boundary, and the $\mathsf{Pkg}$ provenance row. Conversely, any such rows over one accepted source connection packet repack as the source surface of the carrier in \autoref{def:curvature-bhist-bracket-carrier}.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier through the tuple of \autoref{def:curvature-bhist-bracket-carrier}. Its fields name the source connection packet, the base, fibre, section, tangent-pair, derivative endpoint, boundary, ledger, and provenance rows without asking for a coordinate chart or host tensor.
+
+Apply \autoref{thm:connection-curvature-boundary-obligation} to the projected tangent pair. This identifies the commutator boundary as the displayed $\mathsf{BHist}$ row read from the two derivative orders, with the same source connection and $\mathsf{Pkg}$ provenance.
+
+For the converse, start with exactly those rows over the same source packet. The carrier definition gives the constructor pattern, and the boundary obligation supplies the compatibility condition for the boundary and ledger entries, so the listed rows repack as the $\CurvatureUp$ source surface and nothing else is needed.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_source\_row\_coverage}
+
+\begin{theorem}[Curvature boundary row determinacy]
+\label{thm:curvature-boundary-row-determinacy}
+Fix a source $\NameCert_{\ConnectionUp}$ packet, an ordered tangent pair, the two derivative $\Cont$ ledgers, and the $\mathsf{Pkg}$ provenance row. Two accepted $\CurvatureUp$ boundary rows classify together precisely by the carried $\hsame$ boundary comparison and its $\mathsf{SigRel}$ orientation row. This determinacy uses no host curvature tensor, no coordinate representative, and no quotient of the $\mathsf{BHist}$ ledger.
+\end{theorem}
+\begin{proof}
+With the source packet, tangent pair, derivative ledgers, and provenance fixed, \autoref{thm:connection-curvature-boundary-obligation} leaves only the displayed commutator boundary row to compare. The carrier of \autoref{def:curvature-bhist-bracket-carrier} records that row as $\kappa$ and records its finite readback as the $\Cont$ ledger.
+
+If the two accepted rows carry an $\hsame$ boundary comparison with the same $\mathsf{SigRel}$ orientation, the curvature classifier repacks that comparison over the fixed source fields. The fixed rows guarantee that no further geometric datum can distinguish the two boundary packets.
+
+Conversely, any classification of the two accepted boundary rows must project to the boundary component of the carrier. Since all other source fields are fixed, that projection is exactly the carried $\hsame$ comparison together with the $\mathsf{SigRel}$ boundary row, not an equality of host curvature tensors and not a quotient of histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_boundary\_row\_determinacy}
+\leanvariant{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_boundary\_determinacy}
+
+\begin{theorem}[Curvature ChernWeil visible input exhaustion]
+\label{thm:curvature-chernweil-visible-input-exhaustion}
+The only $\CurvatureUp$ rows exported to $\ChernWeilUp$ are the curvature boundary row, the cyclic Bianchi ledger, the tensorial transport row, the source connection provenance, and the finite $\Cont$ and $\mathsf{Pkg}$ ledgers. De~Rham representatives, characteristic-class rows, invariant-polynomial exactness rows, and standard bridge data remain obligations of $\ChernWeilUp$ or $\DeRhamUp$, not exports of $\CurvatureUp$.
+\end{theorem}
+\begin{proof}
+Project the public curvature carrier by \autoref{def:curvature-bhist-bracket-carrier} and the scope theorem \autoref{thm:curvature-namecert-scope-obligation}. The visible source entries are the boundary row, the connection provenance, and the finite ledger rows that carry the bracket packet.
+
+Next apply \autoref{thm:curvature-bianchi-ledger-obligation} and \autoref{thm:curvature-tensorial-transport-obligation}. These add only the cyclic $\mathsf{SigRel}$ ledger and the tensorial transport row, both still carried as $\mathsf{BHist}$, $\Cont$, $\hsame$, and $\mathsf{Pkg}$ data.
+
+The exhaustion clause is the reverse projection. Every row named by the export appears in one of the listed carrier or obligation projections, while de~Rham representatives and characteristic-class rows do not appear in those projections. They therefore belong to the downstream certificates that consume the curvature packet.
+\end{proof}
+
+\begin{definition}[Curvature Chern-Weil source envelope]
+\label{def:curvature-chernweil-source-envelope}
+The $\CurvatureUp$ export to $\ChernWeilUp$ is the finite source envelope
+$$
+\mathsf{CurvatureChernWeilSourceEnvelope}(\kappa,\delta,\rho,\lambda,\chi)
+$$
+where $\kappa:\mathsf{BHist}$ is the curvature commutator-boundary row, $\delta:\mathsf{BHist}$ is the displayed de~Rham target row supplied by the consumer, $\rho:\mathsf{BHist}$ is the shared $\mathsf{Pkg}$ provenance row, $\lambda:\mathsf{BHist}$ is the connection ledger row, and $\chi:\mathsf{BHist}$ is the classifier row read by the Chern-Weil packet.
+
+The envelope is admitted only when $\UnaryHistory(\kappa)$, $\UnaryHistory(\delta)$, $\UnaryHistory(\rho)$, $\UnaryHistory(\lambda)$, and $\UnaryHistory(\chi)$ hold, when finite $\Cont$ ledgers read $\rho$ from $\kappa$ and $\delta$ and read $\chi$ from $\rho$ and $\lambda$, and when the carried $\hsame$ readback identifies $\chi$ with the finite appended history obtained by first pairing the curvature boundary with the de~Rham row and then appending the connection ledger. The $\mathsf{Pkg}$ provenance binds all five rows to the same accepted curvature source and consumer-facing de~Rham display.
+\end{definition}
+\leandef{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope}
+
+\begin{theorem}[Curvature Chern-Weil source envelope coverage]
+\label{thm:curvature-chernweil-source-envelope-coverage}
+Every accepted $\CurvatureUp$ carrier of \autoref{def:curvature-bhist-bracket-carrier}, together with a displayed de~Rham consumer row $\delta:\mathsf{BHist}$ whose provenance is tied to the same finite $\mathsf{Pkg}$ ledger, repacks as a $\mathsf{CurvatureChernWeilSourceEnvelope}(\kappa,\delta,\rho,\lambda,\chi)$. The row $\kappa$ is the exported commutator boundary, $\rho$ is the shared provenance row, $\lambda$ is the chosen connection ledger row, and $\chi$ is the classifier row obtained by the finite $\Cont$ readback from those rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_coverage}
+\begin{proof}
+Project the accepted curvature carrier through \autoref{def:curvature-bhist-bracket-carrier}. This gives the boundary row $\kappa$, the source connection packet, the derivative ledgers, and the $\mathsf{Pkg}$ provenance row already tied to the same finite history surface.
+
+Apply \autoref{thm:curvature-visible-ledger-coverage}. Its forward direction lists every exported curvature witness and its reverse direction repacks exactly those rows as the visible curvature ledger.
+
+Add the displayed consumer row $\delta$ with the assumed provenance tie. The finite $\Cont$ rows first bind $\kappa$ and $\delta$ into $\rho$ and then bind $\rho$ and the connection ledger $\lambda$ into $\chi$, while the carried $\hsame$ readback supplies the displayed appended history required by \autoref{def:curvature-chernweil-source-envelope}.
+\end{proof}
+
+\begin{theorem}[Curvature Chern-Weil source envelope readback]
+\label{thm:curvature-chernweil-source-envelope-readback}
+An admitted $\mathsf{CurvatureChernWeilSourceEnvelope}(\kappa,\delta,\rho,\lambda,\chi)$ projects exactly the five rows consumed by $\ChernWeilUp$: the curvature boundary row $\kappa$, the de~Rham target row $\delta$, the shared provenance row $\rho$, the connection ledger row $\lambda$, and the classifier row $\chi$. These projections are the same row positions as the existing Chern-Weil source envelope consumes, with $\kappa$ occupying the curvature input and $\delta$ occupying the de~Rham input.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_derham\_transport\_readback}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_readback}
+\begin{proof}
+Unpack the envelope definition. The tuple has five displayed $\mathsf{BHist}$ coordinates, and each coordinate is constrained by $\UnaryHistory$ inside the same finite source packet.
+
+Read the two finite $\Cont$ rows. The first identifies $\rho$ as the provenance row produced from the curvature and de~Rham coordinates; the second identifies $\chi$ as the classifier endpoint produced from that provenance row and the connection ledger.
+
+Finally use the $\hsame$ readback clause. It states that the classifier row is precisely the appended history over $\kappa$, $\delta$, and $\lambda$, so projection returns no hidden coordinate besides the five displayed rows.
+\end{proof}
+
+\begin{theorem}[Curvature Chern-Weil source envelope exactness]
+\label{thm:curvature-chernweil-source-envelope-exactness}
+The envelope of \autoref{def:curvature-chernweil-source-envelope} exports no coordinate curvature form, no de~Rham cohomology class, no characteristic-class equality, and no standard bridge. Its public content is exactly the curvature boundary row, the displayed de~Rham target row, the shared $\mathsf{Pkg}$ provenance row, the connection ledger row, the classifier row, and the finite $\Cont$ and $\hsame$ witnesses tying those rows together.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_exactness}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_semantic\_name\_certificate}
+\begin{proof}
+Use \autoref{thm:curvature-chernweil-consumer-boundary} to identify the curvature side exported to the invariant-polynomial consumer. That theorem supplies the source connection certificate, boundary row, transported endpoint ledger, visible classifier rows, and provenance row, while excluding de~Rham classes, characteristic-class equalities, and standard bridges from $\CurvatureUp$ itself.
+
+The source envelope adds only the displayed row $\delta$ and the two finite readback ledgers required to match the Chern-Weil input shape. By \autoref{thm:curvature-visible-ledger-coverage}, every curvature contribution is already one of the listed $\mathsf{BHist}$, $\Cont$, $\hsame$, or $\mathsf{Pkg}$ rows.
+
+Therefore any attempted coordinate curvature form, cohomology class, characteristic-class equality, or standard bridge would have to be a sixth public coordinate. No such coordinate appears in \autoref{def:curvature-chernweil-source-envelope}, so the export is exact.
+\end{proof}
+
+\begin{theorem}[Curvature tensorial endpoint transport]
+\label{thm:curvature-tensorial-endpoint-transport}
+Bundle, manifold, and section classifier transport of the section, fibre, base, and tangent rows preserves the curvature endpoint row. After transporting the two derivative orderings by the source $\ConnectionUp$ section-linearity and stability-ledger exactness obligations, the transported commutator boundary is $\hsame$ to the boundary row of the transported $\CurvatureUp$ packet.
+\end{theorem}
+\begin{proof}
+Transport the base and tangent rows by the $\ManifoldUp$ classifiers and the fibre and section rows by the inherited bundle and section classifiers. The source connection certificate keeps these transports tied to the same carrier packet and provenance row.
+
+Apply the section-linearity and stability-ledger exactness obligations of $\NameCert_{\ConnectionUp}$ to the first derivative ordering. Repeat the same construction for the reversed derivative ordering, so the two transported endpoints remain the endpoints of certified $\Cont$ ledgers.
+
+Compare the two transported endpoint ledgers through the commutator-boundary row. The boundary comparison is componentwise $\hsame$, hence the curvature endpoint row is preserved by the transported $\CurvatureUp$ packet.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_tensorial\_endpoint\_transport}
+
+\begin{theorem}[Curvature visible ledger coverage]
+\label{thm:curvature-visible-ledger-coverage}
+Every exported $\CurvatureUp$ witness is one of the source connection certificate rows, the base, fibre, section, tangent-pair, two derivative-composite ledger rows, the commutator boundary row, the classifier transport rows, or the $\mathsf{Pkg}$ provenance rows. Conversely, exactly these rows repack as the visible $\CurvatureUp$ ledger.
+\end{theorem}
+\begin{proof}
+For the forward reading, project an accepted curvature witness through the carrier tuple of \autoref{def:curvature-bhist-bracket-carrier}. The projections are precisely the source connection certificate, geometric rows, tangent pair, derivative composites, boundary row, classifier transports, and provenance rows.
+
+For the reverse reading, begin with those listed rows over a common source connection packet. The boundary source obligation repacks the connection, tangent, derivative, boundary, and provenance rows, while the classifier stability and endpoint transport obligations repack the transport rows.
+
+Thus the public ledger is exact. Each exported witness is a listed row, and each listed row has a constructor role in the visible $\CurvatureUp$ certificate surface.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_visible\_ledger\_coverage}
+
+\begin{theorem}[Curvature ChernWeil consumer boundary]
+\label{thm:curvature-chernweil-consumer-boundary}
+Any accepted $\CurvatureUp$ row exports exactly the invariant-polynomial input packet consumed by $\ChernWeilUp$: the source connection certificate, the curvature boundary row, the transported endpoint ledger, the visible Bianchi and classifier rows when present, and the $\mathsf{Pkg}$ provenance row. This export does not assert a de Rham class, a characteristic-class equality, a standard bridge, or a Lean verification target for $\ChernWeilUp$.
+\end{theorem}
+\begin{proof}
+Project the accepted curvature row to the fields listed in \autoref{def:curvature-bhist-bracket-carrier} and to the public certificate rows in this section. These projections provide the boundary row and transport ledgers that an invariant-polynomial consumer can read.
+
+Package those projections as the input side of $\NameCert_{\ChernWeilUp}$. The packet contains only the curvature boundary, the connection provenance, and the visible ledger rows needed to form polynomial expressions over the accepted curvature data.
+
+The exclusions follow from ledger coverage. Since no de Rham row, characteristic-class comparison, standard bridge, or Lean target is part of the exported $\CurvatureUp$ ledger, none is available to $\ChernWeilUp$ without an independent certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_consumer\_boundary}
+
+\begin{definition}[Curvature-to-ChernWeil input envelope]
+\label{def:curvature-chernweil-input-envelope}
+The $\CurvatureUp$ export to $\ChernWeilUp$ is admitted as a five-row source envelope
+$$
+(\mathsf{curvature},\mathsf{derham},\mathsf{provenance},\mathsf{connectionLedger},\mathsf{classRow})
+$$
+when $\mathsf{curvature}$ is the carried curvature boundary row of \autoref{thm:curvature-chernweil-consumer-boundary}, $\mathsf{derham}$ is the de~Rham target row consumed by $\ChernWeilUp$, $\mathsf{provenance}$ is obtained by $\Cont(\mathsf{curvature},\mathsf{derham},\mathsf{provenance})$, and $\mathsf{classRow}$ is obtained by $\Cont(\mathsf{provenance},\mathsf{connectionLedger},\mathsf{classRow})$. The row $\mathsf{connectionLedger}$ records the chosen-connection face already carried by the curvature provenance packet, so the envelope contains only displayed $\mathsf{BHist}$ and $\Cont$ data.
+\end{definition}
+
+\begin{theorem}[Curvature ChernWeil source-envelope projection]
+\label{thm:curvature-chernweil-source-envelope-projection}
+Every envelope of \autoref{def:curvature-chernweil-input-envelope} projects to unary rows for $\mathsf{curvature}$, $\mathsf{derham}$, $\mathsf{provenance}$, $\mathsf{connectionLedger}$, and $\mathsf{classRow}$; to the continuation rows $\Cont(\mathsf{curvature},\mathsf{derham},\mathsf{provenance})$ and $\Cont(\mathsf{provenance},\mathsf{connectionLedger},\mathsf{classRow})$; and to the readback row
+$$
+\hsame(\mathsf{classRow},\mathsf{append}(\mathsf{append}(\mathsf{curvature},\mathsf{derham}),\mathsf{connectionLedger})).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_source\_envelope\_projection}
+\begin{proof}
+Unpack the five-row envelope. Its admission clauses give the unary curvature row, unary de~Rham row, unary connection-ledger row, and the two displayed $\Cont$ rows.
+
+Apply closure of unary history under the first $\Cont$ row to obtain the provenance unary row. Apply the same closure principle to the second $\Cont$ row to obtain the class-row unary projection.
+
+Finally compose the readbacks carried by the two $\Cont$ rows. The first readback identifies $\mathsf{provenance}$ with $\mathsf{append}(\mathsf{curvature},\mathsf{derham})$; the second appends $\mathsf{connectionLedger}$ and identifies the endpoint with $\mathsf{classRow}$. This is exactly the displayed $\hsame$ row.
+\end{proof}
+
+\begin{theorem}[Curvature ChernWeil consumer exactness]
+\label{thm:curvature-chernweil-consumer-exactness}
+The $\CurvatureUp$ export to $\ChernWeilUp$ consists exactly of the source envelope rows of \autoref{def:curvature-chernweil-input-envelope} together with the existing connection provenance exposed by \autoref{thm:curvature-visible-ledger-coverage}. It exports no de~Rham class, characteristic-class equality, or standard bridge beyond those rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_consumer\_exactness}
+\begin{proof}
+First project the accepted curvature packet by \autoref{thm:curvature-visible-ledger-coverage} and \autoref{thm:curvature-chernweil-consumer-boundary}. These give the curvature boundary row, transported endpoint ledger, visible classifier and Bianchi rows, and the connection provenance available to a $\ChernWeilUp$ consumer.
+
+Next form the five-row envelope of \autoref{def:curvature-chernweil-input-envelope}. By \autoref{thm:curvature-chernweil-source-envelope-projection}, every public row of that envelope is one of the unary row projections, one of the two continuation rows, or the displayed $\hsame$ readback of the class row.
+
+Combining the two projections gives exactness. The only rows exported from $\CurvatureUp$ are the existing connection provenance and the source-envelope rows just listed; a de~Rham class, characteristic-class equality, or standard bridge would require an additional certificate not present in the curvature ledger.
+\end{proof}
+
+\begin{definition}[Curvature Chern-Weil consumer row]
+\label{def:curvature-chernweil-consumer-row}
+A curvature Chern-Weil consumer row is a concrete $\mathsf{BHist}$ packet
+$$
+\mathsf{CurvatureChernWeilConsumerRow}(\kappa,d,p,\gamma,\lambda)
+$$
+whose coordinates are the exported curvature boundary row $\kappa$, the displayed de~Rham row $d$, the shared provenance row $p$, the connection ledger row $\gamma$, and the characteristic-class endpoint row $\lambda$. The packet is accepted exactly when these five rows form the source envelope consumed by \autoref{def:chernweil-source-envelope}: $\kappa$, $d$, and $\gamma$ are unary source rows, $p$ is the shared $\Cont$ provenance over the curvature and de~Rham inputs, and $\lambda$ is the final $\Cont$ endpoint with its carried $\hsame$ readback against the appended curvature, de~Rham, and connection ledger.
+\end{definition}
+
+\begin{theorem}[Curvature Chern-Weil consumer stability]
+\label{thm:curvature-chernweil-consumer-stability}
+Let $\mathsf{CurvatureChernWeilConsumerRow}(\kappa,d,p,\gamma,\lambda)$ be accepted. If an exported curvature boundary $\kappa'$ is related to $\kappa$ by the $\hsame$ transport supplied by $\NameCert_{\CurvatureUp}$, and the invariant-polynomial row, provenance row $p$, de~Rham row $d$, and connection ledger row $\gamma$ are kept in the same carrier classifier, then the Chern-Weil endpoint transported through that classifier is again the endpoint row $\lambda$ of an accepted consumer packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_consumer\_stability}
+\begin{proof}
+Project the accepted consumer packet to its curvature source. By \autoref{thm:curvature-namecert-scope-obligation}, the boundary row, classifier rows, finite ledgers, and provenance row are all public rows of the same $\CurvatureUp$ certificate.
+
+Transport the boundary along the displayed $\hsame$ comparison while keeping the invariant-polynomial, de~Rham, provenance, and connection ledger rows fixed in the carrier classifier. The projected rows therefore still occupy the same source-envelope positions.
+
+Apply \autoref{thm:chernweil-curvature-polynomial-stability-obligation}. Its classifier stability clause transports the invariant-polynomial endpoint across the curvature boundary comparison, so the final class row is read as the same $\lambda$ through the carrier classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_curvature\_transport}
+
+\begin{theorem}[Curvature Chern-Weil consumer envelope projection]
+\label{thm:curvature-chernweil-consumer-envelope-projection}
+Every accepted packet of \autoref{def:curvature-chernweil-consumer-row} projects to the exact rows of the Chern-Weil source envelope: the unary curvature row $\kappa$, the unary de~Rham row $d$, the unary connection ledger row $\gamma$, the shared $\Cont$ provenance row $p$, the final $\Cont$ class row $\lambda$, and the readback $\hsame$ of $\lambda$ against the appended curvature, de~Rham, and connection ledger.
+\end{theorem}
+\begin{proof}
+Unpack the consumer packet. Its five coordinates are concrete $\mathsf{BHist}$ rows, and acceptance says that they occupy the curvature, de~Rham, provenance, connection ledger, and endpoint positions of the source envelope of \autoref{def:chernweil-source-envelope}.
+
+Project the unary row obligations for $\kappa$, $d$, and $\gamma$, then project the two finite $\Cont$ ledgers. The first ledger supplies the shared provenance row $p$ from the curvature and de~Rham inputs, and the second supplies the endpoint row $\lambda$ from that provenance row and the connection ledger.
+
+Apply \autoref{thm:chernweil-curvature-derham-obligation-surface} to identify the consumer-facing curvature and de~Rham rows as the Chern-Weil input surface. The checked source-envelope projection cited in the Chern-Weil chapter then reads back the same rows and the displayed $\hsame$ comparison of $\lambda$ with the appended curvature, de~Rham, and connection ledger.
+\end{proof}
+
+\begin{theorem}[Curvature Chern-Weil source-envelope row]
+\label{thm:curvature-chernweil-source-envelope-row}
+Let a $\CurvatureUp$ row be accepted from the $\NameCert_{\ConnectionUp}$ packet in \autoref{def:curvature-bhist-bracket-carrier}. Its export to the $\ChernWeilUp$ source envelope supplies exactly the five source-envelope rows consumed by the Chern-Weil projection theorem: the curvature boundary row, the de~Rham target row slot, the shared $\Cont$ provenance row, the selected-connection ledger face, and the characteristic-class endpoint row slot. The visible curvature-side fields are projected only as $\mathsf{BHist}$ rows, $\hsame$ endpoint comparisons, and finite $\Cont$ ledgers, with the $\mathsf{Pkg}$ provenance retained from the source connection packet.
+\end{theorem}
+\begin{proof}
+Project the accepted row through \autoref{def:curvature-bhist-bracket-carrier}. This gives the source $\NameCert_{\ConnectionUp}$ packet, tangent-pair rows, derivative endpoints, the commutator boundary, the finite boundary ledger, and the $\mathsf{Pkg}$ provenance.
+
+Apply \autoref{thm:connection-curvature-boundary-obligation} to identify the exported curvature boundary as a $\mathsf{BHist}$ row. Apply \autoref{thm:curvature-tensorial-transport-obligation} and \autoref{thm:curvature-ledger-exactness-obligation} to keep the endpoint comparisons and finite readback inside the same curvature packet.
+
+The remaining Chern-Weil rows are interface slots rather than curvature-side conclusions. The de~Rham target row slot and characteristic-class endpoint row slot are left for $\NameCert_{\DeRhamUp}$ and $\ChernWeilUp$, while the selected-connection ledger face and shared provenance are copied from the projected source connection packet.
+\end{proof}
+
+\begin{theorem}[Curvature Chern-Weil provenance ledger]
+\label{thm:curvature-chernweil-provenance-ledger}
+The provenance exported by $\CurvatureUp$ for a $\ChernWeilUp$ consumer is exactly the source connection packet, the curvature boundary row, the Bianchi ledger, the tensorial transport row, and the $\mathsf{Pkg}$ provenance certified by \autoref{thm:curvature-namecert-scope-obligation}. No additional coordinate connection form, analytic curvature form, or uncarried equivalence relation is part of this ledger.
+\end{theorem}
+\begin{proof}
+Start with the carrier tuple in \autoref{def:curvature-bhist-bracket-carrier}. Its first projection is the source connection packet, and \autoref{thm:connection-curvature-boundary-obligation} supplies the boundary row read from the two derivative orders.
+
+Project the cyclic row by \autoref{thm:curvature-bianchi-ledger-obligation}. Project the section and tangent transport row by \autoref{thm:curvature-tensorial-transport-obligation}. These two ledgers are finite $\Cont$ consequences of the same boundary data and the same source packet.
+
+Finally apply \autoref{thm:curvature-namecert-scope-obligation}. That theorem collects the carrier, boundary, Bianchi, tensorial transport, exactness, and provenance rows as the public $\NameCert_{\CurvatureUp}$ surface, so the listed rows are precisely the provenance visible to the Chern-Weil consumer.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_provenance\_ledger\_transport}
+
+\begin{theorem}[Curvature Chern-Weil visible class boundary]
+\label{thm:curvature-chernweil-visible-class-boundary}
+The $\CurvatureUp$ export licenses only the visible input side of the $\ChernWeilUp$ characteristic-class boundary. It supplies the accepted curvature boundary, its $\hsame$ transport, its finite $\Cont$ ledgers, and its $\mathsf{Pkg}$ provenance, but it does not license a de~Rham class, an analytic characteristic class, or a standard bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_visible\_class\_boundary}
+\begin{proof}
+Read the visible input from \autoref{def:curvature-bhist-bracket-carrier}. The boundary, derivative endpoints, transport comparisons, and provenance are all displayed as BEDC rows, and \autoref{thm:curvature-ledger-exactness-obligation} states that every public curvature row is generated from this listed surface.
+
+Apply \autoref{thm:curvature-namecert-scope-obligation} to repack those rows as the $\NameCert_{\CurvatureUp}$ export. This gives exactly the input face that $\ChernWeilUp$ may project before introducing any de~Rham dependency.
+
+The negative clauses follow from the same projection. No de~Rham carrier, analytic characteristic-class equality, or standard bridge occurs among the projected rows, so those objects require their own certificate and cannot be read from $\CurvatureUp$ alone.
+\end{proof}
+
+\begin{definition}[Curvature Chern-Weil handoff packet]
+\label{def:curvature-chernweil-handoff-packet}
+A Curvature-to-Chern-Weil handoff packet is a displayed $\mathsf{BHist}$ tuple
+$$
+\mathcal{H}=(\mathcal{R},\mathcal{W},\kappa,\beta,\tau,\lambda,\rho)
+$$
+where $\mathcal{R}$ is an accepted $\CurvatureUp$ carrier row, $\mathcal{W}$ is the $\ChernWeilUp$ source-envelope row fed by $\mathcal{R}$, $\kappa:\mathsf{BHist}$ is the curvature boundary row, $\beta$ is the cyclic Bianchi ledger, $\tau$ is the tensorial transport row for section and tangent replacement, $\lambda$ is the finite $\Cont$ projection from the curvature rows into the Chern-Weil envelope, and $\rho$ is the shared $\mathsf{Pkg}$ provenance row. The packet is accepted exactly when these fields project from the carrier of \autoref{def:curvature-bhist-bracket-carrier}, the public export of \autoref{thm:curvature-namecert-scope-obligation}, and the source-envelope interface of \autoref{def:chernweil-source-envelope}.
+\end{definition}
+
+\begin{theorem}[Curvature handoff Bianchi transport]
+\label{thm:curvature-handoff-bianchi-transport}
+For any handoff packet of \autoref{def:curvature-chernweil-handoff-packet}, classifier-preserving replacement of the $\CurvatureUp$ section row and tangent-direction rows transports both the Bianchi ledger $\beta$ and the closed-endpoint input consumed by $\ChernWeilUp$. The transported handoff has the same $\mathsf{Pkg}$ provenance and reaches the Chern-Weil source envelope by the transported $\hsame$ comparisons and the same finite $\Cont$ projection.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilHandoffPacket\_bianchi\_transport}
+\begin{proof}
+Project the handoff packet to its curvature carrier row. The Bianchi component is the cyclic ledger supplied by \autoref{thm:curvature-bianchi-ledger-obligation}, and the section and tangent replacements are governed by the tensorial row of \autoref{thm:curvature-tensorial-transport-obligation}.
+
+Transport the curvature boundary, Bianchi ledger, and endpoint rows through the inherited $\hsame$ comparisons. The tensorial transport keeps the base, fibre, connection source, and $\mathsf{Pkg}$ provenance fixed, so the transported packet still has the same dependency surface.
+
+Apply the Chern-Weil closed-form endpoint obligation to the transported curvature input. Since the projection $\lambda$ is a finite $\Cont$ row from the handoff packet into the Chern-Weil source envelope, the closed-endpoint input is transported with the envelope rather than recomputed as an external form.
+\end{proof}
+
+\begin{theorem}[Curvature handoff provenance exactness]
+\label{thm:curvature-handoff-provenance-exactness}
+Every field of a Curvature-to-Chern-Weil handoff packet is either a public $\CurvatureUp$ row or a $\ChernWeilUp$ envelope row reached by the displayed $\Cont$ projection. The handoff exports no de~Rham class, no characteristic-class equality, no coordinate curvature form, and no standard bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilHandoffPacket\_provenance\_exactness}
+\begin{proof}
+Project the handoff fields from \autoref{def:curvature-chernweil-handoff-packet}. The curvature carrier, boundary row, Bianchi ledger, tensorial transport row, and provenance row are exactly the public rows covered by \autoref{thm:curvature-namecert-scope-obligation}.
+
+Use the ledger exactness obligation of \autoref{thm:curvature-ledger-exactness-obligation} to rule out unlisted curvature data. The only consumer-facing row beyond those projections is the finite $\Cont$ projection into the Chern-Weil source envelope.
+
+The Chern-Weil side is therefore an envelope readback, not an added bridge theorem. De~Rham classes, characteristic-class equalities, coordinate curvature forms, and standard bridges are absent because no field of the handoff packet has such a source or constructor role.
+\end{proof}
+
+\begin{theorem}[Curvature handoff consumer coverage]
+\label{thm:curvature-handoff-consumer-coverage}
+Every $\ChernWeilUp$ source envelope whose curvature component is supplied by an accepted $\CurvatureUp$ row admits a handoff packet of \autoref{def:curvature-chernweil-handoff-packet}. Conversely, each accepted handoff exports exactly the invariant-polynomial input rows that $\ChernWeilUp$ may consume from $\CurvatureUp$: the boundary row, Bianchi ledger, tensorial transport row, finite projection, and shared $\mathsf{Pkg}$ provenance.
+\end{theorem}
+\begin{proof}
+For coverage, begin with a Chern-Weil source envelope whose curvature component is supplied by an accepted curvature row. Apply \autoref{thm:curvature-chernweil-consumer-boundary} to project the boundary row, transported endpoint ledger, visible Bianchi and classifier rows, and provenance row.
+
+Repack those rows with the source envelope as the tuple of \autoref{def:curvature-chernweil-handoff-packet}. The source-envelope definition supplies the finite $\Cont$ projection into $\ChernWeilUp$, while the curvature carrier supplies the accepted boundary, Bianchi, transport, and provenance fields.
+
+For the converse, project an accepted handoff packet. Its consumer-facing fields are precisely the curvature rows listed in the tuple and the finite projection into the envelope; by provenance exactness, there is no additional de~Rham endpoint, characteristic-class equality, coordinate form, or bridge row available for consumption.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilHandoffPacket\_consumer\_coverage}
+
+\begin{theorem}[Curvature connection-carrier scope]
+\label{thm:curvature-connection-carrier-scope}
+Every $\CurvatureUp$ carrier packet of \autoref{def:curvature-bhist-bracket-carrier} has a visible $\NameCert_{\ConnectionUp}$ packet as its dependency source. The base row, fibre row, section row, tangent-pair rows, iterated derivative rows, commutator boundary row, ledger row, and provenance row are obtained by projection from that packet together with the boundary row of \autoref{thm:connection-curvature-boundary-obligation}.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_connection\_carrier\_scope}
+\begin{proof}
+Project the connection certificate $\mathcal{C}$ from the displayed tuple. Its base, fibre, section, tangent, derivative, dependency, and provenance rows are already named by the connection certificate surface.
+
+Apply \autoref{thm:connection-curvature-boundary-obligation} to the two tangent-direction rows. This gives the commutator boundary as a $\mathsf{BHist}$ row whose source data is the same base, fibre, section, tangent-pair, derivative-endpoint, and $\mathsf{Pkg}$ provenance data.
+
+Read the ledger $\beta$ from that boundary row and repack the projected rows into the curvature tuple. Since every row used in the repacking is either a projection from $\mathcal{C}$ or the displayed commutator boundary, the carrier scope contains no additional geometric object.
+\end{proof}
+
+\begin{theorem}[Curvature bracket classifier obligation]
+\label{thm:curvature-bracket-classifier-obligation}
+For packets of \autoref{def:curvature-bhist-bracket-carrier}, the curvature classifier is stable under $\hsame$ on the commutator-boundary row and under the connection classifier transport inherited from $\NameCert_{\ConnectionUp}$. If two source connection packets classify the same base, fibre, section, tangent-direction, and derivative-endpoint rows, then their curvature packets classify the same bracket precisely when the transported boundary rows are related by $\hsame$ inside the carried $\Cont$ ledger.
+\end{theorem}
+\begin{proof}
+Project the two curvature packets to their source connection packets. The inherited connection classifier supplies the base, fibre, section, tangent-direction, derivative-endpoint, and provenance comparisons.
+
+Transport the commutator boundary along those projected comparisons. Since the boundary row is the row provided by \autoref{thm:connection-curvature-boundary-obligation}, the two derivative orders remain attached to the same connection package after transport.
+
+Repack the transported rows as a curvature classifier witness. The only additional comparison is $\hsame$ on the displayed boundary row, so classifier stability is obtained without introducing a host-level curvature tensor or quotienting the history ledger.
+\end{proof}
+
+\begin{theorem}[Curvature antisymmetric bracket obligation]
+\label{thm:curvature-antisymmetric-bracket-obligation}
+For a curvature packet $\mathcal{R}$, exchanging the tangent-direction rows $u$ and $v$ exchanges the iterated derivative endpoint rows $d_{uv}$ and $d_{vu}$ and reverses the displayed commutator boundary. The two curvature packets are classified through the same $\NameCert_{\ConnectionUp}$ packet and the $\hsame$ transport of the reversed boundary row.
+\end{theorem}
+\begin{proof}
+Project the shared connection certificate and the two tangent rows from $\mathcal{R}$. The connection classifier keeps the base, fibre, section, and provenance rows fixed, so the exchanged tuple has the same visible dependency source.
+
+Apply \autoref{thm:connection-curvature-boundary-obligation} first to $(u,v)$ and then to $(v,u)$. The two constructions expose the same iterated derivative rows in opposite order and therefore display opposite commutator boundaries.
+
+Transport the reversed boundary endpoint along $\hsame$ and retain the inherited classifier witness for the connection component. Repacking these transported rows gives the required curvature-packet comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_antisymmetric\_bracket\_obligation}
+
+\begin{theorem}[Curvature Bianchi ledger obligation]
+\label{thm:curvature-bianchi-ledger-obligation}
+Given three tangent-direction rows $u,v,w:\mathsf{BHist}$ over the same base row of a curvature packet, the first Bianchi row is the cyclic $\mathsf{BHist}$ ledger comparing the three displayed commutator boundaries for $(u,v,w)$, $(v,w,u)$, and $(w,u,v)$. The certificate obligation is exactly that this cyclic row is a finite $\Cont$ consequence of the three connection-boundary rows and their shared $\mathsf{Pkg}$ provenance.
+\end{theorem}
+\begin{proof}
+Read the three tangent rows through the same source $\NameCert_{\ConnectionUp}$ packet. For each ordered pair, apply \autoref{thm:connection-curvature-boundary-obligation} to obtain the displayed commutator boundary row with the same base, fibre, section, and provenance projections.
+
+Form the cyclic ledger by appending the three boundary rows in the displayed order $(u,v,w)$, $(v,w,u)$, and $(w,u,v)$. Each append is a $\Cont$ step between rows already carried by the curvature packet, and each endpoint comparison is an $\hsame$ comparison of boundary rows.
+
+The Bianchi witness is this finite cyclic ledger. It asserts no coordinate identity beyond the listed rows; it records that the cyclic commutator comparison is present as a BEDC history package generated from the connection boundary surface.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_bianchi\_ledger\_obligation}
+
+\begin{theorem}[Curvature tensorial transport obligation]
+\label{thm:curvature-tensorial-transport-obligation}
+The curvature bracket packet is tensorial with respect to certified replacement of its section row and tangent-direction rows. Replacing $s$, $u$, or $v$ by rows classified with them by the source connection packet transports the derivative endpoints, the commutator boundary $\kappa$, and the Bianchi ledger by $\Cont$ and $\hsame$, while preserving the same base, fibre, and $\mathsf{Pkg}$ provenance rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_tensorial\_transport\_obligation}
+\begin{proof}
+Begin with the source connection classifier witnesses for the section row and the two tangent-direction rows. They keep the base and fibre rows fixed up to the inherited dependency classifiers and expose the derivative endpoint transport rows.
+
+Use those endpoint transports to rebuild the two derivative orders $d_{uv}$ and $d_{vu}$. The commutator boundary is then transported by the same boundary construction used in \autoref{thm:connection-curvature-boundary-obligation}.
+
+For the Bianchi row, repeat the argument for each cyclic placement of the transported tangent rows. The three transported boundary rows append to the transported cyclic ledger, and the unchanged provenance row identifies the result as the same curvature package read through classified source rows.
+\end{proof}
+
+\begin{theorem}[Curvature ledger exactness obligation]
+\label{thm:curvature-ledger-exactness-obligation}
+The $\CurvatureUp$ obligation surface consists exactly of the source $\NameCert_{\ConnectionUp}$ packet, the base, fibre, section, two tangent-direction rows, two derivative endpoint rows, the connection commutator-boundary row, the antisymmetric bracket transport row, the cyclic Bianchi ledger row, the classifier transport rows generated by $\hsame$ and the connection classifier, and the $\mathsf{Pkg}$ provenance row. No coordinate chart, host tensor object, covariant exterior derivative, characteristic-class row, or external bracket operation is part of the certificate surface.
+\end{theorem}
+\begin{proof}
+Every accepted curvature row projects from the tuple in \autoref{def:curvature-bhist-bracket-carrier}. Projection gives the source certificate, the geometric rows, the derivative endpoints, the commutator boundary, the ledger row, and the provenance row.
+
+Conversely, each listed row is consumed by one of the certificate obligations. The classifier obligation uses the source comparisons and boundary $\hsame$ row; antisymmetry uses the exchanged tangent pair and reversed boundary row; the Bianchi obligation uses the three cyclic boundary rows; tensorial transport uses the section and tangent replacement rows.
+
+Therefore the ledger is exact: all public certificate moves are generated by the displayed $\mathsf{BHist}$, $\Cont$, $\hsame$, and $\mathsf{Pkg}$ rows, and every displayed row has a named role in one of those moves. Nothing remains to be read from an uncarried host tensor.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_ledger\_exactness\_obligation}
+
+\begin{theorem}[Curvature NameCert scope obligation]
+\label{thm:curvature-namecert-scope-obligation}
+The public $\NameCert_{\CurvatureUp}$ surface exported to $\ChernWeilUp$ is the curvature bracket carrier, its connection-carrier scope, its classifier stability, its antisymmetric bracket row, its first Bianchi cyclic ledger, its tensorial transport row, and its ledger exactness row over $\NameCert_{\ConnectionUp}$. Any downstream packet consuming $\NameCert_{\CurvatureUp}$ may project the bracket boundary $\kappa$, the cyclic ledger, and the provenance rows, but it may not assume a stronger analytic curvature form or a standard bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_semantic\_name\_certificate}
+\begin{proof}
+Collect the carrier of \autoref{def:curvature-bhist-bracket-carrier} together with the five obligation rows proved above. These rows provide the public carrier, scope, classifier, stability, ledger, and exactness fields required of a BEDC naming certificate.
+
+The downstream projection to $\ChernWeilUp$ is by ordinary tuple projection. It receives the boundary row, the cyclic ledger, the source connection certificate, and the provenance fields, all still expressed as finite $\mathsf{BHist}$ and $\Cont$ data.
+
+The final clause is exactness again: because the exported surface contains only those rows, no downstream consumer may read a coordinate curvature form, a de Rham class, or a standard bridge from $\NameCert_{\CurvatureUp}$ alone. Such data must be supplied by its own certificate.
+\end{proof}
+
+\begin{theorem}[Curvature exactness predicate surface]
+\label{thm:curvature-exactness-predicate-surface}
+For $\CurvatureUp$, exactness is precisely coverage, soundness, and completeness for the displayed bracket carrier, boundary classifier, Bianchi ledger, tensorial transport row, and $\ChernWeilUp$ consumer projection. The surface is read only over $\mathsf{BHist}$, $\Cont$, $\hsame$, $\mathsf{Pkg}$, $\NameCert_{\ConnectionUp}$, $\NameCert_{\BundleUp}$, and $\NameCert_{\ManifoldUp}$: coverage says every displayed row has one of these roles; soundness says every accepted curvature move is generated by the displayed rows; completeness says every downstream curvature projection factors through them.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_exactness\_predicate\_surface}
+\begin{proof}
+Project the carrier row from \autoref{def:curvature-bhist-bracket-carrier}. It supplies the base, fibre, section, tangent-direction, derivative endpoint, commutator-boundary, provenance, and source-certificate rows, with the $\BundleUp$ and $\ManifoldUp$ dependencies inherited through $\NameCert_{\ConnectionUp}$.
+
+Next project the classifier, antisymmetry, Bianchi, tensorial transport, ledger exactness, and consumer-boundary obligations. These theorems account for every public use of the bracket carrier: boundary comparison, exchange of tangent directions, cyclic ledger formation, certified replacement of section and tangent rows, and projection to $\ChernWeilUp$.
+
+Coverage follows because each displayed row is named in one of those obligations. Soundness follows because each accepted move is built by finite $\Cont$ transport, $\hsame$ comparison, tuple projection, and the recorded $\mathsf{Pkg}$ provenance. Completeness follows because the downstream consumer receives exactly the boundary, cyclic ledger, source certificate, dependency certificate, and provenance rows already carried by the same tuple.
+\end{proof}
+
+\begin{theorem}[Curvature standard bridge boundary]
+\label{thm:curvature-standard-bridge-boundary}
+Any standard reading of $\CurvatureUp$ may expose only the displayed connection-boundary row, antisymmetric classifier row, Bianchi ledger row, tensorial transport row, and exactness surface. It may not expose a coordinate curvature tensor, a de Rham representative, a characteristic class, host equality, or a $\mathsf{bridgeChecked}$ claim from $\NameCert_{\CurvatureUp}$ alone.
+\end{theorem}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_standard\_bridge\_boundary}
+\begin{proof}
+Apply the exactness surface of \autoref{thm:curvature-exactness-predicate-surface}. A standard reader can project only rows that are covered by the carrier and generated by the named certificate obligations.
+
+The permitted rows are therefore the connection-boundary row, the antisymmetric classifier row, the Bianchi ledger row, the tensorial transport row, and the exactness predicate itself. These are precisely the rows already exported by the NameCert scope theorem.
+
+Apply \autoref{thm:curvature-namecert-scope-obligation} for the negative boundary. Since the public certificate contains no coordinate curvature tensor, de Rham representative, characteristic class, host equality row, or standard-bridge witness, none of those objects can be recovered from the $\CurvatureUp$ certificate without an additional certificate carrying that data.
+\end{proof}
+
+\begin{theorem}[Curvature ten-field status record]
+\label{thm:curvature-status-ten-field-record}
+The roadmap ten-field template for $\CurvatureUp$ is populated as follows:
+\begin{enumerate}
+\item the traditional target is the curvature bracket of a connection;
+\item the BEDC source is $\NameCert_{\ConnectionUp}$ together with the $\BundleUp$ and $\ManifoldUp$ dependency rows;
+\item the carrier is \autoref{def:curvature-bhist-bracket-carrier};
+\item the classifier entry is the boundary classifier row of this section;
+\item the stability entry is the antisymmetry, Bianchi, and tensorial row collection;
+\item the ledger entry is visible ledger exactness;
+\item the core theorem list is the named obligation row collection in this section;
+\item the exactness entry is \autoref{thm:curvature-exactness-predicate-surface};
+\item the standard bridge entry is \autoref{thm:curvature-standard-bridge-boundary};
+\item the status entry keeps closure and verification as independent axes.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Read the template fields from the carrier and obligation rows already established in this section. The traditional target is the bracket interpretation of the connection boundary, while the BEDC source and dependency rows are projected from $\NameCert_{\ConnectionUp}$ and its $\BundleUp$ and $\ManifoldUp$ certificates.
+
+The carrier, classifier, antisymmetry, Bianchi, tensorial transport, ledger exactness, and core obligation entries are exactly the displayed rows named by the section labels. The exactness and standard-bridge entries are supplied by \autoref{thm:curvature-exactness-predicate-surface} and \autoref{thm:curvature-standard-bridge-boundary}.
+
+The status field records no extra mathematical object. It reports the theory closure and verification state on separate axes, so a paper-side certificate surface does not by itself assert a Lean theorem, host equality, or standard bridge.
+\end{proof}
+
+\begin{theorem}[Curvature NameCert finite basis]
+\label{thm:curvature-namecert-finite-basis}
+The public $\NameCert_{\CurvatureUp}$ basis is exactly the finite row family consisting of the carrier tuple of \autoref{def:curvature-bhist-bracket-carrier}, the connection-carrier scope row of \autoref{thm:curvature-connection-carrier-scope}, the bracket classifier obligation of \autoref{thm:curvature-bracket-classifier-obligation}, the antisymmetric bracket obligation of \autoref{thm:curvature-antisymmetric-bracket-obligation}, the Bianchi ledger obligation of \autoref{thm:curvature-bianchi-ledger-obligation}, the tensorial transport obligation of \autoref{thm:curvature-tensorial-transport-obligation}, the ledger exactness obligation of \autoref{thm:curvature-ledger-exactness-obligation}, and the scope obligation of \autoref{thm:curvature-namecert-scope-obligation}. Every public curvature certificate row is a projection from this family, and every row in the family is consumed by at least one public $\CurvatureUp$ certificate field.
+\end{theorem}
+\begin{proof}
+Project first from the carrier tuple in \autoref{def:curvature-bhist-bracket-carrier}. This gives the source connection certificate, base row, fibre row, section row, two tangent-direction rows, derivative endpoints, commutator boundary, cyclic ledger, classifier transports, and provenance row.
+
+The named obligation rows then identify how those projections are used. The connection-carrier scope row fixes the inherited source surface; the bracket classifier and antisymmetric bracket rows control boundary comparison; the Bianchi and tensorial transport rows control cyclic and replacement ledgers; and ledger exactness states that no additional public row is available.
+
+Conversely, each listed row has a named role in the public certificate fields. Therefore the displayed family is a finite basis for $\NameCert_{\CurvatureUp}$ rather than a sample of a larger analytic curvature interface.
+\end{proof}
+
+\begin{theorem}[Curvature consumer row coverage]
+\label{thm:curvature-consumer-row-coverage}
+Every downstream consumer of the finite basis in \autoref{thm:curvature-namecert-finite-basis} receives only $\mathsf{BHist}$, $\Cont$, $\hsame$, $\mathsf{Pkg}$, and $\mathsf{SigRel}$ rows. Moreover, each row visible to such a consumer has a source in one of the basis theorems: carrier and boundary rows come from the carrier tuple and connection-carrier scope row, classifier rows from the bracket classifier obligation, reversal rows from the antisymmetric bracket obligation, cyclic rows from the Bianchi ledger obligation, replacement rows from the tensorial transport obligation, provenance rows from ledger exactness, and export permission from the scope obligation.
+\end{theorem}
+\begin{proof}
+Case split over the finite basis named in \autoref{thm:curvature-namecert-finite-basis}.
+
+\begin{enumerate}
+\item The carrier tuple and connection-carrier scope cases expose $\mathsf{BHist}$ rows together with inherited $\mathsf{Pkg}$ provenance from $\NameCert_{\ConnectionUp}$.
+
+\item The bracket classifier, antisymmetric bracket, Bianchi ledger, and tensorial transport cases expose only $\Cont$, $\hsame$, and $\mathsf{SigRel}$ comparison rows between already carried histories.
+
+\item The ledger exactness and scope cases expose no new row sort. They identify which carried $\mathsf{BHist}$, $\Cont$, $\hsame$, $\mathsf{Pkg}$, and $\mathsf{SigRel}$ rows may be projected by a downstream certificate.
+\end{enumerate}
+
+These cases cover the whole basis. Hence a consumer cannot obtain a coordinate curvature form, host tensor operation, de Rham class, or standard bridge by projecting $\NameCert_{\CurvatureUp}$ alone.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_consumer\_row\_coverage}
+
+\begin{theorem}[Curvature Chern-Weil export determinacy]
+\label{thm:curvature-chernweil-export-determinacy}
+Let $\mathcal{R}$ and $\mathcal{R}'$ be two public $\NameCert_{\CurvatureUp}$ packets whose rows agree on the finite basis of \autoref{thm:curvature-namecert-finite-basis}. Then their projections to the $\ChernWeilUp$ source envelope determine the same curvature boundary $\kappa$, Bianchi ledger, tensorial transport row, and provenance packet. Consequently the curvature component of the $\ChernWeilUp$ source envelope is determined by the finite $\CurvatureUp$ basis and not by any uncarried connection form or host-level curvature object.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:curvature-namecert-finite-basis} to both packets. Agreement on the basis identifies the carrier projections, the boundary row, the cyclic ledger, the tensorial transport row, and the $\mathsf{Pkg}$ provenance row.
+
+Next use \autoref{thm:curvature-chernweil-consumer-boundary}. That theorem packages exactly those curvature projections as the input side consumed by $\ChernWeilUp$, while excluding any de Rham row, characteristic-class equality, standard bridge, or Lean verification target.
+
+Finally project the source envelope of \autoref{def:chernweil-source-envelope}. Its curvature component is the public $\NameCert_{\CurvatureUp}$ packet carrying the boundary and provenance exported by the scope rule, so the equal basis rows force the same curvature source component in both envelopes.
+\end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_export\_determinacy}
+
+\closureat{CurvatureUp}{bridgedStr}[BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_standard\_bridge\_boundary]
+\begin{closurestatus}{\CurvatureUp}
+  \constructivestory{A curvature row starts from a carried $\ConnectionUp$ packet and selects two displayed tangent-direction derivative routes whose commutator boundary is recorded as a $\mathsf{BHist}$ bracket endpoint. Histories are accepted only when that bracket carrier can project back to its connection source, the two derivative rows, the antisymmetric bracket row, and the finite provenance rows; two accepted rows classify together when connection classifiers and $\hsame$ transport all bracket, boundary, and source projections. The source covers these connection-boundary packets and the Chern--Weil envelope rows derived from them, the pattern records antisymmetry, Bianchi ledger transport, tensorial section transport, and consumer coverage, and the ledger keeps connection provenance, bracket endpoints, finite continuation routes, and Chern--Weil handoff rows visible. The carrier is inhabited by the displayed boundary source, and the classifier obligations are the inherited reflexive, symmetric, and transitive transports of $\hsame$ together with connection-carrier stability, so carrier closure is just repackaging the same transported bracket row. A history $h$ lies in the signature gap of a $\CurvatureUp$ token $p$ when the source accepts a displayed curvature bracket for $h$, the signature relation pairs it with an answer bracket and evidence ledger, and token introduction names that answer as $p$; unfolded, the connection source, tangent-pair boundary, bracket endpoint, and Chern--Weil envelope projections match the rows encoded by $p$. The consumer rows let downstream Chern--Weil and ledger exactness arguments read the curvature packet, but no coordinate curvature tensor, de Rham representative, characteristic class, or standard bridge is part of this surface. The chapter registers this boundary-bracket construction under the name $\CurvatureUp$; curvature is a finite connection-ledger row here, not a host tensor field assumed from outside.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The BHist curvature bracket carrier, ConnectionUp boundary projection, Chern-Weil source-envelope certificate, and standard bridge boundary are closed over the finite NameCert basis rows displayed in this chapter.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{No coordinate curvature tensor, de Rham representative, characteristic class, or bridge-checked status is closed here.}
+  \upgradepath{Mature closure requires a mature consumer and completeness treatment for the bridged curvature/Chern-Weil packet.}
+\end{closurestatus}

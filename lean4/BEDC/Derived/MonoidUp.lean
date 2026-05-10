@@ -541,6 +541,37 @@ theorem unary_append_monoid_commutative_classifier {a b : BHist} :
   have commData := unary_append_comm_with_closed_results unaryA unaryB
   exact And.intro commData.right.left (And.intro commData.right.right commData.left)
 
+theorem concrete_history_monoid_laws :
+    (forall h : BHist, UnaryHistory h ->
+      MonoidHistoryClassifier UnaryHistory (append BHist.Empty h) h) ∧
+      (forall h : BHist, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append h BHist.Empty) h) ∧
+      (forall {a b c : BHist}, UnaryHistory a -> UnaryHistory b -> UnaryHistory c ->
+        MonoidHistoryClassifier UnaryHistory (append (append a b) c)
+          (append a (append b c))) ∧
+      (forall {a a' b b' : BHist}, MonoidHistoryClassifier UnaryHistory a a' ->
+        MonoidHistoryClassifier UnaryHistory b b' ->
+          MonoidHistoryClassifier UnaryHistory (append a b) (append a' b')) := by
+  constructor
+  · intro h unaryH
+    exact And.intro (unary_append_closed unary_empty unaryH)
+      (And.intro unaryH (BEDC.FKernel.Cont.append_empty_left h))
+  · constructor
+    · intro h unaryH
+      exact And.intro (unary_append_closed unaryH unary_empty)
+        (And.intro unaryH (BEDC.FKernel.Cont.append_empty_right h))
+    · constructor
+      · intro a b c unaryA unaryB unaryC
+        exact And.intro (unary_append_closed (unary_append_closed unaryA unaryB) unaryC)
+          (And.intro (unary_append_closed unaryA (unary_append_closed unaryB unaryC))
+            (BEDC.FKernel.Cont.append_assoc a b c))
+      · intro a a' b b' sameA sameB
+        cases sameA.right.right
+        cases sameB.right.right
+        exact And.intro (unary_append_closed sameA.left sameB.left)
+          (And.intro (unary_append_closed sameA.left sameB.left)
+            (hsame_refl (append a b)))
+
 theorem unary_append_monoid_classifier_context_swap {left right a : BHist} :
     UnaryHistory left -> UnaryHistory right -> UnaryHistory a ->
       MonoidHistoryClassifier UnaryHistory (append left (append a right))

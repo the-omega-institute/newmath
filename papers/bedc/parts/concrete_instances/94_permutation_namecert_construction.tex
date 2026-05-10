@@ -6,5 +6,122 @@ The permutation interface $\PermutationUp$ packages the carrier of bijections of
 \section{Carrier definition}
 \label{sec:permutation-carrier}
 
+\begin{definition}[Permutation bijection source row]
+\label{def:permutation-bijection-source-row}
+Fix a finite-set source certificate $\NameCert_{\FinSetUp}$ with carrier row $F$, classifier $\sim_F$, finite-spine endpoint row $xs$, and enumeration ledger as in \autoref{ch:concrete-instances-finset-namecert}. A BEDC-facing $\PermutationUp$ source row over $F$ is the $\mathsf{BHist}$-visible package
+$$
+(\mathsf{src},\mathsf{tgt},G,G^{-1},W,C,A,L)
+$$
+with the following rows.
+\begin{enumerate}
+\item $\mathsf{src}$ and $\mathsf{tgt}$ are the two displayed endpoint rows for the source and target copies of the same carried $\FinSetUp$ object.
+\item $G$ is a bijection graph/probe row: for every source endpoint read by the $\mathsf{ProbeBundle}$, the graph supplies exactly one target endpoint, and both endpoints are classified by the fixed $\FinSetUp$ carrier.
+\item $G^{-1}$ is the inverse graph row with the same readback discipline in the opposite direction.
+\item $W$ is the pair of inverse-witness rows saying that every forward read is met by a backward read and every backward read is met by a forward read at the corresponding endpoint.
+\item $C$ is the classifier and composition row: two graph presentations classify together exactly when their action outputs agree by the $\FinSetUp$ classifier, and the composites $G^{-1}\circ G$ and $G\circ G^{-1}$ transport to the corresponding identity graph rows by $\hsame$ and by the package provenance attached to the two endpoint rows.
+\item $A$ is the action row sending a carried source endpoint through $G$ to its carried target endpoint.
+\item $L$ is the ledger containing the hidden enumeration witness for the chosen finite spine, the hidden order witness used to name positions, the $\Pkg$ provenance for the two endpoint copies, and the probe-read entries that justify graph coverage.
+\end{enumerate}
+The only visible carrier fields are the two $\FinSetUp$ endpoint rows, the graph, inverse graph, inverse-witness rows, classifier and composition row, action row, and ledger boundary. Enumeration and order witnesses are not exposed as host data; they are consumed through $L$.
+\end{definition}
+
 \section{The certificate}
 \label{sec:permutation-certificate}
+
+\begin{theorem}[Permutation FinSet carrier obligation]
+\label{thm:permutation-finset-carrier-obligation}
+Fix a $\NameCert_{\FinSetUp}$ presented by $\mathsf{FinSetEnumCarrier}_{A,\sim_A}$ and $\mathsf{FinSetEnumClassifier}_{A,\sim_A}$ on a finite enumeration spine. The $\PermutationUp$ carrier over this source certificate is the predicate of certified finite-position self-bijection rows on that spine: a carried row consists of a forward position map, an inverse position map, the two inverse identities, and the pointwise evidence that matched entries are carried by $A$ and classified by $\sim_A$. The visible ledger is exactly the corresponding $\mathsf{EnumPerm}_{A,\sim_A}$ row together with the source and target $\FinSetUp$ endpoint rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.PermutationUp.PermutationBijectionSourceRow\_carrier\_surface}
+\begin{proof}
+Unfold the finite-set source presentation from \autoref{def:finset-enumeration-carrier}, \autoref{def:finset-enumeration-membership}, and \autoref{def:finset-classifier-preserving-enumeration-permutation}. A carried permutation row is therefore read as a certified bijection of the finite position carrier $\mathsf{Pos}(xs)$ onto itself.
+
+The forward map, inverse map, and two inverse identities are the certified-bijection fields of $\mathsf{EnumPerm}_{A,\sim_A}$. The pointwise preservation field records that each source entry and matched target entry are carried by $A$ and related by $\sim_A$.
+
+Conversely, those same fields repack as the $\mathsf{BHist}$ permutation source row of \autoref{def:permutation-bijection-source-row}: the endpoint copies are the two finite-set rows, the maps give the graph and inverse graph, the inverse identities give the inverse-witness row, and the pointwise carrier-classifier evidence is the ledger entry. No host enumeration, host order, or bare host function is exposed outside that ledger.
+\end{proof}
+
+\begin{theorem}[Permutation classifier obligation]
+\label{thm:permutation-classifier-obligation}
+For two carried $\PermutationUp$ rows over the fixed $\NameCert_{\FinSetUp}$ above, the classifier relates them exactly when their actions send every carried finite-set entry to $\mathsf{FinSetEnumClassifier}_{A,\sim_A}$-equivalent entries. Equivalently, for each source entry represented by $\mathsf{FinSetEnumCarrier}_{A,\sim_A}$, the two target entries selected by the two certified self-bijections are identified by the finite-set enumeration classifier, and this pointwise comparison is the whole $\PermutationUp$ classifier row.
+\end{theorem}
+\leanchecked{BEDC.Derived.PermutationUp.PermutationBijectionSourceRow\_action\_ledger\_transport}
+\leanchecked{BEDC.Derived.PermutationUp.PermutationBijectionSourceRow\_endpoint\_package\_hsame\_transport}
+\begin{proof}
+Unpack the two carried rows as $\mathsf{EnumPerm}_{A,\sim_A}$ witnesses on the same finite spine. Each action value is a target endpoint already carried by $\mathsf{FinSetEnumCarrier}_{A,\sim_A}$, because the pointwise field of the corresponding enumeration permutation contains the carrier witness for the matched target entry.
+
+The source $\NameCert_{\FinSetUp}$ supplies the classifier fields for $\mathsf{FinSetEnumClassifier}_{A,\sim_A}$. Applying those fields pointwise to the two target entries gives the displayed comparison of action outputs.
+
+The graph comparison is carried by $\Pkg$ provenance and $\mathsf{ProbeBundle}$ reads over $\mathsf{BHist}$. Applying $\hsame$ transport to those package rows preserves the visible graph agreement while leaving enumeration and order witnesses inside the ledger. The existing permutation-invariance row \autoref{thm:finset-classifier-enumeration-permutation-invariant} ensures that changing the hidden finite-position witness by a certified enumeration permutation does not change the finite-set classifier. Thus the classifier only observes action outputs through $\mathsf{FinSetEnumClassifier}_{A,\sim_A}$, and the pointwise action comparison repacks as the required $\PermutationUp$ classifier row.
+\end{proof}
+
+\begin{theorem}[Permutation composition inverse action obligation]
+\label{thm:permutation-composition-inverse-action-obligation}
+Identity, composition, inverse, and action compatibility for carried $\PermutationUp$ rows are exactly the reflexivity, transitivity, symmetry, and permutation-invariance rows of $\mathsf{FinsetEnumerationPermutation}$. The identity row is the certified identity bijection, the composite row is certified bijection composition, the inverse row is certified bijection inversion, and action compatibility is the induced invariance of $\mathsf{FinSetEnumClassifier}_{A,\sim_A}$ under these rows.
+$$
+\mathsf{id}\circ G \sim_{\mathsf{Graph}} G
+$$
+and
+$$
+G^{-1}\circ G \sim_{\mathsf{Graph}} \mathsf{id}_{\mathsf{src}}
+$$
+are therefore ledger readings of the same finite-position facts, not host-function equalities.
+\end{theorem}
+\leanchecked{BEDC.Derived.PermutationUp.PermutationBijectionSourceRow\_composition\_action\_ledger\_scope}
+\begin{proof}
+For identity, apply \autoref{thm:enumperm-identity-reflexivity}. It supplies the certified identity bijection on the finite position carrier, hence the identity $\PermutationUp$ row and its action on carried entries.
+
+For composition, apply \autoref{thm:enumperm-transitivity-by-bijection-composition}. Its composite finite-position bijection is read as the graph row for the composite permutation, and its pointwise preservation field is the carrier-classifier ledger for the composite action.
+
+For inverse, apply \autoref{thm:enumperm-inverse-symmetry}. The certified inverse position map becomes the inverse graph row, and the two inverse identities become the two graph identity rows recorded in \autoref{def:permutation-bijection-source-row}. The forward graph, backward graph, and inverse-witness rows give the displayed identity classifications after transport by $\hsame$ and by the $\Pkg$ provenance recorded for the graph reads.
+
+Finally, action compatibility is the classifier-invariance statement of \autoref{thm:finset-classifier-enumeration-permutation-invariant}. It says that the action output selected by a certified finite-position permutation is classified in the same finite-set sense as the corresponding endpoint entry. Coverage, soundness, and completeness of that action are read through the graph rows, while enumeration choices, order choices, and position names remain ledger data in $L$. These rows are precisely the action and ledger boundary consumed by $\SymGroupUp$.
+\end{proof}
+
+\begin{theorem}[Permutation public NameCert surface]\label{thm:permutation-public-namecert-surface}
+Over the fixed $\NameCert_{\FinSetUp}$ of \autoref{thm:permutation-finset-carrier-obligation}, the carrier row of \autoref{thm:permutation-finset-carrier-obligation}, the classifier row of \autoref{thm:permutation-classifier-obligation}, and the composition, inverse, action, and ledger rows of \autoref{thm:permutation-composition-inverse-action-obligation} assemble a public $\NameCert_{\PermutationUp}$ surface. The exported surface contains exactly the certified finite-position self-bijection carrier, the pointwise finite-set action classifier, the identity-composition-inverse rows, the action row, and the visible ledger boundary over $\mathsf{BHist}$. The downstream $\SymGroupUp$ boundary is exposed only as a consumer row of this public surface, not as an additional $\PermutationUp$ field.
+\end{theorem}
+\leanchecked{BEDC.Derived.PermutationUp.PermutationBijectionSourceRow\_semantic\_name\_certificate}
+\leanchecked{BEDC.Derived.PermutationUp.PermutationBijectionSourceRow\_public\_name\_certificate}
+\begin{proof}
+First fix the carrier. Apply \autoref{thm:permutation-finset-carrier-obligation} to read carried $\PermutationUp$ rows as certified finite-position self-bijections over the chosen $\NameCert_{\FinSetUp}$ source.
+
+Next fix the classifier. Apply \autoref{thm:permutation-classifier-obligation} to identify classifier comparison with pointwise comparison of action outputs through $\mathsf{FinSetEnumClassifier}_{A,\sim_A}$.
+
+Finally apply \autoref{thm:permutation-composition-inverse-action-obligation}. It supplies the identity, composition, inverse, action, and ledger rows over the same carrier and classifier. These rows repack the displayed inventory as a public $\NameCert_{\PermutationUp}$ surface, while the $\SymGroupUp$ row is only the downstream consumer boundary. No standard bridge or Lean verification is claimed here.
+\end{proof}
+
+\begin{theorem}[Permutation bridge to symmetric-group composition]\label{thm:permutation-symgroup-composition-bridge}
+The public $\NameCert_{\PermutationUp}$ surface of \autoref{thm:permutation-public-namecert-surface} supplies exactly the carrier, classifier, identity, composition, inverse, action, and ledger rows consumed by the $\SymGroupUp$ composition interface of \autoref{ch:concrete-instances-symgroup-namecert}. Thus the symmetric-group carrier, classifier, and composition obligations read the already public permutation source boundary, and no additional host bijection or host function equality is exposed at the bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.PermutationUp.PermutationSymGroupComposition\_bridge}
+\begin{proof}
+Apply \autoref{thm:permutation-public-namecert-surface}. It identifies the exported $\NameCert_{\PermutationUp}$ surface with the certified finite-position self-bijection carrier, pointwise finite-set action classifier, identity-composition-inverse rows, action row, and visible ledger boundary.
+
+Apply \autoref{thm:permutation-composition-inverse-action-obligation}. The composition, inverse, identity, and action rows are ledger readings of certified finite-position permutation facts, so they are already in the form required by the group-facing operation boundary.
+
+The $\SymGroupUp$ carrier and classifier obligations of \autoref{ch:concrete-instances-symgroup-namecert} read this same permutation source row, and \autoref{thm:symgroup-composition-inverse-action-obligations} consumes its composition, inverse, action, exactness, and ledger rows. Therefore the bridge is a paper-side repacking of the public $\PermutationUp$ surface into the symmetric-group composition interface, with all enumeration choices, position names, and host bijection data remaining inside the ledger.
+\end{proof}
+
+\begin{theorem}[Permutation bridged surface completeness]\label{thm:permutation-bridged-surface-completeness}
+The public $\PermutationUp$ surface of \autoref{thm:permutation-public-namecert-surface}, together with the $\SymGroupUp$ consumer bridge of \autoref{thm:permutation-symgroup-composition-bridge}, exhausts the visible BEDC fields of the bridged permutation interface. The exhausted fields are carrier, classifier, identity, composition, inverse, action, and ledger boundary. The finite enumeration witness and order witness remain hidden in the ledger and are not exported as additional visible fields.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:permutation-finset-carrier-obligation}, \autoref{thm:permutation-classifier-obligation}, and \autoref{thm:permutation-composition-inverse-action-obligation}. These three obligation theorems provide the carrier row, the pointwise classifier row, and the identity, composition, inverse, action, and ledger rows over the fixed finite-set source certificate.
+
+Apply \autoref{thm:permutation-public-namecert-surface}. It repacks exactly those rows as the public $\NameCert_{\PermutationUp}$ surface and states that the downstream $\SymGroupUp$ boundary is a consumer row rather than an extra $\PermutationUp$ field.
+
+Apply \autoref{thm:permutation-symgroup-composition-bridge}. The bridge consumes that same public surface as the symmetric-group carrier, classifier, composition, inverse, action, exactness, and ledger boundary. Therefore projection from the public surface to the consumer bridge, followed by repacking of the consumed rows, returns exactly the visible permutation interface listed in the statement. The finite enumeration and order witnesses are only read through the ledger, so no further visible BEDC field remains outside the displayed inventory.
+\end{proof}
+
+\closureat{PermutationUp}{matureStr}[BEDC.Derived.PermutationUp.PermutationBijectionSourceRow\_public\_name\_certificate]
+\begin{closurestatus}{\PermutationUp}
+  \constructivestory{A permutation starts from a fixed $\FinSetUp$ finite spine and admits only certified self-bijection rows on its finite position carrier: a forward graph, an inverse graph, the two inverse-witness rows, and pointwise evidence that matched entries are carried and classified by the finite-set source. The classifier between two carried permutation rows compares their actions pointwise through $\mathsf{FinSetEnumClassifier}_{A,\sim_A}$, so two presentations are the same only by their certified effects on the finite entries, not by host function equality. The source is the finite-set certificate together with the two endpoint copies of the same carried finite object, the pattern records graph coverage, inverse coverage, identity, composition, inverse, and action compatibility, and the ledger keeps enumeration witnesses, order witnesses, probe reads, and package provenance hidden behind the visible graph rows. The five name-certificate obligations come from the certified identity self-bijection for inhabitation, pointwise reflexivity, symmetry, and transitivity of the finite-set classifier, and closure under transported graph and endpoint package rows. A graph row $G$ lies in the signature gap of a $\PermutationUp$ token $p$ when the source-domain accepts the fixed finite spine and the certified forward/inverse action package, the signature relation pairs $G$ with an answer permutation and evidence ledger, and token introduction names that answer as $p$; unfolded, every finite position is sent to the target position encoded by $p$ and the inverse rows certify the round trip. The bridge exports exactly the same carrier, classifier, identity, composition, inverse, action, and ledger rows to the $\SymGroupUp$ composition interface. The chapter registers this finite-position bijection construction under the name $\PermutationUp$; a permutation is a certified action ledger over a finite spine, not a bare host bijection, exposed enumeration order, function quotient, or separate symmetric-group object.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The bridged surface is the $\mathsf{BHist}$ permutation source row of \autoref{def:permutation-bijection-source-row} together with the carrier, classifier, composition, inverse, action, ledger, public $\NameCert_{\PermutationUp}$ packaging, and symmetric-group composition bridge of \autoref{thm:permutation-finset-carrier-obligation}, \autoref{thm:permutation-classifier-obligation}, \autoref{thm:permutation-composition-inverse-action-obligation}, \autoref{thm:permutation-public-namecert-surface}, and \autoref{thm:permutation-symgroup-composition-bridge}.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.PermutationUp.PermutationBijectionSourceRow\_public\_name\_certificate}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not claim machine-checked $\StdBridge$ coverage or full $\SymGroupUp$ closure.}
+  \upgradepath{No further paper-side theory upgrade is required; machine-checked standard-bridge verification is the remaining formal-axis target.}
+\end{closurestatus}

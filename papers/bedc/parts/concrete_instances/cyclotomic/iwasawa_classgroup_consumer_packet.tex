@@ -1,0 +1,80 @@
+\begin{definition}[Cyclotomic Iwasawa classgroup consumer packet]
+\label{def:cyclotomic-iwasawa-classgroup-consumer-packet}
+The Cyclotomic Iwasawa classgroup consumer packet is the finite row family
+read by an $\IwasawaUp$ classgroup consumer from an accepted
+$\NameCert_{\CyclotomicUp}$ source. It consists of the cyclotomic layer rows
+$\mathcal N,n,p,\mathcal S,\zeta$, the primitive-root endpoint row $\zeta$,
+the factorization ledger rows of $\mathcal S$ over the polynomial ledger $p$,
+the classifier transport supplied by the cyclotomic rational-polynomial
+classifier, the finite $\Cont$ acceptance and factorization provenance row
+$\alpha$, and the shared $\Pkg$ provenance row $\rho$.
+
+The packet is only a BEDC consumer surface. It is not a host cyclotomic field,
+not a class-field bridge, not analytic Iwasawa data, and not a quotient
+carrier.
+\end{definition}
+
+\begin{theorem}[Cyclotomic Iwasawa classgroup consumer projection]
+\label{thm:cyclotomic-iwasawa-classgroup-consumer-projection}
+For every accepted $\CyclotomicUp$ source carrier
+$$
+\mathcal C_{\zeta}=(\mathcal N,n,p,\mathcal S,\zeta,\alpha,\lambda,\rho),
+$$
+the $\IwasawaUp$ classgroup consumer rows projected from that carrier are
+exactly the rows of
+\autoref{def:cyclotomic-iwasawa-classgroup-consumer-packet}. The projection
+uses the cyclotomic source boundary, the primitive-root endpoint rows, the
+factorization ledger rows, the classifier transport, $\Cont$, and $\Pkg$
+provenance already present in the source carrier.
+\end{theorem}
+\begin{proof}
+Start with the cyclotomic source boundary of
+\autoref{thm:cyclotomic-iwasawa-source-boundary}. It projects the NumField
+source row, the positive exponent row, the primitive-root endpoint, the
+factorization ledger for $X^n-1$, and the shared package provenance to the
+Iwasawa-facing surface.
+
+Next use the root obligation closure rows. The packet of
+\autoref{def:cyclotomic-root-obligation-packet} carries the polynomial ledger,
+the SplittingField source, the primitive endpoint, the finite $\Cont$
+acceptance row, the transported $\hsame$ comparison, and the $\Pkg$ provenance
+row. The transport theorem
+\autoref{thm:cyclotomic-primitive-root-ledger-transport} keeps these rows tied
+to the same source carrier.
+
+Repack the projected rows by
+\autoref{def:cyclotomic-iwasawa-classgroup-consumer-packet}. None of the cited
+source-boundary or root-obligation rows contains a host cyclotomic field,
+class-field bridge, analytic Iwasawa datum, or quotient carrier, so none is
+exported by the projection.
+\end{proof}
+
+\begin{theorem}[Cyclotomic Iwasawa classgroup consumer exhaustion]
+\label{thm:cyclotomic-iwasawa-classgroup-consumer-exhaustion}
+Every Iwasawa-facing cyclotomic read used by a classgroup consumer is one of
+the rows of
+\autoref{def:cyclotomic-iwasawa-classgroup-consumer-packet}, and every such
+row repacks into the same consumer packet. The surface has no host
+cyclotomic-field carrier, class-field bridge, analytic Iwasawa row, or
+quotient carrier.
+\end{theorem}
+\begin{proof}
+Project any Iwasawa-facing read through
+\autoref{thm:cyclotomic-root-source-row-exhaustion}. The source row must be
+one of the root carrier, classifier transport, polynomial ledger, primitive
+endpoint, threshold, $\Cont$, $\hsame$, or $\Pkg$ rows of the root obligation
+packet.
+
+Now restrict to the classgroup consumer view using
+\autoref{thm:cyclotomic-root-iwasawa-classfield-consumer-boundary}. The
+Iwasawa side receives only the source, exponent, primitive endpoint,
+factorization, and provenance rows needed for its finite classgroup-facing
+input; class-field operations remain outside the cyclotomic packet.
+
+Conversely, each row listed in
+\autoref{def:cyclotomic-iwasawa-classgroup-consumer-packet} is a coordinate of
+the cyclotomic source boundary or of the root obligation closure package.
+Therefore the rows repack into the same consumer packet, and the exclusions
+follow because neither cited boundary contains a host field, analytic
+Iwasawa object, class-field bridge, or quotient carrier.
+\end{proof}

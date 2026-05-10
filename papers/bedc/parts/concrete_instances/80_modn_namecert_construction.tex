@@ -189,11 +189,48 @@ fields as the displayed $\mathsf{NameCert}$ scope for $\ModNUp(m)$.
 \leanchecked{BEDC.Derived.ModNUp.ModNQuotient\_concrete\_namecert\_scope}
 
 \begin{closurestatus}{\ModNUp}
+  \constructivestory{A residue modulo $N$ is presented here by a unary modulus history $m$ together with the singleton $\RingUp$ endpoint: a history is admitted exactly when $m$ is unary and the history lies in the singleton ring carrier, so all non-singleton ring data and all non-unary moduli stay outside this concrete carrier. The classifier keeps both endpoint carrier witnesses and then uses the singleton ring classifier, which means this BEDC scope models the quotient-ring descent rows without forming a host quotient set or changing representatives by an external congruence. The source is the concrete $\mathsf{ModNCarrier}_m$, the pattern records the copied quotient-ring presentation at the ideal $n\mathbb{Z}$ together with singleton addition, negation, and multiplication closure, and the ledger keeps the displayed modulus witness, endpoint carrier fields, and operation-descent rows visible. The five name-certificate obligations are exactly the checked classifier rows: the singleton endpoint gives nonemptiness, reflexivity, symmetry, and transitivity come from the singleton classifier, and carrier transport is already stored in the two endpoint fields of $\mathsf{ModNClassifier}_m$. A history $h$ lies in the signature gap of a $\ModNUp$ token $p$ when the source-domain accepts the unary modulus and singleton endpoint, the signature relation pairs that endpoint with an answer endpoint and operation ledger, and the token-introduction relation names the answer as $p$; unfolded, $h$ is the singleton representative in the modulus scope encoded by $p$. The chapter registers this displayed unary-modulus quotient scope under the name $\ModNUp$; it introduces no standard bridge, no full integer modulo arithmetic, and no quotient primitive beyond the checked $\mathsf{BHist}$ quotient certificate.}
   \theoryclosure{\scopedClosure}
   \scopeclosed{This chapter closes exactly the unary-modulus ModN scope over $\mathsf{ModNCarrier}_m$, $\mathsf{ModNClassifier}_m$, the singleton $\RingUp$ operations, quotient-ring descent rows, and the displayed $\mathsf{BHist}$ and $\hsame$ boundary.}
-  \formalstatus{\theoremCheckedV}
+  \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.ModNUp.ModNQuotient\_concrete\_namecert\_scope}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a standard bridge, full integer modulo arithmetic, or quotient primitives beyond the displayed $\mathsf{BHist}$ quotient certificate.}
   \upgradepath{The next grade requires a public bridge from this $\mathsf{BHist}$ quotient scope to the standard $\mathbb{Z}/n\mathbb{Z}$ interface.}
 \end{closurestatus}
+
+\begin{theorem}[Concrete ModN singleton inverse sum classifies as empty]
+\label{thm:modn-singleton-add-neg-empty-classifier}
+For each unary modulus history $m:\mathsf{BHist}$ and each history
+$h:\mathsf{BHist}$, if $\mathsf{ModNCarrier}_m(h)$, then
+$$
+\mathsf{ModNClassifier}_m\bigl(\mathsf{RingSingletonAdd}(h,\mathsf{RingSingletonNeg}(h)),\emp\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:modn-concrete-bhist-carrier-classifier} in the given
+carrier witness. It supplies the unary modulus witness $\UnaryHistory(m)$
+and the singleton ring carrier witness for $h$.
+
+The singleton inverse row of \autoref{thm:modn-singleton-operation-descent-rows}
+keeps $\mathsf{RingSingletonNeg}(h)$ inside $\mathsf{ModNCarrier}_m$. Applying
+the singleton addition carrier row in the same theorem to $h$ and
+$\mathsf{RingSingletonNeg}(h)$ keeps
+$\mathsf{RingSingletonAdd}(h,\mathsf{RingSingletonNeg}(h))$ inside
+$\mathsf{ModNCarrier}_m$. The empty endpoint is also in
+$\mathsf{ModNCarrier}_m$: the modulus component is the same
+$\UnaryHistory(m)$ witness, and the singleton ring carrier of $\emp$ is
+the carrier-inhabited row of \autoref{thm:singleton-empty-history-ring-laws}.
+
+The additive inverse law in the singleton empty-history ring of
+\autoref{thm:singleton-empty-history-ring-laws} gives the singleton classifier
+comparison
+$$
+\mathsf{RingSingletonClassifier}\bigl(
+\mathsf{RingSingletonAdd}(h,\mathsf{RingSingletonNeg}(h)),\emp\bigr).
+$$
+Together with the two $\mathsf{ModNCarrier}_m$ endpoint witnesses just
+constructed, this is exactly the definition of
+$\mathsf{ModNClassifier}_m$ in \autoref{def:modn-concrete-bhist-carrier-classifier}.
+\end{proof}
+\leanchecked{BEDC.Derived.ModNUp.ModNQuotient\_singleton\_add\_neg\_empty\_classifier}

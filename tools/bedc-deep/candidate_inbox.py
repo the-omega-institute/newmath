@@ -28,6 +28,11 @@ STRUCTURAL_TITLE_RE = re.compile(
     r"^\s*\\(?:label|begin|chapter|section|subsection|input|include)\b",
     re.IGNORECASE,
 )
+LABEL_SLUG_RE = re.compile(r"[^a-z0-9]+")
+LITERAL_LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
+STANDARD_LABEL_PREFIXES = ("sec", "subsec", "fact", "obs", "rmk", "thm", "lem", "prop", "cor", "def", "eq")
+LINE_CAP = 800
+FALLBACK_LINE_READ_BYTES = 100 * 1024
 
 
 @dataclass
@@ -93,6 +98,119 @@ def _paper_file_lookup() -> dict[str, dict[str, Any]]:
     return {item.get("file", ""): item for item in index.get("files", [])}
 
 
+def _paper_labels(file_lookup: dict[str, dict[str, Any]]) -> set[str]:
+    labels: set[str] = set()
+    try:
+        for item in file_lookup.values():
+            for rec in item.get("labels") or []:
+                label = str(rec.get("label") or "").strip()
+                if label:
+                    labels.add(label)
+    except Exception:
+        return set()
+    return labels
+
+
+def _title_label_slug(title: str) -> str:
+    return LABEL_SLUG_RE.sub("-", title.lower()).strip("-")
+
+
+def _label_prefixes_for_inputs(
+    inputs: list[str],
+    file_lookup: dict[str, dict[str, Any]],
+) -> tuple[str, ...]:
+    prefixes: list[str] = []
+    for rel in inputs:
+        item = file_lookup.get(rel) or {}
+        for rec in item.get("theorem_like_labels") or item.get("labels") or []:
+            prefix = str(rec.get("prefix") or "").strip()
+            if prefix in STANDARD_LABEL_PREFIXES and prefix not in prefixes:
+                prefixes.append(prefix)
+    for prefix in STANDARD_LABEL_PREFIXES:
+        if prefix not in prefixes:
+            prefixes.append(prefix)
+    return tuple(prefixes)
+
+
+def _predicted_label_collision(
+    title: str,
+    claim: str,
+    rationale: str,
+    inputs: list[str],
+    file_lookup: dict[str, dict[str, Any]],
+    existing_labels: set[str],
+) -> str:
+    if not existing_labels:
+        return ""
+    for text in (claim, rationale):
+        for match in LITERAL_LABEL_RE.finditer(text):
+            label = match.group(1).strip()
+            if label in existing_labels:
+                return label
+    slug = _title_label_slug(title)
+    if not slug:
+        return ""
+    for prefix in _label_prefixes_for_inputs(inputs, file_lookup):
+        label = f"{prefix}:{slug}"
+        if label in existing_labels:
+            return label
+    return ""
+
+
+def _fallback_line_count(rel: str) -> int:
+    path = (REPO_ROOT / rel).resolve()
+    try:
+        path.relative_to(REPO_ROOT)
+    except ValueError:
+        return 0
+    try:
+        with path.open("rb") as f:
+            data = f.read(FALLBACK_LINE_READ_BYTES)
+    except OSError:
+        return 0
+    return len(data.decode("utf-8", errors="replace").splitlines())
+
+
+def _paper_line_count(rel: str, file_lookup: dict[str, dict[str, Any]]) -> int:
+    info = file_lookup.get(rel) or {}
+    for key in ("line_count", "lines"):
+        value = info.get(key)
+        if isinstance(value, int):
+            return value
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            pass
+    return _fallback_line_count(rel)
+
+
+def _estimated_write_lines(claim: str) -> int:
+    return max(120, len(claim) // 60)
+
+
+def _predicted_line_cap_overflow(
+    claim: str,
+    inputs: list[str],
+    file_lookup: dict[str, dict[str, Any]],
+) -> str:
+    estimate = _estimated_write_lines(claim)
+    landing_inputs = [
+        rel for rel in inputs
+        if not (file_lookup.get(rel) or {}).get("hub_like")
+    ]
+    if not landing_inputs:
+        return ""
+    overflow: list[tuple[str, int]] = []
+    for rel in landing_inputs:
+        projected = _paper_line_count(rel, file_lookup) + estimate
+        if projected >= LINE_CAP:
+            overflow.append((rel, projected))
+    if len(overflow) == len(landing_inputs):
+        rel, projected = overflow[0]
+        return f"predicted_line_cap_overflow:{rel}:{projected}"
+    return ""
+
+
 def _path_exists(rel: str) -> bool:
     path = (REPO_ROOT / rel).resolve()
     try:
@@ -116,6 +234,7 @@ def _rejection_reason(
     existing_titles: set[str],
     seen_titles: set[str],
     file_lookup: dict[str, dict[str, Any]],
+    existing_labels: set[str],
     fit_threshold: int,
     novelty_threshold: int,
 ) -> str:
@@ -155,15 +274,21 @@ def _rejection_reason(
         if not _path_exists(rel):
             return f"missing_local_input:{rel}"
         info = file_lookup.get(rel)
-        if info and not info.get("hub_like") and not info.get("near_line_cap"):
+        if info and not info.get("hub_like"):
             safe_landing = True
 
     if not safe_landing:
         if any((file_lookup.get(rel) or {}).get("hub_like") for rel in inputs):
             return "hub_only_landing"
-        if any((file_lookup.get(rel) or {}).get("near_line_cap") for rel in inputs):
-            return "near_line_cap_no_safe_landing"
         return "no_indexed_safe_landing"
+
+    overflow = _predicted_line_cap_overflow(claim, inputs, file_lookup)
+    if overflow:
+        return overflow
+
+    collision = _predicted_label_collision(title, claim, rationale, inputs, file_lookup, existing_labels)
+    if collision:
+        return f"predicted_label_collision:{collision}"
 
     return ""
 
@@ -183,6 +308,7 @@ def screen_candidates(
 
     existing_titles = board_archive.existing_target_titles(include_archive=True)
     file_lookup = _paper_file_lookup()
+    existing_labels = _paper_labels(file_lookup)
     seen_titles: set[str] = set()
 
     for raw in candidates:
@@ -201,6 +327,7 @@ def screen_candidates(
             existing_titles=existing_titles,
             seen_titles=seen_titles,
             file_lookup=file_lookup,
+            existing_labels=existing_labels,
             fit_threshold=fit_threshold,
             novelty_threshold=novelty_threshold,
         )

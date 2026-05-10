@@ -127,6 +127,13 @@ theorem GraphContEdge_row_inversion :
     exact And.intro left.right.right
       (And.intro right.right.right (cont_deterministic left.right.right right.right.right))
 
+theorem GraphContEdge_result_determinacy {h k g g' : BHist} :
+    GraphContEdge h k g -> GraphContEdge h k g' ->
+      Cont h k g ∧ Cont h k g' ∧ hsame g g' := by
+  intro left right
+  exact And.intro left.right.right
+    (And.intro right.right.right (cont_deterministic left.right.right right.right.right))
+
 theorem GraphContEdge_unit_loop {h gL gR : BHist} :
     UnaryHistory h -> GraphContEdge BHist.Empty h h ∧ GraphContEdge h BHist.Empty h ∧
       (GraphContEdge BHist.Empty h gL -> hsame gL h) ∧
@@ -143,6 +150,16 @@ theorem GraphContEdge_unit_loop {h gL gR : BHist} :
         (by
           intro edge
           exact cont_right_unit_result edge.right.right)))
+
+theorem GraphContEdge_empty_tail_identity {h g : BHist} :
+    UnaryHistory h -> GraphContEdge h BHist.Empty g ->
+      GraphContEdge h BHist.Empty h ∧ hsame g h := by
+  intro unaryH edge
+  have identityEdge : GraphContEdge h BHist.Empty h :=
+    And.intro unaryH (And.intro unary_empty (cont_right_unit h))
+  have sameResult : hsame g h :=
+    cont_right_unit_result edge.right.right
+  exact And.intro identityEdge sameResult
 
 theorem GraphCont_namecert_surface :
     SemanticNameCert UnaryHistory UnaryHistory UnaryHistory hsame ∧
@@ -239,5 +256,28 @@ theorem GraphContEdge_visible_tail_step_closure {h k g : BHist} :
   exact And.intro
     (And.intro edge.left (And.intro unaryKZero zeroStep))
     (And.intro edge.left (And.intro unaryKOne oneStep))
+
+theorem GraphContPublicInterface_bridge :
+    SemanticNameCert UnaryHistory UnaryHistory UnaryHistory hsame ∧
+      (forall {h k g : BHist}, GraphContEdge h k g ->
+        UnaryHistory h ∧ UnaryHistory k ∧ Cont h k g) ∧
+        (forall {h k g h' k' g' : BHist}, GraphContEdge h k g -> hsame h h' ->
+          hsame k k' -> hsame g g' -> GraphContEdge h' k' g') ∧
+          (forall {h k g g' : BHist}, GraphContEdge h k g -> GraphContEdge h k g' ->
+            hsame g g') ∧
+            (forall {h gL gR : BHist}, UnaryHistory h ->
+              GraphContEdge BHist.Empty h h ∧ GraphContEdge h BHist.Empty h ∧
+                (GraphContEdge BHist.Empty h gL -> hsame gL h) ∧
+                  (GraphContEdge h BHist.Empty gR -> hsame gR h)) := by
+  exact And.intro GraphCont_namecert_surface.left
+    (And.intro GraphCont_namecert_surface.right.left
+      (And.intro GraphCont_namecert_surface.right.right
+        (And.intro
+          (by
+            intro h k g g' left right
+            exact (GraphContEdge_result_determinacy left right).right.right)
+          (by
+            intro h gL gR unaryH
+            exact GraphContEdge_unit_loop unaryH))))
 
 end BEDC.Derived.GraphUp

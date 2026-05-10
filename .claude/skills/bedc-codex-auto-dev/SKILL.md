@@ -189,7 +189,7 @@ tail -F $REPO/papers/bedc/scripts/logs/orchestrator.log \
        $REPO/scripts/logs/sync_daemon.log \
        $REPO/scripts/logs/auto_heal.log \
   | grep -E --line-buffered \
-      'Round FAILED|Merge failed —|3 consecutive failures|Codex did not complete|Codex could not resolve|\[recovery\]\s+(queued|picking|RECOVERED|unrecoverable|codex crashed|stopped)|Pre-merge hard gate failed|STALE MARKER|SHALLOW GROWTH|Phase B failed:|Phase C failed:|Phase D failed:|Traceback|^[^:]+:\s+\bException:|builder.*FAIL|deps_ready_relaxed.*[Tt]rue|closure_mark|memory_guard.*PAUSE|\[sync\] .*(codex could not resolve|push origin codex-auto-dev failed|merge failed without conflicts)|\[heal\] .*(detected|committed|push failed)'
+      'Round FAILED|Merge failed —|3 consecutive failures|Codex did not complete|Codex could not resolve|\[recovery\]\s+(queued|picking|RECOVERED|unrecoverable|codex crashed|stopped)|Pre-merge hard gate failed|STALE MARKER|SHALLOW GROWTH|Phase B failed:|Phase C failed:|Phase D failed:|Traceback|^[^:]+:\s+\bException:|builder.*FAIL|deps_ready_relaxed.*[Tt]rue|closure_mark|memory_guard.*PAUSE|Session complete:|draining [0-9]+ in-flight workers|Pipeline PID token is not current|\[sync\] .*(codex could not resolve|push origin codex-auto-dev failed|merge failed without conflicts)|\[heal\] .*(detected|committed|push failed)'
 ```
 
 Use `persistent: true`. Describe as `BEDC active error watch`.
@@ -210,8 +210,81 @@ What each pattern means and the cheapest fix:
 | `deps_ready_relaxed: True` | critical_path auto-relaxed `deps_ready_threshold` because strict yielded empty — informational |
 | `closure_mark` | Paper review proposed a `\closureat` for a chapter — positive signal that closure machinery is working |
 | `memory_guard.*PAUSE` | Lean orchestrator paused workers due to memory pressure — drop `lean_lake` or `lean` in `.pipeline_parallel.json` |
+| `Session complete: N succeeded, M failed` / `draining N in-flight workers` / `Pipeline PID token is not current` | **Orchestrator exited or got swapped out.** Under `--continuous`, neither side should ever print these — they mean the loop terminated and no one will dispatch new rounds. Run the liveness check below and, if a daemon is missing, restart it (see "Start" / "Stop" sections). This is the single most disruptive silent failure mode: paper-side keeps crunching closure_mark while lean side hasn't moved in hours, and `closed_horizons` totals can still drift up from paper alone, masking the outage. |
 
 If you need verbose per-phase visibility for a debugging session, swap the filter to `'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Merge conflict|Merging|Merged|[PR][0-9]+'`. Don't leave the verbose filter on a long-running monitor — it produces 20+ events/min during steady state and burns transcript tokens.
+
+### Liveness health check (run at every status query)
+
+Whenever the user asks `状态如何` / `现在如何` / `进展` / `report`, **before** computing closure deltas, run a one-shot daemon liveness probe. Three daemons must each appear with `PPID=1`:
+
+```bash
+ps -axo pid,ppid,etime,command \
+  | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py' \
+  | grep -v grep
+```
+
+Expected:
+
+- one `codex_revise.py --continuous` (paper)
+- one `codex_formalize.py --continuous` (lean)
+- one `sync_with_auto_dev.py` loop wrapper (sync)
+
+If any of the three is missing, **mention the absence in the same status report** and either restart it or escalate. Do not paper over a missing daemon by reporting only the closure totals — totals can keep climbing from one side alone (e.g. paper publishing closure_mark while lean has been dead for hours), and the user trusts your status replies to catch this.
+
+Symptom that should always trigger an immediate `ps` check:
+
+- **`paper=N>0, lean=0` for ≥30 min** in your hourly Round-SUCCESS counts. Paper proposing closure marks while lean produces zero rounds is the canonical signature of a dead lean orchestrator. Do not rationalize this as "work pool排空" without first verifying the lean process is actually alive — historical incident 2026-05-09: lean orchestrator naturally exited at 03:10 (`Session complete: 46 succeeded, 14 failed` after a PID-token swap), no one noticed for ~10h, multiple status replies kept saying "lean 端 work pool 长期排空" while the process was simply gone. Only the user's "并发数如何？" query at 13:10 prompted the `ps` that surfaced the outage.
+
+The active error watch grep above now includes `Session complete:` / `draining N in-flight workers` / `Pipeline PID token is not current` so this signal arrives in the monitor as soon as it happens — but if you missed it or the monitor was offline, the per-status liveness probe is the safety net.
+
+### Always run a second monitor: daemon liveness change watch
+
+Log-stream monitors only see what the orchestrators *write* — when an orchestrator silently exits, its log goes quiet and the log-stream monitor produces zero events (silence ≠ healthy). Pair the active error watch with a second persistent monitor that polls `ps` every 60s and emits **only on liveness state change**:
+
+```bash
+prev=""
+while true; do
+  ps_out=$(ps -axo pid,ppid,command 2>/dev/null \
+    | grep -E 'codex_revise\.py|codex_formalize\.py|sync_with_auto_dev\.py' \
+    | grep -v grep || true)
+  p=$(echo "$ps_out" | grep -c 'codex_revise\.py')
+  l=$(echo "$ps_out" | grep -c 'codex_formalize\.py')
+  s=$(echo "$ps_out" | grep -c 'sync_with_auto_dev\.py')
+  pa=$([ "$p" -ge 1 ] && echo 1 || echo 0)
+  la=$([ "$l" -ge 1 ] && echo 1 || echo 0)
+  sa=$([ "$s" -ge 1 ] && echo 1 || echo 0)
+  cur="paper=$pa lean=$la sync=$sa"
+  if [ "$cur" != "$prev" ]; then
+    ts=$(date '+%Y-%m-%d %H:%M:%S')
+    if [ "$pa" -eq 0 ] || [ "$la" -eq 0 ] || [ "$sa" -eq 0 ]; then
+      echo "[$ts] DAEMON DOWN — $cur (raw paper=$p lean=$l sync=$s; was: $prev)"
+    else
+      echo "[$ts] daemon liveness OK — $cur (raw paper=$p lean=$l sync=$s; was: $prev)"
+    fi
+    prev=$cur
+  fi
+  sleep 60
+done
+```
+
+Compare alive-as-boolean (≥1 process matches → 1, else 0), not raw counts. The paper bash wrapper makes `codex_revise.py` match twice; the sync wrapper periodically spawns a Python child that pushes the sync count from 1 to 2 for a few seconds every 600s. Comparing raw counts emits a no-op `liveness OK` event every 10 minutes during steady state. Comparing alive-booleans stays silent and only fires when a daemon actually disappears.
+
+`persistent: true`. Description: `BEDC daemon liveness change (paper/lean/sync)`.
+
+The `[ "$cur" != "$prev" ]` guard means it stays silent during steady-state (one event at boot to confirm initial state, then nothing until a change). When a daemon dies, you get a `DAEMON DOWN` notification within 60s — the missing log signal becomes a positive `ps` signal.
+
+Always run **both** monitors in parallel after starting the pipelines: log-stream (active error watch) + ps-based (daemon liveness change). The two cover orthogonal failure modes — log-stream catches loud failures (Tracebacks, recovery activity, `Session complete:` etc.); ps-based catches silent disappearance (process killed by OS, exit before flushing log, parent shell SIGHUP edge cases). Either alone misses an entire category.
+
+**Before arming a fresh monitor pair, sweep stale Monitor children from prior sessions.** Monitor tasks are detached children; a cross-session disconnect leaves the `tail -F …` / `while true; do ps_out=…; done` shells running and re-emitting events into a transcript they no longer belong to (you also see every log line twice when the new monitor lands on top of the old). Sweep first:
+
+```bash
+ps -axo pid,etime,command \
+  | grep -E 'tail -F .*orchestrator\.log|while true; do.*ps_out|prev=' \
+  | grep -v grep
+```
+
+Anything older than the current session's start time (`etime` clearly large, e.g. days) belongs to a prior session — `kill <pid>` it before launching the new monitors. The corresponding Monitor task will flip to `failed (exit 144)`, which is the desired outcome.
 
 Because Monitor no longer holds the orchestrator, you can freely change the `grep` filter, kill the Monitor, or re-launch it with a different filter without affecting any in-flight round.
 
@@ -294,6 +367,42 @@ Modes the new merge flow eliminated entirely (do not appear anymore):
 
 - **`Rebase left no own-round commit unique to BASE_BRANCH`** — codex's rebase resolution sometimes dropped the round's own work; merge can't drop a parent.
 - **`Codex did not complete rebase, aborting`** with subsequent round FAIL — no rebase to abort.
+
+### Recurring runtime patterns (operational lessons)
+
+The patterns below are residual failure modes that recovery handles but you should still recognize when scanning the monitor. None require manual intervention; the table tells you what NOT to investigate when you see the signal.
+
+| Signal | Root cause | What auto-heals it | Action |
+|---|---|---|---|
+| `Pre-merge hard gate failed: lake build` after a sibling round added the same theorem name | Phase C `lake build` in worktree passes (worktree is forked from old BASE) but post-merge build fails because sibling's `BEDC.Derived.<X>Up.<thm>` and this round's `BEDC.Derived.<X>Up.<thm>` are now both registered under the same flattened namespace | `phase_c.txt` Step 5 `git merge --no-ff origin/codex-auto-dev` pulls sibling work into the worktree pre-commit so the conflict surfaces in-codex (v5.14, 2026-05-09 — earlier `BASE=lean4-codex-auto-dev` typo defeated this) | None. Recovery codex resolves the conflict; if it can't, round becomes `unrecoverable` and ticket is dropped — no main-tree damage |
+| `Pre-merge hard gate failed: lake build` with namespace conflict on a single chapter that has `<X>Up.lean` + `<X>up.lean` | Case-insensitive filesystem (macOS APFS, Windows NTFS) treats these as one inode but Lean's import resolver treats them as two modules → identical declarations registered twice | `phase_c.txt` v5.13 hard gate runs `find -iname` before creating any new file; rejects if a sibling under any casing exists | None |
+| `Phase B failed: no targets extracted (0 chars)` with `Codex exec completed in <N>s (rc=1)` and `<N>` shorter than the configured timeout | Codex CLI returned non-zero with empty stdout — symptom of upstream API transient (rate limit, 5xx, token quota), not a prompt problem | Orchestrator dispatches replacement R<N+M> in the next tick; sibling rounds keep running unaffected | None unless you see ≥3 in 5 minutes (then check `gh run list` / OpenAI status) |
+| `[recovery] codex-R<N> unrecoverable; marking dead` for an R<N> that completed `Round SUCCESS` hours earlier | Stale recovery ticket: a recovery file was queued for an R<N> that the original worker rescued itself before the recovery consumer picked it up. By the time recovery acts, the worktree is gone and the picker can't find anything to fix | Recovery marks the ticket dead and moves on. The R<N> work is already merged | None — the SUCCESS log earlier is authoritative |
+| `[cooldown] 3 consecutive failures — sleeping 180s` with `All targets duplicated by other rounds; aborting` in failing-round logs | In-flight target saturation: at high `lean` concurrency (≥10), multiple Phase B workers select the same `critical_path.top[0..2]` chapter; orchestrator's in-flight dedup drops them all → empty target sets → cooldown trigger | 180s sleep gives sibling rounds time to finish and free the targets; pipeline resumes naturally | If it repeats every hour: drop `lean` to 8 in `.pipeline_parallel.json` (live edit, no restart) |
+| `[sync] [rejected] codex-auto-dev -> codex-auto-dev (non-fast-forward)` then `Traceback` then next `[sync]` cycle starts | sync_with_auto_dev push lost a race against a codex worker push that landed between `git fetch` and `git push`. The Python `RuntimeError: command failed (rc=128): git fetch origin --prune` (variant: HTTP/2 stream cancel) is also network transient | `bash` wrapper around `sync_with_auto_dev.py` catches the non-zero exit and re-enters the `while true; sleep 600; done` loop; next iteration fetches latest BASE and merges before pushing | None — the `[sync] done: ... converged` line within 10–15 min confirms recovery |
+| `make check` exits non-zero with `Runaway argument` followed by `! File ended while scanning use of \@newl@bel.` mentioning a `\newlabel{...}` from a chapter you didn't touch | Stale `main.aux` from an earlier interrupted run: the `\newlabel` line was truncated mid-write and now `pdflatex` reads it as unbalanced braces | `rm main.aux main.toc main.out` then re-run `make check` (or `make` for ship) | None for the pipeline (workers use isolated worktrees with their own `.aux`); only matters when you `make` in the main checkout |
+
+The pattern catalog is descriptive — `Round FAILED` / `Merge failed —` / `[recovery] queued` / `[recovery] picking` events are still the right primary signals. The table above explains what to *not* spin up an investigation for when those events arrive with one of these specific signatures.
+
+### Adding new chapters by seed-stub path (no manual Lean coupling)
+
+When you want to add new BEDC chapters from outside the codex pipeline (e.g., a research direction the operator chose), the cheap path is a seed stub at `seedClosure / unformalizedV` with **no `\leantarget`**. The pipeline takes it from there.
+
+Per chapter you need:
+
+1. `papers/bedc/parts/concrete_instances/<NN>_<slug>_namecert_construction.tex` — minimal stub with `\chapter`, `\label`, one orienting paragraph, and a `closurestatus` block. Required fields: `\theoryclosure{\seedClosure}`, `\formalstatus{\unformalizedV}`, `\bridgestatus{none}`, plus `\constructivestory`, `\scopeclosed`, `\notclaimed`, `\upgradepath`. **Do NOT include `\leantarget`** — `unformalizedV` does not require one (`bedc_ci.py audit` enforces this; missing-target only fails for `theoremCheckedV` and above).
+2. `papers/bedc/preamble.tex` — `\newcommand{\<X>Up}{\mathsf{<X>}^{\uparrow}}` macro definition (and any `\Prov` / `\Gal` etc. helper macros referenced in the constructive story).
+3. `papers/bedc/main.tex` — one `\input{parts/concrete_instances/<NN>_<slug>_namecert_construction.tex}` line in numerical order.
+
+Verification before commit: `python3 lean4/scripts/bedc_ci.py audit` (must exit 0), `python3 tools/check-axioms.py` (must exit 0), `cd papers/bedc && make` (double pass; PDF builds). If `make check` fails with a `Runaway argument` from `main.aux`, see the recurring-pattern table above (`rm main.aux main.toc main.out` and retry).
+
+Single atomic commit covering all chapters + preamble + main.tex. The pipeline:
+
+- `critical_path.py` next call surfaces the new chapters in `top[…]` with grade `seedClosure` and label_count > 0.
+- Paper rounds within ~10–30 minutes propose `closure_mark` for `seed → obligation` transitions.
+- Lean rounds discover the chapters under `formal_axis_top` and start writing `BEDC.Derived.<X>Up.lean` files (which then back-fill `\leantarget` references from paper rounds).
+
+A single-commit batch of ~8–12 chapters typically takes 30–90 minutes for pipeline to start advancing them past `seedClosure`, and 1–3 days to push a chapter to `matureClosure / bridgeCheckedV` at current throughput. Do not preempt by hand — the chapters will surface in the closure_mark stream as they get attention. Empirical example: the 2026-05-10 batch of 8 computation/Galois/foundations chapters had `TuringMachineUp` proposed for `obligationClosure` mark within 35 minutes of commit.
 
 ### Hot-reload vs restart boundary
 

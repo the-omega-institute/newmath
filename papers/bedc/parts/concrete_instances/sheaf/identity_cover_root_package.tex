@@ -7,6 +7,7 @@ For an indexed open $i$ in the $\SheafUp$ root-obligation surface, the identity-
 
 The package ledger is restricted to $\mathsf{BHist}$ membership cells, $\hsame$ transport of those cells, the self-overlap projections for $i\wedge_{\TopologyUp}i$, and the presheaf identity row identifying $\rho_{i,i}(s)$ with $s$ in the classifier $\sim_i$. It carries no host cover equality, cover quotient, stalk quotient, or external sheafification operation.
 \end{definition}
+\leandef{BEDC.Derived.SheafUp.SheafIdentityCoverRootPackage}
 
 \begin{theorem}[Sheaf identity-cover membership exactness]
 \label{thm:sheaf-identity-cover-membership-exactness}
@@ -17,6 +18,7 @@ $$
 \exists a:\mathsf{Unit},\ \mathsf{OpenAt}(\iota(a),b).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafBHistPointGermLedger\_identity\_open\_membership\_cont\_exactness}
 \begin{proof}
 For the forward direction, use the unique member of $\mathsf{Unit}$. Since $\iota$ is constantly $i$, the required displayed cover-member cell is the original cell $\mathsf{OpenAt}(i,b)$ read through the identity membership row.
 
@@ -34,6 +36,7 @@ $$
 \rho_{i,i}(s)\sim_i s.
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafIdentityCover\_restriction\_readback}
 \begin{proof}
 Unpack the identity-cover root package. Its only cover member is $i$, and the route from the ambient open to that member is the identity route, so the exposed restriction readback is the displayed route $\rho_{i,i}(s)$.
 
@@ -55,3 +58,4 @@ For uniqueness, take two global readbacks whose restrictions agree on the identi
 
 Apply the locality part of \autoref{thm:sheaf-root-unblock-locality-gluing-obligation}. It returns classifier equality in $\sim_i$, so the compatible local family collapses to one global section up to the section classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafIdentityCover\_gluing\_collapse}

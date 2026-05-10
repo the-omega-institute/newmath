@@ -1,0 +1,80 @@
+\begin{theorem}[PinGroup parity source scope package]
+\label{thm:pingroup-parity-source-scope-package}
+The reflection-parity source rows of
+\autoref{def:pingroup-reflection-parity-carrier},
+\autoref{thm:pingroup-source-ledger-coverage}, and
+\autoref{thm:pingroup-reflection-parity-boundary} are scoped exactly by the
+finite $\mathsf{BHist}$ carrier rows, the displayed $\hsame$ classifier rows,
+the finite $\Cont$ transport rows, the $\Pkg$ provenance rows, and the source
+certificate rows $\NameCert_{\SpinGroupUp}$ and
+$\NameCert_{\CliffordUp}$.
+\end{theorem}
+\begin{proof}
+Project the carrier through
+\autoref{def:pingroup-reflection-parity-carrier}. Its two branches are the
+inherited $\SpinGroupUp$ branch and the Clifford reflection branch.
+
+Apply \autoref{thm:pingroup-source-ledger-coverage}. The source ledger names
+only $\NameCert_{\SpinGroupUp}$, $\NameCert_{\CliffordUp}$, their carried
+$\mathsf{BHist}$ histories, and their $\Cont$ provenance.
+
+Finally use \autoref{thm:pingroup-reflection-parity-boundary}. The parity
+classifier reads those two branches through $\hsame$ and $\Pkg$ rows, with no
+host orthogonal group and no matrix model available behind the source scope.
+\end{proof}
+
+\begin{theorem}[PinGroup reflection ledger scope package]
+\label{thm:pingroup-reflection-ledger-scope-package}
+The reflection ledger rows of
+\autoref{thm:pingroup-clifford-conjugation-ledger},
+\autoref{thm:pingroup-reflection-ledger-closure}, and
+\autoref{thm:pingroup-full-orthogonal-action-exactness} are scoped exactly by
+the carried $\mathsf{BHist}$ Clifford reflection entries, the finite $\Cont$
+ledger, the displayed $\hsame$ classifier rows, $\Pkg$ provenance, and the
+source certificate rows $\NameCert_{\SpinGroupUp}$ and
+$\NameCert_{\CliffordUp}$.
+\end{theorem}
+\begin{proof}
+Project the reflection ledger from
+\autoref{thm:pingroup-clifford-conjugation-ledger}. It consists of the spin
+subrow, the reflection-generator row, the Clifford product row, and the
+finite provenance ledger.
+
+Apply \autoref{thm:pingroup-reflection-ledger-closure}. Transport keeps every
+reflection entry inside the same carried $\mathsf{BHist}$ ledger over
+$\NameCert_{\CliffordUp}$, with the inherited spin boundary read through
+$\NameCert_{\SpinGroupUp}$.
+
+The exactness theorem
+\autoref{thm:pingroup-full-orthogonal-action-exactness} identifies the public
+action row with this same ledger boundary. Hence the scoped package reads no
+quotient Clifford unit, no host full orthogonal group, and no external matrix
+representation.
+\end{proof}
+
+\begin{theorem}[PinGroup consumer boundary scope package]
+\label{thm:pingroup-consumer-boundary-scope-package}
+The consumer rows of \autoref{def:pingroup-consumer-readback-packet},
+\autoref{thm:pingroup-consumer-readback-packet-sound},
+\autoref{thm:pingroup-consumer-readback-packet-exact}, and
+\autoref{thm:pingroup-downstream-unblock-package} are scoped exactly by the
+reflection ledger, Clifford action row, Spin boundary row, source projection
+rows, $\mathsf{BHist}$ carrier rows, $\hsame$, $\Cont$, $\Pkg$, and the source
+certificates $\NameCert_{\SpinGroupUp}$ and $\NameCert_{\CliffordUp}$.
+\end{theorem}
+\begin{proof}
+Project a consumer row through
+\autoref{def:pingroup-consumer-readback-packet}. The packet retains precisely
+the reflection ledger, Clifford action row, Spin boundary row, source rows,
+transport rows, witnesses, and provenance.
+
+Apply \autoref{thm:pingroup-consumer-readback-packet-sound} and
+\autoref{thm:pingroup-consumer-readback-packet-exact}. Soundness projects an
+accepted consumer into that finite packet, and exactness repacks the same rows
+as the public Clifford-action consumer surface.
+
+Finally apply \autoref{thm:pingroup-downstream-unblock-package}. The exported
+consumer package is exactly the ten-field packet over the displayed BEDC
+primitive rows, so no host orthogonal group, quotient Clifford unit, or matrix
+model is part of the consumer boundary.
+\end{proof}

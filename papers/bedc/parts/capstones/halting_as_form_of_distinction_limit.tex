@@ -54,3 +54,25 @@ The irreducibility of the halting predicate (\autoref{thm:halting-as-form-of-dis
 \label{rem:halting-two-loops}
 \autoref{thm:halting-as-form-of-distinction-fixed-point} and \autoref{thm:form-of-distinction-irreducible} sit on the two opposite faces of \autoref{thm:two-loops}: the form of distinction must close at the bottom for the kernel to start (closed ground loop), and the same closure forbids halting decidability at the top (open meta loop). The two-loops structure is, read through this chapter, the discipline that the closure paid at the bottom is the closure refused at the top.
 \end{remark}
+
+\begin{theorem}[Halting predicate exists iff the meta loop closes at the certificate stratum]
+\label{thm:halting-predicate-iff-meta-loop-certificate-stratum}
+Let
+$$
+\mathsf{Halts}(\NameCert_P,h)
+$$
+denote the predicate that the $\Cont_P$-chain from $h$ terminates in the sense of \autoref{def:halting-termination}. The following are equivalent:
+\begin{enumerate}
+\item there exists a halting predicate $\NameCert_H$ in the sense of \autoref{def:halting-predicate};
+\item there exists a $\NameCert$-level decision procedure indexed by the certificate-of-certificates carrier $\mathcal{C}$, with carrier $\mathcal{C}\times\Hist$, whose extension predicate decides $\mathsf{Halts}(\NameCert_P,h)$ for every pair $(\NameCert_P,h)$.
+\end{enumerate}
+In this situation the open meta loop is closed at the certificate stratum precisely by that deciding certificate.
+\end{theorem}
+
+\begin{proof}
+Assume (1). By \autoref{def:halting-predicate}, the certificate $\NameCert_H$ is already a naming certificate over $\mathcal{C}\times\Hist$ whose extension predicate on $(\NameCert_P,h)$ holds exactly when the $\Cont_P$-chain from $h$ terminates. Its continuation field is the kernel-level evidence required by the certificate framework. Therefore $\NameCert_H$ is exactly a $\NameCert$-level decision procedure of the form stated in (2). By \autoref{thm:halting-meta-loop-closure}, this deciding certificate is exactly what closes the open meta loop at the certificate stratum for the halting predicate.
+
+Assume (2). Let $\NameCert_D$ be the stated $\NameCert$-level decision procedure. By hypothesis, $\NameCert_D$ lives over the carrier $\mathcal{C}\times\Hist$, its extension predicate on $(\NameCert_P,h)$ holds exactly when the $\Cont_P$-chain from $h$ terminates, and its continuation field supplies the certificate-level evidence attached to that decision. But these are precisely the clauses of \autoref{def:halting-predicate}. Therefore $\NameCert_D$ is a halting predicate; rename it $\NameCert_H$.
+
+Thus (1) and (2) are equivalent, and the final sentence follows from \autoref{thm:halting-meta-loop-closure} applied to that same deciding certificate.
+\end{proof}

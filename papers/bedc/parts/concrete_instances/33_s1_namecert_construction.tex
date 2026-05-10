@@ -5,3 +5,166 @@ The circle interface $\SOneUp$ is a certificate-obligation schema over the produ
 
 \input{parts/concrete_instances/s1/carrier_readbacks}
 \input{parts/concrete_instances/s1/certificate}
+
+\begin{theorem}[SOne Real metric bridge boundary]
+\label{thm:sone-real-metric-bridge-boundary}
+The public $\SOneUp$ bridge boundary over the $\RealUp$ product carrier
+consists only of the two $\RealUp$ component rows, the product carrier ledger,
+the unit-equation witness, the componentwise classifier, and equation
+transport. It does not expose angle parametrisation, winding data, covering
+quotients, compactness, or connectedness.
+\end{theorem}
+\leanchecked{BEDC.Derived.S1Up.SOneRealMetricBridgeBoundary\_public\_rows}
+\begin{proof}
+Read the carrier through the child file
+\autoref{sec:s1-carrier}. The carrier readbacks expose the two real component
+histories, the product-history row, the continuation ledger, and the displayed
+unit-equation witness.
+
+Read the certificate through the child file certificate surface. The component
+classifier exposes only $\hsame$ on the two real coordinates, while the hidden
+equation and point ledgers are determined and transported by the equation
+transport and carrier transport rows.
+
+Repack those rows as the public bridge boundary. Every exported field is one
+of the RealUp component, product carrier, unit-equation, component classifier,
+or equation-transport rows already displayed in this chapter, so no angle,
+winding, covering, compactness, or connectedness datum is part of the boundary.
+\end{proof}
+
+\begin{theorem}[SOne RegSeqRat metric observation boundary]
+\label{thm:sone-regseqrat-metric-observation-boundary}
+An admitted $\SOneUp$ point over the $\RealUp$ product carrier exposes to any
+metric-observation consumer only the two component $\RealUp$ finite-window read
+surfaces, the $\RegSeqRat$ stream-name and real-seal rows attached to those
+components, the product carrier ledger, the unit-equation witness, the
+componentwise $\hsame$ classifier rows, and equation transport. Compactness,
+connectedness, angle parametrisation, winding data, quotient-circle
+presentation, and metric-completeness rows are not exported by this boundary.
+\end{theorem}
+\begin{proof}
+Start from the public $\SOneUp$ bridge boundary in
+\autoref{thm:sone-real-metric-bridge-boundary}. It already restricts the circle
+read to the two real component rows, the product carrier ledger, the
+unit-equation witness, the componentwise classifier, and equation transport.
+
+Now read each real component through
+\autoref{thm:realup-scoped-finite-window-read-surface}. The component access
+there is a finite-window read surface, so a metric-observation consumer sees
+only the selected real rows rather than an ambient metric-complete real line.
+
+For the regular-sequence presentation, use
+\autoref{thm:regseqrat-streamname-scoped-interface} for the stream-name rows and
+\autoref{thm:regseqrat-finite-window-real-seal-interface} for the finite-window
+real-seal rows. These are attached componentwise to the two $\RealUp$ reads and
+do not add a new circle-level carrier.
+
+Combining the three component readings with the $\SOneUp$ bridge boundary gives
+exactly the listed consumer surface. Since no cited surface exports compactness,
+connectedness, angle data, winding data, quotient-circle presentation, or
+metric-completeness rows, none of those rows is available through the admitted
+$\SOneUp$ observation boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneRegSeqRatMetricObservationBoundary\_public\_rows}
+
+\begin{theorem}[SOne public certificate boundary]
+\label{thm:sone-public-certificate-boundary}
+The public $\NameCert_{\SOneUp}$ boundary is exactly the $\RealUp$ pair
+carrier, product ledger, unit-equation witness, componentwise $\hsame$
+classifier, equation transport, and finite-window $\RegSeqRat$ read surfaces
+isolated by the $\SOneUp$ bridge and metric-observation boundaries. No
+compactness, connectedness, angle, quotient, or completeness row is part of the
+public certificate boundary.
+\end{theorem}
+\leanchecked{BEDC.Derived.S1Up.SOne\_public\_namecert\_obligation\_assembly}
+\begin{proof}
+Apply \autoref{thm:sone-real-metric-bridge-boundary}. It identifies the public
+circle boundary with the two $\RealUp$ component rows, product carrier ledger,
+unit-equation witness, componentwise classifier, and equation transport.
+
+Apply \autoref{thm:sone-regseqrat-metric-observation-boundary}. It refines the
+component access to the finite-window $\RegSeqRat$ stream-name and real-seal
+read surfaces while preserving the same product, equation, classifier, and
+transport rows.
+
+The public $\NameCert_{\SOneUp}$ can therefore export only the intersection of
+those already isolated rows. Since the first boundary excludes angle data,
+winding data, covering quotients, compactness, and connectedness, and the
+second also excludes quotient-circle presentation and metric-completeness rows,
+the certificate has exactly the displayed RealUp-pair, equation, classifier,
+transport, and finite-window read surface.
+\end{proof}
+
+\begin{theorem}[SOne standard topological bridge boundary]
+\label{thm:sone-standard-topological-bridge-boundary}
+Any standard topological-circle bridge for $\SOneUp$ may read only the two
+$\RealUp$ component finite-window surfaces, the product ledger, the
+unit-equation witness, the componentwise classifier, and equation transport.
+Compactness, connectedness, angle parametrisation, winding data, quotient-circle
+presentation, and metric-completeness rows remain outside the bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.S1Up.SOneStandardTopologicalBridgeBoundary\_component\_rows}
+\begin{proof}
+Begin with \autoref{thm:sone-real-metric-bridge-boundary}. It confines a public
+circle bridge to the two real component rows, product carrier ledger,
+unit-equation witness, componentwise classifier, and equation transport.
+
+Refine the two component reads through
+\autoref{thm:sone-regseqrat-metric-observation-boundary}. The real components
+may be consumed through their finite-window $\RegSeqRat$ read surfaces, but
+that refinement still does not expose compactness, connectedness, angle data,
+winding data, quotient presentation, or metric-completeness rows.
+
+Finally apply \autoref{thm:sone-public-certificate-boundary}. It identifies the
+public certificate boundary with the same RealUp-pair, product, equation,
+classifier, transport, and finite-window read rows. Therefore the standard
+topological bridge boundary has exactly those readable rows and no topology
+data outside the displayed certificate surface.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneStandardTopologicalBridgeBoundary\_public\_rows}
+
+\begin{theorem}[SOne standard topological circle acceptance factorization]
+\label{thm:sone-standard-topological-circle-acceptance-factorization}
+Every accepted standard topological-circle bridge row for $\SOneUp$ factors
+through exactly the $\RealUp$-pair carrier, finite-window $\RegSeqRat$
+component reads, product ledger, unit-equation witness, componentwise
+classifier, and equation transport isolated by
+\autoref{thm:sone-real-metric-bridge-boundary},
+\autoref{thm:sone-regseqrat-metric-observation-boundary}, and
+\autoref{thm:sone-public-certificate-boundary}. No compactness, connectedness,
+angle, winding, quotient-circle, or metric-completeness row can enter the
+bridge unless supplied by a later certificate.
+\end{theorem}
+\begin{proof}
+Project the accepted bridge row through
+\autoref{thm:sone-standard-topological-bridge-boundary}. The projection leaves
+only the two $\RealUp$ component rows, product ledger, unit-equation witness,
+componentwise classifier, and equation transport.
+
+Refine those component rows with
+\autoref{thm:sone-regseqrat-metric-observation-boundary}. Each real component
+is read by a finite-window $\RegSeqRat$ stream-name and real-seal surface, and
+the refinement preserves the same product, equation, classifier, and transport
+rows.
+
+Finally use \autoref{thm:sone-public-certificate-boundary}. It shows that the
+public certificate has no additional readable coordinate beyond the RealUp-pair
+carrier, finite-window reads, product ledger, unit-equation witness,
+componentwise classifier, and equation transport. Hence topology-specific
+compactness, connectedness, angle, winding, quotient-circle, and
+metric-completeness rows are absent unless a later certificate supplies them.
+\end{proof}
+
+\closureat{SOneUp}{seedStr}[BEDC.Derived.S1Up.sone\_history\_semantic\_name\_certificate]
+\closureat{SOneUp}{scopedStr}[BEDC.Derived.S1Up.sone\_history\_semantic\_name\_certificate]
+
+\begin{closurestatus}{\SOneUp}
+  \constructivestory{A circle point is generated by placing two $\RealUp$ constant histories side by side, using the product continuation ledger to assemble the point history $p$, and carrying a separate equation history $e$ that certifies $x^2+y^2$ against the real unit; empty points, zero-headed points, and pairs without that unit-equation witness are outside the carrier. The classifier deliberately exposes only the two component comparisons $\hsame(x,x')$ and $\hsame(y,y')$: once those are present, the hidden equation ledger and point ledger are determined and transported, so the construction never quotients by angles or by a host $\mathbb R/\mathbb Z$ presentation. The source specification is the product of two real witnesses together with the real-algebra rows needed to form the unit equation, the pattern specification is unit-circle formation from that pair and its certified equation object, and the ledger keeps the rational tails of the two real constants, the product continuation, the equation witness, and the transported component rows visible. The five name-certificate obligations reduce to componentwise history-equality: an admitted pair with its unit equation inhabits the carrier, reflexivity, symmetry, and transitivity are inherited from the two real components, and full carrier transport works because the hidden equation and point witnesses can be recovered from those component comparisons. A point history $h$ lies in the signature gap of a $\SOneUp$ token $p$ when the source-domain accepts $h$ as such a real pair with unit-equation ledger, the signature relation pairs it with an answer circle point and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, the two real components and their equation witness match the point encoded by $p$. The chapter registers this component-and-equation construction under the name $\SOneUp$; it introduces no trigonometric library, winding theory, covering-space quotient, topological-group structure, or standard bridge.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public scope is the RealUp-pair carrier, product ledger, unit-equation witness, componentwise classifier, equation transport, and finite-window read surface displayed in this chapter.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.S1Up.sone\_history\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not claim connectedness, compactness, angle parametrisation, or a standard topological circle bridge.}
+  \upgradepath{The next bridge-axis step is a checked standard topological circle bridge with an explicit acceptance boundary.}
+\end{closurestatus}

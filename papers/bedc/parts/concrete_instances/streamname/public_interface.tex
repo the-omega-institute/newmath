@@ -70,6 +70,7 @@ this interface as a single finite-window package whose exported rows are
 supply RealUp completion, RegSeqRat regularity, metric completeness, or a
 standard bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameFiniteWindowClassifier\_public\_interface}
 
 \begin{proof}
 The public countable-name spine is
@@ -111,6 +112,334 @@ feed an endpoint classifier row.  Completion, regularity, metric, and bridge
 claims are left outside the package.
 \end{proof}
 
+\begin{theorem}[StreamNameUp finite-window restriction export]
+\label{thm:streamname-finite-window-restriction-export}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, and let $B'$ and $B$
+be $\mathsf{ProbeBundle}$ windows. Suppose every certified unary observation
+carried by $B'$ is an $\mathsf{InBundle}$ member of $B$. Then
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B)
+\quad\Longrightarrow\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B').
+$$
+The restriction export has the ten-field fit used by downstream
+$\RegSeqRat$ and $\RealUp$ consumers: the BEDC source is
+$\StreamNameUp$ together with $\mathsf{ProbeBundle}$, the carrier consists of
+bundled certified unary observations, the classifier is the pointwise
+$\RatUp$ classification row, the ledger retains exactly the observation rows
+selected by $B'$, and exactness is supplied by bundle inclusion.
+\end{theorem}
+
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-finite-window-classifier}.  A
+finite-window classifier over $B$ is a pointwise classifier row for each
+certified unary observation carried by $B$.
+
+Fix an observation carried by $B'$.  The displayed inclusion witness presents
+that same certified unary observation as an $\mathsf{InBundle}$ member of
+$B$, so the classifier over $B$ supplies the corresponding pointwise
+$\RatUp$ row for $s$ and $t$.
+
+Repack these rows over all observations of $B'$.  The carrier remains the
+same bundled certified-unary-observation carrier, the ledger is the retained
+subfamily of observation rows, and no completion, quotient representative, or
+regularity row is introduced.  This is precisely the finite-window classifier
+over $B'$.
+\end{proof}
+
+\begin{theorem}[StreamNameUp finite-window reindexing stability]
+\label{thm:streamname-finite-window-reindexing-stability}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, let $B$ and $B'$ be
+$\mathsf{ProbeBundle}$ windows, and let $r$ be a certified unary reindexer.
+Suppose that every certified unary observation carried by $B'$ is sent by $r$
+to an $\mathsf{InBundle}$ member of $B$. Then
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B)
+\quad\Longrightarrow\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s\circ r,t\circ r,B').
+$$
+The restricted window consumes exactly the reindexed pointwise $\RatUp$
+classifier rows and the finite observation ledger named by $B'$. It introduces
+no $\RealUp$ completion, no $\RegSeqRat$ regularity row, no quotient
+representative, and no metric row.
+\end{theorem}
+
+\begin{proof}
+Start from the public finite-window interface of
+\autoref{thm:streamname-public-finite-window-interface}. It makes the
+finite-window classifier a pointwise $\RatUp$ classifier over bundled certified
+unary observations and includes the certified reindexing rows from
+\autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage}.
+
+Fix a certified unary observation carried by $B'$. The reindexer sends it to an
+$\mathsf{InBundle}$ member of $B$, so the classifier over $B$ supplies the
+pointwise $\RatUp$ row for $s$ and $t$ at the reindexed observation. Transport
+that row along the certified point map to read the classifier for $s\circ r$ and
+$t\circ r$ at the original observation.
+
+Now repack these transported rows over all observations of $B'$. This is the
+same restriction shape as
+\autoref{thm:streamname-finite-window-restriction-export}, with the inclusion
+provided by the reindexed-map coverage row rather than by an identity
+subwindow. The carrier, classifier, and finite ledger remain those of the
+public finite-window interface.
+
+Nothing in the construction asks for a completion object, a regular sequence
+condition, a quotient representative, or a metric witness. The resulting
+classifier is therefore precisely the restricted probe window needed by
+$\RealUp$ and $\RegSeqRat$ boundary consumers.
+\end{proof}
+
+\begin{theorem}[StreamName finite-window reindexing composition]
+\label{thm:streamname-finite-window-reindexing-composition}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, let $B$, $B'$, and
+$B''$ be $\mathsf{ProbeBundle}$ windows, and let $r$ and $q$ be certified unary
+reindexers. Suppose $r$ sends every certified unary observation carried by
+$B''$ to an $\mathsf{InBundle}$ member of $B'$, and $q$ sends every certified
+unary observation carried by $B'$ to an $\mathsf{InBundle}$ member of $B$.
+Then restricting the finite $\mathsf{RatStreamNameFiniteWindowClassifier}$
+window by $r$ and then by $q$ exposes the same finite $\mathsf{BHist}$ packet as
+restricting once by $q\circ r$. The classifier, endpoint, $\hsame$, and finite
+ledger rows are the same rows repacked over $B''$.
+\end{theorem}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_reindexing\_composition\_law}
+
+\begin{proof}
+Apply \autoref{thm:streamname-finite-window-reindexing-stability} to the
+restriction from $B$ to $B'$. This transports the finite-window classifier rows
+along $q$ and keeps the endpoint, $\hsame$, and finite ledger rows as displayed
+rows on $B'$.
+
+Apply \autoref{thm:streamname-finite-window-reindexing-stability} again to the
+restriction from $B'$ to $B''$. The second transport reads the rows already
+repacked over $B'$ and exposes them on $B''$ along $r$.
+
+The checked composition law for certified reindexers supplies the same unary
+observation witness for the composite map $q\circ r$. Repacking the identical
+finite-window rows over $B''$ gives the one-step restriction by $q\circ r$ and
+does not introduce completion, regularity, quotient, metric, arithmetic, or
+order data.
+\end{proof}
+
+\begin{theorem}[StreamNameUp finite-window union composition]
+\label{thm:streamname-finite-window-union-composition}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, and let $B_L$ and
+$B_R$ be $\mathsf{ProbeBundle}$ windows. Then the two component classifiers
+assemble into the appended-window classifier:
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_L)
+\ \wedge\
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_R)
+\quad\Longrightarrow\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathsf{BAppend}(B_L,B_R)).
+$$
+Conversely, the appended-window classifier restricts to both component
+windows:
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathsf{BAppend}(B_L,B_R))
+\quad\Longrightarrow\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_L)
+\ \wedge\
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_R).
+$$
+The union row is a finite observation-window composition row only: it
+introduces no completion, quotient representative, metric row, or $\RealUp$
+completeness object.
+\end{theorem}
+
+\begin{proof}
+For assembly, unfold
+Definition~\ref{def:rat-stream-name-finite-window-classifier}.  Fix a
+certified unary observation carried by $\mathsf{BAppend}(B_L,B_R)$.  The
+bundle split theorem
+$\mathsf{BEDC.FKernel.Bundle.inBundle\_bundleAppend\_iff}$ identifies this
+membership with membership in $B_L$ or membership in $B_R$.
+
+In the left case, read the needed pointwise $\RatUp$ classifier row from the
+classifier over $B_L$.  In the right case, read the same kind of row from the
+classifier over $B_R$.  Repacking the case split over all bundled
+observations gives the classifier over $\mathsf{BAppend}(B_L,B_R)$.
+
+For restriction, use the canonical inclusions of $B_L$ and $B_R$ into the
+appended bundle, again supplied by the $\mathsf{InBundle}$ splitting row for
+$\mathsf{BAppend}$.  Applying
+\autoref{thm:streamname-finite-window-restriction-export} to each inclusion
+returns the two component classifiers.
+
+All rows remain the same finite $\mathsf{ProbeBundle}$ rows and the same
+pointwise $\RatUp$ classifier rows.  No completion package, quotient
+representative, metric structure, or $\RealUp$ completeness claim is used in
+either direction.
+\end{proof}
+
+\begin{theorem}[StreamNameUp finite-window appended refinement chain]
+\label{thm:streamname-finite-window-refinement-chain}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, and let $B_L$,
+$B_R$, and $B_0$ be $\mathsf{ProbeBundle}$ windows. Suppose every certified
+unary observation carried by $B_0$ is an $\mathsf{InBundle}$ member of
+$\mathsf{BAppend}(B_L,B_R)$. Then
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_L)
+\ \wedge\
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_R)
+\quad\Longrightarrow\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_0).
+$$
+The row uses only $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\mathsf{BAppend}$, $\UnaryHistory$, and the pointwise $\RatUp$ classifier
+rows carried by certified unary observations. It introduces no $\RealUp$
+completion datum, quotient representative, regularity predicate, or metric
+row.
+\end{theorem}
+
+\begin{proof}
+First assemble the classifier over the appended display. Apply
+\autoref{thm:streamname-finite-window-union-composition} to the two component
+classifiers over $B_L$ and $B_R$. The assembly direction supplies the
+finite-window classifier over $\mathsf{BAppend}(B_L,B_R)$.
+
+Next restrict that appended classifier to the displayed subwindow. The
+assumed inclusion sends every certified unary observation of $B_0$ to an
+$\mathsf{InBundle}$ member of $\mathsf{BAppend}(B_L,B_R)$, so
+\autoref{thm:streamname-finite-window-restriction-export} applies directly.
+
+The resulting classifier over $B_0$ is obtained by retaining pointwise
+$\RatUp$ rows along the displayed finite bundle membership. No completion
+object, quotient datum, regularity row, or metric structure enters the
+construction.
+\end{proof}
+
+\begin{theorem}[StreamNameUp finite-window refinement transitivity]
+\label{thm:streamname-finite-window-refinement-transitivity}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, and let $B_2$,
+$B_1$, and $B_0$ be $\mathsf{ProbeBundle}$ windows. Suppose every certified
+unary observation carried by $B_0$ is an $\mathsf{InBundle}$ member of
+$B_1$, and every certified unary observation carried by $B_1$ is an
+$\mathsf{InBundle}$ member of $B_2$. Then
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_2)
+\quad\Longrightarrow\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_0).
+$$
+The row uses only $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\UnaryHistory$, and the pointwise $\RatUp$ classifier rows carried by
+certified unary observations. It introduces no $\RealUp$ completion datum,
+quotient representative, regularity predicate, or metric row.
+\end{theorem}
+
+\begin{proof}
+First restrict the classifier over $B_2$ to the intermediate finite window
+$B_1$. The displayed inclusion from $B_1$ into $B_2$ supplies exactly the
+witness required by
+\autoref{thm:streamname-finite-window-restriction-export}, so the result is
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_1)$.
+
+Next restrict the intermediate classifier over $B_1$ to $B_0$. The displayed
+inclusion from $B_0$ into $B_1$ again matches the premise of
+\autoref{thm:streamname-finite-window-restriction-export}.
+
+Equivalently, for any certified unary observation in $B_0$, compose its
+$\mathsf{InBundle}$ witness into $B_1$ with the witness from $B_1$ into
+$B_2$, and retain the same pointwise $\RatUp$ row. This construction never
+reads a $\RealUp$ completion, a quotient datum, or any host analytic
+structure.
+\end{proof}
+
+\begin{theorem}[StreamNameUp finite-window common refinement export]
+\label{thm:streamname-finite-window-common-refinement-export}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, and let $B_L$,
+$B_R$, and $B$ be $\mathsf{ProbeBundle}$ windows. Suppose every certified
+unary observation carried by $B_L$ is an $\mathsf{InBundle}$ member of $B$,
+and every certified unary observation carried by $B_R$ is an
+$\mathsf{InBundle}$ member of $B$. Then
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B)
+\quad\Longrightarrow\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_L)
+\ \wedge\
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B_R)
+\ \wedge\
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathsf{BAppend}(B_L,B_R)).
+$$
+Thus a displayed common finite observation window restricts to both component
+windows and assembles the appended window consumed by finite-partition
+arguments.
+\end{theorem}
+
+\begin{proof}
+Start with the classifier over the displayed common window $B$. Apply
+\autoref{thm:streamname-finite-window-restriction-export} to the inclusion of
+$B_L$ in $B$ to obtain the left component classifier.
+
+Apply the same restriction export to the inclusion of $B_R$ in $B$. This gives
+the right component classifier over the same certified observation maps
+$s,t$.
+
+Now apply
+\autoref{thm:streamname-finite-window-union-composition} to the two component
+classifiers. The assembly direction gives the classifier over
+$\mathsf{BAppend}(B_L,B_R)$.
+
+Every row used in the construction remains a finite-window row:
+$\mathsf{ProbeBundle}$ membership, $\mathsf{InBundle}$ inclusions, pointwise
+$\RatUp$ classifiers, $\hsame$ transport, and finite ledger rows. No
+completion object, metric row, quotient representative, regularity condition,
+or $\RealUp$ completeness datum is introduced.
+\end{proof}
+
+\begin{theorem}[StreamNameUp common-refinement selected endpoint readback]
+\label{thm:streamname-window-common-refinement-readback}
+Let $s,t$ be certified $\StreamNameUp$ observation maps, and let
+$B_L,B_R,B:\mathsf{ProbeBundle}$. Suppose every certified unary observation
+carried by $B_L$ is an $\mathsf{InBundle}$ member of $B$, and every certified
+unary observation carried by $B_R$ is an $\mathsf{InBundle}$ member of $B$.
+Assume
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B).
+$$
+Let $n:\Hist$ be a selected certified unary observation in either component
+window, so that $n$ is carried by $B_L$ or by $B_R$, and suppose
+$$
+\mathsf{UnaryHistory}(n),
+\quad
+\hsame(s(n),\Eone(a)),
+\quad
+\hsame(t(n),\Eone(b))
+$$
+for histories $a,b:\Hist$. Then the selected endpoint exposes exactly the six
+finite readback rows:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+  \item positive unary denominator rows for $s(n)$ and $t(n)$.
+  \item unary endpoint-shape rows for $s(n)$ and $t(n)$.
+  \item empty-endpoint exclusions for $s(n)$ and $t(n)$.
+  \item zero-headed endpoint exclusions for $s(n)$ and $t(n)$.
+  \item one-tail agreement for the displayed tails $a$ and $b$.
+\end{enumerate}
+No $\RegSeqRat$ regularity row, $\RealUp$ seal, metric row, quotient
+representative, or standard bridge is used.
+\end{theorem}
+
+\begin{proof}
+First restrict the common classifier over $B$ to the relevant component window.
+Apply \autoref{thm:streamname-finite-window-common-refinement-export}. If the
+selected observation is carried by $B_L$, take the left component classifier; if
+it is carried by $B_R$, take the right component classifier.
+
+Now apply
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package} to
+that component classifier, the displayed component membership of $n$, the unary
+witness for $n$, and the two one-extension endpoint displays. The theorem
+returns the selected $\mathsf{RatHistoryClassifier}$ row, positive unary
+denominators, unary endpoint shape, empty exclusion, zero-headed exclusion, and
+one-tail agreement for $a$ and $b$.
+
+The construction has only restricted a finite $\mathsf{ProbeBundle}$ classifier
+and then read the selected $\RatUp$ endpoint package. It therefore never invokes
+RegSeqRat regularity, a RealUp seal, metric data, quotient representatives, or
+standard-bridge structure.
+\end{proof}
+
 \begin{theorem}[StreamNameUp empty finite-window vacuity]
 \label{thm:streamname-public-empty-window-vacuity}
 For certified observation maps $s,t:\Hist\to\Hist$,
@@ -119,6 +448,7 @@ Equivalently, the public finite-window interface has a neutral empty
 observation boundary: it contributes no RatUp endpoint classifier rows and no
 finite-observation ledger token.
 \end{theorem}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameFiniteWindowClassifier\_empty\_vacuity}
 
 \begin{proof}
 Unfold
@@ -218,12 +548,186 @@ interface package, not a $\RealUp$ completion theorem or a $\RegSeqRat$
 regularity theorem.
 \end{proof}
 
+\begin{theorem}[StreamNameUp public scoped dependency package]
+\label{thm:streamname-public-scoped-dependency-package}
+The public $\StreamNameUp$ export has the following exact scoped dependency
+surface for downstream $\RegSeqRat$ and $\RealUp$ boundary theorems.  It is
+scoped over precisely
+$\mathsf{BHist}$, $\UnaryHistory$, $\hsame$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
+$\mathsf{RatStreamNameCarrier}$, $\mathsf{RatStreamNameClassifier}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+$\mathsf{RatStreamNameFiniteWindowClassifier}$.
+
+Within that scope its exported rows are exactly the countable-name package,
+finite-window package, empty-window vacuity, constant-stream rows,
+reindexing and RatUp-preserving map stability, finite-window
+coverage/exhaustion, selected endpoint package, and finite-window stability
+fields.  No $\RegSeqRat$ regularity, $\RealUp$ seal, $\RealUp$ completeness,
+metric data, quotient representative, or standard bridge is part of this
+scoped export.
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{thm:streamname-public-countable-name-interface}.  It fixes the
+history scope through $\mathsf{BHist}$, $\UnaryHistory$, and $\hsame$, and it
+exports the pointwise $\RatUp$ rows through $\mathsf{RatHistoryCarrier}$ and
+$\mathsf{RatHistoryClassifier}$ together with
+$\mathsf{RatStreamNameCarrier}$ and $\mathsf{RatStreamNameClassifier}$.
+
+The same countable-name interface supplies the constant stream rows,
+reindexing rows, RatUp-preserving map stability, and unary reindexing
+composition.  These are the countable-name rows consumed downstream, and they
+do not introduce quotient representatives, metric data, or completion
+objects.
+
+Apply \autoref{thm:streamname-public-finite-window-interface}.  It restricts
+the finite side to $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+$\mathsf{RatStreamNameFiniteWindowClassifier}$, then supplies finite-window
+coverage/exhaustion, certified reindexing and point-map coverage, structural
+laws, the selected endpoint package, and finite-window stability fields.
+
+Apply \autoref{thm:streamname-public-empty-window-vacuity} for the empty
+bundle boundary.  Repacking the three cited sites gives exactly the dependency
+surface available to $\RegSeqRat$ and $\RealUp$ boundary theorems: a public
+stream-name and finite-window package, with no regularity, seal,
+completeness, metric, quotient, or standard-bridge row added.
+\end{proof}
+
+\begin{theorem}[StreamNameUp ordinary rational sequence bridge]
+\label{thm:streamname-standard-sequence-bridge}
+The public $\StreamNameUp$ rows over $\mathsf{BHist}$ admit a conservative
+ordinary-sequence interpretation indexed by certified unary observations.  In
+that interpretation, a stream is in
+$\mathsf{RatStreamNameCarrier}$ exactly when every indexed history lies in the
+pointwise $\RatUp$ carrier row, and two streams are related by
+$\mathsf{RatStreamNameClassifier}$ exactly when every indexed pair is related
+by the pointwise $\RatUp$ classifier row.  The finite-window classifier
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ is interpreted by the bundled
+finite prefix with the same pointwise classifier rows, with the empty prefix
+covered by the public vacuity law.  Constant streams and certified unary
+reindexing commute with this interpretation, and finite-window restriction is
+the ordinary prefix restriction of the same indexed rational-history sequence.
+
+The interpretation is conservative: it adds no quotient, completion, metric,
+or $\RealUp$ completeness claim beyond the public $\StreamNameUp$ package.
+\end{theorem}
+\leanchecked{BEDC.Derived.StreamNameUp.StreamNameUp\_StdBridge}
+
+\begin{proof}
+Unpack \autoref{def:rat-stream-name-carrier} and
+\autoref{def:rat-stream-name-classifier}.  Their rows already describe an
+indexed family of rational histories together with the pointwise
+$\RatUp$ carrier and classifier obligations, so the ordinary-sequence carrier
+and classifier are obtained by reading those fields componentwise.
+
+Apply \autoref{thm:streamname-public-countable-name-interface}.  It supplies
+the public carrier/classifier rows, constant streams, unary reindexing, RatUp
+preserving maps, and reindexing composition.  These clauses give exactly the
+commutation laws for constants and certified unary reindexing under the
+ordinary-sequence reading.
+
+Apply \autoref{thm:streamname-public-finite-window-interface}.  It supplies
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ together with finite-window
+restriction, coverage/exhaustion, certified reindexing and point-map coverage,
+selected endpoints, and finite-window stability.  The bundled finite prefix is
+therefore the ordinary prefix of the same indexed rational-history sequence,
+with the same pointwise classifier rows.
+
+Apply \autoref{thm:streamname-public-empty-window-vacuity} for the empty
+prefix case.  Finally apply
+\autoref{thm:streamname-public-interface-export-package} to identify these
+countable-name and finite-window rows as the full public $\StreamNameUp$
+package.  Since that package explicitly excludes RegSeqRat regularity,
+$\RealUp$ completion and completeness, metric completeness, arithmetic/order
+closure, and extra bridge structure, the interpretation is conservative.
+\end{proof}
+
+\begin{theorem}[StreamNameUp scoped interface package]
+\label{thm:streamname-scoped-interface-package}
+The scoped public package for $\StreamNameUp$ consumed by $\RegSeqRat$ and
+$\RealUp$ is the union of
+\autoref{thm:streamname-public-countable-name-interface},
+\autoref{thm:streamname-public-finite-window-interface},
+\autoref{thm:streamname-public-interface-export-package}, and
+\autoref{thm:streamname-standard-sequence-bridge}.  It presents the public
+carrier $\mathsf{RatStreamNameCarrier}$, classifier
+$\mathsf{RatStreamNameClassifier}$, finite-window classifier, constant stream
+rows, reindexing and RatUp-preserving map stability, finite-window stability,
+empty-window vacuity, and the conservative ordinary rational-sequence reading
+indexed by certified unary observations.
+
+This package does not include RegSeqRat regularity, $\RealUp$ completion or
+completeness, metric completeness, arithmetic or order closure, or
+machine-checked bridge data.
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{thm:streamname-public-countable-name-interface}.  It fixes
+$\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ and supplies the pointwise RatUp
+carrier/classifier fields, constant stream rows, reindexing and
+RatUp-preserving map stability, and unary reindexing composition.
+
+Apply \autoref{thm:streamname-public-finite-window-interface}.  It adds
+$\mathsf{RatStreamNameFiniteWindowClassifier}$, finite-window
+coverage/exhaustion, certified reindexing and point-map coverage,
+finite-window structural laws, the selected endpoint package, finite-window
+stability fields, and the empty-window boundary.  The empty case is the
+vacuity theorem \autoref{thm:streamname-public-empty-window-vacuity}.
+
+Apply \autoref{thm:streamname-public-interface-export-package} to repack the
+countable-name and finite-window rows as the public export.  Apply
+\autoref{thm:streamname-standard-sequence-bridge} to read that export
+conservatively as ordinary rational-history sequences indexed by certified
+unary observations.
+
+The same four sites state the negative boundary: no RegSeqRat regularity,
+no $\RealUp$ completion or completeness, no metric completeness, no arithmetic
+or order closure, and no machine-checked bridge data.  Repacking exactly those
+rows establishes the scoped $\StreamNameUp$ interface and no stronger bridge
+or completion claim.
+\end{proof}
+
+\begin{theorem}[StreamNameUp RealUp finite-window seal boundary]
+\label{thm:streamname-realup-finite-window-seal-boundary}
+A public $\StreamNameUp$ package, together with finite-window classifier rows,
+constant and reindexing laws, and RatUp endpoint observations, supplies exactly
+the finite observation interface consumed by later $\RealUp$ and $\RegSeqRat$
+seal rows.  The interface consists of the $\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ rows over $\mathsf{BHist}$, the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows over certified finite
+bundles, the empty-window boundary, endpoint readbacks in $\RatUp$, and the
+constant/reindexing stability rows.
+
+This boundary supplies no RegSeqRat regularity, RealUp completion, metric
+completeness, quotient carrier, arithmetic or order closure, or trichotomy.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-public-finite-window-interface}.  It provides the
+finite-window classifier rows, endpoint package, coverage/exhaustion,
+reindexing stability, and finite-window structural laws.
+
+Apply \autoref{thm:streamname-finite-window-reindexing-stability} for certified
+transport of those windows, and apply
+\autoref{thm:streamname-public-interface-export-package} to repack the
+countable-name and finite-window rows as the public export.
+
+Finally apply \autoref{thm:streamname-scoped-interface-package}.  Its negative
+boundary is inherited unchanged, so the exported rows can be read by
+$\RealUp$ and $\RegSeqRat$ seal sites only as finite observations, not as
+regularity, completion, metric, quotient, or trichotomy data.
+\end{proof}
+
+\closureat{StreamNameUp}{matureStr}[BEDC.Derived.StreamNameUp.RatStreamName\_certificate\_fields]
+
 \begin{closurestatus}{\StreamNameUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:streamname-public-interface-export-package} gives the public $\StreamNameUp$ export over RatUp observations: pointwise carrier/classifier rows, reindexing stability, constant streams, finite-window coverage/exhaustion, selected endpoint packages, empty-window vacuity, and finite-window stability.}
-  \formalstatus{\theoremCheckedV}
+  \constructivestory{A stream name is generated by a certified observation map from unary $\mathsf{BHist}$ indices to rational histories, so every accepted stream exposes, at each unary observation, a $\RatUp$ carrier row for the selected endpoint. The carrier accepts exactly those observation maps with pointwise rational-history witnesses, and the finite-window surface accepts exactly bundled unary observations whose selected endpoints carry the corresponding pointwise $\RatUp$ classifier; maps with no unary schedule, no rational endpoint witness, or no bundle membership row are excluded. Two stream names are classified when both endpoint streams are carried and every certified unary observation is related by the pointwise rational classifier, while finite windows restrict that same classifier to a displayed $\mathsf{ProbeBundle}$ rather than creating a second equality. The source specification is $\UnaryHistory$ plus $\RatUp$ over $\mathsf{BHist}$, the pattern specification records constant streams, empty-window vacuity, endpoint shape exclusions, one-tail readback, finite-window coverage and exhaustion, reindexing, RatUp-preserving point maps, and reindexing composition, and the ledger keeps the observation index, bundle membership, endpoint carrier, point classifier, and transport witness visible. The five name-certificate obligations come from the pointwise RatUp certificate: constant rational streams inhabit the carrier, reflexivity, symmetry, and transitivity are proved at each unary observation, and pointwise $\hsame$ transport repacks classified streams and windows as accepted rows. A stream packet $h$ lies in the signature gap of a $\StreamNameUp$ token $p$ when the source-domain accepts its unary observation map, the signature relation pairs it with an answer stream and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, every finite observation selected by $p$ reads the same rational endpoint and classifier ledger. The checked ordinary-sequence bridge reads the public countable name and finite windows as the corresponding rational sequence and finite prefix, but the chapter registers $\StreamNameUp$ without adding regularity, real completion, metric completeness, arithmetic/order closure, quotient representatives, or any independent sequence carrier.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:streamname-public-interface-export-package}, \autoref{thm:streamname-standard-sequence-bridge}, and \autoref{thm:streamname-scoped-interface-package} bind the mature paper scope: the public countable-name rows, finite-window rows, constant and reindexing laws, empty-window boundary, ordinary rational-sequence bridge, and the RegSeqRat/RealUp consumer interface.}
+  \formalstatus{\bridgeCheckedV}
   \leantarget{BEDC.Derived.StreamNameUp.RatStreamName\_certificate\_fields}
-  \bridgestatus{none}
-  \notclaimed{Dyadic regular Cauchy completion, full RealUp arithmetic/order, metric completeness, standard-bridge data, or general compact/continuous-map theory.}
-  \upgradepath{$\bridgedClosure$ requires a conservative standard bridge for the public $\StreamNameUp$ export.}
+  \bridgestatus{bridgeChecked}
+  \notclaimed{RegSeqRat regularity, RealUp completion or completeness, metric completeness, arithmetic or order closure, or machine-checked bridge data.}
+  \upgradepath{no further upgrade -- chapter at top of formal axis}
 \end{closurestatus}

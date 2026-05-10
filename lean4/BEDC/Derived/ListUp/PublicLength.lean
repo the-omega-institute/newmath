@@ -1,9 +1,11 @@
 import BEDC.Derived.ListUp.FramedEndpoint
 import BEDC.Derived.ListUp.Length
+import BEDC.Derived.ListUp.SpineBridge
 
 namespace BEDC.Derived.ListUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 
 def FramedListPublicLength (A : BHist → Prop) (h : BHist) (n : Nat) : Prop :=
@@ -507,5 +509,53 @@ theorem FramedListPublicLength_classifier_transport {A : BHist -> Prop}
       FramedListPublicLength A k n -> FramedListPublicLength A h n :=
     (FramedListPublicLength_well_defined compat).right bridgeSymm
   exact And.intro forward backward
+
+def ListPublicLength (A : BHist -> Prop) (h : BHist) (n : Nat) : Prop :=
+  exists xs : ListCarrier BHist, ListSpineRep A h xs ∧ xs.length = n
+
+theorem ListPublicLength_well_defined {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (boundary :
+      forall {m a a' t t' p p' : BHist} {xs xs' : ListCarrier BHist},
+        A a -> A a' -> ListSpineRep A t xs -> ListSpineRep A t' xs' ->
+          Cont a t p -> Cont a' t' p' -> hsame m (BHist.e1 p) ->
+            hsame m (BHist.e1 p') -> Rel a a' ∧ ListClassifierSpec Rel xs xs') :
+    (forall {h : BHist} {n m : Nat},
+      ListPublicLength A h n -> ListPublicLength A h m -> n = m) ∧
+      (forall {h k : BHist} {n m : Nat},
+        ListSpineBridgeClassifier A Rel h k ->
+          ListPublicLength A h n -> ListPublicLength A k m -> n = m) := by
+  have coherent :
+      forall {h : BHist} {xs ys : ListCarrier BHist},
+        ListSpineRep A h xs -> ListSpineRep A h ys -> ListClassifierSpec Rel xs ys :=
+    BEDC.Derived.ListUp.ListSpineRep_coherent_from_cons_boundary boundary
+  constructor
+  · intro h n m publicN publicM
+    cases publicN with
+    | intro xs dataN =>
+        cases dataN with
+        | intro repX lengthX =>
+            cases publicM with
+            | intro ys dataM =>
+                cases dataM with
+                | intro repY lengthY =>
+                    have sameLength : xs.length = ys.length :=
+                      ListSpineRep_cons_boundary_length_deterministic boundary repX repY
+                    exact Eq.trans (Eq.symm lengthX) (Eq.trans sameLength lengthY)
+  · intro h k n m bridge publicN publicM
+    cases publicN with
+    | intro xs dataN =>
+        cases dataN with
+        | intro repH lengthX =>
+            cases publicM with
+            | intro ys dataM =>
+                cases dataM with
+                | intro repK lengthY =>
+                    have classified : ListClassifierSpec Rel xs ys :=
+                      ListSpineBridgeClassifier_represented_spine_alignment cert coherent repH
+                        repK bridge
+                    have sameLength : xs.length = ys.length :=
+                      ListClassifierSpec_length_eq classified
+                    exact Eq.trans (Eq.symm lengthX) (Eq.trans sameLength lengthY)
 
 end BEDC.Derived.ListUp

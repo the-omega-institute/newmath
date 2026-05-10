@@ -15,11 +15,13 @@ A finite $\SheafUp$ consumer access trace is the freely generated finite list sy
 \end{enumerate}
 Every constructor is formed over $\mathsf{BHist}$ histories, $\hsame$ transport, optional $\Cont$ route histories, the $\TopologyUp$ indexed-open carrier, the $\PreSheafUp$ section carrier, and the $\NameCert_{\SheafUp}$ rows. The trace source has no constructor for host powerset equality of opens, cover quotients, stalk quotients, external sheafification, or standard bridge rows.
 \end{definition}
+\leandef{BEDC.Derived.SheafUp.SheafConsumerAccessTraceSource}
 
 \begin{theorem}[Sheaf consumer access trace face coverage]
 \label{thm:sheaf-consumer-access-trace-face-coverage}
 Every constructor of \autoref{def:sheaf-consumer-access-trace-source} lands in exactly one face: either one of the root faces of \autoref{def:sheaf-root-face-exactness-source} or one of the three consumer projections sealed in \autoref{def:sheaf-root-consumer-projection-seal}.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootFaceRead\_restriction\_route\_readback}
 \begin{proof}
 Proceed by cases on the freely generated trace constructor.
 
@@ -34,6 +36,7 @@ These targets are disjoint by construction of \autoref{def:sheaf-root-face-exact
 \label{thm:sheaf-consumer-access-trace-no-feedback}
 The $\RingedSpaceUp$, $\SchemeUp$, and topology pullback constructors of \autoref{def:sheaf-consumer-access-trace-source} do not create further $\SheafUp$ carrier rows, classifier rows, exactness rows, or bridge rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafConsumerAccessTrace\_no\_feedback}
 \begin{proof}
 For $\RingedSpaceUp$, the local-ring constructor reads the sheaf-side carrier, classifier, restriction, point-germ, restricted-open, and base-change rows only through the sealed projection. By \autoref{thm:sheaf-root-face-downstream-separation}, the commutative-ring and local-ring data are outside the sheaf root and cannot return as root carrier, classifier, or exactness rows.
 
@@ -48,6 +51,7 @@ Finally apply \autoref{thm:sheaf-downstream-consumption-exhaustion}. The downstr
 \label{thm:sheaf-consumer-access-trace-exhaustion}
 Every allowed downstream $\SheafUp$ access by $\RingedSpaceUp$, $\SchemeUp$, or topology pullback factors through a finite access trace of \autoref{def:sheaf-consumer-access-trace-source}.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafConsumerAccessTrace\_append\_exhaustion}
 \begin{proof}
 Inspect the downstream row lists in \autoref{def:sheaf-downstream-consumption-boundary}. Carrier and classifier access is represented by the carrier-classifier constructor; restriction stability is represented by the restriction-route constructor; cover ledgers are represented by the cover-membership constructor; locality, gluing, refinement, common-refinement, restricted-open, point-germ, and base-change access are represented by their corresponding trace constructors.
 

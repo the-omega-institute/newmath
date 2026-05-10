@@ -6,5 +6,521 @@ The first-order-logic interface $\FirstOrderUp$ packages a signature of relation
 \section{Carrier definition}
 \label{sec:firstorder-carrier}
 
+\begin{definition}[FirstOrderUp BHist syntax carrier]\label{def:firstorder-bhist-syntax-carrier}
+A carried $\FirstOrderUp$ syntax packet is a displayed $\mathsf{BHist}$ tuple
+$(S,T,V,R,F,\tau,\varphi,\rho)$. The row $S$ is the $\SetUp$ symbol-source
+row, $T$ is the $\TreeUp$ parse-tree row, $V$ is the variable ledger, $R$ and
+$F$ are the relation-symbol and function-symbol rows, $\tau$ is the finite
+term/formula tree endpoint, $\varphi$ is the displayed formula endpoint, and
+$\rho$ records the $\Pkg$ provenance that ties the syntax packet to the
+visible naming certificate.
+
+Acceptance of the packet is read entirely through $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, and the $\SetUp$ and $\TreeUp$
+$\NameCert$ rows. A host grammar, a host set of strings, or an external
+syntax equality is not part of the carrier.
+\end{definition}
+\leandef{BEDC.Derived.FirstOrderUp.FirstOrderBHistSyntaxCarrier}
+
+\begin{definition}[FirstOrderUp deduction ledger classifier]\label{def:firstorder-deduction-ledger-classifier}
+Two $\FirstOrderUp$ syntax/deduction packets agree when their symbol rows,
+parse-tree rows, formula endpoint rows, and deduction-step ledgers are
+transported by $\hsame$ through the same $\SetUp$ and $\TreeUp$ certificates.
+The comparison is rowwise: relation symbols and function symbols move through
+the $\SetUp$ source, parse subtrees and formula endpoints move through the
+$\TreeUp$ source, and every deduction step carries its premise and conclusion
+endpoints by the displayed $\Cont$ and $\hsame$ rows recorded in the ledger.
+\end{definition}
+
 \section{The certificate}
 \label{sec:firstorder-certificate}
+
+\begin{theorem}[FirstOrderUp formula carrier obligation]\label{thm:firstorder-formula-carrier-obligation}
+Every accepted $\FirstOrderUp$ formula row projects to a $\SetUp$ symbol row,
+a $\TreeUp$ parse row, a finite $\mathsf{ProbeBundle}$ arity ledger, and a $\mathsf{SigRel}$
+endpoint relation. These projections are exactly the visible carrier data of
+\autoref{def:firstorder-bhist-syntax-carrier}; no formula is accepted by a
+host syntax predicate outside the displayed $\mathsf{BHist}$ packet.
+\end{theorem}
+\begin{proof}
+Invert the carried syntax packet of
+\autoref{def:firstorder-bhist-syntax-carrier}. The first projections expose
+the $\SetUp$ symbol-source row, the $\TreeUp$ parse-tree row, the relation and
+function symbol rows, and the formula endpoint $\varphi$.
+
+The arity information is read from the finite $\mathsf{ProbeBundle}$ ledger attached
+to the displayed relation and function rows. Each arity check is therefore a
+finite probe over the named symbol endpoints, not an inspection of an ambient
+syntax table.
+
+Finally apply induction on the $\TreeUp$ syntax row. Leaf rows read variables
+and constants from the symbol and variable ledgers; internal rows read their
+subformula endpoints from the same finite tree ledger. The endpoint relation
+is the displayed $\mathsf{SigRel}$ row tying the resulting formula endpoint to the
+accepted packet.
+\end{proof}
+\leanchecked{BEDC.Derived.FirstOrderUp.FirstOrderBHistSyntaxCarrier\_formula\_carrier\_obligation}
+
+\begin{theorem}[FirstOrderUp classifier transport obligation]\label{thm:firstorder-classifier-transport-obligation}
+Every classifier-related $\FirstOrderUp$ syntax and deduction packet transports
+its relation-symbol rows, function-symbol rows, formula endpoints, and
+deduction-step ledgers through the displayed $\SetUp$, $\TreeUp$, $\hsame$,
+$\Cont$, $\mathsf{ProbeBundle}$, and $\mathsf{SigRel}$ rows of
+$\NameCert_{\FirstOrderUp}$. In particular, a transported classifier packet is
+obtained by projecting those visible rows from the source packet and repacking
+them as the corresponding target packet; no host syntax equality or external
+classifier relation is used.
+\end{theorem}
+\leanchecked{BEDC.Derived.FirstOrderUp.FirstOrderBHistSyntaxCarrier\_classifier\_transport\_obligation}
+\begin{proof}
+Start with an accepted classifier-related packet and invert the carried
+$\mathsf{BHist}$ tuple of \autoref{def:firstorder-bhist-syntax-carrier}. The
+projections expose the $\SetUp$ symbol-source row, the $\TreeUp$ parse-tree
+row, the relation-symbol and function-symbol rows, the formula endpoint, and
+the deduction-step ledger.
+
+Transport the symbol rows through the displayed $\SetUp$ certificate and the
+parse and formula rows through the displayed $\TreeUp$ certificate. The
+$\mathsf{ProbeBundle}$ rows carry the arity checks, while the
+$\mathsf{SigRel}$ rows carry the endpoint relation that identifies the source
+and target formula endpoints.
+
+It remains to repack the deduction data. Use the $\Cont$ and $\hsame$ rows
+attached to each ledger step to move premises and conclusions through the same
+provenance. The repacked rows form another displayed $\FirstOrderUp$
+classifier packet, and every field of that packet has been obtained from the
+public certificate surface.
+\end{proof}
+
+\begin{theorem}[FirstOrderUp deduction endpoint exactness]\label{thm:firstorder-deduction-endpoint-exactness}
+The visible $\FirstOrderUp$ deduction endpoints are exact. Every accepted
+conclusion endpoint is produced by a finite displayed deduction ledger whose
+premises are already accepted formula endpoints, and every such finite ledger
+repacks as a $\FirstOrderUp$ deduction endpoint with the same conclusion row.
+\end{theorem}
+\leanchecked{BEDC.Derived.FirstOrderUp.FirstOrderBHistSyntaxCarrier\_deduction\_endpoint\_exactness}
+\begin{proof}
+For coverage, invert an accepted deduction endpoint. By
+\autoref{thm:firstorder-namecert-obligation-surface}, the endpoint is visible
+only through the syntax carrier, the deduction classifier, and the displayed
+deduction-soundness ledger. Thus its conclusion row is the final conclusion
+of a finite ledger over formula endpoints already carried by
+\autoref{thm:firstorder-formula-carrier-obligation}.
+
+For soundness, induct over the finite ledger. The empty ledger exposes only
+initial accepted formula endpoints. In the step case, the induction
+hypothesis supplies accepted endpoints for the earlier premises, and
+\autoref{thm:firstorder-deduction-soundness-ledger-obligation} supplies the
+visible $\Cont$ and $\hsame$ rows for the next rule step and its conclusion.
+
+For completeness, start with a finite displayed ledger whose premises are
+accepted formula endpoints and whose steps carry the required transport rows.
+Repack the formula endpoints by the carrier obligation, repack the rule rows
+by the deduction-soundness obligation, and read the last conclusion row as
+the displayed $\FirstOrderUp$ deduction endpoint.
+\end{proof}
+
+\begin{theorem}[FirstOrderUp ModelTheory consumer boundary]\label{thm:firstorder-modeltheory-consumer-boundary}
+A downstream $\ModelTheoryUp$ packet may consume from
+$\NameCert_{\FirstOrderUp}$ only the symbol source, parse-tree source, formula
+endpoint rows, deduction endpoint rows, classifier transport rows, and
+provenance rows exposed by the $\FirstOrderUp$ certificate. The
+$\FirstOrderUp$ certificate alone supplies no host syntax equality, external
+proof-system validity predicate, semantic satisfaction relation, or model
+carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.FirstOrderUp.FirstOrderBHistSyntaxCarrier\_modeltheory\_consumer\_boundary}
+\begin{proof}
+Project the public surface described in
+\autoref{thm:firstorder-namecert-obligation-surface}. The available rows are
+the syntax carrier, the deduction classifier, the formula and deduction
+obligation rows, and the $\SetUp$ and $\TreeUp$ provenance rows.
+
+Next apply \autoref{thm:firstorder-classifier-transport-obligation}. It shows
+that classifier transport for relation symbols, function symbols, formula
+endpoints, and deduction ledgers is already accounted for by the displayed
+$\hsame$, $\Cont$, $\mathsf{ProbeBundle}$, and $\mathsf{SigRel}$ rows.
+
+Finally apply \autoref{thm:firstorder-deduction-endpoint-exactness}. It makes
+the deduction endpoint rows exact, so a consumer can read precisely the
+finite ledgers and their accepted conclusion endpoints. None of the projected
+or repacked rows contains a semantic satisfaction relation or model carrier,
+and none asserts an ambient proof-system validity predicate outside the
+displayed BEDC ledger.
+\end{proof}
+
+\begin{theorem}[FirstOrderUp deduction soundness ledger obligation]\label{thm:firstorder-deduction-soundness-ledger-obligation}
+A $\FirstOrderUp$ deduction ledger is accepted only when every rule step
+consumes formula endpoints already carried by
+\autoref{def:firstorder-bhist-syntax-carrier} and records its
+premise/conclusion transport by $\Cont$ and $\hsame$. The ledger does not
+validate a rule by appeal to an external proof system; validity is the finite
+display of named endpoint consumption and transport.
+\end{theorem}
+\leanchecked{BEDC.Derived.FirstOrderUp.FirstOrderBHistSyntaxCarrier\_deduction\_soundness\_ledger\_obligation}
+\begin{proof}
+Induct over the finite displayed deduction ledger.
+
+In the empty case there is no rule step to validate. The ledger acceptance
+condition reduces to the visibility of the initial formula endpoints already
+carried by the syntax packet.
+
+In the step case, the induction hypothesis gives accepted carried endpoints
+for all earlier premises. The next rule row must cite only those endpoints,
+record the conclusion endpoint as another displayed formula row, and attach
+the $\Cont$ and $\hsame$ transport rows that move premises to the conclusion
+inside the same $\SetUp$ and $\TreeUp$ provenance.
+
+Appending the checked step preserves acceptance because the new ledger tail
+adds one finite row whose inputs, output, and transport are all visible BEDC
+rows. Thus the completed deduction remains a named ledger rather than a host
+derivation.
+\end{proof}
+
+\begin{theorem}[FirstOrderUp NameCert obligation surface]\label{thm:firstorder-namecert-obligation-surface}
+The public $\NameCert_{\FirstOrderUp}$ surface consists exactly of the syntax
+carrier of \autoref{def:firstorder-bhist-syntax-carrier}, the deduction
+classifier of \autoref{def:firstorder-deduction-ledger-classifier}, the
+formula carrier obligation of
+\autoref{thm:firstorder-formula-carrier-obligation}, the deduction-soundness
+ledger of \autoref{thm:firstorder-deduction-soundness-ledger-obligation}, the
+$\SetUp$ symbol provenance, the $\TreeUp$ syntax provenance, stability under
+$\hsame$, and exactness of displayed formula and deduction endpoints.
+\end{theorem}
+\begin{proof}
+Collect the carrier rows first. The syntax carrier supplies the displayed
+$\mathsf{BHist}$ packet, and the formula carrier obligation projects from it
+the symbol source, parse source, arity ledger, and endpoint relation.
+
+Next collect the comparison rows. The deduction classifier supplies the
+rowwise $\hsame$ transport through the same $\SetUp$ and $\TreeUp$
+certificates, while the deduction-soundness ledger supplies the finite rule
+steps that consume already carried endpoints and produce displayed conclusion
+endpoints.
+
+It remains to check public coverage. Any consumer of $\NameCert_{\FirstOrderUp}$
+asks for a syntax endpoint, a deduction endpoint, provenance in $\SetUp$ or
+$\TreeUp$, transport under $\hsame$, or exact readback of a visible formula or
+deduction row. Each request is one of the rows just collected, so the public
+surface contains no additional carrier, classifier, or proof-system field.
+\end{proof}
+
+\begin{definition}[FirstOrderUp deduction ledger concatenation source]\label{def:firstorder-deduction-ledger-concatenation-source}
+Fix one carried $\FirstOrderUp$ syntax packet as in \autoref{def:firstorder-bhist-syntax-carrier}. Let $D_1$ and $D_2$ be accepted finite $\FirstOrderUp$ deduction ledgers read through the same $\SetUp$ and $\TreeUp$ certificates. They are composable when the final conclusion endpoint row displayed by $D_1$ is the same formula endpoint row that appears as the initial premise row of $D_2$, with that shared row compared only by the $\hsame$ transport already admitted by \autoref{def:firstorder-deduction-ledger-classifier}.
+
+In that situation, the concatenation $D_1 \mathbin{+\!\!+} D_2$ is the finite ledger obtained by listing all rule rows of $D_1$ followed by all rule rows of $D_2$, while reading the join through the shared formula endpoint row rather than through any extra host-level formula token or external proof-tree node.
+\end{definition}
+
+\begin{theorem}[FirstOrderUp deduction ledger concatenation closure]\label{thm:firstorder-deduction-ledger-concatenation-closure}
+Let $D_1$ and $D_2$ be accepted finite $\FirstOrderUp$ deduction ledgers over one carried syntax packet from \autoref{def:firstorder-bhist-syntax-carrier}, and suppose that $D_1$ and $D_2$ are composable in the sense of \autoref{def:firstorder-deduction-ledger-concatenation-source}. Then the concatenated ledger $D_1 \mathbin{+\!\!+} D_2$ is again an accepted $\FirstOrderUp$ deduction ledger over the same $\SetUp$ and $\TreeUp$ dependency certificates.
+
+Moreover, every premise row, conclusion row, and transport row appearing in $D_1 \mathbin{+\!\!+} D_2$ is already one of the visible rows carried by $D_1$, by $D_2$, or by their shared endpoint formula row. No extra deduction rule, external cut formula, or ambient proof-system datum enters at the join.
+\end{theorem}
+\leanchecked{BEDC.Derived.FirstOrderUp.FirstOrderDeductionLedgerConcatenation\_closure}
+\begin{proof}
+Proceed by induction on the second ledger $D_2$, read as the finite displayed deduction ledger from \autoref{thm:firstorder-deduction-soundness-ledger-obligation}.
+
+If $D_2$ is empty, then $D_1 \mathbin{+\!\!+} D_2$ is just $D_1$, so acceptance is the given acceptance of $D_1$.
+
+For the step case, write $D_2$ as a shorter accepted prefix $E$ followed by one final rule row $r$. By the induction hypothesis, $D_1 \mathbin{+\!\!+} E$ is an accepted deduction ledger over the same $\SetUp$ and $\TreeUp$ certificates.
+
+It remains to append $r$. Because $E$ followed by $r$ is accepted, \autoref{thm:firstorder-deduction-soundness-ledger-obligation} says that $r$ consumes only formula endpoints already carried by the displayed ledger before it, and that its premise/conclusion transport is recorded by visible $\Cont$ and $\hsame$ rows inside the same provenance. Every premise of $r$ that lies wholly inside $E$ is therefore already present in the accepted prefix $D_1 \mathbin{+\!\!+} E$.
+
+The only additional possibility is a premise of $r$ that traces back to the initial premise row of $D_2$. By composability from \autoref{def:firstorder-deduction-ledger-concatenation-source}, that initial premise row is the shared endpoint formula row at the join with $D_1$. By \autoref{thm:firstorder-formula-carrier-obligation}, this shared endpoint is already a carried $\FirstOrderUp$ formula row inside the same syntax packet, so the join introduces no extra carrier data. By \autoref{def:firstorder-deduction-ledger-classifier}, any comparison needed at the join is exactly the admitted $\hsame$ transport through the same $\SetUp$ and $\TreeUp$ certificates.
+
+Thus all inputs required by $r$ are available in the accepted prefix $D_1 \mathbin{+\!\!+} E$, and the output row of $r$ is recorded by the same visible conclusion and transport data it had inside $D_2$. Appending $r$ therefore preserves acceptance by the same step-case criterion used in \autoref{thm:firstorder-deduction-soundness-ledger-obligation}.
+
+The induction closes, so $D_1 \mathbin{+\!\!+} D_2$ is an accepted finite $\FirstOrderUp$ deduction ledger over the original $\SetUp$ and $\TreeUp$ certificates. The final claim follows because concatenation only reorders the already displayed rows by placing the rows of $D_2$ after those of $D_1$, with the join read through the shared endpoint formula row and no further datum.
+\end{proof}
+
+\begin{theorem}[FirstOrderUp hsame stability obligation]\label{thm:firstorder-hsame-stability-obligation}
+For the public $\NameCert_{\FirstOrderUp}$ surface, every classifier-related
+syntax or deduction packet transports its visible endpoints by the displayed
+$\hsame$ data. Formula endpoints, deduction-step premise and conclusion
+endpoints, $\SetUp$ symbol rows, $\TreeUp$ parse rows, and $\Cont$ ledger rows
+remain accepted after transport exactly when the rows are those projected from
+\autoref{def:firstorder-bhist-syntax-carrier} and compared by
+\autoref{def:firstorder-deduction-ledger-classifier}.
+\end{theorem}
+\begin{proof}
+Project the deduction-ledger classifier of
+\autoref{def:firstorder-deduction-ledger-classifier}. Its comparison is
+rowwise, so the relation-symbol and function-symbol rows move through the
+$\SetUp$ source, while parse subtrees and formula endpoints move through the
+$\TreeUp$ source.
+
+For a deduction step, use the same classifier row on the displayed premise
+and conclusion endpoints. The step is accepted only with the attached $\Cont$
+row and the corresponding $\hsame$ row, so transport does not create a new
+rule premise or a new conclusion outside the ledger.
+
+The carrier rows then identify the endpoints being transported. By
+\autoref{def:firstorder-bhist-syntax-carrier}, each formula endpoint and each
+deduction endpoint cited by the ledger is a row of the same displayed
+$\mathsf{BHist}$ packet. Thus stability is exactly the classifier transport
+applied to already carried rows.
+\end{proof}
+\leanchecked{BEDC.Derived.FirstOrderUp.FirstOrderBHistSyntaxCarrier\_hsame\_stability\_obligation}
+
+\begin{theorem}[FirstOrderUp endpoint exactness obligation]\label{thm:firstorder-endpoint-exactness-obligation}
+Every public $\FirstOrderUp$ formula or deduction endpoint readback is exactly
+one of the endpoints projected from the syntax carrier and the deduction
+ledger. Conversely, every projected formula endpoint, premise endpoint,
+conclusion endpoint, and ledger endpoint repacks into the public
+$\NameCert_{\FirstOrderUp}$ endpoint surface described by
+\autoref{thm:firstorder-namecert-obligation-surface}.
+\end{theorem}
+\begin{proof}
+For the forward direction, read a public formula endpoint through the carrier
+of \autoref{def:firstorder-bhist-syntax-carrier}. The readback exposes the
+displayed formula endpoint $\varphi$, together with its $\SetUp$ symbol row,
+$\TreeUp$ parse row, finite arity ledger, and $\mathsf{SigRel}$ endpoint
+relation.
+
+A public deduction endpoint is read through the deduction ledger. By
+\autoref{thm:firstorder-deduction-soundness-ledger-obligation}, every premise
+and conclusion consumed by a rule step is already a carried formula endpoint,
+and the step records its own $\Cont$ and $\hsame$ transport rows. Hence no
+readback endpoint lies outside the projected carrier and ledger.
+
+For the reverse direction, start with a projected carrier or ledger endpoint.
+The NameCert surface theorem,
+\autoref{thm:firstorder-namecert-obligation-surface}, collects exactly these
+syntax endpoints, deduction endpoints, provenance rows, transport rows, and
+exact readback rows. Repacking the projection through that surface gives the
+corresponding public endpoint, and the two constructions expose the same
+displayed row.
+\end{proof}
+\leanchecked{BEDC.Derived.FirstOrderUp.FirstOrderBHistSyntaxCarrier\_endpoint\_exactness\_obligation}
+
+\begin{theorem}[FirstOrderUp coverage obligation]\label{thm:firstorder-coverage-obligation}
+Every accepted public $\FirstOrderUp$ request is covered by one of the listed
+certificate rows: $\SetUp$ symbol provenance, $\TreeUp$ parse provenance,
+finite $\mathsf{ProbeBundle}$ arity data, a $\mathsf{SigRel}$ endpoint relation,
+a $\Cont$ transport row, or a $\Pkg$ provenance row. No accepted request
+requires an additional carrier, classifier, stability, exactness, or coverage
+field outside the chapter surface.
+\end{theorem}
+\begin{proof}
+Analyze an accepted public request by the part of the $\NameCert_{\FirstOrderUp}$
+surface it asks to read.
+
+\begin{enumerate}
+\item A syntax endpoint request is covered by
+\autoref{def:firstorder-bhist-syntax-carrier} and
+\autoref{thm:firstorder-formula-carrier-obligation}. The former supplies the
+$\mathsf{BHist}$ packet and $\Pkg$ provenance; the latter projects the
+$\SetUp$ symbol row, $\TreeUp$ parse row, finite $\mathsf{ProbeBundle}$ arity
+rows, and $\mathsf{SigRel}$ endpoint relation.
+
+\item A deduction endpoint request is covered by
+\autoref{thm:firstorder-deduction-soundness-ledger-obligation}. Each rule
+step consumes previously carried formula endpoints and records the displayed
+premise, conclusion, $\Cont$, and $\hsame$ rows.
+
+\item A transport request is covered by
+\autoref{thm:firstorder-hsame-stability-obligation}. The classifier transports
+only the already projected symbol, parse, endpoint, and ledger rows, so the
+request stays inside the displayed carrier and deduction surface.
+
+\item A provenance request is covered by the $\SetUp$ and $\TreeUp$ NameCert
+rows named in \autoref{thm:firstorder-namecert-obligation-surface}, together
+with the $\Pkg$ row carried in
+\autoref{def:firstorder-bhist-syntax-carrier}.
+\end{enumerate}
+
+These cases exhaust the public request forms listed by the NameCert surface
+theorem. Therefore each accepted request is accounted for by an existing
+displayed BEDC row.
+\end{proof}
+
+\begin{definition}[FirstOrderUp satisfaction BHist carrier]\label{def:firstorder-satisfaction-bhist-carrier}
+A carried $\FirstOrderUp$ satisfaction packet is a displayed $\mathsf{BHist}$
+tuple over five visible rows: the $\SetUp$ symbol row, the $\TreeUp$ formula
+row, the assignment and environment row, the interpretation row for relation
+and function symbols, and the finite provenance row. The provenance row records
+the $\Cont$, $\hsame$, and $\Pkg$ data that connect the symbol names, formula
+endpoint, variable assignment, and interpretation entries to the same visible
+syntax packet of \autoref{def:firstorder-bhist-syntax-carrier}.
+
+The satisfaction predicate is the row classifier of this packet. It accepts
+only those reads whose formula endpoint is carried by the syntax row, whose
+free variables are read through the assignment/environment row, whose atomic
+relation and function entries are read through the interpretation row, and
+whose recursive connective and quantifier steps are displayed by finite
+$\Cont$ and $\hsame$ transport. No host model carrier, ambient truth relation,
+or unrecorded semantic equality is part of the carrier.
+\end{definition}
+\leandef{BEDC.Derived.FirstOrderUp.FirstOrderBHistSatisfactionCarrier}
+
+\begin{theorem}[FirstOrderUp soundness transport row]\label{thm:firstorder-soundness-transport-row}
+For every accepted $\FirstOrderUp$ deduction step, satisfaction rows transport
+from the displayed premise packets to the displayed conclusion packet using
+only the deduction ledger, $\Cont$, $\hsame$, $\SetUp$, $\TreeUp$, and
+$\NameCert$ provenance recorded in \autoref{def:firstorder-satisfaction-bhist-carrier}.
+Equivalently, if every premise endpoint of a rule step carries a satisfaction
+packet over the same symbol, assignment/environment, and interpretation rows,
+then the conclusion endpoint carries the satisfaction packet produced by the
+rule row and its displayed transport data.
+\end{theorem}
+\begin{proof}
+Induct over the finite deduction ledger.
+
+In the empty ledger there is no rule step to transport. The only available
+reads are the carried syntax and satisfaction rows already present in the
+visible packet.
+
+For a nonempty ledger, apply the induction hypothesis to the earlier rule
+rows. This supplies satisfaction packets for every previously accepted premise
+endpoint, all over the same $\SetUp$ symbol row, $\TreeUp$ formula row,
+assignment/environment row, interpretation row, and provenance row.
+
+The next displayed rule step names its premise endpoints and its conclusion
+endpoint inside the deduction ledger. Project the accompanying $\Cont$ and
+$\hsame$ rows. These rows transport the premise satisfaction packets across
+the carried formula endpoints and repack the result as the conclusion
+satisfaction packet.
+
+Appending the transported conclusion preserves the ledger invariant because
+the new row cites only displayed premises, the displayed rule datum, and the
+same $\SetUp$, $\TreeUp$, and $\NameCert$ provenance. Thus soundness is a
+finite row transport statement, not an appeal to an unrecorded proof system or
+model class.
+\end{proof}
+\leanchecked{BEDC.Derived.FirstOrderUp.FirstOrderBHistSatisfactionCarrier\_soundness\_transport\_row}
+
+\begin{theorem}[FirstOrderUp completeness boundary]\label{thm:firstorder-completeness-boundary}
+The $\FirstOrderUp$ completeness surface is a BEDC boundary: every public
+completeness readback exposes a carried syntax row, the satisfaction carrier
+row of \autoref{def:firstorder-satisfaction-bhist-carrier}, a deduction ledger
+row, and the $\Pkg$ provenance tying those rows to $\NameCert_{\SetUp}$ and
+$\NameCert_{\TreeUp}$. A readback that requires a host model class, an
+unrecorded semantic relation, or an external proof system is outside the
+public $\FirstOrderUp$ certificate.
+\end{theorem}
+\begin{proof}
+Project a public completeness readback from the displayed $\FirstOrderUp$
+packet. Its syntax component is one of the carried formula rows of
+\autoref{def:firstorder-bhist-syntax-carrier}, and its derivation component is
+one of the finite rows of
+\autoref{def:firstorder-deduction-ledger-classifier}.
+
+Project the semantic component through
+\autoref{def:firstorder-satisfaction-bhist-carrier}. This exposes the
+assignment/environment row, the interpretation row, and the finite
+$\Cont/\hsame/\Pkg$ provenance that connects semantic reads to the same
+displayed formula endpoint.
+
+It remains to check that the readback is complete for the public surface and
+no larger. Induct over the finite deduction ledger. Initial rows are exactly
+the carried syntax and satisfaction packets; each rule row is handled by the
+transport statement of
+\autoref{thm:firstorder-soundness-transport-row}; the final row is therefore a
+displayed conclusion packet with the same package provenance.
+
+Any proposed readback field not obtained by these projections has no displayed
+$\mathsf{BHist}$ row, no $\Cont$ or $\hsame$ transport, and no $\Pkg$ route back
+to $\NameCert_{\SetUp}$ or $\NameCert_{\TreeUp}$. Such a field is not admitted
+by the $\FirstOrderUp$ certificate.
+\end{proof}
+
+\begin{theorem}[FirstOrderUp satisfaction endpoint soundness]\label{thm:firstorder-satisfaction-endpoint-soundness}
+A satisfaction endpoint row for a carried $\FirstOrderUp$ formula is sound
+only when the formula endpoint, the model/source row, and the semantic result
+row are all displayed $\mathsf{BHist}$ rows. The three rows must be transported
+through the same $\hsame$ and $\Cont$ ledgers, observed by finite
+$\mathsf{ProbeBundle}$ and $\mathsf{SigRel}$ data, and grounded in the
+$\SetUp$, $\TreeUp$, and $\NameCert_{\FirstOrderUp}$ provenance exposed by
+\autoref{thm:firstorder-namecert-obligation-surface}.
+\end{theorem}
+\leanchecked{BEDC.Derived.FirstOrderUp.FirstOrderBHistSatisfactionCarrier\_satisfaction\_endpoint\_soundness}
+\begin{proof}
+Project the carried syntax packet of
+\autoref{def:firstorder-bhist-syntax-carrier}. The formula endpoint
+$\varphi$ is already a displayed $\mathsf{BHist}$ row with $\SetUp$ symbol
+provenance and $\TreeUp$ parse provenance.
+
+Next project the satisfaction packet. Its model/source row is accepted only
+as a named source row compatible with the same relation and function symbol
+rows, and its semantic result row is the endpoint reached from the formula
+and source rows by the displayed $\Cont$ ledger. The finite
+$\mathsf{ProbeBundle}$ probes record the arity and source observations used
+by that ledger, while $\mathsf{SigRel}$ records the endpoint relation being
+read.
+
+Finally transport the three rows together by the carried $\hsame$ witnesses.
+Because the public surface of
+\autoref{thm:firstorder-namecert-obligation-surface} exports only these rows
+and their provenance, satisfaction soundness is exactly endpoint soundness
+inside the BEDC ledger and not a host-level semantic assertion.
+\end{proof}
+
+\begin{theorem}[FirstOrderUp substitution transport obligation]\label{thm:firstorder-substitution-transport-obligation}
+Let a carried $\FirstOrderUp$ formula endpoint contain a variable row or
+subtree row that is replaced by another carried endpoint related by the
+deduction classifier of
+\autoref{def:firstorder-deduction-ledger-classifier}. Formula acceptance and
+deduction-ledger acceptance are preserved precisely when every affected
+symbol, parse, premise, and conclusion row transports rowwise by the inherited
+$\hsame$ witnesses and the displayed $\Cont$ ledgers.
+\end{theorem}
+\begin{proof}
+Induct on the displayed $\TreeUp$ parse row of the carried formula.
+
+In a leaf case, the replaced variable or constant endpoint is a row in the
+variable or symbol ledger. The classifier-related replacement supplies the
+same $\SetUp$ provenance and an $\hsame$ witness, so the leaf remains an
+accepted formula endpoint after the one-row $\Cont$ transport.
+
+In an internal subtree case, apply the induction hypothesis to each affected
+child endpoint. The parent relation or function row is fixed by the
+$\SetUp$ classifier, and the $\TreeUp$ provenance repacks the transported
+children as the transported parent endpoint.
+
+For a deduction ledger, induct over the finite rule list. Premise endpoints
+transport by the formula argument above, and each rule row records its
+conclusion through the same displayed $\Cont$ ledger. Appending the
+transported rule row preserves ledger acceptance because no step consumes an
+endpoint outside the rowwise $\hsame$ comparison supplied by the classifier.
+\end{proof}
+
+\begin{theorem}[FirstOrderUp completeness boundary obligation]\label{thm:firstorder-completeness-boundary-obligation}
+Any completeness datum exposed by $\NameCert_{\FirstOrderUp}$ is a displayed
+BEDC ledger from semantic endpoint agreement back to a finite deduction
+ledger. It is not host model-theoretic completeness, and it is not an
+external proof-system oracle: the datum must begin with displayed satisfaction
+endpoint agreement and end with a finite deduction ledger accepted by
+\autoref{thm:firstorder-deduction-soundness-ledger-obligation}.
+\end{theorem}
+\begin{proof}
+Project the public surface of
+\autoref{thm:firstorder-namecert-obligation-surface}. The available rows are
+the syntax carrier, the deduction classifier, the formula carrier obligation,
+the deduction-soundness ledger, and the $\SetUp$ and $\TreeUp$ provenance.
+
+Now read a completeness datum as a finite reverse ledger. Its input is not a
+class of all host models; it is semantic endpoint agreement between displayed
+satisfaction rows of
+\autoref{thm:firstorder-satisfaction-endpoint-soundness}. Each reverse step
+must name the formula endpoint it consumes, the semantic row it reads, and
+the deduction endpoint it contributes.
+
+Induct over this finite reverse ledger. The empty case returns the displayed
+initial deduction ledger. In the step case, the induction hypothesis supplies
+the earlier finite ledger, and the next reverse row appends one accepted
+deduction step with its carried premise and conclusion endpoints. The result
+is therefore a BEDC deduction ledger, which states the completeness boundary
+without importing an external model theory or proof-system oracle.
+\end{proof}
+
+\closureat{FirstOrderUp}{bridgedStr}[BEDC.Derived.FirstOrderUp.FirstOrderBHistSyntaxCarrier\_formula\_carrier\_obligation]
+\begin{closurestatus}{\FirstOrderUp}
+  \constructivestory{A first-order-logic package is built as a displayed syntax tuple whose histories name the $\SetUp$ symbol source, the $\TreeUp$ parse-tree source, variable, relation-symbol, and function-symbol ledgers, a finite term/formula endpoint, a formula endpoint, and the package provenance tying them to the certificate. The carrier accepts only formulas and deduction endpoints that can be read through those $\mathsf{BHist}$, $\hsame$, $\Cont$, finite probe, and signature-relation rows, while host strings, host grammar tables, external proof-system validity, and semantic model carriers are excluded. Two syntax or deduction packets are classified by rowwise transport of symbol rows through $\SetUp$, parse and formula rows through $\TreeUp$, and every premise and conclusion through the displayed continuation and history-equality ledger. The source is the set-and-tree certificate pair, the pattern records formula construction, arity probes, substitution and deduction-step transport, satisfaction endpoint boundaries, and finite proof ledgers, and the ledger keeps the symbol provenance, parse provenance, rule steps, conclusion endpoints, and package rows visible. The name-certificate obligations follow because an accepted formula packet gives a carrier witness, rowwise $\hsame$ supplies reflexive, symmetric, and transitive classification, and classifier transport repacks every transported symbol, subtree, formula, and deduction step as another accepted packet. A packet $h$ lies in the signature gap of a $\FirstOrderUp$ token $p$ when the source-domain accepts its symbol, parse, formula, and deduction ledgers, the signature relation pairs that endpoint with an answer formula or deduction endpoint and evidence ledger, and the token-introduction relation names the answer as $p$; unfolded, $p$ records the same displayed syntax tree and finite deduction ledger. The chapter registers this syntax-and-deduction surface under the name $\FirstOrderUp$; it introduces no host syntax equality, model-theoretic completeness theorem, or external proof oracle.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The public surface binds the $\mathsf{BHist}$ syntax carrier, deduction ledger, satisfaction endpoint, substitution transport, $\hsame$ comparisons, $\Cont$ rows, $\Pkg$ provenance, and $\NameCert$ syntax-and-deduction export stated in this chapter.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.FirstOrderUp.FirstOrderBHistSyntaxCarrier\_formula\_carrier\_obligation}
+  \bridgestatus{paperBridge}
+  \notclaimed{Host syntax equality and ModelTheoryUp completeness are not claimed by this chapter.}
+  \upgradepath{Mature closure requires a standard bridge theorem with bridgeChecked verification for the displayed syntax-and-deduction surface.}
+\end{closurestatus}

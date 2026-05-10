@@ -4,6 +4,7 @@ Let $P$ be the fixed $\mathsf{BHist}$-indexed $\NameCert_{\SheafUp}$ root packag
 
 The composite carries no additional constructor for host powerset equality of opens, cover quotients, stalk quotients, external sheafification, or standard bridge rows. Its only extra operation is finite list concatenation inside the same $\mathsf{BHist}$-scoped root package $P$.
 \end{definition}
+\leanchecked{BEDC.Derived.SheafUp.SheafConsumerAccessTraceCompositionSource\_membership\_split}
 
 \begin{theorem}[Sheaf consumer access trace concatenation closure]
 \label{thm:sheaf-consumer-access-trace-concat-closure}
@@ -18,11 +19,13 @@ It remains to append $c$. The constructor cases are exactly the cases listed in 
 
 The excluded host-level operations are not constructor cases. Since finite concatenation only appends constructors already present in the grammar, it cannot create a host powerset equality row, a cover quotient, a stalk quotient, an external sheafification step, or a standard bridge row.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafConsumerAccessTrace\_append\_closed}
 
 \begin{theorem}[Sheaf consumer access trace face-map stability]
 \label{thm:sheaf-consumer-access-trace-face-map-stability}
 For finite $\SheafUp$ consumer access traces $T_1$ and $T_2$ over the same $\mathsf{BHist}$-indexed root package, the landing-face assignment of \autoref{thm:sheaf-consumer-access-trace-face-coverage} sends $T_1 \mathbin{+\!\!+} T_2$ to the finite concatenation of the landing-face reads of $T_1$ and the landing-face reads of $T_2$. The same assignment preserves the no-feedback separation of \autoref{thm:sheaf-consumer-access-trace-no-feedback} across the composite trace.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafConsumerAccessTrace\_face\_map\_stability}
 \begin{proof}
 Proceed by constructor cases on the appended segment $T_2$. The empty appended segment contributes no landing-face read, so the landing-face list of the composite is the landing-face list of $T_1$.
 
@@ -32,7 +35,6 @@ For a downstream consumer constructor, \autoref{thm:sheaf-consumer-access-trace-
 
 Thus the landing-face assignment commutes with finite list concatenation, and the downstream no-feedback separation remains valid after the two traces are read sequentially.
 \end{proof}
-
 \begin{theorem}[Sheaf composite consumer access exhaustion]
 \label{thm:sheaf-consumer-access-trace-composite-exhaustion}
 Every sequential downstream $\SheafUp$ access by $\RingedSpaceUp$, $\SchemeUp$, or topology pullback factors through one finite $\mathsf{BHist}$-scoped trace obtained by concatenating the finite traces for the individual accesses.
@@ -46,3 +48,4 @@ Concatenate the resulting finite traces in their order of downstream use. By \au
 
 Finally use \autoref{thm:sheaf-consumer-access-trace-face-map-stability}. The composite trace preserves the landing-face assignment and the no-feedback separation, so the sequential access never leaves the finite $\mathsf{BHist}$-scoped trace surface and never imports host-level sheaf machinery.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafConsumerAccessTrace\_composite\_exhaustion}

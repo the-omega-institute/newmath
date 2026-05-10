@@ -8,3 +8,101 @@ The spectral-theorem interface $\SpectralTheoremUp$ packages the diagonalisation
 
 \section{The certificate}
 \label{sec:spectraltheorem-certificate}
+
+\begin{theorem}[SpectralTheoremUp carrier and classifier obligations]
+\label{thm:spectraltheorem-obligation-carrier-classifier}
+The $\SpectralTheoremUp$ certificate carrier is the $\HilbertUp$ operator row restricted to displayed self-adjoint-or-normal operator witnesses. Its classifier row is read through the $\HilbertUp$ operator classifier, together with $\MeasureUp$-compatible spectral data: two carried operator histories are admissibly compared only when the operator classifier identifies them and the spectrum, projection-valued-measure, and functional-calculus rows are presented over the same measured spectral side.
+\end{theorem}
+\leanchecked{BEDC.Derived.SpectralTheoremUp.SpectralTheoremEmptySpectrum\_calculus\_endpoint}
+\leanchecked{BEDC.Derived.SpectralTheoremUp.SpectralTheoremOperatorSpectralData\_carrier\_classifier}
+\begin{proof}
+The obligation is the carrier-and-classifier portion of the roadmap ten-field template.
+\begin{enumerate}
+  \item Traditional target: the spectral theorem for a self-adjoint or normal bounded operator.
+  \item BEDC source: the certified $\HilbertUp$ operator package together with the certified $\MeasureUp$ spectral-measure package.
+  \item Carrier: the $\HilbertUp$ operator row, restricted by a displayed self-adjoint-or-normal witness.
+  \item Classifier: the $\HilbertUp$ operator classifier, with comparison accepted only when the accompanying spectral rows are measured in the same $\MeasureUp$-compatible fiber.
+  \item Stability: transport of the operator row and the self-adjoint-or-normal witness along the operator classifier.
+  \item Ledger: the hidden operator-domain witness and the measured spectral-side witness used by the comparison.
+  \item Core theorem list: carrier restriction, classifier readback, and compatibility of operator comparison with the spectral rows.
+  \item Exactness: coverage and soundness for precisely those displayed carrier and classifier rows.
+  \item Standard bridge: none.
+  \item Status: paper obligation.
+\end{enumerate}
+
+Thus the carrier is not a host-level operator space and the classifier is not a host-level equality. Both are certificate rows inherited from the displayed $\HilbertUp$ and $\MeasureUp$ sources.
+\end{proof}
+\leanchecked{BEDC.Derived.SpectralTheoremUp.SpectralTheoremSingleton\_carrier\_classifier\_obligation}
+\leanchecked{BEDC.Derived.SpectralTheoremUp.SpectralTheoremCarrierClassifier\_obligation}
+\leanchecked{BEDC.Derived.SpectralTheoremUp.SpectralTheoremOperator\_measure\_row\_readback}
+
+\begin{theorem}[SpectralTheoremUp spectrum, projection measure, and functional-calculus obligations]
+\label{thm:spectraltheorem-obligation-spectrum-pvm-functional-calculus}
+The core theorem list for $\SpectralTheoremUp$ must supply spectrum rows, projection-valued-measure rows, and functional-calculus rows. Each row is scoped over the certified $\HilbertUp$ operator carrier and the certified $\MeasureUp$ measurable-side carrier, not over a host spectral theorem: the spectrum row displays the accepted spectral support, the projection-valued-measure row displays the measured projection assignment, and the functional-calculus row displays the calculus action compatible with both.
+\end{theorem}
+\leanchecked{BEDC.Derived.SpectralTheoremUp.SpectralTheoremProjectionMeasure\_functional\_calculus\_empty}
+\begin{proof}
+The obligation is the spectral-data portion of the roadmap ten-field template.
+\begin{enumerate}
+  \item Traditional target: spectrum, projection-valued measure, and bounded functional calculus for the carried operator.
+  \item BEDC source: $\HilbertUp$ for the operator and projection endpoints, plus $\MeasureUp$ for measurable spectral rows.
+  \item Carrier: the operator carrier of \autoref{thm:spectraltheorem-obligation-carrier-classifier}, together with the displayed spectral-support carrier.
+  \item Classifier: operator comparison through the $\HilbertUp$ classifier and measurable-row comparison through the $\MeasureUp$ classifier.
+  \item Stability: transport of spectral support, projection rows, and calculus rows along accepted operator comparisons.
+  \item Ledger: the hidden spectrum witness, the hidden projection-valued-measure witness, and the hidden functional-calculus witness.
+  \item Core theorem list: spectrum coverage, projection-valued-measure assignment, calculus closure, and compatibility of calculus with the displayed projections.
+  \item Exactness: coverage, soundness, and completeness for the displayed spectrum, projection-valued-measure, and calculus rows.
+  \item Standard bridge: none.
+  \item Status: paper obligation.
+\end{enumerate}
+
+The displayed rows are therefore obligations of the BEDC certificate itself. They do not import a completed external spectral theorem; they state the exact rows that later paper and Lean work must discharge inside the named sources.
+\end{proof}
+
+\begin{theorem}[SpectralTheoremUp stability, ledger, and exactness obligations]
+\label{thm:spectraltheorem-obligation-stability-ledger-exactness}
+For $\SpectralTheoremUp$, stability must transport the operator row, spectrum row, projection-valued-measure row, and functional-calculus row along the classifier of \autoref{thm:spectraltheorem-obligation-carrier-classifier}. The ledger records the hidden spectrum, projection-valued-measure, and functional-calculus witnesses. Exactness is coverage, soundness, and completeness for those displayed rows, with dependency rows naming the $\HilbertUp$ and $\MeasureUp$ sources.
+\end{theorem}
+\leanchecked{BEDC.Derived.SpectralTheoremUp.SpectralTheoremCarrier\_classifier\_transport}
+\begin{proof}
+The obligation is the transport, provenance, and exactness portion of the roadmap ten-field template.
+\begin{enumerate}
+  \item Traditional target: invariance of spectral data under equality of the carried operator.
+  \item BEDC source: $\HilbertUp$ for operator and projection transport, plus $\MeasureUp$ for measurable spectral transport.
+  \item Carrier: the restricted self-adjoint-or-normal operator carrier and the three spectral-data carriers.
+  \item Classifier: the operator classifier together with the compatible measurable-side classifier rows.
+  \item Stability: simultaneous transport of operator, spectrum, projection-valued-measure, and functional-calculus rows.
+  \item Ledger: hidden witnesses for spectral support, projection assignment, calculus action, and their dependency rows.
+  \item Core theorem list: transport rows, ledger readback rows, dependency rows, and rowwise exactness clauses.
+  \item Exactness: coverage, soundness, and completeness for the displayed operator, spectrum, projection-valued-measure, and functional-calculus rows.
+  \item Standard bridge: none.
+  \item Status: paper obligation.
+\end{enumerate}
+
+Combining these rows with \autoref{thm:spectraltheorem-obligation-spectrum-pvm-functional-calculus} gives the full obligation boundary: every hidden spectral datum has a ledger row, every displayed row has an exactness clause, and every dependency is attached to either $\HilbertUp$ or $\MeasureUp$.
+\end{proof}
+
+\begin{theorem}[SpectralTheoremUp public certificate]
+\label{thm:spectraltheorem-public-certificate}
+The carrier and classifier obligations of \autoref{thm:spectraltheorem-obligation-carrier-classifier}, the spectrum, projection-valued-measure, and functional-calculus obligations of \autoref{thm:spectraltheorem-obligation-spectrum-pvm-functional-calculus}, and the stability, ledger, exactness, and dependency obligations of \autoref{thm:spectraltheorem-obligation-stability-ledger-exactness} assemble the public $\NameCert_{\SpectralTheoremUp}$ export surface over the $\HilbertUp$ operator source and the $\MeasureUp$ spectral side. The exported surface is public as a BEDC naming certificate and does not claim a standard spectral theorem bridge.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:spectraltheorem-obligation-carrier-classifier} to fix the carried operator row, the self-adjoint-or-normal witness, and the classifier row through the certified $\HilbertUp$ operator source. This determines the operator side of the public export surface.
+
+Apply \autoref{thm:spectraltheorem-obligation-spectrum-pvm-functional-calculus} to attach the spectrum, projection-valued-measure, and functional-calculus rows over the certified $\MeasureUp$ spectral side. These rows provide the visible spectral data exported by $\NameCert_{\SpectralTheoremUp}$.
+
+Finally apply \autoref{thm:spectraltheorem-obligation-stability-ledger-exactness} to pack the transport, ledger, exactness, and dependency rows around the same carrier and classifier. The result is the public certificate surface for $\SpectralTheoremUp$; since no $\StdBridge$ row is part of the package, the construction remains a public BEDC certificate and not a standard spectral theorem bridge.
+\end{proof}
+
+\closureat{SpectralTheoremUp}{matureStr}[BEDC.Derived.SpectralTheoremUp.SpectralTheoremCarrier\_classifier\_transport]
+
+\begin{closurestatus}{\SpectralTheoremUp}
+  \constructivestory{A spectral-theorem package starts from a certified $\HilbertUp$ operator row restricted by a displayed self-adjoint-or-normal witness, then appends measured spectral-side rows for spectrum, projection-valued measure, and functional calculus through the cited $\MeasureUp$ source. The carrier accepts only histories whose operator, spectral support, projection, calculus, and provenance rows are displayed in this Hilbert-measure package, while a completed host spectral theorem or bridge-checked standard model is not part of the carrier. Two carried packages are classified when the Hilbert operator classifier identifies the operator rows and the spectral data live over the same measured side, so the comparison transports spectrum, projection-valued-measure, and calculus ledgers rather than equating ambient operators externally. The source is the paired $\HilbertUp$ and $\MeasureUp$ certificate surface, the pattern records the self-adjoint-or-normal restriction plus spectrum, projection, and calculus obligations, and the ledger keeps hidden spectrum, projection-valued-measure, calculus, dependency, and provenance witnesses visible. Since the restricted operator carrier is inhabited in the displayed singleton boundary, the inherited Hilbert and measure classifiers are equivalence rows, and the transport theorem repacks the spectral data over a classified endpoint, the five name-certificate obligations reduce to those componentwise rows. A package $h$ lies in the signature gap of a $\SpectralTheoremUp$ token $p$ when the source-domain accepts its Hilbert operator and measured spectral rows, the signature relation pairs them with an answer spectral package and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, $p$ records the same operator together with its displayed spectrum, projection measure, and calculus rows. The chapter registers this Hilbert-measure spectral-data package under the name $\SpectralTheoremUp$; it closes the BEDC certificate surface without importing the full external spectral theorem.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature package is exactly the $\HilbertUp$ source, the $\MeasureUp$ source, the carrier and classifier rows of \autoref{thm:spectraltheorem-obligation-carrier-classifier}, the spectral-data rows of \autoref{thm:spectraltheorem-obligation-spectrum-pvm-functional-calculus}, the stability, ledger, exactness, and dependency rows of \autoref{thm:spectraltheorem-obligation-stability-ledger-exactness}, the public certificate theorem of \autoref{thm:spectraltheorem-public-certificate}, and the standard-boundary rows for the exported spectral data.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.SpectralTheoremUp.SpectralTheoremCarrier\_classifier\_transport}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim the full external spectral theorem or bridge-checked verification.}
+  \upgradepath{Only bridge-checked verification remains outside the paper-side mature treatment.}
+\end{closurestatus}

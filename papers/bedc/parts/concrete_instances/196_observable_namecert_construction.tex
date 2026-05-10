@@ -1,10 +1,683 @@
 \chapter{A Concrete Naming Certificate for $\ObservableUp$}
 \label{ch:concrete-instances-observable-namecert}
 
-The observable interface $\ObservableUp$ packages a self-adjoint operator on a Hilbert space carrier together with its spectrum and expectation pairing with quantum states. It depends on $\NameCert_{\HilbertUp}$ (\autoref{ch:concrete-instances-hilbert-namecert}) and $\NameCert_{\SpectralTheoremUp}$ (\autoref{ch:concrete-instances-spectraltheorem-namecert}).
+The observable interface $\ObservableUp$ packages a self-adjoint operator on a Hilbert space carrier together with its spectrum and expectation pairing with quantum states. It depends on $\NameCert_{\HilbertUp}$ (\autoref{ch:concrete-instances-hilbert-namecert}), $\NameCert_{\SpectralTheoremUp}$ (\autoref{ch:concrete-instances-spectraltheorem-namecert}), and $\NameCert_{\QuantumStateUp}$ (\autoref{ch:concrete-instances-quantumstate-namecert}).
 
 \section{Carrier definition}
 \label{sec:observable-carrier}
 
+\begin{definition}[ObservableUp BHist operator carrier]
+\label{def:observable-bhist-operator-carrier}
+An $\ObservableUp$ packet is a finite displayed $\mathsf{BHist}$ row package
+$$
+\mathcal{O}=(H,A,S,E,W,\rho,\lambda).
+$$
+The row $H$ is the consumed $\NameCert_{\HilbertUp}$ carrier row. The endpoint
+$A:\mathsf{BHist}$ is the visible operator endpoint over $H$. The row $W$
+records the self-adjointness witness for that endpoint. The row $S$ is the
+consumed $\NameCert_{\SpectralTheoremUp}$ spectrum row attached to $(H,A,W)$.
+The row $E$ records the expectation-source endpoints read through
+$\NameCert_{\QuantumStateUp}$ and paired with the observable endpoint $A$. The
+row $\rho$ is the shared finite $\Pkg$ provenance tying $H$, $A$, $S$, $E$,
+and $W$ into one certificate packet, and $\lambda$ is the finite
+$\Cont/\hsame$ ledger used by every transported row.
+
+The packet is admitted as an $\ObservableUp$ carrier exactly when all Hilbert
+space structure is projected from $H$, all spectral data is projected from
+$S$, all expectation sources are projected from $E$, and the only observable
+endpoint outside the dependency rows is the displayed $\mathsf{BHist}$ row
+$A$ with its witness row $W$. No host operator equality, ambient Hilbert-space
+equality, or external spectral primitive is part of the carrier.
+\end{definition}
+\leandef{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier}
+
+\begin{definition}[ObservableUp spectral expectation classifier]
+\label{def:observable-spectral-expectation-classifier}
+Let
+$$
+\mathcal{O}=(H,A,S,E,W,\rho,\lambda)
+\quad\hbox{and}\quad
+\mathcal{O}'=(H',A',S',E',W',\rho',\lambda')
+$$
+be admitted $\ObservableUp$ packets. The $\ObservableUp$ classifier holds
+exactly when $\hsame$ transports the Hilbert carrier row, the operator
+endpoint row, the self-adjointness witness row, the spectral row, the
+expectation-source endpoints, and the shared package ledger:
+$$
+H\hsame H'\land A\hsame A'\land W\hsame W'\land S\hsame S'
+\land E\hsame E'\land \rho\hsame\rho'\land \lambda\hsame\lambda'.
+$$
+The $H$ comparison is read through $\NameCert_{\HilbertUp}$, the $S$
+comparison is read through $\NameCert_{\SpectralTheoremUp}$, and the
+expectation endpoint comparison is read through $\NameCert_{\QuantumStateUp}$.
+The classifier therefore identifies only displayed rows and their common
+$\Pkg$ provenance. It does not compare host operators by equality.
+\end{definition}
+\leandef{BEDC.Derived.ObservableUp.ObservableSpectralExpectationClassifier}
+
 \section{The certificate}
 \label{sec:observable-certificate}
+
+\begin{theorem}[ObservableUp Hilbert source boundary]
+\label{thm:observable-hilbert-source-boundary}
+For every admitted $\ObservableUp$ packet of
+\autoref{def:observable-bhist-operator-carrier}, every operator row,
+spectral row, and expectation row reads its Hilbert source only through the
+consumed $\NameCert_{\HilbertUp}$ row $H$ and $\hsame$ transport. In
+particular, the operator endpoint $A$, the spectral-data row $S$, and the
+expectation-source row $E$ cannot inspect an ambient Hilbert carrier apart
+from the certified source row and its displayed classifier transport.
+\end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_hilbert\_source\_readback}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_hilbert\_source\_boundary}
+\begin{proof}
+Unpack the packet $\mathcal{O}=(H,A,S,E,W,\rho,\lambda)$. The only field that
+names a Hilbert source is $H$, and the only transport field available to move
+Hilbert-side data is the $\mathsf{Cont}$ ledger $\lambda$ recording
+$\hsame$-compatible rows.
+
+Project the operator endpoint $A$ and its self-adjointness witness row $W$
+from the packet. Their source is required to be the same $H$ because the
+endpoint is displayed over the Hilbert source field rather than over a
+separate carrier. Project the spectral row $S$ next; by construction it is
+the spectral-data row for that same displayed endpoint and witness.
+
+Finally project the expectation row $E$. Its state input is constrained by
+$\NameCert_{\QuantumStateUp}$, while its vector-space and inner-product
+source is still the consumed Hilbert row $H$. Repacking these projections
+with $\rho$ gives the stated source boundary: all Hilbert reads factor
+through $H$ and the displayed $\hsame$ transport rows.
+\end{proof}
+
+\begin{theorem}[ObservableUp spectral data ledger]
+\label{thm:observable-spectral-data-ledger}
+The spectral rows consumed by $\ObservableUp$ are exactly the
+$\SpectralTheoremUp$ spectrum, projection-measure, and functional-calculus
+rows for the displayed self-adjoint operator endpoint $(A,W)$, all with the
+same package provenance row $\rho$. No spectral support, projection
+assignment, or calculus action is accepted by the observable packet unless it
+is one of the rows carried by the consumed $\NameCert_{\SpectralTheoremUp}$
+entry $S$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_spectral\_data\_ledger}
+\begin{proof}
+Read the spectral-data field $S$ of
+\autoref{def:observable-bhist-operator-carrier}. It is not an independent host
+spectral theorem; it is the consumed $\NameCert_{\SpectralTheoremUp}$ row for
+the operator endpoint field $A$ and witness field $W$.
+
+The forward projection exposes precisely the spectral entries supplied by
+that certificate: the spectrum row, the projection-measure row, and the
+functional-calculus row. The provenance row $\rho$ attaches these entries to
+the same finite packet as $H$, $A$, and $W$.
+
+For the reverse reading, any displayed spectrum, projection-measure, and
+functional-calculus rows with the shared $\rho$ provenance repack as the
+spectral field $S$ only when they are accepted by
+$\NameCert_{\SpectralTheoremUp}$. Thus the ledger is exact for those spectral
+rows and contains no further spectral datum.
+\end{proof}
+
+\begin{theorem}[ObservableUp quantum-state expectation boundary]
+\label{thm:observable-quantumstate-expectation-boundary}
+Expectation evaluation in an $\ObservableUp$ packet may consume only
+$\QuantumStateUp$-compatible input rows over the same Hilbert source $H$.
+If the Hilbert source, operator endpoint, witness row, spectral row, and
+quantum-state expectation row are transported by the displayed classifiers in
+$\lambda$, then the expectation readback transports to the corresponding
+expectation row over the transported packet.
+\end{theorem}
+\begin{proof}
+Project the expectation-source row $E$ from the packet. By definition $E$ is
+read through $\NameCert_{\QuantumStateUp}$, so every state input used by the
+expectation pairing is a certified quantum-state row rather than an arbitrary
+vector row.
+
+Use \autoref{thm:observable-hilbert-source-boundary} to identify the Hilbert
+source of the operator endpoint, witness row, spectral row, and expectation
+row with the same consumed row $H$. The quantum-state boundary then supplies
+only state inputs whose Hilbert field is compatible with that source.
+
+Transport a classified packet through $\lambda$. The $\hsame$ rows move $H$,
+$A$, $W$, $S$, and the expectation-source componentwise. Since the expectation
+readback is displayed as the pairing of the transported operator endpoint
+with the transported state input, it repacks as the transported expectation
+row and remains inside the $\ObservableUp$ carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_quantumstate\_expectation\_boundary}
+
+\begin{theorem}[ObservableUp Hilbert and spectral boundary]
+\label{thm:observable-hilbert-spectral-boundary}
+For every admitted $\ObservableUp$ packet of
+\autoref{def:observable-bhist-operator-carrier}, carrier acceptance exposes
+exactly the consumed $\NameCert_{\HilbertUp}$ row $H$, the operator endpoint
+$A$, the self-adjointness witness row $W$, the consumed
+$\NameCert_{\SpectralTheoremUp}$ row $S$, the expectation-source row $E$, the
+shared $\mathsf{Pkg}$ provenance row $\rho$, and the finite $\mathsf{Cont}$
+ledger $\lambda$. The exposed boundary is stable only by the displayed
+$\hsame$ transport rows in $\lambda$.
+\end{theorem}
+\begin{proof}
+Unpack the carrier packet of
+\autoref{def:observable-bhist-operator-carrier}. The definition lists exactly
+the consumed Hilbert certificate, the operator endpoint, its witness row, the
+consumed spectral certificate, the expectation-source row, the provenance
+row, and the continuation ledger.
+
+Acceptance is therefore a row-readback property. A consumer may inspect $H$,
+$A$, $W$, $S$, $E$, $\rho$, and $\lambda$, and every stability witness must be
+one of the $\hsame$ rows named by $\lambda$.
+
+There is no additional carrier whose fields could expose an ambient Hilbert
+space, an ambient spectral theorem, a host operator equality, or an external
+state primitive. The boundary is precisely the displayed finite packet.
+\end{proof}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_hilbert\_spectral\_boundary}
+
+\begin{theorem}[ObservableUp expectation ledger exactness]
+\label{thm:observable-state-expectation-ledger-exactness}
+For every admitted $\ObservableUp$ packet of
+\autoref{def:observable-bhist-operator-carrier}, each public expectation row
+of $\ObservableUp$ is read from the expectation-source endpoint row $E$, the
+operator endpoint $A$, the self-adjointness witness row $W$, the spectral row
+$S$, the shared $\mathsf{Pkg}$ provenance row $\rho$, and the finite
+$\mathsf{Cont}$ ledger $\lambda$. The readback uses the consumed
+$\NameCert_{\HilbertUp}$ packet $H$, the consumed
+$\NameCert_{\SpectralTheoremUp}$ packet $S$, and the consumed
+$\NameCert_{\QuantumStateUp}$ rows inside $E$ only through their displayed
+rows and their $\hsame$ transport entries in $\lambda$, not through host
+operator equality.
+\end{theorem}
+\begin{proof}
+The expectation interface is the row $E$. Its observable source is the
+endpoint $A$ with witness row $W$, its spectral support is the consumed row
+$S$, and its package membership is recorded by $\rho$.
+
+Exactness follows by restricting public expectation readback to those fields.
+The ledger $\lambda$ supplies the only permitted $\hsame$ transport data for
+moving the Hilbert source, the operator row, the witness row, the spectral
+row, and the expectation row across admitted presentations.
+
+Thus equality of expectation rows is not recovered from an external operator
+identity. It is the certificate-local relation determined by $E$, $A$, $W$,
+$S$, $\rho$, $\lambda$, and the displayed rows of the consumed dependency
+certificates.
+\end{proof}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_expectation\_ledger\_exactness}
+
+\begin{theorem}[ObservableUp spectral transport stability]
+\label{thm:observable-spectral-transport-stability}
+Let $\mathcal{O}=(H,A,S,E,W,\rho,\lambda)$ and
+$\mathcal{O}'=(H',A',S',E',W',\rho',\lambda')$ be admitted
+$\ObservableUp$ packets of \autoref{def:observable-bhist-operator-carrier}.
+If the two packets are related by the classifier of
+\autoref{def:observable-spectral-expectation-classifier}, then the
+transported packet is an admitted $\ObservableUp$ packet. The displayed
+expectation boundary of
+\autoref{thm:observable-state-expectation-ledger-exactness} is preserved with
+the transported $\mathsf{Pkg}$ provenance and finite $\mathsf{Cont}$ ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_spectral\_transport\_stability}
+\begin{proof}
+Transport the Hilbert dependency first. The classifier moves the Hilbert
+carrier row from $H$ to $H'$, and the relevant $\hsame$ witness is recorded in
+the continuation ledger.
+
+Transport the observable endpoint and witness next. The rows $A$ and $W$ move
+to $A'$ and $W'$, so the spectral row $S$ transports to $S'$ over the
+transported endpoint and witness, again using only the $\hsame$ entries named
+by the ledger.
+
+The expectation-source row is then transported as a dependent endpoint over
+the already transported Hilbert, operator, witness, and spectral rows. The
+provenance row is carried from $\rho$ to $\rho'$, and the ledger changes from
+$\lambda$ to $\lambda'$.
+
+All fields of the target tuple are now present, so the target tuple is
+admitted by \autoref{def:observable-bhist-operator-carrier}. The expectation
+boundary is unchanged in form because the public rows are still exactly
+$E'$, $A'$, $W'$, $S'$, $\rho'$, and $\lambda'$ over $H'$.
+\end{proof}
+
+\begin{theorem}[Observable Hilbert-spectral ledger exactness]
+\label{thm:observable-hilbert-spectral-ledger-exactness}
+For every admitted $\ObservableUp$ packet of
+\autoref{def:observable-bhist-operator-carrier}, the public
+$\NameCert_{\ObservableUp}$ ledger exposes exactly the Hilbert carrier row
+$H$, the operator endpoint $A$, the self-adjointness witness row $W$, the
+$\NameCert_{\SpectralTheoremUp}$ spectrum row $S$, the
+$\NameCert_{\QuantumStateUp}$ expectation-source row $E$, the shared
+$\Cont/\hsame$ transport ledger $\lambda$, and the shared $\Pkg$ provenance
+$\rho$. No other row is exported by the certificate.
+\end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_hilbert\_spectral\_ledger\_exactness}
+\begin{proof}
+Unpack the carried tuple
+$(H,A,S,E,W,\rho,\lambda)$. The first projection is the consumed
+$\NameCert_{\HilbertUp}$ row, so all inner-product, vector, and scalar
+structure available to the observable is read through $H$.
+
+Project the spectral and state rows. The spectrum row $S$ is consumed through
+$\NameCert_{\SpectralTheoremUp}$ for the displayed endpoint and witness
+$(A,W)$, while the expectation row $E$ supplies the quantum-state endpoints
+through $\NameCert_{\QuantumStateUp}$.
+
+The remaining projections are the visible operator endpoint $A$, the
+self-adjointness witness row $W$, the package provenance $\rho$, and the
+finite transport ledger $\lambda$. Repacking these projections gives exactly
+the displayed public ledger. Since the carrier contains no host operator
+equality and no external spectral primitive, no additional ledger row can be
+read from the certificate.
+\end{proof}
+
+\begin{theorem}[Observable classifier stability]
+\label{thm:observable-classifier-stability}
+If two admitted $\ObservableUp$ packets are related by the classifier of
+\autoref{def:observable-spectral-expectation-classifier}, then $\hsame$
+transport preserves the carried Hilbert row, operator endpoint row,
+self-adjointness row, spectral row, expectation endpoint row, shared $\Pkg$
+provenance, and finite $\Cont$ ledger.
+\end{theorem}
+\begin{proof}
+Start from the classifier relation. It supplies the displayed comparisons
+$H\hsame H'$, $A\hsame A'$, $W\hsame W'$, $S\hsame S'$, $E\hsame E'$,
+$\rho\hsame\rho'$, and $\lambda\hsame\lambda'$.
+
+Transport the dependency rows first. The Hilbert comparison moves all carrier
+reads through $\NameCert_{\HilbertUp}$, and the spectral comparison moves the
+spectrum read through $\NameCert_{\SpectralTheoremUp}$ with the transported
+endpoint and witness.
+
+Transport the expectation row through $\NameCert_{\QuantumStateUp}$ and keep
+the package boundary fixed by $\rho\hsame\rho'$. The ledger comparison
+$\lambda\hsame\lambda'$ then identifies every finite $\Cont$ row used by the
+source packet with the corresponding row in the target packet. Thus the
+target packet has the same visible carrier and spectral-expectation rows, up
+to the displayed classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_classifier\_stability}
+
+\begin{theorem}[Observable expectation pairing boundary]
+\label{thm:observable-expectation-pairing-boundary}
+Every expectation value exported by an admitted $\ObservableUp$ packet is read
+through the carried $\NameCert_{\QuantumStateUp}$ expectation-source row $E$
+and the observable endpoint ledger $(A,W,\rho,\lambda)$. It is not justified
+by host-level inner-product equality, host operator equality, or an external
+spectral primitive.
+\end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_expectation\_pairing\_boundary}
+\begin{proof}
+Take an exported expectation value. By ledger exactness it must appear in the
+expectation-source row $E$ of the carried packet, because no other row in the
+packet is allowed to export expectation endpoints.
+
+The observable side of the pairing is the displayed endpoint $A$ together
+with its self-adjointness witness row $W$. The spectrum row $S$ may be used
+only as the consumed $\NameCert_{\SpectralTheoremUp}$ dependency row attached
+to those displayed observable data.
+
+Finally attach the provenance and transport boundary. The $\Pkg$ row $\rho$
+places the state endpoint and observable endpoint in the same finite packet,
+and the $\Cont/\hsame$ ledger $\lambda$ supplies the only admissible transport
+of the readback. Therefore the expectation pairing is a packet-level
+readback, not a claim about equality of host inner products or host
+operators.
+\end{proof}
+
+\begin{theorem}[ObservableUp public row family]
+\label{thm:observable-public-row-family}
+The public $\NameCert_{\ObservableUp}$ family consists exactly of the finite
+$\mathsf{BHist}$ carrier packet of
+\autoref{def:observable-bhist-operator-carrier}, the classifier of
+\autoref{def:observable-spectral-expectation-classifier}, the Hilbert source
+boundary, the spectral data ledger, the quantum-state expectation boundary,
+the Hilbert-spectral boundary, the expectation ledger exactness rows, the
+spectral transport rows, the classifier stability rows, and the expectation
+pairing boundary. Its public fields are the consumed
+$\NameCert_{\HilbertUp}$ packet, the consumed
+$\NameCert_{\SpectralTheoremUp}$ packet, the consumed
+$\NameCert_{\QuantumStateUp}$ expectation-source row, the observable endpoint,
+the self-adjointness witness row, the $\mathsf{Pkg}$ provenance row, the
+finite $\mathsf{Cont}$ ledger, and the displayed $\hsame$ transport family.
+\end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_public\_row\_family}
+\begin{proof}
+Start with the carrier packet. It supplies the Hilbert dependency, observable
+endpoint, spectral dependency, expectation-source dependency,
+self-adjointness witness, package provenance, and continuation ledger.
+
+The classifier identifies the admitted packet coordinates by $\hsame$. The
+boundary theorems identify the rows that carrier acceptance exposes. The
+exactness theorems then state that public spectral and expectation readback
+is confined to the displayed dependency, observable, provenance, and ledger
+rows.
+
+The transport and classifier stability theorems supply stability under the
+displayed classifiers of the dependency packets. Combining these rows gives
+the carrier, classifier, transport, ledger, and exactness pieces of the
+public $\NameCert_{\ObservableUp}$ obligation family. No host-level
+observable, operator-equality primitive, independent state primitive, or
+extra spectral primitive is part of this surface.
+\end{proof}
+
+\begin{theorem}[Observable NameCert obligation surface]
+\label{thm:observable-namecert-obligation-surface}
+The public $\NameCert_{\ObservableUp}$ obligation surface consists exactly of
+the carrier of \autoref{def:observable-bhist-operator-carrier}, the
+classifier of \autoref{def:observable-spectral-expectation-classifier},
+Hilbert source boundary, spectral data ledger, quantum-state expectation
+boundary, Hilbert-spectral ledger exactness, classifier stability,
+expectation-pairing boundary, and the shared $\Cont/\Pkg$ ledger clauses for
+the displayed rows $H,A,S,E,W,\rho,\lambda$. It consumes the existing
+$\NameCert_{\HilbertUp}$, $\NameCert_{\SpectralTheoremUp}$, and
+$\NameCert_{\QuantumStateUp}$ dependency surfaces and consumes no host
+operator equality or independent spectral primitive.
+\end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableNameCert\_obligation\_surface}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_semanticNameCert}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_namecert\_obligation\_surface}
+\begin{proof}
+Collect the carrier rows first. The finite tuple
+$(H,A,S,E,W,\rho,\lambda)$ displays the Hilbert dependency, observable
+endpoint, spectral dependency, expectation-source dependency,
+self-adjointness witness, package provenance, and transport ledger.
+
+Collect the classifier rows next. The spectral expectation classifier
+compares exactly those displayed coordinates by $\hsame$, with dependency
+reads delegated to the Hilbert, spectral-theorem, and quantum-state
+certificates named by the chapter dependencies.
+
+Use \autoref{thm:observable-hilbert-source-boundary} for the Hilbert source
+boundary, \autoref{thm:observable-spectral-data-ledger} for spectral ledger
+exactness, \autoref{thm:observable-quantumstate-expectation-boundary} for the
+state-input boundary, \autoref{thm:observable-hilbert-spectral-ledger-exactness}
+for public ledger coverage, \autoref{thm:observable-classifier-stability} for
+transported stability, and
+\autoref{thm:observable-expectation-pairing-boundary} for the expectation
+readback boundary. These clauses cover every public request admitted by the
+carrier and classifier. Since none of the collected rows contains host
+operator equality or an external spectral primitive, the stated clauses form
+the full paper-side $\ObservableUp$ obligation surface.
+\end{proof}
+
+\begin{definition}[ObservableUp expectation interface packet]
+\label{def:observable-expectation-interface-packet}
+The downstream expectation interface exported by $\ObservableUp$ is the
+finite $\mathsf{BHist}$ packet
+$$
+\mathcal{I}_{\ObservableUp}=(H,A,W,S,E,\rho,\lambda).
+$$
+Here $H$ is the consumed $\NameCert_{\HilbertUp}$ carrier row, $A$ is the
+displayed observable endpoint, $W$ is its self-adjointness witness row, $S$
+is the consumed $\NameCert_{\SpectralTheoremUp}$ spectral row for $(H,A,W)$,
+and $E$ is the consumed $\NameCert_{\QuantumStateUp}$ expectation-source row
+over the same Hilbert source. The row $\rho$ is the shared finite $\Pkg$
+provenance for these entries, and $\lambda$ is the shared finite
+$\Cont/\hsame$ transport ledger.
+
+The packet is exact as a consumer boundary: a downstream quantum-facing
+chapter may read Hilbert structure, spectral structure, state endpoints,
+expectation readback, provenance, and transport only through the seven rows
+displayed above. It contains no host operator equality and no ambient
+spectral or state primitive.
+\end{definition}
+\leandef{BEDC.Derived.ObservableUp.ObservableExpectationInterfacePacket}
+
+\begin{theorem}[ObservableUp spectral-state source coherence]
+\label{thm:observable-spectral-state-source-coherence}
+For every admitted expectation interface packet
+$\mathcal{I}_{\ObservableUp}=(H,A,W,S,E,\rho,\lambda)$ of
+\autoref{def:observable-expectation-interface-packet}, the spectral row $S$
+and the expectation row $E$ share the same Hilbert source $H$, the same
+operator endpoint $A$, the same self-adjointness witness $W$, the same
+package provenance $\rho$, and the same transport ledger $\lambda$. Their
+coherence is a displayed $\mathsf{BHist}$ coherence: it is witnessed by
+projection from the carrier packet and by $\hsame$ rows in $\lambda$, not by
+host equality of Hilbert spaces, operators, spectra, or states.
+\end{theorem}
+\begin{proof}
+Project the expectation interface packet to the carrier tuple of
+\autoref{def:observable-bhist-operator-carrier}. The rows are the same rows,
+only ordered for consumer readback as $(H,A,W,S,E,\rho,\lambda)$.
+
+Use \autoref{thm:observable-hilbert-source-boundary} to identify $H$ as the
+sole Hilbert source available to the operator endpoint, witness row, spectral
+row, and expectation row. Use
+\autoref{thm:observable-spectral-data-ledger} to read $S$ as the consumed
+spectral certificate for the displayed endpoint and witness $(A,W)$.
+
+Use \autoref{thm:observable-quantumstate-expectation-boundary} to read $E$
+through certified quantum-state endpoints over the same source $H$. The rows
+$\rho$ and $\lambda$ are then the shared package and transport rows supplied
+by the packet itself, so repacking these projections gives the stated
+spectral-state coherence without adding any host equality.
+\end{proof}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_spectral\_state\_source\_coherence}
+
+\begin{theorem}[ObservableUp expectation transport exactness]
+\label{thm:observable-expectation-transport-exactness}
+Let
+$\mathcal{I}_{\ObservableUp}=(H,A,W,S,E,\rho,\lambda)$ and
+$\mathcal{I}'_{\ObservableUp}=(H',A',W',S',E',\rho',\lambda')$ be admitted
+expectation interface packets. If the two packets are related by the
+$\ObservableUp$ classifier, then classifier transport preserves the whole
+expectation interface packet:
+$$
+H\hsame H',\quad A\hsame A',\quad W\hsame W',\quad S\hsame S',
+\quad E\hsame E',\quad \rho\hsame\rho',\quad \lambda\hsame\lambda'.
+$$
+The transported packet is again an admitted downstream interface, and this
+transport produces no host operator equality, ambient Hilbert equality, or
+external equality of spectral or state primitives.
+\end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_expectation\_transport\_exactness}
+\begin{proof}
+Start from the classifier of
+\autoref{def:observable-spectral-expectation-classifier}. It supplies
+exactly the displayed $\hsame$ comparisons for $H$, $A$, $W$, $S$, $E$,
+$\rho$, and $\lambda$.
+
+Apply \autoref{thm:observable-classifier-stability} to transport the carried
+Hilbert row, endpoint row, witness row, spectral row, expectation endpoint
+row, provenance row, and continuation ledger. Apply
+\autoref{thm:observable-spectral-transport-stability} to repack the target
+rows as an admitted $\ObservableUp$ carrier.
+
+Finally read the target carrier through
+\autoref{def:observable-expectation-interface-packet}. The packet components
+are exactly $(H',A',W',S',E',\rho',\lambda')$, so the consumer interface is
+preserved componentwise. Since the classifier relation contains only
+displayed $\hsame$ rows, no host operator equality or ambient equality is
+created by the transport.
+\end{proof}
+
+\begin{theorem}[ObservableUp public consumer exhaustion]
+\label{thm:observable-public-consumer-exhaustion}
+Every downstream consumer of the public $\ObservableUp$ interface reads only
+the finite expectation interface packet of
+\autoref{def:observable-expectation-interface-packet} together with the
+public $\NameCert_{\ObservableUp}$ obligation surface of
+\autoref{thm:observable-namecert-obligation-surface}. Thus every permitted
+consumer request factors through the rows $H,A,W,S,E,\rho,\lambda$, the
+displayed $\Cont/\hsame$ transport ledger, and the consumed
+$\NameCert_{\HilbertUp}$, $\NameCert_{\SpectralTheoremUp}$, and
+$\NameCert_{\QuantumStateUp}$ surfaces. No downstream request can require a
+row outside that finite $\mathsf{BHist}$ packet or a host operator equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_public\_consumer\_exhaustion}
+\begin{proof}
+Begin with an arbitrary public consumer request. The obligation surface of
+\autoref{thm:observable-namecert-obligation-surface} says that public
+requests are exhausted by the carrier, classifier, Hilbert source boundary,
+spectral data ledger, quantum-state expectation boundary,
+Hilbert-spectral ledger exactness, classifier stability, expectation-pairing
+boundary, and the shared $\Cont/\Pkg$ ledger clauses.
+
+The carrier and classifier rows are exactly the rows repacked by
+\autoref{def:observable-expectation-interface-packet}. The Hilbert source
+boundary, spectral data ledger, and expectation boundary reduce the
+dependency reads to $H$, $S$, and $E$ with endpoint and witness rows $A$ and
+$W$.
+
+The remaining public clauses are ledger clauses. Use
+\autoref{thm:observable-hilbert-spectral-ledger-exactness} for finite public
+row coverage, \autoref{thm:observable-classifier-stability} for transported
+stability, and \autoref{thm:observable-expectation-pairing-boundary} for
+expectation readback. These rows are all contained in
+$(H,A,W,S,E,\rho,\lambda)$ and the named dependency certificates, so the
+consumer has no additional public source to inspect.
+\end{proof}
+
+\begin{theorem}[ObservableUp dependency NameCert exactness]
+\label{thm:observable-dependency-namecert-exactness}
+For every admitted $\ObservableUp$ packet
+$\mathcal{O}=(H,A,S,E,W,\rho,\lambda)$ of
+\autoref{def:observable-bhist-operator-carrier}, every
+$\HilbertUp$, $\SpectralTheoremUp$, and $\QuantumStateUp$ dependency read
+performed by the packet factors through the displayed rows $H$, $S$, and $E$
+together with the finite $\hsame/\Cont$ ledger $\lambda$. No dependency read
+is justified by an ambient Hilbert carrier, a host operator equality, an
+external spectral theorem, or an independent state endpoint outside those
+rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_dependency\_namecert\_exactness}
+\begin{proof}
+Project the admitted packet as $(H,A,S,E,W,\rho,\lambda)$. The carrier
+definition names $H$ as the only Hilbert source, $S$ as the only spectral
+dependency row, and $E$ as the only quantum-state expectation source.
+
+Apply \autoref{thm:observable-hilbert-source-boundary} to the Hilbert reads,
+\autoref{thm:observable-spectral-data-ledger} to the spectral reads, and
+\autoref{thm:observable-quantumstate-expectation-boundary} to the state-input
+and expectation reads.
+
+The remaining admissible movement is the finite ledger $\lambda$. Its
+$\hsame$ rows are the only transport witnesses exposed by
+\autoref{thm:observable-hilbert-spectral-ledger-exactness}, so every dependency
+read factors through $H$, $S$, $E$, and $\lambda$.
+\end{proof}
+
+\begin{theorem}[ObservableUp operator-row classifier determinacy]
+\label{thm:observable-operator-row-classifier-determinacy}
+Let $\mathcal{O}=(H,A,S,E,W,\rho,\lambda)$ and
+$\mathcal{O}'=(H',A',S',E',W',\rho',\lambda')$ be admitted
+$\ObservableUp$ packets related by the classifier of
+\autoref{def:observable-spectral-expectation-classifier}. Then the two packets
+determine the same public operator endpoint row, self-adjointness witness row,
+spectral row, expectation row, package provenance, and transport ledger up to
+the displayed $\hsame$ comparisons. The determinacy is a row-level certificate
+claim and does not assert equality of host operators.
+\end{theorem}
+\begin{proof}
+Unpack the classifier. It supplies exactly the comparisons
+$H\hsame H'$, $A\hsame A'$, $W\hsame W'$, $S\hsame S'$,
+$E\hsame E'$, $\rho\hsame\rho'$, and $\lambda\hsame\lambda'$.
+
+Repack the public rows through these comparisons. The endpoint and witness are
+determined by $A\hsame A'$ and $W\hsame W'$, the spectral row by
+$S\hsame S'$, the expectation row by $E\hsame E'$, and the provenance and
+ledger by $\rho\hsame\rho'$ and $\lambda\hsame\lambda'$.
+
+Use \autoref{thm:observable-classifier-stability} to identify the transported
+public surface. Since the classifier contains no host operator equality field,
+the resulting determinacy is precisely the displayed row determinacy.
+\end{proof}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_operator\_row\_classifier\_determinacy}
+
+\begin{theorem}[ObservableUp spectral row consumer coverage]
+\label{thm:observable-spectral-row-consumer-coverage}
+Every downstream consumer of the public $\ObservableUp$ surface can read only
+the consumed Hilbert row $H$, the operator endpoint $A$, the self-adjointness
+witness row $W$, the consumed $\SpectralTheoremUp$ row $S$, the
+$\QuantumStateUp$ expectation row $E$, the $\Pkg$ provenance row $\rho$, and
+the finite $\Cont/\hsame$ ledger $\lambda$. In particular, spectral consumers
+receive the displayed spectral row and its certified dependencies, not an
+extra host-level spectral object.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:observable-hilbert-spectral-ledger-exactness}. It
+lists exactly the Hilbert, operator, witness, spectral, expectation,
+provenance, and ledger rows exported by an admitted packet.
+
+Then apply \autoref{thm:observable-public-row-family}. The public family is
+assembled from the carrier, classifier, boundary, transport, and ledger
+clauses already named in the chapter, so a downstream consumer has no
+additional row source to inspect.
+
+Thus a spectral consumer reads $S$ together with $H$, $A$, $W$, $E$, $\rho$,
+and $\lambda$ only through the public certificate family. The coverage claim is
+therefore exact for the displayed $\ObservableUp$ surface.
+\end{proof}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_spectral\_row\_consumer\_coverage}
+
+\begin{theorem}[ObservableUp expectation row transport composition]
+\label{thm:observable-expectation-row-transport-composition}
+For admitted packets
+$\mathcal{O}=(H,A,S,E,W,\rho,\lambda)$ and
+$\mathcal{O}'=(H',A',S',E',W',\rho',\lambda')$ related by the classifier of
+\autoref{def:observable-spectral-expectation-classifier}, classifier transport
+followed by expectation readback agrees with expectation readback over the
+transported packet. The composite uses only the rows $E$, $A$, $W$, $S$,
+$\rho$, and $\lambda$ together with their displayed transported counterparts.
+\end{theorem}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_expectation\_row\_transport\_composition}
+\begin{proof}
+Apply \autoref{thm:observable-quantumstate-expectation-boundary} to identify
+the expectation readback as a certified state-input row paired with the
+observable endpoint and witness over the common Hilbert source.
+
+Apply \autoref{thm:observable-spectral-transport-stability} to transport the
+packet. The classifier moves $A$, $W$, $S$, $E$, $\rho$, and $\lambda$ to their
+displayed target rows, and the transported tuple is again admitted as an
+$\ObservableUp$ packet.
+
+Finally use \autoref{thm:observable-expectation-pairing-boundary}. It confines
+the readback to $E$, $A$, $W$, $S$, $\rho$, and $\lambda$, so reading before
+transport and then transporting gives the same displayed row as reading from
+the transported packet.
+\end{proof}
+
+\begin{theorem}[ObservableUp complete paper obligation surface]
+\label{thm:observable-namecert-obligation-surface-complete}
+The complete paper-side $\NameCert_{\ObservableUp}$ obligation inventory is
+formed by the carrier of \autoref{def:observable-bhist-operator-carrier}, the
+classifier of \autoref{def:observable-spectral-expectation-classifier}, the
+ledger exactness rows, the public row family, the obligation surface of
+\autoref{thm:observable-namecert-obligation-surface}, dependency
+$\NameCert$ exactness, operator-row classifier determinacy, spectral consumer
+coverage, and expectation transport composition. This inventory supplies the
+downstream read boundary for $\QuantumStateUp$ and $\SpectralTheoremUp$
+consumers of $\ObservableUp$.
+\end{theorem}
+\begin{proof}
+Collect the existing carrier and classifier definitions. They give the finite
+packet $(H,A,S,E,W,\rho,\lambda)$ and the displayed $\hsame$ comparisons that
+control admitted presentations.
+
+Collect the existing boundary rows through
+\autoref{thm:observable-hilbert-spectral-ledger-exactness},
+\autoref{thm:observable-public-row-family}, and
+\autoref{thm:observable-namecert-obligation-surface}. These rows specify the
+public carrier, dependency, transport, provenance, and readback clauses.
+
+The four preceding theorems make the dependency exactness, classifier
+determinacy, consumer coverage, and transport-composition obligations explicit.
+Together they cover every public dependency and readback used by downstream
+$\QuantumStateUp$ and $\SpectralTheoremUp$ consumers, while excluding host
+operator equality and external spectral primitives from the paper surface.
+\end{proof}
+\leanchecked{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier\_namecert\_obligation\_surface\_complete}
+
+\closureat{ObservableUp}{scopedStr}[BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier]
+\closureat{ObservableUp}{publicStr}[BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier]
+
+\begin{closurestatus}{\ObservableUp}
+  \constructivestory{An observable is displayed as the finite packet $(H,A,S,E,W,\rho,\lambda)$: the Hilbert source $H$ is consumed from $\HilbertUp$, the operator endpoint $A$ and self-adjointness witness $W$ are visible histories over that source, the spectral row $S$ is consumed from $\SpectralTheoremUp$, and the expectation inputs $E$ are read through $\QuantumStateUp$. The carrier predicate encoded here admits only packets whose Hilbert, spectral, expectation, self-adjointness, provenance, and transport rows are all displayed, and the classifier identifies two packets by transporting exactly those rows through $\hsame$ and through the three dependency certificates rather than by comparing host operators. The source therefore covers this Hilbert-operator packet, the pattern is self-adjoint operator plus spectrum, projection-measure, functional-calculus, and state-expectation readback, and the ledger keeps $H,A,S,E,W,\rho,\lambda$ as the exact public inventory. Within this obligation surface, an admitted packet provides the carrier witness, componentwise history-sameness and dependency classifiers give reflexivity, symmetry, and transitivity, and the carrier remains stable when each visible row is replaced by a classified row with the same provenance. A packet $h$ lies in the signature gap of an $\ObservableUp$ token $p$ when the source-domain accepts the Hilbert row, operator endpoint, self-adjointness witness, spectral data, expectation rows, and finite ledger, the signature relation pairs that packet with an answer packet and evidence ledger, and token introduction names the answer as $p$; unfolded, $p$ records the same displayed operator together with its certified spectral and expectation rows. No standard bridge or full observable certificate is exported by this chapter. The chapter registers this encoded operator packet under the name $\ObservableUp$; an observable is a HilbertUp-sourced BHist operator with spectral and state-expectation ledgers, with no host operator equality, ambient Hilbert equality, or external spectral primitive introduced.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The obligation inventory is enumerated across the carrier, classifier, ledger exactness, dependency exactness, operator-row classifier determinacy, spectral consumer coverage, expectation transport composition, $\Pkg$, $\Cont$, and $\hsame$ rows.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.ObservableUp.ObservableBHistOperatorCarrier}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the full carrier, classifier, stability, ledger, exactness, or bridge surface for $\ObservableUp$.}
+  \upgradepath{The next theory-axis step is a bridge theorem connecting the exported ObservableUp public surface to its standard bridge row.}
+\end{closurestatus}

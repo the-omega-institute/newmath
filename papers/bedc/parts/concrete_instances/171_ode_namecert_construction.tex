@@ -161,6 +161,7 @@ $$
 where $\sim_{\BanachUp}$ denotes the classifier supplied by
 $\NameCert_{\BanachUp}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.OdeUp.OdeLocalFlowSource\_concatenation\_route\_scope}
 \begin{proof}
 By \autoref{thm:ode-root-picard-continuation-scope}, the two adjacent Picard
 ledgers compose through the shared middle time-state cell inside the same
@@ -187,4 +188,59 @@ ledger comparison $v_{02}^{\circ}\hsame v_{02}$. Therefore
 row and the direct row. It classifies their endpoint state histories by the
 Banach classifier carried by $\NameCert_{\BanachUp}$. Those endpoint histories
 are exactly $x_2$ and $y$, giving $x_2\sim_{\BanachUp}y$.
+\end{proof}
+\leanchecked{BEDC.Derived.OdeUp.OdeLocalFlowRow\_concatenation\_endpoint\_determinacy}
+
+\closureat{OdeUp}{publicStr}[BEDC.Derived.OdeUp.OdeLocalFlowRow\_concatenation\_endpoint\_determinacy]
+
+\begin{closurestatus}{\OdeUp}
+  \constructivestory{An ordinary differential equation local-flow row is carried by a time-state source over $\DerivativeUp$ and $\BanachUp$: a time cell, state cell, vector-field evaluation, Picard-step history, limit witness, and endpoint state are tied together by three displayed continuation rows. A row is admitted only when the time component is carried by the derivative scalar surface, the state and vector-field value are carried by the Banach surface, and the Picard and limit ledgers are present; equality in a host function space, global flow data, and Banach fixed-point theory are not carrier fields. Two local-flow rows are classified by transporting time cells through the derivative classifier, state cells through the Banach classifier, and Picard, vector-field, limit, and endpoint ledgers through $\hsame$ and $\Cont$ determinacy, rather than by comparing host solutions. The source covers the local time-state carrier, vector-field row, Picard continuations, limit witness, endpoint row, and Lipschitz ledger; the pattern records vector-field carrier stability, Picard route composition, local endpoint determinacy, and concatenation endpoint comparison; the ledger keeps the three continuation routes and their classifier transports visible. The five name-certificate obligations are obligation-level rows here: upstream derivative and Banach certificates supply carried endpoints, $\hsame$ gives reflexive, symmetric, and transitive movement, and Picard continuation scope repacks transported or concatenated routes as the same kind of local-flow row. A history $h$ lies in the signature gap of an $\OdeUp$ token $p$ when the source-domain accepts this local-flow package, the signature relation pairs it with an answer flow row and evidence ledger, and token introduction names that answer as $p$; unfolded, the initial time-state cell, vector-field ledger, Picard chain, limit witness, endpoint time, and Banach-classified endpoint are the data encoded by $p$. The chapter registers this local Picard-continuation construction under the name $\OdeUp$; it records a scoped obligation boundary and does not introduce global existence, smooth flow groups, host solution-space equality, standard ODE models, or bridge verification.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The obligation scope records the BHist local-flow source carrier of \autoref{def:ode-bhist-local-flow-source}, the Picard continuation scope of \autoref{thm:ode-root-picard-continuation-scope}, endpoint classifier determinacy from \autoref{thm:ode-root-local-uniqueness-classifier}, concatenation route scope from \autoref{thm:ode-local-flow-concatenation-endpoint-determinacy}, and endpoint determinacy for composed rows over the derivative and Banach NameCert surfaces.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.OdeUp.OdeLocalFlowRow\_concatenation\_endpoint\_determinacy}
+  \bridgestatus{none}
+  \notclaimed{This obligation boundary does not close global existence, Banach fixed-point theory, smooth flow groups, standard ODE models, or bridge verification.}
+  \upgradepath{The next theory-axis step is an explicit bridge from the public local-flow certificate to the standard ODE interface.}
+\end{closurestatus}
+
+\begin{theorem}[OdeUp local-flow concatenation associativity]
+\label{thm:ode-local-flow-concatenation-associativity}
+Let
+$$
+R_{01}=(t_0,x_0,t_1,x_1;v_{01},p_{01},\ell_{01}),\qquad
+R_{12}=(t_1,x_1,t_2,x_2;v_{12},p_{12},\ell_{12}),\qquad
+R_{23}=(t_2,x_2,t_3,x_3;v_{23},p_{23},\ell_{23})
+$$
+be $\OdeUp$ BHist local-flow rows over the same $\NameCert_{\DerivativeUp}$ and $\NameCert_{\BanachUp}$ surfaces. Assume the terminal time-state cell of $R_{01}$ is classified with the initial time-state cell of $R_{12}$, and the terminal time-state cell of $R_{12}$ is classified with the initial time-state cell of $R_{23}$, in the derivative and Banach classifiers. Let
+$$
+R_{02}^{\circ}=(t_0,x_0,t_2,y_{02};v_{02}^{\circ},p_{02}^{\circ},\ell_{02}^{\circ}),
+\qquad
+R_{13}^{\circ}=(t_1,x_1,t_3,y_{13};v_{13}^{\circ},p_{13}^{\circ},\ell_{13}^{\circ})
+$$
+be the binary composites supplied by \autoref{thm:ode-root-picard-continuation-scope}. Let
+$$
+L_{03}^{\circ}=(t_0,x_0,t_3,z_L;v_L,p_L,\ell_L)
+$$
+be the composite of $R_{02}^{\circ}$ with $R_{23}$ supplied by the same theorem, and let
+$$
+R_{03}^{\circ}=(t_0,x_0,t_3,z_R;v_R,p_R,\ell_R)
+$$
+be the composite of $R_{01}$ with $R_{13}^{\circ}$ supplied by the same theorem. Then the two grouped composites have Banach-classified endpoint state histories:
+$$
+z_L\sim_{\BanachUp} z_R.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ode-root-picard-continuation-scope} first to $R_{01}$ and $R_{12}$ and separately to $R_{12}$ and $R_{23}$. This produces the two binary rows $R_{02}^{\circ}$ and $R_{13}^{\circ}$ inside the same $\NameCert_{\DerivativeUp}$ and $\NameCert_{\BanachUp}$ surfaces. Applying the same theorem again to the adjacent pairs $(R_{02}^{\circ},R_{23})$ and $(R_{01},R_{13}^{\circ})$ produces the two grouped rows $L_{03}^{\circ}$ and $R_{03}^{\circ}$, both read as local-flow witnesses from the same initial time-state cell $(t_0,x_0)$ to the same terminal time cell $t_3$.
+
+Unpack \autoref{def:ode-bhist-local-flow-source}. Each grouped row is built from exactly the three displayed local-flow packages of $R_{01}$, $R_{12}$, and $R_{23}$ together with the two classifier transports at the shared interfaces. The only difference is the parenthesization of the continuation chain. By \autoref{thm:continuation-associativity}, reassociating the left-grouped chain and the right-grouped chain does not change the resulting continuation witness up to $\hsame$. Therefore the direct row $R_{03}^{\circ}$ has its Lipschitz vector-field ledger classified with the outer composite ledger of $L_{03}^{\circ}$:
+$$
+v_L\hsame v_R.
+$$
+
+Now apply \autoref{thm:ode-local-flow-concatenation-endpoint-determinacy} to the adjacent pair $R_{02}^{\circ},R_{23}$, taking $R_{03}^{\circ}$ as the direct row from $(t_0,x_0)$ to time $t_3$. Its hypotheses are exactly the shared initial data, the certified outer concatenation route, and the displayed ledger comparison $v_L\hsame v_R$. The conclusion of that theorem is precisely that the endpoint state history of the grouped composite $(R_{01}\circ R_{12})\circ R_{23}$ is related by the Banach endpoint classifier to the endpoint state history of the grouped composite $R_{01}\circ(R_{12}\circ R_{23})$. Hence
+$$
+z_L\sim_{\BanachUp} z_R.
+$$
 \end{proof}

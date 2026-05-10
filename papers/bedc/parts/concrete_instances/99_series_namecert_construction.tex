@@ -6,5 +6,130 @@ The series interface $\SeriesUp$ packages the partial-sum sequence of a $\NameCe
 \section{Carrier definition}
 \label{sec:series-carrier}
 
+\begin{theorem}[Series source carrier boundary obligation]
+\label{thm:series-source-carrier-boundary-obligation}
+The $\SeriesUp$ source carrier is the $\SeqUp$ source carrier together with additive-carrier rows over $\mathsf{BHist}$. A carried row consists of a sequence certificate $\mathcal{S}:\NameCert_{\SeqUp}$, a summand stream $a:\mathsf{BHist}$ accepted by that source, an additive carrier row $A:\mathsf{BHist}$, and a displayed action row saying that every unary summand observation of $a$ lands in $A$. The classifier is the restriction of the $\SeqUp$ stream classifier together with $\hsame$ on the additive carrier row; no ambient real-number carrier, host sequence, or external summability predicate is part of the source carrier.
+\end{theorem}
+\begin{proof}
+Project the $\SeqUp$ certificate to obtain the stream carrier, stream classifier, and unary observation rows. Pair these projections with the displayed additive-carrier row over $\mathsf{BHist}$.
+
+The restriction of the classifier is componentwise: the sequence component is transported by the $\SeqUp$ source classifier, and the additive component is transported by $\hsame$. Repacking those two rows gives exactly the announced carrier boundary without importing a host-level series object.
+\end{proof}
+\leanchecked{BEDC.Derived.SeriesUp.SeriesSourceCarrierBoundary\_obligation}
+
+\begin{theorem}[Series partial-sum obligation]
+\label{thm:series-partial-sum-obligation}
+For every carried $\SeriesUp$ source row, the partial-sum row is a unary prefix family $s:\mathsf{BHist}\to\mathsf{BHist}$ generated from the summand stream by finite $\Cont$-compatible prefixes. The zero prefix is the additive zero row, the successor prefix is obtained by appending one summand observation through the additive operation row, and prefix comparison is transported by the $\SeqUp$ stream classifier and by $\hsame$ on the additive carrier. Thus partial sums are BEDC ledger rows, not hidden evaluations of an external infinite sum.
+\end{theorem}
+\leanchecked{BEDC.Derived.SeriesUp.SeriesPartialSumLedger\_step\_transport}
+\leanvariant{BEDC.Derived.SeriesUp.SeriesPartialSum\_transport}
+\begin{proof}
+Start from the unary index witness supplied by the $\SeqUp$ observation surface. The empty prefix is read as the additive zero row, and the successor case appends the next observed summand using the additive operation row.
+
+Compatibility with $\Cont$ is by induction on the unary prefix length. The base case is the zero prefix, and the successor step composes the previous prefix ledger with the next summand observation. Classifier transport follows by applying the $\SeqUp$ stream classifier to the summand slot and $\hsame$ transport to the additive row.
+\end{proof}
+
 \section{The certificate}
 \label{sec:series-certificate}
+
+\begin{theorem}[Series modulus stability obligation]
+\label{thm:series-modulus-stability-obligation}
+A convergence modulus for a carried $\SeriesUp$ row is an explicit unary bound $\mu:\mathsf{BHist}\to\mathsf{BHist}$ such that, for every unary precision row $k$ and every pair of unary indices beyond $\mu(k)$, the corresponding partial-sum rows are classified by the additive carrier at precision $k$. If two summand streams are classified by the $\SeqUp$ stream classifier, the same displayed modulus row transports to the classified stream by the partial-sum classifier of \autoref{thm:series-partial-sum-obligation}. The modulus is therefore stable under the source classifier and remains a visible BEDC row.
+\end{theorem}
+\leanchecked{BEDC.Derived.SeriesUp.SeriesModulusStability\_transport}
+\leanvariant{BEDC.Derived.SeriesUp.SeriesPartialSum\_pointwise\_hsame\_deterministic}
+\begin{proof}
+Unpack the modulus as a unary history transformer together with its bound witness for pairs of sufficiently long prefixes. The witness refers only to partial-sum rows and the additive classifier, so it is scoped by \autoref{thm:series-source-carrier-boundary-obligation} and \autoref{thm:series-partial-sum-obligation}.
+
+For classifier stability, transport the summand observations along the $\SeqUp$ stream classifier. The partial-sum obligation transports each finite prefix, and the additive classifier transports the comparison at precision $k$. The same unary bound row $\mu(k)$ can therefore be reused after transport.
+\end{proof}
+
+\begin{theorem}[Series ledger exactness obligation]
+\label{thm:series-ledger-exactness-obligation}
+The $\SeriesUp$ ledger contains exactly the $\SeqUp$ source certificate, the additive-carrier row, the hidden summand-prefix rows, the partial-sum rows, the explicit modulus rows, the stream-classifier transport rows, and the additive-classifier comparison rows. Coverage says every accepted public series row exposes one such ledger; soundness says every ledger row is produced by those BEDC primitives; completeness says any package with precisely those rows is accepted by the $\SeriesUp$ obligation surface. No comparison with $\ComplexSeriesUp$, no host summability theorem, and no standard bridge is included in this ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.SeriesUp.SeriesPartialSum\_result\_unary}
+\begin{proof}
+Coverage is obtained by projecting an accepted public row into its source certificate, additive-carrier row, summand-prefix display, partial-sum display, and modulus display.
+
+Soundness reads each projected component back through the corresponding BEDC primitive: $\SeqUp$ supplies stream observations, $\Cont$ supplies finite prefix composition, $\hsame$ supplies classifier transport, and the additive carrier supplies zero, addition, and comparison rows.
+
+Completeness is the reverse packing. Given exactly those rows, assemble the carrier boundary, the partial-sum family, and the modulus stability witness, then record them as the public $\SeriesUp$ obligation surface. Since every accepted row is accounted for in this package, the dependency surface is exact.
+\end{proof}
+
+\begin{theorem}[SeriesUp public name certificate]
+\label{thm:series-public-namecert-certificate}
+The $\SeriesUp$ source carrier boundary, partial-sum obligation, modulus
+stability obligation, and ledger exactness obligation assemble into the public
+$\NameCert_{\SeriesUp}$ surface. The public certificate exposes exactly the
+$\SeqUp$ source row, the additive carrier row, finite $\Cont$ partial-sum
+routes, explicit unary modulus rows, classifier transports, and ledger rows
+recorded in
+\autoref{thm:series-source-carrier-boundary-obligation},
+\autoref{thm:series-partial-sum-obligation},
+\autoref{thm:series-modulus-stability-obligation}, and
+\autoref{thm:series-ledger-exactness-obligation}.
+
+It does not include a $\ComplexSeriesUp$ comparison, a host summability theorem,
+or a standard bridge claim.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:series-source-carrier-boundary-obligation}. This supplies the
+$\SeqUp$ source certificate, the summand stream, the additive carrier row, and
+the source classifier surface for the public name certificate.
+
+Next apply \autoref{thm:series-partial-sum-obligation} and
+\autoref{thm:series-modulus-stability-obligation}. The first theorem supplies
+the finite $\Cont$ partial-sum routes, while the second supplies explicit unary
+modulus rows and their classifier transports.
+
+Finally apply \autoref{thm:series-ledger-exactness-obligation}. Its coverage,
+soundness, and completeness clauses say that these rows are exactly the public
+ledger rows accepted by the $\SeriesUp$ surface. Repacking the four scoped
+obligation rows into the $\NameCert_{\SeriesUp}$ fields gives the public
+certificate and leaves complex-series comparisons, host summability, and
+standard bridges outside the exposed boundary.
+\end{proof}
+
+\begin{theorem}[SeriesUp standard bridge schema row]
+\label{thm:series-standard-bridge-schema-row}
+The public $\SeriesUp$ certificate admits a paper bridge row to the standard
+partial-sum/modulus schema. The bridge maps the visible $\SeqUp$ summand stream
+to the schema source stream, the additive carrier row to the schema carrier,
+the finite $\Cont$ partial-sum routes to the schema partial-sum field, the
+explicit unary modulus rows to the schema modulus field, and the
+additive-classifier comparison rows to the schema comparison field. This bridge
+exports no $\ComplexSeriesUp$ comparison and no host summability theorem.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:series-public-namecert-certificate}. It identifies the
+public $\SeriesUp$ surface as the $\SeqUp$ source row, additive carrier row,
+finite $\Cont$ partial sums, explicit unary moduli, classifier transports, and
+ledger exactness rows.
+
+Now read those rows against the standard partial-sum/modulus schema. The
+summand stream fills the schema source, the additive carrier fills the carrier
+slot, the $\Cont$ routes fill the finite partial-sum slot, the unary modulus
+rows fill the modulus slot, and the additive-classifier rows fill the comparison
+slot.
+
+The preceding public certificate keeps complex-series comparisons, host
+summability, and extra standard fields outside the exposed boundary. Therefore
+the bridge is exactly a paper row from the visible $\SeriesUp$ certificate to
+the standard partial-sum/modulus schema, with no $\ComplexSeriesUp$ comparison
+and no host summability theorem.
+\end{proof}
+
+\closureat{SeriesUp}{bridgedStr}{BEDC.Derived.SeriesUp.SeriesPartialSumLedger\_step\_transport}
+
+\begin{closurestatus}{\SeriesUp}
+  \constructivestory{A series source is carried by taking a $\SeqUp$ summand stream over an additive carrier and displaying, for every unary index, both the summand observation and the additive row in which partial sums will live. The classifier is componentwise: the stream is compared by the $\SeqUp$ pointwise classifier and the additive carrier row by $\hsame$, so no host sequence, ambient real carrier, or external summability predicate enters the carrier. The source covers exactly the sequence certificate, summand stream, additive carrier, and unary observation action rows, while the pattern generates partial sums as finite $\Cont$-compatible prefixes: the empty prefix is the additive zero row and each successor prefix appends the next observed summand through the additive operation. The ledger keeps the $\SeqUp$ source certificate, hidden summand-prefix rows, partial-sum rows, explicit unary convergence moduli, stream-classifier transports, and additive-classifier comparisons, and those rows give nonemptiness, reflexive/symmetric/transitive comparison, and carrier closure by inherited pointwise transport. A history $h$ lies in the signature gap of a $\SeriesUp$ token $p$ when the source-domain accepts its summand stream and additive row, the signature relation pairs the displayed partial-sum family and modulus ledger with an answer history, and the token-introduction relation names that answer as $p$; unfolded, $h$ is accepted precisely when its finite prefixes and modulus rows match the token's series package. The chapter registers this partial-sum ledger construction under the name $\SeriesUp$, exports its public certificate theorem, and gives the paper bridge row from the visible series certificate to the standard partial-sum/modulus schema; it includes no comparison with $\ComplexSeriesUp$ and no host summability theorem.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature paper scope binds the $\NameCert_{\SeqUp}$ source row, additive-carrier rows, finite $\Cont$ partial sums, explicit unary moduli, stream-classifier stability, public certificate theorem, ledger exactness, and paper bridge to the standard partial-sum/modulus schema.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.SeriesUp.SeriesPartialSumLedger\_step\_transport}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not claim a $\ComplexSeriesUp$ comparison, a host summability theorem, or a Lean-checked standard bridge.}
+  \upgradepath{The next verification step is a Lean-checked standard bridge for the same partial-sum ledger and modulus-stability surface.}
+\end{closurestatus}

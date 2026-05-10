@@ -2,6 +2,7 @@
 \label{thm:sheaf-root-cover-locality-gluing-obligation}
 Let $\mathcal{T}$ be an indexed-open carrier for $\TopologyUp$, and let $\mathcal{S}$ be the indexed section presheaf carrier over $\mathcal{T}$ supplied by the $\PreSheafUp$ restriction surface. Then the indexed sheaf carrier of \autoref{def:sheaf-indexed-section-presheaf-carrier}, with classifier family $\sim_i$ and indexed covers as in \autoref{def:sheaf-indexed-cover-compatibility-locality}, supplies the carrier, classifier, locality, and gluing rows required by the root $\NameCert_{\SheafUp}$ ten-field template of \autoref{thm:sheaf-namecert-obligation-surface}.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootCoverLocalityGluing\_obligation\_surface}
 \begin{proof}
 Unfold the indexed section presheaf carrier. Its carrier row is the family $\mathsf{Sec}(i)$ over open indices $i:\mathsf{OpenIx}$, and its restriction row is the stable transport $\rho_{i,j}$ along displayed inclusions $j\le_{\mathcal{T}} i$.
 
@@ -21,11 +22,14 @@ Apply \autoref{thm:sheaf-refinement-compatible-family-pullback}. A compatible fa
 
 Apply \autoref{thm:sheaf-refinement-gluing-descent}. If a global section glues the original compatible family, then the same global section glues the pulled-back family after the restriction transport supplied by the refinement. Thus the root certificate can consume either cover presentation with the same global classifier class.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootRestrictionRefinement\_obligation}
 
 \begin{theorem}[Sheaf root common-refinement exactness obligation]
 \label{thm:sheaf-root-common-refinement-exactness-obligation}
 Let two indexed cover presentations of the same open carry compatible local families. If the families agree after pullback to a displayed common refinement span, then their displayed gluings determine the same global section classifier class. This exactness uses only indexed cover data, displayed common refinement, and restriction transport; it does not quotient cover presentations.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootCommonRefinement\_exactness\_obligation}
+\leanvariant{BEDC.Derived.SheafUp.SheafRootCommonRefinement\_obligation\_carrier\_exactness}
 \begin{proof}
 Unfold the displayed common-refinement span of \autoref{def:sheaf-displayed-common-refinement-span}. The span consists of one indexed cover together with two displayed refinement projections into the two cover presentations being compared.
 
@@ -35,3 +39,4 @@ Apply \autoref{thm:sheaf-common-refinement-gluing-invariance}. The two global se
 
 Finally apply \autoref{thm:sheaf-cover-presentation-exactness}. The conclusion is an equality of global section classifier classes for the two cover presentations themselves, with no host open-cover equality and no quotient of cover presentations introduced into the root surface.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafRootCommonRefinement\_route\_exactness}

@@ -6,5 +6,345 @@ The functional-analysis interface $\FunctionalAnalysisUp$ collects the bounded-l
 \section{Carrier definition}
 \label{sec:functionalanalysis-carrier}
 
+\begin{definition}[FunctionalAnalysis bounded-linear-operator face]
+\label{def:functionalanalysis-bounded-linear-operator-face}
+The bounded-linear-operator face of $\FunctionalAnalysisUp$ is the row family
+obtained by reading $\NameCert_{\BanachUp}$ sources $C,D$ through
+\autoref{def:banach-bounded-linear-operator-carrier}. Its carrier is the
+displayed Banach row
+$$
+\mathsf{BanachBLOp}(C,D,T,K,\Lambda),
+$$
+where $T$ is the operator representative, $K$ is the $\RealUp$ norm bound, and
+$\Lambda$ is the visible source-target, linearity, norm, scalar, bound, and
+provenance ledger. Its classifier is the Banach bounded-operator classifier:
+endpoint-map transport by $\hsame$, $\RealUp$ transport of the bound endpoint,
+and componentwise ledger transport.
+\end{definition}
+
+\begin{definition}[FunctionalAnalysis dual-space face]
+\label{def:functionalanalysis-dual-space-face}
+For a $\BanachUp$ source $C$, the dual-space face of $\FunctionalAnalysisUp$
+is the subface of \autoref{def:functionalanalysis-bounded-linear-operator-face}
+whose target is the scalar singleton target supplied by $\RealUp$ as a
+Banach scalar carrier. Thus a dual row is a carried bounded linear functional
+$$
+\mathsf{BanachBLOp}(C,\RealUp,\varphi,K,\Lambda_\varphi)
+$$
+with the same bounded-operator classifier, the same $\RealUp$ bound endpoint,
+and a ledger whose target endpoint rows are scalar rows rather than a
+separate vector target.
+\end{definition}
+
+\begin{theorem}[FunctionalAnalysis operator-norm stability obligation]
+\label{thm:functionalanalysis-operator-norm-stability-obligation}
+If two bounded-linear-operator rows in
+\autoref{def:functionalanalysis-bounded-linear-operator-face} are related by
+the inherited Banach bounded-operator classifier, then they expose the same
+$\RealUp$ operator-norm bound row and the same visible norm-bound ledger row.
+Consequently every downstream $\FunctionalAnalysisUp$ consumer reads the
+operator representative together with a transported bound endpoint rather
+than a host-level operator equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisBoundedLinearOperator\_norm\_bound\_stable}
+\begin{proof}
+Read the operator face through
+\autoref{def:banach-bounded-linear-operator-carrier}. The classifier specified
+there has three visible components: endpoint-map comparison, $\RealUp$ bound
+comparison, and componentwise ledger transport.
+
+Apply \autoref{thm:banach-bounded-linear-operator-namecert-obligations}. Its
+exactness clause states that accepted bounded-operator rows contain precisely
+the endpoint map, classifier-respect row, additive row, scalar row, bound row,
+and provenance ledger. The $\RealUp$ comparison component therefore transports
+the norm-bound endpoint, and the ledger component transports the row recording
+where that bound is used.
+
+The metric consequence is the Lipschitz row of
+\autoref{thm:banach-bounded-linear-operator-lipschitz}. Since that theorem
+reads the same bound endpoint $K$, the downstream operator-norm use is stable
+under the inherited classifier.
+\end{proof}
+
+\begin{theorem}[FunctionalAnalysis adjoint stability obligation]
+\label{thm:functionalanalysis-adjoint-stability-obligation}
+For Hilbert-compatible sources $H,G$ whose carrier and classifier rows are
+those of \autoref{def:hilbert-compatible-inner-product-banach-carrier}, an
+adjoint row in $\FunctionalAnalysisUp$ is stable under bounded-operator
+classifier transport. The defining comparison
+$$
+\langle Tx,y\rangle_G \sim_{\RealUp} \langle x,T^\ast y\rangle_H
+$$
+uses the same Hilbert carrier, the same classifier, and the same
+inner-product rows before and after transport, so the adjoint ledger row is
+preserved componentwise.
+\end{theorem}
+\leanchecked{BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisBoundedOperatorRow\_adjoint\_stability}
+\begin{proof}
+Begin with the Hilbert source. By
+\autoref{thm:hilbert-namecert-obligation-surface}, every accepted Hilbert row
+exposes a Banach surface, an inner-product surface, and a ledger binding both
+to the same carrier and classifier.
+
+The bounded-operator part is handled by
+\autoref{thm:banach-bounded-linear-operator-namecert-obligations}. Transport
+of $T$ and $T^\ast$ moves the endpoint representatives, the bound endpoints,
+and the operator ledgers without changing the Hilbert carrier on which the
+inner-product rows are evaluated.
+
+Finally apply the carrier-sharing clause of
+\autoref{def:hilbert-compatible-inner-product-banach-carrier}. The two
+inner-product comparisons in the displayed adjoint equation are read through
+the same classifier $\sim_X$ and the same norm-induction ledger. Hence the
+adjoint row is transported as a row of the Hilbert-compatible package.
+\end{proof}
+
+\begin{theorem}[FunctionalAnalysis compact-operator witness obligation]
+\label{thm:functionalanalysis-compact-operator-witness-obligation}
+A compact-operator witness in $\FunctionalAnalysisUp$ is a
+bounded-linear-operator row
+$\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$ together with
+$\CompactMetricUp$ probe data for the image of the carried source unit-bound
+face in the target Banach metric. If the bounded-operator representative is
+replaced by an inherited classifier-related representative, then the witness
+is transported to the new representative and records the same Banach or
+Hilbert compactness probe ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisCompactOperatorWitness\_transport}
+\begin{proof}
+Use \autoref{def:functionalanalysis-bounded-linear-operator-face} for the
+operator row. The bounded-operator classifier transports the endpoint map,
+the bound endpoint, and every source-target ledger component.
+
+The compactness data are attached only to carried source endpoints, target
+metric endpoints, and finite or stream probe rows in $\CompactMetricUp$.
+Those target metric endpoints are the Banach norm-induced rows, so
+\autoref{thm:banach-bounded-linear-operator-namecert-obligations} supplies the
+operator-side transport needed to move the image probes.
+
+When the source and target are Hilbert-compatible, the same compactness row is
+read through \autoref{thm:hilbert-namecert-obligation-surface}. The Hilbert
+surface contributes no new carrier to the compactness witness; it only records
+that the Banach metric endpoint is the norm induced by the displayed
+inner-product row.
+\end{proof}
+
+\begin{theorem}[FunctionalAnalysis exact ledger boundary obligation]
+\label{thm:functionalanalysis-exact-ledger-boundary-obligation}
+The $\FunctionalAnalysisUp$ ledger exposed by this chapter is exactly the
+operator representative, the $\RealUp$ norm-bound row, the dual or adjoint row
+when present, the compactness witness when present, and the downstream
+consumer boundary for $\SpectralTheoremUp$, $\SemigroupUp$, and $\PdeUp$. It
+does not expose a spectral theorem, a semigroup evolution theorem, a PDE
+well-posedness theorem, or any standard bridge beyond those rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisBoundedOperatorRow\_ledger\_hsame\_transport}
+\begin{proof}
+The bounded-operator part is exactly the ledger listed in
+\autoref{def:banach-bounded-linear-operator-carrier} and certified by
+\autoref{thm:banach-bounded-linear-operator-namecert-obligations}. It contains
+the source endpoint, target endpoint, norm, scalar, compatibility, bound, and
+provenance rows.
+
+The Hilbert part, when present, is exactly the compatible carrier and shared
+ledger of \autoref{def:hilbert-compatible-inner-product-banach-carrier}
+together with the obligation surface of
+\autoref{thm:hilbert-namecert-obligation-surface}. Thus adjoint rows are
+ledger rows over the same carrier and classifier, not independent public
+objects.
+
+The remaining fields follow the ten-field template of
+\autoref{sec:roadmap-per-object-template}: traditional target, BEDC source,
+carrier, classifier, stability obligations, ledger, core theorem list,
+exactness predicate, standard bridge, and status. For this chapter the
+standard-bridge and downstream theorem entries are recorded as boundaries, so
+the ledger stops exactly at the rows displayed in the statement.
+\end{proof}
+
 \section{The certificate}
 \label{sec:functionalanalysis-certificate}
+
+\begin{theorem}[FunctionalAnalysis bounded-linear-operator obligation]
+\label{thm:functionalanalysis-bounded-linear-operator-obligation}
+A $\FunctionalAnalysisUp$ bounded-operator row over a $\BanachUp$ or
+$\HilbertUp$ source and target consists of the following displayed data:
+\begin{enumerate}
+  \item a carried $\LinearMapUp$ map-code carrier for the underlying map;
+  \item source and target carrier predicates supplied by the Banach or Hilbert
+  certificates named in the chapter opening;
+  \item the pointwise $\LinearMapUp$ classifier on carried source inputs;
+  \item an operator-norm witness landing in the $\RealUp$ nonnegative
+  comparison surface;
+  \item a norm-bound ledger recording the input norm row, output norm row,
+  bound endpoint, and classifier transport used by the comparison.
+\end{enumerate}
+The stability field of this row is inherited from the $\LinearMapUp$
+pointwise classifier and from the Banach or Hilbert carrier and norm
+classifiers, with no extra equality relation on maps.
+\end{theorem}
+\leanchecked{BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisBoundedOperatorRow\_visible\_ledger}
+\begin{proof}
+Read the Banach and Hilbert dependencies from the chapter opening. They supply
+the carried vector endpoints, norm rows, distance rows, and classifier
+transport used by a bounded-operator comparison.
+
+Next read the map part through $\LinearMapUp$. The singleton and pointwise
+classifier surface of $\LinearMapUp$, including
+\autoref{def:linearmap-carrier} and
+\autoref{def:linearmap-classifier-specification}, supplies the carried
+map-code endpoint and identifies map sameness with pointwise codomain
+classifier sameness on carried source inputs.
+
+The operator-norm witness is then only a ledgered RealUp bound: for each
+carried input, the source norm row, output norm row, and bound endpoint are
+recorded together with the RealUp comparison. Transporting the source input
+along the $\LinearMapUp$ classifier and the Banach or Hilbert norm classifier
+transports the same bound row, so the bounded-operator classifier has exactly
+the inherited stability claimed above.
+\end{proof}
+
+\begin{theorem}[FunctionalAnalysis dual-space classifier obligation]
+\label{thm:functionalanalysis-dual-space-classifier-obligation}
+For a $\BanachUp$ source, the $\FunctionalAnalysisUp$ dual-space carrier is
+the row of bounded scalar-valued $\LinearMapUp$ map codes from the Banach
+carrier to the scalar carrier. Its classifier compares two dual rows
+pointwise: for every carried Banach input, their scalar outputs are related by
+the scalar $\NameCert$ classifier. Reflexivity, symmetry, and transitivity of
+the dual classifier are inherited from the scalar $\NameCert$ classifier and
+from the $\LinearMapUp$ pointwise classifier package.
+\end{theorem}
+\leanchecked{BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisDualPointwiseClassifier\_equivalence\_rows}
+\begin{proof}
+The source side is the Banach certificate named in the chapter opening. The
+target side is the scalar $\NameCert$ used by the Banach norm and bound rows.
+Together they determine the scalar-valued $\LinearMapUp$ carrier: a functional
+is a carried linear-map code whose output carrier is the scalar carrier and
+whose bound ledger is a RealUp comparison row.
+
+For classification, unfold the $\LinearMapUp$ pointwise classifier surface.
+Two carried scalar-valued map codes are compared by applying both to an
+arbitrary carried Banach input and comparing the scalar outputs. Scalar
+reflexivity gives the diagonal comparison, scalar symmetry reverses each
+pointwise comparison, and scalar transitivity composes two pointwise
+comparisons.
+
+Because these three operations are performed pointwise and then repacked by
+\autoref{def:linearmap-classifier-specification}, the dual-space classifier
+inherits refl/symm/trans from the scalar $\NameCert$ and the $\LinearMapUp$
+classifier package alone.
+\end{proof}
+
+\begin{theorem}[FunctionalAnalysis compact-operator ledger obligation]
+\label{thm:functionalanalysis-compact-operator-ledger-obligation}
+A $\FunctionalAnalysisUp$ compact-operator witness for a carried bounded
+operator is an explicit finite-net image ledger: for each displayed
+$\mathsf{ProbeBundle}$ of bounded source inputs and each displayed target tolerance
+row, the ledger gives finitely many carried target probes whose classifier
+balls cover the carried image probes. The witness is stable under the
+bounded-operator classifier because pointwise target classifier transport
+moves every image probe and its finite-net comparison across classifier-equal
+bounded operators. This is not an open-cover compactness assertion and uses
+no choice-based extraction of subcovers.
+\end{theorem}
+\leanchecked{BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisCompactOperatorWitness\_probe\_ledger}
+\begin{proof}
+Start with the bounded-operator row of
+\autoref{thm:functionalanalysis-bounded-linear-operator-obligation}. It gives
+the carried $\LinearMapUp$ map code, pointwise target classifier control, and
+the norm-bound ledger needed to restrict attention to bounded source probes.
+
+The compactness datum is recorded as a finite $\mathsf{ProbeBundle}$-style ledger.
+For a displayed source probe bundle and a displayed target tolerance row, the
+ledger names a finite list of carried target probes and, for each image probe,
+the selected finite-net point together with the target classifier comparison.
+
+If two bounded operators are related by the bounded-operator classifier, then
+their image endpoints over every carried source probe are pointwise related in
+the target classifier. Transport each finite-net comparison across that
+pointwise relation and keep the same finite list of target probes. Thus the
+compact-operator witness is classifier-stable while remaining a finite ledger,
+not an open-cover or choice principle.
+\end{proof}
+
+\begin{theorem}[FunctionalAnalysis public export certificate]
+\label{thm:functionalanalysis-public-export-certificate}
+The public $\FunctionalAnalysisUp$ export over the displayed $\BanachUp$,
+$\HilbertUp$, $\LinearMapUp$, $\RealUp$, and $\CompactMetricUp$ sources is the
+single $\NameCert_{\FunctionalAnalysisUp}$ surface whose fields are exactly
+the bounded-operator row, the dual-space classifier, the operator-norm
+stability row, the adjoint stability row, the compact finite-net witness row,
+and the exact ledger boundary proved in this chapter. The surface exports
+only these rows for downstream public consumers, and it exports no spectral
+theorem, semigroup evolution theorem, PDE well-posedness theorem, standard
+bridge, or host-level operator equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisPublic\_export\_certificate}
+\begin{proof}
+The carrier and classifier part is the bounded-operator row of
+\autoref{thm:functionalanalysis-bounded-linear-operator-obligation} together
+with the dual-space classifier of
+\autoref{thm:functionalanalysis-dual-space-classifier-obligation}. These two
+rows determine the public operator and scalar-valued functional faces over the
+displayed $\BanachUp$, $\HilbertUp$, $\LinearMapUp$, and $\RealUp$ sources.
+
+The stability fields are precisely the operator-norm and adjoint rows of
+\autoref{thm:functionalanalysis-operator-norm-stability-obligation} and
+\autoref{thm:functionalanalysis-adjoint-stability-obligation}. The compact
+field is the finite-net witness ledger of
+\autoref{thm:functionalanalysis-compact-operator-ledger-obligation}, read over
+the displayed $\CompactMetricUp$ surface rather than through an open-cover
+compactness assertion.
+
+The boundary of the public surface is the exact ledger boundary of
+\autoref{thm:functionalanalysis-exact-ledger-boundary-obligation}. Therefore
+the exported $\NameCert_{\FunctionalAnalysisUp}$ surface consists exactly of
+the named rows and explicitly omits spectral theorem, semigroup evolution,
+PDE well-posedness, standard-bridge, and host-level operator-equality claims.
+\end{proof}
+
+\begin{theorem}[FunctionalAnalysis public bridge boundary]
+\label{thm:functionalanalysis-public-bridge-boundary}
+The public $\FunctionalAnalysisUp$ surface over the displayed $\BanachUp$,
+$\HilbertUp$, $\LinearMapUp$, $\RealUp$, and $\CompactMetricUp$ rows exports
+exactly the bounded-operator row, dual pointwise classifier, norm-bound
+stability, adjoint stability, compact finite-net witness, and exact ledger
+boundary as the bridge payload available to downstream $\SpectralTheoremUp$,
+$\SemigroupUp$, and $\PdeUp$ consumers. This boundary does not assert spectral
+theorem rows, semigroup evolution, PDE well-posedness, $\bridgeCheckedV$, or
+host-level operator equality.
+\end{theorem}
+\begin{proof}
+The exported operator face is the bounded-operator row of
+\autoref{thm:functionalanalysis-bounded-linear-operator-obligation}. The
+exported dual face is the pointwise scalar-valued classifier of
+\autoref{thm:functionalanalysis-dual-space-classifier-obligation}. Together
+these two rows give the public carrier and classifier entries consumed by the
+operator chapters.
+
+The stability payload is exactly the norm-bound stability row of
+\autoref{thm:functionalanalysis-operator-norm-stability-obligation} and the
+adjoint stability row of
+\autoref{thm:functionalanalysis-adjoint-stability-obligation}. These rows
+transport the exported operator data without adding any spectral, evolution, or
+PDE conclusion.
+
+The compact payload is the finite-net witness of
+\autoref{thm:functionalanalysis-compact-operator-ledger-obligation}, and the
+outer boundary is the exact ledger boundary of
+\autoref{thm:functionalanalysis-exact-ledger-boundary-obligation}. Repacking
+these six named rows gives precisely the public bridge payload for
+$\SpectralTheoremUp$, $\SemigroupUp$, and $\PdeUp$, while the omitted claims
+remain outside this $\FunctionalAnalysisUp$ certificate.
+\end{proof}
+
+\closureat{FunctionalAnalysisUp}{matureStr}[BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisBoundedOperatorRow\_visible\_ledger]
+\begin{closurestatus}{\FunctionalAnalysisUp}
+  \constructivestory{A functional-analysis row is assembled from already displayed $\BanachUp$, $\HilbertUp$, $\LinearMapUp$, $\RealUp$, and $\CompactMetricUp$ surfaces: the bounded-operator carrier contains a carried map code, source and target carriers, a RealUp norm-bound endpoint, and a visible ledger of source, target, linearity, norm, scalar, bound, and provenance rows. Two bounded operators or dual rows are classified only by the inherited pointwise map classifier, RealUp bound transport, and componentwise ledger transport; there is no host-level operator equality, and a dual-space row is just the scalar-target subface of the same bounded-operator construction. The source covers bounded operators, scalar-valued functionals, Hilbert adjoint rows, and compact finite-net witnesses, while the pattern records norm-bound stability, adjoint stability, pointwise dual equivalence, compact probe transport, exact ledger boundary, public export, and downstream bridge payload for spectral, semigroup, and PDE consumers. The five name-certificate obligations are inherited row by row: inhabited operator faces come from displayed accepted map codes when a row is present, pointwise scalar classifiers and RealUp classifiers give reflexivity, symmetry, and transitivity, and the bounded-operator and compact-witness transport theorems keep every accepted ledger stable under the classifier. A history package $h$ lies in the signature gap of a $\FunctionalAnalysisUp$ token $p$ when the source-domain accepts the bounded-operator, dual, adjoint, or compact row, the signature relation pairs it with an answer row and evidence ledger, and token introduction names that answer as $p$; unfolded, the token can see only the transported map code, bound endpoint, pointwise scalar outputs, finite-net probes, and listed ledger rows. The paper bridge boundary exports exactly those six row families to $\SpectralTheoremUp$, $\SemigroupUp$, and $\PdeUp$ consumers, without turning them into standard operator theory. The chapter registers this bounded-operator and dual-ledger surface under the name $\FunctionalAnalysisUp$; it introduces no spectral theorem, PDE well-posedness theorem, semigroup evolution theorem, host equality, or bridge-checked standard model.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature paper scope is exactly the bounded-operator row, dual pointwise classifier, norm-bound stability, adjoint stability, compact finite-net witness, exact ledger boundary, public export certificate, and public bridge boundary for downstream $\SpectralTheoremUp$, $\SemigroupUp$, and $\PdeUp$ consumers.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.FunctionalAnalysisUp.FunctionalAnalysisBoundedOperatorRow\_visible\_ledger}
+  \bridgestatus{paperBridge}
+  \notclaimed{Spectral theorem rows, PDE well-posedness, semigroup evolution, host equality, and $\bridgeCheckedV$ remain outside this mature paper claim.}
+  \upgradepath{The next verification work is checked standard-bridge verification for the six displayed rows and their downstream certificates, independent of any additional paper closure grade.}
+\end{closurestatus}

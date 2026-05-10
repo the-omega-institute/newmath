@@ -6,5 +6,657 @@ The representation-ring interface $\RepresentationRingUp$ packages the Grothendi
 \section{Carrier definition}
 \label{sec:representationring-carrier}
 
+\begin{definition}[RepresentationRingUp BHist representation packet]
+\label{def:representationring-bhist-representation-packet}
+A $\RepresentationRingUp$ representation packet is a finite $\mathsf{BHist}$
+tuple
+$$
+\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda).
+$$
+The row $G$ is the consumed $\NameCert_{\GroupUp}$ packet, and $R$ is the
+consumed $\NameCert_{\RingUp}$ packet. The row $V$ is the finite list of
+representation endpoints carried as $\mathsf{BHist}$ rows: each endpoint has
+its group action source read through $G$ and its additive and multiplicative
+target rows read through $R$. The row $S$ records the displayed direct-sum
+faces, and $T$ records the displayed tensor-product faces. Both are finite
+$\Cont$ ledgers whose endpoints are members of $V$.
+
+The row $P$ is the provenance packet listing the $\mathsf{Pkg}$ rows consumed
+from $G$ and $R$ and the package rows attached to $S$ and $T$. The row $\rho$
+is the Grothendieck classifier row naming formal direct-sum balance among the
+displayed representation endpoints. The finite ledger $\lambda$ is the
+$\Cont$ list containing exactly the consumed GroupUp rows, consumed RingUp
+rows, representation rows, direct-sum rows, tensor rows, classifier row, and
+provenance rows exposed by the public packet.
+\end{definition}
+
+\begin{definition}[RepresentationRingUp Grothendieck ledger classifier]
+\label{def:representationring-grothendieck-ledger-classifier}
+For two representation packets
+$$
+\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)
+\qquad\text{and}\qquad
+\mathcal{K}'=(G',R',V',S',T',P',\rho',\lambda'),
+$$
+the Grothendieck ledger classifier
+$\mathcal{K}\sim_{\RepresentationRingUp}^{\mathrm{gr}}\mathcal{K}'$
+is the finite componentwise transport datum consisting of:
+\begin{enumerate}
+  \item an $\hsame$ transport row between the consumed $\NameCert_{\GroupUp}$
+  packets $G$ and $G'$;
+  \item an $\hsame$ transport row between the consumed $\NameCert_{\RingUp}$
+  packets $R$ and $R'$;
+  \item an entrywise $\hsame$ transport row between the displayed
+  representation endpoint lists $V$ and $V'$;
+  \item entrywise $\hsame$ transport rows between the direct-sum ledgers $S$
+  and $S'$ and between the tensor-product ledgers $T$ and $T'$;
+  \item an $\hsame$ transport row between the provenance packets $P$ and
+  $P'$;
+  \item an $\hsame$ transport row between the Grothendieck classifier rows
+  $\rho$ and $\rho'$;
+  \item a finite $\Cont$ ledger comparison between $\lambda$ and $\lambda'$,
+  entry by entry.
+\end{enumerate}
+Thus equality in the public representation-ring carrier is not host equality
+of representation categories. It is the displayed $\hsame$ transport of the
+consumed GroupUp packet, consumed RingUp packet, representation rows,
+direct-sum rows, tensor rows, provenance, and finite continuation ledger.
+\end{definition}
+\leandef{BEDC.Derived.RepresentationRingUp.RepresentationRingGrothendieckClassifier}
+
+\begin{theorem}[RepresentationRingUp Grothendieck classifier reflexivity]
+\label{thm:representationring-grothendieck-classifier-reflexive}
+Every representation packet
+$\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)$ satisfies
+$\mathcal{K}\sim_{\RepresentationRingUp}^{\mathrm{gr}}\mathcal{K}$. The row is
+the componentwise reflexive $\hsame$ datum on $G,R,V,S,T,P,\rho$, together
+with the identical finite $\Cont$ ledger comparison on $\lambda$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_semantic\_name\_certificate}
+\begin{proof}
+Apply the classifier definition in
+\autoref{def:representationring-grothendieck-ledger-classifier} to the pair
+$(\mathcal{K},\mathcal{K})$. For the consumed GroupUp and RingUp packets use
+the reflexive $\hsame$ rows on $G$ and $R$.
+
+For the displayed representation endpoints, direct-sum rows, tensor rows,
+provenance packet, and Grothendieck classifier row, choose the entrywise
+reflexive $\hsame$ rows on $V,S,T,P,\rho$. These are exactly the component
+slots required by the displayed classifier list.
+
+For the ledger slot choose the identity comparison of the finite $\Cont$
+ledger $\lambda$ with itself. Repacking these component rows gives
+$\mathcal{K}\sim_{\RepresentationRingUp}^{\mathrm{gr}}\mathcal{K}$.
+\end{proof}
+
+\begin{theorem}[RepresentationRingUp Grothendieck classifier symmetry]
+\label{thm:representationring-grothendieck-classifier-symmetric}
+For representation packets
+$\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)$ and
+$\mathcal{K}'=(G',R',V',S',T',P',\rho',\lambda')$, a classifier row
+$\mathcal{K}\sim_{\RepresentationRingUp}^{\mathrm{gr}}\mathcal{K}'$ determines
+a classifier row
+$\mathcal{K}'\sim_{\RepresentationRingUp}^{\mathrm{gr}}\mathcal{K}$ by
+reversing each displayed $\hsame$ row and reversing the finite $\Cont$ ledger
+comparison.
+\end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_grothendieck\_classifier\_symmetric}
+\begin{proof}
+Unpack the classifier row using
+\autoref{def:representationring-grothendieck-ledger-classifier}. It consists
+of component transports from $G$ to $G'$, from $R$ to $R'$, entrywise from
+$V$ to $V'$, from $S$ to $S'$, from $T$ to $T'$, from $P$ to $P'$, and from
+$\rho$ to $\rho'$, together with the finite ledger comparison from $\lambda$
+to $\lambda'$.
+
+Reverse the two dependency rows by symmetry of $\hsame$, giving rows from
+$G'$ to $G$ and from $R'$ to $R$. Reverse the entrywise rows on the endpoint
+list, direct-sum ledger, tensor ledger, provenance packet, and classifier
+row in the same componentwise manner.
+
+Reverse the finite $\Cont$ ledger comparison so that each entry of
+$\lambda'$ is matched with the corresponding entry of $\lambda$. The reversed
+component family is precisely the classifier datum from $\mathcal{K}'$ to
+$\mathcal{K}$.
+\end{proof}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingGrothendieckClassifier\_symmetric}
+
+\begin{theorem}[RepresentationRingUp Grothendieck classifier transitivity]
+\label{thm:representationring-grothendieck-classifier-transitive}
+For representation packets
+$\mathcal{K}_{0}=(G_{0},R_{0},V_{0},S_{0},T_{0},P_{0},\rho_{0},\lambda_{0})$,
+$\mathcal{K}_{1}=(G_{1},R_{1},V_{1},S_{1},T_{1},P_{1},\rho_{1},\lambda_{1})$,
+and
+$\mathcal{K}_{2}=(G_{2},R_{2},V_{2},S_{2},T_{2},P_{2},\rho_{2},\lambda_{2})$,
+classifier rows
+$\mathcal{K}_{0}\sim_{\RepresentationRingUp}^{\mathrm{gr}}\mathcal{K}_{1}$
+and
+$\mathcal{K}_{1}\sim_{\RepresentationRingUp}^{\mathrm{gr}}\mathcal{K}_{2}$
+compose to a classifier row
+$\mathcal{K}_{0}\sim_{\RepresentationRingUp}^{\mathrm{gr}}\mathcal{K}_{2}$.
+The composite is componentwise $\hsame$ transitivity on
+$G,R,V,S,T,P,\rho$, together with composition of the finite $\Cont$ ledger
+comparisons from $\lambda_{0}$ through $\lambda_{1}$ to $\lambda_{2}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_grothendieck\_classifier\_transitive}
+\begin{proof}
+Unpack both classifier rows by
+\autoref{def:representationring-grothendieck-ledger-classifier}. The first
+row supplies component transports from the subscript $0$ packet to the
+subscript $1$ packet, and the second supplies the corresponding component
+transports from the subscript $1$ packet to the subscript $2$ packet.
+
+Compose the consumed GroupUp and RingUp rows by transitivity of $\hsame$,
+obtaining rows from $G_{0}$ to $G_{2}$ and from $R_{0}$ to $R_{2}$. Compose
+the endpoint-list rows entry by entry, and do the same for the direct-sum
+ledger, tensor ledger, provenance packet, and Grothendieck classifier row.
+
+For the continuation ledger, concatenate the comparison from $\lambda_{0}$ to
+$\lambda_{1}$ with the comparison from $\lambda_{1}$ to $\lambda_{2}$, and
+then read it as the finite entrywise comparison from $\lambda_{0}$ to
+$\lambda_{2}$. Repacking the composed components gives the required
+classifier row from $\mathcal{K}_{0}$ to $\mathcal{K}_{2}$.
+\end{proof}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingGrothendieckClassifier\_transitive}
+
 \section{The certificate}
 \label{sec:representationring-certificate}
+
+\begin{theorem}[RepresentationRingUp carrier BHist boundary]
+\label{thm:representationring-carrier-bhist-boundary}
+Every public endpoint of a $\RepresentationRingUp$ carrier packet of
+\autoref{def:representationring-bhist-representation-packet} is one of the
+displayed $\mathsf{BHist}$ rows in
+$G,R,V,S,T,P,\rho,\lambda$. In particular, every representation endpoint is
+scoped through the consumed $\NameCert_{\GroupUp}$ and
+$\NameCert_{\RingUp}$ certificates, and no additional group carrier, ring
+carrier, module carrier, or host representation object is exported at the
+boundary.
+\end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_carrier\_boundary}
+\begin{proof}
+Project an accepted packet to the tuple
+$\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)$. The carrier definition lists all
+public rows in that tuple, so a public endpoint can only be the consumed
+GroupUp row, the consumed RingUp row, a representation endpoint from $V$, a
+direct-sum row from $S$, a tensor row from $T$, a provenance row from $P$, the
+Grothendieck classifier row $\rho$, or an entry of the finite ledger
+$\lambda$.
+
+For a representation endpoint in $V$, the same projection reads its action
+source through $G$ and its target algebra rows through $R$. The direct-sum
+and tensor rows are ledger faces whose endpoints are members of $V$, so they
+also remain scoped by those two consumed certificates.
+
+Conversely, any row from the displayed tuple repacks into the public carrier
+surface by the constructor pattern of
+\autoref{def:representationring-bhist-representation-packet}. No external
+representation object is needed, because the boundary is exactly the
+finite $\mathsf{BHist}$ packet.
+\end{proof}
+
+\begin{theorem}[RepresentationRingUp direct-sum tensor ledger stability]
+\label{thm:representationring-direct-sum-tensor-ledger-stability}
+If two packets of
+\autoref{def:representationring-bhist-representation-packet} are related by
+the classifier of
+\autoref{def:representationring-grothendieck-ledger-classifier}, then the
+direct-sum faces and tensor-product faces of the first packet transport to
+the corresponding faces of the second packet through $\hsame$ and the finite
+$\Cont$ ledger comparison. The transported packet preserves the consumed
+$\NameCert_{\GroupUp}$ and $\NameCert_{\RingUp}$ sources and the
+Grothendieck classifier row.
+\end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_direct\_sum\_tensor\_ledger\_stability}
+\begin{proof}
+Unpack the classifier between
+$\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)$ and
+$\mathcal{K}'=(G',R',V',S',T',P',\rho',\lambda')$. It supplies transported
+GroupUp and RingUp dependency rows, entrywise endpoint transport between
+$V$ and $V'$, entrywise ledger transport between $S$ and $S'$ and between
+$T$ and $T'$, provenance transport, classifier-row transport, and a finite
+comparison between $\lambda$ and $\lambda'$.
+
+Read a direct-sum face from $S$. Its endpoints are displayed members of
+$V$, so the endpoint comparison in the classifier carries them to the
+matching members of $V'$. The ledger comparison then carries the $\Cont$
+row witnessing the direct-sum face to the corresponding entry of $S'$.
+
+The tensor-product case is identical except that the ledger entry is read
+from $T$. The transported endpoints still read their action source through
+$G'$ and their target rows through $R'$, because the classifier transported
+the consumed GroupUp and RingUp packets at the same time.
+
+Finally transport $\rho$ to $\rho'$ and $P$ to $P'$. Repacking these rows
+gives a representation-ring packet with stable direct-sum and tensor faces
+over the transported finite ledger.
+\end{proof}
+
+\begin{theorem}[RepresentationRingUp NameCert obligation surface]
+\label{thm:representationring-namecert-obligation-surface}
+The $\NameCert_{\RepresentationRingUp}$ obligation surface is the package
+consisting of the carrier packet of
+\autoref{def:representationring-bhist-representation-packet}, the
+Grothendieck ledger classifier of
+\autoref{def:representationring-grothendieck-ledger-classifier}, the carrier
+boundary of \autoref{thm:representationring-carrier-bhist-boundary}, the
+direct-sum and tensor stability row of
+\autoref{thm:representationring-direct-sum-tensor-ledger-stability}, exactness
+of the finite $\Cont$ and $\mathsf{Pkg}$ ledger rows, and the consumer
+boundary used by $\InducedRepUp$ through $\NameCert_{\RepresentationRingUp}$.
+The consumer may read the consumed GroupUp packet, consumed RingUp packet,
+representation endpoints, direct-sum faces, tensor faces, Grothendieck
+classifier row, provenance rows, and finite ledger rows, but it receives no
+additional induction functor, restriction functor, character row, or
+host-level representation category.
+\end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_namecert\_obligation\_surface}
+\begin{proof}
+Start with the carrier and classifier definitions. The carrier supplies the
+finite row family, while the classifier specifies componentwise $\hsame$
+transport for each dependency, endpoint list, operation face, provenance
+packet, classifier row, and ledger entry.
+
+Apply the carrier boundary theorem to identify the public endpoints. This
+shows that every exported representation-ring row is already one of the
+displayed $\mathsf{BHist}$ rows and that the representation endpoints remain
+scoped by the consumed GroupUp and RingUp certificates.
+
+Next apply the direct-sum and tensor stability theorem. It transports the two
+operation faces through the same endpoint comparisons and the same finite
+$\Cont$ ledger comparison, so the Grothendieck classifier row remains attached
+to the transported packet.
+
+Exactness follows by inspecting the displayed rows. The only provenance rows
+are the $\mathsf{Pkg}$ rows in $P$, and the only continuation rows are the
+entries of $\lambda$ together with the displayed direct-sum and tensor faces.
+Thus every public row is accounted for by projection from the packet.
+
+For the downstream boundary, an $\InducedRepUp$ consumer reads precisely this
+public surface: representation endpoints together with direct-sum, tensor,
+classifier, provenance, and dependency rows. Induction, restriction,
+Frobenius reciprocity, and character-theoretic data are not fields of
+$\NameCert_{\RepresentationRingUp}$ and must be supplied by their own
+certificates.
+\end{proof}
+
+\begin{theorem}[RepresentationRingUp classifier ledger exhaustion]
+\label{thm:representationring-classifier-ledger-exhaustion}
+Every accepted Grothendieck ledger classifier row for
+$\RepresentationRingUp$ is exhausted by the finite rows displayed in
+\autoref{def:representationring-grothendieck-ledger-classifier}. Concretely,
+for packets
+$$
+\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)
+\qquad\text{and}\qquad
+\mathcal{K}'=(G',R',V',S',T',P',\rho',\lambda'),
+$$
+an accepted classifier between them consists only of $\mathsf{BHist}$
+direct-sum rows from $S$ and $S'$, tensor-product rows from $T$ and $T'$,
+provenance rows from $P$ and $P'$, $\hsame$ transport rows for the consumed
+packets, endpoints, operation ledgers, provenance packets, and classifier
+rows, and the finite $\Cont$ comparison between $\lambda$ and $\lambda'$.
+There is no further classifier row outside that displayed ledger.
+\end{theorem}
+\begin{proof}
+Project the accepted classifier to the seven entries listed in
+\autoref{def:representationring-grothendieck-ledger-classifier}. Each entry is
+either an $\hsame$ transport row or a finite $\Cont$ comparison row, and the
+operation entries are exactly the displayed direct-sum and tensor-product
+ledgers.
+
+The carrier boundary theorem identifies every public representation-ring
+endpoint as one of the rows of
+\autoref{def:representationring-bhist-representation-packet}. Hence any
+classifier row with public effect must land on one of $G,R,V,S,T,P,\rho$, or
+$\lambda$.
+
+Apply the obligation-surface theorem to the accepted NameCert packet. It
+permits no additional host representation category, quotient object, character
+row, or functorial equality row. The seven displayed classifier entries
+therefore exhaust the accepted Grothendieck ledger classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_classifier\_ledger\_exhaustion}
+
+\begin{theorem}[RepresentationRingUp tensor-product descent]
+\label{thm:representationring-tensor-product-descent}
+Let $\mathcal{K}$ and $\mathcal{K}'$ be packets of
+\autoref{def:representationring-bhist-representation-packet} related by the
+classifier of
+\autoref{def:representationring-grothendieck-ledger-classifier}. If a
+tensor-product representation packet is read from two endpoints of $V$ together
+with a tensor ledger row of $T$, then the transported endpoints in $V'$ and the
+corresponding tensor ledger row of $T'$ form a tensor-product representation
+packet related to the first one by the same classifier. Thus tensor products
+descend along the finite representation-ring classifier relation.
+\end{theorem}
+\begin{proof}
+Unpack the classifier between $\mathcal{K}$ and $\mathcal{K}'$. It supplies
+entrywise $\hsame$ transport for the representation endpoints and entrywise
+transport between the tensor ledgers $T$ and $T'$.
+
+Read the chosen tensor-product packet from its two endpoint rows in $V$ and its
+tensor ledger row in $T$. The endpoint transports carry those two rows to the
+matching endpoint rows in $V'$, and the tensor-ledger transport carries the
+operation row to the corresponding member of $T'$.
+
+Apply the direct-sum tensor ledger stability theorem to preserve the consumed
+GroupUp and RingUp sources, the provenance row, the Grothendieck classifier
+row, and the finite $\Cont$ ledger comparison. Repacking the transported rows
+gives the tensor-product packet over $\mathcal{K}'$, related by the same
+displayed classifier data.
+\end{proof}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_tensor\_product\_descent}
+
+\begin{theorem}[RepresentationRingUp induced consumer boundary]
+\label{thm:representationring-induced-consumer-boundary}
+An $\InducedRepUp$ consumer of $\NameCert_{\RepresentationRingUp}$ consumes
+exactly the finite boundary rows consisting of the group source row, the
+subgroup boundary row supplied by its own group-side certificate, the
+representation packet of
+\autoref{def:representationring-bhist-representation-packet}, the induction
+ledger rows supplied by the consumer certificate, and the Grothendieck
+classifier rows of
+\autoref{def:representationring-grothendieck-ledger-classifier}. It does not
+receive a host quotient of representation categories, an external
+representation-equality oracle, or any equality relation beyond the displayed
+$\hsame$ and $\Cont$ rows.
+\end{theorem}
+\begin{proof}
+Start from the public representation-ring packet. Its exposed rows are the
+consumed GroupUp and RingUp sources, representation endpoints, direct-sum and
+tensor ledgers, provenance rows, classifier row, and continuation ledger.
+
+An $\InducedRepUp$ consumer adds its own subgroup boundary and induction
+ledger, both as finite certificate rows. The representation-ring side
+contributes only the representation packet and the Grothendieck classifier
+needed to transport that packet across accepted classifier-related inputs.
+
+The obligation-surface theorem excludes any additional induction functor,
+restriction functor, character row, or host representation category from
+$\NameCert_{\RepresentationRingUp}$. The carrier boundary and classifier
+exhaustion results then leave exactly the named rows, with equality mediated
+only by $\hsame$ and finite $\Cont$ comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_induced\_consumer\_boundary}
+
+\begin{theorem}[RepresentationRingUp InducedRep consumer boundary]
+\label{thm:representationring-consumer-boundary}
+An $\InducedRepUp$ consumer of $\NameCert_{\RepresentationRingUp}$ may read
+only the finite $\mathsf{BHist}$ rows displayed in the carrier packet
+$\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)$ of
+\autoref{def:representationring-bhist-representation-packet}: the consumed
+$\NameCert_{\GroupUp}$ row $G$, the consumed $\NameCert_{\RingUp}$ row $R$,
+the representation endpoint list $V$, the direct-sum ledger $S$, the
+tensor-product ledger $T$, the $\mathsf{Pkg}$ provenance packet $P$, the
+Grothendieck classifier row $\rho$, and the finite $\Cont$ ledger
+$\lambda$. Any induction, restriction, Frobenius, subgroup-inclusion, or
+character-theoretic row required by $\InducedRepUp$ lies outside this
+RepresentationRingUp boundary unless it is separately supplied by the
+$\InducedRepUp$ packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_consumer\_boundary}
+\begin{proof}
+Project the consumer request to the carrier packet $\mathcal{K}$. The carrier
+definition lists exactly the rows $G,R,V,S,T,P,\rho,\lambda$, and each
+representation endpoint in $V$ reads its action source through $G$ and its
+algebra target through $R$.
+
+The operation rows are also already named. A direct-sum request lands in the
+finite $\Cont$ ledger $S$, a tensor-product request lands in the finite
+$\Cont$ ledger $T$, and every public continuation read is an entry of
+$\lambda$. Provenance is read through the displayed $\mathsf{Pkg}$ packet
+$P$.
+
+Repack these projections as the representation-ring part of an
+$\InducedRepUp$ input. The repacking gives a concrete BEDC source boundary:
+the downstream packet receives the rows named above and no host
+representation category, induction functor, restriction functor, Frobenius
+adjunction, or character row from $\NameCert_{\RepresentationRingUp}$.
+\end{proof}
+
+\begin{theorem}[RepresentationRingUp classifier exactness]
+\label{thm:representationring-classifier-exactness}
+For packets $\mathcal{K}$ and $\mathcal{K}'$ of
+\autoref{def:representationring-bhist-representation-packet}, the
+Grothendieck ledger classifier
+$\mathcal{K}\sim_{\RepresentationRingUp}^{\mathrm{gr}}\mathcal{K}'$ of
+\autoref{def:representationring-grothendieck-ledger-classifier} is exact for
+the public carrier: its projections are precisely the $\hsame$ rows for the
+consumed $\NameCert_{\GroupUp}$ and $\NameCert_{\RingUp}$ packets, the
+entrywise representation rows, the direct-sum and tensor $\Cont$ ledgers, the
+$\mathsf{Pkg}$ provenance packet, the Grothendieck row $\rho$, and the
+finite ledger comparison for $\lambda$. Conversely, those displayed
+projections repack into the classifier without using host equality of
+representation categories.
+\end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_classifier\_exactness}
+\begin{proof}
+Unpack the classifier between
+$\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)$ and
+$\mathcal{K}'=(G',R',V',S',T',P',\rho',\lambda')$. Its fields are the two
+dependency comparisons, endpoint-list comparison, operation-ledger
+comparisons, provenance comparison, Grothendieck-row comparison, and finite
+ledger comparison.
+
+Each field is a projection of a public row of the carrier packet. The GroupUp
+and RingUp comparisons account for the dependency rows; the endpoint and
+operation comparisons account for $V,S,T$; the provenance comparison accounts
+for $P$; the Grothendieck comparison accounts for $\rho$; and the finite
+ledger comparison accounts for $\lambda$.
+
+For the converse direction, begin with exactly those displayed projections.
+Place them in the same ordered slots required by
+\autoref{def:representationring-grothendieck-ledger-classifier}. This
+constructs the classifier row by repacking finite BEDC data, so no
+source-level equivalence of representation categories is invoked.
+\end{proof}
+
+\begin{theorem}[RepresentationRingUp operation ledger coverage]
+\label{thm:representationring-operation-ledger-coverage}
+Every public operation row of a $\RepresentationRingUp$ carrier packet is
+covered by the finite ledgers $S$, $T$, and $\lambda$ of
+\autoref{def:representationring-bhist-representation-packet}. Direct-sum
+operations are exactly the rows of $S$, tensor-product operations are exactly
+the rows of $T$, their endpoints are members of the representation endpoint
+list $V$, and their dependency and provenance reads factor through the
+consumed $\NameCert_{\GroupUp}$ row $G$, the consumed $\NameCert_{\RingUp}$
+row $R$, and the $\mathsf{Pkg}$ packet $P$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_operation\_ledger\_coverage}
+\begin{proof}
+Project a public operation row from the packet
+$\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)$. The carrier definition has only two
+operation ledgers: $S$ for direct sums and $T$ for tensor products. Thus the
+row is read from one of those finite $\Cont$ ledgers.
+
+In the direct-sum case, the endpoints of the selected row are displayed
+members of $V$. Their group-action source is obtained by projecting $G$, and
+their additive target rows are obtained by projecting $R$. The relevant
+continuation entry is also listed in $\lambda$, and its package provenance is
+listed in $P$.
+
+The tensor-product case is parallel. The selected row lies in $T$, its
+endpoints are members of $V$, its dependency rows are again $G$ and $R$, and
+its public continuation and package reads are entries of $\lambda$ and $P$.
+Repacking these projections covers every operation row and leaves no
+unlisted operation at the boundary.
+\end{proof}
+
+\begin{theorem}[RepresentationRingUp finite BHist source exhaustion]
+\label{thm:representationring-bhist-finite-source-exhaustion}
+The finite $\mathsf{BHist}$ source of a $\RepresentationRingUp$ public packet
+is exhausted by the displayed tuple
+$G,R,V,S,T,P,\rho,\lambda$. Every public carrier, classifier, operation,
+ledger, provenance, and downstream-consumer row is a projection of that tuple
+or a row named by one of its finite $\Cont$ ledgers. No ambient group object,
+ambient ring object, module category, character table, or representation
+category is a separate source row of the public certificate.
+\end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_finite\_source\_exhaustion}
+\begin{proof}
+Inspect the carrier packet. Its dependency sources are exactly $G$ and $R$,
+its representation endpoints are exactly the finite list $V$, and its
+operation sources are exactly the finite ledgers $S$ and $T$. The classifier
+source is the row $\rho$, provenance is the packet $P$, and public
+continuation data is the ledger $\lambda$.
+
+Now consider any public read. A carrier read is one of those fields. A
+classifier read is a projection of
+\autoref{def:representationring-grothendieck-ledger-classifier}. An operation
+read is covered by \autoref{thm:representationring-operation-ledger-coverage}.
+A consumer read for $\InducedRepUp$ is covered by
+\autoref{thm:representationring-consumer-boundary}.
+
+These cases exhaust the finite packet. Repacking the selected projections
+returns a row of the same $\mathsf{BHist}$ source, and there is no remaining
+slot where an ambient host object or representation category could enter as a
+public source.
+\end{proof}
+
+\begin{theorem}[RepresentationRingUp public NameCert surface]
+\label{thm:representationring-public-namecert-surface}
+The public $\NameCert_{\RepresentationRingUp}$ surface consists exactly of
+the $\mathsf{BHist}$ carrier packet of
+\autoref{def:representationring-bhist-representation-packet}, the
+Grothendieck ledger classifier of
+\autoref{def:representationring-grothendieck-ledger-classifier}, the
+consumer boundary of \autoref{thm:representationring-consumer-boundary}, the
+classifier exactness of \autoref{thm:representationring-classifier-exactness},
+the operation-ledger coverage of
+\autoref{thm:representationring-operation-ledger-coverage}, and the finite
+source exhaustion of
+\autoref{thm:representationring-bhist-finite-source-exhaustion}. This surface
+exports the GroupUp and RingUp dependency rows, finite representation
+endpoint rows, finite $\Cont$ ledgers, $\mathsf{Pkg}$ provenance, and the
+Grothendieck classifier row, and it exports nothing outside those rows.
+\end{theorem}
+\begin{proof}
+Begin with the carrier packet and classifier. They provide the finite BEDC
+rows $G,R,V,S,T,P,\rho,\lambda$ and the componentwise comparisons between
+two such packets. The classifier exactness theorem shows that these
+comparisons are precisely the public classifier fields.
+
+Next use the operation-ledger coverage theorem. It accounts for all direct
+sum and tensor product rows through $S$, $T$, $\lambda$, and $P$, with
+endpoints in $V$ and dependencies through $G$ and $R$.
+
+The consumer boundary theorem supplies the downstream side: an
+$\InducedRepUp$ packet may consume the same finite surface but receives no
+induction, restriction, Frobenius, subgroup-inclusion, or character data from
+the representation-ring certificate.
+
+Finally apply finite source exhaustion. Every public row named by the
+certificate is already a projection of the displayed $\mathsf{BHist}$ packet
+or of one of its finite $\Cont$ ledgers. Repacking those projections gives
+the public $\NameCert_{\RepresentationRingUp}$ surface.
+\end{proof}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_public\_namecert\_surface}
+
+\begin{definition}[RepresentationRingUp obligation row inventory]
+\label{def:representationring-obligation-row-inventory}
+The $\RepresentationRingUp$ obligation row inventory is the finite list of
+public rows that a $\NameCert_{\RepresentationRingUp}$ packet must expose:
+\begin{enumerate}
+\item the carrier packet row of
+\autoref{def:representationring-bhist-representation-packet}, including the
+GroupUp packet, RingUp packet, finite representation endpoints, direct-sum
+ledger, tensor-product ledger, provenance packet, and finite $\Cont$ ledger;
+\item the Grothendieck classifier row of
+\autoref{def:representationring-grothendieck-ledger-classifier};
+\item the direct-sum ledger row, consisting of source endpoint rows, target
+endpoint rows, and the finite $\Cont$ records witnessing the displayed direct
+sum construction;
+\item the tensor-product ledger row, consisting of source endpoint rows,
+target endpoint rows, and the finite $\Cont$ records witnessing the displayed
+tensor construction;
+\item the provenance packet row, namely the $\mathsf{Pkg}$ row that records
+that each operation endpoint is read from the displayed GroupUp and RingUp
+dependencies;
+\item the finite $\Cont$ ledger row for all carrier, classifier, direct-sum,
+tensor-product, and provenance continuations in the public packet;
+\item the consumer readback rows exposed to $\InducedRepUp$ and no other
+downstream consumer.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[RepresentationRingUp obligation inventory soundness]
+\label{thm:representationring-obligation-inventory-sound}
+Every row listed in
+\autoref{def:representationring-obligation-row-inventory} is supplied by the
+displayed $\RepresentationRingUp$ public packet: carrier rows come from
+\autoref{thm:representationring-carrier-bhist-boundary}, classifier rows from
+\autoref{thm:representationring-classifier-exactness}, semantic certificate
+rows from \autoref{thm:representationring-namecert-obligation-surface},
+direct-sum and tensor rows from
+\autoref{thm:representationring-operation-ledger-coverage}, provenance and
+finite $\Cont$ rows from
+\autoref{thm:representationring-bhist-finite-source-exhaustion}, and consumer
+readback rows from \autoref{thm:representationring-consumer-boundary}.
+\end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_obligation\_inventory\_sound}
+\begin{proof}
+Start with the carrier packet. The carrier boundary theorem projects the
+finite GroupUp packet, RingUp packet, representation endpoint rows, operation
+ledgers, provenance packet, and finite $\Cont$ records from the displayed
+$\mathsf{BHist}$ representation packet.
+
+Next read the classifier and semantic certificate rows. Classifier exactness
+identifies the Grothendieck classifier with the finite ledger comparison, and
+the obligation-surface theorem places that classifier inside the public
+$\NameCert_{\RepresentationRingUp}$ surface.
+
+The operation rows are covered by the operation-ledger theorem. It handles the
+direct-sum ledger and tensor-product ledger by reading their source endpoints,
+target endpoints, provenance packet, and finite $\Cont$ records from the same
+packet.
+
+Finally apply finite source exhaustion and the consumer boundary theorem.
+Finite source exhaustion supplies the remaining provenance and $\Cont$ rows,
+and the consumer boundary theorem supplies exactly the $\InducedRepUp$
+readback rows named by the inventory.
+\end{proof}
+
+\begin{theorem}[RepresentationRingUp obligation inventory exhaustion]
+\label{thm:representationring-obligation-inventory-exhaustive}
+Every public $\RepresentationRingUp$ obligation projects to one of the rows in
+\autoref{def:representationring-obligation-row-inventory}. In particular, the
+public surface never reads a host representation category, an ambient
+Grothendieck quotient, character theory, induction-restriction calculus, or
+any operation not displayed by the finite carrier packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_obligation\_inventory\_exhaustive}
+\begin{proof}
+Let a public $\RepresentationRingUp$ obligation be given. By the public
+NameCert surface theorem, it is a carrier, classifier, operation, provenance,
+finite $\Cont$, or consumer row of the displayed packet.
+
+Carrier obligations project to the carrier packet row. Classifier obligations
+project to the Grothendieck classifier row. Operation obligations are either
+direct-sum rows or tensor-product rows, hence project to the corresponding
+ledger row.
+
+Provenance and finite-continuation obligations project to the provenance
+packet row or to the finite $\Cont$ ledger row. Consumer obligations project
+to the $\InducedRepUp$ readback row and receive no additional downstream
+surface.
+
+These cases exhaust the public packet by finite source exhaustion. Since the
+exhaustion theorem has no branch for a host representation category,
+Grothendieck quotient object, character row, or induction-restriction
+calculus, none of those structures is read by a public
+$\RepresentationRingUp$ obligation.
+\end{proof}
+
+\closureat{RepresentationRingUp}{scopedStr}[BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_semantic\_name\_certificate]
+\closureat{RepresentationRingUp}{publicStr}[BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_public\_namecert\_surface]
+\begin{closurestatus}{\RepresentationRingUp}
+  \constructivestory{A representation ring is generated as a finite packet $\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)$ whose $G$ row consumes $\GroupUp$, whose $R$ row consumes $\RingUp$, whose $V$ row lists representation endpoints, and whose $S$ and $T$ ledgers display direct-sum and tensor-product faces. The carrier accepts exactly the consumed group and ring packets, the finite representation endpoint list, the operation ledgers, the provenance packet, the Grothendieck classifier row, and the finite $\Cont$ ledger; it excludes a host representation category, module category, character table, induction or restriction functor, and ambient Grothendieck quotient object. Two packets classify together when every displayed component is transported by $\hsame$ and the continuation ledger is compared entry by entry, so Grothendieck equality is a finite ledger balance among direct-sum rows rather than an external quotient. The source specification is the packet of dependency rows and representation endpoints, the pattern records direct-sum and tensor ledger coverage, classifier exactness, consumer boundary, and finite source exhaustion, and the ledger keeps operation endpoints, provenance, classifier rows, and continuation entries visible. The five naming-certificate obligations are discharged by the reflexive packet classifier for inhabitance and reflexivity, componentwise reversal for symmetry, componentwise composition for transitivity, and direct-sum/tensor ledger stability for closure under classifier transport. A history $h$ lies in the signature gap of a $\RepresentationRingUp$ token $p$ when the source domain accepts the finite packet, the signature relation pairs it with an answer packet and evidence ledger, and token introduction names that answer as $p$; concretely, the consumed group and ring rows, representation endpoints, operation ledgers, Grothendieck balance row, and provenance of $h$ are the packet encoded by $p$. The chapter registers this finite Grothendieck-ledger construction under $\RepresentationRingUp$; it exports the rows needed by induced-representation consumers without adding character theory, induction-restriction calculus, a standard bridge, or a host representation-ring primitive.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The obligation scope is the displayed GroupUp packet, RingUp packet, representation endpoints, direct-sum and tensor ledgers, Grothendieck classifier, carrier boundary, classifier exactness, finite $\mathsf{BHist}$ source exhaustion, public $\NameCert$ surface, and obligation inventory soundness and exhaustion.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_public\_namecert\_surface}
+  \bridgestatus{none}
+  \notclaimed{Full representation theory, character theory, induction-restriction calculus, and standard bridge data are not claimed by this chapter.}
+  \upgradepath{The next theory-axis step is a standard bridge theorem connecting the public representation-ring interface to the bridge schema.}
+\end{closurestatus}

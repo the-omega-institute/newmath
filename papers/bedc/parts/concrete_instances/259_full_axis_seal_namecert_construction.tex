@@ -1,0 +1,316 @@
+\chapter{A Concrete Naming Certificate for \(\FullAxisUp\)}
+\label{ch:concrete-instances-full-axis-seal-namecert}
+
+This chapter records a prefix-thread seal interface over the \(\Ezero\)-spine. \(\FullAxisUp\) is NOT a metric or Cauchy completion: its boundary token \(\Eone(\Ezero(\emp))\) is a finite history, not a limit object, and the chapter explicitly disclaims any reading of the boundary as an infinity. The Cauchy / Real / Topology readings remain in the existing \(\CompleteMetricUp\) and related chapters; \(\FullAxisUp\) is a structural seal, not a metric completion.
+
+\section{The prefix thread}
+
+\begin{definition}[Prefix thread]
+\label{def:prefix-thread}
+A prefix thread \(T\) is a history-membership predicate \(T.\mathsf{member}\) that contains \(\emp\) and is closed under \(\Ezero\)-extension.
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.PrefixThread}
+
+\begin{definition}[Zero-spine prefix thread]
+\label{def:zero-spine-prefix-thread}
+The zero-spine prefix thread \(\mathsf{ZSpineThread}\) takes \(T.\mathsf{member} := \mathsf{ZeroSpine}\), with empty membership from Lemma~\ref{lem:zero-spine-empty-base} and \(\Ezero\)-step from Lemma~\ref{lem:zero-spine-closure-under-zero-extension}.
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.zeroSpinePrefixThread}
+
+\section{Seal certificate}
+
+\begin{definition}[Seal certificate over a prefix thread]
+\label{def:seal-certificate}
+A seal certificate \(\mathsf{SealCert}(T)\) records the structural seal data for a prefix thread \(T\): directedness, monotonicity, prefix-closure, and a ledger policy. The first three fields are skeleton-grade; the ledger field is a horizon obligation queued for the formalize pipeline.
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.SealCert}
+\leanvariant{BEDC.Derived.AxisZeckendorf.FullAxis.zeroSpineSealCert}
+
+\section{The boundary marker}
+
+\begin{definition}[Boundary marker \(\mathtt{boundary\_01}\)]
+\label{def:axiszeckendorf-boundary-01}
+The boundary marker is the finite history
+$$
+  \mathtt{boundary\_01}
+  := \Eone(\Ezero(\emp)).
+$$
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.boundary\_01}
+
+\begin{theorem}[Boundary marker is not on the zero-spine]
+\label{thm:boundary-01-not-zero-spine}
+\(\mathsf{ZeroSpine}(\mathtt{boundary\_01})\) does not hold.
+\end{theorem}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.boundary\_01\_not\_zeroSpine}
+\begin{proof}
+\(\mathtt{boundary\_01}\) has top constructor \(\Eone\); apply zero-spine no-one-extension.
+\end{proof}
+
+\begin{remark}[Boundary marker is finite, not an infinity]
+The boundary marker is a finite history of length two. It does NOT denote a limit, an infinity, or a transfinite stage. Any reading that promotes \(\mathtt{boundary\_01}\) to an infinity is explicitly rejected (cf.\ Chapter~\ref{ch:concrete-instances-axis-zeckendorf-cannot-claim}).
+\end{remark}
+
+\section{The certificate}
+
+\begin{definition}[Full-axis source specification]
+\label{def:fullaxis-source-specification}
+For a prefix thread \(T\), the source specification \(\mathsf{FullAxisSource}(T)\) consists of histories \(h\) with \(T.\mathsf{member}(h)\).
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisSourceSpec}
+
+\begin{definition}[Full-axis pattern specification]
+\label{def:fullaxis-pattern-specification}
+For a prefix thread \(T\), the pattern specification \(\mathsf{FullAxisPattern}(T)\) is repeated \(\Ezero\)-extension within \(T\).
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisPatternSpec}
+
+\begin{definition}[Full-axis classifier specification]
+\label{def:fullaxis-classifier-specification}
+For a prefix thread \(T\), the classifier specification \(\mathsf{FullAxisClassifier}(T)\) classifies pairs of \(T\)-members by joint thread membership.
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisClassifierSpec}
+
+\begin{definition}[Full-axis stability certificate]
+\label{def:fullaxis-stability-certificate}
+For a prefix thread \(T\), the stability certificate \(\mathsf{FullAxisStability}(T)\) bundles the seal certificate \(\mathsf{SealCert}(T)\) with the explicit declaration that boundary tokens are finite, not limits.
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisStabilityCert}
+
+\begin{definition}[Full-axis ledger policy]
+\label{def:fullaxis-ledger-policy}
+The ledger policy \(\mathsf{FullAxisLedger}\) retains the prefix thread and every visible thread-member as part of the construction history of the seal.
+\end{definition}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisLedgerPolicy}
+
+\begin{theorem}[Concrete \(\FullAxisUp\) naming certificate]
+\label{thm:concrete-fullaxis-namecert}
+The tuple
+$$
+  \mathsf{NameCert}_{\FullAxisUp}
+  :=
+  (\mathsf{FullAxisSource},
+   \mathsf{FullAxisPattern},
+   \mathsf{FullAxisClassifier},
+   \mathsf{FullAxisStability},
+   \mathsf{FullAxisLedger})
+$$
+specialised to the zero-spine prefix thread forms a valid naming certificate for the derived seal interface \(\FullAxisUp\).
+\end{theorem}
+\leandef{BEDC.Derived.AxisZeckendorf.FullAxis.fullAxis\_namecert}
+\begin{proof}
+The five fields are supplied by the preceding definitions, instantiated at \(T = \mathsf{ZSpineThread}\). Stability includes the seal certificate together with the boundary-finite declaration.
+\end{proof}
+
+\begin{corollary}[\(\FullAxisUp\) is licensed, not primitive]
+\label{cor:fullaxis-licensed-not-primitive}
+The interface \(\FullAxisUp\) is licensed by \(\mathsf{NameCert}_{\FullAxisUp}\). It is a structural seal, not a metric completion, and it is not a primitive object of the finite kernel.
+\end{corollary}
+\leanchecked{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxis\_semantic\_name\_certificate}
+
+\begin{theorem}[FullAxis prefix-thread boundary disjointness]
+\label{thm:fullaxis-prefix-thread-boundary-disjointness}
+For the zero-spine prefix thread of \autoref{def:zero-spine-prefix-thread}, the
+finite boundary marker $\mathtt{boundary\_01}$ is outside the thread carrier.
+Consequently it cannot serve as a thread-member witness, a prefix-thread
+membership row, or a limit witness for the structural seal.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxis\_e1\_e0\_empty\_boundary\_exclusion}
+\begin{proof}
+Unfold the zero-spine prefix thread of \autoref{def:zero-spine-prefix-thread}.
+Its membership predicate is exactly $\mathsf{ZeroSpine}$, closed from $\emp$ by
+repeated $\Ezero$-extension.
+
+Apply \autoref{thm:boundary-01-not-zero-spine}. The finite marker
+$\mathtt{boundary\_01}$ has an $\Eone$ head and therefore is not a member of the
+zero-spine carrier.
+
+Since \autoref{def:fullaxis-source-specification} reads source rows only from
+thread membership, the boundary marker cannot be repacked as a source member.
+The seal certificate therefore treats it only as a finite excluded boundary
+token, not as a completion point or infinity.
+\end{proof}
+
+\begin{theorem}[FullAxis seal source exhaustion]
+\label{thm:fullaxis-seal-source-exhaustion}
+The $\FullAxisUp$ source, pattern, classifier, stability, and ledger rows are
+exhausted by zero-spine prefix-thread membership together with the finite
+boundary exclusion of
+\autoref{thm:fullaxis-prefix-thread-boundary-disjointness}. They contain no
+completion witness, no metric limit, and no thread-member row for
+$\mathtt{boundary\_01}$.
+\end{theorem}
+\begin{proof}
+Start with the zero-spine source. By
+\autoref{def:fullaxis-source-specification}, the source rows are exactly the
+members of the chosen prefix thread, and by
+\autoref{def:zero-spine-prefix-thread} those members are precisely the
+$\mathsf{ZeroSpine}$ histories.
+
+The pattern and classifier rows add no outside carrier. The pattern row of
+\autoref{def:fullaxis-pattern-specification} is repeated $\Ezero$-extension
+inside the same thread, and the classifier row of
+\autoref{def:fullaxis-classifier-specification} classifies only pairs already
+present by joint thread membership.
+
+Apply \autoref{thm:fullaxis-prefix-thread-boundary-disjointness}. The finite
+marker $\mathtt{boundary\_01}$ is outside that carrier, so it cannot be read as a
+thread member or as a limit witness. The licensing corollary
+\autoref{cor:fullaxis-licensed-not-primitive} then repacks the displayed source,
+pattern, classifier, stability, and ledger rows as the whole structural seal
+surface.
+\end{proof}
+\leanchecked{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisSeal\_source\_exhaustion}
+
+\section{Horizon obligations}
+
+\begin{theorem}[Boundary-finite witness, horizon]
+\label{thm:fullaxis-boundary-marker-not-limit}
+For every prefix thread \(T\), the seal does not equate any thread-member with a non-thread history that purports to be a limit object.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisSourceSpec\_boundary\_01\_thread\_separation}
+
+\begin{theorem}[Distinct from \(\RealUp\), horizon]
+\label{thm:fullaxis-not-real-horizon}
+\(\FullAxisUp\) does not entail any of the algebraic operations of \(\RealUp\) (Cauchy, limit uniqueness, field structure).
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisSeal\_not\_real\_horizon}
+
+\begin{remark}[Where Real is licensed]
+The Cauchy / Real route is licensed inside the \(\CompleteMetricUp\) and \(\RealUp\) chapters. \(\FullAxisUp\) does not enter that route; any attempt to identify the two interfaces requires a separate bridge.
+\end{remark}
+
+\begin{theorem}[FullAxis prefix-thread obligation inventory]
+\label{thm:fullaxis-prefix-thread-obligation-inventory}
+The $\FullAxisUp$ horizon obligation surface consists only of the
+$\mathsf{BHist}$-facing rows displayed by the prefix-thread seal:
+\begin{enumerate}
+\item the carrier row supplied by the zero-spine prefix thread;
+\item the classifier row on jointly visible thread members;
+\item the stability row recording directedness, monotonicity, prefix-closure,
+and finite-boundary exclusion;
+\item the ledger row retaining the visible prefix-thread provenance;
+\item the zero-spine thread rows generated by $\emp$ and repeated
+$\Ezero$-extension;
+\item the finite boundary marker row for $\mathtt{boundary\_01}$ as a
+non-thread history;
+\item the source-exhaustion row stating that no source outside thread
+membership is exposed.
+\end{enumerate}
+No row of this inventory is a RealUp completion, metric limit, compactness
+witness, or host-level infinity.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisPrefixThread\_obligation\_inventory}
+\begin{proof}
+Use the prefix-thread definitions
+\autoref{def:prefix-thread} and
+\autoref{def:zero-spine-prefix-thread} for the carrier and zero-spine thread
+rows. The source, classifier, stability, and ledger rows are exactly the
+displayed fields of
+\autoref{def:fullaxis-source-specification},
+\autoref{def:fullaxis-classifier-specification},
+\autoref{def:fullaxis-stability-certificate}, and
+\autoref{def:fullaxis-ledger-policy}.
+
+The boundary marker enters only through
+\autoref{def:axiszeckendorf-boundary-01}. Apply
+\autoref{thm:boundary-01-not-zero-spine} and then
+\autoref{thm:fullaxis-boundary-marker-not-limit}: the marker is finite and is
+not a thread member.
+
+Finally apply \autoref{thm:fullaxis-seal-source-exhaustion}. It repacks the
+prefix-thread carrier, classifier, stability, ledger, zero-spine thread,
+boundary marker, and source-exhaustion rows as the whole $\FullAxisUp$ horizon
+surface, with no completion or limit row exported.
+\end{proof}
+
+\begin{theorem}[FullAxis boundary marker finite obligation]
+\label{thm:fullaxis-boundary-marker-finite-obligation}
+The marker $\mathtt{boundary\_01}$ remains a finite non-thread
+$\mathsf{BHist}$ marker in the $\FullAxisUp$ obligation surface. It cannot be
+read as a limit object, completion point, compactness witness, or point at
+infinity.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisBoundaryMarker\_finite\_obligation}
+\begin{proof}
+The definition
+\autoref{def:axiszeckendorf-boundary-01} presents
+$\mathtt{boundary\_01}$ as the finite history
+$\Eone(\Ezero(\emp))$.
+
+Apply \autoref{thm:boundary-01-not-zero-spine}. Since the zero-spine prefix
+thread exposes only $\mathsf{ZeroSpine}$ histories, the boundary marker has no
+thread-member row.
+
+Now use \autoref{thm:fullaxis-boundary-marker-not-limit}. It states that the
+seal does not equate a thread member with a non-thread history presented as a
+limit object. The boundary marker is therefore retained only as the finite
+excluded marker named by
+\autoref{thm:fullaxis-prefix-thread-boundary-disjointness}.
+\end{proof}
+
+\begin{theorem}[FullAxis Real route separation obligation]
+\label{thm:fullaxis-real-route-separation-obligation}
+Every $\RealUp$, Cauchy, metric-completion, compactness, or limit reading of a
+$\FullAxisUp$ consumer must factor through the Real, Completion, Metric, or
+Compact chapters. Such a reading is not projected from the $\FullAxisUp$
+prefix-thread seal, whose public rows are only the carrier, classifier,
+stability, ledger, zero-spine thread, finite boundary marker, and
+source-exhaustion rows listed in
+\autoref{thm:fullaxis-prefix-thread-obligation-inventory}.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisSeal\_real\_route\_separation\_obligation}
+\begin{proof}
+Start from the structural seal surface. By
+\autoref{thm:fullaxis-prefix-thread-obligation-inventory}, the exposed rows are
+all $\mathsf{BHist}$-facing prefix-thread rows and finite boundary rows.
+
+Apply \autoref{thm:fullaxis-boundary-marker-finite-obligation}. The only named
+boundary marker is finite and non-thread, so it cannot supply a Cauchy object,
+metric completion point, compact witness, or limit.
+
+Finally use \autoref{thm:fullaxis-not-real-horizon}. It separates the
+$\FullAxisUp$ horizon from $\RealUp$ algebraic and completion operations.
+Therefore any RealUp, Cauchy, metric-completion, compactness, or limit reading
+must enter through the chapters where those structures are licensed, not
+through projection from $\FullAxisUp$.
+\end{proof}
+
+\begin{theorem}[FullAxis seal object name alignment]
+\label{thm:fullaxis-seal-object-name-alignment}
+The critical-path horizon name $\mathsf{FullAxisSeal}^{\uparrow}$ is the
+seal-facing registry name for the same prefix-thread certificate exported here
+as $\FullAxisUp$. The registry alias does not add an object row: the only
+exported rows remain the zero-spine prefix thread, finite boundary marker,
+source, pattern, classifier, stability, ledger, and RealUp-separation rows
+displayed in this chapter.
+\end{theorem}
+\begin{proof}
+Read the certificate through \autoref{thm:concrete-fullaxis-namecert}. The
+exported tuple is the source, pattern, classifier, stability, and ledger
+certificate for the zero-spine prefix thread.
+
+Apply \autoref{thm:fullaxis-prefix-thread-obligation-inventory}. It lists the
+public horizon rows as the prefix-thread carrier, finite boundary marker,
+classifier, stability, ledger, and boundary-exclusion data, all over the same
+zero-spine source.
+
+Finally use \autoref{thm:fullaxis-real-route-separation-obligation}. It keeps
+RealUp, Cauchy, metric-completion, compactness, and limit readings outside the
+seal-facing registry alias. Thus $\mathsf{FullAxisSeal}^{\uparrow}$ is only the
+registry name for this exported structural seal surface.
+\end{proof}
+\leanchecked{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxisSeal\_object\_name\_alignment}
+
+\closureat{FullAxisUp}{obligationStr}[BEDC.Derived.AxisZeckendorf.FullAxis.FullAxis\_semantic\_name\_certificate]
+
+\begin{closurestatus}{\FullAxisUp}
+  \constructivestory{A full-axis seal starts from a prefix thread: a history-membership predicate containing $\emp$ and closed under $\Ezero$-extension, specialized here to the zero-spine thread already generated from the empty history. The carrier admits exactly thread members, while the finite marker $\mathtt{boundary\_01}=\Eone(\Ezero(\emp))$ is deliberately kept outside the zero-spine carrier because its head is an $\Eone$ rather than an $\Ezero$. Two visible seal entries classify together by joint membership in the same thread, so the source specification is prefix-thread membership, the pattern specification is repeated $\Ezero$-extension inside that thread, and no RealUp, Cauchy, compactness, metric, or limit row is accepted as a source. The ledger keeps the prefix thread, each visible thread member, the finite boundary marker, the boundary-exclusion row, and the public seal alias visible, rather than turning the excluded marker into a completion point. The five name-certificate obligations close on membership itself: $\emp$ inhabits the carrier, joint-membership classification is reflexive, symmetric, and transitive on thread members, and any classified visible target is already a member of the same admitted thread. A history $h$ lies in the signature gap of a $\FullAxisUp$ token $p$ when the source-domain accepts $h$ as a member of the zero-spine prefix thread, the signature relation pairs it with an answer seal row and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, $h$ is a finite $\Ezero$-prefix member and not the finite excluded boundary marker unless $p$ names that marker only as an outside-boundary row. The chapter registers this structural seal under the name $\FullAxisUp$; it introduces no RealUp completeness, metric completion, compactness, limit object, infinity reading, or independent seal primitive.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the prefix-thread carrier, zero-spine boundary marker, finite-boundary row, ledger policy, public seal alias, and RealUp-route separation rows cited by \autoref{thm:fullaxis-prefix-thread-obligation-inventory}, \autoref{thm:fullaxis-boundary-marker-finite-obligation}, \autoref{thm:fullaxis-real-route-separation-obligation}, and \autoref{thm:fullaxis-seal-object-name-alignment}.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.AxisZeckendorf.FullAxis.FullAxis\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \notclaimed{It does not close RealUp completeness, metric completion, compactness, limits, or any reading of the boundary marker as infinity.}
+  \upgradepath{Public closure requires a single exported public $\FullAxisUp$ certificate theorem.}
+\end{closurestatus}

@@ -80,6 +80,16 @@ theorem AxisNat_semantic_name_certificate :
       exact sourceH
   }
 
+theorem zeroSpine_source_shape_exhaustion {h : BHist} :
+    ZeroSpine h -> hsame h BHist.Empty ∨
+      exists pred : BHist, hsame h (BHist.e0 pred) ∧ ZeroSpine pred := by
+  intro spine
+  induction spine with
+  | empty =>
+      exact Or.inl (hsame_refl BHist.Empty)
+  | step inner =>
+      exact Or.inr (Exists.intro _ (And.intro (hsame_refl (BHist.e0 _)) inner))
+
 theorem ZeroSpine_unaryHistory_intersection_empty {h : BHist} :
     ZeroSpine h -> UnaryHistory h -> hsame h BHist.Empty := by
   intro zeroSpine

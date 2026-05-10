@@ -4,11 +4,14 @@ Let $T_1$ and $T_2$ be finite $\SheafUp$ consumer access traces of \autoref{def:
 
 The source of this operation is restricted to the same objects as the access trace grammar: $\mathsf{BHist}$ histories, $\hsame$ transport, optional $\Cont$ route histories, $\TopologyUp$ indexed opens, $\PreSheafUp$ section carriers, and $\NameCert_{\SheafUp}$ rows. No constructor of $T_1 \mathbin{\star} T_2$ may mention host powerset equality of opens, cover quotients, stalk quotients, external sheafification, or standard bridge rows except through the sealed consumer projections already present in \autoref{def:sheaf-consumer-access-trace-source}.
 \end{definition}
+\leandef{BEDC.Derived.SheafUp.SheafConsumerAccessTraceCompositionSource}
+\leandef{BEDC.Derived.SheafUp.SheafConsumerTraceCompositionSource}
 
 \begin{theorem}[Sheaf consumer trace concatenation coverage]
 \label{thm:sheaf-consumer-trace-concatenation-coverage}
 For any finite traces $T_1$ and $T_2$ of \autoref{def:sheaf-consumer-access-trace-source}, every constructor in the composed trace $T_1 \mathbin{\star} T_2$ of \autoref{def:sheaf-consumer-trace-composition-source} lands in the same root face or sealed consumer projection that it occupied before composition.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafConsumerAccessTrace\_append\_membership\_coverage}
 \begin{proof}
 Proceed by the ordered list presentation of $T_1 \mathbin{\star} T_2$.
 
@@ -23,6 +26,7 @@ Thus every constructor in the concatenated trace has exactly the face assigned t
 \label{thm:sheaf-consumer-trace-composition-no-feedback}
 Composing finite $\RingedSpaceUp$, $\SchemeUp$, or topology pullback consumer traces by \autoref{def:sheaf-consumer-trace-composition-source} creates no additional $\SheafUp$ carrier row, classifier row, exactness row, or bridge row.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafConsumerAccessTrace\_append\_no\_zero\_extension}
 \begin{proof}
 First apply \autoref{thm:sheaf-consumer-access-trace-no-feedback} to the consumer constructors in $T_1$. Each $\RingedSpaceUp$, $\SchemeUp$, and topology pullback event reads through the sealed projection and contributes no root carrier, classifier, exactness, or bridge row.
 
@@ -37,6 +41,7 @@ Therefore the concatenation boundary carries only the finite order of reads. It 
 \label{thm:sheaf-consumer-trace-factorization-composes}
 Suppose two allowed downstream $\SheafUp$ accesses by $\RingedSpaceUp$, $\SchemeUp$, or topology pullback factor through finite traces $T_1$ and $T_2$ of \autoref{def:sheaf-consumer-access-trace-source}. Their sequential use factors through the composed trace $T_1 \mathbin{\star} T_2$ of \autoref{def:sheaf-consumer-trace-composition-source}.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafBHistPointGermLedger\_trace\_factorization\_composes}
 \begin{proof}
 Choose the trace $T_1 \mathbin{\star} T_2$ by listing the constructors witnessing the first downstream access and then listing the constructors witnessing the second downstream access. This is a finite trace because both inputs are finite and the composition source is ordinary finite concatenation.
 

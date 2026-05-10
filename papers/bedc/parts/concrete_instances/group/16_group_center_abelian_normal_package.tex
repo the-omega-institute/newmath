@@ -46,12 +46,142 @@ interface, and it is used by the product and inverse rows inherited from
 commutativity itself only needs the center witness for $x$ at the chosen test
 history $y$.
 \end{proof}
+\begin{theorem}[Group singleton public operation surface]
+\label{thm:group-singleton-public-operation-surface}
+For the concrete singleton history group instance of
+\autoref{def:concrete-singleton-history-group-instance}, the public carrier is
+$A_{\emp}$, multiplication is $\mathsf{append}$, unit is $\emp$, inverse is the
+constant operation $h\mapsto\emp$, and the public classifier is $R_{\emp}$.
+This surface is packaged by the following four clauses.
+\begin{enumerate}
+  \item Multiplication, unit, and inverse endpoints remain in the carrier
+  $A_{\emp}$ and are classified by $R_{\emp}$ whenever their inputs are carried.
+
+  \item Every public expression generated from carried endpoints by
+  multiplication, unit, and inverse has readback classified with $\emp$.
+
+  \item Left and right singleton append contexts preserve and reflect the
+  public classifier by the existing append-context cancellation rows.
+
+  \item The source, pattern, and ledger predicates expose only singleton
+  carrier witnesses and append or inverse expression provenance. Hence the
+  public surface admits no endpoint outside $A_{\emp}$.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.GroupUp.GroupUp\_StdBridge}
+\begin{proof}
+The carrier, classifier, multiplication, unit, and inverse are exactly the
+objects named in \autoref{def:concrete-singleton-history-group-instance}.
+Theorem~\ref{thm:group-singleton-history-semantic-namecert} packages them as
+the singleton-history $\mathsf{SemanticNameCert}$ for $\GroupUp$, so the source
+and classifier fields of the public surface are not additional data.
+
+For the endpoint clauses, use
+Theorem~\ref{thm:concrete-singleton-history-group-laws} together with the
+singleton endpoint readback row recorded by
+$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$. Multiplication
+closure carries $\mathsf{append}(h,k)$ from carried inputs; the unit row carries
+$\emp$; inverse closure carries the constant inverse endpoint $\emp$; and the
+readback row classifies each generated endpoint against $\emp$ by $R_{\emp}$.
+
+Public expressions are built by induction on the expression tree. The base
+case is a carried endpoint, whose singleton witness reads back to $\emp$. The
+unit and inverse cases use the constant endpoint $\emp$. The multiplication
+case applies multiplication closure to the two inducted carrier witnesses and
+then composes their readback classifiers through the append law supplied by the
+same checked singleton group rows.
+
+For contextual visibility, apply
+Theorem~\ref{thm:group-singleton-classifier-append-context-cancel} to the left
+append contexts. The right-context row in the same singleton block gives the
+corresponding suffix form, and the two-sided row combines the two orientations.
+Thus wrapping a public endpoint by singleton append contexts neither creates
+nor hides a classifier witness.
+
+Finally, the no-hidden-leakage clause is just the exactness content of the
+singleton certificate. Source predicates expose carrier witnesses
+$A_{\emp}(h)$, pattern predicates expose only the empty endpoint and append
+shape used by the generated expression, and ledger rows record the concrete
+append or constant-inverse provenance. Any admitted public endpoint therefore
+carries a witness to $A_{\emp}$, so no endpoint outside the singleton carrier
+is admitted by this operation surface.
+\end{proof}
+\begin{definition}[Group singleton terminal standard reference]
+\label{def:group-terminal-standard-reference}
+Let $T_G^\ast$ denote the host-facing terminal group reference with one element
+$\star_G$. Its equality relation is terminal equality, so every pair of
+host-facing elements is identified. Its multiplication row is
+$\star_G\cdot\star_G=\star_G$, its unit row names $\star_G$ as the unit, and its
+inverse row sends $\star_G$ to $\star_G$.
+
+The finite theorem-preservation list for $T_G^\ast$ contains exactly the
+terminal rows matched to the public singleton surface: multiplication closure,
+left and right unit, associativity, two-sided inverse, and append-context
+cancellation. The BEDC counterparts are the clauses of
+\autoref{thm:group-singleton-public-operation-surface} backed by
+$\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$.
+\end{definition}
+
+\begin{theorem}[Group singleton terminal standard bridge]
+\label{thm:group-singleton-terminal-standard-bridge}
+The public singleton $\GroupUp$ surface of
+\autoref{thm:group-singleton-public-operation-surface} supplies a paper-level
+$\StdBridge(\GroupUp,T_G^\ast)$. The encode field sends the unique point
+$\star_G$ of $T_G^\ast$ to the BEDC endpoint $\emp$. The decode field sends
+every endpoint carried by $A_{\emp}$ to $\star_G$. The decode-encode round trip
+is terminal equality in $T_G^\ast$, and the encode-decode round trip is the
+classifier witness $R_{\emp}(h,\emp)$ for each carried endpoint $h:A_{\emp}$.
+The operation translation is the same carrier $A_{\emp}$, classifier
+$R_{\emp}$, multiplication $\mathsf{append}$, unit $\emp$, and constant inverse
+from the public surface. The theorem-preservation and no-host-leak fields are
+the finite list and public-object restriction of
+\autoref{def:group-terminal-standard-reference}.
+\end{theorem}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingleton\_terminal\_standard\_bridge}
+\begin{proof}
+We check the six fields of \autoref{sec:acceptance-bridge-six-fields}. The
+encode field is the constant map from $T_G^\ast$ to the empty BEDC endpoint
+$\emp$. The endpoint $\emp$ is public by
+\autoref{thm:group-singleton-public-operation-surface}, so the map lands in the
+carrier $A_{\emp}$ and respects the classifier $R_{\emp}$.
+
+The decode field sends every carried BEDC endpoint to the unique element of
+$T_G^\ast$. Since the host carrier has one element, classifier-respect is
+terminal equality: any two decoded carried endpoints are the same host point
+$\star_G$.
+
+For the decode-encode round trip, start with the unique host element, encode it
+as $\emp$, and decode back to $\star_G$. This is exactly terminal equality in
+$T_G^\ast$.
+
+For the encode-decode round trip, start with a carried endpoint $h:A_{\emp}$.
+Decoding gives $\star_G$, and encoding returns $\emp$. The singleton carrier
+readback clause of \autoref{thm:group-singleton-public-operation-surface}
+supplies $R_{\emp}(h,\emp)$, which is exactly the BEDC classifier witness
+required for this round trip.
+
+The operation translation keeps the BEDC public data fixed: carrier
+$A_{\emp}$, classifier $R_{\emp}$, multiplication $\mathsf{append}$, unit
+$\emp$, and constant inverse. The finite theorem-preservation field is the list
+in \autoref{def:group-terminal-standard-reference}. Each row is read through
+\autoref{thm:group-singleton-public-operation-surface} and the checked law
+package $\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$. No other
+host group theorem is claimed by this list.
+
+Finally, the no-host-leak field follows from the public-object inventory in
+\autoref{thm:group-singleton-public-operation-surface}. The bridge uses the
+host terminal reference only to name the unique decode value and terminal
+equality. The BEDC-facing surface remains $\mathsf{BHist}$, $A_{\emp}$,
+$R_{\emp}$, $\mathsf{append}$, $\emp$, and the constant inverse, so no host
+primitive enters the exported $\GroupUp$ object.
+\end{proof}
 \begin{closurestatus}{\GroupUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The center abelian normal package over a BEDC history-level group source, with center carrier, $\hsame$ classifier, inherited product and inverse rows, and the cited group stability fields.}
-  \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.GroupUp.group\_stability\_certificate\_fields}
-  \bridgestatus{none}
-  \notclaimed{General group theory: arbitrary groups, group homomorphisms, subgroup lattice, quotient groups, group actions, conjugacy theory, Sylow theory, or representation theory.}
-  \upgradepath{$\publicClosure$ requires public multiplication, unit, inverse, expression readback, associativity and inverse normal forms, subgroup/quotient surfaces, and no-hidden-leakage.}
+  \constructivestory{The group surface is anchored by the singleton history group, where every carried endpoint is classified with $\emp$, multiplication is continuation append, the unit is $\emp$, and inverse is the constant return to $\emp$; on top of the general history-level laws, the center package then carves out those endpoints that commute with every test history. The singleton carrier accepts exactly histories in the empty endpoint class, and the center carrier accepts exactly displayed central endpoints for an ambient history-level group operation; endpoints lacking the singleton witness or the universal commutativity row are outside the corresponding surface. Classification is always the displayed $\hsame$ relation restricted to the admitted carrier, with multiplication congruence, inverse congruence, and centralizer transport moving representatives, rather than an imported group equality. The source specification is the monoid-plus-inverse history surface together with the singleton and center witnesses, the pattern specification records append multiplication, empty unit, constant inverse, inverse laws, commutator collapse, conjugation invariance, normalizer action, center normality, and the abelian center row, and the ledger keeps generated expressions, central endpoints, conjugation paths, and the two product orders visible. The five name-certificate obligations are witnessed by $\emp$ and the inherited $\hsame$ equivalence: carrier nonemptiness comes from the empty endpoint or a displayed central endpoint, classifier reflexivity, symmetry, and transitivity are componentwise, and multiplication, inverse, conjugation, and centralizer transport keep classified representatives inside the carrier. A history $h$ lies in the signature gap of a $\GroupUp$ token $p$ when the source-domain accepts the singleton or center package row, the signature relation pairs it with an answer group endpoint and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, $h$ is the encoded singleton endpoint or central endpoint together with its operation and commutativity ledger. The checked bridge reads the singleton surface as the terminal group and the center package as the ordinary abelian normal center rows, while the chapter registers the construction under $\GroupUp$ without introducing non-singleton group carriers, subgroup lattices, quotient groups, arbitrary homomorphisms, or primitive inverse objects.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:group-center-abelian-normal-subgroup-package}, \autoref{thm:group-singleton-public-operation-surface}, and \autoref{thm:group-singleton-terminal-standard-bridge} form the mature singleton package: public carrier $A_{\emp}$, classifier $R_{\emp}$, append multiplication, empty unit, constant inverse, generated-expression readback, no-hidden-leakage, the center abelian normal package, and the terminal paper bridge to $T_G^\ast$.}
+  \formalstatus{\bridgeCheckedV}
+  \leantarget{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}
+  \bridgestatus{bridgeChecked}
+  \notclaimed{bridgeChecked verification, non-singleton groups, arbitrary homomorphisms, subgroup lattices, quotient groups, and general group theory are not closed here.}
+  \upgradepath{No further upgrade: chapter at top of formal axis.}
 \end{closurestatus}

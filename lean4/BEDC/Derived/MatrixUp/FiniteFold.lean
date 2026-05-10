@@ -14,6 +14,17 @@ def MatrixSingletonAddFoldSpineCarrier : List BHist -> Prop
   | [] => hsame BHist.Empty BHist.Empty
   | x :: xs => MatrixSingletonCarrier x ∧ MatrixSingletonAddFoldSpineCarrier xs
 
+theorem MatrixSingletonAdd_comm_classifier {M N : BHist} :
+    MatrixSingletonCarrier M -> MatrixSingletonCarrier N ->
+      MatrixSingletonClassifier (MatrixSingletonAdd M N) (MatrixSingletonAdd N M) := by
+  intro carrierM carrierN
+  have leftCarrier : MatrixSingletonCarrier (MatrixSingletonAdd M N) :=
+    append_eq_empty_iff.mpr (And.intro carrierM carrierN)
+  have rightCarrier : MatrixSingletonCarrier (MatrixSingletonAdd N M) :=
+    append_eq_empty_iff.mpr (And.intro carrierN carrierM)
+  exact And.intro leftCarrier
+    (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
 theorem MatrixSingletonAddFold_carrier_iff {xs : List BHist} :
     hsame (MatrixSingletonAddFold xs) BHist.Empty ↔
       MatrixSingletonAddFoldSpineCarrier xs := by

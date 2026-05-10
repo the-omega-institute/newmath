@@ -6,5 +6,119 @@ The hypothesis-testing interface $\HypothesisTestUp$ packages a decision procedu
 \section{Carrier definition}
 \label{sec:hypothesis-carrier}
 
+\begin{definition}[HypothesisTestUp decision carrier]
+\label{def:hypothesistest-decision-carrier}
+A $\HypothesisTestUp$ decision carrier is a finite $\mathsf{BHist}$ decision
+row over a displayed null hypothesis, a displayed alternative hypothesis, and a
+finite threshold ledger supplied by $\NameCert_{\DistributionUp}$ and
+$\NameCert_{\ProbSpaceUp}$. The carrier records the sample row, the statistic
+row, the threshold comparison row, the accept/reject decision row, and the
+finite Type I and Type II error-budget rows. It does not contain an asymptotic
+limit, optimality principle, or classical probability-completion field.
+\end{definition}
+
 \section{The certificate}
 \label{sec:hypothesis-certificate}
+
+\begin{theorem}[HypothesisTestUp Type I error ledger]
+\label{thm:hypothesistest-type-one-error-ledger}
+For a $\HypothesisTestUp$ carrier, the Type I error row is a visible
+$\ProbSpaceUp/\DistributionUp$ ledger entry: under the displayed null
+distribution row, the reject-decision event is bounded by the finite threshold
+budget recorded in \autoref{def:hypothesistest-decision-carrier}. The theorem
+asserts only this finite ledger bound and no optimality or asymptotic claim.
+\end{theorem}
+\leanchecked{BEDC.Derived.HypothesisUp.HypothesisDecisionCarrier\_type\_one\_error\_ledger}
+\begin{proof}
+Project the null distribution row, sample row, statistic row, and threshold
+comparison row from the decision carrier. The reject-decision event is a
+finite $\mathsf{BHist}$ event row in the consumed $\ProbSpaceUp$ surface.
+
+The Type I budget is one ledger coordinate of the same carrier. Reading the
+event through the displayed $\DistributionUp$ row gives exactly the recorded
+finite bound, with no appeal to external completeness or limiting frequency
+data.
+\end{proof}
+\leanchecked{BEDC.Derived.HypothesisUp.HypothesisTestDecisionCarrier\_type\_one\_error\_ledger}
+
+\begin{theorem}[HypothesisTestUp Type II error ledger]
+\label{thm:hypothesistest-type-two-error-ledger}
+For a $\HypothesisTestUp$ carrier, the Type II error row is a visible
+$\ProbSpaceUp/\DistributionUp$ ledger entry: under the displayed alternative
+distribution row, the accept-null decision event is bounded by the finite
+threshold budget recorded in
+\autoref{def:hypothesistest-decision-carrier}. The theorem asserts only this
+finite ledger bound and no power optimality, asymptotic consistency, or
+classical probability-completion claim.
+\end{theorem}
+\begin{proof}
+Project the alternative distribution row together with the sample, statistic,
+threshold, and accept-null decision rows. These are all finite rows in the
+decision carrier, so the consumed $\ProbSpaceUp$ event is the displayed
+accept-null event.
+
+The Type II budget row is recorded beside that event in the finite threshold
+ledger. Evaluation through the displayed $\DistributionUp$ row returns the
+listed bound and nothing stronger than the finite BEDC evidence row.
+\end{proof}
+\leanchecked{BEDC.Derived.HypothesisUp.HypothesisTestDecisionCarrier\_type\_two\_error\_ledger}
+
+\begin{theorem}[HypothesisTestUp distribution consumer boundary]
+\label{thm:hypothesistest-distribution-consumer-boundary}
+The $\HypothesisTestUp$ consumer boundary reads only the displayed
+$\DistributionUp$ null and alternative rows, the $\ProbSpaceUp$ event rows, the
+sample and statistic rows, and the finite threshold ledger. It exports no
+statistical optimality theorem, asymptotic decision principle, or classical
+probability-completeness row.
+\end{theorem}
+\leanchecked{BEDC.Derived.HypothesisTestUp.HypothesisTestDecisionCarrier\_distribution\_consumer\_boundary}
+\begin{proof}
+Unpack the consumer side of the decision carrier. Every probability statement
+is routed through a displayed $\ProbSpaceUp$ event row and a displayed
+$\DistributionUp$ hypothesis row, and every decision statement is routed
+through the sample, statistic, and threshold comparison rows.
+
+Constructor inversion on the carrier leaves no additional consumer coordinate.
+The boundary can therefore repack the finite error ledgers, but it cannot
+export an optimality, asymptotic, or completion field because no such field is
+present in the carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.HypothesisUp.HypothesisTestDecisionCarrier\_distribution\_boundary}
+
+\begin{theorem}[HypothesisTestUp NameCert obligation surface]
+\label{thm:hypothesistest-namecert-obligation-surface}
+The public $\NameCert_{\HypothesisTestUp}$ obligation surface is the repacking
+of the decision carrier, the null and alternative distribution classifiers,
+decision stability under $\hsame$ transport, Type I and Type II error ledger
+exactness, and the finite threshold ledger. Its claims remain finite-row
+$\mathsf{BHist}$ claims over $\DistributionUp$ and $\ProbSpaceUp$.
+\end{theorem}
+\begin{proof}
+First take the carrier from
+\autoref{def:hypothesistest-decision-carrier}. It supplies the hypotheses,
+sample, statistic, threshold comparison, decision row, and two finite
+error-budget rows.
+
+Next use \autoref{thm:hypothesistest-type-one-error-ledger} and
+\autoref{thm:hypothesistest-type-two-error-ledger} for the two error exactness
+fields. The distribution consumer boundary of
+\autoref{thm:hypothesistest-distribution-consumer-boundary} fixes the allowed
+source rows and prevents external probability-completion data from entering the
+certificate.
+
+Finally repack these rows with the visible classifier and $\hsame$ transport
+fields. Since every component is a finite row from the displayed decision
+carrier or its two consumed distribution certificates, the resulting
+$\NameCert_{\HypothesisTestUp}$ surface contains no statistical optimality,
+asymptotic, or classical completeness assertion.
+\end{proof}
+
+\begin{closurestatus}{\HypothesisTestUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope binds the finite decision carrier, null and alternative DistributionUp rows, ProbSpaceUp event rows, finite threshold ledger, and Type I/Type II error-budget rows.}
+  \constructivestory{A $\HypothesisTestUp$ token names a finite decision carrier with null and alternative $\DistributionUp$ inputs, consumed $\ProbSpaceUp$ event rows, a displayed statistic-threshold comparison, and two visible finite error-budget ledgers. The classifier is $\hsame$ on the decision history, transport repacks the statistic, threshold, decision row, and error ledgers through that history comparison, and the source covers only the displayed distribution, event, threshold, and finite budget rows. A history $h$ lies in the signature gap of a $\HypothesisTestUp$ token $p$ when the finite carrier accepts $h$, the signature relation pairs it with the decision verdict and error-budget rows, and token introduction names that finite verdict as $p$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not claim asymptotic consistency, optimality, classical probability completion, or a standard statistical bridge.}
+  \upgradepath{Obligation closure requires checked finite decision-stability and error-ledger exactness targets.}
+\end{closurestatus}

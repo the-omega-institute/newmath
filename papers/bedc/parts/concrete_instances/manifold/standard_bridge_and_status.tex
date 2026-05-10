@@ -1,0 +1,66 @@
+\section{Terminal Standard Bridge}
+\label{sec:manifold-terminal-standard-bridge}
+
+\begin{theorem}[ManifoldUp terminal standard bridge]
+\label{thm:manifoldup-terminal-standard-bridge}
+The public singleton empty-chart $\ManifoldUp$ package of
+\autoref{thm:manifoldup-namecert-obligation-threshold} admits a paper-side
+standard bridge to the terminal smooth-manifold reference. The bridge sends
+every carried BEDC endpoint of the singleton carrier $C_{\emp}$ to the unique
+terminal point, and its return map selects the singleton empty-chart endpoint
+of \autoref{def:manifold-singleton-empty-chart-package}. Under this bridge the
+carrier, classifier, chart domain, coordinate row, transition row, and visible
+ledger rows are preserved and reflected. No host equality, host quotient, or
+host function is added to the BEDC public surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.ManifoldUp.ManifoldUp\_StdBridge}
+\begin{proof}
+The source certificate is the singleton semantic naming certificate supplied
+by \autoref{thm:manifold-singleton-namecert-obligation-package}. Its carrier is
+the one-point history package $C_{\emp}$, and its classifier is the restricted
+$\hsame$ row on that carrier.
+
+Define the bridge-to-reference map by sending every carried $C_{\emp}$ endpoint
+to the unique point of the terminal smooth manifold. Define the return map by
+selecting the endpoint of the empty-chart package. The carrier and classifier
+round trips follow from
+\autoref{thm:manifold-singleton-carrier-topology-scope}: both composites land
+back in the sole carried endpoint, and the exposed classifier is the same
+restricted $\hsame$ row.
+
+The chart data are preserved by the atlas package threshold. Apply
+\autoref{thm:manifoldup-namecert-obligation-threshold} to expose the public
+carrier, classifier, chart cover, chart-domain transport, transition
+composition, transition-ledger stability, and visible atlas ledger. The
+singleton chart coverage, domain exactness, and coordinate transport rows of
+\autoref{thm:manifold-singleton-chart-coverage},
+\autoref{thm:manifold-singleton-domain-exactness}, and
+\autoref{thm:manifoldup-chart-coordinate-carrier-transport} identify the
+terminal reference chart with the empty chart and its constant coordinate row.
+
+The transition component is the sole self-overlap row. It is stable under the
+bridge because \autoref{thm:manifold-singleton-transition-ledger-exhaustion}
+exhausts the singleton transition ledger, while
+\autoref{thm:manifoldup-atlas-transition-composition} and
+\autoref{thm:manifoldup-transition-ledger-stability} keep transition
+composition and ledger readback inside the displayed $\ManifoldUp$ rows.
+
+The theorem-preservation field is therefore finite and explicit: it consists
+only of the carrier, classifier, chart-domain, coordinate, transition, and
+ledger rows just cited. The no-host-leak field holds at paper level because
+the bridge maps are used only to read the terminal smooth-manifold reference;
+the BEDC public surface remains the singleton empty-chart certificate and does
+not import host equality, quotients, or functions.
+\end{proof}
+
+\closureat{ManifoldUp}{matureStr}[BEDC.Derived.ManifoldUp.ManifoldSingleton\_semanticNameCert]
+\begin{closurestatus}{\ManifoldUp}
+  \constructivestory{The closed manifold object in this chapter is the singleton empty-chart package: start with the empty-history carrier $C_{\emp}$ supplied by the topology surface, give it the single chart index, read its chart domain as the top open row, and make the coordinate and transition ledgers the constant rows already certified by $\RealUp$ and $\RealAnalyticUp$. A history is admitted only as that singleton atlas package, and two admitted presentations are classified by the restricted $\hsame$ comparison on the carrier together with componentwise transport of the chart-domain, coordinate, and transition rows; nonterminal atlas entries are not accepted. The source specification is the consumed $\TopologyUp$ carrier plus the constant real-coordinate and real-analytic transition boundaries, the pattern specification is chart coverage, domain exactness, transition smoothness, chart-index exhaustion, and transition-ledger exhaustion, and the ledger keeps the topology rows, chart index, coordinate row, self-overlap transition, and visible atlas provenance in the public package. The five name-certificate obligations are supplied by the empty endpoint, by reflexivity, symmetry, and transitivity of the restricted history classifier, and by the atlas transport rows showing that carrier, domain, coordinate, and transition data survive replacement by a classified presentation. A history $h$ lies in the signature gap of a $\ManifoldUp$ token $p$ when the source-domain accepts $h$ as this singleton atlas package, the signature relation pairs it with an answer atlas and evidence ledger, and the token-introduction relation names that answer as $p$; concretely, $h$ is the empty-chart endpoint with the unique domain, coordinate, and self-transition rows encoded by $p$. The terminal standard bridge sends every carried BEDC endpoint to the unique point of the terminal smooth manifold and reads that point back as the singleton empty-chart endpoint, preserving and reflecting carrier, classifier, chart-domain, coordinate, transition, and ledger rows. The chapter registers this terminal atlas construction under the name $\ManifoldUp$; arbitrary manifolds, nonterminal atlases, host equality, host quotients, and nonterminal smooth-manifold equivalences are not introduced.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The closed paper scope includes the singleton empty-chart carrier, classifier, atlas rows, terminal standard bridge, and the mature boundary recorded by \autoref{thm:manifoldup-terminal-standard-bridge}.}
+  \formalstatus{\bridgeCheckedV}
+  \leantarget{BEDC.Derived.ManifoldUp.ManifoldSingleton\_semanticNameCert}
+  \bridgestatus{bridgeChecked}
+  \notclaimed{Arbitrary manifolds, non-terminal atlases, non-terminal smooth-manifold equivalences, and Lean-side bridge verification remain outside this paper closure.}
+  \upgradepath{no further upgrade -- chapter at top of formal axis}
+\end{closurestatus}

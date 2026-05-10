@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.ExternalBinary
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.AddUp
@@ -158,5 +159,64 @@ theorem AddUnaryContinuationMonoid_activation_package :
           intro a b c ab bc abc abc2 unaryA unaryB unaryC contAB contBC contABC contABC2
           exact unary_continuation_associativity
             unaryA unaryB unaryC contAB contBC contABC contABC2)))
+
+theorem AddUp_acceptance_bridge_fields :
+    NameCert UnaryHistory AddClassifierSpec ∧ AddLedgerPolicy ∧
+      (BEDC.FKernel.ExternalBinary.bwordLength BHist.Empty = 0) ∧
+        (forall {h k r : BHist}, AddSourceSpec h k r ->
+          BEDC.FKernel.ExternalBinary.bwordLength r =
+            BEDC.FKernel.ExternalBinary.bwordLength h +
+              BEDC.FKernel.ExternalBinary.bwordLength k) ∧
+          (forall {h k r : BHist}, AddSourceSpec h k r -> Cont h k r) := by
+  exact And.intro add_up_name_certificate
+    (And.intro addLedgerPolicy_from_unary_cont_closed
+      (And.intro rfl
+        (And.intro
+          (by
+            intro h k r source
+            cases source.right.right
+            exact BEDC.FKernel.ExternalBinary.bwordLength_append h k)
+          (by
+            intro h k r source
+            exact source.right.right))))
+
+theorem AddUp_StdBridge :
+    NameCert UnaryHistory AddClassifierSpec ∧ AddLedgerPolicy ∧
+      (∀ {h k r : BHist}, AddSourceSpec h k r →
+        UnaryHistory h ∧ UnaryHistory k ∧ UnaryHistory r ∧ Cont h k r ∧
+          BEDC.FKernel.ExternalBinary.bwordLength r =
+            BEDC.FKernel.ExternalBinary.bwordLength h +
+              BEDC.FKernel.ExternalBinary.bwordLength k) ∧
+      (∀ {h k r r' : BHist}, AddSourceSpec h k r → AddSourceSpec h k r' →
+        AddClassifierSpec r r') := by
+  have bridge := AddUp_acceptance_bridge_fields
+  constructor
+  · exact bridge.left
+  · constructor
+    · exact bridge.right.left
+    · constructor
+      · intro h k r source
+        exact And.intro source.left
+          (And.intro source.right.left
+            (And.intro (AddSourceSpec_result_unary source)
+              (And.intro (bridge.right.right.right.right source)
+                (bridge.right.right.right.left source))))
+      · intro h k r r' left right
+        exact (AddSourceSpec_same_source_classifier left right).left
+
+theorem AddUnaryContinuation_activation_without_commutativity {h k r swapped : BHist} :
+    UnaryHistory h -> UnaryHistory k -> Cont h k r -> Cont k h swapped ->
+      UnaryHistory r ∧ UnaryHistory swapped ∧ (hsame r swapped -> hsame (append h k) (append k h)) ∧
+        AddSourceSpec h k r ∧ AddSourceSpec k h swapped := by
+  intro unaryH unaryK row rowSwapped
+  exact And.intro (unary_cont_closed unaryH unaryK row)
+    (And.intro (unary_cont_closed unaryK unaryH rowSwapped)
+      (And.intro
+        (by
+          intro sameResults
+          exact row.symm.trans (sameResults.trans rowSwapped))
+        (And.intro
+          (AddSourceSpec_from_unary_cont unaryH unaryK row)
+          (AddSourceSpec_from_unary_cont unaryK unaryH rowSwapped))))
 
 end BEDC.Derived.AddUp

@@ -230,12 +230,71 @@ with the length witness at $t$ yields $\mathsf{ListPublicLength}_A(s,n)$.
 Combining the classifier witness and the two endpoint length witnesses gives
 the required conjunction.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListUp\_StdBridge}
+
+\begin{definition}[List public structural recursion data]
+\label{def:list-public-structural-recursion-data}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. A
+public structural recursion datum over the framed list carrier consists of a
+predicate $P:\mathsf{BHist}\to\mathsf{Prop}$ together with the following two
+clauses:
+\begin{enumerate}
+  \item for every endpoint $h$, a witness
+  $\mathsf{FramedListSpineRep}_A(h,\mathsf{nil})$ yields $P(h)$;
+  \item for every endpoint $h$ and histories $a,t,p$, if $A(a)$ holds, if
+  $t$ is represented by a framed tail spine, if $P(t)$ holds, if
+  $\ContR(a,t,p)$ holds, and if $\hsame(h,\Eone(p))$ holds, then $P(h)$.
+\end{enumerate}
+Equivalently, the cons clause is allowed to consume a finite tail spine $xs$
+and a witness $\mathsf{FramedListSpineRep}_A(t,xs)$ as the displayed framed
+tail representation.
+\end{definition}
+
+\begin{theorem}[List public structural recursion principle]
+\label{thm:list-public-structural-recursion-principle}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume the cons-boundary coherence needed to read each framed cons endpoint as
+data $A(a)$, $\mathsf{FramedListSpineRep}_A(t,xs)$, $\ContR(a,t,p)$, and
+$\hsame(h,\Eone(p))$. For every public structural recursion datum
+$(P,\mathsf{nil}_P,\mathsf{cons}_P)$ in the sense of
+Definition~\ref{def:list-public-structural-recursion-data}, every public
+framed carrier endpoint satisfies
+$$
+\mathsf{FramedListHistoryCarrier}_A(h)\to P(h).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ListUp.ListHistoryCarrier\_structural\_recursion}
+\begin{proof}
+Unpack the public framed carrier witness as a finite displayed spine $xs$ with
+$\mathsf{FramedListSpineRep}_A(h,xs)$. It is enough to prove the stronger
+displayed statement: for every endpoint represented by a framed spine $xs$, the
+predicate $P$ holds at that endpoint.
+
+Induct on the displayed framed spine. In the nil case, the representation is
+$\mathsf{FramedListSpineRep}_A(h,\mathsf{nil})$, so the nil clause
+$\mathsf{nil}_P$ gives $P(h)$ directly.
+
+In the cons case, the representation exposes histories $a,t,p$ and a tail
+spine $xs$ with $A(a)$, $\mathsf{FramedListSpineRep}_A(t,xs)$,
+$\ContR(a,t,p)$, and $\hsame(h,\Eone(p))$. The induction hypothesis applied to
+the tail representation gives $P(t)$. Applying the cons clause
+$\mathsf{cons}_P$ to these five pieces of data yields $P(h)$.
+
+The classifier $\sim_A$, the certificate $\mathsf{cert}$, and the boundary
+coherence witness are not used to add cases; they record that the public
+framed endpoint being eliminated is the same certificate-bearing surface used
+by append, reverse, length, and bridge transport. The eliminator itself is the
+finite-spine induction exposed by
+$\mathsf{FramedListHistoryCarrier}_A(h)$.
+\end{proof}
 \begin{closurestatus}{\ListUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The framed list bridge classifier semantic certificate, including finite spine representation, append and reverse transport, public length readback, and endpoint classifier exactness.}
-  \formalstatus{\theoremCheckedV}
+  \constructivestory{A list is a finite spine that either stops at nil or takes one more cons step carrying a payload from the source type $A$; this is the lone certificate in this run whose carrier is the host inductive \texttt{List A} rather than a history predicate, because finite lists are exactly unary growth with data attached at each step. Two such spines are classified together only when they have the same nil-or-cons shape and, at every cons step, their payloads are identified by the source-side equivalence on $A$. The source is the whole list type, the pattern records the nil/cons case split, append, reverse, length, constructor maps, and endpoint readback, and the ledger keeps the visible list equal to the raw list being structurally inspected. Since the source equivalence is reflexive, symmetric, and transitive, structural induction lifts those three facts to lists, gives the nil inhabitant, and shows that classifier-recognized lists remain in the carrier. A list $xs$ lies in the signature gap of a $\ListUp$ token $p$ when the source-domain accepts $xs$, the signature relation pairs it with an answer list and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, every cons payload of $xs$ must match the corresponding payload encoded by $p$, and nil must match nil. The finite-spine bridge then reads append, reverse, and length as operations on that same payload-bearing spine rather than as host-list axioms. The chapter registers this payload-bearing-spine construction under the name $\ListUp$; list operations reduce to spine operations, with no quotient principle, sorting API, or arbitrary host-list theory introduced.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature ListUp scope is the finite-spine surface generated by the framed semantic certificate, nil/cons no-confusion, append, reverse, constructor-map, length, endpoint readback, and finite-spine bridge transport.}
+  \formalstatus{\bridgeCheckedV}
   \leantarget{BEDC.Derived.ListUp.FramedListBridgeClassifier\_semantic\_name\_certificate}
-  \bridgestatus{none}
-  \notclaimed{Full list theory: induction and recursion over arbitrary element carriers, map/filter/fold APIs, monoid laws for append, fusion laws, sorting, or list quotient principles.}
-  \upgradepath{$\publicClosure$ requires public nil/cons constructors, eliminator and recursion readback, append/reverse/length laws, endpoint exactness, and no-hidden-leakage for spine witnesses.}
+  \bridgestatus{bridgeChecked}
+  \notclaimed{The chapter does not close quotient principles, sorting, arbitrary host-list APIs, or a bridgeChecked standard-model correspondence.}
+  \upgradepath{No further upgrade -- chapter at top of formal axis.}
 \end{closurestatus}

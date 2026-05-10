@@ -29,6 +29,113 @@ bounded endpoint witnesses into
 $\mathsf{RealStreamWindowClassifier}(x,y,n,m+1+r)$.
 \end{proof}
 
+\begin{theorem}[Real stream finite-window adjacent boundary readback package]
+\label{thm:real-stream-window-adjacent-refinement-readback-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, indices $n,m,r$,
+and histories $a,b,z_X,z_Y:\Hist$, assume
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m+1+r)$,
+$\hsame(x(n+m),\Eone(a))$, and $\hsame(y(n+m),\Eone(b))$. Then the selected
+adjacent boundary endpoint at $n+m$ carries the following package:
+\begin{enumerate}
+\item $\mathsf{RealStreamWindowClassifier}(x,y,n,m)$;
+\item $\mathsf{RealStreamWindowClassifier}(x,y,n+(m+1),r)$;
+\item $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$;
+\item $\mathsf{PositiveUnaryDenominator}(x(n+m))\land
+\mathsf{PositiveUnaryDenominator}(y(n+m))$;
+\item $\mathsf{UnaryHistory}(x(n+m))\land
+\mathsf{UnaryHistory}(y(n+m))$;
+\item $(\hsame(x(n+m),\emp)\to\mathsf{False})\land
+(\hsame(y(n+m),\emp)\to\mathsf{False})$;
+\item $(\hsame(x(n+m),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(y(n+m),\Ezero(z_Y))\to\mathsf{False})$;
+\item $\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land
+\hsame(a,b)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply the forward direction of
+\autoref{thm:real-stream-window-adjacent-partition} to the wide window
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m+1+r)$. This produces the left
+window over $(n,m)$ and the right adjacent window over $(n+(m+1),r)$.
+
+The selected boundary is the offset $m$ inside the wide window. Since
+$m\le m+1+r$,
+\autoref{thm:real-stream-window-selected-full-shape-readback-package} applies
+to the wide window with $k=m$ and to the displayed one-extension comparisons
+at $x(n+m)$ and $y(n+m)$.
+
+That selected readback package supplies the RatUp classifier row at
+$\Eone(a)$ and $\Eone(b)$, the positive-denominator rows, the unary endpoint
+rows, the empty and zero-headed exclusions, and the tail agreement
+$\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b)$.
+Repack these rows with the two adjacent windows obtained from the partition.
+\end{proof}
+
+The ten-field fit is: traditional target adjacent finite RegSeqRat boundary
+reads; BEDC source RealUp finite windows over RatUp endpoint classifiers and
+StreamNameUp observation schedules; carrier rational-observation streams and
+selected unary tails; classifier $\mathsf{RealStreamWindowClassifier}$ with
+the selected RatUp endpoint package; stability by adjacent-window partition
+and selected full-shape readback; ledger left finite window, right adjacent
+window, boundary index, displayed one-extension rows, finite ledger rows,
+$\mathsf{UnaryHistory}$, and $\hsame$; core theorems
+\autoref{thm:real-stream-window-adjacent-partition} and
+\autoref{thm:real-stream-window-selected-full-shape-readback-package};
+exactness the displayed adjacent boundary package; standard bridge finite
+RealUp window consumption; status no completion, quotient, or host-index
+equality data.
+
+\begin{theorem}[Real unary stream finite-window adjacent partition]
+\label{thm:real-unary-stream-window-adjacent-partition}
+For observation maps $s,t:\Hist\to\Hist$ and unary anchor histories
+$a,w,r:\Hist$,
+$$
+\begin{aligned}
+&
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,a,\mathsf{append}(w,\mathsf{BHist.e1}(r)))
+\\
+&\Longleftrightarrow
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)\land
+\mathsf{RealUnaryStreamWindowClassifier}
+(s,t,\mathsf{append}(a,\mathsf{BHist.e1}(w)),r).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold
+Definition~\ref{def:real-unary-stream-window-classifier} in the joined unary
+window. The displayed append ledger below
+$\mathsf{append}(w,\mathsf{BHist.e1}(r))$ separates offsets that remain below
+$w$ from offsets that pass the visible successor
+$\mathsf{BHist.e1}(w)$.
+
+The first ledger projection supplies every offset required for
+$\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)$. The second projection
+supplies an offset below $r$ from the shifted anchor
+$\mathsf{append}(a,\mathsf{BHist.e1}(w))$, and the carried $\hsame$ row
+identifies that shifted endpoint with the corresponding endpoint of the joined
+window. The RatUp endpoint classifier transports along this row.
+
+For the reverse direction, assume the left and right unary windows. Apply
+\autoref{thm:real-unary-stream-window-adjacent-concatenation}. It repacks the
+two windows, their $\mathsf{UnaryHistory}$ rows, and the finite $\Cont$ append
+ledger into the joined classifier over
+$\mathsf{append}(w,\mathsf{BHist.e1}(r))$.
+\end{proof}
+
+The ten-field fit is: traditional target finite adjacent observation windows
+over unary histories; BEDC source RealUp windows over StreamNameUp schedules
+$s,t:\Hist\to\Hist$; carrier unary anchor and bound histories; classifier
+RatUp endpoint classifiers at append-selected endpoints; stability by unary
+offset partition and adjacent concatenation; ledger $\mathsf{UnaryHistory}$,
+$\Cont$, $\hsame$, left-window rows, right-window rows, and the visible
+successor split; core theorem
+\autoref{thm:real-unary-stream-window-adjacent-partition}; exactness the
+joined unary window is equivalent to its left and right adjacent windows;
+standard bridge RegSeqRat finite-prefix consumption; status
+$\mathsf{ProofTarget}$.
+
 The ten-field fit is: traditional target finite adjacent observation
 intervals; BEDC source RealUp finite windows over RatUp endpoint classifiers;
 carrier rational-observation streams; classifier

@@ -26,6 +26,7 @@ Transitivity of indexed-open inclusion in the topology carrier composes these tw
 
 The cover data of $\mathcal{W}$ are not changed. Its row $\omega$ still says that every point of the ambient open $i$ lies in some indexed member $\lambda(c)$, expressed by the displayed $\mathsf{OpenAt}$ implication. Together with the map $r\circ s$ and the inclusions $\theta_c$, this is exactly the refinement obligation of \autoref{thm:sheaf-cover-refinement-obligation} for $\mathcal{W}$ through $\mathcal{U}$.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafBHistPointGermLedger\_refinement\_composition}
 
 \begin{theorem}[Sheaf compatible-family pullback composes over refinements]
 \label{thm:sheaf-refinement-pullback-composition}
@@ -43,6 +44,7 @@ z_c:=\rho_{\iota(r(s(c))),\lambda(c)}(u_{r(s(c))})
 $$
 for every $c:C$, and the family $w_c$ is compatible over $\mathcal{W}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafBHistPointGermLedger\_refinement\_pullback\_composition}
 \begin{proof}
 Apply \autoref{thm:sheaf-refinement-compatible-family-pullback} to the refinement $(r,\epsilon)$. It gives compatibility of the family $v_b$ over $\mathcal{V}$.
 
@@ -52,6 +54,7 @@ It remains to compare the two descriptions of the local section at $c:C$. By def
 
 The classifier on $\mathsf{Sec}(\lambda(c))$ supplies symmetry and transitivity, so the restriction-composition row gives $w_c\sim_{\lambda(c)}z_c$. Since compatibility of $w_c$ was already obtained from the second pullback application, the composite tower pullback is compatible over $\mathcal{W}$ and agrees with the one-step pullback along $(r\circ s,\theta)$.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafRefinementPullback\_composition}
 
 \begin{theorem}[Sheaf gluing descent composes over refinement towers]
 \label{thm:sheaf-refinement-gluing-composition}
@@ -74,6 +77,7 @@ Apply \autoref{thm:sheaf-refinement-gluing-descent} again to $(s,\eta)$ and the 
 
 By \autoref{thm:sheaf-refinement-pullback-composition}, $w_c$ is classifier-equal to the one-step pullback $\rho_{\iota(r(s(c))),\lambda(c)}(u_{r(s(c))})$ for every $c:C$. Transitivity of the classifier on $\mathsf{Sec}(\lambda(c))$ composes this comparison with the two-step gluing row, giving the displayed gluing row for the composite refinement.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafBHistPointGermLedger\_refinement\_tower\_gluing}
 
 \begin{definition}[Sheaf displayed common refinement span]
 \label{def:sheaf-displayed-common-refinement-span}
@@ -93,6 +97,7 @@ $$
 $$
 Thus the common refinement is displayed entirely inside indexed opens, inclusion rows, and presheaf restriction rows; it contains no host-level equality of covers.
 \end{definition}
+\leanchecked{BEDC.Derived.SheafUp.SheafDisplayedCommonRefinementSpan\_base\_change\_gluing\_package}
 
 \begin{theorem}[Sheaf displayed common refinement gives paired refinements]
 \label{thm:sheaf-displayed-common-refinement-span}
@@ -104,6 +109,7 @@ $$
 $$
 Both refinements are in the sense of \autoref{thm:sheaf-cover-refinement-obligation}.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafDisplayedCommonRefinementSpan\_paired\_refinements}
 \begin{proof}
 Unpack the displayed span. Its row $\omega$ makes $\lambda:C\to\mathsf{OpenIx}$ an indexed cover of $i$, so $\mathcal{W}$ has the cover side required to be the refined cover in \autoref{thm:sheaf-cover-refinement-obligation}.
 
@@ -126,6 +132,7 @@ $$
 g\sim_i h'.
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafCommonRefinementGluing\_carrier\_invariance}
 \begin{proof}
 Project the common refinement span by \autoref{thm:sheaf-displayed-common-refinement-span}. This gives the displayed refinement $(r,\epsilon)$ from $\mathcal{W}$ through $\mathcal{U}$ and the displayed refinement $(s,\zeta)$ from $\mathcal{W}$ through $\mathcal{V}$.
 
@@ -155,6 +162,8 @@ $$
 $$
 Then any global section class determined by gluing $u_a$ over $\mathcal{U}$ is the same classifier class as any global section class determined by gluing $v_b$ over $\mathcal{V}$. Equivalently, if $g,h':\mathsf{Sec}(i)$ are displayed gluings of the two families, then $g\sim_i h'$. The exactness row uses only indexed cover presentations, displayed common refinement, restriction transport, and the classifiers $\sim_j$; it does not compare host powersets and does not form a quotient of cover presentations.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafCoverPresentation\_exactness}
+\leanchecked{BEDC.Derived.SheafUp.SheafCoverPresentation\_common\_refinement\_global\_comparison}
 \begin{proof}
 Choose displayed gluings $g:\mathsf{Sec}(i)$ and $h':\mathsf{Sec}(i)$ for the two compatible families. The hypotheses give exactly the common-refinement equality of the two pulled-back local families.
 
@@ -179,6 +188,7 @@ The concrete $\SheafUp$ certificate surface is the following ten-field obligatio
 \item The status is a paper-side obligation surface for downstream certificates using $\NameCert_{\SheafUp}$.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafNameCert\_obligation\_surface}
 \begin{proof}
 Rows one through four are the data fixed by \autoref{def:sheaf-indexed-section-presheaf-carrier} and \autoref{def:sheaf-indexed-cover-compatibility-locality}: indexed opens come from $\TopologyUp$, section carriers and contravariant restriction rows come from $\PreSheafUp$, and classifier equality is indexed by the same opens as the section carriers.
 

@@ -37,6 +37,181 @@ Record the comparison certificate selected for each pair.
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\TotalOrderUp\).
 \end{definition}
 
+\begin{theorem}[TotalOrder carrier branch exhaustion]
+\label{thm:totalorder-carrier-branch-exhaustion}
+For carried singleton $\mathsf{BHist}$ endpoints $h,k:A_{\emp}$, the explicit
+comparison data in
+\autoref{def:concrete-singleton-history-totalorder-instance} exhausts exactly
+the three branches
+$\mathsf{lt}_{\emp}$, $\mathsf{same}_{\emp}$, and
+$\mathsf{gt}_{\emp}$. The singleton carrier forces the same branch:
+$\mathsf{same}_{\emp}(h,k)$ is $\rho_{\emp}(h,k)$, while the strict left and
+strict right branches are empty.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:singleton-history-totalorder-laws}. Its trichotomy row is
+stated for the displayed branches of the singleton history instance, and the
+instance defines the strict branches as $\bot$ and the middle branch as
+$\rho_{\emp}$.
+
+The carrier hypotheses say that $h$ and $k$ are the singleton $\mathsf{BHist}$
+endpoints. Hence no additional endpoint case exists outside the displayed
+three-way comparison data, and the only inhabited branch is the same branch.
+\end{proof}
+
+\begin{theorem}[TotalOrder classifier antisymmetry scope]
+\label{thm:totalorder-classifier-antisymmetry-scope}
+For carried singleton endpoints $h,k:A_{\emp}$, opposing prefix comparisons
+$h\le_{\emp}k$ and $k\le_{\emp}h$ recover $\rho_{\emp}(h,k)$. Therefore the
+classifier antisymmetry scope of the concrete $\TotalOrderUp$ certificate is
+exactly the singleton empty-poset scope and contains no comparison datum beyond
+the carried $\mathsf{BHist}$ endpoints.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:singleton-empty-poset-laws}. Its exactness row identifies
+the singleton classifier $\rho_{\emp}(h,k)$ with the pair of opposing prefix
+comparisons on carried endpoints.
+
+Now read the same row through the branch specification in this file. Since the
+strict branches are empty and the middle branch is $\rho_{\emp}$, antisymmetry
+is precisely the recovery of the middle classifier branch from the two prefix
+comparisons.
+\end{proof}
+
+\begin{theorem}[TotalOrder certificate boundary exactness]
+\label{thm:totalorder-certificate-boundary-exactness}
+The carrier branch exhaustion of
+\autoref{thm:totalorder-carrier-branch-exhaustion}, the classifier
+antisymmetry scope of
+\autoref{thm:totalorder-classifier-antisymmetry-scope}, the stability fields of
+\autoref{def:totalorder-stability-certificate}, and the ledger policy of
+\autoref{def:totalorder-ledger-policy} assemble the exact $\TotalOrderUp$
+boundary over the singleton $\mathsf{BHist}$ carrier. The boundary exports only
+the carrier, comparison branch, classifier, stability, exactness, and selected
+ledger rows listed in this file.
+\end{theorem}
+\begin{proof}
+First assemble the carrier and branch surface. Use
+\autoref{thm:totalorder-carrier-branch-exhaustion} to obtain the exhaustive
+three-way comparison data and the singleton same-branch reduction.
+
+Next assemble the classifier exactness surface. Use
+\autoref{thm:totalorder-classifier-antisymmetry-scope} to identify the
+classifier with opposing prefix comparisons, and use
+\autoref{thm:singleton-empty-poset-laws} for the underlying empty-poset
+exactness rows.
+
+Finally cite \autoref{thm:singleton-history-totalorder-laws} for total-order
+stability and comparison stability. Repacking these rows with
+\autoref{def:totalorder-source-specification},
+\autoref{def:totalorder-pattern-specification},
+\autoref{def:totalorder-classifier-specification},
+\autoref{def:totalorder-stability-certificate}, and
+\autoref{def:totalorder-ledger-policy} gives exactly the certificate boundary
+claimed by \autoref{def:totalorder-certificate-obligations}.
+\end{proof}
+
+\begin{theorem}[\(\OrderUp\) unary-prefix constructive trichotomy readback]
+\label{thm:orderup-unary-prefix-constructive-trichotomy-readback}
+For carried unary histories $h,k$ in $\mathsf{Carrier}_{\mathsf{u}}$, the
+unary-prefix comparison partition reads back as concrete $\mathsf{BHist}$ data
+over $\mathsf{Carrier}_{\mathsf{u}}$, $\rho_{\mathsf{u}}$, and
+$\le_{\mathsf{u}}$. Exactly one selected branch is exported:
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k),
+\qquad
+\rho_{\mathsf{u}}(h,k),
+\qquad
+\mathsf{NatUnaryStrictPrefix}(k,h).
+$$
+The strict-left branch is the concrete nonempty unary tail from $h$ to $k$, the
+same branch is the classifier row $\rho_{\mathsf{u}}(h,k)$, and the
+strict-right branch is the concrete nonempty unary tail from $k$ to $h$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} to the
+carried pair $h,k$. Its three branches are already stated over the unary
+$\mathsf{BHist}$ carrier and use the classifier $\rho_{\mathsf{u}}$ as the
+middle branch.
+
+In the strict-left case, the partition supplies the concrete nonempty
+continuation witness from $h$ to $k$, so the public branch is
+$\mathsf{NatUnaryStrictPrefix}(h,k)$. In the same case, the middle branch is
+exactly $\rho_{\mathsf{u}}(h,k)$, and the exactness row identifies it with the
+opposing $\le_{\mathsf{u}}$ comparisons.
+
+In the strict-right case, the same construction is read with endpoints reversed,
+yielding $\mathsf{NatUnaryStrictPrefix}(k,h)$. The incompatibility rows of the
+partition exclude every second selected branch, so the readback is constructive
+branch data rather than a host-order trichotomy principle.
+\end{proof}
+
+\begin{theorem}[\(\OrderUp\) prefix branch ledger exactness]
+\label{thm:orderup-prefix-branch-ledger-exactness}
+For every carried unary pair $h,k$ in $\mathsf{Carrier}_{\mathsf{u}}$, the
+selected prefix branch ledger is exactly the public comparison datum exported by
+the $\OrderUp$ certificate. The ledger contains one of the concrete rows
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k),
+\qquad
+\rho_{\mathsf{u}}(h,k),
+\qquad
+\mathsf{NatUnaryStrictPrefix}(k,h),
+$$
+and contains no separate classical trichotomy row, no host order row, and no
+quotient-equality row.
+\end{theorem}
+\begin{proof}
+Read the selected ledger row through
+\autoref{thm:orderup-unary-prefix-constructive-trichotomy-readback}. The row is
+one of the three concrete unary-prefix branches and is therefore a
+$\mathsf{BHist}$ witness, a classifier witness, or the reversed
+$\mathsf{BHist}$ witness.
+
+The singleton boundary of
+\autoref{thm:totalorder-certificate-boundary-exactness} records the same
+policy at the certificate boundary: only carrier, comparison branch,
+classifier, stability, exactness, and selected ledger rows are exported. The
+unary-prefix surface uses the same boundary shape, replacing the singleton
+branches by the unary branches of
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}.
+
+Thus the ledger is exact as a public comparison datum. Since every exported row
+is one of the displayed concrete rows, there is no additional classical
+trichotomy row to project.
+\end{proof}
+
+\begin{theorem}[\(\OrderUp\) unary-prefix audit target surface]
+\label{thm:orderup-unary-prefix-audit-target-surface}
+The unary-prefix $\OrderUp$ paper target consists of the carrier
+$\mathsf{Carrier}_{\mathsf{u}}$, the classifier $\rho_{\mathsf{u}}$, the order
+$\le_{\mathsf{u}}$, the branch readback of
+\autoref{thm:orderup-unary-prefix-constructive-trichotomy-readback}, the
+stability rows of \autoref{def:totalorder-stability-certificate}, the ledger
+exactness of \autoref{thm:orderup-prefix-branch-ledger-exactness}, and the
+certificate boundary exactness of
+\autoref{thm:totalorder-certificate-boundary-exactness}. This is the complete
+paper surface for a later theorem over the concrete unary-prefix carrier and
+does not require parameter transport or classical order primitives.
+\end{theorem}
+\begin{proof}
+Start with the carrier, classifier, and order from the concrete unary-prefix
+total-order instance. The comparison partition supplies the constructive
+strict-left, same, and strict-right branches over
+$\mathsf{Carrier}_{\mathsf{u}}$.
+
+Use \autoref{thm:orderup-unary-prefix-constructive-trichotomy-readback} to read
+the selected branch as public $\mathsf{BHist}$ data. Use
+\autoref{thm:orderup-prefix-branch-ledger-exactness} to identify the selected
+ledger with that public comparison datum.
+
+Finally repack these rows with the stability certificate of
+\autoref{def:totalorder-stability-certificate} and the exact boundary of
+\autoref{thm:totalorder-certificate-boundary-exactness}. The assembled target
+names precisely the carrier, classifier, branch readback, stability, ledger,
+and exactness rows needed by the unary-prefix $\OrderUp$ theorem surface.
+\end{proof}
+
 \begin{theorem}[Concrete singleton history $\TotalOrderUp$ naming certificate]
 \label{thm:concrete-singleton-history-totalorder-namecert}
 The concrete tuple of

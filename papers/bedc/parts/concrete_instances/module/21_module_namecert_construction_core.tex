@@ -273,6 +273,40 @@ same concrete fiber.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_output\_fiber\_semanticNameCert}
 
+\begin{theorem}[Module singleton scalar action fiber exhaustion]
+\label{thm:module-singleton-smul-fiber-exhaustion}
+For histories $r,m,o:\mathsf{BHist}$ with $A_{\emp}(r)$ and
+$A_{\emp}(m)$, define the concrete scalar-action output fiber by
+$$
+F_{r,m}(o)\;:\Longleftrightarrow\;
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),o).
+$$
+Then the fiber is exactly the singleton classifier class:
+$$
+F_{r,m}(o)\quad\Longleftrightarrow\quad A_{\emp}(o).
+$$
+Moreover, if $F_{r,m}(o)$ and $F_{r,m}(o')$, then
+$\rho_{\emp}(o,o')$.
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold the fiber predicate. The concrete action
+$\mathsf{ModuleSingletonSmul}(r,m)$ is the constant empty endpoint, so
+Theorem~\ref{thm:module-singleton-classifier-empty-endpoints} reads the
+classification
+$\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),o)$ back as the singleton
+endpoint witness $A_{\emp}(o)$.
+
+For the reverse direction, assume $A_{\emp}(o)$. The same endpoint
+exactness theorem applies to the empty action endpoint and $o$, giving
+$\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),o)$ and hence
+$F_{r,m}(o)$.
+
+For the fiber classification claim, combine the two fiber witnesses as
+graph witnesses with the fixed input endpoint witnesses $A_{\emp}(r)$ and
+$A_{\emp}(m)$. Theorem~\ref{thm:module-singleton-smul-graph-output-determinacy}
+then returns $\rho_{\emp}(o,o')$.
+\end{proof}
+
 \begin{theorem}[Module singleton empty-action output determinacy]
 \label{thm:module-singleton-smul-empty-action-outputs-deterministic}
 For histories $r,m,n,n':\mathsf{BHist}$, if the empty scalar action classifies
@@ -687,12 +721,28 @@ Again symmetry and transitivity give $b\sim_M b+_M b$, and \autoref{thm:module-a
 \input{parts/concrete_instances/21_module_parity_action_boundary}
 \input{parts/concrete_instances/21_module_linearmap_kernel_and_inverse_action}
 
+\input{parts/concrete_instances/module/standard_bridge_and_host_boundary}
+
+\begin{theorem}[ModuleUp mature package boundary]
+\label{thm:module-mature-package-boundary}
+The concrete $\ModuleUp$ package for the singleton empty-history instance consists of the singleton scalar carrier, the singleton module carrier, the scalar-action image $\mathsf{SemanticNameCert}$, the output-fiber $\mathsf{SemanticNameCert}$, the zero-action annihilation row, the $\RingUp$ scalar projection, the $\LinearMapUp$ kernel package, the classifier-faithful action and annihilator $\IdealUp$ predicate, the singleton standard bridge, and the no-host-leak public boundary.
+\end{theorem}
+\begin{proof}
+The singleton scalar and module carriers, scalar action, scalar projection, semantic image certificate, and output-fiber certificate are the concrete rows of \autoref{def:singleton-empty-history-module-instance}, \autoref{thm:module-singleton-scalar-action-laws}, \autoref{thm:module-singleton-smul-image-semantic-name-cert}, and \autoref{thm:module-singleton-smul-output-fiber-semantic-name-cert}. The zero-action endpoint row is supplied by \autoref{thm:module-zero-action-annihilation}.
+
+The kernel-facing part of the package is the $\LinearMapUp$ semantic certificate of \autoref{thm:module-linearmap-kernel-semantic-name-cert}. The action-faithfulness and annihilator closure rows are packaged by \autoref{thm:module-action-annihilator-ideal-predicate}.
+
+Finally, \autoref{thm:module-singleton-standard-bridge} identifies the public singleton surface with the standard terminal module bridge, and \autoref{thm:module-singleton-no-host-leak} records that this public surface exports no host equality, host $\mathsf{Nat}$, quotient carrier, or host function. These rows are exactly the advertised mature package boundary.
+\end{proof}
+
+\closureat{ModuleUp}{matureStr}[BEDC.Derived.ModuleUp.ModuleSingletonSmul\_image\_semanticNameCert]
 \begin{closurestatus}{\ModuleUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The singleton empty-history module semantic certificate over the singleton ring and abelian-group carriers, with constant scalar action and the displayed scalar-action image exactness.}
-  \formalstatus{\theoremCheckedV}
+  \constructivestory{A module action here is a constant action between two endpoint carriers: the scalar side is the singleton from $\RingUp$, the vector side is the singleton from $\AbGroupUp$, and the action sends every admitted scalar-vector pair back to $\emp$. A pair $(s,v)$ is admitted only when both entries are history-equal to $\emp$, and two pairs are classified by the conjunction of the scalar and vector singleton classifiers. The source is the singleton-on-singleton pair predicate, the pattern records the scalar-action image certificate, graph exactness, zero-action annihilation, and the equivalence between action faithfulness and a trivial zero annihilator, while the ledger keeps the visible pair aligned with the raw endpoint data. Since both sides are singleton name certificates, $(\emp,\emp)$ supplies the carrier witness, the pair classifier is reflexive, symmetric, and transitive, and classifier-recognized pairs remain admitted. A pair $(s,v)$ lies in the signature gap of a $\ModuleUp$ token $p$ when the source-domain accepts the pair, the signature relation pairs it with an answer pair and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, both $s$ and $v$ are history-equal to $\emp$ and $p$ is the singleton scalar-action token. The annihilator-ideal predicate, singleton standard bridge to host module data, and no-host-leak theorem all read back the same endpoint action. The chapter registers this singleton scalar-action construction under the name $\ModuleUp$; the ring, abelian group, associativity, two distributivity laws, and unit law are checked on the constant endpoint action, with no bases, quotients, tensor products, or host module object introduced.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature singleton $\ModuleUp$ paper package binds the singleton scalar carrier, singleton module carrier, scalar-action image $\mathsf{SemanticNameCert}$, graph exactness, zero-action annihilation, action-faithfulness if and only if zero-annihilator, the annihilator $\IdealUp$ predicate, the singleton standard bridge of \autoref{thm:module-singleton-standard-bridge}, and the no-host-leak theorem of \autoref{thm:module-singleton-no-host-leak}.}
+  \formalstatus{\bridgeCheckedV}
   \leantarget{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_image\_semanticNameCert}
-  \bridgestatus{none}
-  \notclaimed{General module theory: arbitrary modules over arbitrary rings, submodules, quotient modules, linear maps, bases, free modules, tensor products, or structure theorem results.}
-  \upgradepath{$\publicClosure$ requires public scalar and module carriers, scalar-action readback, module laws, submodule and linear-map surfaces where used, and no-hidden-leakage.}
+  \bridgestatus{bridgeChecked}
+  \notclaimed{The chapter does not claim arbitrary non-singleton modules, quotient modules, bases, free modules, tensor products, or structure theorem results.}
+  \upgradepath{The singleton package occupies the stated mature theory boundary and the top formal target; broader module packages require separate certificates.}
 \end{closurestatus}

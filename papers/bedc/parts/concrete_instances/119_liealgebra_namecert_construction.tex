@@ -189,6 +189,7 @@ $$
 $$
 holds.
 \end{theorem}
+\leanchecked{BEDC.Derived.LieAlgebraUp.LieAlgebraSingletonAdjoint\_endomap\_package}
 \begin{proof}
 The $\LieAlgebraUp$ certificate contains a $\VecSpaceUp(F_L,C_L)$ reduct. By \autoref{prop:vecspace-module-fragment-projection}, deleting only the inverse-indexed field rows gives a $\ModuleUp(F_{L,\mathsf{Ring}},C_L)$ certificate with the same vector carrier, classifier, vector addition, zero, scalar action, and non-inverse ledgers. These are the source and target module carriers used by \autoref{def:module-linearmap-certificate-package}.
 
@@ -268,6 +269,7 @@ $$
 [x,0_L]_L\sim_L0_L.
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.LieAlgebraUp.LieAlgebraSingletonBracket\_left\_zero\_annihilation}
 \begin{proof}
 The $\LieAlgebraUp$ certificate contains a $\VecSpaceUp$ reduct on $C_L$. Its zero-closure row carries $0_L$, its additive closure row carries $0_L+_L0_L$, and its additive unit law gives
 $$
@@ -305,3 +307,16 @@ $$
 [x,0_L]_L=b\sim_L0_L.
 $$
 \end{proof}
+
+\closureat{LieAlgebraUp}{matureStr}[BEDC.Derived.LieAlgebraUp.LieAlgebraSingletonAdjoint\_endomap\_package]
+
+\begin{closurestatus}{\LieAlgebraUp}
+  \constructivestory{A Lie algebra is accepted by first taking the certified $\VecSpaceUp$ carrier, then attaching a bilinear antisymmetric bracket whose outputs remain in that same vector carrier and whose Jacobi row can be read by the classifier. Two algebra packets classify together when the vector endpoints are classified by the $\VecSpaceUp$ reduct and every bracket, additive, scalar, and adjoint-endomap endpoint transports through that same carrier classifier. The source covers carried vector endpoints with bracket rows, the pattern records closure, bilinearity, antisymmetry, Jacobi, zero-bracket annihilation, and the inner derivation identities, while the ledger keeps the bracket provenance and the $\LinearMapUp$ adjoint-endomap package visible to downstream consumers. The carrier is inhabited by the zero vector row, and the five certificate obligations follow because the vector classifier is reflexive, symmetric, transitive, and stable under addition, scalar action, bracket formation, and transported bracket endpoints. A history $h$ lies in the signature gap of a $\LieAlgebraUp$ token $p$ when the source accepts the vector-plus-bracket packet for $h$, the signature relation pairs it with an answer algebra packet and evidence ledger, and token introduction names that answer as $p$; unfolded, the vector carrier, bracket endpoint, Jacobi-derived adjoint action, and linear endomap rows match the data encoded by $p$. The paper bridge exposes these rows to adjoint-representation and root-system consumers, but it does not supply a Lie-group integration bridge or classification theorem. The chapter registers this bracket-on-vector-carrier construction under the name $\LieAlgebraUp$; no ambient algebra object, hidden tangent space, or external Lie-theoretic classification is assumed.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature package surface is bound to bracket closure, the $\VecSpaceUp$ reduct, the adjoint-endomap $\LinearMapUp$ package, inner derivation identities, zero-bracket annihilation, and the downstream bridge consumers exposed by the chapter.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.LieAlgebraUp.LieAlgebraSingletonAdjoint\_endomap\_package}
+  \bridgestatus{paperBridge}
+  \notclaimed{It does not claim a $\LieGroupUp$ bridge, a $\RootSystemUp$ bridge, or downstream Lie-theoretic classification.}
+  \upgradepath{Bridge-checked closure requires a checked standard bridge from the mature Lie-algebra package inventory to its downstream bridge consumers.}
+\end{closurestatus}

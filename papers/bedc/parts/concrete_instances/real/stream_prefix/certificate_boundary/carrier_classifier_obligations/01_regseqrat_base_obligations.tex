@@ -55,3 +55,49 @@ symmetric, transitive, and transported classifier rows together. The seal
 consumer \autoref{thm:regseqrat-realup-seal-consumes-stream-spine} confirms
 that the same row is the classifier exported through the $\RealUp$ interface.
 \end{proof}
+
+\begin{theorem}[RegSeqRat carrier-classifier export package]
+\label{thm:regseqrat-carrier-classifier-export-package}
+For carried rational-observation streams $s,t:\Hist\to\Hist$, the
+$\RegSeqRat$ spine exports exactly the
+$\mathsf{RatStreamNameCarrier}(s)$ row, the
+$\mathsf{RatStreamNameCarrier}(t)$ row, the
+$\mathsf{RatStreamNameClassifier}(s,t)$ row, the
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ row, the endpoint
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$ rows over
+certified $\mathsf{UnaryHistory}$ observations, and the finite
+$\mathsf{DyadicRatCore}$ ledger rows later consumed by the $\RealUp$ seal.
+
+This export package contains no quotient representatives, completion data,
+metric completeness, $\RealUp$ completeness, Classical data, or standard
+bridge data. Its public boundary is the carried stream-name surface, the
+endpoint RatUp observation surface, the finite dyadic ledger, and the
+downstream $\RealUp$ seal consumption row.
+\end{theorem}
+\begin{proof}
+Read the carrier rows from Definition~\ref{def:regseqrat-stream-certificate-spine}.
+Apply \autoref{thm:regseqrat-carrier-obligation} to the carried streams $s$
+and $t$. This supplies the two $\mathsf{RatStreamNameCarrier}$ rows and the
+endpoint $\mathsf{RatHistoryCarrier}$ rows indexed by certified
+$\mathsf{UnaryHistory}$ observations.
+
+Read the classifier rows from the same spine. Apply
+\autoref{thm:regseqrat-classifier-obligation}. It exposes the recorded
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ row, recovers the pointwise endpoint
+$\mathsf{RatHistoryClassifier}$ rows, and repackages them as the
+$\mathsf{RatStreamNameClassifier}(s,t)$ row.
+
+Next read the dyadic side. Apply
+\autoref{thm:dyadic-rat-core-scoped-primitive-dependency-package} to identify
+the finite $\mathsf{DyadicRatCore}$ ledger rows and their scoped primitive
+source. Then apply
+\autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation} to consume
+those rows at the $\RealUp$ seal boundary.
+
+The four cited obligations exhaust the displayed package. The carrier and
+classifier faces are read from the same certificate spine, while the dyadic
+ledger and the $\RealUp$ seal are consumed as already recorded rows. None of
+these steps adds a quotient representative, a completion object, a metric
+completeness principle, a $\RealUp$ completeness principle, Classical data, or
+standard bridge data as a primitive input.
+\end{proof}

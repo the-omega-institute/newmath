@@ -175,3 +175,64 @@ candidates exposing $s'$ and $t'$ with the transported stream comparison row.
 The seal consumer exports exactly the RealUp observation classifier named by
 \autoref{def:real-classifier-specification}.
 \end{proof}
+
+\begin{theorem}[RegSeqRat seal finite-window transport package]
+\label{thm:regseqrat-seal-finite-window-transport-package}
+Let $s,t,s',t':\Hist\to\Hist$ be certified rational-observation maps, let
+$\mathcal P$ be a $\mathsf{ProbeBundle}$ finite window, let $n$ be a bundled
+unary observation in $\mathcal P$, and let the selected transported endpoints
+be displayed as $\Eone(a)$ and $\Eone(b)$. Suppose $s$ and $t$ carry
+$\RegSeqRat$ stream certificate spines, the row
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ is recorded, and the bundled
+pointwise transport rows
+$$
+\forall m\in\mathcal P,\ \mathsf{UnaryHistory}(m)\to\hsame(s(m),s'(m)),
+\quad
+\forall m\in\mathcal P,\ \mathsf{UnaryHistory}(m)\to\hsame(t(m),t'(m))
+$$
+carry the selected source endpoints to the displayed endpoints
+$s'(n)=\Eone(a)$ and $t'(n)=\Eone(b)$. Then the $\RealUp$ seal over $s'$ and
+$t'$ exports the finite-window public readback package consisting of the
+transported
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s',t',\mathcal P)$ row, the
+selected $\mathsf{RatHistoryClassifier}(s'(n),t'(n))$ row, the positive unary
+denominator rows for the displayed endpoints, the endpoint-shape exclusions,
+one-tail agreement, and the RealUp observation classifier row required by
+\autoref{def:real-classifier-specification}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-spine-pointwise-hsame-transport} to the
+$\RegSeqRat$ spines, the recorded stream comparison, and the two bundled
+pointwise $\hsame$ transport families. This gives the transported stream
+certificate spines for $s'$ and $t'$ and the transported stream-name classifier.
+
+Restrict that transported stream classifier to the bundle $\mathcal P$ using
+the StreamName finite-window stability fields. The selected observation $n$ is
+already bundled, so the restriction exposes the finite-window classifier row and
+the selected endpoint histories at $s'(n)$ and $t'(n)$.
+
+Apply the transported selected full endpoint package to the displayed endpoints
+$\Eone(a)$ and $\Eone(b)$. It supplies the selected
+$\mathsf{RatHistoryClassifier}$ row, the positive unary denominator rows, the
+endpoint-shape exclusions, and one-tail agreement for the same selected
+observation.
+
+Finally repack these rows through the RealUp seal consumer. The consumer keeps
+the finite-window StreamName row, the selected endpoint ledger, and the
+transported stream classifier as the public readback surface, and exports the
+RealUp observation classifier row without adding quotient, completion, or host
+equality data.
+\end{proof}
+
+Fit. Traditional target: finite-window transported rational-stream readback for
+the real-number seal. BEDC source: $\StreamNameUp+\RegSeqRat+\RealUp+
+\mathsf{ProbeBundle}$. Carrier: $\mathsf{BHist}$ histories of certified unary
+rational observations. Classifier: transported
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ with the selected
+$\mathsf{RatHistoryClassifier}$ endpoint row. Stability: bundled pointwise
+$\hsame$ transport restricted to $\mathcal P$. Ledger: positive unary
+denominators, endpoint-shape exclusions, and one-tail agreement. Core theorems:
+\autoref{thm:regseqrat-spine-pointwise-hsame-transport} and the StreamName
+transported finite-window endpoint package. Exactness: the exported rows are
+exactly the rows consumed by the RealUp seal. Standard bridge: none. Status:
+paper theorem awaiting Lean realization in $\mathsf{BEDC.Derived.RealUp}$.

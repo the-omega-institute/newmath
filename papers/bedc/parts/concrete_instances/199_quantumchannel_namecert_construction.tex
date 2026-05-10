@@ -55,6 +55,7 @@ $$
 $$
 The three rows are exactly the $\mathsf{Dens}_K$ carrier clauses in \autoref{def:densitymatrix-trace-class-carrier}.
 \end{proof}
+\leanchecked{BEDC.Derived.QuantumChannelUp.QuantumChannelSingleton\_densitymatrix\_image}
 
 \begin{theorem}[QuantumChannel composition closure]
 \label{thm:quantumchannel-composition-closure}
@@ -73,6 +74,7 @@ $$
 \mathsf{Dens}_H(\rho)\Longrightarrow\mathsf{Dens}_L((\Psi\circ\Phi)(\rho)).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.QuantumChannelUp.QuantumChannelAffineMixtureSpine\_composition\_closure}
 \begin{proof}
 Unpack the two channel carriers by \autoref{def:quantumchannel-cptp-carrier}. Their $\LinearMapUp$ rows are maps
 $$
@@ -163,6 +165,7 @@ $$
 \mathsf{QChan}_{H,K}(\Phi_{\mathrm{mix}}).
 $$
 \end{lemma}
+\leanchecked{BEDC.Derived.QuantumChannelUp.QuantumChannelSingleton\_binary\_convex\_mixture\_closure}
 \begin{proof}
 Unpack the two channel hypotheses by \autoref{def:quantumchannel-cptp-carrier}. Their first rows carry the two $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ map-codes of \autoref{def:linearmap-carrier}. The trace-class carriers are real vector-space and module carriers inherited from the $\OperatorIdealUp$ and $\HilbertUp$ dependency surfaces cited in \autoref{ch:concrete-instances-densitymatrix-namecert}.
 
@@ -211,6 +214,7 @@ $$
 $$
 Equivalently, any finite pointwise affine mixture of carried $\mathsf{QChan}_{H,K}$ entries with nonnegative real weights whose finite sum is classified as one is again a carried quantum channel from $H$ to $K$.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuantumChannelUp.QuantumChannelAffineMixtureSpine\_finite\_closure}
 \begin{proof}
 Unpack \autoref{def:quantumchannel-affine-mixture-spine}. The hypothesis is the finite affine-spine datum of \autoref{def:convexset-finite-affine-spine-data} specialized to the concrete carrier $C=\mathsf{QChan}_{H,K}$ on the pointwise map carrier $\mathsf{Map}_{H,K}$. It contains the visible finite readback of carried channel entries and nonnegative unit-sum weights, together with a local bracketing witness for the endpoint $\Phi_{\mathrm{mix}}$.
 
@@ -247,6 +251,7 @@ $$
 \mathsf{Dens}_K(\Phi(\rho_{\mathrm{mix}})).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.QuantumChannelUp.QuantumChannelAffineMixtureSpine\_density\_mixture\_preservation}
 \begin{proof}
 Unpack $\mathsf{QChan}_{H,K}(\Phi)$ by \autoref{def:quantumchannel-cptp-carrier}. Its carried $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ row, read through \autoref{def:linearmap-carrier}, supplies output closure, additivity, and scalar compatibility on the trace-class vector carriers. Hence for carried trace-class endpoints $T,U$ and real scalars $a,b$,
 $$
@@ -275,6 +280,7 @@ $$
 $$
 Applying \autoref{thm:densitymatrix-finite-affine-mixture-closure} to this target density affine spine gives $\mathsf{Dens}_K(\Phi(\rho_{\mathrm{mix}}))$.
 \end{proof}
+\leanchecked{BEDC.Derived.QuantumChannelUp.QuantumChannelAffineMixtureSpine\_density\_preservation}
 
 \begin{theorem}[QuantumChannel identity channel is CPTP]
 \label{thm:quantumchannel-identity-channel-cptp}
@@ -291,6 +297,7 @@ $$
 \mathsf{Dens}_H(\operatorname{id}_{\mathsf{TC}(H)}(\rho)).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.QuantumChannelUp.QuantumChannelSingleton\_identity\_channel\_cptp}
 \begin{proof}
 The trace-class carrier $\mathsf{TC}(H)$ is a module carrier over the scalar certificate used by the trace-class operator-ideal surface. Applying \autoref{thm:module-linearmap-identity-certificate} with $M=\mathsf{TC}(H)$ gives the module identity certificate for $\operatorname{id}_{\mathsf{TC}(H)}$. Read through \autoref{def:linearmap-carrier}, this is exactly the carried $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(H))$ map-code required as the first row of \autoref{def:quantumchannel-cptp-carrier}.
 
@@ -356,6 +363,7 @@ $$
 \mathsf{Dens}_J((\Theta\circ(\Psi\circ\Phi))(\rho)).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.QuantumChannelUp.QuantumChannelAffineMixtureSpine\_composition\_assoc}
 \begin{proof}
 Apply \autoref{thm:quantumchannel-composition-closure} to $\Phi$ and $\Psi$. This gives
 $$
@@ -503,6 +511,7 @@ $$
 $$
 which is the asserted density-matrix endpoint preservation.
 \end{proof}
+\leanchecked{BEDC.Derived.QuantumChannelUp.QuantumChannelUnitaryConjugation\_channel}
 
 \begin{theorem}[QuantumChannel identity composition unit laws]
 \label{thm:quantumchannel-identity-composition-unit-laws}
@@ -537,6 +546,8 @@ $$
 \Phi(T).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.QuantumChannelUp.QuantumChannelSingleton\_identity\_composition\_unit\_laws}
+\leanchecked{BEDC.Derived.QuantumChannelUp.QuantumChannelAffineMixtureSpine\_unit\_laws}
 \begin{proof}
 Apply \autoref{thm:quantumchannel-identity-channel-cptp} to $H$ and to $K$. This gives
 $$
@@ -677,3 +688,18 @@ $$
 $$
 These are the asserted density-matrix endpoint clauses.
 \end{proof}
+\leanchecked{BEDC.Derived.QuantumChannelUp.QuantumChannelUnitaryConjugation\_composition\_law}
+
+\closureat{QuantumChannelUp}{bridgedStr}[BEDC.Derived.QuantumChannelUp.QuantumChannelUnitaryConjugation\_composition\_law]
+\closureat{QuantumChannelUp}{matureStr}[BEDC.Derived.QuantumChannelUp.QuantumChannelUnitaryConjugation\_composition\_law]
+
+\begin{closurestatus}{\QuantumChannelUp}
+  \constructivestory{A quantum channel from a carried Hilbert source $H$ to a carried Hilbert target $K$ is built by taking a $\LinearMapUp$ code between the two trace-class carriers and adding the two CPTP rows: complete positivity under every finite ancilla and trace preservation on every trace-class endpoint. The carrier accepts only maps with that linear row, complete-positivity row, and trace-preservation row, while the classifier compares channels pointwise through the trace-class and linear-map classifiers and keeps the same density-matrix image, composition, affine-mixture, identity, and unitary-conjugation ledgers. The source therefore covers trace-class linear maps between $\DensityMatrixUp$ surfaces, the pattern records density-matrix image closure, composition closure and associativity, finite convex mixture closure, identity-channel unit laws, and unitary conjugation, and the ledger keeps the underlying $\HilbertUp$, $\OperatorIdealUp$, $\LinearMapUp$, $\DensityMatrixUp$, $\RealUp$, $\ListUp$, and $\UnitaryGroupUp$ rows visible. Since the dependency classifiers and pointwise trace-class comparisons are equivalence relations and CPTP rows are stable under composition, convex combination, identity, and unitary conjugation as displayed, an admitted channel supplies the carrier witness, the classifier is reflexive, symmetric, and transitive, and classified replacements remain carried channels. A map row $h$ lies in the signature gap of a $\QuantumChannelUp$ token $p$ when the source-domain accepts its linear trace-class map and CPTP ledger, the signature relation pairs it with an answer channel and evidence ledger, and token introduction names that answer as $p$; unfolded, $h$ sends every carried density matrix to the carried density matrix and channel behavior encoded by $p$. No standard quantum-information bridge is exported here. The chapter registers this CPTP-map construction under the name $\QuantumChannelUp$; a channel is a displayed linear trace-class map with positivity and trace ledgers, with no Stinespring dilation, external channel category, or host quantum-information primitive introduced.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The obligation scope displayed in this chapter consists of the CPTP carrier, density-matrix image, composition closure and associativity, finite convex mixture closure, finite density-mixture preservation, identity channel, identity unit laws, unitary conjugation channel, and unitary-conjugation composition law over the $\DensityMatrixUp$, $\LinearMapUp$, $\HilbertUp$, $\OperatorIdealUp$, $\RealUp$, $\ListUp$, $\UnitaryGroupUp$, and $\mathsf{BHist}$ surfaces.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.QuantumChannelUp.QuantumChannelUnitaryConjugation\_composition\_law}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Stinespring dilation, full quantum information theory, a standard quantum-information bridge, or bridge verification.}
+  \upgradepath{No further paper-axis upgrade is required for the mature $\QuantumChannelUp$ package displayed here.}
+\end{closurestatus}

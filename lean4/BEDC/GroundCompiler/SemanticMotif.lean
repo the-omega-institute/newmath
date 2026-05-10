@@ -1,0 +1,772 @@
+import BEDC.GroundCompiler.ChannelEncoding
+import BEDC.GroundCompiler.EventFlow
+
+namespace BEDC.GroundCompiler.SemanticMotif
+
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.ChannelEncoding
+open BEDC.GroundCompiler.EventFlow
+
+def ContiguousSubflow (M S : EventFlow) : Prop :=
+  exists left right : EventFlow, S = List.append left (List.append M right)
+
+inductive IndexedSubflow : EventFlow -> EventFlow -> Prop where
+  | nil (S : EventFlow) : IndexedSubflow [] S
+  | keep {w : RawEvent} {M S : EventFlow} :
+      IndexedSubflow M S -> IndexedSubflow (w :: M) (w :: S)
+  | skip {w : RawEvent} {M S : EventFlow} :
+      IndexedSubflow M S -> IndexedSubflow M (w :: S)
+
+def Subflow (M S : EventFlow) : Prop :=
+  ContiguousSubflow M S \/ IndexedSubflow M S
+
+theorem indexed_subflow_mem {M S : EventFlow} {w : RawEvent} :
+    IndexedSubflow M S -> List.Mem w M -> List.Mem w S := by
+  intro h
+  induction h with
+  | nil _ =>
+      intro hmem
+      cases hmem
+  | keep _ ih =>
+      intro hmem
+      cases hmem with
+      | head =>
+          exact List.Mem.head _
+      | tail _ htail =>
+          exact List.Mem.tail _ (ih htail)
+  | skip _ ih =>
+      intro hmem
+      exact List.Mem.tail _ (ih hmem)
+
+theorem subflow_mem {M S : EventFlow} {w : RawEvent} :
+    Subflow M S -> List.Mem w M -> List.Mem w S := by
+  intro h hmem
+  cases h with
+  | inl hc =>
+      cases hc with
+      | intro left hright =>
+          cases hright with
+          | intro right heq =>
+              rw [heq]
+              exact List.mem_append_right left (List.mem_append_left right hmem)
+  | inr hi =>
+      exact indexed_subflow_mem hi hmem
+
+def MotifCandidate (M S : EventFlow) : Prop :=
+  Subflow M S
+
+def GeneratedMotifRecognizer : Type := EventFlow
+
+def MotifRole : Type := EventFlow
+
+def FiniteRepetitionRole : MotifRole := [[BMark.b0]]
+
+def ContinuationRole : MotifRole := [[BMark.b0, BMark.b0]]
+
+def SealRole : MotifRole := [[BMark.b0, BMark.b1]]
+
+def CarryRole : MotifRole := [[BMark.b1, BMark.b0]]
+
+def ClassifierQuotientRole : MotifRole := [[BMark.b1, BMark.b0, BMark.b0]]
+
+def LedgerCompressionRole : MotifRole := [[BMark.b1, BMark.b0, BMark.b1]]
+
+def ReuseRole : MotifRole := [[BMark.b1, BMark.b1, BMark.b0]]
+
+def BridgeRole : MotifRole := [[BMark.b1, BMark.b1, BMark.b1]]
+
+def SourceLevelMotifArgs (S M : EventFlow) (mu : MotifRole) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow S) /\
+    FormalCompilerInput (CompilerDatum.eventFlow M) /\
+    FormalCompilerInput (CompilerDatum.eventFlow mu)
+
+def RecognizesMotif
+    (R : GeneratedMotifRecognizer) (S M : EventFlow) (mu : MotifRole) :
+    Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow R) /\
+    SourceLevelMotifArgs S M mu /\
+    Subflow M S
+
+def RecognizedMotifOccurrence
+    (R : GeneratedMotifRecognizer) (S M : EventFlow) (mu : MotifRole) :
+    Prop :=
+  RecognizesMotif R S M mu
+
+def MotifOccurrence
+    (R : GeneratedMotifRecognizer) (S M : EventFlow) (mu : MotifRole) :
+    Prop :=
+  RecognizesMotif R S M mu
+
+def MotifLedger
+    (R : GeneratedMotifRecognizer) (S M : EventFlow) (mu : MotifRole)
+    (L : EventFlow) :
+    Prop :=
+  RecognizesMotif R S M mu /\ Subflow L S
+
+def RepeatRawEvent (x : RawEvent) : Nat -> RawEvent
+  | 0 => x
+  | n + 1 => List.append (RepeatRawEvent x n) x
+
+def FiniteRepetitionPrefix (x : RawEvent) : Nat -> EventFlow
+  | 0 => []
+  | n + 1 => List.append (FiniteRepetitionPrefix x n) [RepeatRawEvent x n]
+
+def FiniteRepetitionMotif
+    (R : GeneratedMotifRecognizer) (S M : EventFlow) : Prop :=
+  exists x : RawEvent,
+    exists k : Nat,
+      M = FiniteRepetitionPrefix x (k + 1) /\
+        RecognizesMotif R S M FiniteRepetitionRole
+
+def ContinuationMotif
+    (R : GeneratedMotifRecognizer) (S M input result witness : EventFlow) :
+    Prop :=
+  RecognizesMotif R S M ContinuationRole /\
+    Subflow input M /\
+    Subflow result M /\
+    Subflow witness M /\
+    NonemptyEventFlow witness
+
+def SealMotif
+    (R : GeneratedMotifRecognizer)
+    (S M stages boundary sealFlow ledgerFlow : EventFlow) : Prop :=
+  RecognizesMotif R S M SealRole /\
+    Subflow stages M /\
+    Subflow boundary M /\
+    Subflow sealFlow M /\
+    Subflow ledgerFlow M /\
+    NonemptyEventFlow sealFlow /\
+    NonemptyEventFlow ledgerFlow
+
+def CarryMotif
+    (R : GeneratedMotifRecognizer)
+    (S M preNormal normal ledgerFlow : EventFlow) : Prop :=
+  RecognizesMotif R S M CarryRole /\
+    Subflow preNormal M /\
+    Subflow normal M /\
+    Subflow ledgerFlow M /\
+    NonemptyEventFlow preNormal /\
+    NonemptyEventFlow normal /\
+    NonemptyEventFlow ledgerFlow
+
+def ClassifierQuotientMotif
+    (R : GeneratedMotifRecognizer)
+    (S M leftFlow rightFlow classifierFlow exactnessFlow
+      failureFlow : EventFlow) : Prop :=
+  RecognizesMotif R S M ClassifierQuotientRole /\
+    Subflow leftFlow M /\
+    Subflow rightFlow M /\
+    Subflow classifierFlow M /\
+    Subflow exactnessFlow M /\
+    Subflow failureFlow M /\
+    NonemptyEventFlow leftFlow /\
+    NonemptyEventFlow rightFlow /\
+    NonemptyEventFlow classifierFlow /\
+    NonemptyEventFlow exactnessFlow
+
+def LedgerCompressionMotif
+    (R : GeneratedMotifRecognizer)
+    (S M visibleFlow hiddenFlow ledgerFlow sourceMapFlow
+      compressionSealFlow : EventFlow) : Prop :=
+  RecognizesMotif R S M LedgerCompressionRole /\
+    Subflow visibleFlow M /\
+    Subflow hiddenFlow M /\
+    Subflow ledgerFlow M /\
+    Subflow sourceMapFlow M /\
+    Subflow compressionSealFlow M /\
+    NonemptyEventFlow visibleFlow /\
+    NonemptyEventFlow hiddenFlow /\
+    NonemptyEventFlow ledgerFlow /\
+    NonemptyEventFlow sourceMapFlow /\
+    NonemptyEventFlow compressionSealFlow
+
+def ReuseMotif
+    (R : GeneratedMotifRecognizer)
+    (S M acceptedRefs transportWitness newSource classifierFlow ledgerFlow
+      certificateFlow strengthBound : EventFlow) : Prop :=
+  RecognizesMotif R S M ReuseRole /\
+    Subflow acceptedRefs M /\
+    Subflow transportWitness M /\
+    Subflow newSource M /\
+    Subflow classifierFlow M /\
+    Subflow ledgerFlow M /\
+    Subflow certificateFlow M /\
+    Subflow strengthBound M /\
+    NonemptyEventFlow acceptedRefs /\
+    NonemptyEventFlow transportWitness /\
+    NonemptyEventFlow newSource /\
+    NonemptyEventFlow classifierFlow /\
+    NonemptyEventFlow ledgerFlow /\
+    NonemptyEventFlow certificateFlow /\
+    NonemptyEventFlow strengthBound
+
+def BridgeMotif
+    (R : GeneratedMotifRecognizer)
+    (S M bedcSource standardTargetDescription translationFlow soundnessFlow
+      reflectionFlow noHostLeakLedger bridgeSeal : EventFlow) : Prop :=
+  RecognizesMotif R S M BridgeRole /\
+    Subflow bedcSource M /\
+    Subflow standardTargetDescription M /\
+    Subflow translationFlow M /\
+    Subflow soundnessFlow M /\
+    Subflow reflectionFlow M /\
+    Subflow noHostLeakLedger M /\
+    Subflow bridgeSeal M /\
+    NonemptyEventFlow bedcSource /\
+    NonemptyEventFlow standardTargetDescription /\
+    NonemptyEventFlow translationFlow /\
+    NonemptyEventFlow soundnessFlow /\
+    NonemptyEventFlow noHostLeakLedger /\
+    NonemptyEventFlow bridgeSeal
+
+def BridgeCandidateMotif
+    (R : GeneratedMotifRecognizer)
+    (S M sourceFlow targetLikeFlow motifOverlap translationCandidate
+      missingSoundnessFlow missingReflectionFlow noHostLeakLedger : EventFlow) :
+    Prop :=
+  RecognizesMotif R S M BridgeRole /\
+    Subflow sourceFlow M /\
+    Subflow targetLikeFlow M /\
+    Subflow motifOverlap M /\
+    Subflow translationCandidate M /\
+    Subflow missingSoundnessFlow M /\
+    Subflow missingReflectionFlow M /\
+    Subflow noHostLeakLedger M /\
+    NonemptyEventFlow sourceFlow /\
+    NonemptyEventFlow targetLikeFlow /\
+    NonemptyEventFlow motifOverlap /\
+    NonemptyEventFlow translationCandidate /\
+    NonemptyEventFlow missingSoundnessFlow /\
+    NonemptyEventFlow missingReflectionFlow /\
+    NonemptyEventFlow noHostLeakLedger
+
+theorem no_external_motif_input
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    MotifOccurrence R S M mu ->
+      FormalCompilerInput (CompilerDatum.eventFlow R) /\
+        SourceLevelMotifArgs S M mu /\
+        Subflow M S := by
+  intro h
+  exact h
+
+theorem motif_recognition_source_level
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    RecognizesMotif R S M mu -> SourceLevelMotifArgs S M mu := by
+  intro h
+  exact h.right.left
+
+theorem no_motif_without_ledger
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    RecognizesMotif R S M mu ->
+      exists L : EventFlow, MotifLedger R S M mu L := by
+  intro h
+  exact ⟨M, h, h.right.right⟩
+
+theorem recognized_motif_occurrence_has_ledger
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    RecognizedMotifOccurrence R S M mu ->
+      exists L : EventFlow, MotifLedger R S M mu L := by
+  intro h
+  exact no_motif_without_ledger h
+
+theorem motif_recognition_requires_generated_recognizer
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    RecognizedMotifOccurrence R S M mu ->
+      FormalCompilerInput (CompilerDatum.eventFlow R) := by
+  intro h
+  exact h.left
+
+theorem motif_analysis_decodes_first {c : List DisplayAlphabet} :
+    LegalZStream c ->
+      exists S : EventFlow,
+        Decode c = some S /\
+          FormalCompilerInput (CompilerDatum.eventFlow S) := by
+  intro h
+  cases legal_stream_completeness h with
+  | intro S hS =>
+      exact ⟨S, hS.left, FormalCompilerInput.eventFlow S⟩
+
+theorem motif_recognition_preserves_code
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    RecognizesMotif R S M mu ->
+      Compiles S (FlowEncoding S) /\ SourceLevelMotifArgs S M mu := by
+  intro h
+  exact ⟨rfl, h.right.left⟩
+
+theorem motif_code_not_separate
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    RecognizesMotif R S M mu ->
+      Compiles M (FlowEncoding M) /\ SourceLevelMotifArgs S M mu := by
+  intro h
+  exact ⟨rfl, h.right.left⟩
+
+theorem motif_compile_decode_invariant
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole} :
+    RecognizesMotif R S M mu ->
+      exists T : EventFlow,
+        Decode (FlowEncoding S) = some T /\ RecognizesMotif R T M mu := by
+  intro h
+  exact ⟨S, flow_level_round_trip S, h⟩
+
+def MotifProfile
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (mu M L : EventFlow) : Prop :=
+  exists R : GeneratedMotifRecognizer,
+    Rfam R /\ RecognizesMotif R S M mu /\ MotifLedger R S M mu L
+
+def MotifSupport
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S M L : EventFlow) :
+    Prop :=
+  exists mu : MotifRole, MotifProfile Rfam S mu M L
+
+def MotifOverlap
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S T : EventFlow)
+    (mu M L : EventFlow) : Prop :=
+  MotifProfile Rfam S mu M L /\ MotifProfile Rfam T mu M L
+
+def ChannelSubstring (needle haystack : List DisplayAlphabet) : Prop :=
+  exists left right : List DisplayAlphabet,
+    haystack = left ++ needle ++ right
+
+theorem singleton_zero_not_subflow_singleton_one :
+    Not (Subflow [[BMark.b0]] [[BMark.b1]]) := by
+  intro h
+  have hmem : List.Mem [BMark.b0] [[BMark.b1]] :=
+    subflow_mem h (List.Mem.head [])
+  cases hmem with
+  | tail _ ht =>
+      cases ht
+
+theorem channel_substring_overlap_insufficient :
+    exists c q : List DisplayAlphabet, exists S U : EventFlow,
+      LegalZStream c /\
+        Decode c = some S /\
+        ChannelSubstring q c /\
+        Decode q = some U /\
+        Not (Subflow U S) := by
+  refine
+    ⟨EventEncoding [BMark.b1], [BMark.b0, BMark.b1, BMark.b1],
+      [[BMark.b1]], [[BMark.b0]], ?_⟩
+  constructor
+  · exact flow_encoding_legal_zstream [[BMark.b1]]
+  · constructor
+    · rfl
+    · constructor
+      · exact ⟨[BMark.b1], [], rfl⟩
+      · constructor
+        · rfl
+        · exact singleton_zero_not_subflow_singleton_one
+
+theorem host_regex_not_motif_recognizer :
+    exists c q : List DisplayAlphabet, exists S U : EventFlow,
+      LegalZStream c /\
+        Decode c = some S /\
+        ChannelSubstring q c /\
+        Decode q = some U /\
+        Not (Subflow U S) :=
+  channel_substring_overlap_insufficient
+
+def MotifProfileWitnessList
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (mu : MotifRole) (occurrences : List (EventFlow × EventFlow)) :
+    Prop :=
+  List.Nodup occurrences /\
+    forall occurrence : EventFlow × EventFlow,
+      List.Mem occurrence occurrences ->
+        MotifProfile Rfam S mu occurrence.1 occurrence.2
+
+def SealDepth
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (n : Nat) : Prop :=
+  exists occurrences : List (EventFlow × EventFlow),
+    MotifProfileWitnessList Rfam S SealRole occurrences /\
+      occurrences.length = n
+
+def CarryIndex
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (n : Nat) : Prop :=
+  exists occurrences : List (EventFlow × EventFlow),
+    MotifProfileWitnessList Rfam S CarryRole occurrences /\
+      occurrences.length = n
+
+def LedgerDepth
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (n : Nat) : Prop :=
+  exists ledgers : List EventFlow,
+    List.Nodup ledgers /\
+      (forall L : EventFlow,
+        List.Mem L ledgers ->
+          exists R : GeneratedMotifRecognizer,
+            exists M mu : EventFlow,
+              Rfam R /\ MotifLedger R S M mu L) /\
+      ledgers.length = n
+
+def ClassifierCompressionRatio
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (rawFlows classes : List EventFlow) (k r : Nat) : Prop :=
+  rawFlows.length = k /\
+    classes.length = r /\
+    r > 0 /\
+    List.Nodup rawFlows /\
+    List.Nodup classes /\
+    (forall rawFlow : EventFlow,
+      List.Mem rawFlow rawFlows ->
+        exists R M leftFlow rightFlow classifierFlow exactnessFlow
+          failureFlow : EventFlow,
+          Rfam R /\
+            ClassifierQuotientMotif R S M leftFlow rightFlow classifierFlow
+              exactnessFlow failureFlow /\
+            Subflow rawFlow M) /\
+    (forall classFlow : EventFlow,
+      List.Mem classFlow classes ->
+        exists R M leftFlow rightFlow classifierFlow exactnessFlow
+          failureFlow : EventFlow,
+          Rfam R /\
+            ClassifierQuotientMotif R S M leftFlow rightFlow classifierFlow
+              exactnessFlow failureFlow /\
+            Subflow classFlow classifierFlow)
+
+def ReuseDepth
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (chain : List EventFlow) (n : Nat) : Prop :=
+  chain.length = n /\
+    List.Nodup chain /\
+    forall M : EventFlow,
+      List.Mem M chain ->
+        exists R acceptedRefs transportWitness newSource classifierFlow
+          ledgerFlow certificateFlow strengthBound : EventFlow,
+          Rfam R /\
+            ReuseMotif R S M acceptedRefs transportWitness newSource
+              classifierFlow ledgerFlow certificateFlow strengthBound
+
+def MotifProfileItem : Type :=
+  MotifRole × EventFlow × EventFlow
+
+def MotifDistance
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S T : EventFlow)
+    (leftProfile rightProfile overlap : List MotifProfileItem) : Prop :=
+  List.Nodup leftProfile /\
+    List.Nodup rightProfile /\
+    List.Nodup overlap /\
+    (forall item : MotifProfileItem,
+      List.Mem item leftProfile ->
+        MotifProfile Rfam S item.1 item.2.1 item.2.2) /\
+    (forall item : MotifProfileItem,
+      List.Mem item rightProfile ->
+        MotifProfile Rfam T item.1 item.2.1 item.2.2) /\
+    (forall item : MotifProfileItem,
+      List.Mem item overlap ->
+        List.Mem item leftProfile /\ List.Mem item rightProfile)
+
+def MotifReport : Type :=
+  EventFlow × GeneratedMotifRecognizer × List MotifProfileItem × List EventFlow
+
+def CandidateMotifSection (S : EventFlow) (items : List EventFlow) : Prop :=
+  forall M : EventFlow, List.Mem M items -> MotifCandidate M S
+
+def RecognizedMotifSection
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (items : List MotifProfileItem) : Prop :=
+  forall item : MotifProfileItem,
+    List.Mem item items -> MotifProfile Rfam S item.1 item.2.1 item.2.2
+
+def RecognizerFamilyFlow : Type := EventFlow
+
+def RecognizesRecognizerFamily
+    (F : RecognizerFamilyFlow) (members : List GeneratedMotifRecognizer) :
+    Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow F) /\
+    forall R : GeneratedMotifRecognizer,
+      List.Mem R members -> FormalCompilerInput (CompilerDatum.eventFlow R)
+
+inductive MotifFamilySource : Type where
+  | recognizedFlow
+      (F : RecognizerFamilyFlow) (members : List GeneratedMotifRecognizer)
+  | hardcodedFiniteRepetition
+  | hardcodedCarry
+  | hardcodedSeal
+  | hardcodedReuse
+
+inductive FormalRecognizerFamilySource : MotifFamilySource -> Prop where
+  | recognizedFlow {F : RecognizerFamilyFlow}
+      {members : List GeneratedMotifRecognizer} :
+      RecognizesRecognizerFamily F members ->
+        FormalRecognizerFamilySource
+          (MotifFamilySource.recognizedFlow F members)
+
+def RecognizedMotifSectionFromFamily
+    (members : List GeneratedMotifRecognizer) (S : EventFlow)
+    (items : List MotifProfileItem) : Prop :=
+  exists F : RecognizerFamilyFlow,
+    exists Rfam : GeneratedMotifRecognizer -> Prop,
+      RecognizesRecognizerFamily F members /\
+        (forall R : GeneratedMotifRecognizer, Rfam R -> List.Mem R members) /\
+        RecognizedMotifSection Rfam S items
+
+theorem no_hardcoded_motif_family :
+    Not (FormalRecognizerFamilySource
+      MotifFamilySource.hardcodedFiniteRepetition) /\
+    Not (FormalRecognizerFamilySource MotifFamilySource.hardcodedCarry) /\
+    Not (FormalRecognizerFamilySource MotifFamilySource.hardcodedSeal) /\
+    Not (FormalRecognizerFamilySource MotifFamilySource.hardcodedReuse) := by
+  constructor
+  · intro h
+    cases h
+  · constructor
+    · intro h
+      cases h
+    · constructor
+      · intro h
+        cases h
+      · intro h
+        cases h
+
+theorem without_family_candidate_only
+    {members : List GeneratedMotifRecognizer} {S : EventFlow}
+    {items : List MotifProfileItem} :
+    Not (exists F : RecognizerFamilyFlow, RecognizesRecognizerFamily F members) ->
+      Not (RecognizedMotifSectionFromFamily members S items) := by
+  intro hMissing hSection
+  cases hSection with
+  | intro F hRest =>
+      cases hRest with
+      | intro _ hFields =>
+          exact hMissing ⟨F, hFields.left⟩
+
+theorem motif_report_soundness
+    {Rfam : GeneratedMotifRecognizer -> Prop} {S : EventFlow}
+    {items : List MotifProfileItem} {item : MotifProfileItem} :
+    RecognizedMotifSection Rfam S items ->
+      List.Mem item items ->
+        exists R : GeneratedMotifRecognizer,
+          Rfam R /\ RecognizesMotif R S item.2.1 item.1 /\
+            MotifLedger R S item.2.1 item.1 item.2.2 := by
+  intro hSection hMem
+  exact hSection item hMem
+
+theorem motif_report_cannot_invent
+    {Rfam : GeneratedMotifRecognizer -> Prop} {S : EventFlow}
+    {items : List MotifProfileItem} {item : MotifProfileItem} :
+    Not (exists R : GeneratedMotifRecognizer,
+      Rfam R /\ RecognizesMotif R S item.2.1 item.1 /\
+        MotifLedger R S item.2.1 item.1 item.2.2) ->
+      RecognizedMotifSection Rfam S items ->
+        Not (List.Mem item items) := by
+  intro hMissing hSection hMem
+  exact hMissing (motif_report_soundness hSection hMem)
+
+inductive MotifAnalysisDatum : Type where
+  | sourceFlow (S : EventFlow)
+  | motifReport (Q : MotifReport)
+  | similarityTable (items : List MotifProfileItem)
+  | distanceMatrix (cells : List (Nat × Nat × Nat))
+  | diagram (nodes : List EventFlow)
+  | yamlReport (Q : MotifReport)
+  | jsonReport (Q : MotifReport)
+
+inductive FormalMotifAnalysisInput : MotifAnalysisDatum -> Prop where
+  | sourceFlow (S : EventFlow) :
+      FormalMotifAnalysisInput (MotifAnalysisDatum.sourceFlow S)
+
+structure P3Pipeline where
+  channelCode : List DisplayAlphabet
+  decodedSource : EventFlow
+  p2ReportFlow : EventFlow
+  recognizerFamilyFlow : EventFlow
+  report : MotifReport
+  decoded :
+    Decode channelCode = some decodedSource
+  source_formal :
+    FormalCompilerInput (CompilerDatum.eventFlow decodedSource)
+  p2_report_formal :
+    FormalCompilerInput (CompilerDatum.eventFlow p2ReportFlow)
+  recognizer_family_formal :
+    FormalCompilerInput (CompilerDatum.eventFlow recognizerFamilyFlow)
+  report_not_formal_input :
+    Not (FormalMotifAnalysisInput (MotifAnalysisDatum.motifReport report))
+
+structure MotifReportPrototype where
+  prototypeFlow : EventFlow
+  p2ReportFlow : EventFlow
+  recognizerFamilyFlow : EventFlow
+  report : MotifReport
+  prototype_formal :
+    FormalCompilerInput (CompilerDatum.eventFlow prototypeFlow)
+  p2_report_formal :
+    FormalCompilerInput (CompilerDatum.eventFlow p2ReportFlow)
+  recognizer_family_formal :
+    FormalCompilerInput (CompilerDatum.eventFlow recognizerFamilyFlow)
+  report_not_formal_input :
+    Not (FormalMotifAnalysisInput (MotifAnalysisDatum.motifReport report))
+
+def EventCommonPrefixLength (S T : EventFlow) (k : Nat) : Prop :=
+  k <= S.length /\ k <= T.length /\ S.take k = T.take k
+
+def RecognizedSemanticPrefix
+    (R : GeneratedMotifRecognizer) (S T P : EventFlow) (mu : MotifRole) :
+    Prop :=
+  EventCommonPrefixLength S T P.length /\
+    S.take P.length = P /\
+    T.take P.length = P /\
+    RecognizesMotif R S P mu /\
+    RecognizesMotif R T P mu
+
+theorem motif_metrics_roundtrip_invariant
+    {Rfam : GeneratedMotifRecognizer -> Prop} {S T : EventFlow}
+    {mu M L : EventFlow} :
+    Decode (FlowEncoding S) = some T ->
+      (MotifProfile Rfam S mu M L <-> MotifProfile Rfam T mu M L) := by
+  intro h
+  have hRound : Decode (FlowEncoding S) = some S := flow_level_round_trip S
+  rw [hRound] at h
+  cases h
+  constructor
+  · intro hp
+    exact hp
+  · intro hp
+    exact hp
+
+theorem motif_analysis_on_decoded_code {c : List DisplayAlphabet} :
+    LegalZStream c ->
+      exists S : EventFlow, Decode c = some S /\ FlowEncoding S = c := by
+  intro h
+  exact legal_stream_completeness h
+
+theorem same_raw_prefix_not_unique_semantic_prefix :
+    exists R S T P : EventFlow,
+      EventCommonPrefixLength S T P.length /\
+        S.take P.length = P /\
+        T.take P.length = P /\
+        RecognizesMotif R S P FiniteRepetitionRole /\
+        RecognizesMotif R T P ContinuationRole /\
+        Not (FiniteRepetitionRole = ContinuationRole) := by
+  refine
+    ⟨[], [[BMark.b0]], [[BMark.b0]], [[BMark.b0]], ?_⟩
+  constructor
+  · exact ⟨Nat.le_refl 1, Nat.le_refl 1, rfl⟩
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · constructor
+        · exact
+            ⟨FormalCompilerInput.eventFlow [],
+              ⟨FormalCompilerInput.eventFlow [[BMark.b0]],
+                FormalCompilerInput.eventFlow [[BMark.b0]],
+                FormalCompilerInput.eventFlow FiniteRepetitionRole⟩,
+              Or.inl ⟨[], [], rfl⟩⟩
+        · constructor
+          · exact
+              ⟨FormalCompilerInput.eventFlow [],
+                ⟨FormalCompilerInput.eventFlow [[BMark.b0]],
+                  FormalCompilerInput.eventFlow [[BMark.b0]],
+                  FormalCompilerInput.eventFlow ContinuationRole⟩,
+                Or.inl ⟨[], [], rfl⟩⟩
+          · intro h
+            cases h
+
+theorem motif_generated_conservativity
+    {R : GeneratedMotifRecognizer} {S M : EventFlow} {mu : MotifRole}
+    {w : RawEvent} {m : DisplayAlphabet} :
+    RecognizesMotif R S M mu -> List.Mem w S -> List.Mem m w ->
+      m = BMark.b0 \/ m = BMark.b1 := by
+  intro _ _ _
+  cases m with
+  | b0 => exact Or.inl rfl
+  | b1 => exact Or.inr rfl
+
+theorem motif_similarity_not_object_equality :
+    exists Rfam : GeneratedMotifRecognizer -> Prop,
+      exists S T mu M L : EventFlow,
+        MotifOverlap Rfam S T mu M L /\ Not (S = T) := by
+  let R : GeneratedMotifRecognizer := []
+  let S : EventFlow := [[BMark.b0]]
+  let T : EventFlow := [[BMark.b0], [BMark.b1]]
+  let M : EventFlow := [[BMark.b0]]
+  let mu : MotifRole := FiniteRepetitionRole
+  let L : EventFlow := [[BMark.b0]]
+  let Rfam : GeneratedMotifRecognizer -> Prop := fun X => X = R
+  have hSubS : Subflow M S := Or.inl ⟨[], [], rfl⟩
+  have hSubT : Subflow M T := Or.inl ⟨[], [[BMark.b1]], rfl⟩
+  have hRecS : RecognizesMotif R S M mu :=
+    ⟨FormalCompilerInput.eventFlow R,
+      ⟨FormalCompilerInput.eventFlow S,
+        FormalCompilerInput.eventFlow M,
+        FormalCompilerInput.eventFlow mu⟩,
+      hSubS⟩
+  have hRecT : RecognizesMotif R T M mu :=
+    ⟨FormalCompilerInput.eventFlow R,
+      ⟨FormalCompilerInput.eventFlow T,
+        FormalCompilerInput.eventFlow M,
+        FormalCompilerInput.eventFlow mu⟩,
+      hSubT⟩
+  have hProfileS : MotifProfile Rfam S mu M L :=
+    ⟨R, rfl, hRecS, hRecS, hSubS⟩
+  have hProfileT : MotifProfile Rfam T mu M L :=
+    ⟨R, rfl, hRecT, hRecT, hSubT⟩
+  refine ⟨Rfam, S, T, mu, M, L, ⟨hProfileS, hProfileT⟩, ?_⟩
+  change Not ([[BMark.b0]] = [[BMark.b0], [BMark.b1]])
+  intro hEq
+  cases hEq
+
+def EmptyRfam : GeneratedMotifRecognizer -> Prop :=
+  fun R => R = []
+
+theorem empty_recognizes_motif :
+    RecognizesMotif [] [] [] [] := by
+  exact
+    ⟨FormalCompilerInput.eventFlow [],
+      ⟨FormalCompilerInput.eventFlow [],
+        FormalCompilerInput.eventFlow [],
+        FormalCompilerInput.eventFlow []⟩,
+      Or.inl ⟨[], [], rfl⟩⟩
+
+theorem empty_motif_profile :
+    MotifProfile EmptyRfam [] [] [] [] := by
+  exact
+    ⟨[], rfl, empty_recognizes_motif,
+      empty_recognizes_motif, Or.inl ⟨[], [], rfl⟩⟩
+
+theorem motif_analysis_cannot_license_mature_objects :
+    Not (forall Rfam : GeneratedMotifRecognizer -> Prop,
+      forall S mu M L : EventFlow,
+        MotifProfile Rfam S mu M L -> AcceptedObjectFlow S) := by
+  intro h
+  exact empty_not_accepted_object_flow
+    (h EmptyRfam [] [] [] [] empty_motif_profile)
+
+theorem motif_reports_output_not_input
+    (Q : MotifReport) (items : List MotifProfileItem)
+    (cells : List (Nat × Nat × Nat)) (nodes : List EventFlow) :
+    Not (FormalMotifAnalysisInput (MotifAnalysisDatum.motifReport Q)) /\
+      Not (FormalMotifAnalysisInput
+        (MotifAnalysisDatum.similarityTable items)) /\
+      Not (FormalMotifAnalysisInput
+        (MotifAnalysisDatum.distanceMatrix cells)) /\
+      Not (FormalMotifAnalysisInput (MotifAnalysisDatum.diagram nodes)) /\
+      Not (FormalMotifAnalysisInput (MotifAnalysisDatum.yamlReport Q)) /\
+      Not (FormalMotifAnalysisInput (MotifAnalysisDatum.jsonReport Q)) := by
+  constructor
+  · intro h
+    cases h
+  · constructor
+    · intro h
+      cases h
+    · constructor
+      · intro h
+        cases h
+      · constructor
+        · intro h
+          cases h
+        · constructor
+          · intro h
+            cases h
+          · intro h
+            cases h
+
+theorem motif_report_output_not_input (Q : MotifReport) :
+    Not (FormalMotifAnalysisInput (MotifAnalysisDatum.motifReport Q)) := by
+  intro h
+  cases h
+
+end BEDC.GroundCompiler.SemanticMotif

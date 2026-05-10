@@ -13,6 +13,7 @@ The topology carrier already gives the meaning of $\le_{\mathcal{T}}$ as indexed
 
 No comparison of host open subsets is used. All later transport across the refinement is forced to pass through $\epsilon_b$, restriction composition, and the section classifiers of the indexed presheaf carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafConsumerAccessTrace\_refinement\_obligation}
 
 \begin{theorem}[Sheaf compatible family pullback along refinement]
 \label{thm:sheaf-refinement-compatible-family-pullback}
@@ -27,6 +28,7 @@ $$
 \rho_{\kappa(c),m_{b,c}}(t_c).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafBHistCoverNerveLedger\_refinement\_pullback}
 \begin{proof}
 Fix $b,c:B$ and write $m=\kappa(b)\wedge_{\TopologyUp}\kappa(c)$. The finite-intersection field of \autoref{def:topology-indexed-open-carrier} gives $m\le_{\mathcal{T}}\kappa(b)$ and $m\le_{\mathcal{T}}\kappa(c)$. Composing these with the refinement inclusions gives routes $m\le_{\mathcal{T}}\iota(r(b))$ and $m\le_{\mathcal{T}}\iota(r(c))$.
 
@@ -59,6 +61,7 @@ Restriction composition on the chain $\kappa(b)\le_{\mathcal{T}}\iota(r(b))\le_{
 
 Transitivity of the classifier on $\mathsf{Sec}(\kappa(b))$ composes the composition row with the transported gluing row. Since $b$ was arbitrary, the displayed equality holds for every member of $\mathcal{V}$, so $g$ glues the pulled-back family over the refined cover.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafRefinementGluing\_descent\_cont}
 
 \begin{theorem}[Sheaf locality detection under refinement]
 \label{thm:sheaf-refinement-locality-detection}
@@ -71,6 +74,7 @@ $$
 g\sim_i h'.
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafRefinementLocality\_global\_detection}
 \begin{proof}
 Fix $a:A$. By the detection hypothesis, the rows with $r(b)=a$ form an indexed cover of $\iota(a)$. For each such row $b$, the refined equality compares the direct restrictions of $g$ and $h'$ to $\kappa(b)$.
 
@@ -84,6 +88,7 @@ Since $a$ was arbitrary, these equalities hold over all members of $\mathcal{U}$
 
 Applying the same locality field over the original cover $\mathcal{U}$ yields $g\sim_i h'$, which is the claimed global classifier equality.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafBHistPointGermLedger\_refined\_locality\_detection}
 
 \begin{theorem}[Sheaf refined-cover gluing uniqueness]
 \label{thm:sheaf-refined-cover-gluing-uniqueness}
@@ -113,6 +118,7 @@ Since $b$ was arbitrary, this is refined-cover equality of $g$ and $h'$ over $\m
 
 Apply \autoref{thm:sheaf-refinement-locality-detection} to this refined-cover equality and to the displayed detection hypothesis for the rows with $r(b)=a$. It returns the global classifier equality $g\sim_i h'$.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafUp.SheafRefinedCover\_gluing\_uniqueness}
 
 \begin{theorem}[Sheaf refined-cover exactness obligation]
 \label{thm:sheaf-refined-cover-exactness-obligation}
@@ -123,6 +129,7 @@ Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed ope
 \item If every original cover member is detected by its refinement rows, then any two sections $g,h':\mathsf{Sec}(i)$ gluing $t_b$ over $\mathcal{V}$ satisfy $g\sim_i h'$.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafRefinedCover\_exactness\_obligation}
 \begin{proof}
 The first row is exactly \autoref{thm:sheaf-refinement-compatible-family-pullback}: compatibility of the original family transports along the displayed refinement.
 
@@ -135,10 +142,47 @@ The third row is \autoref{thm:sheaf-refined-cover-gluing-uniqueness}. Its hypoth
 \label{thm:sheaf-namecert-refinement-exactness-export}
 The paper-side obligation surface $\NameCert_{\SheafUp}$ exports refined-cover exactness over indexed opens. Concretely, for any indexed sheaf carrier over an indexed open topology carrier, every displayed refinement of indexed covers carries compatible families forward, descends original gluings to refined gluings, and makes any two refined gluings of the same pulled-back family globally classifier-equal whenever the original members are detected by their refinement rows. This exported row uses only $\TopologyUp$, $\PreSheafUp$, restriction composition, section classifiers, locality, and gluing; it does not use host powerset equality or quotient comparison.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafNameCertRefinement\_exactness\_export}
+\leanchecked{BEDC.Derived.SheafUp.SheafNameCertRefinementExactness\_export}
+\leanvariant{BEDC.Derived.SheafUp.SheafRefinementExactness\_namecert\_export}
 \begin{proof}
 Project the carrier row from \autoref{def:sheaf-indexed-section-presheaf-carrier}. This supplies the open-indexed section carriers, classifiers, restriction maps, restriction composition, and classifier transport used in the refinement arguments.
 
 Project the cover, compatibility, locality, and gluing rows from \autoref{def:sheaf-indexed-cover-compatibility-locality}. These rows supply indexed covers, overlap compatibility, the local-to-global classifier implication, and displayed gluing witnesses.
 
 Assemble the export by applying \autoref{thm:sheaf-refined-cover-exactness-obligation}. Its three rows are already expressed in the projected data, so $\NameCert_{\SheafUp}$ exposes a single refined-cover exactness obligation to downstream ringed-space and scheme certificates without adding a host-level cover comparison.
+\end{proof}
+
+
+\begin{theorem}[Sheaf cover self-refinement identity]
+\label{thm:sheaf-cover-self-refinement}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\iota,h,\gamma)$ be an indexed open cover of $i:\mathsf{OpenIx}$. Then the identity map
+$$
+\mathrm{id}_A:A\to A
+$$
+together with the pointwise reflexive inclusion witnesses
+$$
+\epsilon_a:\iota(a)\le_{\mathcal{T}}\iota(\mathrm{id}_A(a))
+$$
+forms a displayed refinement of $\mathcal{U}$ through itself in the sense of \autoref{thm:sheaf-cover-refinement-obligation}.
+\end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafCover\_self\_refinement}
+\begin{proof}
+Unpack \autoref{thm:sheaf-cover-refinement-obligation}. To exhibit a displayed refinement of $\mathcal{U}$ through itself, it is enough to give a map from the refined index type to the original index type and, for each refined row $a:A$, an inclusion witness from the refined member to the chosen original member. Take the map to be $r:=\mathrm{id}_A$.
+
+Fix $a:A$. Since $\mathrm{id}_A(a)=a$, the required witness
+$$
+\epsilon_a:\iota(a)\le_{\mathcal{T}}\iota(\mathrm{id}_A(a))
+$$
+is exactly the pointwise implication
+$$
+\forall x:X,\ \mathsf{OpenAt}(\iota(a),x)\Longrightarrow \mathsf{OpenAt}(\iota(a),x),
+$$
+which holds immediately from the definition of $\le_{\mathcal{T}}$ in \autoref{def:sheaf-indexed-section-presheaf-carrier}. The indexed-open membership row $\mathsf{OpenAt}$ is part of the topology carrier recorded in \autoref{def:topology-indexed-open-carrier}, so this is a valid displayed inclusion witness in the same ledger as every other cover inclusion.
+
+The onward route from the refined member to the ambient open $i$ is then
+$$
+\iota(a)\le_{\mathcal{T}}\iota(\mathrm{id}_A(a))\le_{\mathcal{T}} i.
+$$
+Its second leg is the original cover inclusion $h_a:\iota(a)\le_{\mathcal{T}} i$, because $\mathrm{id}_A(a)=a$. Therefore the refinement data are exactly the identity selector together with the reflexive inclusion witnesses, and these satisfy the compatibility clause required in \autoref{thm:sheaf-cover-refinement-obligation}. Hence $\mathcal{U}$ is a displayed refinement of itself.
 \end{proof}

@@ -97,6 +97,9 @@ def CatLimitLimCone (L D lambda : BHist) : Prop :=
       (∀ {X chi m n cm cn : BHist}, CatLimitConeMor X L D m chi lambda cm ->
         CatLimitConeMor X L D n chi lambda cn -> hsame m n)
 
+def CatLimitPointwiseDiagramEquivalence (D E alpha beta : BHist) : Prop :=
+  hsame D E ∧ Cont D alpha beta ∧ Cont E beta alpha
+
 theorem CatLimitLimCone_endomorphism_rigidity {L D lambda a composite : BHist} :
     CatLimitLimCone L D lambda ->
       CatLimitConeMor L L D a lambda lambda composite -> hsame a BHist.Empty := by
@@ -160,6 +163,55 @@ theorem CatLimitLimCone_comparison_identities {L L' D lambda lambda' : BHist} :
                                   (And.intro uvRel
                                     (And.intro vuRel
                                       (And.intro uvEmpty vuEmpty))))))))))
+
+theorem CatLimitLimCone_comparison_field_dependency {L L' D lambda lambda' : BHist} :
+    CatLimitLimCone L D lambda -> CatLimitLimCone L' D lambda' ->
+      ∃ u v cL cL' cu cv : BHist,
+        CatLimitConeMor L L' D u lambda lambda' cu ∧
+          CatLimitConeMor L' L D v lambda' lambda cv ∧
+            Cont u v cL ∧ Cont v u cL' ∧
+              CatLimitConeMor L L D cL lambda lambda (append cL lambda) ∧
+                CatLimitConeMor L' L' D cL' lambda' lambda' (append cL' lambda') ∧
+                  hsame cL BHist.Empty ∧ hsame cL' BHist.Empty := by
+  intro leftLimit rightLimit
+  cases rightLimit.right.left leftLimit.left with
+  | intro u uWitness =>
+      cases uWitness with
+      | intro cu uCone =>
+          cases leftLimit.right.left rightLimit.left with
+          | intro v vWitness =>
+              cases vWitness with
+              | intro cv vCone =>
+                  let cL := append u v
+                  let cL' := append v u
+                  have uvRel : Cont u v cL := cont_intro rfl
+                  have vuRel : Cont v u cL' := cont_intro rfl
+                  have uvCone : CatLimitConeMor L L D cL lambda lambda (append cL lambda) :=
+                    CatLimitConeMor_comp_closed uCone vCone uvRel (cont_intro rfl)
+                  have vuCone :
+                      CatLimitConeMor L' L' D cL' lambda' lambda' (append cL' lambda') :=
+                    CatLimitConeMor_comp_closed vCone uCone vuRel (cont_intro rfl)
+                  have idCone : CatLimitConeMor L L D BHist.Empty lambda lambda lambda :=
+                    CatLimitConeMor_identity leftLimit.left
+                  have idCone' : CatLimitConeMor L' L' D BHist.Empty lambda' lambda' lambda' :=
+                    CatLimitConeMor_identity rightLimit.left
+                  have uvEmpty : hsame cL BHist.Empty :=
+                    leftLimit.right.right uvCone idCone
+                  have vuEmpty : hsame cL' BHist.Empty :=
+                    rightLimit.right.right vuCone idCone'
+                  exact Exists.intro u
+                    (Exists.intro v
+                      (Exists.intro cL
+                        (Exists.intro cL'
+                          (Exists.intro cu
+                            (Exists.intro cv
+                              (And.intro uCone
+                                (And.intro vCone
+                                  (And.intro uvRel
+                                    (And.intro vuRel
+                                      (And.intro uvCone
+                                        (And.intro vuCone
+                                          (And.intro uvEmpty vuEmpty))))))))))))
 
 theorem CatLimitLimCone_comparison_fiber_collapse
     {L L' D lambda lambda' u1 u2 v1 v2 cu1 cu2 cv1 cv2 : BHist} :

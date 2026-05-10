@@ -72,6 +72,7 @@ $$
 $$
 Classifier symmetry and transitivity compose the two trim comparisons with this raw coefficient associativity comparison, yielding $A[n]\sim_RB[n]$ for the fixed $n$. Since $n$ was arbitrary, \autoref{lem:padded-coefficient-extensionality-polynomial-classifier} gives $\mathsf{PolySame}_R(A,B)$, which is the displayed associativity statement.
 \end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonRawMul\_associative\_addFold\_classified}
 
 \begin{theorem}[Polynomial singleton evaluation]
 \label{thm:polynomial-singleton-evaluation}
@@ -100,3 +101,149 @@ $$
 By \autoref{def:polynomial-horner-evaluation}, $\mathsf{Eval}_{\alpha,R}(s)=\mathsf{eval}_{\alpha,R}(\mathsf{trim}_R(s))$. The one-coefficient trimming boundary in \autoref{def:polynomial-normalized-singleton-representative}, read with \autoref{def:polynomial-stability-certificate}, has exactly the empty zero branch and the retained singleton branch. In the empty zero branch, $c\sim_R0_R$ and $\mathsf{trim}_R(s)=\mathsf{nil}$; the nil Horner equation gives $\mathsf{Eval}_{\alpha,R}(s)=0_R$, and classifier symmetry gives $0_R\sim_Rc$. In the retained singleton branch, $\mathsf{trim}_R(s)=s$, so the raw computation above is the required normalized comparison. These are the two canonical trim branches for a singleton coefficient spine.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonEval\_singleton}
+
+\begin{theorem}[Raw polynomial multiplication left-distributes over raw addition]
+\label{thm:polynomial-raw-multiplication-left-distributes-over-raw-addition}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Let the classifier be $\sim_R$, the zero endpoint be $0_R$, the scalar operations be $+$ and $\cdot$, the scalar certificate be $\mathsf{cert}_R:\NameCert(R,\sim_R)$, and let $\mathsf{radd}_R$, $\mathsf{rscale}_R$, $\mathsf{shift}_R$, and $\mathsf{rmul}_R$ be the raw operations of \autoref{def:polynomial-raw-add-comparison-data} and \autoref{def:polynomial-raw-cauchy-product}. For finite coefficient spines $x,y,z:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{PolySame}_R\bigl(\mathsf{rmul}_R(x,\mathsf{radd}_R(y,z)),\mathsf{radd}_R(\mathsf{rmul}_R(x,y),\mathsf{rmul}_R(x,z))\bigr).
+$$
+Consequently the same classifier comparison holds when $x,y,z$ are normalized polynomial representatives from \autoref{def:polynomial-carrier}.
+\end{theorem}
+\begin{proof}
+By \autoref{lem:padded-coefficient-extensionality-polynomial-classifier}, it is enough to compare padded coefficients. First record the padded coefficient law for raw addition: for all finite coefficient spines $u,v$ and every $m:\NatUp$,
+$$
+\mathsf{radd}_R(u,v)[m]\sim_Ru[m]+v[m].
+$$
+This is a direct induction over the two finite spines using the four recursion clauses in \autoref{def:polynomial-raw-add-comparison-data}. In the mixed cons-nil and nil-cons cases the missing coefficient is the padding endpoint $0_R$; in the nil-nil tail the comparison is between $0_R$ and $0_R+0_R$, handled by the additive zero laws and classifier symmetry from $\mathsf{cert}_R$.
+
+Fix $n:\NatUp$. Let the finite split spine for $i+j=n$ carry three scalar spines
+$$
+A_n(i,j):=x[i]\cdot\mathsf{radd}_R(y,z)[j],
+\qquad
+B_n(i,j):=x[i]\cdot y[j],
+\qquad
+C_n(i,j):=x[i]\cdot z[j].
+$$
+For each split $i+j=n$, the raw-addition coefficient law gives
+$$
+\mathsf{radd}_R(y,z)[j]\sim_Ry[j]+z[j].
+$$
+Multiplication congruence transports this under left multiplication by $x[i]$, and scalar left distributivity from \autoref{def:ring-stability-certificate} gives
+$$
+x[i]\cdot\mathsf{radd}_R(y,z)[j]
+\sim_R
+(x[i]\cdot y[j])+(x[i]\cdot z[j]).
+$$
+The matching split order assembles these scalar comparisons into a structural list-classifier witness from \autoref{def:list-classifier-specification} between $A_n$ and the pointwise sum spine $B_n+C_n$. Applying \autoref{thm:finite-additive-fold-congruence-coefficient-lists} to this witness gives
+$$
+\mathsf{Cauchy}_R(x,\mathsf{radd}_R(y,z);n)
+\sim_R
+\mathsf{fold}_{+,R}(B_n+C_n).
+$$
+The finite fold splitting lemma \autoref{lem:finite-additive-fold-separates-pointwise-scalar-sums} then classifies the right endpoint with the sum of the two separate Cauchy folds:
+$$
+\mathsf{fold}_{+,R}(B_n+C_n)
+\sim_R
+\mathsf{Cauchy}_R(x,y;n)+\mathsf{Cauchy}_R(x,z;n).
+$$
+Thus
+$$
+\mathsf{Cauchy}_R(x,\mathsf{radd}_R(y,z);n)
+\sim_R
+\mathsf{Cauchy}_R(x,y;n)+\mathsf{Cauchy}_R(x,z;n).
+$$
+
+The raw Cauchy coefficient formula \autoref{lem:raw-cauchy-product-coefficient-formula} gives
+$$
+\mathsf{rmul}_R(x,\mathsf{radd}_R(y,z))[n]
+\sim_R
+\mathsf{Cauchy}_R(x,\mathsf{radd}_R(y,z);n).
+$$
+For the other endpoint, the raw-addition coefficient law gives
+$$
+\mathsf{radd}_R(\mathsf{rmul}_R(x,y),\mathsf{rmul}_R(x,z))[n]
+\sim_R
+\mathsf{rmul}_R(x,y)[n]+\mathsf{rmul}_R(x,z)[n].
+$$
+Applying \autoref{lem:raw-cauchy-product-coefficient-formula} to the two raw products and then additive congruence gives
+$$
+\mathsf{rmul}_R(x,y)[n]+\mathsf{rmul}_R(x,z)[n]
+\sim_R
+\mathsf{Cauchy}_R(x,y;n)+\mathsf{Cauchy}_R(x,z;n).
+$$
+Classifier symmetry and transitivity from $\mathsf{cert}_R$ compose the three displayed coefficient comparisons, yielding
+$$
+\mathsf{rmul}_R(x,\mathsf{radd}_R(y,z))[n]
+\sim_R
+\mathsf{radd}_R(\mathsf{rmul}_R(x,y),\mathsf{rmul}_R(x,z))[n].
+$$
+Since $n$ was arbitrary, \autoref{lem:padded-coefficient-extensionality-polynomial-classifier} gives the displayed $\mathsf{PolySame}_R$ comparison. A normalized polynomial representative is a finite coefficient spine by \autoref{def:polynomial-carrier}, so the final sentence is the same statement restricted to those representatives.
+\end{proof}
+
+\begin{theorem}[Polynomial raw multiplication has singleton-one left identity]
+\label{thm:polynomial-raw-multiplication-singleton-one-left-identity}
+Let $R$ carry a $\RingUp(R)$ certificate with classifier $\sim_R$, scalar certificate $\mathsf{cert}_R:\NameCert(R,\sim_R)$, zero endpoint $0_R$, multiplicative unit endpoint $1_R$, addition $+$, multiplication $\cdot$, canonical trim $\mathsf{trim}_R$, and the raw operations $\mathsf{radd}_R$, $\mathsf{rscale}_R$, $\mathsf{shift}_R$, and $\mathsf{rmul}_R$ from \autoref{def:polynomial-raw-add-comparison-data} and \autoref{def:polynomial-raw-cauchy-product}. For every finite coefficient spine $p:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{PolySame}_R\bigl(\mathsf{rmul}_R(\mathsf{cons}(1_R,\mathsf{nil}),p),p\bigr).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{lem:padded-coefficient-extensionality-polynomial-classifier}, it is enough to prove equality under the padded scalar classifier at every coefficient index. Unfolding the cons clause and the nil clause of raw multiplication in \autoref{def:polynomial-raw-cauchy-product} gives
+$$
+\mathsf{rmul}_R(\mathsf{cons}(1_R,\mathsf{nil}),p)
+=
+\mathsf{radd}_R(\mathsf{rscale}_R(1_R,p),\mathsf{cons}(0_R,\mathsf{nil})).
+$$
+Thus the product is the raw sum of the coefficientwise scalar multiple by $1_R$ and the one-place shift of the empty recursive product.
+
+First, for every finite coefficient spine $u$ and every index $n:\NatUp$,
+$$
+\mathsf{radd}_R(u,\mathsf{cons}(0_R,\mathsf{nil}))[n]\sim_Ru[n].
+$$
+This is induction on $u$. If $u=\mathsf{nil}$, the only displayed head is $0_R+0_R$, classified with $0_R$ by the additive zero rows in \autoref{def:ring-stability-certificate}; all later coefficients are padding coefficients $0_R$. If $u=\mathsf{cons}(a,u')$, the head comparison is $(a+0_R)\sim_Ra$ by the additive right-zero row, while the tail comparison is the raw-addition right-nil induction that repeatedly classifies $b+0_R$ with $b$ and ends at the padding coefficient. These steps use additive congruence, zero self-classification, and classifier transitivity from $\mathsf{cert}_R$.
+
+Second, for every finite coefficient spine $p$ and every index $n:\NatUp$,
+$$
+\mathsf{rscale}_R(1_R,p)[n]\sim_Rp[n].
+$$
+Induct on $p$. In the nil case both padded coefficients are $0_R$. In the cons case, the exposed head is $1_R\cdot a$, classified with $a$ by the multiplicative left-unit row retained in \autoref{def:ring-stability-certificate}, and the tail is supplied by the induction hypothesis. After the displayed spine ends, both sides are again the padding coefficient $0_R$.
+
+Apply the first coefficient comparison to $u=\mathsf{rscale}_R(1_R,p)$ and compose it with the second comparison. For every $n:\NatUp$ this gives
+$$
+\mathsf{rmul}_R(\mathsf{cons}(1_R,\mathsf{nil}),p)[n]
+\sim_R
+p[n].
+$$
+The padded coefficient extensionality lemma \autoref{lem:padded-coefficient-extensionality-polynomial-classifier} converts these pointwise scalar comparisons into the displayed $\mathsf{PolySame}_R$ statement.
+\end{proof}
+
+\begin{theorem}[Raw polynomial multiplication associativity up to add-trim]
+\label{thm:polynomial-raw-multiplication-associativity-up-to-add-trim}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Let the classifier be $\sim_R$, the zero endpoint be $0_R$, the scalar operations be $+$ and $\cdot$, the scalar certificate be $\mathsf{cert}_R:\NameCert(R,\sim_R)$, the canonical trim be $\mathsf{trim}_R$ from \autoref{def:polynomial-stability-certificate}, and let $\mathsf{PolySame}_R$ and $\mathsf{rmul}_R$ be the add-trim classifier and raw Cauchy product of \autoref{def:polynomial-raw-add-comparison-data} and \autoref{def:polynomial-raw-cauchy-product}. For finite coefficient spines $p,q,r:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{PolySame}_R\bigl(\mathsf{rmul}_R(\mathsf{rmul}_R(p,q),r),\mathsf{rmul}_R(p,\mathsf{rmul}_R(q,r))\bigr).
+$$
+Consequently the same comparison holds when $p,q,r$ are normalized polynomial representatives from \autoref{def:polynomial-carrier}.
+\end{theorem}
+\begin{proof}
+Set
+$$
+A:=\mathsf{rmul}_R(\mathsf{rmul}_R(p,q),r),
+\qquad
+B:=\mathsf{rmul}_R(p,\mathsf{rmul}_R(q,r)).
+$$
+By \autoref{lem:padded-coefficient-extensionality-polynomial-classifier}, it is enough to prove $A[n]\sim_RB[n]$ for every $n:\NatUp$.
+
+Fix $n:\NatUp$. The raw Cauchy coefficient associativity lemma \autoref{lem:raw-cauchy-product-coefficient-associativity}, applied to the finite coefficient spines $p,q,r$, gives exactly
+$$
+\mathsf{rmul}_R(\mathsf{rmul}_R(p,q),r)[n]
+\sim_R
+\mathsf{rmul}_R(p,\mathsf{rmul}_R(q,r))[n].
+$$
+This is $A[n]\sim_RB[n]$. Since $n$ was arbitrary, \autoref{lem:padded-coefficient-extensionality-polynomial-classifier} converts the pointwise padded coefficient comparisons into
+$$
+\mathsf{PolySame}_R(A,B).
+$$
+Unfolding the definitions of $A$ and $B$ gives the displayed add-trim classifier comparison. A normalized polynomial representative from \autoref{def:polynomial-carrier} is a finite coefficient spine, so the final sentence is the same statement restricted to those carried representatives.
+\end{proof}

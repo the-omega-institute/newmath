@@ -1,0 +1,32 @@
+\section{Standard bridge}
+\label{sec:ideal-quotient-kernel-standard-bridge}
+
+\begin{theorem}[Ideal public surface standard bridge]
+\label{thm:ideal-public-surface-standard-bridge}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, multiplication $\cdot_R$, and subtraction $x-_R y:=x+_R(-_R y)$. Assume the ambient $\RingUp$ certificate has a standard bridge to an ordinary ring surface. Then the public $\IdealUp$ surface interprets over that standard ring as the ordinary ideal-predicate surface and re-encodes through the BEDC rows: carried predicates, zero membership, additive closure, additive inverse closure, internal multiplication, two-sided ambient absorption, finite meet, sum, ring-map preimage, principal generated ideals, and the quotient-kernel export surface. The bridge exports no host quotient carrier, host quotient primitive, or classifier-changing host equality to BEDC.
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealUp.IdealUp\_StdBridge}
+\begin{proof}
+Unpack the $\IdealUp$ carrier inventory of \autoref{def:ideal-carried-predicate-rows}. The ordinary surface reads the BEDC predicate as a carried subset of the standard ring supplied by the ambient $\RingUp$ bridge. Carrier support, zero membership, addition, additive inverse, internal multiplication, classifier transport, and left and right absorption are exactly the rows displayed in \autoref{sec:ideal-certificate}.
+
+The finite-meet constructor is interpreted pointwise. Apply \autoref{thm:finite-ideal-intersection-closure}: every indexed ordinary ideal row is carried back to the finite BEDC family, and the carrier conjunct supplies the empty-spine case. The sum constructor is interpreted by the additive decomposition ledger of \autoref{thm:ideal-sum-closure}; its least-upper-bound surface is the ordinary inclusion property recorded in the same public BEDC rows.
+
+The preimage constructor uses the ambient bridges on the source and target $\RingUp$ certificates. Apply \autoref{thm:ring-map-ideal-preimage-ideal-closure}: carrier preservation, classifier preservation, and operation preservation turn the standard inverse-image ideal into the BEDC source predicate. Principal generated ideals are supplied by \autoref{thm:ideal-principal-generated-full-ideal-closure}, whose generator ledger is again expressed only by carried endpoints, classifier transport, and ideal rows.
+
+For the quotient-kernel part, unfold \autoref{def:ideal-quotient-kernel-source-package}. Its comparison data are precisely the two carrier witnesses $C(x)$ and $C(y)$ and membership of the displayed difference in the ideal predicate. Apply \autoref{thm:ideal-quotientring-export-surface}; the exported diagonal, endpoint-transport, additive-descent, negation-descent, and multiplication-descent rows are the quotient-free standard comparison boundary.
+
+Thus each public constructor is interpreted through the ambient standard ring bridge and then repacked by the BEDC certificate rows already cited in this chapter. Since the quotient-kernel surface exports only carried endpoints, classifier transport, and difference-membership rows, no host quotient carrier or host quotient primitive enters the BEDC interface.
+\end{proof}
+\leanchecked{BEDC.Derived.IdealUp.IdealUp\_concrete\_to\_schema}
+
+\closureat{IdealUp}{matureStr}[BEDC.Derived.IdealUp.IdealQuotientKernel\_export\_surface]
+\begin{closurestatus}{\IdealUp}
+  \constructivestory{An ideal is carried as a predicate on the histories of an ambient $\RingUp$ certificate, together with the rows saying that its members are ring-carried, contain zero, close under addition, additive inverse, internal multiplication, classifier transport, and multiplication by every carried ambient endpoint. The carrier accepts exactly predicates with those rows, while the quotient-kernel surface accepts pairs $x,y$ only when both endpoints are carried and the displayed difference $x-_R y$ lies in the ideal; sameness is transported by the ambient ring classifier rather than by forming a quotient carrier. The source is the ambient ring certificate plus the carried ideal predicate, the pattern records finite meet, sum by additive decomposition, ring-map preimage, principal generated ideals, and the quotient-kernel diagonal and descent rows, and the ledger keeps membership witnesses, decomposition witnesses, image-membership witnesses, and difference-membership rows visible. The name-certificate obligations are supplied by zero membership for inhabitation, ambient classifier reflexivity, symmetry, and transitivity for endpoint comparison, and the ideal classifier-transport row for closure of membership under classified replacement. A pair history $h$ lies in the signature gap of an $\IdealUp$ token $p$ when the source-domain accepts the ambient ring endpoints and ideal predicate, the signature relation pairs the pair with an answer quotient-kernel package and evidence ledger, and token introduction names that answer as $p$; unfolded, the endpoint difference is a displayed ideal member and all additive, negation, and multiplication descent rows are those encoded by $p$. The standard bridge reads the BEDC predicate as an ordinary ideal predicate over the standard ring supplied by the ambient $\RingUp$ bridge and reads it back through the same row inventory, while explicitly exporting no host quotient carrier. The chapter registers this carried-predicate and quotient-kernel construction under the name $\IdealUp$; ideals remain predicates with transport and absorption rows over existing ring histories, with no host quotient primitive or classifier-changing equality introduced.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature IdealUp boundary covers carried predicates, finite meet, sum, preimage, principal ideals, the quotient-kernel export surface, and the paper-level standard bridge of \autoref{thm:ideal-public-surface-standard-bridge}.}
+  \formalstatus{\bridgeCheckedV}
+  \leantarget{BEDC.Derived.IdealUp.IdealQuotientKernel\_export\_surface}
+  \bridgestatus{bridgeChecked}
+  \notclaimed{This chapter does not close host quotient carriers, full standard ideal theory, or host quotient primitives.}
+  \upgradepath{No further upgrade -- chapter at top of formal axis.}
+\end{closurestatus}

@@ -1,4 +1,4 @@
-import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.DensityMatrixUp
@@ -130,5 +130,96 @@ theorem DensityMatrixAffineMixtureSpine_restricted_constant_exactness
         classifierCont leftExact.left rightExact.left leftExact.right.right rightExact.right.right
           route
       exact And.intro outDensity (And.intro rho0Density outClassified)
+
+def DensityMatrixCarrier (traceClass positive traceOne endpoint : BHist) : Prop :=
+  UnaryHistory traceClass ∧ UnaryHistory positive ∧ hsame traceOne BHist.Empty ∧
+    Cont traceClass positive endpoint
+
+theorem DensityMatrixCarrier_carrier_obligation_rows
+    {traceClass positive traceOne endpoint : BHist} :
+    DensityMatrixCarrier traceClass positive traceOne endpoint ->
+      UnaryHistory traceClass ∧ UnaryHistory positive ∧ UnaryHistory endpoint ∧
+        hsame traceOne BHist.Empty ∧ Cont traceClass positive endpoint := by
+  intro carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro endpointUnary
+        (And.intro carrier.right.right.left carrier.right.right.right)))
+
+def DensityMatrixTraceLedgerCarrier (traceClass positive traceOne rho : BHist) : Prop :=
+  UnaryHistory traceClass ∧ UnaryHistory positive ∧ UnaryHistory traceOne ∧
+    Cont traceClass positive rho ∧ Cont rho traceOne rho
+
+theorem DensityMatrixTraceLedgerCarrier_rows {traceClass positive traceOne rho : BHist} :
+    DensityMatrixTraceLedgerCarrier traceClass positive traceOne rho ->
+      UnaryHistory traceClass ∧ UnaryHistory positive ∧ UnaryHistory traceOne ∧
+        UnaryHistory rho ∧ Cont traceClass positive rho ∧ Cont rho traceOne rho := by
+  intro carrier
+  have rhoUnary : UnaryHistory rho :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.left
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+          (And.intro rhoUnary
+            (And.intro carrier.right.right.right.left carrier.right.right.right.right))))
+
+theorem DensityMatrixTraceLedgerCarrier_positivity_trace_ledger_obligation
+    {traceClass positive traceOne rho ledger : BHist} :
+    DensityMatrixTraceLedgerCarrier traceClass positive traceOne rho ->
+      Cont positive traceOne ledger ->
+        UnaryHistory ledger ∧ UnaryHistory positive ∧ UnaryHistory traceOne ∧
+          Cont positive traceOne ledger ∧
+            DensityMatrixRestrictedClassifier
+              (DensityMatrixTraceLedgerCarrier traceClass positive traceOne) hsame rho rho := by
+  intro carrier ledgerRow
+  have rows := DensityMatrixTraceLedgerCarrier_rows carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed rows.right.left rows.right.right.left ledgerRow
+  exact And.intro ledgerUnary
+    (And.intro rows.right.left
+      (And.intro rows.right.right.left
+          (And.intro ledgerRow
+            (And.intro carrier (And.intro carrier (hsame_refl rho))))))
+
+theorem DensityMatrixTraceLedgerCarrier_trace_one_unit_readback
+    {traceClass positive traceOne rho : BHist} :
+    DensityMatrixTraceLedgerCarrier traceClass positive traceOne rho ->
+      hsame traceOne BHist.Empty ∧ UnaryHistory traceOne ∧ UnaryHistory rho ∧
+        Cont rho traceOne rho := by
+  intro carrier
+  have rows := DensityMatrixTraceLedgerCarrier_rows carrier
+  have traceOneEmpty : hsame traceOne BHist.Empty :=
+    cont_left_cancel rows.right.right.right.right.right (cont_intro rfl)
+  exact And.intro traceOneEmpty
+    (And.intro rows.right.right.left
+      (And.intro rows.right.right.right.left rows.right.right.right.right.right))
+
+theorem DensityMatrixTraceLedgerCarrier_restricted_classifier_transport
+    {traceClass positive traceOne rho rho' : BHist} :
+    DensityMatrixTraceLedgerCarrier traceClass positive traceOne rho -> hsame rho rho' ->
+      DensityMatrixRestrictedClassifier
+          (fun endpoint : BHist =>
+            DensityMatrixTraceLedgerCarrier traceClass positive traceOne endpoint)
+          hsame rho rho' ∧ UnaryHistory rho' ∧ Cont traceClass positive rho' ∧
+        Cont rho' traceOne rho' := by
+  intro carrier sameRho
+  have rows := DensityMatrixTraceLedgerCarrier_rows carrier
+  have tracePositiveRho' : Cont traceClass positive rho' :=
+    cont_result_hsame_transport rows.right.right.right.right.left sameRho
+  have rho'TraceOneRho' : Cont rho' traceOne rho' :=
+    cont_hsame_transport sameRho (hsame_refl traceOne) sameRho
+      rows.right.right.right.right.right
+  have carrierRho' : DensityMatrixTraceLedgerCarrier traceClass positive traceOne rho' :=
+    And.intro rows.left
+      (And.intro rows.right.left
+        (And.intro rows.right.right.left
+          (And.intro tracePositiveRho' rho'TraceOneRho')))
+  have rhoUnary' : UnaryHistory rho' :=
+    unary_transport rows.right.right.right.left sameRho
+  exact And.intro
+    (And.intro carrier (And.intro carrierRho' sameRho))
+    (And.intro rhoUnary' (And.intro tracePositiveRho' rho'TraceOneRho'))
 
 end BEDC.Derived.DensityMatrixUp

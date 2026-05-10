@@ -156,4 +156,20 @@ theorem ErrorCode_unique_decoding_radius (C : ErrorCodeMinimumDistanceInterface)
   · exact C.min_distance_sound codeC1 codeC2 belowMinimum
   · exact ⟨C.distLedger c1 c2, C.dist_metric codeC1 codeC2⟩
 
+theorem ErrorCode_smaller_radius_uniqueness (C : ErrorCodeMinimumDistanceInterface)
+    {c1 c2 r : BHist} {s : Nat} :
+    s <= C.radius -> C.Code c1 -> C.Code c2 -> C.dist c1 r <= s ->
+      C.dist c2 r <= s ->
+        C.rho c1 c2 ∧ exists d12 : BHist, MetricDistanceWitness c1 c2 d12 ∧
+          Cont c1 c2 d12 := by
+  intro smallerRadius codeC1 codeC2 nearC1 nearC2
+  have nearC1Radius : C.dist c1 r <= C.radius := Nat.le_trans nearC1 smallerRadius
+  have nearC2Radius : C.dist c2 r <= C.radius := Nat.le_trans nearC2 smallerRadius
+  have decoded :=
+    ErrorCode_unique_decoding_radius C codeC1 codeC2 nearC1Radius nearC2Radius
+  cases decoded.right with
+  | intro d12 witness =>
+      exact And.intro decoded.left
+        ⟨d12, witness, witness.right.right.right⟩
+
 end BEDC.Derived.ErrorCodeUp

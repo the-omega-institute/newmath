@@ -6,5 +6,63 @@ The ideal-class interface $\IdealClassUp$ packages the quotient group of fractio
 \section{Carrier definition}
 \label{sec:idealclass-carrier}
 
+\begin{theorem}[IdealClass fractional-ideal carrier obligation]\label{thm:idealclass-fractional-ideal-carrier-obligation}
+An $\IdealClassUp$ carrier endpoint is a $\mathsf{BHist}$ row carrying the $\DedekindUp$ fractional-ideal source, the nonzero and invertible fractional-ideal ledger, and the $\QuotientGroupUp$ source boundary. The endpoint is admitted only when its $\mathsf{BHist}$, $\NameCert$, $\hsame$, and $\Pkg$ rows identify the same Dedekind carrier and the same quotient-group boundary.
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealClassUp.IdealClassFractionalIdealCarrier\_obligation}
+\leanchecked{BEDC.Derived.IdealClassUp.IdealClassFractionalCarrier\_source\_obligation}
+\begin{proof}
+Start from the opening dependencies on $\NameCert_{\DedekindUp}$ and $\NameCert_{\QuotientGroupUp}$. The carrier obligation reads the Dedekind fractional-ideal source as the BEDC source field, chooses $\mathsf{BHist}$ rows as the carrier, and records nonzero and invertible fractional-ideal evidence in the ledger before any quotient is formed.
+
+The ten-field fit is: traditional target ideal classes of a Dedekind domain; BEDC source the cited $\DedekindUp$ certificate together with the $\QuotientGroupUp$ source boundary; carrier $\mathsf{BHist}$ rows for fractional ideals; classifier pending principal-ideal equivalence; stability pending quotient transport; ledger the Dedekind source plus nonzero and invertible evidence; core theorem carrier endpoint admission; exactness exclusion of detached fractional-ideal representatives; standard bridge none; status $\mathsf{ProofTarget}$.
+\end{proof}
+
+\begin{theorem}[IdealClass principal classifier obligation]\label{thm:idealclass-principal-classifier-obligation}
+The $\IdealClassUp$ classifier relates two carried fractional-ideal endpoints exactly when their quotient product is principal. Reflexivity, symmetry, transitivity, and carrier transport are inherited from the $\DedekindUp$ fractional-ideal rows and the $\QuotientGroupUp$ classifier boundary, so the classifier is a carried BEDC relation rather than a host quotient relation.
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealClassUp.IdealClassPrincipalClassifier\_semanticNameCert}
+\begin{proof}
+Use the fractional-ideal carrier fixed by \autoref{thm:idealclass-fractional-ideal-carrier-obligation}. The classifier row is the principal quotient-product witness relation over the same Dedekind source, so equality of endpoints is certified by a visible principal ideal and not by eliminating a quotient type.
+
+The ten-field fit is: traditional target ideal-class equality; BEDC source $\NameCert_{\DedekindUp}$ with the $\QuotientGroupUp$ source boundary; carrier carried fractional-ideal endpoints; classifier principal quotient-product equivalence; stability reflexivity, symmetry, transitivity, and carrier transport; ledger the two endpoints and the principal witness; core theorem classifier admission and equivalence laws; exactness absence of host quotient soundness; standard bridge none; status $\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.IdealClassUp.IdealClassPrincipalClassifier\_empty\_boundary\_laws}
+
+\begin{theorem}[IdealClass quotient operation exactness obligation]\label{thm:idealclass-quotient-operation-exactness-obligation}
+Fractional-ideal multiplication descends through the principal-class classifier of \autoref{thm:idealclass-principal-classifier-obligation}. The $\IdealClassUp$ ledger hides only the principal witness while preserving the $\mathsf{BHist}$, $\NameCert$, $\hsame$, and $\Pkg$ provenance rows for the Dedekind source, the carried representatives, and the $\QuotientGroupUp$ operation boundary.
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealClassUp.IdealClassQuotientOperation\_exactness\_obligation}
+\leanchecked{BEDC.Derived.IdealClassUp.IdealClassQuotientOperation\_empty\_product\_exactness}
+\begin{proof}
+First apply \autoref{thm:idealclass-fractional-ideal-carrier-obligation} and \autoref{thm:idealclass-principal-classifier-obligation} to fix the carried representatives and the principal classifier. Multiplication is then read as a $\QuotientGroupUp$ operation row over that classifier, with identity and inverse data transported through the same source boundary.
+
+The ten-field fit is: traditional target the ideal-class group operation; BEDC source the shared $\DedekindUp$ fractional-ideal source and $\NameCert_{\QuotientGroupUp}$; carrier carried fractional-ideal endpoints; classifier principal quotient-product equivalence; stability multiplication descent, identity descent, inverse descent, and representative independence; ledger preserved $\mathsf{BHist}$, $\NameCert$, $\hsame$, and $\Pkg$ provenance with only the principal witness hidden; core theorem quotient operation exactness; exactness no detached quotient and no lost provenance row; standard bridge none; status $\mathsf{ProofTarget}$.
+\end{proof}
+
 \section{The certificate}
 \label{sec:idealclass-certificate}
+
+\begin{theorem}[IdealClass scoped source certificate]\label{thm:idealclass-scoped-source-certificate}
+The carrier obligation of \autoref{thm:idealclass-fractional-ideal-carrier-obligation}, the principal classifier obligation of \autoref{thm:idealclass-principal-classifier-obligation}, and the quotient operation exactness obligation of \autoref{thm:idealclass-quotient-operation-exactness-obligation} jointly determine the scoped $\IdealClassUp$ source certificate over the cited $\DedekindUp$ and $\QuotientGroupUp$ sources. Its carrier endpoints are $\mathsf{BHist}$ rows with Dedekind fractional-ideal provenance and quotient boundary provenance; its classifier equality is the principal quotient-product witness relation; its multiplication, identity, and inverse descent are read through the $\QuotientGroupUp$ operation boundary; and its ledger hides only the principal witness while preserving $\mathsf{BHist}$, $\NameCert$, $\hsame$, and $\Pkg$ provenance.
+\end{theorem}
+\leanchecked{BEDC.Derived.IdealClassUp.IdealClassScoped\_source\_certificate}
+\begin{proof}
+Repack the carrier site as the carrier and ledger source of the certificate. The admitted endpoints are the $\mathsf{BHist}$ rows already tied to the $\DedekindUp$ fractional-ideal source and the $\QuotientGroupUp$ boundary, with $\NameCert$, $\hsame$, and $\Pkg$ rows kept in the same source scope.
+
+Repack the classifier site as the equality field. The relation is not a host quotient equality: it is the principal quotient-product witness relation on the carried endpoints, and its equivalence behavior is the one transported through the named Dedekind and quotient-group sources.
+
+Repack the operation site as the stability and exactness fields. Multiplication, identity, and inverse descent are read through the $\QuotientGroupUp$ operation boundary, and the exactness ledger hides only the principal witness while retaining the visible $\mathsf{BHist}$, $\NameCert$, $\hsame$, and $\Pkg$ provenance rows.
+
+These three repackings fill the roadmap ten-field template for $\IdealClassUp$: traditional target, BEDC source, carrier, classifier, stability, ledger, core theorem surface, exactness exclusion, standard bridge status, and verification status. Thus the scoped source certificate is determined within exactly the $\DedekindUp$, $\QuotientGroupUp$, $\mathsf{BHist}$, $\NameCert$, $\hsame$, and $\Pkg$ scope recorded above.
+\end{proof}
+
+\begin{closurestatus}{\IdealClassUp}
+  \constructivestory{An ideal class is built from carried fractional-ideal endpoints over the displayed $\DedekindUp$ source and the $\QuotientGroupUp$ boundary, with nonzero, invertible, and quotient-operation evidence kept as certificate rows before any quotient object is formed. The carrier accepts exactly those $\mathsf{BHist}$ rows whose Dedekind provenance and quotient-group provenance identify the same fractional-ideal boundary, while detached representatives and host quotient types are left outside the source. Two accepted endpoints classify together when the quotient product between them is witnessed as principal inside the same carried Dedekind and QuotientGroup rows, so equality of ideal classes is a visible principal-witness relation rather than elimination into a quotient set. The source specification is the paired Dedekind and QuotientGroup surface, the pattern specification is fractional-ideal multiplication with identity and inverse descent through principal witnesses, and the ledger hides only the principal witness while retaining the endpoint, classifier, $\hsame$, and $\Pkg$ provenance rows. The five naming-certificate obligations are supplied by the scoped source certificate: an accepted fractional-ideal endpoint inhabits the carrier, the principal classifier inherits reflexivity, symmetry, and transitivity from the quotient boundary, and carrier transport follows from the same Dedekind and QuotientGroup source rows. A history $h$ lies in the signature GAP of an $\IdealClassUp$ token $p$ when the source accepts $h$, the signature relation pairs it with an answer fractional-ideal row and evidence ledger, and token introduction names that answer as $p$; concretely, $h$ must carry the Dedekind fractional-ideal provenance, the quotient boundary, and the principal-witness ledger that identifies its class. The chapter registers this construction as $\IdealClassUp$ without closing a public NameCert surface, a standard bridge, or a separate Lean theorem for the full ideal-class interface.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public paper surface is the scoped IdealClassUp source certificate over the cited DedekindUp and QuotientGroupUp sources, with carried fractional-ideal endpoints, principal-classifier equality, and quotient-operation descent exposed as certificate rows.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.IdealClassUp.IdealClassScoped\_source\_certificate}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a standard bridge or a separate host quotient model for IdealClassUp.}
+  \upgradepath{The next verification step is axiom-clean and bridge-checked coverage for the same public IdealClassUp source surface.}
+\end{closurestatus}

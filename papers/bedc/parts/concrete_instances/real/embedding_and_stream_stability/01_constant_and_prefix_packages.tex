@@ -50,6 +50,70 @@ scheduled constant streams and their paired e-one seals.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealIndependentReindexedConstant\_rational\_embedding\_certificate}
 
+\begin{theorem}[Real reindexed constant finite-window package]
+\label{thm:real-reindexed-constant-finite-window-package}
+For histories $d,e:\Hist$, observation maps $r,q:\Hist\to\Hist$, and a probe
+bundle $\mathcal{P}:\mathsf{ProbeBundle}$, suppose the bundle contains a
+certified unary observation:
+$$
+\exists n:\Hist,\ \mathsf{InBundle}(n,\mathcal{P})\land
+\mathsf{UnaryHistory}(n).
+$$
+Then every RatUp classifier witness
+$\rho:\mathsf{RatHistoryClassifier}(d,e)$ determines the finite-window
+constant bridge package:
+\begin{enumerate}
+  \item the finite StreamName observation surface
+  $$
+  \mathsf{RatStreamNameFiniteWindowClassifier}
+  (\mathsf{RatConstStream}_d\circ r,
+   \mathsf{RatConstStream}_e\circ q,\mathcal{P});
+  $$
+  \item the carrier rows for $d$ and $e$ displayed in
+  \autoref{thm:real-independent-reindexed-constant-rational-embedding-certificate};
+  \item the classifier bridge from $\rho$ through the independently reindexed
+  StreamName row, the RealUp unary-observation stream row, and the RealUp
+  constant-history classifier row of $\Eone(d)$ and $\Eone(e)$;
+  \item the RegSeqRat-facing ledger whose entries are exactly the
+  $\mathsf{InBundle}$ rows of $\mathcal{P}$ together with their
+  $\mathsf{UnaryHistory}$ witnesses and the pointwise RatUp classifier copied
+  from $\rho$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First build the finite observation row. Apply
+\autoref{thm:rat-stream-name-constant-finite-window-exactness} to the constant
+streams with endpoints $d$ and $e$ and to the inhabited probe bundle
+$\mathcal{P}$. The reverse direction of that exactness theorem consumes
+$\rho$ and yields the finite-window classifier for
+$\mathsf{RatConstStream}_d$ and $\mathsf{RatConstStream}_e$.
+
+The displayed streams are independently reindexed, but constant streams ignore
+their observation argument. Thus at every bundled certified unary observation
+$n$, both composites evaluate as
+$\mathsf{RatConstStream}_d(r(n))=d$ and
+$\mathsf{RatConstStream}_e(q(n))=e$. The same pointwise classifier $\rho$
+therefore supplies the required
+$\mathsf{RatStreamNameFiniteWindowClassifier}
+(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ q,\mathcal{P})$ row.
+
+Next attach the global bridge. Apply
+\autoref{thm:real-independent-reindexed-constant-rational-embedding-certificate}
+to $d,e,r,q$. Its two carrier rows give the RatUp--StreamName--RealUp carrier
+identifications for the two endpoints, and its classifier rows transport
+$\rho$ through the independently reindexed StreamName classifier, the RealUp
+unary-observation stream classifier, and the RealUp constant-history classifier
+of the two e-one seals.
+
+Finally repack the finite-window row with those carrier and classifier rows.
+The ledger consumed downstream by $\RegSeqRat$ is not a new carrier: it is the
+visible $\mathsf{ProbeBundle}$ spine, each $\mathsf{InBundle}$ membership row,
+the corresponding $\mathsf{UnaryHistory}$ witness, and the copied RatUp point
+classifier at that observation. This is precisely the finite observation
+surface associated to the checked global constant embedding.
+\end{proof}
+
 \begin{theorem}[Real stream classifier finite-prefix stability package]
 \label{thm:real-stream-classifier-finite-prefix-stability-package}
 For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$ and prefix index

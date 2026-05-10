@@ -466,6 +466,7 @@ By Definition~\ref{def:prod-displayed-pair-ledger}, the first representation is
 the named ledger witness for $h$, and the second representation is the named
 ledger witness for $k$. These two witnesses give the required conjunction.
 \end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdUp\_StdBridge}
 
 \begin{theorem}[Product componentwise public certificate package]
 \label{thm:prod-componentwise-public-certificate-package}
@@ -536,3 +537,15 @@ Theorem~\ref{thm:prod-component-history-classifier-descends-to-envelope} with
 the two $\hsame$-soundness hypotheses, giving
 $\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
 \end{proof}
+
+\closureat{ProdUp}{matureStr}[BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_semantic\_name\_certificate]
+\begin{closurestatus}{\ProdUp}
+  \constructivestory{An ordered pair here is made by putting two already certified histories on one visible line: choose a left witness from $L$ and a right witness from $R$, then let the kernel continuation assemble $h$ by appending the right history above the left one. Nothing else enters the product carrier, and two assembled histories count as the same product exactly when their recovered left components agree by $L$'s classifier and their recovered right components agree by $R$'s, so equality of the joined history is tracked back through the two component views. The certificate therefore uses that same product-history predicate as its source, records in the pattern the displayed pair shape and the cancellation rows that recover both sides, and keeps the raw continuation witness and the visible product history in the same ledger. Since the component classifiers are equivalences and continuation is deterministic, an admitted component pair gives the carrier its witness, componentwise sameness is reflexive, symmetric, and transitive, and anything it recognizes remains an admitted product. A history $h$ lies in the signature gap of a $\ProdUp$ token $p$ when the source-domain accepts the assembled history, the signature relation pairs it with an answer history and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, $h$ must decompose into two component histories whose left and right classifiers identify them with the components encoded by $p$. The chapter registers this parallel-display construction under the name $\ProdUp$; an ordered pair is the kernel's continuation relation used as two named components in view, with no host tuple type or projection axiom introduced.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:prod-componentwise-public-certificate-package} is the public surface packaging \autoref{thm:prod-component-history-semantic-certificate-target}, \autoref{thm:prod-component-history-classifier-displayed-ledger-endpoints}, and \autoref{thm:prod-component-history-classifier-descends-to-envelope}.}
+  \formalstatus{\bridgeCheckedV}
+  \leantarget{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_semantic\_name\_certificate}
+  \bridgestatus{bridgeChecked}
+  \notclaimed{This chapter does not close dependent products, function-space products, product categories, or host tuple equality.}
+  \upgradepath{No further upgrade -- chapter at top of the formal axis.}
+\end{closurestatus}

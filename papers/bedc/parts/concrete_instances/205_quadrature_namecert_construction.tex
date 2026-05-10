@@ -6,6 +6,15 @@ The numerical-quadrature interface $\QuadratureUp$ packages a finite weighted su
 \section{Carrier definition}
 \label{sec:quadrature-carrier}
 
+\begin{definition}[Quadrature carried rule source row]
+\label{def:quadrature-carried-rule-source-row}
+A carried $\QuadratureUp$ rule source row is the $\mathsf{BHist}$-visible tuple
+$$
+(xs,\alpha,\omega,\mathcal I_Q)
+$$
+where $xs$ is the $\FinSetUp$ node spine, each node endpoint $\alpha_i$ and weight endpoint $\omega_i$ is carried by the scalar endpoint rows, and $\mathcal I_Q$ is the endpoint map supplied by the $\IntegralUp$ polynomial row on the fixed compact interval. The polynomial inputs to the row are finite $\mathsf{ListCarrier}$ coefficient codes. Ordering choices for the node spine, numerical approximation choices, and convergence data are not carrier fields of the rule; when they are used, they are recorded only by ledger rows attached to the source tuple.
+\end{definition}
+
 \section{The certificate}
 \label{sec:quadrature-certificate}
 
@@ -56,6 +65,43 @@ $$
 This is the unary BEDC reading of the ordinary inequality $e\leq d$: every coefficient index above $d$ is also above $e$.
 \end{definition}
 
+\begin{theorem}[Quadrature carrier scope obligation]
+\label{thm:quadrature-carrier-scope-obligation}
+For the $\QuadratureUp$ certificate described by \autoref{def:quadrature-carried-rule-source-row} and \autoref{def:quadrature-finite-weighted-exactness-degree}, the carrier scope is exactly the $\FinSetUp$ node spine $xs$, the scalar endpoint rows carrying $\alpha_i$ and $\omega_i$, the $\IntegralUp$ endpoint map $\mathcal I_Q$, the $\mathsf{ListCarrier}$ polynomial code $p$, and the $\NatUp$ degree bound $n$. No host ordering of nodes, host analytic function, host real equality, convergence assumption, or approximation scheme is part of the carried source row.
+\end{theorem}
+\leanchecked{BEDC.Derived.QuadratureUp.QuadratureCarriedRuleSourceRow\_scope}
+\begin{proof}
+The carrier row of \autoref{def:quadrature-carried-rule-source-row} names only the tuple $(xs,\alpha,\omega,\mathcal I_Q)$, with polynomial inputs supplied as finite $\mathsf{ListCarrier}$ codes. The exactness-degree definition then adds only the unary bound $n:\NatUp$ and the derived rows $\mathsf{QSum}_Q$, $\mathsf{QExact}_Q$, $\mathsf{PolyDegLe}_R$, and $\mathsf{QuadratureExactUpTo}_R$.
+
+Each displayed row is built from the listed source objects: folding over $\mathsf{Pos}(xs)$, scalar multiplication and addition, Horner evaluation on a list code, the integral endpoint map, trimming, and strict-prefix comparison on unary naturals. Therefore any datum outside these rows can enter only as a ledger entry and not as carrier scope.
+\end{proof}
+
+\begin{theorem}[Quadrature classifier scope obligation]
+\label{thm:quadrature-classifier-scope-obligation}
+The exactness-degree classifier for the carried $\QuadratureUp$ rule is the preorder row $\mathsf{DegBoundLe}$ on $\NatUp$ bounds together with the weakening action on $\mathsf{QuadratureExactUpTo}_R$. Its source predicates are precisely $\mathsf{NatUnaryStrictPrefix}$ and $\mathsf{PolyDegLe}_R$ as displayed in \autoref{def:quadrature-finite-weighted-exactness-degree}.
+\end{theorem}
+\leanchecked{BEDC.Derived.QuadratureUp.QuadratureExactUpTo\_classifier\_scope}
+\begin{proof}
+The classifier comparison is the displayed predicate $\mathsf{DegBoundLe}(e,d)$. By \autoref{lem:quadrature-polynomial-degree-window-inclusion}, this comparison transports a polynomial degree window from the smaller bound $e$ to the larger bound $d$ using only $\mathsf{NatUnaryStrictPrefix}$ and the coefficient condition in $\mathsf{PolyDegLe}_R$.
+
+Applying \autoref{thm:quadrature-exactness-degree-weakening} to that transported window gives the classifier action on $\mathsf{QuadratureExactUpTo}_R$. The reflexive and transitive rows recorded in \autoref{prop:quadrature-degree-bound-comparison-preorder-rows} identify the comparison surface as a preorder on the same unary bounds, so the classifier has no additional source objects.
+\end{proof}
+
+\begin{theorem}[Quadrature ledger exactness obligation]
+\label{thm:quadrature-ledger-exactness-obligation}
+For a carried $\QuadratureUp$ rule, the ledger exactness surface records the node spine, weights, integral endpoint provenance, polynomial trim and evaluation rows, and the pointwise predicate $\mathsf{QExact}_Q$. The ledger does not assert host real equality or host function equality; exactness is the carried scalar endpoint relation
+$$
+\mathsf{QSum}_Q(p)\sim_R\mathcal I_Q(p)
+$$
+on finite polynomial codes.
+\end{theorem}
+\leanchecked{BEDC.Derived.QuadratureUp.QuadratureLedgerExactness\_surface}
+\begin{proof}
+Unfold \autoref{def:quadrature-finite-weighted-exactness-degree}. The quadrature sum is a finite fold over $\mathsf{Pos}(xs)$ using the carried weights $\omega_i$ and Horner evaluation at the carried node endpoints $\alpha_i$. The integral side is the carried endpoint $\mathcal I_Q(p)$ supplied by the $\IntegralUp$ polynomial row.
+
+The polynomial side is controlled by $\mathsf{trim}_R$ and $\mathsf{PolyDegLe}_R$, while exactness itself is exactly the predicate $\mathsf{QExact}_Q(p)$. The window inclusion lemma, the weakening theorem, and the preorder rows cited above transport this same predicate between unary degree bounds without replacing it by host equality of real numbers or functions.
+\end{proof}
+
 \begin{lemma}[Polynomial degree windows are nested]
 \label{lem:quadrature-polynomial-degree-window-inclusion}
 With the notation of \autoref{def:quadrature-finite-weighted-exactness-degree}, if $\mathsf{DegBoundLe}(e,d)$ holds, then every polynomial code with degree at most $e$ also has degree at most $d$:
@@ -65,6 +111,7 @@ $$
 \mathsf{PolyDegLe}_R(p,d).
 $$
 \end{lemma}
+\leanchecked{BEDC.Derived.QuadratureUp.QuadraturePolynomialDegreeWindow\_inclusion}
 \begin{proof}
 Unfold $\mathsf{PolyDegLe}_R$ and $\mathsf{DegBoundLe}$. Assume $\mathsf{PolyDegLe}_R(p,e)$ and fix $k:\NatUp$ with $\mathsf{NatUnaryStrictPrefix}(d,k)$. The degree-bound comparison sends this strict-prefix witness to $\mathsf{NatUnaryStrictPrefix}(e,k)$. Applying the degree-at-most-$e$ hypothesis at this $k$ gives
 $$
@@ -86,6 +133,7 @@ $$
 \mathsf{QuadratureExactUpTo}_R(Q,e).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.QuadratureUp.QuadratureExactUpTo\_weakening}
 \begin{proof}
 Unfold the target exactness predicate. Fix a finite coefficient spine $p:\mathsf{ListCarrier}(R)$ and assume $\mathsf{PolyDegLe}_R(p,e)$. By \autoref{lem:quadrature-polynomial-degree-window-inclusion}, the degree-bound comparison gives $\mathsf{PolyDegLe}_R(p,d)$. The exactness hypothesis at degree $d$ applies to this same polynomial code and returns
 $$
@@ -96,6 +144,30 @@ $$
 \mathsf{QSum}_Q(p)\sim_R\mathcal I_Q(p),
 $$
 which is the required exactness row for $p$ under the degree-$e$ predicate. Since $p$ was arbitrary, $\mathsf{QuadratureExactUpTo}_R(Q,e)$ holds. The finite node spine, the weights, and the integral endpoint map are the original components of $Q$ throughout.
+\end{proof}
+
+\begin{theorem}[Quadrature exactness degree equivalence stability]
+\label{thm:quadrature-exactness-degree-equivalence-stability}
+Let $Q$ be a finite weighted $\QuadratureUp$ rule over the scalar carrier $R$ in the sense of \autoref{def:quadrature-finite-weighted-exactness-degree}. For unary degree bounds $e,d:\NatUp$, if
+$$
+\mathsf{DegBoundLe}(e,d)
+\qquad\text{and}\qquad
+\mathsf{DegBoundLe}(d,e)
+$$
+hold, then the exactness classifiers at $d$ and $e$ determine the same row:
+$$
+\mathsf{QuadratureExactUpTo}_R(Q,d)
+\Longleftrightarrow
+\mathsf{QuadratureExactUpTo}_R(Q,e).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.QuadratureUp.QuadratureExactUpTo\_degree\_equivalence\_stability}
+\begin{proof}
+We prove the two directions separately.
+
+For the forward direction, assume $\mathsf{QuadratureExactUpTo}_R(Q,d)$. Apply \autoref{thm:quadrature-exactness-degree-weakening} to this degree-$d$ exactness row and to the comparison $\mathsf{DegBoundLe}(e,d)$. The result is $\mathsf{QuadratureExactUpTo}_R(Q,e)$.
+
+For the reverse direction, assume $\mathsf{QuadratureExactUpTo}_R(Q,e)$. Apply \autoref{thm:quadrature-exactness-degree-weakening} to this degree-$e$ exactness row and to the comparison $\mathsf{DegBoundLe}(d,e)$. The result is $\mathsf{QuadratureExactUpTo}_R(Q,d)$.
 \end{proof}
 
 \begin{theorem}[Quadrature degree-bound comparison is transitive]
@@ -112,6 +184,7 @@ $$
 $$
 holds.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuadratureUp.QuadratureDegBoundLe\_trans}
 \begin{proof}
 Unfold $\mathsf{DegBoundLe}$. To prove $\mathsf{DegBoundLe}(e,c)$, fix $k:\NatUp$ and assume
 $$
@@ -163,4 +236,253 @@ $$
 \end{proposition}
 \begin{proof}
 The reflexive row is \autoref{thm:quadrature-degree-bound-comparison-reflexive}. The transitive row is \autoref{thm:quadrature-degree-bound-comparison-transitive}. Both rows use the same concrete predicate $\mathsf{DegBoundLe}$ from \autoref{def:quadrature-finite-weighted-exactness-degree}, so together they give the stated preorder data for the $\QuadratureUp$ degree-bound classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.QuadratureUp.QuadratureDegBoundLe\_preorder\_rows}
+
+\closureat{QuadratureUp}{scopedStr}[BEDC.Derived.QuadratureUp.QuadratureExactUpTo\_degree\_equivalence\_stability]
+
+\begin{closurestatus}{\QuadratureUp}
+  \constructivestory{A quadrature rule is generated from a finite $\FinSetUp$ node spine, carried scalar endpoints for each node and weight, an $\IntegralUp$ endpoint map for polynomial codes on the fixed compact interval, and a unary $\NatUp$ degree bound. A row is admitted only through this finite weighted tuple together with finite list polynomial codes, Horner evaluation, trimming, scalar addition and multiplication, and the displayed exactness predicate; host node orderings, analytic functions, convergence data, numerical approximations, and host real equality are not carrier fields. The classifier on exactness degree is the unary preorder $\mathsf{DegBoundLe}$, which says that every coefficient index above one bound is also above the other, and it transports exactness by narrowing the polynomial window rather than by comparing real-valued functions externally. The source covers the node spine, scalar node and weight endpoints, integral endpoint map, polynomial code, and degree bound; the pattern records the finite weighted sum, polynomial degree window, pointwise exactness, weakening, equivalence stability, and preorder rows; the ledger keeps the nodes, weights, Horner rows, trim rows, integral provenance, and scalar endpoint comparisons visible. The five name-certificate obligations are supplied by the inhabited finite-rule surface and the reflexive and transitive degree-bound comparison, with carrier closure coming from reusing the same finite tuple while transporting exactness through the displayed scalar classifier. A history $h$ lies in the signature gap of a $\QuadratureUp$ token $p$ when the source-domain accepts the finite rule and degree-bound row, the signature relation pairs it with an answer rule and evidence ledger, and token introduction names that answer as $p$; unfolded, the weighted sum is exact on precisely the polynomial codes within the unary degree window encoded by $p$. The chapter registers this finite weighted exactness construction under the name $\QuadratureUp$; it provides a scoped numerical-analysis certificate without convergence claims, analytic error estimates, host function equality, host real equality, or a standard bridge.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The closed paper scope is the finite weighted rule source row, FinSetUp node spine, scalar endpoint rows, IntegralUp endpoint map, ListCarrier polynomial codes, NatUp degree bounds, DegBoundLe classifier, exactness weakening, degree-equivalence stability, and ledger exactness surface.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.QuadratureUp.QuadratureExactUpTo\_degree\_equivalence\_stability}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close convergence of numerical schemes, analytic error estimates, host real equality, host function equality, or a standard bridge for quadrature rules.}
+  \upgradepath{Public closure requires a single exported QuadratureUp certificate theorem packaging the finite-rule carrier, classifier, stability, ledger, and exactness-degree preorder rows for downstream numerical-analysis chapters.}
+\end{closurestatus}
+
+\begin{lemma}[Quadrature empty position fold]
+\label{lem:quadrature-empty-position-fold-zero}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, and addition $+$ whose finite additive scalar fold is the fold of \autoref{def:finite-additive-scalar-fold}. Let $xs$ be a finite $\FinSetUp$ node spine. If the position carrier $\mathsf{Pos}(xs)$ has no positions, then every scalar summand family $s:\mathsf{Pos}(xs)\to R$ satisfies
+$$
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}(i\mapsto s(i))\sim_R0_R.
+$$
+\end{lemma}
+\begin{proof}
+The finite-position ledger of \autoref{def:finset-namecert-obligation-packet} reads a fold over $\mathsf{Pos}(xs)$ as the finite additive scalar fold over the scalar spine obtained by enumerating those positions. If $\mathsf{Pos}(xs)$ has no positions, that scalar spine is $\mathsf{nil}$; no value of $s$ is read into the ledger.
+
+By the nil clause of \autoref{def:finite-additive-scalar-fold}, equivalently by \autoref{lem:finite-additive-fold-empty-identity}, the fold over this empty scalar spine is classified with $0_R$. This gives the displayed classifier comparison.
+\end{proof}
+
+\begin{theorem}[Quadrature empty-node sum is zero]
+\label{thm:quadrature-empty-node-sum-zero}
+Let $Q=(xs,\alpha,\omega,\mathcal I_Q)$ be a finite weighted $\QuadratureUp$ rule over the scalar carrier $R$ in the sense of \autoref{def:quadrature-finite-weighted-exactness-degree}. Assume the $\FinSetUp$ node spine is empty, equivalently $\mathsf{Pos}(xs)$ has no positions. Then for every finite polynomial-code spine $p:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{QSum}_Q(p)\sim_R0_R.
+$$
+\end{theorem}
+\begin{proof}
+Fix a finite coefficient spine $p:\mathsf{ListCarrier}(R)$. Unfolding \autoref{def:quadrature-finite-weighted-exactness-degree} gives
+$$
+\mathsf{QSum}_Q(p):=
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}
+\bigl(i\mapsto \omega_i\cdot\mathsf{Eval}_{\alpha_i,R}(p)\bigr).
+$$
+The empty-node hypothesis says that the indexing carrier of this fold has no positions. Apply \autoref{lem:quadrature-empty-position-fold-zero} to the summand family
+$$
+s(i):=\omega_i\cdot\mathsf{Eval}_{\alpha_i,R}(p).
+$$
+The result is
+$$
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}
+\bigl(i\mapsto \omega_i\cdot\mathsf{Eval}_{\alpha_i,R}(p)\bigr)\sim_R0_R.
+$$
+Substituting the displayed definition of $\mathsf{QSum}_Q(p)$ gives $\mathsf{QSum}_Q(p)\sim_R0_R$. The endpoint map $\mathcal I_Q$ and the pointwise exactness predicate do not enter this boundary calculation, because the claim concerns only the actual quadrature fold.
+\end{proof}
+
+\begin{lemma}[Quadrature singleton position fold]
+\label{lem:quadrature-singleton-position-fold}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, and addition $+$ whose finite additive scalar fold is the fold of \autoref{def:finite-additive-scalar-fold}. Let $xs$ be a finite $\FinSetUp$ node spine. If the position carrier $\mathsf{Pos}(xs)$ enumerates exactly the one position $i_0$, then every scalar summand family $s:\mathsf{Pos}(xs)\to R$ satisfies
+$$
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}(i\mapsto s(i))\sim_R s(i_0).
+$$
+\end{lemma}
+\begin{proof}
+The finite-position ledger of \autoref{def:finset-namecert-obligation-packet} reads a fold over $\mathsf{Pos}(xs)$ as the finite additive scalar fold over the scalar spine obtained by enumerating those positions. Under the singleton-position hypothesis, that scalar spine is exactly $\mathsf{singleton}(s(i_0))$; no other value of $s$ is read into the ledger.
+
+Thus the displayed position fold is the same folded endpoint as
+$$
+\mathsf{fold}_{+,R}(\mathsf{singleton}(s(i_0))).
+$$
+By the singleton clause of \autoref{def:finite-additive-scalar-fold}, equivalently by \autoref{lem:finite-additive-fold-singleton-identity}, this singleton scalar fold is classified with $s(i_0)$. Transporting along the finite-position readback gives
+$$
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}(i\mapsto s(i))\sim_R s(i_0).
+$$
+\end{proof}
+
+\begin{theorem}[Quadrature singleton-node sum is weighted evaluation]
+\label{thm:quadrature-singleton-node-sum-weighted-evaluation}
+Let $Q=(xs,\alpha,\omega,\mathcal I_Q)$ be a finite weighted $\QuadratureUp$ rule over the scalar carrier $R$ in the sense of \autoref{def:quadrature-finite-weighted-exactness-degree}. Assume the $\FinSetUp$ node spine enumerates exactly one position $i_0$, equivalently $\mathsf{Pos}(xs)$ has the single position $i_0$. Then for every finite polynomial-code spine $p:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{QSum}_Q(p)\sim_R \omega_{i_0}\cdot\mathsf{Eval}_{\alpha_{i_0},R}(p).
+$$
+\end{theorem}
+\begin{proof}
+Fix a finite coefficient spine $p:\mathsf{ListCarrier}(R)$. Unfolding \autoref{def:quadrature-finite-weighted-exactness-degree} gives
+$$
+\mathsf{QSum}_Q(p):=
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}
+\bigl(i\mapsto \omega_i\cdot\mathsf{Eval}_{\alpha_i,R}(p)\bigr).
+$$
+Apply \autoref{lem:quadrature-singleton-position-fold} to the summand family
+$$
+s(i):=\omega_i\cdot\mathsf{Eval}_{\alpha_i,R}(p).
+$$
+The singleton-node hypothesis identifies the finite-position scalar spine as the singleton spine whose sole entry is
+$$
+\omega_{i_0}\cdot\mathsf{Eval}_{\alpha_{i_0},R}(p).
+$$
+Therefore the quadrature fold is classified with that sole entry:
+$$
+\mathsf{fold}_{+,\mathsf{Pos}(xs)}
+\bigl(i\mapsto \omega_i\cdot\mathsf{Eval}_{\alpha_i,R}(p)\bigr)
+\sim_R
+\omega_{i_0}\cdot\mathsf{Eval}_{\alpha_{i_0},R}(p).
+$$
+Substituting the displayed definition of $\mathsf{QSum}_Q(p)$ gives
+$$
+\mathsf{QSum}_Q(p)\sim_R \omega_{i_0}\cdot\mathsf{Eval}_{\alpha_{i_0},R}(p).
+$$
+The endpoint map $\mathcal I_Q$ and the exactness predicate $\mathsf{QExact}_Q$ do not enter this boundary calculation, because the claim concerns only the finite weighted quadrature fold.
+\end{proof}
+
+\begin{lemma}[Finite additive fold decomposes over spine append]
+\label{lem:finite-additive-fold-append-decomposition}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite additive fold $\mathsf{fold}_{+,R}$ from \autoref{def:finite-additive-scalar-fold}. Assume the classifier equivalence rows, additive congruence, additive associativity, and additive left-zero row retained in \autoref{def:ring-stability-certificate}. For finite carried scalar spines $xs,ys:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{fold}_{+,R}(xs{++}ys)
+\sim_R
+\mathsf{fold}_{+,R}(xs)+_R\mathsf{fold}_{+,R}(ys).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the finite spine $xs$.
+
+If $xs=\mathsf{nil}$, then $xs{++}ys=ys$ and \autoref{def:finite-additive-scalar-fold} identifies $\mathsf{fold}_{+,R}(xs)$ with $0_R$. The additive left-zero row classifies $0_R+_R\mathsf{fold}_{+,R}(ys)$ with $\mathsf{fold}_{+,R}(ys)$, and classifier symmetry reverses that comparison. Hence
+$$
+\mathsf{fold}_{+,R}(ys)
+\sim_R
+0_R+_R\mathsf{fold}_{+,R}(ys),
+$$
+which is the displayed claim in the nil case.
+
+For the cons case, write $xs=\mathsf{cons}(a,xs_0)$. The fold clauses give
+$$
+\mathsf{fold}_{+,R}(\mathsf{cons}(a,xs_0){++}ys)
+=
+a+_R\mathsf{fold}_{+,R}(xs_0{++}ys)
+$$
+and
+$$
+\mathsf{fold}_{+,R}(\mathsf{cons}(a,xs_0))
+=
+a+_R\mathsf{fold}_{+,R}(xs_0).
+$$
+The induction hypothesis supplies
+$$
+\mathsf{fold}_{+,R}(xs_0{++}ys)
+\sim_R
+\mathsf{fold}_{+,R}(xs_0)+_R\mathsf{fold}_{+,R}(ys).
+$$
+Additive congruence, using classifier reflexivity on $a$, classifies
+$$
+a+_R\mathsf{fold}_{+,R}(xs_0{++}ys)
+$$
+with
+$$
+a+_R(\mathsf{fold}_{+,R}(xs_0)+_R\mathsf{fold}_{+,R}(ys)).
+$$
+Additive associativity then classifies this endpoint with
+$$
+(a+_R\mathsf{fold}_{+,R}(xs_0))+_R\mathsf{fold}_{+,R}(ys),
+$$
+which is exactly
+$$
+\mathsf{fold}_{+,R}(\mathsf{cons}(a,xs_0))+_R\mathsf{fold}_{+,R}(ys).
+$$
+Classifier transitivity composes these comparisons and proves the cons case.
+\end{proof}
+
+\begin{theorem}[Quadrature node-list append sum decomposition]
+\label{thm:quadrature-node-list-append-sum-decomposition}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, multiplication $\cdot_R$, canonical trim, and Horner evaluation as in \autoref{def:quadrature-finite-weighted-exactness-degree}. Assume the additive rows required by \autoref{lem:finite-additive-fold-append-decomposition}. Let $A$ and $B$ be finite $\FinSetUp$ node spines, and set
+$$
+L=A{++}B.
+$$
+Let
+$$
+Q_L=(L,\alpha,\omega,\mathcal I_Q)
+$$
+be a finite weighted $\QuadratureUp$ rule. Let $Q_A$ and $Q_B$ be the restricted rules obtained from the same node, weight, and integral endpoint data along the left and right position injections of the finite-position append ledger:
+$$
+Q_A=(A,\alpha|_{\mathsf{Pos}(A)},\omega|_{\mathsf{Pos}(A)},\mathcal I_Q),
+\qquad
+Q_B=(B,\alpha|_{\mathsf{Pos}(B)},\omega|_{\mathsf{Pos}(B)},\mathcal I_Q).
+$$
+Then every finite polynomial-code spine $p:\mathsf{ListCarrier}(R)$ satisfies
+$$
+\mathsf{QSum}_{Q_L}(p)
+\sim_R
+\mathsf{QSum}_{Q_A}(p)+_R\mathsf{QSum}_{Q_B}(p).
+$$
+\end{theorem}
+\begin{proof}
+Fix $p:\mathsf{ListCarrier}(R)$. For a node position $i$, write the quadrature summand as
+$$
+s_p(i):=\omega_i\cdot_R\mathsf{Eval}_{\alpha_i,R}(p).
+$$
+Unfolding \autoref{def:quadrature-finite-weighted-exactness-degree} gives
+$$
+\mathsf{QSum}_{Q_L}(p)
+:=
+\mathsf{fold}_{+_R,\mathsf{Pos}(L)}(i\mapsto s_p(i)),
+$$
+with the analogous formulas for $Q_A$ and $Q_B$ over $\mathsf{Pos}(A)$ and $\mathsf{Pos}(B)$.
+
+By the finite-position ledger of \autoref{def:finset-namecert-obligation-packet}, together with the append split underlying \autoref{lem:finset-enummem-append-split}, the positions of $L=A{++}B$ are read as the left positions of $A$ followed by the right positions of $B$. Therefore the scalar spine enumerated by the summand family $s_p$ over $\mathsf{Pos}(L)$ is the concatenation
+$$
+S_A(p){++}S_B(p),
+$$
+where
+$$
+S_A(p)=\bigl(i\in\mathsf{Pos}(A)\mapsto
+\omega_i\cdot_R\mathsf{Eval}_{\alpha_i,R}(p)\bigr)
+$$
+and
+$$
+S_B(p)=\bigl(j\in\mathsf{Pos}(B)\mapsto
+\omega_j\cdot_R\mathsf{Eval}_{\alpha_j,R}(p)\bigr).
+$$
+The same position readback identifies
+$$
+\mathsf{QSum}_{Q_A}(p)
+\sim_R
+\mathsf{fold}_{+,R}(S_A(p))
+$$
+and
+$$
+\mathsf{QSum}_{Q_B}(p)
+\sim_R
+\mathsf{fold}_{+,R}(S_B(p)),
+$$
+while the appended rule is read as
+$$
+\mathsf{QSum}_{Q_L}(p)
+\sim_R
+\mathsf{fold}_{+,R}(S_A(p){++}S_B(p)).
+$$
+Applying \autoref{lem:finite-additive-fold-append-decomposition} to the two carried scalar spines $S_A(p)$ and $S_B(p)$ gives
+$$
+\mathsf{fold}_{+,R}(S_A(p){++}S_B(p))
+\sim_R
+\mathsf{fold}_{+,R}(S_A(p))+_R\mathsf{fold}_{+,R}(S_B(p)).
+$$
+Classifier transitivity and additive congruence transport the two restricted-rule readbacks through the right-hand side, yielding
+$$
+\mathsf{QSum}_{Q_L}(p)
+\sim_R
+\mathsf{QSum}_{Q_A}(p)+_R\mathsf{QSum}_{Q_B}(p).
+$$
+The endpoint map $\mathcal I_Q$ is shared by the three rules but is not used in this fold identity; the calculation concerns only the finite weighted quadrature sum.
 \end{proof}

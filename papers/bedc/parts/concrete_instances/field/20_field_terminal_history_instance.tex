@@ -1,0 +1,92 @@
+\section{Terminal history field instance}
+\label{sec:field-terminal-history-instance}
+
+\begin{definition}[Terminal history FieldUp instance]
+\label{def:field-terminal-history-field-instance}
+The terminal history $\FieldUp$ instance is the concrete $\mathsf{BHist}$
+tuple
+$$
+\mathcal F_{\emp}:=
+(A_{\emp},R_{\emp},+_{\emp},-_{\emp},0_{\emp},\cdot_{\emp},1_{\emp},
+N_{\emp},(\ )^{-1}_{\emp})
+$$
+with carrier
+$$
+A_{\emp}(h):= h\hsame\emp
+$$
+and classifier
+$$
+R_{\emp}(h,k):=A_{\emp}(h)\land A_{\emp}(k).
+$$
+The additive and multiplicative endpoints are the same terminal append rows:
+$$
+h+_{\emp}k:=\mathsf{append}(h,k),\qquad
+h\cdot_{\emp}k:=\mathsf{append}(h,k),
+$$
+with $-_{\emp}h:=\emp$, $0_{\emp}:=\emp$, and $1_{\emp}:=\emp$. The inverse
+operation is defined only on the displayed nonzero boundary row:
+$$
+h^{-1}_{\emp}:=\emp
+$$
+whenever the unit-boundary certificate $N_{\emp}(h)$ is present. The predicate
+$N_{\emp}$ has no public rows except the certified unit endpoint over
+$\emp$, and that endpoint is carried with its $\hsame$, $\Cont$, and $\Pkg$
+provenance.
+\end{definition}
+
+\begin{theorem}[Terminal history FieldUp laws]
+\label{thm:field-terminal-history-field-laws}
+The tuple $\mathcal F_{\emp}$ of
+\autoref{def:field-terminal-history-field-instance} satisfies the displayed
+$\FieldUp$ laws: the $\RingUp$ laws, commutative multiplication, unit laws,
+distributivity, and the inverse law on the stated unit-boundary nonzero row.
+Every carried endpoint appearing in these laws reduces through $R_{\emp}$ to
+the terminal history $\emp$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ringup-public-singleton-operation-surface}. It supplies the
+singleton carrier $A_{\emp}$, classifier $R_{\emp}$, displayed addition,
+negation, zero, multiplication, one, distributivity, and operation ledger over
+the same terminal $\mathsf{BHist}$ endpoint.
+
+The commutative multiplication and unit rows are the singleton public rows of
+\autoref{thm:commring-singleton-public-operation-surface}, read with the same
+carrier and classifier. Since $1_{\emp}$ is $\emp$, both left and right unit
+checks reduce to the terminal endpoint.
+
+For the inverse row, project the displayed nonzero boundary certificate. Its
+only public endpoint is the unit row over $\emp$, and the inverse endpoint is
+defined as $\emp$. Therefore
+$(h^{-1}_{\emp}\cdot_{\emp} h)$ and $(h\cdot_{\emp} h^{-1}_{\emp})$ are both
+classified by $R_{\emp}$ against $1_{\emp}$.
+
+No further case remains: every operation in the tuple either returns
+$\emp$ directly or appends carried endpoints already classified with $\emp$,
+and the singleton append rows read those append endpoints back to the same
+terminal carrier.
+\end{proof}
+
+\begin{theorem}[Terminal FieldUp nonzero boundary]
+\label{thm:field-terminal-nonzero-boundary}
+Any $\FieldUp$ inverse consumer of
+\autoref{def:field-terminal-history-field-instance} may read only the singleton
+unit/nonzero row, the carrier classifier $A_{\emp}$, the terminal classifier
+$R_{\emp}$, the displayed $\hsame$ witnesses, finite $\Cont$ provenance, and
+$\Pkg$ provenance. It receives no host field, quotient of nonzero elements, or
+external inverse object.
+\end{theorem}
+\begin{proof}
+Unpack the terminal tuple. The carrier and classifier expose only histories
+classified with $\emp$, and the operation rows are the displayed empty endpoint
+or append endpoints already governed by the singleton public operation
+surface.
+
+The inverse row is indexed by $N_{\emp}$, whose public boundary is the
+certified unit endpoint. Projecting that boundary gives exactly the
+$\hsame$, $\Cont$, and $\Pkg$ rows attached to the same terminal history.
+
+Thus a consumer can form inverse statements only by using the displayed
+unit-boundary certificate and the singleton classifier. There is no exported
+row from which a host field, a quotient carrier of nonzero elements, or an
+external inverse operation could be read.
+\end{proof}

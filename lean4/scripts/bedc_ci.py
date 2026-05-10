@@ -444,7 +444,7 @@ CLOSURESTATUS_BEGIN_RE = re.compile(
 CLOSURESTATUS_END_RE = re.compile(r"\\end\{closurestatus\}")
 CLOSURESTATUS_FIELD_RE = re.compile(
     r"\\(theoryclosure|formalstatus|leantarget|bridgestatus"
-    r"|scopeclosed|notclaimed|upgradepath)\{([^}]+)\}"
+    r"|scopeclosed|notclaimed|upgradepath|constructivestory)\{([^}]*)\}"
 )
 
 VALID_CLOSURE_GRADES = {
@@ -532,6 +532,7 @@ def collect_closurestatus_blocks(part_root: Path) -> list[dict]:
                     "has_scope": False,
                     "has_notclaimed": False,
                     "has_upgradepath": False,
+                    "has_constructive_story": False,
                 })
                 continue
             body = tail[:end_match.start()]
@@ -543,6 +544,7 @@ def collect_closurestatus_blocks(part_root: Path) -> list[dict]:
             lt = fields.get("leantarget")
             if lt is not None:
                 lt = lt.replace("\\_", "_").strip()
+            origin = (fields.get("origin") or "human").strip().lower()
             out.append({
                 "file": str(tex.relative_to(part_root.parent.parent.parent)),
                 "line": line,
@@ -551,9 +553,12 @@ def collect_closurestatus_blocks(part_root: Path) -> list[dict]:
                 "formal_status": fs or None,
                 "lean_target": lt,
                 "bridge_status": fields.get("bridgestatus"),
+                "origin": origin,
+                "raw_body": body,
                 "has_scope": "scopeclosed" in fields,
                 "has_notclaimed": "notclaimed" in fields,
                 "has_upgradepath": "upgradepath" in fields,
+                "has_constructive_story": "constructivestory" in fields,
             })
     return out
 
@@ -589,6 +594,27 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
         issues.append(f"{where}: missing \\notclaimed (claims off the table)")
     if not block.get("has_upgradepath"):
         issues.append(f"{where}: missing \\upgradepath (next-grade obligation)")
+    if not block.get("has_constructive_story"):
+        issues.append(
+            f"{where}: missing \\constructivestory (bottom-up construction story; empty arg ok)"
+        )
+    origin = block.get("origin", "human")
+    if origin not in {"human", "ai"}:
+        issues.append(
+            f"{where}: \\origin='{origin}' is not in {{human, ai}}"
+        )
+    if origin == "ai":
+        body = block.get("raw_body") or ""
+        # AI-proposed chapters past seedClosure must witness a TasteGate instance.
+        non_seed = tc and tc != "seedClosure"
+        region = block.get("region") or ""
+        instance_marker = f"BEDC.Derived.{region}Up.taste_gate"
+        marker_present = instance_marker.replace("_", "\\_") in body or instance_marker in body
+        if non_seed and not marker_present:
+            issues.append(
+                f"{where}: \\origin=ai chapter at theoryclosure={tc} requires "
+                f"\\leanchecked{{{instance_marker}}} (TasteGate instance) before leaving seedClosure"
+            )
     return issues
 
 
@@ -1046,7 +1072,17 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
         print("[bedc-ci] axiom-purity: no BEDC theorems found", file=sys.stderr)
         return 0
 
-    lean_lines = ["import BEDC", ""]
+    # Walk every .lean file under BEDC/ so that every theorem in `theorems`
+    # is in scope. Root `BEDC.lean` cannot re-export all sub-files because
+    # the project uses a parent-hub + namespace-extension pattern: sub-files
+    # import the parent hub, so the parent hub re-exporting them would
+    # cycle.
+    all_modules = sorted(
+        ".".join(p.relative_to(LEAN_ROOT).with_suffix("").parts)
+        for p in BEDC_ROOT.rglob("*.lean")
+    )
+    lean_lines = [f"import {m}" for m in all_modules]
+    lean_lines.append("")
     lean_lines.extend(f"#print axioms {name}" for name in theorems)
     lean_source = "\n".join(lean_lines) + "\n"
 
@@ -1100,6 +1136,7 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
             "theorems_total": len(theorems),
             "pure_count": len(pure),
             "impure_count": len(impure),
+            "pure": sorted(pure),
             "violations": [
                 {"declaration": decl, "axiom": ax} for decl, ax in violations
             ],

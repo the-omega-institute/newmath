@@ -184,4 +184,18 @@ theorem unary_addition_seed :
   · exact add_up_name_certificate
   · exact addLedgerPolicy_from_unary_cont_closed
 
+theorem nat_up_unary_standard_bridge :
+    (forall h : BHist, UnaryHistory h -> UnaryClassifierSpec h h) ∧
+      (forall {h t k : BHist}, UnaryHistory h -> UnaryHistory t -> Cont h t k ->
+        UnaryHistory k) ∧
+        (forall h : BHist, UnaryHistory (BHist.e0 h) -> False) := by
+  constructor
+  · intro h unaryH
+    exact And.intro unaryH (And.intro unaryH (hsame_refl h))
+  · constructor
+    · intro h t k unaryH unaryT continuation
+      exact unary_cont_closed unaryH unaryT continuation
+    · intro h zeroUnary
+      exact unary_no_zero_extension zeroUnary
+
 end BEDC.FKernel.Unary

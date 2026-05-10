@@ -71,4 +71,54 @@ theorem IntPairClassifier_balanced_append_context_reflection {a b p n q m : BHis
         append_left_cancel exposed
       exact append_right_cancel withoutPrefix
 
+theorem IntPairClassifier_signed_context_invariance {a b p n q m : BHist} :
+    UnaryHistory a -> UnaryHistory b -> IntPairClassifier (p, n) (q, m) ->
+      IntPairClassifier (append a p, append b n) (append a q, append b m) := by
+  intro unaryA unaryB classified
+  constructor
+  · exact ⟨unary_append_closed unaryA classified.left.left,
+      unary_append_closed unaryB classified.left.right⟩
+  · constructor
+    · exact ⟨unary_append_closed unaryA classified.right.left.left,
+        unary_append_closed unaryB classified.right.left.right⟩
+    · have commuteLeftContext :
+          hsame (append b m) (append m b) :=
+        unary_append_comm unaryB classified.right.left.right
+      have commuteRightContext :
+          hsame (append n b) (append b n) :=
+        unary_append_comm classified.left.right unaryB
+      have leftAssoc :
+          hsame (append (append a p) (append b m))
+            (append a (append p (append b m))) :=
+        append_assoc a p (append b m)
+      have leftCommute :
+          hsame (append a (append p (append b m)))
+            (append a (append p (append m b))) :=
+        congrArg (fun t => append a (append p t)) commuteLeftContext
+      have leftExpose :
+          hsame (append a (append p (append m b)))
+            (append a (append (append p m) b)) :=
+        congrArg (append a) (append_assoc p m b).symm
+      have middle :
+          hsame (append a (append (append p m) b))
+            (append a (append (append q n) b)) :=
+        congrArg (fun t => append a (append t b)) classified.right.right
+      have rightExpose :
+          hsame (append a (append (append q n) b))
+            (append a (append q (append n b))) :=
+        congrArg (append a) (append_assoc q n b)
+      have rightCommute :
+          hsame (append a (append q (append n b)))
+            (append a (append q (append b n))) :=
+        congrArg (fun t => append a (append q t)) commuteRightContext
+      have rightAssoc :
+          hsame (append a (append q (append b n)))
+            (append (append a q) (append b n)) :=
+        (append_assoc a q (append b n)).symm
+      exact hsame_trans leftAssoc
+        (hsame_trans leftCommute
+          (hsame_trans leftExpose
+            (hsame_trans middle
+              (hsame_trans rightExpose (hsame_trans rightCommute rightAssoc)))))
+
 end BEDC.Derived.IntUp

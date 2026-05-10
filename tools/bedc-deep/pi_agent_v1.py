@@ -67,6 +67,8 @@ RECENT_CYCLES_PATH = SCRIPT_DIR / "state" / "pi_recent_cycles.jsonl"
 
 CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
+DEFAULT_CODEX_MODELS = "gpt-5.4,gpt-5.5,gpt-5.2,gpt-5.4-mini"
+DEFAULT_CODEX_REASONING_EFFORT = "high"
 
 # Hard redlines
 ALLOWED_BRANCH = "bedc-claim-packet-pipeline"
@@ -79,7 +81,8 @@ ROUTINE_ACTIONS = {
     "git_commit", "git_push", "git_sync_dev",
 }
 OPERATIONAL_ACTIONS = {
-    "cancel_target", "reset_target", "adjust_parallel", "prune_board",
+    "cancel_target", "reset_target", "request_deepen_target",
+    "adjust_parallel", "prune_board",
 }
 HOT_ACTIONS = {
     "edit_prompt", "edit_pipeline_code",
@@ -193,6 +196,23 @@ def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str,
     return (rc == 0, stdout, rc)
 
 
+def _codex_models() -> list[str]:
+    raw = os.environ.get("BEDC_CODEX_MODELS") or os.environ.get("BEDC_CODEX_MODEL") or DEFAULT_CODEX_MODELS
+    models: list[str] = []
+    seen: set[str] = set()
+    for item in raw.split(","):
+        model = item.strip()
+        if model and model not in seen:
+            models.append(model)
+            seen.add(model)
+    return models or [DEFAULT_CODEX_MODELS.split(",", 1)[0]]
+
+
+def _is_model_limit_error(text: str) -> bool:
+    low = (text or "").lower()
+    return "usage limit" in low or "switch to another model" in low
+
+
 def _codex_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, int]:
     """Mirrors codex_orchestrator.codex_exec but lives here to avoid a circular
     dependency. Same hard-kill watchdog."""
@@ -203,35 +223,60 @@ def _codex_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, 
     prompt_file = LOG_DIR / f"{log_tag}_{ts}.prompt.txt"
     output_file = LOG_DIR / f"{log_tag}_{ts}.out.txt"
     prompt_file.write_text(prompt, encoding="utf-8")
-    cmd = [CODEX_PATH, "exec", "--sandbox", "read-only", "--json",
-           "-C", str(REPO_ROOT), "-o", str(output_file), "-"]
     env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
-    proc = subprocess.Popen(
-        cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-        text=True, cwd=str(REPO_ROOT), env=env, encoding="utf-8", errors="replace",
-        start_new_session=True,
-    )
+    effort = os.environ.get("BEDC_CODEX_REASONING_EFFORT", DEFAULT_CODEX_REASONING_EFFORT).strip()
     stdout = ""; stderr = ""; rc = -1
-    hard_killed = {"flag": False}
-    def _hard_kill() -> None:
-        hard_killed["flag"] = True
-        try: os.killpg(proc.pid, 9)
-        except (ProcessLookupError, PermissionError): pass
-    watchdog = threading.Timer(timeout + 60, _hard_kill); watchdog.daemon = True; watchdog.start()
-    try:
-        stdout, stderr = proc.communicate(input=prompt, timeout=timeout + 30)
-        rc = proc.returncode
-    except subprocess.TimeoutExpired:
-        try: os.killpg(proc.pid, 9)
-        except ProcessLookupError: pass
-        try: stdout, stderr = proc.communicate(timeout=10)
+    attempts: list[tuple[str, str, str, int]] = []
+    for model in _codex_models():
+        cmd = [CODEX_PATH, "exec", "--model", model]
+        if effort:
+            cmd += ["-c", f"model_reasoning_effort={json.dumps(effort)}"]
+        cmd += ["--sandbox", "read-only", "--json",
+                "-C", str(REPO_ROOT), "-o", str(output_file), "-"]
+        proc = subprocess.Popen(
+            cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            text=True, cwd=str(REPO_ROOT), env=env, encoding="utf-8", errors="replace",
+            start_new_session=True,
+        )
+        model_stdout = ""; model_stderr = ""; model_rc = -1
+        hard_killed = {"flag": False}
+
+        def _hard_kill() -> None:
+            hard_killed["flag"] = True
+            try: os.killpg(proc.pid, 9)
+            except (ProcessLookupError, PermissionError): pass
+
+        watchdog = threading.Timer(timeout + 60, _hard_kill); watchdog.daemon = True; watchdog.start()
+        try:
+            model_stdout, model_stderr = proc.communicate(input=prompt, timeout=timeout + 30)
+            model_rc = proc.returncode
         except subprocess.TimeoutExpired:
-            stdout = stdout or ""; stderr = stderr or ""
-        rc = -9
-    finally:
-        watchdog.cancel()
-    if hard_killed["flag"] and rc == 0:
-        rc = -9
+            try: os.killpg(proc.pid, 9)
+            except ProcessLookupError: pass
+            try: model_stdout, model_stderr = proc.communicate(timeout=10)
+            except subprocess.TimeoutExpired:
+                model_stdout = model_stdout or ""; model_stderr = model_stderr or ""
+            model_rc = -9
+        finally:
+            watchdog.cancel()
+        if hard_killed["flag"] and model_rc == 0:
+            model_rc = -9
+        attempts.append((model, model_stdout or "", model_stderr or "", model_rc))
+        stdout = model_stdout or ""
+        stderr = model_stderr or ""
+        rc = model_rc
+        if model_rc == 0:
+            break
+        if not _is_model_limit_error((model_stdout or "") + "\n" + (model_stderr or "")):
+            break
+    (LOG_DIR / f"{log_tag}_{ts}.stdout.txt").write_text(
+        "\n".join(f"### model={model} rc={model_rc}\n{out}" for model, out, _err, model_rc in attempts),
+        encoding="utf-8",
+    )
+    (LOG_DIR / f"{log_tag}_{ts}.stderr.txt").write_text(
+        "\n".join(f"### model={model} rc={model_rc}\n{err}" for model, _out, err, model_rc in attempts),
+        encoding="utf-8",
+    )
     raw = ""
     if output_file.exists() and output_file.stat().st_size > 0:
         raw = output_file.read_text(encoding="utf-8", errors="replace")
@@ -280,15 +325,209 @@ def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str]:
 # ---------------------------------------------------------------------------
 
 
+def _log_snapshot_warning(message: str) -> None:
+    try:
+        LOG_DIR.mkdir(parents=True, exist_ok=True)
+        with (LOG_DIR / "pi_snapshot_warnings.log").open("a", encoding="utf-8") as f:
+            f.write(f"{_now_iso()} {message}\n")
+    except OSError:
+        pass
+
+
+def _stage2_reject_clusters_from_supervisor() -> dict:
+    try:
+        import supervisor
+        clusters = supervisor.stage2_reject_clusters()
+    except Exception as exc:
+        _log_snapshot_warning(f"stage2_reject_clusters unavailable: {exc}")
+        return {}
+    if not isinstance(clusters, dict):
+        _log_snapshot_warning("stage2_reject_clusters returned non-dict")
+        return {}
+    out: dict[str, int] = {}
+    for key, value in clusters.items():
+        try:
+            count = int(value)
+        except (TypeError, ValueError):
+            continue
+        if count >= 3:
+            out[str(key)] = count
+    return out
+
+
+def _stage2_reject_persistence(
+    current_clusters: dict,
+    recent_cycles: list[dict],
+    current_ts: str,
+) -> dict:
+    persistence: dict[str, dict] = {}
+    for category, count in current_clusters.items():
+        try:
+            current_count = int(count)
+        except (TypeError, ValueError):
+            continue
+        if current_count < 3:
+            continue
+        persisted_cycles = 1
+        first_seen = current_ts
+        for cycle in reversed(recent_cycles):
+            if not isinstance(cycle, dict):
+                break
+            cycle_snapshot = cycle.get("snapshot")
+            if not isinstance(cycle_snapshot, dict):
+                break
+            prior_clusters = cycle_snapshot.get("stage2_reject_clusters")
+            if not isinstance(prior_clusters, dict):
+                break
+            try:
+                prior_count = int(prior_clusters.get(category, 0))
+            except (TypeError, ValueError):
+                prior_count = 0
+            if prior_count < 3:
+                break
+            persisted_cycles += 1
+            first_seen = (
+                cycle.get("ts")
+                or cycle_snapshot.get("ts")
+                or first_seen
+            )
+        persistence[category] = {
+            "current_count": current_count,
+            "persisted_cycles": persisted_cycles,
+            "first_seen_cycle_ts": first_seen,
+        }
+    return persistence
+
+
 def collect_snapshot_v1() -> dict:
     base = collect_snapshot_v0()
+    recent_pi_cycles = _read_recent_cycles(n=10)
+    stage2_clusters = _stage2_reject_clusters_from_supervisor()
     base["pipeline_version_target"] = "v2"  # what v1 expects to manage
     base["completion_rates"] = _completion_rates()
     base["codex_track_summary"] = _codex_track_summary()
+    base["shallow_completed_candidate"] = _shallow_completed_candidate()
     base["prompt_files"] = _prompt_files_inventory()
-    base["recent_pi_cycles"] = _read_recent_cycles(n=10)
+    base["recent_pi_cycles"] = recent_pi_cycles
     base["current_branch"] = _current_branch()
+    base["stage2_reject_clusters"] = stage2_clusters
+    base["stage2_reject_persistence"] = _stage2_reject_persistence(
+        stage2_clusters,
+        recent_pi_cycles,
+        str(base.get("ts") or _now_iso()),
+    )
     return base
+
+
+_OBLIGATION_BINDERS = (
+    "closure", "inversion", "coverage", "determinacy",
+    "uniqueness", "bridge", "obstruction",
+)
+
+
+def _cursor_meta(slug: str) -> dict:
+    cursor_path = SCRIPT_DIR / "state" / slug / "cursor.json"
+    if not cursor_path.exists():
+        return {}
+    try:
+        data = json.loads(cursor_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    meta = data.get("meta") if isinstance(data.get("meta"), dict) else {}
+    return meta
+
+
+def _deliverable_text(slug: str, state: dict) -> str:
+    codex_path = state.get("codex_close_path")
+    if isinstance(codex_path, str):
+        return codex_path
+    codex_track = state.get("codex_track") or {}
+    track_path = codex_track.get("close_path")
+    if isinstance(track_path, str):
+        return track_path
+    raw_path = SCRIPT_DIR / "targets" / slug / "raw_oracle_latex.md"
+    if raw_path.exists():
+        try:
+            return raw_path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            return ""
+    return ""
+
+
+def _has_obligation_traversal_evidence(text: str) -> bool:
+    low = (text or "").lower()
+    if "obligation traversal" in low or "open obligation" in low:
+        return True
+    if "\\begin{remark}" in text and any(b in low for b in _OBLIGATION_BINDERS):
+        return True
+    if "unresolved" in low and any(b in low for b in _OBLIGATION_BINDERS):
+        return True
+    return False
+
+
+def _shallow_completed_candidate() -> dict:
+    """Pick one completed v2 target whose accepted output looks shallow.
+
+    Conservative signal: codex closed in one round with an audit score no
+    higher than 8, no oracle turns, Stage 2 accepted it, and the deliverable
+    does not visibly surface obligation-traversal evidence. Targets already
+    carrying a deepen cursor marker are skipped so the PI cannot keep
+    re-queuing the same target every cycle.
+    """
+    state_dir = SCRIPT_DIR / "state"
+    if not state_dir.exists():
+        return {}
+    candidates: list[tuple[float, dict]] = []
+    for state_file in state_dir.glob("*.json"):
+        try:
+            data = json.loads(state_file.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        slug = state_file.stem
+        meta = _cursor_meta(slug)
+        if meta.get("deepen_request"):
+            continue
+        if data.get("pipeline_version") != "v2":
+            continue
+        if data.get("stage1_verdict") != "done":
+            continue
+        if data.get("failure_kind") not in (None, "none"):
+            continue
+        stage2 = data.get("stage2") or {}
+        if not (stage2.get("appended") and stage2.get("compile_ok")):
+            continue
+        if data.get("turns"):
+            continue
+        codex_track = data.get("codex_track") or {}
+        rounds = codex_track.get("rounds_summary") or []
+        rounds_total = int(codex_track.get("rounds_total") or len(rounds) or 0)
+        if rounds_total > 1:
+            continue
+        audit_scores = [
+            int(r.get("audit_score") or 0)
+            for r in rounds if isinstance(r, dict)
+        ]
+        audit_score = max(audit_scores) if audit_scores else 0
+        if audit_score > 8:
+            continue
+        text = _deliverable_text(slug, data)
+        if not text.strip() or _has_obligation_traversal_evidence(text):
+            continue
+        candidates.append((state_file.stat().st_mtime, {
+            "target_id": data.get("target_id"),
+            "title": data.get("title"),
+            "slug": slug,
+            "reason": (
+                "completed via one-round codex close with audit_score<=8, "
+                "no oracle turns, and no visible obligation-traversal remark"
+            ),
+            "audit_score": audit_score,
+            "rounds_total": rounds_total,
+        }))
+    if not candidates:
+        return {}
+    candidates.sort(key=lambda item: item[0], reverse=True)
+    return candidates[0][1]
 
 
 def _completion_rates() -> dict:
@@ -447,8 +686,8 @@ def _redline_check(action: dict) -> RedlineResult:
             if not args.get("patch_description", "").strip():
                 failures.append("missing patch_description arg")
 
-    # Cancel/reset target: target_id must look right
-    if name in ("cancel_target", "reset_target"):
+    # Target operations: target_id must look right
+    if name in ("cancel_target", "reset_target", "request_deepen_target"):
         tid = str(args.get("target_id", "")).strip()
         if not re.match(r"^B-\d{2,3}$", tid):
             failures.append(f"target_id {tid!r} doesn't match B-XX pattern")
@@ -654,6 +893,123 @@ def _exec_reset_target(args: dict) -> str:
     return f"reset_target {tid}: state + cursor + transcript cleared"
 
 
+def _find_target_by_id(tid: str):
+    from board_archive import COMPLETED_BOARD_PATH, parse_board_file
+    from dispatch_bedc_target import BOARD_PATH
+
+    for path in (BOARD_PATH, COMPLETED_BOARD_PATH):
+        targets = parse_board_file(path)
+        target = targets.get(tid)
+        if target is not None:
+            return target
+    return None
+
+
+def _restore_completed_board_entry(tid: str) -> bool:
+    from board_archive import COMPLETED_BOARD_PATH
+    from dispatch_bedc_target import BOARD_PATH, TARGET_HEADER
+    from locks import file_lock
+
+    if not COMPLETED_BOARD_PATH.exists():
+        return False
+    with file_lock("board"):
+        board_text = BOARD_PATH.read_text(encoding="utf-8") if BOARD_PATH.exists() else ""
+        if re.search(rf"^### {re.escape(tid)}\b", board_text, flags=re.MULTILINE):
+            return False
+        archive_text = COMPLETED_BOARD_PATH.read_text(encoding="utf-8")
+        matches = list(TARGET_HEADER.finditer(archive_text))
+        for idx, match in enumerate(matches):
+            if match.group(1) != tid:
+                continue
+            start = match.start()
+            end = matches[idx + 1].start() if idx + 1 < len(matches) else len(archive_text)
+            block = archive_text[start:end].strip()
+            if not block:
+                return False
+            new_archive = (archive_text[:start] + archive_text[end:]).rstrip() + "\n"
+            tmp_archive = COMPLETED_BOARD_PATH.with_suffix(COMPLETED_BOARD_PATH.suffix + ".tmp")
+            tmp_archive.write_text(new_archive, encoding="utf-8")
+            tmp_archive.replace(COMPLETED_BOARD_PATH)
+
+            new_board = board_text.rstrip() + "\n\n" + block + "\n"
+            tmp_board = BOARD_PATH.with_suffix(BOARD_PATH.suffix + ".tmp")
+            tmp_board.write_text(new_board, encoding="utf-8")
+            tmp_board.replace(BOARD_PATH)
+            return True
+    return False
+
+
+def _exec_request_deepen_target(args: dict) -> str:
+    tid = str(args.get("target_id", "")).strip()
+    reason = str(args.get("reason", "") or "PI shallow-completed review")[:400]
+    target = _find_target_by_id(tid)
+    if target is None:
+        return f"request_deepen_target {tid}: target not found in active or completed board"
+
+    state_dir = SCRIPT_DIR / "state"
+    slug = target.slug
+    in_progress = state_dir / slug / ".in_progress"
+    if in_progress.exists():
+        return f"request_deepen_target {tid}: in_progress claim active, refusing"
+
+    final_state_path = state_dir / f"{slug}.json"
+    if not final_state_path.exists():
+        return f"request_deepen_target {tid}: no completed final state to deepen"
+    try:
+        prior_state = json.loads(final_state_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        prior_state = {}
+    if prior_state.get("stage1_verdict") != "done":
+        return f"request_deepen_target {tid}: final state is not completed"
+
+    restored = _restore_completed_board_entry(tid)
+    cursor_path = state_dir / slug / "cursor.json"
+    cursor_blob: dict = {}
+    if cursor_path.exists():
+        try:
+            cursor_blob = json.loads(cursor_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            cursor_blob = {}
+    attempts = int(prior_state.get("attempts") or cursor_blob.get("attempts") or 1)
+    cursor_blob.clear()
+    cursor_blob.update({
+        "turns": [],
+        "started_at": _now_iso(),
+        "conversation_id": "",
+        "attempts": attempts + 1,
+        "last_failure_kind": prior_state.get("failure_kind", "none"),
+        "meta": {
+            "deepen_request": True,
+            "requested_by": "pi_agent_v1",
+            "requested_at": _now_iso(),
+            "reason": reason,
+            "prior_completed_state": final_state_path.name,
+        },
+    })
+    cursor_path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = cursor_path.with_suffix(cursor_path.suffix + ".tmp")
+    tmp.write_text(
+        json.dumps(cursor_blob, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    tmp.replace(cursor_path)
+
+    final_state_path.unlink()
+    transcript_dir = SCRIPT_DIR / "targets" / slug
+    if transcript_dir.exists():
+        shutil.rmtree(transcript_dir, ignore_errors=True)
+    pending = state_dir / slug / ".oracle_pending"
+    if pending.exists():
+        try:
+            pending.unlink()
+        except OSError:
+            pass
+    return (
+        f"request_deepen_target {tid}: queued deepen attempt "
+        f"(restored_board={restored}, attempt={attempts + 1})"
+    )
+
+
 def _exec_edit_prompt(args: dict) -> str:
     path_str = str(args.get("path", "")).strip()
     diff_text = str(args.get("diff", ""))
@@ -677,14 +1033,28 @@ def _exec_edit_pipeline_code(args: dict) -> str:
 
 
 def _apply_unified_diff(target: Path, diff_text: str) -> int:
-    """Apply a unified diff via `patch`. Returns 0 on success."""
+    """Apply a unified diff. Tries patch with context fuzz first, then falls
+    back to `git apply --3way` for headers without line numbers / context
+    drift. Returns 0 on success."""
     if not diff_text.strip():
         return 1
     proc = subprocess.run(
-        ["patch", "-p0", str(target)],
+        ["patch", "-p0", "--fuzz=3", "--forward", str(target)],
         input=diff_text, text=True, capture_output=True, cwd=str(REPO_ROOT), timeout=30,
     )
-    return proc.returncode
+    if proc.returncode == 0:
+        return 0
+    proc2 = subprocess.run(
+        ["git", "apply", "--3way", "--whitespace=fix"],
+        input=diff_text, text=True, capture_output=True, cwd=str(REPO_ROOT), timeout=30,
+    )
+    if proc2.returncode == 0:
+        return 0
+    proc3 = subprocess.run(
+        ["git", "apply", "--whitespace=fix"],
+        input=diff_text, text=True, capture_output=True, cwd=str(REPO_ROOT), timeout=30,
+    )
+    return proc3.returncode
 
 
 def _exec_git_commit() -> str:
@@ -823,6 +1193,7 @@ def _exec_action(action: dict, callbacks: dict) -> str:
         if name == "git_sync_dev":          return _exec_git_sync_dev()
         if name == "cancel_target":         return _exec_cancel_target(args)
         if name == "reset_target":          return _exec_reset_target(args)
+        if name == "request_deepen_target": return _exec_request_deepen_target(args)
         if name == "adjust_parallel":
             # Cooperative: write intent file; takes effect on next inner respawn
             (SCRIPT_DIR / "state" / ".pi_parallel_intent").write_text(
@@ -854,11 +1225,40 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
     inbox: list[str] = []
     escalated: list[dict] = []
     gauntlet_results: list[dict] = []
+    deepen_emitted = False
 
     if plan:
         rationale = str(plan.get("rationale", ""))
         escalated = bump_concerns(plan.get("concerns") or [])
-        for action in plan.get("autonomous_actions") or []:
+        autonomous_actions = list(plan.get("autonomous_actions") or [])
+        shallow = snapshot.get("shallow_completed_candidate") or {}
+        has_deepen = any(
+            (a.get("action") or "").strip() == "request_deepen_target"
+            for a in autonomous_actions
+            if isinstance(a, dict)
+        )
+        if shallow and not has_deepen:
+            autonomous_actions.append({
+                "action": "request_deepen_target",
+                "args": {
+                    "target_id": shallow.get("target_id"),
+                    "reason": shallow.get("reason", "shallow completed target"),
+                },
+                "intent": "Re-queue a completed target whose accepted deliverable looks shallow.",
+                "expected_effect": "The next attempt runs with deepen_request metadata and an obligation-traversal directive.",
+                "risk_level": "operational",
+                "source": "pi_agent_v1_shallow_completed_heuristic",
+            })
+        plan["autonomous_actions"] = autonomous_actions
+
+        deepen_seen = False
+        for action in autonomous_actions:
+            if (action.get("action") or "").strip() == "request_deepen_target":
+                if deepen_seen:
+                    inbox.append("**blocked autonomous action** (request_deepen_target) — one deepen action already emitted this cycle")
+                    continue
+                deepen_seen = True
+                deepen_emitted = True
             gr = gauntlet(action, snapshot, rationale)
             gauntlet_results.append({
                 "action": action,
@@ -896,6 +1296,9 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         if inbox:
             append_human_inbox(inbox)
 
+    if plan is not None:
+        plan["deepen_emitted"] = deepen_emitted
+
     record = {
         "ts": _now_iso(),
         "ok": ok,
@@ -909,8 +1312,13 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         "plan_action_count": len((plan or {}).get("autonomous_actions") or []),
         "applied_count": len(applied),
         "inbox_count": len(inbox),
+        "deepen_emitted": deepen_emitted,
         "escalated_concerns": [c.get("text", "")[:120] for c in escalated],
         "gauntlet_results": gauntlet_results,
+        "snapshot": {
+            "stage2_reject_clusters": snapshot.get("stage2_reject_clusters") or {},
+            "stage2_reject_persistence": snapshot.get("stage2_reject_persistence") or {},
+        },
     }
     _append_recent_cycle(record)
 

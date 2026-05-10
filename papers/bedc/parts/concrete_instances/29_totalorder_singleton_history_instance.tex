@@ -1,0 +1,236 @@
+\section{Concrete Singleton History Instance}
+\label{sec:totalorder-singleton-history-instance}
+
+\begin{definition}[Total-order singleton history instance]
+\label{def:totalorder-singleton-history-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Use the
+singleton classifier already exposed by the surrounding concrete algebra
+instances:
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Define the concrete singleton order relation by
+$$
+h\le_{\bot}k:=A_{\emp}(h)\land A_{\emp}(k).
+$$
+The $h\le_{\bot}k$ witness records only that both endpoints lie in the
+displayed BEDC history singleton; it introduces no abstract carrier, no host
+order, and no second endpoint classifier.
+\end{definition}
+
+\begin{theorem}[Total-order singleton history laws]
+\label{thm:totalorder-singleton-history-laws}
+For the concrete package $(A_{\emp},\rho_{\emp},\le_{\bot})$ of
+\autoref{def:totalorder-singleton-history-instance}, the relation
+$\le_{\bot}$ is reflexive on carried histories, transitive on carried
+histories, antisymmetric under $\rho_{\emp}$, and total on carried histories:
+$$
+\forall h.\; A_{\emp}(h)\to h\le_{\bot}h,
+$$
+$$
+\forall h\,k\,r.\;
+(h\le_{\bot}k)\to(k\le_{\bot}r)\to h\le_{\bot}r,
+$$
+$$
+\forall h\,k.\;
+(h\le_{\bot}k)\to(k\le_{\bot}h)\to\rho_{\emp}(h,k),
+$$
+and
+$$
+\forall h\,k.\; A_{\emp}(h)\to A_{\emp}(k)\to
+(h\le_{\bot}k)\lor(k\le_{\bot}h).
+$$
+Thus the order laws are pinned to the concrete $\mathsf{BHist}$ singleton
+carrier rather than to a parameterized order surface.
+\end{theorem}
+\begin{proof}
+Reflexivity unfolds $h\le_{\bot}h$ and repeats the displayed carrier witness
+$A_{\emp}(h)$ in both endpoint slots.
+
+For transitivity, unfold the first comparison $h\le_{\bot}k$ to read the
+carrier witness for $h$, and unfold the second comparison $k\le_{\bot}r$ to
+read the carrier witness for $r$. Pairing these two facts gives
+$h\le_{\bot}r$.
+
+For antisymmetry, unfold the two comparisons to obtain $A_{\emp}(h)$ and
+$A_{\emp}(k)$. Since $A_{\emp}$ is the singleton source at $\emp$, these facts
+identify $h$ with $\emp$ and $k$ with $\emp$. Symmetry and transitivity of
+$\hsame$ compose the two endpoint witnesses into $\hsame(h,k)$, and the two
+carrier facts repackage the result as $\rho_{\emp}(h,k)$.
+
+For totality, the assumptions already give the two endpoint carrier witnesses.
+Choose the displayed left comparison $h\le_{\bot}k$ and pack those witnesses
+into the definition of $\le_{\bot}$.
+\end{proof}
+
+\begin{theorem}[TotalOrderUp singleton schema instantiation]
+\label{thm:totalorder-singleton-schema-instantiated}
+The concrete data
+$$
+(A_{\emp},\rho_{\emp},\le_{\bot})
+$$
+instantiate the $\TotalOrderUp$ schema over the fixed BEDC history carrier
+$\mathsf{BHist}$: the carrier is the singleton predicate $A_{\emp}$, the
+classifier is the singleton endpoint classifier $\rho_{\emp}$, the relation is
+the concrete endpoint-carrier relation $\le_{\bot}$, and the law rows are the
+reflexivity, transitivity, antisymmetry, and totality clauses of
+\autoref{thm:totalorder-singleton-history-laws}.
+
+Consequently, the $\TotalOrderUp$ proof target has a falsifiable
+$\mathsf{BHist}$-anchored carrier and relation instance. Machine checking can
+target the displayed singleton package directly, rather than discharging only
+abstract parameter fields.
+\end{theorem}
+\begin{proof}
+Read the carrier, classifier, and relation rows from
+\autoref{def:totalorder-singleton-history-instance}. They are concrete
+predicates and relations on $\mathsf{BHist}$, with the carrier pinned to the
+singleton endpoint $\emp$.
+
+Apply \autoref{thm:totalorder-singleton-history-laws} to obtain the preorder
+rows, the classifier antisymmetry row, and the total comparison row. These are
+exactly the order-law fields required by the $\TotalOrderUp$ schema after the
+schema variables are specialized to $A_{\emp}$, $\rho_{\emp}$, and
+$\le_{\bot}$.
+
+The resulting package is therefore not a restatement over fresh carriers or
+classifiers. Its witnesses are carried by the fixed singleton history source,
+and every comparison witness is a concrete assertion about the two displayed
+$\mathsf{BHist}$ endpoints.
+\end{proof}
+
+\begin{theorem}[TotalOrder singleton order-tower certificate]
+\label{thm:totalorder-singleton-order-tower-certificate}
+For the singleton history source $A_{\emp}$ at $\emp$ and classifier
+$\rho_{\emp}$, the endpoint-carrier relation
+$\le_{\bot}$ of \autoref{def:totalorder-singleton-history-instance} and the
+prefix relation of
+\autoref{def:concrete-singleton-history-totalorder-instance} agree on carried
+endpoints:
+$$
+A_{\emp}(h)\land A_{\emp}(k)\to
+(h\le_{\bot}k\Longleftrightarrow \mathsf{PreorderPrefixLE}(h,k)).
+$$
+On the same carried endpoints, the classifier is exact for the opposing
+singleton $\POSetUp$ comparisons and for the same branch of the singleton
+$\TotalOrderUp$ comparison:
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+(h\le_{\emp}k\land k\le_{\emp}h),
+$$
+and
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow \mathsf{same}_{\emp}(h,k).
+$$
+Thus the endpoint-carrier order, the singleton prefix order, the singleton
+partial-order exactness row, and the total-order same branch form one
+$\mathsf{BHist}$ order tower over the same carrier and classifier.
+\end{theorem}
+\begin{proof}
+Assume $A_{\emp}(h)$ and $A_{\emp}(k)$. Unfolding $h\le_{\bot}k$ gives exactly
+the two displayed carrier witnesses, so the forward endpoint-carrier side is
+immediate. Conversely, the same two carrier witnesses already reconstitute
+$h\le_{\bot}k$.
+
+The singleton carrier witnesses identify both endpoints with $\emp$: they give
+$\hsame(h,\emp)$ and $\hsame(k,\emp)$. Symmetry and transitivity of $\hsame$
+therefore give $\hsame(h,k)$, and applying
+$\mathsf{PreorderPrefixLE\_of\_hsame}$ yields
+$\mathsf{PreorderPrefixLE}(h,k)$. This proves the prefix direction needed to
+compare the two displayed relations on carried endpoints.
+
+For the partial-order row, apply
+\autoref{thm:singleton-empty-poset-laws}. Its exactness clause identifies
+$\rho_{\emp}(h,k)$ with the two opposing singleton prefix comparisons
+$h\le_{\emp}k$ and $k\le_{\emp}h$.
+
+For the total-order row, unfold the comparison branches of
+\autoref{def:concrete-singleton-history-totalorder-instance}: the same branch
+is $\rho_{\emp}$, while the strict branches are empty. The law package
+\autoref{thm:singleton-history-totalorder-laws} supplies the carried
+same-branch witness, and
+\autoref{thm:concrete-singleton-history-totalorder-namecert} repackages that
+witness as the $\TotalOrderUp$ naming certificate. Hence both concrete
+presentations sit in the same singleton $\mathsf{BHist}$ order tower.
+\end{proof}
+
+\begin{theorem}[TotalOrder singleton strict branch exclusion]
+\label{thm:totalorder-singleton-strict-branch-exclusion}
+On carried endpoints of $A_{\emp}$, a singleton $\TotalOrderUp$ comparison row
+for $h,k$ cannot select a strict-left or strict-right branch. More precisely,
+if $A_{\emp}(h)$ and $A_{\emp}(k)$, then every comparison row in
+\autoref{def:concrete-singleton-history-totalorder-instance} factors through
+the same classifier branch
+$$
+\rho_{\emp}(h,k)
+$$
+and through the endpoint-carrier relation $h\le_{\bot}k$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:concrete-singleton-history-totalorder-instance}. The
+carrier witnesses $A_{\emp}(h)$ and $A_{\emp}(k)$ identify both endpoints with
+$\emp$, so the endpoint-carrier relation $h\le_{\bot}k$ is the same pair of
+singleton carrier facts read in the order tower certificate.
+
+Apply \autoref{thm:singleton-empty-poset-laws}. Its opposing guarded prefix
+exactness clauses identify the two singleton $\POSetUp$ comparisons with the
+same endpoint carrier witnesses and hence with the same classifier row
+$\rho_{\emp}(h,k)$.
+
+Now apply \autoref{thm:singleton-history-totalorder-laws}. In the singleton
+history total-order package the strict-left and strict-right branches have no
+carried row once both endpoints have been identified with $\emp$. The only
+remaining comparison branch is the same branch, and its row is exactly
+$\rho_{\emp}(h,k)$.
+\end{proof}
+
+\begin{theorem}[TotalOrder singleton comparison determinacy]
+\label{thm:totalorder-singleton-comparison-determinacy}
+On carried endpoints of $A_{\emp}$, any two singleton total-order comparison
+witnesses collapse to the same $\rho_{\emp}$ branch. In symbols, if
+$A_{\emp}(h)$ and $A_{\emp}(k)$ and two witnesses choose comparison rows for
+$h$ and $k$ in the singleton $\TotalOrderUp$ instance, then both witnesses
+identify $h$ and $k$ with $\emp$, unfold $\le_{\bot}$ to the same carried
+endpoint facts, and select the same classifier row $\rho_{\emp}(h,k)$.
+\end{theorem}
+\begin{proof}
+Unfold $\le_{\bot}$ on the carried endpoints. The hypotheses
+$A_{\emp}(h)$ and $A_{\emp}(k)$ already provide the two carrier facts required
+by either comparison witness.
+
+Apply \autoref{thm:totalorder-singleton-history-laws} to read the singleton
+total-order comparison law. Apply
+\autoref{thm:singleton-empty-poset-laws} to identify the opposing singleton
+partial-order comparisons with the same classifier row.
+
+Finally use \autoref{thm:singleton-history-totalorder-laws}. In the singleton
+history instance the strict branches are empty, so every total comparison on
+carried endpoints is the displayed same branch. Hence the two witnesses
+determine the same $\rho_{\emp}$ row.
+\end{proof}
+
+\begin{theorem}[TotalOrder singleton classifier coverage]
+\label{thm:totalorder-singleton-classifier-coverage}
+Every carried endpoint pair in $A_{\emp}$ admits the classifier row induced by
+opposing singleton comparisons. More precisely, if $A_{\emp}(h)$ and
+$A_{\emp}(k)$, then the carrier facts unfold $\le_{\bot}$ in both directions,
+the singleton $\POSetUp$ comparisons $h\le_{\emp}k$ and $k\le_{\emp}h$ are
+available, and their exactness row induces $\rho_{\emp}(h,k)$ for the
+singleton $\TotalOrderUp$ classifier surface.
+\end{theorem}
+\begin{proof}
+Assume $A_{\emp}(h)$ and $A_{\emp}(k)$. Unfolding $\le_{\bot}$ gives the
+endpoint-carrier comparison rows in both directions, because the singleton
+relation is built from those two carrier witnesses.
+
+The carrier facts identify both endpoints with $\emp$. Apply
+\autoref{thm:singleton-empty-poset-laws} to obtain the opposing singleton
+partial-order comparisons and their exactness row for $\rho_{\emp}$.
+
+Apply \autoref{thm:totalorder-singleton-history-laws} and
+\autoref{thm:singleton-history-totalorder-laws} to place that same row inside
+the singleton total-order classifier. Thus every carried pair is covered by
+the classifier induced by the opposing singleton comparisons.
+\end{proof}

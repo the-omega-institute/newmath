@@ -144,4 +144,39 @@ theorem IdealQuotientKernel_export_surface
             productDifference (a := a) (a' := a') (b := b) (b' := b')
             kernelAA' kernelBB'
 
+theorem IdealUp_StdBridge
+    {Carrier I : BHist -> Prop} {Classifier : BHist -> BHist -> Prop} {zero : BHist}
+    {add mul sub : BHist -> BHist -> BHist} {neg : BHist -> BHist}
+    (cert : NameCert Carrier Classifier)
+    (carrierAdd : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (add x y))
+    (carrierNeg : forall {x : BHist}, Carrier x -> Carrier (neg x))
+    (mulCarrier : forall {x y : BHist}, Carrier x -> Carrier y -> Carrier (mul x y))
+    (idealZero : I zero)
+    (idealAdd : forall {x y : BHist}, I x -> I y -> I (add x y))
+    (idealNeg : forall {x : BHist}, I x -> I (neg x))
+    (idealTransport : forall {x y : BHist}, I x -> Classifier x y -> I y)
+    (idealAbsorb :
+      forall {r x : BHist}, Carrier r -> I x -> I (mul r x) ∧ I (mul x r))
+    (subDiagonal : forall {x : BHist}, Carrier x -> Classifier (sub x x) zero)
+    (subCongr :
+      forall {x x' y y' : BHist}, Classifier x x' -> Classifier y y' ->
+        Classifier (sub x y) (sub x' y'))
+    (addSubClassified :
+      forall {a a' b b' : BHist}, Carrier a -> Carrier a' -> Carrier b -> Carrier b' ->
+        Classifier (add (sub a a') (sub b b')) (sub (add a b) (add a' b')))
+    (negSubClassified :
+      forall {a a' : BHist}, Carrier a -> Carrier a' ->
+        Classifier (neg (sub a a')) (sub (neg a) (neg a')))
+    (productDifference :
+      forall {a a' b b' : BHist}, Carrier a -> Carrier a' -> Carrier b -> Carrier b' ->
+        Classifier (add (mul (sub a a') b) (mul a' (sub b b')))
+          (sub (mul a b) (mul a' b'))) :
+    IdealQuotientKernel_export_surface cert carrierAdd carrierNeg mulCarrier idealZero idealAdd
+      idealNeg idealTransport idealAbsorb subDiagonal subCongr addSubClassified
+      negSubClassified productDifference =
+        IdealQuotientKernel_export_surface cert carrierAdd carrierNeg mulCarrier idealZero idealAdd
+          idealNeg idealTransport idealAbsorb subDiagonal subCongr addSubClassified
+          negSubClassified productDifference := by
+  rfl
+
 end BEDC.Derived.IdealUp

@@ -4,6 +4,8 @@ import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.VecSpaceUp
 import BEDC.FKernel.Cont
 import BEDC.Derived.MetricUp
+import BEDC.Derived.CompleteMetricUp
+import BEDC.Derived.BanachUp
 
 namespace BEDC.Derived.HilbertUp
 
@@ -11,11 +13,14 @@ open BEDC.Derived.NormUp
 open BEDC.Derived.RatUp
 open BEDC.Derived.RealUp
 open BEDC.Derived.VecSpaceUp
+open BEDC.Derived.ModuleUp
 open BEDC.FKernel.Cont
 open BEDC.Derived.MetricUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.CompleteMetricUp
+open BEDC.Derived.BanachUp
 
 def HilbertSingletonInnerProduct (_m _n : BHist) : BHist :=
   BHist.e1 (BHist.e1 BHist.Empty)
@@ -112,6 +117,53 @@ theorem HilbertSingleton_constant_inner_product_transport {m m' n n' : BHist} :
     (And.intro rightConstant
       (And.intro transported normTransport))
 
+theorem HilbertSingleton_universal_orthogonality {m n : BHist} :
+    VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct m n)
+        (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierM carrierN
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have classifiedM : VecSpaceSingletonClassifier m BHist.Empty :=
+    And.intro carrierM (And.intro emptyCarrier carrierM)
+  have classifiedN : VecSpaceSingletonClassifier n BHist.Empty :=
+    And.intro carrierN (And.intro emptyCarrier carrierN)
+  exact (HilbertSingleton_constant_inner_product_transport classifiedM classifiedN).left
+
+theorem HilbertSingleton_limit_inner_product_carrier {s M : BHist -> BHist} {limit : BHist} :
+    CompleteMetricLimitWitness VecSpaceSingletonCarrier s M limit ->
+      VecSpaceSingletonCarrier limit ∧ VecSpaceSingletonClassifier limit BHist.Empty ∧
+        RealConstantHistoryClassifier (HilbertSingletonInnerProduct limit limit)
+          (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro witness
+  have limitCarrier : VecSpaceSingletonCarrier limit := witness.left
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have limitClassified : VecSpaceSingletonClassifier limit BHist.Empty :=
+    And.intro limitCarrier (And.intro emptyCarrier limitCarrier)
+  have compatibility := HilbertSingleton_inner_product_norm_compatibility limitCarrier
+  have diagonalConstant :
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct limit limit)
+        (BHist.e1 (BHist.e1 BHist.Empty)) :=
+    Iff.mpr compatibility.right limitClassified
+  exact And.intro limitCarrier (And.intro limitClassified diagonalConstant)
+
+theorem HilbertSingleton_orthogonal_complement_collapse {m n : BHist} :
+    VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
+      VecSpaceSingletonClassifier m BHist.Empty ∧
+        VecSpaceSingletonClassifier n BHist.Empty ∧
+          RealConstantHistoryClassifier (HilbertSingletonInnerProduct m n)
+            (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierM carrierN
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have classifiedM : VecSpaceSingletonClassifier m BHist.Empty :=
+    And.intro carrierM (And.intro emptyCarrier carrierM)
+  have classifiedN : VecSpaceSingletonClassifier n BHist.Empty :=
+    And.intro carrierN (And.intro emptyCarrier carrierN)
+  have innerConstant :
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct m n)
+        (BHist.e1 (BHist.e1 BHist.Empty)) :=
+    (HilbertSingleton_constant_inner_product_transport classifiedM classifiedN).left
+  exact And.intro classifiedM (And.intro classifiedN innerConstant)
+
 theorem HilbertSingleton_classifier_source_boundary {m n : BHist} :
     VecSpaceSingletonClassifier m n ->
       VecSpaceSingletonCarrier m ∧
@@ -184,9 +236,77 @@ theorem HilbertSingleton_endpoint_readback {m n : BHist} :
       (And.intro mEndpoint nEndpoint)
   have innerConstant :
       RealConstantHistoryClassifier (HilbertSingletonInnerProduct m m)
-        (BHist.e1 (BHist.e1 BHist.Empty)) :=
+      (BHist.e1 (BHist.e1 BHist.Empty)) :=
     Iff.mpr innerRows.right normRows.right.right.right.left
   exact And.intro normRows.right.left (And.intro innerConstant distanceWitness)
+
+theorem HilbertSingleton_source_compatibility {m n : BHist} :
+    VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
+      VecSpaceSingletonClassifier m BHist.Empty ∧ VecSpaceSingletonClassifier n BHist.Empty ∧
+        MetricDistanceWitness m n BHist.Empty ∧
+          RealConstantHistoryClassifier (NormSingletonNorm m) (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+            RealConstantHistoryClassifier (HilbertSingletonInnerProduct m n)
+              (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierM carrierN
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have classifiedM : VecSpaceSingletonClassifier m BHist.Empty :=
+    And.intro carrierM (And.intro emptyCarrier carrierM)
+  have classifiedN : VecSpaceSingletonClassifier n BHist.Empty :=
+    And.intro carrierN (And.intro emptyCarrier carrierN)
+  have endpointRows := HilbertSingleton_endpoint_readback carrierM carrierN
+  have innerConstant :
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct m n)
+        (BHist.e1 (BHist.e1 BHist.Empty)) :=
+    HilbertSingleton_universal_orthogonality carrierM carrierN
+  exact And.intro classifiedM
+    (And.intro classifiedN
+      (And.intro endpointRows.right.right
+        (And.intro endpointRows.left innerConstant)))
+
+theorem HilbertSingleton_norm_induced_metric_classifier {m n : BHist} :
+    VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
+      MetricDistanceWitness m n BHist.Empty ∧
+        RealConstantHistoryClassifier (NormSingletonNorm m) (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+          RealConstantHistoryClassifier (NormSingletonNorm n) (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+            RealConstantHistoryClassifier (HilbertSingletonInnerProduct m m)
+              (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+              RealConstantHistoryClassifier (HilbertSingletonInnerProduct n n)
+                (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierM carrierN
+  have readMN := HilbertSingleton_endpoint_readback carrierM carrierN
+  have readNM := HilbertSingleton_endpoint_readback carrierN carrierM
+  exact And.intro readMN.right.right
+    (And.intro readMN.left
+      (And.intro readNM.left
+        (And.intro readMN.right.left readNM.right.left)))
+
+theorem HilbertSingleton_parallelogram_collapse {m n : BHist} :
+    VecSpaceSingletonCarrier m -> VecSpaceSingletonCarrier n ->
+      RealConstantHistoryClassifier (NormSingletonNorm (ModuleSingletonAdd m n))
+          (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+        RealConstantHistoryClassifier (NormSingletonNorm (ModuleSingletonAdd m (ModuleSingletonNeg n)))
+            (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+          RealConstantHistoryClassifier (NormSingletonNorm m) (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+            RealConstantHistoryClassifier (NormSingletonNorm n)
+              (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierM carrierN
+  have emptyCarrier : VecSpaceSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have addCarrier : VecSpaceSingletonCarrier (ModuleSingletonAdd m n) := by
+    unfold ModuleSingletonAdd
+    exact emptyCarrier
+  have negCarrier : VecSpaceSingletonCarrier (ModuleSingletonNeg n) := by
+    unfold ModuleSingletonNeg
+    exact emptyCarrier
+  have diffCarrier : VecSpaceSingletonCarrier (ModuleSingletonAdd m (ModuleSingletonNeg n)) := by
+    unfold ModuleSingletonAdd
+    exact emptyCarrier
+  have addRows := NormSingletonEmptyHistory_laws addCarrier emptyCarrier
+  have diffRows := NormSingletonEmptyHistory_laws diffCarrier negCarrier
+  have mRows := NormSingletonEmptyHistory_laws carrierM carrierN
+  have nRows := NormSingletonEmptyHistory_laws carrierN carrierM
+  exact And.intro addRows.right.left
+    (And.intro diffRows.right.left
+      (And.intro mRows.right.left nRows.right.left))
 
 theorem HilbertSingleton_projection_carried_endpoint {h : BHist} :
     VecSpaceSingletonCarrier h ->
@@ -341,6 +461,34 @@ theorem HilbertSingletonProjection_witness_idempotent {m p : BHist} :
       (And.intro carrierP (hsame_symm endpointP.right.right))
   exact And.intro emptyProjectionWitness projectionClassified
 
+theorem HilbertSingleton_complete_normed_certificate {s M0 M1 : BHist -> BHist}
+    {limit : BHist} :
+    (forall {n : BHist}, UnaryHistory n -> BanachSingletonCarrier (s n)) ->
+      (forall {n : BHist}, UnaryHistory n -> RatHistoryClassifier BHist.Empty (M0 n)) ->
+        CompleteMetricLimitWitness BanachSingletonCarrier s M1 limit ->
+          CompleteMetricLimitWitness BanachSingletonCarrier s M0 BHist.Empty ∧
+            BanachSingletonClassifier limit BHist.Empty ∧
+              VecSpaceSingletonClassifier limit BHist.Empty ∧
+                RealConstantHistoryClassifier (HilbertSingletonInnerProduct limit limit)
+                  (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro streamCarrier modulusClassified suppliedLimit
+  have emptyLimit :
+      CompleteMetricLimitWitness BanachSingletonCarrier s M0 BHist.Empty :=
+    (BanachSingleton_regular_cauchy_stream_input streamCarrier modulusClassified).left
+  have limitRows := BanachSingleton_limit_classifier_unique suppliedLimit emptyLimit
+  have limitVecClassifier : VecSpaceSingletonClassifier limit BHist.Empty :=
+    And.intro limitRows.left.left.left
+      (And.intro limitRows.left.right.left.left limitRows.left.right.right)
+  have hilbertRows :=
+    HilbertSingleton_inner_product_norm_compatibility limitRows.left.left.left
+  have innerZero :
+      RealConstantHistoryClassifier (HilbertSingletonInnerProduct limit limit)
+        (BHist.e1 (BHist.e1 BHist.Empty)) :=
+    Iff.mpr hilbertRows.right limitVecClassifier
+  exact And.intro emptyLimit
+    (And.intro limitRows.left
+      (And.intro limitVecClassifier innerZero))
+
 theorem HilbertSingletonProjection_semantic_name_certificate :
     SemanticNameCert VecSpaceSingletonCarrier
       (fun h : BHist => VecSpaceSingletonClassifier (HilbertSingletonProjection h) BHist.Empty)
@@ -409,5 +557,26 @@ theorem HilbertSingletonProjection_uniqueness {m p q : BHist} :
       (And.intro qClassified.left (hsame_trans pClassified.right.right (hsame_symm qClassified.left)))
   have innerRows := HilbertSingleton_constant_inner_product_transport pQClassified pQClassified
   exact And.intro pQClassified innerRows.left
+
+theorem HilbertSingletonProjection_boundary {m p : BHist} :
+    HilbertSingletonProjectionWitness m p ->
+      VecSpaceSingletonClassifier (HilbertSingletonProjection p) p ∧
+        VecSpaceSingletonClassifier (HilbertSingletonProjection m) BHist.Empty ∧
+          RealConstantHistoryClassifier (NormSingletonNorm (HilbertSingletonProjection p))
+            (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+            RealConstantHistoryClassifier
+              (HilbertSingletonInnerProduct p (HilbertSingletonProjection p))
+              (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro witness
+  have idempotentRows := HilbertSingletonProjection_witness_idempotent witness
+  have existenceRows := HilbertSingletonProjection_existence witness.left
+  have projectionCarrier : VecSpaceSingletonCarrier (HilbertSingletonProjection p) :=
+    idempotentRows.right.left
+  have pCarrier : VecSpaceSingletonCarrier p := witness.right.left
+  have normRows := NormSingletonEmptyHistory_laws projectionCarrier pCarrier
+  have innerRows := HilbertSingleton_universal_orthogonality pCarrier projectionCarrier
+  exact And.intro idempotentRows.right
+    (And.intro existenceRows.right
+      (And.intro normRows.right.left innerRows))
 
 end BEDC.Derived.HilbertUp

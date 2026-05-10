@@ -1,0 +1,282 @@
+---
+title: "Formalization Routes"
+subtitle: "Place mathlib, MathComp, Isabelle, Mizar, Metamath, HOL Light, Cubical Agda, UniMath, NuPRL, CoRN, and Bishop on the same map. Then check whether the cell BEDC occupies is still empty."
+author: "The Omega Institute"
+date: 2026-05-07
+description: "A map of 11+ formalization routes, sorted by three axes: classical/constructive, wholesale/minimalist, kernel-extension yes/no. BEDC sits at (constructive × minimalist × no kernel extension × cannot-claim + AI parallelism). That cell is still empty otherwise."
+---
+
+```{=html}
+<div class="lang-switch"><a href="formalization-routes.zh-CN.qmd">中文</a></div>
+```
+
+## What this map answers
+
+"How does BEDC compare to other formalization projects?" The question hides a wrong premise — that all formalization projects share one coordinate system on which a single ruler decides winners. They do not. They live under different **foundational stances** doing different things. The first step in comparing them is to **return each project to its own cell** so that the gaps between cells become visible too.
+
+What follows lays out 11 routes across three families. The three axes are:
+
+1. **Classical vs. constructive** — accepting LEM / AC / double negation elimination, or refusing them.
+2. **Wholesale vs. minimalist** — porting an entire host textbook into the system, or rebuilding a slice from a minimal kernel.
+3. **Kernel extension or not** — keeping the stdlib kernel, or adding new primitives (interval / Glue / extensional eq / something else).
+
+Once everything is placed, the cell BEDC occupies — **constructive × minimalist × no kernel extension × AI parallelism for productivity** — is, as of 2026-04-29, **still occupied by BEDC alone**.
+
+## Three families
+
+```
+                  classical              constructive
+                  ─────────              ────────────
+
+wholesale     │ Family A                 │ — (rare)
+              │ ─────                    │
+              │ Mathlib (Lean 4)         │
+              │ MathComp / SSReflect     │
+              │ Isabelle/HOL + AFP       │
+              │ Mizar                    │
+              │ Metamath / set.mm        │
+              │ HOL Light                │
+              ├──────────────────────────┼─────────────
+minimalist    │ Family B (extends)       │ Family C (keeps)
+foundational  │ ─────                    │ ─────
+              │ Cubical Agda             │ Bishop *Foundations* (informal)
+              │ RedPRL / redtt / cooltt  │ CoRN (Coq)
+              │ UniMath                  │ ★ BEDC
+              │                          │
+              │ ─ Side branch ─          │
+              │ NuPRL (extensional)      │
+```
+
+Family A occupies the formalization mainstream from 1990 to 2025. Family B is the "rebuild the foundations" minority since the 1990s, but it took the **kernel-extension** path (adding univalence or extensional equality). Family C is the minority of the minority — **keep the kernel + remove axioms**. Currently active in Family C are CoRN and BEDC. BEDC is the only one that **simultaneously refuses the three axioms, refuses host primitives in its public surface, and runs an explicit cannot-claim registry**.
+
+## Family A: classical + wholesale, the 1.0 form of mainstream formalization
+
+Family A's shared stance: mathematics already exists; the task is to **port it into the machine**. Choosing classical logic, leveraging host stdlib, going wholesale — all three serve a single goal: make the porting **person-month efficient**.
+
+### Mathlib (Lean 4) — the active flagship of classical wholesale
+
+- **Kernel**: Lean 4 CIC + Lean stdlib (`Classical.choice` / `Quot.sound` / `propext` all used).
+- **Mathematical coverage**: set theory / category theory / algebra / topology / analysis / probability / differential geometry / number theory / group representations, ~150K theorems, 9 years (2017–2026).
+- **Notable results**: the Liquid Tensor Experiment, the PFR conjecture (Tao-led), sphere eversion.
+- **Style**: definitions call host primitives directly (`Nat`/`Int`/`Rat`/`Real`/`List`/`Set`); tactics like `linarith` / `polyrith` / `field_simp` / `norm_num` give heavy automation.
+- **Audit posture**: none. Running `#print axioms` lists a long chain, and nobody treats it as a problem.
+- **Cost per theorem**: very low — automation is rich, existing definitions and lemmas abundant.
+- **Relation to BEDC**: opposite. mathlib treats "port mathematics into Lean without worrying about the axiom price" as method; BEDC treats "any Lean stdlib axiom is debt" as invariant.
+
+### MathComp / SSReflect (Coq) — the structuralist + classical alternative
+
+- **Kernel**: Coq CIC + `Classical` / `ChoiceFacts` modules imported as needed.
+- **Mathematical coverage**: group representations / finite group theory / number theory / partial algebraic geometry; flagship results include the Four Color Theorem (2005) and the Feit-Thompson theorem (2012, ~170K lines of Coq).
+- **Style**: a *small-scale reflection* discipline — `Structure`/`canonical instances` link carriers and morphisms so that `simp`/`rewrite` finds paths automatically; tactic combinators like `move=>`/`apply:`/`case:` produce dense scripts.
+- **Audit posture**: `Classical` import accepted. Feit-Thompson is a classical theorem and cannot be done constructively.
+- **Relation to BEDC**: engineering structure — `canonical instance` chains vs BEDC's `class`/`Setup` + `Minimal*Setup` — has structural similarities. The mathematical ambition differs. MathComp bets on porting classical group theory; BEDC bets on first-principles re-derivation.
+
+### Isabelle/HOL + AFP — the largest classical HOL archive
+
+- **Kernel**: Higher-Order Logic, simple type theory, weaker than CIC (no dependent types).
+- **Mathematical coverage**: AFP (Archive of Formal Proofs) has 1500+ entries: König's lemma, Gödel incompleteness, Bertrand's postulate, partial PDE, TLA+ verification, quantum algorithms, distributed-system proofs.
+- **Notable results**: Hales' Flyspeck (Kepler conjecture, early phase), Cambridge's seL4 microkernel verification.
+- **Style**: classical higher-order logic + Isar proof language, close to textbook proofs.
+- **Audit posture**: classical logic is substrate; never under audit.
+- **Relation to BEDC**: kernel-minimality direction is shared (HOL is even smaller than CIC), but classical/HOL versus constructive/CIC differ on both axes. AFP is the engineering miracle of classical mathematics — different game from BEDC.
+
+### Mizar — the elder of set-theoretic wholesale
+
+- **Kernel**: Tarski-Grothendieck set theory (extending ZFC with a universe).
+- **Mathematical coverage**: ~58000 theorems, since 1973, maintained by Polish teams.
+- **Style**: bespoke Mizar proof language, very close to textbook prose; thin automation, mostly hand-written.
+- **Audit posture**: ZFC + Tarski-Grothendieck taken as substrate.
+- **Relation to BEDC**: completely different foundational stance. Mizar embraces ZFC directly; BEDC refuses host `Nat` from BEDC's public surface.
+
+### Metamath / set.mm — minimal kernel + classical ZFC by string rewriting
+
+- **Kernel**: Metamath inference rules ~6 in total, based on string variable substitution.
+- **Mathematical coverage**: set.mm has ~38000 theorems, all directly over ZFC.
+- **Style**: each inference step is extremely simple (string substitution), so each theorem is decomposed to very fine granularity; what mathlib does in one line takes Metamath ten or more steps.
+- **Audit posture**: the kernel itself is tiny, but ZFC axiom schemas are taken as raw material; not audited.
+- **Relation to BEDC**: kernel minimality is a shared direction (both prize trust footprint), but Metamath uses ZFC while BEDC uses plain CIC + refuses three axioms. Trust footprints are both small but **shaped differently**.
+
+### HOL Light — Harrison's minimal OCaml kernel
+
+- **Kernel**: classical HOL, ~400 lines of OCaml, one of the smallest kernels in the field.
+- **Mathematical coverage**: Hales' Flyspeck (full Kepler proof), Harrison's multivariate analysis library.
+- **Style**: minimal automation, close to "writing ML code that emits proofs."
+- **Audit posture**: classical, choice / LEM used freely.
+- **Relation to BEDC**: kernel minimality is shared, but classical / HOL / wholesale put it on three different axes from BEDC.
+
+### Family A summary
+
+Family A's shared trust posture: **axiom debt is not debt; host primitives are not a burden**. They bet on person-month efficiency × engineering culture to win the **porting race**. Mathlib in 2026 is the peak of this family — 9 years, ~150K theorems, time-averaged ~45 / day.
+
+Family A's cost: any "no three axioms" or "no host primitives" or "first principles" formalization ambition is **structurally impossible** inside Family A, because the substrate has already pre-supposed those primitives.
+
+## Family B: classical + minimalist + kernel-extension, the foundations-rebuild minority
+
+Family B chooses to **rebuild foundations** but takes the **kernel-extension** route: refuse the default CIC kernel, add new primitives so that univalence or extensional equality has computational content. Trust footprint goes up; the kernel becomes "richer."
+
+### Cubical Agda — the active flagship that makes univalence compute
+
+- **Kernel**: Agda CIC base + interval $\mathbb{I}$ + Path / PathP + Glue + `hcomp` / `transp` / `fill` + partial elements + face lattice. **About double the size of plain CIC**.
+- **Mathematical coverage**: the agda/cubical library has ~thousands of files spanning foundations / algebra / topology / homotopy / category. The standard move is "use univalence to identify isomorphic structures."
+- **Notable results**: Brunerie's number — $\pi_4(S^3) = \mathbb{Z}/2\mathbb{Z}$ — mechanized over 8 years, finally reduced to $n = 2$ in 2022 after Mörtberg-Ljungström optimizations; the entire synthetic homotopy theory.
+- **Style**: a mathematician can write spaces directly — `data S¹ where base : S¹; loop : base ≡ base` — write quotients via HITs, write equality via `ua`.
+- **Audit posture**: not "UA is debt" but "the cubical kernel is a commitment." Backed by the cubical-sets model in CCHM and the canonicity / normalization meta-theorems.
+- **Relation to BEDC**: same minimalist + same "rebuild" intent, but **opposite direction**. Cubical adds ~10 geometric primitives to gain computational univalence; BEDC subtracts 3 stdlib axioms to gain a smaller trust footprint. Both honest, philosophically opposite.
+
+### RedPRL / redtt / cooltt — the type-theorist's cubical lab
+
+- **Kernel**: a Carnegie Mellon line of OCaml implementations following "computational higher type theory" (CHTT) rather than CCHM, emphasizing operational semantics.
+- **Mathematical coverage**: not in library volume — in meta-theory research.
+- **Notable results**: Sterling's PhD thesis *Higher Type Theory* (2021), normalization-by-evaluation for cubical TT.
+- **Relation to BEDC**: same drive for kernel honesty (no axioms on the side), but moving toward **kernel extension + modal types + sorts**, which is the opposite of BEDC's "stay in plain CIC."
+
+### UniMath — Voevodsky's univalent foundations
+
+- **Kernel**: Coq + a single univalence axiom (unlike cubical, UniMath does not make UA compute; it is taken as an axiom).
+- **Mathematical coverage**: categorical foundations + h-levels (the contractible/prop/set/groupoid tower) + some algebra. Far smaller than mathlib.
+- **Notable results**: Voevodsky's homotopy type theory rendered in Coq.
+- **Audit posture**: univalence as an axiom. Trust footprint = vanilla Coq + one axiom.
+- **Relation to BEDC**: both refuse `Quot.sound`, both refuse `propext`. But UniMath **accepts** univalence as an axiom; BEDC has 0 axioms. UniMath chooses "add one axiom for conceptual monism"; BEDC chooses "add nothing, get minimal trust."
+
+### Family B summary
+
+Family B's shared stance: **the stdlib default isn't clean enough; we need to act at the kernel level**. Their stance opposes Family A's wholesale and also opposes Family C's keep-kernel discipline. Trust footprints in Family B are **cleaner than Family A's, larger than Family C's**.
+
+Family B's bet: *univalence / extensional equality is the real structure of mathematics, and the kernel should reveal it*. Family C disagrees.
+
+## Family C: constructive + minimalist + keep-kernel, the RISC-foundations route
+
+Family C is the rarest family. The currently active members are exactly three: the Bishop school (informal), CoRN (Coq), and BEDC (Lean 4).
+
+### Bishop *Foundations of Constructive Analysis* (1967, informal) — the methodological ancestor
+
+- **Kernel**: no formalization system; rigorous constructive blackboard math.
+- **Mathematical coverage**: real numbers / Cauchy completion / metric spaces / analytic functions / some elementary algebra. One book in one lifetime.
+- **Notable results**: Bishop 1967, followed by Bishop-Bridges *Constructive Analysis* (1985).
+- **Audit posture**: refuse LEM, refuse arbitrary choice (countable choice is a borderline allowance), every existence proof gives an algorithm.
+- **Relation to BEDC**: direct ancestor. BEDC's "0 three axioms," "scope-bound mature," and "cannot-claim registry" all draw their spirit from Bishop. Differences: Bishop has no formal system, no closure × verification two-axis ledger, no generative kernel (`b₀, b₁ → Hist → ...`). BEDC is Bishop **formalized + with one extra discipline layer**.
+
+### CoRN — Bishop-style constructive real analysis on Coq
+
+- **Kernel**: Coq CIC + Coq stdlib (setoid replaces `Quot.sound`, but **propext is accepted**).
+- **Mathematical coverage**: Bishop reals / Cauchy sequences / metric spaces / partial elementary algebra / partial transcendental functions. Two to three orders of magnitude smaller than mathlib.
+- **Notable results**: Krebbers / Spitters et al. on metric-space formalization, project life ~20 years (2003+).
+- **Audit posture**: refuse LEM, refuse AC. setoid machinery substitutes for `Quot.sound`. But `propext` is in Coq stdlib and not actively audited, so **CoRN effectively accepts propext**.
+- **Relation to BEDC**: **the closest cousin, but one discipline layer thinner than BEDC**.
+  - Same: refuse LEM, refuse AC, use setoid.
+  - Different: CoRN accepts propext; BEDC refuses.
+  - Different: CoRN has no generative kernel (`Mark → Hist → ... → NameCert`); it starts directly from Coq's `Set`/`Prop`/Cauchy sequences.
+  - Different: CoRN has no closure × verification two-axis ledger.
+  - Different: CoRN has no cannot-claim registry.
+
+CoRN is the representative of RISC-foundations over the past 20 years, and a proof of concept that "Bishop + Coq" beyond informal writing is viable. **And it is the textbook case of RISC-foundations productivity bottleneck**: 20 years to reach metric spaces + some elementary algebra, two to three orders of magnitude below mathlib.
+
+### BEDC — RISC discipline + generative kernel + two-axis ledger + AI parallelism
+
+- **Kernel**: Lean 4 CIC, 0 mathlib, 0 three axioms (`Classical.choice` / `Quot.sound` / `propext` all refused), 0 `axiom` keyword, 0 `sorry`. Carriers all start from BEDC's own inductives (`BMark` / `BHist` / ...).
+- **Mathematical coverage**: 7 days, 5,909 theorems, 25 mature chapters (2026-04-29 to 2026-05-07). See the velocity data in [`derivation-is-graded`](derivation-is-graded.qmd).
+- **Notable results**: in flight (project week one).
+- **Audit posture**: `axiom-purity --strict` runs `#print axioms` on every theorem and forces zero stdlib-axiom dependency. The cannot-claim registry actively excludes content from the host textbook. Each chapter's `closurestatus` block forces the paper-closure grade and the Lean-verification grade to coexist in the same artefact.
+- **Production setup**: codex workers run in parallel on the `codex-auto-dev` branch; human + claude pair on the `auto-dev` branch handle architectural commits; ralph-loop drives fine-grained tasks. **AI parallelism dissolves RISC-foundations' historical productivity bottleneck.**
+
+### Family C summary
+
+Family C's shared stance: **constructive + plain kernel + axiom subtraction**. Their shared problem: historically, **insufficient throughput**.
+
+| Project | Time span | Volume | Productivity status |
+|---|---|---|---|
+| Bishop *Foundations* | 1967 (informal) | one book per lifetime | bound to one person |
+| CoRN | 2003+ (~20 years) | mid-stream real analysis | bound by academic contributor count |
+| BEDC | 2026-04-29+ (~7 days) | 5,909 theorems / 25 mature | **AI parallelism dissolves the bound** |
+
+BEDC's difference is **not philosophical** (it is a relative of Bishop and CoRN) but **in production mode**: for the first time, RISC-foundations runs at a rate **above mathlib's historical peak**.
+
+## Side branch: NuPRL — the other kernel extension
+
+- **Kernel**: Martin-Löf extensional type theory + subset types + computational equality. **Stronger than CIC** — typecheck becomes undecidable, but equality holds at the kernel level.
+- **Mathematical coverage**: type theory experiments rather than a math library.
+- **Notable results**: the Constable line on Computational Type Theory.
+- **Relation to BEDC**: pushing BEDC's setoid classifier route **one level deeper** (have the kernel give extensional equality directly) lands in NuPRL territory. BEDC chose the opposite: stay in CIC, simulate setoid via inductives, keep trust small at the cost of verbosity.
+
+NuPRL is in the "kernel extension" camp like cubical, but extending toward extensional eq rather than univalence. NuPRL is currently low-activity in mainstream formalization; as a route reference it remains important.
+
+## Full picture: a 14-dimension matrix
+
+Eleven routes laid out across 14 dimensions. Each row is a route; each column is an audit / configuration / style fact.
+
+| Route | Kernel base | mathlib-free | LEM | AC | propext | host Nat as carrier | `axiom` keyword | `sorry` | generative kernel | two-axis ledger | cannot-claim | scope-bound mature | automation | volume (theorems) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Mathlib (Lean 4) | CIC | no | ✓ | ✓ | ✓ | ✓ | depends | depends | — | — | — | — | high | ~150K |
+| MathComp (Coq) | CIC | n/a (Coq) | ✓ | ✓ | ✓ | ✓ | depends | depends | — | — | — | — | high | ~50K |
+| Isabelle/HOL | HOL | n/a | ✓ | ✓ | n/a | ✓ | n/a | depends | — | — | — | — | high | ~25K (AFP) |
+| Mizar | TG-Set | n/a | ✓ | ✓ | n/a | n/a | n/a | n/a | — | — | — | — | low | ~58K |
+| Metamath | ZFC schemas | n/a | ✓ | ✓ | n/a | n/a | n/a | n/a | — | — | — | — | low | ~38K |
+| HOL Light | HOL | n/a | ✓ | ✓ | n/a | ✓ | n/a | depends | — | — | — | — | medium | ~15K |
+| Cubical Agda | CIC + Cubical | yes | none default | none default | implied by UA | ✓ | unused | unused | — | — | — | — | medium | ~10K (cubical lib) |
+| RedPRL/redtt/cooltt | CHTT | yes | — | — | — | — | unused | unused | — | — | — | — | low | meta-theory |
+| UniMath | CIC + UA axiom | yes | none default | none default | implied by UA | depends | 1 (UA) | unused | — | — | — | — | low | ~5K |
+| NuPRL | extensional TT | yes | none default | none default | n/a | n/a | n/a | n/a | — | — | — | — | low | research lab |
+| Bishop *Foundations* | informal | n/a | refused | refused | n/a | n/a | n/a | n/a | — | — | — | — | n/a | one book |
+| CoRN | CIC + Coq stdlib | no | refused | refused | ✓ | depends | unused | depends | — | — | — | — | medium | ~5K |
+| **BEDC** | plain CIC | **yes** | **refused** | **refused** | **refused** | **refused** (no host leak) | **0** | **0** | **yes** | **yes** | **yes** | **yes** | medium | 5,909 (7 days) |
+
+`✓` = accepted / used. `refused` = project discipline refuses. `—` = not applicable (the project lacks the concept). `depends` = the project allows it; actual usage is author-dependent. `n/a` = the dimension does not map to the project.
+
+Reading: BEDC's row (last) is `✓` in **generative kernel** / **two-axis ledger** / **cannot-claim** / **scope-bound mature** — **the only such row in the table**. In LEM / AC / propext / host Nat / `axiom` / `sorry` it is `refused` / `0`, almost matching CoRN — except that CoRN does not refuse propext or host carrier outright.
+
+## The cell BEDC occupies: a cross of empty entries
+
+Project the 14-dimensional table down to four key axes (constructive / minimalist / no kernel extension / generative-kernel + cannot-claim + AI parallelism):
+
+| Route | constructive | minimalist | no kernel extension | generative kernel + cannot-claim + AI parallelism |
+|---|---|---|---|---|
+| Mathlib | ✗ | ✗ | ✓ | ✗ |
+| MathComp | ✗ | ✗ | ✓ | ✗ |
+| Isabelle/HOL | ✗ | ✗ | ✓ | ✗ |
+| Mizar | ✗ | ✗ | ✓ | ✗ |
+| Metamath | ✗ | ✓ (kernel is tiny) | ✓ | ✗ |
+| HOL Light | ✗ | ✓ (kernel is tiny) | ✓ | ✗ |
+| Cubical Agda | ✓ | ✓ | ✗ (extends kernel) | ✗ |
+| RedPRL/cooltt | ✓ | ✓ | ✗ (extends kernel) | ✗ |
+| UniMath | ✓ | ✓ | ✓ (but adds UA axiom) | ✗ |
+| NuPRL | ✓ | ✓ | ✗ (extensional kernel) | ✗ |
+| Bishop *Foundations* | ✓ | ✓ | n/a (informal) | ✗ |
+| CoRN | ✓ | ✓ | ✓ | ✗ |
+| **BEDC** | **✓** | **✓** | **✓** | **✓** |
+
+Metamath / HOL Light are ✓ on minimalist but ✗ on constructive. CoRN is ✓ on the first three but lacks all three of the cannot-claim / generative-kernel / AI-parallelism cluster.
+
+**Only BEDC is ✓ on all four.** This is not coincidence; it is the project's discipline target: at the position where RISC-foundations has failed for sixty years, dissolve the productivity bottleneck with AI parallelism while running stricter discipline than CoRN (refuse propext + refuse host primitives + 0 axiom keyword + cannot-claim registry).
+
+## Three closing observations
+
+### Observation 1: Family A and Family C are not "which is better"; they do different things
+
+Mathlib is right when "I have a theorem to formalize and don't care about the axiom price." BEDC is right when "I want to re-derive traditional mathematics with minimal trust and keep every step under audit." Using either to do the other's job is painful.
+
+Tao's PFR / Maynard work belongs in mathlib; trying to formalize PFR in BEDC would hit the three-axiom + host-`Nat` + propext red lines immediately. Conversely, "no-three-axiom first-principles re-derivation of mathematics" is **categorically impossible** in mathlib because the substrate has already presupposed the three axioms.
+
+### Observation 2: Family B vs Family C is the real philosophical contest
+
+Family A versus the minimalist families is an engineering tension between "I port" and "I rebuild." Family B versus Family C is *the same "rebuild" ambition, opposite stances on what substrate to use*: add univalence (B) versus subtract three axioms (C).
+
+Which side is right? Open. RISC vs. CISC at the ISA layer took 30 years to settle; foundations will likely take longer because software iterates more slowly than hardware. *RISC eventually won the design argument*; that is the bet BEDC is placing.
+
+### Observation 3: BEDC's cell was empty before 2026-04-29
+
+The exact configuration of BEDC's row in the 14-dimension table — refuse three axioms + refuse host Nat + 0 axiom + 0 sorry + generative kernel + two-axis ledger + cannot-claim + scope-bound mature + AI parallelism — **did not exist in any project before 2026-04-29**. No prior project carried all nine of these properties at once.
+
+CoRN lacks propext-refusal / host-carrier-refusal / generative kernel / two-axis ledger / cannot-claim / AI parallelism. UniMath lacks axiom-cleanness / generative kernel / cannot-claim / AI parallelism. Cubical lacks axiom-cleanness / kept-kernel / cannot-claim / AI parallelism. Mathlib lacks **almost all** of them.
+
+BEDC, on 2026-04-29, became **the first project to assemble all nine in one place**. After looking at the map, the question is no longer "how does BEDC compare to other projects on a single ruler"; it is "the cell BEDC occupies was empty until last week."
+
+```{=html}
+<hr>
+```
+
+## Related pages
+
+- [Derivation Is Graded](derivation-is-graded.qmd) — two-axis closure, scope-bound mature, RISC vs CISC, velocity evidence
+- [Distinction as Foundation](distinction-as-foundation.qmd) — BEDC takes "distinction" as primitive, a starting point unlike set / type / category
+- [Zero Information Debt](zero-information-debt.qmd) — three layers of audit: paper-gap, meta-closure, observer-as-object
+- [Discovery Loop](discovery-loop.qmd) — the kernel-from-scratch workflow

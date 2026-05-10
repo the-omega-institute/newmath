@@ -1,7 +1,169 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v3.4 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.7 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## Multi-target round emission (HARD GATE — minimum 5 candidates)
+
+This phase emits **between min(5, available) and 5 targets per round**, NEVER just 1. Phase Revise loops over `targets[*]` and applies each independently.
+
+**HARD GATE — minimum candidate enumeration**: Before emitting, you MUST construct a `candidate_pool` of size **at least 5** (covering distinct kinds: drift sync, bridge sync, closure_mark rotation, theory_extension, missing_companion, etc). Sources to enumerate:
+
+1. `critical_path.bridge_sync_pending[*]` — every entry is a valid candidate (1-3 line edits).
+2. `critical_path.drift_chapters[0..9]` — every entry with non-empty `objective_formal_grade > formal_grade_token` is a candidate.
+3. `critical_path.top_transitions.*` — each rotation transition has 5+ candidates.
+4. `critical_path.top_root_unblocks[0..4]` — root chapters needing theorems.
+5. `critical_path.top[0..9]` — open horizon chapters.
+6. Theory_extension on any chapter file — paper labels without companion theorems.
+
+If after enumerating sources 1-6 the candidate_pool is **still < 5**, then the repo has genuinely run dry on paper-side work and emitting fewer is OK — but you MUST justify in `notes` (e.g. "only 3 candidates: bridge_sync_pending=2 ContinuousUp/PdeUp, drift=1 banach; transitions all empty; theory_extension exhausted").
+
+**HARD GATE — emit ≥ 2 targets when candidate_pool ≥ 5**: do NOT emit just `targets[0]` if the pool has 5+ candidates. Emit `targets[0..4]` (top 5 by selection_rank). The Phase Revise loop will skip dedup-dropped targets but apply the rest.
+
+**HARD GATE — never empty-skip on partial dedup**: if Phase Revise's dedup drops some targets but ≥ 1 survives, the round MUST still run revise on the surviving targets. Current behavior of "1 target dropped → review reports empty round → skip revise entirely" wastes the round; fix by always emitting 5 candidates so dedup can never empty the queue.
+
+Constraints when emitting >1 target:
+
+- **No file overlap**: do not emit two targets whose `paper_files[0]` are the same file. The Phase Revise loop applies them sequentially in one git tree; identical-file edits overwrite each other and produce wasted work.
+- **No chapter overlap on closure_mark**: do not emit two `closure_mark` targets touching the same `<X>Up` chapter, even if their files differ. Pick another chapter.
+- **HARD GATE composition still holds**: the bridge_sync_pending / drift_chapters / rotation / top[0..2] / root_unblock gates apply to the AT-LEAST-ONE-OF-N rule independently. A 5-target round can satisfy: 1 bridge_sync + 1 drift_sync + 1 critical_path top + 1 root_unblock + 1 transition. If a gate has fewer than 1 valid candidate, that gate is no-op for the round.
+- **Mixed difficulty allowed**: a 5-target round may mix 3 quick `closure_mark` (drift / bridge sync / token) targets and 2 substantive `theory_extension` / `missing_companion` targets — the quick targets sync token, the substantive ones grow the theory. Mixed rounds maximize per-round leverage.
+
+If `candidate_pool` has fewer than 5 feasible candidates, emit only as many as exist (1, 2, 3, 4, or 5). Empty round (`{"targets": []}`) is still allowed when no feasible candidate survives.
+
+## TOP-LEVEL HARD GATE — bridge_sync_pending (paper records lean StdBridge upgrade)
+
+`critical_path.py` JSON exposes `bridge_sync_pending[*]` (with `bridge_sync_pending_total`). Each entry is a chapter where:
+- `theory_grade == matureClosure`
+- a `<X>Up_StdBridge` theorem exists in `lean4/BEDC/Derived/<X>Up.lean` (or `<X>Up/StdBridge.lean`)
+- the chapter's `closurestatus.\bridgestatus` is still `none` or `paperBridge` (not `bridgeChecked`)
+
+The lean side is already done; this round records the upgrade on the paper side. The diff is 1-3 lines:
+- `\bridgestatus{paperBridge}` (or `none`) → `\bridgestatus{bridgeChecked}`
+- `\formalstatus{\<old>}` → `\formalstatus{\bridgeCheckedV}` (where old is whatever lower grade the chapter currently records — `\theoremCheckedV`, `\auditCleanV`, `\axiomCleanV` — all uplift to `\bridgeCheckedV`)
+- `\upgradepath{...}` rewritten to "no further upgrade — chapter at top of formal axis"
+
+**HARD GATE — bridge sync priority**: If `bridge_sync_pending_total >= 1`, AT LEAST 1 of the proposed N targets MUST be `kind = "closure_mark"` drawn from `bridge_sync_pending[0..2]`. The target's `paper_files[0]` is the entry's `file_paper`. The diff is exactly the 2-3 lines above. Verify the `<X>Up_StdBridge` theorem exists in the lean tree before committing — `bedc_ci.py audit` rejects if not.
+
+This gate composes with all other gates. A 3-target round can satisfy: 1 bridge_sync + 1 drift_sync + 1 critical_path top-3 / root_unblock / transition.
+
+bridge_sync_pending targets do NOT need to be drawn from `top` / `top_root_unblocks` / `top_transitions`; bridge_sync_pending is its own independent source.
+
+## TOP-LEVEL HARD GATE — bridge_candidates sync (paper detects lean bridge work)
+
+`critical_path.py` JSON now exposes `bridge_candidates[*]` (with `bridge_candidates_total`). Each entry is a chapter where:
+- `theory_grade == matureClosure` (paper is fully mature)
+- objective formal grade == `axiomCleanV` (lean target is in axiom-purity --strict pure set)
+- chapter's `closurestatus.\bridgestatus` is still `none` or `paperBridge` (no machine-checked bridge yet)
+
+When a lean R-round commits a `<X>Up_StdBridge` theorem (commit subject contains `axiomClean->bridgeCheck`), paper P-rounds should sync the chapter's closurestatus block: change `\bridgestatus{none}` (or `\bridgestatus{paperBridge}`) to `\bridgestatus{bridgeChecked}`, and change `\formalstatus{\axiomCleanV}` (or `\formalstatus{\theoremCheckedV}` if drift hadn't synced yet) to `\formalstatus{\bridgeCheckedV}`. This is the paper-side recording of the lean upgrade `axiomCleanV → bridgeCheckedV`.
+
+**HARD GATE — bridge sync priority**: After applying the drift_chapters gate, if `bridge_candidates_total >= 1` AND a lean commit since the last paper round contains the subject pattern `R\d+: bridge \w+Up to schema`, AT LEAST 1 of the proposed targets MUST be `kind = "closure_mark"` rewriting that chapter's `\bridgestatus{...}` and `\formalstatus{...}` lines to record the bridge transition. The diff is 1-2 lines; do not touch other fields. The chapter is identified by parsing `\w+Up` from the commit subject.
+
+If no recent lean bridge commit exists, this gate is a no-op (gate is satisfied vacuously). The gate is informational signal: paper P-rounds need not write bridge_candidates without lean having written the bridge first.
+
+## TOP-LEVEL HARD GATE — formalstatus token sync (drift_chapters)
+
+`critical_path.py` JSON now exposes a top-level `drift_chapters` array (sorted by objective rank then thms) AND a `drift_chapters_total` count. A drift chapter has a `closurestatus` block whose `\formalstatus{X}` token is strictly LOWER than the **objective** grade derivable from build artifacts:
+
+- `axiom-purity --strict` pure set member → objective = `axiomCleanV`
+- declared theorem / lemma → objective = `auditCleanV`
+- declared def / inductive / structure / class / abbrev → objective = `encodedDefV`
+
+Most chapters today write `\formalstatus{\theoremCheckedV}` while their `\leantarget` is in fact in the axiom-purity pure set (objective = `axiomCleanV`). The chapter is mathematically fine — Lean has done strictly more work than the paper claims — but the paper-side label undersells it. Sync'ing the token to the objective converts existing Lean strength into the corresponding paper claim and unlocks the `axiomCleanV → bridgeCheckedV` upgrade arc. This is the single highest-leverage paper-side work right now.
+
+**HARD GATE — drift sync priority**: If the JSON's `drift_chapters_total >= 5`, AT LEAST 1 of the proposed N targets MUST be `kind = "closure_mark"` drawn from `drift_chapters[0..4]` (top 5). The target's `paper_files[0]` is the entry's `file_paper`. The `proposed_change` is a SINGLE-LINE replacement: change the chapter's existing `\formalstatus{\<token>}` line to `\formalstatus{\<objective_formal_grade>}` (read both fields directly from the entry). Leave `\theoryclosure{...}`, `\leantarget{...}`, `\bridgestatus{...}`, `\notclaimed{...}`, `\upgradepath{...}` UNCHANGED. The diff is exactly 1 line.
+
+Special note on the `\upgradepath{...}` line: when the new objective is `axiomCleanV`, that line should reflect the next real upgrade target (`axiomCleanV → bridgeCheckedV`). Update it ONLY if its current text references the old token (e.g. mentions `theoremCheckedV → axiomCleanV` as the next step). Otherwise leave it alone — pure sync is preferred.
+
+This gate composes with all other gates. A 3-target round can satisfy: 1 drift-sync + 1 critical_path top + 1 root_unblock or transition. Drift-sync targets are NOT subject to the "matureClosure already at top" exclusion below — drift sync IS the next valid step on a matureClosure chapter (it advances the formal axis, not the theory axis).
+
+Drift-sync targets do NOT need to be drawn from `top` / `top_root_unblocks` / `top_transitions`; `drift_chapters` is its own independent source. The "closure_mark candidates come from critical_path ONLY" rule below is satisfied because `drift_chapters` IS a critical_path output.
+
+## TOP-LEVEL HARD GATE — closure_mark candidates come from critical_path ONLY
+
+`closure_mark` review targets MUST be drawn from the `critical_path.py` JSON output's lists:
+
+- `top[*]` (critical-path discovery)
+- `top_root_unblocks[*]` (root-unblock priority)
+- `top_transitions.{to_seed,to_obligation,to_scoped,to_public,to_bridged,to_mature}[*]` (rotation)
+
+Do NOT scan paper chapter files yourself looking for "this chapter has lots of `\leanchecked` rows, must be closure-eligible". Such heuristic selection has produced repeated no-op rounds where the worker proposed `closure_mark` for chapters already at `matureClosure` (e.g. HilbertUp), which is the topmost theory grade — the chapter is done, the round commits nothing material, BASE_BRANCH gains a no-op merge.
+
+If a chapter does NOT appear in any of the three critical_path lists above, it is NOT a `closure_mark` candidate this round. Either it's already retired (theory ≥ scopedClosure AND formal ≥ theoremCheckedV), or `critical_path.py` decided it's not the highest leverage closure to pursue right now. Trust the script; do not second-guess it by re-scanning chapter files.
+
+The corollary: if you see a chapter file with ten `\leanchecked` rows and a `\theoryclosure{\matureClosure}` line in its `closurestatus` block, that chapter is FINISHED — no closure_mark target is possible for it ever again. Pick a different chapter from the lists above.
+
+## SOFT SIGNAL — meta-capstone discovery board (NO HARD GATE)
+
+`critical_path.py` JSON now exposes `capstone_overlap_map.pairs[*]` and
+`capstone_overlap_map.triples[*]` plus `capstone_overlap_map.open_pairs_total`
+and `capstone_overlap_map.open_triples_total`. Each pair/triple records:
+
+- `a`, `b` (and `c` for triples): capstone chapter file stems under `papers/bedc/parts/capstones/`
+- `shared_kernel_objects`: the BEDC namespace prefixes (e.g. `BEDC.FKernel.Hist`, `BEDC.Derived.RingUp`) cited by all sources
+- `shared_lean_targets`: specific Lean target names cited by all sources
+- `unified_by`: a fourth capstone that already unifies the slot, or `null` if open
+
+This is a **discovery board**, NOT a HARD GATE. The pipeline cannot
+identify which open slot represents a non-trivial unifying structure
+and which is mere syntactic overlap. That recognition is structurally
+analogous to discovering primes: the sieve enumerates candidates, but
+identifying their atomic role requires a mathematical concept that does
+not arise from the sieve itself.
+
+How to use this signal:
+
+- IF you (the reviewer) can identify a non-trivial mathematical
+  unification across two/three capstones whose `unified_by` is `null`,
+  AND the unification adds at least one definition or theorem that does
+  NOT trivially follow from the source capstones individually,
+  AND the unification can be stated in BEDC kernel terms (`BHist`, `BMark`,
+  `Cont`, `Ext`, `hsame`, `NameCert`) without introducing new kernel objects,
+  THEN you MAY propose `kind = "theory_extension"` with `notes.flavor =
+  "meta_capstone"`. The target's `paper_files[0]` is a NEW capstone file
+  `papers/bedc/parts/capstones/<theme>.tex`. Phase REVISE will create the
+  file and append `\input{parts/capstones/<theme>}` to
+  `papers/bedc/parts/capstones/_index_files.tex` (alphabetical order).
+
+- IF you cannot identify a substantive unification, do NOT propose a
+  meta-capstone target. Pure syntactic intersection is a TRIVIAL
+  candidate and produces a no-op round. The board's purpose is to
+  record negative space, not to mandate filling it.
+
+The pipeline never strictly requires a meta-capstone target; rounds
+that don't propose one are not penalized. Meta-capstone discovery is
+a soft track running alongside the hard-gate frontier.
+
+## HARD GATE — meta-capstone trivial-overlap rejection
+
+If the round proposes a `kind = "theory_extension"` with `notes.flavor =
+"meta_capstone"`, the proposal MUST satisfy ALL of:
+
+1. The proposed unification adds at least 2 NEW theorems or definitions
+   whose statements reference BEDC kernel objects (`BHist`, `BMark`,
+   `Cont`, `Ext`, `hsame`, `NameCert`).
+2. At least 1 of the new theorems must NOT be a corollary of source
+   capstones' existing theorems — its proof must use the unification
+   structure itself, not merely instantiate one source's claim in
+   another's vocabulary.
+3. The proposed capstone must declare at least 1 NEW Lean target
+   (`\leandef`, `\leanstmt`, or eventually `\leanchecked`) that does
+   not exist in any source capstone — i.e. the meta-capstone synthesizes
+   a new identification, not a name change.
+4. The proposed capstone's prose must explicitly cite BOTH (or all
+   THREE) source capstones via `\autoref{ch:capstones-<source-slug>}`.
+
+A meta-capstone proposal failing any of these is a TRIVIAL OVERLAP
+and MUST be replaced. This gate prevents the no-op cycle where the
+pipeline mechanically generates "Capstone A and B both invoke X, here
+is meta-capstone naming X" — a tautology, not a unification.
+
+This gate is independent of the existing capstone gate at line 415:
+ordinary capstones synthesize ≥ 3 `<X>Up`-style chapters; meta-capstones
+synthesize ≥ 2 capstones. The two gates compose; an ordinary-capstone
+target (flavor=capstone) and a meta-capstone target (flavor=meta_capstone)
+are distinct kinds and can coexist in a multi-target round.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
@@ -174,6 +336,8 @@ A chapter retires from the critical path only when it reaches `(scopedClosure, t
 
 A `closure_mark` review target proposes adding a `\closureat{<X>Up}{<strength>Str}[BEDC.<...>.<theorem>]` line to the chapter — that's the binary closure marker the audit reads. closure_mark targets register the transition, but the underlying content (obligation/scope/public/bridge work) must already exist. Do NOT propose closure_mark for a chapter that hasn't done the prior-grade content work.
 
+**HARD GATE — never re-mark a matureClosure chapter**: If the chapter ALREADY has a `closurestatus` block whose `\theoryclosure` is `\matureClosure`, the theory axis is at its topmost grade — there is no further grade to raise. NEVER propose `kind = "closure_mark"` for such a chapter, even if the chapter body contains lots of new `\leanchecked` rows. The chapter is done. Pick a different chapter from the rotation list / critical_path top / root_unblocks. A round whose target is closure_mark on an already-matureClosure chapter is a no-op round (Phase REVISE will produce a zero-meaningful-diff commit) and is worse than skipping the target. To detect: grep for `\theoryclosure{\matureClosure}` in the candidate chapter file before emitting the target.
+
 ### Transition rotation (HARD GATE — drives upgrade-chain balance)
 
 `critical_path.py` emits a `top_transitions` field with 6 ranked candidate lists, one per theory_closure transition:
@@ -190,7 +354,7 @@ top_transitions:
 
 Without rotation, paper rounds dogpile `to_seed` (first-time register) because that's where unattacked chapters dominate. Result: 50+ chapters parked at `scopedClosure` with no further upgrade, the `publicClosure → bridgedClosure → matureClosure` upgrade chain stays cold.
 
-**HARD GATE — round-number rotation**: At LEAST 1 of your N proposed targets MUST be `kind = "closure_mark"` drawn from the round-rotation transition. Use:
+**HARD GATE — round-number rotation (weighted by backlog)**: At LEAST 1 of your N proposed targets MUST be `kind = "closure_mark"` drawn from the round-rotation transition. Use:
 
 ```
 primary_transition_index = ROUND_NUM % 6
@@ -198,9 +362,15 @@ primary_transition_index = ROUND_NUM % 6
 
 with the mapping `0→to_seed, 1→to_obligation, 2→to_scoped, 3→to_public, 4→to_bridged, 5→to_mature`. Pick `top_transitions[primary][0]` (the highest fan-out candidate at that transition) as the closure_mark target.
 
+**Backlog-weighted reinforcement**: `to_seed` chapters dominate the open horizon (typically 100+ chapters with `theory_grade=null`). To prevent the upgrade chain from being permanently dominated by the `to_seed` backlog, use this rule:
+
+- If `len(top_transitions['to_seed']) >= 50`, emit **2 to_seed targets per round** (regardless of `ROUND_NUM % 6`). This doubles the rate of new chapter registration and clears the backlog ~2x faster.
+- If `len(top_transitions['to_seed']) >= 20`, emit **1 extra to_seed target** in addition to the round-rotation primary. So a round that's already on `ROUND_NUM % 6 == 0` (to_seed primary) emits 2 to_seed; a round on any other primary emits 1 primary + 1 extra to_seed.
+- Otherwise, follow the standard `ROUND_NUM % 6` rotation only.
+
 If the primary transition list is empty (e.g. round 5 looking for `to_mature` but no chapter is at `bridgedClosure` yet), fall back to `(primary + 1) % 6`, repeat until a non-empty transition is found. Skip the rotation gate ONLY when ALL 6 transitions are empty — extremely rare.
 
-This guarantees over a 6-round window each transition gets at least 1 paper attempt. Existing HARD GATEs (`top[0..2]` critical-path + `top_root_unblocks[0..2]` root-unblock) still apply for the OTHER N-1 targets in the round.
+This guarantees over a 6-round window each transition gets at least 1 paper attempt, AND lets the to_seed backlog drain faster when it's the bottleneck. Existing HARD GATEs (`top[0..2]` critical-path + `top_root_unblocks[0..2]` root-unblock) still apply for the OTHER N-1 targets in the round.
 
 `closure_mark` from rotation can co-exist with the existing closure_mark proposals on top-3 retired-eligible chapters; both are valid `closure_mark` instances. Difference: rotation forces breadth across grades; existing closure_mark logic forces depth on critical-path top.
 
@@ -258,11 +428,39 @@ If a top-3 chapter is technically blocked (its schema explicitly notes infrastru
 
 These are typically root-of-tree paper stubs (5-10 lines, no `\input`, no `\label`) that external commits referenced as dependencies but never gave obligation theorem blocks. Without obligation content, lean cannot register `\leanchecked` markers → downstream chapters stay `deps_ready=False` → `critical_path.top` stays starved (currently ~12 sibling fronts vs 200+ open horizons). Attacking root stubs has 5-10x fan-out leverage compared to depth-refining already-rich chapters.
 
-**HARD GATE**: if `top_root_unblocks` is non-empty AND its first entry has `unblock_count >= 3`, AT LEAST 1 of the proposed targets MUST be `kind = "theory_extension"` on a chapter from `top_root_unblocks[0..2]`. The target's `paper_files[0]` is the entry's `file_paper`. The diff must add at least 3 `\begin{theorem}` / `\begin{definition}` blocks with `\label{thm:<chapter>-...}` so the chapter's `thms` crosses `deps_ready_threshold`. Theorem statements should mention BEDC kernel constructs (`BHist`, `Cont`, `hsame`, `NameCert`, `UnaryHistory`) and articulate the chapter's NameCert obligations as the schema would have demanded had the chapter been written by hand.
+**HARD GATE**: if `top_root_unblocks` is non-empty AND its first entry has `unblock_count >= 1`, AT LEAST 1 of the proposed targets MUST be `kind = "theory_extension"` on a chapter from `top_root_unblocks[0..2]`. The target's `paper_files[0]` is the entry's `file_paper`. The diff must add at least 3 `\begin{theorem}` / `\begin{definition}` blocks with `\label{thm:<chapter>-...}` so the chapter's `thms` crosses `deps_ready_threshold`. Theorem statements should mention BEDC kernel constructs (`BHist`, `Cont`, `hsame`, `NameCert`, `UnaryHistory`) and articulate the chapter's NameCert obligations as the schema would have demanded had the chapter been written by hand.
+
+Why threshold `>= 1` (was `>= 3` before v4.3): in mutual-blocker dep tree (typical when `top` collapses to 0 — multiple `thms=0` peers blocking the same downstream), every root has `unblock_count=1` because no root is a SINGLE-blocker. Skipping the GATE because `unblock_count < 3` is the bug that produced the 4-day stall on 2026-05-08 (top: 0, top_root_unblocks: 10 entries × unblock_count=1, paper rounds did 240+ closure-axis bookkeeping commits without opening any new front).
 
 `closure_mark` targets do NOT satisfy this gate — they bump closurestatus axis, not `thms`. The two HARD GATES (top[0..2] and top_root_unblocks[0..2]) compose: a 3-target round can satisfy both with 1 top-3 target + 1 root-unblock target + 1 free slot.
 
 If `top_root_unblocks` is empty (every dep tree root is already at `thms >= threshold`), this gate is vacuous and may be skipped.
+
+## TOP-LEVEL HARD GATE — empty-root attack (paper opens new fronts when top is starved)
+
+`critical_path.py` JSON exposes `top_empty_roots[*]` (with `top_empty_roots_total`). Each entry is an open horizon where `max(thms, labels) == 0` — fully empty paper stub that has been referenced as a dependency by other chapters but never received any obligation content. Sorted by `transitive_downstream` descending (how many chapters transitively depend on this one).
+
+```json
+{
+  "name": "affinespace",
+  "thms": 0,
+  "labels": 0,
+  "deps": ["group", "vecspace"],
+  "transitive_downstream": 3,
+  "direct_downstream": 1,
+  "file_paper": "papers/bedc/parts/concrete_instances/184_affinespace_namecert_construction.tex"
+}
+```
+
+`top_empty_roots` exists because `top_root_unblocks` measures SINGLE-blocker fan-out only; in mutual-blocker bottom layers (e.g. affinespace + bilinform + chernweil + clifford all `thms=0`) no root is a single blocker for any downstream, so `top_root_unblocks[*].unblock_count` collapses to 1 even when the transitive impact of writing the schema is much larger. `top_empty_roots` measures the transitive metric directly.
+
+**HARD GATE — empty-root attack priority**: If `len(top) == 0` AND `top_empty_roots_total >= 1`, AT LEAST 1 of the proposed N targets MUST be `kind = "theory_extension"` on a chapter from `top_empty_roots[0..2]`. The target's `paper_files[0]` is the entry's `file_paper`. The diff must add at least 5 `\begin{theorem}` / `\begin{definition}` blocks with `\label{thm:<chapter>-...}` BHist-anchored statements articulating the chapter's NameCert obligation surface — concrete BHist/Cont/hsame/NameCert/UnaryHistory predicates, not abstract parameter-echo. This drives `thms` and `labels` past `deps_ready_threshold` so the chapter (and its transitive downstream) becomes eligible for `top` on subsequent rounds.
+
+This gate composes with bridge_sync_pending / drift_chapters / transition rotation gates: a 3-target round can satisfy 1 empty-root + 1 drift-sync + 1 transition closure_mark. The empty-root target counts as the round's `theory_extension` contribution for the rolling-window `theory_extension` requirement.
+
+If `len(top) >= 1`, this gate is vacuous (the existing `top[0..2]` HARD GATE handles new-front opening). If `top_empty_roots_total == 0`, this gate is also vacuous.
+
+Why this gate exists (added in v4.3): on 2026-05-08 the dep tree's bottom layer became fully mutual-blocked: `top: 0`, `top_root_unblocks` had 10 entries all with `unblock_count=1`, so the existing `unblock_count >= 3` GATE never fired. Paper rounds spent ~3000 commits in 24h on closure-axis bookkeeping while 94 empty-stub chapters sat un-attacked. The `top_empty_roots` GATE forces paper to open new fronts whenever `top` is starved.
 
 ## Theme saturation (HARD GATE)
 
@@ -530,7 +728,7 @@ Output a single fenced JSON block:
 
 Field requirements:
 - `candidate_pool` is mandatory and must contain at least 3 candidates unless fewer than 3 valid candidates exist; in that case explain the shortage in `notes`.
-- `targets[0].candidate_id` must match the `candidate_pool` entry with `selection_rank = 1` and `feasible = true`.
+- `targets[i].candidate_id` (for each emitted target) must match a `candidate_pool` entry with `feasible = true` and consecutive `selection_rank` 1..N (N is the number of emitted targets, up to 5). `targets[0]` is rank 1, `targets[1]` is rank 2, etc.
 - Every feasible `medium` or `high` candidate ranked below a selected `low` candidate must have a concrete `rejected_reason`; otherwise the output is invalid.
 - `paper_files` lists EXACTLY the existing .tex file(s) the revise phase must edit. Do not list main.tex unless main.tex itself is what changes.
 - `new_files` is present only when the substantive target requires a line-cap split; these paths must live under an existing `papers/bedc/parts/<theme>/` directory, and the parent file must become a pure index containing only ordered `\input` lines.

@@ -13,6 +13,7 @@ Let $\mathcal{T}$ and $\mathcal{T}'$ be indexed open topology carriers, and let 
 \end{enumerate}
 The square is displayed: it records the index map, the represented inverse image, and the memberwise cover pullback without replacing the indexed-open carrier by a powerset model or adding a quotient of covers.
 \end{definition}
+\leandef{BEDC.Derived.SheafUp.SheafDisplayedBaseChangeSquare}
 
 \begin{theorem}[Sheaf base-change cover-pullback compatibility]
 \label{thm:sheaf-base-change-cover-pullback-compatibility}
@@ -22,6 +23,7 @@ u'_a:=\rho_{\iota(a),f(\iota'(a))}(u_a)
 $$
 is compatible over the displayed cover $\mathcal{U}'$ after the carrier identification $f(\iota'(a))\cong\iota(a)$ supplied by the square.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafBHistCoverNerveLedger\_base\_change\_cover\_pullback}
 \begin{proof}
 Unfold compatibility over $\mathcal{U}'$. For two members $a,b:A$, the source overlap is represented by the finite intersection of $\iota'(a)$ and $\iota'(b)$ in $\mathcal{T}'$.
 
@@ -39,6 +41,7 @@ $$
 $$
 Then the displayed pullback $g':=\rho_{i,f(i')}(g)$ glues the pulled-back family $u'_a$ over $\mathcal{U}'$ after transporting along the represented inverse-image row $f^{-1}(i)\simeq i'$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafBHistPointGermLedger\_base\_change\_gluing\_pullback}
 \begin{proof}
 Fix $a:A$. The gluing row for $g$ restricts $g$ from $i$ to $\iota(a)$ and compares it with $u_a$.
 
@@ -58,6 +61,7 @@ $$
 $$
 Then the displayed base-changed cover presentations over $i'$ agree after the pulled-back displayed common refinement. Consequently their glued global classifier classes over the represented source open are the same whenever the corresponding displayed gluings exist.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafBaseChange\_common\_refinement\_projection}
 \begin{proof}
 Apply \autoref{thm:sheaf-base-change-cover-pullback-compatibility} to $\mathcal{U}$ and to $\mathcal{V}$. This gives compatible pulled-back families over the two displayed source covers.
 
@@ -81,6 +85,8 @@ For every displayed base-change square of indexed open carriers, the $\SheafUp$ 
 \end{enumerate}
 Thus base change is exposed as a paper-side obligation surface on indexed opens, not as a host-space powerset construction, and downstream certificates can cite it for cover pullback, gluing pullback, and common-refinement invariance.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafUp.SheafBaseChange\_name\_certificate}
+\leanchecked{BEDC.Derived.SheafUp.SheafBaseChange\_obligation\_surface}
 \begin{proof}
 The carrier and classifier rows are inherited from \autoref{def:sheaf-restricted-open-carrier}. The represented source open $i'$ determines the same fixed-open slice used by restricted-open consumers, so no new section carrier or classifier is introduced.
 

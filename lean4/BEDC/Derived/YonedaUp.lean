@@ -190,4 +190,24 @@ theorem YonedaRepresentable_empty_component_family_boundary_transport {p q r s :
             (hsame_trans (hsame_symm samePR)
               (hsame_trans familyData.right.right sameQS)))))
 
+theorem YonedaRepresentable_prefix_empty_component_full_faithfulness {p q eta theta : BHist} :
+    UnaryHistory p -> UnaryHistory q ->
+      (((forall {a : BHist}, UnaryHistory a ->
+        NatTransPrefixComponentCarrier p q a BHist.Empty) <-> hsame p q) ∧
+        ((forall {a : BHist}, UnaryHistory a ->
+          NatTransPrefixComponentCarrier p q a eta) ->
+          (forall {a : BHist}, UnaryHistory a ->
+            NatTransPrefixComponentCarrier p q a theta) -> hsame eta theta)) := by
+  intro prefixCarrier targetCarrier
+  constructor
+  · constructor
+    · intro family
+      have data := YonedaRepresentable_empty_component_family_iff.mp family
+      exact data.right.right
+    · intro samePrefix
+      exact YonedaRepresentable_empty_component_family_iff.mpr
+        (And.intro prefixCarrier (And.intro targetCarrier samePrefix))
+  · intro etaFamily thetaFamily
+    exact YonedaRepresentable_component_family_displayed_deterministic etaFamily thetaFamily
+
 end BEDC.Derived.YonedaUp

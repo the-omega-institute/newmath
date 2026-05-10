@@ -101,3 +101,49 @@ distance row and the unary absolute-value row read only DyadicRatCore carrier
 data, preserve classifier compatibility under $\hsame$, and expose exactly the
 finite output rows consumed by the RealUp sealing interface.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore finite observation obligation package]
+\label{thm:dyadic-rat-core-finite-observation-obligation-package}
+A finite DyadicRatCore observation package over a certified unary request is
+exactly the conjunction of the carrier and classifier face, the arithmetic
+operation face, and the monotone-radius face already displayed in this
+inventory. Its first component is the
+$\mathsf{DyadicRatCoreObservationRow}$ carrier and classifier boundary of
+\autoref{thm:dyadic-rat-core-carrier-classifier-obligations}. Its second
+component is the finite dyadic addition, negation, subtraction,
+multiplication, and positive-denominator division rows of
+\autoref{thm:dyadic-rat-core-arithmetic-stability-obligations}. Its third
+component is the monotone dyadic-radius, dyadic-distance, and absolute-value
+surface of \autoref{thm:dyadic-rat-core-radius-distance-obligations}. All
+three components are read over the same $\mathsf{BHist}$ endpoints, $\RatUp$
+carrier rows, $\StreamNameUp$ request name, $\RegSeqRat$ regularity ledger,
+$\hsame$ transport, and finite observation ledger data. The package has no
+coordinate for quotient carriers, completion objects, metric completeness,
+Classical data, or standard bridges.
+\end{theorem}
+\begin{proof}
+Project a candidate finite observation package to its carrier/classifier
+coordinate. By
+\autoref{thm:dyadic-rat-core-carrier-classifier-obligations}, this coordinate
+is precisely the $\mathsf{DyadicRatCoreObservationRow}$ face over the RatUp
+endpoint, positive denominator, dyadic-radius token, $\mathsf{BHist}$ history,
+and $\hsame$ comparison rows.
+
+Project the same package to its operation coordinate. By
+\autoref{thm:dyadic-rat-core-arithmetic-stability-obligations}, the only
+operation rows present are the finite dyadic arithmetic rows whose endpoints,
+classifier transports, denominator preservation, $\StreamNameUp$ request name,
+and $\RegSeqRat$ ledger are the rows already exposed by the first coordinate.
+
+Project the radius-distance coordinate. By
+\autoref{thm:dyadic-rat-core-radius-distance-obligations}, this coordinate
+contains only monotone-radius refinement, dyadic distance, and absolute-value
+rows over the same finite ledger and the same endpoint classifier transport.
+
+Conversely, given those three faces over the same histories, carriers, request
+name, regularity ledger, $\hsame$ transport, and finite observation ledger,
+repack them as the DyadicRatCore observation package. The repacking has no
+constructor input for a host quotient carrier, completion object, metric
+completeness witness, Classical datum, or standard bridge, so none of those
+objects is exported to $\RegSeqRat$ or $\RealUp$.
+\end{proof}

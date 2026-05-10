@@ -110,7 +110,6 @@ row by \autoref{def:graph-cont-adjacency-carrier}. The final classifier claim
 is just the same three $\hsame$ witnesses read through the componentwise edge
 classifier.
 \end{proof}
-\leanchecked{BEDC.Derived.GraphUp.GraphContEdge\_classifier\_transport}
 
 \begin{theorem}[Graph Cont edge row inversion]
 \label{thm:graph-cont-edge-row-inversion}
@@ -285,6 +284,7 @@ $\mathsf{cont\_right\_unit}$. Repacking these three fields through
 \autoref{def:graph-cont-adjacency-carrier} gives the displayed
 $\mathsf{GraphEdge}$ row.
 \end{proof}
+\leanchecked{BEDC.Derived.GraphUp.GraphContEdge\_empty\_tail\_identity}
 
 \begin{theorem}[Graph edge result determinacy]
 \label{thm:graph-cont-edge-result-determinacy}
@@ -301,6 +301,7 @@ ledger the two rows $(h,k,g)$ and $(h,k,g')$; exactness by endpoint coverage
 and continuation determinacy up to $\hsame$; standard bridge absent; status
 proof target.
 \end{theorem}
+\leanchecked{BEDC.Derived.GraphUp.GraphContEdge\_result\_determinacy}
 \begin{proof}
 Apply \autoref{thm:graph-cont-edge-endpoint-coverage} to both edge rows. This
 projects the two continuation witnesses $\Cont(h,k,g)$ and $\Cont(h,k,g')$
@@ -420,3 +421,64 @@ $$
 $$
 The retained graph rows are exactly the displayed left-associated and right-associated path rows.
 \end{proof}
+
+\begin{theorem}[GraphUp Cont public interface bridge]
+\label{thm:graph-cont-public-interface-bridge}
+The public graph-interface bridge for
+\autoref{def:graph-cont-adjacency-carrier} interprets every row
+$\mathsf{GraphEdge}(h,k,g)$ as a directed edge of the exported $\GraphUp$
+interface from source vertex $h$ to target vertex $k$ with visible edge result
+$g$. Public equality of exported graph edges reflects back to the componentwise
+BEDC classifier
+$$
+\hsame(h,h')\land \hsame(k,k')\land \hsame(g,g')
+$$
+on source, target, and result.
+
+The bridge fields are exactly the $\GraphUp$ NameCert surface of
+\autoref{thm:graph-cont-namecert-surface}, endpoint coverage from
+\autoref{thm:graph-cont-edge-endpoint-coverage}, classifier transport from
+\autoref{thm:graph-cont-edge-classifier-transport}, row inversion from
+\autoref{thm:graph-cont-edge-row-inversion}, the unit loop laws from
+\autoref{thm:graph-cont-unit-loop}, two-step composition from
+\autoref{thm:graph-cont-two-step-composition}, and three-step reassociation
+from \autoref{thm:graph-cont-three-step-path-reassociation}.
+\end{theorem}
+\leanchecked{BEDC.Derived.GraphUp.GraphContPublicInterface\_bridge}
+\begin{proof}
+Project the carrier, classifier, edge predicate, visible ledger, and declared
+surface fields from \autoref{thm:graph-cont-namecert-surface}. The carrier
+definition reads a public graph row as precisely the displayed
+$\mathsf{GraphEdge}(h,k,g)$ datum, so interpretation into the exported
+$\GraphUp$ interface is direct projection from the row.
+
+For endpoint soundness, apply
+\autoref{thm:graph-cont-edge-endpoint-coverage}. It exposes the source unary
+witness, target unary witness, and continuation row carried by every public
+edge, so the interface endpoints are exactly the two displayed histories.
+
+For equality reflection, use the componentwise edge classifier from
+\autoref{def:graph-cont-adjacency-carrier}. Classifier transport is supplied by
+\autoref{thm:graph-cont-edge-classifier-transport}; row inversion is supplied by
+\autoref{thm:graph-cont-edge-row-inversion}, which reads shared public rows back
+to $\hsame$ on the source, target, or result component as appropriate.
+
+For the graph operations, \autoref{thm:graph-cont-unit-loop} supplies the public
+empty-endpoint unit rows, \autoref{thm:graph-cont-two-step-composition} supplies
+public path composition, and
+\autoref{thm:graph-cont-three-step-path-reassociation} supplies reassociation of
+three displayed paths up to $\hsame$. These projections are the advertised
+public graph-interface bridge fields.
+\end{proof}
+
+\begin{closurestatus}{\GraphUp}
+  \constructivestory{A graph in this concrete surface uses unary histories as vertices and reads a directed edge from the kernel continuation row: $\mathsf{GraphEdge}(h,k,g)$ means that $h$ and $k$ are unary and $\Cont(h,k,g)$ is displayed. A row is excluded unless both endpoints are carried vertices and the continuation result is part of the same visible triple, while edge classification is componentwise $\hsame$ on source, target, and result. The source is the $\mathsf{BHist}$ unary-vertex carrier with $\Cont$ rows, the pattern records endpoint coverage, row inversion, unit loops, two-step composition, and three-step reassociation, and the ledger keeps exactly the triple $(h,k,g)$ with the two unary endpoint witnesses and continuation witness. The five name-certificate obligations are witnessed by empty-endpoint unit rows for inhabitation, by componentwise reflexivity, symmetry, and transitivity of $\hsame$, and by transport of unary endpoints and continuation rows along the classifier. An edge row $e$ lies in the signature gap of a $\GraphUp$ token $p$ when the source-domain accepts its unary endpoints and continuation triple, the signature relation pairs that triple with an answer edge and evidence ledger, and token introduction names that answer as $p$; unfolded, the source, target, and result histories are exactly the componentwise edge data encoded by the token. The public bridge reads each visible triple as a directed graph edge and reads equality of exported edges back to the same componentwise BEDC classifier, with no separate standard graph API claimed. The chapter registers this continuation-edge construction under the name $\GraphUp$; graph structure is a ledger of unary vertices and $\Cont$ rows, not a host finite graph, connectivity package, homomorphism theory, or hidden adjacency object.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The $\GraphUp$ treatment binds endpoint coverage, classifier transport, row inversion, unit loop laws, two-step composition, three-step reassociation, and the public interface bridge for GraphEdge rows over UnaryHistory vertices with hsame classification.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.GraphUp.GraphContNameCert\_surface}
+  \bridgestatus{paperBridge}
+  \notclaimed{Finite graph APIs, connectivity, acyclicity, graph homomorphisms, standard graph APIs, or machine-checked bridge closure.}
+  \upgradepath{A machine-checked bridge grade requires a checked StdBridge target for this public interface, independently of the paper bridge recorded here.}
+\end{closurestatus}
+\closureat{GraphUp}{matureStr}[BEDC.Derived.GraphUp.GraphContNameCert\_surface]

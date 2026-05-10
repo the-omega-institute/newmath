@@ -203,6 +203,7 @@ The classification of an arbitrary cone endomorphism with the identity is exactl
 
 Combining these field projections gives precisely the two comparison morphisms, the two composite witnesses, and the two identity classifications stated in \autoref{thm:catlimit-universal-cones-comparison-identities}. Each displayed equality is an instance of $\operatorname{MorEq}_{\mathcal C}$, and every object-level comparison used in the construction is one of the fields listed above.
 \end{proof}
+\leanchecked{BEDC.Derived.CatLimitUp.CatLimitLimCone\_comparison\_field\_dependency}
 
 \begin{definition}[Pointwise certified diagram equivalence]
 \label{def:catlimit-pointwise-certified-diagram-equivalence}
@@ -224,6 +225,7 @@ $$
 $$
 The naturality, component-carrier, and component-classifier rows are exactly the rows required by the $\NatTransUp$ carrier and certificate obligations.
 \end{definition}
+\leandef{BEDC.Derived.CatLimitUp.CatLimitPointwiseDiagramEquivalence}
 
 \begin{theorem}[CatLimit transport along pointwise certified diagram equivalence]
 \label{thm:catlimit-transport-pointwise-certified-diagram-equivalence}
@@ -399,3 +401,16 @@ Apply \autoref{thm:catlimit-universal-cones-comparison-identities} to these two 
 The identity classifiers produced by that comparison theorem are also classified in the target category certificate $\mathcal C$ while the cone-morphism ledgers are indexed by $E$. Hence the composites $u;v$ and $v;u$ are classified, under $\operatorname{MorEq}_{\mathcal C}$, as the respective identity morphisms $1_L$ and $1_M$ in precisely the transported target-diagram context claimed above.
 \end{proof}
 \leanchecked{BEDC.Derived.CatLimitUp.CatLimitLimCone\_transported\_comparison}
+
+\closureat{CatLimitUp}{obligationStr}
+
+\begin{closurestatus}{\CatLimitUp}
+  \constructivestory{A categorical limit is built over an already certified category and a certified diagram by displaying a cone: an apex history, one component morphism history to each diagram value, and the comparison rows saying those components respect every diagram arrow. The carrier accepts only cones with these visible component witnesses and a limiting field that sends any other displayed cone to a comparison morphism into the apex; a cone without the component ledger or without the universal comparison row stays outside the surface, and two accepted comparisons are identified by the morphism classifier inherited from $\CategoryUp$. The source is the fixed-diagram cone predicate, the pattern records identity cone morphisms, closure under composition, apex comparison identities, diagram-equivalence transport, and whiskering descent, while the ledger keeps the apex, component composites, and universal comparison morphisms visible rather than replacing them by an external limit object. For the displayed seed surface, the name-certificate obligations are read from the same rows: a supplied limiting cone gives the carried endpoint, inherited morphism equality supplies reflexivity, symmetry, and transitivity, and the transport theorems keep carried cones and cone morphisms admitted after classifier replacement. A history $h$ lies in the signature gap of a $\CatLimitUp$ token $p$ when the source-domain recognizes $h$ as this fixed-diagram cone package, the signature relation pairs it with an answer cone and its component ledger, and the token-introduction relation names that answer as $p$; unfolded, $h$ has exactly the displayed universal arrow into the limiting apex and the uniqueness comparison rows encoded by $p$. No standard bridge is attached here, so the outside categorical-limit reading remains only the internal $\CategoryUp$ and $\FunctorUp$ comparison surface. The chapter registers this fixed-diagram cone construction under the name $\CatLimitUp$; the limit is a universal comparison package over existing histories, with no completeness axiom, host limit object, or external categorical library introduced.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The seed surface names the existing cone-morphism, limiting-cone comparison, diagram-equivalence transport, whiskering-descent, and transported-comparison interface over $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\mathsf{BHist}$, $\hsame$, and $\Cont$.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.CatLimitUp.CatLimitLimCone\_transported\_comparison}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full limit theory, a standard categorical-limit bridge, completeness for arbitrary diagrams, uniqueness beyond the displayed comparison surface, or bridge verification.}
+  \upgradepath{Public closure requires a single exported $\CatLimitUp$ public certificate theorem.}
+\end{closurestatus}

@@ -30,6 +30,108 @@ places $j+(q+k)$ inside the original window. Thus the displayed classifier is
 exactly the repeated finite-window extraction.
 \end{proof}
 
+\begin{theorem}[Real stream nested finite-window endpoint package]
+\label{thm:real-stream-window-nested-endpoint-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, indices
+$n,j,q,r,s,m$, and histories $a,b,z_X,z_Y:\Hist$, assume
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m),
+$$
+$j+r\le m$, $q+s\le r$,
+$\hsame(x((n+j)+q),\Eone(a))$, and
+$\hsame(y((n+j)+q),\Eone(b))$. Then the nested endpoint carries the following
+package:
+\begin{enumerate}
+\item $\mathsf{RealStreamWindowClassifier}(x,y,(n+j)+q,s)$;
+\item $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$;
+\item $\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land
+\hsame(a,b)$;
+\item $\mathsf{PositiveUnaryDenominator}(x((n+j)+q))\land
+\mathsf{PositiveUnaryDenominator}(y((n+j)+q))$;
+\item $\mathsf{UnaryHistory}(x((n+j)+q))\land
+\mathsf{UnaryHistory}(y((n+j)+q))\land
+(\hsame(x((n+j)+q),\emp)\to\mathsf{False})\land
+(\hsame(y((n+j)+q),\emp)\to\mathsf{False})$;
+\item $(\hsame(x((n+j)+q),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(y((n+j)+q),\Ezero(z_Y))\to\mathsf{False})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-window-nested-subwindow-extraction} to the source
+window with the displayed bounds. This produces the nested finite-window row
+$\mathsf{RealStreamWindowClassifier}(x,y,(n+j)+q,s)$.
+
+Next read the selected endpoint of that nested window at offset $0$. The
+bound $0\le s$ lets
+\autoref{thm:real-stream-window-selected-full-shape-readback-package} apply
+to the nested window, with anchor $(n+j)+q$ and displayed one-extension rows
+for $x((n+j)+q)$ and $y((n+j)+q)$.
+
+The selected full-shape readback package supplies the endpoint
+$\RatUp$ classifier, the positive unary denominator rows, the unary endpoint
+rows, the two nonempty exclusions, the two zero-headed exclusions for
+$z_X$ and $z_Y$, and the tail readback
+$\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b)$.
+Repack these rows together with the nested window obtained in the first step.
+\end{proof}
+
+\begin{theorem}[Real stream affine subwindow collapse]
+\label{thm:real-stream-window-affine-subwindow-collapse}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, indices
+$n,j,q,r,s,m$, and histories $a,b,z_X,z_Y:\Hist$, assume
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m),
+$$
+$j+r\le m$, $q+s\le r$, $\hsame(x((n+j)+q),\Eone(a))$, and
+$\hsame(y((n+j)+q),\Eone(b))$. Then the nested package obtained by first
+restricting the source window to $(n+j,r)$ and then to $((n+j)+q,s)$ is the
+same public finite-window classifier and endpoint read as the one-step
+subwindow at offset $j+q$ and radius $s$. In particular, it exposes exactly
+the same rows:
+\begin{enumerate}
+\item $\mathsf{RealStreamWindowClassifier}(x,y,(n+j)+q,s)$, equivalently
+$\mathsf{RealStreamWindowClassifier}(x,y,n+(j+q),s)$ under finite-index
+arithmetic;
+\item $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$;
+\item $\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land
+\hsame(a,b)$;
+\item $\mathsf{PositiveUnaryDenominator}(x((n+j)+q))\land
+\mathsf{PositiveUnaryDenominator}(y((n+j)+q))$;
+\item $\mathsf{UnaryHistory}(x((n+j)+q))\land
+\mathsf{UnaryHistory}(y((n+j)+q))\land
+(\hsame(x((n+j)+q),\emp)\to\mathsf{False})\land
+(\hsame(y((n+j)+q),\emp)\to\mathsf{False})$;
+\item $(\hsame(x((n+j)+q),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(y((n+j)+q),\Ezero(z_Y))\to\mathsf{False})$.
+\end{enumerate}
+Moreover, for every $k\le s$, the nested endpoint family indexed by
+$(n+j)+(q+k)$ is the same finite observation family as the affine subwindow
+family indexed by $n+((j+q)+k)$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-window-nested-subwindow-extraction} to the
+source window and the displayed bounds. This gives the nested classifier at
+anchor $(n+j)+q$ and radius $s$.
+
+Apply \autoref{thm:real-stream-window-subwindow-extraction} directly to the
+source window with shift $j+q$ and radius $s$. The bounds $j+r\le m$ and
+$q+s\le r$ compose to $j+q+s\le m$, so the direct affine subwindow is also
+available at anchor $n+(j+q)$ and radius $s$.
+
+The finite arithmetic identities $(n+j)+q=n+(j+q)$ and
+$(n+j)+(q+k)=n+((j+q)+k)$ identify each nested endpoint with the corresponding
+one-step affine endpoint. Thus the two classifier rows read the same bounded
+family of $\RatUp$ endpoint classifiers.
+
+Finally apply \autoref{thm:real-stream-window-nested-endpoint-package} to the
+nested anchor. Its endpoint package supplies the
+$\mathsf{RatHistoryClassifier}$ row, the tail $\mathsf{UnaryHistory}$ and
+$\hsame$ row, the positive-denominator rows, the nonempty exclusions, and the
+zero-headed exclusions. Transporting those rows along the displayed endpoint
+equalities repacks exactly the one-step affine subwindow package.
+\end{proof}
+
 The ten-field fit is: traditional target nested finite RealUp observation
 windows; BEDC source $\mathsf{RealStreamWindowClassifier}$ over
 rational-observation streams; carrier rational-observation streams; classifier

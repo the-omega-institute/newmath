@@ -28,6 +28,23 @@ theorem DiffFormBHistCarrier_coordinate_ledger
     exact unary_append_closed tensorUnary antisymUnary
   exact ⟨degreeUnary, probeUnary, tensorUnary, scalarUnary, ledgerRoute⟩
 
+theorem DiffFormBHistLedger_exactness_obligation
+    {degree probe tensor scalar antisym ledger : BHist} :
+    UnaryHistory degree -> UnaryHistory probe -> Cont degree probe tensor ->
+      UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          UnaryHistory tensor ∧ UnaryHistory scalar ∧
+            hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ∧
+              Cont degree probe tensor ∧ Cont tensor antisym scalar := by
+  intro degreeUnary probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+  have coordinateRows :=
+    DiffFormBHistCarrier_coordinate_ledger degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute
+  exact And.intro coordinateRows.right.right.left
+    (And.intro coordinateRows.right.right.right.left
+      (And.intro coordinateRows.right.right.right.right
+        (And.intro tensorRoute scalarRoute)))
+
 theorem DiffFormBHistCarrier_hsame_transport
     {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym'
       ledger' : BHist} :
@@ -117,6 +134,38 @@ theorem DiffFormBHistClassifier_transitivity_obligation
                 (hsame_trans leftRows.right.right.right.right.right.right.right
                   rightRows.right.right.right.right.right.right.right)))))))
 
+theorem DiffFormBHistClassifier_hsame_component_stability
+    {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {d p t s a l d' p' t' s' a' l' d2 p2 t2 s2 a2 l2 d3 p3 t3 s3 a3 l3 :
+      BHist} :
+    InBundle p2 probes -> InBundle p3 probes -> hsame d2 d -> hsame p2 p ->
+      hsame t2 t -> ScalarClassifier s2 s -> hsame a2 a -> hsame l2 l ->
+        DiffFormBHistClassifier ScalarClassifier probes d p t s a l d' p' t' s' a' l' ->
+          hsame d' d3 -> hsame p' p3 -> hsame t' t3 -> ScalarClassifier s' s3 ->
+            hsame a' a3 -> hsame l' l3 ->
+              DiffFormBHistClassifier ScalarClassifier probes d2 p2 t2 s2 a2 l2 d3 p3 t3
+                s3 a3 l3 := by
+  intro probeLeft probeRight sameDLeft samePLeft sameTLeft sameScalarLeft sameALeft
+    sameLLeft rows sameDRight samePRight sameTRight sameScalarRight sameARight sameLRight
+  exact And.intro probeLeft
+    (And.intro probeRight
+      (And.intro (hsame_trans sameDLeft (hsame_trans rows.right.right.left sameDRight))
+        (And.intro
+          (hsame_trans samePLeft (hsame_trans rows.right.right.right.left samePRight))
+          (And.intro
+            (hsame_trans sameTLeft (hsame_trans rows.right.right.right.right.left sameTRight))
+            (And.intro
+              (NameCert.equiv_trans scalarCert sameScalarLeft
+                (NameCert.equiv_trans scalarCert rows.right.right.right.right.right.left
+                  sameScalarRight))
+              (And.intro
+                (hsame_trans sameALeft
+                  (hsame_trans rows.right.right.right.right.right.right.left sameARight))
+                (hsame_trans sameLLeft
+                  (hsame_trans rows.right.right.right.right.right.right.right
+                    sameLRight))))))))
+
 theorem DiffFormExteriorDerivative_degree_raise_ledger
     {degree probe tensor scalar antisym ledger targetDegree : BHist} :
     UnaryHistory degree -> UnaryHistory probe -> Cont degree probe tensor ->
@@ -135,6 +184,58 @@ theorem DiffFormExteriorDerivative_degree_raise_ledger
   exact ⟨coordinateRows.left, targetUnary, targetRoute, coordinateRows.right.right.left,
     coordinateRows.right.right.right.left⟩
 
+theorem DiffFormRootDegreeClassifier_coverage {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger : BHist} :
+    InBundle probe probes -> ScalarCarrier scalar -> UnaryHistory degree -> UnaryHistory probe ->
+      Cont degree probe tensor -> UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          (UnaryHistory degree ∧ UnaryHistory probe ∧ UnaryHistory tensor ∧
+            UnaryHistory scalar ∧
+              hsame ledger (append degree (append probe (append tensor (append scalar antisym))))) ∧
+            DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym
+              ledger degree probe tensor scalar antisym ledger := by
+  intro probeIn scalarCarrier degreeUnary probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+  have coordinateRows :=
+    DiffFormBHistCarrier_coordinate_ledger degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute
+  have classifierRows :=
+    DiffFormBHistClassifier_reflexivity_obligation (d := degree) (p := probe)
+      (t := tensor) (s := scalar) (a := antisym) (l := ledger) scalarCert probeIn scalarCarrier
+  exact And.intro coordinateRows classifierRows
+
+theorem DiffFormRootDegreeClassifier_transport
+    {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
+    {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym'
+      ledger' : BHist} :
+    InBundle probe probes -> InBundle probe' probes -> ScalarCarrier scalar ->
+      ScalarClassifier scalar scalar' -> UnaryHistory degree -> UnaryHistory probe ->
+        Cont degree probe tensor -> UnaryHistory antisym -> Cont tensor antisym scalar ->
+          hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+            hsame degree degree' -> hsame probe probe' -> hsame tensor tensor' ->
+              hsame scalar scalar' -> hsame antisym antisym' -> hsame ledger ledger' ->
+                (UnaryHistory degree' ∧ UnaryHistory probe' ∧ UnaryHistory tensor' ∧
+                  UnaryHistory scalar' ∧
+                    hsame ledger'
+                      (append degree'
+                        (append probe' (append tensor' (append scalar' antisym'))))) ∧
+                  DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar
+                    antisym ledger degree' probe' tensor' scalar' antisym' ledger' := by
+  intro probeIn probeIn' _scalarCarrier scalarClass degreeUnary probeUnary tensorRoute
+    antisymUnary scalarRoute ledgerRoute sameDegree sameProbe sameTensor sameScalar sameAntisym
+    sameLedger
+  have transportedRows :=
+    DiffFormBHistCarrier_hsame_transport sameDegree sameProbe sameTensor sameScalar sameAntisym
+      sameLedger degreeUnary probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+  have classifierRows :
+      DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym ledger
+        degree' probe' tensor' scalar' antisym' ledger' :=
+    ⟨probeIn, probeIn', sameDegree, sameProbe, sameTensor, scalarClass, sameAntisym,
+      sameLedger⟩
+  exact And.intro transportedRows classifierRows
+
 def DiffFormExteriorDerivativeLedger
     (omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source :
       BHist) :
@@ -142,6 +243,25 @@ def DiffFormExteriorDerivativeLedger
   UnaryHistory omega ∧ UnaryHistory domega ∧ UnaryHistory d ∧ UnaryHistory dplus ∧
     Cont d (BHist.e1 BHist.Empty) dplus ∧ hsame probe probe' ∧ hsame tensor tensor' ∧
       hsame scalar scalar' ∧ UnaryHistory antisym ∧ UnaryHistory source
+
+def DiffFormWedgeDegreeLedger
+    (leftDegree rightDegree outDegree leftLedger rightLedger tensorLedger : BHist) : Prop :=
+  UnaryHistory leftDegree ∧ UnaryHistory rightDegree ∧ Cont leftDegree rightDegree outDegree ∧
+    UnaryHistory outDegree ∧ UnaryHistory tensorLedger ∧ hsame leftLedger rightLedger
+
+theorem DiffFormWedgeDegreeLedger_classifier_stability
+    {degree degreePrime partner partnerPrime out outPrime leftLedger rightLedger tensorLedger :
+      BHist} :
+    DiffFormWedgeDegreeLedger degree partner out leftLedger rightLedger tensorLedger ->
+      hsame degree degreePrime -> hsame partner partnerPrime -> hsame out outPrime ->
+        DiffFormWedgeDegreeLedger degreePrime partnerPrime outPrime leftLedger rightLedger
+            tensorLedger ∧
+          hsame leftLedger rightLedger := by
+  intro ledger sameDegree samePartner sameOut
+  cases sameDegree
+  cases samePartner
+  cases sameOut
+  exact And.intro ledger ledger.right.right.right.right.right
 
 theorem DiffFormExteriorDerivativeLedger_degree_raise
     {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source : BHist} :
@@ -349,6 +469,34 @@ theorem DiffFormExteriorDerivativeLedger_degree_successor_nonempty
           cases degreeRows.right.right
           exact not_hsame_e1_empty (append_eq_empty_iff.mp raisedEmpty).right)))
 
+theorem DiffFormBoundaryExhaustion_wedge_derivative_routing
+    {probes : ProbeBundle BHist}
+    {omega domega d dplus probe probe' tensor tensor' scalar scalar' antisym source omega2 domega2
+      d2 dplus2 probe2 probe2' tensor2 tensor2' scalar2 scalar2' antisym2 source2 : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega d dplus probe probe' tensor tensor' scalar
+      scalar' antisym source ->
+    DiffFormBHistClassifier hsame probes d probe tensor scalar antisym source d2 probe2 tensor2
+      scalar2 antisym2 source2 ->
+    hsame omega omega2 -> hsame domega domega2 -> hsame d d2 -> hsame dplus dplus2 ->
+    hsame probe' probe2' -> hsame tensor' tensor2' -> hsame scalar' scalar2' ->
+      DiffFormExteriorDerivativeLedger omega2 domega2 d2 dplus2 probe2 probe2' tensor2 tensor2'
+          scalar2 scalar2' antisym2 source2 ∧
+        UnaryHistory d2 ∧ UnaryHistory dplus2 ∧ Cont d2 (BHist.e1 BHist.Empty) dplus2 ∧
+          (hsame dplus2 BHist.Empty -> False) := by
+  intro ledger classified sameOmega sameDomega sameD sameDplus sameProbe' sameTensor'
+    sameScalar'
+  have transported :
+      DiffFormExteriorDerivativeLedger omega2 domega2 d2 dplus2 probe2 probe2' tensor2
+        tensor2' scalar2 scalar2' antisym2 source2 :=
+    DiffFormExteriorDerivativeLedger_classifier_transport ledger classified sameOmega sameDomega
+      sameD sameDplus sameProbe' sameTensor' sameScalar'
+  have boundaryRows :=
+    DiffFormExteriorDerivativeLedger_degree_successor_nonempty transported
+  exact And.intro transported
+    (And.intro boundaryRows.left
+      (And.intro boundaryRows.right.left
+        (And.intro boundaryRows.right.right.left boundaryRows.right.right.right)))
+
 theorem DiffFormDegreeProbeAligned_hsame_transport
     {d d' : BHist} {bundle : ProbeBundle BHist} :
     DegreeProbeAligned d bundle -> hsame d d' -> DegreeProbeAligned d' bundle ∧
@@ -356,5 +504,96 @@ theorem DiffFormDegreeProbeAligned_hsame_transport
   intro aligned sameDegree
   cases sameDegree
   exact And.intro aligned (DiffFormDegreeProbeAligned_bundleAppend_cont_unary aligned)
+
+theorem DiffFormDegreeProbeSupport_carrier_admissibility
+    {degree probe tensor scalar antisym ledger : BHist} {bundle : ProbeBundle BHist} :
+    DegreeProbeAligned degree bundle -> InBundle probe bundle -> UnaryHistory probe ->
+      Cont degree probe tensor -> UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          UnaryHistory degree ∧ InBundle probe bundle ∧ UnaryHistory tensor ∧
+            UnaryHistory scalar ∧
+              hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) := by
+  intro aligned probeIn probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+  have degreeUnary : UnaryHistory degree :=
+    DiffFormDegreeProbeAligned_bundleAppend_cont_unary aligned
+  have coordinateRows :=
+    DiffFormBHistCarrier_coordinate_ledger degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute
+  exact And.intro coordinateRows.left
+    (And.intro probeIn
+      (And.intro coordinateRows.right.right.left
+        (And.intro coordinateRows.right.right.right.left coordinateRows.right.right.right.right)))
+
+theorem DiffFormDegreeProbeSupport_transport
+    {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym' ledger' :
+      BHist} {bundle : ProbeBundle BHist} :
+    DiffFormBHistClassifier hsame bundle degree probe tensor scalar antisym ledger degree' probe'
+        tensor' scalar' antisym' ledger' ->
+      (UnaryHistory degree ∧ InBundle probe bundle ∧ UnaryHistory tensor ∧
+          UnaryHistory scalar ∧
+            hsame ledger (append degree (append probe (append tensor (append scalar antisym))))) ->
+        UnaryHistory degree' ∧ InBundle probe' bundle ∧ UnaryHistory tensor' ∧
+          UnaryHistory scalar' ∧
+            hsame ledger'
+              (append degree' (append probe' (append tensor' (append scalar' antisym')))) := by
+  intro classified support
+  have degreeUnary : UnaryHistory degree' :=
+    unary_transport support.left classified.right.right.left
+  have probeIn : InBundle probe' bundle :=
+    classified.right.left
+  have tensorUnary : UnaryHistory tensor' :=
+    unary_transport support.right.right.left classified.right.right.right.right.left
+  have scalarUnary : UnaryHistory scalar' :=
+    unary_transport support.right.right.right.left classified.right.right.right.right.right.left
+  have ledgerSame :
+      hsame ledger'
+        (append degree' (append probe' (append tensor' (append scalar' antisym')))) := by
+    cases classified.right.right.left
+    cases classified.right.right.right.left
+    cases classified.right.right.right.right.left
+    cases classified.right.right.right.right.right.left
+    cases classified.right.right.right.right.right.right.left
+    cases classified.right.right.right.right.right.right.right
+    exact support.right.right.right.right
+  exact And.intro degreeUnary
+    (And.intro probeIn
+      (And.intro tensorUnary (And.intro scalarUnary ledgerSame)))
+
+theorem DiffFormRootDegreeProbeFace_stability
+    {degree probe tensor scalar antisym ledger degree' probe' tensor' scalar' antisym' ledger' :
+      BHist} {bundle : ProbeBundle BHist} :
+    DiffFormBHistClassifier hsame bundle degree probe tensor scalar antisym ledger degree' probe'
+        tensor' scalar' antisym' ledger' ->
+      DegreeProbeAligned degree bundle ->
+        (UnaryHistory degree ∧ InBundle probe bundle ∧ UnaryHistory tensor ∧
+          UnaryHistory scalar ∧
+            hsame ledger (append degree (append probe (append tensor (append scalar antisym))))) ->
+          DegreeProbeAligned degree' bundle ∧ UnaryHistory degree' ∧ InBundle probe' bundle ∧
+            UnaryHistory tensor' ∧ UnaryHistory scalar' ∧
+              hsame ledger'
+                (append degree' (append probe' (append tensor' (append scalar' antisym')))) := by
+  intro classified aligned support
+  have alignedTarget :=
+    DiffFormDegreeProbeAligned_hsame_transport aligned classified.right.right.left
+  have supportTarget :=
+    DiffFormDegreeProbeSupport_transport classified support
+  exact And.intro alignedTarget.left supportTarget
+
+theorem DiffFormZeroDegree_wedge_cont_unit_boundary {d : BHist}
+    {bundle : ProbeBundle BHist} :
+    DegreeProbeAligned d bundle ->
+      DegreeProbeAligned d (bundleAppend (ProbeBundle.Bnil : ProbeBundle BHist) bundle) ∧
+        DegreeProbeAligned d (bundleAppend bundle (ProbeBundle.Bnil : ProbeBundle BHist)) ∧
+          Cont BHist.Empty d d ∧ Cont d BHist.Empty d := by
+  intro aligned
+  have rightAligned :
+      DegreeProbeAligned d (bundleAppend bundle (ProbeBundle.Bnil : ProbeBundle BHist)) := by
+    induction aligned with
+    | nil =>
+        exact DegreeProbeAligned.nil
+    | cons tailAligned ih =>
+        exact DegreeProbeAligned.cons ih
+  exact And.intro aligned
+    (And.intro rightAligned (And.intro (cont_left_unit d) (cont_right_unit d)))
 
 end BEDC.Derived.DiffFormUp
