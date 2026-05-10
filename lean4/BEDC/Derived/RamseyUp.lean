@@ -276,4 +276,34 @@ theorem RamseyColouringCarrier_finite_ledger_exactness [AskSetup] [PackageSetup]
       carrier.right.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem RamseyColouringCarrier_downstream_boundary [AskSetup] [PackageSetup]
+    {vertex subset colour lookup provenance endpoint graphProjection consumerEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RamseyColouringCarrier vertex subset colour endpoint BHist.Empty lookup provenance endpoint
+        bundle pkg ->
+      UnaryHistory graphProjection ->
+        Cont endpoint graphProjection consumerEndpoint ->
+          UnaryHistory vertex ∧ UnaryHistory subset ∧ UnaryHistory colour ∧
+            UnaryHistory lookup ∧ UnaryHistory endpoint ∧ UnaryHistory consumerEndpoint ∧
+              hsame lookup (append vertex subset) ∧ hsame endpoint (append lookup colour) ∧
+                hsame consumerEndpoint (append endpoint graphProjection) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro carrier graphProjectionUnary consumerRoute
+  have finiteExact :=
+    RamseyColouringCarrier_finite_ledger_exactness carrier
+  have consumerUnary : UnaryHistory consumerEndpoint :=
+    unary_cont_closed finiteExact.right.right.right.right.right.right.right.left
+      graphProjectionUnary consumerRoute
+  exact
+    ⟨finiteExact.left,
+      finiteExact.right.left,
+      finiteExact.right.right.left,
+      finiteExact.right.right.right.right.left,
+      finiteExact.right.right.right.right.right.right.right.left,
+      consumerUnary,
+      finiteExact.right.right.right.right.right.right.right.right.left,
+      finiteExact.right.right.right.right.right.right.right.right.right.left,
+      consumerRoute,
+      finiteExact.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.RamseyUp
