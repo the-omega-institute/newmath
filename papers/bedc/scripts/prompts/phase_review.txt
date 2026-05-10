@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.9 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.10 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Multi-target round emission (HARD GATE — minimum 5 candidates)
 
@@ -165,7 +165,42 @@ synthesize ≥ 2 capstones. The two gates compose; an ordinary-capstone
 target (flavor=capstone) and a meta-capstone target (flavor=meta_capstone)
 are distinct kinds and can coexist in a multi-target round.
 
-## SOFT SIGNAL — human-known chapter extension (NO HARD GATE)
+## HARD GATE — human-known chapter extension when frontier saturates
+
+When `closed_horizons / open_horizons > 2.0` AND
+`len(critical_path.top) <= 2`, the frontier is saturated. You (the
+reviewer) MUST emit at least ONE `human_chapter_extension` target in
+the round, alongside any closure_mark / theory_extension you also
+emit. Emitting only closure_mark in a saturated state is INVALID —
+drop one closure_mark and emit the extension.
+
+Rationale: the existing 261-chapter inventory was assembled by
+discovering canonical mathematical neighbors of what was already there
+(`ls papers/bedc/parts/concrete_instances/` to see the slug list).
+When `top` empties out, only this discovery work moves the frontier;
+closure_mark and drift sync just polish what exists.
+
+How to identify the missing chapter:
+1. Run `ls papers/bedc/parts/concrete_instances/ | grep _namecert`
+   to read the current slug list.
+2. Pick a textbook neighbor of an existing chapter that has NOT been
+   added. Illustrative examples (do not pick from this list mechanically;
+   derive your own gap from the *current* inventory):
+     NumFieldUp        →  EtaleCohomologyUp
+     ConnectionUp      →  HolonomyUp
+     TensorProductUp   →  GradedTensorUp
+     LambdaCalcUp      →  SystemFOmegaUp
+     ProbSpaceUp       →  MartingaleConvergenceUp
+     HilbertUp         →  SpectralMeasureUp
+3. Verify the slug is not already present (case-insensitive find).
+4. Verify the chapter is formalisable under BEDC zero-axiom (not
+   Classical.choice / Lebesgue / Hahn-Banach strong).
+5. Cite the textbook reference (Hartshorne / Kobayashi / Pierce / etc)
+   in the `proposed_change` body.
+
+The full rule-set for human_chapter_extension targets follows below.
+
+## SOFT SIGNAL — human-known chapter extension (rule-set)
 
 The 280+ concrete-instance chapters cover most of the algebra / analysis /
 geometry / category-theory / number-theory / quantum-physics / logic
