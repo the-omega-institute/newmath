@@ -427,10 +427,48 @@ theorem PinGroupReflectionParityCarrier_root_reflection_threshold_exactness
   have reflectionRows :=
     PinGroupReflectionParityCarrier_reflection_generator_obligation surface notSpinEndpoint
   exact And.intro surface
-    (And.intro reflectionRows.left
-      (And.intro reflectionRows.right.left
-        (And.intro reflectionRows.right.right.left
-          (And.intro reflectionRows.right.right.right.left
-            reflectionRows.right.right.right.right))))
+      (And.intro reflectionRows.left
+        (And.intro reflectionRows.right.left
+          (And.intro reflectionRows.right.right.left
+            (And.intro reflectionRows.right.right.right.left
+              reflectionRows.right.right.right.right))))
+
+theorem PinGroupReflectionGenerator_transport_closure
+    {spin reflection product endpoint ledger carried spin' reflection' product' endpoint' ledger'
+      carried' : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      (hsame endpoint spin -> False) ->
+        hsame spin spin' ->
+          hsame reflection reflection' ->
+            hsame product product' ->
+              hsame endpoint endpoint' ->
+                hsame ledger ledger' ->
+                  Cont spin' reflection' product' ->
+                    Cont endpoint' ledger' carried' ->
+                      PinGroupReflectionParityLedgerSurface spin' reflection' product' endpoint'
+                          ledger' carried' ∧
+                        Cont spin' reflection' product' ∧
+                          hsame endpoint' product' ∧
+                            UnaryHistory reflection' ∧
+                              hsame carried' (append product' ledger') ∧
+                                hsame carried' (append endpoint' ledger') := by
+  intro surface notSpinEndpoint sameSpin sameReflection sameProduct sameEndpoint sameLedger
+    productRow' endpointLedgerRow'
+  have transported :=
+    PinGroupReflectionParityLedgerSurface_parity_scope_transport surface sameSpin sameReflection
+      sameProduct sameEndpoint sameLedger productRow' endpointLedgerRow'
+  have notSpinEndpoint' : hsame endpoint' spin' -> False := by
+    intro endpointSpin'
+    exact notSpinEndpoint
+      (hsame_trans sameEndpoint
+        (hsame_trans endpointSpin' (hsame_symm sameSpin)))
+  have reflected :=
+    PinGroupReflectionParityCarrier_reflection_generator_obligation transported.left
+      notSpinEndpoint'
+  exact And.intro transported.left
+    (And.intro reflected.left
+      (And.intro reflected.right.left
+        (And.intro reflected.right.right.left
+          (And.intro reflected.right.right.right.left reflected.right.right.right.right))))
 
 end BEDC.Derived.PinGroupUp
