@@ -24,8 +24,9 @@ Three gates run on every CI invocation:
       no Chinese rendering).
 
 This script holds NO domain data of its own; everything it gates on
-lives in ``docs/dossier/data_source/glossary.json`` and in the
-auto-derived dependency graph. Edit the JSON to add / fix entries.
+lives in ``docs/dossier/data_source/glossary/`` (one TOML file per
+term plus ``_meta.toml``) and in the auto-derived dependency graph.
+Edit the per-term TOML to add / fix entries.
 """
 
 from __future__ import annotations
@@ -35,8 +36,10 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _glossary_loader import GLOSSARY_DIR, load_glossary  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[1]
-GLOSSARY_SRC = ROOT / "docs" / "dossier" / "data_source" / "glossary.json"
 DEP_DATA = ROOT / "docs" / "dossier" / "data" / "dependency.json"
 PREAMBLE = ROOT / "papers" / "bedc" / "preamble.tex"
 
@@ -53,12 +56,11 @@ def parse_preamble_macros(preamble: Path) -> set[str]:
 
 
 def main() -> int:
-    if not GLOSSARY_SRC.exists():
-        print(f"[check-glossary] glossary source missing: {GLOSSARY_SRC}", file=sys.stderr)
+    if not GLOSSARY_DIR.is_dir():
+        print(f"[check-glossary] glossary source dir missing: {GLOSSARY_DIR}", file=sys.stderr)
         return 1
 
-    with GLOSSARY_SRC.open(encoding="utf-8") as fh:
-        glossary = json.load(fh)
+    glossary = load_glossary()
 
     meta = glossary.get("_meta", {})
     exempt_macros: set[str] = set(meta.get("exempt_macros", []))
@@ -160,9 +162,9 @@ def main() -> int:
             for s in bilingual_issues:
                 print(f"    - {s}", file=sys.stderr)
         print(
-            "\n[check-glossary] hint: edit docs/dossier/data_source/glossary.json "
-            "to add missing entries, or update _meta.exempt_macros / "
-            "_meta.label_identical_ok if a term is intentionally not in scope.",
+            "\n[check-glossary] hint: edit docs/dossier/data_source/glossary/<key>.toml "
+            "to add or fix entries, or update _meta.toml's exempt_macros / "
+            "label_identical_ok if a term is intentionally not in scope.",
             file=sys.stderr,
         )
         return 0
