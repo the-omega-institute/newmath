@@ -61,4 +61,55 @@ theorem LambdaCalcBHistTermPacketCarrier_root_substitution_scope
       substitutionRows.right.right.right.left,
       rootScopeRow⟩
 
+theorem LambdaCalcBHistTermPacketCarrier_root_beta_ledger_scope
+    {graph edge connected acyclic appTag appPayload appEndpoint absTag absPayload absEndpoint
+      argTag argPayload argEndpoint substEndpoint endpoint provenance : BHist} :
+    LambdaCalcBHistTermPacketCarrier graph edge connected acyclic appTag appPayload
+        appEndpoint ->
+      LambdaCalcBHistTermPacketCarrier graph edge connected acyclic absTag absPayload
+          absEndpoint ->
+        LambdaCalcBHistTermPacketCarrier graph edge connected acyclic argTag argPayload
+            argEndpoint ->
+          Cont absEndpoint argEndpoint substEndpoint ->
+            Cont appEndpoint substEndpoint endpoint ->
+              hsame provenance endpoint ->
+                SemanticNameCert (fun row : BHist => hsame row endpoint)
+                    (fun row : BHist => hsame row endpoint)
+                    (fun row : BHist => hsame row endpoint) hsame ∧
+                  UnaryHistory substEndpoint ∧ UnaryHistory endpoint ∧
+                    hsame substEndpoint (append absEndpoint argEndpoint) ∧
+                      hsame endpoint (append appEndpoint substEndpoint) ∧
+                        hsame provenance endpoint := by
+  intro appPacket absPacket argPacket substRow endpointRow provenanceReadback
+  have exactRows :=
+    LambdaCalcBetaRedexPacket_exactness appPacket absPacket argPacket substRow endpointRow
+      provenanceReadback
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (hsame_refl endpoint)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows rowSource
+        exact hsame_trans (hsame_symm sameRows) rowSource
+    }
+    pattern_sound := by
+      intro _row rowSource
+      exact rowSource
+    ledger_sound := by
+      intro _row rowSource
+      exact rowSource
+  }
+  exact And.intro cert exactRows
+
 end BEDC.Derived.LambdaCalcUp
