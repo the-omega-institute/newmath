@@ -466,3 +466,51 @@ C(z)\land D(z),
 $$
 which is exactly $K_{CD}(z)$ after folding the definition for $(C,D)$. The two folds use the same ambient $\FieldUp(F)$ and $\VecSpaceUp(F,V)$ data named in \autoref{def:convexset-pointwise-intersection-carrier}; only the two carrier-support components at the fixed endpoint are swapped.
 \end{proof}
+
+\begin{theorem}[ConvexSet pointwise intersection inclusion meet]
+\label{thm:convexset-pointwise-intersection-inclusion-meet}
+Let two $\ConvexSetUp$ certificates be given as in \autoref{def:convexset-pointwise-intersection-carrier}. Write $C,D:V\to\mathsf{Prop}$ for their convex carriers and write
+$$
+K:=C\cap_{\ConvexSetUp}D.
+$$
+On convex carriers over the same ambient $\FieldUp(F)$ and $\VecSpaceUp(F,V)$ data, write
+$$
+E\preceq_{\ConvexSetUp}G
+\Longleftrightarrow
+\forall z:V.\;E(z)\to G(z)
+$$
+for pointwise inclusion. Then $K$ is the greatest lower bound of $C$ and $D$ in this inclusion preorder:
+$$
+K\preceq_{\ConvexSetUp}C,
+\qquad
+K\preceq_{\ConvexSetUp}D,
+$$
+and, for every third $\ConvexSetUp$ convex carrier $E:V\to\mathsf{Prop}$ over the same ambient data,
+$$
+(E\preceq_{\ConvexSetUp}C)\land(E\preceq_{\ConvexSetUp}D)
+\Longrightarrow
+E\preceq_{\ConvexSetUp}K.
+$$
+The carrier $K$ is therefore the meet of $C$ and $D$ among convex carriers ordered by inclusion, with its convex closure supplied by \autoref{thm:convexset-pointwise-intersection-affine-combination-closure}.
+\end{theorem}
+\begin{proof}
+The pointwise intersection carrier is the predicate specified in \autoref{def:convexset-pointwise-intersection-carrier}:
+$$
+K(z)\Longleftrightarrow C(z)\land D(z).
+$$
+For the first projection bound, fix $z:V$ and assume $K(z)$. Unfolding the definition gives $C(z)\land D(z)$, and projecting the first component gives $C(z)$. Hence $K\preceq_{\ConvexSetUp}C$.
+
+For the second projection bound, the same unfolding of $K(z)$ gives $C(z)\land D(z)$, and projecting the second component gives $D(z)$. Hence $K\preceq_{\ConvexSetUp}D$.
+
+It remains to prove the universal lower-bound property. Let $E:V\to\mathsf{Prop}$ be the convex carrier of a third $\ConvexSetUp$ certificate over the same ambient data, and assume
+$$
+E\preceq_{\ConvexSetUp}C,
+\qquad
+E\preceq_{\ConvexSetUp}D.
+$$
+To prove $E\preceq_{\ConvexSetUp}K$, fix $z:V$ and assume $E(z)$. The first inclusion sends this witness to $C(z)$, and the second inclusion sends the same witness to $D(z)$. Pairing the two conclusions gives
+$$
+C(z)\land D(z),
+$$
+which is exactly $K(z)$ by \autoref{def:convexset-pointwise-intersection-carrier}. Therefore every common lower bound $E$ factors through $K$, and the two projection bounds make $K$ the greatest lower bound of $C$ and $D$ for pointwise inclusion.
+\end{proof}
