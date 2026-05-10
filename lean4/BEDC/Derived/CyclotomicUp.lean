@@ -64,6 +64,35 @@ theorem CyclotomicRootCarrier_source_triad_obligation [AskSetup] [PackageSetup]
                   (And.intro ledgerCont
                     carrier.right.right.right.right.right.right.right.right.right))))))))
 
+theorem CyclotomicRootCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
+      ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CyclotomicRootCarrier numField exponent polynomial splittingField primitiveRoot acceptance
+        comparison provenance ledger bundle pkg ->
+      UnaryHistory numField ∧ UnaryHistory exponent ∧ UnaryHistory polynomial ∧
+        UnaryHistory splittingField ∧ UnaryHistory primitiveRoot ∧ UnaryHistory acceptance ∧
+          UnaryHistory provenance ∧ UnaryHistory ledger ∧
+            Cont numField splittingField provenance ∧ Cont exponent polynomial acceptance ∧
+              Cont acceptance primitiveRoot ledger ∧ hsame comparison (append provenance acceptance) ∧
+                PkgSig bundle ledger pkg := by
+  intro carrier
+  have sourceRows :=
+    CyclotomicRootCarrier_source_triad_obligation (bundle := bundle) (pkg := pkg) carrier
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro carrier.right.right.right.right.left
+            (And.intro sourceRows.right.right.right.right.left
+              (And.intro sourceRows.right.right.right.left
+                (And.intro sourceRows.right.right.right.right.right.left
+                  (And.intro carrier.right.right.right.right.right.left
+                    (And.intro carrier.right.right.right.right.right.right.left
+                      (And.intro carrier.right.right.right.right.right.right.right.left
+                        (And.intro carrier.right.right.right.right.right.right.right.right.left
+                          sourceRows.right.right.right.right.right.right.right.right.right)))))))))))
+
 theorem CyclotomicRootCarrier_root_action_pkg_provenance [AskSetup] [PackageSetup]
     {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
       ledger action : BHist}
@@ -194,6 +223,34 @@ theorem CyclotomicRootClassifier_trans [AskSetup] [PackageSetup]
                 classified12.right.right.right.right.right.left
             · exact hsame_trans classified01.right.right.right.right.right.right
                 classified12.right.right.right.right.right.right
+
+theorem CyclotomicRootClassifier_symm [AskSetup] [PackageSetup]
+    {numField0 exponent0 polynomial0 splittingField0 primitiveRoot0 acceptance0 comparison0
+      provenance0 ledger0 numField1 exponent1 polynomial1 splittingField1 primitiveRoot1
+      acceptance1 comparison1 provenance1 ledger1 : BHist}
+    {bundle0 bundle1 : ProbeBundle ProbeName} {pkg0 pkg1 : Pkg} :
+    CyclotomicRootClassifier numField0 exponent0 polynomial0 splittingField0 primitiveRoot0
+        acceptance0 comparison0 provenance0 ledger0 numField1 exponent1 polynomial1
+        splittingField1 primitiveRoot1 acceptance1 comparison1 provenance1 ledger1 bundle0 bundle1
+        pkg0 pkg1 ->
+      CyclotomicRootClassifier numField1 exponent1 polynomial1 splittingField1 primitiveRoot1
+        acceptance1 comparison1 provenance1 ledger1 numField0 exponent0 polynomial0
+        splittingField0 primitiveRoot0 acceptance0 comparison0 provenance0 ledger0 bundle1
+        bundle0 pkg1 pkg0 := by
+  intro classified
+  constructor
+  · exact classified.right.left
+  · constructor
+    · exact classified.left
+    · constructor
+      · exact hsame_symm classified.right.right.left
+      · constructor
+        · exact hsame_symm classified.right.right.right.left
+        · constructor
+          · exact hsame_symm classified.right.right.right.right.left
+          · constructor
+            · exact hsame_symm classified.right.right.right.right.right.left
+            · exact hsame_symm classified.right.right.right.right.right.right
 
 theorem CyclotomicRootClassifier_downstream_consumer_transport [AskSetup] [PackageSetup]
     {numField0 exponent0 polynomial0 splittingField0 primitiveRoot0 acceptance0 comparison0

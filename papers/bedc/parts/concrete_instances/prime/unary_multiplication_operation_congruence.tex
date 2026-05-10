@@ -30,3 +30,60 @@ $\mathsf{NatMul}(d',q',m)$ with the transported witness
 $\mathsf{NatMul}(d',q',n')$ by \autoref{lem:nat-mul-functional}, using unary
 evidence for the transported multiplicand $d'$. This yields $\hsame(m,n')$.
 \end{proof}
+
+\begin{theorem}[MulUp repeated-addition Cont scope]
+\label{thm:mulup-repeated-addition-cont-scope}
+Every $\mathsf{NatMul}(d,q,n)$ row consumed by $\MulUp$ is scoped by unary
+witnesses for $d$, $q$, and $n$, a finite $\Cont$ ledger that records repeated
+application of the $\AddUp$ operation over $\mathsf{UnaryHistory}$ rows, and the
+ambient $\hsame$ classifier on the displayed histories. The scope contains no
+separate multiplication operation beyond the $\mathsf{NatMul}$ relation and the
+listed continuation reads.
+\end{theorem}
+\begin{proof}
+Start from the displayed $\mathsf{NatMul}(d,q,n)$ row. The construction of that
+row supplies unary evidence for the multiplicand and multiplier, and the
+functional comparison used in
+\autoref{thm:unary-multiplication-operation-congruence} supplies the
+$\hsame$-classification of every result row with the displayed result.
+
+The repeated-addition ledger is the finite $\Cont$ trace that reads the current
+partial sum, the remaining unary counter, and the next $\AddUp$ row at each
+stage. Since every stage reads a $\mathsf{UnaryHistory}$ row and an $\AddUp$
+operation row, the ledger never introduces an independent multiplication
+constructor.
+
+Repack these unary witnesses, continuation reads, and classifier witnesses as
+the $\MulUp$ consumption surface. Transport along $\hsame$ is exactly
+\autoref{thm:unary-multiplication-operation-congruence}, so the same scoped
+surface is preserved under replacement of $d$, $q$, and $n$ by classified
+histories.
+\end{proof}
+
+\begin{theorem}[MulUp unary additive distributive boundary]
+\label{thm:mulup-unary-additive-distributive-boundary}
+The right and left additive distribution surfaces cited by the public semantic
+exit certificate for $\MulUp$ are consumed only through
+$\mathsf{UnaryHistory}$ rows, $\mathsf{NatMul}$ rows, finite $\Cont$ readbacks,
+the ambient $\hsame$ classifier, and the existing $\AddUp$ operation rows. No
+public boundary row for $\MulUp$ requires a primitive multiplication operation
+outside that unary repeated-addition surface.
+\end{theorem}
+\begin{proof}
+For the right distribution surface, apply
+\autoref{thm:natmul-additive-right-distributivity-surface}. Its hypotheses are
+the unary inputs, the relevant $\mathsf{NatMul}$ rows, and the $\AddUp$ rows
+that combine the displayed products.
+
+For the left distribution surface, apply
+\autoref{thm:natmul-additive-left-distributivity-surface}. The same kind of
+data is read, with the multiplicand and multiplier roles exchanged inside the
+unary ledger.
+
+Finally combine those two surfaces with
+\autoref{thm:mulup-public-semantic-exit-certificate}. The certificate exports
+only the listed $\mathsf{UnaryHistory}$, $\mathsf{NatMul}$, $\Cont$, $\hsame$,
+and $\AddUp$ rows, while
+\autoref{thm:unary-multiplication-operation-congruence} supplies transport of
+the operation relation across classified histories.
+\end{proof}

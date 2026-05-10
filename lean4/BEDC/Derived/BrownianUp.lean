@@ -236,4 +236,73 @@ theorem BrownianStepContinuityClassifier_namecert_obligation_surface
       exact source
   }
 
+theorem BrownianStepContinuityClassifier_path_step_boundary_exhaustion
+    {martingale continuous time path step normal provenance ledger martingale' continuous' time'
+      path' step' normal' provenance' ledger' : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      hsame martingale martingale' ->
+        hsame continuous continuous' ->
+          hsame time time' ->
+            hsame path path' ->
+              hsame normal normal' ->
+                Cont continuous' path' step' ->
+                  Cont martingale' step' provenance' ->
+                    Cont provenance' normal' ledger' ->
+                      BrownianStepContinuityClassifier martingale' continuous' time' path' step'
+                          normal' provenance' ledger' ∧
+                        hsame step step' ∧ hsame provenance provenance' ∧ hsame ledger ledger' ∧
+                          UnaryHistory time' ∧ UnaryHistory normal' := by
+  intro classified sameMartingale sameContinuous sameTime samePath sameNormal stepRow provenanceRow
+    ledgerRow
+  have transported :
+      BrownianStepContinuityClassifier martingale' continuous' time' path' step' normal'
+          provenance' ledger' ∧ hsame provenance provenance' ∧ hsame ledger ledger' :=
+    BrownianStepContinuityClassifier_step_ledger_transport classified sameMartingale sameContinuous
+      sameTime samePath sameNormal stepRow provenanceRow ledgerRow
+  have sameStep : hsame step step' :=
+    cont_respects_hsame sameContinuous samePath classified.right.right.right.right.right.left
+      stepRow
+  constructor
+  · exact transported.left
+  · constructor
+    · exact sameStep
+    · constructor
+      · exact transported.right.left
+      · constructor
+        · exact transported.right.right
+        · constructor
+          · exact transported.left.right.right.left
+          · exact transported.left.right.right.right.right.left
+
+theorem BrownianStepContinuityClassifier_gaussian_step_ledger_coverage
+    {martingale continuous time path step normal provenance ledger step' provenance' ledger' :
+      BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance
+        ledger ->
+      Cont continuous path step' ->
+        Cont martingale step' provenance' ->
+          Cont provenance' normal ledger' ->
+            UnaryHistory time ∧ UnaryHistory normal ∧ UnaryHistory step' ∧
+              hsame step step' ∧ hsame provenance provenance' ∧ hsame ledger ledger' ∧
+                hsame step' (append continuous path) ∧
+                  hsame ledger' (append provenance' normal) := by
+  intro classified stepRow provenanceRow ledgerRow
+  have stepUnary : UnaryHistory step' :=
+    unary_cont_closed classified.right.left classified.right.right.right.left stepRow
+  have sameStep : hsame step step' :=
+    cont_respects_hsame (hsame_refl continuous) (hsame_refl path)
+      classified.right.right.right.right.right.left stepRow
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame (hsame_refl martingale) sameStep
+      classified.right.right.right.right.right.right.left provenanceRow
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameProvenance (hsame_refl normal)
+      classified.right.right.right.right.right.right.right ledgerRow
+  exact And.intro classified.right.right.left
+    (And.intro classified.right.right.right.right.left
+      (And.intro stepUnary
+        (And.intro sameStep
+          (And.intro sameProvenance
+            (And.intro sameLedger (And.intro stepRow ledgerRow))))))
+
 end BEDC.Derived.BrownianUp

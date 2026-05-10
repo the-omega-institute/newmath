@@ -567,4 +567,26 @@ theorem AdeleHistoryCarrier_unit_right_scale_append_readback {real p w result : 
       exact And.intro readback.left
         (Exists.intro n (And.intro data.left (congrArg (append real) data.right)))
 
+theorem AdeleUp_StdBridge {real p exponent result h endpoint : BHist} :
+    RealConstantHistoryCarrier real ->
+      PadicPrimeScale p exponent result ->
+        hsame h (append real result) ->
+          Cont h BHist.Empty endpoint ->
+            SemanticNameCert AdeleHistoryCarrier AdeleHistoryCarrier AdeleHistoryCarrier hsame ∧
+              AdeleHistoryCarrier h ∧ AdeleHistoryCarrier endpoint ∧ hsame endpoint h ∧
+                (hsame endpoint BHist.Empty -> False) := by
+  intro realCarrier scale sameH continuation
+  have carrierH : AdeleHistoryCarrier h :=
+    ⟨real, p, exponent, result, realCarrier, scale, sameH⟩
+  have sameEndpointH : hsame endpoint h :=
+    Iff.mp cont_right_unit_iff continuation
+  have carrierEndpoint : AdeleHistoryCarrier endpoint :=
+    AdeleHistoryCarrier_semanticNameCert.core.carrier_respects_equiv
+      (hsame_symm sameEndpointH) carrierH
+  have endpointNonempty : hsame endpoint BHist.Empty -> False :=
+    AdeleHistoryCarrier_cont_result_nonempty carrierH continuation
+  exact
+    ⟨AdeleHistoryCarrier_semanticNameCert, carrierH, carrierEndpoint, sameEndpointH,
+      endpointNonempty⟩
+
 end BEDC.Derived.AdeleUp

@@ -80,6 +80,7 @@ over $\mathsf{BHist}$, $\UnaryHistory$, $\Cont$, $\hsame$, $\Pkg$, and the
 open-disk gap data. It does not include Cauchy integral theory, analytic
 continuation, or bridge verification.
 \end{theorem}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicUp\_StdBridge}
 \begin{proof}
 Start with \autoref{thm:holomorphic-public-namecert-export}. It identifies the
 public rows available to a consumer: the open-disk source, the uniform
@@ -96,14 +97,15 @@ analytic continuation, and bridge verification are not exported by any field in
 the public packet, so they remain outside this bridge boundary.
 \end{proof}
 
-\closureat{HolomorphicUp}{bridgedStr}[BEDC.Derived.HolomorphicUp.HolomorphicSourceSpec\_semantic\_name\_certificate]
+\closureat{HolomorphicUp}{matureStr}[BEDC.Derived.HolomorphicUp.HolomorphicSourceSpec\_semantic\_name\_certificate]
 
 \begin{closurestatus}{\HolomorphicUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{thm:holomorphic-standard-bridge-boundary} is the closed paper-side bridge boundary for the $\NameCert_{\HolomorphicUp}$ export over $\mathsf{BHist}$, $\UnaryHistory$, $\Cont$, $\hsame$, $\Pkg$, open-disk gap rows, transport rows, and ledger witnesses.}
-  \formalstatus{\auditCleanV}
+  \constructivestory{A holomorphic datum is carried as a visible disk package: a function history, a center, a radius, and open-disk gap witnesses are admitted only when the BEDC disk row says the point stays inside the radius and the function satisfies the holomorphic-on-disk source condition. Two such packages classify together when their disk parameters are compatible and their pointwise function values are $\hsame$-equivalent on the interior, so the classifier follows the displayed disk and function histories rather than host function equality. The source seed covers precisely those $(f,z_0,r)$ packages with open-disk gap data, the pattern seed is uniform-modulus complex differentiability on that disk, and the ledger keeps the originating function, center, radius, gap witnesses, modulus witnesses, closure rows, Taylor-data rows, Cauchy-bound rows, and density witnesses inspectable. The five name-certificate obligations are discharged by the semantic certificate rows for the source, pattern, and classifier together with the open-disk transport lemmas: an admitted disk supplies a carrier witness, $\hsame$ gives reflexivity, symmetry, and transitivity, and radius and gap transport keep admitted representatives inside the same surface. A history $h$ lies in the signature gap of a $\HolomorphicUp$ token $p$ when the source-domain accepts its disk package, the signature relation pairs that package with an answer function and evidence ledger, and the token-introduction relation names the answer as $p$; after unfolding, this means the same open disk carries uniform complex-differentiability moduli and compatible pointwise values for the token's function. The chapter registers this open-disk differentiability export and checked standard bridge under the name $\HolomorphicUp$; it adds no Cauchy integral theory, analytic continuation, or identity-theorem closure.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The paper-side mature package consists of the public $\NameCert_{\HolomorphicUp}$ export of \autoref{thm:holomorphic-public-namecert-export} together with the standard bridge boundary of \autoref{thm:holomorphic-standard-bridge-boundary} over $\mathsf{BHist}$, $\UnaryHistory$, $\Cont$, $\hsame$, $\Pkg$, open-disk gap rows, transport rows, and ledger witnesses.}
+  \formalstatus{\bridgeCheckedV}
   \leantarget{BEDC.Derived.HolomorphicUp.HolomorphicSourceSpec\_semantic\_name\_certificate}
-  \bridgestatus{none}
-  \notclaimed{The chapter does not claim Cauchy integral theory, identity theorem closure, analytic continuation, a standard bridge, or bridge verification.}
-  \upgradepath{A bridge verification row would require a checked $\StdBridge$ target for the public $\NameCert_{\HolomorphicUp}$ export surface.}
+  \bridgestatus{bridgeChecked}
+  \notclaimed{The chapter does not claim Cauchy integral theory, identity theorem closure, or analytic continuation.}
+  \upgradepath{No further upgrade -- chapter at top of formal axis.}
 \end{closurestatus}

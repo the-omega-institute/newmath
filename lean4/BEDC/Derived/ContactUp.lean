@@ -2,6 +2,7 @@ import BEDC.Derived.DiffFormUp
 import BEDC.Derived.ManifoldUp
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.ContactUp
@@ -10,6 +11,7 @@ open BEDC.Derived.DiffFormUp
 open BEDC.Derived.ManifoldUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def ContactCarrierDiffFormLedgerSurface
@@ -53,6 +55,11 @@ def ContactCarrierClassifierSurface (manifold form derivative wedge top : BHist)
   ManifoldSingletonCarrier manifold ∧ UnaryHistory form ∧ UnaryHistory derivative ∧
     Cont form derivative wedge ∧ Cont wedge BHist.Empty top
 
+def ContactCoannihilatingIntegrabilityRow
+    (manifold form derivative wedge top collapse : BHist) : Prop :=
+  ContactCarrierClassifierSurface manifold form derivative wedge top ∧ hsame collapse top ∧
+    hsame collapse BHist.Empty
+
 theorem ContactCarrierClassifierSurface_form_row_obligation
     {manifold form derivative wedge top : BHist} :
     ContactCarrierClassifierSurface manifold form derivative wedge top ->
@@ -95,6 +102,19 @@ theorem ContactCarrierClassifierSurface_nondegeneracy_obligation
   exact And.intro
     topUnary
     (And.intro topSameWedge topNonempty)
+
+theorem ContactCarrierClassifierSurface_top_wedge_excludes_coannihilating_integrability
+    {manifold form derivative wedge top collapse tail : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      hsame wedge (BHist.e1 tail) ->
+        ContactCoannihilatingIntegrabilityRow manifold form derivative wedge top collapse ->
+          False := by
+  intro surface sameWedgeVisible row
+  have nondegenerate :=
+    ContactCarrierClassifierSurface_nondegeneracy_obligation surface sameWedgeVisible
+  have topEmpty : hsame top BHist.Empty :=
+    hsame_trans (hsame_symm row.right.left) row.right.right
+  exact nondegenerate.right.right topEmpty
 
 theorem ContactCarrierClassifierSurface_top_wedge_transport_with_wedge
     {manifold form derivative wedge top top' : BHist} :
@@ -247,7 +267,85 @@ theorem ContactCarrierClassifierSurface_mature_consumer_completeness
         (And.intro rows.right.right.right.left
           (And.intro rows.right.right.right.right.left
             (And.intro bridge.right.right.left
-              (And.intro bridge.right.left
-                (And.intro bridge.right.right.right bridge.left)))))))
+                (And.intro bridge.right.left
+                  (And.intro bridge.right.right.right bridge.left)))))))
+
+theorem ContactCarrierClassifierSurface_top_wedge_coannihilating_integrability_absurd
+    {manifold form derivative wedge top top' zeroRow tail : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      hsame top top' ->
+        hsame wedge (BHist.e1 tail) ->
+          hsame top' zeroRow ->
+            hsame zeroRow BHist.Empty -> False := by
+  intro surface sameTop sameWedgeVisible sameTopZero zeroEmpty
+  have exported :=
+    ContactCarrierClassifierSurface_public_namecert_export surface sameTop sameWedgeVisible
+  have topEmpty : hsame top' BHist.Empty :=
+    hsame_trans sameTopZero zeroEmpty
+  exact exported.right.right.right.right.right.right topEmpty
+
+theorem ContactCoannihilatingIntegrabilityRow_transport_with_empty
+    {manifold form derivative wedge top top' collapse collapse' : BHist} :
+    ContactCoannihilatingIntegrabilityRow manifold form derivative wedge top collapse ->
+      hsame top top' ->
+        hsame collapse' collapse ->
+          ContactCoannihilatingIntegrabilityRow manifold form derivative wedge top'
+              collapse' ∧
+            hsame collapse' BHist.Empty ∧ hsame top' BHist.Empty := by
+  intro row sameTop sameCollapse
+  have transportedSurface :=
+    ContactCarrierClassifierSurface_top_wedge_transport row.left sameTop
+  have sameCollapseTop' : hsame collapse' top' :=
+    hsame_trans sameCollapse (hsame_trans row.right.left sameTop)
+  have collapseEmpty : hsame collapse' BHist.Empty :=
+    hsame_trans sameCollapse row.right.right
+  have topEmpty : hsame top' BHist.Empty :=
+    hsame_trans (hsame_symm sameCollapseTop') collapseEmpty
+  exact
+    ⟨⟨transportedSurface.left, sameCollapseTop', collapseEmpty⟩, collapseEmpty, topEmpty⟩
+
+theorem ContactCoannihilatingIntegrabilityRow_semanticNameCert
+    {manifold form derivative wedge top collapse : BHist} :
+    ContactCoannihilatingIntegrabilityRow manifold form derivative wedge top collapse ->
+      SemanticNameCert
+        (fun h : BHist =>
+          exists c : BHist, ContactCoannihilatingIntegrabilityRow manifold form derivative wedge h c)
+        (fun h : BHist =>
+          exists c : BHist, ContactCoannihilatingIntegrabilityRow manifold form derivative wedge h c)
+        (fun h : BHist =>
+          exists c : BHist, ContactCoannihilatingIntegrabilityRow manifold form derivative wedge h c)
+        hsame := by
+  intro row
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro top (Exists.intro collapse row)
+      equiv_refl := by
+        intro h _source
+        exact hsame_refl h
+      equiv_symm := by
+        intro _h _k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _h _k _r same same'
+        exact hsame_trans same same'
+      carrier_respects_equiv := by
+        intro h k same source
+        cases source with
+        | intro c sourceRow =>
+            have transported :=
+              ContactCarrierClassifierSurface_top_wedge_transport sourceRow.left same
+            have collapseK : hsame c k :=
+              hsame_trans sourceRow.right.left same
+            exact Exists.intro c
+              (And.intro transported.left
+                (And.intro collapseK sourceRow.right.right))
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
 
 end BEDC.Derived.ContactUp

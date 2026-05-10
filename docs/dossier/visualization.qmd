@@ -459,6 +459,7 @@ const I18N = {
     detail_deps: "Depends on:",
     detail_namecerts: "Object-completion theorems",
     detail_grounded_by: "Closure grounded by",
+    detail_constructive_story: "Constructive story",
     detail_theory_closure: "Theory closure",
     detail_scope_closed: "Scope closed",
     detail_formal_verification: "Formal verification",
@@ -533,6 +534,7 @@ const I18N = {
     detail_deps: "依赖于:",
     detail_namecerts: "对象完成性定理",
     detail_grounded_by: "闭合证据",
+    detail_constructive_story: "构造故事",
     detail_theory_closure: "理论闭合",
     detail_scope_closed: "闭合范围",
     detail_formal_verification: "形式化验证",
@@ -923,7 +925,7 @@ function applyFilters() {
       name: "dagre",
       rankDir: "LR",
       nodeSep: 22,
-      rankSep: 150,
+      rankSep: 480,
       edgeSep: 10,
       ranker: "network-simplex",
       padding: 16,
@@ -1000,20 +1002,20 @@ function renderCy() {
           "shape": "data(shape)",
           "background-color": "data(color)",
           "label": "data(label)",
-          "font-size": "60px",
+          "font-size": "110px",
           "font-weight": 700,
           "color": "#0f0f0f",
           "text-valign": "bottom",
           "text-halign": "center",
-          "text-margin-y": 20,
+          "text-margin-y": 30,
           "text-outline-color": "#fbfbfa",
-          "text-outline-width": 9,
+          "text-outline-width": 14,
           "text-background-color": "#fbfbfa",
           "text-background-opacity": 0.92,
-          "text-background-padding": "8px",
+          "text-background-padding": "12px",
           "text-background-shape": "roundrectangle",
-          "width": "mapData(size, 0, 30, 50, 110)",
-          "height": "mapData(size, 0, 30, 50, 110)",
+          "width": "mapData(size, 0, 30, 80, 170)",
+          "height": "mapData(size, 0, 30, 80, 170)",
           "border-width": "data(borderWidth)",
           "border-color": "data(stroke)",
           "overlay-padding": 4,
@@ -1053,7 +1055,7 @@ function renderCy() {
       // via calc(100vh - 30px) so 108 nodes can breathe vertically).
       rankDir: "LR",
       nodeSep: 22,
-      rankSep: 150,
+      rankSep: 480,
       edgeSep: 10,
       ranker: "network-simplex",
       padding: 16,
@@ -1182,6 +1184,14 @@ function showNodeDetail(id) {
     html += `<div class="term-desc" style="color:#888;">(no glossary entry)</div>`;
   }
 
+  // Bottom-up construction story (paper EN / glossary ZH). ZH wins when
+  // language is zh and present; otherwise EN. Rendered as a closure-row
+  // inside the closure-table below, in the same style as Theory closure /
+  // Scope closed; hidden if both empty.
+  const story = (LANG === "zh" ? node.constructive_story_zh : null)
+    || node.constructive_story_en
+    || null;
+
   const stats = [];
   if (node.checked) stats.push(`<span style="background:#e9f7ef;color:#1e7c43;"><strong>${node.checked}</strong> ${t("detail_checked")}</span>`);
   if (node.stmt) stats.push(`<span style="background:#eaf3fb;color:#1f5d8a;"><strong>${node.stmt}</strong> ${t("detail_stmt")}</span>`);
@@ -1201,8 +1211,9 @@ function showNodeDetail(id) {
     html += `<div class="term-deps">${t("detail_deps")} ${links.join(" ")}</div>`;
   }
 
-  if (node.closed_theoryclosure) {
+  if (node.closed_theoryclosure || story) {
     const rows = [
+      ["detail_constructive_story", story, false],
       ["detail_theory_closure", node.closed_theoryclosure, true],
       ["detail_scope_closed", node.scope_closed, false],
       ["detail_formal_verification", node.closed_formalstatus, true],
@@ -1210,7 +1221,7 @@ function showNodeDetail(id) {
       ["detail_bridge_status", node.closed_bridge_status, true],
       ["detail_not_claimed", node.not_claimed, false],
       ["detail_upgrade_path", node.upgrade_path, false],
-    ];
+    ].filter(([, value]) => value);
     html += `<div class="closure-table">`;
     for (const [labelKey, value, code] of rows) {
       html += `<div class="closure-row">` +

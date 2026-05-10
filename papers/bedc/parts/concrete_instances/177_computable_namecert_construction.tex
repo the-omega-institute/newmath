@@ -81,6 +81,7 @@ The trace ledger is the $\SeqUp$ configuration trace named in \autoref{def:compu
 
 For composition, \autoref{thm:computable-composition-bounded-simulation} records the phase machine $P_{G\circ F}$ and the boundary between the $F$ trace and the $G$ trace. For identity, \autoref{def:computable-halted-unary-identity-code} fixes the displayed bound to $\beta_{\mathsf{id}}(n)=\emp$, and \autoref{thm:computable-identity-bounded-graph-certificate} reads that empty-bound ledger as the identity certificate.
 \end{proof}
+\leanchecked{BEDC.Derived.ComputableUp.ComputableBoundedSim\_visible\_ledger\_rows}
 
 \begin{theorem}[Computable bounded graph source and observation carriers]
 \label{thm:computable-bounded-graph-source-carrier-obligation}
@@ -361,11 +362,12 @@ For the ledger row, apply \autoref{thm:computable-bounded-graph-ledger-exactness
 \end{proof}
 
 \begin{closurestatus}{\ComputableUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:computable-bounded-graph-scoped-certificate} is the exact scoped boundary for bounded graph certificates over partial $\NatUp$ graphs, covering unary source, bound, and output histories, $\SeqUp$ simulation traces, $\hsame$ classifier control, displayed moduli, and $\ContR$ phase composition.}
-  \formalstatus{\auditCleanV}
+  \constructivestory{A computable partial graph is carried by a deterministic machine code together with a displayed unary-bound modulus: for an accepted row $F(n,m)$, the input $n$, bound $\beta_F(n)$, and output $m$ are unary histories, and a $\SeqUp$ trace of configurations runs along the unary prefixes of that bound. The carrier accepts exactly the bounded simulation package whose zero row is the initial configuration, whose one-step rows follow the transition relation with halted repetitions allowed, and whose endpoint is halted with unary readback $m$; hidden exact running times, universal machines, and external recursion-theoretic objects are not carrier fields. The classifier uses the $\NatUp$ history classifier and $\hsame$: accepted outputs over the same certified input and displayed bound are single-valued up to history-sameness, while the identity graph is the empty-bound halted code whose graph predicate is just unary input, unary output, and $n\hsame m$. The source covers unary inputs, unary bounds, unary outputs, deterministic program code, and $\SeqUp$ traces; the pattern records graph exactness, single-valuedness, identity, bounded-simulation composition, composition associativity, and classifier stability; the ledger keeps the code, modulus value, trace, endpoint readback, and $\ContR$ phase boundary visible. The five name-certificate obligations are supplied by the inhabited identity certificate, by reflexive, symmetric, and transitive $\hsame$ control on unary histories, and by transport and composition rows that repack bounded simulations after classifier movement. A history $h$ lies in the signature gap of a $\ComputableUp$ token $p$ when the source-domain accepts the bounded graph row, the signature relation pairs it with an answer row and simulation ledger, and token introduction names that answer as $p$; unfolded, $h$ is the graph value produced by the deterministic code at its displayed bound, with output matching the unary value encoded by $p$. The chapter registers this bounded-simulation construction under the name $\ComputableUp$; computability here is an explicit time-bounded trace certificate, not a totality claim, halting decision procedure, recursion-theory library, or standard bridge.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public closure exposes the bounded graph certificate of \autoref{def:computable-bounded-graph-certificate}, single-valuedness, identity, composition, associativity, and the scoped certificate rows of \autoref{thm:computable-bounded-graph-scoped-certificate}.}
+  \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.ComputableUp.ComputableBoundedGraphCertificate\_single\_valuedness}
   \bridgestatus{none}
   \notclaimed{The chapter does not close total computability, universal machines, halting decidability, recursion theory, or standard bridge claims.}
-  \upgradepath{Public closure requires an exported $\ComputableUp$ public graph certificate and standard bridge boundary.}
+  \upgradepath{The next paper-side step is a standard bridge boundary for the bounded-graph public interface.}
 \end{closurestatus}

@@ -395,6 +395,7 @@ character-theoretic row required by $\InducedRepUp$ lies outside this
 RepresentationRingUp boundary unless it is separately supplied by the
 $\InducedRepUp$ packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_consumer\_boundary}
 \begin{proof}
 Project the consumer request to the carrier packet $\mathcal{K}$. The carrier
 definition lists exactly the rows $G,R,V,S,T,P,\rho,\lambda$, and each
@@ -429,6 +430,7 @@ finite ledger comparison for $\lambda$. Conversely, those displayed
 projections repack into the classifier without using host equality of
 representation categories.
 \end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_classifier\_exactness}
 \begin{proof}
 Unpack the classifier between
 $\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)$ and
@@ -461,6 +463,7 @@ list $V$, and their dependency and provenance reads factor through the
 consumed $\NameCert_{\GroupUp}$ row $G$, the consumed $\NameCert_{\RingUp}$
 row $R$, and the $\mathsf{Pkg}$ packet $P$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_operation\_ledger\_coverage}
 \begin{proof}
 Project a public operation row from the packet
 $\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)$. The carrier definition has only two
@@ -490,6 +493,7 @@ or a row named by one of its finite $\Cont$ ledgers. No ambient group object,
 ambient ring object, module category, character table, or representation
 category is a separate source row of the public certificate.
 \end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_finite\_source\_exhaustion}
 \begin{proof}
 Inspect the carrier packet. Its dependency sources are exactly $G$ and $R$,
 its representation endpoints are exactly the finite list $V$, and its
@@ -547,6 +551,7 @@ certificate is already a projection of the displayed $\mathsf{BHist}$ packet
 or of one of its finite $\Cont$ ledgers. Repacking those projections gives
 the public $\NameCert_{\RepresentationRingUp}$ surface.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_public\_namecert\_surface}
 
 \begin{definition}[RepresentationRingUp obligation row inventory]
 \label{def:representationring-obligation-row-inventory}
@@ -589,6 +594,7 @@ finite $\Cont$ rows from
 \autoref{thm:representationring-bhist-finite-source-exhaustion}, and consumer
 readback rows from \autoref{thm:representationring-consumer-boundary}.
 \end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_obligation\_inventory\_sound}
 \begin{proof}
 Start with the carrier packet. The carrier boundary theorem projects the
 finite GroupUp packet, RingUp packet, representation endpoint rows, operation
@@ -619,6 +625,7 @@ public surface never reads a host representation category, an ambient
 Grothendieck quotient, character theory, induction-restriction calculus, or
 any operation not displayed by the finite carrier packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_obligation\_inventory\_exhaustive}
 \begin{proof}
 Let a public $\RepresentationRingUp$ obligation be given. By the public
 NameCert surface theorem, it is a carrier, classifier, operation, provenance,
@@ -642,12 +649,14 @@ $\RepresentationRingUp$ obligation.
 \end{proof}
 
 \closureat{RepresentationRingUp}{scopedStr}[BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_semantic\_name\_certificate]
+\closureat{RepresentationRingUp}{publicStr}[BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_public\_namecert\_surface]
 \begin{closurestatus}{\RepresentationRingUp}
-  \theoryclosure{\scopedClosure}
+  \constructivestory{A representation ring is generated as a finite packet $\mathcal{K}=(G,R,V,S,T,P,\rho,\lambda)$ whose $G$ row consumes $\GroupUp$, whose $R$ row consumes $\RingUp$, whose $V$ row lists representation endpoints, and whose $S$ and $T$ ledgers display direct-sum and tensor-product faces. The carrier accepts exactly the consumed group and ring packets, the finite representation endpoint list, the operation ledgers, the provenance packet, the Grothendieck classifier row, and the finite $\Cont$ ledger; it excludes a host representation category, module category, character table, induction or restriction functor, and ambient Grothendieck quotient object. Two packets classify together when every displayed component is transported by $\hsame$ and the continuation ledger is compared entry by entry, so Grothendieck equality is a finite ledger balance among direct-sum rows rather than an external quotient. The source specification is the packet of dependency rows and representation endpoints, the pattern records direct-sum and tensor ledger coverage, classifier exactness, consumer boundary, and finite source exhaustion, and the ledger keeps operation endpoints, provenance, classifier rows, and continuation entries visible. The five naming-certificate obligations are discharged by the reflexive packet classifier for inhabitance and reflexivity, componentwise reversal for symmetry, componentwise composition for transitivity, and direct-sum/tensor ledger stability for closure under classifier transport. A history $h$ lies in the signature gap of a $\RepresentationRingUp$ token $p$ when the source domain accepts the finite packet, the signature relation pairs it with an answer packet and evidence ledger, and token introduction names that answer as $p$; concretely, the consumed group and ring rows, representation endpoints, operation ledgers, Grothendieck balance row, and provenance of $h$ are the packet encoded by $p$. The chapter registers this finite Grothendieck-ledger construction under $\RepresentationRingUp$; it exports the rows needed by induced-representation consumers without adding character theory, induction-restriction calculus, a standard bridge, or a host representation-ring primitive.}
+  \theoryclosure{\publicClosure}
   \scopeclosed{The obligation scope is the displayed GroupUp packet, RingUp packet, representation endpoints, direct-sum and tensor ledgers, Grothendieck classifier, carrier boundary, classifier exactness, finite $\mathsf{BHist}$ source exhaustion, public $\NameCert$ surface, and obligation inventory soundness and exhaustion.}
-  \formalstatus{\auditCleanV}
-  \leantarget{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_semantic\_name\_certificate}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.RepresentationRingUp.RepresentationRingBHistRepresentationPacket\_public\_namecert\_surface}
   \bridgestatus{none}
   \notclaimed{Full representation theory, character theory, induction-restriction calculus, and standard bridge data are not claimed by this chapter.}
-  \upgradepath{Public closure requires a named exported $\NameCert_{\RepresentationRingUp}$ public surface and a standard-bridge boundary.}
+  \upgradepath{The next theory-axis step is a standard bridge theorem connecting the public representation-ring interface to the bridge schema.}
 \end{closurestatus}

@@ -124,3 +124,131 @@ finite-window surface repacks the same StreamName component over $K$. No
 quotient, completion witness, host index, or hidden stream equality is added in
 that repacking.
 \end{proof}
+
+\begin{theorem}[StreamName constant directed-overlap exactness]
+\label{thm:streamname-constant-window-directed-overlap-exactness}
+Let $a,b:\Hist$ be rational-history endpoints, and let
+$\{I_i\}_{i\in I}$ be a directed finite family of inhabited constant rational
+$\StreamNameUp$ windows over the same $\mathsf{BHist}$ source. For every
+certified common overlap in the directed family, the restricted windows expose
+the same $\mathsf{RatHistoryClassifier}(a,b)$ row, with comparison read only
+through the displayed $\mathsf{hsame}$ rows and the finite
+$\mathsf{ProbeBundle}$ ledgers.
+
+Consequently, any $\RegSeqRat$ or $\RealUp$ finite-window consumer of the
+directed family reads only that single rational-history classifier row together
+with the finite $\mathsf{ProbeBundle}$ ledger. The directed system supplies no
+quotient row, completion row, host stream equality, hidden regularity modulus,
+or external finite-window selector.
+\end{theorem}
+\begin{proof}
+Start with one certified common overlap in the directed family. By
+\autoref{thm:streamname-constant-window-overlap-exactness}, the two restricted
+constant-window packages on that overlap expose the same
+$\mathsf{RatHistoryClassifier}(a,b)$ row and the same finite probe ledger.
+
+Now pass along the directed finite family. Iterating the overlap exactness
+statement over the directed overlaps identifies each exposed constant-window
+classifier with the same endpoint row. Directedness ensures that every pair of
+member windows is compared inside a certified common window already carrying
+the displayed $\mathsf{hsame}$ and $\mathsf{ProbeBundle}$ rows.
+
+For a $\RegSeqRat$ consumer, apply
+\autoref{thm:streamname-constant-window-regseq-boundary}. The consumer may use
+the constant StreamName row and the finite probe ledger, while all regularity
+obligations remain external to the constant-window boundary.
+
+For a $\RealUp$ consumer, apply
+\autoref{thm:streamname-constant-window-real-boundary}. It reads the same
+rational-history classifier row and the same finite probe ledger, with no
+completion or host equality data added by the directed overlap system.
+\end{proof}
+
+\begin{theorem}[StreamName constant directed RegSeqRat Real tail boundary]
+\label{thm:streamname-constant-window-directed-regseq-real-tail-boundary}
+Let $a,b:\Hist$ be rational-history endpoints, and let
+$\{I_i\}_{i\in I}$ be a directed finite family of inhabited constant rational
+$\StreamNameUp$ windows over one $\mathsf{BHist}$ source. Suppose every
+certified overlap in the directed family exposes the same
+$\mathsf{RatHistoryClassifier}(a,b)$ row, the same finite
+$\mathsf{ProbeBundle}$ ledger, and the displayed $\mathsf{UnaryHistory}$,
+$\hsame$, $\Cont$, and $\Pkg$ rows.
+
+Then any $\RegSeqRat$ consumer, and any finite-window $\RealUp$ consumer
+factoring through that $\RegSeqRat$ surface, obtains one selected
+$\RegSeqRat$ tail-classifier row. The handoff surface is exhausted by the
+$\StreamNameUp$ finite-window rows, the selected $\RegSeqRat$ spine,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\Pkg$,
+and the rational classifier $\mathsf{RatHistoryClassifier}(a,b)$. It does not
+read completion, quotient, host stream equality, order or arithmetic rows, or
+standard bridge rows.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-constant-window-directed-overlap-exactness}. The
+directed family presents one rational-history classifier row on every
+certified overlap, and the comparison uses only the displayed $\hsame$ rows
+and finite $\mathsf{ProbeBundle}$ ledgers.
+
+Next use \autoref{thm:streamname-constant-window-regseq-boundary}. It repacks
+the constant $\StreamNameUp$ evidence as the finite StreamName input that a
+$\RegSeqRat$ construction may consume, while leaving regularity rows as
+$\RegSeqRat$ obligations rather than StreamName data.
+
+For a finite-window $\RealUp$ consumer, use
+\autoref{thm:streamname-constant-window-real-boundary}. The RealUp side can
+read the same rational classifier and the same finite probe ledger, but it
+does not add completion or host-equality information to the window surface.
+
+Finally apply \autoref{thm:regseqrat-tail-classifier-exactness}. The matching
+StreamName classifier, selected $\RegSeqRat$ spine, unary observation rows,
+and shared $\Cont/\hsame$ ledger determine a single selected tail-classifier
+readback row. Since every input row in that application is one of the displayed
+constant-window or $\RegSeqRat$ rows, no quotient, arithmetic, order,
+completion, host stream equality, or standard bridge row can enter the
+selected-tail boundary.
+\end{proof}
+
+\begin{theorem}[StreamName constant directed RealUp source uniqueness]
+\label{thm:streamname-constant-window-directed-realup-source-uniqueness}
+Let $a,b:\Hist$ be rational-history endpoints, and let
+$\{I_i\}_{i\in I}$ and $\{J_j\}_{j\in J}$ be two directed finite families of
+inhabited constant rational $\StreamNameUp$ windows over the same
+$\mathsf{BHist}$ source. Suppose a finite-window $\RealUp$ consumer of the
+first family and a finite-window $\RealUp$ consumer of the second family overlap
+on a certified common directed subwindow $K$, with the displayed
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, and $\Pkg$
+rows inherited from both directed systems.
+
+Then the public $\StreamNameUp$ component exposed to the two $\RealUp$
+consumers on $K$ is uniquely the constant rational stream row determined by
+$\mathsf{RatHistoryClassifier}(a,b)$ and the finite $\mathsf{ProbeBundle}$
+ledger on $K$. No alternative $\RegSeqRat$ source row, $\RealUp$ source row, or
+host stream row can be read at that overlap without first passing through the
+same $\StreamNameUp$ finite-window carrier and classifier.
+\end{theorem}
+\begin{proof}
+Restrict both directed constant-window families to the common directed
+subwindow $K$. The restricted packages still carry the same
+$\mathsf{BHist}$ source, the inherited unary observation rows, and the finite
+$\mathsf{ProbeBundle}$ ledgers displayed by the two original systems.
+
+Apply
+\autoref{thm:streamname-constant-window-directed-overlap-exactness} to the
+restricted directed families. It identifies the public StreamName component on
+$K$ with the single rational-history classifier row
+$\mathsf{RatHistoryClassifier}(a,b)$, using only the displayed $\hsame$ rows
+and the finite probe ledgers.
+
+Next use \autoref{thm:streamname-constant-window-real-boundary}. A
+finite-window $\RealUp$ consumer may inspect only that StreamName carrier,
+classifier, and ledger surface. Thus the consumer has no independent access to
+a completion row, host stream equality, or an external source selector.
+
+Finally apply
+\autoref{thm:streamname-constant-window-directed-regseq-real-tail-boundary}.
+Any $\RegSeqRat$ tail seen by the $\RealUp$ side is selected through the same
+constant StreamName finite-window rows and the displayed $\Cont/\hsame$ ledger.
+Therefore every available RealUp source row factors through the unique
+StreamName component on $K$.
+\end{proof}

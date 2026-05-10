@@ -87,6 +87,148 @@ determinacy; the standard bridge is deferred; and the status is
 $\mathsf{ProofTarget}$.
 \end{proof}
 
+\begin{theorem}[SOne carrier-classifier ledger obligation surface]
+\label{thm:s1-carrier-classifier-ledger-obligation-surface}
+For $\SOneUp$ over $\mathsf{BHist}$, the carrier-classifier ledger obligation
+surface consists of the $\RealUp$ component carrier rows, the $\ProdUp$ product
+readback row, the $\mathsf{Cont}$ point ledger, the componentwise $\hsame$
+classifier rows, and the $\NameCert_{\SOneUp}$ ledger rows displayed by
+\autoref{def:s1-source-specification}, \autoref{def:s1-classifier-specification},
+\autoref{def:sone-component-classifier-relation}, and
+\autoref{thm:sone-component-classifier-stability}. These obligations do not
+claim connectedness, compactness, angle parametrisation, or a standard
+topological circle bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.S1Up.SOneComponentClassifier\_ledger\_obligation\_surface}
+\begin{proof}
+The carrier part is the concrete
+$\mathsf{SOneHistoryCarrier}(x,y,e,p)$ row over $\mathsf{BHist}$. Its visible
+payload names two $\RealUp$ component histories, the displayed product history,
+and the continuation ledger $\mathsf{Cont}(x,y,p)$.
+
+The classifier part is
+$\mathsf{SOneComponentClassifier}((x,y,e,p),(x',y',e',p'))$. By
+\autoref{def:sone-component-classifier-relation}, it contains exactly the two
+carrier rows and the two exposed component comparisons $\hsame(x,x')$ and
+$\hsame(y,y')$.
+
+The ledger part is recovered by
+\autoref{thm:sone-component-classifier-stability}. Its proof invokes
+\autoref{thm:s1-component-classifier-ledger-determinacy} to determine the
+hidden equation and point rows, then uses the carrier transport surface to keep
+the certificate inside the same $\NameCert_{\SOneUp}$ obligations.
+
+No argument in these rows reads a topological circle. The surface is confined
+to $\mathsf{BHist}$, $\RealUp$, $\ProdUp$, $\mathsf{Cont}$, $\hsame$, and
+$\NameCert$ data, so connectedness, compactness, angle parametrisation, and
+standard topological bridges remain outside the obligation list.
+\end{proof}
+
+\begin{theorem}[SOne equation transport obligation surface]
+\label{thm:s1-equation-transport-obligation-surface}
+For $\SOneUp$ over $\mathsf{BHist}$, the equation transport obligation surface
+is the $\RealUp$ equation witness row, the fixed unit-history classifier row,
+the componentwise $\hsame$ rows, the $\mathsf{Cont}$ ledger, and the
+$\NameCert_{\SOneUp}$ carrier row transported by
+\autoref{thm:s1-equation-witness-transport} and
+\autoref{thm:s1-carrier-hsame-transport}. It excludes connectedness,
+compactness, angle parametrisation, and standard topological circle bridges.
+\end{theorem}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_equation\_transport\_obligation\_surface}
+\begin{proof}
+Begin with the equation row inside
+$\mathsf{SOneHistoryCarrier}(x,y,e,p)$. The row is a
+$\RealUp$-typed witness that the displayed equation history is classified
+against $\mathsf{SOneUnitHistory}$, while the same carrier also records the
+two real component histories and the point ledger.
+
+\autoref{thm:s1-equation-witness-transport} gives the isolated equation
+replacement obligation. It changes only the displayed equation witness along
+$\hsame(e,e')$ and leaves the component carriers and $\mathsf{Cont}$ ledger
+unchanged.
+
+\autoref{thm:s1-carrier-hsame-transport} gives the full coordinate transport
+obligation. It combines the two component $\hsame$ rows, the equation
+$\hsame$ row, and the point $\hsame$ row to produce the transported
+$\mathsf{SOneHistoryCarrier}(x',y',e',p')$.
+
+These two transport theorems enumerate exactly the equation-facing
+$\NameCert_{\SOneUp}$ obligations. They do not provide any connectedness,
+compactness, angle parametrisation, or standard topological circle bridge row.
+\end{proof}
+
+\begin{theorem}[SOne product-real ledger obligation surface]
+\label{thm:s1-product-real-ledger-obligation-surface}
+For $\SOneUp$ over $\mathsf{BHist}$, the product-real ledger obligation surface
+is the public readback of the $\ProdUp$ point history, the two $\RealUp$
+component histories, the $\mathsf{Cont}$ ledger, the transported $\hsame$
+rows, and the $\NameCert_{\SOneUp}$ readback ledger supplied by
+\autoref{thm:sone-history-carrier-public-readback},
+\autoref{thm:s1-public-readback-transport}, and
+\autoref{thm:sone-component-classifier-public-readback}. It does not claim
+connectedness, compactness, angle parametrisation, or any standard topological
+circle bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_product\_real\_ledger\_obligation\_surface}
+\begin{proof}
+\autoref{thm:sone-history-carrier-public-readback} reads a concrete carrier as
+a product carrier at $p$, the fixed unit-equation history, two rational
+witnesses for the real component histories, and the continuation ledger
+$\ContR(x,y,p)$. This is the public product-real ledger for the source tuple.
+
+\autoref{thm:s1-public-readback-transport} applies the coordinate transport
+surface before taking the same readback at $(x',y',e',p')$. The product row,
+the real component rows, the equation row, and the continuation ledger remain
+inside the transported $\NameCert_{\SOneUp}$ carrier.
+
+\autoref{thm:sone-component-classifier-public-readback} shows that a component
+classifier witness already contains enough carrier and hidden-ledger data to
+recover the transported public package. Thus the product-real ledger surface
+is exactly the readback, transport, and classifier-readback trio.
+
+The trio is still a BEDC history certificate surface. It records no
+connectedness, no compactness, no angle parametrisation, and no standard
+topological circle bridge.
+\end{proof}
+
+\begin{theorem}[SOneUp public NameCert obligation assembly]
+\label{thm:s1-public-namecert-obligation-assembly}
+For $\SOneUp$ over $\mathsf{BHist}$, the carrier-classifier ledger surface,
+equation-transport surface, product-real ledger surface, source
+specification, classifier specification, and component-classifier stability
+assemble into the public $\NameCert_{\SOneUp}$ obligation surface. The public
+fields are exactly the two $\RealUp$ component rows, the $\ProdUp$ product row,
+the unit-equation witness, componentwise $\hsame$, the $\Cont$ point ledger,
+and the $\NameCert$ ledger rows supplied by
+\autoref{thm:s1-carrier-classifier-ledger-obligation-surface},
+\autoref{thm:s1-equation-transport-obligation-surface},
+\autoref{thm:s1-product-real-ledger-obligation-surface},
+\autoref{def:s1-source-specification},
+\autoref{def:sone-component-classifier-relation}, and
+\autoref{thm:sone-component-classifier-stability}. It excludes
+connectedness, compactness, angle parametrisation, and standard topological
+circle bridges.
+\end{theorem}
+\begin{proof}
+First project the public carrier and classifier rows from
+\autoref{thm:s1-carrier-classifier-ledger-obligation-surface}. This gives the
+two real component histories, the source-side classifier rows, the hidden
+equation ledger, and the point ledger over $\mathsf{BHist}$.
+
+Next use \autoref{thm:s1-equation-transport-obligation-surface} and
+\autoref{thm:s1-product-real-ledger-obligation-surface}. The equation theorem
+supplies the unit-equation witness and its $\hsame$ transport, while the
+product-real theorem exposes the $\ProdUp$ point row, the two $\RealUp$
+component rows, and the public readback ledger.
+
+Finally apply \autoref{thm:sone-component-classifier-stability}. Its
+component classifier stability transports the exposed component comparisons
+and determines the hidden ledger rows, so the projected carrier, equation,
+product, $\Cont$, and $\NameCert$ rows repack as the public
+$\NameCert_{\SOneUp}$ obligation surface. Since every projected row is one of
+these BEDC rows, no connectedness, compactness, angle parametrisation, or
+standard topological-circle bridge is introduced.
+\end{proof}
 \begin{definition}[SOne stability certificate]
 \label{def:s1-stability-certificate}
 The stability certificate consists of:
@@ -464,6 +606,112 @@ $\SOneUp$ over $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.sone\_history\_semantic\_name\_certificate}
 
+\begin{definition}[SOne public constructor packet]
+\label{def:sone-public-constructor-packet}
+A public constructor packet for $\SOneUp$ is a finite $\mathsf{BHist}$ packet
+whose displayed rows are exactly two $\RealUp$ component histories $x$ and $y$,
+the $\ProdUp$ point row $p$ for the ordered pair, the unit-equation witness row
+$e$ certifying $x^{2}+y^{2}\approx 1$, the componentwise $\hsame(x,x')$ and
+$\hsame(y,y')$ transport rows used by the classifier, the $\Cont$ ledger
+carrying the point and equation endpoints, and the $\NameCert_{\SOneUp}$
+provenance row. The packet has no field for an angle parameter, quotient
+representative, connectedness witness, compactness witness, or standard circle
+bridge.
+\end{definition}
+
+\begin{theorem}[SOne public constructor scope]
+\label{thm:sone-public-constructor-scope}
+Every accepted public constructor packet of
+\autoref{def:sone-public-constructor-packet} reads only the two $\RealUp$
+component rows, the $\ProdUp$ point row, the unit-equation witness, the
+componentwise $\hsame$ classifier rows, the $\Cont$ continuation ledger, and the
+$\NameCert_{\SOneUp}$ provenance row. Conversely, those displayed rows repack
+into the same public constructor surface whenever the carrier and equation
+transport obligations of \autoref{thm:sone-history-semantic-namecert} are
+present.
+\end{theorem}
+\begin{proof}
+Project the packet to its displayed rows. The definition lists only the two real
+components, the product point, the equation witness, the componentwise
+classifier transports, the continuation ledger, and the certificate provenance.
+
+For the repacking direction, first use
+\autoref{thm:s1-public-namecert-obligation-assembly} to align the displayed
+rows with the public $\NameCert_{\SOneUp}$ fields. Then apply
+\autoref{thm:sone-history-semantic-namecert} to supply the carrier, classifier,
+stability, and ledger envelope.
+
+The packet has no row for angle parametrisation, quotient representatives,
+connectedness, compactness, or a standard bridge. A public read therefore cannot
+leave the displayed BEDC rows, and the same rows reconstruct the public
+constructor surface.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_public\_constructor\_scope}
+\leanchecked{BEDC.Derived.S1Up.SOnePublicConstructorPacket\_scope}
+
+\begin{theorem}[SOne public endpoint exactness]
+\label{thm:sone-public-endpoint-exactness}
+Let $P$ and $P'$ be accepted public constructor packets for $\SOneUp$. If their
+two real component rows are related componentwise by $\hsame$, then the
+unit-equation witness rows and product-point ledger rows exposed by $P$ and
+$P'$ are the same public $\SOneUp$ endpoints under the classifier of
+\autoref{def:sone-component-classifier-relation}. No hidden angle, quotient, or
+host-circle endpoint can distinguish the two accepted packets.
+\end{theorem}
+\leanchecked{BEDC.Derived.S1Up.SOneComponentClassifier\_public\_endpoint\_exactness}
+\begin{proof}
+Read both packets through \autoref{thm:sone-public-constructor-scope}. The only
+classifier data available are the two component rows and their componentwise
+$\hsame$ witnesses.
+
+Apply \autoref{thm:s1-component-classifier-ledger-determinacy}. The component
+classifier determines the equation ledger and the point ledger from those two
+real-component comparisons.
+
+Finally transport the carrier with
+\autoref{thm:s1-equation-witness-transport} and
+\autoref{thm:s1-carrier-hsame-transport}. The transported equation witness and
+product point are exactly the public endpoints read by the two packets, and no
+undisplayed host-circle row remains available to separate them.
+\end{proof}
+
+\begin{theorem}[SOne public constructor compatibility]
+\label{thm:s1-public-constructor-compatibility}
+Every public $\SOneUp$ constructor row built from two $\RealUp$ component
+rows, the $\ProdUp$ point readback, the unit-equation witness, componentwise
+$\hsame$, and the $\Cont$ point ledger repacks into the same public
+$\NameCert_{\SOneUp}$ surface. Conversely, every public constructor read from
+$\NameCert_{\SOneUp}$ exposes only those component, product, equation,
+transport, continuation, and provenance rows. It exposes no connectedness,
+compactness, angle parametrisation, or standard circle bridge.
+\end{theorem}
+\begin{proof}
+Start with the displayed public constructor row. Apply
+\autoref{thm:s1-public-namecert-obligation-assembly} to identify the public
+$\NameCert_{\SOneUp}$ fields as the two $\RealUp$ component rows, the $\ProdUp$
+point row, the unit-equation witness, componentwise $\hsame$, and the $\Cont$
+point ledger.
+
+The semantic certificate is then supplied by
+\autoref{thm:sone-history-semantic-namecert}. Its carrier, classifier, source,
+stability, and ledger rows give the certificate envelope into which the public
+constructor fields repack.
+
+For the reverse read, project the public surface through
+\autoref{thm:s1-product-real-ledger-obligation-surface},
+\autoref{thm:s1-equation-transport-obligation-surface}, and
+\autoref{thm:sone-component-classifier-public-readback}. These results recover
+exactly the product readback, equation transport, component comparisons, and
+continuation ledgers available to a public constructor.
+
+No further row is present in the carrier or in the semantic certificate.
+Therefore the public constructor interface is compatible with the unit-circle
+equation and exposes only the listed BEDC history rows, while connectedness,
+compactness, angle parametrisation, and standard circle bridges remain outside
+the exported surface.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_public\_constructor\_compatibility}
+
 \paragraph{Primitive boundary.}
 $\SOneUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
@@ -471,12 +719,46 @@ $\SOneUp$ is not a BEDC primitive. It is admitted only when those obligations ar
 \label{rem:s1-zero-axiom-note}
 The interface records explicit component witnesses and equation transport, with no quotient-type representative and no use of $\mathsf{Quot.sound}$.
 \end{remark}
+
+\begin{theorem}[SOne public constructor standard bridge boundary]
+\label{thm:sone-public-constructor-standard-bridge}
+Any standard-circle comparison admitted by this chapter consumes exactly the
+public constructor packet rows of
+\autoref{def:sone-public-constructor-packet}: two $\RealUp$ component histories,
+the $\ProdUp$ point row, the unit-equation witness, componentwise $\hsame$
+transports, the continuation ledger, and certificate provenance. Conversely,
+those rows supply the BEDC side of a standard-circle bridge. The consumable
+surface excludes angle quotients, trigonometric libraries, covering-space data,
+winding-number data, and topological-group structure.
+\end{theorem}
+\leanchecked{BEDC.Derived.S1Up.SOneUp\_StdBridge}
+\begin{proof}
+First project an admitted standard-circle comparison to the public constructor
+surface. By \autoref{def:sone-public-constructor-packet}, its exported rows are
+exactly the two real component histories, product point row, unit-equation
+witness, componentwise transports, continuation ledger, and provenance fields.
+
+Next apply \autoref{thm:s1-public-constructor-compatibility} and
+\autoref{thm:sone-history-semantic-namecert}. These identify the displayed rows
+with the public $\NameCert_{\SOneUp}$ carrier, classifier, stability, and ledger
+envelope. Conversely, the public readback and constructor interface of
+\autoref{thm:sone-history-carrier-public-readback},
+\autoref{thm:s1-public-readback-transport}, and
+\autoref{thm:sone-component-classifier-public-readback} repacks them as the
+BEDC side of a standard-circle comparison.
+
+The cited projections never manufacture angle representatives, trigonometric
+operations, covering-space lifts, winding-number ledgers, or a topological-group
+law. Those structures remain outside the bridge boundary.
+\end{proof}
+\closureat{SOneUp}{publicStr}[BEDC.Derived.S1Up.sone\_history\_semantic\_name\_certificate]
 \begin{closurestatus}{\SOneUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The S1 history carrier with equation-witness transport, explicit component witnesses, and the no-Quot-sound zero-axiom encoding noted above.}
+  \constructivestory{A circle point is generated by displaying two $\RealUp$ constant histories $x$ and $y$, composing them by the product continuation ledger into a point history $p$, and attaching a separate equation history $e$ that certifies the unit relation $x^{2}+y^{2}\approx 1$; empty points, zero-headed points, and pairs without the unit-equation witness are outside the carrier. The classifier deliberately exposes only the two component comparisons $\hsame(x,x')$ and $\hsame(y,y')$: once those are present, the equation ledger and point ledger are determined and transported by the carrier theorems, so there is no quotient by angles or by a host $\mathbb{R}/\mathbb{Z}$ representation. The source specification is the product of two real witnesses together with the real-algebra rows needed to form the unit equation, the pattern specification is unit-circle formation from that pair plus the certified equation object, and the ledger keeps the rational tails of both real constants, the product continuation, the equation witness, and the transported component rows visible. The five name-certificate obligations reduce to componentwise history-sameness: an admitted pair with its unit equation inhabits the carrier, reflexivity, symmetry, and transitivity are inherited on the two real components, and the full carrier transports because the hidden equation and point witnesses are recovered from those component comparisons. A point history $h$ lies in the signature gap of a $\SOneUp$ token $p$ when the source-domain accepts $h$ as such a real pair with unit-equation ledger, the signature relation pairs it with an answer circle point and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, the two real components and their equation witness match the point encoded by $p$. The chapter registers this component-and-equation construction under the name $\SOneUp$; it introduces no trigonometric library, winding-number theory, covering-space quotient, topological-group structure, or standard bridge.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public S1 constructor packet binds exactly the two real component rows, product point row, unit-equation witness, componentwise classifier transports, continuation ledger, and certificate provenance displayed in this chapter.}
   \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.S1Up.SOneHistoryCarrier\_equation\_witness\_transport}
+  \leantarget{BEDC.Derived.S1Up.sone\_history\_semantic\_name\_certificate}
   \bridgestatus{none}
   \notclaimed{General theory of the unit circle as a topological group, smooth manifold, Lie group, or quotient $\mathbb{R}/\mathbb{Z}$; trigonometric function library; winding number theory; covering space theory.}
-  \upgradepath{publicClosed requires public S1 constructors compatible with the unit-circle equation, parametrization readback, endpoint exactness, and a no-hidden-leakage statement bracketing the public surface.}
+  \upgradepath{A bridge grade requires a standard circle bridge compatible with the public constructor surface.}
 \end{closurestatus}

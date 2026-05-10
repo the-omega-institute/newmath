@@ -299,6 +299,33 @@ theorem RepresentationRingBHistRepresentationPacket_grothendieck_classifier_symm
                 (And.intro (hsame_symm classified.right.right.right.right.right.right.right.left)
                   (hsame_symm classified.right.right.right.right.right.right.right.right))))))))
 
+theorem RepresentationRingBHistRepresentationPacket_classifier_exactness [AskSetup] [PackageSetup]
+    {group0 ring0 reps0 directSum0 tensor0 provenance0 classifier0 ledger0 endpoint0 group1
+      ring1 reps1 directSum1 tensor1 provenance1 classifier1 ledger1 endpoint1 : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RepresentationRingBHistRepresentationPacket group0 ring0 reps0 directSum0 tensor0 provenance0
+        classifier0 ledger0 endpoint0 bundle pkg ->
+      RepresentationRingBHistRepresentationPacket group1 ring1 reps1 directSum1 tensor1
+          provenance1 classifier1 ledger1 endpoint1 bundle pkg ->
+        RepresentationRingGrothendieckClassifier group0 ring0 reps0 directSum0 tensor0
+            provenance0 classifier0 ledger0 endpoint0 group1 ring1 reps1 directSum1 tensor1
+            provenance1 classifier1 ledger1 endpoint1 ->
+          UnaryHistory ledger0 ∧ UnaryHistory endpoint0 ∧ UnaryHistory ledger1 ∧
+            UnaryHistory endpoint1 ∧ hsame endpoint0 endpoint1 ∧ PkgSig bundle endpoint0 pkg ∧
+              PkgSig bundle endpoint1 pkg := by
+  intro packet0 packet1 classified
+  have boundary0 :=
+    RepresentationRingBHistRepresentationPacket_carrier_boundary packet0
+  have boundary1 :=
+    RepresentationRingBHistRepresentationPacket_carrier_boundary packet1
+  exact And.intro boundary0.right.right.right.right.right.right.right.left
+    (And.intro boundary0.right.right.right.right.right.right.right.right.left
+      (And.intro boundary1.right.right.right.right.right.right.right.left
+        (And.intro boundary1.right.right.right.right.right.right.right.right.left
+          (And.intro classified.right.right.right.right.right.right.right.right
+            (And.intro boundary0.right.right.right.right.right.right.right.right.right.right.right
+              boundary1.right.right.right.right.right.right.right.right.right.right.right)))))
+
 theorem RepresentationRingBHistRepresentationPacket_semantic_name_certificate [AskSetup]
     [PackageSetup]
     {group ring reps directSum tensor provenance classifier ledger endpoint : BHist}
@@ -480,5 +507,70 @@ theorem RepresentationRingBHistRepresentationPacket_classifier_ledger_exhaustion
     (And.intro ledgerUnary'
       (And.intro endpointUnary'
         (And.intro ledgerSame (And.intro endpointSame pkgSig'))))
+
+theorem RepresentationRingBHistRepresentationPacket_finite_source_exhaustion
+    [AskSetup] [PackageSetup]
+    {group ring reps directSum tensor provenance classifier ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RepresentationRingBHistRepresentationPacket group ring reps directSum tensor provenance
+        classifier ledger endpoint bundle pkg ->
+      UnaryHistory group ∧ UnaryHistory ring ∧ UnaryHistory reps ∧ UnaryHistory directSum ∧
+        UnaryHistory tensor ∧ UnaryHistory provenance ∧ UnaryHistory classifier ∧
+          UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont reps directSum tensor ∧
+            Cont group ring provenance ∧ Cont provenance classifier ledger ∧
+              Cont ledger tensor endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have boundary :=
+    RepresentationRingBHistRepresentationPacket_carrier_boundary packet
+  constructor
+  · exact packet.left
+  · constructor
+    · exact packet.right.left
+    · constructor
+      · exact packet.right.right.left
+      · constructor
+        · exact packet.right.right.right.left
+        · constructor
+          · exact packet.right.right.right.right.left
+          · constructor
+            · exact packet.right.right.right.right.right.left
+            · constructor
+              · exact packet.right.right.right.right.right.right.left
+              · constructor
+                · exact boundary.right.right.right.right.right.right.right.left
+                · constructor
+                  · exact boundary.right.right.right.right.right.right.right.right.left
+                  · constructor
+                    · exact packet.right.right.right.right.right.right.right.left
+                    · constructor
+                      · exact packet.right.right.right.right.right.right.right.right.left
+                      · constructor
+                        · exact packet.right.right.right.right.right.right.right.right.right.left
+                        · constructor
+                          · exact
+                              packet.right.right.right.right.right.right.right.right.right.right.left
+                          · exact
+                              packet.right.right.right.right.right.right.right.right.right.right.right
+
+theorem RepresentationRingBHistRepresentationPacket_public_namecert_surface [AskSetup]
+    [PackageSetup]
+    {group ring reps directSum tensor provenance classifier ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RepresentationRingBHistRepresentationPacket group ring reps directSum tensor provenance
+        classifier ledger endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) hsame ∧
+        UnaryHistory group ∧ UnaryHistory ring ∧ UnaryHistory reps ∧ UnaryHistory directSum ∧
+          UnaryHistory tensor ∧ UnaryHistory provenance ∧ UnaryHistory classifier ∧
+            UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont reps directSum tensor ∧
+              Cont group ring provenance ∧ Cont provenance classifier ledger ∧
+                Cont ledger tensor endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have surface :=
+    RepresentationRingBHistRepresentationPacket_namecert_obligation_surface packet
+  have rows :=
+    RepresentationRingBHistRepresentationPacket_finite_source_exhaustion packet
+  exact And.intro surface.left rows
 
 end BEDC.Derived.RepresentationRingUp

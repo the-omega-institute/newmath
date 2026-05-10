@@ -207,6 +207,7 @@ outside the $\RootSystemUp$ closure claim.
 \closureat{RootSystemUp}{matureStr}[BEDC.Derived.WeylGroupUp.WeylGroupStandardReflectionGroup\_bridge]
 
 \begin{closurestatus}{\RootSystemUp}
+  \constructivestory{A root-system packet is generated from three visible sources: an $\InnerProductUp$ vector carrier and classifier, a $\FinSetUp$ finite-support enumeration of root rows, and $\IntUp$ endpoints for the Cartan pairings. A history is accepted as a root only when it appears in the finite support, is carried by the inner-product vector carrier, and carries a nonzero witness; two root rows classify together when their finite-support entries and vector representatives are matched by the finite-set and vector classifiers. The source covers these finite nonzero vector rows with reflection and Cartan data, the pattern records reflection closure, integer Cartan endpoints, and nonzero readback, and the ledger keeps finite support, nonzero witnesses, reflection routes, and integer Cartan endpoints descending to the displayed sources. The carrier is inhabited by a displayed finite root row, and reflexivity, symmetry, transitivity, and carrier closure are supplied by the inherited classifiers plus transport of nonzero witnesses, reflected vectors, and Cartan endpoints through $\hsame$. A history $h$ lies in the signature gap of a $\RootSystemUp$ token $p$ when the source accepts the finite-support root packet for $h$, the signature relation pairs it with an answer root-system packet and evidence ledger, and token introduction names that answer as $p$; unfolded, the finite root list, vector representatives, reflection closure rows, and integer Cartan ledger match the data encoded by $p$. The mature bridge consumption reads precisely these rows into the terminal $\WeylGroupUp$ reflection-group bridge, while Lie-algebra and crystallographic classification stay outside the package. The chapter registers this finite-support reflection construction under the name $\RootSystemUp$; no ambient Lie algebra, Weyl-group classification theorem, or hidden host vector equality is introduced.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:rootsystem-mature-bridge-consumption} is the mature RootSystem-side bridge-consumption surface for the finite-support carrier, public classifier transport, reflection closure, and Cartan ledger rows consumed by the WeylGroup terminal standard bridge.}
   \formalstatus{\auditCleanV}
@@ -215,3 +216,71 @@ outside the $\RootSystemUp$ closure claim.
   \notclaimed{The chapter does not close Lie-algebra classification or crystallographic classification.}
   \upgradepath{No further theory step; bridgeChecked verification requires a RootSystemUp standard-bridge target.}
 \end{closurestatus}
+
+\begin{theorem}[RootSystem simple-reflection involution row]
+\label{thm:rootsystem-simple-reflection-involution-row}
+For a $\RootSystemUp$ BHist certificate surface, let $\alpha$ and $\beta$ be carried root rows, and let the displayed reflection row along $\alpha$ be read through its Cartan-normalized $\Cont$ route
+$$
+s_\alpha(\gamma)
+\sim_V
+\gamma-c_{\alpha,\gamma}\cdot_V\alpha
+$$
+for every carried input $\gamma$, where $c_{\alpha,\gamma}$ is the integer Cartan endpoint supplied by the same surface. Then the iterated displayed row is classified with the original input root:
+$$
+s_\alpha(s_\alpha(\beta))\sim_V\beta.
+$$
+The witness uses only the inherited $\InnerProductUp$ vector classifier, the displayed vector-space rows, the reflection $\Cont$ route, and the Cartan integer endpoint ledger.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:rootsystem-reflection-closure-obligation}, the first reflected row
+$s_\alpha(\beta)$ is a carried root, so the reflection row may be applied to it again. The same theorem keeps both displayed reflection endpoints inside the public root carrier, and \autoref{thm:rootsystem-carrier-classifier-obligation} says that their comparison is the inherited vector classifier $\sim_V$ together with the finite-support classifier.
+
+Write $c=c_{\alpha,\beta}$. The Cartan-normalized reflection route for the first step gives the vector-classifier row
+$$
+s_\alpha(\beta)
+\sim_V
+\beta-c\cdot_V\alpha.
+$$
+The Cartan endpoint is the displayed integer history for
+$$
+c=2\langle\beta,\alpha\rangle/\langle\alpha,\alpha\rangle
+$$
+by \autoref{thm:rootsystem-cartan-ledger-obligation}. Apply the scalar projection and form-law rows of the $\InnerProductUp$ root basis, namely \autoref{thm:innerproduct-root-scalar-projection-transport} and \autoref{thm:innerproduct-root-unblock-form-laws}, to the carried vectors $\alpha$ and $\beta-c\cdot_V\alpha$. Sesquilinearity gives the retained scalar-classifier computation
+$$
+\begin{aligned}
+2\langle s_\alpha(\beta),\alpha\rangle
+&\sim_{\mathsf{scal}}
+2\langle\beta-c\cdot_V\alpha,\alpha\rangle \\
+&\sim_{\mathsf{scal}}
+2\langle\beta,\alpha\rangle-2c\langle\alpha,\alpha\rangle \\
+&\sim_{\mathsf{scal}}
+-c\langle\alpha,\alpha\rangle.
+\end{aligned}
+$$
+The last comparison uses the defining Cartan endpoint row for $c$, transported through the retained scalar classifier. Since $\alpha$ is a root, \autoref{thm:rootsystem-nonzero-finiteness-obligation} supplies the nonzero witness for $\alpha$, and the positive-definite exactness in \autoref{thm:innerproduct-root-diagonal-zero-exactness} prevents the diagonal denominator $\langle\alpha,\alpha\rangle$ from being scalar-zero. Thus the displayed Cartan endpoint for the reflected input is classified as
+$$
+c_{\alpha,s_\alpha(\beta)}\sim_{\IntUp}-c.
+$$
+This is an integer-ledger comparison, not a host scalar equality, because \autoref{thm:rootsystem-cartan-ledger-obligation} keeps Cartan endpoints in the $\IntUp$ carrier and transports them through its classifier.
+
+Now apply the reflection route a second time:
+$$
+s_\alpha(s_\alpha(\beta))
+\sim_V
+s_\alpha(\beta)-c_{\alpha,s_\alpha(\beta)}\cdot_V\alpha.
+$$
+Substitute the first reflection row and the Cartan comparison just obtained, using vector addition, scalar multiplication, additive inverse, and classifier congruence from the inherited $\VecSpaceUp$ rows exposed by \autoref{thm:innerproduct-root-unblock-carrier-classifier}. The right endpoint is classified as
+$$
+\begin{aligned}
+(\beta-c\cdot_V\alpha)-(-c)\cdot_V\alpha
+&\sim_V
+\beta+((-c)+c)\cdot_V\alpha \\
+&\sim_V
+\beta+0\cdot_V\alpha \\
+&\sim_V
+\beta.
+\end{aligned}
+$$
+Composing these vector-classifier witnesses by the public root classifier gives
+$s_\alpha(s_\alpha(\beta))\sim_V\beta$. The proof has used the two displayed reflection $\Cont$ routes, the Cartan endpoint ledger, the inner-product form laws, and the inherited vector-space classifier congruence; no ambient Weyl group, host-level equality of vectors, or quotient of reflection words is introduced.
+\end{proof}

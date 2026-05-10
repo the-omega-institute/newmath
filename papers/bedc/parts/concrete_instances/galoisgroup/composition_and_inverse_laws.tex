@@ -182,3 +182,54 @@ coordinate contains host automorphism equality, no consumer can depend on such
 an equality through the public ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.GaloisGroupUp.GaloisGroupAutomorphismActionPacket\_automorphism\_ledger\_exactness}
+
+\begin{theorem}[GaloisGroupUp inverse involution row]
+\label{thm:galoisgroup-inverse-involution-row}
+For every accepted fixed-base automorphism-action row $x$ of an
+automorphism-action packet
+$(E,G,b,a,m,i,c,\rho,\lambda)$ of
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}, let $x^{-1}$ be the
+inverse row supplied by \autoref{thm:galoisgroup-inverse-closure}, and let
+$(x^{-1})^{-1}$ be the inverse row obtained by applying the same closure row to
+$x^{-1}$. Then $(x^{-1})^{-1}$ is accepted by the same packet and is classified
+with $x$ by the inherited inverse-involutivity row of the
+$\NameCert_{\GroupUp}$ dependency, transported through the public
+$\NameCert_{\GaloisExtUp}$ endpoint classifier. The classification uses only
+the fixed-base row $b$, the inverse row $i$, the classifier row $c$, the
+provenance row $\rho$, and the finite ledger $\lambda$.
+\end{theorem}
+\begin{proof}
+Unpack the accepted row $x$ through
+\autoref{def:galoisgroup-bhist-automorphism-action-packet}. Its source and
+target endpoints are public GaloisExtUp endpoints from $E$, its operation
+endpoint is a public GroupUp endpoint from $G$, and its fixed-base face is an
+$\hsame$ comparison over the displayed base endpoint.
+
+Apply \autoref{thm:galoisgroup-inverse-closure} to $x$. The resulting row
+$x^{-1}$ is accepted by the same packet, has the source and target endpoints
+reversed, and carries the inverse operation endpoint supplied by the
+$\NameCert_{\GroupUp}$ surface of $G$. Its fixed-base face is transported along
+the same base-endpoint $\hsame$ comparisons listed in $\lambda$.
+
+Apply \autoref{thm:galoisgroup-inverse-closure} again to $x^{-1}$. This gives
+an accepted row $(x^{-1})^{-1}$ whose displayed endpoints have been reversed
+back to the orientation of $x$. The public boundary
+\autoref{thm:galoisext-public-obligation-boundary} supplies the GaloisExtUp
+classifier rows identifying these twice-transported endpoints with the original
+source and target endpoints of $x$.
+
+On the group side, the inverse operation endpoint of $(x^{-1})^{-1}$ is
+classified with the operation endpoint of $x$ by the inverse-involutivity law
+of the GroupUp dependency, for instance
+\autoref{thm:group-left-inverse-involutive}. The same law may be read through
+the right-inverse presentation of \autoref{thm:group-right-inverse-involutive};
+both readings land in the classifier surface already named by $G$.
+
+Transport that GroupUp classifier comparison across the endpoint classifier of
+$E$. The fixed-base witnesses match because both $x$ and $(x^{-1})^{-1}$ fix
+the same displayed base endpoint after the two endpoint transports, and the
+classifier row $c$ compares exactly the endpoint, fixed-base, action, and
+inverse faces recorded in the packet. Repacking these comparisons with
+$\rho$ and $\lambda$ gives the claimed GaloisGroupUp classifier row between
+$(x^{-1})^{-1}$ and $x$.
+\end{proof}

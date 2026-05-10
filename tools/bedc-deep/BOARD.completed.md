@@ -14755,3 +14755,611 @@ Rationale:
 Same host file as candidate #1 (103 lines). Searched grep 'distrib' across papers/bedc/parts/concrete_instances/25_polynomial*.tex returned 0 hits for raw multiplication distributivity over addition — only the singleton-collapse-level distributivity at 25_polynomial_namecert_construction.tex L349 (thm:polynomial-singleton-append-distrib-classified) and the FPS sibling 26_fps_namecert_construction.tex L546 (thm:fps-cauchy-product-distributes-over-fps-addition) exist. So distributivity is proven for FPS Cauchy product but not for finite-spine polynomial Cauchy product. Proof: Cauchy formula gives rmul(p, radd(q,r))[n] ~ Σ p[i]·radd(q,r)[j] = Σ p[i]·(q[j]+r[j]) ~ Σ (p[i]·q[j] + p[i]·r[j]) by ring left-distributivity in def:ring-stability-certificate, splits via finite-additive-fold-congruence into Cauchy(p,q;n) + Cauchy(p,r;n) ~ rmul(p,q)[n] + rmul(p,r)[n], then padded extensionality gives PolySame.
 
 ---
+
+### B-580 - PublicKeyUp two-secret-key shared-public-key decryption consistency
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | PublicKeyUp two-secret-key shared-public-key decryption consistency |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If PKKeyGen(pk,sk1) and PKKeyGen(pk,sk2) and PKCertifiedEnc(pk,m,c), then for any d1 with PKDecrypt(sk1,c,d1) and d2 with PKDecrypt(sk2,c,d2), the plaintext classifier mu(d1,d2) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/221_publickey_namecert_construction.tex`
+
+Rationale:
+Closes a missing 'shared public key implies decryption equivalence class' invariant for PublicKeyUp. Distinct from B-490 (single-key uniqueness): this ranges over two distinct secret keys for a shared public key, a clean composite of decrypt-encrypt-correctness applied twice plus namecert-equivalence-transitivity. The 221_publickey chapter has decrypt-encrypt-correctness and ciphertext-plaintext uniqueness rows but no theorem covering distinct sk witnesses, leaving the cryptographic correctness story incomplete.
+
+---
+
+### B-581 - AdjointRepUp multiplicative homomorphism row Ad(gh) ~ Ad(g) o Ad(h)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AdjointRepUp multiplicative homomorphism row Ad(gh) ~ Ad(g) o Ad(h) |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For carried Lie-group histories g,h and any carried algebra history t, Ad_{gh}(t) is classified by the LieAlgebraUp endomap classifier with the composite Ad_g(Ad_h(t)) without invoking a host group action.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/121_adjointrep_namecert_construction.tex`
+
+Rationale:
+Fills the defining 'Ad is a representation' law inside 121_adjointrep. The chapter has conjugation-carrier, differential-action, automorphism-target, classifier-stability obligations but no homomorphism law on the action row itself. This is the canonical fact downstream representation-ring chapters cite, and is a trivial composite of LieGroupUp's multiplication ledger plus Ad's carrier-row construction.
+
+---
+
+### B-582 - RootSystemUp reflection involution s_alpha(s_alpha(beta)) ~ beta
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | RootSystemUp reflection involution s_alpha(s_alpha(beta)) ~ beta |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For any carried root histories alpha and beta in a RootSystem BHist certificate, the displayed double reflection row s_alpha applied to s_alpha(beta) returns to a vector classified with beta under the InnerProductUp vector classifier, generated entirely from the displayed reflection Cont route and the Cartan integer endpoint.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/122_rootsystem_namecert_construction.tex`
+
+Rationale:
+Distinct from B-454 (Weyl reflection words preserve roots) which is preservation under reflection words, not the order-2 involution row itself. 122_rootsystem has reflection-closure and Cartan-ledger but no theorem that s_alpha is involutive. Without it the WeylGroup bridge consumption theorem is incomplete — Weyl-group involutions are unwitnessed. Constructor inversion / determinism lemma at the most-cited level.
+
+---
+
+### B-584 - ModelTheoryUp elementary-equivalence reflexivity transport row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | ModelTheoryUp elementary-equivalence reflexivity transport row |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For every admitted ModelTheoryUp source packet, Elem classifies the displayed structure A with itself under the trivial hsame transport, with reflexivity witnessed by the satisfaction-exactness row applied to identical formula and assignment endpoints, and no host model identity is invoked.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/176_modeltheory_namecert_construction.tex`
+
+Rationale:
+176_modeltheory has elementary-transport (preservation under hsame) but no reflexivity row for Elem itself — the foundational equivalence-relation closure missing for the model classifier, analogous to saturated reflexivity rows already present for InnerProduct and ProbSpace. Every classifier needs reflexivity; the chapter is its own closure (438 lines, well under cap) and the proof is one application of satisfaction-exactness on identical endpoints.
+
+---
+
+### B-585 - AffineVarUp singleton-equation family zero-locus exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AffineVarUp singleton-equation family zero-locus exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For any polynomial code p and the singleton finite-spine cons(p, nil), V_{R,n}(cons(p,nil))(x) holds iff AffPoint_{R,n}(x) and PolyEvalZero_{R,n}(p,x) both hold.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/132_affinevar_namecert_construction.tex`
+
+Rationale:
+132_affinevar has empty-family, concatenation, inclusion-reversal, duplicate-insertion, and mutual-inclusion rows but no canonical singleton (one-equation hypersurface) base case. This is the bridge case every downstream affine-variety consumer needs. Clean composite of empty-family-iff plus concatenation reading cons(p,nil) = cons(p, nil). Missing constructor case for the zero-locus carrier.
+
+---
+
+### B-586 - ClassFieldUp public interface theorem aggregating Artin / Frobenius / ledger obligations
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ClassFieldUp public interface theorem aggregating Artin / Frobenius / ledger obligations |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a package satisfies \autoref{thm:classfield-obligation-carrier-classifier}, \autoref{thm:classfield-obligation-artin-frobenius-stability}, and \autoref{thm:classfield-obligation-ledger-exactness}, then those three rows assemble into a single exported $\NameCert_{\ClassFieldUp}$ public interface certificate over the $\NumFieldUp$/$\AdeleUp$ source rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/236_classfield_namecert_construction.tex`
+
+Rationale:
+papers/bedc/parts/concrete_instances/236_classfield_namecert_construction.tex declares upgradepath "Public closure requires a single exported $\ClassFieldUp$ public interface theorem or a checked bridge over the scoped certificate rows." File at 106 lines, with three obligation theorems clearly visible at lines 12, 24, 36 (verified by direct read). Notclaimed enumerates Artin reciprocity etc as out of scope, leaving only the aggregator. Grep `thm:classfield.*public` returns 0 hits. Single-implication aggregator over three explicitly-named obligation theorems — same B-565 pattern.
+
+---
+
+### B-587 - PolynomialUp raw multiplication left distributivity over raw addition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | PolynomialUp raw multiplication left distributivity over raw addition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For accepted spines x, y, z over a CommRingUp scalar source, the raw Cauchy product rmul_R(x, radd_R(y,z)) classifies in the polynomial classifier with radd_R(rmul_R(x,y), rmul_R(x,z)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_multiplication.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_algebra.tex`
+
+Rationale:
+B-579 records ONLY the right distributivity row (`(x+y)*z ~ x*z + y*z`) for raw polynomial multiplication; the dual `x*(y+z) ~ x*y + x*z` is not in BOARD nor in `25_polynomial_literal_multiplication.tex` (the file lists Cauchy coefficient formula at line 19, associativity at line 55, and singleton evaluation at line 77, with no left-distributivity row). Both polynomial-multiplication zero-absorptions (left at line 202, right at line 244) appear in the algebra sibling, so the symmetric pair is published for zero-absorption but is asymmetric for distributivity. The file is 103 lines, far below the 800 cap, and a clean coefficient-fold proof is available via `lem:scalar-product-distributes-across-finite-additive-folds` already used in associativity (line 50).
+
+---
+
+### B-583 - CliffordUp polarization identity uv + vu ~ q(u+v) - q(u) - q(v)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CliffordUp polarization identity uv + vu ~ q(u+v) - q(u) - q(v) |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+For accepted vector histories u,v in the shared VecSpaceUp source, the Clifford classifier identifies u*v + v*u with q(u+v) - q(u) - q(v) via the displayed quadratic-relation row applied to u+v together with bilinearity transport from BilinFormUp.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/125_clifford_namecert_construction.tex`
+
+Rationale:
+125_clifford has the diagonal quadratic-relation v*v ~ q(v)*1 and product-stability/confluence rows, but the universal symmetric polarization formula relating two distinct vectors is not derived. Polarization is the unique fact that distinguishes Clifford from a free tensor algebra and what downstream Spin/Pin certificates need to anchor double-cover constructions. Polarization shows up only in commring/innerproduct chapters elsewhere, never in Clifford. Frontier algebra capstone.
+
+---
+
+### B-588 - HomotopyUp reversal involution: reverse-of-reverse classifies original packet
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | HomotopyUp reversal involution: reverse-of-reverse classifies original packet |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a HomotopyUp source packet H from f to g of def:homotopy-bhist-source-packet, applying the reversal-symmetry construction of thm:homotopy-reversal-symmetry-row twice produces a packet whose deformation row, interval-parameter row, endpoint ContinuousMap rows, and finite Cont ledger are componentwise hsame to those of H under the same Pkg provenance.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/134_homotopy_namecert_construction.tex`
+
+Rationale:
+134_homotopy (363 lines) carries reflexivity (thm:homotopy-constant-deformation-reflexivity-row), single reversal (thm:homotopy-reversal-symmetry-row), composition (thm:homotopy-deformation-composition-row), associativity (thm:homotopy-composition-associativity-row), and transitivity (thm:homotopy-endpoint-composition-transitivity-row), but never states the involution `reverse∘reverse ~ id`. This is the canonical missing algebraic identity for the reversal operation — directly parallel to B-582 (RootSystem reflection involution s_α∘s_α ~ β) which BOARD just landed in the same week. Single-implication: reverse twice and project the deformation row through the interval-classifier transport recorded in λ. No hub append (134 is a body file) and well below the 800-line cap.
+
+---
+
+### B-589 - DynSystemUp fixed-point flow stability: hsame-fixed phase point has hsame-fixed orbit iterates
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | DynSystemUp fixed-point flow stability: hsame-fixed phase point has hsame-fixed orbit iterates |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+For an accepted DynSystemUp packet of def:dynsystem-carried-source-row (cited via thm:dynsystem-orbit-iterate-carrier-closure), if the displayed phase-point row p is hsame to its image under a single time-step flow row F_t (hsame(F_t(p), p)), then the n-fold iterate row F_{nt}(p) is hsame to p for every finite n in the displayed UnaryHistory horizon, with the iterate Cont ledger collapsing to repeated copies of the supplied invariance row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/173_dynsystem_namecert_construction.tex`
+
+Rationale:
+173_dynsystem (503 lines) carries flow surface, identity flow, composition flow, ODE generator ledger, orbit-iterate carrier closure (thm:dynsystem-orbit-iterate-carrier-closure), invariant consumer projection, time-reindex stability, endpoint determinacy, but has zero fixed-point/equilibrium/periodic-orbit instance — grep on 'fixed.point|equilibrium|periodic|stationary' returns no theorem. Fixed points are the canonical first invariant of any dynamical system and the natural single-row instance to anchor downstream invariant-measure / ergodic targets. Mirrors B-585 (singleton-equation zero-locus exactness): a single supplied row plus orbit-iterate closure gives the iterate by induction over the displayed unary horizon.
+
+---
+
+### B-591 - Independence singleton index family satisfies finite factorisation row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Independence singleton index family satisfies finite factorisation row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If R is an Independence finite-family carrier as in def:independence-finite-family-carrier with finite index carrier I enumerating exactly one position i_0 and measurable target event B_{i_0}, then under the hypotheses linking the cylinder Cyl_X(B) to the marginal event B_{i_0} and finite RealUp product fold to the singleton evaluation, the joint endpoint at the cylinder factorises with the marginal product fold: μ_X^J(Cyl_X(B)) ~_R Π_R(MargSp_X(B)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/165_independence_namecert_construction.tex`
+
+Rationale:
+Fills the gap between thm:independence-empty-index-factorization-row (165:365, exists) and thm:independence-measurable-image-bridge for two variables (165:271). grep for 'independence.*singleton|independence.*single.*index|independence.*one.*index' returned 0 matches across parts/. Builds on def:independence-finite-family-carrier (165:134), thm:distribution-pushforward-total-mass-unit (referenced 165:373), and the empty-family theorem template at 165:365 demonstrating how to lift a singleton-shape factorisation. File 411 lines, under cap. Concrete factorisation identity, not a parameter transport — singleton index is a structurally distinct case that the empty/two-variable theorems do not subsume.
+
+---
+
+### B-590 - Quadrature two-node sum equals sum of two weighted evaluations
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Quadrature two-node sum equals sum of two weighted evaluations |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a finite weighted QuadratureUp rule Q=(xs,α,ω,I_Q) over scalar carrier R has node spine xs enumerating exactly two positions i_0,i_1, then for every finite polynomial-code spine p, QSum_Q(p) ~_R ω_{i_0}·Eval(α_{i_0},R)(p) +_R ω_{i_1}·Eval(α_{i_1},R)(p).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/205_quadrature_namecert_construction.tex`
+
+Rationale:
+Fills the gap between the empty-node case (thm:quadrature-empty-node-sum-zero, file:267, BOARD B-538) and the singleton-node case (thm:quadrature-singleton-node-sum-weighted-evaluation, file:313, BOARD B-575). grep for 'two-node|binary.*node|Quadrature.*pair|Quadrature.*two' in 205_quadrature_namecert_construction.tex returned 0 matches. Builds directly on def:quadrature-finite-weighted-exactness-degree (file:22), lem:quadrature-empty-position-fold-zero (file:255), and lem:quadrature-singleton-position-fold (file:294). Concrete identity, not a transport echo. File is at 347 lines, well under cap. Natural extension of the existing empty/singleton fold-shape pattern.
+
+---
+
+### B-592 - PolynomialUp raw multiplication left identity by singleton-1 polynomial
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | PolynomialUp raw multiplication left identity by singleton-1 polynomial |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If R carries a RingUp(R) certificate with multiplicative unit 1_R and additive zero 0_R, and p:ListCarrier(R) is any finite coefficient spine, then PolySame_R(rmul_R(cons(1_R, nil), p), p).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_multiplication.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_algebra.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex`
+- `papers/bedc/parts/concrete_instances/26_fps_ringup_tail.tex`
+
+Rationale:
+PolynomialUp file 25_polynomial_literal_multiplication.tex (182 lines, well under cap) currently proves polynomial raw multiplication associativity (thm:polynomial-multiplication-associativity-commring-scalars), commutativity (thm:polynomial-raw-multiplication-commutativity-from-commring-scalars in 25_polynomial_literal_addtrim_algebra.tex), left/right zero absorption (thm:polynomial-multiplication-left-zero-absorption, thm:polynomial-multiplication-right-zero-absorption), and left/right distributivity (B-579, B-587 already completed). The fifth basic ring-multiplication law — that the singleton-1 polynomial cons(1_R, nil) is a multiplicative left identity — is conspicuously absent: grep for 'polynomial.*identity\|polynomial.*one\|raw.mul.*one\|raw.mul.*unit\|PolyOne\|PolyUnit' across papers/bedc/parts/ returns zero hits, and grep across lean4/BEDC/Derived/PolynomialUp/CauchyProduct.lean returns _zero, _commutative, _associative theorems but no _left_unit / _right_unit / _one. The exact analogue for FormalPowerSeriesUp is fully proven as thm:fps-cauchy-product-unit-laws (papers/bedc/parts/concrete_instances/26_fps_ringup_tail.tex line 56) with Lean target FpsSingletonCauchyProduct_unit_laws. The polynomial proof reuses lem:raw-cauchy-product-coefficient-formula and the additive-zero / multiplicative-left-unit rows already retained in def:ring-stability-certificate; structurally identical to the FPS unit-law argument but on finite ListCarrier instead of Nat → R.
+
+---
+
+### B-593 - PolynomialUp raw multiplication right identity by singleton-1 polynomial
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | PolynomialUp raw multiplication right identity by singleton-1 polynomial |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If R carries a RingUp(R) certificate with multiplicative unit 1_R and additive zero 0_R, and p:ListCarrier(R) is any finite coefficient spine, then PolySame_R(rmul_R(p, cons(1_R, nil)), p).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_multiplication.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_algebra.tex`
+- `papers/bedc/parts/concrete_instances/26_fps_ringup_tail.tex`
+
+Rationale:
+Symmetric counterpart to the left-identity candidate above. Same evidence: no polynomial-multiplication-right-identity / right-unit theorem appears in the labels of 25_polynomial_literal_multiplication.tex or in PolynomialUp/CauchyProduct.lean. Note that thm:polynomial-raw-multiplication-commutativity-from-commring-scalars only triggers under CommRingUp; for general RingUp scalars the right-identity is an independent theorem requiring direct proof on the right-side Cauchy fold (mirroring the right-unit half of thm:fps-cauchy-product-unit-laws). Local proof inputs include: lem:raw-cauchy-product-coefficient-formula (raw product coefficient = Cauchy fold), the multiplicative right-unit row from def:ring-stability-certificate, the right-zero-absorption row, and lem:padded-coefficient-extensionality-polynomial-classifier (to lift coefficient-wise classifier comparisons to PolySame_R).
+
+---
+
+### B-594 - Lattice one-sided distributive inequality (universal modular bound)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lattice one-sided distributive inequality (universal modular bound) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For carried lattice elements $x,y,z$ in a $\LatticeUp$ certificate, the meet-over-join admits the universal one-sided bound $(x\wedge y)\vee(x\wedge z)\preceq x\wedge(y\vee z)$ in the underlying poset order.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+
+Rationale:
+Birkhoff Lattice Theory Ch. I §6: the universal one-sided modular inequality holds in every lattice (without distributivity). The chapter has meet/join idempotence (`lem:lattice-meet-idempotence-from-bounds` line 44, `lem:lattice-join-idempotence-from-bounds` line 71), absorption (lines 98, 133), commutativity (`thm:lattice-commutativity-from-directional-bounds` line 194), and bound-uniqueness (line 378). Verified no `thm:lattice-distrib*|modular*|inequal*` exists in the_certificate.tex. The proof reuses meet-monotonicity in each argument (deducible from the bound characterization) plus join's least-upper-bound property — both already explicit. File is 656 lines (under cap). 1-2 codex rounds.
+
+---
+
+### B-597 - GaloisGroupUp accepted automorphism inverse involution row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | GaloisGroupUp accepted automorphism inverse involution row |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+For an accepted fixed-base automorphism-action row $x$ in a GaloisGroupUp packet, the iterated inverse row $i(i(x))$ is classified with $x$ by the inherited $\GroupUp$ inverse-involutivity row transported through the GaloisExtUp endpoint classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/galoisgroup/composition_and_inverse_laws.tex`
+
+Rationale:
+Structural companion to existing GaloisGroup inverse-closure and inverse-cancellation rows; the involution row is genuinely absent. Pattern-consistent with already-accepted instance-level involution targets (B-582 RootSystem reflection involution, B-588 HomotopyUp reversal involution): each was accepted as a per-Up structural row, not flagged as parameter echo, because the transport involves the carrier-specific endpoint classifier (here GaloisExtUp). Lands in composition_and_inverse_laws.tex (184 lines, room). Novelty borderline but distinct carrier.
+
+---
+
+### B-595 - Contact top-wedge nondegeneracy excludes integrable distributions on the same carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Contact top-wedge nondegeneracy excludes integrable distributions on the same carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a ContactUp surface displaying $\alpha$, $d\alpha$ and the carried top-wedge nondegeneracy row $\alpha \wedge (d\alpha)^n \not\sim 0$, no displayed integrable-distribution row $\mathcal{D}$ on the same ManifoldUp carrier whose annihilator equals $\alpha$ is admitted.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/117_contact_namecert_construction.tex`
+
+Rationale:
+This is a category-10 obstruction theorem that closes an explicit \notclaimed gap in 117_contact_namecert_construction.tex (the chapter disclaims a proved nonintegrability theorem). Single-implication contradiction-form result wiring existing ContactUp wedge-nondegeneracy rows against a hypothetical Frobenius-integrable distribution. No comparable BOARD entry (B-566 is exterior-derivative two-step composability, structurally different). Landing file at 189 lines has ample room. Strong editorial hit because the gap is announced in the chapter itself.
+
+---
+
+### B-596 - Holomorphic strict iterated chain length cancellation determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Holomorphic strict iterated chain length cancellation determinacy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If two strict iterated complex-differentiability chains from a unary seed agree on selected endpoint $h$, then their iteration-index histories are $\hsame$-equal under the displayed unary classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/holomorphic/predicate_and_iterations.tex`
+
+Rationale:
+Determinism / no-confusion result on the IteratedStrictCplxDiff inductive — exactly the kind of structural target B writes (compare B-507 halting-meta-loop, B-452 ODE concatenation endpoint determinacy). The 12 surrounding theorems on this inductive include concatenation, transport, prefix readback, endpoint-not-empty, but no length cancellation, leaving a clear no-confusion gap. Lands in predicate_and_iterations.tex (277 lines, room) and proof skeleton parallels endpoint-hsame-absurd plus prefix readback. Not a parameter echo: it is the missing length-determinacy companion, not a re-statement of a source equivalence.
+
+---
+
+### B-599 - LambdaCalc alpha-classifier reflexivity row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | LambdaCalc alpha-classifier reflexivity row |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If a LambdaCalc term packet h is accepted by LambdaCalcBHistTermCarrier, then the alpha-classifier row relates (h, h) over the displayed TreeUp syntax skeleton, NatUp binder-index ledger, alpha ledger, hsame rows, and Pkg provenance.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/lambdacalc/root_frontier.tex`
+
+Rationale:
+Completes the equivalence-relation closure for the LambdaCalc alpha classifier. Symmetry already exists at concrete_instances/178_lambdacalc_namecert_construction.tex:280 and transitivity is BOARD B-574 (recently completed) at concrete_instances/lambdacalc/root_frontier.tex:300, but no reflexivity row is declared. Not a parameter-echo: the reflexivity row is the third structural leg of an equivalence relation that downstream alpha consumers implicitly need; it specifically packages reflexive hsame on each displayed coordinate through the LambdaCalc classifier-boundary repacker. Lands in root_frontier.tex (348 lines, ample room) right next to the transitive sibling. Codex_close in 1-3 rounds.
+
+---
+
+### B-598 - Measure finite-union associativity over three pairwise-disjoint events
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Measure finite-union associativity over three pairwise-disjoint events |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+For pairwise-disjoint measurable events A,B,C in the same fiber, the binary unions (A union B) union C and A union (B union C) are classifier-equal as measurable events with equal real-valued measure.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/measure/carrier_surface_rows.tex`
+- `papers/bedc/parts/concrete_instances/measure/finite_additivity_readback.tex`
+
+Rationale:
+Existing theorems include thm:measure-finite-disjoint-union-additivity and BOARD B-530 'MeasureUp triple-union subadditivity'. Subadditivity is INEQUALITY; associativity is EQUALITY of the bracketed unions and is not the same theorem. grep -nE 'measure.*assoc|union.*assoc' under measure/ returns only one informal reference (root_finite_disjoint_event_envelope.tex:113). This is a clean closure law on the binary-union row of def:measure-sigma-algebra-carrier-surface (carrier_surface_rows.tex L1-32).
+
+---
+
+### B-600 - SpinGroup conjugation action is multiplicative under the spin group product
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | SpinGroup conjugation action is multiplicative under the spin group product |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If s, t are accepted SpinGroupUp packets and v is a Clifford-vector row, then the conjugation action of s*t on v classifies (under hsame on Clifford rows) to the composite of conjugation by s applied to conjugation by t on v, with the same orthogonal-action endpoint and Pkg provenance.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/spingroup/boundary_consumer_exactness.tex`
+- `papers/bedc/parts/concrete_instances/spingroup/ledger_exclusion_surface.tex`
+
+Rationale:
+Frontier concrete object. SpinGroupUp exposes a conjugation action (thm:spingroup-conjugation-action-readback at boundary_consumer_exactness.tex:27) but no homomorphism law for the action under the spin product. The shape mirrors BOARD B-581 (AdjointRepUp Ad(gh) ~ Ad(g) o Ad(h)) but on a distinct carrier (SpinGroup/Clifford rather than adjoint rep on Lie algebra), so it is not a duplicate or paraphrase. Construction unfolds the conjugation readback for s*t into a Clifford product-inverse-product spine on s,t,v,t-inverse,s-inverse, then applies Clifford associativity and inverse-product readback. Lands in boundary_consumer_exactness.tex (76 lines). Oracle_likely route: Clifford-side associativity and inverse-product alignment require careful spine bookkeeping.
+
+---
+
+### B-601 - Ideal sum is commutative as a sub-ideal predicate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Ideal sum is commutative as a sub-ideal predicate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+For ideals I, J of an ambient RingUp R, the ideal sum I + J coincides with J + I as carrier predicates, with matching ambient ring carrier rows, swapped additive-decomposition witnesses, and identical Pkg provenance.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/ideal/02_lattice_sum_surface.tex`
+
+Rationale:
+Missing companion in the ideal lattice surface. ideal/02_lattice_sum_surface.tex declares thm:ideal-sum-closure (line 103) and thm:ideal-sum-least-upper-bound (line 158); the meet side has thm:ideal-intersection-greatest-lower-bound (BOARD B-555). Commutativity of the join is fundamental and used implicitly whenever sums are written, yet no thm:ideal-sum-commutativity / thm:ideal-sum-symmetric label exists under papers/bedc/parts/. Not a transport echo: it is a genuine concrete closure of the ideal-sum predicate using the ambient ring's additive commutativity row. Codex_close in 1-3 rounds; lands in lattice_sum_surface.tex which is well under the 800-line cap.
+
+---
+
+### B-603 - Ideal sum is monotone in inclusion preorder
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ideal sum is monotone in inclusion preorder |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For ideals I, I', J, J' of a RingUp R, if I \preceq_R I' and J \preceq_R J' (def:ideal-inclusion-predicate:94), then (I+_R J) \preceq_R (I'+_R J') as carried predicates, with each sum-membership witness routed through the two given inclusion implications and the same additive-decomposition row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/ideal/02_lattice_sum_surface.tex`
+
+Rationale:
+The ideal-inclusion preorder is defined at def:ideal-inclusion-predicate:94 and used in thm:ideal-sum-least-upper-bound:158 and thm:ideal-intersection-greatest-lower-bound:272, but no theorem records that the sum constructor is monotone in this order. Without monotonicity, the sum is exhibited only as a particular LUB rather than as a functorial join in the ideal lattice, and downstream consumers cannot transport sum memberships across refinements of the input ideals. Single-implication concrete claim (not biconditional, not transport-only). Distinct from B-601 (commutativity), thm:ideal-sum-closure (closure under ring rows), and thm:ideal-sum-least-upper-bound (which just exposes K as one upper bound, not its monotonicity). Proof is direct: unpack a sum witness for (I+J)(z), apply the two inclusions, repack. Non-trivial because both inclusion-witness composition and additive-decomposition repacking must agree.
+
+---
+
+### B-604 - ConvexSet pointwise intersection is commutative as a carrier predicate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ConvexSet pointwise intersection is commutative as a carrier predicate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+For ConvexSetUp certificates with convex carriers C, D over the same scalar FieldUp and vector VecSpaceUp data, the predicates C\cap_{ConvexSetUp}D and D\cap_{ConvexSetUp}C agree at every endpoint z:V; the witness pair (C(z), D(z)) and (D(z), C(z)) are interchanged with no change to the displayed scalar, addition, or affine-combination rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+
+Rationale:
+186_convexset_namecert_construction.tex (432 lines, room available, not yet split) defines pointwise intersection at def:convexset-pointwise-intersection-carrier:197 and proves intersection closure at thm:convexset-pointwise-intersection-affine-combination-closure:206, but no theorem states commutativity of the binary intersection constructor. This is the same shape of sister gap that motivated B-601 ideal sum commutativity: the closure theorem treats the two input carriers asymmetrically, and a symmetric-swap row is needed before any later finite-intersection or arbitrary-intersection generalization can cite a commutative monoid structure. Single-implication biconditional. Non-trivial enough to be a distinct theorem (proof has to repackage the conjunction of two ConvexSet carrier-supports through the shared FieldUp / VecSpaceUp data named in the definition, not just bare \land-commutativity). Grep on `intersection.*commut|commut.*intersection|swap.*intersect` in this file returns nothing.
+
+---
+
+### B-602 - Ideal sum associativity (I+J)+K coincides with I+(J+K) as carrier predicates
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ideal sum associativity (I+J)+K coincides with I+(J+K) as carrier predicates |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For ideals I, J, K of a RingUp R, the iterated ideal sums (I+_R J)+_R K and I+_R (J+_R K) coincide as carrier predicates on BHist, with matching ambient ring carrier rows, regrouped additive-decomposition witnesses obtained from RingUp additive associativity, and identical Pkg provenance.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/ideal/02_lattice_sum_surface.tex`
+
+Rationale:
+ideal/02_lattice_sum_surface.tex (336 lines, well below cap) just gained ideal sum commutativity as B-601 (lines 295–335) but the symmetric sister law — associativity — is missing. The file already builds the lattice picture (intersection closure thm:ideal-intersection-closure:48; sum closure thm:ideal-sum-closure:103; sum LUB thm:ideal-sum-least-upper-bound:158; intersection GLB thm:ideal-intersection-greatest-lower-bound:272) so an associativity row is the natural completion of the ideal lattice axioms before any further ideal-product or ideal-quotient algebra is opened. Proof is non-trivial: pulls additive associativity from RingUp's stability certificate, threads classifier transitivity through nested existential decomposition witnesses (def:ideal-sum-predicate:84), and is concrete (not abstract carrier transport). No existing label or Lean target collides (grep on `ideal-sum-associativ` and `IdealSum.*Assoc` returns nothing in papers/bedc/ or lean4/BEDC/Derived/IdealUp/).
+
+---

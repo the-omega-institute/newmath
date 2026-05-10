@@ -26,6 +26,39 @@ transport ledgers, and the same $\mathsf{NatMul}$ relation. Therefore the three
 packages assemble as one Full Nat Arithmetic consumption point for $\MulUp$.
 \end{proof}
 
+\begin{theorem}[MulUp Full Nat Arithmetic consumer normal form]
+\label{thm:mulup-full-nat-arithmetic-consumer-normal-form}
+Any Full Nat Arithmetic consumer of $\MulUp$ over $\mathsf{BHist}$ whose
+interface is restricted to the package rows of
+\autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary} reads exactly the
+following normal form: the carrier is $\mathsf{UnaryHistory}$, the classifier is
+$\hsame$, the result ledger is $\mathsf{NatMul}$, and the exposed row list is the
+unit row, commutativity row, associativity row, the two $\AddUp$ distributivity
+rows, the $\OrderUp$ monotonicity row, and the divisibility-order consumer rows.
+It receives no host multiplication table, quotient carrier, semiring primitive,
+or cancellation law beyond those displayed rows.
+\end{theorem}
+\begin{proof}
+Start from the phase-exit boundary of
+\autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary}. It fixes the only
+carrier, classifier, multiplication relation, additive rows, order row, and
+divisibility rows available to a Full Nat Arithmetic consumer of the concrete
+$\MulUp$ package over $\mathsf{BHist}$.
+
+Next apply the audit surface of
+\autoref{thm:mulup-full-nat-arithmetic-audit-surface}. That surface identifies
+the checked $\mathsf{NatMul}$ law rows and the result naming row while preserving
+the same $\mathsf{UnaryHistory}$ carrier, $\hsame$ classifier, finite $\Cont$
+ledgers, and $\mathsf{BHist}$ endpoints.
+
+Finally apply \autoref{thm:mulup-l7-add-order-audit-handoff} and
+\autoref{thm:mulup-full-nat-arithmetic-mature-boundary}. The handoff identifies
+the allowed additive, order, and divisibility rows for L7 consumers, and the
+mature boundary rules out host multiplication, quotient equality, and a second
+carrier. Therefore the consumer normal form is precisely the displayed package
+row list and nothing outside it.
+\end{proof}
+
 \begin{theorem}[MulUp Full Nat Arithmetic phase-exit boundary]
 \label{thm:mulup-full-nat-arithmetic-phase-exit-boundary}
 Over $\mathsf{BHist}$ and the carrier $\mathsf{UnaryHistory}$, the package of
@@ -186,6 +219,39 @@ rows contribute exactly the two $\AddUp$ distributivity rows, the $\OrderUp$
 monotonicity row, and the divisibility-order rows, while preserving the same
 carrier, classifier, and ledger boundary. Hence the L7 consumer receives the
 listed rows and no host multiplication, quotient equality, or second carrier.
+\end{proof}
+
+\begin{theorem}[MulUp L7 audit-clean exit obligation]
+\label{thm:mulup-l7-audit-clean-exit-obligation}
+For the concrete $\MulUp$ surface over $\mathsf{BHist}$, the Full Nat
+Arithmetic exit obligation is exactly the concrete $\mathsf{BHist}$ package
+consisting of the carrier $\mathsf{UnaryHistory}$, the multiplication relation
+$\mathsf{NatMul}$, the result $\mathsf{SemanticNameCert}$ row, both $\AddUp$
+distributivity surfaces, the unary-prefix $\OrderUp$ monotonicity row, and the
+unary divisibility reflexive and transitive consumer rows. This obligation is
+audit-clean precisely as that package and contains no cancellation law,
+semiring completion, host multiplication table, or standard bridge.
+\end{theorem}
+\begin{proof}
+Start with the L7 handoff of
+\autoref{thm:mulup-l7-add-order-audit-handoff}. It fixes the allowed consumer
+rows over $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$, finite $\Cont$
+ledgers, and the $\mathsf{NatMul}$ relation, and it prevents the consumer from
+adding host multiplication, quotient equality, or a second carrier.
+
+Next use \autoref{thm:mulup-add-order-divisibility-phase-exit-package}. This
+gives the single phase-exit package whose visible rows are the
+$\mathsf{NatMul}$ semantic exit, the two $\AddUp$ distributivity surfaces, the
+unary-prefix $\OrderUp$ monotonicity row, and the unary divisibility consumer
+rows over the same endpoints.
+
+Finally apply the public semantic exit certificate
+\autoref{thm:unary-multiplication-mulup-semantic-exit-package}. It supplies the
+carrier $\mathsf{UnaryHistory}$, the concrete $\mathsf{NatMul}$ package, and
+the result $\mathsf{SemanticNameCert}$ row. Repacking these public rows gives
+exactly the displayed Full Nat Arithmetic exit obligation, with cancellation,
+semiring completion, a host multiplication table, and a standard bridge left
+outside the audit-clean package.
 \end{proof}
 
 \begin{theorem}[MulUp AddUp--OrderUp--divisibility phase-exit package]

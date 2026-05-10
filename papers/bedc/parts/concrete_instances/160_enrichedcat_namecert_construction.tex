@@ -6,5 +6,226 @@ The enriched-category interface $\EnrichedCatUp$ packages a collection of object
 \section{Carrier definition}
 \label{sec:enrichedcat-carrier}
 
+\begin{definition}[EnrichedCat BHist packet]\label{def:enrichedcat-bhist-packet}
+An $\EnrichedCatUp$ carrier packet is the finite $\mathsf{BHist}$ tuple
+$$
+\begin{aligned}
+\mathcal{E} =
+(&C_{\mathrm{obj}},M_{\otimes},
+  H_{\mathrm{hom}},H_{\mathrm{id}},H_{\mathrm{comp}},
+  T_{\hsame},P_{\mathsf{Pkg}},R_{\Cont})
+\end{aligned}
+$$
+whose coordinates are, in order, the consumed
+$\NameCert_{\CategoryUp}$ object boundary $C_{\mathrm{obj}}$, the consumed
+$\NameCert_{\MonoidalCatUp}$ tensor boundary $M_{\otimes}$, the hom-object
+rows $H_{\mathrm{hom}}$, the identity rows $H_{\mathrm{id}}$, the composition
+rows $H_{\mathrm{comp}}$, the componentwise $\hsame$ transport rows
+$T_{\hsame}$, the $\mathsf{Pkg}$ provenance $P_{\mathsf{Pkg}}$, and the finite
+$\Cont$ readbacks $R_{\Cont}$.
+
+The carrier accepts exactly those packets for which the two consumed boundary
+coordinates are public certificate rows, every hom-object, identity, and
+composition coordinate is a displayed $\mathsf{BHist}$ row over those
+boundaries, every transport coordinate is an $\hsame$ row between displayed
+coordinates, the provenance coordinate is a $\mathsf{Pkg}$ row for the same
+packet, and the readback coordinate is a finite $\Cont$ ledger for those rows.
+\end{definition}
+
+\begin{theorem}[EnrichedCat hom-object carrier obligation]\label{thm:enrichedcat-hom-object-carrier-obligation}
+Every hom-object row used by the $\EnrichedCatUp$ certificate is a coordinate
+of the packet in \autoref{def:enrichedcat-bhist-packet}, with its object
+boundary read from the consumed $\NameCert_{\CategoryUp}$ coordinate, its
+tensor boundary read from the consumed $\NameCert_{\MonoidalCatUp}$ coordinate,
+and its visible provenance and continuation reads carried by the same
+$\mathsf{Pkg}$ and $\Cont$ coordinates. No hom-object obligation is supplied by
+an implicit enriched-category carrier outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Project the packet of \autoref{def:enrichedcat-bhist-packet} to the
+$H_{\mathrm{hom}}$ coordinate. Its source and target object rows are read from
+$C_{\mathrm{obj}}$, while its value object lies under the tensor boundary
+$M_{\otimes}$.
+
+The visible provenance is the coordinate $P_{\mathsf{Pkg}}$, and the permitted
+readbacks are exactly the finite routes in $R_{\Cont}$. These are the same rows
+enumerated by \autoref{thm:enrichedcat-source-obligation}.
+
+Repack the projected hom-object row with the same boundary, provenance, and
+readback coordinates. Classifier transport is supplied componentwise by
+\autoref{thm:enrichedcat-classifier-transport-obligation}, and ledger exactness
+is supplied by \autoref{thm:enrichedcat-ledger-exactness-obligation}.
+\end{proof}
+\leanchecked{BEDC.Derived.EnrichedCatUp.EnrichedCatSourceSurface\_hom\_object\_carrier\_obligation}
+
+\begin{theorem}[EnrichedCat tensor-composition scope]\label{thm:enrichedcat-tensor-composition-scope}
+Every identity or composition row used by the $\EnrichedCatUp$ certificate is
+scoped by the packet in \autoref{def:enrichedcat-bhist-packet}: identities read
+the hom-object and tensor-unit rows, compositions read the two adjacent
+hom-object rows and the tensor-composition boundary, and all coherence,
+transport, provenance, and finite readback data are supplied by
+$T_{\hsame}$, $P_{\mathsf{Pkg}}$, and $R_{\Cont}$. The scope does not include
+unlisted host-level enriched-category data.
+\end{theorem}
+\begin{proof}
+Project first to the identity coordinate $H_{\mathrm{id}}$. The identity row
+uses the object boundary from $C_{\mathrm{obj}}$, the hom-object row from
+$H_{\mathrm{hom}}$, and the unit part of $M_{\otimes}$.
+
+Project next to the composition coordinate $H_{\mathrm{comp}}$. Its inputs are
+the adjacent hom-object rows and the tensor-composition part of
+$M_{\otimes}$, so the monoidal dependency is exactly the one described in
+\autoref{thm:enrichedcat-monoidal-category-boundary}.
+
+The component transport rows are then read from $T_{\hsame}$, while provenance
+and finite ledgers are read from $P_{\mathsf{Pkg}}$ and $R_{\Cont}$. Repacking
+these same coordinates gives the public certificate rows by
+\autoref{thm:enrichedcat-source-obligation} and
+\autoref{thm:enrichedcat-ledger-exactness-obligation}.
+\end{proof}
+\leanchecked{BEDC.Derived.EnrichedCatUp.EnrichedCatSourceSurface\_tensor\_composition\_scope}
+
 \section{The certificate}
 \label{sec:enrichedcat-certificate}
+
+\begin{theorem}[EnrichedCatUp source obligation]\label{thm:enrichedcat-source-obligation}
+Every public source row of an $\EnrichedCatUp$ packet is one of the displayed
+$\mathsf{BHist}$ rows for the consumed $\NameCert_{\CategoryUp}$ object
+boundary, the consumed $\NameCert_{\MonoidalCatUp}$ tensor boundary, the
+hom-object rows, the identity rows, the composition rows, the $\hsame$
+transport rows, the $\mathsf{Pkg}$ provenance rows, and the finite $\Cont$
+readback rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.EnrichedCatUp.EnrichedCatCertificateSurface\_source\_obligation}
+\begin{proof}
+Unpack the packet as the named $\mathsf{BHist}$ tuple. The first projections are
+the two consumed certificates: the object boundary is the public boundary of
+$\NameCert_{\CategoryUp}$, and the tensor boundary is the public boundary of
+$\NameCert_{\MonoidalCatUp}$.
+
+The remaining projections are the enriched rows themselves. They record the
+hom-object assignment, the identity witnesses, composition witnesses, component
+$\hsame$ transports, package provenance, and the finite continuation readbacks.
+
+Conversely, each displayed row is inserted into the packet by the corresponding
+constructor coordinate. Projection followed by repacking is judgmentally the
+same named tuple, so no further public source row can appear.
+\end{proof}
+\leanchecked{BEDC.Derived.EnrichedCatUp.EnrichedCatSourceSurface\_source\_obligation}
+
+\begin{theorem}[EnrichedCatUp classifier transport obligation]\label{thm:enrichedcat-classifier-transport-obligation}
+The public classifier comparison for an $\EnrichedCatUp$ packet is the
+componentwise $\hsame$ transport of the object-boundary, tensor-boundary,
+hom-object, identity, composition, provenance, and continuation rows, and is not
+host equality of enriched categories.
+\end{theorem}
+\leanchecked{BEDC.Derived.EnrichedCatUp.EnrichedCatPublicRows\_classifier\_transport\_obligation}
+\begin{proof}
+Project the classifier comparison to each displayed row. On the consumed
+$\NameCert_{\CategoryUp}$ and $\NameCert_{\MonoidalCatUp}$ boundaries, the
+comparison is exactly the already exported boundary $\hsame$ comparison.
+
+For the enriched rows, transport is pointwise: hom-objects transport along the
+object boundary, identity and composition rows transport along the tensor
+boundary, and provenance and continuation rows transport by their named
+$\mathsf{BHist}$ coordinates.
+
+Repack the transported coordinates into the public classifier row. The
+construction never compares host-level enriched categories; it compares only the
+displayed $\mathsf{BHist}$ rows and the $\hsame$ witnesses attached to them.
+\end{proof}
+\leanchecked{BEDC.Derived.EnrichedCatUp.EnrichedCatSourceSurface\_classifier\_transport\_obligation}
+\leanchecked{BEDC.Derived.EnrichedCatUp.EnrichedCatPublicPacket\_classifier\_transport\_obligation}
+
+\begin{theorem}[EnrichedCatUp ledger exactness obligation]\label{thm:enrichedcat-ledger-exactness-obligation}
+Projection from an $\EnrichedCatUp$ certificate to its hom-object, identity,
+composition, tensor, provenance, and continuation ledger rows, followed by
+repacking those same rows in the displayed order, recovers exactly the public
+certificate ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.EnrichedCatUp.EnrichedCatPublicPacket\_ledger\_exactness\_obligation}
+\begin{proof}
+Start with the public certificate ledger and project the hom-object, identity,
+composition, tensor, $\mathsf{Pkg}$, and $\Cont$ coordinates. These projections
+are the named coordinates of the certificate tuple.
+
+Repacking uses those coordinates in the same order and with the same boundary
+certificates. The object and tensor rows are not recomputed; they are the
+consumed rows already present in the tuple.
+
+Therefore the repacked ledger has the same projections as the original public
+ledger on every displayed coordinate. Since the certificate exposes no other
+ledger coordinate, the projection-and-repacking operation is exact.
+\end{proof}
+
+\begin{theorem}[EnrichedCatUp monoidal-category boundary]\label{thm:enrichedcat-monoidal-category-boundary}
+The $\NameCert_{\MonoidalCatUp}$ dependency of an $\EnrichedCatUp$ certificate is
+read only through tensor, unit, associator and unit-transport, and
+$\mathsf{Pkg}$ rows; no other monoidal-category host data is part of the public
+obligation surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.EnrichedCatUp.EnrichedCatPublicPacket\_monoidal\_category\_boundary}
+\begin{proof}
+Inspect the monoidal dependency coordinates in the certificate tuple. The tensor
+and unit rows provide the objects used by the hom-object, identity, and
+composition entries.
+
+The associator and unit-transport rows are the only coherence transports read by
+the enriched composition and identity rows. Provenance is recorded through the
+displayed $\mathsf{Pkg}$ coordinate attached to the consumed
+$\NameCert_{\MonoidalCatUp}$ packet.
+
+All public reads of the monoidal dependency factor through these rows. Hence any
+two monoidal witnesses with the same displayed tensor, unit, coherence
+transport, and provenance rows are indistinguishable to the $\EnrichedCatUp$
+certificate.
+\end{proof}
+
+\begin{theorem}[EnrichedCatUp consumer readback boundary]\label{thm:enrichedcat-consumer-readback-boundary}
+A downstream $\FunctorUp$ or $\NatTransUp$ consumer of an $\EnrichedCatUp$
+certificate reads only the displayed object, hom-object, identity, composition,
+transport, provenance, and finite $\Cont$ rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.EnrichedCatUp.EnrichedCatSourceSurface\_consumer\_readback\_boundary}
+\begin{proof}
+Give the consumer its public readback map. By the source obligation, the map can
+project only from the displayed $\mathsf{BHist}$ tuple and its finite $\Cont$
+readback rows.
+
+The object and hom-object rows supply the source and target data for enriched
+functors. The identity, composition, and transport rows supply the compatibility
+witnesses read by functor and natural-transformation certificates.
+
+Package provenance is available only through the $\mathsf{Pkg}$ rows, and finite
+continuations are available only through the listed $\Cont$ rows. Repacking
+these rows gives the same public readback packet, so the consumer boundary is
+exactly the displayed surface.
+\end{proof}
+
+\begin{theorem}[EnrichedCat public packet source boundary]\label{thm:enrichedcat-public-packet-source-boundary}
+For an accepted $\EnrichedCatUp$ carrier, the public packet exposes exactly the
+consumed $\CategoryUp$ object boundary, the consumed $\MonoidalCatUp$ tensor
+boundary, the hom-object rows, identity rows, composition rows, componentwise
+$\hsame$ transports, $\mathsf{Pkg}$ provenance, and finite $\Cont$ readbacks
+of \autoref{def:enrichedcat-bhist-packet}. Every $\FunctorUp$ or
+$\NatTransUp$ consumer factors its public read through these rows and through
+no additional host enriched-category datum.
+\end{theorem}
+\leanchecked{BEDC.Derived.EnrichedCatUp.EnrichedCatPublicPacket\_source\_boundary}
+\begin{proof}
+Start from the packet of \autoref{def:enrichedcat-bhist-packet}. Its first two
+coordinates are the consumed $\CategoryUp$ and $\MonoidalCatUp$ boundaries, so
+the available source rows are constrained by
+\autoref{thm:enrichedcat-source-obligation}.
+
+The remaining coordinates are the enriched rows themselves. Classifier movement
+is componentwise by \autoref{thm:enrichedcat-classifier-transport-obligation},
+and the monoidal dependency is the displayed tensor boundary isolated by
+\autoref{thm:enrichedcat-monoidal-category-boundary}.
+
+Finally apply \autoref{thm:enrichedcat-consumer-readback-boundary}. It already
+identifies the $\FunctorUp$ and $\NatTransUp$ readback surface with the object,
+hom-object, identity, composition, transport, provenance, and finite
+continuation rows. Repacking those projections gives the same public packet,
+so every such consumer factors through exactly the listed boundary.
+\end{proof}

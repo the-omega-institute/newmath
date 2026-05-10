@@ -6,5 +6,174 @@ The Hodge-bridge interface $\HodgeBridgeUp$ packages the Hodge decomposition of 
 \section{Carrier definition}
 \label{sec:hodgebridge-carrier}
 
+\begin{definition}[HodgeBridge BHist source packet]
+\label{def:hodgebridge-bhist-source-packet}
+A $\HodgeBridgeUp$ source packet is a finite $\mathsf{BHist}$ package
+$$
+\mathcal{H}=(\mathcal{D},\mathcal{C},P,\beta,\ell,\rho,\lambda,\tau)
+$$
+where $\mathcal{D}$ is a dependency row certified by $\NameCert_{\DeRhamUp}$, $\mathcal{C}$ is a dependency row certified by $\NameCert_{\CohomologyUp}$, $P:\mathsf{BHist}$ is the harmonic projector row, $\beta:\mathsf{BHist}$ is the bidegree ledger row, $\ell:\mathsf{BHist}$ records the Lefschetz and Hard-Lefschetz operation rows carried by the packet, $\rho$ records the $\mathsf{Pkg}$ provenance binding the de~Rham and cohomology dependency packets, $\lambda$ is the finite $\Cont$ readback from de~Rham representatives through harmonic projection to cohomology rows, and $\tau$ is the family of $\hsame$ transports preserving the source representative, harmonic, bidegree, Lefschetz, and cohomology endpoint rows.
+
+The packet is accepted only when these rows occur in one displayed provenance package. Thus $\HodgeBridgeUp$ carries the BEDC history surface relating de~Rham and cohomology certificates; it does not export uncarried Kähler geometry, a host Hodge decomposition, or an ambient analytic projector.
+\end{definition}
+\leandef{BEDC.Derived.HodgeBridgeUp.HodgeBridgeBHistSourcePacket}
+
+\begin{theorem}[HodgeBridge source dependency surface]
+\label{thm:hodgebridge-source-dependency-surface}
+For every packet of \autoref{def:hodgebridge-bhist-source-packet}, the $\NameCert_{\DeRhamUp}$ projection and the $\NameCert_{\CohomologyUp}$ projection are rows of the same $\mathsf{BHist}$ package. The harmonic projector row, bidegree ledger, Lefschetz ledger, finite $\Cont$ readback, $\hsame$ transports, and $\mathsf{Pkg}$ provenance are shared dependency data.
+\end{theorem}
+\begin{proof}
+Project the tuple $\mathcal{H}$. The first two components are the de~Rham and cohomology dependency rows, while $\rho$ records their common provenance package.
+
+The projector row $P$, bidegree row $\beta$, Lefschetz ledger $\ell$, continuation readback $\lambda$, and transport family $\tau$ are further projections from the same finite package.
+
+Repacking those projections gives the original carrier. Hence the de~Rham and cohomology sides are not separate host objects; they are dependency rows of one BEDC history packet.
+\end{proof}
+\leanchecked{BEDC.Derived.HodgeBridgeUp.HodgeBridgeBHistSourcePacket\_source\_dependency\_surface}
+
+\begin{theorem}[HodgeBridge harmonic projector classifier stability]
+\label{thm:hodgebridge-harmonic-projector-classifier-stability}
+If two packets of \autoref{def:hodgebridge-bhist-source-packet} are related by the carried $\hsame$ transports on their de~Rham source rows and by the same $\mathsf{Pkg}$ provenance, then transport of the harmonic projector preserves the bidegree ledger and carries the finite $\Cont$ readback to the transported $\NameCert_{\CohomologyUp}$ endpoint row.
+\end{theorem}
+\begin{proof}
+Start with the de~Rham source representatives and their carried $\hsame$ comparison. This comparison is one of the transport rows in $\tau$, so it remains internal to the displayed history package.
+
+Transport the harmonic projector row $P$ and the bidegree ledger $\beta$ along the same family. Since $P$ and $\beta$ are components of the packet, their transported rows remain paired with the transported source representative.
+
+Read the continuation ledger $\lambda$ after transport. It carries the harmonic row to the cohomology endpoint, and repacking through the $\NameCert_{\CohomologyUp}$ dependency row proves stability of the classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.HodgeBridgeUp.HodgeBridgeBHistSourcePacket\_harmonic\_projector\_classifier\_stability}
+
+\begin{theorem}[HodgeBridge ledger exactness]
+\label{thm:hodgebridge-ledger-exactness}
+The $\HodgeBridgeUp$ ledger is exact for exactly the rows listed in \autoref{def:hodgebridge-bhist-source-packet}: the $\NameCert_{\DeRhamUp}$ source row, the $\NameCert_{\CohomologyUp}$ endpoint row, the harmonic projector row, the bidegree ledger, the Lefschetz ledger, the finite $\Cont$ readback, the $\hsame$ transports, and the $\mathsf{Pkg}$ provenance. Coverage, soundness, and completeness range only over those rows and exclude uncarried Kähler geometry and host Hodge decomposition.
+\end{theorem}
+\leanchecked{BEDC.Derived.HodgeBridgeUp.HodgeBridgeBHistSourcePacket\_ledger\_exactness}
+\begin{proof}
+Coverage follows by projecting an accepted packet. The accepted tuple displays the two dependency rows, projector row, bidegree row, Lefschetz row, continuation readback, transport family, and provenance row.
+
+For soundness, begin with exactly those displayed rows and the two dependency certificates. Repack them as $\mathcal{H}$, and the carrier definition accepts the package because every row is present in the same provenance surface.
+
+For completeness, take any accepted public $\HodgeBridgeUp$ row. The carrier definition contains no field for ambient Kähler geometry and no field for a host Hodge decomposition. Therefore the public row is exhausted by the listed dependency, projector, ledger, transport, continuation, and provenance data.
+\end{proof}
+
+\begin{theorem}[HodgeBridge NameCert obligation surface]
+\label{thm:hodgebridge-namecert-obligation-surface}
+The paper-side $\NameCert_{\HodgeBridgeUp}$ obligation surface consists of the carrier packet of \autoref{def:hodgebridge-bhist-source-packet}, the shared dependency surface of \autoref{thm:hodgebridge-source-dependency-surface}, the harmonic projector classifier stability row of \autoref{thm:hodgebridge-harmonic-projector-classifier-stability}, and the ledger exactness row of \autoref{thm:hodgebridge-ledger-exactness}. Downstream consumers may project the de~Rham dependency, cohomology dependency, harmonic, bidegree, Lefschetz, $\Cont$, $\hsame$, and $\mathsf{Pkg}$ rows, but no stronger Hodge bridge is part of this surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.HodgeBridgeUp.HodgeBridgeBHistSourcePacket\_namecert\_obligation\_surface}
+\begin{proof}
+Assemble the carrier packet from \autoref{def:hodgebridge-bhist-source-packet}. It provides the de~Rham source row, cohomology endpoint row, harmonic projector, bidegree ledger, Lefschetz ledger, continuation readback, transport rows, and provenance.
+
+Use \autoref{thm:hodgebridge-source-dependency-surface} to bind the two dependency projections to one package. Use \autoref{thm:hodgebridge-harmonic-projector-classifier-stability} to transport the harmonic classifier and its bidegree ledger across $\hsame$ replacement.
+
+Finally apply \autoref{thm:hodgebridge-ledger-exactness}. Its coverage, soundness, and completeness clauses exhaust the public rows, so repacking the listed data gives the $\NameCert_{\HodgeBridgeUp}$ obligation surface and excludes unlisted analytic bridge data.
+\end{proof}
+
+\begin{theorem}[HodgeBridge shared-projector readback exactness]
+\label{thm:hodgebridge-shared-projector-readback-exactness}
+Any public readback of a $\HodgeBridgeUp$ packet that consumes both the
+$\NameCert_{\DeRhamUp}$ source row and the $\NameCert_{\CohomologyUp}$
+endpoint row factors through the single displayed provenance package, harmonic
+projector row, bidegree ledger, Lefschetz ledger, finite $\Cont$ readback, and
+carried $\hsame$ transport family of
+\autoref{def:hodgebridge-bhist-source-packet}. It exports no uncarried Kähler
+geometry, ambient analytic projector, or host Hodge decomposition.
+\end{theorem}
+\begin{proof}
+First project the accepted packet. By
+\autoref{thm:hodgebridge-source-dependency-surface}, the de~Rham dependency
+row and the cohomology endpoint row are rows of one finite $\mathsf{BHist}$
+package, and the provenance coordinate $\rho$ binds them to the same displayed
+source.
+
+Next read the projector data through the carried transport family.
+\autoref{thm:hodgebridge-harmonic-projector-classifier-stability} keeps the
+harmonic projector and bidegree ledger stable under the packet's $\hsame$
+rows, and it carries the finite $\Cont$ readback to the transported
+$\NameCert_{\CohomologyUp}$ endpoint row.
+
+Finally combine \autoref{thm:hodgebridge-ledger-exactness} with
+\autoref{thm:hodgebridge-namecert-obligation-surface}. The public certificate
+is exhausted by the displayed dependency, projector, bidegree, Lefschetz,
+continuation, transport, and provenance rows. Because the carrier has no field
+for uncarried Kähler geometry, an ambient analytic projector, or a host Hodge
+decomposition, none of those structures is exported by the readback.
+\end{proof}
+\leanchecked{BEDC.Derived.HodgeBridgeUp.HodgeBridgeBHistSourcePacket\_shared\_projector\_readback\_exactness}
+
+\begin{theorem}[HodgeBridge public certificate handoff]
+\label{thm:hodgebridge-public-certificate-handoff}
+A public $\NameCert_{\HodgeBridgeUp}$ consumer may read exactly the de~Rham
+dependency row, the cohomology dependency row, the harmonic projector row, the
+bidegree ledger, the Lefschetz ledger, the finite $\Cont$ readback, the
+$\hsame$ transport family, and the $\mathsf{Pkg}$ provenance supplied by
+\autoref{def:hodgebridge-bhist-source-packet} and exhausted by
+\autoref{thm:hodgebridge-namecert-obligation-surface}. The handoff exports no
+host Hodge decomposition, no ambient analytic projector, and no uncarried
+Kähler geometry.
+\end{theorem}
+\begin{proof}
+Project the accepted source packet. Its displayed coordinates supply the
+de~Rham dependency row, cohomology dependency row, harmonic projector, bidegree
+ledger, Lefschetz ledger, finite continuation readback, transport family, and
+package provenance.
+
+Apply \autoref{thm:hodgebridge-source-dependency-surface} to bind the two
+dependency rows to one provenance package. Then use
+\autoref{thm:hodgebridge-harmonic-projector-classifier-stability} for the
+harmonic classifier transport and \autoref{thm:hodgebridge-ledger-exactness}
+for the exact public ledger rows.
+
+Finally repack exactly those projected fields as the consumer handoff. The
+obligation surface of \autoref{thm:hodgebridge-namecert-obligation-surface}
+exhausts the public projections, so there is no coordinate from which to read a
+host Hodge decomposition, an ambient analytic projector, or uncarried Kähler
+geometry.
+\end{proof}
+\leanchecked{BEDC.Derived.HodgeBridgeUp.HodgeBridgeBHistSourcePacket\_public\_certificate\_handoff}
+
+\begin{theorem}[HodgeBridgeUp bridge-status surface]
+\label{thm:hodgebridge-bridge-status-surface}
+The checked public handoff of
+\autoref{thm:hodgebridge-public-certificate-handoff} exposes only the
+$\mathsf{BHist}$ source packet, the $\CohomologyUp$ and $\DeRhamUp$ dependency
+rows, the harmonic-projector classifier, the shared projector readback,
+$\Cont$, $\hsame$, and the $\Pkg$ ledger rows. Analytic Hodge decomposition,
+ambient harmonic analysis, and Kähler geometry are not part of this bridge
+surface.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:hodgebridge-namecert-obligation-surface}. It gives the
+finite source packet, the two dependency rows, the projector and bidegree
+ledger, continuation readback, transport, and package provenance as the public
+obligation surface.
+
+Then apply
+\autoref{thm:hodgebridge-shared-projector-readback-exactness}. The shared
+projector readback is exhausted by the carried projector row and the displayed
+dependency endpoints; no ambient analytic projector is introduced by the
+readback.
+
+Finally use \autoref{thm:hodgebridge-public-certificate-handoff}. Its exported
+rows are exactly the public packet rows just listed. Since the handoff has no
+field for analytic Hodge decomposition, ambient harmonic analysis, or Kähler
+geometry, those structures remain outside the bridge-status surface.
+\end{proof}
+\leanchecked{BEDC.Derived.HodgeBridgeUp.HodgeBridgeBHistSourcePacket\_bridge\_status\_surface}
+
+\closureat{HodgeBridgeUp}{scopedStr}[BEDC.Derived.HodgeBridgeUp.HodgeBridgeBHistSourcePacket\_public\_certificate\_handoff]
+
+\begin{closurestatus}{\HodgeBridgeUp}
+  \constructivestory{A HodgeBridge packet is built from a finite $\mathsf{BHist}$ source packet, the displayed $\DeRhamUp$ and $\CohomologyUp$ dependency rows, a harmonic-projector classifier row, a shared projector readback row, and the $\Cont$, $\hsame$, and $\Pkg$ ledger rows that carry those dependencies through the certificate. The source accepts only this finite packet surface; analytic Hodge decomposition, ambient harmonic analysis, and Kähler geometry remain outside the carrier. The classifier transports the finite source packet and projector readback through the named dependency rows and the displayed history-sameness and continuation ledgers. The public certificate handoff is therefore the visible packet assembled by the chapter, with no bridgeChecked row or ambient Hodge-theoretic object introduced.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped closure binds exactly the finite $\mathsf{BHist}$ packet, $\DeRhamUp$ and $\CohomologyUp$ dependency rows, harmonic-projector classifier, shared projector readback, $\Cont$, $\hsame$, and $\Pkg$ ledger rows carried by this chapter.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.HodgeBridgeUp.HodgeBridgeBHistSourcePacket\_public\_certificate\_handoff}
+  \bridgestatus{none}
+  \notclaimed{Ambient Hodge theory, Kähler geometry, analytic harmonic analysis, and bridgeChecked status are not closed.}
+  \upgradepath{The next step is bridgeChecked coverage for the finite HodgeBridge packet surface and its displayed dependency rows.}
+\end{closurestatus}
+
 \section{The certificate}
 \label{sec:hodgebridge-certificate}

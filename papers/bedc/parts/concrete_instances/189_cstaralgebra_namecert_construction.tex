@@ -6,5 +6,184 @@ The C*-algebra interface $\CStarAlgUp$ packages a Banach algebra with an involut
 \section{Carrier definition}
 \label{sec:cstaralgebra-carrier}
 
+\begin{definition}[\texorpdfstring{$\CStarAlgUp$}{CStarAlgUp} BHist carrier]
+\label{def:cstaralgebra-bhist-carrier}
+Fix a $\NameCert_{\BanachUp}$ row $B$ and a $\NameCert_{\RingUp}$ row $R$ over the same $\mathsf{BHist}$ source. A $\CStarAlgUp$ carrier row is the predicate on a history $h:\mathsf{BHist}$ asserting that $h$ carries exactly the following certificate-visible data: the Banach carrier row from $B$, the RingUp multiplication row from $R$, an involution row $s:\mathsf{BHist}$ on the same carried endpoints, a norm-square compatibility row for $s$ and the multiplication row, the $\hsame$ transport rows for the carrier, multiplication, involution, and norm-square witnesses, and the $\Pkg$ provenance rows naming $B$ and $R$.
+\end{definition}
+\leandef{BEDC.Derived.CStarAlgUp.CstaralgebraBHistCarrier}
+
+The predicate of \autoref{def:cstaralgebra-bhist-carrier} treats multiplication, involution, norm, and provenance as BEDC rows. It does not expose an ambient host $*$-algebra object or a quotient of algebra presentations.
+
 \section{The certificate}
 \label{sec:cstaralgebra-certificate}
+
+\begin{definition}[\texorpdfstring{$\CStarAlgUp$}{CStarAlgUp} certificate surface]
+\label{def:cstaralgebra-certificate-surface}
+The $\NameCert_{\CStarAlgUp}$ certificate surface consists of the carrier predicate of \autoref{def:cstaralgebra-bhist-carrier}, the classifier inherited from the common $\hsame$ transport of the BanachUp and RingUp rows, the involution transport row, the norm-square compatibility transport row, the $\Cont$ ledger recording multiplication and involution observations, and the $\Pkg$ provenance naming $\NameCert_{\BanachUp}$ and $\NameCert_{\RingUp}$ as the only dependencies.
+\end{definition}
+
+\begin{theorem}[\texorpdfstring{$\CStarAlgUp$}{CStarAlgUp} NameCert obligation surface]
+\label{thm:cstaralgebra-namecert-obligation-surface}
+The surface of \autoref{def:cstaralgebra-certificate-surface} is a complete paper-side obligation surface for $\NameCert_{\CStarAlgUp}$. Every accepted $\CStarAlgUp$ row is read from a $\mathsf{BHist}$ carrier row, a BanachUp source row, a RingUp multiplication row, an involution row, a norm-square compatibility row, the corresponding $\hsame$ and $\Cont$ transport rows, and the $\Pkg$ provenance rows for the two dependency certificates.
+\end{theorem}
+\leanchecked{BEDC.Derived.CstaralgebraUp.CstaralgebraNameCert\_obligation\_surface}
+\begin{proof}
+Project an accepted carrier witness through \autoref{def:cstaralgebra-bhist-carrier}. The projection exposes the Banach row, the RingUp multiplication row, the involution row, the norm-square row, the transport rows, and the dependency provenance.
+
+The classifier is then forced by the same $\hsame$ transport rows. Banach transport moves the norm carrier, RingUp transport moves multiplication, and the involution and norm-square rows are retained only when their displayed histories transport along the same carrier comparison.
+
+Repack these projections as the certificate surface of \autoref{def:cstaralgebra-certificate-surface}. No further row is available to the repacking step, so the listed rows are the whole obligation surface.
+\end{proof}
+\leanchecked{BEDC.Derived.CStarAlgUp.CStarAlgCertificateSurface\_namecert\_obligation}
+\leanvariant{BEDC.Derived.CStarAlgUp.CStarAlgBHistCarrier\_namecert\_obligation\_surface}
+
+\begin{theorem}[\texorpdfstring{$\CStarAlgUp$}{CStarAlgUp} Gelfand and von Neumann consumer boundary]
+\label{thm:cstaralgebra-gelfand-vonneumann-consumer-boundary}
+Any $\GelfandDualityUp$ or $\VonNeumannAlgUp$ consumer citing $\NameCert_{\CStarAlgUp}$ may consume only the $\mathsf{BHist}$ carrier, the BanachUp carrier and norm rows, the RingUp multiplication row, the involution row, the norm-square compatibility row, the $\hsame$ and $\Cont$ transport rows, and the $\Pkg$ provenance rows displayed in \autoref{def:cstaralgebra-certificate-surface}. It may not infer a spectrum, weak-operator closure, representation on a Hilbert space, or commutative Gelfand transform from the root $\CStarAlgUp$ surface alone.
+\end{theorem}
+\begin{proof}
+Read the dependency citation through \autoref{thm:cstaralgebra-namecert-obligation-surface}. The citation yields only the certificate rows projected there, so a downstream consumer receives the carried Banach, RingUp, involution, norm-square, transport, ledger, and provenance data.
+
+For $\GelfandDualityUp$, a spectrum and a commutative transform require rows not present in the $\CStarAlgUp$ root surface. For $\VonNeumannAlgUp$, weak-operator closure and Hilbert-space representation data also require rows not present in that surface.
+
+Thus both consumers share the same BEDC source boundary: they may cite the $\CStarAlgUp$ certificate rows, while their own chapters must supply any spectrum, closure, representation, or transform rows they use.
+\end{proof}
+\leanchecked{BEDC.Derived.CStarAlgUp.CStarAlgCertificateSurface\_gelfand\_vonneumann\_consumer\_boundary}
+
+\begin{theorem}[\texorpdfstring{$\CStarAlgUp$}{CStarAlgUp} unital-commutative source boundary]
+\label{thm:cstaralgebra-unital-commutative-source-boundary}
+A $\GelfandDualityUp$ consumer may treat a $\CStarAlgUp$ row as a unital
+commutative source only when the displayed $\mathsf{BHist}$ surface supplies,
+in addition to the root certificate, a unit row, multiplication row,
+commutativity classifier row, involution row, norm-square row, $\hsame$
+transport, $\Cont$ ledger, and $\mathsf{Pkg}$ provenance over the same
+BanachUp and RingUp dependency rows. The root $\CStarAlgUp$ certificate alone
+does not export the Gelfand transform, the spectrum row, or a compact
+Hausdorff carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.CstaralgebraUp.CstaralgebraBHistCarrier\_unital\_commutative\_source\_boundary}
+\begin{proof}
+Unfold \autoref{def:cstaralgebra-bhist-carrier}. The root carrier exposes the
+Banach row, RingUp multiplication row, involution row, norm-square row,
+transport rows, and dependency provenance.
+
+Unfold \autoref{def:cstaralgebra-certificate-surface}. Its public classifier
+and ledger are the displayed $\hsame$, $\Cont$, and $\Pkg$ rows over those
+carrier components; unit and commutativity data must therefore be supplied as
+visible rows of the consumer surface when $\GelfandDualityUp$ asks for a
+unital commutative source.
+
+Finally apply
+\autoref{thm:cstaralgebra-gelfand-vonneumann-consumer-boundary}. That boundary
+rules out hidden spectrum data and hidden transform rows, so the
+$\GelfandDualityUp$ source read is limited to the displayed unital,
+commutative, involutive, norm-square, transport, ledger, and provenance rows.
+\end{proof}
+
+\begin{theorem}[No host star-algebra primitive in \texorpdfstring{$\CStarAlgUp$}{CStarAlgUp}]
+\label{thm:cstaralgebra-no-host-star-algebra-primitive}
+The $\CStarAlgUp$ obligation surface does not include a host $*$-algebra primitive. Equality and transport for $\CStarAlgUp$ are mediated only by $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert_{\BanachUp}$, and $\NameCert_{\RingUp}$ together with the displayed involution and norm-square rows.
+\end{theorem}
+\begin{proof}
+Unfold the carrier predicate of \autoref{def:cstaralgebra-bhist-carrier}. Its only source rows are the BanachUp and RingUp certificate rows, the involution row, the norm-square row, the transport rows, and the provenance rows.
+
+Unfold the certificate surface of \autoref{def:cstaralgebra-certificate-surface}. The surface records classifier and ledger data by $\hsame$, $\Cont$, and $\Pkg$; it never adds an ambient equality predicate for host $*$-algebras.
+
+Therefore replacing the displayed rows by a host $*$-algebra primitive would change the carrier. The BEDC object is precisely the row package described above.
+\end{proof}
+\leanchecked{BEDC.Derived.CstaralgebraUp.CstaralgebraBHistCarrier\_no\_host\_star\_algebra\_primitive}
+
+\begin{theorem}[\texorpdfstring{$\CStarAlgUp$}{CStarAlgUp} Banach--Ring source boundary]
+\label{thm:cstaralgebra-banach-ring-source-boundary}
+Every public source read of a $\CStarAlgUp$ certificate factors through the
+displayed BanachUp carrier row, the RingUp multiplication row, the involution
+row, the norm-square compatibility row, the $\hsame$ transports for those rows,
+the finite $\Cont$ ledger, and the $\Pkg$ provenance naming the BanachUp and
+RingUp dependency certificates. No source read exports a host $*$-algebra
+equality, an ambient Banach-ring object, or spectrum data.
+\end{theorem}
+\leanchecked{BEDC.Derived.CstaralgebraUp.CstaralgebraBHistCarrier\_banach\_ring\_source\_boundary}
+\begin{proof}
+Project the source read through
+\autoref{def:cstaralgebra-bhist-carrier}. The carrier predicate lists exactly
+the Banach row, RingUp multiplication row, involution row, norm-square row,
+transport rows, and dependency provenance.
+
+Next read the certificate surface of
+\autoref{def:cstaralgebra-certificate-surface}. Its public ledger is the
+$\Cont$ route recording multiplication and involution observations together
+with the same $\hsame$ and $\Pkg$ rows.
+
+Finally apply
+\autoref{thm:cstaralgebra-no-host-star-algebra-primitive}. Since the surface has
+no slot for host $*$-algebra equality, ambient Banach-ring structure, spectrum,
+or transform data, a public source read must factor through the displayed BEDC
+rows alone.
+\end{proof}
+
+\begin{theorem}[\texorpdfstring{$\CStarAlgUp$}{CStarAlgUp} classifier stability]
+\label{thm:cstaralgebra-classifier-stability}
+Componentwise $\hsame$ transport of the BanachUp carrier row, the RingUp
+multiplication row, the involution row, the norm-square compatibility row, the
+$\Cont$ ledger, and the $\Pkg$ provenance preserves the $\CStarAlgUp$
+classifier and the carrier predicate of \autoref{def:cstaralgebra-bhist-carrier}.
+The transported certificate remains a $\CStarAlgUp$ row precisely because each
+displayed component is transported inside the certificate surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.CstaralgebraUp.CstaralgebraBHistCarrier\_classifier\_stability}
+\begin{proof}
+Unfold the carrier predicate in
+\autoref{def:cstaralgebra-bhist-carrier}. A transported carrier is accepted when
+the Banach, multiplication, involution, norm-square, and provenance rows are all
+transported along their displayed $\hsame$ witnesses.
+
+Unfold \autoref{def:cstaralgebra-certificate-surface}. Its classifier is
+inherited from those same componentwise transports, while the ledger rows are
+read only through $\Cont$ and the dependency provenance remains the displayed
+$\Pkg$ row.
+
+Thus the transported packet satisfies the same carrier predicate and the same
+certificate classifier. No host star-algebra equality or spectrum datum is
+introduced, because neither appears among the transported rows.
+\end{proof}
+
+\begin{theorem}[\texorpdfstring{$\CStarAlgUp$}{CStarAlgUp} ledger exactness]
+\label{thm:cstaralgebra-ledger-exactness}
+The public $\CStarAlgUp$ ledger is exhausted by the multiplication row, the
+involution row, the norm-square compatibility row, the $\hsame$ transport rows,
+the finite $\Cont$ readbacks, and the $\Pkg$ provenance rows for
+$\NameCert_{\BanachUp}$ and $\NameCert_{\RingUp}$. Every downstream
+$\GelfandDualityUp$ or $\VonNeumannAlgUp$ citation of $\CStarAlgUp$ reads one of
+those ledger rows, and every listed row is part of the certificate surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.CstaralgebraUp.CstaralgebraBHistCarrier\_ledger\_exactness}
+\begin{proof}
+Start from the certificate surface in
+\autoref{def:cstaralgebra-certificate-surface}. Its ledger records
+multiplication and involution observations, norm-square compatibility,
+componentwise transport, finite readback, and dependency provenance.
+
+For downstream consumption, apply
+\autoref{thm:cstaralgebra-gelfand-vonneumann-consumer-boundary}. The consumer
+boundary exposes exactly the same carrier, source, transport, ledger, and
+provenance rows to $\GelfandDualityUp$ and $\VonNeumannAlgUp$.
+
+The reverse inclusion is by projection from
+\autoref{def:cstaralgebra-bhist-carrier}: each listed ledger row is a field of
+the displayed carrier or certificate surface. Spectrum data, weak-operator
+closure, Hilbert-space representations, and host star-algebra equality are
+therefore outside the public ledger.
+\end{proof}
+
+\closureat{CStarAlgUp}{obligationStr}[BEDC.Derived.CStarAlgUp.CStarAlgCertificateSurface\_namecert\_obligation]
+
+\begin{closurestatus}{\CStarAlgUp}
+  \constructivestory{A C*-algebra row is assembled by placing a certified $\BanachUp$ row and a certified $\RingUp$ multiplication row over the same $\mathsf{BHist}$ source, then adding the displayed involution row, norm-square compatibility row, transport rows, finite continuation readbacks, and dependency provenance. The carrier accepts only histories whose Banach, ring, involution, norm, and provenance fields are all present in that finite packet; host $*$-algebra equality, spectrum data, weak-operator closure, and Hilbert-space representation rows are not carrier fields. Two accepted rows classify together by componentwise $\hsame$ transport of the Banach carrier, multiplication, involution, norm-square witness, $\Cont$ ledger, and $\Pkg$ provenance rather than by equality in an ambient algebra. The source specification is the paired Banach and ring dependency surface, the pattern specification records multiplication, involution, and the norm-square law $\|a^*a\|=\|a\|^2$, and the ledger keeps multiplication and involution observations plus their finite readbacks visible. The five name-certificate obligations come from an accepted packet for inhabitation, the equivalence laws of the displayed component classifiers, and the stability theorem saying that every transported component rebuilds the same $\CStarAlgUp$ carrier row. A packet history $h$ lies in the signature gap of a $\CStarAlgUp$ token $p$ when the source-domain accepts its Banach-ring-involution surface, the signature relation pairs it with an answer packet and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, the transported multiplication, involution, and norm-square rows are the ones encoded by $p$. The chapter registers this displayed Banach-ring-involution construction under the name $\CStarAlgUp$; it introduces no host star-algebra primitive, no spectrum, no Gelfand transform, and no standard bridge.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope binds the $\BanachUp$ and $\RingUp$ dependency rows, the involution row, norm-square compatibility, componentwise $\hsame$, finite $\Cont$ readback, and $\Pkg$ provenance of the $\CStarAlgUp$ certificate surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CStarAlgUp.CStarAlgCertificateSurface\_namecert\_obligation}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a spectrum, weak-operator closure, Hilbert-space representation, host star-algebra equality, or standard bridge.}
+  \upgradepath{Scoped closure requires primitive binding for the displayed Banach, Ring, involution, norm-square, transport, ledger, and Gelfand or von-Neumann consumer rows.}
+\end{closurestatus}

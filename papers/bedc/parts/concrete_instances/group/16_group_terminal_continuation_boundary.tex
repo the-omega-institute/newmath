@@ -1,0 +1,96 @@
+\section{Terminal continuation boundary}
+\label{sec:group-terminal-continuation-boundary}
+
+\begin{definition}[Group terminal continuation boundary]
+\label{def:group-terminal-continuation-boundary}
+The terminal continuation boundary for the concrete singleton $\GroupUp$
+instance is the $\mathsf{BHist}$ surface with carrier $A_{\emp}$, classifier
+$R_{\emp}$, multiplication $\mathsf{mul}(h,k)=\mathsf{append}(h,k)$, unit
+$e=\emp$, and inverse $\mathsf{inv}(h)=\emp$. Its continuation row is read
+only through $\ContR(P,Q,S)$ together with the terminal collapse
+$R_{\emp}(P,Q)\Longleftrightarrow A_{\emp}(S)$ supplied by
+\autoref{thm:group-singleton-continuation-terminal-collapse}.
+\end{definition}
+
+\begin{theorem}[Group terminal continuation boundary laws]
+\label{thm:group-terminal-continuation-boundary-laws}
+On the boundary of Definition~\ref{def:group-terminal-continuation-boundary},
+the following laws are available to $\GroupUp$ consumers:
+\begin{enumerate}
+\item $A_{\emp}$ is inhabited and closed under $\mathsf{append}$.
+\item $e=\emp$ is a left and right unit for $\mathsf{append}$ on $A_{\emp}$.
+\item $\mathsf{inv}(h)=\emp$ is closed on $A_{\emp}$ and supplies both inverse
+classifier rows against $e$.
+\item $R_{\emp}$ is stable under $\hsame$ transport and under continuation
+readback through $\ContR$.
+\end{enumerate}
+The ledger rows are exactly the singleton carrier, terminal classifier,
+continuation witness, append multiplication, empty unit, and constant inverse
+rows already present in the concrete singleton $\GroupUp$ instance.
+\end{theorem}
+\begin{proof}
+The carrier, unit, inverse, associativity, multiplication-congruence, and
+classifier-stability rows are the concrete rows of
+\autoref{thm:concrete-singleton-history-group-laws}.
+
+Continuation readback is supplied by
+\autoref{thm:group-singleton-continuation-terminal-collapse}: under a witness
+$\ContR(P,Q,S)$, the input classifier $R_{\emp}(P,Q)$, the result classifiers,
+and the result carrier $A_{\emp}(S)$ are the same terminal condition.
+
+For append products against the unit, apply the product-unit rows such as
+\autoref{thm:group-singleton-continuation-product-unit-triple-coverage} and
+\autoref{thm:group-singleton-double-continuation-product-unit-chain-coverage}.
+They reduce each displayed continuation product-unit classifier to the carrier
+facts on the visible endpoints, so no operation outside the boundary is needed.
+\end{proof}
+
+\begin{theorem}[Group terminal continuation consumer surface]
+\label{thm:group-terminal-continuation-consumer-surface}
+Every downstream use of this concrete $\GroupUp$ boundary may read only the
+following public surface: $\mathsf{BHist}$, the carrier $A_{\emp}$, the
+classifier $R_{\emp}$, $\ContR$ and $\mathsf{append}$ as the multiplication
+boundary, $e=\emp$, the constant inverse $\mathsf{inv}(h)=\emp$, $\hsame$
+transport, and the ledger rows cited in
+\autoref{thm:group-terminal-continuation-boundary-laws}. It does not expose
+non-singleton group carriers, subgroup lattices, quotient groups, or host
+inverse objects.
+\end{theorem}
+\begin{proof}
+The definition of the boundary lists exactly the exported objects. The algebraic
+rows of \autoref{thm:group-terminal-continuation-boundary-laws} are all derived
+from the singleton carrier, terminal classifier, append, continuation, empty
+unit, constant inverse, and $\hsame$ transport.
+
+Any consumer statement that asks for a product, unit, inverse, or continuation
+row can therefore be discharged by one of those ledger rows. A non-singleton
+carrier, subgroup lattice, quotient group, or host inverse object is not among
+the exported objects and is not used by the cited rows, so it has no readable
+role on this boundary.
+\end{proof}
+
+\begin{theorem}[Group terminal continuation inverse obstruction]
+\label{thm:group-terminal-continuation-inverse-obstruction}
+On the boundary of \autoref{def:group-terminal-continuation-boundary}, every
+accepted inverse read of a carried history $h$ is classified by $R_{\emp}$
+against $\emp$. Thus a consumer row requiring an inverse endpoint outside the
+singleton carrier $A_{\emp}$ is outside the exported $\GroupUp$ boundary.
+\end{theorem}
+\begin{proof}
+The boundary definition fixes the inverse operation to the constant row
+$\mathsf{inv}(h)=\emp$. By
+\autoref{thm:group-terminal-continuation-boundary-laws}, this row is closed on
+$A_{\emp}$ and supplies both inverse classifier rows against the unit
+$e=\emp$.
+
+Continuation readback does not add another inverse endpoint. The terminal
+collapse theorem
+\autoref{thm:group-singleton-continuation-terminal-collapse} identifies the
+readback classifier with the singleton carrier condition, so every accepted
+continuation read remains a read against $\emp$.
+
+Finally apply \autoref{thm:group-terminal-continuation-consumer-surface}. The
+exported surface lists the constant inverse and explicitly excludes host
+inverse objects. Therefore any consumer row whose inverse endpoint is not the
+singleton row $\emp$ asks for data that the boundary does not export.
+\end{proof}

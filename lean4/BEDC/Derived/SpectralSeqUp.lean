@@ -100,4 +100,43 @@ theorem SpectralSeqBHistPageCarrier_successor_page_closure [AskSetup] [PackageSe
                     (And.intro successorEndpoint pkgSig')))))))))
     (And.intro sameReadback sameTransition)
 
+theorem SpectralSeqBHistPageCarrier_zero_page_carrier [AskSetup] [PackageSetup]
+    {source provenance : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory source ->
+      UnaryHistory provenance ->
+        PkgSig bundle (append provenance source) pkg ->
+          SpectralSeqBHistPageCarrier source source source BHist.Empty source BHist.Empty
+            source provenance (append provenance source) bundle pkg := by
+  intro sourceUnary provenanceUnary pkgSig
+  exact And.intro sourceUnary
+    (And.intro sourceUnary
+      (And.intro sourceUnary
+        (And.intro unary_empty
+          (And.intro unary_empty
+            (And.intro provenanceUnary
+              (And.intro (cont_right_unit source)
+                (And.intro (cont_right_unit source)
+                  (And.intro rfl pkgSig))))))))
+
+theorem SpectralSeqBHistPageCarrier_derivedfunctor_consumer_surface [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      consumer surface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence transition
+        provenance endpoint bundle pkg ->
+      UnaryHistory consumer ->
+        Cont endpoint consumer surface ->
+          UnaryHistory surface ∧ hsame surface (append endpoint consumer) ∧
+            UnaryHistory transition ∧ hsame endpoint (append provenance transition) ∧
+              PkgSig bundle endpoint pkg := by
+  intro carrier consumerUnary surfaceRow
+  have obligation := SpectralSeqBHistPageCarrier_obligation_surface carrier
+  have surfaceUnary : UnaryHistory surface :=
+    unary_cont_closed obligation.right.right.right.right.left consumerUnary surfaceRow
+  exact And.intro surfaceUnary
+    (And.intro surfaceRow
+      (And.intro obligation.right.right.right.left
+        (And.intro obligation.right.right.right.right.right.right.right.left
+          obligation.right.right.right.right.right.right.right.right)))
+
 end BEDC.Derived.SpectralSeqUp

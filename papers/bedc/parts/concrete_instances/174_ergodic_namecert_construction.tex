@@ -6,5 +6,103 @@ The ergodic-theory interface $\ErgodicUp$ packages a measure-preserving transfor
 \section{Carrier definition}
 \label{sec:ergodic-carrier}
 
+\begin{definition}[ErgodicUp BHist source surface]
+\label{def:ergodic-bhist-source-surface}
+An $\ErgodicUp$ BHist source surface is a finite package consisting of
+$\DynSystemUp$ transformation rows, $\MeasureUp$ measure rows,
+invariant-subspace classifier rows, $\hsame$ transport rows for the displayed
+dynamic and measure endpoints, finite $\Cont$ ledger routes, and $\Pkg$
+provenance for the whole package. A consumer reads the ergodic interface only
+through these displayed rows.
+\end{definition}
+
+\begin{definition}[ErgodicUp measure-preserving carrier]
+\label{def:ergodic-measure-preserving-carrier}
+An $\ErgodicUp$ measure-preserving carrier is an accepted
+\autoref{def:ergodic-bhist-source-surface} whose displayed $\DynSystemUp$
+transformation preserves the displayed $\MeasureUp$ measure row through the
+listed finite $\hsame$, $\Cont$, and $\Pkg$ ledger. The carrier records the
+preservation claim as a finite BEDC row, not as an ambient sigma-algebra
+identity.
+\end{definition}
+
 \section{The certificate}
 \label{sec:ergodic-certificate}
+
+\begin{theorem}[ErgodicUp invariant-subspace classifier]
+\label{thm:ergodic-invariant-subspace-classifier}
+For an accepted $\ErgodicUp$ measure-preserving carrier, invariant-subspace
+comparison is read only through the displayed $\DynSystemUp$ transformation
+rows, $\MeasureUp$ measure rows, $\mathsf{BHist}$ endpoint rows, and $\hsame$
+transport rows of \autoref{def:ergodic-bhist-source-surface}. No host
+sigma-algebra quotient, completed invariant subspace, or external equivalence
+relation contributes an additional classifier row.
+\end{theorem}
+\leanchecked{BEDC.Derived.ErgodicUp.ErgodicMeasurePreservingSurface\_invariant\_subspace\_classifier}
+\leanchecked{BEDC.Derived.ErgodicUp.ErgodicBHistSourceSurface\_invariant\_subspace\_classifier}
+\begin{proof}
+Project the accepted carrier to its $\DynSystemUp$ transformation and
+$\MeasureUp$ measure coordinates. These rows supply the only source endpoints
+for invariant-subspace comparison.
+
+Next project the $\mathsf{BHist}$ endpoint and the displayed $\hsame$
+transports. Repacking these finite rows gives the invariant-subspace classifier
+seen by a consumer.
+
+The source package has no field for a host sigma-algebra quotient, completed
+invariant subspace, or external equivalence relation. Those data therefore
+cannot refine the displayed classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.ErgodicUp.ErgodicMeasurePreservingCarrier\_invariant\_subspace\_classifier}
+
+\begin{theorem}[ErgodicUp decomposition ledger]
+\label{thm:ergodic-decomposition-ledger}
+Every decomposition witness exposed by an accepted $\ErgodicUp$
+measure-preserving carrier is exhausted by the finite invariant-row ledger of
+\autoref{def:ergodic-bhist-source-surface}: the displayed invariant-subspace
+classifier rows, the $\hsame$ transports, the finite $\Cont$ routes, and the
+$\Pkg$ provenance. The witness imports no host sigma-algebra quotient.
+\end{theorem}
+\leanchecked{BEDC.Derived.ErgodicUp.ErgodicMeasurePreservingSurface\_decomposition\_ledger}
+\begin{proof}
+First read the carrier through
+\autoref{thm:ergodic-invariant-subspace-classifier}. This reduces every
+decomposition comparison to the displayed transformation, measure, BHist, and
+transport rows.
+
+Then project the finite $\Cont$ routes and $\Pkg$ provenance. These rows record
+how each invariant-row witness is carried through the package and give the full
+decomposition ledger available to downstream analysis consumers.
+
+Since the carrier boundary contains no host sigma-algebra quotient, projecting
+and repacking the ledger cannot introduce one. The displayed finite invariant
+ledger therefore exhausts the decomposition witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ErgodicUp.ErgodicMeasurePreservingCarrier\_decomposition\_ledger}
+
+\begin{theorem}[ErgodicUp NameCert obligation surface]
+\label{thm:ergodic-namecert-obligation-surface}
+The $\ErgodicUp$ NameCert obligation surface packages the
+\autoref{def:ergodic-measure-preserving-carrier}, the invariant-subspace
+classifier of \autoref{thm:ergodic-invariant-subspace-classifier}, the
+transport stability rows, and the decomposition ledger of
+\autoref{thm:ergodic-decomposition-ledger}. It exposes exactly the displayed
+$\DynSystemUp$, $\MeasureUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$
+rows needed by downstream analysis consumers.
+\end{theorem}
+\begin{proof}
+Start with the accepted measure-preserving carrier. Its displayed preservation
+row supplies the carrier endpoint over the dynamic and measure source rows.
+
+Use the invariant-subspace classifier theorem to identify the classifier rows
+available to a consumer, then use the decomposition ledger theorem to identify
+the finite witness ledger and provenance rows. These two projections supply the
+stability and ledger components of the NameCert obligation surface.
+
+Finally repack the carrier, classifier, stability, and ledger rows into one
+finite BHist package. The package has no additional field beyond the displayed
+$\DynSystemUp$, $\MeasureUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$
+rows, so it is the concrete $\ErgodicUp$ obligation surface.
+\end{proof}
+\leanchecked{BEDC.Derived.ErgodicUp.ErgodicMeasurePreservingCarrier\_namecert\_obligation\_surface}
+\leanchecked{BEDC.Derived.ErgodicUp.ErgodicMeasurePreservingCarrier\_semantic\_name\_certificate}

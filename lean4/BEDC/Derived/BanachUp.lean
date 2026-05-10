@@ -73,6 +73,27 @@ theorem BanachSingletonBoundedLinearOperator_composition_closure {T S : BHist ->
         intro x carrierX
         exact boundedS.right.right (boundedT.right.right carrierX)))
 
+theorem BanachSingletonBoundedLinearOperator_lipschitz {T : BHist -> BHist}
+    {K Lambda x y : BHist} :
+    BanachSingletonBoundedLinearOperator T K Lambda -> BanachSingletonCarrier x ->
+      BanachSingletonCarrier y ->
+        MetricDistanceWitness (T x) (T y) BHist.Empty ∧
+          BanachSingletonClassifier (T x) (T y) ∧ hsame K BHist.Empty := by
+  intro boundedT carrierX carrierY
+  have targetCarrierX : BanachSingletonCarrier (T x) :=
+    boundedT.right.right carrierX
+  have targetCarrierY : BanachSingletonCarrier (T y) :=
+    boundedT.right.right carrierY
+  have distance :
+      MetricDistanceWitness (T x) (T y) BHist.Empty :=
+    MetricDistanceWitness_empty_distance_iff.mpr
+      (And.intro targetCarrierX.left targetCarrierY.left)
+  have sameTargets : hsame (T x) (T y) :=
+    hsame_trans targetCarrierX.left (hsame_symm targetCarrierY.left)
+  have classified : BanachSingletonClassifier (T x) (T y) :=
+    And.intro targetCarrierX (And.intro targetCarrierY sameTargets)
+  exact And.intro distance (And.intro classified boundedT.left)
+
 theorem BanachSingletonCarrier_semanticNameCert :
     SemanticNameCert BanachSingletonCarrier BanachSingletonCarrier BanachSingletonCarrier
       BanachSingletonClassifier := by
@@ -170,6 +191,41 @@ theorem BanachSingleton_standard_bridge_soundness {h : BHist} {s M : BHist -> BH
       exact Exists.intro BHist.Empty
         (And.intro distanceWitness (And.intro continuation (modulusClassified nUnary)))
   exact And.intro classified (And.intro carrierH.right limitWitness)
+
+theorem BanachUp_StdBridge {h : BHist} {s M : BHist -> BHist} :
+    BanachSingletonCarrier h ->
+      (forall {n : BHist}, UnaryHistory n -> hsame (s n) BHist.Empty) ->
+        (forall {n : BHist}, UnaryHistory n -> RatHistoryClassifier BHist.Empty (M n)) ->
+          BanachSingletonClassifier h BHist.Empty ∧
+            CompleteMetricLimitWitness BanachSingletonCarrier s M BHist.Empty ∧
+              SemanticNameCert BanachSingletonCarrier BanachSingletonCarrier
+                BanachSingletonCarrier BanachSingletonClassifier := by
+  intro carrierH streamEmpty modulusClassified
+  have bridge :=
+    BanachSingleton_standard_bridge_soundness carrierH streamEmpty modulusClassified
+  exact And.intro bridge.left
+    (And.intro bridge.right.right BanachSingletonCarrier_semanticNameCert)
+
+theorem BanachSingleton_standard_bridge_roundtrip {h : BHist} :
+    BanachSingletonCarrier h ->
+      BanachSingletonClassifier h BHist.Empty ∧
+        BanachSingletonClassifier BHist.Empty h ∧
+          MetricDistanceWitness h BHist.Empty BHist.Empty := by
+  intro carrierH
+  have emptyMetric : MetricDistanceWitness BHist.Empty BHist.Empty BHist.Empty :=
+    MetricDistanceWitness_empty_distance_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have emptyCarrier : BanachSingletonCarrier BHist.Empty :=
+    And.intro (hsame_refl BHist.Empty) emptyMetric
+  have distance :
+      MetricDistanceWitness h BHist.Empty BHist.Empty :=
+    MetricDistanceWitness_empty_distance_iff.mpr
+      (And.intro carrierH.left (hsame_refl BHist.Empty))
+  have forward : BanachSingletonClassifier h BHist.Empty :=
+    And.intro carrierH (And.intro emptyCarrier carrierH.left)
+  have backward : BanachSingletonClassifier BHist.Empty h :=
+    And.intro emptyCarrier (And.intro carrierH (hsame_symm carrierH.left))
+  exact And.intro forward (And.intro backward distance)
 
 theorem BanachSingleton_zero_sequence_limit_obligation {s M : BHist -> BHist} :
     (forall {n : BHist}, UnaryHistory n -> hsame (s n) BHist.Empty) ->
