@@ -108,6 +108,7 @@ import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
+import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
@@ -124,6 +125,7 @@ import BEDC.Derived.RamseyUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
+import BEDC.Derived.StackUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
