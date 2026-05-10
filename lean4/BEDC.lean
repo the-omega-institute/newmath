@@ -218,6 +218,7 @@ import BEDC.Derived.OptionUp.PayloadDescent
 import BEDC.Derived.OptionUp.PayloadDescentCanonicalIntermediate
 import BEDC.Derived.OptionUp.PayloadDescentExactness
 import BEDC.Derived.OptionUp.PayloadDescentNormalForm
+import BEDC.Derived.PartitionUp
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifier
 import BEDC.Derived.OptionUp.PayloadDescentSharedReflection
 import BEDC.Derived.OptionUp.PayloadDescentCommonTarget

@@ -97,4 +97,44 @@ theorem NewtonIterationStep_stability
         (And.intro sameStep
           (And.intro sameLedger sameNext))))
 
+theorem NewtonIterationBHistCarrier_step_endpoint_transport
+    {derivative banach point point' derivativeRow derivativeRow' inverse inverse' next next'
+      stepLedger stepLedger' provenance endpoint endpoint' : BHist} :
+    NewtonIterationBHistCarrier derivative banach point derivativeRow inverse next stepLedger
+        provenance endpoint ->
+      hsame point point' ->
+        hsame derivativeRow derivativeRow' ->
+          hsame inverse inverse' ->
+            Cont point' derivativeRow' stepLedger' ->
+              Cont stepLedger' inverse' next' ->
+                Cont provenance next' endpoint' ->
+                  NewtonIterationBHistCarrier derivative banach point' derivativeRow' inverse'
+                      next' stepLedger' provenance endpoint' ∧
+                    hsame stepLedger stepLedger' ∧ hsame next next' ∧
+                      hsame endpoint endpoint' := by
+  intro carrier samePoint sameDerivativeRow sameInverse stepLedgerRow' nextRow' endpointRow'
+  have sameStepLedger : hsame stepLedger stepLedger' :=
+    cont_respects_hsame samePoint sameDerivativeRow
+      carrier.right.right.right.right.right.right.left stepLedgerRow'
+  have sameNext : hsame next next' :=
+    cont_respects_hsame sameStepLedger sameInverse
+      carrier.right.right.right.right.right.right.right.left nextRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameNext
+      carrier.right.right.right.right.right.right.right.right endpointRow'
+  have transportedCarrier :
+      NewtonIterationBHistCarrier derivative banach point' derivativeRow' inverse' next'
+        stepLedger' provenance endpoint' :=
+    ⟨carrier.left,
+      carrier.right.left,
+      unary_transport carrier.right.right.left samePoint,
+      unary_transport carrier.right.right.right.left sameDerivativeRow,
+      unary_transport carrier.right.right.right.right.left sameInverse,
+      carrier.right.right.right.right.right.left,
+      stepLedgerRow',
+      nextRow',
+      endpointRow'⟩
+  exact And.intro transportedCarrier
+    (And.intro sameStepLedger (And.intro sameNext sameEndpoint))
+
 end BEDC.Derived.NewtonIterationUp
