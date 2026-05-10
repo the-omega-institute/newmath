@@ -346,3 +346,42 @@ and common $\Pkg$ provenance. By
 an accepted public LambdaCalc alpha read may consume. Hence the repacked row is
 an accepted alpha-classifier row relating $(s,u)$.
 \end{proof}
+
+\begin{theorem}[LambdaCalc alpha classifier reflexivity]
+\label{thm:lambdacalc-alpha-classifier-reflexive}
+Let $h:\Hist$ be an accepted $\LambdaCalcUp$ term packet satisfying
+$\mathsf{LambdaCalcBHistTermCarrier}$. Then the LambdaCalc alpha-classifier
+accepts a row relating $(h,h)$. This reflexive row is read over the displayed
+$\TreeUp$ syntax skeleton of $h$, the displayed $\NatUp$ binder-index and
+variable-index ledgers of $h$, the identity alpha-renaming $\Cont$ ledger, the
+componentwise reflexive $\hsame$ rows on each displayed endpoint, and the same
+$\Pkg$ provenance carried by $h$. It exports no host syntax equality, unrecorded
+variable set, or quotient alpha-class.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{thm:lambdacalc-namecert-classifier-boundary}. The public classifier
+boundary is componentwise: it contains the visible $\TreeUp$ syntax root, the
+$\NatUp$ binder and variable rows, the substitution and alpha ledgers, endpoint
+$\hsame$ comparisons, and the carried $\Pkg$ provenance.
+
+Use the carrier self-classification of \autoref{thm:lambdacalc-carrier-reflexive}
+on the same packet $h$. It supplies reflexive $\hsame$ rows for the visible
+syntax skeleton, every unary binder or variable index named by the packet, the
+free-variable ledger, and the package provenance. These are exactly the
+endpoint comparisons needed when both classifier endpoints are $h$.
+
+Take the alpha-renaming ledger to be the identity $\Cont$ route on the displayed
+syntax and binder rows. Applying
+\autoref{thm:lambdacalc-alpha-renaming-freshness-transport} to this identity
+route preserves $\mathsf{LambdaCalcBHistTermCarrier}$, preserves the
+free-variable endpoint packet, and records the transported syntax and binder
+rows by the reflexive $\hsame$ comparisons already supplied above.
+
+Finally repack the syntax row, binder-index rows, identity alpha ledger,
+reflexive endpoint comparisons, and unchanged provenance. By
+\autoref{thm:lambdacalc-namecert-ledger-exactness}, these rows exhaust the
+public LambdaCalc alpha read. Hence the repacked row is an accepted
+alpha-classifier row relating $(h,h)$, with no extra equality principle outside
+the displayed $\mathsf{BHist}$ packet.
+\end{proof}
