@@ -115,6 +115,33 @@ theorem CyclotomicRootCarrier_root_action_pkg_provenance [AskSetup] [PackageSetu
     (And.intro sourceRows.right.right.right.right.right.right.right.right.right
       carrier.right.right.right.right.right.right.right.right.left)
 
+theorem CyclotomicRootCarrier_consumer_boundary [AskSetup] [PackageSetup]
+    {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
+      ledger consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CyclotomicRootCarrier numField exponent polynomial splittingField primitiveRoot acceptance
+        comparison provenance ledger bundle pkg ->
+      Cont ledger comparison consumer ->
+        UnaryHistory consumer ∧ hsame consumer (append ledger comparison) ∧
+          hsame provenance (append numField splittingField) ∧
+            hsame acceptance (append exponent polynomial) ∧
+              hsame ledger (append acceptance primitiveRoot) ∧ PkgSig bundle ledger pkg := by
+  intro carrier consumerRow
+  have sourceRows :=
+    CyclotomicRootCarrier_source_triad_obligation (bundle := bundle) (pkg := pkg) carrier
+  have comparisonAppendUnary : UnaryHistory (append provenance acceptance) :=
+    unary_append_closed sourceRows.right.right.right.left sourceRows.right.right.right.right.left
+  have comparisonUnary : UnaryHistory comparison :=
+    unary_transport_symm comparisonAppendUnary carrier.right.right.right.right.right.right.right.right.left
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sourceRows.right.right.right.right.right.left comparisonUnary consumerRow
+  exact And.intro consumerUnary
+    (And.intro consumerRow
+      (And.intro sourceRows.right.right.right.right.right.right.left
+        (And.intro sourceRows.right.right.right.right.right.right.right.left
+          (And.intro sourceRows.right.right.right.right.right.right.right.right.left
+            sourceRows.right.right.right.right.right.right.right.right.right))))
+
 theorem CyclotomicRootCarrier_positive_exponent_row_coverage [AskSetup] [PackageSetup]
     {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
       ledger exponentRead : BHist}
