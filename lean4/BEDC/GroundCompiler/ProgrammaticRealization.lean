@@ -335,4 +335,78 @@ theorem acceptance_certificate_mediated {S : EventFlow} :
   | theoremCode hThm =>
       exact Or.inr hThm
 
+structure ProgrammaticSelfHostingRoute where
+  hostReferenceRuntime : EventFlow
+  channelAndRecognizerRules : EventFlow
+  recognizerVMFlow : EventFlow
+  compilerRecognitionFlow : EventFlow
+  compilerCertificateFlow : EventFlow
+  selfCompilationFlow : EventFlow
+  behaviorEquivalenceFlow : EventFlow
+  bootstrapObligationFlow : EventFlow
+
+inductive SelfHostingClaimArtifact : Type where
+  | hostExecution (runtime compilerDescription : EventFlow)
+  | certifiedRoute (route : ProgrammaticSelfHostingRoute)
+
+inductive CompleteSelfHostingEvidence : SelfHostingClaimArtifact -> Prop where
+  | certifiedRoute (route : ProgrammaticSelfHostingRoute) :
+      FormalCompilerInput (CompilerDatum.eventFlow route.compilerRecognitionFlow) ->
+        FormalCompilerInput (CompilerDatum.eventFlow route.compilerCertificateFlow) ->
+          FormalCompilerInput (CompilerDatum.eventFlow route.selfCompilationFlow) ->
+            FormalCompilerInput
+              (CompilerDatum.eventFlow route.behaviorEquivalenceFlow) ->
+              FormalCompilerInput
+                (CompilerDatum.eventFlow route.bootstrapObligationFlow) ->
+                CompleteSelfHostingEvidence
+                  (SelfHostingClaimArtifact.certifiedRoute route)
+
+theorem self_hosting_not_execution (runtime compilerDescription : EventFlow) :
+    Not
+      (CompleteSelfHostingEvidence
+        (SelfHostingClaimArtifact.hostExecution runtime compilerDescription)) := by
+  intro h
+  cases h
+
+structure P9CompilerEvidence where
+  route : ProgrammaticSelfHostingRoute
+  compilerIdentity :
+    FormalCompilerInput
+      (CompilerDatum.eventFlow route.compilerRecognitionFlow)
+  compilerBehavior :
+    FormalCompilerInput
+      (CompilerDatum.eventFlow route.compilerCertificateFlow)
+  selfCompilation :
+    FormalCompilerInput
+      (CompilerDatum.eventFlow route.selfCompilationFlow)
+  behaviorEquivalence :
+    FormalCompilerInput
+      (CompilerDatum.eventFlow route.behaviorEquivalenceFlow)
+  bootstrapObligations :
+    FormalCompilerInput
+      (CompilerDatum.eventFlow route.bootstrapObligationFlow)
+  noHostLeakAudit : FormalCompilerInput (CompilerDatum.eventFlow route.recognizerVMFlow)
+  globalVerificationStatus :
+    FormalCompilerInput
+      (CompilerDatum.eventFlow route.channelAndRecognizerRules)
+
+inductive ProgrammaticP9Status : Type where
+  | reached (evidence : P9CompilerEvidence)
+
+theorem programmatic_realization_reaches_p9_with_evidence :
+    ProgrammaticP9Status -> exists evidence : P9CompilerEvidence,
+      CompleteSelfHostingEvidence
+        (SelfHostingClaimArtifact.certifiedRoute evidence.route) := by
+  intro status
+  cases status with
+  | reached evidence =>
+      exact
+        ⟨evidence,
+          CompleteSelfHostingEvidence.certifiedRoute evidence.route
+            evidence.compilerIdentity
+            evidence.compilerBehavior
+            evidence.selfCompilation
+            evidence.behaviorEquivalence
+            evidence.bootstrapObligations⟩
+
 end BEDC.GroundCompiler.ProgrammaticRealization
