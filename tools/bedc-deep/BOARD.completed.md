@@ -15484,3 +15484,27 @@ Rationale:
 Extends B-585 (singleton-equation exactness) to the family-coverage level. This is the canonical inversion/coverage bridge for AffineVarUp's equation-family layer and is required for any further variety-intersection or component-level work. Direct unfolding of equation-family membership and zero-locus predicate; no external algebraic geometry.
 
 ---
+
+### B-611 - InnerProduct orthogonality left additive closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | InnerProduct orthogonality left additive closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For carried vectors x,y,z:C_V, if x \perp_I z and y \perp_I z then (x +_V y) \perp_I z.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/orthogonality_closure.tex`
+
+Rationale:
+Mirrored companion to thm:innerproduct-orthogonal-additivity-row (right-additive). Left-additive form is independently used by sublattice-of-orthogonals arguments; not currently stated. Proof: symmetry -> right-additivity -> symmetry. Distinct from the left-scalar and left-inverse candidates (different slot symmetry). Lands cleanly.
+
+---

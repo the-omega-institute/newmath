@@ -42,32 +42,6 @@ Direct missing companion to thm:innerproduct-orthogonality-right-scalar-action-c
 
 ---
 
-
-### B-611 - InnerProduct orthogonality left additive closure
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | InnerProduct orthogonality left additive closure |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-For carried vectors x,y,z:C_V, if x \perp_I z and y \perp_I z then (x +_V y) \perp_I z.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/innerproduct/orthogonality_closure.tex`
-
-Rationale:
-Mirrored companion to thm:innerproduct-orthogonal-additivity-row (right-additive). Left-additive form is independently used by sublattice-of-orthogonals arguments; not currently stated. Proof: symmetry -> right-additivity -> symmetry. Distinct from the left-scalar and left-inverse candidates (different slot symmetry). Lands cleanly.
-
----
-
-
 ### B-612 - SpinGroup conjugation action identity law
 
 | field | value |
@@ -91,7 +65,6 @@ Rationale:
 Complements B-600 (conjugation multiplicativity). Together with the multiplicative law it makes the conjugation row a group action; the unit law is currently the missing half. Proof is a one-shot Clifford left/right unit collapse. Distinct from all existing SpinGroup BOARD entries.
 
 ---
-
 
 ### B-613 - Sheaf identity-refinement pullback identity
 
@@ -117,7 +90,6 @@ Distinct from B-520 (which only states that identity refinement is a refinement)
 
 ---
 
-
 ### B-614 - Measure head-tail iterated finite-prefix readback
 
 | field | value |
@@ -142,7 +114,6 @@ Strict generalisation of thm:measure-head-tail-tail-countable-sum-scope (single 
 
 ---
 
-
 ### B-615 - InnerProduct orthogonality left additive-inverse closure
 
 | field | value |
@@ -166,4 +137,3 @@ Rationale:
 Companion to thm:innerproduct-orthogonal-additive-inverse-closure (right slot). Left-slot symmetric version not stated; consumed together with right slot by signed-sum and sublattice-of-orthogonals constructions. Independent from the left-scalar and left-additive candidates: different slot symmetry (additive inverse). All three live in the 230-line orthogonality_closure.tex.
 
 ---
-
