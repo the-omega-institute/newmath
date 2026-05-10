@@ -170,6 +170,20 @@ theorem CompactMetricCertificate_metric_source_obligation {X : BHist -> Prop}
   exact And.intro certificate.left
     (And.intro certificate.right (And.intro leftDistance sameDistance))
 
+theorem CompactMetricCertificate_metric_field_projection {X : BHist -> Prop}
+    {eps x y d : BHist} {bundle : ProbeBundle BHist} {s M : BHist -> BHist}
+    {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> X x -> X y ->
+      MetricDistanceWitness x y d ->
+        X x ∧ X y ∧ MetricDistanceWitness x y d ∧
+          TotallyBoundedProbeBundleNet X eps bundle ∧
+            CompleteMetricLimitWitness X s M limit := by
+  intro certificate source target distance
+  exact
+    And.intro source
+      (And.intro target
+        (And.intro distance (And.intro certificate.left certificate.right)))
+
 theorem CompactMetricTotallyBoundedNet_obligation {X : BHist -> Prop} {eps eps' x : BHist}
     {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
     CompactMetricCertificate X eps bundle s M limit -> hsame eps eps' -> X x ->
