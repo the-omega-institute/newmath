@@ -96,6 +96,39 @@ theorem PolicyActionLedgerCarrier_local_action_transport [AskSetup] [PackageSetu
       sameProvenance,
       sameEndpoint⟩
 
+theorem PolicyActionLedgerCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        hsame := by
+  intro carrier
+  constructor
+  · constructor
+    · exact Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+    · intro row _source
+      exact hsame_refl row
+    · intro row row' same
+      exact hsame_symm same
+    · intro row row' row'' sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro row row' same source
+      exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+  · intro row source
+    exact source
+  · intro row source
+    exact source
+
 theorem PolicyActionLedgerCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -104,41 +137,15 @@ theorem PolicyActionLedgerCarrier_namecert_obligation_surface [AskSetup] [Packag
       SemanticNameCert
         (fun row : BHist =>
           PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
-              endpoint bundle pkg ∧
-            hsame row endpoint)
+            endpoint bundle pkg ∧ hsame row endpoint)
         (fun row : BHist =>
           PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
-              endpoint bundle pkg ∧
-            hsame row endpoint)
+            endpoint bundle pkg ∧ hsame row endpoint)
         (fun row : BHist =>
           PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
-              endpoint bundle pkg ∧
-            hsame row endpoint)
+            endpoint bundle pkg ∧ hsame row endpoint)
         hsame := by
-  intro carrier
-  exact {
-    core := {
-      carrier_inhabited := Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
-      equiv_refl := by
-        intro row _source
-        exact hsame_refl row
-      equiv_symm := by
-        intro _row _row' sameRows
-        exact hsame_symm sameRows
-      equiv_trans := by
-        intro _row _row' _row'' sameLeft sameRight
-        exact hsame_trans sameLeft sameRight
-      carrier_respects_equiv := by
-        intro row row' sameRows source
-        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
-    }
-    pattern_sound := by
-      intro _row source
-      exact source
-    ledger_sound := by
-      intro _row source
-      exact source
-  }
+  exact PolicyActionLedgerCarrier_semantic_name_certificate
 
 private def encodeBHist : BHist → RawEvent
   | BHist.Empty => []
