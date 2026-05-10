@@ -478,4 +478,28 @@ theorem TuringMachineLedgerExactnessObligation_no_external_rows
     ⟨publicLedgerUnary, rowsSurface.right.right.right.right.left,
       rowsSurface.right.right.right.right.right, publicLedgerRow⟩
 
+theorem TuringMachinePublicCertificate_export
+    {state tape head bound configuration trace readback bounded endpoint halted ledger publicSurface
+      certificate : BHist}
+    {haltRows : List BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory bound ->
+      UnaryHistory halted -> Cont state tape configuration -> Cont configuration head trace ->
+        Cont tape head readback -> Cont trace readback bounded -> Cont bounded bound endpoint ->
+          TuringMachineHaltedTrace halted haltRows endpoint -> Cont endpoint halted ledger ->
+            Cont ledger bounded publicSurface -> Cont publicSurface halted certificate ->
+              UnaryHistory publicSurface ∧ UnaryHistory certificate ∧
+                hsame publicSurface (append ledger bounded) ∧
+                  hsame certificate (append publicSurface halted) := by
+  intro stateUnary tapeUnary headUnary boundUnary haltedUnary configurationRow traceRow readbackRow
+  intro boundedRow endpointRow haltedTrace ledgerRow publicSurfaceRow certificateRow
+  have publicRows :=
+    TuringMachineNameCertSurfaceObligation_public_surface stateUnary tapeUnary headUnary
+      boundUnary haltedUnary configurationRow traceRow readbackRow boundedRow endpointRow
+      haltedTrace ledgerRow publicSurfaceRow
+  have publicSurfaceUnary : UnaryHistory publicSurface :=
+    publicRows.right.right.right.right.right.right.left
+  have certificateUnary : UnaryHistory certificate :=
+    unary_cont_closed publicSurfaceUnary haltedUnary certificateRow
+  exact ⟨publicSurfaceUnary, certificateUnary, publicSurfaceRow, certificateRow⟩
+
 end BEDC.Derived.TuringMachineUp
