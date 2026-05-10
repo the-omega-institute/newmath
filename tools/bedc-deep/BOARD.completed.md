@@ -15726,3 +15726,365 @@ Rationale:
 165_independence_namecert_construction.tex:367 proves thm:independence-empty-index-factorization-row (B-527 / B-587 area); line 416 proves thm:independence-singleton-index-factorization-row (B-591 in board). The two-element case is the *first* arity where a real product fold actually multiplies two distinct factors, and is genuinely missing: grep 'two-element\|binary.factorisation\|pair.factorisation\|two.position' across papers/ shows no Independence two-element row. Builds on the pushforward rows already used in the singleton proof plus the binary RealUp product fold (used elsewhere in concrete_instances/). File 471 lines, room available. Concrete arity step: requires a real factorisation calculation, not just a transport.
 
 ---
+
+### B-620 - SpinGroup conjugation action inverse-involution row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | SpinGroup conjugation action inverse-involution row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+For an accepted SpinGroupUp packet S with visible Clifford-unit endpoint s and any accepted Clifford-vector row v, the iterated action endpoint Act_{s^{-1}}(Act_s(v)) is an accepted Clifford-vector row in the same packet and is classifier-equal to v under the generated CliffordUp classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/spingroup/boundary_consumer_exactness.tex`
+
+Rationale:
+spingroup/boundary_consumer_exactness.tex:78 proves thm:spingroup-conjugation-action-product-law (B-600 in board) and line 160 proves thm:spingroup-conjugation-action-identity-law (B-612). The natural composition s^{-1}\cdot s = e route — Act_{s^{-1}}(Act_s(v)) ~ Act_e(v) ~ v — is not stated as its own theorem: grep 'spingroup.*inverse.action\|conjugation.action.inverse\|conjugation.*inverse.law' across papers/ returns nothing. The proof composes product-law (with t=s^{-1}) and identity-law plus the GroupUp inverse field already named in carrier_and_basic_laws.tex pattern. Concrete inversion-cancellation identity over the displayed Clifford ledger, not transport. File 231 lines, ample room.
+
+---
+
+### B-621 - Newton-iteration carrier finite-step concatenation closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Newton-iteration carrier finite-step concatenation closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If R1 and R2 are accepted NewtonIterationUp carrier rows over the same DerivativeUp/BanachUp source pair with R1's next-step answer hsame R2's source-point answer, then their displayed concatenation is an accepted NewtonIterationUp carrier row whose source point is R1's source point, whose next-step answer is R2's next-step answer, and whose finite step ledger is the concatenation of the two displayed step ledgers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/201_newtoniteration_namecert_construction.tex`
+
+Rationale:
+Fills a clear companion gap in 201_newtoniteration_namecert_construction.tex: the carrier inductively allows finite list-of-steps but the existing three theorems only handle a single step row plus source/classifier transport. Concatenation-along-shared-endpoint is a textbook closure obligation downstream Banach fixed-point and contraction-mapping consumers will need. The landing file is short (56 lines), well below the 800 cap, and the proof is a clean induction on the BHist Cont ledger using hsame transport at the splice point. No BOARD entry covers this; not paraphrased by any existing concatenation/closure target (B-507 EnumPerm, B-505 Sheaf refinement) since they live in different chapters with different carriers.
+
+---
+
+### B-622 - MarkovChain transition packet finite-prefix restriction is a MarkovChain carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MarkovChain transition packet finite-prefix restriction is a MarkovChain carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a finite MarkovChain BHist transition packet over a unary time ledger of length n+k is accepted by the MarkovChainUp carrier, then its restriction to the first n displayed time rows (with the first n+1 RandomVarUp rows, n DistributionUp law rows, n transition rows, and inherited Cont/Pkg provenance) is again an accepted MarkovChainUp carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/167_markovchain_namecert_construction.tex`
+
+Rationale:
+The MarkovChain carrier is inductive on a unary time ledger but the chapter exposes only kernel-classifier stability, transition-ledger exactness, source boundary, and obligation-surface theorems — no prefix-truncation closure. Future Martingale/Brownian-compatibility and hitting-time consumers need it. Distinct from B-511 Independence finite subfamily projection (different carrier: independence index family vs time ledger). Lands cleanly in the existing 167_markovchain file with a unary-ledger induction; the proof is structural, not deep.
+
+---
+
+### B-623 - MarkovChain transition packet end-to-end concatenation closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MarkovChain transition packet end-to-end concatenation closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If P1 is an accepted MarkovChainUp transition packet over time ledger of length n with terminal RandomVarUp row X_n and P2 is an accepted MarkovChainUp transition packet over time ledger of length m starting from a RandomVarUp row Y_0 with X_n hsame Y_0 over a shared ProbSpaceUp source, then their displayed concatenation along that shared endpoint is an accepted MarkovChainUp transition packet over a unary time ledger of length n+m.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/167_markovchain_namecert_construction.tex`
+
+Rationale:
+Strict companion to the prefix-restriction proposal but technically distinct (gluing along shared endpoint vs prefix truncation). Together they make MarkovChainUp carriers a true list-with-restriction-and-concatenation closure. The Newton concatenation candidate has the same proof skeleton in a different chapter, so this is a parallel, not duplicate, work item. No paper coverage of the gluing law and no BOARD dedup; the kernel-classifier-stability theorem alone is insufficient for downstream sub-chain construction. Codex_close-shaped: splice ledgers, reapply kernel classifier stability at the splice index.
+
+---
+
+### B-624 - Matrix transpose of the zero matrix is the zero matrix with swapped dimensions
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Matrix transpose of the zero matrix is the zero matrix with swapped dimensions |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Over a scalar RingUp carrier with classifier sim_R and zero endpoint 0_R, the transpose of the carried zero matrix Z_{n,m} is classified pointwise as the zero matrix Z_{m,n} via def:matrix-transpose-certified-scalar-carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_transpose.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_zero_matrix_absorption.tex`
+
+Rationale:
+The matrix chapter has both transpose and zero-matrix data plus extensive transpose laws (transpose-reverses-product, double-readback involution, preserves-addition) but no transpose/zero interaction lemma. This is the most basic missing companion law and its absence is the kind of referee-flagged gap that propagates into Banach/Hilbert operator chapters. Pointwise unfold + classifier substitution; clean codex_close. Distinct from the identity-matrix transpose candidate which has a different proof shape (Kronecker delta symmetry).
+
+---
+
+### B-625 - Matrix transpose of the identity matrix is the identity matrix
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Matrix transpose of the identity matrix is the identity matrix |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Over a scalar RingUp carrier with classifier sim_R, multiplicative unit 1_R, and zero endpoint 0_R, the transpose of the finite-fold identity matrix I_n is classified pointwise as the same identity matrix I_n via def:matrix-transpose-certified-scalar-carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_transpose.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_laws_fold_identity.tex`
+
+Rationale:
+Genuinely distinct from the transpose-zero candidate: the proof relies on Kronecker-delta symmetry at (i,j) vs (j,i), not zero pointwise. Together with transpose-zero this completes the elementary transpose/distinguished-matrix lemmas that downstream Hermitian/orthogonal/unitary consumers expect. No BOARD entry; not in the paper's existing transpose theorem list. Clean codex_close on entrywise readback.
+
+---
+
+### B-626 - InnerProduct two-vector Gram diagonal scalar-nonnegativity row exposure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | InnerProduct two-vector Gram diagonal scalar-nonnegativity row exposure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For the InnerProductUp two-vector Gram source of def:innerproduct-two-vector-gram-source with carried vectors x,y, the diagonal scalar endpoints langle x,x rangle and langle y,y rangle satisfy 0_scal le_scal langle x,x rangle and 0_scal le_scal langle y,y rangle under the inherited scalar order, derived from the Gram source's retained diagonal positivity rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/two_vector_gram_boundary.tex`
+
+Rationale:
+The Gram source explicitly retains diagonal positivity rows and the consumer boundary cites them, but no theorem reads them back as a public scalar-order inequality. Hilbert / Riemannian / RootSystem certificates need this exposed. Distinct from B-528 ternary Pythagoras, B-573 norm-sq scalar factoring, and B-507/B-514 polarization-difference identities — none of those expose diagonal nonnegativity through the scalar order namecert. Oracle_likely flag from candidate is appropriate; bridge between InnerProductUp positivity predicate and scalar-order namecert may need small interface work but the claim itself is concrete.
+
+---
+
+### B-627 - Brownian path-step carrier finite-prefix restriction is a BrownianUp carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Brownian path-step carrier finite-prefix restriction is a BrownianUp carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an accepted BrownianUp BHist process packet of def:brownian-bhist-process-packet over a unary time ledger of length n+k is given, then restricting the displayed time-step rows, increment ledger entries, continuity rows, and Cont/Pkg provenance to the first n time steps yields a finite BHist process packet that is again accepted by the BrownianUp carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/169_brownian_namecert_construction.tex`
+
+Rationale:
+Carrier-level prefix closure for Brownian. Genuinely distinct from the MarkovChain prefix candidate: Brownian carries a continuity row and Gaussian-increment ledger that the MarkovChain transition row does not, so the projection step is non-trivially different (continuity-ledger truncation must preserve modulus-of-continuity witnesses). Future Martingale-Brownian compatibility consumers (cf. paper line 416) demand it. No BOARD or paper coverage. Codex_close on unary-ledger induction with continuity-row reprojection.
+
+---
+
+### B-628 - Matrix transpose involution on carried matrices
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Matrix transpose involution on carried matrices |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 Mat↑ finite-fold transpose setup 下, 若 A 是 n×m 的 carried matrix, 则 transpose(transpose(A)) 在所有索引点上被 scalar classifier 分类为 A。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_transpose.tex`
+
+Rationale:
+BOARD 已有 transpose-of-identity (B-625) 和 transpose-of-zero (B-624) 两个端点目标, 但 transpose 接口的核心刚性定理 — involution — 尚未在 BOARD 或 paper 上落地。这是 Mat↑ 上的 inversion/determinacy 主结构定理, 不是字段搬运: 证明需要双重索引交换并经 scalar classifier reflexivity 闭合。Landing file 不在 near-cap 列表中, 风险低。
+
+---
+
+### B-629 - InnerProduct orthogonality right additive closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | InnerProduct orthogonality right additive closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+在 InnerProductUp 正交闭合 setup 下, 若 Orth(x,y) 且 Orth(x,z), 则 Orth(x,y+z)。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/orthogonality_closure.tex`
+
+Rationale:
+BOARD 已覆盖左侧 additive (B-611), 左侧 scalar (B-610), 左侧 additive-inverse (B-615) 三个左闭合, 但右侧 additive closure 显式缺失。这是双边闭合的对偶完成, 在双线性接口上是必备的 closure 定理而非字段搬运; novelty 略低因为是对偶但仍是独立 theorem 块, 证明可由 right linearity 或对称性 + 已有左闭合直接闭合。
+
+---
+
+### B-630 - MarkovChain finite-suffix restriction carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | MarkovChain finite-suffix restriction carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 MarkovChain transition-packet setup 下, 若长度 n+k 的 accepted packet 给出状态列与转移 ledger, 则从第 n 个边界状态起截取后 k 步的 suffix packet 仍是 MarkovChainUp carrier。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/167_markovchain_namecert_construction.tex`
+
+Rationale:
+BOARD 已有 prefix restriction (B-622) 与 end-to-end concatenation closure (B-623), 但 suffix restriction 与 prefix 不是同义改写: 初始状态被换成中间端点, 边界条件需要重新对齐。这是时间局部到全局链 readback 的另一半 coverage 定理。Landing file 不在 near-cap 列表中。
+
+---
+
+### B-631 - NewtonIteration finite-prefix restriction carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | NewtonIteration finite-prefix restriction carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 NewtonIteration finite-step carrier setup 下, 若 accepted packet 记录 n+k 步 Newton recurrence, 则截取前 n 步的迭代行、函数值行与导数非零 ledger 仍构成 NewtonIterationUp carrier。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/201_newtoniteration_namecert_construction.tex`
+
+Rationale:
+BOARD 有 Newton finite-step concatenation closure (B-621), 但缺 prefix restriction. 它是拼接闭包的对偶 prerequisite: 长迭代证书的有限前缀可独立读回为同一对象, 证明只需限制 recurrence 与 nonzero-denominator ledger, 与 concatenation 走相反方向。Landing file 安全。
+
+---
+
+### B-632 - Brownian path-step carrier finite-suffix restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Brownian path-step carrier finite-suffix restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+在 BrownianUp BHist process-packet setup 下, 若长度 n+k 的 accepted packet 给出路径步、时间步与增量 ledger, 则从第 n 步边界端点起的后 k 步 shift-restriction 仍是 BrownianUp carrier。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/169_brownian_namecert_construction.tex`
+
+Rationale:
+BOARD 有 prefix restriction (B-627), suffix restriction 是真正不同的局部化方向: 源端点和时间 ledger 都要重置到中间边界。比 Brownian 跨段 concatenation 更安全 — 只需限制已有增量、连续性与分布 ledger, 不需要构造跨段独立性新证据。Landing file 不在 near-cap 列表。
+
+---
+
+### B-633 - Sheaf pullback along composite refinements is associative
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Sheaf pullback along composite refinements is associative |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 Sheaf refinement exactness setup 下, 若 r:U→V 与 s:V→W 是 accepted refinements 且 σ 是 W 上的 carried section, 则 pullback_r(pullback_s(σ)) 被 section classifier 分类为 pullback_{s∘r}(σ)。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/sheaf/04_refinement_exactness.tex`
+
+Rationale:
+BOARD 仅覆盖 identity-refinement pullback identity (B-613), 但 sheaf refinement 接口还缺 composite refinement 的 associativity / coherence 主结构定理。这是局部限制操作的 bridge 定理, 不是 carrier 字段搬运: 证明需要 refinement 组合 + pullback exactness + section classifier 三步闭合。Landing file 安全。
+
+---
+
+### B-634 - AffineVar zero-locus is antitone under equation inclusion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | AffineVar zero-locus is antitone under equation inclusion |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+在 AffineVarUp equation-family setup 下, 若方程族 E 的每个方程都出现在 F 中且点 x 落在 F 的 zero-locus, 则 x 落在 E 的 zero-locus。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/132_affinevar_namecert_construction.tex`
+
+Rationale:
+BOARD 有 union-of-equations zero-locus = intersection (B-609) 和 singleton zero-locus exactness (B-585), 但通用 inclusion → 反向 inclusion 的 antitone 定理未列。它是零点集分类的核心 order bridge, 比 union 公式更结构化, 证明短且不重复 union 路径: 对 E 中任一方程经 inclusion 转到 F, 再用 F-zero witness。
+
+---

@@ -11,8 +11,66 @@ $\NameCert_{\BeliefUp}$, $\NameCert_{\MarkovChainUp}$, $\NameCert_{\RandomVarUp}
 \section{Carrier definition}
 \label{sec:policy-carrier}
 
-(Stub. The full carrier obligation is supplied by subsequent paper
-rounds following the proposal's NameCert sketch.)
+\begin{definition}[Policy action-ledger carrier]
+\label{def:policy-action-ledger-carrier}
+A $\PolicyUp$ carrier is a finite $\mathsf{BHist}$ action-ledger packet over
+$\NameCert_{\BeliefUp}$, $\NameCert_{\MarkovChainUp}$,
+$\NameCert_{\RandomVarUp}$, and $\NameCert_{\EstimatorUp}$. Its rows are
+belief-state rows, Markov transition rows, estimator-score rows, selected
+action rows, the $\hsame$ transport rows comparing corresponding ledger
+entries, the $\Cont$ provenance rows explaining how each selected action is
+read from the displayed belief, transition, and estimator rows, and the
+$\mathsf{Pkg}$ source rows naming the four dependency certificates.
+
+The carrier accepts only packets whose selected-action row is sourced from the
+displayed dependency rows through the visible $\Cont$ ledger. It contains no
+host Markov decision process, utility function, optimizer, or external policy
+object.
+\end{definition}
+\begin{theorem}[Policy TasteGate source scope]
+\label{thm:policy-tastegate-source-scope}
+Every accepted $\PolicyUp$ action-ledger packet exposes exactly the four
+dependency certificates $\NameCert_{\BeliefUp}$,
+$\NameCert_{\MarkovChainUp}$, $\NameCert_{\RandomVarUp}$, and
+$\NameCert_{\EstimatorUp}$ together with the finite action ledger of
+\autoref{def:policy-action-ledger-carrier}. No host Markov decision process,
+utility function, optimizer, or external policy object is exported by the
+packet.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of
+\autoref{def:policy-action-ledger-carrier}. The source rows are precisely the
+four named dependency certificates and the finite $\mathsf{BHist}$ action
+ledger whose entries display belief states, transition rows, estimator scores,
+selected actions, $\hsame$ comparisons, $\Cont$ provenance, and
+$\mathsf{Pkg}$ source rows.
+
+The acceptance condition reads a selected action only through those displayed
+rows. Since the carrier definition has no constructor for a host Markov
+decision process, utility function, optimizer, or external policy object, no
+accepted packet can expose such a row.
+\end{proof}
+
+\begin{theorem}[Policy local action transport]
+\label{thm:policy-local-action-transport}
+Let two finite $\PolicyUp$ action-ledger packets have componentwise $\hsame$
+comparisons between their belief-state rows, Markov transition rows,
+estimator-score rows, and selected-action rows. If the $\Cont$ provenance and
+$\mathsf{Pkg}$ source rows are transported along those comparisons, then the
+transported rows again form an accepted local $\PolicyUp$ carrier packet over
+the same four dependency certificates.
+\end{theorem}
+\begin{proof}
+Transport the four dependency rows componentwise through the displayed
+$\hsame$ comparisons. The belief, transition, estimator, and selected-action
+entries remain inside the same finite $\mathsf{BHist}$ ledger shape.
+
+Next transport the $\Cont$ provenance rows and the $\mathsf{Pkg}$ source rows.
+The carrier acceptance condition only asks that the selected-action row be read
+from the transported belief, transition, and estimator rows through that
+visible provenance ledger. Therefore the transported packet satisfies the same
+local carrier predicate.
+\end{proof}
 
 \begin{closurestatus}{\PolicyUp}
   \constructivestory{}
