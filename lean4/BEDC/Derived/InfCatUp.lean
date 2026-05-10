@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -141,5 +143,48 @@ theorem InfCatBHistSourcePacket_consumer_boundary [AskSetup] [PackageSetup]
     unary_cont_closed liftUnary transportUnary consumerRow
   exact ⟨consumerUnary, consumerRow, transportUnary,
     packet.right.right.right.right.right.right.right⟩
+
+theorem InfCatBHistSourcePacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {simplicial category horn lift provenance transport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    InfCatBHistSourcePacket simplicial category horn lift provenance transport bundle pkg ->
+      SemanticNameCert
+        (fun t : BHist =>
+          InfCatBHistSourcePacket simplicial category horn lift provenance t bundle pkg)
+        (fun t : BHist =>
+          InfCatBHistSourcePacket simplicial category horn lift provenance t bundle pkg)
+        (fun t : BHist =>
+          InfCatBHistSourcePacket simplicial category horn lift provenance t bundle pkg)
+        (fun t u : BHist =>
+          InfCatBHistSourcePacket simplicial category horn lift provenance t bundle pkg ∧
+            InfCatBHistSourcePacket simplicial category horn lift provenance u bundle pkg ∧
+              hsame t u) := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro transport packet
+      equiv_refl := by
+        intro row rowPacket
+        exact And.intro rowPacket (And.intro rowPacket (hsame_refl row))
+      equiv_symm := by
+        intro row row' classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro row row' row'' classified classified'
+        exact And.intro classified.left
+          (And.intro classified'.right.left
+            (hsame_trans classified.right.right classified'.right.right))
+      carrier_respects_equiv := by
+        intro row row' classified _rowPacket
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _row rowPacket
+      exact rowPacket
+    ledger_sound := by
+      intro _row rowPacket
+      exact rowPacket
+  }
 
 end BEDC.Derived.InfCatUp
