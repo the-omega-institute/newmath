@@ -15363,3 +15363,28 @@ Rationale:
 ideal/02_lattice_sum_surface.tex (336 lines, well below cap) just gained ideal sum commutativity as B-601 (lines 295–335) but the symmetric sister law — associativity — is missing. The file already builds the lattice picture (intersection closure thm:ideal-intersection-closure:48; sum closure thm:ideal-sum-closure:103; sum LUB thm:ideal-sum-least-upper-bound:158; intersection GLB thm:ideal-intersection-greatest-lower-bound:272) so an associativity row is the natural completion of the ideal lattice axioms before any further ideal-product or ideal-quotient algebra is opened. Proof is non-trivial: pulls additive associativity from RingUp's stability certificate, threads classifier transitivity through nested existential decomposition witnesses (def:ideal-sum-predicate:84), and is concrete (not abstract carrier transport). No existing label or Lean target collides (grep on `ideal-sum-associativ` and `IdealSum.*Assoc` returns nothing in papers/bedc/ or lean4/BEDC/Derived/IdealUp/).
 
 ---
+
+### B-607 - Polynomial raw multiplication associativity up to trim
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Polynomial raw multiplication associativity up to trim |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+In PolynomialUp with literal raw multiplication and add-trim classifier, for any carried representatives p,q,r the canonical add-trim of rawMul(rawMul(p,q),r) classifies with rawMul(p,rawMul(q,r)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_multiplication.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_algebra.tex`
+
+Rationale:
+Major structural gap: existing BOARD has identities (B-592/B-593), zero absorption (B-570), and distributivity (B-579/B-587) but no associativity for rawMul. Closing this is the main missing pillar between an operation package and a true semiring-like structure on PolynomialUp. Concrete inductive proof on literal recursion and add-trim algebra, no abstract carrier transport.
+
+---
