@@ -207,10 +207,52 @@ theorem NoetherSymmetryConservationLedgerCarrier_lie_pde_source_boundary
       pdeLedgerUnary,
       conservationUnary,
       endpointUnary,
+        carrier.right.right.right.right.left,
+        carrier.right.right.right.right.right.left,
+        carrier.right.right.right.right.right.right.left,
+        carrier.right.right.right.right.right.right.right.left,
+        carrier.right.right.right.right.right.right.right.right⟩
+
+theorem NoetherSymmetryConservationLedgerCarrier_finite_current_public_export
+    [AskSetup] [PackageSetup]
+    {lieSource pdeSource field current lieLedger pdeLedger conservation endpoint exportRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current lieLedger
+        pdeLedger conservation endpoint bundle pkg ->
+      Cont endpoint current exportRow ->
+        UnaryHistory lieLedger ∧ UnaryHistory pdeLedger ∧ UnaryHistory conservation ∧
+          UnaryHistory endpoint ∧ UnaryHistory exportRow ∧
+            Cont lieSource field lieLedger ∧ Cont pdeSource field pdeLedger ∧
+              Cont lieLedger pdeLedger conservation ∧ Cont conservation current endpoint ∧
+                Cont endpoint current exportRow ∧ hsame exportRow (append endpoint current) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro carrier exportCont
+  have lieLedgerUnary : UnaryHistory lieLedger :=
+    unary_cont_closed carrier.left carrier.right.right.left
+      carrier.right.right.right.right.left
+  have pdeLedgerUnary : UnaryHistory pdeLedger :=
+    unary_cont_closed carrier.right.left carrier.right.right.left
+      carrier.right.right.right.right.right.left
+  have conservationUnary : UnaryHistory conservation :=
+    unary_cont_closed lieLedgerUnary pdeLedgerUnary
+      carrier.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed conservationUnary carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have exportUnary : UnaryHistory exportRow :=
+    unary_cont_closed endpointUnary carrier.right.right.right.left exportCont
+  exact
+    ⟨lieLedgerUnary,
+      pdeLedgerUnary,
+      conservationUnary,
+      endpointUnary,
+      exportUnary,
       carrier.right.right.right.right.left,
       carrier.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.left,
+      exportCont,
+      exportCont,
       carrier.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.NoetherSymmetryUp
