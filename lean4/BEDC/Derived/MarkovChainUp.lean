@@ -145,4 +145,33 @@ theorem MarkovChainBHistTransitionCarrier_kernel_classifier_stability
         pkgSig2⟩,
       sameEndpoint⟩
 
+theorem MarkovChainBHistTransitionCarrier_transition_ledger_exactness
+    [AskSetup] [PackageSetup]
+    {prob time rv law kernel ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MarkovChainBHistTransitionCarrier prob time rv law kernel ledger endpoint bundle pkg ->
+      UnaryHistory prob ∧ UnaryHistory time ∧ UnaryHistory rv ∧ UnaryHistory law ∧
+        UnaryHistory kernel ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+          Cont kernel rv ledger ∧ Cont ledger law endpoint ∧ PkgSig bundle endpoint pkg ∧
+            hsame endpoint (append ledger law) := by
+  intro carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.right.right.right.right.left
+      carrier.right.right.left carrier.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      ledgerUnary,
+      endpointUnary,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right,
+      carrier.right.right.right.right.right.right.left⟩
+
 end BEDC.Derived.MarkovChainUp

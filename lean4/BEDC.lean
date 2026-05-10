@@ -113,6 +113,7 @@ import BEDC.Derived.ModelCatUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IwasawaUp
+import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.UnitaryGroupUp
