@@ -106,6 +106,22 @@ theorem unsound_dependency_blocks_theorem_recognition
   intro _ hUnsound hSound
   exact hUnsound hSound.right
 
+def ProofCandidate (S Pi : EventFlow) : Prop :=
+  TheoremSourceSubflow Pi S
+
+def GeneratedProofFlowRecognizer : Type :=
+  GeneratedRecognizer
+
+def RecognizesProofFlow
+    (R : GeneratedProofFlowRecognizer) (S Pi : EventFlow) : Prop :=
+  ProofCandidate S Pi /\
+    NonemptyEventFlow Pi /\
+    Recognizes R S Pi
+
+def RecognizedProofFlow
+    (R : GeneratedProofFlowRecognizer) (S Pi : EventFlow) : Prop :=
+  RecognizesProofFlow R S Pi
+
 inductive P7ReportDatum : Type where
   | decodedEventFlow (S : EventFlow)
   | statementCandidate (S Phi : EventFlow)
