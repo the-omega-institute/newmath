@@ -378,4 +378,103 @@ theorem BrownianStepContinuityClassifier_path_continuity_ledger_exactness
         (And.intro endpointUnary
           (And.intro pathRow endpointRow))))
 
+theorem BrownianStepContinuityClassifier_ledger_exactness
+    {martingale continuous time path step normal provenance ledger publicRow : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      Cont ledger path publicRow ->
+        UnaryHistory step ∧ UnaryHistory provenance ∧ UnaryHistory ledger ∧
+          UnaryHistory publicRow ∧ hsame step (append continuous path) ∧
+            hsame provenance (append martingale step) ∧ hsame ledger (append provenance normal) ∧
+              hsame publicRow (append ledger path) := by
+  intro classified publicRowCont
+  have stepUnary : UnaryHistory step :=
+    unary_cont_closed classified.right.left classified.right.right.right.left
+      classified.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed classified.left stepUnary
+      classified.right.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed provenanceUnary classified.right.right.right.right.left
+      classified.right.right.right.right.right.right.right
+  have publicRowUnary : UnaryHistory publicRow :=
+    unary_cont_closed ledgerUnary classified.right.right.right.left publicRowCont
+  exact And.intro stepUnary
+    (And.intro provenanceUnary
+      (And.intro ledgerUnary
+        (And.intro publicRowUnary
+          (And.intro classified.right.right.right.right.right.left
+            (And.intro classified.right.right.right.right.right.right.left
+              (And.intro classified.right.right.right.right.right.right.right publicRowCont))))))
+
+theorem BrownianStepContinuityClassifier_continuous_path_projection
+    {martingale continuous time path step normal provenance ledger pathLedger endpoint : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      Cont continuous path pathLedger ->
+        Cont pathLedger ledger endpoint ->
+          UnaryHistory martingale ∧ UnaryHistory continuous ∧ UnaryHistory path ∧
+            UnaryHistory pathLedger ∧ UnaryHistory endpoint ∧
+              Cont continuous path pathLedger ∧ Cont pathLedger ledger endpoint ∧
+                hsame pathLedger (append continuous path) ∧
+                  hsame endpoint (append pathLedger ledger) ∧
+                    hsame provenance (append martingale step) := by
+  intro classified pathRow endpointRow
+  have surface :=
+    BrownianStepContinuityClassifier_dependency_surface classified
+  have pathExact :=
+    BrownianStepContinuityClassifier_path_continuity_ledger_exactness classified pathRow
+      endpointRow
+  exact And.intro surface.left
+    (And.intro surface.right.left
+      (And.intro surface.right.right.right.left
+        (And.intro pathExact.right.right.left
+          (And.intro pathExact.right.right.right.left
+            (And.intro pathRow
+              (And.intro endpointRow
+                   (And.intro pathExact.right.right.right.right.left
+                   (And.intro pathExact.right.right.right.right.right
+                     surface.right.right.right.right.right.right.right.right.right.left))))))))
+
+theorem BrownianStepContinuityClassifier_finite_prefix_carrier_restriction
+    {martingale continuous time path step normal provenance ledger prefixMartingale
+      prefixContinuous prefixTime prefixPath prefixStep prefixNormal prefixProvenance prefixLedger
+      prefixBoundary : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      hsame martingale prefixMartingale ->
+        hsame continuous prefixContinuous ->
+          hsame time prefixTime ->
+            hsame path prefixPath ->
+              hsame normal prefixNormal ->
+                Cont prefixContinuous prefixPath prefixStep ->
+                  Cont prefixMartingale prefixStep prefixProvenance ->
+                    Cont prefixProvenance prefixNormal prefixLedger ->
+                      Cont prefixLedger prefixTime prefixBoundary ->
+                        BrownianStepContinuityClassifier prefixMartingale prefixContinuous
+                            prefixTime prefixPath prefixStep prefixNormal prefixProvenance
+                            prefixLedger ∧
+                          UnaryHistory prefixBoundary ∧ hsame step prefixStep ∧
+                            hsame provenance prefixProvenance ∧ hsame ledger prefixLedger ∧
+                              hsame prefixBoundary (append prefixLedger prefixTime) := by
+  intro classified sameMartingale sameContinuous sameTime samePath sameNormal prefixStepRow
+    prefixProvenanceRow prefixLedgerRow prefixBoundaryRow
+  have stable :
+      BrownianStepContinuityClassifier prefixMartingale prefixContinuous prefixTime prefixPath
+          prefixStep prefixNormal prefixProvenance prefixLedger ∧
+        hsame step prefixStep ∧ hsame provenance prefixProvenance ∧ hsame ledger prefixLedger :=
+    BrownianStepContinuityClassifier_classifier_stability classified sameMartingale sameContinuous
+      sameTime samePath sameNormal prefixStepRow prefixProvenanceRow prefixLedgerRow
+  have prefixBoundaryUnary : UnaryHistory prefixBoundary :=
+    unary_cont_closed
+      (unary_cont_closed
+        (unary_cont_closed (unary_transport classified.left sameMartingale)
+          (unary_cont_closed (unary_transport classified.right.left sameContinuous)
+            (unary_transport classified.right.right.right.left samePath) prefixStepRow)
+          prefixProvenanceRow)
+        (unary_transport classified.right.right.right.right.left sameNormal) prefixLedgerRow)
+      (unary_transport classified.right.right.left sameTime) prefixBoundaryRow
+  exact And.intro stable.left
+    (And.intro prefixBoundaryUnary
+      (And.intro stable.right.left
+        (And.intro stable.right.right.left
+          (And.intro stable.right.right.right prefixBoundaryRow))))
+
 end BEDC.Derived.BrownianUp
