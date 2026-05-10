@@ -70,6 +70,15 @@ def bedc_self_description : Prop :=
         (∀ {h k : BHist}, Classifier h k → FormalClaim h → InternalClaim k ∧ Ledger k) ∧
           (∀ {h k : BHist}, hsame h k → FormalClaim h → InternalClaim k)
 
+theorem bedc_self_description_proof : bedc_self_description := by
+  intro FormalClaim InternalClaim Ledger Classifier cert _extensionWitness
+  constructor
+  · intro h k classified formalClaim
+    exact semanticNameCert_pattern_ledger_transport cert classified formalClaim
+  · intro h k same formalClaim
+    cases same
+    exact cert.pattern_sound formalClaim
+
 /-- Closed ground loop and open meta loop (statement scaffold). -/
 def two_loops_theorem : Prop :=
   ∀ (Ground Meta Reflection OpenBoundary : BHist → Prop) (Classifier : BHist → BHist → Prop),
