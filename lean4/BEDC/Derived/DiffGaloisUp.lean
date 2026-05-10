@@ -127,4 +127,29 @@ theorem DiffGaloisPicardVessiotPacket_faithful_action_obligation [AskSetup] [Pac
       packet.right.right.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem DiffGaloisPublicCertificate_export [AskSetup] [PackageSetup]
+    {differentialField operatorCoefficients seqBasis fundamentalSolution galoisAction
+      constantField solutionLedger actionLedger endpoint provenance faithfulActionLedger
+      fixedFieldLedger publicBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiffGaloisPicardVessiotPacket differentialField operatorCoefficients seqBasis
+      fundamentalSolution galoisAction constantField solutionLedger actionLedger endpoint
+      provenance bundle pkg ->
+        Cont galoisAction seqBasis faithfulActionLedger ->
+          Cont faithfulActionLedger constantField fixedFieldLedger ->
+            Cont endpoint fixedFieldLedger publicBoundary ->
+              UnaryHistory publicBoundary ∧ hsame publicBoundary (append endpoint fixedFieldLedger) ∧
+                SigRel bundle endpoint provenance ∧ PkgSig bundle provenance pkg := by
+  intro packet faithfulActionRow fixedFieldRow publicBoundaryRow
+  have solutionRows :=
+    DiffGaloisPicardVessiotPacket_solution_space_obligation packet
+  have faithfulRows :=
+    DiffGaloisPicardVessiotPacket_faithful_action_obligation packet faithfulActionRow
+      fixedFieldRow
+  have publicBoundaryUnary : UnaryHistory publicBoundary :=
+    unary_cont_closed solutionRows.right.right.left faithfulRows.right.left publicBoundaryRow
+  exact
+    ⟨publicBoundaryUnary, publicBoundaryRow,
+      faithfulRows.right.right.right.right.left, faithfulRows.right.right.right.right.right⟩
+
 end BEDC.Derived.DiffGaloisUp
