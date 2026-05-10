@@ -389,4 +389,29 @@ theorem TuringMachineSourceClassifier_obligation
     ⟨configurationUnary, traceUnary, nextUnary, readbackUnary, boundedUnary, sourceUnary,
       configurationRow, traceRow, nextRow, readbackRow, boundedRow, sourceRow⟩
 
+theorem TuringMachineLedgerExactnessObligation_no_external_rows
+    {state tape head bound configuration trace endpoint halted readback finalLedger
+      publicLedger : BHist}
+    {haltRows : List BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory bound ->
+      Cont state tape configuration -> Cont configuration head trace -> Cont trace bound endpoint ->
+        TuringMachineHaltedTrace halted haltRows endpoint -> Cont endpoint readback finalLedger ->
+          UnaryHistory readback -> UnaryHistory halted -> Cont finalLedger halted publicLedger ->
+            UnaryHistory publicLedger ∧
+              (forall row : BHist, List.Mem row haltRows -> hsame row halted) ∧
+                hsame finalLedger (append endpoint readback) ∧
+                  hsame publicLedger (append finalLedger halted) := by
+  intro stateUnary tapeUnary headUnary boundUnary configurationRow traceRow endpointRow haltedTrace
+  intro finalLedgerRow readbackUnary haltedUnary publicLedgerRow
+  have rowsSurface :=
+    TuringMachineObligationSurface_rows stateUnary tapeUnary headUnary boundUnary configurationRow
+      traceRow endpointRow haltedTrace finalLedgerRow readbackUnary haltedUnary
+  have finalLedgerUnary : UnaryHistory finalLedger :=
+    rowsSurface.right.right.right.left
+  have publicLedgerUnary : UnaryHistory publicLedger :=
+    unary_cont_closed finalLedgerUnary haltedUnary publicLedgerRow
+  exact
+    ⟨publicLedgerUnary, rowsSurface.right.right.right.right.left,
+      rowsSurface.right.right.right.right.right, publicLedgerRow⟩
+
 end BEDC.Derived.TuringMachineUp
