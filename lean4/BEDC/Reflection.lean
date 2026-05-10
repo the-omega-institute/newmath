@@ -98,6 +98,17 @@ def internal_cic_interpretation : Prop :=
             ∃ base : BHist, ∃ step : BHist, ∃ result : BHist,
               Ext base BMark.b0 step ∧ Cont step t result)
 
+theorem internal_cic_interpretation_proof : internal_cic_interpretation := by
+  intro Term TypeForm Universe Ledger Classifier cert _termSpec
+  constructor
+  · intro t u classified termT
+    exact semanticNameCert_pattern_ledger_transport cert classified termT
+  · intro t _termT
+    exact Exists.intro BHist.Empty
+      (Exists.intro (BHist.e0 BHist.Empty)
+        (Exists.intro (append (BHist.e0 BHist.Empty) t)
+          (And.intro (Ext.e0 BHist.Empty) rfl)))
+
 /-- BEDC self-description (statement scaffold). -/
 def bedc_self_description : Prop :=
   ∀ (FormalClaim InternalClaim Ledger : BHist → Prop) (Classifier : BHist → BHist → Prop),
