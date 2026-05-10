@@ -44,6 +44,7 @@ No constructor in the carrier produces a filtration, a conditional-expectation o
 \label{thm:markovchain-probspace-randomvar-source-boundary}
 The $\MarkovChainUp$ source boundary is the joint BEDC packet consisting of the underlying $\ProbSpaceUp$ event-and-measure rows, the time-indexed $\RandomVarUp$ measurable-preimage rows, and the $\DistributionUp$ pushforward rows for the laws of the displayed random variables. Every transition row in an accepted carrier must read its source event through that packet, and no transition row may replace it with an external probability space, external random variable, or host distribution object.
 \end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_source\_boundary}
 \leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_semantic\_source\_boundary}
 \begin{proof}
 Project the source field of the ten-field template. The probability-space source is the displayed $\ProbSpaceUp$ packet, and every random-variable row is carried over that same source packet.
@@ -207,6 +208,8 @@ $$
 $$
 so that $T_{12}$ is the unary ledger of length $n+m$, then the end-to-end displayed packet $P_{12}$ is an accepted $\MarkovChainUp$ transition packet over $T_{12}$. Its random-variable row at time $i$ is $X_i$ for $0\leq i\leq n$ and $Y_j$ for $i=n+j$ with $1\leq j\leq m$; its transition rows are $K^X_i$ for $0\leq i<n$ and the shifted rows $K^Y_j$ for $0\leq j<m$, with the first shifted row read across the splice comparison $\hsame(X_n,Y_0)$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier\_transition\_concat\_closure}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier\_adjacent\_transition\_transport}
 \begin{proof}
 Unpack the accepted carrier condition in \autoref{def:markovchain-bhist-transition-carrier}. The first packet supplies the common $\ProbSpaceUp$ source, the random-variable rows $X_i$, the law rows $\mu^X_i$, the transition rows $K^X_i$, and for every $0\leq i<n$ a displayed $\Cont/\Pkg$ provenance ledger certifying that the next-step law for $X_{i+1}$ is read from the current-state endpoint of $X_i$ through $K^X_i$. The second packet supplies the same kind of data for $Y_j$, $\mu^Y_j$, and $K^Y_j$ for $0\leq j<m$ over the same probability source.
 

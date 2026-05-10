@@ -114,6 +114,7 @@ import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
+import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IwasawaUp
@@ -189,6 +190,7 @@ import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.OptionUp
+import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
 import BEDC.Derived.OptionUp.Determinism

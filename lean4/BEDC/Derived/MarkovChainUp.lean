@@ -234,6 +234,52 @@ theorem MarkovChainKernelClassifier_endpoint_confluence [AskSetup] [PackageSetup
     ⟨hsame_trans (hsame_symm sameControwA) sameControwB,
       hsame_trans (hsame_symm sameEndpointA) sameEndpointB⟩
 
+theorem MarkovChainBHistTransitionCarrier_adjacent_transition_transport
+    [AskSetup] [PackageSetup]
+    {prob random law transition controw provenance endpoint random' law' transition'
+      controw' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MarkovChainBHistTransitionCarrier prob random law transition controw provenance endpoint
+        bundle pkg ->
+      hsame random random' ->
+        hsame law law' ->
+          hsame transition transition' ->
+            Cont random' transition' controw' ->
+              Cont provenance controw' endpoint' ->
+                MarkovChainBHistTransitionCarrier prob random' law' transition' controw'
+                    provenance endpoint' bundle pkg ∧
+                  hsame controw controw' ∧ hsame endpoint endpoint' := by
+  intro carrier sameRandom sameLaw sameTransition controwRow' endpointRow'
+  have sameControw : hsame controw controw' :=
+    cont_respects_hsame sameRandom sameTransition
+      carrier.right.right.right.right.right.right.right.left controwRow'
+  have oldProvenanceRow : Cont prob law provenance :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have provenanceRow' : Cont prob law' provenance := by
+    cases sameLaw
+    exact oldProvenanceRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) sameControw
+      carrier.right.right.right.right.right.right.right.right.right.left endpointRow'
+  have transportedPkg : PkgSig bundle endpoint' pkg := by
+    cases sameEndpoint
+    exact carrier.right.right.right.right.right.right.right.right.right.right
+  have transportedCarrier :
+      MarkovChainBHistTransitionCarrier prob random' law' transition' controw' provenance
+        endpoint' bundle pkg :=
+    ⟨carrier.left,
+      unary_transport carrier.right.left sameRandom,
+      unary_transport carrier.right.right.left sameLaw,
+      unary_transport carrier.right.right.right.left sameTransition,
+      unary_transport carrier.right.right.right.right.left sameControw,
+      carrier.right.right.right.right.right.left,
+      unary_transport carrier.right.right.right.right.right.right.left sameEndpoint,
+      controwRow',
+      provenanceRow',
+      endpointRow',
+      transportedPkg⟩
+  exact And.intro transportedCarrier (And.intro sameControw sameEndpoint)
+
 def MarkovChainTransitionPacket
     (source time current next law transition provenance ledger : BHist) : Prop :=
   ProbSpacePublicEventPacket source source current next law ∧ UnaryHistory time ∧
@@ -250,6 +296,21 @@ theorem MarkovChainTransitionPacket_ledger_exactness
   intro packet
   exact
     ⟨packet.right.left,
+      packet.right.right.left,
+      packet.right.right.right.left,
+      packet.right.right.right.right.left,
+      packet.right.right.right.right.right⟩
+
+theorem MarkovChainTransitionPacket_source_boundary
+    {source time current next law transition provenance ledger : BHist} :
+    MarkovChainTransitionPacket source time current next law transition provenance ledger ->
+      ProbSpacePublicEventPacket source source current next law ∧
+        DistributionPushforwardSourceSpec law ∧
+          RandomVarTotalReadbackCertificate current next transition ∧
+            Cont current transition provenance ∧ Cont provenance law ledger := by
+  intro packet
+  exact
+    ⟨packet.left,
       packet.right.right.left,
       packet.right.right.right.left,
       packet.right.right.right.right.left,
@@ -588,6 +649,97 @@ theorem MarkovChainBHistTransitionCarrier_probspace_randomvar_source_boundary
           (And.intro carrier.right.right.right.right.right.right.right.left
             (And.intro carrier.right.right.right.right.right.right.right.right.left
               carrier.right.right.right.right.right.right.right.right.right.left))
+  }
+
+theorem MarkovChainBHistTransitionCarrier_transition_concat_closure [AskSetup] [PackageSetup]
+    {prob random law transition controw provenance endpoint transitionExtra transitionPacked
+      controwPacked endpointPacked : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MarkovChainBHistTransitionCarrier prob random law transition controw provenance endpoint
+        bundle pkg ->
+      UnaryHistory transitionExtra ->
+        Cont transition transitionExtra transitionPacked ->
+          Cont random transitionPacked controwPacked ->
+            Cont provenance controwPacked endpointPacked ->
+              PkgSig bundle endpointPacked pkg ->
+                MarkovChainBHistTransitionCarrier prob random law transitionPacked controwPacked
+                    provenance endpointPacked bundle pkg ∧
+                  UnaryHistory transitionPacked ∧ UnaryHistory controwPacked ∧
+                    UnaryHistory endpointPacked ∧ hsame transitionPacked
+                      (append transition transitionExtra) ∧
+                      hsame controwPacked (append random transitionPacked) ∧
+                        hsame endpointPacked (append provenance controwPacked) := by
+  intro carrier transitionExtraUnary transitionPackedRow controwPackedRow endpointPackedRow
+    endpointPackedSig
+  have transitionPackedUnary : UnaryHistory transitionPacked :=
+    unary_cont_closed carrier.right.right.right.left transitionExtraUnary transitionPackedRow
+  have controwPackedUnary : UnaryHistory controwPacked :=
+    unary_cont_closed carrier.right.left transitionPackedUnary controwPackedRow
+  have endpointPackedUnary : UnaryHistory endpointPacked :=
+    unary_cont_closed carrier.right.right.right.right.right.left controwPackedUnary
+      endpointPackedRow
+  have packedCarrier :
+      MarkovChainBHistTransitionCarrier prob random law transitionPacked controwPacked provenance
+        endpointPacked bundle pkg :=
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      transitionPackedUnary,
+      controwPackedUnary,
+      carrier.right.right.right.right.right.left,
+      endpointPackedUnary,
+      controwPackedRow,
+      carrier.right.right.right.right.right.right.right.right.left,
+      endpointPackedRow,
+      endpointPackedSig⟩
+  exact
+    ⟨packedCarrier,
+      transitionPackedUnary,
+      controwPackedUnary,
+      endpointPackedUnary,
+      transitionPackedRow,
+      controwPackedRow,
+      endpointPackedRow⟩
+
+theorem MarkovChainBHistTransitionCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {prob random law transition controw provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MarkovChainBHistTransitionCarrier prob random law transition controw provenance endpoint
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          MarkovChainBHistTransitionCarrier prob random law transition controw provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          MarkovChainBHistTransitionCarrier prob random law transition controw provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          MarkovChainBHistTransitionCarrier prob random law transition controw provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        hsame := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
   }
 
 end BEDC.Derived.MarkovChainUp
