@@ -30,6 +30,7 @@ Full no-hidden-input status may be claimed only under self-hosting with no remai
 
 \begin{definition}[Self-hosting compiler prototype]
 \label{def:self-hosting-p9-prototype}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.SelfHostingPrototype}
 A \emph{self-hosting compiler prototype} is an executable prototype $P_9$ satisfying:
 \begin{enumerate}
 \item $P_9$ includes all $P_8$ functions;
@@ -53,6 +54,7 @@ $$
 
 \begin{principle}[Compiler is not input]
 \label{prin:self-hosting-compiler-not-input}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.host\_compiler\_identity\_not\_input}
 There is no formal input
 $$
   \mathsf{HostCompiler}\to\mathsf{Code},
@@ -143,7 +145,8 @@ Formal compilation requires event-flow evidence for input domain, output domain,
 
 \begin{corollary}[Recognized compiler-flow is weaker than certified compiler]
 \label{cor:self-hosting-recognized-weaker-than-certified}
-Recognizing compiler-flow only shows compiler-shaped structure. Formal compiler use requires compiler certificate-flow.
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.p9\_certified\_compiler\_has\_recognized\_flow}
+Certified compiler status includes recognized compiler-flow, but recognized compiler-flow by itself records only compiler-shaped event-flow structure. Formal compiler use requires compiler certificate-flow.
 \end{corollary}
 
 \section{Compiler behavior-flow}

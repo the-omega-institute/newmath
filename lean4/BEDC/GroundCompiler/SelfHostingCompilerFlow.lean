@@ -429,6 +429,50 @@ def P9FormalCompilationJudgment
     (C S T : EventFlow) : Prop :=
   P9CertifiedCompiler C /\ Compiles C S T
 
+inductive HostCompilerIdentity : Type where
+  | hostExecutable
+  | executablePath
+  | binaryHash
+  | buildProcedure
+  | dataManifest
+  | hostEnvironment
+
+def HostCompilerIdentityDatum : HostCompilerIdentity -> CompilerDatum
+  | HostCompilerIdentity.hostExecutable => CompilerDatum.hostParserState
+  | HostCompilerIdentity.executablePath => CompilerDatum.hostObjectName
+  | HostCompilerIdentity.binaryHash => CompilerDatum.hostModeTag
+  | HostCompilerIdentity.buildProcedure => CompilerDatum.hostOpcode
+  | HostCompilerIdentity.dataManifest => CompilerDatum.hostManifest
+  | HostCompilerIdentity.hostEnvironment => CompilerDatum.hostYAML
+
+theorem host_compiler_identity_not_input (id : HostCompilerIdentity) :
+    Not (FormalCompilerInput (HostCompilerIdentityDatum id)) := by
+  cases id with
+  | hostExecutable =>
+      exact structural_hidden_not_formal StructuralHiddenInput.hostParserState
+  | executablePath =>
+      exact structural_hidden_not_formal StructuralHiddenInput.hostObjectName
+  | binaryHash =>
+      exact structural_hidden_not_formal StructuralHiddenInput.hostModeTag
+  | buildProcedure =>
+      exact structural_hidden_not_formal StructuralHiddenInput.hostOpcode
+  | dataManifest =>
+      exact structural_hidden_not_formal StructuralHiddenInput.hostManifest
+  | hostEnvironment =>
+      exact structural_hidden_not_formal StructuralHiddenInput.hostYAML
+
+structure SelfHostingPrototype (P9 : EventFlow) where
+  prototypeFlow : FormalCompilerInput (CompilerDatum.eventFlow P9)
+  recognizesCompilerFlows :
+    exists S C : EventFlow, P9RecognizedCompilerFlow S C
+  recognizesCompilerCertificates :
+    exists S KC C RK : EventFlow, P9RecognizesCompilerCert RK S KC C
+  recordsBootstrapBoundary :
+    exists C : EventFlow, BootstrapRecorded C
+  rejectsHostCompilerIdentity :
+    forall id : HostCompilerIdentity,
+      Not (FormalCompilerInput (HostCompilerIdentityDatum id))
+
 theorem p9_uncertified_cannot_compile
     {Compiles : CompilerBehaviorRelation}
     {C S T : EventFlow} :
@@ -436,5 +480,16 @@ theorem p9_uncertified_cannot_compile
       Not (P9FormalCompilationJudgment Compiles C S T) := by
   intro hUncertified hJudgment
   exact hUncertified hJudgment.left
+
+theorem p9_certified_compiler_has_recognized_flow {C : EventFlow} :
+    P9CertifiedCompiler C -> exists S : EventFlow, P9RecognizedCompilerFlow S C := by
+  intro hCertified
+  cases hCertified with
+  | intro S hS =>
+      cases hS with
+      | intro _KC hKC =>
+          cases hKC with
+          | intro _RK hRecognizes =>
+              exact ⟨S, hRecognizes.right.right⟩
 
 end BEDC.GroundCompiler.SelfHostingCompilerFlow
