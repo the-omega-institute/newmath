@@ -26,6 +26,28 @@ def TannakaKreinFiberFunctorCarrier [AskSetup] [PackageSetup]
         Cont fiberFunctor representation tensorProduct ∧ Cont unitRow tensorProduct provenance ∧
           Cont provenance reconstructionLedger endpoint ∧ PkgSig bundle endpoint pkg
 
+private theorem TannakaKreinFiberFunctorCarrier_classifier_stability_provenance
+    [AskSetup] [PackageSetup]
+    {lieGroup monoidalCat fiberFunctor representation unitRow tensorProduct
+      reconstructionLedger provenance endpoint fiberFunctor' representation' unitRow'
+      tensorProduct' provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TannakaKreinFiberFunctorCarrier lieGroup monoidalCat fiberFunctor representation unitRow
+        tensorProduct reconstructionLedger provenance endpoint bundle pkg ->
+      hsame fiberFunctor fiberFunctor' ->
+        hsame representation representation' ->
+          hsame unitRow unitRow' ->
+            Cont fiberFunctor' representation' tensorProduct' ->
+              Cont unitRow' tensorProduct' provenance' ->
+                hsame provenance provenance' := by
+  intro carrier sameFiberFunctor sameRepresentation sameUnitRow tensorProductCont provenanceCont
+  have sameTensorProduct : hsame tensorProduct tensorProduct' :=
+    cont_respects_hsame sameFiberFunctor sameRepresentation
+      carrier.right.right.right.right.right.right.left tensorProductCont
+  exact
+    cont_respects_hsame sameUnitRow sameTensorProduct
+      carrier.right.right.right.right.right.right.right.left provenanceCont
+
 theorem TannakaKreinFiberFunctorCarrier_classifier_stability [AskSetup] [PackageSetup]
     {lieGroup monoidalCat fiberFunctor representation unitRow tensorProduct
       reconstructionLedger provenance endpoint lieGroup' monoidalCat' fiberFunctor'
@@ -58,8 +80,8 @@ theorem TannakaKreinFiberFunctorCarrier_classifier_stability [AskSetup] [Package
     cont_respects_hsame sameFiberFunctor sameRepresentation
       carrier.right.right.right.right.right.right.left tensorProductCont
   have sameProvenance : hsame provenance provenance' :=
-    cont_respects_hsame sameUnitRow sameTensorProduct
-      carrier.right.right.right.right.right.right.right.left provenanceCont
+    TannakaKreinFiberFunctorCarrier_classifier_stability_provenance carrier sameFiberFunctor
+      sameRepresentation sameUnitRow tensorProductCont provenanceCont
   have sameEndpoint : hsame endpoint endpoint' :=
     cont_respects_hsame sameProvenance sameReconstructionLedger
       carrier.right.right.right.right.right.right.right.right.left endpointCont
