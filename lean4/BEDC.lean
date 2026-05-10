@@ -342,6 +342,7 @@ import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.ConditionalUnique
 import BEDC.Derived.ComplexLimitUp.ComponentAssembly
 import BEDC.Derived.ComplexLimitUp.Constant
+import BEDC.Derived.ComplexLimitUp.CauchyWitness
 import BEDC.Derived.ComplexLimitUp.Difference
 import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexLimitUp.Modulus
@@ -600,6 +601,7 @@ import BEDC.Derived.DiffFormUp.RootConsumerEntry
 import BEDC.Derived.DiffFormUp.RootConsumerReadablePackage
 import BEDC.Derived.DiffFormUp.RootConsumerSourceProjection
 import BEDC.Derived.DiffFormUp.RootNameCertSurface
+import BEDC.Derived.DiffFormUp.RootObligationPackage
 import BEDC.Derived.DiffFormUp.RootObligationSurface
 import BEDC.Derived.DiffFormUp.RootRowBoundary
 import BEDC.Derived.DiffFormUp.RootUnblockObligations
