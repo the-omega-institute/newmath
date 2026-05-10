@@ -435,4 +435,56 @@ theorem LanglandsCorrespondenceLedger_obligation_package [AskSetup] [PackageSetu
       ledger.right.right.right.right.right.right.right.right.left,
       ledger.right.right.right.right.right.right.right.right.right⟩
 
+theorem LanglandsFiniteLocalFactor_public_surface [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor packageLedger
+      observationLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsCorrespondenceLedger galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor packageLedger observationLedger endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            LanglandsCorrespondenceLedger galoisSource automorphicSource galoisAnswer
+                automorphicAnswer localFactor packageLedger observationLedger endpoint bundle pkg ∧
+              hsame row endpoint)
+          (fun row : BHist =>
+            LanglandsCorrespondenceLedger galoisSource automorphicSource galoisAnswer
+                automorphicAnswer localFactor packageLedger observationLedger endpoint bundle pkg ∧
+              hsame row endpoint)
+          (fun row : BHist =>
+            LanglandsCorrespondenceLedger galoisSource automorphicSource galoisAnswer
+                automorphicAnswer localFactor packageLedger observationLedger endpoint bundle pkg ∧
+              hsame row endpoint)
+          hsame ∧
+        UnaryHistory packageLedger ∧ UnaryHistory observationLedger ∧ UnaryHistory endpoint ∧
+          PkgSig bundle endpoint pkg := by
+  intro ledger
+  let PublicSurface : BHist -> Prop := fun row =>
+    LanglandsCorrespondenceLedger galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor packageLedger observationLedger endpoint bundle pkg ∧
+      hsame row endpoint
+  have packageRows :=
+    LanglandsCorrespondenceLedger_obligation_package ledger
+  have publicCert : SemanticNameCert PublicSurface PublicSurface PublicSurface hsame := by
+    constructor
+    · constructor
+      · exact ⟨endpoint, ledger, hsame_refl endpoint⟩
+      · intro row _surface
+        exact hsame_refl row
+      · intro row other same
+        exact hsame_symm same
+      · intro row other third sameRO sameOT
+        exact hsame_trans sameRO sameOT
+      · intro row other sameRO surface
+        exact ⟨surface.left, hsame_trans (hsame_symm sameRO) surface.right⟩
+    · intro row surface
+      exact surface
+    · intro row surface
+      exact surface
+  exact
+    ⟨publicCert,
+      packageRows.left,
+      packageRows.right.left,
+      packageRows.right.right.left,
+      packageRows.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.LanglandsUp
