@@ -154,6 +154,14 @@ def _eligible(record: dict[str, Any]) -> bool:
         return False
     if record.get("destination_repo") != "the-omega-institute/newmath":
         return False
+    if record.get("source_artifact_kind") not in {
+        "lean_theorem",
+        "paper_claim",
+        "writeback_packet",
+        "candidate_mechanism",
+        "audit_failure",
+    }:
+        return False
     return True
 
 
