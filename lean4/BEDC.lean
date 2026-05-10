@@ -158,6 +158,7 @@ import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp
+import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
