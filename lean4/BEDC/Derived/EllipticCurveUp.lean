@@ -105,9 +105,29 @@ theorem EllipticCurveCarrierPacket_projective_genus_one_obligation
       packet.right.right.right.right.right.right
   exact And.intro packet.right.left
     (And.intro projectiveLedgerUnary
-      (And.intro provenanceUnary
-        (And.intro packet.right.right.right.right.right.left
-          packet.right.right.right.right.right.right)))
+        (And.intro provenanceUnary
+          (And.intro packet.right.right.right.right.right.left
+            packet.right.right.right.right.right.right)))
+
+theorem EllipticCurveCarrierPacket_basepoint_incidence_exactness
+    {field projective coeffs cubic smooth basePoint fieldLedger projectiveLedger provenance
+      incidence : BHist} :
+    EllipticCurveCarrierPacket field projective coeffs cubic smooth basePoint fieldLedger
+        projectiveLedger provenance ->
+      UnaryHistory cubic ->
+        UnaryHistory smooth ->
+          Cont cubic basePoint incidence ->
+            UnaryHistory basePoint ∧ UnaryHistory incidence ∧
+              hsame incidence (append cubic basePoint) ∧
+                hsame projectiveLedger (append coeffs cubic) ∧
+                  hsame provenance (append smooth basePoint) := by
+  intro packet cubicUnary _smoothUnary incidenceCont
+  have incidenceUnary : UnaryHistory incidence :=
+    unary_cont_closed cubicUnary packet.right.right.right.left incidenceCont
+  exact
+    ⟨packet.right.right.right.left, incidenceUnary, incidenceCont,
+      packet.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right⟩
 
 theorem EllipticCurveCarrierPacket_smooth_projective_carrier_obligation
     {field projective coeffs cubic smooth basePoint fieldLedger projectiveLedger provenance :
