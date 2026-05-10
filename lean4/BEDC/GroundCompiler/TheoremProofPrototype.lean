@@ -306,6 +306,105 @@ theorem theorem_code_stronger_than_statement
   intro hCode
   exact theorem_code_injective hCode
 
+def StatementClassifierRelation : Type :=
+  EventFlow -> EventFlow -> Prop
+
+def AbstractPropositionClass
+    (rel : StatementClassifierRelation) (Phi Psi : EventFlow) : Prop :=
+  rel Phi Psi
+
+def SameStatementClassifier (statement : EventFlow) :
+    StatementClassifierRelation :=
+  fun Phi Psi => Phi = statement /\ Psi = statement
+
+theorem p7_singleton_theorem_flow (m : DisplayAlphabet) :
+    TheoremFlow [[m]] := by
+  refine
+    ⟨[], ?_, ?_⟩
+  · exact
+      ⟨FormalCompilerInput.recognizedFlow [] [[m]],
+        ⟨[m], [], rfl⟩⟩
+  · refine
+      ⟨[[m]], [[m]], [[m]], [[m]], [[m]], [[m]], [[m]], [[m]], ?_⟩
+    exact
+      ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+          ⟨[m], [], rfl⟩⟩,
+        ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+            ⟨[m], [], rfl⟩⟩,
+          ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+              ⟨[m], [], rfl⟩⟩,
+            ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+                ⟨[m], [], rfl⟩⟩,
+              ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+                  ⟨[m], [], rfl⟩⟩,
+                ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+                    ⟨[m], [], rfl⟩⟩,
+                  ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+                      ⟨[m], [], rfl⟩⟩,
+                    ⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+                      ⟨[m], [], rfl⟩⟩⟩⟩⟩⟩⟩⟩⟩
+
+theorem abstract_proposition_many_flows :
+    exists rel : StatementClassifierRelation,
+      exists R : P7GeneratedTheoremRecognizer,
+        exists statement T U : TheoremCandidateFlow,
+          Not (T = U) /\
+            TheoremFlow T /\
+            TheoremFlow U /\
+            TheoremRoleSubflow R T statement TheoremRole.statement /\
+            TheoremRoleSubflow R U statement TheoremRole.statement /\
+            AbstractPropositionClass rel statement statement := by
+  refine
+    ⟨SameStatementClassifier [[BEDC.FKernel.Mark.BMark.b0]],
+      [],
+      [[BEDC.FKernel.Mark.BMark.b0]],
+      [[BEDC.FKernel.Mark.BMark.b0]],
+      [[BEDC.FKernel.Mark.BMark.b1]], ?_⟩
+  exact
+    ⟨(fun h => by cases h),
+      p7_singleton_theorem_flow BEDC.FKernel.Mark.BMark.b0,
+      p7_singleton_theorem_flow BEDC.FKernel.Mark.BMark.b1,
+      ⟨⟨FormalCompilerInput.recognizedFlow [] [[BEDC.FKernel.Mark.BMark.b0]],
+          ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩⟩,
+        ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩⟩,
+      ⟨⟨FormalCompilerInput.recognizedFlow [] [[BEDC.FKernel.Mark.BMark.b1]],
+          ⟨[BEDC.FKernel.Mark.BMark.b1], [], rfl⟩⟩,
+        ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩⟩,
+      ⟨rfl, rfl⟩⟩
+
+theorem abstract_proposition_not_theorem_code :
+    exists rel : StatementClassifierRelation,
+      exists R : P7GeneratedTheoremRecognizer,
+        exists statement T U : TheoremCandidateFlow,
+          TheoremFlow T /\
+            TheoremFlow U /\
+            TheoremRoleSubflow R T statement TheoremRole.statement /\
+            TheoremRoleSubflow R U statement TheoremRole.statement /\
+            AbstractPropositionClass rel statement statement /\
+            Not (TheoremCode T = TheoremCode U) := by
+  refine
+    ⟨SameStatementClassifier [[BEDC.FKernel.Mark.BMark.b0]],
+      [],
+      [[BEDC.FKernel.Mark.BMark.b0]],
+      [[BEDC.FKernel.Mark.BMark.b0]],
+      [[BEDC.FKernel.Mark.BMark.b1]], ?_⟩
+  exact
+    ⟨p7_singleton_theorem_flow BEDC.FKernel.Mark.BMark.b0,
+      p7_singleton_theorem_flow BEDC.FKernel.Mark.BMark.b1,
+      ⟨⟨FormalCompilerInput.recognizedFlow [] [[BEDC.FKernel.Mark.BMark.b0]],
+          ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩⟩,
+        ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩⟩,
+      ⟨⟨FormalCompilerInput.recognizedFlow [] [[BEDC.FKernel.Mark.BMark.b1]],
+          ⟨[BEDC.FKernel.Mark.BMark.b1], [], rfl⟩⟩,
+        ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩⟩,
+      ⟨rfl, rfl⟩,
+      fun hCode => by
+        have hFlow :
+            [[BEDC.FKernel.Mark.BMark.b0]] =
+              [[BEDC.FKernel.Mark.BMark.b1]] :=
+          theorem_code_injective hCode
+        cases hFlow⟩
+
 def AcceptedTheoremCode (T : TheoremCandidateFlow) : List DisplayAlphabet :=
   TheoremCode T
 
