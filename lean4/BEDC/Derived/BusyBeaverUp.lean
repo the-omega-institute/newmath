@@ -1,10 +1,12 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.BusyBeaverUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem BusyBeaverHaltedBound_admissibility
@@ -298,5 +300,65 @@ theorem BusyBeaverNonhaltingExclusion_obligation_surface
     cont_right_unit_unique
       (cont_result_hsame_transport haltedPublicRow haltedPublicToBranch)
   exact not_hsame_e1_empty sameE1Empty
+
+theorem BusyBeaverHaltingLedger_scoped_namecert_surface
+    {machine input trace output steps bound bound' haltedLedger outputBound outputBound'
+      stepBound stepBound' ledger ledger' : BHist} :
+    UnaryHistory machine -> UnaryHistory input -> UnaryHistory output -> UnaryHistory steps ->
+      UnaryHistory bound -> hsame bound bound' -> Cont machine input trace ->
+        Cont trace output haltedLedger -> Cont output bound outputBound ->
+          Cont output bound' outputBound' -> Cont steps bound stepBound ->
+            Cont steps bound' stepBound' -> Cont outputBound stepBound ledger ->
+              Cont outputBound' stepBound' ledger' ->
+                SemanticNameCert (fun row : BHist => UnaryHistory row ∧ hsame row ledger')
+                  (fun row : BHist => UnaryHistory row ∧ hsame row ledger')
+                  (fun row : BHist => UnaryHistory row ∧ hsame row ledger')
+                  (fun row other : BHist => hsame row other ∧ UnaryHistory row ∧
+                    UnaryHistory other) ∧
+                    hsame ledger ledger' ∧ hsame haltedLedger (append trace output) := by
+  intro machineUnary inputUnary outputUnary stepsUnary boundUnary sameBound traceRow
+  intro haltedLedgerRow outputBoundRow outputBoundRow' stepBoundRow stepBoundRow'
+  intro ledgerRow ledgerRow'
+  have endpointData :=
+    BusyBeaverPerMachineReadback_endpoint_exactness machineUnary inputUnary outputUnary
+      stepsUnary boundUnary sameBound traceRow haltedLedgerRow outputBoundRow outputBoundRow'
+      stepBoundRow stepBoundRow' ledgerRow ledgerRow'
+  have ledgerUnary' : UnaryHistory ledger' :=
+    endpointData.right.right.right.right.right.right.right.right.left
+  have ledgerSame : hsame ledger ledger' :=
+    endpointData.right.right.right.right.right.right.right.right.right.right.right.right
+  have haltedExact : hsame haltedLedger (append trace output) :=
+    endpointData.right.right.right.right.right.right.right.right.right.left
+  have cert :
+      SemanticNameCert (fun row : BHist => UnaryHistory row ∧ hsame row ledger')
+        (fun row : BHist => UnaryHistory row ∧ hsame row ledger')
+        (fun row : BHist => UnaryHistory row ∧ hsame row ledger')
+        (fun row other : BHist => hsame row other ∧ UnaryHistory row ∧ UnaryHistory other) := {
+    core := {
+      carrier_inhabited := Exists.intro ledger' (And.intro ledgerUnary' (hsame_refl ledger'))
+      equiv_refl := by
+        intro h source
+        exact And.intro (hsame_refl h) (And.intro source.left source.left)
+      equiv_symm := by
+        intro h k classified
+        exact And.intro (hsame_symm classified.left)
+          (And.intro classified.right.right classified.right.left)
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro (hsame_trans classifiedHK.left classifiedKR.left)
+          (And.intro classifiedHK.right.left classifiedKR.right.right)
+      carrier_respects_equiv := by
+        intro h k classified source
+        exact And.intro classified.right.right
+          (hsame_trans (hsame_symm classified.left) source.right)
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+  exact And.intro cert (And.intro ledgerSame haltedExact)
 
 end BEDC.Derived.BusyBeaverUp
