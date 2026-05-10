@@ -404,4 +404,40 @@ theorem MirrorSymmetryPairCarrier_local_pairing_ledger_exactness [AskSetup] [Pac
       sameEndpoint,
       carrier.right.right.right.right.right.right.right⟩
 
+theorem MirrorSymmetryPairCarrier_scoped_kernel_scope [AskSetup] [PackageSetup]
+    {symplecticSource derivedSource aModelAnswer bModelAnswer pairLedger transportLedger
+      endpoint scopedLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MirrorSymmetryPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+        pairLedger transportLedger endpoint bundle pkg ->
+      Cont endpoint pairLedger scopedLedger ->
+        SemanticNameCert
+            (fun e : BHist => exists pair transport : BHist,
+              MirrorSymmetryPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+                pair transport e bundle pkg)
+            (fun e : BHist => exists pair transport : BHist,
+              MirrorSymmetryPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+                pair transport e bundle pkg)
+            (fun e : BHist => exists pair transport : BHist,
+              MirrorSymmetryPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+                pair transport e bundle pkg)
+            hsame ∧
+          UnaryHistory scopedLedger ∧ hsame scopedLedger (append endpoint pairLedger) ∧
+            Cont symplecticSource derivedSource transportLedger ∧
+              Cont aModelAnswer bModelAnswer pairLedger ∧
+                Cont transportLedger pairLedger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier scopedRow
+  have boundary :=
+    MirrorSymmetryPairCarrier_hms_source_boundary carrier
+  have obligation :=
+    MirrorSymmetryPairCarrier_obligation_package carrier
+  have scopedUnary : UnaryHistory scopedLedger :=
+    unary_cont_closed obligation.right.right.left obligation.right.left scopedRow
+  exact
+    ⟨boundary.left, scopedUnary, scopedRow,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.MirrorSymmetryUp
