@@ -464,6 +464,7 @@ import BEDC.Derived.SheafUp.CoverCompatibilityLocality
 import BEDC.Derived.SheafUp.RootNameCertFieldInventory
 import BEDC.Derived.SetUp
 import BEDC.Derived.SpanningTreeUp
+import BEDC.Derived.StackUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.CarrierClassifierObligation
 import BEDC.Derived.TreeUp.ObligationSurface

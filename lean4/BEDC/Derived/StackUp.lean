@@ -6,6 +6,7 @@ import BEDC.FKernel.Package
 import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
+import BEDC.Derived.SchemeUp
 
 namespace BEDC.Derived.StackUp
 
@@ -16,6 +17,8 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
+open BEDC.Derived.SchemeUp
+open BEDC.Derived.SheafUp
 
 def StackBHistCarrier [AskSetup] [PackageSetup]
     (site groupoid objects arrows restriction descent representability provenance endpoint :
@@ -107,5 +110,22 @@ theorem StackCarrierPacket_public_surface [AskSetup] [PackageSetup]
       (And.intro siteSheafCarrier
         (And.intro objectArrowTransport
           (And.intro carrierRestrictionEndpoint endpointPkg))))
+
+theorem StackCarrier_obligation_surface
+    {point openHist «section» germ site object arrow restriction package : BHist} :
+    SchemeSingletonPackage point openHist «section» germ site object arrow restriction ->
+      SheafBHistPointGermLedger point openHist «section» germ ->
+        Cont restriction arrow package ->
+          hsame package (append restriction arrow) ->
+            UnaryHistory point ∧ SheafBHistPointGermLedger point openHist «section» germ ∧
+              SchemeSingletonPackage point openHist «section» germ site object arrow restriction ∧
+                Cont restriction arrow package ∧ hsame package (append restriction arrow) := by
+  intro schemePackage sheafLedger restrictionRow _samePackage
+  have packageReadback : hsame package (append restriction arrow) :=
+    restrictionRow
+  exact And.intro sheafLedger.left
+    (And.intro sheafLedger
+      (And.intro schemePackage
+        (And.intro restrictionRow packageReadback)))
 
 end BEDC.Derived.StackUp
