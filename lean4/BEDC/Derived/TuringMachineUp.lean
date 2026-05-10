@@ -25,4 +25,34 @@ theorem TuringMachineConfigurationTraceCarrier_configuration_trace_surface
   exact
     ⟨configurationUnary, traceUnary, endpointUnary, configurationRow, traceRow, endpointRow⟩
 
+inductive TuringMachineHaltedTrace (halted : BHist) : List BHist → BHist → Prop where
+  | endpoint : TuringMachineHaltedTrace halted [] halted
+  | repeatRow {row : BHist} {rows : List BHist} {endpoint : BHist} :
+      hsame row halted →
+        TuringMachineHaltedTrace halted rows endpoint →
+          TuringMachineHaltedTrace halted (row :: rows) endpoint
+
+theorem TuringMachineHaltedTrace_repeat_obligation {halted : BHist} {rows : List BHist}
+    {endpoint : BHist} :
+    TuringMachineHaltedTrace halted rows endpoint →
+      UnaryHistory halted →
+        (∀ row : BHist, List.Mem row rows → hsame row halted) ∧ UnaryHistory endpoint := by
+  intro trace haltedUnary
+  induction trace with
+  | endpoint =>
+      constructor
+      · intro row rowMem
+        cases rowMem
+      · exact haltedUnary
+  | repeatRow rowSame _ ih =>
+      have tailRows := ih
+      constructor
+      · intro row rowMem
+        cases rowMem with
+        | head =>
+            exact rowSame
+        | tail _ tailMem =>
+            exact tailRows.left row tailMem
+      · exact tailRows.right
+
 end BEDC.Derived.TuringMachineUp

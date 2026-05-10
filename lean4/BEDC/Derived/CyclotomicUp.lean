@@ -115,6 +115,23 @@ theorem CyclotomicRootCarrier_root_action_pkg_provenance [AskSetup] [PackageSetu
     (And.intro sourceRows.right.right.right.right.right.right.right.right.right
       carrier.right.right.right.right.right.right.right.right.left)
 
+theorem CyclotomicRootCarrier_positive_exponent_row_coverage [AskSetup] [PackageSetup]
+    {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
+      ledger exponentRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CyclotomicRootCarrier numField exponent polynomial splittingField primitiveRoot acceptance
+        comparison provenance ledger bundle pkg →
+      Cont exponent ledger exponentRead →
+        UnaryHistory exponent ∧ hsame acceptance (append exponent polynomial) ∧
+          hsame ledger (append acceptance primitiveRoot) ∧
+            hsame exponentRead (append exponent ledger) ∧ PkgSig bundle ledger pkg := by
+  intro carrier exponentReadCont
+  exact And.intro carrier.right.left
+    (And.intro carrier.right.right.right.right.right.right.left
+      (And.intro carrier.right.right.right.right.right.right.right.left
+        (And.intro exponentReadCont
+          carrier.right.right.right.right.right.right.right.right.right)))
+
 theorem CyclotomicRootCarrier_root_layer_classifier_transport [AskSetup] [PackageSetup]
     {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
       ledger numField' exponent' polynomial' splittingField' primitiveRoot' acceptance'
