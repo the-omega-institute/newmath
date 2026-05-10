@@ -1,11 +1,13 @@
 import BEDC.Derived.ProbSpaceUp
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.HypothesisUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.PreorderUp
 open BEDC.Derived.ProbSpaceUp
@@ -99,5 +101,64 @@ theorem HypothesisTestDecisionCarrier_type_two_error_ledger
       bounds.right.right.right,
       jointUnary,
       jointRow⟩
+
+theorem HypothesisTestDecisionCarrier_namecert_obligation_surface
+    {null reject complement budget ledger endpoint alt accept altComplement typeII joint surface :
+      BHist} :
+    ProbSpacePublicEventPacket null budget reject complement budget ->
+      hsame complement BHist.Empty ->
+        ProbSpacePublicEventPacket alt typeII accept altComplement typeII ->
+          hsame altComplement BHist.Empty ->
+            Cont reject budget ledger ->
+              Cont null ledger endpoint ->
+                Cont accept typeII joint ->
+                  Cont ledger joint surface ->
+                    SemanticNameCert (fun h : BHist => hsame h surface)
+                      (fun h : BHist => hsame h surface)
+                      (fun h : BHist => hsame h surface) hsame ∧
+                      hsame endpoint (append null ledger) ∧
+                        hsame surface (append ledger joint) := by
+  intro nullPacket complementEmpty altPacket altComplementEmpty rejectBudget nullLedger acceptTypeII
+    ledgerJoint
+  have nullBounds :
+      hsame budget budget ∧ UnaryHistory budget ∧ Cont reject complement budget ∧
+        PreorderPrefixLE reject budget :=
+    ProbSpacePublicEventPacket_normalization_bounds nullPacket
+  have nullUnary : UnaryHistory null :=
+    unary_transport nullBounds.right.left (hsame_symm nullPacket.right.right.right.left)
+  have typeOne :
+      UnaryHistory ledger ∧ UnaryHistory endpoint ∧ hsame ledger (append reject budget) ∧
+        hsame endpoint (append null ledger) :=
+    HypothesisTestDecisionCarrier_type_one_error_ledger nullUnary
+      (HypothesisDecisionCarrier_type_one_error_ledger nullPacket complementEmpty).right.right.right.left
+      nullBounds.right.left rejectBudget nullLedger
+  have typeTwo :
+      hsame alt typeII ∧ hsame accept typeII ∧ PreorderPrefixLE accept typeII ∧
+        UnaryHistory joint ∧ hsame joint (append accept typeII) :=
+    HypothesisTestDecisionCarrier_type_two_error_ledger altPacket altComplementEmpty altPacket.left
+      acceptTypeII
+  have surfaceCert :
+      SemanticNameCert (fun h : BHist => hsame h surface)
+        (fun h : BHist => hsame h surface)
+        (fun h : BHist => hsame h surface) hsame := by
+    constructor
+    · constructor
+      · exact ⟨surface, hsame_refl surface⟩
+      · intro h _surfaceH
+        exact hsame_refl h
+      · intro h k sameHK
+        exact hsame_symm sameHK
+      · intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      · intro h k sameHK surfaceH
+        exact hsame_trans (hsame_symm sameHK) surfaceH
+    · intro h sourceH
+      exact sourceH
+    · intro h sourceH
+      exact sourceH
+  exact
+    ⟨surfaceCert,
+      typeOne.right.right.right,
+      ledgerJoint⟩
 
 end BEDC.Derived.HypothesisUp

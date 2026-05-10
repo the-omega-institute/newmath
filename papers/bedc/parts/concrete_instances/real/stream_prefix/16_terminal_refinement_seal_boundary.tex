@@ -50,3 +50,92 @@ completion data, host indices, host functions, $\mathsf{Classical}$ data,
 metric-completeness certificates, arithmetic or order rows, or standard
 bridge rows.
 \end{proof}
+
+\begin{theorem}[StreamName common-refinement terminal route determinacy]
+\label{thm:streamname-common-refinement-terminal-route-determinacy}
+Let $C$ be a certified $\StreamNameUp$ common-refinement package. Suppose two
+finite-window $\RealUp$ terminal seal consumers are reached from $C$ by
+choosing possibly different common-refinement routes, then passing through the
+same StreamName finite-window restriction and $\RegSeqRat$ handoff interface.
+Then the two terminal reads expose the same source tuple:
+\begin{enumerate}
+  \item the restricted
+  $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows;
+  \item the common $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+  $\mathsf{UnaryHistory}$ rows;
+  \item the pointwise $\mathsf{RatHistoryClassifier}$ rows;
+  \item the accepted $\RegSeqRat$ spine selected by those rows;
+  \item the displayed dyadic endpoint rows; and
+  \item the displayed $\hsame$, $\Cont$, and $\Pkg$ provenance rows.
+\end{enumerate}
+The terminal tuple contains no quotient row, completion object, host-index
+equality, metric-completeness datum, or additional $\RealUp$ seal classifier
+outside the packet just listed.
+\end{theorem}
+\begin{proof}
+Start with the certified common-refinement package $C$. Apply
+\autoref{thm:streamname-common-refinement-source-confluence}. The two routes
+therefore determine the same StreamName source packet and the same displayed
+common-refinement provenance rows.
+
+Next restrict that packet to the terminal finite window. By
+\autoref{thm:streamname-tail-window-cover-common-refinement}, both route reads
+use the same finite-window classifier rows, the same $\mathsf{ProbeBundle}$ and
+$\mathsf{InBundle}$ entries, and the same unary-history window.
+
+Now apply \autoref{thm:streamname-regseqrat-pointwise-handoff}. The restricted
+StreamName packet hands off to one pointwise rational-history packet, one
+accepted $\RegSeqRat$ spine, and the same dyadic endpoint rows, with the
+displayed $\hsame$, $\Cont$, and $\Pkg$ provenance carried along unchanged.
+
+Finally use \autoref{thm:realup-terminal-regseqrat-source-coverage}. A terminal
+finite-window $\RealUp$ seal consumer reads exactly that RegSeqRat source
+surface and no larger host structure. Since both routes feed the same packet
+into this coverage theorem, the two terminal reads expose the same listed
+source tuple and exclude quotient rows, completion objects, host-index
+equalities, metric-completeness data, and any extra $\RealUp$ seal classifier.
+\end{proof}
+
+\begin{theorem}[RealUp terminal RegSeqRat source coverage]
+\label{thm:realup-terminal-regseqrat-source-coverage}
+Every terminal finite-window $\RealUp$ seal consumer factors through exactly
+one $\RegSeqRat$ source surface. That source surface consists of the displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
+$\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine, the
+DyadicRatCore observation rows, and the visible $\Cont$, $\hsame$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ ledger rows.
+
+Conversely, any packet carrying exactly those rows repacks into the terminal
+source surface read by the seal consumer. The coverage contains no quotient
+row, completion object, host index, host function, $\mathsf{Classical}$ datum,
+metric-completeness row, arithmetic or order row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Start from the terminal read inventory of
+\autoref{thm:realup-terminal-refinement-seal-boundary}. It lists precisely the
+finite classifier, unary-history, membership, pointwise rational, accepted
+spine, dyadic-source, transport, package, and ledger rows visible to a terminal
+seal consumer.
+
+For the source side, apply the finite-window StreamName-to-RegSeqRat handoff
+from \autoref{thm:realup-streamname-regseqrat-window-correspondence}
+and \autoref{thm:regseqrat-seal-finite-window-source-coverage}. These identify
+the StreamName finite-window classifiers and dyadic observation rows as the
+same source packet consumed by the $\RegSeqRat$ seal.
+
+Now use the tail-classifier exactness package. By
+\autoref{thm:regseqrat-tail-classifier-exactness} and
+\autoref{thm:regseqrat-tail-classifier-normal-form-tail-coverage}, the
+accepted $\RegSeqRat$ spine is the selected tail-classifier row determined by
+the displayed StreamName, dyadic, endpoint-transport, package, and
+$\mathsf{RealLedgerPolicy}$ data.
+
+It remains to check uniqueness and repacking. Apply
+\autoref{thm:regseqrat-tail-classifier-pullback-uniqueness}: any terminal
+candidate compatible with the displayed rows factors through the same selected
+$\RegSeqRat$ source surface. Conversely, carrying those rows supplies every
+entry in the inventory above, so the packet repacks into the terminal seal
+source surface and leaves all excluded quotient, completion, host, Classical,
+metric, arithmetic, order, and bridge rows unread.
+\end{proof}
