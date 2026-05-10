@@ -322,6 +322,7 @@ import BEDC.Derived.SpinGroupUp.GroupInterfaceBoundary
 import BEDC.Derived.SpinGroupUp.EvenProductClassifierObligation
 import BEDC.Derived.SpinGroupUp.LiftParityLedger
 import BEDC.Derived.SpinGroupUp.ConjugationActionReadback
+import BEDC.Derived.SpinGroupUp.ConjugationActionLaws
 import BEDC.Derived.SpinGroupUp.DoubleCoverLedgerObligation
 import BEDC.Derived.SpinGroupUp.PublicBoundaryNoExtraRow
 import BEDC.Derived.SpinGroupUp.PinConsumerSourceExactness
