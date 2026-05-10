@@ -1,20 +1,18 @@
 import BEDC.Meta.TasteGate
 
 /-!
-# BeliefUp: minimal inductive carrier and TasteGate instance.
+# BeliefUp: minimal inductive carrier and TasteGate instance (hard schema).
 
-A `BeliefUp` token is a finite belief history with two constructors:
+A `BeliefUp` token is a finite belief history with two constructors
+(`empty` / `observed`). Under the hard schema, the chapter supplies only
+`round_trip` and `layer_separation`; `conservativity` and `no_hidden_input`
+are derived theorems that automatically invoke
+`event_flow_conservativity` and the chapter's own `round_trip`.
 
-* `empty`   — the prior, no observations yet
-* `observed` — a token recording that one observation has been folded in
-
-This is the minimal nontrivial carrier required to exercise the schema
-TasteGate: two distinct constructors prove the layer-separation
-obligation isn't vacuous (`empty ≠ observed`), and the BHist embedding
-maps `empty` to the empty event flow and `observed` to a one-event flow
-of a single `b1` mark. The chapter remains at seedClosure on the paper
-side; this Lean module commits to the carrier shape so that the
-TasteGate instance is a real witness rather than a placeholder.
+This is the minimal nontrivial carrier required to pass the hard gate:
+two distinct constructors prove `layer_separation` is non-vacuous, and
+the BHist embedding is genuinely a left-inverse pair (empty ↔ empty
+flow; observed ↔ one-event b1 flow).
 -/
 
 namespace BEDC.Derived.BeliefUp
@@ -29,14 +27,14 @@ inductive BeliefUp : Type where
   | observed : BeliefUp
   deriving DecidableEq
 
-/-- Display embedding: empty prior is the empty flow; an observed token is a
-single one-event flow carrying a `b1` mark. -/
+/-- Display embedding: empty prior is the empty flow; an observed token is
+a single one-event flow carrying a `b1` mark. -/
 def beliefToEventFlow : BeliefUp → EventFlow
   | BeliefUp.empty => []
   | BeliefUp.observed => [[BMark.b1]]
 
 /-- Inverse readback. The chapter accepts only the two specific event flows
-its display can emit; anything else is a hidden / unrecognised input. -/
+its display can emit. -/
 def beliefFromEventFlow : EventFlow → Option BeliefUp
   | [] => some BeliefUp.empty
   | [[BMark.b1]] => some BeliefUp.observed
@@ -47,16 +45,6 @@ instance beliefBHistCarrier : BHistCarrier BeliefUp where
   fromEventFlow := beliefFromEventFlow
 
 instance beliefChapterTasteGate : ChapterTasteGate BeliefUp where
-  conservativity := by
-    intro x w m hw hm
-    cases m with
-    | b0 => exact Or.inl rfl
-    | b1 => exact Or.inr rfl
-  no_hidden_input := by
-    intro x
-    cases x with
-    | empty => exact ⟨[], rfl⟩
-    | observed => exact ⟨[[BMark.b1]], rfl⟩
   round_trip := by
     intro x
     cases x with

@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.8 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.9 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Multi-target round emission (HARD GATE — minimum 5 candidates)
 
@@ -247,9 +247,19 @@ You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touc
 - Recent commits:
 <RECENT>
 
-## REQUIRED FIRST STEP — Read the roadmap
+## REQUIRED FIRST STEP — Read the AI growth roadmap
 
-Before scanning for review targets, READ `papers/bedc/parts/project_governance/roadmap.tex` in full. It defines:
+Before scanning for review targets, READ
+`papers/bedc/parts/project_governance/AI_THEORY_GROWTH_ROADMAP.md`
+in full. The "Codex-side instructions" section at the bottom binds
+your behaviour for any target that touches an `\origin{ai}` chapter
+(e.g. `BeliefUp`): you MUST cite the corresponding TasteGate marker
+when promoting past `\seedClosure`, you MUST combine theory_extension
+with closure_mark when carrier obligations are present, and you MUST
+prefer ground-compiler theorems over hand-written proofs when wiring
+TasteGate instances.
+
+Also READ `papers/bedc/parts/project_governance/roadmap.tex` in full. It defines:
 
 - the layered dependency order L0→L14;
 - the two-axis discipline of \autoref{ch:closure-and-verification-discipline}: a closure axis (seed/obligation/scopedClosed/publicClosed/bridgedClosed/maturePackageClosed) read entirely from paper-side witnesses, and a verification axis (unformalized/.../bridgeChecked) read entirely from Lean-side audit. Neither axis is a function of the other; reading paper closure as evidence for verification, or vice versa, is a discipline violation.

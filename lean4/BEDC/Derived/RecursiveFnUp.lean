@@ -112,4 +112,40 @@ theorem RecursiveFnNatInputStability_obligation
     ⟨yUnary, traceXUnary, traceYUnary, outputXUnary, outputYUnary, finalGraphUnary,
       traceSame, outputSame, finalGraphRow⟩
 
+theorem RecursiveFnConstructorLedger_coverage_obligation
+    {constructor input baseStep innerTrace outerTrace seqTrace finalGraph boundedTrace witness
+      output boundedLedger accepted : BHist} {failureTail : BHist} :
+    UnaryHistory constructor -> UnaryHistory input -> UnaryHistory baseStep ->
+      UnaryHistory witness -> Cont constructor input innerTrace ->
+        Cont innerTrace baseStep outerTrace -> Cont constructor baseStep seqTrace ->
+          Cont outerTrace seqTrace finalGraph -> Cont constructor baseStep boundedTrace ->
+            Cont boundedTrace witness output -> Cont baseStep output boundedLedger ->
+              hsame witness (BHist.e1 failureTail) -> hsame accepted outerTrace ->
+                hsame accepted boundedLedger ->
+                  UnaryHistory finalGraph ∧ UnaryHistory boundedLedger ∧
+                    (hsame witness BHist.Empty -> False) ∧
+                      hsame finalGraph (append outerTrace seqTrace) := by
+  intro constructorUnary inputUnary baseStepUnary witnessUnary innerTraceRow outerTraceRow
+  intro seqTraceRow finalGraphRow boundedTraceRow outputRow boundedLedgerRow witnessFailure
+  intro acceptedOuter acceptedBoundedLedger
+  have compositionRows :=
+    RecursiveFnCompositionPrimitiveRecursion_obligation_surface constructorUnary inputUnary
+      baseStepUnary innerTraceRow outerTraceRow seqTraceRow finalGraphRow
+  have boundedRows :=
+    RecursiveFnBoundedMinimisationLedger_exactness constructorUnary baseStepUnary witnessUnary
+      boundedTraceRow outputRow boundedLedgerRow witnessFailure
+  cases compositionRows with
+  | intro repackedInput compositionTail =>
+      cases compositionTail with
+      | intro repackedGraph compositionData =>
+          have outerTraceUnary : UnaryHistory outerTrace :=
+            compositionData.right.right.right.left
+          have finalGraphUnary : UnaryHistory finalGraph :=
+            compositionData.right.right.right.right.right.left
+          have boundedLedgerUnary : UnaryHistory boundedLedger :=
+            unary_transport outerTraceUnary (acceptedOuter.symm.trans acceptedBoundedLedger)
+          exact
+            ⟨finalGraphUnary, boundedLedgerUnary, boundedRows.right.right.right.right.right.right,
+              compositionData.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.RecursiveFnUp

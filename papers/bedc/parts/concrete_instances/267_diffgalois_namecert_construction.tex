@@ -86,6 +86,7 @@ fixed-row ledger. It excludes Liouvillian solvability, algebraic-group
 classification, integration-by-quadratures, and standard model-theoretic
 bridge claims.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiffGaloisUp.DiffGaloisPublicCertificate\_export}
 \begin{proof}
 Apply \autoref{thm:diffgalois-picard-vessiot-obligation}. This supplies the
 differential-field, operator, solution-space, and fundamental-solution rows as
@@ -100,6 +101,45 @@ Repacking these rows gives the public $\NameCert_{\DiffGaloisUp}$ boundary.
 No field of the export supplies a Liouvillian criterion, an algebraic-group
 classification theorem, integration-by-quadratures, or a standard
 model-theoretic bridge.
+\end{proof}
+
+\begin{theorem}[DiffGalois scoped certificate surface]
+\label{thm:diffgalois-scoped-certificate-surface}
+The Picard-Vessiot packet, faithful action ledger, constant-field fixed-point
+exactness, solution-space row, and displayed Galois action rows form the closed
+scoped $\DiffGaloisUp$ certificate surface over $\FieldExtUp$,
+$\GaloisGroupUp$, $\OdeUp$, $\SeqUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and
+$\Pkg$. Its carrier is the displayed differential-field, operator,
+solution-space, fundamental-solution, action, and constant-field ledger; its
+classifier is $\hsame$ on the solution-space row together with transported
+Galois action rows; and its visible ledger is exactly the public
+$\NameCert_{\DiffGaloisUp}$ boundary of
+\autoref{thm:diffgalois-public-certificate-export}.
+
+This scoped surface closes only the finite Picard-Vessiot certificate rows. It
+does not add algebraic-group classification, Liouvillian solvability,
+integration-by-quadratures, or a standard model-theoretic differential-Galois
+bridge.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:diffgalois-picard-vessiot-obligation}. It supplies the
+differential-field row, operator row, solution-space row, and
+fundamental-solution row as finite $\mathsf{BHist}$ data over the displayed
+$\FieldExtUp$, $\OdeUp$, and $\SeqUp$ sources.
+
+Next apply
+\autoref{thm:diffgalois-faithful-action-constant-field-exactness}. This adds
+the faithful $\NameCert_{\GaloisGroupUp}$ action ledger, transports it through
+the solution-space classifier, and identifies the constant-field coordinate
+with the fixed-point ledger.
+
+Finally use \autoref{thm:diffgalois-public-certificate-export}. It repacks the
+Picard-Vessiot rows and faithful-action rows into the public
+$\NameCert_{\DiffGaloisUp}$ boundary. Reading that export as a scoped
+carrier/classifier/ledger package gives the stated surface over
+$\FieldExtUp$, $\GaloisGroupUp$, $\OdeUp$, $\SeqUp$, $\mathsf{BHist}$,
+$\hsame$, $\Cont$, and $\Pkg$, with no additional classification, solvability,
+quadrature, or model-theoretic bridge row.
 \end{proof}
 
 \closureat{DiffGaloisUp}{obligationStr}
