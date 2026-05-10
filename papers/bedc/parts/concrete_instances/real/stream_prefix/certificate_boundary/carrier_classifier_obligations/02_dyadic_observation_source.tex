@@ -207,5 +207,39 @@ transported source surface, and the excluded quotient, completion, metric,
 Classical, and bridge rows have no slot in the scoped source package.
 \end{proof}
 
+\begin{theorem}[Dyadic observation transport RealUp feed determinacy]
+\label{thm:dyadic-observation-transport-realup-feed-determinacy}
+Let $d,e:\Hist$, and suppose $\hsame(d,e)$ is displayed. Fix one certified
+$\RegSeqRat$ unary observation request whose source surface at $d$ is a
+$\mathsf{DyadicRatCoreObservationRow}$. If two RealUp finite-window feed
+packages are obtained by first transporting that source to $e$ along the same
+$\hsame(d,e)$ row and then applying the DyadicRatCore public observation feed,
+then the two feed packages expose the same RatUp endpoint carrier, the same
+positive-denominator row, the same dyadic-radius ledger token, the same RealUp
+finite-window source face, and the same exclusion boundary. No quotient row,
+completion row, Classical datum, external metric primitive, RealUp completeness
+claim, or standard bridge row can distinguish the two feeds.
+\end{theorem}
+\begin{proof}
+Project the transported sources with
+\autoref{thm:dyadic-observation-source-transport-determinacy}. Both source
+packages at $e$ therefore expose the same RatUp endpoint carrier, the same
+positive-denominator row, the same dyadic-radius token, and the same
+$\mathsf{RatHistoryClassifier}$ face.
+
+Feed these common source rows through
+\autoref{thm:dyadicratcore-public-observation-realup-window-feed}. The public
+observation feed consumes exactly the transported DyadicRatCore source, the
+finite dyadic request ledger, and the RealUp finite-window source face recorded
+by that ledger.
+
+It remains only to compare the visible fields of the two feeds. Since the
+input source projections are common and the feed theorem has no slot for a
+second quotient, completion, Classical, metric, completeness, or bridge datum,
+field projection gives the same RatUp endpoint carrier, positive-denominator
+row, dyadic-radius token, RealUp finite-window source face, and exclusion
+boundary in both packages.
+\end{proof}
+
 The intended Lean target shape for this boundary is
 \texttt{BEDC.Derived.RealUp.DyadicRatCore\_scoped\_source\_package}.
