@@ -282,4 +282,24 @@ theorem ContactCarrierClassifierSurface_top_wedge_coannihilating_integrability_a
     hsame_trans sameTopZero zeroEmpty
   exact exported.right.right.right.right.right.right topEmpty
 
+theorem ContactCoannihilatingIntegrabilityRow_transport_with_empty
+    {manifold form derivative wedge top top' collapse collapse' : BHist} :
+    ContactCoannihilatingIntegrabilityRow manifold form derivative wedge top collapse ->
+      hsame top top' ->
+        hsame collapse' collapse ->
+          ContactCoannihilatingIntegrabilityRow manifold form derivative wedge top'
+              collapse' ∧
+            hsame collapse' BHist.Empty ∧ hsame top' BHist.Empty := by
+  intro row sameTop sameCollapse
+  have transportedSurface :=
+    ContactCarrierClassifierSurface_top_wedge_transport row.left sameTop
+  have sameCollapseTop' : hsame collapse' top' :=
+    hsame_trans sameCollapse (hsame_trans row.right.left sameTop)
+  have collapseEmpty : hsame collapse' BHist.Empty :=
+    hsame_trans sameCollapse row.right.right
+  have topEmpty : hsame top' BHist.Empty :=
+    hsame_trans (hsame_symm sameCollapseTop') collapseEmpty
+  exact
+    ⟨⟨transportedSurface.left, sameCollapseTop', collapseEmpty⟩, collapseEmpty, topEmpty⟩
+
 end BEDC.Derived.ContactUp
