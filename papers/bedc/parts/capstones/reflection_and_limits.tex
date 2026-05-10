@@ -48,12 +48,13 @@ Let $G$ be a generator base in the BEDC primitive layer (a closed inductive over
 
 \begin{theorem}[Definition-classifier correspondence]
 \label{thm:definition-classifier-correspondence}
-Every well-founded mathematical definition expressible over the BEDC primitive layer is naturally isomorphic to a definition presented as a classifier on the corresponding generator base. Conversely, every classifier on a BEDC generator base equipped with a naming certificate determines a unique well-founded definition up to extensional equivalence. The correspondence is functorial in the choice of generator base and respects the closure laws of the naming-certificate framework.
-\leanstmt{BEDC.Reflection.definition\_classifier\_correspondence}
+Let $D$ be a predicate on a BEDC carrier $G$ equipped with a naming certificate whose classifier preserves the carrier. Suppose that $D(x)$ is exactly the assertion that $x$ lies in $G$ and carries an $\Ext/\Cont$ presentation, and suppose that the classifier transports the $\Ext/\Cont$ presentation data. Then the classifier transports $D$. Conversely, two $D$-elements that are internally the same history are classifier-equivalent. Thus a definition over the primitive layer is precisely a carrier predicate together with stable extension-continuation presentation data.
+\leanchecked{BEDC.Reflection.definition\_classifier\_correspondence\_proof}
+\leanvariant{BEDC.Reflection.definition\_classifier\_correspondence}
 \end{theorem}
 
 \begin{proof}[Sketch]
-The forward direction takes a definition $D$ over generator $G$ and constructs $\Ext_D$ as the membership predicate of $D$ in $G$ together with $\Cont_D$ as the structural-recursion continuation of $D$. The naming certificate is the bundle of closure, reflexivity, and chain-transport theorems that $D$ satisfies by virtue of being well-founded over $G$. The backward direction reads the certificate as the data of an extensional definition. Functoriality is the observation that classifier composition mirrors definitional composition; the closure laws are the certificate axioms of \autoref{ch:core-typed-naming-certificates}. The form of distinction (\autoref{def:form-of-distinction}) appears at the base of every classifier as the irreducible primitive supplied by \autoref{thm:form-of-distinction-irreducible}.
+Unfold the presentation of $D$. From $D(h)$ one obtains both $G(h)$ and an $\Ext/\Cont$ witness for $h$. The naming certificate transports $G(h)$ across any classifier edge $h \sim k$, while the stated stability of the presentation transports the $\Ext/\Cont$ witness to $k$. Folding the presentation of $D$ gives $D(k)$. For the converse direction, internal sameness identifies the two histories; reflexivity of the naming certificate on the carrier part of $D$ gives the required classifier judgment.
 \end{proof}
 
 \begin{remark}
