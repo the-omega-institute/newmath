@@ -491,6 +491,42 @@ theorem ChernWeilCarrierEnvelope_characteristic_ledger_exactness
               (And.intro envelope.right.right.right.right.right.left endpointCont')))))
   exact And.intro envelope' (And.intro sameEndpoint endpointUnary')
 
+theorem ChernWeilCarrierEnvelope_namecert_obligation_surface
+    {curvature derham polynomial connectionLedger characteristic provenance endpoint classRow :
+      BHist} :
+    ChernWeilCarrierEnvelope curvature derham polynomial connectionLedger characteristic provenance
+        endpoint ->
+      hsame classRow endpoint ->
+        SemanticNameCert (fun h : BHist => hsame h endpoint)
+            (fun h : BHist => hsame h endpoint) (fun h : BHist => hsame h endpoint) hsame ∧
+          UnaryHistory characteristic ∧ UnaryHistory provenance ∧ UnaryHistory endpoint ∧
+            hsame classRow endpoint := by
+  intro envelope sameClassRow
+  have obligation :=
+    ChernWeilSourceEnvelope_carrier_obligation envelope
+  have endpointCert :
+      SemanticNameCert (fun h : BHist => hsame h endpoint)
+          (fun h : BHist => hsame h endpoint) (fun h : BHist => hsame h endpoint) hsame := by
+    constructor
+    · constructor
+      · exact Exists.intro endpoint (hsame_refl endpoint)
+      · intro h _source
+        exact hsame_refl h
+      · intro h k sameHK
+        exact hsame_symm sameHK
+      · intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      · intro h k sameHK sameEndpoint
+        exact hsame_trans (hsame_symm sameHK) sameEndpoint
+    · intro h source
+      exact source
+    · intro h source
+      exact source
+  exact And.intro endpointCert
+    (And.intro obligation.left
+      (And.intro obligation.right.left
+        (And.intro obligation.right.right.left sameClassRow)))
+
 theorem ChernWeilSourceEnvelope_characteristic_ledger_exactness
     {curvature curvature' derham provenance connectionLedger connectionLedger' classRow classRow' :
       BHist} :
