@@ -1,10 +1,12 @@
 import BEDC.Derived.ProbSpaceUp
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.HypothesisUp
 
 open BEDC.FKernel.Hist
-open BEDC.FKernel.Unary
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.Derived.PreorderUp
 open BEDC.Derived.ProbSpaceUp
 
@@ -30,5 +32,18 @@ theorem HypothesisDecisionCarrier_type_one_error_ledger
     (And.intro rejectBudget
       (And.intro bounds.right.right.right
         (And.intro packet.left bounds.right.left)))
+
+theorem HypothesisTestDecisionCarrier_type_one_error_ledger
+    {null reject budget ledger endpoint : BHist} :
+    UnaryHistory null -> UnaryHistory reject -> UnaryHistory budget ->
+      Cont reject budget ledger -> Cont null ledger endpoint ->
+        UnaryHistory ledger ∧ UnaryHistory endpoint ∧ hsame ledger (append reject budget) ∧
+          hsame endpoint (append null ledger) := by
+  intro nullUnary rejectUnary budgetUnary ledgerRow endpointRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed rejectUnary budgetUnary ledgerRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed nullUnary ledgerUnary endpointRow
+  exact ⟨ledgerUnary, endpointUnary, ledgerRow, endpointRow⟩
 
 end BEDC.Derived.HypothesisUp

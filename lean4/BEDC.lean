@@ -90,6 +90,7 @@ import BEDC.Derived.GaloisExtUp.PublicLedgerCoverage
 import BEDC.Derived.GaloisExtUp.SourceClassifier
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
+import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
@@ -152,6 +153,7 @@ import BEDC.Derived.DeRhamUp.BridgeInputSource
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
+import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.OptionUp
@@ -570,6 +572,7 @@ import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.DistributionUp
+import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.FunctionalAnalysisUp
