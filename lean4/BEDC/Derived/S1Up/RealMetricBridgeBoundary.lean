@@ -1,0 +1,35 @@
+import BEDC.Derived.S1Up
+
+namespace BEDC.Derived.S1Up
+
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Unary
+open BEDC.Derived.ProdUp
+open BEDC.Derived.RatUp
+open BEDC.Derived.RealUp
+
+theorem SOneRealMetricBridgeBoundary_public_rows {x y equation point metricLedger : BHist} :
+    SOneHistoryCarrier x y equation point -> Cont point equation metricLedger ->
+      UnaryHistory metricLedger ∧ hsame metricLedger (append point equation) ∧
+        SOneProductHistoryCarrier point ∧ hsame equation SOneUnitHistory := by
+  intro carrier metricCont
+  have readback := SOneHistoryCarrier_public_readback carrier
+  have realConstantUnary :
+      ∀ {row : BHist}, RealConstantHistoryCarrier row -> UnaryHistory row := by
+    intro row rowCarrier
+    cases rowCarrier with
+    | intro denominator data =>
+        have denominatorUnary : UnaryHistory denominator :=
+          (PositiveUnaryDenominator_unary_and_nonempty
+            (RatHistoryCarrier_iff_positive_denominator.mp data.right)).left
+        exact unary_transport (unary_e1_closed denominatorUnary) (hsame_symm data.left)
+  have pointUnary : UnaryHistory point :=
+    ProdHistoryCarrier_unary_of_components realConstantUnary realConstantUnary readback.left
+  have equationUnary : UnaryHistory equation :=
+    unary_transport (unary_double_e1_closed unary_empty) (hsame_symm readback.right.left)
+  have metricUnary : UnaryHistory metricLedger :=
+    unary_cont_closed pointUnary equationUnary metricCont
+  exact ⟨metricUnary, metricCont, readback.left, readback.right.left⟩
+
+end BEDC.Derived.S1Up
