@@ -15652,3 +15652,28 @@ Rationale:
 243_curryhoward_namecert_construction.tex (355 lines, 10 theorems) has classifier endpoint transport (line 87), source row separation (line 46), classifier exhaustion (line 135), endpoint exactness (line 179), and proof-program determinacy (line 113) — but no reflexivity statement for the cut-beta endpoint classifier. Other concrete classifier surfaces (RandomVar, FirstOrder, Sheaf) all carry an explicit reflexivity row; CurryHoward is the conspicuous omission. Single-implication form: accepted packet ⇒ classifier H≈H. Within an existing chapter (no Lean axiom), file far below cap, no sibling on BOARD.
 
 ---
+
+### B-617 - Module LinearMap pointwise sum associativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Module LinearMap pointwise sum associativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If LinearMapCert_R(M,N;f), LinearMapCert_R(M,N;g), and LinearMapCert_R(M,N;h) all hold over common ModuleUp(R,M),ModuleUp(R,N) certificates, then the pointwise sums (f+g)+h and f+(g+h) carry LinearMapUp(M,N) certificates and are pointwise-classifier-equal.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+
+Rationale:
+The commutativity counterpart is at module_linearmap_kernel_image_and_zero.tex:101 (thm:module-linearmap-pointwise-sum-commutativity) and the binary pointwise-sum certificate is at module_linearmap_certificates.tex:344 (thm:module-linearmap-pointwise-sum-certificate). Composition associativity exists at module_linearmap_certificates.tex:238, but pointwise *sum* associativity does not: grep 'pointwise-sum-assoc\|pointwise.*sum.*associat' across papers/ returns only composition-assoc and FPS pointwise-additive-group-laws references. Build from two applications of pointwise-sum-certificate plus the target module's additive associativity (via prop:module-forgets-abgroup-certificate). Landing file 182 lines, ample room. Concrete classifier comparison, not parameter echo.
+
+---
