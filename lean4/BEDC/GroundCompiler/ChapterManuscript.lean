@@ -47,6 +47,82 @@ inductive P8ReportDatum : Type where
 def P8Output : Type :=
   List P8ReportDatum
 
+inductive P8FieldStatus : Type where
+  | present
+  | missing
+  | candidateOnly
+
+structure ChapterP8FieldStatus where
+  start : P8FieldStatus
+  dependencies : P8FieldStatus
+  definitions : P8FieldStatus
+  lemmas : P8FieldStatus
+  theorems : P8FieldStatus
+  proofs : P8FieldStatus
+  certificates : P8FieldStatus
+  ledger : P8FieldStatus
+  cannotClaims : P8FieldStatus
+  chapterStatus : P8FieldStatus
+  chapterSeal : P8FieldStatus
+
+structure ManuscriptP8FieldStatus where
+  start : P8FieldStatus
+  chapters : P8FieldStatus
+  dependencies : P8FieldStatus
+  notationFlow : P8FieldStatus
+  certificates : P8FieldStatus
+  ledger : P8FieldStatus
+  cannotClaims : P8FieldStatus
+  manuscriptStatus : P8FieldStatus
+  bridgeObligations : P8FieldStatus
+  implementationTargets : P8FieldStatus
+  manuscriptSeal : P8FieldStatus
+
+structure ChapterP8FieldStatusEntry where
+  chapter : ChapterFlow.ChapterCandidateFlow
+  fields : ChapterP8FieldStatus
+
+structure ManuscriptP8FieldStatusEntry where
+  manuscript : EventFlow
+  fields : ManuscriptP8FieldStatus
+
+inductive P8CannotClaimKind : Type where
+  | titleAloneNotChapter
+  | theoremListAloneNotChapter
+  | tableOfContentsAloneNotManuscript
+  | chapterCodeNotTheoremProof
+  | manuscriptCodeNotAllClaimsAccepted
+  | soundChapterNotAllMentionedObjectsAccepted
+  | soundManuscriptNotAllBridgeObligationsDischarged
+  | missingGlobalCannotClaimRegistryBlocksSoundness
+  | implementationTargetListNotCheckedImplementation
+  | manuscriptTopicEqualityNotCodeEquality
+
+def P8CannotClaimAnnotations : Type :=
+  List P8CannotClaimKind
+
+def CompleteP8CannotClaimAnnotations
+    (claims : P8CannotClaimAnnotations) : Prop :=
+  List.Mem P8CannotClaimKind.titleAloneNotChapter claims /\
+    List.Mem P8CannotClaimKind.theoremListAloneNotChapter claims /\
+    List.Mem P8CannotClaimKind.tableOfContentsAloneNotManuscript claims /\
+    List.Mem P8CannotClaimKind.chapterCodeNotTheoremProof claims /\
+    List.Mem P8CannotClaimKind.manuscriptCodeNotAllClaimsAccepted claims /\
+    List.Mem P8CannotClaimKind.soundChapterNotAllMentionedObjectsAccepted claims /\
+    List.Mem
+      P8CannotClaimKind.soundManuscriptNotAllBridgeObligationsDischarged claims /\
+    List.Mem
+      P8CannotClaimKind.missingGlobalCannotClaimRegistryBlocksSoundness claims /\
+    List.Mem P8CannotClaimKind.implementationTargetListNotCheckedImplementation
+      claims /\
+    List.Mem P8CannotClaimKind.manuscriptTopicEqualityNotCodeEquality claims
+
+structure P8Report where
+  outputView : P8Output
+  chapterFieldStatus : List ChapterP8FieldStatusEntry
+  manuscriptFieldStatus : List ManuscriptP8FieldStatusEntry
+  cannotClaims : P8CannotClaimAnnotations
+
 structure ChapterManuscriptPrototype where
   p7 : TheoremProofPrototype
   definitionRecognizer : EventFlow
