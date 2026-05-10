@@ -49,6 +49,58 @@ theorem ShortestPathWeightedGraphCarrier_visible_path_ledger [AskSetup] [Package
       carrier.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right⟩
 
+theorem ShortestPathWeightedGraphCarrier_relaxation_certificate_scope [AskSetup] [PackageSetup]
+    {vertices edges weights source target path incidence weightedPath endpoint relaxation
+      certificate : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ShortestPathWeightedGraphCarrier vertices edges weights source target path incidence
+        weightedPath endpoint bundle pkg ->
+      Cont source target relaxation ->
+        Cont endpoint relaxation certificate ->
+          UnaryHistory incidence ∧ UnaryHistory weightedPath ∧ UnaryHistory endpoint ∧
+            UnaryHistory relaxation ∧ UnaryHistory certificate ∧
+              hsame incidence (append vertices edges) ∧
+                hsame weightedPath (append incidence weights) ∧
+                  hsame endpoint (append weightedPath path) ∧
+                    hsame relaxation (append source target) ∧
+                      hsame certificate (append endpoint relaxation) ∧
+                        PkgSig bundle endpoint pkg := by
+  intro carrier relaxationRow certificateRow
+  have verticesUnary : UnaryHistory vertices := carrier.left
+  have edgesUnary : UnaryHistory edges := carrier.right.left
+  have weightsUnary : UnaryHistory weights := carrier.right.right.left
+  have sourceUnary : UnaryHistory source := carrier.right.right.right.left
+  have targetUnary : UnaryHistory target := carrier.right.right.right.right.left
+  have pathUnary : UnaryHistory path := carrier.right.right.right.right.right.left
+  have incidenceRow : Cont vertices edges incidence :=
+    carrier.right.right.right.right.right.right.left
+  have weightedPathRow : Cont incidence weights weightedPath :=
+    carrier.right.right.right.right.right.right.right.left
+  have endpointRow : Cont weightedPath path endpoint :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have incidenceUnary : UnaryHistory incidence :=
+    unary_cont_closed verticesUnary edgesUnary incidenceRow
+  have weightedPathUnary : UnaryHistory weightedPath :=
+    unary_cont_closed incidenceUnary weightsUnary weightedPathRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed weightedPathUnary pathUnary endpointRow
+  have relaxationUnary : UnaryHistory relaxation :=
+    unary_cont_closed sourceUnary targetUnary relaxationRow
+  have certificateUnary : UnaryHistory certificate :=
+    unary_cont_closed endpointUnary relaxationUnary certificateRow
+  exact
+    ⟨incidenceUnary,
+      weightedPathUnary,
+      endpointUnary,
+      relaxationUnary,
+      certificateUnary,
+      incidenceRow,
+      weightedPathRow,
+      endpointRow,
+      relaxationRow,
+      certificateRow,
+      carrier.right.right.right.right.right.right.right.right.right⟩
+
 theorem ShortestPathVisiblePathLedger [AskSetup] [PackageSetup]
     {vertices edges weights source target incidence path weightLedger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
