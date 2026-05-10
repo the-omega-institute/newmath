@@ -206,6 +206,7 @@ A recognized theorem-flow list alone is not a chapter-flow. Dependencies, defini
 
 \begin{definition}[Chapter soundness clauses]
 \label{def:chapter-manuscript-chapter-soundness-clauses}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.ChapterSoundnessClauses}
 For a recognized chapter-flow:
 \begin{itemize}
 \item dependency soundness requires each dependency to be generated earlier, generated in an earlier chapter of the same manuscript-flow, generated earlier inside the same chapter, marked deferred, or listed as an open obligation;
@@ -227,6 +228,7 @@ A recognized chapter-flow $C$ is \emph{sound} when complete chapter recognition 
 
 \begin{theorem}[Sound chapter-flow establishes chapter code]
 \label{thm:chapter-manuscript-sound-chapter-code}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.sound\_chapter\_code}
 If $C$ is a sound chapter-flow, then one may define
 $$
   \mathsf{ChapterCode}(C):=\mathsf{Compile}(C),
@@ -254,6 +256,7 @@ By definition, the equality is $\mathsf{Compile}(C)=\mathsf{Compile}(D)$. Inject
 
 \begin{corollary}[Chapter code equality is stronger than topic equivalence]
 \label{cor:chapter-manuscript-chapter-code-not-topic}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.chapter\_code\_not\_topic}
 Equal chapter codes imply equal raw chapter-flows. Two chapters with the same topic, such as NameCert, need not have equal chapter codes.
 \end{corollary}
 

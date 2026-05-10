@@ -117,7 +117,36 @@ def SoundChapterFlow
     (C : ChapterFlow.ChapterCandidateFlow) : Prop :=
   ChapterFlow.SoundRecognizedChapterFlow R C
 
+def ChapterSoundnessClauses
+    (R : ChapterFlow.GeneratedChapterRecognizer)
+    (C : ChapterFlow.ChapterCandidateFlow) : Prop :=
+  ChapterFlow.DependencySound R C /\
+    ChapterFlow.DefinitionSound R C /\
+    ChapterFlow.TheoremSound R C /\
+    ChapterFlow.ProofSound R C /\
+    ChapterFlow.CertificateSound R C /\
+    ChapterFlow.LedgerSound R C /\
+    ChapterFlow.CannotClaimSound R C /\
+    ChapterFlow.StatusSound R C
+
+theorem sound_chapter_code
+    {R : ChapterFlow.GeneratedChapterRecognizer}
+    {C : ChapterFlow.ChapterCandidateFlow} :
+    SoundChapterFlow R C ->
+      ChapterFlow.ChapterCode C = FlowEncoding C /\
+        Decode (ChapterFlow.ChapterCode C) = some C := by
+  intro _
+  constructor
+  · rfl
+  · exact ChapterFlow.chapter_code_round_trip C
+
 theorem chapter_code_injective
+    {C D : ChapterFlow.ChapterCandidateFlow} :
+    ChapterFlow.ChapterCode C = ChapterFlow.ChapterCode D -> C = D := by
+  intro hCode
+  exact ChapterFlow.chapter_code_injective hCode
+
+theorem chapter_code_not_topic
     {C D : ChapterFlow.ChapterCandidateFlow} :
     ChapterFlow.ChapterCode C = ChapterFlow.ChapterCode D -> C = D := by
   intro hCode
