@@ -18,7 +18,7 @@ The packet is accepted only when the $\Cont$ ledger records that the next-step d
 \label{thm:markovchain-kernel-classifier-stability}
 Let two $\MarkovChainUp$ transition packets have the same displayed unary time ledger. Suppose their $\ProbSpaceUp$ sources, $\RandomVarUp$ rows, $\DistributionUp$ law rows, and transition rows are related componentwise by $\hsame$, and suppose the transition $\Cont$ ledgers and $\Pkg$ provenance rows are transported along those comparisons. Then the transported rows form an accepted $\MarkovChainUp$ carrier, and the transition classifier has the same current-state to next-law shape.
 \end{theorem}
-\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionCarrier\_kernel\_classifier\_stability}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainKernelClassifier\_stability}
 \begin{proof}
 Use the classifier field of the roadmap ten-field template. The source rows are the $\ProbSpaceUp$ carrier, the displayed $\RandomVarUp$ sequence, and the $\DistributionUp$ law rows; the carrier row is the finite $\mathsf{BHist}$ packet of \autoref{def:markovchain-bhist-transition-carrier}.
 
@@ -26,8 +26,6 @@ Transport each source row through the displayed $\hsame$ comparison. The $\Rando
 
 Finally transport the transition $\Cont$ ledger and $\Pkg$ provenance. Since acceptance asks only that the next-step law be read through the adjacent carried rows and the displayed transition row, the transported packet satisfies the same carrier predicate without importing a host stochastic-process equality.
 \end{proof}
-\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier\_kernel\_classifier\_stability}
-
 \begin{theorem}[MarkovChain transition ledger exactness]
 \label{thm:markovchain-transition-ledger-exactness}
 For every accepted $\MarkovChainUp$ carrier, the transition ledger exposes exactly the $\mathsf{BHist}$ rows for the $\ProbSpaceUp$ source, the time-indexed $\RandomVarUp$ rows, the corresponding $\DistributionUp$ law rows, the transition rows $K_n$, and their $\hsame/\Cont/\Pkg$ provenance. It does not expose a host Markov process, a filtration, a conditional-expectation row, or a standard kernel bridge.
