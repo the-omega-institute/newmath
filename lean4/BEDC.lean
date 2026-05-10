@@ -270,6 +270,7 @@ import BEDC.Derived.ObservableUp.ObligationSurface
 import BEDC.Derived.ObservableUp.NameCertObligationSurface
 import BEDC.Derived.ObservableUp.SpectralStateSource
 import BEDC.Derived.ObservableUp.ExpectationInterface
+import BEDC.Derived.ObservableUp.PublicSurfaceBridgeBoundary
 import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp

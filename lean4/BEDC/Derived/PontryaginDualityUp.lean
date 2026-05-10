@@ -245,4 +245,42 @@ theorem PontryaginDualityCharacterCarrier_namecert_obligation_surface [AskSetup]
       endpointRow,
       pkgSig⟩
 
+theorem PontryaginDualityCharacterCarrier_visible_dual_ledger_boundary [AskSetup]
+    [PackageSetup]
+    {topSource abSource circleTarget character productRow inverseRow sourceLedger
+      characterLedger endpoint operationLedger provenance dualLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PontryaginDualityCharacterCarrier topSource abSource circleTarget character productRow
+        inverseRow sourceLedger characterLedger endpoint bundle pkg ->
+      Cont productRow inverseRow operationLedger ->
+        Cont sourceLedger characterLedger provenance ->
+          Cont provenance operationLedger dualLedger ->
+            UnaryHistory operationLedger ∧ UnaryHistory provenance ∧
+              UnaryHistory dualLedger ∧ hsame operationLedger (append productRow inverseRow) ∧
+                hsame provenance (append sourceLedger characterLedger) ∧
+                  hsame dualLedger (append provenance operationLedger) ∧
+                    PkgSig bundle endpoint pkg := by
+  intro carrier operationRow provenanceRow dualLedgerRow
+  have sourceLedgerUnary : UnaryHistory sourceLedger :=
+    unary_cont_closed carrier.left carrier.right.left
+      carrier.right.right.right.right.right.right.left
+  have characterLedgerUnary : UnaryHistory characterLedger :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have operationLedgerUnary : UnaryHistory operationLedger :=
+    unary_cont_closed carrier.right.right.right.right.left
+      carrier.right.right.right.right.right.left operationRow
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed sourceLedgerUnary characterLedgerUnary provenanceRow
+  have dualLedgerUnary : UnaryHistory dualLedger :=
+    unary_cont_closed provenanceUnary operationLedgerUnary dualLedgerRow
+  exact
+    ⟨operationLedgerUnary,
+      provenanceUnary,
+      dualLedgerUnary,
+      operationRow,
+      provenanceRow,
+      dualLedgerRow,
+      carrier.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.PontryaginDualityUp
