@@ -180,3 +180,79 @@ $$
 
 The pointwise classifier for maps $M\to N$ is the one in \autoref{def:linearmap-classifier-specification}. The ledger records the function identifier $z$, the pointwise zero witnesses, the target additive and scalar-action congruence rows, the target zero-action row, and the classifier symmetry and transitivity witnesses, matching \autoref{def:linearmap-ledger-policy}. Hence the carrier, source, pattern, classifier, stability, and ledger obligations of \autoref{def:linearmap-certificate-obligations} are satisfied for $z$.
 \end{proof}
+
+\begin{theorem}[Module LinearMap pointwise sum associativity]
+\label{thm:module-linearmap-pointwise-sum-associativity}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_N$ for the module classifier on $N$ and $+_N$ for module addition. For functions $f,g,h:M\to N$, define $u,v:M\to N$ by
+$$
+u(x):=(f(x)+_N g(x))+_N h(x),
+\qquad
+v(x):=f(x)+_N(g(x)+_N h(x)).
+$$
+If
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+\qquad\text{and}\qquad
+\mathsf{LinearMapCert}_R(M,N;g)
+\qquad\text{and}\qquad
+\mathsf{LinearMapCert}_R(M,N;h),
+$$
+then both associated pointwise sums carry certificates
+$$
+\mathsf{LinearMapCert}_R(M,N;u)
+\qquad\text{and}\qquad
+\mathsf{LinearMapCert}_R(M,N;v),
+$$
+and they are related by the pointwise $\LinearMapUp(M,N)$ classifier:
+$$
+u\sim_{\LinearMapUp(M,N)}v.
+$$
+Equivalently, for every carried $x:M$,
+$$
+(f(x)+_N g(x))+_N h(x)\sim_N f(x)+_N(g(x)+_N h(x)).
+$$
+The ten-field fit is: traditional target associativity of pointwise addition in $\operatorname{Hom}_R(M,N)$; BEDC source the three displayed $\mathsf{LinearMapCert}_R$ packages over common $\ModuleUp$ certificates; carrier the two associated pointwise-sum functions $u$ and $v$; classifier the pointwise target classifier from \autoref{def:linearmap-classifier-specification}; stability pointwise-sum closure and target additive associativity; ledger the two binary pointwise-sum ledgers on each side and the target additive-associativity ledger at each carried source endpoint; core theorem this block; exactness predicate the displayed $\LinearMapUp(M,N)$ classifier comparison; standard bridge the usual associative addition law on module homomorphisms; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Define the intermediate pointwise sums $s,t:M\to N$ by
+$$
+s(x):=f(x)+_N g(x),
+\qquad
+t(x):=g(x)+_N h(x).
+$$
+Apply \autoref{thm:module-linearmap-pointwise-sum-certificate} to the ordered pair $(f,g)$. This gives
+$$
+\mathsf{LinearMapCert}_R(M,N;s).
+$$
+Applying the same theorem to the ordered pair $(s,h)$ gives
+$$
+\mathsf{LinearMapCert}_R(M,N;u),
+$$
+because the resulting pointwise-sum function is exactly $x\mapsto (f(x)+_N g(x))+_N h(x)$.
+
+For the other association, apply \autoref{thm:module-linearmap-pointwise-sum-certificate} to the ordered pair $(g,h)$, obtaining
+$$
+\mathsf{LinearMapCert}_R(M,N;t).
+$$
+Applying the same theorem to the ordered pair $(f,t)$ gives
+$$
+\mathsf{LinearMapCert}_R(M,N;v),
+$$
+because the resulting pointwise-sum function is exactly $x\mapsto f(x)+_N(g(x)+_N h(x))$.
+
+It remains to compare the two carried pointwise sums. By \autoref{def:linearmap-classifier-specification}, the $\LinearMapUp(M,N)$ classifier is pointwise comparison in the target module classifier, together with the two carried map-code endpoints. The carried endpoint clauses are the two certificates for $u$ and $v$ just obtained.
+
+Fix a carried source endpoint $x:M$. Unpacking the three input certificates by \autoref{def:module-linearmap-certificate-package}, output closure for $f$, $g$, and $h$ makes $f(x)$, $g(x)$, and $h(x)$ carried in $N$. By \autoref{prop:module-forgets-abgroup-certificate}, the additive part of the target module is an $\AbGroupUp(N)$ certificate with the same operation $+_N$ and classifier $\sim_N$. The additive associativity row listed in \autoref{def:abgroup-stability-certificate} therefore gives
+$$
+(f(x)+_N g(x))+_N h(x)\sim_N f(x)+_N(g(x)+_N h(x)).
+$$
+By the definitions of $u$ and $v$, this is exactly
+$$
+u(x)\sim_Nv(x).
+$$
+Since $x$ was arbitrary, \autoref{def:linearmap-classifier-specification} packages these pointwise target comparisons, together with the two carried endpoint certificates, as
+$$
+u\sim_{\LinearMapUp(M,N)}v.
+$$
+The ledger is the pair of binary pointwise-sum ledgers on each associated side supplied by \autoref{thm:module-linearmap-pointwise-sum-certificate}, plus the target additive-associativity ledger in the abelian-group reduct of $N$, matching \autoref{def:linearmap-ledger-policy}.
+\end{proof}
