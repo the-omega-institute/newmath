@@ -409,3 +409,53 @@ coordinates cannot differ. The exclusion clauses in the separation and normal
 form statements keep regularity, sealing, completion, quotienting, and
 host-index equality outside the inherited packet.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat denominator common refinement]
+\label{thm:streamname-regseqrat-denominator-common-refinement}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, let
+$\mathcal P_0$ and $\mathcal P_1$ be finite observation bundles, and let
+$n$ be a certified observation with $\mathsf{UnaryHistory}(n)$,
+$\mathsf{InBundle}(n,\mathcal P_0)$, and
+$\mathsf{InBundle}(n,\mathcal P_1)$. Suppose the $\RegSeqRat$ handoff and the
+finite-window $\RealUp$ consumer accept denominator-window packets over both
+$\mathcal P_0$ and $\mathcal P_1$. Then the overlap admits a common displayed
+subbundle $\mathcal Q$ and a refinement packet over $\mathcal Q$ whose visible
+coordinates are exactly
+$$
+\begin{gathered}
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal Q),\\
+\mathsf{UnaryHistory}(n),\qquad
+\mathsf{InBundle}(n,\mathcal Q),\\
+\mathsf{RatHistoryClassifier}(s(n),t(n)),\qquad
+\text{the downstream dyadic observation coverage row.}
+\end{gathered}
+$$
+The refinement exports no $\RegSeqRat$ regularity row, $\RealUp$ seal
+classifier, completion object, quotient row, or host-index equality.
+\end{theorem}
+\begin{proof}
+First form the visible overlap. Apply
+\autoref{thm:streamname-regseqrat-denominator-overlap-gluing} to the two
+accepted denominator-window packets. The gluing row identifies the common
+finite StreamName classifier on the shared observation coordinates and keeps
+the certified unary row $n$ visible on both sides.
+
+Next display the overlap as an actual consumer boundary. Use
+\autoref{thm:streamname-regseqrat-denominator-pullback-coverage} to read the
+same overlap through the finite-window $\RealUp$ pullback, adding only the
+downstream dyadic observation coverage row needed by that handoff.
+
+Now restrict to the displayed common subbundle $\mathcal Q$. By
+\autoref{thm:streamname-regseqrat-denominator-window-subbundle-inheritance},
+the two accepted packets inherit to $\mathcal Q$ with the same finite
+classifier, the same unary row, and the membership row
+$\mathsf{InBundle}(n,\mathcal Q)$.
+
+Finally apply
+\autoref{thm:streamname-pointwise-denominator-window-determinacy}. The
+pointwise coordinate on the common packet is forced to be
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$, and the pullback row supplies the
+same downstream dyadic observation coverage. The separation clauses from the
+gluing, pullback, and inherited packets exclude all non-visible regularity,
+sealing, completion, quotient, and host-index fields.
+\end{proof}
