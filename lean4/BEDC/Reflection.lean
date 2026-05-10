@@ -120,9 +120,31 @@ def halting_as_form_of_distinction_fixed_point : Prop :=
     NameCert Halts Classifier →
       (∀ h : BHist, Halts h ↔ ∃ fuel : BHist, ∃ result : BHist, Cont h fuel result) →
         (∀ h : BHist, SelfRef h → ∃ s : BHist, ∃ m : BMark, Ext s m h) →
+          (∀ {h r : BHist}, SelfRef h → Cont h BHist.Empty r →
+            Classifier h r → Diverges r) →
           (∀ {h k : BHist}, Classifier h k → Halts h → Halts k) ∧
-            (∀ {h : BHist}, SelfRef h → Halts h → Diverges h → False) ∧
+            (∀ {h : BHist}, Halts h) ∧
               (∀ {h : BHist}, SelfRef h →
-                ∃ k : BHist, ∃ r : BHist, Cont h k r ∧ (Classifier h r → Diverges r))
+                ∃ s : BHist, ∃ m : BMark, ∃ k : BHist, ∃ r : BHist,
+                  Ext s m h ∧ Cont h k r ∧ Halts r ∧ (Classifier h r → Diverges r))
+
+theorem halting_as_form_of_distinction_fixed_point_proof :
+    halting_as_form_of_distinction_fixed_point := by
+  intro Halts Diverges SelfRef Classifier cert halts_iff selfref_ext diagonal
+  constructor
+  · intro h k classified halt_h
+    exact NameCert.carrier_respects_equiv cert classified halt_h
+  · constructor
+    · intro h
+      exact (halts_iff h).mpr ⟨BHist.Empty, h, cont_right_unit h⟩
+    · intro h self_h
+      cases selfref_ext h self_h with
+      | intro s rest =>
+          cases rest with
+          | intro m ext_h =>
+              refine ⟨s, m, BHist.Empty, h, ext_h, cont_right_unit h, ?_, ?_⟩
+              · exact (halts_iff h).mpr ⟨BHist.Empty, h, cont_right_unit h⟩
+              · intro classified
+                exact diagonal self_h (cont_right_unit h) classified
 
 end BEDC.Reflection
