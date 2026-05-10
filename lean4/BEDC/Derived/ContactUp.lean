@@ -265,7 +265,21 @@ theorem ContactCarrierClassifierSurface_mature_consumer_completeness
         (And.intro rows.right.right.right.left
           (And.intro rows.right.right.right.right.left
             (And.intro bridge.right.right.left
-              (And.intro bridge.right.left
-                (And.intro bridge.right.right.right bridge.left)))))))
+                (And.intro bridge.right.left
+                  (And.intro bridge.right.right.right bridge.left)))))))
+
+theorem ContactCarrierClassifierSurface_top_wedge_coannihilating_integrability_absurd
+    {manifold form derivative wedge top top' zeroRow tail : BHist} :
+    ContactCarrierClassifierSurface manifold form derivative wedge top ->
+      hsame top top' ->
+        hsame wedge (BHist.e1 tail) ->
+          hsame top' zeroRow ->
+            hsame zeroRow BHist.Empty -> False := by
+  intro surface sameTop sameWedgeVisible sameTopZero zeroEmpty
+  have exported :=
+    ContactCarrierClassifierSurface_public_namecert_export surface sameTop sameWedgeVisible
+  have topEmpty : hsame top' BHist.Empty :=
+    hsame_trans sameTopZero zeroEmpty
+  exact exported.right.right.right.right.right.right topEmpty
 
 end BEDC.Derived.ContactUp
