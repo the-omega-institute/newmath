@@ -61,6 +61,7 @@ import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.BayesianUp
+import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
@@ -725,6 +726,7 @@ import BEDC.Derived.RootSystemUp
 import BEDC.Derived.WeylGroupUp
 import BEDC.Derived.WeylGroupUp.RootSystemMatureBridge
 import BEDC.Derived.MonoidUp
+import BEDC.Derived.MonoidUp.StdBridge
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.LPDualityUp
 import BEDC.Derived.NetworkFlowUp
