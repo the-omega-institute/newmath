@@ -121,8 +121,8 @@ import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
-import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.RiemannHilbertUp
+import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
@@ -570,6 +570,7 @@ import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.MetricUp.CertificateObligations
 import BEDC.Derived.MetricUp.StdBridge
 import BEDC.Derived.MetricUp.PublicDistanceSurface
+import BEDC.Derived.MetricUp.VisibleContextDeterminacy
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompactMetricUp
@@ -705,6 +706,7 @@ import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.FilterUp
 import BEDC.Derived.ContinuousUp.SemanticCertificate
 import BEDC.Derived.ContinuousMapUp.PublicExport
+import BEDC.Derived.ContinuousMapUp.VisibleContextCompositionCategoryMetricExactness
 import BEDC.Derived.SumUp
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SumUp.Branch

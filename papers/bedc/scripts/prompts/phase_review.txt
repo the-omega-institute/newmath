@@ -169,10 +169,23 @@ are distinct kinds and can coexist in a multi-target round.
 
 When `closed_horizons / open_horizons > 2.0` AND
 `len(critical_path.top) <= 2`, the frontier is saturated. You (the
-reviewer) MUST emit at least ONE `human_chapter_extension` target in
-the round, alongside any closure_mark / theory_extension you also
-emit. Emitting only closure_mark in a saturated state is INVALID —
-drop one closure_mark and emit the extension.
+reviewer) MUST emit a `human_chapter_extension` target **as Target 1**
+of the round (the candidate_pool rank-1 slot), with closure_mark /
+theory_extension on existing chapters as Target 2-N. The
+in-flight review_gate selects only Target 1 for the revise phase, so
+emitting a saturation chapter at Target 5 wastes the round (the gate
+will pick the rank-1 closure_mark instead and drop the new-chapter
+proposal). Emitting only closure_mark in a saturated state is INVALID
+— Target 1 must be the human_chapter_extension and at least one
+closure_mark / theory_extension must follow.
+
+The Target 1 chapter MUST be a slug that does NOT yet exist in
+`papers/bedc/parts/concrete_instances/` (case-insensitive). Run
+`ls papers/bedc/parts/concrete_instances/ | grep -i <candidate>` first
+to confirm absence. Re-listing an already-existing chapter such as
+`StackUp`, `SchemeUp`, `RiemannHilbertUp`, `DyadicRatCore` etc. as
+the saturation Target 1 is INVALID; in that case it is a regular
+theory_extension on an existing chapter and goes to Target 2-N.
 
 Rationale: the existing 261-chapter inventory was assembled by
 discovering canonical mathematical neighbors of what was already there
