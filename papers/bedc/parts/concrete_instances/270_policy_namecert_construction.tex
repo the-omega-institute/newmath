@@ -163,6 +163,7 @@ and suppose each selected-action row is accepted only through those displayed
 rows. Then the selected-action classifier assigns $P$ and $Q$ to the same
 visible selected-action row.
 \end{theorem}
+\leanchecked{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_selected\_action\_determinacy}
 \begin{proof}
 Project both accepted packets to the finite action-ledger carrier of
 \autoref{def:policy-action-ledger-carrier}. The carrier exposes the four
@@ -192,6 +193,7 @@ $\NameCert_{\RandomVarUp}$, and $\NameCert_{\EstimatorUp}$, the selected-action
 row, an $\hsame$ transport row, a $\Cont$ provenance row, or a $\mathsf{Pkg}$
 source row naming one of the four displayed certificates.
 \end{theorem}
+\leanchecked{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_dependency\_source\_exactness}
 \begin{proof}
 Unfold the carrier in \autoref{def:policy-action-ledger-carrier}. Its public
 packet is a finite $\mathsf{BHist}$ ledger whose readable coordinates are the
@@ -217,6 +219,7 @@ $\PolicyUp$ BEDC package. This package excludes host Markov decision processes,
 optimizers, utility functions, and external policy objects from the exported
 surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_tastegate\_scoped\_package}
 \begin{proof}
 Start with the five local obligations enumerated in
 \autoref{thm:policy-namecert-obligation-surface}. They provide the carrier, the
@@ -272,18 +275,19 @@ object, hidden state space, or unlogged action source is exposed.
 
 \begin{closurestatus}{\PolicyUp}
   \constructivestory{}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The local paper obligations are the action-ledger carrier,
   TasteGate source scope, action classifier stability, visible continuation
   provenance coverage, and local action transport over the four displayed
   dependency certificates.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_kernel\_scope\_boundary}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{The chapter does not claim a host Markov decision process,
   optimizer, utility function, external policy object, or public standard
   bridge.}
-  \upgradepath{Scoped closure requires Lean TasteGate wiring at
-  \texttt{BEDC.Derived.PolicyUp.taste\_gate} plus kernel scoping for the five
-  local obligations listed here.}
+  \upgradepath{Public closure requires an exported public $\PolicyUp$
+  interface over the already scoped
+  \texttt{BEDC.Derived.PolicyUp.taste\_gate} and action-ledger package.}
 \end{closurestatus}

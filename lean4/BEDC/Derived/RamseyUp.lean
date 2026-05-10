@@ -3,6 +3,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -12,6 +13,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -123,6 +125,39 @@ theorem RamseyColouringCarrier_monochrome_classifier_stability [AskSetup] [Packa
       provenanceEndpoint',
       endpointPkg'⟩
   exact And.intro transportedCarrier (And.intro sameLookup sameEndpoint)
+
+theorem RamseyColouringCarrier_monochrome_witness_scope [AskSetup] [PackageSetup]
+    {vertex subset colour lookup provenance endpoint witness consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RamseyColouringCarrier vertex subset colour endpoint BHist.Empty lookup provenance
+        endpoint bundle pkg ->
+      UnaryHistory witness ->
+        Cont endpoint witness consumer ->
+          UnaryHistory lookup ∧ UnaryHistory endpoint ∧ UnaryHistory consumer ∧
+            hsame lookup (append vertex subset) ∧ hsame endpoint (append lookup colour) ∧
+              hsame consumer (append endpoint witness) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier witnessUnary consumerRow
+  have vertexUnary : UnaryHistory vertex := carrier.left
+  have subsetUnary : UnaryHistory subset := carrier.right.left
+  have colourUnary : UnaryHistory colour := carrier.right.right.left
+  have lookupRow : Cont vertex subset lookup :=
+    carrier.right.right.right.right.right.right.left
+  have endpointRow : Cont lookup colour endpoint :=
+    carrier.right.right.right.right.right.right.right.left
+  have lookupUnary : UnaryHistory lookup :=
+    unary_cont_closed vertexUnary subsetUnary lookupRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed lookupUnary colourUnary endpointRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary witnessUnary consumerRow
+  exact
+    ⟨lookupUnary,
+      endpointUnary,
+      consumerUnary,
+      lookupRow,
+      endpointRow,
+      consumerRow,
+      carrier.right.right.right.right.right.right.right.right.right.right⟩
 
 theorem RamseyColouringCarrier_obligation_surface [AskSetup] [PackageSetup]
     {vertexSpine subsetSpine colorEndpoint lookupLedger provenance endpoint : BHist}
@@ -242,5 +277,100 @@ theorem RamseyColouringCarrier_finite_ledger_exactness [AskSetup] [PackageSetup]
       carrier.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right.right⟩
+
+theorem RamseyColouringCarrier_downstream_boundary [AskSetup] [PackageSetup]
+    {vertex subset colour lookup provenance endpoint graphProjection consumerEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RamseyColouringCarrier vertex subset colour endpoint BHist.Empty lookup provenance endpoint
+        bundle pkg ->
+      UnaryHistory graphProjection ->
+        Cont endpoint graphProjection consumerEndpoint ->
+          UnaryHistory vertex ∧ UnaryHistory subset ∧ UnaryHistory colour ∧
+            UnaryHistory lookup ∧ UnaryHistory endpoint ∧ UnaryHistory consumerEndpoint ∧
+              hsame lookup (append vertex subset) ∧ hsame endpoint (append lookup colour) ∧
+                hsame consumerEndpoint (append endpoint graphProjection) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro carrier graphProjectionUnary consumerRoute
+  have finiteExact :=
+    RamseyColouringCarrier_finite_ledger_exactness carrier
+  have consumerUnary : UnaryHistory consumerEndpoint :=
+    unary_cont_closed finiteExact.right.right.right.right.right.right.right.left
+      graphProjectionUnary consumerRoute
+  exact
+    ⟨finiteExact.left,
+      finiteExact.right.left,
+      finiteExact.right.right.left,
+      finiteExact.right.right.right.right.left,
+      finiteExact.right.right.right.right.right.right.right.left,
+      consumerUnary,
+      finiteExact.right.right.right.right.right.right.right.right.left,
+      finiteExact.right.right.right.right.right.right.right.right.right.left,
+      consumerRoute,
+      finiteExact.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
+theorem RamseyColouringCarrier_namecert_obligation_assembly [AskSetup] [PackageSetup]
+    {vertex subset colour witnessRows transportRows lookup provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RamseyColouringCarrier vertex subset colour witnessRows transportRows lookup provenance
+        endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            RamseyColouringCarrier vertex subset colour witnessRows transportRows lookup provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            RamseyColouringCarrier vertex subset colour witnessRows transportRows lookup provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            RamseyColouringCarrier vertex subset colour witnessRows transportRows lookup provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          hsame ∧
+        UnaryHistory lookup ∧ UnaryHistory witnessRows ∧ UnaryHistory endpoint ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier
+  have lookupUnary : UnaryHistory lookup :=
+    unary_cont_closed carrier.left carrier.right.left
+      carrier.right.right.right.right.right.right.left
+  have witnessUnary : UnaryHistory witnessRows :=
+    unary_cont_closed lookupUnary carrier.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            RamseyColouringCarrier vertex subset colour witnessRows transportRows lookup provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            RamseyColouringCarrier vertex subset colour witnessRows transportRows lookup provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            RamseyColouringCarrier vertex subset colour witnessRows transportRows lookup provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro lookupUnary
+      (And.intro witnessUnary
+        (And.intro carrier.right.right.right.right.right.left
+          carrier.right.right.right.right.right.right.right.right.right.right)))
 
 end BEDC.Derived.RamseyUp

@@ -1,10 +1,12 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.DerivedFunctorUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def DerivedFunctorCarrier
@@ -69,6 +71,54 @@ theorem DerivedFunctorCarrier_classifier_stability
     (And.intro degreeUnary (And.intro resolvedRow endpointRow))
     sameResolved
 
+theorem DerivedFunctorCarrier_namecert_obligation_surface
+    {functor resolution homology degree resolved endpoint : BHist} :
+    DerivedFunctorCarrier functor resolution homology degree resolved endpoint ->
+      SemanticNameCert
+        (fun row : BHist => DerivedFunctorCarrier functor resolution homology degree resolved endpoint ∧
+          hsame row endpoint)
+        (fun row : BHist => DerivedFunctorCarrier functor resolution homology degree resolved endpoint ∧
+          hsame row endpoint)
+        (fun row : BHist => DerivedFunctorCarrier functor resolution homology degree resolved endpoint ∧
+          hsame row endpoint)
+        hsame ∧
+        hsame resolved (append functor resolution) ∧
+          hsame endpoint (append (append functor resolution) homology) ∧
+            Cont functor resolution resolved ∧ Cont resolved homology endpoint := by
+  intro carrier
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => DerivedFunctorCarrier functor resolution homology degree resolved endpoint ∧
+          hsame row endpoint)
+        (fun row : BHist => DerivedFunctorCarrier functor resolution homology degree resolved endpoint ∧
+          hsame row endpoint)
+        (fun row : BHist => DerivedFunctorCarrier functor resolution homology degree resolved endpoint ∧
+          hsame row endpoint)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _rowCarrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows rowCarrier
+        exact And.intro rowCarrier.left (hsame_trans (hsame_symm sameRows) rowCarrier.right)
+    }
+    pattern_sound := by
+      intro _row rowCarrier
+      exact rowCarrier
+    ledger_sound := by
+      intro _row rowCarrier
+      exact rowCarrier
+  }
+  exact And.intro cert (DerivedFunctorCarrier_resolution_append_readback carrier)
+
 def DerivedFunctorExactTriangleBoundaryCarrier
     (functor resolutionA resolutionB resolutionC homology degree resolvedA resolvedB resolvedC
       endpointA endpointB endpointC boundary : BHist) : Prop :=
@@ -93,5 +143,23 @@ theorem DerivedFunctorExactTriangleBoundaryCarrier_scope
     (And.intro carrier.left
       (And.intro carrier.right.left
         (And.intro carrier.right.right.left boundaryRow)))
+
+theorem DerivedFunctorExactTriangleBoundaryCarrier_connecting_morphism_readback
+    {functor resolutionA resolutionB resolutionC homology degree resolvedA resolvedB resolvedC
+      endpointA endpointB endpointC boundary connecting splice : BHist} :
+    DerivedFunctorExactTriangleBoundaryCarrier functor resolutionA resolutionB resolutionC
+        homology degree resolvedA resolvedB resolvedC endpointA endpointB endpointC boundary ->
+      Cont endpointC boundary connecting ->
+        Cont connecting endpointA splice ->
+          DerivedFunctorCarrier functor resolutionA homology degree resolvedA endpointA ∧
+            DerivedFunctorCarrier functor resolutionC homology degree resolvedC endpointC ∧
+              hsame connecting (append endpointC boundary) ∧
+                hsame splice (append (append endpointC boundary) endpointA) := by
+  intro carrier connectingRow spliceRow
+  have spliceReadback : hsame splice (append (append endpointC boundary) endpointA) :=
+    hsame_trans spliceRow (congrArg (fun h => append h endpointA) connectingRow)
+  exact And.intro carrier.left
+    (And.intro carrier.right.right.left
+      (And.intro connectingRow spliceReadback))
 
 end BEDC.Derived.DerivedFunctorUp
