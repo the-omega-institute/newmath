@@ -34,6 +34,40 @@ the endpoint carrier, denominator row, and dyadic token, which is exactly the
 DyadicRatCore classifier obligation.
 \end{proof}
 
+\begin{theorem}[RealUp-RegSeqRat finite-window projection]
+\label{thm:realup-regseqrat-finite-window-projection}
+A finite DyadicRatCore observation package over a certified unary request
+projects to the exact $\RegSeqRat$ finite-window observation surface consumed by
+$\RealUp$. The projected surface consists of the $\RatUp$ endpoint carrier, the
+positive unary denominator row, the dyadic-radius token, the $\StreamNameUp$
+request name, the $\RegSeqRat$ regularity ledger, $\hsame$ transport for the
+endpoint and denominator rows, and finite ledger provenance for the displayed
+window. It exports no quotient carrier, no completion object, no
+metric-completeness row, no Classical representative, and no standard bridge
+datum.
+\end{theorem}
+\begin{proof}
+Project the finite package to its three visible faces. The package theorem
+\autoref{thm:dyadic-rat-core-finite-observation-obligation-package} identifies
+these faces as the carrier-classifier face, the finite arithmetic face, and the
+radius-distance face over the same certified unary request.
+
+The endpoint rows are read from
+\autoref{thm:dyadic-rat-core-carrier-classifier-obligations}. They give exactly
+the $\RatUp$ carrier, positive unary denominator row, dyadic-radius token, and
+$\hsame$ transport required by the $\RegSeqRat$ finite window.
+
+The radius and distance rows are read from
+\autoref{thm:dyadic-rat-core-radius-distance-obligations}. They keep the
+dyadic-radius refinement, dyadic distance, absolute-value row, request name,
+and regularity ledger inside the same finite observation ledger.
+
+Finally repack these shared rows as the $\RegSeqRat$ finite-window projection.
+Since the source package has no coordinate for a quotient carrier, completion
+object, metric-completeness witness, Classical representative, or standard
+bridge, the projection passed to $\RealUp$ contains none of those data.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore arithmetic-stability obligations]
 \label{thm:dyadic-rat-core-arithmetic-stability-obligations}
 The arithmetic-stability obligations for DyadicRatCore are the finite
