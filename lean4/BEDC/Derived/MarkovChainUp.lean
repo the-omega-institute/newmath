@@ -285,4 +285,25 @@ theorem MarkovChainBHistTransitionCarrier_transition_ledger_exactness
       carrier.right.right.right.right.right.right.right.right.right.right,
       carrier.right.right.right.right.right.right.right.right.right.left⟩
 
+theorem MarkovChainBHistTransitionCarrier_source_boundary
+    [AskSetup] [PackageSetup]
+    {prob random law transition controw provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MarkovChainBHistTransitionCarrier prob random law transition controw provenance endpoint
+        bundle pkg ->
+      UnaryHistory prob ∧ UnaryHistory random ∧ UnaryHistory law ∧
+        UnaryHistory transition ∧ Cont random transition controw ∧
+          Cont prob law provenance ∧ Cont provenance controw endpoint ∧
+            PkgSig bundle endpoint pkg := by
+  intro carrier
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.MarkovChainUp
