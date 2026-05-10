@@ -208,6 +208,63 @@ theorem MirrorSymmetryPairCarrier_source_certificate_scope [AskSetup] [PackageSe
                                   sourceTransport, pairTransport, endpointTransport,
                                   endpointTransport, packageSig⟩
 
+theorem MirrorSymmetryPairCarrier_hms_source_boundary [AskSetup] [PackageSetup]
+    {symplecticSource derivedSource aModelAnswer bModelAnswer pairLedger transportLedger
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MirrorSymmetryPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+        pairLedger transportLedger endpoint bundle pkg ->
+      SemanticNameCert
+          (fun e : BHist =>
+            exists pair transport : BHist,
+              MirrorSymmetryPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+                pair transport e bundle pkg)
+          (fun e : BHist =>
+            exists pair transport : BHist,
+              MirrorSymmetryPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+                pair transport e bundle pkg)
+          (fun e : BHist =>
+            exists pair transport : BHist,
+              MirrorSymmetryPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+                pair transport e bundle pkg)
+          hsame ∧
+        UnaryHistory symplecticSource ∧ UnaryHistory derivedSource ∧
+          Cont symplecticSource derivedSource transportLedger ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  let EndpointSurface : BHist -> Prop := fun e =>
+    exists pair transport : BHist,
+      MirrorSymmetryPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer pair
+        transport e bundle pkg
+  have endpointSurface : EndpointSurface endpoint := by
+    exact Exists.intro pairLedger (Exists.intro transportLedger carrier)
+  have cert : SemanticNameCert EndpointSurface EndpointSurface EndpointSurface hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointSurface
+      equiv_refl := by
+        intro row _surface
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro left middle right sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' same surface
+        cases same
+        exact surface
+    }
+    pattern_sound := by
+      intro _row surface
+      exact surface
+    ledger_sound := by
+      intro _row surface
+      exact surface
+  }
+  exact
+    ⟨cert, carrier.left, carrier.right.left, carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right⟩
+
 theorem MirrorSymmetryCategoricalClassifier_endpoint_confluence [AskSetup] [PackageSetup]
     {symplecticSource derivedSource aModelAnswer bModelAnswer pairedAnswer provenance ledger
       endpoint symplecticSourceA derivedSourceA aModelAnswerA bModelAnswerA pairedAnswerA
@@ -247,5 +304,34 @@ theorem MirrorSymmetryCategoricalClassifier_endpoint_confluence [AskSetup] [Pack
     ⟨hsame_trans (hsame_symm samePairedAnswerA) samePairedAnswerB,
       hsame_trans (hsame_symm sameLedgerA) sameLedgerB,
       hsame_trans (hsame_symm sameEndpointA) sameEndpointB⟩
+
+theorem MirrorSymmetryPairCarrier_obligation_package [AskSetup] [PackageSetup]
+    {symplecticSource derivedSource aModelAnswer bModelAnswer pairLedger transportLedger
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MirrorSymmetryPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+        pairLedger transportLedger endpoint bundle pkg ->
+      UnaryHistory transportLedger ∧ UnaryHistory pairLedger ∧ UnaryHistory endpoint ∧
+        hsame transportLedger (append symplecticSource derivedSource) ∧
+          hsame pairLedger (append aModelAnswer bModelAnswer) ∧
+            hsame endpoint (append transportLedger pairLedger) ∧
+              PkgSig bundle endpoint pkg := by
+  intro carrier
+  have transportLedgerUnary : UnaryHistory transportLedger :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.right.left
+  have pairLedgerUnary : UnaryHistory pairLedger :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportLedgerUnary pairLedgerUnary
+      carrier.right.right.right.right.right.right.left
+  exact
+    ⟨transportLedgerUnary,
+      pairLedgerUnary,
+      endpointUnary,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.MirrorSymmetryUp
