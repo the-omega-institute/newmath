@@ -185,6 +185,7 @@ import BEDC.Derived.DeRhamUp.BridgeInputSource
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.DynSystemUp
+import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KnotUp
@@ -863,6 +864,7 @@ import BEDC.Derived.RealUp.SelectedDenominatorRow
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.DyadicRatCore
 import BEDC.Derived.InnerProductUp
+import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp

@@ -26,6 +26,7 @@ A $\RiemannHilbertUp$ carrier is a finite $\mathsf{BHist}$ bridge packet whose r
 
 The carrier records only this displayed BEDC packet. It does not contain an external derived category, analytic D-module model, sheaf quotient, monodromy equivalence, or host-level Riemann-Hilbert theorem.
 \end{definition}
+\leandef{BEDC.Derived.RiemannHilbertUp.RiemannHilbertBHistBridgePacket}
 
 \section{The certificate}
 \label{sec:riemannhilbert-certificate}
@@ -34,6 +35,7 @@ The carrier records only this displayed BEDC packet. It does not contain an exte
 \label{thm:riemannhilbert-derived-sheaf-source}
 Every accepted $\RiemannHilbertUp$ packet exposes a derived-functor source row and a sheaf target row exactly as in \autoref{def:riemannhilbert-bhist-bridge-packet}. The source side is the displayed $\DerivedFunctorUp$ row with its exact-triangle and degree provenance, and the target side is the displayed $\SheafUp$ row with its section, restriction, locality, and gluing ledger. No external derived category, analytic solution functor, or host sheaf quotient is projected by the source boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannHilbertUp.RiemannHilbertBHistBridgePacket\_derived\_sheaf\_source}
 \leanchecked{BEDC.Derived.RiemannHilbertUp.RiemannHilbertBHistBridgePacket\_source\_boundary}
 \begin{proof}
 Project the accepted packet to its first two carrier coordinates. The definition gives the $\DerivedFunctorUp$ source row, including the derived endpoint and exact-triangle provenance, and the $\SheafUp$ target row, including section, restriction, locality, and gluing data.
@@ -65,6 +67,7 @@ Constructor inspection of the displayed packet gives the exclusion claim. The ro
 \label{thm:riemannhilbert-regular-holonomic-soundness}
 The regular-holonomic soundness boundary of $\RiemannHilbertUp$ is the conjunction of the derived-functor source row, the regular-holonomic source classifier row, the de Rham readback transport, and the sheaf target classifier row. A downstream consumer can read a regular-holonomic conclusion only by projecting these rows from the bridge packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannHilbertUp.RiemannHilbertBHistBridgePacket\_regular\_holonomic\_soundness}
 \begin{proof}
 Use \autoref{thm:riemannhilbert-derived-sheaf-source} to identify the source and target rows available to the packet. The source contributes the derived-functor endpoint and exact-triangle provenance, while the target contributes the sheaf classifier and gluing ledger.
 
