@@ -188,6 +188,7 @@ import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.LanglandsUp
 import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.MarkovChainUp.FinitePrefix
+import BEDC.Derived.MarkovChainUp.FiniteSuffix
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.OptionUp
@@ -272,6 +273,7 @@ import BEDC.Derived.ObservableUp.ExpectationInterface
 import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
+import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.PolytopeUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.PreSheafUp

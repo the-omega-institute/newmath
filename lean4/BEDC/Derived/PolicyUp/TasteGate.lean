@@ -279,4 +279,46 @@ def taste_gate : ChapterTasteGate PolicyUp where
     intro x y hxy heq
     exact hxy (policyToEventFlow_injective heq)
 
+theorem PolicyActionLedger_source_scope [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      exists policy : PolicyUp,
+        exists beliefRow markovRow randomvarRow estimatorRow decisionRow ledgerRow provenanceRow
+          endpointRow : BHist,
+          policy =
+              PolicyUp.mk beliefRow markovRow randomvarRow estimatorRow decisionRow ledgerRow ∧
+            UnaryHistory beliefRow ∧ UnaryHistory markovRow ∧ UnaryHistory randomvarRow ∧
+              UnaryHistory estimatorRow ∧ UnaryHistory decisionRow ∧ UnaryHistory ledgerRow ∧
+                UnaryHistory provenanceRow ∧ UnaryHistory endpointRow ∧
+                  Cont beliefRow markovRow ledgerRow ∧
+                    Cont ledgerRow estimatorRow provenanceRow ∧
+                      Cont provenanceRow decisionRow endpointRow ∧
+                        PkgSig bundle endpointRow pkg := by
+  intro carrier
+  exact
+    ⟨PolicyUp.mk belief markov randomvar estimator decision ledger,
+      belief,
+      markov,
+      randomvar,
+      estimator,
+      decision,
+      ledger,
+      provenance,
+      endpoint,
+      rfl,
+      carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.PolicyUp
