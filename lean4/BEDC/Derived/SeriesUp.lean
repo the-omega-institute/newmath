@@ -72,6 +72,20 @@ theorem SeriesPartialSum_result_unary {zero : BHist} {summand : BHist -> BHist}
       have summandNUnary : UnaryHistory _ := summandUnary unaryN
       exact unary_cont_closed partialUnary summandNUnary stepCont
 
+theorem SeriesPartialSum_schema_bridge_endpoint_unary {zero : BHist}
+    {summand modulus : BHist -> BHist} {n partialSum endpoint : BHist} :
+    UnaryHistory zero ->
+      (forall {k : BHist}, UnaryHistory k -> UnaryHistory (summand k)) ->
+        (forall {k : BHist}, UnaryHistory k -> UnaryHistory (modulus k)) ->
+          UnaryHistory n -> SeriesPartialSum zero summand n partialSum ->
+            Cont partialSum (modulus n) endpoint ->
+              UnaryHistory endpoint ∧ hsame endpoint (append partialSum (modulus n)) := by
+  intro zeroUnary summandUnary modulusUnary unaryN partialSumRow endpointCont
+  have partialSumUnary : UnaryHistory partialSum :=
+    SeriesPartialSum_result_unary zeroUnary summandUnary partialSumRow unaryN
+  have modulusNUnary : UnaryHistory (modulus n) := modulusUnary unaryN
+  exact And.intro (unary_cont_closed partialSumUnary modulusNUnary endpointCont) endpointCont
+
 theorem SeriesPartialSumLedger_step_transport {PointCarrier : BHist -> Prop}
     {PointClassifier : BHist -> BHist -> Prop}
     (cert : NameCert PointCarrier PointClassifier)
