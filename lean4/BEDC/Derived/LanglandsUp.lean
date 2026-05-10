@@ -435,4 +435,20 @@ theorem LanglandsCorrespondenceLedger_obligation_package [AskSetup] [PackageSetu
       ledger.right.right.right.right.right.right.right.right.left,
       ledger.right.right.right.right.right.right.right.right.right⟩
 
+theorem LanglandsBHistCorrespondenceCarrier_finite_local_factor_public_surface
+    [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance ledger
+      endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsBHistCorrespondenceCarrier galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor provenance ledger endpoint bundle pkg ->
+      Cont localFactor endpoint consumer ->
+        UnaryHistory consumer ∧ hsame consumer (append localFactor endpoint) ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier consumerRow
+  have localRows := LanglandsBHistCorrespondenceCarrier_generated_rows_unary carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed localRows.left localRows.right.right consumerRow
+  exact ⟨consumerUnary, consumerRow, carrier.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.LanglandsUp
