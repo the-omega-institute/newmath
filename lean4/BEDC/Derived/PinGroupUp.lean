@@ -93,6 +93,23 @@ def PinGroupReflectionParityLedgerSurface
     (spin reflection product endpoint ledger carried : BHist) : Prop :=
   PinGroupReflectionParityCarrier spin reflection product endpoint ∧ Cont endpoint ledger carried
 
+theorem PinGroupReflectionParityCarrier_source_exhaustion
+    {spin reflection product endpoint ledger carried : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      ((hsame endpoint spin ∧ UnaryHistory spin) ∨
+          (Cont spin reflection product ∧ hsame endpoint product ∧ UnaryHistory reflection)) ∧
+        hsame carried (append endpoint ledger) := by
+  intro surface
+  constructor
+  · cases surface.left with
+    | inl spinBranch =>
+        exact Or.inl (And.intro spinBranch.left spinBranch.right)
+    | inr reflectionBranch =>
+        exact Or.inr
+          (And.intro reflectionBranch.left
+            (And.intro reflectionBranch.right.left reflectionBranch.right.right))
+  · exact surface.right
+
 theorem PinGroupReflectionParityLedgerSurface_exhaustion
     {spin reflection product endpoint ledger carried : BHist} :
     PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
@@ -459,6 +476,19 @@ theorem PinGroupReflectionParityCarrier_root_reflection_threshold_exactness
           (And.intro reflectionRows.right.right.left
             (And.intro reflectionRows.right.right.right.left
               reflectionRows.right.right.right.right))))
+
+theorem PinGroupReflectionParityCarrier_parity_classifier_obligation
+    {spin reflection product endpoint endpoint' ledger carried carried' : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      PinGroupReflectionParityCarrier spin reflection product endpoint' ->
+        hsame endpoint endpoint' ->
+          Cont endpoint' ledger carried' ->
+            PinGroupReflectionParityCarrier spin reflection product endpoint' ∧
+              hsame carried carried' ∧ hsame carried' (append endpoint' ledger) := by
+  intro surface classifier sameEndpoint endpointLedger'
+  have sameCarried : hsame carried carried' :=
+    cont_respects_hsame sameEndpoint (hsame_refl ledger) surface.right endpointLedger'
+  exact And.intro classifier (And.intro sameCarried endpointLedger')
 
 theorem PinGroupReflectionGenerator_transport_closure
     {spin reflection product endpoint ledger carried spin' reflection' product' endpoint' ledger'
