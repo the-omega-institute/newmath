@@ -207,6 +207,46 @@ transported source surface, and the excluded quotient, completion, metric,
 Classical, and bridge rows have no slot in the scoped source package.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore common-exponent transport determinacy]
+\label{thm:dyadic-observation-common-exponent-determinacy}
+Let $d,e,d',e',r,s:\Hist$. Suppose $d$ and $e$ carry
+$\mathsf{DyadicRatCoreObservationRow}$ packages for the same certified
+$\RegSeqRat$ observation request, with $r$ and $s$ naming the unary-radius
+histories of that request. Suppose
+$\mathsf{RatHistoryClassifier}(d,e)$ holds, and suppose $\hsame(d,d')$ and
+$\hsame(e,e')$ are displayed. If the packages at $d'$ and $e'$ are obtained by
+transporting the source rows along those displayed $\hsame$ rows without
+changing the certified request ledger, then the two transported packages
+expose the same $\RatUp$ carrier faces, the same positive-unary-denominator
+faces, the same unary radius/request token, and the same
+$\mathsf{RatHistoryClassifier}(d',e')$ surface. No quotient row, completion
+row, metric-completeness row, Classical datum, or standard bridge row
+contributes an additional common-exponent choice.
+\end{theorem}
+\begin{proof}
+First transport the classifier surface. Apply
+\autoref{thm:dyadic-rat-core-observation-row-classifier-transport} to the
+source comparison $\mathsf{RatHistoryClassifier}(d,e)$ and to the displayed
+rows $\hsame(d,d')$ and $\hsame(e,e')$. The transported endpoint comparison is
+therefore the single surface $\mathsf{RatHistoryClassifier}(d',e')$ attached
+to the same certified $\RegSeqRat$ request.
+
+Next transport the two endpoint source rows. Apply
+\autoref{thm:dyadic-rat-core-observation-row-hsame-transport} to the row at
+$d$ and to the row at $e$. Because the request ledger is unchanged, the
+transported rows inherit the same dyadic request token and the same
+positive-unary-denominator transport rows used by the source package.
+
+Finally compare the transported packages with
+\autoref{thm:dyadic-observation-source-transport-determinacy}. The theorem
+identifies the $\RatUp$ carrier face, the positive-denominator face, the
+dyadic-radius token, and the classifier face for transports through a fixed
+certified request. These identified faces are exactly the common-exponent
+surface of the two presentations, and the scoped source package has no field
+for quotient, completion, metric-completeness, Classical, or standard bridge
+data.
+\end{proof}
+
 \begin{theorem}[Dyadic observation transport RealUp feed determinacy]
 \label{thm:dyadic-observation-transport-realup-feed-determinacy}
 Let $d,e:\Hist$, and suppose $\hsame(d,e)$ is displayed. Fix one certified
