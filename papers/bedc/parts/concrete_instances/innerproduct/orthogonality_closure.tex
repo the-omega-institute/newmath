@@ -228,3 +228,36 @@ $\eta\cdot_V y\sim_V -_V y$ by
 \autoref{thm:innerproduct-orthogonality-transport-row}, keeping the left endpoint
 fixed by reflexivity. The result is $x\perp_I(-_V y)$.
 \end{proof}
+
+\begin{theorem}[InnerProduct orthogonality left additive closure]
+\label{thm:innerproduct-orthogonality-left-additive-closure}
+Let $I$ be an inner-product $\mathsf{BHist}$ carrier as in
+\autoref{def:innerproduct-bhist-carrier}. For carried vector endpoints
+$x,y,z:C_V$, if $x\perp_I z$ and $y\perp_I z$, then the displayed vector sum
+$x+_V y$ is carried and
+$$
+(x+_V y)\perp_I z.
+$$
+\end{theorem}
+\begin{proof}
+The embedded $\VecSpaceUp$ row in
+\autoref{def:innerproduct-bhist-carrier} supplies closure of the displayed
+vector addition, so $x+_V y$ is carried. Apply
+\autoref{thm:innerproduct-orthogonality-symmetry-row} to the two hypotheses
+$x\perp_I z$ and $y\perp_I z$. This gives
+$$
+z\perp_I x
+\qquad\text{and}\qquad
+z\perp_I y.
+$$
+Now apply \autoref{thm:innerproduct-orthogonal-additivity-row} with left
+endpoint $z$ and right endpoints $x$ and $y$. Its conclusion gives
+$$
+z\perp_I (x+_V y).
+$$
+A final application of \autoref{thm:innerproduct-orthogonality-symmetry-row},
+now to the carried pair $(z,x+_V y)$, gives
+$$
+(x+_V y)\perp_I z.
+$$
+\end{proof}
