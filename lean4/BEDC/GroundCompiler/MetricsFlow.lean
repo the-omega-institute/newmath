@@ -1,0 +1,787 @@
+import BEDC.GroundCompiler.ChannelEncoding
+import BEDC.GroundCompiler.EventFlow
+
+namespace BEDC.GroundCompiler.MetricsFlow
+
+open BEDC.GroundCompiler.ChannelEncoding
+open BEDC.GroundCompiler.EventFlow
+open BEDC.FKernel.Mark
+
+deriving instance DecidableEq for DisplayAlphabet
+deriving instance DecidableEq for RawEvent
+deriving instance DecidableEq for EventFlow
+deriving instance DecidableEq for GeneratedRecognizer
+
+inductive MetricCandidate : Type where
+  | scalar (value : Nat)
+  | sequence (values : List Nat)
+  | finiteSet (values : List Nat)
+  | summary (values : List Nat)
+
+def GeneratedMetricRecognizer : Type :=
+  EventFlow
+
+def MetricSpecificationFlow : Type :=
+  EventFlow
+
+def RecognizesMetric
+    (R : GeneratedMetricRecognizer) (m : MetricSpecificationFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R m)
+
+def MetricProtocolFlow (Pmet : EventFlow) : Prop :=
+  exists R : GeneratedMetricRecognizer, RecognizesMetric R Pmet
+
+def MetricRecognizerFamily : Type :=
+  List GeneratedRecognizer
+
+inductive MetricDataKind : Type where
+  | decodedSourceFlow
+  | recognizedMotif
+  | recognizedLedger
+  | recognizedClassifier
+  | recognizedReuse
+  | recognizedNormalAddress
+  | failureFlow
+  | cannotClaimFlow
+  | channelSubstring
+  | externalObjectName
+  | yamlField
+  | hostAST
+  | hostSimilarityScore
+  | theoremLabel
+  | chapterTitle
+  | externalSemanticCategory
+  | unrecordedClassifierJudgment
+
+structure MetricSpec where
+  sources : List MetricDataKind
+
+inductive MetricAllowedData : MetricDataKind -> Prop where
+  | decodedSourceFlow :
+      MetricAllowedData MetricDataKind.decodedSourceFlow
+  | recognizedMotif :
+      MetricAllowedData MetricDataKind.recognizedMotif
+  | recognizedLedger :
+      MetricAllowedData MetricDataKind.recognizedLedger
+  | recognizedClassifier :
+      MetricAllowedData MetricDataKind.recognizedClassifier
+  | recognizedReuse :
+      MetricAllowedData MetricDataKind.recognizedReuse
+  | recognizedNormalAddress :
+      MetricAllowedData MetricDataKind.recognizedNormalAddress
+  | failureFlow :
+      MetricAllowedData MetricDataKind.failureFlow
+  | cannotClaimFlow :
+      MetricAllowedData MetricDataKind.cannotClaimFlow
+
+inductive MetricExternalInput : MetricDataKind -> Prop where
+  | channelSubstring :
+      MetricExternalInput MetricDataKind.channelSubstring
+  | externalObjectName :
+      MetricExternalInput MetricDataKind.externalObjectName
+  | yamlField :
+      MetricExternalInput MetricDataKind.yamlField
+  | hostAST :
+      MetricExternalInput MetricDataKind.hostAST
+  | hostSimilarityScore :
+      MetricExternalInput MetricDataKind.hostSimilarityScore
+  | theoremLabel :
+      MetricExternalInput MetricDataKind.theoremLabel
+  | chapterTitle :
+      MetricExternalInput MetricDataKind.chapterTitle
+  | externalSemanticCategory :
+      MetricExternalInput MetricDataKind.externalSemanticCategory
+  | unrecordedClassifierJudgment :
+      MetricExternalInput MetricDataKind.unrecordedClassifierJudgment
+
+def MetricAdmissible (M : MetricSpec) : Prop :=
+  forall d : MetricDataKind, List.Mem d M.sources -> MetricAllowedData d
+
+def RecognizedMetricSpec (m : MetricSpecificationFlow) : Prop :=
+  exists R : GeneratedMetricRecognizer, RecognizesMetric R m
+
+def AdmissibleMetric
+    (m : MetricSpecificationFlow) (spec : MetricSpec) (S : EventFlow)
+    (Pmet : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow S) /\
+    RecognizedMetricSpec m /\
+    MetricProtocolFlow Pmet /\
+    MetricAdmissible spec
+
+theorem no_metric_without_protocol
+    {m : MetricSpecificationFlow} {spec : MetricSpec} {S Pmet : EventFlow} :
+    AdmissibleMetric m spec S Pmet -> MetricProtocolFlow Pmet := by
+  intro hAdmissible
+  exact hAdmissible.right.right.left
+
+theorem unrecognized_metric_inadmissible
+    {m : MetricSpecificationFlow} {spec : MetricSpec} {S Pmet : EventFlow} :
+    (Not (RecognizedMetricSpec m) \/ Not (MetricProtocolFlow Pmet)) ->
+      Not (AdmissibleMetric m spec S Pmet) := by
+  intro hMissing hAdmissible
+  cases hMissing with
+  | inl hNoSpec =>
+      exact hNoSpec hAdmissible.right.left
+  | inr hNoProtocol =>
+      exact hNoProtocol hAdmissible.right.right.left
+
+def RawPrefixProfile (S P : EventFlow) : Prop :=
+  exists rest : EventFlow, S = List.append P rest
+
+def RawPrefixOverlapLength : EventFlow -> EventFlow -> Nat
+  | [], _ => 0
+  | _, [] => 0
+  | w :: S, v :: T =>
+      if w = v then Nat.succ (RawPrefixOverlapLength S T) else 0
+
+def RecognizedPrefixProfile
+    (Rfam : MetricRecognizerFamily) (S P role ledger : EventFlow) : Prop :=
+  RawPrefixProfile S P /\
+    exists R : GeneratedRecognizer,
+      List.Mem R Rfam /\
+        FormalCompilerInput (CompilerDatum.recognizedFlow R P) /\
+        FormalCompilerInput (CompilerDatum.recognizedFlow R role) /\
+        FormalCompilerInput (CompilerDatum.recognizedFlow R ledger)
+
+def RecognizedPrefixOverlap
+    (Rfam : MetricRecognizerFamily) (S T P role ledger : EventFlow) : Prop :=
+  RecognizedPrefixProfile Rfam S P role ledger /\
+    RecognizedPrefixProfile Rfam T P role ledger
+
+structure MotifOccurrence where
+  role : EventFlow
+  support : EventFlow
+  ledger : EventFlow
+  recognizer : GeneratedRecognizer
+  deriving DecidableEq
+
+def EventSubflow (S M : EventFlow) : Prop :=
+  exists pre post : EventFlow, S = List.append pre (List.append M post)
+
+def MotifOccurrenceRecognized
+    (Rfam : MetricRecognizerFamily) (S : EventFlow) (occ : MotifOccurrence) :
+    Prop :=
+  EventSubflow S occ.support /\
+    List.Mem occ.recognizer Rfam /\
+    FormalCompilerInput (CompilerDatum.recognizedFlow occ.recognizer occ.support) /\
+    FormalCompilerInput (CompilerDatum.recognizedFlow occ.recognizer occ.role) /\
+    FormalCompilerInput (CompilerDatum.recognizedFlow occ.recognizer occ.ledger)
+
+def MotifProfile
+    (Rfam : MetricRecognizerFamily) (S : EventFlow)
+    (profile : List MotifOccurrence) : Prop :=
+  forall occ : MotifOccurrence,
+    List.Mem occ profile -> MotifOccurrenceRecognized Rfam S occ
+
+def MotifMultiplicity (profile : List MotifOccurrence) (role : EventFlow) : Nat :=
+  (profile.filter (fun occ => decide (occ.role = role))).length
+
+def RecognizedMotifCount (profile : List MotifOccurrence) (role : EventFlow) :
+    Nat :=
+  MotifMultiplicity profile role
+
+def CandidateMotifCount (candidates : List MotifOccurrence) (role : EventFlow) :
+    Nat :=
+  MotifMultiplicity candidates role
+
+inductive MotifCountStatus : Type where
+  | recognized (count : Nat)
+  | undefined
+  | recognizerMissing
+  deriving DecidableEq
+
+inductive UndefinedMetricItem : Type where
+  | recognizerMissing
+  | ledgerMissing
+  | classifierExactnessMissing
+  | normalizerMissing
+  | divisionByZeroUnresolved
+  | candidateOnlyEvidence
+  | unresolvedBootstrapObligation
+  deriving DecidableEq
+
+def RecognizedMotifCountStatus
+    (profile : Option (List MotifOccurrence)) (role : EventFlow) :
+    MotifCountStatus :=
+  match profile with
+  | some recognized => MotifCountStatus.recognized (RecognizedMotifCount recognized role)
+  | none => MotifCountStatus.recognizerMissing
+
+theorem candidate_count_weaker :
+    exists candidates recognized : List MotifOccurrence,
+      exists role : EventFlow,
+        Not (CandidateMotifCount candidates role =
+          RecognizedMotifCount recognized role) := by
+  refine
+    ⟨[{ role := [],
+        support := [],
+        ledger := [],
+        recognizer := [] }],
+      [], [], ?_⟩
+  intro h
+  change 1 = 0 at h
+  cases h
+
+theorem missing_recognizer_not_zero {role : EventFlow} :
+    Not (RecognizedMotifCountStatus none role = MotifCountStatus.recognized 0) := by
+  intro h
+  cases h
+
+theorem silent_zero_unsound {role : EventFlow} :
+    Not (RecognizedMotifCountStatus none role = MotifCountStatus.recognized 0) :=
+  missing_recognizer_not_zero
+
+def SealDepth (profile : List MotifOccurrence) (sealRole : EventFlow) : Nat :=
+  MotifMultiplicity profile sealRole
+
+def CarryIndex (profile : List MotifOccurrence) (carryRole : EventFlow) : Nat :=
+  MotifMultiplicity profile carryRole
+
+def LedgerDepth (ledgerDepths : List Nat) : Nat :=
+  ledgerDepths.foldr Nat.max 0
+
+structure ClassifierCompressionData where
+  rawSupportFlows : List EventFlow
+  classifierClasses : List EventFlow
+  classifierRecognition : MetricAllowedData MetricDataKind.recognizedClassifier
+  ledgerRecognition : MetricAllowedData MetricDataKind.recognizedLedger
+  exactnessRecognition : EventFlow
+  classCountPositive : 0 < classifierClasses.length
+
+def CompressionExactnessRecognized
+    (R : GeneratedMetricRecognizer) (exactnessFlow : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.recognizedFlow R exactnessFlow)
+
+structure AdmissibleCompressionRatio where
+  data : ClassifierCompressionData
+  recognizer : GeneratedMetricRecognizer
+  exactnessRecognized :
+    CompressionExactnessRecognized recognizer data.exactnessRecognition
+
+def CompressionRatio (q : ClassifierCompressionData) : Nat × Nat :=
+  (q.rawSupportFlows.length, q.classifierClasses.length)
+
+theorem compression_ratio_requires_exactness
+    (q : AdmissibleCompressionRatio) :
+    CompressionExactnessRecognized q.recognizer q.data.exactnessRecognition :=
+  q.exactnessRecognized
+
+structure ReuseChain where
+  links : List EventFlow
+  recognizer : GeneratedRecognizer
+  allLinksRecognized :
+    forall M : EventFlow,
+      List.Mem M links ->
+        FormalCompilerInput (CompilerDatum.recognizedFlow recognizer M)
+
+def ReuseDepth (chains : List ReuseChain) : Nat :=
+  (chains.map (fun chain => chain.links.length)).foldr Nat.max 0
+
+structure BridgeChain where
+  sourceFlow : EventFlow
+  targetFlow : EventFlow
+  steps : List EventFlow
+  recognizer : GeneratedRecognizer
+  sourceRecognized :
+    FormalCompilerInput (CompilerDatum.recognizedFlow recognizer sourceFlow)
+  targetRecognized :
+    FormalCompilerInput (CompilerDatum.recognizedFlow recognizer targetFlow)
+  allStepsRecognized :
+    forall step : EventFlow,
+      List.Mem step steps ->
+        FormalCompilerInput (CompilerDatum.recognizedFlow recognizer step)
+
+def BridgeDepth (chains : List BridgeChain) : Nat :=
+  (chains.map (fun chain => chain.steps.length)).foldr Nat.max 0
+
+structure NormalAddressRecord where
+  sourceFlow : EventFlow
+  normalFlow : EventFlow
+  ledgerFlow : EventFlow
+  deriving DecidableEq
+
+def NormalAddressMap
+    (Rfam : MetricRecognizerFamily) (S : EventFlow)
+    (records : List NormalAddressRecord) : Prop :=
+  forall rec : NormalAddressRecord,
+    List.Mem rec records ->
+      EventSubflow S rec.sourceFlow /\
+        EventSubflow S rec.normalFlow /\
+        EventSubflow S rec.ledgerFlow /\
+        exists R : GeneratedRecognizer,
+          List.Mem R Rfam /\
+            FormalCompilerInput
+              (CompilerDatum.recognizedFlow R rec.sourceFlow) /\
+            FormalCompilerInput
+              (CompilerDatum.recognizedFlow R rec.normalFlow) /\
+            FormalCompilerInput
+              (CompilerDatum.recognizedFlow R rec.ledgerFlow)
+
+def ListContains {α : Type} [DecidableEq α] (x : α) : List α -> Bool
+  | [] => false
+  | y :: ys => if x = y then true else ListContains x ys
+
+def MotifOverlap (left right : List MotifOccurrence) : List MotifOccurrence :=
+  left.filter (fun occ => ListContains occ right)
+
+def ListIntersectionCount {α : Type} [DecidableEq α] (xs ys : List α) : Nat :=
+  (xs.filter (fun x => ListContains x ys)).length
+
+def ListUnionCount {α : Type} [DecidableEq α] (xs ys : List α) : Nat :=
+  xs.length + (ys.filter (fun y => not (ListContains y xs))).length
+
+def JaccardDistanceRatio {α : Type} [DecidableEq α] (xs ys : List α) :
+    Nat × Nat :=
+  let unionCount := ListUnionCount xs ys
+  (unionCount - ListIntersectionCount xs ys, unionCount)
+
+def NormalAddressDistance
+    (left right : List NormalAddressRecord) : Nat × Nat :=
+  JaccardDistanceRatio left right
+
+def MotifJaccardDistance
+    (left right : List MotifOccurrence) : Nat × Nat :=
+  JaccardDistanceRatio left right
+
+structure FlowSignatureVector where
+  sealDepth : Nat
+  carryIndex : Nat
+  ledgerDepth : Nat
+  compressionNumerator : Nat
+  compressionDenominator : Nat
+  reuseDepth : Nat
+  bridgeDepth : Nat
+  deriving DecidableEq
+
+def FlowSignature
+    (profile : List MotifOccurrence) (sealRole carryRole : EventFlow)
+    (ledgerDepths : List Nat) (compression : Nat × Nat)
+    (reuseChains : List ReuseChain) (bridgeChains : List BridgeChain) :
+    FlowSignatureVector where
+  sealDepth := SealDepth profile sealRole
+  carryIndex := CarryIndex profile carryRole
+  ledgerDepth := LedgerDepth ledgerDepths
+  compressionNumerator := compression.fst
+  compressionDenominator := compression.snd
+  reuseDepth := ReuseDepth reuseChains
+  bridgeDepth := BridgeDepth bridgeChains
+
+structure TheoryDistanceWeights where
+  motifWeight : Nat
+  normalAddressWeight : Nat
+  prefixWeight : Nat
+  ledgerWeight : Nat
+  reuseWeight : Nat
+
+structure TheoryDistanceComponents where
+  motifDistance : Nat
+  normalAddressDistance : Nat
+  prefixDistance : Nat
+  ledgerDistance : Nat
+  reuseDistance : Nat
+
+structure AnalysisProtocolFlow where
+  protocolFlow : EventFlow
+  weights : TheoryDistanceWeights
+
+inductive MetricCannotClaimKind : Type where
+  | sameMotifProfileImpliesSameTheorem
+  | sameSignatureImpliesSameObject
+  | sharedPrefixImpliesSubobject
+  | positiveCarryIndexImpliesDimensionExists
+  | positiveSealDepthImpliesRealCompletionExists
+  | compressionRatioImpliesQuotientExactness
+
+structure MetricCannotClaimEntry where
+  kind : MetricCannotClaimKind
+  supportFlow : EventFlow
+
+structure MetricReport where
+  protocol : AnalysisProtocolFlow
+  recognizers : MetricRecognizerFamily
+  sourceFlows : List EventFlow
+  signatures : List FlowSignatureVector
+  undefinedItems : List UndefinedMetricItem
+  cannotClaims : List MetricCannotClaimEntry
+
+inductive MetricClaimKind : Type where
+  | sharedMotif
+  | carryIndexValue
+  | sealDepthValue
+  | motifDistanceValue
+  | compressionRatioValue
+  | sameMetricProfileImpliesSameObject
+  | sameSignatureImpliesSameTheorem
+  | motifDistanceZeroImpliesProofEquivalence
+  | highMotifOverlapImpliesBridge
+  | positiveCarryIndexImpliesDimension
+  | positiveSealDepthImpliesCompletion
+  | compressionRatioImpliesExactness
+  | positiveReuseDepthImpliesReuseCertificate
+
+structure MetricClaim where
+  kind : MetricClaimKind
+  report : MetricReport
+  subject : EventFlow
+  comparison : Option EventFlow
+  claimedValue : MetricCandidate
+
+inductive ForbiddenMetricClaim : MetricClaim -> Prop where
+  | sameMetricProfileImpliesSameObject
+      (report : MetricReport) (S T : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.sameMetricProfileImpliesSameObject,
+          report := report, subject := S, comparison := some T,
+          claimedValue := value }
+  | sameSignatureImpliesSameTheorem
+      (report : MetricReport) (S T : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.sameSignatureImpliesSameTheorem,
+          report := report, subject := S, comparison := some T,
+          claimedValue := value }
+  | motifDistanceZeroImpliesProofEquivalence
+      (report : MetricReport) (S T : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.motifDistanceZeroImpliesProofEquivalence,
+          report := report, subject := S, comparison := some T,
+          claimedValue := value }
+  | highMotifOverlapImpliesBridge
+      (report : MetricReport) (S T : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.highMotifOverlapImpliesBridge,
+          report := report, subject := S, comparison := some T,
+          claimedValue := value }
+  | positiveCarryIndexImpliesDimension
+      (report : MetricReport) (S : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.positiveCarryIndexImpliesDimension,
+          report := report, subject := S, comparison := none,
+          claimedValue := value }
+  | positiveSealDepthImpliesCompletion
+      (report : MetricReport) (S : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.positiveSealDepthImpliesCompletion,
+          report := report, subject := S, comparison := none,
+          claimedValue := value }
+  | compressionRatioImpliesExactness
+      (report : MetricReport) (S : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.compressionRatioImpliesExactness,
+          report := report, subject := S, comparison := none,
+          claimedValue := value }
+  | positiveReuseDepthImpliesReuseCertificate
+      (report : MetricReport) (S : EventFlow) (value : MetricCandidate) :
+      ForbiddenMetricClaim
+        { kind := MetricClaimKind.positiveReuseDepthImpliesReuseCertificate,
+          report := report, subject := S, comparison := none,
+          claimedValue := value }
+
+inductive MetricCertificateRole : Type where
+  | classifier
+  | proof
+  | bridge
+  | nameCert
+  | derivCert
+  | acceptanceGate
+
+structure MetricCertificateFlow where
+  role : MetricCertificateRole
+  flow : EventFlow
+  recognizer : GeneratedRecognizer
+  recognized :
+    FormalCompilerInput (CompilerDatum.recognizedFlow recognizer flow)
+
+structure CertifiedForbiddenMetricClaim (claim : MetricClaim) where
+  forbidden : ForbiddenMetricClaim claim
+  certificate : MetricCertificateFlow
+
+def ReportHasUndefinedMetricItem
+    (report : MetricReport) (item : UndefinedMetricItem) : Prop :=
+  List.Mem item report.undefinedItems
+
+def ReportHasCannotClaimEntry (report : MetricReport) : Prop :=
+  exists entry : MetricCannotClaimEntry, List.Mem entry report.cannotClaims
+
+def NontrivialMetricReport (report : MetricReport) : Prop :=
+  exists sig : FlowSignatureVector,
+    List.Mem sig report.signatures /\
+      (0 < sig.sealDepth \/
+        0 < sig.carryIndex \/
+        0 < sig.compressionNumerator \/
+        0 < sig.reuseDepth \/
+        0 < sig.bridgeDepth)
+
+def CannotClaimGuardedReport (report : MetricReport) : Prop :=
+  NontrivialMetricReport report -> ReportHasCannotClaimEntry report
+
+structure MetricReportSoundness (report : MetricReport) where
+  sourceFlowsAreFormal :
+    forall S : EventFlow,
+      List.Mem S report.sourceFlows ->
+        FormalCompilerInput (CompilerDatum.eventFlow S)
+  undefinedMetricsRecorded :
+    forall item : UndefinedMetricItem,
+      List.Mem item report.undefinedItems ->
+        ReportHasUndefinedMetricItem report item
+  cannotClaimsGuarded : CannotClaimGuardedReport report
+
+theorem undefined_metric_explicit {report : MetricReport}
+    {item : UndefinedMetricItem} :
+    MetricReportSoundness report ->
+      List.Mem item report.undefinedItems ->
+        ReportHasUndefinedMetricItem report item := by
+  intro hSound hItem
+  exact hSound.undefinedMetricsRecorded item hItem
+
+structure MetricReportPrototype where
+  sourceFlow : EventFlow
+  metricSpecFlow : MetricSpecificationFlow
+  metricSpec : MetricSpec
+  protocolFlow : EventFlow
+  report : MetricReport
+  specificationRecognized : RecognizedMetricSpec metricSpecFlow
+  protocolRecognized : MetricProtocolFlow protocolFlow
+  metricsAdmissible :
+    AdmissibleMetric metricSpecFlow metricSpec sourceFlow protocolFlow
+  reportGuarded : CannotClaimGuardedReport report
+
+def TheoryFlowDistance
+    (_Rfam : MetricRecognizerFamily) (P : AnalysisProtocolFlow)
+    (_S _T : EventFlow) (components : TheoryDistanceComponents) : Nat :=
+  P.weights.motifWeight * components.motifDistance +
+    P.weights.normalAddressWeight * components.normalAddressDistance +
+    P.weights.prefixWeight * components.prefixDistance +
+    P.weights.ledgerWeight * components.ledgerDistance +
+    P.weights.reuseWeight * components.reuseDistance
+
+theorem external_metric_input_not_allowed {d : MetricDataKind} :
+    MetricExternalInput d -> Not (MetricAllowedData d) := by
+  intro hExternal hAllowed
+  cases hExternal <;> cases hAllowed
+
+theorem raw_prefix_weaker :
+    (forall {Rfam : MetricRecognizerFamily} {S T P role ledger : EventFlow},
+      RecognizedPrefixOverlap Rfam S T P role ledger ->
+        RawPrefixProfile S P /\ RawPrefixProfile T P) /\
+      exists S T P : EventFlow,
+        RawPrefixProfile S P /\
+          RawPrefixProfile T P /\
+          Not (exists role ledger : EventFlow,
+            RecognizedPrefixOverlap [] S T P role ledger) := by
+  constructor
+  · intro Rfam S T P role ledger hOverlap
+    exact ⟨hOverlap.left.left, hOverlap.right.left⟩
+  · refine ⟨[], [], [], ?_, ?_, ?_⟩
+    · exact ⟨[], rfl⟩
+    · exact ⟨[], rfl⟩
+    · intro hRecognized
+      cases hRecognized with
+      | intro role hRole =>
+          cases hRole with
+          | intro ledger hOverlap =>
+              cases hOverlap.left.right with
+              | intro R hR =>
+                  cases hR.left
+
+theorem no_external_metric_input {M : MetricSpec} :
+    MetricAdmissible M ->
+      forall d : MetricDataKind,
+        List.Mem d M.sources -> Not (MetricExternalInput d) := by
+  intro hAdmissible d hd hExternal
+  exact external_metric_input_not_allowed hExternal (hAdmissible d hd)
+
+theorem external_object_name_metric_inadmissible :
+    Not (MetricAdmissible
+      { sources := [MetricDataKind.externalObjectName] }) := by
+  intro hAdmissible
+  exact
+    external_metric_input_not_allowed
+      MetricExternalInput.externalObjectName
+      (hAdmissible MetricDataKind.externalObjectName (List.Mem.head []))
+
+theorem host_similarity_score_not_admissible :
+    Not (MetricAdmissible
+      { sources := [MetricDataKind.hostSimilarityScore] }) := by
+  intro hAdmissible
+  exact
+    external_metric_input_not_allowed
+      MetricExternalInput.hostSimilarityScore
+      (hAdmissible MetricDataKind.hostSimilarityScore (List.Mem.head []))
+
+theorem channel_substring_metrics_inadmissible :
+    Not (MetricAdmissible
+      { sources := [MetricDataKind.channelSubstring] }) := by
+  intro hAdmissible
+  exact
+    external_metric_input_not_allowed
+      MetricExternalInput.channelSubstring
+      (hAdmissible MetricDataKind.channelSubstring (List.Mem.head []))
+
+theorem metrics_channel_roundtrip_invariant
+    {α : Type} (M : EventFlow -> α) (S : EventFlow) :
+    Option.map M (Decode (FlowEncoding S)) = some (M S) := by
+  rw [flow_level_round_trip]
+  rfl
+
+theorem metrics_computed_from_decoded_code
+    {α : Type} (M : EventFlow -> α) (S : EventFlow) :
+    exists c : List DisplayAlphabet,
+      c = FlowEncoding S /\ Option.map M (Decode c) = some (M S) := by
+  refine ⟨FlowEncoding S, rfl, ?_⟩
+  exact metrics_channel_roundtrip_invariant M S
+
+theorem theory_distance_protocol_relative :
+    exists Rfam : MetricRecognizerFamily,
+      exists S T : EventFlow,
+        exists components : TheoryDistanceComponents,
+          exists P Q : AnalysisProtocolFlow,
+            Not (P.weights = Q.weights) /\
+              Not (TheoryFlowDistance Rfam P S T components =
+                TheoryFlowDistance Rfam Q S T components) := by
+  refine
+    ⟨[], [], [],
+      { motifDistance := 1,
+        normalAddressDistance := 0,
+        prefixDistance := 0,
+        ledgerDistance := 0,
+        reuseDistance := 0 },
+      { protocolFlow := [],
+        weights :=
+          { motifWeight := 0,
+            normalAddressWeight := 0,
+            prefixWeight := 0,
+            ledgerWeight := 0,
+            reuseWeight := 0 } },
+      { protocolFlow := [[]],
+        weights :=
+          { motifWeight := 1,
+            normalAddressWeight := 0,
+            prefixWeight := 0,
+            ledgerWeight := 0,
+            reuseWeight := 0 } },
+      ?_, ?_⟩
+  · intro h
+    cases h
+  · intro h
+    change 0 = 1 at h
+    cases h
+
+def EmptyAnalysisSignature (_S : EventFlow) : FlowSignatureVector where
+  sealDepth := 0
+  carryIndex := 0
+  ledgerDepth := 0
+  compressionNumerator := 0
+  compressionDenominator := 0
+  reuseDepth := 0
+  bridgeDepth := 0
+
+theorem metrics_reports_not_theoremhood :
+    exists report : MetricReport, exists S : EventFlow,
+      Not (RecognizedTheoremFlow S) /\ Not (AcceptedObjectFlow S) := by
+  refine
+    ⟨{ protocol :=
+          { protocolFlow := [],
+            weights :=
+              { motifWeight := 0,
+                normalAddressWeight := 0,
+                prefixWeight := 0,
+                ledgerWeight := 0,
+                reuseWeight := 0 } },
+        recognizers := [],
+        sourceFlows := [[]],
+        signatures := [EmptyAnalysisSignature []],
+        undefinedItems := [],
+        cannotClaims := [] },
+      [], ?_, ?_⟩
+  · exact empty_not_recognized_theorem_flow
+  · exact empty_not_accepted_object_flow
+
+theorem metrics_do_not_imply_object_equality :
+    exists S T : EventFlow,
+      Not (S = T) /\ EmptyAnalysisSignature S = EmptyAnalysisSignature T := by
+  refine ⟨[], [[]], ?_, ?_⟩
+  · intro h
+    cases h
+  · rfl
+
+theorem metrics_explanatory_not_identificatory :
+    exists S T : EventFlow,
+      Not (S = T) /\ EmptyAnalysisSignature S = EmptyAnalysisSignature T := by
+  refine ⟨[], [[]], ?_, ?_⟩
+  · intro h
+    cases h
+  · rfl
+
+theorem cannot_claims_required_for_nontrivial_reports {report : MetricReport} :
+    CannotClaimGuardedReport report ->
+      NontrivialMetricReport report ->
+        ReportHasCannotClaimEntry report := by
+  intro hGuard hNontrivial
+  exact hGuard hNontrivial
+
+theorem metric_report_requires_cannot_claim_sections {report : MetricReport} :
+    CannotClaimGuardedReport report ->
+      NontrivialMetricReport report ->
+        ReportHasCannotClaimEntry report :=
+  cannot_claims_required_for_nontrivial_reports
+
+theorem forbidden_metric_claims_need_certificates {claim : MetricClaim} :
+    CertifiedForbiddenMetricClaim claim ->
+      ForbiddenMetricClaim claim /\
+        exists certificate : MetricCertificateFlow,
+          FormalCompilerInput
+            (CompilerDatum.recognizedFlow
+              certificate.recognizer certificate.flow) := by
+  intro hClaim
+  constructor
+  · exact hClaim.forbidden
+  · exact ⟨hClaim.certificate, hClaim.certificate.recognized⟩
+
+theorem metrics_conservativity {_report : MetricReport} {S : EventFlow}
+    {w : RawEvent} {m : DisplayAlphabet} :
+    List.Mem S _report.sourceFlows -> List.Mem w S -> List.Mem m w ->
+      m = BMark.b0 \/ m = BMark.b1 := by
+  intro _ hEvent hMark
+  exact event_flow_conservativity hEvent hMark
+
+theorem p4_conservative_over_finite_kernel {_report : MetricReport}
+    {S : EventFlow} {w : RawEvent} {m : DisplayAlphabet} :
+    List.Mem S _report.sourceFlows -> List.Mem w S -> List.Mem m w ->
+      m = BMark.b0 \/ m = BMark.b1 :=
+  metrics_conservativity
+
+theorem metrics_cannot_replace_certificates :
+    exists report : MetricReport, exists S : EventFlow,
+      List.Mem S report.sourceFlows /\ Not (AcceptedObjectFlow S) := by
+  refine
+    ⟨{ protocol :=
+          { protocolFlow := [],
+            weights :=
+              { motifWeight := 0,
+                normalAddressWeight := 0,
+                prefixWeight := 0,
+                ledgerWeight := 0,
+                reuseWeight := 0 } },
+        recognizers := [],
+        sourceFlows := [[]],
+        signatures := [EmptyAnalysisSignature []],
+        undefinedItems := [],
+        cannotClaims := [] },
+      [], ?_, ?_⟩
+  · exact List.Mem.head []
+  · exact empty_not_accepted_object_flow
+
+theorem sound_metric_report {report : MetricReport} :
+    MetricReportSoundness report ->
+      (forall S : EventFlow,
+        List.Mem S report.sourceFlows ->
+          FormalCompilerInput (CompilerDatum.eventFlow S)) /\
+      (forall item : UndefinedMetricItem,
+        List.Mem item report.undefinedItems ->
+          ReportHasUndefinedMetricItem report item) := by
+  intro hSound
+  constructor
+  · exact hSound.sourceFlowsAreFormal
+  · exact hSound.undefinedMetricsRecorded
+
+end BEDC.GroundCompiler.MetricsFlow
