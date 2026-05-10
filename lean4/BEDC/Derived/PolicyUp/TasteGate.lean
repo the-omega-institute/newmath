@@ -2,6 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
@@ -13,6 +14,7 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
@@ -93,6 +95,57 @@ theorem PolicyActionLedgerCarrier_local_action_transport [AskSetup] [PackageSetu
       sameLedger,
       sameProvenance,
       sameEndpoint⟩
+
+theorem PolicyActionLedgerCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        hsame := by
+  intro carrier
+  constructor
+  · constructor
+    · exact Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+    · intro row _source
+      exact hsame_refl row
+    · intro row row' same
+      exact hsame_symm same
+    · intro row row' row'' sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro row row' same source
+      exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+  · intro row source
+    exact source
+  · intro row source
+    exact source
+
+theorem PolicyActionLedgerCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        hsame := by
+  exact PolicyActionLedgerCarrier_semantic_name_certificate
 
 private def encodeBHist : BHist → RawEvent
   | BHist.Empty => []
@@ -278,5 +331,47 @@ def taste_gate : ChapterTasteGate PolicyUp where
   layer_separation := by
     intro x y hxy heq
     exact hxy (policyToEventFlow_injective heq)
+
+theorem PolicyActionLedger_source_scope [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      exists policy : PolicyUp,
+        exists beliefRow markovRow randomvarRow estimatorRow decisionRow ledgerRow provenanceRow
+          endpointRow : BHist,
+          policy =
+              PolicyUp.mk beliefRow markovRow randomvarRow estimatorRow decisionRow ledgerRow ∧
+            UnaryHistory beliefRow ∧ UnaryHistory markovRow ∧ UnaryHistory randomvarRow ∧
+              UnaryHistory estimatorRow ∧ UnaryHistory decisionRow ∧ UnaryHistory ledgerRow ∧
+                UnaryHistory provenanceRow ∧ UnaryHistory endpointRow ∧
+                  Cont beliefRow markovRow ledgerRow ∧
+                    Cont ledgerRow estimatorRow provenanceRow ∧
+                      Cont provenanceRow decisionRow endpointRow ∧
+                        PkgSig bundle endpointRow pkg := by
+  intro carrier
+  exact
+    ⟨PolicyUp.mk belief markov randomvar estimator decision ledger,
+      belief,
+      markov,
+      randomvar,
+      estimator,
+      decision,
+      ledger,
+      provenance,
+      endpoint,
+      rfl,
+      carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.PolicyUp
