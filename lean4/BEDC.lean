@@ -122,6 +122,7 @@ import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RecursiveFnUp
+import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
