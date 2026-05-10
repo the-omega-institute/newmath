@@ -390,4 +390,26 @@ theorem HopfAlgAntipodeClassifier_unit_row_fixed
     (And.intro sameTensor
       (And.intro sameAntipode (And.intro sameUnit sameCounit)))
 
+theorem HopfAlgBialgCarrier_consumer_boundary_obligation
+    {bialg tensor mul comul unit counit antipode left leftEndpoint right rightEndpoint :
+      BHist} :
+    HopfAlgBialgCarrier bialg tensor mul comul unit counit ->
+      Cont comul antipode left ->
+        Cont left mul leftEndpoint ->
+          Cont comul antipode right ->
+            Cont right mul rightEndpoint ->
+              RingSingletonCarrier bialg ∧ TensorProductSingletonCarrier tensor ∧
+                Cont tensor mul bialg ∧ Cont tensor comul bialg ∧
+                  Cont unit RingSingletonOne bialg ∧ Cont counit RingSingletonOne bialg ∧
+                    hsame left (append comul antipode) ∧
+                      hsame right (append comul antipode) := by
+  intro carrier leftRow _leftEndpointRow rightRow _rightEndpointRow
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro carrier.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right
+              (And.intro leftRow rightRow))))))
+
 end BEDC.Derived.HopfAlgUp
