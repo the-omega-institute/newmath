@@ -144,6 +144,54 @@ theorem InfCatBHistSourcePacket_consumer_boundary [AskSetup] [PackageSetup]
   exact ⟨consumerUnary, consumerRow, transportUnary,
     packet.right.right.right.right.right.right.right⟩
 
+theorem InfCatBHistSourcePacket_inner_horn_consumer_determinacy [AskSetup] [PackageSetup]
+    {simplicial category horn lift provenance transport simplicial' category' horn' lift'
+      provenance' transport' consumer consumer' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    InfCatBHistSourcePacket simplicial category horn lift provenance transport bundle pkg ->
+      hsame simplicial simplicial' ->
+        hsame category category' ->
+          hsame horn horn' ->
+            hsame provenance provenance' ->
+              Cont simplicial' horn' lift' ->
+                Cont provenance' lift' transport' ->
+                  PkgSig bundle transport' pkg ->
+                    Cont lift transport consumer ->
+                      Cont lift' transport' consumer' ->
+                        InfCatBHistSourcePacket simplicial' category' horn' lift'
+                            provenance' transport' bundle pkg ∧
+                          hsame lift lift' ∧ hsame transport transport' ∧
+                            hsame consumer consumer' := by
+  intro packet sameSimplicial sameCategory sameHorn sameProvenance liftRow' transportRow'
+  intro pkgRow' consumerRow consumerRow'
+  have transported :=
+    InfCatBHistSourcePacket_quasicategory_classifier_surface packet sameSimplicial
+      sameCategory sameHorn sameProvenance liftRow' transportRow' pkgRow'
+  have sameConsumer : hsame consumer consumer' :=
+    cont_respects_hsame transported.right.left transported.right.right consumerRow consumerRow'
+  exact And.intro transported.left
+    (And.intro transported.right.left
+      (And.intro transported.right.right sameConsumer))
+
+theorem InfCatBHistSourcePacket_public_certificate_boundary [AskSetup] [PackageSetup]
+    {simplicial category horn lift provenance transport boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    InfCatBHistSourcePacket simplicial category horn lift provenance transport bundle pkg ->
+      Cont horn transport boundary ->
+        UnaryHistory simplicial ∧ UnaryHistory category ∧ UnaryHistory horn ∧
+          UnaryHistory lift ∧ UnaryHistory provenance ∧ UnaryHistory transport ∧
+            UnaryHistory boundary ∧ PkgSig bundle transport pkg ∧
+              hsame boundary (append horn transport) := by
+  intro packet boundaryRow
+  have provenanceUnary : UnaryHistory provenance := packet.right.right.right.right.left
+  have liftUnary : UnaryHistory lift := packet.right.right.right.left
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed provenanceUnary liftUnary packet.right.right.right.right.right.right.left
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed packet.right.right.left transportUnary boundaryRow
+  exact ⟨packet.left, packet.right.left, packet.right.right.left, liftUnary, provenanceUnary,
+    transportUnary, boundaryUnary, packet.right.right.right.right.right.right.right, boundaryRow⟩
+
 theorem InfCatBHistSourcePacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {simplicial category horn lift provenance transport : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -186,5 +234,31 @@ theorem InfCatBHistSourcePacket_namecert_obligation_surface [AskSetup] [PackageS
       intro _row rowPacket
       exact rowPacket
   }
+
+theorem InfCatBHistSourcePacket_root_threshold_obligation_triad [AskSetup] [PackageSetup]
+    {simplicial category horn lift provenance transport dependencySurface finiteSurface
+      rootSurface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    InfCatBHistSourcePacket simplicial category horn lift provenance transport bundle pkg ->
+      Cont simplicial category dependencySurface ->
+        Cont horn lift finiteSurface ->
+          Cont dependencySurface finiteSurface rootSurface ->
+            UnaryHistory dependencySurface ∧ UnaryHistory finiteSurface ∧
+              UnaryHistory rootSurface ∧ hsame dependencySurface (append simplicial category) ∧
+                hsame finiteSurface (append horn lift) ∧
+                  hsame rootSurface (append dependencySurface finiteSurface) ∧
+                    PkgSig bundle transport pkg := by
+  intro packet dependencyRow finiteRow rootRow
+  obtain ⟨simplicialUnary, categoryUnary, hornUnary, liftUnary, _provenanceUnary,
+    _liftCont, _transportCont, pkgSig⟩ := packet
+  have dependencyUnary : UnaryHistory dependencySurface :=
+    unary_cont_closed simplicialUnary categoryUnary dependencyRow
+  have finiteUnary : UnaryHistory finiteSurface :=
+    unary_cont_closed hornUnary liftUnary finiteRow
+  have rootUnary : UnaryHistory rootSurface :=
+    unary_cont_closed dependencyUnary finiteUnary rootRow
+  exact
+    ⟨dependencyUnary, finiteUnary, rootUnary, dependencyRow, finiteRow, rootRow,
+      pkgSig⟩
 
 end BEDC.Derived.InfCatUp
