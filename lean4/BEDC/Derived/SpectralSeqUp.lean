@@ -199,4 +199,47 @@ theorem SpectralSeqBHistPageCarrier_visible_target_filtration_coverage
         (And.intro carrier.right.right.right.right.right.right.right.right.left
           carrier.right.right.right.right.right.right.right.right.right)))
 
+theorem SpectralSeqBHistPageCarrier_cont_page_ledger_closure [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      finalEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (carrier : SpectralSeqBHistPageCarrier abelian homology page differential readback
+      convergence transition provenance endpoint bundle pkg) (steps : List BHist)
+    (stepsUnary : forall row : BHist, List.Mem row steps -> UnaryHistory row)
+    (finalRow : Cont (List.foldl append transition steps) provenance finalEndpoint) :
+    UnaryHistory (List.foldl append transition steps) ∧ UnaryHistory finalEndpoint ∧
+      hsame finalEndpoint (append (List.foldl append transition steps) provenance) ∧
+        PkgSig bundle endpoint pkg := by
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  have transitionUnary : UnaryHistory transition :=
+    unary_cont_closed readbackUnary carrier.right.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have foldedUnaryFrom :
+      forall rows : List BHist, forall acc : BHist, UnaryHistory acc ->
+        (forall row : BHist, List.Mem row rows -> UnaryHistory row) ->
+          UnaryHistory (List.foldl append acc rows) := by
+    intro rows
+    induction rows with
+    | nil =>
+        intro acc accUnary _rowsUnary
+        exact accUnary
+    | cons row rows ih =>
+        intro acc accUnary rowsUnary
+        have rowUnary : UnaryHistory row :=
+          rowsUnary row (List.Mem.head rows)
+        have tailRowsUnary : forall tailRow : BHist, List.Mem tailRow rows -> UnaryHistory tailRow :=
+          by
+            intro tailRow tailMem
+            exact rowsUnary tailRow (List.Mem.tail row tailMem)
+        exact ih (append acc row) (unary_append_closed accUnary rowUnary) tailRowsUnary
+  have foldedUnary : UnaryHistory (List.foldl append transition steps) :=
+    foldedUnaryFrom steps transition transitionUnary stepsUnary
+  have finalUnary : UnaryHistory finalEndpoint :=
+    unary_cont_closed foldedUnary carrier.right.right.right.right.right.left finalRow
+  exact And.intro foldedUnary
+    (And.intro finalUnary
+      (And.intro finalRow carrier.right.right.right.right.right.right.right.right.right))
+
 end BEDC.Derived.SpectralSeqUp
