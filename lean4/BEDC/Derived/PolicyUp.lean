@@ -10,6 +10,30 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 
+theorem PolicyUp_taste_gate_source_scope [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      (exists sourceLedger actionLedger : BHist,
+        Cont belief markov sourceLedger ∧ Cont sourceLedger estimator actionLedger ∧
+          hsame sourceLedger ledger ∧ hsame actionLedger provenance) ∧
+        (exists endpoint' : BHist,
+          Cont provenance decision endpoint' ∧ hsame endpoint endpoint' ∧
+            PkgSig bundle endpoint' pkg) := by
+  intro carrier
+  exact
+    ⟨⟨ledger,
+        provenance,
+        carrier.right.right.right.right.right.right.right.right.left,
+        carrier.right.right.right.right.right.right.right.right.right.left,
+        hsame_refl ledger,
+        hsame_refl provenance⟩,
+      ⟨endpoint,
+        carrier.right.right.right.right.right.right.right.right.right.right.left,
+        hsame_refl endpoint,
+        carrier.right.right.right.right.right.right.right.right.right.right.right⟩⟩
+
 theorem PolicyActionLedgerCarrier_action_classifier_stability [AskSetup] [PackageSetup]
     {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
