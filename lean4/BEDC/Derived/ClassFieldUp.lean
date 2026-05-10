@@ -306,4 +306,36 @@ theorem ClassField_public_namecert_interface
       transported.right.right.right.right.right.left,
       transported.right.right.right.right.right.right⟩
 
+theorem ClassField_reciprocity_boundary
+    {base idele extension classifier ledger artin frob ideleRep localPrime frobRep
+      extensionPresentation classifierPrime ledgerPrime : BHist} :
+    ClassFieldSourceCarrier base idele extension classifier ledger ->
+      ClassFieldArtinFrobeniusRows base idele extension artin frob ->
+        Cont idele frob ideleRep ->
+          Cont base ideleRep localPrime ->
+            Cont localPrime frobRep extensionPresentation ->
+              hsame frobRep frob ->
+                hsame classifier classifierPrime ->
+                  hsame ledger ledgerPrime ->
+                    ClassFieldSourceCarrier base idele extension classifierPrime ledgerPrime ∧
+                      ClassFieldArtinFrobeniusRows base idele extension artin frob ∧
+                        UnaryHistory ideleRep ∧ UnaryHistory localPrime ∧
+                          UnaryHistory extensionPresentation ∧ hsame (append idele artin) frob ∧
+                            hsame (append base frob) extension := by
+  intro source rows ideleRepRoute localPrimeRoute presentationRoute sameFrob sameClassifier
+    sameLedger
+  have transported :=
+    ClassFieldLedgerExactnessRows_transport source rows ideleRepRoute localPrimeRoute
+      presentationRoute sameFrob sameClassifier sameLedger
+  have exactRows :=
+    ClassFieldArtinFrobeniusRows_ledger_exactness rows
+  exact
+    ⟨transported.left,
+      transported.right.left,
+      transported.right.right.left,
+      transported.right.right.right.left,
+      transported.right.right.right.right.left,
+      exactRows.right.right.right.right.right.left,
+      exactRows.right.right.right.right.right.right⟩
+
 end BEDC.Derived.ClassFieldUp
