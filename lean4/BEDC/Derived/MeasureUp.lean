@@ -216,6 +216,21 @@ theorem MeasureZeroBHist_semantic_name_certificate :
       exact source
   }
 
+theorem MeasureUp_StdBridge {event union value sum endpoint : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty -> hsame value BHist.Empty ->
+      hsame sum BHist.Empty -> hsame union BHist.Empty -> Cont value sum endpoint ->
+        MeasureZeroBHistClassifier event BHist.Empty ∧
+          MeasureZeroBHistClassifier union BHist.Empty ∧ MeasureZeroBHistCarrier endpoint ∧
+            SemanticNameCert MeasureZeroBHistCarrier MeasureZeroBHistCarrier
+              MeasureZeroBHistCarrier MeasureZeroBHistClassifier := by
+  intro eventClassified valueZero sumZero unionZero endpointRow
+  have rootRows :=
+    MeasureRootBHist_real_endpoint_threshold eventClassified valueZero sumZero unionZero
+      endpointRow
+  exact And.intro rootRows.left
+    (And.intro rootRows.right.left
+      (And.intro rootRows.right.right.right MeasureZeroBHist_semantic_name_certificate))
+
 theorem MeasureSelfDifference_zero_law {event diff union value sum : BHist} :
     Cont event diff union -> hsame union event -> Cont value diff sum -> hsame sum value ->
       hsame diff BHist.Empty := by
@@ -369,6 +384,29 @@ theorem MeasureMeasurableInclusion_monotone
   have valueRowAtTotal : Cont valueBase valueGap valueTotal :=
     cont_result_hsame_transport valueRow sameSumTotal
   exact Exists.intro valueGap (And.intro valueGapUnary valueRowAtTotal)
+
+theorem MeasureFunctionalAnalysisConsumer_rows
+    {base gap total valueBase valueGap valueTotal valueSum event diff union valueEvent valueDiff
+      valueUnion valueEventDiff : BHist} :
+    UnaryHistory valueGap -> Cont base gap total -> hsame valueBase base ->
+      hsame valueGap gap -> hsame valueTotal total -> Cont valueBase valueGap valueSum ->
+        hsame valueSum valueTotal -> MeasureZeroBHistClassifier event BHist.Empty ->
+          MeasureZeroBHistClassifier diff BHist.Empty -> Cont event diff union ->
+            hsame valueEvent event -> hsame valueDiff diff -> hsame valueUnion union ->
+              Cont valueEvent valueDiff valueEventDiff ->
+                PreorderPrefixLE valueBase valueTotal ∧
+                  MeasureZeroBHistClassifier valueEventDiff valueUnion ∧
+                    MeasureZeroBHistClassifier event BHist.Empty := by
+  intro valueGapUnary baseGapTotal sameValueBase sameValueGap sameValueTotal valueRow
+    sameSumTotal eventClassified diffClassified unionRow sameValueEvent sameValueDiff
+    sameValueUnion eventDiffRow
+  have monotoneRow : PreorderPrefixLE valueBase valueTotal :=
+    MeasureMeasurableInclusion_monotone valueGapUnary baseGapTotal sameValueBase sameValueGap
+      sameValueTotal valueRow sameSumTotal
+  have additiveRow : MeasureZeroBHistClassifier valueEventDiff valueUnion :=
+    MeasureFiniteDisjointUnion_additivity eventClassified diffClassified unionRow sameValueEvent
+      sameValueDiff sameValueUnion eventDiffRow
+  exact And.intro monotoneRow (And.intro additiveRow eventClassified)
 
 theorem MeasureZeroBHist_sigma_additivity (events : Nat -> BHist) :
     (forall n : Nat, MeasureZeroBHistCarrier (events n)) -> forall n : Nat,

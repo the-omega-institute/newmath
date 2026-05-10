@@ -34,6 +34,7 @@ The carrier records only this displayed BEDC packet. It does not contain an exte
 \label{thm:riemannhilbert-derived-sheaf-source}
 Every accepted $\RiemannHilbertUp$ packet exposes a derived-functor source row and a sheaf target row exactly as in \autoref{def:riemannhilbert-bhist-bridge-packet}. The source side is the displayed $\DerivedFunctorUp$ row with its exact-triangle and degree provenance, and the target side is the displayed $\SheafUp$ row with its section, restriction, locality, and gluing ledger. No external derived category, analytic solution functor, or host sheaf quotient is projected by the source boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannHilbertUp.RiemannHilbertBHistBridgePacket\_source\_boundary}
 \begin{proof}
 Project the accepted packet to its first two carrier coordinates. The definition gives the $\DerivedFunctorUp$ source row, including the derived endpoint and exact-triangle provenance, and the $\SheafUp$ target row, including section, restriction, locality, and gluing data.
 
@@ -78,4 +79,16 @@ For a $\RiemannHilbertUp$ bridge packet, compatible local-system rows glue exact
 Project the $\SheafUp$ locality and gluing coordinates from the target row. Compatible local-system rows are sheaf rows in this packet, so gluing is performed by the displayed sheaf exactness ledger rather than by an external sheafification operation.
 
 After gluing, project the comparison and provenance coordinates again. They still name the same derived-functor source, regular-holonomic classifier, $\hsame$ transports, continuation routes, and dependency packages, so the glued target remains inside the original $\RiemannHilbertUp$ carrier.
+\end{proof}
+
+\begin{theorem}[Riemann-Hilbert de Rham readback scope]
+\label{thm:riemannhilbert-de-rham-readback-scope}
+Every de Rham readback row in an accepted $\RiemannHilbertUp$ bridge packet is sourced only from the displayed $\DerivedFunctorUp$ source row, the regular-holonomic classifier row, the $\SheafUp$ target row, the local-system ledger, the displayed $\hsame$ transports, the $\Cont$ provenance, and the $\mathsf{Pkg}$ dependency rows. It exports no analytic solution functor, monodromy equivalence, host derived-category quotient, or external perverse-sheaf equivalence.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:riemannhilbert-derived-sheaf-source} to identify the dependency rows available to the packet: the $\DerivedFunctorUp$ source row and the $\SheafUp$ target row with their displayed provenance. Use \autoref{thm:riemannhilbert-flat-connection-classifier} for the regular-holonomic classifier and its de Rham transport row.
+
+Next use \autoref{thm:riemannhilbert-local-system-ledger} to bind the local-system ledger to the same sheaf target, horizontal-section read rows, $\hsame$ comparisons, and $\Cont/\mathsf{Pkg}$ provenance. Use \autoref{thm:riemannhilbert-sheaf-gluing-exactness} to keep those rows stable under sheaf gluing.
+
+Finally inspect the constructors of \autoref{def:riemannhilbert-bhist-bridge-packet}. The carrier has slots only for the displayed source, classifier, target, transport, continuation, and package rows, so a de Rham readback row cannot export an analytic solution functor, monodromy equivalence, host derived-category quotient, or external perverse-sheaf equivalence.
 \end{proof}
