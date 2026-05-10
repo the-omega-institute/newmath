@@ -252,4 +252,24 @@ theorem IndependenceFiniteFactorizationRow_obligation_certificate_packet
     }
   · exact And.intro exactness.left exactness.right.right.right
 
+theorem IndependenceFiniteFactorizationRow_empty_index_factorization_row {joint product : BHist} :
+    Cont BHist.Empty BHist.Empty product -> hsame joint product ->
+      IndependenceFiniteFactorizationRow joint product (ProbeBundle.Bnil : ProbeBundle BHist) ∧
+        IndependenceBinaryFactorization joint BHist.Empty BHist.Empty product ∧
+          hsame joint BHist.Empty := by
+  intro productRow sameJointProduct
+  have foldEmpty :
+      hsame (IndependenceProductFold (ProbeBundle.Bnil : ProbeBundle BHist)) BHist.Empty :=
+    hsame_refl BHist.Empty
+  have row :
+      IndependenceFiniteFactorizationRow joint product (ProbeBundle.Bnil : ProbeBundle BHist) :=
+    And.intro foldEmpty (And.intro productRow sameJointProduct)
+  have binary : IndependenceBinaryFactorization joint BHist.Empty BHist.Empty product :=
+    And.intro productRow sameJointProduct
+  have productEmpty : hsame product BHist.Empty :=
+    hsame_trans (cont_right_unit_result productRow) foldEmpty
+  have jointEmpty : hsame joint BHist.Empty :=
+    hsame_trans sameJointProduct productEmpty
+  exact And.intro row (And.intro binary jointEmpty)
+
 end BEDC.Derived.IndependenceUp

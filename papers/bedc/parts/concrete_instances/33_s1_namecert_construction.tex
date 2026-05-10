@@ -95,6 +95,41 @@ the certificate has exactly the displayed RealUp-pair, equation, classifier,
 transport, and finite-window read surface.
 \end{proof}
 
+\begin{theorem}[SOne componentwise classifier equation transport]
+\label{thm:sone-componentwise-classifier-equation-transport}
+Let $P$ and $Q$ be accepted public $\SOneUp$ packets over $\mathsf{BHist}$.
+Suppose the two $\RealUp$ component rows of $P$ and $Q$ are related by the
+componentwise $\hsame$ classifier of
+\autoref{def:sone-component-classifier-relation}. Then the unit-equation
+witness row, product point ledger row, and both $\RegSeqRat$ finite-window read
+surfaces of $P$ transport to the corresponding public rows of $Q$. This
+consumer reads no angle, quotient-circle, winding, compactness, or connectedness
+datum.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:sone-real-metric-bridge-boundary}. It restricts the public
+circle packet to the two $\RealUp$ component rows, the product ledger, the
+unit-equation witness, the componentwise classifier, and the equation-transport
+row.
+
+Use \autoref{def:sone-component-classifier-relation} to compare the two
+accepted packets component by component. Hidden-ledger determinacy in that
+definition identifies the product-point continuation and the unit-equation
+witness once the two displayed $\RealUp$ component rows are related by
+$\hsame$.
+
+Apply \autoref{thm:sone-regseqrat-metric-observation-boundary}. The same two
+component comparisons refine to the finite-window $\RegSeqRat$ stream-name and
+real-seal read surfaces on both coordinates, without adding a circle-level
+carrier.
+
+Finally use \autoref{thm:sone-public-certificate-boundary}. The public
+certificate contains exactly those RealUp, product, equation, classifier, and
+finite-window rows, so the componentwise classifier comparison is sufficient to
+transport the whole public finite-window circle boundary while leaving all
+topological circle data unread.
+\end{proof}
+
 \begin{theorem}[SOne standard topological bridge boundary]
 \label{thm:sone-standard-topological-bridge-boundary}
 Any standard topological-circle bridge for $\SOneUp$ may read only the two

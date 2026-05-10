@@ -104,12 +104,15 @@ import BEDC.Derived.InterpolationUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.MapperUp
+import BEDC.Derived.MirrorSymmetryUp
+import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.ModelCatUp
+import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IwasawaUp
@@ -179,6 +182,8 @@ import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.LocalFieldUp
+import BEDC.Derived.LanglandsUp
+import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
@@ -598,10 +603,12 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.RandomVarUp
+import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
+import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
@@ -742,6 +749,7 @@ import BEDC.Derived.MonoidUp.StdBridge
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.LPDualityUp
 import BEDC.Derived.NetworkFlowUp
+import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.LieAlgebraUp
