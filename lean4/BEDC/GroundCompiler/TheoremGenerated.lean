@@ -436,4 +436,11 @@ theorem theorem_flow_object_layer_differ {rel : TheoremClassifierRelation} :
   · intro h
     exact classified_theorem_objects_not_code_bijective h
 
+theorem theorem_flow_recognition_conservativity
+    {T : TheoremCandidateFlow} {w : RawEvent} {m : DisplayAlphabet} :
+    TheoremFlow T -> List.Mem w T -> List.Mem m w ->
+      m = BEDC.FKernel.Mark.BMark.b0 \/ m = BEDC.FKernel.Mark.BMark.b1 := by
+  intro _ hEvent hMark
+  exact event_flow_conservativity hEvent hMark
+
 end BEDC.GroundCompiler.TheoremGenerated

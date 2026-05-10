@@ -84,6 +84,7 @@ Decoding that channel stream recovers the same event flow.
 
 \begin{definition}[Executable report layer]
 \label{def:programmatic-executable-report-layer}
+\leandef{BEDC.GroundCompiler.ProgrammaticRealization.ExecutableReportLayer}
 The executable report layer consists of $P_1$ through $P_4$ report routines:
 \begin{enumerate}
 \item $P_1$ source-event report generation;
@@ -96,6 +97,7 @@ These routines may compute displays, candidate sections, missing-recognizer item
 
 \begin{principle}[Programs do not upgrade candidates]
 \label{prin:programmatic-programs-do-not-upgrade-candidates}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.programs\_do\_not\_upgrade\_candidates}
 An executable report routine may discover candidate shapes, but it may not upgrade a candidate to a recognized structure without the corresponding recognizer-flow, certificate-flow, ledger-flow, or proof-checker-flow.
 \end{principle}
 
@@ -110,6 +112,7 @@ may be reported as a candidate normalizer pair by an executable routine. It may 
 
 \begin{proposition}[$P_1$ through $P_4$ are executable report layers]
 \label{prop:programmatic-p1-p4-executable}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.p1\_p4\_executable}
 $P_1$ through $P_4$ can be implemented as deterministic report and analysis procedures over decoded event flows, relative to any recognized recognizers and metric protocols supplied as event flows.
 \end{proposition}
 
@@ -122,6 +125,7 @@ $P_1$ reads decoded events and their channel segments. $P_2$ enumerates adjacent
 
 \begin{definition}[Recognizer virtual machine]
 \label{def:programmatic-recognizer-vm}
+\leandef{BEDC.GroundCompiler.ProgrammaticRealization.RecognizerVirtualMachine}
 A \emph{recognizer virtual machine} is an executable interpreter whose formal inputs are:
 \begin{enumerate}
 \item an ambient decoded event flow $S$;
@@ -133,11 +137,13 @@ Its output is a report containing recognition judgments, ledger records, missing
 
 \begin{principle}[Recognizer programs are not recognizer evidence]
 \label{prin:programmatic-vm-not-evidence}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.vm\_not\_evidence}
 The host interpreter for a recognizer virtual machine is not itself formal recognizer evidence. Formal recognition evidence is the event-flow recognizer, its certificate, its ledger, and its failure behavior. Host execution is an implementation vehicle until covered by compiler certificates or bootstrap obligations.
 \end{principle}
 
 \begin{definition}[Recognizer VM discipline]
 \label{def:programmatic-recognizer-vm-discipline}
+\leandef{BEDC.GroundCompiler.ProgrammaticRealization.RecognizerVMDiscipline}
 The recognizer virtual machine must enforce the following discipline:
 \begin{enumerate}
 \item no external structured input replaces decoded event flow;
@@ -150,6 +156,7 @@ The recognizer virtual machine must enforce the following discipline:
 
 \begin{theorem}[Recognizer VM realizes the $P_5$ through $P_8$ interface]
 \label{thm:programmatic-vm-realizes-p5-p8}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.vm\_realizes\_p5\_p8}
 A recognizer virtual machine satisfying \autoref{def:programmatic-recognizer-vm-discipline} can implement the executable interface of $P_5$ through $P_8$ without accepting external package objects, certificate objects, theorem labels, chapter trees, or manuscript files as formal input.
 \end{theorem}
 
@@ -162,6 +169,7 @@ $P_5$ requires package-flow and NameCert-flow recognition; $P_6$ requires streng
 
 \begin{definition}[Certificate checker layer]
 \label{def:programmatic-certificate-checker-layer}
+\leandef{BEDC.GroundCompiler.ProgrammaticRealization.CertificateCheckerLayer}
 The certificate checker layer is the executable layer that checks recognized certificate flows and proof-checker flows. It covers:
 \begin{enumerate}
 \item package and NameCert field completeness;
@@ -175,11 +183,13 @@ The certificate checker layer is the executable layer that checks recognized cer
 
 \begin{principle}[Programs check certificates; they do not replace them]
 \label{prin:programmatic-programs-check-certificates}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.checker\_program\_not\_certificate\_evidence}
 An executable checker may verify a certificate-flow or proof-flow, but it may not replace the certificate-flow or proof-flow. In particular, successful host computation is not the same judgment as recognized proof-flow, recognized DerivCert-flow, recognized AcceptGate-flow, or recognized theorem-flow.
 \end{principle}
 
 \begin{proposition}[Acceptance is certificate-mediated in programs]
 \label{prop:programmatic-acceptance-certificate-mediated}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.acceptance\_certificate\_mediated}
 In a programmatic realization, accepted object code and accepted theorem code can be emitted only from recognized acceptance or theorem flows satisfying their certificate and proof obligations.
 \end{proposition}
 
@@ -192,6 +202,7 @@ Accepted object code at $P_6$ is compiled from a sound AcceptGate-flow. The Acce
 
 \begin{definition}[Programmatic self-hosting route]
 \label{def:programmatic-self-hosting-route}
+\leandef{BEDC.GroundCompiler.ProgrammaticRealization.ProgrammaticSelfHostingRoute}
 The programmatic self-hosting route consists of:
 \begin{enumerate}
 \item a host reference runtime for the executable channel and report layers;
@@ -207,11 +218,13 @@ The programmatic self-hosting route consists of:
 
 \begin{principle}[Self-hosting is not mere execution]
 \label{prin:programmatic-self-hosting-not-execution}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.self\_hosting\_not\_execution}
 Running a program that compiles a compiler description is not yet self-hosting. Self-hosting requires certified compiler-flow, self-compilation-flow, behavior-equivalence-flow, self-compilation ledger, no-host-leak audit, and complete bootstrap-obligation accounting.
 \end{principle}
 
 \begin{theorem}[Programmatic realization reaches $P_9$ only with compiler evidence]
 \label{thm:programmatic-realization-reaches-p9-with-evidence}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.programmatic\_realization\_reaches\_p9\_with\_evidence}
 An executable implementation reaches the $P_9$ status only when its compiler identity, compiler behavior, self-compilation, behavior equivalence, bootstrap obligations, no-host-leak audit, and global verification status are represented by recognized event-flow evidence.
 \end{theorem}
 
@@ -224,6 +237,7 @@ $P_9$ is defined by compiler-flow recognition, compiler certificate-flow, bootst
 
 \begin{definition}[Four implementation layers]
 \label{def:programmatic-four-implementation-layers}
+\leandef{BEDC.GroundCompiler.ProgrammaticRealization.FourImplementationLayers}
 A faithful implementation architecture has four layers:
 \begin{enumerate}
 \item an executable runtime layer for encoding, decoding, legality checking, reporting, and tests;
@@ -235,6 +249,7 @@ A faithful implementation architecture has four layers:
 
 \begin{definition}[Implementation module partition]
 \label{def:programmatic-module-partition}
+\leandef{BEDC.GroundCompiler.ProgrammaticRealization.ImplementationModulePartition}
 A concrete implementation may be partitioned into modules for:
 \begin{enumerate}
 \item channel encoding, decoding, legality, and round-trip tests;
@@ -249,6 +264,7 @@ This partition is engineering structure only. It is not a formal source of BEDC 
 
 \begin{proposition}[Automatic computation has bounded authority]
 \label{prop:programmatic-automatic-computation-bounded-authority}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.automatic\_computation\_bounded\_authority}
 The executable implementation may automatically compute channel round trips, source reports, candidate listings, field-status reports, missing-field reports, undefined metric items, cannot-claim annotations, and any recognized judgment whose recognizer and checker evidence is present. It may not automatically assert mathematical identity, object acceptance, theoremhood, bridge certification, or full self-hosting status without the required event-flow certificates.
 \end{proposition}
 
@@ -261,6 +277,7 @@ The first group consists of finite computations over decoded event flows and alr
 
 \begin{definition}[Executable deliverable ladder]
 \label{def:programmatic-executable-deliverable-ladder}
+\leandef{BEDC.GroundCompiler.ProgrammaticRealization.ExecutableDeliverableLadder}
 The executable deliverable ladder is:
 \begin{enumerate}
 \item channel encode, decode, legality, and round-trip;
@@ -278,6 +295,7 @@ The executable deliverable ladder is:
 
 \begin{principle}[Executable completeness is not certificate completeness]
 \label{prin:programmatic-executable-not-certificate-complete}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.executable\_not\_certificate\_complete}
 Completing the executable deliverable ladder does not by itself discharge all certificate obligations. It supplies a running system in which obligations are explicit, checkable, and reportable.
 \end{principle}
 
