@@ -151,12 +151,70 @@ theorem MarkovChainKernelClassifier_stability [AskSetup] [PackageSetup]
       pkgSig'⟩
   exact And.intro transportedCarrier (And.intro sameControw sameEndpoint)
 
+theorem MarkovChainKernelClassifier_endpoint_confluence [AskSetup] [PackageSetup]
+    {prob random law transition controw provenance endpoint probA randomA lawA transitionA
+      controwA provenanceA endpointA probB randomB lawB transitionB controwB provenanceB
+      endpointB : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MarkovChainBHistTransitionCarrier prob random law transition controw provenance endpoint
+        bundle pkg ->
+      hsame prob probA ->
+        hsame random randomA ->
+          hsame law lawA ->
+            hsame transition transitionA ->
+              hsame provenance provenanceA ->
+                Cont randomA transitionA controwA ->
+                  Cont probA lawA provenanceA ->
+                    Cont provenanceA controwA endpointA ->
+                      PkgSig bundle endpointA pkg ->
+                        hsame prob probB ->
+                          hsame random randomB ->
+                            hsame law lawB ->
+                              hsame transition transitionB ->
+                                hsame provenance provenanceB ->
+                                  Cont randomB transitionB controwB ->
+                                    Cont probB lawB provenanceB ->
+                                      Cont provenanceB controwB endpointB ->
+                                        PkgSig bundle endpointB pkg ->
+                                          hsame controwA controwB ∧
+                                            hsame endpointA endpointB := by
+  intro carrier sameProbA sameRandomA sameLawA sameTransitionA sameProvenanceA controwRowA
+    provenanceRowA endpointRowA pkgSigA sameProbB sameRandomB sameLawB sameTransitionB
+    sameProvenanceB controwRowB provenanceRowB endpointRowB pkgSigB
+  have branchA :=
+    MarkovChainKernelClassifier_stability carrier sameProbA sameRandomA sameLawA
+      sameTransitionA sameProvenanceA controwRowA provenanceRowA endpointRowA pkgSigA
+  have branchB :=
+    MarkovChainKernelClassifier_stability carrier sameProbB sameRandomB sameLawB
+      sameTransitionB sameProvenanceB controwRowB provenanceRowB endpointRowB pkgSigB
+  have sameControwA : hsame controw controwA := branchA.right.left
+  have sameEndpointA : hsame endpoint endpointA := branchA.right.right
+  have sameControwB : hsame controw controwB := branchB.right.left
+  have sameEndpointB : hsame endpoint endpointB := branchB.right.right
+  exact
+    ⟨hsame_trans (hsame_symm sameControwA) sameControwB,
+      hsame_trans (hsame_symm sameEndpointA) sameEndpointB⟩
+
 def MarkovChainTransitionPacket
     (source time current next law transition provenance ledger : BHist) : Prop :=
   ProbSpacePublicEventPacket source source current next law ∧ UnaryHistory time ∧
     DistributionPushforwardSourceSpec law ∧
       RandomVarTotalReadbackCertificate current next transition ∧ Cont current transition provenance ∧
         Cont provenance law ledger
+
+theorem MarkovChainTransitionPacket_ledger_exactness
+    {source time current next law transition provenance ledger : BHist} :
+    MarkovChainTransitionPacket source time current next law transition provenance ledger ->
+      UnaryHistory time ∧ DistributionPushforwardSourceSpec law ∧
+        RandomVarTotalReadbackCertificate current next transition ∧
+          Cont current transition provenance ∧ Cont provenance law ledger := by
+  intro packet
+  exact
+    ⟨packet.right.left,
+      packet.right.right.left,
+      packet.right.right.right.left,
+      packet.right.right.right.right.left,
+      packet.right.right.right.right.right⟩
 
 theorem MarkovChainTransitionPacket_kernel_classifier_stability
     {source time current next law transition provenance ledger source' time' current' next'
@@ -200,5 +258,31 @@ theorem MarkovChainTransitionPacket_kernel_classifier_stability
         (And.intro lawSource'
           (And.intro readback' (And.intro transportedProvenance transportedLedger))))
   exact And.intro transportedPacket (And.intro sameProvenance sameLedger)
+
+theorem MarkovChainBHistTransitionCarrier_transition_ledger_exactness
+    [AskSetup] [PackageSetup]
+    {prob random law transition controw provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MarkovChainBHistTransitionCarrier prob random law transition controw provenance endpoint
+        bundle pkg ->
+      UnaryHistory prob ∧ UnaryHistory random ∧ UnaryHistory law ∧
+        UnaryHistory transition ∧ UnaryHistory controw ∧ UnaryHistory provenance ∧
+          UnaryHistory endpoint ∧ Cont random transition controw ∧
+            Cont prob law provenance ∧ Cont provenance controw endpoint ∧
+              PkgSig bundle endpoint pkg ∧ hsame endpoint (append provenance controw) := by
+  intro carrier
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right,
+      carrier.right.right.right.right.right.right.right.right.right.left⟩
 
 end BEDC.Derived.MarkovChainUp
