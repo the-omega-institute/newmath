@@ -368,6 +368,42 @@ Modes the new merge flow eliminated entirely (do not appear anymore):
 - **`Rebase left no own-round commit unique to BASE_BRANCH`** — codex's rebase resolution sometimes dropped the round's own work; merge can't drop a parent.
 - **`Codex did not complete rebase, aborting`** with subsequent round FAIL — no rebase to abort.
 
+### Recurring runtime patterns (operational lessons)
+
+The patterns below are residual failure modes that recovery handles but you should still recognize when scanning the monitor. None require manual intervention; the table tells you what NOT to investigate when you see the signal.
+
+| Signal | Root cause | What auto-heals it | Action |
+|---|---|---|---|
+| `Pre-merge hard gate failed: lake build` after a sibling round added the same theorem name | Phase C `lake build` in worktree passes (worktree is forked from old BASE) but post-merge build fails because sibling's `BEDC.Derived.<X>Up.<thm>` and this round's `BEDC.Derived.<X>Up.<thm>` are now both registered under the same flattened namespace | `phase_c.txt` Step 5 `git merge --no-ff origin/codex-auto-dev` pulls sibling work into the worktree pre-commit so the conflict surfaces in-codex (v5.14, 2026-05-09 — earlier `BASE=lean4-codex-auto-dev` typo defeated this) | None. Recovery codex resolves the conflict; if it can't, round becomes `unrecoverable` and ticket is dropped — no main-tree damage |
+| `Pre-merge hard gate failed: lake build` with namespace conflict on a single chapter that has `<X>Up.lean` + `<X>up.lean` | Case-insensitive filesystem (macOS APFS, Windows NTFS) treats these as one inode but Lean's import resolver treats them as two modules → identical declarations registered twice | `phase_c.txt` v5.13 hard gate runs `find -iname` before creating any new file; rejects if a sibling under any casing exists | None |
+| `Phase B failed: no targets extracted (0 chars)` with `Codex exec completed in <N>s (rc=1)` and `<N>` shorter than the configured timeout | Codex CLI returned non-zero with empty stdout — symptom of upstream API transient (rate limit, 5xx, token quota), not a prompt problem | Orchestrator dispatches replacement R<N+M> in the next tick; sibling rounds keep running unaffected | None unless you see ≥3 in 5 minutes (then check `gh run list` / OpenAI status) |
+| `[recovery] codex-R<N> unrecoverable; marking dead` for an R<N> that completed `Round SUCCESS` hours earlier | Stale recovery ticket: a recovery file was queued for an R<N> that the original worker rescued itself before the recovery consumer picked it up. By the time recovery acts, the worktree is gone and the picker can't find anything to fix | Recovery marks the ticket dead and moves on. The R<N> work is already merged | None — the SUCCESS log earlier is authoritative |
+| `[cooldown] 3 consecutive failures — sleeping 180s` with `All targets duplicated by other rounds; aborting` in failing-round logs | In-flight target saturation: at high `lean` concurrency (≥10), multiple Phase B workers select the same `critical_path.top[0..2]` chapter; orchestrator's in-flight dedup drops them all → empty target sets → cooldown trigger | 180s sleep gives sibling rounds time to finish and free the targets; pipeline resumes naturally | If it repeats every hour: drop `lean` to 8 in `.pipeline_parallel.json` (live edit, no restart) |
+| `[sync] [rejected] codex-auto-dev -> codex-auto-dev (non-fast-forward)` then `Traceback` then next `[sync]` cycle starts | sync_with_auto_dev push lost a race against a codex worker push that landed between `git fetch` and `git push`. The Python `RuntimeError: command failed (rc=128): git fetch origin --prune` (variant: HTTP/2 stream cancel) is also network transient | `bash` wrapper around `sync_with_auto_dev.py` catches the non-zero exit and re-enters the `while true; sleep 600; done` loop; next iteration fetches latest BASE and merges before pushing | None — the `[sync] done: ... converged` line within 10–15 min confirms recovery |
+| `make check` exits non-zero with `Runaway argument` followed by `! File ended while scanning use of \@newl@bel.` mentioning a `\newlabel{...}` from a chapter you didn't touch | Stale `main.aux` from an earlier interrupted run: the `\newlabel` line was truncated mid-write and now `pdflatex` reads it as unbalanced braces | `rm main.aux main.toc main.out` then re-run `make check` (or `make` for ship) | None for the pipeline (workers use isolated worktrees with their own `.aux`); only matters when you `make` in the main checkout |
+
+The pattern catalog is descriptive — `Round FAILED` / `Merge failed —` / `[recovery] queued` / `[recovery] picking` events are still the right primary signals. The table above explains what to *not* spin up an investigation for when those events arrive with one of these specific signatures.
+
+### Adding new chapters by seed-stub path (no manual Lean coupling)
+
+When you want to add new BEDC chapters from outside the codex pipeline (e.g., a research direction the operator chose), the cheap path is a seed stub at `seedClosure / unformalizedV` with **no `\leantarget`**. The pipeline takes it from there.
+
+Per chapter you need:
+
+1. `papers/bedc/parts/concrete_instances/<NN>_<slug>_namecert_construction.tex` — minimal stub with `\chapter`, `\label`, one orienting paragraph, and a `closurestatus` block. Required fields: `\theoryclosure{\seedClosure}`, `\formalstatus{\unformalizedV}`, `\bridgestatus{none}`, plus `\constructivestory`, `\scopeclosed`, `\notclaimed`, `\upgradepath`. **Do NOT include `\leantarget`** — `unformalizedV` does not require one (`bedc_ci.py audit` enforces this; missing-target only fails for `theoremCheckedV` and above).
+2. `papers/bedc/preamble.tex` — `\newcommand{\<X>Up}{\mathsf{<X>}^{\uparrow}}` macro definition (and any `\Prov` / `\Gal` etc. helper macros referenced in the constructive story).
+3. `papers/bedc/main.tex` — one `\input{parts/concrete_instances/<NN>_<slug>_namecert_construction.tex}` line in numerical order.
+
+Verification before commit: `python3 lean4/scripts/bedc_ci.py audit` (must exit 0), `python3 tools/check-axioms.py` (must exit 0), `cd papers/bedc && make` (double pass; PDF builds). If `make check` fails with a `Runaway argument` from `main.aux`, see the recurring-pattern table above (`rm main.aux main.toc main.out` and retry).
+
+Single atomic commit covering all chapters + preamble + main.tex. The pipeline:
+
+- `critical_path.py` next call surfaces the new chapters in `top[…]` with grade `seedClosure` and label_count > 0.
+- Paper rounds within ~10–30 minutes propose `closure_mark` for `seed → obligation` transitions.
+- Lean rounds discover the chapters under `formal_axis_top` and start writing `BEDC.Derived.<X>Up.lean` files (which then back-fill `\leantarget` references from paper rounds).
+
+A single-commit batch of ~8–12 chapters typically takes 30–90 minutes for pipeline to start advancing them past `seedClosure`, and 1–3 days to push a chapter to `matureClosure / bridgeCheckedV` at current throughput. Do not preempt by hand — the chapters will surface in the closure_mark stream as they get attention. Empirical example: the 2026-05-10 batch of 8 computation/Galois/foundations chapters had `TuringMachineUp` proposed for `obligationClosure` mark within 35 minutes of commit.
+
 ### Hot-reload vs restart boundary
 
 Edit-and-go (no pipeline restart needed; next round picks up the change):

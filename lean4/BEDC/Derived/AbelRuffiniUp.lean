@@ -27,4 +27,21 @@ theorem AbelRuffiniDerivedSeriesLedger_assoc_surface
         ⟨tail, next, repacked.left, repacked.right, subgroupUnary, tailUnary, nextUnary,
           nextUnary, hsame_refl next⟩
 
+theorem AbelRuffiniDerivedSeriesLedger_finite_transport
+    {galois s5 subgroup commutator next obstruction endpoint : BHist} :
+    UnaryHistory galois -> UnaryHistory s5 -> UnaryHistory subgroup ->
+      UnaryHistory commutator -> UnaryHistory obstruction ->
+        Cont galois s5 subgroup -> Cont subgroup commutator next ->
+          Cont next obstruction endpoint ->
+            UnaryHistory next ∧ UnaryHistory endpoint ∧
+              hsame subgroup (append galois s5) ∧ hsame next (append subgroup commutator) ∧
+                hsame endpoint (append next obstruction) := by
+  intro galoisUnary s5Unary subgroupUnary commutatorUnary obstructionUnary
+  intro subgroupRow nextRow endpointRow
+  have nextUnary : UnaryHistory next :=
+    unary_cont_closed subgroupUnary commutatorUnary nextRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed nextUnary obstructionUnary endpointRow
+  exact ⟨nextUnary, endpointUnary, subgroupRow, nextRow, endpointRow⟩
+
 end BEDC.Derived.AbelRuffiniUp
