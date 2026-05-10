@@ -602,6 +602,7 @@ import BEDC.Derived.DiffFormUp.RootConsumerEntry
 import BEDC.Derived.DiffFormUp.RootConsumerReadablePackage
 import BEDC.Derived.DiffFormUp.RootConsumerSourceProjection
 import BEDC.Derived.DiffFormUp.RootNameCertSurface
+import BEDC.Derived.DiffFormUp.RootObligationPackage
 import BEDC.Derived.DiffFormUp.RootObligationSurface
 import BEDC.Derived.DiffFormUp.RootRowBoundary
 import BEDC.Derived.DiffFormUp.RootUnblockObligations
@@ -882,6 +883,7 @@ import BEDC.Derived.S1Up.EquationTransportObligationSurface
 import BEDC.Derived.S1Up.PublicConstructorPacket
 import BEDC.Derived.S1Up.PublicEndpointExactness
 import BEDC.Derived.S1Up.RealMetricBridgeBoundary
+import BEDC.Derived.S1Up.StandardBridge
 import BEDC.Derived.S1Up.StandardTopologicalBridgeBoundary
 import BEDC.Derived.S1Up.StandardTopologicalCircleAcceptance
 import BEDC.Derived.S1Up.ComponentwiseTransportStability

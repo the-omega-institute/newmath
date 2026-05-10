@@ -34,6 +34,46 @@ def ShortestPathRelaxationLedgerCarrier [AskSetup] [PackageSetup]
       Cont endpoint beforeAfter predecessor ∧
         Cont predecessor relaxation transport ∧ PkgSig bundle transport pkg
 
+theorem ShortestPathWeightedGraphCarrier_source_rows [AskSetup] [PackageSetup]
+    {vertices edges weights source target path incidence weightedPath endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ShortestPathWeightedGraphCarrier vertices edges weights source target path incidence
+        weightedPath endpoint bundle pkg ->
+      UnaryHistory vertices ∧ UnaryHistory edges ∧ UnaryHistory weights ∧
+        UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory path ∧
+          Cont vertices edges incidence ∧ Cont incidence weights weightedPath ∧
+            Cont weightedPath path endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  cases carrier with
+  | intro verticesUnary rest =>
+      cases rest with
+      | intro edgesUnary rest =>
+          cases rest with
+          | intro weightsUnary rest =>
+              cases rest with
+              | intro sourceUnary rest =>
+                  cases rest with
+                  | intro targetUnary rest =>
+                      cases rest with
+                      | intro pathUnary rest =>
+                          cases rest with
+                          | intro incidenceRow rest =>
+                              cases rest with
+                              | intro weightedPathRow rest =>
+                                  cases rest with
+                                  | intro endpointRow pkgRow =>
+                                      exact
+                                        ⟨verticesUnary,
+                                          edgesUnary,
+                                          weightsUnary,
+                                          sourceUnary,
+                                          targetUnary,
+                                          pathUnary,
+                                          incidenceRow,
+                                          weightedPathRow,
+                                          endpointRow,
+                                          pkgRow⟩
+
 theorem ShortestPathWeightedGraphCarrier_visible_path_ledger [AskSetup] [PackageSetup]
     {vertices edges weights source target path incidence weightedPath endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
