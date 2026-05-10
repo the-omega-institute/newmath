@@ -1,0 +1,100 @@
+\begin{definition}[MulUp NatMul window boundary]
+\label{def:mulup-natmul-window-boundary}
+The $\MulUp$ $\mathsf{NatMul}$ window boundary is the finite
+$\mathsf{BHist}$ read surface whose accepted rows are unary histories
+$d$, $q$, and $n$ in $\mathsf{UnaryHistory}$, componentwise comparison by
+$\hsame$, continuation ledgers $\Cont$ witnessing the displayed append
+steps, and the multiplication row $\mathsf{NatMul}(d,q,n)$. A consumer
+inside the boundary may inspect only the empty-result branch, the
+successor-result branch, the unit rows, the two $\AddUp$ distributivity
+rows, the $\OrderUp$ row, and the divisibility rows already present in
+\autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary}.
+\end{definition}
+
+\begin{theorem}[MulUp empty product factor boundary]
+\label{thm:mulup-empty-product-factor-boundary}
+Within the window boundary of
+\autoref{def:mulup-natmul-window-boundary}, if
+$\mathsf{NatMul}(d,q,\emp)$ holds, then the exposed factor readback is
+exactly the empty-factor case or the empty-multiplier case:
+$d\hsame\emp$ or $q\hsame\emp$. No nonempty unary pair can be exported as
+an empty product row by this boundary.
+\end{theorem}
+\begin{proof}
+Read the multiplication row through the checked empty-result cases for
+$\mathsf{NatMul}$. The concrete theorem
+$\mathsf{BEDC.Derived.PrimeUp.NatMul\_empty\_result\_factor\_empty\_or\_multiplier\_empty}$
+inverts the empty result and returns precisely the displayed disjunction
+on the two factors.
+
+The same readback is compatible with the window boundary because the
+boundary exposes only $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, and the
+single $\mathsf{NatMul}$ row. Thus the empty result cannot be explained
+by an external multiplication table, quotient equality, or hidden host
+zero test.
+\end{proof}
+
+\begin{theorem}[MulUp successor product factor readback]
+\label{thm:mulup-successor-product-factor-readback}
+Within the window boundary of
+\autoref{def:mulup-natmul-window-boundary}, if
+$\mathsf{NatMul}(d,q,\Eone(n))$ holds, then the result readback exposes a
+nonempty multiplicand factor and a unary multiplier row. Equivalently,
+the successor-result branch is readable only through the positive
+multiplicand shape supplied by the $\mathsf{NatMul}$ inversion rows
+together with the $\mathsf{UnaryHistory}$ classifier on the multiplier.
+\end{theorem}
+\begin{proof}
+First invert the successor result by the concrete
+$\mathsf{NatMul}$ successor rows. The checked theorem
+$\mathsf{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_empty\_left\_empty}$
+rules out an empty multiplicand as the source of a successor product.
+
+Next apply
+$\mathsf{BEDC.Derived.PrimeUp.NatMul\_successor\_result\_multiplicand\_positive\_shape}$.
+It reads the same successor-result row as a positive multiplicand shape,
+with the multiplier still classified as a unary history by the
+$\mathsf{NatMul}$ carrier projections.
+
+These two steps are rows of the boundary of
+\autoref{def:mulup-natmul-window-boundary}. The consumer obtains the
+nonempty factor and unary multiplier without adding host multiplication
+or a second result classifier.
+\end{proof}
+
+\begin{theorem}[MulUp NatMul window exhaustion]
+\label{thm:mulup-natmul-window-exhaustion}
+Every Full Nat Arithmetic consumer restricted to the $\MulUp$ phase-exit
+boundary and to the window boundary of
+\autoref{def:mulup-natmul-window-boundary} reads only the following
+cases: the empty-result factor boundary of
+\autoref{thm:mulup-empty-product-factor-boundary}, the successor-result
+factor readback of
+\autoref{thm:mulup-successor-product-factor-readback}, the unit rows of
+the checked $\mathsf{NatMul}$ package, the two additive-distribution
+rows, the order row, and the divisibility rows. No further
+$\mathsf{BHist}$ case, host multiplication operation, quotient carrier,
+or external semiring law is visible at this audit handoff.
+\end{theorem}
+\begin{proof}
+Start with the phase-exit package of
+\autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary}. It fixes the
+Full Nat Arithmetic consumer surface over $\mathsf{UnaryHistory}$,
+$\hsame$, $\Cont$, and $\mathsf{NatMul}$, and it lists the unit,
+additive, order, and divisibility rows available to the consumer.
+
+Now restrict the result inspection to the window boundary. The empty
+result is exhausted by
+\autoref{thm:mulup-empty-product-factor-boundary}, while the successor
+result is exhausted by
+\autoref{thm:mulup-successor-product-factor-readback}. These are the only
+result-shape branches exposed by the $\mathsf{NatMul}$ row over
+$\mathsf{BHist}$ unary histories.
+
+Finally repack the remaining rows from
+\autoref{thm:mulup-checked-law-audit-package} and
+\autoref{thm:mulup-l7-add-order-audit-handoff}. They contribute the unit
+rows, the two $\AddUp$ distributivity rows, the $\OrderUp$ row, and the
+divisibility rows already accepted by the phase-exit boundary, so the
+window exports exactly the stated audit handoff.
+\end{proof}
