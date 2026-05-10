@@ -8,6 +8,7 @@ import BEDC.GroundCompiler.PackageGenerated
 import BEDC.GroundCompiler.NameCertGenerated
 import BEDC.GroundCompiler.PackageNameCertPrototype
 import BEDC.GroundCompiler.DerivCertGenerated
+import BEDC.GroundCompiler.DerivCertReports
 import BEDC.GroundCompiler.TheoremGenerated
 import BEDC.GroundCompiler.TheoremProofPrototype
 import BEDC.GroundCompiler.ChapterFlow

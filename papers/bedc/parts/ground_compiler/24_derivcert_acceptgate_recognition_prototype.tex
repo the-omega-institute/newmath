@@ -509,6 +509,7 @@ A \emph{$P_6$ report} is an output view containing decoded event flow, recognize
 
 \begin{definition}[DerivCert and AcceptGate field status]
 \label{def:deriv-accept-field-status}
+\leandef{BEDC.GroundCompiler.DerivCertReports.DerivAcceptFieldStatus}
 For each derivation-certificate candidate $D$, the report records source, classifier, exactness, ledger, stability, strength, and seal status as present, missing, or candidate-only. For each acceptance-gate candidate $A$, it records \NameCert-flow, derivation-certificate flow, strength flow, and gate-seal status as present, missing, or candidate-only.
 \end{definition}
 
@@ -519,6 +520,7 @@ A $P_6$ report must state that \NameCert\ flow alone does not imply accepted exp
 
 \begin{definition}[Sound $P_6$ report]
 \label{def:deriv-accept-sound-p6-report}
+\leandef{BEDC.GroundCompiler.DerivCertReports.SoundP6Report}
 A $P_6$ report is \emph{sound} when:
 \begin{enumerate}
 \item every recognized derivation-certificate flow is backed by generated derivation-certificate recognizer;
@@ -535,6 +537,7 @@ A $P_6$ report is \emph{sound} when:
 
 \begin{theorem}[Sound $P_6$ report theorem]
 \label{thm:deriv-accept-sound-p6-report}
+\leanchecked{BEDC.GroundCompiler.DerivCertReports.sound\_p6\_report}
 If $P_6$ outputs a sound report, then every accepted object code in the report corresponds to a recognized acceptance-gate flow containing sound \NameCert\ and derivation-certificate flows.
 \end{theorem}
 
