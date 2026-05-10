@@ -142,4 +142,50 @@ theorem AbelRuffiniNonradicalBoundary_obligation
     ⟨sourceSurfaceUnary, subgroupUnary, nextUnary, boundaryUnary, sourceSurfaceRow, subgroupRow,
       nextRow, boundaryRow⟩
 
+theorem AbelRuffiniPublicCertificate_export
+    {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger seed
+      publicSurface : BHist} {derivedRows : List BHist} :
+    UnaryHistory polynomial ->
+      UnaryHistory base ->
+        UnaryHistory splittingField ->
+          UnaryHistory galoisRow ->
+            UnaryHistory s5Row ->
+              UnaryHistory seed ->
+                (forall row : BHist, List.Mem row derivedRows -> UnaryHistory row) ->
+                  Cont polynomial base coefficientLedger ->
+                    Cont splittingField galoisRow galoisLedger ->
+                      Cont coefficientLedger galoisLedger seed ->
+                        Cont (List.foldl append seed derivedRows) s5Row publicSurface ->
+                          UnaryHistory coefficientLedger ∧ UnaryHistory galoisLedger ∧
+                            UnaryHistory (List.foldl append seed derivedRows) ∧
+                              UnaryHistory publicSurface ∧
+                                hsame publicSurface
+                                  (append (List.foldl append seed derivedRows) s5Row) := by
+  intro polynomialUnary baseUnary splittingFieldUnary galoisRowUnary s5RowUnary seedUnary
+  intro derivedUnary coefficientRow galoisLedgerRow seedRow publicSurfaceRow
+  have coefficientUnary : UnaryHistory coefficientLedger :=
+    unary_cont_closed polynomialUnary baseUnary coefficientRow
+  have galoisLedgerUnary : UnaryHistory galoisLedger :=
+    unary_cont_closed splittingFieldUnary galoisRowUnary galoisLedgerRow
+  let rec foldUnaryClosed (current : BHist) :
+      (rows : List BHist) ->
+        UnaryHistory current ->
+          (forall row : BHist, List.Mem row rows -> UnaryHistory row) ->
+            UnaryHistory (List.foldl append current rows)
+    | [], currentUnary, _ => currentUnary
+    | head :: tail, currentUnary, rowsUnary =>
+        have headUnary : UnaryHistory head :=
+          rowsUnary head (List.Mem.head tail)
+        have nextUnary : UnaryHistory (append current head) :=
+          unary_cont_closed currentUnary headUnary rfl
+        have tailUnary : forall row : BHist, List.Mem row tail -> UnaryHistory row := by
+          intro row rowMem
+          exact rowsUnary row (List.Mem.tail head rowMem)
+        foldUnaryClosed (append current head) tail nextUnary tailUnary
+  have foldUnary : UnaryHistory (List.foldl append seed derivedRows) := by
+    exact foldUnaryClosed seed derivedRows seedUnary derivedUnary
+  have publicSurfaceUnary : UnaryHistory publicSurface :=
+    unary_cont_closed foldUnary s5RowUnary publicSurfaceRow
+  exact ⟨coefficientUnary, galoisLedgerUnary, foldUnary, publicSurfaceUnary, publicSurfaceRow⟩
+
 end BEDC.Derived.AbelRuffiniUp
