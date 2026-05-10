@@ -106,4 +106,32 @@ theorem RiemannHilbertBHistBridgePacket_regular_holonomic_soundness
       (And.intro soundnessCont
         (And.intro deRhamCont (And.intro gluingCont pkgSig)))
 
+theorem RiemannHilbertBridgePacket_derived_sheaf_source_rows [AskSetup] [PackageSetup]
+    {derivedSource sheafTarget regularHolonomic transport provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory derivedSource ->
+      UnaryHistory sheafTarget ->
+        UnaryHistory regularHolonomic ->
+          UnaryHistory provenance ->
+            Cont derivedSource sheafTarget transport ->
+              Cont transport provenance endpoint ->
+                PkgSig bundle endpoint pkg ->
+                  UnaryHistory transport ∧
+                    UnaryHistory endpoint ∧
+                      hsame transport (append derivedSource sheafTarget) ∧
+                        hsame endpoint (append transport provenance) ∧ PkgSig bundle endpoint pkg := by
+  intro derivedUnary sheafUnary _ provenanceUnary transportCont endpointCont pkgSig
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed derivedUnary sheafUnary transportCont
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary provenanceUnary endpointCont
+  cases transportCont
+  cases endpointCont
+  exact
+    ⟨transportUnary,
+      endpointUnary,
+      rfl,
+      rfl,
+      pkgSig⟩
+
 end BEDC.Derived.RiemannHilbertUp
