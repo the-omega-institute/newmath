@@ -196,7 +196,10 @@ def run_once(args: argparse.Namespace) -> dict:
     if args.fetch:
         fetch = git(["fetch", "origin", "--prune"], timeout=args.fetch_timeout)
         if fetch.returncode != 0:
-            raise RuntimeError((fetch.stderr or fetch.stdout or "git fetch failed").strip())
+            time.sleep(3)
+            fetch = git(["fetch", "origin", "--prune"], timeout=args.fetch_timeout)
+            if fetch.returncode != 0:
+                raise RuntimeError((fetch.stderr or fetch.stdout or "git fetch failed").strip())
 
     state = load_state()
     state.setdefault("refs", {})
