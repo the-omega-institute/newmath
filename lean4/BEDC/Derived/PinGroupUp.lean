@@ -105,6 +105,33 @@ theorem PinGroupReflectionParityLedgerSurface_exhaustion
     PinGroupReflectionParityCarrier_exactness surface.left surface.right
   exact And.intro branchExhaustion surface.right
 
+theorem PinGroupReflectionParityLedgerSurface_source_ledger_coverage
+    {spin reflection product endpoint ledger carried : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      ((hsame endpoint spin ∧ hsame carried (append spin ledger) ∧ UnaryHistory spin) ∨
+          (Cont spin reflection product ∧ hsame endpoint product ∧
+            hsame carried (append product ledger) ∧ UnaryHistory reflection)) ∧
+        hsame carried (append endpoint ledger) := by
+  intro surface
+  constructor
+  · cases surface.left with
+    | inl spinBranch =>
+        exact Or.inl
+          (And.intro spinBranch.left
+            (And.intro
+              (cont_respects_hsame spinBranch.left (hsame_refl ledger) surface.right
+                (cont_intro rfl))
+              spinBranch.right))
+    | inr reflectionBranch =>
+        exact Or.inr
+          (And.intro reflectionBranch.left
+            (And.intro reflectionBranch.right.left
+              (And.intro
+                (cont_respects_hsame reflectionBranch.right.left (hsame_refl ledger)
+                  surface.right (cont_intro rfl))
+                reflectionBranch.right.right)))
+  · exact surface.right
+
 theorem PinGroupReflectionParityLedgerSurface_spin_boundary_exhaustion
     {spin reflection product endpoint ledger carried : BHist} :
     PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
