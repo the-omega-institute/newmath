@@ -49,4 +49,24 @@ theorem DiffFormRootConsumerEntry_derivative_boundary
     (And.intro carrierRows.right.right.right
       (And.intro derivativeUnary derivativeRoute))
 
+theorem DiffFormRootConsumerEntry_wedge
+    {omega domega degree degreePlus probe probe' tensor tensor' scalar scalar' antisym source
+      wedge : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega degree degreePlus probe probe' tensor tensor'
+        scalar scalar' antisym source ->
+      DiffFormWedgeDegreeLedger degree degreePlus wedge omega domega tensor ->
+        UnaryHistory degree ∧ UnaryHistory degreePlus ∧
+          Cont degree (BHist.e1 BHist.Empty) degreePlus ∧ Cont degree degreePlus wedge ∧
+            UnaryHistory wedge ∧ hsame omega domega ∧ UnaryHistory tensor := by
+  intro derivativeLedger wedgeLedger
+  have degreeRows := DiffFormExteriorDerivativeLedger_degree_raise derivativeLedger
+  exact
+    ⟨degreeRows.left,
+      degreeRows.right.left,
+      degreeRows.right.right,
+      wedgeLedger.right.right.left,
+      wedgeLedger.right.right.right.left,
+      wedgeLedger.right.right.right.right.right,
+      wedgeLedger.right.right.right.right.left⟩
+
 end BEDC.Derived.DiffFormUp
