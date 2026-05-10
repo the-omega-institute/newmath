@@ -74,4 +74,34 @@ theorem PontryaginDualityCharacterCarrier_stability [AskSetup] [PackageSetup]
         inverseRowUnary', sourceLedgerRow', characterLedgerRow', endpointRow', pkgSig'⟩,
       sameSourceLedger, sameCharacterLedger, sameEndpoint⟩
 
+theorem PontryaginDualityCharacterCarrier_source_boundary [AskSetup] [PackageSetup]
+    {topSource abSource circleTarget character productRow inverseRow sourceLedger
+      characterLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PontryaginDualityCharacterCarrier topSource abSource circleTarget character productRow
+        inverseRow sourceLedger characterLedger endpoint bundle pkg ->
+      UnaryHistory sourceLedger ∧ UnaryHistory characterLedger ∧ UnaryHistory endpoint ∧
+        hsame sourceLedger (append topSource abSource) ∧
+          hsame characterLedger (append circleTarget character) ∧
+            hsame endpoint (append sourceLedger characterLedger) ∧
+              PkgSig bundle endpoint pkg := by
+  intro carrier
+  have sourceLedgerUnary : UnaryHistory sourceLedger :=
+    unary_cont_closed carrier.left carrier.right.left
+      carrier.right.right.right.right.right.right.left
+  have characterLedgerUnary : UnaryHistory characterLedger :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed sourceLedgerUnary characterLedgerUnary
+      carrier.right.right.right.right.right.right.right.right.left
+  exact
+    ⟨sourceLedgerUnary,
+      characterLedgerUnary,
+      endpointUnary,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.PontryaginDualityUp
