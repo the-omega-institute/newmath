@@ -547,4 +547,27 @@ theorem concrete_unary_history_magma_cont_nested_right_unit_classifier_iff
     exact And.intro outLmClassified.left
       (And.intro data.left (hsame_trans outLmClassified.right.right sameLmLeft))
 
+theorem MagmaUp_StdBridge :
+    let Carrier : BHist -> Prop := UnaryHistory
+    let Classifier : BHist -> BHist -> Prop :=
+      fun h k => Carrier h ∧ Carrier k ∧ hsame h k
+    SemanticNameCert Carrier Carrier Carrier Classifier ∧
+      (forall {h k : BHist}, Carrier h -> Carrier k ->
+        Carrier (append h k) ∧ Cont h k (append h k)) ∧
+      (forall {h t r : BHist}, Cont h (BHist.e0 t) r ->
+        hsame r BHist.Empty -> False) ∧
+      (forall {h t r : BHist}, Cont h (BHist.e1 t) r ->
+        hsame r BHist.Empty -> False) := by
+  exact And.intro
+    ConcreteUnaryHistoryMagma_semanticNameCert.left
+    (And.intro
+      ConcreteUnaryHistoryMagma_semanticNameCert.right.left
+      (And.intro
+        (fun {h t r : BHist} =>
+          concrete_unary_history_magma_cont_visible_right_result_nonempty
+            (h := h) (t := t) (r := r) |>.left)
+        (fun {h t r : BHist} =>
+          concrete_unary_history_magma_cont_visible_right_result_nonempty
+            (h := h) (t := t) (r := r) |>.right)))
+
 end BEDC.Derived.MagmaUp
