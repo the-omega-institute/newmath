@@ -97,6 +97,37 @@ theorem BeliefObservationUpdateCarrier_classifier_transport [AskSetup] [PackageS
       updateRow' posteriorRow' evidenceRow' pkgSig'
   exact ⟨transported.left, transported.right.right.left, transported.right.right.right⟩
 
+theorem BeliefObservationUpdateCarrier_posterior_trace_transport [AskSetup] [PackageSetup]
+    {prior observation updateTrace probability evidence posterior prior' observation' updateTrace'
+      probability' evidence' posterior' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BeliefObservationUpdateCarrier prior observation updateTrace probability evidence posterior
+        bundle pkg ->
+      hsame prior prior' -> hsame observation observation' -> hsame probability probability' ->
+        Cont prior' observation' updateTrace' ->
+          Cont updateTrace' probability' posterior' ->
+            Cont prior' (append observation' (append updateTrace' probability')) evidence' ->
+              PkgSig bundle evidence' pkg ->
+                BeliefObservationUpdateCarrier prior' observation' updateTrace' probability'
+                    evidence' posterior' bundle pkg ∧
+                  hsame updateTrace' (append prior' observation') ∧
+                    hsame posterior' (append updateTrace' probability') ∧
+                      hsame evidence'
+                        (append prior' (append observation' (append updateTrace' probability'))) := by
+  intro carrier samePrior sameObservation sameProbability updateRow'
+  intro posteriorRow' evidenceRow' pkgSig'
+  have priorUnary' : UnaryHistory prior' :=
+    unary_transport carrier.left samePrior
+  have observationUnary' : UnaryHistory observation' :=
+    unary_transport carrier.right.left sameObservation
+  have updateUnary' : UnaryHistory updateTrace' :=
+    unary_cont_closed priorUnary' observationUnary' updateRow'
+  have probabilityUnary' : UnaryHistory probability' :=
+    unary_transport carrier.right.right.right.left sameProbability
+  exact
+    ⟨⟨priorUnary', observationUnary', updateUnary', probabilityUnary', updateRow',
+        posteriorRow', evidenceRow', pkgSig'⟩, updateRow', posteriorRow', evidenceRow'⟩
+
 theorem BeliefObservationUpdateCarrier_ledger_exactness [AskSetup] [PackageSetup]
     {prior observation trace probability ledger posterior : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
