@@ -170,4 +170,40 @@ theorem RiemannianMetricPublicSourceFibre_name_certificate
             (And.intro compatibilityRows.right.right.right.right.right.left
               compatibilityRows.right.right.right.right.right.right)))))
 
+theorem RiemannianMetricPublicSourceFibre_standard_bridge
+    {point point' tangent tangent' metric metric' sourceDomain targetDomain sourceCoord
+      targetCoord : BHist} :
+    RiemannianMetricSingletonFibreSurface point tangent metric ->
+      RiemannianMetricSingletonFibreSurface point' tangent' metric' ->
+        hsame point point' ->
+          Cont BHist.Empty point sourceDomain ->
+            Cont BHist.Empty point' targetDomain ->
+              Cont BHist.Empty point sourceCoord ->
+                Cont BHist.Empty point' targetCoord ->
+                  ManifoldSingletonCarrier point ∧ VecSpaceSingletonCarrier tangent ∧
+                    InnerProductSingletonOrthogonal tangent tangent ∧ hsame metric metric' ∧
+                      hsame sourceDomain targetDomain ∧ UnaryHistory sourceCoord ∧
+                        UnaryHistory targetCoord ∧
+                          RealConstantHistoryClassifier metric
+                            (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro surface surface' samePoints sourceDomainRow targetDomainRow sourceCoordRow targetCoordRow
+  have publicRows :=
+    RiemannianMetricPublicSourceFibre_name_certificate surface surface' samePoints
+      sourceDomainRow targetDomainRow sourceCoordRow targetCoordRow
+  have sourceRows :
+      ManifoldSingletonCarrier point ∧ VecSpaceSingletonCarrier tangent ∧
+        VecSpaceSingletonCarrier tangent ∧
+          RealConstantHistoryClassifier metric (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+            UnaryHistory point ∧ UnaryHistory tangent ∧ UnaryHistory tangent :=
+    RiemannianMetricSingleton_source_fibre_carrier_row surface.left surface.right.left
+      surface.right.left surface.right.right.right
+  exact And.intro publicRows.left
+    (And.intro publicRows.right.left
+      (And.intro publicRows.right.right.left
+        (And.intro publicRows.right.right.right.left
+          (And.intro publicRows.right.right.right.right.left
+            (And.intro publicRows.right.right.right.right.right.left
+              (And.intro publicRows.right.right.right.right.right.right
+                sourceRows.right.right.right.left))))))
+
 end BEDC.Derived.RiemannianMetricUp
