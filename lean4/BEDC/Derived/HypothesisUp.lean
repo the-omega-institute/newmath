@@ -70,4 +70,34 @@ theorem HypothesisTestDecisionCarrier_distribution_boundary
     ⟨decisionUnary, nullLedgerUnary, altLedgerUnary, surfaceUnary, decisionRow, nullLedgerRow,
       altLedgerRow, surfaceRow⟩
 
+theorem HypothesisTestDecisionCarrier_type_two_error_ledger
+    {altBound acceptEvent complement typeI typeII jointLedger : BHist} :
+    ProbSpacePublicEventPacket altBound typeII acceptEvent complement typeII ->
+      hsame complement BHist.Empty ->
+        UnaryHistory typeI ->
+          Cont typeI typeII jointLedger ->
+            hsame altBound typeII ∧ hsame acceptEvent typeII ∧
+              PreorderPrefixLE acceptEvent typeII ∧ UnaryHistory jointLedger ∧
+                hsame jointLedger (append typeI typeII) := by
+  intro packet complementEmpty typeIUnary jointRow
+  have bounds :
+      hsame typeII typeII ∧ UnaryHistory typeII ∧
+        Cont acceptEvent complement typeII ∧ PreorderPrefixLE acceptEvent typeII :=
+    ProbSpacePublicEventPacket_normalization_bounds packet
+  have acceptSelf : Cont acceptEvent BHist.Empty acceptEvent :=
+    cont_right_unit acceptEvent
+  have acceptWithEmptyComplement : Cont acceptEvent BHist.Empty typeII :=
+    cont_hsame_transport (hsame_refl acceptEvent) complementEmpty
+      (hsame_refl typeII) bounds.right.right.left
+  have acceptTypeII : hsame acceptEvent typeII :=
+    cont_deterministic acceptSelf acceptWithEmptyComplement
+  have jointUnary : UnaryHistory jointLedger :=
+    unary_cont_closed typeIUnary bounds.right.left jointRow
+  exact
+    ⟨packet.right.right.right.left,
+      acceptTypeII,
+      bounds.right.right.right,
+      jointUnary,
+      jointRow⟩
+
 end BEDC.Derived.HypothesisUp
