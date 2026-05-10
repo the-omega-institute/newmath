@@ -120,6 +120,8 @@ inductive BootstrapRole : Type where
   | eventFlowRecognizer
   | recognizerCertificateChecker
 
+def BootstrapComponent : Type := BootstrapRole
+
 def BootstrapCompiler
     (C : CompilerCandidateFlow) (_rho : BootstrapRole) : Prop :=
   FormalCompilerInput (CompilerDatum.eventFlow C)
@@ -127,6 +129,11 @@ def BootstrapCompiler
 def BootstrapObligation
     (B : EventFlow) (C : CompilerCandidateFlow) (rho : BootstrapRole) : Prop :=
   NonemptyEventFlow B /\ P9Subflow B C /\ BootstrapCompiler C rho
+
+def BootstrapObligationFlow
+    (B : EventFlow) (C : CompilerCandidateFlow) (rho : BootstrapComponent) :
+    Prop :=
+  BootstrapObligation B C rho
 
 def BootstrapRecorded (C : CompilerCandidateFlow) : Prop :=
   exists B : EventFlow, exists rho : BootstrapRole, BootstrapObligation B C rho
@@ -167,6 +174,20 @@ theorem hidden_bootstrap_violates
       exact hHidden.right.left hCertified
   | inr hBootstrap =>
       exact hHidden.right.right hBootstrap
+
+theorem invisible_bootstrap_invalidates_full_claim
+    {Compiles : CompilerBehaviorRelation}
+    {C : CompilerCandidateFlow} {S T : EventFlow} :
+    HiddenBootstrapUse Compiles C S T ->
+      Not (NoHiddenCompilerUse Compiles C S T) := by
+  exact hidden_bootstrap_violates
+
+theorem no_invisible_bootstrap
+    {Compiles : CompilerBehaviorRelation}
+    {C : CompilerCandidateFlow} {S T : EventFlow} :
+    HiddenBootstrapUse Compiles C S T ->
+      Not (NoHiddenCompilerUse Compiles C S T) := by
+  exact hidden_bootstrap_violates
 
 def CompilerBehaviorClassifier
     (behavior : CompilerBehaviorRelation)
@@ -247,6 +268,18 @@ def CompilerNoLongerHiddenInput
     RecognizerHierarchyCoversCompilerTower C /\
     exists L : EventFlow, SelfHostingLedger C L
 
+def FullyDischargedCompiler
+    (behavior : CompilerBehaviorRelation) (C : CompilerCandidateFlow) :
+    Prop :=
+  SelfHostingCompilerFlow behavior C /\
+    RecognizerHierarchyCoversCompilerTower C /\
+    Not (BootstrapRecorded C)
+
+def FullNoHiddenCompilerClaim
+    (behavior : CompilerBehaviorRelation) (C : CompilerCandidateFlow) :
+    Prop :=
+  CompilerNoLongerHiddenInput behavior C /\ Not (BootstrapRecorded C)
+
 theorem self_hosting_removes_hidden_input
     {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :
     SelfHostingCompilerFlow behavior C ->
@@ -254,6 +287,21 @@ theorem self_hosting_removes_hidden_input
         CompilerNoLongerHiddenInput behavior C := by
   intro hSelf hHierarchy
   exact ⟨hSelf, hHierarchy, self_hosting_requires_ledger hSelf⟩
+
+theorem self_hosting_removes_hidden_compiler
+    {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :
+    SelfHostingCompilerFlow behavior C ->
+      RecognizerHierarchyCoversCompilerTower C ->
+        CompilerNoLongerHiddenInput behavior C := by
+  exact self_hosting_removes_hidden_input
+
+theorem fully_discharged_supports_full_claim
+    {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :
+    FullyDischargedCompiler behavior C -> FullNoHiddenCompilerClaim behavior C := by
+  intro hFull
+  exact
+    ⟨self_hosting_removes_hidden_input hFull.left hFull.right.left,
+      hFull.right.right⟩
 
 theorem full_claim_requires_boundary
     {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :
@@ -355,6 +403,10 @@ theorem remaining_bootstrap_boundary_visible {C : CompilerCandidateFlow} :
   intro hBoundary
   exact hBoundary.right
 
+theorem bootstrap_boundary_reportable {C : CompilerCandidateFlow} :
+    RemainingBootstrapBoundary C -> BootstrapRecorded C := by
+  exact remaining_bootstrap_boundary_visible
+
 theorem invisible_bootstrap_blocks_certification {C : CompilerCandidateFlow} :
     BootstrapUndischarged C ->
       Not (BootstrapRecorded C) ->
@@ -429,6 +481,190 @@ def P9FormalCompilationJudgment
     (C S T : EventFlow) : Prop :=
   P9CertifiedCompiler C /\ Compiles C S T
 
+def P9CompilerCertificateSubflows
+    (RK S KC C : EventFlow) : Prop :=
+  P9RecognizesCompilerCert RK S KC C /\
+    exists inputDomain outputDomain encoding decoding roundTrip hierarchy
+      failure ledger noHostLeak kernel selfDescription closingSeal : EventFlow,
+      P9Subflow KC inputDomain /\
+      P9Subflow KC outputDomain /\
+      P9Subflow KC encoding /\
+      P9Subflow KC decoding /\
+      P9Subflow KC roundTrip /\
+      P9Subflow KC hierarchy /\
+      P9Subflow KC failure /\
+      P9Subflow KC ledger /\
+      P9Subflow KC noHostLeak /\
+      P9Subflow KC kernel /\
+      P9Subflow KC selfDescription /\
+      P9Subflow KC closingSeal
+
+def P9CompleteCompilerCertificate
+    (RK S KC C : EventFlow) : Prop :=
+  P9CompilerCertificateSubflows RK S KC C
+
+def P9CompleteCertifiedCompiler (C : EventFlow) : Prop :=
+  exists S : EventFlow, exists KC : EventFlow, exists RK : EventFlow,
+    P9CompleteCompilerCertificate RK S KC C
+
+def P9BehaviorRecord
+    (Compiles : CompilerBehaviorRelation)
+    (BC C X Y : EventFlow) : Prop :=
+  NonemptyEventFlow BC /\
+    P9Subflow BC C /\
+    P9Subflow BC X /\
+    P9Subflow BC Y /\
+    Compiles C X Y
+
+def P9BehaviorSoundness
+    (Compiles : CompilerBehaviorRelation)
+    (BC C X Y : EventFlow) : Prop :=
+  P9BehaviorRecord Compiles BC C X Y /\ P9CompleteCertifiedCompiler C
+
+def P9CompleteFormalCompilationJudgment
+    (Compiles : CompilerBehaviorRelation)
+    (C S T : EventFlow) : Prop :=
+  P9CompleteCertifiedCompiler C /\ Compiles C S T
+
+def SelfCompilationLedger (LSC C C' : EventFlow) : Prop :=
+  NonemptyEventFlow LSC /\
+    P9Subflow LSC C /\
+    P9Subflow LSC C'
+
+def SelfCompilationFlow (SC C C' : EventFlow) : Prop :=
+  NonemptyEventFlow SC /\
+    P9Subflow SC C /\
+    P9Subflow SC C' /\
+    exists Compiles : CompilerBehaviorRelation,
+      exists BC LSC : EventFlow,
+        P9BehaviorRecord Compiles BC C C C' /\
+          SelfCompilationLedger LSC C C'
+
+theorem no_self_compilation_without_ledger
+    {SC C C' : EventFlow} :
+    SelfCompilationFlow SC C C' ->
+      exists LSC : EventFlow, SelfCompilationLedger LSC C C' := by
+  intro hFlow
+  cases hFlow.right.right.right with
+  | intro _Compiles hCompiles =>
+      cases hCompiles with
+      | intro _BC hBC =>
+          cases hBC with
+          | intro LSC hLSC =>
+              exact ⟨LSC, hLSC.right⟩
+
+theorem self_compilation_preserves_provenance
+    {SC C C' : EventFlow} :
+    SelfCompilationFlow SC C C' ->
+      NonemptyEventFlow SC /\
+        P9Subflow SC C /\
+        P9Subflow SC C' /\
+        exists LSC : EventFlow, SelfCompilationLedger LSC C C' := by
+  intro hFlow
+  exact
+    ⟨hFlow.left, hFlow.right.left, hFlow.right.right.left,
+      no_self_compilation_without_ledger hFlow⟩
+
+def P9BehaviorEquivalent
+    (behavior : CompilerBehaviorRelation) (C' C : EventFlow) : Prop :=
+  CompilerBehaviorClassifier behavior C' C
+
+theorem p9_behavior_equivalence_not_raw_equality :
+    exists behavior : CompilerBehaviorRelation,
+      exists C C' : EventFlow,
+        P9BehaviorEquivalent behavior C' C /\ Not (C' = C) := by
+  refine
+    ⟨(fun _ _ _ => FormalCompilerInput (CompilerDatum.eventFlow [])),
+      [], [[BMark.b0]], ?_, ?_⟩
+  · exact
+      ⟨⟨[], [], FormalCompilerInput.recognizedFlow [] [],
+          FormalCompilerInput.eventFlow []⟩,
+        ⟨[], [], FormalCompilerInput.recognizedFlow [] [],
+          FormalCompilerInput.eventFlow [[BMark.b0]]⟩,
+        (fun _S _T h => h),
+        (fun _S _T h => h)⟩
+  · intro h
+    cases h
+
+theorem p9_self_hosting_behavior_level_stability
+    {behavior : CompilerBehaviorRelation} {C : EventFlow} :
+    SelfHostingCompilerFlow behavior C ->
+      exists C' : EventFlow, P9BehaviorEquivalent behavior C' C := by
+  intro hSelf
+  exact self_hosting_yields_behavior_classifier hSelf
+
+def P9SelfHostingCompiler
+    (behavior : CompilerBehaviorRelation) (C : EventFlow) : Prop :=
+  SelfHostingCompilerFlow behavior C
+
+theorem p9_formal_use_requires_complete_certificate
+    {Compiles : CompilerBehaviorRelation}
+    {C S T : EventFlow} :
+    P9CompleteFormalCompilationJudgment Compiles C S T ->
+      P9CompleteCertifiedCompiler C := by
+  intro hJudgment
+  exact hJudgment.left
+
+theorem p9_no_compiler_without_complete_certificate
+    {Compiles : CompilerBehaviorRelation}
+    {C S T : EventFlow} :
+    Not (P9CompleteCertifiedCompiler C) ->
+      Not (P9CompleteFormalCompilationJudgment Compiles C S T) := by
+  intro hNoCert hJudgment
+  exact hNoCert hJudgment.left
+
+theorem p9_sound_behavior_record_establishes_action
+    {Compiles : CompilerBehaviorRelation}
+    {BC C X Y : EventFlow} :
+    P9BehaviorSoundness Compiles BC C X Y ->
+      P9CompleteFormalCompilationJudgment Compiles C X Y := by
+  intro hSound
+  exact ⟨hSound.right, hSound.left.right.right.right.right⟩
+
+inductive HostCompilerIdentity : Type where
+  | hostExecutable
+  | executablePath
+  | binaryHash
+  | buildProcedure
+  | dataManifest
+  | hostEnvironment
+
+def HostCompilerIdentityDatum : HostCompilerIdentity -> CompilerDatum
+  | HostCompilerIdentity.hostExecutable => CompilerDatum.hostParserState
+  | HostCompilerIdentity.executablePath => CompilerDatum.hostObjectName
+  | HostCompilerIdentity.binaryHash => CompilerDatum.hostModeTag
+  | HostCompilerIdentity.buildProcedure => CompilerDatum.hostOpcode
+  | HostCompilerIdentity.dataManifest => CompilerDatum.hostManifest
+  | HostCompilerIdentity.hostEnvironment => CompilerDatum.hostYAML
+
+theorem host_compiler_identity_not_input (id : HostCompilerIdentity) :
+    Not (FormalCompilerInput (HostCompilerIdentityDatum id)) := by
+  cases id with
+  | hostExecutable =>
+      exact structural_hidden_not_formal StructuralHiddenInput.hostParserState
+  | executablePath =>
+      exact structural_hidden_not_formal StructuralHiddenInput.hostObjectName
+  | binaryHash =>
+      exact structural_hidden_not_formal StructuralHiddenInput.hostModeTag
+  | buildProcedure =>
+      exact structural_hidden_not_formal StructuralHiddenInput.hostOpcode
+  | dataManifest =>
+      exact structural_hidden_not_formal StructuralHiddenInput.hostManifest
+  | hostEnvironment =>
+      exact structural_hidden_not_formal StructuralHiddenInput.hostYAML
+
+structure SelfHostingPrototype (P9 : EventFlow) where
+  prototypeFlow : FormalCompilerInput (CompilerDatum.eventFlow P9)
+  recognizesCompilerFlows :
+    exists S C : EventFlow, P9RecognizedCompilerFlow S C
+  recognizesCompilerCertificates :
+    exists S KC C RK : EventFlow, P9RecognizesCompilerCert RK S KC C
+  recordsBootstrapBoundary :
+    exists C : EventFlow, BootstrapRecorded C
+  rejectsHostCompilerIdentity :
+    forall id : HostCompilerIdentity,
+      Not (FormalCompilerInput (HostCompilerIdentityDatum id))
+
 theorem p9_uncertified_cannot_compile
     {Compiles : CompilerBehaviorRelation}
     {C S T : EventFlow} :
@@ -436,5 +672,81 @@ theorem p9_uncertified_cannot_compile
       Not (P9FormalCompilationJudgment Compiles C S T) := by
   intro hUncertified hJudgment
   exact hUncertified hJudgment.left
+
+theorem p9_certified_compiler_has_recognized_flow {C : EventFlow} :
+    P9CertifiedCompiler C -> exists S : EventFlow, P9RecognizedCompilerFlow S C := by
+  intro hCertified
+  cases hCertified with
+  | intro S hS =>
+      cases hS with
+      | intro _KC hKC =>
+          cases hKC with
+          | intro _RK hRecognizes =>
+              exact ⟨S, hRecognizes.right.right⟩
+
+def GlobalVerificationFlow (G : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow G) /\
+    exists manuscriptFlow chapterFlowList theoremFlowList acceptedObjectList
+      compilerFlow bootstrapRegistry cannotClaimRegistry
+      implementationTargetStatus noHostLeakAudit globalLedger globalSeal :
+        EventFlow,
+      P9Subflow G manuscriptFlow /\
+      P9Subflow G chapterFlowList /\
+      P9Subflow G theoremFlowList /\
+      P9Subflow G acceptedObjectList /\
+      P9Subflow G compilerFlow /\
+      P9Subflow G bootstrapRegistry /\
+      P9Subflow G cannotClaimRegistry /\
+      P9Subflow G implementationTargetStatus /\
+      P9Subflow G noHostLeakAudit /\
+      P9Subflow G globalLedger /\
+      P9Subflow G globalSeal
+
+def GlobalVerificationSoundness (G : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow G) /\
+    exists manuscriptFlow chapterFlowList theoremFlowList acceptedObjectList
+      compilerFlow bootstrapRegistry cannotClaimRegistry
+      implementationTargetStatus noHostLeakAudit globalLedger globalSeal :
+        EventFlow,
+      P9Subflow G manuscriptFlow /\
+      P9Subflow G chapterFlowList /\
+      P9Subflow G theoremFlowList /\
+      P9Subflow G acceptedObjectList /\
+      P9Subflow G compilerFlow /\
+      P9Subflow G bootstrapRegistry /\
+      P9Subflow G cannotClaimRegistry /\
+      P9Subflow G implementationTargetStatus /\
+      P9Subflow G noHostLeakAudit /\
+      P9Subflow G globalLedger /\
+      P9Subflow G globalSeal /\
+      NonemptyEventFlow manuscriptFlow /\
+      NonemptyEventFlow chapterFlowList /\
+      NonemptyEventFlow theoremFlowList /\
+      NonemptyEventFlow acceptedObjectList /\
+      (exists S : EventFlow, P9RecognizedCompilerFlow S compilerFlow) /\
+      ((exists behavior : CompilerBehaviorRelation,
+        P9SelfHostingCompiler behavior compilerFlow) \/
+        BootstrapRecorded compilerFlow) /\
+      NonemptyEventFlow bootstrapRegistry /\
+      NonemptyEventFlow cannotClaimRegistry /\
+      NonemptyEventFlow implementationTargetStatus /\
+      NonemptyEventFlow noHostLeakAudit /\
+      NonemptyEventFlow globalLedger /\
+      NonemptyEventFlow globalSeal
+
+def GlobalStatusCertificateFlow (G : EventFlow) : Prop :=
+  GlobalVerificationSoundness G
+
+theorem sound_global_verification_status {G : EventFlow} :
+    GlobalVerificationSoundness G -> GlobalStatusCertificateFlow G := by
+  intro hSound
+  exact hSound
+
+theorem global_verification_no_new_math
+    {G : EventFlow} {w : RawEvent} {m : DisplayAlphabet} :
+    GlobalVerificationFlow G -> List.Mem w G -> List.Mem m w ->
+      m = BMark.b0 \/ m = BMark.b1 := by
+  intro _hGlobal hEvent hMark
+  exact event_flow_conservativity hEvent hMark
 
 end BEDC.GroundCompiler.SelfHostingCompilerFlow

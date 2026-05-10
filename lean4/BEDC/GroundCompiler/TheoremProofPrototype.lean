@@ -306,13 +306,243 @@ theorem theorem_code_stronger_than_statement
   intro hCode
   exact theorem_code_injective hCode
 
+def StatementClassifierRelation : Type :=
+  EventFlow -> EventFlow -> Prop
+
+def AbstractPropositionClass
+    (rel : StatementClassifierRelation) (Phi Psi : EventFlow) : Prop :=
+  rel Phi Psi
+
+def SameStatementClassifier (statement : EventFlow) :
+    StatementClassifierRelation :=
+  fun Phi Psi => Phi = statement /\ Psi = statement
+
+theorem p7_singleton_theorem_flow (m : DisplayAlphabet) :
+    TheoremFlow [[m]] := by
+  refine
+    ⟨[], ?_, ?_⟩
+  · exact
+      ⟨FormalCompilerInput.recognizedFlow [] [[m]],
+        ⟨[m], [], rfl⟩⟩
+  · refine
+      ⟨[[m]], [[m]], [[m]], [[m]], [[m]], [[m]], [[m]], [[m]], ?_⟩
+    exact
+      ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+          ⟨[m], [], rfl⟩⟩,
+        ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+            ⟨[m], [], rfl⟩⟩,
+          ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+              ⟨[m], [], rfl⟩⟩,
+            ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+                ⟨[m], [], rfl⟩⟩,
+              ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+                  ⟨[m], [], rfl⟩⟩,
+                ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+                    ⟨[m], [], rfl⟩⟩,
+                  ⟨⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+                      ⟨[m], [], rfl⟩⟩,
+                    ⟨⟨FormalCompilerInput.recognizedFlow [] [[m]], ⟨[m], [], rfl⟩⟩,
+                      ⟨[m], [], rfl⟩⟩⟩⟩⟩⟩⟩⟩⟩
+
+theorem abstract_proposition_many_flows :
+    exists rel : StatementClassifierRelation,
+      exists R : P7GeneratedTheoremRecognizer,
+        exists statement T U : TheoremCandidateFlow,
+          Not (T = U) /\
+            TheoremFlow T /\
+            TheoremFlow U /\
+            TheoremRoleSubflow R T statement TheoremRole.statement /\
+            TheoremRoleSubflow R U statement TheoremRole.statement /\
+            AbstractPropositionClass rel statement statement := by
+  refine
+    ⟨SameStatementClassifier [[BEDC.FKernel.Mark.BMark.b0]],
+      [],
+      [[BEDC.FKernel.Mark.BMark.b0]],
+      [[BEDC.FKernel.Mark.BMark.b0]],
+      [[BEDC.FKernel.Mark.BMark.b1]], ?_⟩
+  exact
+    ⟨(fun h => by cases h),
+      p7_singleton_theorem_flow BEDC.FKernel.Mark.BMark.b0,
+      p7_singleton_theorem_flow BEDC.FKernel.Mark.BMark.b1,
+      ⟨⟨FormalCompilerInput.recognizedFlow [] [[BEDC.FKernel.Mark.BMark.b0]],
+          ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩⟩,
+        ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩⟩,
+      ⟨⟨FormalCompilerInput.recognizedFlow [] [[BEDC.FKernel.Mark.BMark.b1]],
+          ⟨[BEDC.FKernel.Mark.BMark.b1], [], rfl⟩⟩,
+        ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩⟩,
+      ⟨rfl, rfl⟩⟩
+
+theorem abstract_proposition_not_theorem_code :
+    exists rel : StatementClassifierRelation,
+      exists R : P7GeneratedTheoremRecognizer,
+        exists statement T U : TheoremCandidateFlow,
+          TheoremFlow T /\
+            TheoremFlow U /\
+            TheoremRoleSubflow R T statement TheoremRole.statement /\
+            TheoremRoleSubflow R U statement TheoremRole.statement /\
+            AbstractPropositionClass rel statement statement /\
+            Not (TheoremCode T = TheoremCode U) := by
+  refine
+    ⟨SameStatementClassifier [[BEDC.FKernel.Mark.BMark.b0]],
+      [],
+      [[BEDC.FKernel.Mark.BMark.b0]],
+      [[BEDC.FKernel.Mark.BMark.b0]],
+      [[BEDC.FKernel.Mark.BMark.b1]], ?_⟩
+  exact
+    ⟨p7_singleton_theorem_flow BEDC.FKernel.Mark.BMark.b0,
+      p7_singleton_theorem_flow BEDC.FKernel.Mark.BMark.b1,
+      ⟨⟨FormalCompilerInput.recognizedFlow [] [[BEDC.FKernel.Mark.BMark.b0]],
+          ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩⟩,
+        ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩⟩,
+      ⟨⟨FormalCompilerInput.recognizedFlow [] [[BEDC.FKernel.Mark.BMark.b1]],
+          ⟨[BEDC.FKernel.Mark.BMark.b1], [], rfl⟩⟩,
+        ⟨[BEDC.FKernel.Mark.BMark.b0], [], rfl⟩⟩,
+      ⟨rfl, rfl⟩,
+      fun hCode => by
+        have hFlow :
+            [[BEDC.FKernel.Mark.BMark.b0]] =
+              [[BEDC.FKernel.Mark.BMark.b1]] :=
+          theorem_code_injective hCode
+        cases hFlow⟩
+
+def P7AcceptedTheoremFlow (T : TheoremCandidateFlow) : Prop :=
+  AcceptedTheoremFlow T
+
 def AcceptedTheoremCode (T : TheoremCandidateFlow) : List DisplayAlphabet :=
   TheoremCode T
 
 theorem accepted_theorem_code_same_code {T : TheoremCandidateFlow} :
-    AcceptedTheoremFlow T -> AcceptedTheoremCode T = TheoremCode T := by
+    P7AcceptedTheoremFlow T -> AcceptedTheoremCode T = TheoremCode T := by
   intro _
   rfl
+
+theorem p7_singleton_nonempty (m : DisplayAlphabet) :
+    NonemptyEventFlow [[m]] := by
+  exact ⟨[m], [], rfl⟩
+
+theorem p7_singleton_theorem_recognition (m : DisplayAlphabet) :
+    TheoremRecognitionRelation [] [[m]] := by
+  exact ⟨FormalCompilerInput.recognizedFlow [] [[m]], p7_singleton_nonempty m⟩
+
+theorem p7_singleton_role_subflow (m : DisplayAlphabet)
+    (role : TheoremRole) :
+    TheoremRoleSubflow [] [[m]] [[m]] role := by
+  exact ⟨p7_singleton_theorem_recognition m, p7_singleton_nonempty m⟩
+
+theorem p7_singleton_complete_recognition (m : DisplayAlphabet) :
+    CompleteTheoremFlowRecognition [] [[m]] := by
+  refine ⟨[[m]], [[m]], [[m]], [[m]], [[m]], [[m]], [[m]], [[m]], ?_⟩
+  exact
+    ⟨p7_singleton_role_subflow m TheoremRole.statement,
+      ⟨p7_singleton_role_subflow m TheoremRole.dependencies,
+        ⟨p7_singleton_role_subflow m TheoremRole.proof,
+          ⟨p7_singleton_role_subflow m TheoremRole.certificates,
+            ⟨p7_singleton_role_subflow m TheoremRole.ledger,
+              ⟨p7_singleton_role_subflow m TheoremRole.status,
+                ⟨p7_singleton_role_subflow m TheoremRole.canonicalSite,
+                  p7_singleton_role_subflow m TheoremRole.closingSeal⟩⟩⟩⟩⟩⟩⟩
+
+theorem p7_singleton_proof_sound (m : DisplayAlphabet) :
+    ProofSoundTheoremRecognition [] [[m]] := by
+  refine
+    ⟨[[m]], [[m]], [[m]], [[m]],
+      p7_singleton_role_subflow m TheoremRole.statement,
+      p7_singleton_role_subflow m TheoremRole.dependencies,
+      p7_singleton_role_subflow m TheoremRole.proof, ?_⟩
+  exact
+    ⟨p7_singleton_nonempty m,
+      p7_singleton_nonempty m,
+      p7_singleton_nonempty m,
+      p7_singleton_nonempty m⟩
+
+theorem p7_singleton_certificate_sound (m : DisplayAlphabet) :
+    CertificateSoundTheoremRecognition [] [[m]] := by
+  exact
+    ⟨[[m]], [], p7_singleton_role_subflow m TheoremRole.certificates,
+      FormalCompilerInput.recognizedFlow [] [[m]]⟩
+
+theorem p7_singleton_status_sound (m : DisplayAlphabet) :
+    StatusSoundTheoremRecognition [] [[m]] := by
+  exact
+    ⟨[[m]], [], p7_singleton_role_subflow m TheoremRole.status,
+      FormalCompilerInput.recognizedFlow [] [[m]]⟩
+
+theorem p7_singleton_sound_theorem_flow (m : DisplayAlphabet) :
+    SoundTheoremFlow [] [[m]] := by
+  refine
+    ⟨p7_singleton_complete_recognition m,
+      p7_singleton_proof_sound m,
+      p7_singleton_certificate_sound m, ?_, ?_, ?_⟩
+  · exact ⟨[[m]], p7_singleton_role_subflow m TheoremRole.ledger⟩
+  · exact p7_singleton_status_sound m
+  · exact ⟨[[m]], p7_singleton_role_subflow m TheoremRole.canonicalSite⟩
+
+theorem p7_singleton_accepted_theorem_flow (m : DisplayAlphabet) :
+    P7AcceptedTheoremFlow [[m]] := by
+  exact ⟨[], p7_singleton_sound_theorem_flow m⟩
+
+def TheoremObjectMention (T O : EventFlow) : Prop :=
+  TheoremSourceSubflow O T
+
+theorem accepted_theorem_not_object_acceptance_distinct :
+    exists T O : EventFlow,
+      P7AcceptedTheoremFlow T /\
+        TheoremObjectMention T O /\
+        Not (AcceptedObjectFlow O) := by
+  refine
+    ⟨[[BEDC.FKernel.Mark.BMark.b0]], [],
+      p7_singleton_accepted_theorem_flow BEDC.FKernel.Mark.BMark.b0, ?_,
+      empty_not_accepted_object_flow⟩
+  exact ⟨[], [[BEDC.FKernel.Mark.BMark.b0]], rfl⟩
+
+theorem theorem_acceptance_and_object_acceptance_distinct :
+    exists T O : EventFlow,
+      P7AcceptedTheoremFlow T /\ Not (AcceptedObjectFlow O) := by
+  cases accepted_theorem_not_object_acceptance_distinct with
+  | intro T hT =>
+      cases hT with
+      | intro O hO =>
+          exact ⟨T, O, hO.left, hO.right.right⟩
+
+def P7BridgeWitnessFlow : EventFlow :=
+  [[BEDC.FKernel.Mark.BMark.b1, BEDC.FKernel.Mark.BMark.b1,
+    BEDC.FKernel.Mark.BMark.b1, BEDC.FKernel.Mark.BMark.b1,
+    BEDC.FKernel.Mark.BMark.b0]]
+
+def P7BridgeCertificateFlow (T : TheoremCandidateFlow) : Prop :=
+  TheoremSourceSubflow P7BridgeWitnessFlow T
+
+theorem singleton_not_p7_bridge_certificate :
+    Not (P7BridgeCertificateFlow [[BEDC.FKernel.Mark.BMark.b0]]) := by
+  intro h
+  cases h with
+  | intro before hAfter =>
+      cases hAfter with
+      | intro after hWhole =>
+          cases before with
+          | nil =>
+              cases after with
+              | nil =>
+                  cases hWhole
+              | cons a rest =>
+                  cases hWhole
+          | cons a rest =>
+              cases rest with
+              | nil =>
+                  cases hWhole
+              | cons b tail =>
+                  cases hWhole
+
+theorem p7_code_existence_still_not_bridge :
+    exists T : TheoremCandidateFlow,
+      P7AcceptedTheoremFlow T /\
+        LegalTheoremCode (AcceptedTheoremCode T) /\
+        Not (P7BridgeCertificateFlow T) := by
+  exact
+    ⟨[[BEDC.FKernel.Mark.BMark.b0]],
+      p7_singleton_accepted_theorem_flow BEDC.FKernel.Mark.BMark.b0,
+      ⟨[[BEDC.FKernel.Mark.BMark.b0]], rfl⟩,
+      singleton_not_p7_bridge_certificate⟩
 
 inductive P7ReportDatum : Type where
   | decodedEventFlow (S : EventFlow)
@@ -338,8 +568,124 @@ inductive P7ReportDatum : Type where
   | warning (datum : EventFlow)
   | cannotClaim (datum : EventFlow)
 
+inductive TheoremFieldStatus : Type where
+  | present
+  | missing
+  | candidateOnly
+
+inductive ProofCheckStatus : Type where
+  | proofFlowRecognized
+  | statementDependenciesMatch
+  | checkerSupplied
+  | checkPasses
+  | failureReason
+  | ledgerStatus
+
+structure TheoremFieldProofStatus where
+  statement : TheoremFieldStatus
+  dependencies : TheoremFieldStatus
+  proof : TheoremFieldStatus
+  certificates : TheoremFieldStatus
+  ledger : TheoremFieldStatus
+  status : TheoremFieldStatus
+  canonicalSite : TheoremFieldStatus
+  sealFlow : TheoremFieldStatus
+  proofStatus : ProofCheckStatus
+
+inductive P7CannotClaimKind : Type where
+  | statementFlowAloneTheorem
+  | proofFlowAloneTheorem
+  | recognizedProofFlowCheckedProof
+  | theoremCodeAbstractPropositionIdentity
+  | acceptedTheoremAllObjectsAccepted
+  | theoremCodeBridgeCertificate
+  | sameStatementSameTheoremCode
+  | missingCheckerAcceptedTheorem
+  | missingCanonicalSiteCanonicalCode
+
+def P7CannotClaimAnnotations : Type :=
+  List P7CannotClaimKind
+
 def P7Output : Type :=
   List P7ReportDatum
+
+def SoundP7Report (report : P7Output) : Prop :=
+  (forall T : TheoremCandidateFlow,
+    forall c : List DisplayAlphabet,
+      List.Mem (P7ReportDatum.theoremCode T c) report ->
+        exists R : P7GeneratedTheoremRecognizer,
+          P7SoundTheoremFlow R T /\ c = TheoremCode T) /\
+    (forall T : TheoremCandidateFlow,
+      List.Mem (P7ReportDatum.acceptedTheorem T) report ->
+        P7AcceptedTheoremFlow T)
+
+def P7TheoremReportingLayer (report : P7Output) : Prop :=
+  forall T : TheoremCandidateFlow,
+    forall c : List DisplayAlphabet,
+      List.Mem (P7ReportDatum.theoremCode T c) report ->
+        exists R : P7GeneratedTheoremRecognizer,
+          P7SoundTheoremFlow R T /\ c = TheoremCode T
+
+inductive P7HigherReportDatum : P7ReportDatum -> Prop
+
+def P7HigherAdequacy (report : P7Output) : Prop :=
+  exists datum : P7ReportDatum,
+    List.Mem datum report /\ P7HigherReportDatum datum
+
+theorem sound_p7_report_theorem {report : P7Output} :
+    SoundP7Report report ->
+      (forall T : TheoremCandidateFlow,
+        forall c : List DisplayAlphabet,
+          List.Mem (P7ReportDatum.theoremCode T c) report ->
+            exists R : P7GeneratedTheoremRecognizer,
+              P7SoundTheoremFlow R T /\ c = TheoremCode T) /\
+        (forall T : TheoremCandidateFlow,
+          forall c : List DisplayAlphabet,
+            List.Mem (P7ReportDatum.theoremCode T c) report ->
+              List.Mem (P7ReportDatum.acceptedTheorem T) report ->
+                P7AcceptedTheoremFlow T /\ c = AcceptedTheoremCode T) := by
+  intro hSound
+  constructor
+  · exact hSound.left
+  · intro T c hCode hAccepted
+    constructor
+    · exact hSound.right T hAccepted
+    · cases hSound.left T c hCode with
+      | intro _ hWitness =>
+          exact hWitness.right
+
+theorem sound_theorem_code_flow_mediated {report : P7Output}
+    {T : TheoremCandidateFlow} {c : List DisplayAlphabet} :
+    SoundP7Report report ->
+      List.Mem (P7ReportDatum.theoremCode T c) report ->
+        c = TheoremCode T := by
+  intro hSound hCode
+  cases hSound.left T c hCode with
+  | intro _ hWitness =>
+      exact hWitness.right
+
+theorem p7_adequacy_does_not_imply_higher {report : P7Output} :
+    Not (P7HigherAdequacy report) := by
+  intro hHigher
+  cases hHigher with
+  | intro _ hDatum =>
+      cases hDatum.right
+
+theorem p7_conservative_over_finite_kernel
+    {R : P7GeneratedTheoremRecognizer} {T : TheoremCandidateFlow}
+    {w : RawEvent} {m : DisplayAlphabet} :
+    P7SoundTheoremFlow R T ->
+      List.Mem w T -> List.Mem m w ->
+        m = BEDC.FKernel.Mark.BMark.b0 \/
+          m = BEDC.FKernel.Mark.BMark.b1 := by
+  intro _ hEvent hMark
+  exact event_flow_conservativity hEvent hMark
+
+theorem p7_theorem_reporting_layer {report : P7Output} :
+    SoundP7Report report ->
+      P7TheoremReportingLayer report /\ Not (P7HigherAdequacy report) := by
+  intro hSound
+  exact ⟨hSound.left, p7_adequacy_does_not_imply_higher⟩
 
 structure TheoremProofPrototype where
   p6 : DerivAcceptPrototype
@@ -367,5 +713,50 @@ structure TheoremProofPrototype where
     forall {T : TheoremCandidateFlow} {c : List DisplayAlphabet} {S : EventFlow},
       List.Mem (P7ReportDatum.theoremCode T c) (run (P7FormalInput.eventFlow S)) ->
         c = TheoremCode T
+
+def P7AuditChecklist (prototype : TheoremProofPrototype) : Prop :=
+  (forall x : P7FormalInput,
+    Not (P7InputRepresentation.external P7ExternalInput.theoremObject =
+      P7InputRepresentation.formal x)) /\
+    (forall x : P7FormalInput,
+      Not (P7InputRepresentation.external P7ExternalInput.proofObject =
+        P7InputRepresentation.formal x)) /\
+    (forall {R : GeneratedStatementRecognizer} {S Phi : EventFlow},
+      List.Mem (P7ReportDatum.recognizedStatement R S Phi)
+          (prototype.run (P7FormalInput.eventFlow S)) ->
+        RecognizesStatement R S Phi) /\
+    (forall {R : GeneratedTheoremRecognizer} {T : TheoremCandidateFlow}
+        {S : EventFlow},
+      List.Mem (P7ReportDatum.recognizedTheorem R T)
+          (prototype.run (P7FormalInput.eventFlow S)) ->
+        TheoremRecognitionRelation R T) /\
+    (forall {T : TheoremCandidateFlow} {c : List DisplayAlphabet}
+        {S : EventFlow},
+      List.Mem (P7ReportDatum.theoremCode T c)
+          (prototype.run (P7FormalInput.eventFlow S)) ->
+        c = TheoremCode T)
+
+def P7AdequatePrototype (prototype : TheoremProofPrototype) : Prop :=
+  (forall {R : GeneratedStatementRecognizer} {S Phi : EventFlow},
+    List.Mem (P7ReportDatum.recognizedStatement R S Phi)
+        (prototype.run (P7FormalInput.eventFlow S)) ->
+      RecognizesStatement R S Phi) /\
+    (forall {R : GeneratedTheoremRecognizer} {T : TheoremCandidateFlow}
+        {S : EventFlow},
+      List.Mem (P7ReportDatum.recognizedTheorem R T)
+          (prototype.run (P7FormalInput.eventFlow S)) ->
+        TheoremRecognitionRelation R T) /\
+    (forall {T : TheoremCandidateFlow} {c : List DisplayAlphabet}
+        {S : EventFlow},
+      List.Mem (P7ReportDatum.theoremCode T c)
+          (prototype.run (P7FormalInput.eventFlow S)) ->
+        c = TheoremCode T)
+
+theorem p7_adequacy {prototype : TheoremProofPrototype} :
+    P7AuditChecklist prototype -> P7AdequatePrototype prototype := by
+  intro hAudit
+  exact ⟨hAudit.right.right.left,
+    hAudit.right.right.right.left,
+    hAudit.right.right.right.right⟩
 
 end BEDC.GroundCompiler.TheoremProofPrototype
