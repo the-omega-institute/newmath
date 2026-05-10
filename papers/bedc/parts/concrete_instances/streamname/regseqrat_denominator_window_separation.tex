@@ -189,3 +189,57 @@ regularity, the $\RealUp$ seal classifier, completion, quotienting, and
 host-index equality outside the packet, so none of them can distinguish the
 two accepted presentations.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat denominator-window subbundle inheritance]
+\label{thm:streamname-regseqrat-denominator-window-subbundle-inheritance}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, let
+$\mathcal P'$ and $\mathcal P$ be finite observation bundles, and let $n$ be a
+certified observation with $\mathsf{UnaryHistory}(n)$ and
+$\mathsf{InBundle}(n,\mathcal P')$. Suppose $\mathcal P'$ is displayed as a
+subbundle of $\mathcal P$. If the public denominator-window packet over
+$\mathcal P$ is accepted by the $\RegSeqRat$ handoff and by the finite-window
+$\RealUp$ consumer, then the restricted packet over $\mathcal P'$ has exactly
+the same public coordinates, with the ambient membership row replaced by the
+certified subbundle membership row:
+$$
+\begin{gathered}
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P'),\\
+\mathsf{UnaryHistory}(n),\qquad
+\mathsf{InBundle}(n,\mathcal P'),\\
+\mathsf{RatHistoryClassifier}(s(n),t(n)),\qquad
+\text{the same downstream dyadic observation coverage row.}
+\end{gathered}
+$$
+The inheritance exports no $\RegSeqRat$ regularity row, $\RealUp$ seal
+classifier, completion object, quotient row, or host-index equality.
+\end{theorem}
+\begin{proof}
+First restrict the finite-window classifier. The displayed subbundle inclusion
+is the input used by
+\autoref{thm:streamname-finite-window-restriction-export}, so the accepted
+packet over $\mathcal P$ presents the finite StreamName classifier over
+$\mathcal P'$.
+
+Now read the certified observation through the pointwise handoff. Apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff} to the same row $n$; the
+unary-history row and the pointwise classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ are unchanged, while the displayed
+membership coordinate is the subbundle row
+$\mathsf{InBundle}(n,\mathcal P')$.
+
+Next identify the accepted public surface. The separation theorem
+\autoref{thm:streamname-regseqrat-denominator-window-separation} and the normal
+form theorem
+\autoref{thm:streamname-realup-denominator-window-normal-form} leave only the
+finite classifier, unary row, bundle-membership row, pointwise rational-history
+classifier, and downstream dyadic observation coverage row visible to the two
+consumers.
+
+Finally apply
+\autoref{thm:streamname-pointwise-denominator-window-determinacy}. Since the
+restricted presentation and the ambient presentation are accepted for the same
+$s$, $t$, and certified observation $n$, their visible pointwise and downstream
+coordinates cannot differ. The exclusion clauses in the separation and normal
+form statements keep regularity, sealing, completion, quotienting, and
+host-index equality outside the inherited packet.
+\end{proof}
