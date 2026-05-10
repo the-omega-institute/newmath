@@ -9,6 +9,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.Meta.TasteGate
 
 theorem PolicyUp_taste_gate_source_scope [AskSetup] [PackageSetup]
@@ -121,6 +122,31 @@ theorem PolicyActionLedgerCarrier_action_classifier_stability [AskSetup] [Packag
       (And.intro carrier.right.right.right.right.right.right.right.right.right.left
         (And.intro carrier.right.right.right.right.right.right.right.right.right.right.left
           carrier.right.right.right.right.right.right.right.right.right.right.right)))
+
+theorem PolicyActionLedgerCarrier_dependency_source_exactness [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance endpoint
+        bundle pkg ->
+      UnaryHistory belief ∧ UnaryHistory markov ∧ UnaryHistory randomvar ∧
+        UnaryHistory estimator ∧ UnaryHistory decision ∧ UnaryHistory ledger ∧
+          UnaryHistory provenance ∧ UnaryHistory endpoint ∧ hsame ledger (append belief markov) ∧
+            hsame provenance (append ledger estimator) ∧
+              hsame endpoint (append provenance decision) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.right⟩
 
 theorem PolicyActionLedgerCarrier_tastegate_scoped_package [AskSetup] [PackageSetup]
     {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
