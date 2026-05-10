@@ -102,6 +102,22 @@ theorem TannakaKreinFiberFunctorCarrier_classifier_stability [AskSetup] [Package
     (And.intro sameTensorProduct
       (And.intro sameReconstructionLedger (And.intro sameProvenance sameEndpoint)))
 
+def TannakaKreinMonoidalClassifier [AskSetup] [PackageSetup]
+    (lieGroup monoidalCat fiberFunctor representation unitRow tensorProduct
+      reconstructionLedger provenance endpoint lieGroup' monoidalCat' fiberFunctor'
+      representation' unitRow' tensorProduct' reconstructionLedger' provenance'
+      endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  TannakaKreinFiberFunctorCarrier lieGroup monoidalCat fiberFunctor representation unitRow
+      tensorProduct reconstructionLedger provenance endpoint bundle pkg ∧
+    TannakaKreinFiberFunctorCarrier lieGroup' monoidalCat' fiberFunctor' representation'
+        unitRow' tensorProduct' reconstructionLedger' provenance' endpoint' bundle pkg ∧
+      hsame lieGroup lieGroup' ∧ hsame monoidalCat monoidalCat' ∧
+        hsame fiberFunctor fiberFunctor' ∧ hsame representation representation' ∧
+          hsame unitRow unitRow' ∧ hsame tensorProduct tensorProduct' ∧
+            hsame reconstructionLedger reconstructionLedger' ∧ hsame provenance provenance' ∧
+              hsame endpoint endpoint'
+
 theorem TannakaKreinFiberFunctorCarrier_source_boundary [AskSetup] [PackageSetup]
     {lieGroup monoidalCat fiberFunctor representation unitRow tensorProduct
       reconstructionLedger provenance endpoint : BHist}
