@@ -300,6 +300,20 @@ theorem p7_theorem_code_injective
   intro _ _ hCode
   exact theorem_code_injective hCode
 
+theorem theorem_code_stronger_than_statement
+    {T U : TheoremCandidateFlow} :
+    TheoremCode T = TheoremCode U -> T = U := by
+  intro hCode
+  exact theorem_code_injective hCode
+
+def AcceptedTheoremCode (T : TheoremCandidateFlow) : List DisplayAlphabet :=
+  TheoremCode T
+
+theorem accepted_theorem_code_same_code {T : TheoremCandidateFlow} :
+    AcceptedTheoremFlow T -> AcceptedTheoremCode T = TheoremCode T := by
+  intro _
+  rfl
+
 inductive P7ReportDatum : Type where
   | decodedEventFlow (S : EventFlow)
   | statementCandidate (S Phi : EventFlow)
