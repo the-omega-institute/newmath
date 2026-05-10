@@ -78,9 +78,21 @@ def two_loops_theorem : Prop :=
         (∀ h : BHist, Ground h ↔ ∃ s : BHist, ∃ m : BMark, Ext s m h) →
           (∀ h : BHist, Meta h → ∃ k : BHist, ∃ r : BHist, Cont h k r) →
             (∀ {h k : BHist}, Classifier h k → Ground h → Ground k) ∧
-              (∀ {h : BHist}, Ground h → ∃ s : BHist, ∃ m : BMark, Ext s m h) ∧
+            (∀ {h : BHist}, Ground h → ∃ s : BHist, ∃ m : BMark, Ext s m h) ∧
                 (∀ {h : BHist}, Meta h →
                   ∃ k : BHist, ∃ r : BHist, Cont h k r ∧ OpenBoundary r)
+
+theorem two_loops_theorem_proof : two_loops_theorem := by
+  intro Ground Meta Reflection OpenBoundary Classifier groundCert metaCert groundExt _metaCont
+  constructor
+  · intro h k classified groundH
+    exact NameCert.carrier_respects_equiv groundCert classified groundH
+  · constructor
+    · intro h groundH
+      exact (groundExt h).mp groundH
+    · intro h metaH
+      exact Exists.intro BHist.Empty
+        (Exists.intro h (And.intro rfl (SemanticNameCert.ledger_sound metaCert metaH)))
 
 /-- Continuation as Plotkin-style small-step relation (statement scaffold). -/
 def computation_as_continuation_correspondence : Prop :=
