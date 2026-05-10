@@ -198,6 +198,40 @@ def run_board_spawn(candidates: list[dict[str, Any]], *, fit_threshold: int, nov
     )
 
 
+def _accepted_packet_rels(result: Any) -> set[str]:
+    accepted = getattr(result, "accepted", []) or []
+    rels: set[str] = set()
+    for item in accepted:
+        if not isinstance(item, dict):
+            continue
+        inputs = item.get("local_inputs") or []
+        if isinstance(inputs, str):
+            inputs = [inputs]
+        for rel in inputs:
+            text = str(rel).strip()
+            if text.startswith("tools/automath_newmath_bridge/review_packets/"):
+                rels.add(text)
+    return rels
+
+
+def _cleanup_unaccepted_packets(packet_paths: list[Path], accepted_rels: set[str]) -> list[str]:
+    removed: list[str] = []
+    for path in packet_paths:
+        try:
+            rel = str(path.relative_to(REPO_ROOT))
+        except ValueError:
+            continue
+        if rel in accepted_rels:
+            continue
+        try:
+            path.unlink()
+        except FileNotFoundError:
+            pass
+        else:
+            removed.append(rel)
+    return removed
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Bridge Automath gate results into BEDC BOARD candidates")
     parser.add_argument("--gate-results", default=str(DEFAULT_GATE_RESULTS))
@@ -243,6 +277,8 @@ def main(argv: list[str] | None = None) -> int:
                 "error": getattr(result, "error", ""),
             }
         )
+        accepted_rels = _accepted_packet_rels(result)
+        summary["removed_unaccepted_packets"] = _cleanup_unaccepted_packets(packets, accepted_rels)
         print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
         return 0 if getattr(result, "ok", False) else 1
     summary["dry_run_candidates"] = candidates
