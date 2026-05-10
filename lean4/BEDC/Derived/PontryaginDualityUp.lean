@@ -76,6 +76,56 @@ theorem PontryaginDualityCharacterCarrier_stability [AskSetup] [PackageSetup]
         inverseRowUnary', sourceLedgerRow', characterLedgerRow', endpointRow', pkgSig'⟩,
       sameSourceLedger, sameCharacterLedger, sameEndpoint⟩
 
+theorem PontryaginDualityCharacterCarrier_obligation [AskSetup] [PackageSetup]
+    {topGroupRow abGroupRow circleTarget characterRows productRows inverseRows sourceLedger
+      characterLedger operationLedger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory topGroupRow ->
+      UnaryHistory abGroupRow ->
+        UnaryHistory circleTarget ->
+          UnaryHistory characterRows ->
+            UnaryHistory productRows ->
+              UnaryHistory inverseRows ->
+                Cont topGroupRow abGroupRow sourceLedger ->
+                  Cont circleTarget characterRows characterLedger ->
+                    Cont productRows inverseRows operationLedger ->
+                      Cont sourceLedger characterLedger provenance ->
+                        Cont provenance operationLedger endpoint ->
+                          PkgSig bundle endpoint pkg ->
+                            UnaryHistory sourceLedger ∧ UnaryHistory characterLedger ∧
+                              UnaryHistory operationLedger ∧ UnaryHistory provenance ∧
+                                UnaryHistory endpoint ∧
+                                  hsame sourceLedger (append topGroupRow abGroupRow) ∧
+                                    hsame characterLedger (append circleTarget characterRows) ∧
+                                      hsame operationLedger (append productRows inverseRows) ∧
+                                        hsame provenance (append sourceLedger characterLedger) ∧
+                                          hsame endpoint (append provenance operationLedger) ∧
+                                            PkgSig bundle endpoint pkg := by
+  intro topGroupUnary abGroupUnary circleUnary characterRowsUnary productRowsUnary
+    inverseRowsUnary sourceRow characterRow operationRow provenanceRow endpointRow endpointPkg
+  have sourceUnary : UnaryHistory sourceLedger :=
+    unary_cont_closed topGroupUnary abGroupUnary sourceRow
+  have characterUnary : UnaryHistory characterLedger :=
+    unary_cont_closed circleUnary characterRowsUnary characterRow
+  have operationUnary : UnaryHistory operationLedger :=
+    unary_cont_closed productRowsUnary inverseRowsUnary operationRow
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed sourceUnary characterUnary provenanceRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary operationUnary endpointRow
+  exact
+    ⟨sourceUnary,
+      characterUnary,
+      operationUnary,
+      provenanceUnary,
+      endpointUnary,
+      sourceRow,
+      characterRow,
+      operationRow,
+      provenanceRow,
+      endpointRow,
+      endpointPkg⟩
+
 theorem PontryaginDualityCharacterCarrier_source_boundary [AskSetup] [PackageSetup]
     {topSource abSource circleTarget character productRow inverseRow sourceLedger
       characterLedger endpoint : BHist}
