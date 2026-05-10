@@ -191,4 +191,49 @@ theorem PersistentHomFiltrationCarrier_local_namecert_surface [AskSetup] [Packag
   }
   exact And.intro cert carrier.right.right.right.right.right.right.right.right
 
+theorem PersistentHomFiltrationCarrier_obligation_surface [AskSetup] [PackageSetup]
+    {indexSpine complexRows homologyRows boundaryRows persistenceRows route provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PersistentHomFiltrationCarrier indexSpine complexRows homologyRows boundaryRows
+        persistenceRows route provenance endpoint bundle pkg ->
+      UnaryHistory indexSpine ∧ UnaryHistory complexRows ∧ UnaryHistory homologyRows ∧
+        UnaryHistory boundaryRows ∧ UnaryHistory persistenceRows ∧ UnaryHistory route ∧
+          UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont indexSpine complexRows route ∧
+            Cont boundaryRows homologyRows persistenceRows ∧ Cont route persistenceRows provenance ∧
+              Cont provenance persistenceRows endpoint ∧ hsame route (append indexSpine complexRows) ∧
+                hsame persistenceRows (append boundaryRows homologyRows) ∧
+                  hsame provenance (append route persistenceRows) ∧
+                    hsame endpoint (append provenance persistenceRows) ∧
+                      PkgSig bundle endpoint pkg := by
+  intro carrier
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.right.left
+  have persistenceUnary : UnaryHistory persistenceRows :=
+    unary_cont_closed carrier.right.right.right.left carrier.right.right.left
+      carrier.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed routeUnary persistenceUnary carrier.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary persistenceUnary
+      carrier.right.right.right.right.right.right.right.left
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      persistenceUnary,
+      routeUnary,
+      provenanceUnary,
+      endpointUnary,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.PersistentHomUp
