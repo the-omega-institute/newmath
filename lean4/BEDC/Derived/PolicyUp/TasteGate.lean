@@ -9,23 +9,20 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive PolicyUp : Type where
-  | mk : (belief markov randomVar estimator : BHist) → PolicyUp
+  | mk : (belief markov randomvar estimator decision ledger : BHist) → PolicyUp
   deriving DecidableEq
 
-def PolicyEventFlow_left_inverse_encodeBHist : BHist → RawEvent
+private def encodeBHist : BHist → RawEvent
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: PolicyEventFlow_left_inverse_encodeBHist h
-  | BHist.e1 h => BMark.b1 :: PolicyEventFlow_left_inverse_encodeBHist h
+  | BHist.e0 h => BMark.b0 :: encodeBHist h
+  | BHist.e1 h => BMark.b1 :: encodeBHist h
 
-def PolicyEventFlow_left_inverse_decodeBHist : RawEvent → BHist
+private def decodeBHist : RawEvent → BHist
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (PolicyEventFlow_left_inverse_decodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (PolicyEventFlow_left_inverse_decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (decodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (decodeBHist tail)
 
-theorem PolicyEventFlow_left_inverse_decode_encode_bhist :
-    ∀ h : BHist,
-      PolicyEventFlow_left_inverse_decodeBHist
-        (PolicyEventFlow_left_inverse_encodeBHist h) = h := by
+private theorem decode_encode_bhist : ∀ h : BHist, decodeBHist (encodeBHist h) = h := by
   intro h
   induction h with
   | Empty => rfl
@@ -34,16 +31,17 @@ theorem PolicyEventFlow_left_inverse_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def policyToEventFlow : PolicyUp → EventFlow
-  | PolicyUp.mk belief markov randomVar estimator =>
-      [[BMark.b0], PolicyEventFlow_left_inverse_encodeBHist belief,
-        [BMark.b1, BMark.b0], PolicyEventFlow_left_inverse_encodeBHist markov,
-        [BMark.b1, BMark.b1, BMark.b0],
-          PolicyEventFlow_left_inverse_encodeBHist randomVar,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-          PolicyEventFlow_left_inverse_encodeBHist estimator]
+private def policyToEventFlow : PolicyUp → EventFlow
+  | PolicyUp.mk belief markov randomvar estimator decision ledger =>
+      [[BMark.b0], encodeBHist belief,
+        [BMark.b1, BMark.b0], encodeBHist markov,
+        [BMark.b1, BMark.b1, BMark.b0], encodeBHist randomvar,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0], encodeBHist estimator,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], encodeBHist decision,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          encodeBHist ledger]
 
-def policyFromEventFlow : EventFlow → Option PolicyUp
+private def policyFromEventFlow : EventFlow → Option PolicyUp
   | [] => none
   | _tag0 :: rest0 =>
       match rest0 with
@@ -60,7 +58,7 @@ def policyFromEventFlow : EventFlow → Option PolicyUp
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | randomVar :: rest5 =>
+                      | randomvar :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
@@ -68,113 +66,114 @@ def policyFromEventFlow : EventFlow → Option PolicyUp
                               | [] => none
                               | estimator :: rest7 =>
                                   match rest7 with
-                                  | [] =>
-                                      some
-                                        (PolicyUp.mk
-                                          (PolicyEventFlow_left_inverse_decodeBHist belief)
-                                          (PolicyEventFlow_left_inverse_decodeBHist markov)
-                                          (PolicyEventFlow_left_inverse_decodeBHist randomVar)
-                                          (PolicyEventFlow_left_inverse_decodeBHist estimator))
-                                  | _ :: _ => none
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | decision :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | ledger :: rest11 =>
+                                                  match rest11 with
+                                                  | [] =>
+                                                      some
+                                                        (PolicyUp.mk (decodeBHist belief)
+                                                          (decodeBHist markov)
+                                                          (decodeBHist randomvar)
+                                                          (decodeBHist estimator)
+                                                          (decodeBHist decision)
+                                                          (decodeBHist ledger))
+                                                  | _ :: _ => none
 
-theorem PolicyEventFlow_left_inverse
-    (belief markov randomVar estimator : BHist) :
-    policyFromEventFlow (policyToEventFlow (PolicyUp.mk belief markov randomVar estimator)) =
-      some (PolicyUp.mk belief markov randomVar estimator) := by
-  change
-    some
-        (PolicyUp.mk
-          (PolicyEventFlow_left_inverse_decodeBHist
-            (PolicyEventFlow_left_inverse_encodeBHist belief))
-          (PolicyEventFlow_left_inverse_decodeBHist
-            (PolicyEventFlow_left_inverse_encodeBHist markov))
-          (PolicyEventFlow_left_inverse_decodeBHist
-            (PolicyEventFlow_left_inverse_encodeBHist randomVar))
-          (PolicyEventFlow_left_inverse_decodeBHist
-            (PolicyEventFlow_left_inverse_encodeBHist estimator))) =
-      some (PolicyUp.mk belief markov randomVar estimator)
-  have hBelief :
-      some
-          (PolicyUp.mk
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist belief))
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist markov))
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist randomVar))
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist estimator))) =
-        some
-          (PolicyUp.mk belief
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist markov))
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist randomVar))
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist estimator))) :=
-    congrArg
-      (fun row =>
-        some
-          (PolicyUp.mk row
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist markov))
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist randomVar))
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist estimator))))
-      (PolicyEventFlow_left_inverse_decode_encode_bhist belief)
-  have hMarkov :
-      some
-          (PolicyUp.mk belief
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist markov))
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist randomVar))
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist estimator))) =
-        some
-          (PolicyUp.mk belief markov
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist randomVar))
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist estimator))) :=
-    congrArg
-      (fun row =>
-        some
-          (PolicyUp.mk belief row
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist randomVar))
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist estimator))))
-      (PolicyEventFlow_left_inverse_decode_encode_bhist markov)
-  have hRandomVar :
-      some
-          (PolicyUp.mk belief markov
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist randomVar))
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist estimator))) =
-        some
-          (PolicyUp.mk belief markov randomVar
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist estimator))) :=
-    congrArg
-      (fun row =>
-        some
-          (PolicyUp.mk belief markov row
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist estimator))))
-      (PolicyEventFlow_left_inverse_decode_encode_bhist randomVar)
-  have hEstimator :
-      some
-          (PolicyUp.mk belief markov randomVar
-            (PolicyEventFlow_left_inverse_decodeBHist
-              (PolicyEventFlow_left_inverse_encodeBHist estimator))) =
-        some (PolicyUp.mk belief markov randomVar estimator) :=
-    congrArg
-      (fun row => some (PolicyUp.mk belief markov randomVar row))
-      (PolicyEventFlow_left_inverse_decode_encode_bhist estimator)
-  exact Eq.trans hBelief (Eq.trans hMarkov (Eq.trans hRandomVar hEstimator))
+private theorem policy_round_trip :
+    ∀ x : PolicyUp, policyFromEventFlow (policyToEventFlow x) = some x := by
+  intro x
+  cases x with
+  | mk belief markov randomvar estimator decision ledger =>
+      change
+        some (PolicyUp.mk (decodeBHist (encodeBHist belief))
+          (decodeBHist (encodeBHist markov)) (decodeBHist (encodeBHist randomvar))
+          (decodeBHist (encodeBHist estimator)) (decodeBHist (encodeBHist decision))
+          (decodeBHist (encodeBHist ledger))) =
+          some (PolicyUp.mk belief markov randomvar estimator decision ledger)
+      have hBelief :
+          some (PolicyUp.mk (decodeBHist (encodeBHist belief))
+            (decodeBHist (encodeBHist markov)) (decodeBHist (encodeBHist randomvar))
+            (decodeBHist (encodeBHist estimator)) (decodeBHist (encodeBHist decision))
+            (decodeBHist (encodeBHist ledger))) =
+            some (PolicyUp.mk belief (decodeBHist (encodeBHist markov))
+              (decodeBHist (encodeBHist randomvar)) (decodeBHist (encodeBHist estimator))
+              (decodeBHist (encodeBHist decision)) (decodeBHist (encodeBHist ledger))) :=
+        congrArg
+          (fun row =>
+            some (PolicyUp.mk row (decodeBHist (encodeBHist markov))
+              (decodeBHist (encodeBHist randomvar)) (decodeBHist (encodeBHist estimator))
+              (decodeBHist (encodeBHist decision)) (decodeBHist (encodeBHist ledger))))
+          (decode_encode_bhist belief)
+      have hMarkov :
+          some (PolicyUp.mk belief (decodeBHist (encodeBHist markov))
+            (decodeBHist (encodeBHist randomvar)) (decodeBHist (encodeBHist estimator))
+            (decodeBHist (encodeBHist decision)) (decodeBHist (encodeBHist ledger))) =
+            some (PolicyUp.mk belief markov (decodeBHist (encodeBHist randomvar))
+              (decodeBHist (encodeBHist estimator)) (decodeBHist (encodeBHist decision))
+              (decodeBHist (encodeBHist ledger))) :=
+        congrArg
+          (fun row =>
+            some (PolicyUp.mk belief row (decodeBHist (encodeBHist randomvar))
+              (decodeBHist (encodeBHist estimator)) (decodeBHist (encodeBHist decision))
+              (decodeBHist (encodeBHist ledger))))
+          (decode_encode_bhist markov)
+      have hRandomvar :
+          some (PolicyUp.mk belief markov (decodeBHist (encodeBHist randomvar))
+            (decodeBHist (encodeBHist estimator)) (decodeBHist (encodeBHist decision))
+            (decodeBHist (encodeBHist ledger))) =
+            some (PolicyUp.mk belief markov randomvar (decodeBHist (encodeBHist estimator))
+              (decodeBHist (encodeBHist decision)) (decodeBHist (encodeBHist ledger))) :=
+        congrArg
+          (fun row =>
+            some (PolicyUp.mk belief markov row (decodeBHist (encodeBHist estimator))
+              (decodeBHist (encodeBHist decision)) (decodeBHist (encodeBHist ledger))))
+          (decode_encode_bhist randomvar)
+      have hEstimator :
+          some (PolicyUp.mk belief markov randomvar (decodeBHist (encodeBHist estimator))
+            (decodeBHist (encodeBHist decision)) (decodeBHist (encodeBHist ledger))) =
+            some (PolicyUp.mk belief markov randomvar estimator
+              (decodeBHist (encodeBHist decision)) (decodeBHist (encodeBHist ledger))) :=
+        congrArg
+          (fun row =>
+            some (PolicyUp.mk belief markov randomvar row
+              (decodeBHist (encodeBHist decision)) (decodeBHist (encodeBHist ledger))))
+          (decode_encode_bhist estimator)
+      have hDecision :
+          some (PolicyUp.mk belief markov randomvar estimator
+            (decodeBHist (encodeBHist decision)) (decodeBHist (encodeBHist ledger))) =
+            some (PolicyUp.mk belief markov randomvar estimator decision
+              (decodeBHist (encodeBHist ledger))) :=
+        congrArg
+          (fun row =>
+            some (PolicyUp.mk belief markov randomvar estimator row
+              (decodeBHist (encodeBHist ledger))))
+          (decode_encode_bhist decision)
+      have hLedger :
+          some (PolicyUp.mk belief markov randomvar estimator decision
+            (decodeBHist (encodeBHist ledger))) =
+            some (PolicyUp.mk belief markov randomvar estimator decision ledger) :=
+        congrArg
+          (fun row => some (PolicyUp.mk belief markov randomvar estimator decision row))
+          (decode_encode_bhist ledger)
+      exact Eq.trans hBelief
+        (Eq.trans hMarkov
+          (Eq.trans hRandomvar (Eq.trans hEstimator (Eq.trans hDecision hLedger))))
+
+private theorem policyToEventFlow_injective {x y : PolicyUp} :
+    policyToEventFlow x = policyToEventFlow y → x = y := by
+  intro heq
+  have hread : policyFromEventFlow (policyToEventFlow x) = policyFromEventFlow (policyToEventFlow y) :=
+    congrArg policyFromEventFlow heq
+  exact Option.some.inj (Eq.trans (policy_round_trip x).symm (Eq.trans hread (policy_round_trip y)))
 
 instance policyBHistCarrier : BHistCarrier PolicyUp where
   toEventFlow := policyToEventFlow
@@ -183,27 +182,19 @@ instance policyBHistCarrier : BHistCarrier PolicyUp where
 instance policyChapterTasteGate : ChapterTasteGate PolicyUp where
   round_trip := by
     intro x
-    cases x with
-    | mk belief markov randomVar estimator =>
-        exact PolicyEventFlow_left_inverse belief markov randomVar estimator
+    change policyFromEventFlow (policyToEventFlow x) = some x
+    exact policy_round_trip x
   layer_separation := by
     intro x y hxy heq
-    apply hxy
-    have hread :
-        policyFromEventFlow (policyToEventFlow x) =
-          policyFromEventFlow (policyToEventFlow y) :=
-      congrArg policyFromEventFlow heq
-    cases x with
-    | mk beliefX markovX randomVarX estimatorX =>
-    cases y with
-    | mk beliefY markovY randomVarY estimatorY =>
-    exact Option.some.inj
-      (Eq.trans
-        (PolicyEventFlow_left_inverse beliefX markovX randomVarX estimatorX).symm
-        (Eq.trans hread
-          (PolicyEventFlow_left_inverse beliefY markovY randomVarY estimatorY)))
+    exact hxy (policyToEventFlow_injective heq)
 
-def taste_gate : ChapterTasteGate PolicyUp :=
-  policyChapterTasteGate
+def taste_gate : ChapterTasteGate PolicyUp where
+  round_trip := by
+    intro x
+    change policyFromEventFlow (policyToEventFlow x) = some x
+    exact policy_round_trip x
+  layer_separation := by
+    intro x y hxy heq
+    exact hxy (policyToEventFlow_injective heq)
 
 end BEDC.Derived.PolicyUp

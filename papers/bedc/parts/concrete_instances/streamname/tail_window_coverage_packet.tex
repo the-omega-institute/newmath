@@ -179,3 +179,42 @@ finite $\RealUp$ consumer cannot read completion, quotient, host-index
 equality, metric-completeness, arithmetic or order, or standard bridge data
 from the packet.
 \end{proof}
+
+\begin{theorem}[StreamName tail-window terminal consumer factorization]
+\label{thm:streamname-tail-window-terminal-consumer-factorization}
+Every finite $\RealUp$ consumer row whose source reads a StreamName
+tail-window coverage packet factors through the displayed rows of
+\autoref{def:streamname-tail-window-coverage-packet}: the
+$\StreamNameUp$ finite-window classifier, the selected
+$\mathsf{UnaryHistory}$ observations and $\mathsf{InBundle}$ membership rows,
+the pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted
+$\RegSeqRat$ spine, the DyadicRatCore observation rows, and the shared
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ ledger. If two such consumers
+are given the same displayed packet, then they have the same finite read
+surface. They do not read any completion object, quotient row, host sequence
+equality, or standard real-number structure.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-tail-window-coverage-exhaustion}. It enumerates
+all readable rows of the packet and identifies each one with a row already
+displayed in \autoref{def:streamname-tail-window-coverage-packet}.
+
+Next apply \autoref{thm:streamname-tail-window-realup-boundary}. The finite
+$\RealUp$ consumer can therefore see only the StreamName classifier,
+selected unary observation and bundle rows, rational-history classifier rows,
+accepted $\RegSeqRat$ spine, DyadicRatCore endpoint rows, and shared ledger
+rows named in the statement.
+
+For two consumers using the same displayed packet, apply
+\autoref{thm:streamname-tail-window-cover-common-refinement} to place their
+selected finite windows in one common packet. Then apply
+\autoref{thm:streamname-tail-window-refinement-associativity} to see that
+changing the grouping of those finite windows leaves the restriction to each
+selected subwindow unchanged.
+
+Thus the factorization is terminal among finite packet readers: every
+observable row is already in the displayed packet, and any grouped finite
+read of the same packet restricts back to the same StreamName, $\RegSeqRat$,
+DyadicRatCore, continuation, history, package, and ledger-policy surface. The
+objects excluded by the boundary theorem have no row in the factorization.
+\end{proof}
