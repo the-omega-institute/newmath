@@ -51,6 +51,56 @@ metric-completeness certificates, arithmetic or order rows, or standard
 bridge rows.
 \end{proof}
 
+\begin{theorem}[RealUp directed-refinement terminality]
+\label{thm:realup-streamname-regseqrat-directed-refinement-terminality}
+Let $\mathcal F$ be a directed finite family of StreamName tail-window
+coverage packets over the same public $\StreamNameUp$ endpoints and the same
+accepted $\RegSeqRat$ finite-window spine. Then the directed common-refinement
+packet obtained from $\mathcal F$ is terminal for finite $\RealUp$ consumers:
+every finite $\RealUp$ consumer whose source reads one member of
+$\mathcal F$ factors through this common-refinement packet.
+
+For any selected subwindow, restriction from the common-refinement packet
+recovers the same $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
+same $\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ rows, the same pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the same accepted $\RegSeqRat$ spine,
+the same $\mathsf{DyadicRatCore}$ endpoint rows, and the same visible
+$\Cont$, $\hsame$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows as the
+original StreamName finite-window packet.
+
+The terminal factorization introduces no completion object, quotient row,
+host-index equality, metric-completeness row, arithmetic or order operation,
+or standard bridge row.
+\end{theorem}
+\begin{proof}
+First form the common packet. Apply
+\autoref{thm:streamname-tail-window-cover-common-refinement} to any two
+members of the directed family; directedness supplies a family member whose
+selected observation window contains both restrictions, so the generated
+packet has the same public endpoints and accepted $\RegSeqRat$ spine.
+
+For more than two selected windows, iterate the same construction along the
+finite family. Apply
+\autoref{thm:streamname-tail-window-refinement-associativity} at each regrouping
+step. The resulting packet is independent of the parenthesization, and every
+selected subwindow restricts back to the same StreamName classifier,
+unary-history, bundle-membership, pointwise rational-history, accepted spine,
+dyadic endpoint, continuation, history, package, and ledger-policy rows.
+
+Next pass a finite $\RealUp$ consumer through the packet boundary. Apply
+\autoref{thm:streamname-tail-window-terminal-consumer-factorization}. Every
+consumer row factors through the displayed tail-window ledger, and equality of
+the displayed packet gives equality of the finite read surface.
+
+Finally compare this terminal read with the $\RealUp$ seal boundary. Apply
+\autoref{thm:realup-terminal-refinement-seal-boundary}. The terminal consumer
+therefore reads exactly the rows recovered by the selected subwindow
+restriction and no object outside that finite surface. In particular, the
+construction adds no completion object, quotient row, host-index equality,
+metric-completeness row, arithmetic or order operation, or standard bridge
+row.
+\end{proof}
+
 \begin{theorem}[StreamName Real-RegSeq terminal source uniqueness]
 \label{thm:streamname-real-regseq-terminal-source-uniqueness}
 Let $C$ be a public $\StreamNameUp$ finite-window package. Suppose two
