@@ -297,4 +297,39 @@ theorem ProdHistoryLedgerChain_public_certificate_component_readback
     ProdHistoryLedgerChain_displayed_component_readback coherent chain repRho
   exact And.intro certificate (And.intro envelope.right.left readback)
 
+theorem ProdHistoryLedgerChain_public_certificate_endpoint_invariance
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq)
+    (leftSound : forall {x y : BHist}, LeftEq x y -> hsame x y)
+    (rightSound : forall {x y : BHist}, RightEq x y -> hsame x y) {rho z l r : BHist} :
+    ProdHistoryLedgerChain Left Right rho z ->
+      ProdPairRep Left Right rho l r ->
+        SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)
+            (ProdHistoryCarrier Left Right)
+            (ProdComponentHistoryClassifier Left Right LeftEq RightEq) ∧
+          ProdHistoryClassifier Left Right rho z ∧
+            ∃ l' r' : BHist,
+              ProdPairRep Left Right z l' r' ∧ LeftEq l l' ∧ RightEq r r' ∧
+                hsame l l' ∧ hsame r r' := by
+  intro chain repRho
+  have readback :=
+    ProdHistoryLedgerChain_public_certificate_component_readback leftCert rightCert coherent chain
+      repRho
+  cases readback.right.right with
+  | intro l' rest =>
+      cases rest with
+      | intro r' data =>
+          have sameLeft : hsame l l' :=
+            leftSound data.right.left
+          have sameRight : hsame r r' :=
+            rightSound data.right.right
+          exact And.intro readback.left
+            (And.intro readback.right.left
+              (Exists.intro l'
+                (Exists.intro r'
+                  (And.intro data.left
+                    (And.intro data.right.left
+                      (And.intro data.right.right (And.intro sameLeft sameRight)))))))
+
 end BEDC.Derived.ProdUp
