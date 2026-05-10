@@ -590,6 +590,7 @@ import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
+import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
 import BEDC.Derived.FieldExtUp.RatReflexive
@@ -618,6 +619,7 @@ import BEDC.Derived.GaloisGroupUp.AssociativeActionRow
 import BEDC.Derived.GaloisGroupUp.FixedBasePublicSurface
 import BEDC.Derived.GaloisGroupUp.ActionRows
 import BEDC.Derived.GaloisGroupUp.IdentityRowClosure
+import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
 import BEDC.Derived.LambdaCalcUp.RootConstructorScope
