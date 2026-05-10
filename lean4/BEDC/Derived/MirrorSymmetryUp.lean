@@ -76,4 +76,55 @@ theorem MirrorSymmetryCategoricalClassifier_categorical_stability [AskSetup] [Pa
         pairedAnswerRow', ledgerRow', endpointRow', pkgSig'⟩,
       samePairedAnswer, sameLedger, sameEndpoint⟩
 
+theorem MirrorSymmetryCategorical_stability [AskSetup] [PackageSetup]
+    {symplecticSource derivedSource aModelAnswer bModelAnswer pairedAnswer provenance ledger
+      endpoint symplecticSource' derivedSource' aModelAnswer' bModelAnswer' pairedAnswer'
+      provenance' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MirrorSymmetryBHistPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+        pairedAnswer provenance ledger endpoint bundle pkg ->
+      hsame symplecticSource symplecticSource' -> hsame derivedSource derivedSource' ->
+        hsame aModelAnswer aModelAnswer' -> hsame bModelAnswer bModelAnswer' ->
+          hsame provenance provenance' ->
+            Cont aModelAnswer' bModelAnswer' pairedAnswer' ->
+              Cont symplecticSource' derivedSource' ledger' ->
+                Cont provenance' ledger' endpoint' -> PkgSig bundle endpoint' pkg ->
+                  MirrorSymmetryCategoricalClassifier symplecticSource derivedSource
+                      aModelAnswer bModelAnswer pairedAnswer provenance ledger endpoint
+                      symplecticSource' derivedSource' aModelAnswer' bModelAnswer'
+                      pairedAnswer' provenance' ledger' endpoint' bundle pkg ∧
+                    MirrorSymmetryBHistPairCarrier symplecticSource' derivedSource'
+                      aModelAnswer' bModelAnswer' pairedAnswer' provenance' ledger'
+                      endpoint' bundle pkg ∧
+                    hsame pairedAnswer pairedAnswer' ∧ hsame ledger ledger' ∧
+                      hsame endpoint endpoint' := by
+  intro carrier sameSymplecticSource sameDerivedSource sameAModelAnswer sameBModelAnswer
+    sameProvenance pairedAnswerRow' ledgerRow' endpointRow' pkgSig'
+  have classified : MirrorSymmetryCategoricalClassifier symplecticSource derivedSource
+      aModelAnswer bModelAnswer pairedAnswer provenance ledger endpoint symplecticSource'
+      derivedSource' aModelAnswer' bModelAnswer' pairedAnswer' provenance' ledger' endpoint'
+      bundle pkg :=
+    ⟨carrier, sameSymplecticSource, sameDerivedSource, sameAModelAnswer, sameBModelAnswer,
+      sameProvenance, pkgSig'⟩
+  have samePairedAnswer : hsame pairedAnswer pairedAnswer' :=
+    cont_respects_hsame sameAModelAnswer sameBModelAnswer
+      carrier.right.right.right.right.right.left pairedAnswerRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameSymplecticSource sameDerivedSource
+      carrier.right.right.right.right.right.right.left ledgerRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameLedger
+      carrier.right.right.right.right.right.right.right.left endpointRow'
+  have transportedCarrier : MirrorSymmetryBHistPairCarrier symplecticSource'
+      derivedSource' aModelAnswer' bModelAnswer' pairedAnswer' provenance' ledger'
+      endpoint' bundle pkg :=
+    ⟨unary_transport carrier.left sameSymplecticSource,
+      unary_transport carrier.right.left sameDerivedSource,
+      unary_transport carrier.right.right.left sameAModelAnswer,
+      unary_transport carrier.right.right.right.left sameBModelAnswer,
+      unary_transport carrier.right.right.right.right.left sameProvenance,
+      pairedAnswerRow', ledgerRow', endpointRow', pkgSig'⟩
+  exact
+    ⟨classified, transportedCarrier, samePairedAnswer, sameLedger, sameEndpoint⟩
+
 end BEDC.Derived.MirrorSymmetryUp
