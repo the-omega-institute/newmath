@@ -133,6 +133,45 @@ theorem SimplicialSetBHistSimplexRowCarrier_face_degeneracy_endpoint_coverage
       (And.intro carrier.right.left
         (And.intro carrier.right.right.right carrier.right.right.left)))
 
+theorem SimplicialSetBHistSimplexRowCarrier_public_dependency_scope
+    [AskSetup] [PackageSetup]
+    {functor simplex face degeneracy package provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SimplicialSetBHistSimplexRowCarrier functor simplex face degeneracy package provenance
+        ledger bundle pkg ->
+      SemanticNameCert
+          (fun endpoint : BHist =>
+            exists face degeneracy package ledger : BHist,
+              SimplicialSetBHistSimplexRowCarrier functor endpoint face degeneracy package
+                provenance ledger bundle pkg)
+          (fun endpoint : BHist =>
+            exists face degeneracy package ledger : BHist,
+              SimplicialSetBHistSimplexRowCarrier functor endpoint face degeneracy package
+                provenance ledger bundle pkg)
+          (fun endpoint : BHist =>
+            exists face degeneracy package ledger : BHist,
+              SimplicialSetBHistSimplexRowCarrier functor endpoint face degeneracy package
+                provenance ledger bundle pkg)
+          (fun left right : BHist =>
+            (exists lf ld lp ll : BHist,
+              SimplicialSetBHistSimplexRowCarrier functor left lf ld lp provenance ll
+                bundle pkg) ∧
+            (exists rf rd rp rl : BHist,
+              SimplicialSetBHistSimplexRowCarrier functor right rf rd rp provenance rl
+                bundle pkg) ∧
+              hsame left right) ∧
+        Cont functor simplex face ∧ Cont simplex functor degeneracy ∧
+          Cont package provenance ledger ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  have obligation :=
+    SimplicialSetBHistSimplexRowCarrier_namecert_obligation_surface carrier
+  have ledger :=
+    SimplicialSetBHistSimplexRowCarrier_simplicial_identity_ledger_coverage carrier
+  exact And.intro obligation.left
+    (And.intro ledger.left
+      (And.intro ledger.right.left
+        (And.intro ledger.right.right.left ledger.right.right.right.left)))
+
 def SimplicialSetSimplexRowCarrier
     (functor finite endpoint package route : BHist) : Prop :=
   UnaryHistory functor ∧ UnaryHistory finite ∧ UnaryHistory package ∧
