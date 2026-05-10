@@ -1,131 +1,116 @@
-\chapter{The Finite Kernel Is Already a Category}
+\providecommand{\KernelCategoryUp}{\mathsf{KernelCategory}^{\uparrow}}
+
+\chapter{Kernel Category Name Certificate}
 \label{ch:concrete-instances-kernel-as-category}
 
-The checked categorical interface for BEDC is the unary-continuation
-$\CategoryUp$ package over $\mathsf{BHist}$. Its objects are unary histories,
-its displayed hom-carriers are histories $f$ equipped with a continuation
-ledger from $a$ to $b$, and morphism equality is the endpoint-stable
-classifier $\hsame$ on displayed hom histories. The prior capstone
-Computation as Continuation (\autoref{ch:concrete-instances-computation-as-continuation})
-reads $\Cont$ as a small-step relation; the present chapter records the
-checked categorical reading available to the paper-Lean interface.
+The object $\KernelCategoryUp$ names the categorical reading of the finite
+kernel's unary-continuation surface.  Its rows do not introduce an external
+category library.  They expose a source history, a target history, a displayed
+morphism history, and the checked $\CategoryUp$ hom-carrier showing that the
+morphism is a finite continuation from source to target.
 
-\section{Hom as unary continuation}
-\label{sec:kernel-as-category-hom-as-cont}
+\section{Source}
+\label{sec:concrete-instances-kernel-as-category-source}
 
-\begin{theorem}[Unary-continuation category realizes the continuation interface]
-\label{thm:kernel-as-category-unary-continuation-realization}
-For unary histories $a,b,f:\mathsf{BHist}$, the checked hom-carrier
-$\mathsf{CategoryHomCarrier}(a,b,f)$ is equivalent to unary endpoints and a
-continuation morphism whose tail is classified as $f$:
+\begin{definition}[Source rows for $\KernelCategoryUp$]
+\label{def:concrete-instances-kernel-as-category-source}
+A source row is a tuple $(a,b,f,\gamma)$ where $a,b,f:\mathsf{BHist}$ and
+$\gamma$ is a checked hom-carrier
 $$
-\mathsf{CategoryHomCarrier}(a,b,f)
-\quad\Longleftrightarrow\quad
-\mathsf{UnaryHistory}(a)\wedge
-\mathsf{UnaryHistory}(b)\wedge
-\mathsf{UnaryHistory}(f)\wedge
-\exists m:\mathsf{ContinuationMorphism}(a,b),\,
-\hsame(\mathsf{tail}(m),f).
+\begin{aligned}
+  \gamma:\mathsf{CategoryHomCarrier}(a,b,f).
+\end{aligned}
 $$
-With this hom-carrier, the unary-continuation $\CategoryUp$ package satisfies
-identity, binary composition closure, associativity of displayed composition,
-left and right unit laws, and endpoint-transport stability under $\hsame$.
+Thus $a$ and $b$ are unary kernel objects, $f$ is the displayed morphism
+history, and $\gamma$ records the finite continuation ledger from $a$ through
+$f$ to $b$.
+\end{definition}
+\leandef{BEDC.Derived.KernelCategoryUp.SourceRows}
+
+\section{Pattern}
+\label{sec:concrete-instances-kernel-as-category-pattern}
+
+\begin{definition}[Unary-continuation morphism pattern]
+\label{def:concrete-instances-kernel-as-category-pattern}
+The accepted pattern of a source row is exactly its displayed
+$\CategoryUp$ hom-carrier:
+$$
+\begin{aligned}
+  \mathsf{Pattern}(a,b,f,\gamma)
+  \quad\Longleftrightarrow\quad
+  \mathsf{CategoryHomCarrier}(a,b,f).
+\end{aligned}
+$$
+Unfolded, this says that the source, target, and morphism histories are unary
+and that $\Cont(a,f,b)$ is present in the row.  The categorical shape is
+therefore the finite kernel composition surface itself.
+\end{definition}
+\leandef{BEDC.Derived.KernelCategoryUp.Pattern}
+
+\section{Classifier}
+\label{sec:concrete-instances-kernel-as-category-classifier}
+
+\begin{definition}[Morphism classifier]
+\label{def:concrete-instances-kernel-as-category-classifier}
+Two $\KernelCategoryUp$ source rows classify together when their sources,
+targets, and displayed morphism histories are componentwise $\hsame$:
+$$
+\begin{aligned}
+  a\hsame a'
+  \quad\text{and}\quad
+  b\hsame b'
+  \quad\text{and}\quad
+  f\hsame f'.
+\end{aligned}
+$$
+The classifier compares only the public histories carried by the finite
+ledger.  It does not compare host records, categorical presentations, or
+external morphism objects.
+\end{definition}
+\leandef{BEDC.Derived.KernelCategoryUp.Classifier}
+
+\section{Stability}
+\label{sec:concrete-instances-kernel-as-category-stability}
+
+\begin{theorem}[Identity and composition stability]
+\label{thm:concrete-instances-kernel-as-category-stability}
+For any two source rows $a\xrightarrow{f} b$ and $b'\xrightarrow{g} c$ whose
+middle objects classify by $b\hsame b'$, and for any displayed continuation
+$\Cont(f,g,fg)$, the empty morphisms at $a$ and $c$ are accepted source-row
+patterns and the composite row $a\xrightarrow{fg} c$ is accepted.  The
+composite row is also classified with itself by the morphism classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelCategoryUp.stability}
 
 \begin{proof}
-The equivalence is exactly
-\autoref{thm:category-hom-carrier-continuation-morphism-tail-correspondence}.
-Its forward direction unpacks a displayed hom-carrier into unary source,
-target, and morphism histories, then packages the continuation ledger as a
-$\mathsf{ContinuationMorphism}$ whose displayed tail is classified by
-$\hsame$. Its reverse direction transports the continuation ledger carried by
-the morphism tail across the supplied $\hsame$ classifier and repacks the four
-fields of $\mathsf{CategoryHomCarrier}$.
-
-The categorical law package is
-\autoref{thm:category-unary-continuation-stability-law-package}. It supplies
-the empty hom-carrier identities, closure under displayed binary composition,
-associativity for the two displayed composites of a threefold composition,
-the left and right empty-composition laws, and preservation of hom-carriers
-after endpoint transport along $\hsame$.
+The identity rows are supplied by the checked
+$\mathsf{CategoryHomCarrier\_empty\_identity}$ theorem.  The composite row is
+supplied by $\mathsf{CategoryHomCarrier\_comp\_closed}$ after transporting the
+middle object along the displayed $\hsame$ classifier.  Reflexivity of
+$\hsame$ gives the final classifier judgment.  The proof uses only the finite
+kernel history and continuation definitions.
 \end{proof}
 
-\begin{theorem}[Category hom-carrier morphism induction]
-\label{thm:category-hom-carrier-morphism-induction}
-For fixed unary-continuation endpoints \(a,b:\mathsf{BHist}\), any predicate
-on displayed morphism histories holds for every
-\(\mathsf{CategoryHomCarrier}(a,b,f)\) if it holds at \(\emp\) and is
-preserved by one-step unary extension of the morphism history.
-\end{theorem}
-\begin{proof}
-Unpack \(\mathsf{CategoryHomCarrier}(a,b,f)\). Its morphism field is exactly
-the unary-history witness for \(f\), so unary-history induction over \(f\)
-proves the displayed predicate.
-\end{proof}
-\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_morphism\_induction}
+\section{Ledger}
+\label{sec:concrete-instances-kernel-as-category-ledger}
 
-\section{Derived presentations over the unary category}
-\label{sec:kernel-as-category-laws}
+\begin{definition}[Composition ledger]
+\label{def:concrete-instances-kernel-as-category-ledger}
+The ledger for $\KernelCategoryUp$ keeps a left source row, a right source row,
+the middle-object classifier, the composite morphism history, and the displayed
+continuation witness $\Cont(f,g,fg)$.  This records the full composition chain:
+the two endpoint hom-carriers, the public reason that the middle endpoints
+match, and the finite continuation witness generating the composite.
+\end{definition}
+\leandef{BEDC.Derived.KernelCategoryUp.Ledger}
 
-\begin{remark}[FunctorUp and NatTransUp as bounded bridges]
-\label{rem:kernel-as-category-functorup-nattransup}
-$\NameCert_{\FunctorUp}$ (\autoref{ch:concrete-instances-functor-namecert})
-and $\NameCert_{\NatTransUp}$
-(\autoref{ch:concrete-instances-nattrans-namecert}) are prefix and component
-presentations over the checked unary-continuation category. They use the same
-BEDC carriers, classifiers, and continuation stability obligations at their
-own certificate sites. A standard category interface or mathlib bridge is not
-asserted here; that bridge remains governed by the roadmap bridge phase.
-\end{remark}
-
-\paragraph{Capstone}
-
-\begin{theorem}[Prefix functor identity naturality bridge]
-\label{thm:prefix-functor-nattrans-identity-bridge}
-For histories $p,a,b,f,left,right:\mathsf{BHist}$, assume
-$\mathsf{UnaryHistory}(p)$, $\mathsf{CategoryHomCarrier}(a,b,f)$,
-$\ContR(\emp,f,left)$, and $\ContR(f,\emp,right)$. Then the checked
-$\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ facts compose into the concrete
-identity-naturality bridge:
-\begin{enumerate}
-\item $left$ and $right$ are hom-carriers from $\mathsf{append}(p,a)$ to
-$\mathsf{append}(p,b)$.
-\item $\hsame(left,right)$.
-\item each displayed hom-carrier reflects through the unary context exactness
-theorem to the original unprefixed
-hom carrier $\mathsf{CategoryHomCarrier}(a,b,f)$, with the left and right unit
-continuations identifying the displayed morphism with $f$.
-\item for every unary object $x:\mathsf{BHist}$ and every empty identity
-continuation $id$ with $\ContR(\emp,\emp,id)$, the empty component supplied by
-the prefix functor identity law is a hom-carrier from
-$\mathsf{append}(p,x)$ to $\mathsf{append}(p,x)$.
-\end{enumerate}
-\end{theorem}
-
-\begin{proof}
-Apply \autoref{thm:nattrans-prefix-identity-naturality-square} to the unary
-prefix, the displayed hom-carrier $f:a\to b$, and the two empty-composite
-continuations. It gives the two displayed hom-carriers after prefixing by $p$
-and the classifier equality $\hsame(left,right)$.
-
-Next apply \autoref{thm:category-hom-carrier-unary-context-exactness} to each
-displayed carrier. The same unary prefix $p$ is already part of the hypotheses,
-so the readback is the corresponding unprefixed hom-carrier; the empty left and
-right unit continuations identify those displayed morphisms with the original
-carrier $f$.
-
-Finally, apply
-\autoref{thm:functor-prefix-hom-carrier-empty-identity-preserves} at any unary object
-$x$. Its identity-closure statement supplies the empty component carrier over
-$\mathsf{append}(p,x)$, giving the component data used by the identity natural
-transformation.
-\end{proof}
-
-\begin{remark}[No new axioms]
-\label{rem:kernel-as-category-no-new-axioms}
-\autoref{thm:kernel-as-category-unary-continuation-realization} introduces no
-kernel-level definition not already present in the checked $\CategoryUp$
-continuation bridge. The categorical reading is obtained by unfolding
-$\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, and $\hsame$
-transport, then applying the already checked stability package.
-\end{remark}
+\begin{closurestatus}{\KernelCategoryUp}
+  \constructivestory{A kernel-category row is a unary source history, unary target history, displayed morphism history, and checked $\CategoryUp$ hom-carrier.  Classification is componentwise $\hsame$ on source, target, and morphism, while identities and composites are closed by the existing finite-continuation hom-carrier theorems.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The chapter closes the scoped NameCert interface for kernel-category morphisms: source rows, hom-carrier pattern, morphism classifier, identity-and-composition stability, and composition ledger.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.KernelCategoryUp.stability}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a standard category-library bridge, functorial semantics beyond the displayed hom-carrier surface, or extensional equality of external morphism objects.}
+  \upgradepath{A stronger closure level requires a separate standard bridge from these finite hom-carrier rows to an external category interface and back.}
+\end{closurestatus}
