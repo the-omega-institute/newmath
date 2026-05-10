@@ -138,4 +138,56 @@ theorem BusyBeaverEnumerationCompleteness_finite_ledger_surface
     ⟨enumerationUnary, haltedLedgerUnary, outsideLedgerUnary, coverageLedgerUnary, packageUnary,
       enumerationRow, haltedLedgerRow, outsideLedgerRow, coverageLedgerRow, packageRow⟩
 
+theorem BusyBeaverEnumerationCompleteness_finite_coverage
+    {stateCount machine enumeration listed branch coverage publicLedger : BHist} :
+    UnaryHistory stateCount -> UnaryHistory machine -> UnaryHistory enumeration ->
+      Cont stateCount machine listed -> Cont enumeration listed branch ->
+        Cont machine branch coverage -> Cont coverage enumeration publicLedger ->
+          UnaryHistory listed ∧ UnaryHistory branch ∧ UnaryHistory coverage ∧
+            UnaryHistory publicLedger ∧ hsame listed (append stateCount machine) ∧
+              hsame branch (append enumeration listed) ∧ hsame coverage (append machine branch) ∧
+                hsame publicLedger (append coverage enumeration) := by
+  intro stateCountUnary machineUnary enumerationUnary listedRow branchRow coverageRow
+  intro publicLedgerRow
+  have listedUnary : UnaryHistory listed :=
+    unary_cont_closed stateCountUnary machineUnary listedRow
+  have branchUnary : UnaryHistory branch :=
+    unary_cont_closed enumerationUnary listedUnary branchRow
+  have coverageUnary : UnaryHistory coverage :=
+    unary_cont_closed machineUnary branchUnary coverageRow
+  have publicLedgerUnary : UnaryHistory publicLedger :=
+    unary_cont_closed coverageUnary enumerationUnary publicLedgerRow
+  exact
+    ⟨listedUnary, branchUnary, coverageUnary, publicLedgerUnary, listedRow, branchRow,
+      coverageRow, publicLedgerRow⟩
+
+theorem BusyBeaverEnumerationCompleteness_append_coverage
+    {left right : List BHist} {machine bound ledger : BHist} :
+    List.Mem machine (left ++ right) ->
+      (forall m : BHist, List.Mem m left -> UnaryHistory m) ->
+        (forall m : BHist, List.Mem m right -> UnaryHistory m) ->
+          UnaryHistory bound -> Cont machine bound ledger ->
+            UnaryHistory machine ∧ UnaryHistory ledger ∧ hsame ledger (append machine bound) := by
+  intro machineMem leftCoverage rightCoverage boundUnary ledgerRow
+  induction left with
+  | nil =>
+      have machineUnary : UnaryHistory machine :=
+        rightCoverage machine machineMem
+      have ledgerUnary : UnaryHistory ledger :=
+        unary_cont_closed machineUnary boundUnary ledgerRow
+      exact ⟨machineUnary, ledgerUnary, ledgerRow⟩
+  | cons head tail ih =>
+      cases machineMem with
+      | head =>
+          have machineUnary : UnaryHistory machine :=
+            leftCoverage machine (List.Mem.head tail)
+          have ledgerUnary : UnaryHistory ledger :=
+            unary_cont_closed machineUnary boundUnary ledgerRow
+          exact ⟨machineUnary, ledgerUnary, ledgerRow⟩
+      | tail _ tailMem =>
+          have tailCoverage : forall m : BHist, List.Mem m tail -> UnaryHistory m := by
+            intro m memTail
+            exact leftCoverage m (List.Mem.tail head memTail)
+          exact ih tailMem tailCoverage
+
 end BEDC.Derived.BusyBeaverUp
