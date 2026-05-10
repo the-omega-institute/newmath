@@ -54,6 +54,33 @@ read from this ledger rather than from an imported abstract solvability theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.AbelRuffiniUp.AbelRuffiniDerivedSeriesLedger\_assoc\_surface}
 
+\begin{theorem}[AbelRuffini derived-series finite transport]
+\label{thm:abelruffini-derived-series-finite-transport}
+A displayed Galois row, $S_5$ row, subgroup row, commutator row,
+obstruction row, and continuation chain repack into a finite
+$\AbelRuffiniUp$ BEDC transport ledger. The ledger has a unary next row for
+each displayed commutator step and an endpoint row for the obstruction, with
+$\hsame$ comparisons for the subgroup row, the unary next row, and the
+endpoint row.
+\end{theorem}
+\begin{proof}
+Start with the finite derived-series ledger from
+\autoref{thm:abelruffini-derived-series-ledger-obligation}. It supplies the
+displayed subgroup rows, the commutator successor rows, and the obstruction row
+as finite $\mathsf{BHist}$ data.
+
+Project unary closure through the three continuation rows: first from the
+Galois row to the displayed $S_5$ row, then from the current subgroup row to
+the unary next commutator row, and finally from the obstruction row to the
+endpoint row.
+
+The three $\hsame$ comparisons are read from these same projections. Repacking
+the subgroup comparison, next-row comparison, and endpoint comparison gives the
+finite transport ledger without importing a separate radical-tower or
+solvable-group theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.AbelRuffiniUp.AbelRuffiniDerivedSeriesLedger\_finite\_transport}
+
 \begin{theorem}[AbelRuffini non-radical boundary obligation]
 \label{thm:abelruffini-nonradical-boundary-obligation}
 The $\AbelRuffiniUp$ non-solvability-by-radicals boundary is read only from the
