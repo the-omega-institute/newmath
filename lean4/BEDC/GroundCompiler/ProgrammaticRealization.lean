@@ -490,4 +490,48 @@ theorem automatic_computation_bounded_authority
   intro hAuto hHigh
   cases hAuto <;> cases hHigh
 
+inductive ExecutableDeliverableStage : Type where
+  | channelRoundTrip
+  | sourceEventReport
+  | sourceNormalizerReport
+  | motifCandidateReport
+  | metricProtocolReport
+  | packageNameCertRecognizer
+  | derivCertAcceptGateRecognizer
+  | theoremProofRecognizer
+  | chapterFlowRecognizer
+  | compilerSelfHostingScaffold
+
+def ExecutableDeliverableLadder : List ExecutableDeliverableStage :=
+  [ExecutableDeliverableStage.channelRoundTrip,
+    ExecutableDeliverableStage.sourceEventReport,
+    ExecutableDeliverableStage.sourceNormalizerReport,
+    ExecutableDeliverableStage.motifCandidateReport,
+    ExecutableDeliverableStage.metricProtocolReport,
+    ExecutableDeliverableStage.packageNameCertRecognizer,
+    ExecutableDeliverableStage.derivCertAcceptGateRecognizer,
+    ExecutableDeliverableStage.theoremProofRecognizer,
+    ExecutableDeliverableStage.chapterFlowRecognizer,
+    ExecutableDeliverableStage.compilerSelfHostingScaffold]
+
+inductive DeliverableCompletionArtifact : Type where
+  | executableCompletion (ladder : List ExecutableDeliverableStage)
+  | certificateCompletion (route : ProgrammaticSelfHostingRoute)
+
+inductive CertificateCompleteDeliverable :
+    DeliverableCompletionArtifact -> Prop where
+  | certificateCompletion (route : ProgrammaticSelfHostingRoute) :
+      CompleteSelfHostingEvidence
+        (SelfHostingClaimArtifact.certifiedRoute route) ->
+        CertificateCompleteDeliverable
+          (DeliverableCompletionArtifact.certificateCompletion route)
+
+theorem executable_not_certificate_complete :
+    Not
+      (CertificateCompleteDeliverable
+        (DeliverableCompletionArtifact.executableCompletion
+          ExecutableDeliverableLadder)) := by
+  intro h
+  cases h
+
 end BEDC.GroundCompiler.ProgrammaticRealization
