@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -23,6 +25,44 @@ def LanglandsBHistCorrespondenceCarrier [AskSetup] [PackageSetup]
       Cont galoisAnswer automorphicAnswer localFactor ∧
         Cont galoisSource automorphicSource ledger ∧
           Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem LanglandsCorrespondenceCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} (token : PkgSig bundle BHist.Empty pkg) :
+    let SourceSpec : BHist -> Prop := fun endpoint =>
+      exists galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
+        ledger : BHist,
+        LanglandsBHistCorrespondenceCarrier galoisSource automorphicSource galoisAnswer
+          automorphicAnswer localFactor provenance ledger endpoint bundle pkg
+    SemanticNameCert SourceSpec SourceSpec SourceSpec
+      (fun h k : BHist => SourceSpec h ∧ SourceSpec k ∧ hsame h k) := by
+  let SourceSpec : BHist -> Prop := fun endpoint =>
+    exists galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
+      ledger : BHist,
+      LanglandsBHistCorrespondenceCarrier galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor provenance ledger endpoint bundle pkg
+  have emptySource : SourceSpec BHist.Empty := by
+    exact
+      ⟨BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+        BHist.Empty,
+        ⟨unary_empty, unary_empty, unary_empty, unary_empty, unary_empty, rfl, rfl, rfl,
+          token⟩⟩
+  constructor
+  · constructor
+    · exact ⟨BHist.Empty, emptySource⟩
+    · intro h source
+      exact ⟨source, source, hsame_refl h⟩
+    · intro h k classified
+      exact ⟨classified.right.left, classified.left, hsame_symm classified.right.right⟩
+    · intro h k r classifiedHK classifiedKR
+      exact
+        ⟨classifiedHK.left, classifiedKR.right.left,
+          hsame_trans classifiedHK.right.right classifiedKR.right.right⟩
+    · intro h k classified _source
+      exact classified.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
 
 def LanglandsLFactorClassifier [AskSetup] [PackageSetup]
     (galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
@@ -175,5 +215,46 @@ theorem LanglandsCorrespondenceLedger_source_certificate_scope [AskSetup] [Packa
                                           automorphicAnswerUnary, localFactorUnary,
                                           sourceCont, answerCont, observationCont,
                                           endpointCont, packageSig⟩
+
+theorem LanglandsLFactorClassifier_endpoint_confluence [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
+      ledger endpoint galoisSourceA automorphicSourceA galoisAnswerA automorphicAnswerA
+      localFactorA provenanceA ledgerA endpointA galoisSourceB automorphicSourceB
+      galoisAnswerB automorphicAnswerB localFactorB provenanceB ledgerB endpointB : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsLFactorClassifier galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor provenance ledger endpoint galoisSourceA
+        automorphicSourceA galoisAnswerA automorphicAnswerA localFactorA provenanceA ledgerA
+        endpointA bundle pkg ->
+      Cont galoisAnswerA automorphicAnswerA localFactorA ->
+        Cont galoisSourceA automorphicSourceA ledgerA ->
+          Cont provenanceA ledgerA endpointA ->
+            LanglandsLFactorClassifier galoisSource automorphicSource galoisAnswer
+                automorphicAnswer localFactor provenance ledger endpoint galoisSourceB
+                automorphicSourceB galoisAnswerB automorphicAnswerB localFactorB provenanceB
+                ledgerB endpointB bundle pkg ->
+              Cont galoisAnswerB automorphicAnswerB localFactorB ->
+                Cont galoisSourceB automorphicSourceB ledgerB ->
+                  Cont provenanceB ledgerB endpointB ->
+                    hsame localFactorA localFactorB ∧ hsame ledgerA ledgerB ∧
+                      hsame endpointA endpointB := by
+  intro classifiedA localFactorRowA ledgerRowA endpointRowA classifiedB localFactorRowB
+    ledgerRowB endpointRowB
+  have branchA :=
+    LanglandsLFactorClassifier_local_factor_stability classifiedA localFactorRowA ledgerRowA
+      endpointRowA
+  have branchB :=
+    LanglandsLFactorClassifier_local_factor_stability classifiedB localFactorRowB ledgerRowB
+      endpointRowB
+  have sameLocalFactorA : hsame localFactor localFactorA := branchA.right.left
+  have sameLedgerA : hsame ledger ledgerA := branchA.right.right.left
+  have sameEndpointA : hsame endpoint endpointA := branchA.right.right.right
+  have sameLocalFactorB : hsame localFactor localFactorB := branchB.right.left
+  have sameLedgerB : hsame ledger ledgerB := branchB.right.right.left
+  have sameEndpointB : hsame endpoint endpointB := branchB.right.right.right
+  exact
+    ⟨hsame_trans (hsame_symm sameLocalFactorA) sameLocalFactorB,
+      hsame_trans (hsame_symm sameLedgerA) sameLedgerB,
+      hsame_trans (hsame_symm sameEndpointA) sameEndpointB⟩
 
 end BEDC.Derived.LanglandsUp
