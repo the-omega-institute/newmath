@@ -268,6 +268,18 @@ def CompilerNoLongerHiddenInput
     RecognizerHierarchyCoversCompilerTower C /\
     exists L : EventFlow, SelfHostingLedger C L
 
+def FullyDischargedCompiler
+    (behavior : CompilerBehaviorRelation) (C : CompilerCandidateFlow) :
+    Prop :=
+  SelfHostingCompilerFlow behavior C /\
+    RecognizerHierarchyCoversCompilerTower C /\
+    Not (BootstrapRecorded C)
+
+def FullNoHiddenCompilerClaim
+    (behavior : CompilerBehaviorRelation) (C : CompilerCandidateFlow) :
+    Prop :=
+  CompilerNoLongerHiddenInput behavior C /\ Not (BootstrapRecorded C)
+
 theorem self_hosting_removes_hidden_input
     {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :
     SelfHostingCompilerFlow behavior C ->
@@ -275,6 +287,21 @@ theorem self_hosting_removes_hidden_input
         CompilerNoLongerHiddenInput behavior C := by
   intro hSelf hHierarchy
   exact ⟨hSelf, hHierarchy, self_hosting_requires_ledger hSelf⟩
+
+theorem self_hosting_removes_hidden_compiler
+    {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :
+    SelfHostingCompilerFlow behavior C ->
+      RecognizerHierarchyCoversCompilerTower C ->
+        CompilerNoLongerHiddenInput behavior C := by
+  exact self_hosting_removes_hidden_input
+
+theorem fully_discharged_supports_full_claim
+    {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :
+    FullyDischargedCompiler behavior C -> FullNoHiddenCompilerClaim behavior C := by
+  intro hFull
+  exact
+    ⟨self_hosting_removes_hidden_input hFull.left hFull.right.left,
+      hFull.right.right⟩
 
 theorem full_claim_requires_boundary
     {behavior : CompilerBehaviorRelation} {C : CompilerCandidateFlow} :

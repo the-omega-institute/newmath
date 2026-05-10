@@ -325,7 +325,8 @@ Write $\mathsf{SelfHostingCompiler}(C)$.
 
 \begin{theorem}[Self-hosting removes compiler-as-hidden-input up to obligations]
 \label{thm:self-hosting-removes-hidden-compiler}
-If $\mathsf{SelfHostingCompiler}(C)$, then compiler $C$ is not an unrecorded host-level hidden input. Every remaining external dependency must occur among the remaining bootstrap obligations.
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.self\_hosting\_removes\_hidden\_compiler}
+If $\mathsf{SelfHostingCompiler}(C)$ holds and the recognizer hierarchy covers the compiler tower, then the compiler is no longer a hidden input: $C$ is represented by self-hosting event-flow evidence, the compiler tower is recognized, and a self-hosting ledger exists. Every remaining external dependency must occur among the remaining bootstrap obligations.
 \end{theorem}
 
 \begin{proof}
@@ -339,12 +340,14 @@ If $\mathsf{SelfHostingCompiler}(C)$ holds but remaining bootstrap obligations a
 
 \begin{definition}[Fully discharged compiler-flow]
 \label{def:self-hosting-fully-discharged}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.FullyDischargedCompiler}
 A self-hosting compiler-flow $C$ is \emph{fully discharged} when $\mathsf{SelfHostingCompiler}(C)$ holds and the remaining bootstrap-obligation list is empty. Write $\mathsf{FullyDischargedCompiler}(C)$.
 \end{definition}
 
 \begin{theorem}[Fully discharged compiler supports full no-hidden-input claim]
 \label{thm:self-hosting-fully-discharged-supports-full-claim}
-If $\mathsf{FullyDischargedCompiler}(C)$, then $C$ supports the full no-hidden-input compiler claim.
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.fully\_discharged\_supports\_full\_claim}
+If $\mathsf{FullyDischargedCompiler}(C)$, then $C$ supports the full no-hidden-input compiler claim: the compiler is no longer a hidden input and there is no remaining recorded bootstrap boundary.
 \end{theorem}
 
 \begin{proof}
