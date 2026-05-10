@@ -46,9 +46,38 @@ def inductive_as_classifier_closure : Prop :=
     NameCert Carrier Classifier →
       (∀ h : BHist, ConstructorClosed h ↔
         Carrier h ∧ ∃ s : BHist, ∃ m : BMark, Ext s m h) →
-        (∀ {h k : BHist}, Classifier h k → ConstructorClosed h → ConstructorClosed k) ∧
-          (∀ {h : BHist}, Carrier h → ConstructorClosed (BHist.e0 h) ∨
-            ConstructorClosed (BHist.e1 h))
+        (∀ {h k : BHist}, Classifier h k →
+          (∃ s : BHist, ∃ m : BMark, Ext s m h) →
+            ∃ s : BHist, ∃ m : BMark, Ext s m k) →
+          (∀ {h : BHist}, Carrier h →
+            Carrier (BHist.e0 h) ∨ Carrier (BHist.e1 h)) →
+            (∀ {h k : BHist}, Classifier h k → ConstructorClosed h → ConstructorClosed k) ∧
+              (∀ {h : BHist}, Carrier h → ConstructorClosed (BHist.e0 h) ∨
+                ConstructorClosed (BHist.e1 h))
+
+theorem inductive_as_classifier_closure_proof : inductive_as_classifier_closure := by
+  intro Carrier ConstructorClosed Classifier cert closureDef classifierPreservesExt carrierConstructorStep
+  constructor
+  · intro h k classified closedH
+    have closedData : Carrier h ∧ ∃ s : BHist, ∃ m : BMark, Ext s m h :=
+      (closureDef h).mp closedH
+    have carrierK : Carrier k :=
+      NameCert.carrier_respects_equiv cert classified closedData.left
+    have extK : ∃ s : BHist, ∃ m : BMark, Ext s m k :=
+      classifierPreservesExt classified closedData.right
+    exact (closureDef k).mpr (And.intro carrierK extK)
+  · intro h carrierH
+    cases carrierConstructorStep carrierH with
+    | inl carrierE0 =>
+        exact Or.inl
+          ((closureDef (BHist.e0 h)).mpr
+            (And.intro carrierE0
+              (Exists.intro h (Exists.intro BMark.b0 (Ext.e0 h)))))
+    | inr carrierE1 =>
+        exact Or.inr
+          ((closureDef (BHist.e1 h)).mpr
+            (And.intro carrierE1
+              (Exists.intro h (Exists.intro BMark.b1 (Ext.e1 h)))))
 
 /-- Internal description of the calculus of inductive constructions
 (statement scaffold). -/
