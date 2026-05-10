@@ -1,4 +1,4 @@
-import BEDC.Derived.DiffFormUp
+import BEDC.Derived.DiffFormUp.RootConsumerFace
 
 namespace BEDC.Derived.DiffFormUp
 
@@ -75,5 +75,32 @@ theorem DiffFormRootConsumerExport_exactness
         UnaryHistory omega ∧ UnaryHistory domega ∧ UnaryHistory source :=
     DiffFormRootConsumerExport_coverage ledger rootUnary exportRow
   exact And.intro classifierRows coverageRows
+
+theorem DiffFormRootExport_wedge_threshold {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger dplus outDegree rightLedger tensorLedger rootLedger
+      exportLedger : BHist} :
+    InBundle probe probes -> ScalarCarrier scalar -> UnaryHistory degree -> UnaryHistory probe ->
+      Cont degree probe tensor -> UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          Cont degree (BHist.e1 BHist.Empty) dplus -> Cont degree dplus outDegree ->
+            UnaryHistory rightLedger -> hsame ledger rightLedger -> UnaryHistory tensorLedger ->
+              UnaryHistory rootLedger -> Cont ledger rootLedger exportLedger ->
+                DiffFormWedgeDegreeLedger degree dplus outDegree ledger rightLedger tensorLedger ∧
+                  DiffFormExteriorDerivativeLedger scalar dplus degree dplus probe probe tensor
+                    tensor scalar scalar antisym ledger ∧
+                    UnaryHistory exportLedger ∧ hsame exportLedger (append ledger rootLedger) := by
+  intro probeIn scalarCarrier degreeUnary probeUnary tensorRoute antisymUnary scalarRoute
+    ledgerRoute degreeSuccessor wedgeRoute rightLedgerUnary sameRightLedger tensorLedgerUnary
+    rootLedgerUnary exportRow
+  have routed :=
+    DiffFormRootConsumerPackage_operation_routing scalarCert probeIn scalarCarrier degreeUnary
+      probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute degreeSuccessor wedgeRoute
+      rightLedgerUnary sameRightLedger tensorLedgerUnary
+  obtain ⟨_, _, _, _, _, _, _, _, _, ledgerUnary⟩ := routed.right.left
+  have exportUnary : UnaryHistory exportLedger :=
+    unary_cont_closed ledgerUnary rootLedgerUnary exportRow
+  exact ⟨routed.right.right, routed.right.left, exportUnary, exportRow⟩
 
 end BEDC.Derived.DiffFormUp
