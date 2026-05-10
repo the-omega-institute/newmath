@@ -130,6 +130,9 @@ A lemma is a proof package used as a supporting result inside a chapter. It ther
 
 \begin{definition}[Chapter candidate and recognizer]
 \label{def:chapter-manuscript-chapter-candidate-recognizer}
+\leandef{BEDC.GroundCompiler.ChapterFlow.ChapterCandidateFlow}
+\leandef{BEDC.GroundCompiler.ChapterFlow.GeneratedChapterRecognizer}
+\leandef{BEDC.GroundCompiler.ChapterFlow.RecognizesChapter}
 A \emph{chapter candidate} is an event subflow
 $$
   C\subseteq S
@@ -144,6 +147,7 @@ $$
 
 \begin{definition}[Chapter subflows]
 \label{def:chapter-manuscript-chapter-subflows}
+\leandef{BEDC.GroundCompiler.ChapterFlow.ChapterSubflows}
 If $\mathsf{RecognizesChapter}(R_C,S,C)$, then $R_C$ may identify:
 $$
 \begin{aligned}
@@ -165,6 +169,7 @@ These are source-level subflow roles, not external fields from a table of conten
 
 \begin{definition}[Complete chapter recognition]
 \label{def:chapter-manuscript-complete-chapter-recognition}
+\leandef{BEDC.GroundCompiler.ChapterFlow.CompleteChapterRecognition}
 The recognition $\mathsf{RecognizesChapter}(R_C,S,C)$ is \emph{complete} when all chapter subflows in \autoref{def:chapter-manuscript-chapter-subflows} are recognized.
 \end{definition}
 
