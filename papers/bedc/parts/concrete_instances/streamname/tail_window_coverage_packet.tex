@@ -218,3 +218,43 @@ read of the same packet restricts back to the same StreamName, $\RegSeqRat$,
 DyadicRatCore, continuation, history, package, and ledger-policy surface. The
 objects excluded by the boundary theorem have no row in the factorization.
 \end{proof}
+
+\begin{theorem}[StreamName tail-window terminal source uniqueness]
+\label{thm:streamname-tail-window-terminal-source-uniqueness}
+Let two finite $\RealUp$ consumers read StreamName tail-window coverage packets
+over the same public $\StreamNameUp$ endpoints
+$s,t:\mathsf{BHist}\to\mathsf{BHist}$ and the same accepted $\RegSeqRat$
+spine. If a common-refinement packet restricts to both packets, then both
+consumers factor through the same displayed StreamName, $\RegSeqRat$,
+DyadicRatCore, $\Cont$, $\hsame$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ source surface. No alternative $\RealUp$ source
+row, quotient representative, completion row, or host-index equality can be
+read from either finite consumer.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-tail-window-cover-common-refinement}.
+The two selected finite windows sit in one coverage packet over the shared
+public StreamName endpoints and the shared accepted $\RegSeqRat$ spine, and
+the restrictions to the selected subwindows recover the two original packets.
+
+Next apply \autoref{thm:streamname-tail-window-refinement-associativity}.
+Any regrouping of the common finite window has the same public restriction on
+each selected subwindow, so the two consumers see the same StreamName
+finite-window classifier rows, selected unary-history and bundle-membership
+rows, pointwise rational-history classifier rows, accepted $\RegSeqRat$
+spine, DyadicRatCore endpoint rows, and shared ledger rows.
+
+Now apply
+\autoref{thm:streamname-tail-window-terminal-consumer-factorization}. Every
+finite $\RealUp$ consumer row factors through exactly that displayed packet
+surface, and two consumers reading the same restricted packet have the same
+finite read surface.
+
+Finally apply \autoref{thm:streamname-tail-window-realup-boundary}. The
+boundary removes completion, quotient, host-index equality,
+metric-completeness, arithmetic or order, standard bridge, and hidden
+selector data from the readable packet. Hence no other $\RealUp$ source row,
+quotient representative, completion row, or host-index equality can be read,
+and the displayed StreamName/$\RegSeqRat$/DyadicRatCore source surface is the
+unique finite source surface for both consumers.
+\end{proof}

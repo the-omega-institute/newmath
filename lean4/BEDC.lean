@@ -167,6 +167,7 @@ import BEDC.Derived.CurvatureUp.ExportDeterminacy
 import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
+import BEDC.Derived.CurvatureUp.ClassifierObligation
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
@@ -590,6 +591,7 @@ import BEDC.Derived.DiffFormUp.ManifoldTensorSource
 import BEDC.Derived.DiffFormUp.RootDegreeClassifierDownstreamConsumption
 import BEDC.Derived.DiffFormUp.RootRowCarrierScope
 import BEDC.Derived.DiffFormUp.ExteriorDerivativeBoundary
+import BEDC.Derived.DiffFormUp.ExteriorInputBoundaryObligation
 import BEDC.Derived.DiffFormUp.RootBoundaryConsumer
 import BEDC.Derived.DiffFormUp.RootConsumerExport
 import BEDC.Derived.DiffFormUp.RootConsumerFaceExhaustion
