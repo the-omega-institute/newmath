@@ -678,4 +678,49 @@ structure TheoremProofPrototype where
       List.Mem (P7ReportDatum.theoremCode T c) (run (P7FormalInput.eventFlow S)) ->
         c = TheoremCode T
 
+def P7AuditChecklist (prototype : TheoremProofPrototype) : Prop :=
+  (forall x : P7FormalInput,
+    Not (P7InputRepresentation.external P7ExternalInput.theoremObject =
+      P7InputRepresentation.formal x)) /\
+    (forall x : P7FormalInput,
+      Not (P7InputRepresentation.external P7ExternalInput.proofObject =
+        P7InputRepresentation.formal x)) /\
+    (forall {R : GeneratedStatementRecognizer} {S Phi : EventFlow},
+      List.Mem (P7ReportDatum.recognizedStatement R S Phi)
+          (prototype.run (P7FormalInput.eventFlow S)) ->
+        RecognizesStatement R S Phi) /\
+    (forall {R : GeneratedTheoremRecognizer} {T : TheoremCandidateFlow}
+        {S : EventFlow},
+      List.Mem (P7ReportDatum.recognizedTheorem R T)
+          (prototype.run (P7FormalInput.eventFlow S)) ->
+        TheoremRecognitionRelation R T) /\
+    (forall {T : TheoremCandidateFlow} {c : List DisplayAlphabet}
+        {S : EventFlow},
+      List.Mem (P7ReportDatum.theoremCode T c)
+          (prototype.run (P7FormalInput.eventFlow S)) ->
+        c = TheoremCode T)
+
+def P7AdequatePrototype (prototype : TheoremProofPrototype) : Prop :=
+  (forall {R : GeneratedStatementRecognizer} {S Phi : EventFlow},
+    List.Mem (P7ReportDatum.recognizedStatement R S Phi)
+        (prototype.run (P7FormalInput.eventFlow S)) ->
+      RecognizesStatement R S Phi) /\
+    (forall {R : GeneratedTheoremRecognizer} {T : TheoremCandidateFlow}
+        {S : EventFlow},
+      List.Mem (P7ReportDatum.recognizedTheorem R T)
+          (prototype.run (P7FormalInput.eventFlow S)) ->
+        TheoremRecognitionRelation R T) /\
+    (forall {T : TheoremCandidateFlow} {c : List DisplayAlphabet}
+        {S : EventFlow},
+      List.Mem (P7ReportDatum.theoremCode T c)
+          (prototype.run (P7FormalInput.eventFlow S)) ->
+        c = TheoremCode T)
+
+theorem p7_adequacy {prototype : TheoremProofPrototype} :
+    P7AuditChecklist prototype -> P7AdequatePrototype prototype := by
+  intro hAudit
+  exact ⟨hAudit.right.right.left,
+    hAudit.right.right.right.left,
+    hAudit.right.right.right.right⟩
+
 end BEDC.GroundCompiler.TheoremProofPrototype

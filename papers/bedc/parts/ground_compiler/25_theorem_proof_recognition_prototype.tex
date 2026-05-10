@@ -475,6 +475,7 @@ A $P_7$ report must state that statement flow alone is not theorem, proof flow a
 
 \begin{definition}[Sound $P_7$ report]
 \label{def:theorem-proof-sound-p7-report}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.SoundP7Report}
 A $P_7$ report is \emph{sound} when:
 \begin{enumerate}
 \item every recognized statement flow is backed by generated statement recognizer;
@@ -521,6 +522,7 @@ Accepted theorem flow may have non-bridge status. Bridge certification requires 
 
 \begin{definition}[$P_7$ audit checklist]
 \label{def:theorem-proof-p7-audit}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7AuditChecklist}
 A $P_7$ prototype must satisfy:
 \begin{enumerate}
 \item all $P_6$ audit requirements;
@@ -544,11 +546,12 @@ A $P_7$ prototype must satisfy:
 
 \begin{theorem}[$P_7$ adequacy theorem]
 \label{thm:theorem-proof-p7-adequacy}
-If a prototype satisfies the $P_7$ audit checklist, uses sound $P_6$ reports, and every theorem or proof recognition claim is backed by generated recognizers and proof-checker flows, then it is adequate as a theorem and proof recognition prototype.
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.p7\_adequacy}
+If a prototype satisfies the $P_7$ audit checklist, then it is adequate as a theorem and proof recognition prototype: recognized statement entries are backed by generated statement recognizers, recognized theorem entries are backed by generated theorem recognizers, and theorem-code entries are mediated by theorem flows rather than by external theorem labels.
 \end{theorem}
 
 \begin{proof}
-The audit checklist separates candidates from recognized flows, requires proof checking, enforces the eight theorem subflows, and prevents theorem code from being read as proposition identity, object acceptance, or bridge certificate. Sound $P_6$ reports provide reliable certificate and object-acceptance data when referenced. Generated recognizers and proof checkers provide the required evidence.
+The audit checklist includes the backing obligations for recognized statement entries, recognized theorem entries, and theorem-code entries. Projecting those obligations yields the adequacy clauses for the prototype.
 \end{proof}
 
 \begin{corollary}[$P_7$ adequacy does not imply higher adequacy]
