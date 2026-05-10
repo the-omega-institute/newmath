@@ -16,6 +16,15 @@ def NewtonIterationBHistCarrier
       Cont point derivativeRow stepLedger ∧ Cont stepLedger inverse next ∧
         Cont provenance next endpoint
 
+def NewtonIterationCarrier
+    (derivativeSource banachSource point derivative inverseRow nextStep derivativeLedger
+      banachLedger stepLedger : BHist) :
+    Prop :=
+  Cont derivativeSource banachSource derivativeLedger ∧ UnaryHistory point ∧
+    UnaryHistory derivative ∧ UnaryHistory inverseRow ∧ UnaryHistory nextStep ∧
+      Cont derivativeLedger point derivative ∧ Cont derivative inverseRow stepLedger ∧
+        Cont point stepLedger nextStep ∧ Cont derivativeLedger stepLedger banachLedger
+
 theorem NewtonIterationBHistCarrier_banach_derivative_source_scope
     {derivative banach point derivativeRow inverse next stepLedger provenance endpoint : BHist} :
     NewtonIterationBHistCarrier derivative banach point derivativeRow inverse next stepLedger
