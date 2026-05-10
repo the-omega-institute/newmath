@@ -114,4 +114,44 @@ theorem ModularFormQExpansionCarrier_namecert_obligation_surface
             (And.intro carrier.right.right.right.right.right.left endpointRow))
   }
 
+theorem ModularFormQExpansionCarrier_semantic_name_certificate
+    {holomorphic automorphic coefficient transform provenance ledger : BHist} :
+    ModularFormQExpansionCarrier holomorphic automorphic coefficient transform provenance
+        ledger ->
+      SemanticNameCert
+        (fun row : BHist =>
+          ModularFormQExpansionCarrier holomorphic automorphic coefficient transform provenance
+            ledger ∧ hsame row ledger)
+        (fun row : BHist =>
+          ModularFormQExpansionCarrier holomorphic automorphic coefficient transform provenance
+            ledger ∧ hsame row ledger)
+        (fun row : BHist =>
+          ModularFormQExpansionCarrier holomorphic automorphic coefficient transform provenance
+            ledger ∧ hsame row ledger)
+        hsame := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro ledger (And.intro carrier (hsame_refl ledger))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+
 end BEDC.Derived.ModularFormUp
