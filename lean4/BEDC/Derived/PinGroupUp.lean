@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
@@ -538,5 +539,41 @@ theorem PinGroupReflectionParityCarrier_spin_extension_obligation
   exact And.intro
     (And.intro (Or.inl (And.intro (hsame_refl spin) spinUnary)) spinLedger)
     spinLedger
+
+theorem PinGroupUp_StdBridge
+    {spin reflection product endpoint ledger carried action actionOut provenance : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      Cont reflection carried action ->
+        Cont action provenance actionOut ->
+          hsame provenance BHist.Empty ->
+            PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ∧
+              hsame carried (append endpoint ledger) ∧
+                hsame actionOut action ∧ (hsame endpoint spin ∨ hsame endpoint product) := by
+  intro surface _actionRow actionProvenance provenanceEmpty
+  have surfaceRows := PinGroupReflectionParityLedgerSurface_exhaustion surface
+  have endpointRows := PinGroupReflectionParityCarrier_semantic_name_certificate surface.left
+  have actionReadback : hsame actionOut action := by
+    cases provenanceEmpty
+    exact cont_right_unit_result actionProvenance
+  exact And.intro surface
+    (And.intro surfaceRows.right
+      (And.intro actionReadback endpointRows.right))
+
+theorem PinGroupReflectionGeneratorCarrier_admission
+    {spin reflection product endpoint ledger carried : BHist} :
+    UnaryHistory spin ->
+      UnaryHistory reflection ->
+        Cont spin reflection product ->
+          hsame endpoint product ->
+            Cont endpoint ledger carried ->
+              UnaryHistory product ∧ hsame carried (append product ledger) ∧
+                Cont spin reflection product ∧ UnaryHistory reflection := by
+  intro spinUnary reflectionUnary productRow endpointProduct endpointLedger
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed spinUnary reflectionUnary productRow
+  have carriedProduct : hsame carried (append product ledger) :=
+    cont_respects_hsame endpointProduct (hsame_refl ledger) endpointLedger (cont_intro rfl)
+  exact And.intro productUnary
+    (And.intro carriedProduct (And.intro productRow reflectionUnary))
 
 end BEDC.Derived.PinGroupUp
