@@ -235,6 +235,13 @@ def CompleteManuscriptRecognition
 def ManuscriptFlow (M : ManuscriptCandidateFlow) : Prop :=
   exists R : GeneratedManuscriptRecognizer, CompleteManuscriptRecognition R M
 
+theorem no_incomplete_manuscript {M : ManuscriptCandidateFlow} :
+    ManuscriptFlow M ->
+      exists R : GeneratedManuscriptRecognizer,
+        CompleteManuscriptRecognition R M := by
+  intro hManuscript
+  exact hManuscript
+
 theorem incomplete_manuscript_flow_not_manuscript {M : ManuscriptCandidateFlow} :
     (forall R : GeneratedManuscriptRecognizer,
       Not (CompleteManuscriptRecognition R M)) ->
