@@ -47,6 +47,7 @@ entries with its corresponding ledger branch, or it is outside the token's
 carrier surface; no host universal-machine theorem, ambient coding theorem, or
 external halting search is imported into the enumeration claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.BusyBeaverUp.BusyBeaverEnumerationCompleteness\_finite\_ledger\_surface}
 \leanchecked{BEDC.Derived.BusyBeaverUp.BusyBeaverEnumerationCompleteness\_append\_coverage}
 \begin{proof}
 Unpack the source coordinate of the token. The enumeration is a finite BEDC row
@@ -64,6 +65,7 @@ argument that a universal simulator can decide which machines halt. The only
 readback used downstream is the per-entry $\TuringMachineUp$ or
 $\ComputableUp$ ledger row already attached to the finite list.
 \end{proof}
+\leanchecked{BEDC.Derived.BusyBeaverUp.BusyBeaverEnumerationCompleteness\_finite\_coverage}
 
 \begin{theorem}[BusyBeaver bound monotonicity]
 \label{thm:busybeaver-bound-monotonicity}
@@ -94,8 +96,8 @@ function.
 \end{proof}
 \leanchecked{BEDC.Derived.BusyBeaverUp.BusyBeaverBoundMonotonicity\_bound\_transport}
 
-\begin{theorem}[BusyBeaver non-halting exclusion]
-\label{thm:busybeaver-nonhalting-exclusion}
+\begin{theorem}[BusyBeaver non-halting exclusion obligation]
+\label{thm:busybeaver-nonhalting-exclusion-obligation}
 For a $\BusyBeaverUp$ token with unary state-count $n$, finite enumeration
 $E$, unary bound $B$, and ledger $L$, a non-halting branch for an entry
 $M \in E$ is only a visible finite ledger row attached to that enumeration
@@ -173,10 +175,10 @@ machine row inside the displayed finite list, and apply
 bound changes only the terminal comparison rows.
 
 Finally handle the negative branch. Apply
-\autoref{thm:busybeaver-nonhalting-exclusion}: the non-halting rows are finite
-ledger projections, not a decision procedure. Repacking these five rows gives
-the scoped $\NameCert_{\BusyBeaverUp}$ surface and preserves the stated
-non-claims.
+\autoref{thm:busybeaver-nonhalting-exclusion-obligation}: the non-halting rows
+are finite ledger projections, not a decision procedure. Repacking these five
+rows gives the scoped $\NameCert_{\BusyBeaverUp}$ surface and preserves the
+stated non-claims.
 \end{proof}
 
 \begin{closurestatus}{\BusyBeaverUp}

@@ -102,6 +102,59 @@ structure ChapterTasteGate (X : Type) [BHistCarrier X] where
 
 不能让 typeclass 太严以至于连 GroupUp / HolomorphicUp 都过不了——这意味着 TasteGate 要在抽象层捕捉 *理论 invariance*, 不要陷入实现细节。
 
+### 设计教训: 不要让 chapter 自由出题
+
+第一版 (Phase 0 commit `48d3f9c86`) typeclass 写成:
+
+```lean
+structure ChapterTasteGate (X : Type) where
+  conservativity_holds : Prop
+  conservativity_proof : conservativity_holds
+  ...
+```
+
+每个字段都让 chapter 自由选 `Prop`。结果 codex 第一次为 BeliefUp 写
+instance 时, 4 个 obligation 全用 vacuous 命题 (`∀ n : Nat, n = n`)
+discharge——题目和答案都是 chapter 自己出的, 不是 quality control 而是
+self-grading。任何 chapter 都能用同样的 trivial 占位通过。
+
+第二版 (Phase 0.5 commit `82b71d1a6`) schema-enforced typeclass:
+
+```lean
+class BHistCarrier (X : Type) where
+  toEventFlow : X → EventFlow
+  fromEventFlow : EventFlow → Option X
+
+class ChapterTasteGate (X : Type) [BHistCarrier X] where
+  conservativity   : ∀ (x : X) (w : RawEvent) (m : DisplayAlphabet),
+                       List.Mem w (toEventFlow x) → List.Mem m w →
+                       m = b0 ∨ m = b1
+  no_hidden_input  : ∀ (x : X), ∃ (e : EventFlow),
+                       fromEventFlow e = some x
+  round_trip       : ∀ (x : X),
+                       fromEventFlow (toEventFlow x) = some x
+  layer_separation : ∀ (x y : X), x ≠ y →
+                       toEventFlow x ≠ toEventFlow y
+```
+
+每个 obligation 类型里都强制出现 `X` 和 `BHistCarrier.toEventFlow` /
+`fromEventFlow`, 所以:
+
+- chapter 必须先给 inductive `X` 才能 instance `BHistCarrier`.
+- chapter 必须真的定义 `toEventFlow : X → EventFlow` 这条 embedding,
+  这是把"chapter 本身"具体化的步骤.
+- `round_trip` 和 `layer_separation` 都需要 case-split on `X` 的
+  constructor, 不能用 `True.intro` 通过.
+- `Unit` 单元素类型仍可写 instance, 但 `layer_separation` 在
+  `∀ x y, x ≠ y → ...` 上 vacuously true, 是 quality 警示而非 escape
+  hatch—— typeclass 默认要求 chapter 至少有 2 个 distinct constructor
+  (BeliefUp 用 `empty | observed` 这种最简形式).
+
+教训: **typeclass 字段不能是 raw `Prop`. 必须用 dependent types 让
+obligation 类型依赖 chapter carrier**, 这样 codex 不能用 schema-外
+trivial 命题 discharge。这条规则也适用于未来任何"AI quality control"
+gate 设计——schema 必须 pin 到被审视的对象.
+
 ## Phase 0 — 现在做 (无 active gate)
 
 **目标**: framework 落地, 不动 audit / phase prompt, framework 静默存在。

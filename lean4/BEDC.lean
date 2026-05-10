@@ -96,13 +96,16 @@ import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
+import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TuringMachineUp
+import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
+import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
