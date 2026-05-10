@@ -494,6 +494,57 @@ fields provide the same witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.prod\_history\_semantic\_name\_certificate}
 
+\begin{theorem}[ProdUp obligation surface package]
+\label{thm:produp-obligation-surface-package}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history predicates and let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers. Assume source carrier witnesses for $L$ and $R$, source certificates
+$\mathsf{cert}_L:\NameCert(L,\sim_L)$ and
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, componentwise $\hsame$-soundness for
+$\sim_L$ and $\sim_R$, and the displayed-pair coherence
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then the ProdUp surface
+over $\mathsf{BHist}$, $\Cont$, $\hsame$, and $\Pkg$ supplies all finite-data
+obligations listed below, using only BEDC histories and product continuations:
+\begin{enumerate}
+  \item an inhabited product-history carrier
+  $\mathsf{ProdHistoryCarrier}(L,R)$;
+  \item componentwise classifier stability for the displayed product
+  classifier induced by the source classifiers;
+  \item raw-visible ledger exactness for
+  $\mathsf{ProdHistoryLedgerPolicy}(L,R)$;
+  \item endpoint-stable ledger-chain readback for
+  $\mathsf{ProdHistoryLedgerChain}_{L,R}$;
+  \item the semantic $\NameCert$ surface for the product history envelope and
+  its public displayed-pair classifier.
+\end{enumerate}
+Thus the finite-data consumer may read the product package through BEDC
+histories, continuation, history sameness, and package evidence, without
+importing host ordered pairs as primitive data.
+\end{theorem}
+\begin{proof}
+Choose source carrier witnesses for $L$ and $R$. The
+$\mathsf{ProdHistoryCarrier}$ clause follows by joining the witnesses through
+$\Cont$, and the same carrier exposure is available from the ledger side by
+Theorem~\ref{thm:prod-ledger-visible-carrier}.
+
+For the raw-visible ledger surface, apply
+Theorem~\ref{thm:prod-ledger-raw-visible-classifier}. Its transport stability is
+Theorem~\ref{thm:prod-ledger-hsame-transport}, so the ledger reads the raw
+history and the visible history through $\hsame$ rather than through any host
+pair object.
+
+For the finite ledger-chain public surface, apply
+Theorem~\ref{thm:prod-public-certificate-ledger-chain-endpoint-invariance}. It
+packages the componentwise public certificate, the final displayed readback, and
+the endpoint-stable classifier clauses for every test history.
+
+Finally, apply Theorem~\ref{thm:concrete-prod-namecert} to obtain the semantic
+history-envelope certificate. Together with the public displayed-pair
+certificate supplied by the endpoint-stable ledger-chain theorem, these clauses
+are exactly the carrier, classifier, ledger, endpoint, and semantic-certificate
+surface consumed by the finite-data phase.
+\end{proof}
+
 \begin{corollary}[Product history envelope is licensed, not primitive]
 \label{cor:prod-history-envelope-licensed-not-primitive}
 The checked theorem licenses only $\mathsf{ProdHistoryCarrier}$ with
