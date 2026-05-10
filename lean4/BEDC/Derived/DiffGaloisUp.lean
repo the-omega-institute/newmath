@@ -152,4 +152,30 @@ theorem DiffGaloisPublicCertificate_export [AskSetup] [PackageSetup]
     ⟨publicBoundaryUnary, publicBoundaryRow,
       faithfulRows.right.right.right.right.left, faithfulRows.right.right.right.right.right⟩
 
+theorem DiffGaloisPicardVessiotPacket_scoped_certificate_surface [AskSetup] [PackageSetup]
+    {differentialField operatorCoefficients seqBasis fundamentalSolution galoisAction
+      constantField solutionLedger actionLedger endpoint provenance faithfulActionLedger
+      fixedFieldLedger publicBoundary scopedSurface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiffGaloisPicardVessiotPacket differentialField operatorCoefficients seqBasis
+      fundamentalSolution galoisAction constantField solutionLedger actionLedger endpoint
+      provenance bundle pkg ->
+        Cont galoisAction seqBasis faithfulActionLedger ->
+          Cont faithfulActionLedger constantField fixedFieldLedger ->
+            Cont endpoint fixedFieldLedger publicBoundary ->
+              Cont publicBoundary solutionLedger scopedSurface ->
+                UnaryHistory scopedSurface ∧
+                  hsame scopedSurface (append publicBoundary solutionLedger) ∧
+                    SigRel bundle endpoint provenance ∧ PkgSig bundle provenance pkg := by
+  intro packet faithfulActionRow fixedFieldRow publicBoundaryRow scopedSurfaceRow
+  have solutionRows :=
+    DiffGaloisPicardVessiotPacket_solution_space_obligation packet
+  have publicRows :=
+    DiffGaloisPublicCertificate_export packet faithfulActionRow fixedFieldRow publicBoundaryRow
+  have scopedSurfaceUnary : UnaryHistory scopedSurface :=
+    unary_cont_closed publicRows.left solutionRows.left scopedSurfaceRow
+  exact
+    ⟨scopedSurfaceUnary, scopedSurfaceRow, publicRows.right.right.left,
+      publicRows.right.right.right⟩
+
 end BEDC.Derived.DiffGaloisUp
