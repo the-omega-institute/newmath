@@ -101,6 +101,69 @@ packet. The transported subwindow packet is exactly the displayed public
 surface and no larger.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat denominator overlap gluing]
+\label{thm:streamname-regseqrat-denominator-overlap-gluing}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, and let
+$\mathcal P,\mathcal Q,\mathcal O:\mathsf{ProbeBundle}$ be finite observation
+windows. Suppose $\mathcal O$ is certified as a subwindow of both $\mathcal P$
+and $\mathcal Q$, and suppose denominator-window packets are accepted over
+$\mathcal P$ and $\mathcal Q$. If the two packets agree on the public overlap
+rows selected by $\mathcal O$, namely the restricted
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, every certified
+$\mathsf{UnaryHistory}(n)$ row, each $\mathsf{InBundle}(n,\mathcal O)$ row, and
+the pointwise $\mathsf{RatHistoryClassifier}(s(n),t(n))$ row, then the two
+packets glue to a denominator-window packet over
+$\mathsf{bundleAppend}(\mathcal P,\mathcal Q)$.
+
+The glued packet restricts back to the same public denominator selector on
+$\mathcal P$, on $\mathcal Q$, and on $\mathcal O$. Its visible selector surface
+is exactly
+$$
+\begin{gathered}
+\mathsf{RatStreamNameFiniteWindowClassifier}
+(s,t,\mathsf{bundleAppend}(\mathcal P,\mathcal Q)),\\
+\mathsf{UnaryHistory}(n),\qquad
+\mathsf{InBundle}(n,\mathsf{bundleAppend}(\mathcal P,\mathcal Q)),\qquad
+\mathsf{RatHistoryClassifier}(s(n),t(n)),\\
+\Cont\text{ routes for the displayed restrictions},\qquad
+\hsame\text{ overlap agreement rows},\qquad
+\Pkg\text{ provenance for the two accepted packets.}
+\end{gathered}
+$$
+It adds no $\RegSeqRat$ regularity row, $\RealUp$ seal classifier, completion
+object, quotient row, host-index equality, or non-public selector.
+\end{theorem}
+\begin{proof}
+First separate the two ambient denominator windows. Apply
+\autoref{thm:streamname-regseqrat-denominator-window-separation} to the accepted
+packets over $\mathcal P$ and $\mathcal Q$. This exposes only the finite
+StreamName classifier, unary-history, bundle-membership, pointwise
+rational-history, $\Cont$, $\hsame$, and $\Pkg$ rows that can participate in a
+public denominator selector.
+
+Next restrict both packets to the overlap. Use
+\autoref{thm:streamname-regseqrat-denominator-subwindow-transport} along the two
+certified inclusions $\mathcal O\subseteq\mathcal P$ and
+$\mathcal O\subseteq\mathcal Q$. The resulting overlap packets have the same
+public selector coordinates by the assumed agreement on the restricted
+classifier, unary rows, membership rows, and pointwise rational-history rows.
+
+Now assemble the union window. Apply
+\autoref{thm:streamname-regseqrat-denominator-window-union-stability} to the two
+ambient packets, using the overlap agreement to identify the selected public
+rows that appear from both sides. The finite union packet is therefore carried by
+$\mathsf{bundleAppend}(\mathcal P,\mathcal Q)$ and by the displayed $\Cont$,
+$\hsame$, and $\Pkg$ ledger.
+
+Finally read back the restrictions. Apply
+\autoref{thm:streamname-regseqrat-denominator-subwindow-transport} to the union
+packet along the evident subwindow inclusions of $\mathcal P$, $\mathcal Q$, and
+$\mathcal O$ into $\mathsf{bundleAppend}(\mathcal P,\mathcal Q)$. The readback
+packets are the original public denominator selectors on $\mathcal P$ and
+$\mathcal Q$, and their common restriction to $\mathcal O$ is the agreed overlap
+selector. The separation theorem supplies the stated exclusions.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat denominator-window union stability]
 \label{thm:streamname-regseqrat-denominator-window-union-stability}
 Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, and let

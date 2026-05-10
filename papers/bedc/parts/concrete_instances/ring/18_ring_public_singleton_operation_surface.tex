@@ -45,6 +45,63 @@ inputs. Thus the public ledger exposes precisely the operation tree and the
 singleton endpoint certificates already named above, with no additional
 history data available behind the classifier.
 \end{proof}
+
+\begin{theorem}[RingUp singleton operation table exhaustion]
+\label{thm:ring-singleton-operation-table-exhaustion}
+Every public $\RingUp$ consumer read from the concrete singleton certificate is
+exhausted by the five operation rows
+$\mathsf{add}$, $\mathsf{neg}$, $0$, $\mathsf{mul}$, and $1$, together with
+their singleton endpoint witnesses. No read of the public certificate exposes
+an additional history endpoint, quotient carrier, polynomial row, module row,
+or non-singleton multiplication table.
+\end{theorem}
+\begin{proof}
+Begin with the public singleton operation surface of
+\autoref{thm:ringup-public-singleton-operation-surface}. It lists the carrier
+$A_{\emp}$, classifier $R_{\emp}$, and exactly the five displayed operation
+rows.
+
+The operation laws come from
+\autoref{thm:concrete-singleton-history-ring-laws}. Since every carried
+endpoint is classified with $\emp$, each addition, negation, zero,
+multiplication, and one read returns the same singleton endpoint witness.
+
+The remaining public boundary does not add a sixth operation row.
+\autoref{thm:ring-mul-zero-absorption} controls the zero-multiplication branch,
+and \autoref{thm:ring-zero-classifier-two-sided-ideal-package} keeps the
+zero-classifier package inside the same singleton endpoint. Thus every public
+consumer read is one of the five operation-table rows.
+\end{proof}
+
+\begin{theorem}[RingUp singleton public certificate scope]
+\label{thm:ring-singleton-public-certificate-scope}
+The public scope of the concrete singleton $\RingUp$ certificate consists of
+ten fields: the BEDC source $\mathsf{BHist}$, the carrier $A_{\emp}$, the
+classifier $R_{\emp}$, stability under singleton transport, the public
+$\mathsf{add}$ row, the public $\mathsf{neg}$ row, the public $0$ row, the
+public $\mathsf{mul}$ row, the public $1$ row, and the standard bridge to the
+terminal ring. The five operation fields form the visible ledger table, and
+their endpoint exactness says precisely that a consumer row is present iff its
+endpoint is the singleton $\emp$ endpoint.
+\end{theorem}
+\begin{proof}
+Project the singleton source and algebraic laws from
+\autoref{thm:concrete-singleton-history-ring-laws}. The source is the displayed
+$\mathsf{BHist}$ row, while $A_{\emp}$ and $R_{\emp}$ give the carrier and
+classifier over the same endpoint.
+
+Next read the public operation table through
+\autoref{thm:ringup-public-singleton-operation-surface} and
+\autoref{thm:ring-singleton-operation-table-exhaustion}. These rows account for
+addition, negation, zero, multiplication, and one, and each read carries the
+singleton endpoint iff supplied by the classifier.
+
+Finally apply \autoref{thm:ring-mul-zero-absorption} and
+\autoref{thm:ring-zero-classifier-two-sided-ideal-package} to keep the zero and
+multiplication boundary inside the same public table. Repacking these rows with
+the checked standard bridge exposes the terminal ring and no additional
+consumer channel.
+\end{proof}
 \leanchecked{BEDC.Derived.RingUp.RingUp\_StdBridge}
 
 \closureat{RingUp}{matureStr}[BEDC.Derived.RingUp.RingSingletonEmptyHistory\_laws]
