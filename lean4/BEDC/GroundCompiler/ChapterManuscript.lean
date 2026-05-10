@@ -521,4 +521,35 @@ theorem manuscript_code_flow_mediated
           · cases hCode
             exact manuscript_code_round_trip M
 
+theorem p8_conservative_over_finite_kernel
+    {C : ChapterFlow.ChapterCandidateFlow} {M : ManuscriptCandidateFlow}
+    {m : DisplayAlphabet} :
+    (List.Mem m (ChapterFlow.ChapterCode C) ->
+        m = BEDC.FKernel.Mark.BMark.b0 \/
+          m = BEDC.FKernel.Mark.BMark.b1) /\
+      (List.Mem m (ManuscriptCode M) ->
+        m = BEDC.FKernel.Mark.BMark.b0 \/
+          m = BEDC.FKernel.Mark.BMark.b1) /\
+      (forall x : P8FormalInput,
+        Not (P8InputRepresentation.external P8ExternalInput.chapterPackage =
+          P8InputRepresentation.formal x)) /\
+      (forall x : P8FormalInput,
+        Not (P8InputRepresentation.external P8ExternalInput.manuscriptFile =
+          P8InputRepresentation.formal x)) := by
+  constructor
+  · intro hMem
+    exact channel_conservativity hMem
+  · constructor
+    · intro hMem
+      exact channel_conservativity hMem
+    · constructor
+      · intro x h
+        cases h
+      · intro x h
+        cases h
+
+theorem p8_not_full_self_hosting {report : P8Report} :
+    Not (P8HigherAdequacy report) := by
+  exact p8_adequacy_not_higher
+
 end BEDC.GroundCompiler.ChapterManuscript
