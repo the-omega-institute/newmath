@@ -5,13 +5,20 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
+import BEDC.Derived.ProbSpaceUp
+import BEDC.Derived.DistributionUp
+import BEDC.Derived.RandomVarUp
 
 namespace BEDC.Derived.MarkovChainUp
 
+open BEDC.Derived.ProbSpaceUp
+open BEDC.Derived.DistributionUp
+open BEDC.Derived.RandomVarUp
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -144,5 +151,55 @@ theorem MarkovChainBHistTransitionCarrier_kernel_classifier_stability
     ⟨⟨probUnary2, timeUnary2, rvUnary2, lawUnary2, kernelUnary2, kernelRow2, ledgerRow2,
         pkgSig2⟩,
       sameEndpoint⟩
+
+def MarkovChainTransitionPacket
+    (source time current next law transition provenance ledger : BHist) : Prop :=
+  ProbSpacePublicEventPacket source source current next law ∧ UnaryHistory time ∧
+    DistributionPushforwardSourceSpec law ∧
+      RandomVarTotalReadbackCertificate current next transition ∧ Cont current transition provenance ∧
+        Cont provenance law ledger
+
+theorem MarkovChainTransitionPacket_kernel_classifier_stability
+    {source time current next law transition provenance ledger source' time' current' next'
+      law' transition' provenance' ledger' : BHist} :
+    MarkovChainTransitionPacket source time current next law transition provenance ledger ->
+      hsame source source' -> hsame time time' -> hsame current current' -> hsame next next' ->
+        hsame law law' -> hsame transition transition' -> Cont current' transition' provenance' ->
+          Cont provenance' law' ledger' ->
+            MarkovChainTransitionPacket source' time' current' next' law' transition' provenance'
+                ledger' ∧
+              hsame provenance provenance' ∧ hsame ledger ledger' := by
+  intro packet sameSource sameTime sameCurrent sameNext sameLaw sameTransition
+  intro transportedProvenance transportedLedger
+  have sourceRows :=
+    ProbSpacePublicEventPacket_transport_rows sameSource sameSource sameCurrent sameNext sameLaw
+      packet.left
+  have timeUnary : UnaryHistory time' :=
+    unary_transport packet.right.left sameTime
+  have lawSource' : DistributionPushforwardSourceSpec law' :=
+    BEDC.FKernel.NameCert.NameCert.carrier_respects_equiv
+      DistributionPushforwardCarrier_semantic_name_certificate.core sameLaw packet.right.right.left
+  have readback' : RandomVarTotalReadbackCertificate current' next' transition' := {
+    chosen_readback :=
+      cont_hsame_transport sameCurrent (hsame_refl BHist.Empty) sameTransition
+        packet.right.right.right.left.chosen_readback
+    carried_total_bridge :=
+      cont_hsame_transport sameCurrent (hsame_refl BHist.Empty) sameNext
+        packet.right.right.right.left.carried_total_bridge
+  }
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameCurrent sameTransition packet.right.right.right.right.left
+      transportedProvenance
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameProvenance sameLaw packet.right.right.right.right.right
+      transportedLedger
+  have transportedPacket :
+      MarkovChainTransitionPacket source' time' current' next' law' transition' provenance'
+        ledger' :=
+    And.intro sourceRows.left
+      (And.intro timeUnary
+        (And.intro lawSource'
+          (And.intro readback' (And.intro transportedProvenance transportedLedger))))
+  exact And.intro transportedPacket (And.intro sameProvenance sameLedger)
 
 end BEDC.Derived.MarkovChainUp
