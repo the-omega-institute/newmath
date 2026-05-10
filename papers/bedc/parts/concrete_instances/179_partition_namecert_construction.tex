@@ -131,6 +131,7 @@ The exactness and coverage clauses are supplied by
 \autoref{thm:partition-carrier-obligation}. These clauses cover the finite
 surface and exclude all host-level partition structures outside the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.PartitionUp.PartitionBHistCarrier\_semantic\_name\_certificate}
 \leanchecked{BEDC.Derived.PartitionUp.PartitionBHistCarrier\_finite\_namecert\_surface}
 
 \begin{theorem}[Partition Young boundary package]
@@ -158,8 +159,11 @@ finite BEDC ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.PartitionUp.PartitionBHistCarrier\_young\_boundary\_package}
 
+\closureat{PartitionUp}{seedStr}[BEDC.Derived.PartitionUp.PartitionBHistCarrier\_young\_boundary\_package]
+\closureat{PartitionUp}{obligationStr}[BEDC.Derived.PartitionUp.PartitionBHistCarrier\_young\_boundary\_package]
+
 \begin{closurestatus}{\PartitionUp}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The visible seed scope is the finite $\mathsf{BHist}$ carrier,
   the Young-ledger classifier, the $\ListUp/\NatUp$ source packet, and the
   displayed $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.}
@@ -167,12 +171,12 @@ finite BEDC ledger.
   row, unary size rows, adjacent weak-decrease checks, displayed boundary
   continuations, $\hsame$ transport, and $\mathsf{Pkg}$ provenance; no host
   enumeration or representation-theoretic object is part of the carrier.}
-  \formalstatus{\theoremCheckedV}
+  \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.PartitionUp.PartitionBHistCarrier\_young\_boundary\_package}
   \bridgestatus{none}
   \notclaimed{No host partition enumeration, hook formula,
   symmetric-function identity, or representation-theoretic datum is claimed.}
-  \upgradepath{Obligation closure requires Lean theorem sites for carrier
-  readback, classifier stability, ledger exactness, and the finite NameCert
-  surface.}
+  \upgradepath{Scoped closure requires explicit kernel scoping of the carrier,
+  classifier, ledger exactness, finite NameCert surface, $\ListUp/\NatUp$,
+  $\hsame$, $\Cont$, and $\Pkg$ fields.}
 \end{closurestatus}
