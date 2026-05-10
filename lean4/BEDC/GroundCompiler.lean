@@ -27,3 +27,4 @@ import BEDC.GroundCompiler.ImplementationInterface
 import BEDC.GroundCompiler.MinimalPrototype
 import BEDC.GroundCompiler.ImplementationAdequacy
 import BEDC.GroundCompiler.ProgrammaticRealization
+import BEDC.GroundCompiler.TasteGate
