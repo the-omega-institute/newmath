@@ -6,5 +6,140 @@ The Tannaka-Krein interface $\TannakaKreinUp$ packages the reconstruction of a c
 \section{Carrier definition}
 \label{sec:tannakakrein-carrier}
 
+\begin{definition}[Tannaka-Krein fibre-functor carrier]
+\label{def:tannakakrein-fiber-functor-carrier}
+A $\TannakaKreinUp$ carrier is a finite $\mathsf{BHist}$ reconstruction
+packet over the displayed dependency rows
+$\NameCert_{\LieGroupUp}$ and $\NameCert_{\MonoidalCatUp}$. Its visible rows
+are the Lie-group source certificate, the monoidal-category source
+certificate, a fibre-functor row from representation-object histories into
+vector-space histories, representation-object rows in the monoidal source,
+the tensor-unit comparison row, tensor-product comparison rows, $\hsame$
+witnesses comparing transported group, category, functor, unit, product, and
+reconstruction-ledger endpoints, $\Cont$ provenance for the displayed reads,
+and $\Pkg$ provenance naming the two source certificates and the
+fibre-functor ledger.
+
+The carrier records only this BEDC reconstruction packet. It does not include
+Haar measure, analytic compactness, an external compact-group equality, or a
+full Tannaka duality theorem.
+\end{definition}
+
+\begin{definition}[Tannaka-Krein monoidal classifier]
+\label{def:tannakakrein-monoidal-classifier}
+Two $\TannakaKreinUp$ reconstruction packets are identified by the local
+monoidal classifier exactly when the displayed $\hsame$ transport relates
+their Lie-group rows, monoidal-category rows, fibre-functor rows,
+representation-object rows, tensor-unit comparison rows, tensor-product
+comparison rows, reconstruction-ledger rows, $\Cont$ provenance rows, and
+$\Pkg$ source rows componentwise.
+
+No further equality of compact groups, representation categories, vector
+spaces, or analytic reconstruction objects is part of the classifier.
+\end{definition}
+
 \section{The certificate}
 \label{sec:tannakakrein-certificate}
+
+\begin{theorem}[Tannaka-Krein source boundary]
+\label{thm:tannakakrein-liegroup-monoidalcat-source-boundary}
+Every downstream consumer of a $\TannakaKreinUp$ packet may read only the
+displayed $\NameCert_{\LieGroupUp}$ source certificate, the displayed
+$\NameCert_{\MonoidalCatUp}$ source certificate, and the fibre-functor ledger
+of \autoref{def:tannakakrein-fiber-functor-carrier}. In particular, the
+consumer receives no Haar-measure row, no analytic compactness row, and no
+host compact-group object beyond those visible histories.
+\end{theorem}
+\begin{proof}
+Project the packet to the carrier rows. The carrier definition lists the
+Lie-group source, monoidal-category source, fibre-functor row,
+representation-object rows, tensor-unit and tensor-product comparison rows,
+continuation rows, and package provenance.
+
+The consumer boundary is therefore the displayed dependency pair together
+with the fibre-functor reconstruction ledger. There is no carrier coordinate
+for Haar measure, analytic compactness, or a host compact-group equality, so
+those objects cannot be read from the packet.
+\end{proof}
+
+\begin{theorem}[Tannaka-Krein fibre-functor classifier stability]
+\label{thm:tannakakrein-fiber-functor-classifier-stability}
+If two accepted $\TannakaKreinUp$ packets are related by the monoidal
+classifier of \autoref{def:tannakakrein-monoidal-classifier}, then transport
+along the displayed $\hsame$ rows preserves the carrier, the fibre-functor
+row, the representation-object rows, the tensor-unit comparison row, the
+tensor-product comparison rows, the reconstruction ledger, and the
+$\Cont/\Pkg$ provenance rows.
+\end{theorem}
+\begin{proof}
+Transport the dependency rows first. The classifier supplies componentwise
+$\hsame$ witnesses for the $\NameCert_{\LieGroupUp}$ row and the
+$\NameCert_{\MonoidalCatUp}$ row, so the source boundary remains inside the
+same displayed pair of certificates.
+
+Next transport the fibre-functor row, representation-object rows, tensor-unit
+comparison, tensor-product comparisons, and reconstruction-ledger row. These
+are exactly the remaining carrier coordinates, and each is related by a
+displayed $\hsame$ witness.
+
+Finally transport the $\Cont$ and $\Pkg$ rows. Since acceptance asks only for
+the visible carrier rows and their provenance, the transported packet is again
+an accepted carrier with the same tensor comparison surface.
+\end{proof}
+
+\begin{theorem}[Tannaka-Krein reconstruction ledger exactness]
+\label{thm:tannakakrein-reconstruction-ledger-exactness}
+The reconstructed group token exported by a $\TannakaKreinUp$ packet is
+determined by the displayed fibre-functor row, representation-object rows,
+tensor-unit comparison row, tensor-product comparison rows, reconstruction
+ledger, $\Cont$ provenance, and $\Pkg$ source rows. It is not determined by,
+and does not expose, host compact-group equality or a full analytic
+Tannaka-duality equivalence.
+\end{theorem}
+\leanchecked{BEDC.Derived.TannakaKreinUp.TannakaKreinFiberFunctorCarrier\_reconstruction\_ledger\_exactness}
+\begin{proof}
+Unfold the carrier rows. The reconstruction token is read from the same finite
+$\mathsf{BHist}$ packet that records the fibre functor, its representation
+objects, the tensor-unit comparison, tensor-product comparisons, continuation
+routes, and package provenance.
+
+The exactness claim is componentwise: changing any visible reconstruction row
+changes the packet boundary, while componentwise $\hsame$ transport of those
+rows preserves the token by
+\autoref{thm:tannakakrein-fiber-functor-classifier-stability}.
+
+The carrier has no coordinate for host compact-group equality and no row for
+full Tannaka duality. Hence the exported token is determined by the displayed
+ledger rather than by an external analytic reconstruction theorem.
+\end{proof}
+
+\begin{theorem}[Tannaka-Krein NameCert obligation surface]
+\label{thm:tannakakrein-namecert-obligation-surface}
+The local $\NameCert_{\TannakaKreinUp}$ obligation surface consists of the
+carrier of \autoref{def:tannakakrein-fiber-functor-carrier}, the monoidal
+classifier of \autoref{def:tannakakrein-monoidal-classifier}, classifier
+stability from
+\autoref{thm:tannakakrein-fiber-functor-classifier-stability}, the source
+boundary from
+\autoref{thm:tannakakrein-liegroup-monoidalcat-source-boundary}, and
+reconstruction-ledger exactness from
+\autoref{thm:tannakakrein-reconstruction-ledger-exactness}.
+\end{theorem}
+\begin{proof}
+Use the carrier as the accepted-packet predicate and the monoidal classifier
+as the visible $\hsame$ comparison relation. The carrier supplies exactly the
+Lie-group source row, monoidal-category source row, fibre-functor row,
+representation-object rows, tensor comparison rows, continuation rows, and
+package provenance.
+
+Classifier stability shows that the carrier and tensor comparison rows are
+preserved under componentwise transport. The source-boundary theorem limits
+all consumer reads to the two dependency certificates and the displayed
+fibre-functor ledger.
+
+Reconstruction-ledger exactness identifies the exported group token with the
+visible ledger. The assembled obligation surface is therefore constructive
+and finite, using only $\Cont$, $\Pkg$, $\NameCert$, $\LieGroupUp$, and
+$\MonoidalCatUp$ rows, while excluding Haar measure, analytic compactness, and
+full Tannaka duality.
+\end{proof}

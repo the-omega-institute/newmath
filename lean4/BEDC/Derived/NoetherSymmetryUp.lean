@@ -24,6 +24,19 @@ def NoetherSymmetryConservationLedgerCarrier [AskSetup] [PackageSetup]
       Cont pdeSource field pdeLedger ∧ Cont lieLedger pdeLedger conservation ∧
         Cont conservation current endpoint ∧ PkgSig bundle endpoint pkg
 
+def NoetherSymmetryCurrentClassifier [AskSetup] [PackageSetup]
+    (lieSource pdeSource field current lieLedger pdeLedger conservation endpoint lieSource'
+      pdeSource' field' current' lieLedger' pdeLedger' conservation' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current lieLedger
+      pdeLedger conservation endpoint bundle pkg ∧
+    NoetherSymmetryConservationLedgerCarrier lieSource' pdeSource' field' current'
+        lieLedger' pdeLedger' conservation' endpoint' bundle pkg ∧
+      hsame lieSource lieSource' ∧ hsame pdeSource pdeSource' ∧ hsame field field' ∧
+        hsame current current' ∧ hsame lieLedger lieLedger' ∧
+          hsame pdeLedger pdeLedger' ∧ hsame conservation conservation' ∧
+            hsame endpoint endpoint'
+
 theorem NoetherSymmetryConservationLedgerCarrier_stability [AskSetup] [PackageSetup]
     {lieSource pdeSource field current lieLedger pdeLedger conservation endpoint lieSource'
       pdeSource' field' current' lieLedger' pdeLedger' conservation' endpoint' : BHist}
@@ -159,5 +172,45 @@ theorem NoetherSymmetryConservationLedgerCarrier_source_boundary [AskSetup] [Pac
                   (And.intro carrier.right.right.right.right.right.right.left
                     (And.intro carrier.right.right.right.right.right.right.right.left
                       carrier.right.right.right.right.right.right.right.right)))))))
+
+theorem NoetherSymmetryConservationLedgerCarrier_lie_pde_source_boundary
+    [AskSetup] [PackageSetup]
+    {lieSource pdeSource field current lieLedger pdeLedger conservation endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current lieLedger
+        pdeLedger conservation endpoint bundle pkg ->
+      UnaryHistory lieSource ∧ UnaryHistory pdeSource ∧ UnaryHistory field ∧
+        UnaryHistory current ∧ UnaryHistory lieLedger ∧ UnaryHistory pdeLedger ∧
+          UnaryHistory conservation ∧ UnaryHistory endpoint ∧
+            Cont lieSource field lieLedger ∧ Cont pdeSource field pdeLedger ∧
+              Cont lieLedger pdeLedger conservation ∧ Cont conservation current endpoint ∧
+                PkgSig bundle endpoint pkg := by
+  intro carrier
+  have lieLedgerUnary : UnaryHistory lieLedger :=
+    unary_cont_closed carrier.left carrier.right.right.left
+      carrier.right.right.right.right.left
+  have pdeLedgerUnary : UnaryHistory pdeLedger :=
+    unary_cont_closed carrier.right.left carrier.right.right.left
+      carrier.right.right.right.right.right.left
+  have conservationUnary : UnaryHistory conservation :=
+    unary_cont_closed lieLedgerUnary pdeLedgerUnary
+      carrier.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed conservationUnary carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      lieLedgerUnary,
+      pdeLedgerUnary,
+      conservationUnary,
+      endpointUnary,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.NoetherSymmetryUp
