@@ -52,6 +52,7 @@ import BEDC.BaseReflection
 import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
 import BEDC.Derived.AdjointRepUp
+import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.ApproximationUp
@@ -569,6 +570,7 @@ import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
+import BEDC.Derived.HypothesisUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.HypothesisTestUp
