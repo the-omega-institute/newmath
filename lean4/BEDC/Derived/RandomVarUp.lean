@@ -284,4 +284,21 @@ theorem RandomVarTerminalPreimage_exactness_coverage_iff
     intro h gap _unaryH sourceCoverage
     exact cont_result_hsame_transport sourceCoverage (hsame_symm chosenExact)
 
+theorem RandomVarPreimage_binary_intersection_exactness
+    {targetLeft targetRight targetIntersection sourceLeft sourceRight sourceIntersection
+      sourcePreimageIntersection : BHist} :
+    hsame sourceLeft targetLeft -> hsame sourceRight targetRight ->
+      hsame sourcePreimageIntersection targetIntersection ->
+        hsame targetIntersection (append targetLeft targetRight) ->
+          Cont sourceLeft sourceRight sourceIntersection ->
+            hsame sourcePreimageIntersection sourceIntersection ∧
+              hsame sourceIntersection (append sourceLeft sourceRight) := by
+  intro sameLeft sameRight samePreimage targetIntersectionReadback sourceIntersectionCont
+  have targetIntersectionCont : Cont targetLeft targetRight targetIntersection :=
+    targetIntersectionReadback
+  have sameTargetSourceIntersection : hsame targetIntersection sourceIntersection :=
+    cont_respects_hsame (hsame_symm sameLeft) (hsame_symm sameRight) targetIntersectionCont
+      sourceIntersectionCont
+  exact And.intro (hsame_trans samePreimage sameTargetSourceIntersection) sourceIntersectionCont
+
 end BEDC.Derived.RandomVarUp

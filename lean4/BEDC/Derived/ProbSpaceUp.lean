@@ -159,4 +159,37 @@ theorem ProbSpacePublicEventPacket_public_certificate_export
       transportedBounds.left,
       transportedBounds.right.right.right⟩
 
+def ProbSpaceBinaryCoverDifferenceLedger
+    (event outside union intersection target : BHist) : Prop :=
+  Cont event outside union ∧ Cont intersection outside target
+
+theorem ProbSpaceBinaryCoverDifferenceLedger_inclusion_exclusion_identity
+    {event outside union intersection target measuredUnion measuredIntersection lhs measuredEvent
+      measuredTarget rhs : BHist} :
+    ProbSpaceBinaryCoverDifferenceLedger event outside union intersection target ->
+      hsame measuredUnion union ->
+        hsame measuredIntersection intersection ->
+          hsame measuredEvent event ->
+            hsame measuredTarget target ->
+              Cont measuredUnion measuredIntersection lhs ->
+                Cont measuredEvent measuredTarget rhs ->
+                  hsame (append outside intersection) (append intersection outside) ->
+                    hsame lhs rhs := by
+  intro ledger sameUnion sameIntersection sameEvent sameTarget lhsCont rhsCont outsideSwap
+  cases sameUnion
+  cases sameIntersection
+  cases sameEvent
+  cases sameTarget
+  have lhsReadback : hsame lhs (append event (append outside intersection)) :=
+    lhsCont.trans
+      ((congrArg (fun row => append row intersection) ledger.left).trans
+        (append_assoc event outside intersection))
+  have rhsReadback : hsame rhs (append event (append intersection outside)) :=
+    rhsCont.trans (congrArg (append event) ledger.right)
+  have sameCanonical :
+      hsame (append event (append outside intersection))
+        (append event (append intersection outside)) :=
+    congrArg (append event) outsideSwap
+  exact hsame_trans lhsReadback (hsame_trans sameCanonical (hsame_symm rhsReadback))
+
 end BEDC.Derived.ProbSpaceUp
