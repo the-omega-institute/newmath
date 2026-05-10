@@ -430,8 +430,51 @@ theorem BrownianStepContinuityClassifier_continuous_path_projection
           (And.intro pathExact.right.right.right.left
             (And.intro pathRow
               (And.intro endpointRow
-                 (And.intro pathExact.right.right.right.right.left
+                   (And.intro pathExact.right.right.right.right.left
                    (And.intro pathExact.right.right.right.right.right
                      surface.right.right.right.right.right.right.right.right.right.left))))))))
+
+theorem BrownianStepContinuityClassifier_finite_prefix_carrier_restriction
+    {martingale continuous time path step normal provenance ledger prefixMartingale
+      prefixContinuous prefixTime prefixPath prefixStep prefixNormal prefixProvenance prefixLedger
+      prefixBoundary : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      hsame martingale prefixMartingale ->
+        hsame continuous prefixContinuous ->
+          hsame time prefixTime ->
+            hsame path prefixPath ->
+              hsame normal prefixNormal ->
+                Cont prefixContinuous prefixPath prefixStep ->
+                  Cont prefixMartingale prefixStep prefixProvenance ->
+                    Cont prefixProvenance prefixNormal prefixLedger ->
+                      Cont prefixLedger prefixTime prefixBoundary ->
+                        BrownianStepContinuityClassifier prefixMartingale prefixContinuous
+                            prefixTime prefixPath prefixStep prefixNormal prefixProvenance
+                            prefixLedger ∧
+                          UnaryHistory prefixBoundary ∧ hsame step prefixStep ∧
+                            hsame provenance prefixProvenance ∧ hsame ledger prefixLedger ∧
+                              hsame prefixBoundary (append prefixLedger prefixTime) := by
+  intro classified sameMartingale sameContinuous sameTime samePath sameNormal prefixStepRow
+    prefixProvenanceRow prefixLedgerRow prefixBoundaryRow
+  have stable :
+      BrownianStepContinuityClassifier prefixMartingale prefixContinuous prefixTime prefixPath
+          prefixStep prefixNormal prefixProvenance prefixLedger ∧
+        hsame step prefixStep ∧ hsame provenance prefixProvenance ∧ hsame ledger prefixLedger :=
+    BrownianStepContinuityClassifier_classifier_stability classified sameMartingale sameContinuous
+      sameTime samePath sameNormal prefixStepRow prefixProvenanceRow prefixLedgerRow
+  have prefixBoundaryUnary : UnaryHistory prefixBoundary :=
+    unary_cont_closed
+      (unary_cont_closed
+        (unary_cont_closed (unary_transport classified.left sameMartingale)
+          (unary_cont_closed (unary_transport classified.right.left sameContinuous)
+            (unary_transport classified.right.right.right.left samePath) prefixStepRow)
+          prefixProvenanceRow)
+        (unary_transport classified.right.right.right.right.left sameNormal) prefixLedgerRow)
+      (unary_transport classified.right.right.left sameTime) prefixBoundaryRow
+  exact And.intro stable.left
+    (And.intro prefixBoundaryUnary
+      (And.intro stable.right.left
+        (And.intro stable.right.right.left
+          (And.intro stable.right.right.right prefixBoundaryRow))))
 
 end BEDC.Derived.BrownianUp

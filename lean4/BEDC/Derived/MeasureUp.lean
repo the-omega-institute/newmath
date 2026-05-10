@@ -152,6 +152,40 @@ theorem MeasureRelativeDifference_disjoint_decomposition {event diff union endpo
   exact And.intro diffZero.left
     (And.intro unionClassified (And.intro endpointClassified endpointUnion))
 
+theorem MeasureComplementRow_transport
+    {h k event event' diff diff' union union' endpoint endpoint' : BHist} :
+    MeasureZeroBHistCarrier h ->
+      MeasureZeroBHistClassifier h k ->
+        MeasureZeroBHistClassifier event BHist.Empty ->
+          MeasureZeroBHistClassifier diff BHist.Empty ->
+            hsame event event' ->
+              hsame diff diff' ->
+                Cont event diff union ->
+                  Cont event' diff' union' ->
+                    hsame endpoint diff ->
+                      hsame endpoint' diff' ->
+                        MeasureZeroBHistCarrier k ∧ MeasureZeroBHistCarrier diff' ∧
+                          MeasureZeroBHistClassifier union union' ∧
+                            hsame endpoint endpoint' := by
+  intro hCarrier classified eventZero diffZero sameEvent sameDiff unionRow unionRow'
+    endpointDiff endpoint'Diff'
+  have kCarrier : MeasureZeroBHistCarrier k :=
+    hsame_trans (hsame_symm classified.right.right) hCarrier
+  have diff'Carrier : MeasureZeroBHistCarrier diff' :=
+    hsame_trans (hsame_symm sameDiff) diffZero.left
+  have unionSame : hsame union union' :=
+    cont_respects_hsame sameEvent sameDiff unionRow unionRow'
+  have unionCarrier : MeasureZeroBHistCarrier union :=
+    cont_respects_hsame eventZero.left diffZero.left unionRow (cont_left_unit BHist.Empty)
+  have union'Carrier : MeasureZeroBHistCarrier union' :=
+    hsame_trans (hsame_symm unionSame) unionCarrier
+  have unionClassified : MeasureZeroBHistClassifier union union' :=
+    And.intro unionCarrier (And.intro union'Carrier unionSame)
+  have endpointSame : hsame endpoint endpoint' :=
+    hsame_trans endpointDiff (hsame_trans sameDiff (hsame_symm endpoint'Diff'))
+  exact And.intro kCarrier
+    (And.intro diff'Carrier (And.intro unionClassified endpointSame))
+
 theorem MeasureZeroBHist_semantic_name_certificate :
     SemanticNameCert MeasureZeroBHistCarrier MeasureZeroBHistCarrier
       MeasureZeroBHistCarrier MeasureZeroBHistClassifier := by
@@ -253,6 +287,33 @@ theorem MeasureFiniteDisjointUnion_additivity
     hsame_trans sameValueSumUnion (hsame_symm sameValueUnion)
   exact And.intro valueSumZero (And.intro valueUnionZero sameValueSumValueUnion)
 
+theorem MeasureRelativeDifference_additivity
+    {event diff union endpoint valueEvent valueDiff valueUnion valueSum : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty ->
+      MeasureZeroBHistClassifier diff BHist.Empty ->
+        Cont event diff union ->
+          Cont union BHist.Empty endpoint ->
+            hsame valueEvent event ->
+              hsame valueDiff diff ->
+                hsame valueUnion endpoint ->
+                  Cont valueEvent valueDiff valueSum ->
+                    MeasureZeroBHistClassifier valueSum valueUnion ∧
+                      MeasureZeroBHistClassifier endpoint BHist.Empty ∧ hsame endpoint union := by
+  intro eventZero diffZero unionRow endpointRow sameValueEvent sameValueDiff sameValueUnion
+    valueRow
+  have decomposition :=
+    MeasureRelativeDifference_disjoint_decomposition eventZero diffZero unionRow endpointRow
+  have finiteRow : MeasureZeroBHistClassifier valueSum endpoint :=
+    MeasureFiniteDisjointUnion_additivity eventZero diffZero unionRow sameValueEvent
+      sameValueDiff decomposition.right.right.right valueRow
+  have valueUnionZero : MeasureZeroBHistCarrier valueUnion :=
+    hsame_trans sameValueUnion decomposition.right.right.left.left
+  have valueRowTransport : MeasureZeroBHistClassifier valueSum valueUnion :=
+    And.intro finiteRow.left
+      (And.intro valueUnionZero (hsame_trans finiteRow.right.right (hsame_symm sameValueUnion)))
+  exact And.intro valueRowTransport
+    (And.intro decomposition.right.right.left decomposition.right.right.right)
+
 theorem MeasureProbabilityConsumer_rows
     {event diff union valueEvent valueDiff valueUnion valueSum total unit : BHist} :
     MeasureZeroBHistClassifier event BHist.Empty ->
@@ -308,6 +369,29 @@ theorem MeasureMeasurableInclusion_monotone
   have valueRowAtTotal : Cont valueBase valueGap valueTotal :=
     cont_result_hsame_transport valueRow sameSumTotal
   exact Exists.intro valueGap (And.intro valueGapUnary valueRowAtTotal)
+
+theorem MeasureFunctionalAnalysisConsumer_rows
+    {base gap total valueBase valueGap valueTotal valueSum event diff union valueEvent valueDiff
+      valueUnion valueEventDiff : BHist} :
+    UnaryHistory valueGap -> Cont base gap total -> hsame valueBase base ->
+      hsame valueGap gap -> hsame valueTotal total -> Cont valueBase valueGap valueSum ->
+        hsame valueSum valueTotal -> MeasureZeroBHistClassifier event BHist.Empty ->
+          MeasureZeroBHistClassifier diff BHist.Empty -> Cont event diff union ->
+            hsame valueEvent event -> hsame valueDiff diff -> hsame valueUnion union ->
+              Cont valueEvent valueDiff valueEventDiff ->
+                PreorderPrefixLE valueBase valueTotal ∧
+                  MeasureZeroBHistClassifier valueEventDiff valueUnion ∧
+                    MeasureZeroBHistClassifier event BHist.Empty := by
+  intro valueGapUnary baseGapTotal sameValueBase sameValueGap sameValueTotal valueRow
+    sameSumTotal eventClassified diffClassified unionRow sameValueEvent sameValueDiff
+    sameValueUnion eventDiffRow
+  have monotoneRow : PreorderPrefixLE valueBase valueTotal :=
+    MeasureMeasurableInclusion_monotone valueGapUnary baseGapTotal sameValueBase sameValueGap
+      sameValueTotal valueRow sameSumTotal
+  have additiveRow : MeasureZeroBHistClassifier valueEventDiff valueUnion :=
+    MeasureFiniteDisjointUnion_additivity eventClassified diffClassified unionRow sameValueEvent
+      sameValueDiff sameValueUnion eventDiffRow
+  exact And.intro monotoneRow (And.intro additiveRow eventClassified)
 
 theorem MeasureZeroBHist_sigma_additivity (events : Nat -> BHist) :
     (forall n : Nat, MeasureZeroBHistCarrier (events n)) -> forall n : Nat,
