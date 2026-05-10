@@ -100,3 +100,34 @@ $$
 for every index pair, so the same pointwise classifier packages the final displayed consequence. The dimensions, row witness, column witness, and scalar source are unchanged, as recorded by \autoref{def:matrix-ledger-policy}.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_zero\_prefix\_absorption}
+
+\begin{theorem}[Zero matrix transpose swaps dimensions]
+\label{thm:zero-matrix-transpose-swaps-dimensions}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$ and zero endpoint $0_R$. Assume the scalar source carries $0_R$ and that the scalar classifier reflexivity row retained in \autoref{def:ring-stability-certificate} is available. Let $n,m:\NatUp$, and consider the $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. Let $Z_{n,m}$ and $Z_{m,n}$ be the zero matrix data of \autoref{def:finite-fold-zero-matrix-data}. Then $(Z_{n,m}^{\mathsf{T}})$ is carried as an $m\times n$ $\MatrixUp$ matrix, and
+$$
+Z_{n,m}^{\mathsf{T}}\sim_{\mathrm{Mat}}Z_{m,n}.
+$$
+\end{theorem}
+\begin{proof}
+The zero matrix datum $Z_{n,m}$ is carried pointwise from the carried scalar endpoint $0_R$ by \autoref{def:finite-fold-zero-matrix-data}. Applying the transpose carrier clause of \autoref{def:matrix-transpose-certified-scalar-carrier} carries $Z_{n,m}^{\mathsf{T}}$ over $\mathsf{Fin}(m)\times\mathsf{Fin}(n)$: at an index $(j,i)$ its scalar witness is the witness already assigned to $(Z_{n,m})_{i,j}$.
+
+It remains to compare entries with the zero matrix of the swapped shape. Fix $j:\mathsf{Fin}(m)$ and $i:\mathsf{Fin}(n)$. Expanding the transpose definition gives
+$$
+(Z_{n,m}^{\mathsf{T}})_{j,i}=(Z_{n,m})_{i,j}.
+$$
+Expanding the zero matrix data at the original and swapped index pairs gives
+$$
+(Z_{n,m})_{i,j}=0_R
+\qquad\text{and}\qquad
+(Z_{m,n})_{j,i}=0_R.
+$$
+Thus both scalar endpoints at the displayed matrix position are the same carried zero endpoint. Scalar classifier reflexivity gives
+$$
+(Z_{n,m}^{\mathsf{T}})_{j,i}\sim_R(Z_{m,n})_{j,i}.
+$$
+Since $j$ and $i$ were arbitrary, the pointwise matrix classifier of \autoref{def:matrix-classifier-specification} packages these scalar comparisons as
+$$
+Z_{n,m}^{\mathsf{T}}\sim_{\mathrm{Mat}}Z_{m,n}.
+$$
+The dimension ledger is exactly the row-column swap recorded by \autoref{def:matrix-ledger-policy}, and the scalar source is unchanged.
+\end{proof}
