@@ -321,6 +321,46 @@ theorem LanglandsBHistCorrespondenceCarrier_source_rows [AskSetup] [PackageSetup
       carrier.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right⟩
 
+theorem LanglandsBHistCorrespondenceCarrier_public_surface [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
+      ledger endpoint galoisSource' automorphicSource' galoisAnswer' automorphicAnswer'
+      localFactor' provenance' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsBHistCorrespondenceCarrier galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor provenance ledger endpoint bundle pkg ->
+      LanglandsLFactorClassifier galoisSource automorphicSource galoisAnswer
+          automorphicAnswer localFactor provenance ledger endpoint galoisSource'
+          automorphicSource' galoisAnswer' automorphicAnswer' localFactor' provenance' ledger'
+          endpoint' bundle pkg ->
+        Cont galoisAnswer' automorphicAnswer' localFactor' ->
+          Cont galoisSource' automorphicSource' ledger' ->
+            Cont provenance' ledger' endpoint' ->
+              UnaryHistory galoisSource ∧ UnaryHistory automorphicSource ∧
+                UnaryHistory galoisAnswer ∧ UnaryHistory automorphicAnswer ∧
+                  UnaryHistory localFactor' ∧ UnaryHistory ledger' ∧
+                    UnaryHistory endpoint' ∧ hsame localFactor localFactor' ∧
+                      hsame ledger ledger' ∧ hsame endpoint endpoint' ∧
+                        PkgSig bundle endpoint' pkg := by
+  intro carrier classified localFactorRow' ledgerRow' endpointRow'
+  have stable :=
+    LanglandsLFactorClassifier_local_factor_stability classified localFactorRow' ledgerRow'
+      endpointRow'
+  have transportedCarrier := stable.left
+  have generatedRows :=
+    LanglandsBHistCorrespondenceCarrier_generated_rows_unary transportedCarrier
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      generatedRows.left,
+      generatedRows.right.left,
+      generatedRows.right.right,
+      stable.right.left,
+      stable.right.right.left,
+      stable.right.right.right,
+      transportedCarrier.right.right.right.right.right.right.right.right⟩
+
 theorem LanglandsBHistCorrespondenceCarrier_visible_packet_boundary [AskSetup] [PackageSetup]
     {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance ledger
       endpoint : BHist}
@@ -470,5 +510,57 @@ theorem LanglandsCorrespondenceLedger_public_endpoint_boundary [AskSetup] [Packa
       packageRows.right.right.right.right.right.right.left,
       consumerRow,
       packageRows.right.right.right.right.right.right.right⟩
+
+theorem LanglandsCorrespondenceLedger_finite_local_factor_public_surface [AskSetup]
+    [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor packageLedger
+      observationLedger endpoint consumerSurface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsCorrespondenceLedger galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor packageLedger observationLedger endpoint bundle pkg ->
+      Cont endpoint localFactor consumerSurface ->
+        UnaryHistory galoisSource ∧ UnaryHistory automorphicSource ∧
+          UnaryHistory galoisAnswer ∧ UnaryHistory automorphicAnswer ∧
+            UnaryHistory localFactor ∧ UnaryHistory packageLedger ∧
+              UnaryHistory observationLedger ∧ UnaryHistory endpoint ∧
+                UnaryHistory consumerSurface ∧
+                  hsame packageLedger (append galoisSource automorphicSource) ∧
+                    hsame localFactor (append galoisAnswer automorphicAnswer) ∧
+                      hsame observationLedger (append packageLedger localFactor) ∧
+                        hsame endpoint (append observationLedger localFactor) ∧
+                          hsame consumerSurface (append endpoint localFactor) ∧
+                            PkgSig bundle endpoint pkg := by
+  intro ledger consumerRow
+  have sourceScope :=
+    LanglandsCorrespondenceLedger_source_certificate_scope ledger
+  have packageScope :=
+    LanglandsCorrespondenceLedger_obligation_package ledger
+  obtain ⟨galoisUnary, automorphicUnary, galoisAnswerUnary, automorphicAnswerUnary,
+    localFactorUnary, _packageRow, _factorRow, _observationRow, _endpointRow,
+    _pkgSig⟩ := sourceScope
+  obtain ⟨packageUnary, observationUnary, endpointUnary, samePackage, sameLocalFactor,
+    sameObservation, sameEndpoint, pkgSig⟩ := packageScope
+  have consumerUnary : UnaryHistory consumerSurface :=
+    unary_cont_closed endpointUnary localFactorUnary consumerRow
+  exact
+    ⟨galoisUnary, automorphicUnary, galoisAnswerUnary, automorphicAnswerUnary,
+      localFactorUnary, packageUnary, observationUnary, endpointUnary, consumerUnary,
+      samePackage, sameLocalFactor, sameObservation, sameEndpoint, consumerRow, pkgSig⟩
+
+theorem LanglandsBHistCorrespondenceCarrier_finite_local_factor_public_surface
+    [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance ledger
+      endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsBHistCorrespondenceCarrier galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor provenance ledger endpoint bundle pkg ->
+      Cont localFactor endpoint consumer ->
+        UnaryHistory consumer ∧ hsame consumer (append localFactor endpoint) ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier consumerRow
+  have localRows := LanglandsBHistCorrespondenceCarrier_generated_rows_unary carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed localRows.left localRows.right.right consumerRow
+  exact ⟨consumerUnary, consumerRow, carrier.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.LanglandsUp
