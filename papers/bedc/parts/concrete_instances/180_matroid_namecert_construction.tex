@@ -379,3 +379,58 @@ $$
 $$
 To prove $\mathsf{FinSetSubset}_{E,\sim_E}(J,K)$, keep the same finite spine $zs$ as the finite-set witness for $J$. It remains only to prove the inclusion row. Fix $z:\mathsf{BHist}$ and assume $J(z)$. The forward half of the displayed pointwise equivalence gives $I(z)\land K(z)$, and projecting its second component gives $K(z)$. Thus every member of $J$ is a member of $K$, with the finite-spine witness already supplied.
 \end{proof}
+
+\begin{theorem}[Matroid restriction to the empty subset is singleton]
+\label{thm:matroid-empty-restriction-singleton-independent-family}
+Fix a $\MatroidUp$ independent-set certificate over a ground predicate $E:\mathsf{BHist}\to\mathsf{Prop}$ with classifier $\sim_E$. Let $\mathsf{Ind}_M$ be its independent-family row, with fields $\mathsf{finite}_M$, $\mathsf{empty}_M$, and $\mathsf{hereditary}_M$ as in \autoref{def:matroid-independence-certificate-surface}. Let $\mathsf{Ind}_{M|\varnothing}$ be the restriction family defined by the empty restriction predicate:
+$$
+\forall I.\;
+\mathsf{Ind}_{M|\varnothing}(I)\Longleftrightarrow
+\mathsf{Ind}_M(I)\land
+\mathsf{FinSetSubset}_{E,\sim_E}(I,\lambda z.\;\bot).
+$$
+Then, for every predicate $I:\mathsf{BHist}\to\mathsf{Prop}$,
+$$
+\mathsf{Ind}_{M|\varnothing}(I)
+\Longleftrightarrow
+\forall z:\mathsf{BHist}.\; I(z)\Longleftrightarrow \bot.
+$$
+Thus the empty restriction accepts exactly the pointwise empty independent predicate.
+\end{theorem}
+\begin{proof}
+Fix $I:\mathsf{BHist}\to\mathsf{Prop}$. For the forward implication, assume $\mathsf{Ind}_{M|\varnothing}(I)$. The displayed defining equivalence gives
+$$
+\mathsf{FinSetSubset}_{E,\sim_E}(I,\lambda z.\;\bot).
+$$
+Unpacking \autoref{def:matroid-finset-subset-and-intersection}, this subset row contains the inclusion
+$$
+\forall z:\mathsf{BHist}.\; I(z)\to \bot.
+$$
+For each $z$, this inclusion is the forward half of $I(z)\Longleftrightarrow\bot$, while the reverse half follows from elimination of $\bot$. Hence $I$ is pointwise empty.
+
+For the reverse implication, assume
+$$
+\forall z:\mathsf{BHist}.\; I(z)\Longleftrightarrow \bot.
+$$
+The ambient empty row gives $\mathsf{Ind}_M(\lambda z.\;\bot)$. Applying $\mathsf{finite}_M$ to this row chooses a finite spine $xs$ with
+$$
+\mathsf{FinSetSpineEnumerates}_{E,\sim_E}(xs,\lambda z.\;\bot).
+$$
+Use this same finite spine as the ledger for $I$. By \autoref{def:finset-spine-enumerates-predicate}, the enumeration row for the empty predicate says that, for every $z$,
+$$
+\mathsf{EnumMem}_{E,\sim_E}(z,xs)\Longleftrightarrow \bot.
+$$
+Combining this equivalence with the assumed pointwise equivalence $I(z)\Longleftrightarrow\bot$ gives
+$$
+\mathsf{FinSetSpineEnumerates}_{E,\sim_E}(xs,I).
+$$
+The assumed pointwise equivalence also gives the inclusion $I(z)\to\bot$ for every $z$. Therefore, by \autoref{def:matroid-finset-subset-and-intersection}, the same finite spine $xs$ proves
+$$
+\mathsf{FinSetSubset}_{E,\sim_E}(I,\lambda z.\;\bot).
+$$
+The hereditary row $\mathsf{hereditary}_M$ applies to the ambient empty independent set and this finite-subset row, yielding $\mathsf{Ind}_M(I)$. Pairing $\mathsf{Ind}_M(I)$ with the displayed subset row and applying the defining equivalence for $\mathsf{Ind}_{M|\varnothing}$ gives
+$$
+\mathsf{Ind}_{M|\varnothing}(I).
+$$
+The two implications prove the claimed equivalence.
+\end{proof}

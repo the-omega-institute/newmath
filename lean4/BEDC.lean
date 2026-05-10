@@ -117,6 +117,7 @@ import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
+import BEDC.Derived.RamseyUp
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.UnitaryGroupUp
@@ -185,6 +186,7 @@ import BEDC.Derived.LanglandsUp
 import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.MarkovChainUp.FinitePrefixRestriction
 import BEDC.Derived.MarkovChainUp.FinitePrefix
+import BEDC.Derived.MarkovChainUp.FiniteSuffix
 import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
@@ -268,6 +270,7 @@ import BEDC.Derived.ObservableUp.ExpectationInterface
 import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
+import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.PolytopeUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.PreSheafUp
