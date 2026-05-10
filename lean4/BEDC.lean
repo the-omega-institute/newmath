@@ -98,6 +98,7 @@ import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
+import BEDC.Derived.InterpolationUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
