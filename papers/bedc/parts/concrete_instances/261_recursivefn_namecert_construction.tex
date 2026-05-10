@@ -101,6 +101,90 @@ failure row at the end of the bounded trace. Since the trace is bounded by the
 visible unary history, no unbounded search or oracle query is used.
 \end{proof}
 
+\begin{theorem}[RecursiveFn Nat input stability obligation]
+\label{thm:recursivefn-nat-input-stability-obligation}
+Let $x$ and $y$ be displayed $\NatUp$ input rows related by the $\NatUp$
+classifier, and fix a finite $\RecursiveFnUp$ constructor history. If the
+displayed $\mathsf{BHist}$ and $\SeqUp$ evaluation trace evaluates the history
+at $x$ to an accepted output row, then the transported trace evaluates the same
+history at $y$ to an output row classified by $\hsame$. The obligation uses
+only $\mathsf{BHist}$ constructor rows, $\SeqUp$ evaluation rows, $\NatUp$
+input and output rows, and the fixed constructor ledger.
+\end{theorem}
+\begin{proof}
+Inspect the fixed constructor history. For zero, successor, and projection,
+apply \autoref{thm:recursivefn-zero-successor-projection-obligation}; the
+transported input row changes only the displayed $\NatUp$ input component, and
+the output comparison is the same $\hsame$ row recorded by the constructor
+ledger.
+
+For composition and primitive recursion, use
+\autoref{thm:recursivefn-composition-primitive-recursion-obligation}. The
+inner traces, base row, and step rows are already visible $\SeqUp$ rows, so
+classifier transport repacks each intermediate $\NatUp$ output and leaves the
+final output classified by $\hsame$.
+
+For bounded minimisation, apply
+\autoref{thm:recursivefn-bounded-minimisation-ledger-exactness}. The
+transported trace uses the same visible bound and the same finite list of
+tested rows, so the first displayed witness, or the displayed failure row, is
+transported without adding any unbounded search.
+\end{proof}
+
+\begin{theorem}[RecursiveFn constructor ledger coverage obligation]
+\label{thm:recursivefn-constructor-ledger-coverage-obligation}
+Every accepted $\RecursiveFnUp$ graph row is covered by exactly one visible
+constructor case among zero, successor, projection, composition, primitive
+recursion, and bounded minimisation. In that case the ledger exposes the
+corresponding finite subtrace: the direct base-constructor row, the inner and
+outer composition rows, the primitive-recursion base and step rows, or the
+bounded-minimisation test rows under the displayed unary bound.
+\end{theorem}
+\begin{proof}
+Proceed by the head constructor of the accepted constructor history.
+
+The zero, successor, and projection heads are covered by
+\autoref{thm:recursivefn-zero-successor-projection-obligation}. Each head has
+a distinct constructor tag, so its accepted row cannot also be a composition,
+primitive-recursion, or bounded-minimisation row.
+
+The composition and primitive-recursion heads are covered by
+\autoref{thm:recursivefn-composition-primitive-recursion-obligation}. Their
+visible $\SeqUp$ subtraces distinguish the inner-and-outer composition case
+from the base-and-step recursion case.
+
+The bounded-minimisation head is covered by
+\autoref{thm:recursivefn-bounded-minimisation-ledger-exactness}. Its
+$\mathsf{UnaryHistory}$ bound and finite test ledger are part of the displayed
+row, so no other constructor case supplies the same ledger shape.
+\end{proof}
+
+\begin{theorem}[RecursiveFn bounded search scope obligation]
+\label{thm:recursivefn-bounded-search-scope-obligation}
+For a displayed bounded-minimisation constructor in $\RecursiveFnUp$, the
+search reads only the $\mathsf{UnaryHistory}$ bound, the listed $\NatUp$ test
+rows, and their $\SeqUp$ evaluation rows. The accepted row has no unbounded
+search coordinate, no oracle row, and no hidden host predicate beyond the
+finite constructor ledger.
+\end{theorem}
+\begin{proof}
+Start with the bounded-minimisation constructor and apply
+\autoref{thm:recursivefn-bounded-minimisation-ledger-exactness}. The theorem
+identifies the accepted output with the first visible witness row, or with the
+displayed failure row when the finite test ledger contains no witness.
+
+The tested rows themselves are ordinary $\NatUp$ rows in the same finite
+constructor history. The base-constructor, composition, and
+primitive-recursion obligations,
+\autoref{thm:recursivefn-zero-successor-projection-obligation} and
+\autoref{thm:recursivefn-composition-primitive-recursion-obligation}, account
+for the evaluations of those rows inside the listed $\SeqUp$ trace.
+
+Thus every read used by the bounded search is already named in the
+$\mathsf{UnaryHistory}$, $\NatUp$, and $\SeqUp$ ledger, and there is no
+exported row for an unbounded search or oracle.
+\end{proof}
+
 \closureat{RecursiveFnUp}{obligationStr}
 
 \begin{closurestatus}{\RecursiveFnUp}
