@@ -342,6 +342,7 @@ import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.ConditionalUnique
 import BEDC.Derived.ComplexLimitUp.ComponentAssembly
 import BEDC.Derived.ComplexLimitUp.Constant
+import BEDC.Derived.ComplexLimitUp.CauchyWitness
 import BEDC.Derived.ComplexLimitUp.Difference
 import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexLimitUp.Modulus
