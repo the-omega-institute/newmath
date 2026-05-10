@@ -132,6 +132,23 @@ theorem PinGroupReflectionParityLedgerSurface_source_ledger_coverage
                 reflectionBranch.right.right)))
   · exact surface.right
 
+theorem PinGroupReflectionParityCarrier_spin_clifford_source_scope
+    {spin reflection product endpoint ledger carried : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      ((hsame endpoint spin ∧ UnaryHistory spin) ∨
+          (Cont spin reflection product ∧ hsame endpoint product ∧ UnaryHistory reflection)) ∧
+        hsame carried (append endpoint ledger) := by
+  intro surface
+  constructor
+  · cases surface.left with
+    | inl spinBranch =>
+        exact Or.inl (And.intro spinBranch.left spinBranch.right)
+    | inr reflectionBranch =>
+        exact Or.inr
+          (And.intro reflectionBranch.left
+            (And.intro reflectionBranch.right.left reflectionBranch.right.right))
+  · exact surface.right
+
 theorem PinGroupReflectionParityLedgerSurface_spin_boundary_exhaustion
     {spin reflection product endpoint ledger carried : BHist} :
     PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
@@ -370,6 +387,16 @@ theorem PinGroupReflectionParityCarrier_namecert_obligation_surface
   have certRows := PinGroupReflectionParityCarrier_semantic_name_certificate surface.left
   have ledgerRows := PinGroupReflectionParityLedgerSurface_exhaustion surface
   exact And.intro certRows.left (And.intro ledgerRows certRows.right)
+
+theorem PinGroupReflectionParityLedgerSurface_reflection_generator_transport_closure
+    {spin reflection product endpoint ledger carried reflected : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      Cont reflection carried reflected ->
+        ((hsame endpoint spin ∧ UnaryHistory spin) ∨
+            (Cont spin reflection product ∧ hsame endpoint product ∧ UnaryHistory reflection)) ∧
+          hsame carried (append endpoint ledger) ∧ hsame reflected (append reflection carried) := by
+  intro surface reflectedRow
+  exact And.intro surface.left (And.intro surface.right reflectedRow)
 
 theorem PinGroupReflectionParityLedgerSurface_reflection_parity_determinacy
     {spin reflection product endpoint ledger carried : BHist} :
