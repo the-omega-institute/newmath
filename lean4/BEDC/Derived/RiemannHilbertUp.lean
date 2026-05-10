@@ -125,4 +125,35 @@ theorem RiemannHilbertBHistBridgePacket_flat_connection_classifier
         deRhamCont', gluingCont', transportCont', endpointCont', pkgSig'⟩,
       sameDeRham, sameGluing, sameTransport, sameEndpoint⟩
 
+theorem RiemannHilbertBHistBridgePacket_regular_holonomic_soundness
+    [AskSetup] [PackageSetup]
+    {derivedSource sheafTarget regularClassifier deRhamReadback localSystem gluing
+      transport provenance soundness endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannHilbertBHistBridgePacket derivedSource sheafTarget regularClassifier
+        deRhamReadback localSystem gluing transport provenance endpoint bundle pkg ->
+      Cont regularClassifier deRhamReadback soundness ->
+        UnaryHistory soundness ∧ hsame soundness (append regularClassifier deRhamReadback) ∧
+          Cont derivedSource sheafTarget deRhamReadback ∧
+            Cont deRhamReadback localSystem gluing ∧ PkgSig bundle endpoint pkg := by
+  intro packet soundnessCont
+  have regularUnary : UnaryHistory regularClassifier :=
+    packet.right.right.left
+  have derivedUnary : UnaryHistory derivedSource := packet.left
+  have sheafUnary : UnaryHistory sheafTarget := packet.right.left
+  have deRhamCont : Cont derivedSource sheafTarget deRhamReadback :=
+    packet.right.right.right.right.right.left
+  have deRhamUnary : UnaryHistory deRhamReadback :=
+    unary_cont_closed derivedUnary sheafUnary deRhamCont
+  have soundnessUnary : UnaryHistory soundness :=
+    unary_cont_closed regularUnary deRhamUnary soundnessCont
+  have gluingCont : Cont deRhamReadback localSystem gluing :=
+    packet.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right
+  exact
+    And.intro soundnessUnary
+      (And.intro soundnessCont
+        (And.intro deRhamCont (And.intro gluingCont pkgSig)))
+
 end BEDC.Derived.RiemannHilbertUp
