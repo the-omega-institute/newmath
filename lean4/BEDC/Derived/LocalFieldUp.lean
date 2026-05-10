@@ -124,4 +124,27 @@ theorem LocalFieldValuedBHistCarrier_namecert_obligation_surface [AskSetup] [Pac
   }
   exact And.intro cert (And.intro endpointRow (And.intro ledgerRow pkgSig))
 
+theorem LocalFieldValuedBHistCarrier_bridge_boundary_exclusions [AskSetup] [PackageSetup]
+    {field valuation residue unit completeness endpoint ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocalFieldValuedBHistCarrier field valuation residue unit completeness endpoint ledger
+        provenance bundle pkg ->
+      UnaryHistory endpoint ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+        hsame endpoint (append field valuation) ∧ hsame ledger (append residue unit) ∧
+          hsame provenance (append endpoint ledger) ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed endpointUnary ledgerUnary carrier.right.right.right.right.right.right.right.left
+  exact
+    ⟨endpointUnary, ledgerUnary, provenanceUnary,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.LocalFieldUp
