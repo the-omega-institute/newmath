@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -12,6 +13,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -148,5 +150,57 @@ theorem PartitionBHistCarrier_ledger_exactness [AskSetup] [PackageSetup]
           (And.intro listPartRow
             (And.intro weakBoundaryRow
               (And.intro routeEndpointRow pkgSig)))))
+
+theorem PartitionBHistCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {listRow partRows sumRow decreaseRows boundary route provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PartitionBHistCarrier listRow partRows sumRow decreaseRows boundary route provenance
+        endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          exists listRow partRows sumRow decreaseRows boundary route provenance : BHist,
+            PartitionBHistCarrier listRow partRows sumRow decreaseRows boundary route provenance
+              row bundle pkg)
+        (fun row : BHist =>
+          exists listRow partRows sumRow decreaseRows boundary route provenance : BHist,
+            PartitionBHistCarrier listRow partRows sumRow decreaseRows boundary route provenance
+              row bundle pkg)
+        (fun row : BHist =>
+          exists listRow partRows sumRow decreaseRows boundary route provenance : BHist,
+            PartitionBHistCarrier listRow partRows sumRow decreaseRows boundary route provenance
+              row bundle pkg)
+        (fun h k : BHist =>
+          (exists listRow partRows sumRow decreaseRows boundary route provenance : BHist,
+            PartitionBHistCarrier listRow partRows sumRow decreaseRows boundary route provenance
+              h bundle pkg) ∧
+            (exists listRow partRows sumRow decreaseRows boundary route provenance : BHist,
+              PartitionBHistCarrier listRow partRows sumRow decreaseRows boundary route provenance
+                k bundle pkg) ∧
+              hsame h k) := by
+  intro carrier
+  let SourceSpec : BHist -> Prop := fun row =>
+    exists listRow partRows sumRow decreaseRows boundary route provenance : BHist,
+      PartitionBHistCarrier listRow partRows sumRow decreaseRows boundary route provenance row
+        bundle pkg
+  have endpointSource : SourceSpec endpoint := by
+    exact
+      ⟨listRow, partRows, sumRow, decreaseRows, boundary, route, provenance, carrier⟩
+  constructor
+  · constructor
+    · exact ⟨endpoint, endpointSource⟩
+    · intro h source
+      exact ⟨source, source, hsame_refl h⟩
+    · intro h k classified
+      exact ⟨classified.right.left, classified.left, hsame_symm classified.right.right⟩
+    · intro h k r classifiedHK classifiedKR
+      exact
+        ⟨classifiedHK.left, classifiedKR.right.left,
+          hsame_trans classifiedHK.right.right classifiedKR.right.right⟩
+    · intro h k classified _source
+      exact classified.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
 
 end BEDC.Derived.PartitionUp
