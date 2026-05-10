@@ -361,6 +361,7 @@ import BEDC.Derived.RepresentationRingUp.OperationLedgerCoverage
 import BEDC.Derived.RepresentationRingUp.RepresentationObligationInventory
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.RealAnalyticUp.CosEmpty
+import BEDC.Derived.RealCompletenessUp
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeriesUp
