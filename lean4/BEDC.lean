@@ -136,6 +136,7 @@ import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.ComplexityClassUp
+import BEDC.Derived.ComputationContinuationUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.Bridge
 import BEDC.Derived.CurvatureUp.ConsumerRowCoverage
