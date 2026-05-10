@@ -44,6 +44,8 @@ No constructor in the carrier produces a filtration, a conditional-expectation o
 \label{thm:markovchain-probspace-randomvar-source-boundary}
 The $\MarkovChainUp$ source boundary is the joint BEDC packet consisting of the underlying $\ProbSpaceUp$ event-and-measure rows, the time-indexed $\RandomVarUp$ measurable-preimage rows, and the $\DistributionUp$ pushforward rows for the laws of the displayed random variables. Every transition row in an accepted carrier must read its source event through that packet, and no transition row may replace it with an external probability space, external random variable, or host distribution object.
 \end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_source\_boundary}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_semantic\_source\_boundary}
 \begin{proof}
 Project the source field of the ten-field template. The probability-space source is the displayed $\ProbSpaceUp$ packet, and every random-variable row is carried over that same source packet.
 
@@ -72,6 +74,7 @@ The source-boundary field is \autoref{thm:markovchain-probspace-randomvar-source
 \label{thm:markovchain-scoped-kernel-dependency-package}
 The $\NameCert_{\MarkovChainUp}$ obligation surface of \autoref{thm:markovchain-namecert-obligation-surface} is scoped exactly by the $\ProbSpaceUp$, $\RandomVarUp$, and $\DistributionUp$ dependency certificates, the finite unary time ledger, the transition rows $K_n$, $\mathsf{BHist}$ rows, $\hsame$ comparisons, $\Cont$ displays, and $\mathsf{Pkg}$ provenance. No filtration, conditional-expectation primitive, host stochastic process, or standard Markov kernel is read by this scoped package.
 \end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_dependency\_unary\_closure}
 \leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainKernelClassifier\_endpoint\_confluence}
 \begin{proof}
 Project the carrier row from \autoref{def:markovchain-bhist-transition-carrier}. Its constructors expose only the source probability-space packet, the carried random-variable rows, the law rows, the unary time ledger, transition rows, and the displayed provenance.
@@ -205,6 +208,7 @@ $$
 $$
 so that $T_{12}$ is the unary ledger of length $n+m$, then the end-to-end displayed packet $P_{12}$ is an accepted $\MarkovChainUp$ transition packet over $T_{12}$. Its random-variable row at time $i$ is $X_i$ for $0\leq i\leq n$ and $Y_j$ for $i=n+j$ with $1\leq j\leq m$; its transition rows are $K^X_i$ for $0\leq i<n$ and the shifted rows $K^Y_j$ for $0\leq j<m$, with the first shifted row read across the splice comparison $\hsame(X_n,Y_0)$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier\_adjacent\_transition\_transport}
 \begin{proof}
 Unpack the accepted carrier condition in \autoref{def:markovchain-bhist-transition-carrier}. The first packet supplies the common $\ProbSpaceUp$ source, the random-variable rows $X_i$, the law rows $\mu^X_i$, the transition rows $K^X_i$, and for every $0\leq i<n$ a displayed $\Cont/\Pkg$ provenance ledger certifying that the next-step law for $X_{i+1}$ is read from the current-state endpoint of $X_i$ through $K^X_i$. The second packet supplies the same kind of data for $Y_j$, $\mu^Y_j$, and $K^Y_j$ for $0\leq j<m$ over the same probability source.
 
@@ -236,6 +240,7 @@ By \autoref{thm:markovchain-kernel-classifier-stability}, this componentwise tra
 
 The time ledger is finite and unary because $T_1$ and $T_2$ are unary and the displayed continuation row $\Cont(T_1,T_2,T_{12})$ is the finite BEDC concatenation of those two ledgers. The transition provenance ledgers concatenate in the same order: rows internal to $P_1$ and $P_2$ are inherited, and the single boundary row is the transported splice row just constructed. The carrier definition asks for no host stochastic process, filtration, conditional expectation, or standard kernel bridge; it asks only for these displayed random-variable rows, law rows, transition rows, and $\hsame/\Cont/\Pkg$ provenance. Hence the assembled packet satisfies the accepted $\MarkovChainUp$ carrier predicate over the unary ledger $T_{12}$ of length $n+m$.
 \end{proof}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_splice\_transport\_closure}
 
 \begin{definition}[MarkovChain finite-suffix restriction]
 \label{def:markovchain-finite-suffix-restriction}
