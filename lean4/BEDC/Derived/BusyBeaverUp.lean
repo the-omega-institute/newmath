@@ -280,6 +280,41 @@ theorem BusyBeaverPerMachineReadback_endpoint_exactness
       boundData.right.right.right.right.right.right.right.right.left,
       boundData.right.right.right.right.right.right.right.right.right⟩
 
+theorem BusyBeaverPerMachineReadback_halted_readback_determinacy
+    {machine input trace trace' output haltedLedger haltedLedger' steps fullLedger
+      fullLedger' : BHist} :
+    UnaryHistory machine -> UnaryHistory input -> UnaryHistory output -> UnaryHistory steps ->
+      Cont machine input trace -> Cont machine input trace' ->
+        Cont trace output haltedLedger -> Cont trace' output haltedLedger' ->
+          Cont haltedLedger steps fullLedger -> Cont haltedLedger' steps fullLedger' ->
+            UnaryHistory trace ∧ UnaryHistory trace' ∧ UnaryHistory haltedLedger ∧
+              UnaryHistory haltedLedger' ∧ UnaryHistory fullLedger ∧ UnaryHistory fullLedger' ∧
+                hsame trace trace' ∧ hsame haltedLedger haltedLedger' ∧
+                  hsame fullLedger fullLedger' := by
+  intro machineUnary inputUnary outputUnary stepsUnary traceRow traceRow'
+  intro haltedLedgerRow haltedLedgerRow' fullLedgerRow fullLedgerRow'
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed machineUnary inputUnary traceRow
+  have traceUnary' : UnaryHistory trace' :=
+    unary_cont_closed machineUnary inputUnary traceRow'
+  have traceSame : hsame trace trace' :=
+    cont_deterministic traceRow traceRow'
+  have haltedLedgerUnary : UnaryHistory haltedLedger :=
+    unary_cont_closed traceUnary outputUnary haltedLedgerRow
+  have haltedLedgerUnary' : UnaryHistory haltedLedger' :=
+    unary_cont_closed traceUnary' outputUnary haltedLedgerRow'
+  have haltedLedgerSame : hsame haltedLedger haltedLedger' :=
+    cont_respects_hsame traceSame (hsame_refl output) haltedLedgerRow haltedLedgerRow'
+  have fullLedgerUnary : UnaryHistory fullLedger :=
+    unary_cont_closed haltedLedgerUnary stepsUnary fullLedgerRow
+  have fullLedgerUnary' : UnaryHistory fullLedger' :=
+    unary_cont_closed haltedLedgerUnary' stepsUnary fullLedgerRow'
+  have fullLedgerSame : hsame fullLedger fullLedger' :=
+    cont_respects_hsame haltedLedgerSame (hsame_refl steps) fullLedgerRow fullLedgerRow'
+  exact
+    ⟨traceUnary, traceUnary', haltedLedgerUnary, haltedLedgerUnary', fullLedgerUnary,
+      fullLedgerUnary', traceSame, haltedLedgerSame, fullLedgerSame⟩
+
 theorem BusyBeaverPerMachineReadback_halted_determinacy
     {machine input trace trace' output steps bound haltedLedger haltedLedger' outputComparison
       outputComparison' stepComparison stepComparison' boundLedger boundLedger' fullLedger
@@ -399,5 +434,45 @@ theorem BusyBeaverHaltingLedger_scoped_namecert_surface
       exact source
   }
   exact And.intro cert (And.intro ledgerSame haltedExact)
+
+theorem BusyBeaverPerMachineHaltedReadback_determinacy
+    {machine input trace trace' output output' steps steps' bound haltedLedger haltedLedger'
+      outputComparison outputComparison' stepComparison stepComparison' boundLedger boundLedger'
+      fullLedger fullLedger' : BHist} :
+    UnaryHistory machine -> UnaryHistory input -> UnaryHistory output -> UnaryHistory output' ->
+      UnaryHistory steps -> UnaryHistory steps' -> UnaryHistory bound ->
+        Cont machine input trace -> Cont machine input trace' ->
+          Cont trace output haltedLedger -> Cont trace' output' haltedLedger' ->
+            hsame output output' -> hsame steps steps' ->
+              Cont output bound outputComparison -> Cont output' bound outputComparison' ->
+                Cont steps bound stepComparison -> Cont steps' bound stepComparison' ->
+                  Cont haltedLedger outputComparison boundLedger ->
+                    Cont haltedLedger' outputComparison' boundLedger' ->
+                      Cont boundLedger stepComparison fullLedger ->
+                        Cont boundLedger' stepComparison' fullLedger' ->
+                          hsame trace trace' ∧ hsame haltedLedger haltedLedger' ∧
+                            hsame outputComparison outputComparison' ∧
+                              hsame stepComparison stepComparison' ∧
+                                hsame boundLedger boundLedger' ∧ hsame fullLedger fullLedger' := by
+  intro _machineUnary _inputUnary _outputUnary _outputUnary' _stepsUnary _stepsUnary'
+  intro _boundUnary traceRow traceRow' haltedLedgerRow haltedLedgerRow'
+  intro sameOutput sameSteps outputComparisonRow outputComparisonRow'
+  intro stepComparisonRow stepComparisonRow' boundLedgerRow boundLedgerRow'
+  intro fullLedgerRow fullLedgerRow'
+  have sameTrace : hsame trace trace' :=
+    cont_respects_hsame (hsame_refl machine) (hsame_refl input) traceRow traceRow'
+  have sameHaltedLedger : hsame haltedLedger haltedLedger' :=
+    cont_respects_hsame sameTrace sameOutput haltedLedgerRow haltedLedgerRow'
+  have sameOutputComparison : hsame outputComparison outputComparison' :=
+    cont_respects_hsame sameOutput (hsame_refl bound) outputComparisonRow outputComparisonRow'
+  have sameStepComparison : hsame stepComparison stepComparison' :=
+    cont_respects_hsame sameSteps (hsame_refl bound) stepComparisonRow stepComparisonRow'
+  have sameBoundLedger : hsame boundLedger boundLedger' :=
+    cont_respects_hsame sameHaltedLedger sameOutputComparison boundLedgerRow boundLedgerRow'
+  have sameFullLedger : hsame fullLedger fullLedger' :=
+    cont_respects_hsame sameBoundLedger sameStepComparison fullLedgerRow fullLedgerRow'
+  exact
+    ⟨sameTrace, sameHaltedLedger, sameOutputComparison, sameStepComparison,
+      sameBoundLedger, sameFullLedger⟩
 
 end BEDC.Derived.BusyBeaverUp
