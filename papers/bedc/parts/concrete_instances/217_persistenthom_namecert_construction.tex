@@ -6,5 +6,128 @@ The persistent-homology interface $\PersistentHomUp$ packages the bigraded modul
 \section{Carrier definition}
 \label{sec:persistenthom-carrier}
 
+\begin{theorem}[PersistentHomUp carrier obligation surface]
+\label{thm:persistenthom-carrier-obligation-surface}
+An accepted $\PersistentHomUp$ row is a finite $\mathsf{BHist}$ filtration
+packet over a displayed $\SimplicialComplexUp$ carrier together with
+$\HomologyUp$ rows for the filtration stages. Its visible data consist of the
+finite index spine, the simplicial-complex packet at each index, the boundary
+maps between adjacent stages, the homology rows read from those complexes, the
+persistence maps induced by the boundary ledger, and the $\Pkg$ provenance row
+binding all of these entries into one named packet.
+\end{theorem}
+\begin{proof}
+Inspect the accepted $\mathsf{BHist}$ packet. The carrier row contains only the
+finite filtration spine, the stagewise $\SimplicialComplexUp$ packets, the
+$\HomologyUp$ readback rows, the displayed persistence-map routes, and their
+common provenance.
+
+Each projected row is already a BEDC history component rather than an ambient
+topological object. The finite spine supplies the index boundary, the
+simplicial-complex rows supply the face carriers at each stage, and the
+homology rows supply the cycle-boundary readbacks.
+
+Repacking these projections gives exactly the carrier obligation surface: a
+finite filtration packet whose accepted rows are the displayed histories and no
+additional geometric realization, chain-complex library, or barcode object.
+\end{proof}
+
+\begin{theorem}[PersistentHomUp filtration classifier stability]
+\label{thm:persistenthom-filtration-classifier-stability}
+If two accepted $\PersistentHomUp$ packets are related by the displayed
+classifier, then transport along their $\hsame$ rows and $\Cont$ routes
+preserves the finite filtration-index rows, the stagewise
+$\SimplicialComplexUp$ rows, the $\HomologyUp$ readback rows, the persistence
+maps between stages, and the shared $\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+Unpack the classifier as componentwise history comparison. Its index component
+is an $\hsame$ row on the finite filtration spine, so transported endpoints keep
+the same displayed index boundary.
+
+For each carried index, the classifier also contains the transported
+$\SimplicialComplexUp$ and $\HomologyUp$ rows. Their source certificates remain
+the same named rows after transport because the classifier stores the endpoint
+histories rather than replacing them by external complexes.
+
+Finally, inspect the $\Cont$ routes and $\Pkg$ row. The route entries identify
+the persistence maps between the transported stage rows, while the provenance
+entry is carried unchanged as the common package witness. These projections are
+precisely the advertised stability clauses.
+\end{proof}
+
+\begin{theorem}[PersistentHomUp simplicial homology source boundary]
+\label{thm:persistenthom-simplicial-homology-source-boundary}
+A downstream consumer of an accepted $\PersistentHomUp$ row may read only the
+source certificates for the displayed $\SimplicialComplexUp$ stages, the source
+certificates for the displayed $\HomologyUp$ rows, and the finite filtration
+ledger showing how those rows are ordered and connected. It cannot read an
+unstated complex, an unstated boundary quotient, or a barcode row outside the
+displayed ledger.
+\end{theorem}
+\begin{proof}
+Project the consumer interface from the accepted carrier. The only named source
+certificates in the packet are the $\NameCert_{\SimplicialComplexUp}$ rows for
+the stages and the $\NameCert_{\HomologyUp}$ rows for the associated homology
+readbacks.
+
+The filtration ledger supplies the order relation on the finite index spine and
+the $\Cont$ routes connecting adjacent stages. Therefore every consumer-visible
+map is traced through a displayed history row and its package provenance.
+
+Any row not listed in those projections has no constructor in the accepted
+packet. It is therefore outside the source boundary for the
+$\PersistentHomUp$ interface.
+\end{proof}
+
+\begin{theorem}[PersistentHomUp filtration ledger exactness]
+\label{thm:persistenthom-filtration-ledger-exactness}
+The filtration ledger of an accepted $\PersistentHomUp$ row exposes exactly the
+finite filtration indices, the boundary maps between adjacent stages, the
+$\HomologyUp$ rows computed from the displayed $\SimplicialComplexUp$ stages,
+the barcode summary rows read from those persistence maps, the $\Cont$ routes
+that witness stage transport, and the $\Pkg$ provenance that binds the packet.
+\end{theorem}
+\begin{proof}
+Read the ledger by constructor inspection. Its index entries are the finite
+filtration spine, and its stage entries are the displayed simplicial-complex
+and homology histories attached to those indices.
+
+The boundary-map and persistence-map rows are exactly the $\Cont$ entries whose
+endpoints are adjacent stage histories. The barcode summary rows are ledger
+summaries of those same routes, so they do not introduce a separate external
+barcode carrier.
+
+The remaining displayed row is the $\Pkg$ provenance. Combining these
+projections gives both directions of exactness: every listed component is
+visible in the ledger, and every ledger component is one of the listed rows.
+\end{proof}
+
+\begin{theorem}[PersistentHomUp local NameCert surface]
+\label{thm:persistenthom-local-namecert-surface}
+The local $\NameCert$ obligation surface for $\PersistentHomUp$ is assembled
+from the finite filtration carrier, the filtration-classifier stability row,
+the simplicial and homology source boundary, and the filtration-ledger
+exactness row. Thus a local persistent-homology name certificate records a
+carried $\mathsf{BHist}$ packet, classifier transport by $\hsame$ and $\Cont$,
+source readback through $\SimplicialComplexUp$ and $\HomologyUp$, and package
+provenance through $\Pkg$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:persistenthom-carrier-obligation-surface} for the carried
+packet. It supplies the finite filtration spine, stage rows, homology rows,
+persistence maps, and package provenance.
+
+Use \autoref{thm:persistenthom-filtration-classifier-stability} for classifier
+transport and \autoref{thm:persistenthom-simplicial-homology-source-boundary}
+for the consumer-visible source rows. These two projections give the
+$\hsame$ and $\Cont$ movement required by the local certificate.
+
+Use \autoref{thm:persistenthom-filtration-ledger-exactness} for the ledger
+field. Repacking the carrier, classifier, source, ledger, and provenance rows
+into the $\NameCert$ template gives the local obligation surface and does not
+assert a separate Lean theorem or standard bridge.
+\end{proof}
+
 \section{The certificate}
 \label{sec:persistenthom-certificate}
