@@ -276,6 +276,46 @@ machine theorem, or a halting-decision classifier, so the public surface is
 exactly the listed finite-row obligation surface.
 \end{proof}
 
+\begin{theorem}[TuringMachine public certificate export]
+\label{thm:turingmachine-public-certificate-export}
+The configuration-trace carrier, deterministic step transport, halted repeat
+obligation, finite tape readback carrier, bounded readback soundness,
+source-classifier obligation, and ledger exactness obligation repack into one
+public $\NameCert_{\TuringMachineUp}$ certificate export over $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\Pkg$, $\mathsf{UnaryHistory}$, and the bounded
+$\ComputableUp$ verdict. The exported packet has the same finite transition
+table, configuration trace, halted suffix, bounded tape readback, and ledger
+rows as the component obligations.
+
+This public certificate export does not claim unbounded halting, a universal
+machine theorem, nondeterministic execution, oracle rows, or host computation.
+\end{theorem}
+\begin{proof}
+First collect the visible certificate rows. Use
+\autoref{thm:turingmachine-configuration-trace-carrier},
+\autoref{thm:turingmachine-deterministic-step-transport},
+\autoref{thm:turingmachine-halted-repetition-ledger-exactness}, and
+\autoref{thm:turingmachine-finite-tape-readback-carrier} to obtain the finite
+trace carrier, deterministic step route, halted suffix, and tape readback
+carrier.
+
+Next add the public stability and exactness rows. Apply
+\autoref{thm:turingmachine-trace-source-obligation},
+\autoref{thm:turingmachine-source-classifier-obligation},
+\autoref{thm:turingmachine-ledger-exactness-obligation}, and
+\autoref{thm:turingmachine-bounded-readback-soundness}. These rows supply the
+$\mathsf{BHist}$ source, $\hsame$ classifier, $\Cont$ transport, $\Pkg$
+provenance, $\mathsf{UnaryHistory}$ time bound, and bounded $\ComputableUp$
+verdict.
+
+Finally invoke \autoref{thm:turingmachine-namecert-surface-obligation}. The
+component rows are already exactly the rows required by the public naming
+surface, so repacking them exports one $\NameCert_{\TuringMachineUp}$
+certificate. Since no component theorem contains an unbounded halting row,
+universal-machine row, nondeterministic branch, oracle coordinate, or host
+computation field, the exported certificate contains none either.
+\end{proof}
+
 \begin{closurestatus}{\TuringMachineUp}
   \constructivestory{A $\TuringMachineUp$ token names a deterministic finite-state transition table over a finite tape alphabet with a designated blank symbol. A configuration history is built from a $\SeqUp$ trace of (state, tape, head-position) rows whose initial row is the boot configuration on a $\NatUp$-encoded input, whose one-step rows follow the transition function, and whose halted rows repeat the halted configuration. The classifier is $\hsame$ on the configuration trace, transport repacks the trace through the deterministic transition table, and the source binds finite-alphabet, finite-state, finite-trace, and finite-head-displacement rows. The pattern records the initial-row, transition-step, halted-repetition, and finite-tape-readback rows; the ledger keeps the deterministic transition table, head movement, and tape values visible. The five name-certificate obligations follow: the inhabited identity certificate is the boot trace at length zero; classifier stability is reflexive, symmetric, and transitive $\hsame$ on traces; transport repacks configurations through the transition function; ledger exactness identifies the accepted history with the bounded simulation row in the sense of \autoref{ch:concrete-instances-computable-namecert}; the extension boundary fixes the halted-repetition rule. A history $h$ lies in the signature gap of a $\TuringMachineUp$ token $p$ when the source-domain accepts a configuration trace with the right transition table, the signature relation pairs it with the halted output, and token introduction names that output as $p$. The chapter registers this finite-trace machine surface under the name $\TuringMachineUp$; it is a deterministic-transition-table object with no oracle, nondeterminism, parallelism, halting decision, or universal-machine claim.}
   \theoryclosure{\scopedClosure}
