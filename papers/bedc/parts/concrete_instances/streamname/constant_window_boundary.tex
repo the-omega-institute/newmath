@@ -163,3 +163,48 @@ For a $\RealUp$ consumer, apply
 rational-history classifier row and the same finite probe ledger, with no
 completion or host equality data added by the directed overlap system.
 \end{proof}
+
+\begin{theorem}[StreamName constant directed RegSeqRat Real tail boundary]
+\label{thm:streamname-constant-window-directed-regseq-real-tail-boundary}
+Let $a,b:\Hist$ be rational-history endpoints, and let
+$\{I_i\}_{i\in I}$ be a directed finite family of inhabited constant rational
+$\StreamNameUp$ windows over one $\mathsf{BHist}$ source. Suppose every
+certified overlap in the directed family exposes the same
+$\mathsf{RatHistoryClassifier}(a,b)$ row, the same finite
+$\mathsf{ProbeBundle}$ ledger, and the displayed $\mathsf{UnaryHistory}$,
+$\hsame$, $\Cont$, and $\Pkg$ rows.
+
+Then any $\RegSeqRat$ consumer, and any finite-window $\RealUp$ consumer
+factoring through that $\RegSeqRat$ surface, obtains one selected
+$\RegSeqRat$ tail-classifier row. The handoff surface is exhausted by the
+$\StreamNameUp$ finite-window rows, the selected $\RegSeqRat$ spine,
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\Pkg$,
+and the rational classifier $\mathsf{RatHistoryClassifier}(a,b)$. It does not
+read completion, quotient, host stream equality, order or arithmetic rows, or
+standard bridge rows.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-constant-window-directed-overlap-exactness}. The
+directed family presents one rational-history classifier row on every
+certified overlap, and the comparison uses only the displayed $\hsame$ rows
+and finite $\mathsf{ProbeBundle}$ ledgers.
+
+Next use \autoref{thm:streamname-constant-window-regseq-boundary}. It repacks
+the constant $\StreamNameUp$ evidence as the finite StreamName input that a
+$\RegSeqRat$ construction may consume, while leaving regularity rows as
+$\RegSeqRat$ obligations rather than StreamName data.
+
+For a finite-window $\RealUp$ consumer, use
+\autoref{thm:streamname-constant-window-real-boundary}. The RealUp side can
+read the same rational classifier and the same finite probe ledger, but it
+does not add completion or host-equality information to the window surface.
+
+Finally apply \autoref{thm:regseqrat-tail-classifier-exactness}. The matching
+StreamName classifier, selected $\RegSeqRat$ spine, unary observation rows,
+and shared $\Cont/\hsame$ ledger determine a single selected tail-classifier
+readback row. Since every input row in that application is one of the displayed
+constant-window or $\RegSeqRat$ rows, no quotient, arithmetic, order,
+completion, host stream equality, or standard bridge row can enter the
+selected-tail boundary.
+\end{proof}
