@@ -253,6 +253,32 @@ theorem MeasureFiniteDisjointUnion_additivity
     hsame_trans sameValueSumUnion (hsame_symm sameValueUnion)
   exact And.intro valueSumZero (And.intro valueUnionZero sameValueSumValueUnion)
 
+theorem MeasureProbabilityConsumer_rows
+    {event diff union valueEvent valueDiff valueUnion valueSum total unit : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty ->
+      MeasureZeroBHistClassifier diff BHist.Empty ->
+        Cont event diff union ->
+          hsame valueEvent event ->
+            hsame valueDiff diff ->
+              hsame valueUnion union ->
+                Cont valueEvent valueDiff valueSum ->
+                  hsame total unit ->
+                    hsame unit BHist.Empty ->
+                      MeasureZeroBHistClassifier valueSum valueUnion ∧
+                        MeasureZeroBHistClassifier total unit ∧
+                          MeasureZeroBHistClassifier event BHist.Empty := by
+  intro eventClassified diffClassified unionRow sameValueEvent sameValueDiff sameValueUnion
+    valueRow sameTotalUnit unitEmpty
+  have finiteRow : MeasureZeroBHistClassifier valueSum valueUnion :=
+    MeasureFiniteDisjointUnion_additivity eventClassified diffClassified unionRow sameValueEvent
+      sameValueDiff sameValueUnion valueRow
+  have totalEmpty : MeasureZeroBHistCarrier total :=
+    hsame_trans sameTotalUnit unitEmpty
+  have unitCarrier : MeasureZeroBHistCarrier unit := unitEmpty
+  have totalRow : MeasureZeroBHistClassifier total unit :=
+    And.intro totalEmpty (And.intro unitCarrier sameTotalUnit)
+  exact And.intro finiteRow (And.intro totalRow eventClassified)
+
 theorem MeasureNestedDifference_package
     {event firstDiff middle secondDiff total valueEvent valueFirstDiff valueMiddle
       valueSecondDiff valueTotal firstSum totalSum : BHist} :
