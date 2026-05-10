@@ -278,4 +278,25 @@ theorem BusyBeaverPerMachineReadback_endpoint_exactness
       boundData.right.right.right.right.right.right.right.right.left,
       boundData.right.right.right.right.right.right.right.right.right⟩
 
+theorem BusyBeaverNonhaltingExclusion_obligation_surface
+    {machine enumeration nonhaltBranch haltedTrace haltedOutput haltedLedger branchLedger
+      publicLedger haltedPublicLedger : BHist} :
+    UnaryHistory machine -> UnaryHistory enumeration -> UnaryHistory nonhaltBranch ->
+      Cont enumeration machine branchLedger -> Cont branchLedger nonhaltBranch publicLedger ->
+        hsame nonhaltBranch BHist.Empty -> Cont machine haltedOutput haltedTrace ->
+          Cont haltedTrace haltedOutput haltedLedger ->
+            Cont branchLedger (BHist.e1 haltedLedger) haltedPublicLedger ->
+              hsame publicLedger haltedPublicLedger -> False := by
+  intro _machineUnary _enumerationUnary _nonhaltUnary branchRow publicRow nonhaltEmpty
+  intro _haltedTraceRow _haltedLedgerRow haltedPublicRow samePublic
+  have publicToBranch : hsame publicLedger branchLedger :=
+    cont_respects_hsame (hsame_refl branchLedger) nonhaltEmpty publicRow
+      (cont_right_unit branchLedger)
+  have haltedPublicToBranch : hsame haltedPublicLedger branchLedger :=
+    hsame_trans (hsame_symm samePublic) publicToBranch
+  have sameE1Empty : hsame (BHist.e1 haltedLedger) BHist.Empty :=
+    cont_right_unit_unique
+      (cont_result_hsame_transport haltedPublicRow haltedPublicToBranch)
+  exact not_hsame_e1_empty sameE1Empty
+
 end BEDC.Derived.BusyBeaverUp

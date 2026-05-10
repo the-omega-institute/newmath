@@ -40,4 +40,46 @@ theorem RecursiveFnCompositionPrimitiveRecursion_obligation_surface
           outerTraceUnary, seqTraceUnary, finalGraphUnary, repackedInputUnary, repackedGraphUnary,
           outerTraceSame, finalGraphRow⟩
 
+theorem RecursiveFnZeroSuccessorProjection_obligation_surface
+    {constructor input zeroOutput successorOutput projectionOutput baseSurface : BHist} :
+    UnaryHistory constructor -> UnaryHistory input -> UnaryHistory zeroOutput ->
+      Cont constructor zeroOutput successorOutput -> Cont input zeroOutput projectionOutput ->
+        Cont successorOutput projectionOutput baseSurface ->
+          UnaryHistory successorOutput ∧ UnaryHistory projectionOutput ∧ UnaryHistory baseSurface ∧
+            hsame successorOutput (append constructor zeroOutput) ∧
+              hsame projectionOutput (append input zeroOutput) ∧
+                hsame baseSurface (append successorOutput projectionOutput) := by
+  intro constructorUnary inputUnary zeroOutputUnary successorRow projectionRow baseSurfaceRow
+  have successorUnary : UnaryHistory successorOutput :=
+    unary_cont_closed constructorUnary zeroOutputUnary successorRow
+  have projectionUnary : UnaryHistory projectionOutput :=
+    unary_cont_closed inputUnary zeroOutputUnary projectionRow
+  have baseSurfaceUnary : UnaryHistory baseSurface :=
+    unary_cont_closed successorUnary projectionUnary baseSurfaceRow
+  exact
+    ⟨successorUnary, projectionUnary, baseSurfaceUnary, successorRow, projectionRow,
+      baseSurfaceRow⟩
+
+theorem RecursiveFnBoundedMinimisationLedger_exactness
+    {constructor bound testedTrace witness output ledger : BHist} {failureTail : BHist} :
+    UnaryHistory constructor -> UnaryHistory bound -> UnaryHistory witness ->
+      Cont constructor bound testedTrace -> Cont testedTrace witness output ->
+        Cont bound output ledger -> hsame witness (BHist.e1 failureTail) ->
+          UnaryHistory testedTrace ∧ UnaryHistory output ∧ UnaryHistory ledger ∧
+            hsame testedTrace (append constructor bound) ∧ hsame output (append testedTrace witness) ∧
+              hsame ledger (append bound output) ∧ (hsame witness BHist.Empty -> False) := by
+  intro constructorUnary boundUnary witnessUnary testedTraceRow outputRow ledgerRow witnessFailure
+  have testedTraceUnary : UnaryHistory testedTrace :=
+    unary_cont_closed constructorUnary boundUnary testedTraceRow
+  have outputUnary : UnaryHistory output :=
+    unary_cont_closed testedTraceUnary witnessUnary outputRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed boundUnary outputUnary ledgerRow
+  have witnessNonempty : hsame witness BHist.Empty -> False := by
+    intro witnessEmpty
+    exact not_hsame_e1_empty (witnessFailure.symm.trans witnessEmpty)
+  exact
+    ⟨testedTraceUnary, outputUnary, ledgerUnary, testedTraceRow, outputRow, ledgerRow,
+      witnessNonempty⟩
+
 end BEDC.Derived.RecursiveFnUp
