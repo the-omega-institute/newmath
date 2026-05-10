@@ -18,6 +18,7 @@ Thus $P_8$ does not accept chapter manifests, manuscript manifests, LaTeX sectio
 
 \begin{definition}[Chapter and manuscript recognition prototype]
 \label{def:chapter-manuscript-p8-prototype}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.ChapterManuscriptPrototype}
 A \emph{chapter and manuscript recognition prototype} is an executable prototype $P_8$ satisfying:
 \begin{enumerate}
 \item $P_8$ includes all $P_7$ functions;
@@ -44,6 +45,7 @@ $$
 
 \begin{principle}[Chapter and manuscript are not inputs]
 \label{prin:chapter-manuscript-not-input}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.chapter\_manuscript\_not\_input}
 There is no formal input
 $$
   \mathsf{ChapterPkg}\to\mathsf{Code}
@@ -55,6 +57,7 @@ The only formal input remains $\mathsf{EventFlow}$ or $\mathsf{LegalZStream}$. I
 
 \begin{definition}[$P_8$ input]
 \label{def:chapter-manuscript-p8-input}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.P8FormalInput}
 The input to $P_8$ is displayed as channel stream $c$ or event flow $S$. If the input is $c$, then $P_8$ first requires $c\in\mathsf{LegalZStream}$ and decodes it. If $c\notin\mathsf{LegalZStream}$, $P_8$ rejects and produces no chapter report or manuscript report.
 \end{definition}
 
