@@ -42,7 +42,6 @@ This is a category-10 obstruction theorem that closes an explicit \notclaimed ga
 
 ---
 
-
 ### B-596 - Holomorphic strict iterated chain length cancellation determinacy
 
 | field | value |
@@ -66,29 +65,3 @@ Rationale:
 Determinism / no-confusion result on the IteratedStrictCplxDiff inductive — exactly the kind of structural target B writes (compare B-507 halting-meta-loop, B-452 ODE concatenation endpoint determinacy). The 12 surrounding theorems on this inductive include concatenation, transport, prefix readback, endpoint-not-empty, but no length cancellation, leaving a clear no-confusion gap. Lands in predicate_and_iterations.tex (277 lines, room) and proof skeleton parallels endpoint-hsame-absurd plus prefix readback. Not a parameter echo: it is the missing length-determinacy companion, not a re-statement of a source equivalence.
 
 ---
-
-
-### B-597 - GaloisGroupUp accepted automorphism inverse involution row
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | GaloisGroupUp accepted automorphism inverse involution row |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 6/10 |
-
-Problem:
-For an accepted fixed-base automorphism-action row $x$ in a GaloisGroupUp packet, the iterated inverse row $i(i(x))$ is classified with $x$ by the inherited $\GroupUp$ inverse-involutivity row transported through the GaloisExtUp endpoint classifier.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/galoisgroup/composition_and_inverse_laws.tex`
-
-Rationale:
-Structural companion to existing GaloisGroup inverse-closure and inverse-cancellation rows; the involution row is genuinely absent. Pattern-consistent with already-accepted instance-level involution targets (B-582 RootSystem reflection involution, B-588 HomotopyUp reversal involution): each was accepted as a per-Up structural row, not flagged as parameter echo, because the transport involves the carrier-specific endpoint classifier (here GaloisExtUp). Lands in composition_and_inverse_laws.tex (184 lines, room). Novelty borderline but distinct carrier.
-
----
-
