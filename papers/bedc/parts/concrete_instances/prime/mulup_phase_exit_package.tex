@@ -167,6 +167,34 @@ comparisons, and $\mathsf{NatMul}$ witnesses, so the consumer receives the
 same phase-exit package and no new exported surface.
 \end{proof}
 
+\begin{theorem}[MulUp successor cancellation boundary]
+\label{thm:mulup-successor-cancellation-boundary}
+Let $d$ and $q$ be unary histories, and let
+$\mathsf{NatMul}(d,\Eone(q),n')$ be a product row over $\mathsf{BHist}$. Then
+successor inversion produces a unary predecessor $n$ with
+$\mathsf{NatMul}(d,q,n)$ and $\Cont(n,d,n')$. Moreover, if another unary
+history $m$ satisfies $\mathsf{NatMul}(d,q,m)$ and $\Cont(m,d,n')$, then
+$n\hsame m$. The cancellation reads only the predecessor product rows and the
+displayed continuation witnesses; it does not add a second carrier, quotient
+surface, or host multiplication row.
+\end{theorem}
+\begin{proof}
+Apply $\mathsf{BEDC.Derived.PrimeUp.NatMul\_succ\_inversion}$ to the displayed
+successor product row. This gives the predecessor product $n$, the row
+$\mathsf{NatMul}(d,q,n)$, and the final continuation ledger $\Cont(n,d,n')$.
+
+Now take another predecessor $m$ with $\mathsf{NatMul}(d,q,m)$ and
+$\Cont(m,d,n')$. The two predecessor products have the same unary multiplicand
+$d$ and multiplier $q$, so
+$\mathsf{BEDC.Derived.PrimeUp.NatMul\_functional}$ identifies their results by
+$n\hsame m$.
+
+The continuation rows are retained as ledger witnesses for the displayed
+successor endpoint $n'$. They are not additional result carriers and play no
+role in the comparison beyond recording that both predecessor rows append the
+same visible copy of $d$ to reach the same endpoint.
+\end{proof}
+
 \begin{theorem}[MulUp checked law audit package]
 \label{thm:mulup-checked-law-audit-package}
 Over $\mathsf{BHist}$ and the carrier $\mathsf{UnaryHistory}$, the checked
