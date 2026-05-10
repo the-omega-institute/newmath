@@ -578,3 +578,48 @@ boundaries are finite $\mathsf{BHist}$ rows, there is no constructor slot for
 completion, quotient identification, host-index equality, or unrecorded
 stream data.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat window stability through RealUp prefixes]
+\label{thm:streamname-regseqrat-window-stability-real-prefix-handoff}
+Let $s,t,u,s',t':\mathsf{BHist}\to\mathsf{BHist}$ be
+$\StreamNameUp$ rows, let $\mathcal{P}:\mathsf{ProbeBundle}$ be finite, and
+let $E$ be a $\RealUp$ finite-window refinement envelope carrying the selected
+window over $\mathcal{P}$. Suppose the selected window carries the hypotheses
+needed for the self, symmetric, transitive, and transported outputs of
+$\mathsf{RatStreamNameFiniteWindowClassifier\_stability\_fields}$: a carrier
+row for $s$, finite-window classifiers from $s$ to $t$ and from $t$ to $u$,
+and pointwise $\hsame$ transports from $s$ to $s'$ and from $t$ to $t'$ on
+the bundled unary observations. Then the four stable windows preserve exactly
+the $\mathsf{RegSeqRat}$ handoff of
+\autoref{thm:streamname-regseqrat-pointwise-handoff} and the finite-window
+$\RealUp$ seal surface of
+\autoref{thm:realup-finite-window-refinement-envelope-consumer-coverage}.
+No regularity row, completion object, quotient witness, host-index equality,
+or unrecorded stream row is added by passing the stable windows through the
+prefix envelope.
+\end{theorem}
+\begin{proof}
+First apply the StreamName finite-window stability fields to the selected
+window. They give the self window on $s$, the symmetric window from $t$ to
+$s$, the transitive window from $s$ to $u$, and the transported window from
+$s'$ to $t'$ over the same finite bundle $\mathcal{P}$.
+
+Pass each of these four windows through
+\autoref{thm:streamname-regseqrat-pointwise-handoff}. The handoff reads only
+the StreamName carrier rows, the finite-window classifier row, the
+$\UnaryHistory$ rows, the $\mathsf{InBundle}$ rows, and the pointwise rational
+classifier rows selected by $\mathcal{P}$. Thus the downstream
+$\mathsf{RegSeqRat}$ interface sees the same pointwise packet for each stable
+window.
+
+Finally apply
+\autoref{thm:realup-finite-window-refinement-envelope-consumer-coverage} to
+the envelope $E$. Its consumer-coverage statement identifies every induced
+$\mathsf{RegSeqRat}$ handoff and every finite-window $\RealUp$ seal read with
+the rows already carried by the prefix envelope: the StreamName classifier
+rows, bundle and unary-history rows, rational classifier rows, denominator
+rows, dyadic source rows, shared $\hsame$ ledger, and
+$\mathsf{RealLedgerPolicy}$ boundary. Those rows have no constructor slot for
+regularity, completion, quotient identification, host-index equality, or an
+unrecorded stream row.
+\end{proof}
