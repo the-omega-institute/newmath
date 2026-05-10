@@ -341,3 +341,42 @@ Exactness is the reverse packaging. Any boundary row listed above is already a f
   \notclaimed{This chapter does not close a coordinate-matrix presentation, Clifford relation, standard bridge, or standard bilinear-form schema.}
   \upgradepath{The next theory-axis step is a bridge theorem connecting this public $\BilinFormUp$ surface to the standard bilinear-form schema.}
 \end{closurestatus}
+
+\begin{theorem}[BilinForm zero-left pairing vanishing row]
+\label{thm:bilinform-zero-left-pairing-vanishing-row}
+Let $\mathcal{B}$ be a carried $\BilinFormUp$ pairing surface over the source row of \autoref{def:bilinform-module-pairing-source-row}. Write $0_V$ for the zero vector endpoint supplied by the $\ModuleUp$ and $\VecSpaceUp$ source classifiers, write $0_K$ for the zero scalar endpoint in the shared scalar source, and write $\sim_K$ for the scalar endpoint classifier. If $y$ is any carried right vector-source row and
+$$
+\mathsf{BilinPair}_{\mathcal{B}}(0_V,y,\nu)
+$$
+is an accepted pairing endpoint row, then the endpoint is classified with the scalar zero:
+$$
+\nu\sim_K0_K.
+$$
+The proof uses only the zero row of the source certificates, the left-additive part of \autoref{thm:bilinform-bilinearity-transport-row}, classifier transport for the pairing endpoint, and additive cancellation in the scalar source.
+\end{theorem}
+\begin{proof}
+Fix a carried right vector-source row $y$ and an accepted pairing endpoint
+$\mathsf{BilinPair}_{\mathcal{B}}(0_V,y,\nu)$. The module and vector-space source certificates carry the zero-vector addition row
+$$
+0_V+_V0_V\sim_V0_V.
+$$
+Transport the accepted pairing endpoint along this source-classifier comparison in the left input. By \autoref{thm:bilinform-bilinearity-transport-row}, the transported endpoint for the row with left input $0_V+_V0_V$ remains in the same pairing ledger and is classified by the scalar endpoint classifier with $\nu$.
+
+Apply the left-additive row from the same bilinearity transport theorem to the two displayed copies of the accepted row
+$$
+\mathsf{BilinPair}_{\mathcal{B}}(0_V,y,\nu)
+\quad\text{and}\quad
+\mathsf{BilinPair}_{\mathcal{B}}(0_V,y,\nu).
+$$
+It classifies the pairing endpoint for the left sum $0_V+_V0_V$ with the scalar sum $\nu+_K\nu$. Composing this comparison with the input-transport comparison from the preceding paragraph gives
+$$
+\nu\sim_K\nu+_K\nu.
+$$
+All comparisons occur in the scalar endpoint classifier exposed by the same $\BilinFormUp$ source, so no exchange row, nondegeneracy row, coordinate presentation, or host bilinear map is used.
+
+The scalar source is additive through the certified scalar carrier of the module-and-vector-space source. Its right-zero row and additive left-cancellation row are available as the additive component of that source, in the generic form recorded by \autoref{thm:module-additive-duplicate-cancel-empty}. Applying that cancellation lemma to the displayed comparison $\nu\sim_K\nu+_K\nu$ yields
+$$
+\nu\sim_K0_K.
+$$
+Thus every accepted pairing of the zero vector with the carried partner $y$ is classified with the scalar zero endpoint.
+\end{proof}
