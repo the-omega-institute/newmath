@@ -105,9 +105,29 @@ theorem EllipticCurveCarrierPacket_projective_genus_one_obligation
       packet.right.right.right.right.right.right
   exact And.intro packet.right.left
     (And.intro projectiveLedgerUnary
-      (And.intro provenanceUnary
-        (And.intro packet.right.right.right.right.right.left
-          packet.right.right.right.right.right.right)))
+        (And.intro provenanceUnary
+          (And.intro packet.right.right.right.right.right.left
+            packet.right.right.right.right.right.right)))
+
+theorem EllipticCurveCarrierPacket_basepoint_incidence_exactness
+    {field projective coeffs cubic smooth basePoint fieldLedger projectiveLedger provenance
+      incidence : BHist} :
+    EllipticCurveCarrierPacket field projective coeffs cubic smooth basePoint fieldLedger
+        projectiveLedger provenance ->
+      UnaryHistory cubic ->
+        UnaryHistory smooth ->
+          Cont cubic basePoint incidence ->
+            UnaryHistory basePoint ∧ UnaryHistory incidence ∧
+              hsame incidence (append cubic basePoint) ∧
+                hsame projectiveLedger (append coeffs cubic) ∧
+                  hsame provenance (append smooth basePoint) := by
+  intro packet cubicUnary _smoothUnary incidenceCont
+  have incidenceUnary : UnaryHistory incidence :=
+    unary_cont_closed cubicUnary packet.right.right.right.left incidenceCont
+  exact
+    ⟨packet.right.right.right.left, incidenceUnary, incidenceCont,
+      packet.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right⟩
 
 theorem EllipticCurveCarrierPacket_smooth_projective_carrier_obligation
     {field projective coeffs cubic smooth basePoint fieldLedger projectiveLedger provenance :
@@ -167,6 +187,44 @@ theorem EllipticCurveCarrierPacket_weierstrass_coefficient_ledger
         (And.intro scalarLedgerUnary
           (And.intro sourceRows.right.right.right.right.right.left
             (And.intro scalarLedgerCont sourceRows.right.right.right.right.right.right)))))
+
+theorem EllipticCurveCarrierPacket_field_dependency_ledger_obligation
+    {field projective coeffs cubic smooth basePoint fieldLedger projectiveLedger provenance
+      scalarLedger : BHist} :
+    EllipticCurveCarrierPacket field projective coeffs cubic smooth basePoint fieldLedger
+        projectiveLedger provenance ->
+      UnaryHistory cubic ->
+        UnaryHistory smooth ->
+          Cont fieldLedger projectiveLedger scalarLedger ->
+            UnaryHistory field ∧ UnaryHistory projective ∧ UnaryHistory coeffs ∧
+              UnaryHistory cubic ∧ UnaryHistory smooth ∧ UnaryHistory scalarLedger ∧
+                Cont field projective fieldLedger ∧ Cont coeffs cubic projectiveLedger ∧
+                  hsame fieldLedger (append field projective) ∧
+                    hsame projectiveLedger (append coeffs cubic) ∧
+                      hsame scalarLedger (append fieldLedger projectiveLedger) ∧
+                        hsame provenance (append smooth basePoint) := by
+  intro packet cubicUnary smoothUnary scalarLedgerCont
+  have sourceRows :=
+    EllipticCurveCarrierPacket_field_projective_source_rows packet
+  have projectiveLedgerUnary : UnaryHistory projectiveLedger :=
+    unary_cont_closed sourceRows.right.right.left cubicUnary
+      packet.right.right.right.right.right.left
+  have fieldLedgerUnary : UnaryHistory fieldLedger :=
+    unary_cont_closed sourceRows.left sourceRows.right.left packet.right.right.right.right.left
+  have scalarLedgerUnary : UnaryHistory scalarLedger :=
+    unary_cont_closed fieldLedgerUnary projectiveLedgerUnary scalarLedgerCont
+  exact And.intro sourceRows.left
+    (And.intro sourceRows.right.left
+      (And.intro sourceRows.right.right.left
+        (And.intro cubicUnary
+          (And.intro smoothUnary
+            (And.intro scalarLedgerUnary
+              (And.intro packet.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.left
+                  (And.intro sourceRows.right.right.right.right.left
+                    (And.intro sourceRows.right.right.right.right.right.left
+                      (And.intro scalarLedgerCont
+                        sourceRows.right.right.right.right.right.right))))))))))
 
 theorem EllipticCurveCarrierPacket_classifier_transport_obligation
     {field field' projective projective' coeffs coeffs' cubic cubic' smooth smooth'
