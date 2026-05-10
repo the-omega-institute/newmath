@@ -967,7 +967,10 @@ import BEDC.Derived.RingUp.SubtractionDistributivity
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingUp.NegEndpoint
 import BEDC.Derived.RingUp.StdBridge
+import BEDC.Derived.SpanningTreeUp
+import BEDC.Derived.StackUp
 import BEDC.Derived.MatrixUp.ZeroMatrixMultiplication
+import BEDC.Derived.MatrixUp.PublicConstructorSurface
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.NegEndpoint
 import BEDC.Derived.CommRingUp.EmptyLinearFactor
