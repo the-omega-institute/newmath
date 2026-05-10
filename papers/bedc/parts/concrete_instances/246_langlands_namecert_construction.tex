@@ -38,7 +38,7 @@ The classifier of \autoref{def:langlands-lfactor-classifier} transports these fi
 \label{thm:langlands-local-factor-stability}
 If two carried $\LanglandsUp$ packets are classified by \autoref{def:langlands-lfactor-classifier}, then replacing either source representative by a $\NameCert$-classified representative and replacing any visible local answer by an $\hsame$-related answer preserves the classified local $L$-factor packet.
 \end{theorem}
-\leanchecked{BEDC.Derived.LanglandsUp.LanglandsLFactorClassifier\_local\_factor\_stability}
+\leanchecked{BEDC.Derived.LanglandsUp.LanglandsLocalFactor\_stability}
 \begin{proof}
 First transport the source side. The $\NameCert_{\GaloisGroupUp}$ and $\NameCert_{\AutomorphicUp}$ rows supply the certificate-level replacement witnesses, and the carrier keeps the transported rows inside the same finite observation packet by $\Cont$.
 
@@ -49,20 +49,22 @@ Next transport the local factor rows. At each observed place, the classifier sto
 \label{thm:langlands-correspondence-obligation-package}
 The $\LanglandsUp$ chapter exports a finite correspondence obligation package: a carrier row, a local factor classifier row, the two source certificate rows, and the ledger exactness statement that the packet hides only the finite observed matching row. It does not claim a global Langlands correspondence theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.LanglandsUp.LanglandsCorrespondenceCarrier\_semantic\_name\_certificate}
+\leanchecked{BEDC.Derived.LanglandsUp.LanglandsLFactorClassifier\_endpoint\_confluence}
 \begin{proof}
 Build the package from a carried row and its classifier witness. The carrier supplies the observed Galois answer rows, automorphic answer rows, local package rows, and $\Cont$ links. The classifier supplies the source transport and the visible place-by-place package comparisons.
 
 Ledger exactness is obtained by inverting these two displayed structures. Every accepted datum is either one of the two source certificates, a finite answer history, a local factor package row, or a transport witness already named by $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$. Hence the package contains no hidden all-place bijection or analytic assertion.
 \end{proof}
 
-\closureat{LanglandsUp}{seedStr}
+\closureat{LanglandsUp}{obligationStr}
 
 \begin{closurestatus}{\LanglandsUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope is the finite local $L$-factor packet over $\NameCert_{\GaloisGroupUp}$, $\NameCert_{\AutomorphicUp}$, visible $\mathsf{BHist}$ answer histories, $\hsame$, $\Cont$, $\Pkg$, and the displayed source certificate rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope is the finite local $L$-factor packet over $\NameCert_{\GaloisGroupUp}$, $\NameCert_{\AutomorphicUp}$, visible $\mathsf{BHist}$ answer histories, $\hsame$, $\Cont$, $\Pkg$, and the displayed source certificate rows.}
   \constructivestory{A $\LanglandsUp$ packet is built by pairing one displayed Galois source certificate with one displayed automorphic source certificate, reading the visible local $L$-factor rows place by place, and recording only the finite history, continuation, package, and certificate-transport witnesses named in the carrier and classifier.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a global Langlands correspondence, an all-place bijection, irreducibility, analytic continuation, functoriality, or uniqueness.}
-  \upgradepath{Obligation closure requires Lean theorem sites for the correspondence carrier, local factor classifier, source scope, local factor stability, and finite obligation package.}
+  \upgradepath{Scoped closure requires pinning the finite local-factor carrier, classifier, source, stability, and ledger rows explicitly to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and the two source $\NameCert$ rows.}
 \end{closurestatus}

@@ -185,6 +185,7 @@ import BEDC.Derived.KnotUp
 import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.LanglandsUp
 import BEDC.Derived.MarkovChainUp
+import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
