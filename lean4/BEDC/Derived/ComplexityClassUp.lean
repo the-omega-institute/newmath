@@ -75,6 +75,29 @@ theorem ComplexityClassBoundedAcceptanceCarrier_bounded_trace_surface
     ⟨resourceUnary, traceUnary, verdictUnary, acceptedUnary, resourceRow, traceRow, verdictRow,
       acceptedRow⟩
 
+theorem ComplexityClassBoundedAcceptanceCarrier_finite_surface
+    {input length acceptor budget trace modulus verdict acceptance : BHist} :
+    UnaryHistory input -> UnaryHistory length -> UnaryHistory acceptor -> UnaryHistory modulus ->
+      Cont input length budget -> Cont acceptor budget trace -> Cont trace modulus verdict ->
+        Cont input verdict acceptance ->
+          UnaryHistory budget ∧ UnaryHistory trace ∧ UnaryHistory verdict ∧
+            UnaryHistory acceptance ∧ hsame budget (append input length) ∧
+              hsame trace (append acceptor budget) ∧ hsame verdict (append trace modulus) ∧
+                hsame acceptance (append input verdict) := by
+  intro inputUnary lengthUnary acceptorUnary modulusUnary budgetRow traceRow verdictRow
+  intro acceptanceRow
+  have budgetUnary : UnaryHistory budget :=
+    unary_cont_closed inputUnary lengthUnary budgetRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed acceptorUnary budgetUnary traceRow
+  have verdictUnary : UnaryHistory verdict :=
+    unary_cont_closed traceUnary modulusUnary verdictRow
+  have acceptanceUnary : UnaryHistory acceptance :=
+    unary_cont_closed inputUnary verdictUnary acceptanceRow
+  exact
+    ⟨budgetUnary, traceUnary, verdictUnary, acceptanceUnary, budgetRow, traceRow, verdictRow,
+      acceptanceRow⟩
+
 theorem ComplexityClassBoundedAcceptance_carrier
     {input length acceptor modulus trace budget verdict package : BHist} :
     UnaryHistory input -> UnaryHistory length -> UnaryHistory acceptor -> UnaryHistory modulus ->
