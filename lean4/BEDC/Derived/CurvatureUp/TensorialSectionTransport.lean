@@ -71,4 +71,59 @@ theorem CurvatureBracketCarrier_tensorial_transport_obligation
       (And.intro transported.right.right
         (And.intro rows.left rows.right.left)))
 
+theorem CurvatureBracketCarrier_tensorial_section_change_row
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance ledgerA ledgerB boundary
+      curvatureLedger section' derivativeA' derivativeB' ledgerA' ledgerB' boundary'
+      curvatureLedger' : BHist} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance
+        ledgerA ledgerB boundary curvatureLedger ->
+      hsame sec section' ->
+        Cont section' tangentA derivativeA' ->
+          Cont derivativeA' provenance ledgerA' ->
+            Cont section' tangentB derivativeB' ->
+              Cont derivativeB' provenance ledgerB' ->
+                Cont derivativeA' derivativeB' boundary' ->
+                  Cont boundary' provenance curvatureLedger' ->
+                    CurvatureBracketCarrier base fibre section' tangentA tangentB derivativeA'
+                        derivativeB' provenance ledgerA' ledgerB' boundary' curvatureLedger' ∧
+                      hsame derivativeA derivativeA' ∧ hsame derivativeB derivativeB' ∧
+                        hsame boundary boundary' ∧ hsame curvatureLedger curvatureLedger' := by
+  intro carrier sameSection derivativeACont' ledgerACont' derivativeBCont' ledgerBCont'
+    boundaryCont' curvatureCont'
+  have packetA : ConnectionCarrierPacket base fibre sec tangentA derivativeA provenance ledgerA :=
+    carrier.left
+  have packetB : ConnectionCarrierPacket base fibre sec tangentB derivativeB provenance ledgerB :=
+    carrier.right.left
+  have secCont : Cont base fibre sec :=
+    packetA.right.right.right.right.left
+  have secCont' : Cont base fibre section' :=
+    cont_result_hsame_transport secCont sameSection
+  have packetA' :
+      ConnectionCarrierPacket base fibre section' tangentA derivativeA' provenance ledgerA' :=
+    And.intro packetA.left
+      (And.intro packetA.right.left
+        (And.intro packetA.right.right.left
+          (And.intro packetA.right.right.right.left
+            (And.intro secCont' (And.intro derivativeACont' ledgerACont')))))
+  have packetB' :
+      ConnectionCarrierPacket base fibre section' tangentB derivativeB' provenance ledgerB' :=
+    And.intro packetB.left
+      (And.intro packetB.right.left
+        (And.intro packetB.right.right.left
+          (And.intro packetB.right.right.right.left
+            (And.intro secCont' (And.intro derivativeBCont' ledgerBCont')))))
+  have sameDerivativeA : hsame derivativeA derivativeA' :=
+    cont_respects_hsame sameSection (hsame_refl tangentA)
+      packetA.right.right.right.right.right.left derivativeACont'
+  have sameDerivativeB : hsame derivativeB derivativeB' :=
+    cont_respects_hsame sameSection (hsame_refl tangentB)
+      packetB.right.right.right.right.right.left derivativeBCont'
+  have transported :=
+    CurvatureBracketCarrier_tensorial_endpoint_transport carrier packetA' packetB'
+      sameDerivativeA sameDerivativeB (hsame_refl provenance) boundaryCont' curvatureCont'
+  exact And.intro transported.left
+    (And.intro sameDerivativeA
+      (And.intro sameDerivativeB
+        (And.intro transported.right.left transported.right.right)))
+
 end BEDC.Derived.CurvatureUp
