@@ -104,4 +104,29 @@ theorem TuringMachineFiniteTapeReadbackCarrier_finite_readback_surface
     unary_cont_closed traceUnary readbackUnary boundedRow
   exact ⟨readbackUnary, boundedUnary, readbackRow, boundedRow⟩
 
+theorem TuringMachineObligationSurface_bounded_trace_ledger
+    {state tape head bound configuration trace readback bounded endpoint : BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory bound ->
+      Cont state tape configuration -> Cont configuration head trace -> Cont tape head readback ->
+        Cont trace readback bounded -> Cont bounded bound endpoint ->
+          UnaryHistory configuration ∧ UnaryHistory trace ∧ UnaryHistory readback ∧
+            UnaryHistory bounded ∧ UnaryHistory endpoint ∧ hsame configuration (append state tape) ∧
+              hsame trace (append configuration head) ∧ hsame readback (append tape head) ∧
+                hsame bounded (append trace readback) ∧ hsame endpoint (append bounded bound) := by
+  intro stateUnary tapeUnary headUnary boundUnary configurationRow traceRow readbackRow boundedRow
+    endpointRow
+  have configurationUnary : UnaryHistory configuration :=
+    unary_cont_closed stateUnary tapeUnary configurationRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed configurationUnary headUnary traceRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed tapeUnary headUnary readbackRow
+  have boundedUnary : UnaryHistory bounded :=
+    unary_cont_closed traceUnary readbackUnary boundedRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed boundedUnary boundUnary endpointRow
+  exact
+    ⟨configurationUnary, traceUnary, readbackUnary, boundedUnary, endpointUnary, configurationRow,
+      traceRow, readbackRow, boundedRow, endpointRow⟩
+
 end BEDC.Derived.TuringMachineUp

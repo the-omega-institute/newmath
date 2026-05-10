@@ -52,6 +52,7 @@ import BEDC.BaseReflection
 import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
 import BEDC.Derived.AdjointRepUp
+import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.ApproximationUp
