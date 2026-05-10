@@ -348,4 +348,15 @@ theorem ComputableBoundedGraphCertificate_source_carrier_obligation
         (And.intro run.right.right.right.left
           (And.intro run.right.right.right.right run))))
 
+theorem ComputableBoundedSim_visible_ledger_rows {P n B m phase : BHist} :
+    ComputableBoundedSim P n B m -> Cont P B phase ->
+      UnaryHistory phase ∧ hsame phase (append P B) ∧ UnaryHistory P ∧ UnaryHistory n ∧
+        UnaryHistory B ∧ UnaryHistory m ∧ Cont n B m := by
+  intro run phaseRow
+  have phaseUnary : UnaryHistory phase :=
+    unary_cont_closed run.left run.right.right.left phaseRow
+  exact
+    ⟨phaseUnary, phaseRow, run.left, run.right.left, run.right.right.left,
+      run.right.right.right.left, run.right.right.right.right⟩
+
 end BEDC.Derived.ComputableUp
