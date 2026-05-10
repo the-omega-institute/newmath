@@ -378,4 +378,32 @@ theorem BrownianStepContinuityClassifier_path_continuity_ledger_exactness
         (And.intro endpointUnary
           (And.intro pathRow endpointRow))))
 
+theorem BrownianStepContinuityClassifier_continuous_path_projection
+    {martingale continuous time path step normal provenance ledger pathLedger endpoint : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      Cont continuous path pathLedger ->
+        Cont pathLedger ledger endpoint ->
+          UnaryHistory martingale ∧ UnaryHistory continuous ∧ UnaryHistory path ∧
+            UnaryHistory pathLedger ∧ UnaryHistory endpoint ∧
+              Cont continuous path pathLedger ∧ Cont pathLedger ledger endpoint ∧
+                hsame pathLedger (append continuous path) ∧
+                  hsame endpoint (append pathLedger ledger) ∧
+                    hsame provenance (append martingale step) := by
+  intro classified pathRow endpointRow
+  have surface :=
+    BrownianStepContinuityClassifier_dependency_surface classified
+  have pathExact :=
+    BrownianStepContinuityClassifier_path_continuity_ledger_exactness classified pathRow
+      endpointRow
+  exact And.intro surface.left
+    (And.intro surface.right.left
+      (And.intro surface.right.right.right.left
+        (And.intro pathExact.right.right.left
+          (And.intro pathExact.right.right.right.left
+            (And.intro pathRow
+              (And.intro endpointRow
+                (And.intro pathExact.right.right.right.right.left
+                  (And.intro pathExact.right.right.right.right.right
+                    surface.right.right.right.right.right.right.right.right.right.left))))))))
+
 end BEDC.Derived.BrownianUp

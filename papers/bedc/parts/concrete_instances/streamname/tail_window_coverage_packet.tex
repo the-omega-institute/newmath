@@ -258,3 +258,47 @@ quotient representative, completion row, or host-index equality can be read,
 and the displayed StreamName/$\RegSeqRat$/DyadicRatCore source surface is the
 unique finite source surface for both consumers.
 \end{proof}
+
+\begin{theorem}[StreamName tail-window global classifier boundary]
+\label{thm:streamname-tail-window-global-classifier-boundary}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be public $\StreamNameUp$
+endpoints. Suppose that every certified unary observation singleton window
+over the endpoints carries the row
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\Bcons(n,\Bnil))$. If a
+finite $\RealUp$ consumer reads a StreamName tail-window coverage packet
+generated from finitely many selected observations over an accepted
+$\RegSeqRat$ spine, then the consumer factors through the global
+$\mathsf{RatStreamNameClassifier}(s,t)$ together with exactly the displayed
+StreamName, $\RegSeqRat$, DyadicRatCore, $\Cont$, $\hsame$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ packet surface.
+
+The factorization exposes no completion object, quotient representative,
+host-index equality, metric-completeness row, arithmetic or order operation,
+or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:rat-stream-name-finite-window-exhausts-classifier}. The
+singleton-window hypotheses exhaust the certified finite observations and
+therefore determine the global
+$\mathsf{RatStreamNameClassifier}(s,t)$ for the public StreamName endpoints.
+
+Next apply \autoref{thm:streamname-tail-window-coverage-exhaustion}. The
+finite packet read by the $\RealUp$ consumer has only the enumerated selected
+unary-history rows, bundle-membership rows, pointwise rational-history
+classifier rows, accepted $\RegSeqRat$ spine, DyadicRatCore endpoint rows,
+and shared $\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ ledger.
+
+Now apply
+\autoref{thm:streamname-tail-window-terminal-consumer-factorization}. Every
+finite consumer row factors through that displayed packet surface, so the
+global classifier supplied by the singleton-window exhaustion is the only
+StreamName classifier row available to the consumer.
+
+Finally apply \autoref{thm:streamname-tail-window-realup-boundary}. The
+boundary excludes completion, quotient representatives, host-index equality,
+metric-completeness, arithmetic and order operations, and standard bridge
+data. Hence the finite $\RealUp$ consumer factors through the global
+StreamName classifier and the displayed packet rows, with no off-boundary row
+exposed.
+\end{proof}
