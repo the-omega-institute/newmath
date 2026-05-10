@@ -1,4 +1,5 @@
 import BEDC.GroundCompiler.ChannelEncoding
+import BEDC.GroundCompiler.ChapterFlow
 import BEDC.GroundCompiler.TheoremProofPrototype
 
 namespace BEDC.GroundCompiler.ChapterManuscript
@@ -74,6 +75,32 @@ theorem chapter_manuscript_not_input :
     cases h
   · intro x h
     cases h
+
+theorem no_incomplete_chapter
+    {C : ChapterFlow.ChapterCandidateFlow} :
+    ChapterFlow.ChapterFlow C ->
+      exists R : ChapterFlow.GeneratedChapterRecognizer,
+        ChapterFlow.CompleteChapterRecognition R C := by
+  intro hChapter
+  exact ChapterFlow.no_chapter_without_complete_recognition hChapter
+
+theorem incomplete_chapter_candidate_not_flow
+    {C : ChapterFlow.ChapterCandidateFlow} :
+    (forall R : ChapterFlow.GeneratedChapterRecognizer,
+      Not (ChapterFlow.CompleteChapterRecognition R C)) ->
+    Not (ChapterFlow.ChapterFlow C) := by
+  intro hIncomplete
+  exact ChapterFlow.incomplete_chapter_flow_not_chapter hIncomplete
+
+theorem title_alone_not_chapter
+    {R : ChapterFlow.GeneratedChapterRecognizer}
+    {C T : ChapterFlow.ChapterCandidateFlow} :
+    ChapterFlow.ChapStart R C T ->
+      (forall R' : ChapterFlow.GeneratedChapterRecognizer,
+        Not (ChapterFlow.CompleteChapterRecognition R' C)) ->
+      Not (ChapterFlow.ChapterFlow C) := by
+  intro hStart hIncomplete
+  exact ChapterFlow.title_alone_not_chapter hStart hIncomplete
 
 def ManuscriptCandidateFlow : Type :=
   EventFlow
