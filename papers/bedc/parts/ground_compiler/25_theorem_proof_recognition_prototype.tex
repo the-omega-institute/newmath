@@ -406,6 +406,7 @@ Theorem code is bijective with theorem flow. Abstract proposition classes are qu
 
 \begin{definition}[Accepted theorem flow]
 \label{def:theorem-proof-accepted-theorem-flow}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7AcceptedTheoremFlow}
 A sound theorem flow $T$ is an \emph{accepted theorem flow} when its proof flow is checked by generated proof checker, all required certificates in its certificate flow are recognized, any claimed mature-object export has the relevant acceptance-gate flow, status matches proof and certificate state, and ledger is complete. Write
 $$
   \mathsf{AcceptedTheoremFlow}(T).
@@ -437,11 +438,12 @@ By definition, $\mathsf{AcceptedTheoremCode}(T)=\mathsf{Compile}(T)$.
 
 \begin{theorem}[Accepted theorem code does not imply accepted object]
 \label{thm:theorem-proof-accepted-theorem-not-object}
-If $T$ is an accepted theorem flow, it does not follow that every object mentioned in its statement is an accepted object unless the statement or certificate flow contains the relevant acceptance-gate flows.
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.accepted\_theorem\_not\_object\_acceptance\_distinct}
+There exists an accepted theorem flow $T$ and an object-flow mention $O$ inside $T$ such that $O$ is not an accepted object flow. Thus accepted-theorem status is a status of the theorem flow and does not by itself provide the acceptance-gate flows required for every object mentioned by the theorem.
 \end{theorem}
 
 \begin{proof}
-Accepted theorem status concerns the theorem package: proof, certificates, ledger, status, and site. Object acceptance is separately mediated by acceptance-gate flows for the objects. The former does not automatically supply the latter.
+Accepted theorem status concerns the theorem package: proof, certificates, ledger, status, and site. Object acceptance is separately mediated by acceptance-gate flows for the objects. A theorem flow may mention an empty object-flow position; the empty flow has no accepted-object witness, because accepted object flow requires nonempty accepted structure and recognized certificate flows.
 \end{proof}
 
 \begin{corollary}[Theorem acceptance and object acceptance are distinct]
@@ -500,11 +502,12 @@ $P_7$ theorem code is not an external theorem label; it is the channel compilati
 
 \begin{theorem}[$P_7$ code existence still does not imply bridge]
 \label{thm:theorem-proof-code-not-bridge}
-Even if $P_7$ reports accepted theorem code, bridge-certificate status does not follow unless the theorem certificate flow contains a recognized bridge flow.
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.p7\_code\_existence\_still\_not\_bridge}
+There exists an accepted theorem flow whose accepted theorem code is legal theorem code and whose theorem flow contains no bridge-certificate witness flow.
 \end{theorem}
 
 \begin{proof}
-Accepted theorem flow may have non-bridge status. Bridge certification requires additional bridge-certificate flow. Without that flow, bridge status is not established.
+Accepted theorem flow may have non-bridge status. Bridge certification requires additional bridge-certificate flow. A singleton accepted theorem flow has legal theorem code, but it cannot contain the designated bridge-certificate witness flow.
 \end{proof}
 
 \section{Adequacy and examples}
