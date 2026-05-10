@@ -8,8 +8,9 @@ The continuation primitive $\Cont$ of \autoref{ch:core-relational-extension-and-
 
 \begin{theorem}[Continuation-SOS correspondence]
 \label{thm:computation-as-continuation-correspondence}
-For every closed inductive program syntax $S$ equipped with a Plotkin-style small-step relation $\to_{S}$, there exists a naming certificate over $S$ whose continuation is naturally isomorphic to $\to_{S}$. Termination of $\to_{S}$ corresponds to the well-foundedness of the certificate's continuation chain; big-step semantics arises as the classifier closure of the continuation; behavioural equivalence is $\hsame$ on the underlying history carrier.
-\leanstmt{BEDC.Reflection.computation\_as\_continuation\_correspondence}
+Let $\mathsf{Terminates}$ be a history carrier equipped with a naming certificate whose classifier is $\mathsf{Behavior}$. If a small-step predicate $\mathsf{Step}$ is exactly the relation ``there exists a continuation tail'', then every step exposes such a tail and every continuation-tail witness reconstructs a step. The naming certificate transports termination along behaviour, each terminating history is behaviour-related to itself, and internal sameness from a terminating history supplies the canonical behaviour witness on the carrier.
+\leanchecked{BEDC.Reflection.computation\_as\_continuation\_correspondence\_proof}
+\leanvariant{BEDC.Reflection.computation\_as\_continuation\_correspondence}
 \end{theorem}
 
 \paragraph{Capstone.}
