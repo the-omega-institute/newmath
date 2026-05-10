@@ -76,4 +76,30 @@ theorem MirrorSymmetryCategoricalClassifier_categorical_stability [AskSetup] [Pa
         pairedAnswerRow', ledgerRow', endpointRow', pkgSig'⟩,
       samePairedAnswer, sameLedger, sameEndpoint⟩
 
+def MirrorSymmetryPairCarrier [AskSetup] [PackageSetup]
+    (symplecticSource derivedCatSource aModelRow bModelRow pairLedger packet : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory symplecticSource ∧ UnaryHistory derivedCatSource ∧ UnaryHistory aModelRow ∧
+    UnaryHistory bModelRow ∧ Cont aModelRow bModelRow pairLedger ∧
+      Cont (append symplecticSource derivedCatSource) pairLedger packet ∧
+        PkgSig bundle packet pkg
+
+theorem MirrorSymmetryPairCarrier_source_scope [AskSetup] [PackageSetup]
+    {symplecticSource derivedCatSource aModelRow bModelRow pairLedger packet : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MirrorSymmetryPairCarrier symplecticSource derivedCatSource aModelRow bModelRow pairLedger
+        packet bundle pkg ->
+      UnaryHistory symplecticSource ∧ UnaryHistory derivedCatSource ∧ UnaryHistory aModelRow ∧
+        UnaryHistory bModelRow ∧ hsame pairLedger (append aModelRow bModelRow) ∧
+          hsame packet (append (append symplecticSource derivedCatSource) pairLedger) ∧
+            PkgSig bundle packet pkg := by
+  intro carrier
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro carrier.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right.left
+              carrier.right.right.right.right.right.right)))))
+
 end BEDC.Derived.MirrorSymmetryUp

@@ -201,4 +201,64 @@ theorem MarkovChainTransitionPacket_kernel_classifier_stability
           (And.intro readback' (And.intro transportedProvenance transportedLedger))))
   exact And.intro transportedPacket (And.intro sameProvenance sameLedger)
 
+theorem MarkovChainTransitionPacket_namecert_obligation_surface
+    {source time current next law transition provenance ledger : BHist} :
+    MarkovChainTransitionPacket source time current next law transition provenance ledger ->
+      SemanticNameCert
+          (fun h : BHist =>
+            hsame h ledger ∧
+              MarkovChainTransitionPacket source time current next law transition provenance h)
+          (fun h : BHist =>
+            hsame h ledger ∧
+              MarkovChainTransitionPacket source time current next law transition provenance h)
+          (fun h : BHist =>
+            hsame h ledger ∧
+              MarkovChainTransitionPacket source time current next law transition provenance h)
+          hsame ∧
+        ProbSpacePublicEventPacket source source current next law ∧
+          DistributionPushforwardSourceSpec law ∧
+            RandomVarTotalReadbackCertificate current next transition ∧
+              Cont current transition provenance ∧ Cont provenance law ledger := by
+  intro packet
+  have ledgerCarrier :
+      (fun h : BHist =>
+        hsame h ledger ∧
+          MarkovChainTransitionPacket source time current next law transition provenance h)
+        ledger :=
+    And.intro (hsame_refl ledger) packet
+  have cert :
+      SemanticNameCert
+          (fun h : BHist =>
+            hsame h ledger ∧
+              MarkovChainTransitionPacket source time current next law transition provenance h)
+          (fun h : BHist =>
+            hsame h ledger ∧
+              MarkovChainTransitionPacket source time current next law transition provenance h)
+          (fun h : BHist =>
+            hsame h ledger ∧
+              MarkovChainTransitionPacket source time current next law transition provenance h)
+          hsame := by
+    constructor
+    · constructor
+      · exact Exists.intro ledger ledgerCarrier
+      · intro h _carrier
+        exact hsame_refl h
+      · intro h k same
+        exact hsame_symm same
+      · intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      · intro h k same carrier
+        cases same
+        exact carrier
+    · intro h carrier
+      exact carrier
+    · intro h carrier
+      exact carrier
+  exact And.intro cert
+    (And.intro packet.left
+      (And.intro packet.right.right.left
+        (And.intro packet.right.right.right.left
+          (And.intro packet.right.right.right.right.left
+            packet.right.right.right.right.right))))
+
 end BEDC.Derived.MarkovChainUp

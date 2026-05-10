@@ -77,4 +77,35 @@ theorem LanglandsLFactorClassifier_local_factor_stability [AskSetup] [PackageSet
         localFactorRow', ledgerRow', endpointRow', pkgSig'⟩,
       sameLocalFactor, sameLedger, sameEndpoint⟩
 
+def LanglandsCorrespondenceCarrier [AskSetup] [PackageSetup]
+    (galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor sourcePacket
+      packet : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory galoisSource ∧ UnaryHistory automorphicSource ∧
+    UnaryHistory galoisAnswer ∧ UnaryHistory automorphicAnswer ∧
+      Cont galoisAnswer automorphicAnswer localFactor ∧
+        Cont galoisSource automorphicSource sourcePacket ∧
+          Cont sourcePacket localFactor packet ∧ PkgSig bundle packet pkg
+
+theorem LanglandsCorrespondenceCarrier_source_scope [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor sourcePacket
+      packet : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsCorrespondenceCarrier galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor sourcePacket packet bundle pkg ->
+      UnaryHistory galoisSource ∧ UnaryHistory automorphicSource ∧
+        UnaryHistory galoisAnswer ∧ UnaryHistory automorphicAnswer ∧
+          hsame localFactor (append galoisAnswer automorphicAnswer) ∧
+            hsame sourcePacket (append galoisSource automorphicSource) ∧
+              hsame packet (append sourcePacket localFactor) ∧ PkgSig bundle packet pkg := by
+  intro carrier
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro carrier.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right.left
+              (And.intro carrier.right.right.right.right.right.right.left
+                carrier.right.right.right.right.right.right.right))))))
+
 end BEDC.Derived.LanglandsUp
