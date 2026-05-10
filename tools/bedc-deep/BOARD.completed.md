@@ -15652,3 +15652,77 @@ Rationale:
 243_curryhoward_namecert_construction.tex (355 lines, 10 theorems) has classifier endpoint transport (line 87), source row separation (line 46), classifier exhaustion (line 135), endpoint exactness (line 179), and proof-program determinacy (line 113) — but no reflexivity statement for the cut-beta endpoint classifier. Other concrete classifier surfaces (RandomVar, FirstOrder, Sheaf) all carry an explicit reflexivity row; CurryHoward is the conspicuous omission. Single-implication form: accepted packet ⇒ classifier H≈H. Within an existing chapter (no Lean axiom), file far below cap, no sibling on BOARD.
 
 ---
+
+### B-617 - Module LinearMap pointwise sum associativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Module LinearMap pointwise sum associativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If LinearMapCert_R(M,N;f), LinearMapCert_R(M,N;g), and LinearMapCert_R(M,N;h) all hold over common ModuleUp(R,M),ModuleUp(R,N) certificates, then the pointwise sums (f+g)+h and f+(g+h) carry LinearMapUp(M,N) certificates and are pointwise-classifier-equal.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+
+Rationale:
+The commutativity counterpart is at module_linearmap_kernel_image_and_zero.tex:101 (thm:module-linearmap-pointwise-sum-commutativity) and the binary pointwise-sum certificate is at module_linearmap_certificates.tex:344 (thm:module-linearmap-pointwise-sum-certificate). Composition associativity exists at module_linearmap_certificates.tex:238, but pointwise *sum* associativity does not: grep 'pointwise-sum-assoc\|pointwise.*sum.*associat' across papers/ returns only composition-assoc and FPS pointwise-additive-group-laws references. Build from two applications of pointwise-sum-certificate plus the target module's additive associativity (via prop:module-forgets-abgroup-certificate). Landing file 182 lines, ample room. Concrete classifier comparison, not parameter echo.
+
+---
+
+### B-618 - GaloisGroupUp inverse-of-composition antimultiplicative row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | GaloisGroupUp inverse-of-composition antimultiplicative row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For accepted automorphism-action rows x and y in a GaloisGroupUp packet, the inverse of the composed row x \circ y is classifier-equal to y^{-1} \circ x^{-1} via the public GaloisExtUp endpoint classifier and the inherited GroupUp surface.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/galoisgroup/composition_and_inverse_laws.tex`
+- `papers/bedc/parts/concrete_instances/galoisgroup/group_law_package.tex`
+
+Rationale:
+composition_and_inverse_laws.tex contains thm:galoisgroup-composition-associativity-row (line 2), thm:galoisgroup-inverse-cancellation-rows (line 43), and thm:galoisgroup-inverse-involution-row (line 187), plus thm:galoisgroup-composition-classifier-congruence (line 116). The antimultiplicative inverse rule (g h)^{-1} ~ h^{-1} g^{-1}, the natural completion of the composition+inverse algebra, is missing: grep 'inverse-of-composition\|composition-inverse\|inverse-product' across the galoisgroup/ subdirectory returns no hits. Built from inverse-closure (carrier_and_basic_laws.tex:146) plus the GroupUp dependency's inverse-of-product law (referenced as thm:group-inverse-mul-reverse, used in spingroup/boundary_consumer_exactness.tex:127). File 235 lines, ample room. Concrete inversion identity, not transport.
+
+---
+
+### B-619 - Independence two-element index family carries the finite factorisation row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Independence two-element index family carries the finite factorisation row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a finite-family IndependenceUp carrier has exactly two certified positions i_0, i_1, with the displayed product-cylinder ledger reducing the joint endpoint to mu_{i_0}(B_{i_0}) \cdot_R mu_{i_1}(B_{i_1}) and the two-element RealUp product fold evaluating to the same product, then for every measurable two-position event family B the displayed data carry the finite factorisation row of def:independence-finite-factorisation-row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/165_independence_namecert_construction.tex`
+
+Rationale:
+165_independence_namecert_construction.tex:367 proves thm:independence-empty-index-factorization-row (B-527 / B-587 area); line 416 proves thm:independence-singleton-index-factorization-row (B-591 in board). The two-element case is the *first* arity where a real product fold actually multiplies two distinct factors, and is genuinely missing: grep 'two-element\|binary.factorisation\|pair.factorisation\|two.position' across papers/ shows no Independence two-element row. Builds on the pushforward rows already used in the singleton proof plus the binary RealUp product fold (used elsewhere in concrete_instances/). File 471 lines, room available. Concrete arity step: requires a real factorisation calculation, not just a transport.
+
+---
