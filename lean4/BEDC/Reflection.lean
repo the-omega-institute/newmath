@@ -186,11 +186,24 @@ def compilation_as_namecert_morphism : Prop :=
     NameCert Source SourceClassifier →
       NameCert Target TargetClassifier →
         (∀ h k : BHist, CompilerGraph h k → Source h ∧ Target k) →
+          (∀ {h h' k : BHist}, CompilerGraph h k → SourceClassifier h h' →
+            ∃ k' : BHist, CompilerGraph h' k') →
           (∀ {h h' k k' : BHist}, CompilerGraph h k → CompilerGraph h' k' →
             SourceClassifier h h' → TargetClassifier k k') →
             (∀ {h h' k : BHist}, CompilerGraph h k → SourceClassifier h h' →
               ∃ k' : BHist, CompilerGraph h' k' ∧ TargetClassifier k k') ∧
               (∀ {h k k' : BHist}, CompilerGraph h k → TargetClassifier k k' → Target k')
+
+theorem compilation_as_namecert_morphism_proof :
+    compilation_as_namecert_morphism := by
+  intro Source Target SourceClassifier TargetClassifier CompilerGraph _sourceCert targetCert graphCarrier graphLift graphPreserves
+  constructor
+  · intro h h' k graph sourceClassified
+    cases graphLift graph sourceClassified with
+    | intro k' liftedGraph =>
+        exact Exists.intro k' (And.intro liftedGraph (graphPreserves graph liftedGraph sourceClassified))
+  · intro h k k' graph targetClassified
+    exact BEDC.FKernel.NameCert.NameCert.carrier_respects_equiv targetCert targetClassified (graphCarrier h k graph).right
 
 /-- Halting problem as Tarski-style fixed-point obstruction over Cont
 (statement scaffold). -/
