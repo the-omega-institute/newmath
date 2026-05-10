@@ -147,4 +147,35 @@ theorem LocalFieldValuedBHistCarrier_bridge_boundary_exclusions [AskSetup] [Pack
       carrier.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right⟩
 
+theorem LocalFieldValuedBHistCarrier_valued_field_consumer_threshold [AskSetup]
+    [PackageSetup]
+    {field valuation residue unit completeness endpoint ledger provenance consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocalFieldValuedBHistCarrier field valuation residue unit completeness endpoint ledger
+        provenance bundle pkg ->
+      Cont provenance completeness consumer ->
+        UnaryHistory consumer ∧ hsame consumer (append provenance completeness) ∧
+          UnaryHistory field ∧ UnaryHistory valuation ∧ UnaryHistory residue ∧
+            UnaryHistory unit ∧ UnaryHistory completeness ∧ hsame endpoint
+              (append field valuation) ∧ hsame ledger (append residue unit) ∧
+                hsame provenance (append endpoint ledger) ∧
+                  PkgSig bundle provenance pkg := by
+  intro carrier consumerRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed endpointUnary ledgerUnary carrier.right.right.right.right.right.right.right.left
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed provenanceUnary carrier.right.right.right.right.left consumerRoute
+  exact
+    ⟨consumerUnary, consumerRoute, carrier.left, carrier.right.left, carrier.right.right.left,
+      carrier.right.right.right.left, carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.LocalFieldUp
