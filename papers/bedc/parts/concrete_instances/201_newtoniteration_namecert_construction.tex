@@ -39,6 +39,7 @@ The classifier of \autoref{def:newtoniteration-contraction-classifier} can trans
 \label{thm:newtoniteration-step-stability}
 Classified $\NewtonIterationUp$ step rows remain classified after transporting the derivative source through $\NameCert_{\DerivativeUp}$, transporting the Banach source through $\NameCert_{\BanachUp}$, and replacing the visible source point, inverse-row witness, or next-step answer by an $\hsame$-related row.
 \end{theorem}
+\leanchecked{BEDC.Derived.NewtonIterationUp.NewtonIterationBHistCarrier\_step\_endpoint\_transport}
 \leanvariant{BEDC.Derived.NewtonIterationUp.NewtonIterationStep\_stability}
 \begin{proof}
 First transport the source certificates. The derivative source gives the derivative-row comparison, and the Banach source gives the point and next-step context in which the row is read.
@@ -50,6 +51,7 @@ Next transport the displayed step data. The source point and next-step rows use 
 \label{thm:newtoniteration-obligation-package}
 The $\NewtonIterationUp$ chapter exports a finite obligation package consisting of the step carrier, the contraction classifier, the derivative and Banach source certificates, and ledger exactness for the displayed Newton step row. It does not claim convergence or completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.NewtonIterationUp.NewtonIterationBHistCarrier\_semantic\_name\_certificate}
 \leanchecked{BEDC.Derived.NewtonIterationUp.NewtonIterationCarrier\_obligation\_package}
 \begin{proof}
 Build the package from a carried step row and a classifier witness. The carrier supplies the source point, derivative answer, inverse-row witness, next-step answer, and the $\Cont$ rows placing them under the two source certificates.
@@ -91,6 +93,7 @@ The internal $\Cont$ witnesses remain valid after concatenation. Where a witness
 Finally apply the finite-concatenation generator in the classifier of \autoref{def:newtoniteration-contraction-classifier}. It classifies the two accepted displayed step rows, after the splice transport, as one accepted finite Newton-iteration row. Repacking these fields gives $R_{12}$ with source point $x_0$, next-step answer $x_2$, and finite step ledger $\Lambda_{12}$, as claimed.
 \end{proof}
 \leanchecked{BEDC.Derived.NewtonIterationUp.NewtonIterationBHistCarrier\_finite\_step\_concatenation\_closure}
+\leanvariant{BEDC.Derived.NewtonIterationUp.NewtonIterationBHistCarrier\_finite\_step\_ledger\_concat\_closure}
 
 \begin{theorem}[Newton-iteration splice source determinacy]
 \label{thm:newtoniteration-splice-source-determinacy}
