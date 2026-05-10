@@ -370,4 +370,38 @@ theorem MirrorSymmetryPairCarrier_obligation_package [AskSetup] [PackageSetup]
       carrier.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right⟩
 
+theorem MirrorSymmetryPairCarrier_local_pairing_ledger_exactness [AskSetup] [PackageSetup]
+    {symplecticSource derivedSource aModelAnswer bModelAnswer pairLedger transportLedger
+      endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MirrorSymmetryPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+        pairLedger transportLedger endpoint bundle pkg ->
+      Cont transportLedger pairLedger endpoint' ->
+        UnaryHistory symplecticSource ∧ UnaryHistory derivedSource ∧
+          UnaryHistory aModelAnswer ∧ UnaryHistory bModelAnswer ∧
+            UnaryHistory transportLedger ∧ UnaryHistory pairLedger ∧
+              UnaryHistory endpoint' ∧ hsame endpoint endpoint' ∧
+                PkgSig bundle endpoint pkg := by
+  intro carrier endpointRow'
+  have transportLedgerUnary : UnaryHistory transportLedger :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.right.left
+  have pairLedgerUnary : UnaryHistory pairLedger :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed transportLedgerUnary pairLedgerUnary endpointRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl transportLedger) (hsame_refl pairLedger)
+      carrier.right.right.right.right.right.right.left endpointRow'
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      transportLedgerUnary,
+      pairLedgerUnary,
+      endpointUnary',
+      sameEndpoint,
+      carrier.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.MirrorSymmetryUp
