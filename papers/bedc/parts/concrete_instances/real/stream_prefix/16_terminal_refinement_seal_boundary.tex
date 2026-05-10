@@ -245,6 +245,53 @@ source surface and leaves all excluded quotient, completion, host, Classical,
 metric, arithmetic, order, and bridge rows unread.
 \end{proof}
 
+\begin{theorem}[RealUp terminal RegSeqRat source minimality]
+\label{thm:realup-terminal-regseqrat-source-minimality}
+Every terminal finite-window $\RealUp$ seal consumer factors through a minimal
+$\mathsf{BHist}$ source surface. That surface consists exactly of the displayed
+$\StreamNameUp$ finite-window classifier rows, unary-history membership rows,
+pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$
+spine, the $\mathsf{DyadicRatCore}$ rows, the endpoint transport rows, and the
+visible $\Cont$ and $\mathsf{Pkg}$ ledger rows.
+
+Removing any one of those row classes prevents repacking into the terminal
+source surface read by the $\RealUp$ seal consumer. The minimal surface contains
+no quotient row, completion object, host-index equality,
+metric-completeness datum, or separate seal classifier.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-terminal-regseqrat-source-coverage}. Its coverage
+direction gives the listed $\RegSeqRat$ source surface as the entire read
+boundary of any terminal finite-window $\RealUp$ seal consumer, and its
+converse direction repacks exactly packets carrying those rows.
+
+Uniqueness of the selected source packet is supplied by
+\autoref{thm:streamname-real-regseq-terminal-source-uniqueness}. A second
+candidate surface with the same StreamName finite-window classifier,
+unary-history, rational-history, accepted-spine, dyadic, transport, and ledger
+rows is therefore the same terminal source packet.
+
+Route independence is supplied by
+\autoref{thm:streamname-common-refinement-terminal-route-determinacy}. Before a
+terminal seal consumer reads the packet, every common-refinement route has
+already fixed the same finite-window classifier rows, membership rows,
+pointwise rational-history rows, accepted $\RegSeqRat$ spine, and dyadic
+endpoint data.
+
+Minimality follows by constructor and projection inversion on that packet.
+Omitting a StreamName classifier row removes the finite-window route; omitting a
+membership or unary-history row removes the window boundary; omitting a
+pointwise rational-history row removes the rational observation; omitting the
+accepted spine removes the $\RegSeqRat$ source; omitting a dyadic or endpoint
+transport row removes the endpoint witness; and omitting a visible $\Cont$ or
+$\mathsf{Pkg}$ row removes the ledger needed for repacking.
+
+The same inversion shows that no further row can be required. The coverage and
+determinacy theorems expose no quotient, completion object, host-index equality,
+metric-completeness datum, or separate terminal seal classifier, so there is no
+constructor or projection from which such data could be read.
+\end{proof}
+
 \begin{theorem}[RealUp terminal common-refinement splice uniqueness]
 \label{thm:realup-terminal-common-refinement-splice-uniqueness}
 Let $C$ be a certified $\StreamNameUp$ common-refinement packet whose displayed
