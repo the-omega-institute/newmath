@@ -684,4 +684,69 @@ theorem p9_certified_compiler_has_recognized_flow {C : EventFlow} :
           | intro _RK hRecognizes =>
               exact ⟨S, hRecognizes.right.right⟩
 
+def GlobalVerificationFlow (G : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow G) /\
+    exists manuscriptFlow chapterFlowList theoremFlowList acceptedObjectList
+      compilerFlow bootstrapRegistry cannotClaimRegistry
+      implementationTargetStatus noHostLeakAudit globalLedger globalSeal :
+        EventFlow,
+      P9Subflow G manuscriptFlow /\
+      P9Subflow G chapterFlowList /\
+      P9Subflow G theoremFlowList /\
+      P9Subflow G acceptedObjectList /\
+      P9Subflow G compilerFlow /\
+      P9Subflow G bootstrapRegistry /\
+      P9Subflow G cannotClaimRegistry /\
+      P9Subflow G implementationTargetStatus /\
+      P9Subflow G noHostLeakAudit /\
+      P9Subflow G globalLedger /\
+      P9Subflow G globalSeal
+
+def GlobalVerificationSoundness (G : EventFlow) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow G) /\
+    exists manuscriptFlow chapterFlowList theoremFlowList acceptedObjectList
+      compilerFlow bootstrapRegistry cannotClaimRegistry
+      implementationTargetStatus noHostLeakAudit globalLedger globalSeal :
+        EventFlow,
+      P9Subflow G manuscriptFlow /\
+      P9Subflow G chapterFlowList /\
+      P9Subflow G theoremFlowList /\
+      P9Subflow G acceptedObjectList /\
+      P9Subflow G compilerFlow /\
+      P9Subflow G bootstrapRegistry /\
+      P9Subflow G cannotClaimRegistry /\
+      P9Subflow G implementationTargetStatus /\
+      P9Subflow G noHostLeakAudit /\
+      P9Subflow G globalLedger /\
+      P9Subflow G globalSeal /\
+      NonemptyEventFlow manuscriptFlow /\
+      NonemptyEventFlow chapterFlowList /\
+      NonemptyEventFlow theoremFlowList /\
+      NonemptyEventFlow acceptedObjectList /\
+      (exists S : EventFlow, P9RecognizedCompilerFlow S compilerFlow) /\
+      ((exists behavior : CompilerBehaviorRelation,
+        P9SelfHostingCompiler behavior compilerFlow) \/
+        BootstrapRecorded compilerFlow) /\
+      NonemptyEventFlow bootstrapRegistry /\
+      NonemptyEventFlow cannotClaimRegistry /\
+      NonemptyEventFlow implementationTargetStatus /\
+      NonemptyEventFlow noHostLeakAudit /\
+      NonemptyEventFlow globalLedger /\
+      NonemptyEventFlow globalSeal
+
+def GlobalStatusCertificateFlow (G : EventFlow) : Prop :=
+  GlobalVerificationSoundness G
+
+theorem sound_global_verification_status {G : EventFlow} :
+    GlobalVerificationSoundness G -> GlobalStatusCertificateFlow G := by
+  intro hSound
+  exact hSound
+
+theorem global_verification_no_new_math
+    {G : EventFlow} {w : RawEvent} {m : DisplayAlphabet} :
+    GlobalVerificationFlow G -> List.Mem w G -> List.Mem m w ->
+      m = BMark.b0 \/ m = BMark.b1 := by
+  intro _hGlobal hEvent hMark
+  exact event_flow_conservativity hEvent hMark
+
 end BEDC.GroundCompiler.SelfHostingCompilerFlow

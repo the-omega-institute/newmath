@@ -359,6 +359,7 @@ Fully discharged compiler-flow is self-hosting and has no remaining bootstrap ob
 
 \begin{definition}[Global verification-flow]
 \label{def:self-hosting-global-verification-flow}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.GlobalVerificationFlow}
 A \emph{global verification-flow} is a recognized event flow $G$ containing manuscript-flow, chapter-flow list, theorem-flow list, accepted-object-flow list, compiler-flow, self-hosting status, bootstrap-obligation registry, cannot-claim registry, implementation target status, no-host-leak audit, global ledger, and global status seal. Write
 $$
   \mathsf{GlobalVerificationFlow}(G).
@@ -367,11 +368,13 @@ $$
 
 \begin{definition}[Global verification soundness]
 \label{def:self-hosting-global-verification-soundness}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.GlobalVerificationSoundness}
 A global verification-flow $G$ is \emph{sound} when the manuscript-flow is sound, all chapter-flow statuses are recorded, all theorem-flow statuses are recorded, all accepted-object-flow statuses are recorded, compiler-flow is recognized, self-hosting status is recorded, bootstrap obligations are complete, cannot-claim registry is complete, implementation targets are audited, no-host-leak audit is complete, global ledger is complete, and global seal is present.
 \end{definition}
 
 \begin{theorem}[Sound global verification-flow establishes system status]
 \label{thm:self-hosting-global-verification-status}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.sound\_global\_verification\_status}
 If $G$ is a sound global verification-flow, then it may serve as the global status certificate-flow for the compiler and manuscript system.
 \end{theorem}
 
