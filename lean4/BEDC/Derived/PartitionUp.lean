@@ -116,4 +116,37 @@ theorem PartitionBHistCarrier_young_boundary_package [AskSetup] [PackageSetup]
       routeBoundaryCont,
       packagedCont⟩
 
+theorem PartitionBHistCarrier_ledger_exactness [AskSetup] [PackageSetup]
+    {listRow partRows sumRow weakRows boundaryRow routeLedger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory listRow ->
+      UnaryHistory partRows ->
+        UnaryHistory weakRows ->
+          UnaryHistory routeLedger ->
+            UnaryHistory provenance ->
+              Cont listRow partRows sumRow ->
+                Cont sumRow weakRows boundaryRow ->
+                  Cont boundaryRow routeLedger endpoint ->
+                    PkgSig bundle endpoint pkg ->
+                      UnaryHistory sumRow ∧ UnaryHistory boundaryRow ∧
+                        UnaryHistory endpoint ∧ hsame sumRow (append listRow partRows) ∧
+                          hsame boundaryRow (append sumRow weakRows) ∧
+                            hsame endpoint (append boundaryRow routeLedger) ∧
+                              PkgSig bundle endpoint pkg := by
+  intro listUnary partUnary weakUnary routeUnary _provenanceUnary listPartRow weakBoundaryRow
+    routeEndpointRow pkgSig
+  have sumUnary : UnaryHistory sumRow :=
+    unary_cont_closed listUnary partUnary listPartRow
+  have boundaryUnary : UnaryHistory boundaryRow :=
+    unary_cont_closed sumUnary weakUnary weakBoundaryRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed boundaryUnary routeUnary routeEndpointRow
+  exact
+    And.intro sumUnary
+      (And.intro boundaryUnary
+        (And.intro endpointUnary
+          (And.intro listPartRow
+            (And.intro weakBoundaryRow
+              (And.intro routeEndpointRow pkgSig)))))
+
 end BEDC.Derived.PartitionUp
