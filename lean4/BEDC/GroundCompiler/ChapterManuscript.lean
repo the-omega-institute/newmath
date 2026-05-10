@@ -260,4 +260,68 @@ theorem table_of_contents_alone_not_manuscript
   intro _ hIncomplete
   exact incomplete_manuscript_flow_not_manuscript hIncomplete
 
+def ManuscriptChapterSound
+    (R : GeneratedManuscriptRecognizer) (M : ManuscriptCandidateFlow) : Prop :=
+  exists M1 : ManuscriptCandidateFlow, MsChapters R M M1
+
+def ManuscriptDependencySound
+    (R : GeneratedManuscriptRecognizer) (M : ManuscriptCandidateFlow) : Prop :=
+  exists M2 : ManuscriptCandidateFlow, MsDependencies R M M2
+
+def ManuscriptNotationSound
+    (R : GeneratedManuscriptRecognizer) (M : ManuscriptCandidateFlow) : Prop :=
+  exists M3 : ManuscriptCandidateFlow, MsNotation R M M3
+
+def ManuscriptCertificateSound
+    (R : GeneratedManuscriptRecognizer) (M : ManuscriptCandidateFlow) : Prop :=
+  exists M4 : ManuscriptCandidateFlow, MsCertificates R M M4
+
+def ManuscriptLedgerSound
+    (R : GeneratedManuscriptRecognizer) (M : ManuscriptCandidateFlow) : Prop :=
+  exists M5 : ManuscriptCandidateFlow, MsLedger R M M5
+
+def ManuscriptCannotClaimSound
+    (R : GeneratedManuscriptRecognizer) (M : ManuscriptCandidateFlow) : Prop :=
+  exists M6 : ManuscriptCandidateFlow, MsCannotClaims R M M6
+
+def ManuscriptStatusSound
+    (R : GeneratedManuscriptRecognizer) (M : ManuscriptCandidateFlow) : Prop :=
+  exists M7 : ManuscriptCandidateFlow, MsStatus R M M7
+
+def ManuscriptImplementationSound
+    (R : GeneratedManuscriptRecognizer) (M : ManuscriptCandidateFlow) : Prop :=
+  exists M9 : ManuscriptCandidateFlow, MsImplementationTargets R M M9
+
+def ManuscriptSoundnessClauses
+    (R : GeneratedManuscriptRecognizer) (M : ManuscriptCandidateFlow) : Prop :=
+  ManuscriptChapterSound R M /\
+    ManuscriptDependencySound R M /\
+    ManuscriptNotationSound R M /\
+    ManuscriptCertificateSound R M /\
+    ManuscriptLedgerSound R M /\
+    ManuscriptCannotClaimSound R M /\
+    ManuscriptStatusSound R M /\
+    ManuscriptImplementationSound R M
+
+def SoundManuscriptFlow
+    (R : GeneratedManuscriptRecognizer) (M : ManuscriptCandidateFlow) : Prop :=
+  CompleteManuscriptRecognition R M /\ ManuscriptSoundnessClauses R M
+
+def ManuscriptCode (M : ManuscriptCandidateFlow) : List DisplayAlphabet :=
+  FlowEncoding M
+
+theorem manuscript_code_round_trip (M : ManuscriptCandidateFlow) :
+    Decode (ManuscriptCode M) = some M :=
+  flow_level_round_trip M
+
+theorem sound_manuscript_code
+    {R : GeneratedManuscriptRecognizer} {M : ManuscriptCandidateFlow} :
+    SoundManuscriptFlow R M ->
+      ManuscriptCode M = FlowEncoding M /\
+        Decode (ManuscriptCode M) = some M := by
+  intro _
+  constructor
+  · rfl
+  · exact manuscript_code_round_trip M
+
 end BEDC.GroundCompiler.ChapterManuscript

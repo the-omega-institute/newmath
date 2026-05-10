@@ -328,6 +328,7 @@ A chapter sequence or table-of-contents-like flow alone is not a manuscript-flow
 
 \begin{definition}[Manuscript soundness clauses]
 \label{def:chapter-manuscript-manuscript-soundness-clauses}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.ManuscriptSoundnessClauses}
 For a recognized manuscript-flow:
 \begin{itemize}
 \item chapter soundness requires every chapter-flow to be sound or explicitly marked as pending or cannot-claim chapter;
@@ -343,11 +344,13 @@ For a recognized manuscript-flow:
 
 \begin{definition}[Sound manuscript-flow]
 \label{def:chapter-manuscript-sound-manuscript-flow}
+\leandef{BEDC.GroundCompiler.ChapterManuscript.SoundManuscriptFlow}
 A recognized manuscript-flow $M$ is \emph{sound} when complete manuscript recognition holds and the chapter, dependency, notation, certificate, ledger, cannot-claim, status, and implementation soundness clauses all hold.
 \end{definition}
 
 \begin{theorem}[Sound manuscript-flow establishes manuscript code]
 \label{thm:chapter-manuscript-sound-manuscript-code}
+\leanchecked{BEDC.GroundCompiler.ChapterManuscript.sound\_manuscript\_code}
 If $M$ is a sound manuscript-flow, then one may define
 $$
   \mathsf{ManuscriptCode}(M):=\mathsf{Compile}(M),
