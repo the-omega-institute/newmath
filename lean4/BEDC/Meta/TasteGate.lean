@@ -18,7 +18,7 @@ supply its own `Prop` field — that allowed vacuous witnesses (such as
 that schema with carrier-pinned obligations.
 -/
 
-namespace BEDC.GroundCompiler.TasteGate
+namespace BEDC.Meta.TasteGate
 
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -84,4 +84,4 @@ instance groundCompilerChapterTasteGate : ChapterTasteGate EventFlow where
 def groundCompilerSelfTasteGate : ChapterTasteGate EventFlow :=
   groundCompilerChapterTasteGate
 
-end BEDC.GroundCompiler.TasteGate
+end BEDC.Meta.TasteGate
