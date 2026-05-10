@@ -487,4 +487,48 @@ theorem CompactMetricCertificate_continuousmap_consumption_boundary {X : BHist -
             ⟨net, complete, consumerUnary, consumerRow, limitDist, limitDistance.left,
               limitDistance.right.left, limitDistance.right.right⟩
 
+theorem CompactMetricProbeBundleNetFamily_obligation {X : BHist -> Prop} {eps eps' x : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> hsame eps eps' -> X x ->
+      TotallyBoundedProbeBundleNet X eps bundle ∧
+        TotallyBoundedProbeBundleNet X eps' bundle ∧
+          exists center : BHist, InBundle center bundle ∧ X center ∧
+            exists d : BHist, MetricDistanceWitness x center d ∧
+              RatHistoryClassifier d eps' := by
+  intro certificate sameEps source
+  have transportedNet : TotallyBoundedProbeBundleNet X eps' bundle :=
+    TotallyBoundedProbeBundleNet_coverage_hsame_transport sameEps certificate.left
+  constructor
+  · exact certificate.left
+  · constructor
+    · exact transportedNet
+    · cases transportedNet.right.right source with
+      | intro center centerData =>
+          exact Exists.intro center
+            (And.intro centerData.left
+              (And.intro (transportedNet.right.left centerData.left) centerData.right))
+
+theorem CompactMetricLimitWitnessFamily_obligation {X : BHist -> Prop} {eps n : BHist}
+    {bundle : ProbeBundle BHist} {s s' M M' : BHist -> BHist} {limit limit' : BHist} :
+    (forall {h k : BHist}, hsame h k -> X h -> X k) ->
+      (forall {m : BHist}, UnaryHistory m -> hsame (s m) (s' m)) ->
+        (forall {m : BHist}, UnaryHistory m -> hsame (M m) (M' m)) ->
+          hsame limit limit' -> CompactMetricCertificate X eps bundle s M limit ->
+            UnaryHistory n -> X (s n) ->
+              CompleteMetricLimitWitness X s M limit ∧
+                CompleteMetricLimitWitness X s' M' limit' ∧
+                  exists d : BHist,
+                    MetricDistanceWitness (s n) limit d ∧ Cont (s n) limit d ∧
+                      RatHistoryClassifier d (M n) ∧ PositiveUnaryDenominator d ∧
+                        PositiveUnaryDenominator (M n) := by
+  intro carrierTransport streamTransport modulusTransport sameLimit certificate nUnary source
+  have transportedCertificate :
+      CompactMetricCertificate X eps bundle s' M' limit' :=
+    CompactMetricCertificate_hsame_transport carrierTransport (hsame_refl eps) streamTransport
+      modulusTransport sameLimit certificate
+  have limitRows :=
+    CompactMetricCompleteLimit_obligation certificate nUnary source
+  exact And.intro certificate.right
+    (And.intro transportedCertificate.right limitRows.right.right)
+
 end BEDC.Derived.CompactMetricUp
