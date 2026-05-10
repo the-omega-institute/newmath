@@ -157,6 +157,7 @@ Certified compiler status includes recognized compiler-flow, but recognized comp
 
 \begin{definition}[Compiler behavior relation]
 \label{def:self-hosting-p9-compiler-behavior-relation}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.CompilerBehaviorRelation}
 The relation
 $$
   \mathsf{Compiles}_{C}(X,Y)
@@ -166,6 +167,7 @@ has $C,X,Y\in\mathsf{EventFlow}$ and reads: compiler-flow $C$ compiles input eve
 
 \begin{definition}[Behavior record]
 \label{def:self-hosting-behavior-record}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9BehaviorRecord}
 A \emph{behavior record} is an event subflow $B_C$ recording compiler-flow $C$, input flow $X$, output flow $Y$, the compilation relation $C:X\mapsto Y$, failure branches, and ledger. Write
 $$
   \mathsf{BehaviorRecord}(B_C,C,X,Y).
@@ -174,11 +176,13 @@ $$
 
 \begin{definition}[Behavior soundness]
 \label{def:self-hosting-behavior-soundness}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9BehaviorSoundness}
 A behavior record $B_C$ is \emph{sound} when its recorded $\mathsf{Compiles}_{C}(X,Y)$ relation agrees with the encoding, decoding, and recognition rules in $C$'s compiler certificate-flow, and when failure-flow and ledger-flow are complete.
 \end{definition}
 
 \begin{theorem}[Sound behavior record establishes compiler action]
 \label{thm:self-hosting-sound-behavior-record}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.p9\_sound\_behavior\_record\_establishes\_action}
 If $B_C$ is a sound behavior record for $(C,X,Y)$, then $\mathsf{Compiles}_{C}(X,Y)$ may be used formally.
 \end{theorem}
 

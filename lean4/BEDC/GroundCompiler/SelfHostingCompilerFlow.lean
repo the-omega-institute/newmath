@@ -455,6 +455,20 @@ def P9CompleteCertifiedCompiler (C : EventFlow) : Prop :=
   exists S : EventFlow, exists KC : EventFlow, exists RK : EventFlow,
     P9CompleteCompilerCertificate RK S KC C
 
+def P9BehaviorRecord
+    (Compiles : CompilerBehaviorRelation)
+    (BC C X Y : EventFlow) : Prop :=
+  NonemptyEventFlow BC /\
+    P9Subflow BC C /\
+    P9Subflow BC X /\
+    P9Subflow BC Y /\
+    Compiles C X Y
+
+def P9BehaviorSoundness
+    (Compiles : CompilerBehaviorRelation)
+    (BC C X Y : EventFlow) : Prop :=
+  P9BehaviorRecord Compiles BC C X Y /\ P9CompleteCertifiedCompiler C
+
 def P9CompleteFormalCompilationJudgment
     (Compiles : CompilerBehaviorRelation)
     (C S T : EventFlow) : Prop :=
@@ -475,6 +489,14 @@ theorem p9_no_compiler_without_complete_certificate
       Not (P9CompleteFormalCompilationJudgment Compiles C S T) := by
   intro hNoCert hJudgment
   exact hNoCert hJudgment.left
+
+theorem p9_sound_behavior_record_establishes_action
+    {Compiles : CompilerBehaviorRelation}
+    {BC C X Y : EventFlow} :
+    P9BehaviorSoundness Compiles BC C X Y ->
+      P9CompleteFormalCompilationJudgment Compiles C X Y := by
+  intro hSound
+  exact ⟨hSound.right, hSound.left.right.right.right.right⟩
 
 inductive HostCompilerIdentity : Type where
   | hostExecutable
