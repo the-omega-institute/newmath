@@ -15388,3 +15388,51 @@ Rationale:
 Major structural gap: existing BOARD has identities (B-592/B-593), zero absorption (B-570), and distributivity (B-579/B-587) but no associativity for rawMul. Closing this is the main missing pillar between an operation package and a true semiring-like structure on PolynomialUp. Concrete inductive proof on literal recursion and add-trim algebra, no abstract carrier transport.
 
 ---
+
+### B-605 - Ideal sum is the least upper bound under inclusion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Ideal sum is the least upper bound under inclusion |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+In IdealUp with inclusion preorder, if I≤K and J≤K then I+J≤K, and I≤I+J, J≤I+J, so I+J is the least upper bound of I,J.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/ideal/02_lattice_sum_surface.tex`
+
+Rationale:
+Natural structural lift of the recently-closed B-601/B-602/B-603 cluster (commutativity, associativity, monotonicity of ideal sum). The LUB / lattice-join formulation has not landed yet, and B-555 only gives the dual intersection-as-GLB. Proof reuses the existing sum-membership predicate plus the inclusion preorder, no external structure.
+
+---
+
+### B-606 - ConvexSet intersection is the inclusion meet
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | ConvexSet intersection is the inclusion meet |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+In ConvexSetUp with pointwise intersection carrier, if E⊆C and E⊆D then E⊆C∩D, plus C∩D⊆C and C∩D⊆D, so C∩D is the greatest lower bound of C,D in the inclusion preorder.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+
+Rationale:
+Direct order-theoretic extension of B-604 (intersection commutativity). Distinct from B-555 (ideal-side GLB) since the carrier and convex-combination obligations differ. Universal-property phrasing requires both projection bounds plus universality, so it is more than a paraphrase. Lands in a non-cap file.
+
+---
