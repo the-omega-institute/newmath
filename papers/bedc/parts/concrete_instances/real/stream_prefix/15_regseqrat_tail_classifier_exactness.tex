@@ -94,6 +94,49 @@ excluded quotient, completion, Classical, metric, arithmetic, order, bridge,
 and hidden-selector data have no projection into the comparison.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-classifier directed-refinement normal form]
+\label{thm:regseqrat-tail-classifier-directed-refinement-normal-form}
+Let $\{\mathcal{A}_r\}_{r\in R}$ be a finite directed family of finite atlases
+of selected $\RealUp$ observation-window packages. Suppose every transition
+$\mathcal{A}_r\to\mathcal{A}_s$ with $r\leq s$, every displayed cofinal
+refinement, and every comparison pullback preserves the displayed
+$\StreamNameUp$, $\RegSeqRat$, DyadicRatCore, $\mathsf{UnaryHistory}$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows. Choose any cofinal refined atlas row and read
+its selected $\RegSeqRat$ tail classifier.
+
+Then that selected classifier agrees with the normal-form tail row on the
+directed union. The comparison is the unique finite-window row whose pullback
+to every selected tail window is the displayed chart classifier, and it uses no
+quotient, completion, Classical representative, metric-completeness
+certificate, arithmetic or order row, standard-bridge row, or hidden selector.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-classifier-atlas-descent} to each finite atlas
+in the directed family. The directed hypotheses give a chartwise selected row
+on every stage, and each such row is built only from the displayed
+StreamName, RegSeqRat, dyadic, unary-history, probe, membership, transport,
+package, and policy data.
+
+For a transition $r\leq s$, use
+\autoref{thm:regseqrat-tail-classifier-atlas-refinement-invariance} and
+\autoref{thm:regseqrat-tail-classifier-reindexed-cover-compatibility}. They
+identify the selected row on $\mathcal{A}_s$ with the pullback of the selected
+row on $\mathcal{A}_r$ along the displayed finite refinement.
+
+Cofinal changes of the directed atlas are reduced to one finite comparison by
+\autoref{thm:regseqrat-tail-classifier-nested-cover-associativity}, and
+\autoref{thm:regseqrat-tail-classifier-subatlas-restriction-exactness} removes
+the charts outside the selected cofinal row. Thus both the cofinal read and the
+directed-union normal form have the same pullback on every selected tail window.
+
+Finally apply \autoref{thm:regseqrat-tail-classifier-pullback-uniqueness}. The
+two finite-window rows are equal because their chart pullbacks agree, and the
+preserved row inventory listed in the hypotheses leaves no projection for the
+excluded quotient, completion, Classical, metric, arithmetic, order, bridge, or
+hidden-selector data.
+\end{proof}
+
 \begin{theorem}[RegSeqRat tail-classifier reindexing normal form]
 \label{thm:regseqrat-tail-classifier-reindexing-normal-form}
 Let $W$ be a finite $\RealUp$ observation-window package, and let
