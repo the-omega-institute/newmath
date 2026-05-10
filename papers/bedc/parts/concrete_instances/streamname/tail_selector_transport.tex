@@ -77,6 +77,61 @@ from $W_0$ is the same selected readback as the one read from $W_1$, and the
 scoped exactness theorem supplies the stated exclusions.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat tail-selector handoff exactness]
+\label{thm:streamname-regseqrat-tail-selector-handoff-exactness}
+Let $W_0$ and $W_1$ be selected finite $\RealUp$ observation-window packages
+over the same public $\StreamNameUp$ rational stream endpoints and the same
+finite $\mathsf{ProbeBundle}$ window. If $W_0$ and $W_1$ are connected by an
+accepted StreamName RegSeqRat RealUp tail-selector transport packet, then the
+packet exported across the Real-and-Completion boundary decomposes exactly into
+the following public finite rows:
+\begin{enumerate}
+\item the displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$ row for the
+public $\StreamNameUp$ endpoints;
+\item the bundled $\mathsf{UnaryHistory}(n)$ and
+$\mathsf{InBundle}(n,\mathcal P)$ rows for each selected observation $n$;
+\item the pointwise $\mathsf{RatHistoryClassifier}(s(n),t(n))$ rows read from
+those selected observations;
+\item the accepted $\RegSeqRat$ spine row determined by the finite-window
+StreamName handoff;
+\item the DyadicRatCore endpoint rows read from that same accepted spine by the
+selected $\RealUp$ windows; and
+\item the finite $\RealUp$ ledger rows for $\Cont$, $\hsame$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ over the selected window.
+\end{enumerate}
+
+The handoff packet exports no quotient row, completion row, Classical
+representative, metric-completeness certificate, arithmetic or order operation,
+or selector beyond the displayed finite rows.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-regseqrat-realup-tail-selector-transport} to the accepted
+transport packet. The resulting agreement fixes the selected $\RegSeqRat$
+tail-classifier readback on the common finite window and restricts the
+transport to the rows displayed in the packet definition.
+
+Next use \autoref{thm:streamname-regseqrat-observation-stability}. It identifies
+the StreamName contribution to the packet as the public finite-window classifier
+together with the bundled $\mathsf{UnaryHistory}/\mathsf{InBundle}$ observations
+and their pointwise rational-history classifier rows.
+
+Use \autoref{thm:streamname-regseqrat-uniform-finite-window-seal} to read the
+accepted $\RegSeqRat$ spine from those stabilized StreamName rows. The seal
+supplies the single finite spine row consumed by the two selected endpoint
+windows and does not introduce a quotient or completion representative.
+
+Finally apply
+\autoref{thm:realup-streamname-regseqrat-uniform-window-readback}. The RealUp
+readback is exactly the DyadicRatCore endpoint surface and the finite
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ ledger over the selected window.
+Combining these four exactness statements gives precisely the six displayed
+families of rows, and the exclusion clauses follow because none of the cited
+theorems exports quotient data, completion data, metric completeness,
+arithmetic or order operations, or additional selectors.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat RealUp tail-selector transport composition]
 \label{thm:streamname-regseqrat-realup-tail-selector-transport-composition}
 Let $W_0$, $W_1$, and $W_2$ be selected finite $\RealUp$ observation-window
