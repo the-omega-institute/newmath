@@ -107,4 +107,39 @@ theorem AbelRuffiniNonradicalBoundary_obstruction_surface
       sourceSurfaceData.right.right.right.right.right, endpointData.right.right.right.right,
       boundaryRow⟩
 
+theorem AbelRuffiniNonradicalBoundary_obligation
+    {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger
+      sourceSurface commutator subgroup next obstruction boundary : BHist} :
+    UnaryHistory polynomial -> UnaryHistory base -> UnaryHistory splittingField ->
+      UnaryHistory galoisRow -> UnaryHistory s5Row -> UnaryHistory commutator ->
+        UnaryHistory obstruction -> Cont polynomial base coefficientLedger ->
+          Cont splittingField galoisRow galoisLedger ->
+            Cont coefficientLedger galoisLedger sourceSurface ->
+              Cont galoisRow s5Row subgroup -> Cont subgroup commutator next ->
+                Cont next obstruction boundary ->
+                  UnaryHistory sourceSurface ∧ UnaryHistory subgroup ∧ UnaryHistory next ∧
+                    UnaryHistory boundary ∧
+                      hsame sourceSurface (append coefficientLedger galoisLedger) ∧
+                        hsame subgroup (append galoisRow s5Row) ∧
+                          hsame next (append subgroup commutator) ∧
+                            hsame boundary (append next obstruction) := by
+  intro polynomialUnary baseUnary splittingFieldUnary galoisRowUnary s5RowUnary
+  intro commutatorUnary obstructionUnary coefficientRow galoisLedgerRow sourceSurfaceRow
+  intro subgroupRow nextRow boundaryRow
+  have coefficientUnary : UnaryHistory coefficientLedger :=
+    unary_cont_closed polynomialUnary baseUnary coefficientRow
+  have galoisLedgerUnary : UnaryHistory galoisLedger :=
+    unary_cont_closed splittingFieldUnary galoisRowUnary galoisLedgerRow
+  have sourceSurfaceUnary : UnaryHistory sourceSurface :=
+    unary_cont_closed coefficientUnary galoisLedgerUnary sourceSurfaceRow
+  have subgroupUnary : UnaryHistory subgroup :=
+    unary_cont_closed galoisRowUnary s5RowUnary subgroupRow
+  have nextUnary : UnaryHistory next :=
+    unary_cont_closed subgroupUnary commutatorUnary nextRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed nextUnary obstructionUnary boundaryRow
+  exact
+    ⟨sourceSurfaceUnary, subgroupUnary, nextUnary, boundaryUnary, sourceSurfaceRow, subgroupRow,
+      nextRow, boundaryRow⟩
+
 end BEDC.Derived.AbelRuffiniUp

@@ -7,6 +7,29 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 
+theorem ComplexityClassBoundedAcceptanceCarrier_bounded_surface
+    {input length acceptor trace modulus verdict resource package : BHist} :
+    UnaryHistory input -> UnaryHistory length -> UnaryHistory acceptor -> UnaryHistory modulus ->
+      Cont input length resource -> Cont acceptor resource trace -> Cont trace modulus verdict ->
+        Cont input verdict package ->
+          UnaryHistory resource ∧ UnaryHistory trace ∧ UnaryHistory verdict ∧
+            UnaryHistory package ∧ hsame resource (append input length) ∧
+              hsame trace (append acceptor resource) ∧ hsame verdict (append trace modulus) ∧
+                hsame package (append input verdict) := by
+  intro inputUnary lengthUnary acceptorUnary modulusUnary resourceRow traceRow verdictRow
+    packageRow
+  have resourceUnary : UnaryHistory resource :=
+    unary_cont_closed inputUnary lengthUnary resourceRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed acceptorUnary resourceUnary traceRow
+  have verdictUnary : UnaryHistory verdict :=
+    unary_cont_closed traceUnary modulusUnary verdictRow
+  have packageUnary : UnaryHistory package :=
+    unary_cont_closed inputUnary verdictUnary packageRow
+  exact
+    ⟨resourceUnary, traceUnary, verdictUnary, packageUnary, resourceRow, traceRow, verdictRow,
+      packageRow⟩
+
 theorem ComplexityClassBoundedAcceptanceCarrier_bounded_acceptance_surface
     {input length acceptor trace modulus budget verdict accepted : BHist} :
     UnaryHistory input -> UnaryHistory length -> UnaryHistory acceptor -> UnaryHistory modulus ->
@@ -74,5 +97,28 @@ theorem ComplexityClassBoundedAcceptanceCarrier_finite_surface
   exact
     ⟨budgetUnary, traceUnary, verdictUnary, acceptanceUnary, budgetRow, traceRow, verdictRow,
       acceptanceRow⟩
+
+theorem ComplexityClassBoundedAcceptance_carrier
+    {input length acceptor modulus trace budget verdict package : BHist} :
+    UnaryHistory input -> UnaryHistory length -> UnaryHistory acceptor -> UnaryHistory modulus ->
+      Cont input length trace -> Cont length modulus budget -> Cont trace budget verdict ->
+        Cont acceptor verdict package ->
+          UnaryHistory trace ∧ UnaryHistory budget ∧ UnaryHistory verdict ∧
+            UnaryHistory package ∧ hsame trace (append input length) ∧
+              hsame budget (append length modulus) ∧ hsame verdict (append trace budget) ∧
+                hsame package (append acceptor verdict) := by
+  intro inputUnary lengthUnary acceptorUnary modulusUnary
+  intro traceRow budgetRow verdictRow packageRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed inputUnary lengthUnary traceRow
+  have budgetUnary : UnaryHistory budget :=
+    unary_cont_closed lengthUnary modulusUnary budgetRow
+  have verdictUnary : UnaryHistory verdict :=
+    unary_cont_closed traceUnary budgetUnary verdictRow
+  have packageUnary : UnaryHistory package :=
+    unary_cont_closed acceptorUnary verdictUnary packageRow
+  exact
+    ⟨traceUnary, budgetUnary, verdictUnary, packageUnary, traceRow, budgetRow, verdictRow,
+      packageRow⟩
 
 end BEDC.Derived.ComplexityClassUp
