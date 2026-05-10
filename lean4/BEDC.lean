@@ -149,6 +149,7 @@ import BEDC.Derived.CurvatureUp.SourceEnvelopeReadback
 import BEDC.Derived.CurvatureUp.SourceEnvelopeExactness
 import BEDC.Derived.CurvatureUp.SemanticNameCertificate
 import BEDC.Derived.CurvatureUp.SourceEnvelopeProjection
+import BEDC.Derived.CurvatureUp.VisibleInputExhaustion
 import BEDC.Derived.CurvatureUp.CarrierBoundaryRow
 import BEDC.Derived.CurvatureUp.ManifoldBaseDependencyRow
 import BEDC.Derived.CurvatureUp.BundleFibreDependencyRow
@@ -569,6 +570,7 @@ import BEDC.Derived.DiffFormUp.RootBoundaryConsumer
 import BEDC.Derived.DiffFormUp.RootConsumerExport
 import BEDC.Derived.DiffFormUp.RootConsumerFaceExhaustion
 import BEDC.Derived.DiffFormUp.RootConsumerFace
+import BEDC.Derived.DiffFormUp.RootDegreeProbeFace
 import BEDC.Derived.DiffFormUp.RootConsumerFactorization
 import BEDC.Derived.DiffFormUp.RootConsumerEntry
 import BEDC.Derived.DiffFormUp.RootConsumerReadablePackage
