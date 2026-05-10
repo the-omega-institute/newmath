@@ -201,6 +201,71 @@ theorem MarkovChainTransitionPacket_kernel_classifier_stability
           (And.intro readback' (And.intro transportedProvenance transportedLedger))))
   exact And.intro transportedPacket (And.intro sameProvenance sameLedger)
 
+def MarkovChainTransitionLedgerSurface (ledger : BHist) : Prop :=
+  ∃ source time current next law transition provenance : BHist,
+    MarkovChainTransitionPacket source time current next law transition provenance ledger
+
+theorem MarkovChainTransitionLedgerSurface_semantic_name_certificate {ledger : BHist} :
+    MarkovChainTransitionLedgerSurface ledger ->
+      SemanticNameCert MarkovChainTransitionLedgerSurface MarkovChainTransitionLedgerSurface
+        MarkovChainTransitionLedgerSurface hsame := by
+  intro surface
+  have cert :
+      NameCert MarkovChainTransitionLedgerSurface hsame := {
+    carrier_inhabited := Exists.intro ledger surface
+    equiv_refl := by
+      intro row _rowSurface
+      exact hsame_refl row
+    equiv_symm := by
+      intro row row' sameRows
+      exact hsame_symm sameRows
+    equiv_trans := by
+      intro row row' row'' sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    carrier_respects_equiv := by
+      intro row row' sameRows rowSurface
+      cases rowSurface with
+      | intro source rowSurface =>
+          cases rowSurface with
+          | intro time rowSurface =>
+              cases rowSurface with
+              | intro current rowSurface =>
+                  cases rowSurface with
+                  | intro next rowSurface =>
+                      cases rowSurface with
+                      | intro law rowSurface =>
+                          cases rowSurface with
+                          | intro transition rowSurface =>
+                              cases rowSurface with
+                              | intro provenance packet =>
+                                  have ledgerRow' : Cont provenance law row' :=
+                                    cont_result_hsame_transport
+                                      packet.right.right.right.right.right sameRows
+                                  exact Exists.intro source
+                                    (Exists.intro time
+                                      (Exists.intro current
+                                        (Exists.intro next
+                                          (Exists.intro law
+                                            (Exists.intro transition
+                                              (Exists.intro provenance
+                                                (And.intro packet.left
+                                                  (And.intro packet.right.left
+                                                    (And.intro packet.right.right.left
+                                                      (And.intro packet.right.right.right.left
+                                                        (And.intro
+                                                          packet.right.right.right.right.left
+                                                          ledgerRow')))))))))))
+  }
+  exact {
+    core := cert
+    pattern_sound := by
+      intro _row rowSurface
+      exact rowSurface
+    ledger_sound := by
+      intro _row rowSurface
+      exact rowSurface
+  }
+
 theorem MarkovChainBHistTransitionCarrier_transition_ledger_exactness
     [AskSetup] [PackageSetup]
     {prob random law transition controw provenance endpoint : BHist}
