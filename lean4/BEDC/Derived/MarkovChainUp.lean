@@ -297,6 +297,49 @@ theorem MarkovChainTransitionPacket_kernel_classifier_stability
           (And.intro readback' (And.intro transportedProvenance transportedLedger))))
   exact And.intro transportedPacket (And.intro sameProvenance sameLedger)
 
+theorem MarkovChainTransitionPacket_splice_transport_closure
+    {source time current splice law transition provenance ledger source' time' splice' next law'
+      transition' provenance' ledger' transportedProvenance transportedLedger : BHist} :
+    MarkovChainTransitionPacket source time current splice law transition provenance ledger ->
+      MarkovChainTransitionPacket source' time' splice' next law' transition' provenance'
+        ledger' ->
+        hsame source source' ->
+          hsame splice splice' ->
+            Cont splice transition' transportedProvenance ->
+              Cont transportedProvenance law' transportedLedger ->
+                MarkovChainTransitionPacket source time' splice next law' transition'
+                    transportedProvenance transportedLedger ∧
+                  hsame provenance' transportedProvenance ∧ hsame ledger' transportedLedger := by
+  intro firstPacket secondPacket sameSource sameSplice transportedProvenanceCont
+    transportedLedgerCont
+  have sourceRows :
+      ProbSpacePublicEventPacket source source splice next law' :=
+    (ProbSpacePublicEventPacket_transport_rows (hsame_symm sameSource) (hsame_symm sameSource)
+      (hsame_symm sameSplice) (hsame_refl next) (hsame_refl law') secondPacket.left).left
+  have readback :
+      RandomVarTotalReadbackCertificate splice next transition' := {
+    chosen_readback :=
+      cont_hsame_transport (hsame_symm sameSplice) (hsame_refl BHist.Empty)
+        (hsame_refl transition') secondPacket.right.right.right.left.chosen_readback
+    carried_total_bridge :=
+      cont_hsame_transport (hsame_symm sameSplice) (hsame_refl BHist.Empty)
+        (hsame_refl next) secondPacket.right.right.right.left.carried_total_bridge
+  }
+  have sameProvenance : hsame provenance' transportedProvenance :=
+    cont_respects_hsame (hsame_symm sameSplice) (hsame_refl transition')
+      secondPacket.right.right.right.right.left transportedProvenanceCont
+  have sameLedger : hsame ledger' transportedLedger :=
+    cont_respects_hsame sameProvenance (hsame_refl law')
+      secondPacket.right.right.right.right.right transportedLedgerCont
+  have transportedPacket :
+      MarkovChainTransitionPacket source time' splice next law' transition'
+        transportedProvenance transportedLedger :=
+    And.intro sourceRows
+      (And.intro secondPacket.right.left
+        (And.intro secondPacket.right.right.left
+          (And.intro readback (And.intro transportedProvenanceCont transportedLedgerCont))))
+  exact And.intro transportedPacket (And.intro sameProvenance sameLedger)
+
 theorem MarkovChainBHistTransitionCarrier_transition_ledger_exactness
     [AskSetup] [PackageSetup]
     {prob random law transition controw provenance endpoint : BHist}

@@ -97,4 +97,24 @@ theorem NewtonIterationStep_stability
         (And.intro sameStep
           (And.intro sameLedger sameNext))))
 
+theorem NewtonIterationBHistCarrier_finite_step_ledger_concat_closure
+    {derivative banach point derivativeRow inverse next stepLedger provenance endpoint derivative'
+      banach' point' derivativeRow' inverse' next' stepLedger' provenance' endpoint'
+      joined : BHist} :
+    NewtonIterationBHistCarrier derivative banach point derivativeRow inverse next stepLedger
+      provenance endpoint ->
+      NewtonIterationBHistCarrier derivative' banach' point' derivativeRow' inverse' next'
+        stepLedger' provenance' endpoint' ->
+        Cont endpoint endpoint' joined ->
+          UnaryHistory joined ∧ hsame joined (append endpoint endpoint') := by
+  intro firstCarrier secondCarrier joinedCont
+  have firstScope :=
+    NewtonIterationBHistCarrier_banach_derivative_source_scope firstCarrier
+  have secondScope :=
+    NewtonIterationBHistCarrier_banach_derivative_source_scope secondCarrier
+  have joinedUnary : UnaryHistory joined :=
+    unary_cont_closed firstScope.right.right.right.right.right.right.right.left
+      secondScope.right.right.right.right.right.right.right.left joinedCont
+  exact And.intro joinedUnary joinedCont
+
 end BEDC.Derived.NewtonIterationUp
