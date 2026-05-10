@@ -88,4 +88,28 @@ theorem RamseyColouringCarrier_obligation_surface [AskSetup] [PackageSetup]
       endpointRow,
       pkgSig⟩
 
+theorem RamseyColouringCarrier_finite_ledger_exactness [AskSetup] [PackageSetup]
+    {vertex subset colour lookup provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RamseyColouringCarrier vertex subset colour lookup provenance endpoint bundle pkg ->
+      UnaryHistory vertex ∧ UnaryHistory subset ∧ UnaryHistory colour ∧
+        UnaryHistory provenance ∧ UnaryHistory lookup ∧ UnaryHistory endpoint ∧
+          hsame lookup (append vertex subset) ∧ hsame endpoint (append lookup colour) ∧
+            PkgSig bundle endpoint pkg := by
+  intro carrier
+  have lookupUnary : UnaryHistory lookup :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed lookupUnary carrier.right.right.left carrier.right.right.right.right.right.left
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      lookupUnary,
+      endpointUnary,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right⟩
+
 end BEDC.Derived.RamseyUp
