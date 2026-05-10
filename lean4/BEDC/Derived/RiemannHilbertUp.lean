@@ -158,6 +158,40 @@ theorem RiemannHilbertBHistBridgePacket_regular_holonomic_soundness
       (And.intro soundnessCont
         (And.intro deRhamCont (And.intro gluingCont pkgSig)))
 
+theorem RiemannHilbertBHistBridgePacket_sheaf_gluing_exactness
+    [AskSetup] [PackageSetup]
+    {derivedSource sheafTarget regularBranch deRhamReadback localSystem gluing transport
+      provenance endpoint gluedTarget gluedTransport gluedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannHilbertBHistBridgePacket derivedSource sheafTarget regularBranch
+        deRhamReadback localSystem gluing transport provenance endpoint bundle pkg ->
+      Cont sheafTarget localSystem gluedTarget ->
+      Cont regularBranch gluedTarget gluedTransport ->
+      Cont gluedTransport provenance gluedEndpoint ->
+      PkgSig bundle gluedEndpoint pkg ->
+      UnaryHistory gluedTarget ∧ UnaryHistory gluedTransport ∧ UnaryHistory gluedEndpoint ∧
+        hsame gluedTarget (append sheafTarget localSystem) ∧
+          hsame gluedEndpoint (append gluedTransport provenance) ∧
+            PkgSig bundle gluedEndpoint pkg := by
+  intro packet targetCont transportCont endpointCont pkgSig
+  have sheafTargetUnary : UnaryHistory sheafTarget := packet.right.left
+  have regularBranchUnary : UnaryHistory regularBranch := packet.right.right.left
+  have localSystemUnary : UnaryHistory localSystem := packet.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance := packet.right.right.right.right.left
+  have gluedTargetUnary : UnaryHistory gluedTarget :=
+    unary_cont_closed sheafTargetUnary localSystemUnary targetCont
+  have gluedTransportUnary : UnaryHistory gluedTransport :=
+    unary_cont_closed regularBranchUnary gluedTargetUnary transportCont
+  have gluedEndpointUnary : UnaryHistory gluedEndpoint :=
+    unary_cont_closed gluedTransportUnary provenanceUnary endpointCont
+  exact
+    ⟨gluedTargetUnary,
+      gluedTransportUnary,
+      gluedEndpointUnary,
+      targetCont,
+      endpointCont,
+      pkgSig⟩
+
 theorem RiemannHilbertBHistBridgePacket_local_system_ledger [AskSetup] [PackageSetup]
     {derivedSource sheafTarget regularBranch deRhamReadback localSystem gluing transport
       provenance endpoint consumer : BHist}
