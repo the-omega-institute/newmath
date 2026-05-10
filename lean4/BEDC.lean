@@ -93,7 +93,6 @@ import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
-import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.InducedRepUp
@@ -285,7 +284,6 @@ import BEDC.Derived.SpinGroupUp.CliffordGroupConsumerBoundary
 import BEDC.Derived.SpinGroupUp.LedgerExclusion
 import BEDC.Derived.SpinGroupUp.SpinBoundaryInclusionTransport
 import BEDC.Derived.ContactUp
-import BEDC.Derived.InfCatUp
 import BEDC.Derived.ConnectionUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.RealAlgOrderUp
@@ -607,7 +605,6 @@ import BEDC.Derived.GaloisGroupUp.AssociativeActionRow
 import BEDC.Derived.GaloisGroupUp.FixedBasePublicSurface
 import BEDC.Derived.GaloisGroupUp.ActionRows
 import BEDC.Derived.GaloisGroupUp.IdentityRowClosure
-import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
 import BEDC.Derived.NumFieldUp
@@ -733,7 +730,6 @@ import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
 import BEDC.Derived.HilbertUp.ProjectionBridge
-import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.FpsUp.CauchyProductSemigroup
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy
@@ -819,6 +815,7 @@ import BEDC.Derived.S1Up.EquationTransportObligationSurface
 import BEDC.Derived.S1Up.PublicConstructorPacket
 import BEDC.Derived.S1Up.PublicEndpointExactness
 import BEDC.Derived.S1Up.RealMetricBridgeBoundary
+import BEDC.Derived.S1Up.StandardTopologicalBridgeBoundary
 import BEDC.Derived.S1Up.PublicNameCertBoundary
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.SingletonEquationSolver
