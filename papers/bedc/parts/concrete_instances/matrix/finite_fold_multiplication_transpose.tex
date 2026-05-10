@@ -120,3 +120,52 @@ $$
 (A+B)^{\mathsf{T}}\sim_{\mathrm{Mat}}A^{\mathsf{T}}+B^{\mathsf{T}}.
 $$
 \end{proof}
+
+\begin{theorem}[Matrix transpose fixes the finite-fold identity matrix]
+\label{thm:matrix-transpose-fixes-finite-fold-identity}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint
+$0_R$, and unit endpoint $1_R$. Let $n:\NatUp$, and let $I_n$ be the
+finite-fold identity matrix of \autoref{def:finite-fold-matrix-identity-data}.
+Consider the square $\MatrixUp$ carrier over
+$\mathsf{Fin}(n)\times\mathsf{Fin}(n)$ from \autoref{def:matrix-carrier}, with
+pointwise classifier from \autoref{def:matrix-classifier-specification}. Then
+$I_n^{\mathsf{T}}$ is carried and
+$$
+I_n^{\mathsf{T}}\sim_{\mathrm{Mat}} I_n.
+$$
+\end{theorem}
+\begin{proof}
+The identity datum of \autoref{def:finite-fold-matrix-identity-data} carries
+$I_n$ pointwise: each entry is the scalar endpoint $1_R$ on the diagonal and
+$0_R$ off the diagonal. Applying
+\autoref{def:matrix-transpose-certified-scalar-carrier} to this carried square
+matrix carries $I_n^{\mathsf{T}}$ over the same finite row and column carrier,
+since the transposed index pair again lies in
+$\mathsf{Fin}(n)\times\mathsf{Fin}(n)$.
+
+It remains to compare entries. Fix $i,j:\mathsf{Fin}(n)$. By transpose
+readback,
+$$
+(I_n^{\mathsf{T}})_{i,j}=(I_n)_{j,i}.
+$$
+By the identity-matrix definition, $(I_n)_{j,i}$ is classified with the
+Kronecker endpoint $\delta_{j,i}$ and $(I_n)_{i,j}$ is classified with
+$\delta_{i,j}$. The finite-index equality certificate is symmetric: if $j$ and
+$i$ are identified, then $i$ and $j$ are identified as well, so both
+Kronecker endpoints are $1_R$; if they are not identified, both Kronecker
+endpoints are $0_R$. Scalar classifier reflexivity for the carried endpoints
+$1_R$ and $0_R$, followed by the scalar classifier symmetry and transitivity
+fields, therefore gives
+$$
+(I_n)_{j,i}\sim_R (I_n)_{i,j}.
+$$
+Combining this comparison with the transpose readback yields
+$$
+(I_n^{\mathsf{T}})_{i,j}\sim_R (I_n)_{i,j}.
+$$
+Since the indices $i$ and $j$ were arbitrary, the pointwise matrix classifier
+packages these scalar comparisons as
+$$
+I_n^{\mathsf{T}}\sim_{\mathrm{Mat}} I_n.
+$$
+\end{proof}
