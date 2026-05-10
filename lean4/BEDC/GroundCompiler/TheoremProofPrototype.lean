@@ -122,6 +122,34 @@ def RecognizedProofFlow
     (R : GeneratedProofFlowRecognizer) (S Pi : EventFlow) : Prop :=
   RecognizesProofFlow R S Pi
 
+def GeneratedProofChecker : Type :=
+  GeneratedProofCheckerFlow
+
+def ProofSoundness
+    (Rchk : GeneratedProofChecker) (Phi Ddep Pi : EventFlow) : Prop :=
+  ChecksProof Rchk Phi Ddep Pi
+
+def ProofUsableAsTheoremProof
+    (S Phi Ddep Pi : EventFlow) : Prop :=
+  exists RPi : GeneratedProofFlowRecognizer,
+    exists Rchk : GeneratedProofChecker,
+      RecognizedProofFlow RPi S Pi /\ ProofSoundness Rchk Phi Ddep Pi
+
+theorem proof_candidate_alone_insufficient
+    {S Phi Ddep Pi : EventFlow} :
+    ProofCandidate S Pi ->
+      (forall RPi : GeneratedProofFlowRecognizer,
+        Not (RecognizedProofFlow RPi S Pi)) ->
+      (forall Rchk : GeneratedProofChecker,
+        Not (ProofSoundness Rchk Phi Ddep Pi)) ->
+      Not (ProofUsableAsTheoremProof S Phi Ddep Pi) := by
+  intro _ hNoRecognized _ hUsable
+  cases hUsable with
+  | intro RPi hChecker =>
+      cases hChecker with
+      | intro _ hPair =>
+          exact hNoRecognized RPi hPair.left
+
 inductive P7ReportDatum : Type where
   | decodedEventFlow (S : EventFlow)
   | statementCandidate (S Phi : EventFlow)

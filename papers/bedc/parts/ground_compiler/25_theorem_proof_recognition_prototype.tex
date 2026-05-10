@@ -186,6 +186,7 @@ $$
 
 \begin{definition}[Generated proof checker]
 \label{def:theorem-proof-generated-checker}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.GeneratedProofChecker}
 A \emph{generated proof checker} is an event flow
 $$
   R_{\mathrm{chk}}\in\mathsf{EventFlow}
@@ -199,6 +200,7 @@ This says that $R_{\mathrm{chk}}$ checks proof-flow $\Pi$ as a proof of statemen
 
 \begin{definition}[Proof soundness]
 \label{def:theorem-proof-proof-soundness}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.ProofSoundness}
 A proof flow $\Pi$ is \emph{sound} for statement flow $\Phi$ and dependency flow $D_{\mathrm{dep}}$ when there exists a generated proof checker $R_{\mathrm{chk}}$ such that
 $$
   \mathsf{ChecksProof}(R_{\mathrm{chk}},\Phi,D_{\mathrm{dep}},\Pi).
@@ -207,7 +209,12 @@ $$
 
 \begin{theorem}[Proof candidate alone is insufficient]
 \label{thm:theorem-proof-candidate-insufficient}
-If $\Pi$ is only a proof candidate, and no proof-flow recognition and proof-checking judgment are supplied, then $\Pi$ cannot be used as a theorem proof.
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.proof\_candidate\_alone\_insufficient}
+If $\Pi$ is a proof candidate in an event flow $S$, no generated proof-flow recognizer recognizes $\Pi$ in $S$, and no generated proof checker establishes
+$$
+  \mathsf{ChecksProof}(R_{\mathrm{chk}},\Phi,D_{\mathrm{dep}},\Pi),
+$$
+then $\Pi$ cannot be used as a theorem proof for statement flow $\Phi$ and dependency flow $D_{\mathrm{dep}}$.
 \end{theorem}
 
 \begin{proof}
