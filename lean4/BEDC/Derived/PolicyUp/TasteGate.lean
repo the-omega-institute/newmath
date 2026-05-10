@@ -129,6 +129,38 @@ theorem PolicyActionLedgerCarrier_semantic_name_certificate [AskSetup] [PackageS
   · intro row source
     exact source
 
+theorem PolicyActionLedgerCarrier_visible_cont_provenance_coverage [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      UnaryHistory ledger ∧ UnaryHistory provenance ∧ UnaryHistory endpoint ∧
+        hsame ledger (append belief markov) ∧ hsame provenance (append ledger estimator) ∧
+          hsame endpoint (append provenance decision) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    carrier.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    carrier.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    carrier.right.right.right.right.right.right.right.left
+  have ledgerRow : Cont belief markov ledger :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have provenanceRow : Cont ledger estimator provenance :=
+    carrier.right.right.right.right.right.right.right.right.right.left
+  have endpointRow : Cont provenance decision endpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.left
+  have endpointPkg : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right
+  exact
+    ⟨ledgerUnary,
+      provenanceUnary,
+      endpointUnary,
+      ledgerRow,
+      provenanceRow,
+      endpointRow,
+      endpointPkg⟩
+
 theorem PolicyActionLedgerCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -146,6 +178,43 @@ theorem PolicyActionLedgerCarrier_namecert_obligation_surface [AskSetup] [Packag
             endpoint bundle pkg ∧ hsame row endpoint)
         hsame := by
   exact PolicyActionLedgerCarrier_semantic_name_certificate
+
+theorem PolicyActionLedgerCarrier_kernel_scope_boundary [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger
+              provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger
+              provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger
+              provenance endpoint bundle pkg ∧ hsame row endpoint)
+          hsame ∧
+        UnaryHistory belief ∧ UnaryHistory markov ∧ UnaryHistory randomvar ∧
+          UnaryHistory estimator ∧ UnaryHistory decision ∧ UnaryHistory ledger ∧
+            UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont belief markov ledger ∧
+              Cont ledger estimator provenance ∧ Cont provenance decision endpoint ∧
+                PkgSig bundle endpoint pkg := by
+  intro carrier
+  exact
+    ⟨PolicyActionLedgerCarrier_semantic_name_certificate carrier,
+      carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.right⟩
 
 private def encodeBHist : BHist → RawEvent
   | BHist.Empty => []

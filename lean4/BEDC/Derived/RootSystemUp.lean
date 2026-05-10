@@ -69,6 +69,23 @@ theorem RootSystemReflectionClosure_result_unary
   exact unary_cont_closed (vector_unary alphaCarrier.right.left)
     (vector_unary betaCarrier.right.left) reflectionRoute
 
+theorem RootSystemReflectionClosure_involution_row
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {alpha beta reflected : BHist} :
+    RootSystemFiniteSupportCarrier support Vector Nonzero alpha ->
+      RootSystemFiniteSupportCarrier support Vector Nonzero beta ->
+        Cont alpha beta reflected ->
+          Cont alpha reflected beta ->
+            UnaryHistory reflected ∧ UnaryHistory beta ∧ hsame beta (append alpha reflected) := by
+  intro alphaCarrier betaCarrier reflectionRoute readbackRoute
+  have reflectedUnary : UnaryHistory reflected :=
+    RootSystemReflectionClosure_result_unary vector_unary alphaCarrier betaCarrier
+      reflectionRoute
+  have betaUnary : UnaryHistory beta :=
+    vector_unary betaCarrier.right.left
+  exact And.intro reflectedUnary (And.intro betaUnary readbackRoute)
+
 theorem RootSystemCartanLedger_cont_transport
     {IntCarrier : BHist -> Prop} {IntClassifier : BHist -> BHist -> Prop}
     (int_transport : forall {h k : BHist}, IntCarrier h -> IntClassifier h k -> IntCarrier k)
