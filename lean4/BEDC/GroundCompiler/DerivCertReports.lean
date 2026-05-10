@@ -3,6 +3,7 @@ import BEDC.GroundCompiler.PackageNameCertPrototype
 
 namespace BEDC.GroundCompiler.DerivCertReports
 
+open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.DerivCertGenerated
 open BEDC.GroundCompiler.NameCertGenerated
@@ -229,5 +230,29 @@ theorem p6_adequacy
           ⟨entry.nameCertFlow, entry.derivCertFlow, entry.nameCert,
             entry.derivCert⟩,
       cannotClaimsComplete := hAudit.cannotClaimAnnotationsComplete }
+
+theorem p6_adequacy_does_not_imply_higher {report : SoundP6Report} :
+    List.Mem P6CannotClaimKind.codeProof report.cannotClaims /\
+      List.Mem P6CannotClaimKind.codeBridgeCert report.cannotClaims /\
+      List.Mem P6CannotClaimKind.reportProof report.cannotClaims := by
+  constructor
+  · exact report.completeCannotClaims.right.right.right.right.left
+  constructor
+  · exact report.completeCannotClaims.right.right.right.right.right.left
+  · exact report.completeCannotClaims.right.right.right.right.right.right.right.right
+
+theorem p6_conservative_over_finite_kernel
+    {A N s : EventFlow} {w : RawEvent} {m : DisplayAlphabet} :
+    P6AcceptedObjectFlow A N s ->
+      List.Mem w A -> List.Mem m w -> m = BMark.b0 \/ m = BMark.b1 := by
+  intro hAccepted hMemEvent hMemMark
+  exact accepted_flow_recognition_conservativity hAccepted hMemEvent hMemMark
+
+theorem p6_not_proof_engine {report : SoundP6Report} :
+    List.Mem P6CannotClaimKind.codeProof report.cannotClaims /\
+      List.Mem P6CannotClaimKind.reportProof report.cannotClaims := by
+  constructor
+  · exact report.completeCannotClaims.right.right.right.right.left
+  · exact report.completeCannotClaims.right.right.right.right.right.right.right.right
 
 end BEDC.GroundCompiler.DerivCertReports
