@@ -46,4 +46,28 @@ theorem HypothesisTestDecisionCarrier_type_one_error_ledger
     unary_cont_closed nullUnary ledgerUnary endpointRow
   exact ⟨ledgerUnary, endpointUnary, ledgerRow, endpointRow⟩
 
+theorem HypothesisTestDecisionCarrier_distribution_boundary
+    {null alternative sample statistic threshold decision nullLedger altLedger surface : BHist} :
+    UnaryHistory null -> UnaryHistory alternative -> UnaryHistory sample -> UnaryHistory statistic ->
+      UnaryHistory threshold -> Cont sample statistic decision -> Cont decision threshold nullLedger ->
+        Cont alternative threshold altLedger -> Cont nullLedger altLedger surface ->
+          UnaryHistory decision ∧ UnaryHistory nullLedger ∧ UnaryHistory altLedger ∧
+            UnaryHistory surface ∧ hsame decision (append sample statistic) ∧
+              hsame nullLedger (append decision threshold) ∧
+                hsame altLedger (append alternative threshold) ∧
+                  hsame surface (append nullLedger altLedger) := by
+  intro nullUnary alternativeUnary sampleUnary statisticUnary thresholdUnary decisionRow
+    nullLedgerRow altLedgerRow surfaceRow
+  have decisionUnary : UnaryHistory decision :=
+    unary_cont_closed sampleUnary statisticUnary decisionRow
+  have nullLedgerUnary : UnaryHistory nullLedger :=
+    unary_cont_closed decisionUnary thresholdUnary nullLedgerRow
+  have altLedgerUnary : UnaryHistory altLedger :=
+    unary_cont_closed alternativeUnary thresholdUnary altLedgerRow
+  have surfaceUnary : UnaryHistory surface :=
+    unary_cont_closed nullLedgerUnary altLedgerUnary surfaceRow
+  exact
+    ⟨decisionUnary, nullLedgerUnary, altLedgerUnary, surfaceUnary, decisionRow, nullLedgerRow,
+      altLedgerRow, surfaceRow⟩
+
 end BEDC.Derived.HypothesisUp
