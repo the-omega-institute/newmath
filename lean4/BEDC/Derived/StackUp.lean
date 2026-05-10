@@ -178,4 +178,49 @@ theorem StackCarrier_obligation_surface
       (And.intro schemePackage
         (And.intro restrictionRow packageReadback)))
 
+def StackCarrier [AskSetup] [PackageSetup]
+    (site presheaf localObj localArrow gluedObj gluedArrow cover restrict provenance
+      endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  Cont localObj restrict gluedObj ∧ Cont localArrow restrict gluedArrow ∧
+    Cont site presheaf provenance ∧ Cont provenance cover endpoint ∧
+      PkgSig bundle endpoint pkg
+
+theorem StackCarrier_descent_obligation [AskSetup] [PackageSetup]
+    {site presheaf localObj localArrow gluedObj gluedArrow cover restrict provenance endpoint
+      gluedObj' gluedArrow' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StackCarrier site presheaf localObj localArrow gluedObj gluedArrow cover restrict
+        provenance endpoint bundle pkg ->
+      Cont localObj restrict gluedObj' ->
+        Cont localArrow restrict gluedArrow' ->
+          Cont site presheaf provenance' ->
+            Cont provenance' cover endpoint' ->
+              PkgSig bundle endpoint' pkg ->
+                StackCarrier site presheaf localObj localArrow gluedObj' gluedArrow' cover
+                    restrict provenance' endpoint' bundle pkg ∧
+                  hsame gluedObj gluedObj' ∧ hsame gluedArrow gluedArrow' ∧
+                    hsame provenance provenance' ∧ hsame endpoint endpoint' := by
+  intro carrier gluedObjRow' gluedArrowRow' provenanceRow' endpointRow' pkgSig'
+  have sameGluedObj : hsame gluedObj gluedObj' :=
+    cont_respects_hsame (hsame_refl localObj) (hsame_refl restrict) carrier.left gluedObjRow'
+  have sameGluedArrow : hsame gluedArrow gluedArrow' :=
+    cont_respects_hsame (hsame_refl localArrow) (hsame_refl restrict)
+      carrier.right.left gluedArrowRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame (hsame_refl site) (hsame_refl presheaf)
+      carrier.right.right.left provenanceRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance (hsame_refl cover)
+      carrier.right.right.right.left endpointRow'
+  have transported :
+      StackCarrier site presheaf localObj localArrow gluedObj' gluedArrow' cover restrict
+        provenance' endpoint' bundle pkg :=
+    ⟨gluedObjRow', gluedArrowRow', provenanceRow', endpointRow', pkgSig'⟩
+  exact
+    And.intro transported
+      (And.intro sameGluedObj
+        (And.intro sameGluedArrow
+          (And.intro sameProvenance sameEndpoint)))
+
 end BEDC.Derived.StackUp

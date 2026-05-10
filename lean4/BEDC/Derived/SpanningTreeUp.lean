@@ -4,6 +4,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
@@ -16,6 +17,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
@@ -189,5 +191,52 @@ theorem SpanningTreeCarrierPacket_dependency_surface [AskSetup] [PackageSetup]
             (And.intro rootReachability
               (And.intro reachabilityLedger
                 (And.intro provenanceEndpoint endpointPkg)))))))
+
+def SpanningTreeCarrier [AskSetup] [PackageSetup]
+    (vertices graphEdges treeEdges root incidence reach acyclic endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory vertices ∧ UnaryHistory graphEdges ∧ UnaryHistory treeEdges ∧
+    UnaryHistory root ∧ Cont vertices graphEdges incidence ∧ Cont root treeEdges reach ∧
+      Cont treeEdges reach acyclic ∧ Cont acyclic incidence endpoint ∧
+        PkgSig bundle endpoint pkg
+
+theorem SpanningTreeCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {vertices graphEdges treeEdges root incidence reach acyclic endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpanningTreeCarrier vertices graphEdges treeEdges root incidence reach acyclic endpoint
+        bundle pkg ->
+      SemanticNameCert
+        (SpanningTreeCarrier vertices graphEdges treeEdges root incidence reach acyclic ·
+          bundle pkg)
+        (SpanningTreeCarrier vertices graphEdges treeEdges root incidence reach acyclic ·
+          bundle pkg)
+        (SpanningTreeCarrier vertices graphEdges treeEdges root incidence reach acyclic ·
+          bundle pkg)
+        hsame := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint carrier
+      equiv_refl := by
+        intro row _carrierRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows carrierRow
+        cases sameRows
+        exact carrierRow
+    }
+    pattern_sound := by
+      intro _row carrierRow
+      exact carrierRow
+    ledger_sound := by
+      intro _row carrierRow
+      exact carrierRow
+  }
 
 end BEDC.Derived.SpanningTreeUp
