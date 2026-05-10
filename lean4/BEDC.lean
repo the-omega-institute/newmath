@@ -106,11 +106,13 @@ import BEDC.Derived.InterpolationUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.MapperUp
+import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
+import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
@@ -274,6 +276,7 @@ import BEDC.Derived.ObservableUp.PublicSurfaceBridgeBoundary
 import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
+import BEDC.Derived.RamseyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.PolytopeUp
 import BEDC.Derived.PontryaginDualityUp
@@ -312,6 +315,7 @@ import BEDC.Derived.ComplexDifferentiabilityUp.TransportLedgerObligationSurface
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.PinGroupUp
 import BEDC.Derived.SpinGroupUp
+import BEDC.Derived.SpinGroupUp.StdBridge
 import BEDC.Derived.SpinGroupUp.BoundaryConsumerExactness
 import BEDC.Derived.SpinGroupUp.CliffordUnitCarrierObligation
 import BEDC.Derived.SpinGroupUp.GroupInterfaceBoundary
@@ -362,6 +366,7 @@ import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
+import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.CondExpUp
 import BEDC.Derived.MartingaleUp

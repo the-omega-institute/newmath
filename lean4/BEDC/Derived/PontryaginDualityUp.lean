@@ -156,6 +156,61 @@ theorem PontryaginDualityCharacterCarrier_source_boundary [AskSetup] [PackageSet
       carrier.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right⟩
 
+theorem PontryaginDualityCharacterCarrier_operation_ledger_boundary [AskSetup]
+    [PackageSetup]
+    {topSource abSource circleTarget character productRow inverseRow sourceLedger
+      characterLedger endpoint operationLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PontryaginDualityCharacterCarrier topSource abSource circleTarget character productRow
+        inverseRow sourceLedger characterLedger endpoint bundle pkg ->
+      Cont productRow inverseRow operationLedger ->
+        UnaryHistory productRow ∧ UnaryHistory inverseRow ∧ UnaryHistory operationLedger ∧
+          hsame operationLedger (append productRow inverseRow) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier operationRow
+  have operationUnary : UnaryHistory operationLedger :=
+    unary_cont_closed carrier.right.right.right.right.left
+      carrier.right.right.right.right.right.left operationRow
+  exact
+    ⟨carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      operationUnary,
+      operationRow,
+      carrier.right.right.right.right.right.right.right.right.right⟩
+
+theorem PontryaginDualityCharacterCarrier_dual_ledger_rows [AskSetup] [PackageSetup]
+    {topSource abSource circleTarget character productRow inverseRow sourceLedger
+      characterLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PontryaginDualityCharacterCarrier topSource abSource circleTarget character productRow
+        inverseRow sourceLedger characterLedger endpoint bundle pkg ->
+      UnaryHistory character ∧ UnaryHistory productRow ∧ UnaryHistory inverseRow ∧
+        UnaryHistory sourceLedger ∧ UnaryHistory characterLedger ∧ UnaryHistory endpoint ∧
+          hsame sourceLedger (append topSource abSource) ∧
+            hsame characterLedger (append circleTarget character) ∧
+              hsame endpoint (append sourceLedger characterLedger) ∧
+                PkgSig bundle endpoint pkg := by
+  intro carrier
+  have sourceLedgerUnary : UnaryHistory sourceLedger :=
+    unary_cont_closed carrier.left carrier.right.left
+      carrier.right.right.right.right.right.right.left
+  have characterLedgerUnary : UnaryHistory characterLedger :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed sourceLedgerUnary characterLedgerUnary
+      carrier.right.right.right.right.right.right.right.right.left
+  exact
+    ⟨carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      sourceLedgerUnary,
+      characterLedgerUnary,
+      endpointUnary,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right⟩
+
 theorem PontryaginDualityCharacterCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     {topSource abSource circleTarget character productRow inverseRow sourceLedger
       characterLedger endpoint : BHist}
