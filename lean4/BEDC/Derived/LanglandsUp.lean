@@ -321,6 +321,46 @@ theorem LanglandsBHistCorrespondenceCarrier_source_rows [AskSetup] [PackageSetup
       carrier.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right⟩
 
+theorem LanglandsBHistCorrespondenceCarrier_public_surface [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
+      ledger endpoint galoisSource' automorphicSource' galoisAnswer' automorphicAnswer'
+      localFactor' provenance' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsBHistCorrespondenceCarrier galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor provenance ledger endpoint bundle pkg ->
+      LanglandsLFactorClassifier galoisSource automorphicSource galoisAnswer
+          automorphicAnswer localFactor provenance ledger endpoint galoisSource'
+          automorphicSource' galoisAnswer' automorphicAnswer' localFactor' provenance' ledger'
+          endpoint' bundle pkg ->
+        Cont galoisAnswer' automorphicAnswer' localFactor' ->
+          Cont galoisSource' automorphicSource' ledger' ->
+            Cont provenance' ledger' endpoint' ->
+              UnaryHistory galoisSource ∧ UnaryHistory automorphicSource ∧
+                UnaryHistory galoisAnswer ∧ UnaryHistory automorphicAnswer ∧
+                  UnaryHistory localFactor' ∧ UnaryHistory ledger' ∧
+                    UnaryHistory endpoint' ∧ hsame localFactor localFactor' ∧
+                      hsame ledger ledger' ∧ hsame endpoint endpoint' ∧
+                        PkgSig bundle endpoint' pkg := by
+  intro carrier classified localFactorRow' ledgerRow' endpointRow'
+  have stable :=
+    LanglandsLFactorClassifier_local_factor_stability classified localFactorRow' ledgerRow'
+      endpointRow'
+  have transportedCarrier := stable.left
+  have generatedRows :=
+    LanglandsBHistCorrespondenceCarrier_generated_rows_unary transportedCarrier
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      generatedRows.left,
+      generatedRows.right.left,
+      generatedRows.right.right,
+      stable.right.left,
+      stable.right.right.left,
+      stable.right.right.right,
+      transportedCarrier.right.right.right.right.right.right.right.right⟩
+
 theorem LanglandsBHistCorrespondenceCarrier_visible_packet_boundary [AskSetup] [PackageSetup]
     {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance ledger
       endpoint : BHist}
@@ -435,56 +475,20 @@ theorem LanglandsCorrespondenceLedger_obligation_package [AskSetup] [PackageSetu
       ledger.right.right.right.right.right.right.right.right.left,
       ledger.right.right.right.right.right.right.right.right.right⟩
 
-theorem LanglandsFiniteLocalFactor_public_surface [AskSetup] [PackageSetup]
-    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor packageLedger
-      observationLedger endpoint : BHist}
+theorem LanglandsBHistCorrespondenceCarrier_finite_local_factor_public_surface
+    [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance ledger
+      endpoint consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    LanglandsCorrespondenceLedger galoisSource automorphicSource galoisAnswer
-        automorphicAnswer localFactor packageLedger observationLedger endpoint bundle pkg ->
-      SemanticNameCert
-          (fun row : BHist =>
-            LanglandsCorrespondenceLedger galoisSource automorphicSource galoisAnswer
-                automorphicAnswer localFactor packageLedger observationLedger endpoint bundle pkg ∧
-              hsame row endpoint)
-          (fun row : BHist =>
-            LanglandsCorrespondenceLedger galoisSource automorphicSource galoisAnswer
-                automorphicAnswer localFactor packageLedger observationLedger endpoint bundle pkg ∧
-              hsame row endpoint)
-          (fun row : BHist =>
-            LanglandsCorrespondenceLedger galoisSource automorphicSource galoisAnswer
-                automorphicAnswer localFactor packageLedger observationLedger endpoint bundle pkg ∧
-              hsame row endpoint)
-          hsame ∧
-        UnaryHistory packageLedger ∧ UnaryHistory observationLedger ∧ UnaryHistory endpoint ∧
+    LanglandsBHistCorrespondenceCarrier galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor provenance ledger endpoint bundle pkg ->
+      Cont localFactor endpoint consumer ->
+        UnaryHistory consumer ∧ hsame consumer (append localFactor endpoint) ∧
           PkgSig bundle endpoint pkg := by
-  intro ledger
-  let PublicSurface : BHist -> Prop := fun row =>
-    LanglandsCorrespondenceLedger galoisSource automorphicSource galoisAnswer
-        automorphicAnswer localFactor packageLedger observationLedger endpoint bundle pkg ∧
-      hsame row endpoint
-  have packageRows :=
-    LanglandsCorrespondenceLedger_obligation_package ledger
-  have publicCert : SemanticNameCert PublicSurface PublicSurface PublicSurface hsame := by
-    constructor
-    · constructor
-      · exact ⟨endpoint, ledger, hsame_refl endpoint⟩
-      · intro row _surface
-        exact hsame_refl row
-      · intro row other same
-        exact hsame_symm same
-      · intro row other third sameRO sameOT
-        exact hsame_trans sameRO sameOT
-      · intro row other sameRO surface
-        exact ⟨surface.left, hsame_trans (hsame_symm sameRO) surface.right⟩
-    · intro row surface
-      exact surface
-    · intro row surface
-      exact surface
-  exact
-    ⟨publicCert,
-      packageRows.left,
-      packageRows.right.left,
-      packageRows.right.right.left,
-      packageRows.right.right.right.right.right.right.right⟩
+  intro carrier consumerRow
+  have localRows := LanglandsBHistCorrespondenceCarrier_generated_rows_unary carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed localRows.left localRows.right.right consumerRow
+  exact ⟨consumerUnary, consumerRow, carrier.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.LanglandsUp
