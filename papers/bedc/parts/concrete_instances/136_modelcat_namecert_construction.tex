@@ -320,6 +320,42 @@ external weak-equivalence calculus, or bridges occurs in the source packet,
 none of those rows is available downstream.
 \end{proof}
 
+\begin{theorem}[ModelCatUp public certificate boundary]
+\label{thm:modelcat-public-certificate-boundary}
+The public $\NameCert_{\ModelCatUp}$ surface is exactly the $\CategoryUp$
+dependency coordinate, the cofibration, fibration, and weak-equivalence
+classifier rows, the finite lifting-square ledger, the finite factorisation
+ledger, $\Pkg$ provenance, and rowwise $\Cont/\hsame$ transport. It excludes
+host localization, quotient category, derived mapping space, and any external
+weak-equivalence calculus.
+\end{theorem}
+\begin{proof}
+Project the admitted source packet through
+\autoref{thm:modelcat-root-obligation-surface}. This gives the consumed
+$\CategoryUp$ coordinate, the three classifier rows, the lifting and
+factorisation ledgers, provenance, and rowwise transport.
+
+Use \autoref{thm:modelcat-weak-equivalence-classifier-laws} to isolate the
+weak-equivalence classifier among the three displayed classifier rows. The
+cofibration and fibration rows remain parallel classifier coordinates rather
+than host localization data.
+
+Apply \autoref{thm:modelcat-lifting-square-boundary},
+\autoref{thm:modelcat-factorization-ledger-determinacy}, and
+\autoref{thm:modelcat-finite-factorization-transport-surface}. These identify
+the finite lifting-square and factorisation surfaces and their allowed
+transport through $\Pkg$, $\Cont$, and $\hsame$.
+
+Finally combine
+\autoref{thm:modelcat-category-dependency-boundary} with
+\autoref{thm:modelcat-root-threshold-obligation-triad}. The category dependency
+forces ordinary categorical reads through $C$, while the triad states that the
+dependency, classifier, and finite-ledger surfaces are the only downstream root
+surfaces. Thus the public certificate boundary is exactly the displayed finite
+surface and contains no localization, quotient category, derived mapping space,
+or external weak-equivalence calculus.
+\end{proof}
+
 \begin{closurestatus}{\ModelCatUp}
   \constructivestory{A ModelCat packet is built from a consumed $\CategoryUp$ row, three displayed morphism-classifier rows, finite lifting and factorisation ledgers, a package row, provenance, and rowwise $\Cont/\hsame$ transport. The checked category dependency boundary forces ordinary categorical reads through the consumed dependency row, while the root, classifier, lifting, factorisation, and threshold surfaces expose only the displayed finite packet rows.}
   \theoryclosure{\seedClosure}
