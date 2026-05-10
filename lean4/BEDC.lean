@@ -568,6 +568,7 @@ import BEDC.Derived.ComplexTopologyUp.DomainCompat
 import BEDC.Derived.MetricUp.CertificateObligations
 import BEDC.Derived.MetricUp.StdBridge
 import BEDC.Derived.MetricUp.PublicDistanceSurface
+import BEDC.Derived.MetricUp.VisibleContextDeterminacy
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompactMetricUp
