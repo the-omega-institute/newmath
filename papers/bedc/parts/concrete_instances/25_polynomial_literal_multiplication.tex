@@ -217,3 +217,33 @@ p[n].
 $$
 The padded coefficient extensionality lemma \autoref{lem:padded-coefficient-extensionality-polynomial-classifier} converts these pointwise scalar comparisons into the displayed $\mathsf{PolySame}_R$ statement.
 \end{proof}
+
+\begin{theorem}[Raw polynomial multiplication associativity up to add-trim]
+\label{thm:polynomial-raw-multiplication-associativity-up-to-add-trim}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Let the classifier be $\sim_R$, the zero endpoint be $0_R$, the scalar operations be $+$ and $\cdot$, the scalar certificate be $\mathsf{cert}_R:\NameCert(R,\sim_R)$, the canonical trim be $\mathsf{trim}_R$ from \autoref{def:polynomial-stability-certificate}, and let $\mathsf{PolySame}_R$ and $\mathsf{rmul}_R$ be the add-trim classifier and raw Cauchy product of \autoref{def:polynomial-raw-add-comparison-data} and \autoref{def:polynomial-raw-cauchy-product}. For finite coefficient spines $p,q,r:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{PolySame}_R\bigl(\mathsf{rmul}_R(\mathsf{rmul}_R(p,q),r),\mathsf{rmul}_R(p,\mathsf{rmul}_R(q,r))\bigr).
+$$
+Consequently the same comparison holds when $p,q,r$ are normalized polynomial representatives from \autoref{def:polynomial-carrier}.
+\end{theorem}
+\begin{proof}
+Set
+$$
+A:=\mathsf{rmul}_R(\mathsf{rmul}_R(p,q),r),
+\qquad
+B:=\mathsf{rmul}_R(p,\mathsf{rmul}_R(q,r)).
+$$
+By \autoref{lem:padded-coefficient-extensionality-polynomial-classifier}, it is enough to prove $A[n]\sim_RB[n]$ for every $n:\NatUp$.
+
+Fix $n:\NatUp$. The raw Cauchy coefficient associativity lemma \autoref{lem:raw-cauchy-product-coefficient-associativity}, applied to the finite coefficient spines $p,q,r$, gives exactly
+$$
+\mathsf{rmul}_R(\mathsf{rmul}_R(p,q),r)[n]
+\sim_R
+\mathsf{rmul}_R(p,\mathsf{rmul}_R(q,r))[n].
+$$
+This is $A[n]\sim_RB[n]$. Since $n$ was arbitrary, \autoref{lem:padded-coefficient-extensionality-polynomial-classifier} converts the pointwise padded coefficient comparisons into
+$$
+\mathsf{PolySame}_R(A,B).
+$$
+Unfolding the definitions of $A$ and $B$ gives the displayed add-trim classifier comparison. A normalized polynomial representative from \autoref{def:polynomial-carrier} is a finite coefficient spine, so the final sentence is the same statement restricted to those carried representatives.
+\end{proof}

@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.TuringMachineUp
@@ -24,6 +25,21 @@ theorem TuringMachineConfigurationTraceCarrier_configuration_trace_surface
     unary_cont_closed traceUnary boundUnary endpointRow
   exact
     ⟨configurationUnary, traceUnary, endpointUnary, configurationRow, traceRow, endpointRow⟩
+
+theorem TuringMachineStepRow_hsame_transport {current current' bound bound' next next' : BHist} :
+    UnaryHistory current -> UnaryHistory bound -> Cont current bound next -> hsame current current' ->
+      hsame bound bound' -> hsame next next' ->
+        UnaryHistory current' ∧ UnaryHistory bound' ∧ UnaryHistory next' ∧
+          Cont current' bound' next' := by
+  intro currentUnary boundUnary step sameCurrent sameBound sameNext
+  have currentUnary' : UnaryHistory current' := unary_transport currentUnary sameCurrent
+  have boundUnary' : UnaryHistory bound' := unary_transport boundUnary sameBound
+  have nextUnary : UnaryHistory next := unary_cont_closed currentUnary boundUnary step
+  have nextUnary' : UnaryHistory next' := unary_transport nextUnary sameNext
+  have step' : Cont current' bound' next' :=
+    cont_hsame_transport sameCurrent sameBound sameNext step
+  exact And.intro currentUnary'
+    (And.intro boundUnary' (And.intro nextUnary' step'))
 
 inductive TuringMachineHaltedTrace (halted : BHist) : List BHist → BHist → Prop where
   | endpoint : TuringMachineHaltedTrace halted [] halted
@@ -87,5 +103,30 @@ theorem TuringMachineFiniteTapeReadbackCarrier_finite_readback_surface
   have boundedUnary : UnaryHistory bounded :=
     unary_cont_closed traceUnary readbackUnary boundedRow
   exact ⟨readbackUnary, boundedUnary, readbackRow, boundedRow⟩
+
+theorem TuringMachineObligationSurface_bounded_trace_ledger
+    {state tape head bound configuration trace readback bounded endpoint : BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory bound ->
+      Cont state tape configuration -> Cont configuration head trace -> Cont tape head readback ->
+        Cont trace readback bounded -> Cont bounded bound endpoint ->
+          UnaryHistory configuration ∧ UnaryHistory trace ∧ UnaryHistory readback ∧
+            UnaryHistory bounded ∧ UnaryHistory endpoint ∧ hsame configuration (append state tape) ∧
+              hsame trace (append configuration head) ∧ hsame readback (append tape head) ∧
+                hsame bounded (append trace readback) ∧ hsame endpoint (append bounded bound) := by
+  intro stateUnary tapeUnary headUnary boundUnary configurationRow traceRow readbackRow boundedRow
+    endpointRow
+  have configurationUnary : UnaryHistory configuration :=
+    unary_cont_closed stateUnary tapeUnary configurationRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed configurationUnary headUnary traceRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed tapeUnary headUnary readbackRow
+  have boundedUnary : UnaryHistory bounded :=
+    unary_cont_closed traceUnary readbackUnary boundedRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed boundedUnary boundUnary endpointRow
+  exact
+    ⟨configurationUnary, traceUnary, readbackUnary, boundedUnary, endpointUnary, configurationRow,
+      traceRow, readbackRow, boundedRow, endpointRow⟩
 
 end BEDC.Derived.TuringMachineUp

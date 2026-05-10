@@ -1,0 +1,78 @@
+\section{StreamName RegSeqRat RealUp Tail-Selector Transport}
+\label{sec:streamname-regseqrat-realup-tail-selector-transport}
+
+\begin{definition}[StreamName RegSeqRat RealUp tail-selector transport packet]
+\label{def:streamname-regseqrat-realup-tail-selector-transport-packet}
+A StreamName RegSeqRat RealUp tail-selector transport packet from a selected
+finite $\RealUp$ window $W_0$ to a selected finite $\RealUp$ window $W_1$ is
+the finite ledger consisting exactly of the following rows:
+\begin{enumerate}
+\item a shared
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$ row for the
+public $\StreamNameUp$ rational stream endpoints $s,t:\mathsf{BHist}\to
+\mathsf{BHist}$ over the selected finite $\mathsf{ProbeBundle}$ window
+$\mathcal P$;
+\item for each certified selected observation $n$, the bundled
+$\mathsf{UnaryHistory}(n)$ and $\mathsf{InBundle}(n,\mathcal P)$ rows, together
+with the pointwise $\mathsf{RatHistoryClassifier}(s(n),t(n))$ row exposed by
+the StreamName observation surface;
+\item the accepted $\RegSeqRat$ spine row selected by those pointwise rational
+history rows and by the finite-window handoff;
+\item the matching DyadicRatCore endpoint rows read by the two selected
+$\RealUp$ windows from that same $\RegSeqRat$ spine; and
+\item the common finite $\Cont$, $\hsame$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ ledger joining the StreamName endpoint rows, the
+accepted $\RegSeqRat$ spine row, the DyadicRatCore endpoint rows, and the two
+selected $\RealUp$ readback packets.
+\end{enumerate}
+
+The packet exposes no quotient row, completion row, Classical representative,
+metric-completeness certificate, arithmetic or order operation, standard
+bridge row, or selector not already contained in the displayed finite ledger.
+\end{definition}
+
+\begin{theorem}[StreamName RegSeqRat RealUp tail-selector transport]
+\label{thm:streamname-regseqrat-realup-tail-selector-transport}
+Let $W_0$ and $W_1$ be selected finite $\RealUp$ observation-window packages
+over the same public $\StreamNameUp$ rational stream endpoints and the same
+finite $\mathsf{ProbeBundle}$ window. If $W_0$ and $W_1$ are connected by a
+StreamName RegSeqRat RealUp tail-selector transport packet, then the selected
+$\RegSeqRat$ tail-classifier readback transported from $W_0$ by the packet
+agrees with the selected $\RegSeqRat$ tail-classifier readback read from
+$W_1$.
+
+The agreement is a finite-window agreement over the displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the bundled
+$\mathsf{UnaryHistory}/\mathsf{InBundle}$ rows, the accepted $\RegSeqRat$
+spine row, the matching DyadicRatCore endpoint rows, and the shared
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ ledger. It does not identify
+quotient objects, completion objects, Classical representatives,
+metric-completeness data, arithmetic or order rows, standard bridge rows, or
+external selector rows.
+\end{theorem}
+\begin{proof}
+First read the StreamName side of the packet. Apply
+\autoref{thm:streamname-regseqrat-observation-stability} to the displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row and to each bundled
+$\mathsf{UnaryHistory}/\mathsf{InBundle}$ observation. The selected pointwise
+rational-history rows therefore stay fixed under the packet's $\hsame$
+transport.
+
+Next form the uniform finite-window handoff. Apply
+\autoref{thm:streamname-regseqrat-uniform-finite-window-seal} to the stabilized
+StreamName rows and the accepted $\RegSeqRat$ spine row. This gives one finite
+seal surface carrying the same $\Cont$, $\hsame$, $\Pkg$, and DyadicRatCore
+endpoint rows for both selected windows.
+
+Now read the RealUp boundary through that finite seal. Use
+\autoref{thm:realup-streamname-regseqrat-uniform-window-readback}. The two
+selected $\RealUp$ windows expose the same visible endpoint readback rows and
+the same $\mathsf{RealLedgerPolicy}$ row on the selected finite window.
+
+Finally apply \autoref{thm:regseqrat-tail-classifier-exactness}. Its
+hypotheses are exactly the common StreamName classifier, the accepted
+$\RegSeqRat$ spine, the matching DyadicRatCore endpoint rows, and the shared
+finite ledger established above. Hence the transported tail-classifier readback
+from $W_0$ is the same selected readback as the one read from $W_1$, and the
+scoped exactness theorem supplies the stated exclusions.
+\end{proof}
