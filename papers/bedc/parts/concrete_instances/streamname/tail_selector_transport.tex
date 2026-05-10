@@ -77,6 +77,52 @@ from $W_0$ is the same selected readback as the one read from $W_1$, and the
 scoped exactness theorem supplies the stated exclusions.
 \end{proof}
 
+\begin{theorem}[StreamName tail-selector pointwise transport]
+\label{thm:streamname-tail-selector-pointwise-transport}
+Let $W_0$ and $W_1$ be selected finite $\RealUp$ observation-window packages
+over public $\StreamNameUp$ rational stream endpoints
+$s,t:\mathsf{BHist}\to\mathsf{BHist}$ and the same finite
+$\mathsf{ProbeBundle}$ window $\mathcal P$. Suppose an accepted StreamName
+RegSeqRat RealUp tail-selector transport packet connects $W_0$ and $W_1$. Then
+for every certified observation $n$ in $\mathcal P$, the transported pointwise
+row handed from the StreamName window to the $\RegSeqRat$ finite-window
+consumer is exactly the tuple
+$$
+\begin{gathered}
+\mathsf{UnaryHistory}(n),\quad
+\mathsf{InBundle}(n,\mathcal P),\quad
+\mathsf{RatHistoryClassifier}(s(n),t(n)).
+\end{gathered}
+$$
+
+This tuple is the only rowwise data supplied to the $\RegSeqRat$ finite-window
+consumer at $n$. The handoff supplies no quotient row, no completion row, no
+host-index equality row, no arithmetic or order row, and no selector external
+to the displayed packet.
+\end{theorem}
+\begin{proof}
+First fix a certified observation $n$ in $\mathcal P$. Apply
+\autoref{thm:streamname-regseqrat-observation-stability} to the accepted
+transport packet. The StreamName observation row at $n$ is therefore stable as
+the bundled $\mathsf{UnaryHistory}(n)$ and $\mathsf{InBundle}(n,\mathcal P)$
+data together with the pointwise rational-history classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Next apply \autoref{thm:streamname-regseqrat-pointwise-handoff} to that stable
+row. Its handoff clause is rowwise: the $\RegSeqRat$ finite-window consumer
+receives the named unary-history row, the named bundle-membership row, and the
+named rational-history classifier row for the same observation $n$.
+
+Finally use
+\autoref{thm:streamname-regseqrat-realup-tail-selector-transport}. The
+transport theorem fixes the finite-window agreement connecting $W_0$ and
+$W_1$, so the rowwise handoff just identified is the pointwise component of
+the transported window agreement. Since the three cited theorems expose only
+the displayed StreamName and $\RegSeqRat$ rows, quotient rows, completion rows,
+host-index equality rows, arithmetic or order rows, and external selector rows
+remain outside the handoff.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat tail-selector handoff exactness]
 \label{thm:streamname-regseqrat-tail-selector-handoff-exactness}
 Let $W_0$ and $W_1$ be selected finite $\RealUp$ observation-window packages
