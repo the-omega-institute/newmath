@@ -102,6 +102,27 @@ theorem title_alone_not_chapter
   intro hStart hIncomplete
   exact ChapterFlow.title_alone_not_chapter hStart hIncomplete
 
+theorem theorem_list_alone_not_chapter
+    {R : ChapterFlow.GeneratedChapterRecognizer}
+    {C T : ChapterFlow.ChapterCandidateFlow} :
+    ChapterFlow.ChapTheorems R C T ->
+      (forall R' : ChapterFlow.GeneratedChapterRecognizer,
+        Not (ChapterFlow.CompleteChapterRecognition R' C)) ->
+      Not (ChapterFlow.ChapterFlow C) := by
+  intro hTheorems hIncomplete
+  exact ChapterFlow.theorem_list_alone_not_chapter hTheorems hIncomplete
+
+def SoundChapterFlow
+    (R : ChapterFlow.GeneratedChapterRecognizer)
+    (C : ChapterFlow.ChapterCandidateFlow) : Prop :=
+  ChapterFlow.SoundRecognizedChapterFlow R C
+
+theorem chapter_code_injective
+    {C D : ChapterFlow.ChapterCandidateFlow} :
+    ChapterFlow.ChapterCode C = ChapterFlow.ChapterCode D -> C = D := by
+  intro hCode
+  exact ChapterFlow.chapter_code_injective hCode
+
 def ManuscriptCandidateFlow : Type :=
   EventFlow
 
