@@ -1,0 +1,152 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+import BEDC.FKernel.Unary.History
+
+namespace BEDC.Derived.PartitionUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def PartitionBHistCarrier [AskSetup] [PackageSetup]
+    (listRow partRows sumRow decreaseRows boundary route provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory listRow ∧ UnaryHistory partRows ∧ UnaryHistory sumRow ∧
+    UnaryHistory decreaseRows ∧ UnaryHistory boundary ∧ Cont listRow sumRow route ∧
+      Cont decreaseRows boundary provenance ∧ Cont route provenance endpoint ∧
+        PkgSig bundle endpoint pkg
+
+theorem PartitionBHistCarrier_obligation [AskSetup] [PackageSetup]
+    {listRow partRows sumRow decreaseRows boundary route provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PartitionBHistCarrier listRow partRows sumRow decreaseRows boundary route provenance
+        endpoint bundle pkg ->
+      UnaryHistory listRow ∧ UnaryHistory partRows ∧ UnaryHistory sumRow ∧
+        UnaryHistory decreaseRows ∧ UnaryHistory boundary ∧ Cont listRow sumRow route ∧
+          Cont decreaseRows boundary provenance ∧ Cont route provenance endpoint ∧
+            PkgSig bundle endpoint pkg := by
+  intro carrier
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right⟩
+
+theorem PartitionBHistCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {listRow partRows sumRow decreaseRows boundary route provenance endpoint listRow' partRows'
+      sumRow' decreaseRows' boundary' route' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PartitionBHistCarrier listRow partRows sumRow decreaseRows boundary route provenance
+        endpoint bundle pkg ->
+      hsame listRow listRow' ->
+        hsame partRows partRows' ->
+          hsame sumRow sumRow' ->
+            hsame decreaseRows decreaseRows' ->
+              hsame boundary boundary' ->
+                Cont listRow' sumRow' route' ->
+                  Cont decreaseRows' boundary' provenance' ->
+                    Cont route' provenance' endpoint' ->
+                      PkgSig bundle endpoint' pkg ->
+                        PartitionBHistCarrier listRow' partRows' sumRow' decreaseRows'
+                            boundary' route' provenance' endpoint' bundle pkg ∧
+                          hsame route route' ∧ hsame provenance provenance' ∧
+                            hsame endpoint endpoint' := by
+  intro carrier sameList sameParts sameSum sameDecrease sameBoundary routeCont'
+    provenanceCont' endpointCont' endpointPkg'
+  have routeSame : hsame route route' :=
+    cont_respects_hsame sameList sameSum carrier.right.right.right.right.right.left routeCont'
+  have provenanceSame : hsame provenance provenance' :=
+    cont_respects_hsame sameDecrease sameBoundary
+      carrier.right.right.right.right.right.right.left provenanceCont'
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame routeSame provenanceSame
+      carrier.right.right.right.right.right.right.right.left endpointCont'
+  have transportedCarrier :
+      PartitionBHistCarrier listRow' partRows' sumRow' decreaseRows' boundary' route'
+        provenance' endpoint' bundle pkg :=
+    And.intro (unary_transport carrier.left sameList)
+      (And.intro (unary_transport carrier.right.left sameParts)
+        (And.intro (unary_transport carrier.right.right.left sameSum)
+          (And.intro (unary_transport carrier.right.right.right.left sameDecrease)
+            (And.intro (unary_transport carrier.right.right.right.right.left sameBoundary)
+              (And.intro routeCont'
+                (And.intro provenanceCont' (And.intro endpointCont' endpointPkg')))))))
+  exact
+    And.intro transportedCarrier
+      (And.intro routeSame (And.intro provenanceSame endpointSame))
+
+theorem PartitionBHistCarrier_young_boundary_package [AskSetup] [PackageSetup]
+    {listRow partRows sumRow decreaseRows boundary route provenance endpoint routeBoundary
+      packaged : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PartitionBHistCarrier listRow partRows sumRow decreaseRows boundary route provenance
+        endpoint bundle pkg ->
+      Cont route boundary routeBoundary ->
+        Cont provenance routeBoundary packaged ->
+          PkgSig bundle packaged pkg ->
+            UnaryHistory routeBoundary ∧ UnaryHistory packaged ∧
+              hsame routeBoundary (append route boundary) ∧
+                hsame packaged (append provenance routeBoundary) := by
+  intro carrier routeBoundaryCont packagedCont _packagedPkg
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed carrier.left carrier.right.right.left
+      carrier.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed carrier.right.right.right.left carrier.right.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  have routeBoundaryUnary : UnaryHistory routeBoundary :=
+    unary_cont_closed routeUnary carrier.right.right.right.right.left routeBoundaryCont
+  have packagedUnary : UnaryHistory packaged :=
+    unary_cont_closed provenanceUnary routeBoundaryUnary packagedCont
+  exact
+    ⟨routeBoundaryUnary,
+      packagedUnary,
+      routeBoundaryCont,
+      packagedCont⟩
+
+theorem PartitionBHistCarrier_ledger_exactness [AskSetup] [PackageSetup]
+    {listRow partRows sumRow weakRows boundaryRow routeLedger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory listRow ->
+      UnaryHistory partRows ->
+        UnaryHistory weakRows ->
+          UnaryHistory routeLedger ->
+            UnaryHistory provenance ->
+              Cont listRow partRows sumRow ->
+                Cont sumRow weakRows boundaryRow ->
+                  Cont boundaryRow routeLedger endpoint ->
+                    PkgSig bundle endpoint pkg ->
+                      UnaryHistory sumRow ∧ UnaryHistory boundaryRow ∧
+                        UnaryHistory endpoint ∧ hsame sumRow (append listRow partRows) ∧
+                          hsame boundaryRow (append sumRow weakRows) ∧
+                            hsame endpoint (append boundaryRow routeLedger) ∧
+                              PkgSig bundle endpoint pkg := by
+  intro listUnary partUnary weakUnary routeUnary _provenanceUnary listPartRow weakBoundaryRow
+    routeEndpointRow pkgSig
+  have sumUnary : UnaryHistory sumRow :=
+    unary_cont_closed listUnary partUnary listPartRow
+  have boundaryUnary : UnaryHistory boundaryRow :=
+    unary_cont_closed sumUnary weakUnary weakBoundaryRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed boundaryUnary routeUnary routeEndpointRow
+  exact
+    And.intro sumUnary
+      (And.intro boundaryUnary
+        (And.intro endpointUnary
+          (And.intro listPartRow
+            (And.intro weakBoundaryRow
+              (And.intro routeEndpointRow pkgSig)))))
+
+end BEDC.Derived.PartitionUp

@@ -248,4 +248,33 @@ theorem MirrorSymmetryCategoricalClassifier_endpoint_confluence [AskSetup] [Pack
       hsame_trans (hsame_symm sameLedgerA) sameLedgerB,
       hsame_trans (hsame_symm sameEndpointA) sameEndpointB⟩
 
+theorem MirrorSymmetryPairCarrier_obligation_package [AskSetup] [PackageSetup]
+    {symplecticSource derivedSource aModelAnswer bModelAnswer pairLedger transportLedger
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MirrorSymmetryPairCarrier symplecticSource derivedSource aModelAnswer bModelAnswer
+        pairLedger transportLedger endpoint bundle pkg ->
+      UnaryHistory transportLedger ∧ UnaryHistory pairLedger ∧ UnaryHistory endpoint ∧
+        hsame transportLedger (append symplecticSource derivedSource) ∧
+          hsame pairLedger (append aModelAnswer bModelAnswer) ∧
+            hsame endpoint (append transportLedger pairLedger) ∧
+              PkgSig bundle endpoint pkg := by
+  intro carrier
+  have transportLedgerUnary : UnaryHistory transportLedger :=
+    unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.right.left
+  have pairLedgerUnary : UnaryHistory pairLedger :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportLedgerUnary pairLedgerUnary
+      carrier.right.right.right.right.right.right.left
+  exact
+    ⟨transportLedgerUnary,
+      pairLedgerUnary,
+      endpointUnary,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.MirrorSymmetryUp

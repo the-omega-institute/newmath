@@ -114,6 +114,7 @@ import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
+import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IwasawaUp
@@ -187,7 +188,9 @@ import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.LanglandsUp
 import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.MirrorSymmetryUp
+import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.OptionUp
+import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
 import BEDC.Derived.OptionUp.Determinism
@@ -219,6 +222,7 @@ import BEDC.Derived.OptionUp.PayloadDescent
 import BEDC.Derived.OptionUp.PayloadDescentCanonicalIntermediate
 import BEDC.Derived.OptionUp.PayloadDescentExactness
 import BEDC.Derived.OptionUp.PayloadDescentNormalForm
+import BEDC.Derived.PartitionUp
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifier
 import BEDC.Derived.OptionUp.PayloadDescentSharedReflection
 import BEDC.Derived.OptionUp.PayloadDescentCommonTarget
@@ -605,6 +609,7 @@ import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
+import BEDC.Derived.PartitionUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.DistributionUp
