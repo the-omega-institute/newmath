@@ -273,7 +273,38 @@ theorem DynSystemFlowPacket_composition_flow_obligation [AskSetup] [PackageSetup
     (And.intro joinedEndpointUnary
       (And.intro joinedRouteUnary
         (And.intro timeABCont
-          (And.intro joinedEndpointCont
-            (And.intro joinedRouteCont joinedRoutePkg)))))
+            (And.intro joinedEndpointCont
+              (And.intro joinedRouteCont joinedRoutePkg)))))
+
+def DynSystemOrbitIteratePacket [AskSetup] [PackageSetup]
+    (index segment endpoint : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory index ∧ UnaryHistory segment ∧ UnaryHistory endpoint ∧ PkgSig bundle segment pkg
+
+theorem DynSystemOrbitIteratePacket_carrier_closure [AskSetup] [PackageSetup]
+    {index segment endpoint segmentNext phase ode time source target flowWitness flowEndpoint
+      route : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemOrbitIteratePacket index segment endpoint bundle pkg ->
+      DynSystemFlowPacket phase ode time source target flowWitness flowEndpoint route bundle pkg ->
+        hsame source endpoint ->
+          Cont segment route segmentNext ->
+            PkgSig bundle segmentNext pkg ->
+              DynSystemOrbitIteratePacket (BHist.e1 index) segmentNext flowEndpoint bundle pkg ∧
+                UnaryHistory segmentNext ∧ hsame segmentNext (append segment route) := by
+  intro iterate flow sameSourceEndpoint segmentNextRow segmentNextPkg
+  have flowRows :=
+    DynSystemFlowPacket_endpoint_coverage flow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_transport flow.right.right.right.left sameSourceEndpoint
+  have segmentNextUnary : UnaryHistory segmentNext :=
+    unary_cont_closed iterate.right.left flowRows.right.right.left segmentNextRow
+  have nextIndexUnary : UnaryHistory (BHist.e1 index) :=
+    unary_e1_closed iterate.left
+  have nextPacket :
+      DynSystemOrbitIteratePacket (BHist.e1 index) segmentNext flowEndpoint bundle pkg :=
+    And.intro nextIndexUnary
+      (And.intro segmentNextUnary
+        (And.intro flowRows.right.left segmentNextPkg))
+  exact And.intro nextPacket (And.intro segmentNextUnary segmentNextRow)
 
 end BEDC.Derived.DynSystemUp
