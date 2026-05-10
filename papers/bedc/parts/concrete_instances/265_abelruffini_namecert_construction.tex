@@ -8,12 +8,78 @@ The Abel-Ruffini interface $\AbelRuffiniUp$ packages a non-solvability-by-radica
 
 An $\AbelRuffiniUp$ token carries: a separable monic polynomial $P$ of degree five over a $\NumFieldUp$ base $K$ together with three irreducibility, non-trivial-rational-root, and Galois-group-isomorphic-to-$S_5$ rows. The carrier accepts a non-solvability witness when $\Gal(P/K)$ is isomorphic to $S_5$ and the derived series of $S_5$ does not reach the trivial subgroup. The classifier is $\hsame$ on the Galois group rows; the ledger keeps the irreducibility witness, the $S_5$ identification, and the derived-series ledger visible.
 
+\begin{theorem}[AbelRuffini polynomial Galois obligation]
+\label{thm:abelruffini-polynomial-galois-obligation}
+The $\AbelRuffiniUp$ source rows are the $\PolynomialUp$, $\NumFieldUp$,
+$\GaloisGroupUp$, and $\SymGroupUp$ $\mathsf{BHist}$ packages for a displayed
+degree-five polynomial, its base field row, its splitting-field row, and its
+$S_5$ identification. The carrier reads the polynomial coefficient history,
+separability and irreducibility rows, the non-trivial-rational-root row, the
+Galois group package over the splitting field, and the symmetric-group
+identification row.
+\end{theorem}
+\begin{proof}
+Project the accepted token to its polynomial and base-field coordinates. The
+coefficient history is supplied by $\PolynomialUp$, while the base and splitting
+field data are supplied by $\NumFieldUp$ rows.
+
+Next project the group coordinates. The Galois action row is a
+$\GaloisGroupUp$ package, and the displayed comparison with $S_5$ is the
+consumed $\SymGroupUp$ identification.
+
+The carrier has no additional source coordinate for a host field extension or an
+external classification theorem, so these four package families are exactly the
+polynomial Galois source surface.
+\end{proof}
+
+\begin{theorem}[AbelRuffini derived-series ledger obligation]
+\label{thm:abelruffini-derived-series-ledger-obligation}
+The $\AbelRuffiniUp$ derived-series ledger is a finite $\mathsf{BHist}$ ledger.
+Each step exposes the current subgroup row, the next commutator subgroup row,
+and the $\hsame$ transport relating the displayed $S_5$ identification to the
+Galois-group package. The ledger does not import a host solvable-group theorem.
+\end{theorem}
+\begin{proof}
+Read the derived-series field of the accepted package as a finite list of
+displayed subgroup rows. Each row is a BEDC history, and each successor row is
+recorded by the displayed commutator-step ledger.
+
+Transport is internal to the same list. The $\hsame$ classifier relates the
+Galois identification row to the corresponding $S_5$ subgroup row, then carries
+the step witness to the next displayed subgroup.
+
+Since every step is recorded as an explicit finite ledger row, non-solvability is
+read from this ledger rather than from an imported abstract solvability theorem.
+\end{proof}
+
+\begin{theorem}[AbelRuffini non-radical boundary obligation]
+\label{thm:abelruffini-nonradical-boundary-obligation}
+The $\AbelRuffiniUp$ non-solvability-by-radicals boundary is read only from the
+polynomial and Galois identification rows together with the finite
+derived-series ledger. It excludes general degree-$n$ classification, an
+$A_5$ simplicity proof, and radical-tower bridge data.
+\end{theorem}
+\begin{proof}
+Start with the polynomial Galois obligation. It supplies the displayed
+degree-five polynomial, the splitting-field row, the Galois-group row, and the
+$S_5$ identification.
+
+Then apply the derived-series ledger obligation. The finite subgroup ledger
+records the obstruction row that prevents the displayed series from reaching the
+trivial subgroup.
+
+The boundary statement is therefore only a readback from these rows. No field of
+the package names a degree-$n$ classification, an independent $A_5$ simplicity
+argument, or a standard radical-tower bridge, so those data remain outside the
+chapter scope.
+\end{proof}
+
 \begin{closurestatus}{\AbelRuffiniUp}
   \constructivestory{An $\AbelRuffiniUp$ token names a separable monic polynomial $P$ of degree five over a $\NumFieldUp$ base $K$ together with three witnesses: an irreducibility row, a non-trivial-rational-root row, and a Galois-group identification row $\Gal(P/K)\cong S_5$. The carrier accepts a non-solvability-by-radicals certificate when $\Gal(P/K)$ is isomorphic to $S_5$ in the sense of $\NameCert_{\GaloisGroupUp}$ and $\NameCert_{\SymGroupUp}$, and the derived series of $S_5$ stops at $A_5$ without reaching the trivial subgroup. The classifier is $\hsame$ on the Galois group identification rows; the source covers polynomial coefficient histories, splitting field carrier rows, Galois group elements, derived-series subgroups, and rational-root exclusion rows; the pattern records irreducibility admissibility, $S_5$ identification, derived-series exactness, non-radical-tower exclusion, and degree-five admissibility rows; the ledger keeps the polynomial coefficients, the irreducibility witness, the $S_5$ identification, and the derived-series ledger visible. The five name-certificate obligations are supplied by the $\GaloisGroupUp$ chain plus solvable-group structure: the inhabited identity certificate is a fixed polynomial $x^5-x-1$ over $\mathbb{Q}$; classifier stability is reflexive, symmetric, and transitive $\hsame$ on Galois group identifications; transport repacks Galois actions through polynomial transport; ledger exactness identifies the carrier row with the $S_5$ derived-series ledger; the extension boundary fixes the non-radical-tower row. A history $h$ lies in the signature gap of an $\AbelRuffiniUp$ token $p$ when the source-domain accepts the polynomial-coefficient history, the signature relation pairs it with the non-solvable Galois identification, and token introduction names that identification as $p$. The chapter registers this finite Galois-group-based non-solvability surface under the name $\AbelRuffiniUp$; it is a degree-five $S_5$-Galois object with no general degree-$n$ classification, no $A_5$ simplicity proof, no resolvent reduction, no transcendental method, and no standard radical-tower bridge.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope binds the polynomial coefficient history, the splitting field row, the Galois group identification row, the derived-series ledger, and the non-trivial-rational-root row of the degree-five polynomial.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope is the Galois-ledger surface in \autoref{thm:abelruffini-polynomial-galois-obligation}, \autoref{thm:abelruffini-derived-series-ledger-obligation}, and \autoref{thm:abelruffini-nonradical-boundary-obligation}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{The chapter does not close general degree-$n$ Galois solvability, the $A_5$ simplicity proof, transcendental methods, the abstract solvable-group theory, or a standard radical-tower bridge.}
-  \upgradepath{Obligation closure requires a checked $\AbelRuffiniUp$ Galois-identification obligation theorem covering irreducibility, $S_5$ identification, and derived-series ledger exactness.}
+  \upgradepath{Scoped closure requires binding the displayed $\PolynomialUp$, $\NumFieldUp$, $\GaloisGroupUp$, $\SymGroupUp$, $\hsame$, and finite derived-series rows to checked $\AbelRuffiniUp$ targets.}
 \end{closurestatus}
