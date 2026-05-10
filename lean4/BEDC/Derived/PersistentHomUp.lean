@@ -23,6 +23,26 @@ def PersistentHomFiltrationCarrier [AskSetup] [PackageSetup]
       Cont boundaryRows homologyRows persistenceRows ∧ Cont route persistenceRows provenance ∧
         Cont provenance persistenceRows endpoint ∧ PkgSig bundle endpoint pkg
 
+theorem PersistentHomFiltrationCarrier_source_boundary [AskSetup] [PackageSetup]
+    {indexSpine complexRows homologyRows boundaryRows persistenceRows route provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PersistentHomFiltrationCarrier indexSpine complexRows homologyRows boundaryRows
+        persistenceRows route provenance endpoint bundle pkg ->
+      UnaryHistory indexSpine ∧ UnaryHistory complexRows ∧ UnaryHistory homologyRows ∧
+        Cont indexSpine complexRows route ∧
+          Cont boundaryRows homologyRows persistenceRows ∧
+            Cont route persistenceRows provenance ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right⟩
+
 theorem PersistentHomFiltrationCarrier_ledger_exactness [AskSetup] [PackageSetup]
     {indexRow stageRows homologyRows boundaryRows persistenceRows barcodeRows routeLedger
       provenance endpoint : BHist}
