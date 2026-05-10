@@ -1,0 +1,19 @@
+\chapter{A Concrete Naming Certificate for $\SolvableRadicalsUp$}
+\label{ch:concrete-instances-solvableradicals-namecert}
+
+The radical-tower interface $\SolvableRadicalsUp$ packages a tower of radical extensions $K=K_0\subseteq K_1\subseteq\cdots\subseteq K_r$ where each $K_{i+1}=K_i(\alpha_i)$ with $\alpha_i^{n_i}\in K_i$. It depends on $\NameCert_{\FieldExtUp}$ (\autoref{ch:concrete-instances-fieldext-namecert}), $\NameCert_{\GaloisGroupUp}$ (\autoref{ch:concrete-instances-galoisgroup-namecert}), and $\NameCert_{\NumFieldUp}$ (\autoref{ch:concrete-instances-numfield-namecert}).
+
+\section{Carrier definition}
+\label{sec:solvableradicals-carrier}
+
+A $\SolvableRadicalsUp$ token carries a finite tower depth $r$, a $\SeqUp$-typed sequence of intermediate field rows $K_0,\ldots,K_r$, a sequence of root indices $n_0,\ldots,n_{r-1}$, and a sequence of radicand witnesses $\alpha_i$ with $\alpha_i^{n_i}\in K_i$. The carrier accepts a polynomial $P$ when $P$ splits in $K_r$ and each step is genuinely radical. The classifier is $\hsame$ on the tower depth and intermediate-field rows; the ledger keeps the depth $r$, the root indices, the radicand witnesses, and the splitting verdict visible.
+
+\begin{closurestatus}{\SolvableRadicalsUp}
+  \constructivestory{A $\SolvableRadicalsUp$ token names a finite tower depth $r$, a $\SeqUp$-typed sequence of intermediate field rows $K_0,\ldots,K_r$, a sequence of root indices $n_0,\ldots,n_{r-1}$, and a sequence of radicand witnesses $\alpha_i\in K_{i+1}$ with $\alpha_i^{n_i}\in K_i$. The carrier accepts a separable polynomial $P$ over $K_0$ when each step $K_{i+1}=K_i(\alpha_i)$ is genuinely radical in the sense of $\NameCert_{\FieldExtUp}$ and $P$ splits in $K_r$. The classifier is $\hsame$ on the tower depth and intermediate-field rows; the source covers field carriers, root indices, radicand witnesses, splitting witnesses, and tower-depth rows; the pattern records radical-step admissibility, splitting admissibility, tower-depth admissibility, root-of-unity availability, and intermediate-field-stability rows; the ledger keeps the depth $r$, the root indices, the radicand witnesses, and the splitting verdict visible. The five name-certificate obligations are supplied by the $\FieldExtUp$ tower together with $\GaloisGroupUp$ solvability: the inhabited identity certificate is the trivial $r=0$ tower; classifier stability is reflexive, symmetric, and transitive $\hsame$ on towers of fixed depth; transport repacks radical extensions through field-isomorphism transport; ledger exactness identifies the accepted polynomial with its splitting in $K_r$; the extension boundary fixes the radical-step rule. A history $h$ lies in the signature gap of a $\SolvableRadicalsUp$ token $p$ when the source-domain accepts the radical-tower-splitting witness, the signature relation pairs it with the splitting verdict, and token introduction names that verdict as $p$. The chapter registers this radical-tower surface under the name $\SolvableRadicalsUp$; it is a finite-tower polynomial-splitting object with no Galois-correspondence claim, no general solvable-group identification, no transcendental methods, and no standard radical-closure bridge.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope binds the tower depth $r$, the intermediate field rows, the root indices, the radicand witnesses, and the splitting verdict for the polynomial $P$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close the Galois-correspondence theorem, abstract solvable-group classification, transcendental methods, or a standard radical-closure bridge.}
+  \upgradepath{Obligation closure requires a checked $\SolvableRadicalsUp$ tower-step obligation theorem covering radical-step admissibility, intermediate-field stability, and splitting in the top field.}
+\end{closurestatus}
