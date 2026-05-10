@@ -280,6 +280,41 @@ theorem BusyBeaverPerMachineReadback_endpoint_exactness
       boundData.right.right.right.right.right.right.right.right.left,
       boundData.right.right.right.right.right.right.right.right.right⟩
 
+theorem BusyBeaverPerMachineReadback_halted_readback_determinacy
+    {machine input trace trace' output haltedLedger haltedLedger' steps fullLedger
+      fullLedger' : BHist} :
+    UnaryHistory machine -> UnaryHistory input -> UnaryHistory output -> UnaryHistory steps ->
+      Cont machine input trace -> Cont machine input trace' ->
+        Cont trace output haltedLedger -> Cont trace' output haltedLedger' ->
+          Cont haltedLedger steps fullLedger -> Cont haltedLedger' steps fullLedger' ->
+            UnaryHistory trace ∧ UnaryHistory trace' ∧ UnaryHistory haltedLedger ∧
+              UnaryHistory haltedLedger' ∧ UnaryHistory fullLedger ∧ UnaryHistory fullLedger' ∧
+                hsame trace trace' ∧ hsame haltedLedger haltedLedger' ∧
+                  hsame fullLedger fullLedger' := by
+  intro machineUnary inputUnary outputUnary stepsUnary traceRow traceRow'
+  intro haltedLedgerRow haltedLedgerRow' fullLedgerRow fullLedgerRow'
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed machineUnary inputUnary traceRow
+  have traceUnary' : UnaryHistory trace' :=
+    unary_cont_closed machineUnary inputUnary traceRow'
+  have traceSame : hsame trace trace' :=
+    cont_deterministic traceRow traceRow'
+  have haltedLedgerUnary : UnaryHistory haltedLedger :=
+    unary_cont_closed traceUnary outputUnary haltedLedgerRow
+  have haltedLedgerUnary' : UnaryHistory haltedLedger' :=
+    unary_cont_closed traceUnary' outputUnary haltedLedgerRow'
+  have haltedLedgerSame : hsame haltedLedger haltedLedger' :=
+    cont_respects_hsame traceSame (hsame_refl output) haltedLedgerRow haltedLedgerRow'
+  have fullLedgerUnary : UnaryHistory fullLedger :=
+    unary_cont_closed haltedLedgerUnary stepsUnary fullLedgerRow
+  have fullLedgerUnary' : UnaryHistory fullLedger' :=
+    unary_cont_closed haltedLedgerUnary' stepsUnary fullLedgerRow'
+  have fullLedgerSame : hsame fullLedger fullLedger' :=
+    cont_respects_hsame haltedLedgerSame (hsame_refl steps) fullLedgerRow fullLedgerRow'
+  exact
+    ⟨traceUnary, traceUnary', haltedLedgerUnary, haltedLedgerUnary', fullLedgerUnary,
+      fullLedgerUnary', traceSame, haltedLedgerSame, fullLedgerSame⟩
+
 theorem BusyBeaverNonhaltingExclusion_obligation_surface
     {machine enumeration nonhaltBranch haltedTrace haltedOutput haltedLedger branchLedger
       publicLedger haltedPublicLedger : BHist} :
