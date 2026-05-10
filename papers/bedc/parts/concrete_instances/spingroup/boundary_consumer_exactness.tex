@@ -325,3 +325,80 @@ the product-law application, and every transport used above is a displayed
 Clifford product, inverse, $\hsame$, $\Cont$, or $\Pkg$ row of the same
 $\SpinGroupUp$ packet.
 \end{proof}
+
+\begin{theorem}[SpinGroup conjugation action classifier congruence]
+\label{thm:spingroup-conjugation-action-classifier-congruence}
+Let $S$ be an accepted $\SpinGroupUp$ packet of
+\autoref{def:spingroup-bhist-carrier-packet}. Let $s$ and $s'$ be visible
+Clifford-unit endpoints of $S$ with
+$s\sim_{\CliffordUp}s'$. Let $v$ and $v'$ be Clifford-vector rows accepted by
+the same $\NameCert_{\CliffordUp}$ source with
+$v\sim_{\CliffordUp}v'$. Write
+$$
+\mathsf{Act}_{s}(v):=(s\cdot v)\cdot s^{-1}
+$$
+for the conjugation endpoint read by the action row, and write
+$\sim_{\CliffordUp}$ for the generated $\CliffordUp$ classifier. Then
+$\mathsf{Act}_{s}(v)$ and $\mathsf{Act}_{s'}(v')$ are accepted
+Clifford-vector action rows in the same $\SpinGroupUp$ packet, and
+$$
+\mathsf{Act}_{s}(v)\sim_{\CliffordUp}\mathsf{Act}_{s'}(v').
+$$
+The comparison is the classifier transport of the displayed
+product-inverse-product word; it does not use equality of host linear maps,
+matrices, or an unrecorded orthogonal action.
+\end{theorem}
+\begin{proof}
+Project $S$ through \autoref{def:spingroup-bhist-carrier-packet}. The visible
+rows include the Clifford-unit endpoints $s$ and $s'$, the Clifford-vector
+rows $v$ and $v'$, the finite Clifford product rows, the inverse rows supplied
+through the carried $\GroupUp$ surface, the action row on vector histories,
+the generated $\CliffordUp$ classifier, and the $\Pkg$ provenance tying these
+rows to the same packet. By
+\autoref{thm:spingroup-clifford-group-consumer-boundary} and
+\autoref{thm:spingroup-group-consumer-boundary}, no other action source is
+available to a consumer of this packet.
+
+Apply \autoref{thm:spingroup-conjugation-action-readback}. The two action
+endpoints are read as the Clifford words
+$$
+(s\cdot v)\cdot s^{-1}
+$$
+and
+$$
+(s'\cdot v')\cdot (s')^{-1}.
+$$
+These are accepted action rows because the readback uses only Clifford product
+rows, Clifford inverse rows, and $\hsame$ transport already present in $S$.
+
+The displayed comparison $s\sim_{\CliffordUp}s'$ lies in the Clifford-unit
+surface carried by the same packet. The inverse-congruence row listed in
+\autoref{def:group-stability-certificate}, read through that carried group
+surface, transports it to
+$$
+s^{-1}\sim_{\CliffordUp}(s')^{-1}.
+$$
+Now apply the product-stability row of
+\autoref{thm:clifford-product-stability-obligation} inside the generated
+classifier of \autoref{def:clifford-classifier-package}. Applied first to
+$s\sim_{\CliffordUp}s'$ and $v\sim_{\CliffordUp}v'$, it gives
+$$
+s\cdot v\sim_{\CliffordUp}s'\cdot v'.
+$$
+Applied again to this product comparison and to the inverse comparison above,
+it gives
+$$
+(s\cdot v)\cdot s^{-1}
+\sim_{\CliffordUp}
+(s'\cdot v')\cdot (s')^{-1}.
+$$
+Substituting the action readback notation yields the asserted classifier row
+between $\mathsf{Act}_{s}(v)$ and $\mathsf{Act}_{s'}(v')$.
+
+All rows used in the calculation are read from the same $\NameCert_{\CliffordUp}$
+source and the same accepted $\SpinGroupUp$ packet: the two input classifier
+comparisons, the inverse-congruence row, the two Clifford product-stability
+transports, the action readback, and the provenance ledger. Hence the
+congruence is internal to the packet and keeps the action endpoint within the
+same public $\SpinGroupUp$ boundary.
+\end{proof}
