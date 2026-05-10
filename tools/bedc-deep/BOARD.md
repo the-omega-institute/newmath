@@ -18,30 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-635 - BusyBeaver per-machine halted-readback determinism on empty tape
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | BusyBeaver per-machine halted-readback determinism on empty tape |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-If two accepted BusyBeaverUp witnesses share a finite enumeration E and both record a halted branch for the same entry M in E, then their halted output rows, step-count rows, and finite TuringMachineUp transition traces from the empty tape are hsame-equal in the carrier ledger.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/264_busybeaver_namecert_construction.tex`
-
-Rationale:
-Genuine no-confusion gap. The chapter premises deterministic Turing-machine codes (264:9) and the existing thm:busybeaver-per-machine-readback-exactness only reads back one accepted packet. The deterministic-code hypothesis should force any two halted branches for the same M to agree on output, step count, and transition trace — but no current theorem makes that comparison. Fits the determinism/uniqueness keeper category cleanly: not a parameter echo of bound monotonicity (264:70-96) or of the non-halting exclusion row (264:99-125). Landing file is 197 lines, far below the cap, with a clear sibling slot adjacent to the existing readback-exactness theorem.
-
----
-
 ### B-636 - SpinGroup conjugation action classifier congruence row
 
 | field | value |
@@ -65,4 +41,3 @@ Rationale:
 File `concrete_instances/spingroup/boundary_consumer_exactness.tex` (327 lines) currently has a product law (line 78), an identity law (line 160), and an inverse-involution law (line 233) for the conjugation action `Act_s(v):=(s·v)·s^{-1}`. It has the *readback* theorem (line 27) but NO `congruence`/`stability` row showing the action is well-defined under classifier transport of either argument. A grep across `papers/bedc/parts/concrete_instances/spingroup/` for `(action.*congruence|spingroup-action-congru)` returned 0 hits. BOARD covers SpinGroup conjugation identity (B-612), inverse-involution (B-620), and multiplicative (B-600) laws — none of which is the bilinear/two-argument classifier-respect statement. The proof is short: the readback word `(s·v)·s^{-1}` is built from Clifford product rows and inverse rows; congruence follows from `\autoref{thm:clifford-product-stability-obligation}` applied twice plus inverse congruence from `def:group-stability-certificate`, no new ledger row needed.
 
 ---
-

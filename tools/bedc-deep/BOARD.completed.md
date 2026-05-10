@@ -16088,3 +16088,27 @@ Rationale:
 BOARD 有 union-of-equations zero-locus = intersection (B-609) 和 singleton zero-locus exactness (B-585), 但通用 inclusion → 反向 inclusion 的 antitone 定理未列。它是零点集分类的核心 order bridge, 比 union 公式更结构化, 证明短且不重复 union 路径: 对 E 中任一方程经 inclusion 转到 F, 再用 F-zero witness。
 
 ---
+
+### B-635 - BusyBeaver per-machine halted-readback determinism on empty tape
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | BusyBeaver per-machine halted-readback determinism on empty tape |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If two accepted BusyBeaverUp witnesses share a finite enumeration E and both record a halted branch for the same entry M in E, then their halted output rows, step-count rows, and finite TuringMachineUp transition traces from the empty tape are hsame-equal in the carrier ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/264_busybeaver_namecert_construction.tex`
+
+Rationale:
+Genuine no-confusion gap. The chapter premises deterministic Turing-machine codes (264:9) and the existing thm:busybeaver-per-machine-readback-exactness only reads back one accepted packet. The deterministic-code hypothesis should force any two halted branches for the same M to agree on output, step count, and transition trace — but no current theorem makes that comparison. Fits the determinism/uniqueness keeper category cleanly: not a parameter echo of bound monotonicity (264:70-96) or of the non-halting exclusion row (264:99-125). Landing file is 197 lines, far below the cap, with a clear sibling slot adjacent to the existing readback-exactness theorem.
+
+---
