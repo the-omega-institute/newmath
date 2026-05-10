@@ -31,4 +31,32 @@ theorem KoszulDualityDerivedTensorLedger_exactness
     unary_cont_closed extUnary varianceUnary endpointRow
   exact ⟨extUnary, endpointUnary, extRow, endpointRow⟩
 
+theorem KoszulDualityExtCarrier_classifier_stability
+    {derivedRow tensorRow extClassifier varianceLedger endpoint derivedRow' tensorRow'
+      extClassifier' endpoint' : BHist} :
+    KoszulDualityExtCarrier derivedRow tensorRow extClassifier varianceLedger endpoint ->
+      hsame derivedRow derivedRow' -> hsame tensorRow tensorRow' ->
+        Cont derivedRow' tensorRow' extClassifier' ->
+          Cont extClassifier' varianceLedger endpoint' ->
+            KoszulDualityExtCarrier derivedRow' tensorRow' extClassifier' varianceLedger
+                endpoint' ∧
+              hsame extClassifier extClassifier' ∧ hsame endpoint endpoint' := by
+  intro carrier sameDerived sameTensor extRow' endpointRow'
+  have derivedUnary' : UnaryHistory derivedRow' :=
+    unary_transport carrier.left sameDerived
+  have tensorUnary' : UnaryHistory tensorRow' :=
+    unary_transport carrier.right.left sameTensor
+  have extClassifierSame : hsame extClassifier extClassifier' :=
+    cont_respects_hsame sameDerived sameTensor carrier.right.right.right.left extRow'
+  have extClassifierUnary' : UnaryHistory extClassifier' :=
+    unary_transport
+      (unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.left)
+      extClassifierSame
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame extClassifierSame (rfl : hsame varianceLedger varianceLedger)
+      carrier.right.right.right.right endpointRow'
+  exact
+    ⟨⟨derivedUnary', tensorUnary', carrier.right.right.left, extRow', endpointRow'⟩,
+      extClassifierSame, endpointSame⟩
+
 end BEDC.Derived.KoszulDualityUp

@@ -127,4 +127,34 @@ theorem BeliefObservationUpdateCarrier_ledger_exactness [AskSetup] [PackageSetup
     ⟨ledgerUnary, carrier.right.right.right.right.right.right.left,
       carrier.right.right.right.right.left, carrier.right.right.right.right.right.left⟩
 
+theorem BeliefObservationUpdateCarrier_tastegate_carrier_recognition [AskSetup] [PackageSetup]
+    {prior observation updateTrace probability evidence posterior : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BeliefObservationUpdateCarrier prior observation updateTrace probability evidence posterior
+        bundle pkg ->
+      UnaryHistory prior ∧ UnaryHistory observation ∧ UnaryHistory updateTrace ∧
+        UnaryHistory probability ∧ UnaryHistory posterior ∧ UnaryHistory evidence ∧
+          Cont prior observation updateTrace ∧ Cont updateTrace probability posterior ∧
+            PkgSig bundle evidence pkg := by
+  intro carrier
+  have posteriorUnary : UnaryHistory posterior :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have updateProbabilityUnary : UnaryHistory (append updateTrace probability) :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      (rfl : Cont updateTrace probability (append updateTrace probability))
+  have evidenceTailUnary :
+      UnaryHistory (append observation (append updateTrace probability)) :=
+    unary_cont_closed carrier.right.left updateProbabilityUnary
+      (rfl : Cont observation (append updateTrace probability)
+        (append observation (append updateTrace probability)))
+  have evidenceUnary : UnaryHistory evidence :=
+    unary_cont_closed carrier.left evidenceTailUnary
+      carrier.right.right.right.right.right.right.left
+  exact
+    ⟨carrier.left, carrier.right.left, carrier.right.right.left,
+      carrier.right.right.right.left, posteriorUnary, evidenceUnary,
+        carrier.right.right.right.right.left, carrier.right.right.right.right.right.left,
+          carrier.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.BeliefUp
