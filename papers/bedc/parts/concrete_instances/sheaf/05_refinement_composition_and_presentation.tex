@@ -196,3 +196,66 @@ Row five is exactly the list of fields and consequences exposed in this section.
 
 Rows six through ten record how downstream constructions consume the surface. A ringed-space or scheme certificate can name cover indices, overlaps, refinement maps, common-refinement spans, and restriction rows without choosing a standard-model bridge; the exactness content available to it is precisely local detection plus existence and uniqueness of gluing, stable under passing to displayed refined covers, refinement towers, and comparison of two cover presentations through a displayed common refinement.
 \end{proof}
+
+\begin{corollary}[Sheaf carried-section pullback associativity along composite refinement]
+\label{cor:sheaf-carried-section-pullback-composite-associativity}
+Let $\mathcal{S}$ be an indexed sheaf carrier for $\SheafUp$ over an indexed open topology carrier $\mathcal{T}$. Let $\mathcal{U}=(A,\alpha,h,\mu)$, $\mathcal{V}=(B,\beta,q,\nu)$, and $\mathcal{W}=(C,\gamma,p,\omega)$ be indexed open covers of $i:\mathsf{OpenIx}$. Suppose $(r,\epsilon):\mathcal{U}\to\mathcal{V}$ and $(s,\eta):\mathcal{V}\to\mathcal{W}$ are displayed refinements in the sense of \autoref{thm:sheaf-cover-refinement-obligation}:
+$$
+r:A\to B,
+\qquad
+\epsilon_a:\alpha(a)\le_{\mathcal{T}}\beta(r(a)),
+$$
+$$
+s:B\to C,
+\qquad
+\eta_b:\beta(b)\le_{\mathcal{T}}\gamma(s(b)).
+$$
+Let $(s\circ r,\theta):\mathcal{U}\to\mathcal{W}$ be their composite displayed refinement from \autoref{thm:sheaf-refinement-composition-obligation}, where $\theta_a:\alpha(a)\le_{\mathcal{T}}\gamma(s(r(a)))$ is the composite inclusion. If $\sigma_c:\mathsf{Sec}(\gamma(c))$ is a compatible carried local family over $\mathcal{W}$, define the two-stage pullback by
+$$
+\tau_b:=\rho_{\gamma(s(b)),\beta(b)}(\sigma_{s(b)}),
+\qquad
+\upsilon_a:=\rho_{\beta(r(a)),\alpha(a)}(\tau_{r(a)}),
+$$
+and define the direct composite pullback by
+$$
+\zeta_a:=\rho_{\gamma(s(r(a))),\alpha(a)}(\sigma_{s(r(a))}).
+$$
+Then the section classifier on the refined member classifies the two pullbacks together:
+$$
+\forall a:A,
+\qquad
+\upsilon_a\sim_{\alpha(a)}\zeta_a.
+$$
+Moreover, the two-stage family $\upsilon_a$ is compatible over $\mathcal{U}$.
+\end{corollary}
+\begin{proof}
+The composite refinement is obtained by composing the displayed inclusion rows. For each $a:A$, the refinement $(r,\epsilon)$ supplies $\epsilon_a:\alpha(a)\le_{\mathcal{T}}\beta(r(a))$, and the refinement $(s,\eta)$ supplies $\eta_{r(a)}:\beta(r(a))\le_{\mathcal{T}}\gamma(s(r(a)))$. Their transitive composite is the inclusion $\theta_a:\alpha(a)\le_{\mathcal{T}}\gamma(s(r(a)))$ used by the one-step pullback along $s\circ r$.
+
+Since $\sigma_c$ is compatible over $\mathcal{W}$, \autoref{thm:sheaf-refinement-compatible-family-pullback} applied to $(s,\eta)$ gives compatibility of the pulled-back family $\tau_b$ over $\mathcal{V}$. Applying the same theorem to $(r,\epsilon)$ and the compatible family $\tau_b$ gives compatibility of $\upsilon_a$ over $\mathcal{U}$.
+
+It remains to identify the two descriptions of the member at $a$. Expanding the definitions gives
+$$
+\upsilon_a
+=
+\rho_{\beta(r(a)),\alpha(a)}
+\bigl(\rho_{\gamma(s(r(a))),\beta(r(a))}(\sigma_{s(r(a))})\bigr),
+$$
+while the direct composite pullback is
+$$
+\zeta_a
+=
+\rho_{\gamma(s(r(a))),\alpha(a)}(\sigma_{s(r(a))}).
+$$
+These are the two restriction routes along the same chain
+$$
+\alpha(a)\le_{\mathcal{T}}\beta(r(a))\le_{\mathcal{T}}\gamma(s(r(a))).
+$$
+The composition row of the indexed section presheaf carrier in \autoref{def:sheaf-indexed-section-presheaf-carrier} compares the iterated restriction with the direct restriction in the target classifier $\sim_{\alpha(a)}$:
+$$
+\rho_{\beta(r(a)),\alpha(a)}
+\bigl(\rho_{\gamma(s(r(a))),\beta(r(a))}(\sigma_{s(r(a))})\bigr)
+\sim_{\alpha(a)}
+\rho_{\gamma(s(r(a))),\alpha(a)}(\sigma_{s(r(a))}).
+$$
+Substituting the definitions of $\upsilon_a$ and $\zeta_a$ gives $\upsilon_a\sim_{\alpha(a)}\zeta_a$ for every $a:A$. Thus pullback along the refinement tower and pullback along the composite refinement determine the same carried section class on each refined member.
+\end{proof}
