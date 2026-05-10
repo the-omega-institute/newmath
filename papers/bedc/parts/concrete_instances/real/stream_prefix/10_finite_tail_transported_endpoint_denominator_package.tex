@@ -128,3 +128,71 @@ $\mathsf{UnaryHistory}(a)$, $\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$.
 Together with the denominator package and the two zero-headed exclusions, these
 rows repack as the displayed full endpoint package.
 \end{proof}
+
+\begin{theorem}[RealUp StreamName tail denominator selector handoff]
+\label{thm:realup-streamname-tail-denominator-selector-handoff}
+Let $W_0$ and $W_1$ be selected finite $\RealUp$ observation-window packages
+over the same StreamName endpoints $s,t:\mathsf{BHist}\to\mathsf{BHist}$, the
+same finite $\mathsf{ProbeBundle}$ window $\mathcal P$, and the same accepted
+$\RegSeqRat$ spine row. Suppose they are connected by a StreamName RegSeqRat
+RealUp tail-selector transport packet. Let $x,y:\mathbb{N}\to\Hist$ be the
+transported Real stream-prefix endpoint streams read from the selected finite
+window, let $n,m$ be the displayed base and finite-tail lengths, and let
+$u,v:\Hist$ be transported endpoints satisfying
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n),
+$$
+$$
+\forall k<m,\ \mathsf{RatHistoryClassifier}(x(n+k+1),y(n+k+1)),
+$$
+$$
+\forall i,\ \mathsf{UnaryHistory}(x(i)),
+$$
+and
+$$
+\hsame(x(n+m),u),\qquad \hsame(y(n+m),v).
+$$
+Then the $\RealUp$ consumer boundary exposes exactly the shared StreamName
+public denominator selector selected by
+\autoref{thm:streamname-regseqrat-realup-tail-denominator-selector}, together
+with the transported finite-tail endpoint denominator package
+$$
+\begin{array}{l}
+\mathsf{RatHistoryClassifier}(u,v)\land
+\mathsf{PositiveUnaryDenominator}(u)\land
+\mathsf{PositiveUnaryDenominator}(v)\land\\
+\mathsf{UnaryHistory}(u)\land
+\mathsf{UnaryHistory}(v)\land
+(\hsame(u,\emp)\to\mathsf{False})\land
+(\hsame(v,\emp)\to\mathsf{False}).
+\end{array}
+$$
+Equivalently, the handoff is a single finite boundary over the shared
+StreamName selector, the accepted $\RegSeqRat$ finite row, the transported
+Real stream-prefix endpoints, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$.
+It adds no quotient row, completion object, Classical representative,
+metric-completeness certificate, arithmetic or order row, standard bridge row,
+or external selector.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-realup-tail-denominator-selector} to the
+transport packet between $W_0$ and $W_1$. This identifies the selected finite
+public denominator selector carried by the StreamName side with the selector
+read by the finite $\RealUp$ ledger at $W_1$.
+
+Next apply
+\autoref{thm:real-stream-prefix-finite-tail-transported-endpoint-denominator-package}
+to the transported Real prefix classifier, the finite RatUp tail row, the
+pointwise unary anchor, and the two endpoint $\hsame$ rows. This supplies
+$\mathsf{RatHistoryClassifier}(u,v)$, the two positive unary denominator rows,
+the two unary endpoint rows, and the two nonempty endpoint exclusions.
+
+Finally use
+\autoref{thm:real-stream-prefix-finite-tail-transported-full-endpoint-package}
+as the readback boundary showing that the same finite-tail hypotheses admit no
+additional quotient, completion, representative, metric, arithmetic, order, or
+standard-bridge data. The consumer therefore sees only the shared StreamName
+denominator selector and the transported endpoint denominator package displayed
+above.
+\end{proof}

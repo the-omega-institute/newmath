@@ -152,6 +152,24 @@ theorem CompactMetricCertificate_metric_distance_transport {X : BHist -> Prop}
   exact And.intro transportedX
     (And.intro transportedY (And.intro sameDistance rightDistance))
 
+theorem CompactMetricCertificate_metric_source_obligation {X : BHist -> Prop}
+    {eps x y d d' : BHist} {bundle : ProbeBundle BHist} {s M : BHist -> BHist}
+    {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit ->
+      X x ->
+        X y ->
+          MetricDistanceWitness x y d ->
+            MetricDistanceWitness x y d' ->
+              TotallyBoundedProbeBundleNet X eps bundle ∧
+                CompleteMetricLimitWitness X s M limit ∧
+                  MetricDistanceWitness x y d ∧ hsame d d' := by
+  intro certificate _source _target leftDistance rightDistance
+  have sameDistance : hsame d d' :=
+    MetricDistanceWitness_hsame_result_deterministic (hsame_refl x) (hsame_refl y)
+      leftDistance rightDistance
+  exact And.intro certificate.left
+    (And.intro certificate.right (And.intro leftDistance sameDistance))
+
 theorem CompactMetricTotallyBoundedNet_obligation {X : BHist -> Prop} {eps eps' x : BHist}
     {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
     CompactMetricCertificate X eps bundle s M limit -> hsame eps eps' -> X x ->
