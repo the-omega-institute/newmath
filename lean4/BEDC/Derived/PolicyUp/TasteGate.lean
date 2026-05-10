@@ -147,6 +147,43 @@ theorem PolicyActionLedgerCarrier_namecert_obligation_surface [AskSetup] [Packag
         hsame := by
   exact PolicyActionLedgerCarrier_semantic_name_certificate
 
+theorem PolicyActionLedgerCarrier_kernel_scope_boundary [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger
+              provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger
+              provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger
+              provenance endpoint bundle pkg ∧ hsame row endpoint)
+          hsame ∧
+        UnaryHistory belief ∧ UnaryHistory markov ∧ UnaryHistory randomvar ∧
+          UnaryHistory estimator ∧ UnaryHistory decision ∧ UnaryHistory ledger ∧
+            UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont belief markov ledger ∧
+              Cont ledger estimator provenance ∧ Cont provenance decision endpoint ∧
+                PkgSig bundle endpoint pkg := by
+  intro carrier
+  exact
+    ⟨PolicyActionLedgerCarrier_semantic_name_certificate carrier,
+      carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.right⟩
+
 private def encodeBHist : BHist → RawEvent
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: encodeBHist h
