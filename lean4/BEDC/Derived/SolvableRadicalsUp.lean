@@ -1,4 +1,6 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Package
+import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.SolvableRadicalsUp
@@ -10,6 +12,66 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
+
+theorem SolvableRadicalsTowerStepLedger_assoc_surface
+    {base towerStep radicand radicalStep splitting topField towerSurface : BHist} :
+    UnaryHistory base -> UnaryHistory towerStep -> UnaryHistory radicand ->
+      UnaryHistory splitting -> Cont base towerStep radicalStep ->
+        Cont radicalStep radicand topField -> Cont topField splitting towerSurface ->
+          ∃ adjacentRow : BHist,
+            Cont towerStep radicand adjacentRow ∧ Cont base adjacentRow topField ∧
+              Cont topField splitting towerSurface ∧ UnaryHistory radicalStep ∧
+                UnaryHistory adjacentRow ∧ UnaryHistory topField ∧
+                  UnaryHistory towerSurface ∧ hsame radicalStep (append base towerStep) ∧
+                    hsame adjacentRow (append towerStep radicand) ∧
+                      hsame topField (append radicalStep radicand) ∧
+                        hsame towerSurface (append topField splitting) := by
+  intro baseUnary towerUnary radicandUnary splittingUnary radicalRow topFieldRow surfaceRow
+  have radicalUnary : UnaryHistory radicalStep :=
+    unary_cont_closed baseUnary towerUnary radicalRow
+  have topUnary : UnaryHistory topField :=
+    unary_cont_closed radicalUnary radicandUnary topFieldRow
+  have surfaceUnary : UnaryHistory towerSurface :=
+    unary_cont_closed topUnary splittingUnary surfaceRow
+  cases cont_assoc_left_exists radicalRow topFieldRow with
+  | intro adjacentRow adjacentData =>
+      have adjacentUnary : UnaryHistory adjacentRow :=
+        unary_cont_closed towerUnary radicandUnary adjacentData.left
+      exact Exists.intro adjacentRow
+        (And.intro adjacentData.left
+          (And.intro adjacentData.right
+            (And.intro surfaceRow
+              (And.intro radicalUnary
+                (And.intro adjacentUnary
+                  (And.intro topUnary
+                    (And.intro surfaceUnary
+                      (And.intro radicalRow
+                        (And.intro adjacentData.left
+                          (And.intro topFieldRow surfaceRow))))))))))
+
+theorem SolvableRadicalsTowerStep_obligation
+    {baseField nextField rootIndex radicand stepExtension towerLedger : BHist} :
+    UnaryHistory baseField ->
+      UnaryHistory nextField ->
+        UnaryHistory rootIndex ->
+          UnaryHistory radicand ->
+            Cont rootIndex radicand stepExtension ->
+              Cont baseField nextField towerLedger ->
+                UnaryHistory stepExtension ∧ UnaryHistory towerLedger ∧
+                  hsame stepExtension (append rootIndex radicand) ∧
+                    hsame towerLedger (append baseField nextField) := by
+  intro baseUnary nextUnary rootUnary radicandUnary stepRow towerRow
+  have stepUnary : UnaryHistory stepExtension :=
+    unary_cont_closed rootUnary radicandUnary stepRow
+  have towerUnary : UnaryHistory towerLedger :=
+    unary_cont_closed baseUnary nextUnary towerRow
+  constructor
+  · exact stepUnary
+  constructor
+  · exact towerUnary
+  constructor
+  · exact stepRow
+  · exact towerRow
 
 def SolvableRadicalsTowerPacket [AskSetup] [PackageSetup]
     (towerDepth intermediateFields rootIndices radicands basePolynomial splittingVerdict
