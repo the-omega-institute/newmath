@@ -174,6 +174,7 @@ Let $P$ be a displayed $\MarkovChainUp$ transition packet over a unary time ledg
 
 No row with transition index at least $n$ is copied into $P_{\le n}$, and no row is reindexed except by the evident inclusion of the prefix ledger into the original unary ledger.
 \end{definition}
+\leandef{BEDC.Derived.MarkovChainUp.MarkovChainFinitePrefixRestriction}
 
 \begin{theorem}[MarkovChain finite-prefix restriction carrier]
 \label{thm:markovchain-finite-prefix-restriction-carrier}
@@ -188,6 +189,7 @@ It remains only to check the transition obligations. Fix a prefix transition ind
 
 Every transition obligation of $P_{\le n}$ is obtained in this way from a unique transition obligation of $P$, and the restriction introduces no additional transition row whose source, target, law, or provenance would need a separate witness. The source-boundary statement of \autoref{thm:markovchain-probspace-randomvar-source-boundary} also remains unchanged, because the restricted packet keeps the same $\ProbSpaceUp$ source and only discards later rows. Thus all fields required by the MarkovChain transition carrier predicate are present in the restricted finite packet, so $P_{\le n}$ is an accepted $\MarkovChainUp$ carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier\_finite\_prefix\_restriction\_carrier}
 
 \begin{theorem}[MarkovChain transition-packet concatenation closure]
 \label{thm:markovchain-transition-packet-concatenation-closure}

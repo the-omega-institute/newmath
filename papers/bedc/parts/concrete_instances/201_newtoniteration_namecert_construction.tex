@@ -59,16 +59,32 @@ Build the package from a carried step row and a classifier witness. The carrier 
 Ledger exactness follows by inverting the carrier and classifier constructors. Every accepted datum is one of the two source certificates, one of the finite step answer histories, or one of the named $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ transport witnesses. Hence the package exposes only the displayed finite Newton step obligation.
 \end{proof}
 
-\closureat{NewtonIterationUp}{obligationStr}
+\begin{theorem}[Newton-iteration scoped kernel dependency boundary]
+\label{thm:newtoniteration-scoped-kernel-dependency-boundary}
+The $\NewtonIterationUp$ obligation package is scoped exactly by the $\DerivativeUp$ source row, the $\BanachUp$ source row, the finite $\mathsf{BHist}$ step ledger, the inverse-row witness, the next-step answer row, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ transport witnesses.
+
+Equivalently, every obligation row exported by \autoref{thm:newtoniteration-obligation-package} is read from the carrier of \autoref{def:newtoniteration-bhist-carrier}, classified by \autoref{def:newtoniteration-contraction-classifier}, and bounded by the source-scope and stability rows of \autoref{thm:newtoniteration-banach-derivative-source-scope} and \autoref{thm:newtoniteration-step-stability}. Convergence, completeness, radius data, and host Newton data are outside this carrier.
+\end{theorem}
+\begin{proof}
+Start with an exported obligation row. By \autoref{thm:newtoniteration-obligation-package}, it is either one of the two source certificates, one of the finite step answer histories, or one of the displayed transport witnesses used to read that finite step.
+
+Apply \autoref{def:newtoniteration-bhist-carrier} to identify the only carrier fields: the derivative source row, the Banach source row, the source point answer, the derivative answer, the inverse-row witness, the next-step answer, and the finite $\mathsf{BHist}$ ledger connecting those rows by $\Cont$. Apply \autoref{def:newtoniteration-contraction-classifier} to identify the only classifier moves: source transport, inverse-row transport, next-step transport, and finite concatenation of displayed step rows.
+
+The source boundary is then fixed by \autoref{thm:newtoniteration-banach-derivative-source-scope}; there are no further source certificates beyond $\DerivativeUp$ and $\BanachUp$. The admissible replacements are fixed by \autoref{thm:newtoniteration-step-stability}; they use only $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ transport witnesses already visible in the carrier.
+
+Therefore the dependency boundary is exactly the named kernel surface. Any convergence theorem, ambient completeness field, contraction radius, or host-level Newton recurrence would require data not present in the carrier or classifier, so those rows are not part of the scoped obligation package.
+\end{proof}
+
+\closureat{NewtonIterationUp}{scopedStr}[BEDC.Derived.NewtonIterationUp.NewtonIterationBHistCarrier\_banach\_derivative\_source\_scope]
 
 \begin{closurestatus}{\NewtonIterationUp}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation scope is the finite step ledger over $\NameCert_{\DerivativeUp}$, $\NameCert_{\BanachUp}$, the inverse-row witness, next-step history, $\mathsf{BHist}$ rows, $\hsame$, $\Cont$, $\Pkg$, and the displayed source certificate rows.}
   \constructivestory{A $\NewtonIterationUp$ packet is built by choosing the displayed derivative and Banach source certificates, reading one finite Newton step through the point, derivative, inverse-row, and next-step histories, and repacking those rows through the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ witnesses.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim convergence, ambient completeness, a contraction theorem, a radius of validity, or standard bridge.}
-  \upgradepath{Scoped closure requires explicit kernel scoping of the derivative source, Banach source, point row, inverse-row witness, next-step row, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ transport witnesses.}
+  \upgradepath{Public certificate work next requires a displayed consumer-facing boundary for the finite Newton step package and its permitted source transports.}
 \end{closurestatus}
 
 \begin{theorem}[Newton-iteration finite-step concatenation closure]
@@ -107,6 +123,7 @@ whose two segments are accepted Newton step ledgers over $D$ and $B$.
 
 Then $R_{12}$ and $R'_{12}$ have the same source-boundary projection. Their derivative source is $D$, their Banach source is $B$, their inverse-row subledger lists are read as the same displayed finite lists up to the $\hsame$ transport of the concatenation ledgers, their next-step endpoint is $x_2$, and their finite ledger provenance is classified by the Newton-iteration contraction classifier of \autoref{def:newtoniteration-contraction-classifier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.NewtonIterationUp.NewtonIterationBHistCarrier\_splice\_source\_determinacy}
 \begin{proof}
 Apply \autoref{thm:newtoniteration-finite-step-concatenation-closure} to both displayed concatenations. Each accepted concatenated row is therefore obtained by repacking the same derivative source $D$, the same Banach source $B$, the same initial endpoint $x_0$, the same final endpoint $x_2$, and the same splice comparison $\sigma$ into the carrier of \autoref{def:newtoniteration-bhist-carrier}.
 
@@ -143,3 +160,4 @@ It remains only to check that the retained ledger is a Newton-iteration carrier 
 
 The classifier of \autoref{def:newtoniteration-contraction-classifier} permits only source transport, inverse-row transport, next-step history transport, and finite concatenation of displayed step rows. Restricting to the first displayed segment uses none of the tail-specific data and introduces no additional generator. Therefore the prefix row $R_n$ is accepted as a $\NewtonIterationUp$ carrier row, with finite ledger $\Lambda_n$ and endpoints $x_0,x_n$.
 \end{proof}
+\leanchecked{BEDC.Derived.NewtonIterationUp.NewtonIterationBHistCarrier\_finite\_prefix\_restriction\_carrier}
