@@ -127,4 +127,37 @@ theorem NoetherSymmetryConservationLedgerCarrier_namecert_obligation_surface [As
     }
   exact And.intro cert carrier.right.right.right.right.right.right.right.right
 
+theorem NoetherSymmetryConservationLedgerCarrier_source_boundary [AskSetup] [PackageSetup]
+    {lieSource pdeSource field current lieLedger pdeLedger conservation endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current lieLedger
+        pdeLedger conservation endpoint bundle pkg ->
+      UnaryHistory lieLedger ∧ UnaryHistory pdeLedger ∧ UnaryHistory conservation ∧
+        UnaryHistory endpoint ∧ hsame lieLedger (append lieSource field) ∧
+          hsame pdeLedger (append pdeSource field) ∧
+            hsame conservation (append lieLedger pdeLedger) ∧
+              hsame endpoint (append conservation current) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have lieLedgerUnary : UnaryHistory lieLedger :=
+    unary_cont_closed carrier.left carrier.right.right.left carrier.right.right.right.right.left
+  have pdeLedgerUnary : UnaryHistory pdeLedger :=
+    unary_cont_closed carrier.right.left carrier.right.right.left
+      carrier.right.right.right.right.right.left
+  have conservationUnary : UnaryHistory conservation :=
+    unary_cont_closed lieLedgerUnary pdeLedgerUnary
+      carrier.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed conservationUnary carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  exact
+    And.intro lieLedgerUnary
+      (And.intro pdeLedgerUnary
+        (And.intro conservationUnary
+          (And.intro endpointUnary
+            (And.intro carrier.right.right.right.right.left
+              (And.intro carrier.right.right.right.right.right.left
+                  (And.intro carrier.right.right.right.right.right.right.left
+                    (And.intro carrier.right.right.right.right.right.right.right.left
+                      carrier.right.right.right.right.right.right.right.right)))))))
+
 end BEDC.Derived.NoetherSymmetryUp
