@@ -59,6 +59,49 @@ read by the consumer is already named by the coverage packet, and every row
 excluded by the two cited theorems remains outside the packet boundary.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window classifier coverage]
+\label{thm:streamname-regseqrat-finite-window-classifier-coverage}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be public $\StreamNameUp$
+rational stream endpoints, let $\mathcal P$ be a finite
+$\mathsf{ProbeBundle}$ window, and suppose a StreamName tail-window coverage
+packet displays the row
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$. For every
+certified observation $n$ with $\mathsf{UnaryHistory}(n)$ and
+$\mathsf{InBundle}(n,\mathcal P)$, the pointwise row
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ is exposed in the same packet. The
+accepted $\RegSeqRat$ spine consumes exactly these exposed pointwise
+rational-history classifier rows, together with their displayed unary-history
+and bundle-membership witnesses.
+
+No completion object, quotient representative, host-index equality,
+$\RealUp$ seal classifier, metric-completeness row, arithmetic or order row,
+or standard bridge row is supplied by this coverage claim.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:streamname-tail-window-coverage-packet}. The packet
+contains the finite-window classifier row, the bundled
+$\mathsf{UnaryHistory}/\mathsf{InBundle}$ rows, and the pointwise
+$\mathsf{RatHistoryClassifier}$ rows read from the selected StreamName
+observations.
+
+Project the component indexed by the certified observation $n$. The hypotheses
+$\mathsf{UnaryHistory}(n)$ and $\mathsf{InBundle}(n,\mathcal P)$ identify $n$
+as one of the selected observations of the displayed finite window, so the
+corresponding pointwise rational-history classifier is precisely
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+The accepted $\RegSeqRat$ spine is then the spine named in the same packet from
+these pointwise rows and the finite-window handoff. Apply
+\autoref{thm:streamname-tail-window-coverage-exhaustion} to rule out any
+additional consumer row.
+
+Finally apply \autoref{thm:streamname-tail-window-realup-boundary}. The
+$\RealUp$ readback can use only the finite windows selected from the accepted
+spine, while completion, quotient, host-index equality, seal classifier,
+metric-completeness, arithmetic or order, and standard bridge rows remain
+outside the packet boundary.
+\end{proof}
+
 \begin{theorem}[StreamName tail-window common refinement]
 \label{thm:streamname-tail-window-cover-common-refinement}
 Given two StreamName tail-window coverage packets for finite
