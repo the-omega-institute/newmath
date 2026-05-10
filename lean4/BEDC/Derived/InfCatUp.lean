@@ -206,4 +206,30 @@ theorem InfCatBHistSourcePacket_namecert_obligation_surface [AskSetup] [PackageS
       exact rowPacket
   }
 
+theorem InfCatBHistSourcePacket_root_threshold_obligation_triad [AskSetup] [PackageSetup]
+    {simplicial category horn lift provenance transport dependencySurface finiteSurface
+      rootSurface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    InfCatBHistSourcePacket simplicial category horn lift provenance transport bundle pkg ->
+      Cont simplicial category dependencySurface ->
+        Cont horn lift finiteSurface ->
+          Cont dependencySurface finiteSurface rootSurface ->
+            UnaryHistory dependencySurface ∧ UnaryHistory finiteSurface ∧
+              UnaryHistory rootSurface ∧ hsame dependencySurface (append simplicial category) ∧
+                hsame finiteSurface (append horn lift) ∧
+                  hsame rootSurface (append dependencySurface finiteSurface) ∧
+                    PkgSig bundle transport pkg := by
+  intro packet dependencyRow finiteRow rootRow
+  obtain ⟨simplicialUnary, categoryUnary, hornUnary, liftUnary, _provenanceUnary,
+    _liftCont, _transportCont, pkgSig⟩ := packet
+  have dependencyUnary : UnaryHistory dependencySurface :=
+    unary_cont_closed simplicialUnary categoryUnary dependencyRow
+  have finiteUnary : UnaryHistory finiteSurface :=
+    unary_cont_closed hornUnary liftUnary finiteRow
+  have rootUnary : UnaryHistory rootSurface :=
+    unary_cont_closed dependencyUnary finiteUnary rootRow
+  exact
+    ⟨dependencyUnary, finiteUnary, rootUnary, dependencyRow, finiteRow, rootRow,
+      pkgSig⟩
+
 end BEDC.Derived.InfCatUp
