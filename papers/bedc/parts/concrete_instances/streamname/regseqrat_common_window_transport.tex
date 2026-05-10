@@ -1,0 +1,48 @@
+\section{StreamName RegSeqRat common-window transport}
+\label{sec:streamname-regseqrat-common-window-transport}
+
+\begin{theorem}[StreamName RegSeqRat common-window transport]
+\label{thm:streamname-regseqrat-common-window-transport}
+Let $\mathcal W_L$ and $\mathcal W_R$ be finite $\StreamNameUp$ windows over
+the same $\mathsf{ProbeBundle}$ $\mathcal P$ and the same displayed source
+maps $s,t:\mathsf{BHist}\to\mathsf{BHist}$. Suppose that for every certified
+member $n$ with $\mathsf{UnaryHistory}(n)$ and
+$\mathsf{InBundle}(n,\mathcal P)$, the two windows expose pointwise
+$\hsame$-equal rational-history observations for $s(n)$ and $t(n)$. Then the
+$\RegSeqRat$ handoff rows transported through $\mathcal W_L$ and
+$\mathcal W_R$ are the same consumer-facing rows, and the finite-window
+$\RealUp$ ledger-boundary rows obtained from those handoffs are the same
+consumer-facing rows.
+
+Equivalently, the common bundle determines one visible handoff surface: the
+restricted $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$
+row, the $\mathsf{ProbeBundle}$ row, the $\mathsf{InBundle}$ membership rows,
+the certified $\mathsf{UnaryHistory}$ rows, the pointwise rational-history
+classifier rows, and the displayed $\hsame/\Cont/\Pkg$ provenance rows. The
+transport adds no completion object, quotient row, host-index equality,
+$\RegSeqRat$ regularity row, or $\RealUp$ seal classifier.
+\end{theorem}
+\begin{proof}
+Project both windows to the common bundle. The membership and unary-history
+coordinates are the same displayed $\mathsf{InBundle}(n,\mathcal P)$ and
+$\mathsf{UnaryHistory}(n)$ rows, so the only possible route dependence is in
+the selected pointwise classifier rows.
+
+Use \autoref{thm:streamname-regseqrat-observation-stability}. The assumed
+pointwise $\hsame$ comparisons transport the selected classifier rows within
+the same $\mathsf{ProbeBundle}$, so both windows expose the same finite-window
+StreamName classifier surface after projection.
+
+Apply \autoref{thm:streamname-regseqrat-pointwise-handoff}. It reads the
+$\RegSeqRat$ handoff only from the carrier rows, the common bundle membership
+rows, the certified unary observations, and the transported pointwise
+classifier rows. Thus the two projected windows supply the same handoff rows
+to the $\RegSeqRat$ consumer.
+
+Finally apply \autoref{thm:streamname-real-regseq-obligation-separation} and
+\autoref{thm:streamname-common-refinement-source-determinacy}. The separation
+theorem keeps regularity and seal obligations on the consumer side, while
+common-refinement determinacy identifies the source tuple read through the
+shared bundle. Therefore the downstream finite-window $\RealUp$
+ledger-boundary rows are the same consumer-facing rows as well.
+\end{proof}
