@@ -6,5 +6,136 @@ The Pontryagin-duality interface $\PontryaginDualityUp$ packages the contravaria
 \section{Carrier definition}
 \label{sec:pontryaginduality-carrier}
 
+\begin{definition}[Pontryagin-duality character carrier]
+\label{def:pontryaginduality-character-carrier}
+A $\PontryaginDualityUp$ carrier is a finite $\mathsf{BHist}$
+character-ledger packet over $\NameCert_{\TopGroupUp}$ and
+$\NameCert_{\AbGroupUp}$, together with a circle-valued target row read through
+$\SOneUp$-style component data. Its rows are the displayed topological-group
+source row, the displayed abelian-group operation row, finite character rows
+from the shared source to the circle target, pointwise product and inverse
+rows for those characters, $\hsame$ comparisons between corresponding source,
+target, and character rows, $\Cont$ provenance explaining how each character
+row is read from the displayed source and circle rows, and $\mathsf{Pkg}$ rows
+naming the two dependency certificates and the circle component packet.
+
+The carrier records only the BEDC character ledger. It does not include Haar
+measure, Fourier inversion, local compactness theorems, a completed dual group
+topology, or a full duality equivalence.
+\end{definition}
+
 \section{The certificate}
 \label{sec:pontryaginduality-certificate}
+
+\begin{theorem}[Pontryagin-duality character carrier obligation]
+\label{thm:pontryaginduality-character-carrier-obligation}
+Every accepted $\PontryaginDualityUp$ packet is read from the character carrier
+of \autoref{def:pontryaginduality-character-carrier}: the
+$\TopGroupUp/\AbGroupUp$ source rows, the circle-valued target row, the finite
+character rows, the pointwise product and inverse rows, the displayed
+$\hsame$ comparisons, the $\Cont$ provenance, and the $\mathsf{Pkg}$ source
+rows. No additional analytic or host duality object is exposed.
+\end{theorem}
+\begin{proof}
+Project an accepted packet to the finite character ledger. The carrier
+definition lists exactly the source, target, character, algebraic operation,
+comparison, continuation, and package rows available to a consumer.
+
+Constructor inspection gives the converse readback boundary: every row named
+in the theorem is a coordinate of the finite $\mathsf{BHist}$ carrier, and the
+carrier has no coordinate for Haar measure, Fourier inversion, local
+compactness theorems, or a completed duality object.
+\end{proof}
+
+\begin{theorem}[Pontryagin-duality character classifier stability]
+\label{thm:pontryaginduality-character-classifier-stability}
+Let $P$ and $P'$ be accepted $\PontryaginDualityUp$ character-ledger packets.
+If their displayed $\TopGroupUp$ rows, $\AbGroupUp$ rows, circle-valued target
+rows, character rows, pointwise product and inverse rows, $\Cont$ provenance,
+and $\mathsf{Pkg}$ source rows are related componentwise by $\hsame$, then the
+transported rows form another accepted character carrier with the same visible
+classifier surface.
+\end{theorem}
+\begin{proof}
+Transport first the dependency rows from $\NameCert_{\TopGroupUp}$ and
+$\NameCert_{\AbGroupUp}$ and the circle target row. This preserves the finite
+source and target boundary through displayed $\hsame$ witnesses.
+
+Next transport each character row and its pointwise product and inverse rows.
+The operations are carrier rows in the same finite ledger, so their readback is
+preserved by projection along the transported row positions.
+
+Finally transport the $\Cont$ and $\mathsf{Pkg}$ rows. The acceptance
+predicate only asks that characters be read through those visible provenance
+rows from the displayed source and circle target, so the transported packet is
+accepted again.
+\end{proof}
+
+\begin{theorem}[Pontryagin-duality dual ledger exactness]
+\label{thm:pontryaginduality-dual-ledger-exactness}
+The dual ledger exported by an accepted $\PontryaginDualityUp$ packet consists
+exactly of finite character rows into the circle-valued target, their
+pointwise product and inverse rows, the displayed source and target
+comparisons, and the visible $\Cont/\mathsf{Pkg}$ provenance. It exports no
+Haar integration row, Fourier transform row, local compactness theorem, or
+double-dual equivalence.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:pontryaginduality-character-carrier-obligation} to reduce
+readback to carrier projection. Every listed dual-ledger row is a coordinate of
+the finite packet.
+
+For exactness, inspect the constructors of the packet. They generate character
+rows and their pointwise algebraic rows, together with source, target,
+comparison, continuation, and package provenance. They do not generate an
+analytic measure row, transform row, compactness theorem row, or equivalence
+row.
+\end{proof}
+
+\begin{theorem}[Pontryagin-duality source boundary]
+\label{thm:pontryaginduality-source-boundary}
+The dependency boundary of $\PontryaginDualityUp$ is exactly the displayed
+$\NameCert_{\TopGroupUp}$ source row, the displayed
+$\NameCert_{\AbGroupUp}$ algebraic row, and the circle-valued target component
+read in the style of $\SOneUp$. Every accepted character row is sourced through
+that boundary by visible $\Cont$ provenance and packaged by $\mathsf{Pkg}$.
+\end{theorem}
+\begin{proof}
+Read the source rows from
+\autoref{def:pontryaginduality-character-carrier}. The carrier names only the
+topological-group source, the abelian-group operation surface, and the circle
+target packet as external dependency data.
+
+Each character row is accepted only when the displayed $\Cont$ row connects it
+to that boundary and the $\mathsf{Pkg}$ row records the same source package.
+There is no constructor that sources a character from a host locally compact
+abelian group object or an external harmonic-analysis structure.
+\end{proof}
+
+\begin{theorem}[Pontryagin-duality NameCert obligation surface]
+\label{thm:pontryaginduality-namecert-obligation-surface}
+The local $\NameCert_{\PontryaginDualityUp}$ obligation surface consists of
+the character carrier of
+\autoref{def:pontryaginduality-character-carrier}, carrier readback from
+\autoref{thm:pontryaginduality-character-carrier-obligation}, classifier
+stability from
+\autoref{thm:pontryaginduality-character-classifier-stability}, dual-ledger
+exactness from \autoref{thm:pontryaginduality-dual-ledger-exactness}, and the
+dependency-source boundary of
+\autoref{thm:pontryaginduality-source-boundary}.
+\end{theorem}
+\begin{proof}
+Use the character carrier as the source predicate and its displayed
+$\hsame$ rows as the classifier surface. Carrier readback supplies the visible
+packet rows, and classifier stability shows that this surface is preserved by
+componentwise transport.
+
+Use dual-ledger exactness to identify the complete exported dual character
+ledger. Use the source-boundary theorem to bind every character row to the
+displayed $\TopGroupUp$, $\AbGroupUp$, and circle target rows.
+
+These clauses assemble the finite local NameCert surface. The assembly is
+deliberately limited to the BEDC packet and therefore excludes Haar measure,
+Fourier inversion, local compactness theorems, and a full Pontryagin-duality
+equivalence.
+\end{proof}
