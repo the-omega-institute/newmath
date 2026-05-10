@@ -619,6 +619,19 @@ def SoundP7Report (report : P7Output) : Prop :=
       List.Mem (P7ReportDatum.acceptedTheorem T) report ->
         P7AcceptedTheoremFlow T)
 
+def P7TheoremReportingLayer (report : P7Output) : Prop :=
+  forall T : TheoremCandidateFlow,
+    forall c : List DisplayAlphabet,
+      List.Mem (P7ReportDatum.theoremCode T c) report ->
+        exists R : P7GeneratedTheoremRecognizer,
+          P7SoundTheoremFlow R T /\ c = TheoremCode T
+
+inductive P7HigherReportDatum : P7ReportDatum -> Prop
+
+def P7HigherAdequacy (report : P7Output) : Prop :=
+  exists datum : P7ReportDatum,
+    List.Mem datum report /\ P7HigherReportDatum datum
+
 theorem sound_p7_report_theorem {report : P7Output} :
     SoundP7Report report ->
       (forall T : TheoremCandidateFlow,
@@ -650,6 +663,29 @@ theorem sound_theorem_code_flow_mediated {report : P7Output}
   cases hSound.left T c hCode with
   | intro _ hWitness =>
       exact hWitness.right
+
+theorem p7_adequacy_does_not_imply_higher {report : P7Output} :
+    Not (P7HigherAdequacy report) := by
+  intro hHigher
+  cases hHigher with
+  | intro _ hDatum =>
+      cases hDatum.right
+
+theorem p7_conservative_over_finite_kernel
+    {R : P7GeneratedTheoremRecognizer} {T : TheoremCandidateFlow}
+    {w : RawEvent} {m : DisplayAlphabet} :
+    P7SoundTheoremFlow R T ->
+      List.Mem w T -> List.Mem m w ->
+        m = BEDC.FKernel.Mark.BMark.b0 \/
+          m = BEDC.FKernel.Mark.BMark.b1 := by
+  intro _ hEvent hMark
+  exact event_flow_conservativity hEvent hMark
+
+theorem p7_theorem_reporting_layer {report : P7Output} :
+    SoundP7Report report ->
+      P7TheoremReportingLayer report /\ Not (P7HigherAdequacy report) := by
+  intro hSound
+  exact ⟨hSound.left, p7_adequacy_does_not_imply_higher⟩
 
 structure TheoremProofPrototype where
   p6 : DerivAcceptPrototype
