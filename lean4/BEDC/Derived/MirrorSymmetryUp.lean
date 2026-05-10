@@ -76,4 +76,60 @@ theorem MirrorSymmetryCategoricalClassifier_categorical_stability [AskSetup] [Pa
         pairedAnswerRow', ledgerRow', endpointRow', pkgSig'⟩,
       samePairedAnswer, sameLedger, sameEndpoint⟩
 
+def MirrorSymmetryPairCarrier
+    (symplecticSource derivedSource aModelRows bModelRows pairRows sourcePair observed :
+      BHist) : Prop :=
+  UnaryHistory symplecticSource ∧ UnaryHistory derivedSource ∧ UnaryHistory aModelRows ∧
+    UnaryHistory bModelRows ∧ UnaryHistory pairRows ∧ UnaryHistory sourcePair ∧
+      UnaryHistory observed ∧ Cont symplecticSource derivedSource sourcePair ∧
+        Cont aModelRows bModelRows pairRows ∧ Cont sourcePair pairRows observed
+
+theorem MirrorSymmetryPairCarrier_categorical_stability
+    {symplecticSource derivedSource aModelRows bModelRows pairRows sourcePair observed
+      symplecticSource' derivedSource' aModelRows' bModelRows' pairRows' sourcePair'
+      observed' : BHist} :
+    MirrorSymmetryPairCarrier symplecticSource derivedSource aModelRows bModelRows pairRows
+        sourcePair observed ->
+      hsame symplecticSource symplecticSource' ->
+        hsame derivedSource derivedSource' ->
+          hsame aModelRows aModelRows' ->
+            hsame bModelRows bModelRows' ->
+              Cont symplecticSource' derivedSource' sourcePair' ->
+                Cont aModelRows' bModelRows' pairRows' ->
+                  Cont sourcePair' pairRows' observed' ->
+                    MirrorSymmetryPairCarrier symplecticSource' derivedSource' aModelRows'
+                        bModelRows' pairRows' sourcePair' observed' ∧
+                      hsame sourcePair sourcePair' ∧ hsame pairRows pairRows' ∧
+                        hsame observed observed' := by
+  intro carrier sameSymplecticSource sameDerivedSource sameAModelRows sameBModelRows
+  intro sourcePairRow' pairRowsRow' observedRow'
+  have symplecticSourceUnary' : UnaryHistory symplecticSource' :=
+    unary_transport carrier.left sameSymplecticSource
+  have derivedSourceUnary' : UnaryHistory derivedSource' :=
+    unary_transport carrier.right.left sameDerivedSource
+  have aModelRowsUnary' : UnaryHistory aModelRows' :=
+    unary_transport carrier.right.right.left sameAModelRows
+  have bModelRowsUnary' : UnaryHistory bModelRows' :=
+    unary_transport carrier.right.right.right.left sameBModelRows
+  have sourcePairUnary' : UnaryHistory sourcePair' :=
+    unary_cont_closed symplecticSourceUnary' derivedSourceUnary' sourcePairRow'
+  have pairRowsUnary' : UnaryHistory pairRows' :=
+    unary_cont_closed aModelRowsUnary' bModelRowsUnary' pairRowsRow'
+  have observedUnary' : UnaryHistory observed' :=
+    unary_cont_closed sourcePairUnary' pairRowsUnary' observedRow'
+  have sameSourcePair : hsame sourcePair sourcePair' :=
+    cont_respects_hsame sameSymplecticSource sameDerivedSource
+      carrier.right.right.right.right.right.right.right.left sourcePairRow'
+  have samePairRows : hsame pairRows pairRows' :=
+    cont_respects_hsame sameAModelRows sameBModelRows
+      carrier.right.right.right.right.right.right.right.right.left pairRowsRow'
+  have sameObserved : hsame observed observed' :=
+    cont_respects_hsame sameSourcePair samePairRows
+      carrier.right.right.right.right.right.right.right.right.right observedRow'
+  exact
+    ⟨⟨symplecticSourceUnary', derivedSourceUnary', aModelRowsUnary', bModelRowsUnary',
+      pairRowsUnary', sourcePairUnary', observedUnary', sourcePairRow', pairRowsRow',
+      observedRow'⟩,
+      sameSourcePair, samePairRows, sameObserved⟩
+
 end BEDC.Derived.MirrorSymmetryUp

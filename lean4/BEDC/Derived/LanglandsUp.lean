@@ -77,4 +77,62 @@ theorem LanglandsLFactorClassifier_local_factor_stability [AskSetup] [PackageSet
         localFactorRow', ledgerRow', endpointRow', pkgSig'⟩,
       sameLocalFactor, sameLedger, sameEndpoint⟩
 
+def LanglandsCorrespondenceCarrier
+    (galoisSource automorphicSource galoisAnswers automorphicAnswers localFactors sourcePair
+      observed : BHist) : Prop :=
+  UnaryHistory galoisSource ∧ UnaryHistory automorphicSource ∧ UnaryHistory galoisAnswers ∧
+    UnaryHistory automorphicAnswers ∧ UnaryHistory localFactors ∧ UnaryHistory sourcePair ∧
+      UnaryHistory observed ∧ Cont galoisSource automorphicSource sourcePair ∧
+        Cont galoisAnswers automorphicAnswers localFactors ∧
+          Cont sourcePair localFactors observed
+
+theorem LanglandsCorrespondenceCarrier_local_factor_stability
+    {galoisSource automorphicSource galoisAnswers automorphicAnswers localFactors sourcePair
+      observed galoisSource' automorphicSource' galoisAnswers' automorphicAnswers'
+      localFactors' sourcePair' observed' : BHist} :
+    LanglandsCorrespondenceCarrier galoisSource automorphicSource galoisAnswers
+        automorphicAnswers localFactors sourcePair observed ->
+      hsame galoisSource galoisSource' ->
+        hsame automorphicSource automorphicSource' ->
+          hsame galoisAnswers galoisAnswers' ->
+            hsame automorphicAnswers automorphicAnswers' ->
+              Cont galoisSource' automorphicSource' sourcePair' ->
+                Cont galoisAnswers' automorphicAnswers' localFactors' ->
+                  Cont sourcePair' localFactors' observed' ->
+                    LanglandsCorrespondenceCarrier galoisSource' automorphicSource'
+                        galoisAnswers' automorphicAnswers' localFactors' sourcePair'
+                        observed' ∧
+                      hsame sourcePair sourcePair' ∧ hsame localFactors localFactors' ∧
+                        hsame observed observed' := by
+  intro carrier sameGaloisSource sameAutomorphicSource sameGaloisAnswers
+  intro sameAutomorphicAnswers sourcePairRow' localFactorsRow' observedRow'
+  have galoisSourceUnary' : UnaryHistory galoisSource' :=
+    unary_transport carrier.left sameGaloisSource
+  have automorphicSourceUnary' : UnaryHistory automorphicSource' :=
+    unary_transport carrier.right.left sameAutomorphicSource
+  have galoisAnswersUnary' : UnaryHistory galoisAnswers' :=
+    unary_transport carrier.right.right.left sameGaloisAnswers
+  have automorphicAnswersUnary' : UnaryHistory automorphicAnswers' :=
+    unary_transport carrier.right.right.right.left sameAutomorphicAnswers
+  have sourcePairUnary' : UnaryHistory sourcePair' :=
+    unary_cont_closed galoisSourceUnary' automorphicSourceUnary' sourcePairRow'
+  have localFactorsUnary' : UnaryHistory localFactors' :=
+    unary_cont_closed galoisAnswersUnary' automorphicAnswersUnary' localFactorsRow'
+  have observedUnary' : UnaryHistory observed' :=
+    unary_cont_closed sourcePairUnary' localFactorsUnary' observedRow'
+  have sameSourcePair : hsame sourcePair sourcePair' :=
+    cont_respects_hsame sameGaloisSource sameAutomorphicSource
+      carrier.right.right.right.right.right.right.right.left sourcePairRow'
+  have sameLocalFactors : hsame localFactors localFactors' :=
+    cont_respects_hsame sameGaloisAnswers sameAutomorphicAnswers
+      carrier.right.right.right.right.right.right.right.right.left localFactorsRow'
+  have sameObserved : hsame observed observed' :=
+    cont_respects_hsame sameSourcePair sameLocalFactors
+      carrier.right.right.right.right.right.right.right.right.right observedRow'
+  exact
+    ⟨⟨galoisSourceUnary', automorphicSourceUnary', galoisAnswersUnary',
+      automorphicAnswersUnary', localFactorsUnary', sourcePairUnary', observedUnary',
+      sourcePairRow', localFactorsRow', observedRow'⟩,
+      sameSourcePair, sameLocalFactors, sameObserved⟩
+
 end BEDC.Derived.LanglandsUp
