@@ -163,6 +163,47 @@ two factorisation routes are determined exactly by the displayed ledger and
 classifier rows.
 \end{proof}
 
+\begin{theorem}[ModelCatUp finite factorization transport surface]
+\label{thm:modelcat-finite-factorization-transport-surface}
+Let
+$\mathcal{M}=(C,\mathsf{Cof},\mathsf{Fib},\mathsf{W},\mathsf{Lift},\mathsf{Fact},P,\rho,\lambda)$
+be an admitted $\ModelCatUp$ $\mathsf{BHist}$ source packet. Suppose
+$\mathcal{M}'$ is a transported presentation whose displayed category row,
+cofibration classifier, fibration classifier, weak-equivalence classifier,
+lifting ledger, factorisation ledger, provenance row, $\Cont/\hsame$ transport
+rows, and $\Pkg$ rows are preserved by the packet transport.
+
+Then $\mathcal{M}'$ exposes the same finite factorisation and lifting
+obligation surface as $\mathcal{M}$. The transported surface consists exactly
+of the displayed category dependency, the three morphism-classifier rows, the
+finite lifting and factorisation ledgers, rowwise $\Cont/\hsame$ transport, and
+the $\Pkg$ provenance. It contains no host localization, quotient category,
+derived mapping space, standard bridge row, or external weak-equivalence
+calculus.
+\end{theorem}
+\begin{proof}
+Project $\mathcal{M}$ by
+\autoref{def:modelcat-bhist-source-packet}. The only available coordinates are
+the category dependency, the three classifier rows, the finite lifting and
+factorisation ledgers, the provenance row, and the rowwise transport ledgers.
+
+Apply \autoref{thm:modelcat-lifting-square-boundary} to the transported
+presentation. Preservation of $C$, $\mathsf{Cof}$, $\mathsf{Fib}$,
+$\mathsf{W}$, $\mathsf{Lift}$, $P$, and the $\Cont/\hsame$ ledgers carries every
+displayed lifting square to the same finite obligation surface.
+
+Apply \autoref{thm:modelcat-factorization-ledger-determinacy} to the same
+transported packet. Preservation of $\mathsf{Fact}$ together with
+$\mathsf{Cof}$, $\mathsf{Fib}$, $\mathsf{W}$, $P$, and rowwise transport fixes
+both factorisation routes as displayed finite ledger rows.
+
+Repack the lifted and factorised projections as the public transport surface.
+Since neither theorem projects a coordinate outside
+\autoref{def:modelcat-bhist-source-packet}, the transported presentation has
+no source from which to read localization, quotienting, derived mapping spaces,
+a standard bridge, or an external weak-equivalence calculus.
+\end{proof}
+
 \section{The certificate}
 \label{sec:modelcat-certificate}
 
