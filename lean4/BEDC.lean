@@ -128,6 +128,7 @@ import BEDC.Derived.BilinFormUp.EmptyLedgerInversion
 import BEDC.Derived.BilinFormUp.SemanticNameCertificate
 import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.ChernWeilUp
+import BEDC.Derived.ChernWeilUp.NameCertObligationSurface
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.ComplexityClassUp
@@ -580,6 +581,7 @@ import BEDC.Derived.DiffFormUp.ScalarEndpointTransport
 import BEDC.Derived.DiffFormUp.StdBridge
 import BEDC.Derived.DiffFormUp.VisibleInputPackage
 import BEDC.Derived.DiffFormUp.WedgeAssociator
+import BEDC.Derived.DiffFormUp.WedgeLedgerCoverage
 import BEDC.Derived.DiffFormUp.WedgeProbeConcatenation
 import BEDC.Derived.DiffFormUp.ZeroDegreeEmptyProbe
 import BEDC.Derived.DiffFormUp.ExteriorInputRootClosure
