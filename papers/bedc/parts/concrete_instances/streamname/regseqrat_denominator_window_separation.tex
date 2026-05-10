@@ -89,3 +89,53 @@ regularity, the $\RealUp$ seal classifier, completion, quotienting, and
 host-index equality outside the finite StreamName window. The remaining rows
 are precisely the displayed tuple, which is the claimed normal form.
 \end{proof}
+
+\begin{theorem}[StreamName pointwise denominator-window determinacy]
+\label{thm:streamname-pointwise-denominator-window-determinacy}
+Fix StreamName rows $s,t:\mathsf{BHist}\to\mathsf{BHist}$, a finite
+$\mathsf{ProbeBundle}$ $\mathcal P$, and a certified observation $n$ with
+$\mathsf{UnaryHistory}(n)$ and $\mathsf{InBundle}(n,\mathcal P)$. If two
+public denominator-window packets are accepted by both the $\RegSeqRat$
+handoff and the finite-window $\RealUp$ consumer for this same certified
+observation, then their displayed public coordinates are the same:
+$$
+\begin{gathered}
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P),\qquad
+\mathsf{UnaryHistory}(n),\qquad
+\mathsf{InBundle}(n,\mathcal P),\\
+\mathsf{RatHistoryClassifier}(s(n),t(n)),\qquad
+\text{the downstream dyadic observation coverage row.}
+\end{gathered}
+$$
+This determinacy is only a finite-packet statement. It exports no
+$\RegSeqRat$ regularity, $\RealUp$ seal classifier, completion object,
+quotient row, or host-index equality.
+\end{theorem}
+\begin{proof}
+The separation theorem
+\autoref{thm:streamname-regseqrat-denominator-window-separation} first fixes
+the public dependency surface of any accepted denominator-window packet. For
+the certified observation $n$, the handoff can expose only the finite
+StreamName classifier, the unary-history row, the bundle-membership row, and
+the pointwise rational-history classifier.
+
+The normal-form theorem
+\autoref{thm:streamname-realup-denominator-window-normal-form} then says that
+a packet accepted by the finite-window $\RealUp$ consumer has no additional
+public coordinate beyond the downstream dyadic observation coverage row.
+Thus two accepted packets for the same $s$, $t$, $\mathcal P$, and $n$ must
+display the same four source coordinates.
+
+It remains to identify the downstream row. The pointwise source coordinate is
+the one delivered by
+\autoref{thm:streamname-regseqrat-pointwise-handoff}, and the finite
+dyadic-observation row read from it is exactly the row supplied by
+\autoref{thm:regseqrat-finite-window-dyadic-observation-coverage}. Hence the
+consumer-side coordinate is also fixed by the same certified observation.
+
+Combining these two fixed surfaces gives one public finite packet. The
+exclusions in the separation and normal-form statements keep $\RegSeqRat$
+regularity, the $\RealUp$ seal classifier, completion, quotienting, and
+host-index equality outside the packet, so none of them can distinguish the
+two accepted presentations.
+\end{proof}
