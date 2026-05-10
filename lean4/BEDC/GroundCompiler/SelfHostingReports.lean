@@ -4,6 +4,7 @@ namespace BEDC.GroundCompiler.SelfHostingReports
 
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.SelfHostingCompilerFlow
+open BEDC.FKernel.Mark
 
 inductive P9CannotClaimKind : Type where
   | recognizedCompilerNotCertified
@@ -215,6 +216,9 @@ def P9AdequacySupport
     SoundP9Report report /\
     P9SelfHostingSupport report
 
+def P9TopPrototypeAdequacy (report : P9Report) : Prop :=
+  P9SelfHostingSupport report /\ P9FullNoHiddenSupport report
+
 theorem p9_adequacy
     {checklist : P9AuditChecklist} {report : P9Report} :
     P9AuditChecklistComplete checklist ->
@@ -222,5 +226,60 @@ theorem p9_adequacy
         P9AdequacySupport checklist report := by
   intro hChecklist hReport
   exact ⟨hChecklist, hReport, sound_p9_report_supports_self_hosting hReport⟩
+
+theorem p9_top_adequacy
+    {checklist : P9AuditChecklist} {report : P9Report} :
+    P9AdequacySupport checklist report ->
+      P9FullNoHiddenSupport report ->
+        P9TopPrototypeAdequacy report := by
+  intro hAdequacy hFull
+  exact ⟨hAdequacy.right.right, hFull⟩
+
+inductive P9ReportFlow (report : P9Report) : EventFlow -> Prop where
+  | decoded :
+      P9ReportFlow report report.decodedFlow
+  | compilerCandidate {S : EventFlow} :
+      List.Mem S report.compilerCandidates -> P9ReportFlow report S
+  | recognizedCompiler {S : EventFlow} :
+      List.Mem S report.recognizedCompilerFlows -> P9ReportFlow report S
+  | certifiedCompiler {S : EventFlow} :
+      List.Mem S report.certifiedCompilerFlows -> P9ReportFlow report S
+  | behaviorRecord {S : EventFlow} :
+      List.Mem S report.behaviorRecords -> P9ReportFlow report S
+  | selfCompilation {S : EventFlow} :
+      List.Mem S report.selfCompilationFlows -> P9ReportFlow report S
+  | behaviorEquivalence {S : EventFlow} :
+      List.Mem S report.behaviorEquivalenceFlows -> P9ReportFlow report S
+  | selfHostingLedger {S : EventFlow} :
+      List.Mem S report.selfHostingLedgers -> P9ReportFlow report S
+  | bootstrapObligation {S : EventFlow} :
+      List.Mem S report.bootstrapObligations -> P9ReportFlow report S
+  | fullyDischargedClaim {S : EventFlow} :
+      List.Mem S report.fullyDischargedClaims -> P9ReportFlow report S
+  | globalVerification {S : EventFlow} :
+      List.Mem S report.globalVerificationFlows -> P9ReportFlow report S
+  | noHostLeakAudit {S : EventFlow} :
+      List.Mem S report.noHostLeakAudits -> P9ReportFlow report S
+  | implementationTargetAudit {S : EventFlow} :
+      List.Mem S report.implementationTargetAudits -> P9ReportFlow report S
+  | remainingObligation {S : EventFlow} :
+      List.Mem S report.remainingObligations -> P9ReportFlow report S
+  | warning {S : EventFlow} :
+      List.Mem S report.warnings -> P9ReportFlow report S
+
+theorem p9_conservative_over_finite_kernel
+    {report : P9Report} {S : EventFlow} {w : RawEvent}
+    {m : DisplayAlphabet} :
+    P9ReportFlow report S ->
+      List.Mem w S -> List.Mem m w -> m = BMark.b0 \/ m = BMark.b1 := by
+  intro _hReportFlow hEvent hMark
+  exact event_flow_conservativity hEvent hMark
+
+theorem p9_verification_layer
+    {report : P9Report} {S : EventFlow} {w : RawEvent}
+    {m : DisplayAlphabet} :
+    P9ReportFlow report S ->
+      List.Mem w S -> List.Mem m w -> m = BMark.b0 \/ m = BMark.b1 := by
+  exact p9_conservative_over_finite_kernel
 
 end BEDC.GroundCompiler.SelfHostingReports
