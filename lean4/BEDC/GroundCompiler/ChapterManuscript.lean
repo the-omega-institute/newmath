@@ -324,4 +324,18 @@ theorem sound_manuscript_code
   · rfl
   · exact manuscript_code_round_trip M
 
+theorem manuscript_code_injective {M N : ManuscriptCandidateFlow} :
+    ManuscriptCode M = ManuscriptCode N -> M = N := by
+  intro hCode
+  have hDecode : Decode (ManuscriptCode M) = Decode (ManuscriptCode N) :=
+    congrArg Decode hCode
+  rw [manuscript_code_round_trip M, manuscript_code_round_trip N] at hDecode
+  cases hDecode
+  rfl
+
+theorem manuscript_code_not_topic {M N : ManuscriptCandidateFlow} :
+    ManuscriptCode M = ManuscriptCode N -> M = N := by
+  intro hCode
+  exact manuscript_code_injective hCode
+
 end BEDC.GroundCompiler.ChapterManuscript
