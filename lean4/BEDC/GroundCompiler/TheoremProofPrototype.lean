@@ -568,6 +568,44 @@ inductive P7ReportDatum : Type where
   | warning (datum : EventFlow)
   | cannotClaim (datum : EventFlow)
 
+inductive TheoremFieldStatus : Type where
+  | present
+  | missing
+  | candidateOnly
+
+inductive ProofCheckStatus : Type where
+  | proofFlowRecognized
+  | statementDependenciesMatch
+  | checkerSupplied
+  | checkPasses
+  | failureReason
+  | ledgerStatus
+
+structure TheoremFieldProofStatus where
+  statement : TheoremFieldStatus
+  dependencies : TheoremFieldStatus
+  proof : TheoremFieldStatus
+  certificates : TheoremFieldStatus
+  ledger : TheoremFieldStatus
+  status : TheoremFieldStatus
+  canonicalSite : TheoremFieldStatus
+  sealFlow : TheoremFieldStatus
+  proofStatus : ProofCheckStatus
+
+inductive P7CannotClaimKind : Type where
+  | statementFlowAloneTheorem
+  | proofFlowAloneTheorem
+  | recognizedProofFlowCheckedProof
+  | theoremCodeAbstractPropositionIdentity
+  | acceptedTheoremAllObjectsAccepted
+  | theoremCodeBridgeCertificate
+  | sameStatementSameTheoremCode
+  | missingCheckerAcceptedTheorem
+  | missingCanonicalSiteCanonicalCode
+
+def P7CannotClaimAnnotations : Type :=
+  List P7CannotClaimKind
+
 def P7Output : Type :=
   List P7ReportDatum
 
@@ -602,6 +640,16 @@ theorem sound_p7_report_theorem {report : P7Output} :
     · cases hSound.left T c hCode with
       | intro _ hWitness =>
           exact hWitness.right
+
+theorem sound_theorem_code_flow_mediated {report : P7Output}
+    {T : TheoremCandidateFlow} {c : List DisplayAlphabet} :
+    SoundP7Report report ->
+      List.Mem (P7ReportDatum.theoremCode T c) report ->
+        c = TheoremCode T := by
+  intro hSound hCode
+  cases hSound.left T c hCode with
+  | intro _ hWitness =>
+      exact hWitness.right
 
 structure TheoremProofPrototype where
   p6 : DerivAcceptPrototype

@@ -463,11 +463,13 @@ A \emph{$P_7$ report} is an output view containing decoded event flow, statement
 
 \begin{definition}[Theorem field and proof status]
 \label{def:theorem-proof-field-proof-status}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.TheoremFieldProofStatus}
 For each theorem candidate $T$, the report records statement, dependencies, proof, certificates, ledger, status, canonical site, and seal as present, missing, or candidate-only. For each proof candidate $\Pi$, it records whether proof-flow is recognized, statement and dependencies match, proof checker is supplied, proof check passes, failure reason, and ledger status.
 \end{definition}
 
 \begin{definition}[$P_7$ cannot-claim annotations]
 \label{def:theorem-proof-p7-cannot-claims}
+\leandef{BEDC.GroundCompiler.TheoremProofPrototype.P7CannotClaimAnnotations}
 A $P_7$ report must state that statement flow alone is not theorem, proof flow alone is not theorem, recognized proof flow is not checked proof unless proof checker validates it, theorem code is not abstract-proposition identity, accepted theorem does not imply all mentioned objects are accepted, theorem code is not bridge certificate, same statement classifier does not imply same theorem code, missing proof checker blocks accepted theorem, and missing canonical site blocks canonical theorem code.
 \end{definition}
 
@@ -500,6 +502,7 @@ By soundness, theorem code comes only from recognized theorem flow with all requ
 
 \begin{corollary}[Sound theorem code is flow-mediated]
 \label{cor:theorem-proof-code-flow-mediated}
+\leanchecked{BEDC.GroundCompiler.TheoremProofPrototype.sound\_theorem\_code\_flow\_mediated}
 $P_7$ theorem code is not an external theorem label; it is the channel compilation of theorem flow.
 \end{corollary}
 
