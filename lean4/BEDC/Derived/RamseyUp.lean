@@ -21,6 +21,36 @@ def RamseyColouringCarrier [AskSetup] [PackageSetup]
     UnaryHistory provenance ∧ Cont vertex subset lookup ∧ Cont lookup colour endpoint ∧
       PkgSig bundle endpoint pkg
 
+theorem RamseyColouringCarrier_witness_scope [AskSetup] [PackageSetup]
+    {vertex subset colour lookup provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RamseyColouringCarrier vertex subset colour lookup provenance endpoint bundle pkg ->
+      UnaryHistory vertex ∧ UnaryHistory subset ∧ UnaryHistory colour ∧
+        UnaryHistory provenance ∧ UnaryHistory lookup ∧ UnaryHistory endpoint ∧
+          Cont vertex subset lookup ∧ Cont lookup colour endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have vertexUnary : UnaryHistory vertex := carrier.left
+  have subsetUnary : UnaryHistory subset := carrier.right.left
+  have colourUnary : UnaryHistory colour := carrier.right.right.left
+  have provenanceUnary : UnaryHistory provenance := carrier.right.right.right.left
+  have lookupRoute : Cont vertex subset lookup := carrier.right.right.right.right.left
+  have endpointRoute : Cont lookup colour endpoint := carrier.right.right.right.right.right.left
+  have endpointPkg : PkgSig bundle endpoint pkg := carrier.right.right.right.right.right.right
+  have lookupUnary : UnaryHistory lookup :=
+    unary_cont_closed vertexUnary subsetUnary lookupRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed lookupUnary colourUnary endpointRoute
+  exact
+    ⟨vertexUnary,
+      subsetUnary,
+      colourUnary,
+      provenanceUnary,
+      lookupUnary,
+      endpointUnary,
+      lookupRoute,
+      endpointRoute,
+      endpointPkg⟩
+
 theorem RamseyColouringCarrier_monochrome_classifier_stability [AskSetup] [PackageSetup]
     {vertex subset colour lookup provenance endpoint vertex' subset' colour' lookup'
       provenance' endpoint' : BHist}
