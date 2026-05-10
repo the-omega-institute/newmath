@@ -371,6 +371,16 @@ theorem PinGroupReflectionParityCarrier_namecert_obligation_surface
   have ledgerRows := PinGroupReflectionParityLedgerSurface_exhaustion surface
   exact And.intro certRows.left (And.intro ledgerRows certRows.right)
 
+theorem PinGroupReflectionParityLedgerSurface_reflection_generator_transport_closure
+    {spin reflection product endpoint ledger carried reflected : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      Cont reflection carried reflected ->
+        ((hsame endpoint spin ∧ UnaryHistory spin) ∨
+            (Cont spin reflection product ∧ hsame endpoint product ∧ UnaryHistory reflection)) ∧
+          hsame carried (append endpoint ledger) ∧ hsame reflected (append reflection carried) := by
+  intro surface reflectedRow
+  exact And.intro surface.left (And.intro surface.right reflectedRow)
+
 theorem PinGroupReflectionParityLedgerSurface_reflection_parity_determinacy
     {spin reflection product endpoint ledger carried : BHist} :
     PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->

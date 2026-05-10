@@ -34,6 +34,46 @@ def ShortestPathRelaxationLedgerCarrier [AskSetup] [PackageSetup]
       Cont endpoint beforeAfter predecessor ∧
         Cont predecessor relaxation transport ∧ PkgSig bundle transport pkg
 
+theorem ShortestPathWeightedGraphCarrier_source_rows [AskSetup] [PackageSetup]
+    {vertices edges weights source target path incidence weightedPath endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ShortestPathWeightedGraphCarrier vertices edges weights source target path incidence
+        weightedPath endpoint bundle pkg ->
+      UnaryHistory vertices ∧ UnaryHistory edges ∧ UnaryHistory weights ∧
+        UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory path ∧
+          Cont vertices edges incidence ∧ Cont incidence weights weightedPath ∧
+            Cont weightedPath path endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  cases carrier with
+  | intro verticesUnary rest =>
+      cases rest with
+      | intro edgesUnary rest =>
+          cases rest with
+          | intro weightsUnary rest =>
+              cases rest with
+              | intro sourceUnary rest =>
+                  cases rest with
+                  | intro targetUnary rest =>
+                      cases rest with
+                      | intro pathUnary rest =>
+                          cases rest with
+                          | intro incidenceRow rest =>
+                              cases rest with
+                              | intro weightedPathRow rest =>
+                                  cases rest with
+                                  | intro endpointRow pkgRow =>
+                                      exact
+                                        ⟨verticesUnary,
+                                          edgesUnary,
+                                          weightsUnary,
+                                          sourceUnary,
+                                          targetUnary,
+                                          pathUnary,
+                                          incidenceRow,
+                                          weightedPathRow,
+                                          endpointRow,
+                                          pkgRow⟩
+
 theorem ShortestPathWeightedGraphCarrier_visible_path_ledger [AskSetup] [PackageSetup]
     {vertices edges weights source target path incidence weightedPath endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -58,6 +98,27 @@ theorem ShortestPathWeightedGraphCarrier_visible_path_ledger [AskSetup] [Package
       carrier.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right⟩
+
+theorem ShortestPathWeightedGraphCarrier_endpoint_expanded_boundary [AskSetup] [PackageSetup]
+    {vertices edges weights source target path incidence weightedPath endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ShortestPathWeightedGraphCarrier vertices edges weights source target path incidence
+        weightedPath endpoint bundle pkg ->
+      hsame endpoint (append (append (append vertices edges) weights) path) ∧
+        PkgSig bundle endpoint pkg := by
+  intro carrier
+  have incidenceCont : Cont vertices edges incidence :=
+    carrier.right.right.right.right.right.right.left
+  have weightedPathCont : Cont incidence weights weightedPath :=
+    carrier.right.right.right.right.right.right.right.left
+  have endpointCont : Cont weightedPath path endpoint :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right
+  cases incidenceCont
+  cases weightedPathCont
+  cases endpointCont
+  exact And.intro rfl pkgSig
 
 theorem ShortestPathWeightedGraphCarrier_relaxation_cont_closure [AskSetup] [PackageSetup]
     {vertices edges weights source target path incidence weightedPath endpoint beforeAfter
