@@ -290,4 +290,48 @@ theorem HodgeBridgeBHistSourcePacket_semantic_name_certificate [AskSetup] [Packa
   · intro h source
     exact source
 
+theorem HodgeBridgeBHistSourcePacket_bridge_status_surface [AskSetup] [PackageSetup]
+    {derham cohomology projector bidegree lefschetz readback transport provenance endpoint
+      bridge status : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz readback
+        transport provenance endpoint bundle pkg ->
+      Cont endpoint lefschetz bridge ->
+      Cont bridge provenance status ->
+      SemanticNameCert
+          (fun h : BHist =>
+            ∃ endpoint0 : BHist,
+              HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz
+                readback transport provenance endpoint0 bundle pkg ∧ hsame h endpoint0)
+          (fun h : BHist =>
+            ∃ endpoint0 : BHist,
+              HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz
+                readback transport provenance endpoint0 bundle pkg ∧ hsame h endpoint0)
+          (fun h : BHist =>
+            ∃ endpoint0 : BHist,
+              HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz
+                readback transport provenance endpoint0 bundle pkg ∧ hsame h endpoint0)
+          (fun left right : BHist =>
+            (∃ leftEndpoint : BHist,
+              HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz
+                readback transport provenance leftEndpoint bundle pkg ∧
+                  hsame left leftEndpoint) ∧
+            (∃ rightEndpoint : BHist,
+              HodgeBridgeBHistSourcePacket derham cohomology projector bidegree lefschetz
+                readback transport provenance rightEndpoint bundle pkg ∧
+                  hsame right rightEndpoint) ∧ hsame left right) ∧
+        UnaryHistory bridge ∧ UnaryHistory status ∧ hsame bridge (append endpoint lefschetz) ∧
+          hsame status (append bridge provenance) ∧ PkgSig bundle endpoint pkg := by
+  intro packet bridgeCont statusCont
+  have cert := HodgeBridgeBHistSourcePacket_semantic_name_certificate packet
+  have rows := HodgeBridgeBHistSourcePacket_source_dependency_surface packet
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed rows.right.right.right.right.right.right.right.right.left
+      rows.right.right.right.right.right.right.right.left bridgeCont
+  have statusUnary : UnaryHistory status :=
+    unary_cont_closed bridgeUnary rows.right.right.right.right.right.left statusCont
+  exact
+    ⟨cert, bridgeUnary, statusUnary, bridgeCont, statusCont,
+      rows.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.HodgeBridgeUp
