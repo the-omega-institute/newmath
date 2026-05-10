@@ -205,4 +205,72 @@ theorem ModelCatBHistSourcePacket_finite_factorization_transport_surface [AskSet
       packet.right.right.right.right.right.right.left,
       pkgSig'⟩
 
+theorem ModelCatBHistSourcePacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {category cof fib weak lift factor provenance rho lambda : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelCatBHistSourcePacket category cof fib weak lift factor provenance rho lambda bundle
+        pkg ->
+      SemanticNameCert (fun row : BHist => hsame row lambda)
+          (fun row : BHist => hsame row lambda) (fun row : BHist => hsame row lambda)
+          hsame ∧
+        UnaryHistory lambda ∧ PkgSig bundle lambda pkg := by
+  intro packet
+  obtain ⟨_categoryUnary, _cofUnary, fibUnary, weakUnary, provenanceUnary, _rhoUnary,
+    _liftCont, factorCont, lambdaCont, pkgSig⟩ := packet
+  have factorUnary : UnaryHistory factor :=
+    unary_cont_closed fibUnary weakUnary factorCont
+  have lambdaUnary : UnaryHistory lambda :=
+    unary_cont_closed provenanceUnary factorUnary lambdaCont
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row lambda)
+          (fun row : BHist => hsame row lambda) (fun row : BHist => hsame row lambda)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro lambda (hsame_refl lambda)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        exact hsame_trans (hsame_symm sameRows) sourceRow
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact ⟨cert, lambdaUnary, pkgSig⟩
+
+theorem ModelCatBHistSourcePacket_root_threshold_obligation_triad [AskSetup] [PackageSetup]
+    {category cof fib weak lift factor provenance rho lambda rootSurface downstream : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelCatBHistSourcePacket category cof fib weak lift factor provenance rho lambda bundle
+        pkg ->
+      Cont lift factor rootSurface ->
+        Cont rootSurface lambda downstream ->
+          UnaryHistory downstream ∧ hsame rootSurface (append lift factor) ∧
+            hsame downstream (append rootSurface lambda) ∧ PkgSig bundle lambda pkg := by
+  intro packet rootRow downstreamRow
+  obtain ⟨categoryUnary, cofUnary, fibUnary, weakUnary, provenanceUnary, _rhoUnary,
+    liftCont, factorCont, lambdaCont, pkgSig⟩ := packet
+  have liftUnary : UnaryHistory lift :=
+    unary_cont_closed categoryUnary cofUnary liftCont
+  have factorUnary : UnaryHistory factor :=
+    unary_cont_closed fibUnary weakUnary factorCont
+  have lambdaUnary : UnaryHistory lambda :=
+    unary_cont_closed provenanceUnary factorUnary lambdaCont
+  have rootUnary : UnaryHistory rootSurface :=
+    unary_cont_closed liftUnary factorUnary rootRow
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed rootUnary lambdaUnary downstreamRow
+  exact ⟨downstreamUnary, rootRow, downstreamRow, pkgSig⟩
+
 end BEDC.Derived.ModelCatUp
