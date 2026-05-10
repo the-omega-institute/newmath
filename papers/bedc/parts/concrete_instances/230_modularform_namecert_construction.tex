@@ -72,3 +72,21 @@ Ledger exactness follows by inverting those constructors. Every accepted field i
   \notclaimed{This obligation boundary does not close analytic continuation, dimension formulas, Hecke operators, all-cusp expansions, or a host modular-form space.}
   \upgradepath{The next paper-grade step is a public ModularFormUp export theorem or a bridge boundary for the scoped q-expansion and automorphic-source package.}
 \end{closurestatus}
+
+\begin{theorem}[Modular-form empty coefficient classifier]
+\label{thm:modularform-empty-coefficient-classifier}
+Let $R$ and $R'$ be two $\ModularFormUp$ carrier rows of \autoref{def:modularform-bhist-qexpansion-carrier} over the same displayed weight and congruence-subgroup context. Suppose that both rows use the same $\NameCert_{\HolomorphicUp}$ source row $H$, the same $\NameCert_{\AutomorphicUp}$ source row $A$, and the visible q-expansion coefficient observation row is $\emp$ in both carriers. Then $R$ and $R'$ are classified as the same $\ModularFormUp$ observation by the modular-form congruence classifier of \autoref{def:modularform-congruence-classifier}.
+\end{theorem}
+\begin{proof}
+Unpack the two carrier rows by \autoref{def:modularform-bhist-qexpansion-carrier}. Their source part is the common pair $(H,A)$, so the holomorphic source component is transported by the reflexive classifier row of $\NameCert_{\HolomorphicUp}$ and the automorphic component is transported by the reflexive classifier row of $\NameCert_{\AutomorphicUp}$. The displayed weight and congruence-subgroup context is also common, so no context replacement is required.
+
+It remains only to compare the finite q-expansion coefficient ledger. Both visible coefficient rows are $\emp$. The empty history supplies the endpoint comparison $\emp\hsame\emp$, and the right-unit continuation rows place the empty coefficient observation under the already shared holomorphic and automorphic source rows:
+$$
+\Cont(H,\emp,H)
+\qquad\text{and}\qquad
+\Cont(A,\emp,A).
+$$
+The finite coefficient package therefore has no nonempty coefficient entry to match. Its package comparison is the empty package comparison, with the displayed $\hsame$ and $\Cont$ witnesses as its whole ledger.
+
+The generators listed in \autoref{def:modularform-congruence-classifier} are exactly source transport, finite coefficient package transport, and congruence-subgroup transformation transport. Applying the two reflexive source transports, the empty coefficient package comparison, and the shared automorphic transformation context gives a classifier witness from $R$ to $R'$. Since no generator for analytic continuation, dimension counting, Hecke stability, or all-cusp data participates in that classifier, the conclusion is confined to the two empty-coefficient carrier rows.
+\end{proof}

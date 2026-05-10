@@ -122,6 +122,7 @@ import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RecursiveFnUp
+import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
@@ -863,6 +864,7 @@ import BEDC.Derived.RealUp.SelectedDenominatorRow
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.DyadicRatCore
 import BEDC.Derived.InnerProductUp
+import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
@@ -883,6 +885,7 @@ import BEDC.Derived.S1Up.EquationTransportObligationSurface
 import BEDC.Derived.S1Up.PublicConstructorPacket
 import BEDC.Derived.S1Up.PublicEndpointExactness
 import BEDC.Derived.S1Up.RealMetricBridgeBoundary
+import BEDC.Derived.S1Up.StandardBridge
 import BEDC.Derived.S1Up.StandardTopologicalBridgeBoundary
 import BEDC.Derived.S1Up.StandardTopologicalCircleAcceptance
 import BEDC.Derived.S1Up.ComponentwiseTransportStability
