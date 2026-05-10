@@ -1,12 +1,18 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.DerivedFunctorUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def DerivedFunctorCarrier
@@ -184,5 +190,44 @@ theorem DerivedFunctorExactTriangleBoundaryCarrier_long_exact_ledger_surface
         (And.intro connectingRow
           (And.intro spliceReadback
             (And.intro carrier.left.left carrier.right.right.right)))))
+
+def DerivedFunctorDeltaSpliceSurface [AskSetup] [PackageSetup]
+    (functor resolutionA resolutionB resolutionC homology degree resolvedA resolvedB resolvedC
+      endpointA endpointB endpointC boundary connecting splice : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  DerivedFunctorExactTriangleBoundaryCarrier functor resolutionA resolutionB resolutionC homology
+      degree resolvedA resolvedB resolvedC endpointA endpointB endpointC boundary ∧
+    Cont endpointC boundary connecting ∧ Cont connecting endpointA splice ∧
+      PkgSig bundle splice pkg
+
+theorem DerivedFunctorDeltaSpliceSurface_short_exact_source_scope [AskSetup] [PackageSetup]
+    {functor resolutionA resolutionB resolutionC homology degree resolvedA resolvedB resolvedC
+      endpointA endpointB endpointC boundary connecting splice : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DerivedFunctorDeltaSpliceSurface functor resolutionA resolutionB resolutionC homology degree
+        resolvedA resolvedB resolvedC endpointA endpointB endpointC boundary connecting splice
+        bundle pkg ->
+      DerivedFunctorCarrier functor resolutionA homology degree resolvedA endpointA ∧
+        DerivedFunctorCarrier functor resolutionB homology degree resolvedB endpointB ∧
+          DerivedFunctorCarrier functor resolutionC homology degree resolvedC endpointC ∧
+            hsame connecting (append endpointC boundary) ∧
+              hsame splice (append (append endpointC boundary) endpointA) ∧
+                PkgSig bundle splice pkg := by
+  intro surface
+  have boundaryCarrier :
+      DerivedFunctorExactTriangleBoundaryCarrier functor resolutionA resolutionB resolutionC
+        homology degree resolvedA resolvedB resolvedC endpointA endpointB endpointC boundary :=
+    surface.left
+  have connectingRow : Cont endpointC boundary connecting :=
+    surface.right.left
+  have spliceRow : Cont connecting endpointA splice :=
+    surface.right.right.left
+  have spliceReadback : hsame splice (append (append endpointC boundary) endpointA) :=
+    hsame_trans spliceRow (congrArg (fun row => append row endpointA) connectingRow)
+  exact And.intro boundaryCarrier.left
+    (And.intro boundaryCarrier.right.left
+      (And.intro boundaryCarrier.right.right.left
+        (And.intro connectingRow
+          (And.intro spliceReadback surface.right.right.right))))
 
 end BEDC.Derived.DerivedFunctorUp
