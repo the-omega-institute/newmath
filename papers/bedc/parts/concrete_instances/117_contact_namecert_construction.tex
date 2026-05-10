@@ -187,3 +187,41 @@ are the complete consumer boundary.
   \notclaimed{This chapter does not claim a closed ContactUp carrier implementation, a proved nonintegrability theorem, Lean bridge verification, or mature examples.}
   \upgradepath{The paper-side theory axis is complete; Lean bridge verification remains a separate verification-axis obligation.}
 \end{closurestatus}
+
+\begin{definition}[ContactUp coannihilating integrability row]
+\label{def:contactup-coannihilating-integrability-row}
+Let $C$ be a $\ContactUp$ carrier-classifier surface of \autoref{def:contactup-carrier-classifier-surface} over a displayed dimension row $2n+1$ with $n\ge1$. Write its shared manifold carrier as $M$, its carried one-form row as $\alpha$, its hyperplane row as $\ker(\alpha)$, its exterior-input row as $d\alpha$, and its wedge ladder as $\alpha\wedge(d\alpha)^k$.
+
+A displayed row $I_{\mathcal{D}}$ is a $\ContactUp$ coannihilating integrability row on $C$ when its contact-relevant fields are all on the same $\ManifoldUp$ carrier $M$ and consist of the following data:
+\begin{itemize}
+  \item a hyperplane-distribution row $\mathcal{D}$ classified with the displayed contact hyperplane row $\ker(\alpha)$;
+  \item an annihilator-identification row $\mathsf{Ann}(\mathcal{D})\sim\alpha$;
+  \item a codimension-one Frobenius row for that annihilator, transported along $\mathsf{Ann}(\mathcal{D})\sim\alpha$;
+  \item the resulting Frobenius wedge-collapse ledger along the displayed $\ContactUp$ wedge ladder:
+  $$
+  \forall k\ (1\le k\le n\Rightarrow \alpha\wedge(d\alpha)^k\sim0).
+  $$
+\end{itemize}
+The row is admitted only when these fields are transported by the restricted $\ContactUp$ classifier, so the manifold carrier, one-form row, hyperplane row, exterior-input row, and wedge-ladder rows are the same rows read by $C$.
+\end{definition}
+
+\begin{theorem}[Contact top wedge excludes coannihilating integrability]
+\label{thm:contact-top-wedge-excludes-coannihilating-integrability}
+Let $C$ be a $\ContactUp$ carrier-classifier surface of \autoref{def:contactup-carrier-classifier-surface} over a displayed dimension row $2n+1$ with $n\ge1$. Suppose $C$ carries the top-wedge nondegeneracy row
+$$
+\alpha\wedge(d\alpha)^n\not\sim0.
+$$
+Then no $\ContactUp$ coannihilating integrability row $I_{\mathcal{D}}$ of \autoref{def:contactup-coannihilating-integrability-row} is admitted on the same carrier. Equivalently, no displayed integrable-distribution row $\mathcal{D}$ on the same $\ManifoldUp$ carrier whose annihilator is classified with $\alpha$ can coexist with the displayed $\ContactUp$ top-wedge row.
+\end{theorem}
+\begin{proof}
+Assume that such a row $I_{\mathcal{D}}$ is admitted. By \autoref{def:contactup-coannihilating-integrability-row}, the distribution row lies on the same $\ManifoldUp$ carrier as $C$, its hyperplane row is classified with $\ker(\alpha)$, and its annihilator row is classified with $\alpha$.
+
+The Frobenius part of the admitted row is therefore read on the same carried one-form row and the same exterior-input row $d\alpha$. Since $n\ge1$, the Frobenius wedge-collapse ledger in \autoref{def:contactup-coannihilating-integrability-row} applies to the displayed ladder index $k=n$ and gives
+$$
+\alpha\wedge(d\alpha)^n\sim0.
+$$
+
+It remains to check that this is the same top-wedge endpoint as the contact nondegeneracy row. The carrier definition \autoref{def:contactup-carrier-classifier-surface} includes the one-form row, hyperplane row, exterior-input row, every wedge-ladder row, and the top wedge row on one shared manifold endpoint. The form-row obligation \autoref{thm:contactup-form-row-obligation} routes these rows through the $\ContactUp$ consumer face, and \autoref{thm:contactup-nondegeneracy-obligation} places the nondegeneracy predicate on that transported top wedge. Thus the zero endpoint obtained from $I_{\mathcal{D}}$ and the nondegenerate endpoint carried by $C$ address the same row $\alpha\wedge(d\alpha)^n$.
+
+The displayed nondegeneracy hypothesis says that this row is not classified with zero, while the Frobenius wedge-collapse ledger says that it is classified with zero. An admitted row cannot satisfy both predicates on the same classified endpoint. Hence the assumed $I_{\mathcal{D}}$ is not admitted.
+\end{proof}
