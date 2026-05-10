@@ -15193,3 +15193,27 @@ Rationale:
 Determinism / no-confusion result on the IteratedStrictCplxDiff inductive — exactly the kind of structural target B writes (compare B-507 halting-meta-loop, B-452 ODE concatenation endpoint determinacy). The 12 surrounding theorems on this inductive include concatenation, transport, prefix readback, endpoint-not-empty, but no length cancellation, leaving a clear no-confusion gap. Lands in predicate_and_iterations.tex (277 lines, room) and proof skeleton parallels endpoint-hsame-absurd plus prefix readback. Not a parameter echo: it is the missing length-determinacy companion, not a re-statement of a source equivalence.
 
 ---
+
+### B-599 - LambdaCalc alpha-classifier reflexivity row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | LambdaCalc alpha-classifier reflexivity row |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If a LambdaCalc term packet h is accepted by LambdaCalcBHistTermCarrier, then the alpha-classifier row relates (h, h) over the displayed TreeUp syntax skeleton, NatUp binder-index ledger, alpha ledger, hsame rows, and Pkg provenance.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/lambdacalc/root_frontier.tex`
+
+Rationale:
+Completes the equivalence-relation closure for the LambdaCalc alpha classifier. Symmetry already exists at concrete_instances/178_lambdacalc_namecert_construction.tex:280 and transitivity is BOARD B-574 (recently completed) at concrete_instances/lambdacalc/root_frontier.tex:300, but no reflexivity row is declared. Not a parameter-echo: the reflexivity row is the third structural leg of an equivalence relation that downstream alpha consumers implicitly need; it specifically packages reflexive hsame on each displayed coordinate through the LambdaCalc classifier-boundary repacker. Lands in root_frontier.tex (348 lines, ample room) right next to the transitive sibling. Codex_close in 1-3 rounds.
+
+---

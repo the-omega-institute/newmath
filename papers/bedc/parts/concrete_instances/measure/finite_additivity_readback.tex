@@ -192,3 +192,105 @@ readback with additive commutativity gives
 are precisely the finite support surface required by downstream
 $\IntegralUp$, $\ProbSpaceUp$, and $\FunctionalAnalysisUp$ consumers.
 \end{proof}
+
+\begin{theorem}[Measure triple disjoint-union associativity]
+\label{thm:measure-triple-disjoint-union-associativity}
+For a $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}, let
+$\mathcal{A}$ be its designated $\sigma$-algebra, let $\mu$ be its
+$\RealUp$-valued measure map, write $x\sim_R y$ for the $\RealUp$
+classifier of \autoref{def:real-classifier-specification}, and write
+$X\sim_M Y$ for the public event classifier of
+\autoref{def:measure-classifier-specification}. Let
+$A,B,C\in\mathcal{A}$ be pairwise disjoint displayed events in one carried
+fiber. Let $U_{AB}$ be the displayed binary union $A\cup B$, let $U_{BC}$ be
+the displayed binary union $B\cup C$, let $U_L$ be the displayed binary union
+$U_{AB}\cup C$, and let $U_R$ be the displayed binary union $A\cup U_{BC}$.
+Assume the binary-union rows unfold membership by disjunction in the displayed
+fiber, and assume the hypotheses of
+\autoref{thm:measure-finite-disjoint-union-additivity} for the disjoint pairs
+$A,B$, $B,C$, $U_{AB},C$, and $A,U_{BC}$. If the target $\RealUp$ addition is
+carried by its additive $\AbGroupUp$ row, then the two bracketed finite unions
+are classifier-equal as measurable events,
+$$
+U_L\sim_M U_R,
+$$
+and their measure endpoints are classifier-equal,
+$$
+\mu(U_L)\sim_R\mu(U_R).
+$$
+\end{theorem}
+\begin{proof}
+First compare the displayed event rows. For any point of the carried fiber,
+the membership readback for $U_L$ unfolds to
+$$
+(x\in A\vee x\in B)\vee x\in C,
+$$
+while the membership readback for $U_R$ unfolds to
+$$
+x\in A\vee (x\in B\vee x\in C).
+$$
+The two implications are obtained by cases on the displayed disjunctions:
+from the left display, either the first summand gives $x\in A$ or $x\in B$, or
+the second summand gives $x\in C$; from the right display, either $x\in A$, or
+the right summand gives $x\in B$ or $x\in C$. Thus the two binary-union
+presentations have the same public membership readback. The measurable
+witnesses transport along this readback, so the event component of
+\autoref{def:measure-classifier-specification} gives
+$$
+U_L\sim_M U_R.
+$$
+
+Pairwise disjointness of $A,B,C$ also gives the two compound disjointness
+witnesses needed below. If a point lies in both $U_{AB}$ and $C$, the
+membership readback for $U_{AB}$ puts it in $A$ or in $B$, contradicting the
+corresponding pairwise disjointness with $C$. Hence $U_{AB}$ and $C$ are
+disjoint. Similarly, if a point lies in both $A$ and $U_{BC}$, the membership
+readback for $U_{BC}$ puts it in $B$ or in $C$, contradicting the corresponding
+pairwise disjointness with $A$. Hence $A$ and $U_{BC}$ are disjoint.
+
+Apply \autoref{thm:measure-finite-disjoint-union-additivity} to $A$ and $B$:
+$$
+\mu(U_{AB})\sim_R\mu(A)+\mu(B).
+$$
+Apply the same theorem to $U_{AB}$ and $C$:
+$$
+\mu(U_L)\sim_R\mu(U_{AB})+\mu(C).
+$$
+Addition congruence in the additive $\AbGroupUp$ row transports the first
+comparison through the left summand of the second comparison, giving
+$$
+\mu(U_{AB})+\mu(C)\sim_R(\mu(A)+\mu(B))+\mu(C).
+$$
+By transitivity of $\sim_R$,
+$$
+\mu(U_L)\sim_R(\mu(A)+\mu(B))+\mu(C).
+$$
+
+Apply \autoref{thm:measure-finite-disjoint-union-additivity} to $B$ and $C$:
+$$
+\mu(U_{BC})\sim_R\mu(B)+\mu(C).
+$$
+Apply the same theorem to $A$ and $U_{BC}$:
+$$
+\mu(U_R)\sim_R\mu(A)+\mu(U_{BC}).
+$$
+Addition congruence transports the comparison for $U_{BC}$ through the fixed
+left summand $\mu(A)$, so
+$$
+\mu(A)+\mu(U_{BC})\sim_R\mu(A)+(\mu(B)+\mu(C)).
+$$
+The additive associativity row of \autoref{def:abgroup-carrier} classifies
+$$
+\mu(A)+(\mu(B)+\mu(C))\sim_R(\mu(A)+\mu(B))+\mu(C).
+$$
+Composing these comparisons yields
+$$
+\mu(U_R)\sim_R(\mu(A)+\mu(B))+\mu(C).
+$$
+
+Finally, symmetry and transitivity of the $\RealUp$ classifier compose the two
+readbacks to the common endpoint $(\mu(A)+\mu(B))+\mu(C)$. Therefore
+$$
+\mu(U_L)\sim_R\mu(U_R).
+$$
+\end{proof}

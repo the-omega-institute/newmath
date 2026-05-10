@@ -43,31 +43,6 @@ Existing theorems include thm:measure-finite-disjoint-union-additivity and BOARD
 
 ---
 
-### B-599 - LambdaCalc alpha-classifier reflexivity row
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | LambdaCalc alpha-classifier reflexivity row |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 6/10 |
-
-Problem:
-If a LambdaCalc term packet h is accepted by LambdaCalcBHistTermCarrier, then the alpha-classifier row relates (h, h) over the displayed TreeUp syntax skeleton, NatUp binder-index ledger, alpha ledger, hsame rows, and Pkg provenance.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/lambdacalc/root_frontier.tex`
-
-Rationale:
-Completes the equivalence-relation closure for the LambdaCalc alpha classifier. Symmetry already exists at concrete_instances/178_lambdacalc_namecert_construction.tex:280 and transitivity is BOARD B-574 (recently completed) at concrete_instances/lambdacalc/root_frontier.tex:300, but no reflexivity row is declared. Not a parameter-echo: the reflexivity row is the third structural leg of an equivalence relation that downstream alpha consumers implicitly need; it specifically packages reflexive hsame on each displayed coordinate through the LambdaCalc classifier-boundary repacker. Lands in root_frontier.tex (348 lines, ample room) right next to the transitive sibling. Codex_close in 1-3 rounds.
-
----
-
-
 ### B-600 - SpinGroup conjugation action is multiplicative under the spin group product
 
 | field | value |
@@ -93,7 +68,6 @@ Frontier concrete object. SpinGroupUp exposes a conjugation action (thm:spingrou
 
 ---
 
-
 ### B-601 - Ideal sum is commutative as a sub-ideal predicate
 
 | field | value |
@@ -117,4 +91,3 @@ Rationale:
 Missing companion in the ideal lattice surface. ideal/02_lattice_sum_surface.tex declares thm:ideal-sum-closure (line 103) and thm:ideal-sum-least-upper-bound (line 158); the meet side has thm:ideal-intersection-greatest-lower-bound (BOARD B-555). Commutativity of the join is fundamental and used implicitly whenever sums are written, yet no thm:ideal-sum-commutativity / thm:ideal-sum-symmetric label exists under papers/bedc/parts/. Not a transport echo: it is a genuine concrete closure of the ideal-sum predicate using the ambient ring's additive commutativity row. Codex_close in 1-3 rounds; lands in lattice_sum_surface.tex which is well under the 800-line cap.
 
 ---
-
