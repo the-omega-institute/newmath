@@ -183,6 +183,7 @@ import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.ObserverHistIdentityUp
+import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
@@ -603,6 +604,7 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.RandomVarUp
+import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.IndependenceUp
@@ -973,6 +975,7 @@ import BEDC.Derived.FunctorUp.IdentityFunctor
 import BEDC.Derived.FunctorUp.OppositeCertificate
 import BEDC.Derived.FunctorUp.StdBridge
 import BEDC.Derived.NatTransUp.NaturalIso
+import BEDC.Derived.NatTransUp.PrewhiskeringPrefixTransport
 import BEDC.Derived.NatTransUp.StdBridge
 import BEDC.Derived.CategoryUp.StdBridge
 import BEDC.Derived.CategoryUp.MatureHostInterfaceInventory
