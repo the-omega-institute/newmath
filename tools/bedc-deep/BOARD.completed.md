@@ -15508,3 +15508,51 @@ Rationale:
 Mirrored companion to thm:innerproduct-orthogonal-additivity-row (right-additive). Left-additive form is independently used by sublattice-of-orthogonals arguments; not currently stated. Proof: symmetry -> right-additivity -> symmetry. Distinct from the left-scalar and left-inverse candidates (different slot symmetry). Lands cleanly.
 
 ---
+
+### B-610 - InnerProduct orthogonality left scalar-action closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | InnerProduct orthogonality left scalar-action closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For carried vectors x,y:C_V and a carried scalar r, if x \perp_I y then (r \cdot_V x) \perp_I y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/orthogonality_closure.tex`
+
+Rationale:
+Direct missing companion to thm:innerproduct-orthogonality-right-scalar-action-closure (orthogonality_closure.tex:139). Symmetric left-slot version is not stated. Proof routes through orthogonality symmetry plus the existing right-scalar closure. Concrete BEDC closure target, lands in a 230-line file well under cap. Not paraphrase of any existing BOARD entry (B-573 is about norm-squared scalar factoring, distinct).
+
+---
+
+### B-612 - SpinGroup conjugation action identity law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | SpinGroup conjugation action identity law |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For SpinGroupUp packet S with Clifford-unit endpoint = identity e, every Clifford-vector row v satisfies Act_e(v) ~_CliffordUp v.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/spingroup/boundary_consumer_exactness.tex`
+
+Rationale:
+Complements B-600 (conjugation multiplicativity). Together with the multiplicative law it makes the conjugation row a group action; the unit law is currently the missing half. Proof is a one-shot Clifford left/right unit collapse. Distinct from all existing SpinGroup BOARD entries.
+
+---
