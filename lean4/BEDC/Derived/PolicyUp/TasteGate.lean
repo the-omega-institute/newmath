@@ -147,6 +147,43 @@ theorem PolicyActionLedgerCarrier_namecert_obligation_surface [AskSetup] [Packag
         hsame := by
   exact PolicyActionLedgerCarrier_semantic_name_certificate
 
+theorem PolicyActionLedgerCarrier_kernel_scope_boundary [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger
+              provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger
+              provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger
+              provenance endpoint bundle pkg ∧ hsame row endpoint)
+          hsame ∧
+        UnaryHistory belief ∧ UnaryHistory markov ∧ UnaryHistory randomvar ∧
+          UnaryHistory estimator ∧ UnaryHistory decision ∧ UnaryHistory ledger ∧
+            UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont belief markov ledger ∧
+              Cont ledger estimator provenance ∧ Cont provenance decision endpoint ∧
+                PkgSig bundle endpoint pkg := by
+  intro carrier
+  exact
+    ⟨PolicyActionLedgerCarrier_semantic_name_certificate carrier,
+      carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.right⟩
+
 private def encodeBHist : BHist → RawEvent
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: encodeBHist h
@@ -331,5 +368,47 @@ def taste_gate : ChapterTasteGate PolicyUp where
   layer_separation := by
     intro x y hxy heq
     exact hxy (policyToEventFlow_injective heq)
+
+theorem PolicyActionLedger_source_scope [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      exists policy : PolicyUp,
+        exists beliefRow markovRow randomvarRow estimatorRow decisionRow ledgerRow provenanceRow
+          endpointRow : BHist,
+          policy =
+              PolicyUp.mk beliefRow markovRow randomvarRow estimatorRow decisionRow ledgerRow ∧
+            UnaryHistory beliefRow ∧ UnaryHistory markovRow ∧ UnaryHistory randomvarRow ∧
+              UnaryHistory estimatorRow ∧ UnaryHistory decisionRow ∧ UnaryHistory ledgerRow ∧
+                UnaryHistory provenanceRow ∧ UnaryHistory endpointRow ∧
+                  Cont beliefRow markovRow ledgerRow ∧
+                    Cont ledgerRow estimatorRow provenanceRow ∧
+                      Cont provenanceRow decisionRow endpointRow ∧
+                        PkgSig bundle endpointRow pkg := by
+  intro carrier
+  exact
+    ⟨PolicyUp.mk belief markov randomvar estimator decision ledger,
+      belief,
+      markov,
+      randomvar,
+      estimator,
+      decision,
+      ledger,
+      provenance,
+      endpoint,
+      rfl,
+      carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.PolicyUp
