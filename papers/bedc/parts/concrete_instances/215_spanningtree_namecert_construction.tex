@@ -10,11 +10,13 @@ The spanning-tree interface $\SpanningTreeUp$ packages a maximal acyclic subgrap
 \label{thm:spanningtree-carrier-obligation}
 The carrier of $\SpanningTreeUp$ exposes only finite $\mathsf{BHist}$ rows over the two source certificates $\NameCert_{\GraphUp}$ and $\NameCert_{\TreeUp}$. An accepted packet carries displayed vertex rows, graph-edge rows, tree-edge rows, a root row or root-free witness inherited from $\TreeUp$, incidence rows tying each tree edge to graph endpoints, reachability rows from the root branch when present, acyclicity rows, and $\mathsf{Pkg}$ provenance for the two dependency certificates.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeCarrierPacket\_dependency\_surface}
 \begin{proof}
 Read the carrier through the named $\GraphUp$ and $\TreeUp$ certificates. The graph certificate supplies the visible vertex and edge rows, while the tree certificate supplies the acyclicity, root-branch, and tree-edge rows.
 
 The spanning-tree carrier adds no ambient graph object. It records the incidence and reachability witnesses as finite $\mathsf{BHist}$ rows with their $\mathsf{Pkg}$ provenance, so every consumer-visible field is already present in the displayed carrier packet.
 \end{proof}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeCarrier\_obligation\_surface}
 
 \begin{theorem}[SpanningTreeUp classifier obligation surface]
 \label{thm:spanningtree-classifier-obligation}
@@ -26,6 +28,7 @@ Project the two source classifiers from $\NameCert_{\GraphUp}$ and $\NameCert_{\
 
 The remaining rows are finite ledger coordinates. Transporting incidence, reachability, acyclicity, root, and provenance rows componentwise preserves the carrier because each transported row still points to the same displayed dependency certificates.
 \end{proof}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeClassifier\_obligation\_surface}
 
 \begin{theorem}[SpanningTreeUp acyclic maximality obligation surface]
 \label{thm:spanningtree-acyclic-maximality-obligation}

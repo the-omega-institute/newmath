@@ -4,6 +4,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
+import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 
@@ -15,6 +16,7 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
+open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 
 def SpanningTreeBHistCarrier [AskSetup] [PackageSetup]
@@ -64,5 +66,79 @@ theorem SpanningTreeBHistCarrier_classifier_obligation [AskSetup] [PackageSetup]
         pkgSig'⟩,
       sameIncidence,
       sameEndpoint⟩
+
+theorem SpanningTreeCarrier_obligation_surface [AskSetup] [PackageSetup]
+    {graphEdges treeEdges incidence reachability provenance carrierRow : BHist}
+    {graphBundle treeBundle : ProbeBundle ProbeName} {graphPkg treePkg : Pkg} :
+    UnaryHistory graphEdges -> UnaryHistory treeEdges -> UnaryHistory incidence ->
+      UnaryHistory reachability -> PkgSig graphBundle graphEdges graphPkg ->
+        PkgSig treeBundle treeEdges treePkg -> Cont graphEdges treeEdges carrierRow ->
+          Cont incidence reachability provenance ->
+            UnaryHistory carrierRow ∧ hsame carrierRow (append graphEdges treeEdges) ∧
+              Cont incidence reachability provenance ∧ PkgSig graphBundle graphEdges graphPkg ∧
+                PkgSig treeBundle treeEdges treePkg := by
+  intro graphUnary treeUnary _incidenceUnary _reachabilityUnary graphPkgSig treePkgSig carrierCont
+  intro provenanceCont
+  have carrierUnary : UnaryHistory carrierRow :=
+    unary_cont_closed graphUnary treeUnary carrierCont
+  exact ⟨carrierUnary, carrierCont, provenanceCont, graphPkgSig, treePkgSig⟩
+
+theorem SpanningTreeClassifier_obligation_surface [AskSetup] [PackageSetup]
+    {graphEdges graphEdges' treeEdges treeEdges' incidence incidence' reachability reachability'
+      acyclicity acyclicity' carrierRow carrierRow' provenance provenance' : BHist} :
+    Cont graphEdges treeEdges carrierRow -> Cont graphEdges' treeEdges' carrierRow' ->
+      hsame graphEdges graphEdges' -> hsame treeEdges treeEdges' ->
+        hsame incidence incidence' -> hsame reachability reachability' ->
+          hsame acyclicity acyclicity' -> Cont incidence reachability provenance ->
+            Cont incidence' reachability' provenance' ->
+              hsame carrierRow carrierRow' ∧ hsame provenance provenance' := by
+  intro carrierCont carrierCont' sameGraphEdges sameTreeEdges sameIncidence sameReachability
+  intro _sameAcyclicity provenanceCont provenanceCont'
+  have sameCarrier : hsame carrierRow carrierRow' :=
+    cont_respects_hsame sameGraphEdges sameTreeEdges carrierCont carrierCont'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameIncidence sameReachability provenanceCont provenanceCont'
+  exact ⟨sameCarrier, sameProvenance⟩
+
+theorem SpanningTreeCarrierPacket_dependency_surface [AskSetup] [PackageSetup]
+    {vertex graphEdge treeEdge root incidence reachability acyclicity provenance treeLedger
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory vertex ->
+      UnaryHistory graphEdge ->
+        UnaryHistory treeEdge ->
+          UnaryHistory root ->
+            UnaryHistory acyclicity ->
+              UnaryHistory provenance ->
+                Cont graphEdge treeEdge incidence ->
+                  Cont root incidence reachability ->
+                    Cont reachability acyclicity treeLedger ->
+                      Cont provenance treeLedger endpoint ->
+                        PkgSig bundle endpoint pkg ->
+                          UnaryHistory incidence ∧ UnaryHistory reachability ∧
+                            UnaryHistory treeLedger ∧ UnaryHistory endpoint ∧
+                              hsame incidence (append graphEdge treeEdge) ∧
+                                hsame reachability (append root incidence) ∧
+                                  hsame treeLedger (append reachability acyclicity) ∧
+                                    hsame endpoint (append provenance treeLedger) ∧
+                                      PkgSig bundle endpoint pkg := by
+  intro _ graphEdgeUnary treeEdgeUnary rootUnary acyclicityUnary provenanceUnary
+  intro edgeIncidence rootReachability reachabilityLedger provenanceEndpoint endpointPkg
+  have incidenceUnary : UnaryHistory incidence :=
+    unary_cont_closed graphEdgeUnary treeEdgeUnary edgeIncidence
+  have reachabilityUnary : UnaryHistory reachability :=
+    unary_cont_closed rootUnary incidenceUnary rootReachability
+  have ledgerUnary : UnaryHistory treeLedger :=
+    unary_cont_closed reachabilityUnary acyclicityUnary reachabilityLedger
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary ledgerUnary provenanceEndpoint
+  exact And.intro incidenceUnary
+    (And.intro reachabilityUnary
+      (And.intro ledgerUnary
+        (And.intro endpointUnary
+          (And.intro edgeIncidence
+            (And.intro rootReachability
+              (And.intro reachabilityLedger
+                (And.intro provenanceEndpoint endpointPkg)))))))
 
 end BEDC.Derived.SpanningTreeUp
