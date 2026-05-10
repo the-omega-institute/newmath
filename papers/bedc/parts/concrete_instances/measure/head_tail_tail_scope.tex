@@ -130,3 +130,120 @@ measurable sequence rows, countable-sum rows, head-tail readback, and classifier
 stability as the available rows, there is no fifth certificate input for a
 shifted countable tail.
 \end{proof}
+
+\begin{definition}[Measure finite-prefix head-tail readback spine]
+\label{def:measure-finite-prefix-head-tail-readback-spine}
+Let $\mathcal{M}$ be a $\MeasureUp$ certificate surface as in
+\autoref{def:measure-certificate-surface}, and let $E_\bullet$ be a measurable
+sequence in that surface. For a unary history $n$ with $\Unary(n)$, define the
+iterated shifted family $E_{\bullet+n}$ and the finite-prefix head-tail endpoint
+$\mathsf{HT}_n(E_\bullet)$ by unary recursion:
+$$
+\begin{aligned}
+E_{\bullet+\emp} &:= E_\bullet, \\
+E_{\bullet+\Eone(n)} &:= (E_{\bullet+n})_{\bullet+1},
+\end{aligned}
+$$
+and
+$$
+\begin{aligned}
+\mathsf{HT}_{\emp}(E_\bullet) &:= \Sigma_\mu(E_\bullet), \\
+\mathsf{HT}_{\Eone(n)}(E_\bullet) &:= \mu(E_0)+_R\mathsf{HT}_n(E_{\bullet+1}).
+\end{aligned}
+$$
+Thus $\mathsf{HT}_n(E_\bullet)$ is the right-nested endpoint obtained by
+reading the first $n$ heads and then stopping at the countable endpoint of the
+$n$-shifted tail. The spine records only the measurable-family row, the
+countable-sum endpoint row, the head-tail row, and the additive $\RealUp$ row;
+it does not identify shifted host sequences by ambient equality.
+\end{definition}
+
+\begin{lemma}[Measure iterated shifted-tail admissibility]
+\label{lem:measure-iterated-shifted-tail-admissibility}
+Let $\mathcal{M}$ be a $\MeasureUp$ certificate surface as in
+\autoref{def:measure-certificate-surface}, let $E_\bullet$ be a measurable
+sequence in that surface, and let $n$ be a unary history with $\Unary(n)$. Then
+$E_{\bullet+n}$, as defined in
+\autoref{def:measure-finite-prefix-head-tail-readback-spine}, is an admitted
+measurable sequence for the same certificate surface.
+\end{lemma}
+\begin{proof}
+Induct on the unary generation of $n$. In the empty case,
+$E_{\bullet+\emp}$ is $E_\bullet$, which is measurable by hypothesis.
+
+For the one-step case, assume $E_{\bullet+n}$ is an admitted measurable
+sequence. Apply
+\autoref{thm:measure-head-tail-tail-measurable-sequence-scope} to the admitted
+sequence $E_{\bullet+n}$. Its shifted family
+$(E_{\bullet+n})_{\bullet+1}$ is admitted as a measurable sequence in the same
+certificate surface. By the defining recursion, this shifted family is
+$E_{\bullet+\Eone(n)}$, so the successor case follows.
+\end{proof}
+
+\begin{theorem}[Measure finite-prefix head-tail readback]
+\label{thm:measure-finite-prefix-head-tail-readback}
+Let $\mathcal{M}$ be a $\MeasureUp$ certificate surface as in
+\autoref{def:measure-certificate-surface}, let $E_\bullet$ be a measurable
+sequence in that surface, and let $n$ be a unary history with $\Unary(n)$. Then
+the countable endpoint of $E_\bullet$ is classified by the finite-prefix
+head-tail endpoint:
+$$
+\Sigma_\mu(E_\bullet)\sim_R\mathsf{HT}_n(E_\bullet).
+$$
+Equivalently, expanding the recursion of
+\autoref{def:measure-finite-prefix-head-tail-readback-spine}, this is the
+right-nested finite-prefix readback
+$$
+\Sigma_\mu(E_\bullet)\sim_R
+\mu(E_0)+_R\mu(E_1)+_R\cdots+_R\mu(E_{n-1})+_R\Sigma_\mu(E_{\bullet+n}),
+$$
+with the final tail endpoint omitted only in the empty-prefix case by the first
+recursion clause.
+\end{theorem}
+\begin{proof}
+Prove the stronger assertion uniformly for every admitted measurable input
+sequence $G_\bullet$: for every unary $n$,
+$\Sigma_\mu(G_\bullet)\sim_R\mathsf{HT}_n(G_\bullet)$. The claimed statement is
+the specialization $G_\bullet=E_\bullet$.
+
+In the empty case, the definition gives
+$\mathsf{HT}_{\emp}(G_\bullet)=\Sigma_\mu(G_\bullet)$. Reflexivity of the
+$\RealUp$ classifier from \autoref{def:real-classifier-specification} gives
+$$
+\Sigma_\mu(G_\bullet)\sim_R\mathsf{HT}_{\emp}(G_\bullet).
+$$
+
+For the one-step case, let $n=\Eone(m)$ and assume the uniform induction
+hypothesis at $m$. Equip $G_\bullet$ with the head-tail tail scope of
+\autoref{def:measure-head-tail-tail-scope}. By
+\autoref{thm:measure-head-tail-tail-countable-sum-scope}, the single-step
+readback gives
+$$
+\Sigma_\mu(G_\bullet)\sim_R
+\mu(G_0)+_R\Sigma_\mu(G_{\bullet+1}).
+$$
+By \autoref{thm:measure-head-tail-tail-measurable-sequence-scope}, the shifted
+family $G_{\bullet+1}$ is again an admitted measurable sequence. Apply the
+induction hypothesis to this shifted sequence:
+$$
+\Sigma_\mu(G_{\bullet+1})\sim_R\mathsf{HT}_m(G_{\bullet+1}).
+$$
+The additive congruence row of the target $\RealUp$ additive $\AbGroupUp$
+certificate, cited in \autoref{def:measure-certificate-surface} and
+\autoref{def:abgroup-carrier}, transports this tail comparison through the
+fixed left summand $\mu(G_0)$:
+$$
+\mu(G_0)+_R\Sigma_\mu(G_{\bullet+1})\sim_R
+\mu(G_0)+_R\mathsf{HT}_m(G_{\bullet+1}).
+$$
+The right-hand endpoint is exactly
+$\mathsf{HT}_{\Eone(m)}(G_\bullet)$ by the successor clause of
+\autoref{def:measure-finite-prefix-head-tail-readback-spine}. Transitivity of
+$\sim_R$ composes the single-step head-tail comparison with this transported
+induction comparison, yielding
+$$
+\Sigma_\mu(G_\bullet)\sim_R\mathsf{HT}_{\Eone(m)}(G_\bullet).
+$$
+This closes the unary induction and therefore the finite-prefix readback for
+$E_\bullet$.
+\end{proof}
