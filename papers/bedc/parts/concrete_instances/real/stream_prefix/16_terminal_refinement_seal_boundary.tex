@@ -1,0 +1,52 @@
+\begin{theorem}[RealUp terminal refinement seal boundary]
+\label{thm:realup-terminal-refinement-seal-boundary}
+Let $E$ be a $\RealUp$ finite-window refinement envelope over a fixed
+$\StreamNameUp$ source. Suppose two refined finite-window presentations
+$W$ and $W'$ are carried by $E$, are connected by the directed-refinement seal
+of \autoref{thm:realup-finite-window-directed-refinement-seal}, and are then
+read by a terminal finite-window $\RealUp$ seal consumer. Then every terminal
+consumer of either presentation reads exactly the same finite source
+boundary:
+\begin{enumerate}
+  \item the $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows;
+  \item the bundled $\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ rows;
+  \item the pointwise $\mathsf{RatHistoryClassifier}$ rows;
+  \item the accepted $\RegSeqRat$ finite-window spine;
+  \item the $\mathsf{DyadicRatCore}$ source rows;
+  \item the visible $\Cont$, $\hsame$, $\Pkg$, and
+  $\mathsf{RealLedgerPolicy}$ ledger rows.
+\end{enumerate}
+No terminal read exposes a quotient row, completion object, host
+$\mathsf{Nat}$ index, host function, $\mathsf{Classical}$ datum,
+metric-completeness certificate, arithmetic row, order row, or standard bridge
+row.
+\end{theorem}
+\begin{proof}
+First identify both refined presentations with the same envelope boundary.
+Apply
+\autoref{thm:realup-finite-window-refinement-envelope-coherence} to the two
+windows carried by $E$. The result gives one public finite $\mathsf{BHist}$
+surface containing exactly the envelope classifier, endpoint, dyadic-source,
+$\hsame$, and ledger-policy rows.
+
+Next use the directed-refinement seal. The comparison row supplied by
+\autoref{thm:realup-finite-window-directed-refinement-seal} forces the
+presentation read from $W$ and the presentation read from $W'$ through that
+same finite refinement surface. Thus the two refined windows have no distinct
+source boundary for a later consumer to inspect.
+
+Now pass this common finite-window surface to the terminal seal consumer.
+Apply \autoref{thm:streamname-realup-terminal-seal-boundary}. It reads the
+finite StreamName-to-RegSeqRat packet as the selected classifier rows, bundled
+unary and membership rows, pointwise rational classifier rows, endpoint and
+denominator rows, the accepted RegSeqRat spine, the dyadic source rows, and
+the finite $\Cont$ and $\hsame$ transport ledger.
+
+Finally apply \autoref{thm:streamname-realup-terminal-seal-scope-readback}.
+The scope readback keeps the source $\Pkg$ rows and
+$\mathsf{RealLedgerPolicy}$ boundary attached to the same packet and excludes
+all rows outside it. Hence no terminal consumer can read quotient data,
+completion data, host indices, host functions, $\mathsf{Classical}$ data,
+metric-completeness certificates, arithmetic or order rows, or standard
+bridge rows.
+\end{proof}

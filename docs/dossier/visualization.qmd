@@ -8,6 +8,30 @@ format:
     include-in-header:
       text: |
         <link rel="stylesheet" href="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.css">
+        <script>
+        // Load BEDC paper preamble macros, then boot MathJax. Without these,
+        // \CategoryUp / \AbGroupUp / \NameCert / etc. render as red errors.
+        (function () {
+          var v = "?v=" + Date.now();
+          fetch("data/mathjax_macros.json" + v, { cache: "no-store" })
+            .then(function (r) { return r.ok ? r.json() : {}; })
+            .catch(function () { return {}; })
+            .then(function (macros) {
+              window.MathJax = {
+                tex: {
+                  inlineMath: [['$', '$'], ['\\(', '\\)']],
+                  displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                  macros: macros
+                },
+                options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+              };
+              var s = document.createElement('script');
+              s.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js';
+              s.async = true;
+              document.head.appendChild(s);
+            });
+        })();
+        </script>
 ---
 
 ```{=html}
@@ -201,6 +225,10 @@ format:
     margin-bottom: 0.15rem;
   }
   #detail .closure-value { color: #333; overflow-wrap: anywhere; }
+  #detail .paper-ref {
+    font-size: 0.82em; color: #666; font-style: italic;
+    overflow-wrap: anywhere;
+  }
   #detail .closure-value code {
     font-size: 0.78rem; color: #2c3e50; background: transparent;
     white-space: normal; overflow-wrap: anywhere;
@@ -584,6 +612,12 @@ async function loadData() {
 
 function t(key) { return I18N[LANG][key] || key; }
 
+function typesetMath(el) {
+  if (window.MathJax && window.MathJax.typesetPromise) {
+    window.MathJax.typesetPromise(el ? [el] : undefined).catch(() => {});
+  }
+}
+
 function applyStaticI18n() {
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.getAttribute("data-i18n");
@@ -733,6 +767,7 @@ function renderGlossary() {
     html += `</div>`;
   }
   body.innerHTML = html;
+  typesetMath(body);
 }
 
 function toggleGlossary() {
@@ -874,9 +909,25 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+// Paper-side LaTeX commands that survive into dossier data fields. They
+// have no web counterpart (no PDF anchors here), so we lower them to
+// readable HTML AFTER escapeHtml has neutralised stray angle brackets.
+// Math (`$...$`) is left untouched for MathJax to render.
+function latexCleanup(escapedText) {
+  return String(escapedText ?? "")
+    // \string\foo escapes the next macro to literal text in LaTeX; on the
+    // web we just strip the \string and keep \foo so it shows as-is in
+    // the surrounding <code> wrapper.
+    .replace(/\\string(?=\\)/g, "")
+    .replace(/\\(?:autoref|ref|cref|Cref)\{([^}]+)\}/g,
+             '<em class="paper-ref">$1</em>')
+    .replace(/\\texttt\{([^}]+)\}/g,
+             '<code>$1</code>');
+}
+
 function detailValue(value, code = false) {
   const text = value || t("detail_none");
-  const safe = escapeHtml(text);
+  const safe = latexCleanup(escapeHtml(text));
   return code ? `<code>${safe}</code>` : safe;
 }
 
@@ -1273,6 +1324,7 @@ function showNodeDetail(id) {
   }
 
   document.getElementById("detail-content").innerHTML = html;
+  typesetMath(document.getElementById("detail-content"));
 }
 
 function renderCritList() {
