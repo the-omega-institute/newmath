@@ -147,6 +147,39 @@ by $\NameCert_{\PolicyUp}$, without adding host MDP, optimizer, utility, or
 external policy data.
 \end{proof}
 
+\begin{theorem}[Policy kernel scope boundary]
+\label{thm:policy-kernel-scope-boundary}
+The five local obligations of $\NameCert_{\PolicyUp}$ are scoped exactly to
+the finite $\mathsf{BHist}$ action-ledger carrier of
+\autoref{def:policy-action-ledger-carrier}, the four dependency certificates
+$\NameCert_{\BeliefUp}$, $\NameCert_{\MarkovChainUp}$,
+$\NameCert_{\RandomVarUp}$, and $\NameCert_{\EstimatorUp}$, and the displayed
+$\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows. No host Markov decision process,
+optimizer, utility function, external policy object, hidden state space, or
+unlogged action source is readable by those obligations.
+\end{theorem}
+\begin{proof}
+Start from the action-ledger carrier of
+\autoref{def:policy-action-ledger-carrier}. Its rows are the finite
+$\mathsf{BHist}$ ledger, the four dependency certificate rows, the visible
+$\hsame$ transport rows, the $\Cont$ provenance rows, and the $\mathsf{Pkg}$
+source rows.
+
+The source side is bounded by
+\autoref{thm:policy-tastegate-source-scope}. The classifier and transported
+carrier reads are bounded by
+\autoref{thm:policy-local-action-transport} and
+\autoref{thm:policy-action-classifier-stability}. The selected-action
+provenance is bounded by
+\autoref{thm:policy-visible-cont-provenance-coverage}.
+
+Finally, \autoref{thm:policy-namecert-obligation-surface} says that these are
+exactly the five local obligations named by $\NameCert_{\PolicyUp}$. Since
+each source, classifier, transport, and ledger read has already been accounted
+for by the listed rows, no host MDP, optimizer, utility, external policy
+object, hidden state space, or unlogged action source is exposed.
+\end{proof}
+
 \begin{closurestatus}{\PolicyUp}
   \constructivestory{}
   \theoryclosure{\obligationClosure}
