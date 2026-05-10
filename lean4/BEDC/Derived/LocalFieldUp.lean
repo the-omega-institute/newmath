@@ -57,4 +57,26 @@ theorem LocalFieldValuationClassifier_stability [AskSetup] [PackageSetup]
       carrier.right.right.right.right.left, endpointRow', ledgerRow', provenanceRow', pkgSig'⟩,
       sameEndpoint, sameLedger, sameProvenance⟩
 
+theorem LocalFieldValuedBHistCarrier_residue_ledger_exactness [AskSetup] [PackageSetup]
+    {field valuation residue unit completeness endpoint ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocalFieldValuedBHistCarrier field valuation residue unit completeness endpoint ledger
+        provenance bundle pkg ->
+      UnaryHistory residue ∧ UnaryHistory unit ∧ UnaryHistory ledger ∧
+        UnaryHistory provenance ∧ hsame ledger (append residue unit) ∧
+          hsame provenance (append endpoint ledger) ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed
+      (unary_cont_closed carrier.left carrier.right.left carrier.right.right.right.right.right.left)
+      ledgerUnary carrier.right.right.right.right.right.right.right.left
+  exact
+    ⟨carrier.right.right.left, carrier.right.right.right.left, ledgerUnary, provenanceUnary,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.LocalFieldUp
