@@ -722,6 +722,7 @@ import BEDC.Derived.LatticeUp.DirectedBounds
 import BEDC.Derived.LatticeUp.MeetAbsorption
 import BEDC.Derived.LatticeUp.ModularComparison
 import BEDC.Derived.LatticeUp.Monotonicity
+import BEDC.Derived.LatticeUp.StdBridge
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
 import BEDC.Derived.RootSystemUp
 import BEDC.Derived.WeylGroupUp
