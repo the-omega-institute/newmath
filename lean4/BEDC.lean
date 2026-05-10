@@ -134,6 +134,7 @@ import BEDC.Derived.CurvatureUp.BundleFibreDependencyRow
 import BEDC.Derived.CurvatureUp.ConnectionDerivativeDependencyRow
 import BEDC.Derived.CurvatureUp.ExportDeterminacy
 import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
+import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
@@ -558,6 +559,7 @@ import BEDC.Derived.DiffFormUp.ExteriorInputRootClosure
 import BEDC.Derived.DiffFormUp.SemanticCertificate
 import BEDC.Derived.DiffFormUp.ZeroDegreeConsumerNeutrality
 import BEDC.Derived.DiffFormUp.ExteriorWedgeCommonRows
+import BEDC.Derived.DiffFormUp.DownstreamExteriorInput
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
