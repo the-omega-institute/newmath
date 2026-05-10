@@ -15774,3 +15774,51 @@ Rationale:
 Fills a clear companion gap in 201_newtoniteration_namecert_construction.tex: the carrier inductively allows finite list-of-steps but the existing three theorems only handle a single step row plus source/classifier transport. Concatenation-along-shared-endpoint is a textbook closure obligation downstream Banach fixed-point and contraction-mapping consumers will need. The landing file is short (56 lines), well below the 800 cap, and the proof is a clean induction on the BHist Cont ledger using hsame transport at the splice point. No BOARD entry covers this; not paraphrased by any existing concatenation/closure target (B-507 EnumPerm, B-505 Sheaf refinement) since they live in different chapters with different carriers.
 
 ---
+
+### B-622 - MarkovChain transition packet finite-prefix restriction is a MarkovChain carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MarkovChain transition packet finite-prefix restriction is a MarkovChain carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a finite MarkovChain BHist transition packet over a unary time ledger of length n+k is accepted by the MarkovChainUp carrier, then its restriction to the first n displayed time rows (with the first n+1 RandomVarUp rows, n DistributionUp law rows, n transition rows, and inherited Cont/Pkg provenance) is again an accepted MarkovChainUp carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/167_markovchain_namecert_construction.tex`
+
+Rationale:
+The MarkovChain carrier is inductive on a unary time ledger but the chapter exposes only kernel-classifier stability, transition-ledger exactness, source boundary, and obligation-surface theorems — no prefix-truncation closure. Future Martingale/Brownian-compatibility and hitting-time consumers need it. Distinct from B-511 Independence finite subfamily projection (different carrier: independence index family vs time ledger). Lands cleanly in the existing 167_markovchain file with a unary-ledger induction; the proof is structural, not deep.
+
+---
+
+### B-623 - MarkovChain transition packet end-to-end concatenation closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MarkovChain transition packet end-to-end concatenation closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If P1 is an accepted MarkovChainUp transition packet over time ledger of length n with terminal RandomVarUp row X_n and P2 is an accepted MarkovChainUp transition packet over time ledger of length m starting from a RandomVarUp row Y_0 with X_n hsame Y_0 over a shared ProbSpaceUp source, then their displayed concatenation along that shared endpoint is an accepted MarkovChainUp transition packet over a unary time ledger of length n+m.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/167_markovchain_namecert_construction.tex`
+
+Rationale:
+Strict companion to the prefix-restriction proposal but technically distinct (gluing along shared endpoint vs prefix truncation). Together they make MarkovChainUp carriers a true list-with-restriction-and-concatenation closure. The Newton concatenation candidate has the same proof skeleton in a different chapter, so this is a parallel, not duplicate, work item. No paper coverage of the gluing law and no BOARD dedup; the kernel-classifier-stability theorem alone is insufficient for downstream sub-chain construction. Codex_close-shaped: splice ledgers, reapply kernel classifier stability at the splice index.
+
+---
