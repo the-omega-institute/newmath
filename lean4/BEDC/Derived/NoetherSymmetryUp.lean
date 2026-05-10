@@ -255,6 +255,45 @@ theorem NoetherSymmetryConservationLedgerCarrier_finite_current_public_export
       exportCont,
       carrier.right.right.right.right.right.right.right.right⟩
 
+theorem NoetherSymmetryConservationLedgerCarrier_public_export [AskSetup] [PackageSetup]
+    {lieSource pdeSource field current lieLedger pdeLedger conservation endpoint
+      publicExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current lieLedger
+        pdeLedger conservation endpoint bundle pkg ->
+      Cont endpoint current publicExport ->
+        SemanticNameCert
+            (fun row : BHist =>
+              NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current
+                  lieLedger pdeLedger conservation endpoint bundle pkg ∧ hsame row endpoint)
+            (fun row : BHist =>
+              NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current
+                  lieLedger pdeLedger conservation endpoint bundle pkg ∧ hsame row endpoint)
+            (fun row : BHist =>
+              NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current
+                  lieLedger pdeLedger conservation endpoint bundle pkg ∧ hsame row endpoint)
+            hsame ∧
+          UnaryHistory lieLedger ∧ UnaryHistory pdeLedger ∧ UnaryHistory conservation ∧
+            UnaryHistory endpoint ∧ UnaryHistory publicExport ∧
+              hsame publicExport (append endpoint current) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier publicExportRow
+  have certAndPkg :=
+    NoetherSymmetryConservationLedgerCarrier_namecert_obligation_surface carrier
+  have sourceBoundary :=
+    NoetherSymmetryConservationLedgerCarrier_source_boundary carrier
+  have publicExportUnary : UnaryHistory publicExport :=
+    unary_cont_closed sourceBoundary.right.right.right.left carrier.right.right.right.left
+      publicExportRow
+  exact
+    ⟨certAndPkg.left,
+      sourceBoundary.left,
+      sourceBoundary.right.left,
+      sourceBoundary.right.right.left,
+      sourceBoundary.right.right.right.left,
+      publicExportUnary,
+      publicExportRow,
+      certAndPkg.right⟩
+
 theorem NoetherSymmetryConservationLedgerCarrier_finite_current_public_boundary
     [AskSetup] [PackageSetup]
     {lieSource pdeSource field current lieLedger pdeLedger conservation endpoint : BHist}
