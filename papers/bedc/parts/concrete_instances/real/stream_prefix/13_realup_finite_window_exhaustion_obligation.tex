@@ -235,6 +235,52 @@ and has no quotient, completion, $\mathsf{Classical}$ datum,
 metric-completeness certificate, or standard bridge to inspect.
 \end{proof}
 
+\begin{theorem}[RealUp finite-window feed reindexing stability]
+\label{thm:realup-finite-window-feed-reindexing-stability}
+Let $W$ be a selected finite $\RealUp$ observation window admitted through the
+$\StreamNameUp$ finite-window seal, and let $W'$ be obtained from $W$ by a
+certified unary $\StreamNameUp$ reindexer. Suppose the reindexer preserves the
+transported $\mathsf{RatStreamNameFiniteWindowClassifier}$ row at $W'$. Then
+the public feed read at $W'$ is the same feed read at $W$: the selected
+$\mathsf{UnaryHistory}$ observation, the $\mathsf{ProbeBundle}$ and
+$\mathsf{InBundle}$ rows of the window, the endpoint $\RatUp$ denominator package, the
+$\RegSeqRat$ handoff rows, the $\mathsf{DyadicRatCore}$ source rows, the
+displayed $\hsame$ ledger, and the finite $\mathsf{RealLedgerPolicy}$
+boundary.
+
+The feed comparison exports no quotient row, completion object, host
+$\mathsf{Nat}$ index, host function, metric-completeness certificate, or
+standard bridge claim.
+\end{theorem}
+\begin{proof}
+First transport the finite StreamName face. Apply
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} to move the
+selected unary observation and its $\hsame$ ledger along the certified unary
+reindexer. Then apply
+\autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage} to identify
+the transported finite-window classifier with exactly the reindexed observation
+rows and endpoint denominator package.
+
+Next pass from classifier transport to the RealUp feed boundary. By
+\autoref{thm:realup-finite-window-reindexed-classifier-transport}, the
+reindexed classifier row exposes the same finite seal ledger boundary as the
+source window, including the endpoint $\RatUp$ denominator rows,
+$\mathsf{DyadicRatCore}$ source rows, displayed $\hsame$ transport, and finite
+$\mathsf{RealLedgerPolicy}$ rows.
+
+The RegSeqRat source face is the same public feed. Apply
+\autoref{thm:realup-streamname-regseqrat-reindexed-ledger-handoff} to identify
+the selected StreamName rational rows with the $\RegSeqRat$ dyadic handoff
+rows read by the finite window.
+
+Finally use \autoref{thm:realup-finite-window-exhaustion-obligation}. Its
+boundary lists all carrier, classifier, source, and finite ledger rows admitted
+by the selected window, including the $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$
+entries. Since no admitted row is a quotient, completion, host index, host
+function, metric-completeness certificate, or standard bridge, the transported
+feed has exactly the same public surface and no additional exported datum.
+\end{proof}
+
 \begin{theorem}[RealUp StreamName reindexing composition boundary]
 \label{thm:realup-streamname-reindexing-composition-boundary}
 Let $W$ be a selected finite $\RealUp$ observation window admitted through the

@@ -115,6 +115,43 @@ $\emp$, giving the singleton result carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonMulContinuation\_result\_carrier\_iff}
 
+\begin{definition}[Matrix singleton entry projection package]
+\label{def:matrix-singleton-entry-projection-package}
+The matrix singleton entry projection package fixes the matrix carrier to
+$A_{\emp}$, fixes the matrix classifier to $\rho_{\emp}$, and reads the
+displayed row and column dimensions from the $\NatUp$ rows already carried by
+the singleton matrix instance. Its entry projection operation sends every
+carried unary row to the $\mathsf{BHist}$ endpoint $\emp$.
+\end{definition}
+
+\begin{theorem}[Matrix singleton entry projection laws]
+\label{thm:matrix-singleton-entry-projection-laws}
+In the matrix singleton entry projection package, every projected entry of a
+carried singleton matrix is carried by $A_{\emp}$. Projected entries are stable
+under $\rho_{\emp}$ and under the displayed $\hsame$ ledger. Moreover, the
+projected entries of the displayed singleton addition result and of the
+displayed singleton multiplication result are classified with $\emp$.
+\end{theorem}
+\begin{proof}
+Unfold the package. The carrier is $A_{\emp}$, the classifier is
+$\rho_{\emp}$, and every entry projection is the constant endpoint $\emp$ on
+the carried unary rows. Hence each projected entry is immediately an
+$A_{\emp}$ entry and is related to the singleton endpoint by $\rho_{\emp}$.
+
+For stability, use the definition of $\rho_{\emp}$ together with the displayed
+$\hsame$ ledger. Transporting a carried singleton matrix along $\rho_{\emp}$
+keeps the projected endpoint equal to $\emp$, so the projected entry remains in
+the same singleton classifier row.
+
+For the displayed addition and multiplication results, apply
+\autoref{thm:matrix-singleton-addmul-continuation-result-iff},
+\autoref{thm:matrix-singleton-addmul-continuation-empty-result-factors}, and
+\autoref{thm:matrix-singleton-mul-continuation-result-carrier}. The local
+continuation laws identify the result endpoints with $A_{\emp}$, and the
+constant entry projection classifies their projected entries with $\emp$. No
+function-space carrier or $\mathsf{Fin}$-indexed matrix carrier is introduced.
+\end{proof}
+
 \begin{theorem}[Matrix singleton add-mul visible-left continuation result nonempty]
 \label{thm:matrix-singleton-addmul-visible-left-continuation-result-nonempty}
 For any histories $m,N,R$, if the shared left input of the displayed singleton
