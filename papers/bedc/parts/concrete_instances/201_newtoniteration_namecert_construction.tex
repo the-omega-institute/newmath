@@ -51,6 +51,8 @@ Next transport the displayed step data. The source point and next-step rows use 
 \label{thm:newtoniteration-obligation-package}
 The $\NewtonIterationUp$ chapter exports a finite obligation package consisting of the step carrier, the contraction classifier, the derivative and Banach source certificates, and ledger exactness for the displayed Newton step row. It does not claim convergence or completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.NewtonIterationUp.NewtonIterationBHistCarrier\_semantic\_name\_certificate}
+\leanchecked{BEDC.Derived.NewtonIterationUp.NewtonIterationCarrier\_obligation\_package}
 \begin{proof}
 Build the package from a carried step row and a classifier witness. The carrier supplies the source point, derivative answer, inverse-row witness, next-step answer, and the $\Cont$ rows placing them under the two source certificates.
 
@@ -89,6 +91,32 @@ Now concatenate the two finite ledgers by the displayed continuation row $\Cont(
 The internal $\Cont$ witnesses remain valid after concatenation. Where a witness is wholly inside one segment, it is inherited from the corresponding accepted carrier row. Where a witness crosses the displayed grouping of the two ledgers, \autoref{thm:continuation-associativity} identifies the two possible groupings up to $\hsame$, and continuation result transport repacks the same finite history as $\Lambda_{12}$. Thus every derivative-source and Banach-source containment row required by the carrier definition is present in the concatenated display.
 
 Finally apply the finite-concatenation generator in the classifier of \autoref{def:newtoniteration-contraction-classifier}. It classifies the two accepted displayed step rows, after the splice transport, as one accepted finite Newton-iteration row. Repacking these fields gives $R_{12}$ with source point $x_0$, next-step answer $x_2$, and finite step ledger $\Lambda_{12}$, as claimed.
+\end{proof}
+\leanchecked{BEDC.Derived.NewtonIterationUp.NewtonIterationBHistCarrier\_finite\_step\_concatenation\_closure}
+\leanvariant{BEDC.Derived.NewtonIterationUp.NewtonIterationBHistCarrier\_finite\_step\_ledger\_concat\_closure}
+
+\begin{theorem}[Newton-iteration splice source determinacy]
+\label{thm:newtoniteration-splice-source-determinacy}
+Let $R_{12}$ and $R'_{12}$ be accepted concatenated $\NewtonIterationUp$ carrier rows over the same $\NameCert_{\DerivativeUp}$ source row $D$, the same $\NameCert_{\BanachUp}$ source row $B$, the same initial endpoint $x_0$, the same final endpoint $x_2$, and the same displayed splice witness $\sigma:\hsame(x_1,y_1)$. Suppose their concatenation ledgers $\Lambda_{12}$ and $\Lambda'_{12}$ are related by $\hsame$ and arise from displayed continuation rows
+$$
+\Cont(\Lambda_1,\Lambda_2,\Lambda_{12})
+\qquad\text{and}\qquad
+\Cont(\Lambda'_1,\Lambda'_2,\Lambda'_{12})
+$$
+whose two segments are accepted Newton step ledgers over $D$ and $B$.
+
+Then $R_{12}$ and $R'_{12}$ have the same source-boundary projection. Their derivative source is $D$, their Banach source is $B$, their inverse-row subledger lists are read as the same displayed finite lists up to the $\hsame$ transport of the concatenation ledgers, their next-step endpoint is $x_2$, and their finite ledger provenance is classified by the Newton-iteration contraction classifier of \autoref{def:newtoniteration-contraction-classifier}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:newtoniteration-finite-step-concatenation-closure} to both displayed concatenations. Each accepted concatenated row is therefore obtained by repacking the same derivative source $D$, the same Banach source $B$, the same initial endpoint $x_0$, the same final endpoint $x_2$, and the same splice comparison $\sigma$ into the carrier of \autoref{def:newtoniteration-bhist-carrier}.
+
+The carrier definition exposes no hidden source boundary. Its source projection consists only of the derivative source, the Banach source, the inverse-row answer histories, the next-step endpoint, and the finite $\Cont$ provenance attached to those rows. Thus two rows with the same displayed sources and endpoints can differ at the source boundary only by the listed ledger rows.
+
+Use the hypothesis $\hsame(\Lambda_{12},\Lambda'_{12})$ to transport the continuation result. The continuation result transport repacks the $\Cont$ witnesses for the two displayed concatenations into the same finite history boundary, and \autoref{thm:newtoniteration-step-stability} transports the segment data through the shared splice witness $\sigma$.
+
+Finally read the transported rows through the classifier of \autoref{def:newtoniteration-contraction-classifier}. Its generators identify derivative-source transport, Banach-source transport, inverse-row transport, next-step history transport, and finite concatenation, so the derivative source, Banach source, inverse-row subledger list, next-step endpoint, and finite ledger provenance have the same classified source-boundary projection.
+
+No convergence datum, completeness datum, contraction radius, or analytic Newton theorem is introduced in this comparison. The statement is only a determinacy result for the finite $\mathsf{BHist}$ source boundary already present in the accepted carrier rows.
 \end{proof}
 
 \begin{theorem}[Newton-iteration finite-prefix restriction carrier]

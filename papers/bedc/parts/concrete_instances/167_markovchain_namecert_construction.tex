@@ -44,6 +44,7 @@ No constructor in the carrier produces a filtration, a conditional-expectation o
 \label{thm:markovchain-probspace-randomvar-source-boundary}
 The $\MarkovChainUp$ source boundary is the joint BEDC packet consisting of the underlying $\ProbSpaceUp$ event-and-measure rows, the time-indexed $\RandomVarUp$ measurable-preimage rows, and the $\DistributionUp$ pushforward rows for the laws of the displayed random variables. Every transition row in an accepted carrier must read its source event through that packet, and no transition row may replace it with an external probability space, external random variable, or host distribution object.
 \end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_semantic\_source\_boundary}
 \begin{proof}
 Project the source field of the ten-field template. The probability-space source is the displayed $\ProbSpaceUp$ packet, and every random-variable row is carried over that same source packet.
 
@@ -51,13 +52,15 @@ Next project the law rows through $\DistributionUp$. Each law endpoint is a push
 
 The transition row may consume those source, random-variable, and law rows through $\Cont$ and $\Pkg$ provenance only. This gives the stated boundary and excludes host probability spaces, host random variables, and host distribution objects.
 \end{proof}
-\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier\_probspace\_randomvar\_source\_boundary}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier\_source\_boundary}
+\leanvariant{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier\_probspace\_randomvar\_source\_boundary}
 
 \begin{theorem}[MarkovChain NameCert obligation surface]
 \label{thm:markovchain-namecert-obligation-surface}
 The local $\NameCert_{\MarkovChainUp}$ obligation surface is the transition carrier of \autoref{def:markovchain-bhist-transition-carrier}, the componentwise kernel classifier of \autoref{thm:markovchain-kernel-classifier-stability}, the transition ledger exactness row of \autoref{thm:markovchain-transition-ledger-exactness}, and the probability-random-variable source boundary of \autoref{thm:markovchain-probspace-randomvar-source-boundary}. The surface names only $\mathsf{BHist}$ rows, $\hsame$ comparisons, $\Cont$ transition displays, and $\Pkg$ provenance over $\ProbSpaceUp$, $\RandomVarUp$, and $\DistributionUp$ dependency certificates.
 \end{theorem}
-\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionCarrier\_semantic\_name\_certificate}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionLedgerSurface\_semantic\_name\_certificate}
+\leanvariant{BEDC.Derived.MarkovChainUp.MarkovChainTransitionCarrier\_semantic\_name\_certificate}
 \begin{proof}
 Assemble the obligation surface by the roadmap ten-field template. The traditional target is a discrete-time Markov chain; the BEDC source is the probability-space, random-variable, and distribution dependency packet; the carrier is the finite transition packet.
 
@@ -70,6 +73,7 @@ The source-boundary field is \autoref{thm:markovchain-probspace-randomvar-source
 \label{thm:markovchain-scoped-kernel-dependency-package}
 The $\NameCert_{\MarkovChainUp}$ obligation surface of \autoref{thm:markovchain-namecert-obligation-surface} is scoped exactly by the $\ProbSpaceUp$, $\RandomVarUp$, and $\DistributionUp$ dependency certificates, the finite unary time ledger, the transition rows $K_n$, $\mathsf{BHist}$ rows, $\hsame$ comparisons, $\Cont$ displays, and $\mathsf{Pkg}$ provenance. No filtration, conditional-expectation primitive, host stochastic process, or standard Markov kernel is read by this scoped package.
 \end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_dependency\_unary\_closure}
 \leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainKernelClassifier\_endpoint\_confluence}
 \begin{proof}
 Project the carrier row from \autoref{def:markovchain-bhist-transition-carrier}. Its constructors expose only the source probability-space packet, the carried random-variable rows, the law rows, the unary time ledger, transition rows, and the displayed provenance.
@@ -235,6 +239,7 @@ By \autoref{thm:markovchain-kernel-classifier-stability}, this componentwise tra
 
 The time ledger is finite and unary because $T_1$ and $T_2$ are unary and the displayed continuation row $\Cont(T_1,T_2,T_{12})$ is the finite BEDC concatenation of those two ledgers. The transition provenance ledgers concatenate in the same order: rows internal to $P_1$ and $P_2$ are inherited, and the single boundary row is the transported splice row just constructed. The carrier definition asks for no host stochastic process, filtration, conditional expectation, or standard kernel bridge; it asks only for these displayed random-variable rows, law rows, transition rows, and $\hsame/\Cont/\Pkg$ provenance. Hence the assembled packet satisfies the accepted $\MarkovChainUp$ carrier predicate over the unary ledger $T_{12}$ of length $n+m$.
 \end{proof}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_splice\_transport\_closure}
 
 \begin{definition}[MarkovChain finite-suffix restriction]
 \label{def:markovchain-finite-suffix-restriction}
