@@ -62,6 +62,25 @@ instance beliefChapterTasteGate : ChapterTasteGate BeliefUp where
       | empty => simp [BHistCarrier.toEventFlow, beliefToEventFlow] at heq
       | observed => exact hxy rfl
 
+theorem BeliefTasteGate_carrier_recognition :
+    BHistCarrier.toEventFlow BeliefUp.empty = [] ∧
+      BHistCarrier.toEventFlow BeliefUp.observed = [[BMark.b1]] ∧
+        beliefFromEventFlow [] = some BeliefUp.empty ∧
+          beliefFromEventFlow [[BMark.b1]] = some BeliefUp.observed ∧
+            (forall x : BeliefUp, beliefFromEventFlow (BHistCarrier.toEventFlow x) = some x) := by
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · constructor
+        · rfl
+        · intro x
+          cases x with
+          | empty => rfl
+          | observed => rfl
+
 /-- Public alias matching the audit-gate marker
 `BEDC.Derived.BeliefUp.taste_gate`. -/
 def taste_gate : ChapterTasteGate BeliefUp := beliefChapterTasteGate
