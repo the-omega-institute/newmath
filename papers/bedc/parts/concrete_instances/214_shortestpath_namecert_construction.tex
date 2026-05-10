@@ -84,6 +84,80 @@ no ambient choice principle, host-vertex ordering, infinite process, or
 completed real object.
 \end{proof}
 
+\begin{definition}[Shortest-path relaxation ledger carrier]
+\label{def:shortestpath-relaxation-ledger-carrier}
+A $\ShortestPathUp$ relaxation ledger carrier is a finite $\mathsf{BHist}$
+packet over the weighted-graph carrier of
+\autoref{def:shortestpath-bhist-weighted-graph-carrier}. Its displayed rows
+are the $\GraphUp$ vertex and edge rows, nonnegative $\RealUp$ edge-weight
+rows, before-and-after path-weight rows, predecessor rows, visible $\Cont$
+relaxation rows, the $\hsame$ comparisons recording the transported packet
+equalities, and the $\Pkg$ provenance tying the relaxation ledger to the named
+graph and weight packet.
+
+The carrier records only finite relaxation evidence. It does not contain a
+host minimizer, a hidden vertex order, an infinite relaxation stream, or a
+completed metric assumption.
+\end{definition}
+
+\begin{theorem}[Shortest-path relaxation continuation closure]
+\label{thm:shortestpath-relaxation-cont-closure}
+Let a $\ShortestPathUp$ weighted-graph carrier display finite vertex rows,
+edge rows, nonnegative $\RealUp$ weight rows, endpoint rows, and path-ledger
+rows. If a transported relaxation packet also displays the before-and-after
+path-weight rows, predecessor rows, visible $\Cont$ relaxation rows, matching
+$\hsame$ comparisons, and the same $\Pkg$ provenance, then those rows repack
+as an accepted relaxation ledger carrier over the same weighted graph.
+\end{theorem}
+\begin{proof}
+Project the weighted-graph carrier rows. They give the finite vertex, edge,
+weight, endpoint, path-ledger, and provenance rows named in
+\autoref{def:shortestpath-bhist-weighted-graph-carrier}.
+
+Next read the transported relaxation packet. Its visible $\Cont$ rows produce
+the before-and-after path-weight rows and the predecessor rows, while the
+$\hsame$ comparisons identify the transported packets with the displayed
+source graph and weight rows.
+
+The required carrier is obtained by repacking exactly these projected and
+transported rows into
+\autoref{def:shortestpath-relaxation-ledger-carrier}. The $\Pkg$ provenance is
+unchanged, so the relaxation ledger remains attached to the original
+weighted-graph packet.
+\end{proof}
+
+\begin{theorem}[Shortest-path visible relaxation NameCert surface]
+\label{thm:shortestpath-visible-relaxation-namecert-surface}
+The visible path ledger of
+\autoref{thm:shortestpath-visible-path-ledger} together with an accepted
+relaxation ledger carrier of
+\autoref{def:shortestpath-relaxation-ledger-carrier} supplies the finite
+$\NameCert_{\ShortestPathUp}$ surface for displayed Dijkstra or Bellman-Ford
+readback. The surface consists of endpoint visibility, edge-incidence
+visibility, nonnegative weight visibility, finite before-and-after
+path-weight comparisons, predecessor visibility, relaxation $\Cont$ rows,
+$\hsame$ transport comparisons, and $\Pkg$ provenance.
+
+It does not expose a host minimization principle, a hidden vertex order, an
+infinite relaxation process, or a completed metric-space assumption.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:shortestpath-visible-path-ledger} to obtain the endpoint,
+incidence, nonnegative weight, path-ledger, and provenance rows from the
+visible path certificate.
+
+Apply \autoref{thm:shortestpath-relaxation-cont-closure} to the transported
+relaxation rows. This supplies the finite before-and-after path-weight rows,
+predecessor rows, visible $\Cont$ relaxation rows, and $\hsame$ transport
+comparisons over the same weighted graph.
+
+Combining the two finite ledgers gives exactly the displayed
+$\NameCert_{\ShortestPathUp}$ surface. Since neither carrier has a generator
+for host minimizers, hidden vertex orderings, infinite relaxation streams, or
+completed metric objects, none of those assumptions is part of the certificate
+surface.
+\end{proof}
+
 \begin{theorem}[Shortest-path finite edge exhaustion]
 \label{thm:shortestpath-finite-edge-exhaustion}
 Every accepted $\ShortestPathUp$ path-ledger step is exhausted by visible
