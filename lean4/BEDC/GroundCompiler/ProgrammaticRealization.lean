@@ -284,4 +284,55 @@ theorem vm_realizes_p5_p8 :
           · exact structural_hidden_not_formal StructuralHiddenInput.hostChapterPkg
           · exact structural_hidden_not_formal StructuralHiddenInput.hostManifest
 
+structure CertificateCheckerLayer where
+  checksNameCert : EventFlow -> Prop
+  checksDerivCert : EventFlow -> Prop
+  checksAcceptGate : EventFlow -> Prop
+  checksTheoremProof : EventFlow -> Prop
+  checksChapterManuscript : EventFlow -> Prop
+  checksCompilerGlobal : EventFlow -> Prop
+
+inductive CheckerLayerArtifact : Type where
+  | hostChecker (L : CertificateCheckerLayer)
+  | certificateFlow (C : EventFlow)
+  | proofFlow (P : EventFlow)
+  | acceptedObjectFlow (S : EventFlow)
+  | theoremFlow (T : EventFlow)
+
+inductive FormalCheckerEvidence : CheckerLayerArtifact -> Prop where
+  | certificateFlow (C : EventFlow) :
+      FormalCompilerInput (CompilerDatum.eventFlow C) ->
+        FormalCheckerEvidence (CheckerLayerArtifact.certificateFlow C)
+  | proofFlow (P : EventFlow) :
+      FormalCompilerInput (CompilerDatum.eventFlow P) ->
+        FormalCheckerEvidence (CheckerLayerArtifact.proofFlow P)
+  | acceptedObjectFlow (S : EventFlow) :
+      AcceptedObjectFlow S ->
+        FormalCheckerEvidence (CheckerLayerArtifact.acceptedObjectFlow S)
+  | theoremFlow (T : EventFlow) :
+      RecognizedTheoremFlow T ->
+        FormalCheckerEvidence (CheckerLayerArtifact.theoremFlow T)
+
+theorem checker_program_not_certificate_evidence
+    (L : CertificateCheckerLayer) :
+    Not (FormalCheckerEvidence (CheckerLayerArtifact.hostChecker L)) := by
+  intro h
+  cases h
+
+inductive ProgramAcceptedEmission : EventFlow -> Prop where
+  | objectCode {S : EventFlow} :
+      AcceptedObjectFlow S -> ProgramAcceptedEmission S
+  | theoremCode {T : EventFlow} :
+      RecognizedTheoremFlow T -> ProgramAcceptedEmission T
+
+theorem acceptance_certificate_mediated {S : EventFlow} :
+    ProgramAcceptedEmission S ->
+      AcceptedObjectFlow S \/ RecognizedTheoremFlow S := by
+  intro h
+  cases h with
+  | objectCode hObj =>
+      exact Or.inl hObj
+  | theoremCode hThm =>
+      exact Or.inr hThm
+
 end BEDC.GroundCompiler.ProgrammaticRealization

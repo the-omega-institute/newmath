@@ -169,6 +169,7 @@ $P_5$ requires package-flow and NameCert-flow recognition; $P_6$ requires streng
 
 \begin{definition}[Certificate checker layer]
 \label{def:programmatic-certificate-checker-layer}
+\leandef{BEDC.GroundCompiler.ProgrammaticRealization.CertificateCheckerLayer}
 The certificate checker layer is the executable layer that checks recognized certificate flows and proof-checker flows. It covers:
 \begin{enumerate}
 \item package and NameCert field completeness;
@@ -182,11 +183,13 @@ The certificate checker layer is the executable layer that checks recognized cer
 
 \begin{principle}[Programs check certificates; they do not replace them]
 \label{prin:programmatic-programs-check-certificates}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.checker\_program\_not\_certificate\_evidence}
 An executable checker may verify a certificate-flow or proof-flow, but it may not replace the certificate-flow or proof-flow. In particular, successful host computation is not the same judgment as recognized proof-flow, recognized DerivCert-flow, recognized AcceptGate-flow, or recognized theorem-flow.
 \end{principle}
 
 \begin{proposition}[Acceptance is certificate-mediated in programs]
 \label{prop:programmatic-acceptance-certificate-mediated}
+\leanchecked{BEDC.GroundCompiler.ProgrammaticRealization.acceptance\_certificate\_mediated}
 In a programmatic realization, accepted object code and accepted theorem code can be emitted only from recognized acceptance or theorem flows satisfying their certificate and proof obligations.
 \end{proposition}
 
