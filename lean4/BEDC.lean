@@ -95,6 +95,7 @@ import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
+import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
