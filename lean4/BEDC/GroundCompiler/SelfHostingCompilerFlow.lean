@@ -542,6 +542,34 @@ def P9BehaviorEquivalent
     (behavior : CompilerBehaviorRelation) (C' C : EventFlow) : Prop :=
   CompilerBehaviorClassifier behavior C' C
 
+theorem p9_behavior_equivalence_not_raw_equality :
+    exists behavior : CompilerBehaviorRelation,
+      exists C C' : EventFlow,
+        P9BehaviorEquivalent behavior C' C /\ Not (C' = C) := by
+  refine
+    ⟨(fun _ _ _ => FormalCompilerInput (CompilerDatum.eventFlow [])),
+      [], [[BMark.b0]], ?_, ?_⟩
+  · exact
+      ⟨⟨[], [], FormalCompilerInput.recognizedFlow [] [],
+          FormalCompilerInput.eventFlow []⟩,
+        ⟨[], [], FormalCompilerInput.recognizedFlow [] [],
+          FormalCompilerInput.eventFlow [[BMark.b0]]⟩,
+        (fun _S _T h => h),
+        (fun _S _T h => h)⟩
+  · intro h
+    cases h
+
+theorem p9_self_hosting_behavior_level_stability
+    {behavior : CompilerBehaviorRelation} {C : EventFlow} :
+    SelfHostingCompilerFlow behavior C ->
+      exists C' : EventFlow, P9BehaviorEquivalent behavior C' C := by
+  intro hSelf
+  exact self_hosting_yields_behavior_classifier hSelf
+
+def P9SelfHostingCompiler
+    (behavior : CompilerBehaviorRelation) (C : EventFlow) : Prop :=
+  SelfHostingCompilerFlow behavior C
+
 theorem p9_formal_use_requires_complete_certificate
     {Compiles : CompilerBehaviorRelation}
     {C S T : EventFlow} :

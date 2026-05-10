@@ -284,15 +284,23 @@ This is a compiler-behavior classifier. It is not raw event-flow equality, not $
 
 \begin{proposition}[Behavior equivalence is weaker than raw equality]
 \label{prop:self-hosting-behavior-equivalence-weaker}
-Raw equality $C=C'$ usually permits $C\equiv_{\mathrm{comp}}C'$, but $C\equiv_{\mathrm{comp}}C'$ does not imply $C=C'$.
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.p9\_behavior\_equivalence\_not\_raw\_equality}
+There exist compiler-flow candidates $C$ and $C'$ and a compiler-behavior classifier such that
+$$
+  C'\equiv_{\mathrm{comp}}C
+  \qquad\text{and}\qquad
+  C'\neq C.
+$$
+Thus behavior equivalence is a behavior-level relation and is not raw event-flow equality.
 \end{proposition}
 
 \begin{proof}
-Raw equality gives identical behavior under the same interpretation. Conversely, different event flows may implement the same behavior with different internal proofs, ledgers, orderings, or implementation details. Behavior equivalence identifies behavior, not raw flow identity.
+Take two distinct certified event flows and a behavior relation that ignores raw compiler identity while preserving the same input-output behavior under both certified flows. The classifier records certificates and the two directional behavior implications. Since the two underlying event flows remain distinct, the behavior-equivalence judgment does not collapse to raw equality.
 \end{proof}
 
 \begin{corollary}[Self-hosting is behavior-level stability]
 \label{cor:self-hosting-behavior-level-stability}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.p9\_self\_hosting\_behavior\_level\_stability}
 Self-hosting proves $C'\equiv_{\mathrm{comp}}C$, not raw equality $C'=C$.
 \end{corollary}
 
@@ -301,6 +309,7 @@ Self-hosting proves $C'\equiv_{\mathrm{comp}}C$, not raw equality $C'=C$.
 
 \begin{definition}[Self-hosting compiler-flow]
 \label{def:self-hosting-p9-compiler-flow}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9SelfHostingCompiler}
 A compiler-flow $C$ is \emph{self-hosting} when there exist $C'$, a self-compilation flow $SC$, a behavior-equivalence flow, and a self-compilation ledger $L_{SC}$ such that:
 \begin{enumerate}
 \item $C$ is certified compiler-flow;
