@@ -56,6 +56,25 @@ theorem DirichletUnitHistoryCarrier_visible_unit_rows
               (And.intro readback.right.right.right.right.left
                 readback.right.right.right.right.right))))))
 
+theorem DirichletUnitHistoryCarrier_free_rank_witness_ledger
+    {source unit inverse law unitLedger lawLedger provenance rankWitness rankLedger : BHist} :
+    DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger provenance ->
+      UnaryHistory rankWitness ->
+        Cont provenance rankWitness rankLedger ->
+          UnaryHistory provenance ∧ UnaryHistory rankLedger ∧
+            hsame rankLedger (append provenance rankWitness) ∧
+              Cont unitLedger lawLedger provenance := by
+  intro carrier rankWitnessUnary rankLedgerRow
+  have readback :=
+    DirichletUnitHistoryCarrier_readback_obligation
+      (source := source) (unit := unit) (inverse := inverse) (law := law)
+      (unitLedger := unitLedger) (lawLedger := lawLedger) (provenance := provenance) carrier
+  have rankLedgerUnary : UnaryHistory rankLedger :=
+    unary_cont_closed readback.right.right.left rankWitnessUnary rankLedgerRow
+  exact And.intro readback.right.right.left
+    (And.intro rankLedgerUnary
+      (And.intro rankLedgerRow readback.right.right.right.right.right))
+
 theorem DirichletUnitHistoryCarrier_classifier_transport
     {source source' unit unit' inverse inverse' law law' unitLedger unitLedger'
       lawLedger lawLedger' provenance provenance' : BHist} :
@@ -92,5 +111,24 @@ theorem DirichletUnitHistoryCarrier_classifier_transport
             (And.intro targetUnitCont
               (And.intro targetLawCont targetProvenanceCont))))))
     (And.intro sameUnitLedger (And.intro sameLawLedger sameProvenance))
+
+theorem DirichletUnitHistoryCarrier_abgroup_dependency_obligation
+    {source unit inverse law unitLedger lawLedger provenance lawConsumer lawReadback : BHist} :
+    DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger provenance ->
+      UnaryHistory lawConsumer ->
+        Cont law lawConsumer lawReadback ->
+          UnaryHistory lawReadback ∧ hsame lawReadback (append law lawConsumer) ∧
+            UnaryHistory law ∧ Cont inverse law lawLedger ∧
+              Cont unitLedger lawLedger provenance := by
+  intro carrier consumerUnary readbackRow
+  have lawUnary : UnaryHistory law :=
+    carrier.right.right.right.left
+  have readbackUnary : UnaryHistory lawReadback :=
+    unary_cont_closed lawUnary consumerUnary readbackRow
+  exact And.intro readbackUnary
+    (And.intro readbackRow
+      (And.intro lawUnary
+        (And.intro carrier.right.right.right.right.right.left
+          carrier.right.right.right.right.right.right)))
 
 end BEDC.Derived.DirichletUnitUp

@@ -162,4 +162,27 @@ theorem DerivedFunctorExactTriangleBoundaryCarrier_connecting_morphism_readback
     (And.intro carrier.right.right.left
       (And.intro connectingRow spliceReadback))
 
+theorem DerivedFunctorExactTriangleBoundaryCarrier_long_exact_ledger_surface
+    {functor resolutionA resolutionB resolutionC homology degree resolvedA resolvedB resolvedC
+      endpointA endpointB endpointC boundary connecting splice : BHist} :
+    DerivedFunctorExactTriangleBoundaryCarrier functor resolutionA resolutionB resolutionC
+        homology degree resolvedA resolvedB resolvedC endpointA endpointB endpointC boundary ->
+      Cont endpointC boundary connecting ->
+        Cont connecting endpointA splice ->
+          DerivedFunctorCarrier functor resolutionA homology degree resolvedA endpointA ∧
+            DerivedFunctorCarrier functor resolutionB homology degree resolvedB endpointB ∧
+              DerivedFunctorCarrier functor resolutionC homology degree resolvedC endpointC ∧
+                hsame connecting (append endpointC boundary) ∧
+                  hsame splice (append (append endpointC boundary) endpointA) ∧
+                    UnaryHistory degree ∧ UnaryHistory boundary := by
+  intro carrier connectingRow spliceRow
+  have spliceReadback : hsame splice (append (append endpointC boundary) endpointA) :=
+    hsame_trans spliceRow (congrArg (fun h => append h endpointA) connectingRow)
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro connectingRow
+          (And.intro spliceReadback
+            (And.intro carrier.left.left carrier.right.right.right)))))
+
 end BEDC.Derived.DerivedFunctorUp

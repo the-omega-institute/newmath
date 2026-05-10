@@ -122,7 +122,6 @@ import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RecursiveFnUp
-import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
@@ -136,6 +135,7 @@ import BEDC.Derived.BilinFormUp.ObligationSurfaceEmptyLedger
 import BEDC.Derived.BilinFormUp.EmptyLedgerInversion
 import BEDC.Derived.BilinFormUp.SemanticNameCertificate
 import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
+import BEDC.Derived.BilinFormUp.ZeroLeftPairing
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.ChernWeilUp.NameCertObligationSurface
 import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
@@ -194,7 +194,6 @@ import BEDC.Derived.MarkovChainUp.FinitePrefixRestriction
 import BEDC.Derived.MarkovChainUp.FinitePrefix
 import BEDC.Derived.MarkovChainUp.FiniteSuffix
 import BEDC.Derived.NoetherSymmetryUp
-import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
@@ -274,14 +273,12 @@ import BEDC.Derived.ObservableUp.ObligationSurface
 import BEDC.Derived.ObservableUp.NameCertObligationSurface
 import BEDC.Derived.ObservableUp.SpectralStateSource
 import BEDC.Derived.ObservableUp.ExpectationInterface
+import BEDC.Derived.ObservableUp.ExpectationTransportReadback
 import BEDC.Derived.ObservableUp.PublicSurfaceBridgeBoundary
 import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PermutationUp
-import BEDC.Derived.RamseyUp
-import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.PolytopeUp
-import BEDC.Derived.PontryaginDualityUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.ProjectiveSpaceUp
@@ -324,6 +321,7 @@ import BEDC.Derived.SpinGroupUp.GroupInterfaceBoundary
 import BEDC.Derived.SpinGroupUp.EvenProductClassifierObligation
 import BEDC.Derived.SpinGroupUp.LiftParityLedger
 import BEDC.Derived.SpinGroupUp.ConjugationActionReadback
+import BEDC.Derived.SpinGroupUp.ConjugationActionLaws
 import BEDC.Derived.SpinGroupUp.DoubleCoverLedgerObligation
 import BEDC.Derived.SpinGroupUp.PublicBoundaryNoExtraRow
 import BEDC.Derived.SpinGroupUp.PinConsumerSourceExactness
@@ -357,7 +355,6 @@ import BEDC.Derived.MeasureUp
 import BEDC.Derived.MeasureUp.RootConsumer
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralTheoremUp
-import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.IntegralUp
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
@@ -368,7 +365,6 @@ import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
-import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.CondExpUp
 import BEDC.Derived.MartingaleUp
@@ -619,7 +615,6 @@ import BEDC.Derived.DiffFormUp.SemanticCertificate
 import BEDC.Derived.DiffFormUp.ZeroDegreeConsumerNeutrality
 import BEDC.Derived.DiffFormUp.ExteriorWedgeCommonRows
 import BEDC.Derived.DiffFormUp.DownstreamExteriorInput
-import BEDC.Derived.RamseyUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
@@ -791,6 +786,7 @@ import BEDC.Derived.ManifoldUp.ScopedBoundary
 import BEDC.Derived.ManifoldUp.StdBridge
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
+import BEDC.Derived.PolynomialUp.RawMulDistributivity
 import BEDC.Derived.PolynomialUp.StdBridge
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
