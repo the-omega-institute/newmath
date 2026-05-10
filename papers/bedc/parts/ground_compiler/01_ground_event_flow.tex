@@ -10,6 +10,7 @@ The chapter sits between \autoref{ch:closure-and-verification-discipline}, which
 
 \begin{definition}[Display alphabet]
 \label{def:ground-event-flow-display-alphabet}
+\leandef{BEDC.GroundCompiler.EventFlow.DisplayAlphabet}
 The \emph{display alphabet} is
 $$
   \Sigma \;:=\; \{\, 0, \, 1 \,\}.
@@ -30,6 +31,7 @@ The display convention sends each raw mark to a glyph for the purpose of writing
 
 \begin{definition}[Raw event]
 \label{def:ground-event-flow-raw-event}
+\leandef{BEDC.GroundCompiler.EventFlow.RawEvent}
 A \emph{raw event} is a finite display string $w \in \Sigma^{*}$. The set of raw events is
 $$
   \mathsf{RawEvent} \;:=\; \Sigma^{*}.
@@ -47,6 +49,7 @@ A raw event is a finite displayed string of glyphs. It is not a theorem, not a p
 
 \begin{definition}[Event flow]
 \label{def:ground-event-flow-event-flow}
+\leandef{BEDC.GroundCompiler.EventFlow.EventFlow}
 An \emph{event flow} is a finite ordered sequence of raw events
 $$
   S \;=\; (w_{0}, w_{1}, \ldots, w_{n-1}),
@@ -66,11 +69,13 @@ which denotes $(0, 00, 000, 01, 011, 100)$.
 
 \begin{definition}[Event boundary]
 \label{def:ground-event-flow-event-boundary}
+\leandef{BEDC.GroundCompiler.EventFlow.EventBoundary}
 An \emph{event boundary} is the separation between two consecutive raw events in an event flow. The event boundary is part of the generated event-flow datum and is not recoverable from the concatenation of glyphs alone. Two event flows $(0, 00, 000)$ and $(00, 0000)$ are distinct elements of $\mathsf{EventFlow}$ even though both display the concatenated glyph string $000000$ if their boundaries are erased.
 \end{definition}
 
 \begin{proposition}[Bare bitstreams do not determine event flows]
 \label{prop:ground-event-flow-erasure-not-injective}
+\leanchecked{BEDC.GroundCompiler.EventFlow.erase\_not\_injective}
 The boundary-erasure map
 $$
   \mathrm{erase} \colon \mathsf{EventFlow} \longrightarrow \Sigma^{*},
@@ -90,6 +95,7 @@ Both event flows erase to the same bare string $000000$. As event flows they dif
 
 \begin{corollary}[A compiler input cannot be a bare bitstream]
 \label{cor:ground-event-flow-input-not-bare-bitstream}
+\leanchecked{BEDC.GroundCompiler.EventFlow.input\_not\_bare\_bitstream}
 If the formal input to the compiler were a bare bitstream $b \in \Sigma^{*}$, then the event segmentation that re-establishes the underlying event flow would have to be supplied externally, contradicting the no-hidden-input discipline of \autoref{prin:ground-event-flow-no-hidden-input}. Therefore the first formal input layer is $\mathsf{EventFlow}$, not $\Sigma^{*}$.
 \end{corollary}
 
@@ -98,6 +104,7 @@ If the formal input to the compiler were a bare bitstream $b \in \Sigma^{*}$, th
 
 \begin{principle}[No hidden structural input]
 \label{prin:ground-event-flow-no-hidden-input}
+\leanchecked{BEDC.GroundCompiler.EventFlow.structural\_hidden\_not\_formal}
 The compiler admits no formal input other than event flows. In particular, none of the following is a formal compiler input:
 $$
   \Pkg, \quad
@@ -125,6 +132,7 @@ If any such structure is to participate in compilation, it must first appear as 
 
 \begin{definition}[Generated recognizer]
 \label{def:ground-event-flow-generated-recognizer}
+\leandef{BEDC.GroundCompiler.EventFlow.GeneratedRecognizer}
 A \emph{generated recognizer} is itself an event flow:
 $$
   R \in \mathsf{EventFlow}.
@@ -134,6 +142,7 @@ A generated recognizer is not a host parser, host function, schema, or AST const
 
 \begin{definition}[Recognized package flow]
 \label{def:ground-event-flow-recognized-package-flow}
+\leandef{BEDC.GroundCompiler.EventFlow.RecognizedPackageFlow}
 A \emph{recognized package flow} is an event flow $S \in \mathsf{EventFlow}$ for which there exists a generated recognizer $R$ such that
 $$
   \mathsf{RecognizesPkg}(R, S)
@@ -143,6 +152,7 @@ holds. The relation $\mathsf{RecognizesPkg}$ is a kernel-level judgment between 
 
 \begin{proposition}[Package structure is not a primitive compiler input]
 \label{prop:ground-event-flow-package-not-primitive}
+\leanchecked{BEDC.GroundCompiler.EventFlow.package\_not\_primitive}
 There is no formal compiler map of the form $\Pkg \to \mathsf{Code}$. The only admissible form is
 $$
   \mathsf{EventFlow} \longrightarrow \mathsf{Code},
@@ -164,6 +174,7 @@ The discipline above is a strict instance of the typed naming certificate admiss
 
 \begin{definition}[Recognized $\NameCert$ flow]
 \label{def:ground-event-flow-recognized-namecert-flow}
+\leandef{BEDC.GroundCompiler.EventFlow.RecognizedNameCertFlow}
 A \emph{recognized $\NameCert$ flow} is an event flow $S$ for which a generated recognizer $R$ witnesses
 $$
   \mathsf{RecognizesNameCert}(R, S).
@@ -173,6 +184,7 @@ A recognized $\NameCert$ flow is later expected to contain, in recognized order,
 
 \begin{definition}[Recognized theorem flow]
 \label{def:ground-event-flow-recognized-theorem-flow}
+\leandef{BEDC.GroundCompiler.EventFlow.RecognizedTheoremFlow}
 A \emph{recognized theorem flow} is an event flow $S$ for which a generated recognizer $R$ witnesses
 $$
   \mathsf{RecognizesTheorem}(R, S).
@@ -182,6 +194,7 @@ A recognized theorem flow may be further recognized as containing event subflows
 
 \begin{definition}[Recognized compiler flow]
 \label{def:ground-event-flow-recognized-compiler-flow}
+\leandef{BEDC.GroundCompiler.EventFlow.RecognizedCompilerFlow}
 A \emph{recognized compiler flow} is an event flow $C$ that satisfies
 $$
   \mathsf{RecognizesCompiler}(C).
@@ -191,7 +204,8 @@ The compiler is therefore not a host-level object in the formal surface; it is e
 
 \begin{principle}[Self-hosting target]
 \label{prin:ground-event-flow-self-hosting-target}
-The long-term self-hosting target of the compilation discipline is the existence of a recognized compiler flow $C$ such that the compilation behavior represented by $C$ compiles compiler flows into behaviorally equivalent compiler flows. Behavioral equivalence is read through the compiler-behavior classifier of the recognized $\NameCert$ flow attached to $C$, never as host-level kernel equality. The self-hosting target is consistent with the abstract algebraic reading of \autoref{thm:compilation-as-namecert-morphism}: a self-hosting compiler is a $\NameCert$ endomorphism whose $\hsame$-preservation witness is itself a recognized event-flow datum.
+\leanchecked{BEDC.GroundCompiler.EventFlow.self\_hosting\_target\_recognized\_compiler}
+The self-hosting target of the compilation discipline is represented by an event flow $C$ equipped with a compiler-behavior relation $B$ on event flows such that $C$ is behaviorally equivalent to itself under $B$. This target datum necessarily includes the judgment that $C$ is a recognized compiler flow. Behavioral equivalence is read through the compiler-behavior classifier of the recognized $\NameCert$ flow attached to $C$, never as host-level kernel equality. The self-hosting target is consistent with the abstract algebraic reading of \autoref{thm:compilation-as-namecert-morphism}: a self-hosting compiler is a $\NameCert$ endomorphism whose $\hsame$-preservation witness is itself a recognized event-flow datum.
 \end{principle}
 
 \section{Accepted object flows and the ground theorem}
@@ -199,6 +213,7 @@ The long-term self-hosting target of the compilation discipline is the existence
 
 \begin{definition}[Accepted object flow]
 \label{def:ground-event-flow-accepted-object-flow}
+\leandef{BEDC.GroundCompiler.EventFlow.AcceptedObjectFlow}
 An \emph{accepted object flow} is not merely an event flow that the channel layer can encode and decode. It is an event flow whose recognized structure contains a recognized $\NameCert$ flow and a recognized $\ClosureCert$ flow that together witness $\TheoryGate(N, c)$ at some grade $c \in \TheoryClosure$, accompanied by an audited verification record that witnesses $\FormalStatus(N, v)$ at some grade $v$. The composite reading is the verification gate
 $$
   \VerifiedGate(N, c, v) \;:=\; \TheoryGate(N, c) \,\wedge\, \FormalStatus(N, v),
@@ -208,6 +223,7 @@ in the sense of \autoref{def:theory-gate} and the verification axis of \autoref{
 
 \begin{proposition}[Code existence does not imply acceptance]
 \label{prop:ground-event-flow-code-not-accept}
+\leanchecked{BEDC.GroundCompiler.EventFlow.code\_not\_acceptance}
 The existence of an event flow $S \in \mathsf{EventFlow}$ does not, by itself, imply that $S$ is an accepted object flow.
 \end{proposition}
 
@@ -217,11 +233,13 @@ Membership $S \in \mathsf{EventFlow}$ asserts only that $S$ is a finite ordered 
 
 \begin{corollary}[Accepted export requires recognized certificates]
 \label{cor:ground-event-flow-export-requires-cert}
+\leanchecked{BEDC.GroundCompiler.EventFlow.accepted\_export\_requires\_cert}
 If a compiled event flow is claimed to export a mature object $N$ at grades $(c, v)$, its recognized structure must include $\NameCert$ and $\ClosureCert$ flows sufficient for $\VerifiedGate(N, c, v)$. Without such recognition the compiled flow is only a raw event-flow display.
 \end{corollary}
 
 \begin{definition}[Structural hidden input]
 \label{def:ground-event-flow-structural-hidden-input}
+\leandef{BEDC.GroundCompiler.EventFlow.StructuralHiddenInput}
 A \emph{structural hidden input} is any datum used by the compiler, or by a downstream analysis governed by the compilation discipline, that is not present as a raw event in some event flow and not recognized from such a flow by a generated recognizer. Examples include:
 \begin{enumerate}
   \item a host AST that supplies node, edge, arity, and category data before event-flow recognition;
@@ -234,6 +252,7 @@ A \emph{structural hidden input} is any datum used by the compiler, or by a down
 
 \begin{theorem}[No-hidden-input ground theorem]
 \label{thm:ground-event-flow-no-hidden-input}
+\leanchecked{BEDC.GroundCompiler.EventFlow.no\_hidden\_input}
 Every formal datum used by the BEDC compiler occurs in exactly one of the following ways:
 \begin{enumerate}
   \item as a raw event $w \in \mathsf{RawEvent}$;
@@ -250,6 +269,7 @@ By \autoref{def:ground-event-flow-raw-event} and \autoref{def:ground-event-flow-
 
 \begin{corollary}[YAML is not a formal compiler input]
 \label{cor:ground-event-flow-yaml-not-input}
+\leanchecked{BEDC.GroundCompiler.EventFlow.yaml\_not\_input}
 A YAML or manifest file may be generated as a human-readable report of a decoded event flow, but it cannot serve as formal input to the compiler.
 \end{corollary}
 
@@ -259,6 +279,7 @@ A YAML file supplies package boundaries, field names, and structural roles exter
 
 \begin{corollary}[AST is not a formal compiler input]
 \label{cor:ground-event-flow-ast-not-input}
+\leanchecked{BEDC.GroundCompiler.EventFlow.ast\_not\_input}
 An AST may be reconstructed from a decoded event flow by a generated recognizer, but an AST may not be supplied as initial compiler input.
 \end{corollary}
 
@@ -329,6 +350,7 @@ The flow does not assert equality of the underlying histories, nor does it asser
 
 \begin{theorem}[Event-flow conservativity]
 \label{thm:ground-event-flow-conservativity}
+\leanchecked{BEDC.GroundCompiler.EventFlow.event\_flow\_conservativity}
 Adding the ground event-flow input layer does not add new BEDC kernel objects, new mark-sameness rules, new history-sameness rules, new $\ExtR$ or $\ContR$ rules, or new derived interfaces.
 \end{theorem}
 
@@ -338,6 +360,7 @@ The event-flow layer records only finite displayed occurrences of $0$ and $1$, i
 
 \begin{corollary}[Event-flow readability is weaker than theoremhood]
 \label{cor:ground-event-flow-readability-weaker-than-theoremhood}
+\leanchecked{BEDC.GroundCompiler.EventFlow.readability\_weaker\_than\_theoremhood}
 If a finite sequence is an event flow, it is readable by the compiler. Readability does not imply that the sequence is a theorem, a proof, a recognized package, a recognized $\NameCert$, or an accepted object flow.
 \end{corollary}
 
@@ -349,4 +372,3 @@ Readability asserts only $S \in \mathsf{EventFlow}$. Theoremhood requires a reco
 \label{rem:ground-event-flow-outlook}
 The next chapter fixes the channel-level encoding $\mathsf{Compile} \colon \mathsf{EventFlow} \to \Sigma^{*}$ that displays an event flow as a single self-delimiting bit string under the Zeckendorf-safe convention $\bzero \mapsto 0$, $\bone \mapsto 10$, and event boundary $\mapsto 11$, and proves that the resulting language is in bijection with $\mathsf{EventFlow}$. The source-level rewrite $011 \to 100$ of \autoref{ch:concrete-instances-zeckendorf-normal-namecert} is a classifier on recognized history flows, not a rewrite of channel-level bit strings; the next chapter records the layer separation explicitly.
 \end{remark}
-

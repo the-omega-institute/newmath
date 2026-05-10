@@ -12,6 +12,7 @@ The prototype encodes event flows, decodes legal channel streams, rejects illega
 
 \begin{definition}[Reference prototype]
 \label{def:minimal-prototype-reference}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.ReferencePrototype}
 A \emph{reference prototype} is an executable implementation $P_0$ whose formal capability is limited to
 $$
   \mathsf{Compile}:\mathsf{EventFlow}\to\mathsf{LegalZStream},
@@ -27,11 +28,13 @@ It is a channel-level prototype, not a full compiler.
 
 \begin{principle}[Prototype is not full compiler]
 \label{prin:minimal-prototype-not-full-compiler}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.reference\_prototype\_not\_full\_compiler}
 The reference prototype $P_0$ must not claim package recognition, name-certificate recognition, derivation-certificate recognition, acceptance-gate recognition, theorem recognition, chapter recognition, compiler self-hosting, motif analysis, metric analysis, or bridge discovery unless these functions are provided at a later prototype level with the required recognizer flows, certificate flows, or bootstrap obligations.
 \end{principle}
 
 \begin{definition}[Prototype level]
 \label{def:minimal-prototype-level}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.PrototypeLevel}
 Prototype levels are ordered as follows:
 \begin{center}
 \begin{tabular}{ll}
@@ -50,6 +53,7 @@ This chapter specifies $P_0$ and optional $P_1$ output views.
 
 \begin{definition}[Prototype input representations]
 \label{def:minimal-prototype-input-representations}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.PrototypeInputRepresentation}
 At implementation level, $P_0$ may accept two display representations:
 \begin{enumerate}
 \item an event-flow display, such as
@@ -77,6 +81,7 @@ is only a display of the event flow $(0,00,000)$.
 
 \begin{definition}[Prototype encoder]
 \label{def:minimal-prototype-encoder}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.PrototypeEncoder}
 The \emph{prototype encoder} is an implementation function from event-flow display to channel-stream display. If the input display parses as event flow $S$ and the output display is $c$, then it must implement the formal relation
 $$
   \mathsf{Compiles}(S,c),
@@ -86,6 +91,7 @@ equivalently $c=\mathsf{Compile}(S)$.
 
 \begin{definition}[Prototype decoder]
 \label{def:minimal-prototype-decoder}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.PrototypeDecoder}
 The \emph{prototype decoder} is an implementation function from channel-stream display to either event-flow display or a rejection report. If it returns success with event flow $S$ on channel stream $c$, then it must implement
 $$
   \mathsf{Decodes}(c,S).
@@ -95,6 +101,7 @@ If it rejects, it must return a rejection report.
 
 \begin{definition}[Reject report]
 \label{def:minimal-prototype-reject-report}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.RejectReport}
 A \emph{reject report} is an implementation-level output view recording why a channel stream is not accepted by the prototype. Typical rejection cases include dangling $1$, unfinished event, non-binary character, empty-input policy violation, resource-bound excess, and noncanonical display.
 
 The case ``dangling $1$'' means that the input ends with an isolated $1$ that cannot form $10$ or $11$. The case ``unfinished event'' means that an event body has not reached a terminator $11$. The case ``non-binary character'' means that the display contains a character other than $0$ or $1$.
@@ -102,6 +109,7 @@ The case ``dangling $1$'' means that the input ends with an isolated $1$ that ca
 
 \begin{principle}[Reject reports are output]
 \label{prin:minimal-prototype-reject-reports-output}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.reject\_reports\_output\_not\_formal\_input}
 Reject reports are output views. They are not formal proofs, name certificates, derivation certificates, theorems, chapters, or accepted objects.
 \end{principle}
 
@@ -110,6 +118,7 @@ Reject reports are output views. They are not formal proofs, name certificates, 
 
 \begin{definition}[Prototype event encoder]
 \label{def:minimal-prototype-event-encoder}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.PrototypeEventEncoder}
 For a raw event $w=w_1\cdots w_n$, the prototype event encoder outputs
 $$
   \mathsf{Ev}(w)=\zeta(w)11,
@@ -125,6 +134,7 @@ In implementation terms, each displayed $0$ contributes $0$, each displayed $1$ 
 
 \begin{definition}[Prototype flow encoder]
 \label{def:minimal-prototype-flow-encoder}
+\leandef{BEDC.GroundCompiler.ChannelEncoding.PrototypeFlowEncoder}
 For an event flow
 $$
   S=(w_0,\ldots,w_{n-1}),
@@ -182,6 +192,7 @@ $$
 
 \begin{definition}[Prototype stream decoder]
 \label{def:minimal-prototype-stream-decoder}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.PrototypeStreamDecoder}
 The prototype decoder scans channel bits left to right using:
 $$
   0\mapsto \text{append raw }0,
@@ -195,6 +206,7 @@ It rejects dangling $1$, unclosed event body under the chosen display policy, an
 
 \begin{definition}[Decoder state]
 \label{def:minimal-prototype-decoder-state}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.DecoderState}
 An implementation may use host-level decoder state containing current event bits, completed events, position, and rejection reason. These are implementation internals. Formal behavior is captured by the source-level relation $\mathsf{Decodes}(c,S)$.
 \end{definition}
 
@@ -233,6 +245,7 @@ The decoder reads $10$ as raw $1$, then $10$ as raw $1$, then $11$ as event term
 
 \begin{definition}[Required unit tests]
 \label{def:minimal-prototype-required-unit-tests}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.RequiredUnitTestVectors}
 The reference prototype must pass the following event-level encoding tests:
 $$
 \begin{array}{rcl}
@@ -252,6 +265,7 @@ $$
 
 \begin{definition}[Required round-trip tests]
 \label{def:minimal-prototype-required-roundtrip-tests}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.RequiredRoundTripTestVectors}
 The reference prototype must pass event round trips for
 $$
   \epsilon,\quad
@@ -283,6 +297,7 @@ $$
 
 \begin{definition}[Required reject tests]
 \label{def:minimal-prototype-required-reject-tests}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.RequiredRejectTestVectors}
 The reference prototype must reject, or explicitly classify by implementation policy, the displays
 $$
   1,\qquad
@@ -308,11 +323,13 @@ Rejecting the empty stream is therefore implementation-domain policy, not a chan
 
 \begin{definition}[Decode report]
 \label{def:minimal-prototype-decode-report}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.DecodeReport}
 A \emph{decode report} is human-readable output containing the input channel stream, legality status, decoded event flow when legal, event segmentation, rejection reason when illegal, and warnings. It is an output view, not a formal proof.
 \end{definition}
 
 \begin{definition}[Encode report]
 \label{def:minimal-prototype-encode-report}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.EncodeReport}
 An \emph{encode report} is human-readable output containing the input event-flow display, per-event encoding, final channel stream, round-trip check result, and warnings. It is an output view, not a formal proof.
 \end{definition}
 
@@ -348,6 +365,7 @@ The report must not assert $011=100$. If this pair is read as a carry, a source-
 
 \begin{principle}[Reports must include warnings]
 \label{prin:minimal-prototype-reports-warnings}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.reports\_must\_include\_warnings}
 When reports contain carry-looking pairs such as $011\mid 100$ or $0011\mid 0100$, they must warn that these are raw events, not equality claims. Any carry interpretation requires source-level recognizer and ledger.
 \end{principle}
 
@@ -356,6 +374,7 @@ When reports contain carry-looking pairs such as $011\mid 100$ or $0011\mid 0100
 
 \begin{theorem}[Prototype encoder soundness]
 \label{thm:minimal-prototype-encoder-soundness}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.prototype\_encoder\_soundness}
 If the reference prototype encodes event flow $S$ and returns channel stream $c$, then
 $$
   \mathsf{Compiles}(S,c).
@@ -368,6 +387,7 @@ By specification, the encoder applies $\mathsf{Ev}$ to each event and concatenat
 
 \begin{theorem}[Prototype decoder soundness]
 \label{thm:minimal-prototype-decoder-soundness}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.prototype\_decoder\_soundness}
 If the reference prototype decodes channel stream $c$ and returns event flow $S$, then
 $$
   \mathsf{Decodes}(c,S).
@@ -380,6 +400,7 @@ The decoder scans $c$ by the grammar $0$ for raw $0$, $10$ for raw $1$, and $11$
 
 \begin{theorem}[Prototype decoder completeness on legal streams]
 \label{thm:minimal-prototype-decoder-completeness}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.prototype\_decoder\_completeness\_on\_legal\_streams}
 If $c\in\mathsf{LegalZStream}$, then the reference decoder returns some event flow $S$ such that
 $$
   \mathsf{Decodes}(c,S).
@@ -392,11 +413,16 @@ A legal stream lies in $((0\mid 10)^{\ast}11)^{\ast}$, hence is a concatenation 
 
 \begin{theorem}[Prototype reject soundness]
 \label{thm:minimal-prototype-reject-soundness}
-If the reference decoder rejects $c$ with a syntactic reject reason, then
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.prototype\_reject\_soundness}
+If the reference decoder rejects $c$ with a syntactic reject reason, formally
+$$
+  \mathsf{PrototypeSyntacticReject}(c,r),
+$$
+then
 $$
   c\notin\mathsf{LegalZStream},
 $$
-unless the rejection reason is explicitly marked as implementation-domain policy.
+where implementation-domain policy reasons are not syntactic reject reasons.
 \end{theorem}
 
 \begin{proof}
@@ -405,6 +431,7 @@ Syntactic rejection records violation of the grammar $((0\mid 10)^{\ast}11)^{\as
 
 \begin{corollary}[Prototype round-trip correctness]
 \label{cor:minimal-prototype-roundtrip-correctness}
+\leanchecked{BEDC.GroundCompiler.ChannelEncoding.prototype\_roundtrip\_correctness}
 For every event flow $S$, decoding the prototype encoding of $S$ returns $S$. For every legal channel stream $c$, encoding the prototype decoding of $c$ returns $c$.
 \end{corollary}
 
@@ -417,6 +444,7 @@ This follows from encoder soundness, decoder soundness, decoder completeness on 
 
 \begin{theorem}[Reference prototype does not recognize mathematical structures]
 \label{thm:minimal-prototype-no-math-structure-recognition}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.reference\_prototype\_no\_math\_structure\_recognition}
 The reference prototype $P_0$ does not recognize package, name-certificate, derivation-certificate, theorem, chapter, motif, metric, or accepted-object structures.
 \end{theorem}
 
@@ -426,21 +454,25 @@ By definition, $P_0$ implements only channel encoding, decoding, and legality ch
 
 \begin{corollary}[Prototype output is not a name certificate]
 \label{cor:minimal-prototype-output-not-namecert}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.prototype\_output\_not\_namecert}
 Even if a decoded event flow visually resembles a name-certificate flow, $P_0$ alone cannot recognize it as one. A name-certificate recognizer flow is required.
 \end{corollary}
 
 \begin{corollary}[Prototype output is not a theorem]
 \label{cor:minimal-prototype-output-not-theorem}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.prototype\_output\_not\_theorem}
 Even if a decoded event flow visually resembles a theorem flow, $P_0$ alone cannot recognize it as one. A theorem recognizer flow and proof-checker flow are required.
 \end{corollary}
 
 \begin{corollary}[Prototype output is not an accepted object]
 \label{cor:minimal-prototype-output-not-accepted}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.prototype\_output\_not\_accepted}
 Even if a decoded event flow contains apparent certificate-like segments, $P_0$ alone cannot establish an acceptance gate.
 \end{corollary}
 
 \begin{definition}[Allowed CLI commands]
 \label{def:minimal-prototype-allowed-cli}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.AllowedCLICommand}
 A reference implementation may provide commands named encode, decode, check, roundtrip, and report. Their meanings are implementation conveniences:
 \begin{center}
 \begin{tabular}{ll}
@@ -456,6 +488,7 @@ These commands are not BEDC formal operators.
 
 \begin{definition}[Forbidden CLI meanings at $P_0$]
 \label{def:minimal-prototype-forbidden-cli}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.ForbiddenP0CLIMeaning}
 At $P_0$, the prototype must not provide commands implying higher recognition: name-certificate recognition, theorem recognition, object acceptance, proof, bridge, dimension inference, real-object inference, circle-object inference, or channel-level carry normalization. If such commands exist as stubs, they must report that they require higher recognizer flows.
 \end{definition}
 
@@ -464,26 +497,31 @@ At $P_0$, the prototype must not provide commands implying higher recognition: n
 
 \begin{definition}[Event-flow display format]
 \label{def:minimal-prototype-event-flow-display-format}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.EventFlowDisplayFormat}
 An event-flow display may use $0$, $1$, $\mid$, and whitespace, with $\mid$ separating raw events and whitespace ignored. Empty events are supported only by explicit display syntax such as $\epsilon$, which is display-only and compiles as the empty raw event.
 \end{definition}
 
 \begin{definition}[Channel-stream display format]
 \label{def:minimal-prototype-channel-display-format}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.ChannelStreamDisplayFormat}
 A channel-stream display uses only $0$ and $1$, with no separators. Successful decoding requires legal channel syntax.
 \end{definition}
 
 \begin{definition}[Report format]
 \label{def:minimal-prototype-report-format}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.PrototypeReportDatum}
 A report may contain input, output, events, event codes, rejection reason, round-trip status, and warnings. It must not be accepted as formal input.
 \end{definition}
 
 \begin{principle}[Reports are output views]
 \label{prin:minimal-prototype-reports-output-views}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.prototype\_reports\_output\_not\_formal\_input}
 Reports may be exported as text, Markdown, JSON, YAML, or HTML, but all are output views. None is a formal compiler input.
 \end{principle}
 
 \begin{definition}[Prototype audit checklist]
 \label{def:minimal-prototype-audit-checklist}
+\leandef{BEDC.GroundCompiler.MinimalPrototype.PrototypeAuditChecklist}
 A $P_0$ prototype must satisfy:
 \begin{enumerate}
 \item event encoding implements $\zeta(w)11$;
@@ -503,6 +541,7 @@ A $P_0$ prototype must satisfy:
 
 \begin{theorem}[Prototype audit suffices for $P_0$ adequacy]
 \label{thm:minimal-prototype-audit-suffices}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.prototype\_audit\_suffices}
 If a reference prototype satisfies the audit checklist and its encoder and decoder satisfy soundness and completeness obligations, then it is adequate as a $P_0$ channel prototype.
 \end{theorem}
 
@@ -512,6 +551,7 @@ The checklist covers exactly the duties of $P_0$: channel encoding, decoding, le
 
 \begin{corollary}[$P_0$ adequacy does not imply higher adequacy]
 \label{cor:minimal-prototype-p0-not-higher}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.p0\_adequacy\_not\_higher}
 Adequacy at $P_0$ does not imply adequacy for package recognition, theorem recognition, certificate recognition, motif analysis, or self-hosting.
 \end{corollary}
 
@@ -560,6 +600,7 @@ The report must warn that source raw event $11$ is not channel terminator $11$.
 
 \begin{theorem}[Reference prototype is conservative over the finite kernel]
 \label{thm:minimal-prototype-conservative}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.reference\_prototype\_conservative\_over\_kernel}
 Implementing $P_0$ adds no raw marks, history constructors, sameness rules, continuation rules, derived-interface formation rules, or accepted-object export rules.
 \end{theorem}
 
@@ -569,6 +610,7 @@ $P_0$ implements only channel encoding and decoding of event flows. It does not 
 
 \begin{corollary}[Reference prototype is an address layer]
 \label{cor:minimal-prototype-address-layer}
+\leanchecked{BEDC.GroundCompiler.MinimalPrototype.reference\_prototype\_address\_layer}
 $P_0$ provides a lossless address layer for event flows. It is not a mathematical object generator.
 \end{corollary}
 

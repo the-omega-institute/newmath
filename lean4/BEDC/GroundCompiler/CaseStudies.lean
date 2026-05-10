@@ -1,0 +1,786 @@
+import BEDC.GroundCompiler.EventFlow
+import BEDC.GroundCompiler.SemanticMotif
+
+namespace BEDC.GroundCompiler.CaseStudies
+
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.ChannelEncoding
+open BEDC.GroundCompiler.EventFlow
+open BEDC.GroundCompiler.SemanticMotif
+
+def PrefixSubflow (M S : EventFlow) : Prop :=
+  exists tail : EventFlow, S = List.append M tail
+
+inductive CaseStudyTarget : Type where
+  | finiteRepetition
+  | addLike
+  | foldLike
+  | addFold
+  | completion
+  | listLike
+
+structure CaseStudyFlow where
+  flow : EventFlow
+  target : CaseStudyTarget
+
+inductive HighLayerMotifRole : Type where
+  | completion
+  | metric
+  | topology
+  | phase
+  | circle
+  | complex
+  | category
+  | functor
+  | homology
+  | bridge
+  | analysis
+
+def HighLayerMotifRole.code : HighLayerMotifRole -> MotifRole
+  | HighLayerMotifRole.completion => SealRole
+  | HighLayerMotifRole.metric => [[BMark.b0, BMark.b0, BMark.b1]]
+  | HighLayerMotifRole.topology => [[BMark.b0, BMark.b1, BMark.b0]]
+  | HighLayerMotifRole.phase => CarryRole
+  | HighLayerMotifRole.circle => [[BMark.b0, BMark.b1, BMark.b1]]
+  | HighLayerMotifRole.complex => [[BMark.b1, BMark.b0, BMark.b0]]
+  | HighLayerMotifRole.category => [[BMark.b1, BMark.b0, BMark.b1]]
+  | HighLayerMotifRole.functor => ReuseRole
+  | HighLayerMotifRole.homology => ClassifierQuotientRole
+  | HighLayerMotifRole.bridge => BridgeRole
+  | HighLayerMotifRole.analysis => LedgerCompressionRole
+
+def HighLayerMotif
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (role : HighLayerMotifRole) (M L : EventFlow) : Prop :=
+  MotifProfile Rfam S role.code M L
+
+def HigherLayerCaseStudyFlow
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow) : Prop :=
+  exists role : HighLayerMotifRole,
+    exists M L : EventFlow, HighLayerMotif Rfam S role M L
+
+def HighMotifBundle
+    (Rfam : GeneratedMotifRecognizer -> Prop) (S : EventFlow)
+    (items : List (HighLayerMotifRole × EventFlow × EventFlow)) : Prop :=
+  forall item : HighLayerMotifRole × EventFlow × EventFlow,
+    List.Mem item items -> HighLayerMotif Rfam S item.1 item.2.1 item.2.2
+
+def SkeletonCode (S : EventFlow) : List DisplayAlphabet :=
+  FlowEncoding S
+
+def ZeroRunEvent : Nat -> RawEvent
+  | 0 => [BMark.b0]
+  | n + 1 => BMark.b0 :: ZeroRunEvent n
+
+def FiniteRepetitionSkeleton : Nat -> EventFlow
+  | 0 => []
+  | n + 1 => List.append (FiniteRepetitionSkeleton n) [ZeroRunEvent n]
+
+def CertifiedFiniteRepetitionRecognizer (R : GeneratedMotifRecognizer) : Prop :=
+  FormalCompilerInput (CompilerDatum.eventFlow R)
+
+def FiniteRepetitionMotifRecognition
+    (R : GeneratedMotifRecognizer) (S M : EventFlow) : Prop :=
+  CertifiedFiniteRepetitionRecognizer R /\
+    RecognizesMotif R S M FiniteRepetitionRole
+
+theorem subflow_self (S : EventFlow) : Subflow S S := by
+  have hAppendNil : S = List.append S [] := by
+    induction S with
+    | nil =>
+        rfl
+    | cons w ws ih =>
+        exact congrArg (fun xs => w :: xs) ih
+  exact Or.inl ⟨[], [], hAppendNil⟩
+
+theorem repetition_skeleton_has_motif
+    {R : GeneratedMotifRecognizer} (hR : CertifiedFiniteRepetitionRecognizer R)
+    (k : Nat) :
+    FiniteRepetitionMotifRecognition R
+      (FiniteRepetitionSkeleton (k + 1)) (FiniteRepetitionSkeleton (k + 1)) := by
+  constructor
+  · exact hR
+  · constructor
+    · exact hR
+    · constructor
+      · constructor
+        · exact FormalCompilerInput.eventFlow (FiniteRepetitionSkeleton (k + 1))
+        · constructor
+          · exact FormalCompilerInput.eventFlow (FiniteRepetitionSkeleton (k + 1))
+          · exact FormalCompilerInput.eventFlow FiniteRepetitionRole
+      · exact subflow_self (FiniteRepetitionSkeleton (k + 1))
+
+def NatLikeSkeleton (k : Nat) : EventFlow :=
+  List.append (FiniteRepetitionSkeleton k) [[BMark.b0, BMark.b1]]
+
+def RepeatRuleMotif (S : EventFlow) : Prop :=
+  PrefixSubflow (NatLikeSkeleton 3) S
+
+theorem nat_like_extends_repetition (k : Nat) :
+    PrefixSubflow (FiniteRepetitionSkeleton k) (NatLikeSkeleton k) := by
+  exact ⟨[[BMark.b0, BMark.b1]], rfl⟩
+
+theorem repetition_skeleton_not_repeat_rule :
+    Not (RepeatRuleMotif (FiniteRepetitionSkeleton 3)) := by
+  intro h
+  cases h with
+  | intro tail ht =>
+      cases tail <;> cases ht
+
+theorem prefix_subflow_subflow {M S : EventFlow} :
+    PrefixSubflow M S -> Subflow M S := by
+  intro h
+  cases h with
+  | intro tail ht =>
+      exact Or.inl ⟨[], tail, by simpa using ht⟩
+
+theorem prefix_subflow_self (S : EventFlow) :
+    PrefixSubflow S S := by
+  have hAppendNil : S = List.append S [] := by
+    induction S with
+    | nil =>
+        rfl
+    | cons w ws ih =>
+        exact congrArg (fun xs => w :: xs) ih
+  exact ⟨[], hAppendNil⟩
+
+theorem nat_repetition_share_prefix
+    {R : GeneratedMotifRecognizer} (hR : CertifiedFiniteRepetitionRecognizer R)
+    (k : Nat) :
+    FiniteRepetitionMotifRecognition R (NatLikeSkeleton (k + 1))
+      (FiniteRepetitionSkeleton (k + 1)) /\
+    FiniteRepetitionMotifRecognition R
+      (FiniteRepetitionSkeleton (k + 1)) (FiniteRepetitionSkeleton (k + 1)) := by
+  constructor
+  · constructor
+    · exact hR
+    · constructor
+      · exact hR
+      · constructor
+        · constructor
+          · exact FormalCompilerInput.eventFlow (NatLikeSkeleton (k + 1))
+          · constructor
+            · exact FormalCompilerInput.eventFlow (FiniteRepetitionSkeleton (k + 1))
+            · exact FormalCompilerInput.eventFlow FiniteRepetitionRole
+        · exact prefix_subflow_subflow (nat_like_extends_repetition (k + 1))
+  · exact repetition_skeleton_has_motif hR k
+
+def AddSkeleton : EventFlow :=
+  [[BMark.b0], [BMark.b0, BMark.b0], [BMark.b0, BMark.b0, BMark.b1]]
+
+def AdditiveRecursionMotif (S : EventFlow) : Prop :=
+  PrefixSubflow AddSkeleton S
+
+def FoldSkeleton : EventFlow :=
+  List.append AddSkeleton
+    [[BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b0, BMark.b1, BMark.b0, BMark.b0]]
+
+def FoldCompletionSegment : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b1],
+    [BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+    [BMark.b0, BMark.b1, BMark.b0, BMark.b0]]
+
+def FoldCompletionMotif (S : EventFlow) : Prop :=
+  Subflow FoldCompletionSegment S
+
+theorem fold_skeleton_extends_add :
+    PrefixSubflow AddSkeleton FoldSkeleton := by
+  exact
+    ⟨[[BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b0, BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+
+theorem fold_reuses_add :
+    AdditiveRecursionMotif FoldSkeleton /\
+      FoldCompletionMotif FoldSkeleton := by
+  constructor
+  · exact fold_skeleton_extends_add
+  · exact Or.inl ⟨[[BMark.b0], [BMark.b0, BMark.b0]], [], rfl⟩
+
+theorem add_fold_not_license :
+    exists A B : CaseStudyFlow,
+      A.flow = AddSkeleton /\
+        B.flow = FoldSkeleton /\
+        PrefixSubflow A.flow B.flow /\
+        Not (A.target = B.target) := by
+  refine
+    ⟨{ flow := AddSkeleton, target := CaseStudyTarget.addLike },
+      { flow := FoldSkeleton, target := CaseStudyTarget.foldLike }, ?_⟩
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · exact fold_skeleton_extends_add
+      · intro h
+        cases h
+
+def ListSpineSkeleton (a : RawEvent) (k : Nat) : EventFlow :=
+  FiniteRepetitionPrefix a k
+
+def ListConstructorLedgerMotif
+    (R S spine ledger payloadSource payloadClassifier decomposition :
+      EventFlow) :
+    Prop :=
+  RecognizesMotif R S spine ReuseRole /\
+    Subflow ledger S /\
+    Subflow payloadSource S /\
+    Subflow payloadClassifier S /\
+    Subflow decomposition S /\
+    NonemptyEventFlow ledger
+
+theorem list_finite_plus_ledger
+    {R S spine ledger payloadSource payloadClassifier decomposition :
+      EventFlow} :
+    ListConstructorLedgerMotif R S spine ledger payloadSource
+      payloadClassifier decomposition ->
+      RecognizesMotif R S spine ReuseRole /\ NonemptyEventFlow ledger := by
+  intro h
+  exact ⟨h.left, h.right.right.right.right.right⟩
+
+theorem zero_run_append (k : Nat) :
+    List.append (ZeroRunEvent k) [BMark.b0] =
+      BMark.b0 :: ZeroRunEvent k := by
+  induction k with
+  | zero =>
+      rfl
+  | succ k ih =>
+      change
+        BMark.b0 :: List.append (ZeroRunEvent k) [BMark.b0] =
+        BMark.b0 :: BMark.b0 :: ZeroRunEvent k
+      exact congrArg (fun xs => BMark.b0 :: xs) ih
+
+theorem zero_repeat_raw_event (k : Nat) :
+    RepeatRawEvent [BMark.b0] k = ZeroRunEvent k := by
+  induction k with
+  | zero =>
+      rfl
+  | succ k ih =>
+      simp only [RepeatRawEvent]
+      rw [ih, zero_run_append]
+      rfl
+
+theorem list_spine_shares_repetition_with_nat (k : Nat) :
+    ListSpineSkeleton [BMark.b0] k = FiniteRepetitionSkeleton k := by
+  induction k with
+  | zero =>
+      rfl
+  | succ k ih =>
+      change
+        List.append (FiniteRepetitionPrefix [BMark.b0] k)
+          [RepeatRawEvent [BMark.b0] k] =
+        List.append (FiniteRepetitionSkeleton k) [ZeroRunEvent k]
+      rw [zero_repeat_raw_event k]
+      change
+        List.append (ListSpineSkeleton [BMark.b0] k) [ZeroRunEvent k] =
+        List.append (FiniteRepetitionSkeleton k) [ZeroRunEvent k]
+      rw [ih]
+
+theorem same_finite_spine_not_same_object :
+    exists A B : CaseStudyFlow,
+      PrefixSubflow (FiniteRepetitionSkeleton 3) A.flow /\
+        PrefixSubflow (FiniteRepetitionSkeleton 3) B.flow /\
+        A.flow = B.flow /\
+        Not (A.target = B.target) := by
+  let spine := FiniteRepetitionSkeleton 3
+  refine
+    ⟨{ flow := spine, target := CaseStudyTarget.finiteRepetition },
+      { flow := spine, target := CaseStudyTarget.listLike }, ?_⟩
+  constructor
+  · exact prefix_subflow_self spine
+  · constructor
+    · exact prefix_subflow_self spine
+    · constructor
+      · rfl
+      · intro h
+        cases h
+
+def CompletionSkeleton : EventFlow :=
+  List.append (FiniteRepetitionSkeleton 3)
+    [[BMark.b0, BMark.b1],
+      [BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b1, BMark.b0, BMark.b0]]
+
+def CompletionSkeletonFlow (S : EventFlow) : Prop :=
+  PrefixSubflow (FiniteRepetitionSkeleton 3) S /\
+    Subflow [[BMark.b0, BMark.b1]] S /\
+    Subflow [[BMark.b0, BMark.b1, BMark.b1]] S /\
+    Subflow [[BMark.b1, BMark.b0, BMark.b0]] S
+
+def SealEventAlone : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b1]]
+
+theorem completion_skeleton_contains_repetition :
+    PrefixSubflow (FiniteRepetitionSkeleton 3) CompletionSkeleton := by
+  exact
+    ⟨[[BMark.b0, BMark.b1],
+      [BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+
+theorem completion_skeleton_contains_carry :
+    Subflow
+      [[BMark.b0, BMark.b1, BMark.b1],
+        [BMark.b1, BMark.b0, BMark.b0]]
+      CompletionSkeleton := by
+  exact
+    Or.inl
+      ⟨List.append (FiniteRepetitionSkeleton 3) [[BMark.b0, BMark.b1]], [],
+        rfl⟩
+
+structure CompletionMotifRecord where
+  stage : EventFlow
+  threadFlow : EventFlow
+  classifier : EventFlow
+  sealFlow : EventFlow
+  ledgerFlow : EventFlow
+
+def RecognizedCompletionMotifRecord
+    (S : EventFlow) (M : CompletionMotifRecord) : Prop :=
+  Subflow M.stage S /\
+    Subflow M.threadFlow S /\
+    Subflow M.classifier S /\
+    Subflow M.sealFlow S /\
+    Subflow M.ledgerFlow S /\
+    NonemptyEventFlow M.sealFlow /\
+    NonemptyEventFlow M.ledgerFlow
+
+def CompletionMotif (S : EventFlow) : Prop :=
+  exists M : CompletionMotifRecord, RecognizedCompletionMotifRecord S M
+
+def SealDepthAtLeastOne (S : EventFlow) : Prop :=
+  exists sigma : EventFlow, Subflow sigma S /\ NonemptyEventFlow sigma
+
+theorem completion_skeleton_seal_heavy
+    {S : EventFlow} {M : CompletionMotifRecord} :
+    RecognizedCompletionMotifRecord S M -> SealDepthAtLeastOne S := by
+  intro h
+  exact ⟨M.sealFlow, h.right.right.right.left, h.right.right.right.right.right.left⟩
+
+theorem completion_skeleton_ledger_dependent
+    {S : EventFlow} {M : CompletionMotifRecord} :
+    Not (NonemptyEventFlow M.ledgerFlow) ->
+      Not (RecognizedCompletionMotifRecord S M) := by
+  intro hNoLedger hRecognized
+  exact hNoLedger hRecognized.right.right.right.right.right.right
+
+theorem seal_event_alone_not_completion :
+    Not (CompletionSkeletonFlow SealEventAlone) := by
+  intro h
+  cases h.left with
+  | intro _ heq =>
+      cases heq
+
+structure RealMotifBundle where
+  approximationSource : EventFlow
+  cauchyClassifier : EventFlow
+  completionSeal : EventFlow
+  operationDescent : EventFlow
+  orderCompatibility : EventFlow
+  metricCompatibility : EventFlow
+  realLedger : EventFlow
+
+def RecognizedRealMotifBundle (S : EventFlow) (B : RealMotifBundle) : Prop :=
+  CompletionMotif S /\
+    Subflow B.approximationSource S /\
+    Subflow B.cauchyClassifier S /\
+    Subflow B.completionSeal S /\
+    Subflow B.operationDescent S /\
+    Subflow B.orderCompatibility S /\
+    Subflow B.metricCompatibility S /\
+    Subflow B.realLedger S /\
+    NonemptyEventFlow B.realLedger
+
+def RealLikeEventFlow (S : EventFlow) : Prop :=
+  exists B : RealMotifBundle, RecognizedRealMotifBundle S B
+
+theorem real_like_extends_completion {S : EventFlow} :
+    RealLikeEventFlow S -> CompletionMotif S := by
+  intro h
+  cases h with
+  | intro _ hBundle =>
+      exact hBundle.left
+
+def MetricCarrierFlow : EventFlow := [[BMark.b0, BMark.b0, BMark.b1]]
+
+def MetricDistanceValueFlow : EventFlow := [[BMark.b0, BMark.b1, BMark.b0]]
+
+def MetricNonnegativityFlow : EventFlow := [[BMark.b0, BMark.b1, BMark.b1]]
+
+def MetricSymmetryFlow : EventFlow := [[BMark.b1, BMark.b0, BMark.b0]]
+
+def MetricTriangleFlow : EventFlow := [[BMark.b1, BMark.b0, BMark.b1]]
+
+def MetricZeroExactnessFlow : EventFlow := [[BMark.b1, BMark.b1, BMark.b0]]
+
+def MetricLedgerFlow : EventFlow := [[BMark.b1, BMark.b1, BMark.b1]]
+
+def MetricMotifSkeleton : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b1],
+    [BMark.b0, BMark.b1, BMark.b0],
+    [BMark.b0, BMark.b1, BMark.b1],
+    [BMark.b1, BMark.b0, BMark.b0],
+    [BMark.b1, BMark.b0, BMark.b1],
+    [BMark.b1, BMark.b1, BMark.b0],
+    [BMark.b1, BMark.b1, BMark.b1]]
+
+def MetricMotif (S : EventFlow) : Prop :=
+  Subflow MetricCarrierFlow S /\
+    Subflow MetricDistanceValueFlow S /\
+    Subflow MetricNonnegativityFlow S /\
+    Subflow MetricSymmetryFlow S /\
+    Subflow MetricTriangleFlow S /\
+    Subflow MetricZeroExactnessFlow S /\
+    Subflow MetricLedgerFlow S /\
+    NonemptyEventFlow MetricLedgerFlow
+
+def TopologyOpenSourceFlow : EventFlow := [[BMark.b0, BMark.b0, BMark.b0, BMark.b0]]
+
+def TopologyFiniteIntersectionFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b0, BMark.b1]]
+
+def TopologyGeneratedUnionSchemaFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b1, BMark.b0]]
+
+def TopologyContinuityClassifierFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b1, BMark.b1]]
+
+def TopologyBasisLedgerFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b0, BMark.b0]]
+
+def TopologySealFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b0, BMark.b1]]
+
+def TopologyMotif (S : EventFlow) : Prop :=
+  Subflow TopologyOpenSourceFlow S /\
+    Subflow TopologyFiniteIntersectionFlow S /\
+    Subflow TopologyGeneratedUnionSchemaFlow S /\
+    Subflow TopologyContinuityClassifierFlow S /\
+    Subflow TopologyBasisLedgerFlow S /\
+    Subflow TopologySealFlow S /\
+    NonemptyEventFlow TopologyBasisLedgerFlow
+
+def NeighborhoodPointFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b0, BMark.b0, BMark.b0]]
+
+def NeighborhoodCandidateFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b0, BMark.b0, BMark.b1]]
+
+def NeighborhoodRefinementWitnessFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b0, BMark.b1, BMark.b0]]
+
+def NeighborhoodIntersectionWitnessFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b0, BMark.b1, BMark.b1]]
+
+def NeighborhoodLocalLedgerFlow : EventFlow :=
+  [[BMark.b0, BMark.b0, BMark.b1, BMark.b0, BMark.b0]]
+
+def NeighborhoodBasisMotif (S : EventFlow) : Prop :=
+  Subflow NeighborhoodPointFlow S /\
+    Subflow NeighborhoodCandidateFlow S /\
+    Subflow NeighborhoodRefinementWitnessFlow S /\
+    Subflow NeighborhoodIntersectionWitnessFlow S /\
+    Subflow NeighborhoodLocalLedgerFlow S /\
+    NonemptyEventFlow NeighborhoodLocalLedgerFlow
+
+def MetricToTopologyCertificate (S : EventFlow) : Prop :=
+  Subflow TopologyBasisLedgerFlow S /\
+    NonemptyEventFlow TopologyBasisLedgerFlow
+
+theorem metric_motif_skeleton_recognized :
+    MetricMotif MetricMotifSkeleton := by
+  constructor
+  · exact Or.inl
+      ⟨[],
+        [[BMark.b0, BMark.b1, BMark.b0],
+          [BMark.b0, BMark.b1, BMark.b1],
+          [BMark.b1, BMark.b0, BMark.b0],
+          [BMark.b1, BMark.b0, BMark.b1],
+          [BMark.b1, BMark.b1, BMark.b0],
+          [BMark.b1, BMark.b1, BMark.b1]], rfl⟩
+  · constructor
+    · exact Or.inl
+        ⟨[[BMark.b0, BMark.b0, BMark.b1]],
+          [[BMark.b0, BMark.b1, BMark.b1],
+            [BMark.b1, BMark.b0, BMark.b0],
+            [BMark.b1, BMark.b0, BMark.b1],
+            [BMark.b1, BMark.b1, BMark.b0],
+            [BMark.b1, BMark.b1, BMark.b1]], rfl⟩
+    · constructor
+      · exact Or.inl
+          ⟨[[BMark.b0, BMark.b0, BMark.b1],
+            [BMark.b0, BMark.b1, BMark.b0]],
+            [[BMark.b1, BMark.b0, BMark.b0],
+              [BMark.b1, BMark.b0, BMark.b1],
+              [BMark.b1, BMark.b1, BMark.b0],
+              [BMark.b1, BMark.b1, BMark.b1]], rfl⟩
+      · constructor
+        · exact Or.inl
+            ⟨[[BMark.b0, BMark.b0, BMark.b1],
+              [BMark.b0, BMark.b1, BMark.b0],
+              [BMark.b0, BMark.b1, BMark.b1]],
+              [[BMark.b1, BMark.b0, BMark.b1],
+                [BMark.b1, BMark.b1, BMark.b0],
+                [BMark.b1, BMark.b1, BMark.b1]], rfl⟩
+        · constructor
+          · exact Or.inl
+              ⟨[[BMark.b0, BMark.b0, BMark.b1],
+                [BMark.b0, BMark.b1, BMark.b0],
+                [BMark.b0, BMark.b1, BMark.b1],
+                [BMark.b1, BMark.b0, BMark.b0]],
+                [[BMark.b1, BMark.b1, BMark.b0],
+                  [BMark.b1, BMark.b1, BMark.b1]], rfl⟩
+          · constructor
+            · exact Or.inl
+                ⟨[[BMark.b0, BMark.b0, BMark.b1],
+                  [BMark.b0, BMark.b1, BMark.b0],
+                  [BMark.b0, BMark.b1, BMark.b1],
+                  [BMark.b1, BMark.b0, BMark.b0],
+                  [BMark.b1, BMark.b0, BMark.b1]],
+                  [[BMark.b1, BMark.b1, BMark.b1]], rfl⟩
+            · constructor
+              · exact Or.inl
+                  ⟨[[BMark.b0, BMark.b0, BMark.b1],
+                    [BMark.b0, BMark.b1, BMark.b0],
+                    [BMark.b0, BMark.b1, BMark.b1],
+                    [BMark.b1, BMark.b0, BMark.b0],
+                    [BMark.b1, BMark.b0, BMark.b1],
+                    [BMark.b1, BMark.b1, BMark.b0]], [], rfl⟩
+              · exact ⟨[BMark.b1, BMark.b1, BMark.b1], [], rfl⟩
+
+theorem metric_to_topology_needs_cert {S : EventFlow} :
+    MetricMotif S -> TopologyMotif S -> MetricToTopologyCertificate S := by
+  intro _ hTopology
+  exact
+    ⟨hTopology.right.right.right.right.left,
+      hTopology.right.right.right.right.right.right⟩
+
+theorem metric_not_automatic_topology :
+    exists S : EventFlow, MetricMotif S /\ Not (TopologyMotif S) := by
+  refine ⟨MetricMotifSkeleton, metric_motif_skeleton_recognized, ?_⟩
+  intro hTopology
+  have hOpenMem :
+      List.Mem [BMark.b0, BMark.b0, BMark.b0, BMark.b0]
+        MetricMotifSkeleton :=
+    subflow_mem hTopology.left (List.Mem.head [])
+  unfold MetricMotifSkeleton at hOpenMem
+  cases hOpenMem with
+  | tail _ hOpenMem =>
+      cases hOpenMem with
+      | tail _ hOpenMem =>
+          cases hOpenMem with
+          | tail _ hOpenMem =>
+              cases hOpenMem with
+              | tail _ hOpenMem =>
+                  cases hOpenMem with
+                  | tail _ hOpenMem =>
+                      cases hOpenMem with
+                      | tail _ hOpenMem =>
+                          cases hOpenMem with
+                          | tail _ hOpenMem =>
+                              cases hOpenMem
+
+def PhaseCyclicSourceFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b1, BMark.b0]]
+
+def PhaseCompletionSealFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b1, BMark.b1]]
+
+def PhaseCarryFlow : EventFlow :=
+  [[BMark.b1, BMark.b0, BMark.b0, BMark.b0]]
+
+def PhaseNormalAddressFlow : EventFlow :=
+  [[BMark.b1, BMark.b0, BMark.b0, BMark.b1]]
+
+def PhaseLedgerFlow : EventFlow :=
+  [[BMark.b1, BMark.b0, BMark.b1, BMark.b0]]
+
+def PhaseMotif (S : EventFlow) : Prop :=
+  Subflow PhaseCyclicSourceFlow S /\
+    Subflow PhaseCompletionSealFlow S /\
+    Subflow PhaseCarryFlow S /\
+    Subflow PhaseNormalAddressFlow S /\
+    Subflow PhaseLedgerFlow S /\
+    NonemptyEventFlow PhaseLedgerFlow
+
+def CircleUnitConstraintFlow : EventFlow :=
+  [[BMark.b0, BMark.b1, BMark.b0, BMark.b1]]
+
+def CircleEquationClassifierFlow : EventFlow :=
+  [[BMark.b1, BMark.b0, BMark.b1, BMark.b1]]
+
+def CircleTopologicalCompatibilityFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b0, BMark.b0]]
+
+def CircleLedgerFlow : EventFlow :=
+  [[BMark.b1, BMark.b1, BMark.b0, BMark.b1]]
+
+def CircleMotif (S : EventFlow) : Prop :=
+  PhaseMotif S /\
+    Subflow CircleUnitConstraintFlow S /\
+    Subflow CircleEquationClassifierFlow S /\
+    Subflow CircleTopologicalCompatibilityFlow S /\
+    Subflow CircleLedgerFlow S /\
+    NonemptyEventFlow CircleLedgerFlow
+
+theorem circle_extends_phase {S : EventFlow} :
+    CircleMotif S -> PhaseMotif S := by
+  intro h
+  exact h.left
+
+def sameDisplayMark : DisplayAlphabet -> DisplayAlphabet -> Bool :=
+  fun a b =>
+    BMark.casesOn a
+      (BMark.casesOn b true false)
+      (BMark.casesOn b false true)
+
+def sameRawEvent : RawEvent -> RawEvent -> Bool
+  | [] => fun ys =>
+      match ys with
+      | [] => true
+      | _ :: _ => false
+  | m :: ms => fun ys =>
+      match ys with
+      | [] => false
+      | n :: ns => Bool.casesOn (sameDisplayMark m n) false (sameRawEvent ms ns)
+
+def PrefixLen : EventFlow -> EventFlow -> Nat
+  | [] => fun _ => 0
+  | w :: ws => fun ys =>
+      match ys with
+      | [] => 0
+      | v :: vs => Bool.casesOn (sameRawEvent w v) 0 (Nat.succ (PrefixLen ws vs))
+
+def RecognizedMotifOverlap
+    (S T : EventFlow) (R : GeneratedMotifRecognizer) (M : EventFlow)
+    (mu : MotifRole) : Prop :=
+  RecognizesMotif R S M mu /\ RecognizesMotif R T M mu
+
+structure SkeletonOverlap (S T : EventFlow) where
+  rawPrefixOverlap : Nat
+  rawPrefixOverlap_eq : rawPrefixOverlap = PrefixLen S T
+  motifOverlap : GeneratedMotifRecognizer -> EventFlow -> MotifRole -> Prop
+  motifOverlap_iff :
+    forall R M mu, motifOverlap R M mu <-> RecognizedMotifOverlap S T R M mu
+
+def skeletonOverlap (S T : EventFlow) : SkeletonOverlap S T where
+  rawPrefixOverlap := PrefixLen S T
+  rawPrefixOverlap_eq := rfl
+  motifOverlap := RecognizedMotifOverlap S T
+  motifOverlap_iff := by
+    intro R M mu
+    rfl
+
+theorem fold_completion_prefix :
+    PrefixLen FoldSkeleton CompletionSkeleton = 2 := by
+  rfl
+
+theorem fold_completion_share_starting_prefix :
+    PrefixSubflow (FiniteRepetitionSkeleton 2) FoldSkeleton /\
+      PrefixSubflow (FiniteRepetitionSkeleton 2) CompletionSkeleton := by
+  constructor
+  · exact
+      ⟨[[BMark.b0, BMark.b0, BMark.b1],
+        [BMark.b0, BMark.b0, BMark.b1, BMark.b1],
+        [BMark.b0, BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+  · exact
+      ⟨[[BMark.b0, BMark.b0, BMark.b0],
+        [BMark.b0, BMark.b1],
+        [BMark.b0, BMark.b1, BMark.b1],
+        [BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+
+theorem fold_completion_split :
+    PrefixLen FoldSkeleton CompletionSkeleton = 2 /\
+      Not (PrefixSubflow FoldSkeleton CompletionSkeleton) /\
+      Not (PrefixSubflow CompletionSkeleton FoldSkeleton) := by
+  constructor
+  · exact fold_completion_prefix
+  · constructor
+    · intro h
+      cases h with
+      | intro tail ht =>
+          cases tail <;> cases ht
+    · intro h
+      cases h with
+      | intro tail ht =>
+          cases tail <;> cases ht
+
+theorem nat_prefix_completion :
+    PrefixSubflow (NatLikeSkeleton 3) CompletionSkeleton := by
+  exact
+    ⟨[[BMark.b0, BMark.b1, BMark.b1],
+      [BMark.b1, BMark.b0, BMark.b0]], rfl⟩
+
+theorem completion_extends_nat_like :
+    PrefixSubflow (NatLikeSkeleton 3) CompletionSkeleton /\
+      Subflow
+        [[BMark.b0, BMark.b1, BMark.b1],
+          [BMark.b1, BMark.b0, BMark.b0]]
+        CompletionSkeleton := by
+  exact ⟨nat_prefix_completion, completion_skeleton_contains_carry⟩
+
+theorem skeleton_extension_not_object_extension :
+    exists A B : CaseStudyFlow,
+      PrefixSubflow A.flow B.flow /\ Not (A.target = B.target) := by
+  refine
+    ⟨{ flow := NatLikeSkeleton 3, target := CaseStudyTarget.finiteRepetition },
+      { flow := CompletionSkeleton, target := CaseStudyTarget.completion }, ?_⟩
+  constructor
+  · exact nat_prefix_completion
+  · intro h
+    cases h
+
+structure SkeletonMotifReport where
+  sourceFlow : EventFlow
+  profileFlow : EventFlow
+  supportFlow : EventFlow
+  ledgerFlow : EventFlow
+  metricFlow : EventFlow
+
+theorem skeleton_reports_not_certificates :
+    exists report : SkeletonMotifReport,
+      FormalCompilerInput (CompilerDatum.eventFlow report.sourceFlow) /\
+        Not (AcceptedObjectFlow report.sourceFlow) := by
+  exact
+    ⟨{ sourceFlow := [],
+        profileFlow := [],
+        supportFlow := [],
+        ledgerFlow := [],
+        metricFlow := [] },
+      FormalCompilerInput.eventFlow [],
+      empty_not_accepted_object_flow⟩
+
+def CaseStudyFlowUsesOnlyDisplayAlphabet (S : EventFlow) : Prop :=
+  forall w : RawEvent, List.Mem w S ->
+    forall m : DisplayAlphabet, List.Mem m w -> m = BMark.b0 \/ m = BMark.b1
+
+theorem comparison_not_proof :
+    exists S T : EventFlow,
+      PrefixLen S T = 2 /\ Not (S = T) := by
+  refine ⟨FoldSkeleton, CompletionSkeleton, fold_completion_prefix, ?_⟩
+  intro h
+  have hAppendNil : FoldSkeleton = List.append FoldSkeleton [] := by
+    rfl
+  have hPrefix : PrefixSubflow FoldSkeleton CompletionSkeleton :=
+    ⟨[], Eq.trans h.symm hAppendNil⟩
+  exact fold_completion_split.right.left hPrefix
+
+theorem case_studies_conservativity :
+    CaseStudyFlowUsesOnlyDisplayAlphabet AddSkeleton /\
+      CaseStudyFlowUsesOnlyDisplayAlphabet FoldSkeleton /\
+      CaseStudyFlowUsesOnlyDisplayAlphabet CompletionSkeleton := by
+  constructor
+  · intro _ _ m _
+    cases m with
+    | b0 => exact Or.inl rfl
+    | b1 => exact Or.inr rfl
+  · constructor
+    · intro _ _ m _
+      cases m with
+      | b0 => exact Or.inl rfl
+      | b1 => exact Or.inr rfl
+    · intro _ _ m _
+      cases m with
+      | b0 => exact Or.inl rfl
+      | b1 => exact Or.inr rfl
+
+end BEDC.GroundCompiler.CaseStudies
