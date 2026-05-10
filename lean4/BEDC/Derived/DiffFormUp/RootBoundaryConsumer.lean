@@ -47,4 +47,38 @@ theorem DiffFormRootBoundaryConsumer_exactness {ScalarCarrier : BHist -> Prop}
           (And.intro carrierRows.right.left
             (And.intro carrierRows.right.right.left carrierRows.right.right.right.left)))))
 
+theorem DiffFormRootBoundaryConsumer_classifier_scope
+    {omega domega degree degreePlus probe probe' tensor tensor' scalar scalar' antisym source
+      omega2 domega2 degree2 degreePlus2 probe2 probe2' tensor2 tensor2' scalar2 scalar2'
+      antisym2 source2 wedge wedge2 : BHist} :
+    hsame omega omega2 -> hsame domega domega2 -> hsame degree degree2 ->
+      hsame degreePlus degreePlus2 -> hsame probe probe2 -> hsame probe' probe2' ->
+        hsame tensor tensor2 -> hsame tensor' tensor2' -> hsame scalar scalar2 ->
+          hsame scalar' scalar2' -> hsame antisym antisym2 -> hsame source source2 ->
+            hsame wedge wedge2 ->
+              DiffFormExteriorDerivativeLedger omega domega degree degreePlus probe probe'
+                  tensor tensor' scalar scalar' antisym source ->
+                DiffFormWedgeDegreeLedger degree degreePlus wedge omega domega tensor ->
+                  DiffFormExteriorDerivativeLedger omega2 domega2 degree2 degreePlus2 probe2
+                      probe2' tensor2 tensor2' scalar2 scalar2' antisym2 source2 ∧
+                    DiffFormWedgeDegreeLedger degree2 degreePlus2 wedge2 omega domega tensor ∧
+                      UnaryHistory degree2 ∧ UnaryHistory degreePlus2 ∧
+                        Cont degree2 (BHist.e1 BHist.Empty) degreePlus2 := by
+  intro sameOmega sameDomega sameDegree sameDegreePlus sameProbe sameProbe' sameTensor
+    sameTensor' sameScalar sameScalar' sameAntisym sameSource sameWedge derivativeLedger
+    wedgeLedger
+  have transportedDerivative :=
+    DiffFormExteriorDerivativeLedger_hsame_transport_degree_raise sameOmega sameDomega
+      sameDegree sameDegreePlus sameProbe sameProbe' sameTensor sameTensor' sameScalar
+      sameScalar' sameAntisym sameSource derivativeLedger
+  have transportedWedge :=
+    DiffFormWedgeDegreeLedger_classifier_stability wedgeLedger sameDegree sameDegreePlus
+      sameWedge
+  exact
+    ⟨transportedDerivative.left,
+      transportedWedge.left,
+      transportedDerivative.right.left,
+      transportedDerivative.right.right.left,
+      transportedDerivative.right.right.right⟩
+
 end BEDC.Derived.DiffFormUp
