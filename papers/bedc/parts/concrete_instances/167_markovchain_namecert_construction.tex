@@ -18,6 +18,7 @@ The packet is accepted only when the $\Cont$ ledger records that the next-step d
 \label{thm:markovchain-kernel-classifier-stability}
 Let two $\MarkovChainUp$ transition packets have the same displayed unary time ledger. Suppose their $\ProbSpaceUp$ sources, $\RandomVarUp$ rows, $\DistributionUp$ law rows, and transition rows are related componentwise by $\hsame$, and suppose the transition $\Cont$ ledgers and $\Pkg$ provenance rows are transported along those comparisons. Then the transported rows form an accepted $\MarkovChainUp$ carrier, and the transition classifier has the same current-state to next-law shape.
 \end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainKernelClassifier\_stability}
 \begin{proof}
 Use the classifier field of the roadmap ten-field template. The source rows are the $\ProbSpaceUp$ carrier, the displayed $\RandomVarUp$ sequence, and the $\DistributionUp$ law rows; the carrier row is the finite $\mathsf{BHist}$ packet of \autoref{def:markovchain-bhist-transition-carrier}.
 
@@ -25,8 +26,6 @@ Transport each source row through the displayed $\hsame$ comparison. The $\Rando
 
 Finally transport the transition $\Cont$ ledger and $\Pkg$ provenance. Since acceptance asks only that the next-step law be read through the adjacent carried rows and the displayed transition row, the transported packet satisfies the same carrier predicate without importing a host stochastic-process equality.
 \end{proof}
-\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier\_kernel\_classifier\_stability}
-
 \begin{theorem}[MarkovChain transition ledger exactness]
 \label{thm:markovchain-transition-ledger-exactness}
 For every accepted $\MarkovChainUp$ carrier, the transition ledger exposes exactly the $\mathsf{BHist}$ rows for the $\ProbSpaceUp$ source, the time-indexed $\RandomVarUp$ rows, the corresponding $\DistributionUp$ law rows, the transition rows $K_n$, and their $\hsame/\Cont/\Pkg$ provenance. It does not expose a host Markov process, a filtration, a conditional-expectation row, or a standard kernel bridge.
@@ -61,6 +60,18 @@ Assemble the obligation surface by the roadmap ten-field template. The tradition
 The classifier and stability fields are supplied by \autoref{thm:markovchain-kernel-classifier-stability}. The ledger and exactness fields are supplied by \autoref{thm:markovchain-transition-ledger-exactness}.
 
 The source-boundary field is \autoref{thm:markovchain-probspace-randomvar-source-boundary}. Together these rows give the named $\NameCert_{\MarkovChainUp}$ obligation surface while keeping host stochastic-process structure outside the certificate.
+\end{proof}
+
+\begin{theorem}[MarkovChain scoped kernel dependency package]
+\label{thm:markovchain-scoped-kernel-dependency-package}
+The $\NameCert_{\MarkovChainUp}$ obligation surface of \autoref{thm:markovchain-namecert-obligation-surface} is scoped exactly by the $\ProbSpaceUp$, $\RandomVarUp$, and $\DistributionUp$ dependency certificates, the finite unary time ledger, the transition rows $K_n$, $\mathsf{BHist}$ rows, $\hsame$ comparisons, $\Cont$ displays, and $\mathsf{Pkg}$ provenance. No filtration, conditional-expectation primitive, host stochastic process, or standard Markov kernel is read by this scoped package.
+\end{theorem}
+\begin{proof}
+Project the carrier row from \autoref{def:markovchain-bhist-transition-carrier}. Its constructors expose only the source probability-space packet, the carried random-variable rows, the law rows, the unary time ledger, transition rows, and the displayed provenance.
+
+Next use \autoref{thm:markovchain-kernel-classifier-stability} and \autoref{thm:markovchain-transition-ledger-exactness}. These identify the classifier transport and ledger reads with componentwise $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows over the same finite packet.
+
+Finally apply \autoref{thm:markovchain-probspace-randomvar-source-boundary} together with \autoref{thm:markovchain-namecert-obligation-surface}. The dependency rows consumed by those projections are exactly the $\ProbSpaceUp$, $\RandomVarUp$, and $\DistributionUp$ certificates and the finite transition ledger, so the excluded stochastic-process, filtration, conditional-expectation, and standard-kernel objects remain outside the scoped package.
 \end{proof}
 
 \section{The certificate}
