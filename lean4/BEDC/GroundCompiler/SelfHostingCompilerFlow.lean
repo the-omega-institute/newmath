@@ -429,6 +429,53 @@ def P9FormalCompilationJudgment
     (C S T : EventFlow) : Prop :=
   P9CertifiedCompiler C /\ Compiles C S T
 
+def P9CompilerCertificateSubflows
+    (RK S KC C : EventFlow) : Prop :=
+  P9RecognizesCompilerCert RK S KC C /\
+    exists inputDomain outputDomain encoding decoding roundTrip hierarchy
+      failure ledger noHostLeak kernel selfDescription closingSeal : EventFlow,
+      P9Subflow KC inputDomain /\
+      P9Subflow KC outputDomain /\
+      P9Subflow KC encoding /\
+      P9Subflow KC decoding /\
+      P9Subflow KC roundTrip /\
+      P9Subflow KC hierarchy /\
+      P9Subflow KC failure /\
+      P9Subflow KC ledger /\
+      P9Subflow KC noHostLeak /\
+      P9Subflow KC kernel /\
+      P9Subflow KC selfDescription /\
+      P9Subflow KC closingSeal
+
+def P9CompleteCompilerCertificate
+    (RK S KC C : EventFlow) : Prop :=
+  P9CompilerCertificateSubflows RK S KC C
+
+def P9CompleteCertifiedCompiler (C : EventFlow) : Prop :=
+  exists S : EventFlow, exists KC : EventFlow, exists RK : EventFlow,
+    P9CompleteCompilerCertificate RK S KC C
+
+def P9CompleteFormalCompilationJudgment
+    (Compiles : CompilerBehaviorRelation)
+    (C S T : EventFlow) : Prop :=
+  P9CompleteCertifiedCompiler C /\ Compiles C S T
+
+theorem p9_formal_use_requires_complete_certificate
+    {Compiles : CompilerBehaviorRelation}
+    {C S T : EventFlow} :
+    P9CompleteFormalCompilationJudgment Compiles C S T ->
+      P9CompleteCertifiedCompiler C := by
+  intro hJudgment
+  exact hJudgment.left
+
+theorem p9_no_compiler_without_complete_certificate
+    {Compiles : CompilerBehaviorRelation}
+    {C S T : EventFlow} :
+    Not (P9CompleteCertifiedCompiler C) ->
+      Not (P9CompleteFormalCompilationJudgment Compiles C S T) := by
+  intro hNoCert hJudgment
+  exact hNoCert hJudgment.left
+
 inductive HostCompilerIdentity : Type where
   | hostExecutable
   | executablePath

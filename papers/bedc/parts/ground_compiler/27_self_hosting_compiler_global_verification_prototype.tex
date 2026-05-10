@@ -104,6 +104,7 @@ $$
 
 \begin{definition}[Compiler certificate subflows]
 \label{def:self-hosting-compiler-cert-subflows}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9CompilerCertificateSubflows}
 If $\mathsf{RecognizesCompilerCert}(R_K,S,K_C,C)$, then $R_K$ may identify:
 $$
 \begin{aligned}
@@ -125,11 +126,13 @@ $$
 
 \begin{definition}[Complete compiler certificate recognition]
 \label{def:self-hosting-complete-compiler-cert}
+\leandef{BEDC.GroundCompiler.SelfHostingCompilerFlow.P9CompleteCompilerCertificate}
 The recognition $\mathsf{RecognizesCompilerCert}(R_K,S,K_C,C)$ is \emph{complete} when all compiler certificate subflows in \autoref{def:self-hosting-compiler-cert-subflows} are recognized.
 \end{definition}
 
 \begin{principle}[No compiler without certificate]
 \label{prin:self-hosting-no-compiler-without-cert}
+\leanchecked{BEDC.GroundCompiler.SelfHostingCompilerFlow.p9\_no\_compiler\_without\_complete\_certificate}
 A compiler-flow cannot be used as a formal compiler unless it has complete compiler certificate-flow. Recognizing $\mathsf{CompilerFlow}_{R_C}(S,C)$ alone is insufficient for formal compilation judgments.
 \end{principle}
 
