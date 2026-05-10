@@ -105,12 +105,14 @@ import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.MirrorSymmetryUp
+import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.ModelCatUp
+import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IwasawaUp
@@ -747,6 +749,7 @@ import BEDC.Derived.MonoidUp.StdBridge
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.LPDualityUp
 import BEDC.Derived.NetworkFlowUp
+import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.LieAlgebraUp
