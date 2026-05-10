@@ -101,6 +101,55 @@ theorem ShortestPathWeightedGraphCarrier_relaxation_certificate_scope [AskSetup]
       certificateRow,
       carrier.right.right.right.right.right.right.right.right.right⟩
 
+theorem ShortestPathWeightedGraphCarrier_relaxation_soundness [AskSetup] [PackageSetup]
+    {vertices edges weights source target path incidence weightedPath endpoint relaxation
+      certificate predecessor soundness : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ShortestPathWeightedGraphCarrier vertices edges weights source target path incidence
+        weightedPath endpoint bundle pkg ->
+      Cont source target relaxation ->
+        Cont endpoint relaxation certificate ->
+          Cont relaxation path predecessor ->
+            Cont predecessor endpoint soundness ->
+              UnaryHistory relaxation ∧ UnaryHistory certificate ∧
+                UnaryHistory predecessor ∧ UnaryHistory soundness ∧
+                  hsame relaxation (append source target) ∧
+                    hsame certificate (append endpoint relaxation) ∧
+                      hsame predecessor (append relaxation path) ∧
+                        hsame soundness (append predecessor endpoint) ∧
+                          PkgSig bundle endpoint pkg := by
+  intro carrier relaxationRow certificateRow predecessorRow soundnessRow
+  have sourceUnary : UnaryHistory source := carrier.right.right.right.left
+  have targetUnary : UnaryHistory target := carrier.right.right.right.right.left
+  have pathUnary : UnaryHistory path := carrier.right.right.right.right.right.left
+  have incidenceUnary : UnaryHistory incidence :=
+    unary_cont_closed carrier.left carrier.right.left
+      carrier.right.right.right.right.right.right.left
+  have weightedPathUnary : UnaryHistory weightedPath :=
+    unary_cont_closed incidenceUnary carrier.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed weightedPathUnary pathUnary
+      carrier.right.right.right.right.right.right.right.right.left
+  have relaxationUnary : UnaryHistory relaxation :=
+    unary_cont_closed sourceUnary targetUnary relaxationRow
+  have certificateUnary : UnaryHistory certificate :=
+    unary_cont_closed endpointUnary relaxationUnary certificateRow
+  have predecessorUnary : UnaryHistory predecessor :=
+    unary_cont_closed relaxationUnary pathUnary predecessorRow
+  have soundnessUnary : UnaryHistory soundness :=
+    unary_cont_closed predecessorUnary endpointUnary soundnessRow
+  exact
+    ⟨relaxationUnary,
+      certificateUnary,
+      predecessorUnary,
+      soundnessUnary,
+      relaxationRow,
+      certificateRow,
+      predecessorRow,
+      soundnessRow,
+      carrier.right.right.right.right.right.right.right.right.right⟩
+
 theorem ShortestPathVisiblePathLedger [AskSetup] [PackageSetup]
     {vertices edges weights source target incidence path weightLedger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
