@@ -101,6 +101,17 @@ def type_checking_as_ext_membership : Prop :=
             (∃ s : BHist, ∃ m : BMark, Ext s m h) →
               ∃ s : BHist, ∃ m : BMark, Ext s m k)
 
+theorem type_checking_as_ext_membership_proof : type_checking_as_ext_membership := by
+  intro WellTyped Classifier cert ext_iff
+  constructor
+  · intro h k classified wellTypedH
+    exact NameCert.carrier_respects_equiv cert classified wellTypedH
+  · intro h k classified extH
+    have wellTypedH : WellTyped h := (ext_iff h).mpr extH
+    have wellTypedK : WellTyped k :=
+      NameCert.carrier_respects_equiv cert classified wellTypedH
+    exact (ext_iff k).mp wellTypedK
+
 /-- Compiler as naming-certificate morphism (statement scaffold). -/
 def compilation_as_namecert_morphism : Prop :=
   ∀ (Source Target : BHist → Prop) (SourceClassifier TargetClassifier CompilerGraph : BHist → BHist → Prop),
