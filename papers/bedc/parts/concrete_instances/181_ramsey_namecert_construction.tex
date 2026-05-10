@@ -6,6 +6,19 @@ The Ramsey-theory interface $\RamseyUp$ packages, for every finite colouring of 
 \section{Carrier definition}
 \label{sec:ramsey-carrier}
 
+\begin{definition}[Ramsey monochrome witness carrier]
+\label{def:ramsey-monochrome-witness-carrier}
+The Ramsey monochrome witness carrier is the finite $\mathsf{BHist}$ packet
+whose readable rows are the $\FinSetUp$ vertex spine, the displayed subset
+spine, the colour endpoint rows indexed by that subset spine, the chosen
+witness subset row, the component $\hsame$ transports, the finite $\Cont$
+lookup routes from displayed subsets to colour endpoints, and the shared
+$\Pkg$ provenance for the packet. The carrier accepts a downstream witness
+only when each row is read through these finite packet coordinates and through
+the dependency certificates $\NameCert_{\FinSetUp}$ and
+$\NameCert_{\GraphUp}$ where those projections are requested.
+\end{definition}
+
 \section{The certificate}
 \label{sec:ramsey-certificate}
 
@@ -59,6 +72,39 @@ The monochrome condition is pointwise equality through the colour classifier
 on the transported endpoint rows. Thus all transported $r$-subsets retain the
 same classified colour, and the witness subset remains monochrome without
 choosing a host subset representative.
+\end{proof}
+
+\begin{theorem}[Ramsey monochrome witness scope]
+\label{thm:ramsey-monochrome-witness-scope}
+Every monochrome witness consumed downstream from the $\RamseyUp$ surface is
+read only through the carrier of
+\autoref{def:ramsey-monochrome-witness-carrier}, together with the
+$\NameCert_{\FinSetUp}$ and $\NameCert_{\GraphUp}$ projections already exposed
+by the displayed packet. No downstream clause reads a host subset iterator, a
+host colouring function, or an ambient graph object outside those packet rows.
+\end{theorem}
+\begin{proof}
+First project the witness to the finite packet of
+\autoref{def:ramsey-monochrome-witness-carrier}. This gives the vertex spine,
+subset spine, colour endpoint rows, chosen witness subset, component
+$\hsame$ transports, finite lookup routes, and shared provenance as explicit
+$\mathsf{BHist}$ rows.
+
+Next apply \autoref{thm:ramsey-colouring-carrier-obligation}. It identifies
+the accepted colouring surface with the same finite packet, so every colour
+read used by the witness is routed through a displayed $\Cont$ lookup rather
+than through a host colouring function.
+
+The witness classifier is stable under the transported rows by
+\autoref{thm:ramsey-monochrome-classifier-stability}. The finite ledger
+exactness theorem then says that the readable rows are exactly the displayed
+carrier, lookup, transport, and provenance rows, with any finset or graph
+consumer receiving only the corresponding $\NameCert_{\FinSetUp}$ or
+$\NameCert_{\GraphUp}$ projection.
+
+Thus the downstream witness has no remaining coordinate from which a host
+subset iterator, host colouring function, or ambient graph object could be
+read.
 \end{proof}
 
 \begin{theorem}[Ramsey finite ledger exactness]
