@@ -430,6 +430,63 @@ def SoundP8Report (report : P8Report) : Prop :=
       List.Mem (P8ReportDatum.recognizedManuscriptFlow R M) report.outputView ->
         CompleteManuscriptRecognition R M)
 
+structure P8AuditChecklist
+    (prototype : ChapterManuscriptPrototype) (report : P8Report) where
+  p7Audit : P7AuditChecklist prototype.p7
+  chapterPackageNotFormal :
+    forall x : P8FormalInput,
+      Not (P8InputRepresentation.external P8ExternalInput.chapterPackage =
+        P8InputRepresentation.formal x)
+  manuscriptFileNotFormal :
+    forall x : P8FormalInput,
+      Not (P8InputRepresentation.external P8ExternalInput.manuscriptFile =
+        P8InputRepresentation.formal x)
+  soundReport : SoundP8Report report
+  cannotClaimAnnotationsComplete :
+    CompleteP8CannotClaimAnnotations report.cannotClaims
+
+structure P8Adequate
+    (prototype : ChapterManuscriptPrototype) (report : P8Report) where
+  audit : P8AuditChecklist prototype report
+  p7Adequate : P7AdequatePrototype prototype.p7
+  soundReport : SoundP8Report report
+  cannotClaimAnnotationsComplete :
+    CompleteP8CannotClaimAnnotations report.cannotClaims
+  chapterPackageNotFormal :
+    forall x : P8FormalInput,
+      Not (P8InputRepresentation.external P8ExternalInput.chapterPackage =
+        P8InputRepresentation.formal x)
+  manuscriptFileNotFormal :
+    forall x : P8FormalInput,
+      Not (P8InputRepresentation.external P8ExternalInput.manuscriptFile =
+        P8InputRepresentation.formal x)
+
+theorem p8_adequacy
+    {prototype : ChapterManuscriptPrototype} {report : P8Report} :
+    P8AuditChecklist prototype report -> P8Adequate prototype report := by
+  intro hAudit
+  exact
+    { audit := hAudit,
+      p7Adequate := p7_adequacy hAudit.p7Audit,
+      soundReport := hAudit.soundReport,
+      cannotClaimAnnotationsComplete :=
+        hAudit.cannotClaimAnnotationsComplete,
+      chapterPackageNotFormal := hAudit.chapterPackageNotFormal,
+      manuscriptFileNotFormal := hAudit.manuscriptFileNotFormal }
+
+inductive P8HigherReportDatum : P8ReportDatum -> Prop
+
+def P8HigherAdequacy (report : P8Report) : Prop :=
+  exists datum : P8ReportDatum,
+    List.Mem datum report.outputView /\ P8HigherReportDatum datum
+
+theorem p8_adequacy_not_higher {report : P8Report} :
+    Not (P8HigherAdequacy report) := by
+  intro hHigher
+  cases hHigher with
+  | intro _ hDatum =>
+      cases hDatum.right
+
 theorem sound_p8_report {report : P8Report} :
     SoundP8Report report ->
       (forall C code,
