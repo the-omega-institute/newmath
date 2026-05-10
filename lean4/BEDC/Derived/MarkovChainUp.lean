@@ -203,31 +203,28 @@ theorem MarkovChainTransitionPacket_kernel_classifier_stability
 
 theorem MarkovChainBHistTransitionCarrier_transition_ledger_exactness
     [AskSetup] [PackageSetup]
-    {prob time rv law kernel ledger endpoint : BHist}
+    {prob random law transition controw provenance endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    MarkovChainBHistTransitionCarrier prob time rv law kernel ledger endpoint bundle pkg ->
-      UnaryHistory prob ∧ UnaryHistory time ∧ UnaryHistory rv ∧ UnaryHistory law ∧
-        UnaryHistory kernel ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
-          Cont kernel rv ledger ∧ Cont ledger law endpoint ∧ PkgSig bundle endpoint pkg ∧
-            hsame endpoint (append ledger law) := by
+    MarkovChainBHistTransitionCarrier prob random law transition controw provenance endpoint
+        bundle pkg ->
+      UnaryHistory prob ∧ UnaryHistory random ∧ UnaryHistory law ∧
+        UnaryHistory transition ∧ UnaryHistory controw ∧ UnaryHistory provenance ∧
+          UnaryHistory endpoint ∧ Cont random transition controw ∧
+            Cont prob law provenance ∧ Cont provenance controw endpoint ∧
+              PkgSig bundle endpoint pkg ∧ hsame endpoint (append provenance controw) := by
   intro carrier
-  have ledgerUnary : UnaryHistory ledger :=
-    unary_cont_closed carrier.right.right.right.right.left
-      carrier.right.right.left carrier.right.right.right.right.right.left
-  have endpointUnary : UnaryHistory endpoint :=
-    unary_cont_closed ledgerUnary carrier.right.right.right.left
-      carrier.right.right.right.right.right.right.left
   exact
     ⟨carrier.left,
       carrier.right.left,
       carrier.right.right.left,
       carrier.right.right.right.left,
       carrier.right.right.right.right.left,
-      ledgerUnary,
-      endpointUnary,
       carrier.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.left,
-      carrier.right.right.right.right.right.right.right,
-      carrier.right.right.right.right.right.right.left⟩
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right,
+      carrier.right.right.right.right.right.right.right.right.right.left⟩
 
 end BEDC.Derived.MarkovChainUp

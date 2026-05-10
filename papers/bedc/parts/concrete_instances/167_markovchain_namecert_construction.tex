@@ -28,12 +28,12 @@ Finally transport the transition $\Cont$ ledger and $\Pkg$ provenance. Since acc
 \end{proof}
 \begin{theorem}[MarkovChain transition ledger exactness]
 \label{thm:markovchain-transition-ledger-exactness}
-For every accepted $\MarkovChainUp$ carrier, the transition ledger exposes exactly the $\mathsf{BHist}$ rows for the $\ProbSpaceUp$ source, the time-indexed $\RandomVarUp$ rows, the corresponding $\DistributionUp$ law rows, the transition rows $K_n$, and their $\hsame/\Cont/\Pkg$ provenance. It does not expose a host Markov process, a filtration, a conditional-expectation row, or a standard kernel bridge.
+For every accepted $\MarkovChainUp$ carrier, the transition ledger exposes exactly the $\mathsf{BHist}$ rows for the $\ProbSpaceUp$ source, the displayed $\RandomVarUp$ rows, the corresponding $\DistributionUp$ law rows, the transition rows $K_n$, the continuation row from the random-variable and transition rows, the provenance row from the probability-space and law rows, the endpoint row from provenance and transition-continuation rows, and the package provenance. It does not expose a host Markov process, a filtration, a conditional-expectation row, or a standard kernel bridge.
 \end{theorem}
 \begin{proof}
 Inspect the carrier definition. Its accepted rows are precisely the source probability-space row, the displayed random-variable rows, the displayed distribution rows, the transition rows, and the provenance entries that bind adjacent time steps.
 
-The ledger field of the ten-field template is the finite $\Cont$ display explaining how $X_{n+1}$ is read from $X_n$ through $K_n$. Projecting the ledger therefore returns only those named rows and their package provenance.
+The ledger field of the ten-field template is the finite $\Cont$ display explaining how the transition-continuation row is read from the displayed random-variable row and $K_n$, how the provenance row is read from the probability-space and law rows, and how the endpoint is read from the provenance and transition-continuation rows. Projecting the ledger therefore returns only those named rows and their package provenance.
 
 No constructor in the carrier produces a filtration, a conditional-expectation object, or a host stochastic-process carrier. Hence none of those external stochastic objects is exported by the transition ledger.
 \end{proof}
