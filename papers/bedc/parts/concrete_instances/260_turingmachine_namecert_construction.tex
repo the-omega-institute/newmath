@@ -119,6 +119,7 @@ only the displayed initial row, transition step, halted repetition, finite
 readback, and bounded-simulation ledger entries, the listed rows exhaust the
 obligation surface.
 \end{proof}
+\leanchecked{BEDC.Derived.TuringMachineUp.TuringMachineObligationSurface\_bounded\_trace\_ledger}
 
 \begin{theorem}[TuringMachine source-classifier obligation]
 \label{thm:turingmachine-source-classifier-obligation}
@@ -275,10 +276,10 @@ exactly the listed finite-row obligation surface.
 
 \begin{closurestatus}{\TuringMachineUp}
   \constructivestory{A $\TuringMachineUp$ token names a deterministic finite-state transition table over a finite tape alphabet with a designated blank symbol. A configuration history is built from a $\SeqUp$ trace of (state, tape, head-position) rows whose initial row is the boot configuration on a $\NatUp$-encoded input, whose one-step rows follow the transition function, and whose halted rows repeat the halted configuration. The classifier is $\hsame$ on the configuration trace, transport repacks the trace through the deterministic transition table, and the source binds finite-alphabet, finite-state, finite-trace, and finite-head-displacement rows. The pattern records the initial-row, transition-step, halted-repetition, and finite-tape-readback rows; the ledger keeps the deterministic transition table, head movement, and tape values visible. The five name-certificate obligations follow: the inhabited identity certificate is the boot trace at length zero; classifier stability is reflexive, symmetric, and transitive $\hsame$ on traces; transport repacks configurations through the transition function; ledger exactness identifies the accepted history with the bounded simulation row in the sense of \autoref{ch:concrete-instances-computable-namecert}; the extension boundary fixes the halted-repetition rule. A history $h$ lies in the signature gap of a $\TuringMachineUp$ token $p$ when the source-domain accepts a configuration trace with the right transition table, the signature relation pairs it with the halted output, and token introduction names that output as $p$. The chapter registers this finite-trace machine surface under the name $\TuringMachineUp$; it is a deterministic-transition-table object with no oracle, nondeterminism, parallelism, halting decision, or universal-machine claim.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation scope is the surface in \autoref{thm:turingmachine-obligation-surface}, \autoref{thm:turingmachine-source-classifier-obligation}, and \autoref{thm:turingmachine-ledger-exactness-obligation}, grounded by \autoref{thm:turingmachine-configuration-trace-carrier}, \autoref{thm:turingmachine-deterministic-step-transport}, \autoref{thm:turingmachine-halted-repetition-ledger-exactness}, and \autoref{thm:turingmachine-finite-tape-readback-carrier}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{The chapter does not close halting decidability, universal-machine theorems, oracle Turing machines, parallel/nondeterministic machines, or a standard-model bridge to classical computability.}
-  \upgradepath{Scoped closure requires binding these obligations to the named BEDC primitives and the consumed $\NatUp$, $\SeqUp$, and $\ComputableUp$ rows.}
+  \upgradepath{Public closure requires a checked public TuringMachineUp certificate theorem tying this finite trace surface to a Lean target.}
 \end{closurestatus}
