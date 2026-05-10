@@ -454,6 +454,42 @@ theorem SeparableExtSourceSurface_simple_root_obligation [AskSetup] [PackageSetu
                  (And.intro endpointCont' pkgSig')))))))
     sameEndpoint
 
+theorem SeparableExtSourceSurface_mature_example_family [AskSetup] [PackageSetup]
+    {fieldExt polynomial generator minimal simpleRoot provenance endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot provenance endpoint
+        bundle pkg ->
+      Cont provenance simpleRoot endpoint' ->
+        PkgSig bundle endpoint' pkg ->
+          SeparableExtSourceSurface fieldExt polynomial generator minimal simpleRoot provenance
+              endpoint' bundle pkg ∧
+            UnaryHistory fieldExt ∧ UnaryHistory polynomial ∧ UnaryHistory generator ∧
+              UnaryHistory minimal ∧ UnaryHistory simpleRoot ∧ UnaryHistory provenance ∧
+                UnaryHistory endpoint' ∧ hsame provenance (append fieldExt polynomial) ∧
+                  hsame endpoint' (append provenance simpleRoot) ∧
+                    PkgSig bundle endpoint' pkg := by
+  intro surface endpointRow pkgSig
+  have ledger := SeparableExtSourceSurface_dependency_ledger_closure surface
+  have endpointUnary : UnaryHistory endpoint' :=
+    unary_cont_closed ledger.left surface.right.right.right.right.left endpointRow
+  exact And.intro
+    (And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro surface.right.right.left
+          (And.intro surface.right.right.right.left
+            (And.intro surface.right.right.right.right.left
+              (And.intro surface.right.right.right.right.right.left
+                (And.intro endpointRow pkgSig)))))))
+    (And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro surface.right.right.left
+          (And.intro surface.right.right.right.left
+            (And.intro surface.right.right.right.right.left
+              (And.intro ledger.left
+                (And.intro endpointUnary
+                  (And.intro ledger.right.right.left
+                    (And.intro endpointRow pkgSig)))))))))
+
 theorem SeparableExtJointSource_carrier_classifier_surface
     {field field' polynomial polynomial' generator generator' minpoly minpoly' derivative
       derivative' provenance provenance' endpoint endpoint' : BHist} :
