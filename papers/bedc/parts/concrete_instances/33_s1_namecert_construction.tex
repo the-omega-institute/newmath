@@ -191,6 +191,36 @@ compactness, connectedness, angle, winding, quotient-circle, and
 metric-completeness rows are absent unless a later certificate supplies them.
 \end{proof}
 
+\begin{theorem}[SOne standard bridge componentwise transport stability]
+\label{thm:sone-standard-bridge-componentwise-transport-stability}
+Let $P$ and $Q$ be accepted public $\SOneUp$ packets. Suppose their two
+$\RealUp$ component rows are related by
+\autoref{def:sone-component-classifier-relation}. If $P$ admits a standard
+topological-circle bridge row, then $Q$ admits a standard topological-circle
+bridge row with the same readable $\RealUp$ component finite-window surfaces,
+product ledger, unit-equation witness, componentwise classifier, and equation
+transport. Compactness, connectedness, angle, winding, quotient-circle, and
+metric-completeness rows remain unavailable.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:sone-componentwise-classifier-equation-transport}. The
+componentwise classifier relation transports the product ledger,
+unit-equation witness, equation-transport row, and the two finite-window
+$\RegSeqRat$ read surfaces from $P$ to $Q$.
+
+Next apply \autoref{thm:sone-standard-topological-bridge-boundary}. The
+standard bridge row for $P$ has no readable coordinate outside those
+component, product, equation, classifier, transport, and finite-window rows, so
+the transported data already identify the public bridge boundary available to
+$Q$.
+
+Finally use
+\autoref{thm:sone-standard-topological-circle-acceptance-factorization}. The
+transported boundary repacks as the same public standard topological-circle
+bridge surface for $Q$, while compactness, connectedness, angle, winding,
+quotient-circle, and metric-completeness data remain absent from the bridge.
+\end{proof}
+
 \closureat{SOneUp}{seedStr}[BEDC.Derived.S1Up.sone\_history\_semantic\_name\_certificate]
 \closureat{SOneUp}{scopedStr}[BEDC.Derived.S1Up.sone\_history\_semantic\_name\_certificate]
 
