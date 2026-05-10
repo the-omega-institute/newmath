@@ -190,6 +190,60 @@ theorem BusyBeaverEnumerationCompleteness_append_coverage
             exact leftCoverage m (List.Mem.tail head memTail)
           exact ih tailMem tailCoverage
 
+theorem BusyBeaverPerMachineReadback_membership_exactness
+    {left right : List BHist}
+    {machine input trace output steps bound haltedLedger outputComparison stepComparison
+      boundLedger fullLedger : BHist} :
+    List.Mem machine (left ++ right) ->
+      (forall m : BHist, List.Mem m left -> UnaryHistory m) ->
+        (forall m : BHist, List.Mem m right -> UnaryHistory m) ->
+          UnaryHistory input ->
+            UnaryHistory output ->
+              UnaryHistory steps ->
+                UnaryHistory bound ->
+                  Cont machine input trace ->
+                    Cont trace output haltedLedger ->
+                      Cont output bound outputComparison ->
+                        Cont steps bound stepComparison ->
+                          Cont haltedLedger outputComparison boundLedger ->
+                            Cont boundLedger stepComparison fullLedger ->
+                              UnaryHistory machine ∧ UnaryHistory trace ∧
+                                UnaryHistory haltedLedger ∧ UnaryHistory outputComparison ∧
+                                  UnaryHistory stepComparison ∧ UnaryHistory boundLedger ∧
+                                    UnaryHistory fullLedger ∧
+                                      hsame fullLedger (append boundLedger stepComparison) := by
+  intro machineMem leftCoverage rightCoverage inputUnary outputUnary stepsUnary boundUnary
+  intro traceRow haltedLedgerRow outputComparisonRow stepComparisonRow boundLedgerRow
+  intro fullLedgerRow
+  have machineUnary : UnaryHistory machine := by
+    induction left with
+    | nil =>
+        exact rightCoverage machine machineMem
+    | cons head tail ih =>
+        cases machineMem with
+        | head =>
+            exact leftCoverage machine (List.Mem.head tail)
+        | tail _ tailMem =>
+            have tailCoverage : forall m : BHist, List.Mem m tail -> UnaryHistory m := by
+              intro m memTail
+              exact leftCoverage m (List.Mem.tail head memTail)
+            exact ih tailMem tailCoverage
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed machineUnary inputUnary traceRow
+  have haltedLedgerUnary : UnaryHistory haltedLedger :=
+    unary_cont_closed traceUnary outputUnary haltedLedgerRow
+  have outputComparisonUnary : UnaryHistory outputComparison :=
+    unary_cont_closed outputUnary boundUnary outputComparisonRow
+  have stepComparisonUnary : UnaryHistory stepComparison :=
+    unary_cont_closed stepsUnary boundUnary stepComparisonRow
+  have boundLedgerUnary : UnaryHistory boundLedger :=
+    unary_cont_closed haltedLedgerUnary outputComparisonUnary boundLedgerRow
+  have fullLedgerUnary : UnaryHistory fullLedger :=
+    unary_cont_closed boundLedgerUnary stepComparisonUnary fullLedgerRow
+  exact
+    ⟨machineUnary, traceUnary, haltedLedgerUnary, outputComparisonUnary, stepComparisonUnary,
+      boundLedgerUnary, fullLedgerUnary, fullLedgerRow⟩
+
 theorem BusyBeaverPerMachineReadback_endpoint_exactness
     {machine input trace output steps bound bound' haltedLedger outputBound outputBound'
       stepBound stepBound' ledger ledger' : BHist} :

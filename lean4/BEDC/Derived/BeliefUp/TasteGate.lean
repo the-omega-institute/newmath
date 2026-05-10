@@ -1,4 +1,4 @@
-import BEDC.GroundCompiler.TasteGate
+import BEDC.Meta.TasteGate
 
 /-!
 # BeliefUp: minimal inductive carrier and TasteGate instance.
@@ -21,7 +21,7 @@ namespace BEDC.Derived.BeliefUp
 
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
-open BEDC.GroundCompiler.TasteGate
+open BEDC.Meta.TasteGate
 
 /-- A finite belief history. -/
 inductive BeliefUp : Type where
