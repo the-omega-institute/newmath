@@ -403,4 +403,44 @@ theorem CompactMetricCertificate_total_bounded_field_projection {X : BHist -> Pr
              (And.intro centerData.left
                (And.intro (transportedNet.right.left centerData.left) centerData.right))))
 
+theorem CompactMetricCertificate_heine_cantor_input_boundary {X : BHist -> Prop}
+    {eps n : BHist} {bundle : ProbeBundle BHist} {s M : BHist -> BHist}
+    {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> UnaryHistory n -> X (s n) ->
+      TotallyBoundedProbeBundleNet X eps bundle ∧ CompleteMetricLimitWitness X s M limit ∧
+        (exists center : BHist, InBundle center bundle ∧ X center ∧
+          exists d : BHist,
+            MetricDistanceWitness (s n) center d ∧ RatHistoryClassifier d eps) ∧
+          (exists limitDist : BHist,
+            MetricDistanceWitness (s n) limit limitDist ∧ Cont (s n) limit limitDist ∧
+              RatHistoryClassifier limitDist (M n)) := by
+  intro certificate nUnary streamSource
+  cases certificate with
+  | intro net complete =>
+      constructor
+      · exact net
+      · constructor
+        · exact complete
+        · constructor
+          · cases net.right.right streamSource with
+            | intro center centerData =>
+                exact Exists.intro center
+                  (And.intro centerData.left
+                    (And.intro (net.right.left centerData.left) centerData.right))
+          · exact complete.right nUnary streamSource
+
+theorem CompactMetricCertificate_complete_field_projection {X : BHist -> Prop}
+    {eps : BHist} {bundle : ProbeBundle BHist} {s s' M M' : BHist -> BHist}
+    {limit limit' : BHist} :
+    CompactMetricCertificate X eps bundle s M limit ->
+      (forall {h k : BHist}, hsame h k -> X h -> X k) ->
+        (forall {n : BHist}, UnaryHistory n -> hsame (s n) (s' n)) ->
+          (forall {n : BHist}, UnaryHistory n -> hsame (M n) (M' n)) ->
+            hsame limit limit' -> CompleteMetricLimitWitness X s' M' limit' ∧ X limit' := by
+  intro certificate carrierTransport streamTransport modulusTransport sameLimit
+  have transportedLimit : CompleteMetricLimitWitness X s' M' limit' :=
+    CompleteMetricLimitWitness_hsame_transport carrierTransport streamTransport
+      modulusTransport sameLimit certificate.right
+  exact And.intro transportedLimit transportedLimit.left
+
 end BEDC.Derived.CompactMetricUp
