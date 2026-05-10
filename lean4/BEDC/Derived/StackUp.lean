@@ -6,6 +6,7 @@ import BEDC.FKernel.Package
 import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
+import BEDC.Derived.SheafUp
 
 namespace BEDC.Derived.StackUp
 
@@ -16,6 +17,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
+open BEDC.Derived.SheafUp
 
 def StackCarrierPacket [AskSetup] [PackageSetup]
     (site objectRows arrowRows transportRows restrictionRows descentRows representabilityRows
@@ -65,49 +67,51 @@ theorem StackCarrierPacket_descent_transport [AskSetup] [PackageSetup]
       sameEndpoint⟩
 
 def StackBHistCarrier [AskSetup] [PackageSetup]
-    (site groupoid objects arrows restriction descent representability provenance endpoint :
-      BHist)
+    (site object arrow restriction descent provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory site ∧ UnaryHistory groupoid ∧ UnaryHistory arrows ∧ UnaryHistory descent ∧
-    UnaryHistory provenance ∧ Cont site groupoid objects ∧ Cont objects arrows restriction ∧
-      Cont restriction descent representability ∧ Cont representability provenance endpoint ∧
-        PkgSig bundle endpoint pkg
+  SheafBHistPointGermLedger site object arrow descent ∧
+    UnaryHistory arrow ∧ UnaryHistory restriction ∧ Cont descent restriction endpoint ∧
+      UnaryHistory provenance ∧ PkgSig bundle provenance pkg
 
 theorem StackBHistCarrier_descent_obligation [AskSetup] [PackageSetup]
-    {site groupoid objects arrows restriction descent representability provenance endpoint descent'
-      representability' endpoint' : BHist}
+    {site object arrow restriction descent provenance endpoint descent' endpoint' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    StackBHistCarrier site groupoid objects arrows restriction descent representability provenance
-        endpoint bundle pkg ->
+    StackBHistCarrier site object arrow restriction descent provenance endpoint bundle pkg ->
       hsame descent descent' ->
-      Cont restriction descent' representability' ->
-      Cont representability' provenance endpoint' ->
-      PkgSig bundle endpoint' pkg ->
-      StackBHistCarrier site groupoid objects arrows restriction descent' representability'
-          provenance endpoint' bundle pkg ∧
-        hsame representability representability' ∧ hsame endpoint endpoint' := by
-  intro carrier sameDescent representabilityCont' endpointCont' pkgSig'
-  have descentUnary' : UnaryHistory descent' :=
-    unary_transport carrier.right.right.right.left sameDescent
-  have sameRepresentability : hsame representability representability' :=
-    cont_respects_hsame (hsame_refl restriction) sameDescent
-      carrier.right.right.right.right.right.right.right.left representabilityCont'
+        Cont descent' restriction endpoint' ->
+          StackBHistCarrier site object arrow restriction descent' provenance endpoint'
+              bundle pkg ∧
+            hsame endpoint endpoint' := by
+  intro carrier sameDescent endpointCont'
+  have descentCont' : Cont object arrow descent' :=
+    cont_result_hsame_transport carrier.left.right.right sameDescent
   have sameEndpoint : hsame endpoint endpoint' :=
-    cont_respects_hsame sameRepresentability (hsame_refl provenance)
-      carrier.right.right.right.right.right.right.right.right.left endpointCont'
+    cont_respects_hsame sameDescent (hsame_refl restriction)
+      carrier.right.right.right.left endpointCont'
   exact
-    ⟨⟨carrier.left,
+    ⟨⟨⟨carrier.left.left, carrier.left.right.left, descentCont'⟩,
         carrier.right.left,
         carrier.right.right.left,
-        descentUnary',
-        carrier.right.right.right.right.left,
-        carrier.right.right.right.right.right.left,
-        carrier.right.right.right.right.right.right.left,
-        representabilityCont',
         endpointCont',
-        pkgSig'⟩,
-      sameRepresentability,
+        carrier.right.right.right.right.left,
+        carrier.right.right.right.right.right⟩,
       sameEndpoint⟩
+
+theorem StackBHistCarrier_obligation_surface [AskSetup] [PackageSetup]
+    {site object arrow restriction descent provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StackBHistCarrier site object arrow restriction descent provenance endpoint bundle pkg ->
+      SheafBHistPointGermLedger site object arrow descent ∧
+        Cont descent restriction endpoint ∧ UnaryHistory endpoint ∧
+          PkgSig bundle provenance pkg := by
+  intro carrier
+  have descentUnary : UnaryHistory descent :=
+    unary_cont_closed carrier.left.right.left carrier.right.left carrier.left.right.right
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed descentUnary carrier.right.right.left carrier.right.right.right.left
+  exact And.intro carrier.left
+    (And.intro carrier.right.right.right.left
+      (And.intro endpointUnary carrier.right.right.right.right.right))
 
 theorem StackDescent_obligation_surface [AskSetup] [PackageSetup]
     {site objectRows arrowRows descentLedger carrierRow : BHist}
