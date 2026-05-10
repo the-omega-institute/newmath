@@ -714,6 +714,55 @@ and ledger fields are the identity implications on the Bool history carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.bool\_history\_semantic\_name\_certificate}
 
+\begin{definition}[Bool public endpoint constructors]
+\label{def:bool-public-endpoint-constructors}
+The public false constructor is $\mathsf{BoolEndpoint}(\bzero)=\emp$, and the
+public true constructor is $\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$. Public boolean
+operations are finite endpoint tables whose input and output rows are drawn
+only from these two constructor rows. No row in this public surface is a host
+proposition, a decidable predicate, or an eliminator.
+\end{definition}
+
+\begin{theorem}[Bool public constructor case readback]
+\label{thm:bool-public-constructor-case-readback}
+Every public Bool endpoint read is classified by exactly one of the displayed false
+and true endpoint rows of \autoref{def:bool-public-endpoint-constructors}. Two
+public constructor readbacks agree exactly when their underlying marks are
+related by $\msame$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bool-history-carrier-endpoint-coverage} to the public read.
+It supplies a displayed mark $v:\mathsf{BMark}$ and a witness that the read
+history is the endpoint $\mathsf{BoolEndpoint}(v)$.
+
+Case analysis on $v$ gives the two public rows
+$\mathsf{BoolEndpoint}(\bzero)=\emp$ and $\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$.
+Theorem~\ref{thm:bool-endpoint-readback-determinism}
+gives uniqueness of the readback mark, and
+\autoref{thm:bool-endpoint-bridge-exactness} identifies agreement of endpoint
+rows with $\msame$ of the underlying marks.
+\end{proof}
+
+\begin{theorem}[Bool public surface no-hidden leakage]
+\label{thm:bool-public-surface-no-hidden-leakage}
+A consumer of the public Bool surface can read only the two constructor endpoint rows,
+endpoint-table operation rows over those constructors, the mark and history
+classifier rows, and the semantic certificate ledger. It cannot read a host
+proposition, a decidable predicate, an eliminator, or truth-table completeness.
+\end{theorem}
+\begin{proof}
+The public constructors are exactly the two endpoint rows in
+\autoref{def:bool-public-endpoint-constructors}. The endpoint coverage and
+constructor case readback statements show that public reads return one of these rows,
+with agreement controlled by $\msame$ and endpoint exactness rather than by host logic.
+
+The semantic certificate in \autoref{thm:bool-concrete-semantic-namecert}
+records the carrier, classifier, and ledger discipline. Since the displayed
+public rows contain no host proposition, decidable predicate, eliminator, or
+truth-table-completeness row, those objects are not available to a surface
+consumer.
+\end{proof}
+
 The endpoint coverage, endpoint bridge classifier completeness, and endpoint
 readback theorems justify the Bool public-object readback and bridge promised
 by the roadmap template; they are not internal fields of the

@@ -1,4 +1,4 @@
-import BEDC.Derived.DiffFormUp
+import BEDC.Derived.DiffFormUp.RootConsumerExport
 
 namespace BEDC.Derived.DiffFormUp
 
@@ -70,5 +70,29 @@ theorem DiffFormWedgeContinuation_input_closure
           (And.intro outDegreeUnary (And.intro tensorLedgerUnary ledgerSame))))
   exact And.intro outAligned
     (And.intro wedgeLedger (And.intro tensorLeftUnary tensorRightUnary))
+
+theorem DiffFormSourceEnvelope_exterior_derivative_consumer_coverage
+    {omega domega d dplus probe probePrime tensor tensorPrime scalar scalarPrime antisym source
+      rootLedger exportLedger : BHist} :
+    DiffFormExteriorDerivativeLedger omega domega d dplus probe probePrime tensor tensorPrime
+        scalar scalarPrime antisym source ->
+      UnaryHistory rootLedger ->
+        Cont source rootLedger exportLedger ->
+          UnaryHistory exportLedger ∧ hsame exportLedger (append source rootLedger) ∧
+            UnaryHistory omega ∧ UnaryHistory domega ∧ UnaryHistory source ∧
+              Cont d (BHist.e1 BHist.Empty) dplus ∧ hsame probe probePrime ∧
+                hsame tensor tensorPrime ∧ hsame scalar scalarPrime := by
+  intro ledger rootUnary exportRow
+  have exportRows :=
+    DiffFormRootConsumerExport_coverage ledger rootUnary exportRow
+  exact And.intro exportRows.left
+    (And.intro exportRows.right.left
+      (And.intro exportRows.right.right.left
+        (And.intro exportRows.right.right.right.left
+          (And.intro exportRows.right.right.right.right
+            (And.intro ledger.right.right.right.right.left
+              (And.intro ledger.right.right.right.right.right.left
+                (And.intro ledger.right.right.right.right.right.right.left
+                  ledger.right.right.right.right.right.right.right.left)))))))
 
 end BEDC.Derived.DiffFormUp

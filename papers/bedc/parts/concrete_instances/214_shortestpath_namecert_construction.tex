@@ -83,3 +83,169 @@ $\mathsf{BHist}$ ledger obligation over the named graph and weight rows, with
 no ambient choice principle, host-vertex ordering, infinite process, or
 completed real object.
 \end{proof}
+
+\begin{definition}[Shortest-path relaxation ledger carrier]
+\label{def:shortestpath-relaxation-ledger-carrier}
+A $\ShortestPathUp$ relaxation ledger carrier is a finite $\mathsf{BHist}$
+packet over the weighted-graph carrier of
+\autoref{def:shortestpath-bhist-weighted-graph-carrier}. Its displayed rows
+are the $\GraphUp$ vertex and edge rows, nonnegative $\RealUp$ edge-weight
+rows, before-and-after path-weight rows, predecessor rows, visible $\Cont$
+relaxation rows, the $\hsame$ comparisons recording the transported packet
+equalities, and the $\Pkg$ provenance tying the relaxation ledger to the named
+graph and weight packet.
+
+The carrier records only finite relaxation evidence. It does not contain a
+host minimizer, a hidden vertex order, an infinite relaxation stream, or a
+completed metric assumption.
+\end{definition}
+\leandef{BEDC.Derived.ShortestPathUp.ShortestPathRelaxationLedgerCarrier}
+
+\begin{theorem}[Shortest-path relaxation continuation closure]
+\label{thm:shortestpath-relaxation-cont-closure}
+Let a $\ShortestPathUp$ weighted-graph carrier display finite vertex rows,
+edge rows, nonnegative $\RealUp$ weight rows, endpoint rows, and path-ledger
+rows. If a transported relaxation packet also displays the before-and-after
+path-weight rows, predecessor rows, visible $\Cont$ relaxation rows, matching
+$\hsame$ comparisons, and the same $\Pkg$ provenance, then those rows repack
+as an accepted relaxation ledger carrier over the same weighted graph.
+\end{theorem}
+\leanchecked{BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_relaxation\_cont\_closure}
+\begin{proof}
+Project the weighted-graph carrier rows. They give the finite vertex, edge,
+weight, endpoint, path-ledger, and provenance rows named in
+\autoref{def:shortestpath-bhist-weighted-graph-carrier}.
+
+Next read the transported relaxation packet. Its visible $\Cont$ rows produce
+the before-and-after path-weight rows and the predecessor rows, while the
+$\hsame$ comparisons identify the transported packets with the displayed
+source graph and weight rows.
+
+The required carrier is obtained by repacking exactly these projected and
+transported rows into
+\autoref{def:shortestpath-relaxation-ledger-carrier}. The $\Pkg$ provenance is
+unchanged, so the relaxation ledger remains attached to the original
+weighted-graph packet.
+\end{proof}
+
+\begin{theorem}[Shortest-path visible relaxation NameCert surface]
+\label{thm:shortestpath-visible-relaxation-namecert-surface}
+The visible path ledger of
+\autoref{thm:shortestpath-visible-path-ledger} together with an accepted
+relaxation ledger carrier of
+\autoref{def:shortestpath-relaxation-ledger-carrier} supplies the finite
+$\NameCert_{\ShortestPathUp}$ surface for displayed Dijkstra or Bellman-Ford
+readback. The surface consists of endpoint visibility, edge-incidence
+visibility, nonnegative weight visibility, finite before-and-after
+path-weight comparisons, predecessor visibility, relaxation $\Cont$ rows,
+$\hsame$ transport comparisons, and $\Pkg$ provenance.
+
+It does not expose a host minimization principle, a hidden vertex order, an
+infinite relaxation process, or a completed metric-space assumption.
+\end{theorem}
+\leanchecked{BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_visible\_relaxation\_namecert\_surface}
+\begin{proof}
+Use \autoref{thm:shortestpath-visible-path-ledger} to obtain the endpoint,
+incidence, nonnegative weight, path-ledger, and provenance rows from the
+visible path certificate.
+
+Apply \autoref{thm:shortestpath-relaxation-cont-closure} to the transported
+relaxation rows. This supplies the finite before-and-after path-weight rows,
+predecessor rows, visible $\Cont$ relaxation rows, and $\hsame$ transport
+comparisons over the same weighted graph.
+
+Combining the two finite ledgers gives exactly the displayed
+$\NameCert_{\ShortestPathUp}$ surface. Since neither carrier has a generator
+for host minimizers, hidden vertex orderings, infinite relaxation streams, or
+completed metric objects, none of those assumptions is part of the certificate
+surface.
+\end{proof}
+
+\begin{theorem}[Shortest-path finite edge exhaustion]
+\label{thm:shortestpath-finite-edge-exhaustion}
+Every accepted $\ShortestPathUp$ path-ledger step is exhausted by visible
+finite data: a displayed edge-incidence row, the source and target endpoint
+rows it connects, a finite $\Cont$ route through the carrier rows, and the
+$\Pkg$ provenance row that ties the step to the weighted-graph packet.
+
+Consequently the certificate has no hidden edge source. Any edge used by the
+accepted path is read from the finite $\mathsf{BHist}$ carrier of
+\autoref{def:shortestpath-bhist-weighted-graph-carrier}, not from a host graph
+outside the certificate.
+\end{theorem}
+\begin{proof}
+Inspect the carrier constructors in
+\autoref{def:shortestpath-bhist-weighted-graph-carrier}. The carrier exports
+only vertex rows, edge rows, nonnegative weight rows, endpoint rows,
+path-ledger rows, and the package provenance row.
+
+Apply \autoref{thm:shortestpath-visible-path-ledger} to a single adjacent
+ledger step. The step supplies its two displayed vertices, the incidence row
+between them, and the endpoint rows used by the ledger.
+
+It remains to account for routing and provenance. The finite $\Cont$ route is
+the row-by-row traversal through those displayed carrier rows, and the $\Pkg$
+row records that the traversal reads this weighted-graph packet. Since the
+carrier has no constructor for an unseen edge source, the listed rows exhaust
+the edge obligation.
+\end{proof}
+
+\begin{theorem}[Shortest-path weight readback]
+\label{thm:shortestpath-weight-readback}
+For any accepted $\ShortestPathUp$ packet, the total weight of the displayed
+path is read only from the visible nonnegative $\RealUp$ edge-weight rows and
+the finite path-ledger summation rows.
+
+No total path weight may be supplied by an ambient metric, an unlisted edge
+weight, a host real-number accumulator, or an implicit minimization oracle.
+\end{theorem}
+\begin{proof}
+Start with the visible ledger theorem. By
+\autoref{thm:shortestpath-visible-path-ledger}, every adjacent pair in the
+accepted vertex sequence has one displayed edge-incidence row and one
+displayed nonnegative $\RealUp$ weight row.
+
+The summation rows are finite because the path ledger is finite in the
+weighted-graph carrier. Reading them in ledger order gives the total weight as
+the certificate's displayed finite sum of those edge-weight rows.
+
+The carrier described in
+\autoref{def:shortestpath-bhist-weighted-graph-carrier} contains no completed
+metric object, no unlisted edge-weight generator, and no host accumulator.
+Thus the readback of total weight is exactly the finite $\RealUp$ row
+summation named by the certificate.
+\end{proof}
+
+\begin{theorem}[Shortest-path relaxation soundness]
+\label{thm:shortestpath-relaxation-soundness}
+A Dijkstra or Bellman-Ford relaxation row in an accepted $\ShortestPathUp$
+packet can lower or preserve a displayed path-weight candidate only through
+visible rows: the relaxed edge row, its predecessor row, its endpoint rows,
+the relevant $\hsame$ identifications, the finite $\Cont$ route through the
+ledger, and the $\Pkg$ provenance row for the weighted-graph carrier.
+
+The relaxation certificate therefore cannot justify a candidate change by a
+hidden predecessor, a host-side vertex equality, an unrecorded edge weight, or
+an infinite relaxation process.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:shortestpath-relaxation-certificate-scope}. It identifies a
+relaxation claim as a finite row comparing displayed before-and-after
+path-weight candidates over the named graph packet.
+
+The row can mention an edge only through the carrier of
+\autoref{def:shortestpath-bhist-weighted-graph-carrier}. Its predecessor and
+endpoint data are therefore the displayed predecessor row, endpoint rows, and
+edge-incidence row already present in the finite $\mathsf{BHist}$ packet.
+
+Apply \autoref{thm:shortestpath-visible-path-ledger} to reconstruct the
+candidate path segment. The required $\hsame$ identifications and finite
+$\Cont$ route are the visible transports that keep the predecessor, edge, and
+endpoint rows in the same ledger packet, while the $\Pkg$ row supplies
+provenance.
+
+No remaining constructor can lower or preserve the displayed candidate: the
+certificate has no host-side equality source, no hidden predecessor row, no
+unrecorded weight row, and no infinite relaxation process. The relaxation is
+therefore sound exactly over the visible finite rows.
+\end{proof}
