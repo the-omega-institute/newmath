@@ -25,4 +25,25 @@ theorem MetricspacePublicDistanceSurface_exhaustion {x y d budget provenance : B
             (And.intro surface.left
               (And.intro surface.right.right surface.right.right))))))
 
+theorem MetricspacePublicDistanceSurface_visible_context_consumer_surface
+    {p q x y d budget provenance visible : BHist} :
+    UnaryHistory p ->
+      UnaryHistory q ->
+        MetricspacePublicDistanceSurface x y d budget provenance ->
+          MetricDistanceWitness (append p x) (append y q) visible ->
+            hsame visible (append (append p d) q) ->
+              MetricDistanceWitness (append p x) (append y q) (append (append p d) q) ∧
+                UnaryHistory provenance ∧ Cont d budget provenance ∧
+                  hsame provenance (append d budget) := by
+  intro _pCarrier _qCarrier surface visibleWitness sameVisible
+  have publicRows := MetricspacePublicDistanceSurface_exhaustion surface
+  have transportedVisible :
+      MetricDistanceWitness (append p x) (append y q) (append (append p d) q) := by
+    cases sameVisible
+    exact visibleWitness
+  exact And.intro transportedVisible
+    (And.intro publicRows.right.right.right.right.left
+      (And.intro publicRows.right.right.right.right.right.right.left
+        publicRows.right.right.right.right.right.right.right))
+
 end BEDC.Derived.MetricUp
