@@ -416,4 +416,21 @@ theorem PinGroupReflectionParityCarrier_reflection_generator_obligation
       (And.intro reflectionBranch.right.right
         (And.intro carriedProduct surfaceRows.right)))
 
+theorem PinGroupReflectionParityCarrier_root_reflection_threshold_exactness
+    {spin reflection product endpoint ledger carried : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      (hsame endpoint spin -> False) ->
+        PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ∧
+          Cont spin reflection product ∧ hsame endpoint product ∧ UnaryHistory reflection ∧
+            hsame carried (append product ledger) ∧ hsame carried (append endpoint ledger) := by
+  intro surface notSpinEndpoint
+  have reflectionRows :=
+    PinGroupReflectionParityCarrier_reflection_generator_obligation surface notSpinEndpoint
+  exact And.intro surface
+    (And.intro reflectionRows.left
+      (And.intro reflectionRows.right.left
+        (And.intro reflectionRows.right.right.left
+          (And.intro reflectionRows.right.right.right.left
+            reflectionRows.right.right.right.right))))
+
 end BEDC.Derived.PinGroupUp

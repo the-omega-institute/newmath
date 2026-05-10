@@ -294,4 +294,48 @@ theorem NoetherSymmetryConservationLedgerCarrier_public_export [AskSetup] [Packa
       publicExportRow,
       certAndPkg.right⟩
 
+theorem NoetherSymmetryConservationLedgerCarrier_finite_current_public_boundary
+    [AskSetup] [PackageSetup]
+    {lieSource pdeSource field current lieLedger pdeLedger conservation endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current lieLedger
+        pdeLedger conservation endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current
+                lieLedger pdeLedger conservation endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current
+                lieLedger pdeLedger conservation endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            NoetherSymmetryConservationLedgerCarrier lieSource pdeSource field current
+                lieLedger pdeLedger conservation endpoint bundle pkg ∧ hsame row endpoint)
+          hsame ∧
+        UnaryHistory lieSource ∧ UnaryHistory pdeSource ∧ UnaryHistory field ∧
+          UnaryHistory current ∧ UnaryHistory lieLedger ∧ UnaryHistory pdeLedger ∧
+            UnaryHistory conservation ∧ UnaryHistory endpoint ∧
+              Cont lieSource field lieLedger ∧ Cont pdeSource field pdeLedger ∧
+                Cont lieLedger pdeLedger conservation ∧ Cont conservation current endpoint ∧
+                  PkgSig bundle endpoint pkg := by
+  intro carrier
+  have obligation :=
+    NoetherSymmetryConservationLedgerCarrier_namecert_obligation_surface carrier
+  have boundary :=
+    NoetherSymmetryConservationLedgerCarrier_lie_pde_source_boundary carrier
+  exact
+    ⟨obligation.left,
+      boundary.left,
+      boundary.right.left,
+      boundary.right.right.left,
+      boundary.right.right.right.left,
+      boundary.right.right.right.right.left,
+      boundary.right.right.right.right.right.left,
+      boundary.right.right.right.right.right.right.left,
+      boundary.right.right.right.right.right.right.right.left,
+      boundary.right.right.right.right.right.right.right.right.left,
+      boundary.right.right.right.right.right.right.right.right.right.left,
+      boundary.right.right.right.right.right.right.right.right.right.right.left,
+      boundary.right.right.right.right.right.right.right.right.right.right.right.left,
+      boundary.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.NoetherSymmetryUp
