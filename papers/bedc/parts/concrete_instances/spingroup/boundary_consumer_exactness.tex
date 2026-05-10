@@ -74,3 +74,85 @@ $\CliffordUp$ consumers and admits no host orthogonal group or quotient row.
 Thus the exported boundary is exact.
 \end{proof}
 \leanchecked{BEDC.Derived.SpinGroupUp.SpinGroupRootCarrier\_boundary\_consumer\_exactness}
+
+\begin{theorem}[SpinGroup conjugation action product law]
+\label{thm:spingroup-conjugation-action-product-law}
+Let $S$ and $T$ be accepted $\SpinGroupUp$ packets of
+\autoref{def:spingroup-bhist-carrier-packet}. Let $s$ and $t$ be their visible
+Clifford-unit endpoints, let $s\cdot t$ be the endpoint supplied by the
+packet's finite Clifford product row, and let $v$ be a Clifford-vector row
+accepted by the same $\NameCert_{\CliffordUp}$ source. Write
+$$
+\mathsf{Act}_{s}(v):=(s\cdot v)\cdot s^{-1}
+$$
+for the conjugation endpoint read by the action row, and write $\sim_{\CliffordUp}$
+for the generated $\CliffordUp$ classifier. Then the product action endpoint
+and the iterated action endpoint are both accepted Clifford-vector action rows
+in the $\SpinGroupUp$ packet, and
+$$
+\mathsf{Act}_{s\cdot t}(v)\sim_{\CliffordUp}
+\mathsf{Act}_{s}(\mathsf{Act}_{t}(v)).
+$$
+The comparison keeps the same orthogonal-action endpoint and the same $\Pkg$
+provenance ledger. It is a Clifford-row classifier comparison, not equality of
+host linear maps, matrices, or an unrecorded orthogonal-group action.
+\end{theorem}
+\begin{proof}
+Project the two accepted packets through
+\autoref{def:spingroup-bhist-carrier-packet}. The visible data include the
+Clifford-unit endpoints $s$ and $t$, the Clifford product row for $s\cdot t$,
+the inverse rows for $s$, $t$, and $s\cdot t$, the action row on Clifford-vector
+histories, the orthogonal-action endpoint, and the $\Pkg$ provenance rows.
+By \autoref{thm:spingroup-clifford-group-consumer-boundary} and
+\autoref{thm:spingroup-group-consumer-boundary}, no other action source is
+available to the consumer.
+
+Apply \autoref{thm:spingroup-conjugation-action-readback}. The action endpoint
+for the product packet is read as the Clifford word
+$$
+((s\cdot t)\cdot v)\cdot (s\cdot t)^{-1}.
+$$
+The iterated action endpoint is read as the Clifford word
+$$
+(s\cdot ((t\cdot v)\cdot t^{-1}))\cdot s^{-1}.
+$$
+Both words are accepted Clifford rows because the action readback uses only
+Clifford product rows, Clifford inverse rows, and $\hsame$ transport already
+present in the packet.
+
+The word comparison is the same BEDC group calculation as
+\autoref{thm:group-conjugation-composition}, now read inside the Clifford-unit
+surface. First, the inverse row for the product is the reversed inverse product
+row supplied by \autoref{thm:group-inverse-mul-reverse}:
+$$
+(s\cdot t)^{-1}\sim_{\CliffordUp}t^{-1}\cdot s^{-1}.
+$$
+Multiplication congruence and associativity for the displayed product spine
+transport this comparison through the outer Clifford products, so
+$$
+((s\cdot t)\cdot v)\cdot (s\cdot t)^{-1}
+\sim_{\CliffordUp}
+((s\cdot t)\cdot v)\cdot (t^{-1}\cdot s^{-1}).
+$$
+Reassociating the same finite product spine gives
+$$
+((s\cdot t)\cdot v)\cdot (t^{-1}\cdot s^{-1})
+\sim_{\CliffordUp}
+(s\cdot ((t\cdot v)\cdot t^{-1}))\cdot s^{-1}.
+$$
+The transport of each reassociation through the Clifford classifier is exactly
+the product-stability row of \autoref{thm:clifford-product-stability-obligation}
+inside the generated classifier of \autoref{def:clifford-classifier-package}.
+Transitivity of that classifier gives the displayed comparison between
+$\mathsf{Act}_{s\cdot t}(v)$ and $\mathsf{Act}_{s}(\mathsf{Act}_{t}(v))$.
+
+It remains to identify the endpoint and provenance read by the public spin
+boundary. The double-cover row is not recomputed from a host orthogonal group:
+\autoref{thm:spingroup-double-cover-fiber-classifier} compares spin packets by
+the Clifford-unit comparison together with the shared orthogonal-action
+endpoint in the package ledger. The calculation above changes only the
+parenthesization of the displayed Clifford product-inverse-product spine and
+uses the product inverse row already named by the packet. Therefore the
+orthogonal-action endpoint and the $\Pkg$ provenance row remain the same, and
+the action product law is internal to the displayed $\SpinGroupUp$ boundary.
+\end{proof}
