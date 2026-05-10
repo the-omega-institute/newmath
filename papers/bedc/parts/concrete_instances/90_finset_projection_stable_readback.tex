@@ -1,0 +1,57 @@
+\begin{definition}[Projection-stable finite membership readback]
+\label{def:finset-projection-stable-readback}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of the underlying $\NameCert_{\SetUp}$, let $\sim_A$ be its classifier, and let $xs:\mathsf{HistSpine}$ be a finite enumeration spine. A projection readback row for $xs$ is a carried map
+$$
+\mathsf{proj}:\mathsf{BHist}\to\mathsf{BHist}
+$$
+whose fixed histories are exactly the histories represented by the finite enumeration:
+$$
+\mathsf{FinSetEnumCarrier}_{A,\sim_A}(xs)(z)
+\Longleftrightarrow
+\hsame(\mathsf{proj}(z),z).
+$$
+The associated predicate records both sides of that readback,
+$$
+\mathsf{ProjectionStableReadback}_{A,\sim_A,xs,\mathsf{proj}}(z)
+\Longleftrightarrow
+\mathsf{FinSetEnumCarrier}_{A,\sim_A}(xs)(z)
+\land
+\hsame(\mathsf{proj}(z),z).
+$$
+Thus finite membership is read from a fixed-point row over a finite enumeration carrier, rather than from an external set-theoretic primitive.
+\end{definition}
+\leandef{BEDC.Derived.FinsetUp.FinsetProjectionStableReadback}
+
+\begin{theorem}[Projection-stable readback is finite membership]
+\label{thm:finset-projection-stable-readback-membership}
+Assume the projection readback row above. Then for every history $z$,
+$$
+\mathsf{ProjectionStableReadback}_{A,\sim_A,xs,\mathsf{proj}}(z)
+\Longleftrightarrow
+\mathsf{FinSetEnumCarrier}_{A,\sim_A}(xs)(z),
+$$
+and also
+$$
+\mathsf{ProjectionStableReadback}_{A,\sim_A,xs,\mathsf{proj}}(z)
+\Longleftrightarrow
+\hsame(\mathsf{proj}(z),z).
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:finset-projection-stable-readback}. The predicate is the conjunction of finite-enumeration membership and projection stability, and the readback row identifies these conjuncts pointwise. Projection gives each implication out of the readback predicate; either conjunct conversely supplies the other and repacks the conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.FinsetUp.FinsetProjectionStableReadback\_membership\_iff}
+\leanchecked{BEDC.Derived.FinsetUp.FinsetProjectionStableReadback\_stability\_iff}
+
+\begin{theorem}[Projection-stable readback respects the source classifier]
+\label{thm:finset-projection-stable-readback-classifier-transport}
+Let $\mathsf{cert}:\NameCert(A,\sim_A)$ and assume the same projection readback row. If $a\sim_A b$ and $\hsame(\mathsf{proj}(a),a)$, then
+$$
+\hsame(\mathsf{proj}(b),b).
+$$
+\end{theorem}
+\begin{proof}
+The readback row converts stability of $a$ into finite-enumeration membership for $a$. The finite-set enumeration carrier is stable under the source classifier: carrier transport carries $A(a)$ to $A(b)$, and classifier symmetry and transitivity carry the enumeration witness from $a$ to $b$. Applying the readback row again converts membership for $b$ into projection stability.
+\end{proof}
+\leanchecked{BEDC.Derived.FinsetUp.FinsetEnumerationCarrier\_classifier\_transport}
+\leanchecked{BEDC.Derived.FinsetUp.FinsetProjectionStableReadback\_classifier\_transport}
