@@ -117,6 +117,60 @@ theorem NewtonIterationBHistCarrier_finite_step_concatenation_closure
     unary_cont_closed provenance1Unary spliceUnary combinedRow
   exact ⟨spliceUnary, combinedUnary, combinedRow⟩
 
+theorem NewtonIterationBHistCarrier_finite_prefix_restriction
+    {derivative banach point derivativeRow inverse next stepLedger provenance endpoint
+      prefixLedger prefixNext prefixEndpoint : BHist} :
+    NewtonIterationBHistCarrier derivative banach point derivativeRow inverse next stepLedger
+        provenance endpoint ->
+      Cont point derivativeRow prefixLedger ->
+        Cont prefixLedger inverse prefixNext ->
+          Cont provenance prefixNext prefixEndpoint ->
+            NewtonIterationBHistCarrier derivative banach point derivativeRow inverse
+                prefixNext prefixLedger provenance prefixEndpoint ∧
+              hsame prefixLedger stepLedger ∧ hsame prefixNext next ∧
+                hsame prefixEndpoint endpoint := by
+  intro carrier prefixLedgerRow prefixNextRow prefixEndpointRow
+  have derivativeUnary : UnaryHistory derivative :=
+    carrier.left
+  have banachUnary : UnaryHistory banach :=
+    carrier.right.left
+  have pointUnary : UnaryHistory point :=
+    carrier.right.right.left
+  have derivativeRowUnary : UnaryHistory derivativeRow :=
+    carrier.right.right.right.left
+  have inverseUnary : UnaryHistory inverse :=
+    carrier.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    carrier.right.right.right.right.right.left
+  have originalLedgerRow : Cont point derivativeRow stepLedger :=
+    carrier.right.right.right.right.right.right.left
+  have originalNextRow : Cont stepLedger inverse next :=
+    carrier.right.right.right.right.right.right.right.left
+  have originalEndpointRow : Cont provenance next endpoint :=
+    carrier.right.right.right.right.right.right.right.right
+  have prefixLedgerSame : hsame prefixLedger stepLedger :=
+    cont_respects_hsame (hsame_refl point) (hsame_refl derivativeRow) prefixLedgerRow
+      originalLedgerRow
+  have prefixNextSame : hsame prefixNext next :=
+    cont_respects_hsame prefixLedgerSame (hsame_refl inverse) prefixNextRow originalNextRow
+  have prefixEndpointSame : hsame prefixEndpoint endpoint :=
+    cont_respects_hsame (hsame_refl provenance) prefixNextSame prefixEndpointRow
+      originalEndpointRow
+  have prefixCarrier :
+      NewtonIterationBHistCarrier derivative banach point derivativeRow inverse prefixNext
+        prefixLedger provenance prefixEndpoint :=
+    And.intro derivativeUnary
+      (And.intro banachUnary
+        (And.intro pointUnary
+          (And.intro derivativeRowUnary
+            (And.intro inverseUnary
+              (And.intro provenanceUnary
+                (And.intro prefixLedgerRow
+                  (And.intro prefixNextRow prefixEndpointRow)))))))
+  exact
+    And.intro prefixCarrier
+      (And.intro prefixLedgerSame (And.intro prefixNextSame prefixEndpointSame))
+
 theorem NewtonIterationStep_stability
     {derivative derivative' banach banach' point point' inverse inverse' next next' step
       step' ledger ledger' : BHist} :
