@@ -175,3 +175,60 @@ Cauchy-limit selector, or ambient Hilbert-space carrier. Therefore the named
 downstream certificates can cite this source only for the two-vector
 scalar-form packet and its displayed ledger.
 \end{proof}
+
+\begin{theorem}[InnerProduct Gram diagonal scalar nonnegativity]
+\label{thm:innerproduct-gram-diagonal-scalar-nonnegativity}
+Let $I$ be an $\InnerProductUp$ $\mathsf{BHist}$ source whose retained
+scalar endpoint source carries the inherited scalar order row
+$\preceq_{\mathsf{scal}}$, with nonnegative scalar predicate read as
+$0_{\mathsf{scal}}\preceq_{\mathsf{scal}}a$. For the two-vector Gram source
+of \autoref{def:innerproduct-two-vector-gram-source} with carried endpoints
+$x,y:C_V$, the two diagonal scalar endpoints satisfy
+$$
+0_{\mathsf{scal}}\preceq_{\mathsf{scal}}
+\langle x,x\rangle_{\InnerProductUp}
+$$
+and
+$$
+0_{\mathsf{scal}}\preceq_{\mathsf{scal}}
+\langle y,y\rangle_{\InnerProductUp}.
+$$
+These are public scalar-order rows of the Gram packet, read from the retained
+diagonal positivity rows and not from a host matrix, determinant, spectral row,
+or Hilbert-space positivity predicate.
+\end{theorem}
+\begin{proof}
+Unfold the two-vector Gram source of
+\autoref{def:innerproduct-two-vector-gram-source}. Its displayed scalar
+endpoints include the two self-values
+$\langle x,x\rangle_{\InnerProductUp}$ and
+$\langle y,y\rangle_{\InnerProductUp}$, and its listed rows include the
+diagonal positivity rows for those two self-values.
+
+Apply \autoref{thm:innerproduct-positive-definite-obligation} to the carried
+endpoint $x$. The positive-definite entry of the underlying
+$\InnerProductUp$ carrier supplies the nonnegative scalar endpoint witness for
+$\langle x,x\rangle_{\InnerProductUp}$. Since the retained scalar order row
+reads nonnegativity as $0_{\mathsf{scal}}\preceq_{\mathsf{scal}}a$, this
+witness is precisely
+$$
+0_{\mathsf{scal}}\preceq_{\mathsf{scal}}
+\langle x,x\rangle_{\InnerProductUp}.
+$$
+
+Apply the same positive-definite obligation to the carried endpoint $y$. Its
+nonnegative scalar endpoint witness for
+$\langle y,y\rangle_{\InnerProductUp}$ repacks through the same inherited
+scalar order row as
+$$
+0_{\mathsf{scal}}\preceq_{\mathsf{scal}}
+\langle y,y\rangle_{\InnerProductUp}.
+$$
+
+The consumer threshold source of
+\autoref{def:innerproduct-consumer-threshold-source} factors the form,
+scalar endpoint, positivity, transport, and ledger rows through the same
+$\InnerProductUp$ carrier and retained scalar source. Therefore the two order
+comparisons are public rows of the two-vector Gram packet itself, with no
+additional analytic or host-space structure introduced.
+\end{proof}
