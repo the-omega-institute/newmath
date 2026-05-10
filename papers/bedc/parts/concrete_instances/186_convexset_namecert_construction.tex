@@ -430,3 +430,39 @@ f^{-1}[D]\bigl((a\odot_V x)+_V(b\odot_V y)\bigr),
 $$
 which is the claimed source-side affine-combination closure.
 \end{proof}
+
+\begin{theorem}[ConvexSet pointwise intersection carrier commutativity]
+\label{thm:convexset-pointwise-intersection-carrier-commutative}
+Let two $\ConvexSetUp$ certificates be given as in \autoref{def:convexset-pointwise-intersection-carrier}. Write $C,D:V\to\mathsf{Prop}$ for their convex carriers, and write
+$$
+K_{CD}:=C\cap_{\ConvexSetUp}D,
+\qquad
+K_{DC}:=D\cap_{\ConvexSetUp}C.
+$$
+For every endpoint $z:V$, the two pointwise intersection carriers agree:
+$$
+K_{CD}(z)\Longleftrightarrow K_{DC}(z).
+$$
+Equivalently, a carrier witness for $C\cap_{\ConvexSetUp}D$ at $z$ is exactly a pair consisting of a $C(z)$ witness and a $D(z)$ witness, and the corresponding carrier witness for $D\cap_{\ConvexSetUp}C$ is obtained by interchanging those two components. The scalar classifier $\sim_F$, scalar addition $+_F$, scalar unit $1_F$, nonnegative predicate $\mathsf{NonNeg}_F$, scalar action $\odot$, and vector addition $+_V$ are the common rows named in \autoref{def:convexset-pointwise-intersection-carrier}, so this interchange does not alter any displayed scalar, addition, or affine-combination row.
+\end{theorem}
+\begin{proof}
+Fix an endpoint $z:V$. Unfold \autoref{def:convexset-pointwise-intersection-carrier} for the ordered pair of carriers $(C,D)$. The hypothesis $K_{CD}(z)$ is precisely
+$$
+C(z)\land D(z).
+$$
+Projecting its two components and pairing them in the opposite order gives
+$$
+D(z)\land C(z),
+$$
+which is exactly $K_{DC}(z)$ after unfolding the same definition for the ordered pair $(D,C)$.
+
+Conversely, unfold the definition for $(D,C)$. The hypothesis $K_{DC}(z)$ is precisely
+$$
+D(z)\land C(z).
+$$
+Projecting its two components and pairing them in the opposite order gives
+$$
+C(z)\land D(z),
+$$
+which is exactly $K_{CD}(z)$ after folding the definition for $(C,D)$. The two folds use the same ambient $\FieldUp(F)$ and $\VecSpaceUp(F,V)$ data named in \autoref{def:convexset-pointwise-intersection-carrier}; only the two carrier-support components at the fixed endpoint are swapped.
+\end{proof}
