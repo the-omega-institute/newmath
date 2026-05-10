@@ -56,16 +56,16 @@ Build the package from a carried step row and a classifier witness. The carrier 
 Ledger exactness follows by inverting the carrier and classifier constructors. Every accepted datum is one of the two source certificates, one of the finite step answer histories, or one of the named $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ transport witnesses. Hence the package exposes only the displayed finite Newton step obligation.
 \end{proof}
 
-\closureat{NewtonIterationUp}{seedStr}
+\closureat{NewtonIterationUp}{obligationStr}
 
 \begin{closurestatus}{\NewtonIterationUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope is the finite step ledger over $\NameCert_{\DerivativeUp}$, $\NameCert_{\BanachUp}$, the inverse-row witness, next-step history, $\mathsf{BHist}$ rows, $\hsame$, $\Cont$, $\Pkg$, and the displayed source certificate rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope is the finite step ledger over $\NameCert_{\DerivativeUp}$, $\NameCert_{\BanachUp}$, the inverse-row witness, next-step history, $\mathsf{BHist}$ rows, $\hsame$, $\Cont$, $\Pkg$, and the displayed source certificate rows.}
   \constructivestory{A $\NewtonIterationUp$ packet is built by choosing the displayed derivative and Banach source certificates, reading one finite Newton step through the point, derivative, inverse-row, and next-step histories, and repacking those rows through the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ witnesses.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim convergence, ambient completeness, a contraction theorem, a radius of validity, or standard bridge.}
-  \upgradepath{Obligation closure requires Lean theorem sites for the step carrier, contraction classifier, source scope, step stability, and finite obligation package.}
+  \upgradepath{Scoped closure requires explicit kernel scoping of the derivative source, Banach source, point row, inverse-row witness, next-step row, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ transport witnesses.}
 \end{closurestatus}
 
 \begin{theorem}[Newton-iteration finite-step concatenation closure]

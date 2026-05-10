@@ -30,6 +30,7 @@ Finally transport the transition $\Cont$ ledger and $\Pkg$ provenance. Since acc
 \label{thm:markovchain-transition-ledger-exactness}
 For every accepted $\MarkovChainUp$ carrier, the transition ledger exposes exactly the $\mathsf{BHist}$ rows for the $\ProbSpaceUp$ source, the displayed $\RandomVarUp$ rows, the corresponding $\DistributionUp$ law rows, the transition rows $K_n$, the continuation row from the random-variable and transition rows, the provenance row from the probability-space and law rows, the endpoint row from provenance and transition-continuation rows, and the package provenance. It does not expose a host Markov process, a filtration, a conditional-expectation row, or a standard kernel bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_ledger\_exactness}
 \begin{proof}
 Inspect the carrier definition. Its accepted rows are precisely the source probability-space row, the displayed random-variable rows, the displayed distribution rows, the transition rows, and the provenance entries that bind adjacent time steps.
 
@@ -67,6 +68,7 @@ The source-boundary field is \autoref{thm:markovchain-probspace-randomvar-source
 \label{thm:markovchain-scoped-kernel-dependency-package}
 The $\NameCert_{\MarkovChainUp}$ obligation surface of \autoref{thm:markovchain-namecert-obligation-surface} is scoped exactly by the $\ProbSpaceUp$, $\RandomVarUp$, and $\DistributionUp$ dependency certificates, the finite unary time ledger, the transition rows $K_n$, $\mathsf{BHist}$ rows, $\hsame$ comparisons, $\Cont$ displays, and $\mathsf{Pkg}$ provenance. No filtration, conditional-expectation primitive, host stochastic process, or standard Markov kernel is read by this scoped package.
 \end{theorem}
+\leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainKernelClassifier\_endpoint\_confluence}
 \begin{proof}
 Project the carrier row from \autoref{def:markovchain-bhist-transition-carrier}. Its constructors expose only the source probability-space packet, the carried random-variable rows, the law rows, the unary time ledger, transition rows, and the displayed provenance.
 
