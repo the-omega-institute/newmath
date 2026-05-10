@@ -42,3 +42,67 @@ completion rows, quotient rows, host index equality, or off-ledger classifiers,
 the visible seal source of $\mathcal{E}_0$ and $\mathcal{E}_1$ is determined
 by the stated handoff data.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp seal source minimality]
+\label{thm:streamname-regseqrat-realup-seal-source-minimality}
+Let $W$ be a finite public $\StreamNameUp$ rational observation window, and
+let $\mathcal{E}$ be a finite-window $\RealUp$ seal package induced from $W$
+and an accepted $\RegSeqRat$ spine. Then every visible source row used by
+$\mathcal{E}$ is one of the public StreamName finite-window row, the accepted
+$\RegSeqRat$ finite-window seal row, the dyadic endpoint ledger, the
+$\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ rows, the unary history rows,
+the finite $\Cont$ ledger, the displayed $\hsame$ endpoint transports, or the
+$\Pkg$ provenance.
+
+In particular, no completion carrier, quotient representative, host-index
+equality, or off-ledger $\RealUp$ classifier is a source row of the induced
+finite-window seal package.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:streamname-regseqrat-realup-seal-source-determinacy} applied to
+two reads of the same induced package. The determinacy statement identifies
+the visible source with the public StreamName finite-window row, the accepted
+$\RegSeqRat$ finite-window seal row, the dyadic endpoint rows, and the shared
+ledger boundary.
+
+Use \autoref{thm:streamname-regseqrat-scheduled-seal-exhaustion} to expand the
+scheduled seal boundary. The expansion lists only the accepted spine rows,
+bundle rows, unary observation rows, continuation rows, endpoint transports,
+and provenance named in the statement.
+
+Finally apply \autoref{thm:streamname-realup-seal-boundary}. Its boundary
+factorization is through exactly those finite-window rows, so any alleged
+source outside the listed tuple would have to enter through a completion,
+quotient, host-index, or off-ledger classifier row. The boundary theorem
+exports none of those rows, establishing the stated minimality.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp seal unique source]
+\label{thm:streamname-regseqrat-realup-seal-source-unique-source}
+Let $\mathcal{E}_0$ and $\mathcal{E}_1$ be finite-window $\RealUp$ seal
+packages induced from public StreamName windows and accepted $\RegSeqRat$
+spines. Suppose they agree on exactly the minimal source tuple consisting of
+the public StreamName finite-window row, accepted $\RegSeqRat$ finite-window
+seal row, dyadic endpoint ledger, $\mathsf{ProbeBundle}$ and
+$\mathsf{InBundle}$ rows, unary history rows, finite $\Cont$ ledger, displayed
+$\hsame$ endpoint transports, and $\Pkg$ provenance. Then every downstream
+$\RegSeqRat$ or $\RealUp$ finite-window consumer sees the same visible seal
+source from $\mathcal{E}_0$ and $\mathcal{E}_1$.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-realup-seal-source-minimality} to both
+packages. Each visible source is confined to the same finite tuple of public
+window, accepted seal, endpoint, bundle, history, continuation, transport, and
+provenance rows.
+
+The assumed agreement on that tuple supplies the hypotheses of
+\autoref{thm:streamname-regseqrat-realup-seal-source-determinacy}. Hence the
+two packages have the same visible seal source.
+
+Any downstream finite-window $\RegSeqRat$ or $\RealUp$ consumer reads through
+that visible source tuple and not through completion, quotient, host-index, or
+off-ledger classifier data. Therefore the consumer observations obtained from
+$\mathcal{E}_0$ and $\mathcal{E}_1$ coincide on the visible seal source.
+\end{proof}

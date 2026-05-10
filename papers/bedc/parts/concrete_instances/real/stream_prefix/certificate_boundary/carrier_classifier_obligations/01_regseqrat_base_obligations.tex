@@ -101,3 +101,44 @@ these steps adds a quotient representative, a completion object, a metric
 completeness principle, a $\RealUp$ completeness principle, Classical data, or
 standard bridge data as a primitive input.
 \end{proof}
+
+\begin{theorem}[RegSeqRat export determines the RealUp seal source]
+\label{thm:regseqrat-export-real-seal-source-determinacy}
+For carried rational-observation streams $s,t:\Hist\to\Hist$, the export
+package of
+\autoref{thm:regseqrat-carrier-classifier-export-package} determines the exact
+source face read by the downstream $\RealUp$ seal. That source face consists
+precisely of the two $\mathsf{RatStreamNameCarrier}$ rows for $s$ and $t$, the
+$\mathsf{RatStreamNameClassifier}(s,t)$ row, the pointwise
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ row, the endpoint
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$ rows over
+certified $\mathsf{UnaryHistory}$ observations, and the finite
+$\mathsf{DyadicRatCore}$ ledger rows.
+
+No quotient representative, completion object, metric completeness principle,
+or $\RealUp$ completeness datum is part of this seal source. Consequently, any
+$\RealUp$ seal source read from the $\RegSeqRat$ package factors through the
+same visible carrier, classifier, endpoint, and dyadic ledger rows.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-carrier-classifier-export-package}. It identifies the
+two stream-name carrier rows, the stream-name classifier row, the pointwise
+RealUnary classifier row, the endpoint RatUp carrier and classifier rows over
+certified unary observations, and the finite dyadic ledger rows as the complete
+exported surface.
+
+Next apply
+\autoref{thm:dyadic-rat-core-scoped-primitive-dependency-package}. This fixes
+the dyadic primitive source of the ledger rows as the scoped
+$\mathsf{DyadicRatCore}$ data, with no additional completion or quotient
+object hidden behind the ledger.
+
+Finally apply
+\autoref{thm:regseqrat-dyadic-ledger-and-real-seal-obligation}. The $\RealUp$
+seal consumes the same dyadic ledger together with the same carried stream-name
+and endpoint observation rows. Since the preceding export package already
+lists all rows available at the $\RegSeqRat$ boundary, row exhaustion forces
+every seal-source read to factor through exactly those visible rows and through
+no separate $\RealUp$ completeness datum.
+\end{proof}
