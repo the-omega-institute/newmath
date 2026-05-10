@@ -1,0 +1,87 @@
+\section{StreamName Tail-Window Coverage Packet}
+\label{sec:streamname-tail-window-coverage-packet}
+
+\begin{definition}[StreamName tail-window coverage packet]
+\label{def:streamname-tail-window-coverage-packet}
+A StreamName tail-window coverage packet for a selected finite $\RealUp$
+consumer window is the finite ledger consisting exactly of these rows:
+\begin{enumerate}
+\item a displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$ row for public
+$\StreamNameUp$ rational stream endpoints $s,t:\mathsf{BHist}\to\mathsf{BHist}$
+and the selected finite $\mathsf{ProbeBundle}$ window $\mathcal P$;
+\item for each selected observation $n$, the bundled
+$\mathsf{UnaryHistory}(n)$ and $\mathsf{InBundle}(n,\mathcal P)$ rows;
+\item the pointwise $\mathsf{RatHistoryClassifier}(s(n),t(n))$ row read from
+the selected StreamName observation;
+\item the accepted $\RegSeqRat$ spine selected by the pointwise rational-history
+rows and by the finite-window handoff;
+\item the selected finite $\RealUp$ windows whose DyadicRatCore endpoint rows
+are read from that accepted $\RegSeqRat$ spine; and
+\item the shared $\Cont$, $\hsame$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows joining the StreamName endpoints, the accepted
+$\RegSeqRat$ spine, the DyadicRatCore endpoint rows, and the selected $\RealUp$
+readback packets.
+\end{enumerate}
+
+The packet is only this displayed finite ledger. It contains no completion
+object, quotient representative, host-index equality, metric-completeness row,
+arithmetic or order operation, standard bridge row, or hidden selector.
+\end{definition}
+
+\begin{theorem}[StreamName tail-window coverage exhaustion]
+\label{thm:streamname-tail-window-coverage-exhaustion}
+Every consumer row of a StreamName tail-window coverage packet is one of the
+rows displayed in \autoref{def:streamname-tail-window-coverage-packet}. In
+particular, the consumer can read only the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the bundled
+$\mathsf{UnaryHistory}/\mathsf{InBundle}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine, the
+selected DyadicRatCore endpoint rows, and the shared
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ ledger.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-tail-selector-handoff-exactness}. It
+decomposes the handoff exported across the Real-and-Completion boundary into
+the StreamName finite-window classifier, selected unary observations, bundle
+membership, pointwise rational-history classifiers, the accepted $\RegSeqRat$
+spine, and the finite $\RealUp$ ledger.
+
+Next apply
+\autoref{thm:streamname-regseqrat-tail-selector-real-window-factorization} to
+the selected $\RealUp$ window. This says every consumer-facing $\RealUp$ row
+factors through the same displayed finite public surface and through no
+additional selector row.
+
+Combining the two exactness statements gives the exhaustion claim. Any row
+read by the consumer is already named by the coverage packet, and every row
+excluded by the two cited theorems remains outside the packet boundary.
+\end{proof}
+
+\begin{theorem}[StreamName tail-window RealUp boundary]
+\label{thm:streamname-tail-window-realup-boundary}
+A finite $\RealUp$ consumer of a StreamName tail-window coverage packet reads
+only the displayed StreamName, $\RegSeqRat$, DyadicRatCore, $\Cont$, $\hsame$,
+$\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows. It reads no completion row,
+quotient row, host-index equality, metric-completeness row, arithmetic or
+order operation, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Read the consumer through
+\autoref{thm:streamname-tail-window-coverage-exhaustion}. The exhaustion
+surface lists every available consumer row and identifies it with the finite
+packet of \autoref{def:streamname-tail-window-coverage-packet}.
+
+Now inspect the packet definition. Its StreamName side is the finite-window
+classifier together with selected unary-history and bundle-membership rows.
+Its rational-sequence side is the accepted $\RegSeqRat$ spine selected by the
+pointwise rational-history classifiers. Its $\RealUp$ side is only the
+DyadicRatCore endpoint readback and the shared
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ ledger.
+
+The excluded objects have no constructor in this finite ledger. Hence a
+finite $\RealUp$ consumer cannot read completion, quotient, host-index
+equality, metric-completeness, arithmetic or order, or standard bridge data
+from the packet.
+\end{proof}
