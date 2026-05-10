@@ -485,16 +485,18 @@ $$
 
 \begin{principle}[No retroactive promotion]
 \label{prin:deriv-accept-no-retroactive-promotion}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.p6\_no\_retroactive\_promotion}
 An object accepted at $s$ does not become accepted at $s'>s$ merely because a dependency is later upgraded. A recognized upgrade flow is required.
 \end{principle}
 
 \begin{theorem}[Upgrade requires upgrade flow]
 \label{thm:deriv-accept-upgrade-requires-flow}
-If $s'>s$, one cannot infer $\mathsf{AcceptGateFlow}(N,s')$ merely from $\mathsf{AcceptGateFlow}(N,s)$. New recognized derivation-certificate flow or upgrade flow supporting $s'$ is required.
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.upgrade\_requires\_upgrade\_flow}
+If $\mathsf{UpgradeFlow}(U,N,s,s')$ holds, then the flow contains $\mathsf{AcceptGateFlow}(N,s)$, a recognized strength flow for $s'$, and recognized derivation-certificate and seal subflows inside $U$ supporting $N$ at $s'$.
 \end{theorem}
 
 \begin{proof}
-Higher strength requires additional evidence such as paper proof, checked target, bridge certificate, or other strength-specific obligations. A lower-strength acceptance gate does not contain these fields.
+This is the defining projection from the upgrade-flow predicate: the prior acceptance gate, new strength flow, and new derivation-certificate and seal subflows are conjunctive components of $\mathsf{UpgradeFlow}(U,N,s,s')$.
 \end{proof}
 
 \section{Reports and soundness}

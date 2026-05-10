@@ -612,6 +612,27 @@ theorem no_retroactive_promotion {M oldStrength newStrength : EventFlow} :
   intro hPromotion
   exact hPromotion.right
 
+theorem p6_no_retroactive_promotion {M oldStrength newStrength : EventFlow} :
+    RetroactivePromotion M oldStrength newStrength ->
+      Not (AcceptGateFlow M newStrength) :=
+  no_retroactive_promotion
+
+theorem upgrade_requires_upgrade_flow
+    {U N oldStrength newStrength : EventFlow} :
+    UpgradeFlow U N oldStrength newStrength ->
+      AcceptGateFlow N oldStrength /\
+        StrengthEventFlow newStrength /\
+        exists D sealFlow : EventFlow,
+          DerivCertFlow D N newStrength /\
+            NonemptyEventFlow D /\
+            NonemptyEventFlow sealFlow /\
+            DerivCertSourceSubflow D U /\
+            DerivCertSourceSubflow sealFlow U := by
+  intro hUpgrade
+  exact
+    ⟨hUpgrade.right.right.left, hUpgrade.right.right.right.left,
+      hUpgrade.right.right.right.right⟩
+
 theorem accepted_flow_recognition_conservativity
     {A N s : EventFlow} {w : RawEvent} {m : DisplayAlphabet} :
     AcceptedFlow A N s -> List.Mem w A -> List.Mem m w ->
