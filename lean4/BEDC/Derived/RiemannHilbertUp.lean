@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -12,6 +13,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -263,5 +265,89 @@ theorem RiemannHilbertLocalSystemLedger_continuation_closure
     cases ledgerRoute
     rfl
   exact ⟨localUnary, localSystemUnary, compareUnary, ledgerUnary, ledgerReadback⟩
+
+theorem RiemannHilbertBHistBridgePacket_de_rham_readback_scope
+    [AskSetup] [PackageSetup]
+    {derivedSource sheafTarget regularBranch deRhamReadback localSystem gluing transport
+      provenance endpoint readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannHilbertBHistBridgePacket derivedSource sheafTarget regularBranch
+        deRhamReadback localSystem gluing transport provenance endpoint bundle pkg ->
+      Cont deRhamReadback regularBranch readback ->
+        SemanticNameCert
+            (fun row : BHist =>
+              UnaryHistory row ∧ (hsame row readback ∨ hsame row endpoint))
+            (fun row : BHist =>
+              UnaryHistory row ∧ (hsame row readback ∨ hsame row endpoint))
+            (fun row : BHist =>
+              UnaryHistory row ∧ (hsame row readback ∨ hsame row endpoint))
+            (fun row other : BHist =>
+              (UnaryHistory row ∧ (hsame row readback ∨ hsame row endpoint)) ∧
+                (UnaryHistory other ∧ (hsame other readback ∨ hsame other endpoint)) ∧
+                  hsame row other) ∧
+          hsame endpoint
+            (append
+              (append regularBranch (append (append derivedSource sheafTarget) localSystem))
+              provenance) ∧
+            PkgSig bundle endpoint pkg := by
+  intro packet readbackCont
+  have derivedUnary : UnaryHistory derivedSource := packet.left
+  have sheafUnary : UnaryHistory sheafTarget := packet.right.left
+  have regularUnary : UnaryHistory regularBranch := packet.right.right.left
+  have provenanceUnary : UnaryHistory provenance := packet.right.right.right.right.left
+  have deRhamCont : Cont derivedSource sheafTarget deRhamReadback :=
+    packet.right.right.right.right.right.left
+  have gluingCont : Cont deRhamReadback localSystem gluing :=
+    packet.right.right.right.right.right.right.left
+  have transportCont : Cont regularBranch gluing transport :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointCont : Cont transport provenance endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right
+  have deRhamUnary : UnaryHistory deRhamReadback :=
+    unary_cont_closed derivedUnary sheafUnary deRhamCont
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed deRhamUnary regularUnary readbackCont
+  have semantic :
+      SemanticNameCert
+        (fun row : BHist =>
+          UnaryHistory row ∧ (hsame row readback ∨ hsame row endpoint))
+        (fun row : BHist =>
+          UnaryHistory row ∧ (hsame row readback ∨ hsame row endpoint))
+        (fun row : BHist =>
+          UnaryHistory row ∧ (hsame row readback ∨ hsame row endpoint))
+        (fun row other : BHist =>
+          (UnaryHistory row ∧ (hsame row readback ∨ hsame row endpoint)) ∧
+            (UnaryHistory other ∧ (hsame other readback ∨ hsame other endpoint)) ∧
+              hsame row other) := by
+    constructor
+    · constructor
+      · exact Exists.intro readback ⟨readbackUnary, Or.inl (hsame_refl readback)⟩
+      · intro row carrier
+        exact ⟨carrier, carrier, hsame_refl row⟩
+      · intro row other classified
+        exact ⟨classified.right.left, classified.left, hsame_symm classified.right.right⟩
+      · intro row other third leftClass rightClass
+        exact
+          ⟨leftClass.left, rightClass.right.left,
+            hsame_trans leftClass.right.right rightClass.right.right⟩
+      · intro row other classified _carrier
+        exact classified.right.left
+    · intro _row source
+      exact source
+    · intro _row source
+      exact source
+  have endpointSame :
+      hsame endpoint
+        (append
+          (append regularBranch (append (append derivedSource sheafTarget) localSystem))
+          provenance) := by
+    cases deRhamCont
+    cases gluingCont
+    cases transportCont
+    cases endpointCont
+    rfl
+  exact ⟨semantic, endpointSame, pkgSig⟩
 
 end BEDC.Derived.RiemannHilbertUp
