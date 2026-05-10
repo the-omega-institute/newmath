@@ -599,6 +599,7 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.RandomVarUp
+import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.IndependenceUp
