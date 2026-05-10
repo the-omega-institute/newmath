@@ -256,6 +256,41 @@ theorem TuringMachineSourceClassifierObligation_cont_transport
     ⟨configurationUnary, traceUnary, endpointUnary, configurationUnary', traceUnary',
       endpointUnary', sameConfiguration, sameTrace, sameEndpoint⟩
 
+theorem TuringMachineSourceClassifier_cont_transport
+    {state tape head table configuration trace next nextPrime readback readbackPrime ledger
+      ledgerPrime : BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory table ->
+      Cont state tape configuration -> Cont configuration head trace ->
+        Cont configuration table next -> hsame next nextPrime -> Cont tape head readback ->
+          hsame readback readbackPrime -> Cont trace next ledger ->
+            hsame ledger ledgerPrime ->
+              UnaryHistory configuration ∧ UnaryHistory trace ∧ UnaryHistory nextPrime ∧
+                UnaryHistory readbackPrime ∧ UnaryHistory ledgerPrime ∧
+                  hsame configuration (append state tape) ∧
+                    hsame trace (append configuration head) ∧
+                      hsame readbackPrime readback ∧ hsame ledgerPrime ledger := by
+  intro stateUnary tapeUnary headUnary tableUnary configurationRow traceRow nextRow sameNext
+  intro readbackRow sameReadback ledgerRow sameLedger
+  have configurationUnary : UnaryHistory configuration :=
+    unary_cont_closed stateUnary tapeUnary configurationRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed configurationUnary headUnary traceRow
+  have nextUnary : UnaryHistory next :=
+    unary_cont_closed configurationUnary tableUnary nextRow
+  have nextPrimeUnary : UnaryHistory nextPrime :=
+    unary_transport nextUnary sameNext
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed tapeUnary headUnary readbackRow
+  have readbackPrimeUnary : UnaryHistory readbackPrime :=
+    unary_transport readbackUnary sameReadback
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed traceUnary nextUnary ledgerRow
+  have ledgerPrimeUnary : UnaryHistory ledgerPrime :=
+    unary_transport ledgerUnary sameLedger
+  exact
+    ⟨configurationUnary, traceUnary, nextPrimeUnary, readbackPrimeUnary, ledgerPrimeUnary,
+      configurationRow, traceRow, hsame_symm sameReadback, hsame_symm sameLedger⟩
+
 theorem TuringMachineBoundedReadbackSoundness_endpoint_transport
     {tape tape' head head' readback readback' trace trace' bounded bounded' : BHist} :
     UnaryHistory tape -> UnaryHistory head -> UnaryHistory trace -> Cont tape head readback ->
