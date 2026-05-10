@@ -442,6 +442,31 @@ theorem EnrichedCatSourceSurface_consumer_readback_boundary [AskSetup] [PackageS
     (And.intro readbackRow
       source.right.right.right.right.right.right.right.right.right.right.right)
 
+theorem EnrichedCatSourceSurface_hom_object_carrier_obligation [AskSetup] [PackageSetup]
+    {category monoidal hom identity composition transport provenance ledger endpoint
+      homReadback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EnrichedCatSourceSurface category monoidal hom identity composition transport provenance
+        ledger endpoint bundle pkg ->
+      Cont hom monoidal homReadback ->
+        UnaryHistory hom ∧ UnaryHistory homReadback ∧ Cont hom identity composition ∧
+          Cont hom monoidal homReadback ∧ hsame ledger (append composition transport) ∧
+            PkgSig bundle endpoint pkg := by
+  intro surface homReadbackRow
+  have source := EnrichedCatSourceSurface_source_obligation surface
+  have homUnary : UnaryHistory hom :=
+    source.right.right.left
+  have monoidalUnary : UnaryHistory monoidal :=
+    source.right.left
+  have homReadbackUnary : UnaryHistory homReadback :=
+    unary_cont_closed homUnary monoidalUnary homReadbackRow
+  exact And.intro homUnary
+    (And.intro homReadbackUnary
+      (And.intro source.right.right.right.right.right.right.right.left
+        (And.intro homReadbackRow
+          (And.intro source.right.right.right.right.right.right.right.right.right.left
+            source.right.right.right.right.right.right.right.right.right.right.right))))
+
 theorem EnrichedCatSourceSurface_tensor_composition_scope [AskSetup] [PackageSetup]
     {category monoidal hom identity composition transport provenance ledger endpoint
       tensorReadback consumerReadback : BHist}
