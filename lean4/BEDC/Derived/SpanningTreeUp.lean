@@ -1,4 +1,5 @@
 import BEDC.Derived.GraphUp
+import BEDC.Derived.TreeUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
@@ -18,6 +19,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
+open BEDC.Derived.TreeUp
 
 def SpanningTreeCarrierPacket [AskSetup] [PackageSetup]
     (vertices graphEdges treeEdges root incidence reachability acyclic graphPkg treePkg
@@ -125,6 +127,27 @@ theorem SpanningTreeClassifier_obligation_surface [AskSetup] [PackageSetup]
   have sameProvenance : hsame provenance provenance' :=
     cont_respects_hsame sameIncidence sameReachability provenanceCont provenanceCont'
   exact ⟨sameCarrier, sameProvenance⟩
+
+theorem SpanningTreeClassifier_transport_surface
+    {graph edge connected acyclic root endpoint endpoint' root' connected' acyclic' :
+      BHist} :
+    TreeBHistCarrier graph edge connected acyclic root endpoint ->
+      hsame endpoint endpoint' ->
+        hsame root root' ->
+          hsame connected connected' ->
+            hsame acyclic acyclic' ->
+              GraphContEdge graph edge connected' ∧ TreeRootBranch endpoint' root' connected' ∧
+                UnaryHistory acyclic' ∧ Cont endpoint' root' connected' := by
+  intro carrier sameEndpoint sameRoot sameConnected sameAcyclic
+  have transported :
+      TreeBHistCarrier graph edge connected' acyclic' root' endpoint' ∧
+        GraphContEdge endpoint' root' connected' ∧ UnaryHistory acyclic' ∧
+          Cont endpoint' root' connected' :=
+    TreeBHistCarrier_stability_ledger_transport
+      carrier sameEndpoint sameRoot sameConnected sameAcyclic
+  exact And.intro transported.left.left
+    (And.intro transported.left.right.right
+      (And.intro transported.right.right.left transported.right.right.right))
 
 theorem SpanningTreeCarrierPacket_dependency_surface [AskSetup] [PackageSetup]
     {vertex graphEdge treeEdge root incidence reachability acyclicity provenance treeLedger
