@@ -314,6 +314,7 @@ import BEDC.Derived.ComplexDifferentiabilityUp.TransportLedgerObligationSurface
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.PinGroupUp
 import BEDC.Derived.SpinGroupUp
+import BEDC.Derived.SpinGroupUp.CarrierObligation
 import BEDC.Derived.SpinGroupUp.StdBridge
 import BEDC.Derived.SpinGroupUp.BoundaryConsumerExactness
 import BEDC.Derived.SpinGroupUp.CliffordUnitCarrierObligation
@@ -341,6 +342,7 @@ import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.ConditionalUnique
 import BEDC.Derived.ComplexLimitUp.ComponentAssembly
 import BEDC.Derived.ComplexLimitUp.Constant
+import BEDC.Derived.ComplexLimitUp.CauchyWitness
 import BEDC.Derived.ComplexLimitUp.Difference
 import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexLimitUp.Modulus
@@ -630,6 +632,7 @@ import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
 import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
+import BEDC.Derived.LinearMapUp.EvaluationGraphPackage
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
 import BEDC.Derived.FieldExtUp
@@ -880,6 +883,7 @@ import BEDC.Derived.S1Up.PublicEndpointExactness
 import BEDC.Derived.S1Up.RealMetricBridgeBoundary
 import BEDC.Derived.S1Up.StandardTopologicalBridgeBoundary
 import BEDC.Derived.S1Up.StandardTopologicalCircleAcceptance
+import BEDC.Derived.S1Up.ComponentwiseTransportStability
 import BEDC.Derived.S1Up.PublicNameCertBoundary
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.SingletonEquationSolver

@@ -236,4 +236,29 @@ theorem KnotDiagramPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
                           · exact packet.right.right.right.right.right.right.right.right.right.left
                           · exact packet.right.right.right.right.right.right.right.right.right.right
 
+theorem KnotDiagramPacket_ambient_isotopy_ledger_exactness [AskSetup] [PackageSetup]
+    {sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KnotDiagramPacket sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger
+        endpoint bundle pkg ->
+      UnaryHistory sone ∧ UnaryHistory ambient ∧ UnaryHistory endpoint0 ∧
+        UnaryHistory endpoint1 ∧ UnaryHistory provenance ∧ UnaryHistory ledger ∧
+          UnaryHistory endpoint ∧ hsame provenance (append sone ambient) ∧
+            hsame ledger (append endpoint0 endpoint1) ∧
+              hsame endpoint (append provenance ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have sourceRows :=
+    KnotDiagramPacket_sone_source_boundary packet
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.right.right.right.left
+        (And.intro packet.right.right.right.right.right.right.left
+          (And.intro sourceRows.left
+            (And.intro sourceRows.right.left
+              (And.intro sourceRows.right.right.left
+                (And.intro sourceRows.right.right.right.left
+                  (And.intro sourceRows.right.right.right.right.left
+                    (And.intro sourceRows.right.right.right.right.right.left
+                      sourceRows.right.right.right.right.right.right)))))))))
+
 end BEDC.Derived.KnotUp
