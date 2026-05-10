@@ -12,6 +12,7 @@ Fix a $\NameCert_{\GaloisGroupUp}$ source row, a $\NameCert_{\AutomorphicUp}$ so
 
 The carrier records only the observed packet. It does not assert an all-place correspondence, irreducibility, analytic continuation, functoriality, or uniqueness beyond the displayed finite $\mathsf{BHist}$ ledger.
 \end{definition}
+\leanchecked{BEDC.Derived.LanglandsUp.LanglandsBHistCorrespondenceCarrier\_source\_rows}
 
 \begin{definition}[Langlands local factor classifier]
 \label{def:langlands-lfactor-classifier}
@@ -81,6 +82,17 @@ ledger exactness clause says that every readable row is already one of the
 listed certificate, history, local package, or witness rows, so the excluded
 global and analytic assertions have no carrier coordinate in the public
 surface.
+\end{proof}
+
+\begin{theorem}[Langlands generated rows are unary]
+\label{thm:langlands-generated-rows-unary}
+Every generated row of $\mathsf{LanglandsBHistCorrespondenceCarrier}$ is a finite unary $\mathsf{BHist}$ row. The two source certificate rows, the visible Galois and automorphic answer rows, the local factor package rows, and the $\Cont/\Pkg$ ledger rows are all read through the displayed finite observation packet of \autoref{def:langlands-bhist-correspondence-carrier}.
+\end{theorem}
+\leanchecked{BEDC.Derived.LanglandsUp.LanglandsBHistCorrespondenceCarrier\_generated\_rows\_unary}
+\begin{proof}
+Unpack \autoref{def:langlands-bhist-correspondence-carrier}. The carrier has two source certificate entries and then a finite list of observed-place entries. By \autoref{thm:langlands-source-certificate-scope}, those source entries are exactly the $\NameCert_{\GaloisGroupUp}$ and $\NameCert_{\AutomorphicUp}$ rows, while each observed place contributes only the displayed answer histories and the local package rows read from them.
+
+Apply \autoref{thm:langlands-correspondence-obligation-package} to the same packet. The obligation package exposes no further generator: its remaining entries are the $\hsame$, $\Cont$, and $\Pkg$ rows already named by the finite ledger. Projecting each ledger entry therefore gives one unary $\mathsf{BHist}$ row, and finite ledger projection exhausts the generated carrier rows.
 \end{proof}
 
 \closureat{LanglandsUp}{obligationStr}
