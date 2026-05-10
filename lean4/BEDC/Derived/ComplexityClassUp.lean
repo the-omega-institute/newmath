@@ -121,4 +121,31 @@ theorem ComplexityClassBoundedAcceptance_carrier
     ⟨traceUnary, budgetUnary, verdictUnary, packageUnary, traceRow, budgetRow, verdictRow,
       packageRow⟩
 
+theorem ComplexityClassNameCertObligationSurface_public_rows
+    {input length acceptor modulus resource trace verdict accepted ledger publicSurface : BHist} :
+    UnaryHistory input -> UnaryHistory length -> UnaryHistory acceptor -> UnaryHistory modulus ->
+      Cont input length resource -> Cont acceptor resource trace -> Cont trace modulus verdict ->
+        Cont input verdict accepted -> Cont accepted trace ledger ->
+          Cont ledger modulus publicSurface ->
+            UnaryHistory resource ∧ UnaryHistory trace ∧ UnaryHistory verdict ∧
+              UnaryHistory accepted ∧ UnaryHistory ledger ∧ UnaryHistory publicSurface ∧
+                hsame publicSurface (append ledger modulus) := by
+  intro inputUnary lengthUnary acceptorUnary modulusUnary resourceRow traceRow verdictRow acceptedRow
+  intro ledgerRow publicSurfaceRow
+  have resourceUnary : UnaryHistory resource :=
+    unary_cont_closed inputUnary lengthUnary resourceRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed acceptorUnary resourceUnary traceRow
+  have verdictUnary : UnaryHistory verdict :=
+    unary_cont_closed traceUnary modulusUnary verdictRow
+  have acceptedUnary : UnaryHistory accepted :=
+    unary_cont_closed inputUnary verdictUnary acceptedRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed acceptedUnary traceUnary ledgerRow
+  have publicSurfaceUnary : UnaryHistory publicSurface :=
+    unary_cont_closed ledgerUnary modulusUnary publicSurfaceRow
+  exact
+    ⟨resourceUnary, traceUnary, verdictUnary, acceptedUnary, ledgerUnary, publicSurfaceUnary,
+      publicSurfaceRow⟩
+
 end BEDC.Derived.ComplexityClassUp
